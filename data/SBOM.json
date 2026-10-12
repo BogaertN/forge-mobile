@@ -1,0 +1,7 @@
+{"schema":"forge-mobile-sbom/v1","components":[
+ {"name":"Princeton WordNet 3.0/3.1 (derived lexicon tiers)","files":["data/lexicon.json.gz","data/lexicon-ext.json.gz"],"licence":"WordNet License (BSD-style)","licence_file":"data/WORDNET_LICENSE.txt","bundled":true},
+ {"name":"BogaertN/forge rmc_engine_v1/coherence_math.py","files":["data/py/coherence_math.py"],"licence":"owner's own code (BogaertN)","bundled":true},
+ {"name":"Pyodide","version":"0.27.7","url":"https://cdn.jsdelivr.net/pyodide/v0.27.7/full/","licence":"MPL-2.0","bundled":false,"integrity":"sha384 pinned in src/pycheck.js; loaded only on tap, in a worker"},
+ {"name":"SymPy (via Pyodide)","licence":"BSD-3-Clause","bundled":false},
+ {"name":"forge-mobile application code","files":["src/*.js","index.html","styles.css","sw.js"],"licence":"owner's own code (BogaertN)","bundled":true,"third_party_runtime_dependencies":0}
+],"external_origins":["https://cdn.jsdelivr.net"]}
