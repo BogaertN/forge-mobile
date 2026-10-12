@@ -6,7 +6,7 @@
   const isNode = typeof module !== 'undefined' && module.exports;
   const K = isNode ? require('./kernel.js') : root.KKernel; const S = isNode ? require('./forge_spine.js') : root.KSpine; const G = isNode ? require('./grammar.js') : root.KGrammar;
   const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256; const P = isNode ? require('./privacy.js') : root.KPrivacy; const GV = isNode ? require('./governance.js') : root.KGov;
-  const CR = isNode ? require('./crawler.js') : root.KCrawler; const KC = isNode ? require('./consent.js') : root.KConsent; const OP = isNode ? require('./operator.js') : root.KOperator; const LC = isNode ? require('./lifecycle.js') : root.KLife; const SYM = isNode ? require('./symbols.js') : root.KSymbols; const NC = isNode ? require('./nodeclient.js') : root.KNode; const MG = isNode ? require('./migrate.js') : root.KMigrate;
+  const CR = isNode ? require('./crawler.js') : root.KCrawler; const KC = isNode ? require('./consent.js') : root.KConsent; const OP = isNode ? require('./operator.js') : root.KOperator; const LC = isNode ? require('./lifecycle.js') : root.KLife; const SYM = isNode ? require('./symbols.js') : root.KSymbols; const NC = isNode ? require('./nodeclient.js') : root.KNode; const MG = isNode ? require('./migrate.js') : root.KMigrate; const LG = isNode ? require('./ledger.js') : root.KLedger; const SY2 = isNode ? require('./sync.js') : root.KSync; const DX = isNode ? require('./drift_export.js') : root.KDrift;
   const PRODUCER = 'forge-mobile-kernel/rule@deterministic-grammar-v3';
   const micro = x => Math.max(0, Math.min(1000000, Math.round((+x || 0) * 1000000)));
   const ACT2KIND = { question: 'question', assertion: 'assertion', request: 'request', answer: 'answer', unknown: 'unknown' };
@@ -116,6 +116,7 @@
       const m = r.trace.msm && r.trace.msm.meaning; if (m && !spine.error) { const fam = m.kind === 'factored' && !m.irreducible ? 'factoring' : m.kind === 'calculus' && m.op === 'derivative' ? 'differentiation' : m.kind === 'calculus' && m.a === undefined ? 'integration' : m.kind === 'simplified' ? 'simplification' : null;
         if (fam && r.reply) spine.gp014 = S.gp014Check(fam, { expression: m.input || m.expr || '', answer: m.result, variable: m.x || '' }, { text: r.reply, derivation: r.trace.derivation }); }
       try { const w3 = LC.build(r.trace, sha256(input)); if (!spine.error) spine.w3 = w3; if (w3.rejected_meanings.length) { const rj = store.load('rejected_meanings'); for (const x of w3.rejected_meanings) rj.push(Object.assign({ turn: r.trace.turn, at, psi_id: r.trace.psi_id }, x)); store.save('rejected_meanings', rj.slice(-500)); } } catch (e) { if (!spine.error) spine.w3 = { error: String(e && e.message) }; }
+      try { for (const mo of r.trace.memory || []) { const kind = /forget/.test(mo.op) ? 'memory_forget' : /write|store|supersede|merge/.test(mo.op) ? 'memory_write' : null; if (kind) ledger.append(kind, sha256(JSON.stringify(mo))); } } catch (e) { /* ledger is attribution only; never blocks a turn */ }
       if (r.trace.tool_request) Object.defineProperty(r, 'toolJob', { value: runTool(r.trace), enumerable: false });
       return Object.assign(r, { forge: spine }); }
 
@@ -123,6 +124,8 @@
     const node = NC.Client(store, { fetch: opts.fetch, clock: opts.clock, subtle: opts.subtle });
     const nodeKey = async ref => { if (vault.status() !== 'unlocked') return null; return vault.reveal(ref); };
     const nodeRpc = (op, args) => node.rpc(op, args, nodeKey);
+    const ledger = LG.Ledger(store, { clock: opts.clock }); const sync = SY2.Sync(store, { perm: k.perm, ledger, rpc: nodeRpc, clock: opts.clock });
+    function exportDrift(userTap) { const d = k.perm.authorize('export.drift', { userTap, subject: 'hermes-drift-toolkit' }); if (d.decision !== 'allow') return { ok: false, rule: d.rule }; const pkg = DX.build(store, { clock: opts.clock }); ledger.append('export', pkg.manifest.package_sha256); return { ok: true, pkg }; }
     const fetchPath = () => { const pol = k.perm.policy(); const fp = store.load('fetch_path'); if (!(pol.fetchPath === 'user_node_or_proxy' && fp && !Array.isArray(fp) && fp.url)) return null; return fp.kind === 'node' ? { kind: 'node', url: fp.url, rpc: nodeRpc } : { kind: fp.kind || 'proxy', url: fp.url }; };
     async function pairNode(uri, userTap) { if (userTap !== true) return { ok: false, rule: 'NODE-PAIR-USER-TAP-REQUIRED' }; if (vault.status() !== 'unlocked') return { ok: false, rule: 'PERM-VAULT-LOCKED' };
       const r = await node.pair(uri, async (secret, id) => { const e = await vault.seal('secret', 'home node key ' + id, secret, {}); return e && e.id; }); if (!r.ok) return r;
@@ -177,7 +180,8 @@
     /* I-10 trace/failure debugger over any stored or live trace */
     const debug = tr => GV.debugTrace(tr || (store.load('trace').filter(t => !t.bridge).slice(-1)[0]));
     const exportJSON = userTap => { const d = k.perm.authorize('export.json', { userTap, subject: 'export' }); if (d.decision !== 'allow') return null; const o = k.exportAll(); o.receipts = receipts(); return o; };
-    return Object.assign({}, k, { process, receipts, verifyAudit, kernel: k, vault: vaultApi, consent, operator, crawler, setFetchPath, fetchPath, runTool, node: { pairing: node.pairing, pair: pairNode, unpair: unpairNode, ping: () => nodeRpc('ping', {}), fetch: url => nodeRpc('fetch', { url }), enqueue: (kind, args) => node.enqueue(kind, args), flush: () => node.flush(nodeKey), poll: () => node.poll(nodeKey), jobs: node.jobs }, jobs: () => store.load('jobs'), webEvidence: () => store.load('web_evidence'), deleteRecord, privacyMigration: migration, schema, debug, exportJSON });
+    const exportBundle = userTap => { const o = exportJSON(userTap); if (!o) return null; const files = {}; for (const [key, v] of Object.entries(o)) files[key + '.json'] = v; files['attribution_ledger.json'] = ledger.own(); const pkg = DX.pack('forge-evidence-bundle/v1', files, now()); ledger.append('export', pkg.manifest.package_sha256); return pkg; };
+    return Object.assign({}, k, { exportBundle, verifyPackage: DX.verify, process, receipts, verifyAudit, kernel: k, vault: vaultApi, consent, operator, crawler, setFetchPath, fetchPath, runTool, ledger, sync, exportDrift, node: { pairing: node.pairing, pair: pairNode, unpair: unpairNode, ping: () => nodeRpc('ping', {}), fetch: url => nodeRpc('fetch', { url }), enqueue: (kind, args) => node.enqueue(kind, args), flush: () => node.flush(nodeKey), poll: () => node.poll(nodeKey), jobs: node.jobs }, jobs: () => store.load('jobs'), webEvidence: () => store.load('web_evidence'), deleteRecord, privacyMigration: migration, schema, debug, exportJSON });
   }
   const api = { ForgeKernel, PRODUCER };
   if (isNode) module.exports = api; else root.KForge = api;

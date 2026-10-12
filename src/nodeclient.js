@@ -4,7 +4,7 @@
 (function (root) {
 'use strict';
 const GL = typeof globalThis !== 'undefined' ? globalThis : root;
-const OPS = ['ping', 'fetch', 'job.submit', 'job.status', 'job.list'];
+const OPS = ['ping', 'fetch', 'job.submit', 'job.status', 'job.list', 'sync.put', 'sync.get'];
 const te = new TextEncoder(), td = new TextDecoder();
 const b64 = u => { let s = ''; for (const b of new Uint8Array(u)) s += String.fromCharCode(b); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
 const unb64 = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const b = atob(s); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };

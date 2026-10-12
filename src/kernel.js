@@ -18,7 +18,7 @@ const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const TB = isNode ? require('./toolbench.js') : root.KTools;
 const OP = isNode ? require('./operator.js') : root.KOperator;
 
-const CATEGORIES = ['ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'dream_quarantine', 'ghost_loops', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path'];
+const CATEGORIES = ['device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'dream_quarantine', 'ghost_loops', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path'];
 function MemoryStore(backend) { const mem = {}; const b = backend || { get: k => mem[k], set: (k, v) => { mem[k] = v; } };
   return { load(cat) { const v = b.get('kernel.' + cat); return v ? JSON.parse(v) : (cat === 'meta' ? {} : []); }, save(cat, val) { b.set('kernel.' + cat, JSON.stringify(val)); }, categories: CATEGORIES }; }
 function canon(o) { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); }
@@ -192,6 +192,15 @@ function Kernel(opts) {
   function scopeOf(c) { if (!c || c.coord || !c.subj || QCLASS(c.subj.quant) !== 'univ') return null; const k = c.roles && c.roles.karma; if (!k || k.clause || !(k.det === 'a' || k.det === 'an' || k.quant === 'some')) return null;
     return { selected: '∀x∃y', preserved: ['∃y∀x'], rule: 'LL-QSCOPE-SURFACE' }; }
   const wantsSame = q => Object.values(q.roles || {}).some(v => v && !v.clause && (v.adjs || []).includes('same'));
+  /* W3+ inference breadth: virtual facts derived in one lawful step (never stored; cited in the trace) */
+  function predEq(q, c) { if (!q.pred && !c.pred) return true; if (!q.pred || !c.pred) return false; const qn = q.pred.np, cn = c.pred.np; if (qn && cn) return canon(entKeys(qn)) === canon(entKeys(cn)) || canon(qn.head) === canon(cn.head); return canon(G.material(q.pred)) === canon(G.material(c.pred)); }
+  function singularPred(pred) { if (!pred || pred.type !== 'adj' || (pred.words || []).length !== 1) return pred; const w = pred.words[0]; const lem = (lex.lemmas ? lex.lemmas(w, 'n') : []).find(l => l !== w) || (/s$/.test(w) && lex.senses(w.replace(/s$/, '')).some(x => x.pos === 'n') ? w.replace(/s$/, '') : null);
+    return lem ? { type: 'np', np: { adjs: [], head: [lem], plural: false, surface: [lem], det: /^[aeiou]/.test(lem) ? 'an' : 'a' } } : pred; }
+  function virtualFacts(facts) { const out = []; const plain = facts.filter(r => !r.clause.coord && !r.clause.cond);
+    for (const r of facts) { const c = r.clause; if (c.coord) { if (c.op === 'and' || !c.op) for (const part of c.coord) if (!part.coord && !part.cond) out.push({ clause: part, from: [r.id], rule: 'INF-CONJ-ELIM', doc: 'Doc6 §21 (P and Q ⊢ P)' }); continue; }
+      if (c.subj && c.subj.conj && c.subj.op === 'and' && !c.cond) for (const part of c.subj.conj) out.push({ clause: Object.assign({}, c, { subj: part, pred: singularPred(c.pred) }), from: [r.id], rule: 'INF-COORD-DISTRIBUTE', doc: 'Doc3 coordination (collective “and” predicate distributes over conjuncts; Doc6 §21)' });
+      if (c.cond && c.verb.mod === 'asserted') { const m = plain.find(f => canon(G.material(f.clause)) === canon(G.material(c.cond))); if (m) { const cc = Object.assign({}, c); delete cc.cond; out.push({ clause: cc, from: [r.id, m.id], rule: 'INF-MODUS-PONENS', doc: 'Doc6 §21 (if P then Q; P ⊢ Q)' }); } } }
+    return out; }
   function matches(q, gap, r) { const c = r.clause; if (c.coord) return false; if (predOf(q) !== predOf(c)) return false; if (q.subj && c.subj && QCLASS(q.subj.quant) !== QCLASS(c.subj.quant)) return false; if (wantsSame(q) && scopeOf(c)) { sideRules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27 no hidden inference', note: '∃y∀x was preserved, not selected' }); return false; } if (gap !== 'subj' && !subjMatch(q.subj, c.subj)) return false;
     const qk = roleKey(q), rk = roleKey(c); for (const [k, v] of Object.entries(qk)) { if (!(k in rk)) return false; if (canon(v) !== canon(rk[k]) && !(Array.isArray(v) && v.every(x => rk[k].includes(x)))) return false; }
     if (gap === 'subj' && q.pred && canon(G.material(q.pred)) !== canon(G.material(c.pred))) return false;
@@ -491,7 +500,13 @@ function Kernel(opts) {
     /* deterministic inference (infer.js) — only lawful rules; every step cited; sense disagreement ⇒ clarification */
     function inferYN(q, negFact) {
       if (!q || q.coord || !q.subj || q.verb.mod !== 'asserted' || q.verb.tense === 'future' || q.cond) return null;
-      const facts = activeFacts().filter(r => !r.sensitive); const byId = id => facts.find(r => r.id === id); const posQ = Object.assign({}, q, { verb: Object.assign({}, q.verb, { pol: 'pos' }) });
+      const facts = activeFacts().filter(r => !r.sensitive); const byId = id => facts.find(r => r.id === id);
+      /* lawful one-step derivations over stored facts (each cited): coordination distribution, modus ponens */
+      for (const v of virtualFacts(facts)) { const c = v.clause; if (predOf(c) !== predOf(q) || !subjMatch(q.subj, c.subj) || !predEq(q, c)) continue; const qk = roleKey(q), rk = roleKey(c); if (Object.keys(qk).some(k => !(k in rk) || canon(qk[k]) !== canon(rk[k]))) continue;
+        rules.push({ id: v.rule, doc: v.doc, note: v.from.length + ' stored fact(s)' }); const stepsC = v.from.map(byId).filter(Boolean);
+        if (c.verb.pol !== q.verb.pol) return res('SELECTED_MEANING', { kind: 'yesno', answer: 'no', items: stepsC.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: v.from });
+        return res('SELECTED_MEANING', { kind: 'inferred', answer: 'yes', claim: q, steps: stepsC.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: v.from }); }
+      const posQ = Object.assign({}, q, { verb: Object.assign({}, q.verb, { pol: 'pos' }) });
       const done = (rule, steps, wn) => { rules.push({ id: rule, doc: 'infer.js (Doc5 roles; Doc6 §21, §27 lawful inference)', note: steps.length + ' stored fact(s)' + (wn ? ' + WordNet ' + wn.length + ' step(s)' : '') });
         const stepsC = steps.map(id => byId(id)).filter(Boolean);
         const qNeg = q.verb.pol === 'neg';
@@ -528,6 +543,7 @@ function Kernel(opts) {
       if (q.subj) { const rr = resolveRefs(q, rules); if (rr.clarify) { g.connectedness = 'referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); } }
       if (q.subj) ctx.clauseForDiscourse = q;
       let recs = activeFacts().filter(r => matches(q, gap, r));
+      if (!recs.length && gap) { const fs = activeFacts().filter(r => !r.sensitive); const vs = virtualFacts(fs).filter(v => matches(q, gap, { clause: v.clause })); if (vs.length) { rules.push({ id: vs[0].rule, doc: vs[0].doc, note: 'wh-recall through a one-step derivation' }); recs = vs.map(v => ({ id: v.from[0], clause: v.clause, entities: [] })); } }
       if (!recs.length && gap === 'pred' && q.subj) recs = activeFacts().filter(r => !r.clause.coord && r.clause.verb.lemma === 'be' && r.clause.pred && r.clause.pred.np && entKeys(r.clause.pred.np).includes(entKey(q.subj)));
       rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7; RPMC (exact structural match; RPM weight displayed, never decides)', note: (gap || 'yes/no') + ' → ' + recs.length + ' record(s)' });
       const sens = recs.filter(r => r.sensitive); if (sens.length || (!gap && activeFacts().some(r => r.sensitive && subjMatch(q.subj, r.clause.subj) && predOf(r.clause) === predOf(q)))) { rules.push({ id: 'LL-OUTPUT-BOUNDARY-PRIVATE', doc: 'Doc3 §20' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: 'show ' + (q.subj ? G.npText(q.subj, 'kernel') : 'that record'), reason: 'SENSITIVE_RECORD' }, { frame: 'FR.QUESTION', act: 'question' }); }
@@ -539,9 +555,9 @@ function Kernel(opts) {
         if (qc.pred) { if (!rc.pred) return false; if (qc.pred.np && rc.pred.np) return canon(entKeys(qc.pred.np)) === canon(entKeys(rc.pred.np)); return canon(G.material(qc.pred)) === canon(G.material(rc.pred)); } return true; }; // LL-YN-SUBSET (question roles ⊆ stored roles)
       const scopeOk = rc => { if (q.subj && rc.subj && QCLASS(q.subj.quant) !== QCLASS(rc.subj.quant)) { rules.push({ id: 'LL-QUANT-MISMATCH', doc: 'Doc3 quantifiers (no inference across quantifiers)' }); return false; } if (wantsSame(q) && scopeOf(rc)) { rules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27', note: '∃y∀x preserved, not selected' }); return false; } return true; };
       const exact = rel.filter(r => (strip(r.clause) === strip(q) || sub(q, r.clause)) && scopeOk(r.clause)); let ans = 'unconfirmed', shown = rel;
-      if (exact.length) { shown = exact; const r = exact[0].clause; if (r.verb.mod === 'asserted' && q.verb.mod === 'asserted' && !r.cond) ans = r.verb.pol === q.verb.pol ? 'yes' : 'no'; }
+      if (exact.length) { shown = exact; const r = exact[0].clause; if (r.verb.mod === q.verb.mod && !r.cond) { if (r.verb.mod !== 'asserted') rules.push({ id: 'LL-MODAL-SAME-FORCE', doc: 'Doc3 modality (same modal force only; no modal promotion)' }); ans = r.verb.pol === q.verb.pol ? 'yes' : 'no'; } }
       if (exact.length && ans === 'no') { const inf = inferYN(q, exact[0].clause); if (inf) return inf; }
-      if (!exact.length) { const inf = inferYN(q); if (inf) return inf; }
+      if (!exact.length || ans === 'unconfirmed') { const inf = inferYN(q); if (inf) return inf; }
       rules.push({ id: exact.length ? 'LL-NEG-POLARITY-COMPARE' : 'NO-INFERENCE-ACROSS-VALUES', doc: exact.length ? 'Doc3 §15, §18' : 'Doc6 §27 (no hidden inference; no lawful inference rule reached the claim)' });
       return res('SELECTED_MEANING', { kind: 'yesno', answer: ans, items: shown.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: shown.map(r => r.id) });
     }
@@ -597,6 +613,9 @@ function Kernel(opts) {
       return { raw: m[1] + ' that ' + np + ' ' + G.vpText(c, sub.subj, 'user'), note: 'too: predicate copied from the last stored fact ' + last.id }; }
     return null; }
   /* W3 LL-TAG-QUESTION: “S, isn't it?” asks whether S holds — rewritten by rule to the yes/no inversion of S (the tag adds no content) */
+  /* non-restrictive relative clause (appositive): “NP, who/which VP1, VP2” → “NP VP2 and NP VP1” (both asserted; Doc5 relative-clause frame) */
+  function appositive(raw) { const m = String(raw).match(/^(remember that |note that )?(.+?), (who|which) ([^,]+), (.+?)([.!?]?)$/i); if (!m) return null; const np = m[2].trim(); if (np.split(/\s+/).length > 5) return null;
+    return { raw: (m[1] || '') + np + ' ' + m[5] + ', and ' + np + ' ' + m[4] + m[6], note: m[3].toLowerCase() + '-clause split' }; }
   function tagQuestion(raw) {
     const m = raw.match(/^\s*(.+?),\s*(isn't|aren't|wasn't|weren't|doesn't|don't|didn't|is|are|was|were|does|do|did)\s+(it|he|she|they|you|i|we)\s*\?*\s*$/i); if (!m) return null;
     const body = m[1]; const cm = body.match(/^(.+?)\s+(is|are|was|were)\s+(.+)$/i);
@@ -625,6 +644,7 @@ function Kernel(opts) {
     Ph(2, 'scope operators: ' + (Object.keys(ops).filter(k => ops[k]).join(', ') || 'none') + (ctx.negAct ? '; NEGATED ACT' : ''));
     /* W3 LL-ELLIPSIS-VP (Doc 3 scope/ellipsis; forge scope_attachment_reference_constraints): an elided predicate is copied from its
        antecedent clause by rule — “A and so does B” (same sentence) or “B does too” (last stored fact); no antecedent ⇒ nothing is copied */
+    { const Ap = appositive(raw); if (Ap) { trace.rules.push({ id: 'LL-APPOSITIVE-RELATIVE', doc: 'Doc5 relative-clause frame (non-restrictive: both propositions asserted)', note: Ap.note }); raw = Ap.raw; low = raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } }
     { const Tq = tagQuestion(raw); if (Tq) { trace.rules.push({ id: 'LL-TAG-QUESTION', doc: 'Doc5 §15 speech acts (tag = yes/no question)', note: Tq.note }); if (Tq.raw) { raw = Tq.raw; low = Tq.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     { const E = ellipsis(raw); if (E) { trace.rules.push({ id: 'LL-ELLIPSIS-VP', doc: 'Doc 3 ellipsis; Register F-11', note: E.note }); if (E.raw) { raw = E.raw; low = E.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     let sel; try { sel = evaluate(raw, low, ctx); }
