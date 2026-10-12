@@ -8,7 +8,7 @@ const mkStore = () => { const st = {}; return KMOD.MemoryStore({ get: k => st[k]
 const K = () => KMOD.Kernel({ lexicon: LEX, store: mkStore(), clock }); const FF = o => FK.ForgeKernel(Object.assign({ clock, lexicon: LEX, store: mkStore(), vaultIterations: 1000 }, o || {}));
 const FS = require(ROOT + '/src/fscript.js'); const EC = require(ROOT + '/src/economy.js'); const SH = require(ROOT + '/src/shared.js');
 const dev = async () => { const f = FF(); await f.vault.setup('pw pw pw'); await f.vault.unlock('pw pw pw'); f.perm.setPolicy('sharedLayer', 'on', true); return f; };
-const fin = async f => { await f.signer.ensure(); for (const r of f.economy.preview().rows) { f.economy.validate(r.candidate_id, { result: 'pass', evidence: ['test review'] }); f.economy.finalize(r.candidate_id); } };
+const fin = async f => { await f.signer.ensure(); for (const r of f.economy.preview().rows) { await f.economy.validate(r.candidate_id, { result: 'pass', evidence: ['test review'] }); f.economy.finalize(r.candidate_id); } };
 const WC = { name: 'wc', description: 'word count', code: 'return len(words(input));', tests: [{ input: 'a b c', expect: 3 }, { input: 'x', expect: 1 }] };
 const enabled = async (f, def) => { const s = f.tools.saveVersion(def || WC); await f.tools.test(s.name, s.v); return f.tools.enable(s.name, s.v, { userTap: true }); };
 /* ForgeScript */
@@ -46,4 +46,4 @@ T('ECONOMY', 'usage and citation counts go to the creator via the attribution le
 /* Reminders, Simple mode, onboarding */
 T('REMIND', 'reminders: derived reply with time, listed, “remind me to X” without a time stays a note', () => { const k = K(); const r = k.process('remind me to call mom in 30 minutes'); expect(/scheduled a reminder/.test(r.reply) && r.trace.echo.pass); expect(/call mom/.test(k.process('list my reminders').reply)); expect(/note/.test(k.process('remind me to buy milk').reply)); });
 T('UI', 'Simple mode toggle (traces behind one button), onboarding (vault + passphrase + pairing), notifications', () => { const s = fs.readFileSync(ROOT + '/src/app_extra.js', 'utf8'); expect(/modeBtn/.test(s) && /forge_onboarded/.test(s) && /vault\.setup/.test(s) && /pairShared/.test(s) && /showNotification/.test(s)); expect(/body\.simple/.test(fs.readFileSync(ROOT + '/styles.css', 'utf8'))); });
-(async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, why: String(e && e.stack || e).slice(0, 400) }); } } process.stdout.write(JSON.stringify(rows)); })();
+(async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, not_run: !!(e && e.notRun), why: String(e && e.stack || e).slice(0, 400) }); } } process.stdout.write(JSON.stringify(rows)); })();

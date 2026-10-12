@@ -8,7 +8,7 @@ const mkStore = () => { const st = {}; return KMOD.MemoryStore({ get: k => st[k]
 const K = () => KMOD.Kernel({ lexicon: LEX, store: mkStore(), clock }); const FF = o => FK.ForgeKernel(Object.assign({ clock, lexicon: LEX, store: mkStore(), vaultIterations: 1000 }, o || {}));
 const FS = require(ROOT + '/src/fscript.js'); const EC = require(ROOT + '/src/economy.js'); const SH = require(ROOT + '/src/shared.js');
 const dev = async () => { const f = FF(); await f.vault.setup('pw pw pw'); await f.vault.unlock('pw pw pw'); f.perm.setPolicy('sharedLayer', 'on', true); return f; };
-const fin = async f => { await f.signer.ensure(); for (const r of f.economy.preview().rows) { f.economy.validate(r.candidate_id, { result: 'pass', evidence: ['test review'] }); f.economy.finalize(r.candidate_id); } };
+const fin = async f => { await f.signer.ensure(); for (const r of f.economy.preview().rows) { await f.economy.validate(r.candidate_id, { result: 'pass', evidence: ['test review'] }); f.economy.finalize(r.candidate_id); } };
 const WC = { name: 'wc', description: 'word count', code: 'return len(words(input));', tests: [{ input: 'a b c', expect: 3 }, { input: 'x', expect: 1 }] };
 const enabled = async (f, def) => { const s = f.tools.saveVersion(def || WC); await f.tools.test(s.name, s.v); return f.tools.enable(s.name, s.v, { userTap: true }); };
 T('NOTES', 'create/edit/tag/link/search/forget notes with derived replies passing Echo; edits keep history; forget is recoverable', () => { const k = K(); k.process('remember that my sister lives in Paris'); k.process('note: buy milk'); k.process('note: call sister');
@@ -39,4 +39,4 @@ T('CATALOG', 'B-11 generated command/route catalog matches the source (frames, b
 T('LINT', 'K-05 lint gate: every src file parses; no eval / new Function / debugger / console.log; no tabs or trailing whitespace', () => { const cp = require('child_process'); for (const f of fs.readdirSync(ROOT + '/src').filter(x => x.endsWith('.js'))) { const s = fs.readFileSync(ROOT + '/src/' + f, 'utf8'); cp.execFileSync('node', ['--check', ROOT + '/src/' + f]);
   expect(!/\beval\s*\(|new\s+Function\s*\(|(^|[;{}]\s*)debugger\s*;|console\.log\(/.test(s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/'[^'\n]*'/g, "''")), f); expect(!/\t/.test(s) && !/ +$/m.test(s), f + ' whitespace'); } });
 
-(async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, why: String(e && e.stack || e).slice(0, 400) }); } } process.stdout.write(JSON.stringify(rows)); })();
+(async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, not_run: !!(e && e.notRun), why: String(e && e.stack || e).slice(0, 400) }); } } process.stdout.write(JSON.stringify(rows)); })();

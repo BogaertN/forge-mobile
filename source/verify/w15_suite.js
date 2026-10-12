@@ -8,7 +8,7 @@ const mkStore = () => { const st = {}; return KMOD.MemoryStore({ get: k => st[k]
 const K = () => KMOD.Kernel({ lexicon: LEX, store: mkStore(), clock }); const FF = o => FK.ForgeKernel(Object.assign({ clock, lexicon: LEX, store: mkStore(), vaultIterations: 1000 }, o || {}));
 const FS = require(ROOT + '/src/fscript.js'); const EC = require(ROOT + '/src/economy.js'); const SH = require(ROOT + '/src/shared.js');
 const dev = async () => { const f = FF(); await f.vault.setup('pw pw pw'); await f.vault.unlock('pw pw pw'); f.perm.setPolicy('sharedLayer', 'on', true); return f; };
-const fin = async f => { await f.signer.ensure(); for (const r of f.economy.preview().rows) { f.economy.validate(r.candidate_id, { result: 'pass', evidence: ['test review'] }); f.economy.finalize(r.candidate_id); } };
+const fin = async f => { await f.signer.ensure(); for (const r of f.economy.preview().rows) { await f.economy.validate(r.candidate_id, { result: 'pass', evidence: ['test review'] }); f.economy.finalize(r.candidate_id); } };
 const WC = { name: 'wc', description: 'word count', code: 'return len(words(input));', tests: [{ input: 'a b c', expect: 3 }, { input: 'x', expect: 1 }] };
 const enabled = async (f, def) => { const s = f.tools.saveVersion(def || WC); await f.tools.test(s.name, s.v); return f.tools.enable(s.name, s.v, { userTap: true }); };
 const EDE2 = require(ROOT + '/src/ede.js'); const LG = require(ROOT + '/src/ledger.js');
@@ -47,4 +47,4 @@ T('LEDGER-MERGE', 'concurrent offline history: two validly signed divergent bran
   await y.economy.mergeForeign(s2); await y.economy.mergeForeign(s1); const fz = z.store.load('economy_foreign')[s1.device], fy = y.store.load('economy_foreign')[s1.device];
   expect(fz.status === 'concurrent_reconciled' && fz.receipt.receipt_hash === fy.receipt.receipt_hash && JSON.stringify(fz.capsules.map(c => c.proof_hash)) === JSON.stringify(fy.capsules.map(c => c.proof_hash)), 'order-independent'); expect(fz.capsules.length === 3, 'deduped: shared prefix counted once');
   const q = z.economy.quarantine(); expect(q.length === 1 && q[0].class === 'concurrent_offline_history' && !/tamper/i.test(JSON.stringify(q))); expect(z.economy.credits({ merged: true }).creators.find(x => x.signer === a.signer.id()).ct_count === 3); });
-(async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, why: String(e && e.stack || e).slice(0, 400) }); } } process.stdout.write(JSON.stringify(rows)); })();
+(async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, not_run: !!(e && e.notRun), why: String(e && e.stack || e).slice(0, 400) }); } } process.stdout.write(JSON.stringify(rows)); })();
