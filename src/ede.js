@@ -21,7 +21,17 @@
 (function (root) {
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
-const DEFAULTS = { N_min: 0.15, N_max: 0.75, theta: 0.35, budget: 24, seed: 1 };
+/* N_min 0.15 / N_max 0.75 / θ 0.35 are the RMC §8.3 WORKED EXAMPLES, not laws (user decision 2026-10-12). */
+const DEFAULTS = { N_min: 0.15, N_max: 0.75, theta: 0.35, budget: 24, seed: 1, task_mode: 'creative_brainstorming' };
+const THRESHOLD_STATUS = 'RMC §8.3 worked examples, not laws';
+/* PROVISIONAL task novelty budgets — evaluated in SHADOW only and never enforced: they are defined for the full N(c), whose weights are
+ * deliberately open (Sept 21 implementation addendum: calibration/ablation/FP-FN testing unfinished), so no score here is on their scale. */
+const TASK_BUDGETS = { formal_definition: 0.35, coding_patch: 0.30, architecture: 0.55, creative_brainstorming: 0.75, public_scientific_claim: 0.25 };
+const LEGAL_OPS = new Set(['adjacent_synthesis', 'analogy', 'contradiction_probe']);
+const FORMULA_VERSION = 'retention=simple-structural-jaccard/v1; N_base=c2r-measurement-kernel/provisional-v0; N_vector=rmc-6.4-components/unweighted-v1';
+/* NOT part of N(c), kept separate on purpose: D_score weights (0.25 entropy, 0.20 structure, 0.20 semantic, 0.20 phase, 0.15 taxonomy) belong to
+ * drift severity; the C2R overall-coherence weights belong to candidate selection (Coherence Scorer). Neither is used here. */
+const LABELS = ['redundant', 'useful_bounded_novelty', 'overextended', 'contradictory', 'unsupported'];
 const PHI = k => 2 * Math.PI * (k || 9) / 9; const angDev = (a, b) => { let d = Math.abs(a - b) % (2 * Math.PI); if (d > Math.PI) d = 2 * Math.PI - d; return d; };
 const TRANSITIVE = r => /^(cmp:|before$|partof$|isa$)/.test(r);
 const jac = (a, b) => { const A = new Set(a), B = new Set(b); let i = 0; for (const x of A) if (B.has(x)) i++; return i / (A.size + B.size - i || 1); };
@@ -50,12 +60,23 @@ function explore(edges, o) { o = Object.assign({}, DEFAULTS, o || {}); const anc
     const phaseBlocked = b.anchors.some(x => x.held);
     const id = 'b_' + sha256(b.op + '|' + b.a + '|' + b.rel + '|' + b.b).slice(0, 10); const rec = { branch_id: id, creation_operator: b.op.replace(/_same|_mixed/, ''), claim: { subject: b.a, relation: b.rel, object: b.b, via: b.via || null }, anchor_ids: b.anchors.map(x => x.id),
       novelty: { N, N_min: o.N_min, N_max: o.N_max, components: comps(b, tok, memTok, anchors), status: N < o.N_min ? 'redundant' : N > o.N_max ? 'overextended' : 'bounded_positive' }, drift: { sigma_res: sigma, D_score: D, dPhi, n: 3, eps_s: eps, theta: o.theta, status: eps <= o.theta ? 'below_threshold' : 'above_threshold' } };
+    { const v = rec.novelty.components; const N_base = +(1 - Math.max(...memTok.map(m => jac(tok, m)))).toFixed(4); const op = b.op.replace(/_same|_mixed/, ''); const budget = TASK_BUDGETS[o.task_mode];
+      rec.novelty.simple_score = N; rec.novelty.role = 'authoritative retention scalar: simple deterministic structural score — NOT the full RMC §6.4 novelty functional'; rec.novelty.thresholds_status = THRESHOLD_STATUS;
+      rec.N_base = { value: N_base, definition: 'N_base(c) = 1 − max memory_similarity(c, m) over active relevant memory nodes; similarity = token Jaccard', source: 'C2R Measurement Kernel build plan (May 2026)', status: 'provisional' };
+      rec.N_vector = { semantic_distance: v.d_sem, phase_path_distance: v.d_phase, operator_path_distance: v.d_op, structural_distance: v.d_struct, weights: null, weights_status: 'open (RMC §6.4; Sept 21 addendum)' };
+      rec.memory_anchors = b.anchors.map(x => ({ id: x.id, subject: x.a, relation: (x.neg ? '¬' : '') + x.rel, object: x.b, phi: x.phi || null })); rec.task_mode = o.task_mode; rec.novelty_formula_version = FORMULA_VERSION;
+      const cb = eps > 2 * o.theta; rec.hard_gates = { novelty_delta_positive: N > 0, novelty_within_budget: N <= o.N_max, budget_used: { value: o.N_max, status: THRESHOLD_STATUS }, epsilon_below_threshold: eps <= o.theta, phase_path_legal: !phaseBlocked, operator_path_legal: LEGAL_OPS.has(op) && op !== 'contradiction_probe',
+        memory_trace_present: b.anchors.length > 0 && b.anchors.every(x => x.id != null), speculative: false, circuit_breaker: cb, projection_violation: false, rule: 'every gate must hold; no average can offset a failed gate' };
+      rec.hard_gates.all_pass = rec.hard_gates.novelty_delta_positive && rec.hard_gates.novelty_within_budget && rec.hard_gates.epsilon_below_threshold && rec.hard_gates.phase_path_legal && rec.hard_gates.operator_path_legal && (rec.hard_gates.memory_trace_present || rec.hard_gates.speculative) && !cb && !rec.hard_gates.projection_violation;
+      rec.shadow = { task_mode: o.task_mode, task_budget: budget == null ? null : budget, budget_status: 'provisional, shadow only, not enforced', compared_value: N_base, compared_value_note: 'N_base is not N(c); comparison recorded for calibration only', within_budget_shadow: budget == null ? null : N_base <= budget }; }
     if (phaseBlocked && b.op !== 'contradiction_probe') archived.push(Object.assign(rec, { archive_status: 'phase_gated', projection_status: 'blocked', failure_reason: 'an anchor has not passed Φ6 correction / Φ7 naming (held-open sense) — RMC §8.3 phase gating', future_action: 'resolve the sense, then re-explore' }));
     else if (b.op === 'contradiction_probe') archived.push(Object.assign(rec, { archive_status: 'unresolved_contradiction', projection_status: 'blocked', failure_reason: 'P and ¬P both anchored; needs correction (§5.6 "identify unresolved contradictions")', future_action: 'resolve with the user or new evidence' }));
-    else if (N >= o.N_min && N <= o.N_max && eps <= o.theta) retained.push(Object.assign(rec, { status: 'bounded_candidate_pending_score', route: 'coherence_scorer' }));
+    else if (rec.hard_gates.all_pass && N >= o.N_min) retained.push(Object.assign(rec, { status: 'bounded_candidate_pending_score', route: 'coherence_scorer' }));
     else if (N > 0 && eps <= 2 * o.theta) archived.push(Object.assign(rec, { archive_status: 'speculative_unstable', projection_status: 'blocked', failure_reason: rec.novelty.status !== 'bounded_positive' ? 'novelty ' + rec.novelty.status : 'drift above θ', future_action: 'revisit with new memory anchors or evidence' }));
     else rejected.push(Object.assign(rec, { status: 'rejected' })); }
   return { ok: true, route: 'algorithm_3', anchors: anchors.length, explored: frontier.length, candidates_available: uniq.length, retained, archived, rejected, params: o, cite: 'RMC §5.6, §6.3, §6.4, §7.3, §8.3' }; }
-const api = { explore, DEFAULTS, PHI };
+/* shadow-calibration record (no fitting here; export feeds future held-out / ablation weight fitting). */
+function calibrationRecord(c, outcome) { return { branch_id: c.branch_id, claim: c.claim, outcome, simple_score: c.novelty.simple_score, N_base: c.N_base.value, N_vector: c.N_vector, task_mode: c.task_mode, budget_shadow: c.shadow, drift: { eps_s: c.drift.eps_s, theta: c.drift.theta, status: c.drift.status }, hard_gates: c.hard_gates, memory_anchors: c.memory_anchors, novelty_formula_version: c.novelty_formula_version, human_label: null }; }
+const api = { explore, DEFAULTS, PHI, TASK_BUDGETS, LABELS, FORMULA_VERSION, THRESHOLD_STATUS, calibrationRecord, fitted_weights: null };
 if (isNode) module.exports = api; else root.KEDE = api;
 })(typeof self !== 'undefined' ? self : this);
