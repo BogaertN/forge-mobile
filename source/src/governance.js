@@ -102,8 +102,12 @@
       const d = decide(action, ctx); const pol = loadPol();
       const e = Object.assign({ id: 'perm:' + sha256(action + '|' + now() + '|' + store.load('permissions').length).slice(0, 16), action, at: now(), policy_hash: hash(pol).slice(0, 16), subject: ctx && ctx.subject || null }, d);
       return log(e); }
+    /* v4.8.4: the same decision WITHOUT writing the permission log; the caller stores the entry inside a staged generation (atomic restore) */
+    function authorizeDeferred(action, ctx) {
+      const d = decide(action, ctx); const pol = loadPol();
+      return Object.assign({ id: 'perm:' + sha256(action + '|' + now() + '|' + store.load('permissions').length).slice(0, 16), action, at: now(), policy_hash: hash(pol).slice(0, 16), subject: ctx && ctx.subject || null }, d); }
     function setPolicy(key, value, userTap) { const d = authorize('policy.change', { key, value, userTap, subject: key }); if (d.decision !== 'allow') return d; const m = store.load('policy'); store.save('policy', Object.assign({}, m && !Array.isArray(m) ? m : {}, { [key]: value })); return d; }
-    return { authorize, decide, policy: loadPol, setPolicy, log: () => store.load('permissions'), switches: SWITCHES, actions: ACTIONS };
+    return { authorize, authorizeDeferred, decide, policy: loadPol, setPolicy, log: () => store.load('permissions'), switches: SWITCHES, actions: ACTIONS };
   }
 
   /* ---- read-back receipts (G-04): what was written is re-loaded from the store and hashed; mismatch ⇒ rollback ---- */

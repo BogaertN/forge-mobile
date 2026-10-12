@@ -20,9 +20,38 @@ const OP = isNode ? require('./operator.js') : root.KOperator;
 
 const CATEGORIES = ['shared_outbox', 'shared_inbox', 'shared_knowledge', 'shared_challenges', 'user_tools', 'economy_capsules', 'economy_events', 'usage_events', 'usage_counts', 'reminders', 'request_receipts', 'request_policy_gaps', 'ede_candidates', 'ede_calibration', 'economy_seen', 'economy_quarantine', 'pf_echo', 'pf_agents', 'pf_drift_log', 'mea_seals', 'capsules', 'council', 'promotions', 'device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'dream_quarantine', 'ghost_loops', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path'];
 /* every store name the app writes (CATEGORIES are the kernel's; the rest belong to forge modules). Used by portable backup and delete-all. */
-const ALL_STORES = [...new Set(CATEGORIES.concat(['economy_foreign', 'receipts', 'shared_cursor', 'vault', 'signing_key', 'buyers', 'consent', 'consent_ledger', 'export_packages', 'offers', 'profiles', 'workbench_events', 'device', 'economy_events', 'usage_events', 'attribution_ledger', 'attribution_foreign', 'memory', 'meta', 'migrations', 'policy', 'permissions', 'trace']))].sort();
-function MemoryStore(backend) { const mem = {}; const b = backend || { get: k => mem[k], set: (k, v) => { mem[k] = v; } };
-  return { load(cat) { const v = b.get('kernel.' + cat); return v ? JSON.parse(v) : (cat === 'meta' ? {} : []); }, save(cat, val) { b.set('kernel.' + cat, JSON.stringify(val)); }, categories: CATEGORIES, allStores: ALL_STORES }; }
+const ALL_STORES = [...new Set(CATEGORIES.concat(['economy_manifests', 'shared_drafts', 'economy_foreign', 'receipts', 'shared_cursor', 'vault', 'signing_key', 'buyers', 'consent', 'consent_ledger', 'export_packages', 'offers', 'profiles', 'workbench_events', 'device', 'economy_events', 'usage_events', 'attribution_ledger', 'attribution_foreign', 'memory', 'meta', 'migrations', 'policy', 'permissions', 'trace']))].sort();
+/* v4.8.4 staged, versioned storage. Every store lives in the ACTIVE GENERATION: generation 0 is the legacy key layout kernel.<store>;
+ * generation n>0 uses kernel.g<n>.<store>. The single key kernel.__gen is the active-generation pointer. A restore writes and verifies a
+ * complete NEW generation, writes rollback metadata (kernel.__gen_prev), and only then switches the ONE pointer (the commit). A failure or
+ * crash at any write before the pointer switch leaves the old generation active and byte-identical; leftover staged keys are inert. */
+const GEN_KEY = 'kernel.__gen', GEN_PREV_KEY = 'kernel.__gen_prev';
+function MemoryStore(backend) { const mem = {}; const b = backend || { get: k => (Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null), set: (k, v) => { mem[k] = String(v); }, del: k => { delete mem[k]; }, keys: () => Object.keys(mem) };
+  const gen = () => { const v = b.get(GEN_KEY); const n = v == null ? 0 : Number(v); return Number.isInteger(n) && n >= 0 ? n : 0; };
+  const pre = g => (g ? 'kernel.g' + g + '.' : 'kernel.');
+  const dfl = cat => (cat === 'meta' ? {} : []);
+  const rawLoad = (g, cat) => { const v = b.get(pre(g) + cat); return v ? JSON.parse(v) : dfl(cat); };
+  /* store names present in generation g (from backend keys when the backend can list them, plus every known store) */
+  function namesIn(g) { const out = new Set(ALL_STORES); if (b.keys) { const p = pre(g); for (const k of b.keys()) { if (!k.startsWith(p)) continue; const c = k.slice(p.length); if (!c || c === 'probe' || c.startsWith('__') || (!g && /^g\d+\./.test(c))) continue; out.add(c); } } return [...out].sort(); }
+  /* stage: write every store of a NEW generation (data overrides the active copy), then read back and verify each one. Nothing active changes. */
+  function stageGeneration(data, hook) { const from = gen(); const to = from + 1; const names = [...new Set(namesIn(from).concat(Object.keys(data || {})))].sort(); const want = {};
+    for (const c of names) want[c] = JSON.stringify(data && Object.prototype.hasOwnProperty.call(data, c) ? data[c] : rawLoad(from, c));
+    for (const c of names) b.set(pre(to) + c, want[c]);
+    if (hook) hook({ save: (c, v) => b.set(pre(to) + c, JSON.stringify(v)) }); /* test hook: a backend that does not keep what was written */
+    const bad = names.filter(c => b.get(pre(to) + c) !== want[c]); return { from, to, names, bad }; }
+  /* commit: rollback metadata first, then the ONE pointer write. Old generation kept for rollback; older ones are collected. */
+  function commitGeneration(st) { if (!st || st.bad.length) throw new Error('STAGE-NOT-VERIFIED'); if (gen() !== st.from) throw new Error('STAGE-STALE');
+    b.set(GEN_PREV_KEY, JSON.stringify({ prev: st.from, staged: st.to }));
+    b.set(GEN_KEY, String(st.to));
+    if (b.del && b.keys) { try { for (const k of b.keys()) { const m = /^kernel\.g(\d+)\./.exec(k); const g = m ? Number(m[1]) : (/^kernel\.(?!__|g\d+\.)/.test(k) && k !== 'kernel.probe' ? 0 : -1); if (g >= 0 && g !== st.to && g !== st.from) b.del(k); } } catch (e) { /* collection is optional; the commit already happened */ } }
+    return { active: st.to, prev: st.from }; }
+  /* rollback: switch the pointer back to the generation recorded before the last commit (it was never modified) */
+  function rollbackGeneration() { const v = b.get(GEN_PREV_KEY); let m = null; try { m = v ? JSON.parse(v) : null; } catch (e) { m = null; }
+    if (!m || m.staged !== gen() || !Number.isInteger(m.prev)) return { ok: false, rule: 'RB-NO-PRE-RESTORE-GENERATION' };
+    b.set(GEN_KEY, String(m.prev)); try { b.set(GEN_PREV_KEY, JSON.stringify({ prev: null, staged: null, rolled_back_from: m.staged })); } catch (e) { /* pointer already switched */ } return { ok: true, active: m.prev, from: m.staged }; }
+  const hasRollback = () => { try { const m = JSON.parse(b.get(GEN_PREV_KEY) || 'null'); return !!(m && m.staged === gen() && Number.isInteger(m.prev)); } catch (e) { return false; } };
+  return { load(cat) { return rawLoad(gen(), cat); }, save(cat, val) { b.set(pre(gen()) + cat, JSON.stringify(val)); }, categories: CATEGORIES, allStores: ALL_STORES,
+    generation: gen, stageGeneration, commitGeneration, rollbackGeneration, hasRollback, generationKeys: g => namesIn(g == null ? gen() : g).map(c => pre(g == null ? gen() : g) + c) }; }
 function canon(o) { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); }
 const clone = o => JSON.parse(JSON.stringify(o));
 const r4 = M.r4;

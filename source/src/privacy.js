@@ -59,12 +59,30 @@
   const passphraseProblem = p => (!p || String(p).length < PASSPHRASE_MIN ? 'passphrase too short (at least ' + PASSPHRASE_MIN + ' characters)' : null);
   /* portable sealed box: carries its own versioned KDF parameters and salt, so it opens on a fresh install before any local vault exists */
   const PORTABLE_KDF = { name: 'PBKDF2', hash: 'SHA-256', iterations: 210000, salt_bytes: 16, version: 'forge-kdf/v1' };
-  async function portableSeal(pass, text, o) { const pr = passphraseProblem(pass); if (pr) throw new Error(pr); const iterations = (o && o.iterations) || PORTABLE_KDF.iterations; const salt = rnd(16); const iv = rnd(12);
+  async function portableSeal(pass, text, o) { const pr = passphraseProblem(pass); if (pr) throw new Error(pr); const iterations = (o && o.iterations) || PORTABLE_KDF.iterations; if (!Number.isInteger(iterations) || iterations < 1000 || iterations > 1000000) throw new Error('BACKUP-LIMIT-KDF-ITERATIONS'); const salt = rnd(16); const iv = rnd(12);
     const base = await subtle().importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']); const k = await subtle().deriveKey({ name: 'PBKDF2', salt, iterations, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
     const ct = new Uint8Array(await subtle().encrypt({ name: 'AES-GCM', iv }, k, enc.encode(String(text)))); return { kdf: { name: 'PBKDF2', hash: 'SHA-256', iterations, salt: b64(salt), version: PORTABLE_KDF.version }, cipher: { name: 'AES-GCM', iv: b64(iv) }, ct: b64(ct) }; }
-  async function portableOpen(pass, box) { if (!box || !box.kdf || box.kdf.name !== 'PBKDF2' || box.kdf.hash !== 'SHA-256' || !(box.kdf.iterations >= 1000) || !box.cipher || box.cipher.name !== 'AES-GCM') throw new Error('BACKUP-KDF-UNSUPPORTED');
+  /* v4.8.4 resource ceiling: every field is type- and range-checked BEFORE any PBKDF2, base64 decoding or decryption */
+  const PORTABLE_LIMITS = Object.freeze({ file_bytes: 32 * 1048576, ct_b64_chars: 32 * 1048576, plaintext_bytes: 24 * 1048576, iterations_min: 1000, iterations_max: 1000000, salt_bytes: 16, iv_bytes: 12, gcm_tag_bytes: 16, json_depth: 64, stores_max: 256 });
+  const B64RE = /^[A-Za-z0-9+/]*={0,2}$/;
+  const b64Len = t => (typeof t === 'string' && t.length % 4 === 0 && B64RE.test(t) ? (t.length / 4) * 3 - (t.endsWith('==') ? 2 : t.endsWith('=') ? 1 : 0) : -1);
+  const plain = o => !!o && typeof o === 'object' && !Array.isArray(o);
+  const onlyKeys = (o, ks) => Object.keys(o).every(k => ks.includes(k));
+  function boxProblem(box) { const L = PORTABLE_LIMITS;
+    if (!plain(box) || !onlyKeys(box, ['kdf', 'cipher', 'ct'])) return 'BACKUP-MALFORMED-BOX';
+    const k = box.kdf, c = box.cipher; if (!plain(k) || !onlyKeys(k, ['name', 'hash', 'iterations', 'salt', 'version']) || !plain(c) || !onlyKeys(c, ['name', 'iv'])) return 'BACKUP-MALFORMED-BOX';
+    if (k.name !== 'PBKDF2' || k.hash !== 'SHA-256' || k.version !== PORTABLE_KDF.version || c.name !== 'AES-GCM') return 'BACKUP-KDF-UNSUPPORTED';
+    if (!Number.isInteger(k.iterations) || k.iterations < L.iterations_min) return 'BACKUP-KDF-UNSUPPORTED'; if (k.iterations > L.iterations_max) return 'BACKUP-LIMIT-KDF-ITERATIONS';
+    if (typeof k.salt !== 'string' || k.salt.length > 64) return 'BACKUP-MALFORMED-SALT'; const sl = b64Len(k.salt); if (sl < 0) return 'BACKUP-MALFORMED-BASE64'; if (sl !== L.salt_bytes) return 'BACKUP-UNSUPPORTED-SALT-LENGTH';
+    if (typeof c.iv !== 'string' || c.iv.length > 64) return 'BACKUP-MALFORMED-IV'; const il = b64Len(c.iv); if (il < 0) return 'BACKUP-MALFORMED-BASE64'; if (il !== L.iv_bytes) return 'BACKUP-UNSUPPORTED-IV-LENGTH';
+    if (typeof box.ct !== 'string') return 'BACKUP-MALFORMED-BOX'; if (box.ct.length > L.ct_b64_chars) return 'BACKUP-LIMIT-CIPHERTEXT'; const cl = b64Len(box.ct); if (cl < 0) return 'BACKUP-MALFORMED-BASE64'; if (cl < L.gcm_tag_bytes) return 'BACKUP-MALFORMED-CIPHERTEXT'; if (cl - L.gcm_tag_bytes > L.plaintext_bytes) return 'BACKUP-LIMIT-DECODED';
+    return null; }
+  /* JSON depth ceiling, checked by a linear scan BEFORE JSON.parse */
+  function jsonDepth(text) { let d = 0, max = 0, str = false, esc = false; for (let i = 0; i < text.length; i++) { const ch = text.charCodeAt(i); if (str) { if (esc) esc = false; else if (ch === 92) esc = true; else if (ch === 34) str = false; continue; } if (ch === 34) str = true; else if (ch === 123 || ch === 91) { d++; if (d > max) max = d; } else if (ch === 125 || ch === 93) d--; } return max; }
+  function parseBounded(text, maxBytes) { const L = PORTABLE_LIMITS; if (typeof text !== 'string') throw new Error('BACKUP-MALFORMED-FILE'); if (text.length > (maxBytes || L.file_bytes)) throw new Error('BACKUP-LIMIT-FILE-SIZE'); if (jsonDepth(text) > L.json_depth) throw new Error('BACKUP-LIMIT-JSON-DEPTH'); try { return JSON.parse(text); } catch (e) { throw new Error('BACKUP-MALFORMED-FILE'); } }
+  async function portableOpen(pass, box) { const pr = boxProblem(box); if (pr) throw new Error(pr);
     const base = await subtle().importKey('raw', enc.encode(String(pass || '')), 'PBKDF2', false, ['deriveKey']); const k = await subtle().deriveKey({ name: 'PBKDF2', salt: unb64(box.kdf.salt), iterations: box.kdf.iterations, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-    return dec.decode(await subtle().decrypt({ name: 'AES-GCM', iv: unb64(box.cipher.iv) }, k, unb64(box.ct))); }
+    const out = new Uint8Array(await subtle().decrypt({ name: 'AES-GCM', iv: unb64(box.cipher.iv) }, k, unb64(box.ct))); if (out.length > PORTABLE_LIMITS.plaintext_bytes) throw new Error('BACKUP-LIMIT-DECODED'); return dec.decode(out); }
   function Vault(io, opts) { /* io: { load(): obj|null, save(obj) } — only ciphertext is ever saved */
     opts = opts || {}; const iter = opts.iterations || 210000; let key = null; const pending = [];
     const st = () => io.load() || null;
@@ -89,6 +107,6 @@
       async decryptBlob(box) { if (!key) throw new Error('vault locked'); return decrypt(key, box); }
     };
   }
-  const api = { redact, leaks, deepRedact, Vault, KEYS, luhn, PASSPHRASE_MIN, passphraseProblem, PORTABLE_KDF, portableSeal, portableOpen };
+  const api = { redact, leaks, deepRedact, Vault, KEYS, luhn, PASSPHRASE_MIN, passphraseProblem, PORTABLE_KDF, PORTABLE_LIMITS, portableSeal, portableOpen, boxProblem, jsonDepth, parseBounded };
   if (isNode) module.exports = api; else root.KPrivacy = api;
 })(typeof self !== 'undefined' ? self : this);
