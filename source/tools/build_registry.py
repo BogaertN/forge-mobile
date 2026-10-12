@@ -1,3 +1,4 @@
+# LEGACY seeding tool (v4.1.0; needs the private audit rows). The tracked registry is now edited directly and checked by verify/run.js.
 # Seeds data/feature_registry.json from the FORGE_FEATURE_PLAN inventory (198 features) with proof links.
 # A claim is only shown as proven when verify/run.js finds every linked proof suite passing (claim guard).
 import json, re, os
@@ -58,5 +59,5 @@ for r in rows:
     elif st in ('Implemented', 'Partial'):
         proof = sorted({s for s in SUITES if re.search(r'\b' + re.escape(s) + r'\b', r['why'])} | set(MANUAL.get(r['id'], [])))
     out.append({'id': r['id'], 'name': r['name'], 'source': r['src'], 'wave': r['w'], 'claim': st, 'note': why, 'proof': proof})
-json.dump({'version': '4.1.0', 'features': out}, open('data/feature_registry.json', 'w'), ensure_ascii=False, indent=0)
+json.dump({'version': open('VERSION').read().strip(), 'features': out}, open('data/feature_registry.json', 'w'), ensure_ascii=False, indent=0)
 import collections; print(len(out), collections.Counter(x['claim'] for x in out), 'Implemented without proof:', [x['id'] for x in out if x['claim']=='Implemented' and not x['proof']])
