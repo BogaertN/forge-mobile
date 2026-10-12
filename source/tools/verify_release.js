@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+/* verify_release.js (v4.8.3 release pipeline, step 3 of 3): checks the freshly built artifact against the verification summary and the tree.
+ * Fails (exit 1) unless: every deployed file matches BUILD_MANIFEST.json (and no file is unlisted); version agrees in VERSION, build info,
+ * release record, registry, features.js, web manifest, SW cache name and build manifest; the test total agrees in summary, build info,
+ * release record, build manifest and the per-suite totals; the commit agrees with git HEAD; single-file CSP hashes match; no secrets ship;
+ * and `git status --porcelain` is empty (the artifact dir is git-ignored). Writes <artifact>/release_check.json. */
+const fs = require('fs'), path = require('path'), crypto = require('crypto'), cp = require('child_process'), zlib = require('zlib');
+const ROOT = path.join(__dirname, '..'); const OUT = path.resolve(process.env.FORGE_ARTIFACT || path.join(ROOT, '..', '_release')); const SITE = path.join(OUT, 'site');
+const sha = b => crypto.createHash('sha256').update(b).digest('hex'); const rd = p => fs.readFileSync(path.join(SITE, p));
+const checks = []; const C = (name, fn) => { let ok = false, detail = ''; try { const r = fn(); ok = r === true || r === undefined; if (!ok) detail = String(r); } catch (e) { detail = e.message; } checks.push({ name, ok, detail }); };
+const git = (...a) => { try { return cp.execFileSync('git', a, { cwd: ROOT, encoding: 'utf8' }).trim(); } catch (e) { return null; } };
+const load = (p, glob) => { const ctx = {}; new (require('vm').Script)(fs.readFileSync(path.join(SITE, p), 'utf8')).runInNewContext(Object.assign(ctx, { window: ctx, self: ctx })); return ctx[glob]; };
+const VERSION = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim(); const S = JSON.parse(fs.readFileSync(path.join(OUT, 'verify', 'summary.json'), 'utf8'));
+const M = JSON.parse(rd('BUILD_MANIFEST.json')); const BI = load('src/build-info.js', 'FORGE_BUILD'); const BJ = JSON.parse(rd('build-info.json')); const REL = load('src/release.js', 'KRELEASE'); const FE = load('src/features.js', 'KFEATURES');
+const REG = JSON.parse(rd('data/feature_registry.json')); const WM = JSON.parse(rd('manifest.json')); const SW = rd('sw.js').toString();
+const walk = d => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.relative(SITE, path.join(d, e.name))]));
+C('deployed-file hashes: every file in BUILD_MANIFEST.json exists with its sha256, and no shipped file is unlisted', () => { for (const f of M.files) if (sha(rd(f.path)) !== f.sha256 || rd(f.path).length !== f.bytes) return 'hash mismatch ' + f.path; const listed = new Set(M.files.map(f => f.path).concat(['BUILD_MANIFEST.json'])); const extra = walk(SITE).filter(f => !listed.has(f)); return extra.length ? 'unlisted ' + extra.join(',') : true; });
+C('manifest hash recomputes', () => sha(JSON.stringify(M.files.map(f => Object.fromEntries(Object.keys(f).sort().map(k => [k, f[k]]))))) === M.manifest_sha256 || 'manifest_sha256 mismatch');
+const vers = { VERSION, summary: S.version, build_info: BI.version, build_info_json: BJ.version, release: REL.version, registry: REG.version, features: FE.version, web_manifest: WM.version, build_manifest: M.version, sw_cache: (SW.match(/const C = 'forge-mobile-v([^']+)'/) || [])[1] };
+C('one version everywhere: ' + JSON.stringify(vers), () => Object.values(vers).every(v => v === VERSION) || 'disagree');
+const suiteSum = Object.values(FE.suites || {}).reduce((a, s) => a + s.total, 0);
+const totals = { summary: S.total, build_info: BI.tests.total, release: REL.tests.total, build_manifest: M.tests.total, features_suites: suiteSum };
+C('one test total everywhere: ' + JSON.stringify(totals), () => Object.values(totals).every(t => t === S.total) && S.passed === S.total && BI.tests.pass === S.total || 'disagree');
+const head = git('rev-parse', 'HEAD');
+C('commit agrees with git HEAD (' + (head || '?').slice(0, 12) + ') in build info, release record and build manifest', () => [BI.commit, REL.commit, M.commit, BJ.commit].every(c => c === head) || 'disagree');
+C('tree verified = tree built (tree hash)', () => BI.tree_sha256 === S.tree_sha256 && S.tree_sha256 === cp.execFileSync('node', [path.join(ROOT, 'tools/shipset.js'), 'hash'], { encoding: 'utf8' }) || 'tree hash mismatch');
+C('release record hashes match the deployed files', () => REL.files.every(f => sha(rd(f.path)) === f.sha256) || 'release record stale');
+C('registry counts: stored count = features = features.js', () => REG.count === REG.features.length && FE.features.length === REG.count && BI.registry_count === REG.count || 'count mismatch');
+C('deployed UI reads the same build record (index.html loads src/build-info.js; SW precaches it)', () => /<script src="src\/build-info\.js"><\/script>/.test(rd('index.html').toString()) && /\.\/src\/build-info\.js/.test(SW) || 'not wired');
+for (const n of ['kernel-app.html', 'kernel-app-full.html']) C('single-file ' + n + ': hash-based CSP matches every inline script', () => { const h = fs.readFileSync(path.join(OUT, 'single', n), 'utf8'); const pol = h.match(/Content-Security-Policy" content="([^"]+)"/)[1]; return h.match(/<script>([\s\S]*?)<\/script>/g).map(x => x.slice(8, -9)).every(s => pol.includes("'sha256-" + crypto.createHash('sha256').update(s).digest('base64') + "'")) || 'csp mismatch'; });
+C('bundle budget: single-file app ≤ 1.2 MB raw / ≤ 330 kB gzip', () => { const b = fs.readFileSync(path.join(OUT, 'single', 'kernel-app.html')); const gz = zlib.gzipSync(b).length; return (b.length <= 1.2e6 && gz <= 330e3) || b.length + ' / ' + gz; });
+C('secret scan: no tokens, private keys or credentials in any deployed file', () => { const pat = /gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xox[abp]-[0-9A-Za-z-]{10,}/; const bad = walk(SITE).filter(f => !/\.gz$|\.png$/.test(f) && pat.test(rd(f).toString())); return !bad.length || bad.join(','); });
+const porcelain = git('status', '--porcelain'); C('git status --porcelain is empty (artifact dir ' + path.relative(path.join(ROOT, '..'), OUT) + ' is git-ignored)', () => porcelain === '' || 'dirty: ' + porcelain);
+const ok = checks.every(c => c.ok); const rep = { schema: 'forge-release-check/v1', ok, version: VERSION, commit: head, tests: { pass: S.passed, total: S.total }, manifest_sha256: M.manifest_sha256, git_status_porcelain: porcelain, checks };
+fs.writeFileSync(path.join(OUT, 'release_check.json'), JSON.stringify(rep, null, 1));
+for (const c of checks) console.log((c.ok ? 'PASS ' : 'FAIL ') + c.name + (c.ok ? '' : ' :: ' + c.detail));
+console.log('RELEASE ' + (ok ? 'OK' : 'FAILED') + ' version ' + VERSION + ' commit ' + (head || '?') + ' tests ' + S.passed + '/' + S.total + ' manifest ' + M.manifest_sha256 + ' git-status-porcelain=' + JSON.stringify(porcelain));
+process.exit(ok ? 0 : 1);
