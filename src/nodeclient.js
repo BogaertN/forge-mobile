@@ -15,12 +15,20 @@ async function keyFrom(kB64, id, subtle) { const base = await subtle.importKey('
   return subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256', salt: te.encode(id), info: te.encode('forge-node v1 enc') }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']); }
 function Client(store, opts) { opts = opts || {}; const subtle = opts.subtle || (GL.crypto && GL.crypto.subtle); const doFetch = opts.fetch || ((...a) => GL.fetch(...a)); const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
   const nowSec = () => (opts.nowSec ? opts.nowSec() : Date.now() / 1000);
-  const pairing = () => { const p = store.load('node_pairing'); return p && !Array.isArray(p) && p.id ? p : null; };
-  async function pair(uri, sealSecret) { const p = parsePairing(uri); if (!p) return { ok: false, rule: 'NODE-PAIRING-URI-INVALID' }; const ref = await sealSecret(p.k, p.id); if (!ref) return { ok: false, rule: 'NODE-PAIRING-VAULT-LOCKED' };
-    store.save('node_pairing', { id: p.id, url: p.url, key_ref: ref, ctr: 0, paired_at: now() }); return { ok: true, id: p.id, url: p.url }; }
-  function unpair() { store.save('node_pairing', {}); return { ok: true }; }
+  /* N5: one node key PER IDENTITY-VAULT USER. node_pairing = { byUser: { <vault user id>: pairing } }. A pre-N5 flat (shared) pairing is
+   * migrated to the current vault user and flagged legacy_shared until that user re-pairs with their own QR. */
+  const vaultUser = () => (opts.vaultUser ? opts.vaultUser() : 'default');
+  const table = () => { let t = store.load('node_pairing'); if (!t || Array.isArray(t)) t = {}; if (t.id && !t.byUser) { const vu = vaultUser(); if (!vu) return { byUser: {}, pendingLegacy: t };
+      t = { byUser: { [vu]: Object.assign({}, t, { legacy_shared: true, migrated_at: now() }) } }; store.save('node_pairing', t); } if (t.pendingLegacy && vaultUser()) { t.byUser = t.byUser || {}; t.byUser[vaultUser()] = Object.assign({}, t.pendingLegacy, { legacy_shared: true, migrated_at: now() }); delete t.pendingLegacy; store.save('node_pairing', t); } t.byUser = t.byUser || {}; return t; };
+  const pairing = () => { const vu = vaultUser(); if (!vu) return null; const p = table().byUser[vu]; return p && p.id ? Object.assign({ vault_user: vu }, p) : null; };
+  const savePairing = p => { const t = table(); const vu = p.vault_user; const q = Object.assign({}, p); delete q.vault_user; t.byUser[vu] = q; store.save('node_pairing', t); };
+  async function pair(uri, sealSecret) { const vu = vaultUser(); if (!vu) return { ok: false, rule: 'NODE-PAIRING-NO-VAULT-USER' }; const p = parsePairing(uri); if (!p) return { ok: false, rule: 'NODE-PAIRING-URI-INVALID' };
+    const t = table(); if (Object.entries(t.byUser).some(([u, x]) => u !== vu && x.id === p.id && !x.legacy_shared)) return { ok: false, rule: 'NODE-KEY-BELONGS-TO-ANOTHER-VAULT-USER' };
+    const ref = await sealSecret(p.k, p.id); if (!ref) return { ok: false, rule: 'NODE-PAIRING-VAULT-LOCKED' };
+    savePairing({ vault_user: vu, id: p.id, url: p.url, key_ref: ref, ctr: 0, paired_at: now(), legacy_shared: false }); return { ok: true, id: p.id, url: p.url, vault_user: vu }; }
+  function unpair() { const vu = vaultUser(); const t = table(); delete t.byUser[vu]; store.save('node_pairing', t); return { ok: true }; }
   async function rpc(op, args, revealSecret) { if (!OPS.includes(op)) throw new Error('NODE-OP-NOT-DECLARED'); const p = pairing(); if (!p) throw new Error('NODE-NOT-PAIRED'); const k = await revealSecret(p.key_ref); if (!k) throw new Error('NODE-VAULT-LOCKED');
-    const key = await keyFrom(k, p.id, subtle); const ctr = Math.max(p.ctr + 1, Math.floor(nowSec() * 1000)); p.ctr = ctr; store.save('node_pairing', p);
+    const key = await keyFrom(k, p.id, subtle); const ctr = Math.max(p.ctr + 1, Math.floor(nowSec() * 1000)); p.ctr = ctr; savePairing(p);
     const iv = (opts.random || (n => GL.crypto.getRandomValues(new Uint8Array(n))))(12); const pt = te.encode(JSON.stringify({ op, args: args || {}, ts: Math.floor(nowSec()) }));
     const ct = await subtle.encrypt({ name: 'AES-GCM', iv, additionalData: te.encode('forge-node-v1|' + p.id + '|' + ctr) }, key, pt);
     const res = await doFetch(p.url + '/v1/rpc', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ v: 1, id: p.id, ctr, iv: b64(iv), ct: b64(ct) }), credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'no-store' });
