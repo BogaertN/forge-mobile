@@ -14,7 +14,9 @@ const Kernel = o => KMOD.Kernel(o); const G = require(ROOT + '/src/grammar.js');
 const LEX = require(ROOT + '/data/lexicon.json'), EXT = require(ROOT + '/data/lexicon-ext.json');
 const K = () => Kernel({ clock: () => '2026-10-11T20:45:00Z', lexicon: LEX, lexiconExt: EXT });
 const results = []; const transcript = [];
-const C = (cls, name, fn) => { let ok = false, detail = ''; try { const r = fn(); ok = r === true || r === undefined; if (r && r !== true) detail = String(r); } catch (e) { detail = e.message; } results.push({ cls, name, ok, detail: ok ? '' : detail.slice(0, 300) }); };
+/* v4.8.4: three outcomes. A check whose authoritative external reference is unavailable throws NOT_RUN(); it is never counted as passed */
+const NOT_RUN = why => Object.assign(new Error('NOT_RUN: ' + why), { notRun: true });
+const C = (cls, name, fn) => { let ok = false, detail = '', notRun = false; try { const r = fn(); ok = r === true || r === undefined; if (r && r !== true) detail = String(r); } catch (e) { detail = e.message; notRun = !!e.notRun; } results.push(Object.assign({ cls, name, ok, detail: ok ? '' : detail.slice(0, 300) }, notRun ? { not_run: true } : {})); };
 const say = (k, u) => { const r = k.process(u); transcript.push([u, r.reply, r.outcome.class, r.trace.drift.eps_s]); return r; };
 const expect = (cond, msg) => { if (!cond) throw new Error(msg); };
 
@@ -214,23 +216,25 @@ C('DETERMINISM', 'full verification transcript hash stable across two kernels', 
 require('./w12_suite.js')({ C, expect, KMOD, LEX, EXT, ROOT });
 /* W3/W4 + EchoForge tool bench + crawler + vault capture + consent (async suite in a child process) */
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w34_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26 })); } catch (e) { rows = [{ cls: 'TOOLBENCH', name: 'w34 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w6_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W6', name: 'w6 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w7_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W7', name: 'w7 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w8_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W8', name: 'w8 suite ran', ok: false, why: e.message }]; }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w13_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W13', name: 'w13 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w14_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W14', name: 'w14 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w16_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'W16', name: 'w16 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+{ let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w17_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'W17', name: 'w17 suite ran', ok: false, why: e.message }]; }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w15_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W15', name: 'w15 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w5_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W5', name: 'w5 suite ran', ok: false, why: e.message }]; }
-  for (const r of rows) C(r.cls, r.name, () => expect(r.ok, r.why)); }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 /* DERIVATION: no reply may come from a hardcoded sentence (static scan + runtime trace audit) */
 const REPLY_SRC = ['src/kernel.js', 'src/forge.js', 'src/derive.js', 'src/forge_spine.js', 'src/infer.js', 'src/kmath.js', 'src/algebra.js', 'src/privacy.js', 'src/governance.js', 'src/containment.js', 'src/claims.js', 'src/toolbench.js', 'src/crawler.js', 'src/consent.js', 'src/operator.js'];
 const SENTENCE_LIT = /(['"`])((?:(?!\1)[^\\\n]|\\.){0,400}?)\1/g;
@@ -287,11 +291,12 @@ C('DERIVATION', 'Echo is analysis-by-synthesis: a one-token fault in the surface
 /* report */
 C('RELEASE', 'verification did not modify any verified input (tree hash unchanged across the whole run)', () => expect(SHIP.treeHash(ROOT) === TREE0, 'a verified input changed during verification'));
 { const d = require(path.join(VOUT, 'features.js')); const su = {}; for (const r of results) { const x = su[r.cls] = su[r.cls] || { pass: 0, total: 0 }; x.total++; if (r.ok) x.pass++; } d.suites = su; fs.writeFileSync(path.join(VOUT, 'features.js'), '/* generated by verify/run.js — feature registry + proof-suite results (claim guard input) */\n(function (root) { const d = ' + JSON.stringify(d) + '; if (typeof module !== \'undefined\' && module.exports) module.exports = d; else root.KFEATURES = d; })(this);\n'); }
-const by = {}; for (const r of results) { by[r.cls] = by[r.cls] || { pass: 0, fail: 0 }; by[r.cls][r.ok ? 'pass' : 'fail']++; }
-const total = results.length, passed = results.filter(r => r.ok).length;
-let md = `# Verification report (Doc 9 style)\n\nGenerated by \`node verify/run.js\` — deterministic; no network; WordNet 3.0 lexicon loaded.\n\n**${passed} / ${total} cases passed.**\n\n| Class | Pass | Fail |\n|---|---|---|\n` + Object.entries(by).map(([c, v]) => `| ${c} | ${v.pass} | ${v.fail} |`).join('\n') + '\n\n';
-const fails = results.filter(r => !r.ok); md += fails.length ? '## Failures\n\n' + fails.map(f => `- **${f.cls}** — ${f.name}: \`${f.detail}\``).join('\n') + '\n\n' : '## Failures\n\nNone.\n\n';
-md += '## Case list\n\n' + Object.keys(by).map(c => `### ${c}\n` + results.filter(r => r.cls === c).map(r => `- ${r.ok ? '✅' : '❌'} ${r.name}`).join('\n')).join('\n\n') + '\n';
-fs.writeFileSync(path.join(VOUT, 'REPORT.md'), md); fs.writeFileSync(path.join(VOUT, 'summary.json'), JSON.stringify({ schema: 'forge-verify-summary/v1', version: VERSION, tree_sha256: TREE0, total, passed, suites: Object.fromEntries(Object.entries(by).map(([c, v]) => [c, v.pass + '/' + (v.pass + v.fail)])) })); fs.writeFileSync(path.join(VOUT, 'results.json'), JSON.stringify({ total, passed, by, results }, null, 1));
-console.log(Object.entries(by).map(([c, v]) => `${c}: ${v.pass}/${v.pass + v.fail}`).join('\n')); console.log(`TOTAL ${passed}/${total}`); fails.slice(0, +(process.env.NFAIL || 40)).forEach(f => console.log('FAIL', f.cls, f.name, '::', f.detail));
+const by = {}; for (const r of results) { by[r.cls] = by[r.cls] || { pass: 0, fail: 0, not_run: 0 }; by[r.cls][r.ok ? 'pass' : r.not_run ? 'not_run' : 'fail']++; }
+const total = results.length, passed = results.filter(r => r.ok).length, not_run = results.filter(r => !r.ok && r.not_run).length, failed = total - passed - not_run;
+let md = `# Verification report (Doc 9 style)\n\nGenerated by \`node verify/run.js\` — deterministic; no network; WordNet 3.0 lexicon loaded.\n\n**${passed} passed · ${failed} failed · ${not_run} NOT_RUN (of ${total}).** NOT_RUN checks are excluded from every pass claim.\n\n| Class | Pass | Fail | Not run |\n|---|---|---|---|\n` + Object.entries(by).map(([c, v]) => `| ${c} | ${v.pass} | ${v.fail} | ${v.not_run} |`).join('\n') + '\n\n';
+const fails = results.filter(r => !r.ok && !r.not_run); const nrs = results.filter(r => r.not_run); md += nrs.length ? '## NOT_RUN (excluded from pass claims)\n\n' + nrs.map(f => `- **${f.cls}** — ${f.name}: \`${f.detail}\``).join('\n') + '\n\n' : ''; md += fails.length ? '## Failures\n\n' + fails.map(f => `- **${f.cls}** — ${f.name}: \`${f.detail}\``).join('\n') + '\n\n' : '## Failures\n\nNone.\n\n';
+md += '## Case list\n\n' + Object.keys(by).map(c => `### ${c}\n` + results.filter(r => r.cls === c).map(r => `- ${r.ok ? '✅' : r.not_run ? '⏸ NOT_RUN' : '❌'} ${r.name}`).join('\n')).join('\n\n') + '\n';
+fs.writeFileSync(path.join(VOUT, 'REPORT.md'), md); fs.writeFileSync(path.join(VOUT, 'summary.json'), JSON.stringify({ schema: 'forge-verify-summary/v1', version: VERSION, tree_sha256: TREE0, total, passed, failed, not_run, suites: Object.fromEntries(Object.entries(by).map(([c, v]) => [c, v.pass + '/' + (v.pass + v.fail + v.not_run)])) })); fs.writeFileSync(path.join(VOUT, 'results.json'), JSON.stringify({ total, passed, failed, not_run, by, results }, null, 1));
+console.log(Object.entries(by).map(([c, v]) => `${c}: ${v.pass}/${v.pass + v.fail + v.not_run}` + (v.not_run ? ` (NOT_RUN ${v.not_run})` : '')).join('\n')); console.log(`TOTAL ${passed}/${total} passed=${passed} failed=${failed} not_run=${not_run}`); nrsLog(); fails.slice(0, +(process.env.NFAIL || 40)).forEach(f => console.log('FAIL', f.cls, f.name, '::', f.detail));
+function nrsLog() { results.filter(r => r.not_run).forEach(f => console.log('NOT_RUN', f.cls, f.name, '::', f.detail)); }
 process.exit(fails.length ? 1 : 0);

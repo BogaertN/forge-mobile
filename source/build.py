@@ -20,13 +20,14 @@ def git(*a):
 sp = os.path.join(OUT, 'verify', 'summary.json')
 if not os.path.exists(sp): die('no verification summary at ' + sp + ' (run node verify/run.js first)')
 S = json.load(open(sp)); tree = subprocess.run(['node', 'tools/shipset.js', 'hash'], capture_output=True, text=True, check=True).stdout.strip()
-if S.get('passed') != S.get('total') or not S.get('total'): die('verification did not pass: %s/%s' % (S.get('passed'), S.get('total')))
+NR = S.get('not_run', 0); FL = S.get('failed', S.get('total', 0) - S.get('passed', 0) - NR)
+if FL != 0 or not S.get('total') or S.get('passed', 0) + NR != S.get('total'): die('verification did not pass: passed %s failed %s not_run %s of %s' % (S.get('passed'), FL, NR, S.get('total')))
 if S.get('version') != VERSION: die('summary version %s != VERSION %s' % (S.get('version'), VERSION))
 if S.get('tree_sha256') != tree: die('the tree changed after verification (tree hash mismatch); re-run verification')
 SHIP = json.loads(subprocess.run(['node', 'tools/shipset.js'], capture_output=True, text=True, check=True).stdout)
 commit = git('rev-parse', 'HEAD') or 'uncommitted'; cdate = git('log', '-1', '--format=%cI') or 'unknown'
 dirty = bool(git('status', '--porcelain', '--untracked-files=no'))
-tests = {'pass': S['passed'], 'total': S['total']}
+tests = {'pass': S['passed'], 'fail': FL, 'not_run': NR, 'total': S['total']}  # NOT_RUN checks are never counted as passed
 SITE = os.path.join(OUT, 'site'); SINGLE = os.path.join(OUT, 'single')
 for d in (SITE, SINGLE):
     if os.path.isdir(d): shutil.rmtree(d)
@@ -71,4 +72,4 @@ h = with_csp(h); open(os.path.join(SINGLE, 'kernel-app.html'), 'w').write(h)
 core = base64.b64encode(open('data/lexicon.json.gz', 'rb').read()).decode(); ext = base64.b64encode(open('data/lexicon-ext.json.gz', 'rb').read()).decode()
 full = with_csp(h.replace('<script>', '<script>window.KLEX_CORE_GZ="' + core + '";window.KLEX_EXT_GZ="' + ext + '";</script><script>', 1))
 open(os.path.join(SINGLE, 'kernel-app-full.html'), 'w').write(full)
-print('built', VERSION, commit[:12], 'tests %d/%d' % (tests['pass'], tests['total']), 'site files', len(files), 'manifest', doc['manifest_sha256'][:16], 'single', len(h), 'full gz', len(gzip.compress(full.encode())))
+print('built', VERSION, commit[:12], 'tests %d/%d (failed %d, NOT_RUN %d)' % (tests['pass'], tests['total'], tests['fail'], tests['not_run']), 'site files', len(files), 'manifest', doc['manifest_sha256'][:16], 'single', len(h), 'full gz', len(gzip.compress(full.encode())))

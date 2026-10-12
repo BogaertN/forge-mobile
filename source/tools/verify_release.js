@@ -20,7 +20,8 @@ const vers = { VERSION, summary: S.version, build_info: BI.version, build_info_j
 C('one version everywhere: ' + JSON.stringify(vers), () => Object.values(vers).every(v => v === VERSION) || 'disagree');
 const suiteSum = Object.values(FE.suites || {}).reduce((a, s) => a + s.total, 0);
 const totals = { summary: S.total, build_info: BI.tests.total, release: REL.tests.total, build_manifest: M.tests.total, features_suites: suiteSum };
-C('one test total everywhere: ' + JSON.stringify(totals), () => Object.values(totals).every(t => t === S.total) && S.passed === S.total && BI.tests.pass === S.total || 'disagree');
+C('one test total everywhere: ' + JSON.stringify(totals), () => Object.values(totals).every(t => t === S.total) && S.failed === 0 && S.passed + S.not_run === S.total && BI.tests.pass === S.passed && BI.tests.not_run === S.not_run && REL.tests.not_run === S.not_run && M.tests.not_run === S.not_run || 'disagree');
+C('test outcomes reported separately: passed ' + S.passed + ' / failed ' + S.failed + ' / NOT_RUN ' + S.not_run + ' (NOT_RUN excluded from pass claims)', () => Number.isInteger(S.failed) && Number.isInteger(S.not_run) && S.failed === 0 || 'missing outcome counts');
 const head = git('rev-parse', 'HEAD');
 C('commit agrees with git HEAD (' + (head || '?').slice(0, 12) + ') in build info, release record and build manifest', () => [BI.commit, REL.commit, M.commit, BJ.commit].every(c => c === head) || 'disagree');
 C('tree verified = tree built (tree hash)', () => BI.tree_sha256 === S.tree_sha256 && S.tree_sha256 === cp.execFileSync('node', [path.join(ROOT, 'tools/shipset.js'), 'hash'], { encoding: 'utf8' }) || 'tree hash mismatch');
@@ -31,8 +32,8 @@ for (const n of ['kernel-app.html', 'kernel-app-full.html']) C('single-file ' + 
 C('bundle budget: single-file app ≤ 1.2 MB raw / ≤ 330 kB gzip', () => { const b = fs.readFileSync(path.join(OUT, 'single', 'kernel-app.html')); const gz = zlib.gzipSync(b).length; return (b.length <= 1.2e6 && gz <= 330e3) || b.length + ' / ' + gz; });
 C('secret scan: no tokens, private keys or credentials in any deployed file', () => { const pat = /gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xox[abp]-[0-9A-Za-z-]{10,}/; const bad = walk(SITE).filter(f => !/\.gz$|\.png$/.test(f) && pat.test(rd(f).toString())); return !bad.length || bad.join(','); });
 const porcelain = git('status', '--porcelain'); C('git status --porcelain is empty (artifact dir ' + path.relative(path.join(ROOT, '..'), OUT) + ' is git-ignored)', () => porcelain === '' || 'dirty: ' + porcelain);
-const ok = checks.every(c => c.ok); const rep = { schema: 'forge-release-check/v1', ok, version: VERSION, commit: head, tests: { pass: S.passed, total: S.total }, manifest_sha256: M.manifest_sha256, git_status_porcelain: porcelain, checks };
+const ok = checks.every(c => c.ok); const rep = { schema: 'forge-release-check/v1', ok, version: VERSION, commit: head, tests: { pass: S.passed, fail: S.failed, not_run: S.not_run, total: S.total }, manifest_sha256: M.manifest_sha256, git_status_porcelain: porcelain, checks };
 fs.writeFileSync(path.join(OUT, 'release_check.json'), JSON.stringify(rep, null, 1));
 for (const c of checks) console.log((c.ok ? 'PASS ' : 'FAIL ') + c.name + (c.ok ? '' : ' :: ' + c.detail));
-console.log('RELEASE ' + (ok ? 'OK' : 'FAILED') + ' version ' + VERSION + ' commit ' + (head || '?') + ' tests ' + S.passed + '/' + S.total + ' manifest ' + M.manifest_sha256 + ' git-status-porcelain=' + JSON.stringify(porcelain));
+console.log('RELEASE ' + (ok ? 'OK' : 'FAILED') + ' version ' + VERSION + ' commit ' + (head || '?') + ' tests ' + S.passed + '/' + S.total + ' (passed ' + S.passed + ', failed ' + S.failed + ', NOT_RUN ' + S.not_run + ') manifest ' + M.manifest_sha256 + ' git-status-porcelain=' + JSON.stringify(porcelain));
 process.exit(ok ? 0 : 1);
