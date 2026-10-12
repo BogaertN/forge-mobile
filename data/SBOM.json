@@ -1,7 +1,73 @@
-{"schema":"forge-mobile-sbom/v1","components":[
- {"name":"Princeton WordNet 3.0/3.1 (derived lexicon tiers)","files":["data/lexicon.json.gz","data/lexicon-ext.json.gz"],"licence":"WordNet License (BSD-style)","licence_file":"data/WORDNET_LICENSE.txt","bundled":true},
- {"name":"BogaertN/forge rmc_engine_v1/coherence_math.py","files":["data/py/coherence_math.py"],"licence":"owner's own code (BogaertN)","bundled":true},
- {"name":"Pyodide","version":"0.27.7","url":"https://cdn.jsdelivr.net/pyodide/v0.27.7/full/","licence":"MPL-2.0","bundled":false,"integrity":"sha384 pinned in src/pycheck.js; loaded only on tap, in a worker"},
- {"name":"SymPy (via Pyodide)","licence":"BSD-3-Clause","bundled":false},
- {"name":"forge-mobile application code","files":["src/*.js","index.html","styles.css","sw.js"],"licence":"owner's own code (BogaertN)","bundled":true,"third_party_runtime_dependencies":0}
-],"external_origins":["https://cdn.jsdelivr.net"]}
+{
+ "schema": "forge-mobile-sbom/v1",
+ "components": [
+  {
+   "name": "Princeton WordNet 3.0/3.1 (derived lexicon tiers)",
+   "files": [
+    "data/lexicon.json.gz",
+    "data/lexicon-ext.json.gz"
+   ],
+   "licence": "WordNet License (BSD-style)",
+   "licence_file": "data/WORDNET_LICENSE.txt",
+   "bundled": true
+  },
+  {
+   "name": "BogaertN/forge rmc_engine_v1/coherence_math.py",
+   "files": [
+    "data/py/coherence_math.py"
+   ],
+   "licence": "owner's own code (BogaertN)",
+   "bundled": true
+  },
+  {
+   "name": "Pyodide",
+   "version": "0.27.7",
+   "url": "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/",
+   "licence": "MPL-2.0",
+   "bundled": false,
+   "integrity": "sha384 pinned in src/pycheck.js; loaded only on tap, in a worker"
+  },
+  {
+   "name": "SymPy (via Pyodide)",
+   "licence": "BSD-3-Clause",
+   "bundled": false
+  },
+  {
+   "name": "forge-mobile application code",
+   "files": [
+    "src/*.js",
+    "index.html",
+    "styles.css",
+    "sw.js"
+   ],
+   "licence": "owner's own code (BogaertN)",
+   "bundled": true,
+   "third_party_runtime_dependencies": 0
+  },
+  {
+   "name": "three.js",
+   "version": "r169 (0.169.0)",
+   "licence": "MIT", "bundled": true,
+   "files": [
+    "vendor/three.module.min.js"
+   ],
+   "licence_file": "vendor/LICENSE.three.txt",
+   "sha256": "f7cee3c7533449a1505cc12cb5128b89e3d4fd3d7ea62b05f9f5464a217472ee",
+   "origin": "npm three@0.169.0 (vendored; served same-origin, lazy-loaded)"
+  },
+  {
+   "name": "cannon-es",
+   "version": "0.20.0",
+   "licence": "MIT", "bundled": true,
+   "files": [
+    "vendor/cannon-es.js"
+   ],
+   "licence_file": "vendor/LICENSE.cannon-es.txt",
+   "sha256": "f0700cbd3a482954949b9d58c1b0f76dcc74767750297647a39d8c40dd63d37c",
+   "origin": "npm cannon-es@0.20.0 (vendored; served same-origin, lazy-loaded)"
+  }
+ ],
+ "external_origins": [
+  "https://cdn.jsdelivr.net"
+ ]
+}
