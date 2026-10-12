@@ -1,5 +1,5 @@
 {
- "version": "4.8.4",
+ "version": "4.9.0",
  "features": [
   {
    "id": "A-01",
@@ -2492,11 +2492,25 @@
    "proof": [
     "RELEASE-DEPS"
    ]
+  },
+  {
+   "id": "BACKUP-ONE",
+   "name": "One backup system everywhere (legacy backup/restore route removed; labelled legacy-import converter)",
+   "source": "V1 completion contract 2026-10-12, section 1",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "portableBackup / inspectPortable / portableRestore / rollbackRestore only; old v1 files are converted and committed through the staged-generation path, never written to active stores; browser-order regression: v4.8.4 portable restore threw in the browser (operator.js read KMigrate before migrate.js loaded) and is fixed",
+   "proof": [
+    "LEGACY-BACKUP-REMOVED",
+    "LEGACY-CONVERTER",
+    "ONE-BACKUP-PATH",
+    "BROWSER-LOAD-ORDER"
+   ]
   }
  ],
- "count": 232,
+ "count": 233,
  "claims": {
-  "Implemented": 108,
+  "Implemented": 109,
   "Missing": 9,
   "Not feasible on phone": 28,
   "Out of scope / parked": 13,
