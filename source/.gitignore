@@ -1,0 +1,10 @@
+data/lexicon.json
+data/lexicon-ext.json
+data/*.gz
+icons/
+vendor/
+*.html
+verify/results.json
+verify/REPORT.md
+verify/summary.json
+verify/tmp/
