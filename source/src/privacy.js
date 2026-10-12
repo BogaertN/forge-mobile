@@ -53,6 +53,18 @@
   const unb64 = s => (typeof Buffer !== 'undefined' ? new Uint8Array(Buffer.from(s, 'base64')) : Uint8Array.from(atob(s), c => c.charCodeAt(0)));
   const enc = new TextEncoder(), dec = new TextDecoder();
   const CHECK = 'kernel-vault-check-v1';
+  /* ONE passphrase rule everywhere (onboarding, vault form, vault setup, portable backup): at least PASSPHRASE_MIN characters.
+   * Forge cannot recover a lost passphrase: there is no reset, no copy of the key and no server. */
+  const PASSPHRASE_MIN = 8;
+  const passphraseProblem = p => (!p || String(p).length < PASSPHRASE_MIN ? 'passphrase too short (at least ' + PASSPHRASE_MIN + ' characters)' : null);
+  /* portable sealed box: carries its own versioned KDF parameters and salt, so it opens on a fresh install before any local vault exists */
+  const PORTABLE_KDF = { name: 'PBKDF2', hash: 'SHA-256', iterations: 210000, salt_bytes: 16, version: 'forge-kdf/v1' };
+  async function portableSeal(pass, text, o) { const pr = passphraseProblem(pass); if (pr) throw new Error(pr); const iterations = (o && o.iterations) || PORTABLE_KDF.iterations; const salt = rnd(16); const iv = rnd(12);
+    const base = await subtle().importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']); const k = await subtle().deriveKey({ name: 'PBKDF2', salt, iterations, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+    const ct = new Uint8Array(await subtle().encrypt({ name: 'AES-GCM', iv }, k, enc.encode(String(text)))); return { kdf: { name: 'PBKDF2', hash: 'SHA-256', iterations, salt: b64(salt), version: PORTABLE_KDF.version }, cipher: { name: 'AES-GCM', iv: b64(iv) }, ct: b64(ct) }; }
+  async function portableOpen(pass, box) { if (!box || !box.kdf || box.kdf.name !== 'PBKDF2' || box.kdf.hash !== 'SHA-256' || !(box.kdf.iterations >= 1000) || !box.cipher || box.cipher.name !== 'AES-GCM') throw new Error('BACKUP-KDF-UNSUPPORTED');
+    const base = await subtle().importKey('raw', enc.encode(String(pass || '')), 'PBKDF2', false, ['deriveKey']); const k = await subtle().deriveKey({ name: 'PBKDF2', salt: unb64(box.kdf.salt), iterations: box.kdf.iterations, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    return dec.decode(await subtle().decrypt({ name: 'AES-GCM', iv: unb64(box.cipher.iv) }, k, unb64(box.ct))); }
   function Vault(io, opts) { /* io: { load(): obj|null, save(obj) } — only ciphertext is ever saved */
     opts = opts || {}; const iter = opts.iterations || 210000; let key = null; const pending = [];
     const st = () => io.load() || null;
@@ -61,7 +73,7 @@
     async function decrypt(k, box) { return dec.decode(await subtle().decrypt({ name: 'AES-GCM', iv: unb64(box.iv) }, k, unb64(box.ct))); }
     return {
       status: () => (!st() ? 'none' : key ? 'unlocked' : 'locked'),
-      async setup(pass) { if (st()) throw new Error('vault already exists'); if (!pass || pass.length < 6) throw new Error('passphrase too short'); const salt = rnd(16); const s0 = { v: 1, kdf: 'PBKDF2-SHA-256', iter, salt: b64(salt), entries: [] }; io.save(s0); key = await derive(pass, salt); s0.check = await encrypt(key, CHECK); io.save(s0); return true; },
+      async setup(pass) { if (st()) throw new Error('vault already exists'); if (passphraseProblem(pass)) throw new Error(passphraseProblem(pass)); const salt = rnd(16); const s0 = { v: 1, kdf: 'PBKDF2-SHA-256', iter, salt: b64(salt), entries: [] }; io.save(s0); key = await derive(pass, salt); s0.check = await encrypt(key, CHECK); io.save(s0); return true; },
       async unlock(pass) { const s = st(); if (!s) return false; try { const k = await derive(pass, unb64(s.salt)); if (await decrypt(k, s.check) !== CHECK) return false; key = k; return true; } catch (e) { return false; } },
       lock() { key = null; pending.length = 0; },
       queue(items) { if (!key) return 0; for (const it of items) pending.push(it); return items.length; },
@@ -77,6 +89,6 @@
       async decryptBlob(box) { if (!key) throw new Error('vault locked'); return decrypt(key, box); }
     };
   }
-  const api = { redact, leaks, deepRedact, Vault, KEYS, luhn };
+  const api = { redact, leaks, deepRedact, Vault, KEYS, luhn, PASSPHRASE_MIN, passphraseProblem, PORTABLE_KDF, portableSeal, portableOpen };
   if (isNode) module.exports = api; else root.KPrivacy = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -3,7 +3,7 @@
  * D4 workbench: fixed recipes with a park kill switch that auto-parks on any authority beyond the recipe manifest. No reply text. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
-  const Gv = isNode ? require('./governance.js') : root.KGov; const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
+  const Gv = isNode ? require('./governance.js') : root.KGov; const PV = isNode ? require('./privacy.js') : root.KPrivacy; const MG = isNode ? require('./migrate.js') : root.KMigrate; const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
   const STOP = new Set('i me my you your the a an is are was were be to of and or in on at for with that this it its he she they we our his her their what who when where which how do does did not no yes'.split(' '));
   /* Gilligan (GenNode Doc 10): recurring entities across sessions + repeated unknown words + feedback marked wrong. Counts only. */
   function gilligan(store, opts) {
@@ -35,6 +35,49 @@
       const bad = o.manifest.categories.filter(c => Gv.hash(store.load(c)) !== Gv.hash(o.data[c]));
       if (bad.length) { for (const c of Object.keys(snap)) store.save(c, snap[c]); return { ok: false, rule: 'RB-READBACK-MISMATCH-ROLLBACK', bad }; }
       return { ok: true, restored: o.manifest.categories.length, readback: 'match' }; }
+    /* ---- portable Backup & Recovery (v4.8.3) ----
+     * Format forge-mobile-portable-backup v1: a plaintext header (format, format_version, app_schema, created, store list, manifest hash) and an
+     * AES-GCM box whose KDF parameters and salt travel WITH the file (PBKDF2-SHA-256), so a fresh install opens it before any local vault exists.
+     * The restored Identity Vault store keeps its own salt and opens with the vault passphrase it had on the original device.
+     * Restore is atomic: the file is opened and verified (passphrase, hashes, schema, migration in a staging copy) BEFORE anything on this
+     * device is touched; a failed read-back writes the pre-restore snapshot back. Forge cannot recover a lost passphrase. */
+    const STORES = () => (store.allStores || opts.categories || []).filter(c => c !== 'restore_rollback');
+    const dflt = c => (c === 'meta' ? {} : []); let lastExport = null;
+    async function portableBackup(pass, o) { o = o || {}; const pr = PV.passphraseProblem(pass); if (pr) return { ok: false, rule: 'BACKUP-PASSPHRASE-RULE', detail: pr };
+      const d = perm.authorize('backup.create', { userTap: !!o.userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+      const stores = STORES(); const data = {}; for (const c of stores) data[c] = store.load(c); const mig = store.load('migrations'); const app_schema = mig && !Array.isArray(mig) && mig.schema ? mig.schema : MG.SCHEMA;
+      const manifest = { format: 'forge-mobile-portable-backup', format_version: 1, app_schema, created: now(), stores, data_sha256: sha256(Gv.canon(data)) };
+      const box = await PV.portableSeal(pass, JSON.stringify({ manifest, data }), { iterations: o.iterations }); lastExport = { at: manifest.created, manifest_sha256: sha256(Gv.canon(manifest)) };
+      return { ok: true, file: { format: manifest.format, format_version: 1, app_schema, created: manifest.created, stores, manifest_sha256: lastExport.manifest_sha256, box } }; }
+    async function openPortable(file, pass) { if (!file || file.format !== 'forge-mobile-portable-backup') return { err: 'BACKUP-FORMAT' }; if (!PORTABLE_VERSIONS.includes(file.format_version)) return { err: 'BACKUP-FORMAT-VERSION' };
+      let o; try { o = JSON.parse(await PV.portableOpen(pass, file.box)); } catch (e) { return { err: /KDF/.test(String(e && e.message)) ? 'BACKUP-KDF-UNSUPPORTED' : 'BACKUP-WRONG-PASSPHRASE-OR-CORRUPT' }; }
+      if (!o || !o.manifest || !o.data || sha256(Gv.canon(o.data)) !== o.manifest.data_sha256 || sha256(Gv.canon(o.manifest)) !== file.manifest_sha256) return { err: 'BACKUP-MANIFEST-MISMATCH' };
+      if (!(o.manifest.app_schema >= 0) || o.manifest.app_schema > MG.SCHEMA) return { err: 'BACKUP-SCHEMA-NEWER-THAN-APP' };
+      const stage = JSON.parse(JSON.stringify(o.data)); const ss = { load: c => (stage[c] === undefined ? dflt(c) : JSON.parse(JSON.stringify(stage[c]))), save: (c, v) => { stage[c] = JSON.parse(JSON.stringify(v)); } };
+      const m0 = ss.load('migrations'); if (!m0 || Array.isArray(m0) || (m0.schema || 0) !== o.manifest.app_schema) ss.save('migrations', Object.assign({ applied: [] }, m0 && !Array.isArray(m0) ? m0 : {}, { schema: o.manifest.app_schema }));
+      const mr = MG.migrate(ss, now()); if (mr.applied_now.some(x => x.error)) return { err: 'BACKUP-MIGRATION-FAILED' };
+      return { manifest: o.manifest, data: stage, migrated: mr.applied_now.map(x => x.id) }; }
+    const PORTABLE_VERSIONS = [1];
+    async function inspectPortable(file, pass) { const r = await openPortable(file, pass); return r.err ? { ok: false, rule: r.err } : { ok: true, app_schema: r.manifest.app_schema, stores: Object.keys(r.data).length, created: r.manifest.created, migrations: r.migrated }; }
+    function writeAll(data) { for (const c of Object.keys(data)) store.save(c, data[c]); return Object.keys(data).filter(c => Gv.hash(store.load(c)) !== Gv.hash(data[c])); }
+    async function portableRestore(file, pass, o) { o = o || {}; const r = await openPortable(file, pass); if (r.err) return { ok: false, rule: r.err, changed: false };
+      const d = perm.authorize('backup.restore', { userTap: !!o.userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule, changed: false };
+      const names = [...new Set(Object.keys(r.data).concat(STORES()))]; const snap = {}; for (const c of names) snap[c] = store.load(c);
+      const target = {}; for (const c of names) target[c] = r.data[c] === undefined ? snap[c] : r.data[c];
+      for (const c of Object.keys(target)) store.save(c, target[c]); if (o.faultyWrite) o.faultyWrite(store); /* test hook: storage that does not keep what was written */
+      const bad = Object.keys(target).filter(c => Gv.hash(store.load(c)) !== Gv.hash(target[c]));
+      if (bad.length) { const left = writeAll(snap); return { ok: false, rule: 'RB-READBACK-MISMATCH-ROLLBACK', bad, rolled_back: !left.length, changed: false }; }
+      store.save('restore_rollback', { at: now(), data: snap }); return { ok: true, restored: Object.keys(r.data).length, migrated: r.migrated, readback: 'match', rollback: 'available (pre-restore snapshot)' }; }
+    function rollbackRestore(o) { o = o || {}; const rb = store.load('restore_rollback'); if (!rb || Array.isArray(rb) || !rb.data) return { ok: false, rule: 'RB-NO-PRE-RESTORE-SNAPSHOT' };
+      const d = perm.authorize('backup.restore', { userTap: !!o.userTap, subject: 'rollback' }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+      const bad = writeAll(rb.data); if (bad.length) return { ok: false, rule: 'RB-READBACK-MISMATCH', bad }; store.save('restore_rollback', []); return { ok: true, restored: Object.keys(rb.data).length, readback: 'match' }; }
+    /* Delete all local data: export first, typed confirmation, lists exactly what is removed */
+    const DELETE_PHRASE = 'DELETE ALL';
+    function deletePlan() { const stores = STORES().concat(['restore_rollback']).map(c => { const v = store.load(c); return { store: c, items: Array.isArray(v) ? v.length : v && typeof v === 'object' ? Object.keys(v).length : 0 }; });
+      return { stores, browser: ['localStorage keys kernel.<store> for every store listed', 'localStorage UI flags (forge_*)', 'service-worker caches (app shell and reminder mirror)', 'the device signing key (inside the vault store)'], not_removed: ['copies already shared to the shared layer or a home node', 'backup files you downloaded'], confirm_phrase: DELETE_PHRASE, export_first: true, exported: lastExport }; }
+    function deleteAll(o) { o = o || {}; if (!lastExport) return { ok: false, rule: 'DELETE-EXPORT-FIRST' }; if (o.confirm !== DELETE_PHRASE) return { ok: false, rule: 'DELETE-CONFIRMATION-MISMATCH' };
+      const d = perm.authorize('data.delete_all', { userTap: !!o.userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule }; const plan = deletePlan();
+      for (const p of plan.stores) store.save(p.store, dflt(p.store)); return { ok: true, removed: plan.stores.map(p => p.store), plan }; }
     /* operational identity profiles (Self-Hosted Identity Vault doc): preferences/rules/context; NOT secrets; versioned */
     const PROFILE_FIELDS = ['display_name', 'preferred_style', 'working_hours', 'project_goals', 'agent_rules', 'notation'];
     function saveProfile(p, userTap) { const d = perm.authorize('profile.write', { userTap, subject: p && p.name }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
@@ -62,7 +105,7 @@
       const mem = L('memory').filter(r => r.status === 'active'); const seen = {}; let dup = 0; for (const r of mem) { const k = r.clause ? Gv.hash(r.clause) : r.text; if (seen[k]) dup++; seen[k] = 1; } add('duplicate active facts', dup === 0, { duplicates: dup });
       const tr = L('trace').slice(-20); add('drift monitor (last 20)', !tr.some(t => t.drift && t.drift.band === 'hard_stop'), { eps_s: tr.map(t => t.drift ? t.drift.eps_s : null) });
       return { at: now(), rows, ok: rows.every(r => r.ok) }; }
-    return { feedback, backup, restore, saveProfile, activateProfile, profiles: () => L('profiles'), runRecipe, unpark, RECIPES, diagnostics, gilligan: o => gilligan(store, o) };
+    return { feedback, backup, restore, portableBackup, inspectPortable, portableRestore, rollbackRestore, deletePlan, deleteAll, DELETE_PHRASE, saveProfile, activateProfile, profiles: () => L('profiles'), runRecipe, unpark, RECIPES, diagnostics, gilligan: o => gilligan(store, o) };
   }
   const api = { Operator, gilligan };
   if (isNode) module.exports = api; else root.KOperator = api;
