@@ -6,7 +6,7 @@ Live site: https://bogaertn.github.io/forge-mobile/
 
 ## Release: one command from a fresh clone
 
-Requirements: Node 20 and Python 3 with the `cryptography` package (used by the home-node tests).
+Requirements: Node 20 and Python 3 with the `cryptography` package (used by the home-node tests). CI installs the hash-locked set with `python -m pip install --require-hashes --no-deps -r source/requirements-ci.txt`, and every workflow action is pinned to a commit SHA.
 
 ```
 git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile && sh source/tools/release.sh
@@ -15,7 +15,7 @@ git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile && sh 
 `release.sh` runs four steps in a fixed order. **Verification is the source of release truth.**
 
 1. `source/tools/prepare_clone.sh` decodes the binary inputs into git-ignored paths. The inputs are `data/*.gz.b64`, `icons/*.b64` and `vendor/` at the repo root.
-2. `node source/verify/run.js` runs the full suite. It prints `TOTAL passed/total`. It writes only to the artifact directory `_release/`, which is git-ignored and outside the source tree, and never to a tracked file.
+2. `node source/verify/run.js` runs the full suite. It prints `TOTAL passed/total passed= failed= not_run=`. A check with no authoritative reference is reported NOT_RUN, never as passed; external comparisons use the committed hashes in `source/test/external_fixtures.json`. The build needs 0 failed. It writes only to the artifact directory `_release/`, which is git-ignored and outside the source tree, and never to a tracked file.
 3. `python3 source/build.py` refuses to build unless the verification summary passed on this exact tree. The tree hash covers every shipped input plus the verifier. The build writes `_release/site/` (the Pages deployment) and `_release/single/` (single-file builds). The build date is the commit date, so the same commit always builds byte-identical files.
 4. `node source/tools/verify_release.js` fails unless all of the following hold:
    - every deployed file matches `BUILD_MANIFEST.json`;
@@ -35,9 +35,10 @@ The Pages workflow (`.github/workflows/pages.yml`) runs this same command and up
   - Permission service: `governance.js`.
   - Mobile Identity Vault: `privacy.js`. This is a local encrypted secret store, not the full Identity Vault service.
   - Shared knowledge layer: `shared.js`. Items are signed, consented and treated as evidence only.
-  - Memory Economy: `economy.js`. It is count-only and append-only. The lifecycle is candidate → breath validation → finalized capsule. Revoking credit appends a signed nullification. CT is never money.
+  - Memory Economy: `economy.js`. It is count-only and append-only. The lifecycle is candidate → signed breath validation → finalized capsule. Revoking credit appends a signed nullification. CT is never money. Credit received from another device is reconstructed locally from the signed source manifest; anything missing or mismatching is quarantined and counts zero. A validator ID is derived from the validator's own key. A fork ancestor's ×½ counts zero on other devices until its signed lineage resolves.
+  - First-breath co-creation: co-creators named in the author-signed body who sign that exact draft before publication get ×1. Anyone who co-signs later gets 1/3. Late co-signatures are merged deterministically, one per signer.
   - Attribution ledger: `ledger.js`. Exports carry the full chain or a formal checkpoint.
-  - Backup & Recovery: `operator.js`. The portable encrypted backup opens on a fresh install. Restores are atomic and can be rolled back.
+  - Backup & Recovery: `operator.js`. The portable encrypted backup opens on a fresh install. Restores are staged into a new storage generation and committed by one active-generation pointer switch, so a failure before the switch leaves the old data byte-identical. Backups are size-, depth- and KDF-bounded before any key derivation or decoding.
   - Output forms: `render.js` renders 11 output forms, each with an honest scope label and the common `forge-rmc-output-envelope/v1`.
   - Build Doctor: `doctor.js`. It runs checks and gives fix instructions; it does not repair automatically.
   - Tool Builder: `toolbuilder.js`. User tools run in an isolated, compute-only ForgeScript worker with no network, page or storage access.

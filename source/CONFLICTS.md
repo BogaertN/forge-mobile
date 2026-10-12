@@ -61,3 +61,5 @@ Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation A
 - Doc ties CT to Memory Capsules and payment_reference/investment ledgers; payments and investment are excluded (M5 count-only). Patch 300 keeps economic_processing NOT_AUTHORIZED; mirrored.
 - Doc has no per-use reward; usage/citation are recorded as counts only (decision E2).
 - Fork credit: doc defines Indirect (½) as shaping without originating; used for an original creator of a forked tool. Interpretation, flagged.
+
+- v4.8.4 (user decision 2026-10-12): the doc's co-creator ×1 is limited to first-breath co-creators named in the original author-signed body who co-sign that exact body before first publication; later co-signers get exactly 1/3. Foreign CT is never taken from a publisher's totals: the receiving device reconstructs it and counts zero for anything it cannot verify. The fork ancestor's ×½ stays a provisional Forge Mobile interpretation and counts zero on foreign devices until its signed lineage is resolved. The local reviewer is still not a Memory Steward.
