@@ -230,6 +230,8 @@ require('./w12_suite.js')({ C, expect, KMOD, LEX, EXT, ROOT });
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w17_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'W17', name: 'w17 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+{ let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w18_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'W18', name: 'w18 suite ran', ok: false, why: e.message }]; }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w15_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W15', name: 'w15 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
