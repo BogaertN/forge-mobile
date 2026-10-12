@@ -1,5 +1,5 @@
 {
- "version": "4.8.3",
+ "version": "4.8.4",
  "features": [
   {
    "id": "A-01",
@@ -2393,11 +2393,110 @@
    "proof": [
     "RELEASE"
    ]
+  },
+  {
+   "id": "ECON-RECON",
+   "name": "Foreign credit reconstructed on the receiving device (never trusted from the publisher)",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 1)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "signed manifest -> deterministic candidate -> signed validation -> local policy calc -> finalization; anything missing or mismatching is quarantined and counts zero",
+   "proof": [
+    "ECON-RECONSTRUCT"
+   ]
+  },
+  {
+   "id": "ECON-VALSIG",
+   "name": "Signed BreathValidation (validator ID derived from the validator's key)",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 2)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "free-text validator strings, IDs not derived from the key, publisher stand-in signatures and contributor validations are refused",
+   "proof": [
+    "ECON-VALIDATOR"
+   ]
+  },
+  {
+   "id": "ECON-FORK0",
+   "name": "Fork ancestor x1/2 counts zero on foreign devices until its signed lineage resolves",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, policy)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "provisional policy; fabricated lineage quarantines the capsule",
+   "proof": [
+    "ECON-LINEAGE"
+   ]
+  },
+  {
+   "id": "COSIGN-LATE",
+   "name": "Late co-signatures merged deterministically; first-breath co-creator flow",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 5 + policy)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "x1 only for co-creators named in the author-signed body who signed the exact draft before publication; later co-signers 1/3",
+   "proof": [
+    "COSIGN-MERGE"
+   ]
+  },
+  {
+   "id": "SCHEMA-KIND",
+   "name": "Strict bounded per-kind schemas for claim manifests, tool packages and credit ledgers",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 6)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "checked after signature verification, before storing or rendering",
+   "proof": [
+    "SCHEMA-STRICT"
+   ]
+  },
+  {
+   "id": "RESTORE-GEN",
+   "name": "Atomic restore through staged, versioned storage generations (one active-generation pointer)",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 3)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "tested with a failure at every write position, quota failure, rollback-metadata failure and crash/restart",
+   "proof": [
+    "RECOVERY-ATOMIC"
+   ]
+  },
+  {
+   "id": "BACKUP-LIMITS",
+   "name": "Backup import resource ceiling (validated before any key derivation or decoding)",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 4)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "file size, ciphertext, decoded size, JSON depth, store count, KDF iterations, salt/IV length, base64 form",
+   "proof": [
+    "RECOVERY-LIMITS"
+   ]
+  },
+  {
+   "id": "TEST-HONEST",
+   "name": "Honest test outcomes: passed / failed / NOT_RUN reported separately",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 7)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "external comparisons use committed authoritative hashes; NOT_RUN without a reference, never a size or self-comparison fallback",
+   "proof": [
+    "RELEASE-HONESTY"
+   ]
+  },
+  {
+   "id": "DEP-LOCK",
+   "name": "Locked CI dependencies (actions pinned to commit SHAs; Python set hash-locked)",
+   "source": "user decision 2026-10-12 (v4.8.4 spec, blocker 8)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "source/requirements-ci.txt with --require-hashes",
+   "proof": [
+    "RELEASE-DEPS"
+   ]
   }
  ],
- "count": 223,
+ "count": 232,
  "claims": {
-  "Implemented": 99,
+  "Implemented": 108,
   "Missing": 9,
   "Not feasible on phone": 28,
   "Out of scope / parked": 13,
