@@ -21,9 +21,13 @@
     T('symbols.find', ['FR.TOOL.SYMFIND'], 'read', ['symbol name'], ['definition sites from the index']),
     T('python.crosscheck', ['FR.TOOL.PYCHECK'], 'network_read+compute', ['last math meaning'], ['agree | disagree (sympy in Pyodide, worker-isolated)'], { source: 'pycheck.js + py_worker.js (lazy; explicit tap)' }),
     T('node.job', ['FR.TOOL.NODE'], 'network_read', ['job spec'], ['job result from the paired home node (no model)'], { source: 'nodeclient.js; tools/forge_node.py' }),
+    T('protoforge.drift', ['FR.TOOL.PFDRIFT'], 'compute', ['ε_s series from traces'], ['pattern (DTW), Landauer bounds, trajectory prediction'], { source: 'protoforge.js ← ProtoForge thermodynamic_drift.py' }),
+    T('protoforge.agents', ['FR.TOOL.PFAGENT'], 'compute+local_write', ['spawn | input | hibernate | restore | list'], ['deterministic agent result + hash-chained echo log'], { source: 'protoforge.js ← ProtoForge Build Task 1' }),
+    T('feed.read', ['FR.TOOL.FEED'], 'network_read+vault_write', ['public RSS/Atom URL'], ['item titles + links (sealed in vault; no HTML rendered)'], { source: 'protoforge.parseFeed ← RUNTIME CODEX Vol III §4.1.1' }),
+    T('render.form', ['FR.RENDER'], 'compute', ['previous manifest', 'form'], ['artifact in one RMC output form + per-form echo'], { source: 'render.js (RMC multi-output)' }),
     T('patterns.reflect', ['FR.PATTERNS'], 'read', ['traces, memory, feedback'], ['recurring patterns (Gilligan)']),
   ];
-  const KIND2TOOL = { math: 'math.evaluate', solved: 'math.solve', factored: 'math.solve', system: 'math.solve', calculus: 'math.solve', simplified: 'math.solve', converted: 'units.convert', define: 'lexicon.define', recall: 'memory.query', yesno: 'memory.query', when: 'memory.query', facts: 'memory.query', count: 'memory.query', count_about: 'memory.query', about: 'memory.query', inferred: 'infer.relation', patterns: 'patterns.reflect', sim_result: 'sim.preview', sim_replay: 'sim.preview' };
+  const KIND2TOOL = { pf_drift: 'protoforge.drift', pf_agent: 'protoforge.agents', rendered: 'render.form', render_none: 'render.form', math: 'math.evaluate', solved: 'math.solve', factored: 'math.solve', system: 'math.solve', calculus: 'math.solve', simplified: 'math.solve', converted: 'units.convert', define: 'lexicon.define', recall: 'memory.query', yesno: 'memory.query', when: 'memory.query', facts: 'memory.query', count: 'memory.query', count_about: 'memory.query', about: 'memory.query', inferred: 'infer.relation', patterns: 'patterns.reflect', sim_result: 'sim.preview', sim_replay: 'sim.preview' };
   function Bench(store, opts) {
     opts = opts || {}; const perm = opts.perm; const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
     const byId = {}; for (const m of MANIFESTS) byId[m.id] = Object.assign({}, m, { manifest_hash: Gv.hash(m) });
