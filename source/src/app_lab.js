@@ -1,4 +1,4 @@
-/* app_lab.js — UI chrome for: browser physics preview (M7), audible trace (Harmonic Conductor System A/B), home node pairing + offline
+/* app_lab.js — UI chrome for: browser physics preview (M7), Forge trace sonification preview (not HCS, not music, never .hfield), home node pairing + offline
  * job queue, Pyodide cross-check (lazy, explicit tap), symbol index, Android Share Target intake. Fixed UI vocabulary only (D5);
  * chat replies still come only from the derivation. */
 (function () {
@@ -85,10 +85,10 @@
       else if (a.form === 'speech') body = '<button class="spk">▶ speak</button><div class="meta">' + a.units.map(u => esc(u.text + ' (' + u.contour + ')')).join(' · ') + '</div>';
       else if (a.form === 'tone') body = '<button class="tn">▶ play</button>';
       else body = '<pre class="small art">' + esc(a.content) + '</pre>' + (/^code\./.test(a.form) ? '<button class="runc">Run (needs your tap)</button><button class="copyc">Copy</button><div class="meta runout"></div>' : '');
-      el.insertAdjacentHTML('beforeend', '<div class="artifact"><div class="meta">' + esc(a.form) + ' · echo ' + (a.echo.pass ? 'passed' : 'FAILED') + ' — ' + esc(a.echo.mode || '') + '</div>' + body + '</div>');
+      el.insertAdjacentHTML('beforeend', '<div class="artifact"><div class="meta">' + esc(a.form) + (a.scope ? ' · ' + esc(a.scope.status) + ': ' + esc(a.scope.label) : '') + ' · echo ' + (a.echo.pass ? 'passed' : 'FAILED') + ' — ' + esc(a.echo.mode || '') + '</div>' + body + '</div>');
       const c = el.querySelector('.artifact canvas'); if (c) KRender.drawField(c, a.params);
       const sp = el.querySelector('.spk'); if (sp) sp.onclick = () => { if (!('speechSynthesis' in window)) return; speechSynthesis.cancel(); for (const u of a.units) { const x = new SpeechSynthesisUtterance(u.text); x.pitch = u.contour === 'rise' ? 1.2 : u.contour === 'level-low' ? 0.8 : 1; speechSynthesis.speak(x); } };
-      const tn = el.querySelector('.tn'); if (tn) tn.onclick = () => KSonify.play(a.score);
+      const tn = el.querySelector('.tn'); if (tn) tn.onclick = () => KSonify.play(a.trace_audio);
       const rc = el.querySelector('.runc'); if (rc) rc.onclick = () => { const o = forge.runCode(a, true); el.querySelector('.runout').textContent = o.ok ? JSON.stringify(o.outputs) : o.rule; };
       const cc = el.querySelector('.copyc'); if (cc) cc.onclick = () => navigator.clipboard && navigator.clipboard.writeText(a.content); return; }
     el.insertAdjacentHTML('beforeend', '<select class="rform" aria-label="render this answer as"><option value="">render as…</option>' + Object.keys(FORM_REQ).map(f => '<option value="' + f + '">' + f + '</option>').join('') + '</select>');
