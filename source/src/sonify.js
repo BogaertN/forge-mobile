@@ -1,4 +1,5 @@
-/* Audible Trace Renderer (Harmonic Conductor Studio, 2026-06: "System A" + "System B" first prototype).
+/* Forge trace sonification preview (schema forge-audible-trace-v1). Design taken from the Harmonic Conductor Studio doc (2026-06, "System A" +
+ * "System B" first prototype), but this is NOT HCS: not music, not a Harmonic Field Score, never .hfield. HCS remains a separate application.
  * Truthful sonification: every sound event points back to a logged trace event or rule id — no invented "thinking" sounds.
  * 144 Hz nine-channel codec, as stated in the doc: root 144 Hz, harmonic bands 432 Hz and 1296 Hz, nine channel states.
  * Channel k (k = 1…9) ↔ phase Φk at 144·k Hz (our mapping: it contains 144, 432 = 3·144 and 1296 = 9·144; flagged as ours in CONFLICTS.md).

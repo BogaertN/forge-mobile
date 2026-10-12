@@ -21,8 +21,8 @@ function memory(tr, reply, env) { const rec = { psi_id: tr.psi_id, at: tr.at, op
 /* ---------- speech line (Web Speech API plays it; the line itself is the derived surface split into intonation units) ---------- */
 function speech(tr, reply) { const posture = SON.score(tr, reply).posture; const units = String(reply || '').split(/(?<=[.?!])\s+/).filter(Boolean).map(u => ({ text: u, contour: /\?$/.test(u) ? 'rise' : posture === 'warning' || posture === 'blocked' ? 'level-low' : 'fall' }));
   const joined = units.map(u => u.text).join(' '); return { form: 'speech', mime: 'text/plain', content: joined, units, posture, echo: { pass: joined === reply, mode: 'intonation units re-join to the derived surface (identity round trip)' } }; }
-/* ---------- tone (Harmonic Conductor score) ---------- */
-function tone(tr, reply) { const sc = SON.score(tr, reply); const v = SON.validate(sc, tr); return { form: 'tone', mime: 'application/json', content: JSON.stringify({ posture: sc.posture, events: sc.events.length }), score: sc, echo: { pass: v.ok, mode: 'every event tied to a trace rule; posture not more certain than the manifest', reason: v.reason } }; }
+/* ---------- tone: Forge trace sonification preview (schema forge-audible-trace-v1). Not music, not a Harmonic Field Score, never .hfield ---------- */
+function tone(tr, reply) { const sc = SON.score(tr, reply); const v = SON.validate(sc, tr); return { form: 'tone', mime: 'application/json', content: JSON.stringify({ schema: 'forge-audible-trace-v1', kind: 'trace sonification preview', hfield: false, posture: sc.posture, events: sc.events.length }), trace_audio: sc, echo: { pass: v.ok, mode: 'every event tied to a trace rule; posture not more certain than the manifest', reason: v.reason } }; }
 /* ---------- code: deterministic generation in a declared safe subset ---------- */
 const JSFN = { sin: 'Math.sin', cos: 'Math.cos', tan: 'Math.tan', exp: 'Math.exp', ln: 'Math.log', log: 'Math.log10', sqrt: 'Math.sqrt' }; const PYFN = { sin: 'math.sin', cos: 'math.cos', tan: 'math.tan', exp: 'math.exp', ln: 'math.log', log: 'math.log10', sqrt: 'math.sqrt' };
 function pr(e, lang) { const F = lang === 'py' ? PYFN : JSFN; const P = x => '(' + pr(x, lang) + ')'; switch (e.t) { case 'num': return String(e.v); case 'var': return e.n; case 'const': return e.c === 'pi' ? (lang === 'py' ? 'math.pi' : 'Math.PI') : (lang === 'py' ? 'math.e' : 'Math.E');
@@ -67,13 +67,48 @@ function dashboard(tr) { const d = dashState(tr); return { form: 'dashboard', mi
 function api(tr) { const t = tr.tool_request || tr.tool; const mem = (tr.memory || []).find(m => /write|forget|store|supersede/.test(m.op)); const a = t ? { action: 'tool.invoke', tool: t.tool || t.id || null, frame: t.frame || null } : mem ? { action: /forget/.test(mem.op) ? 'memory.forget' : 'memory.write', op: mem.op } : { action: 'none' };
   const out = Object.assign({ schema: 'rmc-api-action/v1', executed: false, authority: 'permission service decides; this packet grants nothing' }, a); return { form: 'api', mime: 'application/json', content: JSON.stringify(out, null, 1), echo: { pass: out.executed === false && /^(tool\.invoke|memory\.(write|forget)|none)$/.test(out.action), mode: 'declared action from the trace; never executed by rendering' } }; }
 function text(tr, reply, env) { const m = tr.msm && tr.msm.meaning; return { form: 'text', mime: 'text/plain', content: reply || '', echo: m && reply ? Object.assign(D.echo(reply, m, env || {}), {}) : { pass: false, mode: 'no reply' } }; }
-function render(form, tr, reply, env) { switch (form) { case 'text': return text(tr, reply, env); case 'speech': return speech(tr, reply); case 'json': return json(tr, reply, env); case 'code.js': return code(tr, 'js'); case 'code.py': return code(tr, 'py'); case 'glyph': return glyph(tr); case 'field': return field(tr); case 'tone': return tone(tr, reply); case 'dashboard': return dashboard(tr); case 'memory': return memory(tr, reply, env); case 'api': return api(tr); } throw new Error('RENDER-FORM-UNDECLARED'); }
+/* ---------- honest scope of each of the 11 forms (v4.8.3) ---------- */
+const SCOPE = Object.freeze({
+  text: { status: 'implemented', label: 'human text: derived by the Paninian rule engine and checked by Echo' },
+  speech: { status: 'implemented', label: 'speech: the derived text, split into intonation units, played by the device speech engine' },
+  json: { status: 'partial', label: 'JSON/API packet: partial until the full versioned cross-app contract exists' },
+  'code.js': { status: 'partial', label: 'JS code: a narrow deterministic math-artifact subset, not a coding agent' },
+  'code.py': { status: 'partial', label: 'Python code: a narrow deterministic math-artifact subset, not a coding agent' },
+  glyph: { status: 'prototype', label: 'glyph: prototype visualization, not canonical FBSC/HarperScript' },
+  field: { status: 'prototype', label: 'field: simulated coherence visualization, not a physical measurement and not .hfield' },
+  tone: { status: 'prototype', label: 'tone/audio: Forge trace sonification preview, not music and not a Harmonic Field Score' },
+  dashboard: { status: 'partial', label: 'dashboard: compact trace status, not the full layered RMC dashboard' },
+  memory: { status: 'implemented', label: 'memory record: local manifest-derived record' },
+  api: { status: 'implemented', label: 'API action: a non-executing proposal; authority stays with the permission service' } });
+/* HCS boundary (Harmonic Conductor Studio is a separate application; Forge Mobile does not build or embed it and never emits .hfield).
+ * Forge -> HCS (future): a verified request { trace event, authorized phrase, posture, receipt id }.
+ * HCS owns: field score, music/notation, nine-gesture conductor, tracks, timed gestures, motifs, coupling profiles, render settings, audio, 3D,
+ *   waveform, spectrum, syllables, the cymatic model and .hfield. HCS -> Forge (later): an approved score/render receipt.
+ * Forge verifies: packet contract, custody ref, render hashes, privacy, authority, MEA/Echo authorization. Identity Vault supplies custody refs
+ * without exposing identity. No live adapter is claimed until the HCS canonical schema and adapter are independently verified. */
+const HCS_BOUNDARY = Object.freeze({ adapter: 'none (not live)', status: 'boundary documented; awaiting independently verified HCS canonical schema and adapter', forge_sends: ['trace_event', 'authorized_phrase', 'posture', 'receipt_id'],
+  hcs_owns: ['field score', 'music/notation', 'nine-gesture conductor', 'tracks', 'timed gestures', 'motifs', 'coupling profiles', 'render settings', 'audio', '3D', 'waveform', 'spectrum', 'syllables', 'cymatic model', '.hfield'],
+  hcs_returns: 'approved score/render receipt (future)', forge_verifies: ['packet contract', 'custody ref', 'render hashes', 'privacy', 'authority', 'MEA/Echo authorization'], identity_vault: 'custody refs without exposing identity', emits_hfield: false });
+/* ---------- common versioned RMC output envelope ---------- */
+const ENVELOPE_SCHEMA = 'forge-rmc-output-envelope/v1';
+function envelope(form, tr, reply, art) { const m = tr.msm && tr.msm.meaning; const core = { psi_id: tr.psi_id, turn: tr.turn, at: tr.at, meaning: m || null, rules: (tr.rules || []).map(r => r.id) };
+  const ede = tr.ede || (tr.msm && tr.msm.ede) || null;
+  return { schema: ENVELOPE_SCHEMA, form, scope: SCOPE[form], manifest_id: (tr.msm && tr.msm.msm_id) || tr.psi_id || null, trace_id: tr.psi_id || null, trace_hash: sha256(canon(core)),
+    meaning: m || null, claim: reply || null, phase_path: (tr.phases || []).map(p => p.phase), operator_path: (tr.derivation && tr.derivation.rules ? tr.derivation.rules : []).map(r => r.id).slice(0, 80),
+    evidence_refs: (tr.memory || []).filter(x => /^evidence/.test(x.op)).map(x => x.id).filter(Boolean), memory_links: (tr.memory || []).map(x => x.id).filter(Boolean),
+    confidence: tr.echo ? { echo_score: tr.echo.score, theta: tr.echo.theta, basis: 'Echo structural round trip (not a probability)' } : null,
+    novelty: ede ? { status: 'provisional', record: ede, formula_version: ede.novelty_formula_version || null } : { status: 'provisional', record: null, formula_version: null, note: 'no exploration candidate on this turn' },
+    drift: tr.drift ? { eps_s: tr.drift.eps_s, band: tr.drift.band, D_score: tr.drift.D_score } : null, projection: { targets: [form], may_project: tr.containment ? !!tr.containment.may_project : null, route: tr.containment ? tr.containment.route : null },
+    gates: tr.gates || {}, authority: 'evidence_only; the permission service decides every action; this envelope grants nothing', permission_state: tr.permission ? { action: tr.permission.action, decision: tr.permission.decision || null, rule: tr.permission.rule || null } : { action: null, decision: 'none requested' },
+    echo: art && art.echo ? { form, pass: !!art.echo.pass, mode: art.echo.mode || null } : { form, pass: false } }; }
+function render(form, tr, reply, env) { const art = renderForm(form, tr, reply, env); art.scope = SCOPE[form]; art.envelope = envelope(form, tr, reply, art); return art; }
+function renderForm(form, tr, reply, env) { switch (form) { case 'text': return text(tr, reply, env); case 'speech': return speech(tr, reply); case 'json': return json(tr, reply, env); case 'code.js': return code(tr, 'js'); case 'code.py': return code(tr, 'py'); case 'glyph': return glyph(tr); case 'field': return field(tr); case 'tone': return tone(tr, reply); case 'dashboard': return dashboard(tr); case 'memory': return memory(tr, reply, env); case 'api': return api(tr); } throw new Error('RENDER-FORM-UNDECLARED'); }
 const ALIASES = [[/^(?:code|javascript|js)$/, 'code.js'], [/^python$|^py$/, 'code.py'], [/^(?:a )?json(?: packet)?$/, 'json'], [/^(?:a )?glyph(?: packet)?$|^svg$/, 'glyph'], [/^(?:a )?(?:cymatic )?field$|^(?:a )?resonance field$/, 'field'], [/^speech$|^(?:a )?speech line$/, 'speech'], [/^(?:a )?tone$|^audio$|^sound$/, 'tone'], [/^(?:the )?dashboard(?: state)?$/, 'dashboard'], [/^(?:a )?memory record$/, 'memory'], [/^(?:an )?api action$/, 'api'], [/^text$|^(?:a )?sentence$/, 'text']];
 function parseRequest(s) { const t = String(s).trim().toLowerCase().replace(/[.!?]+$/, ''); if (/^(?:speak it|say it aloud|read it aloud|speak that)$/.test(t)) return 'speech'; if (/^play it$/.test(t)) return 'tone'; if (/^(?:show\s+)?(?:me\s+)?(?:the\s+)?dashboard(?: state)?$/.test(t)) return 'dashboard';
   const m = t.match(/^(?:(?:show|render|give me|output)\s+)?(?:it|that|this|the last (?:answer|reply))?\s*(?:as|in)\s+(.+)$/); if (!m) return null; for (const [re, f] of ALIASES) if (re.test(m[1])) return f; return null; }
 /* code.run (permission-gated by the caller): evaluate the generated functions with the kernel's own evaluator — never eval/Function */
 function runCode(art) { if (!art || !/^code\./.test(art.form) || !art.echo || !art.echo.pass) return { ok: false, rule: 'CODE-RUN-NOT-VALIDATED' }; const lang = art.form.slice(5); const m = JSON.parse(JSON.parse((art.content.match(lang === 'js' ? /JSON\.parse\(("(?:[^"\\]|\\.)*")\)/ : /json\.loads\(("(?:[^"\\]|\\.)*")\)/) || [])[1] || '"null"')); const ex = m && exprOf(m); if (!ex) return { ok: true, outputs: [], note: 'manifest only; nothing to evaluate' };
   const rm = art.content.match(/ROOTS = \[([^\]]*)\]/); const pts = rm && rm[1].trim() ? rm[1].split(',').map(Number) : [0, 0.5, 1, 2]; return { ok: true, outputs: pts.map(x => ({ [ex.x]: x, [ex.name]: +CA.num(ex.e, { [ex.x]: x }).toPrecision(12) })) }; }
-const api_ = { runCode, FORMS, render, parseRequest, drawField, fieldParams, fieldGrid, symmetry, scanSafe, glyphMarks, cls };
+const api_ = { runCode, FORMS, SCOPE, HCS_BOUNDARY, ENVELOPE_SCHEMA, envelope, render, parseRequest, drawField, fieldParams, fieldGrid, symmetry, scanSafe, glyphMarks, cls };
 if (isNode) module.exports = api_; else root.KRender = api_;
 })(typeof self !== 'undefined' ? self : this);

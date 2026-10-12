@@ -3,8 +3,8 @@
  * sandboxed Worker (tool_worker.js) that is terminated on timeout. Rules: tests are required and must all pass on the exact version before
  * it can be enabled (tap); every save is a new version and one tap rolls back; 3 consecutive runtime failures auto-disable the tool; packages
  * are signed (device ECDSA key) for export/import and the shared-layer marketplace; imports arrive DISABLED and need a permission review plus a
- * test pass before use. Grants beyond pure compute (network, DOM, storage) are refused: ForgeScript has no such capability, and adding one is a
- * new permission-service decision. No prices or payments (economy NOT_AUTHORIZED). Results are evidence only. */
+ * test pass before use. User tools are an isolated COMPUTE-ONLY ForgeScript worker: no network, no page (DOM) and no storage access, and no grant
+ * can add any of them (GRANTS_SUPPORTED is empty by design). No prices or payments (economy NOT_AUTHORIZED). Results are evidence only. */
 (function (root) {
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha; const FS = isNode ? require('./fscript.js') : root.KFScript;

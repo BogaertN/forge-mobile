@@ -1,6 +1,7 @@
 /* doctor.js — Build Doctor + health checks + recovery runbook (Capability Register I-11/K-14) and temporal resonance diagnostics (E-10):
- * a plain DFT over the per-turn drift ε_s and phase Φ series (no FFT library; n ≤ 64). Read-only: the doctor never repairs anything itself;
- * each failing check names the runbook step the user can take. */
+ * a plain DFT over the per-turn drift ε_s and phase Φ series (no FFT library; n ≤ 64). Scope: CHECKS PLUS FIX INSTRUCTIONS, not auto repair.
+ * The doctor never repairs anything itself; each failing check names the runbook step the user can take. Any future auto-fix must have a
+ * preview, explicit approval, a backup, a receipt, a read-back and a rollback before it may exist. */
 (function (root) {
 'use strict';
 const RUNBOOK = { schema: 'reload the app; the migration runner re-applies ordered, idempotent migrations', ledger: 'export a support bundle, then restore the last good backup (Lab → Backup)', receipts: 'export a support bundle; request receipts are append-only and a broken link means tampering or storage loss',
@@ -20,7 +21,7 @@ function run(f, env) { env = env || {}; const st = f.store; const checks = []; c
   const now = Date.parse(env.now || new Date().toISOString()); const late = st.load('reminders').filter(r => r.state === 'pending' && Date.parse(r.due) < now - 36e5).length; add('reminders', !late, late + ' reminders overdue by more than an hour');
   const tm = temporal(st.load('trace')); add('drift', !(tm.drift && tm.drift.mean > 0.35), tm.drift ? 'mean ε_s ' + tm.drift.mean + ', dominant period ' + tm.drift.dominant_period_turns + ' turns' : tm.note);
   if (env.sw !== undefined) add('service_worker', env.sw, env.sw ? 'service worker active (offline ready)' : 'no service worker');
-  return { ok: checks.every(c => c.ok), checks, temporal: tm, read_only: true }; }
+  return { ok: checks.every(c => c.ok), checks, temporal: tm, read_only: true, scope: 'checks plus fix instructions; no auto repair' }; }
 const api = { run, dft, temporal, RUNBOOK };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KDoctor = api;
 })(typeof self !== 'undefined' ? self : this);
