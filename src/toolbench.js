@@ -27,6 +27,7 @@
     T('protoforge.drift', ['FR.TOOL.PFDRIFT'], 'compute', ['ε_s series from traces'], ['pattern (DTW), Landauer bounds, trajectory prediction'], { source: 'protoforge.js ← ProtoForge thermodynamic_drift.py' }),
     T('protoforge.agents', ['FR.TOOL.PFAGENT'], 'compute+local_write', ['spawn | input | hibernate | restore | list'], ['deterministic agent result + hash-chained echo log'], { source: 'protoforge.js ← ProtoForge Build Task 1' }),
     T('feed.read', ['FR.TOOL.FEED'], 'network_read+vault_write', ['public RSS/Atom URL'], ['item titles + links (sealed in vault; no HTML rendered)'], { source: 'protoforge.parseFeed ← RUNTIME CODEX Vol III §4.1.1' }),
+    T('notes.seal', ['FR.NOTE.SEAL'], 'vault_write', ['note id'], ['vault reference'], { source: 'kernel notes + Identity Vault AES-GCM' }),
     T('user.tool', ['FR.TOOL.USER'], 'compute', ['enabled user tool name', 'text input'], ['tool value (evidence)'], { source: 'toolbuilder.js — ForgeScript in a sandboxed Worker; tested + enabled tools only' }),
     T('ede.explore', ['FR.TOOL.EDE'], 'compute+local_write', ['committed memory (anchors)', 'seed'], ['bounded candidates (pending score) + archived branches (projection blocked)'], { source: 'ede.js ← RMC §5.6 / §8.3 Algorithm 3' }),
     T('sim3d.run', ['FR.TOOL.SIM3D'], 'compute', ['bodies | URDF subset, seed'], ['labelled 3-D preview + hash-chained frames (replayable)'], { source: 'sim3d.js (cannon-es + three.js, vendored MIT); not a PyBullet result' }),

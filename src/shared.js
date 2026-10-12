@@ -28,12 +28,15 @@ function Signer(store, vault) { const KEY = 'signing_key';
     const sig = await subtle().sign({ name: 'ECDSA', hash: 'SHA-256' }, key, te.encode(canon(body))); return { sig: b64(sig), signer: k.signer, pub: k.pub }; }
   return { ensure, sign, id: () => { const k = store.load(KEY); return k && k.signer ? k.signer : null; } }; }
 async function verifySig(body, sig, pub) { try { const key = await subtle().importKey('jwk', Object.assign({ ext: true }, pub), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']); return await subtle().verify({ name: 'ECDSA', hash: 'SHA-256' }, key, unb64(sig), te.encode(canon(body))); } catch (e) { return false; } }
-const bodyOf = m => { const b = Object.assign({}, m); delete b.sig; delete b.id; return b; };
+const bodyOf = m => { const b = Object.assign({}, m); delete b.sig; delete b.id; delete b.cosigners; return b; }; /* co-signatures sign the same body */
 const hasForbidden = o => (o && typeof o === 'object' ? Object.keys(o).some(k => FORBIDDEN_KEYS.test(k) || hasForbidden(o[k])) : false);
-async function check(m) { if (!m || typeof m !== 'object' || !/^emn:/.test(m.id || '')) return 'SHARED-BAD-SHAPE'; if (!/^emn-(claim-manifest|tool-package)\/v1$/.test(m.schema || '')) return 'SHARED-SCHEMA';
+async function check(m) { if (!m || typeof m !== 'object' || !/^emn:/.test(m.id || '')) return 'SHARED-BAD-SHAPE'; if (!/^emn-(claim-manifest|tool-package|credit-ledger)\/v1$/.test(m.schema || '')) return 'SHARED-SCHEMA';
   if ('emn:' + sha256(canon(bodyOf(m))) !== m.id) return 'SHARED-ID-HASH'; if (!m.source || !m.source.pub || !m.sig) return 'SHARED-UNSIGNED';
   if ('sig-' + sha256(canon(m.source.pub)).slice(0, 16) !== m.source.signer) return 'SHARED-SIGNER-MISMATCH'; if (!(await verifySig(bodyOf(m), m.sig, m.source.pub))) return 'SHARED-SIGNATURE';
-  if (SECRETISH.test(JSON.stringify(m))) return 'SHARED-SECRET-SHAPE'; if (hasForbidden(m)) return 'SHARED-ECONOMY-NOT-AUTHORIZED'; if (m.authority !== 'evidence_only') return 'SHARED-AUTHORITY-CLAIM'; return null; }
+  if (SECRETISH.test(JSON.stringify(m))) return 'SHARED-SECRET-SHAPE'; if (hasForbidden(m)) return 'SHARED-ECONOMY-NOT-AUTHORIZED'; if (m.authority !== 'evidence_only') return 'SHARED-AUTHORITY-CLAIM';
+  if (m.cosigners !== undefined) { if (!Array.isArray(m.cosigners) || m.cosigners.length > 8) return 'SHARED-COSIGN-SHAPE'; const seen = new Set([m.source.signer]);
+    for (const c of m.cosigners) { if (!c || !c.pub || !c.sig || seen.has(c.signer) || 'sig-' + sha256(canon(c.pub)).slice(0, 16) !== c.signer) return 'SHARED-COSIGNER-MISMATCH'; if (!(await verifySig(bodyOf(m), c.sig, c.pub))) return 'SHARED-COSIGNATURE'; seen.add(c.signer); } }
+  return null; }
 const norm = t => String(t || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
 function Shared(store, deps) { const { perm, ledger, signer } = deps; const now = () => (deps.clock ? deps.clock() : new Date().toISOString());
   async function publish(body) { const k = await signer.ensure(); if (!k) return { ok: false, rule: 'SHARED-VAULT-LOCKED' };
@@ -49,9 +52,18 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
       evidence: [{ type: 'contributor statement', ref: 'rec:' + sha256(r.id).slice(0, 16), method: 'user assertion via Forge kernel', uncertainty: 'unassessed' }], ancestry_root: o.root || 'root:' + sha256(norm(text) + '|' + (signer.id() || '')).slice(0, 16),
       source: { kind: 'user_memory', device: ledger.device() }, created: now(), authority: 'evidence_only', proof_debt: true, consent: { item: recordId, at: now(), scope: 'shared_layer', revocable: true } };
     const res = await publish(body); if (res.ok) ledger.append('shared_contribution', res.manifest.id); return res; }
+  /* E3 co-signing: a collaborator signs the author's exact body; the author attaches it before (or after) publishing — id is unchanged */
+  async function cosign(m, o) { o = o || {}; const d = perm.authorize('shared.contribute', { userTap: !!o.userTap, subject: m && m.id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+    const err = await check(m); if (err) return { ok: false, rule: err }; const k = await signer.ensure(); if (!k) return { ok: false, rule: 'SHARED-VAULT-LOCKED' }; if (k.signer === m.source.signer) return { ok: false, rule: 'SHARED-COSIGN-SELF' };
+    const sg = await signer.sign(bodyOf(m)); return { ok: true, cosignature: { signer: k.signer, pub: k.pub, sig: sg.sig, at: now() } }; }
+  async function attachCosignature(id, cs) { const out = store.load('shared_outbox'); const m = out.find(x => x.id === id); if (!m) return { ok: false, rule: 'SHARED-NO-SUCH-CONTRIBUTION' };
+    const t = Object.assign({}, m, { cosigners: (m.cosigners || []).filter(c => c.signer !== cs.signer).concat([cs]) }); delete t._state; const err = await check(t); if (err) return { ok: false, rule: err };
+    m.cosigners = t.cosigners; if (m._state === 'pushed') m._state = 'pending'; store.save('shared_outbox', out); return { ok: true, cosigners: m.cosigners.length }; }
   function revoke(id) { const out = store.load('shared_outbox'); const m = out.find(x => x.id === id); if (!m) return { ok: false, rule: 'SHARED-NO-SUCH-CONTRIBUTION' }; m._state = 'revoked'; m._revoked_at = now(); store.save('shared_outbox', out); return { ok: true, note: 'copies already pulled by others cannot be recalled; future pushes stop' }; }
   async function receive(list) { const inbox = store.load('shared_inbox'); const res = { quarantined: 0, refused: [], dup: 0 }; const mine = new Set(store.load('shared_outbox').map(x => x.id));
     for (const m of (Array.isArray(list) ? list : []).slice(0, 500)) { if (inbox.some(x => x.manifest.id === m.id) || mine.has(m && m.id)) { res.dup++; continue; } const err = await check(m); if (err) { res.refused.push(err); continue; }
+      if (m.kind === 'credit_ledger') { const r = deps.economy ? deps.economy.mergeForeign(m) : { ok: false, rule: 'ECON-ABSENT' }; (res.credit = res.credit || []).push(r.rule || 'ok'); continue; }
+      if (m.cosigners) { const i2 = inbox.find(x => x.manifest.id === m.id); if (i2) { i2.manifest.cosigners = m.cosigners; continue; } }
       inbox.push({ manifest: m, status: 'quarantined', received: now(), checks: ['id-hash', 'signature', 'signer-key', 'secret-shape', 'no-economy', 'evidence_only'] }); res.quarantined++; }
     store.save('shared_inbox', inbox.slice(-2000)); return res; }
   function review(id, decision, o) { o = o || {}; const d = perm.authorize('shared.review', { userTap: !!o.userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
@@ -75,7 +87,7 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
     const cur = store.load('shared_cursor'); let since = (cur && cur.since) || 0; let got = { quarantined: 0, refused: [], dup: 0 };
     for (let i = 0; i < 25; i++) { const r = await rpc('shared.get', { since }); if (!r || !r.ok) break; const x = await receive(r.manifests); got.quarantined += x.quarantined; got.dup += x.dup; got.refused.push(...x.refused); if (r.next === since || !r.manifests.length) break; since = r.next; }
     store.save('shared_cursor', { since }); return { ok: true, pushed, received: got }; }
-  return { publish, contribute, revoke, receive, review, challenge, assess, sync, outbox: () => store.load('shared_outbox'), inbox: () => store.load('shared_inbox'), knowledge: () => store.load('shared_knowledge') }; }
+  return { publish, contribute, cosign, attachCosignature, revoke, receive, review, challenge, assess, sync, outbox: () => store.load('shared_outbox'), inbox: () => store.load('shared_inbox'), knowledge: () => store.load('shared_knowledge') }; }
 const api = { Shared, Signer, check, verifySig, canon, CHALLENGES, STATES, SECRETISH };
 if (isNode) module.exports = api; else root.KShared = api;
 })(typeof self !== 'undefined' ? self : this);
