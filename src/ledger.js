@@ -5,7 +5,7 @@
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const canon = o => (Array.isArray(o) ? '[' + o.map(canon).join(',') + ']' : o && typeof o === 'object' ? '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}' : JSON.stringify(o));
-const KINDS = ['memory_write', 'memory_forget', 'loop_sealed', 'drift_archived', 'capture', 'consent', 'sync_bundle', 'export'];
+const KINDS = ['memory_write', 'memory_forget', 'loop_sealed', 'drift_archived', 'capture', 'consent', 'sync_bundle', 'export', 'shared_contribution', 'shared_accept', 'tool_publish', 'tool_use', 'knowledge_cite', 'economy_count'];
 const entryHash = e => sha256(canon({ device: e.device, seq: e.seq, prev: e.prev, kind: e.kind, payload_sha256: e.payload_sha256, at: e.at }));
 function verifyChain(chain) { if (!Array.isArray(chain) || !chain.length) return { ok: true, n: 0 }; const dev = chain[0].device;
   for (let i = 0; i < chain.length; i++) { const e = chain[i]; if (e.device !== dev) return { ok: false, at: i, why: 'LEDGER-MIXED-DEVICE' }; if (e.seq !== i + 1) return { ok: false, at: i, why: 'LEDGER-SEQ-GAP' };

@@ -4,7 +4,7 @@
 (function (root) {
 'use strict';
 const GL = typeof globalThis !== 'undefined' ? globalThis : root;
-const OPS = ['ping', 'fetch', 'job.submit', 'job.status', 'job.list', 'sync.put', 'sync.get'];
+const OPS = ['ping', 'fetch', 'job.submit', 'job.status', 'job.list', 'sync.put', 'sync.get', 'shared.put', 'shared.get'];
 const te = new TextEncoder(), td = new TextDecoder();
 const b64 = u => { let s = ''; for (const b of new Uint8Array(u)) s += String.fromCharCode(b); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
 const unb64 = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const b = atob(s); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
@@ -19,16 +19,21 @@ function Client(store, opts) { opts = opts || {}; const subtle = opts.subtle || 
    * migrated to the current vault user and flagged legacy_shared until that user re-pairs with their own QR. */
   const vaultUser = () => (opts.vaultUser ? opts.vaultUser() : 'default');
   const table = () => { let t = store.load('node_pairing'); if (!t || Array.isArray(t)) t = {}; if (t.id && !t.byUser) { const vu = vaultUser(); if (!vu) return { byUser: {}, pendingLegacy: t };
-      t = { byUser: { [vu]: Object.assign({}, t, { legacy_shared: true, migrated_at: now() }) } }; store.save('node_pairing', t); } if (t.pendingLegacy && vaultUser()) { t.byUser = t.byUser || {}; t.byUser[vaultUser()] = Object.assign({}, t.pendingLegacy, { legacy_shared: true, migrated_at: now() }); delete t.pendingLegacy; store.save('node_pairing', t); } t.byUser = t.byUser || {}; return t; };
+      t = { byUser: { [vu]: Object.assign({}, t, { legacy_shared: true, migrated_at: now() }) } }; store.save('node_pairing', t); } if (t.pendingLegacy && vaultUser()) { t.byUser = t.byUser || {}; t.byUser[vaultUser()] = Object.assign({}, t.pendingLegacy, { legacy_shared: true, migrated_at: now() }); delete t.pendingLegacy; store.save('node_pairing', t); } t.byUser = t.byUser || {};
+    /* shared knowledge layer (2026-10-11): a legacy shared key is the SHARED-LAYER key; it is copied into the shared slot (never revoked) */
+    if (!t.shared) { const leg = Object.values(t.byUser).find(x => x && x.legacy_shared); if (leg) { t.shared = Object.assign({}, leg, { role: 'shared_layer' }); store.save('node_pairing', t); } } return t; };
   const pairing = () => { const vu = vaultUser(); if (!vu) return null; const p = table().byUser[vu]; return p && p.id ? Object.assign({ vault_user: vu }, p) : null; };
   const savePairing = p => { const t = table(); const vu = p.vault_user; const q = Object.assign({}, p); delete q.vault_user; t.byUser[vu] = q; store.save('node_pairing', t); };
   async function pair(uri, sealSecret) { const vu = vaultUser(); if (!vu) return { ok: false, rule: 'NODE-PAIRING-NO-VAULT-USER' }; const p = parsePairing(uri); if (!p) return { ok: false, rule: 'NODE-PAIRING-URI-INVALID' };
     const t = table(); if (Object.entries(t.byUser).some(([u, x]) => u !== vu && x.id === p.id && !x.legacy_shared)) return { ok: false, rule: 'NODE-KEY-BELONGS-TO-ANOTHER-VAULT-USER' };
     const ref = await sealSecret(p.k, p.id); if (!ref) return { ok: false, rule: 'NODE-PAIRING-VAULT-LOCKED' };
     savePairing({ vault_user: vu, id: p.id, url: p.url, key_ref: ref, ctr: 0, paired_at: now(), legacy_shared: false }); return { ok: true, id: p.id, url: p.url, vault_user: vu }; }
+  const sharedPairing = () => { const t = table(); return t.shared && t.shared.id ? Object.assign({ shared: true }, t.shared) : null; };
+  async function pairShared(uri, sealSecret) { const p = parsePairing(uri); if (!p) return { ok: false, rule: 'NODE-PAIRING-URI-INVALID' }; const ref = await sealSecret(p.k, p.id); if (!ref) return { ok: false, rule: 'NODE-PAIRING-VAULT-LOCKED' };
+    const t = table(); t.shared = { id: p.id, url: p.url, key_ref: ref, ctr: 0, paired_at: now(), role: 'shared_layer' }; store.save('node_pairing', t); return { ok: true, id: p.id, url: p.url, role: 'shared_layer' }; }
   function unpair() { const vu = vaultUser(); const t = table(); delete t.byUser[vu]; store.save('node_pairing', t); return { ok: true }; }
-  async function rpc(op, args, revealSecret) { if (!OPS.includes(op)) throw new Error('NODE-OP-NOT-DECLARED'); const p = pairing(); if (!p) throw new Error('NODE-NOT-PAIRED'); const k = await revealSecret(p.key_ref); if (!k) throw new Error('NODE-VAULT-LOCKED');
-    const key = await keyFrom(k, p.id, subtle); const ctr = Math.max(p.ctr + 1, Math.floor(nowSec() * 1000)); p.ctr = ctr; savePairing(p);
+  async function rpc(op, args, revealSecret, o) { if (!OPS.includes(op)) throw new Error('NODE-OP-NOT-DECLARED'); const sh = !!(o && o.shared); const p = sh ? sharedPairing() : pairing(); if (!p) throw new Error('NODE-NOT-PAIRED'); const k = await revealSecret(p.key_ref); if (!k) throw new Error('NODE-VAULT-LOCKED');
+    const key = await keyFrom(k, p.id, subtle); const ctr = Math.max(p.ctr + 1, Math.floor(nowSec() * 1000)); p.ctr = ctr; if (sh) { const t = table(); t.shared.ctr = ctr; store.save('node_pairing', t); } else savePairing(p);
     const iv = (opts.random || (n => GL.crypto.getRandomValues(new Uint8Array(n))))(12); const pt = te.encode(JSON.stringify({ op, args: args || {}, ts: Math.floor(nowSec()) }));
     const ct = await subtle.encrypt({ name: 'AES-GCM', iv, additionalData: te.encode('forge-node-v1|' + p.id + '|' + ctr) }, key, pt);
     const res = await doFetch(p.url + '/v1/rpc', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ v: 1, id: p.id, ctr, iv: b64(iv), ct: b64(ct) }), credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'no-store' });
@@ -39,7 +44,7 @@ function Client(store, opts) { opts = opts || {}; const subtle = opts.subtle || 
   async function flush(revealSecret) { const q = store.load('node_jobs'); let sent = 0, failed = 0; for (const j of q.filter(x => x.state === 'queued')) { try { const r = await rpc('job.submit', Object.assign({ kind: j.kind }, j.args), revealSecret); if (r && r.ok) { j.state = 'submitted'; j.remote = r.job; sent++; } else { j.state = 'rejected'; j.error = r && r.error; } } catch (e) { failed++; j.last_error = String(e.message).slice(0, 60); break; } }
     store.save('node_jobs', q); return { sent, failed, queued: q.filter(x => x.state === 'queued').length }; }
   async function poll(revealSecret) { const q = store.load('node_jobs'); for (const j of q.filter(x => x.state === 'submitted')) { try { const r = await rpc('job.status', { job: j.remote }, revealSecret); if (r && r.job && /done|failed/.test(r.job.state)) { j.state = r.job.state; j.result_sha256 = r.job.result && r.job.result.sha256 || null; j.result = r.job.result; } } catch (e) { break; } } store.save('node_jobs', q); return q; }
-  return { pairing, pair, unpair, rpc, enqueue, flush, poll, jobs: () => store.load('node_jobs') }; }
+  return { pairing, pair, unpair, rpc, sharedPairing, pairShared, enqueue, flush, poll, jobs: () => store.load('node_jobs') }; }
 const api = { Client, parsePairing, OPS, keyFrom, b64, unb64 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KNode = api;
 })(typeof self !== 'undefined' ? self : this);
