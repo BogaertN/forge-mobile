@@ -1,11 +1,11 @@
 {
  "schema": "forge-mobile-build-manifest/v1",
- "version": "4.6.0",
+ "version": "4.7.0",
  "files": [
   {
    "path": "index.html",
-   "bytes": 12280,
-   "sha256": "11ad3846d08f10241345a28ec57893eed0d276311b466b526c49d79b0d7c3143"
+   "bytes": 12475,
+   "sha256": "6018de2021c95f9ba1023204fd31ae0a47f96ed9602fb8f64ba2e6dc008a3baf"
   },
   {
    "path": "manifest.json",
@@ -14,13 +14,13 @@
   },
   {
    "path": "styles.css",
-   "bytes": 5895,
-   "sha256": "e14e9e0830852034b56fc8cfa643da042b2a278b4876ba79509afc0b592b86f8"
+   "bytes": 6483,
+   "sha256": "6d3ecd87d7124034c8abb52f74408b923c0d5ae889b41e5044cb8bdf202910ba"
   },
   {
    "path": "sw.js",
-   "bytes": 1854,
-   "sha256": "9725944b2842eff315612fe18c897991cfcc3b6d23afe7c115cfbde23e4eb4cc"
+   "bytes": 1983,
+   "sha256": "28239ecb43949b615c0aa6207fb65fc560f8f1bf395aaf5c32143e5ee0db91fb"
   },
   {
    "path": "data/lexicon.json.gz",
@@ -93,14 +93,19 @@
    "sha256": "28d2e6ce44ea79916102f15925dd05c190b51d138684ade377d399305e4402d9"
   },
   {
+   "path": "src/app_extra.js",
+   "bytes": 16218,
+   "sha256": "83af3dab205fa240e6d44cd2b99857537da2eabc22a1dcb4c7605a6084710b0b"
+  },
+  {
    "path": "src/app_lab.js",
-   "bytes": 25088,
-   "sha256": "081de51197ff1bad4f98e69b8645f618401af059c7538fb9ca6d5ab723fcee52"
+   "bytes": 25255,
+   "sha256": "b0608acb712714a1f385da62d85f5c0fcbee1f113e0c4333024b3cde2ab4bd78"
   },
   {
    "path": "src/build-info.js",
-   "bytes": 1456,
-   "sha256": "3ab65471548f4136aa81053e07562d1b42e5b03ede1fea9bc5c07c068bfc3534"
+   "bytes": 1555,
+   "sha256": "113be7df711313c472aa467629124d67775f2d6469370c22395190b08adef4f3"
   },
   {
    "path": "src/calculus.js",
@@ -129,8 +134,8 @@
   },
   {
    "path": "src/derive.js",
-   "bytes": 86269,
-   "sha256": "d92b31bf36f4cc4aa2ba7e918636cca2247ba480c00a47da4672a3784daaf431"
+   "bytes": 86719,
+   "sha256": "10e2e4b01d60a50d56585794e4ddbee629ffc287c68253c19dd919485e898c6f"
   },
   {
    "path": "src/drift_export.js",
@@ -138,19 +143,24 @@
    "sha256": "7dacf88cfddc9fb4be2dfcd401618f90afc58bc70de21b470e3c0042a92814b9"
   },
   {
+   "path": "src/economy.js",
+   "bytes": 5042,
+   "sha256": "02245f094e8cd8af2f62dcab60e79fd36efa4f2a58bd1d034f67c56aab86d0e3"
+  },
+  {
    "path": "src/ede.js",
-   "bytes": 6067,
-   "sha256": "77cd0dc6bc031e74c4acb25cf4d4825567ce25bb7fa4027f41521adff71215ea"
+   "bytes": 7717,
+   "sha256": "0a5d85a9fcf78ad1a331f3b39984d4337ebbbf9a5fc0652f71bcbbc397bdc9ed"
   },
   {
    "path": "src/features.js",
-   "bytes": 66424,
-   "sha256": "6b65d6d458bcff0424d15bf08adf8ba365ee991cbf9de4475e119e20c078c7ee"
+   "bytes": 68136,
+   "sha256": "8c4d146cdeabc942fbc61132b732fddca383657c614647712ea190d327591fb0"
   },
   {
    "path": "src/forge.js",
-   "bytes": 47166,
-   "sha256": "9477986378e5a66fe8042d66ab46bd8c250af12ac52145e3e499fa66af107894"
+   "bytes": 49306,
+   "sha256": "4bf91976997107db74783d9af30bc017a1e2df2fa1a048a26dd367b71d2e0249"
   },
   {
    "path": "src/forge_spine.js",
@@ -158,9 +168,14 @@
    "sha256": "7c4a15f873c5391041bad587592a8ea430ac49104a24ec6633c774dea3ca7b4a"
   },
   {
+   "path": "src/fscript.js",
+   "bytes": 10360,
+   "sha256": "2d631ea43f23292f650d0eb7d1c14b5e3dbea7eecaeb54f5c762d3011fc18602"
+  },
+  {
    "path": "src/governance.js",
-   "bytes": 15547,
-   "sha256": "5ed296ba0313f42957e38224f4c0c5487031367c7886cc796331af62eba421a3"
+   "bytes": 16857,
+   "sha256": "545ce4302ae9767d8a1408c60c3e5aa932953dc704e22b6f706b4551ea321ac8"
   },
   {
    "path": "src/grammar.js",
@@ -174,8 +189,8 @@
   },
   {
    "path": "src/kernel.js",
-   "bytes": 147079,
-   "sha256": "25e96c99849f13b264b97eabec89b26fb3eef2fdc9093e8eb0428d392ba4050e"
+   "bytes": 149405,
+   "sha256": "8396734705b59aa571a09bf37560b78a0d328d3ea8ab68f22217bd4395484229"
   },
   {
    "path": "src/kmath.js",
@@ -184,8 +199,8 @@
   },
   {
    "path": "src/ledger.js",
-   "bytes": 4441,
-   "sha256": "b87bdabdc3e8497f4cf24cc57d34d5b080f43ac526eb953f4b005dcbb7dc5cbb"
+   "bytes": 4544,
+   "sha256": "a730fc85b76ae460a7bfcc3b4843187a1bcd8f2dc49eae8a9c2f3fae6cf1761a"
   },
   {
    "path": "src/legal_flags.js",
@@ -209,8 +224,8 @@
   },
   {
    "path": "src/nodeclient.js",
-   "bytes": 7191,
-   "sha256": "5e995b40e7eb590b5dbcd8fe41c09f87f582cf4a9df4b1d1d1ba00779ddcf050"
+   "bytes": 8333,
+   "sha256": "4d8f444096db96b5f6df7af2a71a4a6ac402afb78cc145875cffec2e82d2eed8"
   },
   {
    "path": "src/operator.js",
@@ -244,8 +259,8 @@
   },
   {
    "path": "src/release.js",
-   "bytes": 4876,
-   "sha256": "53605c986a8efa27a41c61611fa116dbdfff24252a1268029646cc401d5e3f0b"
+   "bytes": 5497,
+   "sha256": "21641ecdc69cdc92c495556b76de59ccce4b297144ca62963f3a325b931f864f"
   },
   {
    "path": "src/render.js",
@@ -256,6 +271,11 @@
    "path": "src/sha256.js",
    "bytes": 2377,
    "sha256": "99d5d1d22b24e0819b5ac612079d69843407035f6d433a54900351c522d8b2b1"
+  },
+  {
+   "path": "src/shared.js",
+   "bytes": 13815,
+   "sha256": "d0c465467e35f58db8410c8cb9f11e187b39bfe9f0f1774b1a06bba4f62fe9cd"
   },
   {
    "path": "src/sim.js",
@@ -288,15 +308,25 @@
    "sha256": "ff23359fa715b6b20abbff17b187fc595973b9f888aac26e06ba8a6d7c53017f"
   },
   {
+   "path": "src/tool_worker.js",
+   "bytes": 837,
+   "sha256": "d2f5fa734696e74fefe8adedaf1ab9ee9bc243ef2440bca6ec834adac6b856a3"
+  },
+  {
    "path": "src/toolbench.js",
-   "bytes": 7908,
-   "sha256": "39db9b5fb8c61222d107636fe83fc64f9d36f402ce527cfe3a625c366450e809"
+   "bytes": 8123,
+   "sha256": "16456e3002951ea3d8e7b0b053fda54e3aeb03e12cddbe12bc2390507c0d869c"
+  },
+  {
+   "path": "src/toolbuilder.js",
+   "bytes": 11810,
+   "sha256": "42cafcc235ef489e1400e655f15e6741fa095bc730bf618a1829b84797aedd78"
   },
   {
    "path": "src/transitions.js",
-   "bytes": 6393,
-   "sha256": "c899fd99b48711453622b55b321c9b7a18acdfa04ab6f15adf47817995988364"
+   "bytes": 9798,
+   "sha256": "f888f1e726f4fc7fce138ef7f7a00e17c2bd82cd82c6e35ec74f8062107b82f2"
   }
  ],
- "manifest_sha256": "63c0af6ed023c7e3f597ec2d015c3bbfcda1b4ad71a09a5bf0018494a37735dd"
+ "manifest_sha256": "e544d6a0f4f74916026dcea19f5593c712edeb174125a5482ba4e7cbeb0d80b7"
 }
