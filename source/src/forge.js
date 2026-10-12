@@ -150,7 +150,7 @@
     function job(upd) { const js = store.load('jobs'); const i = js.findIndex(j => j.id === upd.id); if (i < 0) js.push(upd); else js[i] = Object.assign(js[i], upd); store.save('jobs', js.slice(-200)); }
     const reqLife = TR.RequestLifecycle(store, { clock: opts.clock });
     /* shared knowledge layer + Tool Builder + Memory Economy (count-only) */
-    const signer = SHM.Signer(store, vault); const economy = ECM.Economy(store, { ledger, clock: opts.clock });
+    const signer = SHM.Signer(store, vault); const economy = ECM.Economy(store, { ledger, signer, clock: opts.clock });
     const shared = SHM.Shared(store, { perm: k.perm, ledger, signer, economy, clock: opts.clock });
     const runner = opts.toolRunner || (isNode || typeof Worker === 'undefined' || (typeof location !== 'undefined' && location.protocol === 'file:') ? TBM.localRunner /* single-file build: the interpreter itself has no I/O */ : TBM.workerRunner(new URL('src/tool_worker.js', document.baseURI).href));
     const tools = TBM.Builder(store, { perm: k.perm, ledger, shared, signer, economy, runner, clock: opts.clock });

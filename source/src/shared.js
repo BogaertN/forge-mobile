@@ -69,9 +69,9 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
   function review(id, decision, o) { o = o || {}; const d = perm.authorize('shared.review', { userTap: !!o.userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
     const inbox = store.load('shared_inbox'); const e = inbox.find(x => x.manifest.id === id && x.status === 'quarantined'); if (!e) return { ok: false, rule: 'SHARED-NOT-QUARANTINED' };
     e.status = decision === 'accept' ? 'accepted_as_evidence' : 'rejected'; e.reviewed = now(); e.reason = o.reason || null; store.save('shared_inbox', inbox);
-    if (decision === 'accept') { const kb = store.load('shared_knowledge'); kb.push({ id, manifest: e.manifest, accepted: now(), authority: 'evidence_only' }); store.save('shared_knowledge', kb.slice(-5000)); ledger.append('shared_accept', id); if (deps.economy) deps.economy.count(e.manifest, { difficulty: o.difficulty }); }
+    if (decision === 'accept') { const kb = store.load('shared_knowledge'); kb.push({ id, manifest: e.manifest, accepted: now(), authority: 'evidence_only' }); store.save('shared_knowledge', kb.slice(-5000)); ledger.append('shared_accept', id); if (deps.economy) e.candidate = deps.economy.candidate(e.manifest, { difficulty: o.difficulty }).candidate_id || null; store.save('shared_inbox', inbox); } /* evidence only: a ContributionEventCandidate, never canonical CT */
     if (decision !== 'accept' && deps.economy) deps.economy.void(id, 'rejected at review');
-    return { ok: true, status: e.status }; }
+    return { ok: true, status: e.status, candidate: e.candidate || null }; }
   function challenge(id, type, note) { if (!CHALLENGES.includes(type)) return { ok: false, rule: 'SHARED-CHALLENGE-TYPE' }; const c = store.load('shared_challenges'); c.push({ target: id, type, note: String(note || '').slice(0, 500), at: now() }); store.save('shared_challenges', c.slice(-2000)); return { ok: true }; }
   /* EMN §7–9: support counts distinct ancestry roots (descendants count once); ordinal state + confidence vector; no scalar truth score */
   function assess(prop) { const n = norm(prop); const kb = store.load('shared_knowledge').filter(k => k.manifest.kind === 'claim' && norm(k.manifest.proposition) === n);
