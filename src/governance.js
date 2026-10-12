@@ -38,6 +38,8 @@
     'containment.release': { risk: 'state', rollback: 're-quarantine' },
     'loop.transition': { risk: 'state', rollback: 'transition table only' },
     'sync.run': { risk: 'network', rollback: 'imports land in synced_items only; never overwrite local records' },
+    'memory.seal': { risk: 'local_write', rollback: 'append-only seal record; read-back verified or rolled back' },
+    'code.run': { risk: 'compute', rollback: 'pure evaluation of generated expressions with the kernel evaluator; no eval, no I/O' },
     'export.drift': { risk: 'export', rollback: 'read-only package' },
     'vault.reveal': { risk: 'privacy', rollback: 'none (display only, auto-hide)' },
     'vault.write': { risk: 'privacy', rollback: 'vault remove' },
@@ -80,6 +82,8 @@
       if (action === 'policy.change') { const s = SWITCHES[ctx.key]; if (!s || !s.values[ctx.value]) return { decision: 'deny', rule: 'PERM-POLICY-UNKNOWN-VALUE' }; if (!s.values[ctx.value].built) return { decision: 'deny', rule: 'PERM-POLICY-NOT-BUILT' }; return ctx.userTap ? { decision: 'allow', rule: 'PERM-POLICY-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-POLICY-NEEDS-TAP' }; }
       if (action === 'vault.reveal' || action === 'vault.write') return ctx.unlocked ? (ctx.userTap || action === 'vault.write' ? { decision: 'allow', rule: 'PERM-VAULT-UNLOCKED' } : { decision: 'needs_approval', rule: 'PERM-VAULT-TAP' }) : { decision: 'deny', rule: 'PERM-VAULT-LOCKED' };
       if (action === 'sync.run') { if (pol.nodeSync !== 'sealed_only') return { decision: 'deny', rule: 'PERM-N2-SYNC-OFF' }; return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' }; }
+      if (action === 'memory.seal') return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' };
+      if (action === 'code.run') return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' };
       if (action === 'export.drift') return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' };
       if (action === 'loop.transition') return { decision: 'allow', rule: 'PERM-LIFECYCLE-TABLE' };
       /* every other state or privacy action needs an explicit user tap (UI confirm) */

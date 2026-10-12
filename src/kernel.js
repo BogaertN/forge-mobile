@@ -10,7 +10,7 @@ const L = isNode ? require('./lexicon.js') : root.KLexicon;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const A = isNode ? require('./algebra.js') : root.KAlgebra;
 const CA = isNode ? require('./calculus.js') : root.KCalc;
-const SIM = isNode ? require('./sim.js') : root.KSim; const SY = isNode ? require('./symbols.js') : root.KSymbols;
+const SIM = isNode ? require('./sim.js') : root.KSim; const RD = isNode ? require('./render.js') : root.KRender; const PF = isNode ? require('./protoforge.js') : root.KProtoForge; const SY = isNode ? require('./symbols.js') : root.KSymbols;
 const G = isNode ? require('./grammar.js') : root.KGrammar;
 const D = isNode ? require('./derive.js') : root.KDerive;
 const IF = isNode ? require('./infer.js') : root.KInfer;
@@ -18,7 +18,7 @@ const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const TB = isNode ? require('./toolbench.js') : root.KTools;
 const OP = isNode ? require('./operator.js') : root.KOperator;
 
-const CATEGORIES = ['device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'dream_quarantine', 'ghost_loops', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path'];
+const CATEGORIES = ['pf_echo', 'pf_agents', 'pf_drift_log', 'mea_seals', 'capsules', 'council', 'promotions', 'device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'dream_quarantine', 'ghost_loops', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path'];
 function MemoryStore(backend) { const mem = {}; const b = backend || { get: k => mem[k], set: (k, v) => { mem[k] = v; } };
   return { load(cat) { const v = b.get('kernel.' + cat); return v ? JSON.parse(v) : (cat === 'meta' ? {} : []); }, save(cat, val) { b.set('kernel.' + cat, JSON.stringify(val)); }, categories: CATEGORIES }; }
 function canon(o) { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); }
@@ -187,7 +187,7 @@ function Kernel(opts) {
   const roleKey = c => { const o = {}; for (const [k, v] of Object.entries(c.roles || {})) o[k] = v && v.clause ? canon(G.material(v.clause)) : entKey(v); for (const a of c.adj || []) (o['adj:' + (a.prep || a.role)] = o['adj:' + (a.prep || a.role)] || []).push(a.np ? entKey(a.np) : a.time); return o; };
   const subjMatch = (qs, rs) => { if (!qs) return true; const b = entKeys(rs); return entKeys(qs).every(k => b.includes(k)); };
   /* W3 quantifier scope (Doc3 scope; Doc6 §29): universal subject + indefinite object stores the surface reading ∀x∃y; the inverse ∃y∀x is preserved as an unselected reading and is never entailed */
-  let sideRules = [];
+  let sideRules = []; let pendingRender = null;
   const QCLASS = q => (q === 'every' || q === 'each' || q === 'all') ? 'univ' : q || null;
   function scopeOf(c) { if (!c || c.coord || !c.subj || QCLASS(c.subj.quant) !== 'univ') return null; const k = c.roles && c.roles.karma; if (!k || k.clause || !(k.det === 'a' || k.det === 'an' || k.quant === 'some')) return null;
     return { selected: '∀x∃y', preserved: ['∃y∀x'], rule: 'LL-QSCOPE-SURFACE' }; }
@@ -333,8 +333,25 @@ function Kernel(opts) {
       rules.push({ id: unk.length ? 'RMC-UNNAMEABLE-PROJECTION' : 'RMC-QUOTATION-NAMED', doc: 'RMC Addendum §4; RPMC §1.4 (Φ7 naming precedes Φ8)', note: unk.length ? 'content cannot be named at Φ7 → attempted Φ5→Φ8' : 'quotation named at Φ7 as a quotation; lawful Φ6→Φ7→Φ8' });
       return res('SELECTED_MEANING', { kind: 'quoted', text: txt }, { frame: 'FR.SAY', act: 'request', forbiddenPath: unk.length > 0, literal: unk }); }
     // forget/delete: handled by FR.FORGET in grammarFrames (confirmation → cold storage; Doc7)
+    /* ProtoForge tools (EchoForge bench): thermodynamic drift analysis + deterministic agents (protoforge.js) */
+    if (/^(?:please )?(?:analy[sz]e|check) (?:my |the )?drift(?: pattern)?$/.test(low)) { const series = store.load('trace').filter(t => t.drift && typeof t.drift.eps_s === 'number').slice(-50).map(t => t.drift.eps_s); const a = PF.analyze(series);
+      rules.push({ id: 'EF-FRAME-PFDRIFT', doc: 'ProtoForge thermodynamic_drift.py (DTW classification, Landauer bounds, trajectory prediction)', note: a.n + ' samples' }); return res('SELECTED_MEANING', { kind: 'pf_drift', pattern: a.pattern, intervention: a.prediction.intervention_type, samples: a.n }, { frame: 'FR.TOOL.PFDRIFT', act: 'request' }); }
+    if ((m = low.match(/^(?:please )?spawn (?:an? )?(echo|writer) agent(?: named ([a-z][\w-]{0,29}))?$/))) { const O = PF.Orchestrator(store, { clock: opts.clock }); const r = O.spawn(m[1], m[2]); rules.push({ id: 'EF-FRAME-PFAGENT', doc: 'ProtoForge Build Task 1 (orchestrator.spawn)' });
+      return res('SELECTED_MEANING', { kind: 'pf_agent', action: 'spawn', id: r.agent.id, task: m[1] }, { frame: 'FR.TOOL.PFAGENT', act: 'request' }); }
+    if ((m = low.match(/^(?:please )?(hibernate|restore) agent (pf-\d{1,4})$/))) { const O = PF.Orchestrator(store, { clock: opts.clock }); const r = O[m[1]](m[2]); rules.push({ id: 'EF-FRAME-PFAGENT', doc: 'ProtoForge Build Task 1 (hibernate/restore)' });
+      return res('SELECTED_MEANING', r.ok ? { kind: 'pf_agent', action: m[1], id: m[2], task: r.agent.task } : { kind: 'tool_failed', tool: 'protoforge.agents', reason: r.rule }, { frame: 'FR.TOOL.PFAGENT', act: 'request' }); }
+    if (/^(?:please )?list (?:the |my )?agents$/.test(low)) { const O = PF.Orchestrator(store, { clock: opts.clock }); const a = O.list(); rules.push({ id: 'EF-FRAME-PFAGENT', doc: 'ProtoForge Build Task 1 (list)' });
+      return res('SELECTED_MEANING', a.length ? { kind: 'tool_result', tool: 'protoforge.agents', noun: 'agent', items: a.map(x => x.id + ' ' + x.task + ' ' + x.status), sealed: false } : { kind: 'tool_failed', tool: 'protoforge.agents', reason: 'no agent' }, { frame: 'FR.TOOL.PFAGENT', act: 'question' }); }
+    if ((m = raw.match(/^\s*(?:please\s+)?(?:run|send)\s+agent\s+(pf-\d{1,4})\s+on\s+(.{1,400})$/i))) { const O = PF.Orchestrator(store, { clock: opts.clock }); const r = O.input(m[1], { text: m[2] }); rules.push({ id: 'EF-FRAME-PFAGENT', doc: 'ProtoForge Build Task 1 (input; χ(t) 500 ms; drift threshold 0.4)', note: r.ok ? 'entropy ' + r.entropy : r.rule });
+      return res('SELECTED_MEANING', r.ok ? { kind: 'pf_agent', action: 'run', id: m[1], task: r.result.acted, status: r.status } : { kind: 'tool_failed', tool: 'protoforge.agents', reason: r.rule }, { frame: 'FR.TOOL.PFAGENT', act: 'request' }); }
+    /* RMC multi-output (RMC 00/01): render the previous turn's manifest in another output form; derived reply, per-form Echo */
+    { const tm = raw.match(/^(.*?)\s+(?:for|of)\s+turn\s+(\d{1,6})\s*$/i); const form = RD.parseRequest(tm ? tm[1] : raw); if (form) { const tl = store.load('trace'); const last = tl.slice().reverse().find(t => t.msm && t.msm.meaning && !/^render/.test(t.msm.meaning.kind) && t.output && (!tm || t.turn === +tm[2]));
+      if (!last) { rules.push({ id: 'RMC-RENDER-NO-MANIFEST', doc: 'RMC 01 output forms' }); return res('SELECTED_MEANING', { kind: 'render_none', form }, { frame: 'FR.RENDER', act: 'request' }); }
+      const art = RD.render(form, last, last.output, ENV); pendingRender = art; rules.push({ id: 'RMC-RENDER-' + form.toUpperCase().replace('.', '-'), doc: 'RMC 00 §output forms; RMC 01 (one manifest, many forms; Echo per form)', note: art.echo.mode });
+      return res('SELECTED_MEANING', { kind: 'rendered', form, turn: last.turn, pass: !!art.echo.pass }, { frame: 'FR.RENDER', act: 'request' }); } }
     /* EchoForge tool bench frames (user decision D6, 2026-10-11): research / capture / GitHub read / pattern reflection */
     if ((m = raw.match(/^\s*(?:please\s+)?(?:(?:can|could|will|would)\s+you\s+)?(?:research|look\s+up|search\s+the\s+web\s+for|find\s+sources\s+(?:on|about))\s+(.{2,160}?)[\s?.!]*$/i)) && !ctx.negAct) { rules.push({ id: 'EF-FRAME-RESEARCH', doc: 'EchoForge tool bench; forge research_acquisition.py' }); const topic = m[1].replace(/["“”]/g, "'").trim(); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'research.web', target: topic, noun: 'topic' }, { frame: 'FR.TOOL.RESEARCH', act: 'request', toolRequest: { tool: 'research.web', input: topic } }); }
+    if ((m = raw.match(/^\s*(?:please\s+)?(?:read|check|follow)\s+(?:the\s+)?(?:rss\s+|atom\s+|news\s*)?feed:?\s+(https?:\/\/\S{3,400})\s*$/i)) && !ctx.negAct) { const u = m[1].replace(/[)\].,]+$/, ''); rules.push({ id: 'EF-FRAME-FEED', doc: 'RUNTIME CODEX Vol III §4.1.1 RSS feeds (tracker-free; evidence only)' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'feed.read', target: u, noun: 'feed' }, { frame: 'FR.TOOL.FEED', act: 'request', toolRequest: { tool: 'feed.read', input: u } }); }
     if ((m = raw.match(/^\s*(?:please\s+)?(?:capture|clip|save)(?:\s+(?:this|the))?(?:\s+(?:web\s*)?page)?:?\s+(https?:\/\/\S{3,400})\s*$/i)) && !ctx.negAct) { rules.push({ id: 'EF-FRAME-CAPTURE', doc: 'EchoForge tool bench; Register A-07 page capture' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'capture.page', target: m[1].replace(/[)\].,]+$/, ''), noun: 'page' }, { frame: 'FR.TOOL.CAPTURE', act: 'request', toolRequest: { tool: 'capture.page', input: m[1].replace(/[)\].,]+$/, '') } }); }
     if ((m = raw.match(/^\s*(?:please\s+)?index(?:\s+the)?\s+symbols\s+(?:in|of)\s+(?:the\s+)?(?:repo(?:sitory)?\s+)?([\w.-]+\/[\w.-]+)[\s?.!]*$/i)) && !ctx.negAct) { rules.push({ id: 'EF-FRAME-SYMBOLS', doc: 'EchoForge tool bench; mobile plan symbol index' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'github.symbols', target: m[1], noun: 'repository' }, { frame: 'FR.TOOL.SYMBOLS', act: 'request', toolRequest: { tool: 'github.symbols', input: m[1] } }); }
     if ((m = raw.match(/^\s*where\s+is\s+([A-Za-z_$][\w$]{0,80})\s+defined\s*\??\s*$/i))) { const hits = SY.find(store.load('symbol_index'), m[1]); rules.push({ id: 'EF-FRAME-SYMFIND', doc: 'symbol index (exact name match)', note: hits.length + ' hit(s)' });
@@ -756,6 +773,7 @@ function Kernel(opts) {
     /* PRIV-3: plaintext values travel only on a NON-enumerable property (never serialized), and only when the vault seal was derived and delivered */
     const sealOk = curSecrets.length && !trace.blocked && msm.meaning && msm.meaning.kind === 'stored_sensitive';
     Object.defineProperty(outR, 'secrets', { value: sealOk ? curSecrets.map(x => ({ label: x.label, value: x.value, ref: 'mem:' + msm.msm_id.slice(0, 16), at: trace.at })) : [], enumerable: false }); curSecrets = [];
+    if (pendingRender) { const pr = pendingRender; pendingRender = null; Object.defineProperty(outR, 'render', { value: pr, enumerable: false }); trace.render = { form: pr.form, echo: !!(pr.echo && pr.echo.pass), sha256: sha256(String(pr.content)) }; }
     return outR;
   }
   /* held writes (D10 switch): a tap on the RMC Memory tab commits through the same write + read-back path */
