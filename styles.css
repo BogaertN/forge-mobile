@@ -34,3 +34,4 @@ table{border-collapse:collapse;font-size:11px;width:100%;table-layout:fixed}td:f
 .hear{margin-top:4px;font-size:12px}
 canvas{max-width:100%;display:block;margin:6px 0;border-radius:6px}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+.artifact{margin-top:6px;border-top:1px dashed #345;padding-top:4px}.art{max-height:240px;overflow:auto;white-space:pre}.rform{margin-top:4px;font-size:12px}
