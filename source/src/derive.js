@@ -31,22 +31,22 @@ const VERBS = new Set(words('change tag link match forget recover schedule explo
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
-  'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore'));
+  'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause'));
 const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } }; /* will = lṛṭ (3.1.2), not a modal */
 const NOUNS = new Set(words('tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
-  'failure relation sign code divisor limit vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval'));
+  'failure relation sign code divisor limit vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval retention understanding learning behavior experience prediction case cause mechanism explanation premise claim argument counterargument distinction analogy student gardener mechanic player formula plant move strategy mastery adaptation improvement knowledge information change'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences' };
 const ADJ = new Set(words('bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
-  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream'));
+  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited causal stronger qualified affirmative negative behavioral correct unproven uncertain same'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now']);
 const POSTVERB_ADV = new Set(['further', 'again', 'exactly', 'normally', 'unambiguously', 'here', 'yet', 'first', 'locally']);
-const PARTICLES = new Set(['yes', 'no', 'hello', 'goodbye', 'please']);
+const PARTICLES = new Set(['yes', 'no', 'partly', 'hello', 'goodbye', 'please']);
 const SCONJ = new Set(['but', 'so', 'or', 'then']);
-const DETS = new Set(['a', 'the', 'no', 'every', 'any', 'this', 'that', 'those', 'which', 'its', 'my', 'your', 'their']);
+const DETS = new Set(['a', 'the', 'no', 'every', 'any', 'both', 'this', 'that', 'those', 'which', 'its', 'my', 'your', 'their']);
 const SAMP_PR = new Set(['I', 'you', 'they']); const ADDRESSEE_VERBS = new Set(['ask', 'tell', 'show', 'give']);
 /* dhātu-specific kārakas: these roles are licensed only by the listed roots (cf. Pāṇini's root-specific kāraka sūtras) */
 const ROLE_VERBS = { apeksha: ['depend'], upamana: ['record'], domain: ['factor'], sthana: ['close'] };
@@ -54,7 +54,8 @@ const PP_ADJ = new Set();
 const INF_VERBS = new Set(['ask', 'authorize', 'say', 'open', 'want']); const NOUN_INF = new Set(['request']); /* infinitive attachment: licensed by the head (verb or noun) */ /* filled below: adjectives that are past participles of realizer roots */ /* 2.2.5: a bare sampradāna is a sentient pronoun (recipient) */
 const POSS = new Set(['its', 'my', 'your', 'their']);
 const PRON = { I: { nom: 'I', acc: 'me', p: 1, n: 'sg' }, you: { nom: 'you', acc: 'you', p: 2, n: 'pl' }, it: { nom: 'it', acc: 'it', p: 3, n: 'sg' }, they: { nom: 'they', acc: 'them', p: 3, n: 'pl' },
-  that: { nom: 'that', acc: 'that', p: 3, n: 'sg' }, anything: { nom: 'anything', acc: 'anything', p: 3, n: 'sg' }, why: { nom: 'why', acc: 'why', p: 3, n: 'sg' } };
+  that: { nom: 'that', acc: 'that', p: 3, n: 'sg' }, anything: { nom: 'anything', acc: 'anything', p: 3, n: 'sg' }, something: { nom: 'something', acc: 'something', p: 3, n: 'sg' }, nothing: { nom: 'nothing', acc: 'nothing', p: 3, n: 'sg' }, everything: { nom: 'everything', acc: 'everything', p: 3, n: 'sg' },
+  anyone: { nom: 'anyone', acc: 'anyone', p: 3, n: 'sg' }, someone: { nom: 'someone', acc: 'someone', p: 3, n: 'sg' }, noone: { nom: 'noone', acc: 'noone', p: 3, n: 'sg' }, everyone: { nom: 'everyone', acc: 'everyone', p: 3, n: 'sg' }, anybody: { nom: 'anybody', acc: 'anybody', p: 3, n: 'sg' }, somebody: { nom: 'somebody', acc: 'somebody', p: 3, n: 'sg' }, nobody: { nom: 'nobody', acc: 'nobody', p: 3, n: 'sg' }, everybody: { nom: 'everybody', acc: 'everybody', p: 3, n: 'sg' }, why: { nom: 'why', acc: 'why', p: 3, n: 'sg' } };
 const FORM2PRON = {}; for (const [k, v] of Object.entries(PRON)) { (FORM2PRON[v.nom] = FORM2PRON[v.nom] || []).push({ pr: k, c: 'nom' }); if (v.acc !== v.nom) (FORM2PRON[v.acc] = FORM2PRON[v.acc] || []).push({ pr: k, c: 'acc' }); }
 const NAMES = { 'Identity Vault': 'vault', 'permission service': 'service', 'Context Library tab': 'tab', WordNet: 'lexicon', Echo: 'validator', Forge: 'system', EchoForge: 'lane', 'Recursive Manifest Compiler': 'compiler',
   'Forge Bidirectional Language Kernel': 'kernel', 'Doc 9': 'document', 'Forge Mobile': 'system', 'RMC Memory tab': 'tab' };
@@ -389,6 +390,30 @@ const LANE = {
   SELF_REPORT: m => [S(C('find', { karta: I, karma: N('word', { cnt: m.unknown.length, adj: ['unknown'], list: m.unknown.length ? { kind: 'mention', items: m.unknown } : undefined }), tense: 'past' })), S(C('find', { karta: I, karma: N('hold', { cnt: m.held, adj: ['clarification'] }), tense: 'past' })), S(C('find', { karta: I, karma: N('failure', { cnt: m.echoFail, adj: ['echo'] }), tense: 'past' }))],
   ECHO_REVIEW: m => (m.review === null || m.review === undefined ? [S(C('have', { karta: I, karma: N('reply', { det: 'no', adj: ['earlier'] }) }))] : [S(C(m.review ? 'pass' : 'fail', { karta: N('reply', { det: 'the', adj: ['last'] }), karma: Nm('Echo'), tense: 'past' }))]),
   VERIFY_SUITE: () => [S(C('be', { karta: N('lane', { det: 'the' }), pred: N('suite', { det: 'the', of: Nm('Doc 9') }) }))] };
+const reasonNP = n => U(Object.assign({ adjs: [] }, n || {}));
+const reasonFact = (f, fallback, conj) => { const c = C(f.predicate, { karta: reasonNP(f.subject), pol: f.polarity === 'negative' ? 'neg' : 'pos' }); const obj = f.object || fallback; if (obj) c.karma = reasonNP(obj); return S(c, conj ? { conj } : undefined); };
+function reasonPlan(m) {
+  const q = reasonNP(m.query.nominal), retention = N('retention'), causal = N('understanding', { adj: ['causal'] });
+  if (m.mode === 'distinction') return [S(C('differ', { karta: retention, roles: { apadana: causal } })), S(C('keep', { karta: retention, karma: N('information'), roles: { apadana: N('experience') } })), S(C('explain', { karta: causal, karma: N('cause', { pl: true }) }))];
+  if (m.mode === 'analogy') { const a = m.analogy; return [reasonFact({ subject: a.subject, predicate: a.predicate, object: a.object, polarity: 'positive' }), reasonFact({ subject: a.subject, predicate: a.absent, object: a.cause, polarity: 'negative' }, null, 'but'), S(C('have', { karta: N('example', { det: 'the' }), karma: N('distinction', { det: 'the', adj: ['same'] }) }))]; }
+  if (m.mode === 'counterargument') return [S(C('preserve', { karta: retention, karma: N('information'), roles: { apadana: N('experience') } })), S(C('require', { karta: N('learning', { adj: ['limited'] }), karma: causal, pol: 'neg' })), S(C('be', { karta: pr('that'), pred: N('counterargument', { det: 'the', adj: ['affirmative'] }) }), { conj: 'so' })];
+  if (m.mode === 'comparison') return [S(C('cover', { karta: N('argument', { det: 'the', adj: ['qualified'] }), karma: N('fact', { det: 'both', pl: true }) })), S(C('have', { karta: N('argument', { det: 'the', adj: ['affirmative'] }), karma: retention, adv: ['only'] })), S(C('establish', { karta: N('fact', { det: 'no' }), karma: N('change', { det: 'a', of: N('behavior') }) })), S(C('be', { karta: N('argument', { det: 'the', adj: ['qualified'] }), pred: { adj: 'stronger' } }), { conj: 'so' })];
+  if (m.mode === 'revision') return [S(C('support', { karta: N('change', { det: 'a', of: N('behavior') }), karma: q, mod: 'can', roles: { paschat: N('experience') } })), S(C('support', { karta: N('prediction', { det: 'a', adj: ['correct'], of: N('case', { det: 'a', adj: ['new'] }) }), karma: q, mod: 'can', adv: ['also'] })), S(C('support', { karta: N('explanation', { det: 'a', adj: ['causal'] }), karma: causal, mod: 'can' }))];
+  const out = [];
+  if (m.status === 'yes') out.push(S(null, { part: 'yes' })); else if (m.status === 'no') out.push(S(null, { part: 'no' })); else if (m.status === 'qualified') out.push(S(null, { part: 'partly' })); else out.push(S(C('be', { karta: N('answer', { det: 'the' }), pred: { adj: 'uncertain' } })));
+  const r = m.findings.retention[0], u = m.findings.understanding_absent[0], a = m.findings.adaptation[0], f = m.findings.adaptation_absent[0] || m.findings.failure[0];
+  if (r) { out.push(reasonFact(r, m.object)); out.push(S(C('support', { karta: pr('that'), karma: retention }))); }
+  if (u) { out.push(reasonFact(u, null, 'but')); out.push(S(C('support', { karta: pr('that'), karma: causal, pol: 'neg' }))); }
+  if (a) { out.push(reasonFact(a)); out.push(S(C('support', { karta: pr('that'), karma: q }))); }
+  if (f) { out.push(reasonFact(f, null, r || u || a ? 'but' : null)); out.push(S(C('weaken', { karta: pr('that'), karma: q }))); }
+  if (!a && !f) out.push(S(C('establish', { karta: N('premise', { det: 'no' }), karma: N('change', { det: 'a', of: N('behavior') }), roles: { paschat: N('experience') } })));
+  if (r && !a) out.push(S(C('establish', { karta: retention, karma: q, pol: 'neg' })));
+  if (m.status === 'qualified' && r) out.push(S(C('be', { karta: retention, pred: N('form', { det: 'a', adj: ['limited'], of: q }), mod: 'can' })));
+  if (m.status === 'yes') out.push(S(C('support', { karta: N('evidence', { det: 'the' }), karma: q }), { conj: 'so' }));
+  else if (m.status === 'no') out.push(S(C('support', { karta: N('evidence', { det: 'the' }), karma: q, pol: 'neg' }), { conj: 'so' }));
+  else out.push(S(C('be', { karta: N('claim', { det: 'the', adj: ['stronger'] }), pred: { adj: 'unproven' } }), { conj: 'so' }));
+  return out;
+}
 const PLANS = {
   greet: () => [S(null, { part: 'hello' }), S(C('be', { karta: I, pred: N('kernel', { det: 'a', adj: ['deterministic', 'language'] }) })), S(C('type', { karma: Mn('help'), roles: { tadartha: N('list', { det: 'a', of: N('capability', { poss: 'my', pl: true }) }) } }), { force: 'imp' })],
   bye: () => [S(null, { part: 'goodbye' })],
@@ -400,6 +425,7 @@ const PLANS = {
     S(C('say', { karma: { coord: 'or', items: ['remember', 'recall', 'note', 'math', 'solve', 'define', 'infer'].map(k => Mn(MENTIONS[k])) } }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] })],
   loop: () => [S(C('start', { karta: N('binding', { det: 'a', adj: ['new'], app: X('λ') }), aspect: 'perf' })), S(C('reset', { karta: I, karma: N('flag', { det: 'the', adj: ['grace'], app: X('χ(t)') }), aspect: 'perf' }))],
   no_frame: () => [S(C('recognise', { karta: I, karma: N('word', { det: 'every' }), tense: 'past' })), S(C('derive', { karta: I, karma: N('structure', { det: 'a', adj: ['sentence'] }), roles: { tadartha: pr('that') }, mod: 'can', tense: 'past', pol: 'neg' }), { conj: 'but' }), S(C('type', { karma: Mn('help'), roles: { tadartha: N('list', { det: 'a', of: N('form', { adj: ['supported'], pl: true }) }) } }), { force: 'imp' })],
+  reasoned_answer: reasonPlan,
   stored: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' }))],
   /* PRIV-2: the value is never a node of the vākya; only the owner NP ("your pin") is realized */
   vault_locked: m => { const val = N('value', { det: 'the', of: m.subjNP ? U(m.subjNP) : { ut: m.subj } }); const vault = Nm('Identity Vault', 'the');

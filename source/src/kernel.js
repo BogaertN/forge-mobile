@@ -14,6 +14,7 @@ const SIM = isNode ? require('./sim.js') : root.KSim; const RD = isNode ? requir
 const G = isNode ? require('./grammar.js') : root.KGrammar;
 const D = isNode ? require('./derive.js') : root.KDerive;
 const IF = isNode ? require('./infer.js') : root.KInfer;
+const R = isNode ? require('./reason.js') : root.KReason;
 const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const TB = isNode ? require('./toolbench.js') : root.KTools;
 const OP = isNode ? require('./operator.js') : root.KOperator;
@@ -102,7 +103,7 @@ function Lexicon(store) {
     rec.state = 'admitted'; rec.admitted_at = new Date().toISOString(); rec.concept = r.concept.id + ' v' + r.concept.version; store.save('admission_queue', q); return { ok: true, concept: c || r.concept, record: rec }; }
   function rejectConcept(id, reason) { const q = store.load('admission_queue'); const rec = q.find(x => x.id === id); if (!rec || rec.state === 'admitted') return { ok: false }; rec.state = 'rejected'; rec.reason = String(reason || 'user rejected'); store.save('admission_queue', q); return { ok: true, record: rec }; }
   const exc = x => (wn.core && own(wn.core.exc, x) ? wn.core.exc[x] : undefined);
-  const known = w => !!(wnEntry(w) || ix[w] || G.lemmatize(w, { hasPos, exc, controlled }).length);
+  const known = w => !!(G.CL[w] || wnEntry(w) || ix[w] || G.lemmatize(w, { hasPos, exc, controlled }).length);
   const isName = w => { const e = wnEntry(w); return !!(e && e.some(([p, ss]) => p === 'n' && ss.some(s => s[1] === 15 || s[1] === 18))); };
   const lexnameOf = l => { const e = wnEntry(l); if (!e) return null; const n = e.find(x => x[0] === 'n'); return n && wn.core ? wn.core.meta.lexnames[n[1][0][1]] : null; };
   const coreNoun = w => !!(wn.core && own(wn.core.L, w) && wn.core.L[w].some(e => e[0] === 'n') && !isName(w));
@@ -140,7 +141,7 @@ function Kernel(opts) {
   const store = opts.store || MemoryStore();
   const lex = Lexicon(store);
   if (opts.lexicon) lex.attach(opts.lexicon, 'core'); if (opts.lexiconExt) lex.attach(opts.lexiconExt, 'ext');
-  let meta = Object.assign({ turn: 0, loop: 1, chi: 0, phaseHistory: [], last: null, discourse: [], alias: {}, pending: null, notation: 'plain' }, store.load('meta'));
+  let meta = Object.assign({ turn: 0, loop: 1, chi: 0, phaseHistory: [], last: null, discourse: [], alias: {}, pending: null, notation: 'plain', reasoning: null }, store.load('meta'));
   const saveMeta = () => store.save('meta', meta);
   const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
   /* W1 permission service + W2 containment (one instance per store) */
@@ -433,6 +434,9 @@ function Kernel(opts) {
     if (/^(?:what patterns do you (?:see|notice)|(?:please )?reflect(?: on (?:our|my) conversations?)?|run gilligan)$/.test(low)) { const g = OP.gilligan(store); rules.push({ id: 'EF-FRAME-PATTERNS', doc: 'GenNode Doc 10 Gilligan (reflection only)', note: g.patterns.length + ' patterns over ' + g.basis.facts + ' facts / ' + g.basis.traces + ' traces' }); return res('SELECTED_MEANING', { kind: 'patterns', items: g.patterns.map(p => p.word + ' (' + p.count + ')') }, { frame: 'FR.PATTERNS', act: 'question' }); }
     const EXT = 'send|email|mail|text|message|post|share|publish|tweet|purchase|order|pay|book|open|launch|run|execute|install|download|upload|call|browse|search|play|stream|navigate|translate|schedule';
     if ((m = low.match(new RegExp('^(?:please )?(?:(?:can|could|will|would) you )?(' + EXT + ')\\b(.*)$')))) { if (ctx.negAct) return res('SELECTED_RESTRICTED_MEANING', { kind: 'neg_act', act: m[1] }, { frame: 'FR.EXTERNAL', act: 'request' }); rules.push({ id: 'CAP-UNSUPPORTED-EXTERNAL', doc: 'Doc1; Doc5 §17; Doc8' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: (m[1] + m[2]).replace(/\bmy\b/g, 'your').trim(), reason: 'NO_EXTERNAL' }, { frame: 'FR.EXTERNAL', act: 'request' }); }
+    // ---- compositional premise/question reasoning (no model; proof graph → generated answer) ----
+    { const lastReasoning = meta.reasoning && meta.turn - Number(meta.reasoning.turn || 0) <= 2 ? meta.reasoning : null; const rr = R.evaluate(raw, { lex: glex, last: lastReasoning });
+      if (rr.handled) { rules.push(...(rr.rules || [])); if (rr.reasoningState) ctx.reasoningState = rr.reasoningState; return res(rr.outcome, rr.material, { frame: rr.frame, act: rr.act, uncertainty: rr.uncertainty, reasoningCandidates: rr.reasoningCandidates, reasoningState: rr.reasoningState }); } }
     // ---- queries over memory ----
     if ((m = low.match(/^(?:what do you know|what do you remember|tell me(?: everything)?) about (.+)$/))) {
       const rest = raw.replace(/^.*?about\s+/i, '').replace(/[?.!]+$/, ''); const tgt = /^(me|myself)$/.test(m[1]) ? { pron: 'user' } : parseNP(rest);
@@ -746,7 +750,7 @@ function Kernel(opts) {
     trace.drift = Object.assign(drift, { attempted_transition: M.PHASES[attempted.from].sym + '→' + M.PHASES[attempted.to].sym, expected_next: M.PHASES[attempted.expected].sym, calibration: 'expected = lawful successor T(Φn,Φn+1) for the speech act; D_score=1 only for an attempted Φ5→Φ8 (unnameable projection or bypass)' });
     const needsMem = /QUESTION|ABOUT|WHEN/.test(sel.frame || ''); const filled = ['SELECTED_MEANING', 'SELECTED_RESTRICTED_MEANING', 'UNDERSTOOD_ACTION_BLOCKED', 'REFUSAL_RELEVANT'].includes(sel.outcome);
     sel.scoreTerms = { M: needsMem ? (/recall|yesno|about|when/.test(sel.material.kind) ? 1 : 0.5) : 1, P: sel.forbiddenPath ? 0 : 1, U: filled ? 1 : sel.outcome === 'NO_LAWFUL_CANDIDATE' ? 0 : 0.5, N: sel.write ? 1 : 0, D: Math.min(1, drift.eps_s) };
-    const sc = M.score(sel.scoreTerms); trace.candidates = [{ frame: sel.frame, outcome: sel.outcome, score: sc.formula }];
+    const sc = M.score(sel.scoreTerms); trace.candidates = sel.reasoningCandidates ? sel.reasoningCandidates.map(c => Object.assign({ frame: sel.frame, outcome: sel.outcome }, clone(c))) : [{ frame: sel.frame, outcome: sel.outcome, score: sc.formula }];
     Ph(5, drift.formula + ' → ' + drift.band);
     const sfe = { Phi: 5, rho: drift.rho, Delta: r4((attempted.to - attempted.expected) / 9), nu: 0, mu: 1.0, eps: drift.eps_s, tau: trace.phases.map(p => p.phase), lambda: meta.loop, chi: meta.chi };
     let restricted = false, sealed = false;
@@ -803,6 +807,7 @@ function Kernel(opts) {
       if (res.rollback) { trace.rollback = res.rollback; trace.rules.push({ id: 'RB-READBACK-MISMATCH-ROLLBACK', doc: 'Register G-04 (post-write readback); C-05 rollback' }); msm.meaning = { kind: 'write_failed' }; curSecrets = [];
         const r3 = D.realizeMeaning(msm.meaning, ENV); const ev3 = echo(r3.text, msm.meaning); text = r3.text; trace.derivation = r3.derivation; trace.echo = ev3; ev = ev3; trace.memory = []; } }
     if (ctx.clauseForDiscourse) pushDiscourse(ctx.clauseForDiscourse);
+    if (sel.reasoningState) meta.reasoning = Object.assign(clone(sel.reasoningState), { turn: meta.turn });
     Ph(9, 'Echo pass (' + ev.score + ' ≥ ' + ev.theta + ')' + (trace.memory.length ? '; memory: ' + trace.memory.map(m => m.op).join(', ') : ''));
     return finish(trace, 9, text, msm, sfe);
   }

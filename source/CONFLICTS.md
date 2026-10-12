@@ -63,3 +63,19 @@ Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation A
 - Fork credit: doc defines Indirect (½) as shaping without originating; used for an original creator of a forked tool. Interpretation, flagged.
 
 - v4.8.4 (user decision 2026-10-12): the doc's co-creator ×1 is limited to first-breath co-creators named in the original author-signed body who co-sign that exact body before first publication; later co-signers get exactly 1/3. Foreign CT is never taken from a publisher's totals: the receiving device reconstructs it and counts zero for anything it cannot verify. The fork ancestor's ×½ stays a provisional Forge Mobile interpretation and counts zero on foreign devices until its signed lineage is resolved. The local reviewer is still not a Memory Steward.
+
+## Core language/reasoning correction (candidate, 2026-10-12)
+
+- **Unknown-token gate vs. compositional meaning.** The earlier mobile path treated any
+  unrecognized token as a reason to stop the whole request. That is incompatible with
+  the Language Core/RMC boundary: local unresolved material must be carried and judged
+  for materiality after the surrounding propositions are derived. Ordinary indefinite
+  pronouns are now shared closed-class forms, and non-material opaque objects no longer
+  abort an otherwise interpretable argument. Material unknowns in governed commands
+  still require clarification. See `src/grammar.js`, `src/reason.js`, and
+  `verify/w19_suite.js`.
+- **Language Core vs. RMC responsibility.** The Language Core derives and realizes
+  symbolic meaning. RMC constructs competing conclusions, records proof edges and
+  warrants, and selects the conclusion. The new reasoning slice follows that split;
+  it is deliberately bounded to documented predicate families and is not represented
+  as a general LLM or complete open-domain cognition system.

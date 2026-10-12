@@ -232,13 +232,15 @@ require('./w12_suite.js')({ C, expect, KMOD, LEX, EXT, ROOT });
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w18_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'W18', name: 'w18 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+{ let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w19_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'CORE-REASONING', name: 'w19 suite ran', ok: false, why: e.message }]; }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w15_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W15', name: 'w15 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w5_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W5', name: 'w5 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 /* DERIVATION: no reply may come from a hardcoded sentence (static scan + runtime trace audit) */
-const REPLY_SRC = ['src/kernel.js', 'src/forge.js', 'src/derive.js', 'src/forge_spine.js', 'src/infer.js', 'src/kmath.js', 'src/algebra.js', 'src/privacy.js', 'src/governance.js', 'src/containment.js', 'src/claims.js', 'src/toolbench.js', 'src/crawler.js', 'src/consent.js', 'src/operator.js'];
+const REPLY_SRC = ['src/kernel.js', 'src/forge.js', 'src/derive.js', 'src/forge_spine.js', 'src/infer.js', 'src/reason.js', 'src/kmath.js', 'src/algebra.js', 'src/privacy.js', 'src/governance.js', 'src/containment.js', 'src/claims.js', 'src/toolbench.js', 'src/crawler.js', 'src/consent.js', 'src/operator.js'];
 const SENTENCE_LIT = /(['"`])((?:(?!\1)[^\\\n]|\\.){0,400}?)\1/g;
 const looksSentence = t => (/^[A-Z][^\s]*(?: [^\s]+){2,}[.?!:]?["”]?$/.test(t.trim()) && (t.match(/\b[a-z]{2,}\b/g) || []).length >= 3) || /\b(I|you) (cannot|can not|do not|did not|have|noted|stored|sealed|understand|asked)\b/.test(t);
 for (const f of REPLY_SRC) C('DERIVATION', `static scan: ${f} contains no hardcoded English reply sentence`, () => { const src = fs.readFileSync(path.join(ROOT, f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '').replace(/Error\((?:[^()'"`]|'[^']*'|"[^"]*"|`[^`]*`)*\)/g, 'Error()').replace(/const GP014 = \{[^\n]*\n/, ''); const hits = [];

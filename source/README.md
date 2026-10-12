@@ -1,4 +1,4 @@
-# Forge Mobile source (v4.8.3 architecture)
+# Forge Mobile source (current architecture)
 
 ## Release command (fresh clone)
 
@@ -21,6 +21,24 @@ The steps run in a fixed order:
 
 ## Current architecture
 
+- **Language and cognition boundary**: the Pāṇinian Language Core is a deterministic,
+  bidirectional meaning compiler, not an LLM. It derives governed symbolic structure
+  from human expression and realizes selected structure back into language. RMC is the
+  separate reasoning/trace spine: it constructs and compares candidate meanings,
+  applies warrants and gates, links evidence and memory, and selects a manifest.
+  External tools supply provenance-bearing evidence; they do not become truth,
+  permission, memory, or reasoning authority merely because they returned a result.
+- **Compositional reasoning slice** (`src/reason.js`): a bounded first vertical path
+  now handles multi-clause premise/question arguments about retention, causal
+  understanding, adaptation and failure. It preserves source spans, resolves local
+  references, creates affirmative/negative/qualified candidates and a proof graph,
+  selects a warranted conclusion, generates the answer from that structure, and keeps
+  one capped transient proof record for immediate distinction, analogy,
+  counterargument, comparison and revision-evidence follow-ups. The reported
+  “remembers every mistake … has it learned?” request is covered by this path.
+  This is **not** a general language model or complete open-domain reasoner. Other
+  open-ended argument families remain unsupported and must fail or clarify honestly;
+  no hidden model, network, embeddings, vector search or RAG fallback is used.
 - **Memory Economy** (`src/economy.js`): count-only and append-only. The policy is `forge-mobile-econ-policy/v1`.
   - Lifecycle: ContributionEventCandidate → BreathValidation (by a validator who is not a contributor, with evidence) → finalized capsule.
   - A signed CapsuleNullified or CapsuleSuperseded event revokes credit without touching the capsule.
@@ -44,13 +62,13 @@ The steps run in a fixed order:
 
 ## What changed in v2
 * **Drift calibration.** Ordinary requests are clean. Only real Φ5→Φ8 attempts reach the hard stop: unnameable projection or a request to bypass checks. See `CALIBRATION.md`.
-* **Grammar.** `src/grammar.js` is a rule-based derivation. It does morphology (plurals, tenses, -ing/-ed, irregular forms, contractions, WordNet exception lists), POS tagging from the lexicon, and phrase structure (NP with possessive chains, relative clauses, coordination, VP with do-support, modals, perfect/progressive aspect and negation). It assigns karaka roles: kartā, karma, sampradāna, karaṇa, apādāna, adhikaraṇa, kāla. It handles conditionals, wh- and yes/no questions (inversion rules), imperatives, and quantifier/negation/modal scope. Reference is resolved against a two-turn discourse window. When a reference is ambiguous it stays open and the app asks for clarification. Every rule ID appears in the trace.
+* **Grammar.** `src/grammar.js` is a rule-based derivation. It does morphology (plurals, tenses, -ing/-ed, irregular forms, contractions, WordNet exception lists), POS tagging from the lexicon, and phrase structure (NP with possessive chains, relative clauses, coordination, VP with do-support, modals, perfect/progressive aspect and negation). It assigns karaka roles: kartā, karma, sampradāna, karaṇa, apādāna, adhikaraṇa, kāla. It handles conditionals, wh- and yes/no questions (inversion rules), imperatives, and bounded quantifier/negation/modal scope. Reference handling is implemented for the existing two-turn grammar path and for the bounded compositional-reasoning path described above; unrestricted discourse reference remains incomplete. When a material reference is ambiguous it stays open and the app asks for clarification. Every applied rule ID appears in the trace.
 * **Lexicon.** Princeton WordNet 3.0 (WordNet 3.0 License, notice in `data/WORDNET_LICENSE.txt`) is used in two tiers:
   * Core: 6,656 lemmas, 16,833 admitted senses, 15,606 quarantined senses, and 10,245 verb-sense × frame predicate frames.
   * Extended: 14,617 more lemmas, lazily loaded.
 
   Every sense carries its provenance, license and Doc 8 state. The data is gzipped JSON loaded lazily. Rebuild it with `tools/build_lexicon.py`. A word with several senses gets a numbered clarification, never a guess.
-* **Generation.** Replies are generated grammatically from the MSM: agreement, tense, aspect, negation placement with do-support, modals, conditionals, and "A, B and C" lists. Echo re-derives the generated text with the same grammar and compares the material meaning.
+* **Generation.** Supported replies are generated grammatically from the MSM: agreement, tense, aspect, negation placement with do-support, modals, conditionals, and "A, B and C" lists. The compositional-reasoning path realizes a sequence of MSM propositions from its selected proof graph rather than returning a stored complete paragraph. Echo performs the path's deterministic structural preservation check. This does not yet establish unrestricted English generation or unrestricted semantic round-trip coverage.
 * **Memory.** Memory stores relations with entities, provenance and a turn/time. Records are phase-tagged and keep their SFE. "X's name is N" makes N an alias for X.
   * Contradictions are detected (polarity, single-valued attributes, exclusive classes, single-valued verbs) and the app asks yes/no. Adding "instead" or "actually" replaces the old fact directly. Old facts go to Ĉ cold storage.
   * Supported queries: "what do you know about X", "when did I tell you about X", counts, wh-questions over roles, and "what is X doing".
@@ -62,7 +80,7 @@ The steps run in a fixed order:
 * `python3 build.py` runs only after verification has passed. It writes `_release/site/` (Pages) and `_release/single/kernel-app.html` / `kernel-app-full.html`.
 
 ---
-# Forge Kernel — PWA prototype (Bidirectional Language Kernel + RMC memory)
+# Forge Kernel — PWA prototype (Bidirectional Language Kernel + RMC reasoning/trace/memory spine)
 Deterministic. No LLM, no embeddings. Every reply has a Trace showing rule IDs, gate outcome, Score(c), ε_s, χ(t)/Ĉ, Echo, the SFE and the MSM.
 - Open `kernel-app.html` directly (single file), or serve this folder over https/http for PWA install (manifest.json + sw.js, works offline).
 - Tests and build: see the release section at the top.

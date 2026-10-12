@@ -6,7 +6,7 @@
 /* ---------- closed-class table (Doc 4 function concepts) ---------- */
 const CLOSED = {
   DET: 'the a an this these those', POSS: 'my your his her its our their', QUANT: 'all every each some any many few several most both no',
-  PRON: 'i me you he him she her it we us they them myself yourself', WH: 'what who whom where when which why how whose',
+  PRON: 'i me you he him she her it we us they them myself yourself anything something nothing everything anyone someone noone everyone anybody somebody nobody everybody', WH: 'what who whom where when which why how whose',
   COP: 'am is are was were be been being', AUX: 'do does did have has had', MOD: 'will would shall should can could may might must',
   NEG: 'not never', SUB: 'because while although whereas', THAN: 'than', PREP: 'in on at to from with by for of about into onto under over after before during near without through across around between behind beside since until',
   CONJ: 'and or but', IF: 'if unless', THEN: 'then', REL: 'who which that', COMP: 'that', PART: 'up down out off away back',
@@ -16,7 +16,10 @@ const CLOSED = {
 const CL = Object.create(null); for (const [t, ws] of Object.entries(CLOSED)) for (const w of ws.split(' ')) (CL[w] = CL[w] || []).push(t);
 const PRON = Object.assign(Object.create(null), { i: { p: 1, n: 'sg', c: 'nom' }, me: { p: 1, n: 'sg', c: 'acc' }, myself: { p: 1, n: 'sg', c: 'acc' }, you: { p: 2, n: 'sg' }, yourself: { p: 2, n: 'sg' },
   he: { p: 3, n: 'sg', g: 'm', c: 'nom' }, him: { p: 3, n: 'sg', g: 'm', c: 'acc' }, she: { p: 3, n: 'sg', g: 'f', c: 'nom' }, her: { p: 3, n: 'sg', g: 'f', c: 'acc' }, it: { p: 3, n: 'sg', g: 'n' },
-  we: { p: 1, n: 'pl', c: 'nom' }, us: { p: 1, n: 'pl', c: 'acc' }, they: { p: 3, n: 'pl', c: 'nom' }, them: { p: 3, n: 'pl', c: 'acc' } });
+  we: { p: 1, n: 'pl', c: 'nom' }, us: { p: 1, n: 'pl', c: 'acc' }, they: { p: 3, n: 'pl', c: 'nom' }, them: { p: 3, n: 'pl', c: 'acc' },
+  anything: { p: 3, n: 'sg', g: 'n', indef: true }, something: { p: 3, n: 'sg', g: 'n', indef: true }, nothing: { p: 3, n: 'sg', g: 'n', indef: true }, everything: { p: 3, n: 'sg', g: 'n', indef: true },
+  anyone: { p: 3, n: 'sg', g: 'u', indef: true }, someone: { p: 3, n: 'sg', g: 'u', indef: true }, noone: { p: 3, n: 'sg', g: 'u', indef: true }, everyone: { p: 3, n: 'sg', g: 'u', indef: true },
+  anybody: { p: 3, n: 'sg', g: 'u', indef: true }, somebody: { p: 3, n: 'sg', g: 'u', indef: true }, nobody: { p: 3, n: 'sg', g: 'u', indef: true }, everybody: { p: 3, n: 'sg', g: 'u', indef: true } });
 const TIMEW = new Set('today tonight tomorrow yesterday monday tuesday wednesday thursday friday saturday sunday january february march april may june july august september october november december morning afternoon evening night week month year weekend noon midnight'.split(' '));
 /* given names that are also common nouns (Doc4 controlled list): a capitalised occurrence is ambiguous unless memory settles it */
 const NAMEISH = new Set('rose lily daisy iris violet ivy jasmine hazel holly heather olive ruby pearl amber crystal jade grace joy hope faith mark bill will pat sue frank victor jack rob dawn april may june summer autumn sky river robin jay drew gene rich bob sandy dusty penny carol angel destiny melody harmony patience honor chase hunter cliff glen dale brook forest heath reed rocky skip buck chip guy art'.split(' '));
@@ -110,7 +113,7 @@ function Parser(toks, lex) {
   }
   function npBase(i) {
     const out = [];
-    for (const a of at(i, 'PRON')) { const p = PRON[word(i)]; out.push(R(p.p === 1 && p.n === 'sg' ? { pron: 'user' } : p.p === 2 ? { pron: 'kernel' } : { pron3: word(i), feats: p }, i + 1, ['NP-PRON'])); }
+    for (const a of at(i, 'PRON')) { const p = PRON[word(i)]; out.push(R(p.indef ? { indef: word(i), feats: p } : p.p === 1 && p.n === 'sg' ? { pron: 'user' } : p.p === 2 ? { pron: 'kernel' } : { pron3: word(i), feats: p }, i + 1, [p.indef ? 'NP-INDEFINITE-PRON' : 'NP-PRON'])); }
     if (at(i, 'PROPN').length) { let j = i; const ws = []; while (at(j, 'PROPN').length) { ws.push(T[j].orig); j++; } out.push(R({ propn: ws.join(' ') }, j, ['NP-PROPN'])); }
     if (at(i, 'NUM').length && at(i + 1, 'NUM').length) { let j = i; const ns = []; while (at(j, 'NUM').length) { ns.push(word(j)); j++; } out.push(R({ num: ns.join(' ') }, j, ['NP-NUM-SEQUENCE'])); }
     for (const a of at(i, 'NUM')) { out.push(R({ num: a.lemma }, i + 1, ['NP-NUM'])); for (const n of nominal(i + 1)) out.push(R(Object.assign({ num: a.lemma }, n.node), n.i, ['NP-NUM-N'].concat(n.rules))); }
@@ -261,7 +264,7 @@ function npText(n, persp) {
   if (!n) return '';
   if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
   if (n.pron === 'user') return persp === 'user' ? 'I' : 'you'; if (n.pron === 'kernel') return persp === 'user' ? 'you' : 'I';
-  if (n.pron3) return n.pron3; if (n.propn) return n.propn; if (n.quote !== undefined) return '"' + n.quote + '"';
+  if (n.pron3) return n.pron3; if (n.indef) return n.indef; if (n.propn) return n.propn; if (n.quote !== undefined) return '"' + n.quote + '"';
   let s = '';
   if (n.quant) s += n.quant + ' ';
   if (n.owner === 'user') s += persp === 'user' ? 'my ' : 'your '; else if (n.owner === 'kernel') s += persp === 'user' ? 'your ' : 'my '; else if (n.owner && n.owner.pron3) s += n.owner.pron3 + ' '; else if (n.owner) s += npText(n.owner, persp) + "'s ";
