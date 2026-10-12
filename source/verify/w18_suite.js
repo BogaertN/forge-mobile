@@ -85,4 +85,10 @@ T('BROWSER-LOAD-ORDER', 'with the browser script order (no require), portable ba
   const r = await a.operator.portableRestore(JSON.parse(JSON.stringify(bk.file)), 'backup pass 1', { userTap: true }); expect(r.ok, 'restore ' + JSON.stringify(r)); expect(/red/.test(B.make().process('what is my car?').reply), 'restored');
   const u = B.make().operator.rollbackRestore({ userTap: true }); expect(u.ok && /blue/.test(B.make().process('what is my bike?').reply), 'rollback ' + JSON.stringify(u)); });
 
+T('SECRET-SCAN', 'the secret-shape scan ignores machine encodings (signatures, keys, ids, hashes) but still refuses secrets in content, keys and nested values (shared layer and sync)', () => { const SH = require(ROOT + '/src/shared.js'); const SY = require(ROOT + '/src/sync.js');
+  for (const S of [SH, SY]) { expect(!S.secretIn({ id: 'emn:ab', sig: 'Qx-1234567812345678-Zz', source: { pub: { x: 'a_1234567812345678-b', y: 'c' }, signer: 'sig-1234567812345678' }, manifest_sha256: '1234567812345678', validation_ref: '-1234567812345678-', author: 'sig-8493190983901918', item: 'emn:1234567812345678' + 'a'.repeat(48), proposition: 'a fox is an animal' }), 'machine fields are not content');
+    expect(S.secretIn({ proposition: '1234567812345678' }) && S.secretIn({ author: 'sig-1234 5678 1234 5678' }), 'a bare card number in content is still refused');
+    expect(S.secretIn({ proposition: 'my card is 1234 5678 1234 5678' }) && S.secretIn({ a: [{ b: { note: 'password is hunter2' } }] }) && S.secretIn({ evidence: [{ ref: 'ghp_' + 'a'.repeat(24) }] }) && S.secretIn({ '1234-5678-1234-5678': 1 }), 'content secrets still refused');
+    expect(S.secretIn({ sig: 'x', text: '-----BEGIN PRIVATE KEY-----' }), 'pem in content'); } });
+
 (async () => { for (const t of tests) { if (process.env.FORGE_ONLY && !t.name.includes(process.env.FORGE_ONLY)) continue; try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, not_run: !!(e && e.notRun), why: String(e && e.stack || e).slice(0, 600) }); } } process.stdout.write(JSON.stringify(rows)); })();

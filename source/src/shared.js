@@ -12,6 +12,11 @@
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const SECRETISH = /\b(?:\d{4}[ -]?){3}\d{4}\b|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|-----BEGIN|password\s*(?:is|=)\s*\S/i;
+/* v4.9.1: the secret-shape scan looks at CONTENT strings only. Machine encodings (signatures, public keys, ids, hashes) are random
+ * base64url/hex and occasionally contain a 16-digit run bounded by '-', which made ~3% of honest publications fail as "secret-shaped". */
+const MACHINE_KEY = /^(sig|pub|signer|id|x|y|hash|prev|nonce|kid)$|sha256$|_hash$|digest$|_ref$/;
+const MACHINE_VAL = /^(?:sig-[0-9a-f]{16}|[a-z]{2,8}:[0-9a-f]{16,64}|[0-9a-f]{64})$/; /* key-derived signer ids, typed hash ids, bare sha256 */
+const secretIn = (v, k, d) => { if ((d || 0) > 64) return false; if (typeof v === 'string') return !(k && MACHINE_KEY.test(k)) && !MACHINE_VAL.test(v) && SECRETISH.test(v); if (Array.isArray(v)) return v.some(x => secretIn(x, k, (d || 0) + 1)); if (v && typeof v === 'object') return Object.keys(v).some(kk => (!MACHINE_KEY.test(kk) && SECRETISH.test(kk)) || secretIn(v[kk], kk, (d || 0) + 1)); return false; };
 const canon = o => (Array.isArray(o) ? '[' + o.map(canon).join(',') + ']' : o && typeof o === 'object' ? '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}' : JSON.stringify(o));
 const CHALLENGES = ['provenance', 'method', 'scope', 'contradiction', 'dependency', 'reproducibility', 'statistical', 'falsification']; /* EMN §10 */
 const STATES = ['Unassessed', 'Unsupported', 'Preliminary', 'Supported', 'Strongly Supported', 'Contested', 'Undermined', 'Superseded', 'Falsified Within Scope']; /* EMN §9 */
@@ -77,7 +82,7 @@ const fbBody = draft => ({ purpose: FB_PURPOSE, draft_sha256: sha256(canon(draft
 async function check(m) { if (!m || typeof m !== 'object' || !/^emn:/.test(m.id || '')) return 'SHARED-BAD-SHAPE'; if (!/^emn-(claim-manifest|tool-package|credit-ledger)\/v1$/.test(m.schema || '')) return 'SHARED-SCHEMA';
   if ('emn:' + sha256(canon(bodyOf(m))) !== m.id) return 'SHARED-ID-HASH'; if (!m.source || !m.source.pub || !m.sig) return 'SHARED-UNSIGNED';
   if ('sig-' + sha256(canon(m.source.pub)).slice(0, 16) !== m.source.signer) return 'SHARED-SIGNER-MISMATCH'; if (!(await verifySig(bodyOf(m), m.sig, m.source.pub))) return 'SHARED-SIGNATURE';
-  if (SECRETISH.test(JSON.stringify(m))) return 'SHARED-SECRET-SHAPE'; if (hasForbidden(m)) return 'SHARED-ECONOMY-NOT-AUTHORIZED'; if (m.authority !== 'evidence_only') return 'SHARED-AUTHORITY-CLAIM';
+  if (secretIn(m)) return 'SHARED-SECRET-SHAPE'; if (hasForbidden(m)) return 'SHARED-ECONOMY-NOT-AUTHORIZED'; if (m.authority !== 'evidence_only') return 'SHARED-AUTHORITY-CLAIM';
   if (m.cosigners !== undefined) { if (!Array.isArray(m.cosigners) || m.cosigners.length > 8) return 'SHARED-COSIGN-SHAPE'; const seen = new Set([m.source.signer]);
     for (const c of m.cosigners) { if (!c || !c.pub || !c.sig || seen.has(c.signer) || 'sig-' + sha256(canon(c.pub)).slice(0, 16) !== c.signer) return 'SHARED-COSIGNER-MISMATCH'; if (!(await verifySig(bodyOf(m), c.sig, c.pub))) return 'SHARED-COSIGNATURE'; seen.add(c.signer); } }
   const sp = schemaProblem(m); if (sp) return sp;
@@ -172,6 +177,6 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
     for (let i = 0; i < 25; i++) { const r = await rpc('shared.get', { since }); if (!r || !r.ok) break; const x = await receive(r.manifests); got.quarantined += x.quarantined; got.dup += x.dup; got.refused.push(...x.refused); if (r.next === since || !r.manifests.length) break; since = r.next; }
     store.save('shared_cursor', { since }); return { ok: true, pushed, received: got }; }
   return { publish, contribute, draft, signDraft, addDraftSignature, publishDraft, drafts: () => store.load('shared_drafts'), cosign, attachCosignature, revoke, receive, review, challenge, assess, sync, outbox: () => store.load('shared_outbox'), inbox: () => store.load('shared_inbox'), knowledge: () => store.load('shared_knowledge') }; }
-const api = { Shared, Signer, check, verifySig, canon, schemaProblem, mergeCosigners, SCHEMAS, fbBody, draftOf, CHALLENGES, STATES, SECRETISH };
+const api = { Shared, Signer, check, verifySig, canon, schemaProblem, mergeCosigners, SCHEMAS, fbBody, draftOf, CHALLENGES, STATES, SECRETISH, secretIn };
 if (isNode) module.exports = api; else root.KShared = api;
 })(typeof self !== 'undefined' ? self : this);

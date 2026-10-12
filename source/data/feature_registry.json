@@ -1,5 +1,5 @@
 {
- "version": "4.9.0",
+ "version": "4.9.1",
  "features": [
   {
    "id": "A-01",
@@ -2506,11 +2506,22 @@
     "ONE-BACKUP-PATH",
     "BROWSER-LOAD-ORDER"
    ]
+  },
+  {
+   "id": "SECRET-SCAN",
+   "name": "Secret-shape refusal scans content only (no false refusals from random signatures/hashes)",
+   "source": "defect found while releasing v4.9.0 (fresh-clone run): ~3% of honest publications were refused as secret-shaped",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "shared layer and paired-node sync; content strings, keys and nested values are still scanned",
+   "proof": [
+    "SECRET-SCAN"
+   ]
   }
  ],
- "count": 233,
+ "count": 234,
  "claims": {
-  "Implemented": 109,
+  "Implemented": 110,
   "Missing": 9,
   "Not feasible on phone": 28,
   "Out of scope / parked": 13,
