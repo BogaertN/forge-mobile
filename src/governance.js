@@ -20,6 +20,7 @@
     marketplaceScope: { decision: 'M9', values: { user_originated_only: { built: true }, include_captures: { built: false } }, default: 'user_originated_only', effect: 'only data you created can ever be offered; crawled pages contain other people’s data and copyrighted text' },
     marketplaceTransfer: { decision: 'M9', values: { disabled: { built: true }, live: { built: false } }, default: 'disabled', effect: 'no sale, transfer or payment is built' },
     workbench: { decision: 'D4', values: { fixed_recipes: { built: true }, parked: { built: true } }, default: 'fixed_recipes', effect: 'workbench runs declared recipes only; it auto-parks on any authority beyond its manifest' },
+    sharedLayer: { decision: 'N9', values: { off: { built: true }, on: { built: true } }, default: 'off', effect: 'exchange signed, consented claim manifests and tool packages with the shared layer through the shared-layer node key; vault data never enters; incoming items are quarantined evidence' },
     nodeSync: { decision: 'N2', values: { off: { built: true }, sealed_only: { built: true } }, default: 'off', effect: 'Doc 11 sync through your paired home node: off, or sealed loops + dead paths + attribution chain only (never vault content)' },
     hash: { decision: 'D7', values: { sha256: { built: true }, blake3: { built: false } }, default: 'sha256', effect: 'ψ_id and receipt hash function' },
     classifier: { decision: 'D3', values: { off: { built: true }, advisory_evidence: { built: false } }, default: 'off', effect: 'no learned classifier anywhere' },
@@ -37,6 +38,11 @@
     'memory.approve_held': { risk: 'state', rollback: 'forget' },
     'containment.release': { risk: 'state', rollback: 're-quarantine' },
     'loop.transition': { risk: 'state', rollback: 'transition table only' },
+    'shared.contribute': { risk: 'network', rollback: 'revoke stops future pushes (pulled copies cannot be recalled)' },
+    'shared.review': { risk: 'local_write', rollback: 'accepted items are evidence records only; reject keeps an audit row' },
+    'shared.sync': { risk: 'network', rollback: 'pulled manifests land in quarantine only' },
+    'tool.enable': { risk: 'compute', rollback: 'one-tap rollback to the previous version; disable at any time' },
+    'tool.install': { risk: 'compute', rollback: 'installed tools arrive disabled as drafts; remove at any time' },
     'sync.run': { risk: 'network', rollback: 'imports land in synced_items only; never overwrite local records' },
     'memory.seal': { risk: 'local_write', rollback: 'append-only seal record; read-back verified or rolled back' },
     'code.run': { risk: 'compute', rollback: 'pure evaluation of generated expressions with the kernel evaluator; no eval, no I/O' },
@@ -81,6 +87,8 @@
         return { decision: 'allow', rule: 'PERM-EXPLICIT-REQUEST' }; }
       if (action === 'policy.change') { const s = SWITCHES[ctx.key]; if (!s || !s.values[ctx.value]) return { decision: 'deny', rule: 'PERM-POLICY-UNKNOWN-VALUE' }; if (!s.values[ctx.value].built) return { decision: 'deny', rule: 'PERM-POLICY-NOT-BUILT' }; return ctx.userTap ? { decision: 'allow', rule: 'PERM-POLICY-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-POLICY-NEEDS-TAP' }; }
       if (action === 'vault.reveal' || action === 'vault.write') return ctx.unlocked ? (ctx.userTap || action === 'vault.write' ? { decision: 'allow', rule: 'PERM-VAULT-UNLOCKED' } : { decision: 'needs_approval', rule: 'PERM-VAULT-TAP' }) : { decision: 'deny', rule: 'PERM-VAULT-LOCKED' };
+      if (action === 'shared.contribute' || action === 'shared.review' || action === 'tool.enable' || action === 'tool.install') return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' };
+      if (action === 'shared.sync') return pol.sharedLayer === 'on' ? { decision: 'allow', rule: 'PERM-SHARED-LAYER-ON' } : { decision: 'deny', rule: 'PERM-SHARED-LAYER-OFF' };
       if (action === 'sync.run') { if (pol.nodeSync !== 'sealed_only') return { decision: 'deny', rule: 'PERM-N2-SYNC-OFF' }; return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' }; }
       if (action === 'memory.seal') return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' };
       if (action === 'code.run') return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' };
