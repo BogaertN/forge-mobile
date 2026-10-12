@@ -5,3 +5,12 @@ Mobile Forge Bidirectional Language Kernel: an installable no-LLM PWA. Replies a
 Live: https://bogaertn.github.io/forge-mobile/
 
 Binary assets (icons, gzipped lexicon) are stored as `*.b64` text and decoded by `.github/workflows/pages.yml` at deploy time. Lexicon data derives from WordNet (see `data/WORDNET_LICENSE.txt`).
+
+## Reproduce the verifier run
+
+The full source, build scripts and verifier are in `source/` (see `source/SOURCE_README.md`). From a fresh clone (Node ≥ 20, Python 3 with sympy):
+
+```
+git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile/source && sh tools/prepare_clone.sh && python3 build.py && python3 tools/make_deploy.py && node verify/run.js
+```
+The last line printed is `TOTAL passed/total`.
