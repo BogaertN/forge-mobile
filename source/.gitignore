@@ -8,3 +8,6 @@ verify/results.json
 verify/REPORT.md
 verify/summary.json
 verify/tmp/
+src/build-info.js
+src/release.js
+src/features.js

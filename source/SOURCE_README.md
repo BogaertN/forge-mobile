@@ -1,11 +1,11 @@
-# forge-mobile source + verifier
+# forge-mobile source and verifier
 
-This folder is the full source of the app published at the repository root: kernel, derivation rules, build scripts and the complete verifier (`verify/run.js` plus the suite files it runs). Large and binary inputs (lexicon, icons, vendored three.js / cannon-es) are not duplicated here; `tools/prepare_clone.sh` rebuilds them from the published copies at the repo root.
+This folder holds the complete source of the published app, the build script and the verifier. The binary inputs (gzipped lexicon, icons, vendored three.js / cannon-es) are stored at the repository root as `*.b64` or vendor files. `tools/prepare_clone.sh` decodes them into git-ignored paths.
 
-Reproduce the full run from a fresh clone (Node ≥ 20, Python 3 with sympy):
+Release command, run from a fresh clone (Node 20; Python 3 with `cryptography`):
 
 ```
-git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile/source && sh tools/prepare_clone.sh && python3 build.py && python3 tools/make_deploy.py && node verify/run.js
+git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile && sh source/tools/release.sh
 ```
 
-`node verify/run.js` prints one PASS/FAIL line per check and ends with `TOTAL passed/total`. It also rewrites `verify/results.json`, `verify/REPORT.md` and `verify/summary.json` (generated records, not committed). Checks that compare against the private forge/forge2 repositories or the private papers only run where those files exist locally.
+See `README.md` in this folder and at the repo root for the pipeline order: verify → build → release check. All outputs go to `<repo>/_release/`, which is git-ignored. No tracked file is written. Checks that compare against private forge/forge2 repositories or private papers run only where those files exist locally. When the files are absent, the check is skipped, but it still counts in the total, so totals do not depend on the machine.

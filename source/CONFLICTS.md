@@ -56,7 +56,8 @@ Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation A
 - **PyBullet vs cannon-es.** Same gravity and step size, but a different solver, so results are labelled "3-D PREVIEW (cannon-es) — not a PyBullet result". URDF joints and meshes are not mapped.
 
 ## Memory Economy (v4.7.0)
-- Doc mints CT "after validation" by Stewards/phase validation; the app has no validator role, so the local user's review-accept is the validation event and difficulty defaults to Light (decision E1).
+- Doc mints CT "after validation" by Stewards/phase validation. v4.8.3 (user decision 2026-10-12): review-accept records a ContributionEventCandidate only. A separate BreathValidation event, by a local reviewer who is not a contributor and must give evidence, is required before a capsule is finalized. The local reviewer is NOT a Memory Steward; the doc's Steward role is not implemented. Difficulty defaults to Light and the reviewer may raise it. Fork half-credit (×½ to the original) is a provisional Forge Mobile policy interpretation.
+- Unresolved: the doc does not define how a later collaborator differs from multiple first-breath co-creators. The app treats co-creators named in the signed body as direct (×1) and later co-signers as collaborative (×⅓).
 - Doc ties CT to Memory Capsules and payment_reference/investment ledgers; payments and investment are excluded (M5 count-only). Patch 300 keeps economic_processing NOT_AUTHORIZED; mirrored.
 - Doc has no per-use reward; usage/citation are recorded as counts only (decision E2).
 - Fork credit: doc defines Indirect (½) as shaping without originating; used for an original creator of a forked tool. Interpretation, flagged.
