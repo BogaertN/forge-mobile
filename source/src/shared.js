@@ -30,13 +30,62 @@ function Signer(store, vault) { const KEY = 'signing_key';
 async function verifySig(body, sig, pub) { try { const key = await subtle().importKey('jwk', Object.assign({ ext: true }, pub), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']); return await subtle().verify({ name: 'ECDSA', hash: 'SHA-256' }, key, unb64(sig), te.encode(canon(body))); } catch (e) { return false; } }
 const bodyOf = m => { const b = Object.assign({}, m); delete b.sig; delete b.id; delete b.cosigners; return b; }; /* co-signatures sign the same body */
 const hasForbidden = o => (o && typeof o === 'object' ? Object.keys(o).some(k => FORBIDDEN_KEYS.test(k) || hasForbidden(o[k])) : false);
+/* ---- v4.8.4 strict, bounded per-kind schemas (validated AFTER signature verification, BEFORE storing or rendering) ---- */
+const SIGID = /^sig-[0-9a-f]{16}$/, EMNID = /^emn:[0-9a-f]{64}$/, B64URL43 = /^[A-Za-z0-9_-]{43}$/, B64SIG = /^[A-Za-z0-9+/]{1,200}={0,2}$/;
+const Str = (max, re, min) => ({ t: 'str', max, re, min: min || 0 }); const Int = (min, max) => ({ t: 'int', min, max }); const Bool = { t: 'bool' }; const En = (...v) => ({ t: 'enum', v });
+const Obj = (req, opt) => ({ t: 'obj', req: req || {}, opt: opt || {} }); const Arr = (of, max, min) => ({ t: 'arr', of, max, min: min || 0 }); const Any = (depth, maxStr, maxArr, maxKeys) => ({ t: 'any', depth, maxStr, maxArr, maxKeys });
+const JWK = Obj({ kty: En('EC'), crv: En('P-256'), x: Str(43, B64URL43), y: Str(43, B64URL43) }, { ext: Bool });
+const SIGNED_BY = Obj({ signer: Str(20, SIGID), pub: JWK, sig: Str(200, B64SIG) }, { at: Str(40) });
+const SOURCE = Obj({ kind: Str(40, null, 1), signer: Str(20, SIGID), pub: JWK }, { device: Str(100) });
+const COMMON_OPT = { cosigners: Arr(SIGNED_BY, 8), co_creators: Arr(Str(20, SIGID), 8), first_breath: Arr(Obj({ signer: Str(20, SIGID), pub: JWK, sig: Str(200, B64SIG) }), 8), lineage: Arr(Obj({ parent: Str(80, EMNID), creator: Str(20, SIGID) }), 20) };
+const HEAD = kind => ({ id: Str(68, EMNID), sig: Str(200, B64SIG), kind: En(kind), source: SOURCE, created: Str(40, null, 1), authority: En('evidence_only') });
+const SCHEMAS = {
+  'emn-claim-manifest/v1': Obj(Object.assign(HEAD('claim'), { schema: En('emn-claim-manifest/v1'), proposition: Str(2000, null, 1), scope: Str(500), falsification_conditions: Str(1000), polarity: En('pos', 'neg'),
+    evidence: Arr(Obj({ type: Str(100, null, 1) }, { ref: Str(200), method: Str(200), uncertainty: Str(100) }), 20), ancestry_root: Str(200, null, 1) }),
+    Object.assign({ proof_debt: Bool, consent: Obj({}, { item: Str(200), at: Str(40), scope: Str(100), revocable: Bool }) }, COMMON_OPT)),
+  'emn-tool-package/v1': Obj(Object.assign(HEAD('tool_package'), { schema: En('emn-tool-package/v1'), lineage: COMMON_OPT.lineage,
+    tool: Obj({ name: Str(31, /^[a-z][a-z0-9-]{1,30}$/), version: Int(1, 1000000), code: Str(20000, null, 1), sha: Str(64, /^[0-9a-f]{64}$/),
+      tests: Arr(Obj({ input: Str(2000), expect: Any(4, 2000, 50, 20) }), 50, 1),
+      manifest: Obj({ id: Str(80, null, 1), name: Str(31, /^[a-z][a-z0-9-]{1,30}$/), description: Str(300, null, 1), inputs: Arr(Str(40), 10), outputs: Arr(Str(40), 10), effect: En('compute'), side_effects: Arr(En('READ_ONLY'), 4), grants: Arr(Str(40), 0), authority: En('evidence_only'), uses_model: En(false), language: En('ForgeScript') }) }) }),
+    { cosigners: COMMON_OPT.cosigners, co_creators: COMMON_OPT.co_creators, first_breath: COMMON_OPT.first_breath }),
+  'emn-credit-ledger/v1': Obj(Object.assign(HEAD('credit_ledger'), { schema: En('emn-credit-ledger/v1'), format: Str(40, null, 1), device: Str(100, null, 1), checkpoint: Any(4, 200, 16, 16), chain: Arr(Any(3, 600, 16, 16), 200000),
+    capsules: Arr(Any(5, 2000, 64, 40), 20000), econ_events: Arr(Any(6, 2000, 64, 40), 200000), usage_events: Arr(Any(2, 600, 4, 20), 200000), usage_totals: Arr(Any(2, 600, 4, 8), 200000), policy_version: Str(60, null, 1) }),
+    { manifests: Arr(Any(8, 20000, 64, 40), 20000), usage: Any(3, 600, 1000, 1000), cosigners: COMMON_OPT.cosigners }) };
+const MAX_DEPTH = 16;
+function depthOf(v, d) { d = d || 0; if (d > MAX_DEPTH) return d; if (v && typeof v === 'object') { let m = d; for (const k of Object.keys(v)) { m = Math.max(m, depthOf(v[k], d + 1)); if (m > MAX_DEPTH) return m; } return m; } return d; }
+function vcheck(v, sp, path, d) { const P = path || '$'; if (d > MAX_DEPTH) return 'NESTING ' + P;
+  switch (sp.t) {
+    case 'str': if (typeof v !== 'string') return 'TYPE ' + P; if (v.length > sp.max) return 'OVERSIZE ' + P; if (v.length < sp.min) return 'MISSING ' + P; if (sp.re && !sp.re.test(v)) return 'FORMAT ' + P; return null;
+    case 'int': return Number.isInteger(v) && v >= sp.min && v <= sp.max ? null : 'TYPE ' + P;
+    case 'bool': return typeof v === 'boolean' ? null : 'TYPE ' + P;
+    case 'enum': return sp.v.includes(v) ? null : 'VALUE ' + P;
+    case 'arr': { if (!Array.isArray(v)) return 'TYPE ' + P; if (v.length > sp.max) return 'OVERSIZE ' + P; if (v.length < sp.min) return 'MISSING ' + P; for (let i = 0; i < v.length; i++) { const e = vcheck(v[i], sp.of, P + '[' + i + ']', d + 1); if (e) return e; } return null; }
+    case 'obj': { if (!v || typeof v !== 'object' || Array.isArray(v)) return 'TYPE ' + P; for (const k of Object.keys(sp.req)) if (!(k in v)) return 'MISSING ' + P + '.' + k;
+      for (const k of Object.keys(v)) { const s2 = sp.req[k] || sp.opt[k]; if (!s2) return 'UNKNOWN-FIELD ' + P + '.' + k; const e = vcheck(v[k], s2, P + '.' + k, d + 1); if (e) return e; } return null; }
+    case 'any': { if (d > MAX_DEPTH) return 'NESTING ' + P; const go = (x, dd, pp) => { if (dd > sp.depth) return 'NESTING ' + pp; if (x === null || typeof x === 'number' || typeof x === 'boolean') return x === null || typeof x !== 'number' || Number.isFinite(x) ? null : 'TYPE ' + pp;
+        if (typeof x === 'string') return x.length > sp.maxStr ? 'OVERSIZE ' + pp : null; if (Array.isArray(x)) { if (x.length > sp.maxArr) return 'OVERSIZE ' + pp; for (let i = 0; i < x.length; i++) { const e = go(x[i], dd + 1, pp + '[' + i + ']'); if (e) return e; } return null; }
+        if (typeof x === 'object') { const ks = Object.keys(x); if (ks.length > sp.maxKeys) return 'OVERSIZE ' + pp; for (const k of ks) { if (k.length > 64) return 'OVERSIZE ' + pp; const e = go(x[k], dd + 1, pp + '.' + k); if (e) return e; } return null; } return 'TYPE ' + pp; };
+      return go(v, 0, P); }
+  } return 'SPEC ' + P; }
+function schemaProblem(m) { if (depthOf(m) > MAX_DEPTH) return 'SHARED-SCHEMA-NESTING'; const sp = SCHEMAS[m && m.schema]; if (!sp) return 'SHARED-SCHEMA';
+  const kindOf = { 'emn-claim-manifest/v1': 'claim', 'emn-tool-package/v1': 'tool_package', 'emn-credit-ledger/v1': 'credit_ledger' }; if (m.kind !== kindOf[m.schema]) return 'SHARED-SCHEMA-KIND-MISMATCH';
+  const e = vcheck(m, sp, '$', 0); return e ? 'SHARED-SCHEMA-' + e.split(' ')[0] + ':' + e.split(' ').slice(1).join(' ').slice(0, 80) : null; }
+/* first breath: a named co-creator signs the exact author draft (the final body without first_breath) BEFORE the author signs and publishes */
+const draftOf = m => { const b = bodyOf(m); delete b.first_breath; return b; };
+const FB_PURPOSE = 'forge-first-breath-cocreate/v1';
+const fbBody = draft => ({ purpose: FB_PURPOSE, draft_sha256: sha256(canon(draft)) });
 async function check(m) { if (!m || typeof m !== 'object' || !/^emn:/.test(m.id || '')) return 'SHARED-BAD-SHAPE'; if (!/^emn-(claim-manifest|tool-package|credit-ledger)\/v1$/.test(m.schema || '')) return 'SHARED-SCHEMA';
   if ('emn:' + sha256(canon(bodyOf(m))) !== m.id) return 'SHARED-ID-HASH'; if (!m.source || !m.source.pub || !m.sig) return 'SHARED-UNSIGNED';
   if ('sig-' + sha256(canon(m.source.pub)).slice(0, 16) !== m.source.signer) return 'SHARED-SIGNER-MISMATCH'; if (!(await verifySig(bodyOf(m), m.sig, m.source.pub))) return 'SHARED-SIGNATURE';
   if (SECRETISH.test(JSON.stringify(m))) return 'SHARED-SECRET-SHAPE'; if (hasForbidden(m)) return 'SHARED-ECONOMY-NOT-AUTHORIZED'; if (m.authority !== 'evidence_only') return 'SHARED-AUTHORITY-CLAIM';
   if (m.cosigners !== undefined) { if (!Array.isArray(m.cosigners) || m.cosigners.length > 8) return 'SHARED-COSIGN-SHAPE'; const seen = new Set([m.source.signer]);
     for (const c of m.cosigners) { if (!c || !c.pub || !c.sig || seen.has(c.signer) || 'sig-' + sha256(canon(c.pub)).slice(0, 16) !== c.signer) return 'SHARED-COSIGNER-MISMATCH'; if (!(await verifySig(bodyOf(m), c.sig, c.pub))) return 'SHARED-COSIGNATURE'; seen.add(c.signer); } }
+  const sp = schemaProblem(m); if (sp) return sp;
+  if (m.first_breath !== undefined) { const named = new Set(m.co_creators || []); const seen = new Set([m.source.signer]); const fb = fbBody(draftOf(m));
+    for (const c of m.first_breath) { if (!named.has(c.signer) || seen.has(c.signer) || 'sig-' + sha256(canon(c.pub)).slice(0, 16) !== c.signer) return 'SHARED-FIRST-BREATH-SIGNER'; if (!(await verifySig(fb, c.sig, c.pub))) return 'SHARED-FIRST-BREATH-SIGNATURE'; seen.add(c.signer); } }
   return null; }
+/* deterministic co-signature merge: union by signer (first verified signature per signer kept), sorted by signer */
+function mergeCosigners(a, b) { const by = new Map(); for (const c of [].concat(a || [], b || [])) if (c && c.signer && !by.has(c.signer)) by.set(c.signer, c); return [...by.keys()].sort().map(k => by.get(k)); }
 const norm = t => String(t || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
 function Shared(store, deps) { const { perm, ledger, signer } = deps; const now = () => (deps.clock ? deps.clock() : new Date().toISOString());
   async function publish(body) { const k = await signer.ensure(); if (!k) return { ok: false, rule: 'SHARED-VAULT-LOCKED' };
@@ -45,27 +94,62 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
     const out = store.load('shared_outbox'); if (!out.some(x => x.id === m.id)) out.push(Object.assign({}, m, { _state: 'pending' })); store.save('shared_outbox', out.slice(-1000)); return { ok: true, manifest: m }; }
   /* per-item consented contribution of one of the user's own memory records */
   async function contribute(recordId, o) { o = o || {}; const d = perm.authorize('shared.contribute', { userTap: !!o.userTap, subject: recordId }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+    const cb = await contributeBody(recordId, o); if (!cb.ok) return cb; const res = await publish(cb.body); if (res.ok) ledger.append('shared_contribution', res.manifest.id); return res; }
+  async function contributeBody(recordId, o) { o = o || {};
     const r = store.load('memory').find(x => x.id === recordId && x.status === 'active'); if (!r) return { ok: false, rule: 'SHARED-NO-SUCH-RECORD' };
     if (r.sensitive || r.kind === 'secret' || r.vault_ref) return { ok: false, rule: 'SHARED-VAULT-DATA-NEVER-SHARED' }; const tr = store.load('trace').find(x => r.provenance && x.turn === r.provenance.turn); const text = String(o.text || (tr && tr.input ? tr.input.replace(/^\s*(?:please\s+)?(?:remember|note|store|save)\s+(?:that\s+)?/i, '').replace(/[.!]+\s*$/, '') : '')).slice(0, 2000);
     if (!text) return { ok: false, rule: 'SHARED-NO-PROPOSITION' }; if (SECRETISH.test(text)) return { ok: false, rule: 'SHARED-SECRET-SHAPE' };
     const body = { schema: 'emn-claim-manifest/v1', kind: 'claim', proposition: text, scope: String(o.scope || 'as stated by the contributor'), falsification_conditions: String(o.falsification || 'unstated (proof debt)'), polarity: r.clause && r.clause.verb && r.clause.verb.pol === 'neg' ? 'neg' : 'pos',
       evidence: [{ type: 'contributor statement', ref: 'rec:' + sha256(r.id).slice(0, 16), method: 'user assertion via Forge kernel', uncertainty: 'unassessed' }], ancestry_root: o.root || 'root:' + sha256(norm(text) + '|' + (signer.id() || '')).slice(0, 16),
       source: { kind: 'user_memory', device: ledger.device() }, created: now(), authority: 'evidence_only', proof_debt: true, consent: { item: recordId, at: now(), scope: 'shared_layer', revocable: true } };
-    const res = await publish(body); if (res.ok) ledger.append('shared_contribution', res.manifest.id); return res; }
+    return { ok: true, body }; }
   /* E3 co-signing: a collaborator signs the author's exact body; the author attaches it before (or after) publishing — id is unchanged */
   async function cosign(m, o) { o = o || {}; const d = perm.authorize('shared.contribute', { userTap: !!o.userTap, subject: m && m.id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
     const err = await check(m); if (err) return { ok: false, rule: err }; const k = await signer.ensure(); if (!k) return { ok: false, rule: 'SHARED-VAULT-LOCKED' }; if (k.signer === m.source.signer) return { ok: false, rule: 'SHARED-COSIGN-SELF' };
     const sg = await signer.sign(bodyOf(m)); return { ok: true, cosignature: { signer: k.signer, pub: k.pub, sig: sg.sig, at: now() } }; }
   async function attachCosignature(id, cs) { const out = store.load('shared_outbox'); const m = out.find(x => x.id === id); if (!m) return { ok: false, rule: 'SHARED-NO-SUCH-CONTRIBUTION' };
-    const t = Object.assign({}, m, { cosigners: (m.cosigners || []).filter(c => c.signer !== cs.signer).concat([cs]) }); delete t._state; const err = await check(t); if (err) return { ok: false, rule: err };
+    const t = Object.assign({}, m, { cosigners: mergeCosigners(m.cosigners, [cs]) }); if (t.cosigners.length === (m.cosigners || []).length) return { ok: true, dup: true, cosigners: t.cosigners.length }; delete t._state; const err = await check(t); if (err) return { ok: false, rule: err };
     m.cosigners = t.cosigners; if (m._state === 'pushed') m._state = 'pending'; store.save('shared_outbox', out); return { ok: true, cosigners: m.cosigners.length }; }
+  /* ---- normal first-breath co-creation flow (v4.8.4) ----
+   * 1. the author makes a DRAFT naming co-creators (nothing is published); 2. each named co-creator signs that exact draft on their own device;
+   * 3. the author adds those signatures and publishes. Only signatures embedded before the author signs count as first-breath (x1). */
+  async function draft(recordIdOrBody, coCreators, o) { o = o || {}; const d = perm.authorize('shared.contribute', { userTap: !!o.userTap, subject: 'draft' }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+    const k = await signer.ensure(); if (!k) return { ok: false, rule: 'SHARED-VAULT-LOCKED' }; const names = [...new Set((coCreators || []).map(String))].sort();
+    if (!names.length || names.length > 8 || names.some(x => !SIGID.test(x) || x === k.signer)) return { ok: false, rule: 'SHARED-CO-CREATORS-INVALID' };
+    let body; if (typeof recordIdOrBody === 'string') { const r = await contributeBody(recordIdOrBody, o); if (!r.ok) return r; body = r.body; } else body = Object.assign({}, recordIdOrBody);
+    delete body.first_breath; delete body.cosigners; body.co_creators = names; body.source = Object.assign({}, body.source, { signer: k.signer, pub: k.pub });
+    const dr = { draft_id: 'draft:' + sha256(canon(body)).slice(0, 24), body, purpose: FB_PURPOSE, draft_sha256: sha256(canon(body)), signatures: [], created: now(), state: 'draft' };
+    const l = store.load('shared_drafts'); if (!l.some(x => x.draft_id === dr.draft_id)) l.push(dr); store.save('shared_drafts', l.slice(-200)); return { ok: true, draft: { draft_id: dr.draft_id, body, purpose: FB_PURPOSE, draft_sha256: dr.draft_sha256 } }; }
+  async function signDraft(dr, o) { o = o || {}; const d = perm.authorize('shared.contribute', { userTap: !!o.userTap, subject: dr && dr.draft_id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+    if (!dr || !dr.body || sha256(canon(dr.body)) !== dr.draft_sha256) return { ok: false, rule: 'SHARED-DRAFT-HASH' }; const k = await signer.ensure(); if (!k) return { ok: false, rule: 'SHARED-VAULT-LOCKED' };
+    if (!(dr.body.co_creators || []).includes(k.signer)) return { ok: false, rule: 'SHARED-NOT-NAMED-CO-CREATOR' }; if (dr.body.source && dr.body.source.signer === k.signer) return { ok: false, rule: 'SHARED-COSIGN-SELF' };
+    const sg = await signer.sign(fbBody(dr.body)); if (!sg) return { ok: false, rule: 'SHARED-VAULT-LOCKED' }; return { ok: true, signature: { draft_id: dr.draft_id, signer: k.signer, pub: k.pub, sig: sg.sig } }; }
+  async function addDraftSignature(draftId, sgn) { const l = store.load('shared_drafts'); const dr = l.find(x => x.draft_id === draftId); if (!dr) return { ok: false, rule: 'SHARED-NO-SUCH-DRAFT' }; if (dr.state !== 'draft') return { ok: false, rule: 'SHARED-DRAFT-ALREADY-PUBLISHED' };
+    if (!sgn || !(dr.body.co_creators || []).includes(sgn.signer) || 'sig-' + sha256(canon(sgn.pub || {})).slice(0, 16) !== sgn.signer || !(await verifySig(fbBody(dr.body), sgn.sig, sgn.pub))) return { ok: false, rule: 'SHARED-FIRST-BREATH-SIGNATURE' };
+    dr.signatures = mergeCosigners(dr.signatures, [{ signer: sgn.signer, pub: sgn.pub, sig: sgn.sig }]); store.save('shared_drafts', l); return { ok: true, signed: dr.signatures.length, named: dr.body.co_creators.length }; }
+  async function publishDraft(draftId, o) { o = o || {}; const l = store.load('shared_drafts'); const dr = l.find(x => x.draft_id === draftId); if (!dr) return { ok: false, rule: 'SHARED-NO-SUCH-DRAFT' }; if (dr.state !== 'draft') return { ok: false, rule: 'SHARED-DRAFT-ALREADY-PUBLISHED' };
+    const d = perm.authorize('shared.contribute', { userTap: !!o.userTap, subject: draftId }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+    const body = Object.assign({}, dr.body); if (dr.signatures.length) body.first_breath = dr.signatures.map(x => ({ signer: x.signer, pub: x.pub, sig: x.sig }));
+    const res = await publish(body); if (!res.ok) return res; dr.state = 'published'; dr.manifest_id = res.manifest.id; store.save('shared_drafts', l); ledger.append('shared_contribution', res.manifest.id); return Object.assign(res, { first_breath: dr.signatures.length }); }
   function revoke(id) { const out = store.load('shared_outbox'); const m = out.find(x => x.id === id); if (!m) return { ok: false, rule: 'SHARED-NO-SUCH-CONTRIBUTION' }; m._state = 'revoked'; m._revoked_at = now(); store.save('shared_outbox', out); return { ok: true, note: 'copies already pulled by others cannot be recalled; future pushes stop' }; }
   async function receive(list) { const inbox = store.load('shared_inbox'); const res = { quarantined: 0, refused: [], dup: 0 }; const mine = new Set(store.load('shared_outbox').map(x => x.id));
-    for (const m of (Array.isArray(list) ? list : []).slice(0, 500)) { if (inbox.some(x => x.manifest.id === m.id) || mine.has(m && m.id)) { res.dup++; continue; } const err = await check(m); if (err) { res.refused.push(err); continue; }
+    for (const m of (Array.isArray(list) ? list : []).slice(0, 500)) { const known = inbox.find(x => x.manifest.id === (m && m.id)) || null;
+      if (known || mine.has(m && m.id)) { /* v4.8.4: a known manifest may arrive with NEW verified co-signatures; merge them deterministically */
+        if (m && Array.isArray(m.cosigners) && m.cosigners.length) { const err = await check(m); if (err) { res.refused.push(err); continue; }
+          const merged = await mergeInto(m, inbox); if (merged) { res.cosign_merged = (res.cosign_merged || 0) + merged; continue; } }
+        res.dup++; continue; }
+      const err = await check(m); if (err) { res.refused.push(err); continue; }
       if (m.kind === 'credit_ledger') { const r = deps.economy ? await deps.economy.mergeForeign(m) : { ok: false, rule: 'ECON-ABSENT' }; (res.credit = res.credit || []).push(r.ok ? 'ok:' + r.rule : r.rule); continue; }
-      if (m.cosigners) { const i2 = inbox.find(x => x.manifest.id === m.id); if (i2) { i2.manifest.cosigners = m.cosigners; continue; } }
       inbox.push({ manifest: m, status: 'quarantined', received: now(), checks: ['id-hash', 'signature', 'signer-key', 'secret-shape', 'no-economy', 'evidence_only'] }); res.quarantined++; }
     store.save('shared_inbox', inbox.slice(-2000)); return res; }
+  /* merge verified co-signatures of an already-known manifest into the inbox, accepted knowledge and own outbox copies (each re-verified as a whole) */
+  async function mergeInto(m, inbox) { let added = 0; const targets = []; /* inbox: the caller's working copy (receive() saves it) */
+    const ib = inbox.find(x => x.manifest.id === m.id); if (ib) targets.push([null, inbox, ib, 'manifest']);
+    const kb = store.load('shared_knowledge'); const kk = kb.find(x => x.id === m.id); if (kk) targets.push(['shared_knowledge', kb, kk, 'manifest']);
+    const out = store.load('shared_outbox'); const oo = out.find(x => x.id === m.id); if (oo) targets.push(['shared_outbox', out, oo, null]);
+    for (const [name, list, ent, key] of targets) { const cur = key ? ent[key] : ent; const next = mergeCosigners(cur.cosigners, m.cosigners); if (next.length === (cur.cosigners || []).length) continue;
+      const t = Object.assign({}, cur, { cosigners: next }); delete t._state; delete t._revoked_at; if (await check(t)) continue; const n = next.length - (cur.cosigners || []).length; cur.cosigners = next; if (!key && cur._state === 'pushed') cur._state = 'pending'; if (name) store.save(name, list); added = Math.max(added, n); }
+    return added; }
   function review(id, decision, o) { o = o || {}; const d = perm.authorize('shared.review', { userTap: !!o.userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
     const inbox = store.load('shared_inbox'); const e = inbox.find(x => x.manifest.id === id && x.status === 'quarantined'); if (!e) return { ok: false, rule: 'SHARED-NOT-QUARANTINED' };
     e.status = decision === 'accept' ? 'accepted_as_evidence' : 'rejected'; e.reviewed = now(); e.reason = o.reason || null; store.save('shared_inbox', inbox);
@@ -87,7 +171,7 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
     const cur = store.load('shared_cursor'); let since = (cur && cur.since) || 0; let got = { quarantined: 0, refused: [], dup: 0 };
     for (let i = 0; i < 25; i++) { const r = await rpc('shared.get', { since }); if (!r || !r.ok) break; const x = await receive(r.manifests); got.quarantined += x.quarantined; got.dup += x.dup; got.refused.push(...x.refused); if (r.next === since || !r.manifests.length) break; since = r.next; }
     store.save('shared_cursor', { since }); return { ok: true, pushed, received: got }; }
-  return { publish, contribute, cosign, attachCosignature, revoke, receive, review, challenge, assess, sync, outbox: () => store.load('shared_outbox'), inbox: () => store.load('shared_inbox'), knowledge: () => store.load('shared_knowledge') }; }
-const api = { Shared, Signer, check, verifySig, canon, CHALLENGES, STATES, SECRETISH };
+  return { publish, contribute, draft, signDraft, addDraftSignature, publishDraft, drafts: () => store.load('shared_drafts'), cosign, attachCosignature, revoke, receive, review, challenge, assess, sync, outbox: () => store.load('shared_outbox'), inbox: () => store.load('shared_inbox'), knowledge: () => store.load('shared_knowledge') }; }
+const api = { Shared, Signer, check, verifySig, canon, schemaProblem, mergeCosigners, SCHEMAS, fbBody, draftOf, CHALLENGES, STATES, SECRETISH };
 if (isNode) module.exports = api; else root.KShared = api;
 })(typeof self !== 'undefined' ? self : this);
