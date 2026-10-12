@@ -20,7 +20,7 @@ function lexBadge() { const st = forge.lexicon.stats(); $('#lexBadge').textConte
 /* tabs + rail */
 const RENDER = { echoforge: () => window.renderBench && window.renderBench(), memory: renderMem, vault: () => { renderVault(); if (window.renderVaultExtra) window.renderVaultExtra(); }, library: renderLex, audit: renderAudit, status: renderStatus };
 function openTab(t) { $$('#tabs button').forEach(x => { x.classList.toggle('on', x.dataset.tab === t); x.setAttribute('aria-selected', x.dataset.tab === t ? 'true' : 'false'); }); $$('.tab').forEach(x => x.classList.toggle('on', x.id === t)); if (RENDER[t]) RENDER[t](); refreshChrome(); window.scrollTo(0, 0); }
-window.openTab = openTab; $$('#tabs button').forEach(b => b.onclick = () => openTab(b.dataset.tab));
+window.openTab = openTab; window.openRecovery = () => { openTab('echoforge'); const el = document.getElementById('recovery'); if (el && el.scrollIntoView) el.scrollIntoView(); }; $$('#tabs button').forEach(b => b.onclick = () => openTab(b.dataset.tab));
 $('#railBtn').onclick = () => { $('#rail').hidden = false; refreshChrome(); }; $('#railClose').onclick = () => { $('#rail').hidden = true; };
 $$('#rail [data-cmd]').forEach(b => b.onclick = () => { $('#rail').hidden = true; openTab('output'); say(b.dataset.cmd); });
 /* result kinds (forge main.py _p255_operator_llm_request_v1 result kinds) */

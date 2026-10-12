@@ -3,7 +3,7 @@
  * D4 workbench: fixed recipes with a park kill switch that auto-parks on any authority beyond the recipe manifest. No reply text. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
-  const Gv = isNode ? require('./governance.js') : root.KGov; const PV = isNode ? require('./privacy.js') : root.KPrivacy; const MG = isNode ? require('./migrate.js') : root.KMigrate; const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
+  const Gv = isNode ? require('./governance.js') : root.KGov; const PV = isNode ? require('./privacy.js') : root.KPrivacy; const MG0 = isNode ? require('./migrate.js') : null; const MGx = () => MG0 || root.KMigrate; /* resolved lazily: migrate.js loads after operator.js in index.html */ const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
   const STOP = new Set('i me my you your the a an is are was were be to of and or in on at for with that this it its he she they we our his her their what who when where which how do does did not no yes'.split(' '));
   /* Gilligan (GenNode Doc 10): recurring entities across sessions + repeated unknown words + feedback marked wrong. Counts only. */
   function gilligan(store, opts) {
@@ -23,18 +23,6 @@
       const d = perm.authorize('feedback.write', { userTap, subject: 'trace:' + turn }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
       const t = L('trace').find(x => x.turn === turn); const f = { id: 'fb:' + turn + ':' + L('feedback').length, turn, verdict, at: now(), msm_id: t && t.msm ? t.msm.msm_id : null, kind: t && t.msm && t.msm.meaning ? t.msm.meaning.kind : null, rules: t ? (t.derivation ? t.derivation.rule_count : null) : null };
       const fs = L('feedback'); fs.push(f); store.save('feedback', fs); return { ok: true, feedback: f, readback: Gv.readback(store, 'feedback', f.id, f).readback }; }
-    /* encrypted backup: every store, AES-GCM under the vault key; manifest hash checked on restore; restore keeps a pre-restore snapshot */
-    async function backup(categories, userTap) { const d = perm.authorize('backup.create', { userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule }; if (!vault || vault.status() !== 'unlocked') return { ok: false, rule: 'PERM-VAULT-LOCKED' };
-      const data = {}; for (const c of categories) data[c] = store.load(c); const manifest = { format: 'forge-mobile-backup-v1', created: now(), categories, data_sha256: sha256(Gv.canon(data)) };
-      const box = await vault.encryptBlob(JSON.stringify({ manifest, data })); return { ok: true, file: { format: manifest.format, created: manifest.created, manifest_sha256: sha256(Gv.canon(manifest)), box } }; }
-    async function restore(file, userTap) { const d = perm.authorize('backup.restore', { userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule }; if (!vault || vault.status() !== 'unlocked') return { ok: false, rule: 'PERM-VAULT-LOCKED' };
-      let o; try { o = JSON.parse(await vault.decryptBlob(file.box)); } catch (e) { return { ok: false, rule: 'BACKUP-DECRYPT-FAILED' }; }
-      if (sha256(Gv.canon(o.data)) !== o.manifest.data_sha256 || sha256(Gv.canon(o.manifest)) !== file.manifest_sha256) return { ok: false, rule: 'BACKUP-MANIFEST-MISMATCH' };
-      const snap = {}; for (const c of o.manifest.categories) snap[c] = store.load(c);
-      for (const c of o.manifest.categories) store.save(c, o.data[c]);
-      const bad = o.manifest.categories.filter(c => Gv.hash(store.load(c)) !== Gv.hash(o.data[c]));
-      if (bad.length) { for (const c of Object.keys(snap)) store.save(c, snap[c]); return { ok: false, rule: 'RB-READBACK-MISMATCH-ROLLBACK', bad }; }
-      return { ok: true, restored: o.manifest.categories.length, readback: 'match' }; }
     /* ---- portable Backup & Recovery (v4.8.3) ----
      * Format forge-mobile-portable-backup v1: a plaintext header (format, format_version, app_schema, created, store list, manifest hash) and an
      * AES-GCM box whose KDF parameters and salt travel WITH the file (PBKDF2-SHA-256), so a fresh install opens it before any local vault exists.
@@ -45,7 +33,7 @@
     const dflt = c => (c === 'meta' ? {} : []); let lastExport = null;
     async function portableBackup(pass, o) { o = o || {}; const pr = PV.passphraseProblem(pass); if (pr) return { ok: false, rule: 'BACKUP-PASSPHRASE-RULE', detail: pr };
       const d = perm.authorize('backup.create', { userTap: !!o.userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
-      const stores = STORES(); const data = {}; for (const c of stores) data[c] = store.load(c); const mig = store.load('migrations'); const app_schema = mig && !Array.isArray(mig) && mig.schema ? mig.schema : MG.SCHEMA;
+      const stores = STORES(); const data = {}; for (const c of stores) data[c] = store.load(c); const mig = store.load('migrations'); const app_schema = mig && !Array.isArray(mig) && mig.schema ? mig.schema : MGx().SCHEMA;
       const manifest = { format: 'forge-mobile-portable-backup', format_version: 1, app_schema, created: now(), stores, data_sha256: sha256(Gv.canon(data)) };
       const box = await PV.portableSeal(pass, JSON.stringify({ manifest, data }), { iterations: o.iterations }); lastExport = { at: manifest.created, manifest_sha256: sha256(Gv.canon(manifest)) };
       return { ok: true, file: { format: manifest.format, format_version: 1, app_schema, created: manifest.created, stores, manifest_sha256: lastExport.manifest_sha256, box } }; }
@@ -58,25 +46,25 @@
       if (!Array.isArray(file.stores)) return 'BACKUP-MALFORMED-HEADER'; if (file.stores.length > L.stores_max) return 'BACKUP-LIMIT-STORE-COUNT'; if (!file.stores.every(c => typeof c === 'string' && /^[a-z0-9_]{1,64}$/.test(c)) || new Set(file.stores).size !== file.stores.length) return 'BACKUP-MALFORMED-HEADER';
       const bp = PV.boxProblem(file.box); if (bp) return bp; let n = 0; try { n = JSON.stringify(file).length; } catch (e) { return 'BACKUP-MALFORMED-HEADER'; } if (n > L.file_bytes) return 'BACKUP-LIMIT-FILE-SIZE'; return null; }
     function parsePortableText(text) { try { return { ok: true, file: PV.parseBounded(text) }; } catch (e) { return { ok: false, rule: String(e.message || 'BACKUP-MALFORMED-FILE') }; } }
-    async function openPortable(file, pass) { const fp = fileProblem(file); if (fp) return { err: fp };
+    async function openPortable(file, pass, oo) { oo = oo || {}; const fp = fileProblem(file); if (fp) return { err: fp };
       let txt; try { txt = await PV.portableOpen(pass, file.box); } catch (e) { const m = String(e && e.message); return { err: /^BACKUP-/.test(m) ? m : 'BACKUP-WRONG-PASSPHRASE-OR-CORRUPT' }; }
       if (PV.jsonDepth(txt) > PV.PORTABLE_LIMITS.json_depth) return { err: 'BACKUP-LIMIT-JSON-DEPTH' };
       let o; try { o = JSON.parse(txt); } catch (e) { return { err: 'BACKUP-WRONG-PASSPHRASE-OR-CORRUPT' }; }
       if (!o || typeof o !== 'object' || !o.data || typeof o.data !== 'object' || Array.isArray(o.data)) return { err: 'BACKUP-MANIFEST-MISMATCH' };
       if (Object.keys(o.data).length > PV.PORTABLE_LIMITS.stores_max) return { err: 'BACKUP-LIMIT-STORE-COUNT' }; if (!Object.keys(o.data).every(c => file.stores.includes(c))) return { err: 'BACKUP-MANIFEST-MISMATCH' };
       if (!o || !o.manifest || !o.data || sha256(Gv.canon(o.data)) !== o.manifest.data_sha256 || sha256(Gv.canon(o.manifest)) !== file.manifest_sha256) return { err: 'BACKUP-MANIFEST-MISMATCH' };
-      if (!(o.manifest.app_schema >= 0) || o.manifest.app_schema > MG.SCHEMA) return { err: 'BACKUP-SCHEMA-NEWER-THAN-APP' };
+      if (!(o.manifest.app_schema >= 0) || o.manifest.app_schema > MGx().SCHEMA) return { err: 'BACKUP-SCHEMA-NEWER-THAN-APP' };
       const stage = JSON.parse(JSON.stringify(o.data)); const ss = { load: c => (stage[c] === undefined ? dflt(c) : JSON.parse(JSON.stringify(stage[c]))), save: (c, v) => { stage[c] = JSON.parse(JSON.stringify(v)); } };
       const m0 = ss.load('migrations'); if (!m0 || Array.isArray(m0) || (m0.schema || 0) !== o.manifest.app_schema) ss.save('migrations', Object.assign({ applied: [] }, m0 && !Array.isArray(m0) ? m0 : {}, { schema: o.manifest.app_schema }));
-      const mr = MG.migrate(ss, now()); if (mr.applied_now.some(x => x.error)) return { err: 'BACKUP-MIGRATION-FAILED' };
+      let mr; try { mr = (oo.migrate || MGx().migrate)(ss, now()); } catch (e) { return { err: 'BACKUP-MIGRATION-FAILED' }; } if (!mr || mr.applied_now.some(x => x.error)) return { err: 'BACKUP-MIGRATION-FAILED' };
       return { manifest: o.manifest, data: stage, migrated: mr.applied_now.map(x => x.id) }; }
     const PORTABLE_VERSIONS = [1];
     async function inspectPortable(file, pass) { const r = await openPortable(file, pass); return r.err ? { ok: false, rule: r.err } : { ok: true, app_schema: r.manifest.app_schema, stores: Object.keys(r.data).length, created: r.manifest.created, migrations: r.migrated }; }
-    function writeAll(data) { for (const c of Object.keys(data)) store.save(c, data[c]); return Object.keys(data).filter(c => Gv.hash(store.load(c)) !== Gv.hash(data[c])); }
     /* v4.8.4 atomic restore with STAGED, VERSIONED storage: the verified, migrated target is written as a complete NEW generation and read back;
      * rollback metadata is written; then ONE active-generation pointer is switched (the commit). The permission decision is recorded inside the
      * staged generation, so a failure or crash at ANY write before the pointer switch leaves the old generation active and byte-identical. */
-    async function portableRestore(file, pass, o) { o = o || {}; const r = await openPortable(file, pass); if (r.err) return { ok: false, rule: r.err, changed: false };
+    async function portableRestore(file, pass, o) { o = o || {}; const r = await openPortable(file, pass, o); if (r.err) return { ok: false, rule: r.err, changed: false }; return commitTarget(r, o); }
+    function commitTarget(r, o) {
       if (!store.stageGeneration) return { ok: false, rule: 'RESTORE-STORE-NOT-GENERATIONAL', changed: false };
       const pe = perm.authorizeDeferred ? perm.authorizeDeferred('backup.restore', { userTap: !!o.userTap }) : perm.authorize('backup.restore', { userTap: !!o.userTap });
       if (pe.decision !== 'allow') return { ok: false, rule: pe.rule, changed: false };
@@ -87,7 +75,29 @@
         if (st.bad.length) return { ok: false, rule: 'RB-READBACK-MISMATCH-ROLLBACK', bad: st.bad, rolled_back: store.generation() === before, changed: false };
         store.commitGeneration(st); }
       catch (e) { return { ok: false, rule: /quota/i.test(String(e && (e.name + ' ' + e.message))) ? 'RESTORE-QUOTA-ABORTED' : 'RESTORE-WRITE-ABORTED', rolled_back: store.generation() === before, changed: store.generation() !== before, detail: String(e && e.message || e).slice(0, 120) }; }
-      return { ok: true, restored: Object.keys(r.data).length, migrated: r.migrated, readback: 'match', generation: st.to, rollback: 'available (previous generation ' + st.from + ' kept unmodified)' }; }
+      return { ok: true, restored: Object.keys(r.data).length, migrated: r.migrated, readback: 'match', generation: st.to, legacy_converted: !!r.legacy, rollback: 'available (previous generation ' + st.from + ' kept unmodified)' }; }
+    /* v4.9.0 LEGACY-IMPORT CONVERTER (explicitly labelled). The old v1 route (operator.backup/restore) is REMOVED: it skipped stores and wrote
+     * store by store. An old 'forge-mobile-backup-v1' file (sealed under THIS device's vault key) is only converted: bounded, decrypted, hash-checked,
+     * overlaid on a full copy of the current stores (stores the old file never held are kept, not wiped), migrated in a staging copy, and then
+     * committed through the SAME staged-generation path as portableRestore. It never writes an active store directly. */
+    const LEGACY_LIMIT = 32 * 1048576;
+    async function convertLegacy(file, o) { o = o || {};
+      if (!file || typeof file !== 'object' || Array.isArray(file) || file.format !== 'forge-mobile-backup-v1') return { ok: false, rule: 'LEGACY-FORMAT', changed: false };
+      if (!Object.keys(file).every(k => ['format', 'created', 'manifest_sha256', 'box'].includes(k)) || typeof file.manifest_sha256 !== 'string' || !/^[0-9a-f]{64}$/.test(file.manifest_sha256) || !file.box || typeof file.box !== 'object') return { ok: false, rule: 'LEGACY-MALFORMED-HEADER', changed: false };
+      let n = 0; try { n = JSON.stringify(file).length; } catch (e) { return { ok: false, rule: 'LEGACY-MALFORMED-HEADER', changed: false }; } if (n > LEGACY_LIMIT) return { ok: false, rule: 'LEGACY-LIMIT-FILE-SIZE', changed: false };
+      if (!vault || vault.status() !== 'unlocked') return { ok: false, rule: 'PERM-VAULT-LOCKED', changed: false };
+      let txt; try { txt = await vault.decryptBlob(file.box); } catch (e) { return { ok: false, rule: 'LEGACY-DECRYPT-FAILED', changed: false }; }
+      if (typeof txt !== 'string' || txt.length > PV.PORTABLE_LIMITS.plaintext_bytes) return { ok: false, rule: 'LEGACY-LIMIT-DECODED-SIZE', changed: false };
+      if (PV.jsonDepth(txt) > PV.PORTABLE_LIMITS.json_depth) return { ok: false, rule: 'LEGACY-LIMIT-JSON-DEPTH', changed: false };
+      let x; try { x = JSON.parse(txt); } catch (e) { return { ok: false, rule: 'LEGACY-DECRYPT-FAILED', changed: false }; }
+      if (!x || !x.manifest || !x.data || typeof x.data !== 'object' || Array.isArray(x.data) || !Array.isArray(x.manifest.categories)) return { ok: false, rule: 'LEGACY-MANIFEST-MISMATCH', changed: false };
+      if (sha256(Gv.canon(x.data)) !== x.manifest.data_sha256 || sha256(Gv.canon(x.manifest)) !== file.manifest_sha256) return { ok: false, rule: 'LEGACY-MANIFEST-MISMATCH', changed: false };
+      const known = STORES(); const cats = x.manifest.categories; if (cats.length > PV.PORTABLE_LIMITS.stores_max || !cats.every(c => typeof c === 'string' && known.includes(c))) return { ok: false, rule: 'LEGACY-UNKNOWN-STORE', changed: false };
+      const stage = {}; for (const c of known) stage[c] = JSON.parse(JSON.stringify(store.load(c))); for (const c of cats) if (x.data[c] !== undefined) stage[c] = JSON.parse(JSON.stringify(x.data[c]));
+      const ss = { load: c => (stage[c] === undefined ? dflt(c) : JSON.parse(JSON.stringify(stage[c]))), save: (c, v) => { stage[c] = JSON.parse(JSON.stringify(v)); } };
+      let mr; try { mr = (o.migrate || MGx().migrate)(ss, now()); } catch (e) { return { ok: false, rule: 'LEGACY-MIGRATION-FAILED', changed: false }; }
+      if (!mr || mr.applied_now.some(y => y.error)) return { ok: false, rule: 'LEGACY-MIGRATION-FAILED', changed: false };
+      return commitTarget({ data: stage, migrated: mr.applied_now.map(y => y.id), legacy: true }, o); }
     function rollbackRestore(o) { o = o || {}; if (!store.hasRollback || !store.hasRollback()) return { ok: false, rule: 'RB-NO-PRE-RESTORE-SNAPSHOT' };
       const d = perm.authorizeDeferred ? perm.authorizeDeferred('backup.restore', { userTap: !!o.userTap, subject: 'rollback' }) : perm.authorize('backup.restore', { userTap: !!o.userTap, subject: 'rollback' });
       if (d.decision !== 'allow') { if (perm.authorizeDeferred) perm.authorize('backup.restore', { userTap: !!o.userTap, subject: 'rollback' }); return { ok: false, rule: d.rule }; }
@@ -126,7 +136,7 @@
       const mem = L('memory').filter(r => r.status === 'active'); const seen = {}; let dup = 0; for (const r of mem) { const k = r.clause ? Gv.hash(r.clause) : r.text; if (seen[k]) dup++; seen[k] = 1; } add('duplicate active facts', dup === 0, { duplicates: dup });
       const tr = L('trace').slice(-20); add('drift monitor (last 20)', !tr.some(t => t.drift && t.drift.band === 'hard_stop'), { eps_s: tr.map(t => t.drift ? t.drift.eps_s : null) });
       return { at: now(), rows, ok: rows.every(r => r.ok) }; }
-    return { feedback, backup, restore, portableBackup, inspectPortable, parsePortableText, portableRestore, rollbackRestore, deletePlan, deleteAll, DELETE_PHRASE, saveProfile, activateProfile, profiles: () => L('profiles'), runRecipe, unpark, RECIPES, diagnostics, gilligan: o => gilligan(store, o) };
+    return { feedback, convertLegacy, portableBackup, inspectPortable, parsePortableText, portableRestore, rollbackRestore, deletePlan, deleteAll, DELETE_PHRASE, saveProfile, activateProfile, profiles: () => L('profiles'), runRecipe, unpark, RECIPES, diagnostics, gilligan: o => gilligan(store, o) };
   }
   const api = { Operator, gilligan };
   if (isNode) module.exports = api; else root.KOperator = api;
