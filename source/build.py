@@ -1,31 +1,74 @@
-# Build: kernel-app.html (all code inlined; lexicon tiers lazily loaded from data/*.json.gz sidecars when served over http(s))
-#        kernel-app-full.html (everything inlined incl. gzip+base64 lexicon tiers — works from file:// on a phone)
-import subprocess; subprocess.run(['node', 'tools/build_catalog.js'], check=True, cwd=__import__('os').path.dirname(__import__('os').path.abspath(__file__)))
-import base64, os, zipfile, gzip
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-import json, datetime
-T0 = json.load(open('verify/summary.json')) if os.path.exists('verify/summary.json') else None
-open('src/build-info.js', 'w').write('window.FORGE_BUILD=' + json.dumps({'version': '4.8.2', 'built': datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC'), 'tests': T0}) + ';\n')
-h = open('index.html').read()
-h = h.replace('<link rel="stylesheet" href="styles.css">', '<style>' + open('styles.css').read() + '</style>')
-for s in ['lexicon', 'sha256', 'kmath', 'algebra', 'grammar', 'infer', 'privacy', 'governance', 'containment', 'claims', 'features', 'release', 'toolbench', 'operator', 'crawler', 'legal_flags', 'consent', 'derive', 'calculus', 'sim', 'symbols', 'sonify', 'render', 'protoforge', 'ede', 'kernel', 'forge_spine', 'migrate', 'ledger', 'sync', 'drift_export', 'platform', 'lifecycle', 'stubs', 'transitions', 'fscript', 'shared', 'economy', 'toolbuilder', 'doctor', 'sim3d', 'nodeclient', 'forge', 'app', 'app_bench', 'pycheck', 'app_lab', 'app_extra']:
-    js = open(f'src/{s}.js').read().replace('</script', '<\\/script')
-    h = h.replace(f'<script src="src/{s}.js"></script>', '<script>' + js + '</script>')
-h = h.replace('<script src="src/build-info.js"></script>', '<script>' + open('src/build-info.js').read() + '</script>')
-h = h.replace('<script src="src/app_lab.js">', '<script src="src/app_lab.js">')  # (inlined above)
-h = h.replace('</head>', '<script>window.KPY_WORKER_SRC=' + json.dumps(open('src/py_worker.js').read()).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(open('data/py/coherence_math.py').read()).replace('</', '<\\/') + ';</script></head>', 1)
-ico = base64.b64encode(open('icons/icon-192.png', 'rb').read()).decode()
+#!/usr/bin/env python3
+"""Forge Mobile build (v4.8.3 release pipeline, step 2 of 3).
+
+Order is fixed: verify/run.js  ->  build.py  ->  tools/verify_release.js   (tools/release.sh runs all three).
+* Verification is the source of release truth: this script REFUSES to build unless <artifact>/verify/summary.json exists, passed == total,
+  its version equals VERSION and its tree hash equals the current tree (so the shipped tree is exactly the verified tree).
+* Everything is written to the out-of-tree, git-ignored artifact dir (default <repo>/_release, or $FORGE_ARTIFACT). No tracked file is
+  written, and nothing depends on the wall clock: the build date is the commit date, so the same commit always builds identical bytes.
+Outputs: _release/site/ (the Pages deployment, with BUILD_MANIFEST.json + build-info.json), _release/single/kernel-app.html and
+kernel-app-full.html (single-file builds)."""
+import base64, gzip, hashlib, json, os, re, shutil, subprocess, sys
+ROOT = os.path.dirname(os.path.abspath(__file__)); os.chdir(ROOT)
+OUT = os.path.abspath(os.environ.get('FORGE_ARTIFACT', os.path.join(ROOT, '..', '_release')))
+VERSION = open('VERSION').read().strip()
+def die(m): print('BUILD REFUSED:', m, file=sys.stderr); sys.exit(2)
+def git(*a):
+    try: return subprocess.run(['git', *a], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+    except Exception: return None
+# (the command catalog is checked against the source by the CATALOG test; the build never rewrites tracked files)
+sp = os.path.join(OUT, 'verify', 'summary.json')
+if not os.path.exists(sp): die('no verification summary at ' + sp + ' (run node verify/run.js first)')
+S = json.load(open(sp)); tree = subprocess.run(['node', 'tools/shipset.js', 'hash'], capture_output=True, text=True, check=True).stdout.strip()
+if S.get('passed') != S.get('total') or not S.get('total'): die('verification did not pass: %s/%s' % (S.get('passed'), S.get('total')))
+if S.get('version') != VERSION: die('summary version %s != VERSION %s' % (S.get('version'), VERSION))
+if S.get('tree_sha256') != tree: die('the tree changed after verification (tree hash mismatch); re-run verification')
+SHIP = json.loads(subprocess.run(['node', 'tools/shipset.js'], capture_output=True, text=True, check=True).stdout)
+commit = git('rev-parse', 'HEAD') or 'uncommitted'; cdate = git('log', '-1', '--format=%cI') or 'unknown'
+dirty = bool(git('status', '--porcelain', '--untracked-files=no'))
+tests = {'pass': S['passed'], 'total': S['total']}
+SITE = os.path.join(OUT, 'site'); SINGLE = os.path.join(OUT, 'single')
+for d in (SITE, SINGLE):
+    if os.path.isdir(d): shutil.rmtree(d)
+    os.makedirs(d)
+def put(rel, data):
+    p = os.path.join(SITE, rel); os.makedirs(os.path.dirname(p), exist_ok=True); open(p, 'wb').write(data if isinstance(data, bytes) else data.encode())
+for f in SHIP: put(f, open(f, 'rb').read())
+reg = json.load(open('data/feature_registry.json'))
+if reg.get('version') != VERSION: die('feature registry version %s != %s' % (reg.get('version'), VERSION))
+put('sw.js', open('sw.js').read().replace('__FORGE_VERSION__', VERSION))
+man = json.load(open('manifest.json')); man['version'] = VERSION; put('manifest.json', json.dumps(man, ensure_ascii=False))
+put('src/features.js', open(os.path.join(OUT, 'verify', 'features.js'), 'rb').read())
+info = {'version': VERSION, 'commit': commit, 'commit_date': cdate, 'built': cdate, 'tree_dirty': dirty, 'tests': tests, 'tree_sha256': tree, 'sw_cache': 'forge-mobile-v' + VERSION, 'registry_version': reg['version'], 'registry_count': reg['count']}
+put('src/build-info.js', 'window.FORGE_BUILD=' + json.dumps(info, sort_keys=True) + ';\n')
+sha = lambda b: hashlib.sha256(b).hexdigest()
+rel = {'version': VERSION, 'commit': commit, 'built': cdate, 'tests': tests, 'files': [{'path': f, 'sha256': sha(open(os.path.join(SITE, f), 'rb').read())} for f in sorted(SHIP + ['src/features.js']) if f.startswith('src/') or f in ('index.html', 'styles.css', 'sw.js', 'manifest.json', 'data/feature_registry.json')]}
+put('src/release.js', '/* generated by build.py from the verification summary (release record C-12) */\n(function (root) { const d = ' + json.dumps(rel, sort_keys=True) + "; if (typeof module !== 'undefined' && module.exports) module.exports = d; else root.KRELEASE = d; })(this);\n")
+put('build-info.json', json.dumps(info, sort_keys=True, indent=1))
+put('.nojekyll', '')
+files = []
+for dp, _, fs in os.walk(SITE):
+    for n in fs:
+        r = os.path.relpath(os.path.join(dp, n), SITE)
+        if r != 'BUILD_MANIFEST.json': b = open(os.path.join(SITE, r), 'rb').read(); files.append({'path': r, 'bytes': len(b), 'sha256': sha(b)})
+files.sort(key=lambda x: x['path'])
+doc = {'schema': 'forge-mobile-build-manifest/v2', 'version': VERSION, 'commit': commit, 'tests': tests, 'files': files}
+doc['manifest_sha256'] = sha(json.dumps(files, sort_keys=True, separators=(',', ':')).encode())
+put('BUILD_MANIFEST.json', json.dumps(doc, indent=1))
+# single-file builds (from the site copy, so they carry the same generated metadata)
+SRC = lambda rel: open(os.path.join(SITE, rel), encoding='utf-8').read()
+h = SRC('index.html').replace('<link rel="stylesheet" href="styles.css">', '<style>' + SRC('styles.css') + '</style>')
+for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
+    h = h.replace('<script src="' + m + '"></script>', '<script>' + SRC(m).replace('</script', '<\\/script') + '</script>')
+h = h.replace('</head>', '<script>window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';</script></head>', 1)
+ico = base64.b64encode(open(os.path.join(SITE, 'icons/icon-192.png'), 'rb').read()).decode()
 h = h.replace('<link rel="manifest" href="manifest.json">', '').replace('href="icons/icon-192.png"', 'href="data:image/png;base64,' + ico + '"')
-import re, hashlib
 def with_csp(doc):
     hs = sorted({"'sha256-" + base64.b64encode(hashlib.sha256(m.encode()).digest()).decode() + "'" for m in re.findall(r'<script>(.*?)</script>', doc, re.S)})
     pol = "default-src 'self'; script-src " + ' '.join(hs) + " 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' https: data:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; media-src 'self' blob: mediastream:; object-src 'none'; base-uri 'none'; form-action 'none'"
     return re.sub(r'<meta http-equiv="Content-Security-Policy" content="[^"]*">', '<meta http-equiv="Content-Security-Policy" content="' + pol + '">', doc, count=1)
-h = with_csp(h)
-open('kernel-app.html', 'w').write(h)
-core = base64.b64encode(open('data/lexicon.json.gz', 'rb').read()).decode()
-ext = base64.b64encode(open('data/lexicon-ext.json.gz', 'rb').read()).decode()
-inl = '<script>window.KLEX_CORE_GZ="' + core + '";window.KLEX_EXT_GZ="' + ext + '";</script>'
-full = with_csp(h.replace('<script>', inl + '<script>', 1))
-open('kernel-app-full.html', 'w').write(full)
-print('kernel-app.html', len(h), 'kernel-app-full.html', len(full), 'gz(full)', len(gzip.compress(full.encode())))  # R5 (approved 2026-10-11): the zip artefact is no longer built
+h = with_csp(h); open(os.path.join(SINGLE, 'kernel-app.html'), 'w').write(h)
+core = base64.b64encode(open('data/lexicon.json.gz', 'rb').read()).decode(); ext = base64.b64encode(open('data/lexicon-ext.json.gz', 'rb').read()).decode()
+full = with_csp(h.replace('<script>', '<script>window.KLEX_CORE_GZ="' + core + '";window.KLEX_EXT_GZ="' + ext + '";</script><script>', 1))
+open(os.path.join(SINGLE, 'kernel-app-full.html'), 'w').write(full)
+print('built', VERSION, commit[:12], 'tests %d/%d' % (tests['pass'], tests['total']), 'site files', len(files), 'manifest', doc['manifest_sha256'][:16], 'single', len(h), 'full gz', len(gzip.compress(full.encode())))

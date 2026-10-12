@@ -1,5 +1,5 @@
 {
- "version": "4.6.0",
+ "version": "4.8.3",
  "features": [
   {
    "id": "A-01",
@@ -49,7 +49,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/wired\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Audit tab: SHA-256 hash-chained receipts, Verify-chain button (AUDIT 17/17)",
+   "note": "Audit tab: SHA-256 hash-chained receipts, Verify-chain button (AUDIT suite)",
    "proof": [
     "AUDIT"
    ]
@@ -481,7 +481,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "derive.js sūtra realization from MSM; static scan proves no templates (DERIVATION 79/79)",
+   "note": "derive.js sūtra realization from MSM; static scan proves no templates (DERIVATION suite)",
    "proof": [
     "DERIVATION"
    ]
@@ -492,7 +492,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Echo = inverse-sūtra reparse + structural identity, no similarity (ROUND-TRIP 203/203)",
+   "note": "Echo = inverse-sūtra reparse + structural identity, no similarity (ROUND-TRIP suite)",
    "proof": [
     "ROUND-TRIP"
    ]
@@ -583,7 +583,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Forget/supersede → cold_storage with reason (FORGET 29/29)",
+   "note": "Forget/supersede → cold_storage with reason (FORGET suite)",
    "proof": [
     "FORGET"
    ]
@@ -771,7 +771,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Expectancy/congruity/connectedness/recoverable-purpose evaluators + composition (FORGE-GATES 8/8)",
+   "note": "Expectancy/congruity/connectedness/recoverable-purpose evaluators + composition (FORGE-GATES suite)",
    "proof": [
     "FORGE-GATES"
    ]
@@ -806,7 +806,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Numbered sense clarification, derived (AMBIGUITY 36/36)",
+   "note": "Numbered sense clarification, derived (AMBIGUITY suite)",
    "proof": [
     "AMBIGUITY"
    ]
@@ -874,7 +874,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "gp014Check over derived math replies (GP-014 5/5)",
+   "note": "gp014Check over derived math replies (GP-014 suite)",
    "proof": [
     "GP-014"
    ]
@@ -1009,9 +1009,10 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Documented only\"",
    "wave": "W4",
    "claim": "Partial",
-   "note": "encrypted backup/restore of every store with manifest hash + read-back; retention policy undecided (D11 none)",
+   "note": "portable encrypted backup (own KDF params + salt) opens on a fresh install; atomic restore with rollback; delete-all with export-first; retention policy undecided (D11 none)",
    "proof": [
-    "OPERATOR"
+    "OPERATOR",
+    "RECOVERY"
    ]
   },
   {
@@ -1041,8 +1042,8 @@
    "name": "Dashboard rendering",
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/restricted\"",
    "wave": "W4",
-   "claim": "Implemented",
-   "note": "v4.5: RMC dashboard state rendered from the manifest (outcome, echo, drift band, gates, route); every light recomputed from the trace (RENDER)",
+   "claim": "Partial",
+   "note": "compact trace status rendered from the manifest (outcome, echo, drift band, gates, route); not the full layered RMC dashboard",
    "proof": [
     "RENDER"
    ]
@@ -1083,11 +1084,10 @@
    "name": "H-field / audible / cymatic output",
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Documented only\"",
    "wave": "—",
-   "claim": "Implemented",
-   "note": "v4.3 audible trace + v4.5 simulated cymatic field (Chladni modes from the manifest; stable ⇔ coherent), labelled simulation",
+   "claim": "Partial",
+   "note": "prototypes only: Forge trace sonification preview (forge-audible-trace-v1; not music, not a Harmonic Field Score) and a simulated coherence field (not a physical measurement, not .hfield). HCS is a separate application; no live adapter",
    "proof": [
-    "SONIFY",
-    "RENDER"
+    "OUTPUT-SCOPE"
    ]
   },
   {
@@ -1206,7 +1206,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/disconnected\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Vault status (none/locked/unlocked) shown; never leaks values (PRIVACY-V4 297/297)",
+   "note": "Vault status (none/locked/unlocked) shown; never leaks values (PRIVACY-V4 suite)",
    "proof": [
     "PRIVACY",
     "PRIVACY-V4"
@@ -1240,7 +1240,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Documented only\"",
    "wave": "W4",
    "claim": "Implemented",
-   "note": "Build Doctor card + forge.doctor()",
+   "note": "Build Doctor: checks plus fix instructions (no auto repair); forge.doctor()",
    "proof": [
     "DOCTOR"
    ]
@@ -1283,7 +1283,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/disconnected\"",
    "wave": "W4",
    "claim": "Partial",
-   "note": "Local AES-GCM secret vault; no operational-identity profiles or ownership service",
+   "note": "Mobile Identity Vault: a local AES-GCM encrypted secret store, not the full Identity Vault service; no operational-identity ownership service",
    "proof": [
     "PRIVACY-V4"
    ]
@@ -1513,7 +1513,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
    "wave": "W4",
    "claim": "Implemented",
-   "note": "read-only checks with runbook steps",
+   "note": "checks plus fix instructions (runbook steps); no auto repair. A future auto-fix needs preview, approval, backup, receipt, read-back and rollback",
    "proof": [
     "DOCTOR"
    ]
@@ -1666,7 +1666,7 @@
    "source": "forge agents/forge/llm_authority.py; commit fcbf9176",
    "wave": "—",
    "claim": "Implemented",
-   "note": "LEGACY-LLM 29/29",
+   "note": "LEGACY-LLM suite",
    "proof": [
     "LEGACY-LLM"
    ]
@@ -1689,7 +1689,7 @@
    "source": "forge2 src/forge2/contracts/* (HEAD 262a95eb)",
    "wave": "—",
    "claim": "Implemented",
-   "note": "FORGE2-PORT 52/52",
+   "note": "FORGE2-PORT suite",
    "proof": [
     "FORGE2-PORT"
    ]
@@ -1794,7 +1794,7 @@
    "source": "forge general_pipeline gp013/gp014; MEA symbolic_math_worker (sympy/pint)",
    "wave": "—",
    "claim": "Implemented",
-   "note": "MATH-V3 99/99",
+   "note": "MATH-V3 suite",
    "proof": [
     "MATH-V3"
    ]
@@ -1805,7 +1805,7 @@
    "source": "User directive (v4 round); Doc 7 privacy; forge IdentityVaultTab",
    "wave": "—",
    "claim": "Implemented",
-   "note": "PRIVACY-V4 297/297",
+   "note": "PRIVACY-V4 suite",
    "proof": [
     "PRIVACY",
     "PRIVACY-V4"
@@ -1817,7 +1817,7 @@
    "source": "User directive; Doc 5 frames",
    "wave": "—",
    "claim": "Implemented",
-   "note": "INFERENCE 90/90",
+   "note": "INFERENCE suite",
    "proof": [
     "INFERENCE"
    ]
@@ -1939,7 +1939,7 @@
    "source": "Forge 2.0 Production Build Bible §25 Phase 9 (Drive 1WrnuwxhX…); forge2 roadmap",
    "wave": "—",
    "claim": "Implemented",
-   "note": "InputEvent + derivation + DETERMINISM 17/17",
+   "note": "InputEvent + derivation + DETERMINISM suite",
    "proof": [
     "DETERMINISM",
     "FORGE2-PORT"
@@ -2131,8 +2131,8 @@
    "name": "RMC multi-output with per-form Echo, code in a declared safe subset (never executed without a tap)",
    "source": "RMC 00/01 output forms",
    "wave": "—",
-   "claim": "Implemented",
-   "note": "render.js; 'as code', 'in python', 'as glyph', 'speak it', 'as json', 'as a field', 'show the dashboard', 'as a memory record', 'as an api action', 'play it'",
+   "claim": "Partial",
+   "note": "11 forms with honest scope labels and the common envelope forge-rmc-output-envelope/v1; text, speech, memory record and API proposal complete; JSON/code/dashboard partial; glyph/field/tone prototypes",
    "proof": [
     "RENDER"
    ]
@@ -2198,7 +2198,7 @@
    "source": "user direction 2026-10-11 (Bible/EMN/Memory Economy May 30 2026/Patch 300/Doc 12)",
    "wave": "W6",
    "claim": "Implemented",
-   "note": "v4.7.0",
+   "note": "isolated compute-only ForgeScript worker: no network, page or storage access; no grants; tests before enable; rollback; auto-disable",
    "proof": [
     "FSCRIPT",
     "TOOLS"
@@ -2222,9 +2222,10 @@
    "source": "user direction 2026-10-11 (Bible/EMN/Memory Economy May 30 2026/Patch 300/Doc 12)",
    "wave": "W6",
    "claim": "Implemented",
-   "note": "v4.7.0",
+   "note": "count-only CT; append-only lifecycle candidate -> breath validation -> finalized capsule; exact rationals; no money",
    "proof": [
-    "ECONOMY"
+    "ECONOMY",
+    "ECON-LIFECYCLE"
    ]
   },
   {
@@ -2277,9 +2278,10 @@
    "source": "user direction 2026-10-12 (E3/E5 defaults; RMC §6.2/§6.4; Memory Economy §1.3)",
    "wave": "W6",
    "claim": "Implemented",
-   "note": "v4.8.0",
+   "note": "signed snapshot of full chain + append-only events; totals derived from verified events; concurrent branches unioned and recomputed",
    "proof": [
-    "LEDGER-MERGE"
+    "LEDGER-MERGE",
+    "LEDGER-EVENTS"
    ]
   },
   {
@@ -2325,6 +2327,80 @@
    "proof": [
     "LEDGER-MERGE"
    ]
+  },
+  {
+   "id": "ECON-LIFE",
+   "name": "Memory Economy append-only lifecycle (candidate, validation, finalization, signed nullification)",
+   "source": "user decision 2026-10-12 (v4.8.3 spec)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "evidence acceptance mints nothing; local reviewer (not a Memory Steward) may raise difficulty; fork half-credit is a provisional Forge Mobile policy interpretation",
+   "proof": [
+    "ECON-LIFECYCLE"
+   ]
+  },
+  {
+   "id": "USAGE-EV",
+   "name": "Use/citation events (unique, append-only, hash-chained; totals derived)",
+   "source": "user decision 2026-10-12 (v4.8.3 spec)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "no editable aggregates; edited snapshots refused; full-chain export (no 2000-entry truncation)",
+   "proof": [
+    "LEDGER-EVENTS"
+   ]
+  },
+  {
+   "id": "BACKUP-PORT",
+   "name": "Backup & Recovery screen and portable backup format",
+   "source": "user decision 2026-10-12 (v4.8.3 spec)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "fresh-device restore; wrong passphrase / corrupt file change nothing; multi-schema recovery; rollback; one passphrase rule (8+)",
+   "proof": [
+    "RECOVERY"
+   ]
+  },
+  {
+   "id": "RMC-ENV",
+   "name": "Common versioned RMC output envelope",
+   "source": "user decision 2026-10-12 (v4.8.3 spec)",
+   "wave": "W6",
+   "claim": "Partial",
+   "note": "forge-rmc-output-envelope/v1 on every form; prototypes keep prototype status",
+   "proof": [
+    "OUTPUT-SCOPE"
+   ]
+  },
+  {
+   "id": "HCS-BND",
+   "name": "Forge to Harmonic Conductor Studio boundary",
+   "source": "user decision 2026-10-12 (v4.8.3 spec)",
+   "wave": "W6",
+   "claim": "Partial",
+   "note": "boundary documented in render.js HCS_BOUNDARY; no live adapter; never emits .hfield",
+   "proof": [
+    "OUTPUT-SCOPE"
+   ]
+  },
+  {
+   "id": "REL-PIPE",
+   "name": "Verified release pipeline (verify first, then build, deploy, hash check, clean tree)",
+   "source": "user decision 2026-10-12 (v4.8.3 spec)",
+   "wave": "W6",
+   "claim": "Implemented",
+   "note": "tools/release.sh; Pages publishes the freshly verified artifact",
+   "proof": [
+    "RELEASE"
+   ]
   }
- ]
+ ],
+ "count": 223,
+ "claims": {
+  "Implemented": 99,
+  "Missing": 9,
+  "Not feasible on phone": 28,
+  "Out of scope / parked": 13,
+  "Partial": 74
+ }
 }

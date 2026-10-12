@@ -335,6 +335,7 @@
   "concept.admit",
   "consent.change",
   "containment.release",
+  "data.delete_all",
   "export.drift",
   "export.json",
   "external.action",
