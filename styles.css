@@ -35,3 +35,8 @@ table{border-collapse:collapse;font-size:11px;width:100%;table-layout:fixed}td:f
 canvas{max-width:100%;display:block;margin:6px 0;border-radius:6px}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 .artifact{margin-top:6px;border-top:1px dashed #345;padding-top:4px}.art{max-height:240px;overflow:auto;white-space:pre}.rform{margin-top:4px;font-size:12px}
+/* Simple mode (v4.7): everyday chat without trace chrome; “Show traces” brings everything back */
+body.simple .msg .kind, body.simple .msg .tag, body.simple .msg details, body.simple .msg .fb, body.simple .msg .meta:not(.jobwait) { display: none; }
+.onb { position: fixed; inset: 0; background: rgba(5, 10, 20, .82); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.onbcard { background: #111a2b; border: 1px solid #2a3a5a; border-radius: 12px; padding: 16px; max-width: 420px; width: 92%; }
+.onbcard input { display: block; width: 100%; margin: 6px 0; }
