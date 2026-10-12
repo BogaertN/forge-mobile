@@ -62,7 +62,7 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
   function revoke(id) { const out = store.load('shared_outbox'); const m = out.find(x => x.id === id); if (!m) return { ok: false, rule: 'SHARED-NO-SUCH-CONTRIBUTION' }; m._state = 'revoked'; m._revoked_at = now(); store.save('shared_outbox', out); return { ok: true, note: 'copies already pulled by others cannot be recalled; future pushes stop' }; }
   async function receive(list) { const inbox = store.load('shared_inbox'); const res = { quarantined: 0, refused: [], dup: 0 }; const mine = new Set(store.load('shared_outbox').map(x => x.id));
     for (const m of (Array.isArray(list) ? list : []).slice(0, 500)) { if (inbox.some(x => x.manifest.id === m.id) || mine.has(m && m.id)) { res.dup++; continue; } const err = await check(m); if (err) { res.refused.push(err); continue; }
-      if (m.kind === 'credit_ledger') { const r = deps.economy ? deps.economy.mergeForeign(m) : { ok: false, rule: 'ECON-ABSENT' }; (res.credit = res.credit || []).push(r.rule || 'ok'); continue; }
+      if (m.kind === 'credit_ledger') { const r = deps.economy ? await deps.economy.mergeForeign(m) : { ok: false, rule: 'ECON-ABSENT' }; (res.credit = res.credit || []).push(r.ok ? 'ok:' + r.rule : r.rule); continue; }
       if (m.cosigners) { const i2 = inbox.find(x => x.manifest.id === m.id); if (i2) { i2.manifest.cosigners = m.cosigners; continue; } }
       inbox.push({ manifest: m, status: 'quarantined', received: now(), checks: ['id-hash', 'signature', 'signer-key', 'secret-shape', 'no-economy', 'evidence_only'] }); res.quarantined++; }
     store.save('shared_inbox', inbox.slice(-2000)); return res; }
