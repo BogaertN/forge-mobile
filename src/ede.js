@@ -25,6 +25,12 @@ const DEFAULTS = { N_min: 0.15, N_max: 0.75, theta: 0.35, budget: 24, seed: 1 };
 const PHI = k => 2 * Math.PI * (k || 9) / 9; const angDev = (a, b) => { let d = Math.abs(a - b) % (2 * Math.PI); if (d > Math.PI) d = 2 * Math.PI - d; return d; };
 const TRANSITIVE = r => /^(cmp:|before$|partof$|isa$)/.test(r);
 const jac = (a, b) => { const A = new Set(a), B = new Set(b); let i = 0; for (const x of A) if (B.has(x)) i++; return i / (A.size + B.size - i || 1); };
+/* RMC §6.4 expanded form N = w_sem·d_sem + w_phase·d_phase + w_op·d_op + w_struct·d_struct. The papers name the components but give
+ * NO weights; §6.2 gives d_phase = |index(Φb) − index(Φa)| (normalised /8 here); Gold Reference build plan gives d_struct = 1 − Jaccard and
+ * d_sem = 1 − overlap of terms. Reported for audit only; gating stays on the base form N = dist(c, M_relevant) (§6.4 "not required for the base theory"). */
+function comps(b, tok, memTok, anchors) { const ents = new Set(anchors.flatMap(e => [e.a, e.b])); const terms = [b.a, b.b]; const d_sem = +(1 - terms.filter(t => ents.has(t)).length / terms.length).toFixed(4);
+  const ph = b.anchors.map(x => +x.phi || 9); const d_phase = +((Math.max(...ph) - Math.min(...ph)) / 8).toFixed(4); const ops = new Set(anchors.map(e => e.rel)); const d_op = ops.has(b.rel) ? 0 : 1;
+  const d_struct = +(1 - Math.max(...memTok.map(m => jac(tok, m)))).toFixed(4); return { d_sem, d_phase, d_op, d_struct, weights: 'unspecified in RMC §6.4 — not combined', cite: 'RMC §6.4, §6.2; Build Plan RMC Gold Reference §3–4' }; }
 function explore(edges, o) { o = Object.assign({}, DEFAULTS, o || {}); const anchors = edges.filter(e => e && e.a && e.b && e.rel);
   if (!anchors.length) return { ok: true, route: 'memory_recall_or_speculative_archive', anchors: 0, retained: [], archived: [], rejected: [], params: o };
   const memTok = anchors.map(e => [e.a, (e.neg ? '¬' : '') + e.rel, e.b]); const raw = [];
@@ -43,7 +49,7 @@ function explore(edges, o) { o = Object.assign({}, DEFAULTS, o || {}); const anc
     const dPhi = +Math.min(1, b.anchors.reduce((x, a) => x + angDev(PHI(a.phi), PHI(9)), 0) / b.anchors.length / Math.PI).toFixed(4); const eps = +((sigma + D + dPhi) / 3).toFixed(4);
     const phaseBlocked = b.anchors.some(x => x.held);
     const id = 'b_' + sha256(b.op + '|' + b.a + '|' + b.rel + '|' + b.b).slice(0, 10); const rec = { branch_id: id, creation_operator: b.op.replace(/_same|_mixed/, ''), claim: { subject: b.a, relation: b.rel, object: b.b, via: b.via || null }, anchor_ids: b.anchors.map(x => x.id),
-      novelty: { N, N_min: o.N_min, N_max: o.N_max, status: N < o.N_min ? 'redundant' : N > o.N_max ? 'overextended' : 'bounded_positive' }, drift: { sigma_res: sigma, D_score: D, dPhi, n: 3, eps_s: eps, theta: o.theta, status: eps <= o.theta ? 'below_threshold' : 'above_threshold' } };
+      novelty: { N, N_min: o.N_min, N_max: o.N_max, components: comps(b, tok, memTok, anchors), status: N < o.N_min ? 'redundant' : N > o.N_max ? 'overextended' : 'bounded_positive' }, drift: { sigma_res: sigma, D_score: D, dPhi, n: 3, eps_s: eps, theta: o.theta, status: eps <= o.theta ? 'below_threshold' : 'above_threshold' } };
     if (phaseBlocked && b.op !== 'contradiction_probe') archived.push(Object.assign(rec, { archive_status: 'phase_gated', projection_status: 'blocked', failure_reason: 'an anchor has not passed Φ6 correction / Φ7 naming (held-open sense) — RMC §8.3 phase gating', future_action: 'resolve the sense, then re-explore' }));
     else if (b.op === 'contradiction_probe') archived.push(Object.assign(rec, { archive_status: 'unresolved_contradiction', projection_status: 'blocked', failure_reason: 'P and ¬P both anchored; needs correction (§5.6 "identify unresolved contradictions")', future_action: 'resolve with the user or new evidence' }));
     else if (N >= o.N_min && N <= o.N_max && eps <= o.theta) retained.push(Object.assign(rec, { status: 'bounded_candidate_pending_score', route: 'coherence_scorer' }));
