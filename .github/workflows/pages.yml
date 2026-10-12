@@ -21,7 +21,7 @@ jobs:
       - name: Decode binary assets (*.b64 -> original files)
         run: |
           mkdir -p _site
-          rsync -a --exclude '.git' --exclude '.github' --exclude 'README.md' ./ _site/
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'README.md' --exclude 'source' --exclude 'deploy' ./ _site/
           find _site -name '*.b64' | while read f; do base64 -d "$f" > "${f%.b64}"; rm "$f"; done
           ls -R _site | head -80
       - uses: actions/configure-pages@v5

@@ -1,6 +1,6 @@
 {
  "schema": "forge-mobile-build-manifest/v1",
- "version": "4.8.1",
+ "version": "4.8.2",
  "files": [
   {
    "path": "index.html",
@@ -19,8 +19,8 @@
   },
   {
    "path": "sw.js",
-   "bytes": 3248,
-   "sha256": "8584394e161b496ff0b870661699d025eb77f0ab7ecaa878687d3dd7bf706968"
+   "bytes": 3250,
+   "sha256": "2f39574a3cbd58e068782dc235af8182ff160a94782c20707a43336794626f6a"
   },
   {
    "path": "data/lexicon.json.gz",
@@ -99,8 +99,8 @@
   },
   {
    "path": "src/app_extra.js",
-   "bytes": 23439,
-   "sha256": "bacc39e370385b8b345168aacaddeaa686d3dc97b839099fcb0a6e160d799680"
+   "bytes": 25749,
+   "sha256": "3cfd8d15165921545d1087176bdeb9774d548dfcecc2733f5be66c8f0c9d05fd"
   },
   {
    "path": "src/app_lab.js",
@@ -110,7 +110,7 @@
   {
    "path": "src/build-info.js",
    "bytes": 1661,
-   "sha256": "74f10cf3f81a70aadab877e6a1b803c570fc11c0f2a14e2eae429fbf7e8b56c0"
+   "sha256": "815a988805e2a64f1e8a542f0d1a1814bdf00397a30d7d31aebf9dc971137233"
   },
   {
    "path": "src/calculus.js",
@@ -154,18 +154,18 @@
   },
   {
    "path": "src/economy.js",
-   "bytes": 7751,
-   "sha256": "d5446490b99a3fcb353b7c1290b3657781cd2adefeb7a7e58ea9a6d551cdb707"
+   "bytes": 11710,
+   "sha256": "d50f99bc9cc3af013b313cb7dae2f0e9defb8e7b21963d67bc3873efe94973b5"
   },
   {
    "path": "src/ede.js",
-   "bytes": 8862,
-   "sha256": "bb178ab7db9879584f458bf3ac87fa60112d5b75e380a28d4caf0e55c3b3bb0e"
+   "bytes": 13105,
+   "sha256": "64d5ae596bfd5af9d736dd47092a0465306f405cdd97a5b4ffb04c775780849f"
   },
   {
    "path": "src/features.js",
-   "bytes": 69717,
-   "sha256": "0f5bf095c76d734c5b29add7746ab5369c6f46813f31cfc0a153cc001dd8e35f"
+   "bytes": 70699,
+   "sha256": "922f08ad86129ddec5ed85308da3b732d3d32dc772afc0cd86be36dab88239da"
   },
   {
    "path": "src/forge.js",
@@ -199,8 +199,8 @@
   },
   {
    "path": "src/kernel.js",
-   "bytes": 153539,
-   "sha256": "add8f1a7816839f7d88ee7221de07ae4e58cb13ea020c718df3d3ca30c249f41"
+   "bytes": 154538,
+   "sha256": "366b62a2ab774d52253fc08f2110d92e8c993423817843ec7bdff4a710d940b2"
   },
   {
    "path": "src/kmath.js",
@@ -270,7 +270,7 @@
   {
    "path": "src/release.js",
    "bytes": 5598,
-   "sha256": "4f73c90bc77c8359a078439b9e0769ce2cf65955ecfe4fc266ff80b9673d5e86"
+   "sha256": "103268d27a8e14193d36bbfc07833fbc297f0b7f1abb892af4a23ce8772e1de5"
   },
   {
    "path": "src/render.js",
@@ -284,8 +284,8 @@
   },
   {
    "path": "src/shared.js",
-   "bytes": 15998,
-   "sha256": "23a4c76fd8cb455261b51c74dca6aa7cbad8c4934c76321df1e8155bc904d775"
+   "bytes": 16020,
+   "sha256": "10bbe5e0975efc2be8154cc9961621a9e38201e8689e237ccc62cb55a9b68772"
   },
   {
    "path": "src/sim.js",
@@ -338,5 +338,5 @@
    "sha256": "f888f1e726f4fc7fce138ef7f7a00e17c2bd82cd82c6e35ec74f8062107b82f2"
   }
  ],
- "manifest_sha256": "c6657640b97f1eee5382e9f3e43a98655e1f2b2972c9599a35c4a3cc30a5636d"
+ "manifest_sha256": "7237eaa77fd64e8be54babcd81ec828a855183ffa8cb1e9c0e3af1b0613ad549"
 }
