@@ -1,0 +1,16 @@
+{
+ "fixtures": {
+  "forge.rmc_engine_v1.coherence_math": {
+   "bytes": 16650,
+   "derived_by": "sha256 of the exact file bytes",
+   "sha256": "916591a80bd05a4a2ad1b4c4f5f01ebfb74c7f1a221ba655909c7f14a91740a2"
+  },
+  "forge2.contracts.request_state.RequestState": {
+   "count": 25,
+   "derived_by": "python ast: ordered Assign targets of class RequestState, joined with \",\"",
+   "members_sha256": "34521c0c07bd067361d981d51faa96d7e911dc5a607cdd7db2b0654081bd6c0f"
+  }
+ },
+ "note": "hashes only; the private sources are not redistributed. forge @ fcbf9176ad72 (rmc_engine_v1/coherence_math.py); forge2 request_state.py from the private sweep3 copy, generated 2026-10-12",
+ "schema": "forge-external-fixtures/v1"
+}
