@@ -1,6 +1,6 @@
 {
  "schema": "forge-mobile-build-manifest/v1",
- "version": "4.7.0",
+ "version": "4.8.0",
  "files": [
   {
    "path": "index.html",
@@ -19,8 +19,8 @@
   },
   {
    "path": "sw.js",
-   "bytes": 1983,
-   "sha256": "28239ecb43949b615c0aa6207fb65fc560f8f1bf395aaf5c32143e5ee0db91fb"
+   "bytes": 3198,
+   "sha256": "89b647ce7d113e04e0f407d95b53837664a9499eea79e21e43541f443cb2989c"
   },
   {
    "path": "data/lexicon.json.gz",
@@ -94,8 +94,8 @@
   },
   {
    "path": "src/app_extra.js",
-   "bytes": 16218,
-   "sha256": "83af3dab205fa240e6d44cd2b99857537da2eabc22a1dcb4c7605a6084710b0b"
+   "bytes": 22357,
+   "sha256": "396946a30053336bdcf6390f82215c91bec6c95625afb65b65152cc9ae81ddee"
   },
   {
    "path": "src/app_lab.js",
@@ -104,8 +104,8 @@
   },
   {
    "path": "src/build-info.js",
-   "bytes": 1555,
-   "sha256": "113be7df711313c472aa467629124d67775f2d6469370c22395190b08adef4f3"
+   "bytes": 1611,
+   "sha256": "4ec2148b5bde0adfc4bb232103708f9994aec0e612d0ad967c2d9fa9f92205a8"
   },
   {
    "path": "src/calculus.js",
@@ -134,8 +134,8 @@
   },
   {
    "path": "src/derive.js",
-   "bytes": 86719,
-   "sha256": "10e2e4b01d60a50d56585794e4ddbee629ffc287c68253c19dd919485e898c6f"
+   "bytes": 87773,
+   "sha256": "6ab35966368b4fe96c671ad77ab2f9eaed4ecafbf16af1099493e4bec54b128a"
   },
   {
    "path": "src/drift_export.js",
@@ -144,23 +144,23 @@
   },
   {
    "path": "src/economy.js",
-   "bytes": 5042,
-   "sha256": "02245f094e8cd8af2f62dcab60e79fd36efa4f2a58bd1d034f67c56aab86d0e3"
+   "bytes": 7751,
+   "sha256": "d5446490b99a3fcb353b7c1290b3657781cd2adefeb7a7e58ea9a6d551cdb707"
   },
   {
    "path": "src/ede.js",
-   "bytes": 7717,
-   "sha256": "0a5d85a9fcf78ad1a331f3b39984d4337ebbbf9a5fc0652f71bcbbc397bdc9ed"
+   "bytes": 8862,
+   "sha256": "bb178ab7db9879584f458bf3ac87fa60112d5b75e380a28d4caf0e55c3b3bb0e"
   },
   {
    "path": "src/features.js",
-   "bytes": 68136,
-   "sha256": "8c4d146cdeabc942fbc61132b732fddca383657c614647712ea190d327591fb0"
+   "bytes": 69390,
+   "sha256": "9f7d6f02a31f9093239ef66c35a4a6367809907d32d48c819d1fee11c46a8c27"
   },
   {
    "path": "src/forge.js",
-   "bytes": 49306,
-   "sha256": "4bf91976997107db74783d9af30bc017a1e2df2fa1a048a26dd367b71d2e0249"
+   "bytes": 50250,
+   "sha256": "54ebc11b8b18c464d30ce99ec88ce26f0ada641e01ada68f792572f08a058f31"
   },
   {
    "path": "src/forge_spine.js",
@@ -189,8 +189,8 @@
   },
   {
    "path": "src/kernel.js",
-   "bytes": 149405,
-   "sha256": "8396734705b59aa571a09bf37560b78a0d328d3ea8ab68f22217bd4395484229"
+   "bytes": 153539,
+   "sha256": "add8f1a7816839f7d88ee7221de07ae4e58cb13ea020c718df3d3ca30c249f41"
   },
   {
    "path": "src/kmath.js",
@@ -260,7 +260,7 @@
   {
    "path": "src/release.js",
    "bytes": 5497,
-   "sha256": "21641ecdc69cdc92c495556b76de59ccce4b297144ca62963f3a325b931f864f"
+   "sha256": "355d46c32420a26e36f502494abcc4752b80e76254e187370d6f51788cd22e3c"
   },
   {
    "path": "src/render.js",
@@ -274,8 +274,8 @@
   },
   {
    "path": "src/shared.js",
-   "bytes": 13815,
-   "sha256": "d0c465467e35f58db8410c8cb9f11e187b39bfe9f0f1774b1a06bba4f62fe9cd"
+   "bytes": 15998,
+   "sha256": "23a4c76fd8cb455261b51c74dca6aa7cbad8c4934c76321df1e8155bc904d775"
   },
   {
    "path": "src/sim.js",
@@ -314,8 +314,8 @@
   },
   {
    "path": "src/toolbench.js",
-   "bytes": 8123,
-   "sha256": "16456e3002951ea3d8e7b0b053fda54e3aeb03e12cddbe12bc2390507c0d869c"
+   "bytes": 8264,
+   "sha256": "70cffcf14559cae8ff7a80418167990102b82ad054190634f3dae6bd83e6cf06"
   },
   {
    "path": "src/toolbuilder.js",
@@ -328,5 +328,5 @@
    "sha256": "f888f1e726f4fc7fce138ef7f7a00e17c2bd82cd82c6e35ec74f8062107b82f2"
   }
  ],
- "manifest_sha256": "e544d6a0f4f74916026dcea19f5593c712edeb174125a5482ba4e7cbeb0d80b7"
+ "manifest_sha256": "b8d2dcdb0e490dbaad0474efaf3d260b8eb40bcb9fbde897792ffe0bdac35dd6"
 }
