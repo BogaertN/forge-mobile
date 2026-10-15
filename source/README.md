@@ -84,5 +84,5 @@ The steps run in a fixed order:
 Deterministic. No LLM, no embeddings. Every reply has a Trace showing rule IDs, gate outcome, Score(c), ε_s, χ(t)/Ĉ, Echo, the SFE and the MSM.
 - Open `kernel-app.html` directly (single file), or serve this folder over https/http for PWA install (manifest.json + sw.js, works offline).
 - Tests and build: see the release section at the top.
-- Code: src/lexicon.js (Doc 4 seed lexicon, 155 concepts), src/kernel.js (Docs 3/5/6, MSM, RMC pipeline, renderer, Echo, memory writer), src/kmath.js (RSOC/RPMC/RMC math with citations), src/app.js (UI).
+- Code: src/lexicon.js (Doc 4 seed lexicon, 155 concepts), src/kernel.js (Docs 3/5/6, MSM, RMC pipeline, renderer, Echo, memory writer), src/kmath.js (RSOC/RPMC/RMC math with citations; v4.9.32 rsocSelect: the RSOC ⟁/⧙ calculus that selects every Ask turn result and route), src/app.js (UI).
 - Sample traces: SAMPLES.txt. Math notation and conflicts: the app's "Math" tab.

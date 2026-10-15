@@ -745,13 +745,18 @@ function Kernel(opts) {
     Ph(5, drift.formula + ' → ' + drift.band);
     const sfe = { Phi: 5, rho: drift.rho, Delta: r4((attempted.to - attempted.expected) / 9), nu: 0, mu: 1.0, eps: drift.eps_s, tau: trace.phases.map(p => p.phase), lambda: meta.loop, chi: meta.chi };
     let restricted = false, sealed = false;
-    if (drift.band === 'hard_stop' || drift.band === 'intervention') {
-      const echoTrace = !(sel.literal && sel.literal.length) && !(sel.rules || []).some(r => r.id === 'LX-UNKNOWN');
+    /* RSOC turn governance (v4.9.32): the route is the candidate RSOC ⧙-locks, not an if-chain. Dims: D drift below intervention, X χ(t) conditions, W world turn */
+    const hi = drift.band === 'hard_stop' || drift.band === 'intervention'; let cc = null, Theta = 0;
+    if (hi) { const echoTrace = !(sel.literal && sel.literal.length) && !(sel.rules || []).some(r => r.id === 'LX-UNKNOWN');
       const traj = trace.phases.map(p => p.phase).concat(sel.forbiddenPath ? [8] : []); const dAvg = traj.reduce((a, n, i) => a + Math.abs(n - (i + 1)) * (2 * Math.PI / 9), 0) / traj.length;
-      const cc = M.chiConditions({ eps_s: drift.eps_s, echoTrace, chiFlag: meta.chi, dPhiAvg: dAvg }); const Theta = M.graceIntegral(sfe.tau, sfe.tau.map(n => (n < 5 ? 0 : sfe.eps)), sfe.mu);
-      trace.chi = Object.assign(cc, { Theta, Theta_formula: 'Θ = Σ (1 − ε/ε_max)·cos²(Φ(s) − Φ₁)·μ(s) = ' + Theta + ' (RSOC §3.2.1)', dPhi_avg: r4(dAvg) });
-      if (cc.fire) { Object.assign(sfe, M.applyChi(sfe, Theta)); meta.chi = 1; restricted = true; trace.chi.result = 'χ(t) fired: Δ←0, ν←1.4, ε←ε(1−Θ/μ), μ←μ+0.9Θ, χ←1; re-routed Φ6→Φ7 with restricted meaning (RMC Addendum §4)'; trace.rules.push({ id: 'CHI-GRACE-REROUTE', doc: 'RSOC §3.2; RMC Addendum §4' }); Ph(6, 'χ(t) fired; restricted meaning'); }
-      else if (worldTurn) { trace.chi.result = 'χ(t) not applied: world turn keeps its checked result; nothing sealed or written'; trace.rules.push({ id: 'WORLD-NO-PERSISTENT-SEAL', doc: 'a world turn never mutates persistent state' }); Ph(6, 'χ(t) skipped (world turn; no persistent seal)'); }
+      cc = M.chiConditions({ eps_s: drift.eps_s, echoTrace, chiFlag: meta.chi, dPhiAvg: dAvg }); Theta = M.graceIntegral(sfe.tau, sfe.tau.map(n => (n < 5 ? 0 : sfe.eps)), sfe.mu);
+      trace.chi = Object.assign(cc, { Theta, Theta_formula: 'Θ = Σ (1 − ε/ε_max)·cos²(Φ(s) − Φ₁)·μ(s) = ' + Theta + ' (RSOC §3.2.1)', dPhi_avg: r4(dAvg) }); }
+    const RS = M.rsocSelect({ D: !hi, X: !!(cc && cc.fire), W: worldTurn }, [{ id: 'name', expect: { D: 1 } }, { id: 'grace', expect: { D: 0, X: 1 } }, { id: 'keep_world', expect: { D: 0, X: 0, W: 1 } }, { id: 'archive', expect: { D: 0, X: 0, W: 0 } }], 0), route = RS.selected;
+    trace.rsoc = { calculus: RS.calculus, route, candidates: RS.candidates, ops: RS.ops.filter(o => o.ok || o.op === '⧙').map(o => o.op + (o.dim ? '(' + o.c + ',' + o.dim + ')' : '(' + o.c + ')') + (o.ok ? '' : '✗')), world: sel.material && sel.material.rsoc ? { selected: sel.material.rsoc.selected, candidates: sel.material.rsoc.candidates } : null, cite: RS.cite };
+    trace.rules.push({ id: 'RSOC-ROUTE-' + route.toUpperCase(), doc: 'RSOC ch.3 (⟁ fusion, ⧙ lock)', note: (trace.rsoc.world ? 'world ⧙ ' + trace.rsoc.world.selected + '; ' : '') + 'turn ⧙ ' + route });
+    if (hi) {
+      if (route === 'grace') { Object.assign(sfe, M.applyChi(sfe, Theta)); meta.chi = 1; restricted = true; trace.chi.result = 'χ(t) fired: Δ←0, ν←1.4, ε←ε(1−Θ/μ), μ←μ+0.9Θ, χ←1; re-routed Φ6→Φ7 with restricted meaning (RMC Addendum §4)'; trace.rules.push({ id: 'CHI-GRACE-REROUTE', doc: 'RSOC §3.2; RMC Addendum §4' }); Ph(6, 'χ(t) fired; restricted meaning'); }
+      else if (route === 'keep_world') { trace.chi.result = 'χ(t) not applied: world turn keeps its checked result; nothing sealed or written'; trace.rules.push({ id: 'WORLD-NO-PERSISTENT-SEAL', doc: 'a world turn never mutates persistent state' }); Ph(6, 'χ(t) skipped (world turn; no persistent seal)'); }
       else { sealed = true; trace.chi.result = 'χ(t) blocked → Ĉ controlled archival: state sealed into cold storage, output = 0 (RSOC Axiom 5; RPMC collapse protocol)'; trace.rules.push({ id: 'C-HAT-ARCHIVE', doc: 'RSOC §3.1 Ĉ; RPMC Output(ψ)=0' }); Ph(6, 'χ(t) blocked → Ĉ archival; HARD STOP'); }
     } else Ph(6, 'χ(t) not required (band ' + drift.band + ')');
     const k = sel.material.kind;
@@ -779,7 +784,7 @@ function Kernel(opts) {
         msm.meaning = { kind: 'write_held', sensitive: !!ctx.privacy }; msm.limits.may_write_memory = false; sel.write = null; curSecrets = []; meta.pending = null; }
       else if (d.decision !== 'allow') { msm.limits.may_write_memory = false; sel.write = null; } }
     if (sealed) { const cold = store.load('cold_storage'); cold.push({ id: psi_id, sealed_at: at, reason: 'hard stop ε_s=' + drift.eps_s, msm, sfe, input, tier: bypass ? 'DEEP' : 'WARM', breach: !!bypass, resurrection_attempts: 0 }); store.save('cold_storage', cold); meta.pending = null;
-      Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = 'Hard stop: ε_s = ' + drift.eps_s + ' ≥ 0.80 and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
+      trace.rsoc.ops.push('Ĉ'); Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = 'Hard stop: ε_s = ' + drift.eps_s + ' ≥ 0.80 and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
     Ph(7, 'manifest named ψ_id ' + psi_id.slice(0, 12) + '…');
     let real; try { real = D.realizeMeaning(msm.meaning, ENV); } catch (e) { trace.derivation_error = String(e && e.message); }
     if (!real) { routeOf({ derivation_failed: true }); trace.blocked = true; trace.block_reason = 'Derivation failed (' + trace.derivation_error + ') — no sūtra sequence derives this meaning; output blocked.'; meta.pending = null; Ph(9, 'derivation FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
@@ -790,7 +795,7 @@ function Kernel(opts) {
     if (!ev.pass && ev.ambiguous && !opts.renderFault && msm.meaning.kind !== 'clarify_echo') { // lawful re-routing: an ambiguous outward reading becomes a clarification (Doc6 §29), never a guess and never a write
       trace.rules.push({ id: 'ECHO-AMBIGUITY-CLARIFY', doc: 'Doc6 §29; RMC §6.7', note: ev.reason }); trace.echo_first = ev; trace.meaning_first = msm.meaning; const alt = { kind: 'clarify_echo' }; const r2 = D.realizeMeaning(alt, ENV); const ev2 = echo(r2.text, alt);
       if (ev2.pass) { msm.meaning = alt; msm.limits.may_write_memory = false; trace.outcome = { category: 'CLARIFICATION_REQUIRED', class: 'clarify', cite: 'Doc6 §36' }; text = r2.text; trace.derivation = r2.derivation; ev = ev2; trace.echo = ev2; meta.pending = null; sel.write = null; routeOf(); } }
-    if (!ev.pass) { routeOf({ echo_failed: true }); trace.blocked = true; trace.block_reason = 'Echo validation failed (' + (ev.reason || '') + '; components ' + JSON.stringify(ev.components) + ') — output blocked, no memory write.'; meta.pending = null; Ph(9, 'Echo FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
+    if (!ev.pass) { routeOf({ echo_failed: true }); trace.blocked = true; trace.block_reason = 'Echo validation failed (' + (ev.reason || '') + '; components ' + JSON.stringify(ev.components) + ') — output blocked, no memory write.'; meta.pending = null; trace.rsoc.ops.push('Ê=0'); Ph(9, 'Echo FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
     if ((msm.meaning.kind === 'world_answer' || msm.meaning.kind === 'world_limitation') && msm.meaning.envelope) {
       msm.meaning.envelope.echo = { status: 'passed', pass: true, mode: ev.mode, score: ev.score, theta: ev.theta };
       trace.world_model = { status: msm.meaning.status, interpretation: clone(msm.meaning.interpretation || null), world: clone(msm.meaning.world || null), world_root: msm.meaning.world && msm.meaning.world.world_root || null, derivation: clone(msm.meaning.derivation || null), proofs: clone(msm.meaning.proofs || null), rmc: clone(msm.meaning.rmc || null), rmc_manifest_id: msm.meaning.rmc && msm.meaning.rmc.manifest_id || null, checker: clone(msm.meaning.checker || null), limits: clone(msm.meaning.envelope.limits), effects: clone(msm.meaning.envelope.effects), echo: clone(msm.meaning.envelope.echo) };
@@ -801,6 +806,7 @@ function Kernel(opts) {
         const r3 = D.realizeMeaning(msm.meaning, ENV); const ev3 = echo(r3.text, msm.meaning); text = r3.text; trace.derivation = r3.derivation; trace.echo = ev3; ev = ev3; trace.memory = []; } }
     if (ctx.clauseForDiscourse) pushDiscourse(ctx.clauseForDiscourse);
     if (sel.reasoningState) meta.reasoning = Object.assign(clone(sel.reasoningState), { turn: meta.turn });
+    trace.rsoc.ops.push('Ê=1', 'R̂(Φ₇→Φ₈)', 'R̂(Φ₈→Φ₉)', ...(trace.memory.length ? ['⧜'] : []), '⧀');
     Ph(9, 'Echo pass (' + ev.score + ' ≥ ' + ev.theta + ')' + (trace.memory.length ? '; memory: ' + trace.memory.map(m => m.op).join(', ') : ''));
     return finish(trace, 9, text, msm, sfe);
   }
