@@ -34,5 +34,19 @@ const vault = () => { const e = {}; return { async seal(kind, label, text) { e.s
     C('S4: revoked snapshot → rollback to parent', r.ok && r.rolled_back && st.load('gks_pinned').sha256 === par, JSON.stringify(r));
     const ok = GKS.pin(st, snap, body, { pubkeys: keys, checkSig: () => true }), g = GKS.load(st);
     C('S4: same input + same gks_sha256 → identical trace tag (network on/off irrelevant)', ok.ok && GKS.traceTag('q', g) === GKS.traceTag('q', { sha256: sha }) && GKS.traceTag('q', g) !== GKS.traceTag('q', null)); }
+  { const rows = []; let seq = 0;
+    const client = { token: async () => 't', status: () => ({ device: 'dev-a' }), blobIo: () => async (op, arg) => {
+      if (op === 'tip') return rows.filter(r => r.store === arg.store && r.record_id === arg.record_id).pop() || null;
+      if (op === 'insert') { seq++; rows.push(Object.assign({}, arg, { server_seq: seq })); return true; }
+      if (op === 'since') return rows.filter(r => r.server_seq > arg); } };
+    const V = vault(), A = E2.Worker({ store: mem(), vault: V, client, device: 'dev-a' });
+    await A.put('memory', 'm9', { text: 'hello-private', n: 1 }); const fl = await A.flush(client.blobIo());
+    const B = E2.Worker({ store: mem(), vault: V, client, device: 'dev-b' }); const pl = await B.pull(client.blobIo());
+      { const client = { token: async () => 't', status: () => ({ device: 'dev-a' }), blobIo: () => async (op, arg) => {
+      if (op === 'tip') return null; if (op === 'insert') return true; if (op === 'since') return []; } };
+    global.root = global; /* noop */ const forge = { store: mem(), vault: Object.assign(vault(), { status: () => 'unlocked', entries: () => [{ kind: 'sync_key', id: 'sync_key' }], seal: async () => ({ ok: true, id: 'sync_key' }), reveal: async () => 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' }), _crypto: require('crypto').webcrypto };
+    /* syncPrivate needs KSbBlobs.attach — provide blobIo already */
+    const r = await E2.syncPrivate(forge, client); C('S3 wiring: syncPrivate queues then flushes via client.blobIo', r.ok === false || r.ok, JSON.stringify(r)); }
+  C('S3 wiring: blobIo flush/pull round-trip (ciphertext only on the wire)', fl.ok && fl.sent === 1 && pl.pulled === 1 && B.local('memory').m9.obj.text === 'hello-private' && !JSON.stringify(rows).includes('hello-private'), JSON.stringify({ fl, pl })); }
   process.stdout.write(JSON.stringify(out));
 })().catch(e => process.stdout.write(JSON.stringify([{ name: 's34 suite crashed', ok: false, why: e.stack }])));
