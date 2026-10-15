@@ -134,7 +134,7 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
   C('GELC-WHY', 'why-questions read back the checked proof (its premises and rule count); with no proof, abduction proposes rule bodies kept only when a what-if branch makes the claim checked — labelled hypotheses, nothing written', S(() => {
     for (let i = 0; i < 3; i++) { const f = FKN(), a = cap(nonce()), [k, k2, k3, k4] = [nonce(), nonce(), nonce(), nonce()], A = a.toLowerCase(), snap = () => canon(['memory', 'hypotheses', 'evidence'].map(x => f.store.load(x))), s0 = snap();
       let r = ask(f, `Every ${k} is a ${k2}. ${a} is a ${k}. Why is ${a} a ${k2}?`); expect(r === `The checked proof derives “${A} is ${k2}” from “${A} is ${k}”. It uses 1 rule.`, r);
-      r = ask(f, `${a} is a ${k2}. Why is ${a} a ${k2}?`); expect(r === `“${A} is ${k2}” was stated. No rule derives it.`, r);
+      r = ask(f, `${a} is a ${k2}. Why is ${a} a ${k2}?`); expect(r === `Your input states “${A} is ${k2}”. No rule derives it.`, r);
       r = ask(f, `Every ${k3} is a ${k2}. Every ${k4} is a ${k2}. Why is ${a} a ${k2}?`); expect(r.includes(`“${A} is ${k3}”`) && r.includes(`“${A} is ${k4}”`) && /They are hypotheses\.$/.test(r), r);
       r = ask(f, `Why is ${a} a ${k}?`); expect(/No rule explains it\.$/.test(r), r); expect(snap() === s0, 'why wrote state'); } }));
 };

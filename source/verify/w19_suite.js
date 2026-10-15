@@ -428,7 +428,7 @@ T('every repeated occurrence of a detected sensitive value is sealed before inge
 
 T('a broad unsupported why-question does not receive a topical canned answer', () => {
   const r = open().process('Why do artisans invent instruments?');
-  expect(r.msm.meaning.kind === 'world_limitation' && r.trace.echo.pass, r.reply || r.block_reason);
+  expect(((r.msm.meaning.kind === 'world_answer' && r.msm.meaning.why && r.msm.meaning.status === 'undetermined') || r.msm.meaning.kind === 'world_limitation') && r.trace.echo.pass, r.reply || r.block_reason); // v4.9.20: why → checked undetermined (no rule explains it)
   expect(!/retention|causal understanding|learning/i.test(r.reply), r.reply);
 });
 

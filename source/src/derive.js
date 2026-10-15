@@ -367,7 +367,7 @@ function worldStatusPlan(m) {
   const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
   const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
   if (m.why) { const w = m.why, q = Mn(w.query_text), L = xs => xs.length > 1 ? { coord: xs === w.hypotheses ? 'or' : 'and', items: xs.map(Mn) } : Mn(xs[0]);
-    if (w.status === 'supported_only') return w.premises.length === 1 && w.premises[0] === w.query_text && !w.rules ? [S(C('state', { karma: q, voice: 'pass', tense: 'past' })), S(C('derive', { karta: N('rule', { det: 'no' }), karma: pr('it') }))]
+    if (w.status === 'supported_only') return w.premises.length === 1 && w.premises[0] === w.query_text && !w.rules ? [S(C('state', { karta: N('input', { poss: 'your' }), karma: q })), S(C('derive', { karta: N('rule', { det: 'no' }), karma: pr('it') }))]
       : [S(C('derive', { karta: checkedProof, karma: q, roles: { apadana: L(w.premises) } })), S(C('use', { karta: pr('it'), karma: N('rule', { cnt: w.rules }) }))];
     if (w.status === 'undetermined') return [S(C('derive', { karta: checkedWorld, karma: q, pol: 'neg' }))].concat(w.hypotheses.length ? [S(C('explain', { karta: L(w.hypotheses), karma: pr('it'), mod: 'can' })), S(C('be', { karta: pr(w.hypotheses.length > 1 ? 'they' : 'it'), pred: N('hypothesis', { det: w.hypotheses.length > 1 ? undefined : 'a', pl: w.hypotheses.length > 1 }) }))] : [S(C('explain', { karta: N('rule', { det: 'no' }), karma: pr('it') }))]);
   }
