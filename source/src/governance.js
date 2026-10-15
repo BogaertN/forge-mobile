@@ -64,6 +64,7 @@
     'payment': { risk: 'external', rollback: 'n/a' },
     'backup.create': { risk: 'privacy', rollback: 'delete file' },
     'backup.restore': { risk: 'state', rollback: 'pre-restore snapshot' },
+    'vault.reset': { risk: 'state', rollback: 'none: sealed values are unrecoverable without the old passphrase' },
     'data.delete_all': { risk: 'state', rollback: 'restore the portable backup exported first' },
     'profile.write': { risk: 'privacy', rollback: 'version history' },
     'feedback.write': { risk: 'state', rollback: 'append-only' },

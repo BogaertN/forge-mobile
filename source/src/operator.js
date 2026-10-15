@@ -109,6 +109,15 @@
     function deleteAll(o) { o = o || {}; if (!lastExport) return { ok: false, rule: 'DELETE-EXPORT-FIRST' }; if (o.confirm !== DELETE_PHRASE) return { ok: false, rule: 'DELETE-CONFIRMATION-MISMATCH' };
       const d = perm.authorize('data.delete_all', { userTap: !!o.userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule }; const plan = deletePlan();
       for (const p of plan.stores) store.save(p.store, dflt(p.store)); return { ok: true, removed: plan.stores.map(p => p.store), plan }; }
+    /* v4.9.8 vault-only reset (forgotten passphrase): removes ONLY the sealed vault (entries + passphrase verifier) and the
+     * vault-held device signing key record; every other store (memory, kb, settings, …) is left exactly as it was */
+    const VAULT_RESET_PHRASE = 'RESET VAULT'; const VAULT_RESET_STORES = ['vault', 'signing_key'];
+    function vaultResetPlan() { const v = store.load('vault'); const n = v && !Array.isArray(v) && Array.isArray(v.entries) ? v.entries.length : 0;
+      return { stores: VAULT_RESET_STORES.slice(), sealed_values_lost: n, has_vault: !!(v && !Array.isArray(v) && v.salt), confirm_phrase: VAULT_RESET_PHRASE, kept: STORES().filter(c => !VAULT_RESET_STORES.includes(c)), device_registration: 'must be redone after a new passphrase is set' }; }
+    function resetVault(o) { o = o || {}; if (o.confirm !== VAULT_RESET_PHRASE) return { ok: false, rule: 'VAULT-RESET-CONFIRMATION-MISMATCH' };
+      const plan = vaultResetPlan(); if (!plan.has_vault) return { ok: false, rule: 'VAULT-RESET-NO-VAULT' }; if (vault && vault.status() === 'unlocked') return { ok: false, rule: 'VAULT-RESET-LOCK-FIRST' };
+      const d = perm.authorize('vault.reset', { userTap: !!o.userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
+      if (vault) vault.lock(); for (const c of VAULT_RESET_STORES) store.save(c, dflt(c)); return { ok: true, removed: VAULT_RESET_STORES.slice(), sealed_values_lost: plan.sealed_values_lost, device_redo: true }; }
     /* operational identity profiles (Self-Hosted Identity Vault doc): preferences/rules/context; NOT secrets; versioned */
     const PROFILE_FIELDS = ['display_name', 'preferred_style', 'working_hours', 'project_goals', 'agent_rules', 'notation'];
     function saveProfile(p, userTap) { const d = perm.authorize('profile.write', { userTap, subject: p && p.name }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
@@ -136,7 +145,7 @@
       const mem = L('memory').filter(r => r.status === 'active'); const seen = {}; let dup = 0; for (const r of mem) { const k = r.clause ? Gv.hash(r.clause) : r.text; if (seen[k]) dup++; seen[k] = 1; } add('duplicate active facts', dup === 0, { duplicates: dup });
       const tr = L('trace').slice(-20); add('drift monitor (last 20)', !tr.some(t => t.drift && t.drift.band === 'hard_stop'), { eps_s: tr.map(t => t.drift ? t.drift.eps_s : null) });
       return { at: now(), rows, ok: rows.every(r => r.ok) }; }
-    return { feedback, convertLegacy, portableBackup, inspectPortable, parsePortableText, portableRestore, rollbackRestore, deletePlan, deleteAll, DELETE_PHRASE, saveProfile, activateProfile, profiles: () => L('profiles'), runRecipe, unpark, RECIPES, diagnostics, gilligan: o => gilligan(store, o) };
+    return { feedback, convertLegacy, portableBackup, inspectPortable, parsePortableText, portableRestore, rollbackRestore, deletePlan, deleteAll, vaultResetPlan, resetVault, VAULT_RESET_PHRASE, DELETE_PHRASE, saveProfile, activateProfile, profiles: () => L('profiles'), runRecipe, unpark, RECIPES, diagnostics, gilligan: o => gilligan(store, o) };
   }
   const api = { Operator, gilligan };
   if (isNode) module.exports = api; else root.KOperator = api;

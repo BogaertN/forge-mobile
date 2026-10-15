@@ -11,6 +11,7 @@ const CONFIG = Object.freeze({
   redirect: 'https://bogaertn.github.io/forge-mobile/'
 });
 const SKEY = 'forge_sb_session', DKEY = 'forge_sb_device';
+const PW_MIN = 8;
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
 function Client(o) { o = o || {};
   const cfg = Object.assign({}, CONFIG, o.config || {});
@@ -34,12 +35,24 @@ function Client(o) { o = o || {};
     const p = new URLSearchParams(h.replace(/^#/, '')); try { hist.replaceState(null, '', loc.pathname + loc.search); } catch (e) { /* non-browser */ }
     if (p.get('error_description')) return { ok: false, rule: 'SB-CALLBACK-ERROR', error: p.get('error_description') };
     const s = keep({ access_token: p.get('access_token'), refresh_token: p.get('refresh_token'), expires_at: p.get('expires_at'), expires_in: p.get('expires_in') });
-    s.user = await fetchUser(s.access_token); if (!s.user) return { ok: false, rule: 'SB-CALLBACK-USER' }; write(s); return { ok: true, callback: true, email: s.user.email }; }
+    s.user = await fetchUser(s.access_token); if (!s.user) return { ok: false, rule: 'SB-CALLBACK-USER' }; write(s);
+    /* PASSWORD_RECOVERY: a reset-password link arrives as type=recovery; the session is kept so updatePassword can set the new one */
+    return { ok: true, callback: true, email: s.user.email, recovery: p.get('type') === 'recovery' }; }
+  /* forgot password: Supabase emails a recovery link that returns to the Pages app (resetPasswordForEmail) */
+  async function resetPassword(email) { email = String(email || '').trim().toLowerCase(); if (!EMAIL.test(email)) return { ok: false, rule: 'SB-EMAIL-INVALID' };
+    const r = await call('/auth/v1/recover?redirect_to=' + encodeURIComponent(cfg.redirect), { method: 'POST', headers: H(), body: JSON.stringify({ email }) });
+    return r.ok ? { ok: true, sent_to: email } : { ok: false, rule: 'SB-RECOVER-FAILED', status: r.status, error: r.body && (r.body.msg || r.body.error_description || r.body.message) }; }
+  /* updateUser({ password }) with the recovery session */
+  async function updatePassword(pw) { pw = String(pw || ''); if (pw.length < PW_MIN) return { ok: false, rule: 'SB-PASSWORD-TOO-SHORT' }; const tok = await token(); if (!tok) return { ok: false, rule: 'SB-NOT-SIGNED-IN' };
+    const r = await call('/auth/v1/user', { method: 'PUT', headers: H(tok), body: JSON.stringify({ password: pw }) });
+    return r.ok ? { ok: true } : { ok: false, rule: 'SB-PASSWORD-UPDATE-FAILED', status: r.status, error: r.body && (r.body.msg || r.body.error_description || r.body.message) }; }
+  /* vault-only reset: the registered device key no longer exists, so the registration must be redone */
+  function markDeviceRedo() { let dev = null; try { dev = JSON.parse(ls.getItem(DKEY) || 'null'); } catch (e) { dev = null; } ls.setItem(DKEY, JSON.stringify({ uid: dev && dev.uid || null, signer_id: null, redo: true, previous: dev && dev.signer_id || null })); return { ok: true }; }
   async function token() { const s = read(); if (!s) return null; if (s.expires_at - nowSec() > 60) return s.access_token;
     const r = await call('/auth/v1/token?grant_type=refresh_token', { method: 'POST', headers: H(), body: JSON.stringify({ refresh_token: s.refresh_token }) });
     if (!r.ok || !r.body || !r.body.access_token) { write(null); return null; } const n = keep(r.body); n.user = n.user || s.user; write(n); return n.access_token; }
   function status() { const s = read(); let dev = null; try { dev = JSON.parse(ls.getItem(DKEY) || 'null'); } catch (e) { dev = null; }
-    return { signedIn: !!s, email: s && s.user ? s.user.email : null, uid: s && s.user ? s.user.id : null, expires_at: s ? s.expires_at : null, device: dev && s && dev.uid === s.user.id ? dev.signer_id : null }; }
+    return { signedIn: !!s, email: s && s.user ? s.user.email : null, uid: s && s.user ? s.user.id : null, expires_at: s ? s.expires_at : null, device: dev && s && dev.uid === s.user.id ? dev.signer_id : null, deviceRedo: !!(dev && dev.redo) }; }
   async function signOut() { const s = read(); write(null); ls.removeItem(DKEY); if (s) { try { await call('/auth/v1/logout?scope=local', { method: 'POST', headers: H(s.access_token) }); } catch (e) { /* offline: local session is already gone */ } } return { ok: true }; }
   /* register this device's PUBLIC signing key; prove(uid, nonce) must return {body,sig,signer,pub} (forge.signer.deviceProof) */
   async function registerDevice(prove) { const tok = await token(); const st = status(); if (!tok || !st.uid) return { ok: false, rule: 'SB-NOT-SIGNED-IN' };
@@ -47,7 +60,7 @@ function Client(o) { o = o || {};
     const r = await call('/functions/v1/register-device', { method: 'POST', headers: H(tok), body: JSON.stringify(proof) });
     if (!r.ok || !r.body || !r.body.ok) return { ok: false, rule: (r.body && r.body.rule) || 'SB-REGISTER-FAILED', status: r.status };
     ls.setItem(DKEY, JSON.stringify({ uid: st.uid, signer_id: r.body.signer_id, at: new Date(nowSec() * 1000).toISOString() })); return { ok: true, signer_id: r.body.signer_id }; }
-  return { config: cfg, signIn, handleCallback, token, status, signOut, registerDevice }; }
-const api = { Client, CONFIG, SKEY, DKEY };
+  return { config: cfg, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice }; }
+const api = { Client, CONFIG, SKEY, DKEY, PW_MIN };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else { root.KSbSync = api; root.KSb = Client(); }
 })(typeof self !== 'undefined' ? self : this);

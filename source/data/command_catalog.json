@@ -358,6 +358,7 @@
   "tool.enable",
   "tool.install",
   "tool.invoke",
+  "vault.reset",
   "vault.reveal",
   "vault.write",
   "workbench.run"
