@@ -24,16 +24,25 @@ const vault = () => { const e = {}; return { async seal(kind, label, text) { e.s
     C('S3: offline queue holds then flushes', !o1.ok && o1.queued === 1 && o2.ok && o2.sent === 1 && W.queue().length === 0, JSON.stringify([o1, o2])); }
   { let ok = true; for (const f of ['reason.js', 'kernel.js', 'derive.js', 'infer.js']) ok = ok && !/KE2EE|KGKS|e2ee\.js|gks\.js/.test(fs.readFileSync(ROOT + '/src/' + f, 'utf8'));
     C('S3/S4: the reasoning core never references e2ee/gks (backend out of the reasoning path)', ok); }
-  { const body = { facts: [{ s: 'rex', p: 'dog' }], rules: [] }, sha = GKS.bodyHash(body), keys = [{ kid: 'pub-test' }], st = mem(), par = sha256('parent');
-    const snap = { schema: GKS.SCHEMA, sha256: sha, parent_sha256: par, seq: 1, publisher_kid: 'pub-test', signature: 's' };
+  { const body = { facts: [{ s: 'rex', p: 'dog' }], rules: [] }, sha = GKS.bodyHash(body), st = mem(), par = sha256('parent');
+    const pub = GKS.KB_PUBLISHER_PUBKEYS[0];
+    const { webcrypto } = require('crypto'); const pair = await webcrypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+    /* use compiled pubkey path: sign with a throwaway and also test compiled key via checkSig bypass for shape, then real signBody needs matching priv — so for compiled key test we use allowEmptyKeys + checkSig OR inject pubkeys */
+    const wrongPub = { kid: 'x', kty: 'EC', crv: 'P-256', x: pub.x, y: pub.y };
+    const snap0 = { schema: GKS.SCHEMA, sha256: sha, parent_sha256: par, seq: 1, publisher_kid: pub.kid, signature: 'AA' };
     st.save('gks_pinned', { schema: GKS.SCHEMA, sha256: par, seq: 0, body: {} });
     const tampered = JSON.parse(JSON.stringify(body)); tampered.facts[0].p = 'dot';
-    C('S4: tampered byte → rejected', GKS.verify(snap, tampered, { pubkeys: keys }).rule === 'GKS-HASH-MISMATCH');
-    C('S4: wrong key → rejected', GKS.verify(snap, body, { pubkeys: keys, checkSig: () => false }).rule === 'GKS-BAD-SIGNATURE' && GKS.verify(snap, body, { pubkeys: [{ kid: 'x' }] }).rule === 'GKS-UNKNOWN-PUBLISHER' && GKS.verify(snap, body, {}).rule === 'GKS-NO-PUBLISHER-KEYS');
-    const r = GKS.pin(st, snap, body, { pubkeys: keys, revoked: { [sha]: true } });
+    C('S4: tampered byte → rejected', (await GKS.verify(snap0, tampered, { pubkeys: [pub], checkSig: () => true })).rule === 'GKS-HASH-MISMATCH');
+    C('S4: wrong key → rejected', (await GKS.verify(snap0, body, { pubkeys: [pub], checkSig: () => false })).rule === 'GKS-BAD-SIGNATURE' && (await GKS.verify(snap0, body, { pubkeys: [wrongPub] })).rule === 'GKS-UNKNOWN-PUBLISHER' && (await GKS.verify(snap0, body, { pubkeys: [] })).rule === 'GKS-NO-PUBLISHER-KEYS');
+    const r = await GKS.pin(st, snap0, body, { pubkeys: [pub], checkSig: () => true, revoked: { [sha]: true } });
     C('S4: revoked snapshot → rollback to parent', r.ok && r.rolled_back && st.load('gks_pinned').sha256 === par, JSON.stringify(r));
-    const ok = GKS.pin(st, snap, body, { pubkeys: keys, checkSig: () => true }), g = GKS.load(st);
-    C('S4: same input + same gks_sha256 → identical trace tag (network on/off irrelevant)', ok.ok && GKS.traceTag('q', g) === GKS.traceTag('q', { sha256: sha }) && GKS.traceTag('q', g) !== GKS.traceTag('q', null)); }
+    /* real ECDSA: sign with ephemeral key registered as pubkey for this test */
+    const privJ = await webcrypto.subtle.exportKey('jwk', pair.privateKey), pubJ = await webcrypto.subtle.exportKey('jwk', pair.publicKey); pubJ.kid = 'test-ephemeral'; privJ.kid = pubJ.kid;
+    const sig = await GKS.signBody(privJ, body), snap = { schema: GKS.SCHEMA, sha256: sha, parent_sha256: null, seq: 2, publisher_kid: pubJ.kid, signature: sig };
+    const ok = await GKS.pin(st, snap, body, { pubkeys: [pubJ] }), g = GKS.load(st);
+    C('S4: ECDSA signature verifies; same input + same gks_sha256 → identical trace tag', ok.ok && (await GKS.verify(snap, body, { pubkeys: [pubJ] })).ok && GKS.traceTag('q', g) === GKS.traceTag('q', { sha256: sha }) && GKS.traceTag('q', g) !== GKS.traceTag('q', null), JSON.stringify(ok));
+    const bad = Object.assign({}, snap, { signature: sig.slice(0, -2) + (sig.slice(-2) === 'AA' ? 'BB' : 'AA') });
+    C('S4: tampered signature → rejected', (await GKS.verify(bad, body, { pubkeys: [pubJ] })).rule === 'GKS-BAD-SIGNATURE'); }
   { const rows = []; let seq = 0;
     const client = { token: async () => 't', status: () => ({ device: 'dev-a' }), blobIo: () => async (op, arg) => {
       if (op === 'tip') return rows.filter(r => r.store === arg.store && r.record_id === arg.record_id).pop() || null;
