@@ -617,7 +617,7 @@ function Kernel(opts) {
   const ENV = { reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: (m, text) => m && m.kind === 'world_answer' ? worldReverify(m, text) : mathReverify(m) };
   /* world answers: the proposition quoted in the surface is re-parsed by the world grammar and must be the checked query (or its
      opposite) of that status, and the proof it cites is replayed again against its own (branch-scoped) world */
-  function worldReverify(m, text) { if (m.wh) return whReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x));
+  function worldReverify(m, text) { if (m.wh) return whReverify(m, text); if (m.why) return whyReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x));
       const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); const at = R.parseAtomic(u, false, new Set([m.query.predicate])); if (at) R.alignVerbs(Object.assign({}, m.query), [at]); return at; };
       const said = (String(text).match(/“([^”]+)”/g) || []).map(q => parse(q.slice(1, -1))); if (!said.length || said.some(a => !a)) return false;
       const q = R.canon(m.query), o = R.canon(R.opposite(m.query)), ks = said.map(a => R.canon(a));
@@ -628,6 +628,10 @@ function Kernel(opts) {
   function whReverify(m, text) { try { const qs = (String(text).match(/“([^”]+)”/g) || []).map(q => q.slice(1, -1)), a = m.wh.answers;
       if (!a.length) return qs.length === 1 && qs[0] === m.wh.question; if (qs.length !== a.length) return false; if (m.wh.count && !new RegExp('\\bcounted ' + a.length + ' ').test(text)) return false;
       return a.every((x, i) => { if (x.status !== 'supported_only') return qs[i] === x.text; const sub = { kind: 'world_answer', status: 'supported_only', query: x.query, proofs: { support: x.proof }, world: x.world }; return worldReverify(sub, '“' + qs[i] + '”') === true; }); } catch (e) { return false; } }
+  /* why: the first quote is the question's proposition (its proof replayed when supported); the rest must be exactly the proof's own premises or the branch-checked hypotheses */
+  function whyReverify(m, text) { try { const w = m.why, qs = (String(text).match(/“([^”]+)”/g) || []).map(q => q.slice(1, -1)); if (qs[0] !== w.query_text) return false;
+      if (w.status === 'supported_only' && !R.checkProof(w.world, w.proof).ok) return false; const rest = w.status === 'supported_only' ? (w.premises.length === 1 && w.premises[0] === w.query_text && !w.rules ? [] : w.premises) : w.hypotheses;
+      return qs.length === 1 + rest.length && rest.every((x, i) => qs[i + 1] === x); } catch (e) { return false; } }
   function mathReverify(m) { try {
     if (m.kind === 'math') return reverifyMath(m.expr, m.value, m.approx);
     if (m.kind === 'solved' && m.closed) { const z = CA.cubicExact(...[3, 2, 1, 0].map(i => A.P.coef(A.poly(String(m.poly).split('=')[0]), m.x, i).toNumber())); if (!z || z.roots.map(t => t.exact).join('|') !== m.closed.join('|')) return false; }

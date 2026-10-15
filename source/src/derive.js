@@ -15,7 +15,7 @@ const NOUNS = new Set(words('tag link memory reminder time device branch candida
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
   'failure relation sign code divisor limit limitation vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
-const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences' };
+const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences', hypothesis: 'hypotheses' };
 const ADJ = new Set(words('other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
   'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
@@ -366,6 +366,11 @@ function worldPlan(m) {
 function worldStatusPlan(m) {
   const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
   const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
+  if (m.why) { const w = m.why, q = Mn(w.query_text), L = xs => xs.length > 1 ? { coord: xs === w.hypotheses ? 'or' : 'and', items: xs.map(Mn) } : Mn(xs[0]);
+    if (w.status === 'supported_only') return w.premises.length === 1 && w.premises[0] === w.query_text && !w.rules ? [S(C('state', { karma: q, voice: 'pass', tense: 'past' })), S(C('derive', { karta: N('rule', { det: 'no' }), karma: pr('it') }))]
+      : [S(C('derive', { karta: checkedProof, karma: q, roles: { apadana: L(w.premises) } })), S(C('use', { karta: pr('it'), karma: N('rule', { cnt: w.rules }) }))];
+    if (w.status === 'undetermined') return [S(C('derive', { karta: checkedWorld, karma: q, pol: 'neg' }))].concat(w.hypotheses.length ? [S(C('explain', { karta: L(w.hypotheses), karma: pr('it'), mod: 'can' })), S(C('be', { karta: pr(w.hypotheses.length > 1 ? 'they' : 'it'), pred: N('hypothesis', { det: w.hypotheses.length > 1 ? undefined : 'a', pl: w.hypotheses.length > 1 }) }))] : [S(C('explain', { karta: N('rule', { det: 'no' }), karma: pr('it') }))]);
+  }
   if (m.wh) { const a = m.wh.answers; if (!a.length) return m.status === 'incomplete' ? [S(C('reach', { karta: N('derivation', { det: 'the' }), karma: N('limit', { det: 'the' }), tense: 'past' })), S(C('answer', { karta: I, karma: Mn(m.wh.question), mod: 'can', pol: 'neg' }))] : [S(C('support', { karta: checkedWorld, karma: N('answer', { det: 'no' }), roles: { tadartha: Mn(m.wh.question) } })), S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))];
     return (m.wh.count ? [S(C('count', { karta: I, karma: N('answer', { cnt: a.length, adj: ['checked'] }), tense: 'past' }))] : []).concat([S(C('support', { karta: N('proof', { det: 'the', adj: ['checked'], pl: a.length > 1 }), karma: a.length > 1 ? { coord: 'and', items: a.map(x => Mn(x.text)) } : Mn(a[0].text) })), S(C('determine', { karta: N('world', { det: 'the' }), karma: N('answer', { adj: ['other'], pl: true }), pol: 'neg' }))]); }
   if (m.status === 'supported_only') return [

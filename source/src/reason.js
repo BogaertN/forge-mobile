@@ -932,9 +932,25 @@ function evaluateWh(raw, segs, qseg, opts) {
     { id: 'WM-INDEPENDENT-PROOF-REPLAY', doc: DOC, note: answers.length + ' proof(s) replayed' }, { id: 'WM-AUTHORITY-ZERO', doc: DOC, note: 'network=0 tools=0 governed-memory-read=0 knowledge-write=0 world-write=0' }],
     uncertainty: answers.length ? 'none' : material.status, reasoningCandidates: [] };
 }
+/* "why P?" = the checked proof of P read back as its premises (facts it rests on, rules it used). With no proof, abduction (Nic's decision;
+   contract §13 defers it as truth, so it is only ever a labelled hypothesis): each rule whose head matches P proposes its instantiated body;
+   a proposal is kept only if a what-if branch supposing it makes P checked-supported. Nothing is written; hypotheses never become facts. */
+function evaluateWhy(raw, segs, qseg, opts) {
+  const t = clean(qseg.text).replace(/[?]+$/, ''), m = t.match(/^why\s+((?:is|are|does|do|was|were|did)\s+.+)$/i); if (!m) return null;
+  const head = raw.slice(0, qseg.span.start), r = evaluate1(head + m[1] + '?', opts); if (!r.handled || !r.material || r.material.kind !== 'world_answer') return r.handled ? r : null;
+  const a = r.material, why = { question: qseg.source, status: a.status, query: copy(a.query), query_text: a.query_text, premises: [], rules: 0, hypotheses: [], proof: a.proofs.support, world: a.world };
+  if (a.status === 'supported_only') { const st = a.proofs.support.steps; why.premises = st.filter(x => x.kind === 'fact').map(x => atomText(x.conclusion)); why.rules = new Set(st.filter(x => x.kind === 'rule').map(x => x.rule_id)).size; }
+  else if (a.status === 'undetermined') { const q = a.query, seen = new Set();
+    for (const rule of a.world.rules) { const s = unify(rule.head, q, {}); if (!s) continue; const hs = rule.body.map(b => instantiate(b, s)); if (hs.some(h => h.args.some(x => /^\$/.test(x)))) continue;
+      const txt = hs.map(atomText), k = txt.join(' and '); if (seen.has(k) || why.hypotheses.length >= 4) continue; seen.add(k);
+      const b = evaluate1(head + txt.map(x => 'Suppose ' + x + '. ').join('') + m[1] + '?', opts); if (b.material && b.material.status === 'supported_only' && b.material.branch) why.hypotheses.push(k); } }
+  return { handled: true, outcome: 'SELECTED_MEANING', material: Object.assign({}, a, { why }), frame: 'FR.WORLD.MODEL', act: 'question', rules: r.rules.concat([{ id: 'WM-WHY-PROOF-READBACK', doc: DOC + ' §9; abduction per Nic (labelled hypotheses, branch-checked, never admitted)', note: a.status + '; premises=' + why.premises.length + '; hypotheses=' + why.hypotheses.length }]), uncertainty: r.uncertainty, reasoningCandidates: r.reasoningCandidates };
+}
+
 function evaluate(raw, opts) {
   opts = opts || {}; raw = String(raw || '').normalize('NFC'); const segs = sourceSegments(raw), q = segs.filter(x => x.kind === 'question').slice(-1)[0];
   if (q && WH_START.test(clean(q.text)) && !/\b(?:i|me|my|mine|we|us|our|ours|you|your|yours)\b/i.test(q.text) && segs.indexOf(q) === segs.length - 1 && (segs.length > 1 || opts.bareWh) && raw.length <= LIMITS.MAX_INPUT_CHARS) { const r = evaluateWh(raw, segs, q, opts); if (r) return r; }
+  if (q && /^why\s/i.test(clean(q.text)) && segs.indexOf(q) === segs.length - 1 && raw.length <= LIMITS.MAX_INPUT_CHARS) { const w = evaluateWhy(raw, segs, q, opts); if (w) return w; }
   const r = evaluate1(raw, opts); if (r.handled || !opts.bareWh || !q) return r;
   /* I2: a question that only failed a dictionary lookup gets a precise structural limitation, never an unknown-word trap */
   const f = interpretationFailure(raw, q, 'UNSUPPORTED_QUERY_STRUCTURE', 'outside v1 grammar; unfamiliar words remain symbols').failure;

@@ -125,10 +125,16 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
       expect(st(`${a} is ${adj} than ${b}. Is ${b} ${adj} than ${a}?`) === 'refuted_only' && st(`${a} is ${adj} than ${b}. ${b} is ${adj} than ${c}. Is ${a} ${adj} than ${c}?`) === 'supported_only' && st(`Is ${a} ${adj} than ${b}?`) === 'undetermined', 'cmp ' + [a, b, c, adj]);
       r = ask(f, `${a} is ${adj} than ${b}. ${b} is ${adj} than ${c}. Who is ${adj} than ${c}?`); expect(r.includes(`“${a.toLowerCase()} is ${adj} than ${c.toLowerCase()}”`) && r.includes(`“${b.toLowerCase()} is ${adj} than ${c.toLowerCase()}”`), r); } }));
   C('GELC-TENSE', 'past tense is a proposition marker over random symbols: "was/were", "did (not)", regular "-ed" give past atoms (marker tense=past), answered by past questions and wh-questions, and never by the present ("X was in Y" leaves "is X in Y?" undetermined)', S(() => {
-    for (let i = 0; i < 3; i++) { const [a, b] = [nonce(), nonce()].map(cap), k = nonce(), v = nonce() + 'k', p = PREPS[Math.floor(rnd() * PREPS.length)];
+    for (let i = 0; i < 3; i++) { const [a, b] = [nonce(), nonce()].map(cap), k = nonce(), v = nonce() + 'ak', p = PREPS[Math.floor(rnd() * PREPS.length)];
       expect(st(`${a} was ${p} ${b}. Was ${a} ${p} ${b}?`) === 'supported_only' && st(`${a} was ${p} ${b}. Is ${a} ${p} ${b}?`) === 'undetermined' && st(`${a} was a ${k}. Was ${a} a ${k}?`) === 'supported_only', 'cop ' + [a, b, p, k]);
       expect(st(`${a} ${v}ed ${b}. Did ${a} ${v} ${b}?`) === 'supported_only' && st(`${a} ${v}ed ${b}. Does ${a} ${v} ${b}?`) === 'undetermined' && st(`${a} did not ${v} ${b}. Did ${a} ${v} ${b}?`) === 'refuted_only', 'verb ' + [a, b, v]);
       const c = RS.interpret(`${a} was a ${k}. Was ${a} a ${k}?`).candidate; expect(c.markers.every(m => m.tense === 'past'));
       const f = FKN(); let r = ask(f, `${a} was ${p} ${b}. Where was ${a}?`); expect(r.includes(`“${a.toLowerCase()} was ${p} ${b.toLowerCase()}”`), r);
-      r = ask(f, `${a} ${v}ed ${b}. Who ${v}ed ${b}?`); expect(r.includes(`“${a.toLowerCase()} ${v}ed ${b.toLowerCase()}”`), r); } }));
+      r = ask(f, `${a} ${v}ed ${b}. Who ${v}ed ${b}?`); expect(r.includes(`“${a.toLowerCase()} ${v}ed ${b.toLowerCase()}”`), r + ' ≠ ' + [a, v, b]); } }));
+  C('GELC-WHY', 'why-questions read back the checked proof (its premises and rule count); with no proof, abduction proposes rule bodies kept only when a what-if branch makes the claim checked — labelled hypotheses, nothing written', S(() => {
+    for (let i = 0; i < 3; i++) { const f = FKN(), a = cap(nonce()), [k, k2, k3, k4] = [nonce(), nonce(), nonce(), nonce()], A = a.toLowerCase(), snap = () => canon(['memory', 'hypotheses', 'evidence'].map(x => f.store.load(x))), s0 = snap();
+      let r = ask(f, `Every ${k} is a ${k2}. ${a} is a ${k}. Why is ${a} a ${k2}?`); expect(r === `The checked proof derives “${A} is ${k2}” from “${A} is ${k}”. It uses 1 rule.`, r);
+      r = ask(f, `${a} is a ${k2}. Why is ${a} a ${k2}?`); expect(r === `“${A} is ${k2}” was stated. No rule derives it.`, r);
+      r = ask(f, `Every ${k3} is a ${k2}. Every ${k4} is a ${k2}. Why is ${a} a ${k2}?`); expect(r.includes(`“${A} is ${k3}”`) && r.includes(`“${A} is ${k4}”`) && /They are hypotheses\.$/.test(r), r);
+      r = ask(f, `Why is ${a} a ${k}?`); expect(/No rule explains it\.$/.test(r), r); expect(snap() === s0, 'why wrote state'); } }));
 };
