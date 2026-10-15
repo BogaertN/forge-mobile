@@ -129,7 +129,7 @@ function Kernel(opts) {
   const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
   const perm = opts.perm || Gv.PermissionService(store, { clock: now }); const cont = CT.Containment(store, { clock: now, perm }); const bench = TB.Bench(store, { clock: now, perm });
   const fmtTime = opts.formatTime || (iso => iso.replace('T', ' ').slice(0, 16) + ' UTC');
-  const glex = { hasPos: lex.hasPos, exc: lex.exc, controlled: lex.controlled, known: lex.known, isName: lex.isName, coreNoun: lex.coreNoun };
+  const glex = { hasPos: (l, p) => lex.hasPos(l, p) || (p === 'v' && SELF_V.has(l)) || (p === 'n' && SELF_N.has(l)), /* Forge's own self-query words are lexicon entries of the kernel (closed class), so they parse even with no WordNet lexicon */ exc: lex.exc, controlled: lex.controlled, known: lex.known, isName: lex.isName, coreNoun: lex.coreNoun };
   const activeFacts = () => store.load('memory').filter(r => r.kind !== 'note' && r.status === 'active');
   const notes = () => store.load('memory').filter(r => r.kind === 'note' && r.status === 'active');
   const content = toks => toks.filter(t => !/^[?.!]$/.test(t.w));
@@ -239,6 +239,12 @@ function Kernel(opts) {
     if (gap && gap.startsWith('role:')) { const role = gap.slice(5); if (role === 'karma') return !!(c.roles && c.roles.karma); return (c.adj || []).some(a => a.role === role) || (role === 'adhikarana' && c.pred && (c.pred.type === 'pp' || c.pred.type === 'adv')); }
     if (gap === 'pred') return !!c.pred; return true; }
   const factsAbout = key => activeFacts().filter(r => r.entities.some(e => e === key || e.startsWith(key + '/') || e.includes('+' + key) || e.includes(key + '+')));
+  /* self-query lexical classes (4.9.38): words, not phrases — the parse supplies the frame */
+  const SELF_COGN = new Set(['know', 'remember', 'recall']), SELF_SAY = new Set(['tell', 'say', 'mention']), SELF_SHOW = new Set(['list', 'show', 'display', 'read', 'give']);
+  const SELF_MEAN_V = new Set(['mean', 'define', 'explain']), SELF_MEAN_N = new Set(['meaning', 'definition']);
+  const SELF_V = new Set(['know', 'remember', 'recall', 'tell', 'say', 'mention', 'list', 'show', 'display', 'mean', 'define', 'explain']), SELF_N = new Set(['fact', 'thing', 'memory', 'note', 'meaning', 'definition']);
+  const SELF_REC = { fact: 'facts', thing: 'facts', memory: 'facts', note: 'notes' };
+  const SELF_CAPS = new Set(['remember', 'recall', 'note', 'calculate', 'compute', 'define', 'explain', 'count', 'list', 'help', 'add', 'multiply', 'subtract', 'divide', 'solve', 'simplify', 'convert']);
   const LIFECYCLE = new Set(['propose', 'install', 'uninstall', 'fail', 'revert', 'deploy', 'approve', 'reject', 'release', 'withdraw', 'cancel', 'complete', 'succeed', 'pass']);
   function lifecycle(c) { if (!c || c.coord || !c.verb || c.verb.pol !== 'pos' || c.verb.tense !== 'past' || (c.roles && c.roles.karma && (c.roles.karma.clause || c.roles.karma.inf || c.roles.karma.ger))) return null; const l = c.verb.lemma, pt = c.verb.particle;
     return LIFECYCLE.has(l) && !pt ? l : l === 'roll' && pt === 'back' ? 'roll back' : null; }
@@ -264,10 +270,6 @@ function Kernel(opts) {
     ['FR.STATUS', 'question', /^(?:status|drift|drift status|show (?:drift|status)|what is your (?:drift|status|phase)|what phase are you in)$/, () => { const l = meta.last || { eps_s: 0, band: 'clean', phase: 9 }; return { kind: 'status', eps: l.eps_s, band: l.band, phase: M.PHASES[l.phase].sym, chi: meta.chi }; }],
     ['FR.NEWLOOP', 'request', /^(?:start over|new loop|reset loop)$/, () => ({ kind: 'loop' }), { effect: 'newloop' }],
     ['FR.TERMS', 'question', /^(?:what terms do you know|list (?:the )?terms|show (?:the )?terms)$/, () => ({ kind: 'terms', items: lex.all().filter(x => x.category === 'term' && !x.retired).map(x => x.surfaces[0]) })],
-    ['FR.NOTE.LIST', 'request', /^(?:(?:show|list|read|display|give)(?: me)?(?: all)?(?: my)? notes|what are my notes|my notes)$/, () => ({ kind: 'notes', items: notes().map(n => n.text) })],
-    ['FR.NOTE.COUNT', 'question', /^how many notes(?: do i have)?$/, () => ({ kind: 'count', n: notes().length, what: 'note' })],
-    ['FR.MEM.COUNT', 'question', /^how many (?:facts|memories|things)(?: do you (?:have|remember|know))?$/, () => ({ kind: 'count', n: activeFacts().length, what: 'fact' })],
-    ['FR.MEM.LIST', 'question', /^(?:what do you remember|(?:list|show)(?: me)?(?: all)?(?: my)? (?:facts|memories|memory))$/, () => { const fs = activeFacts(); const vis = fs.filter(r => !r.sensitive); const m = { kind: 'facts', items: vis.map(r => r.clause) }; if (fs.length - vis.length) m.hidden = fs.length - vis.length; return m; }],
     ['FR.TIME', 'question', /^what (?:time|day|date) is it(?: today| now)?$/, () => ({ kind: 'refuse', reason: 'NO_TIME_SOURCE' }), { outcome: 'REFUSAL_RELEVANT', rule: 'EV-NO-CLOCK-AUTHORITY' }],
   ];
   const entWord = e => String(e).toLowerCase().replace(/^.*[:/]/, '');
@@ -432,28 +434,7 @@ function Kernel(opts) {
     if (/^(?:what patterns do you (?:see|notice)|(?:please )?reflect(?: on (?:our|my) conversations?)?|run gilligan)$/.test(low)) { const g = OP.gilligan(store); rules.push({ id: 'EF-FRAME-PATTERNS', doc: 'GenNode Doc 10 Gilligan (reflection only)', note: g.patterns.length + ' patterns over ' + g.basis.facts + ' facts / ' + g.basis.traces + ' traces' }); return res('SELECTED_MEANING', { kind: 'patterns', items: g.patterns.map(p => p.word + ' (' + p.count + ')') }, { frame: 'FR.PATTERNS', act: 'question' }); }
     const EXT = 'send|email|mail|text|message|post|share|publish|tweet|purchase|order|pay|book|open|launch|run|execute|install|download|upload|call|browse|search|play|stream|navigate|translate|schedule';
     if ((m = low.match(new RegExp('^(?:please )?(?:(?:can|could|will|would) you )?(' + EXT + ')\\b(.*)$')))) { if (ctx.negAct) return res('SELECTED_RESTRICTED_MEANING', { kind: 'neg_act', act: m[1] }, { frame: 'FR.EXTERNAL', act: 'request' }); rules.push({ id: 'CAP-UNSUPPORTED-EXTERNAL', doc: 'Doc1; Doc5 §17; Doc8' }); const tl = (m[1] + m[2]).trim(), ti = raw.toLowerCase().lastIndexOf(tl); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: (ti >= 0 && raw.length - ti - tl.length <= 1 ? raw.substr(ti, tl.length) : tl).replace(/\bmy\b/gi, 'your'), reason: 'NO_EXTERNAL' }, { frame: 'FR.EXTERNAL', act: 'request' }); }
-    if ((m = low.match(/^(?:what do you know|what do you remember|tell me(?: everything)?) about (.+)$/))) {
-      const rest = raw.replace(/^.*?about\s+/i, '').replace(/[?.!]+$/, ''); const tgt = /^(me|myself)$/.test(m[1]) ? { pron: 'user' } : parseNP(rest);
-      if (!tgt) { const unk = unknownToks(content(G.tokenize(rest))); if (unk.length) return clarifyUnknown(unk); return res('NO_LAWFUL_CANDIDATE', { kind: 'no_frame' }, { frame: 'FR.ABOUT', act: 'question' }); }
-      const rr = resolveRefs({ subj: tgt, verb: { lemma: 'be' } }, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.ABOUT', act: 'question' });
-      const tg = tgt.pron3 ? tgt : tgt; const key = entKey(tg); const fs = factsAbout(key); const vis = fs.filter(r => !r.sensitive); rules.push({ id: 'MEM-QUERY-ENTITY', doc: 'Doc7; exact entity key (no similarity)', note: key + ' → ' + fs.length });
-      ctx.clauseForDiscourse = { subj: tg, verb: { lemma: 'be' } };
-      return res('SELECTED_MEANING', Object.assign({ kind: 'about', subj: tg, items: vis.map(r => r.clause) }, fs.length - vis.length ? { hidden: fs.length - vis.length } : {}), { frame: 'FR.ABOUT', act: 'question', evidenceRefs: vis.map(r => r.id) }); }
-    if ((m = low.match(/^when did i (?:tell you|say|mention)(?: that| about)? (.+)$/))) {
-      const rest = raw.replace(/^.*?(?:tell you|say|mention)\s+(?:that\s+|about\s+)?/i, '').replace(/[?.!]+$/, ''); let recs = [];
-      const d = derive(G.tokenize(rest)); if (d.parses.length) { const c = d.parses[0].node.clause; recs = activeFacts().filter(r => matches(c, null, r)); }
-      if (!recs.length) { const n = parseNP(rest); if (n) recs = factsAbout(entKey(n)); else { const unk = unknownToks(content(G.tokenize(rest))); if (unk.length) return clarifyUnknown(unk); } }
-      const hidden = recs.filter(r => r.sensitive).length; recs = recs.filter(r => !r.sensitive); rules.push({ id: 'MEM-QUERY-PROVENANCE-TIME', doc: 'Doc7 provenance', note: recs.length + ' record(s)' + (hidden ? ', ' + hidden + ' sensitive withheld' : '') });
-      if (!recs.length) { const n = parseNP(rest); return res('SELECTED_MEANING', { kind: 'recall_none', subj: n || { propn: 'that' } }, { frame: 'FR.WHEN', act: 'question' }); }
-      return res('SELECTED_MEANING', { kind: 'when', items: recs.map(r => ({ clause: r.clause, turn: r.provenance.turn, when: fmtTime(r.provenance.at) })) }, { frame: 'FR.WHEN', act: 'question', evidenceRefs: recs.map(r => r.id) }); }
-    if ((m = low.match(/^how many (?:facts|things) do you (?:know|remember) about (.+)$/))) { const n = /^(me|myself)$/.test(m[1]) ? { pron: 'user' } : parseNP(raw.replace(/^.*?about\s+/i, '').replace(/[?.!]+$/, '')); if (n) { const fs = factsAbout(entKey(n)); rules.push({ id: 'MEM-QUERY-COUNT', doc: 'Doc7' }); return res('SELECTED_MEANING', { kind: 'count_about', n: fs.length, subj: n }, { frame: 'FR.MEM.COUNT', act: 'question' }); } }
-    if ((m = low.match(/^(?:what is the meaning of|what is the definition of|definition of|meaning of|what is|what are|define|what does|explain) (?:a |an |the )?([a-zα-ωφψχθμρσε₀-₉_'\-][\wα-ωφψχθμρσε₀-₉'\-]*)(?: mean| stand for)?$/)) && !/^(my|your|it|this|that|they|them|he|she|his|her|their|our)$/.test(m[1])) {
-      const w = m[1]; const ctl = lex.lookup(w).filter(c => c.id !== 'NUM.LITERAL' && c.category !== 'function');
-      if (ctl.length === 1) { const k = ctl[0]; rules.push({ id: 'LX-CONTROLLED-FIRST', doc: 'Doc4; Doc5 §12.28; Doc8 (controlled terms precede external resources)', note: k.id }); return res('SELECTED_MEANING', { kind: 'define', term: w, gloss: k.senses[0].gloss, source: k.source || 'seed lexicon' }, { frame: 'FR.DEFINE', act: 'question', evidenceRefs: ['lexicon:' + k.id] }); }
-      if (ctl.length > 1) { rules.push({ id: 'LL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29', note: ctl.map(x => x.id).join(' | ') }); meta.pending = { type: 'sense', word: w, senses: ctl.map(x => ({ sid: x.id, gloss: x.senses[0].gloss.replace(/\.$/, ''), source: x.source || 'seed lexicon' })) }; return res('AMBIGUITY_PRESERVED', { kind: 'clarify_ambiguous', word: w, senses: ctl.map(x => x.senses[0].gloss.replace(/\.$/, '')) }, { frame: 'FR.DEFINE', act: 'question' }); }
-      if (!/^(it|this|that)$/.test(w) && !lex.known(w)) return clarifyUnknown([w]); }
     if (/^what is (it|this|that|they)$/.test(low)) { rules.push({ id: 'LL-REF-UNRESOLVED', doc: 'Doc6 §23' }); g.connectedness = 'unresolved referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: low.split(' ')[2], options: [] }, { frame: 'FR.DEFINE', act: 'question' }); }
-    if ((m = low.match(/^can you (\w+)(.*)$/))) { const caps = { remember: 1, recall: 1, note: 1, calculate: 1, compute: 1, define: 1, explain: 1, count: 1, list: 1, help: 1, add: 1, multiply: 1, subtract: 1, divide: 1, solve: 1, simplify: 1, convert: 1 }; if (caps[m[1]] && !m[2].trim()) return res('SELECTED_MEANING', { kind: 'help' }, { frame: 'FR.CAPABILITY', act: 'question' }); if (!caps[m[1]]) { if (!lex.known(m[1])) return clarifyUnknown([m[1]]); rules.push({ id: 'CAP-UNSUPPORTED', doc: 'Doc5 §17' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: (m[1] + m[2]).replace(/\bmy\b/g, 'your').trim(), reason: 'NOT_REGISTERED' }, { frame: 'FR.CAPABILITY', act: 'question' }); } }
     return grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown);
   }
 
@@ -465,7 +446,7 @@ function Kernel(opts) {
     const dreamLen = /^(suppose|imagine|hypothetically)$/.test(w0) ? 1 : (w0 === 'what' && toks[1] && toks[1].w === 'if') || (w0 === 'let' && toks[1] && /^(us|'s)$/.test(toks[1].w)) ? 2 : (w0 === 'i' && toks[1] && /^(dreamed|dreamt|imagined)$/.test(toks[1].w)) ? 2 : 0;
     if (dreamLen && !ctx.negAct) { let body = toks.slice(dreamLen); if (w0 === 'let' && body[0] && body[0].w === 'say') body = body.slice(1); if (body[0] && /^[,:]$/.test(body[0].w)) body = body.slice(1); if (body[0] && body[0].w === 'that') body = body.slice(1);
       if (body.length >= 2) { ctx.dream = true; ctx.dreamVerb = /^(imagine|imagined|dreamed|dreamt)$/.test(w0 === 'i' ? toks[1].w : w0) ? 'imagine' : 'suppose'; rules.push({ id: 'CT-DREAM-FRAME', doc: 'RMC containment; forge dream_state_quarantine.py (Patch 266)', note: 'speculative frame: ' + toks.slice(0, dreamLen).map(t => t.w).join(' ') }); return declarative(body, 'FR.DREAM', 'assertion', false); } }
-    const ask = /^(can|could|will|would)$/.test(w0) && toks[1] && toks[1].w === 'you' && toks[2] && /^(remember|store|save|keep|memorize|memorise)$/.test(toks[2].w);
+    const ask = /^(can|could|will|would)$/.test(w0) && toks.length > 3 && toks[1] && toks[1].w === 'you' && toks[2] && /^(remember|store|save|keep|memorize|memorise)$/.test(toks[2].w);
     if (/^(remember|store|save|keep|memorize|memorise)$/.test(w0) || ask) {
       let body = toks.slice(ask ? 3 : 1); if (body[0] && body[0].w === 'that') body = body.slice(1);
       if (body.length && /^(maybe|perhaps|possibly|probably)$/.test(body[0].w)) { body = body.slice(1); if (body[0] && body[0].w === ',') body = body.slice(1); rules.push({ id: 'LL-MOD-HEDGE', doc: 'Doc3 §18' }); ctx.hedge = true; }
@@ -487,7 +468,53 @@ function Kernel(opts) {
         if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: cl.subj || { propn: 'that' } }, { frame: 'FR.FORGET', act: 'request' }); }
       meta.pending = { type: 'forget', ids: recs.map(r => r.id) }; rules.push({ id: 'AUTH-FORGET-ASK-CONFIRM', doc: 'Doc7; Doc6 §30 (deletion needs explicit confirmation)' });
       return res('CLARIFICATION_REQUIRED', { kind: 'confirm_forget', items: recs.map(r => r.clause) }, { frame: 'FR.FORGET', act: 'request' }); }
+    /* SELF-QUERY by structure (4.9.38; Nic: no keyword routes). A question or directive about Forge's own records is recognised from the PARSE, not from a
+       phrase: the kāraka frame (kartā = Forge or the user, a cognition / saying / showing / meaning verb from the lexical classes below, the gapped kāraka,
+       the viṣaya adjunct) selects the record query. Growth is by adding words to a class, never by adding a phrase. */
+    function metaQ(q, gap, wh) { if (!q || q.coord || !q.verb) return null; const L = q.verb.lemma, ro = q.roles || {}, isK = n => n && n.pron === 'kernel', isU = n => n && n.pron === 'user';
+      const vis = (q.adj || []).find(a => a.role === 'vishaya' && a.np); const recN = n => n && !n.conj && n.head && n.head.length === 1 && SELF_REC[n.head[0]] && !n.propn ? SELF_REC[n.head[0]] : null;
+      const about = np => { const rr = resolveRefs({ subj: np, verb: { lemma: 'be' } }, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.ABOUT', act: 'question' });
+        const key = entKey(np); const fs = factsAbout(key); const v = fs.filter(r => !r.sensitive); rules.push({ id: 'MEM-QUERY-ENTITY', doc: 'Doc7; exact entity key (no similarity); frame read from the parse (Q-SELF-COGNITION)', note: key + ' → ' + fs.length }); ctx.clauseForDiscourse = { subj: np, verb: { lemma: 'be' } };
+        return res('SELECTED_MEANING', Object.assign({ kind: 'about', subj: np, items: v.map(r => r.clause) }, fs.length - v.length ? { hidden: fs.length - v.length } : {}), { frame: 'FR.ABOUT', act: 'question', evidenceRefs: v.map(r => r.id) }); };
+      const list = what => { rules.push({ id: 'Q-SELF-LIST', doc: 'Doc7; record noun class (SELF_REC) read from the parse' }); if (what === 'notes') return res('SELECTED_MEANING', { kind: 'notes', items: notes().map(n => n.text) }, { frame: 'FR.NOTE.LIST', act: 'request' });
+        const fs = activeFacts(), v = fs.filter(r => !r.sensitive), m = { kind: 'facts', items: v.map(r => r.clause) }; if (fs.length - v.length) m.hidden = fs.length - v.length; return res('SELECTED_MEANING', m, { frame: 'FR.MEM.LIST', act: 'question' }); };
+      /* cognition: "what do you know / remember (about NP)", "tell me (everything) about NP" (imperative: kartā = Forge) */
+      if (isK(q.subj) && SELF_COGN.has(L) && (gap === 'role:karma' || gap === 'imp') && !ro.karma) { rules.push({ id: 'Q-SELF-COGNITION', doc: 'Doc5 kāraka: kartā = Forge, karma gapped, viṣaya = topic' }); return vis ? about(vis.np) : list('facts'); }
+      if (gap === 'imp' && SELF_SAY.has(L) && isU(ro.sampradana || ro.karma) && vis && (!ro.karma || ro.karma.indef || isU(ro.karma))) { rules.push({ id: 'Q-SELF-COGNITION', doc: 'Doc5 kāraka: directive “tell me … about NP”' }); return about(vis.np); }
+      if (gap === 'imp' && SELF_SAY.has(L) && ro.sampradana && isU(ro.sampradana) && ro.karma && ro.karma.indef && !vis) { rules.push({ id: 'Q-SELF-COGNITION', doc: 'Doc5' }); return list('facts'); }
+      /* provenance: "when did I tell you / say / mention (that CLAUSE | about NP)" — kartā = user, saying verb, kāla gapped */
+      if (gap === 'role:kala' && isU(q.subj) && SELF_SAY.has(L)) { let recs = []; const k = ro.karma && ro.karma.clause;
+        if (k) { const rr = resolveRefs(k, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.WHEN', act: 'question' }); recs = activeFacts().filter(r => matches(k, null, r)); }
+        const tn = vis ? vis.np : ro.karma && !ro.karma.clause && !isK(ro.karma) ? ro.karma : null; if (!recs.length && tn) recs = factsAbout(entKey(tn));
+        const hidden = recs.filter(r => r.sensitive).length; recs = recs.filter(r => !r.sensitive); rules.push({ id: 'MEM-QUERY-PROVENANCE-TIME', doc: 'Doc7 provenance; frame read from the parse (kartā user, saying verb, kāla gap)', note: recs.length + ' record(s)' + (hidden ? ', ' + hidden + ' sensitive withheld' : '') });
+        if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: tn || (k && k.subj) || { propn: 'that' } }, { frame: 'FR.WHEN', act: 'question' });
+        return res('SELECTED_MEANING', { kind: 'when', items: recs.map(r => ({ clause: r.clause, turn: r.provenance.turn, when: fmtTime(r.provenance.at) })) }, { frame: 'FR.WHEN', act: 'question', evidenceRefs: recs.map(r => r.id) }); }
+      /* showing: "list / show (me) my facts / notes" */
+      if (gap === 'imp' && SELF_SHOW.has(L) && recN(ro.karma)) return list(recN(ro.karma));
+      /* "what are my notes" / "what do you remember" handled above; copular list */
+      if (((gap === 'pred' && wh === 'what' && q.verb.lemma === 'be') || gap === 'np') && recN(q.subj) && (q.subj.owner === 'user' || q.subj.plural) && !(q.subj.owner && q.subj.owner !== 'user')) return list(recN(q.subj));
+      /* meaning: "what does X mean", "define / explain X", "what is (a|the) X", "what is the meaning of X" */
+      const generic = n => n && !n.conj && !n.owner && !n.rel && !n.relObj && !n.of && !n.quant && !n.num && n.head && n.head.length === 1 && (!n.adjs || !n.adjs.length) && (!n.det || /^(a|an|the)$/.test(n.det));
+      const meaningOf = n => n && n.head && n.head.length === 1 && SELF_MEAN_N.has(n.head[0]) && n.of && generic(n.of) ? n.of : null;
+      let term = null; if (wh === 'what' && gap === 'role:karma' && L === 'mean' && q.subj && q.subj.quote !== undefined && /^[a-z][a-z'-]*$/i.test(q.subj.quote)) return defineWord(q.subj.quote.toLowerCase()) || (!lex.known(q.subj.quote.toLowerCase()) ? clarifyUnknown([q.subj.quote.toLowerCase()]) : null);
+      if (wh === 'what' && gap === 'role:karma' && SELF_MEAN_V.has(L) && L === 'mean' && generic(q.subj)) term = q.subj;
+      else if (gap === 'imp' && SELF_MEAN_V.has(L) && L !== 'mean' && generic(ro.karma) && !ro.sampradana) term = ro.karma;
+      else if (gap === 'pred' && wh === 'what' && q.verb.lemma === 'be') term = meaningOf(q.subj) || (generic(q.subj) ? q.subj : null);
+      else if (gap === 'np') term = meaningOf(q.subj);
+      if (term) return defineWord((term.surface || term.head)[0].toLowerCase(), term.head[0]);
+      /* capability: "can you V …" — kartā = Forge, modal of ability: the verb is checked against the capability registry (CAPS), never a phrase */
+      if (!wh && gap === null && isK(q.subj) && q.verb.mod === 'able' && q.verb.pol === 'pos') { const reg = SELF_CAPS.has(L), bare = !Object.keys(ro).length && !(q.adj || []).length;
+        if (reg && bare) { rules.push({ id: 'Q-SELF-CAPABILITY', doc: 'Doc5 §17 capability registry; frame from the parse (kartā Forge, mod able)' }); return res('SELECTED_MEANING', { kind: 'help' }, { frame: 'FR.CAPABILITY', act: 'question' }); }
+        if (!reg) { rules.push({ id: 'CAP-UNSUPPORTED', doc: 'Doc5 §17; frame from the parse' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: G.vpText(Object.assign({}, q, { verb: Object.assign({}, q.verb, { mod: 'asserted', tense: 'none', nf: 'inf' }) }), q.subj, 'kernel').replace(/^to /, ''), reason: 'NOT_REGISTERED' }, { frame: 'FR.CAPABILITY', act: 'question' }); } }
+      return null; }
+    function defineWord(w, lemma) { const ctl = lex.lookup(w).concat(lemma && lemma !== w ? lex.lookup(lemma) : []).filter((c, i, a) => c.id !== 'NUM.LITERAL' && c.category !== 'function' && a.findIndex(x => x.id === c.id) === i);
+      if (ctl.length === 1) { const k = ctl[0]; rules.push({ id: 'LX-CONTROLLED-FIRST', doc: 'Doc4; Doc5 §12.28; Doc8 (controlled terms precede external resources); frame from the parse (Q-SELF-MEANING)', note: k.id }); return res('SELECTED_MEANING', { kind: 'define', term: w, gloss: k.senses[0].gloss, source: k.source || 'seed lexicon' }, { frame: 'FR.DEFINE', act: 'question', evidenceRefs: ['lexicon:' + k.id] }); }
+      if (ctl.length > 1) { rules.push({ id: 'LL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29', note: ctl.map(x => x.id).join(' | ') }); meta.pending = { type: 'sense', word: w, senses: ctl.map(x => ({ sid: x.id, gloss: x.senses[0].gloss.replace(/\.$/, ''), source: x.source || 'seed lexicon' })) }; return res('AMBIGUITY_PRESERVED', { kind: 'clarify_ambiguous', word: w, senses: ctl.map(x => x.senses[0].gloss.replace(/\.$/, '')) }, { frame: 'FR.DEFINE', act: 'question' }); }
+      return null; }
     const qr = questionReadings(); if (qr) return qr;
+    { const P1 = G.Parser(toks, glex); /* directive with implicit kartā Forge ("tell me about X", "define X", "show my notes"): read as the clause "you V …" */
+      if (P1.at(0, 'V').some(a => a.f === 'base')) for (const pz of derive([{ w: 'you', orig: 'you' }].concat(toks)).parses) { const mq = metaQ(pz.node.clause, 'imp', null); if (mq) { rules.push({ id: 'G-IMPERATIVE', doc: 'Doc5 §15 (directive speech act; implicit kartā)' }); return mq; } }
+      const n = P1.np(0).filter(x => x.i === toks.length); if (n.length === 1) { const mq = metaQ({ subj: clone(n[0].node), verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' } }, 'np', null); if (mq) return mq; } }
     const P0 = G.Parser(toks, glex); const isImp = toks.length && P0.at(0, 'V').some(a => a.f === 'base') && (!P0.at(0, 'N').length || (toks[1] && /^(a|an|the|my|your|this|that|these|those|it|them|me|his|her|its|their)$/.test(toks[1].w))) || /^(go|come|tell|give|make|take|get|bring|let|show|find|write|read|call|help|put|turn|stop|start|wake|cook|clean|wash|fix|close|check|look|listen|watch|eat|drink)$/.test(w0);
     if (isImp && !derive(toks).parses.length) { const vp = P0.vp(0).filter(v => v.i === toks.length);
       if (vp.length) { rules.push({ id: 'G-IMPERATIVE', doc: 'Doc5 §15 (directive speech act)' }, ...vp[0].rules.filter(Boolean).map(id => ({ id, doc: ruleDoc(id) })), { id: 'AUTH-UNDERSTOOD-NOT-AUTHORIZED', doc: 'Doc1; Doc6 §36.15' });
@@ -518,7 +545,7 @@ function Kernel(opts) {
          rolled back …) about the same subject is one status-bearing fact; the newer statement is the current status, the older moves to cold storage with
          its history (never deleted, never shown as an equal current fact) */
       { const st = lifecycle(cl); const old = st ? activeFacts().filter(r => r.clause && !r.clause.coord && lifecycle(r.clause) && subjMatch(holder(cl), holder(r.clause)) && canon(G.material(r.clause)) !== canon(G.material(cl))) : [];
-        if (old.length) { rules.push({ id: 'MEM-STATUS-SUPERSEDE', doc: 'Pāṇini paper L2736–2751; Doc3 §24', note: old.map(r => lifecycle(r.clause)).join(' → ') + ' → ' + st + ' (current)' }); return res('SELECTED_MEANING', { kind: 'replaced', clause: cl }, { frame, act, write: { clause: cl, supersede: old.map(r => r.id) }, sense }); } }
+        if (old.length) { rules.push({ id: 'MEM-STATUS-SUPERSEDE', doc: 'Pāṇini paper L2736–2751; Doc3 §24', note: old.map(r => lifecycle(r.clause)).join(' → ') + ' → ' + st + ' (current)' }); return res('SELECTED_MEANING', { kind: 'replaced', clause: cl, was: old[old.length - 1].clause }, { frame, act, write: { clause: cl, supersede: old.map(r => r.id) }, sense }); } }
       const cf = conflicts(cl);
       if (cf.length) { rules.push({ id: cf[0].why, doc: 'Doc7; Doc3 §24 (correction/supersession)', note: 'conflicts with ' + cf.map(x => x.r.id).join(', ') });
         if (instead) { rules.push({ id: 'MEM-EXPLICIT-CORRECTION', doc: 'Doc3 §24' }); return res('SELECTED_MEANING', { kind: 'replaced', clause: cl }, { frame, act, write: { clause: cl, supersede: cf.map(x => x.r.id) }, sense }); }
@@ -557,6 +584,12 @@ function Kernel(opts) {
         if (why.length) return res('SELECTED_MEANING', { kind: 'recall', items: why.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: why.map(r => r.id) });
         if (hits.length) return res('SELECTED_MEANING', { kind: 'no_reason', clause: hits[0].clause }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: [hits[0].id] });
         return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj || { propn: 'that' } }, { frame: 'FR.QUESTION', act: 'question' }); }
+      else if (w === 'how' && toks[1].w === 'many' && toks.length > 2) { /* Q-WH-HOW-MANY (quantity of the gapped karma): "how many N (AUX NP V …)" — N must be a record noun (SELF_REC); the clause, if any, must parse with N as its karma */
+        const n = G.Parser(toks.slice(2, 3), glex).np(0).filter(x => x.i === 1)[0]; const what = n && n.node.head && SELF_REC[n.node.head[0]]; if (!what) return null; const tail = toks.slice(3);
+        let ok = !tail.length, ab = null, q = null; if (tail.length) { const rs = /^(do|does|did)$/.test(tail[0].w) ? insertAt(tail.slice(1), tail[0]) : []; const u = rs.map(r => r.node.clause).filter(c => c && !c.coord && c.verb && (SELF_COGN.has(c.verb.lemma) || c.verb.lemma === 'have') && !(c.roles && c.roles.karma)); if (u.length) { q = u[0]; ok = true; const v = (q.adj || []).find(a => a.role === 'vishaya' && a.np); ab = v ? v.np : null; } }
+        if (!ok) return null; rules.push({ id: 'Q-WH-HOW-MANY', doc: 'Doc5 (quantity of the gapped karma); record noun class SELF_REC' });
+        if (ab) { const rr = resolveRefs({ subj: ab, verb: { lemma: 'be' } }, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.MEM.COUNT', act: 'question' }); const fs = factsAbout(entKey(ab)); rules.push({ id: 'MEM-QUERY-COUNT', doc: 'Doc7' }); return res('SELECTED_MEANING', { kind: 'count_about', n: fs.length, subj: ab }, { frame: 'FR.MEM.COUNT', act: 'question' }); }
+        return what === 'notes' ? res('SELECTED_MEANING', { kind: 'count', n: notes().length, what: 'note' }, { frame: 'FR.NOTE.COUNT', act: 'question' }) : res('SELECTED_MEANING', { kind: 'count', n: activeFacts().length, what: 'fact' }, { frame: 'FR.MEM.COUNT', act: 'question' }); }
       else if (w === 'how' && toks.length > 2) { // Q-WH-HOW: "how ADJ is NP" (degree), "how is NP" (state), "how did NP V …" (manner/instrument)
         let i = 1, adjW = null; if (!/^(is|are|was|were|do|does|did)$/.test(toks[1].w)) { adjW = toks[1].w; i = 2; } if (!toks[i]) return null;
         const aux = toks[i].w, rest = toks.slice(i + 1);
@@ -567,14 +600,16 @@ function Kernel(opts) {
           rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7', note: 'how → ' + hits.length });
           return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.QUESTION', act: 'question' }); }
         if (!adjW && /^(do|does|did)$/.test(aux)) { const rs = insertAt(rest, toks[i]); if (rs.length !== 1) return null; const q = rs[0].node.clause; rules.push({ id: 'Q-WH-HOW-MANNER', doc: 'Doc5 karaṇa (instrument/means)' }); const rr = resolveRefs(q, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' });
-          const hits = activeFacts().filter(r => !r.sensitive && !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(q.subj, r.clause.subj) && ((r.clause.adj || []).some(a => a.role === 'karana') || (r.clause.sub && r.clause.sub.conj === 'because')));
+          const hits = activeFacts().filter(r => !r.sensitive && !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(q.subj, r.clause.subj) && ((r.clause.adj || []).some(a => a.role === 'karana' || a.role === 'prakara') || (r.clause.sub && r.clause.sub.conj === 'because'))); /* 4.9.38: a stored manner adverb (prakāra) answers how */
           return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.QUESTION', act: 'question' }); }
         return null; }
       else if (/^(what|who|whom|where|when|which)$/.test(w)) {
         const w1 = toks[1].w, rest = toks.slice(2);
         if (/^(is|are|was|were)$/.test(w1) && rest.length) { const P = G.Parser(rest, glex); const n = P.np(0).filter(x => x.i === rest.length);
-          if (n.length) { const subj = clone(n[0].node); return answer({ subj, verb: { lemma: 'be', tense: /^(was|were)$/.test(w1) ? 'past' : 'present', pol: 'pos', mod: 'asserted' } }, w === 'where' ? 'role:adhikarana' : w === 'when' ? 'role:kala' : 'pred', 'Q-WH-COPULA', n[0].rules); } }
-        if (/^(do|does|did|will|can|might|could|would|should)$/.test(w1)) { reads = insertAt(rest, toks[1]); gap = w === 'where' ? 'role:adhikarana' : w === 'when' ? 'role:kala' : 'role:karma'; qrule = 'Q-WH-DO-SUPPORT'; }
+          if (n.length) { const subj = clone(n[0].node); { const mq = n.length === 1 || w === 'what' ? metaQ({ subj, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' } }, 'pred', w) : null; if (mq) return mq; } return answer({ subj, verb: { lemma: 'be', tense: /^(was|were)$/.test(w1) ? 'past' : 'present', pol: 'pos', mod: 'asserted' } }, w === 'where' ? 'role:adhikarana' : w === 'when' ? 'role:kala' : 'pred', 'Q-WH-COPULA', n[0].rules); } }
+        if (/^(do|does|did|will|can|might|could|would|should)$/.test(w1)) { reads = insertAt(rest, toks[1]); gap = w === 'where' ? 'role:adhikarana' : w === 'when' ? 'role:kala' : 'role:karma'; qrule = 'Q-WH-DO-SUPPORT';
+          /* use/mention (Doc4): in “what does X mean” X may be any word MENTIONED, not used — read it as a quoted mention NP when it has no nominal reading */
+          if (!reads.length && rest.length === 2 && SELF_MEAN_V.has(rest[1].w)) { reads = insertAt([{ w: '"' + rest[0].w + '"', orig: '"' + rest[0].w + '"' }, rest[1]], toks[1]); if (reads.length) rules.push({ id: 'LX-MENTION-NP', doc: 'Doc4 use/mention: a word asked about is mentioned, not used' }); } }
         else if (/^(who|what|which)$/.test(w)) { reads = derive([{ w: 'zgapz', orig: 'Zgapz' }].concat(toks.slice(1))).parses; gap = 'subj'; qrule = 'Q-WH-SUBJECT-GAP'; }
       } else return null;
       if (!reads.length) { const unk = unknownToks(toks); if (unk.length) return clarifyUnknown(unk); return null; }
@@ -583,6 +618,7 @@ function Kernel(opts) {
       if (uniq.length > 1) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings: uniq.slice(0, 4).map(p => describe(p.node.clause)) }, { frame: 'FR.QUESTION', act: 'question' }); }
       const q = uniq[0].node.clause; if (gap === 'subj') q.subj = null;
       if (gap === 'role:karma' && q.roles && q.roles.karma) { if (/^(what|which)$/.test(toks[0].w) && animNP(q.roles.karma) && !q.roles.sampradana) { q.roles = { sampradana: q.roles.karma }; rules.push({ id: 'Q-WH-KARMA-SHIFT', doc: 'Doc5 (animate first object = sampradāna when karma is the gap)' }); } else gap = null; }
+      { const mq = metaQ(q, gap, G.CL[toks[0].w] && G.CL[toks[0].w].includes('WH') ? toks[0].w : null); if (mq) return mq; }
       return answer(q, gap, qrule, uniq[0].rules);
     }
     function inferYN(q, negFact) {
@@ -767,7 +803,7 @@ function Kernel(opts) {
       const asFor = tk.length > 3 && tk[0].w === 'as' && tk[1].w === 'for', o = asFor ? 2 : 1;
       if (ci > o && ci < tk.length - 1 && (asFor || /^(about|regarding|concerning)$/i.test(tk[0].w))) { const np = npOnly(tk.slice(o, ci));
         const qf = w => (G.CL[w] || []).some(t => ['WH', 'AUX', 'COP', 'MOD'].includes(t)); /* interrogative clause class (Doc5): the topic frame is read for questions */
-        if (np && (qf(tk[ci + 1].w) || asFor)) { const rest = tk.slice(ci + 1).map(t => t.orig), tt = tk.slice(o, ci).map(t => t.orig).join(' '), isQ = qf(tk[ci + 1].w), hd = (np.head || []).concat(np.propn ? [] : []).join(' ').toLowerCase();
+        if (np && qf(tk[ci + 1].w)) { /* statements: the grammar's own G-DISPLACE-TOPIC binds the copy (also inside that-clauses) */ const rest = tk.slice(ci + 1).map(t => t.orig), tt = tk.slice(o, ci).map(t => t.orig).join(' '), isQ = qf(tk[ci + 1].w), hd = (np.head || []).concat(np.propn ? [] : []).join(' ').toLowerCase();
           const fe = featsOf(np), fem = fe.g === 'f' || fe.g === 'u';
           const pro = fe.n === 'pl' ? /^(they|them)$/i : fe.g === 'f' ? /^(she|her)$/i : fe.g === 'm' ? /^(he|him)$/i : fe.g === 'u' ? /^(she|her|he|him)$/i : /^it$/i; const pi = rest.findIndex(w => pro.test(w));
           let r2; if (pi >= 0 && !(fem && /^her$/i.test(rest[pi]) && pi + 1 < rest.length && /^[a-z]/i.test(rest[pi + 1]) && !/^(about|to|for|with|in|on)$/i.test(rest[pi + 1]))) { r2 = rest.slice(); r2[pi] = tt; } else r2 = isQ ? rest.concat(['about', tt]) : null;

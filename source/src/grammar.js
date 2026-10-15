@@ -244,6 +244,8 @@ function Parser(toks, lex) {
       const gerOK = licenses(v.lemma, 'ger') && at(g.i, 'V').some(x => x.f === 'ing'); const infOK = licenses(v.lemma, 'inf') && word(g.i) === 'to' && (at(g.i + 1, 'V').some(x => x.f === 'base') || word(g.i + 1) === 'be');
       for (const o of np(g.i, true)) { if (gerOK && o.node.surface && /ing$/.test(o.node.surface[0])) continue; /* K-GERUND-APAVADA */ objs.push(R({ karma: o.node }, o.i, ['K-KARMA'].concat(o.rules))); for (const o2 of np(o.i, true)) objs.push(R({ sampradana: o.node, karma: o2.node }, o2.i, ['K-SAMPRADANA-DOUBLE-OBJECT', 'K-KARMA'].concat(o.rules, o2.rules))); }
       if (['that'].includes(word(g.i)) || ['know', 'think', 'say', 'believe', 'hope', 'remember', 'tell'].includes(v.lemma)) for (const c of clause(word(g.i) === 'that' ? g.i + 1 : g.i)) objs.push(R({ karma: { clause: c.node } }, c.i, ['K-KARMA-CLAUSE'].concat(c.rules)));
+      /* K-SAMPRADANA-CLAUSE: a saying verb takes an addressee and a that-clause ("I told you that …") */
+      if (['tell', 'inform', 'remind', 'promise', 'show', 'teach', 'warn'].includes(v.lemma)) for (const o of np(g.i, true)) if (word(o.i) === 'that') for (const c of clause(o.i + 1)) objs.push(R({ sampradana: o.node, karma: { clause: c.node } }, c.i, ['K-SAMPRADANA-CLAUSE'].concat(o.rules, c.rules)));
       if (infOK) for (const c of vpNF(g.i + 1, 'base')) objs.push(R({ karma: { inf: c.node } }, c.i, ['K-KARMA-INFINITIVE'].concat(c.rules)));
       if (gerOK) for (const c of vpNF(g.i, 'ing')) objs.push(R({ karma: { ger: c.node } }, c.i, ['K-KARMA-GERUND'].concat(c.rules)));
       if (word(g.i) === ',' && at(g.i + 1, 'QUOTE').length) objs.push(R({ karma: { quote: at(g.i + 1, 'QUOTE')[0].lemma } }, g.i + 2, ['K-KARMA-QUOTE-DIRECT-SPEECH']));
@@ -251,7 +253,8 @@ function Parser(toks, lex) {
       if (at(g.i, 'PART').length && !at(g.i, 'PREP').length) for (const o of np(g.i + 1, true)) objs.push(Object.assign(R({ karma: o.node }, o.i, ['V-PARTICLE-PREPOSED', 'K-KARMA'].concat(o.rules)), { part: word(g.i) }));
       for (const o of objs) {
         let j = o.i, part = o.part || null; if (!part && at(j, 'PART').length) { part = word(j); j++; }
-        for (const a of adjuncts(j)) { if (infOK && !o.node.karma && a.node[0] && a.node[0].prep === 'to' && j === g.i) continue; /* K-INFINITIVE-APAVADA: licensed "to V" is a complement, not a PP */
+        for (const a of adjuncts(j)) { if (o.node.karma && o.node.karma.clause && a.node.length) continue; /* K-CLAUSE-LATE-CLOSURE: material after a that-complement closes inside the lowest clause (structural, not a choice) */
+          if (infOK && !o.node.karma && a.node[0] && a.node[0].prep === 'to' && j === g.i) continue; /* K-INFINITIVE-APAVADA: licensed "to V" is a complement, not a PP */
           res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part } : {}, v.f ? { f: v.f } : {}, nf), roles: o.node, adj: a.node }, a.i, g.rules.concat(o.rules, a.rules))); }
       }
     }
@@ -264,10 +267,18 @@ function Parser(toks, lex) {
   function fronted(i) { const out = [];
     if (openAdv(i) && word(i + 1) === ',') out.push({ xp: [{ adv: word(i), role: 'prakara' }], j: i + 2, rules: ['K-PRAKARA-ADV'] });
     if (at(i, 'PREP').length && word(i) !== 'of') for (const a of adjuncts(i)) if (a.node.length === 1 && a.node[0].prep && word(a.i) === ',') out.push({ xp: a.node, j: a.i + 1, rules: a.rules });
+    /* "As for NP," — the topic is the same displacement: its copy is the agreeing pronoun of the clause (bound below); with no agreeing pronoun there is no copy and no reading */
+    if (word(i) === 'as' && word(i + 1) === 'for') for (const n of np(i + 2, true)) if (word(n.i) === ',' && !n.node.pron && !n.node.pron3) out.push({ topic: n.node, j: n.i + 1, rules: ['G-DISPLACE-TOPIC'].concat(n.rules) });
     return out; }
+  const topicFeats = n => (n.conj || n.plural ? { n: 'pl' } : n.head && n.head.some(h => FEMALE.has(h)) ? { n: 'sg', g: 'f' } : n.head && n.head.some(h => MALE.has(h)) ? { n: 'sg', g: 'm' } : n.propn || (n.head && n.head.some(h => PERSONISH.has(h))) ? { n: 'sg', g: 'u' } : { n: 'sg', g: 'n' });
+  const agreesPron = (p, f) => { const q = PRON[p]; if (!q || q.indef || q.p !== 3) return false; if (f.n === 'pl') return q.n === 'pl'; if (q.n !== 'sg') return false; return f.g === 'u' ? q.g === 'f' || q.g === 'm' : q.g === f.g; };
+  function bindTopic(c, t) { const f = topicFeats(t); let done = false; const cp = JSON.parse(JSON.stringify(c));
+    const visit = (o, k) => { if (done || !o || typeof o !== 'object') return; const v = o[k]; if (v && typeof v === 'object') { if (v.pron3 && agreesPron(v.pron3, f) && Object.keys(v).every(x => x === 'pron3' || x === 'feats')) { o[k] = JSON.parse(JSON.stringify(t)); done = true; return; } for (const kk of Object.keys(v)) visit(v, kk); } };
+    for (const k of Object.keys(cp)) visit(cp, k); return done ? cp : null; }
   function clause(i, noFront) { // NP VP  (kartā = subject)
     const res = [];
-    if (!noFront) for (const f of fronted(i)) for (const c of clause(f.j, true)) if (!c.node.coord) res.push(R(Object.assign({}, c.node, { adj: (c.node.adj || []).concat(f.xp.map(x => Object.assign({}, x, { front: true }))) }), c.i, ['G-DISPLACE-FRONT'].concat(f.rules, c.rules)));
+    if (!noFront) for (const f of fronted(i)) if (f.topic) { for (const c of clause(f.j, true)) { const b2 = !c.node.coord && bindTopic(c.node, f.topic); if (b2) res.push(R(b2, c.i, f.rules.concat(c.rules))); } }
+    else for (const c of clause(f.j, true)) if (!c.node.coord) res.push(R(Object.assign({}, c.node, { adj: (c.node.adj || []).concat(f.xp.map(x => Object.assign({}, x, { front: true }))) }), c.i, ['G-DISPLACE-FRONT'].concat(f.rules, c.rules)));
     const sg3 = n => !n.pron && !n.conj && !n.plural && !(n.pron3 && ['they', 'we', 'them', 'us'].includes(n.pron3));
     for (const s of np(i)) for (const v of vp(s.i)) {
       const f = v.node.verb && v.node.verb.f; if ((f === 'base' && sg3(s.node)) || (f === 'pres3' && !sg3(s.node))) continue; // LL-AGREEMENT (subject–verb concord)

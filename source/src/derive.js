@@ -66,7 +66,7 @@ rule('7.1.1', 'tiṅ 3sg present: root + s⟨3sg⟩'); rule('7.1.2', 'past / par
 rule('7.3.1', 'morphophonemics: s → es after a sibilant or o'); rule('7.3.2', 'morphophonemics: consonant + y → i before an affix'); rule('7.3.3', 'morphophonemics: final e drops before -ed / -ing');
 rule('7.3.4', 'morphophonemics: a final consonant doubles after a single stressed vowel'); rule('7.4.1', 'number agreement: a numeral other than 1 makes the head plural');
 rule('8.1.1', 'word order: subject, verb group, objects, predicate, adjuncts, complement'); rule('8.1.2', 'adjunct order follows the kāraka sequence'); rule('8.1.3', 'a list is extraposed to the end of its clause after ":"');
-rule('8.1.4', 'a fronted adjunct or particle is followed by a comma'); rule('8.1.5', 'a sentence-initial connective (but / so / or) opens the sentence');
+rule('8.1.4', 'a fronted adjunct or particle is followed by a comma'); rule('8.1.6', 'topic marker: “as for NP” fronts the viṣaya as the topic (the user’s own marker, ⧒)'); rule('8.1.5', 'a sentence-initial connective (but / so / or) opens the sentence');
 rule('8.2.1', 'article sandhi: a → an before a vowel sound'); rule('8.2.2', 'sandhi: can + not → cannot'); rule('8.3.1', 'the first letter of the sentence is capitalized'); rule('8.3.2', 'final punctuation from force: "." or "?"');
 rule('8.3.3', 'coordination: two items with and / or; more items with commas'); rule('8.3.4', 'numbered list: (n) item; items separated by ";"');
 rule('9.1.1', 'marker deletion: internal ⟨…⟩ markers are removed before the surface (cf. 1.3.9 tasya lopaḥ)');
@@ -188,11 +188,11 @@ function Realizer(env) {
   function sentence(D, s) { const toks = [];
     if (s.conj) { D.apply('8.1.5', s.conj); toks.push(s.conj); }
     if (s.part) { D.apply('1.1.4', s.part); toks.push(s.part); if ((s.c && s.part !== 'please') || s.mth || (s.front && s.front.length)) { D.apply('8.1.4'); toks[toks.length - 1] += ','; } }
-    for (const f of s.front || []) { if (f.adv) toks.push(f.adv); else { toks.push(prepFor(D, f.role, f.np)); np(D, f.np, 'obj', toks); } D.apply('8.1.4'); toks[toks.length - 1] += ','; }
+    for (const f of s.front || []) { if (f.adv) toks.push(f.adv); else if (f.marker === 'as for') { D.apply('8.1.6'); toks.push('as', 'for'); np(D, f.np, 'obj', toks); } else { toks.push(prepFor(D, f.role, f.np)); np(D, f.np, 'obj', toks); } D.apply('8.1.4'); toks[toks.length - 1] += ','; }
     if (s.mth) toks.push(...mathToks(D, s.mth)); else if (s.c) toks.push(...clauseToks(D, s.c, s.force));
     if (!toks.length) throw new Error('derive: empty sentence');
     D.apply('8.3.2', s.force === 'ques' ? '?' : '.'); toks[toks.length - 1] = toks[toks.length - 1].replace(/[,:;]$/, '') + (s.force === 'ques' ? '?' : '.');
-    if (!s.mth || s.front || s.part || s.conj) { const w = toks[0]; if (/^[a-z]/.test(w) && GENWORD(w.replace(/[,.?]$/, ''))) { D.apply('8.3.1'); toks[0] = w[0].toUpperCase() + w.slice(1); } }
+    if (!s.mth || s.front || s.part || s.conj) { const w = toks[0]; if (/^[a-z]/.test(w) && (GENWORD(w.replace(/[,.?]$/, '')) || w === 'as')) { D.apply('8.3.1'); toks[0] = w[0].toUpperCase() + w.slice(1); } }
     return toks.join(' '); }
   function realize(sentences) { const D = Deriv(); const out = sentences.map(s => sentence(D, s));
     D.apply('9.1.1'); const text = out.join(' ').replace(/⟨[^⟩]*⟩/g, '');
@@ -295,6 +295,7 @@ function Analyser(env) {
     if (toks[0] && PARTICLES.has(toks[0].w) && (toks.length === 1 || toks[1].p === ',')) { pre.part = toks[0].w; toks = toks.slice(toks.length === 1 ? 1 : 2); }
     else if (toks[0] && toks[0].w === 'please' && toks[1] && toks[1].w) { pre.part = 'please'; toks = toks.slice(1); }
     const fronts = []; for (;;) { const w0 = W(toks[0]); const ci = toks.findIndex(t => t.p === ',');
+      if (w0 === 'as' && W(toks[1]) === 'for' && ci > 2) { const nps = parseNP(toks.slice(2, ci), 'obj'); if (nps.length === 1) { fronts.push({ role: 'visaya', np: nps[0], marker: 'as for' }); toks = toks.slice(ci + 1); continue; } if (nps.length > 1) return [{ ambiguous: true }]; }
       if (w0 === 'before' && toks[1] && toks[1].p === ',') { fronts.push({ adv: 'before' }); toks = toks.slice(2); continue; }
       if (w0 && PREP_ROLES[w0] && ci > 1) { const nps = parseNP(toks.slice(1, ci), 'obj'); const alts = []; for (const n of nps) for (const r of PREP_ROLES[w0]) if (rprep(r, n) === w0 && !ROLE_VERBS[r]) alts.push({ role: r, np: n }); if (alts.length === 1) { fronts.push(alts[0]); toks = toks.slice(ci + 1); continue; } if (alts.length > 1) return [{ ambiguous: true }]; } break; }
     const base = Object.assign({ force: force0 }, pre, fronts.length ? { front: fronts } : {});
@@ -432,7 +433,7 @@ const PLANS = {
   secret_dropped: m => [S(C('keep', { karta: I, karma: N('value', { det: 'the', of: m.subjNP ? U(m.subjNP) : { ut: m.subj } }), tense: 'past', pol: 'neg' })), S(C('say', { karma: Mn(MENTIONS.remember_ellipsis), comp: { inf: C('seal', { karma: pr('it') }) } }), { force: 'imp' })],
   stored_sensitive: m => [S(C('seal', { karta: I, karma: m.subjNP ? U(m.subjNP) : { ut: m.subj }, roles: { adhikarana: Nm('Identity Vault', 'the') }, tense: 'past' })), S(C('show', { karta: I, karma: N('value', { poss: 'its' }), pol: 'neg' }))],
   merged: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past', adv: ['already'] })), S(C('reinforce', { karta: I, karma: pr('it'), roles: { karana: X('⟁') }, tense: 'past' }))],
-  replaced: m => [S(C('store', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' })), S(C('move', { karta: I, karma: N('fact', { det: 'the', adj: ['earlier'] }), roles: { gati: coldStorage() }, tense: 'past' }))],
+  replaced: m => [S(C('store', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' }))].concat(m.was ? [S(C('tell', { karta: YOU, samp: I, comp: { that: UC(m.was) }, tense: 'past' }), { front: [{ adv: 'before' }] })] : [], [S(C('move', { karta: I, karma: N('fact', { det: 'the', adj: ['earlier'] }), roles: { gati: coldStorage() }, tense: 'past' }))]), /* 4.9.38: the superseded fact is named */
   recall: m => m.items.map(told),
   /* latest status (Pāṇini paper L2736–2751): the earlier status is history, the newer one is current — say both, in order, never a bare yes/no */
   status_now: m => (m.was ? [told(m.was)] : []).concat([S(C('tell', Object.assign({ karta: YOU, samp: I, comp: { that: UC(m.now) }, tense: 'past' }, m.was ? { adv: ['later'] } : {})))]), /* 4.9.37: “later” orders history → current (Pāṇini paper L2736–2751) */
@@ -541,7 +542,7 @@ function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m
   /* user-phrasing match (Pāṇini paper D3 topic/scope; RSOC §3.1.2 ⧒): the user fronted a topic ("About my sister, …"); the outward ⧒ variant that fronts the
      same viṣaya is preferred, only when it passes Echo on its own vākya and keeps status — never a different meaning, never a forced form */
   const top = !!(m.field && m.field.topic) && !!ev.B;
-  if (top && !rep) { const a = amplifyV(vb); if (a && a.some(s => s.front && s.front[0] && s.front[0].role === 'visaya') && canon(strip(unAmplify(a))) === canon(strip(vb))) { C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); } }
+  if (top && !rep) { const a = amplifyV(vb); if (a && a.some(s => s.front && s.front[0] && s.front[0].role === 'visaya') && canon(strip(unAmplify(a))) === canon(strip(vb))) { if (m.field.topic.marker === 'as for') for (const x of a) if (x.front && x.front[0] && x.front[0].role === 'visaya') x.front = [Object.assign({}, x.front[0], { marker: 'as for' })]; C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); } }
   const vt = m.field && m.field.voice; let voiced = false;
   if (vt && ev.B && !rep && !top) { const a = voiceV(vb, vt); if (a) { C0.push({ id: '⧒ voice', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[C0.length - 1]); voiced = ev.A; } }
   if (!top && !voiced && (!ev.B || rep)) { const a = amplifyV(vb), sv = severV(vb); if (a && canon(strip(unAmplify(a))) === canon(strip(vb))) { C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); }
