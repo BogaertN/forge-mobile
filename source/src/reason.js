@@ -348,7 +348,7 @@ function witnessFor(q, facts, rules) { const c = q.args[0]; if (!/^any_/.test(c)
   return facts.some(f => f.atom.args.includes(c)) || rules.some(r => r.body.concat([r.head]).some(a => a.args.includes(c))) ? null : atom(c.slice(4), [c]); }
 const verbsOf = texts => new Set(texts.map(t => parseRelation(stripLead(t), true)).filter(Boolean).map(a => a.predicate.replace(/_v$/, '')));
 /* coordinated subjects distribute: "A, B and C are Xs" ≡ "A is a X. B is a X. C is a X"; "A and B Vs Y" likewise (one source sentence, several atoms) */
-function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + '\\s*,\\s*)*' + SP + ')\\s+and\\s+(' + SP + ')\\s+(.+)$')); if (!m || /^(?:every|each|all|no|if|a|an|the|some)$/i.test(m[1].split(/[\s,]+/)[0])) return [text];
+function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + ',\\s*)*' + SP + ')\\s+and\\s+(' + SP + ')\\s+(.+)$')); if (!m || /^(?:every|each|all|no|if|a|an|the|some)$/i.test(m[1].split(/[\s,]+/)[0])) return [text];
   const subs = m[1].split(/\s*,\s*/).concat([m[2]]), rest = m[3], c = rest.match(rx('^are\\s+(not\\s+)?(?:(' + SP + ')\\s+)?(' + SP + ')$'));
   if (c) return Object.assign(subs.map(x => x + ' is ' + (c[1] || '') + (isPrep(c[2] || '') ? c[2] + ' ' + c[3] : 'a ' + pluralForms(c[3])[0])), { pl: isPrep(c[2] || '') ? null : c[3] });
   if (/^(?:is|are)\s/i.test(rest)) return subs.map(x => x + ' ' + rest.replace(/^are\s/i, 'is ')); const w = rest.split(' '), v = /^(?:do|does)$/i.test(w[0]) ? w[0].replace(/^do$/i, 'does') : !/^"/.test(w[0]) && symbol(w[0], 'verb', new Set([w[0].toLowerCase()])) ? third(w[0].toLowerCase()) : w[0];
