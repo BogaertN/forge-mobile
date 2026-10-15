@@ -7,7 +7,7 @@ const isNode = typeof module !== 'undefined' && module.exports; const { sha256 }
 const canon = o => (Array.isArray(o) ? '[' + o.map(canon).join(',') + ']' : o && typeof o === 'object' ? '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}' : JSON.stringify(o));
 const THRESHOLDS = { app_addendum: { coherence_warning: 0.50, coherence_collapse: 0.78, echo_min: 0.80, source: 'RMC Implementation Addendum (in force, N1 default)' }, forge_coherence_math: { epsilon_warning: 0.35, epsilon_collapse: 0.72, echo_min: 0.72, source: 'BogaertN/forge rmc_engine_v1/coherence_math.py gate_thresholds()' } };
 function build(store, opts) { opts = opts || {}; const at = opts.clock ? opts.clock() : new Date().toISOString();
-  const drift = store.load('drift_archive'), coll = store.load('collapse_events'), ghosts = store.load('ghost_loops'), loops = store.load('loops');
+  const drift = store.load('drift_archive'), coll = store.load('collapse_events'), ghosts = (Array.isArray(store.load('hypotheses')) ? store.load('hypotheses') : []).filter(h => h.route === 'ghost_loop_containment_required'), loops = store.load('loops');
   const eps = drift.map(d => (typeof d.eps_s === 'number' ? d.eps_s : null)).filter(x => x != null);
   const files = { 'drift_archive.json': drift, 'collapse_events.json': coll, 'thresholds.json': THRESHOLDS,
     'metrics.json': { dead_paths: drift.length, collapse_events: coll.length, ghost_loops: ghosts.length, loops_total: loops.length, loops_by_state: loops.reduce((a, l) => { a[l.state] = (a[l.state] || 0) + 1; return a; }, {}), epsilon_mean: eps.length ? +(eps.reduce((a, b) => a + b, 0) / eps.length).toFixed(6) : null } };

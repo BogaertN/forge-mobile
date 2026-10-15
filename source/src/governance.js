@@ -37,6 +37,7 @@
     'memory.restore': { risk: 'state', rollback: 'forget again' },
     'memory.approve_held': { risk: 'state', rollback: 'forget' },
     'containment.release': { risk: 'state', rollback: 're-quarantine' },
+    'hypothesis.write': { risk: 'state', rollback: 'withdraw (status → withdrawn; never read as a fact)' },
     'loop.transition': { risk: 'state', rollback: 'transition table only' },
     'shared.contribute': { risk: 'network', rollback: 'revoke stops future pushes (pulled copies cannot be recalled)' },
     'shared.review': { risk: 'local_write', rollback: 'accepted items are evidence records only; reject keeps an audit row' },

@@ -336,6 +336,7 @@
   "export.json",
   "external.action",
   "feedback.write",
+  "hypothesis.write",
   "loop.transition",
   "memory.approve_held",
   "memory.delete_ui",

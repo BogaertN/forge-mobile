@@ -3,7 +3,7 @@
  * spc_cold_storage.py tiers and resurrection_engine.py (Patch 269, ChristPing 7 gates). Deterministic; no reply text. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
-  const Gv = isNode ? require('./governance.js') : root.KGov; const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
+  const Gv = isNode ? require('./governance.js') : root.KGov; const HY = isNode ? require('./hypothesis.js') : root.KHyp; const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
   const hash = Gv.hash;
   const ROUTES = ['active_stack_candidate', 'correction_queue', 'spc_cold_storage_required', 'dream_state_quarantine_candidate', 'drift_archive_only', 'ghost_loop_containment_required'];
   const SEALED = new Set(['spc_cold_storage_required', 'dream_state_quarantine_candidate', 'drift_archive_only', 'ghost_loop_containment_required']);
@@ -43,6 +43,10 @@
       if (!(LOOP_EDGES[lp.state] || []).includes(to)) return { ok: false, rule: 'LOOP-ILLEGAL-TRANSITION', from: lp.state, to };
       if (perm) { const d = perm.authorize('loop.transition', { subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule }; }
       lp.transitions.push({ from: lp.state, to, at: now(), rule: why || 'LOOP-TRANSITION' }); lp.state = to; store.save('loops', ls); receipt('loop.transition', { id, to, why }); return { ok: true, loop: lp }; }
+    const hyps = HY.Store(store, { clock: opts.clock });
+    /* GELC S0: dream and ghost records are Hypothesis/v1 objects in the one 'hypotheses' store, written only under the kernel's containment route */
+    function putHyp(kind, routeName, body, base, detail) { const h = HY.make({ kind, route: routeName, body, provenance: { source: 'containment:' + routeName, turn: base.turn, msm_id: base.msm_id, loop: base.loop }, status: 'quarantined', detail: Object.assign({}, detail, base) });
+      const w = hyps.put(h, { kind: 'containment_route', route: routeName, rule: (base.rules || [])[0] || null }); const rb = Gv.readback(store, HY.STORE, h.id, w.record || hyps.get(h.id)); receipt(HY.STORE + '.write', { id: h.id, route: routeName, readback: rb.readback }); return rb; }
     function put(cat, rec) { const l = store.load(cat); l.push(rec); store.save(cat, l); const rb = Gv.readback(store, cat, rec.id, rec); receipt(cat + '.write', { id: rec.id, readback: rb.readback }); return rb; }
 
     /* collapse event (E-09): typed lifecycle event with a frozen causal snapshot (hashes only — no content copied) */
@@ -55,8 +59,8 @@
     function apply(tr, decision, extra) {
       extra = extra || {}; const lp = current(); const base = { at: now(), turn: tr.turn, loop: lp.id, route: decision.route, rules: decision.rules, msm_id: tr.msm ? tr.msm.msm_id : null };
       const out = { route: decision.route, records: [] };
-      if (decision.route === 'dream_state_quarantine_candidate') out.records.push(put('dream_quarantine', Object.assign({ id: 'dream:' + (tr.msm ? tr.msm.msm_id.slice(0, 16) : tr.turn), clause: extra.clause || null, truth_support_allowed: false, stable_memory_allowed: false, projection_allowed: false, status: 'quarantined' }, base)));
-      if (decision.route === 'ghost_loop_containment_required') out.records.push(put('ghost_loops', Object.assign({ id: 'ghost:' + sha256(String(tr.input) + '|' + tr.turn + '|' + now()).slice(0, 16), input: tr.input, reason: extra.reason || (tr.msm && tr.msm.meaning ? tr.msm.meaning.kind : 'unresolved'), gate_failed: '7', status: 'held for a future capability', can_reenter: false }, base)));
+      if (decision.route === 'dream_state_quarantine_candidate') out.records.push(putHyp('speculation', decision.route, extra.clause || null, base, { clause: extra.clause || null, truth_support_allowed: false, stable_memory_allowed: false, projection_allowed: false }));
+      if (decision.route === 'ghost_loop_containment_required') out.records.push(putHyp('unresolved', decision.route, tr.input, base, { input: tr.input, reason: extra.reason || (tr.msm && tr.msm.meaning ? tr.msm.meaning.kind : 'unresolved'), gate_failed: '7', status_label: 'held for a future capability', can_reenter: false }));
       if (decision.route === 'drift_archive_only' || (tr.drift && (tr.drift.band === 'elevated' || tr.drift.band === 'hard_stop')))
         out.records.push(put('drift_archive', Object.assign({ id: 'drift:' + sha256(String(tr.input) + '|' + tr.turn + '|' + now()).slice(0, 16), eps_s: tr.drift ? tr.drift.eps_s : null, band: tr.drift ? tr.drift.band : null, components: tr.drift ? tr.drift.components || null : null, diagnostic_only: true, truth_support_allowed: false }, base)));
       if (decision.route === 'spc_cold_storage_required') out.collapse = collapse(tr, extra.cause || 'circuit_breaker', extra.state);
@@ -91,13 +95,13 @@
       else decision = 'defer_until_next_phi9_window';
       return { id: rec.id, tier, gates: G, decision, cite: 'forge rmc_engine_v1/resurrection_engine.py (Patch 269)' }; }
 
-    function list() { return { loops: L(), collapse_events: store.load('collapse_events'), dream: store.load('dream_quarantine'), ghost: store.load('ghost_loops'), drift: store.load('drift_archive'), receipts: store.load('containment_receipts') }; }
+    function list() { return { loops: L(), collapse_events: store.load('collapse_events'), dream: hyps.view('dream'), ghost: hyps.view('ghost'), hypotheses: hyps.list(), drift: store.load('drift_archive'), receipts: store.load('containment_receipts') }; }
     function pause() { const lp = current(); return transition(lp.id, 'paused', 'LOOP-PAUSE (operator)'); }
     function resume() { const lp = current(); return lp.state === 'paused' ? transition(lp.id, 'active', 'LOOP-RESUME') : { ok: false, rule: 'LOOP-NOT-PAUSED' }; }
     function closeAndOpen(why) { const lp = current(); const r = transition(lp.id, 'closed', why || 'LOOP-CLOSE'); current(); return r; }
     function touch() { const lp = current(); if (lp.state === 'paused') transition(lp.id, 'active', 'LOOP-RESUME (new turn)'); return current(); }
     function verifyReceipts() { const l = store.load('containment_receipts'); let prev = null; for (let i = 0; i < l.length; i++) { const e = Object.assign({}, l[i]); const h = e.hash; delete e.hash; if (e.prev !== prev || sha256(Gv.canon(e)) !== h) return { ok: false, broken_at: i }; prev = h; } return { ok: true, count: l.length }; }
-    return { route, apply, collapse, transition, current, touch, pause, resume, closeAndOpen, gates, tierOf, list, verifyReceipts, receipt };
+    return { hypotheses: hyps, route, apply, collapse, transition, current, touch, pause, resume, closeAndOpen, gates, tierOf, list, verifyReceipts, receipt };
   }
   const api = { route, Containment, ROUTES, SEALED, LOOP_EDGES, TIERS, LIMIT, CAPACITY };
   if (isNode) module.exports = api; else root.KContain = api;

@@ -3,12 +3,13 @@
 (function (root) {
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
-const SCHEMA = 3;
+const SCHEMA = 4; const HY = isNode ? require('./hypothesis.js') : root.KHyp;
 const obj = v => (v && !Array.isArray(v) && typeof v === 'object' ? v : null);
 const STEPS = [
   { to: 1, id: 'MIG-1-POLICY-OUT-OF-META', stores: ['meta', 'policy'], run(s) { const m = obj(s.load('meta')) || {}; if (!m.policy) return 0; const p = obj(s.load('policy')); if (!p || !Object.keys(p).length) s.save('policy', m.policy); delete m.policy; s.save('meta', m); return 1; } },
   { to: 2, id: 'MIG-2-LEXICON-LICENCE-EVIDENCE', stores: ['lexicon_user'], run(s) { const u = s.load('lexicon_user'); let n = 0; for (const c of u) { if (!c.license) { c.license = 'user-owned'; n++; } if (!c.evidence) { c.evidence = 'admitted before 4.3 (direct admission, user authority)'; n++; } } if (n) s.save('lexicon_user', u); return n; } },
   { to: 3, id: 'MIG-3-FETCH-PATH-KIND', stores: ['fetch_path'], run(s) { const f = obj(s.load('fetch_path')); if (!f || !f.url || f.kind) return 0; f.kind = 'proxy'; s.save('fetch_path', f); return 1; } },
+  { to: 4, id: 'MIG-4-LEGACY-HYPOTHESES', stores: ['dream_quarantine', 'ghost_loops', 'ede_candidates', 'hypotheses'], run(s) { return HY.migrateLegacy(s); } },
 ];
 function hashOf(s, names) { return sha256(JSON.stringify(names.map(n => s.load(n)))).slice(0, 16); }
 function migrate(store, at) { const log = obj(store.load('migrations')) || { schema: 0, applied: [] }; const done = [];
