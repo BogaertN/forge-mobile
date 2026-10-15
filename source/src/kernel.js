@@ -612,7 +612,7 @@ function Kernel(opts) {
   /* world answers: the proposition quoted in the surface is re-parsed by the world grammar and must be the checked query (or its
      opposite) of that status, and the proof it cites is replayed again against its own (branch-scoped) world */
   function worldReverify(m, text) { try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x));
-      const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); return R.parseAtomic(u, false); };
+      const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); const at = R.parseAtomic(u, false, new Set([m.query.predicate])); if (at) R.alignVerbs(Object.assign({}, m.query), [at]); return at; };
       const said = (String(text).match(/“([^”]+)”/g) || []).map(q => parse(q.slice(1, -1))); if (!said.length || said.some(a => !a)) return false;
       const q = R.canon(m.query), o = R.canon(R.opposite(m.query)), ks = said.map(a => R.canon(a));
       const want = m.status === 'supported_only' ? [q] : m.status === 'refuted_only' ? [o] : m.status === 'conflicted' || m.status === 'undetermined' ? [q, o] : null; if (!want) return undefined;
