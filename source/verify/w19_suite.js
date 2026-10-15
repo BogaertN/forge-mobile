@@ -442,7 +442,7 @@ T('oversized world input reaches typed INPUT_LIMIT through Kernel and Forge wrap
   const q = 'Rhea is quiet. ' + ' '.repeat(R.LIMITS.MAX_INPUT_CHARS) + 'Is Rhea quiet?';
   for (const r of [open().process(q), openForge().process(q)]) {
     expect(r.msm.meaning.kind === 'world_limitation' && r.msm.meaning.code === 'INPUT_LIMIT', JSON.stringify(r.msm.meaning));
-    expect(r.trace.input.length <= 2000 && r.trace.input_truncated && r.trace.input_length === q.length, JSON.stringify(r.trace));
+    expect(r.trace.input.length === q.length && !r.trace.input_truncated && r.trace.input_length === q.length, JSON.stringify(r.trace));
   }
 });
 

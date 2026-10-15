@@ -16,7 +16,7 @@ const RMC_VERSION = 'forge-rmc-world-selection/v1';
 const DOC = 'World Model v1 Contract';
 
 const LIMITS = Object.freeze({
-  MAX_INPUT_CHARS: 4000,
+  MAX_INPUT_CHARS: 100000,
   MAX_SENTENCES: 24,
   MAX_CANDIDATES: 1,
   MAX_SYMBOL_CHARS: 64,

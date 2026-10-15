@@ -309,7 +309,7 @@ function Analyser(env) {
 
 const pr = p => ({ pr: p }), N = (n, o) => Object.assign({ n }, o || {}), U = a => ({ u: a }), UC = a => ({ uc: a }), Mn = t => ({ m: String(t) }), X = t => ({ x: String(t) }), Nm = (s, det) => (det ? { name: s, det } : { name: s });
 const C = (v, o) => Object.assign({ v, tense: 'pres', pol: 'pos' }, o || {}); const S = (c, o) => Object.assign({ c, force: 'decl' }, o || {}); const MS = (items, o) => Object.assign({ mth: items, force: 'decl' }, o || {});
-const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && s.pron === 'user' ? YOU : U(s);
+const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && (s.pron === 'user' || /^(?:i|me|myself)$/i.test(String(s.propn || s.name || s.head || s.n || ''))) ? YOU : U(s);
 const told = cl => S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
 const coldStorage = () => N('storage', { adj: ['cold'] });
 const yesNo = () => S(C('answer', { karma: { coord: 'or', items: [Mn('yes'), Mn('no')] } }), { force: 'imp', part: 'please' });
@@ -395,8 +395,7 @@ function worldStatusPlan(m) {
     S(C('conflict', { karta: N('proof', { det: 'the', pl: true }) }))
   ];
   if (m.status === 'undetermined') return [
-    S(C('support', { karta: checkedWorld, karma: Mn(m.query_text), pol: 'neg' })),
-    S(C('support', { karta: pr('it'), karma: Mn(m.opposite_text), pol: 'neg' })),
+    S(C('support', { karta: checkedWorld, karma: { coord: 'or', items: [Mn(m.query_text), Mn(m.opposite_text)] }, pol: 'neg' })),
     S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))
   ];
   if (m.status === 'incomplete') return [
@@ -506,7 +505,7 @@ const PLANS = {
 
 for (const v of VERBS) { const pp = verbForm(null, v, 'pp'); if (ADJ.has(pp)) PP_ADJ.add(pp); }
 function plan(m) { const P = PLANS[m.kind]; if (!P) throw new Error('derive: no plan for meaning kind "' + m.kind + '"'); return P(m); }
-function realizeMeaning(m, env) { const vakya = plan(m); const r = Realizer(env).realize(vakya); r.vakya = vakya; r.derivation.plan = m.kind; r.derivation.surface = r.text; return r; }
+function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m.parts.map(p => realizeMeaning(p, env)), text = rs.map(r => r.text).filter(Boolean).join(' '); return { text, derivation: { plan: 'sequence', rules: [].concat(...rs.map(r => r.derivation.rules || [])), parts: rs.map(r => r.derivation), surface: text } }; } const vakya = plan(m); const r = Realizer(env).realize(vakya); r.vakya = vakya; r.derivation.plan = m.kind; r.derivation.surface = r.text; return r; }
 function strip(x) { return JSON.parse(JSON.stringify(x, (k, v) => { if (v === null || v === undefined) return undefined; if ((k === 'tense' && v === 'pres') || (k === 'pol' && v === 'pos') || (k === 'voice' && v === 'act') || (k === 'force' && v === 'decl') || (k === 'pl' && v === false)) return undefined; if (Array.isArray(v) && !v.length && k !== 'items') return undefined; if (k === 'roles' && v && typeof v === 'object' && !Object.keys(v).length) return undefined; return v; })); }
 const canon = o => { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); };
 function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G.npText(n, 'kernel'));

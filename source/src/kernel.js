@@ -697,9 +697,21 @@ function Kernel(opts) {
     if (c.verb.lemma && c.verb.lemma !== 'be' && !c.verb.aspect && c.verb.mod === 'asserted') { const aux = c.verb.tense === 'past' ? 'did' : c.verb.f === 'pres3' ? 'does' : 'do';
       return { raw: aux + ' ' + G.npText(c.subj, 'user') + ' ' + G.vpText(c, { plural: true, head: ['x'] }, 'user') + '?', note: 'lexical-verb tag → do-support inversion' }; }
     return { note: 'tag question form not covered → left as typed' }; }
-  function process(input) {
+  /* a multi-sentence message the one-query world grammar cannot take (query not final, first-person query) is read sentence by sentence;
+     the user's own first-person statements in it are kept (as “remember that …”) so a later question in the same message can use them */
+  const SEQ_CODES = /^(?:QUERY_NOT_FINAL|UNSUPPORTED_QUERY_STRUCTURE|MULTIPLE_QUERIES|SENTENCE_LIMIT)$/;
+  function process(input) { const txt = String(input || '').normalize('NFC'), parts = txt.split(/(?<=[.!?])\s+/).map(x => x.trim()).filter(Boolean);
+    if (parts.length > 1 && parts.length <= 400 && !P.redact(txt).secrets.length) { let rr = null; try { rr = R.evaluate(txt, { allowBareQuery: true }); } catch (e) { rr = null; }
+      if (rr && rr.handled && rr.material && SEQ_CODES.test(rr.material.code || '')) { const outs = parts.map(p => process1(/^(?:i|my|i'm|i’m)\b/i.test(p) && !/\?$/.test(p) ? 'remember that ' + p.replace(/^my\b/, 'my') : p));
+        const last = outs[outs.length - 1]; last.trace.rules.push({ id: 'LL-SEQUENTIAL-SENTENCES', doc: 'Doc5 discourse (one sentence at a time)', note: rr.material.code + ' → ' + parts.length + ' sentences' });
+        const reply = outs.map(o => o.reply).filter(Boolean).join(' '), ms = outs.map(o => o.trace.msm && o.trace.msm.meaning);
+        const trace = Object.assign({}, last.trace, { derivation: { plan: 'sequence', rules: [].concat(...outs.map(o => (o.trace.derivation && o.trace.derivation.rules) || [])), parts: outs.map(o => o.trace.derivation), surface: reply } });
+        if (ms.every(Boolean) && last.trace.msm) trace.msm = Object.assign({}, last.trace.msm, { meaning: { kind: 'sequence', parts: ms } });
+        return Object.assign({}, last, { reply, blocked: outs.some(o => o.blocked), trace, parts: outs }); } }
+    return process1(input); }
+  function process1(input) {
     meta.turn += 1; const turn = meta.turn; const at = now(); const normalizedInput = String(input || '').normalize('NFC'), inputLength = normalizedInput.length;
-    const red = P.redact(normalizedInput), fullInput = red.text; curSecrets = red.secrets; input = fullInput.slice(0, 2000); const vaultState = red.secrets.length ? (opts.vaultState ? opts.vaultState() : 'none') : null;
+    const red = P.redact(normalizedInput), fullInput = red.text; curSecrets = red.secrets; input = fullInput; const vaultState = red.secrets.length ? (opts.vaultState ? opts.vaultState() : 'none') : null;
     const psi_id = sha256(canon({ turn, loop: meta.loop, input: fullInput }));
     const trace = { turn, at, input, input_length: inputLength, input_truncated: fullInput.length > input.length, input_sha256: sha256(fullInput), psi_id, psi_id_note: 'SHA-256 substitutes for BLAKE3 (RSOC §2.1)', loop_lambda: meta.loop, phases: [], rules: [], gates: null, candidates: [], outcome: null, msm: null, drift: null, chi: null, echo: null, memory: [], output: null, blocked: false };
     const Ph = (n, note) => trace.phases.push({ phase: n, sym: M.PHASES[n].sym, name: M.PHASES[n].name, note });
