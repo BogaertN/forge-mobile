@@ -653,7 +653,7 @@ function Kernel(opts) {
     if (m.kind === 'simplified' && m.rational) { const rs = A.ratSimplify(m.input); return !!(rs.ok && rs.result === m.result && rs.excluded.join() === (m.excluded || []).join()); }
     if (m.kind === 'simplified') return reverifySimplify(m.result);
   } catch (e) { return false; } return undefined; }
-  function echo(text, material) { return D.echo(text, material, ENV); }
+  function echo(text, material, vk) { return D.echo(text, material, ENV, vk); }
 
   function closedCubic(r) { try { if (!r || !r.roots || !r.roots.some(z => z.numeric)) return null; const p = A.poly(String(r.poly).split('=')[0]); const x = r.x; if (A.P.deg(p, x) !== 3) return null;
       const c = [3, 2, 1, 0].map(i => A.P.coef(p, x, i).toNumber()); const z = CA.cubicExact(c[0], c[1], c[2], c[3]); if (!z || z.roots.length !== r.roots.length) return null;
@@ -786,12 +786,13 @@ function Kernel(opts) {
     if (sealed) { const cold = store.load('cold_storage'); cold.push({ id: psi_id, sealed_at: at, reason: 'hard stop ε_s=' + drift.eps_s, msm, sfe, input, tier: bypass ? 'DEEP' : 'WARM', breach: !!bypass, resurrection_attempts: 0 }); store.save('cold_storage', cold); meta.pending = null;
       trace.rsoc.ops.push('Ĉ'); Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = 'Hard stop: ε_s = ' + drift.eps_s + ' ≥ 0.80 and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
     Ph(7, 'manifest named ψ_id ' + psi_id.slice(0, 12) + '…');
+    { const mk = canon(msm.meaning); if (meta.spoken && meta.spoken.m === mk && meta.spoken.loop === meta.loop) msm.meaning = Object.assign({}, msm.meaning, { field: { last: meta.spoken.text } }); trace.rsoc.meaning_key = mk; } // the local field: what Forge last said for this same meaning (RSOC ⧒ phase alignment cos(Φ − Φ₀))
     let real; try { real = D.realizeMeaning(msm.meaning, ENV); } catch (e) { trace.derivation_error = String(e && e.message); }
     if (!real) { routeOf({ derivation_failed: true }); trace.blocked = true; trace.block_reason = 'Derivation failed (' + trace.derivation_error + ') — no sūtra sequence derives this meaning; output blocked.'; meta.pending = null; Ph(9, 'derivation FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
     let text = real.text; trace.derivation = real.derivation; trace.rsoc.outward = real.derivation.rsoc || null; if (opts.renderFault) text = opts.renderFault(text, msm);
     Ph(8, 'derived by ' + real.derivation.rule_count + ' sūtra applications (' + real.derivation.distinct_rules + ' distinct); trail ' + real.derivation.phase_trail);
     if (real.derivation.forbidden_transition) { routeOf({ forbidden_transition: real.derivation.forbidden_transition }); trace.blocked = true; trace.block_reason = 'Derivation phase trail contains a forbidden transition (' + real.derivation.forbidden_transition + ').'; meta.pending = null; Ph(9, 'forbidden derivation path → blocked'); return finish(trace, 9, null, msm, sfe); }
-    let ev = echo(text, msm.meaning); trace.echo = ev;
+    let ev = (!opts.renderFault && real.echo && real.text === text) ? real.echo : echo(text, msm.meaning, real.vakya); trace.echo = ev; trace.rsoc.phrasing = real.derivation.phrasing || null;
     if (!ev.pass && ev.ambiguous && !opts.renderFault && msm.meaning.kind !== 'clarify_echo') { // lawful re-routing: an ambiguous outward reading becomes a clarification (Doc6 §29), never a guess and never a write
       trace.rules.push({ id: 'ECHO-AMBIGUITY-CLARIFY', doc: 'Doc6 §29; RMC §6.7', note: ev.reason }); trace.echo_first = ev; trace.meaning_first = msm.meaning; const alt = { kind: 'clarify_echo' }; const r2 = D.realizeMeaning(alt, ENV); const ev2 = echo(r2.text, alt);
       if (ev2.pass) { msm.meaning = alt; msm.limits.may_write_memory = false; trace.outcome = { category: 'CLARIFICATION_REQUIRED', class: 'clarify', cite: 'Doc6 §36' }; text = r2.text; trace.derivation = r2.derivation; ev = ev2; trace.echo = ev2; meta.pending = null; sel.write = null; routeOf(); } }
@@ -806,6 +807,7 @@ function Kernel(opts) {
         const r3 = D.realizeMeaning(msm.meaning, ENV); const ev3 = echo(r3.text, msm.meaning); text = r3.text; trace.derivation = r3.derivation; trace.echo = ev3; ev = ev3; trace.memory = []; } }
     if (ctx.clauseForDiscourse) pushDiscourse(ctx.clauseForDiscourse);
     if (sel.reasoningState) meta.reasoning = Object.assign(clone(sel.reasoningState), { turn: meta.turn });
+    meta.spoken = { m: trace.rsoc.meaning_key, text, loop: meta.loop };
     trace.rsoc.ops.push('Ê=1', 'R̂(Φ₇→Φ₈)', 'R̂(Φ₈→Φ₉)', ...(trace.memory.length ? ['⧜'] : []), '⧀');
     Ph(9, 'Echo pass (' + ev.score + ' ≥ ' + ev.theta + ')' + (trace.memory.length ? '; memory: ' + trace.memory.map(m => m.op).join(', ') : ''));
     return finish(trace, 9, text, msm, sfe);

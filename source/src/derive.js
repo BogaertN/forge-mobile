@@ -508,7 +508,26 @@ const PLANS = {
 
 for (const v of VERBS) { const pp = verbForm(null, v, 'pp'); if (ADJ.has(pp)) PP_ADJ.add(pp); }
 function plan(m) { const P = PLANS[m.kind]; if (!P) throw new Error('derive: no plan for meaning kind "' + m.kind + '"'); return P(m); }
-function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m.parts.map(p => realizeMeaning(p, env)), text = rs.map(r => r.text).filter(Boolean).join(' '); return { text, derivation: { plan: 'sequence', rules: [].concat(...rs.map(r => r.derivation.rules || [])), parts: rs.map(r => r.derivation), surface: text } }; } const vakya = plan(m); const r = Realizer(env).realize(vakya); r.vakya = vakya; r.derivation.plan = m.kind; r.derivation.surface = r.text; return r; }
+/* RSOC phrasing operators over a whole vākya (v4.9.34). ⧒ amplify (RSOC §3.1.2, Φ3 intensification): the first adjunct role of a declarative sentence is
+   fronted as topic; inverse = return it to its role slot. ⧧ sever (§3.1.1, single → several, charge conserved): a clause-list karman of a that-verb is split
+   into one sentence per clause; conservation = same clauses, same count. Both keep the meaning; each variant must pass its own Echo round trip. */
+const PHRASE_C = [{ id: 'base', expect: { B: 1, Q: 0 } }, { id: 'amp_q', expect: { Q: 1, A: 1 } }, { id: 'amp_r', expect: { B: 0, A: 1 } }, { id: 'sev_q', expect: { Q: 1, A: 0, V: 1 } }, { id: 'sev_r', expect: { B: 0, A: 0, V: 1 } }, { id: 'none', expect: { B: 0, A: 0, V: 0 } }];
+const THAT_V = new Set(['tell', 'remember', 'know', 'note']);
+function amplifyV(v) { let n = 0; const o = v.map(s => { const ro = s.c && s.c.roles, k = ro && !n && s.force === 'decl' && !(s.front || []).length && !s.part && !s.conj && ROLE_ORDER.find(r => ro[r] && r !== 'hetu');
+  if (!k) return s; n++; const roles = Object.assign({}, ro); delete roles[k]; return Object.assign({}, s, { c: Object.assign({}, s.c, { roles }), front: [{ role: k, np: ro[k] }] }); }); return n ? o : null; }
+const unAmplify = v => v.map(s => { if (!(s.front || []).length || !s.front[0].role) return s; const f = s.front[0], o = Object.assign({}, s, { c: Object.assign({}, s.c, { roles: Object.assign({}, s.c.roles, { [f.role]: f.np }) }) }); delete o.front; return o; });
+function severV(v) { let n = 0; const o = []; for (const s of v) { const l = s.c && s.c.karma && s.c.karma.list; if (l && l.kind === 'clause' && l.items.length > 1 && THAT_V.has(s.c.v) && !s.c.comp) { n++; for (const it of l.items) o.push(Object.assign({}, s, { c: Object.assign({}, s.c, { karma: null, comp: { that: UC(it) } }) })); } else o.push(s); } return n ? o : null; }
+const clauseSet = v => v.flatMap(s => s.c && s.c.karma && s.c.karma.list && s.c.karma.list.kind === 'clause' ? s.c.karma.list.items.map(c => canon(G.material(c))) : s.c && s.c.comp && s.c.comp.that ? [canon(G.material(s.c.comp.that.uc))] : []).sort().join('|');
+function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m.parts.map(p => realizeMeaning(p, env)), text = rs.map(r => r.text).filter(Boolean).join(' '); return { text, derivation: { plan: 'sequence', rules: [].concat(...rs.map(r => r.derivation.rules || [])), parts: rs.map(r => r.derivation), surface: text } }; }
+  const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); } catch (e) { c.e = { pass: false }; } return c.e.pass; };
+  ev.B = go(C0[0]); const rep = !!(m.field && m.field.last && m.field.last === C0[0].r.text);
+  if (!ev.B || rep) { const a = amplifyV(vb), sv = severV(vb); if (a && canon(strip(unAmplify(a))) === canon(strip(vb))) { C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); }
+    if (!ev.A && sv && clauseSet(sv) === clauseSet(vb)) { const c = { id: '⧧ sever', v: sv, eps: 0.12, Delta: 0.15 }; C0.push(c); ev.V = go(c); } }
+  ev.A = !!ev.A; ev.V = !!ev.V; ev.Q = rep && ev.B && (ev.A || ev.V);
+  const L = M.rsocSelect(ev, PHRASE_C, 0);
+  const pick = C0.find(c => c.id === ({ amp_q: '⧒ amplify', amp_r: '⧒ amplify', sev_q: '⧧ sever', sev_r: '⧧ sever' }[L.selected] || 'base')), r = pick.r || C0[0].r;
+  if (!r) throw new Error('derive: no lawful phrasing'); r.vakya = pick.r ? pick.v : vb; r.echo = pick.r ? pick.e : C0[0].e; r.derivation.plan = m.kind; r.derivation.surface = r.text;
+  r.derivation.phrasing = { selected: pick.id, lock: L.selected, why: rep ? 'repeat of the last surface' : ev.B ? 'base passes Echo' : 'base fails Echo (repair)', candidates: C0.map(c => ({ id: c.id, echo: !!(c.e && c.e.pass), eps_s: c.eps || 0, surface: c.r && c.r.text })), cite: 'RSOC §3.1.1 ⧧, §3.1.2 ⧒; §3.3 lock' }; return r; }
 function strip(x) { return JSON.parse(JSON.stringify(x, (k, v) => { if (v === null || v === undefined) return undefined; if ((k === 'tense' && v === 'pres') || (k === 'pol' && v === 'pos') || (k === 'voice' && v === 'act') || (k === 'force' && v === 'decl') || (k === 'pl' && v === false)) return undefined; if (Array.isArray(v) && !v.length && k !== 'items') return undefined; if (k === 'roles' && v && typeof v === 'object' && !Object.keys(v).length) return undefined; return v; })); }
 const canon = o => { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); };
 function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G.npText(n, 'kernel'));
@@ -519,7 +538,7 @@ function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G
     if (v.uc) return { uc: G.material(v.uc) };
     const o = {}; for (const k of Object.keys(v)) o[k] = walk(v[k]); if (v.kind === 'clause' && Array.isArray(v.items)) o.items = v.items.map(c => G.material(c)); return o; };
   return walk(vakya); }
-function echo(text, m, env) { env = env || {}; const vakya = plan(m); const A = Analyser(env); const faults = []; const want = canon(strip(canonPlan(vakya, env, A, faults)));
+function echo(text, m, env, vk) { env = env || {}; const vakya = vk || plan(m); const A = Analyser(env); const faults = []; const want = canon(strip(canonPlan(vakya, env, A, faults)));
   const a = A.analyse(text); const distinct = [...new Set(a.analyses.map(x => canon(strip(x))))]; const match = distinct.includes(want);
   const comps = { reparse: a.analyses.length ? 1 : 0, unique_analysis: distinct.length === 1 ? 1 : 0, structural_identity: match && !faults.length ? 1 : 0 };
   if (env.reverify) { const rv = env.reverify(m, text); if (rv !== undefined) comps.independent_reverification = rv ? 1 : 0; }
@@ -527,6 +546,6 @@ function echo(text, m, env) { env = env || {}; const vakya = plan(m); const A = 
   return { pass, score: pass ? 1 : 0, theta: 1, components: comps, analyses: distinct.length, ambiguous: distinct.length > 1 || !!a.ambiguous,
     reason: pass ? undefined : faults[0] || a.reason || (distinct.length > 1 ? 'the surface has ' + distinct.length + ' analyses' : !match ? 'the surface re-derives to a different vākya' : 'independent re-verification failed'),
     mode: 'structural round trip: inverse sūtras (analysis by synthesis) + inward grammar; no word-overlap measure', cite: 'RMC §5.12, §6.7; Doc 3 reversible derivation', _want: env.debug ? want : undefined, _got: env.debug ? distinct : undefined }; }
-const api = { realizeMeaning, echo, plan, Realizer, Analyser, RULES, SECTIONS, PLANS, REASON, MENTIONS, VERBS, NOUNS, ADJ, NAMES, strip, canon };
+const api = { PHRASE_C, amplifyV, severV, unAmplify, realizeMeaning, echo, plan, Realizer, Analyser, RULES, SECTIONS, PLANS, REASON, MENTIONS, VERBS, NOUNS, ADJ, NAMES, strip, canon };
 if (isNode) module.exports = api; else root.KDerive = api;
 })(typeof self !== 'undefined' ? self : this);
