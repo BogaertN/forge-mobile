@@ -360,6 +360,10 @@ const LANE = {
   ECHO_REVIEW: m => (m.review === null || m.review === undefined ? [S(C('have', { karta: I, karma: N('reply', { det: 'no', adj: ['earlier'] }) }))] : [S(C(m.review ? 'pass' : 'fail', { karta: N('reply', { det: 'the', adj: ['last'] }), karma: Nm('Echo'), tense: 'past' }))]),
   VERIFY_SUITE: () => [S(C('be', { karta: N('lane', { det: 'the' }), pred: N('suite', { det: 'the', of: Nm('Doc 9') }) }))] };
 function worldPlan(m) {
+  const plan = worldStatusPlan(m); if (!m.branch) return plan;
+  return [S(C('answer', { karta: I, roles: { adhikarana: N('branch', { det: 'a' }) }, tense: 'past' }))].concat(plan, [S(C('change', { karta: N('branch', { det: 'the' }), karma: N('world', { det: 'the' }), pol: 'neg' }))]);
+}
+function worldStatusPlan(m) {
   const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
   const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
   if (m.status === 'supported_only') return [
@@ -499,7 +503,7 @@ function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G
 function echo(text, m, env) { env = env || {}; const vakya = plan(m); const A = Analyser(env); const faults = []; const want = canon(strip(canonPlan(vakya, env, A, faults)));
   const a = A.analyse(text); const distinct = [...new Set(a.analyses.map(x => canon(strip(x))))]; const match = distinct.includes(want);
   const comps = { reparse: a.analyses.length ? 1 : 0, unique_analysis: distinct.length === 1 ? 1 : 0, structural_identity: match && !faults.length ? 1 : 0 };
-  if (env.reverify) { const rv = env.reverify(m); if (rv !== undefined) comps.independent_reverification = rv ? 1 : 0; }
+  if (env.reverify) { const rv = env.reverify(m, text); if (rv !== undefined) comps.independent_reverification = rv ? 1 : 0; }
   const pass = Object.values(comps).every(v => v === 1);
   return { pass, score: pass ? 1 : 0, theta: 1, components: comps, analyses: distinct.length, ambiguous: distinct.length > 1 || !!a.ambiguous,
     reason: pass ? undefined : faults[0] || a.reason || (distinct.length > 1 ? 'the surface has ' + distinct.length + ' analyses' : !match ? 'the surface re-derives to a different vākya' : 'independent re-verification failed'),

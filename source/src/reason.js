@@ -57,7 +57,7 @@ function sourceSegments(raw) {
     const body = source.replace(/[.!?]+$/, '').trim();
     out.push({
       id: 'source:' + (out.length + 1),
-      kind: /\?$/.test(source) ? 'question' : 'assertion',
+      kind: /\?$/.test(source) && !supposed(source) ? 'question' : 'assertion',
       text: body,
       source,
       span: { start: m.index + lead, end: m.index + m[0].length - tail }
@@ -137,8 +137,12 @@ function atomText(a) {
   return displaySymbol(a.args[0]) + (neg ? ' does not ' : ' ') + displaySymbol(a.predicate) + ' ' + displaySymbol(a.args[1]);
 }
 
+/* a supposition marker is grammar (a modality of the clause), not a route: the clause is parsed exactly like any other
+   assertion, but it lands in a copy-on-write what-if branch over the committed world, never in the committed world */
+const SUPPOSE = /^(?:suppose|assume|imagine|what\s+if|let(?:'s|\s+us)\s+say|hypothetically,?)(?:\s+that)?\s+/i;
+const supposed = text => SUPPOSE.test(clean(text));
 function stripLead(text) {
-  return clean(text).replace(/^(?:given(?: that)?|assume(?: that)?|suppose(?: that)?|fact\s*:|rule\s*:|world\s*:)\s*/i, '').trim();
+  return clean(text).replace(SUPPOSE, '').replace(/^(?:given(?: that)?|fact\s*:|rule\s*:|world\s*:)\s*/i, '').trim();
 }
 
 function parseCopula(text, allowVariable) {
@@ -262,7 +266,7 @@ function validateRule(r) {
 function shouldHandle(raw, segments, opts) {
   const s = clean(raw), q = segments.filter(x => x.kind === 'question').slice(-1)[0];
   if (!q) return false;
-  if (segments.some(x => x.kind === 'assertion') || /^(?:given|assume|suppose|fact\s*:|rule\s*:|world\s*:)/i.test(s)) return true;
+  if (segments.some(x => x.kind === 'assertion') || SUPPOSE.test(s) || /^(?:given|fact\s*:|rule\s*:|world\s*:)/i.test(s)) return true;
   if ((!opts || opts.allowBareQuery !== false) && parseQuery(q.text) && !/\b(?:i|me|my|mine|we|us|our|ours|you|your|yours)\b/i.test(q.text)) return true;
   if ((!opts || opts.allowBareQuery !== false) && /^(?:is|are|does|do)\b/i.test(q.text) && !/\b(?:i|me|my|mine|we|us|our|ours|you|your|yours)\b/i.test(q.text)) return true;
   if (/^what is the meaning of\b/i.test(q.text)) return true;
@@ -357,7 +361,7 @@ function candidateIntegrity(candidate) {
   if (!exactKeys(candidate, CANDIDATE_FIELDS) || candidate.schema !== CANDIDATE_SCHEMA || candidate.parser_version !== PARSER_VERSION || typeof candidate.candidate_id !== 'string' || typeof candidate.content_hash !== 'string' || listFields.some(k => !Array.isArray(candidate[k]))) return false;
   for (let i = 0; i < candidate.sources.length; i++) {
     const s = candidate.sources[i];
-    if (!exactKeys(s, ['id', 'kind', 'span', 'source', 'normalized']) || s.id !== 'source:' + (i + 1) || !/^(?:assertion|question)$/.test(s.kind) || (s.kind === 'question') !== /\?$/.test(s.source) || !spanOk(s.span) || s.span.end > LIMITS.MAX_INPUT_CHARS || (i && s.span.start < candidate.sources[i - 1].span.end) || typeof s.source !== 'string' || !s.source || s.source.length > LIMITS.MAX_INPUT_CHARS || s.span.end - s.span.start !== s.source.length || typeof s.normalized !== 'string' || s.normalized !== clean(s.source)) return false;
+    if (!exactKeys(s, ['id', 'kind', 'span', 'source', 'normalized']) || s.id !== 'source:' + (i + 1) || !/^(?:assertion|question)$/.test(s.kind) || (s.kind === 'question') !== (/\?$/.test(s.source) && !supposed(s.source)) || !spanOk(s.span) || s.span.end > LIMITS.MAX_INPUT_CHARS || (i && s.span.start < candidate.sources[i - 1].span.end) || typeof s.source !== 'string' || !s.source || s.source.length > LIMITS.MAX_INPUT_CHARS || s.span.end - s.span.start !== s.source.length || typeof s.normalized !== 'string' || s.normalized !== clean(s.source)) return false;
   }
   const questions = candidate.sources.filter(s => s.kind === 'question');
   const atomLimit = LIMITS.MAX_FACTS + LIMITS.MAX_RULES * (LIMITS.MAX_RULE_BODY + 1) + 1;
@@ -414,20 +418,40 @@ function candidateLimitFailure(candidate, limits) {
   return null;
 }
 
-function buildTurnWorld(candidate, overrides) {
+function buildTurnWorld(candidate, overrides) { return buildWorlds(candidate, overrides).world; }
+/* committed world (stated sentences) and, when the input supposes something, one what-if branch: the committed facts and rules
+   with the SAME ids, plus the supposed ones appended (copy-on-write; parent_root = committed root; proofs are scoped to the branch) */
+function buildWorlds(candidate, overrides) {
   if (!candidateIntegrity(candidate)) throw new Error('WORLD_CANDIDATE_INVALID');
+  const sup = new Set(candidate.sources.filter(x => x.kind === 'assertion' && supposed(x.source)).map(x => x.id));
+  if (!sup.size) return { world: makeWorld(candidate, candidate.facts, candidate.rules, null, 'turn:root', 0, overrides), base: null };
+  const isSup = x => sup.has(x.source_ref), base = makeWorld(candidate, candidate.facts.filter(x => !isSup(x)), candidate.rules.filter(x => !isSup(x)), null, 'turn:root', 0, overrides);
+  const overlay = { facts: candidate.facts.filter(isSup).map(f => f.atom), rules: candidate.rules.filter(isSup).map(r => ({ body: r.body, head: r.head })) };
+  const branch = makeWorld(candidate, candidate.facts.filter(x => !isSup(x)).concat(candidate.facts.filter(isSup)), candidate.rules.filter(x => !isSup(x)).concat(candidate.rules.filter(isSup)), base.world_root, 'branch:' + sha256(canon({ parent: base.world_root, overlay })).slice(0, 20), 1, overrides);
+  return { world: branch, base };
+}
+function branchIntegrity(base, branch) {
+  if (!worldIntegrity(base) || !worldIntegrity(branch) || base.parent_root !== null || branch.parent_root !== base.world_root || branch.creation_sequence !== 1) return false;
+  if (!same(branch.facts.slice(0, base.facts.length), base.facts) || !same(branch.rules.slice(0, base.rules.length), base.rules) || !same(branch.query.atom, base.query.atom)) return false;
+  const overlay = { facts: branch.facts.slice(base.facts.length).map(f => f.atom), rules: branch.rules.slice(base.rules.length).map(r => ({ body: r.body, head: r.head })) };
+  return branch.branch_id === 'branch:' + sha256(canon({ parent: base.world_root, overlay })).slice(0, 20);
+}
+function makeWorld(candidate, facts, rules, parentRoot, branchId, seq, overrides) {
   const limits = mergedLimits(overrides);
   const query = Object.assign(copy(candidate.query), { world_root: null, requested_operation: 'derive_signed_atom' });
+  const fid = (f, i) => 'fact:' + (i + 1) + ':' + sha256(canon({ atom: f.atom, source_ref: f.source_ref, source_span: f.source_span })).slice(0, 12);
+  const rid = (r, i) => 'rule:' + (i + 1) + ':' + sha256(canon({ body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span })).slice(0, 12);
+  const atomsAll = facts.map(f => f.atom).concat(rules.flatMap(r => r.body.concat([r.head])), [candidate.query.atom]);
   const body = {
     schema: WORLD_SCHEMA,
     candidate_id: candidate.candidate_id,
     language_candidate_refs: [candidate.candidate_id],
-    parent_root: null,
-    branch_id: 'turn:root',
-    creation_sequence: 0,
-    entities: copy(candidate.entities),
-    facts: candidate.facts.map(f => Object.assign(copy(f), { time: null, evidence_refs: [f.source_ref], provenance_refs: [candidate.candidate_id] })),
-    rules: candidate.rules.map(r => Object.assign(copy(r), { variables: [...new Set(r.body.concat([r.head]).flatMap(variables))].sort(), rule_class: r.form, evidence_refs: [r.source_ref], provenance_refs: [candidate.candidate_id] })),
+    parent_root: parentRoot,
+    branch_id: branchId,
+    creation_sequence: seq,
+    entities: [...new Set(atomsAll.flatMap(a => a.args).filter(x => !/^\$/.test(x)))].sort(),
+    facts: facts.map((f, i) => Object.assign(copy(f), { id: fid(f, i), time: null, evidence_refs: [f.source_ref], provenance_refs: [candidate.candidate_id] })),
+    rules: rules.map((r, i) => Object.assign(copy(r), { id: rid(r, i), variables: [...new Set(r.body.concat([r.head]).flatMap(variables))].sort(), rule_class: r.form, evidence_refs: [r.source_ref], provenance_refs: [candidate.candidate_id] })),
     query,
     source_refs: candidate.sources.map(s => ({ id: s.id, span: copy(s.span) })),
     evidence_refs: candidate.sources.map(s => s.id),
@@ -442,7 +466,7 @@ function buildTurnWorld(candidate, overrides) {
 const WORLD_FIELDS = ['world_root', 'schema', 'candidate_id', 'language_candidate_refs', 'parent_root', 'branch_id', 'creation_sequence', 'entities', 'facts', 'rules', 'query', 'source_refs', 'evidence_refs', 'provenance_refs', 'limits', 'authority'];
 function worldBody(world) { const o = copy(world); delete o.world_root; if (o.query) o.query.world_root = null; return o; }
 function worldIntegrity(world) {
-  if (!exactKeys(world, WORLD_FIELDS) || world.schema !== WORLD_SCHEMA || typeof world.world_root !== 'string' || !/^semantic-candidate:sha256:[0-9a-f]{64}$/.test(world.candidate_id) || world.parent_root !== null || world.branch_id !== 'turn:root' || world.creation_sequence !== 0 || !refsOk(world.language_candidate_refs) || world.language_candidate_refs.length !== 1 || world.language_candidate_refs[0] !== world.candidate_id || !Array.isArray(world.entities) || !Array.isArray(world.facts) || !Array.isArray(world.rules) || !Array.isArray(world.source_refs) || !refsOk(world.evidence_refs) || !refsOk(world.provenance_refs)) return false;
+  if (!exactKeys(world, WORLD_FIELDS) || world.schema !== WORLD_SCHEMA || typeof world.world_root !== 'string' || !/^semantic-candidate:sha256:[0-9a-f]{64}$/.test(world.candidate_id) || !((world.parent_root === null && world.branch_id === 'turn:root' && world.creation_sequence === 0) || (/^turn-world:sha256:[0-9a-f]{64}$/.test(world.parent_root) && /^branch:[0-9a-f]{20}$/.test(world.branch_id) && world.creation_sequence === 1)) || !refsOk(world.language_candidate_refs) || world.language_candidate_refs.length !== 1 || world.language_candidate_refs[0] !== world.candidate_id || !Array.isArray(world.entities) || !Array.isArray(world.facts) || !Array.isArray(world.rules) || !Array.isArray(world.source_refs) || !refsOk(world.evidence_refs) || !refsOk(world.provenance_refs)) return false;
   if (!world.limits || !exactKeys(world.limits, Object.keys(LIMITS)) || Object.keys(LIMITS).some(k => !Number.isInteger(world.limits[k]) || world.limits[k] < 0 || world.limits[k] > LIMITS[k])) return false;
   if (world.language_candidate_refs.length > world.limits.MAX_CANDIDATES || world.facts.length > world.limits.MAX_FACTS || world.rules.length > world.limits.MAX_RULES || world.entities.length > world.limits.MAX_ENTITIES || world.source_refs.length > world.limits.MAX_SENTENCES) return false;
   const sourceMap = new Map(); for (let i = 0; i < world.source_refs.length; i++) { const s = world.source_refs[i]; if (!exactKeys(s, ['id', 'span']) || s.id !== 'source:' + (i + 1) || !spanOk(s.span) || s.span.end > world.limits.MAX_INPUT_CHARS || (i && s.span.start < world.source_refs[i - 1].span.end)) return false; sourceMap.set(s.id, s); }
@@ -739,7 +763,10 @@ function evaluate(raw, opts) {
       { id: 'WM-AUTHORITY-ZERO', doc: DOC, note: 'network=0 tools=0 governed-memory-read=0 knowledge-write=0 world-write=0' }
     ], uncertainty: 'unsupported_structure', reasoningCandidates: [] };
   }
-  const world = buildTurnWorld(interpreted.candidate, limits), derivation = deriveWorld(world), material = buildAnswer(raw, interpreted.candidate, world, derivation);
+  const W = buildWorlds(interpreted.candidate, limits), world = W.world, derivation = deriveWorld(world), material = buildAnswer(raw, interpreted.candidate, world, derivation);
+  if (W.base) { const baseRoot = digest('turn-world', worldBody(W.base)), bd = deriveWorld(W.base), bs = buildAnswer(raw, interpreted.candidate, W.base, bd).status;
+    if (!branchIntegrity(W.base, world) || baseRoot !== W.base.world_root) throw new Error('WORLD_BRANCH_INVALID');
+    material.branch = { schema: 'WhatIfBranch/v1', branch_id: world.branch_id, parent_root: W.base.world_root, overlay_fact_ids: world.facts.slice(W.base.facts.length).map(f => f.id), overlay_rule_ids: world.rules.slice(W.base.rules.length).map(r => r.id), committed_status: bs, committed_unchanged: true, scope: 'proofs are valid only in this branch' }; }
   return {
     handled: true,
     outcome: material.status === 'proof_rejected' ? 'REFUSAL_RELEVANT' : 'SELECTED_MEANING',
@@ -749,6 +776,7 @@ function evaluate(raw, opts) {
     rules: [
       { id: 'WM-SEMANTIC-CANDIDATE', doc: DOC, note: interpreted.candidate.candidate_id },
       { id: 'WM-IMMUTABLE-TURN-WORLD', doc: DOC, note: world.world_root },
+      ...(material.branch ? [{ id: 'WM-WHAT-IF-BRANCH', doc: DOC + ' §6.3', note: world.branch_id + ' over ' + material.branch.parent_root + '; committed: ' + material.branch.committed_status }] : []),
       { id: 'WM-PARACONSISTENT-CLOSURE', doc: DOC, note: material.status + '; work=' + derivation.work + '; closure=' + derivation.closure_size },
       { id: 'WM-INDEPENDENT-PROOF-REPLAY', doc: DOC, note: material.checker.support.code + '/' + material.checker.refutation.code },
       { id: 'WM-RMC-SELECT-CHECKED', doc: DOC, note: material.rmc.selected },
@@ -759,6 +787,6 @@ function evaluate(raw, opts) {
   };
 }
 
-const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, deriveWorld, checkProof, evaluate, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
+const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
 if (isNode) module.exports = api; else root.KReason = api;
 })(typeof self !== 'undefined' ? self : this);
