@@ -67,7 +67,10 @@ def slim(m, s):
     return s[:a] + json.dumps(d, separators=(',', ':')) + s[b:]
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
-    h = h.replace('<script src="' + m + '"></script>', '<script>' + re.sub(r'(?m)^[ \t]*/\*[\s\S]*?\*/[ \t]*\n', '', slim(m, SRC(m))).replace('</script', '<\\/script') + '</script>')
+    # ... and so are one-line ' /* note */' comments (space-delimited, quote-balanced prefix only; a line with an odd quote count keeps its comment)
+    js = re.sub(r'(?m)^[ \t]*/\*[\s\S]*?\*/[ \t]*\n', '', slim(m, SRC(m)))
+    js = re.sub(r'(?m)^(.*?) /\* [^*\n]{3,}? \*/', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`') else k.group(0), js)
+    h = h.replace('<script src="' + m + '"></script>', '<script>' + js.replace('</script', '<\\/script') + '</script>')
 h = h.replace('</head>', '<script>window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';</script></head>', 1)
 ico = base64.b64encode(open(os.path.join(SITE, 'icons/icon-192.png'), 'rb').read()).decode()
 h = h.replace('<link rel="manifest" href="manifest.json">', '').replace('href="icons/icon-192.png"', 'href="data:image/png;base64,' + ico + '"')

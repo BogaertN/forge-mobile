@@ -48,7 +48,7 @@ const exactKeys = (o, allowed) => !!o && typeof o === 'object' && !Array.isArray
 const clean = s => String(s || '').normalize('NFC').replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim();
 
 function sourceSegments(raw) {
-  const out = [], text = String(raw || ''); const re = /[^.!?]+[.!?]?/g; let m;
+  const out = [], text = String(raw || ''); const re = /(?:[^.!?]|\.(?=\d))+[.!?]?/g; let m;
   while ((m = re.exec(text)) && out.length < LIMITS.MAX_SENTENCES + 1) {
     const lead = (m[0].match(/^\s*/) || [''])[0].length;
     const tail = (m[0].match(/\s*$/) || [''])[0].length;
@@ -74,6 +74,7 @@ const isQuotedSymbol = s => /^"[^"]+"$/u.test(clean(s));
 function symbol(raw, role, verbs) {
   const source = clean(raw), quoted = isQuotedSymbol(source);
   let s = quoted ? source.slice(1, -1).trim() : source.replace(/^(?:a|an|the)\s+/i, '').replace(/(?:'s)$/, '').trim();
+  if (role === 'entity' && !quoted && /^\p{L}\p{Ll}+$/u.test(s) && G && G.NAMEISH && G.NAMEISH.has(s.toLowerCase())) return s.toLowerCase(); /* P2 saṃjñā by position */
   if (!s || s.length > LIMITS.MAX_SYMBOL_CHARS || (!quoted && (/\s/.test(s) || (closedWord(s.toLowerCase()) && !(role === 'verb' && /^(?:have|has)$/i.test(s)) && !(role === 'verb' && verbs && verbs.has(s.toLowerCase()) && !(G && G.CL && G.CL[s.toLowerCase()]))))) || !/^[\p{L}][\p{L}\p{N}_' -]*$/u.test(s)) return null;
   s = s.toLowerCase().replace(/['’]/g, '').replace(/[ -]+/g, '_');
   if (!/^[\p{L}][\p{L}\p{N}_-]*$/u.test(s)) return null;
@@ -144,6 +145,7 @@ const displaySymbol = s => String(s).replace(/^\$/, '').replace(/_/g, ' ');
 const third = p => { const f = p === 'have' ? 'has' : /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : /(?:s|x|z|ch|sh|o)$/.test(p) ? p + 'es' : p + 's'; return /_/.test(p) || verbLemma(f) !== p ? p : f; };
 function atomText(a) {
   if (!a) return 'unresolved proposition';
+  { const m = a.predicate.match(/^mod(can|may|must|might|could|should|will|would)_(.+)$/); if (m) { const b = atomText(atom(m[2], a.args, 'pos')), s = displaySymbol(a.args[0]); return s + ' ' + m[1] + (a.polarity === 'neg' ? ' not ' : ' ') + (/_v$/.test(m[2]) ? displaySymbol(m[2].slice(0, -2)) : /__/.test(m[2]) || a.args.length === 1 ? b.slice(s.length + 1).replace(/^is /, 'be ') : displaySymbol(m[2]) + ' ' + displaySymbol(a.args[1])); } }
   if (/__/.test(a.predicate)) { const ps = !a.predicate.indexOf(PAST), [v, ...r] = a.predicate.slice(ps ? PAST.length : 0).split('__'), p = r.pop(), ng = a.polarity === 'neg';
     return displaySymbol(a.args[0]) + ' ' + (ng ? (ps ? 'did not ' : 'does not ') + displaySymbol(v) : displaySymbol(ps ? pastForm(v) : third(v))) + (r.length ? ' ' + displaySymbol(r[0]) : '') + ' ' + p + ' ' + displaySymbol(a.args[1]); }
   if (a.predicate.indexOf(PAST) === 0) { const b = a.predicate.slice(PAST.length), x = atomText(atom(b, a.args, a.polarity));
@@ -175,7 +177,7 @@ const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])],
    ("X was in Y" does not answer "is X in Y?"); time intervals stay deferred (§13) */
 const IRR_PAST = Object.freeze(Object.fromEntries('went:go ate:eat saw:see ran:run made:make took:take gave:give knew:know found:find got:get came:come said:say told:tell bought:buy thought:think brought:bring caught:catch taught:teach wrote:write drove:drive flew:fly swam:swim sang:sing drank:drink began:begin broke:break chose:choose fell:fall felt:feel held:hold kept:keep left:leave lost:lose met:meet paid:pay sat:sit slept:sleep spoke:speak stood:stand won:win built:build sent:send spent:spend grew:grow threw:throw hid:hide bit:bite led:lead fed:feed had:have sold:sell heard:hear drew:draw wore:wear rode:ride stole:steal forgot:forget understood:understand became:become'.split(' ').map(x => x.split(':'))));
 const IRR_FWD = Object.fromEntries(Object.entries(IRR_PAST).map(([a, b]) => [b, a])), irr = w => !isQuotedSymbol(w) && IRR_PAST[String(w).toLowerCase()];
-const PAST = 'past_', edLemma = w => /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /([b-df-hj-np-tv-z])\1ed$/.test(w) ? w.slice(0, -3) : w.slice(0, -2);
+const PAST = 'past_', edLemma = w => /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /[bcdfgkptz]led$/.test(w) && w.length > 5 ? w.slice(0, -1) : /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /([b-df-hj-np-tv-z])\1ed$/.test(w) ? w.slice(0, -3) : w.slice(0, -2);
 const isEd = w => /^[a-z]{3,}ed$/i.test(w) && !/eed$/i.test(w), pastForm = b => IRR_FWD[b] || (/e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0, -1) + 'ied' : b + 'ed');
 const pastOf = a => a && atom(PAST + a.predicate, a.args, a.polarity);
 function parseCopula(text, allowVariable) { const t = clean(text), w = t.match(/^(.+?)\s+(?:was|were)\s+(.+)$/i); if (w && !/\s(?:is|are)\s/i.test(w[1])) return pastOf(parseCopula0(w[1] + ' is ' + w[2], allowVariable)); return parseCopula0(t, allowVariable); }
@@ -195,7 +197,9 @@ const TIME_P = 'on|in|at|during|before|after|since|until', ADJ_P = TIME_P + '|to
 function adjunct(text, v, verbs) { const m = clean(text).match(rx('^(.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$')); if (!m) return null; const a = rel0(m[1], v, verbs), T = term(m[3], v); if (!a || !T) return null;
   const ps = !a.predicate.indexOf(PAST), b = ps ? a.predicate.slice(PAST.length) : a.predicate; if (a.args.length === 2 && isPrep(b)) return null; return atom((ps ? PAST : '') + (/_v$/.test(b) ? b.slice(0, -2) : b + '__' + a.args[1]) + '__' + m[2].toLowerCase(), [a.args[0], T], a.polarity); }
 function parseRelation(text, allowVariable, verbs) { return rel0(text, allowVariable, verbs) || adjunct(text, allowVariable, verbs); }
+const MODS = 'can|may|must|might|could|should|will|would', modP = (m, a) => a && !a.predicate.indexOf(PAST) ? null : a && atom('mod' + m.toLowerCase() + '_' + a.predicate, a.args, a.polarity);
 function rel0(text, allowVariable, verbs) {
+  { const d = clean(text).match(rx('^(.+?)\\s+(' + MODS + ')\\s+(not\\s+)?(\\S.*)$')); if (d && term(d[1], allowVariable)) { const a = rel0(d[1] + ' does not ' + d[4], allowVariable, dsv(verbs, d[4].split(' ')[0])); return modP(d[2], a && atom(a.predicate, a.args, d[3] ? 'neg' : 'pos')); } }
   { const d = clean(text); if (/\sdid\s+not\s/i.test(d) && !REL_NEG.test(d)) return pastOf(rel0(d.replace(/\sdid\s+not\s/i, ' does not '), allowVariable, verbs)); }
   let m = clean(text).match(REL_NEG);
   let polarity = 'neg';
@@ -253,6 +257,7 @@ function resolvePlurals(pluralAlts, atoms) {
 function generic(text) { const t = clean(text), m = t.match(rx('^(' + SP + ')\\s+are\\s')); if (/^(?:an?|any)\s+[\p{L}]/iu.test(t)) return t.replace(/^(?:an?|any)\s+/i, 'every ');
   return m && !/^"/.test(m[1]) && !VAR_WORDS.has(m[1].toLowerCase()) && !closedWord(m[1].toLowerCase()) ? 'all ' + t : t; }
 function parseUniversal(text) {
+  { const d = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + ')\\s+(' + MODS + ')\\s+(not\\s+)?(\\S.*)$')); if (d) { const r = parseUniversal(d[1] + ' does not ' + d[4]); if (!r || !r.head || r.head.args.length > 2) return null; r.head = modP(d[2], atom(r.head.predicate, r.head.args, d[3] ? 'neg' : 'pos')); return r.head ? r : null; } }
   text = generic(text); { const m = clean(text).match(rx('^(every|each|all)\\s+(' + SP + ')\\s+(' + SP + ')\\s+((?:is|are)\\s.+)$')); if (m && !/^(?:that|who|which|is|are|does|do)$/i.test(m[3])) text = m[1] + ' ' + m[3] + ' that is ' + m[2] + ' ' + m[4]; } const pl = /\s(?:are)\s/i.test(clean(text)) || /^all\s/i.test(clean(text)) || /^no\s+\S+\s+(?!(?:is|are|does|do|did|was|were)\b)\S*[^s\s](?:\s|$)/i.test(clean(text)), alts = [];
   const sg = w => { if (!pl) return w; const f = pluralForms(w); if (f.length > 1) alts.push(f.map(x => symbol(x, 'predicate'))); return f[0]; };
   const r = parseUniversalForm(text, sg); if (r && alts.length) r.plural_alternatives = alts; return r;
@@ -302,6 +307,7 @@ function parseQuery(text, verbs) { const t0 = clean(text).replace(/[?]+$/, ''), 
   if (pm) { const q = parseQuery0((/^did$/i.test(pm[1]) ? 'does ' : 'is ') + pm[2], verbs); return q && q.predicate.indexOf(PAST) ? withAlts2(pastOf(q), q) : null; } return parseQuery0(text, verbs); }
 const withAlts2 = (a, q) => { if (q.alts) Object.defineProperty(a, 'alts', { value: q.alts }); return a; };
 function parseQuery0(text, verbs) {
+  { const d = clean(text).replace(/[?]+$/, '').match(rx('^(' + MODS + ')\\s+' + NP + '\\s+(not\\s+)?(\\S.*)$')); if (d && !/^(?:is|are|a|an|the)$/i.test(d[2])) { const a = parseQuery0('does ' + d[2] + ' ' + (d[3] || '') + d[4], dsv(verbs, d[4].split(' ')[0])); if (a && a.predicate.indexOf(PAST) && !/^any_/.test(a.args[0])) return modP(d[1], a); } }
   let t = clean(text).replace(/[?]+$/, '').replace(/^query\s*:\s*/i, '').trim().replace(/^(is|does|do)\s+any\s+/i, '$1 a ');
   const gen = /^(?:is|does|do)\s+an?\s+/i.test(t), sub = x => { const v = term(x, false); return v && gen ? 'any_' + v : v; };
   let m = t.match(QUERY_CMP); if (m) { const a = cmpAtom(m, false); return a && gen ? null : a; }
@@ -369,7 +375,7 @@ const verbsOf = texts => new Set(texts.map(t => parseRelation(stripLead(t), true
 function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + ',\\s*)*' + SP + ')\\s+and\\s+(' + SP + ')\\s+(.+)$')); if (!m || /^(?:every|each|all|no|if|a|an|the|some)$/i.test(m[1].split(/[\s,]+/)[0])) return [text];
   const subs = m[1].split(/\s*,\s*/).concat([m[2]]), rest = m[3], c = rest.match(rx('^are\\s+(not\\s+)?(?:(' + SP + ')\\s+)?(' + SP + ')$'));
   if (c) return Object.assign(subs.map(x => x + ' is ' + (c[1] || '') + (isPrep(c[2] || '') ? c[2] + ' ' + c[3] : 'a ' + pluralForms(c[3])[0])), { pl: isPrep(c[2] || '') ? null : c[3] });
-  if (/^(?:is|are)\s/i.test(rest)) return subs.map(x => x + ' ' + rest.replace(/^are\s/i, 'is ')); const w = rest.split(' '), v = /^(?:do|does)$/i.test(w[0]) ? w[0].replace(/^do$/i, 'does') : !/^"/.test(w[0]) && symbol(w[0], 'verb', new Set([w[0].toLowerCase()])) ? third(w[0].toLowerCase()) : w[0];
+  if (/^(?:is|are)\s/i.test(rest)) return subs.map(x => x + ' ' + rest.replace(/^are\s/i, 'is ')); const w = rest.split(' '), v = /^(?:do|does)$/i.test(w[0]) ? w[0].replace(/^do$/i, 'does') : !/^"/.test(w[0]) && !irr(w[0]) && !isEd(w[0]) && !/^(?:can|may|must|might|could|should|will|would)$/i.test(w[0]) && symbol(w[0], 'verb', new Set([w[0].toLowerCase()])) ? third(w[0].toLowerCase()) : w[0];
   return subs.map(x => x + ' ' + [v].concat(w.slice(1)).join(' ')); }
 /* one assertion → its rules/facts (shared by interpret and the integrity re-derivation, so both see the same grammar) */
 /* discourse: a personal pronoun refers to the most recent named subject of an earlier sentence (deterministic recency; one referent) */
@@ -983,10 +989,69 @@ function evaluateConj(raw, qseg, opts) { const m = clean(qseg.text).replace(/[?]
   const status = st.includes('refuted_only') ? 'refuted_only' : st.every(s => s === 'supported_only') ? 'supported_only' : 'undetermined', base = status === 'supported_only' ? rs[1] : pick(status === 'refuted_only' ? status : 'undetermined');
   const parts = rs.map(r => r.material).filter(x => status === 'supported_only' || x.status === status).map(x => ({ status: x.status, text: x.status === 'refuted_only' ? x.opposite_text : x.query_text, query: copy(x.query), proofs: x.proofs, world: x.world }));
   return Object.assign({}, base, { material: Object.assign({}, base.material, { status, conj: { question: qseg.source, status, parts }, envelope: Object.assign({}, base.material.envelope, { result_status: status }) }), uncertainty: status === 'undetermined' ? status : 'none', rules: base.rules.concat([{ id: 'WM-CONJUNCTIVE-QUERY', doc: DOC + ' §5 (conjunction of checked queries)', note: st.join('+') }]) }); }
+/* §13 quantities (derived rules Q1–Q6, /workspace/forge-derived-rules.md; WM spec T8/T9): closed dimension set, exact rational conversion
+   (BigInt), explicit diagnostics. Only stated numbers are used; nothing is estimated, no unit is implied. */
+const QU = (() => { const t = {};
+  'length .001 millimeter,mm|length .01 centimeter,cm|length 1 meter,m|length 1000 kilometer,km|length .0254 inch,in|length .3048 foot,ft,feet|length .9144 yard,yd|length 1609.344 mile,mi|mass .000001 milligram,mg|mass .001 gram,g|mass 1 kilogram,kg,kilo|mass 1000 tonne|mass .028349523125 ounce,oz|mass .45359237 pound,lb,lbs|time 1 second,s,sec|time 60 minute,min|time 3600 hour,h,hr|time 86400 day|time 604800 week|volume .000001 milliliter,ml|volume .001 liter,l|volume 1 cubic meter|volume .003785411784 gallon,gal|area 1 square meter|area .09290304 square foot,square feet|area 10000 hectare,ha|area 4046.8564224 acre|area 1000000 square kilometer'.split('|').forEach(r => { const [dim, f, ...ns] = r.split(' '), [name, ...ab] = ns.join(' ').split(','), u = { dim, f: '0' + f, name };
+    for (const n of [name, name.replace(/er$/, 're')]) for (const x of [n, /(?:ch|sh)$/.test(n) ? n + 'es' : /foot$/.test(n) ? n.replace(/foot$/, 'feet') : n + 's']) t[x] = u; for (const x of ab) t[x] = u; });
+  return t; })();
+const QADJ = { long: 'length|time', tall: 'length', wide: 'length', high: 'length', deep: 'length', far: 'length', away: 'length', heavy: 'mass', old: 'time' };
+const QCMP = { longer: 'length', taller: 'length', wider: 'length', higher: 'length', deeper: 'length', farther: 'length', shorter: 'length-', heavier: 'mass', lighter: 'mass-', older: 'time', younger: 'time-' };
+const fr = s => { const m = String(s).match(/^(\d*)(?:\.(\d+))?$/); if (!m) return null; const d = m[2] || ''; return [BigInt(m[1] + d), 10n ** BigInt(d.length)]; };
+const gcd = (a, b) => { a = a < 0n ? -a : a; while (b) [a, b] = [b, a % b]; return a; };
+const red = ([n, d]) => { const g = gcd(n, d) || 1n; return [n / g, d / g]; }, mul = (a, b) => red([a[0] * b[0], a[1] * b[1]]), dvd = (a, b) => red([a[0] * b[1], a[1] * b[0]]), sum = (a, b) => red([a[0] * b[1] + b[0] * a[1], a[1] * b[1]]);
+const cmpF = (a, b) => { const x = a[0] * b[1], y = b[0] * a[1]; return x < y ? -1 : x > y ? 1 : 0; };
+function fmt(q) { let [n, d] = red(q), k = 0; while (d % 10n === 0n) { d /= 10n; k++; } let e = 0, dd = d; while (dd % 2n === 0n) { dd /= 2n; e++; } while (dd % 5n === 0n) { dd /= 5n; e++; }
+  if (dd === 1n && e + k <= 12) { const p = Math.max(e, 0) + k, s = (n * 10n ** BigInt(p) / (d * 10n ** BigInt(k))).toString().padStart(p + 1, '0'), i = s.slice(0, s.length - p), f = p ? s.slice(-p).replace(/0+$/, '') : ''; return { text: i + (f ? '.' + f : ''), exact: true }; }
+  return { text: String(Number((Number(n) / Number(d)).toPrecision(6))), exact: false }; }
+const unitOf = w => w && QU[clean(w).toLowerCase()] || null;
+const NUM = '(\\d+(?:\\.\\d+)?)', UW = "((?:square|cubic)\\s+[\\p{L}]+|[\\p{L}]+)";
+const qsym = w => symbol(w, 'entity') || (/^[\p{L}][\p{L}\p{N}_-]*$/u.test(clean(w).replace(/^(?:a|an|the)\s+/i, '')) ? clean(w).replace(/^(?:a|an|the)\s+/i, '').toLowerCase() : null);
+function qFact(text) { const t = clean(text).replace(/[.!]+$/, ''); let m;
+  if ((m = t.match(rx('^' + NP + '\\s+(has|have|had)\\s+' + NUM + '\\s+(' + SP + ')$')))) { const e = qsym(m[1]), u = unitOf(m[4]); if (!e) return null; if (u) return { e, prop: u.dim, q: mul(fr(m[3]), fr(u.f)), u: m[4], v: m[3] }; const sg = pluralForms(m[4].toLowerCase())[0]; return { e, prop: 'count:' + (m[3] === '1' ? m[4].toLowerCase() : sg), q: fr(m[3]), v: m[3], u: m[4], past: m[2] === 'had' }; }
+  if ((m = t.match(rx('^' + NP + '\\s+(?:is|are|was|were|weighs|weighed|lasts|lasted|takes|took|measures|measured)\\s+' + NUM + '\\s+' + UW + '(?:\\s+(long|tall|wide|high|deep|heavy|far|away|old))?$')))) { const e = qsym(m[1]), u = unitOf(m[3]); if (!e || !u) return null; if (m[4] && !QADJ[m[4].toLowerCase()].split('|').includes(u.dim)) return { e, err: 'UNIT_DIMENSION_MISMATCH', u: m[3], adj: m[4] }; return { e, prop: u.dim, adj: m[4] && m[4].toLowerCase(), q: mul(fr(m[2]), fr(u.f)), u: m[3], v: m[2] }; }
+  return null; }
+function qQuestion(text) { const t = clean(text).replace(/[?]+$/, ''); let m;
+  if ((m = t.match(rx('^(?:what\\s+is|convert|how\\s+much\\s+is)\\s+' + NUM + '\\s+' + UW + '\\s+(?:in|to|into)\\s+' + UW + '$'))) || (m = t.match(rx('^how\\s+many\\s+' + UW + '\\s+(?:are|is)\\s+(?:there\\s+)?in\\s+' + NUM + '\\s+' + UW + '$'))) && (m = [m[0], m[2], m[3], m[1]])) { const a = unitOf(m[2]), b = unitOf(m[3]); return a && b ? { kind: 'convert', n: m[1], from: m[2], to: m[3], a, b } : null; }
+  if ((m = t.match(rx('^how\\s+many\\s+(' + SP + ')\\s+(?:does|did|do)\\s+(.+?)\\s+have(?:\\s+(?:together|in\\s+total|altogether|combined))?$')))) { const who = m[2].split(/\s*,\s*|\s+and\s+/).map(qsym); if (who.some(x => !x)) return null; const u = unitOf(m[1]); return { kind: 'amount', who, noun: m[1].toLowerCase(), u, prop: u ? u.dim : null }; }
+  if ((m = t.match(rx('^how\\s+(long|tall|wide|high|deep|far|heavy|old)\\s+(?:is|are|was|were)\\s+' + NP + '(?:\\s+(?:in|in\\s+terms\\s+of)\\s+' + UW + ')?$')))) { const e = qsym(m[2]); if (!e) return null; const u = m[3] ? unitOf(m[3]) : null; if (m[3] && !u) return null; return { kind: 'measure', who: [e], prop: QADJ[m[1].toLowerCase()], to: m[3], b: u }; }
+  if ((m = t.match(rx('^how\\s+much\\s+(?:does|did)\\s+' + NP + '\\s+weigh(?:\\s+in\\s+' + UW + ')?$')))) { const e = qsym(m[1]), u = m[2] ? unitOf(m[2]) : null; return e && (!m[2] || u) ? { kind: 'measure', who: [e], prop: 'mass', to: m[2], b: u } : null; }
+  if ((m = t.match(rx('^how\\s+many\\s+' + UW + '\\s+(?:long|tall|wide|high|deep|far|heavy|old|away\\s+)?\\s*(?:is|are|was|were|does|did)\\s+' + NP + '(?:\\s+(?:weigh|last|take|measure|long|tall|wide|high|deep|heavy|old))?$')))) { const u = unitOf(m[1]), e = qsym(m[2]); return u && e ? { kind: 'measure', who: [e], prop: u.dim, to: m[1], b: u } : null; }
+  if ((m = t.match(rx('^(?:is|are|was|were)\\s+' + NP + '\\s+(not\\s+)?(longer|taller|wider|higher|deeper|farther|shorter|heavier|lighter|older|younger)\\s+than\\s+' + NP + '$')))) { const a = qsym(m[1]), b = qsym(m[4]), d = QCMP[m[3].toLowerCase()]; return a && b ? { kind: 'compare', who: [a, b], prop: d.replace('-', ''), inv: /-$/.test(d), neg: !!m[2], adj: m[3].toLowerCase() } : null; }
+  return null; }
+function evaluateQty(raw, segs, q, opts) {
+  const Q = qQuestion(q.text); if (!Q) return null; const facts = [], bad = [];
+  for (const s of segs) { if (s === q) continue; if (s.kind === 'question') return null; const f = qFact(stripLead(s.text)); if (!f) { if (/\d/.test(s.text)) bad.push(s.source); continue; } if (f.err) return qOut(raw, Q, { status: 'diagnostic', code: f.err, detail: f.u + ' is not a ' + f.adj + ' unit', a: f.u, b: f.adj }, opts); facts.push(Object.assign(f, { src: s.source })); }
+  if (Q.kind !== 'convert' && !facts.length && !segs.some(s => s !== q)) return null;
+  const val = (e, prop) => { const fs = facts.filter(f => f.e === e && (f.prop === prop || prop && prop.startsWith('count:') && (f.prop === 'count:' + Q.noun || pluralForms(Q.noun).some(x => f.prop === 'count:' + x)))); const ks = [...new Set(fs.map(f => fmt(f.q).text))]; return !fs.length ? { none: true } : ks.length > 1 ? { conflict: fs } : { f: fs[fs.length - 1] }; };
+  if (Q.prop && /\|/.test(Q.prop)) { const ds = Q.prop.split('|'); Q.prop = Q.b ? Q.b.dim : ds.find(d => facts.some(f => f.e === Q.who[0] && f.prop === d)) || ds[0]; }
+  if (Q.kind === 'convert') { if (Q.a.dim !== Q.b.dim) return qOut(raw, Q, { status: 'diagnostic', code: 'UNIT_DIMENSION_MISMATCH', detail: Q.a.dim + ' ≠ ' + Q.b.dim, a: Q.from, b: Q.to }, opts); const r = dvd(mul(fr(Q.n), fr(Q.a.f)), fr(Q.b.f)), o = fmt(r); return qOut(raw, Q, { status: 'computed', value: o.text, exact: o.exact, unit: Q.to, eq: [Q.n + ' ' + Q.from, o.text + ' ' + Q.to], from: [] }, opts); }
+  if (Q.kind === 'amount' || Q.kind === 'measure') { const prop = Q.kind === 'amount' && !Q.u ? 'count:' + Q.noun : Q.prop; let tot = [0n, 1n]; const used = [];
+    for (const e of Q.who) { const v = val(e, prop); if (v.conflict) return qOut(raw, Q, { status: 'diagnostic', code: 'QUANTITY_CONFLICT', detail: e, srcs: v.conflict.map(f => f.src) }, opts); if (v.none) { return qOut(raw, Q, { status: 'undetermined', missing: e }, opts); } tot = sum(tot, v.f.q); used.push(v.f); }
+    const isCount = prop.startsWith('count:'), b = Q.b || Q.u || (used.length === 1 && !isCount ? unitOf(used[0].u) : null) || (isCount ? null : Object.values(QU).find(x => x.dim === prop && x.f === '1'));
+    if (b && b.dim !== prop) return qOut(raw, Q, { status: 'diagnostic', code: 'UNIT_DIMENSION_MISMATCH', detail: prop + ' ≠ ' + b.dim, a: used[0].u, b: Q.to || Q.noun }, opts);
+    const o = fmt(isCount ? tot : dvd(tot, fr(b.f))), unit = isCount ? (o.text === '1' ? pluralForms(Q.noun)[0] : Q.noun) : Q.to || Q.noun || (used.length === 1 ? used[0].u : b.name + 's');
+    return qOut(raw, Q, { status: 'computed', value: o.text, exact: o.exact, unit, eq: used.length > 1 ? [used.map(f => f.v + ' ' + f.u).join(' + '), o.text + ' ' + unit] : !isCount && used[0].u !== unit ? [used[0].v + ' ' + used[0].u, o.text + ' ' + unit] : null, from: used.map(f => f.src) }, opts); }
+  if (Q.kind === 'compare') { const vs = Q.who.map(e => val(e, Q.prop)); const c = vs.find(v => v.conflict); if (c) return qOut(raw, Q, { status: 'diagnostic', code: 'QUANTITY_CONFLICT', detail: '', srcs: c.conflict.map(f => f.src) }, opts); if (vs.some(v => v.none)) return qOut(raw, Q, { status: 'undetermined', missing: Q.who[vs.findIndex(v => v.none)] }, opts);
+    const k = cmpF(vs[0].f.q, vs[1].f.q) * (Q.inv ? -1 : 1), yes = (k > 0) !== Q.neg; return qOut(raw, Q, { status: 'compared', yes, eq: [vs[0].f.v + ' ' + vs[0].f.u, vs[1].f.v + ' ' + vs[1].f.u], rel: k > 0 ? 'gt' : k < 0 ? 'lt' : 'eq', from: vs.map(v => v.f.src) }, opts); }
+  return null; }
+function qOut(raw, Q, r, opts) { const st = r.status === 'computed' || r.status === 'compared' ? 'supported_only' : r.status === 'diagnostic' ? 'refused' : 'undetermined';
+  const material = { kind: 'world_answer', qty: Object.assign({ question: Q.kind }, r), status: st, query: null, query_text: '', opposite_text: '', envelope: { schema: ENVELOPE_SCHEMA, result_status: st, limits: mergedLimits(opts.limits), completeness: 'complete_finite_closure', effects: { network_calls: 0, tool_executions: 0, governed_memory_reads: 0, knowledge_writes: 0, world_writes: 0, file_writes: 0, host_audit_trace: 'bounded' }, versions: { language: PARSER_VERSION, world: WORLD_SCHEMA, inference: ENGINE_VERSION, checker: CHECKER_VERSION, rmc: RMC_VERSION }, echo: { status: 'pending_kernel_echo' } } };
+  material.envelope.request_id = digest('world-qty-request', { input_sha256: sha256(String(raw).normalize('NFC')), q: Q.kind, r: canon(JSON.parse(JSON.stringify(r))) });
+  return { handled: true, outcome: st === 'refused' ? 'REFUSAL_RELEVANT' : 'SELECTED_MEANING', material, frame: 'FR.WORLD.MODEL', act: 'question', rules: [{ id: 'WM-QTY-CLOSED-UNITS', doc: 'derived Q1–Q6 (WM spec T8/T9; Nic authorized derivation)', note: Q.kind + ': ' + (r.code || r.status) + (r.eq ? '; ' + r.eq.join(' = ') : '') }, { id: 'WM-AUTHORITY-ZERO', doc: DOC, note: 'network=0 tools=0 governed-memory-read=0 knowledge-write=0 world-write=0' }], uncertainty: st === 'undetermined' ? 'undetermined' : 'none', reasoningCandidates: [] }; }
+/* independent re-verification of a quantity reply: every quoted number is recomputed from the reply's own equation / the stated sources */
+function qtyCheck(q, text) { const qs = (String(text).match(/“([^”]+)”/g) || []).map(x => x.slice(1, -1)), nu = s => { const m = String(s).match(rx('^' + NUM + '\\s+' + UW + '$')); return m && { n: fr(m[1]), u: unitOf(m[2]), w: m[2] }; };
+  if (q.code === 'QUANTITY_CONFLICT') return qs.length === 0; if (q.status === 'undetermined' || q.status === 'diagnostic') return qs.length >= 1 && (q.status !== 'diagnostic' || q.code === 'QUANTITY_CONFLICT' || unitOf(q.a) && unitOf(q.b) && unitOf(q.a).dim !== unitOf(q.b).dim || !unitOf(q.b));
+  if (q.status === 'compared') { const [a, b] = q.eq.map(nu); if (!a || !b || !a.u || a.u.dim !== b.u.dim) return false; const k = cmpF(mul(a.n, fr(a.u.f)), mul(b.n, fr(b.u.f))); return (q.rel === 'gt' ? k > 0 : q.rel === 'lt' ? k < 0 : k === 0) && qs.length === 2; }
+  const last = nu(qs[0]); if (!last || qs[0] !== q.value + ' ' + q.unit) return false;
+  if (q.eq) { const lhs = q.eq[0].split(' + ').map(nu); if (lhs.some(x => !x)) return false; const units = lhs.every(x => x.u) && last.u;
+    const tot = lhs.reduce((t, x) => sum(t, units ? mul(x.n, fr(x.u.f)) : x.n), [0n, 1n]), v = units ? dvd(tot, fr(last.u.f)) : tot, o = fmt(v); if (units && lhs.some(x => x.u.dim !== last.u.dim)) return false; return o.text === q.value; }
+  const fs = q.from.map(s => qFact(s)); if (fs.some(f => !f)) return false; const tot = fs.reduce((t, f) => sum(t, f.prop.startsWith('count:') ? f.q : dvd(f.q, fr(last.u ? last.u.f : '1'))), [0n, 1n]); return fmt(tot).text === q.value; }
 /* the pronoun's referent is the most recent named subject (deterministic); when an earlier name could also be meant, the answer says so */
 function evaluate(raw, opts) { const r = evaluate0(raw, opts); if (r && r.material && r.material.kind === 'world_answer') { const o = {}; resolvePron(sourceSegments(String(raw || '').normalize('NFC')).map(x => x.text), o); if (o.amb) r.material = Object.assign({}, r.material, { pron: o.amb }); } return r; }
 function evaluate0(raw, opts) {
   opts = opts || {}; raw = String(raw || '').normalize('NFC'); const segs = sourceSegments(raw), q = segs.filter(x => x.kind === 'question').slice(-1)[0];
+  if (q && segs.indexOf(q) === segs.length - 1 && raw.length <= LIMITS.MAX_INPUT_CHARS) { const r = evaluateQty(raw, segs, q, opts); if (r) return r; }
   if (q && WH_START.test(clean(q.text)) && !/\b(?:i|me|my|mine|we|us|our|ours|you|your|yours)\b/i.test(q.text) && segs.indexOf(q) === segs.length - 1 && (segs.length > 1 || opts.bareWh) && raw.length <= LIMITS.MAX_INPUT_CHARS) { const r = evaluateWh(raw, segs, q, opts); if (r) return r; }
   if (q && /^why\s/i.test(clean(q.text)) && segs.indexOf(q) === segs.length - 1 && raw.length <= LIMITS.MAX_INPUT_CHARS) { const w = evaluateWhy(raw, segs, q, opts); if (w) return w; }
   if (q && segs.indexOf(q) === segs.length - 1 && raw.length <= LIMITS.MAX_INPUT_CHARS) { const c = evaluateConj(raw, q, opts); if (c) return c; }
@@ -996,6 +1061,6 @@ function evaluate0(raw, opts) {
   return { handled: true, outcome: 'UNSUPPORTED_PRESERVED', material: limitationMaterial(raw, f, mergedLimits(opts.limits)), frame: 'FR.WORLD.MODEL', act: 'question', rules: [{ id: 'WM-LANGUAGE-STRUCTURE-LIMIT', doc: DOC + ' I2', note: f.code + '; unknown_word=false' }], uncertainty: 'unsupported_structure', reasoningCandidates: [] };
 }
 
-const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
+const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, qtyCheck, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
 if (isNode) module.exports = api; else root.KReason = api;
 })(typeof self !== 'undefined' ? self : this);

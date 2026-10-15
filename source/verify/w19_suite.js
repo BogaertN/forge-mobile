@@ -307,7 +307,7 @@ T('NFC-equivalent input has one canonical world, envelope and kernel trace', () 
 });
 
 T('structural limitations carry the complete common envelope with typed no-op fields', () => {
-  const m = evaluate('Azurin is qevrim. Could Azurin become zoltek?').material, e = m.envelope;
+  const m = evaluate('Azurin is qevrim unless the veil turns. Could Azurin become zoltek?').material, e = m.envelope;
   const fields = ['language_candidate_id', 'world_root', 'rmc_manifest_id', 'proof_ids', 'checker_verdicts', 'completeness', 'limits'];
   expect(fields.every(k => Object.prototype.hasOwnProperty.call(e, k)), JSON.stringify(e));
   expect(e.language_candidate_id === null && e.world_root === null && e.rmc_manifest_id === null && e.answer_proposition === null, JSON.stringify(e));

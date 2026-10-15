@@ -154,4 +154,25 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
       r = ask(f, `${a} is ${j}. Is ${a} a ${j} ${k}?`); expect(r === `The checked world does not support “${A} is ${k}”. I need an additional premise.`, r);
       r = ask(f, `${a} is a ${k}. ${b} is a ${k2}. He is ${j}. Is ${b} ${j}?`); expect(/^Yes\./.test(r) && r.endsWith(`The pronoun means “${B}”. It can mean “${A}”.`), r);
       const g = FKN(), r1 = g.process(`remember that ${a} is a ${k}`).reply; expect(/Please answer “noun”/.test(r1) ? /^I noted that/.test(g.process('noun').reply) : /^I noted that/.test(r1), 'teach ' + r1); const r2 = g.process(`is ${a} a ${k}?`).reply; expect(/^Yes\./.test(r2), 'teach q ' + [a, k, r1, r2].join(' | ')); } }));
+  C('GELC-LANG3', 'modal clauses (can/may/must as a marker, distinct from the plain fact; modal universals), "-le" verbs in -led (zibbled→zibble), past forms kept under coordination, name-like words as names (May) — over random symbols', S(() => {
+    const MO = ['can', 'may', 'must', 'might', 'should'];
+    for (let i = 0; i < 3; i++) { const [a, b] = [nonce(), nonce()].map(cap), [A, B] = [a, b].map(x => x.toLowerCase()), k = nonce(), v = nonce() + 'k', o = MO[Math.floor(rnd() * MO.length)], O = cap(o), z = nonce() + 'bble', f = FKN();
+      expect(st(`${a} ${o} ${v}. ${O} ${a} ${v}?`) === 'supported_only' && st(`${a} ${o} ${v}. Does ${a} ${v}?`) === 'undetermined' && st(`${a} ${pl(v)}. ${O} ${a} ${v}?`) === 'undetermined', 'modal ' + o);
+      expect(st(`${a} ${o} not ${v} ${b}. ${O} ${a} ${v} ${b}?`) === 'refuted_only' && st(`Every ${k} ${o} ${v}. ${a} is a ${k}. ${O} ${a} ${v}?`) === 'supported_only', 'modal neg/universal');
+      expect(st(`${a} ${z}d ${b}. Did ${a} ${z} ${b}?`) === 'supported_only' && st(`${a} ${z}d. Did ${a} ${z}?`) === 'supported_only' && st(`${a} and ${b} ${z}d. Did ${b} ${z}?`) === 'supported_only', 'zibbled ' + z);
+      const r = ask(f, `${a} and ${b} ${v}ed. Did ${b} ${v}?`); expect(/^Yes\./.test(r), r); }
+    expect(st('May is a doctor. Is May a doctor?') === 'supported_only' && st('Tom may swim. May Tom swim?') === 'supported_only' && st('May likes Sam. Does May like Sam?') === 'supported_only', 'May'); }));
+  C('GELC-QTY', '§13 quantities (derived closed rule set Q1–Q6): exact conversion, stated counts and sums, measured comparison, T9 unit-mismatch diagnostic, T8 conflict, undetermined without a premise, independent re-verification — random symbols and random numbers', S(() => {
+    const U = [['meters', 'centimeters', 100], ['kilometers', 'meters', 1000], ['hours', 'minutes', 60], ['kilograms', 'grams', 1000], ['liters', 'milliliters', 1000]];
+    for (let i = 0; i < 4; i++) { const [a, b] = [nonce(), nonce()].map(cap), k = nonce(), n = 1 + Math.floor(rnd() * 90), m = 1 + Math.floor(rnd() * 90), [u1, u2, fct] = U[Math.floor(rnd() * U.length)], f = FKN();
+      let r; { const t = `${a} has ${n} ${pl(k)}. How many ${pl(k)} does ${a} have?`; r = ask(f, t); expect(r === `I computed “${n} ${pl(k)}” from “${a} has ${n} ${pl(k)}”.`, t + ' → ' + r); }
+      { const t = `${a} has ${n} ${pl(k)}. ${b} has ${m} ${pl(k)}. How many ${pl(k)} do ${a} and ${b} have?`; r = ask(f, t); expect(r.startsWith(`${n} ${pl(k)} + ${m} ${pl(k)} = ${n + m} ${pl(k)}.`), t + ' → ' + r); }
+      { const t = `What is ${n} ${u1} in ${u2}?`; r = ask(f, t); expect(r.startsWith(`${n} ${u1} = ${n * fct} ${u2}.`), t + ' → ' + r); }
+      { const t = `The ${k} is ${n} ${u1}. How many ${u2} is the ${k}?`; r = ask(f, t); expect(r.startsWith(`${n} ${u1} = ${n * fct} ${u2}.`), t + ' → ' + r); }
+      { const t = `What is ${n} ${u1} in ${u1 === 'hours' ? 'grams' : 'hours'}?`; r = ask(f, t); expect(/dimensions differ/.test(r), t + ' → ' + r); }
+      { const t = `${a} is ${n} meters tall. ${a} is ${n + 1} meters tall. How tall is ${a}?`; r = ask(f, t); expect(/2 different values/.test(r), t + ' → ' + r); }
+      { const t = `${a} is ${n} meters tall. How tall is ${b}?`; r = ask(f, t); expect(r.includes(`no quantity for “${b.toLowerCase()}”`), t + ' → ' + r); }
+      expect(/^Yes\./.test(ask(f, `${a} is ${n * 100 + 1} cm tall. ${b} is ${n} meters tall. Is ${a} taller than ${b}?`)) && /^No\./.test(ask(f, `${a} is ${n} kg. ${b} is ${n + 1} kg. Is ${a} heavier than ${b}?`)), 'compare'); }
+    const R = RS.evaluate('What is 10 cm in inches?'); expect(R.material.qty.value === '3.93701' && R.material.qty.exact === false && RS.qtyCheck(R.material.qty, '10 cm ≈ 3.93701 inches. I computed “3.93701 inches” with the exact table.') && !RS.qtyCheck(Object.assign({}, R.material.qty, { value: '3.9' }), 'I computed “3.9 inches” with the exact table.'), 'approx/reverify');
+    expect(RS.evaluate('What is 1 mile in feet?').material.qty.value === '5280' && RS.evaluate('What is 1 pound in ounces?').material.qty.value === '16' && RS.evaluate('What is 1 acre in square feet?').material.qty.value === '43560', 'exact factors'); }));
 };

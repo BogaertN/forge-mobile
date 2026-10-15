@@ -623,6 +623,7 @@ function Kernel(opts) {
      opposite) of that status, and the proof it cites is replayed again against its own (branch-scoped) world */
   function worldReverify(m, text) { if (m.pron) { const pm = String(text).match(/^([\s\S]*?) The pronoun means “([^”]+)”\. It can mean “([^”]+)”\.([\s\S]*)$/), sy = s => String(s).replace(/_/g, ' ');
       if (!pm || pm[2] !== sy(m.pron.chosen) || pm[3] !== sy(m.pron.also)) return false; m = Object.assign({}, m); delete m.pron; text = pm[1] + pm[4]; }
+    if (m.qty) { try { return R.qtyCheck(m.qty, text); } catch (e) { return false; } }
     if (m.wh) return whReverify(m, text); if (m.why) return whyReverify(m, text); if (m.conj) return conjReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x));
       const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); const at = R.parseAtomic(u, false, new Set([m.query.predicate])); if (at) R.alignVerbs(Object.assign({}, m.query), [at]); return at; };
       const said = (String(text).match(/“([^”]+)”/g) || []).map(q => parse(q.slice(1, -1))); if (!said.length || said.some(a => !a)) return false;

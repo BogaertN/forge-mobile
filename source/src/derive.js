@@ -4,13 +4,13 @@ const G = isNode ? require('./grammar.js') : root.KGrammar;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
-const VERBS = new Set(words('change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
+const VERBS = new Set(words('compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend decide determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause'));
 const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } };
-const NOUNS = new Set(words('pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
+const NOUNS = new Set(words('dimension table pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
@@ -366,6 +366,12 @@ function worldPlan(m) {
 }
 function worldStatusPlan(m) {
   const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
+  if (m.qty) { const q = m.qty, sx = t => String(t).replace(/[.!?]+$/, ''), L = xs => xs.length > 1 ? { coord: 'and', items: xs.map(x => Mn(sx(x))) } : Mn(sx(xs[0]));
+    if (q.status === 'computed') return (q.eq ? [MS([X(q.eq[0]), { rel: q.exact ? 'eq' : 'approx' }, X(q.eq[1])])] : []).concat([S(C('compute', { karta: I, karma: Mn(q.value + ' ' + q.unit), roles: q.from.length ? { apadana: L(q.from) } : { karana: N('table', { det: 'the', adj: ['exact'] }) }, tense: 'past' }))]);
+    if (q.status === 'compared') return [S(null, { part: q.yes ? 'yes' : 'no' }), S(C('compare', { karta: I, karma: { coord: 'and', items: q.eq.map(Mn) }, tense: 'past' }))];
+    if (q.status === 'undetermined') return [S(C('state', { karta: checkedWorld, karma: N('quantity', { det: 'no' }), roles: { tadartha: Mn(String(q.missing).replace(/_/g, ' ')) } })), S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))];
+    if (q.code === 'QUANTITY_CONFLICT') return [S(C('state', { karta: N('premise', { poss: 'your', pl: true }), karma: N('value', { cnt: 2, adj: ['different'] }) })), S(C('answer', { karta: I, karma: pr('it'), mod: 'can', pol: 'neg' }))];
+    return [S(C('convert', { karta: I, karma: Mn(q.a), roles: { gati: Mn(q.b) }, mod: 'can', pol: 'neg' })), S(C('differ', { karta: N('dimension', { det: 'the', pl: true }) }))]; }
   const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
   if (m.conj) { const p = m.conj.parts, L = p.length > 1 ? { coord: 'and', items: p.map(x => Mn(x.text)) } : Mn(p[0].text);
     return m.conj.status === 'undetermined' ? [S(C('support', { karta: checkedWorld, karma: L, pol: 'neg' })), S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))] : [S(null, { part: m.conj.status === 'supported_only' ? 'yes' : 'no' }), S(C('support', { karta: N('proof', { det: 'the', adj: ['checked'], pl: p.length > 1 }), karma: L }))]; }
