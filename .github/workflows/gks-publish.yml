@@ -1,14 +1,8 @@
 name: Publish GKS
-# Signs a General Knowledge Snapshot with the publisher key (Actions secret).
-# Does not use a Supabase service role: the bootstrap body is repo-local (data/gks-body.json or empty overlay).
+# Signs a General Knowledge Snapshot. Requires Actions secret GKS_PUBLISHER_PRIVATE_JWK.
+# Manual by default; optional path filter never fails the default branch when the secret is absent.
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'source/data/gks-body.json'
-      - 'source/tools/gks_publish.js'
-      - 'source/src/gks.js'
-    branches: [main]
 permissions:
   contents: write
 jobs:
@@ -24,14 +18,18 @@ jobs:
           GKS_PUBLISHER_PRIVATE_JWK: ${{ secrets.GKS_PUBLISHER_PRIVATE_JWK }}
           FORGE_GKS_OUT: gks-out
         run: |
-          if [ -z "$GKS_PUBLISHER_PRIVATE_JWK" ]; then echo "Secret GKS_PUBLISHER_PRIVATE_JWK is not set — Nic must add it (see forge-full-core-gaps.md)."; exit 1; fi
+          if [ -z "$GKS_PUBLISHER_PRIVATE_JWK" ]; then
+            echo "Secret GKS_PUBLISHER_PRIVATE_JWK is not set."
+            echo "Nic: Settings → Secrets → Actions → New secret named GKS_PUBLISHER_PRIVATE_JWK (private JWK JSON for kid gks-d472ecd45b72859b)."
+            exit 1
+          fi
           node source/tools/gks_publish.js
       - name: Upload snapshot artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: gks-snapshot
           path: gks-out/
-      - name: Commit latest pointer into docs/gks (public, signed body only)
+      - name: Commit latest pointer into docs/gks
         run: |
           mkdir -p docs/gks
           cp gks-out/latest.json docs/gks/latest.json

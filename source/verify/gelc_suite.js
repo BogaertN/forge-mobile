@@ -153,5 +153,5 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
       expect(/^Yes\. /.test(ask(f, `${a} is ${j}. ${a} is a ${k}. Is ${a} a ${j} ${k}?`)) && ask(f, `${a} is not ${j}. Is ${a} a ${j} ${k}?`) === `No. The checked proof supports “${A} is not ${j}”.`, 'conj');
       r = ask(f, `${a} is ${j}. Is ${a} a ${j} ${k}?`); expect(r === `The checked world does not support “${A} is ${k}”. I need an additional premise.`, r);
       r = ask(f, `${a} is a ${k}. ${b} is a ${k2}. He is ${j}. Is ${b} ${j}?`); expect(/^Yes\./.test(r) && r.endsWith(`The pronoun means “${B}”. It can mean “${A}”.`), r);
-      const g = FKN(); expect(/Please answer “noun”/.test(g.process(`remember that ${a} is a ${k}`).reply) && /^I noted that/.test(g.process('noun').reply) && /^Yes\./.test(g.process(`is ${a} a ${k}?`).reply), 'teach'); } }));
+      const g = FKN(), r1 = g.process(`remember that ${a} is a ${k}`).reply; expect(/Please answer “noun”/.test(r1) ? /^I noted that/.test(g.process('noun').reply) : /^I noted that/.test(r1), 'teach ' + r1); const r2 = g.process(`is ${a} a ${k}?`).reply; expect(/^Yes\./.test(r2), 'teach q ' + [a, k, r1, r2].join(' | ')); } }));
 };
