@@ -70,6 +70,8 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # ... and so are one-line ' /* note */' comments (space-delimited, quote-balanced prefix only; a line with an odd quote count keeps its comment)
     js = re.sub(r'(?m)^[ \t]*/\*[\s\S]*?\*/[ \t]*\n', '', slim(m, SRC(m)))
     js = re.sub(r'(?m)^(.*?) /\* [^*\n]{3,}? \*/', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`') else k.group(0), js)
+    # leading indentation is dropped too, but only in a script where every template literal opens and closes on one line (no string spans a line)
+    if all(l.count('`') % 2 == 0 for l in js.split('\n')) and not re.search(r'\\\n', js): js = re.sub(r'(?m)^[ \t]+', '', js)
     h = h.replace('<script src="' + m + '"></script>', '<script>' + js.replace('</script', '<\\/script') + '</script>')
 h = h.replace('</head>', '<script>window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';</script></head>', 1)
 ico = base64.b64encode(open(os.path.join(SITE, 'icons/icon-192.png'), 'rb').read()).decode()
