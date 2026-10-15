@@ -150,8 +150,8 @@ function Kernel(opts) {
     walk(c); return c; }
   const animNP = n => !!n && (n.pron === 'user' || n.pron === 'kernel' || (n.pron3 && n.pron3 !== 'it') || (n.propn && featsOf(n).anim) || (n.head && featsOf(n).anim) || (n.conj && n.conj.every(animNP)));
   const okKaraka = c => !c || (c.coord ? c.coord.every(okKaraka) : !(c.roles && c.roles.sampradana && c.roles.karma && !animNP(c.roles.sampradana)) && okKaraka(c.cond)); // K-SAMPRADANA-ANIMACY (Doc5: recipient is a sentient participant)
-  function derive(toks) { const P = G.Parser(content(toks), glex); const all = P.sentence().map(r => ({ node: { type: r.node.type, clause: canonNPs(canonPred(clone(r.node.clause))) }, rules: r.rules.filter(Boolean) })).filter(r => okKaraka(r.node.clause));
-    const uniq = []; const seen = new Set(); for (const r of all) { const k = canon(G.material(r.node)); if (!seen.has(k)) { seen.add(k); uniq.push(r); } } return { parses: uniq, T: P.T }; }
+  function derive(toks) { const P = G.Parser(content(toks), glex); const all = P.sentence().map(r => ({ node: { type: r.node.type, clause: canonNPs(canonPred(clone(r.node.clause))) }, rules: r.rules.filter(Boolean) })), A = M.rsocAdmit(all, r => okKaraka(r.node.clause), r => canon(G.material(r.node))); for (const k in A.ops) rsIn[k] = (rsIn[k] || 0) + A.ops[k]; return { parses: A.kept, T: P.T }; }
+  let rsIn = {};
   const swap = Object.assign(Object.create(null), { my: 'your', your: 'my', i: 'you', me: 'you', you: 'i', mine: 'yours', yours: 'mine', myself: 'yourself', yourself: 'myself', am: 'are' });
   const swapToks = text => G.tokenize(text).map(t => Object.assign(swap[t.w] ? { w: swap[t.w], orig: swap[t.w], i0: t.i0 } : t, { rendered: true }));
   function reparseClause(text) { const d = derive(swapToks(text)); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); return ks.size === 1 ? d.parses[0].node.clause : null; }
@@ -710,7 +710,7 @@ function Kernel(opts) {
         return Object.assign({}, last, { reply, blocked: outs.some(o => o.blocked), trace, parts: outs }); } }
     return process1(input); }
   function process1(input) {
-    meta.turn += 1; const turn = meta.turn; const at = now(); const normalizedInput = String(input || '').normalize('NFC'), inputLength = normalizedInput.length;
+    meta.turn += 1; rsIn = {}; const turn = meta.turn; const at = now(); const normalizedInput = String(input || '').normalize('NFC'), inputLength = normalizedInput.length;
     const red = P.redact(normalizedInput), fullInput = red.text; curSecrets = red.secrets; input = fullInput; const vaultState = red.secrets.length ? (opts.vaultState ? opts.vaultState() : 'none') : null;
     const psi_id = sha256(canon({ turn, loop: meta.loop, input: fullInput }));
     const trace = { turn, at, input, input_length: inputLength, input_truncated: fullInput.length > input.length, input_sha256: sha256(fullInput), psi_id, psi_id_note: 'SHA-256 substitutes for BLAKE3 (RSOC §2.1)', loop_lambda: meta.loop, phases: [], rules: [], gates: null, candidates: [], outcome: null, msm: null, drift: null, chi: null, echo: null, memory: [], output: null, blocked: false };
@@ -752,8 +752,8 @@ function Kernel(opts) {
       cc = M.chiConditions({ eps_s: drift.eps_s, echoTrace, chiFlag: meta.chi, dPhiAvg: dAvg }); Theta = M.graceIntegral(sfe.tau, sfe.tau.map(n => (n < 5 ? 0 : sfe.eps)), sfe.mu);
       trace.chi = Object.assign(cc, { Theta, Theta_formula: 'Θ = Σ (1 − ε/ε_max)·cos²(Φ(s) − Φ₁)·μ(s) = ' + Theta + ' (RSOC §3.2.1)', dPhi_avg: r4(dAvg) }); }
     const RS = M.rsocSelect({ D: !hi, X: !!(cc && cc.fire), W: worldTurn }, [{ id: 'name', expect: { D: 1 } }, { id: 'grace', expect: { D: 0, X: 1 } }, { id: 'keep_world', expect: { D: 0, X: 0, W: 1 } }, { id: 'archive', expect: { D: 0, X: 0, W: 0 } }], 0), route = RS.selected;
-    trace.rsoc = { calculus: RS.calculus, route, candidates: RS.candidates, ops: RS.ops.filter(o => o.ok || o.op === '⧙').map(o => o.op + (o.dim ? '(' + o.c + ',' + o.dim + ')' : '(' + o.c + ')') + (o.ok ? '' : '✗')), world: sel.material && sel.material.rsoc ? { selected: sel.material.rsoc.selected, candidates: sel.material.rsoc.candidates } : null, cite: RS.cite };
-    trace.rules.push({ id: 'RSOC-ROUTE-' + route.toUpperCase(), doc: 'RSOC ch.3 (⟁ fusion, ⧙ lock)', note: (trace.rsoc.world ? 'world ⧙ ' + trace.rsoc.world.selected + '; ' : '') + 'turn ⧙ ' + route });
+    trace.rsoc = { calculus: RS.calculus, route, candidates: RS.candidates, ops: RS.ops.filter(o => o.ok || o.op === '⧙').map(o => o.op + (o.dim ? '(' + o.c + ',' + o.dim + ')' : '(' + o.c + ')') + (o.ok ? '' : '✗')), inward: rsIn, claim: sel.material && sel.material.rsoc ? sel.material.rsoc.selected : null, outward: null, cite: RS.cite };
+    trace.rules.push({ id: 'RSOC-ROUTE-' + route.toUpperCase(), doc: 'RSOC ch.3 (⟁ fusion, ⧙ lock)', note: 'turn ⧙ ' + route });
     if (hi) {
       if (route === 'grace') { Object.assign(sfe, M.applyChi(sfe, Theta)); meta.chi = 1; restricted = true; trace.chi.result = 'χ(t) fired: Δ←0, ν←1.4, ε←ε(1−Θ/μ), μ←μ+0.9Θ, χ←1; re-routed Φ6→Φ7 with restricted meaning (RMC Addendum §4)'; trace.rules.push({ id: 'CHI-GRACE-REROUTE', doc: 'RSOC §3.2; RMC Addendum §4' }); Ph(6, 'χ(t) fired; restricted meaning'); }
       else if (route === 'keep_world') { trace.chi.result = 'χ(t) not applied: world turn keeps its checked result; nothing sealed or written'; trace.rules.push({ id: 'WORLD-NO-PERSISTENT-SEAL', doc: 'a world turn never mutates persistent state' }); Ph(6, 'χ(t) skipped (world turn; no persistent seal)'); }
@@ -788,7 +788,7 @@ function Kernel(opts) {
     Ph(7, 'manifest named ψ_id ' + psi_id.slice(0, 12) + '…');
     let real; try { real = D.realizeMeaning(msm.meaning, ENV); } catch (e) { trace.derivation_error = String(e && e.message); }
     if (!real) { routeOf({ derivation_failed: true }); trace.blocked = true; trace.block_reason = 'Derivation failed (' + trace.derivation_error + ') — no sūtra sequence derives this meaning; output blocked.'; meta.pending = null; Ph(9, 'derivation FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
-    let text = real.text; trace.derivation = real.derivation; if (opts.renderFault) text = opts.renderFault(text, msm);
+    let text = real.text; trace.derivation = real.derivation; trace.rsoc.outward = real.derivation.rsoc || null; if (opts.renderFault) text = opts.renderFault(text, msm);
     Ph(8, 'derived by ' + real.derivation.rule_count + ' sūtra applications (' + real.derivation.distinct_rules + ' distinct); trail ' + real.derivation.phase_trail);
     if (real.derivation.forbidden_transition) { routeOf({ forbidden_transition: real.derivation.forbidden_transition }); trace.blocked = true; trace.block_reason = 'Derivation phase trail contains a forbidden transition (' + real.derivation.forbidden_transition + ').'; meta.pending = null; Ph(9, 'forbidden derivation path → blocked'); return finish(trace, 9, null, msm, sfe); }
     let ev = echo(text, msm.meaning); trace.echo = ev;

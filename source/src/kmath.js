@@ -71,8 +71,8 @@ function merge(a, b, zeta = 0.12) {
     mu: r4(a.mu + b.mu + zeta * Math.cos(d) ** 2), eps: r4(Math.max(0, (a.eps + b.eps) / 2 - 0.05 * Math.cos(d))),
     tau: a.tau.concat(b.tau).slice(-144), chi: a.chi | b.chi }) };
 }
-/* RSOC decision calculus (RSOC Dec 2025 ch.3; restored v4.9.32). An Ask turn's result is the one candidate RSOC can ⧙-lock to the query ψ_q.
-   Evidence dims are SFEs at angle 0 (holds) or π (fails); a candidate's expectation SFE ⟁-fuses with the evidence SFE only when circular δ ≤ π/4
+/* RSOC selection calculus (RSOC Dec 2025 ch.3; v4.9.32–33): the speech rule / route chosen is the one candidate RSOC can ⧙-lock.
+   Condition dims are SFEs at angle 0 (holds) or π (fails); a candidate's expectation SFE ⟁-fuses with the evidence SFE only when circular δ ≤ π/4
    (§3.1.1). A rejected fusion leaves residue (+0.07 ε each side) and an unfused composite cannot lock. ⧙ needs χ=0 and ε_s < 0.6 (§3.2.2),
    ε_s = (ε + |Δ| + (1 − H))/max(1, ρ) (§3.3.1). Exactly one lock is lawful; none or several throws (fail closed). Pure, deterministic. */
 const cdist = (a, b) => { const d = Math.abs(a - b) % TWO_PI; return Math.min(d, TWO_PI - d); };
@@ -85,6 +85,11 @@ function rsocSelect(ev, cands, chi) { const ops = [], E = {}, res = []; for (con
     ops.push({ op: '⧙', c: c.id, ok: lock, eps_s }); res.push({ id: c.id, mu: r4(mu), eps_s, residue: resid, locked: lock }); }
   const L = res.filter(r => r.locked); if (L.length !== 1) throw new Error('RSOC_NO_UNIQUE_LOCK:' + L.length);
   return { calculus: 'RSOC/v1', selected: L[0].id, candidates: res, ops, cite: 'RSOC §3.1.1 ⟁, §3.1.2/§3.2.2 ⧙, §3.3' }; }
+/* RSOC reading admission (inward language, v4.9.33): an unlawful reading is a rejected ⟁ (δ = π); coincident readings ⟁-fuse (δ = 0);
+   one survivor is ⧙-locked; several are ⧧-held open (ambiguity preserved, never guessed). */
+function rsocAdmit(xs, lawful, key) { const out = [], seen = new Set(); let f = 0, x = 0;
+  for (const r of xs) { if (!lawful(r)) { x++; continue; } const k = key(r); if (seen.has(k)) { f++; continue; } seen.add(k); out.push(r); }
+  return { kept: out, ops: { '⟁': f, '⟁✗': x, '⧙': out.length === 1 ? 1 : 0, '⧧': out.length > 1 ? out.length : 0 } }; }
 /* RPM weight of one memory node, RPMC Full Protocol §1: ΦMₙ·exp(−εₙ). Display only — never used to choose meaning. */
 const rpmWeight = sfe => r4(sfe.mu * Math.exp(-sfe.eps));
 /* Candidate coherence, RMC §5.7: Score(c) = αM + βP + γU + δN − λD */
@@ -153,6 +158,6 @@ const DRIFT_RULING = Object.freeze({ project_max: 0.35, explore_min: 0.4, explor
 function driftGovernance(eps) { const R = DRIFT_RULING, ok = typeof eps === 'number' && isFinite(eps) && eps >= 0;
   const band = !ok ? 'unmeasured' : eps <= R.project_max ? 'projectable' : eps < R.explore_min ? 'correct' : eps <= R.explore_max ? 'explore' : 'reject';
   return { eps_s: ok ? r4(eps) : null, band, may_project: band === 'projectable', may_explore: band === 'explore', quarantine: band !== 'projectable', ruling: R.cite }; }
-const api = { DRIFT_RULING, driftGovernance, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
+const api = { DRIFT_RULING, driftGovernance, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

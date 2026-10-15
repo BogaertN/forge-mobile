@@ -428,15 +428,13 @@ function interpret(raw, opts) {
   if (facts.length > LIMITS.MAX_FACTS || rules.length > LIMITS.MAX_RULES) return interpretationFailure(raw, qseg, 'WORLD_SIZE_LIMIT', 'too many facts or rules');
   resolvePlurals(pluralAlts, facts.map(f => f.atom).concat([query])); alignVerbs(query, facts.map(f => f.atom).concat(rules.flatMap(r => r.body.concat([r.head]))));
 
-  const factSeen = new Set(), factRows = [];
-  for (const f of stated(facts)) {
-    const k = atomKey(f.atom); if (factSeen.has(k)) continue; factSeen.add(k);
+  const KM = isNode ? require('./kmath.js') : root.KMath, FA = KM.rsocAdmit(stated(facts), () => true, f => atomKey(f.atom)), RA = KM.rsocAdmit(stated(rules), () => true, r => canon({ body: r.body, head: r.head })), factRows = [];
+  for (const f of FA.kept) {
     const body = { atom: f.atom, source_ref: f.source_ref, source_span: f.source_span };
     factRows.push(Object.assign({ id: 'fact:' + (factRows.length + 1) + ':' + sha256(canon(body)).slice(0, 12) }, body));
   }
-  const ruleSeen = new Set(), ruleRows = [];
-  for (const r of stated(rules)) {
-    const k = canon({ body: r.body, head: r.head }); if (ruleSeen.has(k)) continue; ruleSeen.add(k);
+  const ruleRows = [];
+  for (const r of RA.kept) {
     const body = { body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span };
     ruleRows.push(Object.assign({ id: 'rule:' + (ruleRows.length + 1) + ':' + sha256(canon(body)).slice(0, 12) }, body));
   }
@@ -472,7 +470,7 @@ function interpret(raw, opts) {
   };
   const candidateBody = Object.assign({}, candidateCore, { content_hash: sha256(canon(candidateCore)) });
   const candidate = Object.assign({ candidate_id: digest('semantic-candidate', candidateBody) }, candidateBody);
-  return { handled: true, candidate: deepFreeze(candidate) };
+  return { handled: true, candidate: deepFreeze(candidate), rsoc: { sentences: segments.length, '⟁': FA.ops['⟁'] + RA.ops['⟁'], '⧙': FA.kept.length + RA.kept.length + 1 } };
 }
 
 const CANDIDATE_FIELDS = ['candidate_id', 'schema', 'parser_version', 'sources', 'facts', 'rules', 'query', 'atoms', 'relations', 'entities', 'variables', 'markers', 'ambiguities', 'ambiguity_reasons', 'unresolved_symbols', 'unresolved_senses', 'content_hash'];
@@ -911,6 +909,8 @@ function evaluate1(raw, opts) {
     act: 'question',
     rules: [
       { id: 'WM-SEMANTIC-CANDIDATE', doc: DOC, note: interpreted.candidate.candidate_id },
+      { id: 'RSOC-INWARD-WORLD-LANGUAGE', doc: 'RSOC ch.3 ⟁/⧙ (each stated clause ⧙-locked once; repeats ⟁-fused)', note: JSON.stringify(interpreted.rsoc) },
+      { id: 'RSOC-CLAIM-FORCE', doc: 'RSOC ⧙ over checked evidence → claim force of the utterance', note: material.rsoc.selected },
       { id: 'WM-IMMUTABLE-TURN-WORLD', doc: DOC, note: world.world_root },
       ...(material.branch ? [{ id: 'WM-WHAT-IF-BRANCH', doc: DOC + ' §6.3', note: world.branch_id + ' over ' + material.branch.parent_root + '; committed: ' + material.branch.committed_status }, { id: 'GELC-DRIFT-BAND', doc: material.branch.drift.ruling, note: 'ε_s=' + material.branch.drift.eps_s + ' ' + material.branch.drift.band + '; branch never projects' }] : []),
       { id: 'WM-PARACONSISTENT-CLOSURE', doc: DOC, note: material.status + '; work=' + derivation.work + '; closure=' + derivation.closure_size },

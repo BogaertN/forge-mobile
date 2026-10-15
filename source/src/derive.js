@@ -73,15 +73,18 @@ rule('9.1.1', 'marker deletion: internal ⟨…⟩ markers are removed before th
 rule('M.1.1', 'relation: exact equality → "="'); rule('M.1.2', 'apavāda of M.1.1: an approximate value → "≈"'); rule('M.1.3', 'implication: an equation and its solution set are joined by "⇒"');
 rule('M.1.4', 'disjunction of solutions → "or"'); rule('M.1.5', 'conjunction of equations or solutions → "and"'); rule('M.1.6', 'subsumption chain (WordNet hypernyms) → "⊑"'); rule('M.1.7', 'excluded value (domain restriction) → "≠"');
 const cmpId = (a, b) => { const f = s => s.split('.').map(v => (isNaN(v) ? v.charCodeAt(0) : +v)); const x = f(a), y = f(b); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); return 0; };
-function Deriv() { const log = [], trail = [], comps = [];
+function Deriv() { const log = [], trail = [], comps = [], rs = { '⧙': 0, '⟁': 0, '⟁✗': 0 };
   const apply = (id, note, blocked) => { const r = RULES[id]; if (!r) throw new Error('unknown sūtra ' + id); const ph = SECTIONS[r.sec].phase; log.push({ id, phase: 'Φ' + ph, adhikara: '§' + r.sec + ' ' + SECTIONS[r.sec].name, rule: r.name, note: note === undefined ? undefined : String(note), blocked: blocked && blocked.length ? blocked : undefined }); trail.push(ph); return id; };
   const choose = (cands, note) => { const ok = cands.filter(c => c.when); if (!ok.length) return null; const blockedBy = new Set(); for (const c of ok) for (const b of c.apavada_of || []) blockedBy.add(b);
+    /* RSOC rule competition (v4.9.33): each rival sūtra expects A applies, B no applicable apavāda, P latest live (vipratiṣedhe paraṃ, A 1.4.2); the chosen sūtra is the unique ⧙ lock */
+    const top = ok.filter(c => !blockedBy.has(c.id)).sort((a, b) => cmpId(b.id, a.id))[0], ev = {}, cs = cands.map((c, i) => { ev['A' + i] = !!c.when; ev['B' + i] = !blockedBy.has(c.id); ev['P' + i] = c === top; return { id: i, expect: { ['A' + i]: 1, ['B' + i]: 1, ['P' + i]: 1 } }; });
+    const L = M.rsocSelect(ev, cs, 0); rs['⧙']++; for (const o of L.ops) if (o.op === '⟁') rs[o.ok ? '⟁' : '⟁✗']++; if (cands[L.selected] !== top) throw new Error('RSOC_RULE_DISAGREE');
     let live = ok.filter(c => !blockedBy.has(c.id)); const blocked = ok.filter(c => blockedBy.has(c.id)).map(c => c.id);
     if (blocked.length) apply('4.1.2', blocked.join(', ') + ' blocked by apavāda');
     if (live.length > 1) { const later = live.slice().sort((a, b) => cmpId(b.id, a.id)); apply('4.1.1', later.slice(1).map(c => c.id).join(', ') + ' yield to ' + later[0].id); live = [later[0]]; }
     apply(live[0].id, note, blocked); return live[0]; };
   const compose = (a, b, ph) => { if (comps.length < 60) comps.push((a || '∅') + ' ⊕[Φ' + ph + '] ' + b); };
-  return { log, trail, comps, apply, choose, compose }; }
+  return { log, trail, comps, rs, apply, choose, compose }; }
 
 const DBL_EXTRA = new Set(['admit', 'refer', 'occur', 'prefer', 'commit', 'submit', 'permit', 'control', 'omit']);
 const NO_DBL = new Set(['open', 'answer', 'differ', 'enter', 'offer', 'happen', 'listen', 'visit', 'limit', 'edit', 'credit', 'travel', 'cover', 'deliver', 'consider', 'order', 'gather', 'number', 'register', 'filter', 'alter', 'render', 'wonder', 'echo', 'email']);
@@ -196,7 +199,7 @@ function Realizer(env) {
     const tr = D.trail; let forbidden = null; for (let i = 1; i < tr.length; i++) if ((tr[i - 1] === 4 || tr[i - 1] === 5) && tr[i] === 8) { forbidden = 'Φ' + tr[i - 1] + '→Φ8 at step ' + i; break; }
     const drift = M.driftFunctional({ phaseHistory: tr.slice(-9), transition: forbidden ? { from: 5, to: 8, expected: 6 } : { from: 8, to: 9, expected: 9 }, depth: Math.max(1, Math.ceil(D.log.length / 10)) });
     return { text, derivation: { rules: D.log, phase_trail: tr.map(n => 'Φ' + n).join('→').replace(/(Φ\d)(→\1)+/g, '$1'), compositions: D.comps, forbidden_transition: forbidden,
-      drift: { eps_s: drift.eps_s, band: drift.band, formula: drift.formula, note: 'drift of the derivation itself over its phase trail (RMC Addendum §3)' }, rule_count: D.log.length, distinct_rules: [...new Set(D.log.map(l => l.id))].length, sentences: out.length } }; }
+      drift: { eps_s: drift.eps_s, band: drift.band, formula: drift.formula, note: 'drift of the derivation itself over its phase trail (RMC Addendum §3)' }, rsoc: Object.assign({ fused_sutras: D.log.length, bound: D.comps.length, discharge: '⧀ 9.1.1' }, D.rs), rule_count: D.log.length, distinct_rules: [...new Set(D.log.map(l => l.id))].length, sentences: out.length } }; }
   return { realize, personOf, _vg: vgroup, _adv: insertAdv };
 }
 
