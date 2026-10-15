@@ -2,7 +2,7 @@
 
 Forge Mobile is an installable PWA with no LLM. Its Pāṇinian-style Bidirectional Language Core compiles supported language into symbolic meaning and back into language; the separate RMC reasoning, trace and memory spine compares candidates, applies warrants and selects supported conclusions. Replies are derived by governed rules and carry a full trace. No language model generates anything. Every action goes through the permission service.
 
-Version 4.9.2 adds the first bounded compositional-reasoning path for arguments about retention, causal understanding, adaptation and failure. It fixes the reported “remembers every mistake” request and supports immediate proof-based follow-ups. This is a real vertical reasoning slice, not a claim of unrestricted open-domain cognition; unsupported argument families still fail or clarify honestly.
+Version 4.9.3 adds a bounded, general-purpose symbolic world-model path for controlled English. It compiles previously unseen content identifiers, finite facts, rules and a final query into an immutable turn world; derives positive and negative consequences; independently replays the selected proof; uses RMC to select only checked results; and has Echo verify the rendered answer. Unsupported structures return typed limitations. This is not unrestricted natural language, external world knowledge or a hidden language-model call.
 
 Live site: https://bogaertn.github.io/forge-mobile/
 

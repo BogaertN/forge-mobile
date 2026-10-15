@@ -28,17 +28,17 @@ The steps run in a fixed order:
   applies warrants and gates, links evidence and memory, and selects a manifest.
   External tools supply provenance-bearing evidence; they do not become truth,
   permission, memory, or reasoning authority merely because they returned a result.
-- **Compositional reasoning slice** (`src/reason.js`): a bounded first vertical path
-  now handles multi-clause premise/question arguments about retention, causal
-  understanding, adaptation and failure. It preserves source spans, resolves local
-  references, creates affirmative/negative/qualified candidates and a proof graph,
-  selects a warranted conclusion, generates the answer from that structure, and keeps
-  one capped transient proof record for immediate distinction, analogy,
-  counterargument, comparison and revision-evidence follow-ups. The reported
-  “remembers every mistake … has it learned?” request is covered by this path.
-  This is **not** a general language model or complete open-domain reasoner. Other
-  open-ended argument families remain unsupported and must fail or clarify honestly;
-  no hidden model, network, embeddings, vector search or RAG fallback is used.
+- **Turn-scoped symbolic world model** (`src/reason.js`): a bounded vertical path
+  compiles controlled-English facts, rules and a final query containing previously
+  unseen content identifiers into `SemanticCandidate/v1`, then an immutable
+  `TurnWorld/v1`. It derives positive and explicit-negative consequences using finite
+  paraconsistent closure, independently replays proofs, lets RMC select only checked
+  candidates, and has Echo verify the generated answer. Contradiction, support,
+  refutation and open-world absence remain distinct. The turn world is transient and
+  has no model, retrieval, network, tool, file, governed-memory or persistence
+  authority. Unsupported syntax returns a typed limitation instead of a topical canned
+  answer. This is **not** unrestricted natural-language understanding or external
+  world knowledge.
 - **Memory Economy** (`src/economy.js`): count-only and append-only. The policy is `forge-mobile-econ-policy/v1`.
   - Lifecycle: ContributionEventCandidate → BreathValidation (by a validator who is not a contributor, with evidence) → finalized capsule.
   - A signed CapsuleNullified or CapsuleSuperseded event revokes credit without touching the capsule.
@@ -68,7 +68,7 @@ The steps run in a fixed order:
   * Extended: 14,617 more lemmas, lazily loaded.
 
   Every sense carries its provenance, license and Doc 8 state. The data is gzipped JSON loaded lazily. Rebuild it with `tools/build_lexicon.py`. A word with several senses gets a numbered clarification, never a guess.
-* **Generation.** Supported replies are generated grammatically from the MSM: agreement, tense, aspect, negation placement with do-support, modals, conditionals, and "A, B and C" lists. The compositional-reasoning path realizes a sequence of MSM propositions from its selected proof graph rather than returning a stored complete paragraph. Echo performs the path's deterministic structural preservation check. This does not yet establish unrestricted English generation or unrestricted semantic round-trip coverage.
+* **Generation.** Supported replies are generated grammatically from the MSM: agreement, tense, aspect, negation placement with do-support, modals, conditionals, and "A, B and C" lists. The world-model path realizes its checked `TurnWorld/v1` result and proof rather than returning a stored complete paragraph. Echo performs deterministic structural preservation checks. This does not establish unrestricted English generation or unrestricted semantic round-trip coverage.
 * **Memory.** Memory stores relations with entities, provenance and a turn/time. Records are phase-tagged and keep their SFE. "X's name is N" makes N an alias for X.
   * Contradictions are detected (polarity, single-valued attributes, exclusive classes, single-valued verbs) and the app asks yes/no. Adding "instead" or "actually" replaces the old fact directly. Old facts go to Ĉ cold storage.
   * Supported queries: "what do you know about X", "when did I tell you about X", counts, wh-questions over roles, and "what is X doing".

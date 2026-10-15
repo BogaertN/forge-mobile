@@ -1,7 +1,3 @@
-/* forge.js — Forge Mobile kernel wrapper: every turn flows through the forge2 contract spine
- * (InputEvent → ClassificationCandidateSet → RequestContract | clarification hold → ContextManifest → CapabilityRequirement)
- * and is recorded as a forge MSM-v1 manifest with the four Verbal Cognition Gate results, gate composition and
- * selection eligibility, plus a hash-chained audit receipt. Bridge 1 routes and legacy LLM commands are handled first. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
   const K = isNode ? require('./kernel.js') : root.KKernel; const S = isNode ? require('./forge_spine.js') : root.KSpine; const G = isNode ? require('./grammar.js') : root.KGrammar;
@@ -16,10 +12,7 @@
   function ForgeKernel(opts) {
     opts = opts || {}; let vault = null; const k = K.Kernel(Object.assign({}, opts, { vaultState: () => (vault ? vault.status() : 'none') })); const store = k.store; const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
     const schema = MG.migrate(store, now());
-    /* Identity Vault: only ciphertext under kernel.vault (not an RMC category → never exported, never copied into dry-run) */
     vault = P.Vault(opts.vaultIO || { load: () => { const v = store.load('vault'); return Array.isArray(v) ? null : v; }, save: v => store.save('vault', v) }, { iterations: opts.vaultIterations });
-    /* PRIV-4 legacy migration: any plaintext secret already sitting in RMC stores (pre-redaction builds) is redacted in place;
-       receipts that hashed plaintext are withdrawn and the chain restarts (values cannot be sealed without the passphrase → discarded) */
     const migration = (function () { let n = 0; for (const c of ['memory', 'evidence', 'cold_storage', 'trace', 'language_examples', 'lexicon_user', 'meta', 'receipts', 'notes']) { const v = store.load(c); const found = []; const sealRec = x => { if (x && typeof x === 'object') { if (Array.isArray(x)) return x.forEach(sealRec); const cl = x.clause; if (cl && x.sensitive && cl.pred && !(cl.pred.type === 'adj' && cl.pred.words && cl.pred.words.join(' ') === 'sealed')) { found.push({ label: 'structured value' }); cl.pred = { type: 'adj', words: ['sealed'] }; } if (x.record) sealRec(x.record); } }; if (c === 'memory' || c === 'cold_storage') sealRec(v); const r = P.deepRedact(v, found); if (found.length) { n += found.length; store.save(c, c === 'receipts' ? [] : r); } }
       if (n) { const m = store.load('meta'); m.privacy_migration = { values_redacted: n, receipts_reset: true }; store.save('meta', m); } return { values_redacted: n }; })();
     const receipts = () => store.load('receipts'); let pendingBridge = null;
@@ -45,7 +38,6 @@
         cm = S.createContextManifest(rc, 'turn-' + tr.turn, adm, exc, { max_items: 50, max_canonical_bytes: 65536 }, at); states.push('CONTEXT_READY');
         if (se !== 'none') { cr = S.createCapabilityRequirement(rc, cm, { required_behavior: se === 'memory_write' ? 'persist one user-authorized fact with provenance' : se === 'memory_archive' ? 'move confirmed facts to cold storage without erasure' : 'perform the requested external effect', acceptance_criteria: ['echo_round_trip_pass', 'provenance_recorded'], side_effect_class: se, statement_refs: rc.body.statements.map(s => s.statement_id) }, at); states.push('CAPABILITY_REQUIREMENTS_READY'); }
         if (se === 'memory_write' || se === 'memory_archive') states.push('AWAITING_AUTHORITY', 'AUTHORIZED'); else if (se !== 'none') states.push('AWAITING_AUTHORITY', 'HELD'); }
-      // four gates (forge evaluators) built from the kernel's gate observations
       const g = tr.gates || {}; const okE = !g.expectancy || g.expectancy === 'pass';
       const exp = S.evaluateExpectancy([{ id: 'req:predicate-frame-roles', kind: 'required_role', minimum_count: 1 }, { id: 'req:purpose', kind: 'required_purpose_information', minimum_count: 1 }, { id: 'opt:adjuncts', kind: 'optional_detail', minimum_count: 1 }],
         { 'req:predicate-frame-roles': { authority_state: 'admitted', observed_count: okE ? 1 : 0 }, 'req:purpose': { authority_state: 'admitted', observed_count: tr.outcome && tr.outcome.category === 'PURPOSE_UNRECOVERABLE' ? 0 : 1 }, 'opt:adjuncts': { authority_state: 'admitted', observed_count: 1 } });
@@ -56,9 +48,7 @@
       const cat = tr.outcome ? tr.outcome.category : 'SELECTED_MEANING'; const disp = { SELECTED_MEANING: 'candidate_supported_for_later_selection_review', SELECTED_RESTRICTED_MEANING: 'candidate_supported_for_later_selection_review', AMBIGUITY_PRESERVED: 'material_ambiguity_preserved', CLARIFICATION_REQUIRED: 'clarification_relevant', INCOMPLETE_PRESERVED: 'clarification_relevant', UNSUPPORTED_PRESERVED: 'unsupported', NO_LAWFUL_CANDIDATE: 'unsupported', INCONGRUENT_REJECTED: 'unsupported', DISCONNECTED_REJECTED: 'unsupported', REFUSAL_RELEVANT: 'refusal_relevant', UNDERSTOOD_ACTION_BLOCKED: 'held', PURPOSE_UNRECOVERABLE: 'refusal_relevant' }[cat] || 'blocked_progression';
       const das = [{ disposition_kind: disp, authority_state: 'admitted', judgment: 'applies' }]; if (ruleIds.includes('ADV-BYPASS-ATTEMPT')) das.push({ disposition_kind: 'blocked_progression', authority_state: 'admitted', judgment: 'applies' });
       const comp = S.composeGates([exp, con, cnx, pur], das); const elig = S.determineEligibility(comp, disp === 'candidate_supported_for_later_selection_review');
-      // verification + delivery states
       states.push('VERIFYING'); const echoPass = !!(tr.echo && tr.echo.pass) || (bridge && bridge.echo && bridge.echo.pass); states.push(echoPass ? 'VERIFIED' : 'FAILED'); if (r.reply) states.push('RESULT_READY', 'DELIVERED'); else states.push('HELD');
-      // MSM-v1 manifest (forge meaning_structure_manifest)
       const lineage = S.stableIdentifier('aiweb.msm.lineage', { ie: ie.metadata.contract_id }); const rid = (kind, b) => S.stableIdentifier('aiweb.msm.' + kind, Object.assign({ lineage }, b));
       const mean = tr.msm && tr.msm.meaning ? tr.msm.meaning : { kind: 'bridge' }; const clauseOf = m => m.clause || m.claim || null; const cl = clauseOf(mean);
       const pres = []; const js = JSON.stringify(mean); if (/"pol":"neg"/.test(js) || (tr.msm && tr.msm.purpose && tr.msm.purpose.negated_act)) pres.push('negation'); if (/"mod":"(possible|necessary|obligation|conditional)"/.test(js) || (tr.msm && tr.msm.uncertainty && tr.msm.uncertainty.level === 'hedged by user')) pres.push('uncertainty_and_claim_strength'); if (/"cond":/.test(js)) pres.push('modality_and_conditional_scope'); if (/"tense":"(past|future)"/.test(js)) pres.push('time_and_operational_status');
@@ -75,7 +65,6 @@
       const transitions = [['lineage_origin', 'candidate_meaning', 'ancestry'], [candRec.length > 1 ? 'candidate_meaning' : 'candidate_meaning', selected.length ? 'selected_governed_meaning' : nonSel[0].outcome_kind, selected.length ? 'narrowing' : 'containment']].concat(r.reply ? [['governed_outward_meaning', 'expression_linked', 'ancestry'], ['expression_linked', 'validation_linked', 'ancestry'], ['validation_linked', 'delivery_linked', 'ancestry']] : [['governed_outward_meaning', 'containment_linked', 'containment']]).map(([f, t, kd], i) => ({ record_kind: 'semantic_transition_trace', record_id: rid('transition', { i, f, t }), lineage_id: lineage, from_state: f, to_state: t, transition_kind: kd, reason: i === 1 ? elig : 'lawful successor' }));
       const manifest = Object.assign({ record_kind: 'meaning_structure_manifest' }, S.MSM_IDS, { lineage_root: { record_kind: 'lineage_root', lineage_id: lineage, origin_kind: 'source_bound_human_expression', origin_ref: ie.metadata.contract_id, direction: 'inward', lifecycle_state: 'lineage_origin' }, candidate_meanings: candRec, non_selection_outcomes: nonSel, selected_governed_meanings: selected, governed_result_references: [], governed_outward_meanings: [outRec], expression_links: [expr], validation_links: [val], delivery_or_containment_links: [deliv], external_authority_references: auth, semantic_transition_traces: transitions });
       manifest.manifest_id = S.stableIdentifier('aiweb.msm.manifest', JSON.parse(JSON.stringify(manifest)));
-      // MEA fixed-point score (forge mea/fixed_point_math_contract.py) — evidence display, never selects meaning
       const dom = bridge ? 'forge_operations' : domain(tr); const terms = { R: echoPass ? 1000000 : 0, P: ruleIds.includes('ADV-BYPASS-ATTEMPT') ? 0 : 1000000, U: clar ? 500000 : 1000000, N: 0, I: dom === 'mathematics' && echoRec && echoRec.components && echoRec.components.independent_reverification ? 1000000 : 0, Omega: echoPass ? 1000000 : 0, A: se === 'external_effect_requested_not_authorized' ? 0 : 1000000, D: micro(tr.drift ? tr.drift.eps_s : 0), B: ruleIds.includes('ADV-BYPASS-ATTEMPT') ? 1000000 : 0, K: 0 };
       const mea = S.meaScore(terms, dom === 'mathematics' ? 'coding_verification' : dom === 'memory' ? 'memory_recall' : 'safety_critical');
       return { input_event: ie, candidate_set: set, request_contract: rc, context_manifest: cm, capability_requirement: cr, request_states: states.map(s => S.stateIdentity(s)), transition_policy_defined: S.TRANSITION_POLICY_DEFINED,
@@ -87,7 +76,6 @@
       const rec = Object.assign({ receipt_id: S.stableIdentifier('aiweb.forge-mobile.receipt', body) }, body); rs.push(rec); store.save('receipts', rs.slice(-500)); spine.msm.delivery_or_containment_links[0].external_receipt_ref = rec.receipt_id; return rec; }
     function verifyAudit() { const rs = receipts(); let prev = null, bad = []; rs.forEach((r, i) => { const b = Object.assign({}, r); delete b.receipt_id; if (S.stableIdentifier('aiweb.forge-mobile.receipt', b) !== r.receipt_id) bad.push(i); if (i > 0 && r.previous_receipt !== prev) bad.push(i); prev = r.receipt_id; }); return { ok: !bad.length, count: rs.length, broken_at: bad, head: prev }; }
 
-    /* Bridge 1 routes + legacy LLM commands → a meaning record, derived by the same sūtras (derive.js) and checked by Echo */
     function bridgeMeaning(route, leg) { const meta = k.meta();
       if (route === 'status') return { kind: 'bridge_status', lex: k.lexicon.count(), facts: k.memory().filter(m => m.kind !== 'note').length, receipts: receipts().length, band: meta.last ? meta.last.band : 'clean' };
       if (route === 'audit') return Object.assign({ kind: 'bridge_audit' }, verifyAudit());
@@ -106,13 +94,12 @@
       const spine = buildSpine(input, r, at, { route, echo }); const rec = receipt(spine, input, text, at, turn); const tl = store.load('trace'); tl.push(Object.assign({}, tr, { at, output: text, bridge: route })); store.save('trace', tl.slice(-200));
       return Object.assign(r, { forge: Object.assign(spine, { receipt: rec, bridge: { route, legacy: leg || null } }) }); }
 
-    function process(input) { input = String(input || '').slice(0, 2000);
-      const b = bridgeTurn(P.redact(input).text); if (b) return b;
-      const r = k.process(input); input = r.trace.input; /* redacted (PRIV-1) */ const at = r.trace.at || now(); let spine;
+    function process(input) { input = String(input || '').normalize('NFC');
+      const b = input.length <= 2000 ? bridgeTurn(P.redact(input).text) : null; if (b) return b;
+      const r = k.process(input); input = r.trace.input; const at = r.trace.at || now(); let spine;
       if (r.secrets && r.secrets.length) { vault.queue(r.secrets); Object.defineProperty(r, 'sealing', { value: vault.flush(), enumerable: false }); }
       try { spine = buildSpine(input, r, at, null); } catch (e) { spine = { error: String(e && e.message) }; }
       if (!spine.error) spine.receipt = receipt(spine, input, r.reply, at, r.trace.turn);
-      // GP-014 operator roles checked over the derived reply (meaning atoms locked; no phrase templates)
       const m = r.trace.msm && r.trace.msm.meaning; if (m && !spine.error) { const fam = m.kind === 'factored' && !m.irreducible ? 'factoring' : m.kind === 'calculus' && m.op === 'derivative' ? 'differentiation' : m.kind === 'calculus' && m.a === undefined ? 'integration' : m.kind === 'simplified' ? 'simplification' : null;
         if (fam && r.reply) spine.gp014 = S.gp014Check(fam, { expression: m.input || m.expr || '', answer: m.result, variable: m.x || '' }, { text: r.reply, derivation: r.trace.derivation }); }
       try { const w3 = LC.build(r.trace, sha256(input)); if (!spine.error) spine.w3 = w3; if (w3.rejected_meanings.length) { const rj = store.load('rejected_meanings'); for (const x of w3.rejected_meanings) rj.push(Object.assign({ turn: r.trace.turn, at, psi_id: r.trace.psi_id }, x)); store.save('rejected_meanings', rj.slice(-500)); } } catch (e) { if (!spine.error) spine.w3 = { error: String(e && e.message) }; }
@@ -121,7 +108,6 @@
       if (r.trace.tool_request) Object.defineProperty(r, 'toolJob', { value: runTool(r.trace), enumerable: false });
       return Object.assign(r, { forge: spine }); }
 
-    /* ---- EchoForge network tools (research / capture / GitHub read): tracker-free crawler, sealed into the vault, result derived ---- */
     const vaultUser = () => { const v = store.load('vault'); return v && !Array.isArray(v) && v.salt ? 'vu-' + sha256('vault-user|' + v.salt).slice(0, 16) : null; };
     const node = NC.Client(store, { fetch: opts.fetch, clock: opts.clock, subtle: opts.subtle, vaultUser });
     const nodeKey = async ref => { if (vault.status() !== 'unlocked') return null; return vault.reveal(ref); };
@@ -143,22 +129,19 @@
     function toolTurn(meaning, input, tool, frame, extra) { const at = now(); const meta = k.meta(); let real, echo, text = null;
       try { real = k.realize(meaning); echo = k.echo(real.text, meaning); text = echo.pass ? real.text : null; } catch (e) { echo = { pass: false, reason: String(e.message) }; }
       const tr = Object.assign({ turn: meta.turn || 0, input, at, outcome: { category: meaning.kind === 'tool_result' ? 'SELECTED_MEANING' : 'NO_LAWFUL_CANDIDATE', class: meaning.kind === 'tool_result' ? 'selected' : 'reject' }, rules: [{ id: 'EF-TOOL-RESULT-' + tool.toUpperCase(), doc: 'EchoForge tool bench; evidence only' }], gates: {}, echo, derivation: real ? real.derivation : null, msm: { purpose: { speech_act: 'answer', frame }, meaning, evidence: { refs: (extra && extra.refs) || [] }, limits: { authority: 'none', may_write_memory: false } }, drift: { eps_s: 0, band: 'clean' }, memory: [], output: text, blocked: !text, bridge: 'tool' }, extra || {});
-      /* stored copy is sealed: titles, excerpts and the surface text live only in the vault and the live reply (vault-capture rule) */
       const sealedMeaning = { kind: meaning.kind, tool: meaning.tool, noun: meaning.noun, count: (meaning.items || []).length, items_sha256: meaning.items ? GV.hash(meaning.items) : null, excerpt_sha256: meaning.excerpt ? sha256(meaning.excerpt) : null, reason: meaning.reason || meaning.rule || null };
       const tl = store.load('trace'); tl.push(Object.assign({}, tr, { output: null, output_sha256: text ? sha256(text) : null, msm: Object.assign({}, tr.msm, { meaning: sealedMeaning }), derivation: tr.derivation ? { rule_count: tr.derivation.rule_count, sealed: true } : null, echo: { pass: echo.pass } })); store.save('trace', tl.slice(-200)); const out = { reply: text, blocked: !text, outcome: tr.outcome, trace: tr }; let spine; try { spine = buildSpine(input, out, at, { route: 'tool:' + tool, echo }); spine.receipt = receipt(spine, input, text, at, tr.turn); } catch (e) { spine = { error: String(e && e.message) }; }
       return Object.assign(out, { forge: spine }); }
     function job(upd) { const js = store.load('jobs'); const i = js.findIndex(j => j.id === upd.id); if (i < 0) js.push(upd); else js[i] = Object.assign(js[i], upd); store.save('jobs', js.slice(-200)); }
     const reqLife = TR.RequestLifecycle(store, { clock: opts.clock });
-    /* shared knowledge layer + Tool Builder + Memory Economy (count-only) */
     const signer = SHM.Signer(store, vault); const economy = ECM.Economy(store, { ledger, signer, clock: opts.clock });
     const shared = SHM.Shared(store, { perm: k.perm, ledger, signer, economy, clock: opts.clock });
-    const runner = opts.toolRunner || (isNode || typeof Worker === 'undefined' || (typeof location !== 'undefined' && location.protocol === 'file:') ? TBM.localRunner /* single-file build: the interpreter itself has no I/O */ : TBM.workerRunner(new URL('src/tool_worker.js', document.baseURI).href));
+    const runner = opts.toolRunner || (isNode || typeof Worker === 'undefined' || (typeof location !== 'undefined' && location.protocol === 'file:') ? TBM.localRunner : TBM.workerRunner(new URL('src/tool_worker.js', document.baseURI).href));
     const tools = TBM.Builder(store, { perm: k.perm, ledger, shared, signer, economy, runner, clock: opts.clock });
     const sharedRpc = (op, args) => node.rpc(op, args, nodeKey, { shared: true });
     const pairShared = async uri => { if (vault.status() !== 'unlocked') return { ok: false, rule: 'NODE-PAIRING-VAULT-LOCKED' }; return node.pairShared(uri, async (secret, id) => { const e = await vault.seal('secret', 'shared-layer node key ' + id, secret, {}); return e && e.id; }); };
     async function runTool(trace) { const q = trace.tool_request; const id = 'job:' + trace.psi_id.slice(0, 16); job({ id, tool: q.tool, frame: q.frame, input_sha256: sha256(q.input), state: 'running', started: now(), permission: q.permission });
       const decision = { id: q.permission, decision: 'allow', rule: 'PERM-TOOL-FRAME-SELECTED' }; let meaning, refs = []; let extra = null;
-      /* Bible §7.4 request lifecycle: a receipt for every transition; skips are recorded with a reason, never silent */
       const RL = reqLife; const ev = { service: q.tool, input_refs: [sha256(q.input)], request_class: TR.classify(q.frame, 'tool_started') }; RL.open(id, ev);
       RL.walk(id, [{ to: 'CUSTODIED' }, { to: 'INTERPRETATION_CANDIDATES_READY' }, { to: 'REQUEST_CONTRACT_READY', reason: 'kernel selected one predicate frame (' + q.frame + '); no clarification needed' }, { to: 'CONTEXT_READY' }, { to: 'CAPABILITY_REQUIREMENTS_READY' }, { to: 'CAPABILITY_RESOLVED' }, { to: 'PLAN_READY' }, { to: 'AWAITING_AUTHORITY' }, { to: 'AUTHORIZED', decision: 'allow' }, { to: 'EXECUTING' }], ev);
       try {

@@ -1,5 +1,5 @@
 {
- "version": "4.9.2",
+  "version": "4.9.3",
  "features": [
   {
    "id": "A-01",
@@ -414,7 +414,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Grammar and WordNet ambiguity candidates plus a bounded compositional proof-graph path for retention/understanding/adaptation arguments; not general open-domain candidate construction",
+      "note": "Grammar and WordNet candidates plus SemanticCandidate/v1 for bounded controlled-English facts, rules and queries with arbitrary content identifiers; not unrestricted natural-language interpretation",
    "proof": [
     "AMBIGUITY",
     "CORE-REASONING"
@@ -426,7 +426,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/disconnected\"",
    "wave": "W3",
    "claim": "Partial",
-   "note": "Language derivation and RMC conclusion candidates are separate in the trace for the bounded compositional-reasoning path; unrestricted hypothesis exploration remains unbuilt",
+      "note": "SemanticCandidate/v1 remains separate from immutable TurnWorld/v1 and RMC result candidates; unrestricted learned hypothesis exploration remains unbuilt",
    "proof": [
     "FORGE-GATES",
     "CORE-REASONING"
@@ -796,7 +796,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
    "wave": "W3",
    "claim": "Partial",
-   "note": "VP ellipsis by antecedent copy plus bounded multi-clause reference resolution and source spans in the compositional-reasoning path; unrestricted discourse and quantifier scope remain incomplete",
+      "note": "Source spans, role relations, entity/variable declarations and turn-scoped multi-sentence custody exist in the controlled world path; unrestricted discourse and scope remain incomplete",
    "proof": [
     "LANG-W3",
     "REGRESSION",
@@ -820,7 +820,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Generation from supported MSM structures through grammar+morphology, including proof-graph-derived multi-sentence reasoning answers; not unrestricted English generation",
+      "note": "Deterministic generation from checked TurnWorld results and proofs for the supported controlled grammar; not unrestricted English generation",
    "proof": [
     "DERIVATION",
     "ROUND-TRIP",
@@ -833,7 +833,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Blocked on F-02–F-13\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Structural Echo for supported MSM paths, including deterministic material preservation for the bounded compositional-reasoning path; unrestricted semantic Echo remains outside current coverage",
+      "note": "Echo checks each rendered symbolic proposition against the selected checked TurnWorld result; unrestricted semantic Echo remains outside current coverage",
    "proof": [
     "ROUND-TRIP",
     "CORE-REASONING"

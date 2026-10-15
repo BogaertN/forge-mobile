@@ -39,6 +39,11 @@
       secrets.push({ label: key.toLowerCase().replace(/\s+/g, ' '), value: strip(v) }); rules.push('PRIV-1.1 key–value secret (' + key.toLowerCase() + ')');
       const s2 = /^\s*[:=]\s*$/.test(sep) ? ' is ' : sep; return key + s2 + 'sealed' + tail; });
     for (const f of FREE) out = out.replace(f.re, m => { if (m === 'sealed' || (f.test && !f.test(m))) return m; secrets.push({ label: f.label, value: m }); rules.push('PRIV-1.2 free-standing pattern (' + f.label + ')'); return 'sealed'; });
+    const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    for (const value of [...new Set(secrets.map(s => s.value).filter(Boolean))].sort((a, b) => b.length - a.length)) {
+      const word = /^[\p{L}\p{N}_-]+$/u.test(value), re = new RegExp(word ? '(^|[^\\p{L}\\p{N}_-])(' + esc(value) + ')(?=$|[^\\p{L}\\p{N}_-])' : esc(value), word ? 'giu' : 'gi');
+      const before = out; out = out.replace(re, word ? '$1sealed' : 'sealed'); if (out !== before) rules.push('PRIV-1.4 repeated sensitive value');
+    }
     return { text: out, secrets, rules };
   }
   /* scan(obj, values) → true if any plaintext value occurs in the JSON of obj (used by tests and the migration) */

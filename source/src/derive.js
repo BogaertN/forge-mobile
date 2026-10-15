@@ -1,57 +1,33 @@
-/* derive.js — meaning-first derivational realizer (prakriyā) + its inverse analyser (Echo).
- *
- * No reply is a canned sentence or a slot-filled template. Every reply is first planned as a vākya: verbal roots (dhātu)
- * with kāraka roles, polarity, tense (lakāra), modality and force, taken from the MSM meaning fields. The vākya is then
- * derived by an ordered list of numbered sūtras grouped under adhikāra (scope) headers. A rule inherits the scope of its
- * header (§3 rules apply only to verbal stems, §7.2 only to nominal stems, …):
- *   §1 saṃjñā / selection          Φ1 Initiation     root and stem insertion, pronoun selection, particles
- *   §2 kāraka → vibhakti           Φ2 Polarity       subject by voice, role → case / preposition, negation scope
- *   §3 lakāra (dhātoḥ)             Φ3 Desire         tense / modal / aspect / voice chain, force
- *   §4 conflict resolution         Φ4 Friction       apavāda blocks utsarga; otherwise the later rule wins (cf. 1.4.2)
- *   §6 repair                      Φ6 Grace          do-support, agreement, suppletion, irregular forms
- *   §7 affixation                  Φ7 Naming         tiṅ / sup-analogue affixes carrying ⟨markers⟩, morphophonemics
- *   §8 linearization and sandhi    Φ8 Projection     word order, a/an, can+not, capitals, punctuation, lists
- *   §9 marker deletion             Φ9 Return         ⟨…⟩ markers are deleted before the surface (cf. 1.3.9 tasya lopaḥ)
- *   §M math notation               Φ7                relation symbols chosen by rule (= vs ≈ apavāda, ⇒, ⊑)
- * Each application is logged with its id, phase and any rules it blocked. The derivation's phase trail is checked by the
- * RMC drift functional. A Φ4→Φ8 or Φ5→Φ8 jump (RSOC Axiom 2; RMC Addendum §4) is recorded as forbidden. Each morpheme
- * concatenation is recorded as a ⊕ composition tagged with its phase (RSOC §2.2 phase index).
- * User clauses and NPs are sub-derived by grammar.js, the same grammar that reads the input.
- * Echo (analyse) reads the surface back. Verb morphology is inverted by analysis-by-synthesis over the same sūtras. Word
- * order and role markers are inverted structurally. User material is re-read by the inward grammar. Echo passes only when
- * exactly one analysis exists and it equals the plan. No word-overlap or similarity measure is used. */
 (function (root) {
 const isNode = typeof module !== 'undefined' && module.exports;
 const G = isNode ? require('./grammar.js') : root.KGrammar;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
-/* ======================= realizer lexicon (dhātupāṭha / gaṇapāṭha analogue) ======================= */
 const VERBS = new Set(words('change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause'));
-const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } }; /* will = lṛṭ (3.1.2), not a modal */
+const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } };
 const NOUNS = new Set(words('tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
-  'failure relation sign code divisor limit vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval retention understanding learning behavior experience prediction case cause mechanism explanation premise claim argument counterargument distinction analogy student gardener mechanic player formula plant move strategy mastery adaptation improvement knowledge information change'));
+  'failure relation sign code divisor limit limitation vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences' };
 const ADJ = new Set(words('bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
-  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited causal stronger qualified affirmative negative behavioral correct unproven uncertain same'));
+  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now']);
 const POSTVERB_ADV = new Set(['further', 'again', 'exactly', 'normally', 'unambiguously', 'here', 'yet', 'first', 'locally']);
 const PARTICLES = new Set(['yes', 'no', 'partly', 'hello', 'goodbye', 'please']);
 const SCONJ = new Set(['but', 'so', 'or', 'then']);
 const DETS = new Set(['a', 'the', 'no', 'every', 'any', 'both', 'this', 'that', 'those', 'which', 'its', 'my', 'your', 'their']);
 const SAMP_PR = new Set(['I', 'you', 'they']); const ADDRESSEE_VERBS = new Set(['ask', 'tell', 'show', 'give']);
-/* dhātu-specific kārakas: these roles are licensed only by the listed roots (cf. Pāṇini's root-specific kāraka sūtras) */
 const ROLE_VERBS = { apeksha: ['depend'], upamana: ['record'], domain: ['factor'], sthana: ['close'] };
 const PP_ADJ = new Set();
-const INF_VERBS = new Set(['ask', 'authorize', 'say', 'open', 'want']); const NOUN_INF = new Set(['request']); /* infinitive attachment: licensed by the head (verb or noun) */ /* filled below: adjectives that are past participles of realizer roots */ /* 2.2.5: a bare sampradāna is a sentient pronoun (recipient) */
+const INF_VERBS = new Set(['ask', 'authorize', 'say', 'open', 'want']); const NOUN_INF = new Set(['request']);
 const POSS = new Set(['its', 'my', 'your', 'their']);
 const PRON = { I: { nom: 'I', acc: 'me', p: 1, n: 'sg' }, you: { nom: 'you', acc: 'you', p: 2, n: 'pl' }, it: { nom: 'it', acc: 'it', p: 3, n: 'sg' }, they: { nom: 'they', acc: 'them', p: 3, n: 'pl' },
   that: { nom: 'that', acc: 'that', p: 3, n: 'sg' }, anything: { nom: 'anything', acc: 'anything', p: 3, n: 'sg' }, something: { nom: 'something', acc: 'something', p: 3, n: 'sg' }, nothing: { nom: 'nothing', acc: 'nothing', p: 3, n: 'sg' }, everything: { nom: 'everything', acc: 'everything', p: 3, n: 'sg' },
@@ -60,16 +36,14 @@ const FORM2PRON = {}; for (const [k, v] of Object.entries(PRON)) { (FORM2PRON[v.
 const NAMES = { 'Identity Vault': 'vault', 'permission service': 'service', 'Context Library tab': 'tab', WordNet: 'lexicon', Echo: 'validator', Forge: 'system', EchoForge: 'lane', 'Recursive Manifest Compiler': 'compiler',
   'Forge Bidirectional Language Kernel': 'kernel', 'Doc 9': 'document', 'Forge Mobile': 'system', 'RMC Memory tab': 'tab' };
 const NAME_LIST = Object.keys(NAMES).sort((a, b) => b.split(' ').length - a.split(' ').length);
-/* kāraka → vibhakti: utsarga table; apavāda exceptions keyed on the head noun (§2.2) */
 const ROLE_PREP = { visaya: 'about', adhikarana: 'in', karana: 'with', apadana: 'from', gati: 'to', tadartha: 'for', hetu: 'by', domain: 'over', apeksha: 'on', sthana: 'at', purva: 'before', paschat: 'after', upamana: 'as' };
 const ON_NOUNS = new Set(['turn', 'tab', 'screen', 'device', 'phone']); const AT_NOUNS = new Set(['time']);
 const PREP_ROLES = {}; for (const [r, p] of Object.entries(ROLE_PREP)) (PREP_ROLES[p] = PREP_ROLES[p] || []).push(r); PREP_ROLES.on.push('adhikarana'); PREP_ROLES.at.push('adhikarana');
 const ROLE_ORDER = ['visaya', 'gati', 'apadana', 'karana', 'adhikarana', 'domain', 'apeksha', 'sthana', 'tadartha', 'upamana', 'purva', 'paschat', 'hetu'];
-const MENTIONS = { /* quoted user-language examples; they are mentioned (uddhāraṇa), never asserted */
+const MENTIONS = {
   remember: 'remember that my sister lives in Paris', recall: 'where does my sister live?', note: 'note: buy milk', math: 'what is 12 * (3 + 4)?', solve: 'solve x^2 - 5x + 6 = 0', define: 'define bank',
   forget: 'forget that my car is red', remember_ellipsis: 'remember that …', solve_for: 'solve for x …', infer: 'is my dog an animal?' };
 
-/* ======================= sūtra registry ======================= */
 const SECTIONS = { 1: { phase: 1, name: 'saṃjñā / selection' }, 2: { phase: 2, name: 'kāraka → vibhakti' }, 3: { phase: 3, name: 'lakāra (dhātoḥ)' }, 4: { phase: 4, name: 'utsarga–apavāda resolution' },
   6: { phase: 6, name: 'repair (do-support, agreement)' }, 7: { phase: 7, name: 'affixation (tiṅ / sup analogue)' }, 8: { phase: 8, name: 'linearization and sandhi' }, 9: { phase: 9, name: 'marker deletion' }, M: { phase: 7, name: 'math notation' } };
 const RULES = {}; const rule = (id, name) => { RULES[id] = { id, name, sec: id.split('.')[0] }; };
@@ -109,7 +83,6 @@ function Deriv() { const log = [], trail = [], comps = [];
   const compose = (a, b, ph) => { if (comps.length < 60) comps.push((a || '∅') + ' ⊕[Φ' + ph + '] ' + b); };
   return { log, trail, comps, apply, choose, compose }; }
 
-/* ======================= morphology (§6–§7) ======================= */
 const DBL_EXTRA = new Set(['admit', 'refer', 'occur', 'prefer', 'commit', 'submit', 'permit', 'control', 'omit']);
 const NO_DBL = new Set(['open', 'answer', 'differ', 'enter', 'offer', 'happen', 'listen', 'visit', 'limit', 'edit', 'credit', 'travel', 'cover', 'deliver', 'consider', 'order', 'gather', 'number', 'register', 'filter', 'alter', 'render', 'wonder', 'echo', 'email']);
 const dbl = w => !NO_DBL.has(w) && (DBL_EXTRA.has(w) || G.dbl(w));
@@ -129,7 +102,6 @@ const vowelSound = w => { const l = String(w).replace(/^[“"(]/, '').toLowerCas
 const MATHY = w => /[\d^=+\-*/()√∛∜_ΦεχλΘ⟁÷×∫±₀-₉]/.test(w) || /^[a-z]{1,2}$/.test(w) || /^(sin|cos|tan|exp|log|ln|sqrt)$/.test(w);
 const GENWORD = w => { const l = w.toLowerCase(); return VERBS.has(l) || NOUNS.has(l) || ADJ.has(l) || DETS.has(l) || l === 'an' || PARTICLES.has(l) || SCONJ.has(l) || !!ROLE_PREP[l] || !!PREP_ROLES[l] || !!FORM2PRON[l] || !!MODALS[l] || l === 'cannot' || l === 'not' || l === 'to' || PREVERB_ADV.has(l) || l === 'before' || /^(is|are|am|was|were|has|had|does|did|could|would|might)$/.test(l); };
 
-/* ======================= realization ======================= */
 function Realizer(env) {
   env = env || {}; const userNP = env.npText || (n => G.npText(n, 'kernel')); const userClause = env.clauseText || (c => G.clauseText(c, 'kernel'));
   const isVerb = r => VERBS.has(r);
@@ -228,7 +200,6 @@ function Realizer(env) {
   return { realize, personOf, _vg: vgroup, _adv: insertAdv };
 }
 
-/* ======================= analyser (Echo): surface → vākya ======================= */
 function Analyser(env) {
   env = env || {}; const R = Realizer(env); const isVerb = r => VERBS.has(r); const memo = new Map();
   function tokenize(s) { const toks = []; let i = 0; while (i < s.length) { const ch = s[i]; if (ch === ' ') { i++; continue; }
@@ -245,7 +216,6 @@ function Analyser(env) {
     if (w === 'has' || w === 'had') add('have', w === 'has' ? 's' : 'past'); if (/^(is|am|are|was|were|been|being)$/.test(w)) out.push({ root: 'be', f: 'x' }); if (/^(do|does|did)$/.test(w)) out.push({ root: 'do', f: 'x' });
     return out; }
   function nounCand(w) { const out = []; if (NOUNS.has(w)) out.push({ n: w, pl: false }); for (const n of NOUNS) if (plural(null, n) === w) out.push({ n, pl: true }); return out; }
-  /* NP: every analysis covering exactly toks */
   function parseNP(toks, role) { const key = role + '|' + JSON.stringify(toks); if (memo.has(key)) return memo.get(key); const res = npAll(toks, role); memo.set(key, res); return res; }
   function npAll(toks, role) { const res = []; if (!toks.length) return res; const ws = toks.map(W); const allW = toks.every(t => t.w !== undefined);
     if (toks.length === 1 && toks[0].m !== undefined) res.push({ m: toks[0].m });
@@ -255,7 +225,6 @@ function Analyser(env) {
     if (ws[0] && /^\d+$/.test(ws[0]) && ws[1] === 'of') for (const o of parseNP(toks.slice(2), 'obj')) res.push({ num: ws[0], of: o });
     for (const cj of ['or', 'and']) { const k = ws.lastIndexOf(cj); if (k > 0 && k < toks.length - 1) { const parts = []; let cur = []; for (const t of toks.slice(0, k)) { if (t.p === ',') { parts.push(cur); cur = []; } else cur.push(t); } if (cur.length || !parts.length) parts.push(cur); parts.push(toks.slice(k + 1));
         if (parts.length >= 2 && parts.every(p => p.length)) { const alts = parts.map(p => parseNP(p, role).filter(x => !x.u)); if (alts.every(a => a.length === 1) && (parts.length === 2 || toks[k - 1].p === ',')) res.push({ coord: cj, items: alts.map(a => a[0]) }); } } }
-    // common NP: [poss|det] [cnt] adj* noun [idx] [app] [inf] [of NP]
     let i = 0; const nd = {}; const d0 = ws[0] === 'an' ? 'a' : ws[0];
     if (d0 && DETS.has(d0)) { if (POSS.has(d0)) nd.poss = d0; else nd.det = d0; i = 1; }
     if (ws[i] && /^\d+$/.test(ws[i]) && ws[i + 1] !== 'of') { nd.cnt = Number(ws[i]); i++; }
@@ -338,7 +307,6 @@ function Analyser(env) {
   return { analyse, tokenize, parseNP };
 }
 
-/* ======================= meaning → vākya plans (built from MSM fields; strings are lexemes or mentions only) ======================= */
 const pr = p => ({ pr: p }), N = (n, o) => Object.assign({ n }, o || {}), U = a => ({ u: a }), UC = a => ({ uc: a }), Mn = t => ({ m: String(t) }), X = t => ({ x: String(t) }), Nm = (s, det) => (det ? { name: s, det } : { name: s });
 const C = (v, o) => Object.assign({ v, tense: 'pres', pol: 'pos' }, o || {}); const S = (c, o) => Object.assign({ c, force: 'decl' }, o || {}); const MS = (items, o) => Object.assign({ mth: items, force: 'decl' }, o || {});
 const I = pr('I'), YOU = pr('you');
@@ -390,29 +358,40 @@ const LANE = {
   SELF_REPORT: m => [S(C('find', { karta: I, karma: N('word', { cnt: m.unknown.length, adj: ['unknown'], list: m.unknown.length ? { kind: 'mention', items: m.unknown } : undefined }), tense: 'past' })), S(C('find', { karta: I, karma: N('hold', { cnt: m.held, adj: ['clarification'] }), tense: 'past' })), S(C('find', { karta: I, karma: N('failure', { cnt: m.echoFail, adj: ['echo'] }), tense: 'past' }))],
   ECHO_REVIEW: m => (m.review === null || m.review === undefined ? [S(C('have', { karta: I, karma: N('reply', { det: 'no', adj: ['earlier'] }) }))] : [S(C(m.review ? 'pass' : 'fail', { karta: N('reply', { det: 'the', adj: ['last'] }), karma: Nm('Echo'), tense: 'past' }))]),
   VERIFY_SUITE: () => [S(C('be', { karta: N('lane', { det: 'the' }), pred: N('suite', { det: 'the', of: Nm('Doc 9') }) }))] };
-const reasonNP = n => U(Object.assign({ adjs: [] }, n || {}));
-const reasonFact = (f, fallback, conj) => { const c = C(f.predicate, { karta: reasonNP(f.subject), pol: f.polarity === 'negative' ? 'neg' : 'pos' }); const obj = f.object || fallback; if (obj) c.karma = reasonNP(obj); return S(c, conj ? { conj } : undefined); };
-function reasonPlan(m) {
-  const q = reasonNP(m.query.nominal), retention = N('retention'), causal = N('understanding', { adj: ['causal'] });
-  if (m.mode === 'distinction') return [S(C('differ', { karta: retention, roles: { apadana: causal } })), S(C('keep', { karta: retention, karma: N('information'), roles: { apadana: N('experience') } })), S(C('explain', { karta: causal, karma: N('cause', { pl: true }) }))];
-  if (m.mode === 'analogy') { const a = m.analogy; return [reasonFact({ subject: a.subject, predicate: a.predicate, object: a.object, polarity: 'positive' }), reasonFact({ subject: a.subject, predicate: a.absent, object: a.cause, polarity: 'negative' }, null, 'but'), S(C('have', { karta: N('example', { det: 'the' }), karma: N('distinction', { det: 'the', adj: ['same'] }) }))]; }
-  if (m.mode === 'counterargument') return [S(C('preserve', { karta: retention, karma: N('information'), roles: { apadana: N('experience') } })), S(C('require', { karta: N('learning', { adj: ['limited'] }), karma: causal, pol: 'neg' })), S(C('be', { karta: pr('that'), pred: N('counterargument', { det: 'the', adj: ['affirmative'] }) }), { conj: 'so' })];
-  if (m.mode === 'comparison') return [S(C('cover', { karta: N('argument', { det: 'the', adj: ['qualified'] }), karma: N('fact', { det: 'both', pl: true }) })), S(C('have', { karta: N('argument', { det: 'the', adj: ['affirmative'] }), karma: retention, adv: ['only'] })), S(C('establish', { karta: N('fact', { det: 'no' }), karma: N('change', { det: 'a', of: N('behavior') }) })), S(C('be', { karta: N('argument', { det: 'the', adj: ['qualified'] }), pred: { adj: 'stronger' } }), { conj: 'so' })];
-  if (m.mode === 'revision') return [S(C('support', { karta: N('change', { det: 'a', of: N('behavior') }), karma: q, mod: 'can', roles: { paschat: N('experience') } })), S(C('support', { karta: N('prediction', { det: 'a', adj: ['correct'], of: N('case', { det: 'a', adj: ['new'] }) }), karma: q, mod: 'can', adv: ['also'] })), S(C('support', { karta: N('explanation', { det: 'a', adj: ['causal'] }), karma: causal, mod: 'can' }))];
-  const out = [];
-  if (m.status === 'yes') out.push(S(null, { part: 'yes' })); else if (m.status === 'no') out.push(S(null, { part: 'no' })); else if (m.status === 'qualified') out.push(S(null, { part: 'partly' })); else out.push(S(C('be', { karta: N('answer', { det: 'the' }), pred: { adj: 'uncertain' } })));
-  const r = m.findings.retention[0], u = m.findings.understanding_absent[0], a = m.findings.adaptation[0], f = m.findings.adaptation_absent[0] || m.findings.failure[0];
-  if (r) { out.push(reasonFact(r, m.object)); out.push(S(C('support', { karta: pr('that'), karma: retention }))); }
-  if (u) { out.push(reasonFact(u, null, 'but')); out.push(S(C('support', { karta: pr('that'), karma: causal, pol: 'neg' }))); }
-  if (a) { out.push(reasonFact(a)); out.push(S(C('support', { karta: pr('that'), karma: q }))); }
-  if (f) { out.push(reasonFact(f, null, r || u || a ? 'but' : null)); out.push(S(C('weaken', { karta: pr('that'), karma: q }))); }
-  if (!a && !f) out.push(S(C('establish', { karta: N('premise', { det: 'no' }), karma: N('change', { det: 'a', of: N('behavior') }), roles: { paschat: N('experience') } })));
-  if (r && !a) out.push(S(C('establish', { karta: retention, karma: q, pol: 'neg' })));
-  if (m.status === 'qualified' && r) out.push(S(C('be', { karta: retention, pred: N('form', { det: 'a', adj: ['limited'], of: q }), mod: 'can' })));
-  if (m.status === 'yes') out.push(S(C('support', { karta: N('evidence', { det: 'the' }), karma: q }), { conj: 'so' }));
-  else if (m.status === 'no') out.push(S(C('support', { karta: N('evidence', { det: 'the' }), karma: q, pol: 'neg' }), { conj: 'so' }));
-  else out.push(S(C('be', { karta: N('claim', { det: 'the', adj: ['stronger'] }), pred: { adj: 'unproven' } }), { conj: 'so' }));
-  return out;
+function worldPlan(m) {
+  const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
+  const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
+  if (m.status === 'supported_only') return [
+    S(null, { part: 'yes' }),
+    S(C('support', { karta: checkedProof, karma: Mn(m.query_text) }))
+  ];
+  if (m.status === 'refuted_only') return [
+    S(null, { part: 'no' }),
+    S(C('support', { karta: checkedProof, karma: Mn(m.opposite_text) }))
+  ];
+  if (m.status === 'conflicted') return [
+    S(C('support', { karta: checkedWorld, karma: N('claim', { cnt: 2, list: { kind: 'mention', items: [m.query_text, m.opposite_text] } }) })),
+    S(C('conflict', { karta: N('proof', { det: 'the', pl: true }) }))
+  ];
+  if (m.status === 'undetermined') return [
+    S(C('support', { karta: checkedWorld, karma: Mn(m.query_text), pol: 'neg' })),
+    S(C('support', { karta: pr('it'), karma: Mn(m.opposite_text), pol: 'neg' })),
+    S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))
+  ];
+  if (m.status === 'incomplete') return [
+    S(C('reach', { karta: N('derivation', { det: 'the' }), karma: N('limit', { det: 'the' }), tense: 'past' })),
+    S(C('make', { karta: I, karma: N('decision', { det: 'a', adj: ['complete'] }), tense: 'past', pol: 'neg' }))
+  ];
+  return [
+    S(C('pass', { karta: N('proof', { det: 'the' }), karma: N('check', { det: 'the', adj: ['independent'] }), tense: 'past', pol: 'neg' })),
+    S(C('answer', { karta: I, mod: 'can', pol: 'neg' }))
+  ];
+}
+function worldLimitationPlan(m) {
+  return [
+    S(C('derive', { karta: I, karma: N('structure', { det: 'a', of: N('world', { det: 'the' }) }), roles: { tadartha: Mn(m.source) }, mod: 'can', tense: 'past', pol: 'neg' })),
+    S(C('be', { karta: N('code', { det: 'the', of: N('limitation', { det: 'the' }) }), pred: Mn(m.code) }))
+  ];
 }
 const PLANS = {
   greet: () => [S(null, { part: 'hello' }), S(C('be', { karta: I, pred: N('kernel', { det: 'a', adj: ['deterministic', 'language'] }) })), S(C('type', { karma: Mn('help'), roles: { tadartha: N('list', { det: 'a', of: N('capability', { poss: 'my', pl: true }) }) } }), { force: 'imp' })],
@@ -425,9 +404,9 @@ const PLANS = {
     S(C('say', { karma: { coord: 'or', items: ['remember', 'recall', 'note', 'math', 'solve', 'define', 'infer'].map(k => Mn(MENTIONS[k])) } }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] })],
   loop: () => [S(C('start', { karta: N('binding', { det: 'a', adj: ['new'], app: X('λ') }), aspect: 'perf' })), S(C('reset', { karta: I, karma: N('flag', { det: 'the', adj: ['grace'], app: X('χ(t)') }), aspect: 'perf' }))],
   no_frame: () => [S(C('recognise', { karta: I, karma: N('word', { det: 'every' }), tense: 'past' })), S(C('derive', { karta: I, karma: N('structure', { det: 'a', adj: ['sentence'] }), roles: { tadartha: pr('that') }, mod: 'can', tense: 'past', pol: 'neg' }), { conj: 'but' }), S(C('type', { karma: Mn('help'), roles: { tadartha: N('list', { det: 'a', of: N('form', { adj: ['supported'], pl: true }) }) } }), { force: 'imp' })],
-  reasoned_answer: reasonPlan,
+  world_answer: worldPlan,
+  world_limitation: worldLimitationPlan,
   stored: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' }))],
-  /* PRIV-2: the value is never a node of the vākya; only the owner NP ("your pin") is realized */
   vault_locked: m => { const val = N('value', { det: 'the', of: m.subjNP ? U(m.subjNP) : { ut: m.subj } }); const vault = Nm('Identity Vault', 'the');
     const s1 = m.state === 'locked' ? S(C('lock', { karma: vault, voice: 'pass' })) : S(C('have', { karta: vault, karma: N('passphrase', { det: 'no' }) }));
     const s3 = m.state === 'locked' ? S(C('unlock', { karma: N('vault', { det: 'the' }) }), { force: 'imp' }) : S(C('set', { karma: N('passphrase', { det: 'a' }), roles: { adhikarana: N('vault', { det: 'the' }) } }), { force: 'imp' });
@@ -488,8 +467,6 @@ const PLANS = {
   bridge_pf_result: () => [S(C('have', { karta: N('device', { det: 'this' }), karma: N('result', { det: 'no', adj: ['simulation'], pl: true }) }))],
   legacy_refused: m => [S(C('refuse', { karta: I, karma: N('command', { det: 'the', adj: ['legacy'], app: Mn(m.command) }) })), S(C('be', { karta: N('code', { det: 'the', adj: ['refusal'] }), pred: X(m.code) }))].concat(REASON.LLM_GENERATION()),
   legacy_replaced: m => [S(C('replace', { karta: I, karma: N('command', { det: 'the', adj: ['legacy'], app: Mn(m.command) }), roles: { karana: N('lane', { det: 'a', adj: ['deterministic'] }) } }))].concat(LANE[m.lane] ? LANE[m.lane](m) : []),
-  /* W2 / W1 meanings (containment + permission + read-back); built from MSM fields only */
-  /* EchoForge tool bench (no model): started / result / failed / denied — tool ids, targets, titles and excerpts are mentions only */
   tool_started: m => [S(C('start', { karta: I, karma: N('tool', { det: 'the', app: Mn(m.tool) }), roles: { tadartha: N(m.noun || 'topic', { det: 'the', app: Mn(m.target) }) }, tense: 'past' }))].concat(m.local ? [S(C('keep', { karta: I, karma: N('result', { poss: 'its', pl: true }), roles: { adhikarana: N('device', { det: 'this' }) } }))] : [S(C('seal', { karta: I, karma: N('result', { poss: 'its', pl: true }), roles: { adhikarana: Nm('Identity Vault', 'the') } }))]),
   tool_result: m => [S(C('find', { karta: N('tool', { det: 'the', app: Mn(m.tool) }), karma: N(m.noun || 'source', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), tense: 'past' }))].concat(m.excerpt ? [S(C('say', { karta: N('excerpt', { det: 'the', adj: ['best'] }), karma: Mn(m.excerpt) }))] : []).concat(m.sealed ? [S(C('seal', { karta: I, karma: pr(m.items.length === 1 ? 'it' : 'they'), roles: { adhikarana: Nm('Identity Vault', 'the') }, tense: 'past' }))] : []).concat(m.indexed != null ? [S(C('index', { karta: I, karma: N('symbol', { cnt: m.indexed }), tense: 'past' }))] : m.sealed ? [] : [S(C('store', { karta: I, karma: pr(m.items.length === 1 ? 'it' : 'they'), tense: 'past', pol: 'neg' }))]),
   tool_failed: m => [S(C('find', { karta: N('tool', { det: 'the', app: Mn(m.tool) }), karma: N('evidence', { det: 'no' }), tense: 'past' })), S(C('report', { karta: pr('it'), karma: Mn(m.reason), tense: 'past' }))],
@@ -518,13 +495,10 @@ const PLANS = {
 };
 
 for (const v of VERBS) { const pp = verbForm(null, v, 'pp'); if (ADJ.has(pp)) PP_ADJ.add(pp); }
-/* ======================= public API ======================= */
 function plan(m) { const P = PLANS[m.kind]; if (!P) throw new Error('derive: no plan for meaning kind "' + m.kind + '"'); return P(m); }
 function realizeMeaning(m, env) { const vakya = plan(m); const r = Realizer(env).realize(vakya); r.vakya = vakya; r.derivation.plan = m.kind; r.derivation.surface = r.text; return r; }
 function strip(x) { return JSON.parse(JSON.stringify(x, (k, v) => { if (v === null || v === undefined) return undefined; if ((k === 'tense' && v === 'pres') || (k === 'pol' && v === 'pos') || (k === 'voice' && v === 'act') || (k === 'force' && v === 'decl') || (k === 'pl' && v === false)) return undefined; if (Array.isArray(v) && !v.length && k !== 'items') return undefined; if (k === 'roles' && v && typeof v === 'object' && !Object.keys(v).length) return undefined; return v; })); }
 const canon = o => { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); };
-/* plan canonicalisation: user NPs are re-read from their own surface with the same analyser (unique reading required),
- * and their re-read material must equal the MSM material (the inward-grammar round trip of the old Echo). */
 function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G.npText(n, 'kernel'));
   const walk = v => { if (Array.isArray(v)) return v.map(walk); if (!v || typeof v !== 'object') return v;
     if (v.u || v.ut !== undefined) { const surf = v.u ? userNP(v.u) : String(v.ut); const toks = A.tokenize(surf) || []; const rs = A.parseNP(toks, 'obj'); const ds = [...new Set(rs.map(r => canon(strip(r))))];

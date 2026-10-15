@@ -1,9 +1,3 @@
-/* Bidirectional Language Kernel + Recursive Manifest Compiler — v2.
- * Deterministic; no LLM; no embeddings/similarity decides meaning; every decision is a rule with an ID.
- * Inward:  tokenizer/morphology (grammar.js) → Concept Lexicon (Doc4: controlled seed + user + WordNet tiers, Doc8 provenance)
- *          → Paninian derivation + karaka roles (Doc3, Doc5, R0) → reference resolution (Doc6 §23) → Gates (Doc6) → MSM-v1
- * RMC:     Φ1–Φ9 (RPMC §1.4) · ε_s (RMC Addendum §3, calibrated — see CALIBRATION.md) · Score(c) (RMC §5.7) · χ(t)/Ĉ (RSOC §3.2)
- * Outward: MSM → grammatical generation (agreement, tense, negation, conjunction) → Echo re-derivation (RMC §5.12/§6.7). */
 (function (root) {
 const isNode = typeof module !== 'undefined' && module.exports;
 const L = isNode ? require('./lexicon.js') : root.KLexicon;
@@ -20,33 +14,24 @@ const TB = isNode ? require('./toolbench.js') : root.KTools;
 const OP = isNode ? require('./operator.js') : root.KOperator;
 
 const CATEGORIES = ['shared_outbox', 'shared_inbox', 'shared_knowledge', 'shared_challenges', 'user_tools', 'economy_capsules', 'economy_events', 'usage_events', 'usage_counts', 'reminders', 'request_receipts', 'request_policy_gaps', 'ede_candidates', 'ede_calibration', 'economy_seen', 'economy_quarantine', 'pf_echo', 'pf_agents', 'pf_drift_log', 'mea_seals', 'capsules', 'council', 'promotions', 'device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'dream_quarantine', 'ghost_loops', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path'];
-/* every store name the app writes (CATEGORIES are the kernel's; the rest belong to forge modules). Used by portable backup and delete-all. */
 const ALL_STORES = [...new Set(CATEGORIES.concat(['economy_manifests', 'shared_drafts', 'economy_foreign', 'receipts', 'shared_cursor', 'vault', 'signing_key', 'buyers', 'consent', 'consent_ledger', 'export_packages', 'offers', 'profiles', 'workbench_events', 'device', 'economy_events', 'usage_events', 'attribution_ledger', 'attribution_foreign', 'memory', 'meta', 'migrations', 'policy', 'permissions', 'trace']))].sort();
-/* v4.8.4 staged, versioned storage. Every store lives in the ACTIVE GENERATION: generation 0 is the legacy key layout kernel.<store>;
- * generation n>0 uses kernel.g<n>.<store>. The single key kernel.__gen is the active-generation pointer. A restore writes and verifies a
- * complete NEW generation, writes rollback metadata (kernel.__gen_prev), and only then switches the ONE pointer (the commit). A failure or
- * crash at any write before the pointer switch leaves the old generation active and byte-identical; leftover staged keys are inert. */
 const GEN_KEY = 'kernel.__gen', GEN_PREV_KEY = 'kernel.__gen_prev';
 function MemoryStore(backend) { const mem = {}; const b = backend || { get: k => (Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null), set: (k, v) => { mem[k] = String(v); }, del: k => { delete mem[k]; }, keys: () => Object.keys(mem) };
   const gen = () => { const v = b.get(GEN_KEY); const n = v == null ? 0 : Number(v); return Number.isInteger(n) && n >= 0 ? n : 0; };
   const pre = g => (g ? 'kernel.g' + g + '.' : 'kernel.');
   const dfl = cat => (cat === 'meta' ? {} : []);
   const rawLoad = (g, cat) => { const v = b.get(pre(g) + cat); return v ? JSON.parse(v) : dfl(cat); };
-  /* store names present in generation g (from backend keys when the backend can list them, plus every known store) */
   function namesIn(g) { const out = new Set(ALL_STORES); if (b.keys) { const p = pre(g); for (const k of b.keys()) { if (!k.startsWith(p)) continue; const c = k.slice(p.length); if (!c || c === 'probe' || c.startsWith('__') || (!g && /^g\d+\./.test(c))) continue; out.add(c); } } return [...out].sort(); }
-  /* stage: write every store of a NEW generation (data overrides the active copy), then read back and verify each one. Nothing active changes. */
   function stageGeneration(data, hook) { const from = gen(); const to = from + 1; const names = [...new Set(namesIn(from).concat(Object.keys(data || {})))].sort(); const want = {};
     for (const c of names) want[c] = JSON.stringify(data && Object.prototype.hasOwnProperty.call(data, c) ? data[c] : rawLoad(from, c));
     for (const c of names) b.set(pre(to) + c, want[c]);
     if (hook) hook({ save: (c, v) => b.set(pre(to) + c, JSON.stringify(v)) }); /* test hook: a backend that does not keep what was written */
     const bad = names.filter(c => b.get(pre(to) + c) !== want[c]); return { from, to, names, bad }; }
-  /* commit: rollback metadata first, then the ONE pointer write. Old generation kept for rollback; older ones are collected. */
   function commitGeneration(st) { if (!st || st.bad.length) throw new Error('STAGE-NOT-VERIFIED'); if (gen() !== st.from) throw new Error('STAGE-STALE');
     b.set(GEN_PREV_KEY, JSON.stringify({ prev: st.from, staged: st.to }));
     b.set(GEN_KEY, String(st.to));
     if (b.del && b.keys) { try { for (const k of b.keys()) { const m = /^kernel\.g(\d+)\./.exec(k); const g = m ? Number(m[1]) : (/^kernel\.(?!__|g\d+\.)/.test(k) && k !== 'kernel.probe' ? 0 : -1); if (g >= 0 && g !== st.to && g !== st.from) b.del(k); } } catch (e) { /* collection is optional; the commit already happened */ } }
     return { active: st.to, prev: st.from }; }
-  /* rollback: switch the pointer back to the generation recorded before the last commit (it was never modified) */
   function rollbackGeneration() { const v = b.get(GEN_PREV_KEY); let m = null; try { m = v ? JSON.parse(v) : null; } catch (e) { m = null; }
     if (!m || m.staged !== gen() || !Number.isInteger(m.prev)) return { ok: false, rule: 'RB-NO-PRE-RESTORE-GENERATION' };
     b.set(GEN_KEY, String(m.prev)); try { b.set(GEN_PREV_KEY, JSON.stringify({ prev: null, staged: null, rolled_back_from: m.staged })); } catch (e) { /* pointer already switched */ } return { ok: true, active: m.prev, from: m.staged }; }
@@ -57,7 +42,6 @@ function canon(o) { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + 
 const clone = o => JSON.parse(JSON.stringify(o));
 const r4 = M.r4;
 
-/* ---------- Concept Lexicon (Doc4) with Doc8 tiers ---------- */
 const CAT2POS = { entity: 'n', term: 'n', time: 'n', attribute: 'a', action: 'v', math: 'v' };
 function Lexicon(store) {
   const seed = L.SEED_CONCEPTS.map(c => Object.assign({}, c, { surfaces: c.surfaces.map(x => x.toLowerCase()) }));
@@ -85,7 +69,6 @@ function Lexicon(store) {
     if (example) { const ex = store.load('language_examples'); ex.push({ concept: id, version, example, at }); store.save('language_examples', ex); }
     return { ok: true, concept: c };
   }
-  /* G-10 word-admission workflow (Doc 8 licensing dossier; Doc 7 governance): quarantine → inspect (licence, evidence, hash, privacy, conflict) → approve (user tap) | reject (kept as a record) */
   const LICENCES = ['user-owned', 'CC0-1.0', 'public-domain', 'CC-BY-4.0', 'CC-BY-SA-4.0', 'WordNet-3.0'];
   const shaQ = t => sha256(t);
   function proposeConcept(o) { const q = store.load('admission_queue'); const surface = String(o.surface || '').trim().toLowerCase(), gloss = String(o.gloss || '').trim();
@@ -113,7 +96,6 @@ function Lexicon(store) {
     count: () => all().filter(c => !c.retired).length + (wn.core ? Object.keys(wn.core.L).length : 0) + (wn.ext ? Object.keys(wn.ext.L).length : 0), wn };
 }
 
-/* ---------- arithmetic surface (GP-014) ---------- */
 const NUMW = Object.assign(Object.create(null), { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100, thousand: 1000 });
 function mathSurface(s) {
   let t = s.replace(/^(?:what is|what are|calculate|compute|evaluate|how much is|what does)\s+/, '').replace(/\s+(?:equal|equals|make)$/, '');
@@ -144,7 +126,6 @@ function Kernel(opts) {
   let meta = Object.assign({ turn: 0, loop: 1, chi: 0, phaseHistory: [], last: null, discourse: [], alias: {}, pending: null, notation: 'plain', reasoning: null }, store.load('meta'));
   const saveMeta = () => store.save('meta', meta);
   const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
-  /* W1 permission service + W2 containment (one instance per store) */
   const perm = opts.perm || Gv.PermissionService(store, { clock: now }); const cont = CT.Containment(store, { clock: now, perm }); const bench = TB.Bench(store, { clock: now, perm });
   const fmtTime = opts.formatTime || (iso => iso.replace('T', ' ').slice(0, 16) + ' UTC');
   const glex = { hasPos: lex.hasPos, exc: lex.exc, controlled: lex.controlled, known: lex.known, isName: lex.isName, coreNoun: lex.coreNoun };
@@ -154,7 +135,6 @@ function Kernel(opts) {
   const isUnk = (t, i) => G.analyse(t, i, glex).every(a => a.tag === 'UNK');
   const unknownToks = toks => [...new Set(toks.filter(isUnk).map(t => t.w))];
 
-  /* ---- grammar helpers ---- */
   function canonPred(c) { // P-BARE-CANON: bare nominal predicate ≡ adjectival predicate with the same words (one material meaning)
     if (!c || typeof c !== 'object') return c; if (c.coord) { c.coord.forEach(canonPred); return c; }
     const bare = x => x.head && !x.det && !x.owner && !x.quant && !x.num && !x.of && !x.rel;
@@ -178,7 +158,6 @@ function Kernel(opts) {
   const reparseNP = text => npOnly(swapToks(text));
   const parseNP = text => npOnly(G.tokenize(text));
 
-  /* ---- entities / reference (Doc6 §23) ---- */
   function entKey(n) { if (!n) return null; let k;
     if (n.pron === 'user') k = 'user'; else if (n.pron === 'kernel') k = 'kernel'; else if (n.propn) k = 'name:' + n.propn.toLowerCase(); else if (n.quote !== undefined) k = 'quote:' + n.quote;
     else if (n.conj) k = 'conj:' + n.conj.map(entKey).join('+'); else if (n.num && !n.head) k = 'num:' + n.num;
@@ -207,24 +186,20 @@ function Kernel(opts) {
   function pushDiscourse(c) { const add = []; for (const n of nps(c)) { if (n.pron || n.pron3 || n.quote !== undefined || (n.num && !n.head)) continue; if ((n.propn && G.TIMEW.has(n.propn.toLowerCase())) || (n.head && n.head.length === 1 && G.TIMEW.has(n.head[0]))) continue; const k = entKey(n); if (!k || add.some(a => a.key === k)) continue; const np = clone(n); delete np.rel; delete np.resolvedFrom; add.push({ key: k, np, f: featsOf(n), turn: meta.turn }); }
     meta.discourse = add.concat(meta.discourse.filter(d => !add.some(a => a.key === d.key))).slice(0, 8); }
 
-  /* ---- sense narrowing with WordNet verb frames (Doc5 frames; Doc6 §16–17 congruity) ---- */
   function senseInfo(c) { if (!c || c.coord || !c.verb || c.verb.lemma === 'be') return null; const ss = lex.senses(c.verb.lemma).filter(s => s.pos === 'v'); if (!ss.length) return { status: 'controlled-or-unknown', rule: 'K-SENSE-CONTROLLED' };
     const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : {}; const anim = c.subj && (c.subj.pron || c.subj.propn || featsOf(c.subj).anim); const obj = c.roles && c.roles.karma; const objAnim = obj && !obj.clause && (obj.pron || obj.propn || featsOf(obj).anim);
     const fits = s => s.frames.some(f => { const fr = FR[f] || ''; if (!fr) return false; if (anim && !/^Somebody/.test(fr)) return false; if (!anim && /^Somebody/.test(fr)) return false; if (obj && obj.clause) return /CLAUSE/.test(fr); if (obj) return objAnim ? /----s somebody/.test(fr) : /----s something/.test(fr); return /----s$/.test(fr) || /----s PP$/.test(fr) || /----s (to|on) /.test(fr); });
     const ok = ss.filter(fits); const pick = ok.length ? ok : ss;
     return { status: pick.length === 1 ? 'selected' : 'held-open', rule: ok.length ? 'K-SENSE-FRAME-FILTER' : 'K-SENSE-NO-FRAME-MATCH', candidates: pick.map(s => s.sid + ' ' + s.gloss).slice(0, 6), total: ss.length }; }
 
-  /* ---- memory matching (exact structural keys; no similarity) ---- */
   const predOf = c => (c && c.verb ? c.verb.lemma : null);
   const roleKey = c => { const o = {}; for (const [k, v] of Object.entries(c.roles || {})) o[k] = v && v.clause ? canon(G.material(v.clause)) : entKey(v); for (const a of c.adj || []) (o['adj:' + (a.prep || a.role)] = o['adj:' + (a.prep || a.role)] || []).push(a.np ? entKey(a.np) : a.time); return o; };
   const subjMatch = (qs, rs) => { if (!qs) return true; const b = entKeys(rs); return entKeys(qs).every(k => b.includes(k)); };
-  /* W3 quantifier scope (Doc3 scope; Doc6 §29): universal subject + indefinite object stores the surface reading ∀x∃y; the inverse ∃y∀x is preserved as an unselected reading and is never entailed */
   let sideRules = []; let pendingRender = null;
   const QCLASS = q => (q === 'every' || q === 'each' || q === 'all') ? 'univ' : q || null;
   function scopeOf(c) { if (!c || c.coord || !c.subj || QCLASS(c.subj.quant) !== 'univ') return null; const k = c.roles && c.roles.karma; if (!k || k.clause || !(k.det === 'a' || k.det === 'an' || k.quant === 'some')) return null;
     return { selected: '∀x∃y', preserved: ['∃y∀x'], rule: 'LL-QSCOPE-SURFACE' }; }
   const wantsSame = q => Object.values(q.roles || {}).some(v => v && !v.clause && (v.adjs || []).includes('same'));
-  /* W3+ inference breadth: virtual facts derived in one lawful step (never stored; cited in the trace) */
   function predEq(q, c) { if (!q.pred && !c.pred) return true; if (!q.pred || !c.pred) return false; const qn = q.pred.np, cn = c.pred.np; if (qn && cn) return canon(entKeys(qn)) === canon(entKeys(cn)) || canon(qn.head) === canon(cn.head); return canon(G.material(q.pred)) === canon(G.material(c.pred)); }
   function singularPred(pred) { if (!pred || pred.type !== 'adj' || (pred.words || []).length !== 1) return pred; const w = pred.words[0]; const lem = (lex.lemmas ? lex.lemmas(w, 'n') : []).find(l => l !== w) || (/s$/.test(w) && lex.senses(w.replace(/s$/, '')).some(x => x.pos === 'n') ? w.replace(/s$/, '') : null);
     return lem ? { type: 'np', np: { adjs: [], head: [lem], plural: false, surface: [lem], det: /^[aeiou]/.test(lem) ? 'an' : 'a' } } : pred; }
@@ -255,7 +230,6 @@ function Kernel(opts) {
   function describe(c) { if (c.coord) return c.coord.map(describe).join(' + '); const r = ['subject: ' + G.npText(c.subj, 'kernel'), 'verb: ' + c.verb.lemma]; if (c.pred) r.push('predicate: ' + (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel'))); for (const [k, v] of Object.entries(c.roles || {})) r.push(k + ': ' + (v.clause ? '[clause]' : G.npText(v, 'kernel'))); for (const a of c.adj || []) r.push(a.role + ': ' + (a.time || a.prep + ' ' + G.npText(a.np, 'kernel'))); const relT = []; for (const n of nps(c)) for (const rc of [n.rel, n.relObj]) if (rc && rc.verb) relT.push(rc.verb.lemma + ' (' + rc.verb.tense + ')'); if (relT.length) r.push('relative verb: ' + relT.join(', ')); r.push('tense: ' + c.verb.tense); return r.join(', '); }
   const ruleDoc = id => /^K-/.test(id) ? 'Doc5 karaka roles' : /^LL-/.test(id) ? 'Doc3 Language Law' : /^M-/.test(id) ? 'Doc4 morphology / WordNet exceptions' : /^TAG-/.test(id) ? 'Doc4 lexicon tagging' : /^(NP|V|P|G)-/.test(id) ? 'Doc3 / R0 derivation' : 'kernel';
 
-  /* ---- Φ3 candidate frames ---- */
   const META = [
     ['FR.GREET', 'greeting', /^(?:hello|hi|hey|greetings|good (?:morning|afternoon|evening))(?: there| kernel| forge)?$/, () => ({ kind: 'greet' })],
     ['FR.BYE', 'farewell', /^(?:bye|goodbye|farewell|good night|see you)$/, () => ({ kind: 'bye' })],
@@ -275,8 +249,9 @@ function Kernel(opts) {
     if (!ctx.raw) { ctx.raw = raw; ctx.low = low; }
     const rules = [], g = { expectancy: 'pass', congruity: 'pass', connectedness: 'pass', purpose: 'pass' };
     const res = (outcome, material, extra) => Object.assign({ outcome, material, gates: g, rules, frame: 'none', act: 'unknown' }, extra || {});
+    const worldResult = rr => { rules.push(...(rr.rules || [])); if (rr.reasoningState) ctx.reasoningState = rr.reasoningState; return res(rr.outcome, rr.material, { frame: rr.frame, act: rr.act, uncertainty: rr.uncertainty, reasoningCandidates: rr.reasoningCandidates, reasoningState: rr.reasoningState }); };
+    if (ctx.worldPreflight && ctx.worldPreflight.handled) return worldResult(ctx.worldPreflight);
     const clarifyUnknown = ws => { g.connectedness = 'unknown-concept'; rules.push({ id: 'LX-UNKNOWN', doc: 'Doc4 unknown-concept state; Doc3 §41', note: ws.join(', ') }); return res('CLARIFICATION_REQUIRED', { kind: 'clarify_unknown', words: ws }, { frame: ctx.frame || 'FR.UNKNOWN', act: 'unknown' }); };
-    // pending clarification re-entry (Doc6 §30, §34)
     if (meta.pending) { const p = meta.pending; const yes = /^(yes|yeah|yep|ok|okay|sure|correct|replace it|do it)$/.test(low), no = /^(no|nope|keep it|keep the old one)$/.test(low);
       const ordW = { first: 1, one: 1, second: 2, two: 2, third: 3, three: 3, fourth: 4, four: 4, fifth: 5, five: 5, sixth: 6, six: 6 }; const om = low.match(/^(?:the )?(?:(\d)|(first|second|third|fourth|fifth|sixth|one|two|three|four|five|six))(?: one| sense)?$/); const n = om ? +(om[1] || ordW[om[2]]) : null;
       if (p.type === 'replace' && (yes || no)) { meta.pending = null; rules.push({ id: 'G-REENTRY-' + (yes ? 'CONFIRM' : 'DECLINE'), doc: 'Doc6 §34 (re-entry)' }); if (yes) return res('SELECTED_MEANING', { kind: 'replaced', clause: p.clause }, { frame: 'FR.CONFIRM', act: 'answer', write: { clause: p.clause, supersede: p.oldIds }, auth: 'explicit confirmation' }); return res('SELECTED_MEANING', { kind: 'kept', clause: p.old }, { frame: 'FR.CONFIRM', act: 'answer' }); }
@@ -290,8 +265,6 @@ function Kernel(opts) {
     if (/^(yes|yeah|yep|ok|okay|sure|correct|no|nope|wrong)$/.test(low)) return res('SELECTED_MEANING', { kind: 'ack' }, { frame: 'FR.ACK', act: 'answer' });
     for (const [id, act, re, fn, x] of META) if (re.test(low)) { if (x && x.rule) rules.push({ id: x.rule, doc: 'Doc7; Doc6 §37' }); return res((x && x.outcome) || 'SELECTED_MEANING', fn(), Object.assign({ frame: id, act }, x && x.effect ? { effect: x.effect } : {})); }
     const phi = meta.notation === 'phi';
-    // ---- algebra (GP-014) ----
-    // calculus (polynomials only): derivatives and integrals, exact
     const calc = low.match(/^(?:please )?(?:(?:what is |find )?(?:the )?(derivative|integral|antiderivative) of|differentiate|integrate|d\/d([a-z]))\s+(.+?)(?: with respect to ([a-z]))?(?: from (-?[\w./π]+) to (-?[\w./π]+))?$/);
     if (calc && (CA.isElementary([calc[3], calc[5] || '', calc[6] || ''].join(' ')) || /\/\s*\(?[^)]*[a-z]|\^\s*\(?[a-z]/.test(calc[3]))) { const isD = calc[1] === 'derivative' || /^(?:please )?(differentiate|d\/d)/.test(low); const x = calc[2] || calc[4] || null; const body = calc[3].replace(/\s*d[a-z]$/, '');
       let r; try { r = isD ? CA.derivative(body, x) : CA.integral(body, x, calc[5], calc[6]); } catch (e) { r = { ok: false, error: 'MALFORMED' }; }
@@ -304,7 +277,6 @@ function Kernel(opts) {
       if (!r.ok) return res('INCONGRUENT_REJECTED', { kind: 'refuse', reason: r.error === 'FREE_VARIABLES' ? 'DEFINITE_ONE_VAR' : r.error === 'DIV_BY_POLY' ? 'CALC_SCOPE' : 'MALFORMED_EXPR' }, { frame: 'FR.ALGEBRA', act: 'request' });
       rules.push({ id: isD ? 'GP014-RECOMPUTED' : 'GP014-VERIFIED-BY-DIFFERENTIATION', doc: 'Doc9 verification' });
       return res('SELECTED_MEANING', Object.assign({ kind: 'calculus', op: isD ? 'derivative' : 'integral', x: r.x, input: r.input, result: r.definite ? r.definite.value : r.result }, !isD && r.definite ? { a: r.definite.a, b: r.definite.b } : {}), { frame: 'FR.ALGEBRA', act: 'request', math: r }); }
-    // systems of linear equations
     const sysm = low.match(/^(?:please )?solve (?:the system )?(.+=.+?)(?:,| and|;)\s*(.+=.+)$/);
     if (sysm) { const eqs = sysm[1].split(/,|;| and /).concat(sysm[2].split(/,|;| and /)).map(x => algebraText(x)).filter(Boolean);
       if (eqs.length >= 2 && eqs.every(x => /=/.test(x) && !/[a-z]{2,}/.test(x))) { rules.push({ id: 'GP014-LINEAR-SYSTEM-GAUSS', doc: 'GP-014; exact Gauss–Jordan over ℚ' }); const r = A.solveSystem(eqs);
@@ -351,7 +323,6 @@ function Kernel(opts) {
       if (!r.ok) { g.congruity = 'not a well-formed expression'; return res('INCONGRUENT_REJECTED', { kind: 'refuse', reason: 'MALFORMED_EXPR' }, { frame: 'FR.MATH', act: 'question', math: r }); }
       return res('SELECTED_MEANING', { kind: 'math', expr: r.pretty, exprPhi: r.phaseForm, value: r.value, approx: r.approx, phi }, { frame: 'FR.MATH', act: 'question', math: r, uncertainty: r.approx ? 'approximate (irrational)' : 'none' }); }
     let m;
-    // ---- notes / say / forget / external ----
     if ((m = low.match(/^(?:please )?(?:note|make a note|take a note|add a note|write down|jot down)(?: that)?(?:[: ]+(.+))?$/)) || (m = low.match(/^(?:please )?remind me to (?!.*\bin \d{1,4} (?:minutes?|min|hours?|days?)[.!]?$)(.+)$/))) {
       const txt = raw.replace(/^\s*(?:please )?(?:note|make a note|take a note|add a note|write down|jot down|remind me to)(?: that)?[:\s]*/i, '').replace(/[.!]$/, '').replace(/"/g, "'");
       if (!m[1]) { g.expectancy = 'missing text'; return res('INCOMPLETE_PRESERVED', { kind: 'clarify_incomplete', act: 'note', missing: 'NOTE_TEXT' }, { frame: 'FR.NOTE.ADD', act: 'request' }); }
@@ -364,11 +335,8 @@ function Kernel(opts) {
       const unk = unknownToks(content(G.tokenize(txt)).filter(t => !/^[A-Z]/.test(t.orig) || true));
       rules.push({ id: unk.length ? 'RMC-UNNAMEABLE-PROJECTION' : 'RMC-QUOTATION-NAMED', doc: 'RMC Addendum §4; RPMC §1.4 (Φ7 naming precedes Φ8)', note: unk.length ? 'content cannot be named at Φ7 → attempted Φ5→Φ8' : 'quotation named at Φ7 as a quotation; lawful Φ6→Φ7→Φ8' });
       return res('SELECTED_MEANING', { kind: 'quoted', text: txt }, { frame: 'FR.SAY', act: 'request', forbiddenPath: unk.length > 0, literal: unk }); }
-    // forget/delete: handled by FR.FORGET in grammarFrames (confirmation → cold storage; Doc7)
-    /* user tools (Tool Builder): only enabled, tested tools run, in a sandboxed worker, as a bench job */
     if ((m = raw.match(/^\s*(?:please\s+)?(?:use|run)\s+(?:my\s+)?tool\s+([a-z][a-z0-9-]{1,30})\s+(?:on|with|for)\s+([\s\S]{1,2000})$/i)) && !ctx.negAct) { const name = m[1].toLowerCase();
       rules.push({ id: 'EF-FRAME-USERTOOL', doc: 'Tool Builder (ForgeScript in a sandboxed worker; evidence only)' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'user.' + name, target: name, noun: 'tool', local: true }, { frame: 'FR.TOOL.USER', act: 'request', toolRequest: { tool: 'user.tool', input: JSON.stringify({ name, input: m[2].trim() }) } }); }
-    /* notes: edit / search / tag / link / forget / seal (Doc7 explicit writes; history kept, no hard delete — D11) */
     { const nl = notes(); const pick = n => nl[n - 1]; const upd = (rec, f) => { const all = store.load('memory'); const r = all.find(x => x.id === rec.id); f(r); r.updated_at = now(); store.save('memory', all); return r; };
       if ((m = raw.match(/^\s*(?:please\s+)?(?:edit|change|update)\s+note\s+(\d{1,4})\s+to\s*:?\s*(.{1,500}?)\s*[.!]?$/i)) && !ctx.negAct) { const r = pick(+m[1]); if (!r) return res('SELECTED_MEANING', { kind: 'note_missing', n: +m[1] }, { frame: 'FR.NOTE.EDIT', act: 'request' });
         const t = m[2].replace(/"/g, "'"); upd(r, x => { (x.history = x.history || []).push({ text: x.text, at: now() }); x.text = t; }); rules.push({ id: 'AUTH-EXPLICIT-NOTE-EDIT', doc: 'Doc7; prior text kept in history' }); return res('SELECTED_MEANING', { kind: 'note_edited', n: +m[1], text: t }, { frame: 'FR.NOTE.EDIT', act: 'request' }); }
@@ -384,13 +352,11 @@ function Kernel(opts) {
       if ((m = raw.match(/^\s*(?:please\s+)?seal\s+note\s+(\d{1,4})(?:\s+in(?:to)? (?:the |my )?vault)?\s*[.!]?$/i)) && !ctx.negAct) { const r = pick(+m[1]); if (!r) return res('SELECTED_MEANING', { kind: 'note_missing', n: +m[1] }, { frame: 'FR.NOTE.SEAL', act: 'request' });
         rules.push({ id: 'EF-FRAME-NOTESEAL', doc: 'Identity Vault seal (AES-GCM); plain text replaced by a vault reference' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'notes.seal', target: 'note ' + m[1], noun: 'note' }, { frame: 'FR.NOTE.SEAL', act: 'request', toolRequest: { tool: 'notes.seal', input: r.id } }); }
     }
-    /* reminders (local; derived replies) */
     if ((m = raw.match(/^\s*(?:please\s+)?remind me (?:to|about)\s+(.{1,300}?)\s+in\s+(\d{1,4})\s+(minute|minutes|min|hour|hours|day|days)\s*[.!]?$/i)) && !ctx.negAct) {
       const mult = /^h/i.test(m[3]) ? 3600e3 : /^d/i.test(m[3]) ? 864e5 : 60e3; const due = new Date(Date.parse(now()) + (+m[2]) * mult); const rs = store.load('reminders'); const rec = { id: 'rem:' + (rs.length + 1), text: m[1].trim(), due: due.toISOString(), state: 'pending', created: now() }; const hh = due.getHours(), mm = due.getMinutes(); const when = due.getFullYear() + '-' + String(due.getMonth() + 1).padStart(2, '0') + '-' + String(due.getDate()).padStart(2, '0') + ' ' + String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0'); rec.when = when; rs.push(rec); store.save('reminders', rs.slice(-500));
       rules.push({ id: 'AUTH-EXPLICIT-REMINDER', doc: 'Doc7 explicit local write (reminder)' }); return res('SELECTED_MEANING', { kind: 'reminder_set', text: rec.text, when }, { frame: 'FR.REMIND', act: 'request' }); }
     if (/^(?:(?:show|list|what are)(?: me)?(?: all)? my reminders|my reminders)\??$/.test(low)) { const rs = store.load('reminders').filter(r => r.state === 'pending'); rules.push({ id: 'G-REMINDER-LIST', doc: 'reminders store' });
       return res('SELECTED_MEANING', { kind: 'reminders', items: rs.map(r => r.text + ' — ' + (r.when || r.due)) }, { frame: 'FR.REMIND', act: 'question' }); }
-    /* Evolutionary Drift Explorer (RMC §5.6 / Algorithm 3 §8.3) over committed memory; candidates are pending, never facts */
     if ((m = low.match(/^(?:please )?explore (?:adjacent |new )?ideas(?: for (formal definitions?|coding|patch(?:es)?|architecture|brainstorming|creative brainstorming|public claims?|scientific claims?))?(?: with seed (\d{1,9}))?$/))) { const TM = { formal: 'formal_definition', coding: 'coding_patch', patch: 'coding_patch', architecture: 'architecture', brainstorming: 'creative_brainstorming', creative: 'creative_brainstorming', public: 'public_scientific_claim', scientific: 'public_scientific_claim' }; const taskMode = m[1] ? TM[m[1].split(' ')[0]] : 'creative_brainstorming'; m = [m[0], m[2]]; const mem = store.load('memory').filter(r => r.status === 'active' && r.clause);
       const edges = INF.relEdges(mem).map(e => Object.assign({}, e, { rel: e.rel })); const typed = new Set(edges.map(e => e.id));
       for (const r of mem) { if (typed.has(r.id) || !r.entities || r.entities.length !== 2 || r.clause.coord || r.clause.cond) continue; edges.push({ id: r.id, a: r.entities[0], b: r.entities[1], rel: r.pred === 'be' ? 'isa' : r.pred, neg: r.clause.verb && r.clause.verb.pol === 'neg' }); }
@@ -401,10 +367,8 @@ function Kernel(opts) {
       const da = store.load('drift_archive'); for (const c of out.archived) if (!da.some(x => x.id === 'ede:' + c.branch_id)) da.push({ id: 'ede:' + c.branch_id, at: now(), kind: 'ede_branch', eps_s: c.drift.eps_s, novelty: c.novelty.N, projection_status: 'blocked', failure_reason: c.failure_reason, anchors: c.anchor_ids }); store.save('drift_archive', da.slice(-1000));
       rules.push({ id: 'EDE-ALG3', doc: 'RMC §5.6 Evolutionary Drift Explorer; §8.3 Algorithm 3 (N_min 0.15, N_max 0.75, θ 0.35)', note: out.anchors + ' anchors · ' + out.explored + ' explored · ' + out.retained.length + ' retained · ' + out.archived.length + ' archived' });
       return res('SELECTED_MEANING', { kind: 'ede_result', explored: out.explored || 0, archived: out.archived.length, items: out.retained.slice(0, 6).map(c => lab(c.claim.subject) + ' → ' + rl(c.claim.relation) + ' → ' + lab(c.claim.object)) }, { frame: 'FR.TOOL.EDE', act: 'request' }); }
-    /* 3-D physics preview (lazy cannon-es; runs as a bench job) */
     if ((m = low.match(/^(?:please )?(?:run (?:a )?)?(?:simulate|simulation|preview)? ?(?:in )?3-?d(?: physics)?(?: (?:simulation|preview))?(?: of)?(?: (\d{1,2}))?(?: (boxes|spheres|cylinders|bodies))?(?: with seed (\d{1,9}))?$/)) && /3-?d/.test(low)) { const shape = m[2] && m[2] !== 'bodies' ? m[2].replace(/s$/, '').replace(/e$/, 'e') : undefined; const arg = JSON.stringify({ count: m[1] ? +m[1] : 4, shape: shape === 'boxe' ? 'box' : shape, seed: m[3] ? +m[3] : 1 });
       rules.push({ id: 'EF-FRAME-SIM3D', doc: '3-D preview: cannon-es 0.20.0 + three.js r169 (vendored, MIT); PyBullet defaults g=−9.81, dt=1/240' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'sim3d.run', target: '3-D preview', noun: 'scene', local: true }, { frame: 'FR.TOOL.SIM3D', act: 'request', toolRequest: { tool: 'sim3d.run', input: arg } }); }
-    /* ProtoForge tools (EchoForge bench): thermodynamic drift analysis + deterministic agents (protoforge.js) */
     if (/^(?:please )?(?:analy[sz]e|check) (?:my |the )?drift(?: pattern)?$/.test(low)) { const series = store.load('trace').filter(t => t.drift && typeof t.drift.eps_s === 'number').slice(-50).map(t => t.drift.eps_s); const a = PF.analyze(series);
       rules.push({ id: 'EF-FRAME-PFDRIFT', doc: 'ProtoForge thermodynamic_drift.py (DTW classification, Landauer bounds, trajectory prediction)', note: a.n + ' samples' }); return res('SELECTED_MEANING', { kind: 'pf_drift', pattern: a.pattern, intervention: a.prediction.intervention_type, samples: a.n }, { frame: 'FR.TOOL.PFDRIFT', act: 'request' }); }
     if ((m = low.match(/^(?:please )?spawn (?:an? )?(echo|writer) agent(?: named ([a-z][\w-]{0,29}))?$/))) { const O = PF.Orchestrator(store, { clock: opts.clock }); const r = O.spawn(m[1], m[2]); rules.push({ id: 'EF-FRAME-PFAGENT', doc: 'ProtoForge Build Task 1 (orchestrator.spawn)' });
@@ -415,12 +379,10 @@ function Kernel(opts) {
       return res('SELECTED_MEANING', a.length ? { kind: 'tool_result', tool: 'protoforge.agents', noun: 'agent', items: a.map(x => x.id + ' ' + x.task + ' ' + x.status), sealed: false } : { kind: 'tool_failed', tool: 'protoforge.agents', reason: 'no agent' }, { frame: 'FR.TOOL.PFAGENT', act: 'question' }); }
     if ((m = raw.match(/^\s*(?:please\s+)?(?:run|send)\s+agent\s+(pf-\d{1,4})\s+on\s+(.{1,400})$/i))) { const O = PF.Orchestrator(store, { clock: opts.clock }); const r = O.input(m[1], { text: m[2] }); rules.push({ id: 'EF-FRAME-PFAGENT', doc: 'ProtoForge Build Task 1 (input; χ(t) 500 ms; drift threshold 0.4)', note: r.ok ? 'entropy ' + r.entropy : r.rule });
       return res('SELECTED_MEANING', r.ok ? { kind: 'pf_agent', action: 'run', id: m[1], task: r.result.acted } : { kind: 'tool_failed', tool: 'protoforge.agents', reason: r.rule }, { frame: 'FR.TOOL.PFAGENT', act: 'request' }); }
-    /* RMC multi-output (RMC 00/01): render the previous turn's manifest in another output form; derived reply, per-form Echo */
     { const tm = raw.match(/^(.*?)\s+(?:for|of)\s+turn\s+(\d{1,6})\s*$/i); const form = RD.parseRequest(tm ? tm[1] : raw); if (form) { const tl = store.load('trace'); const last = tl.slice().reverse().find(t => t.msm && t.msm.meaning && !/^render/.test(t.msm.meaning.kind) && t.output && (!tm || t.turn === +tm[2]));
       if (!last) { rules.push({ id: 'RMC-RENDER-NO-MANIFEST', doc: 'RMC 01 output forms' }); return res('SELECTED_MEANING', { kind: 'render_none', form }, { frame: 'FR.RENDER', act: 'request' }); }
       const art = RD.render(form, last, last.output, ENV); pendingRender = art; rules.push({ id: 'RMC-RENDER-' + form.toUpperCase().replace('.', '-'), doc: 'RMC 00 §output forms; RMC 01 (one manifest, many forms; Echo per form)', note: art.echo.mode });
       return res('SELECTED_MEANING', { kind: 'rendered', form, turn: last.turn, pass: !!art.echo.pass }, { frame: 'FR.RENDER', act: 'request' }); } }
-    /* EchoForge tool bench frames (user decision D6, 2026-10-11): research / capture / GitHub read / pattern reflection */
     if ((m = raw.match(/^\s*(?:please\s+)?(?:(?:can|could|will|would)\s+you\s+)?(?:research|look\s+up|search\s+the\s+web\s+for|find\s+sources\s+(?:on|about))\s+(.{2,160}?)[\s?.!]*$/i)) && !ctx.negAct) { rules.push({ id: 'EF-FRAME-RESEARCH', doc: 'EchoForge tool bench; forge research_acquisition.py' }); const topic = m[1].replace(/["“”]/g, "'").trim(); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'research.web', target: topic, noun: 'topic' }, { frame: 'FR.TOOL.RESEARCH', act: 'request', toolRequest: { tool: 'research.web', input: topic } }); }
     if ((m = raw.match(/^\s*(?:please\s+)?(?:read|check|follow)\s+(?:the\s+)?(?:rss\s+|atom\s+|news\s*)?feed:?\s+(https?:\/\/\S{3,400})\s*$/i)) && !ctx.negAct) { const u = m[1].replace(/[)\].,]+$/, ''); rules.push({ id: 'EF-FRAME-FEED', doc: 'RUNTIME CODEX Vol III §4.1.1 RSS feeds (tracker-free; evidence only)' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'feed.read', target: u, noun: 'feed' }, { frame: 'FR.TOOL.FEED', act: 'request', toolRequest: { tool: 'feed.read', input: u } }); }
     if ((m = raw.match(/^\s*(?:please\s+)?(?:capture|clip|save)(?:\s+(?:this|the))?(?:\s+(?:web\s*)?page)?:?\s+(https?:\/\/\S{3,400})\s*$/i)) && !ctx.negAct) { rules.push({ id: 'EF-FRAME-CAPTURE', doc: 'EchoForge tool bench; Register A-07 page capture' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'capture.page', target: m[1].replace(/[)\].,]+$/, ''), noun: 'page' }, { frame: 'FR.TOOL.CAPTURE', act: 'request', toolRequest: { tool: 'capture.page', input: m[1].replace(/[)\].,]+$/, '') } }); }
@@ -434,10 +396,8 @@ function Kernel(opts) {
     if (/^(?:what patterns do you (?:see|notice)|(?:please )?reflect(?: on (?:our|my) conversations?)?|run gilligan)$/.test(low)) { const g = OP.gilligan(store); rules.push({ id: 'EF-FRAME-PATTERNS', doc: 'GenNode Doc 10 Gilligan (reflection only)', note: g.patterns.length + ' patterns over ' + g.basis.facts + ' facts / ' + g.basis.traces + ' traces' }); return res('SELECTED_MEANING', { kind: 'patterns', items: g.patterns.map(p => p.word + ' (' + p.count + ')') }, { frame: 'FR.PATTERNS', act: 'question' }); }
     const EXT = 'send|email|mail|text|message|post|share|publish|tweet|purchase|order|pay|book|open|launch|run|execute|install|download|upload|call|browse|search|play|stream|navigate|translate|schedule';
     if ((m = low.match(new RegExp('^(?:please )?(?:(?:can|could|will|would) you )?(' + EXT + ')\\b(.*)$')))) { if (ctx.negAct) return res('SELECTED_RESTRICTED_MEANING', { kind: 'neg_act', act: m[1] }, { frame: 'FR.EXTERNAL', act: 'request' }); rules.push({ id: 'CAP-UNSUPPORTED-EXTERNAL', doc: 'Doc1; Doc5 §17; Doc8' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: (m[1] + m[2]).replace(/\bmy\b/g, 'your').trim(), reason: 'NO_EXTERNAL' }, { frame: 'FR.EXTERNAL', act: 'request' }); }
-    // ---- compositional premise/question reasoning (no model; proof graph → generated answer) ----
-    { const lastReasoning = meta.reasoning && meta.turn - Number(meta.reasoning.turn || 0) <= 2 ? meta.reasoning : null; const rr = R.evaluate(raw, { lex: glex, last: lastReasoning });
-      if (rr.handled) { rules.push(...(rr.rules || [])); if (rr.reasoningState) ctx.reasoningState = rr.reasoningState; return res(rr.outcome, rr.material, { frame: rr.frame, act: rr.act, uncertainty: rr.uncertainty, reasoningCandidates: rr.reasoningCandidates, reasoningState: rr.reasoningState }); } }
-    // ---- queries over memory ----
+    { const rr = R.evaluate(raw, { allowBareQuery: activeFacts().length === 0 });
+      if (rr.handled) return worldResult(rr); }
     if ((m = low.match(/^(?:what do you know|what do you remember|tell me(?: everything)?) about (.+)$/))) {
       const rest = raw.replace(/^.*?about\s+/i, '').replace(/[?.!]+$/, ''); const tgt = /^(me|myself)$/.test(m[1]) ? { pron: 'user' } : parseNP(rest);
       if (!tgt) { const unk = unknownToks(content(G.tokenize(rest))); if (unk.length) return clarifyUnknown(unk); return res('NO_LAWFUL_CANDIDATE', { kind: 'no_frame' }, { frame: 'FR.ABOUT', act: 'question' }); }
@@ -453,7 +413,6 @@ function Kernel(opts) {
       if (!recs.length) { const n = parseNP(rest); return res('SELECTED_MEANING', { kind: 'recall_none', subj: n || { propn: 'that' } }, { frame: 'FR.WHEN', act: 'question' }); }
       return res('SELECTED_MEANING', { kind: 'when', items: recs.map(r => ({ clause: r.clause, turn: r.provenance.turn, when: fmtTime(r.provenance.at) })) }, { frame: 'FR.WHEN', act: 'question', evidenceRefs: recs.map(r => r.id) }); }
     if ((m = low.match(/^how many (?:facts|things) do you (?:know|remember) about (.+)$/))) { const n = /^(me|myself)$/.test(m[1]) ? { pron: 'user' } : parseNP(raw.replace(/^.*?about\s+/i, '').replace(/[?.!]+$/, '')); if (n) { const fs = factsAbout(entKey(n)); rules.push({ id: 'MEM-QUERY-COUNT', doc: 'Doc7' }); return res('SELECTED_MEANING', { kind: 'count_about', n: fs.length, subj: n }, { frame: 'FR.MEM.COUNT', act: 'question' }); } }
-    // ---- define (single word) ----
     if ((m = low.match(/^(?:what is the meaning of|what is the definition of|definition of|meaning of|what is|what are|define|what does|explain) (?:a |an |the )?([a-zα-ωφψχθμρσε₀-₉_'\-][\wα-ωφψχθμρσε₀-₉'\-]*)(?: mean| stand for)?$/)) && !/^(my|your|it|this|that|they|them|he|she|his|her|their|our)$/.test(m[1])) {
       const w = m[1]; const ctl = lex.lookup(w).filter(c => c.id !== 'NUM.LITERAL' && c.category !== 'function');
       if (ctl.length === 1) { const k = ctl[0]; rules.push({ id: 'LX-CONTROLLED-FIRST', doc: 'Doc4; Doc5 §12.28; Doc8 (controlled terms precede external resources)', note: k.id }); return res('SELECTED_MEANING', { kind: 'define', term: w, gloss: k.senses[0].gloss, source: k.source || 'seed lexicon' }, { frame: 'FR.DEFINE', act: 'question', evidenceRefs: ['lexicon:' + k.id] }); }
@@ -469,13 +428,11 @@ function Kernel(opts) {
     return grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown);
   }
 
-  /* ---- grammar-derived frames: REMEMBER / QUESTION / IMPERATIVE / ASSERT ---- */
   function grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown) {
     let toks = content(G.tokenize(raw.replace(/^\s*please[,\s]+/i, '').replace(/[,\s]+please[.!?]?\s*$/i, '')));
     let instead = false; if (toks.length && toks[toks.length - 1].w === 'instead') { toks = toks.slice(0, -1); instead = true; }
     if (toks.length && /^(actually|correction)$/.test(toks[0].w)) { toks = toks.slice(toks[1] && /^[,:]$/.test(toks[1].w) ? 2 : 1); instead = true; }
     const w0 = toks[0] ? toks[0].w : '';
-    /* FR.DREAM (Register E-05; forge dream_state_quarantine.py): a speculative frame is understood, quarantined, never stored as fact */
     const dreamLen = /^(suppose|imagine|hypothetically)$/.test(w0) ? 1 : (w0 === 'what' && toks[1] && toks[1].w === 'if') || (w0 === 'let' && toks[1] && /^(us|'s)$/.test(toks[1].w)) ? 2 : (w0 === 'i' && toks[1] && /^(dreamed|dreamt|imagined)$/.test(toks[1].w)) ? 2 : 0;
     if (dreamLen && !ctx.negAct) { let body = toks.slice(dreamLen); if (w0 === 'let' && body[0] && body[0].w === 'say') body = body.slice(1); if (body[0] && /^[,:]$/.test(body[0].w)) body = body.slice(1); if (body[0] && body[0].w === 'that') body = body.slice(1);
       if (body.length >= 2) { ctx.dream = true; ctx.dreamVerb = /^(imagine|imagined|dreamed|dreamt)$/.test(w0 === 'i' ? toks[1].w : w0) ? 'imagine' : 'suppose'; rules.push({ id: 'CT-DREAM-FRAME', doc: 'RMC containment; forge dream_state_quarantine.py (Patch 266)', note: 'speculative frame: ' + toks.slice(0, dreamLen).map(t => t.w).join(' ') }); return declarative(body, 'FR.DREAM', 'assertion', false); } }
@@ -588,11 +545,9 @@ function Kernel(opts) {
       if (gap === 'role:karma' && q.roles && q.roles.karma) { if (/^(what|which)$/.test(toks[0].w) && animNP(q.roles.karma) && !q.roles.sampradana) { q.roles = { sampradana: q.roles.karma }; rules.push({ id: 'Q-WH-KARMA-SHIFT', doc: 'Doc5 (animate first object = sampradāna when karma is the gap)' }); } else gap = null; }
       return answer(q, gap, qrule, uniq[0].rules);
     }
-    /* deterministic inference (infer.js) — only lawful rules; every step cited; sense disagreement ⇒ clarification */
     function inferYN(q, negFact) {
       if (!q || q.coord || !q.subj || q.verb.mod !== 'asserted' || q.verb.tense === 'future' || q.cond) return null;
       const facts = activeFacts().filter(r => !r.sensitive); const byId = id => facts.find(r => r.id === id);
-      /* lawful one-step derivations over stored facts (each cited): coordination distribution, modus ponens */
       for (const v of virtualFacts(facts)) { const c = v.clause; if (predOf(c) !== predOf(q) || !subjMatch(q.subj, c.subj) || !predEq(q, c)) continue; const qk = roleKey(q), rk = roleKey(c); if (Object.keys(qk).some(k => !(k in rk) || canon(qk[k]) !== canon(rk[k]))) continue;
         rules.push({ id: v.rule, doc: v.doc, note: v.from.length + ' stored fact(s)' }); const stepsC = v.from.map(byId).filter(Boolean);
         if (c.verb.pol !== q.verb.pol) return res('SELECTED_MEANING', { kind: 'yesno', answer: 'no', items: stepsC.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: v.from });
@@ -606,12 +561,9 @@ function Kernel(opts) {
           if (qNeg) return res('SELECTED_MEANING', { kind: 'yesno', answer: 'no', items: stepsC.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: steps }); }
         return res('SELECTED_MEANING', Object.assign({ kind: 'inferred', answer: 'yes', claim: posQ, steps: stepsC.map(r => r.clause) }, wn ? { wn } : {}), { frame: 'FR.QUESTION', act: 'question', evidenceRefs: steps }); };
       const a = entKey(q.subj);
-      // INF-LOC-TRANSITIVE
       let tgt = null; if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'pp' && /^(in|at|inside|within)$/.test(q.pred.prep)) tgt = q.pred.np; else if (/^(live|reside|stay)$/.test(q.verb.lemma)) { const ad = (q.adj || []).find(x => x.role === 'adhikarana'); if (ad) tgt = ad.np; }
       if (tgt && a) { const p = INF.locPath(facts, a, entKey(tgt)); if (p && p.length >= 2) return done('INF-LOC-TRANSITIVE', p.map(e => e.id)); }
-      // INF-REL-TRANSITIVE (comparatives, before/after, part-of)
       { const rp = INF.relPath(facts, q); if (rp && rp.path.length >= 1) return done('INF-REL-TRANSITIVE-' + rp.rel.replace(/^cmp:.*/, 'COMPARATIVE').toUpperCase(), rp.path.map(e => e.id)); }
-      // INF-ISA (stored class facts + WordNet hypernyms)
       if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'np' && q.pred.np && q.pred.np.head && !q.pred.np.owner && !q.pred.np.propn) { const target = INF.npHead(q.pred.np);
         const generic = q.subj.head && !q.subj.owner && !q.subj.propn && (q.subj.det === 'a' || q.subj.det === 'an' || q.subj.plural);
         const starts = generic ? [{ cls: INF.npHead(q.subj), id: null }] : INF.classesOf(facts, a).filter(c => !c.neg);
@@ -623,7 +575,6 @@ function Kernel(opts) {
           const steps = [st.id].concat(r.via).filter(Boolean); if (!steps.length && !r.wn) continue;
           if (r.wn && r.wn.paths[0].length < 2 && !r.via.length) continue;
           return done(r.via.length ? 'INF-ISA-STORED' : 'INF-ISA-WORDNET', steps, r.wn ? r.wn.paths[0] : null); } }
-      // INF-FAMILY
       if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'np' && q.pred.np && q.pred.np.owner && INF.FAMILY[INF.npHead(q.pred.np)] && a) { const role = INF.npHead(q.pred.np); const want = INF.FAMILY[role];
         const b = typeof q.pred.np.owner === 'object' ? entKey(q.pred.np.owner) : q.pred.np.owner; const hits = INF.famRel(facts, a, b).filter(h => h.rel === want);
         if (hits.length) { const gReq = INF.GENDER_OF_ROLE[role]; if (gReq) { const gs = INF.genderStated(facts, a); if (gs !== gReq) { rules.push({ id: 'INF-FAMILY-GENDER-UNSTATED', doc: 'gender only from explicit user statements' }); return res('SELECTED_MEANING', { kind: 'refuse', reason: 'GENDER_UNSTATED', want }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits[0].via }); } }
@@ -654,8 +605,6 @@ function Kernel(opts) {
     }
   }
 
-  /* ---- Echo (RMC §5.12/§6.7): re-derive the rendered text and compare material meaning ---- */
-  /* Echo = structural round trip through the inverse sūtras (derive.js) + independent math re-verification */
   const ENV = { reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: m => mathReverify(m) };
   function mathReverify(m) { try {
     if (m.kind === 'math') return reverifyMath(m.expr, m.value, m.approx);
@@ -689,7 +638,6 @@ function Kernel(opts) {
     INCONGRUENT_REJECTED: 'reject', DISCONNECTED_REJECTED: 'reject', NO_LAWFUL_CANDIDATE: 'reject', REFUSAL_RELEVANT: 'refuse', UNDERSTOOD_ACTION_BLOCKED: 'understood-but-blocked', PURPOSE_UNRECOVERABLE: 'refuse' };
   const INF = IF.Infer({ lex, entKey: n => entKey(n), entKeys: n => entKeys(n), G });
 
-  /* ---- one turn through Φ1…Φ9 ---- */
   let curSecrets = [];
   function ellipsis(raw) {
     const AUX = '(?:does|do|is|are|did|was|were|has|have|can)'; let m;
@@ -703,8 +651,6 @@ function Kernel(opts) {
       const sub = one(np + ' ' + G.vpText(c, { head: ['x'] }, 'user')); if (!sub) return { note: 'copied clause did not parse uniquely → nothing copied' };
       return { raw: m[1] + ' that ' + np + ' ' + G.vpText(c, sub.subj, 'user'), note: 'too: predicate copied from the last stored fact ' + last.id }; }
     return null; }
-  /* W3 LL-TAG-QUESTION: “S, isn't it?” asks whether S holds — rewritten by rule to the yes/no inversion of S (the tag adds no content) */
-  /* non-restrictive relative clause (appositive): “NP, who/which VP1, VP2” → “NP VP2 and NP VP1” (both asserted; Doc5 relative-clause frame) */
   function appositive(raw) { const m = String(raw).match(/^(remember that |note that )?(.+?), (who|which) ([^,]+), (.+?)([.!?]?)$/i); if (!m) return null; const np = m[2].trim(); if (np.split(/\s+/).length > 5) return null;
     return { raw: (m[1] || '') + np + ' ' + m[5] + ', and ' + np + ' ' + m[4] + m[6], note: m[3].toLowerCase() + '-clause split' }; }
   function tagQuestion(raw) {
@@ -717,24 +663,21 @@ function Kernel(opts) {
       return { raw: aux + ' ' + G.npText(c.subj, 'user') + ' ' + G.vpText(c, { plural: true, head: ['x'] }, 'user') + '?', note: 'lexical-verb tag → do-support inversion' }; }
     return { note: 'tag question form not covered → left as typed' }; }
   function process(input) {
-    meta.turn += 1; const turn = meta.turn; const at = now(); input = String(input || '').slice(0, 2000);
-    /* PRIV-1 ingestion redaction: the plaintext value is replaced by the word "sealed" BEFORE ψ_id, trace, MSM, evidence or memory see it */
-    const red = P.redact(input); curSecrets = red.secrets; input = red.text; const vaultState = red.secrets.length ? (opts.vaultState ? opts.vaultState() : 'none') : null;
-    const psi_id = sha256(canon({ turn, loop: meta.loop, input }));
-    const trace = { turn, at, input, psi_id, psi_id_note: 'SHA-256 substitutes for BLAKE3 (RSOC §2.1)', loop_lambda: meta.loop, phases: [], rules: [], gates: null, candidates: [], outcome: null, msm: null, drift: null, chi: null, echo: null, memory: [], output: null, blocked: false };
+    meta.turn += 1; const turn = meta.turn; const at = now(); const normalizedInput = String(input || '').normalize('NFC'), inputLength = normalizedInput.length;
+    const red = P.redact(normalizedInput), fullInput = red.text; curSecrets = red.secrets; input = fullInput.slice(0, 2000); const vaultState = red.secrets.length ? (opts.vaultState ? opts.vaultState() : 'none') : null;
+    const psi_id = sha256(canon({ turn, loop: meta.loop, input: fullInput }));
+    const trace = { turn, at, input, input_length: inputLength, input_truncated: fullInput.length > input.length, input_sha256: sha256(fullInput), psi_id, psi_id_note: 'SHA-256 substitutes for BLAKE3 (RSOC §2.1)', loop_lambda: meta.loop, phases: [], rules: [], gates: null, candidates: [], outcome: null, msm: null, drift: null, chi: null, echo: null, memory: [], output: null, blocked: false };
     const Ph = (n, note) => trace.phases.push({ phase: n, sym: M.PHASES[n].sym, name: M.PHASES[n].name, note });
     const low0 = input.toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/[.!?]+\s*$/, '').replace(/\s+/g, ' ').trim();
     let low = low0.replace(/\bwhat's\b/g, 'what is').replace(/\bwho's\b/g, 'who is').replace(/\bdon't\b/g, 'do not').replace(/\bcan't\b|\bcannot\b/g, 'can not').replace(/\bi'm\b/g, 'i am');
     let raw = input;
     Ph(1, 'input received (' + G.tokenize(input).length + ' tokens); ψ_id fixed');
-    const ctx = { privacy: red.secrets.length ? { count: red.secrets.length, labels: red.secrets.map(x => x.label), vault: vaultState } : null }; if (red.secrets.length) trace.rules.push(...red.rules.map(id => ({ id, doc: 'Doc7 privacy; forge Identity Vault', note: 'value replaced by “sealed” at ingestion' })), { id: 'PRIV-1.3 vault ' + vaultState, doc: 'Doc7' }); const na = low.match(/^(?:please )?(?:do not|never)(?: please)? (.+)$/);
+    const ctx = { privacy: red.secrets.length ? { count: red.secrets.length, labels: red.secrets.map(x => x.label), vault: vaultState } : null, worldPreflight: inputLength > 2000 ? R.evaluate(fullInput, { allowBareQuery: activeFacts().length === 0, inputLength }) : null }; if (red.secrets.length) trace.rules.push(...red.rules.map(id => ({ id, doc: 'Doc7 privacy; forge Identity Vault', note: 'value replaced by “sealed” at ingestion' })), { id: 'PRIV-1.3 vault ' + vaultState, doc: 'Doc7' }); const na = low.match(/^(?:please )?(?:do not|never)(?: please)? (.+)$/);
     if (na && /^(remember|store|save|keep|memori[sz]e|note|write|say|repeat|echo|print|output|forget|delete|erase|remove|send|email|text|buy|open|run|call|post|share)\b/.test(na[1])) { ctx.negAct = true; low = na[1]; raw = raw.replace(/^\s*(?:please )?(?:do not|don't|never)(?: please)?\s+/i, ''); trace.rules.push({ id: 'LL-NEG-ACT', doc: 'Doc3 §15', note: 'negation scopes over the requested act' }); }
     const ops = { negation: /\bnot\b|\bnever\b|n't\b/.test(low0), condition: /\bif\b|\bunless\b/.test(low0), modality: /\b(might|may|maybe|perhaps|possibly|probably|must|should|could)\b/.test(low0), quantifier: /\b(all|every|each|some|none)\b/.test(low0), past: /\b(was|were|did)\b/.test(low0), future: /\bwill\b/.test(low0) };
     const depth = Object.values(ops).filter(Boolean).length;
     const bypass = BYPASS.test(low0); if (bypass) trace.rules.push({ id: 'ADV-BYPASS-ATTEMPT', doc: 'RMC Addendum §4 (projection that bypasses correction and naming)', note: 'request to skip validation = attempted Φ5→Φ8' });
     Ph(2, 'scope operators: ' + (Object.keys(ops).filter(k => ops[k]).join(', ') || 'none') + (ctx.negAct ? '; NEGATED ACT' : ''));
-    /* W3 LL-ELLIPSIS-VP (Doc 3 scope/ellipsis; forge scope_attachment_reference_constraints): an elided predicate is copied from its
-       antecedent clause by rule — “A and so does B” (same sentence) or “B does too” (last stored fact); no antecedent ⇒ nothing is copied */
     { const Ap = appositive(raw); if (Ap) { trace.rules.push({ id: 'LL-APPOSITIVE-RELATIVE', doc: 'Doc5 relative-clause frame (non-restrictive: both propositions asserted)', note: Ap.note }); raw = Ap.raw; low = raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } }
     { const Tq = tagQuestion(raw); if (Tq) { trace.rules.push({ id: 'LL-TAG-QUESTION', doc: 'Doc5 §15 speech acts (tag = yes/no question)', note: Tq.note }); if (Tq.raw) { raw = Tq.raw; low = Tq.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     { const E = ellipsis(raw); if (E) { trace.rules.push({ id: 'LL-ELLIPSIS-VP', doc: 'Doc 3 ellipsis; Register F-11', note: E.note }); if (E.raw) { raw = E.raw; low = E.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
@@ -744,7 +687,6 @@ function Kernel(opts) {
     Ph(3, 'purpose: ' + sel.act + ' via ' + sel.frame);
     trace.rules.push(...(sel.rules || [])); trace.gates = sel.gates; trace.outcome = { category: sel.outcome, class: OUTCOME_CLASS[sel.outcome] || 'reject', cite: 'Doc6 §36' }; if (sel.sense) trace.sense = sel.sense;
     Ph(4, 'gates → ' + sel.outcome + ' (' + trace.outcome.class + ')');
-    // Φ5 drift — calibrated (CALIBRATION.md): expected phase = lawful successor for every speech act; D_score only for real Φ5→Φ8 attempts
     const attempted = sel.forbiddenPath ? { from: 5, to: 8, expected: 6 } : { from: 7, to: 8, expected: 8 };
     const drift = M.driftFunctional({ phaseHistory: meta.phaseHistory.slice(-8).concat([9]), transition: attempted, depth });
     trace.drift = Object.assign(drift, { attempted_transition: M.PHASES[attempted.from].sym + '→' + M.PHASES[attempted.to].sym, expected_next: M.PHASES[attempted.expected].sym, calibration: 'expected = lawful successor T(Φn,Φn+1) for the speech act; D_score=1 only for an attempted Φ5→Φ8 (unnameable projection or bypass)' });
@@ -772,17 +714,14 @@ function Kernel(opts) {
       capability_relation: { capability, status: k === 'blocked' ? 'blocked' : 'supported' }, evidence: { refs: sel.evidenceRefs || [], user_utterance_turn: turn }, trace_ref: 'trace:' + turn, phase: null, drift: { eps_s: drift.eps_s, band: drift.band } };
     if (restricted) msm.meaning = { kind: 'refuse', reason: 'BYPASS' };
     trace.msm = msm;
-    /* W2 containment router (forge containment_router.py): exactly one route; sealed routes may not project or write */
     cont.touch(); const routeOf = x => { const rt = CT.route(Object.assign({ sealed, restricted, kind: msm.meaning.kind, band: drift.band, would_write: !!sel.write, dream: sel.contain === 'dream' }, x || {})); trace.containment = rt; trace.rules.push(...rt.rules.map(id => ({ id, doc: rt.cite }))); if (!rt.may_write_memory) msm.limits.may_write_memory = false; return rt; };
     routeOf();
-    /* EchoForge tool bench: a tool result is delivered only if the kernel-selected frame is in the tool manifest and the permission service allows it */
     { const tid = sel.toolRequest ? sel.toolRequest.tool : (msm.meaning.kind === 'tool_result' || msm.meaning.kind === 'tool_failed' ? msm.meaning.tool : bench.toolForKind(msm.meaning.kind));
       if (tid && !sealed && !restricted) { const az = bench.authorize(tid, sel.frame, { explicit: true, vaultUnlocked: (opts.vaultState ? opts.vaultState() : 'none') === 'unlocked' }); trace.tool = { tool: tid, frame: sel.frame, permission: az.decision.id, decision: az.decision.decision, rule: az.decision.rule, manifest_hash: az.manifest ? az.manifest.manifest_hash : null, authority: 'evidence_only' };
         trace.rules.push({ id: az.decision.rule, doc: 'EchoForge tool bench manifest ' + tid + '; Register A-04' });
         if (az.decision.decision !== 'allow') { bench.record(tid, sel.frame, az.decision); msm.meaning = { kind: 'tool_denied', tool: tid, rule: az.decision.rule }; trace.tool_request = null; routeOf(); }
         else if (sel.toolRequest) trace.tool_request = { tool: tid, input: sel.toolRequest.input, frame: sel.frame, permission: az.decision.id };
         else bench.record(tid, sel.frame, az.decision, msm.meaning); } }
-    /* W1 single permission service (Register A-04): the explicit request is the authority; D10 may require a tap-to-approve */
     if (msm.limits.may_write_memory && sel.write) { const contested = (sel.write.supersede || []).length > 0 || sel.auth === 'explicit confirmation';
       const d = perm.authorize(sel.write.forget ? 'memory.forget' : 'memory.write', { explicit: true, contested, sensitive: !!ctx.privacy, subject: psi_id }); trace.permission = d; trace.rules.push({ id: d.rule, doc: 'Register A-04 permission service; decision ' + d.decision });
       if (d.decision === 'needs_approval') { const held = { id: 'held:' + psi_id.slice(0, 16), at, turn, input, write: sel.write, msm_id: psi_id, sfe, auth: sel.auth || null, kind: msm.meaning.kind, sensitive: !!ctx.privacy, perm: d.id, status: 'held' };
@@ -802,6 +741,10 @@ function Kernel(opts) {
       trace.rules.push({ id: 'ECHO-AMBIGUITY-CLARIFY', doc: 'Doc6 §29; RMC §6.7', note: ev.reason }); trace.echo_first = ev; trace.meaning_first = msm.meaning; const alt = { kind: 'clarify_echo' }; const r2 = D.realizeMeaning(alt, ENV); const ev2 = echo(r2.text, alt);
       if (ev2.pass) { msm.meaning = alt; msm.limits.may_write_memory = false; trace.outcome = { category: 'CLARIFICATION_REQUIRED', class: 'clarify', cite: 'Doc6 §36' }; text = r2.text; trace.derivation = r2.derivation; ev = ev2; trace.echo = ev2; meta.pending = null; sel.write = null; routeOf(); } }
     if (!ev.pass) { routeOf({ echo_failed: true }); trace.blocked = true; trace.block_reason = 'Echo validation failed (' + (ev.reason || '') + '; components ' + JSON.stringify(ev.components) + ') — output blocked, no memory write.'; meta.pending = null; Ph(9, 'Echo FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
+    if ((msm.meaning.kind === 'world_answer' || msm.meaning.kind === 'world_limitation') && msm.meaning.envelope) {
+      msm.meaning.envelope.echo = { status: 'passed', pass: true, mode: ev.mode, score: ev.score, theta: ev.theta };
+      trace.world_model = { status: msm.meaning.status, interpretation: clone(msm.meaning.interpretation || null), world: clone(msm.meaning.world || null), world_root: msm.meaning.world && msm.meaning.world.world_root || null, derivation: clone(msm.meaning.derivation || null), proofs: clone(msm.meaning.proofs || null), rmc: clone(msm.meaning.rmc || null), rmc_manifest_id: msm.meaning.rmc && msm.meaning.rmc.manifest_id || null, checker: clone(msm.meaning.checker || null), limits: clone(msm.meaning.envelope.limits), effects: clone(msm.meaning.envelope.effects), echo: clone(msm.meaning.envelope.echo) };
+    }
     if (sel.effect === 'newloop') { meta.loop += 1; meta.chi = 0; cont.closeAndOpen('LOOP-CLOSE (start over)'); }
     if (msm.limits.may_write_memory && sel.write) { const res = commitWrite(sel, msm, sfe, turn, at, input); trace.memory = res.ops; trace.readback = res.readback;
       if (res.rollback) { trace.rollback = res.rollback; trace.rules.push({ id: 'RB-READBACK-MISMATCH-ROLLBACK', doc: 'Register G-04 (post-write readback); C-05 rollback' }); msm.meaning = { kind: 'write_failed' }; curSecrets = [];
@@ -812,7 +755,6 @@ function Kernel(opts) {
     return finish(trace, 9, text, msm, sfe);
   }
   let lastWritten = [];
-  /* G-04 read-back: every record written is re-loaded and hashed; any mismatch restores the pre-write snapshot (C-05) */
   function commitWrite(sel, msm, sfe, turn, at, input) {
     const snap = { memory: store.load('memory'), evidence: store.load('evidence'), cold_storage: store.load('cold_storage') }; const ops = write(sel, msm, sfe, turn, at, input);
     const readback = lastWritten.map(w => (w.absent ? (store.load(w.cat).some(x => x.id === w.absent) ? { store: w.cat, id: w.absent, readback: 'still present' } : { store: w.cat, id: w.absent, readback: 'match', expected: 'absent' }) : Gv.readback(store, w.cat, w.rec.id, w.rec)));
@@ -845,13 +787,11 @@ function Kernel(opts) {
     meta.phaseHistory.push(terminal); meta.phaseHistory = meta.phaseHistory.slice(-9); meta.last = { eps_s: trace.drift.eps_s, band: trace.drift.band, phase: terminal }; saveMeta();
     const tr = store.load('trace'); tr.push(trace); store.save('trace', tr.slice(-200));
     const outR = { reply: text, blocked: trace.blocked, block_reason: trace.block_reason || null, outcome: trace.outcome, trace, msm };
-    /* PRIV-3: plaintext values travel only on a NON-enumerable property (never serialized), and only when the vault seal was derived and delivered */
     const sealOk = curSecrets.length && !trace.blocked && msm.meaning && msm.meaning.kind === 'stored_sensitive';
     Object.defineProperty(outR, 'secrets', { value: sealOk ? curSecrets.map(x => ({ label: x.label, value: x.value, ref: 'mem:' + msm.msm_id.slice(0, 16), at: trace.at })) : [], enumerable: false }); curSecrets = [];
     if (pendingRender) { const pr = pendingRender; pendingRender = null; Object.defineProperty(outR, 'render', { value: pr, enumerable: false }); trace.render = { form: pr.form, echo: !!(pr.echo && pr.echo.pass), sha256: sha256(String(pr.content)) }; }
     return outR;
   }
-  /* held writes (D10 switch): a tap on the RMC Memory tab commits through the same write + read-back path */
   function commitHeld(id, userTap) {
     const hw = store.load('held_writes'); const h = hw.find(x => x.id === id && x.status === 'held'); if (!h) return { ok: false, rule: 'HELD-UNKNOWN' };
     const d = perm.authorize('memory.approve_held', { userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
@@ -859,7 +799,6 @@ function Kernel(opts) {
     h.status = res.rollback ? 'failed (rolled back)' : 'approved'; h.decided_at = now(); h.permission = d.id; store.save('held_writes', hw);
     cont.receipt('held.' + (res.rollback ? 'rollback' : 'commit'), { id, readback: res.readback.map(x => x.readback) }); return { ok: !res.rollback, ops: res.ops, readback: res.readback, rollback: res.rollback || null }; }
   function rejectHeld(id, userTap) { const hw = store.load('held_writes'); const h = hw.find(x => x.id === id && x.status === 'held'); if (!h) return { ok: false, rule: 'HELD-UNKNOWN' }; if (!userTap) return { ok: false, rule: 'PERM-NEEDS-USER-TAP' }; h.status = 'rejected'; h.decided_at = now(); store.save('held_writes', hw); cont.receipt('held.reject', { id }); return { ok: true }; }
-  /* resurrection (E-08): read-only 7-gate preview; mutation only for resurrection_candidate + explicit tap + permission, with read-back */
   function resurrectPreview(id) { const c = store.load('cold_storage').find(x => x.id === id); return c ? cont.gates(c, perm.policy()) : null; }
   function resurrect(id, userTap) {
     const cs = store.load('cold_storage'); const c = cs.find(x => x.id === id); if (!c) return { ok: false, rule: 'RS-UNKNOWN' };
@@ -879,7 +818,6 @@ function Kernel(opts) {
     deleteRecord(id, reason, userTap) { if (userTap === false) return false; const pd = perm.authorize('memory.delete_ui', { userTap: true, subject: id }); if (pd.decision !== 'allow') return false; const mem = store.load('memory'); const i = mem.findIndex(r => r.id === id); if (i < 0) return false; const r = mem.splice(i, 1)[0]; r.status = 'forgotten'; store.save('memory', mem); const cold = store.load('cold_storage'); cold.push({ id: r.id, sealed_at: now(), reason: 'forgotten from the Memory screen (explicit tap + confirm)', record: r, successor: { kind: 'lifecycle_transition', from: 'accepted', to: 'archived', rule: 'forge2 APPEND_ONLY_SUCCESSOR_LAWS_V1 §Lifecycle transition' }, tier: 'WARM', resurrection_attempts: 0 }); store.save('cold_storage', cold); const tr = store.load('trace'); tr.push({ turn: 'ui', at: now(), input: '[Memory screen] delete ' + id, rules: [{ id: 'AUTH-UI-DELETE', doc: 'Doc7 (explicit user action)', note: reason || '' }], deleted: { id, kind: r.kind } }); store.save('trace', tr); return true; },
     categories: CATEGORIES, exportAll() { const o = {}; for (const c of CATEGORIES) o[c] = store.load(c); return o; }, reparseClause, derive: t => derive(G.tokenize(t)), renderClause: c => G.clauseText(c, 'kernel') };
 }
-/* v1-compatible helpers */
 function compat(c) { const v = c.verb || {}; return Object.assign({}, c, { _ast: c, pol: v.pol, mod: v.mod, tense: v.tense, val: c.pred ? (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel')) : G.vpText(c, c.subj, 'kernel'), cond: c.cond ? G.clauseText(c.cond, 'kernel') : null }); }
 let _ck = null; const ck = () => (_ck = _ck || Kernel({ lexicon: isNode ? (() => { try { return require('../data/lexicon.json'); } catch (e) { return null; } })() : root.KLEX_CORE }));
 const api = { Kernel, MemoryStore, mathSurface, canon,
