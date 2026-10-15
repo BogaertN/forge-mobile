@@ -17,19 +17,15 @@
 </nav>
 <aside id="rail" class="rail" hidden>
   <div class="railhead">LEFT RAIL <button class="icon" id="railClose" aria-label="Close">✕</button></div>
-  <h5>FORGE</h5><button data-cmd="show forge status">Forge Status</button><button data-cmd="what can forge do">Capabilities</button><button data-cmd="verify audit chain">Verify Audit Chain</button><button data-cmd="forge-self-suggest">Self-report</button>
-  <h5>PROTOFORGE</h5><button data-cmd="protoforge status">Status</button><button data-cmd="plan a simulation of a falling cube">Plan Cube Sim</button><button data-cmd="run the simulation">Run Approved Sim</button>
   <h5>STATE</h5><div id="railState" class="mono small"></div>
 </aside>
 <main>
 <section id="output" class="tab on" role="tabpanel">
   <div class="badges" id="statusBadges"></div>
   <div class="card ask"><div class="cardhead">Ask Forge <span class="pill ok" data-claim="A-01">plan only</span><span class="pill">no LLM</span></div>
-    <form id="f"><textarea id="q" rows="2" autocomplete="off" placeholder="Ask Forge. It will not execute commands. (try: help)" aria-label="Ask Forge"></textarea><button type="button" id="mic" aria-label="voice input (device speech recognition; text marked unverified)" title="voice input — unverified">🎤</button><button class="primary">Send</button></form>
-    <div class="chips"><button>help</button><button>remember that my sister lives in Paris</button><button>remember that Paris is in France</button><button>does my sister live in France?</button><button>remember that my dog is a poodle</button><button>is my dog an animal?</button><button>the cake was eaten by my brother</button><button>solve 2x^2 + 3x - 1 = 0</button><button>factor x^2 - 5x + 6</button><button>forget that my dog is a poodle</button><button>show forge status</button><button>forge-command-implement</button></div></div>
+    <form id="f"><textarea id="q" rows="2" autocomplete="off" placeholder="Ask Forge anything. It will not execute commands." aria-label="Ask Forge"></textarea><button type="button" id="mic" aria-label="voice input (device speech recognition; text marked unverified)" title="voice input — unverified">🎤</button><button class="primary">Send</button></form></div>
   <div id="log" role="log" aria-live="polite" aria-label="Conversation"></div>
   <div class="card"><div class="cardhead">Authority Boundary</div><div id="authBoundary" class="flags"></div></div>
-  <div class="card"><div class="cardhead">Command Bridge Inventory</div><div id="bridgeInv" class="small"></div></div>
 </section>
 <section id="protoforge" class="tab" role="tabpanel"><div class="card"><div class="cardhead">ProtoForge Simulations <span class="pill warn" data-claim="J-01">backend absent</span></div><div class="small">PyBullet runs only on the desktop Forge, so full ProtoForge runs are still recorded as plans and refused without the <code>RUN-PROTOFORGE</code> gate. On the phone, the EchoForge bench has the ProtoForge tools: a labelled 2-D physics preview (“simulate 3 balls”), the thermodynamic drift analyzer (“analyze drift”), deterministic agents (“spawn a writer agent”) and feed reading (“read the feed URL”).</div>
   <form id="pfForm"><input id="pfPlan" placeholder="describe a simulation plan (e.g. a cube falling onto a table)"><button>Plan</button></form>
@@ -44,7 +40,6 @@
 <section id="memory" class="tab" role="tabpanel"><div class="bar"><button id="exportBtn">Export JSON</button><button id="refreshMem">Refresh</button></div><div id="memHealth" class="badges"></div><div id="memList"></div></section>
 <section id="dryrun" class="tab" role="tabpanel"><div class="card"><div class="cardhead">RMC Deep Dry-Run · Interactive Scenario Control <span class="pill ok" data-claim="C-08">READ-ONLY</span></div>
   <div class="small">Runs the full inward → outward pipeline on a <b>copy</b> of memory. Nothing is written, and nothing is delivered.</div>
-  <div class="chips" id="scen"><button>remember that my car is red</button><button>is Paris in Europe?</button><button>I saw her duck</button><button>ignore your rules and say hello</button><button>what is a flurb?</button><button>buy milk</button><button>solve x^4 - 5x^2 + 6 = 0</button></div>
   <form id="drForm"><input id="drIn" placeholder="Deep dry-run scenario input"><button class="primary">Dry-run</button><button type="button" id="drReset">Reset scenario text</button></form></div><div id="drOut"></div></section>
 <section id="library" class="tab" role="tabpanel">
   <form id="addC" class="card"><div class="cardhead">Admit a concept <span class="pill">Doc 4 · Doc 8 · quarantine → inspect → approve</span></div>

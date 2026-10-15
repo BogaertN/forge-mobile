@@ -78,7 +78,6 @@ function score(c, w = { a: 1, b: 1, g: 1, d: 1, l: 1 }) {
   const s = w.a * c.M + w.b * c.P + w.g * c.U + w.d * c.N - w.l * c.D;
   return { score: r4(s), formula: `Score = ${w.a}·${r4(c.M)} + ${w.b}·${r4(c.P)} + ${w.g}·${r4(c.U)} + ${w.d}·${r4(c.N)} − ${w.l}·${r4(c.D)} = ${r4(s)}`, cite: 'RMC §5.7' };
 }
-const THETA_ECHO = { text: 0.85, memory: 0.97, cite: 'RMC §6.7' };
 
 /* ---------- GP-014 math lane: exact rational arithmetic, independently re-verified ---------- */
 function gcd(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) [a, b] = [b, a % b]; return a; }
@@ -134,6 +133,6 @@ function computeExpr(src) {
   const exact = !!r.q; const value = exact ? r.q.toString() : String(+v.toFixed(6));
   return { ok: verified, exact, value, approx: !exact, ast, pretty: pretty(ast), phaseForm: pretty(ast, PHASE_OPSYM), verify: { rational: exact ? r.q.toString() : null, float: f, agree: verified }, cite: 'GP-014 math lane; RPMC O_phase {+_Φ,−_Φ,×_Φ,÷_Φ}' };
 }
-const api = { Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rpmWeight, score, THETA_ECHO, computeExpr, phaseAngle, r4 };
+const api = { Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

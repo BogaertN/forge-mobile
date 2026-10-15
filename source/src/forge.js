@@ -10,7 +10,7 @@
   function domain(tr) { const k = tr.msm && tr.msm.meaning ? tr.msm.meaning.kind : ''; return /math|solved|simplified|converted|factored|system|calculus/.test(k) ? 'mathematics' : /define|clarify_unknown|clarify_ambiguous/.test(k) ? 'lexicon' : /recall|yesno|facts|notes|about|when|stored|merged|replaced|forgotten|inferred|no_reason|count/.test(k) ? 'memory' : 'conversation'; }
 
   function ForgeKernel(opts) {
-    opts = opts || {}; let vault = null; const k = K.Kernel(Object.assign({}, opts, { vaultState: () => (vault ? vault.status() : 'none') })); const store = k.store; const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
+    opts = opts || {}; let vault = null; const k = K.Kernel(Object.assign({}, opts, { vaultState: () => (vault ? vault.status() : 'none'), commandMeaning: raw => { const leg = S.legacyCommand(raw); return leg ? { leg, material: legacyMeaning(leg) } : null; } })); const store = k.store; const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
     const schema = MG.migrate(store, now());
     vault = P.Vault(opts.vaultIO || { load: () => { const v = store.load('vault'); return Array.isArray(v) ? null : v; }, save: v => store.save('vault', v) }, { iterations: opts.vaultIterations });
     const migration = (function () { let n = 0; for (const c of ['memory', 'evidence', 'cold_storage', 'trace', 'language_examples', 'lexicon_user', 'meta', 'receipts', 'notes']) { const v = store.load(c); const found = []; const sealRec = x => { if (x && typeof x === 'object') { if (Array.isArray(x)) return x.forEach(sealRec); const cl = x.clause; if (cl && x.sensitive && cl.pred && !(cl.pred.type === 'adj' && cl.pred.words && cl.pred.words.join(' ') === 'sealed')) { found.push({ label: 'structured value' }); cl.pred = { type: 'adj', words: ['sealed'] }; } if (x.record) sealRec(x.record); } }; if (c === 'memory' || c === 'cold_storage') sealRec(v); const r = P.deepRedact(v, found); if (found.length) { n += found.length; store.save(c, c === 'receipts' ? [] : r); } }
@@ -76,26 +76,13 @@
       const rec = Object.assign({ receipt_id: S.stableIdentifier('aiweb.forge-mobile.receipt', body) }, body); rs.push(rec); store.save('receipts', rs.slice(-500)); spine.msm.delivery_or_containment_links[0].external_receipt_ref = rec.receipt_id; return rec; }
     function verifyAudit() { const rs = receipts(); let prev = null, bad = []; rs.forEach((r, i) => { const b = Object.assign({}, r); delete b.receipt_id; if (S.stableIdentifier('aiweb.forge-mobile.receipt', b) !== r.receipt_id) bad.push(i); if (i > 0 && r.previous_receipt !== prev) bad.push(i); prev = r.receipt_id; }); return { ok: !bad.length, count: rs.length, broken_at: bad, head: prev }; }
 
-    function bridgeMeaning(route, leg) { const meta = k.meta();
-      if (route === 'status') return { kind: 'bridge_status', lex: k.lexicon.count(), facts: k.memory().filter(m => m.kind !== 'note').length, receipts: receipts().length, band: meta.last ? meta.last.band : 'clean' };
-      if (route === 'audit') return Object.assign({ kind: 'bridge_audit' }, verifyAudit());
-      if (route === 'forge-capabilities') return { kind: 'bridge_capabilities' };
-      if (route === 'forge-protoforge-status') return { kind: 'bridge_pf_status' }; if (route === 'forge-protoforge-simulation-plan') return { kind: 'bridge_pf_plan' }; if (route === 'forge-protoforge-result-show') return { kind: 'bridge_pf_result' };
-      if (route === 'forge-protoforge-run-requested') { k.perm.authorize('protoforge.run', { subject: 'bridge' }); return { kind: 'blocked', action: 'run a simulation', reason: 'PF_GATE' }; }
+    function legacyMeaning(leg) {
       if (leg.kind === 'disabled') return { kind: k.perm.policy().echoForge === 'tool_bench' ? 'echoforge_llm_excluded' : 'echoforge_disabled' }; if (leg.kind === 'refused') return { kind: 'legacy_refused', command: leg.command, code: S.LLM_REFUSAL };
       const m = { kind: 'legacy_replaced', command: leg.command, code: S.LLM_REFUSAL, lane: leg.lane };
       if (leg.lane === 'SELF_REPORT') { const ts = store.load('trace').slice(-50); const unk = new Set(); let held = 0, ef = 0; for (const t of ts) { for (const r of t.rules || []) if (r.id === 'LX-UNKNOWN' && r.note) r.note.split(', ').forEach(w => unk.add(w)); if (t.outcome && /clarify|ambiguous/.test(t.outcome.class)) held++; if (t.echo && !t.echo.pass) ef++; } Object.assign(m, { unknown: [...unk].slice(0, 8), held, echoFail: ef }); }
       if (leg.lane === 'ECHO_REVIEW') { const last = store.load('trace').filter(t => !t.bridge).slice(-1)[0]; m.review = last && last.output && last.msm ? k.echo(last.output, last.msm.meaning).pass : null; }
       return m; }
-    function bridgeTurn(input) { const leg = S.legacyCommand(input); const route = leg ? 'legacy' : S.bridge1Route(input); if (!route) return null;
-      const at = now(); const meta = k.meta(); const bm = bridgeMeaning(route, leg); const real = k.realize(bm); const text = real.text; const echo = k.echo(text, bm);
-      const turn = (meta.turn || 0); const tr = { turn, input, outcome: { category: route === 'forge-protoforge-run-requested' ? 'UNDERSTOOD_ACTION_BLOCKED' : leg && leg.kind === 'refused' ? 'REFUSAL_RELEVANT' : 'SELECTED_MEANING', class: 'selected' }, rules: [{ id: leg ? 'BRIDGE-LEGACY-LLM-COMMAND' : 'BRIDGE1-ROUTE-' + route.toUpperCase(), doc: leg ? 'forge agents/forge/llm_authority.py' : 'forge forge_language_bridge_v1/interpreter.py' }], gates: {}, echo, derivation: real.derivation, msm: { purpose: { speech_act: 'request' }, meaning: bm, evidence: { refs: [] } }, drift: { eps_s: 0, band: 'clean' }, memory: [], loop_lambda: meta.loop };
-      const r = { reply: echo.pass ? text : null, blocked: !echo.pass, outcome: tr.outcome, trace: tr };
-      const spine = buildSpine(input, r, at, { route, echo }); const rec = receipt(spine, input, text, at, turn); const tl = store.load('trace'); tl.push(Object.assign({}, tr, { at, output: text, bridge: route })); store.save('trace', tl.slice(-200));
-      return Object.assign(r, { forge: Object.assign(spine, { receipt: rec, bridge: { route, legacy: leg || null } }) }); }
-
     function process(input) { input = String(input || '').normalize('NFC');
-      const b = input.length <= 2000 ? bridgeTurn(P.redact(input).text) : null; if (b) return b;
       const r = k.process(input); input = r.trace.input; const at = r.trace.at || now(); let spine;
       if (r.secrets && r.secrets.length) { vault.queue(r.secrets); Object.defineProperty(r, 'sealing', { value: vault.flush(), enumerable: false }); }
       try { spine = buildSpine(input, r, at, null); } catch (e) { spine = { error: String(e && e.message) }; }

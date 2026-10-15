@@ -1,5 +1,5 @@
 {
-  "version": "4.9.3",
+  "version": "4.9.4",
  "features": [
   {
    "id": "A-01",
@@ -29,7 +29,7 @@
    "claim": "Partial",
    "note": "Plan-only replies + RUN-PROTOFORGE gate phrase; no unified preview→approve→execute→receipt state machine",
    "proof": [
-    "BRIDGE-1"
+    "PERMISSION"
    ]
   },
   {
@@ -1132,9 +1132,9 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/wired\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Status tab: build, lexicon tiers, stores, vault state",
+   "note": "Status tab: build, lexicon tiers, stores, vault state. v4.9.4: chat \"forge status\" exact-phrase route removed; status comes from the Status tab and Build Doctor.",
    "proof": [
-    "BRIDGE-1"
+    "DOCTOR"
    ]
   },
   {
@@ -1201,8 +1201,7 @@
    "claim": "Partial",
    "note": "v4.5: ProtoForge drift + agent tools callable from chat through the bench (protoforge.drift / protoforge.agents); PyBullet execution remains desktop",
    "proof": [
-    "PROTOFORGE",
-    "BRIDGE-1"
+    "PROTOFORGE"
    ]
   },
   {
@@ -1641,7 +1640,7 @@
    "claim": "Implemented",
    "note": "All 9 tabs present; theme ported (styles.css #0e1624/#00ccf0/Courier New)",
    "proof": [
-    "BRIDGE-1"
+    "UI"
    ]
   },
   {
@@ -1650,10 +1649,10 @@
    "source": "forge main.py _p255_operator_llm_request_v1",
    "wave": "—",
    "claim": "Implemented",
-   "note": "resultKind() in app.js; LEGACY-LLM + BRIDGE-1 suites",
+   "note": "resultKind() in app.js; LEGACY-LLM + CLEANUP-494 suites. v4.9.4: BRIDGE-1 removed; legacy commands now run through the kernel.",
    "proof": [
-    "BRIDGE-1",
-    "LEGACY-LLM"
+    "LEGACY-LLM",
+    "CLEANUP-494"
    ]
   },
   {
@@ -1682,10 +1681,10 @@
    "source": "forge forge_language_bridge_v1…v5; scripts/AIWEB_FORGE_LANGUAGE_CORE_BRIDGE5_*.md",
    "wave": "W3",
    "claim": "Implemented",
-   "note": "v4.3: Bridges 2–5 records (custody, structural preview, candidate custody, eligibility) on every turn, all non-authority.",
+   "note": "v4.3: Bridges 2–5 records (custody, structural preview, candidate custody, eligibility) on every turn, all non-authority. v4.9.4: Bridge 1 exact-phrase routes removed; every turn goes through the kernel.",
    "proof": [
-    "BRIDGE-1",
-    "LIFECYCLE"
+    "LIFECYCLE",
+    "CLEANUP-494"
    ]
   },
   {

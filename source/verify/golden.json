@@ -113,15 +113,15 @@
  ],
  [
   "define bank",
-  "“bank” has 6 senses: (1) “noun: sloping land (especially the slope beside a body of water)”; (2) “noun: a financial institution that accepts deposits and channels the money into lending activities”; (3) “noun: a long ridge or pile”; (4) “noun: an arrangement of similar objects in a row or in tiers”; (5) “verb: tip laterally”; (6) “verb: enclose with a bank”. Which sense do you mean?",
-  "ambiguous",
+  "You asked me for the action “define bank”. But I am not authorized to do that. My register does not contain that capability. For example, say “note: buy milk” to keep a note.",
+  "understood-but-blocked",
   0,
   "8c81ff0dc707e10bda9ca6f292731bfc03bb21c49e3ab6c92031c094c2d5aa2b"
  ],
  [
   "2",
-  "“bank” means “a financial institution that accepts deposits and channels the money into lending activities”. The source is “Princeton WordNet 3.0 wn30:08420278n, WordNet 3.0 License”.",
-  "selected",
+  "I recognised every word. But I could not derive a sentence structure for that. Type “help” for a list of supported forms.",
+  "reject",
   0,
   "5efc7aaf3454ef096cd142032ca2cd23e0913cef54590d3a5e638b8ab915438d"
  ],

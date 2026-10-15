@@ -185,15 +185,6 @@
     const severed = lost.length || over.length ? [{ id: family, reason: lost.length ? 'lost atoms: ' + lost.join(',') : 'overclaim' }] : [];
     return { family, locked_atoms: locked, phase_trail: derived && derived.derivation ? derived.derivation.phase_trail : null, severed, selected: severed.length ? null : { id: family, text }, discharged: [], rule: 'GP-014 operator roles over the derivation: ⧙ lock → ⟁ merge (derive.js vākya) → ΔΦ phase order → ⧧ sever check → ⧀ none' }; }
 
-  /* ===== forge_language_bridge_v1/interpreter.py (6 allowed routes; exact phrases) ===== */
-  const BRIDGE1 = { routes: ['status', 'audit', 'forge-capabilities', 'forge-protoforge-status', 'forge-protoforge-simulation-plan', 'forge-protoforge-result-show'],
-    capability: ['what can forge do', 'show forge capabilities', 'show me forge capabilities', 'forge capabilities', 'list forge capabilities'], status: ['show forge status', 'check forge status', 'forge status', 'what is forge status', 'what is the forge status'],
-    audit: ['check audit', 'verify audit', 'check audit chain', 'verify audit chain', 'verify the audit chain'], protoforge: ['check protoforge status', 'show protoforge status', 'protoforge status', 'is protoforge running', 'is protoforge working'] };
-  function bridge1Route(text) { const n = String(text).toLowerCase().replace(/[?.!]+$/, '').replace(/\s+/g, ' ').trim();
-    if (BRIDGE1.capability.includes(n)) return 'forge-capabilities'; if (BRIDGE1.status.includes(n)) return 'status'; if (BRIDGE1.audit.includes(n)) return 'audit'; if (BRIDGE1.protoforge.includes(n)) return 'forge-protoforge-status';
-    if (/\b(?:run|execute|launch|start)\b.*\b(?:simulation|sim)\b/.test(n)) return 'forge-protoforge-run-requested'; if (/\b(?:plan|design|prepare)\b.*\b(?:simulation|sim)\b/.test(n)) return 'forge-protoforge-simulation-plan'; if (/\b(?:show|latest)\b.*\b(?:simulation|sim) result\b/.test(n)) return 'forge-protoforge-result-show';
-    return null; }
-
   /* ===== agents/forge/llm_authority.py LEGACY_FORGE_LLM_COMMANDS + deterministic replacements ===== */
   const LEGACY_LLM = ['llm-engine-review-model-test', 'llm-engine-review-draft', 'llm-engine-review-batch-next', 'llm-engine-review-batch-run', 'llm-live-draft', 'generic-repair-llm', 'generic-repair-candidate-build', 'generic-repair-candidate-verify', 'generic-repair-review-llm', 'generic-repair-review-verify', 'generic-repair-sandbox-plan', 'generic-repair-sandbox-run', 'generic-sandbox-dependency-plan', 'generic-sandbox-dependency-run', 'generic-revision-llm', 'generic-revision-candidate-build', 'generic-revision-candidate-verify', 'generic-revision-sandbox-plan', 'generic-revision-sandbox-run', 'generic-revision-loop-llm', 'generic-revision-loop-candidate', 'forge-command-implement', 'forge-command-implement-review', 'forge-command-implement-write', 'forge-command-implement-install', 'forge-tool-wrap', 'forge-tool-wrap-install', 'forge-self-suggest'];
   const LEGACY_REPLACEMENT = { // deterministic, lawful replacements where one exists; otherwise explicit refusal with reason
@@ -207,6 +198,6 @@
   const api = { canonicalize, canonicalJson, canonicalSha256, stableIdentifier, utc, CanonicalizationError, ContractValidationError, LIFECYCLE, AUTHORITY, EFFECTS, createContractMetadata, verifyContractMetadata, toReference, validateSuccessor,
     REQUEST_STATES, stateIdentity, stateRegistryId, TRANSITION_POLICY_DEFINED, createInputEvent, decodeInputEvent, DIMENSIONS, featureEvidence, candidate, createCandidateSet, createRequestContract, createContextManifest, createCapabilityRequirement, CONTEXT_CATEGORIES,
     evaluateExpectancy, evaluateCongruity, evaluateConnectedness, evaluateRecoverablePurpose, composeGates, determineEligibility, DISPOSITIONS, gateId,
-    MSM_IDS, PRESERVATION, NON_SELECTION, meaScore, WEIGHTS, EVIDENCE_TIERS, GP014, gp014Check, BRIDGE1, bridge1Route, LEGACY_LLM, legacyCommand, LLM_REFUSAL };
+    MSM_IDS, PRESERVATION, NON_SELECTION, meaScore, WEIGHTS, EVIDENCE_TIERS, GP014, gp014Check, LEGACY_LLM, legacyCommand, LLM_REFUSAL };
   if (isNode) module.exports = api; else root.KSpine = api;
 })(typeof self !== 'undefined' ? self : this);

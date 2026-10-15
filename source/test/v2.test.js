@@ -48,8 +48,8 @@ t('structural ambiguity surfaces as clarification', () => { const r = K().proces
 /* 3. lexicon */
 t('lexicon scale: ≥5000 core lemmas, ≥15000 admitted senses, ≥5000 predicate frames, per-entry provenance + license', () => { const s = LEX.meta.stats; assert.ok(s.lemmas >= 5000 && s.admitted_senses >= 15000 && s['predicate_frames(verb sense × WN frame)'] >= 5000); assert.match(LEX.meta.license, /WordNet 3\.0 License/);
   const ss = K().lexicon.senses('bank'); assert.ok(ss.length > 1 && ss.every(x => x.provenance && x.license && x.doc8_state)); assert.ok(Object.keys(EXT.L).length > 10000); });
-t('sense ambiguity → numbered clarification; answer resolves it', () => { const k = K(); const r = k.process('define bank'); assert.strictEqual(r.outcome.class, 'ambiguous'); assert.match(r.reply, /Which (sense|reading) do you mean\?$/); const a = k.process('2'); assert.match(a.reply, /financial institution/); assert.match(a.reply, /WordNet 3\.0 License/); });
-t('single-sense word defined with provenance', () => { const r = K().process('what is a dentist'); assert.match(r.reply, /^“dentist” means .*The source is “Princeton WordNet 3\.0 wn30:/); });
+t('v4.9.4: WordNet is not an answer source (no sense menu for "define bank")', () => { const k = K(); const r = k.process('define bank'); assert.ok(!/WordNet|wn30:/.test(r.reply)); assert.ok(!r.trace.rules.some(x => x.id === 'LX-EXTERNAL-WORDNET')); });
+t('v4.9.4: "what is a dentist" is not answered from WordNet', () => { const r = K().process('what is a dentist'); assert.ok(!/WordNet|wn30:/.test(r.reply)); assert.ok(!r.trace.rules.some(x => x.id === 'LX-EXTERNAL-WORDNET')); });
 t('controlled (seed) terms precede WordNet', () => { const r = K().process('define drift'); assert.ok(r.trace.rules.some(x => x.id === 'LX-CONTROLLED-FIRST')); });
 t('verb sense narrowed by WordNet frames (animate subject)', () => { const r = K().process('remember that my sister lives in Paris'); assert.ok(r.trace.sense && ['selected', 'held-open'].includes(r.trace.sense.status)); assert.ok(r.trace.rules.some(x => /^K-SENSE/.test(x.id))); });
 
