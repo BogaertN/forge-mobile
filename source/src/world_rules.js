@@ -17,6 +17,8 @@
     { id: 'INF-FAMILY-SIBLING-TRANSITIVE', name: 'INF-FAMILY-SIBLING-TRANSITIVE', body: [A('sibling', '$a', '$x'), A('sibling', '$x', '$b')], head: A('sibling', '$a', '$b'), guard: [['distinct', '$a', '$b']] }]);
   const sub = (x, p) => Object.assign({}, x, { predicate: x.predicate.replace('%', p) });
   const transitive = (id, p) => TRANSITIVE.map(r => Object.assign({}, r, { id: id + ':' + p + ':' + r.id, body: r.body.map(x => sub(x, p)), head: sub(r.head, p) }));
-  const api = { TRANSITIVE, FAMILY, transitive, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
+  /* a promotable rule hypothesis: transitivity of ONE relation, anti-unified from two chained stored edges (never active until admitted) */
+  const transitiveRule = p => ({ id: 'GELC-TRANSITIVE:' + p, name: 'GELC-ADMITTED-RULE', body: [A(p, '$a', '$b'), A(p, '$b', '$c')], head: A(p, '$a', '$c'), guard: [['distinct', '$a', '$c']] });
+  const api = { transitiveRule, TRANSITIVE, FAMILY, transitive, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KWorldRules = api;
 })(typeof self !== 'undefined' ? self : this);

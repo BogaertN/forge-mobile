@@ -6,7 +6,7 @@ const { sha256 } = isNode ? require('./sha256.js') : root.KSha; const KM = isNod
 const SCHEMA = 'Hypothesis/v1';
 const STORE = 'hypotheses';
 const KINDS = ['relation', 'rule', 'explanation', 'counterfactual', 'speculation', 'unresolved'];
-const STATUSES = ['staged', 'quarantined', 'held', 'archived', 'withdrawn'];
+const STATUSES = ['staged', 'quarantined', 'held', 'archived', 'promoted', 'withdrawn'];
 const ROUTES = { dream: 'dream_state_quarantine_candidate', ghost: 'ghost_loop_containment_required', ede: 'ede_candidate' };
 const AUTHORITY = ['containment_route', 'approval_receipt'];
 const canon = x => { if (x === undefined) return 'null'; if (Array.isArray(x)) return '[' + x.map(canon).join(',') + ']'; if (x && typeof x === 'object') return '{' + Object.keys(x).sort().filter(k => x[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(x[k])).join(',') + '}'; return JSON.stringify(x); };
