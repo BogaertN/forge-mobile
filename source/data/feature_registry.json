@@ -1,5 +1,5 @@
 {
-  "version": "4.9.4",
+  "version": "4.9.5",
  "features": [
   {
    "id": "A-01",
@@ -1199,7 +1199,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/restricted\"",
    "wave": "W5",
    "claim": "Partial",
-   "note": "v4.5: ProtoForge drift + agent tools callable from chat through the bench (protoforge.drift / protoforge.agents); PyBullet execution remains desktop",
+   "note": "v4.5: ProtoForge drift + agent tools behind bench manifests (protoforge.drift / protoforge.agents); v4.9.5: internal to Forge only, no user UI or chat lane (typed PF_INTERNAL limitation); PyBullet execution remains desktop",
    "proof": [
     "PROTOFORGE"
    ]

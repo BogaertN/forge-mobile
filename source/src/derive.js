@@ -341,11 +341,12 @@ const REASON = {
   NO_EXTERNAL: () => [S(C('have', { karta: N('kernel', { det: 'this' }), karma: N('capability', { det: 'no' }), roles: { tadartha: N('action', { adj: ['external'], pl: true }) } }))],
   NOT_REGISTERED: () => [S(C('contain', { karta: N('register', { poss: 'my' }), karma: N('capability', { det: 'that' }), pol: 'neg' }))],
   FORGET_SCOPE: () => [S(C('forget', { karta: I, karma: N('fact', { pl: true }), mod: 'can', adv: ['only'], roles: { adhikarana: N('memory', { poss: 'my' }), paschat: N('confirmation') } })), forExample('forget')],
-  OUT_OF_SCOPE: () => [S(C('contain', { karta: N('register', { poss: 'my' }), karma: N('capability', { det: 'that' }), pol: 'neg' })), S(C('say', { karma: Mn(MENTIONS.note), comp: { inf: C('keep', { karma: N('note', { det: 'a' }) }) } }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] })],
+  OUT_OF_SCOPE: () => [S(C('contain', { karta: N('register', { poss: 'my' }), karma: N('capability', { det: 'that' }), pol: 'neg' }))],
   GENDER_UNSTATED: m => [S(C('infer', { karta: I, karma: N('relation', { det: 'a', adj: ['family'], app: Mn(m.want) }) })), S(C('tell', { karta: YOU, samp: I, karma: N('gender', { poss: 'their' }), aspect: 'perf', pol: 'neg' }), { conj: 'but' })],
   SENSITIVE_RECORD: () => [S(C('be', { karta: N('record', { det: 'that' }), pred: { adj: 'sensitive' } })), S(C('display', { karta: I, karma: pr('it'), adv: ['never'], roles: { adhikarana: N('chat') } })), S(C('open', { karma: Nm('Identity Vault', 'the'), comp: { inf: C('reveal', { karma: pr('it') }) } }), { force: 'imp' })],
   VAULT_LOCKED: () => [S(C('be', { karta: Nm('Identity Vault', 'the'), pred: { adj: 'locked' } })), S(C('unlock', { karma: pr('it'), roles: { karana: N('passphrase', { poss: 'your' }) } }), { force: 'imp', part: 'please' })],
   BYPASS: () => [S(C('follow', { karta: I, karma: N('request', { pl: true, inf: C('bypass', { karma: N('validation', { poss: 'my' }) }) }), pol: 'neg' })), S(C('ask', { post: ['normally'] }), { force: 'imp' })],
+  PF_INTERNAL: () => [S(C('be', { karta: N('tool', { det: 'that' }), pred: N('part', { of: Nm('Forge') }) })), S(C('use', { karta: YOU, karma: pr('it'), mod: 'can', pol: 'neg' }))],
   PF_GATE: () => [S(C('need', { karta: N('run', { det: 'a' }), karma: { coord: 'and', items: [N('gate', { det: 'the', app: X('RUN-PROTOFORGE') }), N('backend', { det: 'the', adj: ['desktop'] })] } }))],
   LLM_GENERATION: () => [S(C('need', { karta: N('command', { det: 'that' }), karma: N('model', { det: 'a', adj: ['language'] }) })), S(C('remove', { karta: Nm('Forge'), karma: N('authority', { det: 'that' }), tense: 'past' })), S(C('replace', { karta: N('lane', { det: 'no', adj: ['deterministic'] }), karma: pr('it'), mod: 'can' }))],
   ECHOFORGE: () => [S(C('need', { karta: Nm('EchoForge'), karma: N('model', { det: 'a', adj: ['language'] }) })), S(C('contain', { karta: N('build', { det: 'this' }), karma: N('model', { det: 'no', adj: ['language'] }) }))],
@@ -394,12 +395,7 @@ function worldLimitationPlan(m) {
   ];
 }
 const PLANS = {
-  greet: () => [S(null, { part: 'hello' }), S(C('be', { karta: I, pred: N('kernel', { det: 'a', adj: ['deterministic', 'language'] }) })), S(C('type', { karma: Mn('help'), roles: { tadartha: N('list', { det: 'a', of: N('capability', { poss: 'my', pl: true }) }) } }), { force: 'imp' })],
-  bye: () => [S(null, { part: 'goodbye' })],
-  thanks: () => [S(C('be', { karta: YOU, pred: { adj: 'welcome' } }))],
   ack: () => [S(C('acknowledge', { karta: I, karma: pr('that') }))],
-  self: () => [S(C('be', { karta: I, pred: N('prototype', { det: 'a', of: Nm('Forge Bidirectional Language Kernel', 'the') }) })), S(C('be', { karta: Nm('Recursive Manifest Compiler', 'the'), pred: N('memory', { poss: 'my' }) })),
-    S(C('use', { karta: I, karma: N('model', { det: 'no', adj: ['language'] }) })), S(C('compile', { karta: I, karma: N('reply', { det: 'every' }), roles: { apadana: N('manifest', { det: 'a', adj: ['meaning'] }) } })), S(C('check', { karta: Nm('Echo'), karma: N('reply', { det: 'every' }), roles: { purva: N('delivery') } }))],
   help: () => [S(C('do', { karta: I, karma: N('thing', { cnt: 8, list: { kind: 'vp', items: [C('remember', { karma: N('fact', { pl: true }) }), C('answer', { roles: { apadana: N('memory') } }), C('keep', { karma: N('note', { pl: true }) }), C('define', { karma: N('word', { pl: true }) }), C('solve', { karma: N('equation', { pl: true }) }), C('factor', { karma: N('polynomial', { pl: true }) }), C('convert', { karma: N('unit', { pl: true }) }), C('forget', { karma: N('fact', { pl: true }), roles: { paschat: N('confirmation') } })] } }), mod: 'can' })),
     S(C('say', { karma: { coord: 'or', items: ['remember', 'recall', 'note', 'math', 'solve', 'define', 'infer'].map(k => Mn(MENTIONS[k])) } }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] })],
   loop: () => [S(C('start', { karta: N('binding', { det: 'a', adj: ['new'], app: X('λ') }), aspect: 'perf' })), S(C('reset', { karta: I, karma: N('flag', { det: 'the', adj: ['grace'], app: X('χ(t)') }), aspect: 'perf' }))],

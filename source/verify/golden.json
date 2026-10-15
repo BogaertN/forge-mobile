@@ -1,8 +1,8 @@
 [
  [
   "hello",
-  "Hello. I am a deterministic language kernel. Type “help” for a list of my capabilities.",
-  "selected",
+  "I recognised every word. But I could not derive a sentence structure for that. Type “help” for a list of supported forms.",
+  "reject",
   0,
   "d33f60d5b0a2906bfce8aec49ca7ae23c3a57782d0e979b2355c4f905ac1b7c2"
  ],
@@ -113,7 +113,7 @@
  ],
  [
   "define bank",
-  "You asked me for the action “define bank”. But I am not authorized to do that. My register does not contain that capability. For example, say “note: buy milk” to keep a note.",
+  "You asked me for the action “define bank”. But I am not authorized to do that. My register does not contain that capability.",
   "understood-but-blocked",
   0,
   "8c81ff0dc707e10bda9ca6f292731bfc03bb21c49e3ab6c92031c094c2d5aa2b"

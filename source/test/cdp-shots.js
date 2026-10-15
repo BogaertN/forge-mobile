@@ -15,7 +15,7 @@ const getJSON = u => new Promise((res, rej) => http.get(u, r => { let d = ''; r.
   await send('Page.navigate', { url }); 
   let st; for (let i = 0; i < 150; i++) { await sleep(300); st = await ev('window.LEX_STATE ? JSON.stringify(window.LEX_STATE) : null'); if (st && /"ext":"(ok|unavailable)"/.test(st)) break; }
   const report = { url, lexicon: st, badge: await ev('document.querySelector("#lexBadge").textContent') };
-  const chat = ['remember that my sister lives in Paris', 'remember that Paris is in France', 'does my sister live in France?', 'remember that my dog is a poodle', 'is my dog an animal?', 'the cake was eaten by my brother', 'solve 2x^2 + 3x - 1 = 0', 'factor x^2 - 5x + 6', 'define bank', 'show forge status', 'forge-command-implement x', 'remember that my pin is 4321', 'forget that my dog is a poodle', 'yes'];
+  const chat = ['remember that my sister lives in Paris', 'remember that Paris is in France', 'does my sister live in France?', 'remember that my dog is a poodle', 'is my dog an animal?', 'the cake was eaten by my brother', 'solve 2x^2 + 3x - 1 = 0', 'factor x^2 - 5x + 6', 'define bank', 'forge-command-implement x', 'remember that my pin is 4321', 'forget that my dog is a poodle', 'yes'];
   report.chat = []; for (const q of chat) report.chat.push({ q, a: await ev('(()=>{const r=window.say(' + JSON.stringify(q) + ');return r?(r.reply||("BLOCKED: "+r.block_reason)):"queued"})()') });
   report.manifest = await ev('fetch("manifest.json").then(r=>r.ok?r.json():null).then(j=>j&&j.name).catch(()=>null)');
   report.sw = await ev('navigator.serviceWorker ? navigator.serviceWorker.getRegistrations().then(rs=>rs.length+" registration(s); controller "+(!!navigator.serviceWorker.controller)) : "no sw api"');
