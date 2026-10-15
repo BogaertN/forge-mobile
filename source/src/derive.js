@@ -434,6 +434,8 @@ const PLANS = {
   merged: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past', adv: ['already'] })), S(C('reinforce', { karta: I, karma: pr('it'), roles: { karana: X('⟁') }, tense: 'past' }))],
   replaced: m => [S(C('store', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' })), S(C('move', { karta: I, karma: N('fact', { det: 'the', adj: ['earlier'] }), roles: { gati: coldStorage() }, tense: 'past' }))],
   recall: m => m.items.map(told),
+  /* latest status (Pāṇini paper L2736–2751): the earlier status is history, the newer one is current — say both, in order, never a bare yes/no */
+  status_now: m => (m.was ? [told(m.was)] : []).concat([S(C('tell', { karta: YOU, samp: I, comp: { that: UC(m.now) }, tense: 'past' }))]),
   recall_none: m => m.clause ? [S(C('confirm', { karta: I, comp: { that: UC(m.clause) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'] }), roles: { visaya: uo(m.subj) } }))],
   yesno: m => [m.answer === 'unconfirmed' ? cannot('confirm') : S(null, { part: m.answer })].concat(m.items.map(told)),
   inferred: m => (m.answer === 'contradiction'
@@ -522,16 +524,33 @@ function amplifyV(v) { let n = 0; const o = v.map(s => { const ro = s.c && s.c.r
 const unAmplify = v => v.map(s => { if (!(s.front || []).length || !s.front[0].role) return s; const f = s.front[0], o = Object.assign({}, s, { c: Object.assign({}, s.c, { roles: Object.assign({}, s.c.roles, { [f.role]: f.np }) }) }); delete o.front; return o; });
 function severV(v) { let n = 0; const o = []; for (const s of v) { const l = s.c && s.c.karma && s.c.karma.list; if (l && l.kind === 'clause' && l.items.length > 1 && THAT_V.has(s.c.v) && !s.c.comp) { n++; for (const it of l.items) o.push(Object.assign({}, s, { c: Object.assign({}, s.c, { karma: null, comp: { that: UC(it) } }) })); } else o.push(s); } return n ? o : null; }
 const clauseSet = v => v.flatMap(s => s.c && s.c.karma && s.c.karma.list && s.c.karma.list.kind === 'clause' ? s.c.karma.list.items.map(c => canon(G.material(c))) : s.c && s.c.comp && s.c.comp.that ? [canon(G.material(s.c.comp.that.uc))] : []).sort().join('|');
+/* voice alternation (Pāṇini 2.1.2/1.4.49 karmaṇi vs kartari; paper D3 user-phrasing): a reported clause may be re-voiced toward the voice the user asked in,
+   per verb type — only actional transitive verbs with a definite karma and a third-person kartā (no stative/perception/possession verbs, no I/you agent,
+   no clause/infinitive karma, no second object); the variant is still Echo-checked and status-checked like every ⧒ candidate */
+const VOICE_NO = new Set(['be', 'have', 'own', 'want', 'need', 'like', 'love', 'hate', 'prefer', 'know', 'see', 'hear', 'feel', 'seem', 'resemble', 'lack', 'contain', 'fit', 'cost', 'weigh', 'mean', 'believe', 'think', 'remember', 'tell', 'say', 'become', 'get', 'go', 'come']);
+const defNP = n => !!n && !n.pron && !n.clause && !n.inf && !n.ger && !n.quote && !n.conj && (!!n.propn || (n.det && /^(the|this|that|these|those)$/.test(n.det)) || !!n.owner);
+const agentOK = n => !!n && !n.conj && (!!n.propn || (defNP(n) && !n.pron) || (n.pron && !/^(user|kernel|i|you|we)$/.test(String(n.pron))));
+function revoice(c, target) { if (!c || c.coord || !c.verb || VOICE_NO.has(c.verb.lemma) || c.verb.particle || c.verb.nf || c.cond || c.verb.mod !== 'asserted' || c.verb.aspect) return null; const ro = c.roles || {};
+  if (target === 'passive' && c.verb.voice !== 'passive' && ro.karma && Object.keys(ro).length === 1 && defNP(ro.karma) && agentOK(c.subj)) { const v = Object.assign({}, c.verb, { voice: 'passive' }); return Object.assign({}, c, { subj: ro.karma, roles: { karta: c.subj }, verb: v }); }
+  if (target === 'active' && c.verb.voice === 'passive' && ro.karta && Object.keys(ro).length === 1 && agentOK(ro.karta) && defNP(c.subj)) { const v = Object.assign({}, c.verb); delete v.voice; delete v.form; return Object.assign({}, c, { subj: ro.karta, roles: { karma: c.subj }, verb: v }); }
+  return null; }
+function voiceV(v, target) { let n = 0; const o = v.map(s => { const t = s.c && s.c.comp && s.c.comp.that && s.c.comp.that.uc; const r = t && revoice(t, target); if (!r) return s; n++; return Object.assign({}, s, { c: Object.assign({}, s.c, { comp: Object.assign({}, s.c.comp, { that: Object.assign({}, s.c.comp.that, { uc: r }) }) }) }); }); return n ? o : null; }
 function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m.parts.map(p => realizeMeaning(p, env)), text = rs.map(r => r.text).filter(Boolean).join(' '); return { text, derivation: { plan: 'sequence', rules: [].concat(...rs.map(r => r.derivation.rules || [])), parts: rs.map(r => r.derivation), surface: text } }; }
   const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); if (c !== C0[0] && C0[0].r && statusSig(c.r.text) !== statusSig(C0[0].r.text)) c.e = Object.assign({}, c.e, { pass: false, reason: 'status markers drift' }); } catch (e) { c.e = { pass: false }; } return c.e.pass; };
   ev.B = go(C0[0]); const rep = !!(m.field && m.field.last && m.field.last === C0[0].r.text);
-  if (!ev.B || rep) { const a = amplifyV(vb), sv = severV(vb); if (a && canon(strip(unAmplify(a))) === canon(strip(vb))) { C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); }
+  /* user-phrasing match (Pāṇini paper D3 topic/scope; RSOC §3.1.2 ⧒): the user fronted a topic ("About my sister, …"); the outward ⧒ variant that fronts the
+     same viṣaya is preferred, only when it passes Echo on its own vākya and keeps status — never a different meaning, never a forced form */
+  const top = !!(m.field && m.field.topic) && !!ev.B;
+  if (top && !rep) { const a = amplifyV(vb); if (a && a.some(s => s.front && s.front[0] && s.front[0].role === 'visaya') && canon(strip(unAmplify(a))) === canon(strip(vb))) { C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); } }
+  const vt = m.field && m.field.voice; let voiced = false;
+  if (vt && ev.B && !rep && !top) { const a = voiceV(vb, vt); if (a) { C0.push({ id: '⧒ voice', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[C0.length - 1]); voiced = ev.A; } }
+  if (!top && !voiced && (!ev.B || rep)) { const a = amplifyV(vb), sv = severV(vb); if (a && canon(strip(unAmplify(a))) === canon(strip(vb))) { C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); }
     if (!ev.A && sv && clauseSet(sv) === clauseSet(vb)) { const c = { id: '⧧ sever', v: sv, eps: 0.12, Delta: 0.15 }; C0.push(c); ev.V = go(c); } }
-  ev.A = !!ev.A; ev.V = !!ev.V; ev.Q = rep && ev.B && (ev.A || ev.V);
+  ev.A = !!ev.A; ev.V = !!ev.V; ev.Q = (rep || top || voiced) && ev.B && (ev.A || ev.V);
   const L = M.rsocSelect(ev, PHRASE_C, 0);
-  const pick = C0.find(c => c.id === ({ amp_q: '⧒ amplify', amp_r: '⧒ amplify', sev_q: '⧧ sever', sev_r: '⧧ sever' }[L.selected] || 'base')), r = pick.r || C0[0].r;
+  const pick = C0.find(c => c.id === ({ amp_q: voiced ? '⧒ voice' : '⧒ amplify', amp_r: voiced ? '⧒ voice' : '⧒ amplify', sev_q: '⧧ sever', sev_r: '⧧ sever' }[L.selected] || 'base')), r = pick.r || C0[0].r;
   if (!r) throw new Error('derive: no lawful phrasing'); r.vakya = pick.r ? pick.v : vb; r.echo = pick.r ? pick.e : C0[0].e; r.derivation.plan = m.kind; r.derivation.surface = r.text;
-  r.derivation.phrasing = { selected: pick.id, lock: L.selected, why: rep ? 'repeat of the last surface' : ev.B ? 'base passes Echo' : 'base fails Echo (repair)', candidates: C0.map(c => ({ id: c.id, echo: !!(c.e && c.e.pass), eps_s: c.eps || 0, surface: c.r && c.r.text })), cite: 'RSOC §3.1.1 ⧧, §3.1.2 ⧒; §3.3 lock' }; return r; }
+  r.derivation.phrasing = { selected: pick.id, lock: L.selected, why: top ? 'user fronted the topic' : voiced ? 'user asked in the ' + vt + ' voice' : rep ? 'repeat of the last surface' : ev.B ? 'base passes Echo' : 'base fails Echo (repair)', candidates: C0.map(c => ({ id: c.id, echo: !!(c.e && c.e.pass), eps_s: c.eps || 0, surface: c.r && c.r.text })), cite: 'RSOC §3.1.1 ⧧, §3.1.2 ⧒; §3.3 lock' }; return r; }
 function strip(x) { return JSON.parse(JSON.stringify(x, (k, v) => { if (v === null || v === undefined) return undefined; if ((k === 'tense' && v === 'pres') || (k === 'pol' && v === 'pos') || (k === 'voice' && v === 'act') || (k === 'force' && v === 'decl') || (k === 'pl' && v === false)) return undefined; if (Array.isArray(v) && !v.length && k !== 'items') return undefined; if (k === 'roles' && v && typeof v === 'object' && !Object.keys(v).length) return undefined; return v; })); }
 const canon = o => { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); };
 function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G.npText(n, 'kernel'));

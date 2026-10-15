@@ -57,7 +57,8 @@ function lemmatize(w, lex) {
     [/ied$/, 'y', ['v:past']], [/([^e])ed$/, '$1', ['v:past']], [/ed$/, 'e', ['v:past']], [/(.)\1ed$/, '$1', ['v:past']], [/([^e])d$/, '$1', ['v:past']],
     [/ying$/, 'ie', ['v:ing']], [/ing$/, '', ['v:ing']], [/ing$/, 'e', ['v:ing']], [/(.)\1ing$/, '$1', ['v:ing']], [/ier$/, 'y', ['a:cmp']], [/er$/, '', ['a:cmp']], [/er$/, 'e', ['a:cmp']], [/(.)\1er$/, '$1', ['a:cmp']], [/iest$/, 'y', ['a:sup']], [/est$/, '', ['a:sup']], [/est$/, 'e', ['a:sup']], [/(.)\1est$/, '$1', ['a:sup']]];
   for (const [re, rep, pf] of tries) if (re.test(w)) { const l = w.replace(re, rep); for (const x of pf) { const [pos, f] = x.split(':'); add(l, pos, f, 'M-SUFFIX-' + f.toUpperCase()); } }
-  return out;
+  /* M-ORTHO-VARIANT-APAVADA: a doubled-consonant stem (instal+l+ed) and the plain stem (install+ed) are one word in two spellings; the plain stem wins */
+  return out.filter(o => !(o.pos === 'v' && o.f !== 'base' && out.some(p => p !== o && p.pos === 'v' && p.f === o.f && p.lemma === o.lemma + o.lemma.slice(-1))));
 }
 /* ---------- analysis / tagging ---------- */
 function analyse(tok, idx, lex) {
@@ -206,15 +207,20 @@ function Parser(toks, lex) {
         if (at(g.i, 'PREP').length) for (const n of np(g.i + 1, true)) preds.push(R({ type: 'pp', prep: word(g.i), np: n.node }, n.i, ['P-PP'].concat(n.rules)));
         const ingHere = at(g.i, 'V').some(x => x.f === 'ing');
         const passHere = !v.nf && at(g.i, 'V').some(x => (x.f === 'pp' || x.f === 'past') && inflect(x.lemma, 'pp') === word(g.i)) && word(g.i + 1) === 'by';
+        const passPartHere = !v.nf && at(g.i, 'V').some(x => (x.f === 'pp' || x.f === 'past') && inflect(x.lemma, 'pp') === word(g.i)) && at(g.i + 1, 'PART').length > 0;
         for (const p of preds) { if (ingHere && p.node.type !== 'pp') continue; /* V-PROGRESSIVE-APAVADA */
+          if (passPartHere && p.node.type !== 'pp') continue; /* V-PASSIVE-PARTICLE-APAVADA: participle + particle is a phrasal passive, not an adjective phrase */
           for (const a of adjuncts(p.i)) { if (passHere && p.i === g.i + 1 && (p.node.type === 'adj' || p.node.type === 'np') && a.node.some(x => x.prep === 'by')) continue; /* V-PASSIVE-AGENT-APAVADA: participle + by-agent is passive */
             res.push(R({ verb: Object.assign({ lemma: 'be', tense: v.tense, pol: v.pol, mod: v.mod }, nf), pred: p.node, adj: a.node }, a.i, g.rules.concat(p.rules, a.rules))); } }
         continue;
       }
       if (v.voice === 'passive') { // kartā is the by-phrase (if any); the surface subject is the karma (Doc5)
-        for (const a of adjuncts(g.i)) { const by = a.node.findIndex(x => x.prep === 'by'); if (by < 0 && v.ppAdj) continue; /* P-ADJ-PARTICIPLE-APAVADA: stative adjective reading wins without an agent */
+        /* V-PASSIVE-PARTICLE (Doc5 kāraka; Pāṇini paper L2736–2751): a phrasal verb keeps its particle in the passive ("was rolled back"); a particle that is
+           also a preposition is read as the particle only at clause end; an adjective takes no particle, so the stative apavāda yields to it */
+        let pj = g.i, ppart = null; if (at(pj, 'PART').length && (!at(pj, 'PREP').length || pj + 1 >= T.length || word(pj + 1) === ',')) { ppart = word(pj); pj++; }
+        for (const a of adjuncts(pj)) { const by = a.node.findIndex(x => x.prep === 'by'); if (by < 0 && v.ppAdj && !ppart) continue; /* P-ADJ-PARTICIPLE-APAVADA: stative adjective reading wins without an agent */
           const roles = by >= 0 ? { karta: a.node[by].np } : {}; const adj = a.node.filter((x, k) => k !== by);
-          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod, voice: 'passive' }, v.form ? { form: v.form } : {}), roles, adj }, a.i, g.rules.concat(a.rules, by >= 0 ? ['K-KARTA-PASSIVE-AGENT'] : ['K-KARTA-PASSIVE-IMPLICIT']))); }
+          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod, voice: 'passive' }, ppart ? { particle: ppart } : {}, v.form ? { form: v.form } : {}), roles, adj }, a.i, g.rules.concat(ppart ? ['V-PASSIVE-PARTICLE'] : [], a.rules, by >= 0 ? ['K-KARTA-PASSIVE-AGENT'] : ['K-KARTA-PASSIVE-IMPLICIT']))); }
         continue; }
       const objs = [R({}, g.i, [])];
       const gerOK = licenses(v.lemma, 'ger') && at(g.i, 'V').some(x => x.f === 'ing'); const infOK = licenses(v.lemma, 'inf') && word(g.i) === 'to' && (at(g.i + 1, 'V').some(x => x.f === 'base') || word(g.i + 1) === 'be');
@@ -291,7 +297,7 @@ function vpText(c, subj, persp) {
   if (v.nf) return nfText(c, persp);
   if (v.voice === 'passive') { let be; if (v.tense === 'future') be = 'will' + (neg ? ' not' : '') + ' be'; else if (v.mod && v.mod !== 'asserted') be = MODW[v.mod] + (neg ? ' not' : '') + ' be';
     else { if (v.tense === 'past') be = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else be = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') be = v.tense === 'past' ? 'were' : 'are'; if (neg) be += ' not'; }
-    return be + ' ' + inflect(v.lemma, 'pp') + (c.roles && c.roles.karta ? ' by ' + objText(c.roles.karta, persp) : '') + adjText(c, persp); }
+    return be + ' ' + inflect(v.lemma, 'pp') + (v.particle ? ' ' + v.particle : '') + (c.roles && c.roles.karta ? ' by ' + objText(c.roles.karta, persp) : '') + adjText(c, persp); }
   if (v.lemma === 'be') {
     let cop; if (v.tense === 'future') cop = 'will' + (neg ? ' not' : '') + ' be'; else if (v.mod !== 'asserted') cop = MODW[v.mod] + (neg ? ' not' : '') + ' be';
     else { if (v.tense === 'past') cop = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else cop = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') cop = v.tense === 'past' ? 'were' : 'are'; if (neg) cop += ' not'; }
@@ -303,7 +309,7 @@ function vpText(c, subj, persp) {
     else if (v.aspect === 'progressive') { const be = v.tense === 'past' ? (ag === 'pres3' || (ag === 'pres1' && persp === 'user') ? 'was' : 'were') : (ag === 'pres3' ? 'is' : ag === 'pres1' && persp === 'user' ? 'am' : 'are'); vs = be + (neg ? ' not ' : ' ') + inflect(base, 'ing'); }
     else if (v.aspect === 'perfect') vs = (ag === 'pres3' ? 'has' : 'have') + (neg ? ' not ' : ' ') + inflect(base, 'pp');
     else if (neg) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' not ' + base;
-    else if (v.tense === 'past' && PAST_IS_OTHER_LEMMA.has(inflect(base, 'past')) && !(c.adj || []).some(a => a.role === 'kala')) vs = 'did ' + base; // GEN-PAST-HOMOGRAPH-DO: past form is itself another verb lemma in WordNet (saw, found, felt…) → do-support keeps the realization single-derivation (Echo)
+    else if (v.tense === 'past' && ag !== 'pres3' && !c.resolved_reading && PAST_IS_OTHER_LEMMA.has(inflect(base, 'past')) && !(c.adj || []).some(a => a.role === 'kala')) vs = 'did ' + base; /* v4.9.36: a 3sg subject already rules out the homograph (she saws ≠ she saw); a reading the user chose keeps its own surface (Echo masks it) */ // GEN-PAST-HOMOGRAPH-DO: past form is itself another verb lemma in WordNet (saw, found, felt…) → do-support keeps the realization single-derivation (Echo)
     else if (!(c.adj || []).some(a => a.role === 'kala') && inflect(base, 'past') === (ag === 'pres3' ? inflect(base, 'pres3') : base)) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' ' + base; // GEN-TENSE-DISAMBIG-DO: past ≡ present surface (read, put, cut…) → emphatic do-support so the realization re-derives to exactly one tense (Echo)
     else vs = v.tense === 'past' ? inflect(base, 'past') : ag === 'pres3' ? inflect(base, 'pres3') : base;
     vs += part;
@@ -320,7 +326,7 @@ function clauseText(c, persp) {
   return c.cond ? 'if ' + clauseText(c.cond, persp) + ', ' + body : body;
 }
 /* canonical material meaning (for Echo comparison) */
-function material(x) { return JSON.parse(JSON.stringify(x, (k, v) => (['rules', 'surface', 'f', 'form', 'dosupport', 'sense', 'resolvedFrom', 'plural'].includes(k) ? undefined : v))); }
+function material(x) { return JSON.parse(JSON.stringify(x, (k, v) => (['rules', 'surface', 'f', 'form', 'dosupport', 'sense', 'resolvedFrom', 'plural', 'resolved_reading'].includes(k) ? undefined : v))); }
 const api = { IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, tokenize, analyse, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KGrammar = api;
 })(this);

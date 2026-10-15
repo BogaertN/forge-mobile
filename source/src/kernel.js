@@ -154,7 +154,11 @@ function Kernel(opts) {
   let rsIn = {};
   const swap = Object.assign(Object.create(null), { my: 'your', your: 'my', i: 'you', me: 'you', you: 'i', mine: 'yours', yours: 'mine', myself: 'yourself', yourself: 'myself', am: 'are' });
   const swapToks = text => G.tokenize(text).map(t => Object.assign(swap[t.w] ? { w: swap[t.w], orig: swap[t.w], i0: t.i0 } : t, { rendered: true }));
-  function reparseClause(text) { const d = derive(swapToks(text)); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); return ks.size === 1 ? d.parses[0].node.clause : null; }
+  /* held-reading ancestry (Pāṇini paper D6 L6861–6893; RSOC ⧧ hold → ⧙ after clarification): a clause whose reading the user chose keeps its natural
+     surface; on re-parse, the user's own earlier choice (not a frequency guess) selects among the readings */
+  const heldKeys = () => new Set(heldNow.concat(activeFacts().filter(r => r.clause && r.clause.resolved_reading).map(r => canon(G.material(r.clause))))); let heldNow = [];
+  function reparseClause(text) { const d = derive(swapToks(text)); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); if (ks.size === 1) return d.parses[0].node.clause;
+    const H = heldKeys(), hit = d.parses.filter(p => H.has(canon(G.material(p.node.clause)))); return hit.length && new Set(hit.map(p => canon(G.material(p.node.clause)))).size === 1 ? hit[0].node.clause : null; }
   function npOnly(toks) { toks = content(toks); const P = G.Parser(toks, glex); const r = P.np(0).filter(x => x.i === toks.length); return r.length ? clone(r[0].node) : null; }
   const reparseNP = text => npOnly(swapToks(text));
   const parseNP = text => npOnly(G.tokenize(text));
@@ -224,12 +228,20 @@ function Kernel(opts) {
       if (c.subj && c.subj.conj && c.subj.op === 'and' && !c.cond) for (const part of c.subj.conj) out.push({ clause: Object.assign({}, c, { subj: part, pred: singularPred(c.pred) }), from: [r.id], rule: 'INF-COORD-DISTRIBUTE', doc: 'Doc3 coordination (collective “and” predicate distributes over conjuncts; Doc6 §21)' });
       if (c.cond && c.verb.mod === 'asserted') { const m = plain.find(f => canon(G.material(f.clause)) === canon(G.material(c.cond))); if (m) { const cc = Object.assign({}, c); delete cc.cond; out.push({ clause: cc, from: [r.id, m.id], rule: 'INF-MODUS-PONENS', doc: 'Doc6 §21 (if P then Q; P ⊢ Q)' }); } } }
     return out; }
-  function matches(q, gap, r) { const c = r.clause; if (c.coord) return false; if (predOf(q) !== predOf(c)) return false; if (q.subj && c.subj && QCLASS(q.subj.quant) !== QCLASS(c.subj.quant)) return false; if (wantsSame(q) && scopeOf(c)) { sideRules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27 no hidden inference', note: '∃y∀x was preserved, not selected' }); return false; } if (gap !== 'subj' && !subjMatch(q.subj, c.subj)) return false;
+  /* karmaṇi ≡ kartari (Pāṇini 1.4.49 kāraka invariance; Doc5): a passive with an explicit kartā has the same kāraka structure as its active; matching
+     compares the kāraka-normal (active) form, the stored surface is never rewritten */
+  function actv(c) { if (!c || c.coord || !c.verb || c.verb.voice !== 'passive' || !c.roles || !c.roles.karta || c.roles.karma) return c; const roles = Object.assign({}, c.roles); const ag = roles.karta; delete roles.karta; roles.karma = c.subj;
+    const verb = Object.assign({}, c.verb); delete verb.voice; delete verb.form; return Object.assign({}, c, { subj: ag, roles, verb }); }
+  function matches(q, gap, r) { const c = actv(r.clause); q = actv(q); if (c.coord) return false; if (predOf(q) !== predOf(c)) return false; if (q.subj && c.subj && QCLASS(q.subj.quant) !== QCLASS(c.subj.quant)) return false; if (wantsSame(q) && scopeOf(c)) { sideRules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27 no hidden inference', note: '∃y∀x was preserved, not selected' }); return false; } if (gap !== 'subj' && !subjMatch(q.subj, c.subj)) return false;
     const qk = roleKey(q), rk = roleKey(c); for (const [k, v] of Object.entries(qk)) { if (!(k in rk)) return false; if (canon(v) !== canon(rk[k]) && !(Array.isArray(v) && v.every(x => rk[k].includes(x)))) return false; }
     if (gap === 'subj' && q.pred && canon(G.material(q.pred)) !== canon(G.material(c.pred))) return false;
     if (gap && gap.startsWith('role:')) { const role = gap.slice(5); if (role === 'karma') return !!(c.roles && c.roles.karma); return (c.adj || []).some(a => a.role === role) || (role === 'adhikarana' && c.pred && c.pred.type === 'pp'); }
     if (gap === 'pred') return !!c.pred; return true; }
   const factsAbout = key => activeFacts().filter(r => r.entities.some(e => e === key || e.startsWith(key + '/') || e.includes('+' + key) || e.includes(key + '+')));
+  const LIFECYCLE = new Set(['propose', 'install', 'uninstall', 'fail', 'revert', 'deploy', 'approve', 'reject', 'release', 'withdraw', 'cancel', 'complete', 'succeed', 'pass']);
+  function lifecycle(c) { if (!c || c.coord || !c.verb || c.verb.pol !== 'pos' || c.verb.tense !== 'past' || (c.roles && c.roles.karma && (c.roles.karma.clause || c.roles.karma.inf || c.roles.karma.ger))) return null; const l = c.verb.lemma, pt = c.verb.particle;
+    return LIFECYCLE.has(l) && !pt ? l : l === 'roll' && pt === 'back' ? 'roll back' : null; }
+  const holder = c => (c.verb.voice !== 'passive' && c.roles && c.roles.karma ? c.roles.karma : c.subj); // the status-bearing entity: the karma of an active, the surface subject otherwise
   function conflicts(c) { if (c.coord) return []; const out = [];
     const noPol = x => { const y = clone(G.material(x)); y.verb.pol = null; return canon(y); };
     for (const r of activeFacts()) { const o = r.clause; if (o.coord || predOf(o) !== predOf(c) || !subjMatch(c.subj, o.subj) || canon(G.material(o.cond || null)) !== canon(G.material(c.cond || null))) continue;
@@ -490,8 +502,8 @@ function Kernel(opts) {
       if (!d.parses.length) { g.expectancy = 'no derivation'; rules.push({ id: 'G-NO-DERIVATION', doc: 'Doc6 §36.19' }); return res('NO_LAWFUL_CANDIDATE', { kind: 'no_frame' }, { frame, act }); }
       if (d.parses.length > 1 && !(ctx.chosenReading && ctx.chosenReading <= Math.min(4, d.parses.length))) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); const readings = d.parses.slice(0, 4).map(p => describe(p.node.clause)); meta.pending = { type: 'reading', raw: ctx.raw, low: ctx.low, frame, act, count: readings.length, readings }; return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings }, { frame, act }); }
       const parse = d.parses[ctx.chosenReading ? ctx.chosenReading - 1 : 0]; rules.push(...parse.rules.map(id => ({ id, doc: ruleDoc(id) })));
-      const cl = parse.node.clause; if (ctx.hedge) setMod(cl, 'possible');
-      const rr = resolveRefs(cl, rules); if (rr.clarify) { g.connectedness = 'referent'; meta.pending = { type: 'referent', raw: ctx.raw, low: ctx.low, frame, act, word: rr.clarify.word, options: rr.clarify.options, reading: ctx.chosenReading || 0, count: d.parses.length }; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame, act }); }
+      const cl = parse.node.clause; if (ctx.hedge) setMod(cl, 'possible'); if (ctx.chosenReading) cl.resolved_reading = ctx.chosenReading;
+      const rr = resolveRefs(cl, rules); if (rr.clarify) { g.connectedness = 'referent'; meta.pending = { type: 'referent', raw: ctx.raw, low: ctx.low, frame, act, word: rr.clarify.word, options: rr.clarify.options, reading: ctx.chosenReading || 0, count: d.parses.length }; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame, act }); } if (cl.resolved_reading) heldNow = [canon(G.material(cl))];
       const sense = senseInfo(cl); if (sense) rules.push({ id: sense.rule, doc: 'Doc5 frames (WordNet verb frames); Doc6 §16–17, §19', note: sense.status + ' · ' + (sense.candidates || []).length + ' candidate sense(s)' });
       ctx.clauseForDiscourse = cl;
       if (ctx.dream) { rules.push({ id: 'CT-DREAM-QUARANTINE', doc: 'forge dream_state_quarantine.py: truth_support_allowed=false, stable_memory_allowed=false' }); return res('SELECTED_RESTRICTED_MEANING', { kind: 'dream_held', clause: cl, verb: ctx.dreamVerb || 'suppose' }, { frame, act, sense, contain: 'dream' }); }
@@ -501,6 +513,11 @@ function Kernel(opts) {
       rules.push({ id: 'AUTH-EXPLICIT-REMEMBER', doc: 'Doc7', note: 'explicit user request authorizes memory.write' });
       const same = activeFacts().find(r => canon(G.material(r.clause)) === canon(G.material(cl)));
       if (same) return res('SELECTED_MEANING', { kind: 'merged', clause: cl }, { frame, act, write: { clause: cl, mergeWith: same.id }, sense });
+      /* latest status (Pāṇini paper L2736–2751 time/status preservation; D3 §24 supersession): a lifecycle predicate (proposed / installed / failed /
+         rolled back …) about the same subject is one status-bearing fact; the newer statement is the current status, the older moves to cold storage with
+         its history (never deleted, never shown as an equal current fact) */
+      { const st = lifecycle(cl); const old = st ? activeFacts().filter(r => r.clause && !r.clause.coord && lifecycle(r.clause) && subjMatch(holder(cl), holder(r.clause)) && canon(G.material(r.clause)) !== canon(G.material(cl))) : [];
+        if (old.length) { rules.push({ id: 'MEM-STATUS-SUPERSEDE', doc: 'Pāṇini paper L2736–2751; Doc3 §24', note: old.map(r => lifecycle(r.clause)).join(' → ') + ' → ' + st + ' (current)' }); return res('SELECTED_MEANING', { kind: 'replaced', clause: cl }, { frame, act, write: { clause: cl, supersede: old.map(r => r.id) }, sense }); } }
       const cf = conflicts(cl);
       if (cf.length) { rules.push({ id: cf[0].why, doc: 'Doc7; Doc3 §24 (correction/supersession)', note: 'conflicts with ' + cf.map(x => x.r.id).join(', ') });
         if (instead) { rules.push({ id: 'MEM-EXPLICIT-CORRECTION', doc: 'Doc3 §24' }); return res('SELECTED_MEANING', { kind: 'replaced', clause: cl }, { frame, act, write: { clause: cl, supersede: cf.map(x => x.r.id) }, sense }); }
@@ -609,10 +626,15 @@ function Kernel(opts) {
       rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7; RPMC (exact structural match; RPM weight displayed, never decides)', note: (gap || 'yes/no') + ' → ' + recs.length + ' record(s)' });
       const sens = recs.filter(r => r.sensitive); if (sens.length || (!gap && activeFacts().some(r => r.sensitive && subjMatch(q.subj, r.clause.subj) && predOf(r.clause) === predOf(q)))) { rules.push({ id: 'LL-OUTPUT-BOUNDARY-PRIVATE', doc: 'Doc3 §20' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: 'show ' + (q.subj ? G.npText(q.subj, 'kernel') : 'that record'), reason: 'SENSITIVE_RECORD' }, { frame: 'FR.QUESTION', act: 'question' }); }
       if (gap) { if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj || { propn: 'that' } }, { frame: 'FR.QUESTION', act: 'question' }); return res('SELECTED_MEANING', { kind: 'recall', items: recs.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: recs.map(r => r.id) }); }
-      const rel = activeFacts().filter(r => !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(q.subj, r.clause.subj));
+      ctx.qVoice = q.verb && q.verb.voice === 'passive' && q.roles && q.roles.karta ? 'passive' : 'active';
+      const rel = activeFacts().filter(r => !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(actv(q).subj, actv(r.clause).subj));
+      if (!rel.length && lifecycle(q)) { const now = activeFacts().filter(r => !r.clause.coord && lifecycle(r.clause) && subjMatch(holder(q), holder(r.clause)));
+        if (now.length) { const hist = store.load('cold_storage').filter(x => x.record && x.record.clause && lifecycle(x.record.clause) === lifecycle(q) && subjMatch(holder(q), holder(x.record.clause)));
+          rules.push({ id: 'MEM-STATUS-LATEST', doc: 'Pāṇini paper L2736–2751; Doc3 §24', note: (hist.length ? lifecycle(q) + ' (history) → ' : '') + lifecycle(now[now.length - 1].clause) + ' (current)' });
+          return res('SELECTED_MEANING', { kind: 'status_now', was: hist.length ? hist[hist.length - 1].record.clause : null, now: now[now.length - 1].clause }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: now.map(r => r.id) }); } }
       if (!rel.length) { const inf = inferYN(q); if (inf) return inf; return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj, clause: q }, { frame: 'FR.QUESTION', act: 'question', uncertainty: 'undetermined' }); }
-      const strip = c => canon({ p: predOf(c), s: entKeys(c.subj), r: roleKey(c), pr: c.pred ? (c.pred.np ? { t: c.pred.type, prep: c.pred.prep || null, k: entKeys(c.pred.np) } : G.material(c.pred)) : null });
-      const sub = (qc, rc) => { if (predOf(qc) !== predOf(rc) || !subjMatch(qc.subj, rc.subj)) return false; const qk = roleKey(qc), rk = roleKey(rc); for (const [k2, v] of Object.entries(qk)) { if (!(k2 in rk)) return false; if (canon(v) !== canon(rk[k2]) && !(Array.isArray(v) && v.every(x => rk[k2].includes(x)))) return false; }
+      const strip = c0 => { const c = actv(c0); return canon({ p: predOf(c), s: entKeys(c.subj), r: roleKey(c), pr: c.pred ? (c.pred.np ? { t: c.pred.type, prep: c.pred.prep || null, k: entKeys(c.pred.np) } : G.material(c.pred)) : null }); };
+      const sub = (qc, rc) => { qc = actv(qc); rc = actv(rc); if (predOf(qc) !== predOf(rc) || !subjMatch(qc.subj, rc.subj)) return false; const qk = roleKey(qc), rk = roleKey(rc); for (const [k2, v] of Object.entries(qk)) { if (!(k2 in rk)) return false; if (canon(v) !== canon(rk[k2]) && !(Array.isArray(v) && v.every(x => rk[k2].includes(x)))) return false; }
         if (qc.pred) { if (!rc.pred) return false; if (qc.pred.np && rc.pred.np) return canon(entKeys(qc.pred.np)) === canon(entKeys(rc.pred.np)); return canon(G.material(qc.pred)) === canon(G.material(rc.pred)); } return true; }; // LL-YN-SUBSET (question roles ⊆ stored roles)
       const scopeOk = rc => { if (q.subj && rc.subj && QCLASS(q.subj.quant) !== QCLASS(rc.subj.quant)) { rules.push({ id: 'LL-QUANT-MISMATCH', doc: 'Doc3 quantifiers (no inference across quantifiers)' }); return false; } if (wantsSame(q) && scopeOf(rc)) { rules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27', note: '∃y∀x preserved, not selected' }); return false; } return true; };
       const exact = rel.filter(r => (strip(r.clause) === strip(q) || sub(q, r.clause)) && scopeOk(r.clause)); let ans = 'unconfirmed', shown = rel;
@@ -722,7 +744,7 @@ function Kernel(opts) {
         if (ms.every(Boolean) && last.trace.msm) trace.msm = Object.assign({}, last.trace.msm, { meaning: { kind: 'sequence', parts: ms } });
         return Object.assign({}, last, { reply, blocked: outs.some(o => o.blocked), trace, parts: outs }); }
   function process1(input) {
-    meta.turn += 1; rsIn = {}; const turn = meta.turn; const at = now(); const normalizedInput = String(input || '').normalize('NFC'), inputLength = normalizedInput.length;
+    meta.turn += 1; rsIn = {}; heldNow = []; const turn = meta.turn; const at = now(); const normalizedInput = String(input || '').normalize('NFC'), inputLength = normalizedInput.length;
     const red = P.redact(normalizedInput), fullInput = red.text; curSecrets = red.secrets; input = fullInput; const vaultState = red.secrets.length ? (opts.vaultState ? opts.vaultState() : 'none') : null;
     const psi_id = sha256(canon({ turn, loop: meta.loop, input: fullInput }));
     const trace = { turn, at, input, input_length: inputLength, input_truncated: fullInput.length > input.length, input_sha256: sha256(fullInput), psi_id, psi_id_note: 'SHA-256 substitutes for BLAKE3 (RSOC §2.1)', loop_lambda: meta.loop, phases: [], rules: [], gates: null, candidates: [], outcome: null, msm: null, drift: null, chi: null, echo: null, memory: [], output: null, blocked: false };
@@ -730,8 +752,20 @@ function Kernel(opts) {
     const low0 = input.toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/[.!?]+\s*$/, '').replace(/\s+/g, ' ').trim();
     let low = low0.replace(/\bwhat's\b/g, 'what is').replace(/\bwho's\b/g, 'who is').replace(/\bdon't\b/g, 'do not').replace(/\bcan't\b|\bcannot\b/g, 'can not').replace(/\bi'm\b/g, 'i am');
     let raw = input;
+    /* fronted topic (Pāṇini paper D3 topic/scope; Doc5 viṣaya): "About NP, REST" — the PREP+NP must parse as a phrase before the comma. A pronoun in REST
+       that agrees with the topic is bound to it (anaphora to the topic); otherwise the topic is the viṣaya adjunct of REST (topicalisation = the same
+       clause with the PP moved). The fronting is remembered so speech may answer in the same order (RSOC ⧒, Echo-gated). */
+    let topicFront = null; { const tk = G.tokenize(raw.replace(/[.!?]+\s*$/, '')), ci = tk.findIndex(t => t.w === ',');
+      if (ci > 1 && ci < tk.length - 1 && /^(about|regarding|concerning)$/i.test(tk[0].w)) { const np = npOnly(tk.slice(1, ci));
+        const qf = w => (G.CL[w] || []).some(t => ['WH', 'AUX', 'COP', 'MOD'].includes(t)); /* interrogative clause class (Doc5): the topic frame is read for questions */
+        if (np && qf(tk[ci + 1].w)) { const rest = tk.slice(ci + 1).map(t => t.orig), tt = tk.slice(1, ci).map(t => t.orig).join(' '), hd = (np.head || []).concat(np.propn ? [] : []).join(' ').toLowerCase();
+          const fe = featsOf(np), fem = fe.g === 'f' || fe.g === 'u';
+          const pro = fe.n === 'pl' ? /^(they|them)$/i : fe.g === 'f' ? /^(she|her)$/i : fe.g === 'm' ? /^(he|him)$/i : fe.g === 'u' ? /^(she|her|he|him)$/i : /^it$/i; const pi = rest.findIndex(w => pro.test(w));
+          let r2; if (pi >= 0 && !(fem && /^her$/i.test(rest[pi]) && pi + 1 < rest.length && /^[a-z]/i.test(rest[pi + 1]) && !/^(about|to|for|with|in|on)$/i.test(rest[pi + 1]))) { r2 = rest.slice(); r2[pi] = tt; } else r2 = rest.concat(['about', tt]);
+          raw = r2.join(' ').replace(/\s+([?,])/g, '$1'); topicFront = { np: tt, bound: pi >= 0 };
+          low = raw.toLowerCase().replace(/[’‘]/g, "'").replace(/[.!?]+\s*$/, '').replace(/\bwhat's\b/g, 'what is').replace(/\s+/g, ' ').trim(); } } }
     Ph(1, 'input received (' + G.tokenize(input).length + ' tokens); ψ_id fixed');
-    const ctx = { privacy: red.secrets.length ? { count: red.secrets.length, labels: red.secrets.map(x => x.label), vault: vaultState } : null, worldPreflight: inputLength > 2000 ? R.evaluate(fullInput, { allowBareQuery: !asksAboutStored(fullInput), inputLength }) : null }; if (red.secrets.length) trace.rules.push(...red.rules.map(id => ({ id, doc: 'Doc7 privacy; forge Identity Vault', note: 'value replaced by “sealed” at ingestion' })), { id: 'PRIV-1.3 vault ' + vaultState, doc: 'Doc7' }); const na = low.match(/^(?:please )?(?:do not|never)(?: please)? (.+)$/);
+    const ctx = { privacy: red.secrets.length ? { count: red.secrets.length, labels: red.secrets.map(x => x.label), vault: vaultState } : null, worldPreflight: inputLength > 2000 ? R.evaluate(fullInput, { allowBareQuery: !asksAboutStored(fullInput), inputLength }) : null }; if (topicFront) { ctx.topicFront = topicFront; trace.rules.push({ id: 'LL-TOPIC-FRONTED', doc: 'Pāṇini paper D3 (topic/scope); Doc5 viṣaya', note: (topicFront.bound ? 'pronoun bound to topic ' : 'topic as viṣaya ') + '“' + topicFront.np + '” → “' + raw + '”' }); } if (red.secrets.length) trace.rules.push(...red.rules.map(id => ({ id, doc: 'Doc7 privacy; forge Identity Vault', note: 'value replaced by “sealed” at ingestion' })), { id: 'PRIV-1.3 vault ' + vaultState, doc: 'Doc7' }); const na = low.match(/^(?:please )?(?:do not|never)(?: please)? (.+)$/);
     if (na && (/^(remember|store|save|keep|memori[sz]e|note|write|say|repeat|echo|print|output|forget|delete|erase|remove|send|email|text|buy|open|run|call|post|share)\b/.test(na[1]) || G.Parser(content(G.tokenize(na[1])), glex).at(0, 'V').some(a => a.f === 'base'))) { ctx.negAct = true; low = na[1]; raw = raw.replace(/^\s*(?:please )?(?:do not|don't|never)(?: please)?\s+/i, ''); trace.rules.push({ id: 'LL-NEG-ACT', doc: 'Doc3 §15', note: 'negation scopes over the requested act' }); }
     const ops = { negation: /\bnot\b|\bnever\b|n't\b/.test(low0), condition: /\bif\b|\bunless\b/.test(low0), modality: /\b(might|may|maybe|perhaps|possibly|probably|must|should|could)\b/.test(low0), quantifier: /\b(all|every|each|some|none)\b/.test(low0), past: /\b(was|were|did)\b/.test(low0), future: /\bwill\b/.test(low0) };
     const depth = Object.values(ops).filter(Boolean).length;
@@ -798,7 +832,7 @@ function Kernel(opts) {
     if (sealed) { const cold = store.load('cold_storage'); cold.push({ id: psi_id, sealed_at: at, reason: 'hard stop ε_s=' + drift.eps_s, msm, sfe, input, tier: bypass ? 'DEEP' : 'WARM', breach: !!bypass, resurrection_attempts: 0 }); store.save('cold_storage', cold); meta.pending = null;
       trace.rsoc.ops.push('Ĉ'); Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = 'Hard stop: ε_s = ' + drift.eps_s + ' ≥ 0.80 and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
     Ph(7, 'manifest named ψ_id ' + psi_id.slice(0, 12) + '…');
-    { const mk = canon(msm.meaning); if (meta.spoken && meta.spoken.m === mk && meta.spoken.loop === meta.loop) msm.meaning = Object.assign({}, msm.meaning, { field: { last: meta.spoken.text } }); trace.rsoc.meaning_key = mk; } // the local field: what Forge last said for this same meaning (RSOC ⧒ phase alignment cos(Φ − Φ₀))
+    { const mk = canon(msm.meaning); if (meta.spoken && meta.spoken.m === mk && meta.spoken.loop === meta.loop) msm.meaning = Object.assign({}, msm.meaning, { field: { last: meta.spoken.text } }); if (ctx.topicFront) msm.meaning = Object.assign({}, msm.meaning, { field: Object.assign({}, msm.meaning.field, { topic: ctx.topicFront }) }); if (ctx.qVoice) msm.meaning = Object.assign({}, msm.meaning, { field: Object.assign({}, msm.meaning.field, { voice: ctx.qVoice }) }); trace.rsoc.meaning_key = mk; } // the local field: what Forge last said for this same meaning (RSOC ⧒ phase alignment cos(Φ − Φ₀))
     let real; try { real = D.realizeMeaning(msm.meaning, ENV); } catch (e) { trace.derivation_error = String(e && e.message); }
     if (!real) { routeOf({ derivation_failed: true }); trace.blocked = true; trace.block_reason = 'Derivation failed (' + trace.derivation_error + ') — no sūtra sequence derives this meaning; output blocked.'; meta.pending = null; Ph(9, 'derivation FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
     let text = real.text; trace.derivation = real.derivation; trace.rsoc.outward = real.derivation.rsoc || null; if (opts.renderFault) text = opts.renderFault(text, msm);
