@@ -276,6 +276,9 @@ function Kernel(opts) {
         return res('SELECTED_MEANING', { kind: 'forget_kept' }, { frame: 'FR.FORGET', act: 'answer' }); }
       if (p.type === 'reading' && n) { meta.pending = null; if (!p.count || n > p.count) { rules.push({ id: 'G-REENTRY-OUT-OF-RANGE', doc: 'Doc6 §30', note: String(n) }); return res('CLARIFICATION_REQUIRED', { kind: 'clarify_readings', readings: p.readings }, { frame: p.frame, act: p.act }); }
         rules.push({ id: 'G-REENTRY-READING-CHOSEN', doc: 'Doc6 §30, §34 (user selects among preserved readings)', note: 'reading ' + n + ' of ' + p.count }); ctx.chosenReading = n; return evaluate(p.raw, p.low, ctx); }
+      if (p.type === 'teach') { const km = low.match(/^(?:(?:it|they|that|this|those)(?: is|'s| are) )?(?:an? )?(noun|verb|adjective|name)s?\.?$/); if (km) { meta.pending = null; const cat = { noun: 'entity', name: 'entity', verb: 'action', adjective: 'attribute' }[km[1]];
+          for (const w0 of p.words) { const w = km[1] === 'verb' ? w0.replace(/([^aeiou])ies$/, '$1y').replace(/(ch|sh|x|z|ss)es$/, '$1').replace(/([^s])s$/, '$1').replace(/([^aeiou])ied$/, '$1y').replace(/([^e])ed$/, '$1') : w0, pr = lex.proposeConcept({ surface: w, gloss: 'taught in chat as a ' + km[1], category: cat, licence: 'user-owned', evidence: 'chat: ' + p.raw }); const ap = pr.ok ? lex.approveConcept(pr.record.id, true) : pr; if (!ap.ok) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_unknown', words: [w] }, { frame: 'FR.UNKNOWN', act: 'unknown' }); }
+          rules.push({ id: 'LX-TEACH-ADMITTED', doc: 'lexicon gate (quarantine → inspected → approved by the typed answer); local, never shared', note: p.words.join(', ') + ' = ' + km[1] }); ctx.raw = p.raw; ctx.low = p.low; return evaluate(p.raw, p.low, ctx); } }
       meta.pending = null; }
     if (/^(yes|yeah|yep|ok|okay|sure|correct|no|nope|wrong)$/.test(low)) return res('SELECTED_MEANING', { kind: 'ack' }, { frame: 'FR.ACK', act: 'answer' });
     for (const [id, act, re, fn, x] of META) if (re.test(low)) { if (x && x.rule) rules.push({ id: x.rule, doc: 'Doc7; Doc6 §37' }); return res((x && x.outcome) || 'SELECTED_MEANING', fn(), Object.assign({ frame: id, act }, x && x.effect ? { effect: x.effect } : {})); }
@@ -475,7 +478,8 @@ function Kernel(opts) {
     return declarative(toks, 'FR.ASSERT', 'assertion', false);
 
     function declarative(body, frame, act, remember) {
-      const ub = unknownToks(body); if (ub.length) return clarifyUnknown(ub);
+      const ub = unknownToks(body); if (ub.length && remember && ub.length <= 3) { meta.pending = { type: 'teach', raw: ctx.raw, low: ctx.low, words: ub }; g.connectedness = 'unknown-concept'; rules.push({ id: 'LX-TEACH-ASK', doc: 'WM v1 Contract (memory commands may require known vocabulary): ask, then admit through the lexicon gate', note: ub.join(', ') }); return res('CLARIFICATION_REQUIRED', { kind: 'clarify_teach', words: ub }, { frame, act }); }
+      if (ub.length) return clarifyUnknown(ub);
       const d = derive(body); rules.push({ id: 'G-DERIVATION', doc: 'Doc3; R0 (Paninian derivation)', note: d.parses.length + ' distinct derivation(s)' });
       if (!d.parses.length) { g.expectancy = 'no derivation'; rules.push({ id: 'G-NO-DERIVATION', doc: 'Doc6 §36.19' }); return res('NO_LAWFUL_CANDIDATE', { kind: 'no_frame' }, { frame, act }); }
       if (d.parses.length > 1 && !(ctx.chosenReading && ctx.chosenReading <= Math.min(4, d.parses.length))) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); const readings = d.parses.slice(0, 4).map(p => describe(p.node.clause)); meta.pending = { type: 'reading', raw: ctx.raw, low: ctx.low, frame, act, count: readings.length, readings }; return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings }, { frame, act }); }
@@ -617,7 +621,9 @@ function Kernel(opts) {
   const ENV = { reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: (m, text) => m && m.kind === 'world_answer' ? worldReverify(m, text) : mathReverify(m) };
   /* world answers: the proposition quoted in the surface is re-parsed by the world grammar and must be the checked query (or its
      opposite) of that status, and the proof it cites is replayed again against its own (branch-scoped) world */
-  function worldReverify(m, text) { if (m.wh) return whReverify(m, text); if (m.why) return whyReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x));
+  function worldReverify(m, text) { if (m.pron) { const pm = String(text).match(/^([\s\S]*?) The pronoun means “([^”]+)”\. It can mean “([^”]+)”\.([\s\S]*)$/), sy = s => String(s).replace(/_/g, ' ');
+      if (!pm || pm[2] !== sy(m.pron.chosen) || pm[3] !== sy(m.pron.also)) return false; m = Object.assign({}, m); delete m.pron; text = pm[1] + pm[4]; }
+    if (m.wh) return whReverify(m, text); if (m.why) return whyReverify(m, text); if (m.conj) return conjReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x));
       const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); const at = R.parseAtomic(u, false, new Set([m.query.predicate])); if (at) R.alignVerbs(Object.assign({}, m.query), [at]); return at; };
       const said = (String(text).match(/“([^”]+)”/g) || []).map(q => parse(q.slice(1, -1))); if (!said.length || said.some(a => !a)) return false;
       const q = R.canon(m.query), o = R.canon(R.opposite(m.query)), ks = said.map(a => R.canon(a));
@@ -629,6 +635,8 @@ function Kernel(opts) {
       if (!a.length) return qs.length === 1 && qs[0] === m.wh.question; if (qs.length !== a.length) return false; if (m.wh.count && !new RegExp('\\bcounted ' + a.length + ' ').test(text)) return false;
       return a.every((x, i) => { if (x.status !== 'supported_only') return qs[i] === x.text; const sub = { kind: 'world_answer', status: 'supported_only', query: x.query, proofs: { support: x.proof }, world: x.world }; return worldReverify(sub, '“' + qs[i] + '”') === true; }); } catch (e) { return false; } }
   /* why: the first quote is the question's proposition (its proof replayed when supported); the rest must be exactly the proof's own premises or the branch-checked hypotheses */
+  /* a conjunctive answer quotes exactly its deciding parts: each supported/refuted part's proof is replayed in its own world; undetermined parts are quoted as asked */
+  function conjReverify(m, text) { try { const qs = (String(text).match(/“([^”]+)”/g) || []).map(q => q.slice(1, -1)), p = m.conj.parts; return qs.length === p.length && p.every((x, i) => x.status === 'undetermined' ? qs[i] === x.text : worldReverify({ kind: 'world_answer', status: x.status, query: x.query, proofs: x.proofs, world: x.world }, '“' + qs[i] + '”') === true); } catch (e) { return false; } }
   function whyReverify(m, text) { try { const w = m.why, qs = (String(text).match(/“([^”]+)”/g) || []).map(q => q.slice(1, -1)); if (qs[0] !== w.query_text) return false;
       if (w.status === 'supported_only' && !R.checkProof(w.world, w.proof).ok) return false; const rest = w.status === 'supported_only' ? (w.premises.length === 1 && w.premises[0] === w.query_text && !w.rules ? [] : w.premises) : w.hypotheses;
       return qs.length === 1 + rest.length && rest.every((x, i) => qs[i + 1] === x); } catch (e) { return false; } }

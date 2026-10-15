@@ -59,9 +59,15 @@ put('BUILD_MANIFEST.json', json.dumps(doc, indent=1))
 # single-file builds (from the site copy, so they carry the same generated metadata)
 SRC = lambda rel: open(os.path.join(SITE, rel), encoding='utf-8').read()
 h = SRC('index.html').replace('<link rel="stylesheet" href="styles.css">', '<style>' + SRC('styles.css') + '</style>')
+def slim(m, s):
+    # single-file only: the registry's provenance 'source' strings are not read by any UI (the site copy keeps them)
+    if m != 'src/features.js': return s
+    a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
+    for f in d.get('features', []): f.pop('source', None)
+    return s[:a] + json.dumps(d, separators=(',', ':')) + s[b:]
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
-    h = h.replace('<script src="' + m + '"></script>', '<script>' + re.sub(r'(?m)^[ \t]*/\*[\s\S]*?\*/[ \t]*\n', '', SRC(m)).replace('</script', '<\\/script') + '</script>')
+    h = h.replace('<script src="' + m + '"></script>', '<script>' + re.sub(r'(?m)^[ \t]*/\*[\s\S]*?\*/[ \t]*\n', '', slim(m, SRC(m))).replace('</script', '<\\/script') + '</script>')
 h = h.replace('</head>', '<script>window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';</script></head>', 1)
 ico = base64.b64encode(open(os.path.join(SITE, 'icons/icon-192.png'), 'rb').read()).decode()
 h = h.replace('<link rel="manifest" href="manifest.json">', '').replace('href="icons/icon-192.png"', 'href="data:image/png;base64,' + ico + '"')

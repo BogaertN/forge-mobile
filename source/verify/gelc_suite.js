@@ -141,4 +141,17 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
     for (let i = 0; i < 3; i++) { const [a, b] = [nonce(), nonce()].map(cap), [k, j, m] = [nonce(), nonce(), nonce()];
       expect(st(`${a} is a ${k}. He is ${j}. Is ${a} ${j}?`) === 'supported_only' && st(`${a} is a ${k}. Every ${k} is ${j}. Is she ${j}?`) === 'supported_only' && st(`${b} is a ${k}. ${a} is ${j}. It is ${m}. Is ${b} ${m}?`) === 'undetermined', 'pron');
       expect(st(`${a} is a ${j} ${k}. Is ${a} ${j}?`) === 'supported_only' && st(`A ${j} ${k} is a ${m}. ${a} is a ${j} ${k}. Is ${a} a ${m}?`) === 'supported_only' && st(`A ${k} is a ${j} ${m}. ${a} is a ${k}. Is ${a} a ${m}?`) === 'supported_only', 'adj'); } }));
+  C('GELC-LANG2', '"when" questions (time adjunct / temporal copula), irregular past verbs, "No X Vs", combined "is X a A N?" questions, the ambiguous-pronoun notice and the teach-then-remember flow — over random symbols', S(() => {
+    const IR = Object.entries(RS.IRR_PAST), TP = ['on', 'at', 'during', 'before', 'after'];
+    for (let i = 0; i < 3; i++) { const [a, b, c] = [nonce(), nonce(), nonce()].map(cap), [A, B, Cc] = [a, b, c].map(x => x.toLowerCase()), [k, k2, j] = [nonce(), nonce(), nonce()], v = nonce() + 'k', p = TP[Math.floor(rnd() * TP.length)], [ps, lm] = IR[Math.floor(rnd() * IR.length)], f = FKN();
+      let r = ask(f, `${a} ${v}ed ${b} ${p} ${c}. When did ${a} ${v} ${b}?`); expect(r.includes(`“${A} ${v}ed ${B} ${p} ${Cc}”`), r);
+      r = ask(f, `${a} ${pl(v)} ${p} ${c}. When does ${a} ${v}?`); expect(r.includes(`“${A} ${pl(v)} ${p} ${Cc}”`), r);
+      r = ask(f, `${a} is ${p} ${c}. When is ${a}?`); expect(r.includes(`“${A} is ${p} ${Cc}”`), r);
+      expect(st(`${a} ${ps} ${b}. Did ${a} ${lm} ${b}?`) === 'supported_only' && st(`${a} ${ps} ${b}. Does ${a} ${lm} ${b}?`) === 'undetermined', 'irregular ' + ps);
+      r = ask(f, `${a} ${ps} ${b}. Who ${ps} ${b}?`); expect(r.includes(`“${A} ${ps} ${B}”`), r);
+      expect(st(`No ${pl(k)} ${v}. ${a} is a ${k}. Does ${a} ${v}?`) === 'refuted_only' && st(`No ${k} ${pl(v)} ${b}. ${a} is a ${k}. Does ${a} ${v} ${b}?`) === 'refuted_only', 'no X Vs');
+      expect(/^Yes\. /.test(ask(f, `${a} is ${j}. ${a} is a ${k}. Is ${a} a ${j} ${k}?`)) && ask(f, `${a} is not ${j}. Is ${a} a ${j} ${k}?`) === `No. The checked proof supports “${A} is not ${j}”.`, 'conj');
+      r = ask(f, `${a} is ${j}. Is ${a} a ${j} ${k}?`); expect(r === `The checked world does not support “${A} is ${k}”. I need an additional premise.`, r);
+      r = ask(f, `${a} is a ${k}. ${b} is a ${k2}. He is ${j}. Is ${b} ${j}?`); expect(/^Yes\./.test(r) && r.endsWith(`The pronoun means “${B}”. It can mean “${A}”.`), r);
+      const g = FKN(); expect(/Please answer “noun”/.test(g.process(`remember that ${a} is a ${k}`).reply) && /^I noted that/.test(g.process('noun').reply) && /^Yes\./.test(g.process(`is ${a} a ${k}?`).reply), 'teach'); } }));
 };

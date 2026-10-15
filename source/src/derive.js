@@ -10,7 +10,7 @@ const VERBS = new Set(words('change tag link match forget recover schedule explo
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause'));
 const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } };
-const NOUNS = new Set(words('tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
+const NOUNS = new Set(words('pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
@@ -360,12 +360,15 @@ const LANE = {
   ECHO_REVIEW: m => (m.review === null || m.review === undefined ? [S(C('have', { karta: I, karma: N('reply', { det: 'no', adj: ['earlier'] }) }))] : [S(C(m.review ? 'pass' : 'fail', { karta: N('reply', { det: 'the', adj: ['last'] }), karma: Nm('Echo'), tense: 'past' }))]),
   VERIFY_SUITE: () => [S(C('be', { karta: N('lane', { det: 'the' }), pred: N('suite', { det: 'the', of: Nm('Doc 9') }) }))] };
 function worldPlan(m) {
-  const plan = worldStatusPlan(m); if (!m.branch) return plan;
+  const cp = s => String(s).replace(/_/g, ' '), pn = m.pron ? [S(C('mean', { karta: N('pronoun', { det: 'the' }), karma: Mn(cp(m.pron.chosen)) })), S(C('mean', { karta: pr('it'), karma: Mn(cp(m.pron.also)), mod: 'can' }))]: [];
+  const plan = worldStatusPlan(m).concat(pn); if (!m.branch) return plan;
   return [S(C('answer', { karta: I, roles: { adhikarana: N('branch', { det: 'a' }) }, tense: 'past' }))].concat(plan, [S(C('change', { karta: N('branch', { det: 'the' }), karma: N('world', { det: 'the' }), pol: 'neg' }))]);
 }
 function worldStatusPlan(m) {
   const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
   const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
+  if (m.conj) { const p = m.conj.parts, L = p.length > 1 ? { coord: 'and', items: p.map(x => Mn(x.text)) } : Mn(p[0].text);
+    return m.conj.status === 'undetermined' ? [S(C('support', { karta: checkedWorld, karma: L, pol: 'neg' })), S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))] : [S(null, { part: m.conj.status === 'supported_only' ? 'yes' : 'no' }), S(C('support', { karta: N('proof', { det: 'the', adj: ['checked'], pl: p.length > 1 }), karma: L }))]; }
   if (m.why) { const w = m.why, q = Mn(w.query_text), L = xs => xs.length > 1 ? { coord: xs === w.hypotheses ? 'or' : 'and', items: xs.map(Mn) } : Mn(xs[0]);
     if (w.status === 'supported_only') return w.premises.length === 1 && w.premises[0] === w.query_text && !w.rules ? [S(C('state', { karta: N('premise', { poss: 'your' }), karma: q })), S(C('derive', { karta: N('rule', { det: 'no' }), karma: pr('it') }))]
       : [S(C('derive', { karta: checkedProof, karma: q, roles: { apadana: L(w.premises) } })), S(C('use', { karta: pr('it'), karma: N('rule', { cnt: w.rules }) }))];
@@ -454,6 +457,7 @@ const PLANS = {
   simplified: m => [S(C('be', { karta: N('form', { det: 'the', adj: [m.op === 'expand' ? 'expanded' : 'simplified'] }), pred: X(m.phi ? m.resultPhi : m.result) }))].concat((m.excluded || []).length ? [MS(m.excluded.flatMap((v, i) => (i ? [{ w: 'and' }] : []).concat([X(m.x), { rel: 'neq' }, X(v)])))] : []),
   converted: m => [MS([X(m.from), { rel: 'eq' }, X(m.value + ' ' + m.to)])].concat(m.fraction ? [S(C('be', { karta: N('value', { det: 'the', adj: ['exact'] }), pred: X(m.fraction) }))] : []),
   define: m => [S(C('mean', { karta: Mn(m.term), karma: Mn(m.gloss) })), S(C('be', { karta: N('source', { det: 'the' }), pred: Mn(m.source) }))],
+  clarify_teach: m => { const many = m.words.length > 1; return [S(C('know', { karta: I, karma: many ? N('word', { det: 'the', pl: true, list: { kind: 'mention', items: m.words } }) : N('word', { det: 'the', app: Mn(m.words[0]) }), pol: 'neg' })), S(C('answer', { karma: { coord: 'or', items: ['noun', 'verb', 'adjective', 'name'].map(Mn) } }), { force: 'imp', part: 'please' })]; },
   clarify_unknown: m => { const many = m.words.length > 1; return [S(C('know', { karta: I, karma: many ? N('word', { det: 'the', pl: true, list: { kind: 'mention', items: m.words } }) : N('word', { det: 'the', app: Mn(m.words[0]) }), pol: 'neg' })), S(C('rephrase', { karma: pr(many ? 'they' : 'it') }), { force: 'imp', part: 'please' }), S(C('admit', { karma: pr(many ? 'they' : 'it'), roles: { adhikarana: Nm('Context Library tab', 'the') } }), { force: 'imp', conj: 'or' })]; },
   clarify_ambiguous: m => [S(C('have', { karta: Mn(m.word), karma: N('sense', { cnt: m.senses.length, list: { kind: 'mention', items: m.senses } }) })), S(C('mean', { karta: YOU, karma: N('sense', { det: 'which' }), wh: 'karma' }), { force: 'ques' })],
   clarify_readings: m => [S(C('find', { karta: I, karma: N('reading', { cnt: m.readings.length, list: { kind: 'mention', items: m.readings } }) })), S(C('mean', { karta: YOU, karma: N('reading', { det: 'which' }), wh: 'karma' }), { force: 'ques' })],

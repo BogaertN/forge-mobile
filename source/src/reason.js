@@ -144,7 +144,10 @@ const displaySymbol = s => String(s).replace(/^\$/, '').replace(/_/g, ' ');
 const third = p => { const f = p === 'have' ? 'has' : /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : /(?:s|x|z|ch|sh|o)$/.test(p) ? p + 'es' : p + 's'; return /_/.test(p) || verbLemma(f) !== p ? p : f; };
 function atomText(a) {
   if (!a) return 'unresolved proposition';
+  if (/__/.test(a.predicate)) { const ps = !a.predicate.indexOf(PAST), [v, ...r] = a.predicate.slice(ps ? PAST.length : 0).split('__'), p = r.pop(), ng = a.polarity === 'neg';
+    return displaySymbol(a.args[0]) + ' ' + (ng ? (ps ? 'did not ' : 'does not ') + displaySymbol(v) : displaySymbol(ps ? pastForm(v) : third(v))) + (r.length ? ' ' + displaySymbol(r[0]) : '') + ' ' + p + ' ' + displaySymbol(a.args[1]); }
   if (a.predicate.indexOf(PAST) === 0) { const b = a.predicate.slice(PAST.length), x = atomText(atom(b, a.args, a.polarity));
+    if (/_v$/.test(b)) { const v = b.slice(0, -2); return displaySymbol(a.args[0]) + (a.polarity === 'neg' ? ' did not ' + displaySymbol(v) : ' ' + displaySymbol(pastForm(v))); }
     return / is /.test(x) ? x.replace(' is ', ' was ') : / does not /.test(x) ? x.replace(' does not ', ' did not ') : displaySymbol(a.args[0]) + ' ' + displaySymbol(pastForm(b)) + ' ' + displaySymbol(a.args[1]); }
   const neg = a.polarity === 'neg';
   if (a.args.length === 1 && /_v$/.test(a.predicate)) { const p = a.predicate.slice(0, -2); return displaySymbol(a.args[0]) + (neg ? ' does not ' + displaySymbol(p) : ' ' + displaySymbol(third(p))); }
@@ -170,8 +173,10 @@ const cmpAtom = (m, v) => { const s = term(m[1], v), p = symbol(m[3], 'predicate
 const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])], head: atom(p, ['$x', '$z']), form: 'comparative_order' }, { body: [atom(p, ['$x', '$y'])], head: atom(p, ['$y', '$x'], 'neg'), form: 'comparative_order' }];
 /* past tense is a marker on the proposition (§4.1): "was/were", "did", regular "-ed" give a past_ atom, distinct from the present one
    ("X was in Y" does not answer "is X in Y?"); time intervals stay deferred (§13) */
+const IRR_PAST = Object.freeze(Object.fromEntries('went:go ate:eat saw:see ran:run made:make took:take gave:give knew:know found:find got:get came:come said:say told:tell bought:buy thought:think brought:bring caught:catch taught:teach wrote:write drove:drive flew:fly swam:swim sang:sing drank:drink began:begin broke:break chose:choose fell:fall felt:feel held:hold kept:keep left:leave lost:lose met:meet paid:pay sat:sit slept:sleep spoke:speak stood:stand won:win built:build sent:send spent:spend grew:grow threw:throw hid:hide bit:bite led:lead fed:feed had:have sold:sell heard:hear drew:draw wore:wear rode:ride stole:steal forgot:forget understood:understand became:become'.split(' ').map(x => x.split(':'))));
+const IRR_FWD = Object.fromEntries(Object.entries(IRR_PAST).map(([a, b]) => [b, a])), irr = w => !isQuotedSymbol(w) && IRR_PAST[String(w).toLowerCase()];
 const PAST = 'past_', edLemma = w => /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /([b-df-hj-np-tv-z])\1ed$/.test(w) ? w.slice(0, -3) : w.slice(0, -2);
-const isEd = w => /^[a-z]{3,}ed$/i.test(w) && !/eed$/i.test(w), pastForm = b => /e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0, -1) + 'ied' : b + 'ed';
+const isEd = w => /^[a-z]{3,}ed$/i.test(w) && !/eed$/i.test(w), pastForm = b => IRR_FWD[b] || (/e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0, -1) + 'ied' : b + 'ed');
 const pastOf = a => a && atom(PAST + a.predicate, a.args, a.polarity);
 function parseCopula(text, allowVariable) { const t = clean(text), w = t.match(/^(.+?)\s+(?:was|were)\s+(.+)$/i); if (w && !/\s(?:is|are)\s/i.test(w[1])) return pastOf(parseCopula0(w[1] + ' is ' + w[2], allowVariable)); return parseCopula0(t, allowVariable); }
 function parseCopula0(text, allowVariable) {
@@ -185,12 +190,18 @@ function parseCopula0(text, allowVariable) {
 
 /* after do-support ("does not X", "does Y X") the slot is a verb by position: an EXTRA_CLOSED word there ("like") is that verb (grammar CL words never are) */
 const dsv = (verbs, w) => new Set([...(verbs || []), clean(w).toLowerCase()]);
-function parseRelation(text, allowVariable, verbs) {
+/* a trailing time/place adjunct ("X Ved Y in T", "X Vs on T") is one binary atom <verb>[__<object>]__<prep>(X, T) beside the bare clause; "when" asks for T */
+const TIME_P = 'on|in|at|during|before|after|since|until', ADJ_P = TIME_P + '|to|from|with|for|into';
+function adjunct(text, v, verbs) { const m = clean(text).match(rx('^(.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$')); if (!m) return null; const a = rel0(m[1], v, verbs), T = term(m[3], v); if (!a || !T) return null;
+  const ps = !a.predicate.indexOf(PAST), b = ps ? a.predicate.slice(PAST.length) : a.predicate; if (a.args.length === 2 && isPrep(b)) return null; return atom((ps ? PAST : '') + (/_v$/.test(b) ? b.slice(0, -2) : b + '__' + a.args[1]) + '__' + m[2].toLowerCase(), [a.args[0], T], a.polarity); }
+function parseRelation(text, allowVariable, verbs) { return rel0(text, allowVariable, verbs) || adjunct(text, allowVariable, verbs); }
+function rel0(text, allowVariable, verbs) {
+  { const d = clean(text); if (/\sdid\s+not\s/i.test(d) && !REL_NEG.test(d)) return pastOf(rel0(d.replace(/\sdid\s+not\s/i, ' does not '), allowVariable, verbs)); }
   let m = clean(text).match(REL_NEG);
   let polarity = 'neg';
   if (!m) { m = clean(text).match(REL_POS); polarity = 'pos'; }
-  if (!m) { const i = clean(text).match(INTR); if (!i) return null; const s = term(i[1], allowVariable), v = verbLemma(i[3], i[2] ? dsv(verbs, i[3]) : verbs); return s && v && v !== 'be' && v !== 'do' && v !== 'have' ? atom(v + '_v', [s], i[2] ? 'neg' : 'pos') : null; }
-  if (polarity === 'pos' && isEd(m[2]) && !isQuotedSymbol(m[2])) { const s = term(m[1], allowVariable), o = term(m[3], allowVariable), b = symbol(edLemma(m[2].toLowerCase()), 'verb', dsv(verbs, edLemma(m[2].toLowerCase()))); return s && o && b ? atom(PAST + b, [s, o]) : null; }
+  if (!m) { const i = clean(text).match(INTR); if (!i) return null; const s = term(i[1], allowVariable), pe = !i[2] && !isQuotedSymbol(i[3]) && (irr(i[3]) || isEd(i[3]) && edLemma(i[3].toLowerCase())); if (pe) { const b = symbol(pe, 'verb', dsv(verbs, pe)); return s && b && b !== 'be' && b !== 'do' ? atom(PAST + b + '_v', [s]) : null; } const v = verbLemma(i[3], i[2] ? dsv(verbs, i[3]) : verbs); return s && v && v !== 'be' && v !== 'do' && v !== 'have' ? atom(v + '_v', [s], i[2] ? 'neg' : 'pos') : null; }
+  if (polarity === 'pos' && (irr(m[2]) || isEd(m[2]) && !isQuotedSymbol(m[2]))) { const L = irr(m[2]) || edLemma(m[2].toLowerCase()), s = term(m[1], allowVariable), o = term(m[3], allowVariable), b = symbol(L, 'verb', dsv(verbs, L)); return s && o && b ? atom(PAST + b, [s, o]) : null; }
   const subject = term(m[1], allowVariable), predicate = verbLemma(m[2], polarity === 'neg' ? dsv(verbs, m[2]) : verbs), object = term(m[3], allowVariable);
   if (!subject || !predicate || !object || predicate === 'be' || predicate === 'do') return null;
   return atom((polarity === 'neg' && /\sdid\s+not\s/i.test(clean(text)) ? PAST : '') + predicate, [subject, object], polarity);
@@ -229,7 +240,9 @@ const pluralForms = w => /^"/.test(w) || !/^[\p{L}]{3,}$/u.test(w) || !/s$/i.tes
 /* an ambiguous plural ending ("-ses", "-ies") resolves to the singular the same input already uses for that class; else the regular default */
 /* the do-support query verb is bare; a stated inflected form is the same verb when inflecting the bare form re-lemmatises to it
    ("pozozises" ↔ "pozozis", "bias/biases"): the input itself resolves the -s/-es ambiguity, as with plurals */
-function alignVerbs(q, atoms) { const u = q.args.length === 1; if (u ? !/_v$/.test(q.predicate) : q.args.length !== 2 || isPrep(q.predicate)) return; const k = u ? '_v' : '', bin = atoms.filter(a => a.args.length === q.args.length && (!u || /_v$/.test(a.predicate))), used = new Set(bin.map(a => a.predicate)), p = q.predicate.slice(0, u ? -2 : undefined);
+function alignVerbs(q, atoms) { if (/__/.test(q.predicate)) { const i = q.predicate.indexOf('__'), rest = q.predicate.slice(i), v = q.predicate.slice(PAST.length, i), al = [v + 'ed', v + 'd', v + v.slice(-1) + 'ed', pastForm(v)].map(x => PAST + edLemma(x) + rest);
+    if (!q.predicate.indexOf(PAST)) for (const a of atoms) if (a.predicate !== q.predicate && al.includes(a.predicate)) a.predicate = q.predicate; return; }
+  const u = q.args.length === 1; if (u ? !/_v$/.test(q.predicate) : q.args.length !== 2 || isPrep(q.predicate)) return; const k = u ? '_v' : '', bin = atoms.filter(a => a.args.length === q.args.length && (!u || /_v$/.test(a.predicate))), used = new Set(bin.map(a => a.predicate)), p = q.predicate.slice(0, u ? -2 : undefined);
   const ps = p.indexOf(PAST) === 0, b = ps ? p.slice(PAST.length) : p, alt = used.has(q.predicate) ? [] : ps ? [b + 'ed', b + 'd', b + b.slice(-1) + 'ed', pastForm(b)].map(x => PAST + edLemma(x) + k).filter(x => x !== q.predicate) : [p, p + 's', p + 'es', /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : ''].map(x => x && verbLemma(x)).filter(x => x && x !== p).map(x => x + k);
   for (const a of bin) if (alt.includes(a.predicate)) a.predicate = q.predicate; }
 function resolvePlurals(pluralAlts, atoms) {
@@ -240,7 +253,7 @@ function resolvePlurals(pluralAlts, atoms) {
 function generic(text) { const t = clean(text), m = t.match(rx('^(' + SP + ')\\s+are\\s')); if (/^(?:an?|any)\s+[\p{L}]/iu.test(t)) return t.replace(/^(?:an?|any)\s+/i, 'every ');
   return m && !/^"/.test(m[1]) && !VAR_WORDS.has(m[1].toLowerCase()) && !closedWord(m[1].toLowerCase()) ? 'all ' + t : t; }
 function parseUniversal(text) {
-  text = generic(text); { const m = clean(text).match(rx('^(every|each|all)\\s+(' + SP + ')\\s+(' + SP + ')\\s+((?:is|are)\\s.+)$')); if (m && !/^(?:that|who|which|is|are|does|do)$/i.test(m[3])) text = m[1] + ' ' + m[3] + ' that is ' + m[2] + ' ' + m[4]; } const pl = /\s(?:are)\s/i.test(clean(text)) || /^all\s/i.test(clean(text)), alts = [];
+  text = generic(text); { const m = clean(text).match(rx('^(every|each|all)\\s+(' + SP + ')\\s+(' + SP + ')\\s+((?:is|are)\\s.+)$')); if (m && !/^(?:that|who|which|is|are|does|do)$/i.test(m[3])) text = m[1] + ' ' + m[3] + ' that is ' + m[2] + ' ' + m[4]; } const pl = /\s(?:are)\s/i.test(clean(text)) || /^all\s/i.test(clean(text)) || /^no\s+\S+\s+(?!(?:is|are|does|do|did|was|were)\b)\S*[^s\s](?:\s|$)/i.test(clean(text)), alts = [];
   const sg = w => { if (!pl) return w; const f = pluralForms(w); if (f.length > 1) alts.push(f.map(x => symbol(x, 'predicate'))); return f[0]; };
   const r = parseUniversalForm(text, sg); if (r && alts.length) r.plural_alternatives = alts; return r;
 }
@@ -250,6 +263,9 @@ function parseUniversalForm(text, sg) {
     const cls = symbol(sg(m[1]), 'predicate'), dst = symbol(sg(m[2]), 'predicate');
     return cls && dst ? { body: [atom(cls, ['$x'])], head: atom(dst, ['$x'], 'neg'), form: 'universal_negative' } : null;
   }
+  m = clean(text).match(rx('^no\\s+(' + SP + ')\\s+(' + SP + ')(?:\\s+' + NP + ')?$'));
+  if (m && !/^(?:is|are|was|were|does|do|did|can|will|has|have)$/i.test(m[2]) && !closedWord(m[2].toLowerCase())) { const cls = symbol(sg(m[1]), 'predicate'), v = verbLemma(m[2]), o = m[3] && term(m[3], false);
+    if (cls && v && (!m[3] || o)) return { body: [atom(cls, ['$x'])], head: o ? atom(v, ['$x', o], 'neg') : atom(v + '_v', ['$x'], 'neg'), form: 'universal_negative' }; }
   m = clean(text).match(UNIVERSAL_AND);
   if (m) {
     const cls = symbol(sg(m[1]), 'predicate'), dst = symbol(sg(m[4]), 'predicate'); if (!cls || !dst) return null;
@@ -305,6 +321,8 @@ function parseQuery0(text, verbs) {
   if (m) { const subject = sub(m[1]), v = symbol(m[3], 'verb', dsv(verbs, m[3])); if (subject && v && !/^(?:be|do|have)$/.test(v)) return atom(v + '_v', [subject], m[2] ? 'neg' : 'pos'); }
   m = t.match(QUERY_PP);
   if (m && isPrep(m[3])) { const subject = sub(m[1]), object = term(m[4], false); return subject && object ? atom(m[3].toLowerCase(), [subject, object], m[2] ? 'neg' : 'pos') : null; }
+  m = t.match(rx('^((?:does|do)\\s+.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$'));
+  if (m) { const a = parseQuery0(m[1], verbs), T = term(m[3], false); if (a && T && !/^any_/.test(a.args[0]) && (a.args.length === 1 ? /_v$/.test(a.predicate) : !isPrep(a.predicate))) return atom((a.args.length === 1 ? a.predicate.slice(0, -2) : a.predicate + '__' + a.args[1]) + '__' + m[2].toLowerCase(), [a.args[0], T], a.polarity); }
   m = t.match(/^is\s+it\s+true\s+that\s+(.+)$/i);
   return m ? parseAtomic(m[1], false) : null;
 }
@@ -355,8 +373,8 @@ function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + ',\\s*
   return subs.map(x => x + ' ' + [v].concat(w.slice(1)).join(' ')); }
 /* one assertion → its rules/facts (shared by interpret and the integrity re-derivation, so both see the same grammar) */
 /* discourse: a personal pronoun refers to the most recent named subject of an earlier sentence (deterministic recency; one referent) */
-function resolvePron(texts) { let last = null; return texts.map(t => { let u = clean(t); if (last) u = u.replace(/^(he|she|it|they)\s(?=(?:is|are|was|were|does|do|did|not|\S+s)\b)/i, '"' + last + '" ').replace(/\s(him|her|them)$/i, ' "' + last + '"').replace(/^((?:is|are|was|were|does|do|did)\s+)(he|she|it|they)\s/i, '$1"' + last + '" ');
-  const a = parseAtomic(u.replace(/^(?:is|are|was|were|does|do|did)\s+(\S+)\s+(.+)$/i, '$1 is $2'), false) || parseAtomic(stripLead(u), false); if (a && !/^any_/.test(a.args[0])) last = a.args[0]; return u; }); }
+function resolvePron(texts, out) { let last = null; const names = []; return texts.map(t => { let u = clean(t); const u0 = u; if (last) u = u.replace(/^(he|she|it|they)\s(?=(?:is|are|was|were|does|do|did|not|\S+s)\b)/i, '"' + last + '" ').replace(/\s(him|her|them)$/i, ' "' + last + '"').replace(/^((?:is|are|was|were|does|do|did)\s+)(he|she|it|they)\s/i, '$1"' + last + '" ');
+  const a = parseAtomic(u.replace(/^(?:is|are|was|were|does|do|did)\s+(\S+)\s+(.+)$/i, '$1 is $2'), false) || parseAtomic(stripLead(u), false); if (out && last && u !== u0) { const o = names.filter(n => n !== last); if (o.length) out.amb = { chosen: last, also: o[o.length - 1] }; } if (a && !/^any_/.test(a.args[0])) { last = a.args[0]; if (!names.includes(last)) names.push(last); } return u; }); }
 function sentenceItems(text, vs, cmp) { const out = [];
   { const g = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + '\\s+(?:is|are))\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$')); if (g && !isPrep(g[2])) { const r1 = parseRule(g[1] + ' ' + g[2]), r2 = parseRule(g[1] + ' a ' + g[3]); if (r1 && r2) return [{ r: r1 }, { r: r2 }]; } }
   const ts = coordSplit(text);
@@ -364,6 +382,7 @@ function sentenceItems(text, vs, cmp) { const out = [];
     const an = clean(t).match(rx('^' + NP + '\\s+(?:is|are)\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$'));
     if (an && !isPrep(an[2])) { const x = parseAtomic(an[1] + ' is ' + an[2], false), y = parseAtomic(an[1] + ' is a ' + an[3], false); if (x && y) { out.push({ a: x }, { a: y }); continue; } }
     const a = parseAtomic(t, false) || parseAtomic(t, false, vs()); if (!a) return null; out.push({ a: ts.pl ? withAlts(a, [ts.pl, ts.pl]) : a });
+    if (/__/.test(a.predicate)) { const u = clean(t).replace(rx('\\s+(?:' + ADJ_P + ')\\s+' + NP + '$'), ''), b = parseAtomic(u, false) || parseAtomic(u, false, vs()); if (b) out.push({ a: b }); }
     if (/_than$/.test(a.predicate) && !cmp.has(a.predicate)) { cmp.add(a.predicate); for (const o of orderRules(a.predicate)) out.push({ r: o }); } }
   return out; }
 function interpret(raw, opts) {
@@ -899,6 +918,8 @@ function whPlans(t, ctx) {
   if ((m = t.match(rx('^how\\s+many\\s+(' + SP + ')\\s+(?:are\\s+there|exist|there\\s+are)$')))) { const sg = pluralForms(m[1]); return [{ slot: 'entity', q: () => 'is ' + SLOT + ' a ' + (sg.find(x => ctx.preds.has(symbol(x, 'predicate'))) || sg[0]) }]; }
   if ((m = t.match(rx('^how\\s+many\\s+(.+)$')))) return whPlans('which ' + m[1], ctx);
   if ((m = t.match(WH_WHERE))) return [{ slot: 'prep', q: p => 'is ' + m[1] + ' ' + p + ' ' + SLOT }];
+  if ((m = t.match(rx('^when\\s+(?:is|are)\\s+' + NP + '$')))) return [{ slot: 'tprep', q: p => 'is ' + m[1] + ' ' + p + ' ' + SLOT }];
+  if ((m = t.match(/^when\s+(?:does|do)\s+(.+)$/i))) return [{ slot: 'tprep', q: p => 'does ' + m[1] + ' ' + p + ' ' + SLOT }];
   if ((m = t.match(rx('^(?:who|what)\\s+(?:is|are)\\s+(not\\s+)?(' + SP + ')\\s+than\\s+' + NP + '$')))) return [{ slot: 'entity', q: () => 'is ' + SLOT + ' ' + n(m[1]) + m[2] + ' than ' + m[3] }];
   if ((m = t.match(rx('^(?:who|what)\\s+is\\s+' + NP + '\\s+(not\\s+)?(' + SP + ')\\s+than$')))) return [{ slot: 'entity', q: () => 'is ' + m[1] + ' ' + n(m[2]) + m[3] + ' than ' + SLOT }];
   if ((m = t.match(WH_PP)) && isPrep(m[2])) return [{ slot: 'entity', q: () => 'is ' + SLOT + ' ' + n(m[1]) + m[2] + ' ' + m[3] }];
@@ -908,12 +929,12 @@ function whPlans(t, ctx) {
     if (e && !m[2] && (ctx.ents.has(e) || !plans.length)) plans.push({ slot: 'pred', q: c => 'is ' + w + ' ' + n(m[1]) + 'a ' + c });
     return plans; }
   if ((m = t.match(WH_OBJ))) return [{ slot: 'entity', q: () => 'does ' + m[1] + ' ' + n(m[2]) + m[3] + ' ' + SLOT }];
-  if ((m = t.match(WH_VERB)) && !/^(?:is|are|does|do|was|were|did|has|have)$/i.test(m[2])) { const ed = isEd(m[2]) && !m[1], v = ed ? symbol(edLemma(m[2].toLowerCase()), 'verb', dsv(ctx.verbs, edLemma(m[2].toLowerCase()))) : verbLemma(m[2], ctx.verbs) || symbol(m[2], 'verb', ctx.verbs); if (v) return [{ slot: 'entity', q: () => (ed ? 'did ' : 'does ') + SLOT + ' ' + n(m[1]) + v + (m[3] ? ' ' + m[3] : '') }]; }
+  if ((m = t.match(WH_VERB)) && !/^(?:is|are|does|do|was|were|did|has|have)$/i.test(m[2])) { const ed = (isEd(m[2]) || irr(m[2])) && !m[1], L = irr(m[2]) || edLemma(m[2].toLowerCase()), v = ed ? symbol(L, 'verb', dsv(ctx.verbs, L)) : verbLemma(m[2], ctx.verbs) || symbol(m[2], 'verb', ctx.verbs); if (v) return [{ slot: 'entity', q: () => (ed ? 'did ' : 'does ') + SLOT + ' ' + n(m[1]) + v + (m[3] ? ' ' + m[3] : '') }]; }
   if ((m = t.match(WH_WHICH)) && !/^(?:is|are|does|do)$/i.test(m[1])) { const sg = pluralForms(m[1]), cls = sg.find(x => ctx.preds.has(symbol(x, 'predicate'))) || sg[0], rest = whPlans('who ' + m[2], ctx);
     return rest.filter(r => r.slot === 'entity').map(r => Object.assign({}, r, { cls })); }
   return plans;
 }
-const WH_START = /^(?:who|whom|what|which|where|how\s+many)\b/i;
+const WH_START = /^(?:who|whom|what|which|where|when|how\s+many)\b/i;
 function evaluateWh(raw, segs, qseg, opts) {
   const t = clean(qseg.text).replace(/[?]+$/, ''), head = raw.slice(0, qseg.span.start), ctxIn = interpret(head + 'is ' + SLOT + ' a ' + SLOT + '?', {});
   if (!ctxIn.candidate) return ctxIn.failure ? evaluate1(head + 'is ' + SLOT + ' a ' + SLOT + '?', opts) : null;
@@ -923,7 +944,7 @@ function evaluateWh(raw, segs, qseg, opts) {
   if (past) for (const pl of plans) { const f = pl.q; pl.q = x => { const r = f(x); return r && r.replace(/^is /, 'was ').replace(/^does /, 'did '); }; }
   const answers = [], runs = [], undet = []; let incomplete = false, probe = null;
   for (const pl of plans) {
-    const dom = pl.slot === 'entity' ? [...ents].sort().map(e => [pl.q(), e]) : pl.slot === 'pred' ? [...preds].sort().map(p => [pl.q(p), null]) : preps.flatMap(p => [...ents].sort().map(e => [pl.q(p), e]));
+    const dom = pl.slot === 'entity' ? [...ents].sort().map(e => [pl.q(), e]) : pl.slot === 'pred' ? [...preds].sort().map(p => [pl.q(p), null]) : (pl.slot === 'tprep' ? TIME_P.split('|').filter(p => rx('\\s' + p + '\\s').test(head)) : preps).flatMap(p => [...ents].sort().map(e => [pl.q(p), e]));
     for (const [qt, e] of dom.filter(d => d[0]).slice(0, LIMITS.MAX_ENTITIES * 4)) {
       const yn = head + (e ? qt.split(SLOT).join('"' + e + '"') : qt) + '?', r = evaluate1(yn, opts); if (!r.handled || !r.material || r.material.kind !== 'world_answer') continue;
       if (pl.cls && e) { const k = evaluate1(head + 'is "' + e + '" a ' + pl.cls + '?', opts); if (!k.material || k.material.status !== 'supported_only') continue; }
@@ -954,16 +975,27 @@ function evaluateWhy(raw, segs, qseg, opts) {
   return { handled: true, outcome: 'SELECTED_MEANING', material: Object.assign({}, a, { why }), frame: 'FR.WORLD.MODEL', act: 'question', rules: r.rules.concat([{ id: 'WM-WHY-PROOF-READBACK', doc: DOC + ' §9; abduction per Nic (labelled hypotheses, branch-checked, never admitted)', note: a.status + '; premises=' + why.premises.length + '; hypotheses=' + why.hypotheses.length }]), uncertainty: r.uncertainty, reasoningCandidates: r.reasoningCandidates };
 }
 
-function evaluate(raw, opts) {
+/* "is X a A N?" asks the conjunction of "is X A?" and "is X a N?" (the reading 4.9.21 gives the statement): each is a full checked turn;
+   yes needs both supported, no needs one refuted (its proof), otherwise the undetermined parts are named */
+function evaluateConj(raw, qseg, opts) { const m = clean(qseg.text).replace(/[?]+$/, '').match(rx('^(is|was)\\s+' + NP + '\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$')); if (!m || isPrep(m[3]) || closedWord(m[3].toLowerCase())) return null;
+  const head = raw.slice(0, qseg.span.start), rs = [m[1] + ' ' + m[2] + ' ' + m[3], m[1] + ' ' + m[2] + ' a ' + m[4]].map(x => evaluate1(head + x + '?', opts)); if (rs.some(r => !r.material || r.material.kind !== 'world_answer' || r.material.branch)) return null;
+  const st = rs.map(r => r.material.status), pick = s => rs[st.indexOf(s)]; if (st.includes('conflicted')) return pick('conflicted'); if (st.includes('incomplete')) return pick('incomplete');
+  const status = st.includes('refuted_only') ? 'refuted_only' : st.every(s => s === 'supported_only') ? 'supported_only' : 'undetermined', base = status === 'supported_only' ? rs[1] : pick(status === 'refuted_only' ? status : 'undetermined');
+  const parts = rs.map(r => r.material).filter(x => status === 'supported_only' || x.status === status).map(x => ({ status: x.status, text: x.status === 'refuted_only' ? x.opposite_text : x.query_text, query: copy(x.query), proofs: x.proofs, world: x.world }));
+  return Object.assign({}, base, { material: Object.assign({}, base.material, { status, conj: { question: qseg.source, status, parts }, envelope: Object.assign({}, base.material.envelope, { result_status: status }) }), uncertainty: status === 'undetermined' ? status : 'none', rules: base.rules.concat([{ id: 'WM-CONJUNCTIVE-QUERY', doc: DOC + ' §5 (conjunction of checked queries)', note: st.join('+') }]) }); }
+/* the pronoun's referent is the most recent named subject (deterministic); when an earlier name could also be meant, the answer says so */
+function evaluate(raw, opts) { const r = evaluate0(raw, opts); if (r && r.material && r.material.kind === 'world_answer') { const o = {}; resolvePron(sourceSegments(String(raw || '').normalize('NFC')).map(x => x.text), o); if (o.amb) r.material = Object.assign({}, r.material, { pron: o.amb }); } return r; }
+function evaluate0(raw, opts) {
   opts = opts || {}; raw = String(raw || '').normalize('NFC'); const segs = sourceSegments(raw), q = segs.filter(x => x.kind === 'question').slice(-1)[0];
   if (q && WH_START.test(clean(q.text)) && !/\b(?:i|me|my|mine|we|us|our|ours|you|your|yours)\b/i.test(q.text) && segs.indexOf(q) === segs.length - 1 && (segs.length > 1 || opts.bareWh) && raw.length <= LIMITS.MAX_INPUT_CHARS) { const r = evaluateWh(raw, segs, q, opts); if (r) return r; }
   if (q && /^why\s/i.test(clean(q.text)) && segs.indexOf(q) === segs.length - 1 && raw.length <= LIMITS.MAX_INPUT_CHARS) { const w = evaluateWhy(raw, segs, q, opts); if (w) return w; }
+  if (q && segs.indexOf(q) === segs.length - 1 && raw.length <= LIMITS.MAX_INPUT_CHARS) { const c = evaluateConj(raw, q, opts); if (c) return c; }
   const r = evaluate1(raw, opts); if (r.handled || !opts.bareWh || !q) return r;
   /* I2: a question that only failed a dictionary lookup gets a precise structural limitation, never an unknown-word trap */
   const f = interpretationFailure(raw, q, 'UNSUPPORTED_QUERY_STRUCTURE', 'outside v1 grammar; unfamiliar words remain symbols').failure;
   return { handled: true, outcome: 'UNSUPPORTED_PRESERVED', material: limitationMaterial(raw, f, mergedLimits(opts.limits)), frame: 'FR.WORLD.MODEL', act: 'question', rules: [{ id: 'WM-LANGUAGE-STRUCTURE-LIMIT', doc: DOC + ' I2', note: f.code + '; unknown_word=false' }], uncertainty: 'unsupported_structure', reasoningCandidates: [] };
 }
 
-const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
+const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
 if (isNode) module.exports = api; else root.KReason = api;
 })(typeof self !== 'undefined' ? self : this);
