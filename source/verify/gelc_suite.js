@@ -116,4 +116,12 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
       for (const q of [`What is a ${nonce()}?`, `Who is a ${nonce()}?`, `How does a ${nonce()} ${nonce()}?`]) { const x = FKN().process(q); expect(!/do not know the word/.test(x.reply || '') && x.trace.echo && x.trace.echo.pass, q + ' → ' + x.reply); } }
     expect(!/about I\b/.test(FKN().process('who are you?').reply || ''));
     const f = FKN(); for (const u of ['remember that Rex chases Tom', 'remember that Tom chases Sam', 'explore ideas']) f.process(u); const h = f.stagedHypotheses().find(x => x.detail.rule); f.approveHypothesis(h.id, true); expect(/I used 1 admitted rule\./.test(f.process('does Rex chase Sam?').reply)); }));
+  C('GELC-PLURAL', 'plural/generic questions, coordinated subjects, counting and comparatives over random symbols: "are Xs Ys?", "do Xs V?", "A, B and C are Xs", "how many Xs …?" (count = checked bindings, open world), "A is ADJ than B" (strict order: transitive + asymmetric, rules sourced to the sentence)', S(() => {
+    for (let i = 0; i < 3; i++) { const [a, b, c] = [nonce(), nonce(), nonce()].map(cap), k = nonce(), k2 = nonce(), v = nonce() + 'k', adj = nonce() + 'er';
+      expect(st(`All ${pl(k)} are ${pl(k2)}. Are ${pl(k)} ${pl(k2)}?`) === 'supported_only' && st(`No ${pl(k)} are ${pl(k2)}. Are ${pl(k)} ${pl(k2)}?`) === 'refuted_only' && st(`Every ${k} ${pl(v)}. Do ${pl(k)} ${v}?`) === 'supported_only' && st(`Are ${pl(k)} ${pl(k2)}?`) === 'undetermined', 'generic ' + [k, k2, v]);
+      expect(st(`${a}, ${b} and ${c} are ${pl(k)}. Is ${b} a ${k}?`) === 'supported_only' && st(`${a} and ${b} ${pl(v)} ${c}. Does ${b} ${v} ${c}?`) === 'supported_only', 'coord ' + [a, b, c, k, v]);
+      const f = FKN(); let r = ask(f, `${a}, ${b} and ${c} are ${pl(k)}. How many ${pl(k)} are there?`); expect(/^I counted 3 checked answers\./.test(r), r);
+      r = ask(f, `${a} is a ${k}. ${b} is a ${k}. ${c} is a ${k2}. Every ${k} ${pl(v)}. How many ${pl(k)} ${v}?`); expect(/^I counted 2 checked answers\./.test(r), r);
+      expect(st(`${a} is ${adj} than ${b}. Is ${b} ${adj} than ${a}?`) === 'refuted_only' && st(`${a} is ${adj} than ${b}. ${b} is ${adj} than ${c}. Is ${a} ${adj} than ${c}?`) === 'supported_only' && st(`Is ${a} ${adj} than ${b}?`) === 'undetermined', 'cmp ' + [a, b, c, adj]);
+      r = ask(f, `${a} is ${adj} than ${b}. ${b} is ${adj} than ${c}. Who is ${adj} than ${c}?`); expect(r.includes(`“${a.toLowerCase()} is ${adj} than ${c.toLowerCase()}”`) && r.includes(`“${b.toLowerCase()} is ${adj} than ${c.toLowerCase()}”`), r); } }));
 };

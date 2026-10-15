@@ -367,7 +367,7 @@ function worldStatusPlan(m) {
   const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
   const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
   if (m.wh) { const a = m.wh.answers; if (!a.length) return m.status === 'incomplete' ? [S(C('reach', { karta: N('derivation', { det: 'the' }), karma: N('limit', { det: 'the' }), tense: 'past' })), S(C('answer', { karta: I, karma: Mn(m.wh.question), mod: 'can', pol: 'neg' }))] : [S(C('support', { karta: checkedWorld, karma: N('answer', { det: 'no' }), roles: { tadartha: Mn(m.wh.question) } })), S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))];
-    return [S(C('support', { karta: N('proof', { det: 'the', adj: ['checked'], pl: a.length > 1 }), karma: a.length > 1 ? { coord: 'and', items: a.map(x => Mn(x.text)) } : Mn(a[0].text) })), S(C('determine', { karta: N('world', { det: 'the' }), karma: N('answer', { adj: ['other'], pl: true }), pol: 'neg' }))]; }
+    return (m.wh.count ? [S(C('count', { karta: I, karma: N('answer', { cnt: a.length, adj: ['checked'] }), tense: 'past' }))] : []).concat([S(C('support', { karta: N('proof', { det: 'the', adj: ['checked'], pl: a.length > 1 }), karma: a.length > 1 ? { coord: 'and', items: a.map(x => Mn(x.text)) } : Mn(a[0].text) })), S(C('determine', { karta: N('world', { det: 'the' }), karma: N('answer', { adj: ['other'], pl: true }), pol: 'neg' }))]); }
   if (m.status === 'supported_only') return [
     S(null, { part: 'yes' }),
     S(C('support', { karta: checkedProof, karma: Mn(m.query_text) }))

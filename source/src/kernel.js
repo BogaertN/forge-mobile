@@ -617,7 +617,7 @@ function Kernel(opts) {
   const ENV = { reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: (m, text) => m && m.kind === 'world_answer' ? worldReverify(m, text) : mathReverify(m) };
   /* world answers: the proposition quoted in the surface is re-parsed by the world grammar and must be the checked query (or its
      opposite) of that status, and the proof it cites is replayed again against its own (branch-scoped) world */
-  function worldReverify(m, text) { if (m.wh) return whReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x));
+  function worldReverify(m, text) { if (m.wh) return whReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x));
       const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); const at = R.parseAtomic(u, false, new Set([m.query.predicate])); if (at) R.alignVerbs(Object.assign({}, m.query), [at]); return at; };
       const said = (String(text).match(/“([^”]+)”/g) || []).map(q => parse(q.slice(1, -1))); if (!said.length || said.some(a => !a)) return false;
       const q = R.canon(m.query), o = R.canon(R.opposite(m.query)), ks = said.map(a => R.canon(a));
@@ -626,7 +626,7 @@ function Kernel(opts) {
       const pf = m.status === 'supported_only' ? m.proofs.support : m.status === 'refuted_only' ? m.proofs.refutation : null; return pf ? !!R.checkProof(m.world, pf).ok : true; } catch (e) { return false; } }
   /* a wh answer quotes only checked bindings (each re-parsed and its own proof replayed in its own world); with no binding it may quote only the question */
   function whReverify(m, text) { try { const qs = (String(text).match(/“([^”]+)”/g) || []).map(q => q.slice(1, -1)), a = m.wh.answers;
-      if (!a.length) return qs.length === 1 && qs[0] === m.wh.question; if (qs.length !== a.length) return false;
+      if (!a.length) return qs.length === 1 && qs[0] === m.wh.question; if (qs.length !== a.length) return false; if (m.wh.count && !new RegExp('\\bcounted ' + a.length + ' ').test(text)) return false;
       return a.every((x, i) => { if (x.status !== 'supported_only') return qs[i] === x.text; const sub = { kind: 'world_answer', status: 'supported_only', query: x.query, proofs: { support: x.proof }, world: x.world }; return worldReverify(sub, '“' + qs[i] + '”') === true; }); } catch (e) { return false; } }
   function mathReverify(m) { try {
     if (m.kind === 'math') return reverifyMath(m.expr, m.value, m.approx);

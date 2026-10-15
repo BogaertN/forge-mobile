@@ -146,6 +146,7 @@ function atomText(a) {
   if (!a) return 'unresolved proposition';
   const neg = a.polarity === 'neg';
   if (a.args.length === 1 && /_v$/.test(a.predicate)) { const p = a.predicate.slice(0, -2); return displaySymbol(a.args[0]) + (neg ? ' does not ' + displaySymbol(p) : ' ' + displaySymbol(third(p))); }
+  if (/_than$/.test(a.predicate) && a.args.length === 2) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + displaySymbol(a.predicate.slice(0, -5)) + ' than ' + displaySymbol(a.args[1]);
   if (a.args.length === 1 || isPrep(a.predicate)) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + displaySymbol(a.predicate) + (a.args[1] ? ' ' + displaySymbol(a.args[1]) : '');
   const p = a.predicate, v = neg ? p : third(p); /* third person only when it re-parses to the same lemma */
   return displaySymbol(a.args[0]) + (neg ? ' does not ' : ' ') + displaySymbol(v) + ' ' + displaySymbol(a.args[1]);
@@ -159,7 +160,14 @@ function stripLead(text) {
   return clean(text).replace(SUPPOSE, '').replace(/^(?:given(?: that)?|fact\s*:|rule\s*:|world\s*:)\s*/i, '').trim();
 }
 
+const COP_CMP = rx('^' + NP + '\\s+(?:is|are)\\s+(not\\s+)?(' + SP + ')\\s+than\\s+' + NP + '$');
+const QUERY_CMP = rx('^is\\s+' + NP + '\\s+(not\\s+)?(' + SP + ')\\s+than\\s+' + NP + '$');
+/* "X is ADJ than Y" names a strict order: the binary predicate ADJ_than; its order properties (transitive, asymmetric) are the grammatical meaning
+   of the comparative construction and enter the world as explicit rules sourced to the sentence that used it — never a topic fact */
+const cmpAtom = (m, v) => { const s = term(m[1], v), p = symbol(m[3], 'predicate'), o = term(m[4], v); return s && p && o ? atom(p + '_than', [s, o], m[2] ? 'neg' : 'pos') : null; };
+const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])], head: atom(p, ['$x', '$z']), form: 'comparative_order' }, { body: [atom(p, ['$x', '$y'])], head: atom(p, ['$y', '$x'], 'neg'), form: 'comparative_order' }];
 function parseCopula(text, allowVariable) {
+  { const c = clean(text).match(COP_CMP); if (c) return cmpAtom(c, allowVariable); }
   const m = clean(text).match(COP);
   if (!m) { const p = clean(text).match(COP_PP); if (!p || !isPrep(p[3])) return null; const s = term(p[1], allowVariable), o = term(p[4], allowVariable); return s && o ? atom(p[3].toLowerCase(), [s, o], p[2] ? 'neg' : 'pos') : null; }
   const subject = term(m[1], allowVariable), predicate = symbol(m[3], 'predicate');
@@ -259,10 +267,19 @@ function parseRule(text) { return parseConditional(text) || parseUniversal(text)
 
 /* an indefinite query subject ("is a blorf a quab?") asks about an ARBITRARY member: the subject becomes the fresh constant any_<class>,
    and interpret() adds the witness <class>(any_<class>) to a branch (universal generalisation over Horn rules; the committed world is untouched) */
+/* a lower-case plural common noun as a question subject is generic ("are blorfs quabs?", "do dogs bark?") */
+const plw = w => /^[a-z]/.test(w) && /s$/.test(w) && !VAR_WORDS.has(w) && !closedWord(w);
+/* the plural's singular is resolved by the input itself (as for rules): the alternatives ride on the query atom, non-enumerable (not hashed) */
+const withAlts = (a, ws) => { if (a) Object.defineProperty(a, 'alts', { value: ws.map(w => pluralForms(w).concat([w.slice(0, -1)]).map(x => symbol(x, 'predicate'))) }); return a; };
+function fixQ(q, atoms) { if (!q || !q.alts) return; const used = new Set(atoms.filter(a => !a.alts).map(a => a.predicate)), pick = (cur, alts) => used.has(cur) ? cur : alts.find(x => used.has(x)) || cur;
+  if (/^any_/.test(q.args[0]) && q.alts[0]) q.args[0] = 'any_' + pick(q.args[0].slice(4), q.alts[0]); if (q.alts[1] && q.args.length === 1) q.predicate = pick(q.predicate, q.alts[1]); }
 function parseQuery(text, verbs) {
   let t = clean(text).replace(/[?]+$/, '').replace(/^query\s*:\s*/i, '').trim().replace(/^(is|does|do)\s+any\s+/i, '$1 a ');
   const gen = /^(?:is|does|do)\s+an?\s+/i.test(t), sub = x => { const v = term(x, false); return v && gen ? 'any_' + v : v; };
-  let m = t.match(QUERY_COP);
+  let m = t.match(QUERY_CMP); if (m) { const a = cmpAtom(m, false); return a && gen ? null : a; }
+  if ((m = t.match(rx('^are\\s+(' + SP + ')\\s+(not\\s+)?(?:(?:a|an)\\s+)?(' + SP + ')$'))) && plw(m[1])) return withAlts(parseQuery('is a ' + pluralForms(m[1])[0] + ' ' + (m[2] || '') + 'a ' + pluralForms(m[3])[0], verbs), [m[1], m[3]]);
+  if ((m = t.match(rx('^do\\s+(' + SP + ')\\s+(.+)$'))) && plw(m[1])) return withAlts(parseQuery('does a ' + pluralForms(m[1])[0] + ' ' + m[2], verbs), [m[1]]);
+  m = t.match(QUERY_COP);
   if (m) {
     const subject = sub(m[1]), predicate = symbol(m[3], 'predicate');
     return subject && predicate ? atom(predicate, [subject], m[2] ? 'neg' : 'pos') : null;
@@ -270,7 +287,7 @@ function parseQuery(text, verbs) {
   m = t.match(QUERY_REL);
   if (m) {
     const subject = sub(m[1]), predicate = symbol(m[3], 'verb', dsv(verbs, m[3])), object = term(m[4], false); /* do-support: the verb is already bare */
-    return subject && predicate && predicate !== 'be' && predicate !== 'do' && object ? atom(predicate, [subject, object], m[2] ? 'neg' : 'pos') : null;
+    if (subject && predicate && predicate !== 'be' && predicate !== 'do' && object) return atom(predicate, [subject, object], m[2] ? 'neg' : 'pos');
   }
   m = t.match(QUERY_INTR);
   if (m) { const subject = sub(m[1]), v = symbol(m[3], 'verb', dsv(verbs, m[3])); if (subject && v && !/^(?:be|do|have)$/.test(v)) return atom(v + '_v', [subject], m[2] ? 'neg' : 'pos'); }
@@ -318,6 +335,19 @@ const stated = xs => xs.filter(x => !x.sup).concat(xs.filter(x => x.sup));
 function witnessFor(q, facts, rules) { const c = q.args[0]; if (!/^any_/.test(c)) return null;
   return facts.some(f => f.atom.args.includes(c)) || rules.some(r => r.body.concat([r.head]).some(a => a.args.includes(c))) ? null : atom(c.slice(4), [c]); }
 const verbsOf = texts => new Set(texts.map(t => parseRelation(stripLead(t), true)).filter(Boolean).map(a => a.predicate.replace(/_v$/, '')));
+/* coordinated subjects distribute: "A, B and C are Xs" ≡ "A is a X. B is a X. C is a X"; "A and B Vs Y" likewise (one source sentence, several atoms) */
+function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + '\\s*,\\s*)*' + SP + ')\\s+and\\s+(' + SP + ')\\s+(.+)$')); if (!m || /^(?:every|each|all|no|if|a|an|the|some)$/i.test(m[1].split(/[\s,]+/)[0])) return [text];
+  const subs = m[1].split(/\s*,\s*/).concat([m[2]]), rest = m[3], c = rest.match(rx('^are\\s+(not\\s+)?(?:(' + SP + ')\\s+)?(' + SP + ')$'));
+  if (c) return Object.assign(subs.map(x => x + ' is ' + (c[1] || '') + (isPrep(c[2] || '') ? c[2] + ' ' + c[3] : 'a ' + pluralForms(c[3])[0])), { pl: isPrep(c[2] || '') ? null : c[3] });
+  if (/^(?:is|are)\s/i.test(rest)) return subs.map(x => x + ' ' + rest.replace(/^are\s/i, 'is ')); const w = rest.split(' '), v = /^(?:do|does)$/i.test(w[0]) ? w[0].replace(/^do$/i, 'does') : !/^"/.test(w[0]) && symbol(w[0], 'verb', new Set([w[0].toLowerCase()])) ? third(w[0].toLowerCase()) : w[0];
+  return subs.map(x => x + ' ' + [v].concat(w.slice(1)).join(' ')); }
+/* one assertion → its rules/facts (shared by interpret and the integrity re-derivation, so both see the same grammar) */
+function sentenceItems(text, vs, cmp) { const out = [];
+  const ts = coordSplit(text);
+  for (const t of ts) { const r = parseRule(t); if (r) { out.push({ r }); continue; }
+    const a = parseAtomic(t, false) || parseAtomic(t, false, vs()); if (!a) return null; out.push({ a: ts.pl ? withAlts(a, [ts.pl, ts.pl]) : a });
+    if (/_than$/.test(a.predicate) && !cmp.has(a.predicate)) { cmp.add(a.predicate); for (const o of orderRules(a.predicate)) out.push({ r: o }); } }
+  return out; }
 function interpret(raw, opts) {
   raw = String(raw || '').normalize('NFC');
   const observedLength = opts && Number.isInteger(opts.inputLength) ? opts.inputLength : raw.length;
@@ -334,16 +364,13 @@ function interpret(raw, opts) {
   if (!query) return interpretationFailure(raw, qseg, 'UNSUPPORTED_QUERY_STRUCTURE', 'yes/no unary or binary query required');
 
   const pluralAlts = [], facts = [], rules = [], assertions = segments.filter(x => x.kind === 'assertion' && x.span.start < qseg.span.start);
-  for (const seg of assertions) {
-    const text = stripLead(seg.text), r = parseRule(text);
-    if (r) { pluralAlts.push([r, r.plural_alternatives || []]); delete r.plural_alternatives;
-      const problem = validateRule(r); if (problem) return interpretationFailure(raw, seg, problem, 'unsafe rule');
-      rules.push(Object.assign(r, { source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text) })); continue;
-    }
-    const f = parseAtomic(text, false) || parseAtomic(text, false, verbsOf(assertions.map(x => x.text)));
-    if (!f) return interpretationFailure(raw, seg, 'UNSUPPORTED_ASSERTION_STRUCTURE', 'outside v1 grammar; words remain symbols');
-    facts.push({ atom: f, source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text) });
-  }
+  const cmp = new Set(), vsA = () => verbsOf(assertions.map(x => x.text));
+  for (const seg of assertions) { const items = sentenceItems(stripLead(seg.text), vsA, cmp); if (!items) return interpretationFailure(raw, seg, 'UNSUPPORTED_ASSERTION_STRUCTURE', 'outside v1 grammar; words remain symbols');
+    for (const it of items) { if (it.r) { const r = it.r; pluralAlts.push([r, r.plural_alternatives || []]); delete r.plural_alternatives;
+        const problem = validateRule(r); if (problem) return interpretationFailure(raw, seg, problem, 'unsafe rule');
+        rules.push(Object.assign(r, { source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text) })); }
+      else facts.push({ atom: it.a, source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text) }); } }
+  { const all = facts.map(f => f.atom).concat(rules.flatMap(r => r.body.concat([r.head])), [query]); for (const f of facts) fixQ(f.atom, all.filter(x => x !== f.atom)); fixQ(query, all); }
   { const w = witnessFor(query, facts, rules); if (w) facts.push({ atom: w, source_ref: qseg.id, source_span: copy(qseg.span), sup: true }); }
   if (facts.length > LIMITS.MAX_FACTS || rules.length > LIMITS.MAX_RULES) return interpretationFailure(raw, qseg, 'WORLD_SIZE_LIMIT', 'too many facts or rules');
   resolvePlurals(pluralAlts, facts.map(f => f.atom).concat([query])); alignVerbs(query, facts.map(f => f.atom).concat(rules.flatMap(r => r.body.concat([r.head]))));
@@ -408,12 +435,11 @@ function candidateIntegrity(candidate) {
   if (!candidate.sources.length || candidate.sources.length > LIMITS.MAX_SENTENCES || candidate.facts.length > LIMITS.MAX_FACTS || candidate.rules.length > LIMITS.MAX_RULES || candidate.entities.length > LIMITS.MAX_ENTITIES || candidate.atoms.length > atomLimit || candidate.relations.length > atomLimit || candidate.markers.length > atomLimit || questions.length !== 1 || candidate.sources[candidate.sources.length - 1] !== questions[0] || ['ambiguities', 'ambiguity_reasons', 'unresolved_symbols', 'unresolved_senses'].some(k => candidate[k].length)) return false;
   const expectedFacts = [], expectedRules = [], factSeen = new Set(), ruleSeen = new Set(), parsed = [], pluralAlts = [];
   const vs = () => verbsOf(candidate.sources.slice(0, -1).map(x => x.source.replace(/[.!?]+$/, '').trim()));
-  for (const s of candidate.sources.slice(0, -1)) {
-    const text = stripLead(s.source.replace(/[.!?]+$/, '').trim()), r = parseRule(text);
-    if (r) { pluralAlts.push([r, r.plural_alternatives || []]); delete r.plural_alternatives; parsed.push([s, r, null]); }
-    else { const a = parseAtomic(text, false) || parseAtomic(text, false, vs()); if (!a) return false; parsed.push([s, null, a]); }
-  }
+  const cmp = new Set();
+  for (const s of candidate.sources.slice(0, -1)) { const items = sentenceItems(stripLead(s.source.replace(/[.!?]+$/, '').trim()), vs, cmp); if (!items) return false;
+    for (const it of items) if (it.r) { pluralAlts.push([it.r, it.r.plural_alternatives || []]); delete it.r.plural_alternatives; parsed.push([s, it.r, null]); } else parsed.push([s, null, it.a]); }
   const qText = questions[0].source, qAtom = parseQuery(qText) || parseQuery(qText, vs()); if (!qAtom) return false;
+  { const all = parsed.flatMap(x => x[2] ? [x[2]] : x[1].body.concat([x[1].head])).concat([qAtom]); for (const x of parsed) if (x[2]) fixQ(x[2], all.filter(y => y !== x[2])); fixQ(qAtom, all); }
   { const w = witnessFor(qAtom, parsed.filter(x => x[2]).map(x => ({ atom: x[2] })), parsed.filter(x => x[1]).map(x => x[1])); if (w) parsed.push([questions[0], null, w]); }
   resolvePlurals(pluralAlts, parsed.filter(x => x[2]).map(x => x[2]).concat([qAtom])); alignVerbs(qAtom, parsed.flatMap(x => x[2] ? [x[2]] : x[1].body.concat([x[1].head])));
   for (const [s, r, a] of stated(parsed.map(x => Object.assign(x, { sup: x[0].kind === 'question' || supposed(x[0].source) })))) {
@@ -524,7 +550,7 @@ function worldIntegrity(world) {
   for (let i = 0; i < world.rules.length; i++) {
     const r = world.rules[i]; if (!exactKeys(r, ['id', 'body', 'head', 'form', 'source_ref', 'source_span', 'variables', 'rule_class', 'evidence_refs', 'provenance_refs']) || validateRule(r)) return false;
     const vars = [...new Set(r.body.concat([r.head]).flatMap(variables))].sort(), b = { body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span }, k = canon({ body: r.body, head: r.head });
-    if (r.id !== 'rule:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || ruleAtoms.has(k) || !/^(?:conditional|universal_negative|universal_conjunctive|universal_unary|universal_relation|universal_intransitive)$/.test(r.form) || r.body.length > world.limits.MAX_RULE_BODY || !same(r.variables, vars) || !r.variables.every(x => nameOk(x, true)) || r.rule_class !== r.form || !sourceMap.has(r.source_ref) || r.source_ref === world.query.source_ref || !same(r.source_span, sourceMap.get(r.source_ref).span) || !same(r.evidence_refs, [r.source_ref]) || !same(r.provenance_refs, [world.candidate_id])) return false; ruleAtoms.add(k);
+    if (r.id !== 'rule:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || ruleAtoms.has(k) || !/^(?:conditional|universal_negative|universal_conjunctive|universal_unary|universal_relation|universal_intransitive|comparative_order)$/.test(r.form) || r.body.length > world.limits.MAX_RULE_BODY || !same(r.variables, vars) || !r.variables.every(x => nameOk(x, true)) || r.rule_class !== r.form || !sourceMap.has(r.source_ref) || r.source_ref === world.query.source_ref || !same(r.source_span, sourceMap.get(r.source_ref).span) || !same(r.evidence_refs, [r.source_ref]) || !same(r.provenance_refs, [world.candidate_id])) return false; ruleAtoms.add(k);
   }
   const worldAtoms = world.facts.map(f => f.atom).concat(world.rules.flatMap(r => r.body.concat([r.head])), [world.query.atom]);
   const worldEntities = [...new Set(worldAtoms.flatMap(a => a.args).filter(x => !/^\$/.test(x)))].sort();
@@ -851,7 +877,11 @@ const WH_VERB = rx('^(?:who|what)\\s+(?:(?:does|do)\\s+(not)\\s+)?(' + SP + ')(?
 const WH_WHICH = rx('^(?:which|what)\\s+(' + SP + ')\\s+(.+)$');
 function whPlans(t, ctx) {
   const n = x => x ? 'not ' : '', plans = []; let m;
+  if ((m = t.match(rx('^how\\s+many\\s+(' + SP + ')\\s+(?:are\\s+there|exist|there\\s+are)$')))) { const sg = pluralForms(m[1]); return [{ slot: 'entity', q: () => 'is ' + SLOT + ' a ' + (sg.find(x => ctx.preds.has(symbol(x, 'predicate'))) || sg[0]) }]; }
+  if ((m = t.match(rx('^how\\s+many\\s+(.+)$')))) return whPlans('which ' + m[1], ctx);
   if ((m = t.match(WH_WHERE))) return [{ slot: 'prep', q: p => 'is ' + m[1] + ' ' + p + ' ' + SLOT }];
+  if ((m = t.match(rx('^(?:who|what)\\s+(?:is|are)\\s+(not\\s+)?(' + SP + ')\\s+than\\s+' + NP + '$')))) return [{ slot: 'entity', q: () => 'is ' + SLOT + ' ' + n(m[1]) + m[2] + ' than ' + m[3] }];
+  if ((m = t.match(rx('^(?:who|what)\\s+is\\s+' + NP + '\\s+(not\\s+)?(' + SP + ')\\s+than$')))) return [{ slot: 'entity', q: () => 'is ' + m[1] + ' ' + n(m[2]) + m[3] + ' than ' + SLOT }];
   if ((m = t.match(WH_PP)) && isPrep(m[2])) return [{ slot: 'entity', q: () => 'is ' + SLOT + ' ' + n(m[1]) + m[2] + ' ' + m[3] }];
   if ((m = t.match(WH_SUBJ))) { const w = m[3], e = term(w, false), p = symbol(w, 'predicate'), ind = !!m[2] && /^what/i.test(t);
     if (ind) return [{ slot: 'pred', q: c => c === p ? null : 'is a ' + w + ' ' + n(m[1]) + 'a ' + c, generic: true }];
@@ -864,7 +894,7 @@ function whPlans(t, ctx) {
     return rest.filter(r => r.slot === 'entity').map(r => Object.assign({}, r, { cls })); }
   return plans;
 }
-const WH_START = /^(?:who|whom|what|which|where)\b/i;
+const WH_START = /^(?:who|whom|what|which|where|how\s+many)\b/i;
 function evaluateWh(raw, segs, qseg, opts) {
   const t = clean(qseg.text).replace(/[?]+$/, ''), head = raw.slice(0, qseg.span.start), ctxIn = interpret(head + 'is ' + SLOT + ' a ' + SLOT + '?', {});
   if (!ctxIn.candidate) return ctxIn.failure ? evaluate1(head + 'is ' + SLOT + ' a ' + SLOT + '?', opts) : null;
@@ -881,7 +911,7 @@ function evaluateWh(raw, segs, qseg, opts) {
       if (r.material.status === 'supported_only') answers.push(r.material); else if (r.material.status === 'conflicted') answers.push(r.material); else if (r.material.status === 'incomplete') incomplete = true; else undet.push(r.material.query_text);
     }
   }
-  const material = { kind: 'world_answer', wh: { question: qseg.source, slots: plans.map(p => p.slot), instances: runs.length, answers: answers.map(a => ({ status: a.status, text: a.status === 'supported_only' ? a.query_text : a.query_text + ' / ' + a.opposite_text, query: copy(a.query), proof: a.proofs.support, world: a.world })) },
+  const material = { kind: 'world_answer', wh: { question: qseg.source, count: /^how\s+many\b/i.test(t), slots: plans.map(p => p.slot), instances: runs.length, answers: answers.map(a => ({ status: a.status, text: a.status === 'supported_only' ? a.query_text : a.query_text + ' / ' + a.opposite_text, query: copy(a.query), proof: a.proofs.support, world: a.world })) },
     status: answers.length ? 'supported_only' : incomplete ? 'incomplete' : 'undetermined', query: answers.length ? copy(answers[0].query) : null, query_text: '', opposite_text: '', envelope: { schema: ENVELOPE_SCHEMA, result_status: answers.length ? 'supported_only' : incomplete ? 'incomplete' : 'undetermined', instance_request_ids: runs, limits: mergedLimits(opts.limits), completeness: incomplete ? 'incomplete' : 'complete_finite_closure', effects: { network_calls: 0, tool_executions: 0, governed_memory_reads: 0, knowledge_writes: 0, world_writes: 0, file_writes: 0, host_audit_trace: 'bounded' }, versions: { language: PARSER_VERSION, world: WORLD_SCHEMA, inference: ENGINE_VERSION, checker: CHECKER_VERSION, rmc: RMC_VERSION }, echo: { status: 'pending_kernel_echo' } } };
   material.envelope.request_id = digest('world-wh-request', { input_sha256: sha256(String(raw).normalize('NFC')), runs });
   return { handled: true, outcome: 'SELECTED_MEANING', material, frame: 'FR.WORLD.MODEL', act: 'question', rules: [
