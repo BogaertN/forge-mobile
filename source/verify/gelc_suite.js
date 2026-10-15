@@ -1,0 +1,23 @@
+/* GELC S3+ checks (drift governance, promotion, grammar generality, evolution). Loaded by run.js with its C/expect/FKN harness. */
+module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
+  const KM = require(ROOT + '/src/kmath.js'), HY = require(ROOT + '/src/hypothesis.js'), RS = require(ROOT + '/src/reason.js'), EDE = require(ROOT + '/src/ede.js');
+  const mem = () => { const st = {}; return KMOD.MemoryStore({ get: k => st[k], set: (k, v) => { st[k] = v; } }); };
+  const hyp = eps => HY.make({ kind: 'relation', route: HY.ROUTES.ede, body: 'x ' + eps, provenance: {}, status: 'staged', detail: { eps_s: eps } });
+  C('GELC-DRIFT', 'drift ruling bands: ε_s ≤ 0.35 projectable; 0.35–0.4 held for correction; 0.4–0.8 explore inside quarantine only; > 0.8 rejected; unmeasured never projects', () => {
+    const b = e => KM.driftGovernance(e); expect(b(0.35).band === 'projectable' && b(0.35).may_project && !b(0.35).quarantine && b(0.36).band === 'correct' && b(0.4).band === 'explore' && b(0.8).may_explore && b(0.8).quarantine && b(0.81).band === 'reject' && b(null).band === 'unmeasured' && !b(null).may_project && !b(NaN).may_project); });
+  C('GELC-DRIFT', 'hypothesis store: an explore-band hypothesis can only be quarantined (approval receipt refused), > 0.8 is refused outright, and a correction must bring the CURRENT ε_s ≤ 0.35 before projection', () => {
+    const s = mem(), H = HY.Store(s, { clock: () => 't' }), ok = { kind: 'approval_receipt', approved: true, decision: 'allow' };
+    expect(H.put(hyp(0.6), ok).rule === 'HYP-DRIFT-NOT-PROJECTABLE' && H.put(hyp(0.37), ok).rule === 'HYP-DRIFT-NOT-PROJECTABLE' && H.put(hyp(0.9), { kind: 'containment_route', route: HY.ROUTES.ede }).rule === 'HYP-DRIFT-ABOVE-EXPLORE' && s.load('hypotheses').length === 0);
+    const w = H.put(hyp(0.6), { kind: 'containment_route', route: HY.ROUTES.ede }); expect(w.ok && w.record.status === 'quarantined' && w.record.drift_governance.band === 'explore');
+    expect(!HY.governance(H.get(w.id)).may_project && H.correct(w.id, 0.38).governance.band === 'correct' && !HY.governance(H.get(w.id)).may_project && H.correct(w.id, 0.3).ok && HY.governance(H.get(w.id)).may_project && H.get(w.id).corrections.length === 2 && H.get(w.id).detail.eps_s === 0.6, 'correction history'); expect(H.put(hyp(0.2), ok).record.status === 'held'); });
+  C('GELC-DRIFT', 'EDE routing follows the ruling: retained ε_s ≤ 0.35, archived ≤ 0.8 and quarantined, staged hypotheses are all projectable, drift_archive rows carry their band', () => {
+    const f = FKN(); for (const u of ['remember that Tom is older than Ann', 'remember that Ann is older than Eve', 'remember that Eve is older than Kim', 'remember that Rex is in Paris', 'remember that Paris is in France']) f.process(u); f.process('explore ideas');
+    expect(f.stagedHypotheses().every(h => KM.driftGovernance(h.detail.eps_s).may_project)); expect(f.store.load('drift_archive').every(r => r.kind !== 'ede_branch' || (r.quarantine === true && r.eps_s <= 0.8 && ['correct', 'explore'].includes(r.drift_band))));
+    const E = [{ id: 'm1', a: 'a', rel: 'r', b: 'b', phi: 9 }, { id: 'm2', a: 'b', rel: 's', b: 'c', phi: 3 }, { id: 'm3', a: 'c', rel: 'r', b: 'd', phi: 6 }, { id: 'm4', a: 'x', rel: 'r', b: 'b', phi: 9 }]; const o = EDE.explore(E);
+    expect(o.retained.every(c => c.drift.eps_s <= 0.35 && c.drift.governance.may_project) && o.archived.every(c => c.drift.eps_s <= 0.8 && c.quarantine !== false) && o.rejected.every(c => c.drift.eps_s > 0.8 || !(c.novelty.N > 0) || c.drift.eps_s > 0.35)); });
+  C('GELC-DRIFT', 'what-if branches carry a governed drift measure (σ_res, D_score, |ΔΦ| → band), are never projected, and leave every committed store unchanged', () => {
+    for (const t of ['Every blorf is a zindle. Suppose Tom is a blorf. Is Tom a zindle?', 'Tom is a zindle. Suppose Tom is not a zindle. Is Tom a zindle?', 'Imagine that Pim is a wug. Is Pim a wug?']) { const r = RS.evaluate(t), d = r.material.branch.drift;
+      expect(d && typeof d.eps_s === 'number' && d.projected === false && d.band === KM.driftGovernance(d.eps_s).band && Math.abs(d.eps_s - (d.sigma_res + d.D_score + d.dPhi) / 3) < 1e-3 && r.rules.some(x => x.id === 'GELC-DRIFT-BAND'), t + ' ' + JSON.stringify(d)); }
+    expect(RS.evaluate('Tom is a zindle. Suppose Tom is not a zindle. Is Tom a zindle?').material.branch.drift.sigma_res === 1, 'contradiction with the committed world must raise σ_res');
+    const f = FKN(), snap = () => canon(['memory', 'hypotheses', 'evidence', 'held_writes'].map(k => f.store.load(k))), b = snap(); f.process('Tom is a zindle. Suppose Tom is not a zindle. Is Tom a zindle?'); expect(snap() === b); });
+};

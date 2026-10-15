@@ -133,6 +133,12 @@ function computeExpr(src) {
   const exact = !!r.q; const value = exact ? r.q.toString() : String(+v.toFixed(6));
   return { ok: verified, exact, value, approx: !exact, ast, pretty: pretty(ast), phaseForm: pretty(ast, PHASE_OPSYM), verify: { rational: exact ? r.q.toString() : null, float: f, agree: verified }, cite: 'GP-014 math lane; RPMC O_phase {+_Φ,−_Φ,×_Φ,÷_Φ}' };
 }
-const api = { Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rpmWeight, score, computeExpr, phaseAngle, r4 };
+/* Nic-approved drift ruling (2026-10-14): explore at 0.4 ≤ ε_s ≤ 0.8 ONLY inside quarantine; project only once ε_s ≤ θ = 0.35 after correction.
+   0.35 < ε_s < 0.4 is neither: held for correction. > 0.8 is outside the exploration band (rejected). Unmeasured ε_s never projects. */
+const DRIFT_RULING = Object.freeze({ project_max: 0.35, explore_min: 0.4, explore_max: 0.8, cite: 'Nic ruling 2026-10-14 (RMC §8.3 θ; RSOC 0.4–0.8 novelty band)' });
+function driftGovernance(eps) { const R = DRIFT_RULING, ok = typeof eps === 'number' && isFinite(eps) && eps >= 0;
+  const band = !ok ? 'unmeasured' : eps <= R.project_max ? 'projectable' : eps < R.explore_min ? 'correct' : eps <= R.explore_max ? 'explore' : 'reject';
+  return { eps_s: ok ? r4(eps) : null, band, may_project: band === 'projectable', may_explore: band === 'explore', quarantine: band !== 'projectable', ruling: R.cite }; }
+const api = { DRIFT_RULING, driftGovernance, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

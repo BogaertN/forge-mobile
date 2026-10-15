@@ -2,7 +2,7 @@
 (function (root) {
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports;
-const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
+const { sha256 } = isNode ? require('./sha256.js') : root.KSha; const KM = isNode ? require('./kmath.js') : root.KMath;
 const SCHEMA = 'Hypothesis/v1';
 const STORE = 'hypotheses';
 const KINDS = ['relation', 'rule', 'explanation', 'counterfactual', 'speculation', 'unresolved'];
@@ -21,6 +21,9 @@ function make(f) {
   return Object.assign({ id }, body);
 }
 function valid(h) { return !!h && h.schema === SCHEMA && typeof h.id === 'string' && KINDS.includes(h.kind) && STATUSES.includes(h.status) && h.modality === 'hypothetical' && h.truth_support_allowed === false && Array.isArray(h.parents) && Array.isArray(h.support) && Array.isArray(h.counterevidence) && Array.isArray(h.falsifiers); }
+/* drift governance (Nic ruling): the CURRENT ε_s is the last correction's re-measurement, else the measured one; unmeasured never projects */
+const epsOf = h => { const c = (h && h.corrections) || []; return c.length ? c[c.length - 1].eps_s : h && h.detail && typeof h.detail.eps_s === 'number' ? h.detail.eps_s : null; };
+const governance = h => KM.driftGovernance(epsOf(h));
 const flat = h => Object.assign({}, h.detail, { id: h.id, hyp_id: h.id, kind: h.kind, route: h.route, status: h.detail && h.detail.status_label ? h.detail.status_label : h.status, hyp_status: h.status, truth_support_allowed: false, modality: 'hypothetical' });
 
 function Store(store, opts) {
@@ -31,14 +34,19 @@ function Store(store, opts) {
     const a = authority || {}; if (!AUTHORITY.includes(a.kind)) return { ok: false, rule: 'HYP-NO-AUTHORITY' };
     if (a.kind === 'containment_route' && a.route !== h.route) return { ok: false, rule: 'HYP-ROUTE-MISMATCH' };
     if (a.kind === 'approval_receipt' && !(a.approved === true && a.decision === 'allow')) return { ok: false, rule: 'HYP-NOT-APPROVED' };
+    const g = governance(h); if (g.band === 'reject') return { ok: false, rule: 'HYP-DRIFT-ABOVE-EXPLORE', governance: g };
+    if (a.kind === 'approval_receipt' && typeof epsOf(h) === 'number' && !g.may_project) return { ok: false, rule: 'HYP-DRIFT-NOT-PROJECTABLE', governance: g };
     const l = all(); if (l.some(x => x.id === h.id)) return { ok: true, id: h.id, duplicate: true };
-    const rec = Object.assign({}, h, { status: h.status === 'staged' ? (a.kind === 'approval_receipt' ? 'held' : 'quarantined') : h.status, stored_at: now(), authority: { kind: a.kind, rule: a.rule || null, receipt: a.receipt || null } });
+    const rec = Object.assign({}, h, { drift_governance: g, status: h.status === 'staged' ? (a.kind === 'approval_receipt' ? 'held' : 'quarantined') : h.status, stored_at: now(), authority: { kind: a.kind, rule: a.rule || null, receipt: a.receipt || null } });
     l.push(rec); store.save(STORE, l); return { ok: true, id: rec.id, record: rec };
   }
   function setStatus(id, status, why) { if (!STATUSES.includes(status) || status === 'staged') return { ok: false, rule: 'HYP-STATUS' }; const l = all(); const r = l.find(x => x.id === id); if (!r) return { ok: false, rule: 'HYP-UNKNOWN' };
     (r.history = r.history || []).push({ from: r.status, to: status, at: now(), why: why || null }); r.status = status; store.save(STORE, l); return { ok: true, record: r }; }
+  /* a correction re-measures ε_s (never deletes the old value); the hypothesis stays quarantined until the CURRENT ε_s ≤ 0.35 */
+  function correct(id, eps, why) { const l = all(); const r = l.find(x => x.id === id); if (!r) return { ok: false, rule: 'HYP-UNKNOWN' }; const g = KM.driftGovernance(eps); if (g.band === 'unmeasured') return { ok: false, rule: 'HYP-DRIFT-UNMEASURED' };
+    (r.corrections = r.corrections || []).push({ eps_s: g.eps_s, at: now(), why: why || null }); r.drift_governance = g; store.save(STORE, l); return { ok: true, record: r, governance: g }; }
   function view(name) { const route = ROUTES[name] || name; return all().filter(h => h.route === route).map(flat); }
-  return { put, setStatus, view, list: all, get: id => all().find(x => x.id === id) || null };
+  return { put, setStatus, correct, view, list: all, get: id => all().find(x => x.id === id) || null };
 }
 
 function migrateLegacy(store) {
@@ -51,6 +59,6 @@ function migrateLegacy(store) {
   if (n) store.save(STORE, l); return n;
 }
 
-const api = { SCHEMA, STORE, KINDS, STATUSES, ROUTES, make, valid, flat, Store, migrateLegacy, canon };
+const api = { epsOf, governance, SCHEMA, STORE, KINDS, STATUSES, ROUTES, make, valid, flat, Store, migrateLegacy, canon };
 if (isNode) module.exports = api; else root.KHyp = api;
 })(typeof self !== 'undefined' ? self : this);

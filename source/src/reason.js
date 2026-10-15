@@ -752,6 +752,15 @@ function limitationMaterial(raw, failure, limitOverrides) {
   };
 }
 
+/* branch drift (implementation choice, ε_s = (σ_res + D_score + |ΔΦ|)/3 as in ede.js): σ_res = share of overlay atoms whose opposite the committed
+   closure derives; D_score = 1 − Jaccard(overlay symbols, committed symbols); |ΔΦ| = 1 when the supposition changes the query status. Governed by the
+   drift ruling: a branch in 0.4–0.8 is exploration inside quarantine; nothing in a branch projects (only a proof-checked promotion can, at ε_s ≤ 0.35) */
+function branchDrift(base, world, bs, ws) { const KM = isNode ? require('./kmath.js') : root.KMath, n = base.facts.length, m = base.rules.length;
+  const ov = world.facts.slice(n).map(f => f.atom).concat(world.rules.slice(m).map(r => r.head)), have = closure(base.facts, base.rules.slice().sort((a, b) => a.id.localeCompare(b.id)), base.limits, false).entries;
+  const sig = ov.length ? ov.filter(a => have.has(atomKey(opposite(a)))).length / ov.length : 0, sym = as => new Set(as.flatMap(a => [a.predicate].concat(a.args.filter(x => !/^\$/.test(x)))));
+  const B = sym(base.facts.map(f => f.atom).concat(base.rules.flatMap(r => r.body.concat([r.head])))), O = sym(world.facts.slice(n).map(f => f.atom).concat(world.rules.slice(m).flatMap(r => r.body.concat([r.head]))));
+  let i = 0; for (const x of O) if (B.has(x)) i++; const D = 1 - i / (B.size + O.size - i || 1), dPhi = bs === ws ? 0 : 1, eps = (sig + D + dPhi) / 3;
+  return Object.assign(KM.driftGovernance(eps), { sigma_res: KM.r4(sig), D_score: KM.r4(D), dPhi, n: 3, projected: false }); }
 function evaluate(raw, opts) {
   opts = opts || {}; const interpreted = interpret(raw, opts);
   if (!interpreted.handled) return { handled: false };
@@ -766,7 +775,7 @@ function evaluate(raw, opts) {
   const W = buildWorlds(interpreted.candidate, limits), world = W.world, derivation = deriveWorld(world), material = buildAnswer(raw, interpreted.candidate, world, derivation);
   if (W.base) { const baseRoot = digest('turn-world', worldBody(W.base)), bd = deriveWorld(W.base), bs = buildAnswer(raw, interpreted.candidate, W.base, bd).status;
     if (!branchIntegrity(W.base, world) || baseRoot !== W.base.world_root) throw new Error('WORLD_BRANCH_INVALID');
-    material.branch = { schema: 'WhatIfBranch/v1', branch_id: world.branch_id, parent_root: W.base.world_root, overlay_fact_ids: world.facts.slice(W.base.facts.length).map(f => f.id), overlay_rule_ids: world.rules.slice(W.base.rules.length).map(r => r.id), committed_status: bs, committed_unchanged: true, scope: 'proofs are valid only in this branch' }; }
+    material.branch = { schema: 'WhatIfBranch/v1', branch_id: world.branch_id, parent_root: W.base.world_root, overlay_fact_ids: world.facts.slice(W.base.facts.length).map(f => f.id), overlay_rule_ids: world.rules.slice(W.base.rules.length).map(r => r.id), committed_status: bs, committed_unchanged: true, scope: 'proofs are valid only in this branch', drift: branchDrift(W.base, world, bs, material.status) }; }
   return {
     handled: true,
     outcome: material.status === 'proof_rejected' ? 'REFUSAL_RELEVANT' : 'SELECTED_MEANING',
@@ -776,7 +785,7 @@ function evaluate(raw, opts) {
     rules: [
       { id: 'WM-SEMANTIC-CANDIDATE', doc: DOC, note: interpreted.candidate.candidate_id },
       { id: 'WM-IMMUTABLE-TURN-WORLD', doc: DOC, note: world.world_root },
-      ...(material.branch ? [{ id: 'WM-WHAT-IF-BRANCH', doc: DOC + ' §6.3', note: world.branch_id + ' over ' + material.branch.parent_root + '; committed: ' + material.branch.committed_status }] : []),
+      ...(material.branch ? [{ id: 'WM-WHAT-IF-BRANCH', doc: DOC + ' §6.3', note: world.branch_id + ' over ' + material.branch.parent_root + '; committed: ' + material.branch.committed_status }, { id: 'GELC-DRIFT-BAND', doc: material.branch.drift.ruling, note: 'ε_s=' + material.branch.drift.eps_s + ' ' + material.branch.drift.band + '; branch never projects' }] : []),
       { id: 'WM-PARACONSISTENT-CLOSURE', doc: DOC, note: material.status + '; work=' + derivation.work + '; closure=' + derivation.closure_size },
       { id: 'WM-INDEPENDENT-PROOF-REPLAY', doc: DOC, note: material.checker.support.code + '/' + material.checker.refutation.code },
       { id: 'WM-RMC-SELECT-CHECKED', doc: DOC, note: material.rmc.selected },
