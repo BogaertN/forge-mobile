@@ -137,4 +137,8 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
       r = ask(f, `${a} is a ${k2}. Why is ${a} a ${k2}?`); expect(r === `Your premise states “${A} is ${k2}”. No rule derives it.`, r);
       r = ask(f, `Every ${k3} is a ${k2}. Every ${k4} is a ${k2}. Why is ${a} a ${k2}?`); expect(r.includes(`“${A} is ${k3}”`) && r.includes(`“${A} is ${k4}”`) && /They are hypotheses\.$/.test(r), r);
       r = ask(f, `Why is ${a} a ${k}?`); expect(/No rule explains it\.$/.test(r), r); expect(snap() === s0, 'why wrote state'); } }));
+  C('GELC-DISCOURSE', 'pronouns refer to the most recent named subject; adjective+noun definitions split into two atoms/rules — over random symbols', S(() => {
+    for (let i = 0; i < 3; i++) { const [a, b] = [nonce(), nonce()].map(cap), [k, j, m] = [nonce(), nonce(), nonce()];
+      expect(st(`${a} is a ${k}. He is ${j}. Is ${a} ${j}?`) === 'supported_only' && st(`${a} is a ${k}. Every ${k} is ${j}. Is she ${j}?`) === 'supported_only' && st(`${b} is a ${k}. ${a} is ${j}. It is ${m}. Is ${b} ${m}?`) === 'undetermined', 'pron');
+      expect(st(`${a} is a ${j} ${k}. Is ${a} ${j}?`) === 'supported_only' && st(`A ${j} ${k} is a ${m}. ${a} is a ${j} ${k}. Is ${a} a ${m}?`) === 'supported_only' && st(`A ${k} is a ${j} ${m}. ${a} is a ${k}. Is ${a} a ${m}?`) === 'supported_only', 'adj'); } }));
 };

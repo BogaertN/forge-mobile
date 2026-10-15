@@ -240,7 +240,7 @@ function resolvePlurals(pluralAlts, atoms) {
 function generic(text) { const t = clean(text), m = t.match(rx('^(' + SP + ')\\s+are\\s')); if (/^(?:an?|any)\s+[\p{L}]/iu.test(t)) return t.replace(/^(?:an?|any)\s+/i, 'every ');
   return m && !/^"/.test(m[1]) && !VAR_WORDS.has(m[1].toLowerCase()) && !closedWord(m[1].toLowerCase()) ? 'all ' + t : t; }
 function parseUniversal(text) {
-  text = generic(text); const pl = /\s(?:are)\s/i.test(clean(text)) || /^all\s/i.test(clean(text)), alts = [];
+  text = generic(text); { const m = clean(text).match(rx('^(every|each|all)\\s+(' + SP + ')\\s+(' + SP + ')\\s+((?:is|are)\\s.+)$')); if (m && !/^(?:that|who|which|is|are|does|do)$/i.test(m[3])) text = m[1] + ' ' + m[3] + ' that is ' + m[2] + ' ' + m[4]; } const pl = /\s(?:are)\s/i.test(clean(text)) || /^all\s/i.test(clean(text)), alts = [];
   const sg = w => { if (!pl) return w; const f = pluralForms(w); if (f.length > 1) alts.push(f.map(x => symbol(x, 'predicate'))); return f[0]; };
   const r = parseUniversalForm(text, sg); if (r && alts.length) r.plural_alternatives = alts; return r;
 }
@@ -354,9 +354,15 @@ function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + ',\\s*
   if (/^(?:is|are)\s/i.test(rest)) return subs.map(x => x + ' ' + rest.replace(/^are\s/i, 'is ')); const w = rest.split(' '), v = /^(?:do|does)$/i.test(w[0]) ? w[0].replace(/^do$/i, 'does') : !/^"/.test(w[0]) && symbol(w[0], 'verb', new Set([w[0].toLowerCase()])) ? third(w[0].toLowerCase()) : w[0];
   return subs.map(x => x + ' ' + [v].concat(w.slice(1)).join(' ')); }
 /* one assertion → its rules/facts (shared by interpret and the integrity re-derivation, so both see the same grammar) */
+/* discourse: a personal pronoun refers to the most recent named subject of an earlier sentence (deterministic recency; one referent) */
+function resolvePron(texts) { let last = null; return texts.map(t => { let u = clean(t); if (last) u = u.replace(/^(he|she|it|they)\s(?=(?:is|are|was|were|does|do|did|not|\S+s)\b)/i, '"' + last + '" ').replace(/\s(him|her|them)$/i, ' "' + last + '"').replace(/^((?:is|are|was|were|does|do|did)\s+)(he|she|it|they)\s/i, '$1"' + last + '" ');
+  const a = parseAtomic(u.replace(/^(?:is|are|was|were|does|do|did)\s+(\S+)\s+(.+)$/i, '$1 is $2'), false) || parseAtomic(stripLead(u), false); if (a && !/^any_/.test(a.args[0])) last = a.args[0]; return u; }); }
 function sentenceItems(text, vs, cmp) { const out = [];
+  { const g = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + '\\s+(?:is|are))\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$')); if (g && !isPrep(g[2])) { const r1 = parseRule(g[1] + ' ' + g[2]), r2 = parseRule(g[1] + ' a ' + g[3]); if (r1 && r2) return [{ r: r1 }, { r: r2 }]; } }
   const ts = coordSplit(text);
   for (const t of ts) { const r = parseRule(t); if (r) { out.push({ r }); continue; }
+    const an = clean(t).match(rx('^' + NP + '\\s+(?:is|are)\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$'));
+    if (an && !isPrep(an[2])) { const x = parseAtomic(an[1] + ' is ' + an[2], false), y = parseAtomic(an[1] + ' is a ' + an[3], false); if (x && y) { out.push({ a: x }, { a: y }); continue; } }
     const a = parseAtomic(t, false) || parseAtomic(t, false, vs()); if (!a) return null; out.push({ a: ts.pl ? withAlts(a, [ts.pl, ts.pl]) : a });
     if (/_than$/.test(a.predicate) && !cmp.has(a.predicate)) { cmp.add(a.predicate); for (const o of orderRules(a.predicate)) out.push({ r: o }); } }
   return out; }
@@ -367,6 +373,7 @@ function interpret(raw, opts) {
   const segments = sourceSegments(raw);
   if (segments.length > LIMITS.MAX_SENTENCES) return interpretationFailure(raw, null, 'SENTENCE_LIMIT', 'too many sentences');
   if (!segments.length || !shouldHandle(raw, segments, opts)) return { handled: false };
+  resolvePron(segments.map(x => x.text)).forEach((t, i) => { segments[i].text = t; });
   const qseg = segments.filter(x => x.kind === 'question').slice(-1)[0];
   if (!qseg) return { handled: false };
   if (segments.some(x => x.kind === 'question' && x.id !== qseg.id)) return interpretationFailure(raw, qseg, 'MULTIPLE_QUERIES', 'one final query required');
@@ -446,11 +453,11 @@ function candidateIntegrity(candidate) {
   const atomLimit = LIMITS.MAX_FACTS + LIMITS.MAX_RULES * (LIMITS.MAX_RULE_BODY + 1) + 1;
   if (!candidate.sources.length || candidate.sources.length > LIMITS.MAX_SENTENCES || candidate.facts.length > LIMITS.MAX_FACTS || candidate.rules.length > LIMITS.MAX_RULES || candidate.entities.length > LIMITS.MAX_ENTITIES || candidate.atoms.length > atomLimit || candidate.relations.length > atomLimit || candidate.markers.length > atomLimit || questions.length !== 1 || candidate.sources[candidate.sources.length - 1] !== questions[0] || ['ambiguities', 'ambiguity_reasons', 'unresolved_symbols', 'unresolved_senses'].some(k => candidate[k].length)) return false;
   const expectedFacts = [], expectedRules = [], factSeen = new Set(), ruleSeen = new Set(), parsed = [], pluralAlts = [];
-  const vs = () => verbsOf(candidate.sources.slice(0, -1).map(x => x.source.replace(/[.!?]+$/, '').trim()));
+  const RT = resolvePron(candidate.sources.map(x => x.source.replace(/[.!?]+$/, '').trim())), vs = () => verbsOf(RT.slice(0, -1));
   const cmp = new Set();
-  for (const s of candidate.sources.slice(0, -1)) { const items = sentenceItems(stripLead(s.source.replace(/[.!?]+$/, '').trim()), vs, cmp); if (!items) return false;
+  for (const [i, s] of candidate.sources.slice(0, -1).entries()) { const items = sentenceItems(stripLead(RT[i]), vs, cmp); if (!items) return false;
     for (const it of items) if (it.r) { pluralAlts.push([it.r, it.r.plural_alternatives || []]); delete it.r.plural_alternatives; parsed.push([s, it.r, null]); } else parsed.push([s, null, it.a]); }
-  const qText = questions[0].source, qAtom = parseQuery(qText) || parseQuery(qText, vs()); if (!qAtom) return false;
+  const qText = RT[RT.length - 1], qAtom = parseQuery(qText) || parseQuery(qText, vs()); if (!qAtom) return false;
   { const all = parsed.flatMap(x => x[2] ? [x[2]] : x[1].body.concat([x[1].head])).concat([qAtom]); for (const x of parsed) if (x[2]) fixQ(x[2], all.filter(y => y !== x[2])); fixQ(qAtom, all); }
   { const w = witnessFor(qAtom, parsed.filter(x => x[2]).map(x => ({ atom: x[2] })), parsed.filter(x => x[1]).map(x => x[1])); if (w) parsed.push([questions[0], null, w]); }
   resolvePlurals(pluralAlts, parsed.filter(x => x[2]).map(x => x[2]).concat([qAtom])); alignVerbs(qAtom, parsed.flatMap(x => x[2] ? [x[2]] : x[1].body.concat([x[1].head])));
