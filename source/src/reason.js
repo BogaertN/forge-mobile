@@ -147,7 +147,7 @@ function atomText(a) {
   if (!a) return 'unresolved proposition';
   { const m = a.predicate.match(/^mod(can|may|must|might|could|should|will|would)_(.+)$/); if (m) { const b = atomText(atom(m[2], a.args, 'pos')), s = displaySymbol(a.args[0]); return s + ' ' + m[1] + (a.polarity === 'neg' ? ' not ' : ' ') + (/_v$/.test(m[2]) ? displaySymbol(m[2].slice(0, -2)) : /__/.test(m[2]) || a.args.length === 1 ? b.slice(s.length + 1).replace(/^is /, 'be ') : displaySymbol(m[2]) + ' ' + displaySymbol(a.args[1])); } }
   if (/__/.test(a.predicate)) { const ps = !a.predicate.indexOf(PAST), [v, ...r] = a.predicate.slice(ps ? PAST.length : 0).split('__'), p = r.pop(), ng = a.polarity === 'neg';
-    return displaySymbol(a.args[0]) + ' ' + (ng ? (ps ? 'did not ' : 'does not ') + displaySymbol(v) : displaySymbol(ps ? pastForm(v) : third(v))) + (r.length ? ' ' + displaySymbol(r[0]) : '') + ' ' + p + ' ' + displaySymbol(a.args[1]); }
+    return displaySymbol(a.args[0]) + ' ' + (ng ? (ps ? 'did not ' : 'does not ') + displaySymbol(v) : displaySymbol(ps ? pastForm(v) : third(v))) + (r.length ? ' ' + displaySymbol(r[0]) : '') + (p === 'tadv' ? '' : ' ' + p) + ' ' + displaySymbol(a.args[1]); }
   if (a.predicate.indexOf(PAST) === 0) { const b = a.predicate.slice(PAST.length), x = atomText(atom(b, a.args, a.polarity));
     if (/_v$/.test(b)) { const v = b.slice(0, -2); return displaySymbol(a.args[0]) + (a.polarity === 'neg' ? ' did not ' + displaySymbol(v) : ' ' + displaySymbol(pastForm(v))); }
     return / is /.test(x) ? x.replace(' is ', ' was ') : / does not /.test(x) ? x.replace(' does not ', ' did not ') : displaySymbol(a.args[0]) + ' ' + displaySymbol(pastForm(b)) + ' ' + displaySymbol(a.args[1]); }
@@ -178,7 +178,7 @@ const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])],
 const IRR_PAST = Object.freeze(Object.fromEntries('went:go ate:eat saw:see ran:run made:make took:take gave:give knew:know found:find got:get came:come said:say told:tell bought:buy thought:think brought:bring caught:catch taught:teach wrote:write drove:drive flew:fly swam:swim sang:sing drank:drink began:begin broke:break chose:choose fell:fall felt:feel held:hold kept:keep left:leave lost:lose met:meet paid:pay sat:sit slept:sleep spoke:speak stood:stand won:win built:build sent:send spent:spend grew:grow threw:throw hid:hide bit:bite led:lead fed:feed had:have sold:sell heard:hear drew:draw wore:wear rode:ride stole:steal forgot:forget understood:understand became:become'.split(' ').map(x => x.split(':'))));
 const IRR_FWD = Object.fromEntries(Object.entries(IRR_PAST).map(([a, b]) => [b, a])), irr = w => !isQuotedSymbol(w) && IRR_PAST[String(w).toLowerCase()];
 const PAST = 'past_', edLemma = w => /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /[bcdfgkptz]led$/.test(w) && w.length > 5 ? w.slice(0, -1) : /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /([b-df-hj-np-tv-z])\1ed$/.test(w) ? w.slice(0, -3) : w.slice(0, -2);
-const isEd = w => /^[a-z]{3,}ed$/i.test(w) && !/eed$/i.test(w), pastForm = b => IRR_FWD[b] || (/e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0, -1) + 'ied' : b + 'ed');
+const isEd = w => /^[a-z]{3,}ed$/i.test(w) && !/eed$/i.test(w), pastForm = b => IRR_FWD[b] || (/^[^aeiou]*[aeiou][b-df-hj-np-tv-z]$/.test(b) && b.length <= 4 && !/[wxy]$/.test(b) ? b + b.slice(-1) + 'ed' : /e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0, -1) + 'ied' : b + 'ed');
 const pastOf = a => a && atom(PAST + a.predicate, a.args, a.polarity);
 function parseCopula(text, allowVariable) { const t = clean(text), w = t.match(/^(.+?)\s+(?:was|were)\s+(.+)$/i); if (w && !/\s(?:is|are)\s/i.test(w[1])) return pastOf(parseCopula0(w[1] + ' is ' + w[2], allowVariable)); return parseCopula0(t, allowVariable); }
 function parseCopula0(text, allowVariable) {
@@ -194,7 +194,11 @@ function parseCopula0(text, allowVariable) {
 const dsv = (verbs, w) => new Set([...(verbs || []), clean(w).toLowerCase()]);
 /* a trailing time/place adjunct ("X Ved Y in T", "X Vs on T") is one binary atom <verb>[__<object>]__<prep>(X, T) beside the bare clause; "when" asks for T */
 const TIME_P = 'on|in|at|during|before|after|since|until', ADJ_P = TIME_P + '|to|from|with|for|into';
-function adjunct(text, v, verbs) { const m = clean(text).match(rx('^(.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$')); if (!m) return null; const a = rel0(m[1], v, verbs), T = term(m[3], v); if (!a || !T) return null;
+/* P6 (derived): a bare temporal adverbial (yesterday/today/tomorrow/tonight/now, last|next|this + time noun) is the time adjunct with an
+   unpronounced relation: atom <verb>[__<object>]__tadv(X, T), shown without a preposition; the bare clause is stated beside it */
+const TADV = '(yesterday|today|tomorrow|tonight|now|(?:last|next|this)[\\s_]+(?:week|month|year|night|morning|afternoon|evening|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december))';
+const tadvSplit = t => { const m = clean(t).match(rx('^(.+?)\\s+' + TADV + '$')); return m && [m[1], m[2].toLowerCase().replace(/[\s_]+/g, '_')]; };
+function adjunct(text, v, verbs) { { const b = tadvSplit(text); if (b) { let a = rel0(b[0], v, verbs); if (!a) { const j = adjunct(b[0], v, verbs); a = j && atom(j.predicate.replace(/__[^_]+$/, ''), [j.args[0]].concat(/__/.test(j.predicate.replace(/__[^_]+$/, '').replace(/^past_/, '')) ? ['_'] : []), j.polarity); if (a && a.args[1] === '_') { const q = a.predicate.split('__'); a = atom(q[0], [a.args[0], q[1]], a.polarity); } else if (a) a = atom(a.predicate + '_v', a.args, a.polarity); } if (!a) return null; const ps = !a.predicate.indexOf(PAST), c = ps ? a.predicate.slice(PAST.length) : a.predicate; if (a.args.length === 2 && isPrep(c) || /__/.test(c)) return null; return atom((ps ? PAST : '') + (/_v$/.test(c) ? c.slice(0, -2) : c + '__' + a.args[1]) + '__tadv', [a.args[0], b[1]], a.polarity); } } const m = clean(text).match(rx('^(.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$')); if (!m) return null; const a = rel0(m[1], v, verbs), T = term(m[3], v); if (!a || !T) return null;
   const ps = !a.predicate.indexOf(PAST), b = ps ? a.predicate.slice(PAST.length) : a.predicate; if (a.args.length === 2 && isPrep(b)) return null; return atom((ps ? PAST : '') + (/_v$/.test(b) ? b.slice(0, -2) : b + '__' + a.args[1]) + '__' + m[2].toLowerCase(), [a.args[0], T], a.polarity); }
 function parseRelation(text, allowVariable, verbs) { return rel0(text, allowVariable, verbs) || adjunct(text, allowVariable, verbs); }
 const MODS = 'can|may|must|might|could|should|will|would', modP = (m, a) => a && !a.predicate.indexOf(PAST) ? null : a && atom('mod' + m.toLowerCase() + '_' + a.predicate, a.args, a.polarity);
@@ -257,7 +261,7 @@ function resolvePlurals(pluralAlts, atoms) {
 function generic(text) { const t = clean(text), m = t.match(rx('^(' + SP + ')\\s+are\\s')); if (/^(?:an?|any)\s+[\p{L}]/iu.test(t)) return t.replace(/^(?:an?|any)\s+/i, 'every ');
   return m && !/^"/.test(m[1]) && !VAR_WORDS.has(m[1].toLowerCase()) && !closedWord(m[1].toLowerCase()) ? 'all ' + t : t; }
 function parseUniversal(text) {
-  { const d = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + ')\\s+(' + MODS + ')\\s+(not\\s+)?(\\S.*)$')); if (d) { const r = parseUniversal(d[1] + ' does not ' + d[4]); if (!r || !r.head || r.head.args.length > 2) return null; r.head = modP(d[2], atom(r.head.predicate, r.head.args, d[3] ? 'neg' : 'pos')); return r.head ? r : null; } }
+  { const d = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + ')\\s+(' + MODS + ')\\s+(not\\s+)?(\\S.*)$')); if (d) { const w = d[4].split(' '), r = parseUniversal(d[1] + ' does not ' + d[4]) || !/^"/.test(w[0]) && parseUniversal(d[1] + ' ' + [third(w[0].toLowerCase())].concat(w.slice(1)).join(' ')); if (!r || !r.head || r.head.args.length > 2) return null; r.head = modP(d[2], atom(r.head.predicate, r.head.args, d[3] ? 'neg' : 'pos')); return r.head ? r : null; } }
   text = generic(text); { const m = clean(text).match(rx('^(every|each|all)\\s+(' + SP + ')\\s+(' + SP + ')\\s+((?:is|are)\\s.+)$')); if (m && !/^(?:that|who|which|is|are|does|do)$/i.test(m[3])) text = m[1] + ' ' + m[3] + ' that is ' + m[2] + ' ' + m[4]; } const pl = /\s(?:are)\s/i.test(clean(text)) || /^all\s/i.test(clean(text)) || /^no\s+\S+\s+(?!(?:is|are|does|do|did|was|were)\b)\S*[^s\s](?:\s|$)/i.test(clean(text)), alts = [];
   const sg = w => { if (!pl) return w; const f = pluralForms(w); if (f.length > 1) alts.push(f.map(x => symbol(x, 'predicate'))); return f[0]; };
   const r = parseUniversalForm(text, sg); if (r && alts.length) r.plural_alternatives = alts; return r;
@@ -329,6 +333,7 @@ function parseQuery0(text, verbs) {
   if (m && isPrep(m[3])) { const subject = sub(m[1]), object = term(m[4], false); return subject && object ? atom(m[3].toLowerCase(), [subject, object], m[2] ? 'neg' : 'pos') : null; }
   m = t.match(rx('^((?:does|do)\\s+.+?)\\s+(' + ADJ_P + ')\\s+' + NP + '$'));
   if (m) { const a = parseQuery0(m[1], verbs), T = term(m[3], false); if (a && T && !/^any_/.test(a.args[0]) && (a.args.length === 1 ? /_v$/.test(a.predicate) : !isPrep(a.predicate))) return atom((a.args.length === 1 ? a.predicate.slice(0, -2) : a.predicate + '__' + a.args[1]) + '__' + m[2].toLowerCase(), [a.args[0], T], a.polarity); }
+  { const b = /^(?:does|do)\s/i.test(t) && tadvSplit(t); if (b) { const a = parseQuery0(b[0], verbs); if (a && !/^any_/.test(a.args[0]) && !/__/.test(a.predicate) && (a.args.length === 1 ? /_v$/.test(a.predicate) : !isPrep(a.predicate))) return atom((a.args.length === 1 ? a.predicate.slice(0, -2) : a.predicate + '__' + a.args[1]) + '__tadv', [a.args[0], b[1]], a.polarity); } }
   m = t.match(/^is\s+it\s+true\s+that\s+(.+)$/i);
   return m ? parseAtomic(m[1], false) : null;
 }
@@ -381,14 +386,18 @@ function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + ',\\s*
 /* discourse: a personal pronoun refers to the most recent named subject of an earlier sentence (deterministic recency; one referent) */
 function resolvePron(texts, out) { let last = null; const names = []; return texts.map(t => { let u = clean(t); const u0 = u; if (last) u = u.replace(/^(he|she|it|they)\s(?=(?:is|are|was|were|does|do|did|not|\S+s)\b)/i, '"' + last + '" ').replace(/\s(him|her|them)$/i, ' "' + last + '"').replace(/^((?:is|are|was|were|does|do|did)\s+)(he|she|it|they)\s/i, '$1"' + last + '" ');
   const a = parseAtomic(u.replace(/^(?:is|are|was|were|does|do|did)\s+(\S+)\s+(.+)$/i, '$1 is $2'), false) || parseAtomic(stripLead(u), false); if (out && last && u !== u0) { const o = names.filter(n => n !== last); if (o.length) out.amb = { chosen: last, also: o[o.length - 1] }; } if (a && !/^any_/.test(a.args[0])) { last = a.args[0]; if (!names.includes(last)) names.push(last); } return u; }); }
+/* P5 (derived): "must" entails "can" with the same sign (deontic D: O p ⇒ P p, O ¬p ⇒ ¬P p); never the reverse; "may"/"can" entail nothing */
+function mustRules(a, cmp, out) { const m = a && a.predicate.match(/^modmust_(.+)$/); if (!m || cmp.has(a.predicate)) return; cmp.add(a.predicate); const v = a.args.map((_, i) => ['$x', '$y'][i]);
+  for (const pol of ['pos', 'neg']) out.push({ r: { body: [atom(a.predicate, v, pol)], head: atom('modcan_' + m[1], v, pol), form: 'modal_entailment' } }); }
 function sentenceItems(text, vs, cmp) { const out = [];
   { const g = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + '\\s+(?:is|are))\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$')); if (g && !isPrep(g[2])) { const r1 = parseRule(g[1] + ' ' + g[2]), r2 = parseRule(g[1] + ' a ' + g[3]); if (r1 && r2) return [{ r: r1 }, { r: r2 }]; } }
   const ts = coordSplit(text);
-  for (const t of ts) { const r = parseRule(t); if (r) { out.push({ r }); continue; }
+  for (const t of ts) { const r = parseRule(t); if (r) { out.push({ r }); mustRules(r.head, cmp, out); continue; }
     const an = clean(t).match(rx('^' + NP + '\\s+(?:is|are)\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$'));
     if (an && !isPrep(an[2])) { const x = parseAtomic(an[1] + ' is ' + an[2], false), y = parseAtomic(an[1] + ' is a ' + an[3], false); if (x && y) { out.push({ a: x }, { a: y }); continue; } }
     const a = parseAtomic(t, false) || parseAtomic(t, false, vs()); if (!a) return null; out.push({ a: ts.pl ? withAlts(a, [ts.pl, ts.pl]) : a });
-    if (/__/.test(a.predicate)) { const u = clean(t).replace(rx('\\s+(?:' + ADJ_P + ')\\s+' + NP + '$'), ''), b = parseAtomic(u, false) || parseAtomic(u, false, vs()); if (b) out.push({ a: b }); }
+    if (/__/.test(a.predicate)) { const u = /__tadv$/.test(a.predicate) ? tadvSplit(t)[0] : clean(t).replace(rx('\\s+(?:' + ADJ_P + ')\\s+' + NP + '$'), ''), b = parseAtomic(u, false) || parseAtomic(u, false, vs()); if (b) out.push({ a: b }); }
+    for (const m of [a].concat([])) mustRules(m, cmp, out);
     if (/_than$/.test(a.predicate) && !cmp.has(a.predicate)) { cmp.add(a.predicate); for (const o of orderRules(a.predicate)) out.push({ r: o }); } }
   return out; }
 function interpret(raw, opts) {
@@ -594,7 +603,7 @@ function worldIntegrity(world) {
   for (let i = 0; i < world.rules.length; i++) {
     const r = world.rules[i]; if (!exactKeys(r, ['id', 'body', 'head', 'form', 'source_ref', 'source_span', 'variables', 'rule_class', 'evidence_refs', 'provenance_refs']) || validateRule(r)) return false;
     const vars = [...new Set(r.body.concat([r.head]).flatMap(variables))].sort(), b = { body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span }, k = canon({ body: r.body, head: r.head });
-    if (r.id !== 'rule:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || ruleAtoms.has(k) || !/^(?:conditional|universal_negative|universal_conjunctive|universal_unary|universal_relation|universal_intransitive|comparative_order)$/.test(r.form) || r.body.length > world.limits.MAX_RULE_BODY || !same(r.variables, vars) || !r.variables.every(x => nameOk(x, true)) || r.rule_class !== r.form || !sourceMap.has(r.source_ref) || r.source_ref === world.query.source_ref || !same(r.source_span, sourceMap.get(r.source_ref).span) || !same(r.evidence_refs, [r.source_ref]) || !same(r.provenance_refs, [world.candidate_id])) return false; ruleAtoms.add(k);
+    if (r.id !== 'rule:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || ruleAtoms.has(k) || !/^(?:conditional|universal_negative|universal_conjunctive|universal_unary|universal_relation|universal_intransitive|comparative_order|modal_entailment)$/.test(r.form) || r.body.length > world.limits.MAX_RULE_BODY || !same(r.variables, vars) || !r.variables.every(x => nameOk(x, true)) || r.rule_class !== r.form || !sourceMap.has(r.source_ref) || r.source_ref === world.query.source_ref || !same(r.source_span, sourceMap.get(r.source_ref).span) || !same(r.evidence_refs, [r.source_ref]) || !same(r.provenance_refs, [world.candidate_id])) return false; ruleAtoms.add(k);
   }
   const worldAtoms = world.facts.map(f => f.atom).concat(world.rules.flatMap(r => r.body.concat([r.head])), [world.query.atom]);
   const worldEntities = [...new Set(worldAtoms.flatMap(a => a.args).filter(x => !/^\$/.test(x)))].sort();
@@ -950,7 +959,8 @@ function evaluateWh(raw, segs, qseg, opts) {
   if (past) for (const pl of plans) { const f = pl.q; pl.q = x => { const r = f(x); return r && r.replace(/^is /, 'was ').replace(/^does /, 'did '); }; }
   const answers = [], runs = [], undet = []; let incomplete = false, probe = null;
   for (const pl of plans) {
-    const dom = pl.slot === 'entity' ? [...ents].sort().map(e => [pl.q(), e]) : pl.slot === 'pred' ? [...preds].sort().map(p => [pl.q(p), null]) : (pl.slot === 'tprep' ? TIME_P.split('|').filter(p => rx('\\s' + p + '\\s').test(head)) : preps).flatMap(p => [...ents].sort().map(e => [pl.q(p), e]));
+    const dom = pl.slot === 'entity' ? [...ents].sort().map(e => [pl.q(), e]) : pl.slot === 'pred' ? [...preds].sort().map(p => [pl.q(p), null]) : (pl.slot === 'tprep' ? TIME_P.split('|').filter(p => rx('\\s' + p + '\\s').test(head)).concat(rx('\\s' + TADV + '[.!]').test(head) ? ['tadv'] : []) : preps).flatMap(p => [...ents].sort().map(e => [pl.q(p), e]));
+    for (let i = 0; i < dom.length; i++) { const [q0, e] = dom[i]; if (q0 && e && rx(' tadv ' + SLOT + '$').test(q0)) dom[i] = rx('^' + TADV + '$').test(e.replace(/_/g, ' ')) ? [q0.replace(' tadv ' + SLOT, ' ' + e.replace(/_/g, ' ')), null] : [null, null]; }
     for (const [qt, e] of dom.filter(d => d[0]).slice(0, LIMITS.MAX_ENTITIES * 4)) {
       const yn = head + (e ? qt.split(SLOT).join('"' + e + '"') : qt) + '?', r = evaluate1(yn, opts); if (!r.handled || !r.material || r.material.kind !== 'world_answer') continue;
       if (pl.cls && e) { const k = evaluate1(head + 'is "' + e + '" a ' + pl.cls + '?', opts); if (!k.material || k.material.status !== 'supported_only') continue; }
