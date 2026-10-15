@@ -104,7 +104,7 @@ const SP = "(?:\"[^\"]+\"|[\\p{L}][\\p{L}\\p{N}_'-]*)";
 const NP = '(?:(?:a|an|the)\\s+)?((?:that\\s+(?:thing|person)|' + SP + '))';
 const rx = s => new RegExp(s, 'iu');
 const COP = rx('^' + NP + '\\s+(?:is|are)\\s+(not\\s+)?(?:(?:a|an|the)\\s+)?(' + SP + ')$');
-const REL_NEG = rx('^' + NP + '\\s+(?:does|do)\\s+not\\s+(' + SP + ')\\s+' + NP + '$');
+const REL_NEG = rx('^' + NP + '\\s+(?:does|do|did)\\s+not\\s+(' + SP + ')\\s+' + NP + '$');
 const REL_POS = rx('^' + NP + '\\s+(' + SP + ')\\s+' + NP + '$');
 const QUERY_COP = rx('^is\\s+' + NP + '\\s+(not\\s+)?(?:(?:a|an|the)\\s+)?(' + SP + ')$');
 const QUERY_REL = rx('^(?:does|do)\\s+' + NP + '\\s+(not\\s+)?(' + SP + ')\\s+' + NP + '$');
@@ -144,6 +144,8 @@ const displaySymbol = s => String(s).replace(/^\$/, '').replace(/_/g, ' ');
 const third = p => { const f = p === 'have' ? 'has' : /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : /(?:s|x|z|ch|sh|o)$/.test(p) ? p + 'es' : p + 's'; return /_/.test(p) || verbLemma(f) !== p ? p : f; };
 function atomText(a) {
   if (!a) return 'unresolved proposition';
+  if (a.predicate.indexOf(PAST) === 0) { const b = a.predicate.slice(PAST.length), x = atomText(atom(b, a.args, a.polarity));
+    return / is /.test(x) ? x.replace(' is ', ' was ') : / does not /.test(x) ? x.replace(' does not ', ' did not ') : displaySymbol(a.args[0]) + ' ' + displaySymbol(pastForm(b)) + ' ' + displaySymbol(a.args[1]); }
   const neg = a.polarity === 'neg';
   if (a.args.length === 1 && /_v$/.test(a.predicate)) { const p = a.predicate.slice(0, -2); return displaySymbol(a.args[0]) + (neg ? ' does not ' + displaySymbol(p) : ' ' + displaySymbol(third(p))); }
   if (/_than$/.test(a.predicate) && a.args.length === 2) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + displaySymbol(a.predicate.slice(0, -5)) + ' than ' + displaySymbol(a.args[1]);
@@ -166,7 +168,13 @@ const QUERY_CMP = rx('^is\\s+' + NP + '\\s+(not\\s+)?(' + SP + ')\\s+than\\s+' +
    of the comparative construction and enter the world as explicit rules sourced to the sentence that used it — never a topic fact */
 const cmpAtom = (m, v) => { const s = term(m[1], v), p = symbol(m[3], 'predicate'), o = term(m[4], v); return s && p && o ? atom(p + '_than', [s, o], m[2] ? 'neg' : 'pos') : null; };
 const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])], head: atom(p, ['$x', '$z']), form: 'comparative_order' }, { body: [atom(p, ['$x', '$y'])], head: atom(p, ['$y', '$x'], 'neg'), form: 'comparative_order' }];
-function parseCopula(text, allowVariable) {
+/* past tense is a marker on the proposition (§4.1): "was/were", "did", regular "-ed" give a past_ atom, distinct from the present one
+   ("X was in Y" does not answer "is X in Y?"); time intervals stay deferred (§13) */
+const PAST = 'past_', edLemma = w => /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + 'y' : /([b-df-hj-np-tv-z])\1ed$/.test(w) ? w.slice(0, -3) : w.slice(0, -2);
+const isEd = w => /^[a-z]{3,}ed$/i.test(w) && !/eed$/i.test(w), pastForm = b => /e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0, -1) + 'ied' : b + 'ed';
+const pastOf = a => a && atom(PAST + a.predicate, a.args, a.polarity);
+function parseCopula(text, allowVariable) { const t = clean(text), w = t.match(/^(.+?)\s+(?:was|were)\s+(.+)$/i); if (w && !/\s(?:is|are)\s/i.test(w[1])) return pastOf(parseCopula0(w[1] + ' is ' + w[2], allowVariable)); return parseCopula0(t, allowVariable); }
+function parseCopula0(text, allowVariable) {
   { const c = clean(text).match(COP_CMP); if (c) return cmpAtom(c, allowVariable); }
   const m = clean(text).match(COP);
   if (!m) { const p = clean(text).match(COP_PP); if (!p || !isPrep(p[3])) return null; const s = term(p[1], allowVariable), o = term(p[4], allowVariable); return s && o ? atom(p[3].toLowerCase(), [s, o], p[2] ? 'neg' : 'pos') : null; }
@@ -182,9 +190,10 @@ function parseRelation(text, allowVariable, verbs) {
   let polarity = 'neg';
   if (!m) { m = clean(text).match(REL_POS); polarity = 'pos'; }
   if (!m) { const i = clean(text).match(INTR); if (!i) return null; const s = term(i[1], allowVariable), v = verbLemma(i[3], i[2] ? dsv(verbs, i[3]) : verbs); return s && v && v !== 'be' && v !== 'do' && v !== 'have' ? atom(v + '_v', [s], i[2] ? 'neg' : 'pos') : null; }
+  if (polarity === 'pos' && isEd(m[2]) && !isQuotedSymbol(m[2])) { const s = term(m[1], allowVariable), o = term(m[3], allowVariable), b = symbol(edLemma(m[2].toLowerCase()), 'verb', dsv(verbs, edLemma(m[2].toLowerCase()))); return s && o && b ? atom(PAST + b, [s, o]) : null; }
   const subject = term(m[1], allowVariable), predicate = verbLemma(m[2], polarity === 'neg' ? dsv(verbs, m[2]) : verbs), object = term(m[3], allowVariable);
   if (!subject || !predicate || !object || predicate === 'be' || predicate === 'do') return null;
-  return atom(predicate, [subject, object], polarity);
+  return atom((polarity === 'neg' && /\sdid\s+not\s/i.test(clean(text)) ? PAST : '') + predicate, [subject, object], polarity);
 }
 
 function parseAtomic(text, allowVariable, verbs) { return parseCopula(text, allowVariable) || parseRelation(text, allowVariable, verbs); }
@@ -221,7 +230,7 @@ const pluralForms = w => /^"/.test(w) || !/^[\p{L}]{3,}$/u.test(w) || !/s$/i.tes
 /* the do-support query verb is bare; a stated inflected form is the same verb when inflecting the bare form re-lemmatises to it
    ("pozozises" ↔ "pozozis", "bias/biases"): the input itself resolves the -s/-es ambiguity, as with plurals */
 function alignVerbs(q, atoms) { const u = q.args.length === 1; if (u ? !/_v$/.test(q.predicate) : q.args.length !== 2 || isPrep(q.predicate)) return; const k = u ? '_v' : '', bin = atoms.filter(a => a.args.length === q.args.length && (!u || /_v$/.test(a.predicate))), used = new Set(bin.map(a => a.predicate)), p = q.predicate.slice(0, u ? -2 : undefined);
-  const alt = used.has(q.predicate) ? [] : [p, p + 's', p + 'es', /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : ''].map(x => x && verbLemma(x)).filter(x => x && x !== p).map(x => x + k);
+  const ps = p.indexOf(PAST) === 0, b = ps ? p.slice(PAST.length) : p, alt = used.has(q.predicate) ? [] : ps ? [b + 'ed', b + 'd', b + b.slice(-1) + 'ed', pastForm(b)].map(x => PAST + edLemma(x) + k).filter(x => x !== q.predicate) : [p, p + 's', p + 'es', /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : ''].map(x => x && verbLemma(x)).filter(x => x && x !== p).map(x => x + k);
   for (const a of bin) if (alt.includes(a.predicate)) a.predicate = q.predicate; }
 function resolvePlurals(pluralAlts, atoms) {
   const used = new Set(atoms.map(a => a.predicate).concat(pluralAlts.flatMap(([r]) => r.body.concat([r.head]).map(a => a.predicate))));
@@ -273,12 +282,15 @@ const plw = w => /^[a-z]/.test(w) && /s$/.test(w) && !VAR_WORDS.has(w) && !close
 const withAlts = (a, ws) => { if (a) Object.defineProperty(a, 'alts', { value: ws.map(w => pluralForms(w).concat([w.slice(0, -1)]).map(x => symbol(x, 'predicate'))) }); return a; };
 function fixQ(q, atoms) { if (!q || !q.alts) return; const used = new Set(atoms.filter(a => !a.alts).map(a => a.predicate)), pick = (cur, alts) => used.has(cur) ? cur : alts.find(x => used.has(x)) || cur;
   if (/^any_/.test(q.args[0]) && q.alts[0]) q.args[0] = 'any_' + pick(q.args[0].slice(4), q.alts[0]); if (q.alts[1] && q.args.length === 1) q.predicate = pick(q.predicate, q.alts[1]); }
-function parseQuery(text, verbs) {
+function parseQuery(text, verbs) { const t0 = clean(text).replace(/[?]+$/, ''), pm = t0.match(/^(was|were|did)\s+(.+)$/i);
+  if (pm) { const q = parseQuery0((/^did$/i.test(pm[1]) ? 'does ' : 'is ') + pm[2], verbs); return q && q.predicate.indexOf(PAST) ? withAlts2(pastOf(q), q) : null; } return parseQuery0(text, verbs); }
+const withAlts2 = (a, q) => { if (q.alts) Object.defineProperty(a, 'alts', { value: q.alts }); return a; };
+function parseQuery0(text, verbs) {
   let t = clean(text).replace(/[?]+$/, '').replace(/^query\s*:\s*/i, '').trim().replace(/^(is|does|do)\s+any\s+/i, '$1 a ');
   const gen = /^(?:is|does|do)\s+an?\s+/i.test(t), sub = x => { const v = term(x, false); return v && gen ? 'any_' + v : v; };
   let m = t.match(QUERY_CMP); if (m) { const a = cmpAtom(m, false); return a && gen ? null : a; }
-  if ((m = t.match(rx('^are\\s+(' + SP + ')\\s+(not\\s+)?(?:(?:a|an)\\s+)?(' + SP + ')$'))) && plw(m[1])) return withAlts(parseQuery('is a ' + pluralForms(m[1])[0] + ' ' + (m[2] || '') + 'a ' + pluralForms(m[3])[0], verbs), [m[1], m[3]]);
-  if ((m = t.match(rx('^do\\s+(' + SP + ')\\s+(.+)$'))) && plw(m[1])) return withAlts(parseQuery('does a ' + pluralForms(m[1])[0] + ' ' + m[2], verbs), [m[1]]);
+  if ((m = t.match(rx('^are\\s+(' + SP + ')\\s+(not\\s+)?(?:(?:a|an)\\s+)?(' + SP + ')$'))) && plw(m[1])) return withAlts(parseQuery0('is a ' + pluralForms(m[1])[0] + ' ' + (m[2] || '') + 'a ' + pluralForms(m[3])[0], verbs), [m[1], m[3]]);
+  if ((m = t.match(rx('^do\\s+(' + SP + ')\\s+(.+)$'))) && plw(m[1])) return withAlts(parseQuery0('does a ' + pluralForms(m[1])[0] + ' ' + m[2], verbs), [m[1]]);
   m = t.match(QUERY_COP);
   if (m) {
     const subject = sub(m[1]), predicate = symbol(m[3], 'predicate');
@@ -399,7 +411,7 @@ function interpret(raw, opts) {
     id: 'relation:' + (i + 1), locus: x.locus, source_ref: x.source_ref, predicate: x.atom.predicate, polarity: x.atom.polarity,
     dependencies: x.atom.args.map((v, n) => ({ role: n === 0 ? 'karta' : 'karma', term: v }))
   }));
-  const markers = indexed.map(x => ({ locus: x.locus, source_ref: x.source_ref, tense: 'present', aspect: 'simple', modality: x.locus === 'query' ? 'interrogative' : /^rule:/.test(x.locus) ? 'universal' : 'asserted', negation: x.atom.polarity === 'neg' }));
+  const markers = indexed.map(x => ({ locus: x.locus, source_ref: x.source_ref, tense: x.atom.predicate.indexOf(PAST) ? 'present' : 'past', aspect: 'simple', modality: x.locus === 'query' ? 'interrogative' : /^rule:/.test(x.locus) ? 'universal' : 'asserted', negation: x.atom.polarity === 'neg' }));
   const candidateCore = {
     schema: CANDIDATE_SCHEMA,
     parser_version: PARSER_VERSION,
@@ -461,7 +473,7 @@ function candidateIntegrity(candidate) {
   expectedRules.forEach(r => { r.body.forEach((a, i) => add('rule:' + r.id + ':body:' + i, r.source_ref, a)); add('rule:' + r.id + ':head', r.source_ref, r.head); });
   add('query', expectedQuery.source_ref, expectedQuery.atom);
   const expectedRelations = expectedAtoms.map((x, i) => ({ id: 'relation:' + (i + 1), locus: x.locus, source_ref: x.source_ref, predicate: x.atom.predicate, polarity: x.atom.polarity, dependencies: x.atom.args.map((v, n) => ({ role: n ? 'karma' : 'karta', term: v })) }));
-  const expectedMarkers = expectedAtoms.map(x => ({ locus: x.locus, source_ref: x.source_ref, tense: 'present', aspect: 'simple', modality: x.locus === 'query' ? 'interrogative' : /^rule:/.test(x.locus) ? 'universal' : 'asserted', negation: x.atom.polarity === 'neg' }));
+  const expectedMarkers = expectedAtoms.map(x => ({ locus: x.locus, source_ref: x.source_ref, tense: x.atom.predicate.indexOf(PAST) ? 'present' : 'past', aspect: 'simple', modality: x.locus === 'query' ? 'interrogative' : /^rule:/.test(x.locus) ? 'universal' : 'asserted', negation: x.atom.polarity === 'neg' }));
   const expectedEntities = [...new Set(expectedAtoms.flatMap(x => x.atom.args).filter(x => !/^\$/.test(x)))].sort(), expectedVariables = [...new Set(expectedAtoms.flatMap(x => x.atom.args).filter(x => /^\$/.test(x)))].sort();
   if (!same(candidate.atoms, expectedAtoms) || !same(candidate.relations, expectedRelations) || !same(candidate.markers, expectedMarkers) || !same(candidate.entities, expectedEntities) || !same(candidate.variables, expectedVariables)) return false;
   const body = copy(candidate); delete body.candidate_id; const core = copy(body); delete core.content_hash;
@@ -889,7 +901,7 @@ function whPlans(t, ctx) {
     if (e && !m[2] && (ctx.ents.has(e) || !plans.length)) plans.push({ slot: 'pred', q: c => 'is ' + w + ' ' + n(m[1]) + 'a ' + c });
     return plans; }
   if ((m = t.match(WH_OBJ))) return [{ slot: 'entity', q: () => 'does ' + m[1] + ' ' + n(m[2]) + m[3] + ' ' + SLOT }];
-  if ((m = t.match(WH_VERB)) && !/^(?:is|are|does|do|was|were|did|has|have)$/i.test(m[2])) { const v = verbLemma(m[2], ctx.verbs) || symbol(m[2], 'verb', ctx.verbs); if (v) return [{ slot: 'entity', q: () => 'does ' + SLOT + ' ' + n(m[1]) + v + (m[3] ? ' ' + m[3] : '') }]; }
+  if ((m = t.match(WH_VERB)) && !/^(?:is|are|does|do|was|were|did|has|have)$/i.test(m[2])) { const ed = isEd(m[2]) && !m[1], v = ed ? symbol(edLemma(m[2].toLowerCase()), 'verb', dsv(ctx.verbs, edLemma(m[2].toLowerCase()))) : verbLemma(m[2], ctx.verbs) || symbol(m[2], 'verb', ctx.verbs); if (v) return [{ slot: 'entity', q: () => (ed ? 'did ' : 'does ') + SLOT + ' ' + n(m[1]) + v + (m[3] ? ' ' + m[3] : '') }]; }
   if ((m = t.match(WH_WHICH)) && !/^(?:is|are|does|do)$/i.test(m[1])) { const sg = pluralForms(m[1]), cls = sg.find(x => ctx.preds.has(symbol(x, 'predicate'))) || sg[0], rest = whPlans('who ' + m[2], ctx);
     return rest.filter(r => r.slot === 'entity').map(r => Object.assign({}, r, { cls })); }
   return plans;
@@ -899,8 +911,9 @@ function evaluateWh(raw, segs, qseg, opts) {
   const t = clean(qseg.text).replace(/[?]+$/, ''), head = raw.slice(0, qseg.span.start), ctxIn = interpret(head + 'is ' + SLOT + ' a ' + SLOT + '?', {});
   if (!ctxIn.candidate) return ctxIn.failure ? evaluate1(head + 'is ' + SLOT + ' a ' + SLOT + '?', opts) : null;
   const c = ctxIn.candidate, ents = new Set(c.entities.filter(x => x !== SLOT && !/^any_/.test(x))), atoms = c.atoms.filter(x => x.locus !== 'query').map(x => x.atom);
-  const preds = new Set(atoms.filter(a => a.args.length === 1 && !/_v$/.test(a.predicate)).map(a => a.predicate)), preps = [...new Set(atoms.filter(a => a.args.length === 2 && isPrep(a.predicate)).map(a => a.predicate))].sort();
-  const plans = whPlans(t, { ents, preds, verbs: verbsOf(segs.filter(x => x.kind === 'assertion').map(x => x.text)) }); if (!plans.length) return null;
+  const bp = a => a.predicate.replace(/^past_/, ''), preds = new Set(atoms.filter(a => a.args.length === 1 && !/_v$/.test(a.predicate)).map(bp)), preps = [...new Set(atoms.filter(a => a.args.length === 2 && isPrep(bp(a))).map(bp))].sort();
+  const past = /^(?:\S+\s+)*?(?:was|were|did)\b/i.test(t), plans = whPlans(past ? t.replace(/\b(?:was|were)\b/gi, 'is').replace(/\bdid\b/gi, 'does') : t, { ents, preds, verbs: verbsOf(segs.filter(x => x.kind === 'assertion').map(x => x.text)) }); if (!plans.length) return null;
+  if (past) for (const pl of plans) { const f = pl.q; pl.q = x => { const r = f(x); return r && r.replace(/^is /, 'was ').replace(/^does /, 'did '); }; }
   const answers = [], runs = [], undet = []; let incomplete = false, probe = null;
   for (const pl of plans) {
     const dom = pl.slot === 'entity' ? [...ents].sort().map(e => [pl.q(), e]) : pl.slot === 'pred' ? [...preds].sort().map(p => [pl.q(p), null]) : preps.flatMap(p => [...ents].sort().map(e => [pl.q(p), e]));

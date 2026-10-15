@@ -124,4 +124,11 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
       r = ask(f, `${a} is a ${k}. ${b} is a ${k}. ${c} is a ${k2}. Every ${k} ${pl(v)}. How many ${pl(k)} ${v}?`); expect(/^I counted 2 checked answers\./.test(r), r);
       expect(st(`${a} is ${adj} than ${b}. Is ${b} ${adj} than ${a}?`) === 'refuted_only' && st(`${a} is ${adj} than ${b}. ${b} is ${adj} than ${c}. Is ${a} ${adj} than ${c}?`) === 'supported_only' && st(`Is ${a} ${adj} than ${b}?`) === 'undetermined', 'cmp ' + [a, b, c, adj]);
       r = ask(f, `${a} is ${adj} than ${b}. ${b} is ${adj} than ${c}. Who is ${adj} than ${c}?`); expect(r.includes(`“${a.toLowerCase()} is ${adj} than ${c.toLowerCase()}”`) && r.includes(`“${b.toLowerCase()} is ${adj} than ${c.toLowerCase()}”`), r); } }));
+  C('GELC-TENSE', 'past tense is a proposition marker over random symbols: "was/were", "did (not)", regular "-ed" give past atoms (marker tense=past), answered by past questions and wh-questions, and never by the present ("X was in Y" leaves "is X in Y?" undetermined)', S(() => {
+    for (let i = 0; i < 3; i++) { const [a, b] = [nonce(), nonce()].map(cap), k = nonce(), v = nonce() + 'k', p = PREPS[Math.floor(rnd() * PREPS.length)];
+      expect(st(`${a} was ${p} ${b}. Was ${a} ${p} ${b}?`) === 'supported_only' && st(`${a} was ${p} ${b}. Is ${a} ${p} ${b}?`) === 'undetermined' && st(`${a} was a ${k}. Was ${a} a ${k}?`) === 'supported_only', 'cop ' + [a, b, p, k]);
+      expect(st(`${a} ${v}ed ${b}. Did ${a} ${v} ${b}?`) === 'supported_only' && st(`${a} ${v}ed ${b}. Does ${a} ${v} ${b}?`) === 'undetermined' && st(`${a} did not ${v} ${b}. Did ${a} ${v} ${b}?`) === 'refuted_only', 'verb ' + [a, b, v]);
+      const c = RS.interpret(`${a} was a ${k}. Was ${a} a ${k}?`).candidate; expect(c.markers.every(m => m.tense === 'past'));
+      const f = FKN(); let r = ask(f, `${a} was ${p} ${b}. Where was ${a}?`); expect(r.includes(`“${a.toLowerCase()} was ${p} ${b.toLowerCase()}”`), r);
+      r = ask(f, `${a} ${v}ed ${b}. Who ${v}ed ${b}?`); expect(r.includes(`“${a.toLowerCase()} ${v}ed ${b.toLowerCase()}”`), r); } }));
 };
