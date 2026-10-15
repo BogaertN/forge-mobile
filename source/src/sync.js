@@ -10,7 +10,7 @@ const SECRETISH = /\b(?:\d{4}[ -]?){3}\d{4}\b|gh[pousr]_[A-Za-z0-9]{20,}|github_
 /* v4.9.1: the secret-shape scan looks at CONTENT strings only. Machine encodings (signatures, public keys, ids, hashes) are random
  * base64url/hex and occasionally contain a 16-digit run bounded by '-', which made ~3% of honest publications fail as "secret-shaped". */
 const MACHINE_KEY = /^(sig|pub|signer|id|x|y|hash|prev|nonce|kid)$|sha256$|_hash$|digest$|_ref$/;
-const MACHINE_VAL = /^(?:sig-[0-9a-f]{16}|[a-z]{2,8}:[0-9a-f]{16,64}|[0-9a-f]{64})$/; /* key-derived signer ids, typed hash ids, bare sha256 */
+const MACHINE_VAL = /^(?:(?:sig|dev)-[0-9a-f]{16}|[a-z]{2,8}:[0-9a-f]{16,64}|[0-9a-f]{64})$/; /* key-derived signer ids, typed hash ids, bare sha256 */
 const secretIn = (v, k, d) => { if ((d || 0) > 64) return false; if (typeof v === 'string') return !(k && MACHINE_KEY.test(k)) && !MACHINE_VAL.test(v) && SECRETISH.test(v); if (Array.isArray(v)) return v.some(x => secretIn(x, k, (d || 0) + 1)); if (v && typeof v === 'object') return Object.keys(v).some(kk => (!MACHINE_KEY.test(kk) && SECRETISH.test(kk)) || secretIn(v[kk], kk, (d || 0) + 1)); return false; };
 function Sync(store, opts) { const { perm, ledger, rpc } = opts; const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
   function items() { const out = []; const add = (type, r) => { const rec = JSON.parse(JSON.stringify(r)); out.push({ type, id: String(r.id || r.loop || r.at), sha256: sha256(canon(rec)), record: rec }); };
