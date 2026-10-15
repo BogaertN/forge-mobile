@@ -187,27 +187,39 @@ function parseConditional(text) {
   return { body, head, form: 'conditional' };
 }
 
+/* plural class nouns in a universal ("all blorfs are zindles") name the same class as the singular; only regular English plural endings, quoted symbols untouched */
+const pluralForms = w => /^"/.test(w) || !/^[\p{L}]{3,}$/u.test(w) || !/s$/i.test(w) || /(?:ss|us|is)$/i.test(w) ? [w] : /ies$/i.test(w) ? [w.slice(0, -3) + 'y', w.slice(0, -1)] : /(?:sses|xes|ches|shes)$/i.test(w) ? [w.slice(0, -2), w.slice(0, -1)] : /(?:ses|zes)$/i.test(w) ? [w.slice(0, -1), w.slice(0, -2)] : [w.slice(0, -1)];
+/* an ambiguous plural ending ("-ses", "-ies") resolves to the singular the same input already uses for that class; else the regular default */
+function resolvePlurals(pluralAlts, atoms) {
+  const used = new Set(atoms.map(a => a.predicate).concat(pluralAlts.flatMap(([r]) => r.body.concat([r.head]).map(a => a.predicate))));
+  for (const [r, alts] of pluralAlts) for (const [first, ...rest] of alts) { const alt = rest.find(x => used.has(x)); if (alt && !atoms.some(a => a.predicate === first)) for (const a of r.body.concat([r.head])) if (a.predicate === first) a.predicate = alt; }
+}
 function parseUniversal(text) {
+  const pl = /\s(?:are)\s/i.test(clean(text)) || /^all\s/i.test(clean(text)), alts = [];
+  const sg = w => { if (!pl) return w; const f = pluralForms(w); if (f.length > 1) alts.push(f.map(x => symbol(x, 'predicate'))); return f[0]; };
+  const r = parseUniversalForm(text, sg); if (r && alts.length) r.plural_alternatives = alts; return r;
+}
+function parseUniversalForm(text, sg) {
   let m = clean(text).match(UNIVERSAL_NO);
   if (m) {
-    const cls = symbol(m[1], 'predicate'), dst = symbol(m[2], 'predicate');
+    const cls = symbol(sg(m[1]), 'predicate'), dst = symbol(sg(m[2]), 'predicate');
     return cls && dst ? { body: [atom(cls, ['$x'])], head: atom(dst, ['$x'], 'neg'), form: 'universal_negative' } : null;
   }
   m = clean(text).match(UNIVERSAL_AND);
   if (m) {
-    const cls = symbol(m[1], 'predicate'), dst = symbol(m[4], 'predicate'); if (!cls || !dst) return null;
+    const cls = symbol(sg(m[1]), 'predicate'), dst = symbol(sg(m[4]), 'predicate'); if (!cls || !dst) return null;
     const body = [atom(cls, ['$x'])];
     for (const p of splitConjunction(m[2])) { const a = parseRuleAtom(p, true); if (!a || a.args.some(x => x !== '$x')) return null; body.push(a); }
     return { body, head: atom(dst, ['$x'], m[3] ? 'neg' : 'pos'), form: 'universal_conjunctive' };
   }
   m = clean(text).match(UNIVERSAL_ONE);
   if (m) {
-    const cls = symbol(m[1], 'predicate'), dst = symbol(m[3], 'predicate');
+    const cls = symbol(sg(m[1]), 'predicate'), dst = symbol(sg(m[3]), 'predicate');
     return cls && dst ? { body: [atom(cls, ['$x'])], head: atom(dst, ['$x'], m[2] ? 'neg' : 'pos'), form: 'universal_unary' } : null;
   }
   m = clean(text).match(UNIVERSAL_REL);
   if (m) {
-    const cls = symbol(m[1], 'predicate'), pred = verbLemma(m[2]), obj = term(m[3], false);
+    const cls = symbol(sg(m[1]), 'predicate'), pred = verbLemma(m[2]), obj = term(m[3], false);
     return cls && pred && obj ? { body: [atom(cls, ['$x'])], head: atom(pred, ['$x', obj]), form: 'universal_relation' } : null;
   }
   return null;
@@ -278,10 +290,10 @@ function interpret(raw, opts) {
   const query = parseQuery(qseg.text);
   if (!query) return interpretationFailure(raw, qseg, 'UNSUPPORTED_QUERY_STRUCTURE', 'yes/no unary or binary query required');
 
-  const facts = [], rules = [], assertions = segments.filter(x => x.kind === 'assertion' && x.span.start < qseg.span.start);
+  const pluralAlts = [], facts = [], rules = [], assertions = segments.filter(x => x.kind === 'assertion' && x.span.start < qseg.span.start);
   for (const seg of assertions) {
     const text = stripLead(seg.text), r = parseRule(text);
-    if (r) {
+    if (r) { pluralAlts.push([r, r.plural_alternatives || []]); delete r.plural_alternatives;
       const problem = validateRule(r); if (problem) return interpretationFailure(raw, seg, problem, 'unsafe rule');
       rules.push(Object.assign(r, { source_ref: seg.id, source_span: copy(seg.span) })); continue;
     }
@@ -290,6 +302,7 @@ function interpret(raw, opts) {
     facts.push({ atom: f, source_ref: seg.id, source_span: copy(seg.span) });
   }
   if (facts.length > LIMITS.MAX_FACTS || rules.length > LIMITS.MAX_RULES) return interpretationFailure(raw, qseg, 'WORLD_SIZE_LIMIT', 'too many facts or rules');
+  resolvePlurals(pluralAlts, facts.map(f => f.atom).concat([query]));
 
   const factSeen = new Set(), factRows = [];
   for (const f of facts) {
@@ -349,16 +362,21 @@ function candidateIntegrity(candidate) {
   const questions = candidate.sources.filter(s => s.kind === 'question');
   const atomLimit = LIMITS.MAX_FACTS + LIMITS.MAX_RULES * (LIMITS.MAX_RULE_BODY + 1) + 1;
   if (!candidate.sources.length || candidate.sources.length > LIMITS.MAX_SENTENCES || candidate.facts.length > LIMITS.MAX_FACTS || candidate.rules.length > LIMITS.MAX_RULES || candidate.entities.length > LIMITS.MAX_ENTITIES || candidate.atoms.length > atomLimit || candidate.relations.length > atomLimit || candidate.markers.length > atomLimit || questions.length !== 1 || candidate.sources[candidate.sources.length - 1] !== questions[0] || ['ambiguities', 'ambiguity_reasons', 'unresolved_symbols', 'unresolved_senses'].some(k => candidate[k].length)) return false;
-  const expectedFacts = [], expectedRules = [], factSeen = new Set(), ruleSeen = new Set();
+  const expectedFacts = [], expectedRules = [], factSeen = new Set(), ruleSeen = new Set(), parsed = [], pluralAlts = [];
   for (const s of candidate.sources.slice(0, -1)) {
     const text = stripLead(s.source.replace(/[.!?]+$/, '').trim()), r = parseRule(text);
+    if (r) { pluralAlts.push([r, r.plural_alternatives || []]); delete r.plural_alternatives; parsed.push([s, r, null]); }
+    else { const a = parseAtomic(text, false); if (!a) return false; parsed.push([s, null, a]); }
+  }
+  const qAtom = parseQuery(questions[0].source); if (!qAtom) return false;
+  resolvePlurals(pluralAlts, parsed.filter(x => x[2]).map(x => x[2]).concat([qAtom]));
+  for (const [s, r, a] of parsed) {
     if (r) {
       if (validateRule(r)) return false;
       const k = canon({ body: r.body, head: r.head }); if (ruleSeen.has(k)) continue; ruleSeen.add(k);
       const b = { body: r.body, head: r.head, form: r.form, source_ref: s.id, source_span: copy(s.span) };
       expectedRules.push(Object.assign({ id: 'rule:' + (expectedRules.length + 1) + ':' + sha256(canon(b)).slice(0, 12) }, b));
     } else {
-      const a = parseAtomic(text, false); if (!a) return false;
       const k = atomKey(a); if (factSeen.has(k)) continue; factSeen.add(k);
       const b = { atom: a, source_ref: s.id, source_span: copy(s.span) };
       expectedFacts.push(Object.assign({ id: 'fact:' + (expectedFacts.length + 1) + ':' + sha256(canon(b)).slice(0, 12) }, b));
@@ -464,11 +482,12 @@ function instantiate(pattern, subst) {
   return args.some(x => x === undefined) ? null : atom(pattern.predicate, args, pattern.polarity);
 }
 
-function substitutions(rule, entries, budget) {
+const guardOk = (rule, s) => (rule.guard || []).every(g => g[0] === 'distinct' && s[g[1]] !== undefined && s[g[1]] !== s[g[2]]);
+function substitutions(rule, entries, budget, index) {
   let rows = [{ substitution: {}, premises: [] }];
   for (const pattern of rule.body) {
     const next = [];
-    for (const row of rows) for (const e of entries) {
+    for (const row of rows) for (const e of index ? index.get(pattern.polarity + ' ' + pattern.predicate) || [] : entries) {
       budget.work++;
       if (budget.work > budget.max) { budget.exhausted = true; return []; }
       const s = unify(pattern, e.atom, row.substitution);
@@ -476,19 +495,22 @@ function substitutions(rule, entries, budget) {
     }
     rows = next; if (!rows.length) break;
   }
-  return rows.sort((a, b) => canon(a).localeCompare(canon(b)));
+  return rows.filter(r => guardOk(rule, r.substitution)).sort((a, b) => canon(a).localeCompare(canon(b)));
 }
 
-function proofFor(world, entry, steps) {
-  if (!entry) return null;
+function orderSteps(entry, steps) {
   const ordered = [], seen = new Set();
-  function visit(id) {
+  (function visit(id) {
     if (seen.has(id)) return;
     const s = steps.get(id); if (!s) throw new Error('PROOF_STEP_MISSING');
     for (const p of s.kind === 'rule' ? s.premises : []) visit(p);
     seen.add(id); ordered.push(copy(s));
-  }
-  visit(entry.step.step_id);
+  })(entry.step.step_id);
+  return ordered;
+}
+function proofFor(world, entry, steps) {
+  if (!entry) return null;
+  const ordered = orderSteps(entry, steps);
   if (ordered.length > world.limits.MAX_PROOF_STEPS) return null;
   const depths = new Map(); for (const s of ordered) { const depth = s.kind === 'fact' ? 1 : 1 + Math.max(0, ...s.premises.map(p => depths.get(p) || 0)); if (depth > world.limits.MAX_PROOF_DEPTH) return null; depths.set(s.step_id, depth); }
   const core = { schema: PROOF_SCHEMA, world_root: world.world_root, query: copy(world.query), conclusion: copy(entry.atom), steps: ordered, engine_version: ENGINE_VERSION, checker_version: CHECKER_VERSION };
@@ -497,24 +519,24 @@ function proofFor(world, entry, steps) {
   return Object.assign({ proof_id: digest('proof', body) }, body);
 }
 
-function deriveWorld(world) {
-  if (!worldIntegrity(world)) return { complete: false, failure: 'WORLD_ROOT_INVALID', work: 0, rounds: 0, derivations: 0, support: null, refutation: null };
+/* the one fixed-point closure: TurnWorld derivation and data rule worlds (rules as data) share it */
+function closure(facts, rules, L, indexed) {
   const entries = new Map(), steps = new Map();
-  for (const f of world.facts) {
+  for (const f of facts) {
     const step = { kind: 'fact', step_id: 'step:' + f.id, fact_id: f.id, premises: [], substitution: {}, polarity: f.atom.polarity, conclusion: copy(f.atom) };
     const e = { atom: copy(f.atom), step }; entries.set(atomKey(e.atom), e); steps.set(step.step_id, step);
   }
-  const budget = { work: 0, max: world.limits.MAX_WORK, exhausted: false };
+  const budget = { work: 0, max: L.MAX_WORK, exhausted: false };
   let derivations = 0, rounds = 0, stable = false;
-  const rules = world.rules.slice().sort((a, b) => a.id.localeCompare(b.id));
-  for (rounds = 1; rounds <= world.limits.MAX_ROUNDS; rounds++) {
+  for (rounds = 1; rounds <= L.MAX_ROUNDS; rounds++) {
     let changed = false; const snapshot = [...entries.values()].sort((a, b) => atomKey(a.atom).localeCompare(atomKey(b.atom)));
+    let index = null; if (indexed) { index = new Map(); for (const e of snapshot) { const k = e.atom.polarity + ' ' + e.atom.predicate; if (!index.has(k)) index.set(k, []); index.get(k).push(e); } }
     for (const rule of rules) {
-      const rows = substitutions(rule, snapshot, budget); if (budget.exhausted) break;
+      const rows = substitutions(rule, snapshot, budget, index); if (budget.exhausted) break;
       for (const row of rows) {
         const conclusion = instantiate(rule.head, row.substitution); if (!conclusion) continue;
         const k = atomKey(conclusion); if (entries.has(k)) continue;
-        if (derivations >= world.limits.MAX_DERIVATIONS || entries.size >= world.limits.MAX_FACTS + world.limits.MAX_DERIVATIONS) { budget.exhausted = true; break; }
+        if (derivations >= L.MAX_DERIVATIONS || entries.size >= L.MAX_FACTS + L.MAX_DERIVATIONS) { budget.exhausted = true; break; }
         const material = { rule_id: rule.id, premises: row.premises, substitution: row.substitution, polarity: conclusion.polarity, conclusion };
         const step = Object.assign({ kind: 'rule', step_id: 'step:derived:' + sha256(canon(material)).slice(0, 20) }, material);
         entries.set(k, { atom: conclusion, step }); steps.set(step.step_id, step); derivations++; changed = true;
@@ -524,6 +546,11 @@ function deriveWorld(world) {
     if (budget.exhausted) break;
     if (!changed) { stable = true; break; }
   }
+  return { entries, steps, budget, rounds, derivations, stable };
+}
+function deriveWorld(world) {
+  if (!worldIntegrity(world)) return { complete: false, failure: 'WORLD_ROOT_INVALID', work: 0, rounds: 0, derivations: 0, support: null, refutation: null };
+  const { entries, steps, budget, rounds, derivations, stable } = closure(world.facts, world.rules.slice().sort((a, b) => a.id.localeCompare(b.id)), world.limits, false);
   const closureComplete = stable && !budget.exhausted;
   const supportEntry = entries.get(atomKey(world.query.atom)), refuteEntry = entries.get(atomKey(opposite(world.query.atom)));
   const support = proofFor(world, supportEntry, steps), refutation = proofFor(world, refuteEntry, steps);
@@ -538,8 +565,14 @@ function replayProofCore(world, proof) {
   if (!proof || !exactKeys(proof, ['schema', 'world_root', 'query', 'conclusion', 'steps', 'engine_version', 'checker_version'])) return fail('PROOF_SHAPE');
   if (proof.schema !== PROOF_SCHEMA || proof.world_root !== world.world_root || proof.engine_version !== ENGINE_VERSION || proof.checker_version !== CHECKER_VERSION) return fail('PROOF_CONTEXT');
   if (!same(proof.query, world.query) || !validAtom(proof.conclusion) || (!same(proof.conclusion, world.query.atom) && !same(proof.conclusion, opposite(world.query.atom))) || !Array.isArray(proof.steps) || !proof.steps.length || proof.steps.length > world.limits.MAX_PROOF_STEPS) return fail('PROOF_CONTENT');
-  const facts = new Map(world.facts.map(f => [f.id, f])), rules = new Map(world.rules.map(r => [r.id, r])), derived = new Map(), stepById = new Map(), depths = new Map();
-  for (const step of proof.steps) {
+  const rp = replaySteps(new Map(world.facts.map(f => [f.id, f])), new Map(world.rules.map(r => [r.id, r])), proof.steps, world.limits.MAX_PROOF_DEPTH, proof.conclusion);
+  return rp.ok ? { ok: true, code: 'PROOF_REPLAY_ACCEPTED', checker_version: CHECKER_VERSION, steps: proof.steps.length } : fail(rp.code);
+}
+/* independent step replay: every fact step is a stated fact, every rule step re-instantiates its rule (guards re-checked); no step unused */
+function replaySteps(facts, rules, proofSteps, maxDepth, finalAtom) {
+  const fail = code => ({ ok: false, code });
+  const derived = new Map(), stepById = new Map(), depths = new Map();
+  for (const step of proofSteps) {
     if (!step || typeof step.step_id !== 'string' || derived.has(step.step_id)) return fail('STEP_REPLAY');
     if (step.kind === 'fact') {
       if (!exactKeys(step, ['kind', 'step_id', 'fact_id', 'premises', 'substitution', 'polarity', 'conclusion']) || !Array.isArray(step.premises) || step.premises.length || !step.substitution || typeof step.substitution !== 'object' || Array.isArray(step.substitution) || Object.keys(step.substitution).length) return fail('FACT_STEP_SHAPE');
@@ -552,22 +585,44 @@ function replayProofCore(world, proof) {
     if (!r || !Array.isArray(step.premises) || step.premises.length !== r.body.length || !step.substitution || typeof step.substitution !== 'object' || Array.isArray(step.substitution)) return fail('RULE_STEP_CONTEXT');
     const expectedVars = [...new Set(r.body.concat([r.head]).flatMap(variables))].sort();
     if (!same(Object.keys(step.substitution).sort(), expectedVars)) return fail('SUBSTITUTION_SHAPE');
+    if (!guardOk(r, step.substitution)) return fail('GUARD_REPLAY');
     for (let i = 0; i < r.body.length; i++) {
       const premise = derived.get(step.premises[i]); if (!premise) return fail('PREMISE_REFERENCE');
       const expected = instantiate(r.body[i], step.substitution); if (!expected || !same(expected, premise)) return fail('PREMISE_REPLAY');
     }
     const conclusion = instantiate(r.head, step.substitution); if (!conclusion || !same(conclusion, step.conclusion)) return fail('CONCLUSION_REPLAY');
     if (step.polarity !== conclusion.polarity) return fail('POLARITY_REPLAY');
-    const depth = 1 + Math.max(0, ...step.premises.map(p => depths.get(p) || 0)); if (depth > world.limits.MAX_PROOF_DEPTH) return fail('PROOF_DEPTH_LIMIT');
+    const depth = 1 + Math.max(0, ...step.premises.map(p => depths.get(p) || 0)); if (depth > maxDepth) return fail('PROOF_DEPTH_LIMIT');
     const material = { rule_id: r.id, premises: step.premises, substitution: step.substitution, polarity: conclusion.polarity, conclusion };
     if (step.step_id !== 'step:derived:' + sha256(canon(material)).slice(0, 20)) return fail('STEP_ID_MISMATCH');
     derived.set(step.step_id, copy(conclusion)); stepById.set(step.step_id, step); depths.set(step.step_id, depth);
   }
-  const last = proof.steps[proof.steps.length - 1];
-  if (!same(derived.get(last.step_id), proof.conclusion)) return fail('FINAL_CONCLUSION');
+  const last = proofSteps[proofSteps.length - 1];
+  if (!same(derived.get(last.step_id), finalAtom)) return fail('FINAL_CONCLUSION');
   const used = new Set(); (function visit(id) { if (used.has(id)) return; const s = stepById.get(id); if (!s) return; used.add(id); for (const p of s.premises) visit(p); })(last.step_id);
-  if (used.size !== proof.steps.length) return fail('UNUSED_STEP');
-  return { ok: true, code: 'PROOF_REPLAY_ACCEPTED', checker_version: CHECKER_VERSION, steps: proof.steps.length };
+  if (used.size !== proofSteps.length) return fail('UNUSED_STEP');
+  return { ok: true };
+}
+
+/* GELC S1 rule worlds: typed Rule objects (rules as data, same atom/rule language and closure as TurnWorld) over stated facts.
+   Every answer carries a RuleProof/v1 replayed by replaySteps; absence of a proof is "not proven", never false. */
+const RULE_PROOF_SCHEMA = 'RuleProof/v1';
+const RW_LIMITS = Object.freeze({ MAX_WORK: 4000000, MAX_ROUNDS: 128, MAX_DERIVATIONS: 40000, MAX_FACTS: 4000, MAX_PROOF_STEPS: 512, MAX_PROOF_DEPTH: 256 });
+function validDataRule(r) { if (!r || typeof r.id !== 'string' || !Array.isArray(r.body) || !r.body.length || !r.head) return false; const at = a => a && typeof a.predicate === 'string' && Array.isArray(a.args) && a.args.length && (a.polarity === 'pos' || a.polarity === 'neg'); if (!r.body.every(at) || !at(r.head)) return false; const bv = new Set(r.body.flatMap(variables)); return variables(r.head).every(v => bv.has(v)) && (r.guard || []).every(g => Array.isArray(g) && g[0] === 'distinct' && bv.has(g[1]) && bv.has(g[2])); }
+function ruleWorld(facts, rules) {
+  if (!rules.every(validDataRule)) throw new Error('RULE_INVALID');
+  const fs = []; const ids = new Set(); for (const f of facts) if (!ids.has(f.id)) { ids.add(f.id); fs.push({ id: f.id, atom: atom(f.atom.predicate, f.atom.args, f.atom.polarity) }); }
+  const rs = rules.slice().sort((a, b) => a.id.localeCompare(b.id)); const C = closure(fs, rs, RW_LIMITS, true);
+  const complete = C.stable && !C.budget.exhausted;
+  function prove(a) { const e = C.entries.get(atomKey(atom(a.predicate, a.args, a.polarity))); if (!e) return null;
+    const steps = orderSteps(e, C.steps); const proof = { schema: RULE_PROOF_SCHEMA, conclusion: copy(e.atom), steps, rule_ids: [...new Set(steps.filter(s => s.kind === 'rule').map(s => s.rule_id))].sort(), fact_ids: steps.filter(s => s.kind === 'fact').map(s => s.fact_id) };
+    const check = checkRuleProof(fs, rs, proof); if (!check.ok) return null; return Object.assign(proof, { proof_id: digest('rule-proof', proof), check }); }
+  return { complete, prove, holds: a => !!C.entries.get(atomKey(atom(a.predicate, a.args, a.polarity))), atoms: () => [...C.entries.values()].map(e => copy(e.atom)), work: C.budget.work };
+}
+function checkRuleProof(facts, rules, proof) {
+  if (!proof || proof.schema !== RULE_PROOF_SCHEMA || !Array.isArray(proof.steps) || !proof.steps.length || proof.steps.length > RW_LIMITS.MAX_PROOF_STEPS || !rules.every(validDataRule)) return { ok: false, code: 'PROOF_SHAPE', checker_version: CHECKER_VERSION };
+  const rp = replaySteps(new Map(facts.map(f => [f.id, f])), new Map(rules.map(r => [r.id, r])), proof.steps, RW_LIMITS.MAX_PROOF_DEPTH, proof.conclusion);
+  return rp.ok ? { ok: true, code: 'PROOF_REPLAY_ACCEPTED', checker_version: CHECKER_VERSION, steps: proof.steps.length } : { ok: false, code: rp.code, checker_version: CHECKER_VERSION };
 }
 
 function checkProof(world, proof) {
@@ -704,6 +759,6 @@ function evaluate(raw, opts) {
   };
 }
 
-const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, deriveWorld, checkProof, evaluate };
+const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, deriveWorld, checkProof, evaluate, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
 if (isNode) module.exports = api; else root.KReason = api;
 })(typeof self !== 'undefined' ? self : this);

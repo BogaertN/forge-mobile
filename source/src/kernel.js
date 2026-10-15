@@ -542,7 +542,7 @@ function Kernel(opts) {
         if (c.verb.pol !== q.verb.pol) return res('SELECTED_MEANING', { kind: 'yesno', answer: 'no', items: stepsC.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: v.from });
         return res('SELECTED_MEANING', { kind: 'inferred', answer: 'yes', claim: q, steps: stepsC.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: v.from }); }
       const posQ = Object.assign({}, q, { verb: Object.assign({}, q.verb, { pol: 'pos' }) });
-      const done = (rule, steps, wn) => { rules.push({ id: rule, doc: 'infer.js (Doc5 roles; Doc6 §21, §27 lawful inference)', note: steps.length + ' stored fact(s)' + (wn ? ' + WordNet ' + wn.length + ' step(s)' : '') });
+      const done = (rule, steps, wn, pf) => { rules.push(Object.assign({ id: rule, doc: 'infer.js (Doc5 roles; Doc6 §21, §27 lawful inference)', note: steps.length + ' stored fact(s)' + (wn ? ' + WordNet ' + wn.length + ' step(s)' : '') }, pf ? { proof: pf.proof_id, check: pf.check.code } : {}));
         const stepsC = steps.map(id => byId(id)).filter(Boolean);
         const qNeg = q.verb.pol === 'neg';
         if (negFact || qNeg) { const neg = negFact || facts.map(r => r.clause).find(c => !c.coord && canon(G.material(Object.assign({}, c, { verb: Object.assign({}, c.verb, { pol: 'pos' }) }))) === canon(G.material(posQ)) && c.verb.pol === 'neg');
@@ -551,8 +551,8 @@ function Kernel(opts) {
         return res('SELECTED_MEANING', Object.assign({ kind: 'inferred', answer: 'yes', claim: posQ, steps: stepsC.map(r => r.clause) }, wn ? { wn } : {}), { frame: 'FR.QUESTION', act: 'question', evidenceRefs: steps }); };
       const a = entKey(q.subj);
       let tgt = null; if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'pp' && /^(in|at|inside|within)$/.test(q.pred.prep)) tgt = q.pred.np; else if (/^(live|reside|stay)$/.test(q.verb.lemma)) { const ad = (q.adj || []).find(x => x.role === 'adhikarana'); if (ad) tgt = ad.np; }
-      if (tgt && a) { const p = INF.locPath(facts, a, entKey(tgt)); if (p && p.length >= 2) return done('INF-LOC-TRANSITIVE', p.map(e => e.id)); }
-      { const rp = INF.relPath(facts, q); if (rp && rp.path.length >= 1) return done('INF-REL-TRANSITIVE-' + rp.rel.replace(/^cmp:.*/, 'COMPARATIVE').toUpperCase(), rp.path.map(e => e.id)); }
+      if (tgt && a) { const p = INF.locPath(facts, a, entKey(tgt)); if (p && p.length >= 2) return done('INF-LOC-TRANSITIVE', p.map(e => e.id), null, INF.lastProof()); }
+      { const rp = INF.relPath(facts, q); if (rp && rp.path.length >= 1) return done('INF-REL-TRANSITIVE-' + rp.rel.replace(/^cmp:.*/, 'COMPARATIVE').toUpperCase(), rp.path.map(e => e.id), null, INF.lastProof()); }
       if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'np' && q.pred.np && q.pred.np.head && !q.pred.np.owner && !q.pred.np.propn) { const target = INF.npHead(q.pred.np);
         const generic = q.subj.head && !q.subj.owner && !q.subj.propn && (q.subj.det === 'a' || q.subj.det === 'an' || q.subj.plural);
         const starts = generic ? [{ cls: INF.npHead(q.subj), id: null }] : INF.classesOf(facts, a).filter(c => !c.neg);
@@ -563,11 +563,11 @@ function Kernel(opts) {
           if (r.status === 'mixed') { rules.push({ id: 'INF-ISA-SENSE-DISAGREEMENT', doc: 'Doc4; Doc6 §29 (no guess across senses)', note: r.wn.senses.map(x => x.sid + (x.reaches ? '✓' : '✗')).join(' ') }); return res('CLARIFICATION_REQUIRED', { kind: 'depends', word: st.cls === r.chain[0] || !r.chain.length ? st.cls : r.chain[0], reach: r.wn.senses.filter(x => x.reaches).length, n: r.wn.senses.length, target }, { frame: 'FR.QUESTION', act: 'question' }); }
           const steps = [st.id].concat(r.via).filter(Boolean); if (!steps.length && !r.wn) continue;
           if (r.wn && r.wn.paths[0].length < 2 && !r.via.length) continue;
-          return done(r.via.length ? 'INF-ISA-STORED' : 'INF-ISA-WORDNET', steps, r.wn ? r.wn.paths[0] : null); } }
+          return done(r.via.length ? 'INF-ISA-STORED' : 'INF-ISA-WORDNET', steps, r.wn ? r.wn.paths[0] : null, r.proof); } }
       if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'np' && q.pred.np && q.pred.np.owner && INF.FAMILY[INF.npHead(q.pred.np)] && a) { const role = INF.npHead(q.pred.np); const want = INF.FAMILY[role];
         const b = typeof q.pred.np.owner === 'object' ? entKey(q.pred.np.owner) : q.pred.np.owner; const hits = INF.famRel(facts, a, b).filter(h => h.rel === want);
         if (hits.length) { const gReq = INF.GENDER_OF_ROLE[role]; if (gReq) { const gs = INF.genderStated(facts, a); if (gs !== gReq) { rules.push({ id: 'INF-FAMILY-GENDER-UNSTATED', doc: 'gender only from explicit user statements' }); return res('SELECTED_MEANING', { kind: 'refuse', reason: 'GENDER_UNSTATED', want }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits[0].via }); } }
-          return done(hits[0].rule, hits[0].via); } }
+          return done(hits[0].rule, hits[0].via, null, hits[0].proof); } }
       return null; }
     function answer(q, gap, qrule, prules) {
       rules.push({ id: qrule, doc: 'Doc5 §15 (question speech act); Doc3' }, ...prules.filter(Boolean).map(id => ({ id, doc: ruleDoc(id) })));
