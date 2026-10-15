@@ -18,7 +18,7 @@ t('negation scope: negated request act → nothing is written', () => {
   assert.strictEqual(k.memory().length, 0); assert.match(r.reply, /asked me not to store/);
 });
 t('unknown word → clarification (never a guess)', () => {
-  const k = K(); const r = k.process('what is a flurb?');
+  const k = K(); const r = k.process('flurb the zang');
   assert.strictEqual(r.outcome.class, 'clarify'); assert.match(r.reply, /“flurb”/);
   const r2 = k.process('remember that my flurb is red'); assert.strictEqual(r2.outcome.class, 'clarify'); assert.strictEqual(k.memory().length, 0);
 });
