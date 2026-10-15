@@ -27,6 +27,11 @@ const SUBW = new Set(['because', 'when', 'while', 'after', 'before', 'until']);
 const CTRL_INF = new Set('want need like love hate try decide plan hope expect agree refuse promise learn forget start begin continue prefer intend wish choose attempt manage fail offer seem afford arrange claim deserve pretend threaten tend volunteer wait'.split(' ')); // Doc5 frame registry: verbs licensing a to-infinitive (union with WordNet frames 28/32/35)
 const CTRL_GER = new Set('like love hate enjoy stop start finish avoid mind keep quit prefer begin continue try miss consider suggest practice practise imagine recommend risk deny admit appreciate dislike'.split(' ')); // verbs licensing a gerund (union with WordNet frame 33)
 const IRRA = Object.assign(Object.create(null), { better: ['good', 'cmp'], best: ['good', 'sup'], worse: ['bad', 'cmp'], worst: ['bad', 'sup'], farther: ['far', 'cmp'], further: ['far', 'cmp'], farthest: ['far', 'sup'], furthest: ['far', 'sup'] });
+/* ADJ_INF (lexicon classes, Chomsky transcripts "the chicken is ready to eat"): an adjective that takes a to-infinitive says, by its own lexical class,
+   which kāraka of the infinitive its subject fills. Growth is by adding words here (lexicon), never by a rule per sentence.
+   subj = the subject is the kartā (eager to eat); karma = the subject is the gapped karma (hard to eat); both = either (ready to eat → ⧧ held, clarified) */
+const ADJ_INF = Object.assign(Object.create(null), { ready: 'both', fit: 'both', hard: 'karma', easy: 'karma', tough: 'karma', difficult: 'karma', impossible: 'karma', simple: 'karma', pleasant: 'karma',
+  eager: 'subj', willing: 'subj', keen: 'subj', anxious: 'subj', able: 'subj', unable: 'subj', reluctant: 'subj', glad: 'subj', happy: 'subj', afraid: 'subj', likely: 'subj', unlikely: 'subj' });
 const FEMALE = new Set('sister mother mom mum wife daughter aunt grandmother grandma niece girl woman lady girlfriend queen'.split(' '));
 const MALE = new Set('brother father dad husband son uncle grandfather grandpa nephew boy man boyfriend king'.split(' '));
 const PERSONISH = new Set('person people friend boss partner parent child kid baby colleague neighbor neighbour teacher doctor cousin'.split(' '));
@@ -150,12 +155,16 @@ function Parser(toks, lex) {
   }
   // ---- adjuncts: PP / time ----
   const KARAKA = { to: 'sampradana', for: 'sampradana', with: 'karana', by: 'karana', from: 'apadana', in: 'adhikarana', on: 'adhikarana', at: 'adhikarana', near: 'adhikarana', into: 'adhikarana', under: 'adhikarana', over: 'adhikarana', about: 'vishaya', of: 'sambandha', after: 'kala', before: 'kala', during: 'kala', since: 'kala', until: 'kala', without: 'karana', through: 'adhikarana', across: 'adhikarana', around: 'adhikarana', between: 'adhikarana', behind: 'adhikarana', beside: 'adhikarana', onto: 'adhikarana' };
+  /* an open-class adverb is a word whose every lexical reading is ADV (no closed-class, noun or adjective reading: "home" stays a noun/adverb ambiguity for the existing rules) */
+  const openAdv = j => j < T.length && T[j].an.length > 0 && T[j].an.some(x => x.tag === 'ADV') && T[j].an.every(x => (x.tag === 'ADV' && x.rule !== 'TAG-CLOSED-ADV') || x.rule === 'TAG-PROPN-INITIAL-ALT');
   function adjuncts(i) {
     const res = [];
     (function go(j, list, rules) {
       res.push(R(list, j, rules));
       if (at(j, 'PREP').length && word(j) !== 'of') for (const n of np(j + 1, true)) { const isTime = (n.node.head && n.node.head.length === 1 && TIMEW.has(n.node.head[0])) || (n.node.propn && TIMEW.has(n.node.propn.toLowerCase())) || (n.node.num && !n.node.head); const role = isTime && ['on', 'at', 'in'].includes(word(j)) ? 'kala' : KARAKA[word(j)] || 'adhikarana'; go(n.i, list.concat([{ prep: word(j), np: n.node, role }]), rules.concat(['K-' + role.toUpperCase() + '-' + word(j).toUpperCase()], n.rules)); }
       if (j < T.length && (TIMEW.has(word(j)) && (at(j, 'ADV').length || at(j, 'N').length)) && !list.some(x => x.time === word(j))) go(j + 1, list.concat([{ time: word(j), role: 'kala' }]), rules.concat(['K-KALA-ADV']));
+      /* K-PRAKARA-ADV (Doc5 kāraka: manner adjunct): an open-class adverb (lexicon POS r, not closed-class) attaches to the verb of the clause it is parsed in */
+      if (j < T.length && openAdv(j) && !list.some(x => x.adv === word(j))) go(j + 1, list.concat([{ adv: word(j), role: 'prakara' }]), rules.concat(['K-PRAKARA-ADV']));
       if (['last', 'next', 'this'].includes(word(j)) && j + 1 < T.length && TIMEW.has(word(j + 1))) go(j + 2, list.concat([{ time: word(j) + ' ' + word(j + 1), role: 'kala' }]), rules.concat(['K-KALA-DEICTIC']));
     })(i, [], []);
     return res;
@@ -203,14 +212,23 @@ function Parser(toks, lex) {
         if (['more', 'less'].includes(word(g.i))) for (const a of at(g.i + 1, 'ADJ')) if (a.f === 'pos' && word(g.i + 2) === 'than') for (const n of np(g.i + 3, true)) preds.push(R({ type: 'cmp', adj: a.lemma, degree: word(g.i), surface: [word(g.i), T[g.i + 1].w], than: n.node }, n.i, ['P-COMPARATIVE-PERIPHRASTIC'].concat(n.rules)));
         if (word(g.i) === 'the') { for (const a of at(g.i + 1, 'ADJ')) if (a.f === 'sup') preds.push(R({ type: 'sup', adj: a.lemma, degree: 'most', surface: [T[g.i + 1].w] }, g.i + 2, ['P-SUPERLATIVE-SYNTHETIC']));
           if (['most', 'least'].includes(word(g.i + 1))) for (const a of at(g.i + 2, 'ADJ')) if (a.f === 'pos') preds.push(R({ type: 'sup', adj: a.lemma, degree: word(g.i + 1) === 'most' ? 'most' : 'least', surface: [word(g.i + 1), T[g.i + 2].w] }, g.i + 3, ['P-SUPERLATIVE-PERIPHRASTIC'])); }
+        /* P-ADJ-INFINITIVE: ADJ to V… — the lexical class decides the reading(s); a karma reading needs the infinitive's own karma slot empty (the gap);
+           "to be V-en" (passive infinitive) gives only the karma reading */
+        for (const a of at(g.i, 'ADJ')) { const cls = ADJ_INF[a.lemma]; if (!cls || a.f !== 'pos' || word(g.i + 1) !== 'to') continue;
+          if (word(g.i + 2) === 'be') for (const pv of at(g.i + 3, 'V')) { if (!((pv.f === 'pp' || pv.f === 'past') && inflect(pv.lemma, 'pp') === word(g.i + 3)) || cls === 'subj') continue; preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: { verb: { lemma: pv.lemma, tense: 'none', pol: 'pos', mod: 'asserted', nf: 'inf', voice: 'passive' }, roles: {}, adj: [] }, ctrl: 'karma' }, g.i + 4, ['P-ADJ-INFINITIVE', 'K-KARMA-PASSIVE-INFINITIVE'])); }
+          for (const c of vpNF(g.i + 2, 'base')) { const cv = c.node; if (!cv.verb || cv.verb.lemma === 'be') continue; const hasK = !!(cv.roles && (cv.roles.karma || cv.roles.sampradana));
+            if (cls !== 'karma') preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: cv, ctrl: 'karta' }, c.i, ['P-ADJ-INFINITIVE', 'K-KARTA-CONTROL'].concat(c.rules)));
+            if (cls !== 'subj' && !hasK && (!lex.vframes || (lex.vframes(cv.verb.lemma) || []).some(f => /somebody|something/.test(f) && !/^Something ----s$|^Somebody ----s$/.test(f)) || !(lex.vframes(cv.verb.lemma) || []).length)) preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: cv, ctrl: 'karma' }, c.i, ['P-ADJ-INFINITIVE', 'K-KARMA-GAP'].concat(c.rules))); } }
         for (const n of np(g.i)) preds.push(R({ type: 'np', np: n.node }, n.i, ['P-NP'].concat(n.rules)));
+        if (['here', 'there'].includes(word(g.i)) && !v.nf) preds.push(R({ type: 'adv', words: [word(g.i)] }, g.i + 1, ['P-DEIXIS-LOCUS'])); /* "was here": deictic locus predicate */
         if (at(g.i, 'PREP').length) for (const n of np(g.i + 1, true)) preds.push(R({ type: 'pp', prep: word(g.i), np: n.node }, n.i, ['P-PP'].concat(n.rules)));
         const ingHere = at(g.i, 'V').some(x => x.f === 'ing');
         const passHere = !v.nf && at(g.i, 'V').some(x => (x.f === 'pp' || x.f === 'past') && inflect(x.lemma, 'pp') === word(g.i)) && word(g.i + 1) === 'by';
         const passPartHere = !v.nf && at(g.i, 'V').some(x => (x.f === 'pp' || x.f === 'past') && inflect(x.lemma, 'pp') === word(g.i)) && at(g.i + 1, 'PART').length > 0;
         for (const p of preds) { if (ingHere && p.node.type !== 'pp') continue; /* V-PROGRESSIVE-APAVADA */
           if (passPartHere && p.node.type !== 'pp') continue; /* V-PASSIVE-PARTICLE-APAVADA: participle + particle is a phrasal passive, not an adjective phrase */
-          for (const a of adjuncts(p.i)) { if (passHere && p.i === g.i + 1 && (p.node.type === 'adj' || p.node.type === 'np') && a.node.some(x => x.prep === 'by')) continue; /* V-PASSIVE-AGENT-APAVADA: participle + by-agent is passive */
+          for (const a of adjuncts(p.i)) { if (p.node.type === 'adj' && p.i === g.i + 1 && a.node.length && a.node[0].prep === 'to' && preds.some(x => x.node.type === 'adjinf')) continue; /* P-ADJ-INFINITIVE-APAVADA: "easy to cook" is an infinitive complement, not a to-PP */
+            if (passHere && p.i === g.i + 1 && (p.node.type === 'adj' || p.node.type === 'np') && a.node.some(x => x.prep === 'by')) continue; /* V-PASSIVE-AGENT-APAVADA: participle + by-agent is passive */
             res.push(R({ verb: Object.assign({ lemma: 'be', tense: v.tense, pol: v.pol, mod: v.mod }, nf), pred: p.node, adj: a.node }, a.i, g.rules.concat(p.rules, a.rules))); } }
         continue;
       }
@@ -229,16 +247,27 @@ function Parser(toks, lex) {
       if (infOK) for (const c of vpNF(g.i + 1, 'base')) objs.push(R({ karma: { inf: c.node } }, c.i, ['K-KARMA-INFINITIVE'].concat(c.rules)));
       if (gerOK) for (const c of vpNF(g.i, 'ing')) objs.push(R({ karma: { ger: c.node } }, c.i, ['K-KARMA-GERUND'].concat(c.rules)));
       if (word(g.i) === ',' && at(g.i + 1, 'QUOTE').length) objs.push(R({ karma: { quote: at(g.i + 1, 'QUOTE')[0].lemma } }, g.i + 2, ['K-KARMA-QUOTE-DIRECT-SPEECH']));
+      /* V-PARTICLE-PREPOSED (Doc5 kāraka; particle verbs): "picked up the box" — the particle stands before the karma; same verb+particle as "picked the box up" */
+      if (at(g.i, 'PART').length && !at(g.i, 'PREP').length) for (const o of np(g.i + 1, true)) objs.push(Object.assign(R({ karma: o.node }, o.i, ['V-PARTICLE-PREPOSED', 'K-KARMA'].concat(o.rules)), { part: word(g.i) }));
       for (const o of objs) {
-        let j = o.i, part = null; if (at(j, 'PART').length) { part = word(j); j++; }
+        let j = o.i, part = o.part || null; if (!part && at(j, 'PART').length) { part = word(j); j++; }
         for (const a of adjuncts(j)) { if (infOK && !o.node.karma && a.node[0] && a.node[0].prep === 'to' && j === g.i) continue; /* K-INFINITIVE-APAVADA: licensed "to V" is a complement, not a PP */
           res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part } : {}, v.f ? { f: v.f } : {}, nf), roles: o.node, adj: a.node }, a.i, g.rules.concat(o.rules, a.rules))); }
       }
     }
     return res;
   }
-  function clause(i) { // NP VP  (kartā = subject)
+  /* G-DISPLACE (one displacement mechanism; Chomsky: copy + delete; Pāṇini paper D3 topic/scope): an XP pronounced at the left edge before a comma
+     (open-class adverb or PP) is a copy of an adjunct of the clause that follows. The copy is interpreted in the ROOT clause it fronts — the hierarchically
+     highest verb — never inside a relative or other embedded clause and never by linear position (structure dependence: "Instinctively, eagles that
+     fly swim" → instinctively modifies swim, not fly). Meaning is identical to the unfronted clause (front is non-material). */
+  function fronted(i) { const out = [];
+    if (openAdv(i) && word(i + 1) === ',') out.push({ xp: [{ adv: word(i), role: 'prakara' }], j: i + 2, rules: ['K-PRAKARA-ADV'] });
+    if (at(i, 'PREP').length && word(i) !== 'of') for (const a of adjuncts(i)) if (a.node.length === 1 && a.node[0].prep && word(a.i) === ',') out.push({ xp: a.node, j: a.i + 1, rules: a.rules });
+    return out; }
+  function clause(i, noFront) { // NP VP  (kartā = subject)
     const res = [];
+    if (!noFront) for (const f of fronted(i)) for (const c of clause(f.j, true)) if (!c.node.coord) res.push(R(Object.assign({}, c.node, { adj: (c.node.adj || []).concat(f.xp.map(x => Object.assign({}, x, { front: true }))) }), c.i, ['G-DISPLACE-FRONT'].concat(f.rules, c.rules)));
     const sg3 = n => !n.pron && !n.conj && !n.plural && !(n.pron3 && ['they', 'we', 'them', 'us'].includes(n.pron3));
     for (const s of np(i)) for (const v of vp(s.i)) {
       const f = v.node.verb && v.node.verb.f; if ((f === 'base' && sg3(s.node)) || (f === 'pres3' && !sg3(s.node))) continue; // LL-AGREEMENT (subject–verb concord)
@@ -279,7 +308,7 @@ function npText(n, persp) {
   if (n.adjs && n.adjs.length) s += n.adjs.join(' ') + ' ';
   if (n.head) s += (n.surface || n.head).join(' ');
   if (n.of) s += ' of ' + npText(n.of, persp);
-  if (n.rel) s += ' who ' + vpText(n.rel, n, persp);
+  if (n.rel) s += (n.propn || (n.head && n.head.some(h => FEMALE.has(h) || MALE.has(h) || PERSONISH.has(h))) ? ' who ' : ' that ') + vpText(n.rel, n, persp);
   if (n.relObj) s += ' that ' + clauseText(n.relObj, persp) + (n.relObj.gapPrep ? ' ' + n.relObj.gapPrep : '');
   return s.trim();
 }
@@ -288,7 +317,7 @@ function nfText(c, persp) { // non-finite VP: "to buy a car" / "reading books"
   const v = c.verb; const head = v.lemma === 'be' ? (v.nf === 'inf' ? 'to be ' : 'being ') + predText(c.pred, persp) : (v.nf === 'inf' ? 'to ' + v.lemma : inflect(v.lemma, 'ing')) + (v.particle ? ' ' + v.particle : '');
   return head + rolesText(c.roles || {}, persp) + adjText(c, persp); }
 function rolesText(r, persp) { if (r.sampradana && r.karma) return ' ' + objText(r.sampradana, persp) + ' ' + objText(r.karma, persp); if (r.karma) return ' ' + objText(r.karma, persp); return ''; }
-function adjText(c, persp) { let s = ''; for (const a of c.adj || []) s += a.time ? ' ' + a.time : ' ' + a.prep + ' ' + (a.np.pron ? objText(a.np, persp) : npText(a.np, persp)); return s; }
+function adjText(c, persp) { let s = ''; for (const a of c.adj || []) s += a.adv ? ' ' + a.adv : a.time ? ' ' + a.time : ' ' + a.prep + ' ' + (a.np.pron ? objText(a.np, persp) : npText(a.np, persp)); return s; }
 const PAST_IS_OTHER_LEMMA = new Set(['saw', 'found', 'wound', 'ground', 'felt', 'fell', 'lay', 'bound', 'rent', 'flew']);
 function vpText(c, subj, persp) {
   const v = c.verb; const ag = agree(subj); const persUser = subj && subj.pron === 'user'; let vs;
@@ -310,7 +339,7 @@ function vpText(c, subj, persp) {
     else if (v.aspect === 'perfect') vs = (ag === 'pres3' ? 'has' : 'have') + (neg ? ' not ' : ' ') + inflect(base, 'pp');
     else if (neg) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' not ' + base;
     else if (v.tense === 'past' && ag !== 'pres3' && !c.resolved_reading && PAST_IS_OTHER_LEMMA.has(inflect(base, 'past')) && !(c.adj || []).some(a => a.role === 'kala')) vs = 'did ' + base; /* v4.9.36: a 3sg subject already rules out the homograph (she saws ≠ she saw); a reading the user chose keeps its own surface (Echo masks it) */ // GEN-PAST-HOMOGRAPH-DO: past form is itself another verb lemma in WordNet (saw, found, felt…) → do-support keeps the realization single-derivation (Echo)
-    else if (!(c.adj || []).some(a => a.role === 'kala') && inflect(base, 'past') === (ag === 'pres3' ? inflect(base, 'pres3') : base)) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' ' + base; // GEN-TENSE-DISAMBIG-DO: past ≡ present surface (read, put, cut…) → emphatic do-support so the realization re-derives to exactly one tense (Echo)
+    else if (!c.resolved_reading && !(c.adj || []).some(a => a.role === 'kala') && inflect(base, 'past') === (ag === 'pres3' ? inflect(base, 'pres3') : base)) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' ' + base; // GEN-TENSE-DISAMBIG-DO: past ≡ present surface (read, put, cut…) → emphatic do-support so the realization re-derives to exactly one tense (Echo)
     else vs = v.tense === 'past' ? inflect(base, 'past') : ag === 'pres3' ? inflect(base, 'pres3') : base;
     vs += part;
     vs += rolesText(c.roles || {}, persp);
@@ -318,7 +347,7 @@ function vpText(c, subj, persp) {
   return vs + adjText(c, persp);
 }
 function objText(o, persp) { if (o.clause) return 'that ' + clauseText(o.clause, persp); if (o.inf || o.ger) return nfText(o.inf || o.ger, persp); if (o.quote !== undefined && o.direct) return ', "' + o.quote + '"'; const t = npText(o, persp); return o.pron === 'user' ? (persp === 'user' ? 'me' : 'you') : o.pron === 'kernel' ? (persp === 'user' ? 'you' : 'me') : t; }
-function predText(p, persp) { if (p.type === 'adj') return p.words.join(' '); if (p.type === 'cmp') return (p.surface || [p.degree === 'less' ? 'less' : 'more', p.adj]).join(' ') + ' than ' + objText(p.than, persp); if (p.type === 'sup') return 'the ' + (p.surface || [p.degree, p.adj]).join(' '); if (p.type === 'np') return npText(p.np, persp); return p.prep + ' ' + npText(p.np, persp); }
+function predText(p, persp) { if (p.type === 'adj' || p.type === 'adv') return p.words.join(' '); if (p.type === 'adjinf') return p.words.join(' ') + ' ' + (p.inf.verb.voice === 'passive' ? 'to be ' + inflect(p.inf.verb.lemma, 'pp') + adjText(p.inf, persp) : nfText(p.inf, persp)); if (p.type === 'cmp') return (p.surface || [p.degree === 'less' ? 'less' : 'more', p.adj]).join(' ') + ' than ' + objText(p.than, persp); if (p.type === 'sup') return 'the ' + (p.surface || [p.degree, p.adj]).join(' '); if (p.type === 'np') return npText(p.np, persp); return p.prep + ' ' + npText(p.np, persp); }
 function clauseText(c, persp) {
   if (c.coord) return c.coord.map(x => clauseText(x, persp)).join(', and ');
   const s = npText(c.subj, persp); let body = s + ' ' + vpText(c, c.subj, persp);
@@ -326,7 +355,7 @@ function clauseText(c, persp) {
   return c.cond ? 'if ' + clauseText(c.cond, persp) + ', ' + body : body;
 }
 /* canonical material meaning (for Echo comparison) */
-function material(x) { return JSON.parse(JSON.stringify(x, (k, v) => (['rules', 'surface', 'f', 'form', 'dosupport', 'sense', 'resolvedFrom', 'plural', 'resolved_reading'].includes(k) ? undefined : v))); }
-const api = { IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, tokenize, analyse, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
+function material(x) { return JSON.parse(JSON.stringify(x, (k, v) => (['rules', 'surface', 'f', 'form', 'dosupport', 'sense', 'resolvedFrom', 'plural', 'resolved_reading', 'front'].includes(k) ? undefined : v))); }
+const api = { ADJ_INF, IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, tokenize, analyse, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KGrammar = api;
 })(this);

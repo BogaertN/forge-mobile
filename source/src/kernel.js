@@ -213,8 +213,9 @@ function Kernel(opts) {
     if (!pr || !pr.rule_ids.includes(rule.id) || !R.checkRuleProof(F, all, pr).ok) return { ok: false, rule: 'ADM-NO-REPLAYED-SUPPORT' };
     const stated = new Set(facts.map(f => canon(f.atom))), bad = rw.atoms().filter(a => stated.has(canon(Object.assign({}, a, { polarity: a.polarity === 'neg' ? 'pos' : 'neg' }))));
     return bad.length ? { ok: false, rule: 'ADM-CONTRADICTS-STATED', conflicts: bad } : { ok: true, proof: pr, support: pr.fact_ids }; }
-  const roleKey = c => { const o = {}; for (const [k, v] of Object.entries(c.roles || {})) o[k] = v && v.clause ? canon(G.material(v.clause)) : entKey(v); for (const a of c.adj || []) (o['adj:' + (a.prep || a.role)] = o['adj:' + (a.prep || a.role)] || []).push(a.np ? entKey(a.np) : a.time); return o; };
-  const subjMatch = (qs, rs) => { if (!qs) return true; const b = entKeys(rs); return entKeys(qs).every(k => b.includes(k)); };
+  const roleKey = c => { const o = {}; for (const [k, v] of Object.entries(c.roles || {})) o[k] = v && v.clause ? canon(G.material(v.clause)) : entKey(v); for (const a of c.adj || []) (o['adj:' + (a.prep || a.role)] = o['adj:' + (a.prep || a.role)] || []).push(a.np ? entKey(a.np) : a.time || a.adv); return o; };
+  const restr = n => n && !n.conj && (n.rel || n.relObj) ? canon(G.material(n.rel || n.relObj)) : null; /* LL-RESTRICTOR-EXACT: a relative clause restricts its head ("eagles that can fly" ≠ "eagles that fly"); a question restrictor must equal the stored one — no inflation from a looser or different restrictor */
+  const subjMatch = (qs, rs) => { if (!qs) return true; if (rs && restr(qs) !== null && restr(qs) !== restr(rs)) return false; /* a restricted fact never answers an unrestricted yes/no (see exact) */ const b = entKeys(rs); return entKeys(qs).every(k => b.includes(k)); };
   let sideRules = []; let pendingRender = null; let stagedHyps = [];
   const QCLASS = q => (q === 'every' || q === 'each' || q === 'all') ? 'univ' : q || null;
   function scopeOf(c) { if (!c || c.coord || !c.subj || QCLASS(c.subj.quant) !== 'univ') return null; const k = c.roles && c.roles.karma; if (!k || k.clause || !(k.det === 'a' || k.det === 'an' || k.quant === 'some')) return null;
@@ -235,7 +236,7 @@ function Kernel(opts) {
   function matches(q, gap, r) { const c = actv(r.clause); q = actv(q); if (c.coord) return false; if (predOf(q) !== predOf(c)) return false; if (q.subj && c.subj && QCLASS(q.subj.quant) !== QCLASS(c.subj.quant)) return false; if (wantsSame(q) && scopeOf(c)) { sideRules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27 no hidden inference', note: '∃y∀x was preserved, not selected' }); return false; } if (gap !== 'subj' && !subjMatch(q.subj, c.subj)) return false;
     const qk = roleKey(q), rk = roleKey(c); for (const [k, v] of Object.entries(qk)) { if (!(k in rk)) return false; if (canon(v) !== canon(rk[k]) && !(Array.isArray(v) && v.every(x => rk[k].includes(x)))) return false; }
     if (gap === 'subj' && q.pred && canon(G.material(q.pred)) !== canon(G.material(c.pred))) return false;
-    if (gap && gap.startsWith('role:')) { const role = gap.slice(5); if (role === 'karma') return !!(c.roles && c.roles.karma); return (c.adj || []).some(a => a.role === role) || (role === 'adhikarana' && c.pred && c.pred.type === 'pp'); }
+    if (gap && gap.startsWith('role:')) { const role = gap.slice(5); if (role === 'karma') return !!(c.roles && c.roles.karma); return (c.adj || []).some(a => a.role === role) || (role === 'adhikarana' && c.pred && (c.pred.type === 'pp' || c.pred.type === 'adv')); }
     if (gap === 'pred') return !!c.pred; return true; }
   const factsAbout = key => activeFacts().filter(r => r.entities.some(e => e === key || e.startsWith(key + '/') || e.includes('+' + key) || e.includes(key + '+')));
   const LIFECYCLE = new Set(['propose', 'install', 'uninstall', 'fail', 'revert', 'deploy', 'approve', 'reject', 'release', 'withdraw', 'cancel', 'complete', 'succeed', 'pass']);
@@ -255,7 +256,7 @@ function Kernel(opts) {
     return out; }
   const hasMod = c => (c.coord ? c.coord.some(hasMod) : c.verb && c.verb.mod !== 'asserted');
   const setMod = (c, m) => { if (c.coord) c.coord.forEach(x => setMod(x, m)); else if (c.verb) { c.verb.mod = m; if (c.verb.tense === 'future') c.verb.tense = 'present'; } };
-  function describe(c) { if (c.coord) return c.coord.map(describe).join(' + '); const r = ['subject: ' + G.npText(c.subj, 'kernel'), 'verb: ' + c.verb.lemma]; if (c.pred) r.push('predicate: ' + (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel'))); for (const [k, v] of Object.entries(c.roles || {})) r.push(k + ': ' + (v.clause ? '[clause]' : G.npText(v, 'kernel'))); for (const a of c.adj || []) r.push(a.role + ': ' + (a.time || a.prep + ' ' + G.npText(a.np, 'kernel'))); const relT = []; for (const n of nps(c)) for (const rc of [n.rel, n.relObj]) if (rc && rc.verb) relT.push(rc.verb.lemma + ' (' + rc.verb.tense + ')'); if (relT.length) r.push('relative verb: ' + relT.join(', ')); r.push('tense: ' + c.verb.tense); return r.join(', '); }
+  function describe(c) { if (c.coord) return c.coord.map(describe).join(' + '); const r = ['subject: ' + G.npText(c.subj, 'kernel'), 'verb: ' + c.verb.lemma]; if (c.pred && c.pred.type === 'adjinf') r.push('predicate: ' + G.clauseText({ subj: { propn: 'X' }, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: c.pred }, 'kernel').slice(5), (c.pred.ctrl === 'karta' ? 'kartā of ' : 'karma of ') + c.pred.inf.verb.lemma + ': ' + G.npText(c.subj, 'kernel') + (c.pred.ctrl === 'karta' ? ' (it does the ' + c.pred.inf.verb.lemma + 'ing)' : ' (it undergoes the ' + c.pred.inf.verb.lemma + 'ing)')); else if (c.pred) r.push('predicate: ' + (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel'))); for (const [k, v] of Object.entries(c.roles || {})) r.push(k + ': ' + (v.clause ? '[clause]' : G.npText(v, 'kernel'))); for (const a of c.adj || []) r.push(a.role + ': ' + (a.time || a.adv || a.prep + ' ' + G.npText(a.np, 'kernel'))); const relT = []; for (const n of nps(c)) for (const rc of [n.rel, n.relObj]) if (rc && rc.verb) relT.push(rc.verb.lemma + ' (' + rc.verb.tense + ')'); if (relT.length) r.push('relative verb: ' + relT.join(', ')); r.push('tense: ' + c.verb.tense); return r.join(', '); }
   const ruleDoc = id => /^K-/.test(id) ? 'Doc5 karaka roles' : /^LL-/.test(id) ? 'Doc3 Language Law' : /^M-/.test(id) ? 'Doc4 morphology / WordNet exceptions' : /^TAG-/.test(id) ? 'Doc4 lexicon tagging' : /^(NP|V|P|G)-/.test(id) ? 'Doc3 / R0 derivation' : 'kernel';
 
   const META = [
@@ -530,7 +531,12 @@ function Kernel(opts) {
     }
     function questionReadings() {
       if (toks.length < 2) return null; const w = toks[0].w;
-      const insertAt = (base, aux) => { const out = []; for (let k = 1; k < base.length; k++) out.push(...derive(base.slice(0, k).concat([aux], base.slice(k))).parses); return out; };
+      /* LL-STRUCTURE-DEPENDENCE (Chomsky, Princeton/Wayne State transcripts; Moro): the fronted auxiliary belongs to the ROOT clause — it is restored right after
+         the complete subject NP (a hierarchical position), never after the n-th word and never inside a relative clause: "can eagles that fly swim" asks
+         whether eagles that fly can swim, not whether eagles that can fly swim */
+      const insertAt = (base, aux) => { const out = []; for (let k = 1; k < base.length; k++) { const ps = derive(base.slice(0, k).concat([aux], base.slice(k))).parses; if (!ps.length) continue;
+        const subj = G.Parser(base.slice(0, k), glex).np(0).filter(x => x.i === k).map(x => canon(G.material(x.node)));
+        for (const p of ps) { const c = p.node && p.node.clause; if (c && c.subj && !c.coord && !c.cond && !subj.includes(canon(G.material(c.subj)))) continue; out.push(p); } } return out; };
       let reads = [], gap = null, qrule = null;
       if (w === 'what' && toks.length > 3 && /^(is|are|was|were|did|does|do|will|can|could|might)$/.test(toks[1].w) && /^(do|doing|done)$/.test(toks[toks.length - 1].w)) { // Q-WH-PRO-VERB-DO: "what is X doing / what did X do"
         const mid = toks.slice(2, -1); const P = G.Parser(mid, glex); const n = P.np(0).filter(x => x.i === mid.length);
@@ -637,7 +643,7 @@ function Kernel(opts) {
       const sub = (qc, rc) => { qc = actv(qc); rc = actv(rc); if (predOf(qc) !== predOf(rc) || !subjMatch(qc.subj, rc.subj)) return false; const qk = roleKey(qc), rk = roleKey(rc); for (const [k2, v] of Object.entries(qk)) { if (!(k2 in rk)) return false; if (canon(v) !== canon(rk[k2]) && !(Array.isArray(v) && v.every(x => rk[k2].includes(x)))) return false; }
         if (qc.pred) { if (!rc.pred) return false; if (qc.pred.np && rc.pred.np) return canon(entKeys(qc.pred.np)) === canon(entKeys(rc.pred.np)); return canon(G.material(qc.pred)) === canon(G.material(rc.pred)); } return true; }; // LL-YN-SUBSET (question roles ⊆ stored roles)
       const scopeOk = rc => { if (q.subj && rc.subj && QCLASS(q.subj.quant) !== QCLASS(rc.subj.quant)) { rules.push({ id: 'LL-QUANT-MISMATCH', doc: 'Doc3 quantifiers (no inference across quantifiers)' }); return false; } if (wantsSame(q) && scopeOf(rc)) { rules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27', note: '∃y∀x preserved, not selected' }); return false; } return true; };
-      const exact = rel.filter(r => (strip(r.clause) === strip(q) || sub(q, r.clause)) && scopeOk(r.clause)); let ans = 'unconfirmed', shown = rel;
+      const exact = rel.filter(r => (strip(r.clause) === strip(q) || sub(q, r.clause)) && scopeOk(r.clause) && restr(actv(q).subj) === restr(actv(r.clause).subj)); let ans = 'unconfirmed', shown = rel;
       if (exact.length) { shown = exact; const r = exact[0].clause; if (r.verb.mod === q.verb.mod && !r.cond) { if (r.verb.mod !== 'asserted') rules.push({ id: 'LL-MODAL-SAME-FORCE', doc: 'Doc3 modality (same modal force only; no modal promotion)' }); ans = r.verb.pol === q.verb.pol ? 'yes' : 'no'; } }
       if (exact.length && ans === 'no') { const inf = inferYN(q, exact[0].clause); if (inf) return inf; }
       if (!exact.length || ans === 'unconfirmed') { const inf = inferYN(q); if (inf) return inf; }
@@ -756,14 +762,17 @@ function Kernel(opts) {
        that agrees with the topic is bound to it (anaphora to the topic); otherwise the topic is the viṣaya adjunct of REST (topicalisation = the same
        clause with the PP moved). The fronting is remembered so speech may answer in the same order (RSOC ⧒, Echo-gated). */
     let topicFront = null; { const tk = G.tokenize(raw.replace(/[.!?]+\s*$/, '')), ci = tk.findIndex(t => t.w === ',');
-      if (ci > 1 && ci < tk.length - 1 && /^(about|regarding|concerning)$/i.test(tk[0].w)) { const np = npOnly(tk.slice(1, ci));
+      /* "As for NP," is the same topic displacement (G-DISPLACE): the topic marker is two words; it is unambiguous, so it is also read for statements,
+         but only when a pronoun in the rest is bound to it (the copy); otherwise the clause is left as is */
+      const asFor = tk.length > 3 && tk[0].w === 'as' && tk[1].w === 'for', o = asFor ? 2 : 1;
+      if (ci > o && ci < tk.length - 1 && (asFor || /^(about|regarding|concerning)$/i.test(tk[0].w))) { const np = npOnly(tk.slice(o, ci));
         const qf = w => (G.CL[w] || []).some(t => ['WH', 'AUX', 'COP', 'MOD'].includes(t)); /* interrogative clause class (Doc5): the topic frame is read for questions */
-        if (np && qf(tk[ci + 1].w)) { const rest = tk.slice(ci + 1).map(t => t.orig), tt = tk.slice(1, ci).map(t => t.orig).join(' '), hd = (np.head || []).concat(np.propn ? [] : []).join(' ').toLowerCase();
+        if (np && (qf(tk[ci + 1].w) || asFor)) { const rest = tk.slice(ci + 1).map(t => t.orig), tt = tk.slice(o, ci).map(t => t.orig).join(' '), isQ = qf(tk[ci + 1].w), hd = (np.head || []).concat(np.propn ? [] : []).join(' ').toLowerCase();
           const fe = featsOf(np), fem = fe.g === 'f' || fe.g === 'u';
           const pro = fe.n === 'pl' ? /^(they|them)$/i : fe.g === 'f' ? /^(she|her)$/i : fe.g === 'm' ? /^(he|him)$/i : fe.g === 'u' ? /^(she|her|he|him)$/i : /^it$/i; const pi = rest.findIndex(w => pro.test(w));
-          let r2; if (pi >= 0 && !(fem && /^her$/i.test(rest[pi]) && pi + 1 < rest.length && /^[a-z]/i.test(rest[pi + 1]) && !/^(about|to|for|with|in|on)$/i.test(rest[pi + 1]))) { r2 = rest.slice(); r2[pi] = tt; } else r2 = rest.concat(['about', tt]);
-          raw = r2.join(' ').replace(/\s+([?,])/g, '$1'); topicFront = { np: tt, bound: pi >= 0 };
-          low = raw.toLowerCase().replace(/[’‘]/g, "'").replace(/[.!?]+\s*$/, '').replace(/\bwhat's\b/g, 'what is').replace(/\s+/g, ' ').trim(); } } }
+          let r2; if (pi >= 0 && !(fem && /^her$/i.test(rest[pi]) && pi + 1 < rest.length && /^[a-z]/i.test(rest[pi + 1]) && !/^(about|to|for|with|in|on)$/i.test(rest[pi + 1]))) { r2 = rest.slice(); r2[pi] = tt; } else r2 = isQ ? rest.concat(['about', tt]) : null;
+          if (r2) { raw = r2.join(' ').replace(/\s+([?,])/g, '$1'); topicFront = { np: tt, bound: pi >= 0, marker: asFor ? 'as for' : tk[0].w.toLowerCase() };
+          low = raw.toLowerCase().replace(/[’‘]/g, "'").replace(/[.!?]+\s*$/, '').replace(/\bwhat's\b/g, 'what is').replace(/\s+/g, ' ').trim(); } } } }
     Ph(1, 'input received (' + G.tokenize(input).length + ' tokens); ψ_id fixed');
     const ctx = { privacy: red.secrets.length ? { count: red.secrets.length, labels: red.secrets.map(x => x.label), vault: vaultState } : null, worldPreflight: inputLength > 2000 ? R.evaluate(fullInput, { allowBareQuery: !asksAboutStored(fullInput), inputLength }) : null }; if (topicFront) { ctx.topicFront = topicFront; trace.rules.push({ id: 'LL-TOPIC-FRONTED', doc: 'Pāṇini paper D3 (topic/scope); Doc5 viṣaya', note: (topicFront.bound ? 'pronoun bound to topic ' : 'topic as viṣaya ') + '“' + topicFront.np + '” → “' + raw + '”' }); } if (red.secrets.length) trace.rules.push(...red.rules.map(id => ({ id, doc: 'Doc7 privacy; forge Identity Vault', note: 'value replaced by “sealed” at ingestion' })), { id: 'PRIV-1.3 vault ' + vaultState, doc: 'Doc7' }); const na = low.match(/^(?:please )?(?:do not|never)(?: please)? (.+)$/);
     if (na && (/^(remember|store|save|keep|memori[sz]e|note|write|say|repeat|echo|print|output|forget|delete|erase|remove|send|email|text|buy|open|run|call|post|share)\b/.test(na[1]) || G.Parser(content(G.tokenize(na[1])), glex).at(0, 'V').some(a => a.f === 'base'))) { ctx.negAct = true; low = na[1]; raw = raw.replace(/^\s*(?:please )?(?:do not|don't|never)(?: please)?\s+/i, ''); trace.rules.push({ id: 'LL-NEG-ACT', doc: 'Doc3 §15', note: 'negation scopes over the requested act' }); }

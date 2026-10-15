@@ -19,7 +19,7 @@ const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identi
 const ADJ = new Set(words('other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
   'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
-const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now']);
+const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now', 'later']);
 const POSTVERB_ADV = new Set(['further', 'again', 'exactly', 'normally', 'unambiguously', 'here', 'yet', 'first', 'locally']);
 const PARTICLES = new Set(['yes', 'no', 'partly', 'hello', 'goodbye', 'please']);
 const SCONJ = new Set(['but', 'so', 'or', 'then']);
@@ -285,7 +285,7 @@ function Analyser(env) {
               if (vg.toks[0] !== ws[w]) continue; const tail = vg.toks.slice(1); if (ws.slice(s, s + tail.length).join(' ') !== tail.join(' ')) continue; const c = clean(c0);
               for (const r of parseRest(toks.slice(s + tail.length), c, root === 'be' && c.voice !== 'pass')) { if (wh) { if (r.karma) continue; r.karma = wh; r.wh = 'karma'; } if (c.voice === 'pass') r.karma = subj; else r.karta = subj; res.push(r); } } } }
       return res; }
-    for (let s = 1; s < toks.length; s++) for (const subj of parseNP(toks.slice(0, s), 'subj')) for (const adv of [[], ['also'], ['only'], ['still'], ['already'], ['never'], ['no-longer'], ['now']]) {
+    for (let s = 1; s < toks.length; s++) for (const subj of parseNP(toks.slice(0, s), 'subj')) for (const adv of [[], ['also'], ['only'], ['still'], ['already'], ['never'], ['no-longer'], ['now'], ['later']]) {
       for (const g of vgSynth(ws, s, subj, 'decl', adv.map(a => a.replace('-', ' ')).join(' ').split(' ').filter(Boolean))) { const isBe = g.c.v === 'be' && g.c.voice !== 'pass';
         for (const r of parseRest(toks.slice(g.end), Object.assign({}, g.c), isBe)) { if (adv.length) r.adv = adv; if (g.c.voice === 'pass') { r.karma = subj; if (r.roles && r.roles.hetu) { r.karta = r.roles.hetu; r.roles = Object.assign({}, r.roles); delete r.roles.hetu; } } else r.karta = subj; res.push(r); } } }
     return res; }
@@ -435,7 +435,7 @@ const PLANS = {
   replaced: m => [S(C('store', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' })), S(C('move', { karta: I, karma: N('fact', { det: 'the', adj: ['earlier'] }), roles: { gati: coldStorage() }, tense: 'past' }))],
   recall: m => m.items.map(told),
   /* latest status (Pāṇini paper L2736–2751): the earlier status is history, the newer one is current — say both, in order, never a bare yes/no */
-  status_now: m => (m.was ? [told(m.was)] : []).concat([S(C('tell', { karta: YOU, samp: I, comp: { that: UC(m.now) }, tense: 'past' }))]),
+  status_now: m => (m.was ? [told(m.was)] : []).concat([S(C('tell', Object.assign({ karta: YOU, samp: I, comp: { that: UC(m.now) }, tense: 'past' }, m.was ? { adv: ['later'] } : {})))]), /* 4.9.37: “later” orders history → current (Pāṇini paper L2736–2751) */
   recall_none: m => m.clause ? [S(C('confirm', { karta: I, comp: { that: UC(m.clause) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'] }), roles: { visaya: uo(m.subj) } }))],
   yesno: m => [m.answer === 'unconfirmed' ? cannot('confirm') : S(null, { part: m.answer })].concat(m.items.map(told)),
   inferred: m => (m.answer === 'contradiction'
