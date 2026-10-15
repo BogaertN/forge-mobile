@@ -4,7 +4,7 @@ const G = isNode ? require('./grammar.js') : root.KGrammar;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
-const VERBS = new Set(words('compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
+const VERBS = new Set(words('install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend decide determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
@@ -512,6 +512,10 @@ function plan(m) { const P = PLANS[m.kind]; if (!P) throw new Error('derive: no 
    fronted as topic; inverse = return it to its role slot. ⧧ sever (§3.1.1, single → several, charge conserved): a clause-list karman of a that-verb is split
    into one sentence per clause; conservation = same clauses, same count. Both keep the meaning; each variant must pass its own Echo round trip. */
 const PHRASE_C = [{ id: 'base', expect: { B: 1, Q: 0 } }, { id: 'amp_q', expect: { Q: 1, A: 1 } }, { id: 'amp_r', expect: { B: 0, A: 1 } }, { id: 'sev_q', expect: { Q: 1, A: 0, V: 1 } }, { id: 'sev_r', expect: { B: 0, A: 0, V: 1 } }, { id: 'none', expect: { B: 0, A: 0, V: 0 } }];
+/* status preservation (Pāṇini paper L2736–2751, L14035–14050: time/status may never drift silently): an alternate phrasing must carry exactly the
+   base surface's status markers (proposed / installed / failed / rolled back / sent / drafted / held / supported / proved …), else it is not offered */
+const STATUS_RE = /\b(?:proposed|installed|uninstalled|failed|rolled back|reverted|deployed|drafted|sent|approved|rejected|held|blocked|stored|noted|supported|proved|proven|refuted|pending|authorized|not)\b/gi;
+const statusSig = t => (String(t).toLowerCase().match(STATUS_RE) || []).sort().join('|');
 const THAT_V = new Set(['tell', 'remember', 'know', 'note']);
 function amplifyV(v) { let n = 0; const o = v.map(s => { const ro = s.c && s.c.roles, k = ro && !n && s.force === 'decl' && !(s.front || []).length && !s.part && !s.conj && ROLE_ORDER.find(r => ro[r] && r !== 'hetu');
   if (!k) return s; n++; const roles = Object.assign({}, ro); delete roles[k]; return Object.assign({}, s, { c: Object.assign({}, s.c, { roles }), front: [{ role: k, np: ro[k] }] }); }); return n ? o : null; }
@@ -519,7 +523,7 @@ const unAmplify = v => v.map(s => { if (!(s.front || []).length || !s.front[0].r
 function severV(v) { let n = 0; const o = []; for (const s of v) { const l = s.c && s.c.karma && s.c.karma.list; if (l && l.kind === 'clause' && l.items.length > 1 && THAT_V.has(s.c.v) && !s.c.comp) { n++; for (const it of l.items) o.push(Object.assign({}, s, { c: Object.assign({}, s.c, { karma: null, comp: { that: UC(it) } }) })); } else o.push(s); } return n ? o : null; }
 const clauseSet = v => v.flatMap(s => s.c && s.c.karma && s.c.karma.list && s.c.karma.list.kind === 'clause' ? s.c.karma.list.items.map(c => canon(G.material(c))) : s.c && s.c.comp && s.c.comp.that ? [canon(G.material(s.c.comp.that.uc))] : []).sort().join('|');
 function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m.parts.map(p => realizeMeaning(p, env)), text = rs.map(r => r.text).filter(Boolean).join(' '); return { text, derivation: { plan: 'sequence', rules: [].concat(...rs.map(r => r.derivation.rules || [])), parts: rs.map(r => r.derivation), surface: text } }; }
-  const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); } catch (e) { c.e = { pass: false }; } return c.e.pass; };
+  const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); if (c !== C0[0] && C0[0].r && statusSig(c.r.text) !== statusSig(C0[0].r.text)) c.e = Object.assign({}, c.e, { pass: false, reason: 'status markers drift' }); } catch (e) { c.e = { pass: false }; } return c.e.pass; };
   ev.B = go(C0[0]); const rep = !!(m.field && m.field.last && m.field.last === C0[0].r.text);
   if (!ev.B || rep) { const a = amplifyV(vb), sv = severV(vb); if (a && canon(strip(unAmplify(a))) === canon(strip(vb))) { C0.push({ id: '⧒ amplify', v: a, eps: 0.0225, Delta: 0.09 }); ev.A = go(C0[1]); }
     if (!ev.A && sv && clauseSet(sv) === clauseSet(vb)) { const c = { id: '⧧ sever', v: sv, eps: 0.12, Delta: 0.15 }; C0.push(c); ev.V = go(c); } }
@@ -546,6 +550,6 @@ function echo(text, m, env, vk) { env = env || {}; const vakya = vk || plan(m); 
   return { pass, score: pass ? 1 : 0, theta: 1, components: comps, analyses: distinct.length, ambiguous: distinct.length > 1 || !!a.ambiguous,
     reason: pass ? undefined : faults[0] || a.reason || (distinct.length > 1 ? 'the surface has ' + distinct.length + ' analyses' : !match ? 'the surface re-derives to a different vākya' : 'independent re-verification failed'),
     mode: 'structural round trip: inverse sūtras (analysis by synthesis) + inward grammar; no word-overlap measure', cite: 'RMC §5.12, §6.7; Doc 3 reversible derivation', _want: env.debug ? want : undefined, _got: env.debug ? distinct : undefined }; }
-const api = { PHRASE_C, amplifyV, severV, unAmplify, realizeMeaning, echo, plan, Realizer, Analyser, RULES, SECTIONS, PLANS, REASON, MENTIONS, VERBS, NOUNS, ADJ, NAMES, strip, canon };
+const api = { statusSig, PHRASE_C, amplifyV, severV, unAmplify, realizeMeaning, echo, plan, Realizer, Analyser, RULES, SECTIONS, PLANS, REASON, MENTIONS, VERBS, NOUNS, ADJ, NAMES, strip, canon };
 if (isNode) module.exports = api; else root.KDerive = api;
 })(typeof self !== 'undefined' ? self : this);
