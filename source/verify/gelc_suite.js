@@ -93,4 +93,21 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
   C('GELC-CALIBRATE', 'S6 calibration is offline and advisory: it refuses to fit without enough labels, fits a versioned threshold from labelled ε_s, and never changes the drift ruling', S(() => {
     expect(EV.calibrate([]).status === 'insufficient_labels'); const rows = Array.from({ length: 30 }, (_, i) => ({ human_label: i < 15 ? 'useful_bounded_novelty' : 'overextended', drift: { eps_s: i < 15 ? 0.1 + rnd() * 0.2 : 0.45 + rnd() * 0.3 } }));
     const c = EV.calibrate(rows); expect(c.status === 'fitted' && /^gelc-calibration\/v1:/.test(c.params_version) && c.balanced_accuracy === 1 && c.theta_fit < 0.45 && /never changes/.test(c.authority)); expect(KM.DRIFT_RULING.project_max === 0.35 && KM.driftGovernance(0.36).may_project === false); }));
+  /* GELC-WH: wh-questions over random nonce worlds (fresh symbols every run) — each answer is a binding whose yes/no instance was proved and replayed */
+  const ask = (f, t) => { const r = f.process(t); expect(r.trace.echo && r.trace.echo.pass, t + ' → ' + (r.reply || r.trace.block_reason)); return r.reply; };
+  C('GELC-WH', 'who/what/where/whom over random worlds: every proved binding is listed (each quoted proposition re-parsed and its own proof replayed by Echo), unproved bindings are not, and a slot with no proof is an honest "no answer" (open world, never "unsupported")', S(() => {
+    for (let i = 0; i < 3; i++) { const f = FKN(), [a, b, c, d] = [nonce(), nonce(), nonce(), nonce()].map(cap), k = nonce(), k2 = nonce(), up = nonce(), v = nonce() + 'k', p = PREPS[Math.floor(rnd() * PREPS.length)];
+      let r = ask(f, `${a} is a ${k}. ${b} is a ${k}. ${c} is a ${k2}. Who is a ${k}?`); expect(r.includes(`“${a.toLowerCase()} is ${k}”`) && r.includes(`“${b.toLowerCase()} is ${k}”`) && !r.includes(c.toLowerCase()), r);
+      r = ask(f, `${a} is a ${k}. Every ${k} is a ${up}. What is ${a}?`); expect(r.includes(`“${a.toLowerCase()} is ${up}”`) && r.includes(`“${a.toLowerCase()} is ${k}”`), r);
+      r = ask(f, `${a} is ${p} ${b}. Where is ${a}?`); expect(r.includes(`“${a.toLowerCase()} is ${p} ${b.toLowerCase()}”`), r);
+      r = ask(f, `${a} is ${p} ${b}. What is ${p} ${b}?`); expect(r.includes(`“${a.toLowerCase()} is ${p} ${b.toLowerCase()}”`), r);
+      r = ask(f, `${a} ${pl(v)} ${b}. Who ${pl(v)} ${b}?`); expect(r.includes(`“${a.toLowerCase()} ${pl(v)} ${b.toLowerCase()}”`), r);
+      r = ask(f, `${a} ${pl(v)} ${b}. Who does ${a} ${v}?`); expect(r.includes(`“${a.toLowerCase()} ${pl(v)} ${b.toLowerCase()}”`), r);
+      r = ask(f, `${a} is a ${k}. Who is a ${k2}?`); expect(/no answer/.test(r) && r.includes(`“Who is a ${k2}?”`), r);
+      r = ask(f, `${a} is a ${k}. ${b} is a ${k}. Every ${k} ${pl(v)}. Which ${pl(k)} ${pl(v)}?`); expect(r.includes(`“${a.toLowerCase()} ${pl(v)}”`) && r.includes(`“${b.toLowerCase()} ${pl(v)}”`), r); } }));
+  C('GELC-WH', 'intransitive verbs and do-support are one form for any made-up verb: stated, negated, ruled ("every X Vs"), queried; metamorphic renaming keeps every wh answer count', S(() => {
+    for (let i = 0; i < 4; i++) { const [a, b] = [nonce(), nonce()].map(cap), k = nonce(), v = nonce() + 'k';
+      expect(st(`Every ${k} ${pl(v)}. ${a} is a ${k}. Does ${a} ${v}?`) === 'supported_only' && st(`${a} does not ${v}. Does ${a} ${v}?`) === 'refuted_only' && st(`${b} is a ${k}. Does ${a} ${v}?`) === 'undetermined', v);
+      const n = t => (RS.evaluate(t).material.wh || { answers: [] }).answers.length, [x, y, z] = [nonce(), nonce(), nonce()];
+      expect(n(`${a} is a ${k}. ${b} is a ${k}. Who is a ${k}?`) === 2 && n(`${cap(x)} is a ${y}. ${cap(z)} is a ${y}. Who is a ${y}?`) === 2); } }));
 };

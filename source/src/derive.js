@@ -5,7 +5,7 @@ const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
 const VERBS = new Set(words('change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
-  'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend ' +
+  'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause'));
@@ -16,7 +16,7 @@ const NOUNS = new Set(words('tag link memory reminder time device branch candida
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
   'failure relation sign code divisor limit limitation vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences' };
-const ADJ = new Set(words('bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
+const ADJ = new Set(words('other open bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
   'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now']);
@@ -366,6 +366,8 @@ function worldPlan(m) {
 function worldStatusPlan(m) {
   const checkedWorld = N('world', { det: 'the', adj: ['checked'] });
   const checkedProof = N('proof', { det: 'the', adj: ['checked'] });
+  if (m.wh) { const a = m.wh.answers; if (!a.length) return m.status === 'incomplete' ? [S(C('reach', { karta: N('derivation', { det: 'the' }), karma: N('limit', { det: 'the' }), tense: 'past' })), S(C('answer', { karta: I, karma: Mn(m.wh.question), mod: 'can', pol: 'neg' }))] : [S(C('support', { karta: checkedWorld, karma: N('answer', { det: 'no' }), roles: { tadartha: Mn(m.wh.question) } })), S(C('need', { karta: I, karma: N('premise', { det: 'a', adj: ['additional'] }) }))];
+    return [S(C('support', { karta: N('proof', { det: 'the', adj: ['checked'], pl: a.length > 1 }), karma: a.length > 1 ? { coord: 'and', items: a.map(x => Mn(x.text)) } : Mn(a[0].text) })), S(C('determine', { karta: N('world', { det: 'the' }), karma: N('answer', { adj: ['other'], pl: true }), pol: 'neg' }))]; }
   if (m.status === 'supported_only') return [
     S(null, { part: 'yes' }),
     S(C('support', { karta: checkedProof, karma: Mn(m.query_text) }))
