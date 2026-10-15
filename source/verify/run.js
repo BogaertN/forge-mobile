@@ -138,6 +138,20 @@ for (const c of SP.LEGACY_LLM) C('LEGACY-LLM', `legacy LLM command ${c}: determi
     expect(r.trace.msm.meaning.kind === 'blocked' && r.trace.msm.meaning.reason === 'PF_INTERNAL' && /part of Forge/.test(r.reply || '') && r.trace.rules.some(x => x.id === 'PF-INTERNAL-ONLY'), u + ' → ' + r.reply); expect(JSON.stringify(f.store.load('pf_agents') || null) === before, u); } });
   C('CLEANUP-495', 'the not-authorized reply contains no preset example', () => { for (const u of ['buy milk', 'can you juggle', 'send an email to Bob']) { const r = FKN().process(u); expect(!/for example|note: buy milk|\bsay “/i.test(r.reply || ''), u + ' → ' + r.reply); } });
 }
+/* v4.9.6 S2: the backend is never in the reasoning path. sb_sync.js is the ONLY module that talks to Supabase. */
+{ const SRC = path.join(ROOT, 'src'); const SB = require(ROOT + '/src/sb_sync.js');
+  const NET_OK = new Set(['sb_sync.js', 'nodeclient.js', 'py_worker.js', 'tool_worker.js']); /* sb_sync: Supabase; nodeclient: paired home node; workers: sandboxes that delete network globals */
+  const UI = f => /^app(_[a-z]+)?\.js$/.test(f);
+  const CORE = fs.readdirSync(SRC).filter(f => f.endsWith('.js') && !NET_OK.has(f) && !UI(f)).sort();
+  const strip = t => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  C('SBSYNC-ISOLATION', 'core module list covers the reasoning core (kernel, reason, forge, derive, infer, render, ede, grammar, forge_spine, …)', () => { for (const f of ['kernel.js', 'reason.js', 'forge.js', 'derive.js', 'infer.js', 'render.js', 'ede.js', 'grammar.js', 'forge_spine.js', 'governance.js', 'containment.js', 'algebra.js', 'calculus.js', 'kmath.js', 'lexicon.js']) expect(CORE.includes(f), f); });
+  C('SBSYNC-ISOLATION', 'no core module references sb_sync, Supabase, KSb, fetch(), XMLHttpRequest or WebSocket', () => { const bad = []; for (const f of CORE) { const t = strip(fs.readFileSync(path.join(SRC, f), 'utf8')); if (/sb_sync|supabase|\bKSb(Sync)?\b|\bfetch\s*\(|new\s+(XMLHttpRequest|WebSocket|EventSource)\b|sendBeacon\s*\(/i.test(t)) bad.push(f); } expect(!bad.length, bad.join(',')); });
+  C('SBSYNC-ISOLATION', 'only sb_sync.js names the Supabase project; UI reaches it only via window.KSb', () => { const bad = fs.readdirSync(SRC).filter(f => f.endsWith('.js') && f !== 'sb_sync.js' && /supabase\.co|sb_publishable_|\/auth\/v1|\/rest\/v1|\/functions\/v1/.test(fs.readFileSync(path.join(SRC, f), 'utf8'))); expect(!bad.length, bad.join(',')); });
+  C('SBSYNC-ISOLATION', 'no service-role or secret key anywhere in the shipped source', () => { for (const f of fs.readdirSync(SRC).filter(f => f.endsWith('.js'))) { const t = fs.readFileSync(path.join(SRC, f), 'utf8'); expect(!/sb_secret_|service_role/.test(t), f); } });
+  C('SBSYNC-ISOLATION', 'CSP connect-src names the project URL; service worker never intercepts cross-origin (API) requests', () => { const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'); expect(/connect-src [^;]*https:\/\/hqcvywujrygbnaowgwln\.supabase\.co/.test(html)); const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8'); expect(/origin !== self\.location\.origin\) return/.test(sw)); });
+  { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 's2_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'SBSYNC-ISOLATION', name: 's2 suite ran', ok: false, why: e.message }]; }
+    for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+}
 /* v4.9.4 CLEANUP regressions: no canned routes, no memory-dependent world routing, no unapproved persistence */
 { const PERSIST = ['memory', 'evidence', 'cold_storage', 'ede_candidates', 'held_writes', 'lexicon_user', 'language_examples', 'drift_archive'];
   const snapP = f => JSON.stringify(PERSIST.map(c => f.store.load(c)));
