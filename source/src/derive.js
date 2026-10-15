@@ -5,7 +5,7 @@ const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
 const VERBS = new Set(words('change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
-  'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend determine explain count state cite ' +
+  'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend decide determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause'));
@@ -16,7 +16,7 @@ const NOUNS = new Set(words('tag link memory reminder time device branch candida
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
   'failure relation sign code divisor limit limitation vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences' };
-const ADJ = new Set(words('other open bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
+const ADJ = new Set(words('other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
   'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now']);
@@ -309,7 +309,7 @@ function Analyser(env) {
 
 const pr = p => ({ pr: p }), N = (n, o) => Object.assign({ n }, o || {}), U = a => ({ u: a }), UC = a => ({ uc: a }), Mn = t => ({ m: String(t) }), X = t => ({ x: String(t) }), Nm = (s, det) => (det ? { name: s, det } : { name: s });
 const C = (v, o) => Object.assign({ v, tense: 'pres', pol: 'pos' }, o || {}); const S = (c, o) => Object.assign({ c, force: 'decl' }, o || {}); const MS = (items, o) => Object.assign({ mth: items, force: 'decl' }, o || {});
-const I = pr('I'), YOU = pr('you');
+const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && s.pron === 'user' ? YOU : U(s);
 const told = cl => S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
 const coldStorage = () => N('storage', { adj: ['cold'] });
 const yesNo = () => S(C('answer', { karma: { coord: 'or', items: [Mn('yes'), Mn('no')] } }), { force: 'imp', part: 'please' });
@@ -418,11 +418,11 @@ const PLANS = {
   merged: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past', adv: ['already'] })), S(C('reinforce', { karta: I, karma: pr('it'), roles: { karana: X('⟁') }, tense: 'past' }))],
   replaced: m => [S(C('store', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' })), S(C('move', { karta: I, karma: N('fact', { det: 'the', adj: ['earlier'] }), roles: { gati: coldStorage() }, tense: 'past' }))],
   recall: m => m.items.map(told),
-  recall_none: m => [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'] }), roles: { visaya: U(m.subj) } }))],
+  recall_none: m => m.clause ? [S(C('confirm', { karta: I, comp: { that: UC(m.clause) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'] }), roles: { visaya: uo(m.subj) } }))],
   yesno: m => [m.answer === 'unconfirmed' ? cannot('confirm') : S(null, { part: m.answer })].concat(m.items.map(told)),
   inferred: m => (m.answer === 'contradiction'
     ? [S(C('conflict', { karta: N('fact', { poss: 'your', pl: true }) })), S(C('infer', { karta: I, comp: { that: UC(m.claim) } })), S(C('tell', { karta: YOU, samp: I, comp: { that: UC(m.neg) }, tense: 'past', adv: ['also'] }), { conj: 'but' })].concat(m.steps.map(told), wnChain(m), [S(C('tell', { samp: I, karma: N('fact', { det: 'the', adj: ['right'] }) }), { force: 'imp', part: 'please' })])
-    : [S(C('infer', { karta: I, comp: { that: UC(m.claim) } }), { part: 'yes' })].concat(m.steps.map(told), wnChain(m))),
+    : [S(C('infer', { karta: I, comp: { that: UC(m.claim) } }), { part: 'yes' })].concat(m.steps.map(told), wnChain(m), m.admitted ? [S(C('use', { karta: I, karma: N('rule', { cnt: m.admitted, adj: ['admitted'] }), tense: 'past' }))] : [])),
   confirm_forget: m => [S(C('ask', { karta: YOU, samp: I, comp: { inf: C('forget', { karma: N('fact', { cnt: m.items.length, list: { kind: 'clause', items: m.items } }) }) }, tense: 'past' })), S(C('move', { karta: I, karma: pr(m.items.length > 1 ? 'they' : 'it'), roles: { gati: coldStorage() }, mod: 'should' }), { force: 'ques' }), yesNo()],
   forgotten: m => [S(C('move', { karta: I, karma: N('fact', { cnt: m.items.length, list: { kind: 'clause', items: m.items } }), roles: { gati: coldStorage() }, tense: 'past' })), S(C('answer', { karta: pr(m.items.length > 1 ? 'they' : 'it'), karma: N('question', { pl: true }), adv: ['no-longer'] }))],
   forget_kept: () => [S(C('forget', { karta: I, karma: pr('anything'), tense: 'past', pol: 'neg' }))],

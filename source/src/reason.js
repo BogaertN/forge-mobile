@@ -892,7 +892,10 @@ function evaluateWh(raw, segs, qseg, opts) {
 function evaluate(raw, opts) {
   opts = opts || {}; raw = String(raw || '').normalize('NFC'); const segs = sourceSegments(raw), q = segs.filter(x => x.kind === 'question').slice(-1)[0];
   if (q && WH_START.test(clean(q.text)) && !/\b(?:i|me|my|mine|we|us|our|ours|you|your|yours)\b/i.test(q.text) && segs.indexOf(q) === segs.length - 1 && (segs.length > 1 || opts.bareWh) && raw.length <= LIMITS.MAX_INPUT_CHARS) { const r = evaluateWh(raw, segs, q, opts); if (r) return r; }
-  return evaluate1(raw, opts);
+  const r = evaluate1(raw, opts); if (r.handled || !opts.bareWh || !q) return r;
+  /* I2: a question that only failed a dictionary lookup gets a precise structural limitation, never an unknown-word trap */
+  const f = interpretationFailure(raw, q, 'UNSUPPORTED_QUERY_STRUCTURE', 'outside v1 grammar; unfamiliar words remain symbols').failure;
+  return { handled: true, outcome: 'UNSUPPORTED_PRESERVED', material: limitationMaterial(raw, f, mergedLimits(opts.limits)), frame: 'FR.WORLD.MODEL', act: 'question', rules: [{ id: 'WM-LANGUAGE-STRUCTURE-LIMIT', doc: DOC + ' I2', note: f.code + '; unknown_word=false' }], uncertainty: 'unsupported_structure', reasoningCandidates: [] };
 }
 
 const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };

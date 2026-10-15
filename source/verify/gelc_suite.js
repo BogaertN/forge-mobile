@@ -110,4 +110,10 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
       expect(st(`Every ${k} ${pl(v)}. ${a} is a ${k}. Does ${a} ${v}?`) === 'supported_only' && st(`${a} does not ${v}. Does ${a} ${v}?`) === 'refuted_only' && st(`${b} is a ${k}. Does ${a} ${v}?`) === 'undetermined', v);
       const n = t => (RS.evaluate(t).material.wh || { answers: [] }).answers.length, [x, y, z] = [nonce(), nonce(), nonce()];
       expect(n(`${a} is a ${k}. ${b} is a ${k}. Who is a ${k}?`) === 2 && n(`${cap(x)} is a ${y}. ${cap(z)} is a ${y}. Who is a ${y}?`) === 2); } }));
+  C('GELC-HONEST', 'undetermined is said as undetermined: a stored entity with no deciding fact → "I cannot confirm that …" (never "no stored fact about X" when facts exist), no "about I", bare questions with new words never hit the unknown-word trap (I2), and an answer through an admitted rule says so', S(() => {
+    for (let i = 0; i < 3; i++) { const f = FKN(), a = cap(nonce()), b = cap(nonce()), k = nonce(), v = nonce() + 'k';
+      f.process(`remember that ${a} is a ${k}`); let r = f.process(`does ${a} ${v} ${b}?`).reply; expect((/^I cannot confirm that .*No stored fact decides it\./.test(r) || /^The checked world does not support .*I need an additional premise\.$/.test(r)) && !/no stored fact about/.test(r), r);
+      for (const q of [`What is a ${nonce()}?`, `Who is a ${nonce()}?`, `How does a ${nonce()} ${nonce()}?`]) { const x = FKN().process(q); expect(!/do not know the word/.test(x.reply || '') && x.trace.echo && x.trace.echo.pass, q + ' → ' + x.reply); } }
+    expect(!/about I\b/.test(FKN().process('who are you?').reply || ''));
+    const f = FKN(); for (const u of ['remember that Rex chases Tom', 'remember that Tom chases Sam', 'explore ideas']) f.process(u); const h = f.stagedHypotheses().find(x => x.detail.rule); f.approveHypothesis(h.id, true); expect(/I used 1 admitted rule\./.test(f.process('does Rex chase Sam?').reply)); }));
 };
