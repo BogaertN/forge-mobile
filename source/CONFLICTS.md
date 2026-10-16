@@ -165,3 +165,12 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - **Definition:** a definition must mention every nominal argument of the question ("statute of limitations for fraud" → fraud).
 - **CMP-TEXT:** an office comparison is read only from a sentence that names both offices and states a hierarchy relation between them (higher/above/over/supervises/oversees/appoints/reviews vs lower/below/under/subordinate/answerable). The order of the offices in the sentence decides the direction. Opinion or possibility wording gives no verdict, and neither does a missing sentence.
 - **Wikimedia etiquette:** requests send `Api-User-Agent`, which Wikimedia's CORS policy allows. Without it, the entity API rate-limited the box.
+
+## v4.9.55: answer quality over retrieved text (user decision, 2026-10-16)
+- JURIS: legal questions default to the United States; an excerpt naming another polity (WordNet noun.location gloss of a sovereign kind, or an adj.pert over one) is set aside unless the question names that polity.
+- ISA-COPULA: a class verdict needs "S is (a/an/the …) P" with no list connective (or/and/other/such as/including) or comma between; Wikidata P31/P279 is consulted first; list co-mention gives no verdict.
+- CAUSE-CHAIN: a why-question reads the effect's article (rust → Rust) and the article named by its class statement ("Rusting is the common term for corrosion" → Corrosion); the effect-as-subject and the article's opening sentence rank first; the effect window before the connective is 14 words.
+- CANON: among fitting excerpts, the generic article whose title is contained in the question leads a subtype article.
+- EVENT-YEAR: a verdict is dated by the year nearest its verdict word; attributive years ("the 1994 murders") do not date it; an outcome dated only by the passage is dropped when the same outcome has a dated clause.
+- Statute questions: a description must carry every argument in the excerpt itself (not the title); periods and "depends on / varies" sentences rank first.
+- FDA-SINGLE: openFDA uses the single-ingredient label and boxed warning / warnings and precautions / medication guide sections; a verdict-bearing sentence is preferred.
