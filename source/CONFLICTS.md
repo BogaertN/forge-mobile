@@ -79,3 +79,10 @@ Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation A
   warrants, and selects the conclusion. The new reasoning slice follows that split;
   it is deliberately bounded to documented predicate families and is not represented
   as a general LLM or complete open-domain cognition system.
+
+## v4.9.48 — AQ-1: a question is a read-only lookup request (user decision, 2026-10-16)
+- **Decision (Nic):** asking a factual information question counts as the explicit request for a read-only public lookup. Forge must answer factual, weird or unexpected questions usefully instead of stopping at "I have no stored fact".
+- **Rule:** when the parse shows a world information question (first token tagged WH, or an AUX/COP-initial yes/no question ending in "?") and no stored, shared GKS or private fact answers it (`recall_none`, empty `about`, `world_answer` undetermined, or an unknown-word / unparsed WH question), the kernel issues `research.web` with the question itself (rule `AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST`).
+- **Authority bounds (understanding is not authorization):** read-only GET to the public MediaWiki API only; research switch (M4) must be `on_request`; vault must be unlocked (results are sealed there; locked ⇒ the facts-gap reply plus the one-line unlock step, nothing fetched); results are evidence only, never memory (`may_write_memory=false`).
+- **Never triggers:** an undetermined turn-world question whose words are user-coined (unknown to the lexicon — the turn-world reasoner owns it), commands, memory writes, tool requests, greetings/no-frame non-questions, and personal questions (1st/2nd-person pronouns or possessives in the parse, a user/kernel subject, or a subject entity present in personal memory). "how do I …" is a method question and does qualify.
+- The answer is rendered answer-first (`research_answer`): the excerpt, then the Wikipedia article it comes from, an optional second article, the sources checked, and the vault seal.

@@ -166,7 +166,11 @@ function policyHTML() { const sw = forge.perm.switches, pol = forge.perm.policy(
 document.addEventListener('change', e => { const k = e.target && e.target.dataset && e.target.dataset.pol; if (!k) return; const d = forge.perm.setPolicy(k, e.target.value, true); if (d.decision !== 'allow') alert('Not changed: ' + d.rule); renderStatus(); });
 function applyClaims() { const g = guard(); $$('[data-claim]').forEach(el => { const c = g.claim(el.dataset.claim); el.title = c.id + ' · ' + c.status + (c.proofs.length ? ' · proofs ' + c.proofs.map(p => p.suite + ' ' + p.pass + '/' + p.total).join(', ') : ''); if (el.classList.contains('ok') && !(c.proven && c.status === 'Implemented')) { el.classList.remove('ok'); el.classList.add('warn'); el.textContent = 'unproven'; } }); }
 applyClaims();
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { /* 4.9.48 update-on-reload: sw.js bypasses the HTTP cache, a newer worker activates at once (skipWaiting + clients.claim) and the page reloads once onto it; a build-info version check triggers the update */
+  const hadCtl = !!navigator.serviceWorker.controller; let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadCtl && !reloaded) { reloaded = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => { reg.update().catch(() => {});
+    fetch('src/build-info.js', { cache: 'no-store' }).then(r => r.text()).then(t => { const m = t.match(/"commit":\s*"([0-9a-f]+)"/); if (m && window.FORGE_BUILD && m[1] !== window.FORGE_BUILD.commit) reg.update().catch(() => {}); }).catch(() => {}); }).catch(() => {}); }
 let deferred; window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; $('#installBtn').hidden = false; });
 $('#installBtn').onclick = () => { if (deferred) { deferred.prompt(); deferred = null; $('#installBtn').hidden = true; } };
 window.KUI = { $, $$, esc, fmt, openTab };
