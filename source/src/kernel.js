@@ -1057,9 +1057,9 @@ function Kernel(opts) {
     cont.touch(); const routeOf = x => { const rt = CT.route(Object.assign({ sealed, restricted, kind: msm.meaning.kind, band: drift.band, would_write: !!sel.write, dream: sel.contain === 'dream' }, x || {})); trace.containment = rt; trace.rules.push(...rt.rules.map(id => ({ id, doc: rt.cite }))); if (!rt.may_write_memory) msm.limits.may_write_memory = false; return rt; };
     routeOf();
     { const tid = sel.toolRequest ? sel.toolRequest.tool : (msm.meaning.kind === 'tool_result' || msm.meaning.kind === 'tool_failed' ? msm.meaning.tool : bench.toolForKind(msm.meaning.kind));
-      if (tid && !sealed && !restricted) { const az = bench.authorize(tid, sel.frame, { explicit: true, vaultUnlocked: (opts.vaultState ? opts.vaultState() : 'none') === 'unlocked' }); trace.tool = { tool: tid, frame: sel.frame, permission: az.decision.id, decision: az.decision.decision, rule: az.decision.rule, manifest_hash: az.manifest ? az.manifest.manifest_hash : null, authority: 'evidence_only' };
+      if (tid && !sealed && !restricted) { const vst = opts.vaultState ? opts.vaultState() : 'none'; const az = bench.authorize(tid, sel.frame, { explicit: true, vaultUnlocked: vst === 'unlocked' }); trace.tool = { tool: tid, frame: sel.frame, permission: az.decision.id, decision: az.decision.decision, rule: az.decision.rule, manifest_hash: az.manifest ? az.manifest.manifest_hash : null, authority: 'evidence_only' };
         trace.rules.push({ id: az.decision.rule, doc: 'EchoForge tool bench manifest ' + tid + '; Register A-04' });
-        if (az.decision.decision !== 'allow') { bench.record(tid, sel.frame, az.decision); msm.meaning = { kind: 'tool_denied', tool: tid, rule: az.decision.rule }; trace.tool_request = null; routeOf(); }
+        if (az.decision.decision !== 'allow') { bench.record(tid, sel.frame, az.decision); msm.meaning = { kind: 'tool_denied', tool: tid, rule: az.decision.rule, vault: vst }; trace.tool_request = null; routeOf(); }
         else if (sel.toolRequest) trace.tool_request = { tool: tid, input: sel.toolRequest.input, frame: sel.frame, permission: az.decision.id };
         else bench.record(tid, sel.frame, az.decision, msm.meaning); } }
     if (msm.limits.may_write_memory && sel.write) { const contested = (sel.write.supersede || []).length > 0 || sel.auth === 'explicit confirmation';
