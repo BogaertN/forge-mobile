@@ -146,6 +146,7 @@
      - EVENT-YEAR: the clause's year (if any) is kept so different outcomes in different years are reported as separate events. */
   const OPINION = /^(should|feel|feels|believe|believed|believes|consensus|generally|perhaps|whether|if|would|plead|pleads|pleaded|pled|claim|claims|claimed|deny|denies|denied|argue|argues|argued|allege|alleges|alleged|insist|insisted|maintain|maintained|said|says|recommend|recommends|recommended|urge|urged|propose|proposed|voted|vote|sought|seek|seeks|demanded|considered|consider|threatened)$/ /* report verbs; a recommendation or proposal is not the outcome ("voted to recommend that Nixon be impeached"): a party's plea or claim is not the fact */, POSSIB = /^(may|might|can|could)$/;
   const infl = w => new RegExp('^' + String(w).replace(/e$/, '') + '(?:e|es|ed|ing|s|d|ted|ting|tal|ion|ment)?$') /* 4.9.55: the verdict's nominal (acquittal, conviction) too */;
+  const ABSTRACT = /^(pubmed|openalex|crossref)$/;
   const squash = t => String(t || '').toLowerCase().replace(/[^a-z]/g, '');
   /* RECIP (4.9.56): a symmetric predicate (interact, marry) holds in either argument order — "statins interact with grapefruit" answers "can grapefruit interact with statins" */
   function textVerdict(e, plan) { const r = textVerdict1(e, plan); if (r || !plan.symmetric || !plan.args || plan.args.length < 2) return r; const a = plan.args; return textVerdict1(e, Object.assign({}, plan, { entity: null, terms: [a[1]].concat(plan.terms), args: [a[1], a[0]], symmetric: false })); }
@@ -204,6 +205,8 @@
     if (yes.length && no.length) { const y = yes[0], n = no[0]; const win = y.rank > n.rank ? y : n.rank > y.rank ? n : null; conflict = { yes: y, no: n, winner: win }; verdict = win ? win.verdict : null; }
     else if (vs.length) verdict = vs.sort((a, b) => b.rank - a.rank)[0].verdict;
     const lead = conflict ? (conflict.winner || conflict.yes) : (verdict ? r.find(e => e.verdict === verdict) : r[0]); const ranked = lead ? [lead].concat(r.filter(e => e !== lead)) : r;
+    /* ABSTRACT-WEAK (4.9.56): a verdict read only from paper abstracts (PubMed, OpenAlex, Crossref) — no label, regulation, record or article states it — is weak */
+    if (verdict && !(verdict.weak) && vs.every(e => ABSTRACT.test(e.archive || ''))) verdict = Object.assign({}, verdict, { weak: true, check: (verdict.check || '') + ' (abstracts only: a weak verdict)' });
     return { lead: lead || null, ranked, verdict, conflict, fits: !!(lead && lead.fit) }; }
   const near = (text, key, n) => { const need = Math.min(key.length, 2); const ws = String(text).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean); for (let i = 0; i < Math.max(1, ws.length - n + 1); i++) if (hits(ws.slice(i, i + n).join(' '), key) >= need) return true; return false; };
   /* prose: an excerpt that is a list of names / codes (most words capitalised or numeric) states nothing */
