@@ -146,4 +146,11 @@ T('W56 class verdicts match the class word exactly ("planetary" ≠ planet); a n
   const vp = { terms: [X, 'impeach'], yn: true, pred: 'impeach', predForms: ['impeached'], predVerb: true, args: [X] };
   expect(AR.textVerdict({ excerpt: 'Aides told the ' + X + ' he faced certain impeachment in the House.', title: '', name: 'S' }, vp) === null, 'faced impeachment');
   expect(AR.textVerdict({ excerpt: 'The House voted to recommend that the ' + X + ' be impeached.', title: '', name: 'S' }, vp) === null, 'recommend'); });
+T('W56 abstract-only verdicts are weak; a modified class is the whole phrase; completion dates by opening, founding by inception', () => { const r = rng(59); const X = pick(r, ARTS), B = pick(r, PERS);
+  const sp = { terms: [X, 'interact', B], yn: true, pred: 'interact', predVerb: true, predForms: ['interact', 'interacts'], args: [X, B] };
+  const ex = { archive: 'openalex', name: 'OpenAlex', cls: 'peer_reviewed', rank: 3, title: 'T', excerpt: 'The ' + X + ' interacts with the ' + B + ' in practice.', score: 1 };
+  const as = AR.assess([ex], sp); expect(as.verdict && as.verdict.weak === true, 'weak ' + JSON.stringify(as.verdict));
+  const as2 = AR.assess([Object.assign({}, ex, { archive: 'wikipedia', name: 'Wikipedia', cls: 'encyclopedia', rank: 1 })], sp); expect(as2.verdict && !as2.verdict.weak, 'article verdict weak');
+  if (!PRO) return; const k = kern(); const q = k.lookupPlan('Is the ' + X + ' a ferromagnetic material?'); expect(q.isa && q.isa.y[0] === 'ferromagnetic material', JSON.stringify(q.isa));
+  expect(k.lookupPlan('When was the ' + X + ' completed?').coming === 'finish' && k.lookupPlan('When was the ' + X + ' founded?').coming === 'begin', 'coming kinds'); });
 (async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: true }); } catch (e) { rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: false, why: e.message }); } } process.stdout.write(JSON.stringify(rows)); })();
