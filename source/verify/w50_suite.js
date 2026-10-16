@@ -104,4 +104,21 @@ T('W53 a date answers "when" only when the asked event is the nearest event word
   expect(AR.fit({ excerpt: 'After the fall of the ' + O + ' in 1989, many buildings were occupied.' }, plan), 'event year');
   expect(!AR.fit({ excerpt: 'On 9 November 2009, the city celebrated the anniversary of the fall of the ' + O + '.' }, plan), 'year of another event');
   const c = kern().lookupPlan('Do ' + PERS[1] + 's have more authority then a ' + PERS[2] + '?'); expect(c.cmp && c.cmp.a === PERS[1] && c.cmp.b === PERS[2] && c.cmp.dir === 1, JSON.stringify(c.cmp)); });
+/* 4.9.54 — retrieval */
+T('W54 lexicon-derived retrieval aids: tall → height (attribute noun by gloss overlap), guilty ← convict ("find or declare guilty")', () => { if (!PRO) return; const k = kern();
+  expect(k.lookupPlan('How tall is the ' + ARTS[5] + '?').dimNoun === 'height', 'dimNoun'); expect(k.lookupPlan('Was the ' + PERS[3] + ' found guilty?').affirmers.includes('convict'), 'affirmers'); });
+T('W54 full-article retrieval resolves the canonical title contained in the question and scans the whole text (mock fetch)', async () => {
+  const r = rng(54); const N = pick(r, PERS); const T0 = 'Kim ' + N[0].toUpperCase() + N.slice(1); AR._cache.clear();
+  const body = 'Kim was born in 1950. In 1995, ' + T0 + ' was acquitted of the charge. Many years later the case was reopened. In 2008, he was convicted of robbery and sentenced.';
+  const F = async u => ({ ok: true, status: 200, headers: { get: () => null }, text: async () => JSON.stringify(/list=search/.test(u) ? { query: { search: [{ title: T0 }, { title: T0 + ' (film)' }, { title: 'Unrelated page' }] } } : { query: { pages: { 1: { title: T0, extract: body } } } }) });
+  const plan = { question: 'Was kim ' + N + ' found guilty?', entity: 'kim ' + N, terms: ['kim ' + N, 'guilty'], key: [N, 'guilty'], yn: true, pred: 'guilty', negators: ['acquit'], affirmers: ['convict'], args: [N], atype: 'verdict', domains: [] };
+  const ev = await AR._C.wikipedia(F, plan); expect(ev.length >= 2 && ev.every(e => e.title === T0), 'article ' + JSON.stringify(ev.map(e => e.title)));
+  const as = AR.assess(ev, plan); expect(as.events && as.events.map(e => e.year + e.answer).join() === '1995No,2008Yes', 'events ' + JSON.stringify(as.events && as.events.map(e => [e.year, e.answer]))); });
+T('W54 a plea is not a verdict; a cause must follow its effect; an office comparison needs a stated hierarchy relation', () => {
+  const r = rng(3); const X = pick(r, ARTS); const gp = { entity: null, terms: [X], yn: true, pred: 'guilty', args: [X], negators: ['acquit'] };
+  expect(AR.textVerdict({ excerpt: 'The ' + X + ' pleaded not guilty to the charges.', title: '', name: 'S' }, gp) === null, 'plea decided');
+  const cp = { atype: 'cause', args: [X] }; expect(AR.fit({ excerpt: 'The ' + X + ' forms when iron reacts with oxygen.' }, cp) && !AR.fit({ excerpt: 'Because of cost, the ' + X + ' is common.' }, cp), 'cause order');
+  const A = PERS[4], B = PERS[5]; const cm = { yn: true, cmp: { a: A, b: B, dim: 'authority', dir: 1 }, terms: [A, B], key: [A, B], atype: 'verdict' };
+  const v = AR.assess([{ archive: 'w', name: 'W', rank: 1, cls: 'encyclopedia', title: A, excerpt: 'A ' + A + ' may supervise a ' + B + ' in some counties.' }, { archive: 'w2', name: 'W', rank: 1, cls: 'encyclopedia', title: A, excerpt: 'The ' + A + ' has authority over the ' + B + ' in the county.' }], cm);
+  expect(v.verdict && v.verdict.answer === 'Yes' && /authority over/.test(v.verdict.check), JSON.stringify(v.verdict)); });
 (async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: true }); } catch (e) { rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: false, why: e.message }); } } process.stdout.write(JSON.stringify(rows)); })();

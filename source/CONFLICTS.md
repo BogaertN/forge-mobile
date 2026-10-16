@@ -152,3 +152,16 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   - Requests to one host are serialized with a 250 ms gap, and a 429 is retried up to 3 times (0.5 s, 1 s, 2 s).
   - If the entity API is rate-limited, the Wikidata class check falls back to one SPARQL ASK query (query.wikidata.org; CORS `*`, verified 2026-10-16).
   - crawler.js (Wikipedia) now follows the same 429/503 retry.
+
+## v4.9.54: retrieval from canonical articles (user decision, 2026-10-16)
+- **WP-ARTICLE:** the question's topic is resolved to its canonical Wikipedia article through the API (`list=search`, then `prop=extracts&explaintext=1&redirects=1`, `origin=*`).
+  - A title counts only if its letters are contained in the question, so "oj simpson" matches "O. J. Simpson". Unqualified titles come before "(…)" variants.
+  - The full article text is scanned sentence by sentence; for a why-question, the verb's own article is read too (rust → "Rust").
+  - Each sentence carries the article's discourse year (the last year mentioned before it). This lets a biography give dated outcomes, e.g. 1995 acquittal and 2008 conviction.
+  - Encyclopedia answers say "encyclopedia, a secondary source".
+- **DIM-NOUN / DIM-PROP:** the degree adjective's attribute noun is the noun.attribute entry whose gloss shares the most content words with the adjective's gloss (tall → height). Wikidata property search on that noun, restricted to the record's own quantity claims, gives the value (Eiffel Tower → P2048 height, 324 metre).
+- **AFFIRM:** verbs whose gloss is "<verb> P" (convict = "find or declare guilty") state P. Report verbs (pleaded, claimed, denied, argued, alleged, said) state a party's position, not a verdict.
+- **Cause:** a causal connective answers "why" only after its effect ("rust forms when …"; not "because of … rust").
+- **Definition:** a definition must mention every nominal argument of the question ("statute of limitations for fraud" → fraud).
+- **CMP-TEXT:** an office comparison is read only from a sentence that names both offices and states a hierarchy relation between them (higher/above/over/supervises/oversees/appoints/reviews vs lower/below/under/subordinate/answerable). The order of the offices in the sentence decides the direction. Opinion or possibility wording gives no verdict, and neither does a missing sentence.
+- **Wikimedia etiquette:** requests send `Api-User-Agent`, which Wikimedia's CORS policy allows. Without it, the entity API rate-limited the box.
