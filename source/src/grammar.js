@@ -114,6 +114,7 @@ function Parser(toks, lex) {
       if (nouns.length) res.push(R({ adjs: adjs.slice(), head: nouns.map(n => n.lemma), plural: nouns[nouns.length - 1].f === 'pl', surface: nouns.map(n => n.w) }, j, rules));
       if (!nouns.length) for (const a of at(j, "ADJ")) go(j + 1, adjs.concat([T[j].w]), nouns, rules.concat([a.rule]));
       for (const n of at(j, 'N')) go(j + 1, adjs, nouns.concat([{ lemma: n.lemma, f: n.f, w: T[j].w }]), rules.concat([n.rule || 'TAG-N']));
+      if (!nouns.length && !adjs.length && j > 0 && at(j - 1, 'DET').length && at(j, 'PROPN').length && j + 1 < T.length && at(j + 1, 'N').length) go(j + 1, adjs, [{ lemma: T[j].w, f: 'sg', w: T[j].w }], rules.concat(['NP-PROPN-MODIFIER'])); // 4.9.42: a name as a pre-nominal modifier after a determiner ("the Planck constant")
     })(i, [], [], []);
     return res;
   }

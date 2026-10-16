@@ -101,6 +101,7 @@ function Shared(store, deps) { const { perm, ledger, signer } = deps; const now 
   async function contribute(recordId, o) { o = o || {}; const d = perm.authorize('shared.contribute', { userTap: !!o.userTap, subject: recordId }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
     const cb = await contributeBody(recordId, o); if (!cb.ok) return cb; const res = await publish(cb.body); if (res.ok) ledger.append('shared_contribution', res.manifest.id); return res; }
   async function contributeBody(recordId, o) { o = o || {};
+    if (String(recordId).startsWith('case:') || (store.load('case_index') || []).some(id => (store.load('case:' + id + ':memory') || []).some(x => x.id === recordId))) return { ok: false, rule: 'SHARED-CASEFILE-NEVER-SHARED' }; /* plan §2: a case record never reaches the shared layer */
     const r = store.load('memory').find(x => x.id === recordId && x.status === 'active'); if (!r) return { ok: false, rule: 'SHARED-NO-SUCH-RECORD' };
     if (r.sensitive || r.kind === 'secret' || r.vault_ref) return { ok: false, rule: 'SHARED-VAULT-DATA-NEVER-SHARED' }; const tr = store.load('trace').find(x => r.provenance && x.turn === r.provenance.turn); const text = String(o.text || (tr && tr.input ? tr.input.replace(/^\s*(?:please\s+)?(?:remember|note|store|save)\s+(?:that\s+)?/i, '').replace(/[.!]+\s*$/, '') : '')).slice(0, 2000);
     if (!text) return { ok: false, rule: 'SHARED-NO-PROPOSITION' }; if (SECRETISH.test(text)) return { ok: false, rule: 'SHARED-SECRET-SHAPE' };

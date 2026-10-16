@@ -1,0 +1,15 @@
+// v4.9.42 professional-knowledge async suite: case files sealed with the real Identity Vault key; shared-layer refusal of case records.
+const ROOT = require('path').join(__dirname, '..');
+const KMOD = require(ROOT + '/src/kernel.js'); const LEX = require(ROOT + '/data/lexicon.json'); const SHM = require(ROOT + '/src/shared.js'); const PV = require(ROOT + '/src/privacy.js');
+const rows = [], tests = [], T = (cls, name, fn) => tests.push({ cls, name, fn }), expect = (c, why) => { if (!c) throw new Error(why || 'expectation failed'); };
+const K = () => KMOD.Kernel({ clock: () => '2026-10-11T20:45:00Z', lexicon: LEX }); const say = (k, t) => k.process(t);
+const vaultFor = async k => { let st = null; const v = PV.Vault({ load: () => st, save: x => { st = x; } }, { iterations: 1000 }); await v.setup('case pass phrase'); await v.unlock('case pass phrase'); return v; };
+T('CASE', 'SHARED-CASEFILE-NEVER-SHARED: a case record is refused by the shared contribute path; global memory never holds it', async () => { const k = K(); say(k, 'open case smith-2026'); say(k, 'remember that my client is guilty'); say(k, 'close the case'); say(k, 'hello');
+  const id = k.store.load('case:smith-2026:memory')[0].id; const sh = SHM.Shared(k.store, { perm: { authorize: () => ({ decision: 'allow' }) }, ledger: { append() {}, device: () => 'd' }, signer: { ensure: async () => null, id: () => null } });
+  const r = await sh.contribute(id, { userTap: true }); expect(r.rule === 'SHARED-CASEFILE-NEVER-SHARED', JSON.stringify(r)); expect(!JSON.stringify(k.store.load('memory')).includes('guilty'), 'global memory'); });
+T('CASE', 'a closed case is sealed with the Identity Vault key (AES-GCM): plaintext gone, ciphertext has no fact text, opening blocked until unsealed', async () => { const k = K(), v = await vaultFor(k);
+  say(k, 'open case smith-2026'); say(k, 'remember that my client is guilty'); expect((await k.caseSeal('smith-2026', v)).rule === 'CASE-OPEN-CLOSE-FIRST', 'open case not sealable'); say(k, 'close the case'); say(k, 'hello');
+  expect((await k.caseSeal('smith-2026', v)).ok, 'seal'); expect(k.store.load('case:smith-2026:memory').length === 0, 'plaintext cleared'); expect(!JSON.stringify(k.store.load('case:smith-2026:sealed')).includes('guilty'), 'ciphertext');
+  const r = say(k, 'open case smith-2026'); expect(r.outcome.class === 'understood-but-blocked' && r.trace.rules.some(x => x.id === 'CASE-SEALED'), r.reply); expect((await k.caseUnseal('smith-2026', v)).ok, 'unseal'); say(k, 'open case smith-2026'); expect(/Yes/.test(say(k, 'is my client guilty').reply), 'restored'); });
+T('CASE', 'a locked vault cannot seal or unseal a case', async () => { const k = K(); say(k, 'open case a1'); say(k, 'close the case'); say(k, 'hello'); expect((await k.caseSeal('a1', { status: () => 'locked' })).rule === 'CASE-VAULT-LOCKED', 'locked'); });
+(async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: t.cls, name: t.name, ok: true }); } catch (e) { rows.push({ cls: t.cls, name: t.name, ok: false, why: String(e && e.stack || e).slice(0, 600) }); } } process.stdout.write(JSON.stringify(rows)); })();
