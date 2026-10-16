@@ -4,7 +4,7 @@ const G = isNode ? require('./grammar.js') : root.KGrammar;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
-const VERBS = new Set(words('export delete challenge open close unlock report claim verify state decide install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
+const VERBS = new Set(words('attach export delete challenge open close unlock report claim verify state decide install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend decide determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
@@ -14,7 +14,7 @@ const NOUNS = new Set(words('article proof hash label status reason case name cl
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
-  'failure relation sign code divisor limit limitation vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
+  'failure relation sign code divisor limit limitation subject predicate verb role greeting farewell thanks vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences', hypothesis: 'hypotheses' };
 const ADJ = new Set(words('shared second Wikipedia related other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
@@ -25,7 +25,7 @@ const PARTICLES = new Set(['yes', 'no', 'partly', 'hello', 'goodbye', 'please'])
 const SCONJ = new Set(['but', 'so', 'or', 'then']);
 const DETS = new Set(['a', 'the', 'no', 'every', 'any', 'both', 'this', 'that', 'those', 'which', 'its', 'my', 'your', 'their']);
 const SAMP_PR = new Set(['I', 'you', 'they']); const ADDRESSEE_VERBS = new Set(['ask', 'tell', 'show', 'give']);
-const ROLE_VERBS = { apeksha: ['depend'], upamana: ['record'], domain: ['factor'], sthana: ['close'] };
+const ROLE_VERBS = { apeksha: ['depend'], upamana: ['record', 'recognise'], domain: ['factor'], sthana: ['close'] };
 const PP_ADJ = new Set();
 const INF_VERBS = new Set(['ask', 'authorize', 'say', 'open', 'want']); const NOUN_INF = new Set(['request']);
 const POSS = new Set(['its', 'my', 'your', 'their']);
@@ -189,7 +189,7 @@ function Realizer(env) {
     if (s.conj) { D.apply('8.1.5', s.conj); toks.push(s.conj); }
     if (s.part) { D.apply('1.1.4', s.part); toks.push(s.part); if ((s.c && s.part !== 'please') || s.mth || (s.front && s.front.length)) { D.apply('8.1.4'); toks[toks.length - 1] += ','; } }
     for (const f of s.front || []) { if (f.adv) toks.push(f.adv); else if (f.marker === 'as for') { D.apply('8.1.6'); toks.push('as', 'for'); np(D, f.np, 'obj', toks); } else { toks.push(prepFor(D, f.role, f.np)); np(D, f.np, 'obj', toks); } D.apply('8.1.4'); toks[toks.length - 1] += ','; }
-    if (s.mth) toks.push(...mathToks(D, s.mth)); else if (s.c) toks.push(...clauseToks(D, s.c, s.force));
+    if (s.mth) toks.push(...mathToks(D, s.mth)); else if (s.c) toks.push(...clauseToks(D, s.c, s.force)); else if (s.uc) { D.apply('1.1.6', 'clause'); toks.push(...userClause(s.uc).split(' ')); }
     if (!toks.length) throw new Error('derive: empty sentence');
     D.apply('8.3.2', s.force === 'ques' ? '?' : '.'); toks[toks.length - 1] = toks[toks.length - 1].replace(/[,:;]$/, '') + (s.force === 'ques' ? '?' : '.');
     if (!s.mth || s.front || s.part || s.conj) { const w = toks[0]; if (/^[a-z]/.test(w) && (GENWORD(w.replace(/[,.?]$/, '')) || w === 'as')) { D.apply('8.3.1'); toks[0] = w[0].toUpperCase() + w.slice(1); } }
@@ -303,6 +303,7 @@ function Analyser(env) {
     if (toks.some(t => /^(=|≈|⇒|⊑|≠)$/.test(t.w || ''))) { const items = []; let cur = []; const flush = () => { if (cur.length) items.push({ x: cur.join(' ') }); cur = []; };
       for (const t of toks) { if (t.w === undefined) return []; if (/^(=|≈|⇒|⊑|≠)$/.test(t.w)) { flush(); items.push({ rel: { '=': 'eq', '≈': 'approx', '⇒': 'implies', '⊑': 'sub', '≠': 'neq' }[t.w] }); } else if (t.w === 'or' || t.w === 'and') { flush(); items.push({ w: t.w }); } else cur.push(t.w); } flush(); res.push(Object.assign({}, base, { mth: items })); return res; }
     for (const f of force0 === 'ques' ? ['ques'] : ['decl', 'imp']) for (const c of clauses(toks, f)) res.push(Object.assign({}, base, { force: f, c }));
+    if (!res.length && force0 === 'decl' && env.reparseClause && toks.every(t => t.w !== undefined || t.p === ',')) { const cl = env.reparseClause(detok(toks)); if (cl) res.push(Object.assign({}, base, { uc: G.material(cl) })); } /* 1.1.6 inverse: a sentence outside the closed vākya grammar is read by the inward grammar */
     return res; }
   function analyse(text) { const toks = tokenize(text); if (!toks) return { analyses: [], reason: 'untokenizable surface' }; const ss = []; let cur = []; for (const t of toks) { cur.push(t); if (t.p === '.' || t.p === '?') { ss.push(cur); cur = []; } } if (cur.length) return { analyses: [], reason: 'unterminated sentence' };
     let acc = [[]]; for (let k = 0; k < ss.length; k++) { const as = sentence(ss[k]); if (as.some(a => a.ambiguous)) return { analyses: [], ambiguous: true, reason: 'ambiguous fronted adjunct in sentence ' + (k + 1) }; if (!as.length) return { analyses: [], reason: 'sentence ' + (k + 1) + ' has no analysis: ' + detok(ss[k]) };
@@ -421,13 +422,29 @@ function worldLimitationPlan(m) {
     S(C('be', { karta: N('code', { det: 'the', of: N('limitation', { det: 'the' }) }), pred: Mn(m.code) }))
   ];
 }
+/* a whole grammar.js clause as one sentence: if the realizer's own analyser reads its surface as exactly one closed vākya, that vākya is used (analysis by
+   synthesis keeps Echo single-reading); otherwise the clause is carried as a user-grammar sentence (1.1.6) */
+let PLAN_ENV = {}; /* the realization environment of the current plan (inward-grammar hooks), so analysis by synthesis sees what Echo will see */
+function clauseSentence(c) { const text = G.clauseText(c, 'kernel') + '.'; try { const a = Analyser(PLAN_ENV).analyse(text[0].toUpperCase() + text.slice(1)); const ds = [...new Set(a.analyses.map(x => canon(strip(x))))]; if (a.analyses.length && ds.length === 1 && a.analyses[0].length === 1) { const nps = []; const coll = n => { if (!n || typeof n !== 'object') return; if (n.head || n.propn || n.indef || n.pron3) nps.push(n); for (const k of Object.keys(n)) if (k !== 'surface') coll(n[k]); }; coll(c);
+      /* the analysed user NPs carry material only (no surface number); the clause's own NP nodes are put back so the surface keeps its inflection */
+      const back = v => { if (Array.isArray(v)) return v.map(back); if (!v || typeof v !== 'object') return v; if (v.u) { const k = canon(strip(G.material(v.u))); const o = nps.find(n => canon(strip(G.material(n))) === k); return o && o.surface ? { u: Object.assign({}, v.u, { surface: o.surface.slice() }, o.plural ? { plural: true } : {}) } : v; } const o = {}; for (const k of Object.keys(v)) o[k] = back(v[k]); return o; };
+      return back(a.analyses[0][0]); } } catch (e) { /* fall through */ } return { uc: c, force: 'decl' }; }
 const recallNone = m => m.attr ? [S(C('have', { karta: I, karma: N(m.attr, { det: 'no', adj: ['stored'] }), roles: { tadartha: uo(m.subj) } }))] : m.clause ? [S(C('confirm', { karta: I, comp: { that: UC(m.clause) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'] }), roles: { visaya: uo(m.subj) } }))];
 const PLANS = {
   ack: () => [S(C('acknowledge', { karta: I, karma: pr('that') }))],
   help: () => [S(C('do', { karta: I, karma: N('thing', { cnt: 8, list: { kind: 'vp', items: [C('remember', { karma: N('fact', { pl: true }) }), C('answer', { roles: { apadana: N('memory') } }), C('keep', { karma: N('note', { pl: true }) }), C('define', { karma: N('word', { pl: true }) }), C('solve', { karma: N('equation', { pl: true }) }), C('factor', { karma: N('polynomial', { pl: true }) }), C('convert', { karma: N('unit', { pl: true }) }), C('forget', { karma: N('fact', { pl: true }), roles: { paschat: N('confirmation') } })] } }), mod: 'can' })),
     S(C('say', { karma: { coord: 'or', items: ['remember', 'recall', 'note', 'math', 'solve', 'define', 'infer'].map(k => Mn(MENTIONS[k])) } }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] })],
   loop: () => [S(C('start', { karta: N('binding', { det: 'a', adj: ['new'], app: X('λ') }), aspect: 'perf' })), S(C('reset', { karta: I, karma: N('flag', { det: 'the', adj: ['grace'], app: X('χ(t)') }), aspect: 'perf' }))],
-  no_frame: () => [S(C('recognise', { karta: I, karma: N('word', { det: 'every' }), tense: 'past' })), S(C('derive', { karta: I, karma: N('structure', { det: 'a', adj: ['sentence'] }), roles: { tadartha: pr('that') }, mod: 'can', tense: 'past', pol: 'neg' }), { conj: 'but' }), S(C('type', { karma: Mn('help'), roles: { tadartha: N('list', { det: 'a', of: N('form', { adj: ['supported'], pl: true }) }) } }), { force: 'imp' })],
+  /* 4.9.48: generated from the best partial structure — what was understood (the clause, or the recognised constituents with their roles), what could not
+     be attached, and a request for exactly the missing piece. No fixed line. */
+  no_frame: m => (m.clause ? [S(C('understand', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' }))] : []).concat((m.pieces || []).map(p => S(C('recognise', { karta: I, karma: Mn(p.text), roles: { upamana: N(p.role, { det: 'the' }) }, tense: 'past' }))),
+    m.rest ? [S(C('attach', { karta: I, karma: Mn(m.rest), mod: 'can', tense: 'past', pol: 'neg' }), (m.clause || (m.pieces || []).length) ? { conj: 'but' } : {}), S(C('tell', { samp: I, karma: N('role', { det: 'the', of: Mn(m.rest) }) }), { force: 'imp', part: 'please' })] : [],
+    m.missing ? [S(C('find', { karta: I, karma: N(m.missing, { det: 'no' }), tense: 'past' }), m.rest ? {} : { conj: 'but' }), S(C('tell', { samp: I, karma: N(m.missing, { det: 'the' }) }), { force: 'imp', part: 'please' })] : []),
+  /* 4.9.48 self-model answer: a yes / no / partly particle, the question's own clause re-voiced as Forge's statement, then the self-facts — every clause
+     is a kāraka structure realized by the inward grammar (a closed vākya when the sentence is inside the realizer's own lexicon) */
+  /* 4.9.48: an interjection is named as the speech act it is (its lexical class), then the conversation is handed back — no reciprocal stock phrase */
+  interjection: m => [S(C('recognise', { karta: I, karma: Mn(m.word), roles: { upamana: N({ greet: 'greeting', part: 'farewell', thank: 'thanks' }[m.act], { det: m.act === 'thank' ? undefined : 'a' }) }, tense: 'past' }))].concat(m.act === 'part' ? [] : [S(C('ask', { karma: N('question', { det: 'a' }) }), { force: 'imp', part: 'please' })]),
+  self_answer: m => (m.answer ? [S(null, { part: m.answer })] : []).concat(m.undecided ? [S(C('confirm', { karta: I, comp: { that: UC(m.undecided) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [], m.clauses.map(clauseSentence)),
   world_answer: worldPlan,
   world_limitation: worldLimitationPlan,
   stored: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' }))],
@@ -564,7 +581,7 @@ function revoice(c, target) { if (!c || c.coord || !c.verb || VOICE_NO.has(c.ver
   return null; }
 function voiceV(v, target) { let n = 0; const o = v.map(s => { const t = s.c && s.c.comp && s.c.comp.that && s.c.comp.that.uc; const r = t && revoice(t, target); if (!r) return s; n++; return Object.assign({}, s, { c: Object.assign({}, s.c, { comp: Object.assign({}, s.c.comp, { that: Object.assign({}, s.c.comp.that, { uc: r }) }) }) }); }); return n ? o : null; }
 function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m.parts.map(p => realizeMeaning(p, env)), text = rs.map(r => r.text).filter(Boolean).join(' '); return { text, derivation: { plan: 'sequence', rules: [].concat(...rs.map(r => r.derivation.rules || [])), parts: rs.map(r => r.derivation), surface: text } }; }
-  const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); if (c !== C0[0] && C0[0].r && statusSig(c.r.text) !== statusSig(C0[0].r.text)) c.e = Object.assign({}, c.e, { pass: false, reason: 'status markers drift' }); } catch (e) { c.e = { pass: false }; } return c.e.pass; };
+  PLAN_ENV = env || {}; const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); if (c !== C0[0] && C0[0].r && statusSig(c.r.text) !== statusSig(C0[0].r.text)) c.e = Object.assign({}, c.e, { pass: false, reason: 'status markers drift' }); } catch (e) { c.e = { pass: false }; } return c.e.pass; };
   ev.B = go(C0[0]); const rep = !!(m.field && m.field.last && m.field.last === C0[0].r.text);
   /* user-phrasing match (Pāṇini paper D3 topic/scope; RSOC §3.1.2 ⧒): the user fronted a topic ("About my sister, …"); the outward ⧒ variant that fronts the
      same viṣaya is preferred, only when it passes Echo on its own vākya and keeps status — never a different meaning, never a forced form */
@@ -589,7 +606,7 @@ function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G
     if (v.uc) return { uc: G.material(v.uc) };
     const o = {}; for (const k of Object.keys(v)) o[k] = walk(v[k]); if (v.kind === 'clause' && Array.isArray(v.items)) o.items = v.items.map(c => G.material(c)); return o; };
   return walk(vakya); }
-function echo(text, m, env, vk) { env = env || {}; const vakya = vk || plan(m); const A = Analyser(env); const faults = []; const want = canon(strip(canonPlan(vakya, env, A, faults)));
+function echo(text, m, env, vk) { env = env || {}; PLAN_ENV = env; const vakya = vk || plan(m); const A = Analyser(env); const faults = []; const want = canon(strip(canonPlan(vakya, env, A, faults)));
   const a = A.analyse(text); const distinct = [...new Set(a.analyses.map(x => canon(strip(x))))]; const match = distinct.includes(want);
   const comps = { reparse: a.analyses.length ? 1 : 0, unique_analysis: distinct.length === 1 ? 1 : 0, structural_identity: match && !faults.length ? 1 : 0 };
   if (env.reverify) { const rv = env.reverify(m, text); if (rv !== undefined) comps.independent_reverification = rv ? 1 : 0; }

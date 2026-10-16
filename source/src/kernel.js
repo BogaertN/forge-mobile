@@ -7,7 +7,7 @@ const CA = isNode ? require('./calculus.js') : root.KCalc;
 const SIM = isNode ? require('./sim.js') : root.KSim; const HY = isNode ? require('./hypothesis.js') : root.KHyp; const RD = isNode ? require('./render.js') : root.KRender; const PF = isNode ? require('./protoforge.js') : root.KProtoForge; const EDE = isNode ? require('./ede.js') : root.KEDE; const SY = isNode ? require('./symbols.js') : root.KSymbols;
 const G = isNode ? require('./grammar.js') : root.KGrammar;
 const D = isNode ? require('./derive.js') : root.KDerive;
-const IF = isNode ? require('./infer.js') : root.KInfer;
+const IF = isNode ? require('./infer.js') : root.KInfer; const SM = isNode ? require('./selfmodel.js') : root.KSelf;
 const R = isNode ? require('./reason.js') : root.KReason;
 const WR = isNode ? require('./world_rules.js') : root.KWorldRules; const EVO = isNode ? require('./evolve.js') : root.KEvolve; const KN = isNode ? require('./knowledge.js') : root.KKnow;
 const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
@@ -169,7 +169,11 @@ function Kernel(opts) {
   const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
   const perm = opts.perm || Gv.PermissionService(store, { clock: now }); const cont = CT.Containment(store, { clock: now, perm }); const bench = TB.Bench(store, { clock: now, perm });
   const fmtTime = opts.formatTime || (iso => iso.replace('T', ' ').slice(0, 16) + ' UTC');
-  const glex = { hasPos: (l, p) => lex.hasPos(l, p) || (p === 'v' && SELF_V.has(l)) || (p === 'n' && (SELF_N.has(l) || GKS_N().has(l))), /* Forge's own self-query words are lexicon entries of the kernel (closed class), so they parse even with no WordNet lexicon */ exc: lex.exc, controlled: lex.controlled, known: w => lex.known(w) || GKS_N().has(String(w).toLowerCase()), isName: lex.isName, coreNoun: lex.coreNoun };
+  const glex = { hasPos: (l, p) => lex.hasPos(l, p) || (p === 'v' && SELF_V.has(l)) || (p === 'n' && (SELF_N.has(l) || GKS_N().has(l))), /* Forge's own self-query words are lexicon entries of the kernel (closed class), so they parse even with no WordNet lexicon */ exc: lex.exc, controlled: lex.controlled, known: w => lex.known(w) || GKS_N().has(String(w).toLowerCase()), isName: lex.isName, coreNoun: lex.coreNoun,
+    /* 4.9.48: verb complement frames are lexicon facts (WordNet 3.0 generic frames of the lemma's verb senses), read by grammar.js */
+    vclasses: l => lex.senses(l).filter(s => s.pos === 'v').map(s => s.lexname), /* WordNet lexicographer classes of the verb senses, most frequent first */
+    vframes1: l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; const s = FR && lex.senses(l).find(x => x.pos === 'v'); return s ? s.frames.map(f => FR[f]).filter(Boolean) : []; },
+    vframes: (() => { const cache = new Map(); return l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; if (!FR) return []; const k = l + '|' + (lex.wn.ext ? 1 : 0); if (!cache.has(k)) cache.set(k, [...new Set(lex.senses(l).filter(s => s.pos === 'v').flatMap(s => s.frames))].map(f => FR[f]).filter(Boolean)); return cache.get(k); }; })() };
   const activeFacts = () => store.load('memory').filter(r => r.kind !== 'note' && r.status === 'active');
   const notes = () => store.load('memory').filter(r => r.kind === 'note' && r.status === 'active');
   const content = toks => toks.filter(t => !/^[?.!]$/.test(t.w));
@@ -289,6 +293,7 @@ function Kernel(opts) {
   const COLOUR = new Set('red orange yellow green blue purple violet pink brown black white grey gray silver gold beige turquoise navy maroon cyan magenta'.split(' ')), ATTR_CLASS = { colour: COLOUR, color: COLOUR }; /* closed value class for the attribute noun colour */
   const MEM_V = new Set(['remember', 'store', 'save', 'keep', 'memorize', 'memorise']); /* memory-write directive verb class */
   const SELF_PERC = new Set(['see', 'notice', 'observe', 'spot']);
+  const INTJ_ACT = { hello: 'greet', hi: 'greet', hey: 'greet', goodbye: 'part', bye: 'part', thanks: 'thank' }; /* interjection → speech-act class (lexical) */
   const SELF_REC = { fact: 'facts', thing: 'facts', memory: 'facts', note: 'notes', reminder: 'reminders' };
   const SELF_CAPS = new Set(['remember', 'recall', 'note', 'calculate', 'compute', 'define', 'explain', 'count', 'list', 'help', 'add', 'multiply', 'subtract', 'divide', 'solve', 'simplify', 'convert']);
   const LIFECYCLE = new Set(['propose', 'install', 'uninstall', 'fail', 'revert', 'deploy', 'approve', 'reject', 'release', 'withdraw', 'cancel', 'complete', 'succeed', 'pass']);
@@ -308,7 +313,7 @@ function Kernel(opts) {
     return out; }
   const hasMod = c => (c.coord ? c.coord.some(hasMod) : c.verb && c.verb.mod !== 'asserted');
   const setMod = (c, m) => { if (c.coord) c.coord.forEach(x => setMod(x, m)); else if (c.verb) { c.verb.mod = m; if (c.verb.tense === 'future') c.verb.tense = 'present'; } };
-  function describe(c) { if (c.coord) return c.coord.map(describe).join(' + '); const r = ['subject: ' + G.npText(c.subj, 'kernel'), 'verb: ' + c.verb.lemma]; if (c.pred && c.pred.type === 'adjinf') r.push('predicate: ' + G.clauseText({ subj: { propn: 'X' }, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: c.pred }, 'kernel').slice(5), (c.pred.ctrl === 'karta' ? 'kartā of ' : 'karma of ') + c.pred.inf.verb.lemma + ': ' + G.npText(c.subj, 'kernel') + (c.pred.ctrl === 'karta' ? ' (it does the ' + c.pred.inf.verb.lemma + 'ing)' : ' (it undergoes the ' + c.pred.inf.verb.lemma + 'ing)')); else if (c.pred) r.push('predicate: ' + (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel'))); for (const [k, v] of Object.entries(c.roles || {})) r.push(k + ': ' + (v.clause ? '[clause]' : G.npText(v, 'kernel'))); for (const a of c.adj || []) r.push(a.role + ': ' + (a.time || a.adv || a.prep + ' ' + G.npText(a.np, 'kernel'))); const relT = []; for (const n of nps(c)) for (const rc of [n.rel, n.relObj]) if (rc && rc.verb) relT.push(rc.verb.lemma + ' (' + rc.verb.tense + ')'); if (relT.length) r.push('relative verb: ' + relT.join(', ')); r.push('tense: ' + c.verb.tense); return r.join(', '); }
+  function describe(c) { if (c.coord) return c.coord.map(describe).join(' + '); const r = ['subject: ' + G.npText(c.subj, 'kernel'), 'verb: ' + c.verb.lemma]; if (c.pred && c.pred.type === 'adjinf') r.push('predicate: ' + G.clauseText({ subj: { propn: 'X' }, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: c.pred }, 'kernel').slice(5), (c.pred.ctrl === 'karta' ? 'kartā of ' : 'karma of ') + c.pred.inf.verb.lemma + ': ' + G.npText(c.subj, 'kernel') + (c.pred.ctrl === 'karta' ? ' (it does the ' + c.pred.inf.verb.lemma + 'ing)' : ' (it undergoes the ' + c.pred.inf.verb.lemma + 'ing)')); else if (c.pred) r.push('predicate: ' + (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel'))); for (const [k, v] of Object.entries(c.roles || {})) r.push(k + ': ' + (v.adjp ? v.adjp.join(' ') : v.clause ? '[clause]' : G.npText(v, 'kernel'))); for (const a of c.adj || []) r.push(a.role + ': ' + (a.time || a.adv || a.prep + ' ' + G.npText(a.np, 'kernel'))); const relT = []; for (const n of nps(c)) for (const rc of [n.rel, n.relObj]) if (rc && rc.verb) relT.push(rc.verb.lemma + ' (' + rc.verb.tense + ')'); if (relT.length) r.push('relative verb: ' + relT.join(', ')); r.push('tense: ' + c.verb.tense); return r.join(', '); }
   const ruleDoc = id => /^K-/.test(id) ? 'Doc5 karaka roles' : /^LL-/.test(id) ? 'Doc3 Language Law' : /^M-/.test(id) ? 'Doc4 morphology / WordNet exceptions' : /^TAG-/.test(id) ? 'Doc4 lexicon tagging' : /^(NP|V|P|G)-/.test(id) ? 'Doc3 / R0 derivation' : 'kernel';
 
   const META = [
@@ -404,8 +409,9 @@ function Kernel(opts) {
             : res('SELECTED_MEANING', { kind: 'gks_unconfirmed', question: String(text).trim().replace(/[?\s]+$/, ''), related: [item] }, { frame: 'FR.QUESTION', act: 'question', uncertainty: 'undetermined', evidenceRefs: [f.id] }); } }
       return null; }
     { const gq = gksQtyYN(ctx.raw || raw); if (gq) return gq; }
+    function kernelDerives() { try { const t = content(G.tokenize(String(ctx.raw || raw).replace(/[?.!\s]+$/, ""))); if (t.length < 2 || !/^(?:do|does|did|is|are|was|were|will|can|could|might|may|should|has|have)$/.test(t[0].w)) return false; for (let k = 2; k < t.length; k++) if (derive(t.slice(1, k).concat([t[0]], t.slice(k))).parses.length) return true; } catch (e) { /* no derivation */ } return false; }
     { const wt0 = ctx.worldText || raw, sh = worldShared(wt0), wt = sh.prefix + wt0; let rr = R.evaluate(wt, { allowBareQuery: !asksAboutStored(wt0) && !asksAboutShared(wt0) });
-      if (sh.used.length && rr.handled) rr = sharedWorld(rr, sh, wt0); if (rr.handled) return worldResult(rr); } // world grammar → world reasoner; a bare question goes to memory only when it names a stored entity (unrelated memory never changes the route)
+      if (sh.used.length && rr.handled) rr = sharedWorld(rr, sh, wt0); if (rr.handled && !(rr.material && rr.material.kind === 'world_limitation' && rr.material.code === 'UNSUPPORTED_QUERY_STRUCTURE' && kernelDerives())) return worldResult(rr); } /* 4.9.48: a question the world grammar cannot read but the language core derives goes on to the language core */ // world grammar → world reasoner; a bare question goes to memory only when it names a stored entity (unrelated memory never changes the route)
     const phi = meta.notation === 'phi';
     const calc = (() => { const ops = /^(.+?)(?: with respect to ([a-z]))?(?: from (-?[\w./π]+) to (-?[\w./π]+))?$/; let c = capF(low, { id: 'calculus', v: ['differentiate', 'integrate'], re: /^([\s\S]+)$/ }) || capF(low, { id: 'calculus', np: ['derivative', 'integral', 'antiderivative'], whis: true, re: /^of ([\s\S]+)$/ }), dv;
       if (!c) { const ws = low.replace(/^please /, '').split(' '), d = /^d\/d([a-z])$/.exec(ws[0] || ''); if (d && ws.length > 1) { c = [low, ws.slice(1).join(' ')]; c.head = 'd/d'; dv = d[1]; rules.push({ id: 'LC-CAP-FRAME', doc: 'operator notation d/dx (operand grammar)', note: 'calculus ← d/d' + dv }); } }
@@ -645,7 +651,7 @@ function Kernel(opts) {
       if (gap === 'whdet') { const N = wh; if (SELF_STATUS_N.has(N) && isK(q.subj)) return status(); if (N === 'term' && isK(q.subj) && SELF_COGN.has(L)) return terms();
         if (SELF_TIME_N.has(N) && q.subj && q.subj.pron3 === 'it' && q.verb.lemma === 'be') { rules.push({ id: 'EV-NO-CLOCK-AUTHORITY', doc: 'Doc7; Doc6 §37; frame from the parse (time noun class)' }); return res('REFUSAL_RELEVANT', { kind: 'refuse', reason: 'NO_TIME_SOURCE' }, { frame: 'FR.TIME', act: 'question' }); } return null; }
       /* cognition: "what do you know / remember (about NP)", "tell me (everything) about NP" (imperative: kartā = Forge) */
-      if (isK(q.subj) && SELF_COGN.has(L) && (gap === 'role:karma' || gap === 'imp') && !ro.karma) { rules.push({ id: 'Q-SELF-COGNITION', doc: 'Doc5 kāraka: kartā = Forge, karma gapped, viṣaya = topic' }); return vis ? about(vis.np) : list('facts'); }
+      if (isK(q.subj) && SELF_COGN.has(L) && ((gap === 'role:karma' || gap === 'imp') && !ro.karma || (gap === null && vis && ro.karma && ro.karma.indef && !wh))) { /* 4.9.48: "do you know anything about NP" is the same viṣaya query */ rules.push({ id: 'Q-SELF-COGNITION', doc: 'Doc5 kāraka: kartā = Forge, karma gapped, viṣaya = topic' }); return vis ? about(vis.np) : list('facts'); }
       if (gap === 'imp' && SELF_SAY.has(L) && isU(ro.sampradana || ro.karma) && vis && (!ro.karma || ro.karma.indef || isU(ro.karma))) { rules.push({ id: 'Q-SELF-COGNITION', doc: 'Doc5 kāraka: directive “tell me … about NP”' }); return about(vis.np); }
       if (gap === 'imp' && SELF_SAY.has(L) && ro.sampradana && isU(ro.sampradana) && ro.karma && ro.karma.indef && !vis) { rules.push({ id: 'Q-SELF-COGNITION', doc: 'Doc5' }); return list('facts'); }
       /* provenance: "when did I tell you / say / mention (that CLAUSE | about NP)" — kartā = user, saying verb, kāla gapped */
@@ -668,6 +674,9 @@ function Kernel(opts) {
       else if (gap === 'pred' && wh === 'what' && q.verb.lemma === 'be') term = meaningOf(q.subj) || (generic(q.subj) ? q.subj : null);
       else if (gap === 'np') term = meaningOf(q.subj);
       if (term) return defineWord((term.surface || term.head)[0].toLowerCase(), term.head[0]);
+      /* SELF-MODEL (4.9.48): a question about Forge itself (kartā / copular subject = the addressee) is answered from selfmodel.js — true facts about Forge
+         selected by the lexical class of the questioned predicate and composed with the question's own clause (no preset reply) */
+      if (!(q.verb.mod === 'able' && SELF_CAPS.has(L))) { const sa = SELF.answer(q, gap, wh); if (sa) { rules.push({ id: 'Q-SELF-MODEL', doc: 'selfmodel.js: true self-facts by lexical class (' + sa.cls + ')', note: sa.rule }); return res('SELECTED_MEANING', sa.meaning, { frame: 'FR.SELF.MODEL', act: 'question' }); } }
       /* capability: "can you V …" — kartā = Forge, modal of ability: the verb is checked against the capability registry (CAPS), never a phrase */
       if (!wh && gap === null && isK(q.subj) && q.verb.mod === 'able' && q.verb.pol === 'pos') { const reg = SELF_CAPS.has(L), bare = !Object.keys(ro).length && !(q.adj || []).length;
         if (reg && bare) { rules.push({ id: 'Q-SELF-CAPABILITY', doc: 'Doc5 §17 capability registry; frame from the parse (kartā Forge, mod able)' }); return res('SELECTED_MEANING', { kind: 'help' }, { frame: 'FR.CAPABILITY', act: 'question' }); }
@@ -689,11 +698,23 @@ function Kernel(opts) {
     const unk = unknownToks(toks); if (unk.length) return clarifyUnknown(unk);
     return declarative(toks, 'FR.ASSERT', 'assertion', false);
 
+    /* G-PARTIAL-STRUCTURE (4.9.48): no full derivation → the best-scoring partial structure (grammar.js partial()) is reported as what was understood, and the
+       reply asks for the one missing piece (the unattached words' role, the verb, or the kartā). The reply is generated from the structure, never a canned line. */
+    function partialReply(body, frame, act) { const tk0 = content(body);
+      /* G-INTERJECTION (speech act without a clause): an utterance of interjections (closed class INTJ, with an optional vocative / deictic) is a complete
+         speech act; its act class (greeting / parting / thanks) is the interjection's lexical class, answered in kind by the realizer */
+      { const ia = tk0.length && tk0.every(t => (G.CL[t.w] || []).includes('INTJ') || /^(there|forge|everyone|all)$/.test(t.w)) ? tk0.map(t => INTJ_ACT[t.w]).find(Boolean) : null;
+        if (ia) { rules.push({ id: 'G-INTERJECTION', doc: 'Doc5 §15 speech act from the interjection class', note: ia }); return res('SELECTED_MEANING', { kind: 'interjection', act: ia, word: tk0.map(t => t.orig).join(' ') }, { frame: 'FR.SOCIAL', act: 'social' }); } }
+      const tk = tk0; const pp = G.Parser(tk, glex).partial(); const span = (a, b) => tk.slice(a, b).map(t => t.orig).join(' ');
+      const m = { kind: 'no_frame' }; if (pp.kind === 'clause') m.clause = clone(pp.node); else if (pp.kind === 'np') m.pieces = [{ text: span(0, pp.i), role: 'subject' }]; else if (pp.kind === 'vp') m.pieces = [{ text: span(0, pp.i), role: 'predicate' }];
+      if (pp.rest) m.rest = span(pp.rest[0], pp.rest[1]); if (pp.missing) m.missing = pp.missing;
+      rules.push({ id: 'G-PARTIAL-STRUCTURE', doc: 'Merge bottom-up; best partial structure kept (Chomsky transcripts: procedure over corpus); kāraka roles from the parse', note: pp.kind + ' covers ' + pp.i + '/' + tk.length + (m.missing ? ', missing ' + m.missing : '') });
+      g.expectancy = 'partial structure'; return res('CLARIFICATION_REQUIRED', m, { frame, act }); }
     function declarative(body, frame, act, remember) {
       const ub = unknownToks(body); if (ub.length && remember && ub.length <= 3) { meta.pending = { type: 'teach', raw: ctx.raw, low: ctx.low, words: ub }; g.connectedness = 'unknown-concept'; rules.push({ id: 'LX-TEACH-ASK', doc: 'WM v1 Contract (memory commands may require known vocabulary): ask, then admit through the lexicon gate', note: ub.join(', ') }); return res('CLARIFICATION_REQUIRED', { kind: 'clarify_teach', words: ub }, { frame, act }); }
       if (ub.length) return clarifyUnknown(ub);
       const d = derive(body); rules.push({ id: 'G-DERIVATION', doc: 'Doc3; R0 (Paninian derivation)', note: d.parses.length + ' distinct derivation(s)' });
-      if (!d.parses.length) { g.expectancy = 'no derivation'; rules.push({ id: 'G-NO-DERIVATION', doc: 'Doc6 §36.19' }); return res('NO_LAWFUL_CANDIDATE', { kind: 'no_frame' }, { frame, act }); }
+      if (!d.parses.length) { g.expectancy = 'no derivation'; rules.push({ id: 'G-NO-DERIVATION', doc: 'Doc6 §36.19' }); return partialReply(body, frame, act); }
       if (d.parses.length > 1 && !(ctx.chosenReading && ctx.chosenReading <= Math.min(4, d.parses.length))) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); const readings = d.parses.slice(0, 4).map(p => describe(p.node.clause)); meta.pending = { type: 'reading', raw: ctx.raw, low: ctx.low, frame, act, count: readings.length, readings }; return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings }, { frame, act }); }
       const parse = d.parses[ctx.chosenReading ? ctx.chosenReading - 1 : 0]; rules.push(...parse.rules.map(id => ({ id, doc: ruleDoc(id) })));
       const cl = parse.node.clause; if (ctx.hedge) setMod(cl, 'possible'); if (ctx.chosenReading) cl.resolved_reading = ctx.chosenReading;
@@ -792,7 +813,11 @@ function Kernel(opts) {
       if (!reads.length) { const unk = unknownToks(toks); if (unk.length) return clarifyUnknown(unk); return null; }
       const uniq = []; const seen = new Set(); for (const r of reads) { const k = canon(G.material(r.node)); if (!seen.has(k)) { seen.add(k); uniq.push(r); } }
       if (uniq.length > 1) { const keep = uniq.filter(r => !(r.node.clause && r.node.clause.pred && r.node.clause.pred.type === 'pp' && r.node.clause.pred.prep === 'of')); if (keep.length && keep.length < uniq.length) { rules.push({ id: 'LL-COPULA-OF-APAVADA', doc: 'Doc3 apavāda: a bare “of” phrase is not a copular predicate when a nominal reading exists' }); uniq.splice(0, uniq.length, ...keep); } }
-      if (uniq.length > 1) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings: uniq.slice(0, 4).map(p => describe(p.node.clause)) }, { frame: 'FR.QUESTION', act: 'question' }); }
+      if (uniq.length > 1) { const wq = G.CL[toks[0].w] && G.CL[toks[0].w].includes('WH') ? toks[0].w : null; const sas = uniq.map(r => r.node.clause && SELF.answer(r.node.clause, gap, wq));
+        /* SELF-MODEL over an ambiguity: when every reading is a self-question the self-model settles the same way, the answer does not depend on the reading;
+           the question is not re-voiced (that would pick a reading), only the shared answer and its facts are stated */
+        if (sas.every(x => x && x.meaning.answer === sas[0].meaning.answer && x.cls === sas[0].cls)) { const m = Object.assign({}, sas[0].meaning); if (m.restated) { const st = clone(m.clauses[0]); delete st.roles; st.adj = []; m.clauses = (derive(G.tokenize(G.clauseText(Object.assign({}, st, { subj: { pron: 'user' } }), 'kernel'))).parses.length === 1 ? [st] : []).concat(m.clauses.slice(1)); delete m.restated; } /* restate only the verb (shared by every reading) */ rules.push({ id: 'Q-SELF-MODEL', doc: 'selfmodel.js; all ' + uniq.length + ' readings settle alike (' + sas[0].cls + ')', note: sas[0].rule }); return res('SELECTED_MEANING', m, { frame: 'FR.SELF.MODEL', act: 'question' }); }
+        rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings: uniq.slice(0, 4).map(p => describe(p.node.clause)) }, { frame: 'FR.QUESTION', act: 'question' }); }
       const q = uniq[0].node.clause; if (gap === 'subj') q.subj = null;
       if (gap === 'role:karma' && q.roles && q.roles.karma) { if (/^(what|which)$/.test(toks[0].w) && animNP(q.roles.karma) && !q.roles.sampradana) { q.roles = { sampradana: q.roles.karma }; rules.push({ id: 'Q-WH-KARMA-SHIFT', doc: 'Doc5 (animate first object = sampradāna when karma is the gap)' }); } else gap = null; }
       { const mq = metaQ(q, gap, G.CL[toks[0].w] && G.CL[toks[0].w].includes('WH') ? toks[0].w : null); if (mq) return mq; }
@@ -926,7 +951,7 @@ function Kernel(opts) {
 
   const OUTCOME_CLASS = { SELECTED_MEANING: 'selected', SELECTED_RESTRICTED_MEANING: 'selected', AMBIGUITY_PRESERVED: 'ambiguous', CLARIFICATION_REQUIRED: 'clarify', INCOMPLETE_PRESERVED: 'clarify', UNSUPPORTED_PRESERVED: 'refuse',
     INCONGRUENT_REJECTED: 'reject', DISCONNECTED_REJECTED: 'reject', NO_LAWFUL_CANDIDATE: 'reject', REFUSAL_RELEVANT: 'refuse', UNDERSTOOD_ACTION_BLOCKED: 'understood-but-blocked', PURPOSE_UNRECOVERABLE: 'refuse' };
-  const INF = IF.Infer({ lex, entKey: n => entKey(n), entKeys: n => entKeys(n), G });
+  const INF = IF.Infer({ lex, entKey: n => entKey(n), entKeys: n => entKeys(n), G }); const SELF = SM.SelfModel({ lex, INF });
 
   let curSecrets = [];
   function ellipsis(raw) {
@@ -1015,7 +1040,7 @@ function Kernel(opts) {
     { const Tq = tagQuestion(raw); if (Tq) { trace.rules.push({ id: 'LL-TAG-QUESTION', doc: 'Doc5 §15 speech acts (tag = yes/no question)', note: Tq.note }); if (Tq.raw) { raw = Tq.raw; low = Tq.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     { const E = ellipsis(raw); if (E) { trace.rules.push({ id: 'LL-ELLIPSIS-VP', doc: 'Doc 3 ellipsis; Register F-11', note: E.note }); if (E.raw) { raw = E.raw; low = E.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     let sel; try { sel = evaluate(raw, low, ctx); }
-    catch (e) { sel = { outcome: 'NO_LAWFUL_CANDIDATE', material: { kind: 'no_frame' }, gates: { expectancy: 'derivation error' }, rules: [{ id: 'G-DERIVATION-ERROR', doc: 'Doc6 §35', note: String(e && e.message).slice(0, 80) }], frame: 'none', act: 'unknown' }; }
+    catch (e) { sel = { outcome: 'NO_LAWFUL_CANDIDATE', material: { kind: 'no_frame', rest: String(raw).replace(/[.!?\s]+$/, '').slice(0, 120) }, gates: { expectancy: 'derivation error' }, rules: [{ id: 'G-DERIVATION-ERROR', doc: 'Doc6 §35', note: String(e && e.message).slice(0, 80) }], frame: 'none', act: 'unknown' }; }
     const worldTurn = /^FR\.WORLD/.test(sel.frame || '');
     if (bypass && worldTurn) { trace.bypass_flag = true; trace.rules.push({ id: 'ADV-BYPASS-FLAGGED', doc: 'bypass phrase flagged; the checked world result stands' }); } else if (bypass) sel.forbiddenPath = true;
     Ph(3, 'purpose: ' + sel.act + ' via ' + sel.frame);

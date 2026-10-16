@@ -1,8 +1,8 @@
 [
  [
   "hello",
-  "I recognised every word. But I could not derive a sentence structure for that. Type “help” for a list of supported forms.",
-  "reject",
+  "I recognised “hello” as a greeting. Please ask a question.",
+  "selected",
   0,
   "d33f60d5b0a2906bfce8aec49ca7ae23c3a57782d0e979b2355c4f905ac1b7c2"
  ],
@@ -120,8 +120,8 @@
  ],
  [
   "2",
-  "I recognised every word. But I could not derive a sentence structure for that. Type “help” for a list of supported forms.",
-  "reject",
+  "I recognised “2” as the subject. But I found no verb. Please tell me the verb.",
+  "clarify",
   0,
   "5efc7aaf3454ef096cd142032ca2cd23e0913cef54590d3a5e638b8ab915438d"
  ],

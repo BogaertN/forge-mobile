@@ -8,7 +8,7 @@ const CLOSED = {
   DET: 'the a an this these those', POSS: 'my your his her its our their', QUANT: 'all every each some any many few several most both no',
   PRON: 'i me you he him she her it we us they them myself yourself anything something nothing everything anyone someone noone everyone anybody somebody nobody everybody', WH: 'what who whom where when which why how whose',
   COP: 'am is are was were be been being', AUX: 'do does did have has had', MOD: 'will would shall should can could may might must',
-  NEG: 'not never', SUB: 'because while although whereas', THAN: 'than', PREP: 'in on at to from with by for of about regarding concerning into onto under over after before during near without through across around between behind beside since until',
+  NEG: 'not never', SUB: 'because while although whereas', THAN: 'than', PREP: 'as in on at to from with by for of about regarding concerning into onto under over after before during near without through across around between behind beside since until',
   CONJ: 'and or but', IF: 'if unless', THEN: 'then', REL: 'who which that', COMP: 'that', PART: 'up down out off away back',
   ADV: 'also too very really now today tonight tomorrow yesterday here there always often sometimes usually never already still soon later again maybe perhaps probably possibly definitely certainly',
   PLEASE: 'please', INTJ: 'hello hi hey yes no ok okay thanks goodbye bye',
@@ -26,6 +26,11 @@ const NAMEISH = new Set('rose lily daisy iris violet ivy jasmine hazel holly hea
 const SUBW = new Set(['because', 'when', 'while', 'after', 'before', 'until']);
 const CTRL_INF = new Set('want need like love hate try decide plan hope expect agree refuse promise learn forget start begin continue prefer intend wish choose attempt manage fail offer seem afford arrange claim deserve pretend threaten tend volunteer wait'.split(' ')); // Doc5 frame registry: verbs licensing a to-infinitive (union with WordNet frames 28/32/35)
 const CTRL_GER = new Set('like love hate enjoy stop start finish avoid mind keep quit prefer begin continue try miss consider suggest practice practise imagine recommend risk deny admit appreciate dislike'.split(' ')); // verbs licensing a gerund (union with WordNet frame 33)
+/* FRAME_RE: which WordNet generic frame strings license each complement kind; FRAME_SUPP: lexicon supplements where WordNet lists no such frame for the lemma */
+const FRAME_RE = { inf: /to INFINITIVE$|----s INFINITIVE$/, ger: /VERB-ing$/, clause: /that CLAUSE$/, adj: /----s Adjective(\/Noun)?$/, addressee_clause: /^$/ };
+/* SEED_FRAMES: the seed tier's own verbs (used only when no WordNet tier is attached, e.g. the bare kernel) */
+const SEED_FRAMES = { clause: new Set('know think say believe hope remember tell'.split(' ')) };
+const FRAME_SUPP = { addressee_clause: new Set('tell inform remind promise show teach warn assure notify convince persuade'.split(' ')) };
 const IRRA = Object.assign(Object.create(null), { better: ['good', 'cmp'], best: ['good', 'sup'], worse: ['bad', 'cmp'], worst: ['bad', 'sup'], farther: ['far', 'cmp'], further: ['far', 'cmp'], farthest: ['far', 'sup'], furthest: ['far', 'sup'] });
 /* ADJ_INF (lexicon classes, Chomsky transcripts "the chicken is ready to eat"): an adjective that takes a to-infinitive says, by its own lexical class,
    which kāraka of the infinitive its subject fills. Growth is by adding words here (lexicon), never by a rule per sentence.
@@ -120,7 +125,9 @@ function Parser(toks, lex) {
   }
   function npBase(i) {
     const out = [];
-    for (const a of at(i, 'PRON')) { const p = PRON[word(i)]; out.push(R(p.indef ? { indef: word(i), feats: p } : p.p === 1 && p.n === 'sg' ? { pron: 'user' } : p.p === 2 ? { pron: 'kernel' } : { pron3: word(i), feats: p }, i + 1, [p.indef ? 'NP-INDEFINITE-PRON' : 'NP-PRON'])); }
+    for (const a of at(i, 'PRON')) { const p = PRON[word(i)]; out.push(R(p.indef ? { indef: word(i), feats: p } : p.p === 1 && p.n === 'sg' ? { pron: 'user' } : p.p === 2 ? { pron: 'kernel' } : { pron3: word(i), feats: p }, i + 1, [p.indef ? 'NP-INDEFINITE-PRON' : 'NP-PRON']));
+      /* NP-INDEFINITE-POSTMOD (Merge: the quantifier pronoun is the head, the adjective merges to its right: "something cold", "anything new") */
+      if (p.indef) for (const q of at(i + 1, 'ADJ')) if (q.f === 'pos') out.push(R({ indef: word(i), feats: p, adjs: [T[i + 1].w] }, i + 2, ['NP-INDEFINITE-PRON', 'NP-INDEFINITE-POSTMOD'])); }
     if (/^(?:this|these|those)$/.test(word(i)) && at(i, 'DET').length && !(i + 1 < T.length && ['N', 'ADJ', 'NUM', 'PROPN', 'DET', 'POSS', 'QUANT'].some(t => at(i + 1, t).length))) out.push(R({ pron3: word(i), feats: { p: 3, n: word(i) === 'this' ? 'sg' : 'pl', dem: true } }, i + 1, ['NP-DEMONSTRATIVE-PRON'])); // 4.9.40: a determiner with no nominal after it is a demonstrative pronoun ("use this")
     if (at(i, 'PROPN').length) { let j = i; const ws = []; while (at(j, 'PROPN').length) { ws.push(T[j].orig); j++; } out.push(R({ propn: ws.join(' ') }, j, ['NP-PROPN'])); }
     if (at(i, 'NUM').length && at(i + 1, 'NUM').length) { let j = i; const ns = []; while (at(j, 'NUM').length) { ns.push(word(j)); j++; } out.push(R({ num: ns.join(' ') }, j, ['NP-NUM-SEQUENCE'])); }
@@ -156,7 +163,7 @@ function Parser(toks, lex) {
     return all.concat(co);
   }
   // ---- adjuncts: PP / time ----
-  const KARAKA = { to: 'sampradana', for: 'sampradana', with: 'karana', by: 'karana', from: 'apadana', in: 'adhikarana', on: 'adhikarana', at: 'adhikarana', near: 'adhikarana', into: 'adhikarana', under: 'adhikarana', over: 'adhikarana', about: 'vishaya', regarding: 'vishaya', concerning: 'vishaya', of: 'sambandha', after: 'kala', before: 'kala', during: 'kala', since: 'kala', until: 'kala', without: 'karana', through: 'adhikarana', across: 'adhikarana', around: 'adhikarana', between: 'adhikarana', behind: 'adhikarana', beside: 'adhikarana', onto: 'adhikarana' };
+  const KARAKA = { to: 'sampradana', for: 'sampradana', with: 'karana', by: 'karana', from: 'apadana', in: 'adhikarana', on: 'adhikarana', at: 'adhikarana', near: 'adhikarana', into: 'adhikarana', under: 'adhikarana', over: 'adhikarana', about: 'vishaya', regarding: 'vishaya', concerning: 'vishaya', of: 'sambandha', after: 'kala', before: 'kala', during: 'kala', since: 'kala', until: 'kala', without: 'karana', through: 'adhikarana', across: 'adhikarana', around: 'adhikarana', between: 'adhikarana', behind: 'adhikarana', beside: 'adhikarana', onto: 'adhikarana', as: 'upadhi' };
   /* an open-class adverb is a word whose every lexical reading is ADV (no closed-class, noun or adjective reading: "home" stays a noun/adverb ambiguity for the existing rules) */
   const openAdv = j => j < T.length && T[j].an.length > 0 && T[j].an.some(x => x.tag === 'ADV') && T[j].an.every(x => (x.tag === 'ADV' && x.rule !== 'TAG-CLOSED-ADV') || x.rule === 'TAG-PROPN-INITIAL-ALT');
   function adjuncts(i) {
@@ -167,11 +174,14 @@ function Parser(toks, lex) {
       if (j < T.length && (TIMEW.has(word(j)) && (at(j, 'ADV').length || at(j, 'N').length)) && !list.some(x => x.time === word(j))) go(j + 1, list.concat([{ time: word(j), role: 'kala' }]), rules.concat(['K-KALA-ADV']));
       /* K-PRAKARA-ADV (Doc5 kāraka: manner adjunct): an open-class adverb (lexicon POS r, not closed-class) attaches to the verb of the clause it is parsed in */
       if (j < T.length && openAdv(j) && !list.some(x => x.adv === word(j))) go(j + 1, list.concat([{ adv: word(j), role: 'prakara' }]), rules.concat(['K-PRAKARA-ADV']));
+      if (['every', 'each'].includes(word(j)) && j + 1 < T.length && TIMEW.has(word(j + 1)) && !list.some(x => x.time === word(j) + ' ' + word(j + 1))) go(j + 2, list.concat([{ time: word(j) + ' ' + word(j + 1), role: 'kala' }]), rules.concat(['K-KALA-QUANT']));
       if (['last', 'next', 'this'].includes(word(j)) && j + 1 < T.length && TIMEW.has(word(j + 1))) go(j + 2, list.concat([{ time: word(j) + ' ' + word(j + 1), role: 'kala' }]), rules.concat(['K-KALA-DEICTIC']));
     })(i, [], []);
     return res;
   }
   // ---- verb group: (MOD|do|will) (not) V | COP (not) | V-ed/V-s ----
+  /* a pre-verbal adverb (closed or open class, not a time word, not negation): "you ever get", "I often walk" — Merge with the verb group, kept as prakāra */
+  const preAdv = j => j < T.length && at(j, 'ADV').length > 0 && !at(j, 'NEG').length && !TIMEW.has(word(j)) && !at(j, 'V').length && !['very', 'too', 'here', 'there'].includes(word(j));
   function vgroup(i) {
     const res = []; const w = word(i);
     const neg = j => (at(j, 'NEG').length ? { pol: 'neg', j: j + 1 } : { pol: 'pos', j });
@@ -179,7 +189,8 @@ function Parser(toks, lex) {
     if (at(i, 'COP').length && !['be', 'been', 'being'].includes(w)) { const n = neg(i + 1); const tense = ['was', 'were'].includes(w) ? 'past' : 'present'; res.push(...pass(n.j, { tense, pol: n.pol, mod: 'asserted', form: w }).map(r => (n.pol === 'neg' ? Object.assign(r, { rules: r.rules.concat(['LL-NEG-PRED']) }) : r))); }
     if (at(i, 'COP').length) { const n = neg(i + 1); const tense = ['was', 'were'].includes(w) ? 'past' : 'present'; res.push(R({ cop: true, tense, pol: n.pol, mod: 'asserted', form: w }, n.j, ['V-COP-' + tense.toUpperCase()].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : [])));
       for (const v of at(n.j, 'V')) if (v.f === 'ing') res.push(R({ lemma: v.lemma, tense, aspect: 'progressive', pol: n.pol, mod: 'asserted' }, n.j + 1, ['V-PROGRESSIVE'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
-    if (at(i, 'AUX').length && ['do', 'does', 'did'].includes(w)) { const n = neg(i + 1); for (const v of at(n.j, 'V')) if (v.f === 'base') res.push(R({ lemma: v.lemma, tense: w === 'did' ? 'past' : 'present', pol: n.pol, mod: 'asserted', dosupport: true }, n.j + 1, ['V-DO-SUPPORT'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
+    if (at(i, 'AUX').length && ['do', 'does', 'did'].includes(w)) { const n = neg(i + 1); for (const v of at(n.j, 'V')) if (v.f === 'base') res.push(R({ lemma: v.lemma, tense: w === 'did' ? 'past' : 'present', pol: n.pol, mod: 'asserted', dosupport: true }, n.j + 1, ['V-DO-SUPPORT'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : [])));
+      if (preAdv(n.j)) for (const v of at(n.j + 1, 'V')) if (v.f === 'base') res.push(R({ lemma: v.lemma, tense: w === 'did' ? 'past' : 'present', pol: n.pol, mod: 'asserted', dosupport: true, preAdv: [word(n.j)] }, n.j + 2, ['V-DO-SUPPORT', 'K-PRAKARA-ADV-PREVERBAL'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
     if (at(i, 'AUX').length && ['have', 'has', 'had'].includes(w)) { const n = neg(i + 1); for (const v of at(n.j, 'V')) if (v.f === 'pp' || v.f === 'past') res.push(R({ lemma: v.lemma, tense: 'past', aspect: 'perfect', pol: n.pol, mod: 'asserted' }, n.j + 1, ['V-PERFECT'])); }
     /* possessive main verb “have” (Doc5 frame: possessor karta, possessed karma) — utsarga; the perfect auxiliary above is the apavāda when a participle follows */
     if (['have', 'has', 'had'].includes(w) && !at(i + 1, 'V').some(v => v.f === 'pp' || v.f === 'past')) res.push(R({ lemma: 'have', tense: w === 'had' ? 'past' : 'present', f: w === 'has' ? 'pres3' : w === 'had' ? 'past' : 'base', pol: 'pos', mod: 'asserted' }, i + 1, ['V-FINITE-HAVE-POSSESSIVE']));
@@ -189,12 +200,17 @@ function Parser(toks, lex) {
       const f = mod === 'future' ? fill('future', 'asserted') : fill('present', mod);
       if (word(n.j) === 'be') res.push(...pass(n.j + 1, f).map(r => Object.assign(r, { rules: ['V-MODAL-' + mod.toUpperCase(), 'LL-MOD-VERB'].concat(r.rules) })));
       if (word(n.j) === 'be') { res.push(R(Object.assign({ cop: true, form: 'be' }, f), n.j + 1, ['V-MODAL-' + mod.toUpperCase(), 'LL-MOD-VERB'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
-      for (const v of at(n.j, 'V')) if (v.f === 'base') res.push(R(Object.assign({ lemma: v.lemma }, f), n.j + 1, ['V-MODAL-' + mod.toUpperCase(), 'LL-MOD-VERB'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
+      for (const v of at(n.j, 'V')) if (v.f === 'base') res.push(R(Object.assign({ lemma: v.lemma }, f), n.j + 1, ['V-MODAL-' + mod.toUpperCase(), 'LL-MOD-VERB'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : [])));
+      if (preAdv(n.j)) for (const v of at(n.j + 1, 'V')) if (v.f === 'base') res.push(R(Object.assign({ lemma: v.lemma, preAdv: [word(n.j)] }, f), n.j + 2, ['V-MODAL-' + mod.toUpperCase(), 'LL-MOD-VERB', 'K-PRAKARA-ADV-PREVERBAL'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
     for (const v of at(i, 'V')) { if (['pres3', 'past', 'base'].includes(v.f)) res.push(R({ lemma: v.lemma, tense: v.f === 'past' ? 'past' : 'present', f: v.f, pol: 'pos', mod: 'asserted' }, i + 1, ['V-FINITE-' + v.f.toUpperCase(), v.rule])); }
     return res;
   }
   // ---- VP ----
-  const licenses = (lemma, kind) => { const fr = lex.vframes ? lex.vframes(lemma) : []; return kind === 'inf' ? CTRL_INF.has(lemma) || fr.some(f => /to INFINITIVE$|----s INFINITIVE$/.test(f)) : CTRL_GER.has(lemma) || fr.some(f => /VERB-ing$/.test(f)); };
+  /* VERB FRAMES FROM THE LEXICON (4.9.48): a verb's complement frames are read from its WordNet 3.0 generic frames (lex.vframes); the small
+     supplements below (FRAME_SUPP) only name frames WordNet omits for a lemma, so every frame a verb takes is a lexicon-class fact, never a per-sentence rule */
+  const vfr = lemma => (lex.vframes ? lex.vframes(lemma) || [] : []);
+  const takes = (lemma, kind) => { if (FRAME_SUPP[kind] && FRAME_SUPP[kind].has(lemma)) return true; const fr = vfr(lemma); if (!fr.length) return !!(SEED_FRAMES[kind] && SEED_FRAMES[kind].has(lemma)); return fr.some(f => FRAME_RE[kind].test(f)); };
+  const licenses = (lemma, kind) => { const fr = lex.vframes ? lex.vframes(lemma) : []; return kind === 'inf' ? CTRL_INF.has(lemma) || takes(lemma, 'inf') : CTRL_GER.has(lemma) || takes(lemma, 'ger'); };
   function vpNF(j, form) { // non-finite VP (infinitive after "to", or gerund): no subject, no tense
     const gs = []; const nfw = form === 'base' ? 'inf' : 'ger';
     if (form === 'base' && word(j) === 'be') gs.push(R({ cop: true, tense: 'none', pol: 'pos', mod: 'asserted', nf: nfw }, j + 1, ['V-NONFINITE-INF']));
@@ -221,6 +237,8 @@ function Parser(toks, lex) {
           for (const c of vpNF(g.i + 2, 'base')) { const cv = c.node; if (!cv.verb || cv.verb.lemma === 'be') continue; const hasK = !!(cv.roles && (cv.roles.karma || cv.roles.sampradana));
             if (cls !== 'karma') preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: cv, ctrl: 'karta' }, c.i, ['P-ADJ-INFINITIVE', 'K-KARTA-CONTROL'].concat(c.rules)));
             if (cls !== 'subj' && !hasK && (!lex.vframes || (lex.vframes(cv.verb.lemma) || []).some(f => /somebody|something/.test(f) && !/^Something ----s$|^Somebody ----s$/.test(f)) || !(lex.vframes(cv.verb.lemma) || []).length)) preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: cv, ctrl: 'karma' }, c.i, ['P-ADJ-INFINITIVE', 'K-KARMA-GAP'].concat(c.rules))); } }
+        /* P-ADJ-OF (Merge: an adjective takes an of-complement — "afraid of the dark", "proud of her work") */
+        for (const p of preds.slice()) if (p.node.type === 'adj' && p.node.words.length === 1 && word(p.i) === 'of') for (const n of np(p.i + 1, true)) preds.push(R(Object.assign({}, p.node, { of: n.node }), n.i, p.rules.concat(['P-ADJ-OF'], n.rules)));
         for (const n of np(g.i)) preds.push(R({ type: 'np', np: n.node }, n.i, ['P-NP'].concat(n.rules)));
         if (['here', 'there'].includes(word(g.i)) && !v.nf) preds.push(R({ type: 'adv', words: [word(g.i)] }, g.i + 1, ['P-DEIXIS-LOCUS'])); /* "was here": deictic locus predicate */
         if (at(g.i, 'PREP').length) for (const n of np(g.i + 1, true)) preds.push(R({ type: 'pp', prep: word(g.i), np: n.node }, n.i, ['P-PP'].concat(n.rules)));
@@ -245,11 +263,16 @@ function Parser(toks, lex) {
       const objs = [R({}, g.i, [])];
       const gerOK = licenses(v.lemma, 'ger') && at(g.i, 'V').some(x => x.f === 'ing'); const infOK = licenses(v.lemma, 'inf') && word(g.i) === 'to' && (at(g.i + 1, 'V').some(x => x.f === 'base') || word(g.i + 1) === 'be');
       for (const o of np(g.i, true)) { if (gerOK && o.node.surface && /ing$/.test(o.node.surface[0])) continue; /* K-GERUND-APAVADA */ objs.push(R({ karma: o.node }, o.i, ['K-KARMA'].concat(o.rules))); for (const o2 of np(o.i, true)) objs.push(R({ sampradana: o.node, karma: o2.node }, o2.i, ['K-SAMPRADANA-DOUBLE-OBJECT', 'K-KARMA'].concat(o.rules, o2.rules))); }
-      if (['that'].includes(word(g.i)) || ['know', 'think', 'say', 'believe', 'hope', 'remember', 'tell'].includes(v.lemma)) for (const c of clause(word(g.i) === 'that' ? g.i + 1 : g.i)) objs.push(R({ karma: { clause: c.node } }, c.i, ['K-KARMA-CLAUSE'].concat(c.rules)));
+      if (['that'].includes(word(g.i)) || (takes(v.lemma, 'clause') && (!lex.vclasses || !lex.vclasses(v.lemma).length || lex.vclasses(v.lemma).some(c => c === 'verb.cognition' || c === 'verb.communication')))) for (const c of clause(word(g.i) === 'that' ? g.i + 1 : g.i)) objs.push(R({ karma: { clause: c.node } }, c.i, ['K-KARMA-CLAUSE'].concat(c.rules)));
       /* K-SAMPRADANA-CLAUSE: a saying verb takes an addressee and a that-clause ("I told you that …") */
-      if (['tell', 'inform', 'remind', 'promise', 'show', 'teach', 'warn'].includes(v.lemma)) for (const o of np(g.i, true)) if (word(o.i) === 'that') for (const c of clause(o.i + 1)) objs.push(R({ sampradana: o.node, karma: { clause: c.node } }, c.i, ['K-SAMPRADANA-CLAUSE'].concat(o.rules, c.rules)));
+      if (takes(v.lemma, 'addressee_clause')) for (const o of np(g.i, true)) if (word(o.i) === 'that') for (const c of clause(o.i + 1)) objs.push(R({ sampradana: o.node, karma: { clause: c.node } }, c.i, ['K-SAMPRADANA-CLAUSE'].concat(o.rules, c.rules)));
       if (infOK) for (const c of vpNF(g.i + 1, 'base')) objs.push(R({ karma: { inf: c.node } }, c.i, ['K-KARMA-INFINITIVE'].concat(c.rules)));
       if (gerOK) for (const c of vpNF(g.i, 'ing')) objs.push(R({ karma: { ger: c.node } }, c.i, ['K-KARMA-GERUND'].concat(c.rules)));
+      /* K-VIDHEYA-ADJ (Doc5 kāraka; WordNet frames 6/7 "Somebody ----s Adjective"): an experiencer / linking verb merges with an adjective phrase
+         that predicates of its kartā ("I feel tired", "the soup tastes cold"); the frame class decides, not the word */
+      let vidOnly = -1; if (!v.nf && takes(v.lemma, 'adj')) (function go(j, ws, rules) { for (const a of at(j, 'ADJ')) { if (a.f === 'cmp' || a.f === 'sup' || at(j, 'N').length && at(j + 1, 'N').length) continue; if (at(j, 'N').length && lex.vframes1 && lex.vframes1(v.lemma).length && (!lex.vframes1(v.lemma).some(f => FRAME_RE.adj.test(f)) || lex.vframes1(v.lemma).some(f => /----s something$/.test(f)))) continue; /* K-VIDHEYA-APAVADA: a word that is also a noun is the karma when the verb's first sense takes a karma (or no adjective) */
+          if (at(j, 'N').length && j === g.i) vidOnly = j + 1; /* …and when the first sense takes an adjective but no karma, the adjective reading blocks the bare-noun karma of the same word */ const ws2 = ws.concat([T[j].w]); objs.push(R({ vidheya: { adjp: ws2 } }, j + 1, rules.concat(['K-VIDHEYA-ADJ']))); if (['and', 'or'].includes(word(j + 1))) go(j + 2, ws2.concat([word(j + 1)]), rules); } })(g.i, [], []);
+      if (vidOnly > 0) for (let k = objs.length - 1; k >= 0; k--) { const o = objs[k]; if (o.i === vidOnly && o.node.karma && o.node.karma.head && o.node.karma.head.length === 1 && !o.node.karma.det && !o.node.karma.owner && !o.node.karma.quant && !(o.node.karma.adjs || []).length) objs.splice(k, 1); }
       if (word(g.i) === ',' && at(g.i + 1, 'QUOTE').length) objs.push(R({ karma: { quote: at(g.i + 1, 'QUOTE')[0].lemma } }, g.i + 2, ['K-KARMA-QUOTE-DIRECT-SPEECH']));
       /* V-PARTICLE-PREPOSED (Doc5 kāraka; particle verbs): "picked up the box" — the particle stands before the karma; same verb+particle as "picked the box up" */
       if (at(g.i, 'PART').length && !at(g.i, 'PREP').length) for (const o of np(g.i + 1, true)) objs.push(Object.assign(R({ karma: o.node }, o.i, ['V-PARTICLE-PREPOSED', 'K-KARMA'].concat(o.rules)), { part: word(g.i) }));
@@ -257,7 +280,7 @@ function Parser(toks, lex) {
         let j = o.i, part = o.part || null; if (!part && at(j, 'PART').length) { part = word(j); j++; }
         for (const a of adjuncts(j)) { if (o.node.karma && o.node.karma.clause && a.node.length) continue; /* K-CLAUSE-LATE-CLOSURE: material after a that-complement closes inside the lowest clause (structural, not a choice) */
           if (infOK && !o.node.karma && a.node[0] && a.node[0].prep === 'to' && j === g.i) continue; /* K-INFINITIVE-APAVADA: licensed "to V" is a complement, not a PP */
-          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part } : {}, v.f ? { f: v.f } : {}, nf), roles: o.node, adj: a.node }, a.i, g.rules.concat(o.rules, a.rules))); }
+          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part } : {}, v.f ? { f: v.f } : {}, nf), roles: o.node, adj: (v.preAdv || []).map(x => ({ adv: x, role: 'prakara', pre: true })).concat(a.node) }, a.i, g.rules.concat(o.rules, a.rules))); }
       }
     }
     return res;
@@ -282,7 +305,7 @@ function Parser(toks, lex) {
     if (!noFront) for (const f of fronted(i)) if (f.topic) { for (const c of clause(f.j, true)) { const b2 = !c.node.coord && bindTopic(c.node, f.topic); if (b2) res.push(R(b2, c.i, f.rules.concat(c.rules))); } }
     else for (const c of clause(f.j, true)) if (!c.node.coord) res.push(R(Object.assign({}, c.node, { adj: (c.node.adj || []).concat(f.xp.map(x => Object.assign({}, x, { front: true }))) }), c.i, ['G-DISPLACE-FRONT'].concat(f.rules, c.rules)));
     const sg3 = n => !n.pron && !n.conj && !n.plural && !(n.pron3 && ['they', 'we', 'them', 'us'].includes(n.pron3));
-    for (const s of np(i)) for (const v of vp(s.i)) {
+    for (const s of np(i)) for (const v of vp(s.i).concat(preAdv(s.i) ? vp(s.i + 1).filter(x => x.node.verb && !x.node.verb.nf).map(x => R(Object.assign({}, x.node, { adj: [{ adv: word(s.i), role: 'prakara', pre: true }].concat(x.node.adj || []) }), x.i, ['K-PRAKARA-ADV-PREVERBAL'].concat(x.rules))) : [])) {
       const f = v.node.verb && v.node.verb.f; if ((f === 'base' && sg3(s.node)) || (f === 'pres3' && !sg3(s.node))) continue; // LL-AGREEMENT (subject–verb concord)
       const times = (v.node.adj || []).filter(a => a.time).map(a => a.time).join(' '); const tn = v.node.verb && v.node.verb.tense;
       if (tn && ((/\b(yesterday|last)\b/.test(times) && tn !== 'past') || (/\b(tomorrow|next)\b/.test(times) && tn === 'past'))) continue; // LL-TENSE-KALA-CONCORD
@@ -305,14 +328,25 @@ function Parser(toks, lex) {
     }
     return out;
   }
-  return { T, np, vp, vpNF, clause, sentence, adjuncts, fronted, at, word };
+  /* PARTIAL (4.9.48; graceful structure, Merge bottom-up): when no derivation spans the whole sentence, the best-scoring partial structure is kept instead of
+     failing — the longest clause from the left edge (kartā + verb + its kāraka roles), else the longest kartā NP, else the longest verb phrase. The score is
+     the number of words the structure covers, then the number of roles it fills. The uncovered words are reported as the unattached span, and the missing
+     constituent (verb or kartā) is named so the reply can ask for exactly that piece. */
+  function partial() { const n = T.length; let best = null; const roleN = c => Object.keys(c.roles || {}).length + (c.adj || []).length + (c.pred ? 1 : 0);
+    const keep = (cand) => { if (!best || cand.i > best.i || (cand.i === best.i && cand.score > best.score)) best = cand; };
+    for (const c of clause(0)) if (c.i < n && !c.node.coord) keep({ kind: 'clause', node: c.node, i: c.i, score: roleN(c.node), rules: c.rules });
+    if (!best) { for (const s of np(0)) if (s.i <= n) keep({ kind: 'np', node: s.node, i: s.i, score: 0, rules: s.rules, missing: T.slice(s.i).some(t => t.an.some(a => a.tag === 'V' || a.tag === 'COP' || a.tag === 'AUX' || a.tag === 'MOD')) ? null : 'verb' });
+      if (!['COP', 'AUX', 'MOD'].some(t => at(0, t).length)) for (const v of vp(0)) if (v.i <= n && v.i > 0) keep({ kind: 'vp', node: v.node, i: v.i, score: roleN(v.node), rules: v.rules, missing: 'subject' }); }
+    if (!best) return { kind: 'none', i: 0, rest: [0, n], missing: null };
+    return Object.assign(best, { rest: best.i < n ? [best.i, n] : null }); }
+  return { T, np, vp, vpNF, clause, sentence, adjuncts, fronted, at, word, partial };
 }
 /* ---------- generation (inverse) ---------- */
 function npText(n, persp) {
   if (!n) return '';
   if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
   if (n.pron === 'user') return persp === 'user' ? 'I' : 'you'; if (n.pron === 'kernel') return persp === 'user' ? 'you' : 'I';
-  if (n.pron3) return n.pron3; if (n.indef) return n.indef; if (n.propn) return n.propn; if (n.quote !== undefined) return '"' + n.quote + '"';
+  if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return n.propn; if (n.quote !== undefined) return '"' + n.quote + '"';
   let s = '';
   if (n.quant) s += n.quant + ' ';
   if (n.owner === 'user') s += persp === 'user' ? 'my ' : 'your '; else if (n.owner === 'kernel') s += persp === 'user' ? 'your ' : 'my '; else if (n.owner && n.owner.pron3) s += n.owner.pron3 + ' '; else if (n.owner) s += npText(n.owner, persp) + "'s ";
@@ -329,8 +363,8 @@ function agree(subj) { if (!subj) return 'pres3'; if (subj.pron === 'user') retu
 function nfText(c, persp) { // non-finite VP: "to buy a car" / "reading books"
   const v = c.verb; const head = v.lemma === 'be' ? (v.nf === 'inf' ? 'to be ' : 'being ') + predText(c.pred, persp) : (v.nf === 'inf' ? 'to ' + v.lemma : inflect(v.lemma, 'ing')) + (v.particle ? ' ' + v.particle : '');
   return head + rolesText(c.roles || {}, persp) + adjText(c, persp); }
-function rolesText(r, persp) { if (r.sampradana && r.karma) return ' ' + objText(r.sampradana, persp) + ' ' + objText(r.karma, persp); if (r.karma) return ' ' + objText(r.karma, persp); return ''; }
-function adjText(c, persp) { let s = ''; for (const a of c.adj || []) s += a.adv ? ' ' + a.adv : a.time ? ' ' + a.time : ' ' + a.prep + ' ' + (a.np.pron ? objText(a.np, persp) : npText(a.np, persp)); return s; }
+function rolesText(r, persp) { if (r.vidheya) return ' ' + r.vidheya.adjp.join(' '); if (r.sampradana && r.karma) return ' ' + objText(r.sampradana, persp) + ' ' + objText(r.karma, persp); if (r.karma) return ' ' + objText(r.karma, persp); return ''; }
+function adjText(c, persp) { let s = ''; for (const a of c.adj || []) if (!a.pre) s += a.adv ? ' ' + a.adv : a.time ? ' ' + a.time : ' ' + a.prep + ' ' + (a.np.pron ? objText(a.np, persp) : npText(a.np, persp)); return s; }
 const PAST_IS_OTHER_LEMMA = new Set(['saw', 'found', 'wound', 'ground', 'felt', 'fell', 'lay', 'bound', 'rent', 'flew']);
 function vpText(c, subj, persp) {
   const v = c.verb; const ag = agree(subj); const persUser = subj && subj.pron === 'user'; let vs;
@@ -338,17 +372,17 @@ function vpText(c, subj, persp) {
   const MODW = { possible: 'might', able: 'can', necessary: 'must', obligation: 'should', conditional: 'would' };
   if (v.nf) return nfText(c, persp);
   if (v.voice === 'passive') { let be; if (v.tense === 'future') be = 'will' + (neg ? ' not' : '') + ' be'; else if (v.mod && v.mod !== 'asserted') be = MODW[v.mod] + (neg ? ' not' : '') + ' be';
-    else { if (v.tense === 'past') be = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else be = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') be = v.tense === 'past' ? 'were' : 'are'; if (neg) be += ' not'; }
+    else { if (v.tense === 'past') be = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else be = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') be = v.tense === 'past' ? 'were' : 'are'; if (subj && subj.pron === 'kernel' && persp === 'kernel') be = v.tense === 'past' ? 'was' : 'am'; if (neg) be += ' not'; }
     return be + ' ' + inflect(v.lemma, 'pp') + (v.particle ? ' ' + v.particle : '') + (c.roles && c.roles.karta ? ' by ' + objText(c.roles.karta, persp) : '') + adjText(c, persp); }
   if (v.lemma === 'be') {
     let cop; if (v.tense === 'future') cop = 'will' + (neg ? ' not' : '') + ' be'; else if (v.mod !== 'asserted') cop = MODW[v.mod] + (neg ? ' not' : '') + ' be';
-    else { if (v.tense === 'past') cop = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else cop = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') cop = v.tense === 'past' ? 'were' : 'are'; if (neg) cop += ' not'; }
+    else { if (v.tense === 'past') cop = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else cop = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') cop = v.tense === 'past' ? 'were' : 'are'; if (subj && subj.pron === 'kernel' && persp === 'kernel') cop = v.tense === 'past' ? 'was' : 'am'; /* LL-AGREEMENT: Forge speaking of itself is first person */ if (neg) cop += ' not'; }
     vs = cop + ' ' + predText(c.pred, persp);
   } else {
     const base = v.lemma; const part = v.particle ? ' ' + v.particle : '';
     if (v.tense === 'future') vs = 'will' + (neg ? ' not ' : ' ') + base;
     else if (v.mod && v.mod !== 'asserted') vs = MODW[v.mod] + (neg ? ' not ' : ' ') + base;
-    else if (v.aspect === 'progressive') { const be = v.tense === 'past' ? (ag === 'pres3' || (ag === 'pres1' && persp === 'user') ? 'was' : 'were') : (ag === 'pres3' ? 'is' : ag === 'pres1' && persp === 'user' ? 'am' : 'are'); vs = be + (neg ? ' not ' : ' ') + inflect(base, 'ing'); }
+    else if (v.aspect === 'progressive') { const be = v.tense === 'past' ? (ag === 'pres3' || (ag === 'pres1' && persp === 'user') ? 'was' : 'were') : (ag === 'pres3' ? 'is' : (ag === 'pres1' && persp === 'user') || (subj && subj.pron === 'kernel' && persp === 'kernel') ? 'am' : 'are'); vs = be + (neg ? ' not ' : ' ') + inflect(base, 'ing'); }
     else if (v.aspect === 'perfect') vs = (ag === 'pres3' ? 'has' : 'have') + (neg ? ' not ' : ' ') + inflect(base, 'pp');
     else if (neg) vs = (v.tense === 'past' ? 'did' : ag === 'pres3' ? 'does' : 'do') + ' not ' + base;
     else if (v.tense === 'past' && ag !== 'pres3' && !c.resolved_reading && PAST_IS_OTHER_LEMMA.has(inflect(base, 'past')) && !(c.adj || []).some(a => a.role === 'kala')) vs = 'did ' + base; /* v4.9.36: a 3sg subject already rules out the homograph (she saws ≠ she saw); a reading the user chose keeps its own surface (Echo masks it) */ // GEN-PAST-HOMOGRAPH-DO: past form is itself another verb lemma in WordNet (saw, found, felt…) → do-support keeps the realization single-derivation (Echo)
@@ -357,10 +391,11 @@ function vpText(c, subj, persp) {
     vs += part;
     vs += rolesText(c.roles || {}, persp);
   }
+  const pre = (c.adj || []).filter(a => a.pre && a.adv).map(a => a.adv); if (pre.length) { const t = vs.split(' '); const k = t.length > 1 ? (t[1] === 'not' ? 2 : 1) : 0; vs = t.slice(0, k).concat(pre, t.slice(k)).join(' '); } /* a pre-verbal adverb stays before the main verb */
   return vs + adjText(c, persp);
 }
 function objText(o, persp) { if (o.clause) return 'that ' + clauseText(o.clause, persp); if (o.inf || o.ger) return nfText(o.inf || o.ger, persp); if (o.quote !== undefined && o.direct) return ', "' + o.quote + '"'; const t = npText(o, persp); return o.pron === 'user' ? (persp === 'user' ? 'me' : 'you') : o.pron === 'kernel' ? (persp === 'user' ? 'you' : 'me') : t; }
-function predText(p, persp) { if (p.type === 'adj' || p.type === 'adv') return p.words.join(' '); if (p.type === 'adjinf') return p.words.join(' ') + ' ' + (p.inf.verb.voice === 'passive' ? 'to be ' + inflect(p.inf.verb.lemma, 'pp') + adjText(p.inf, persp) : nfText(p.inf, persp)); if (p.type === 'cmp') return (p.surface || [p.degree === 'less' ? 'less' : 'more', p.adj]).join(' ') + ' than ' + objText(p.than, persp); if (p.type === 'sup') return 'the ' + (p.surface || [p.degree, p.adj]).join(' '); if (p.type === 'np') return npText(p.np, persp); return p.prep + ' ' + npText(p.np, persp); }
+function predText(p, persp) { if (p.type === 'adj' || p.type === 'adv') return p.words.join(' ') + (p.of ? ' of ' + objText(p.of, persp) : ''); if (p.type === 'adjinf') return p.words.join(' ') + ' ' + (p.inf.verb.voice === 'passive' ? 'to be ' + inflect(p.inf.verb.lemma, 'pp') + adjText(p.inf, persp) : nfText(p.inf, persp)); if (p.type === 'cmp') return (p.surface || [p.degree === 'less' ? 'less' : 'more', p.adj]).join(' ') + ' than ' + objText(p.than, persp); if (p.type === 'sup') return 'the ' + (p.surface || [p.degree, p.adj]).join(' '); if (p.type === 'np') return npText(p.np, persp); return p.prep + ' ' + npText(p.np, persp); }
 function clauseText(c, persp) {
   if (c.coord) return c.coord.map(x => clauseText(x, persp)).join(', and ');
   const s = npText(c.subj, persp); let body = s + ' ' + vpText(c, c.subj, persp);
