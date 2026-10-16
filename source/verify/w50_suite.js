@@ -133,4 +133,17 @@ T('W55 a verdict is dated by the year nearest its verdict word, not an attributi
   const v = AR.textVerdict({ excerpt: 'He was charged for the 1994 murders, and in 1995 ' + X + ' was acquitted.', title: X, name: 'S' }, { terms: [X], yn: true, pred: 'guilty', args: [X], negators: ['acquit'] }); expect(v && v.year === '1995', 'year ' + (v && v.year));
   const mp = { question: 'How does a ' + X + ' pump work?', atype: 'method', args: [], terms: [X, 'pump'], key: [X, 'pump'] }; const as = AR.assess([{ archive: 'wikipedia', name: 'W', rank: 1, cls: 'encyclopedia', title: 'Thermo ' + X + ' pump', excerpt: 'It works by using a current.', score: 5 }, { archive: 'wikipedia', name: 'W', rank: 1, cls: 'encyclopedia', title: X + ' pump', excerpt: 'It works by using compression.', score: 1 }], mp);
   expect(as.lead.title === X + ' pump', 'canon ' + as.lead.title); });
+/* 4.9.56 — symmetric relations, meta-discourse, unknown class words */
+T('W56 a reciprocal verb (from its gloss) holds in either argument order; a sentence about a document decides nothing; "is X a W" keeps an unknown class word', () => { if (!PRO) return; const k = kern(); const r = rng(57); const A = pick(r, ARTS), B = pick(r, PERS);
+  const p = k.lookupPlan('Can grapefruit interact with statins?'); expect(p.symmetric === true && k.lookupPlan('Can ibuprofen cause bleeding?').symmetric === false, 'symmetric');
+  const sp = { terms: [A, 'interact', B], yn: true, pred: 'interact', predVerb: true, predForms: ['interact', 'interacts'], args: [A, B + 's'], symmetric: true };
+  expect((AR.textVerdict({ excerpt: B[0].toUpperCase() + B.slice(1) + 's are among the drugs that interact with ' + A + ' juice.', title: '', name: 'S' }, sp) || {}).answer === 'Yes', 'reverse order');
+  expect(AR.textVerdict({ excerpt: 'The article describes how ' + B + 's interact with ' + A + '.', title: '', name: 'S' }, sp) === null, 'meta decided');
+  const q = k.lookupPlan('Is the ' + A + ' a zorbulon?'); expect(q.isa && q.isa.y[0] === 'zorbulon' && q.terms.includes('zorbulon'), JSON.stringify(q.isa)); });
+T('W56 class verdicts match the class word exactly ("planetary" ≠ planet); a nominal counts only after a possessive subject; a recommendation is not the outcome', () => { const r = rng(58); const X = pick(r, ARTS);
+  const ip = { terms: [X, 'planet'], yn: true, pred: 'planet', args: [X], isa: { x: X, y: ['planet'] }, predVerb: false };
+  expect(AR.textVerdict({ excerpt: 'The ' + X + ' is a planetary body of the system.', title: '', name: 'S' }, ip) === null, 'planetary');
+  const vp = { terms: [X, 'impeach'], yn: true, pred: 'impeach', predForms: ['impeached'], predVerb: true, args: [X] };
+  expect(AR.textVerdict({ excerpt: 'Aides told the ' + X + ' he faced certain impeachment in the House.', title: '', name: 'S' }, vp) === null, 'faced impeachment');
+  expect(AR.textVerdict({ excerpt: 'The House voted to recommend that the ' + X + ' be impeached.', title: '', name: 'S' }, vp) === null, 'recommend'); });
 (async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: true }); } catch (e) { rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: false, why: e.message }); } } process.stdout.write(JSON.stringify(rows)); })();

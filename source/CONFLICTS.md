@@ -174,3 +174,13 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - EVENT-YEAR: a verdict is dated by the year nearest its verdict word; attributive years ("the 1994 murders") do not date it; an outcome dated only by the passage is dropped when the same outcome has a dated clause.
 - Statute questions: a description must carry every argument in the excerpt itself (not the title); periods and "depends on / varies" sentences rank first.
 - FDA-SINGLE: openFDA uses the single-ingredient label and boxed warning / warnings and precautions / medication guide sections; a verdict-bearing sentence is preferred.
+
+## v4.9.56: symmetric relations, disjoint classes, event properties, stress fixes (user decision, 2026-10-16)
+- Bundle budget 1.33 MB raw / 402 kB gzip approved (soft-budget rule).
+- RECIP: a reciprocal verb (WordNet gloss "together / with others / each other / joined") holds in either argument order.
+- META: a sentence about a document ("the article describes …") or a link is neither a verdict nor an answer.
+- ISA-UNKNOWN: "is X a W" with W outside the lexicon keeps the copular frame. ISA-DISJOINT: with no class path, a subject class that is a sibling of the target (common P279 parent) or recorded different (P1889/P2738) gives No; P2868 (subject has role) is a first hop.
+- COMING / EVENT-PROP: a coming-into-being verb (verb.creation sense, or finish / start to operate / set up / begin / signature gloss) dates by P1619 official opening, P571 inception, P580 start time.
+- JURIS-TITLE: "<Entity> of <Country>" is read first when the question names a country; the country's own article is not an answer about an office in it; the foreign filter covers all non-scientific questions.
+- METHOD-DEF: "A X is a … that uses/transfers/converts …" is the method answer.
+- Verdict guards: recommendation/proposal verbs are report verbs; a possessor ("Henry VIII's sister") is not the subject; a hyphen compound ("rust-inhibiting") is not the predicate; hyphenated terms (half-life) match whole.
