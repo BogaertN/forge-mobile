@@ -128,6 +128,14 @@
     const tools = TBM.Builder(store, { perm: k.perm, ledger, shared, signer, economy, runner, clock: opts.clock });
     const sharedRpc = (op, args) => node.rpc(op, args, nodeKey, { shared: true });
     const pairShared = async uri => { if (vault.status() !== 'unlocked') return { ok: false, rule: 'NODE-PAIRING-VAULT-LOCKED' }; return node.pairShared(uri, async (secret, id) => { const e = await vault.seal('secret', 'shared-layer node key ' + id, secret, {}); return e && e.id; }); };
+    /* 4.9.47 research plan from the language core's own tagging (no topic list): see crawler.planFromTokens */
+    const researchPlan = t => { let T = []; try { T = k.derive(String(t)).T || []; } catch (e) { T = []; } const pl = CR.planFromTokens(T, t); if (pl.pred && pl.predKind === 'verb') pl.forms = ['pres3', 'past', 'pp', 'ing'].map(f => G.inflect(pl.pred, f)); return pl; };
+    const nominalsOf = t => { const pl = researchPlan(t); if (!pl.pred || pl.predKind !== 'verb') return []; const p = pl.pred, b = p.replace(/e$/, ''), ing = (/[^e]e$/.test(p) ? p.slice(0, -1) : p) + 'ing';
+      return [...new Set([p + 'ion', b + 'ion', b + 'ation', p + 'ment', b + 'ance', b + 'ence', p + 'al'])].filter(n => { try { return k.lexicon.senses(n).some(x => x.pos === 'n' && new RegExp('\\b(act|process|action|activity) of ' + ing + '\\b').test(x.gloss)); } catch (e) { return false; } }); };
+    /* a source word is a form of the predicate when it shares the predicate's onset and their WordNet glosses share a content word (Lesk overlap), e.g. a noun of the same action */
+    const GSTOP = new Set('a an the of to in on or and by for with as at from that which is are be something someone some any its it through into'.split(' '));
+    const glossWords = l => { try { return new Set(k.lexicon.senses(l).map(x => x.gloss).join(' ').toLowerCase().match(/[a-z]{3,}/g) || []); } catch (e) { return new Set(); } };
+    const relatedForm = (w, p) => { w = String(w).toLowerCase(); if (w.length < 3 || w.slice(0, 2) !== p.slice(0, 2)) return false; const a = glossWords(w), b = glossWords(p); for (const x of a) if (!GSTOP.has(x) && b.has(x)) return true; return false; };
     async function runTool(trace) { const q = trace.tool_request; const id = 'job:' + trace.psi_id.slice(0, 16); job({ id, tool: q.tool, frame: q.frame, input_sha256: sha256(q.input), state: 'running', started: now(), permission: q.permission });
       const decision = { id: q.permission, decision: 'allow', rule: 'PERM-TOOL-FRAME-SELECTED' }; let meaning, refs = []; let extra = null;
       const RL = reqLife; const ev = { service: q.tool, input_refs: [sha256(q.input)], request_class: TR.classify(q.frame, 'tool_started') }; RL.open(id, ev);
@@ -141,7 +149,7 @@
         else if (q.tool === 'sim3d.run') { const a = JSON.parse(q.input); const r = await S3.run(a); const runs = store.load('sim_runs'); const sid = 'sim3d:' + (runs.length + 1); runs.push({ id: sid, kind: '3d', engine: r.engine, plan: r.plan, final_hash: r.final_hash, notes: r.notes, at: now() }); store.save('sim_runs', runs.slice(-200));
           meaning = { kind: 'sim_result', bodies: r.plan.bodies.length, hash: r.final_hash.slice(0, 12), sim: sid }; refs.push(sid); extra = r; }
         else if (vault.status() !== 'unlocked') throw new Error('PERM-VAULT-LOCKED');
-        else if (q.tool === 'research.web') { const acq = await CR.acquire(crawler, q.input, now());
+        else if (q.tool === 'research.web') { const acq = await CR.acquirePlanned(crawler, researchPlan(q.input), now(), { nominals: nominalsOf(q.input), related: relatedForm });
           for (const e of acq.evidence) { const v = await vault.seal('research', clean(e.title).slice(0, 80), JSON.stringify({ url: e.url, title: e.title, excerpt: e.excerpt, text: e._text }), { at: e.captured_at, receipt: e.source_receipt_id, content_sha256: e.content_sha256 });
             refs.push(e.source_receipt_id); const ix = store.load('web_evidence'); ix.push({ id: e.source_receipt_id, vault_id: v.id, kind: 'research', acquisition: acq.acquisition_id, content_sha256: e.content_sha256, excerpt_sha256: e.excerpt_sha256, score: e.resonance_score, robots: e.robots, at: e.captured_at, candidate_evidence_only: true }); store.save('web_evidence', ix); }
           meaning = acq.evidence.length ? { kind: 'tool_result', tool: q.tool, noun: 'source', items: acq.evidence.map(e => clean(e.title).slice(0, 80) || 'untitled'), excerpt: cut(clean(acq.evidence[0].excerpt), 280), sealed: true } : { kind: 'tool_failed', tool: q.tool, reason: (acq.errors[0] && acq.errors[0].reason_code) || 'NO_EVIDENCE_CAPTURED' }; }

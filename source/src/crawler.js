@@ -39,7 +39,8 @@
       const text = await r.text(); if (text.length > LIMITS.MAX_RESPONSE_BYTES) throw new Error('research_response_size_limit_exceeded');
       return { finalUrl, ct, text, via: via ? via.kind : 'direct' }; }
     /* robots.txt (User-agent: * and ForgeMobile) — a disallow refuses the capture */
-    async function robotsAllows(url) { const u = new URL(url); let txt = ''; try { txt = (await get(u.origin + '/robots.txt', 'text/plain|text/html|')).text; } catch (e) { return { allowed: true, basis: 'robots_unavailable' }; }
+    const robotsCache = new Map(); /* one robots.txt read per origin per crawler (fewer requests, same rule) */
+    async function robotsAllows(url) { const u = new URL(url); let txt = ''; if (robotsCache.has(u.origin)) txt = robotsCache.get(u.origin); else { try { txt = (await get(u.origin + '/robots.txt', 'text/plain|text/html|')).text; } catch (e) { return { allowed: true, basis: 'robots_unavailable' }; } robotsCache.set(u.origin, txt); }
       let applies = false, dis = []; for (const line of txt.split(/\r?\n/)) { const m = line.replace(/#.*/, '').trim().match(/^([a-z-]+)\s*:\s*(.*)$/i); if (!m) continue; const k = m[1].toLowerCase(), val = m[2].trim();
         if (k === 'user-agent') applies = val === '*' || /forgemobile/i.test(val); else if (applies && k === 'disallow' && val) dis.push(val); }
       const hit = dis.find(d => u.pathname.startsWith(d)); return hit ? { allowed: false, basis: 'robots_disallow ' + hit } : { allowed: true, basis: 'robots_ok' }; }
@@ -80,6 +81,86 @@
     ev.sort((a, b) => b.resonance_score - a.resonance_score);
     const body = { query_sha256: sha256(String(query)), source_receipt_refs: ev.map(e => e.source_receipt_id), search_result_count: rows.length, evidence_count: ev.length, error_count: errors.length, candidate_evidence_only: true, canonical: false };
     return Object.assign({ acquisition_id: stable('research_acquisition', body), status: ev.length ? 'EVIDENCE_CAPTURED' : 'NO_EVIDENCE_CAPTURED' }, body, { evidence: ev, errors }); }
-  const api = { Crawler, validateUrl, htmlText, relevantExcerpt, search, capturePage, acquire, boundary, LIMITS, FETCH_INIT, VERSION };
+  /* 4.9.47 question-structured research. The plan comes from the language core's tagged tokens (grammar.js analyse via the kernel): wh / aux / copula /
+     determiners are dropped; the head concept is the subject noun (or the object noun when the wh-word is the subject); the predicate is the main verb, or the
+     copular complement. Nothing here names a topic: queries, ranking and excerpt choice are computed from that structure only. */
+  const CLOSED_T = new Set(['WH', 'AUX', 'COP', 'DET', 'PREP', 'PRON', 'REL', 'CONJ', 'PUNCT', 'NEG', 'MOD', 'POSS', 'QUOTE']);
+  function planFromTokens(T, raw) {
+    T = (T || []).filter(t => t && t.an && t.an.length); const has = (t, g) => t.an.some(a => a.tag === g); const lem = (t, g) => { const a = t.an.find(x => x.tag === g); return a ? String(a.lemma).toLowerCase() : null; };
+    const closed = t => t.an.every(a => CLOSED_T.has(a.tag)) || STOP.has(t.w);
+    const nounOf = t => lem(t, 'N') || (has(t, 'UNK') || has(t, 'PROPN') ? t.w.toLowerCase() : null);
+    const wh = T.length && has(T[0], 'WH') ? T[0].w : null; const cont = T.filter(t => !closed(t)); let head = null, pred = null, obj = null, predKind = null, headRole = 'object';
+    if (wh && T[1] && (has(T[1], 'AUX') || has(T[1], 'COP'))) { /* wh AUX NP V … | wh COP NP COMPLEMENT */
+      const np = cont; if (has(T[1], 'COP')) { head = np.length > 1 ? nounOf(np[np.length - 2]) : np[0] && nounOf(np[0]); if (np.length > 1) { const c = np[np.length - 1]; pred = lem(c, 'ADJ') || nounOf(c); predKind = 'complement'; } }
+      else { const vi = np.map((t, i) => (has(t, 'V') && i > 0 ? i : -1)).filter(i => i > 0); const v = vi.length ? vi[0] : np.length - 1; head = np[0] && nounOf(np[0]); headRole = 'subject'; if (np[v] && v > 0) { pred = lem(np[v], 'V') || np[v].w; predKind = 'verb'; } const o = np.slice(v + 1).map(nounOf).filter(Boolean); obj = o.length ? o[o.length - 1] : null; } }
+    else if (wh && cont.length && has(cont[0], 'V')) { /* wh-subject V NP: the object noun is the concept asked about */ pred = lem(cont[0], 'V'); predKind = 'verb'; const o = cont.slice(1).map(nounOf).filter(Boolean); head = o.length ? o[o.length - 1] : null; }
+    else { const ns = cont.map(nounOf).filter(Boolean); head = ns.length ? ns[ns.length - 1] : null; const vs = cont.filter(t => has(t, 'V') && !has(t, 'N')); if (vs.length) { pred = lem(vs[0], 'V'); predKind = 'verb'; } }
+    if (!head && cont.length) head = String(cont[0].w).toLowerCase(); if (pred === head) pred = null;
+    const mods = cont.map(t => lem(t, 'ADJ') || nounOf(t) || lem(t, 'V') || t.w.toLowerCase()).filter(w => w && w !== head && w !== pred && w !== obj);
+    return { wh: wh ? wh.toLowerCase() : null, head, headRole, pred, predKind, obj, mods, raw: String(raw || cont.map(t => t.orig || t.w).join(' ')) }; }
+  const stem = w => { w = String(w).toLowerCase(); if (w.length > 4) w = /ies$/.test(w) ? w.slice(0, -3) + 'y' : /(s|x|z|ch|sh)es$/.test(w) ? w.slice(0, -2) : /ss$/.test(w) ? w : w.replace(/(ing|ed|s|ation|ion|ment|ence|ance)$/, ''); return w; };
+  const stemTitle = (t, plan) => wordsOf(t).map(w => (matches(w, plan.head) ? plan.head : w)).join(' ');
+  const wordsOf = s => String(s).toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
+  const SUF = /^(e|s|es|d|ed|ing|est|ion|ions|ation|ations|ment|ments|al|ly|ic|ical)$/; /* inflection / derivation tails only (no free compounding) */
+  const matches = (w, target) => { w = String(w).toLowerCase(); target = String(target).toLowerCase(); const a = stem(w), b = stem(target); if (a === b || w === target) return true; const [s1, l1] = a.length <= b.length ? [a, b] : [b, a]; return s1.length >= 3 && l1.startsWith(s1) && SUF.test(l1.slice(s1.length)); };
+  const anyMatch = (text, forms) => { const ws = wordsOf(text); return forms.some(f => ws.some(w => matches(w, f))); };
+  function predForms(plan, lexNouns) { if (!plan.pred) return []; const p = plan.pred, o = new Set([p]); /* inflections of the predicate (morphology, not a topic list) */
+    if (plan.predKind === 'verb') { const ing = /ie$/.test(p) ? p.slice(0, -2) + 'ying' : /[^e]e$/.test(p) ? p.slice(0, -1) + 'ing' : p + 'ing'; o.add(ing); o.add(/[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : p + 's'); o.add(/e$/.test(p) ? p + 'd' : /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ied' : p + 'ed');
+      for (const n of (lexNouns || [])) o.add(n); for (const x of (plan.forms || [])) o.add(x); }
+    return [...o]; }
+  const MEDIA = /\b(film|movie|song|single|album|ep|novel|book|video game|game|television|tv series|series|sitcom|episode|band|musical|play|opera|comic|manga|anime|soundtrack|character|franchise|rapper|singer|musician|record label|magazine|newspaper|poem|short story|painting|mythical|mythological|legendary|legend|folklore|fictional|fairy tale|nursery rhyme)\b/i;
+  const CAUSAL = /\b(because|due to|caus(?:e|es|ed|ing)|result(?:s|ing)? (?:of|from|in)|as a result|owing to|reason|so that|explain(?:s|ed)?|occurs? when|leads? to|responsible for|meaning that)\b/i;
+  const MECH = /\b(by|through|using|via|when|process|mechanism|work(?:s)? by|produce[sd]?|generate[sd]?|allow(?:s)?|enable[sd]?)\b/i;
+  const NEG = /\b(cannot|can't|not|never|unable|no longer|lost the ability)\b/i; const PRIV = w => /less$|^non-?[a-z]|^un[a-z]{3}/.test(w);
+  const DETW = new Set(['the', 'a', 'an', 'his', 'her', 'their', 'its', 'our', 'my', 'your', 's', 'this', 'that', 'of']);
+  /* a verb predicate counts only where it is used as a verb (not after a determiner or possessive) */
+  const predIn = (ex, pf, plan) => { const ws = wordsOf(ex); if (plan.predKind === 'complement' && ws.some(w => w.startsWith(plan.pred) && /^(r|er|est|st)$/.test(w.slice(plan.pred.length)))) return true; /* comparative of the asked property */ const H = ws.map((w, i) => (matches(w, plan.head) ? i : -1)).filter(i => i >= 0);
+    return ws.some((w, i) => { if (!pf.some(f => matches(w, f)) || (plan.predKind === 'verb' && w === plan.pred && i > 0 && DETW.has(ws[i - 1]))) return false;
+      if (plan.predKind !== 'verb' || !H.length) return true; /* the question's structure: subject head before its verb; an object head on either side (active or passive) within one clause span */
+      return H.some(h => (plan.headRole === 'subject' ? h < i && i - h <= 5 : Math.abs(i - h) <= 8) && !/[,;:()]/.test(clauseBetween(ex, ws, h, i))); }); };
+  const clauseBetween = (ex, ws, a, b) => { const lo = Math.min(a, b), hi = Math.max(a, b); const toks = ex.split(/(?=[\s,;:()])/); let k = -1, out = ''; for (const t of toks) { if (/[\p{L}\p{N}]/u.test(t)) k++; if (k > lo && k <= hi) out += t; } return out.replace(/[\p{L}\p{N}]+[\s]*$/u, ''); };
+  const AGENT = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z.]+)+\b/;
+  function planQueries(plan, nominals) { const q = []; const add = a => { const s = a.filter(Boolean).join(' ').trim(); if (s && !q.includes(s)) q.push(s); }; const pf = predForms(plan, nominals);
+    for (const n of nominals || []) add([plan.head, n]); if (plan.pred) { add([plan.head, plan.pred]); if (plan.predKind === 'verb') add([plan.head, pf[1]]); } if (plan.obj) add([plan.head, plan.pred, plan.obj]); add([plan.head].concat(plan.mods.slice(0, 2))); add([plan.head]); return q.slice(0, 5); }
+  function scoreCandidate(plan, c, pf) { const tw = [...new Set(wordsOf(c.title))]; let s = 0; const hT = tw.some(w => matches(w, plan.head)), hI = anyMatch(c.intro || '', [plan.head]);
+    if (hT) s += 3; if (tw.length && tw.every(w => matches(w, plan.head) || pf.some(f => matches(w, f)) || STOP.has(w))) s += 2; if (hI) s += 1;
+    if (tw.some(w => PRIV(w) && pf.concat([plan.head]).some(f => matches(w.replace(/less$|^non-?|^un/, ''), f) || w.startsWith(f.slice(0, 4))))) s -= 4;
+    if (pf.length) { if (tw.some(w => !PRIV(w) && pf.some(f => matches(w, f)))) s += 2; if (anyMatch(c.intro || '', pf)) s += 2; }
+    if (plan.obj && anyMatch(c.title + ' ' + (c.intro || ''), [plan.obj])) s += 1; for (const m of plan.mods) if (anyMatch(c.title + ' ' + (c.intro || ''), [m])) s += 0.5;
+    s -= 0.4 * tw.filter(w => !STOP.has(w) && !matches(w, plan.head) && !pf.some(f => matches(w, f)) && !(plan.obj && matches(w, plan.obj)) && !plan.mods.some(m => matches(w, m))).length;
+    if (/^list of\b/i.test(c.title)) s -= 1.5; if (plan.predKind === 'complement' && new RegExp('^' + plan.head + '[\\s-]+' + plan.pred + '$', 'i').test(stemTitle(c.title, plan))) s -= 4; /* the compound name is a different thing from the predication */ if (plan.wh !== 'who' && /\bborn\b|\(\d{4}[–-]\d{4}\)|\b(company|firm|organi[sz]ation|club|team|studio|broadcaster|brand|channel|airline|retailer|politician|player|actor|actress|writer|author|businessman|entrepreneur|footballer|artist|director|lawyer|peer|journalist|presenter|comedian)\b/i.test(c.description || '')) s -= 4; if (/^\d{3,4}\b/.test(c.title) && !/\d/.test(plan.raw)) s -= 2.5; s -= 0.15 * c.rank;
+    return { score: Math.round(s * 1000) / 1000, headOk: hT || hI }; }
+  function answerExcerpt(plan, blocks, pf, ctx) { ctx = ctx || {}; let best = null, ord = 0;
+    const sents = []; for (const bl of blocks) for (const x of String(bl).split(/(?<=[.!?])\s+|\n+/)) { const t = x.replace(/\s+/g, ' ').trim(); if (t) sents.push(t); }
+    const CUE = plan.wh === 'why' ? CAUSAL : plan.wh === 'how' ? MECH : null;
+    for (let si = 0; si < sents.length; si++) { const sent = sents[si]; /* an answer window: a short head+predicate sentence joined with the next one when that one carries the wh-cue */
+      const nx = sents[si + 1]; const ex = CUE && nx && sent.length < 160 && !CUE.test(sent) && CUE.test(nx) && !/^=/.test(nx) && anyMatch(sent, [plan.head]) && predIn(sent, pf, plan) ? sent + ' ' + nx : sent; ord++; if (ex.length < 25 || ex.length > 520 || /^=+|\?$|^(↑|ISBN|Retrieved )/.test(ex)) continue;
+      const hIn = anyMatch(ex, [plan.head]), pIn = pf.length && predIn(ex, pf, plan), hOk = hIn || ctx.titlePred || (ctx.titleHead && pIn && !!CUE && CUE.test(ex)), pOk = !pf.length || pIn || ctx.titlePred; if (!hIn && !pIn) continue; let s = (hIn ? 2 : 0) + (pIn ? 3 : 0);
+      if (plan.predKind === 'complement' && new RegExp('\\b' + plan.head + '[\\s-]+' + plan.pred + '\\b', 'i').test(ex)) s -= 4; /* a compound name (head+property as one noun) is not the predication asked about */
+      if (NEG.test(ex) || wordsOf(ex).some(w => PRIV(w) && pf.some(f => matches(w.replace(/less$|^non-?|^un/, ''), f)))) s -= 2.5;
+      if (plan.obj && anyMatch(ex, [plan.obj])) s += 1; for (const m of plan.mods) if (anyMatch(ex, [m])) s += 0.5;
+      if (plan.wh === 'why' && CAUSAL.test(ex)) s += 1.5; if (plan.wh === 'how' && MECH.test(ex)) s += 1.5; if (/\b(how|why|what|whether)\b/i.test(ex)) s -= 1.5; if (CUE && !CUE.test(ex)) s -= 2; if (new RegExp('(?<!^)\\b' + plan.head.charAt(0).toUpperCase() + plan.head.slice(1) + '\\b').test(ex.slice(1)) && plan.raw === plan.raw.toLowerCase()) s -= 2; /* a capitalised head mid-sentence is a name, not the concept */ if (plan.wh === 'who' && AGENT.test(ex.slice(1))) s += 1.5; if (plan.wh === 'what' && /\b(is|are)\b/.test(ex)) s += 0.5;
+      s += Math.max(0, 0.6 - 0.01 * ord); if (ex.length > 260) s -= 0.6; if (/^[("'“‘]/.test(ex)) s -= 1.5; if (ex.length > 420) s -= 0.6; if (/["“].{20,}["”]/.test(ex)) s -= 0.5;
+      if (!best || s > best.s) best = { s, ex, hOk, pOk }; }
+    return best && best.hOk && best.pOk && best.s >= 3.5 ? { excerpt: best.ex.slice(0, LIMITS.MAX_EXCERPT), score: Math.round(best.s * 1000) / 1000, overlap: [plan.head].concat(pf.length ? [plan.pred] : []) } : null; }
+  async function acquirePlanned(cr, plan, at, opts) { opts = opts || {}; const errors = []; const nominals = opts.nominals || []; const pf = predForms(plan, nominals); const media = MEDIA.test(plan.raw);
+    const seen = new Map(); for (const q of planQueries(plan, nominals).slice(0, 3)) { try { (await search(cr, q)).forEach(r => { if (!seen.has(r.title)) seen.set(r.title, Object.assign({}, r, { rank: seen.size + 1 })); }); } catch (e) { errors.push({ stage: 'search', reason_code: String(e.message) }); } if (seen.size >= 24) break; }
+    let rows = [...seen.values()].slice(0, 24); /* one metadata request: intro text, short description, disambiguation flag */
+    try { const u = 'https://en.wikipedia.org/w/api.php?action=query&prop=extracts|description|pageprops&ppprop=disambiguation&exintro=1&explaintext=1&exlimit=max&redirects=1&format=json&origin=*&titles=' + encodeURIComponent(rows.map(r => r.title).join('|'));
+      const j = JSON.parse((await cr.get(u, 'application/json')).text); const pages = Object.values((j.query && j.query.pages) || {}); const by = new Map(pages.map(p => [p.title, p]));
+      ((j.query && j.query.redirects) || []).concat((j.query && j.query.normalized) || []).forEach(r => { if (by.has(r.to)) by.set(r.from, by.get(r.to)); });
+      rows = rows.map(r => { const p = by.get(r.title) || {}; return Object.assign(r, { intro: String(p.extract || ''), description: String(p.description || ''), disambiguation: !!(p.pageprops && 'disambiguation' in p.pageprops) || /\(disambiguation\)$/.test(r.title) || /may refer to:?\s*$/.test(String(p.extract || '').split('\n')[0]) }); }); }
+    catch (e) { errors.push({ stage: 'metadata', reason_code: String(e.message) }); rows.forEach(r => { r.disambiguation = /\(disambiguation\)$/.test(r.title); }); }
+    const dropped = []; rows = rows.filter(r => { const why = r.disambiguation ? 'disambiguation' : !media && (MEDIA.test(r.description) || /\((?:[^)]*\b)?(film|song|album|novel|video game|game|band|TV series|book|play|musical)\)$/i.test(r.title)) ? 'fiction_or_media' : null; if (why) dropped.push({ title: r.title, reason: why }); return !why; });
+    if (opts.related && plan.pred && plan.predKind === 'verb') { const tw = new Set(); rows.forEach(r => wordsOf(r.title).forEach(w => tw.add(w))); for (const w of tw) if (!pf.some(f => matches(w, f)) && !matches(w, plan.head) && opts.related(w, plan.pred)) pf.push(w); }
+    let ranked = rows.map(r => Object.assign(r, scoreCandidate(plan, r, pf))).filter(r => r.headOk).sort((a, b) => b.score - a.score); { const top = ranked.length ? ranked[0].score : 0; ranked = ranked.filter(r => r.score >= Math.max(3.5, top * 0.45)); } if (opts.debug) opts.debug(ranked.map(r => r.title + ' ' + r.score), dropped);
+    const ev = []; for (const row of ranked.slice(0, 6)) { if (ev.length >= LIMITS.MAX_FETCHED_PAGES) break; try { const c = await capturePage(cr, null, row, at); const blocks = String(c._text).split(/\n+/); const twr = wordsOf(row.title); const ex = plan.pred ? answerExcerpt(plan, blocks, pf, { titleHead: twr.some(w => matches(w, plan.head)), titlePred: twr.some(w => !PRIV(w) && pf.some(f => matches(w, f))) }) : relevantExcerpt(plan.raw, blocks);
+        if (!ex || !ex.excerpt || (!plan.pred && !anyMatch(ex.excerpt, [plan.head]))) { errors.push({ stage: 'relevance', reason_code: 'no_sentence_answers_the_question', title: row.title }); continue; }
+        const rec = Object.assign({}, c, { excerpt: ex.excerpt, excerpt_sha256: sha256(ex.excerpt), resonance_score: Math.round((0.4 * row.score + ex.score) * 1000) / 1000, matched_source_forms: ex.overlap }); delete rec.source_receipt_id; const { _text, ...pub } = rec;
+        ev.push(Object.assign({ source_receipt_id: stable('web_source_receipt', pub) }, pub, { _text })); } catch (e) { errors.push({ stage: 'capture', reason_code: String(e.message) }); } }
+    ev.sort((a, b) => b.resonance_score - a.resonance_score); if (!ev.length) { const net = errors.find(e => e.stage === 'search' || e.stage === 'capture'); errors.unshift({ stage: net && !ranked.length ? net.stage : 'relevance', reason_code: net && (!ranked.length || errors.every(e => e.stage !== 'relevance')) ? net.reason_code : 'research_no_relevant_source' }); }
+    const body = { query_sha256: sha256(String(plan.raw)), plan: { wh: plan.wh, head: plan.head, pred: plan.pred, obj: plan.obj }, source_receipt_refs: ev.map(e => e.source_receipt_id), search_result_count: seen.size, dropped_count: dropped.length, evidence_count: ev.length, error_count: errors.length, candidate_evidence_only: true, canonical: false };
+    return Object.assign({ acquisition_id: stable('research_acquisition', body), status: ev.length ? 'EVIDENCE_CAPTURED' : 'NO_EVIDENCE_CAPTURED' }, body, { evidence: ev, errors, dropped }); }
+  const api = { planFromTokens, acquirePlanned, planQueries, answerExcerpt, Crawler, validateUrl, htmlText, relevantExcerpt, search, capturePage, acquire, boundary, LIMITS, FETCH_INIT, VERSION };
   if (isNode) module.exports = api; else root.KCrawler = api;
 })(typeof self !== 'undefined' ? self : this);
