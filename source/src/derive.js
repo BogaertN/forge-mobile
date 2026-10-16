@@ -4,13 +4,13 @@ const G = isNode ? require('./grammar.js') : root.KGrammar;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
-const VERBS = new Set(words('open close unlock report claim verify state decide install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
+const VERBS = new Set(words('export delete challenge open close unlock report claim verify state decide install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend decide determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause'));
 const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } };
-const NOUNS = new Set(words('case name class claim conflict source fact colour color dimension table pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
+const NOUNS = new Set(words('proof hash label status reason case name class claim conflict source fact colour color dimension table pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
@@ -314,7 +314,9 @@ function Analyser(env) {
 const pr = p => ({ pr: p }), N = (n, o) => Object.assign({ n }, o || {}), U = a => ({ u: a }), UC = a => ({ uc: a }), Mn = t => ({ m: String(t) }), X = t => ({ x: String(t) }), Nm = (s, det) => (det ? { name: s, det } : { name: s });
 const C = (v, o) => Object.assign({ v, tense: 'pres', pol: 'pos' }, o || {}); const S = (c, o) => Object.assign({ c, force: 'decl' }, o || {}); const MS = (items, o) => Object.assign({ mth: items, force: 'decl' }, o || {});
 const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && (s.pron === 'user' || /^(?:i|me|myself)$/i.test(String(s.propn || s.name || s.head || s.n || ''))) ? YOU : U(s);
-const told = cl => S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
+const told = cl => cl && cl.shared ? sharedStep(cl.shared) : S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
+/* a shared (GKS) premise in a proof chain is labelled by its source and class verb: primary/reviewed "states", secondary "reports", weak "claims" (4.9.43) */
+const sharedStep = sh => S(C(sh.cls === 'secondary' ? 'report' : sh.cls === 'weak_unverified' ? 'claim' : 'state', { karta: Mn(sh.source), karma: Mn(String(sh.text).replace(/[.]$/, '')) }));
 const coldStorage = () => N('storage', { adj: ['cold'] });
 const yesNo = () => S(C('answer', { karma: { coord: 'or', items: [Mn('yes'), Mn('no')] } }), { force: 'imp', part: 'please' });
 const forExample = k => S(C('say', { karma: Mn(MENTIONS[k]) }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] });
@@ -438,10 +440,16 @@ const PLANS = {
   recall: m => m.items.map(told),
   /* GKS shared facts (4.9.42): the phrasing is chosen by the source class (plan §1) — primary_authority / reviewed_reference: stated as fact + its source
      and class; secondary: "SOURCE reports …" + "It is a claim."; weak_unverified: "SOURCE claims …" + "I did not verify it." Every reply names the source. */
-  gks_fact: m => [].concat(...m.items.map(f => f.cls === 'primary_authority' || f.cls === 'reviewed_reference'
+  gks_fact: m => (m.answer ? [S(null, { part: m.answer })] : []).concat(...m.items.map(f => f.cls === 'primary_authority' || f.cls === 'reviewed_reference'
     ? [S(C('be', { karta: N('fact', { det: 'the', adj: ['shared'] }), pred: Mn(f.text.replace(/[.]$/, '')) })), S(C('be', { karta: N('source', { det: 'the' }), pred: Mn(f.source) })), S(C('be', { karta: N('class', { det: 'the' }), pred: Mn(f.cls.replace(/_/g, ' ')) }))]
     : f.cls === 'secondary' ? [S(C('report', { karta: Mn(f.source), karma: Mn(f.text.replace(/[.]$/, '')) })), S(C('be', { karta: pr('it'), pred: N('claim', { det: 'a' }) }))]
     : [S(C('claim', { karta: Mn(f.source), karma: Mn(f.text.replace(/[.]$/, '')) })), S(C('verify', { karta: I, karma: pr('it'), tense: 'past', pol: 'neg' }))])),
+  confirm_case_delete: m => [S(C('delete', { karta: I, karma: N('case', { det: 'the' }), mod: 'should' }), { force: 'ques' }), S(C('be', { karta: N('name', { poss: 'its' }), pred: Mn(m.id) })), yesNo()],
+  case_deleted: m => [S(C('delete', { karta: I, karma: N('case', { det: 'the' }), tense: 'past' })), S(C('be', { karta: N('name', { poss: 'its' }), pred: Mn(m.id) })), S(C('keep', { karta: I, karma: N('hash', { poss: 'its' }), tense: 'past' }))],
+  case_kept: m => [S(C('delete', { karta: I, karma: N('case', { det: 'the' }), tense: 'past', pol: 'neg' })), S(C('be', { karta: N('name', { poss: 'its' }), pred: Mn(m.id) }))],
+  gks_challenged: m => [S(C('challenge', { karta: I, karma: Mn(m.id), tense: 'past' })), S(C('be', { karta: N('status', { poss: 'its' }), pred: Mn('challenged') }))],
+  gks_kept: m => [S(C('change', { karta: I, karma: Mn(m.id), tense: 'past', pol: 'neg' })), S(C('be', { karta: N('reason', { det: 'the' }), pred: Mn(m.rule) }))],
+  proof_exported: m => [S(C('export', { karta: I, karma: N('proof', { det: 'the' }), tense: 'past' })), S(C('be', { karta: N('hash', { poss: 'its' }), pred: Mn(m.sha) }))].concat(m.label ? [S(C('be', { karta: N('label', { poss: 'its' }), pred: Mn(m.label) }))] : []),
   case_opened: m => [S(C('open', { karta: I, karma: N('case', { det: 'a' }), tense: 'past' })), S(C('be', { karta: N('name', { poss: 'its' }), pred: Mn(m.id) }))],
   case_closed: m => [S(C('close', { karta: I, karma: N('case', { det: 'the' }), tense: 'past' })), S(C('be', { karta: N('name', { poss: 'its' }), pred: Mn(m.id) }))],
   gks_conflict: m => [told(m.clause), S(C('state', { karta: Mn(m.fact.source), karma: Mn(m.fact.text.replace(/[.]$/, '')) })), S(C('report', { karta: I, karma: N('conflict', { det: 'a' }) }))],
@@ -520,7 +528,7 @@ const PLANS = {
 };
 
 for (const v of VERBS) { const pp = verbForm(null, v, 'pp'); if (ADJ.has(pp)) PP_ADJ.add(pp); }
-function plan(m) { const P = PLANS[m.kind]; if (!P) throw new Error('derive: no plan for meaning kind "' + m.kind + '"'); return P(m); }
+function plan(m) { const P = PLANS[m.kind]; if (!P) throw new Error('derive: no plan for meaning kind "' + m.kind + '"'); const out = P(m); /* 4.9.43 premise label: an answer read from a private case names the case (shared premises name their source in their own sentences) */ return m.caseLabel ? out.concat([S(C('be', { karta: N('case', { det: 'the' }), pred: Mn(m.caseLabel) }))]) : out; }
 /* RSOC phrasing operators over a whole vākya (v4.9.34). ⧒ amplify (RSOC §3.1.2, Φ3 intensification): the first adjunct role of a declarative sentence is
    fronted as topic; inverse = return it to its role slot. ⧧ sever (§3.1.1, single → several, charge conserved): a clause-list karman of a that-verb is split
    into one sentence per clause; conservation = same clauses, same count. Both keep the meaning; each variant must pass its own Echo round trip. */

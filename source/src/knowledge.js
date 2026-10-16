@@ -44,10 +44,10 @@ function ingest(body, verified) {
 /* First seed (plan §1 seed policy): primary-authority definitional facts only, each with citation + URL. Integrity: covered by the release build manifest
    (not by the GKS publisher signature — that key lives only in the Actions secret). Source: BIPM, The International System of Units (SI), 9th ed. (2019). */
 const BIPM = 'BIPM, The International System of Units (SI), 9th edition (2019)', BURL = 'https://doi.org/10.59161/AUEZ1291';
-const si = (id, subject, text, sec, aliases) => seal({ schema: SCHEMA, id: 'gks:si:' + id, subject, aliases: aliases || [], text, source: { class: 'primary_authority', citation: BIPM + ', ' + sec, url: BURL, retrieved_at: '2026-10-15' }, lineage_root: 'root:bipm-si-brochure-9', scope: 'SI definition', published_by: 'build-manifest' });
-const T1 = '§2.2 Table 1', T2 = '§2.3.1 Table 2';
+const si = (id, subject, text, sec, aliases, quals) => seal({ schema: SCHEMA, id: 'gks:si:' + id, subject, aliases: aliases || [], qualifiers: quals || [], text, source: { class: 'primary_authority', citation: BIPM + ', ' + sec, url: BURL, retrieved_at: '2026-10-15' }, lineage_root: 'root:bipm-si-brochure-9', scope: 'SI definition', published_by: 'build-manifest' });
+const T1 = '§2.2 Table 1', T2 = '§2.3 (base units), Table 2', T7 = '§3 Table 7 (SI prefixes)', T8 = '§4 Table 8 (non-SI units accepted for use with the SI)';
 const SEED = [
-  si('c', 'the speed of light', 'The speed of light in vacuum is exactly 299 792 458 metres per second.', T1),
+  si('c', 'the speed of light', 'The speed of light in vacuum is exactly 299 792 458 metres per second.', T1, [], [{ prep: 'in', np: 'vacuum' }]),
   si('h', 'the Planck constant', 'The Planck constant is exactly 6.626 070 15 × 10^-34 joule seconds.', T1),
   si('e', 'the elementary charge', 'The elementary charge is exactly 1.602 176 634 × 10^-19 coulombs.', T1),
   si('k', 'the Boltzmann constant', 'The Boltzmann constant is exactly 1.380 649 × 10^-23 joules per kelvin.', T1),
@@ -58,7 +58,24 @@ const SEED = [
   si('ampere', 'the ampere', 'The ampere is the SI unit of electric current.', T2),
   si('kelvin', 'the kelvin', 'The kelvin is the SI unit of thermodynamic temperature.', T2),
   si('mole', 'the mole', 'The mole is the SI unit of amount of substance.', T2),
-  si('candela', 'the candela', 'The candela is the SI unit of luminous intensity.', T2)
+  si('candela', 'the candela', 'The candela is the SI unit of luminous intensity.', T2),
+  si('cs', 'the caesium hyperfine frequency', 'The unperturbed ground-state hyperfine transition frequency of the caesium 133 atom is exactly 9 192 631 770 hertz.', T1),
+  si('kcd', 'the luminous efficacy', 'The luminous efficacy of monochromatic radiation of frequency 540 × 10^12 hertz is exactly 683 lumens per watt.', T1),
+  si('minute', 'the minute', 'The minute is a non-SI unit accepted for use with the SI; 1 min = 60 s.', T8),
+  si('hour', 'the hour', 'The hour is a non-SI unit accepted for use with the SI; 1 h = 60 min = 3600 s.', T8),
+  si('day', 'the day', 'The day is a non-SI unit accepted for use with the SI; 1 d = 24 h = 86 400 s.', T8),
+  si('litre', 'the litre', 'The litre is a non-SI unit accepted for use with the SI; 1 L = 1 dm^3 = 10^-3 m^3.', T8, ['the liter']),
+  si('tonne', 'the tonne', 'The tonne is a non-SI unit accepted for use with the SI; 1 t = 1000 kg.', T8),
+  si('hectare', 'the hectare', 'The hectare is a non-SI unit accepted for use with the SI; 1 ha = 10^4 m^2.', T8),
+  si('au', 'the astronomical unit', 'The astronomical unit is exactly 149 597 870 700 metres.', T8),
+  si('kilo', 'the prefix kilo', 'The SI prefix kilo (k) means 10^3.', T7),
+  si('mega', 'the prefix mega', 'The SI prefix mega (M) means 10^6.', T7),
+  si('giga', 'the prefix giga', 'The SI prefix giga (G) means 10^9.', T7),
+  si('milli', 'the prefix milli', 'The SI prefix milli (m) means 10^-3.', T7),
+  si('micro', 'the prefix micro', 'The SI prefix micro (µ) means 10^-6.', T7),
+  si('nano', 'the prefix nano', 'The SI prefix nano (n) means 10^-9.', T7),
+  /* calendar basics: ISO 8601-1:2019 (primary authority: ISO international standard) */
+  seal({ schema: SCHEMA, id: 'gks:iso8601:week', subject: 'the ISO week', aliases: [], qualifiers: [], text: 'An ISO 8601 calendar week has seven days and begins on Monday.', source: { class: 'primary_authority', citation: 'ISO 8601-1:2019, Date and time — Representations for information interchange — Part 1: Basic rules (calendar week)', url: 'https://www.iso.org/standard/70907.html', retrieved_at: '2026-10-15' }, lineage_root: 'root:iso-8601-1-2019', scope: 'calendar definition', published_by: 'build-manifest' })
 ];
 /* offline proof re-verification (plan §3): bundle hash, every shared premise re-validated and re-hashed; the answer is re-derived by the caller's realize */
 function verifyProof(bundle, realize) { const out = []; if (!bundle || bundle.schema !== 'FORGE-PROOF/v1') return { ok: false, checks: [['schema', false]] };

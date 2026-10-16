@@ -27,6 +27,8 @@
     T('protoforge.drift', ['FR.TOOL.PFDRIFT'], 'compute', ['ε_s series from traces'], ['pattern (DTW), Landauer bounds, trajectory prediction'], { source: 'protoforge.js ← ProtoForge thermodynamic_drift.py' }),
     T('protoforge.agents', ['FR.TOOL.PFAGENT'], 'compute+local_write', ['spawn | input | hibernate | restore | list'], ['deterministic agent result + hash-chained echo log'], { source: 'protoforge.js ← ProtoForge Build Task 1' }),
     T('feed.read', ['FR.TOOL.FEED'], 'network_read+vault_write', ['public RSS/Atom URL'], ['item titles + links (sealed in vault; no HTML rendered)'], { source: 'protoforge.parseFeed ← RUNTIME CODEX Vol III §4.1.1' }),
+    T('case.seal', ['FR.CASE.SEAL'], 'vault_write', ['closed case id'], ['case sealed with the Identity Vault key'], { source: 'kernel case files + Identity Vault AES-GCM (plan §2)' }),
+    T('case.unseal', ['FR.CASE.UNSEAL'], 'vault_write', ['sealed case id'], ['case restored from the vault'], { source: 'kernel case files + Identity Vault AES-GCM (plan §2)' }),
     T('notes.seal', ['FR.NOTE.SEAL'], 'vault_write', ['note id'], ['vault reference'], { source: 'kernel notes + Identity Vault AES-GCM' }),
     T('user.tool', ['FR.TOOL.USER'], 'compute', ['enabled user tool name', 'text input'], ['tool value (evidence)'], { source: 'toolbuilder.js — ForgeScript in a sandboxed Worker; tested + enabled tools only' }),
     T('ede.explore', ['FR.TOOL.EDE'], 'compute+local_write', ['committed memory (anchors)', 'seed'], ['bounded candidates (pending score) + archived branches (projection blocked)'], { source: 'ede.js ← RMC §5.6 / §8.3 Algorithm 3' }),

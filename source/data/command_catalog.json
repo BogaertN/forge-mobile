@@ -13,12 +13,16 @@
   "FR.ASSERT",
   "FR.CAPABILITY",
   "FR.CASE",
+  "FR.CASE.DELETE",
+  "FR.CASE.SEAL",
+  "FR.CASE.UNSEAL",
   "FR.COMMAND.LEGACY",
   "FR.CONFIRM",
   "FR.DEFINE",
   "FR.DREAM",
   "FR.EXTERNAL",
   "FR.FORGET",
+  "FR.GKS.CHALLENGE",
   "FR.HELP",
   "FR.IMPERATIVE",
   "FR.MATH",
@@ -36,6 +40,7 @@
   "FR.NOTE.TAG",
   "FR.PATTERNS",
   "FR.PF.INTERNAL",
+  "FR.PROOF.EXPORT",
   "FR.QUESTION",
   "FR.REMEMBER",
   "FR.REMIND",
@@ -256,6 +261,28 @@
     "MEMORY_CANDIDATE_WRITE"
    ],
    "network": true
+  },
+  {
+   "id": "case.seal",
+   "frames": [
+    "FR.CASE.SEAL"
+   ],
+   "effect": "vault_write",
+   "side_effects": [
+    "MEMORY_CANDIDATE_WRITE"
+   ],
+   "network": false
+  },
+  {
+   "id": "case.unseal",
+   "frames": [
+    "FR.CASE.UNSEAL"
+   ],
+   "effect": "vault_write",
+   "side_effects": [
+    "MEMORY_CANDIDATE_WRITE"
+   ],
+   "network": false
   },
   {
    "id": "notes.seal",
