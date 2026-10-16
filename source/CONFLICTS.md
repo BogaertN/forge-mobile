@@ -176,7 +176,7 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - FDA-SINGLE: openFDA uses the single-ingredient label and boxed warning / warnings and precautions / medication guide sections; a verdict-bearing sentence is preferred.
 
 ## v4.9.56: symmetric relations, disjoint classes, event properties, stress fixes (user decision, 2026-10-16)
-- Bundle budget 1.33 MB raw / 402 kB gzip approved (soft-budget rule).
+- Bundle budget raised to 1.345 MB raw / 406 kB gzip (soft-budget rule; user allowed a small raise, 2026-10-16).
 - RECIP: a reciprocal verb (WordNet gloss "together / with others / each other / joined") holds in either argument order.
 - META: a sentence about a document ("the article describes …") or a link is neither a verdict nor an answer.
 - ISA-UNKNOWN: "is X a W" with W outside the lexicon keeps the copular frame. ISA-DISJOINT: with no class path, a subject class that is a sibling of the target (common P279 parent) or recorded different (P1889/P2738) gives No; P2868 (subject has role) is a first hop.
@@ -184,3 +184,12 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - JURIS-TITLE: "<Entity> of <Country>" is read first when the question names a country; the country's own article is not an answer about an office in it; the foreign filter covers all non-scientific questions.
 - METHOD-DEF: "A X is a … that uses/transfers/converts …" is the method answer.
 - Verdict guards: recommendation/proposal verbs are report verbs; a possessor ("Henry VIII's sister") is not the subject; a hyphen compound ("rust-inhibiting") is not the predicate; hyphenated terms (half-life) match whole.
+- AGENT: a who-question is answered by the passive of the asked verb on the asked object ("justices … are appointed by …").
+- DEF: an article's own definition sentence ("X is a …") leads what-is and how-does answers; it may open with a name and dates (prose filter waived). Search hits whose redirect title is in the question count ("MRI").
+- ISA-MOD: a modified class ("a ferromagnetic material") is the whole phrase. ISA-COCLASS: a direct class of the subject and the target that are instances of one metaclass, with no class path between them, give No.
+- EVENT-KIND: a finish verb (gloss "to a finish", "start to operate") dates by P1619 opening, P729 service entry, then P571; a begin verb by P571 first. An exact Wikidata label beats a longer title; a typed value leads fitting evidence.
+- ABSTRACT-WEAK: a verdict read only from paper abstracts (PubMed, OpenAlex, Crossref) is reported as "probably" and marked weak.
+- EFFECT-LIST: "<X> (side) effects include … Y" answers "can X cause Y"; the effect nouns are the lexicon nouns glossed "a phenomenon that … is caused by". RECIP-NOM: the nominal of a reciprocal verb with both arguments ("the interaction of A and B") states the relation.
+- POLITY-ADJUNCT: a polity after in/of/for is the jurisdiction, not the asked object. COP-NP: "who was the <NP>" is answered by a sentence stating "… was … the <NP>".
+- CAUSE-WHAT: "what <V> X" with a causal verb (one with effect nouns) asks for the cause; the effect phrase names its article; the effect's own causal passive ("X is caused by / is due to / occurs as a result of") leads.
+- NAMES2 / NOM-OF: a second proper name is an argument; a performed nominal of the predicate with an of-object ("launched an invasion of Russia") states it; planned or abandoned ones do not.
