@@ -8,7 +8,7 @@ const CLOSED = {
   DET: 'the a an this these those', POSS: 'my your his her its our their', QUANT: 'all every each some any many few several most both no',
   PRON: 'i me you he him she her it we us they them myself yourself anything something nothing everything anyone someone noone everyone anybody somebody nobody everybody', WH: 'what who whom where when which why how whose',
   COP: 'am is are was were be been being', AUX: 'do does did have has had', MOD: 'will would shall should can could may might must',
-  NEG: 'not never', SUB: 'because while although whereas', THAN: 'than', PREP: 'in on at to from with by for of about into onto under over after before during near without through across around between behind beside since until',
+  NEG: 'not never', SUB: 'because while although whereas', THAN: 'than', PREP: 'in on at to from with by for of about regarding concerning into onto under over after before during near without through across around between behind beside since until',
   CONJ: 'and or but', IF: 'if unless', THEN: 'then', REL: 'who which that', COMP: 'that', PART: 'up down out off away back',
   ADV: 'also too very really now today tonight tomorrow yesterday here there always often sometimes usually never already still soon later again maybe perhaps probably possibly definitely certainly',
   PLEASE: 'please', INTJ: 'hello hi hey yes no ok okay thanks goodbye bye',
@@ -120,6 +120,7 @@ function Parser(toks, lex) {
   function npBase(i) {
     const out = [];
     for (const a of at(i, 'PRON')) { const p = PRON[word(i)]; out.push(R(p.indef ? { indef: word(i), feats: p } : p.p === 1 && p.n === 'sg' ? { pron: 'user' } : p.p === 2 ? { pron: 'kernel' } : { pron3: word(i), feats: p }, i + 1, [p.indef ? 'NP-INDEFINITE-PRON' : 'NP-PRON'])); }
+    if (/^(?:this|these|those)$/.test(word(i)) && at(i, 'DET').length && !(i + 1 < T.length && ['N', 'ADJ', 'NUM', 'PROPN', 'DET', 'POSS', 'QUANT'].some(t => at(i + 1, t).length))) out.push(R({ pron3: word(i), feats: { p: 3, n: word(i) === 'this' ? 'sg' : 'pl', dem: true } }, i + 1, ['NP-DEMONSTRATIVE-PRON'])); // 4.9.40: a determiner with no nominal after it is a demonstrative pronoun ("use this")
     if (at(i, 'PROPN').length) { let j = i; const ws = []; while (at(j, 'PROPN').length) { ws.push(T[j].orig); j++; } out.push(R({ propn: ws.join(' ') }, j, ['NP-PROPN'])); }
     if (at(i, 'NUM').length && at(i + 1, 'NUM').length) { let j = i; const ns = []; while (at(j, 'NUM').length) { ns.push(word(j)); j++; } out.push(R({ num: ns.join(' ') }, j, ['NP-NUM-SEQUENCE'])); }
     for (const a of at(i, 'NUM')) { out.push(R({ num: a.lemma }, i + 1, ['NP-NUM'])); for (const n of nominal(i + 1)) out.push(R(Object.assign({ num: a.lemma }, n.node), n.i, ['NP-NUM-N'].concat(n.rules))); }
@@ -154,7 +155,7 @@ function Parser(toks, lex) {
     return all.concat(co);
   }
   // ---- adjuncts: PP / time ----
-  const KARAKA = { to: 'sampradana', for: 'sampradana', with: 'karana', by: 'karana', from: 'apadana', in: 'adhikarana', on: 'adhikarana', at: 'adhikarana', near: 'adhikarana', into: 'adhikarana', under: 'adhikarana', over: 'adhikarana', about: 'vishaya', of: 'sambandha', after: 'kala', before: 'kala', during: 'kala', since: 'kala', until: 'kala', without: 'karana', through: 'adhikarana', across: 'adhikarana', around: 'adhikarana', between: 'adhikarana', behind: 'adhikarana', beside: 'adhikarana', onto: 'adhikarana' };
+  const KARAKA = { to: 'sampradana', for: 'sampradana', with: 'karana', by: 'karana', from: 'apadana', in: 'adhikarana', on: 'adhikarana', at: 'adhikarana', near: 'adhikarana', into: 'adhikarana', under: 'adhikarana', over: 'adhikarana', about: 'vishaya', regarding: 'vishaya', concerning: 'vishaya', of: 'sambandha', after: 'kala', before: 'kala', during: 'kala', since: 'kala', until: 'kala', without: 'karana', through: 'adhikarana', across: 'adhikarana', around: 'adhikarana', between: 'adhikarana', behind: 'adhikarana', beside: 'adhikarana', onto: 'adhikarana' };
   /* an open-class adverb is a word whose every lexical reading is ADV (no closed-class, noun or adjective reading: "home" stays a noun/adverb ambiguity for the existing rules) */
   const openAdv = j => j < T.length && T[j].an.length > 0 && T[j].an.some(x => x.tag === 'ADV') && T[j].an.every(x => (x.tag === 'ADV' && x.rule !== 'TAG-CLOSED-ADV') || x.rule === 'TAG-PROPN-INITIAL-ALT');
   function adjuncts(i) {
@@ -303,7 +304,7 @@ function Parser(toks, lex) {
     }
     return out;
   }
-  return { T, np, vp, vpNF, clause, sentence, adjuncts, at, word };
+  return { T, np, vp, vpNF, clause, sentence, adjuncts, fronted, at, word };
 }
 /* ---------- generation (inverse) ---------- */
 function npText(n, persp) {
