@@ -150,6 +150,18 @@ function Kernel(opts) {
     const shared = []; for (const u of sh.used) { const hit = steps.filter(x => x.src && x.src.span.start === u.start); if (hit.length && !shared.some(y => y.id === u.f.id)) shared.push({ id: u.f.id, citation: u.f.source.citation, url: u.f.source.url, cls: u.f.source.class, text: u.f.text, weakened: u.sentence, step_ids: hit.map(x => x.s.step_id) }); }
     if (!shared.length) return R.evaluate(wt0, { allowBareQuery: !asksAboutStored(wt0) && !asksAboutShared(wt0) }); /* the shared prefix did no work: answer from the turn alone, unchanged */
     return Object.assign({}, rr, { rules: (rr.rules || []).concat([{ id: 'GKS-WORLD-PREMISE', doc: 'plan §9; EMN (cited, sealed shared fact; class weakening of its parsed clause)', note: shared.map(x => x.id).join(', ') }]), material: Object.assign({}, m, { shared_premises: shared }) }); };
+  /* 4.9.45 numeric shared facts (GKS-QTY-YN). A quantity is read from the fact's OWN text ("… is exactly N unit", "… means 10^e") and from the
+     question by one closed number grammar (digit groups, decimal point, "× 10^e" / "10^e" / "e" notation) plus the unit words; the two are compared as
+     exact rationals. Same number + same unit → Yes; an exact fact with the same unit and a different number → No; anything else (other unit,
+     unreadable) → cannot confirm, quoting the related shared fact. Nothing is converted or rounded. */
+  const QNUM = /^(-?\d[\d\s,\u2009\u202f]*(?:\.[\d\s\u2009\u202f]*\d)?)(?:\s*(?:×|x|\*)\s*10\s*\^\s*([-−+]?\d+)|e([-−+]?\d+))?(?=\s|$)|^10\s*\^\s*([-−]?\d+)(?=\s|$)/;
+  const qtyOf = str => { const t = String(str).trim().replace(/[.;]+$/, ''), m = t.match(QNUM); if (!m) return null; let n, d = 1n, e;
+    if (m[4] != null) { n = 1n; e = +m[4].replace('−', '-'); } else { const raw = m[1].replace(/[\s,\u2009\u202f]/g, ''), [a, b = ''] = raw.split('.'); n = BigInt(a + b); d = 10n ** BigInt(b.length); e = m[2] != null ? +m[2].replace('−', '-').replace('+', '') : m[3] != null ? +m[3].replace('−', '-').replace('+', '') : 0; }
+    if (e > 0) n *= 10n ** BigInt(e); else if (e < 0) d *= 10n ** BigInt(-e);
+    const unit = t.slice(m[0].length).trim().toLowerCase().split(/\s+/).filter(Boolean).map(w => w === 'meter' || w === 'meters' ? 'metre' : w.length > 3 && /[^s]s$/.test(w) ? w.slice(0, -1) : w).join(' ');
+    return { n, d, unit }; };
+  const qtyEq = (a, b) => a.n * b.d === b.n * a.d;
+  const factQty = f => { const t = f.text.replace(/[.]$/, ''), m = t.match(/\s(?:is|means)\s+(exactly\s+)?(.+)$/); if (!m || /[;=]/.test(m[2])) return null; const q = qtyOf(m[2]); return q && Object.assign(q, { exact: !!m[1] || /\bmeans\b/.test(t) }); };
   const lex = Lexicon(store);
   if (opts.lexicon) lex.attach(opts.lexicon, 'core'); if (opts.lexiconExt) lex.attach(opts.lexiconExt, 'ext');
   let meta = Object.assign({ turn: 0, loop: 1, chi: 0, phaseHistory: [], last: null, discourse: [], alias: {}, pending: null, notation: 'plain', reasoning: null }, store.load('meta'));
@@ -379,6 +391,19 @@ function Kernel(opts) {
     for (const [id, act, re, fn, x] of META) if (re.test(low)) { if (x && x.rule) rules.push({ id: x.rule, doc: 'Doc7; Doc6 §37' }); return res((x && x.outcome) || 'SELECTED_MEANING', fn(), Object.assign({ frame: id, act }, x && x.effect ? { effect: x.effect } : {})); }
     if (opts.commandMeaning) { const cm = opts.commandMeaning(raw); if (cm) { rules.push({ id: 'CMD-LEGACY-LLM-' + cm.leg.kind.toUpperCase(), doc: 'forge agents/forge/llm_authority.py (explicit command; routed through the kernel)', note: cm.leg.command });
       return res(cm.leg.kind === 'refused' ? 'REFUSAL_RELEVANT' : 'SELECTED_MEANING', cm.material, { frame: 'FR.COMMAND.LEGACY', act: 'request' }); } }
+    function gksQtyYN(text) { const tk = G.tokenize(String(text).replace(/[?\s]+$/, '')); if (tk.length < 3) return null; const w0 = String(tk[0].w).toLowerCase(), mean = w0 === 'does' || w0 === 'do';
+      if (!mean && !(G.CL[w0] || []).includes('COP')) return null;
+      for (let j = tk.length - 1; j >= 2; j--) { const np = npOnly(tk.slice(1, j)); if (!np) continue; const hits = gksIndex().filter(e => e.keys.includes(npKey(np))).filter(e => e.f.status !== 'retracted'); if (!hits.length) continue;
+        const src = String(text).replace(/[?\s]+$/, ''), lowS = src.toLowerCase(); let pos = 0; for (const t of tk.slice(0, j)) { const at = lowS.indexOf(String(t.orig || t.w).toLowerCase(), pos); if (at < 0) { pos = -1; break; } pos = at + String(t.orig || t.w).length; } if (pos < 0) continue; let rest = src.slice(pos).trim(); /* the quantity is read from the typed characters (the tokenizer drops ^ and signs) */ if (mean) { if (!/^mean\s/i.test(rest)) continue; rest = rest.slice(5); }
+        for (const e of hits) { const fq = factQty(e.f); let r = rest; for (const q of e.f.qualifiers || []) { const qs = (q.prep + ' ' + q.np).toLowerCase(); if (r.toLowerCase().indexOf(qs + ' ') === 0) r = r.slice(qs.length + 1); }
+          const ex = /^(?:exactly|precisely)\s/i.test(r); if (ex) r = r.replace(/^\S+\s+/, ''); const qq = qtyOf(r); if (!qq || r.trim().replace(/[.;]+$/, '').match(QNUM)[0].length === 0) continue;
+          const f = e.f, item = { id: f.id, text: f.text, source: f.source.citation, cls: f.status === 'challenged' ? 'weak_unverified' : f.source.class };
+          const same = fq && fq.unit === qq.unit, ans = same && qtyEq(fq, qq) ? 'yes' : same && fq.exact ? 'no' : null;
+          rules.push({ id: 'GKS-QTY-YN', doc: 'plan §10: exact rational comparison of the question quantity with the shared fact’s own quantity (no conversion, no rounding)', note: f.id + ' ' + (ans || 'unconfirmed') + ' ← ' + f.source.citation });
+          return ans ? res('SELECTED_MEANING', { kind: 'gks_fact', answer: ans, items: [item] }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: [f.id] })
+            : res('SELECTED_MEANING', { kind: 'gks_unconfirmed', question: String(text).trim().replace(/[?\s]+$/, ''), related: [item] }, { frame: 'FR.QUESTION', act: 'question', uncertainty: 'undetermined', evidenceRefs: [f.id] }); } }
+      return null; }
+    { const gq = gksQtyYN(ctx.raw || raw); if (gq) return gq; }
     { const wt0 = ctx.worldText || raw, sh = worldShared(wt0), wt = sh.prefix + wt0; let rr = R.evaluate(wt, { allowBareQuery: !asksAboutStored(wt0) && !asksAboutShared(wt0) });
       if (sh.used.length && rr.handled) rr = sharedWorld(rr, sh, wt0); if (rr.handled) return worldResult(rr); } // world grammar → world reasoner; a bare question goes to memory only when it names a stored entity (unrelated memory never changes the route)
     const phi = meta.notation === 'phi';
@@ -579,8 +604,8 @@ function Kernel(opts) {
     /* GKS-PREMISE (4.9.42): a wh-copula question whose subject NP is structurally identical (same material NP, determiner aside) to a shared fact's subject
        is answered from the shared layer, phrased by its source class. A private fact about the same subject that agrees answers as private recall; one that
        disagrees yields gks_conflict with both sources (neither overwrites the other). A challenged fact is phrased as an unverified claim. */
-    const qualKey = a => a && a.prep && a.np ? a.prep + ' ' + npKey(a.np) : '?';
-    const gksMatch = (subj, quals) => { const k = npKey(subj), qs = (quals || []).map(qualKey); return gksIndex().filter(e => e.keys.includes(k) && qs.every(x => e.quals.includes(x))); };
+    function qualKey(a) { return a && a.prep && a.np ? a.prep + ' ' + npKey(a.np) : '?'; }
+    function gksMatch(subj, quals) { const k = npKey(subj), qs = (quals || []).map(qualKey); return gksIndex().filter(e => e.keys.includes(k) && qs.every(x => e.quals.includes(x))); }
     /* yes/no over shared facts: a copular question whose subject (+ qualifiers) is a fact's subject and whose predicate is materially the fact's predicate is
        answered Yes (or No on opposite polarity) from the fact, with its source-class wording; any other predicate is not decided by the fact → null (falls to inference) */
     function gksYN(q) { if (!q || q.coord || !q.subj || !q.verb || q.verb.lemma !== 'be' || q.verb.mod !== 'asserted' || q.cond) return null; const hits = gksMatch(q.subj, q.adj).filter(e => e.clause && e.clause.pred && q.pred);
@@ -830,7 +855,8 @@ function Kernel(opts) {
         if (now.length) { const hist = store.load('cold_storage').filter(x => x.record && x.record.clause && lifecycle(x.record.clause) === lifecycle(q) && subjMatch(holder(q), holder(x.record.clause)));
           rules.push({ id: 'MEM-STATUS-LATEST', doc: 'Pāṇini paper L2736–2751; Doc3 §24', note: (hist.length ? lifecycle(q) + ' (history) → ' : '') + lifecycle(now[now.length - 1].clause) + ' (current)' });
           return res('SELECTED_MEANING', { kind: 'status_now', was: hist.length ? hist[hist.length - 1].record.clause : null, now: now[now.length - 1].clause }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: now.map(r => r.id) }); } }
-      if (!rel.length) { const gy = gksYN(q); if (gy) return gy; const inf = inferYN(q); if (inf) return inf; return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj, clause: q }, { frame: 'FR.QUESTION', act: 'question', uncertainty: 'undetermined' }); }
+      if (!rel.length) { const gy = gksYN(q); if (gy) return gy; const inf = inferYN(q); if (inf) return inf; const relg = gksMatch(q.subj, q.adj).filter(e => e.f.status !== 'retracted').slice(0, 2).map(e => ({ id: e.f.id, text: e.f.text, source: e.f.source.citation })); if (relg.length) rules.push({ id: 'GKS-RELATED-CITED', doc: 'plan §10: an unconfirmed yes/no names the shared fact about the same subject (it decides nothing)', note: relg.map(x => x.id).join(', ') });
+        return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj, clause: q, related: relg.length ? relg : undefined }, { frame: 'FR.QUESTION', act: 'question', uncertainty: 'undetermined' }); }
       const strip = c0 => { const c = actv(c0); return canon({ p: predOf(c), s: entKeys(c.subj), r: roleKey(c), pr: c.pred ? (c.pred.np ? { t: c.pred.type, prep: c.pred.prep || null, k: entKeys(c.pred.np) } : G.material(c.pred)) : null }); };
       const sub = (qc, rc) => { qc = actv(qc); rc = actv(rc); if (predOf(qc) !== predOf(rc) || !subjMatch(qc.subj, rc.subj)) return false; const qk = roleKey(qc), rk = roleKey(rc); for (const [k2, v] of Object.entries(qk)) { if (!(k2 in rk)) return false; if (canon(v) !== canon(rk[k2]) && !(Array.isArray(v) && v.every(x => rk[k2].includes(x)))) return false; }
         if (qc.pred) { if (!rc.pred) return false; if (qc.pred.np && rc.pred.np) return canon(entKeys(qc.pred.np)) === canon(entKeys(rc.pred.np)); return canon(G.material(qc.pred)) === canon(G.material(rc.pred)); } return true; }; // LL-YN-SUBSET (question roles ⊆ stored roles)

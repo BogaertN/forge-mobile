@@ -16,7 +16,7 @@ const NOUNS = new Set(words('proof hash label status reason case name class clai
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
   'failure relation sign code divisor limit limitation vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences', hypothesis: 'hypotheses' };
-const ADJ = new Set(words('shared other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
+const ADJ = new Set(words('shared related other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
   'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now', 'later']);
@@ -421,6 +421,7 @@ function worldLimitationPlan(m) {
     S(C('be', { karta: N('code', { det: 'the', of: N('limitation', { det: 'the' }) }), pred: Mn(m.code) }))
   ];
 }
+const recallNone = m => m.attr ? [S(C('have', { karta: I, karma: N(m.attr, { det: 'no', adj: ['stored'] }), roles: { tadartha: uo(m.subj) } }))] : m.clause ? [S(C('confirm', { karta: I, comp: { that: UC(m.clause) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'] }), roles: { visaya: uo(m.subj) } }))];
 const PLANS = {
   ack: () => [S(C('acknowledge', { karta: I, karma: pr('that') }))],
   help: () => [S(C('do', { karta: I, karma: N('thing', { cnt: 8, list: { kind: 'vp', items: [C('remember', { karma: N('fact', { pl: true }) }), C('answer', { roles: { apadana: N('memory') } }), C('keep', { karma: N('note', { pl: true }) }), C('define', { karma: N('word', { pl: true }) }), C('solve', { karma: N('equation', { pl: true }) }), C('factor', { karma: N('polynomial', { pl: true }) }), C('convert', { karma: N('unit', { pl: true }) }), C('forget', { karma: N('fact', { pl: true }), roles: { paschat: N('confirmation') } })] } }), mod: 'can' })),
@@ -441,6 +442,7 @@ const PLANS = {
   recall: m => m.items.map(told),
   /* GKS shared facts (4.9.42): the phrasing is chosen by the source class (plan §1) — primary_authority / reviewed_reference: stated as fact + its source
      and class; secondary: "SOURCE reports …" + "It is a claim."; weak_unverified: "SOURCE claims …" + "I did not verify it." Every reply names the source. */
+  gks_unconfirmed: m => [S(C('confirm', { karta: I, karma: Mn(m.question), mod: 'can', pol: 'neg' }))].concat(...m.related.map(f => [S(C('be', { karta: N('fact', { det: 'the', adj: ['related', 'shared'] }), pred: Mn(f.text.replace(/[.]$/, '')) })), S(C('be', { karta: N('source', { det: 'the' }), pred: Mn(f.source) }))])),
   gks_fact: m => (m.answer ? [S(null, { part: m.answer })] : []).concat(...m.items.map(f => f.cls === 'primary_authority' || f.cls === 'reviewed_reference'
     ? [S(C('be', { karta: N('fact', { det: 'the', adj: ['shared'] }), pred: Mn(f.text.replace(/[.]$/, '')) })), S(C('be', { karta: N('source', { det: 'the' }), pred: Mn(f.source) })), S(C('be', { karta: N('class', { det: 'the' }), pred: Mn(f.cls.replace(/_/g, ' ')) }))]
     : f.cls === 'secondary' ? [S(C('report', { karta: Mn(f.source), karma: Mn(f.text.replace(/[.]$/, '')) })), S(C('be', { karta: pr('it'), pred: N('claim', { det: 'a' }) }))]
@@ -456,7 +458,7 @@ const PLANS = {
   gks_conflict: m => [told(m.clause), S(C('state', { karta: Mn(m.fact.source), karma: Mn(m.fact.text.replace(/[.]$/, '')) })), S(C('report', { karta: I, karma: N('conflict', { det: 'a' }) }))],
   /* latest status (Pāṇini paper L2736–2751): the earlier status is history, the newer one is current — say both, in order, never a bare yes/no */
   status_now: m => (m.was ? [told(m.was)] : []).concat([S(C('tell', Object.assign({ karta: YOU, samp: I, comp: { that: UC(m.now) }, tense: 'past' }, m.was ? { adv: ['later'] } : {})))]), /* 4.9.37: “later” orders history → current (Pāṇini paper L2736–2751) */
-  recall_none: m => m.attr ? [S(C('have', { karta: I, karma: N(m.attr, { det: 'no', adj: ['stored'] }), roles: { tadartha: uo(m.subj) } }))] : m.clause ? [S(C('confirm', { karta: I, comp: { that: UC(m.clause) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'] }), roles: { visaya: uo(m.subj) } }))],
+  recall_none: m => recallNone(m).concat(...(m.related || []).map(f => [S(C('be', { karta: N('fact', { det: 'the', adj: ['related', 'shared'] }), pred: Mn(f.text.replace(/[.]$/, '')) })), S(C('be', { karta: N('source', { det: 'the' }), pred: Mn(f.source) }))])),
   yesno: m => [m.answer === 'unconfirmed' ? cannot('confirm') : S(null, { part: m.answer })].concat(m.items.map(told)),
   inferred: m => (m.answer === 'contradiction'
     ? [S(C('conflict', { karta: N('fact', { poss: 'your', pl: true }) })), S(C('infer', { karta: I, comp: { that: UC(m.claim) } })), S(C('tell', { karta: YOU, samp: I, comp: { that: UC(m.neg) }, tense: 'past', adv: ['also'] }), { conj: 'but' })].concat(m.steps.map(told), wnChain(m), [S(C('tell', { samp: I, karma: N('fact', { det: 'the', adj: ['right'] }) }), { force: 'imp', part: 'please' })])
