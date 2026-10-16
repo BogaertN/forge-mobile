@@ -46,15 +46,52 @@ const r4 = M.r4;
 const CAT2POS = { entity: 'n', term: 'n', time: 'n', attribute: 'a', action: 'v', math: 'v' };
 function Lexicon(store) {
   const seed = L.SEED_CONCEPTS.map(c => Object.assign({}, c, { surfaces: c.surfaces.map(x => x.toLowerCase()) }));
-  const user = store.load('lexicon_user'); const wn = { core: null, ext: null };
+  const user = store.load('lexicon_user'); const wn = { core: null, ext: null, pro: null };
   const all = () => seed.concat(user);
   let ix; const reindex = () => { ix = Object.create(null); for (const c of all()) { if (c.retired) continue; for (const s of c.surfaces) (ix[s] = ix[s] || []).push(c); } }; reindex();
   const own = (o, k) => !!o && Object.prototype.hasOwnProperty.call(o, k);
-  const wnEntry = l => (wn.core && own(wn.core.L, l) && wn.core.L[l]) || (wn.ext && own(wn.ext.L, l) && wn.ext.L[l]) || null;
+  const wnMerged = new Map(); const wnDirect = l => { const es = ['core', 'ext', 'pro'].map(t => wn[t] && own(wn[t].L, l) && wn[t].L[l]).filter(Boolean); if (es.length < 2) return es[0] || null; /* 4.9.50: tiers merge by part of speech (the complete tier adds a POS a higher tier lacks); a higher tier's POS wins */
+    const key = l + '|' + es.length; if (wnMerged.has(key)) return wnMerged.get(key); const out = es[0].slice(); for (const e of es.slice(1)) for (const x of e) if (!out.some(y => y[0] === x[0])) out.push(x); wnMerged.set(key, out); return out; };
+  const prov = new Map(); let strict = true; const wnEntry = l => wnDirect(l) || (strict && provInfo.has(l) && /^LX-PROVISIONAL/.test(provInfo.get(l).rule) ? null : prov.get(l)) || null; /* position-read words count only in the turn of a plain statement (never for memory writes or questions) */ /* 4.9.50: third tier 'complete' (every remaining WordNet lemma) */
   const controlled = w => (ix[w] || []).filter(c => c.category !== 'function' && c.category !== 'number');
+  /* M-DERIVE (4.9.50; Doc4 morphology; Pāṇini kṛt/taddhita derivation): a word absent from every tier is derived from a lexicon word and admitted
+     PROVISIONALLY (runtime only, never stored, Doc8 state 'provisional-derived'). Rules, most specific first (apavāda before utsarga):
+     ORTHO (British/American spelling) → COMPOUND (hyphen; the head carries the class) → PREFIX + base → SUFFIX + base (agent, person, quality,
+     manner, ability, medical combining forms). Every derived sense names its base and rule in the gloss. */
+  const LXI = n => (wn.core ? wn.core.meta.lexnames.indexOf(n) : -1);
+  const ORTHO = [[/our(?=s?$|ed$|ing$|ite|ful|able|less)/g, 'or'], [/isation/g, 'ization'], [/is(e|ed|es|ing|er|ers)$/, 'iz$1'], [/ys(e|ed|es|ing|is)$/, 'yz$1'], [/ae/g, 'e'], [/oe(?=[a-z])/g, 'e'], [/([^aeiou])tre(s?)$/, '$1ter$2'], [/([^aeiou])re(s?)$/, '$1er$2'], [/ence$/, 'ense'], [/ogue$/, 'og'], [/([aeiou])ll(ed|ing|er|ers)$/, '$1l$2'], [/mme$/, 'm'], [/eable$/, 'able']];
+  const PREFIX = { un: 'av', re: 'vn', over: 'vna', under: 'vna', out: 'vn', mis: 'vn', pre: 'vna', co: 'vn', counter: 'vn', inter: 'van', sub: 'nva', super: 'nva', non: 'an', anti: 'an', de: 'v', dis: 'va', post: 'an', semi: 'an', multi: 'an', micro: 'n', hyper: 'an', hypo: 'an', trans: 'av', cross: 'vn', self: 'na', mid: 'n', ultra: 'a', neuro: 'n', cardio: 'n', electro: 'n', bio: 'n', auto: 'n' };
+  const MED = [[/(ectomy|otomy|ostomy|plasty|scopy|graphy|centesis)$/, 'noun.act', 'surgical or diagnostic procedure'], [/(itis|osis|emia|aemia|algia|opathy|oma|plasia|ectasis|uria|rrhea|rrhoea|sclerosis|megaly|penia)$/, 'noun.state', 'medical condition'], [/(ology)$/, 'noun.cognition', 'field of study'], [/(ologist|iatrist|ician)$/, 'noun.person', 'specialist']];
+  const ent = (p, lexname, gloss, fr) => [p, [['drv:' + gloss.replace(/\W+/g, '_').slice(0, 40) + p, Math.max(0, LXI(lexname)), gloss.slice(0, 90), fr || '']], 0];
+  const posOf = e => e ? e.map(x => x[0]) : [];
+  function derivedEntry(w) {
+    for (const [re, rep] of ORTHO) { const v = w.replace(re, rep); if (v !== w && wnDirect(v)) return { e: wnDirect(v), rule: 'M-DERIVE-ORTHO', base: v }; }
+    if (w.includes('-')) { const parts = w.split('-'), hd = parts[parts.length - 1], j = parts.join(''); if (wnDirect(j)) return { e: wnDirect(j), rule: 'M-DERIVE-COMPOUND-JOINED', base: j };
+      const he = wnDirect(hd); if (he && parts.slice(0, -1).every(x => /^[a-z]+$/.test(x))) return { e: he.filter(x => x[0] !== 'r').map(([p, ss]) => [p, ss.slice(0, 1).map(s => ['drv:' + w + p, s[1], parts.slice(0, -1).join('-') + ' ' + hd + ': ' + s[2], s[3]]), 0]), rule: 'M-DERIVE-COMPOUND-HEAD', base: hd }; }
+    for (const pre of Object.keys(PREFIX).sort((a, b) => b.length - a.length)) { if (!w.startsWith(pre) || w.length - pre.length < 3) continue; const b = w.slice(pre.length).replace(/^-/, ''); const be = wnDirect(b);
+      if (be) { const ok = be.filter(x => PREFIX[pre].includes(x[0])); if (ok.length) return { e: ok.map(([p, ss]) => [p, ss.slice(0, 1).map(s => ['drv:' + w + p, s[1], pre + '- + ' + b + ': ' + s[2], s[3]]), 0]), rule: 'M-DERIVE-PREFIX', base: b }; } }
+    for (const [re, ln, g] of MED) if (re.test(w)) return { e: [ent('n', ln, g + ' (' + w + ')')], rule: 'M-DERIVE-COMBINING-FORM', base: w.replace(re, '') };
+    const suf = [[/(?:er|or)$/, ['', 'e'], 'v', 'n', 'noun.person', b => 'one who does “' + b + '”'], [/ist$/, ['', 'y', 'ism', 'e'], 'na', 'n', 'noun.person', b => 'specialist in “' + b + '”'], [/ian$/, ['', 'y', 'ia', 'e'], 'n', 'n', 'noun.person', b => 'person of “' + b + '”'],
+      [/ness$/, ['', 'y'], 'a', 'n', 'noun.attribute', b => 'quality of being “' + b + '”'], [/ity$/, ['', 'e'], 'a', 'n', 'noun.attribute', b => 'quality of being “' + b + '”'], [/ment$/, [''], 'v', 'n', 'noun.act', b => 'act of “' + b + '”'], [/(?:ation|ition|tion|sion)$/, ['e', '', 'ate'], 'v', 'n', 'noun.act', b => 'act of “' + b + '”'], [/al$/, ['', 'e'], 'v', 'n', 'noun.act', b => 'act of “' + b + '”'],
+      [/ly$/, ['', 'le', 'e'], 'a', 'r', 'adv.all', b => 'in a “' + b + '” way'], [/ally$/, ['', 'al'], 'a', 'r', 'adv.all', b => 'in a “' + b + '” way'], [/(?:able|ible)$/, ['', 'e'], 'v', 'a', 'adj.all', b => 'able to be “' + b + '”-ed'], [/(?:ic|al|ous|ive)$/, ['', 'y', 'e', 'ia'], 'n', 'a', 'adj.pert', b => 'of “' + b + '”'], [/less$/, [''], 'n', 'a', 'adj.all', b => 'without “' + b + '”'], [/ful$/, [''], 'n', 'a', 'adj.all', b => 'full of “' + b + '”'],
+      [/(?:ize|ise)$/, ['', 'y', 'e'], 'na', 'v', 'verb.change', b => 'make “' + b + '”']];
+    for (const [re, reps, bp, p, ln, g] of suf) { if (!re.test(w)) continue; const stem = w.replace(re, ''); if (stem.length < 3) continue;
+      for (const r of reps) { const b = stem + r, be = wnDirect(b); if (be && posOf(be).some(x => bp.includes(x))) return { e: [ent(p, ln, g(b), p === 'v' ? '\u0038\u0039' : '')], rule: 'M-DERIVE-SUFFIX', base: b };
+        const b2 = stem.slice(0, -1); if (r === '' && /(.)\1$/.test(stem) && wnDirect(b2) && posOf(wnDirect(b2)).some(x => bp.includes(x))) return { e: [ent(p, ln, g(b2))], rule: 'M-DERIVE-SUFFIX', base: b2 }; } }
+    return null;
+  }
+  /* derive(w, check): admit a provisional derived entry for w (or for its stem under the inflection rules) when check(w) then succeeds */
+  const derived = new Map();
+  function derive(w, check) { if (derived.has(w)) return derived.get(w); derived.set(w, false); const stems = [w].concat([[/ies$/, 'y'], [/es$/, ''], [/s$/, ''], [/ied$/, 'y'], [/ed$/, ''], [/ed$/, 'e'], [/(.)\1ed$/, '$1'], [/ing$/, ''], [/ing$/, 'e'], [/(.)\1ing$/, '$1']].filter(([re]) => re.test(w)).map(([re, r]) => w.replace(re, r)));
+    for (const c of stems) { if (c.length < 3 || wnDirect(c) || prov.has(c)) continue; const d = derivedEntry(c); if (!d) continue; prov.set(c, d.e); provInfo.set(c, { rule: d.rule, base: d.base }); if (check(w)) { derived.set(w, true); return true; } prov.delete(c); provInfo.delete(c); }
+    return false; }
+  const provInfo = new Map();
+  /* provisional(l, p): a position-read unknown word (LX-PROVISIONAL-NOUN) is admitted for this runtime with a placeholder sense */
+  function provisional(l, p) { if (wnEntry(l)) return; prov.set(l, [ent(p, p === 'n' ? 'noun.Tops' : 'adj.all', 'provisional ' + (p === 'n' ? 'noun' : 'modifier') + ' read from its position (unknown word “' + l + '”)')]); provInfo.set(l, { rule: p === 'n' ? 'LX-PROVISIONAL-NOUN' : 'LX-PROVISIONAL-MODIFIER', base: null, pos: p }); }
+
   function hasPos(l, p) { const e = wnEntry(l); if (e && e.some(x => x[0] === p)) return true; if (e) return false; return controlled(l).some(c => c.surfaces[0] === l && (CAT2POS[c.category] === p || (p === 'n' && c.category === 'social'))); }
-  function senses(l) { const out = []; const tier = wn.core && own(wn.core.L, l) ? 'core' : 'extended'; const LN = wn.core ? wn.core.meta.lexnames : [];
-    for (const [p, ss, q] of wnEntry(l) || []) for (const [id, lx, gl, fr] of ss) out.push({ sid: 'wn30:' + id, pos: p, lexname: LN[lx] || lx, gloss: gl, frames: [...fr].map(ch => ch.charCodeAt(0) - 48), tier, quarantined_other: q, provenance: 'Princeton WordNet 3.0', license: 'WordNet 3.0 License', doc8_state: tier === 'core' ? 'admitted (SemCor-attested)' : 'admitted-extended (lower assurance)' });
+  function senses(l) { const out = []; const tier = wn.core && own(wn.core.L, l) ? 'core' : wn.ext && own(wn.ext.L, l) ? 'extended' : 'complete'; const LN = wn.core ? wn.core.meta.lexnames : [];
+    for (const [p, ss, q] of wnEntry(l) || []) for (const [id, lx, gl, fr] of ss) out.push({ sid: 'wn30:' + id, pos: p, lexname: LN[lx] || lx, gloss: gl, frames: [...fr].map(ch => ch.charCodeAt(0) - 48), tier, quarantined_other: q, provenance: 'Princeton WordNet 3.0', license: 'WordNet 3.0 License', doc8_state: tier === 'core' ? 'admitted (SemCor-attested)' : tier === 'extended' ? 'admitted-extended (lower assurance)' : 'admitted-complete (lowest assurance)' });
     return out; }
   function lookup(w) { if (/^\d+(\.\d+)?$/.test(w)) return [{ id: 'NUM.LITERAL', category: 'number', senses: [{ sid: 'NUM.LITERAL.s1', gloss: 'numeral ' + w }] }]; const b = w.replace(/'s$/, ''); return ix[w] || ix[b] || []; }
   function addConcept({ surface, gloss, category, example, supersede }) {
@@ -90,11 +127,12 @@ function Lexicon(store) {
   const known = w => !!(G.CL[w] || wnEntry(w) || ix[w] || G.lemmatize(w, { hasPos, exc, controlled }).length);
   const isName = w => { const e = wnEntry(w); return !!(e && e.some(([p, ss]) => p === 'n' && ss.some(s => s[1] === 15 || s[1] === 18))); };
   const lexnameOf = l => { const e = wnEntry(l); if (!e) return null; const n = e.find(x => x[0] === 'n'); return n && wn.core ? wn.core.meta.lexnames[n[1][0][1]] : null; };
-  const coreNoun = w => !!(wn.core && own(wn.core.L, w) && wn.core.L[w].some(e => e[0] === 'n') && !isName(w));
-  return { LICENCES, proposeConcept, inspectConcept, approveConcept, rejectConcept, admissions: () => store.load('admission_queue'), lookup, addConcept, all, controlled, hasPos, senses, known, isName, lexnameOf, exc, coreNoun,
-    attach(data, tier) { wn[tier] = data; },
-    stats() { return { controlled: all().filter(c => !c.retired).length, user_admitted: user.length, wordnet_core: wn.core ? Object.keys(wn.core.L).length : 0, wordnet_extended: wn.ext ? Object.keys(wn.ext.L).length : 0, wn_meta: wn.core ? wn.core.meta.stats : null }; },
-    count: () => all().filter(c => !c.retired).length + (wn.core ? Object.keys(wn.core.L).length : 0) + (wn.ext ? Object.keys(wn.ext.L).length : 0), wn };
+  const coreNoun = w => [...new Set([w, w.replace(/ies$/, 'y'), w.replace(/es$/, ''), w.replace(/s$/, '')])].some(x => { const e = wnDirect(x); return !!(e && e.some(y => y[0] === 'n') && (x !== w || !isName(x))); }); /* 4.9.50: a common noun of any tier (or its plural) is not read as a sentence-initial name */
+  const tierPos = (l, p) => { for (const [k, t] of [[0, 'core'], [1, 'ext'], [2, 'pro']]) if (wn[t] && own(wn[t].L, l) && wn[t].L[l].some(e => e[0] === p)) return k; return prov.has(l) ? 3 : 4; };
+  return { setStrict: b => { strict = !!b; }, isStrict: () => strict, tierPos, tier: l => (wn.core && own(wn.core.L, l) ? 0 : wn.ext && own(wn.ext.L, l) ? 1 : wn.pro && own(wn.pro.L, l) ? 2 : prov.has(l) ? 3 : 4), derive, provisional, provInfo: l => provInfo.get(l) || null, LICENCES, proposeConcept, inspectConcept, approveConcept, rejectConcept, admissions: () => store.load('admission_queue'), lookup, addConcept, all, controlled, hasPos, senses, known, isName, lexnameOf, exc, coreNoun,
+    attach(data, tier) { wn[tier] = data; if (data && data.exc) G.learnExc(data.exc); },
+    stats() { return { controlled: all().filter(c => !c.retired).length, user_admitted: user.length, wordnet_core: wn.core ? Object.keys(wn.core.L).length : 0, wordnet_extended: wn.ext ? Object.keys(wn.ext.L).length : 0, wordnet_complete: wn.pro ? Object.keys(wn.pro.L).length : 0, wn_meta: wn.core ? wn.core.meta.stats : null }; },
+    count: () => all().filter(c => !c.retired).length + (wn.core ? Object.keys(wn.core.L).length : 0) + (wn.ext ? Object.keys(wn.ext.L).length : 0) + (wn.pro ? Object.keys(wn.pro.L).length : 0), wn };
 }
 
 const NUMW = Object.assign(Object.create(null), { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100, thousand: 1000 });
@@ -163,26 +201,26 @@ function Kernel(opts) {
   const qtyEq = (a, b) => a.n * b.d === b.n * a.d;
   const factQty = f => { const t = f.text.replace(/[.]$/, ''), m = t.match(/\s(?:is|means)\s+(exactly\s+)?(.+)$/); if (!m || /[;=]/.test(m[2])) return null; const q = qtyOf(m[2]); return q && Object.assign(q, { exact: !!m[1] || /\bmeans\b/.test(t) }); };
   const lex = Lexicon(store);
-  if (opts.lexicon) lex.attach(opts.lexicon, 'core'); if (opts.lexiconExt) lex.attach(opts.lexiconExt, 'ext');
+  if (opts.lexicon) lex.attach(opts.lexicon, 'core'); if (opts.lexiconExt) lex.attach(opts.lexiconExt, 'ext'); if (opts.lexiconPro) lex.attach(opts.lexiconPro, 'pro');
   let meta = Object.assign({ turn: 0, loop: 1, chi: 0, phaseHistory: [], last: null, discourse: [], alias: {}, pending: null, notation: 'plain', reasoning: null }, store.load('meta'));
   const saveMeta = () => store.save('meta', meta);
   const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
   const perm = opts.perm || Gv.PermissionService(store, { clock: now }); const cont = CT.Containment(store, { clock: now, perm }); const bench = TB.Bench(store, { clock: now, perm });
   const fmtTime = opts.formatTime || (iso => iso.replace('T', ' ').slice(0, 16) + ' UTC');
-  const glex = { hasPos: (l, p) => lex.hasPos(l, p) || (p === 'v' && SELF_V.has(l)) || (p === 'n' && (SELF_N.has(l) || GKS_N().has(l))), /* Forge's own self-query words are lexicon entries of the kernel (closed class), so they parse even with no WordNet lexicon */ exc: lex.exc, controlled: lex.controlled, known: w => lex.known(w) || GKS_N().has(String(w).toLowerCase()), isName: lex.isName, coreNoun: lex.coreNoun,
+  const glex = { hasPos: (l, p) => lex.hasPos(l, p) || (p === 'v' && SELF_V.has(l)) || (p === 'n' && (SELF_N.has(l) || GKS_N().has(l))), /* Forge's own self-query words are lexicon entries of the kernel (closed class), so they parse even with no WordNet lexicon */ exc: lex.exc, tier: lex.tier, tierPos: lex.tierPos, derive: lex.derive, provisional: (l, p) => (lex.isStrict() ? null : lex.provisional(l, p)), provisionalOK: () => !lex.isStrict(), controlled: lex.controlled, known: w => lex.known(w) || GKS_N().has(String(w).toLowerCase()), isName: lex.isName, coreNoun: lex.coreNoun,
     /* 4.9.48: verb complement frames are lexicon facts (WordNet 3.0 generic frames of the lemma's verb senses), read by grammar.js */
     vclasses: l => lex.senses(l).filter(s => s.pos === 'v').map(s => s.lexname), /* WordNet lexicographer classes of the verb senses, most frequent first */
     vframes1: l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; const s = FR && lex.senses(l).find(x => x.pos === 'v'); return s ? s.frames.map(f => FR[f]).filter(Boolean) : []; },
-    vframes: (() => { const cache = new Map(); return l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; if (!FR) return []; const k = l + '|' + (lex.wn.ext ? 1 : 0); if (!cache.has(k)) cache.set(k, [...new Set(lex.senses(l).filter(s => s.pos === 'v').flatMap(s => s.frames))].map(f => FR[f]).filter(Boolean)); return cache.get(k); }; })() };
+    vframes: (() => { const cache = new Map(); return l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; if (!FR) return []; const k = l + '|' + (lex.wn.ext ? 1 : 0) + (lex.wn.pro ? 1 : 0); if (!cache.has(k)) cache.set(k, [...new Set(lex.senses(l).filter(s => s.pos === 'v').flatMap(s => s.frames))].map(f => FR[f]).filter(Boolean)); return cache.get(k); }; })() };
   const activeFacts = () => store.load('memory').filter(r => r.kind !== 'note' && r.status === 'active');
   const notes = () => store.load('memory').filter(r => r.kind === 'note' && r.status === 'active');
   const content = toks => toks.filter(t => !/^[?.!]$/.test(t.w));
   const isUnk = (t, i) => G.analyse(t, i, glex).every(a => a.tag === 'UNK');
-  const unknownToks = toks => [...new Set(toks.filter(isUnk).map(t => t.w))];
+  const unknownToks = toks => { const T = G.analyseAll(toks, glex); return [...new Set(T.filter(t => t.an.every(a => a.tag === 'UNK')).map(t => t.w))]; };
 
   function canonPred(c) { // P-BARE-CANON: bare nominal predicate ≡ adjectival predicate with the same words (one material meaning)
     if (!c || typeof c !== 'object') return c; if (c.coord) { c.coord.forEach(canonPred); return c; }
-    const bare = x => x.head && !x.det && !x.owner && !x.quant && !x.num && !x.of && !x.rel;
+    const bare = x => x.head && !x.det && !x.owner && !x.quant && !x.num && !x.of && !x.rel && !x.pp && !x.partRel;
     if (c.pred && c.pred.type === 'np') { const n = c.pred.np; if (bare(n)) c.pred = { type: 'adj', words: (n.adjs || []).concat(n.surface || n.head) }; else if (n.conj && n.conj.every(bare)) c.pred = { type: 'adj', words: [].concat(...n.conj.map((x, i) => (i ? [n.op] : []).concat(x.adjs || [], x.surface || x.head))) }; }
     if (c.cond) canonPred(c.cond); if (c.roles && c.roles.karma && c.roles.karma.clause) canonPred(c.roles.karma.clause); if (c.subj && c.subj.rel) canonPred(c.subj.rel);
     return c;
@@ -194,7 +232,18 @@ function Kernel(opts) {
     walk(c); return c; }
   const animNP = n => !!n && (n.pron === 'user' || n.pron === 'kernel' || (n.pron3 && n.pron3 !== 'it') || (n.propn && featsOf(n).anim) || (n.head && featsOf(n).anim) || (n.conj && n.conj.every(animNP)));
   const okKaraka = c => !c || (c.coord ? c.coord.every(okKaraka) : !(c.roles && c.roles.sampradana && c.roles.karma && !animNP(c.roles.sampradana)) && okKaraka(c.cond)); // K-SAMPRADANA-ANIMACY (Doc5: recipient is a sentient participant)
-  function derive(toks) { const P = G.Parser(content(toks), glex); const all = P.sentence().map(r => ({ node: { type: r.node.type, clause: canonNPs(canonPred(clone(r.node.clause))) }, rules: r.rules.filter(Boolean) })), A = M.rsocAdmit(all, r => okKaraka(r.node.clause), r => canon(G.material(r.node))); for (const k in A.ops) rsIn[k] = (rsIn[k] || 0) + A.ops[k]; return { parses: A.kept, T: P.T }; }
+  function derive(toks) { const P = G.Parser(content(toks), glex); const all = P.sentence().map(r => ({ node: { type: r.node.type, clause: canonNPs(canonPred(clone(r.node.clause))) }, rules: r.rules.filter(Boolean) })), A = M.rsocAdmit(all, r => okKaraka(r.node.clause), r => canon(G.material(r.node))); for (const k in A.ops) rsIn[k] = (rsIn[k] || 0) + A.ops[k]; const kept = economy(A.kept); if (kept.length < A.kept.length) rsIn.economy = (rsIn.economy || 0) + 1; return { parses: kept, T: P.T }; }
+  /* G-ECONOMY-COMPOUND (4.9.50; Chomsky, economy of derivation; Frazier minimal attachment): when derivations of one surface differ only in how many
+     words a noun compound absorbs, the derivation with the fewest compound members wins — the word is left to the verb phrase ("the dog | wants water",
+     "admitted the patient | last night"). Readings that differ in any other way stay open (Doc3 §40). */
+  function economy(ps) { if (ps.length < 2) return ps; const cost = p => { let k = 0; const walk = o => { if (!o || typeof o !== 'object') return; if (Array.isArray(o)) return o.forEach(walk); if (Array.isArray(o.head)) k += 2 * (o.head.length - 1) + (o.adjs || []).length + o.head.filter(h => lex.tierPos(h, 'n') === 2).length; /* a complete-tier noun is the lowest-assurance reading and costs one more */ if (o.pp && o.pp.np) k += 1; for (const v of Object.values(o)) walk(v); }; walk(p.node.clause); return k; }; /* a noun-noun compound member is a costlier Merge than an adjective; a noun-phrase PP costs one Merge */ const m = Math.min(...ps.map(cost)); let out = ps.filter(p => cost(p) === m);
+    /* then Late Closure (an adjunct attaches to the lowest phrase it can: inside the participle / infinitive / predicate it follows), then the common-noun
+       reading of a sentence-initial capital over the name reading (TAG-PROPN-INITIAL-ALT) */
+    const low = p => { let k = 0; const walk = o => { if (!o || typeof o !== 'object') return; if (Array.isArray(o)) return o.forEach(walk); for (const key of Object.keys(o)) { const v = o[key]; if ((key === 'partRel' || key === 'inf' || key === 'ger' || key === 'pred') && v && typeof v === 'object') k += JSON.stringify(v).split('"prep"').length - 1; walk(v); } }; walk(p.node.clause); return k; };
+    if (out.length > 1) { const mx = Math.max(...out.map(low)); out = out.filter(p => low(p) === mx); }
+    if (out.length > 1) { const fr = out.filter(p => p.rules.includes('K-KARMA-CONTROL-INF')); if (fr.length) out = fr; } /* the verb's own lexicon frame (somebody to INFINITIVE) over a 'to'-adjunct reading of the same words */
+    if (out.length > 1) { const np = out.filter(p => !p.rules.includes('TAG-PROPN-INITIAL-ALT') && !JSON.stringify(p.node.clause).includes('"propn"')); if (np.length) out = np; }
+    return out.length ? out : ps; }
   let rsIn = {};
   const swap = Object.assign(Object.create(null), { my: 'your', your: 'my', i: 'you', me: 'you', you: 'i', mine: 'yours', yours: 'mine', myself: 'yourself', yourself: 'myself', am: 'are' });
   const swapToks = text => G.tokenize(text).map(t => Object.assign(swap[t.w] ? { w: swap[t.w], orig: swap[t.w], i0: t.i0 } : t, { rendered: true }));
@@ -217,22 +266,35 @@ function Kernel(opts) {
     const num = n.plural ? 'pl' : 'sg'; if (G.FEMALE.has(h)) return { g: 'f', anim: true, n: num }; if (G.MALE.has(h)) return { g: 'm', anim: true, n: num };
     const ln = lex.lexnameOf(h); if (G.PERSONISH.has(h) || ln === 'noun.person') return { g: 'u', anim: true, n: num }; return { g: 'n', anim: false, animal: ln === 'noun.animal', n: num }; }
   function nps(c, out) { out = out || []; if (!c) return out; if (c.coord) { c.coord.forEach(x => nps(x, out)); return out; }
-    const visit = n => { if (!n || typeof n !== 'object') return; if (n.clause) { nps(n.clause, out); return; } out.push(n); if (n.conj) n.conj.forEach(visit); if (n.owner && typeof n.owner === 'object') visit(n.owner); if (n.of) visit(n.of); if (n.rel) nps(Object.assign({}, n.rel, { subj: null }), out); };
+    const visit = n => { if (!n || typeof n !== 'object') return; if (n.clause) { nps(n.clause, out); return; } out.push(n); if (n.conj) n.conj.forEach(visit); if (n.owner && typeof n.owner === 'object') visit(n.owner); if (n.of) visit(n.of); if (n.pp) visit(n.pp.np); if (n.rel) nps(Object.assign({}, n.rel, { subj: null }), out); };
     visit(c.subj); if (c.pred && c.pred.np) visit(c.pred.np); for (const v of Object.values(c.roles || {})) visit(v); for (const a of c.adj || []) if (a.np) visit(a.np); if (c.cond) nps(c.cond, out); return out; }
+  /* ackNotes (4.9.50): what the acknowledgment can truthfully add — each structurally bound pronoun and its antecedent, and each word admitted by
+     derivation or by position (Doc4 provisional state), so the user sees how the sentence was understood */
+  function ackNotes(cl, toks) { const binds = [], seen = new Set(); for (const n of nps(cl)) if (n.boundOrig && !seen.has(n.boundOrig.pron3)) { seen.add(n.boundOrig.pron3); const a = clone(n); delete a.boundOrig; delete a.resolvedFrom; binds.push({ w: n.boundOrig.pron3, np: a }); }
+    const derived = []; for (const t of G.analyseAll(content(toks || []), glex)) for (const a of t.an) { const pi = lex.provInfo(a.lemma); if (pi && !derived.some(d => d.w === t.w)) derived.push({ w: t.w, base: pi.base, rule: pi.rule, pos: pi.pos }); }
+    return { binds: binds.slice(0, 2), derived: derived.slice(0, 3) }; }
   let refBind = null;
-  function resolveRefs(c, rules) {
-    const problems = [];
+  function resolveRefs(c, rules, ro) {
+    const problems = []; const indefOK = !(ro && ro.write);
     const fix = (holder, key, ctx) => { const n = holder[key]; if (!n || typeof n !== 'object') return; const viaOwner = !n.pron3 && n.owner && n.owner.pron3; if (!n.pron3 && !viaOwner) { if (n.conj) n.conj.forEach((x, i) => fix(n.conj, i, ctx)); return; }
       const pr = n.pron3 || n.owner.pron3; const w = { his: 'he', him: 'he', her: 'she', its: 'it', their: 'they', them: 'they' }[pr] || pr;
       if (w === 'it' && ctx && ctx.verb && (WEATHER.has(ctx.verb.lemma) || (ctx.verb.lemma === 'be' && ctx.pred && ctx.pred.type === 'adj' && /^(late|early|cold|hot|warm|sunny|raining|dark|windy)$/.test(ctx.pred.words[0])))) { rules.push({ id: 'REF-EXPLETIVE-IT', doc: 'Doc6 §23 (non-referential "it")' }); return; }
-      if (['we', 'us', 'our'].includes(pr)) { problems.push({ word: pr, options: [] }); rules.push({ id: 'REF-UNRESOLVED', doc: 'Doc6 §23', note: pr }); return; }
+      /* REF-SPEAKER-GROUP (4.9.50): "we/us/our" includes the speaker — the addressee's perspective renders it as "you/your" (no referent question) */
+      if (['we', 'us', 'our'].includes(pr)) { const u = { pron: 'user', group: true }; if (viaOwner) n.owner = 'user'; else holder[key] = Object.assign({}, n, u, { pron3: undefined, feats: undefined }); rules.push({ id: 'REF-SPEAKER-GROUP', doc: 'Doc6 §23 (first-person plural includes the speaker)', note: pr }); return; }
+      /* REF-BOUND-LOCAL (4.9.50; binding by structure — Chomsky, structure dependence; Pāṇini sva- "one's own"): a possessive or object pronoun is bound by
+         the kartā of its own clause, and the kartā pronoun of an embedded clause by the kartā of the clause above, when gender and number agree
+         ("the potter fires his kiln" — his = the potter's). Structure decides before discourse recency. */
+      const fits = f => (w === 'it' ? !f.anim : w === 'they' ? f.n === 'pl' : f.anim && f.n !== 'pl' && (f.g === 'u' || !f.g || f.g === (w === 'she' ? 'f' : 'm')));
+      const B = ctx && ctx.binder; if (B && B !== n && !B.pron3 && !B.pron && (B.head || B.propn) && fits(featsOf(B))) { const ante = Object.assign(clone(B), { resolvedFrom: pr, boundOrig: clone(viaOwner ? n.owner : n) }); delete ante.rel; if (viaOwner) n.owner = ante; else holder[key] = ante; rules.push({ id: 'REF-BOUND-LOCAL', doc: 'binding by structure (c-command by the clause kartā); Doc6 §23', note: pr + ' → ' + G.npText(B, 'kernel') }); return; }
       if (refBind && refBind.pr === pr) { const ante = Object.assign(clone(refBind.np), { resolvedFrom: pr }); if (viaOwner) n.owner = ante; else holder[key] = ante; rules.push({ id: 'REF-BOUND-BY-CLARIFICATION', doc: 'Doc6 §30, §34; Pāṇini paper D6 L6861–6893 (held candidate keeps its ancestry)', note: pr + ' → ' + G.npText(refBind.np, 'kernel') + refBind.note }); return; }
       const cands = []; const seen = new Set();
       for (const d of meta.discourse.filter(d => (d.turn || 0) >= meta.turn - 2)) { const ok = w === 'it' ? !d.f.anim : w === 'they' ? d.f.n === 'pl' : d.f.anim && (d.f.g === 'u' || d.f.g === (w === 'she' ? 'f' : 'm')); if (ok && !seen.has(d.key)) { seen.add(d.key); cands.push(d); } }
       if (cands.length === 1) { const ante = Object.assign(clone(cands[0].np), { resolvedFrom: pr }); if (viaOwner) n.owner = ante; else holder[key] = ante; rules.push({ id: 'REF-RESOLVED-UNIQUE', doc: 'Doc6 §23; Doc3 §19', note: pr + ' → ' + cands[0].key }); }
-      else { problems.push({ word: pr, options: cands.map(x => G.npText(x.np, 'kernel')) }); rules.push({ id: cands.length ? 'REF-AMBIGUITY-HELD-OPEN' : 'REF-UNRESOLVED', doc: 'Doc6 §23, §29', note: pr + ': ' + cands.length + ' candidates' }); } };
-    const walk = cl => { if (!cl) return; if (cl.coord) return cl.coord.forEach(walk); fix(cl, 'subj', cl); if (cl.pred && cl.pred.np) fix(cl.pred, 'np', cl); for (const k of Object.keys(cl.roles || {})) { if (cl.roles[k] && cl.roles[k].clause) walk(cl.roles[k].clause); else fix(cl.roles, k, cl); } for (const a of cl.adj || []) if (a.np) fix(a, 'np', cl); if (cl.cond) walk(cl.cond); };
-    walk(c); return problems.length ? { clarify: problems[0] } : { ok: true };
+      else if (!cands.length && indefOK) { /* REF-INDEFINITE (4.9.50): no antecedent anywhere — the pronoun keeps its generic, indefinite reading (some person / thing of that gender and number); it is not a question to the user */
+        n.indefinite = true; rules.push({ id: 'REF-INDEFINITE', doc: 'Doc6 §23 (unresolved pronoun read as an indefinite referent, kept as the pronoun)', note: pr }); }
+      else { problems.push({ word: pr, options: cands.map(x => G.npText(x.np, 'kernel')) }); rules.push({ id: cands.length ? 'REF-AMBIGUITY-HELD-OPEN' : 'REF-UNRESOLVED', doc: 'Doc6 §23, §29 (a fact to be stored needs its referent)', note: pr + ': ' + cands.length + ' candidates' }); } };
+    const walk = (cl, up) => { if (!cl) return; if (cl.coord) return cl.coord.forEach(x => walk(x, up)); fix(cl, 'subj', Object.assign({}, cl, { binder: up })); const loc = Object.assign({}, cl, { binder: cl.subj }); if (cl.pred && cl.pred.np) fix(cl.pred, 'np', loc); for (const k of Object.keys(cl.roles || {})) { if (cl.roles[k] && cl.roles[k].clause) walk(cl.roles[k].clause, cl.subj); else fix(cl.roles, k, loc); } for (const a of cl.adj || []) if (a.np) fix(a, 'np', loc); if (cl.cond) walk(cl.cond, up); if (cl.sub && cl.sub.clause) walk(cl.sub.clause, cl.subj); };
+    walk(c, null); return problems.length ? { clarify: problems[0] } : { ok: true };
   }
   function pushDiscourse(c) { const add = []; for (const n of nps(c)) { if (n.pron || n.pron3 || n.quote !== undefined || (n.num && !n.head)) continue; if ((n.propn && G.TIMEW.has(n.propn.toLowerCase())) || (n.head && n.head.length === 1 && G.TIMEW.has(n.head[0]))) continue; const k = entKey(n); if (!k || add.some(a => a.key === k)) continue; const np = clone(n); delete np.rel; delete np.resolvedFrom; add.push({ key: k, np, f: featsOf(n), turn: meta.turn }); }
     meta.discourse = add.concat(meta.discourse.filter(d => !add.some(a => a.key === d.key))).slice(0, 8); }
@@ -313,7 +375,7 @@ function Kernel(opts) {
     return out; }
   const hasMod = c => (c.coord ? c.coord.some(hasMod) : c.verb && c.verb.mod !== 'asserted');
   const setMod = (c, m) => { if (c.coord) c.coord.forEach(x => setMod(x, m)); else if (c.verb) { c.verb.mod = m; if (c.verb.tense === 'future') c.verb.tense = 'present'; } };
-  function describe(c) { if (c.coord) return c.coord.map(describe).join(' + '); const r = ['subject: ' + G.npText(c.subj, 'kernel'), 'verb: ' + c.verb.lemma]; if (c.pred && c.pred.type === 'adjinf') r.push('predicate: ' + G.clauseText({ subj: { propn: 'X' }, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: c.pred }, 'kernel').slice(5), (c.pred.ctrl === 'karta' ? 'kartā of ' : 'karma of ') + c.pred.inf.verb.lemma + ': ' + G.npText(c.subj, 'kernel') + (c.pred.ctrl === 'karta' ? ' (it does the ' + c.pred.inf.verb.lemma + 'ing)' : ' (it undergoes the ' + c.pred.inf.verb.lemma + 'ing)')); else if (c.pred) r.push('predicate: ' + (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel'))); for (const [k, v] of Object.entries(c.roles || {})) r.push(k + ': ' + (v.adjp ? v.adjp.join(' ') : v.clause ? '[clause]' : G.npText(v, 'kernel'))); for (const a of c.adj || []) r.push(a.role + ': ' + (a.time || a.adv || a.prep + ' ' + G.npText(a.np, 'kernel'))); const relT = []; for (const n of nps(c)) for (const rc of [n.rel, n.relObj]) if (rc && rc.verb) relT.push(rc.verb.lemma + ' (' + rc.verb.tense + ')'); if (relT.length) r.push('relative verb: ' + relT.join(', ')); r.push('tense: ' + c.verb.tense); return r.join(', '); }
+  function describe(c) { if (c.coord) return c.coord.map(describe).join(' + '); const r = ['subject: ' + G.npText(c.subj, 'kernel'), 'verb: ' + c.verb.lemma]; if (c.pred && c.pred.type === 'adjinf') r.push('predicate: ' + G.clauseText({ subj: { propn: 'X' }, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred: c.pred }, 'kernel').slice(5), (c.pred.ctrl === 'karta' ? 'kartā of ' : 'karma of ') + c.pred.inf.verb.lemma + ': ' + G.npText(c.subj, 'kernel') + (c.pred.ctrl === 'karta' ? ' (it does the ' + c.pred.inf.verb.lemma + 'ing)' : ' (it undergoes the ' + c.pred.inf.verb.lemma + 'ing)')); else if (c.pred) r.push('predicate: ' + (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel'))); for (const [k, v] of Object.entries(c.roles || {})) r.push(k + ': ' + (v.adjp ? v.adjp.join(' ') : v.clause ? '[clause]' : v.inf ? 'to ' + G.vpText(Object.assign({}, v.inf, { verb: Object.assign({}, v.inf.verb, { mod: 'asserted', tense: 'none', nf: 'inf' }) }), null, 'kernel').replace(/^to /, '') : G.npText(v, 'kernel'))); for (const a of c.adj || []) r.push(a.role + ': ' + (a.time || a.adv || a.prep + ' ' + G.npText(a.np, 'kernel'))); const relT = []; for (const n of nps(c)) for (const rc of [n.rel, n.relObj]) if (rc && rc.verb) relT.push(rc.verb.lemma + ' (' + rc.verb.tense + ')'); if (relT.length) r.push('relative verb: ' + relT.join(', ')); r.push('tense: ' + c.verb.tense); return r.join(', '); }
   const ruleDoc = id => /^K-/.test(id) ? 'Doc5 karaka roles' : /^LL-/.test(id) ? 'Doc3 Language Law' : /^M-/.test(id) ? 'Doc4 morphology / WordNet exceptions' : /^TAG-/.test(id) ? 'Doc4 lexicon tagging' : /^(NP|V|P|G)-/.test(id) ? 'Doc3 / R0 derivation' : 'kernel';
 
   const META = [
@@ -598,7 +660,7 @@ function Kernel(opts) {
         const keys = entKeys(q.subj); recs = activeFacts().filter(r => (r.entities || []).some(k => keys.includes(k))); rules.push({ id: 'FR-FORGET-ABOUT-ENTITY', doc: 'Doc7' }); if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.FORGET', act: 'request' }); }
       else { if (body[0].w === 'that') body = body.slice(1); const unk = unknownToks(body); if (unk.length) return clarifyUnknown(unk); const d = derive(body); if (!d.parses.length) return fb();
         if (d.parses.length > 1) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings: d.parses.slice(0, 4).map(p => describe(p.node.clause)) }, { frame: 'FR.FORGET', act: 'request' }); }
-        const cl = d.parses[0].node.clause; const rr = resolveRefs(cl, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.FORGET', act: 'request' });
+        const cl = d.parses[0].node.clause; const rr = resolveRefs(cl, rules, { write: true }); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.FORGET', act: 'request' });
         const k0 = canon(G.material(cl)); recs = activeFacts().filter(r => canon(G.material(r.clause)) === k0); rules.push({ id: 'FR-FORGET-EXACT-FACT', doc: 'Doc7 (exact structural match only)' });
         if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: cl.subj || { propn: 'that' } }, { frame: 'FR.FORGET', act: 'request' }); }
       meta.pending = { type: 'forget', ids: recs.map(r => r.id) }; rules.push({ id: 'AUTH-FORGET-ASK-CONFIRM', doc: 'Doc7; Doc6 §30 (deletion needs explicit confirmation)' });
@@ -611,7 +673,9 @@ function Kernel(opts) {
        is answered from the shared layer, phrased by its source class. A private fact about the same subject that agrees answers as private recall; one that
        disagrees yields gks_conflict with both sources (neither overwrites the other). A challenged fact is phrased as an unverified claim. */
     function qualKey(a) { return a && a.prep && a.np ? a.prep + ' ' + npKey(a.np) : '?'; }
-    function gksMatch(subj, quals) { const k = npKey(subj), qs = (quals || []).map(qualKey); return gksIndex().filter(e => e.keys.includes(k) && qs.every(x => e.quals.includes(x))); }
+    function gksMatch(subj, quals) { const tries = [[subj, quals || []]]; /* NP-PP-POSTMOD (4.9.50): "the speed of light in vacuum" may carry its qualifier inside the NP; peel it back to a clause qualifier */
+      let n = subj, qq = (quals || []).slice(); while (n && n.pp && n.pp.np) { const inner = n.pp; n = Object.assign({}, n); delete n.pp; qq = [{ prep: inner.prep, np: inner.np }].concat(qq); tries.push([n, qq]); }
+      for (const [s0, q0] of tries) { const k = npKey(s0), qs = q0.map(qualKey); const hit = gksIndex().filter(e => e.keys.includes(k) && qs.every(x => e.quals.includes(x))); if (hit.length) return hit; } return []; }
     /* yes/no over shared facts: a copular question whose subject (+ qualifiers) is a fact's subject and whose predicate is materially the fact's predicate is
        answered Yes (or No on opposite polarity) from the fact, with its source-class wording; any other predicate is not decided by the fact → null (falls to inference) */
     function gksYN(q) { if (!q || q.coord || !q.subj || !q.verb || q.verb.lemma !== 'be' || q.verb.mod !== 'asserted' || q.cond) return null; const hits = gksMatch(q.subj, q.adj).filter(e => e.clause && e.clause.pred && q.pred);
@@ -695,6 +759,7 @@ function Kernel(opts) {
       if (vp.length) { rules.push({ id: 'G-IMPERATIVE', doc: 'Doc5 §15 (directive speech act)' }, ...vp[0].rules.filter(Boolean).map(id => ({ id, doc: ruleDoc(id) })), { id: 'AUTH-UNDERSTOOD-NOT-AUTHORIZED', doc: 'Doc1; Doc6 §36.15' });
         if (ctx.negAct) return res('SELECTED_RESTRICTED_MEANING', { kind: 'neg_act', act: vp[0].node.verb.lemma }, { frame: 'FR.IMPERATIVE', act: 'request' });
         return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: toks.map(t => (/^(my|me|i|myself)$/.test(t.w) ? swap[t.w] : t.orig)).join(' ').replace(/^\w/, c => c.toLowerCase()), reason: 'OUT_OF_SCOPE' }, { frame: 'FR.IMPERATIVE', act: 'request' }); } }
+    lex.setStrict(false); /* LX-PROVISIONAL (4.9.50): a plain statement may read an unknown word from its position; the acknowledgment says so */
     const unk = unknownToks(toks); if (unk.length) return clarifyUnknown(unk);
     return declarative(toks, 'FR.ASSERT', 'assertion', false);
 
@@ -718,12 +783,12 @@ function Kernel(opts) {
       if (d.parses.length > 1 && !(ctx.chosenReading && ctx.chosenReading <= Math.min(4, d.parses.length))) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); const readings = d.parses.slice(0, 4).map(p => describe(p.node.clause)); meta.pending = { type: 'reading', raw: ctx.raw, low: ctx.low, frame, act, count: readings.length, readings }; return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings }, { frame, act }); }
       const parse = d.parses[ctx.chosenReading ? ctx.chosenReading - 1 : 0]; rules.push(...parse.rules.map(id => ({ id, doc: ruleDoc(id) })));
       const cl = parse.node.clause; if (ctx.hedge) setMod(cl, 'possible'); if (ctx.chosenReading) cl.resolved_reading = ctx.chosenReading;
-      const rr = resolveRefs(cl, rules); if (rr.clarify) { g.connectedness = 'referent'; meta.pending = { type: 'referent', raw: ctx.raw, low: ctx.low, frame, act, word: rr.clarify.word, options: rr.clarify.options, reading: ctx.chosenReading || 0, count: d.parses.length }; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame, act }); } if (cl.resolved_reading) heldNow = [canon(G.material(cl))];
+      const rr = resolveRefs(cl, rules, { write: remember }); if (rr.clarify) { g.connectedness = 'referent'; meta.pending = { type: 'referent', raw: ctx.raw, low: ctx.low, frame, act, word: rr.clarify.word, options: rr.clarify.options, reading: ctx.chosenReading || 0, count: d.parses.length }; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame, act }); } if (cl.resolved_reading) heldNow = [canon(G.material(cl))];
       const sense = senseInfo(cl); if (sense) rules.push({ id: sense.rule, doc: 'Doc5 frames (WordNet verb frames); Doc6 §16–17, §19', note: sense.status + ' · ' + (sense.candidates || []).length + ' candidate sense(s)' });
       ctx.clauseForDiscourse = cl;
       if (ctx.dream) { rules.push({ id: 'CT-DREAM-QUARANTINE', doc: 'forge dream_state_quarantine.py: truth_support_allowed=false, stable_memory_allowed=false' }); return res('SELECTED_RESTRICTED_MEANING', { kind: 'dream_held', clause: cl, verb: ctx.dreamVerb || 'suppose' }, { frame, act, sense, contain: 'dream' }); }
       if (!remember && ctx.privacy) { rules.push({ id: 'PRIV-2.1 SECRET-NOT-KEPT', doc: 'Doc7; Doc6 §36.15', note: 'value sealed at ingestion; no remember request → dropped' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'secret_dropped', subjNP: cl.coord ? null : cl.subj, subj: cl.coord ? 'that' : G.npText(cl.subj, 'kernel') }, { frame, act, sense }); }
-      if (!remember) { rules.push({ id: 'AUTH-ASSERT-NOT-STORE', doc: 'Doc1; Doc6 §36.15 (understanding is not authorization)' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'assert_ack', clause: cl }, { frame, act, sense }); }
+      if (!remember) { rules.push({ id: 'AUTH-ASSERT-NOT-STORE', doc: 'Doc1; Doc6 §36.15 (understanding is not authorization)' }); return res('UNDERSTOOD_ACTION_BLOCKED', Object.assign({ kind: 'assert_ack', clause: cl }, ackNotes(cl, body)), { frame, act, sense }); }
       if (ctx.negAct) { rules.push({ id: 'LL-NEG-ACT-SCOPE', doc: 'Doc3 §15', note: 'negation scopes over the request act → no write' }); return res('SELECTED_RESTRICTED_MEANING', { kind: 'neg_act', act: 'store' }, { frame, act }); }
       rules.push({ id: 'AUTH-EXPLICIT-REMEMBER', doc: 'Doc7', note: 'explicit user request authorizes memory.write' });
       const same = activeFacts().find(r => canon(G.material(r.clause)) === canon(G.material(cl)));
@@ -800,6 +865,15 @@ function Kernel(opts) {
         if (!adjW && /^(do|does|did)$/.test(aux)) { const rs = insertAt(rest, toks[i]); if (rs.length !== 1) return null; const q = rs[0].node.clause; { const mq = metaQ(q, 'manner', null); if (mq) return mq; } rules.push({ id: 'Q-WH-HOW-MANNER', doc: 'Doc5 karaṇa (instrument/means)' }); const rr = resolveRefs(q, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' });
           const hits = activeFacts().filter(r => !r.sensitive && !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(q.subj, r.clause.subj) && ((r.clause.adj || []).some(a => a.role === 'karana' || a.role === 'prakara') || (r.clause.sub && r.clause.sub.conj === 'because'))); /* 4.9.38: a stored manner adverb (prakāra) answers how */
           return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.QUESTION', act: 'question' }); }
+        /* Q-WH-HOW-DEGREE-CLAUSE (4.9.50): "how often/long/soon … AUX NP V …" questions the how-often/how-long adjunct of the clause; "how much/many N AUX NP V …"
+           questions the quantity of the karma N (restored as "the N" in its base position). Answered only from stored facts; otherwise "no stored fact". */
+        { let qn = null, auxI = i, gapN = null; if (adjW && /^(much|many)$/.test(adjW) && G.Parser(toks.slice(2, 3), glex).at(0, 'N').length && toks[3]) { gapN = [{ w: 'the', orig: 'the' }, toks[2]]; auxI = 3; }
+          const ax = toks[auxI] && toks[auxI].w; if (adjW && ax && /^(do|does|did|will|would|can|could|should|must|may|might|is|are|was|were|has|have)$/.test(ax)) { const rest2 = toks.slice(auxI + 1); const rs = insertAt(gapN ? rest2.concat(gapN) : rest2, toks[auxI]); const cs = rs.map(r => r.node.clause).filter(c => c && !c.coord);
+            if (cs.length) { qn = cs[0]; rules.push({ id: gapN ? 'Q-WH-HOW-QUANTITY' : 'Q-WH-HOW-EXTENT', doc: 'Doc5 §15 (how + degree word questions how much or how often)', note: adjW });
+              const rr = resolveRefs(qn, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); ctx.clauseForDiscourse = qn;
+              const hits = activeFacts().filter(r => !r.sensitive && !r.clause.coord && predOf(r.clause) === predOf(qn) && subjMatch(qn.subj, r.clause.subj) && (gapN ? !!(r.clause.roles && r.clause.roles.karma && r.clause.roles.karma.num) : (r.clause.adj || []).some(a => a.role === 'kala' || a.role === 'prakara')));
+              rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7', note: 'how ' + adjW + ' → ' + hits.length });
+              return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : res('SELECTED_MEANING', { kind: 'recall_none', subj: qn.subj, how: (() => { const qx = clone(qn); if (gapN && qx.roles) delete qx.roles.karma; return 'how ' + adjW + (gapN ? ' ' + toks[2].w : '') + ' ' + G.clauseText(qx, 'kernel'); })() }, { frame: 'FR.QUESTION', act: 'question' }); } } }
         return null; }
       else if (/^(what|who|whom|where|when|which)$/.test(w)) {
         const w1 = toks[1].w, rest = toks.slice(2);
@@ -808,6 +882,10 @@ function Kernel(opts) {
         if (/^(do|does|did|will|can|might|could|would|should)$/.test(w1)) { reads = insertAt(rest, toks[1]); gap = w === 'where' ? 'role:adhikarana' : w === 'when' ? 'role:kala' : 'role:karma'; qrule = 'Q-WH-DO-SUPPORT';
           /* use/mention (Doc4): in “what does X mean” X may be any word MENTIONED, not used — read it as a quoted mention NP when it has no nominal reading */
           if (!reads.length && rest.length === 2 && SELF_MEAN_V.has(rest[1].w)) { reads = insertAt([{ w: '"' + rest[0].w + '"', orig: '"' + rest[0].w + '"' }, rest[1]], toks[1]); if (reads.length) rules.push({ id: 'LX-MENTION-NP', doc: 'Doc4 use/mention: a word asked about is mentioned, not used' }); } }
+        else if (/^(what|which)$/.test(w) && toks.length > 2 && G.Parser(toks.slice(1, 2), glex).at(0, 'N').length && /^(do|does|did|will|can|might|could|would|should|has|have|had)$/.test(toks[2].w) && toks.length > 4) { const rest3 = toks.slice(3);
+          /* Q-WH-DET-KARMA (4.9.50): "which valve did the engineer replace" — the wh-determiner phrase is the karma gap */
+          reads = insertAt(rest3, toks[2]); gap = 'role:karma'; qrule = 'Q-WH-DET-KARMA'; }
+        else if (/^(what|which)$/.test(w) && toks.length > 2 && G.Parser(toks.slice(1, 2), glex).at(0, 'N').length && (reads = derive([{ w: 'the', orig: 'the' }].concat(toks.slice(1))).parses).length) { gap = 'subj'; qrule = 'Q-WH-DET-SUBJECT'; /* "which pump broke": the wh-determiner phrase is the subject */ }
         else if (/^(who|what|which)$/.test(w)) { reads = derive([{ w: 'zgapz', orig: 'Zgapz' }].concat(toks.slice(1))).parses; gap = 'subj'; qrule = 'Q-WH-SUBJECT-GAP'; }
       } else return null;
       if (!reads.length) { const unk = unknownToks(toks); if (unk.length) return clarifyUnknown(unk); return null; }
@@ -816,7 +894,10 @@ function Kernel(opts) {
       if (uniq.length > 1) { const wq = G.CL[toks[0].w] && G.CL[toks[0].w].includes('WH') ? toks[0].w : null; const sas = uniq.map(r => r.node.clause && SELF.answer(r.node.clause, gap, wq));
         /* SELF-MODEL over an ambiguity: when every reading is a self-question the self-model settles the same way, the answer does not depend on the reading;
            the question is not re-voiced (that would pick a reading), only the shared answer and its facts are stated */
-        if (sas.every(x => x && x.meaning.answer === sas[0].meaning.answer && x.cls === sas[0].cls)) { const m = Object.assign({}, sas[0].meaning); if (m.restated) { const st = clone(m.clauses[0]); delete st.roles; st.adj = []; m.clauses = (derive(G.tokenize(G.clauseText(Object.assign({}, st, { subj: { pron: 'user' } }), 'kernel'))).parses.length === 1 ? [st] : []).concat(m.clauses.slice(1)); delete m.restated; } /* restate only the verb (shared by every reading) */ rules.push({ id: 'Q-SELF-MODEL', doc: 'selfmodel.js; all ' + uniq.length + ' readings settle alike (' + sas[0].cls + ')', note: sas[0].rule }); return res('SELECTED_MEANING', m, { frame: 'FR.SELF.MODEL', act: 'question' }); }
+        if (sas.every(x => x && x.meaning.answer === sas[0].meaning.answer && x.cls === sas[0].cls)) { const m = Object.assign({}, sas[0].meaning); if (m.restated) { const one = c => derive(G.tokenize(G.clauseText(Object.assign({}, c, { subj: { pron: 'user' } }), 'kernel'))).parses.length === 1; const full = []; const seenT = new Set();
+            for (const x of sas) { const c = x.meaning.clauses && x.meaning.clauses[0]; if (!c) continue; const t = G.clauseText(Object.assign({}, c, { subj: { pron: 'user' } }), 'kernel'); if (!seenT.has(t) && one(c)) { seenT.add(t); full.push(clone(c)); } }
+            /* Q-SELF-RESTATE-READINGS (4.9.50): each reading whose own restatement is unambiguous is restated in full (up to two); only when none is, the verb alone (shared by every reading) */
+            const st = clone(m.clauses[0]); delete st.roles; st.adj = []; m.clauses = (full.length ? full.slice(0, 2) : one(st) ? [st] : []).concat(m.clauses.slice(1)); if (full.length) rules.push({ id: 'Q-SELF-RESTATE-READINGS', doc: 'Doc3 §40 (every reading answered alike; each unambiguous restatement kept)', note: full.length + ' of ' + sas.length }); delete m.restated; } rules.push({ id: 'Q-SELF-MODEL', doc: 'selfmodel.js; all ' + uniq.length + ' readings settle alike (' + sas[0].cls + ')', note: sas[0].rule }); return res('SELECTED_MEANING', m, { frame: 'FR.SELF.MODEL', act: 'question' }); }
         rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings: uniq.slice(0, 4).map(p => describe(p.node.clause)) }, { frame: 'FR.QUESTION', act: 'question' }); }
       const q = uniq[0].node.clause; if (gap === 'subj') q.subj = null;
       if (gap === 'role:karma' && q.roles && q.roles.karma) { if (/^(what|which)$/.test(toks[0].w) && animNP(q.roles.karma) && !q.roles.sampradana) { q.roles = { sampradana: q.roles.karma }; rules.push({ id: 'Q-WH-KARMA-SHIFT', doc: 'Doc5 (animate first object = sampradāna when karma is the gap)' }); } else gap = null; }
@@ -895,7 +976,7 @@ function Kernel(opts) {
     }
   }
 
-  const ENV = { reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: (m, text) => m && m.kind === 'world_answer' ? worldReverify(m, text) : mathReverify(m) };
+  const ENV = { debug: !!(isNode && globalThis.process.env.FDEBUG), reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: (m, text) => m && m.kind === 'world_answer' ? worldReverify(m, text) : mathReverify(m) };
   /* world answers: the proposition quoted in the surface is re-parsed by the world grammar and must be the checked query (or its
      opposite) of that status, and the proof it cites is replayed again against its own (branch-scoped) world */
   function worldReverify(m, text) { if (m.pron) { const pm = String(text).match(/^([\s\S]*?) The pronoun means “([^”]+)”\. It can mean “([^”]+)”\.([\s\S]*)$/), sy = s => String(s).replace(/_/g, ' ');
@@ -985,7 +1066,7 @@ function Kernel(opts) {
   /* a multi-sentence message the one-query world grammar cannot take (query not final, first-person query) is read sentence by sentence;
      the user's own first-person statements in it are kept (as “remember that …”) so a later question in the same message can use them */
   const SEQ_CODES = /^(?:QUERY_NOT_FINAL|UNSUPPORTED_QUERY_STRUCTURE|MULTIPLE_QUERIES|SENTENCE_LIMIT)$/;
-  function process(input) { if (pendingCase !== undefined) { caseNS = pendingCase; pendingCase = undefined; if (caseNS) { const ix = baseStore.load('case_index'); const id = caseNS.slice(5); if (!ix.includes(id)) baseStore.save('case_index', ix.concat([id])); } } const txt = String(input || '').normalize('NFC'), parts = txt.split(/(?<=[.!?])\s+/).map(x => x.trim()).filter(Boolean);
+  function process(input) { lex.setStrict(true); if (pendingCase !== undefined) { caseNS = pendingCase; pendingCase = undefined; if (caseNS) { const ix = baseStore.load('case_index'); const id = caseNS.slice(5); if (!ix.includes(id)) baseStore.save('case_index', ix.concat([id])); } } const txt = String(input || '').normalize('NFC'), parts = txt.split(/(?<=[.!?])\s+/).map(x => x.trim()).filter(Boolean);
     if (parts.length > 1 && parts.length <= 400 && !P.redact(txt).secrets.length) { let rr = null; try { rr = R.evaluate(txt, { allowBareQuery: true }); } catch (e) { rr = null; }
       if (rr && rr.handled && rr.material && SEQ_CODES.test(rr.material.code || '')) { const outs = parts.map(p => process1(/^(?:i|my|i'm|i’m)\b/i.test(p) && !/\?$/.test(p) ? 'remember that ' + p.replace(/^my\b/, 'my') : p));
         return combine(outs, { id: 'LL-SEQUENTIAL-SENTENCES', doc: 'Doc5 discourse (one sentence at a time)', note: rr.material.code + ' → ' + parts.length + ' sentences' }); } }
@@ -1118,7 +1199,7 @@ function Kernel(opts) {
     if (real.derivation.forbidden_transition) { routeOf({ forbidden_transition: real.derivation.forbidden_transition }); trace.blocked = true; trace.block_reason = 'Derivation phase trail contains a forbidden transition (' + real.derivation.forbidden_transition + ').'; meta.pending = null; Ph(9, 'forbidden derivation path → blocked'); return finish(trace, 9, null, msm, sfe); }
     let ev = (!opts.renderFault && real.echo && real.text === text) ? real.echo : echo(text, msm.meaning, real.vakya); trace.echo = ev; trace.rsoc.phrasing = real.derivation.phrasing || null;
     if (!ev.pass && ev.ambiguous && !opts.renderFault && msm.meaning.kind !== 'clarify_echo') { // lawful re-routing: an ambiguous outward reading becomes a clarification (Doc6 §29), never a guess and never a write
-      trace.rules.push({ id: 'ECHO-AMBIGUITY-CLARIFY', doc: 'Doc6 §29; RMC §6.7', note: ev.reason }); trace.echo_first = ev; trace.meaning_first = msm.meaning; const alt = { kind: 'clarify_echo' }; const r2 = D.realizeMeaning(alt, ENV); const ev2 = echo(r2.text, alt);
+      trace.rules.push({ id: 'ECHO-AMBIGUITY-CLARIFY', doc: 'Doc6 §29; RMC §6.7', note: ev.reason }); trace.echo_first = Object.assign({ text }, ev); trace.meaning_first = msm.meaning; const alt = { kind: 'clarify_echo' }; const r2 = D.realizeMeaning(alt, ENV); const ev2 = echo(r2.text, alt);
       if (ev2.pass) { msm.meaning = alt; msm.limits.may_write_memory = false; trace.outcome = { category: 'CLARIFICATION_REQUIRED', class: 'clarify', cite: 'Doc6 §36' }; text = r2.text; trace.derivation = r2.derivation; ev = ev2; trace.echo = ev2; meta.pending = null; sel.write = null; routeOf(); } }
     if (!ev.pass) { routeOf({ echo_failed: true }); trace.blocked = true; trace.block_reason = 'Echo validation failed (' + (ev.reason || '') + '; components ' + JSON.stringify(ev.components) + ') — output blocked, no memory write.'; meta.pending = null; trace.rsoc.ops.push('Ê=0'); Ph(9, 'Echo FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
     if ((msm.meaning.kind === 'world_answer' || msm.meaning.kind === 'world_limitation') && msm.meaning.envelope) {

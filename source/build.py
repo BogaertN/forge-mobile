@@ -84,7 +84,7 @@ def with_csp(doc):
     pol = "default-src 'self'; script-src " + ' '.join(hs) + " 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' https: data:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; media-src 'self' blob: mediastream:; object-src 'none'; base-uri 'none'; form-action 'none'"
     return re.sub(r'<meta http-equiv="Content-Security-Policy" content="[^"]*">', '<meta http-equiv="Content-Security-Policy" content="' + pol + '">', doc, count=1)
 h = with_csp(h); open(os.path.join(SINGLE, 'kernel-app.html'), 'w').write(h)
-core = base64.b64encode(open('data/lexicon.json.gz', 'rb').read()).decode(); ext = base64.b64encode(open('data/lexicon-ext.json.gz', 'rb').read()).decode()
-full = with_csp(h.replace('<script>', '<script>window.KLEX_CORE_GZ="' + core + '";window.KLEX_EXT_GZ="' + ext + '";</script><script>', 1))
+core = base64.b64encode(open('data/lexicon.json.gz', 'rb').read()).decode(); ext = base64.b64encode(open('data/lexicon-ext.json.gz', 'rb').read()).decode(); pro = base64.b64encode(open('data/lexicon-pro.json.gz', 'rb').read()).decode()
+full = with_csp(h.replace('<script>', '<script>window.KLEX_CORE_GZ="' + core + '";window.KLEX_EXT_GZ="' + ext + '";window.KLEX_PRO_GZ="' + pro + '";</script><script>', 1))
 open(os.path.join(SINGLE, 'kernel-app-full.html'), 'w').write(full)
 print('built', VERSION, commit[:12], 'tests %d/%d (failed %d, NOT_RUN %d)' % (tests['pass'], tests['total'], tests['fail'], tests['not_run']), 'site files', len(files), 'manifest', doc['manifest_sha256'][:16], 'single', len(h), 'full gz', len(gzip.compress(full.encode())))

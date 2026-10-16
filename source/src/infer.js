@@ -38,9 +38,9 @@
     const locPath = (facts, a, b) => chain(locEdges(facts), 'located_in', a, b);
     /* WordNet hypernym closure */
     const W = () => lex.wn; const own = (o, k) => !!o && Object.prototype.hasOwnProperty.call(o, k);
-    function nounSyns(l) { const out = []; for (const t of ['core', 'ext']) { const d = W()[t]; if (d && own(d.L, l)) for (const [p, ss] of d.L[l]) if (p === 'n') for (const s of ss) out.push(s[0]); } return out; }
-    const hyp = id => { for (const t of ['core', 'ext']) { const d = W()[t]; if (d && d.H && own(d.H, id)) return d.H[id]; } return null; };
-    const head = id => { for (const t of ['core', 'ext']) { const d = W()[t]; if (d && d.N && own(d.N, id)) return d.N[id]; } return id; };
+    function nounSyns(l) { const out = []; for (const t of ['core', 'ext', 'pro']) { const d = W()[t]; if (d && own(d.L, l)) for (const [p, ss] of d.L[l]) if (p === 'n') for (const s of ss) out.push(s[0]); } return out; }
+    const hyp = id => { for (const t of ['core', 'ext', 'pro']) { const d = W()[t]; if (d && d.H && own(d.H, id)) return d.H[id]; } return null; };
+    const head = id => { for (const t of ['core', 'ext', 'pro']) { const d = W()[t]; if (d && d.N && own(d.N, id)) return d.N[id]; } return id; };
     function synPath(from, targets) { const prev = new Map([[from, null]]); const q = [from];
       while (q.length) { const x = q.shift(); if (targets.has(x)) { const p = []; let k = x; while (k) { p.unshift(head(k)); k = prev.get(k); } return p; } const h = hyp(x); if (!h) continue; for (const y of h) if (!prev.has(y)) { prev.set(y, x); q.push(y); } }
       return null; }
