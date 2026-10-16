@@ -86,3 +86,29 @@ Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation A
 - **Authority bounds (understanding is not authorization):** read-only GET to the public MediaWiki API only; research switch (M4) must be `on_request`; vault must be unlocked (results are sealed there; locked ⇒ the facts-gap reply plus the one-line unlock step, nothing fetched); results are evidence only, never memory (`may_write_memory=false`).
 - **Never triggers:** an undetermined turn-world question whose words are user-coined (unknown to the lexicon — the turn-world reasoner owns it), commands, memory writes, tool requests, greetings/no-frame non-questions, and personal questions (1st/2nd-person pronouns or possessives in the parse, a user/kernel subject, or a subject entity present in personal memory). "how do I …" is a method question and does qualify.
 - The answer is rendered answer-first (`research_answer`): the excerpt, then the Wikipedia article it comes from, an optional second article, the sources checked, and the vault seal.
+
+## v4.9.51 — trusted archives beyond Wikipedia (user decision, 2026-10-16)
+- **No UNSUPPORTED_QUERY_STRUCTURE for questions.** A question that the world reasoner cannot decide is passed to the language core and then to AQ-1 (cited lookup). It is never a world-limitation reply. The cases covered are gerund subjects, "X of Y" predicates, comparatives ("more N than"; `M-THAN-ORTHO` corrects "then" to "than" after a comparative), passive "found guilty" with names or lowercase initials, and how + adjective. Unknown words count as coined only when the user's facts or the turn itself use them (`coined()`).
+- **Archives** (`src/archives.js`). Each archive is free, needs no key, and was checked from a browser origin: `curl -H "Origin: https://example.org"` returned `Access-Control-Allow-Origin` on 2026-10-16. Authority rank follows EMN (evidence over consensus): primary authority 4 > peer-reviewed 3 > structured reference 2 > encyclopedia 1.
+
+| Archive | Endpoint | Class (rank) | Domains | CORS |
+|---|---|---|---|---|
+| MedlinePlus (NLM) | clinicaltables.nlm.nih.gov ICD-10 → connect.medlineplus.gov JSON | primary (4) | medical | `*` |
+| openFDA drug labels | api.fda.gov/drug/label.json | primary (4) | medical (drug) | `*` |
+| eCFR | www.ecfr.gov/api/search/v1 | primary (4) | law, engineering | `*` |
+| CourtListener | www.courtlistener.com/api/rest/v4/search | primary (4) | law | reflects origin |
+| PubMed (NCBI E-utilities) | eutils.ncbi.nlm.nih.gov esearch/esummary | peer-reviewed (3) | medical, science | `*` |
+| OpenAlex | api.openalex.org/works | peer-reviewed (3) | all | `*` |
+| Crossref | api.crossref.org/works | peer-reviewed (3) | science, engineering, law | `*` |
+| Wikidata | www.wikidata.org/w/api.php (origin=*) | structured (2) | all; P31/P279 class checks, property relations | `*` |
+| Wikipedia | existing crawler.js | encyclopedia (1) | all | `*` |
+
+Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
+- **Routing** uses parse and lexicon semantics, not keywords. The question's nominal terms are classified by WordNet hypernym closure (`INF.isA`) against the single-word anchors in `DOMAIN_ANCHORS` (kernel). Adjective and verb terms are classified through their derived nominal (guilty → guilt).
+- **Relevance:** cited text is whole sentences of at most 320 characters, contains no elided fragments or name lists, and has the key terms within a 20-word window. If the full terms find nothing, only the nominal terms are searched (`A-NOMINAL-RETRY`).
+- **Yes/No:** an answer is given only when a structural check decides it, or when a primary authority states it.
+  - The structural checks are Wikidata P31/P279 class membership, or a property of B whose value is A, e.g. influenza P780 → cough.
+  - A primary-authority statement must have all key terms within 12 words, and negation is detected.
+  - Co-occurrence alone never produces a Yes.
+  - Every answer names its source, archive and class. All evidence is sealed in the vault (`archive:<id>:<hash>`).
+- **Plain statements** are acknowledged with a reporting verb derived from the clause (`ACK-SPEECH-ACT`): past tense gives "report", a modal gives "note", a first-person subject gives "mention", and a generic gives "state". This replaces the fixed "I understand that …". Not storing a statement without "remember" is unchanged.

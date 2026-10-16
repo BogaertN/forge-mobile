@@ -48,13 +48,13 @@ T('W49 "past" is a preposition after a motion verb; the animal-wants-noun senten
   const b = k.derive('the dog wants water'); expect(b.parses.length === 1 && b.parses[0].node.clause.roles.karma, 'dog wants water: ' + b.parses.length + ' parses'); });
 T('W49 a plain statement gets an acknowledgment, not a clarifying question (generated clauses)', () => {
   const r = rng(4904); let ack = 0, n = 0; for (let i = 0; i < 20; i++) { const s = 'the ' + pick(r, PERSONS) + ' ' + G.inflect(pick(r, VT), 'past') + ' the ' + pick(r, ARTS); const x = open(false).process(s); n++;
-    expect(!CANNED.test(x.reply || ''), s + ' → canned'); if (/^I understand that /.test(x.reply || '')) ack++; }
+    expect(!CANNED.test(x.reply || ''), s + ' → canned'); if (/^You (stated|reported|noted|mentioned) that /.test(x.reply || '')) ack++; }
   expect(ack >= 17, 'only ' + ack + '/' + n + ' plain statements acknowledged'); });
 T('W49 lexicon coverage: British spelling, derivation and the complete tier (no unknown-word clarification)', () => {
   const k = open(true); expect(!!PRO, 'complete tier not built');
-  for (const s of ['the colour changed', 'the surgeon stabilised the patient', 'the engineer recalculated the load', 'the tumour shrank', 'the jury deliberated']) { const x = k.process(s); expect(/^I understand that /.test(x.reply || ''), s + ' → ' + x.reply); } });
+  for (const s of ['the colour changed', 'the surgeon stabilised the patient', 'the engineer recalculated the load', 'the tumour shrank', 'the jury deliberated']) { const x = k.process(s); expect(/^You (stated|reported|noted|mentioned) that /.test(x.reply || ''), s + ' → ' + x.reply); } });
 T('W49 an unknown noun in a plain statement gets a provisional reading from its position; a memory write or a question still asks', () => {
-  const k = open(false); const a = k.process('the zorblat broke the window'); expect(/^I understand that /.test(a.reply || '') && /as a noun/.test(a.reply), a.reply);
+  const k = open(false); const a = k.process('the zorblat broke the window'); expect(/^You (stated|reported|noted|mentioned) that /.test(a.reply || '') && /as a noun/.test(a.reply), a.reply);
   const b = open(false).process('remember that the zorblat broke the window'); expect(b.outcome.class === 'clarify' && /do not know the word/.test(b.reply), b.reply);
   const c = open(false).process('what is a zorblat'); expect(c.outcome.class === 'clarify', c.reply); });
 T('W49 tier economy: a complete-tier lemma never displaces a core reading of the same category', () => {

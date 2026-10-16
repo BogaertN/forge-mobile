@@ -501,6 +501,8 @@ require('./w12_suite.js')({ C, expect, KMOD, LEX, EXT, ROOT });
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w18_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'W18', name: 'w18 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+{ let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w50_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 600000 })); } catch (e) { rows = [{ cls: 'LANGUAGE-CORE', name: 'w50 suite ran', ok: false, why: e.message }]; }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w49_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 600000 })); } catch (e) { rows = [{ cls: 'LANGUAGE-CORE', name: 'w49 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w48_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 600000 })); } catch (e) { rows = [{ cls: 'LANGUAGE-CORE', name: 'w48 suite ran', ok: false, why: e.message }]; }

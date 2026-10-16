@@ -131,6 +131,8 @@ function analyseAll(toks, lex) {
      from it is dropped when the same word has a reading of the same category from the core or extended tier ("leaves" is leave, not the rare verb leaf) */
   if (lex.tierPos) { const PS = { N: 'n', V: 'v', ADJ: 'a', ADV: 'r' }; const rank = a => (PS[a.tag] && a.lemma && !a.provisional ? Math.min(lex.tierPos(a.lemma, PS[a.tag]), a.tag === 'ADJ' ? lex.tierPos(a.lemma, 's') : 9) : 0);
     for (const t of T) if (t.an.length > 1) { const r = t.an.map(rank); t.an = t.an.filter((a, k) => !(r[k] === 2 && t.an.some((b, j) => r[j] < 2 && b.tag === a.tag))); } }
+  /* M-THAN-ORTHO (4.9.51): "then" after a comparative ("more authority then a sheriff", "taller then") is the common misspelling of "than" */
+  for (let i = 1; i < T.length; i++) if (T[i].w === 'then' && T.slice(Math.max(0, i - 4), i).some(t => ['more', 'less', 'fewer', 'rather', 'other'].includes(t.w) || t.an.some(a => a.tag === 'ADJ' && a.f === 'cmp'))) T[i] = Object.assign({}, T[i], { w: 'than', an: analyse(Object.assign({}, T[i], { w: 'than' }), i, lex), normalized: 'then→than' });
   /* TAG-MODAL-NOUN-APAVADA (4.9.50): after a determiner or possessive, "will"/"can" is the noun ("a will", "the can") */
   for (let i = 1; i < T.length; i++) if (['will', 'can'].includes(T[i].w) && T[i - 1].an.some(x => ['DET', 'POSS'].includes(x.tag)) && lex.hasPos(T[i].w, 'n')) T[i].an = [{ tag: 'N', lemma: T[i].w, f: 'sg', rule: 'TAG-MODAL-NOUN-APAVADA' }];
   if (lex.provisionalOK && !lex.provisionalOK()) return T;
