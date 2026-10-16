@@ -87,4 +87,21 @@ T('W52 a noun phrase predicates nothing (no verdict from co-occurring words); a 
   expect(AR.textVerdict({ excerpt: A[0].toUpperCase() + A.slice(1) + ' ' + B + ' development and metabolism', title: '', name: 'S' }, vp) === null, 'title co-occurrence gave a verdict');
   const p = kern().lookupPlan('How tall is the ' + A + '?'); expect(p.dims.includes('length'), 'tall dims ' + p.dims);
   expect(!AR.fit({ excerpt: 'The ' + A + ' held the title for 41 years.' }, p) && AR.fit({ excerpt: 'The ' + A + ' is 330 m high.' }, p), 'dimension fit'); });
+/* 4.9.53 */
+T('W53 verdict refinements: modal possibility from a primary authority, topic pronouns with a garbled title, titles never decide, multi-event years', () => {
+  const r = rng(53); const X = pick(r, ARTS), Y = pick(r, ARTS), Z = pick(r, ARTS); const v = (plan, ex, title, rank) => AR.textVerdict({ excerpt: ex, title: title || '', name: 'S', rank: rank || 1 }, plan);
+  const cz = { terms: [X], yn: true, pred: 'cause', predVerb: true, predForms: ['cause', 'caused', 'causes'], args: [Y], negators: [] };
+  expect((v(cz, 'Warning: this product may cause ' + Y + ' damage.', X + ' label', 4) || {}).answer === 'Yes', 'primary "may cause" must support can/does');
+  expect(v(cz, 'Warning: this product may cause ' + Y + ' damage.', X + ' label', 3) === null, 'a non-primary possibility decided');
+  const gp = { entity: 'kim ' + X, terms: [], yn: true, pred: 'guilty', args: [X], negators: ['acquit'] };
+  expect((v(gp, 'After the trial in 2004, she was found guilty of fraud.', X[0].toUpperCase() + ' ' + X.slice(1) + ', K im') || {}).answer === 'Yes', 'garbled-title pronoun');
+  expect(v(gp, 'The study reviews the evidence.', 'Finding ' + X + ' not guilty') === null, 'a title decided');
+  const as = AR.assess([{ archive: 'a', name: 'A', rank: 1, cls: 'encyclopedia', title: X, excerpt: 'In 1995 ' + X + ' was acquitted of the charge.' }, { archive: 'b', name: 'B', rank: 1, cls: 'encyclopedia', title: X, excerpt: 'In 2008 ' + X + ' was found guilty of a different charge.' }], Object.assign({ atype: 'verdict' }, gp));
+  expect(as.events && as.events.length === 2 && as.events[0].year === '1995' && as.events[0].answer === 'No' && !as.verdict, 'multi-event ' + JSON.stringify(as.events && as.events.map(e => [e.year, e.answer]))); });
+T('W53 "contraindicated" negates a safety predicate through definitions (contraindicate → inadvisable → not advisable = not recommended)', () => { if (!PRO) return; const p = kern().lookupPlan('Is the ' + ARTS[3] + ' safe during pregnancy?'); expect(p.negators.includes('contraindicate'), JSON.stringify(p.negators)); });
+T('W53 a date answers "when" only when the asked event is the nearest event word to the year; comparatives give a rank plan', () => {
+  const r = rng(5); const O = pick(r, ARTS); const plan = { atype: 'date', asked: 'fall', askedForms: ['fell', 'fallen'], object: O };
+  expect(AR.fit({ excerpt: 'After the fall of the ' + O + ' in 1989, many buildings were occupied.' }, plan), 'event year');
+  expect(!AR.fit({ excerpt: 'On 9 November 2009, the city celebrated the anniversary of the fall of the ' + O + '.' }, plan), 'year of another event');
+  const c = kern().lookupPlan('Do ' + PERS[1] + 's have more authority then a ' + PERS[2] + '?'); expect(c.cmp && c.cmp.a === PERS[1] && c.cmp.b === PERS[2] && c.cmp.dir === 1, JSON.stringify(c.cmp)); });
 (async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: true }); } catch (e) { rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: false, why: e.message }); } } process.stdout.write(JSON.stringify(rows)); })();

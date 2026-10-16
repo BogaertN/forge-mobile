@@ -139,3 +139,16 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   - Not connected: the US Code and state codes have no free, CORS-readable, keyless API (govinfo needs a key; uscode.house.gov and LII have no JSON API). These questions go to CourtListener, OpenAlex and Wikipedia.
 - **Rate limits (`A-RATE`):** a 429 or 503 is retried after Retry-After, or after 0.5 s and then 1 s (3 attempts). Answers are cached per URL for 1 hour.
 - **GELC-QTY:** the generator now uses number agreement ("1 zasuk", "2 zasuks"). Before, it wrote "1 zasuks" and expected that ungrammatical form back.
+
+## v4.9.53: event dates, definitional negators, modal possibility, multi-event outcomes (user decision, 2026-10-16)
+- **EVENT-DATE:** a year answers "when did O V" only if the asked event (V, its inflections, or its nominal "the fall of …") is the nearest event word to the year. The search looks first inside the year's own comma segment. A year attached to another verb ("On 9 November 2009, Berlin celebrated …") does not count.
+- **NEG-ADVISE:** a safety predicate (its gloss names danger, risk or harm) is also negated by anything that makes a use inadvisable. The chain comes from definitions: contraindicate = "make a treatment inadvisable"; inadvisable = "not advisable"; advisable = "worthy of being recommended". So "Warfarin is contraindicated in pregnancy" → No to "is warfarin safe during pregnancy".
+- **MODAL-POSSIBILITY:** for a verb predicate (cause …), a primary authority's "X may/can/could/might P Y" supports Yes to "can/does X P Y". Possibility modals block only definite (copular) claims. Opinion and consensus hedges (should, believe, feel, consensus, generally) block every verdict.
+- **TITLE-NOT-EVIDENCE:** a title never decides a verdict; only the document text does.
+- **PRON-TOPIC:** he/she/they/which/"this product" bind to the topic named by the title. The comparison ignores spaces, so a garbled title ("S tewart, M artha") still binds.
+- **MULTI-EVENT:** a Yes and a No dated to different years are reported as separate events, with no single verdict. For example: 1995, no (acquitted); 2008, yes (convicted).
+- **WD-RANK:** for "does A have more N than B", the rank chain is read from Wikidata: P3730 (next higher rank) and P3729 (next lower rank). If no chain is recorded, there is no verdict. No other free, keyless, CORS-readable source of offices or authority hierarchies was found.
+- **Rate limits:**
+  - Requests to one host are serialized with a 250 ms gap, and a 429 is retried up to 3 times (0.5 s, 1 s, 2 s).
+  - If the entity API is rate-limited, the Wikidata class check falls back to one SPARQL ASK query (query.wikidata.org; CORS `*`, verified 2026-10-16).
+  - crawler.js (Wikipedia) now follows the same 429/503 retry.

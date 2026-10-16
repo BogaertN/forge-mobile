@@ -27,9 +27,12 @@
   /* A-RATE (4.9.52): a 429 / 503 is retried after the server's Retry-After (or 0.5 s, 1 s, 2 s), at most 3 attempts; answers are cached per URL for one
      hour (memory, per session) so a repeated or follow-up question does not hit the archive again */
   const CACHE = new Map(), TTL = 3600e3; const wait = ms => new Promise(r => setTimeout(r, ms));
-  async function getJSON(fetchF, url, ms) { const c = CACHE.get(url); if (c && Date.now() - c.at < TTL) return c.v;
+  /* A-PACE (4.9.53): requests to one host are serialized with a 250 ms gap (Wikidata's 429s come from bursts), and a 429 waits 0.5 / 1 / 2 s */
+  const LANE = new Map(); const lane = (url, fn) => { const h = String(url).split('/')[2] || ''; const prev = LANE.get(h) || Promise.resolve(); const run = prev.catch(() => null).then(fn); LANE.set(h, run.catch(() => null).then(() => wait(250))); return run; };
+  async function getJSON(fetchF, url, ms) { const c = CACHE.get(url); if (c && Date.now() - c.at < TTL) return c.v; return lane(url, () => getJSON0(fetchF, url, ms)); }
+  async function getJSON0(fetchF, url, ms) { const c = CACHE.get(url); if (c && Date.now() - c.at < TTL) return c.v;
     for (let a = 0; ; a++) { const r = await Promise.race([fetchF(url, INIT), new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms || 9000))]);
-      if ((r.status === 429 || r.status === 503) && a < 2) { const ra = Number(r.headers && r.headers.get && r.headers.get('retry-after')); await wait(ra > 0 && ra < 10 ? ra * 1000 : 500 * Math.pow(2, a)); continue; }
+      if ((r.status === 429 || r.status === 503) && a < 3) { const ra = Number(r.headers && r.headers.get && r.headers.get('retry-after')); await wait(ra > 0 && ra < 10 ? ra * 1000 : 500 * Math.pow(2, a)); continue; }
       if (!r.ok) throw new Error('http_' + r.status); const v = JSON.parse(await r.text()); CACHE.set(url, { at: Date.now(), v }); if (CACHE.size > 400) CACHE.delete(CACHE.keys().next().value); return v; } }
   const ev = (id, title, url, excerpt, extra) => Object.assign({ archive: id, name: BY[id].name, cls: BY[id].cls, rank: RANK[BY[id].cls], noun: BY[id].noun, title: strip(title).slice(0, 160), url, excerpt: strip(excerpt).slice(0, 600) }, extra || {});
   const topic = p => (p.rel && p.rel.b) || p.entity || (p.isa && p.isa.x) || p.terms[0]; /* the thing the question is about: B in "is A a P of B" */
@@ -57,12 +60,21 @@
   const nameHit = (e, forms) => names(e).some(n => forms.some(f => n === f || n === f + 's' || n.replace(/s$/, '') === f));
   C.wikidata = async (F, p) => { const out = []; const q = p.isa ? p.isa.x : p.object || p.entity || p.terms[0]; const xs = await wdFind(F, q); if (!xs.length) return out; const x = xs[0];
     out.push(ev('wikidata', x.label + ' (' + x.id + ')', 'https://www.wikidata.org/wiki/' + x.id, x.label + ': ' + (x.description || ''), { score: hits(x.label + ' ' + (x.description || ''), p.terms) }));
-    if (p.isa && p.yn) { let frontier = [x.id], seen = new Set([x.id]), path = {}; const yForms = p.isa.y; for (let depth = 0; depth < 4 && frontier.length; depth++) { const es = await wdGet(F, frontier); const next = [];
+    if (p.isa && p.yn) { try { await isaBFS(); } catch (e) { if (!/http_429|timeout/.test(String(e && e.message))) throw e; /* WD-SPARQL: one query instead of the walk when the entity API is rate-limited */
+        const y = String(p.isa.y[0]).replace(/[^a-z \-]/gi, ''); const qy = 'ASK { wd:' + x.id + ' (wdt:P31|wdt:P279)/wdt:P279* ?c . ?c rdfs:label ?l . FILTER(LCASE(STR(?l)) IN ("' + y + '", "' + y + 's")) FILTER(LANG(?l) = "en") }';
+        const d = await getJSON(F, 'https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(qy), 20000); if (d && d.boolean) out[0].verdict = { answer: 'Yes', check: 'Wikidata class membership (P31/P279, SPARQL)' }; } }
+    async function isaBFS() { if (!(p.isa && p.yn)) return; let frontier = [x.id], seen = new Set([x.id]), path = {}; const yForms = p.isa.y; for (let depth = 0; depth < 4 && frontier.length; depth++) { const es = await wdGet(F, frontier); const next = [];
         for (const id of frontier) { const e = es[id]; if (depth > 0 && nameHit(e, yForms)) { out[0].verdict = { answer: 'Yes', check: 'Wikidata class membership (P31/P279)', via: (e.labels.en || {}).value }; return out; } for (const v of vals(e, 'P31').concat(vals(e, 'P279'))) if (!seen.has(v)) { seen.add(v); next.push(v); path[v] = id; } }
         frontier = next.slice(0, 40); } }
     if (p.rel && p.yn) { const bs = await wdFind(F, p.rel.b); const ps = await wdFind(F, p.rel.p, 'property'); if (bs.length && ps.length) { const es = await wdGet(F, [bs[0].id]); const b = es[bs[0].id];
         for (const pp of ps.slice(0, 2)) { const ids = vals(b, pp.id); if (!ids.length) continue; const ves = await wdGet(F, ids); const m = ids.find(id => nameHit(ves[id], p.rel.a));
           if (m) { out.unshift(ev('wikidata', bs[0].label + ' (' + bs[0].id + '), ' + pp.label + ' (' + pp.id + ')', 'https://www.wikidata.org/wiki/' + bs[0].id + '#' + pp.id, bs[0].label + ' — ' + pp.label + ': ' + ((ves[m].labels.en || {}).value || m), { score: 9, verdict: { answer: 'Yes', check: 'Wikidata property ' + pp.id + ' (' + pp.label + ')' } })); break; } } } }
+    /* WD-RANK (4.9.53): "does A have more N than B" over a recorded hierarchy — Wikidata's rank chain (P3730 next higher rank, P3729 next lower rank,
+       P4743 animal/position subordinate chains are not used). A reached from B by "next higher" outranks B; the reverse refutes; no chain = no verdict. */
+    if (p.cmp && p.yn) { const [as, bs] = [await wdFind(F, p.cmp.a), await wdFind(F, p.cmp.b)]; if (as.length && bs.length) { const A = as[0].id, B = bs[0].id;
+        const climb = async (from, to, prop) => { let fr = [from], seen = new Set(fr); for (let d = 0; d < 6 && fr.length; d++) { const es = await wdGet(F, fr); const nx = []; for (const id of fr) for (const v of vals(es[id], prop)) { if (v === to) return d + 1; if (!seen.has(v)) { seen.add(v); nx.push(v); } } fr = nx.slice(0, 20); } return 0; };
+        const up = await climb(B, A, 'P3730') || await climb(A, B, 'P3729'), down = up ? 0 : (await climb(A, B, 'P3730') || await climb(B, A, 'P3729'));
+        if (up || down) out.unshift(ev('wikidata', as[0].label + ' (' + A + ') / ' + bs[0].label + ' (' + B + ')', 'https://www.wikidata.org/wiki/' + A, as[0].label + (up ? ' ranks above ' : ' ranks below ') + bs[0].label + ' in the Wikidata rank chain', { score: 9, verdict: { answer: (up ? 1 : -1) === p.cmp.dir ? 'Yes' : 'No', check: 'Wikidata rank chain (P3730 next higher rank / P3729 next lower rank)' } })); } }
     /* WD-VALUE (4.9.52): who / when / where / how-ADJ questions read the answer as a property value of the object's record: the property is found by
        Wikidata's own property search on the asked verb (write → author), or, for a degree adjective, the quantity claim whose label shares the
        adjective's root onset (deep ~ depth, long ~ length); the value is the answer, typed and cited */
@@ -84,16 +96,29 @@
      directly before the predicate ("found not guilty"); a negator word reverses polarity; a hedged or consensus clause (should, may, might, could, feel,
      believe, consensus, generally) states no verdict (EMN: consensus is not evidence). Absence never means No. */
   const NEGW = /^(not|no|never|neither|nor|cannot|without)$/, HEDGE = /^(should|may|might|could|would|feel|feels|believe|believed|consensus|generally|perhaps|possibly|whether|if)$/;
-  function textVerdict(e, plan) { if (!plan.yn || !plan.pred) return null; const subj = stem(plan.entity ? plan.entity.split(' ').pop() : plan.terms[0]); const ps = stem(plan.pred), negs = (plan.negators || []).map(stem);
-    for (const [from, src] of [['excerpt', e.excerpt], ['title', e.archive === 'wikidata' ? '' : e.title]]) for (const cl of String(src || '').toLowerCase().split(/[.;:?!]| but | however /)) { const ws = cl.split(/[^a-z0-9']+/).filter(Boolean);
-      let si = ws.findIndex(w => w.startsWith(subj)); if (si < 0 && hits(e.title, [subj])) si = ws.findIndex(w => /^(he|she|it|they)$/.test(w)); if (si < 0) continue; /* the document's topic is the antecedent of a pronoun subject */
-      const args = (plan.args || []).filter(a => stem(a) !== subj); if (args.length && hits(cl + ' ' + e.title, args) < args.length) continue; /* every nominal argument of the asked clause is mentioned */
-      for (let k = Math.max(0, si - 8); k < Math.min(ws.length, si + 9); k++) { const isP = ws[k].startsWith(ps), isN = negs.some(n => ws[k].startsWith(n)); if (!isP && !isN) continue;
-        const span = ws.slice(Math.min(si, k), Math.max(si, k) + 1); if (k < si) continue; if (span.some(w => HEDGE.test(w)) || ws.slice(0, si).some(w => HEDGE.test(w))) break; /* a hedged clause states nothing; other clauses may */
-        const verbal = span.slice(1, -1).concat(ws.slice(Math.max(0, Math.min(si, k) - 2), Math.min(si, k))).some(w => /^(is|are|was|were|be|been|being|am|has|have|had|does|do|did)$/.test(w) || (/(ed|ing)$/.test(w) && w.length > 4 && !w.startsWith(subj)) || (plan.predForms || []).includes(w));
-        if (!verbal && !isN) continue; /* a noun phrase ("tomato fruit development") predicates nothing: a verb or copula must link subject and predicate */
-        const scopeNeg = (k > si ? span.slice(1, -1) : ws.slice(Math.max(0, k - 2), k)).some(w => NEGW.test(w)) || (k > 0 && NEGW.test(ws[k - 1]));
-        const neg = isN !== scopeNeg; return { answer: neg === !!plan.neg ? 'Yes' : 'No', check: e.name + ' states ' + ws.slice(Math.min(si, k), Math.max(si, k) + 1).join(' ') + (isN ? ', where ' + ws[k] + ' means not ' + plan.pred : ''), from }; } }
+  /* 4.9.53 refinements:
+     - TITLE-NOT-EVIDENCE: a title never decides; only the document's text does (the title still names the topic for pronoun binding).
+     - PRON-TOPIC: "he/she/they", "this product/drug/medicine", "which" bind to the topic when the subject term is not in the clause and the title names
+       the topic — compared without spaces, so a garbled title ("S tewart, M artha") still names it.
+     - MODAL-POSSIBILITY: for an event/causal predicate (a verb: cause, damage, interact), "X may/can/could/might P Y" states that X can P Y — it supports
+       Yes to "can X P Y?" and "does X P Y?" (does = is a known effect). Possibility modals block only definite (copular) claims; opinion and
+       consensus hedges block every verdict.
+     - EVENT-YEAR: the clause's year (if any) is kept so different outcomes in different years are reported as separate events. */
+  const OPINION = /^(should|feel|feels|believe|believed|believes|consensus|generally|perhaps|whether|if|would)$/, POSSIB = /^(may|might|can|could)$/;
+  const squash = t => String(t || '').toLowerCase().replace(/[^a-z]/g, '');
+  function textVerdict(e, plan) { if (!plan.yn || !plan.pred) return null; if (squash(e.excerpt) === squash(e.title)) return null; /* TITLE-NOT-EVIDENCE: an excerpt that is only the title */ const subjW = plan.entity ? plan.entity.split(' ').pop() : plan.terms[0]; const subj = stem(subjW); const ps = stem(plan.pred), negs = (plan.negators || []).map(stem);
+    const topicInTitle = squash(e.title).includes(squash(subjW)); const verbPred = !!plan.predVerb;
+    for (const cl of String(e.excerpt || '').toLowerCase().split(/[.;:?!]| but | however /)) { const ws = cl.split(/[^a-z0-9']+/).filter(Boolean);
+      let si = ws.findIndex(w => w.startsWith(subj)); if (si < 0 && topicInTitle) { si = ws.findIndex((w, x) => /^(he|she|they|it|which)$/.test(w) || (/^(this|the)$/.test(w) && /^(product|drug|medicine|medication|compound)$/.test(ws[x + 1] || ''))); if (si >= 0 && /^(this|the)$/.test(ws[si])) si++; } if (si < 0) continue;
+      const args = (plan.args || []).filter(a => stem(a) !== subj); if (args.length && hits(cl + ' ' + e.title, args) < args.length) continue;
+      const year = (cl.match(/\b(1[5-9]\d{2}|20\d{2})\b/) || [])[1] || null;
+      for (let k = si + 1; k < Math.min(ws.length, si + 9); k++) { const isP = ws[k].startsWith(ps) || (plan.predForms || []).includes(ws[k]), isN = negs.some(n => ws[k].startsWith(n)); if (!isP && !isN) continue;
+        const span = ws.slice(si, k + 1); if (span.concat(ws.slice(0, si)).some(w => OPINION.test(w))) break;
+        const modal = span.find(w => POSSIB.test(w)); if (modal && (!verbPred || (e.rank || 0) < RANK.primary_authority)) break; /* possibility is no verdict on a definite claim */
+        const verbal = span.slice(1, -1).concat(ws.slice(Math.max(0, si - 2), si)).some(w => /^(is|are|was|were|be|been|being|am|has|have|had|does|do|did)$/.test(w) || (/(ed|ing)$/.test(w) && w.length > 4 && !w.startsWith(subj)) || POSSIB.test(w)) || (verbPred && isP);
+        if (!verbal && !isN) continue;
+        const scopeNeg = span.slice(1, -1).some(w => NEGW.test(w)) || NEGW.test(ws[k - 1]);
+        const neg = isN !== scopeNeg; return { answer: neg === !!plan.neg ? 'Yes' : 'No', check: e.name + ' states ' + span.join(' ') + (modal ? ' (' + modal + ': a possible effect, so it can happen)' : '') + (isN ? ', where ' + ws[k] + ' means not ' + plan.pred : ''), year, from: 'excerpt' }; } }
     return null; }
   function excerptVerdict(e, plan) { return e.verdict || textVerdict(e, plan); }
   /* ANS-FIT (4.9.52): does an excerpt bind the question's typed gap? person → a personal name (two capitalised words outside the asked object) or a
@@ -107,7 +132,11 @@
     if (a === 'verdict') return !!excerptVerdict(e, plan);
     if (a === 'person' && plan.askedForms && plan.askedForms.length && new RegExp('\\b[A-Z][a-z]{2,}(?:\\s[A-Z][a-z]+)?\\s(?:[a-z]+ly\\s)?(?:' + plan.askedForms.join('|') + ')\\b|\\b(?:' + plan.askedForms.join('|') + ')\\sby\\s[A-Z][a-z]+').test(t)) return true; /* "Jefferson largely wrote …" / "written by Jefferson" */
     if (a === 'person') { const obj = new Set(String(plan.object || '').split(' ').map(x => x.toLowerCase())); return /(?:[a-z,;]\s)([A-Z][a-z]+(?:\s[A-Z]\.)?\s[A-Z][a-z]+)/.test(t.replace(/\b[A-Z][a-z]+\b/g, w => obj.has(w.toLowerCase()) ? 'x' : w)); }
-    if (a === 'date') return /\b(1[0-9]{3}|20[0-9]{2})\b/.test(t);
+    if (a === 'date') { /* EVENT-DATE: a year answers "when did O V" only if the asked event (V, its forms, or its nominal: "the fall of") is the nearest event word to it — a year attached to another verb ("in 2009 Berlin celebrated …") dates that verb */
+      const ws = t.split(/[^A-Za-z0-9']+/).filter(Boolean); const ev = (plan.askedForms || []).concat(plan.asked ? [plan.asked] : []).map(x => x.toLowerCase()); const obj = String(plan.object || '').split(' ').pop();
+      const seg = []; { let k2 = 0; for (const part of t.split(/[,;()]/)) { for (const w of part.split(/[^A-Za-z0-9']+/).filter(Boolean)) { void w; seg.push(k2); } k2++; } } /* comma segment of each word: a date adjunct attaches inside its own segment first */
+      for (let y = 0; y < ws.length; y++) { if (!/^(1[0-9]{3}|20[0-9]{2})$/.test(ws[y])) continue; let best = null, bd = 99; const inSeg = ws.some((w, i) => seg[i] === seg[y] && (ev.includes(w.toLowerCase()) || /[a-z]{3,}ed$/.test(w.toLowerCase()))); for (let i = 0; i < ws.length; i++) { if (inSeg && seg[i] !== seg[y]) continue; const w = ws[i].toLowerCase(); const isE = ev.includes(w), isV = !isE && /[a-z]{3,}ed$/.test(w); if ((isE || isV) && Math.abs(i - y) < bd) { bd = Math.abs(i - y); best = isE ? 'event' : 'other'; } }
+        if (best === 'event' && (!obj || hits(t, [obj]))) return true; } return false; }
     if (a === 'quantity') return unitRe(plan.dims).test(t);
     if (a === 'cause') return /\b(because|due to|caused by|causes?|result(?:s|ed)? (?:of|from)|leads? to|owing to)\b/i.test(t);
     if (a === 'method') return /\b(by (?:means of )?[a-z]+ing|using|uses?|through (?:a|an|the)|via|works by|consists of)\b/i.test(t);
@@ -117,7 +146,10 @@
   function assess(evidence, plan) { for (const e of evidence) { if (!e.verdict) { const v = textVerdict(e, plan); if (v) e.verdict = v; } e.fit = fit(e, plan); }
     const r = evidence.slice().sort((a, b) => (b.fit - a.fit) || (b.rank - a.rank) || ((b.score || 0) - (a.score || 0)));
     const vs = r.filter(e => e.verdict); const yes = vs.filter(e => e.verdict.answer === 'Yes').sort((a, b) => b.rank - a.rank), no = vs.filter(e => e.verdict.answer === 'No').sort((a, b) => b.rank - a.rank);
-    let verdict = null, conflict = null; if (yes.length && no.length) { const y = yes[0], n = no[0]; const win = y.rank > n.rank ? y : n.rank > y.rank ? n : null; conflict = { yes: y, no: n, winner: win }; verdict = win ? win.verdict : null; }
+    let verdict = null, conflict = null;
+    /* MULTI-EVENT: Yes and No dated to different years describe different events (acquitted in 1995, convicted in 2008): both are reported, no single verdict */
+    if (yes.length && no.length) { const yy = yes.find(e => e.verdict.year), ny = no.find(e => e.verdict.year && (!yy || e.verdict.year !== yy.verdict.year)); if (yy && ny && yy.verdict.year !== ny.verdict.year) { const ev2 = [ny, yy].sort((a, b) => a.verdict.year - b.verdict.year); return { lead: ev2[0], ranked: ev2.concat(r.filter(e => !ev2.includes(e))), verdict: null, conflict: null, events: ev2.map(e => ({ year: e.verdict.year, answer: e.verdict.answer, e })), fits: true }; } }
+    if (yes.length && no.length) { const y = yes[0], n = no[0]; const win = y.rank > n.rank ? y : n.rank > y.rank ? n : null; conflict = { yes: y, no: n, winner: win }; verdict = win ? win.verdict : null; }
     else if (vs.length) verdict = vs.sort((a, b) => b.rank - a.rank)[0].verdict;
     const lead = conflict ? (conflict.winner || conflict.yes) : (verdict ? r.find(e => e.verdict === verdict) : r[0]); const ranked = lead ? [lead].concat(r.filter(e => e !== lead)) : r;
     return { lead: lead || null, ranked, verdict, conflict, fits: !!(lead && lead.fit) }; }
@@ -138,7 +170,7 @@
       const r2 = await Promise.all(ids.filter(id => id !== 'wikidata').map(id => C[id](F, p2).catch(e => { errors.push({ archive: id, reason: String(e && e.message || e) }); return []; })));
       evidence = [].concat(...r2).filter(e => e.excerpt && relevant(e, p2)); }
     const as = assess(evidence, plan);
-    return { evidence: as.ranked.slice(0, 5), consulted: ids, errors, verdict: as.verdict, conflict: as.conflict, fits: as.fits }; }
+    return { evidence: as.ranked.slice(0, 5), consulted: ids, errors, verdict: as.verdict, conflict: as.conflict, events: as.events || null, fits: as.fits }; }
   const api = { ARCHIVES, RANK, consult, assess, fit, textVerdict, route, hits, stem, _C: C, _cache: CACHE };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KArchives = api;
 })(typeof self !== 'undefined' ? self : this);

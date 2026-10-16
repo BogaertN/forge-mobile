@@ -32,7 +32,10 @@
       if (via && via.kind === 'node' && via.rpc) { if (t) clearTimeout(t); let o; try { o = await via.rpc('fetch', { url: v }); } catch (e) { throw new Error('research_path_unreachable'); } if (!o || !o.ok) throw new Error('research_node_' + (o && o.error || 'error'));
         if (o.text.length > LIMITS.MAX_RESPONSE_BYTES) throw new Error('research_response_size_limit_exceeded'); const ctN = String(o.content_type || ''); if (!new RegExp(accept || 'text/html|application/xhtml\\+xml|text/plain|application/json', 'i').test(ctN)) throw new Error('research_content_type_not_admitted');
         return { finalUrl: validateUrl(o.url || v), ct: ctN, text: o.text, via: 'node' }; }
-      let r; try { r = await doFetch(target, Object.assign({}, FETCH_INIT, ctl ? { signal: ctl.signal } : {})); } catch (e) { throw new Error(via ? 'research_path_unreachable' : 'research_not_cors_readable_needs_user_path'); } finally { if (t) clearTimeout(t); }
+      /* A-RATE (4.9.53, same policy as archives.js): a 429 / 503 is retried after Retry-After (≤ 8 s) or 0.5 s, 1 s — at most 3 attempts */
+      let r; for (let a = 0; ; a++) { try { r = await doFetch(target, Object.assign({}, FETCH_INIT, ctl ? { signal: ctl.signal } : {})); } catch (e) { if (t) clearTimeout(t); throw new Error(via ? 'research_path_unreachable' : 'research_not_cors_readable_needs_user_path'); }
+        if ((r.status === 429 || r.status === 503) && a < 2) { const ra = Number(r.headers && r.headers.get && r.headers.get('retry-after')); await new Promise(z => setTimeout(z, ra > 0 && ra <= 8 ? ra * 1000 : 500 * Math.pow(2, a))); continue; } break; }
+      if (t) clearTimeout(t);
       if (!r.ok) throw new Error('research_http_' + r.status);
       const finalUrl = validateUrl(r.headers.get('x-final-url') || r.url || v); const ct = String(r.headers.get('content-type') || '');
       if (!new RegExp(accept || 'text/html|application/xhtml\\+xml|text/plain|application/json', 'i').test(ct)) throw new Error('research_content_type_not_admitted');
