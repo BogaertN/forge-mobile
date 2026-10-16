@@ -27,7 +27,8 @@
       catch (e) { note = 'Could not load sync modules.'; } render();
     };
     const pn = $('#acPin'); if (pn) pn.onclick = async () => {
-      try { if (!window.KGKS) await load('src/gks.js'); const j = await (await fetch('docs/gks/latest.json', { cache: 'no-store' })).json(); const r = await window.KGKS.autoPin(forge.store, j.snap, j.body); note = r.ok ? ((r.rolled_back ? 'Rolled back ' : 'Pinned ') + r.sha256.slice(0, 12) + '.') : ('Not pinned: ' + r.rule); }
+      try { if (!window.KGKS) await load('src/gks.js'); const j = await (await fetch('docs/gks/latest.json', { cache: 'no-store' })).json(); const r = await window.KGKS.autoPin(forge.store, j.snap, j.body); let ad = ''; if (r.ok && !r.rolled_back && forge.ingestShared) { const g = forge.ingestShared(j.body, { ok: true, kid: j.snap.publisher_kid }); ad = g.ok ? ' Facts admitted: ' + g.admitted.length + (g.rejected && g.rejected.length ? ', rejected: ' + g.rejected.length : '') + '.' : ' Facts not admitted: ' + g.rule + '.'; } /* 4.9.44: a verified, pinned snapshot feeds the shared-fact layer (GKS-FACT/v1 facts only; EMN gates in knowledge.js ingest) */
+      note = r.ok ? ((r.rolled_back ? 'Rolled back ' : 'Pinned ') + r.sha256.slice(0, 12) + '.' + ad) : ('Not pinned: ' + r.rule); }
       catch (e) { note = 'No signed snapshot yet.'; } render();
     };
   }
