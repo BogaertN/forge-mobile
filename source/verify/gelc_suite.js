@@ -165,8 +165,8 @@ module.exports = ({ C, expect, FKN, ROOT, canon, KMOD }) => {
   C('GELC-QTY', '§13 quantities (derived closed rule set Q1–Q6): exact conversion, stated counts and sums, measured comparison, T9 unit-mismatch diagnostic, T8 conflict, undetermined without a premise, independent re-verification — random symbols and random numbers', S(() => {
     const U = [['meters', 'centimeters', 100], ['kilometers', 'meters', 1000], ['hours', 'minutes', 60], ['kilograms', 'grams', 1000], ['liters', 'milliliters', 1000]];
     for (let i = 0; i < 4; i++) { const [a, b] = [nonce(), nonce()].map(cap), k = nonce(), n = 1 + Math.floor(rnd() * 90), m = 1 + Math.floor(rnd() * 90), [u1, u2, fct] = U[Math.floor(rnd() * U.length)], f = FKN();
-      let r; { const t = `${a} has ${n} ${pl(k)}. How many ${pl(k)} does ${a} have?`; r = ask(f, t); expect(r === `I computed “${n} ${pl(k)}” from “${a} has ${n} ${pl(k)}”.`, t + ' → ' + r); }
-      { const t = `${a} has ${n} ${pl(k)}. ${b} has ${m} ${pl(k)}. How many ${pl(k)} do ${a} and ${b} have?`; r = ask(f, t); expect(r.startsWith(`${n} ${pl(k)} + ${m} ${pl(k)} = ${n + m} ${pl(k)}.`), t + ' → ' + r); }
+      const nf = x => x === 1 ? k : pl(k); /* number agreement: "1 zasuk", "2 zasuks" (4.9.52: the generator wrote "1 zasuks") */ let r; { const t = `${a} has ${n} ${nf(n)}. How many ${pl(k)} does ${a} have?`; r = ask(f, t); expect(r === `I computed “${n} ${nf(n)}” from “${a} has ${n} ${nf(n)}”.`, t + ' → ' + r); }
+      { const t = `${a} has ${n} ${nf(n)}. ${b} has ${m} ${nf(m)}. How many ${pl(k)} do ${a} and ${b} have?`; r = ask(f, t); expect(r.startsWith(`${n} ${nf(n)} + ${m} ${nf(m)} = ${n + m} ${pl(k)}.`), t + ' → ' + r); }
       { const t = `What is ${n} ${u1} in ${u2}?`; r = ask(f, t); expect(r.startsWith(`${n} ${u1} = ${n * fct} ${u2}.`), t + ' → ' + r); }
       { const t = `The ${k} is ${n} ${u1}. How many ${u2} is the ${k}?`; r = ask(f, t); expect(r.startsWith(`${n} ${u1} = ${n * fct} ${u2}.`), t + ' → ' + r); }
       { const t = `What is ${n} ${u1} in ${u1 === 'hours' ? 'grams' : 'hours'}?`; r = ask(f, t); expect(/dimensions differ/.test(r), t + ' → ' + r); }

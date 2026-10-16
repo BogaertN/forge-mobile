@@ -112,3 +112,30 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   - Co-occurrence alone never produces a Yes.
   - Every answer names its source, archive and class. All evidence is sealed in the vault (`archive:<id>:<hash>`).
 - **Plain statements** are acknowledged with a reporting verb derived from the clause (`ACK-SPEECH-ACT`): past tense gives "report", a modal gives "note", a first-person subject gives "mention", and a generic gives "state". This replaces the fixed "I understand that …". Not storing a statement without "remember" is unchanged.
+
+## v4.9.52: answer-type fit, polarity verdicts, ranked contradictions (user decision, 2026-10-16)
+- **Answer type (`ANS-TYPE`, kernel.lookupPlan)** comes from the parse:
+  - who → person, when → date, where → place, why → cause
+  - how + adjective / how many / how much → quantity
+  - bare how → method
+  - auxiliary-first → verdict
+  - otherwise → definition
+
+  The plan also carries the asked relation (the verb, or the degree adjective) and its object.
+- **Fit (`ANS-FIT`, archives.assess):**
+  - An excerpt leads only if it binds the answer type: a personal name, a year, a number with a unit, a causal connective, an instrumental phrase, or a polarity-bearing statement of the asked clause.
+  - Source class breaks ties only among excerpts that fit.
+  - If nothing fits, the reply says so ("No source stated a quantity." / "No source decided the question.") and gives the closest excerpt as an excerpt, not as an answer.
+- **Wikidata values (`WD-VALUE`):** who/when/where/how-ADJ questions read a property value of the object's record.
+  - The property comes from Wikidata's own property search on the asked verb (write → P50 author).
+  - For a degree adjective it is the quantity claim whose label shares the adjective's root onset (deep ~ depth).
+- **Polarity (`V-POLARITY`):**
+  - Subject and asked predicate must be within one clause and 8 words.
+  - Negation counts only in scope ("found not guilty" → No).
+  - Lexical negators come from WordNet glosses ("pronounce not guilty" → acquit, exonerate, exculpate) and from un-/in-/non- adjectives.
+  - Hedged or consensus clauses (should, may, believe, consensus, generally) give no verdict (EMN: consensus is not evidence).
+- **Contradictions:** when the sources give Yes and No, both are reported with their class. The higher rank decides ("evidence over consensus: the primary authority source (rank 4) outranks the peer reviewed source (rank 3)"). Equal ranks leave the answer undetermined.
+- **Legal routing (`A-PRIMARY-ALL`):** a primary-authority excerpt must carry every key term, so an unrelated CFR rule is no longer cited for "statute of limitations for fraud". CourtListener uses highlighted snippets.
+  - Not connected: the US Code and state codes have no free, CORS-readable, keyless API (govinfo needs a key; uscode.house.gov and LII have no JSON API). These questions go to CourtListener, OpenAlex and Wikipedia.
+- **Rate limits (`A-RATE`):** a 429 or 503 is retried after Retry-After, or after 0.5 s and then 1 s (3 attempts). Answers are cached per URL for 1 hour.
+- **GELC-QTY:** the generator now uses number agreement ("1 zasuk", "2 zasuks"). Before, it wrote "1 zasuks" and expected that ungrammatical form back.

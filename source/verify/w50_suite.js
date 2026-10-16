@@ -52,7 +52,7 @@ T('W50 lookupPlan routes by lexicon semantics (medicine, law) and extracts relat
   expect(p2.isa && p2.isa.y.includes('fruit'), 'isa ' + JSON.stringify(p2.isa)); const ids = AR.route(p1); expect(ids.includes('medlineplus') && ids.includes('pubmed'), 'route ' + ids); });
 const mockFetch = map => async u => { const k = Object.keys(map).find(x => u.includes(x)); if (!k) throw new Error('offline'); return { ok: true, status: 200, json: async () => map[k], text: async () => JSON.stringify(map[k]) }; };
 T('W50 archive ranking: a primary authority outranks peer-reviewed literature, and co-occurrence alone gives no Yes/No', async () => {
-  const plan = { entity: null, terms: ['ibuprofen', 'stomach', 'bleeding'], key: ['ibuprofen', 'stomach', 'bleeding'], domains: ['medical'], yn: true, drug: 'ibuprofen' };
+  const plan = { entity: null, terms: ['ibuprofen', 'stomach', 'bleeding'], key: ['ibuprofen', 'stomach', 'bleeding'], domains: ['medical'], yn: true, drug: 'ibuprofen', atype: 'verdict', pred: null };
   const F = mockFetch({ 'api.fda.gov': { results: [{ openfda: { generic_name: ['IBUPROFEN'] }, warnings: ['Stomach bleeding warning: This product contains an NSAID (ibuprofen), which may cause severe stomach bleeding.'] }] },
     'api.openalex.org': { results: [{ display_name: 'Ibuprofen and stomach bleeding in adults', abstract_inverted_index: { Ibuprofen: [0], use: [1], was: [2], studied: [3], for: [4], stomach: [5], bleeding: [6], in: [7], many: [8], adults: [9], 'today.': [10] } }] } });
   const o = await AR.consult({ fetch: F, plan }); expect(o.evidence.length >= 1, 'no evidence'); expect(o.evidence[0].rank === AR.RANK.primary_authority, 'top is not primary: ' + o.evidence[0].archive);
@@ -60,4 +60,31 @@ T('W50 archive ranking: a primary authority outranks peer-reviewed literature, a
 T('W50 plain statement acknowledgment is derived from the clause (reporting verb by tense / modality / person)', () => {
   const k = kern(); const r = rng(9); const seen = new Set(); for (const q of ['The ' + pick(r, ARTS) + ' broke yesterday.', 'The ' + pick(r, ARTS) + ' might leak.', 'I work at a ' + pick(r, ARTS) + '.']) { const x = k.process(q); const m = /^You (\w+) that/.exec(x.reply || ''); expect(m, 'no derived ack: ' + q + ' → ' + x.reply); seen.add(m[1]); expect(!/I understand that/.test(x.reply), 'fixed frame'); }
   expect(seen.size === 3, 'reporting verb does not vary: ' + [...seen]); });
+/* 4.9.52 — answer-type fit, polarity verdicts, contradictions, rate limits */
+T('W52 answer type is derived from the parse (who → person, when → date, how + ADJ → quantity, why → cause, how → method, aux-first → verdict)', () => {
+  const k = kern(); const r = rng(52); const A = pick(r, ARTS), B = pick(r, ARTS), J = pick(r, ADJS);
+  const want = [['Who built the ' + A + '?', 'person'], ['When did the ' + A + ' break?', 'date'], ['How ' + J + ' is the ' + A + '?', 'quantity'], ['How many ' + A + 's are there?', 'quantity'], ['Why does the ' + A + ' rust?', 'cause'], ['How does a ' + A + ' work?', 'method'], ['Is a ' + A + ' a ' + B + '?', 'verdict'], ['Where is the ' + A + '?', 'place']];
+  for (const [q, t] of want) { const p = k.lookupPlan(q); expect(p && p.atype === t, q + ' → ' + (p && p.atype)); } });
+T('W52 lexical negators come from WordNet glosses ("pronounce not guilty" → acquit), not a list', () => { if (!PRO) return; const p = kern().lookupPlan('Was the defendant found guilty?'); expect(p.pred === 'guilty' && p.negators.includes('acquit'), JSON.stringify([p.pred, p.negators])); });
+T('W52 polarity verdicts: negation only in scope, negators reverse, hedges and consensus decide nothing', () => {
+  const r = rng(7); const X = pick(r, PERS); const plan = { entity: null, terms: [X, 'guilty'], key: [X, 'guilty'], yn: true, pred: 'guilty', negators: ['acquit'], atype: 'verdict' }; const v = t => (AR.textVerdict({ excerpt: t, title: '', name: 'S' }, plan) || {}).answer || null;
+  expect(v('The ' + X + ' was found not guilty.') === 'No', 'not in scope'); expect(v('The ' + X + ' was acquitted of all charges.') === 'No', 'negator');
+  expect(v('The ' + X + ' was found guilty in court.') === 'Yes', 'plain'); expect(v('Not everyone agreed, but the ' + X + ' was found guilty.') === 'Yes', 'negation outside scope');
+  expect(v('Many believe the ' + X + ' should have been found guilty.') === null, 'hedge'); expect(v('There is a consensus that the ' + X + ' is guilty.') === null, 'consensus'); });
+T('W52 only an excerpt that binds the answer type leads; source class breaks ties among fitting excerpts; conflicts are ranked (EMN)', () => {
+  const r = rng(11); const A = pick(r, ARTS); const plan = { terms: [A, 'deep'], key: [A, 'deep'], atype: 'quantity', yn: false };
+  const e = (rank, ex, cls) => ({ archive: 'a' + rank, name: 'A' + rank, cls, rank, title: A, excerpt: ex, score: 1 });
+  const as = AR.assess([e(4, 'The ' + A + ' is regulated by this part.', 'primary_authority'), e(1, 'The ' + A + ' is 120 meters deep at its lowest point.', 'encyclopedia'), e(3, 'The ' + A + ' reaches 118 m in depth.', 'peer_reviewed')], plan);
+  expect(as.lead.rank === 3 && as.fits, 'lead ' + as.lead.rank); const none = AR.assess([e(4, 'The ' + A + ' is regulated.', 'primary_authority')], plan); expect(!none.fits, 'non-fitting excerpt marked as fitting');
+  const vp = { entity: null, terms: [A, 'safe'], key: [A, 'safe'], yn: true, pred: 'safe', negators: ['unsafe'], atype: 'verdict' };
+  const c = AR.assess([e(3, 'The ' + A + ' is safe for use.', 'peer_reviewed'), e(4, 'The ' + A + ' is not safe for use.', 'primary_authority')], vp); expect(c.conflict && c.conflict.winner && c.conflict.winner.rank === 4 && c.verdict.answer === 'No', 'rank decides');
+  const d = AR.assess([e(3, 'The ' + A + ' is safe for use.', 'peer_reviewed'), Object.assign(e(3, 'The ' + A + ' is unsafe for use.', 'peer_reviewed'), { archive: 'b3' })], vp); expect(d.conflict && !d.conflict.winner && !d.verdict, 'equal ranks must stay undetermined'); });
+T('W52 archive rate limits: 429 is retried with backoff and answers are cached per URL', async () => {
+  let calls = 0; const F = async u => { calls++; if (calls === 1) return { ok: false, status: 429, headers: { get: () => '0' }, text: async () => '' }; return { ok: true, status: 200, headers: { get: () => null }, text: async () => JSON.stringify({ results: [{ display_name: 'x', abstract_inverted_index: null }] }) }; };
+  AR._cache.clear(); const p = { terms: ['w52cache', 'probe'], key: ['w52cache'] }; await AR._C.openalex(F, p); const n1 = calls; await AR._C.openalex(F, p); expect(n1 === 2 && calls === 2, 'calls ' + n1 + '/' + calls); });
+T('W52 a noun phrase predicates nothing (no verdict from co-occurring words); a quantity must be in the degree adjective\'s dimension (from WordNet glosses)', () => {
+  const r = rng(21); const A = pick(r, ARTS), B = pick(r, ARTS); const vp = { terms: [A], key: [A, B], yn: true, pred: B, args: [A], negators: [] };
+  expect(AR.textVerdict({ excerpt: A[0].toUpperCase() + A.slice(1) + ' ' + B + ' development and metabolism', title: '', name: 'S' }, vp) === null, 'title co-occurrence gave a verdict');
+  const p = kern().lookupPlan('How tall is the ' + A + '?'); expect(p.dims.includes('length'), 'tall dims ' + p.dims);
+  expect(!AR.fit({ excerpt: 'The ' + A + ' held the title for 41 years.' }, p) && AR.fit({ excerpt: 'The ' + A + ' is 330 m high.' }, p), 'dimension fit'); });
 (async () => { for (const t of tests) { try { await t.fn(); rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: true }); } catch (e) { rows.push({ cls: 'LANGUAGE-CORE', name: t.name, ok: false, why: e.message }); } } process.stdout.write(JSON.stringify(rows)); })();
