@@ -1,4 +1,4 @@
-/* app_bench.js — UI chrome for the EchoForge tool bench, vault captures + consent ledger, and W4 operator pieces.
+/* app_bench.js — UI chrome for the Tool Bench, vault captures + consent ledger, and W4 operator pieces.
  * Labels here are fixed UI vocabulary (D5: replies_only); every chat reply still comes from the derivation. */
 (function () {
   const { $, $$, esc, fmt, openTab } = window.KUI; const forge = window.forge; const say = t => window.say(t);
@@ -12,7 +12,7 @@
       r.toolJob.then(t => { const w = el.querySelector('.jobwait'); if (w) w.remove(); const log = $('#log');
         log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (t.blocked ? ' blocked' : '') + '"><span class="kind deterministic_route">evidence</span><span class="tag">Echo ' + (t.trace.echo && t.trace.echo.pass ? '✓' : '✗') + '</span><div>' + (t.blocked ? '⛔ Output blocked.' : esc(t.reply)) + '</div><details><summary>Trace</summary><pre class="small">' + esc(JSON.stringify({ rules: t.trace.rules, derivation_rules: t.trace.derivation && t.trace.derivation.rule_count, evidence: t.trace.msm.evidence, receipt: t.forge && t.forge.receipt && t.forge.receipt.receipt_id }, null, 1)) + '</pre></details></div>');
         log.lastElementChild.scrollIntoView({ block: 'end' }); }); } };
-  /* EchoForge tab */
+  /* Tool Bench tab (internal id 'echoforge' kept for storage compatibility) */
   window.renderBench = function () { const ms = forge.bench.manifests(); const lg = forge.bench.log().slice(-20).reverse(); const js = forge.jobs().slice(-10).reverse(); const v = forge.bench.verify(); const fp = forge.fetchPath();
     $('#benchBody').innerHTML = H('Tools (' + ms.length + ') <span class="pill">' + esc(forge.perm.policy().echoForge) + '</span>', tbl(['tool', 'effect', 'frames', 'inputs → outputs', 'state'], ms.map(m => ['<code>' + esc(m.id) + '</code>', esc(m.effect), esc(m.frames.join(', ')), esc(m.inputs.join(', ') + ' → ' + m.outputs.join(', ')), m.available === false ? '<span class="pill warn">' + esc(m.status || 'unavailable') + '</span>' : '<span class="pill ok">ready</span>'])))  +
       H('Fetch path', '<div class="small">' + (fp ? 'via your path: <code>' + esc(fp.url) + '</code>' : 'direct (CORS-readable sources only; others are refused, never relayed through a third party)') + '. No cookies, no referrer, no custom headers, no page scripts.</div>') +
