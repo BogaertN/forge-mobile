@@ -347,6 +347,9 @@ function Kernel(opts) {
      APART from it (ruling 1). Everything else stays open-world (undetermined). The reason is the row's data ('one': a person has one birthplace). */
   function funcRefute(facts, q) { if (!q || q.verb.pol !== 'pos') return null; let goal = null; try { goal = R.parseAtomic(G.clauseText(q, 'kernel'), false); } catch (e) { goal = null; }
     const fi = goal && goal.args.length === 2 && goal.polarity === 'pos' && WR.relInfo(goal.predicate), fn = fi && fi.row.functional; if (!fn) return null;
+    /* 4.9.67 ruling 3: a CONTAINMENT row (location 'in') is functional only at the same containment level, and the level of an unstated place is
+       unknown (Europe may contain Paris), so it never answers "no" by itself: it only raises the contradiction question when a second place is stated */
+    if (fi.row.containment) return null;
     const k = fn === 'subject' ? 0 : 1, D = durableAtoms(facts), apart = WR.apartness(D.map(f => f.atom)), hit = D.find(f => f.atom.predicate === goal.predicate && f.atom.polarity === 'pos' && f.atom.args[k] === goal.args[k] && apart(f.atom.args[1 - k], goal.args[1 - k]));
     return hit ? { fact: hit.rec, rule: 'RELPROP-FUNCTIONAL:' + fi.base, one: fi.row.one || null } : null; }
   /* 4.9.63 ruling 4: an ORDER relation (a declared comparative) answers "no" when the opposite is proved from stored facts by the declared
@@ -972,7 +975,7 @@ function Kernel(opts) {
         const k0 = canon(G.material(cl)); recs = activeFacts().filter(r => canon(G.material(r.clause)) === k0); rules.push({ id: 'FR-FORGET-EXACT-FACT', doc: 'Doc7 (exact structural match only)' });
         if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: cl.subj || { propn: 'that' } }, { frame: 'FR.FORGET', act: 'request' }); }
       meta.pending = { type: 'forget', ids: recs.map(r => r.id) }; rules.push({ id: 'AUTH-FORGET-ASK-CONFIRM', doc: 'Doc7; Doc6 §30 (deletion needs explicit confirmation)' });
-      return res('CLARIFICATION_REQUIRED', { kind: 'confirm_forget', items: recs.map(r => r.clause) }, { frame: 'FR.FORGET', act: 'request' }); }
+      return res('CLARIFICATION_REQUIRED', Object.assign({ kind: 'confirm_forget', items: recs.map(r => r.clause) }, recs.every(r => r.working) ? { working: true } : {}), { frame: 'FR.FORGET', act: 'request' }); }
     /* SELF-QUERY by structure (4.9.38; Nic: no keyword routes). A question or directive about Forge's own records is recognised from the PARSE, not from a
        phrase: the kāraka frame (kartā = Forge or the user, a cognition / saying / showing / meaning verb from the lexical classes below, the gapped kāraka,
        the viṣaya adjunct) selects the record query. Growth is by adding words to a class, never by adding a phrase. */
@@ -1464,7 +1467,7 @@ function Kernel(opts) {
     const sfe = { Phi: 5, rho: drift.rho, Delta: r4((attempted.to - attempted.expected) / 9), nu: 0, mu: 1.0, eps: drift.eps_s, tau: trace.phases.map(p => p.phase), lambda: meta.loop, chi: meta.chi };
     let restricted = false, sealed = false;
     /* RSOC turn governance (v4.9.32): the route is the candidate RSOC ⧙-locks, not an if-chain. Dims: D not blocked (no hard stop, no forbidden transition), X χ(t) conditions, W world turn */
-    const hi = gov.blocked; let cc = null, Theta = 0, corrected = null, quarantined = false;
+    const hi = gov.blocked; let cc = null, Theta = 0, corrected = null, quarantined = false, writeOK = gov.may_write_memory;
     if (hi) { const echoTrace = !(sel.literal && sel.literal.length) && !(sel.rules || []).some(r => r.id === 'LX-UNKNOWN');
       const traj = trace.phases.map(p => p.phase).concat(sel.forbiddenPath ? [8] : []); const dAvg = traj.reduce((a, n, i) => a + Math.abs(n - (i + 1)) * (2 * Math.PI / 9), 0) / traj.length;
       cc = M.chiConditions({ eps_s: drift.eps_s, echoTrace, chiFlag: meta.chi, dPhiAvg: dAvg, forbidden: gov.forbidden }); Theta = M.graceIntegral(sfe.tau, sfe.tau.map(n => (n < 5 ? 0 : sfe.eps)), sfe.mu);
@@ -1473,15 +1476,18 @@ function Kernel(opts) {
     trace.rsoc = { calculus: RS.calculus, route, candidates: RS.candidates, ops: RS.ops.filter(o => o.ok || o.op === '⧙').map(o => o.op + (o.dim ? '(' + o.c + ',' + o.dim + ')' : '(' + o.c + ')') + (o.ok ? '' : '✗')), inward: rsIn, claim: sel.material && sel.material.rsoc ? sel.material.rsoc.selected : null, outward: null, cite: RS.cite };
     trace.rules.push({ id: 'RSOC-ROUTE-' + route.toUpperCase(), doc: 'RSOC ch.3 (⟁ fusion, ⧙ lock)', note: 'turn ⧙ ' + route });
     if (hi) {
-      if (route === 'grace') { Object.assign(sfe, M.applyChi(sfe, Theta)); meta.chi = 1; restricted = true; trace.chi.result = 'χ(t) fired: Δ←0, ν←1.4, ε←ε(1−Θ/μ), μ←μ+0.9Θ, χ←1; re-routed Φ6→Φ7 with restricted meaning (RMC Addendum §4)'; trace.rules.push({ id: 'CHI-GRACE-REROUTE', doc: 'RSOC §3.2; RMC Addendum §4' }); Ph(6, 'χ(t) fired; restricted meaning'); }
+      if (route === 'grace') { Object.assign(sfe, M.applyChi(sfe, Theta)); meta.chi = 1; restricted = true; trace.chi.result = 'χ(t) fired: Δ←0, ν←1.4, ε←ε(1−Θ̂) with Θ̂ = Θ/(μ·|τ|) ∈ [0,1) (4.9.67 bounded), μ←μ+0.9Θ, χ←1; re-routed Φ6→Φ7 with restricted meaning (RMC Addendum §4)'; trace.rules.push({ id: 'CHI-GRACE-REROUTE', doc: 'RSOC §3.2; RMC Addendum §4' }); Ph(6, 'χ(t) fired; restricted meaning'); }
       else if (route === 'keep_world') { trace.chi.result = 'χ(t) not applied: world turn keeps its checked result; nothing sealed or written'; trace.rules.push({ id: 'WORLD-NO-PERSISTENT-SEAL', doc: 'a world turn never mutates persistent state' }); Ph(6, 'χ(t) skipped (world turn; no persistent seal)'); }
       else { sealed = true; trace.chi.result = 'χ(t) blocked → Ĉ controlled archival: state sealed into cold storage, output = 0 (RSOC Axiom 5; RPMC collapse protocol)'; trace.rules.push({ id: 'C-HAT-ARCHIVE', doc: 'RSOC §3.1 Ĉ; RPMC Output(ψ)=0' }); Ph(6, 'χ(t) blocked → Ĉ archival; HARD STOP'); }
-    } else if (gov.needs_correction) { /* 0.35 < ε_s < 0.40: the χ correction step (RSOC §3.2.1 update on the turn SFE); the turn is never written; it projects only if the corrected ε_s ≤ 0.35 */
-      const th = M.graceIntegral(sfe.tau, sfe.tau.map(n => (n < 5 ? 0 : sfe.eps)), sfe.mu), after = M.applyChi(sfe, th), ok = after.eps <= M.DRIFT_RULING.project_max;
-      corrected = { eps_before: drift.eps_s, Theta: th, eps_after: after.eps, projectable: ok, formula: 'ε ← ε(1 − Θ/μ) = ' + drift.eps_s + '·(1 − ' + th + '/' + sfe.mu + ') = ' + after.eps + ' (RSOC §3.2.1)', written: false };
-      trace.correction = corrected; sfe.eps = after.eps; quarantined = !ok;
-      trace.rules.push({ id: 'DRIFT-CORRECT-CHI-STEP', doc: 'Nic drift ruling (0.35–0.40 needs correction); RSOC §3.2.1', note: 'ε_s ' + drift.eps_s + ' → ' + after.eps + (ok ? ' (projectable; not written this turn)' : ' (still above 0.35 → quarantine)') });
-      Ph(6, 'χ correction step: ε_s ' + drift.eps_s + ' → ' + after.eps + (ok ? '' : ' → quarantine')); }
+    } else if (gov.needs_correction) { /* 4.9.67 rulings 4–5: 0.35 < ε_s < 0.40 → the CANONICAL χ correction (kmath.chiCorrect: once per ψ, over the
+         phase-aligned ancestors = this conversation's earlier turns, bounded), then RE-MEASURE against the one table: the turn may project and
+         write only if the re-measured ε_s ≤ 0.35; otherwise it is held (quarantine, drift archive) */
+      const E = meta.epsHistory || [], H = meta.phaseHistory.slice(-8), off = E.length - H.length, anc = H.map((Phi, i) => ({ Phi, eps: off + i >= 0 ? E[off + i] : undefined })).filter(x => Number.isFinite(x.eps));
+      const cx = M.chiCorrect({ eps: drift.eps_s, ancestors: anc, applied: false }), g2 = M.turnGovernance(cx.eps_after, attempted), ok = cx.applied && g2.may_write_memory;
+      corrected = Object.assign(cx, { remeasured_band: g2.band, projectable: ok, written_allowed: ok }); writeOK = ok;
+      trace.correction = corrected; sfe.eps = cx.eps_after; quarantined = !ok;
+      trace.rules.push({ id: 'DRIFT-CORRECT-CHI-STEP', doc: 'Nic drift ruling (0.35–0.40 needs correction; re-measure, ≤ 0.35 to project/write); canonical χ (kmath.chiCorrect)', note: 'ε_s ' + drift.eps_s + ' → ' + cx.eps_after + (cx.applied ? '' : ' (' + cx.reason + ')') + (ok ? ' (re-measured ≤ 0.35: projectable)' : ' (held)') });
+      Ph(6, 'χ correction step: ε_s ' + drift.eps_s + ' → ' + cx.eps_after + (ok ? ' (re-measured: projectable)' : ' → held')); }
     else if (gov.route === 'quarantine') { quarantined = true; trace.rules.push({ id: 'DRIFT-EXPLORE-QUARANTINE', doc: 'Nic drift ruling (0.40–0.80 quarantine-only exploration; never written)', note: 'ε_s ' + drift.eps_s }); Ph(6, 'exploration band → quarantine (no projection, no write)'); }
     else Ph(6, 'χ(t) not required (band ' + drift.band + ')');
     const k = sel.material.kind;
@@ -1489,8 +1495,8 @@ function Kernel(opts) {
     const msm = { msm_version: 'MSM-v1 (fields inferred from Docs 1, 3, R0 — Doc 2 file not located)', msm_id: psi_id, status: sealed ? 'sealed (Ĉ)' : 'named',
       purpose: { speech_act: sel.act, frame: sel.frame, negated_act: !!ctx.negAct }, meaning: sel.material,
       uncertainty: { level: sel.uncertainty || (trace.outcome.class === 'selected' ? 'none' : trace.outcome.class), unknown_concepts: sel.material.words || [], sense: sel.sense ? sel.sense.status : 'n/a' },
-      limits: { authority: sel.write ? (sel.auth || 'explicit user request') : 'none', may_write_memory: !!sel.write && !sealed && !restricted && !quarantined && gov.may_write_memory, may_project: !sealed && !quarantined,
-        restrictions: [].concat(restricted ? ['correction-restricted (χ)'] : [], corrected ? ['drift correction (χ step): not written this turn'] : [], drift.band === 'elevated' ? ['exploration band: quarantine only, never written or projected'] : []) },
+      limits: { authority: sel.write ? (sel.auth || 'explicit user request') : 'none', may_write_memory: !!sel.write && !sealed && !restricted && !quarantined && writeOK, may_project: !sealed && !quarantined,
+        restrictions: [].concat(restricted ? ['correction-restricted (χ)'] : [], corrected && !writeOK ? ['drift correction (χ step): held, not written'] : [], drift.band === 'elevated' ? ['exploration band: quarantine only, never written or projected'] : []) },
       capability_relation: { capability, status: k === 'blocked' ? 'blocked' : 'supported' }, evidence: { refs: sel.evidenceRefs || [], user_utterance_turn: turn }, trace_ref: 'trace:' + turn, phase: null, drift: { eps_s: drift.eps_s, band: drift.band } };
     if (restricted) msm.meaning = { kind: 'refuse', reason: 'BYPASS' };
     trace.msm = msm;
@@ -1526,13 +1532,10 @@ function Kernel(opts) {
       else if (d.decision !== 'allow') { msm.limits.may_write_memory = false; sel.write = null; } }
     if (sealed) { const cold = store.load('cold_storage'); cold.push({ id: psi_id, sealed_at: at, reason: 'hard stop ε_s=' + drift.eps_s, msm, sfe, input, tier: bypass ? 'DEEP' : 'WARM', breach: !!bypass, resurrection_attempts: 0 }); store.save('cold_storage', cold); meta.pending = null;
       trace.rsoc.ops.push('Ĉ'); Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = (gov.forbidden ? 'Forbidden phase transition ' + trace.drift.attempted_transition + ' (blocked at any ε_s; ε_s = ' + drift.eps_s + ')' : 'Hard stop: ε_s = ' + drift.eps_s + ' > 0.80') + ' and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
-    if (quarantined) { meta.pending = null; trace.blocked = true; trace.block_reason = 'Quarantine: ε_s = ' + (corrected ? corrected.eps_after + ' after the χ correction step' : drift.eps_s) + ' is above the projection limit 0.35 — held in the drift archive; not projected and not written (drift ruling).';
+    if (quarantined) { meta.pending = null; trace.blocked = true; trace.block_reason = 'Quarantine: ε_s = ' + (corrected ? corrected.eps_after + ' after the χ correction step' + (corrected.applied ? '' : ' (χ not applied: ' + corrected.reason + ')') : drift.eps_s) + ' is above the projection limit 0.35 — held in the drift archive; not projected and not written (drift ruling).';
       Ph(7, 'naming withheld (quarantine)'); return finish(trace, 6, null, msm, sfe); }
-    if (corrected && (sel.write || sel.working)) { /* 4.9.66: in the correction band nothing is written, so a reply that would claim a write ("I noted …", "I will use it …") is withheld rather than projected falsely */
-      meta.pending = null; sel.write = null; msm.limits.may_write_memory = false; trace.blocked = true; trace.block_reason = 'Drift correction: ε_s = ' + corrected.eps_before + ' → ' + corrected.eps_after + ' after the χ correction step — understood, but nothing was written or kept this turn (drift ruling: 0.35–0.40 needs correction before memory).';
-      trace.rules.push({ id: 'DRIFT-CORRECT-NO-WRITE', doc: 'Nic drift ruling (0.35–0.40 needs correction)' }); Ph(7, 'naming withheld (correction band; no write)'); return finish(trace, 6, null, msm, sfe); }
     if (sel.working) { /* 4.9.66: a working fact is conversation state, so it is admitted only inside the drift gate (projectable band, not sealed or restricted) */
-      if (!sealed && !restricted && gov.may_write_memory) { const ret = (sel.working.supersede || []).map(id => retractWorking(id, 'superseded', psi_id)).filter(Boolean).map(w => w.id); const w = addWorking(sel.working.clause, turn, sel.sense);
+      if (!sealed && !restricted && writeOK) { const ret = (sel.working.supersede || []).map(id => retractWorking(id, 'superseded', psi_id)).filter(Boolean).map(w => w.id); const w = addWorking(sel.working.clause, turn, sel.sense);
         trace.working = { id: w.id, superseded: ret, scope: 'this conversation only (not stored)' }; trace.rules.push({ id: 'MEM-WORKING-ADMITTED', doc: '4.9.66 memory-write rule', note: w.id + (ret.length ? ' replaces ' + ret.join(', ') : '') }); }
       else { msm.meaning = Object.assign({}, msm.meaning, { working: false }); trace.rules.push({ id: 'MEM-WORKING-DRIFT-GATED', doc: '4.9.66 memory-write rule within the drift ruling', note: 'band ' + drift.band }); } }
     Ph(7, 'manifest named ψ_id ' + psi_id.slice(0, 12) + '…');
@@ -1599,13 +1602,13 @@ function Kernel(opts) {
     return { meaning: trace.blocked ? 'blocked_before_release' : MEANING_STATE[trace.outcome && trace.outcome.class] || 'not_understood',
       action: k === 'blocked' ? 'blocked:' + (msm.meaning.reason || 'unauthorized') : k === 'neg_act' ? 'withheld:prohibited' : k === 'write_held' ? 'held_for_approval' : wrote ? 'memory_written' : k === 'assert_ack' ? 'not_stored' : k === 'tool_denied' ? 'blocked:tool' : 'none',
       claim: msm.meaning && msm.meaning.status && /world/.test(k) ? msm.meaning.status : null, unresolved: k === 'clarify_unknown' || k === 'clarify_teach' ? msm.meaning.words : k === 'clarify_referent' ? [msm.meaning.word] : null, cite: 'Pāṇini paper D5/D6: understanding ≠ permission' }; }
-  function finish(trace, terminal, text, msm, sfe) { if (sideRules.length) { const seen = new Set(trace.rules.map(r => r.id)); for (const r of sideRules) if (!seen.has(r.id)) trace.rules.push(r); sideRules = []; }
+  function finish(trace, terminal, text, msm, sfe) { trace.phase_law = M.phaseLaw((trace.phases || []).map(p => p.phase), { quarantine: !!(trace.containment && trace.containment.route === 'drift_archive_only') }); /* 4.9.67 ruling 1 */ if (sideRules.length) { const seen = new Set(trace.rules.map(r => r.id)); for (const r of sideRules) if (!seen.has(r.id)) trace.rules.push(r); sideRules = []; }
     msm.phase = { trajectory: trace.phases.map(p => p.sym).join('→'), terminal: M.PHASES[terminal].sym }; msm.state = resultState(trace, msm);
     if (trace.containment && !opts.noContainment) { try { const c = cont.apply(trace, trace.containment, { clause: msm.meaning && msm.meaning.clause, cause: trace.containment.cause, state: { turn: meta.turn, loop: meta.loop, chi: meta.chi } }); trace.containment_applied = { route: c.route, records: c.records, collapse: c.collapse ? c.collapse.id : null }; } catch (e) { trace.containment_error = String(e && e.message); } } trace.output = text; trace.sfe = Object.assign({}, sfe, { Phi: terminal });
     const mem = store.load('memory'); const rec = (msm.evidence.refs || []).map(id => mem.find(r => r.id === id)).filter(Boolean);
     trace.rpm = rec.map(r => ({ id: r.id, mu: r.sfe.mu, eps: r.sfe.eps, weight: M.rpmWeight(r.sfe), formula: 'ΦM·exp(−ε) = ' + r.sfe.mu + '·exp(−' + r.sfe.eps + ') (RPMC §1; display only)' }));
     if (!opts.noTMS) { try { trace.tms = tmsTurn(trace, msm); } catch (e) { trace.tms = { error: String(e && e.message).slice(0, 160) }; } }
-    meta.phaseHistory.push(terminal); meta.phaseHistory = meta.phaseHistory.slice(-9); meta.last = { eps_s: trace.drift.eps_s, band: trace.drift.band, phase: terminal }; saveMeta();
+    meta.phaseHistory.push(terminal); meta.phaseHistory = meta.phaseHistory.slice(-9); meta.epsHistory = (meta.epsHistory || []).concat([trace.drift.eps_s]).slice(-9); /* 4.9.67: ancestors' drift for the canonical χ */ meta.last = { eps_s: trace.drift.eps_s, band: trace.drift.band, phase: terminal }; saveMeta();
     const tr = store.load('trace'); tr.push(trace); store.save('trace', tr.slice(-200));
     const outR = { reply: text, blocked: trace.blocked, block_reason: trace.block_reason || null, outcome: trace.outcome, trace, msm };
     const sealOk = curSecrets.length && !trace.blocked && msm.meaning && msm.meaning.kind === 'stored_sensitive';

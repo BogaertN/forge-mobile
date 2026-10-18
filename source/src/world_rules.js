@@ -27,7 +27,7 @@
      rows ending in _than declare only their inverse. A past form ("was born in") keeps the row's properties. No weights; properties are yes/no. */
   const RELATIONS = Object.freeze([
     { pred: 'inside', transitive: true, inverse: 'contain', containment: 'inner' }, { pred: 'contain', transitive: true, inverse: 'inside', containment: 'outer' },
-    { pred: 'in', transitive: true, containment: 'inner' }, { pred: 'within', transitive: true, containment: 'inner' },
+    { pred: 'in', transitive: true, containment: 'inner', functional: 'subject', one: { who: 'thing', has: 'location' } }, /* 4.9.67 ruling 3 (Nic): location 'in' is functional at the same containment level — 'Rex is in Paris' then 'in London' is a contradiction (apart); Paris-in-France is not (containment makes them not apart) */ { pred: 'within', transitive: true, containment: 'inner' },
     { pred: 'part_of', phrase: 'part of', transitive: true, containment: 'inner' }, { pred: 'ancestor_of', phrase: 'ancestor of', transitive: true, inverse: 'descendant_of' },
     { pred: 'descendant_of', phrase: 'descendant of', transitive: true, inverse: 'ancestor_of' },
     { pred: 'parent_of', phrase: 'parent of', inverse: 'child_of' }, { pred: 'child_of', phrase: 'child of', inverse: 'parent_of' },
@@ -73,7 +73,9 @@
       if (r.transitive && !/_than$/.test(b)) add('transitive', [A(q, '$x', '$y'), A(q, '$y', '$z')], A(q, '$x', '$z'));
       if (r.symmetric) add('symmetric', [A(q, '$x', '$y')], A(q, '$y', '$x'));
       if (r.inverse) add('inverse', [A(q, '$x', '$y')], A(pre + r.inverse, '$y', '$x'));
-      if (r.functional === 'subject') add('functional', [A(q, '$x', '$y'), A(q, '$x', '$z')], A(q, '$x', '$z', 'neg'), [['apart', '$y', '$z']]);
+      /* 4.9.67 ruling 3: a containment row's functionality is level-relative (a rule or an unstated place may put one inside the other), so it
+         never derives a refutation — the kernel only asks about a second stated place (conflicts) */
+      if (r.functional === 'subject' && !r.containment) add('functional', [A(q, '$x', '$y'), A(q, '$x', '$z')], A(q, '$x', '$z', 'neg'), [['apart', '$y', '$z']]);
       if (r.functional === 'object') add('functional', [A(q, '$y', '$x'), A(q, '$z', '$x')], A(q, '$z', '$x', 'neg'), [['apart', '$y', '$z']]); }
     return out; }
   /* the same rules as data rules for the rule engine (durable world): stable ids RELPROP-<PROPERTY>:<pred> */

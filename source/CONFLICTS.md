@@ -418,3 +418,58 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - **Known limits:**
   - Location "in" is not functional, so "Rex is in Paris" then "Rex is in London" is not a contradiction (containment by design).
   - The forget-confirm question for a working fact still says "move it to cold storage".
+
+## v4.9.67: Nic's rulings on the 4.9.66 open questions (2026-10-18, 4:18 PM)
+
+1. **Phase direction (ruling 1).**
+   - Committed meanings move forward only (RPMC). 9→1 is the lawful closure step, not a step back.
+   - A Φ−1 step back is lawful only inside quarantine exploration (MEA / drift archive; it never touches memory).
+   - `kmath.phaseStep` / `phaseLaw` enforce this. A backward committed step is a forbidden transition, so it blocks at any ε_s.
+   - Every turn records `trace.phase_law`.
+   - P1 §6.1's "±1" is superseded for committed paths.
+   - Forward skips other than Φ4/Φ5→Φ8 are not ruled on and remain allowed as before.
+2. **σ_res is circular (ruling 2).**
+   - It is Mardia's angular deviation √(2(1−R̄)) over θ = 2π(Φ−1)/9, divided by 2π. For a tight cluster this equals the old linear std of Φ/9, so the thresholds keep their scale.
+   - Φ9 and Φ1 are now adjacent: the spread of (9,1) equals the spread of (1,2).
+   - Turn drift is unchanged in practice, because turn terminal phases are all Φ9.
+3. **Location "in" is functional at one containment level (ruling 3).**
+   - Row `in`: functional 'subject'.
+   - "Rex is in Paris" then "Rex is in London" is asked as a contradiction, for working facts and for "remember".
+   - "Paris is in France" makes Paris and France not apart, so "Rex is in France" is not a contradiction.
+   - Because the level of an unstated place is unknown (Europe may contain Paris), a containment row never derives a "no" by itself. `funcRefute` skips it, and the reasoner adds no refutation rule for it. "Is Rex in London?" therefore stays "I cannot confirm that".
+   - This also keeps "If something is in B then it is in C" lawful (GELC-GRAMMAR).
+4. **Correction band (ruling 4).**
+   - 0.35 < ε_s < 0.40 runs the canonical χ step, then ε_s is re-measured against the one table.
+   - The turn projects and writes only if the re-measured ε_s ≤ 0.35; otherwise it is held (quarantine, drift archive).
+   - This replaces 4.9.66's DRIFT-CORRECT-NO-WRITE.
+5. **Canonical χ (ruling 5): `kmath.chiCorrect`.**
+   - Built from RPMC's contract (once per ψ, over phase-aligned ancestors, restore toward ψ₁) and RSOC's grace kernel.
+   - The aligned ancestors are the conversation's earlier turns whose phase is within π/4 of Φ₁ (Φ9/Φ1/Φ2). π/4 is RSOC's own ⟁ alignment tolerance, so no new constant is introduced.
+   - Θ̂ = Σ(1−ε/ε_max)·cos²(Φ−Φ₁)·μ / Σμ ∈ [0,1).
+   - ε′ = max(ε(1−Θ̂), ε̄_A).
+   - Not applied when there is no aligned ancestor, when χ was already applied for this ψ, or when the correction is not lower (App B.12: the corrected drift must fall, otherwise archive).
+   - **Root cause of the 4.9.66 collapse:** the old ε(1−Θ/μ) divided a sum over the whole trace by one μ. That gave Θ/μ ≈ 2.35, and ε 0.36 became 0.
+   - The RSOC hard-stop route (`applyChi`) now uses the same normalisation, Θ̂ = Θ/(μ·|τ|).
+   - Tests cover: bounded (never 0 from a positive drift, never below the ancestors' mean), once per ψ, misaligned ancestors give no grace, a non-lowering correction is not applied, and the result is invariant to μ scale and to repeated ancestry.
+   - A fresh conversation has no ancestors, so a 0.36 turn is held. After clean turns, the same turn corrects to 0.1487 and projects.
+6. **⟁ average vs sum (ruling 5).**
+   - Kept the RSOC **sum** for μ and the **average** for ε.
+   - Why: μ is extensive (memory charge, conserved: P1 §6.2, RSOC §2) and ε is intensive (a coefficient).
+   - The sum is associative, so the order in which a fact is reinforced cannot change its μ. It is also homogeneous: scaling every μ scales the result.
+   - The P1 average is not associative, so μ would depend on merge order, and it destroys conserved charge.
+   - Every consumer of μ now uses ratios: the canonical χ normalises by Σμ, and rpmWeight is display-only. So behaviour is scale-invariant.
+   - The kernel test "repeat merges μ > 2" stays as it is.
+7. **RSOC↔RMC phase map (ruling 6): `kmath.PHASE_MAP_RSOC_TO_RMC`, marked RECONSTRUCTION.**
+   - The map is 1→1, 2→2, 3→3, 4→4, 5 Grace→{5,6}, 6 Naming→7, 7 Harmony→{7,8}, 8 Completion→8, 9 Seeding→9.
+   - Anchors:
+     - ψ_id is fixed at Φ1 in both;
+     - RSOC's fracture–grace–naming (4–5–6) corresponds to RMC Friction → Entropy+Grace → Naming;
+     - the ⧙ lock happens at Naming;
+     - RSOC's forbidden ascent 3/4→8 corresponds to RMC's forbidden Φ4/Φ5→Φ8;
+     - Seeding corresponds to the 9→1 closure.
+8. **Canonical problems (ruling 7).** 144 Hz, the limiting-reagent problem and the inheritance problem are adopted (`data/canonical_problems.json`).
+   - Their exact sub-results come from the kernel's exact lane and are tested: 144/90 = 1.6; 16·9 = 144; the O₂ threshold 2000/63 g; H₂O 4505/126 g; 18.02 g; (1/2)^6.
+   - The epistemic outcomes are the MEA-P acceptance target. They are pending until MEA-P exists, and none is ever verified_claim without data.
+9. **Working-fact forget wording (ruling 8).** "Should I forget it?" replaces "Should I move it to cold storage?" for working facts. Stored facts keep the cold-storage wording, which is correct for them.
+- **MEA proposals regenerated** (`tools/mea_eval.js 1 8`) because the relation rows changed. All 8 are rejected.
+- **Changed expectations:** the K1 0.36 test now asserts re-measurement: held with no grace; projects and writes after clean turns. No other expectation changed.
