@@ -1,6 +1,6 @@
 /* Symbolic math used by the kernel. Every formula cites its source document.
  *   RMC Addendum (2026-09) §3 — newest operational definitions (preferred on conflict):
- *     ε_s = (σ_res + D_score + |ΔΦ|) / ρ ; σ_res = std-dev of phase history;
+ *     ε_s = (σ_res + D_score + |ΔΦ|) / ρ ; σ_res = circular deviation of phase history (4.9.67 ruling 2);
  *     D_score = 1.0 for Φ5→Φ8 else 0 ; |ΔΦ| = |actual − expected| / 9 ; ρ = max(1, depth)
  *     bands: the Addendum's 0.50/0.78/0.80 bands are SUPERSEDED (4.9.66 K1) by Nic's drift ruling — see DRIFT_TABLE below
  *   RSOC (Dec 2025) §2.2 SFE ψ=(Φ,ρ,Δ,ν,μ|ψ_id,τ,ε,λ,χ); §3.1 operators; §3.2 χ(t), Θ(t)
@@ -40,15 +40,28 @@ const DRIFT_TABLE = Object.freeze([
   Object.freeze({ turn: 'hard_stop', gov: 'reject', test: () => true, may_project: false, may_write_memory: false, quarantine: true, hard_stop: true })]);
 const driftRow = eps => DRIFT_TABLE.find(r => r.test(eps));
 const BANDS = DRIFT_TABLE; /* back-compat export name */
-const isForbidden = t => !!(t && FORBIDDEN.some(([a, b]) => t.from === a && t.to === b));
+/* 4.9.67 ruling 1 (Nic): committed meanings move FORWARD only (RPMC; 9→1 is the lawful closure step, not a step back). A Φ−1 step back is
+   allowed only inside quarantine exploration (MEA / drift archive; never touches memory) — t.quarantine marks such a path. */
+const phaseNext = n => (n % 9) + 1, phasePrev = n => ((n + 7) % 9) + 1;
+const isBackward = t => !!(t && t.to !== t.from && t.to !== phaseNext(t.from) && ((t.from - t.to + 9) % 9) < ((t.to - t.from + 9) % 9));
+function phaseStep(t) { if (!t) return { ok: false, why: 'no transition' }; if (FORBIDDEN.some(([a, b]) => t.from === a && t.to === b)) return { ok: false, why: 'forbidden Φ' + t.from + '→Φ' + t.to };
+  if (isBackward(t)) return t.quarantine && t.to === phasePrev(t.from) ? { ok: true, why: 'Φ−1 step back inside quarantine exploration (never touches memory)', quarantine_only: true } : { ok: false, why: 'backward Φ' + t.from + '→Φ' + t.to + (t.quarantine ? ' (only a single Φ−1 step is allowed in quarantine)' : ' on a committed path (forward only)') };
+  return { ok: true, why: t.to === phaseNext(t.from) ? 'lawful successor' : 'forward' }; }
+const isForbidden = t => !!t && !phaseStep(t).ok;
+/* the phase law over a whole trail (consecutive repeats are one phase): every step must be lawful under phaseStep */
+function phaseLaw(trail, o) { const t = (trail || []).filter((n, i, a) => i === 0 || n !== a[i - 1]), v = []; for (let i = 1; i < t.length; i++) { const r = phaseStep({ from: t[i - 1], to: t[i], quarantine: !!(o && o.quarantine) }); if (!r.ok) v.push('Φ' + t[i - 1] + '→Φ' + t[i] + ': ' + r.why); } return { ok: !v.length, violations: v, trail: t.join(''), rule: 'forward only (RPMC); Φ−1 only in quarantine (4.9.67 ruling 1)' }; }
 
+/* 4.9.67 ruling 2 (Nic): σ_res is a CIRCULAR statistic — Φ9 is adjacent to Φ1. Mardia's angular deviation √(2(1−R̄)) over the phase angles
+   θ = 2π(Φ−1)/9, divided by 2π so that for a tight cluster it equals the old linear std of Φ/9 (same scale, same thresholds); R̄ = mean resultant length. */
+function circStd(phases) { if (phases.length < 2) return 0; let c = 0, si = 0; for (const p of phases) { const th = ((p - 1) / 9) * 2 * Math.PI; c += Math.cos(th); si += Math.sin(th); }
+  const R = Math.min(1, Math.sqrt(c * c + si * si) / phases.length); return Math.sqrt(Math.max(0, 2 * (1 - R))) / (2 * Math.PI); }
 function std(xs) { if (xs.length < 2) return 0; const m = xs.reduce((a, b) => a + b, 0) / xs.length; return Math.sqrt(xs.reduce((a, b) => a + (b - m) ** 2, 0) / xs.length); }
 const r4 = x => Math.round(x * 1e4) / 1e4;
 
 /* Drift functional, RMC Addendum §3. phaseHistory = terminal phase index of recent turns
- * (normalised Φ/9 so σ_res ∈ [0,1] — normalisation is our inference; Addendum leaves it open). */
+ * (σ_res circular since 4.9.67: Mardia angular deviation / 2π, Φ9 adjacent to Φ1; equals the linear std of Φ/9 for tight clusters). */
 function driftFunctional({ phaseHistory, transition, depth }) {
-  const sigma_res = std(phaseHistory.map(p => p / 9));
+  const sigma_res = circStd(phaseHistory);
   const D_score = isForbidden(transition) ? 1.0 : 0.0;
   const dPhi = transition ? Math.abs(transition.to - transition.expected) / 9 : 0;
   const rho = Math.max(1, depth || 0);
@@ -72,11 +85,42 @@ function chiConditions({ eps_s, echoTrace, chiFlag, dPhiAvg, forbidden }) {
   const c = { 'ε_s > 0.80 (hard stop) or forbidden transition': !!driftRow(eps_s).hard_stop || !!forbidden, 'Ê(τ) = 1': !!echoTrace, 'χ flag = 0': chiFlag === 0, '|ΔΦ_avg| ≤ π/3': dPhiAvg <= Math.PI / 3 };
   return { fire: Object.values(c).every(Boolean), conditions: c, cite: 'RSOC §3.2; RMC Addendum §4' };
 }
-/* χ(t) update, RSOC §3.2.1 / §4.2.2: Δ←0, ν←1.4, ε←ε(1−Θ/μ_total), μ←μ+0.9Θ, χ←1 */
+/* χ(t) update, RSOC §3.2.1 / §4.2.2: Δ←0, ν←1.4, ε←ε(1−Θ̂), μ←μ+0.9Θ, χ←1 (the RSOC route at a hard stop; restricted meaning only).
+   4.9.67 ruling 5: Θ is a SUM over the trace τ, so the old ε(1 − Θ/μ) gave Θ/μ > 1 and collapsed ε to 0; ε now uses the normalised
+   Θ̂ = Θ/(μ·|τ|) ∈ [0, 1) — the mean grace weight per step (same normalisation as the canonical χ, chiCorrect). */
 function applyChi(sfe, Theta) {
-  const muT = Math.max(sfe.mu, 1e-12);
-  return Object.assign({}, sfe, { Delta: 0, nu: 1.4, eps: r4(sfe.eps * Math.max(0, 1 - Theta / muT)), mu: r4(sfe.mu + 0.9 * Theta), chi: 1 });
+  const den = Math.max(sfe.mu, 1e-12) * Math.max(1, (sfe.tau || []).length), th = Math.min(1, Math.max(0, Theta / den));
+  return Object.assign({}, sfe, { Delta: 0, nu: 1.4, eps: r4(sfe.eps * (1 - th)), mu: r4(sfe.mu + 0.9 * Theta), chi: 1 });
 }
+/* 4.9.67 ruling 5 (Nic): the CANONICAL χ correction, built from RPMC's qualitative contract and RSOC's grace kernel.
+   RPMC §3: χ acts at most ONCE per ψ, only through a Grace Integral over PHASE-ALIGNED ANCESTORS, and restores the ψ toward its origin
+   (echo(χψ) = ψ₁); RSOC §3.2.1: each ancestor s contributes (1 − ε(s)/ε_max)·cos²(Φ(s) − Φ₁)·μ(s). Built here:
+     aligned ancestors A = prior states whose phase angle is within π/4 of Φ₁ (RSOC's own ⟁ alignment tolerance δ ≤ π/4; on the circle
+       that is Φ9, Φ1, Φ2 — Φ9 is a completed, echo-validated return);
+     Θ̂ = Σ_A (1 − ε/ε_max)·cos²(Φ − Φ₁)·μ / Σ_A μ ∈ [0, 1)  — the grace integral NORMALISED by the ancestors' own charge, so it does not grow
+       with the length of the trace or the scale of μ (the old ε(1 − Θ/μ) summed Θ over the whole trace, Θ/μ > 1, and collapsed ε to 0);
+     ε′ = max(ε·(1 − Θ̂), ε̄_A)  — bounded twice: Θ̂ < 1 (cos²(40°) < 1 for Φ9/Φ2 ancestors) and the ψ is never corrected below the μ-weighted
+       mean drift ε̄_A of the ancestors it is corrected toward (you cannot become more coherent than your evidence of coherence);
+     no aligned ancestor → no grace (G = 0 < G_min): not applied; already applied for this ψ → not applied (non-repeatable);
+     App B.12 validation: the corrected drift must be LOWER, otherwise the correction routes to archive (applied: false). No new constants. */
+function chiCorrect({ eps, ancestors, applied, epsMax = 0.8 }) {
+  const base = { eps_before: eps, cite: 'RPMC §3 (once per ψ, phase-aligned ancestors); RSOC §3.2.1 grace kernel; RMC App B.12 (drift must fall or archive)' };
+  if (applied) return Object.assign(base, { applied: false, eps_after: eps, reason: 'χ already applied for this ψ (non-repeatable)' });
+  const A = (ancestors || []).filter(a => a && Number.isFinite(a.Phi) && Number.isFinite(a.eps) && Math.abs(Math.atan2(Math.sin(phaseAngle(a.Phi)), Math.cos(phaseAngle(a.Phi)))) <= Math.PI / 4 + 1e-12);
+  if (!A.length) return Object.assign(base, { applied: false, eps_after: eps, aligned: 0, reason: 'no phase-aligned ancestor (G = 0): no grace' });
+  let num = 0, den = 0, em = 0; for (const a of A) { const mu = Number.isFinite(a.mu) && a.mu > 0 ? a.mu : 1; num += Math.max(0, 1 - Math.min(a.eps, epsMax) / epsMax) * Math.cos(phaseAngle(a.Phi)) ** 2 * mu; den += mu; em += a.eps * mu; }
+  const theta = num / den, floor = em / den, after = Math.max(eps * (1 - theta), floor);
+  const out = Object.assign(base, { aligned: A.length, Theta_hat: r4(theta), floor: r4(floor), eps_after: r4(after), formula: 'ε′ = max(ε(1 − Θ̂), ε̄_A) = max(' + eps + '·(1 − ' + r4(theta) + '), ' + r4(floor) + ') = ' + r4(after) });
+  if (!(after < eps)) return Object.assign(out, { applied: false, eps_after: eps, reason: 'corrected drift not lower → archive (App B.12)' });
+  return Object.assign(out, { applied: true }); }
+/* 4.9.67 ruling 6: RSOC ↔ RMC/RPMC phase mapping — PROPOSED, a RECONSTRUCTION from the papers (no paper states it).
+   RSOC (Dec 2025): 1 Initiation, 2 Echo, 3 Desire, 4 Fracture, 5 Grace, 6 Naming, 7 Harmony, 8 Completion, 9 Seeding.
+   Anchors: ψ_id is fixed at Phase 1 in both; RSOC's "fracture–grace–naming (4–5–6)" sequence is RMC's Friction → Entropy/Grace → Naming
+   (RMC splits RSOC's Grace into Φ5 drift measurement + Φ6 χ correction); RSOC's ⧙ lock "typically at Phase 6 (Naming)" is RMC's Φ7 naming;
+   RSOC's forbidden ascent 3/4 → 8 (skipping 4–5–6) is RMC's forbidden Φ4/Φ5 → Φ8, so Completion = Projection (8); Seeding (octave, next
+   cycle) = Return (9, closure 9→1). Harmony (7) has no RMC phase of its own: it is the echo-validated state between naming and projection. */
+const PHASE_MAP_RSOC_TO_RMC = Object.freeze({ status: 'reconstruction', 1: [1], 2: [2], 3: [3], 4: [4], 5: [5, 6], 6: [7], 7: [7, 8], 8: [8], 9: [9],
+  names: { 1: 'Initiation', 2: 'Echo', 3: 'Desire', 4: 'Fracture', 5: 'Grace', 6: 'Naming', 7: 'Harmony', 8: 'Completion', 9: 'Seeding' } });
 /* ⟁ Merge, RSOC §3.1.1 (δ ≤ π/4): μ′ = μ₁+μ₂+ζcos²δ, ε′=(ε₁+ε₂)/2 − 0.05cosδ, Δ′=(Δ₁+Δ₂)/2+0.1 sinδ */
 function merge(a, b, zeta = 0.12) {
   const d = Math.abs(phaseAngle(a.Phi) - phaseAngle(b.Phi));
@@ -176,6 +220,6 @@ function turnGovernance(eps, transition) { const forbidden = isForbidden(transit
   const route = forbidden ? 'blocked_forbidden_transition' : row.hard_stop ? 'hard_stop' : row.explore ? 'quarantine' : row.correction ? 'correct' : 'project';
   return { band: row.turn, route, forbidden, may_project: !forbidden && row.may_project, may_write_memory: !forbidden && row.may_write_memory, needs_correction: !forbidden && !!row.correction,
     quarantine: forbidden || row.quarantine, blocked: forbidden || !!row.hard_stop, ruling: DRIFT_RULING.cite }; }
-const api = { DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
+const api = { phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);
