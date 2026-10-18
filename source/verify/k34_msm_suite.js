@@ -42,11 +42,12 @@ module.exports = ({ C, expect, ROOT }) => {
       expect(v.sha256 === rb.trace.msm_v1.sha256 && v.sha256 === MS.sha(ra.msm_manifest), t + ': not deterministic');
       expect(/^candidate_meaning/.test(v.path) && (/(delivery_linked|containment_linked)$/.test(v.path) || ra.reply == null), t + ': path ' + v.path);
       expect(!!v.selected_ref !== !!v.non_selection_ref, t + ': selected xor non-selection'); expect(ra.trace.msm.msm_v1 && ra.trace.msm.msm_v1.sha256 === v.sha256, t + ': trace.msm reference'); } });
-  C('K3-MSM', 'Echo and containment map onto the law: Echo REJECTED/CONTAINED → containment link from the expression; sealed or quarantined → containment after validation; a blocked turn is a non-selection (authority_blocked)', () => {
+  C('K3-MSM', 'Echo and containment map onto the law: every Echo creates a ValidationLink with its disposition; REJECTED/CONTAINED → containment after it; sealed or quarantined → containment after validation; a blocked turn is a non-selection (authority_blocked)', () => {
     const base = { psi: 'abc', turn: 1, act: 'assert', frame: 'F', outcome_category: 'SELECTED_MEANING', outcome_class: 'selected', meaning: { kind: 'assert_ack' }, output: 'x' };
     const p = s => MS.buildTurn(Object.assign({}, base, s)).manifest.semantic_transition_traces.map(x => x.to_state).join('>');
-    expect(/validation_linked>delivery_linked$/.test(p({ echo: { pass: true } })), 'passed'); expect(/expression_linked>containment_linked$/.test(p({ echo: { pass: false } })), 'rejected');
-    expect(/expression_linked>containment_linked$/.test(p({ echo: { pass: false, ambiguous: true } })), 'contained'); expect(/validation_linked>containment_linked$/.test(p({ echo: { pass: true }, quarantined: true })), 'quarantine');
+    expect(/validation_linked>delivery_linked$/.test(p({ echo: { pass: true } })), 'passed'); expect(/expression_linked>validation_linked>containment_linked$/.test(p({ echo: { pass: false } })), 'rejected');
+    expect(/expression_linked>validation_linked>containment_linked$/.test(p({ echo: { pass: false, ambiguous: true } })), 'contained');
+    const vl = d => MS.buildTurn(Object.assign({}, base, { echo: { disposition: d } })).manifest.validation_links[0].external_validation_disposition; expect(vl('REJECTED') === 'REJECTED' && vl('CONTAINED') === 'CONTAINED' && vl('PASSED') === 'PASSED', 'ValidationLink carries the disposition (R-ECHO-5)'); expect(/validation_linked>containment_linked$/.test(p({ echo: { pass: true }, quarantined: true })), 'quarantine');
     expect(/^candidate_meaning>authority_blocked$/.test(p({ blocked: true, output: null })), 'blocked: ' + p({ blocked: true, output: null })); });
   C('K4-MANIFEST', 'μ_t carries every App D minimum field, is built from the trace before rendering (source_trace_id), semver schema, confidence in integer bps only for exact results (otherwise null with a basis), memory links keep the source figures', () => {
     const k = kern(); k.process('remember that my car is red'); const q = k.process('is my car red?'), om = q.trace.output_manifest;
