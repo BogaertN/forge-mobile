@@ -4,7 +4,7 @@ const G = isNode ? require('./grammar.js') : root.KGrammar;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const words = s => s.split(' ');
 
-const VERBS = new Set(words('refer take attach export delete challenge open close unlock report claim verify state decide install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
+const VERBS = new Set(words('agree disagree refer take attach export delete challenge open close unlock report claim verify state decide install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend decide determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
@@ -16,7 +16,7 @@ const NOUNS = new Set(words('person birthplace mother father capital country nou
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
   'failure relation sign code divisor limit limitation subject predicate verb role greeting farewell thanks vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences', hypothesis: 'hypotheses' };
-const ADJ = new Set(words('shared second Wikipedia related other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
+const ADJ = new Set(words('ranked shared second Wikipedia related other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
   'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now', 'later']);
@@ -103,7 +103,7 @@ function plural(D, n) { const irr = IRR_PL[n] || (G.IRRNP && G.IRRNP[n]); if (ir
   if (/[^aeiou]y$/.test(n)) { D && D.apply('7.3.2', n); return n.slice(0, -1) + 'ies'; } if (/(s|x|z|ch|sh)$/.test(n)) { D && D.apply('7.3.1', n); return n + 'es'; } return n + 's'; }
 const vowelSound = w => { const l = String(w).replace(/^[“"(]/, '').toLowerCase(); if (/^(hour|honest|honour|honor)/.test(l)) return true; if (/^(uni|use|usu|uti|one|once|eu)/.test(l)) return false; if (/^[0-9]/.test(l)) return /^(8|11|18)/.test(l); return /^[aeiou]/.test(l); };
 const MATHY = w => /[\d^=+\-*/()√∛∜_ΦεχλΘ⟁÷×∫±₀-₉]/.test(w) || /^[a-z]{1,2}$/.test(w) || /^(sin|cos|tan|exp|log|ln|sqrt)$/.test(w);
-const GENWORD = w => { const l = w.toLowerCase(); return VERBS.has(l) || NOUNS.has(l) || ADJ.has(l) || DETS.has(l) || l === 'an' || PARTICLES.has(l) || SCONJ.has(l) || !!ROLE_PREP[l] || !!PREP_ROLES[l] || !!FORM2PRON[l] || !!MODALS[l] || l === 'cannot' || l === 'not' || l === 'to' || PREVERB_ADV.has(l) || l === 'before' || /^(is|are|am|was|were|has|had|does|did|could|would|might)$/.test(l); };
+const GENWORD = w => { const l = w.toLowerCase(); return l === 'probably' || VERBS.has(l) || NOUNS.has(l) || ADJ.has(l) || DETS.has(l) || l === 'an' || PARTICLES.has(l) || SCONJ.has(l) || !!ROLE_PREP[l] || !!PREP_ROLES[l] || !!FORM2PRON[l] || !!MODALS[l] || l === 'cannot' || l === 'not' || l === 'to' || PREVERB_ADV.has(l) || l === 'before' || /^(is|are|am|was|were|has|had|does|did|could|would|might)$/.test(l); };
 
 function Realizer(env) {
   env = env || {}; const userNP = env.npText || (n => G.npText(n, 'kernel')); const userClause = env.clauseText || (c => G.clauseText(c, 'kernel'));
@@ -187,6 +187,7 @@ function Realizer(env) {
       else if (it.w) { D.apply(it.w === 'or' ? 'M.1.4' : 'M.1.5'); out.push(it.w); } } return out; }
   function sentence(D, s) { const toks = [];
     if (s.conj) { D.apply('8.1.5', s.conj); toks.push(s.conj); }
+    if (s.hedge && s.part) { D.apply('1.1.4', s.hedge); toks.push(s.hedge); } /* 4.9.62: a hedged particle ("Probably yes."): a single-source answer */
     if (s.part) { D.apply('1.1.4', s.part); toks.push(s.part); if ((s.c && s.part !== 'please') || s.mth || (s.front && s.front.length)) { D.apply('8.1.4'); toks[toks.length - 1] += ','; } }
     for (const f of s.front || []) { if (f.adv) toks.push(f.adv); else if (f.marker === 'as for') { D.apply('8.1.6'); toks.push('as', 'for'); np(D, f.np, 'obj', toks); } else { toks.push(prepFor(D, f.role, f.np)); np(D, f.np, 'obj', toks); } D.apply('8.1.4'); toks[toks.length - 1] += ','; }
     if (s.mth) toks.push(...mathToks(D, s.mth)); else if (s.c) toks.push(...clauseToks(D, s.c, s.force)); else if (s.uc) { D.apply('1.1.6', 'clause'); toks.push(...userClause(s.uc).split(' ')); }
@@ -293,7 +294,8 @@ function Analyser(env) {
   const lcFirst = w => (w && /^[A-Z][a-z]*$/.test(w) && GENWORD(w) && w !== 'I' && !NAME_LIST.some(n => n.split(' ')[0] === w) ? w.toLowerCase() : w);
   function sentence(st) { const res = []; const force0 = st[st.length - 1].p === '?' ? 'ques' : 'decl'; let toks = st.slice(0, -1).map((t, k) => (k === 0 && t.w ? { w: lcFirst(t.w) } : t)); const pre = {};
     if (toks[0] && SCONJ.has(toks[0].w)) { pre.conj = toks[0].w; toks = toks.slice(1); if (toks[0] && toks[0].w) toks[0] = { w: lcFirst(toks[0].w) }; }
-    if (toks[0] && PARTICLES.has(toks[0].w) && (toks.length === 1 || toks[1].p === ',')) { pre.part = toks[0].w; toks = toks.slice(toks.length === 1 ? 1 : 2); }
+    if (toks[0] && toks[0].w === 'probably' && toks[1] && PARTICLES.has(toks[1].w) && toks.length === 2) { pre.hedge = 'probably'; pre.part = toks[1].w; toks = []; }
+    else if (toks[0] && PARTICLES.has(toks[0].w) && (toks.length === 1 || toks[1].p === ',')) { pre.part = toks[0].w; toks = toks.slice(toks.length === 1 ? 1 : 2); }
     else if (toks[0] && toks[0].w === 'please' && toks[1] && toks[1].w) { pre.part = 'please'; toks = toks.slice(1); }
     const fronts = []; for (;;) { const w0 = W(toks[0]); const ci = toks.findIndex(t => t.p === ',');
       if (w0 === 'as' && W(toks[1]) === 'for' && ci > 2) { const nps = parseNP(toks.slice(2, ci), 'obj'); if (nps.length === 1) { fronts.push({ role: 'visaya', np: nps[0], marker: 'as for' }); toks = toks.slice(ci + 1); continue; } if (nps.length > 1) return [{ ambiguous: true }]; }
@@ -440,6 +442,13 @@ function justPlan(m) { const L = xs => xs.length > 1 ? { coord: 'and', items: xs
   if (m.state === 'none' || !(m.premises || []).length) return [S(C('record', { karta: I, karma: N('premise', { det: 'no' }), roles: { tadartha: target }, tense: 'past' }))];
   const base = m.stated ? [S(C('state', { karta: YOU, karma: target, tense: 'past' }))] : [S(C('derive', { karta: I, karma: target, roles: { apadana: L(m.premises) }, tense: 'past' }))];
   return base.concat(m.rules ? [S(C('use', { karta: pr('it'), karma: N('rule', { cnt: m.rules }) }))] : [], m.state === 'withdrawn' ? [S(C('keep', { karta: I, karma: pr('it'), pol: 'neg' }))] : []); }
+/* M3 evidence engine (4.9.62): the support level of a research answer — corroborated by N independent ranked sources; one source ("probably",
+   said on the answer); conflicting sources, each side with its rank class; none ("No source decided the question.") */
+const supportPlan = m => { const sp = m.support; if (!sp) return [];
+  if (sp.level === 'corroborated') return [S(C('agree', { karta: N('source', { cnt: sp.n, adj: ['independent', 'ranked'] }) }))];
+  if (sp.level === 'single') return [S(C('decide', { karta: N('source', { cnt: 1 }), karma: pr('it'), tense: 'past' }))];
+  if (sp.level === 'conflicting') return [S(C('disagree', { karta: N('source', { det: 'the', pl: true }) }))].concat(sp.sides.map(x => S(C('state', { karta: Mn(x.names.join(', ') + ' (' + x.rank + ')'), karma: Mn(x.answer) }))), sp.decided ? [] : [S(C('decide', { karta: N('source', { det: 'no' }), karma: N('question', { det: 'the' }), tense: 'past' }))]);
+  return m.nofit === 'verdict' ? [] : [S(C('decide', { karta: N('source', { det: 'no' }), karma: N('question', { det: 'the' }), tense: 'past' }))]; };
 const PLANS = {
   justification: justPlan,
   ack: () => [S(C('acknowledge', { karta: I, karma: pr('that') }))],
@@ -553,11 +562,12 @@ const PLANS = {
   tool_denied: m => [S(C('run', { karta: I, karma: N('tool', { det: 'the', app: Mn(m.tool) }), tense: 'past', pol: 'neg' })), S(C('report', { karta: Nm('permission service', 'the'), karma: Mn(m.rule), tense: 'past' }))].concat(m.rule === 'PERM-VAULT-LOCKED' ? [ /* 4.9.46 remedy: name the user's own unlock step (the passphrase is the confirmation); never run the tool for them */
     m.vault === 'none' ? S(C('set', { karma: N('passphrase', { det: 'a' }), roles: { adhikarana: Nm('Identity Vault tab', 'the') } }), { force: 'imp' }) : S(C('unlock', { karma: N('vault', { det: 'the' }), roles: { adhikarana: Nm('Identity Vault tab', 'the') } }), { force: 'imp' }),
     S(C('tell', { samp: I, post: ['again'] }), { force: 'imp', conj: 'then' })] : []),
-  research_answer: m => (m.answer ? [S(null, { part: String(m.answer).toLowerCase() })] : []).concat(m.archive && (m.archive !== 'Wikipedia' || m.nofit || m.answer || m.conflict)
+  research_answer: m => (m.answer ? [/^probably\s+/i.test(m.answer) ? S(null, { part: String(m.answer).replace(/^probably\s+/i, '').toLowerCase(), hedge: 'probably' }) : S(null, { part: String(m.answer).toLowerCase() })] : []).concat(m.archive && (m.archive !== 'Wikipedia' || m.nofit || m.answer || m.conflict)
       ? (m.nofit ? [m.nofit === 'verdict' ? S(C('decide', { karta: N('source', { det: 'no' }), karma: N('question', { det: 'the' }), tense: 'past' })) : S(C('state', { karta: N('source', { det: 'no' }), karma: N(m.nofit, { det: 'a' }), tense: 'past' })), S(C('be', { karta: N('excerpt', { det: 'the' }), pred: Mn(m.excerpt) }))] : [S(C('be', { karta: N('answer', { det: 'the' }), pred: Mn(m.excerpt) }))]).concat([ S(C('be', { karta: N('source', { det: 'the' }), pred: Mn(m.source + ' (' + m.archive + ')') })), S(C('be', { karta: N('class', { det: 'the' }), pred: Mn(String(m.cls || '').replace(/_/g, ' ')) }))])
         .concat(m.check ? [S(C('be', { karta: N('check', { det: 'the' }), pred: Mn(m.check) }))] : [])
       : [S(C('be', { karta: N('answer', { det: 'the' }), pred: Mn(m.excerpt) })), S(C('come', { karta: pr('it'), roles: { apadana: N('article', { det: 'the', adj: ['Wikipedia'], app: Mn(m.source) }) } }))])
     .concat(m.conflict && m.excerpt2 ? [S(C('say', { karta: N('source', { det: 'the', app: Mn(m.source2 + ' (' + (m.archive2 || 'Wikipedia') + ')') }), karma: Mn(m.excerpt2) })), S(C('be', { karta: N('rule', { det: 'the' }), pred: Mn(m.rule) }))] : m.excerpt2 ? [m.archive2 && m.archive2 !== 'Wikipedia' || (m.archive && m.archive !== 'Wikipedia') ? S(C('add', { karta: N('source', { det: 'the', app: Mn(m.source2 + ' (' + (m.archive2 || 'Wikipedia') + ')') }), karma: Mn(m.excerpt2) })) : S(C('add', { karta: N('article', { det: 'the', adj: ['Wikipedia'], app: Mn(m.source2) }), karma: Mn(m.excerpt2) }))] : [],
+      supportPlan(m),
       m.items.length > 1 ? [S(C('check', { karta: I, karma: N('source', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), tense: 'past' }))] : [],
       [S(C('seal', { karta: I, karma: pr(m.items.length === 1 ? 'it' : 'they'), roles: { adhikarana: Nm('Identity Vault', 'the') }, tense: 'past' }))]),
   patterns: m => m.items.length ? [S(C('notice', { karta: I, karma: N('pattern', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), tense: 'past' })), S(C('store', { karta: I, karma: pr('they'), tense: 'past', pol: 'neg' }))] : [S(C('notice', { karta: I, karma: N('pattern', { det: 'no', pl: true }), tense: 'past' }))],
