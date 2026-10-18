@@ -1,0 +1,298 @@
+{
+ "schema": "forge-eval-baseline/v1",
+ "recorded": "M0 baseline at 4.9.56 kernel (ecd5e94), before M1",
+ "version": "4.9.56",
+ "history": [
+  {
+   "note": "M0 baseline at 4.9.56 kernel (ecd5e94), before M1",
+   "heldout": "43/54",
+   "mutation": "145/173"
+  }
+ ],
+ "heldout": {
+  "passed": 43,
+  "cases": 54,
+  "rate": 0.7963,
+  "by_category": {
+   "syllogism": {
+    "pass": 9,
+    "total": 10
+   },
+   "withhold": {
+    "pass": 8,
+    "total": 8
+   },
+   "distractor": {
+    "pass": 3,
+    "total": 3
+   },
+   "contradiction": {
+    "pass": 3,
+    "total": 3
+   },
+   "negation": {
+    "pass": 3,
+    "total": 3
+   },
+   "suppose": {
+    "pass": 4,
+    "total": 4
+   },
+   "ambiguity": {
+    "pass": 3,
+    "total": 5
+   },
+   "relation-chain": {
+    "pass": 1,
+    "total": 6
+   },
+   "verb-frames": {
+    "pass": 4,
+    "total": 4
+   },
+   "follow-up": {
+    "pass": 5,
+    "total": 6
+   },
+   "identity": {
+    "pass": 0,
+    "total": 1
+   },
+   "quantity": {
+    "pass": 0,
+    "total": 1
+   }
+  },
+  "passed_ids": [
+   "syl-01",
+   "syl-02",
+   "syl-03",
+   "syl-04",
+   "syl-05",
+   "syl-06",
+   "syl-07",
+   "syl-08",
+   "syl-09",
+   "inv-01",
+   "inv-02",
+   "inv-03",
+   "inv-04",
+   "inv-05",
+   "inv-06",
+   "inv-07",
+   "inv-08",
+   "dis-01",
+   "dis-02",
+   "dis-03",
+   "con-01",
+   "con-02",
+   "con-03",
+   "neg-01",
+   "neg-02",
+   "neg-03",
+   "sup-01",
+   "sup-02",
+   "sup-03",
+   "sup-04",
+   "amb-01",
+   "amb-02",
+   "amb-05",
+   "rel-03",
+   "vrb-01",
+   "vrb-02",
+   "vrb-03",
+   "vrb-04",
+   "fol-01",
+   "fol-02",
+   "fol-03",
+   "fol-04",
+   "fol-06"
+  ]
+ },
+ "mutation": {
+  "passed": 145,
+  "variants": 173,
+  "rate": 0.8382,
+  "by_operator": {
+   "rename": {
+    "pass": 54,
+    "total": 54
+   },
+   "shuffle": {
+    "pass": 21,
+    "total": 21
+   },
+   "paraphrase": {
+    "pass": 19,
+    "total": 19
+   },
+   "word-order": {
+    "pass": 0,
+    "total": 28
+   },
+   "neg-q": {
+    "pass": 19,
+    "total": 19
+   },
+   "neg-fact": {
+    "pass": 15,
+    "total": 15
+   },
+   "contradict": {
+    "pass": 13,
+    "total": 13
+   },
+   "synonym": {
+    "pass": 4,
+    "total": 4
+   }
+  },
+  "passed_ids": [
+   "b01:rename:1",
+   "b01:rename:2",
+   "b01:rename:3",
+   "b01:shuffle:1",
+   "b01:paraphrase:1",
+   "b01:neg-q:1",
+   "b01:neg-fact:1",
+   "b01:contradict:1",
+   "b02:rename:1",
+   "b02:rename:2",
+   "b02:rename:3",
+   "b02:shuffle:1",
+   "b02:paraphrase:1",
+   "b02:neg-q:1",
+   "b02:neg-fact:1",
+   "b02:contradict:1",
+   "b03:rename:1",
+   "b03:rename:2",
+   "b03:rename:3",
+   "b03:shuffle:1",
+   "b03:paraphrase:1",
+   "b03:neg-q:1",
+   "b03:neg-fact:1",
+   "b04:rename:1",
+   "b04:rename:2",
+   "b04:rename:3",
+   "b04:shuffle:1",
+   "b04:shuffle:2",
+   "b04:neg-q:1",
+   "b04:neg-fact:1",
+   "b04:contradict:1",
+   "b05:rename:1",
+   "b05:rename:2",
+   "b05:rename:3",
+   "b05:shuffle:1",
+   "b05:neg-q:1",
+   "b06:rename:1",
+   "b06:rename:2",
+   "b06:rename:3",
+   "b06:shuffle:1",
+   "b06:shuffle:2",
+   "b06:paraphrase:1",
+   "b06:paraphrase:2",
+   "b06:neg-q:1",
+   "b06:neg-fact:1",
+   "b06:contradict:1",
+   "b07:rename:1",
+   "b07:rename:2",
+   "b07:rename:3",
+   "b07:shuffle:1",
+   "b07:shuffle:2",
+   "b07:paraphrase:1",
+   "b07:paraphrase:2",
+   "b07:paraphrase:3",
+   "b07:neg-q:1",
+   "b07:neg-fact:1",
+   "b07:contradict:1",
+   "b08:rename:1",
+   "b08:rename:2",
+   "b08:rename:3",
+   "b08:shuffle:1",
+   "b08:paraphrase:1",
+   "b08:neg-q:1",
+   "b08:neg-fact:1",
+   "b08:contradict:1",
+   "b09:rename:1",
+   "b09:rename:2",
+   "b09:rename:3",
+   "b09:shuffle:1",
+   "b09:paraphrase:1",
+   "b09:neg-q:1",
+   "b09:neg-fact:1",
+   "b09:contradict:1",
+   "b10:rename:1",
+   "b10:rename:2",
+   "b10:rename:3",
+   "b10:neg-q:1",
+   "b10:neg-fact:1",
+   "b11:rename:1",
+   "b11:rename:2",
+   "b11:rename:3",
+   "b11:shuffle:1",
+   "b11:shuffle:2",
+   "b11:paraphrase:1",
+   "b11:neg-q:1",
+   "b11:neg-fact:1",
+   "b11:contradict:1",
+   "b12:rename:1",
+   "b12:rename:2",
+   "b12:rename:3",
+   "b12:shuffle:1",
+   "b12:paraphrase:1",
+   "b12:neg-q:1",
+   "b13:rename:1",
+   "b13:rename:2",
+   "b13:rename:3",
+   "b13:shuffle:1",
+   "b13:shuffle:2",
+   "b13:paraphrase:1",
+   "b13:paraphrase:2",
+   "b13:neg-q:1",
+   "b13:neg-fact:1",
+   "b13:contradict:1",
+   "b14:synonym:1",
+   "b14:neg-q:1",
+   "b15:rename:1",
+   "b15:rename:2",
+   "b15:rename:3",
+   "b15:paraphrase:1",
+   "b15:neg-q:1",
+   "b16:rename:1",
+   "b16:rename:2",
+   "b16:rename:3",
+   "b16:synonym:1",
+   "b16:shuffle:1",
+   "b16:paraphrase:1",
+   "b16:neg-q:1",
+   "b16:neg-fact:1",
+   "b16:contradict:1",
+   "b17:rename:1",
+   "b17:rename:2",
+   "b17:rename:3",
+   "b17:synonym:1",
+   "b17:shuffle:1",
+   "b17:paraphrase:1",
+   "b17:neg-q:1",
+   "b17:neg-fact:1",
+   "b17:contradict:1",
+   "b18:rename:1",
+   "b18:rename:2",
+   "b18:rename:3",
+   "b18:shuffle:1",
+   "b18:paraphrase:1",
+   "b18:neg-q:1",
+   "b18:neg-fact:1",
+   "b18:contradict:1",
+   "b19:rename:1",
+   "b19:rename:2",
+   "b19:rename:3",
+   "b19:synonym:1",
+   "b19:shuffle:1",
+   "b19:paraphrase:1",
+   "b19:neg-q:1",
+   "b19:neg-fact:1",
+   "b19:contradict:1"
+  ]
+ }
+}
