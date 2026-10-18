@@ -1607,8 +1607,9 @@ function Kernel(opts) {
      Adoption is an M2 ledger item (kind rule, governed) justified by the fitness record and the user's approval, with a receipt; withdrawal is
      a governed write that restores the shipped rows and withdraws the ledger item (it never comes back on its own). One manifest is active. */
   const activeManifest = () => { const r = store.load('admitted_manifests').filter(x => x.status === 'adopted').pop(); return r ? r.deltas : null; };
-  const meaCandidates = () => { const ad = store.load('admitted_manifests'); return (MEAD.candidates || []).map(c => Object.assign({}, c, { status: (ad.filter(x => x.id === c.id).pop() || {}).status || 'proposed' })); };
-  function adoptManifest(id, userTap) { const c = (MEAD.candidates || []).find(x => x.id === id); if (!c) return { ok: false, rule: 'MEA-UNKNOWN' };
+  const MEAX = (opts && opts.meaData) || MEAD; /* a test may supply its own proposal set; the app uses the shipped one */
+  const meaCandidates = () => { const ad = store.load('admitted_manifests'); return (MEAX.candidates || []).map(c => Object.assign({}, c, { status: (ad.filter(x => x.id === c.id).pop() || {}).status || 'proposed' })); };
+  function adoptManifest(id, userTap) { const c = (MEAX.candidates || []).find(x => x.id === id); if (!c) return { ok: false, rule: 'MEA-UNKNOWN' }; if (MEA.legality(c.deltas).length) return { ok: false, rule: 'MEA-ILLEGAL', violations: MEA.legality(c.deltas) }; /* legality gate (4.9.65) */
     if (c.fitness.route !== 'approvable') return { ok: false, rule: 'MEA-NOT-APPROVABLE', route: c.fitness.route, drift: c.fitness.drift };
     if (MEA.idOf(c.deltas) !== c.id) return { ok: false, rule: 'MEA-ID-MISMATCH' };
     const d = perm.authorize('hypothesis.write', { userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule, decision: d.decision };
