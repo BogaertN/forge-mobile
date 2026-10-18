@@ -26,8 +26,10 @@
      to Y", "X is an ancestor of Y"). Comparatives ("greater than") get their order rules from the comparative construction itself (reason.js), so
      rows ending in _than declare only their inverse. A past form ("was born in") keeps the row's properties. No weights; properties are yes/no. */
   const RELATIONS = Object.freeze([
-    { pred: 'inside', transitive: true, inverse: 'contain', containment: 'inner' }, { pred: 'contain', transitive: true, inverse: 'inside', containment: 'outer' },
-    { pred: 'in', transitive: true, containment: 'inner', functional: 'subject', one: { who: 'thing', has: 'location' } }, /* 4.9.67 ruling 3 (Nic): location 'in' is functional at the same containment level — 'Rex is in Paris' then 'in London' is a contradiction (apart); Paris-in-France is not (containment makes them not apart) */ { pred: 'within', transitive: true, containment: 'inner' },
+    /* 4.9.71 ruling 2 (Nic): 'inside' and 'within' behave exactly like 'in' — one alias class declared HERE (same_as), so every rule, inverse and
+       functional check reads the one 'in' row; the parser maps an aliased predicate to its class predicate (canonicalPred), no special cases */
+    { pred: 'inside', same_as: 'in' }, { pred: 'within', same_as: 'in' }, { pred: 'contain', transitive: true, inverse: 'in', containment: 'outer' },
+    { pred: 'in', transitive: true, inverse: 'contain', containment: 'inner', functional: 'subject', one: { who: 'thing', has: 'location' } }, /* 4.9.67 ruling 3 (Nic): location 'in' is functional at the same containment level — 'Rex is in Paris' then 'in London' is a contradiction (apart); Paris-in-France is not (containment makes them not apart) */
     { pred: 'part_of', phrase: 'part of', transitive: true, containment: 'inner' }, { pred: 'ancestor_of', phrase: 'ancestor of', transitive: true, inverse: 'descendant_of' },
     { pred: 'descendant_of', phrase: 'descendant of', transitive: true, inverse: 'ancestor_of' },
     { pred: 'parent_of', phrase: 'parent of', inverse: 'child_of' }, { pred: 'child_of', phrase: 'child of', inverse: 'parent_of' },
@@ -53,7 +55,9 @@
   const MEA_MUTABLE = Object.freeze(['transitive', 'symmetric']); let OVER = null;
   const setManifest = deltas => { if (!deltas || !deltas.length) { OVER = null; return null; } const m = new Map(); for (const d of deltas) { const b = REL_BY.get(d.pred); if (!b || !MEA_MUTABLE.includes(d.prop)) continue; const r = m.get(d.pred) || Object.assign({}, b); r[d.prop] = !!d.value; m.set(d.pred, r); } OVER = m.size ? m : null; return OVER ? [...OVER.keys()] : null; };
   const rowOf = b => (OVER && OVER.get(b)) || REL_BY.get(b);
-  const relInfo = p => { const ps = /^past_/.test(String(p)), b = ps ? String(p).slice(5) : String(p); const r = rowOf(b); return r ? { row: r, past: ps, base: b } : null; };
+  /* the class predicate of an aliased row (past_ prefix kept): 'inside' → 'in', 'past_within' → 'past_in'; anything else unchanged */
+  const canonicalPred = p => { const s = String(p), ps = /^past_/.test(s), b = ps ? s.slice(5) : s, r = REL_BY.get(b); return r && r.same_as ? (ps ? 'past_' : '') + r.same_as : s; };
+  const relInfo = p0 => { const p = canonicalPred(p0), ps = /^past_/.test(String(p)), b = ps ? String(p).slice(5) : String(p); const r = rowOf(b); return r ? { row: r, past: ps, base: b } : null; };
   /* 4.9.61 ruling 3: comparative words declared on a row ('X is less / smaller / fewer than Y') name that row's predicate */
   const COMPARATIVES = new Map(RELATIONS.flatMap(r => (r.comparative || []).map(w => [w, r.pred])));
   const PHRASES = RELATIONS.filter(r => r.phrase).flatMap(r => [].concat(r.phrase).map(phrase => ({ phrase, pred: r.pred })));
@@ -86,6 +90,6 @@
       out.push({ prop: 'transitive', pred: b, body: [A(b, '$x', '$y'), A(b, '$y', '$z')], head: A(b, '$x', '$z') }, { prop: 'asymmetric', pred: b, body: [A(b, '$x', '$y')], head: A(b, '$y', '$x', 'neg') }); }
     return out; }
   const propertyDataRules = p => propertyRules(p).concat(orderRules(p)).map(r => Object.assign({ id: 'RELPROP-' + r.prop.toUpperCase() + ':' + r.head.predicate.replace(/^past_/, '') + (r.prop === 'inverse' ? '<' + r.pred : ''), name: 'RELPROP-' + r.prop.toUpperCase(), body: r.body, head: r.head }, r.guard ? { guard: r.guard } : {}));
-  const api = { setManifest, MEA_MUTABLE, activeManifest: () => (OVER ? [...OVER.keys()] : null), transitiveRule, TRANSITIVE, FAMILY, transitive, RELATIONS, PHRASES, COMPARATIVES, relInfo, apartness, propertyRules, propertyDataRules, orderRules, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
+  const api = { setManifest, MEA_MUTABLE, activeManifest: () => (OVER ? [...OVER.keys()] : null), transitiveRule, TRANSITIVE, FAMILY, transitive, RELATIONS, PHRASES, COMPARATIVES, relInfo, canonicalPred, apartness, propertyRules, propertyDataRules, orderRules, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KWorldRules = api;
 })(typeof self !== 'undefined' ? self : this);
