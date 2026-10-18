@@ -1,5 +1,5 @@
 {
- "version": "4.9.69",
+ "version": "4.9.70",
  "features": [
   {
    "id": "A-01",
@@ -496,9 +496,10 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "Echo = inverse-sūtra reparse + structural identity, no similarity (ROUND-TRIP suite)",
+   "note": "Echo = inverse-sūtra reparse + structural identity, no similarity (ROUND-TRIP suite) · 4.9.70 (K6): typed Echo results (echo_types.js): 13 dimension findings, 17 drift kinds, materiality, classification state, PASSED/REJECTED/CONTAINED with custody; every Echo creates an MSM ValidationLink. Structural identity remains the only pass condition.",
    "proof": [
-    "ROUND-TRIP"
+    "ROUND-TRIP",
+    "K6-ECHO"
    ]
   },
   {
@@ -2313,9 +2314,10 @@
    "source": "user direction 2026-10-12 (E3/E5 defaults; RMC §6.2/§6.4; Memory Economy §1.3)",
    "wave": "W6",
    "claim": "Implemented",
-   "note": "v4.8.0",
+   "note": "v4.8.0 · 4.9.70 (K5): per-turn candidate distances now measured against M_relevant (memory), not input-vs-output; unweighted, never combined; novelty = d_struct recorded in μ_t, never a selection key.",
    "proof": [
-    "EDE"
+    "EDE",
+    "K5-DISTANCES"
    ]
   },
   {

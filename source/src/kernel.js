@@ -612,10 +612,33 @@ function Kernel(opts) {
     return { route: id, specificity: (ROUTE_SPEC[id] || ['general'])[0], sel, state, outcome: sel.outcome, kind: mat.kind || null, frame: sel.frame || null, answer: null, derivation: { rules: (sel.rules || []).map(r => r.id).slice(0, 24), proof_ids: mat.kind === 'world_answer' && mat.rmc ? mat.rmc.proof_ids : [], evidence: (sel.evidenceRefs || []).slice(0, 8) },
       echo: null, eps_s: dr.eps_s, band: dr.band, distances: null, completeness: comp, spec: isSpecific(id) && comp >= 1 ? 1 : 0, score: M.score(terms).score, score_terms: terms, resolvesHold: !!sel.resolvesHold, att, decision: canon([sel.outcome].concat(valueNF(mat) || [mat.kind, decisionOf(mat)])) }; }
   function checkCand(c, ctx) { if (c.echo) return c.echo.pass || c.echo.ambiguous; const mat = c.sel.material || {}, { real, ev } = realizeMemo(mat);
-    c.answer = real ? String(real.text).slice(0, 240) : null; c.echo = { pass: !!ev.pass, ambiguous: !!ev.ambiguous, mode: ev.mode || null, reason: ev.pass ? null : String(ev.reason || '').slice(0, 120) };
-    const inT = termSet(ctx.raw), outT = termSet(real && real.text), qIn = /\?\s*$/.test(String(ctx.raw || '')) || /^(?:who|whom|what|which|where|when|why|how|is|are|was|were|do|does|did|can|could|will|would|should|may|might|has|have)\b/i.test(String(ctx.low || '')), qAct = /^(?:question|answer)$/.test(c.sel.act || '');
-    c.distances = { semantic_distance: r4(inT.size ? 1 - [...inT].filter(w => outT.has(w)).length / inT.size : 0), phase_path_distance: r4(Math.abs(c.att.to - c.att.expected) / 8), operator_path_distance: qIn === qAct ? 0 : 1, structural_distance: r4(1 - jacc(inT, outT)), weights: null, weights_status: 'open (RMC §6.4): recorded, never combined, never used to select' };
+    c.answer = real ? String(real.text).slice(0, 240) : null; c.echo = { pass: !!ev.pass, ambiguous: !!ev.ambiguous, mode: ev.mode || null, reason: ev.pass ? null : String(ev.reason || '').slice(0, 120), disposition: ev.disposition || null, drift_kinds: ev.typed ? ev.typed.drift_kinds : [] };
+    const inT = termSet(ctx.raw), outT = termSet(real && real.text);
+    c.distances = memDistances(c, mat, inT, outT); c.novelty = noveltyOf(c.distances, c.eps_s); /* K5 4.9.70: candidate vs M_relevant (RMC §6.4), not input vs output */
     if (!(c.echo.pass || c.echo.ambiguous)) { c.status = 'rejected'; c.why = 'Echo round trip failed' + (c.echo.reason ? ': ' + c.echo.reason : ''); } return c.echo.pass || c.echo.ambiguous; }
+  /* K5 (4.9.70; KERNEL_COMPONENTS_SPEC §11 R-NOV-1..3). The four RMC distances are measured candidate-vs-M_relevant (RMC §6.4 N(c) = dist(c, M_relevant)),
+     recorded UNWEIGHTED and never combined (no weights in the papers), and never used to select (novelty ≠ approval, D.4 rule 5).
+     M_relevant = active stored memory + this conversation's active working facts that share a content term with the turn input or the candidate surface.
+     d_struct = 1 − max Jaccard(candidate terms, memory terms) over M_relevant (authoritative simple N, BP "structure_delta … Jaccard-style");
+     d_sem = 1 − |candidate terms ∩ ⋃ M_relevant terms| / |candidate terms|; d_op = 0 iff the candidate's operator (polarity + verb lemma, else meaning kind)
+     occurs among M_relevant's operators; d_phase = circular index distance (ruling 2: Φ9 adjacent to Φ1) between the candidate's attempted phase and the
+     nearest memory's committed phase, / 4 (the largest circular distance on nine phases). Empty M_relevant ⇒ the distances are null (N undefined), never 0. */
+  const MEMTERMS = new Map();
+  const recTerms = r => { const k = r.id + '|' + r.status; if (MEMTERMS.has(k)) return MEMTERMS.get(k); let surf = ''; try { surf = r.clause ? G.clauseText(r.clause, 'kernel') : String(r.text || ''); } catch (e) { surf = String(r.text || ''); }
+    const v = { terms: termSet(surf), op: r.clause && r.clause.verb ? (r.clause.verb.pol === 'neg' ? '¬' : '') + r.clause.verb.lemma : String(r.kind || 'note'), phi: (r.sfe && r.sfe.Phi) || 9 }; MEMTERMS.set(k, v); return v; };
+  const candOp = mat => { const c = mat.clause || mat.claim || (Array.isArray(mat.items) && mat.items[0] && mat.items[0].verb ? mat.items[0] : null); return c && c.verb ? (c.verb.pol === 'neg' ? '¬' : '') + c.verb.lemma : String(mat.kind || 'none'); };
+  const cdist9 = (a, b) => { const d = Math.abs(a - b) % 9; return Math.min(d, 9 - d); };
+  const NOVELTY_FORMULA = 'RMC §6.4 simple form N = d_struct vs M_relevant (K5/v1); classes at the RMC §8.3 worked values N_min ' + EDE.DEFAULTS.N_min + ', N_max ' + EDE.DEFAULTS.N_max + ', θ ' + EDE.DEFAULTS.theta + ' (worked examples, not laws)';
+  function memDistances(c, mat, inT, outT) { const key = new Set([...inT, ...outT]), mem = store.load('memory').filter(r => r.status === 'active').concat(working.filter(w => w.status === 'active'));
+    const rel = mem.map(r => ({ r, t: recTerms(r) })).filter(x => [...x.t.terms].some(w => key.has(w)));
+    const base = { reference: 'M_relevant', relevant_count: rel.length, weights: null, weights_status: 'open (RMC §6.4): recorded, never combined, never used to select', formula_version: NOVELTY_FORMULA };
+    if (!rel.length || !outT.size) return Object.assign(base, { semantic_distance: null, phase_path_distance: null, operator_path_distance: null, structural_distance: null, anchors: [], nearest: null, reason: !rel.length ? 'no_relevant_memory (N undefined, not 0)' : 'no_candidate_terms' });
+    let best = null; for (const x of rel) { const j = jacc(outT, x.t.terms); if (!best || j > best.j || (j === best.j && x.r.id < best.x.r.id)) best = { j, x }; }
+    const union = new Set(rel.flatMap(x => [...x.t.terms])), ops = new Set(rel.map(x => x.t.op));
+    return Object.assign(base, { semantic_distance: r4(1 - [...outT].filter(w => union.has(w)).length / outT.size), phase_path_distance: r4(cdist9(c.att.to, best.x.t.phi) / 4), operator_path_distance: ops.has(candOp(mat)) ? 0 : 1,
+      structural_distance: r4(1 - best.j), anchors: rel.map(x => x.r.id).sort().slice(0, 8), nearest: best.x.r.id }); }
+  function noveltyOf(d, eps) { const N = d && d.structural_distance, P = EDE.DEFAULTS; if (N == null) return { score: null, class: 'no_relevant_memory' };
+    return { score: N, class: eps > P.theta ? 'drift' : N < P.N_min ? 'stable_repetition' : N <= P.N_max ? 'bounded_evolutionary_novelty' : 'overextended_but_structured' }; }
   /* sandbox: a route proposes against a snapshot of the turn state; its writes and held state are kept with its candidate and restored away */
   function sandbox(fn, ctx) { const snapM = () => Object.assign({}, meta, { alias: Object.assign({}, meta.alias) }); const s0 = { meta: snapM(), pendingRender, stagedHyps, refBind, ctx: Object.assign({}, ctx) };
     const tx = { parent: TX, map: new Map() }; TX = tx; let out = null, err = null; try { out = fn(); } catch (e) { err = e; } finally { TX = tx.parent; }
@@ -623,7 +646,7 @@ function Kernel(opts) {
     meta = s0.meta; pendingRender = s0.pendingRender; stagedHyps = s0.stagedHyps; refBind = s0.refBind; for (const k of Object.keys(ctx)) delete ctx[k]; Object.assign(ctx, s0.ctx); return { out, err, state: s1 }; }
   function commit(st, ctx) { meta = st.meta; pendingRender = st.pendingRender; stagedHyps = st.stagedHyps; for (const k of Object.keys(ctx)) delete ctx[k]; Object.assign(ctx, st.ctx);
     for (const [c, v] of st.tx.map) { if (TX) TX.map.set(c, v); else baseStore0.save(c, JSON.parse(v)); } }
-  const candSummary = c => ({ route: c.route, specificity: c.specificity, outcome: c.outcome, kind: c.kind, frame: c.frame, answer: c.answer, derivation: c.derivation, echo: c.echo || { checked: false }, eps_s: c.eps_s, band: c.band, distances: c.distances, completeness: c.completeness, score: c.score, score_terms: c.score_terms, resolves_hold: c.resolvesHold || undefined, status: c.status, why: c.why });
+  const candSummary = c => ({ route: c.route, specificity: c.specificity, outcome: c.outcome, kind: c.kind, frame: c.frame, answer: c.answer, derivation: c.derivation, echo: c.echo || { checked: false }, eps_s: c.eps_s, band: c.band, distances: c.distances, novelty: c.novelty || null, completeness: c.completeness, score: c.score, score_terms: c.score_terms, resolves_hold: c.resolvesHold || undefined, status: c.status, why: c.why });
   /* RMC selection (RMC §5.7; RSOC ⧧ hold ancestry; Pāṇinian apavāda/utsarga). Order of the gates and keys is fixed; every key is a recorded term:
      E  Echo: a candidate whose surface does not survive the round trip is rejected (an ambiguous Echo is kept: the turn re-routes it to a clarification)
      H  held selection: a candidate that completes the clarification Forge itself held last turn is the continuation; the others read the reply cold
@@ -1625,13 +1648,14 @@ function Kernel(opts) {
   }
   /* K3 + K4 (4.9.69): every finished turn gets (1) its MSM-v1 manifest, built through the 31-rule lifecycle law and validated, and (2) its RMC
      projection manifest μ_t (App D) — built from the trace before any rendering; RD.render is gated by MSM.validateProjection (D.7). */
+  const selNovelty = tr => { const w = ((tr.selection && tr.selection.candidates) || []).find(c => c.status === 'selected'); return w && w.novelty ? w.novelty : { score: null, class: w ? 'no_relevant_memory' : 'not_measured (single-route turn)' }; };
   function turnManifests(trace, msm, text, rec) { const oc = trace.outcome || {}, kind = String((msm.meaning && msm.meaning.kind) || ''), restr = (msm.limits && msm.limits.restrictions) || [];
     const sealed = /^sealed/.test(String(msm.status || '')), quarantined = !!(trace.containment && trace.containment.route === 'drift_archive_only');
     const sensitive = !!((msm.meaning && msm.meaning.sensitive) || /sensitive|vault|secret/.test(kind) || curSecrets.length || rec.some(r => r.sensitive));
     const sc = (trace.selection && trace.selection.candidates) || trace.candidates || [];
     const b = MSMV1.buildTurn({ psi: msm.msm_id, turn: trace.turn, act: msm.purpose && msm.purpose.speech_act, frame: msm.purpose && msm.purpose.frame, outcome_category: oc.category, outcome_class: oc.class, meaning: msm.meaning,
       candidates: sc.map(c => ({ route: c.route, kind: c.kind, frame: c.frame, outcome: c.outcome, selected: c.status === 'selected' })), evidence: (msm.evidence && msm.evidence.refs) || [], blocked: !!trace.blocked, block_reason: trace.block_reason,
-      sealed, quarantined, output: text, echo: trace.echo ? { pass: !!trace.echo.pass, ambiguous: !!trace.echo.ambiguous } : null, write: (trace.memory || []).length > 0, sensitive, limitations: restr, act: msm.purpose && msm.purpose.speech_act });
+      sealed, quarantined, output: text, echo: trace.echo ? { pass: !!trace.echo.pass, ambiguous: !!trace.echo.ambiguous, disposition: trace.echo.disposition || null } : null, write: (trace.memory || []).length > 0, sensitive, limitations: restr, act: msm.purpose && msm.purpose.speech_act });
     const v = MSMV1.validate(b.manifest); if (!v.valid) throw new Error('MSM-V1-INVALID ' + JSON.stringify(v.issues).slice(0, 160));
     const ref = { manifest_id: b.manifest.manifest_id, sha256: MSMV1.sha(b.manifest) };
     trace.msm_v1 = Object.assign({}, ref, { schema_version: b.manifest.schema_version, records: MSMV1.COLLECTIONS.reduce((a, c) => a + b.manifest[c].length, 1), transitions: b.manifest.semantic_transition_traces.length,
@@ -1642,7 +1666,7 @@ function Kernel(opts) {
       outcome_category: oc.category, meaning: msm.meaning, phases: (trace.phases || []).map(p => p.sym), ops: (trace.rsoc && trace.rsoc.ops) || [], rules: (trace.rules || []).map(r => r.id),
       evidence: (trace.rpm || []).map(r => ({ id: r.id, mu: r.mu, eps: r.eps })), eps_s: trace.drift && trace.drift.eps_s, band: trace.drift && trace.drift.band, sealed,
       forbidden: /Forbidden phase transition/.test(String(trace.block_reason || '')), quarantined, correction_held: restr.some(x => /drift correction/.test(x)), blocked: !!trace.blocked,
-      sensitive, limitations: restr, forms: RD.FORMS, msm_ref: ref });
+      sensitive, limitations: restr, forms: RD.FORMS, msm_ref: ref, novelty: selNovelty(trace) });
     return b.manifest; }
   function commitHeld(id, userTap) {
     const hw = store.load('held_writes'); const h = hw.find(x => x.id === id && x.status === 'held'); if (!h) return { ok: false, rule: 'HELD-UNKNOWN' };
