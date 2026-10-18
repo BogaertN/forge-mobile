@@ -253,3 +253,37 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - REPLAY: `replayJustification(id)` re-derives every justification id from its content. A world justification is re-derived by the world reasoner from the recorded premise sentences alone, and the same conclusion must come back with the same status. Stored-fact justifications re-check that each premise (active or in cold storage) still reads as recorded.
 - TESTS: new verify/tms_suite.js has 9 release tests: TMS-WITHDRAW ×3, TMS-MULTI, TMS-RECEIPT, TMS-WHY ×2, TMS-REPLAY, TMS-ISOLATION. No existing test was changed apart from the budget numbers. The command catalog was regenerated for FR.WHY.JUSTIFY.
 - Guard-rail scores (reported, not tuned; the held-out file was not read): held-out 44/54 (was 43/54; the case that flipped is fol-05, the 'why' follow-up), mutation 145/173 (unchanged, same failing set).
+
+## v4.9.60: M3 part 1 — durable world state + relation properties as data; M2 rulings recorded (2026-10-18)
+- M2 RULINGS (Nic, accepted): a hypothesis rests on all its parent facts jointly; truth maintenance withdraws a learned rule automatically, with a receipt, and re-approval is required; "actually X is not Y" asks before replacing; the 1.390 MB / 425 kB soft budget raise is accepted. KNOWN ITEM (deferred): the ledger has no size cap or compaction yet.
+- SPLIT: M3 ships in two green steps. 4.9.60 = durable world state + relation properties. 4.9.61 = evidence engine (lookup excerpts as evidence objects with source rank and support level).
+- RELATION PROPERTIES ARE DATA (world_rules.js `RELATIONS`, frozen). Each row is { pred, phrase?, transitive?, symmetric?, inverse?, functional: 'subject' | 'object' }, with no numbers.
+  - Transitive: inside, contain, in, within, part of, ancestor of, descendant of, before/after, above/below.
+  - Symmetric: married to, next to, adjacent to, sibling of.
+  - Inverse pairs: contains/inside, parent of/child of, ancestor of/descendant of, greater than/less than, before/after, above/below.
+  - Functional: born in, capital of (one object per subject); mother of, father of (one subject per object).
+  - Greater-than/less-than keep their existing comparative order rules, and the table adds only the inverse pair.
+  - The grammar reads the declared phrases ("X is (a/an/the) <phrase> Y", "Is X <phrase> Y?") from the table. reason.js hard-codes no relation phrase, and a release test checks this.
+- TURN WORLD. A sentence that uses a declared relation brings that relation's property rules into the world as explicit rules (form `relation_property`), sourced to that sentence, the same way comparatives bring their order rules.
+  - A functional rule carries a guard `distinct(y, z)` under the unique-name assumption (different names are different things). Two different values therefore give conflicting proofs ("The proofs conflict"), and one value alone gives no conflict.
+  - The rule is added once per committed / supposed scope. A "Suppose" duplicate of a stated sentence therefore never takes the rule out of the committed world.
+  - "Suppose …" branches answer in the branch and never write durable state.
+- DURABLE WORLD STATE (store `world_state`, schema FORGE-WORLD-STATE/v1, case-scoped). It is rebuilt from the user's active stored facts whenever memory changes, and only from them: the turn world, "Suppose", lookups and GKS never write here.
+  - Entities carry the first provenance and all premise ids. Stated relations (binary atoms) and attributes (unary atoms) carry provenance {premise: mem id, turn, source: 'stored fact', text}.
+  - Relations derived through the declared properties (closure capped at 400) are M2 ledger items (`rel:` + sha of the atom). They are justified by the memory premises plus the RELPROP-<PROPERTY>:<pred> rule ids, with a replay recipe that re-derives the atom from the recorded premises (tampering is detected).
+  - When a premise goes out (forget, supersede, delete), truth maintenance withdraws every derived relation resting on it, with a receipt. `worldState()` lists withdrawn relations with their receipt rather than dropping them silently.
+- STORED-FACT INFERENCE: a new stage INF-RELPROP runs after the existing inference stages (not as a new route, which would create route ties). It answers a stored-fact question about a declared relation with a checked RuleProof over the durable atoms, using property rules only.
+  - The reply cites the stored facts and the number of rules ("Yes, I infer that Bob is married to Ann. You told me that Ann is married to Bob. I used 1 rule."). "why?" reads the chain back from the ledger.
+  - A side fix: "I used N admitted rules" is now said only for real admitted rules (GELC-ADMITTED-RULE).
+- FUNCTIONAL CONFLICT IN MEMORY: "remember that Ann was born in Rome" after "… born in Paris" raises MEM-CONFLICT-FUNCTIONAL-RELATION → confirm_replace. Nothing is written until "yes".
+- FIXES FOUND BY THE VERIFIER:
+  - world_rules.js now loads before reason.js in index.html (BROWSER-LOAD-ORDER).
+  - worldIntegrity refuses a null rule instead of throwing.
+  - Echo's world re-verification skips declared phrase predicates.
+- NOT DONE / DECISIONS FOR NIC:
+  - Unique-name assumption for functional relations.
+  - No closed-world refutation: "Was Ann born in Rome?" with only "born in Paris" stays undetermined.
+  - "less than" is not parsed as a comparative.
+  - A coordinated "Suppose A and B." still ties between two readings (this behaviour predates 4.9.60).
+- BUDGET (soft, correctness first, per ruling (c)): 4.9.60 measured 1,391,501 raw / 419,228 gzip on the box, about 1.5 kB over 1.390 MB raw. The budget is raised to 1.420 MB raw / 430 kB gzip, with headroom for the 4.9.61 evidence engine and the CI runner's zlib (about 1.7 kB worse). There was no trimming pass.
+- TESTS: the new verify/world_state_suite.js has 9 release tests: WS-PERSIST, WS-RETRACT, WS-SUPPOSE, WS-TRANSITIVE, WS-SYMMETRIC, WS-INVERSE, WS-FUNCTIONAL, WS-WHY and WS-DATA. No existing test was changed apart from the budget numbers.
