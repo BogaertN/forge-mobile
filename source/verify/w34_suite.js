@@ -1,4 +1,4 @@
-// W3/W4 + EchoForge tool bench + tracker-free crawler + vault capture + consent ledger (async; run as a child process, prints JSON rows).
+// W3/W4 + Tool Bench + tracker-free crawler + vault capture + consent ledger (async; run as a child process, prints JSON rows).
 const ROOT = require('path').join(__dirname, '..');
 const KMOD = require(ROOT + '/src/kernel.js'); const FK = require(ROOT + '/src/forge.js'); const CR = require(ROOT + '/src/crawler.js'); const TB = require(ROOT + '/src/toolbench.js');
 const KC = require(ROOT + '/src/consent.js'); const GV = require(ROOT + '/src/governance.js'); const fs = require('fs');
@@ -26,7 +26,7 @@ const FF = o => FK.ForgeKernel(Object.assign({ clock, lexicon: LEX, store: mkSto
 async function unlocked(o) { const f = FF(o); await f.vault.setup('correct horse'); await f.vault.unlock('correct horse'); return f; }
 const kind = r => r.trace.msm && r.trace.msm.meaning && r.trace.msm.meaning.kind;
 
-/* ---------------- TOOLBENCH (EchoForge, no LLM) ---------------- */
+/* ---------------- TOOLBENCH (Tool Bench, no LLM) ---------------- */
 T('TOOLBENCH', 'every tool has a manifest (inputs, outputs, authority=evidence_only, effect class, frames) and uses_model=false', () => { for (const m of TB.MANIFESTS) { expect(m.inputs.length && m.outputs.length && m.authority === 'evidence_only' && m.effect && m.frames.length && m.uses_model === false, m.id); } expect(TB.MANIFESTS.length >= 10); });
 T('TOOLBENCH', 'the bench declares math, memory query, research, page capture, units, inference, GitHub read and sims', () => { const ids = TB.MANIFESTS.map(m => m.id); for (const x of ['math.evaluate', 'memory.query', 'research.web', 'capture.page', 'units.convert', 'infer.relation', 'github.read', 'sim.preview']) expect(ids.includes(x), x); });
 T('TOOLBENCH', 'a tool invoked with a frame not in its manifest is denied (PERM-TOOL-NOT-FRAME-SELECTED)', () => { const f = FF(); const a = f.bench.authorize('research.web', 'FR.MATH', { explicit: true, vaultUnlocked: true }); expect(a.decision.decision === 'deny' && a.decision.rule === 'PERM-TOOL-NOT-FRAME-SELECTED'); });
