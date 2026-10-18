@@ -154,6 +154,7 @@ function atomText(a) {
   const neg = a.polarity === 'neg';
   if (a.args.length === 1 && /_v$/.test(a.predicate)) { const p = a.predicate.slice(0, -2); return displaySymbol(a.args[0]) + (neg ? ' does not ' + displaySymbol(p) : ' ' + displaySymbol(third(p))); }
   if (/_than$/.test(a.predicate) && a.args.length === 2) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + displaySymbol(a.predicate.slice(0, -5)) + ' than ' + displaySymbol(a.args[1]);
+  { const ph = a.args.length === 2 && WRL().PHRASES.find(x => x.pred === a.predicate); if (ph) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + ph.phrase + ' ' + displaySymbol(a.args[1]); }
   if (a.args.length === 1 || isPrep(a.predicate)) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + displaySymbol(a.predicate) + (a.args[1] ? ' ' + displaySymbol(a.args[1]) : '');
   const p = a.predicate, v = neg ? p : third(p); /* third person only when it re-parses to the same lemma */
   return displaySymbol(a.args[0]) + (neg ? ' does not ' : ' ') + displaySymbol(v) + ' ' + displaySymbol(a.args[1]);
@@ -181,8 +182,14 @@ const PAST = 'past_', edLemma = w => /[^aeiou]ied$/.test(w) ? w.slice(0, -3) + '
 const isEd = w => /^[a-z]{3,}ed$/i.test(w) && !/eed$/i.test(w), pastForm = b => IRR_FWD[b] || (/^[^aeiou]*[aeiou][b-df-hj-np-tv-z]$/.test(b) && b.length <= 4 && !/[wxy]$/.test(b) ? b + b.slice(-1) + 'ed' : /e$/.test(b) ? b + 'd' : /[^aeiou]y$/.test(b) ? b.slice(0, -1) + 'ied' : b + 'ed');
 const pastOf = a => a && atom(PAST + a.predicate, a.args, a.polarity);
 function parseCopula(text, allowVariable) { const t = clean(text), w = t.match(/^(.+?)\s+(?:was|were)\s+(.+)$/i); if (w && !/\s(?:is|are)\s/i.test(w[1])) return pastOf(parseCopula0(w[1] + ' is ' + w[2], allowVariable)); return parseCopula0(t, allowVariable); }
+/* M3 (4.9.60): a declared copular relation phrase ("X is married to Y", "X is an ancestor of Y", "X was born in Y") is one binary atom named by
+   the phrase (world_rules.js RELATIONS); only declared phrases are read, so the grammar stays closed */
+const WRL = () => (isNode ? require('./world_rules.js') : root.KWorldRules);
+let relRxC = null; const relRx = () => { if (!relRxC) { const alt = WRL().PHRASES.map(x => x.phrase.split(' ').join('\\s+')).join('|'); relRxC = { cop: rx('^' + NP + '\\s+(?:is|are)\\s+(not\\s+)?(?:(?:a|an|the)\\s+)?(' + alt + ')\\s+' + NP + '$'), q: rx('^is\\s+' + NP + '\\s+(not\\s+)?(?:(?:a|an|the)\\s+)?(' + alt + ')\\s+' + NP + '$') }; } return relRxC; };
+const relPred = ph => { const k = clean(ph).toLowerCase().replace(/\s+/g, ' '), x = WRL().PHRASES.find(y => y.phrase === k); return x ? x.pred : null; };
 function parseCopula0(text, allowVariable) {
   { const c = clean(text).match(COP_CMP); if (c) return cmpAtom(c, allowVariable); }
+  { const c = clean(text).match(relRx().cop); if (c) { const s = term(c[1], allowVariable), o = term(c[4], allowVariable), p = relPred(c[3]); return s && o && p ? atom(p, [s, o], c[2] ? 'neg' : 'pos') : null; } }
   const m = clean(text).match(COP);
   if (!m) { const p = clean(text).match(COP_PP); if (!p || !isPrep(p[3])) return null; const s = term(p[1], allowVariable), o = term(p[4], allowVariable); return s && o ? atom(p[3].toLowerCase(), [s, o], p[2] ? 'neg' : 'pos') : null; }
   const subject = term(m[1], allowVariable), predicate = symbol(m[3], 'predicate');
@@ -315,6 +322,7 @@ function parseQuery0(text, verbs) {
   let t = clean(text).replace(/[?]+$/, '').replace(/^query\s*:\s*/i, '').trim().replace(/^(is|does|do)\s+any\s+/i, '$1 a ');
   const gen = /^(?:is|does|do)\s+an?\s+/i.test(t), sub = x => { const v = term(x, false); return v && gen ? 'any_' + v : v; };
   let m = t.match(QUERY_CMP); if (m) { const a = cmpAtom(m, false); return a && gen ? null : a; }
+  if ((m = t.match(relRx().q))) { const s0 = sub(m[1]), o = term(m[4], false), p = relPred(m[3]); return s0 && o && p && !gen ? atom(p, [s0, o], m[2] ? 'neg' : 'pos') : null; }
   if ((m = t.match(rx('^are\\s+(' + SP + ')\\s+(not\\s+)?(?:(?:a|an)\\s+)?(' + SP + ')$'))) && plw(m[1])) return withAlts(parseQuery0('is a ' + pluralForms(m[1])[0] + ' ' + (m[2] || '') + 'a ' + pluralForms(m[3])[0], verbs), [m[1], m[3]]);
   if ((m = t.match(rx('^do\\s+(' + SP + ')\\s+(.+)$'))) && plw(m[1])) return withAlts(parseQuery0('does a ' + pluralForms(m[1])[0] + ' ' + m[2], verbs), [m[1]]);
   m = t.match(QUERY_COP);
@@ -389,7 +397,7 @@ function resolvePron(texts, out) { let last = null; const names = []; return tex
 /* P5 (derived): "must" entails "can" with the same sign (deontic D: O p ⇒ P p, O ¬p ⇒ ¬P p); never the reverse; "may"/"can" entail nothing */
 function mustRules(a, cmp, out) { const m = a && a.predicate.match(/^modmust_(.+)$/); if (!m || cmp.has(a.predicate)) return; cmp.add(a.predicate); const v = a.args.map((_, i) => ['$x', '$y'][i]);
   for (const pol of ['pos', 'neg']) out.push({ r: { body: [atom(a.predicate, v, pol)], head: atom('modcan_' + m[1], v, pol), form: 'modal_entailment' } }); }
-function sentenceItems(text, vs, cmp) { const out = [];
+function sentenceItems(text, vs, cmp, sup) { const out = [];
   { const g = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + '\\s+(?:is|are))\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$')); if (g && !isPrep(g[2])) { const r1 = parseRule(g[1] + ' ' + g[2]), r2 = parseRule(g[1] + ' a ' + g[3]); if (r1 && r2) return [{ r: r1 }, { r: r2 }]; } }
   const ts = coordSplit(text);
   for (const t of ts) { const r = parseRule(t); if (r) { out.push({ r }); mustRules(r.head, cmp, out); continue; }
@@ -398,8 +406,13 @@ function sentenceItems(text, vs, cmp) { const out = [];
     const a = parseAtomic(t, false) || parseAtomic(t, false, vs()); if (!a) return null; out.push({ a: ts.pl ? withAlts(a, [ts.pl, ts.pl]) : a });
     if (/__/.test(a.predicate)) { const u = /__tadv$/.test(a.predicate) ? tadvSplit(t)[0] : clean(t).replace(rx('\\s+(?:' + ADJ_P + ')\\s+' + NP + '$'), ''), b = parseAtomic(u, false) || parseAtomic(u, false, vs()); if (b) out.push({ a: b }); }
     for (const m of [a].concat([])) mustRules(m, cmp, out);
-    if (/_than$/.test(a.predicate) && !cmp.has(a.predicate)) { cmp.add(a.predicate); for (const o of orderRules(a.predicate)) out.push({ r: o }); } }
+    if (/_than$/.test(a.predicate) && !cmp.has(a.predicate)) { cmp.add(a.predicate); for (const o of orderRules(a.predicate)) out.push({ r: o }); }
+    relRules(a, cmp, out, sup); }
   return out; }
+/* M3: the declared properties of a relation enter the world as explicit rules sourced to the sentence that used the relation (once per
+   committed / supposed scope, so a supposed duplicate never takes the rule out of the committed world; like the
+   comparative order rules): the lexical meaning of the relation word, never a topic fact */
+function relRules(a, cmp, out, sup) { if (!a || a.args.length !== 2) return; for (const r of WRL().propertyRules(a.predicate)) { const k = 'rp:' + (sup ? 'sup:' : '') + canon({ body: r.body, head: r.head }); if (cmp.has(k)) continue; cmp.add(k); out.push({ r: Object.assign({ body: r.body, head: r.head, form: 'relation_property' }, r.guard ? { guard: r.guard } : {}) }); } }
 function interpret(raw, opts) {
   raw = String(raw || '').normalize('NFC');
   const observedLength = opts && Number.isInteger(opts.inputLength) ? opts.inputLength : raw.length;
@@ -418,7 +431,7 @@ function interpret(raw, opts) {
 
   const pluralAlts = [], facts = [], rules = [], assertions = segments.filter(x => x.kind === 'assertion' && x.span.start < qseg.span.start);
   const cmp = new Set(), vsA = () => verbsOf(assertions.map(x => x.text));
-  for (const seg of assertions) { const items = sentenceItems(stripLead(seg.text), vsA, cmp); if (!items) return interpretationFailure(raw, seg, 'UNSUPPORTED_ASSERTION_STRUCTURE', 'outside v1 grammar; words remain symbols');
+  for (const seg of assertions) { const items = sentenceItems(stripLead(seg.text), vsA, cmp, supposed(seg.text)); if (!items) return interpretationFailure(raw, seg, 'UNSUPPORTED_ASSERTION_STRUCTURE', 'outside v1 grammar; words remain symbols');
     for (const it of items) { if (it.r) { const r = it.r; pluralAlts.push([r, r.plural_alternatives || []]); delete r.plural_alternatives;
         const problem = validateRule(r); if (problem) return interpretationFailure(raw, seg, problem, 'unsafe rule');
         rules.push(Object.assign(r, { source_ref: seg.id, source_span: copy(seg.span), sup: supposed(seg.text) })); }
@@ -435,7 +448,7 @@ function interpret(raw, opts) {
   }
   const ruleRows = [];
   for (const r of RA.kept) {
-    const body = { body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span };
+    const body = Object.assign({ body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span }, r.guard ? { guard: r.guard } : {});
     ruleRows.push(Object.assign({ id: 'rule:' + (ruleRows.length + 1) + ':' + sha256(canon(body)).slice(0, 12) }, body));
   }
   const sources = segments.map(s => ({ id: s.id, kind: s.kind, span: copy(s.span), source: s.source, normalized: clean(s.source) }));
@@ -487,7 +500,7 @@ function candidateIntegrity(candidate) {
   const expectedFacts = [], expectedRules = [], factSeen = new Set(), ruleSeen = new Set(), parsed = [], pluralAlts = [];
   const RT = resolvePron(candidate.sources.map(x => x.source.replace(/[.!?]+$/, '').trim())), vs = () => verbsOf(RT.slice(0, -1));
   const cmp = new Set();
-  for (const [i, s] of candidate.sources.slice(0, -1).entries()) { const items = sentenceItems(stripLead(RT[i]), vs, cmp); if (!items) return false;
+  for (const [i, s] of candidate.sources.slice(0, -1).entries()) { const items = sentenceItems(stripLead(RT[i]), vs, cmp, supposed(s.source)); if (!items) return false;
     for (const it of items) if (it.r) { pluralAlts.push([it.r, it.r.plural_alternatives || []]); delete it.r.plural_alternatives; parsed.push([s, it.r, null]); } else parsed.push([s, null, it.a]); }
   const qText = RT[RT.length - 1], qAtom = parseQuery(qText) || parseQuery(qText, vs()); if (!qAtom) return false;
   { const all = parsed.flatMap(x => x[2] ? [x[2]] : x[1].body.concat([x[1].head])).concat([qAtom]); for (const x of parsed) if (x[2]) fixQ(x[2], all.filter(y => y !== x[2])); fixQ(qAtom, all); }
@@ -497,7 +510,7 @@ function candidateIntegrity(candidate) {
     if (r) {
       if (validateRule(r)) return false;
       const k = canon({ body: r.body, head: r.head }); if (ruleSeen.has(k)) continue; ruleSeen.add(k);
-      const b = { body: r.body, head: r.head, form: r.form, source_ref: s.id, source_span: copy(s.span) };
+      const b = Object.assign({ body: r.body, head: r.head, form: r.form, source_ref: s.id, source_span: copy(s.span) }, r.guard ? { guard: r.guard } : {});
       expectedRules.push(Object.assign({ id: 'rule:' + (expectedRules.length + 1) + ':' + sha256(canon(b)).slice(0, 12) }, b));
     } else {
       const k = atomKey(a); if (factSeen.has(k)) continue; factSeen.add(k);
@@ -559,7 +572,7 @@ function makeWorld(candidate, facts, rules, parentRoot, branchId, seq, overrides
   const limits = mergedLimits(overrides);
   const query = Object.assign(copy(candidate.query), { world_root: null, requested_operation: 'derive_signed_atom' });
   const fid = (f, i) => 'fact:' + (i + 1) + ':' + sha256(canon({ atom: f.atom, source_ref: f.source_ref, source_span: f.source_span })).slice(0, 12);
-  const rid = (r, i) => 'rule:' + (i + 1) + ':' + sha256(canon({ body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span })).slice(0, 12);
+  const rid = (r, i) => 'rule:' + (i + 1) + ':' + sha256(canon(Object.assign({ body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span }, r.guard ? { guard: r.guard } : {}))).slice(0, 12);
   const atomsAll = facts.map(f => f.atom).concat(rules.flatMap(r => r.body.concat([r.head])), [candidate.query.atom]);
   const body = {
     schema: WORLD_SCHEMA,
@@ -599,9 +612,9 @@ function worldIntegrity(world) {
     if (f.id !== 'fact:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || factAtoms.has(k) || f.atom.args.some(x => /^\$/.test(x)) || !sourceMap.has(f.source_ref) || (f.source_ref === world.query.source_ref && !(world.creation_sequence === 1 && /^any_/.test(world.query.atom.args[0]) && same(f.atom, atom(world.query.atom.args[0].slice(4), [world.query.atom.args[0]])))) || !same(f.source_span, sourceMap.get(f.source_ref).span) || f.time !== null || !same(f.evidence_refs, [f.source_ref]) || !same(f.provenance_refs, [world.candidate_id])) return false; factAtoms.add(k);
   }
   for (let i = 0; i < world.rules.length; i++) {
-    const r = world.rules[i]; if (!exactKeys(r, ['id', 'body', 'head', 'form', 'source_ref', 'source_span', 'variables', 'rule_class', 'evidence_refs', 'provenance_refs']) || validateRule(r)) return false;
-    const vars = [...new Set(r.body.concat([r.head]).flatMap(variables))].sort(), b = { body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span }, k = canon({ body: r.body, head: r.head });
-    if (r.id !== 'rule:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || ruleAtoms.has(k) || !/^(?:conditional|universal_negative|universal_conjunctive|universal_unary|universal_relation|universal_intransitive|comparative_order|modal_entailment)$/.test(r.form) || r.body.length > world.limits.MAX_RULE_BODY || !same(r.variables, vars) || !r.variables.every(x => nameOk(x, true)) || r.rule_class !== r.form || !sourceMap.has(r.source_ref) || r.source_ref === world.query.source_ref || !same(r.source_span, sourceMap.get(r.source_ref).span) || !same(r.evidence_refs, [r.source_ref]) || !same(r.provenance_refs, [world.candidate_id])) return false; ruleAtoms.add(k);
+    const r = world.rules[i], RK = ['id', 'body', 'head', 'form', 'source_ref', 'source_span', 'variables', 'rule_class', 'evidence_refs', 'provenance_refs']; if (!(exactKeys(r, RK) || (r && r.form === 'relation_property' && exactKeys(r, RK.concat(['guard'])) && guardShape(r))) || validateRule(r)) return false;
+    const vars = [...new Set(r.body.concat([r.head]).flatMap(variables))].sort(), b = Object.assign({ body: r.body, head: r.head, form: r.form, source_ref: r.source_ref, source_span: r.source_span }, r.guard ? { guard: r.guard } : {}), k = canon({ body: r.body, head: r.head });
+    if (r.id !== 'rule:' + (i + 1) + ':' + sha256(canon(b)).slice(0, 12) || ruleAtoms.has(k) || !/^(?:conditional|universal_negative|universal_conjunctive|universal_unary|universal_relation|universal_intransitive|comparative_order|modal_entailment|relation_property)$/.test(r.form) || r.body.length > world.limits.MAX_RULE_BODY || !same(r.variables, vars) || !r.variables.every(x => nameOk(x, true)) || r.rule_class !== r.form || !sourceMap.has(r.source_ref) || r.source_ref === world.query.source_ref || !same(r.source_span, sourceMap.get(r.source_ref).span) || !same(r.evidence_refs, [r.source_ref]) || !same(r.provenance_refs, [world.candidate_id])) return false; ruleAtoms.add(k);
   }
   const worldAtoms = world.facts.map(f => f.atom).concat(world.rules.flatMap(r => r.body.concat([r.head])), [world.query.atom]);
   const worldEntities = [...new Set(worldAtoms.flatMap(a => a.args).filter(x => !/^\$/.test(x)))].sort();
@@ -625,6 +638,7 @@ function instantiate(pattern, subst) {
   return args.some(x => x === undefined) ? null : atom(pattern.predicate, args, pattern.polarity);
 }
 
+const guardShape = r => Array.isArray(r.guard) && r.guard.length > 0 && r.guard.every(g => Array.isArray(g) && g.length === 3 && g[0] === 'distinct' && r.variables.includes(g[1]) && r.variables.includes(g[2]));
 const guardOk = (rule, s) => (rule.guard || []).every(g => g[0] === 'distinct' && s[g[1]] !== undefined && s[g[1]] !== s[g[2]]);
 function substitutions(rule, entries, budget, index) {
   let rows = [{ substitution: {}, premises: [] }];

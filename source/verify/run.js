@@ -213,6 +213,7 @@ for (const c of SP.LEGACY_LLM) C('LEGACY-LLM', `legacy LLM command ${c}: determi
   require('./gelc_suite.js')({ C, expect, FKN, ROOT, canon, KMOD });
   require('./rmc_select_suite.js')({ C, expect, K, ROOT, KN: require(ROOT + '/src/knowledge.js') }); /* M1: RMC chooses among candidates; no route short-circuits */
   require('./tms_suite.js')({ C, expect, K, ROOT }); /* M2: justifications + truth maintenance */
+  require('./world_state_suite.js')({ C, expect, K, ROOT }); /* M3: durable world state + relation properties as data */
   { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 's34_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 120000 })); } catch (e) { rows = [{ name: 's34 suite ran', ok: false, why: e.message }]; } for (const r of rows) C('BACKEND-S3S4', r.name, () => expect(r.ok, r.why)); }
   C('CLEANUP-494', 'static: no exact-phrase route table or pre-kernel bridge path exists', () => { const src = n => fs.readFileSync(path.join(ROOT, 'src', n), 'utf8'); const sp = src('forge_spine.js'), fg = src('forge.js'), kn = src('kernel.js'), ui = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
     expect(!/BRIDGE1|bridge1Route/.test(sp + fg + src('app.js')) && !/bridgeTurn/.test(fg) && !SP.BRIDGE1 && !SP.bridge1Route, 'bridge route table present'); expect(!/activeFacts\(\)\.length === 0/.test(kn), 'memory-count routing present'); expect(!/LX-EXTERNAL-WORDNET/.test(kn), 'WordNet answer path present');
