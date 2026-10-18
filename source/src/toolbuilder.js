@@ -1,4 +1,4 @@
-/* toolbuilder.js — Tool Builder (user request 2026-10-11): users create, change and add EchoForge tools without breaking the app.
+/* toolbuilder.js — Tool Builder (user request 2026-10-11): users create, change and add Tool Bench tools without breaking the app.
  * A tool = a declarative manifest + ForgeScript code (fscript.js safe subset) + its own tests. In the browser each run happens in a fresh
  * sandboxed Worker (tool_worker.js) that is terminated on timeout. Rules: tests are required and must all pass on the exact version before
  * it can be enabled (tap); every save is a new version and one tap rolls back; 3 consecutive runtime failures auto-disable the tool; packages
