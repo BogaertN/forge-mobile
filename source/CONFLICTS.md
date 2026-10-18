@@ -323,3 +323,33 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - LANGUAGE: the realizer gained the verbs agree / disagree, the adjective ranked, and a hedged particle sentence ("Probably yes.", `hedge` on the sentence plan). The inward parse reads the hedge back, so Echo binds it: "Yes." does not verify against a hedged meaning. This also makes the existing abstracts-only weak verdict ("probably yes") lawful. It had the same latent Echo failure.
 - REPLY CHANGE: every research answer now ends with its support sentence, placed before "I checked N sources", so existing prefix tests are unchanged. No existing test was edited.
 - TESTS: new `verify/evidence_suite.js` (9: object shape/hash, rank order, the four levels, evidence over majority, independence, determinism, reply + Echo for every level including a negative hedge check, firewall). `verify/w34_suite.js` gains 3 EVIDENCE integration tests on the mocked web: sealed objects revealed from the vault; memory / fact / shared stores unchanged and no evidence text outside the vault; the kernel never imports evidence.js or sb_sync.js.
+
+## v4.9.63: rulings on the 4.9.62 decisions (Nic, 2026-10-18)
+- RULING 1, the support sentence describes the support for the EXTRACTED answer (the answer-type-fitted value or verdict):
+  - `archives.extract(e, plan)` gives each excerpt's claim:
+    - a yes/no question: the verdict;
+    - otherwise only a FITTED excerpt answers: a typed value, the event year (dates agree at the year), a number with its unit, or a personal name;
+    - a fitted description / method / cause is a "passage". Passages are never compared, so they neither corroborate nor conflict. The new level `answered` reads "N independent ranked sources answered it." / "1 source answered it.";
+    - an unfitted excerpt is related text and answers nothing.
+  - A single source of a value reads "1 source gave it." ("1 source decided it." stays for a verdict).
+  - When no excerpt fits a wh/value question, the reply says "I found related passages. But no passage answered the question directly." and quotes the best passage as "The best related passage is …", not "The answer is". The realizer has no clause coordination, so Nic's one sentence is said as two; the meaning is the same.
+  - A yes/no question without a verdict keeps "No source decided the question."
+  - A support level is stated only when the answer type was assessed (archives.assess ran); otherwise none is stamped.
+- RULING 2: unknown containment still asks before replacing (unchanged).
+- RULING 3: turn-world comparative answers use the user's own word. `reason.js surfaceOf` takes the question's word first, else the first used: "ola is not larger than quo". The row predicate stays the atom, and Echo re-reads the word to the same row.
+- RULING 4: stored comparatives get the turn world's order rules as data. `world_rules.js orderRules` adds transitive + asymmetric rules for every comparative row (and its inverse) to the durable-world data rules.
+  - New stage INF-ORDER-NO: a checked RuleProof of the negated goal from stored facts. The reply is "No. You told me that Quo is taller than Ola. I used 1 rule."
+  - The conclusion is a ledger item: "why?" reads it, and forgetting a premise withdraws it. The durable world also lists the asymmetric consequences as derived relations.
+  - Open-world elsewhere.
+- RULING 5, root cause of "Quo is taller than Ola. Is Ola taller than Quo?" → "no quantity for ola":
+  - The measured-quantity evaluator (`evaluateQty`) took every dimensional comparison (taller / longer / heavier / older …). Its fact reader only knows measurements, so the stated comparative was silently dropped, no world was built, and "integrity false" was the missing world root.
+  - Fix (general): the quantity evaluator defers a comparison to the relational world when a measurement is missing and non-measurement premises are stated. Measurement-only premises still ask for the missing quantity.
+  - The dimensional comparatives are now data rows with inverse pairs: taller/shorter, older/younger, heavier/lighter, wider/narrower, higher/lower, deeper/shallower.
+  - "longer" has no declared inverse ("shorter" is taller's), so longer/shorter stays open-world and is never guessed.
+  - Checked for every comparative (test WS-ASYM-REGRESSION).
+- RULING 6: ledger cap deferred.
+- TESTS:
+  - world_state_suite: WS-ASYM-REGRESSION, WS-SURFACE, WS-ORDER-MEM.
+  - evidence_suite: 3 ruling-1 tests (extract by answer type, answered level, reply wording).
+  - w34_suite: 2 new ruling-1 integration tests. The 2 EVIDENCE tests of 4.9.62 that expected "none" for a fitted method passage now expect "answered" (the ruling changes that behaviour).
+- Guard rails: held-out 48/54 (rel-01, rel-02, rel-04 newly pass; none lost), mutation 145/173 (same set).
