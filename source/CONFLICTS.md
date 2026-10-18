@@ -287,3 +287,24 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   - A coordinated "Suppose A and B." still ties between two readings (this behaviour predates 4.9.60).
 - BUDGET (soft, correctness first, per ruling (c)): 4.9.60 measured 1,391,501 raw / 419,228 gzip on the box, about 1.5 kB over 1.390 MB raw. The budget is raised to 1.420 MB raw / 430 kB gzip, with headroom for the 4.9.61 evidence engine and the CI runner's zlib (about 1.7 kB worse). There was no trimming pass.
 - TESTS: the new verify/world_state_suite.js has 9 release tests: WS-PERSIST, WS-RETRACT, WS-SUPPOSE, WS-TRANSITIVE, WS-SYMMETRIC, WS-INVERSE, WS-FUNCTIONAL, WS-WHY and WS-DATA. No existing test was changed apart from the budget numbers.
+
+## v4.9.61: rulings on the 4.9.60 decisions (Nic, 2026-10-18); the evidence engine follows as 4.9.62
+- RULING 1, functional conflict. Two values of a functional relation conflict ONLY when they are APART:
+  - they are different names;
+  - neither is known to contain or be inside the other through the declared containment rows (inside / contain / in / within / part of: a `containment: inner | outer` flag on the row), transitively and in either direction;
+  - they are not declared aliases (new row `alias_of`, phrases "also called" / "also known as", symmetric + transitive, `alias: true`).
+  - `world_rules.js apartness(atoms)` computes this from the STATED atoms only. That keeps it stratified: functional rules never conclude containment or alias atoms, so the engine and the proof checker decide alike. Functional rules now carry the guard `apart(y, z)` instead of `distinct(y, z)`.
+  - Born in Paris + Paris is in France + born in France is consistent. Siblings under one container (Paris, Lyon in France) are apart.
+  - In memory, MEM-CONFLICT-FUNCTIONAL-RELATION asks only for an apart value. When containment is NOT known (born in Paris, then born in France, with no "Paris is in France" stored), it still asks. Nothing is assumed about places.
+- RULING 2, functional "No". New stage INF-FUNCTIONAL-NO. A yes/no question about a functional relation answers "No" when a stored value for the same subject (object, for mother of / father of) is apart from the asked one.
+  - The reply states the premise and the row's one-value reason (data: `one: { who, has }`): "No. You told me that Ann was born in Paris. A person has one birthplace."
+  - The conclusion ("Ann was not born in Rome") is recorded in the ledger with the memory premise and the rule ids INF-FUNCTIONAL-NO + RELPROP-FUNCTIONAL:<pred>. "why?" reads it back, and forgetting the premise withdraws it with a receipt.
+  - Everything else stays open-world: no stored value, a containing value, or a non-functional relation stays undetermined.
+  - The realizer learned the nouns person, birthplace, mother, father, capital and country, and the determiner "one".
+- RULING 3, comparatives from the data table. greater_than declares the comparative words greater / more / larger; less_than declares less / smaller / fewer; the two are an inverse pair.
+  - In the turn world a declared inverse comparative also gets its order rules, so the inverse is answered, asymmetry refutes, and transitivity runs through the inverse.
+  - The kernel grammar reads bare "more / less / fewer than NP" as a comparative (P-COMPARATIVE-BARE; "fewer" keeps its synthetic reading), so stored facts and questions using them work in memory.
+  - Turn-world answer texts name the row predicate ("larger than" is rendered "greater than").
+- RULING 4, a coordinated supposition. "Suppose A and B." with two full clauses is one assertion holding both clauses (one supposition set). It is tried only when the sentence as a whole is outside the grammar, every clause must parse on its own, and the integrity re-derivation uses the same function. The world candidate is now complete and selected, so there is no tie clarification. The same holds for a stated "A and B." Order-rule dedup is scoped per committed / supposed scope, like the relation-property rules.
+- RULING 5: the ledger cap stays deferred. RULING 6: the 1.420 MB / 430 kB budget is accepted.
+- TESTS: verify/world_state_suite.js gains WS-APART, WS-FUNC-NO, WS-COMPARATIVE and WS-SUPPOSE-AND, and WS-DATA checks the new row keys. No other test was changed.
