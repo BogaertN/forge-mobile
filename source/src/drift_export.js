@@ -5,7 +5,11 @@
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const canon = o => (Array.isArray(o) ? '[' + o.map(canon).join(',') + ']' : o && typeof o === 'object' ? '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}' : JSON.stringify(o));
-const THRESHOLDS = { app_addendum: { coherence_warning: 0.50, coherence_collapse: 0.78, echo_min: 0.80, source: 'RMC Implementation Addendum (in force, N1 default)' }, forge_coherence_math: { epsilon_warning: 0.35, epsilon_collapse: 0.72, echo_min: 0.72, source: 'BogaertN/forge rmc_engine_v1/coherence_math.py gate_thresholds()' } };
+/* 4.9.66 K1: drift_ruling is the ONE table in force (kmath.DRIFT_TABLE); the Addendum coherence bands are superseded (echo_min 0.80 still
+   gates Echo); forge's 0.72 is exported as a reference value only — it gates nothing. */
+const THRESHOLDS = { drift_ruling: { in_force: true, project_max: 0.35, correct_below: 0.40, explore_min: 0.40, explore_max: 0.80, bands: { '<=0.35': 'projectable / approvable (only band that may write memory)', '0.35-0.40': 'needs correction (χ step; not written)', '0.40-0.80': 'quarantine-only exploration (never written, never projected)', '>0.80': 'hard stop' }, forbidden_transition: 'separate yes/no gate; blocks at any ε_s', source: 'Nic drift ruling (CONFLICTS.md v4.9.66)' },
+  app_addendum: { coherence_warning: 0.50, coherence_collapse: 0.78, echo_min: 0.80, superseded: 'coherence_warning/coherence_collapse superseded by drift_ruling (4.9.66); echo_min 0.80 still in force', source: 'RMC Implementation Addendum (in force, N1 default)' },
+  forge_coherence_math: { epsilon_warning: 0.35, epsilon_collapse: 0.72, echo_min: 0.72, reference_only: true, note: 'reference values only; not used as a gate (drift ruling 0.35/0.40/0.80)', source: 'BogaertN/forge rmc_engine_v1/coherence_math.py gate_thresholds()' } };
 function build(store, opts) { opts = opts || {}; const at = opts.clock ? opts.clock() : new Date().toISOString();
   const drift = store.load('drift_archive'), coll = store.load('collapse_events'), ghosts = (Array.isArray(store.load('hypotheses')) ? store.load('hypotheses') : []).filter(h => h.route === 'ghost_loop_containment_required'), loops = store.load('loops');
   const eps = drift.map(d => (typeof d.eps_s === 'number' ? d.eps_s : null)).filter(x => x != null);

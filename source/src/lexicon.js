@@ -121,7 +121,7 @@ T.RMC|rmc|term|Recursive Manifest Compiler: a traceable symbolic architecture th
 T.MSM|msm|term|MeaningStructureManifest v1: the shared intermediate object between human language and Forge cognition, holding purpose, meaning, uncertainty, limits, capability relation and evidence/trace links (Doc 2; file not located, fields inferred from Docs 1, 3, R0).|Doc1; R0
 T.MANIFEST|manifest|term|The compiled, renderer-independent meaning state of a candidate, including phase, drift posture, limitations and authority conditions.|RMC §5.9
 T.DRIFT|drift|term|Measured departure of a loop from its lawful phase trajectory and originating meaning; scored by ε_s = (σ_res + D_score + |ΔΦ|)/ρ.|RMC Addendum §3; RSOC §4.1
-T.EPS|epsilon,ε_s,eps|term|Composite drift functional ε_s = (σ_res + D_score + |ΔΦ|)/ρ; bands: <0.50 clean, 0.50–0.78 elevated, 0.78–0.80 intervention, ≥0.80 hard stop.|RMC Addendum §3
+T.EPS|epsilon,ε_s,eps|term|Composite drift functional ε_s = (σ_res + D_score + |ΔΦ|)/ρ; bands (Nic's drift ruling, one table): ≤0.35 clean (projectable, may be written), 0.35–0.40 correct (χ correction step, not written), 0.40–0.80 elevated (quarantine-only exploration, never written or projected), >0.80 hard stop. 0.72 is a reference value only.|RMC Addendum §3; Nic ruling 2026-10-14
 T.PHASE|phase,phases,Φ|term|One of the nine phase constants Φ1–Φ9 of the recursive cycle (RPMC): Initiation, Polarity, Desire, Friction, Entropy, Grace/Correction, Naming, Projection, Return.|RPMC §1.4; RMC §4
 T.PHI1|phi1,Φ1,initiation|term|Φ1 Initiation: the originating pulse ψ₁; input is received and ψ_id is fixed.|RPMC §1.4
 T.PHI2|phi2,Φ2,polarity|term|Φ2 Polarity: first boundary — contrast, negation and tension are detected.|RPMC §1.4
@@ -132,7 +132,7 @@ T.PHI6|phi6,Φ6,grace,correction|term|Φ6 Grace / Correction: the only phase whe
 T.PHI7|phi7,Φ7,naming|term|Φ7 Naming: identity assignment; echo validation is required before naming.|RPMC §1.4
 T.PHI8|phi8,Φ8,projection|term|Φ8 Power / Projection: outward expression. Φ5→Φ8 (projection without correction and naming) is forbidden.|RPMC §1.4; RMC Addendum §4
 T.PHI9|phi9,Φ9,return,closure|term|Φ9 Return: loop closure; echo(ψ,Φ9) must equal ψ(Φ1).|RPMC §1.4
-T.CHI|chi,χ,christ|term|χ(t), the Christ Function / correction operator: the only entropy-reducing operator; fires at most once per loop binding when ε_s ≥ 0.8, Ê(τ)=1, χ flag = 0 and |ΔΦ_avg| ≤ π/3. In the runtime it re-routes; it does not by itself authorize output.|RSOC §3.2; RMC Addendum §4
+T.CHI|chi,χ|term|χ(t), the correction operator: the only entropy-reducing operator. The χ correction step runs for 0.35 < ε_s < 0.40; the χ override fires at most once per loop binding when ε_s > 0.80 (or a forbidden transition), Ê(τ)=1, χ flag = 0 and |ΔΦ_avg| ≤ π/3. In the runtime it re-routes; it does not by itself authorize output.|RSOC §3.2; RMC Addendum §4
 T.ECHO|echo|term|Echo validation Ê: the rendered output is re-parsed and must return the same material meaning as the manifest; failure blocks output.|RMC §5.12, §6.7; RSOC §3.1
 T.SPC|spc,capacitor|term|Symbolic Phase Capacitor: lossless cold storage for a sealed loop (Ĉ); erasure is never the lawful response to collapse.|RSOC §5; RPMC
 T.COLD|cold,archival,archive|term|Controlled archival Ĉ: an unresolvable state is sealed into cold storage with its phase, echo and entropy metadata.|RSOC §3.1; Symbolic Cold Storage Theory

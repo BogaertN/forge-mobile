@@ -8,7 +8,8 @@
    Ranking is Pareto (non-dominated on passed ↑, regressions ↓, echo ↑, ε_s ↓) then lexicographic in that order, then id.
    Drift ε_s = (σ_res + D_score + |ΔΦ|)/3 (the evolve.js / ede.js formula): σ_res = share of evaluated cases whose outcome changed against the
    shipped rows, D_score = share of mutable cells changed, |ΔΦ| = 0. Route by the drift ruling (kmath.driftGovernance): ε_s ≤ 0.35 and no
-   regression → approvable (still only by a user tap); 0.4–0.8 → shadow only (explored, never adoptable); else held / rejected.
+   regression → approvable (still only by a user tap); 0.35 < ε_s < 0.40 → held for correction (not adoptable as is); 0.40–0.80 → shadow
+   only (quarantine-only exploration, never adoptable); > 0.80 → rejected. One table: kmath.DRIFT_TABLE (CONFLICTS.md v4.9.66).
    Candidates are proposals: nothing here changes behaviour; kernel.adoptManifest (user tap, M2 justification, receipt) does. */
 (function (root) {
 'use strict';
