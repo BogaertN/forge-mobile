@@ -1,6 +1,6 @@
 /* sync.js — GenNode Doc 11 network sync, opt-in (N2 default: off). Only sealed loops and dead paths (drift archive, collapse events)
  * travel, plus this device's attribution chain. Records are already redacted at ingestion; secrets never leave the vault.
- * Transport = the paired home node (encrypted RPC, HTTPS only). Imports never overwrite local records: they land in "synced_items". */
+ * Transport = the paired Genesis Node (prototype; "home node") (encrypted RPC, HTTPS only). Imports never overwrite local records: they land in "synced_items". */
 (function (root) {
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;

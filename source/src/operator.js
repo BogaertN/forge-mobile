@@ -1,11 +1,11 @@
 /* operator.js — W4 operator pieces: feedback (H-04), encrypted backup/restore (G-12), operational-identity profiles kept separate from
- * secrets (J-03, D8), Gilligan cross-session pattern reflection (J-06; advisory, never memory), diagnostics (I-10/K-04), and the
+ * secrets (J-03, D8), Pattern Reflection — cross-session patterns (J-05; advisory, never memory; was labelled "Gilligan" — Gilligan is the user-owned agent layer, not this feature), diagnostics (I-10/K-04), and the
  * D4 workbench: fixed recipes with a park kill switch that auto-parks on any authority beyond the recipe manifest. No reply text. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
   const Gv = isNode ? require('./governance.js') : root.KGov; const PV = isNode ? require('./privacy.js') : root.KPrivacy; const MG0 = isNode ? require('./migrate.js') : null; const MGx = () => MG0 || root.KMigrate; /* resolved lazily: migrate.js loads after operator.js in index.html */ const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
   const STOP = new Set('i me my you your the a an is are was were be to of and or in on at for with that this it its he she they we our his her their what who when where which how do does did not no yes'.split(' '));
-  /* Gilligan (GenNode Doc 10): recurring entities across sessions + repeated unknown words + feedback marked wrong. Counts only. */
+  /* Pattern Reflection (GenNode Doc 10; formerly labelled Gilligan; function name kept for API stability): recurring entities across sessions + repeated unknown words + feedback marked wrong. Counts only. */
   function gilligan(store, opts) {
     opts = opts || {}; const min = opts.min || 3; const mem = (store.load('memory') || []).filter(r => r.status === 'active' && !r.sensitive);
     const ent = {}; for (const r of mem) for (const e of r.entities || []) { const w = String(e).replace(/^.*:/, ''); if (w && !STOP.has(w) && !/sealed/.test(w)) ent[w] = (ent[w] || 0) + 1; }
@@ -105,7 +105,7 @@
     /* Delete all local data: export first, typed confirmation, lists exactly what is removed */
     const DELETE_PHRASE = 'DELETE ALL';
     function deletePlan() { const stores = STORES().map(c => { const v = store.load(c); return { store: c, items: Array.isArray(v) ? v.length : v && typeof v === 'object' ? Object.keys(v).length : 0 }; });
-      return { stores, browser: ['localStorage keys kernel.<store> for every store listed', 'localStorage UI flags (forge_*)', 'service-worker caches (app shell and reminder mirror)', 'the device signing key (inside the vault store)'], not_removed: ['copies already shared to the shared layer or a home node', 'backup files you downloaded'], confirm_phrase: DELETE_PHRASE, export_first: true, exported: lastExport }; }
+      return { stores, browser: ['localStorage keys kernel.<store> for every store listed', 'localStorage UI flags (forge_*)', 'service-worker caches (app shell and reminder mirror)', 'the device signing key (inside the vault store)'], not_removed: ['copies already shared to the shared layer or a Genesis Node (prototype)', 'backup files you downloaded'], confirm_phrase: DELETE_PHRASE, export_first: true, exported: lastExport }; }
     function deleteAll(o) { o = o || {}; if (!lastExport) return { ok: false, rule: 'DELETE-EXPORT-FIRST' }; if (o.confirm !== DELETE_PHRASE) return { ok: false, rule: 'DELETE-CONFIRMATION-MISMATCH' };
       const d = perm.authorize('data.delete_all', { userTap: !!o.userTap }); if (d.decision !== 'allow') return { ok: false, rule: d.rule }; const plan = deletePlan();
       for (const p of plan.stores) store.save(p.store, dflt(p.store)); return { ok: true, removed: plan.stores.map(p => p.store), plan }; }

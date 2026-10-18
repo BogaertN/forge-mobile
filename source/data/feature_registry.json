@@ -1,5 +1,5 @@
 {
- "version": "4.9.71",
+ "version": "4.9.72",
  "features": [
   {
    "id": "A-01",
@@ -1195,8 +1195,8 @@
    "claim": "Partial",
    "note": "MEA score + per-reference evidence tiers (v4.3). 4.9.64 added bounded manifest evolution over relation-property rows only (kernel meaCandidates / adoptManifest / withdrawManifest; tap-only, M2 ledger + receipt); its shipped fitness was INVALID (the evaluator reset the candidate). 4.9.65 (MEA step 0): evaluator fixed, meaning guard suite, inverse-pair legality gate, no-evidence route, integer drift, rng lineage. No MEA-P problem/candidate API, no frame or parser-rule evolution yet.",
    "proof": [
-    "MEA",
     "LIFECYCLE",
+    "MEA",
     "RELPROP-GUARD"
    ]
   },
@@ -1282,10 +1282,11 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
    "wave": "W3",
    "claim": "Partial",
-   "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md §e steps 1–8). · 4.9.67: the three canonical problems (144 Hz, limiting reagent, inheritance) adopted (data/canonical_problems.json); exact sub-results checked, MEA-P outcomes pending",
+   "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md §e steps 1–8). · 4.9.67: the three canonical problems (144 Hz, limiting reagent, inheritance) adopted (data/canonical_problems.json); exact sub-results checked, MEA-P outcomes pending 4.9.72: MEA problem lane core (src/mea_p.js, pure): problem manifests as data (data/canonical_problems.json); operators derive / ⧒ / ⧧ / ⟁; hard gates → Pareto → lexicographic (B↓ L↑ Ω↑ I↑ A↑ ε↓ K↓, then id); display score shown only; claim status + next action; tap-only commit with receipts; archive (cold storage) + requeue proposals; typed RMC handoff params. The 144 Hz, limiting-reagent and inheritance problems run end-to-end with no per-problem code. Kernel/app wiring follows in 4.9.73.",
    "proof": [
-    "MEA",
     "LIFECYCLE",
+    "MEA",
+    "MEAP",
     "RELPROP-GUARD"
    ]
   },
@@ -1318,7 +1319,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/disconnected\"",
    "wave": "W4",
    "claim": "Partial",
-   "note": "Gilligan cross-session pattern reflection (recurring entities, repeated unknowns, wrong-feedback) — reflection only; no autonomous agent",
+   "note": "Pattern Reflection (display name since 4.9.72, packet naming; was \"Gilligan\") cross-session pattern reflection (recurring entities, repeated unknowns, wrong-feedback) — reflection only; no autonomous agent",
    "proof": [
     "OPERATOR"
    ]

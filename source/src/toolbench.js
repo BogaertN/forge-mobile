@@ -23,7 +23,7 @@
     T('github.symbols', ['FR.TOOL.SYMBOLS'], 'network_read', ['owner/repo'], ['symbol index rows (path, line, name, kind)'], { token: 'read-only token sealed in the vault (M1)', source: 'symbols.js' }),
     T('symbols.find', ['FR.TOOL.SYMFIND'], 'read', ['symbol name'], ['definition sites from the index']),
     T('python.crosscheck', ['FR.TOOL.PYCHECK'], 'network_read+compute', ['last math meaning'], ['agree | disagree (sympy in Pyodide, worker-isolated)'], { source: 'pycheck.js + py_worker.js (lazy; explicit tap)' }),
-    T('node.job', ['FR.TOOL.NODE'], 'network_read', ['job spec'], ['job result from the paired home node (no model)'], { source: 'nodeclient.js; tools/forge_node.py' }),
+    T('node.job', ['FR.TOOL.NODE'], 'network_read', ['job spec'], ['job result from the paired Genesis Node (prototype) (no model)'], { source: 'nodeclient.js; tools/forge_node.py' }),
     T('protoforge.drift', ['FR.TOOL.PFDRIFT'], 'compute', ['ε_s series from traces'], ['pattern (DTW), Landauer bounds, trajectory prediction'], { source: 'protoforge.js ← ProtoForge thermodynamic_drift.py' }),
     T('protoforge.agents', ['FR.TOOL.PFAGENT'], 'compute+local_write', ['spawn | input | hibernate | restore | list'], ['deterministic agent result + hash-chained echo log'], { source: 'protoforge.js ← ProtoForge Build Task 1' }),
     T('feed.read', ['FR.TOOL.FEED'], 'network_read+vault_write', ['public RSS/Atom URL'], ['item titles + links (sealed in vault; no HTML rendered)'], { source: 'protoforge.parseFeed ← RUNTIME CODEX Vol III §4.1.1' }),
@@ -34,7 +34,7 @@
     T('ede.explore', ['FR.TOOL.EDE'], 'compute+local_write', ['committed memory (anchors)', 'seed'], ['bounded candidates (pending score) + archived branches (projection blocked)'], { source: 'ede.js ← RMC §5.6 / §8.3 Algorithm 3' }),
     T('sim3d.run', ['FR.TOOL.SIM3D'], 'compute', ['bodies | URDF subset, seed'], ['labelled 3-D preview + hash-chained frames (replayable)'], { source: 'sim3d.js (cannon-es + three.js, vendored MIT); not a PyBullet result' }),
     T('render.form', ['FR.RENDER'], 'compute', ['previous manifest', 'form'], ['artifact in one RMC output form + per-form echo'], { source: 'render.js (RMC multi-output)' }),
-    T('patterns.reflect', ['FR.PATTERNS'], 'read', ['traces, memory, feedback'], ['recurring patterns (Gilligan)']),
+    T('patterns.reflect', ['FR.PATTERNS'], 'read', ['traces, memory, feedback'], ['recurring patterns (Pattern Reflection)']),
   ];
   const KIND2TOOL = { ede_result: 'ede.explore', pf_drift: 'protoforge.drift', pf_agent: 'protoforge.agents', rendered: 'render.form', render_none: 'render.form', render_blocked: 'render.form', math: 'math.evaluate', solved: 'math.solve', factored: 'math.solve', system: 'math.solve', calculus: 'math.solve', simplified: 'math.solve', converted: 'units.convert', define: 'lexicon.define', recall: 'memory.query', yesno: 'memory.query', when: 'memory.query', facts: 'memory.query', count: 'memory.query', count_about: 'memory.query', about: 'memory.query', inferred: 'infer.relation', patterns: 'patterns.reflect', sim_result: 'sim.preview', sim_replay: 'sim.preview' };
   function Bench(store, opts) {

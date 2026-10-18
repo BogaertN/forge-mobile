@@ -21,7 +21,7 @@
     marketplaceTransfer: { decision: 'M9', values: { disabled: { built: true }, live: { built: false } }, default: 'disabled', effect: 'no sale, transfer or payment is built' },
     workbench: { decision: 'D4', values: { fixed_recipes: { built: true }, parked: { built: true } }, default: 'fixed_recipes', effect: 'workbench runs declared recipes only; it auto-parks on any authority beyond its manifest' },
     sharedLayer: { decision: 'N9', values: { off: { built: true }, on: { built: true } }, default: 'off', effect: 'exchange signed, consented claim manifests and tool packages with the shared layer through the shared-layer node key; vault data never enters; incoming items are quarantined evidence' },
-    nodeSync: { decision: 'N2', values: { off: { built: true }, sealed_only: { built: true } }, default: 'off', effect: 'Doc 11 sync through your paired home node: off, or sealed loops + dead paths + attribution chain only (never vault content)' },
+    nodeSync: { decision: 'N2', values: { off: { built: true }, sealed_only: { built: true } }, default: 'off', effect: 'Doc 11 sync through your paired Genesis Node (prototype): off, or sealed loops + dead paths + attribution chain only (never vault content)' },
     hash: { decision: 'D7', values: { sha256: { built: true }, blake3: { built: false } }, default: 'sha256', effect: 'ψ_id and receipt hash function' },
     classifier: { decision: 'D3', values: { off: { built: true }, advisory_evidence: { built: false } }, default: 'off', effect: 'no learned classifier anywhere' },
     localModel: { decision: 'D4b', values: { none: { built: true } }, default: 'none', effect: 'no model proposes anything' },

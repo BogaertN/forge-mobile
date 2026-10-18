@@ -1,22 +1,390 @@
 {
-  "schema": "FORGE-CANONICAL-PROBLEMS/v1",
-  "adopted": "4.9.67 (Nic ruling 7, 2026-10-18): all three adopted as MEA-P acceptance problems (MEA_SPEC §f.5)",
-  "note": "Each problem is a MEAProblemManifest-shaped record. The exact sub-results are checked NOW through the kernel's exact math lane; the epistemic outcomes (hypothesis / partial_resolution / derived_claim, branching, withdrawal) are the acceptance target for MEA-P (MEA_SPEC §e steps 3-4) and are reported as pending until that lane exists. No weights.",
-  "problems": [
-    { "id": "canon:physics-144hz", "domain": "physics",
-      "known_facts": ["144 Hz is the FBSC substrate frequency", "no published measurement of 144 Hz in myelin", "90 Hz binding frequency"],
-      "unknowns": ["a direct measurement of 144 Hz in myelin", "whether 144 is a substrate frequency or a derived harmonic"],
-      "exact": [ { "ask": "what is 144/90?", "value": "1.6", "claim": "144/90 = 1.6 exactly (derived_claim)" }, { "ask": "what is 16*9?", "value": "144", "claim": "144 is the 16th harmonic of 9 Hz (arithmetic only; the physical claim stays a hypothesis)" } ],
-      "expected_outcome": { "status": "hypothesis", "next": "test_required", "never": "verified_claim", "split": ["substrate", "harmonic"] } },
-    { "id": "canon:chemistry-limiting-reagent", "domain": "chemistry",
-      "known_facts": ["2 H2 + O2 -> 2 H2O", "4.0 g H2", "molar masses H2 2.016, O2 32.00, H2O 18.02"],
-      "unknowns": ["the O2 mass"],
-      "exact": [ { "ask": "what is 4.0/2.016*32.00/2?", "value": "2000/63", "claim": "O2 is limiting iff m(O2) < 2000/63 g (about 31.75 g)" }, { "ask": "what is 4.0/2.016*18.02?", "value": "4505/126", "claim": "H2O = 4505/126 g (about 35.75 g) if H2 is limiting" }, { "ask": "what is 16/32*2*18.02?", "value": "18.02", "claim": "with O2 = 16 g: H2O = 18.02 g (derived_claim after the follow-up)" } ],
-      "expected_outcome": { "status": "partial_resolution", "next": "test_required", "never": "a single yield before the O2 mass is given", "follow_up": { "user": "O2 is 16 g", "status": "derived_claim", "withdraws": "the conditional hypotheses (M2 cascade)" } } },
-    { "id": "canon:biology-inheritance", "domain": "biology",
-      "known_facts": ["affected father, unaffected mother", "all daughters affected, no sons affected (n = 6 offspring)", "the trait is rare"],
-      "unknowns": ["inheritance mode", "the mother's genotype"],
-      "exact": [ { "ask": "what is (1/2)^6?", "value": "0.015625", "claim": "likelihood 1/64 under autosomal dominant (heterozygous father); 1 under X-linked dominant" } ],
-      "expected_outcome": { "status": "hypothesis", "favoured": "X-linked dominant", "next": "test_required", "branches": ["X-linked dominant", "autosomal dominant", "autosomal recessive", "X-linked recessive"], "order": "lexicographic: fewest extra assumptions, then highest exact likelihood", "falsifier": "an affected son from the same cross" } }
-  ]
+ "schema": "FORGE-CANONICAL-PROBLEMS/v1",
+ "adopted": "4.9.67 (Nic ruling 7, 2026-10-18): all three adopted as MEA-P acceptance problems (MEA_SPEC §f.5)",
+ "note": "Each problem is a MEAProblemManifest-shaped record. The exact sub-results are checked NOW through the kernel's exact math lane; the epistemic outcomes (hypothesis / partial_resolution / derived_claim, branching, withdrawal) are the acceptance target for MEA-P (MEA_SPEC §e steps 3-4) and are reported as pending until that lane exists. No weights.",
+ "problems": [
+  {
+   "id": "canon:physics-144hz",
+   "domain": "physics",
+   "known_facts": [
+    "144 Hz is the FBSC substrate frequency",
+    "no published measurement of 144 Hz in myelin",
+    "90 Hz binding frequency"
+   ],
+   "unknowns": [
+    "a direct measurement of 144 Hz in myelin",
+    "whether 144 is a substrate frequency or a derived harmonic"
+   ],
+   "exact": [
+    {
+     "ask": "what is 144/90?",
+     "value": "1.6",
+     "claim": "144/90 = 1.6 exactly (derived_claim)"
+    },
+    {
+     "ask": "what is 16*9?",
+     "value": "144",
+     "claim": "144 is the 16th harmonic of 9 Hz (arithmetic only; the physical claim stays a hypothesis)"
+    }
+   ],
+   "expected_outcome": {
+    "status": "hypothesis",
+    "next": "test_required",
+    "never": "verified_claim",
+    "split": [
+     "substrate",
+     "harmonic"
+    ]
+   },
+   "manifest": {
+    "goal": "decide whether 144 Hz is a substrate frequency or a derived harmonic, and what is known about it",
+    "phase_state": 5,
+    "known_facts": [
+     {
+      "id": "f1",
+      "text": "144 Hz is the FBSC substrate frequency",
+      "tier": "internal"
+     },
+     {
+      "id": "f2",
+      "text": "no published measurement of 144 Hz in myelin",
+      "tier": "given"
+     },
+     {
+      "id": "f3",
+      "text": "90 Hz binding frequency",
+      "tier": "internal"
+     },
+     {
+      "id": "f4",
+      "text": "the numbers 144, 90 and 9 (Hz)",
+      "tier": "given"
+     }
+    ],
+    "unknowns": [
+     {
+      "id": "u1",
+      "text": "a direct measurement of 144 Hz in myelin",
+      "kind": "measurement"
+     },
+     {
+      "id": "u2",
+      "text": "whether 144 is a substrate frequency or a derived harmonic",
+      "kind": "choice",
+      "options": [
+       {
+        "id": "substrate",
+        "text": "144 Hz is a substrate (fundamental) frequency",
+        "assumptions": [
+         "144 Hz is generated directly by the substrate"
+        ],
+        "falsifier": "a measured fundamental below 144 Hz with 144 Hz only as an overtone"
+       },
+       {
+        "id": "harmonic",
+        "text": "144 Hz is the 16th harmonic of 9 Hz",
+        "assumptions": [
+         "a 9 Hz fundamental exists in the system"
+        ],
+        "falsifier": "no 9 Hz component in a direct measurement"
+       }
+      ]
+     }
+    ],
+    "derivations": [
+     {
+      "id": "d1",
+      "expr": "144/90",
+      "claim": "144/90 = {v} exactly",
+      "uses": [
+       "f4"
+      ]
+     },
+     {
+      "id": "d2",
+      "expr": "16*9",
+      "claim": "16 × 9 = {v} (arithmetic only)",
+      "uses": [
+       "f4"
+      ]
+     }
+    ],
+    "success_conditions": [
+     {
+      "id": "s1",
+      "text": "the substrate-or-harmonic question is decided",
+      "unknown": "u2"
+     },
+     {
+      "id": "s2",
+      "text": "a direct measurement exists",
+      "unknown": "u1"
+     }
+    ]
+   }
+  },
+  {
+   "id": "canon:chemistry-limiting-reagent",
+   "domain": "chemistry",
+   "known_facts": [
+    "2 H2 + O2 -> 2 H2O",
+    "4.0 g H2",
+    "molar masses H2 2.016, O2 32.00, H2O 18.02"
+   ],
+   "unknowns": [
+    "the O2 mass"
+   ],
+   "exact": [
+    {
+     "ask": "what is 4.0/2.016*32.00/2?",
+     "value": "2000/63",
+     "claim": "O2 is limiting iff m(O2) < 2000/63 g (about 31.75 g)"
+    },
+    {
+     "ask": "what is 4.0/2.016*18.02?",
+     "value": "4505/126",
+     "claim": "H2O = 4505/126 g (about 35.75 g) if H2 is limiting"
+    },
+    {
+     "ask": "what is 16/32*2*18.02?",
+     "value": "18.02",
+     "claim": "with O2 = 16 g: H2O = 18.02 g (derived_claim after the follow-up)"
+    }
+   ],
+   "expected_outcome": {
+    "status": "partial_resolution",
+    "next": "test_required",
+    "never": "a single yield before the O2 mass is given",
+    "follow_up": {
+     "user": "O2 is 16 g",
+     "status": "derived_claim",
+     "withdraws": "the conditional hypotheses (M2 cascade)"
+    }
+   },
+   "manifest": {
+    "goal": "find the limiting reagent and the water yield for 4.0 g of hydrogen burned in oxygen",
+    "phase_state": 4,
+    "known_facts": [
+     {
+      "id": "f1",
+      "text": "2 H2 + O2 -> 2 H2O",
+      "tier": "given"
+     },
+     {
+      "id": "f2",
+      "text": "4.0 g H2",
+      "tier": "given"
+     },
+     {
+      "id": "f3",
+      "text": "molar masses H2 2.016, O2 32.00, H2O 18.02 g/mol",
+      "tier": "published"
+     }
+    ],
+    "unknowns": [
+     {
+      "id": "u1",
+      "text": "the O2 mass in grams",
+      "kind": "quantity",
+      "symbol": "m_O2"
+     },
+     {
+      "id": "u2",
+      "text": "which reagent is limiting",
+      "kind": "choice",
+      "options": [
+       {
+        "id": "O2",
+        "text": "O2 is limiting",
+        "assumptions": [],
+        "condition": {
+         "lhs": "m_O2",
+         "op": "<",
+         "rhs": "4.0/2.016*32.00/2"
+        }
+       },
+       {
+        "id": "H2",
+        "text": "H2 is limiting",
+        "assumptions": [],
+        "condition": {
+         "lhs": "m_O2",
+         "op": ">=",
+         "rhs": "4.0/2.016*32.00/2"
+        }
+       }
+      ]
+     }
+    ],
+    "derivations": [
+     {
+      "id": "d1",
+      "expr": "4.0/2.016*32.00/2",
+      "claim": "O2 needed for all the H2 = {v} g (O2 is limiting iff m(O2) is below it)",
+      "uses": [
+       "f1",
+       "f2",
+       "f3"
+      ]
+     },
+     {
+      "id": "d2",
+      "expr": "4.0/2.016*18.02",
+      "claim": "H2O = {v} g if H2 is limiting",
+      "uses": [
+       "f1",
+       "f2",
+       "f3"
+      ],
+      "option": "u2:H2"
+     },
+     {
+      "id": "d3",
+      "expr": "m_O2/32.00*2*18.02",
+      "claim": "H2O = {v} g if O2 is limiting",
+      "uses": [
+       "f1",
+       "f3"
+      ],
+      "needs": [
+       "u1"
+      ],
+      "option": "u2:O2"
+     }
+    ],
+    "success_conditions": [
+     {
+      "id": "s1",
+      "text": "the limiting reagent is decided",
+      "unknown": "u2"
+     },
+     {
+      "id": "s2",
+      "text": "the water yield is determined",
+      "derivations": [
+       "d2",
+       "d3"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "canon:biology-inheritance",
+   "domain": "biology",
+   "known_facts": [
+    "affected father, unaffected mother",
+    "all daughters affected, no sons affected (n = 6 offspring)",
+    "the trait is rare"
+   ],
+   "unknowns": [
+    "inheritance mode",
+    "the mother's genotype"
+   ],
+   "exact": [
+    {
+     "ask": "what is (1/2)^6?",
+     "value": "0.015625",
+     "claim": "likelihood 1/64 under autosomal dominant (heterozygous father); 1 under X-linked dominant"
+    }
+   ],
+   "expected_outcome": {
+    "status": "hypothesis",
+    "favoured": "X-linked dominant",
+    "next": "test_required",
+    "branches": [
+     "X-linked dominant",
+     "autosomal dominant",
+     "autosomal recessive",
+     "X-linked recessive"
+    ],
+    "order": "lexicographic: fewest extra assumptions, then highest exact likelihood",
+    "falsifier": "an affected son from the same cross"
+   },
+   "manifest": {
+    "goal": "decide the inheritance mode of a rare trait from one family",
+    "phase_state": 4,
+    "known_facts": [
+     {
+      "id": "f1",
+      "text": "affected father, unaffected mother",
+      "tier": "given"
+     },
+     {
+      "id": "f2",
+      "text": "all daughters affected, no sons affected (n = 6 offspring)",
+      "tier": "given"
+     },
+     {
+      "id": "f3",
+      "text": "the trait is rare",
+      "tier": "given"
+     }
+    ],
+    "unknowns": [
+     {
+      "id": "u1",
+      "text": "inheritance mode",
+      "kind": "choice",
+      "options": [
+       {
+        "id": "XLD",
+        "text": "X-linked dominant",
+        "assumptions": [],
+        "likelihood": "1",
+        "falsifier": "an affected son from the same cross"
+       },
+       {
+        "id": "AD",
+        "text": "autosomal dominant (heterozygous father)",
+        "assumptions": [],
+        "likelihood": "(1/2)^6"
+       },
+       {
+        "id": "AR",
+        "text": "autosomal recessive",
+        "assumptions": [
+         "the unaffected mother is a carrier of a rare allele"
+        ],
+        "likelihood": "(1/2)^6",
+        "falsifier": "a genotype test showing the mother is not a carrier"
+       },
+       {
+        "id": "XLR",
+        "text": "X-linked recessive",
+        "assumptions": [
+         "the unaffected mother is a carrier of a rare allele"
+        ],
+        "likelihood": "(1/2)^6",
+        "falsifier": "a genotype test showing the mother is not a carrier"
+       }
+      ]
+     },
+     {
+      "id": "u2",
+      "text": "the mother's genotype",
+      "kind": "measurement"
+     }
+    ],
+    "derivations": [
+     {
+      "id": "d1",
+      "expr": "(1/2)^6",
+      "claim": "(1/2)^6 = {v}: the chance of this exact pattern under a 1/2-per-child mode",
+      "uses": [
+       "f2"
+      ]
+     }
+    ],
+    "success_conditions": [
+     {
+      "id": "s1",
+      "text": "the inheritance mode is decided",
+      "unknown": "u1"
+     }
+    ]
+   }
+  }
+ ],
+ "note_472": "4.9.72: each problem carries a MEAProblemManifest/v1 body ('manifest'): typed known facts (tier), unknowns (kind measurement | choice | quantity; a choice lists its options with their extra assumptions, exact likelihood expressions of the observations, conditions and falsifiers), exact derivations (expressions for the GP-014 lane) and success conditions. This is the PROBLEM STATEMENT as data; src/mea_p.js runs every problem through the same general operators and gates and never reads expected_outcome (that field is only for the acceptance tests)."
 }
