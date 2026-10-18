@@ -36,8 +36,8 @@ NEW = {
  'G-07':('Implemented','loops persisted with transitions and receipts',['LOOP-LIFECYCLE']),
  'G-01':('Implemented','typed namespaces incl. dream_quarantine, ghost_loops, drift_archive, collapse_events, loops, held_writes',['CONTAINMENT']),
  'E-03':('Partial','χ(t) firing now routes to correction_queue; correction execution still the restricted refusal',['CONTAINMENT']),
- # v4.2.0 (W3/W4, EchoForge tool bench, crawler, vault capture, consent plumbing)
- 'J-04':('Implemented','EchoForge re-enabled as the no-LLM tool bench (user decision D6, 2026-10-11): 11 declared tool manifests, frame-selected, permission-decided, evidence-only, hash-chained log; LLM advisory lane excluded',['TOOLBENCH']),
+ # v4.2.0 (W3/W4, Tool Bench, crawler, vault capture, consent plumbing)
+ 'J-04':('Implemented','Tool Bench (renamed from EchoForge, ruling 9, 2026-10-18) re-enabled as the no-LLM tool bench (user decision D6, 2026-10-11): 11 declared tool manifests, frame-selected, permission-decided, evidence-only, hash-chained log; LLM advisory lane excluded',['TOOLBENCH']),
  'A-07':('Implemented','tracker-free page capture → sealed vault record + hash-only evidence index; robots.txt and noai honoured',['CRAWLER','VAULT-CAPTURE']),
  'FB-18':('Partial','research: tracker-free crawler (port of research_acquisition.py) returns ranked exact excerpts as evidence; answer-fit scoring beyond excerpt resonance not built',['CRAWLER','VAULT-CAPTURE']),
  'G-10':('Partial','external-resource admission: public-URL validation, robots/noai, size/type limits, candidate-evidence-only; no quarantine review queue yet',['CRAWLER']),
