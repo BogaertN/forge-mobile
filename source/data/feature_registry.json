@@ -1,5 +1,5 @@
 {
-  "version": "4.9.68",
+ "version": "4.9.69",
  "features": [
   {
    "id": "A-01",
@@ -471,10 +471,11 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
    "wave": "W3",
    "claim": "Partial",
-   "note": "v4.3: MSM-v1 records + full lifecycle states per turn (captured→…→delivered/blocked); forge serialization schema not byte-mirrored.",
+   "note": "v4.3: MSM-v1 records + full lifecycle states per turn (captured→…→delivered/blocked); forge serialization schema not byte-mirrored. · 4.9.69 (K3): msm.js — 31-rule lifecycle law with issue codes, append-only frozen records, canonical envelope bytes (round trip; non-canonical rejected), 13 preservation classes incl. action_proposal_simulation_and_observation; every turn builds and validates its MSM-v1 manifest (trace.msm_v1). Doc 2 itself is a reconstruction (Appendix R).",
    "proof": [
     "MSM-V1",
-    "LIFECYCLE"
+    "LIFECYCLE",
+    "K3-MSM"
    ]
   },
   {
@@ -483,9 +484,10 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "derive.js sūtra realization from MSM; static scan proves no templates (DERIVATION suite)",
+   "note": "derive.js sūtra realization from MSM; static scan proves no templates (DERIVATION suite) · 4.9.69 (K4): RMC App D projection manifest μ_t per turn (trace.output_manifest) and the D.7 validation order gating every render (RMC-RENDER-GATE-*).",
    "proof": [
-    "DERIVATION"
+    "DERIVATION",
+    "K4-MANIFEST"
    ]
   },
   {
