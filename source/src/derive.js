@@ -2,6 +2,7 @@
 const isNode = typeof module !== 'undefined' && module.exports;
 const G = isNode ? require('./grammar.js') : root.KGrammar;
 const M = isNode ? require('./kmath.js') : root.KMath;
+const ET = isNode ? require('./echo_types.js') : root.KEchoTypes; /* K6 4.9.70: typed Echo results */
 const words = s => s.split(' ');
 
 const VERBS = new Set(words('agree disagree refer take attach export delete challenge open close unlock report claim verify state decide install inspect draft deploy review uninstall compare change tag link match forget recover schedule explore keep archive spawn hibernate restore use render pass match index replay start arrive notice run report set unlock lock be have do tell note know remember forget move keep store seal answer ask mean read say define follow reveal open add solve factor verify find use understand authorize ' +
@@ -608,7 +609,7 @@ function revoice(c, target) { if (!c || c.coord || !c.verb || VOICE_NO.has(c.ver
   return null; }
 function voiceV(v, target) { let n = 0; const o = v.map(s => { const t = s.c && s.c.comp && s.c.comp.that && s.c.comp.that.uc; const r = t && revoice(t, target); if (!r) return s; n++; return Object.assign({}, s, { c: Object.assign({}, s.c, { comp: Object.assign({}, s.c.comp, { that: Object.assign({}, s.c.comp.that, { uc: r }) }) }) }); }); return n ? o : null; }
 function realizeMeaning(m, env) { if (m && m.kind === 'sequence') { const rs = m.parts.map(p => realizeMeaning(p, env)), text = rs.map(r => r.text).filter(Boolean).join(' '); return { text, derivation: { plan: 'sequence', rules: [].concat(...rs.map(r => r.derivation.rules || [])), parts: rs.map(r => r.derivation), surface: text } }; }
-  PLAN_ENV = env || {}; const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); if (c !== C0[0] && C0[0].r && statusSig(c.r.text) !== statusSig(C0[0].r.text)) c.e = Object.assign({}, c.e, { pass: false, reason: 'status markers drift' }); } catch (e) { c.e = { pass: false }; } return c.e.pass; };
+  PLAN_ENV = env || {}; const vb = plan(m), C0 = [{ id: 'base', v: vb }], ev = {}; const go = c => { try { c.r = Realizer(env).realize(c.v); c.e = echo(c.r.text, m, env, c.v); if (c !== C0[0] && C0[0].r && statusSig(c.r.text) !== statusSig(C0[0].r.text)) { const ty = ET.classify({ pass: false, components: Object.assign({}, c.e.components), status_drift: true }); c.e = Object.assign({}, c.e, { pass: false, reason: 'status markers drift', disposition: ty.disposition, typed: ty }); } } catch (e) { c.e = { pass: false }; } return c.e.pass; };
   ev.B = go(C0[0]); const rep = !!(m.field && m.field.last && m.field.last === C0[0].r.text);
   /* user-phrasing match (Pāṇini paper D3 topic/scope; RSOC §3.1.2 ⧒): the user fronted a topic ("About my sister, …"); the outward ⧒ variant that fronts the
      same viṣaya is preferred, only when it passes Echo on its own vākya and keeps status — never a different meaning, never a forced form */
@@ -633,12 +634,13 @@ function canonPlan(vakya, env, A, faults) { const userNP = env.npText || (n => G
     if (v.uc) return { uc: G.material(v.uc) };
     const o = {}; for (const k of Object.keys(v)) o[k] = walk(v[k]); if (v.kind === 'clause' && Array.isArray(v.items)) o.items = v.items.map(c => G.material(c)); return o; };
   return walk(vakya); }
-function echo(text, m, env, vk) { env = env || {}; PLAN_ENV = env; const vakya = vk || plan(m); const A = Analyser(env); const faults = []; const want = canon(strip(canonPlan(vakya, env, A, faults)));
+function echo(text, m, env, vk) { env = env || {}; PLAN_ENV = env; const vakya = vk || plan(m); const A = Analyser(env); const faults = []; const wantObj = strip(canonPlan(vakya, env, A, faults)), want = canon(wantObj);
   const a = A.analyse(text); const distinct = [...new Set(a.analyses.map(x => canon(strip(x))))]; const match = distinct.includes(want);
   const comps = { reparse: a.analyses.length ? 1 : 0, unique_analysis: distinct.length === 1 ? 1 : 0, structural_identity: match && !faults.length ? 1 : 0 };
   if (env.reverify) { const rv = env.reverify(m, text); if (rv !== undefined) comps.independent_reverification = rv ? 1 : 0; }
-  const pass = Object.values(comps).every(v => v === 1);
-  return { pass, score: pass ? 1 : 0, theta: 1, components: comps, analyses: distinct.length, ambiguous: distinct.length > 1 || !!a.ambiguous,
+  const pass = Object.values(comps).every(v => v === 1), ambiguous = distinct.length > 1 || !!a.ambiguous;
+  const typed = ET.classify({ pass, components: comps, faults, ambiguous, want: wantObj, gots: pass ? [] : a.analyses.slice(0, 6).map(x => strip(x)), reverify_failed: comps.independent_reverification === 0 });
+  return { pass, score: pass ? 1 : 0, theta: 1, components: comps, analyses: distinct.length, ambiguous, disposition: typed.disposition, typed,
     reason: pass ? undefined : faults[0] || a.reason || (distinct.length > 1 ? 'the surface has ' + distinct.length + ' analyses' : !match ? 'the surface re-derives to a different vākya' : 'independent re-verification failed'),
     mode: 'structural round trip: inverse sūtras (analysis by synthesis) + inward grammar; no word-overlap measure', cite: 'RMC §5.12, §6.7; Doc 3 reversible derivation', _want: env.debug ? want : undefined, _got: env.debug ? distinct : undefined }; }
 const api = { statusSig, PHRASE_C, amplifyV, severV, unAmplify, realizeMeaning, echo, plan, Realizer, Analyser, RULES, SECTIONS, PLANS, REASON, MENTIONS, VERBS, NOUNS, ADJ, NAMES, strip, canon };
