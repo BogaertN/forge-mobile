@@ -143,7 +143,10 @@ const opposite = a => atom(a.predicate, a.args, a.polarity === 'neg' ? 'pos' : '
 const displaySymbol = s => String(s).replace(/^\$/, '').replace(/_/g, ' ');
 /* third person only when it re-parses to the same lemma */
 const third = p => { const f = p === 'have' ? 'has' : /[^aeiou]y$/.test(p) ? p.slice(0, -1) + 'ies' : /(?:s|x|z|ch|sh|o)$/.test(p) ? p + 'es' : p + 's'; return /_/.test(p) || verbLemma(f) !== p ? p : f; };
-function atomText(a) {
+/* 4.9.63 ruling 3: the user's own comparative word for a declared row ("larger" for greater_than): the question's word first, else the first
+   word used; the row predicate stays the atom (Echo re-reads the word to the same row) */
+function surfaceOf(raw, qtext) { const C = WRL().COMPARATIVES, out = {}; for (const t of [String(qtext || ''), String(raw || '')]) for (const w of clean(t).toLowerCase().split(/[^a-z]+/)) { const p = C.get(w); if (p && !out[p] && p !== w + '_than') out[p] = w; } return out; }
+function atomText(a, surf) {
   if (!a) return 'unresolved proposition';
   { const m = a.predicate.match(/^mod(can|may|must|might|could|should|will|would)_(.+)$/); if (m) { const b = atomText(atom(m[2], a.args, 'pos')), s = displaySymbol(a.args[0]); return s + ' ' + m[1] + (a.polarity === 'neg' ? ' not ' : ' ') + (/_v$/.test(m[2]) ? displaySymbol(m[2].slice(0, -2)) : /__/.test(m[2]) || a.args.length === 1 ? b.slice(s.length + 1).replace(/^is /, 'be ') : displaySymbol(m[2]) + ' ' + displaySymbol(a.args[1])); } }
   if (/__/.test(a.predicate)) { const ps = !a.predicate.indexOf(PAST), [v, ...r] = a.predicate.slice(ps ? PAST.length : 0).split('__'), p = r.pop(), ng = a.polarity === 'neg';
@@ -153,7 +156,7 @@ function atomText(a) {
     return / is /.test(x) ? x.replace(' is ', ' was ') : / does not /.test(x) ? x.replace(' does not ', ' did not ') : displaySymbol(a.args[0]) + ' ' + displaySymbol(pastForm(b)) + ' ' + displaySymbol(a.args[1]); }
   const neg = a.polarity === 'neg';
   if (a.args.length === 1 && /_v$/.test(a.predicate)) { const p = a.predicate.slice(0, -2); return displaySymbol(a.args[0]) + (neg ? ' does not ' + displaySymbol(p) : ' ' + displaySymbol(third(p))); }
-  if (/_than$/.test(a.predicate) && a.args.length === 2) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + displaySymbol(a.predicate.slice(0, -5)) + ' than ' + displaySymbol(a.args[1]);
+  if (/_than$/.test(a.predicate) && a.args.length === 2) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + (surf && surf[a.predicate] ? surf[a.predicate] : displaySymbol(a.predicate.slice(0, -5))) + ' than ' + displaySymbol(a.args[1]);
   { const ph = a.args.length === 2 && WRL().PHRASES.find(x => x.pred === a.predicate); if (ph) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + ph.phrase + ' ' + displaySymbol(a.args[1]); }
   if (a.args.length === 1 || isPrep(a.predicate)) return displaySymbol(a.args[0]) + ' is ' + (neg ? 'not ' : '') + displaySymbol(a.predicate) + (a.args[1] ? ' ' + displaySymbol(a.args[1]) : '');
   const p = a.predicate, v = neg ? p : third(p); /* third person only when it re-parses to the same lemma */
@@ -848,7 +851,7 @@ function buildAnswer(raw, candidate, world, derivation) {
   const refutationCheck = derivation.refutation ? checkProof(world, derivation.refutation) : { ok: true, code: 'NO_REFUTATION_PROOF' };
   const checks = { support: supportCheck, refutation: refutationCheck }, rsoc = rsocDecide(derivation, checks), status = rsoc.selected;
   if (status !== resultStatus(derivation, supportCheck, refutationCheck)) throw new Error('RSOC_STATUS_DISAGREE');
-  const rmc = rmcSelect(world, derivation, status, checks), queryText = atomText(world.query.atom), oppositeText = atomText(opposite(world.query.atom));
+  const rmc = rmcSelect(world, derivation, status, checks), surf = surfaceOf(raw, candidate.query && candidate.query.source_span ? String(raw).slice(candidate.query.source_span.start, candidate.query.source_span.end) : ''), queryText = atomText(world.query.atom, surf), oppositeText = atomText(opposite(world.query.atom), surf);
   const envelopeBody = {
     schema: ENVELOPE_SCHEMA,
     request_id: digest('world-request', { input_sha256: sha256(String(raw).normalize('NFC')), candidate_id: candidate.candidate_id }),
@@ -1012,7 +1015,7 @@ function evaluateWhy(raw, segs, qseg, opts) {
   const t = clean(qseg.text).replace(/[?]+$/, ''), m = t.match(/^why\s+((?:is|are|does|do|was|were|did)\s+.+)$/i); if (!m) return null;
   const head = raw.slice(0, qseg.span.start), r = evaluate1(head + m[1] + '?', opts); if (!r.handled || !r.material || r.material.kind !== 'world_answer') return r.handled ? r : null;
   const a = r.material, why = { question: qseg.source, status: a.status, query: copy(a.query), query_text: a.query_text, premises: [], rules: 0, hypotheses: [], proof: a.proofs.support, world: a.world };
-  if (a.status === 'supported_only') { const st = a.proofs.support.steps; why.premises = st.filter(x => x.kind === 'fact').map(x => atomText(x.conclusion)); why.rules = new Set(st.filter(x => x.kind === 'rule').map(x => x.rule_id)).size; }
+  if (a.status === 'supported_only') { const st = a.proofs.support.steps; why.premises = st.filter(x => x.kind === 'fact').map(x => atomText(x.conclusion, surfaceOf(raw, qseg.text))); why.rules = new Set(st.filter(x => x.kind === 'rule').map(x => x.rule_id)).size; }
   else if (a.status === 'undetermined') { const q = a.query, seen = new Set();
     for (const rule of a.world.rules) { const s = unify(rule.head, q, {}); if (!s) continue; const hs = rule.body.map(b => instantiate(b, s)); if (hs.some(h => h.args.some(x => /^\$/.test(x)))) continue;
       const txt = hs.map(atomText), k = txt.join(' and '); if (seen.has(k) || why.hypotheses.length >= 4) continue; seen.add(k);
@@ -1059,8 +1062,8 @@ function qQuestion(text) { const t = clean(text).replace(/[?]+$/, ''); let m;
   if ((m = t.match(rx('^(?:is|are|was|were)\\s+' + NP + '\\s+(not\\s+)?(longer|taller|wider|higher|deeper|farther|shorter|heavier|lighter|older|younger)\\s+than\\s+' + NP + '$')))) { const a = qsym(m[1]), b = qsym(m[4]), d = QCMP[m[3].toLowerCase()]; return a && b ? { kind: 'compare', who: [a, b], prop: d.replace('-', ''), inv: /-$/.test(d), neg: !!m[2], adj: m[3].toLowerCase() } : null; }
   return null; }
 function evaluateQty(raw, segs, q, opts) {
-  const Q = qQuestion(q.text); if (!Q) return null; const facts = [], bad = [];
-  for (const s of segs) { if (s === q) continue; if (s.kind === 'question') return null; const f = qFact(stripLead(s.text)); if (!f) { if (/\d/.test(s.text)) bad.push(s.source); continue; } if (f.err) return qOut(raw, Q, { status: 'diagnostic', code: f.err, detail: f.u + ' is not a ' + f.adj + ' unit', a: f.u, b: f.adj }, opts); facts.push(Object.assign(f, { src: s.source })); }
+  const Q = qQuestion(q.text); if (!Q) return null; const facts = [], bad = []; let other = 0;
+  for (const s of segs) { if (s === q) continue; if (s.kind === 'question') return null; const f = qFact(stripLead(s.text)); if (!f) { if (/\d/.test(s.text)) bad.push(s.source); else other++; continue; } if (f.err) return qOut(raw, Q, { status: 'diagnostic', code: f.err, detail: f.u + ' is not a ' + f.adj + ' unit', a: f.u, b: f.adj }, opts); facts.push(Object.assign(f, { src: s.source })); }
   if (Q.kind !== 'convert' && !facts.length && !segs.some(s => s !== q)) return null;
   const val = (e, prop) => { const fs = facts.filter(f => f.e === e && (f.prop === prop || prop && prop.startsWith('count:') && (f.prop === 'count:' + Q.noun || pluralForms(Q.noun).some(x => f.prop === 'count:' + x)))); const ks = [...new Set(fs.map(f => fmt(f.q).text))]; return !fs.length ? { none: true } : ks.length > 1 ? { conflict: fs } : { f: fs[fs.length - 1] }; };
   if (Q.prop && /\|/.test(Q.prop)) { const ds = Q.prop.split('|'); Q.prop = Q.b ? Q.b.dim : ds.find(d => facts.some(f => f.e === Q.who[0] && f.prop === d)) || ds[0]; }
@@ -1071,7 +1074,7 @@ function evaluateQty(raw, segs, q, opts) {
     if (b && b.dim !== prop) return qOut(raw, Q, { status: 'diagnostic', code: 'UNIT_DIMENSION_MISMATCH', detail: prop + ' ≠ ' + b.dim, a: used[0].u, b: Q.to || Q.noun }, opts);
     const o = fmt(isCount ? tot : dvd(tot, fr(b.f))), unit = isCount ? (o.text === '1' ? pluralForms(Q.noun)[0] : Q.noun) : Q.to || Q.noun || (used.length === 1 ? used[0].u : b.name + 's');
     return qOut(raw, Q, { status: 'computed', value: o.text, exact: o.exact, unit, eq: used.length > 1 ? [used.map(f => f.v + ' ' + f.u).join(' + '), o.text + ' ' + unit] : !isCount && used[0].u !== unit ? [used[0].v + ' ' + used[0].u, o.text + ' ' + unit] : null, from: used.map(f => f.src) }, opts); }
-  if (Q.kind === 'compare') { const vs = Q.who.map(e => val(e, Q.prop)); const c = vs.find(v => v.conflict); if (c) return qOut(raw, Q, { status: 'diagnostic', code: 'QUANTITY_CONFLICT', detail: '', srcs: c.conflict.map(f => f.src) }, opts); if (vs.some(v => v.none)) return qOut(raw, Q, { status: 'undetermined', missing: Q.who[vs.findIndex(v => v.none)] }, opts);
+  if (Q.kind === 'compare') { const vs = Q.who.map(e => val(e, Q.prop)); const c = vs.find(v => v.conflict); if (c) return qOut(raw, Q, { status: 'diagnostic', code: 'QUANTITY_CONFLICT', detail: '', srcs: c.conflict.map(f => f.src) }, opts); if (vs.some(v => v.none)) { if (other) return null; /* 4.9.63 ruling 5: a comparison with a missing measurement but stated non-measurement premises ("Quo is taller than Ola") is a RELATION question: the relational world answers it with the order rules; the measured-quantity evaluator only answers from measurements */ return qOut(raw, Q, { status: 'undetermined', missing: Q.who[vs.findIndex(v => v.none)] }, opts); }
     const k = cmpF(vs[0].f.q, vs[1].f.q) * (Q.inv ? -1 : 1), yes = (k > 0) !== Q.neg; return qOut(raw, Q, { status: 'compared', yes, eq: [vs[0].f.v + ' ' + vs[0].f.u, vs[1].f.v + ' ' + vs[1].f.u], rel: k > 0 ? 'gt' : k < 0 ? 'lt' : 'eq', from: vs.map(v => v.f.src) }, opts); }
   return null; }
 function qOut(raw, Q, r, opts) { const st = r.status === 'computed' || r.status === 'compared' ? 'supported_only' : r.status === 'diagnostic' ? 'refused' : 'undetermined';

@@ -33,6 +33,14 @@
     { pred: 'parent_of', phrase: 'parent of', inverse: 'child_of' }, { pred: 'child_of', phrase: 'child of', inverse: 'parent_of' },
     { pred: 'mother_of', phrase: 'mother of', functional: 'object', one: { who: 'person', has: 'mother' } }, { pred: 'father_of', phrase: 'father of', functional: 'object', one: { who: 'person', has: 'father' } },
     { pred: 'greater_than', inverse: 'less_than', comparative: ['greater', 'more', 'larger'] }, { pred: 'less_than', inverse: 'greater_than', comparative: ['less', 'smaller', 'fewer'] },
+    /* 4.9.63 ruling 5: the dimensional comparatives as data (inverse pairs; the order rules give asymmetry and transitivity). "longer" has no
+       declared inverse here: "shorter" is the inverse of "taller" only, so a longer/shorter question stays open-world (never a wrong No) */
+    { pred: 'taller_than', inverse: 'shorter_than', comparative: ['taller'] }, { pred: 'shorter_than', inverse: 'taller_than', comparative: ['shorter'] },
+    { pred: 'older_than', inverse: 'younger_than', comparative: ['older'] }, { pred: 'younger_than', inverse: 'older_than', comparative: ['younger'] },
+    { pred: 'heavier_than', inverse: 'lighter_than', comparative: ['heavier'] }, { pred: 'lighter_than', inverse: 'heavier_than', comparative: ['lighter'] },
+    { pred: 'wider_than', inverse: 'narrower_than', comparative: ['wider'] }, { pred: 'narrower_than', inverse: 'wider_than', comparative: ['narrower'] },
+    { pred: 'higher_than', inverse: 'lower_than', comparative: ['higher'] }, { pred: 'lower_than', inverse: 'higher_than', comparative: ['lower'] },
+    { pred: 'deeper_than', inverse: 'shallower_than', comparative: ['deeper'] }, { pred: 'shallower_than', inverse: 'deeper_than', comparative: ['shallower'] },
     { pred: 'married_to', phrase: 'married to', symmetric: true }, { pred: 'next_to', phrase: 'next to', symmetric: true },
     { pred: 'adjacent_to', phrase: 'adjacent to', symmetric: true }, { pred: 'sibling_of', phrase: 'sibling of', symmetric: true },
     { pred: 'before', transitive: true, inverse: 'after' }, { pred: 'after', transitive: true, inverse: 'before' },
@@ -64,7 +72,13 @@
       if (r.functional === 'object') add('functional', [A(q, '$y', '$x'), A(q, '$z', '$x')], A(q, '$z', '$x', 'neg'), [['apart', '$y', '$z']]); }
     return out; }
   /* the same rules as data rules for the rule engine (durable world): stable ids RELPROP-<PROPERTY>:<pred> */
-  const propertyDataRules = p => propertyRules(p).map(r => Object.assign({ id: 'RELPROP-' + r.prop.toUpperCase() + ':' + r.head.predicate.replace(/^past_/, '') + (r.prop === 'inverse' ? '<' + r.pred : ''), name: 'RELPROP-' + r.prop.toUpperCase(), body: r.body, head: r.head }, r.guard ? { guard: r.guard } : {}));
-  const api = { transitiveRule, TRANSITIVE, FAMILY, transitive, RELATIONS, PHRASES, COMPARATIVES, relInfo, apartness, propertyRules, propertyDataRules, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
+  /* 4.9.63 ruling 4: a comparative row (declared comparative words, *_than) is an ORDER in the durable world too — transitive and asymmetric — the
+     same two rules the turn world gives every comparative (reason.js orderRules), so stored comparatives derive and refute like the turn world */
+  function orderRules(p) { const i = relInfo(p); if (!i || !/_than$/.test(i.base)) return []; const out = [];
+    for (const b of [i.base].concat(i.row.inverse ? [i.row.inverse] : [])) { const r = REL_BY.get(b); if (!r || !r.comparative) continue;
+      out.push({ prop: 'transitive', pred: b, body: [A(b, '$x', '$y'), A(b, '$y', '$z')], head: A(b, '$x', '$z') }, { prop: 'asymmetric', pred: b, body: [A(b, '$x', '$y')], head: A(b, '$y', '$x', 'neg') }); }
+    return out; }
+  const propertyDataRules = p => propertyRules(p).concat(orderRules(p)).map(r => Object.assign({ id: 'RELPROP-' + r.prop.toUpperCase() + ':' + r.head.predicate.replace(/^past_/, '') + (r.prop === 'inverse' ? '<' + r.pred : ''), name: 'RELPROP-' + r.prop.toUpperCase(), body: r.body, head: r.head }, r.guard ? { guard: r.guard } : {}));
+  const api = { transitiveRule, TRANSITIVE, FAMILY, transitive, RELATIONS, PHRASES, COMPARATIVES, relInfo, apartness, propertyRules, propertyDataRules, orderRules, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KWorldRules = api;
 })(typeof self !== 'undefined' ? self : this);
