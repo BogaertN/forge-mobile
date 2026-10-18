@@ -4,7 +4,7 @@ const L = isNode ? require('./lexicon.js') : root.KLexicon;
 const M = isNode ? require('./kmath.js') : root.KMath;
 const A = isNode ? require('./algebra.js') : root.KAlgebra;
 const CA = isNode ? require('./calculus.js') : root.KCalc;
-const SIM = isNode ? require('./sim.js') : root.KSim; const JT = isNode ? require('./justify.js') : root.KJustify; const HY = isNode ? require('./hypothesis.js') : root.KHyp; const RD = isNode ? require('./render.js') : root.KRender; const PF = isNode ? require('./protoforge.js') : root.KProtoForge; const EDE = isNode ? require('./ede.js') : root.KEDE; const SY = isNode ? require('./symbols.js') : root.KSymbols;
+const SIM = isNode ? require('./sim.js') : root.KSim; const JT = isNode ? require('./justify.js') : root.KJustify; const HY = isNode ? require('./hypothesis.js') : root.KHyp; const RD = isNode ? require('./render.js') : root.KRender; const MSMV1 = isNode ? require('./msm.js') : root.KMSM; /* K3/K4 4.9.69 */ const PF = isNode ? require('./protoforge.js') : root.KProtoForge; const EDE = isNode ? require('./ede.js') : root.KEDE; const SY = isNode ? require('./symbols.js') : root.KSymbols;
 const G = isNode ? require('./grammar.js') : root.KGrammar;
 const D = isNode ? require('./derive.js') : root.KDerive;
 const IF = isNode ? require('./infer.js') : root.KInfer; const SM = isNode ? require('./selfmodel.js') : root.KSelf;
@@ -916,6 +916,7 @@ function Kernel(opts) {
       rules.push({ id: 'PF-INTERNAL-ONLY', doc: 'ProtoForge is Forge\'s internal tool chest; no user command lane invokes it' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: low.replace(/^please /, '').replace(/\bmy\b/g, 'your'), reason: 'PF_INTERNAL' }, { frame: 'FR.PF.INTERNAL', act: 'request' }); }
     { const tw = raw.trim().split(/\s+/), tm = tw.length > 3 && /^(?:for|of)$/i.test(tw[tw.length - 3]) && /^turn$/i.test(tw[tw.length - 2]) && /^\d{1,6}$/.test(tw[tw.length - 1]) ? [null, tw.slice(0, -3).join(' '), tw[tw.length - 1]] : null; /* PP operand: (for|of) turn NUM */ const form = RD.parseRequest(tm ? tm[1] : raw); if (form) { const tl = store.load('trace'); const last = tl.slice().reverse().find(t => t.msm && t.msm.meaning && !/^render/.test(t.msm.meaning.kind) && t.output && (!tm || t.turn === +tm[2]));
       if (!last) { rules.push({ id: 'RMC-RENDER-NO-MANIFEST', doc: 'RMC 01 output forms' }); return res('SELECTED_MEANING', { kind: 'render_none', form }, { frame: 'FR.RENDER', act: 'request' }); }
+      const gate = MSMV1.validateProjection(MSMV1.compatProjection(last), form); if (!gate.ok) { rules.push({ id: 'RMC-RENDER-GATE-' + gate.step.toUpperCase().replace('_', '-'), doc: 'RMC App D.7 validation order; D.4 rules 1–4, 8', note: gate.why }); return res('SELECTED_MEANING', { kind: 'render_blocked', form, turn: last.turn, check: gate.step.replace('_', ' ') }, { frame: 'FR.RENDER', act: 'request' }); }
       const art = RD.render(form, last, last.output, ENV); pendingRender = art; rules.push({ id: 'RMC-RENDER-' + form.toUpperCase().replace('.', '-'), doc: 'RMC 00 §output forms; RMC 01 (one manifest, many forms; Echo per form)', note: art.echo.mode });
       return res('SELECTED_MEANING', { kind: 'rendered', form, turn: last.turn, pass: !!art.echo.pass }, { frame: 'FR.RENDER', act: 'request' }); } }
     if ((m = capF(raw, { id: 'research', v: ['research'], re: /^(.{2,160}?)$/ }) || capF(raw, { id: 'research', v: ['look'], part: 'up', re: /^(.{2,160}?)$/ }) || capF(raw, { id: 'research', v: ['search'], obj: ['web'], re: /^for\s+(.{2,160}?)$/i }) || capF(raw, { id: 'research', v: ['find'], obj: ['source'], re: /^(?:on|about)\s+(.{2,160}?)$/i })) && !ctx.negAct) { rules.push({ id: 'EF-FRAME-RESEARCH', doc: 'EchoForge tool bench; forge research_acquisition.py' }); const topic = m[1].replace(/["“”]/g, "'").trim(); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'research.web', target: topic, noun: 'topic' }, { frame: 'FR.TOOL.RESEARCH', act: 'request', toolRequest: { tool: 'research.web', input: topic } }); }
@@ -1613,13 +1614,36 @@ function Kernel(opts) {
     trace.rpm = rec.map(r => ({ id: r.id, mu: r.sfe.mu, eps: r.sfe.eps, weight: M.rpmWeight(r.sfe), formula: 'ΦM·exp(−ε) = ' + r.sfe.mu + '·exp(−' + r.sfe.eps + ') (RPMC §1; display only)' }));
     if (!opts.noTMS) { try { trace.tms = tmsTurn(trace, msm); } catch (e) { trace.tms = { error: String(e && e.message).slice(0, 160) }; } }
     meta.phaseHistory.push(terminal); meta.phaseHistory = meta.phaseHistory.slice(-9); meta.epsHistory = (meta.epsHistory || []).concat([trace.drift.eps_s]).slice(-9); /* 4.9.67: ancestors' drift for the canonical χ */ meta.last = { eps_s: trace.drift.eps_s, band: trace.drift.band, phase: terminal }; saveMeta();
+    let msmFull = null; try { msmFull = turnManifests(trace, msm, text, rec); } catch (e) { trace.msm_v1 = { error: String(e && e.message).slice(0, 200) }; trace.output_manifest = null; }
     const tr = store.load('trace'); tr.push(trace); store.save('trace', tr.slice(-200));
     const outR = { reply: text, blocked: trace.blocked, block_reason: trace.block_reason || null, outcome: trace.outcome, trace, msm };
     const sealOk = curSecrets.length && !trace.blocked && msm.meaning && msm.meaning.kind === 'stored_sensitive';
     Object.defineProperty(outR, 'secrets', { value: sealOk ? curSecrets.map(x => ({ label: x.label, value: x.value, ref: 'mem:' + msm.msm_id.slice(0, 16), at: trace.at })) : [], enumerable: false }); curSecrets = [];
+    if (msmFull) Object.defineProperty(outR, 'msm_manifest', { value: msmFull, enumerable: false }); /* the full MSM-v1 manifest (not persisted per turn; trace keeps id + sha) */
     if (pendingRender) { const pr = pendingRender; pendingRender = null; Object.defineProperty(outR, 'render', { value: pr, enumerable: false }); trace.render = { form: pr.form, echo: !!(pr.echo && pr.echo.pass), sha256: sha256(String(pr.content)) }; }
     return outR;
   }
+  /* K3 + K4 (4.9.69): every finished turn gets (1) its MSM-v1 manifest, built through the 31-rule lifecycle law and validated, and (2) its RMC
+     projection manifest μ_t (App D) — built from the trace before any rendering; RD.render is gated by MSM.validateProjection (D.7). */
+  function turnManifests(trace, msm, text, rec) { const oc = trace.outcome || {}, kind = String((msm.meaning && msm.meaning.kind) || ''), restr = (msm.limits && msm.limits.restrictions) || [];
+    const sealed = /^sealed/.test(String(msm.status || '')), quarantined = !!(trace.containment && trace.containment.route === 'drift_archive_only');
+    const sensitive = !!((msm.meaning && msm.meaning.sensitive) || /sensitive|vault|secret/.test(kind) || curSecrets.length || rec.some(r => r.sensitive));
+    const sc = (trace.selection && trace.selection.candidates) || trace.candidates || [];
+    const b = MSMV1.buildTurn({ psi: msm.msm_id, turn: trace.turn, act: msm.purpose && msm.purpose.speech_act, frame: msm.purpose && msm.purpose.frame, outcome_category: oc.category, outcome_class: oc.class, meaning: msm.meaning,
+      candidates: sc.map(c => ({ route: c.route, kind: c.kind, frame: c.frame, outcome: c.outcome, selected: c.status === 'selected' })), evidence: (msm.evidence && msm.evidence.refs) || [], blocked: !!trace.blocked, block_reason: trace.block_reason,
+      sealed, quarantined, output: text, echo: trace.echo ? { pass: !!trace.echo.pass, ambiguous: !!trace.echo.ambiguous } : null, write: (trace.memory || []).length > 0, sensitive, limitations: restr, act: msm.purpose && msm.purpose.speech_act });
+    const v = MSMV1.validate(b.manifest); if (!v.valid) throw new Error('MSM-V1-INVALID ' + JSON.stringify(v.issues).slice(0, 160));
+    const ref = { manifest_id: b.manifest.manifest_id, sha256: MSMV1.sha(b.manifest) };
+    trace.msm_v1 = Object.assign({}, ref, { schema_version: b.manifest.schema_version, records: MSMV1.COLLECTIONS.reduce((a, c) => a + b.manifest[c].length, 1), transitions: b.manifest.semantic_transition_traces.length,
+      path: b.manifest.semantic_transition_traces.map(x => x.to_state).join('→'), selected_ref: b.selected_ref, non_selection_ref: b.non_selection_ref, outward_ref: b.outward_ref,
+      preservation_classes: ((b.manifest.candidate_meanings[0] || {}).preservation_classes || []).slice(), valid: true });
+    msm.msm_v1 = ref;
+    trace.output_manifest = MSMV1.projection({ psi: msm.msm_id, turn: trace.turn, at: trace.at, act: msm.purpose && msm.purpose.speech_act, frame: msm.purpose && msm.purpose.frame, input_sha256: trace.input_sha256,
+      outcome_category: oc.category, meaning: msm.meaning, phases: (trace.phases || []).map(p => p.sym), ops: (trace.rsoc && trace.rsoc.ops) || [], rules: (trace.rules || []).map(r => r.id),
+      evidence: (trace.rpm || []).map(r => ({ id: r.id, mu: r.mu, eps: r.eps })), eps_s: trace.drift && trace.drift.eps_s, band: trace.drift && trace.drift.band, sealed,
+      forbidden: /Forbidden phase transition/.test(String(trace.block_reason || '')), quarantined, correction_held: restr.some(x => /drift correction/.test(x)), blocked: !!trace.blocked,
+      sensitive, limitations: restr, forms: RD.FORMS, msm_ref: ref });
+    return b.manifest; }
   function commitHeld(id, userTap) {
     const hw = store.load('held_writes'); const h = hw.find(x => x.id === id && x.status === 'held'); if (!h) return { ok: false, rule: 'HELD-UNKNOWN' };
     const d = perm.authorize('memory.approve_held', { userTap, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
