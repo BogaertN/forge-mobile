@@ -172,7 +172,7 @@ const COP_CMP = rx('^' + NP + '\\s+(?:is|are)\\s+(not\\s+)?(' + SP + ')\\s+than\
 const QUERY_CMP = rx('^is\\s+' + NP + '\\s+(not\\s+)?(' + SP + ')\\s+than\\s+' + NP + '$');
 /* "X is ADJ than Y" names a strict order: the binary predicate ADJ_than; its order properties (transitive, asymmetric) are the grammatical meaning
    of the comparative construction and enter the world as explicit rules sourced to the sentence that used it — never a topic fact */
-const cmpAtom = (m, v) => { const s = term(m[1], v), p = symbol(m[3], 'predicate'), o = term(m[4], v); return s && p && o ? atom(p + '_than', [s, o], m[2] ? 'neg' : 'pos') : null; };
+const cmpAtom = (m, v) => { const w = clean(m[3]).toLowerCase(), dp = !/^"/.test(m[3]) && WRL().COMPARATIVES.get(w), s = term(m[1], v), p = dp || symbol(m[3], 'predicate'), o = term(m[4], v); return s && p && o ? atom(dp ? dp : p + '_than', [s, o], m[2] ? 'neg' : 'pos') : null; }; /* 4.9.61: declared comparative words (world_rules.js) name the row's predicate */
 const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])], head: atom(p, ['$x', '$z']), form: 'comparative_order' }, { body: [atom(p, ['$x', '$y'])], head: atom(p, ['$y', '$x'], 'neg'), form: 'comparative_order' }];
 /* past tense is a marker on the proposition (§4.1): "was/were", "did", regular "-ed" give a past_ atom, distinct from the present one
    ("X was in Y" does not answer "is X in Y?"); time intervals stay deferred (§13) */
@@ -397,7 +397,13 @@ function resolvePron(texts, out) { let last = null; const names = []; return tex
 /* P5 (derived): "must" entails "can" with the same sign (deontic D: O p ⇒ P p, O ¬p ⇒ ¬P p); never the reverse; "may"/"can" entail nothing */
 function mustRules(a, cmp, out) { const m = a && a.predicate.match(/^modmust_(.+)$/); if (!m || cmp.has(a.predicate)) return; cmp.add(a.predicate); const v = a.args.map((_, i) => ['$x', '$y'][i]);
   for (const pol of ['pos', 'neg']) out.push({ r: { body: [atom(a.predicate, v, pol)], head: atom('modcan_' + m[1], v, pol), form: 'modal_entailment' } }); }
-function sentenceItems(text, vs, cmp, sup) { const out = [];
+/* 4.9.61 ruling 4: "A and B." with two full clauses ("Suppose Pim is inside Quo and Quo is inside Rub.") is one assertion (one supposition set)
+   holding both clauses — tried only when the sentence as a whole is outside the grammar; every clause must parse on its own */
+function sentenceItems(text, vs, cmp, sup) { const c0 = new Set(cmp), r = sentenceItems0(text, vs, cmp, sup); if (r) return r; cmp.clear(); c0.forEach(k => cmp.add(k));
+  const ws = clean(text).split(/\s+/), ands = ws.map((w, i) => (/^and$/i.test(w) && i > 0 && i < ws.length - 1 ? i : -1)).filter(i => i >= 0);
+  for (const i of ands) { const l = sentenceItems0(ws.slice(0, i).join(' '), vs, cmp, sup); if (!l) { cmp.clear(); c0.forEach(k => cmp.add(k)); continue; } const rr = sentenceItems(ws.slice(i + 1).join(' '), vs, cmp, sup); if (rr) return l.concat(rr); cmp.clear(); c0.forEach(k => cmp.add(k)); }
+  return null; }
+function sentenceItems0(text, vs, cmp, sup) { const out = [];
   { const g = clean(generic(text)).match(rx('^((?:every|each|all)\\s+' + SP + '\\s+(?:is|are))\\s+(?:a|an)\\s+(' + SP + ')\\s+(' + SP + ')$')); if (g && !isPrep(g[2])) { const r1 = parseRule(g[1] + ' ' + g[2]), r2 = parseRule(g[1] + ' a ' + g[3]); if (r1 && r2) return [{ r: r1 }, { r: r2 }]; } }
   const ts = coordSplit(text);
   for (const t of ts) { const r = parseRule(t); if (r) { out.push({ r }); mustRules(r.head, cmp, out); continue; }
@@ -406,7 +412,7 @@ function sentenceItems(text, vs, cmp, sup) { const out = [];
     const a = parseAtomic(t, false) || parseAtomic(t, false, vs()); if (!a) return null; out.push({ a: ts.pl ? withAlts(a, [ts.pl, ts.pl]) : a });
     if (/__/.test(a.predicate)) { const u = /__tadv$/.test(a.predicate) ? tadvSplit(t)[0] : clean(t).replace(rx('\\s+(?:' + ADJ_P + ')\\s+' + NP + '$'), ''), b = parseAtomic(u, false) || parseAtomic(u, false, vs()); if (b) out.push({ a: b }); }
     for (const m of [a].concat([])) mustRules(m, cmp, out);
-    if (/_than$/.test(a.predicate) && !cmp.has(a.predicate)) { cmp.add(a.predicate); for (const o of orderRules(a.predicate)) out.push({ r: o }); }
+    if (/_than$/.test(a.predicate)) for (const p of [a.predicate].concat(((WRL().relInfo(a.predicate) || {}).row || {}).inverse || [])) if (!cmp.has((sup ? 'sup:' : '') + p)) { cmp.add((sup ? 'sup:' : '') + p); for (const o of orderRules(p)) out.push({ r: o }); } /* a declared inverse comparative gets its order rules too */
     relRules(a, cmp, out, sup); }
   return out; }
 /* M3: the declared properties of a relation enter the world as explicit rules sourced to the sentence that used the relation (once per
@@ -638,9 +644,12 @@ function instantiate(pattern, subst) {
   return args.some(x => x === undefined) ? null : atom(pattern.predicate, args, pattern.polarity);
 }
 
-const guardShape = r => Array.isArray(r.guard) && r.guard.length > 0 && r.guard.every(g => Array.isArray(g) && g.length === 3 && g[0] === 'distinct' && r.variables.includes(g[1]) && r.variables.includes(g[2]));
-const guardOk = (rule, s) => (rule.guard || []).every(g => g[0] === 'distinct' && s[g[1]] !== undefined && s[g[1]] !== s[g[2]]);
-function substitutions(rule, entries, budget, index) {
+const guardShape = r => Array.isArray(r.guard) && r.guard.length > 0 && r.guard.every(g => Array.isArray(g) && g.length === 3 && (g[0] === 'distinct' || g[0] === 'apart') && r.variables.includes(g[1]) && r.variables.includes(g[2]));
+/* guards: distinct(y, z) = different names; apart(y, z) = different names that are neither contained in one another nor declared aliases
+   (world_rules.js apartness over the STATED atoms; ctx() builds it once per closure / replay, so checker and engine decide alike) */
+const guardOk = (rule, s, ctx) => (rule.guard || []).every(g => s[g[1]] !== undefined && s[g[1]] !== s[g[2]] && (g[0] === 'distinct' || (g[0] === 'apart' && !!ctx && ctx()(s[g[1]], s[g[2]]))));
+const apartCtx = atoms => { let f = null; return () => f || (f = WRL().apartness(atoms)); };
+function substitutions(rule, entries, budget, index, ctx) {
   let rows = [{ substitution: {}, premises: [] }];
   for (const pattern of rule.body) {
     const next = [];
@@ -652,7 +661,7 @@ function substitutions(rule, entries, budget, index) {
     }
     rows = next; if (!rows.length) break;
   }
-  return rows.filter(r => guardOk(rule, r.substitution)).sort((a, b) => canon(a).localeCompare(canon(b)));
+  return rows.filter(r => guardOk(rule, r.substitution, ctx)).sort((a, b) => canon(a).localeCompare(canon(b)));
 }
 
 function orderSteps(entry, steps) {
@@ -683,13 +692,13 @@ function closure(facts, rules, L, indexed) {
     const step = { kind: 'fact', step_id: 'step:' + f.id, fact_id: f.id, premises: [], substitution: {}, polarity: f.atom.polarity, conclusion: copy(f.atom) };
     const e = { atom: copy(f.atom), step }; entries.set(atomKey(e.atom), e); steps.set(step.step_id, step);
   }
-  const budget = { work: 0, max: L.MAX_WORK, exhausted: false };
+  const budget = { work: 0, max: L.MAX_WORK, exhausted: false }, ctx = apartCtx(facts.map(f => f.atom));
   let derivations = 0, rounds = 0, stable = false;
   for (rounds = 1; rounds <= L.MAX_ROUNDS; rounds++) {
     let changed = false; const snapshot = [...entries.values()].sort((a, b) => atomKey(a.atom).localeCompare(atomKey(b.atom)));
     let index = null; if (indexed) { index = new Map(); for (const e of snapshot) { const k = e.atom.polarity + ' ' + e.atom.predicate; if (!index.has(k)) index.set(k, []); index.get(k).push(e); } }
     for (const rule of rules) {
-      const rows = substitutions(rule, snapshot, budget, index); if (budget.exhausted) break;
+      const rows = substitutions(rule, snapshot, budget, index, ctx); if (budget.exhausted) break;
       for (const row of rows) {
         const conclusion = instantiate(rule.head, row.substitution); if (!conclusion) continue;
         const k = atomKey(conclusion); if (entries.has(k)) continue;
@@ -728,7 +737,7 @@ function replayProofCore(world, proof) {
 /* independent step replay: every fact step is a stated fact, every rule step re-instantiates its rule (guards re-checked); no step unused */
 function replaySteps(facts, rules, proofSteps, maxDepth, finalAtom) {
   const fail = code => ({ ok: false, code });
-  const derived = new Map(), stepById = new Map(), depths = new Map();
+  const derived = new Map(), stepById = new Map(), depths = new Map(), ctx = apartCtx([...facts.values()].map(f => f.atom));
   for (const step of proofSteps) {
     if (!step || typeof step.step_id !== 'string' || derived.has(step.step_id)) return fail('STEP_REPLAY');
     if (step.kind === 'fact') {
@@ -742,7 +751,7 @@ function replaySteps(facts, rules, proofSteps, maxDepth, finalAtom) {
     if (!r || !Array.isArray(step.premises) || step.premises.length !== r.body.length || !step.substitution || typeof step.substitution !== 'object' || Array.isArray(step.substitution)) return fail('RULE_STEP_CONTEXT');
     const expectedVars = [...new Set(r.body.concat([r.head]).flatMap(variables))].sort();
     if (!same(Object.keys(step.substitution).sort(), expectedVars)) return fail('SUBSTITUTION_SHAPE');
-    if (!guardOk(r, step.substitution)) return fail('GUARD_REPLAY');
+    if (!guardOk(r, step.substitution, ctx)) return fail('GUARD_REPLAY');
     for (let i = 0; i < r.body.length; i++) {
       const premise = derived.get(step.premises[i]); if (!premise) return fail('PREMISE_REFERENCE');
       const expected = instantiate(r.body[i], step.substitution); if (!expected || !same(expected, premise)) return fail('PREMISE_REPLAY');
