@@ -1,0 +1,22 @@
+{
+  "schema": "FORGE-CANONICAL-PROBLEMS/v1",
+  "adopted": "4.9.67 (Nic ruling 7, 2026-10-18): all three adopted as MEA-P acceptance problems (MEA_SPEC §f.5)",
+  "note": "Each problem is a MEAProblemManifest-shaped record. The exact sub-results are checked NOW through the kernel's exact math lane; the epistemic outcomes (hypothesis / partial_resolution / derived_claim, branching, withdrawal) are the acceptance target for MEA-P (MEA_SPEC §e steps 3-4) and are reported as pending until that lane exists. No weights.",
+  "problems": [
+    { "id": "canon:physics-144hz", "domain": "physics",
+      "known_facts": ["144 Hz is the FBSC substrate frequency", "no published measurement of 144 Hz in myelin", "90 Hz binding frequency"],
+      "unknowns": ["a direct measurement of 144 Hz in myelin", "whether 144 is a substrate frequency or a derived harmonic"],
+      "exact": [ { "ask": "what is 144/90?", "value": "1.6", "claim": "144/90 = 1.6 exactly (derived_claim)" }, { "ask": "what is 16*9?", "value": "144", "claim": "144 is the 16th harmonic of 9 Hz (arithmetic only; the physical claim stays a hypothesis)" } ],
+      "expected_outcome": { "status": "hypothesis", "next": "test_required", "never": "verified_claim", "split": ["substrate", "harmonic"] } },
+    { "id": "canon:chemistry-limiting-reagent", "domain": "chemistry",
+      "known_facts": ["2 H2 + O2 -> 2 H2O", "4.0 g H2", "molar masses H2 2.016, O2 32.00, H2O 18.02"],
+      "unknowns": ["the O2 mass"],
+      "exact": [ { "ask": "what is 4.0/2.016*32.00/2?", "value": "2000/63", "claim": "O2 is limiting iff m(O2) < 2000/63 g (about 31.75 g)" }, { "ask": "what is 4.0/2.016*18.02?", "value": "4505/126", "claim": "H2O = 4505/126 g (about 35.75 g) if H2 is limiting" }, { "ask": "what is 16/32*2*18.02?", "value": "18.02", "claim": "with O2 = 16 g: H2O = 18.02 g (derived_claim after the follow-up)" } ],
+      "expected_outcome": { "status": "partial_resolution", "next": "test_required", "never": "a single yield before the O2 mass is given", "follow_up": { "user": "O2 is 16 g", "status": "derived_claim", "withdraws": "the conditional hypotheses (M2 cascade)" } } },
+    { "id": "canon:biology-inheritance", "domain": "biology",
+      "known_facts": ["affected father, unaffected mother", "all daughters affected, no sons affected (n = 6 offspring)", "the trait is rare"],
+      "unknowns": ["inheritance mode", "the mother's genotype"],
+      "exact": [ { "ask": "what is (1/2)^6?", "value": "0.015625", "claim": "likelihood 1/64 under autosomal dominant (heterozygous father); 1 under X-linked dominant" } ],
+      "expected_outcome": { "status": "hypothesis", "favoured": "X-linked dominant", "next": "test_required", "branches": ["X-linked dominant", "autosomal dominant", "autosomal recessive", "X-linked recessive"], "order": "lexicographic: fewest extra assumptions, then highest exact likelihood", "falsifier": "an affected son from the same cross" } }
+  ]
+}
