@@ -1,4 +1,4 @@
-/* toolbench.js — EchoForge, re-enabled (user decision 2026-10-11) as the NO-LLM tool bench of the bidirectional language kernel.
+/* toolbench.js — Tool Bench (renamed from "EchoForge" by ruling 9, 2026-10-18; re-enabled 2026-10-11) — the NO-LLM tool bench of the bidirectional language kernel.
  * Every tool is declared by a manifest (inputs, outputs, authority, effect class, network, uses_model:false) and may be invoked only
  * when the kernel has selected one of the predicate frames listed in its manifest; the permission service decides each call; results
  * are EVIDENCE records (never authority) and every invocation is traced in a hash-chained log.  LLM parts of echo-forge stay excluded. */

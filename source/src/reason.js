@@ -135,7 +135,8 @@ function splitOutside(text, word) {
   out.push(s.slice(start).trim()); return out.filter(Boolean);
 }
 
-function atom(predicate, args, polarity) {
+function atom(predicate, args, polarity) { /* 4.9.71 ruling 2: an aliased relation row (inside, within) is read as its class predicate (in) at the one atom constructor */
+  if (typeof predicate === 'string' && WRL().canonicalPred) predicate = WRL().canonicalPred(predicate);
   return { predicate, args: args.slice(), polarity: polarity === 'neg' ? 'neg' : 'pos' };
 }
 const atomKey = a => canon([a.polarity, a.predicate, a.args]);

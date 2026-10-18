@@ -1,5 +1,5 @@
 {
- "version": "4.9.70",
+ "version": "4.9.71",
  "features": [
   {
    "id": "A-01",
@@ -1306,8 +1306,9 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
-   "note": "EchoForge re-enabled as the no-LLM tool bench (user decision D6, 2026-10-11): 11 declared tool manifests, frame-selected, permission-decided, evidence-only, hash-chained log; LLM advisory lane excluded",
+   "note": "Tool Bench (renamed from \"EchoForge\" by ruling 9, 2026-10-18; EchoForge is the separate debate/reflection app) re-enabled as the no-LLM tool bench (user decision D6, 2026-10-11): 11 declared tool manifests, frame-selected, permission-decided, evidence-only, hash-chained log; LLM advisory lane excluded",
    "proof": [
+    "RULINGS-471",
     "TOOLBENCH"
    ]
   },
@@ -1873,7 +1874,7 @@
    "source": "Drive untitled 2026-07-24 (items 8–9); \"Build Plan: RMC Resonance Lexicon + Gold Reference\"",
    "wave": "W3",
    "claim": "Partial",
-   "note": "WordNet tiers + licensed admission queue + EchoForge tool bench; no gold-reference workflow",
+   "note": "WordNet tiers + licensed admission queue + Tool Bench; no gold-reference workflow",
    "proof": [
     "ADMISSION",
     "TOOLBENCH"

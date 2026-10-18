@@ -18,13 +18,18 @@ const WR = isNode ? require('./world_rules.js') : root.KWorldRules, KM = isNode 
 const SCHEMA = 'FORGE-MEA-MANIFEST/v1';
 const canon = x => { if (Array.isArray(x)) return '[' + x.map(canon).join(',') + ']'; if (x && typeof x === 'object') return '{' + Object.keys(x).sort().map(k => JSON.stringify(k) + ':' + canon(x[k])).join(',') + '}'; return JSON.stringify(x === undefined ? null : x); };
 /* the evolvable rows: declared relations that are not comparatives (their order rules come from the construction) and not functional */
-const rows = () => WR.RELATIONS.filter(r => !/_than$/.test(r.pred) && !r.functional && !r.alias && !r.causal).map(r => r.pred);
+const rows = () => WR.RELATIONS.filter(r => !/_than$/.test(r.pred) && !r.functional && !r.alias && !r.same_as && !r.causal).map(r => r.pred);
 const rowOf = p => WR.RELATIONS.find(r => r.pred === p) || {};
 const baseVal = (pred, prop) => !!rowOf(pred)[prop];
 /* 4.9.65 ruling (Nic): cells that are NOT evolvable, with the reason (data) — sibling_of stays non-transitive (half-siblings) */
 const IMMUTABLE = Object.freeze([{ pred: 'sibling_of', prop: 'transitive', why: 'ruling 4.9.65: half-siblings make "sibling of" non-transitive; not a mutable cell' }]);
 const immutable = (p, prop) => IMMUTABLE.some(x => x.pred === p && x.prop === prop);
-const cells = () => rows().flatMap(p => WR.MEA_MUTABLE.filter(prop => !immutable(p, prop)).map(prop => [p, prop]));
+/* 4.9.71: the declared inverse of a row (any row, evolvable or not). An inverse pair whose partner is NOT evolvable (e.g. contain ↔ the functional
+   'in' row, after ruling 2 made inside/within aliases of 'in') cannot move without a one-sided change, so its cells are not mutable; the legality gate
+   checks pair agreement against the partner's shipped value either way */
+const pairOf = p => { const q = rowOf(p).inverse; return q && q !== p && WR.RELATIONS.some(r => r.pred === q) ? q : null; };
+const frozenByPair = p => { const q = pairOf(p); return !!q && !rows().includes(q); };
+const cells = () => rows().filter(p => !frozenByPair(p)).flatMap(p => WR.MEA_MUTABLE.filter(prop => !immutable(p, prop)).map(prop => [p, prop]));
 /* 4.9.65 ruling (Nic): an inverse pair (inside/contain, before/after, …) is ONE evolvable unit — a FLIP changes the property on both sides */
 const partner = p => { const q = rowOf(p).inverse; return q && q !== p && rows().includes(q) ? q : null; };
 const units = () => { const seen = new Set(), out = []; for (const [p, prop] of cells()) { const q = partner(p), preds = q ? [p, q].sort() : [p], k = preds.join('+') + '|' + prop; if (!seen.has(k)) { seen.add(k); out.push({ preds, prop }); } } return out; };
@@ -35,7 +40,7 @@ const valIn = (ds, pred, prop) => { const d = ds.find(x => x.pred === pred && x.
    be symmetric (symmetry makes a relation its own inverse); an immutable cell cannot change; only declared rows and properties */
 function legality(ds) { const v = [], ks = new Set();
   for (const d of ds) { if (!rows().includes(d.pred) || !WR.MEA_MUTABLE.includes(d.prop)) v.push('MEA-ILLEGAL-CELL:' + d.pred + '.' + d.prop); else if (immutable(d.pred, d.prop) && !!d.value !== baseVal(d.pred, d.prop)) v.push('MEA-IMMUTABLE-CELL:' + d.pred + '.' + d.prop); }
-  for (const d of ds) { const q = partner(d.pred); if (q) for (const prop of WR.MEA_MUTABLE) { const k = [d.pred, q].sort().join('+') + '|' + prop; if (!ks.has(k) && valIn(ds, d.pred, prop) !== valIn(ds, q, prop)) { ks.add(k); v.push('MEA-INVERSE-PAIR-INCONSISTENT:' + [d.pred, q].sort().join('/') + '.' + prop); } }
+  for (const d of ds) { const q = pairOf(d.pred); if (q) for (const prop of WR.MEA_MUTABLE) { const k = [d.pred, q].sort().join('+') + '|' + prop; if (!ks.has(k) && valIn(ds, d.pred, prop) !== valIn(ds, q, prop)) { ks.add(k); v.push('MEA-INVERSE-PAIR-INCONSISTENT:' + [d.pred, q].sort().join('/') + '.' + prop); } }
     if (q && valIn(ds, d.pred, 'symmetric')) v.push('MEA-SYMMETRIC-WITH-DISTINCT-INVERSE:' + d.pred); }
   return [...new Set(v)].sort(); }
 /* xorshift32; the state is an integer and is recorded in each candidate's lineage, so any candidate is replayed from (state, op, parents) */
@@ -69,6 +74,6 @@ const dominates = (a, b) => { const x = a.fitness, y = b.fitness, ge = x.passed 
 function rank(cands) { const cs = cands.map(c => Object.assign({}, c, { pareto: !cands.some(o => o !== c && dominates(o, c)) }));
   return cs.sort((a, b) => (b.pareto - a.pareto) || (a.fitness.regressions - b.fitness.regressions) || (b.fitness.passed - a.fitness.passed) || (b.fitness.echo - a.fitness.echo) || (a.fitness.drift.eps_s_micro - b.fitness.drift.eps_s_micro) || a.id.localeCompare(b.id)); }
 const describe = c => c.deltas.map(d => (d.value ? 'make ' : 'unmake ') + d.pred.replace(/_/g, ' ') + ' ' + d.prop).join('; ');
-const api = { SCHEMA, MICRO, IMMUTABLE, rows, cells, units, partner, legality, norm, idOf, rng, OPS, propose, replay, fitness, rank, dominates, describe, canon };
+const api = { SCHEMA, MICRO, IMMUTABLE, rows, cells, units, partner, pairOf, legality, norm, idOf, rng, OPS, propose, replay, fitness, rank, dominates, describe, canon };
 if (isNode) module.exports = api; else root.KMEA = api;
 })(typeof self !== 'undefined' ? self : this);

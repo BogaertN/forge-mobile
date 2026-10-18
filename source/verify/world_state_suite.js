@@ -15,11 +15,11 @@ module.exports = ({ C, expect, K, ROOT }) => {
     expect(ws.schema === 'FORGE-WORLD-STATE/v1' && ['ent:aster', 'ent:beryl', 'ent:cobalt'].every(id => ws.entities.some(e => e.id === id && e.premises.length >= 1 && /^mem:/.test(e.first.premise))), JSON.stringify(ws.entities).slice(0, 300));
     const st1 = ws.relations.filter(r => r.origin === 'stated'); expect(st1.length === 2 && st1.every(r => /^mem:/.test(r.premise) && r.source === 'stored fact' && typeof r.text === 'string' && 'turn' in r), JSON.stringify(st1).slice(0, 300));
     expect(ws.attributes.some(a => a.entity === 'aster' && /^mem:/.test(a.premise)), JSON.stringify(ws.attributes));
-    const d = ws.relations.find(r => r.origin === 'derived' && r.text === 'aster is inside cobalt'); expect(d && d.premises.length === 2 && d.rules.includes('RELPROP-TRANSITIVE:inside'), JSON.stringify(ws.relations).slice(0, 400));
+    const d = ws.relations.find(r => r.origin === 'derived' && r.text === 'aster is in cobalt'); expect(d && d.premises.length === 2 && d.rules.includes('RELPROP-TRANSITIVE:in'), JSON.stringify(ws.relations).slice(0, 400));
     const it = f.justifications().find(x => x.id === d.item); expect(it && it.kind === 'relation' && it.status === 'in' && it.justifications[0].premises.every(p => /^mem:/.test(p.id)) && it.justifications[0].replay.kind === 'relprop', JSON.stringify(it).slice(0, 300));
     expect(rels(f).includes('derived:cobalt contains aster'), 'inverse not derived');
     for (const x of f.justifications().filter(i => i.kind === 'relation')) { const r = f.replayJustification(x.id); expect(r.ok && r.justifications.every(j => j.hash_ok && j.rederived === true), 'relation replay ' + JSON.stringify(r)); }
-    { const xs = f.store.load('justifications'), t = xs.find(i => i.id === d.item); t.justifications[0].rules = ['RELPROP-SYMMETRIC:inside']; f.store.save('justifications', xs); expect(!f.replayJustification(d.item).ok, 'tampered relation replayed'); }
+    { const xs = f.store.load('justifications'), t = xs.find(i => i.id === d.item); t.justifications[0].rules = ['RELPROP-SYMMETRIC:in']; f.store.save('justifications', xs); expect(!f.replayJustification(d.item).ok, 'tampered relation replayed'); }
     const g = shared(st); expect(JSON.stringify(g.worldState().relations) === JSON.stringify(ws.relations), 'state differs in a new session');
     const r = g.process('does Cobalt contain Aster?'); expect(yes(r) && /Aster is inside Beryl/.test(r.reply) && /Beryl is inside Cobalt/.test(r.reply), r.reply);
     expect(f.categories.includes('world_state') && /CASE_CATS = new Set\(\[[^\]]*'world_state'/.test(fs.readFileSync(ROOT + '/src/kernel.js', 'utf8')), 'world_state not case-scoped'); });
@@ -27,9 +27,9 @@ module.exports = ({ C, expect, K, ROOT }) => {
     const f = K(); chain(f); expect(yes(f.process('is Aster inside Cobalt?')));
     run(f, ['forget that Beryl is inside Cobalt', 'yes']); const ws = f.worldState();
     expect(!rels(f).some(t => /cobalt/.test(t) && /^derived/.test(t)) && rels(f).includes('derived:beryl contains aster'), JSON.stringify(rels(f)));
-    expect(['aster is inside cobalt', 'cobalt contains aster', 'cobalt contains beryl'].every(t => ws.withdrawn.some(w => w.text === t && /^wd:/.test(w.receipt) && f.withdrawalReceipts().some(r => r.id === w.receipt))), JSON.stringify(ws.withdrawn).slice(0, 400));
+    expect(['aster is in cobalt', 'cobalt contains aster', 'cobalt contains beryl'].every(t => ws.withdrawn.some(w => w.text === t && /^wd:/.test(w.receipt) && f.withdrawalReceipts().some(r => r.id === w.receipt))), JSON.stringify(ws.withdrawn).slice(0, 400));
     expect(!/^Yes/.test(f.process('is Aster inside Cobalt?').reply) && !/^Yes/.test(f.process('does Cobalt contain Aster?').reply));
-    f.process('remember that Beryl is inside Cobalt'); expect(rels(f).includes('derived:aster is inside cobalt') && yes(f.process('does Cobalt contain Aster?')), 'not restored'); });
+    f.process('remember that Beryl is inside Cobalt'); expect(rels(f).includes('derived:aster is in cobalt') && yes(f.process('does Cobalt contain Aster?')), 'not restored'); });
   C('WS-SUPPOSE', '"Suppose …" isolation: a hypothetical chain is answered in a branch and neither memory nor the durable world state changes; premises given in one message never enter the durable state', () => {
     const f = K(); chain(f); f.process('where is Aster?'); const snap = () => JSON.stringify([f.store.load('memory'), f.store.load('world_state')]); const s0 = snap();
     const r = f.process('Suppose Pim is inside Quo. Quo is inside Rub. Is Pim inside Rub?'); expect(/branch/.test(r.reply) && /Yes/.test(r.reply) && r.trace.echo.pass, r.reply);
@@ -63,12 +63,14 @@ module.exports = ({ C, expect, K, ROOT }) => {
     f.process('does Cobalt contain Aster?'); const w2 = f.process('why?'); expect(/from “Aster is inside Beryl” and “Beryl is inside Cobalt”/.test(w2.reply) && w2.trace.echo.pass, w2.reply);
     const g = K(); g.process('Ola is inside Pel. Pel is inside Ras. Is Ola inside Ras?'); const w3 = g.process('why?'); expect(/from “Ola is inside Pel” and “Pel is inside Ras”/.test(w3.reply), w3.reply); });
   C('WS-DATA', 'relation properties are DATA: every RELATIONS row uses only declared keys, inverse partners are mutual, functional is subject|object; the grammar reads the declared phrases (no relation phrase is hard-coded in reason.js); RELPROP rule ids are stable; no numeric weights', () => {
-    const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional', 'containment', 'alias', 'comparative', 'one']), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));
+    const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional', 'containment', 'alias', 'same_as', 'comparative', 'one']), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));
     expect(Object.isFrozen(WR.RELATIONS) && WR.RELATIONS.length >= 20, 'table');
     for (const r of WR.RELATIONS) { expect(Object.keys(r).every(k => KEYS.has(k)) && Object.values(r).every(v => typeof v !== 'number'), JSON.stringify(r));
       if (r.inverse) expect(by.has(r.inverse) && by.get(r.inverse).inverse === r.pred, 'inverse not mutual ' + r.pred); if (r.functional) expect(['subject', 'object'].includes(r.functional), r.pred); }
-    for (const p of ['inside', 'in', 'part_of', 'ancestor_of', 'greater_than']) expect(by.has(p) && (by.get(p).transitive || p === 'greater_than'), p);
-    for (const p of ['married_to', 'next_to']) expect(by.get(p).symmetric === true, p); expect(by.get('contain').inverse === 'inside' && by.get('parent_of').inverse === 'child_of');
+    /* 4.9.71 ruling 2: a same_as row is a pure predicate alias — it names an existing non-alias row and carries no property of its own */
+    for (const r of WR.RELATIONS.filter(x => x.same_as)) expect(Object.keys(r).length === 2 && by.has(r.same_as) && !by.get(r.same_as).same_as, 'alias row ' + JSON.stringify(r));
+    for (const p of ['inside', 'in', 'part_of', 'ancestor_of', 'greater_than']) expect(WR.relInfo(p) && (WR.relInfo(p).row.transitive || p === 'greater_than'), p);
+    for (const p of ['married_to', 'next_to']) expect(by.get(p).symmetric === true, p); expect(by.get('contain').inverse === 'in' && WR.relInfo('inside').row === by.get('in') && by.get('parent_of').inverse === 'child_of');
     const rs = fs.readFileSync(ROOT + '/src/reason.js', 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''); for (const r of WR.RELATIONS) { if (r.containment) expect(['inner', 'outer'].includes(r.containment) && r.transitive, r.pred); if (r.functional) expect(r.one && typeof r.one.who === 'string' && typeof r.one.has === 'string', 'functional row without its one-value reason ' + r.pred); }
     for (const w of ['greater', 'more', 'larger']) expect(WR.COMPARATIVES.get(w) === 'greater_than', w); for (const w of ['less', 'smaller', 'fewer']) expect(WR.COMPARATIVES.get(w) === 'less_than', w);
     for (const r of WR.RELATIONS.filter(x => x.phrase)) expect([].concat(r.phrase).every(ph => !rs.includes("'" + ph + "'")) && !rs.includes("'" + r.pred + "'"), 'hard-coded in reason.js: ' + r.pred);

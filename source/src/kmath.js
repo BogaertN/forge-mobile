@@ -46,10 +46,15 @@ const phaseNext = n => (n % 9) + 1, phasePrev = n => ((n + 7) % 9) + 1;
 const isBackward = t => !!(t && t.to !== t.from && t.to !== phaseNext(t.from) && ((t.from - t.to + 9) % 9) < ((t.to - t.from + 9) % 9));
 function phaseStep(t) { if (!t) return { ok: false, why: 'no transition' }; if (FORBIDDEN.some(([a, b]) => t.from === a && t.to === b)) return { ok: false, why: 'forbidden Φ' + t.from + '→Φ' + t.to };
   if (isBackward(t)) return t.quarantine && t.to === phasePrev(t.from) ? { ok: true, why: 'Φ−1 step back inside quarantine exploration (never touches memory)', quarantine_only: true } : { ok: false, why: 'backward Φ' + t.from + '→Φ' + t.to + (t.quarantine ? ' (only a single Φ−1 step is allowed in quarantine)' : ' on a committed path (forward only)') };
+  /* 4.9.71 ruling 3 (Nic): a committed meaning may not skip over the Φ5 collapse, Φ6 χ or Φ7 naming gate when that gate applies to it (t.gates
+     lists the applying gate phases); every other forward skip stays lawful */
+  if (t.to !== phaseNext(t.from) && !t.quarantine && Array.isArray(t.gates)) { const over = []; for (let k = phaseNext(t.from); k !== t.to; k = phaseNext(k)) over.push(k);
+    const hit = over.filter(k => GATE_PHASES[k] && t.gates.includes(k)); if (hit.length) return { ok: false, why: 'forward skip Φ' + t.from + '→Φ' + t.to + ' passes over the ' + hit.map(k => 'Φ' + k + ' ' + GATE_PHASES[k]).join(', ') + ' gate (committed meaning)' }; }
   return { ok: true, why: t.to === phaseNext(t.from) ? 'lawful successor' : 'forward' }; }
+const GATE_PHASES = Object.freeze({ 5: 'collapse', 6: 'χ', 7: 'naming' });
 const isForbidden = t => !!t && !phaseStep(t).ok;
 /* the phase law over a whole trail (consecutive repeats are one phase): every step must be lawful under phaseStep */
-function phaseLaw(trail, o) { const t = (trail || []).filter((n, i, a) => i === 0 || n !== a[i - 1]), v = []; for (let i = 1; i < t.length; i++) { const r = phaseStep({ from: t[i - 1], to: t[i], quarantine: !!(o && o.quarantine) }); if (!r.ok) v.push('Φ' + t[i - 1] + '→Φ' + t[i] + ': ' + r.why); } return { ok: !v.length, violations: v, trail: t.join(''), rule: 'forward only (RPMC); Φ−1 only in quarantine (4.9.67 ruling 1)' }; }
+function phaseLaw(trail, o) { const t = (trail || []).filter((n, i, a) => i === 0 || n !== a[i - 1]), v = []; for (let i = 1; i < t.length; i++) { const r = phaseStep({ from: t[i - 1], to: t[i], quarantine: !!(o && o.quarantine), gates: o && o.gates }); if (!r.ok) v.push('Φ' + t[i - 1] + '→Φ' + t[i] + ': ' + r.why); } return { ok: !v.length, violations: v, trail: t.join(''), rule: 'forward only (RPMC); Φ−1 only in quarantine (4.9.67 ruling 1); no skip over an applying Φ5/Φ6/Φ7 gate (4.9.71 ruling 3)', gates: (o && o.gates) || [] }; }
 
 /* 4.9.67 ruling 2 (Nic): σ_res is a CIRCULAR statistic — Φ9 is adjacent to Φ1. Mardia's angular deviation √(2(1−R̄)) over the phase angles
    θ = 2π(Φ−1)/9, divided by 2π so that for a tight cluster it equals the old linear std of Φ/9 (same scale, same thresholds); R̄ = mean resultant length. */
@@ -220,6 +225,6 @@ function turnGovernance(eps, transition) { const forbidden = isForbidden(transit
   const route = forbidden ? 'blocked_forbidden_transition' : row.hard_stop ? 'hard_stop' : row.explore ? 'quarantine' : row.correction ? 'correct' : 'project';
   return { band: row.turn, route, forbidden, may_project: !forbidden && row.may_project, may_write_memory: !forbidden && row.may_write_memory, needs_correction: !forbidden && !!row.correction,
     quarantine: forbidden || row.quarantine, blocked: forbidden || !!row.hard_stop, ruling: DRIFT_RULING.cite }; }
-const api = { phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
+const api = { GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

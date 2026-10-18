@@ -221,13 +221,14 @@ for (const c of SP.LEGACY_LLM) C('LEGACY-LLM', `legacy LLM command ${c}: determi
   require('./rulings467_suite.js')({ C, expect, ROOT }); /* 4.9.67: Nic's rulings (phase direction, circular σ_res, functional location, canonical χ, ⟁ sum, phase map, canonical problems) */
   require('./k34_msm_suite.js')({ C, expect, ROOT }); /* 4.9.69: K3 MSM-v1 lifecycle law + canonical bytes; K4 μ_t App D fields + D.7 render gate */
   require('./k56_suite.js')({ C, expect, ROOT }); /* 4.9.70: K5 distances vs M_relevant + novelty; K6 typed Echo (13 dimensions, 17 drift kinds, dispositions) */
+  require('./rulings471_suite.js')({ C, expect, ROOT }); /* 4.9.71: Nic's rulings 2026-10-18 5:44 PM (alias class, phase gates, one-hop M_relevant, fixed seed, Tool Bench) */
   { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 's34_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 120000 })); } catch (e) { rows = [{ name: 's34 suite ran', ok: false, why: e.message }]; } for (const r of rows) C('BACKEND-S3S4', r.name, () => expect(r.ok, r.why)); }
   C('CLEANUP-494', 'static: no exact-phrase route table or pre-kernel bridge path exists', () => { const src = n => fs.readFileSync(path.join(ROOT, 'src', n), 'utf8'); const sp = src('forge_spine.js'), fg = src('forge.js'), kn = src('kernel.js'), ui = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
     expect(!/BRIDGE1|bridge1Route/.test(sp + fg + src('app.js')) && !/bridgeTurn/.test(fg) && !SP.BRIDGE1 && !SP.bridge1Route, 'bridge route table present'); expect(!/activeFacts\(\)\.length === 0/.test(kn), 'memory-count routing present'); expect(!/LX-EXTERNAL-WORDNET/.test(kn), 'WordNet answer path present');
     expect(!/class="chips"/.test(ui) && !/data-cmd=/.test(ui), 'preset question chips / command buttons present'); expect(!/store\.save\('ede_candidates'/.test(kn), 'ede_candidates auto-save present'); });
   C('CLEANUP-494', 'every turn goes through the kernel (legacy commands included)', () => { const f = FKN(); for (const u of ['show forge status', 'what can forge do', 'verify audit chain', 'forge-command-implement x']) { const r = f.process(u); expect(!r.forge.bridge && r.trace.phases && r.trace.phases.length > 0, u); } });
 }
-C('LEGACY-LLM', 'echoforge-advisory (the LLM lane) is refused; EchoForge answers as the no-LLM tool bench', () => { const r = FKN().process('echoforge-advisory debate :: hi'); expect(/needs a language model/.test(r.reply) && /EchoForge uses deterministic tools/.test(r.reply) && r.trace.echo.pass, r.reply); });
+C('LEGACY-LLM', 'echoforge-advisory (the LLM lane) is refused; the Tool Bench answers with no LLM', () => { const r = FKN().process('echoforge-advisory debate :: hi'); expect(/needs a language model/.test(r.reply) && /the Tool Bench uses deterministic tools/i.test(r.reply) && r.trace.echo.pass, r.reply); });
 /* AUDIT */
 C('AUDIT', 'receipt chain verifies after 20 turns', () => { const k = FKN(); for (let i = 0; i < 20; i++) k.process(i % 2 ? 'hello' : 'what is ' + i + ' + 1'); const v = k.verifyAudit(); expect(v.ok && v.count === 20, JSON.stringify(v)); });
 C('AUDIT', 'tampering with a stored receipt breaks the chain', () => { const k = FKN(); k.process('hello'); k.process('what is 1 + 1'); const rs = k.store.load('receipts'); rs[0].output_sha256 = '0'.repeat(64); k.store.save('receipts', rs); expect(!k.verifyAudit().ok); });
@@ -311,7 +312,7 @@ C('DETERMINISM', 'full verification transcript hash stable across two kernels', 
   for (const r of rows) C('PRIVACY-V4', r.name, () => expect(r.ok, r.why)); }
 
 require('./w12_suite.js')({ C, expect, KMOD, LEX, EXT, ROOT });
-/* W3/W4 + EchoForge tool bench + crawler + vault capture + consent (async suite in a child process) */
+/* W3/W4 + Tool Bench + crawler + vault capture + consent (async suite in a child process) */
 /* RSOC (v4.9.32): the operator calculus is on the live decision path of every Ask turn */
 { const KM = require(ROOT + '/src/kmath.js'), RX = { supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } };
   const cs = Object.keys(RX).map(id => ({ id, expect: RX[id] })), ref = e => !e.C ? 'incomplete' : !e.K ? 'proof_rejected' : e.S && e.R ? 'conflicted' : e.S ? 'supported_only' : e.R ? 'refuted_only' : 'undetermined';

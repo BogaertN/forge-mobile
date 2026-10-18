@@ -12,3 +12,4 @@ src/build-info.js
 src/release.js
 src/features.js
 data/lexicon-pro.json
+_fuzz/
