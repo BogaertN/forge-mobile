@@ -473,3 +473,16 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 9. **Working-fact forget wording (ruling 8).** "Should I forget it?" replaces "Should I move it to cold storage?" for working facts. Stored facts keep the cold-storage wording, which is correct for them.
 - **MEA proposals regenerated** (`tools/mea_eval.js 1 8`) because the relation rows changed. All 8 are rejected.
 - **Changed expectations:** the K1 0.36 test now asserts re-measurement: held with no grace; projects and writes after clean turns. No other expectation changed.
+
+## v4.9.68: hotfix for the red 4.9.67 deploy (2026-10-18)
+
+- The 4.9.67 merge built and tested locally, but the CI deploy failed on GELC-LANG2 with random seed 1358217271.
+  "Zezasan is a raves" produced two parse readings with identical descriptions (lemma `raf` via -ves→-f, and lemma `rave`).
+  This was pre-existing: it reproduces on 843da7d (4.9.66). The random-seed lexicon only happened to hit it now.
+- General fix 1 (M-VES-APAVADA, src/grammar.js `lemmatize0`): the -ves→-f/-fe plural reading is dropped when the word
+  minus its final "s" is itself a noun (raves→rave, not raf). Genuine -ves plurals with no such noun (calves, wolves) are unchanged.
+- General fix 2 (`readingsOf`, src/kernel.js): when two readings of an ambiguous sentence still describe identically, each is
+  suffixed with its head lemma, so an ambiguity question never offers two indistinguishable choices.
+  Example: "the leaves are green" no longer lists duplicate readings.
+- Test: verify/rulings467_suite.js case 9 (raves, calves, leaves). Checked locally across 10 GELC seeds, including 1358217271: 31/31 on each.
+- No answer patches. Held-out set not read.
