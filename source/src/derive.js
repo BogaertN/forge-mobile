@@ -435,7 +435,13 @@ const recallNone = m => m.how ? [S(C('have', { karta: I, karma: N('fact', { det:
    polarity/person (report a past event, note a modal claim, mention a fact about yourself, state a generic), the hearer is the kartā; no fixed "I understand that" frame. */
 function ackHead(m) { const c = m.clause || {}; const v = c.verb || {}; const own = JSON.stringify(c.subj || {}).includes('"user"'); const sp = (v.mod && v.mod !== 'asserted') ? 'note' : own ? 'mention' : v.tense === 'past' ? 'report' : 'state';
   return S(C(sp, { karta: YOU, comp: { that: UC(m.clause) }, tense: 'past' })); }
+/* M2 (4.9.59) justification read-back: a conclusion said back with its recorded premises and rule count (the stored justification, never re-guessed) */
+function justPlan(m) { const L = xs => xs.length > 1 ? { coord: 'and', items: xs.map(Mn) } : Mn(xs[0]), target = m.conclusion ? Mn(m.conclusion) : N('answer', { poss: 'my', adj: ['last'] });
+  if (m.state === 'none' || !(m.premises || []).length) return [S(C('record', { karta: I, karma: N('premise', { det: 'no' }), roles: { tadartha: target }, tense: 'past' }))];
+  const base = m.stated ? [S(C('state', { karta: YOU, karma: target, tense: 'past' }))] : [S(C('derive', { karta: I, karma: target, roles: { apadana: L(m.premises) }, tense: 'past' }))];
+  return base.concat(m.rules ? [S(C('use', { karta: pr('it'), karma: N('rule', { cnt: m.rules }) }))] : [], m.state === 'withdrawn' ? [S(C('keep', { karta: I, karma: pr('it'), pol: 'neg' }))] : []); }
 const PLANS = {
+  justification: justPlan,
   ack: () => [S(C('acknowledge', { karta: I, karma: pr('that') }))],
   help: () => [S(C('do', { karta: I, karma: N('thing', { cnt: 8, list: { kind: 'vp', items: [C('remember', { karma: N('fact', { pl: true }) }), C('answer', { roles: { apadana: N('memory') } }), C('keep', { karma: N('note', { pl: true }) }), C('define', { karma: N('word', { pl: true }) }), C('solve', { karma: N('equation', { pl: true }) }), C('factor', { karma: N('polynomial', { pl: true }) }), C('convert', { karma: N('unit', { pl: true }) }), C('forget', { karma: N('fact', { pl: true }), roles: { paschat: N('confirmation') } })] } }), mod: 'can' })),
     S(C('say', { karma: { coord: 'or', items: ['remember', 'recall', 'note', 'math', 'solve', 'define', 'infer'].map(k => Mn(MENTIONS[k])) } }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] })],
