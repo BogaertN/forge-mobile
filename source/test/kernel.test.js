@@ -80,9 +80,9 @@ t('drift hard stop: Φ5→Φ8 → D_score=1, ε_s ≥ 0.80; χ(t) once, then Ĉ 
   assert.ok(k.cold().some(c => /hard stop/.test(c.reason)));
   const r3 = k.process('say blorp'); assert.strictEqual(r3.blocked, true); // unknown word → Ê(τ)=0 → Ĉ even though χ flag already 1
 });
-t('drift bands follow the RMC Implementation Addendum thresholds', () => {
-  const f = (e) => KM.BANDS.find(b => e < b.max).name;
-  assert.strictEqual(f(0.49), 'clean'); assert.strictEqual(f(0.5), 'elevated'); assert.strictEqual(f(0.779), 'elevated'); assert.strictEqual(f(0.78), 'intervention'); assert.strictEqual(f(0.8), 'hard_stop');
+t('drift bands follow the drift ruling (one table: 0.35 / 0.40 / 0.80; Addendum 0.50/0.78 superseded in 4.9.66)', () => {
+  const f = (e) => KM.driftRow(e).turn;
+  assert.strictEqual(f(0.35), 'clean'); assert.strictEqual(f(0.36), 'correct'); assert.strictEqual(f(0.4), 'elevated'); assert.strictEqual(f(0.78), 'elevated'); assert.strictEqual(f(0.8), 'elevated'); assert.strictEqual(f(0.81), 'hard_stop');
   const d = KM.driftFunctional({ phaseHistory: [9, 9], transition: { from: 7, to: 8, expected: 8 }, depth: 0 }); assert.strictEqual(d.eps_s, 0); assert.strictEqual(d.rho, 1);
 });
 t('ambiguity is preserved, not resolved by guessing', () => {
