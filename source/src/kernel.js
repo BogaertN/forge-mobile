@@ -14,7 +14,7 @@ const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const TB = isNode ? require('./toolbench.js') : root.KTools;
 const OP = isNode ? require('./operator.js') : root.KOperator;
 
-const CATEGORIES = ['shared_outbox', 'shared_inbox', 'shared_knowledge', 'shared_challenges', 'user_tools', 'economy_capsules', 'economy_events', 'usage_events', 'usage_counts', 'reminders', 'request_receipts', 'request_policy_gaps', 'hypotheses', 'admitted_rules', 'ede_calibration', 'economy_seen', 'economy_quarantine', 'pf_echo', 'pf_agents', 'pf_drift_log', 'mea_seals', 'capsules', 'council', 'promotions', 'device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path', 'justifications', 'withdrawal_receipts'];
+const CATEGORIES = ['shared_outbox', 'shared_inbox', 'shared_knowledge', 'shared_challenges', 'user_tools', 'economy_capsules', 'economy_events', 'usage_events', 'usage_counts', 'reminders', 'request_receipts', 'request_policy_gaps', 'hypotheses', 'admitted_rules', 'ede_calibration', 'economy_seen', 'economy_quarantine', 'pf_echo', 'pf_agents', 'pf_drift_log', 'mea_seals', 'capsules', 'council', 'promotions', 'device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path', 'justifications', 'withdrawal_receipts', 'world_state'];
 const ALL_STORES = [...new Set(CATEGORIES.concat(['gks_facts', 'case_index', 'case_ledger', 'proof_exports', 'economy_manifests', 'shared_drafts', 'economy_foreign', 'receipts', 'shared_cursor', 'vault', 'signing_key', 'buyers', 'consent', 'consent_ledger', 'export_packages', 'offers', 'profiles', 'workbench_events', 'device', 'economy_events', 'usage_events', 'attribution_ledger', 'attribution_foreign', 'memory', 'meta', 'migrations', 'policy', 'permissions', 'trace', 'e2ee_queue', 'e2ee_cursor', 'gks_pinned']))].sort();
 const GEN_KEY = 'kernel.__gen', GEN_PREV_KEY = 'kernel.__gen_prev';
 function MemoryStore(backend) { const mem = {}; const b = backend || { get: k => (Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null), set: (k, v) => { mem[k] = String(v); }, del: k => { delete mem[k]; }, keys: () => Object.keys(mem) };
@@ -166,7 +166,7 @@ function Kernel(opts) {
   const baseStore0 = opts.store || MemoryStore(); let TX = null;
   const txGet = c => { for (let t = TX; t; t = t.parent) if (t.map.has(c)) return { v: t.map.get(c) }; return null; };
   const baseStore = Object.assign(Object.create(baseStore0), { load: c => { const h = TX && txGet(c); return h ? JSON.parse(h.v) : baseStore0.load(c); }, save: (c, v) => (TX ? void TX.map.set(c, JSON.stringify(v)) : baseStore0.save(c, v)) });
-  let caseNS = null, pendingCase; const CASE_CATS = new Set(['memory', 'evidence', 'cold_storage', 'reminders', 'trace', 'justifications', 'withdrawal_receipts']);
+  let caseNS = null, pendingCase; const CASE_CATS = new Set(['memory', 'evidence', 'cold_storage', 'reminders', 'trace', 'justifications', 'withdrawal_receipts', 'world_state']);
   const nsOf = c => (caseNS && CASE_CATS.has(c) ? caseNS + ':' + c : c);
   const store = Object.assign(Object.create(baseStore), { load: c => baseStore.load(nsOf(c)), save: (c, v) => baseStore.save(nsOf(c), v) });
   /* GKS shared facts: the build-manifest seed plus facts ingested from a verified GKS snapshot (store gks_facts); read-only premises with provenance */
@@ -319,6 +319,36 @@ function Kernel(opts) {
     for (const r of mem) { if (typed.has(r.id) || !r.entities || r.entities.length !== 2 || r.clause.coord || r.clause.cond) continue; edges.push({ id: r.id, a: r.entities[0], b: r.entities[1], rel: r.pred === 'be' ? 'isa' : r.pred, neg: r.clause.verb && r.clause.verb.pol === 'neg' }); } return edges; }
   const ruleFacts = mem => ruleEdges(mem).map(e => ({ id: e.id, atom: { predicate: e.rel, args: [e.a, e.b], polarity: e.neg ? 'neg' : 'pos' } }));
   const admittedRules = () => store.load('admitted_rules').filter(r => r.status === 'admitted').map(r => r.rule);
+  /* M3 (4.9.60) DURABLE WORLD STATE. The world the user has authorized: every active stored fact (memory written by an explicit "remember"
+     or a confirmed correction) read by the world grammar as an atom with provenance. Entities, relations (binary atoms) and attributes (unary
+     atoms) are rebuilt from memory whenever memory changes; relations derived by the DECLARED relation properties (world_rules.js RELATIONS) are
+     ledger items (M2) with their proof as the justification, so retraction keeps the state consistent. The turn world (incl. "Suppose …")
+     never writes here: only stored facts do. Nothing here is a fact store of its own and nothing leaves the device. */
+  const DWS_SCHEMA = 'FORGE-WORLD-STATE/v1';
+  function durableAtoms(facts) { const out = []; for (const r of facts) { if (!r.clause || r.clause.coord || r.clause.cond || r.sensitive) continue; let a = null; try { a = R.parseAtomic(G.clauseText(r.clause, 'kernel'), false); } catch (e) { a = null; }
+      if (a && a.args.every(x => typeof x === 'string' && !/^(?:any_|\$)/.test(x))) out.push({ id: r.id, atom: a, rec: r }); } return out; }
+  const relRulesFor = preds => { const seen = new Set(), out = []; for (const p of preds) for (const r of WR.propertyDataRules(p)) if (!seen.has(r.id)) { seen.add(r.id); out.push(r); } return out; };
+  /* answer a stored-fact question through the declared relation properties: a checked RuleProof over the durable atoms, or nothing */
+  function relPropProve(facts, q) { let goal = null; try { goal = R.parseAtomic(G.clauseText(Object.assign({}, q, { verb: Object.assign({}, q.verb, { pol: 'pos' }) }), 'kernel'), false); } catch (e) { goal = null; }
+    if (!goal || goal.args.length !== 2 || !WR.relInfo(goal.predicate)) return null; const F = durableAtoms(facts).map(f => ({ id: f.id, atom: f.atom })); const rules = relRulesFor(new Set(F.map(f => f.atom.predicate).concat([goal.predicate])));
+    if (!rules.length || !F.length) return null; try { const pr = R.ruleWorld(F, rules).prove(goal); return pr && pr.rule_ids.length && R.checkRuleProof(F, rules, pr).ok ? pr : null; } catch (e) { return null; } }
+  function dwsBuild(turn) { const mem = activeFacts().filter(r => !r.sensitive), sig = sha256(canon(mem.map(r => [r.id, r.status]))), old = store.load('world_state');
+    if (old && !Array.isArray(old) && old.signature === sig) return { changed: false, state: old };
+    const A = durableAtoms(mem), ents = new Map(), rels = [], attrs = [], prov = f => ({ premise: f.id, turn: f.rec.provenance && f.rec.provenance.turn != null ? f.rec.provenance.turn : f.rec.turn != null ? f.rec.turn : null, source: 'stored fact', text: tmsText(memText(f.rec)) });
+    const ent = (k, f) => { if (!ents.has(k)) ents.set(k, { id: 'ent:' + k, name: k.replace(/_/g, ' '), first: prov(f), premises: [] }); const e = ents.get(k); if (!e.premises.includes(f.id)) e.premises.push(f.id); };
+    for (const f of A) { for (const x of f.atom.args) ent(x, f); if (f.atom.args.length === 2) rels.push(Object.assign({ pred: f.atom.predicate, a: f.atom.args[0], b: f.atom.args[1], polarity: f.atom.polarity, origin: 'stated', text: R.atomText(f.atom) }, prov(f))); else attrs.push(Object.assign({ entity: f.atom.args[0], attr: f.atom.predicate, polarity: f.atom.polarity, text: R.atomText(f.atom) }, prov(f))); }
+    const rules = relRulesFor(new Set(A.filter(f => f.atom.args.length === 2).map(f => f.atom.predicate))), derived = [];
+    if (rules.length) { try { const F = A.map(f => ({ id: f.id, atom: f.atom })), rw = R.ruleWorld(F, rules), stated = new Set(F.map(f => R.atomKey(f.atom)));
+      for (const a of rw.atoms().filter(a => a.args.length === 2 && !stated.has(R.atomKey(a))).slice(0, 400)) { const pr = rw.prove(a); if (!pr) continue; const text = tmsText(R.atomText(a)), id = 'rel:' + sha256(R.atomKey(a)).slice(0, 20);
+        const premises = pr.fact_ids.filter((x, i, xs) => xs.indexOf(x) === i).map(pid => { const f = A.find(y => y.id === pid); return { id: pid, text: f ? tmsText(memText(f.rec)) : null }; });
+        TMS.justify({ id, kind: 'relation', text, key: R.atomKey(a), turn }, { premises, rules: pr.rule_ids.slice(), derivation_rules: ['INF-RELPROP'], selection: null, replay: { kind: 'relprop', proof_id: pr.proof_id, atom: a }, turn });
+        derived.push({ pred: a.predicate, a: a.args[0], b: a.args[1], polarity: a.polarity, origin: 'derived', text, item: id, premises: premises.map(p => p.id), rules: pr.rule_ids.slice(), proof: pr.proof_id }); } } catch (e) { /* a closure over the stored facts that fails is simply not derived */ } }
+    const state = { schema: DWS_SCHEMA, signature: sig, built_turn: turn, entities: [...ents.values()].sort((x, y) => x.id.localeCompare(y.id)), relations: rels.concat(derived), attributes: attrs, relation_properties: [...new Set(rules.map(r => r.id))].sort(), note: 'derived from stored facts only; the turn world and "Suppose" branches never write here' };
+    store.save('world_state', state); return { changed: true, state }; }
+  /* the view with ledger status: a derived relation whose justifications all lost a premise is listed as withdrawn (with its receipt), never silently dropped */
+  function worldStateView() { const s = store.load('world_state'); if (!s || Array.isArray(s)) return { schema: DWS_SCHEMA, entities: [], relations: [], attributes: [], withdrawn: [] };
+    const withdrawn = TMS.list().filter(x => x.kind === 'relation' && x.status === 'withdrawn').map(x => ({ item: x.id, text: x.text, receipt: (x.history.filter(h => h.status === 'withdrawn').pop() || {}).receipt || null }));
+    return Object.assign({}, s, { relations: s.relations.filter(r => r.origin === 'stated' || (TMS.get(r.item) || {}).status === 'in'), withdrawn }); }
   /* GELC promotion gate: the rule must be range-restricted, must PROVE its own claim from stored facts (RuleProof replayed by the independent checker),
      and the rule together with every admitted rule must derive nothing whose opposite is stated. A high score or a tap alone never admits. */
   function admissionCheck(rule, claim) { const facts = ruleFacts(activeFacts().filter(r => !r.sensitive)), all = admittedRules().concat([rule]); let rw;
@@ -389,20 +419,24 @@ function Kernel(opts) {
       return out; }
     if (m.kind === 'inferred' && m.answer === 'yes' && m.claim && refs.length) { const used = (trace.rules || []).flatMap(r => r.rules_used || []), ar = store.load('admitted_rules');
       const adm = used.map(rid => (ar.find(x => x.rule.id === rid && x.status === 'admitted') || {}).id).filter(Boolean), inf = (trace.rules || []).filter(r => /^(?:INF-|GELC-ADMITTED-RULE)/.test(r.id) && !/^INF-NEG/.test(r.id)).map(r => r.id);
-      put(G.clauseText(m.claim, 'kernel'), refs.map(prem), [...new Set(inf.concat(adm))], { kind: 'memory', refs: refs.slice() }); return out; }
+      const relp = (trace.rules || []).filter(r => r.id === 'INF-RELPROP').flatMap(r => r.rules_used || []);
+      put(G.clauseText(m.claim, 'kernel'), [...new Set(refs)].map(prem), [...new Set(inf.filter(x => x !== 'INF-RELPROP').concat(relp, adm))], { kind: 'memory', refs: refs.slice() }); return out; }
     if ((m.kind === 'recall' || (m.kind === 'yesno' && m.answer === 'yes')) && refs.length) { for (const id of refs.slice(0, 6)) { const p = prem(id); if (p.text) put(p.text, [p], [], { kind: 'stated', ref: id }); } return out; }
     return out; }
-  function tmsTurn(trace, msm) { const recorded = tmsRecord(trace, msm), why = msm && msm.meaning && msm.meaning.kind === 'justification';
+  function tmsTurn(trace, msm) { const recorded = tmsRecord(trace, msm), why = msm && msm.meaning && msm.meaning.kind === 'justification'; const ws = dwsBuild(meta.turn);
     const res = tmsSync({ turn: meta.turn, input_sha256: trace.input_sha256, ops: (trace.memory || []).map(o => o.op || o.kind).filter(Boolean).slice(0, 8) });
     if (!why) { meta.lastItems = recorded; const live = new Set(activeFacts().map(r => r.id)), wrote = (trace.memory || []).length ? (lastWritten || []).filter(w => w.cat === 'memory' && w.rec && live.has(w.rec.id)).map(w => w.rec.id) : [];
       meta.lastRefs = [...new Set(wrote.length ? wrote : ((msm && msm.evidence && msm.evidence.refs) || []).filter(id => live.has(id)))].slice(0, 8); }
-    return { recorded, withdrawn: res.withdrawn.map(x => x.id), reinstated: res.reinstated.map(x => x.id), receipts: res.receipts.map(r => r.id) }; }
+    return { recorded, withdrawn: res.withdrawn.map(x => x.id), reinstated: res.reinstated.map(x => x.id), receipts: res.receipts.map(r => r.id), world_state: ws.changed ? ws.state.signature.slice(0, 12) : null }; }
   /* deterministic replay of an item's justifications: the hash re-derives from the content; world proofs are re-derived from the recorded premise
      sentences alone; stored-fact justifications re-check that each premise still says what was recorded */
   function tmsReplay(id) { return TMS.replay(id, (j, it) => { const rp = j.replay || {};
     if (rp.kind === 'world') { const rr = R.evaluate(rp.text || ''), mm = rr && rr.material; if (!mm || mm.kind !== 'world_answer') return false; const k = JT.norm(it.text);
       if (mm.wh) return (mm.wh.answers || []).some(a => a.status === rp.status && JT.norm(a.text) === k); return mm.status === rp.status && JT.norm(rp.status === 'refuted_only' ? mm.opposite_text : mm.query_text) === k; }
     if (rp.kind === 'stated' || rp.kind === 'memory') { const mem = store.load('memory'), cold = store.load('cold_storage'); return j.premises.every(p => { if (/^gks:/.test(p.id)) { const e = gksIndex().find(x => x.f.id === p.id); return !!e && tmsText(e.f.text) === p.text; } const r = mem.find(x => x.id === p.id) || (cold.filter(x => x.record && x.record.id === p.id).pop() || {}).record; return !!r && tmsText(memText(r)) === p.text; }); }
+    if (rp.kind === 'relprop') { const mem = store.load('memory'), cold = store.load('cold_storage'), recs = j.premises.map(p => mem.find(x => x.id === p.id) || (cold.filter(x => x.record && x.record.id === p.id).pop() || {}).record);
+      if (recs.some(r => !r) || recs.some((r, i) => tmsText(memText(r)) !== j.premises[i].text) || !rp.atom) return false; const F = durableAtoms(recs).map(f => ({ id: f.id, atom: f.atom })), rules = relRulesFor(new Set(F.map(f => f.atom.predicate).concat([rp.atom.predicate]))).filter(r => j.rules.includes(r.id));
+      try { const pr = R.ruleWorld(F, rules).prove(rp.atom); return !!pr && R.checkRuleProof(F, rules, pr).ok && R.atomKey(rp.atom) === it.key; } catch (e) { return false; } }
     return undefined; }); }
   /* "why?" / "how do you know?" / "what is that based on?" read back the recorded justification of the previous answer (or a named item) */
   const WHY_BARE = /^(?:(?:but|and|so|ok|okay)[, ]+)?(?:why(?: is that| is it| so| that| do you (?:say|think) (?:that|so))?|how (?:do|did|would) you know(?: that| this| it)?|how come|what is (?:that|this|it) based on|what's (?:that|this|it) based on|what are you basing (?:that|this|it) on|on what basis|based on what|what makes you (?:say|think) (?:that|so))$/;
@@ -469,6 +503,9 @@ function Kernel(opts) {
         if (head && SINGLE_ATTR.has(head) && o.pred.type !== 'pp' && c.pred.type !== 'pp') out.push({ r, why: 'MEM-CONFLICT-SINGLE-VALUED-ATTRIBUTE' });
         else if (o.pred.type === 'adj' && c.pred.type === 'adj' && EXCLUSIVE.some(s => o.pred.words.every(w => s.has(w)) && c.pred.words.every(w => s.has(w)))) out.push({ r, why: 'MEM-CONFLICT-EXCLUSIVE-CLASS' }); }
       else if (SINGLE_VERB.has(predOf(c)) && (o.adj || []).some(a => a.role === 'adhikarana') && (c.adj || []).some(a => a.role === 'adhikarana') && !(c.adj || []).some(a => a.role === 'kala')) out.push({ r, why: 'MEM-CONFLICT-SINGLE-VALUED-VERB' }); }
+    /* M3: a declared FUNCTIONAL relation (world_rules.js) holds one value per subject (or one subject per value): a second distinct value is a real contradiction */
+    if (c.verb && c.verb.pol === 'pos' && !c.cond) { let a = null; try { a = R.parseAtomic(G.clauseText(c, 'kernel'), false); } catch (e) { a = null; } const fi = a && a.args.length === 2 && WR.relInfo(a.predicate), fn = fi && fi.row.functional;
+      if (fn) { const k = fn === 'subject' ? 0 : 1; for (const f of durableAtoms(activeFacts())) { const b = f.atom; if (b.predicate === a.predicate && b.polarity === 'pos' && b.args[k] === a.args[k] && b.args[1 - k] !== a.args[1 - k] && !out.some(x => x.r.id === f.id)) out.push({ r: f.rec, why: 'MEM-CONFLICT-FUNCTIONAL-RELATION' }); } } }
     return out; }
   const hasMod = c => (c.coord ? c.coord.some(hasMod) : c.verb && c.verb.mod !== 'asserted');
   const setMod = (c, m) => { if (c.coord) c.coord.forEach(x => setMod(x, m)); else if (c.verb) { c.verb.mod = m; if (c.verb.tense === 'future') c.verb.tense = 'present'; } };
@@ -1166,13 +1203,14 @@ function Kernel(opts) {
         if (negFact || qNeg) { const neg = negFact || facts.map(r => r.clause).find(c => !c.coord && canon(G.material(Object.assign({}, c, { verb: Object.assign({}, c.verb, { pol: 'pos' }) }))) === canon(G.material(posQ)) && c.verb.pol === 'neg');
           if (neg) { rules.push({ id: 'INF-NEG-CONSISTENCY', doc: 'Doc3 §15; Doc7 contradiction → ask' }); return res('CLARIFICATION_REQUIRED', Object.assign({ kind: 'inferred', answer: 'contradiction', claim: posQ, neg, steps: stepsC.map(stepOf) }, wn ? { wn } : {}), { frame: 'FR.QUESTION', act: 'question', evidenceRefs: steps }); }
           if (qNeg) return res('SELECTED_MEANING', { kind: 'yesno', answer: 'no', items: stepsC.map(stepOf) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: steps }); }
-        return res('SELECTED_MEANING', Object.assign({ kind: 'inferred', answer: 'yes', claim: posQ, steps: stepsC.map(stepOf) }, wn ? { wn } : {}, pf ? { admitted: pf.rule_ids.length } : {}), { frame: 'FR.QUESTION', act: 'question', evidenceRefs: steps }); };
+        return res('SELECTED_MEANING', Object.assign({ kind: 'inferred', answer: 'yes', claim: posQ, steps: stepsC.map(stepOf) }, wn ? { wn } : {}, pf && rule === 'GELC-ADMITTED-RULE' ? { admitted: pf.rule_ids.length } : pf && rule === 'INF-RELPROP' ? { relprops: pf.rule_ids.length } : {}), { frame: 'FR.QUESTION', act: 'question', evidenceRefs: steps }); };
       const a = entKey(q.subj);
       let tgt = null; if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'pp' && /^(in|at|inside|within)$/.test(q.pred.prep)) tgt = q.pred.np; else if (/^(live|reside|stay)$/.test(q.verb.lemma)) { const ad = (q.adj || []).find(x => x.role === 'adhikarana'); if (ad) tgt = ad.np; }
       if (tgt && a) { const p = INF.locPath(facts, a, entKey(tgt)); if (p && p.length >= 2) return done('INF-LOC-TRANSITIVE', p.map(e => e.id), null, INF.lastProof()); }
       { const rp = INF.relPath(facts, q); if (rp && rp.path.length >= 1) return done('INF-REL-TRANSITIVE-' + rp.rel.replace(/^cmp:.*/, 'COMPARATIVE').toUpperCase(), rp.path.map(e => e.id), null, INF.lastProof()); }
       { const AR = admittedRules(), ents = [...new Set(nps(q).filter(n => !n.pron3).map(entKey).filter(Boolean))]; if (AR.length && ents.length === 2) { const F = ruleFacts(facts); try { const pr = R.ruleWorld(F, AR).prove({ predicate: predOf(q) === 'be' ? 'isa' : predOf(q), args: ents, polarity: 'pos' });
         if (pr && R.checkRuleProof(F, AR, pr).ok) { const out = done('GELC-ADMITTED-RULE', pr.fact_ids, null, pr); rules.find(x => x.id === 'GELC-ADMITTED-RULE').rules_used = pr.rule_ids.slice(); return out; } } catch (e) { /* an unsafe stored rule never answers */ } } }
+      { const rp = relPropProve(facts, q); if (rp) { const out = done('INF-RELPROP', [...new Set(rp.fact_ids)], null, rp); rules.find(x => x.id === 'INF-RELPROP').rules_used = rp.rule_ids.slice(); return out; } } /* M3: declared relation properties over the durable world */
       /* INF-ISA-RESTRICTOR (4.9.43): class reach proves only an unrestricted class; a target NP with an of-complement, adjectives or a compound head ("the SI unit of mass", "a big dog") is not proved by reaching its head */
       if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'np' && q.pred.np && q.pred.np.head && !q.pred.np.owner && !q.pred.np.propn && !q.pred.np.of && !(q.pred.np.adjs || []).length && q.pred.np.head.length === 1) { const target = INF.npHead(q.pred.np);
         const generic = q.subj.head && !q.subj.owner && !q.subj.propn && (q.subj.det === 'a' || q.subj.det === 'an' || q.subj.plural);
@@ -1230,7 +1268,7 @@ function Kernel(opts) {
       if (tail.length !== 2 * n || m.shared_premises.some((x, i) => tail[2 * i][1] !== x.id || tail[2 * i + 1][1] !== x.citation || !gksIndex().some(e => e.f.id === x.id && e.f.status === 'active' && e.f.source.citation === x.citation))) return false;
       const cut = t.lastIndexOf('. ', tail[0].index); if (cut < 0) return false; m = Object.assign({}, m); delete m.shared_premises; text = t.slice(0, cut + 1); }
     if (m.qty) { try { return R.qtyCheck(m.qty, text); } catch (e) { return false; } }
-    if (m.wh) return whReverify(m, text); if (m.why) return whyReverify(m, text); if (m.conj) return conjReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x));
+    if (m.wh) return whReverify(m, text); if (m.why) return whyReverify(m, text); if (m.conj) return conjReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x) && !(WR.relInfo(x) && WR.relInfo(x).row.phrase)); /* a declared relation phrase re-parses by itself (M3) */
       const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); const at = R.parseAtomic(u, false, new Set([m.query.predicate])); if (at) R.alignVerbs(Object.assign({}, m.query), [at]); return at; };
       const said = (String(text).match(/“([^”]+)”/g) || []).map(q => parse(q.slice(1, -1))); if (!said.length || said.some(a => !a)) return false;
       const q = R.canon(m.query), o = R.canon(R.opposite(m.query)), ks = said.map(a => R.canon(a));
@@ -1679,7 +1717,7 @@ function Kernel(opts) {
     attachLexicon(data, tier) { lex.attach(data, tier); },
     memory: () => store.load('memory'), cold: () => store.load('cold_storage'), evidence: () => store.load('evidence'), traces: () => store.load('trace'), examples: () => store.load('language_examples'),
     deleteRecord(id, reason, userTap) { if (userTap === false) return false; const pd = perm.authorize('memory.delete_ui', { userTap: true, subject: id }); if (pd.decision !== 'allow') return false; const mem = store.load('memory'); const i = mem.findIndex(r => r.id === id); if (i < 0) return false; const r = mem.splice(i, 1)[0]; r.status = 'forgotten'; store.save('memory', mem); const cold = store.load('cold_storage'); cold.push({ id: r.id, sealed_at: now(), reason: 'forgotten from the Memory screen (explicit tap + confirm)', record: r, successor: { kind: 'lifecycle_transition', from: 'accepted', to: 'archived', rule: 'forge2 APPEND_ONLY_SUCCESSOR_LAWS_V1 §Lifecycle transition' }, tier: 'WARM', resurrection_attempts: 0 }); store.save('cold_storage', cold); const tr = store.load('trace'); tr.push({ turn: 'ui', at: now(), input: '[Memory screen] delete ' + id, rules: [{ id: 'AUTH-UI-DELETE', doc: 'Doc7 (explicit user action)', note: reason || '' }], deleted: { id, kind: r.kind } }); store.save('trace', tr); tmsSync({ op: 'memory.delete_ui', id }); return true; },
-    justifications: () => TMS.list(), withdrawalReceipts: () => TMS.receipts(), replayJustification: id => tmsReplay(id), whyOf: id => justifyMaterial(TMS.get(id)),
+    justifications: () => TMS.list(), worldState: () => worldStateView(), withdrawalReceipts: () => TMS.receipts(), replayJustification: id => tmsReplay(id), whyOf: id => justifyMaterial(TMS.get(id)),
     categories: CATEGORIES, exportAll() { const o = {}; for (const c of CATEGORIES) o[c] = store.load(c); return o; }, reparseClause, derive: t => derive(G.tokenize(t)), renderClause: c => G.clauseText(c, 'kernel') };
 }
 function compat(c) { const v = c.verb || {}; return Object.assign({}, c, { _ast: c, pol: v.pol, mod: v.mod, tense: v.tense, val: c.pred ? (c.pred.type === 'adj' ? c.pred.words.join(' ') : (c.pred.prep ? c.pred.prep + ' ' : '') + G.npText(c.pred.np, 'kernel')) : G.vpText(c, c.subj, 'kernel'), cond: c.cond ? G.clauseText(c.cond, 'kernel') : null }); }
