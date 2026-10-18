@@ -63,13 +63,54 @@ module.exports = ({ C, expect, K, ROOT }) => {
     f.process('does Cobalt contain Aster?'); const w2 = f.process('why?'); expect(/from “Aster is inside Beryl” and “Beryl is inside Cobalt”/.test(w2.reply) && w2.trace.echo.pass, w2.reply);
     const g = K(); g.process('Ola is inside Pel. Pel is inside Ras. Is Ola inside Ras?'); const w3 = g.process('why?'); expect(/from “Ola is inside Pel” and “Pel is inside Ras”/.test(w3.reply), w3.reply); });
   C('WS-DATA', 'relation properties are DATA: every RELATIONS row uses only declared keys, inverse partners are mutual, functional is subject|object; the grammar reads the declared phrases (no relation phrase is hard-coded in reason.js); RELPROP rule ids are stable; no numeric weights', () => {
-    const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional']), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));
+    const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional', 'containment', 'alias', 'comparative', 'one']), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));
     expect(Object.isFrozen(WR.RELATIONS) && WR.RELATIONS.length >= 20, 'table');
     for (const r of WR.RELATIONS) { expect(Object.keys(r).every(k => KEYS.has(k)) && Object.values(r).every(v => typeof v !== 'number'), JSON.stringify(r));
       if (r.inverse) expect(by.has(r.inverse) && by.get(r.inverse).inverse === r.pred, 'inverse not mutual ' + r.pred); if (r.functional) expect(['subject', 'object'].includes(r.functional), r.pred); }
     for (const p of ['inside', 'in', 'part_of', 'ancestor_of', 'greater_than']) expect(by.has(p) && (by.get(p).transitive || p === 'greater_than'), p);
     for (const p of ['married_to', 'next_to']) expect(by.get(p).symmetric === true, p); expect(by.get('contain').inverse === 'inside' && by.get('parent_of').inverse === 'child_of');
-    const rs = fs.readFileSync(ROOT + '/src/reason.js', 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''); for (const r of WR.RELATIONS.filter(x => x.phrase)) expect(!rs.includes("'" + r.phrase + "'") && !rs.includes("'" + r.pred + "'"), 'hard-coded in reason.js: ' + r.pred);
+    const rs = fs.readFileSync(ROOT + '/src/reason.js', 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''); for (const r of WR.RELATIONS) { if (r.containment) expect(['inner', 'outer'].includes(r.containment) && r.transitive, r.pred); if (r.functional) expect(r.one && typeof r.one.who === 'string' && typeof r.one.has === 'string', 'functional row without its one-value reason ' + r.pred); }
+    for (const w of ['greater', 'more', 'larger']) expect(WR.COMPARATIVES.get(w) === 'greater_than', w); for (const w of ['less', 'smaller', 'fewer']) expect(WR.COMPARATIVES.get(w) === 'less_than', w);
+    for (const r of WR.RELATIONS.filter(x => x.phrase)) expect([].concat(r.phrase).every(ph => !rs.includes("'" + ph + "'")) && !rs.includes("'" + r.pred + "'"), 'hard-coded in reason.js: ' + r.pred);
     expect(JSON.stringify(WR.propertyDataRules('inside').map(r => r.id)) === JSON.stringify(WR.propertyDataRules('inside').map(r => r.id)) && WR.propertyDataRules('married_to').map(r => r.id).join() === 'RELPROP-SYMMETRIC:married_to', JSON.stringify(WR.propertyDataRules('married_to').map(r => r.id)));
     expect(!/require\(['"]\.\/sb_sync/.test(fs.readFileSync(ROOT + '/src/kernel.js', 'utf8')), 'kernel imports sb_sync'); });
+  /* 4.9.61 rulings 1–4 */
+  C('WS-APART', 'ruling 1: two values of a functional relation conflict ONLY when apart — neither contains the other through the containment rows (transitively, either direction) and they are not declared aliases; in the turn world and in memory', () => {
+    const t = s => K().process(s);
+    expect(yes(t('Ann was born in Paris. Paris is in France. Ann was born in France. Was Ann born in France?')), 'contained values conflicted');
+    expect(yes(t('Ann was born in Lyon. Lyon is inside Rhone. Rhone is inside France. Ann was born in France. Was Ann born in Lyon?')), 'transitive containment conflicted');
+    expect(yes(t('Ann was born in Lutetia. Lutetia is also called Paris. Ann was born in Paris. Was Ann born in Paris?')), 'aliases conflicted');
+    expect(/conflict/.test(t('Ann was born in Paris. Ann was born in Rome. Was Ann born in Rome?').reply), 'apart values did not conflict');
+    expect(/conflict/.test(t('Ann was born in Paris. Paris is in France. Lyon is in France. Ann was born in Lyon. Was Ann born in Lyon?').reply), 'siblings under one container are apart');
+    const f = K(); run(f, ['remember that Paris is in France', 'remember that Ann was born in Paris']); const r = f.process('remember that Ann was born in France');
+    expect(r.msm.meaning.kind !== 'confirm_replace' && !r.trace.rules.some(x => x.id === 'MEM-CONFLICT-FUNCTIONAL-RELATION') && f.store.load('memory').filter(x => x.status === 'active').length === 3, r.reply);
+    const g = K(); run(g, ['remember that Lutetia is also known as Paris', 'remember that Ann was born in Lutetia']); expect(!g.process('remember that Ann was born in Paris').trace.rules.some(x => x.id === 'MEM-CONFLICT-FUNCTIONAL-RELATION'), 'stored alias conflicted');
+    const h = K(); run(h, ['remember that Paris is in France', 'remember that Ann was born in Paris']); expect(h.process('remember that Ann was born in Rome').trace.rules.some(x => x.id === 'MEM-CONFLICT-FUNCTIONAL-RELATION'), 'apart value not asked');
+    expect(WR.apartness([{ predicate: 'in', args: ['paris', 'france'], polarity: 'pos' }])('france', 'paris') === false && WR.apartness([])('paris', 'rome') === true && WR.apartness([])('paris', 'paris') === false, 'apartness'); });
+  C('WS-FUNC-NO', 'ruling 2: a functional relation answers "No" when a stored value is apart from the asked one, stating the reason from the data; recorded in the ledger (why? reads it back) and withdrawn when the premise is forgotten; everything else stays open-world', () => {
+    const f = K(); f.process('remember that Ann was born in Paris'); const r = f.process('Was Ann born in Rome?');
+    expect(r.reply === 'No. You told me that Ann was born in Paris. A person has one birthplace.' && r.trace.echo.pass && r.trace.rules.some(x => x.id === 'INF-FUNCTIONAL-NO' && x.rules_used.includes('RELPROP-FUNCTIONAL:born_in')), r.reply);
+    const it = f.justifications().find(x => x.text === 'Ann was not born in Rome'); expect(it && it.status === 'in' && it.justifications[0].premises.length === 1 && /^mem:/.test(it.justifications[0].premises[0].id) && it.justifications[0].rules.includes('RELPROP-FUNCTIONAL:born_in'), JSON.stringify(f.justifications().map(x => x.text)));
+    const w = f.process('why?'); expect(w.reply === 'I derived “Ann was not born in Rome” from “Ann was born in Paris”. It uses 2 rules.' && w.trace.echo.pass, w.reply);
+    f.process('remember that Paris is in France'); expect(!/^No/.test(f.process('Was Ann born in France?').reply), 'a containing value answered no');
+    expect(!/^No/.test(f.process('Was Bea born in Rome?').reply), 'no stored value answered no');
+    run(f, ['forget that Ann was born in Paris', 'yes']); expect(f.justifications().find(x => x.id === it.id).status === 'withdrawn' && f.withdrawalReceipts().some(x => x.item === it.id), 'not withdrawn');
+    { const r2 = f.process('Was Ann born in Rome?'); expect(!/^(?:No|Yes)\b/.test(r2.reply), 'still decided after the premise left: ' + r2.reply); }
+    const g = K(); g.process('remember that Tom is the mother of Sue'); expect(g.process('is Liz the mother of Sue?').reply === 'No. You told me that Tom is the mother of Sue. A person has one mother.');
+    const h = K(); h.process('remember that Ann is in Paris'); expect(!/^No/.test(h.process('is Ann in Rome?').reply), 'a non-functional relation answered no'); });
+  C('WS-COMPARATIVE', 'ruling 3: "less / smaller / fewer than" and "more / greater / larger than" from the data table, inverse in both directions, asymmetric, transitive; turn world and memory', () => {
+    const st = t => require(ROOT + '/src/reason.js').evaluate(t).material.status;
+    expect(st('Quo is greater than Ola. Is Ola less than Quo?') === 'supported_only' && st('Quo is less than Ola. Is Ola greater than Quo?') === 'supported_only', 'inverse');
+    expect(st('Quo is smaller than Ola. Is Ola larger than Quo?') === 'supported_only' && st('Quo is more than Ola. Is Ola fewer than Quo?') === 'supported_only', 'synonyms');
+    expect(st('Quo is greater than Ola. Is Quo less than Ola?') === 'refuted_only' && st('Quo is fewer than Ola. Is Quo more than Ola?') === 'refuted_only', 'asymmetry');
+    expect(st('Quo is greater than Ola. Ola is greater than Pim. Is Pim less than Quo?') === 'supported_only', 'transitive through the inverse');
+    const f = K(); run(f, ['remember that Quo is greater than Ola', 'remember that Kip is less than Lop', 'remember that Bo is fewer than Cy']);
+    for (const [q, cite] of [['is Ola less than Quo?', 'Quo is greater than Ola'], ['is Lop more than Kip?', 'Kip is less than Lop'], ['is Lop greater than Kip?', 'Kip is less than Lop'], ['is Cy more than Bo?', 'Bo is fewer than Cy']]) { const r = f.process(q); expect(yes(r) && r.reply.includes('You told me that ' + cite + '.'), q + ' → ' + r.reply); } });
+  C('WS-SUPPOSE-AND', 'ruling 4: "Suppose A and B." with two full clauses is one supposition set — the candidates agree (no tie clarification), the answer is in a branch, nothing is written; the clause split re-derives in the integrity check', () => {
+    const f = K(); chain(f); const s0 = JSON.stringify([f.store.load('memory'), f.store.load('world_state')]);
+    const r = f.process('Suppose Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?'); expect(/branch/.test(r.reply) && /Yes/.test(r.reply) && r.trace.selection.winner === 'world.proof' && r.trace.echo.pass, r.reply);
+    const r2 = f.process('Suppose Ola is married to Pel and Pel is next to Kip. Is Pel married to Ola?'); expect(/Yes/.test(r2.reply) && r2.trace.selection.winner === 'world.proof', r2.reply);
+    expect(JSON.stringify([f.store.load('memory'), f.store.load('world_state')]) === s0, 'a supposition wrote durable state');
+    const RS = require(ROOT + '/src/reason.js'), e = RS.evaluate('Suppose Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?'); expect(e.material.status === 'supported_only' && RS.worldIntegrity(e.material.world) && e.material.world.facts.length >= 2, JSON.stringify(e.material.status));
+    expect(K().process('Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?').trace.selection.winner === 'world.proof', 'stated conjunction ties'); });
 };

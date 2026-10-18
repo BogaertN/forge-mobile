@@ -332,6 +332,12 @@ function Kernel(opts) {
   function relPropProve(facts, q) { let goal = null; try { goal = R.parseAtomic(G.clauseText(Object.assign({}, q, { verb: Object.assign({}, q.verb, { pol: 'pos' }) }), 'kernel'), false); } catch (e) { goal = null; }
     if (!goal || goal.args.length !== 2 || !WR.relInfo(goal.predicate)) return null; const F = durableAtoms(facts).map(f => ({ id: f.id, atom: f.atom })); const rules = relRulesFor(new Set(F.map(f => f.atom.predicate).concat([goal.predicate])));
     if (!rules.length || !F.length) return null; try { const pr = R.ruleWorld(F, rules).prove(goal); return pr && pr.rule_ids.length && R.checkRuleProof(F, rules, pr).ok ? pr : null; } catch (e) { return null; } }
+  /* 4.9.61 ruling 2: a FUNCTIONAL relation may answer "no" — only when a stored value exists for the same subject (object) and the asked value is
+     APART from it (ruling 1). Everything else stays open-world (undetermined). The reason is the row's data ('one': a person has one birthplace). */
+  function funcRefute(facts, q) { if (!q || q.verb.pol !== 'pos') return null; let goal = null; try { goal = R.parseAtomic(G.clauseText(q, 'kernel'), false); } catch (e) { goal = null; }
+    const fi = goal && goal.args.length === 2 && goal.polarity === 'pos' && WR.relInfo(goal.predicate), fn = fi && fi.row.functional; if (!fn) return null;
+    const k = fn === 'subject' ? 0 : 1, D = durableAtoms(facts), apart = WR.apartness(D.map(f => f.atom)), hit = D.find(f => f.atom.predicate === goal.predicate && f.atom.polarity === 'pos' && f.atom.args[k] === goal.args[k] && apart(f.atom.args[1 - k], goal.args[1 - k]));
+    return hit ? { fact: hit.rec, rule: 'RELPROP-FUNCTIONAL:' + fi.base, one: fi.row.one || null } : null; }
   function dwsBuild(turn) { const mem = activeFacts().filter(r => !r.sensitive), sig = sha256(canon(mem.map(r => [r.id, r.status]))), old = store.load('world_state');
     if (old && !Array.isArray(old) && old.signature === sig) return { changed: false, state: old };
     const A = durableAtoms(mem), ents = new Map(), rels = [], attrs = [], prov = f => ({ premise: f.id, turn: f.rec.provenance && f.rec.provenance.turn != null ? f.rec.provenance.turn : f.rec.turn != null ? f.rec.turn : null, source: 'stored fact', text: tmsText(memText(f.rec)) });
@@ -421,6 +427,7 @@ function Kernel(opts) {
       const adm = used.map(rid => (ar.find(x => x.rule.id === rid && x.status === 'admitted') || {}).id).filter(Boolean), inf = (trace.rules || []).filter(r => /^(?:INF-|GELC-ADMITTED-RULE)/.test(r.id) && !/^INF-NEG/.test(r.id)).map(r => r.id);
       const relp = (trace.rules || []).filter(r => r.id === 'INF-RELPROP').flatMap(r => r.rules_used || []);
       put(G.clauseText(m.claim, 'kernel'), [...new Set(refs)].map(prem), [...new Set(inf.filter(x => x !== 'INF-RELPROP').concat(relp, adm))], { kind: 'memory', refs: refs.slice() }); return out; }
+    if (m.kind === 'yesno' && m.answer === 'no' && m.refuted && refs.length) { const fr = (trace.rules || []).find(r => r.id === 'INF-FUNCTIONAL-NO'); if (fr) put(G.clauseText(m.refuted, 'kernel'), [...new Set(refs)].map(prem), ['INF-FUNCTIONAL-NO'].concat(fr.rules_used || []), { kind: 'memory', refs: refs.slice() }); return out; }
     if ((m.kind === 'recall' || (m.kind === 'yesno' && m.answer === 'yes')) && refs.length) { for (const id of refs.slice(0, 6)) { const p = prem(id); if (p.text) put(p.text, [p], [], { kind: 'stated', ref: id }); } return out; }
     return out; }
   function tmsTurn(trace, msm) { const recorded = tmsRecord(trace, msm), why = msm && msm.meaning && msm.meaning.kind === 'justification'; const ws = dwsBuild(meta.turn);
@@ -503,9 +510,10 @@ function Kernel(opts) {
         if (head && SINGLE_ATTR.has(head) && o.pred.type !== 'pp' && c.pred.type !== 'pp') out.push({ r, why: 'MEM-CONFLICT-SINGLE-VALUED-ATTRIBUTE' });
         else if (o.pred.type === 'adj' && c.pred.type === 'adj' && EXCLUSIVE.some(s => o.pred.words.every(w => s.has(w)) && c.pred.words.every(w => s.has(w)))) out.push({ r, why: 'MEM-CONFLICT-EXCLUSIVE-CLASS' }); }
       else if (SINGLE_VERB.has(predOf(c)) && (o.adj || []).some(a => a.role === 'adhikarana') && (c.adj || []).some(a => a.role === 'adhikarana') && !(c.adj || []).some(a => a.role === 'kala')) out.push({ r, why: 'MEM-CONFLICT-SINGLE-VALUED-VERB' }); }
-    /* M3: a declared FUNCTIONAL relation (world_rules.js) holds one value per subject (or one subject per value): a second distinct value is a real contradiction */
+    /* M3: a declared FUNCTIONAL relation (world_rules.js) holds one value per subject (or one subject per value): a second value is a real contradiction
+       only when the two are APART (4.9.61 ruling 1: not contained in one another via the containment rows, not declared aliases) */
     if (c.verb && c.verb.pol === 'pos' && !c.cond) { let a = null; try { a = R.parseAtomic(G.clauseText(c, 'kernel'), false); } catch (e) { a = null; } const fi = a && a.args.length === 2 && WR.relInfo(a.predicate), fn = fi && fi.row.functional;
-      if (fn) { const k = fn === 'subject' ? 0 : 1; for (const f of durableAtoms(activeFacts())) { const b = f.atom; if (b.predicate === a.predicate && b.polarity === 'pos' && b.args[k] === a.args[k] && b.args[1 - k] !== a.args[1 - k] && !out.some(x => x.r.id === f.id)) out.push({ r: f.rec, why: 'MEM-CONFLICT-FUNCTIONAL-RELATION' }); } } }
+      if (fn) { const k = fn === 'subject' ? 0 : 1, D = durableAtoms(activeFacts()), apart = WR.apartness(D.map(f => f.atom).concat([a])); for (const f of D) { const b = f.atom; if (b.predicate === a.predicate && b.polarity === 'pos' && b.args[k] === a.args[k] && apart(b.args[1 - k], a.args[1 - k]) && !out.some(x => x.r.id === f.id)) out.push({ r: f.rec, why: 'MEM-CONFLICT-FUNCTIONAL-RELATION' }); } } }
     return out; }
   const hasMod = c => (c.coord ? c.coord.some(hasMod) : c.verb && c.verb.mod !== 'asserted');
   const setMod = (c, m) => { if (c.coord) c.coord.forEach(x => setMod(x, m)); else if (c.verb) { c.verb.mod = m; if (c.verb.tense === 'future') c.verb.tense = 'present'; } };
@@ -1211,6 +1219,8 @@ function Kernel(opts) {
       { const AR = admittedRules(), ents = [...new Set(nps(q).filter(n => !n.pron3).map(entKey).filter(Boolean))]; if (AR.length && ents.length === 2) { const F = ruleFacts(facts); try { const pr = R.ruleWorld(F, AR).prove({ predicate: predOf(q) === 'be' ? 'isa' : predOf(q), args: ents, polarity: 'pos' });
         if (pr && R.checkRuleProof(F, AR, pr).ok) { const out = done('GELC-ADMITTED-RULE', pr.fact_ids, null, pr); rules.find(x => x.id === 'GELC-ADMITTED-RULE').rules_used = pr.rule_ids.slice(); return out; } } catch (e) { /* an unsafe stored rule never answers */ } } }
       { const rp = relPropProve(facts, q); if (rp) { const out = done('INF-RELPROP', [...new Set(rp.fact_ids)], null, rp); rules.find(x => x.id === 'INF-RELPROP').rules_used = rp.rule_ids.slice(); return out; } } /* M3: declared relation properties over the durable world */
+      { const fr = funcRefute(facts.filter(r => !r.shared), q); if (fr) { rules.push({ id: 'INF-FUNCTIONAL-NO', doc: 'world_rules.js functional relation (4.9.61 ruling 2: one value; the stored value is apart from the asked one)', note: '1 stored fact', rules_used: [fr.rule] });
+        return res('SELECTED_MEANING', Object.assign({ kind: 'yesno', answer: 'no', items: [fr.fact.clause], refuted: Object.assign({}, q, { verb: Object.assign({}, q.verb, { pol: 'neg' }) }) }, fr.one ? { one: fr.one } : {}), { frame: 'FR.QUESTION', act: 'question', evidenceRefs: [fr.fact.id] }); } }
       /* INF-ISA-RESTRICTOR (4.9.43): class reach proves only an unrestricted class; a target NP with an of-complement, adjectives or a compound head ("the SI unit of mass", "a big dog") is not proved by reaching its head */
       if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'np' && q.pred.np && q.pred.np.head && !q.pred.np.owner && !q.pred.np.propn && !q.pred.np.of && !(q.pred.np.adjs || []).length && q.pred.np.head.length === 1) { const target = INF.npHead(q.pred.np);
         const generic = q.subj.head && !q.subj.owner && !q.subj.propn && (q.subj.det === 'a' || q.subj.det === 'an' || q.subj.plural);
