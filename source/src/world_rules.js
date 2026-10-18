@@ -48,7 +48,12 @@
     { pred: 'born_in', phrase: 'born in', functional: 'subject', one: { who: 'person', has: 'birthplace' } }, { pred: 'capital_of', phrase: 'capital of', functional: 'subject', one: { who: 'capital', has: 'country' } },
     { pred: 'alias_of', phrase: ['also called', 'also known as'], symmetric: true, transitive: true, alias: true }]);
   const REL_BY = new Map(RELATIONS.map(r => [r.pred, r]));
-  const relInfo = p => { const ps = /^past_/.test(String(p)), b = ps ? String(p).slice(5) : String(p); const r = REL_BY.get(b); return r ? { row: r, past: ps, base: b } : null; };
+  /* M5 (4.9.64) MEA MANIFEST OVERLAY: an adopted manifest (mea.js) is a list of property deltas { pred, prop, value } over these rows; only the
+     yes/no properties in MEA_MUTABLE change, the grammar's phrases and comparative words never do. null = the shipped rows. */
+  const MEA_MUTABLE = Object.freeze(['transitive', 'symmetric']); let OVER = null;
+  const setManifest = deltas => { if (!deltas || !deltas.length) { OVER = null; return null; } const m = new Map(); for (const d of deltas) { const b = REL_BY.get(d.pred); if (!b || !MEA_MUTABLE.includes(d.prop)) continue; const r = m.get(d.pred) || Object.assign({}, b); r[d.prop] = !!d.value; m.set(d.pred, r); } OVER = m.size ? m : null; return OVER ? [...OVER.keys()] : null; };
+  const rowOf = b => (OVER && OVER.get(b)) || REL_BY.get(b);
+  const relInfo = p => { const ps = /^past_/.test(String(p)), b = ps ? String(p).slice(5) : String(p); const r = rowOf(b); return r ? { row: r, past: ps, base: b } : null; };
   /* 4.9.61 ruling 3: comparative words declared on a row ('X is less / smaller / fewer than Y') name that row's predicate */
   const COMPARATIVES = new Map(RELATIONS.flatMap(r => (r.comparative || []).map(w => [w, r.pred])));
   const PHRASES = RELATIONS.filter(r => r.phrase).flatMap(r => [].concat(r.phrase).map(phrase => ({ phrase, pred: r.pred })));
@@ -56,15 +61,15 @@
      contain / be inside the other through the declared containment rows (transitively, either direction), and they are not declared aliases.
      Computed from the stated atoms alone (stratified: functional rules never conclude containment or alias atoms), so a checker re-derives it. */
   function apartness(atoms) { const par = new Map(), find = x => { while (par.has(x) && par.get(x) !== x) x = par.get(x); return x; }, up = new Map();
-    for (const a of atoms) { const r = a && a.polarity === 'pos' && a.args.length === 2 && REL_BY.get(String(a.predicate).replace(/^past_/, '')); if (r && r.alias) { const x = find(a.args[0]), y = find(a.args[1]); if (x !== y) par.set(x < y ? y : x, x < y ? x : y); } }
-    for (const a of atoms) { const r = a && a.polarity === 'pos' && a.args.length === 2 && REL_BY.get(String(a.predicate).replace(/^past_/, '')); if (!r || !r.containment) continue;
+    for (const a of atoms) { const r = a && a.polarity === 'pos' && a.args.length === 2 && rowOf(String(a.predicate).replace(/^past_/, '')); if (r && r.alias) { const x = find(a.args[0]), y = find(a.args[1]); if (x !== y) par.set(x < y ? y : x, x < y ? x : y); } }
+    for (const a of atoms) { const r = a && a.polarity === 'pos' && a.args.length === 2 && rowOf(String(a.predicate).replace(/^past_/, '')); if (!r || !r.containment) continue;
       const [i, o] = r.containment === 'inner' ? a.args : [a.args[1], a.args[0]], k = find(i); if (!up.has(k)) up.set(k, new Set()); up.get(k).add(find(o)); }
     const reach = (x, y) => { const seen = new Set([x]), st = [x]; while (st.length) { const n = st.pop(); for (const m of up.get(n) || []) { if (m === y) return true; if (!seen.has(m)) { seen.add(m); st.push(m); } } } return false; };
     return (y, z) => { if (y === z) return false; const a = find(y), b = find(z); return a !== b && !reach(a, b) && !reach(b, a); }; }
   /* the property rules of a predicate and of its inverse partner, in the TurnWorld atom language (prop = which declared property) */
   function propertyRules(p) { const i = relInfo(p); if (!i) return []; const pre = i.past ? 'past_' : '', seen = new Set(), out = [];
     const preds = [i.base].concat(i.row.inverse ? [i.row.inverse] : []);
-    for (const b of preds) { const r = REL_BY.get(b); if (!r) continue; const q = pre + b, add = (prop, body, head, guard) => { const k = JSON.stringify([body, head]); if (seen.has(k)) return; seen.add(k); out.push(Object.assign({ prop, pred: b, body, head }, guard ? { guard } : {})); };
+    for (const b of preds) { const r = rowOf(b); if (!r) continue; const q = pre + b, add = (prop, body, head, guard) => { const k = JSON.stringify([body, head]); if (seen.has(k)) return; seen.add(k); out.push(Object.assign({ prop, pred: b, body, head }, guard ? { guard } : {})); };
       if (r.transitive && !/_than$/.test(b)) add('transitive', [A(q, '$x', '$y'), A(q, '$y', '$z')], A(q, '$x', '$z'));
       if (r.symmetric) add('symmetric', [A(q, '$x', '$y')], A(q, '$y', '$x'));
       if (r.inverse) add('inverse', [A(q, '$x', '$y')], A(pre + r.inverse, '$y', '$x'));
@@ -75,10 +80,10 @@
   /* 4.9.63 ruling 4: a comparative row (declared comparative words, *_than) is an ORDER in the durable world too — transitive and asymmetric — the
      same two rules the turn world gives every comparative (reason.js orderRules), so stored comparatives derive and refute like the turn world */
   function orderRules(p) { const i = relInfo(p); if (!i || !/_than$/.test(i.base)) return []; const out = [];
-    for (const b of [i.base].concat(i.row.inverse ? [i.row.inverse] : [])) { const r = REL_BY.get(b); if (!r || !r.comparative) continue;
+    for (const b of [i.base].concat(i.row.inverse ? [i.row.inverse] : [])) { const r = rowOf(b); if (!r || !r.comparative) continue;
       out.push({ prop: 'transitive', pred: b, body: [A(b, '$x', '$y'), A(b, '$y', '$z')], head: A(b, '$x', '$z') }, { prop: 'asymmetric', pred: b, body: [A(b, '$x', '$y')], head: A(b, '$y', '$x', 'neg') }); }
     return out; }
   const propertyDataRules = p => propertyRules(p).concat(orderRules(p)).map(r => Object.assign({ id: 'RELPROP-' + r.prop.toUpperCase() + ':' + r.head.predicate.replace(/^past_/, '') + (r.prop === 'inverse' ? '<' + r.pred : ''), name: 'RELPROP-' + r.prop.toUpperCase(), body: r.body, head: r.head }, r.guard ? { guard: r.guard } : {}));
-  const api = { transitiveRule, TRANSITIVE, FAMILY, transitive, RELATIONS, PHRASES, COMPARATIVES, relInfo, apartness, propertyRules, propertyDataRules, orderRules, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
+  const api = { setManifest, MEA_MUTABLE, activeManifest: () => (OVER ? [...OVER.keys()] : null), transitiveRule, TRANSITIVE, FAMILY, transitive, RELATIONS, PHRASES, COMPARATIVES, relInfo, apartness, propertyRules, propertyDataRules, orderRules, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KWorldRules = api;
 })(typeof self !== 'undefined' ? self : this);
