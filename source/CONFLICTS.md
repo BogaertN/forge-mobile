@@ -517,3 +517,23 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - Release fixes for 4.9.69:
   - forge_spine.js now loads before msm.js and kernel.js in index.html. It depends only on sha256.js, so the BROWSER-LOAD-ORDER law holds.
   - The single-file bundle budget is raised from 1.460 MB / 445 kB gzip to 1.560 MB / 475 kB gzip, per the user's ruling "size is never a blocker; functionality first". The K3/K4 code made the bundle 8 KB over the old limit.
+
+## v4.9.70: build-plan step 2, K5 (distances vs relevant memory) + K6 (typed Echo) (2026-10-18)
+
+- **K5 (§11 R-NOV-1..3).** Each checked candidate's four RMC distances are now measured against M_relevant, as RMC §6.4 defines (N(c) = dist(c, M_relevant)).
+  They are no longer measured input-vs-output; the old fields measured how much of the question the answer repeated, which is not novelty.
+  - M_relevant = active stored memory + active working facts that share a content term with the turn input or the candidate's surface.
+  - d_struct = 1 − max Jaccard against M_relevant (the authoritative simple N). d_sem = 1 − the share of candidate terms found in M_relevant.
+    d_op = 0 iff the candidate's operator (polarity + verb lemma, else meaning kind) occurs in M_relevant.
+    d_phase = circular phase-index distance / 4, consistent with ruling 2 (Φ9 next to Φ1).
+  - With no relevant memory all four are null and novelty is "no_relevant_memory" (N undefined, never 0).
+  - Unweighted, never combined, never a selection key (D.4 rule 5: novelty ≠ approval).
+  - Novelty classes use the RMC §8.3 worked values (N_min 0.15, N_max 0.75, θ 0.35); worked examples, not laws.
+  - The selected candidate's novelty fills μ_t.novelty_score / novelty_class.
+- **K6 (§6 R-ECHO-2..5; src/echo_types.js, new).** Echo results are now typed:
+  - 13 MeaningPreservationDimension findings, the 17 DriftKinds with materiality, one of 5 classification states, and a disposition PASSED / REJECTED / CONTAINED with its custody record.
+  - Typing reads structures only: the planned vākya vs the nearest inward analysis, and the Echo components. Raw text is never an input.
+  - Structural identity (CONFLICTS #9) is still the only pass condition; typing never changes a verdict (tested).
+  - The crosswalk from vākya keys / lemma families to dimensions and drift kinds is a RECONSTRUCTION. Forge 43D/43E name the kinds but not this mapping.
+  - Every Echo, passing or failing, now creates an MSM ValidationLink with its disposition (R-ECHO-5). A failed Echo's surface is linked and contained, never delivered.
+- Tests: verify/k56_suite.js, 7 cases (K5-DISTANCES, K6-ECHO), with one fixture per drift kind. k34 case 5 is updated for the ValidationLink-on-failure law.
