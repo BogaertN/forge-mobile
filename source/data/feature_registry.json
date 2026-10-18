@@ -1,5 +1,5 @@
 {
-  "version": "4.9.66",
+  "version": "4.9.67",
  "features": [
   {
    "id": "A-01",
@@ -1279,7 +1279,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
    "wave": "W3",
    "claim": "Partial",
-   "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md §e steps 1–8).",
+   "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md §e steps 1–8). · 4.9.67: the three canonical problems (144 Hz, limiting reagent, inheritance) adopted (data/canonical_problems.json); exact sub-results checked, MEA-P outcomes pending",
    "proof": [
     "MEA",
     "LIFECYCLE",
@@ -1792,9 +1792,10 @@
    "source": "Drive math docs (kernel-papers/math/*); forge rmc_engine_v1/mea, rpmc_kernel",
    "wave": "W3",
    "claim": "Partial",
-   "note": "kmath.js citations + Φ-notation toggle; MEA evidence tiers/fixed-point partial",
+   "note": "kmath.js citations + Φ-notation toggle; MEA evidence tiers/fixed-point partial · 4.9.67: canonical χ (chiCorrect: once per ψ, phase-aligned ancestors, bounded), circular σ_res, forward-only phase law, RSOC↔RMC phase map (reconstruction)",
    "proof": [
-    "MEA"
+    "MEA",
+    "RULINGS-467"
    ]
   },
   {
