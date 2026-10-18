@@ -1,0 +1,42 @@
+name: Fuzz (non-blocking)
+# 4.9.72 (Nic ruling 2, 2026-10-18 6:20 PM): random-seed fuzzing of the GELC property suite, SEPARATE from "Deploy Pages".
+# It never gates deploy (its own workflow; Pages does not depend on it), it never fails (tools/fuzz.js always exits 0 and every
+# step is continue-on-error), so it raises no failure notification; it sends no messages. Failures are printed to the job log and
+# uploaded as the artifact "fuzz-failures" (_fuzz/failures.jsonl) for us to fix in the pipeline (reproduce with GELC_SEED=<seed>).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: fuzz
+  cancel-in-progress: true
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 (v4.4.0)
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4 (v4.4.0)
+        with:
+          node-version: '20'
+      - name: Prepare the clone (decode binary inputs)
+        continue-on-error: true
+        run: sh source/tools/prepare_clone.sh
+      - name: Fuzz the GELC suite with fresh random seeds (non-blocking; always exits 0)
+        continue-on-error: true
+        run: node source/tools/fuzz.js 8
+      - name: Print logged failures to the job log
+        continue-on-error: true
+        run: if [ -s source/_fuzz/failures.jsonl ]; then cat source/_fuzz/failures.jsonl; else echo "no failures"; fi
+      - name: Upload the failure log
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: fuzz-failures
+          path: source/_fuzz/
+          if-no-files-found: ignore
+          retention-days: 30
