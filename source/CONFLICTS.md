@@ -537,3 +537,37 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   - The crosswalk from vākya keys / lemma families to dimensions and drift kinds is a RECONSTRUCTION. Forge 43D/43E name the kinds but not this mapping.
   - Every Echo, passing or failing, now creates an MSM ValidationLink with its disposition (R-ECHO-5). A failed Echo's surface is linked and contained, never delivered.
 - Tests: verify/k56_suite.js, 7 cases (K5-DISTANCES, K6-ECHO), with one fixture per drift kind. k34 case 5 is updated for the ValidationLink-on-failure law.
+
+## v4.9.71: Nic's rulings of 2026-10-18 (5:44 PM), recorded and applied
+
+1. **χ window / floor:** kept as built (strict). A fresh chat at ε_s 0.36 being held is acceptable. Record only.
+2. **inside / within = in.** One alias class, declared in the relation-property table (world_rules.js RELATIONS `{ pred, same_as: 'in' }`).
+   - `canonicalPred` maps an alias to its class predicate and keeps any past_ prefix. reason.js `atom()` canonicalizes premises and queries, so every rule, inverse (in↔contain) and functional check reads the one 'in' row. There are no special cases.
+   - Removed a duplicate `within` row and the separate `inside` row. mea.js skips alias rows: they have no mutable cells, so MEA-K evolves the class row.
+   - Visible effect: an inferred WH answer quotes the class predicate ("the ball is in the room") even when the facts said "inside" / "within". Yes/no answers echo the user's own words.
+3. **Forward phase skips.** A committed meaning may not skip over the Φ5 collapse, Φ6 χ or Φ7 naming gate when that gate applies to it. Other forward skips stay allowed.
+   - kmath `phaseStep` takes `t.gates` (the applying gate phases; `GATE_PHASES = {5:'collapse',6:'χ',7:'naming'}`). phaseLaw passes them through.
+   - The kernel sets the gates for a committed turn: Φ5 and Φ7 always, plus Φ6 when the drift band is 'correct' (χ ran). Blocked or quarantined turns have no gates.
+   - Quarantine exploration is not a committed path, so the gates do not apply there.
+   - Note: a "skip" of more than 4 phases is already read as backward by the circular direction rule (ruling 2 of 4.9.67), so it was unlawful before this ruling too.
+4. **The 17-kind / 13-dimension Echo mapping:** kept, marked RECONSTRUCTION (see v4.9.70). Record only.
+5. **Relevant memory.** M_relevant = facts sharing a content word with the question/answer PLUS facts linked to those facts' entities through ONE world-state relation hop.
+   - Hop = a stored relation atom (R.parseAtomic) sharing an argument entity with a direct fact. Two hops are not included.
+   - distances now report direct_count and hop_count. The phase distance stays circular /4.
+6. **Explanation or refusal text for a blocked turn** may show, with no render targets. Kept. Record only.
+7. **Bundle size raise:** approved (the 4.9.69 raise to 1.560 MB / 475 kB stands). Record only.
+8. **Fixed seeds in the release gate.** The release/CI gate is deterministic: verify/gelc_suite.js defaults to seed 1358217271, the seed that exposed the 4.9.67 GELC deploy failure; it is now fixed and green.
+   - Random-seed fuzzing moved to `tools/fuzz.js`. It is non-blocking and always exits 0. It appends failures (seed, case, reason) to `_fuzz/failures.jsonl`, which is git-ignored, and sends nothing anywhere.
+   - A logged seed is reproduced with `GELC_SEED=<seed>` and fixed in the pipeline.
+   - Fuzz run before release: seed 942775888 had flagged GELC-WH after ruling 2 (the WH answer quotes the class predicate). The suite now expects `canonicalPred`; this was a general test change, not an answer patch.
+9. **"EchoForge" tool bench renamed "Tool Bench"** in the UI (tab label, card head and text), help, doctor runbook, rule docs, tool/registry text and the advisory-refusal reply ("The Tool Bench uses deterministic tools").
+   - Internal keys are kept for storage compatibility: tab id `echoforge`, policy key `echoForge`, rule ids `EF-*`.
+   - "EchoForge" now names only the separate debate / journaling / reflection app. This agrees with the AI.Web Apprentice Packet v2.0 (Nic's naming authority, 5:49 PM) and with V1 §6.
+- Naming authority note: the Apprentice Packet (Drive, read-only) is adopted as the naming/role authority. Mismatches and follow-up renames are listed in kernel-papers/oct18/APPRENTICE_PACKET_NOTES.md: Gilligan = the whole agent layer (here only pattern reflection), Genesis Node vs "Home node", and the ProtoForge foundation role. These follow-ups were not renamed mid-release.
+- Tests: verify/rulings471_suite.js, 8 cases (RULINGS-471).
+- Tests updated to the new law (data change, not answer patches). world_state_suite: the derived chain is now stored as "aster is in cobalt" with rule RELPROP-TRANSITIVE:in; the declared-key check accepts `same_as` and requires an alias row to be a pure alias of an existing row; contain's inverse is 'in'. mea_suite: the inverse-pair legality message names contain/in.
+- MEA consequence (general, src/mea.js). contain's inverse partner is now the functional 'in' row, which is not evolvable. So contain could only change one-sidedly, and the 4.9.65 inverse-pair rule forbids that.
+  - New `pairOf` checks pair agreement against the partner's shipped value even when the partner is not evolvable. A one-sided contain change is INVERSE-PAIR-INCONSISTENT:contain/in.
+  - Cells of a pair whose partner is not evolvable are no longer mutable. Mutable cells went from 31 to 25 and units from 21 to 17.
+  - **Decision for Nic:** should the functional 'in' row's transitivity become an evolvable cell, which would re-open contain/in as one unit?
+- src/mea_data.js regenerated (tools/mea_eval.js 1 8). All 8 seeded proposals were re-judged on the held-out, mutation, world-state and guard suites: all are rejected (regressions or legality), and nothing is adopted.
