@@ -84,7 +84,10 @@ function lemmatize0(w, lex) {
   /* M-PLURAL-LEXEME-APAVADA (4.9.50): a noun form that is both a lexeme ("briefs", "damages") and the plural of a lexeme ("brief") is one word;
      the reading from the better-attested tier wins (core > extended > complete), the regular plural on a tie (Pāṇini: one form, one derivation) */
   const tr = l => (lex.tier ? lex.tier(l) : 0);
-  return o2.filter(o => { if (o.pos !== 'n') return true; const reg = x => x.f === 'pl' && /^M-SUFFIX/.test(x.rule || '') && /s$/.test(w); const rival = o2.find(p => p !== o && p.pos === 'n' && ((o.f === 'sg' && reg(p) && o.lemma === w) || (reg(o) && p.f === 'sg' && p.lemma === w)));
+  /* M-VES-APAVADA (4.9.67): -ves → -f/-fe is not a WordNet detachment rule (morphy lists those plurals as exceptions, IRRN here); as a suffix
+     guess it yields only when the regular -s plural of the same surface is no noun ("raves" is rave, not RAF; "calves" stays calf) */
+  const o3 = o2.filter(o => !(o.pos === 'n' && o.f === 'pl' && /^M-SUFFIX/.test(o.rule || '') && /ves$/.test(w) && /fe?$/.test(o.lemma) && o2.some(p => p !== o && p.pos === 'n' && p.f === 'pl' && p.lemma === w.slice(0, -1))));
+  return o3.filter(o => { if (o.pos !== 'n') return true; const reg = x => x.f === 'pl' && /^M-SUFFIX/.test(x.rule || '') && /s$/.test(w); const rival = o2.find(p => p !== o && p.pos === 'n' && ((o.f === 'sg' && reg(p) && o.lemma === w) || (reg(o) && p.f === 'sg' && p.lemma === w)));
     if (!rival) return true; const mine = tr(o.lemma), theirs = tr(rival.lemma); return o.f === 'pl' ? mine <= theirs : mine < theirs; });
 }
 /* ---------- analysis / tagging ---------- */
