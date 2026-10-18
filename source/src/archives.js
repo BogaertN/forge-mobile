@@ -203,20 +203,32 @@
   const UNITS = { length: 'm|km|cm|mm|ft|feet|foot|metres?|meters?|miles?|kilometres?|kilometers?|inches|in|yards?|fathoms?|storeys?|stories|floors', mass: 'kg|g|lbs?|pounds?|tons?|tonnes?|grams?|kilograms?', time: 'years?|months?|weeks?|days?|hours?|minutes?|seconds?', temperature: '°[cf]|degrees?|kelvin|k', speed: 'km/h|mph|m/s|knots?', strength: 'psi|pa|kpa|mpa|gpa|n|kn|mn|newtons?|ksi' };
   const unitRe = dims => new RegExp('\\b\\d[\\d,.]*\\s?(?:' + (dims && dims.length ? dims.map(d => UNITS[d]).join('|') : Object.values(UNITS).join('|') + '|percent|%') + ')(?![a-z])', 'i');
   const UNIT = /\b\d[\d,.]*\s?(?:m|km|cm|mm|ft|feet|foot|metres?|meters?|miles?|kilometres?|kilometers?|inches|in|kg|g|lbs?|pounds?|tons?|tonnes?|psi|pa|kpa|mpa|gpa|n|kn|mn|°[cf]|degrees?|percent|%|years?|months?|days?|hours?|minutes?|seconds?|storeys?|stories|floors)\b/i;
+  function eventYear(e, plan) { const t = String(e.excerpt || ''); /* EVENT-DATE: a year answers "when did O V" only if the asked event (V, its forms, or its nominal: "the fall of") is the nearest event word to it — a year attached to another verb ("in 2009 Berlin celebrated …") dates that verb */
+      const ws = t.split(/[^A-Za-z0-9']+/).filter(Boolean); const ev = (plan.askedForms || []).concat(plan.asked ? [plan.asked] : []).map(x => x.toLowerCase()); const obj = String(plan.object || '').split(' ').pop();
+      const seg = []; { let k2 = 0; for (const part of t.split(/[,;()]/)) { for (const w of part.split(/[^A-Za-z0-9']+/).filter(Boolean)) { void w; seg.push(k2); } k2++; } } /* comma segment of each word: a date adjunct attaches inside its own segment first */
+      for (let y = 0; y < ws.length; y++) { if (!/^(1[0-9]{3}|20[0-9]{2})$/.test(ws[y])) continue; let best = null, bd = 99; const inSeg = ws.some((w, i) => seg[i] === seg[y] && (ev.includes(w.toLowerCase()) || /[a-z]{3,}ed$/.test(w.toLowerCase()))); for (let i = 0; i < ws.length; i++) { if (inSeg && seg[i] !== seg[y]) continue; const w = ws[i].toLowerCase(); const isE = ev.includes(w), isV = !isE && /[a-z]{3,}ed$/.test(w); if ((isE || isV) && Math.abs(i - y) < bd) { bd = Math.abs(i - y); best = isE ? 'event' : 'other'; } }
+        if (best === 'event' && (!obj || hits(t, [obj]))) return ws[y]; } return null; }
   function fit(e, plan) { const t = String(e.excerpt || ''); const a = plan.atype || 'description';
     if (e.value) return a === 'person' ? e.vtype === 'person' : a === 'date' ? e.vtype === 'time' : a === 'quantity' ? e.vtype === 'quantity' : a === 'place' ? e.vtype === 'item' : false;
     if (a === 'verdict') return !!excerptVerdict(e, plan);
     if (a === 'person' && plan.askedForms && plan.askedForms.length && new RegExp('\\b[A-Z][a-z]{2,}(?:\\s[A-Z][a-z]+)?\\s(?:[a-z]+ly\\s)?(?:' + plan.askedForms.join('|') + ')\\b|\\b(?:' + plan.askedForms.join('|') + ')\\sby\\s(?:the\\s)?[A-Za-z][a-z]+').test(t)) return true; /* "appointed by the president": the agent of the asked passive */ /* "Jefferson largely wrote …" / "written by Jefferson" */
     if (a === 'person') { const obj = new Set(String(plan.object || '').split(' ').map(x => x.toLowerCase())); return /(?:[a-z,;]\s)([A-Z][a-z]+(?:\s[A-Z]\.)?\s[A-Z][a-z]+)/.test(t.replace(/\b[A-Z][a-z]+\b/g, w => obj.has(w.toLowerCase()) ? 'x' : w)); }
-    if (a === 'date') { /* EVENT-DATE: a year answers "when did O V" only if the asked event (V, its forms, or its nominal: "the fall of") is the nearest event word to it — a year attached to another verb ("in 2009 Berlin celebrated …") dates that verb */
-      const ws = t.split(/[^A-Za-z0-9']+/).filter(Boolean); const ev = (plan.askedForms || []).concat(plan.asked ? [plan.asked] : []).map(x => x.toLowerCase()); const obj = String(plan.object || '').split(' ').pop();
-      const seg = []; { let k2 = 0; for (const part of t.split(/[,;()]/)) { for (const w of part.split(/[^A-Za-z0-9']+/).filter(Boolean)) { void w; seg.push(k2); } k2++; } } /* comma segment of each word: a date adjunct attaches inside its own segment first */
-      for (let y = 0; y < ws.length; y++) { if (!/^(1[0-9]{3}|20[0-9]{2})$/.test(ws[y])) continue; let best = null, bd = 99; const inSeg = ws.some((w, i) => seg[i] === seg[y] && (ev.includes(w.toLowerCase()) || /[a-z]{3,}ed$/.test(w.toLowerCase()))); for (let i = 0; i < ws.length; i++) { if (inSeg && seg[i] !== seg[y]) continue; const w = ws[i].toLowerCase(); const isE = ev.includes(w), isV = !isE && /[a-z]{3,}ed$/.test(w); if ((isE || isV) && Math.abs(i - y) < bd) { bd = Math.abs(i - y); best = isE ? 'event' : 'other'; } }
-        if (best === 'event' && (!obj || hits(t, [obj]))) return true; } return false; }
+    if (a === 'date') return !!eventYear(e, plan);
     if (a === 'quantity') return unitRe(plan.dims).test(t);
     if (a === 'cause' && e.defn) return true; /* CAUSE-FRAME sentence */ if (a === 'cause') { /* the effect (an argument of the question) precedes the causal connective: "rust forms when …", not "because of … rust" */ const m = /\b(because|due to|caused by|result(?:s|ed)? (?:of|from)|owing to|formed by|forms? when|occurs? when|reaction (?:of|between)|reacts? with)\b/i.exec(t); if (!m) return false; const before = t.slice(0, m.index).split(/[^A-Za-z]+/).filter(Boolean).slice(-14).join(' '); return !plan.args || !plan.args.length || hits(before, plan.args) >= 1 }
     if (a === 'method') return !!e.defn || /\b(by (?:means of )?[a-z]+ing|using|uses?|through (?:a|an|the)|via|works by|consists of)\b/i.test(t);
     return /\b(is|are|was|were|means|refers|provides|requires|shall|must|begins?|runs?|depends?|var(?:y|ies))\b/i.test(t) && (!plan.args || hits(t + ' ' + (e.title || ''), plan.args) >= plan.args.length && hits(t, plan.args.slice(-1)) >= 1); /* 4.9.55: the most specific (last) argument in the excerpt itself, not only the title; a definition must mention every nominal argument ("statute of limitations for fraud" → fraud) */ }
+  /* EXTRACT (4.9.63, ruling 1): the answer an excerpt gives for the question's answer type — the claim its evidence object carries. A yes/no
+     question: the verdict. Otherwise only a fitted excerpt answers: a typed value, the event year, a number with its unit, a personal name; a fitted
+     description / method / cause answers as a passage (comparable to no other passage). An unfitted excerpt is related text and answers nothing. */
+  function extract(e, plan) { const a = plan.atype || 'description', t = String(e.excerpt || '');
+    if (a === 'verdict') { const v = excerptVerdict(e, plan); return v && /^(yes|no)$/i.test(v.answer) ? { kind: 'verdict', answer: v.answer.toLowerCase() } : null; }
+    if (!e.fit) return null;
+    if (e.value != null && String(e.value).trim()) return { kind: 'value', answer: String(e.value).toLowerCase().replace(/[^a-z0-9.%]+/g, ' ').trim() };
+    if (a === 'date') { const y = eventYear(e, plan); if (y) return { kind: 'value', answer: y }; }
+    if (a === 'quantity') { const q = unitRe(plan.dims).exec(t); if (q) return { kind: 'value', answer: q[0].toLowerCase().replace(/,/g, '').replace(/\s+/g, ' ').trim() }; }
+    if (a === 'person') { const obj = new Set(String(plan.object || '').split(' ').map(x => x.toLowerCase())); const n = /(?:^|[a-z,;]\s)([A-Z][a-z]+(?:\s[A-Z]\.)?\s[A-Z][a-z]+)/.exec(t.replace(/\b[A-Z][a-z]+\b/g, w => obj.has(w.toLowerCase()) ? 'x' : w)); if (n) return { kind: 'value', answer: n[1].toLowerCase() }; }
+    return { kind: 'passage', answer: null }; }
   /* ASSESS: excerpts that fit lead; source class breaks ties only among them; contradicting verdicts are reported with their ranks and the EMN
      rule (the higher authority decides; equal authorities leave the answer undetermined) */
   function assess(evidence0, plan) { const evidence = evidence0.filter(e => !foreign(e, plan)); for (const e of evidence) { if (e.archive === 'wikipedia') { const tw = String(e.title || '').replace(/\s*\(.*\)$/, '').toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 1); e.canon = !/\(/.test(String(e.title || '')) && (squash(plan.question || '').includes(squash(tw.join(''))) || (tw.length > 0 && hits(plan.question || '', tw.map(w => w.replace(/ing$|s$/, ''))) === tw.length)); } /* every title word is in the question: not a subtype */ if (!e.verdict) { const v = plan.cmp ? cmpVerdict(e, plan) : textVerdict(e, plan); if (v) e.verdict = v; } e.fit = fit(e, plan); }
@@ -252,6 +264,6 @@
       evidence = [].concat(...r2).filter(e => e.excerpt && relevant(e, p2)); }
     const as = assess(evidence, plan);
     return { evidence: as.ranked.slice(0, 5), consulted: ids, errors, verdict: as.verdict, conflict: as.conflict, events: as.events || null, fits: as.fits }; }
-  const api = { ARCHIVES, RANK, consult, assess, fit, textVerdict, route, hits, stem, _C: C, _cache: CACHE };
+  const api = { ARCHIVES, RANK, consult, assess, fit, extract, eventYear, textVerdict, route, hits, stem, _C: C, _cache: CACHE };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KArchives = api;
 })(typeof self !== 'undefined' ? self : this);

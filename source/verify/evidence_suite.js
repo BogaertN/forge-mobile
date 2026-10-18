@@ -55,4 +55,27 @@ module.exports = ({ C, expect, ROOT }) => {
     expect(!/require\((?!'\.\/sha256\.js')/.test(src) && !/fetch|localStorage|store\.|remember|gks_|shared|sb_sync|supabase/i.test(src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '')), 'evidence.js reaches outside');
     expect(!/evidence\.js|sb_sync/.test(k), 'kernel imports evidence.js or sb_sync.js');
     const html = fs.readFileSync(ROOT + '/index.html', 'utf8'), sw = fs.readFileSync(ROOT + '/sw.js', 'utf8'); expect(/src\/evidence\.js/.test(html) && /evidence\.js/.test(sw) && html.indexOf('evidence.js') < html.indexOf('forge.js'), 'evidence.js not shipped before forge.js'); });
+  /* 4.9.63 ruling 1: the claim is the EXTRACTED answer for the question's answer type */
+  C('EVIDENCE', 'ruling 1: archives.extract gives the answer-type-fitted claim: a verdict for yes/no; a typed value, the event year, a number with its unit, a personal name; a fitted description is a passage; an unfitted excerpt answers nothing', () => {
+    const AR = require(ROOT + '/src/archives.js'), X = (excerpt, plan, extra) => { const e = Object.assign({ excerpt, title: 't', archive: 'wikipedia', cls: 'encyclopedia' }, extra || {}); e.fit = AR.fit(e, plan); return AR.extract(e, plan); };
+    const d = X('The Berlin Wall fell on 9 November 1989, after weeks of unrest.', { atype: 'date', asked: 'fall', askedForms: ['fell', 'fall'], object: 'berlin wall' }); expect(d && d.kind === 'value' && d.answer === '1989', JSON.stringify(d));
+    const d2 = X('In 2009 Berlin celebrated twenty years since the wall came down.', { atype: 'date', asked: 'fall', askedForms: ['fell', 'fall'], object: 'wall' }); expect(d2 === null, 'a commemoration year answered the event date: ' + JSON.stringify(d2));
+    const q = X('The tower is 324 metres tall.', { atype: 'quantity', dims: ['length'] }); expect(q && q.answer === '324 metres', JSON.stringify(q));
+    const p = X('The telephone was patented by Alexander Bell in 1876.', { atype: 'person', askedForms: ['patented'], object: 'telephone' }); expect(p && p.kind === 'value' && p.answer === 'alexander bell', JSON.stringify(p));
+    const v = X('x', { atype: 'quantity' }, { value: '12 Hours', vtype: 'quantity' }); expect(v && v.answer === '12 hours', JSON.stringify(v));
+    const m = X('Wugs glide by spreading skin flaps.', { atype: 'method', args: ['wug', 'glide'] }); expect(m && m.kind === 'passage' && m.answer === null, JSON.stringify(m));
+    expect(X('Wugs are small animals.', { atype: 'date', asked: 'glide', askedForms: ['glided'], object: 'wug' }) === null, 'an unfitted excerpt claimed an answer');
+    const y = X('Aspirin is not safe for children.', { atype: 'verdict', pred: 'safe', args: ['aspirin', 'safe'], neg: false }, { verdict: { answer: 'No', check: 'x' } }); expect(y && y.kind === 'verdict' && y.answer === 'no', JSON.stringify(y)); });
+  C('EVIDENCE', 'ruling 1: fitted passages are never compared: they give the level "answered" (N independent sources), never corroborated or conflicting; with a comparable value present the value decides', () => {
+    const P = (x, cls, archive, title) => EV.object(Object.assign({ archive, name: archive, cls, title, excerpt: title + ' text', claim: x }), Q, AT);
+    const a = EV.support([P({ kind: 'passage', answer: null }, 'encyclopedia', 'wikipedia', 'A'), P({ kind: 'passage', answer: null }, 'peer_reviewed', 'pubmed', 'B'), P({ kind: 'passage', answer: null }, 'encyclopedia', 'wikipedia', 'C')]);
+    expect(a.level === 'answered' && a.n === 2 && a.answer === null, JSON.stringify(a));
+    const b = EV.support([P({ kind: 'passage', answer: null }, 'encyclopedia', 'wikipedia', 'A'), P({ kind: 'value', answer: '1989' }, 'structured_reference', 'wikidata', 'Q')]); expect(b.level === 'single' && b.answer === '1989', JSON.stringify(b));
+    expect(EV.object(Object.assign(wk('Aspirin', 'Yes'), { claim: null }), Q, AT).claim === null, 'an explicit null claim must override the verdict'); });
+  C('EVIDENCE', 'ruling 1: reply wording: "answered" says how many sources answered; a value says "1 source gave it."; no fitted excerpt says "I found related passages. But no passage answered the question directly." and quotes the best passage as related text; a yes/no keeps "No source decided the question."; all Echo-verified', () => {
+    const w = (sup, extra) => say(sup, Object.assign({ archive: 'Wikipedia', cls: 'encyclopedia, a secondary source' }, extra || {}));
+    const a = w({ level: 'answered', n: 2 }); expect(/2 independent ranked sources answered it\./.test(a.text) && /^The answer is/.test(a.text) && !/No source decided/.test(a.text) && a.echo.pass, a.text);
+    const b = w({ level: 'single', n: 1, kind: 'value' }); expect(/1 source gave it\./.test(b.text) && b.echo.pass, b.text);
+    const c = w({ level: 'none', n: 0 }, { nofit: 'date' }); expect(/^I found related passages\. But no passage answered the question directly\. The best related passage is “Aspirin/.test(c.text) && !/The answer is|No source decided/.test(c.text) && c.echo.pass, c.text);
+    const d = w({ level: 'none', n: 0 }, { nofit: 'verdict' }); expect(/^No source decided the question\. The excerpt is/.test(d.text) && !/related passage/.test(d.text) && d.echo.pass, d.text); });
 };

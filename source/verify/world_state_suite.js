@@ -113,4 +113,34 @@ module.exports = ({ C, expect, K, ROOT }) => {
     expect(JSON.stringify([f.store.load('memory'), f.store.load('world_state')]) === s0, 'a supposition wrote durable state');
     const RS = require(ROOT + '/src/reason.js'), e = RS.evaluate('Suppose Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?'); expect(e.material.status === 'supported_only' && RS.worldIntegrity(e.material.world) && e.material.world.facts.length >= 2, JSON.stringify(e.material.status));
     expect(K().process('Pim is inside Quo and Quo is inside Rub. Is Pim inside Rub?').trace.selection.winner === 'world.proof', 'stated conjunction ties'); });
+  /* 4.9.63 rulings on the 4.9.62 decisions */
+  C('WS-ASYM-REGRESSION', 'ruling 5 (regression): "Quo is taller than Ola. Is Ola taller than Quo?" is "No" by asymmetry with a valid world root. Root cause: the measured-quantity evaluator took every dimensional comparison and, with no measurement, answered "no quantity" while the stated comparative was ignored; it now defers to the relational world when non-measurement premises are stated. Every declared comparative and the measured path are checked', () => {
+    const RS = require(ROOT + '/src/reason.js'), say = t => K().process(t);
+    for (const w of ['taller', 'shorter', 'older', 'younger', 'heavier', 'lighter', 'wider', 'narrower', 'higher', 'lower', 'deeper', 'shallower', 'longer', 'larger', 'smaller', 'greater', 'less']) {
+      const t = 'Quo is ' + w + ' than Ola. Is Ola ' + w + ' than Quo?', r = say(t), e = RS.evaluate(t);
+      expect(/^No\./.test(r.reply) && r.trace.echo.pass && r.trace.selection.winner === 'world.proof' && e.material.status === 'refuted_only' && RS.worldIntegrity(e.material.world), w + ': ' + r.reply); }
+    const inv = [['taller', 'shorter'], ['older', 'younger'], ['heavier', 'lighter'], ['wider', 'narrower'], ['higher', 'lower'], ['deeper', 'shallower'], ['larger', 'smaller']];
+    for (const [a, b] of inv) { const y = say('Quo is ' + a + ' than Ola. Is Ola ' + b + ' than Quo?'), n = say('Quo is ' + a + ' than Ola. Is Quo ' + b + ' than Ola?'); expect(/^Yes\./.test(y.reply) && /^No\./.test(n.reply) && y.trace.echo.pass && n.trace.echo.pass, a + '/' + b + ': ' + y.reply + ' | ' + n.reply); }
+    expect(/^Yes\./.test(say('Quo is older than Ola. Ola is older than Pim. Is Pim younger than Quo?').reply), 'transitive through the inverse');
+    expect(/^Yes\. I compared “5 kg” and “3 kg”\./.test(say('Quo is 3 kg. Ola is 5 kg. Is Ola heavier than Quo?').reply), 'measured comparison changed');
+    expect(/no quantity/.test(say('Quo is 180 cm tall. Is Quo taller than Ola?').reply), 'measurement-only premises must still ask for the missing quantity');
+    expect(/does not support/.test(say('Quo is longer than Ola. Is Ola shorter than Quo?').reply), 'longer has no declared inverse: open-world, never a guessed answer'); });
+  C('WS-SURFACE', 'ruling 3: a turn-world comparative is said with the user\'s own word (larger stays larger, smaller stays smaller); the row predicate stays the atom and Echo re-reads the word to it', () => {
+    const r = K().process('Quo is larger than Ola. Is Ola larger than Quo?'); expect(/“ola is not larger than quo”/.test(r.reply) && !/greater/.test(r.reply) && r.trace.echo.pass, r.reply);
+    const s = K().process('Quo is larger than Ola. Is Ola smaller than Quo?'); expect(/“ola is smaller than quo”/.test(s.reply) && s.trace.echo.pass, s.reply);
+    const m = K().process('Quo is more than Ola. Is Ola more than Quo?'); expect(/“ola is not more than quo”/.test(m.reply) && m.trace.echo.pass, m.reply);
+    const RS = require(ROOT + '/src/reason.js'), e = RS.evaluate('Quo is larger than Ola. Is Ola larger than Quo?'); expect(e.material.world.query.atom.predicate === 'greater_than' && e.material.query_text === 'ola is larger than quo', e.material.query_text); });
+  C('WS-ORDER-MEM', 'ruling 4: stored comparatives get the same order rules (asymmetry, inverse, transitivity) as the turn world: a checked "No" with its premises, recorded in the ledger, read back by "why?", withdrawn when a premise is forgotten', () => {
+    const f = K(); run(f, ['remember that Quo is taller than Ola', 'remember that Ola is taller than Pim']);
+    const a = f.process('is Ola taller than Quo?'); expect(/^No\. You told me that Quo is taller than Ola\. I used 1 rule\./.test(a.reply) && a.trace.echo.pass && a.trace.rules.some(x => x.id === 'INF-ORDER-NO' && x.rules_used.includes('RELPROP-ASYMMETRIC:taller_than')), a.reply);
+    const b = f.process('is Pim taller than Quo?'); expect(/^No\./.test(b.reply) && /Quo is taller than Ola/.test(b.reply) && /Ola is taller than Pim/.test(b.reply) && b.trace.echo.pass, b.reply);
+    const c = f.process('is Quo shorter than Pim?'); expect(/^No\./.test(c.reply) && c.trace.echo.pass, c.reply);
+    const w = f.process('why?'); expect(/Quo is not shorter than Pim/.test(w.reply) && /Quo is taller than Ola/.test(w.reply) && w.trace.echo.pass, w.reply);
+    const it = f.justifications().find(x => /quo is not shorter than pim/i.test(x.text) && x.justifications.some(j => j.rules.includes('INF-ORDER-NO'))); expect(it && it.status === 'in' && it.justifications[0].rules.includes('INF-ORDER-NO'), JSON.stringify(it));
+    run(f, ['forget that Ola is taller than Pim', 'yes']); const it2 = f.justifications().find(x => x.id === it.id); expect(it2.status !== 'in', 'not withdrawn: ' + JSON.stringify(it2));
+    expect(/cannot confirm/i.test(f.process('is Pim taller than Quo?').reply), 'withdrawn premise still refutes');
+    expect(rels(f).includes('derived:ola is not taller than quo'), 'the durable world lacks the asymmetric consequence: ' + JSON.stringify(rels(f)));
+    const g = K(); g.process('remember that Kip is larger than Lum'); const d = g.process('is Lum larger than Kip?'); expect(/^No\. You told me that Kip is larger than Lum\./.test(d.reply) && d.trace.echo.pass, d.reply);
+    expect(/^Yes/.test(g.process('is Kip larger than Lum?').reply) && /cannot confirm/i.test(g.process('is Lum larger than Pim?').reply), 'open-world elsewhere');
+    const WR = require(ROOT + '/src/world_rules.js'); expect(WR.orderRules('taller_than').length === 4 && WR.orderRules('inside').length === 0 && WR.propertyDataRules('taller_than').some(r => r.id === 'RELPROP-ASYMMETRIC:taller_than'), 'order rules are data of the comparative rows only'); });
 };
