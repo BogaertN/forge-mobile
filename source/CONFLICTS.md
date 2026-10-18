@@ -368,3 +368,22 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   3. Only `transitive` and `symmetric` can change. Frames and parser rules are not yet manifest data.
   4. Proposals are precomputed at build time (about 2.5 min of suite runs). The app does not re-judge on the device.
 - **Budget:** under Nic's standing ruling ("size is never a blocker; functionality first"), the M5 UI + `mea.js` + `mea_data.js` take the single-file app to 1,424,597 raw / 427,774 gzip. The budget is raised from 1.420 MB / 430 kB to **1.460 MB raw / 445 kB gzip** (`tools/verify_release.js`, `verify/w5_suite.js`).
+
+## v4.9.65: MEA build-plan step 0, the M5 defect fix (2026-10-18)
+
+- **4.9.64's MEA fitness scores were invalid.** `tools/mea_preload.js` installed each candidate manifest once. The kernel re-applies its own adopted manifest (none) at the start of every `process()` call, so the first call put the shipped rows back. Every proposal was therefore scored on the shipped rows: the "approvable" routes and the counts in 4.9.64's `mea_data.js` measured nothing about the candidates. Nothing was adopted (adoption needs a tap). The v4.9.64 section's decision 1 ("approvable because no suite covers it") is superseded: the real cause was this defect plus missing guard coverage.
+- **Evaluator fix:** the preload installs the candidate *under* the kernel's per-call reset. With no adoption, the candidate stays active. A test runs a destructive manifest (next to made transitive) through the guard suite and asserts the guard sees it.
+- **Guard suite:** `verify/relprop_guard_suite.js` has one case per mutable cell, written from what the words mean, not from the shipped table or the held-out file, plus a coverage check. Transitive relations must chain and the others must not; symmetric relations must reverse and the others must not. The evaluator judges every proposal on it as well (`g:` outcomes; only counts are shipped).
+- **Ruling, inverse pairs:** inside/contain, before/after, above/below, ancestor/descendant and parent/child are each **one evolvable unit**. FLIP and RECOMBINE change both sides together. That gives 33 cells in 23 units.
+- **Legality gate (hard, not a weight):**
+  - inverse partners must agree on transitivity and on symmetry;
+  - a relation with a distinct inverse cannot be symmetric, since symmetry makes a relation its own inverse;
+  - an immutable cell cannot change.
+  An illegal proposal is rejected, and `adoptManifest` refuses it (MEA-ILLEGAL). This closes the contain/inside gap: in 4.9.64 a one-sided "unmake contain transitive" was invisible because "inside" still chained.
+- **Ruling, sibling_of:** sibling_of stays non-transitive (half-siblings), and its transitivity is **not a mutable cell** (`MEA.IMMUTABLE`, with the reason recorded).
+- **No-evidence route:** a legal proposal under which no evaluated case changes outcome is routed `no_evidence` and is never approvable. Passing tests is not evidence.
+- **Integer drift:** drift is stored as integer micro-units (`eps_s_micro`, `sigma_res_micro`, `D_score_micro`, `dPhi_micro`), computed exactly from the counts with floor. The band comes from `kmath.driftGovernance`.
+- **Lineage:** each proposal records generation, operator, parents, seed and the xorshift state right before its operator ran. `MEA.replay` reproduces its deltas from that record (tested).
+- **Regenerated proposals:** `mea_data.js` (seed 1, n 8) is regenerated with all of the above. None is approvable; the outcome of each is in the release report.
+- **M4 stays parked:** the dynamics work (causal rows, what-if, rates, reports, adverb scope) remains on local branch m4-wip and was **not** shipped. It will be renumbered later.
+- **Still open for Nic:** frames, lexicon classes and parser rules are not yet evolvable. Until they are (MEA_SPEC §e step 6), every relation-property proposal against a semantically correct table should be rejected, and that is the expected result.
