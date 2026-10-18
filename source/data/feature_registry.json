@@ -1,5 +1,5 @@
 {
-  "version": "4.9.65",
+  "version": "4.9.66",
  "features": [
   {
    "id": "A-01",
@@ -505,9 +505,10 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "write plan held/visible only when D10 approval is on",
+   "note": "write plan held/visible only when D10 approval is on · 4.9.66: plain statements are working facts for the conversation (checked, contradictions asked); lasting memory only on \"remember …\" or a confirm tap",
    "proof": [
-    "PERMISSION"
+    "PERMISSION",
+    "MEMRULE"
    ]
   },
   {
@@ -563,9 +564,10 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
    "wave": "W2",
    "claim": "Implemented",
-   "note": "active, correction, SPC, dream, drift-archive and ghost destinations with stores and receipts",
+   "note": "active, correction, SPC, dream, drift-archive and ghost destinations with stores and receipts · 4.9.66 K1: one drift table (≤0.35 project/write; 0.35–0.40 χ correction, no write; 0.40–0.80 quarantine only; >0.80 hard stop; forbidden transition = separate gate)",
    "proof": [
-    "CONTAINMENT"
+    "CONTAINMENT",
+    "K1"
    ]
   },
   {
@@ -629,7 +631,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted (preview)\"",
    "wave": "W2",
    "claim": "Partial",
-   "note": "ChristPing 7 gates evaluated; gate 6 is the forge preview comparator (harmonic comparator unspecified)",
+   "note": "7 resurrection gates evaluated; gate 6 is the forge preview comparator (harmonic comparator unspecified)",
    "proof": [
     "RESURRECTION"
    ]
@@ -934,10 +936,11 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/restricted\"",
    "wave": "W2",
    "claim": "Partial",
-   "note": "v4.5: MEA seal packet → replay → tap-gated atomic commit (read-back) and language promotion user_admitted→corpus_supported (≥3 uses + tap)",
+   "note": "v4.5: MEA seal packet → replay → tap-gated atomic commit (read-back) and language promotion user_admitted→corpus_supported (≥3 uses + tap) · 4.9.66: working fact → stored fact by \"remember …\" or tap (promoteWorking; refuses a contradiction)",
    "proof": [
     "STUBS",
-    "FORGET"
+    "FORGET",
+    "MEMRULE"
    ]
   },
   {
