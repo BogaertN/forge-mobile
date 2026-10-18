@@ -44,4 +44,8 @@ module.exports = ({ C, expect, ROOT }) => {
   C('RULINGS-467', 'ruling 8: forgetting a working fact asks "Should I forget it?" (never "move it to cold storage"); a stored fact still goes to cold storage', () => {
     const k = kern(); k.process('my bike is green'); const q = k.process('forget that my bike is green'); expect(/Should I forget it\?/.test(q.reply) && !/cold storage/.test(q.reply), q.reply);
     const s = kern(); s.process('remember that my car is red'); expect(/cold storage/.test(s.process('forget that my car is red').reply), 'stored-fact wording changed'); });
+  C('RULINGS-467', 'hotfix 4.9.68 (CI seed 1358217271): "-ves" → "-f" is only a fallback when the regular plural is no noun ("raves" = rave; "calves" = calf), and readings offered to the user are always distinguishable (one surface, two lemmas shows the lemmas)', () => {
+    const G = require(ROOT + '/src/grammar.js'), k = kern(); expect(/^I noted that/.test(k.process('remember that Zezasan is a raves').reply), 'raves read as two lemmas');
+    expect(/^I noted that/.test(k.process('remember that the calves are hungry').reply), 'calves');
+    const r = kern().process('remember that the leaves are green'), rd = r.trace.msm.meaning.readings || []; expect(rd.length < 2 || new Set(rd).size === rd.length, 'indistinguishable readings: ' + rd.join(' | ')); });
 };
