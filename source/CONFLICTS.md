@@ -486,3 +486,34 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   Example: "the leaves are green" no longer lists duplicate readings.
 - Test: verify/rulings467_suite.js case 9 (raves, calves, leaves). Checked locally across 10 GELC seeds, including 1358217271: 31/31 on each.
 - No answer patches. Held-out set not read.
+
+## v4.9.69: build-plan step 2, K3 (MSM-v1 manifests) + K4 (App D projection manifest) (2026-10-18)
+
+- **K3 (src/msm.js, new; KERNEL_COMPONENTS_SPEC §4, Appendix R).** Doc 2 was never located, so this is a reconstruction from forge Slices 35A–35E.
+  - The lifecycle law: exactly 31 lawful (from → to) rules, each with its transition kinds and an authority flag. Only lineage_origin → candidate_meaning is authority-free.
+  - Records are append-only and frozen. Each lawful step appends one SemanticTransitionTrace. Correction and supersession must be same-kind, same-state, substantive successors.
+  - Issue codes: illegal_transition, illegal_transition_kind, authority_required, duplicate_record_id, unresolved_reference, record_kind_mismatch.
+  - Canonical serialization uses one versioned envelope (aiweb-forge-msm-envelope v1) and strict canonical JSON: sorted keys, no whitespace, NFC, integers only.
+    Bytes are validated before encoding and after decoding. Non-canonical bytes, unknown fields and unknown versions are rejected. The byte-for-byte round trip is tested.
+  - The 13th preservation class, `action_proposal_simulation_and_observation`, is added (forge_spine.PRESERVATION is shared).
+  - Every finished turn builds its manifest through the law: LineageRoot → CandidateMeaning(s) → SelectedGovernedMeaning or NonSelectionOutcome → GovernedOutwardMeaning →
+    ExpressionLink → ValidationLink (Echo PASSED) → delivery, or containment (Echo REJECTED/CONTAINED, sealed, quarantine). The manifest is validated by the 35B validator port.
+    trace.msm_v1 keeps the id, sha256, path and preservation classes. The full manifest is returned on the turn result but not persisted per turn, to keep storage bounded.
+  - Bug found by the new tests and fixed: the non-substantive-successor check compared lineage_id, so an identical correction was accepted.
+- **K4 (μ_t, RMC App D; §5 R-MAN-1..4).** Every turn's trace.output_manifest carries all App D minimum fields: schema_version 1.0.0 (semver), source_trace_id,
+  msm_ref, input_summary (hash only, never the raw text), selected_conclusion, claim.{required_limitations, forbidden_claims = GP-014 forbidden fragments}, phase_path, operator_path,
+  memory_links (source μ/ε unchanged, D.4 rule 9), confidence_bps, drift_score/status, novelty_score (null until K5), projection_status, render_targets,
+  validation_requirements (echo_threshold = "structural_identity" per CONFLICTS #9), visibility, created_at.
+  - projection_status is set by drift first, then by the turn's own block: sealed, forbidden or hard_stop → catastrophic_block; quarantine/elevated → archive_required;
+    correction held → correction_required; blocked → projection_blocked; otherwise approved.
+  - render_targets: all render forms when approved, only 'text' when the turn is sensitive/private, none when blocked.
+  - confidence_bps = 10000 only for exact-lane derivations (GP014-*, ALG-*, CALC-* except CALC-NUMERIC/REFUSED). Otherwise null, with a basis saying no number is invented (no float confidence).
+  - D.7 gate: every "render that as X" now passes MSM.validateProjection in the order schema → source trace → target ∈ render_targets → projection_status → visibility → drift status.
+    A failure yields the new `render_blocked` meaning ("I did not render the turn … The check “target” failed."), with no artifact.
+  - D.8 compatibility: a stored pre-4.9.69 trace has no μ_t and is never reconstructed into one (D.4 rule 1), so it cannot be re-rendered.
+  - Decision taken: the reply of a refused or contained turn is the lawful outward explanation of a non-selection (MSM NSO → GOM rules). μ_t governs projection
+    of the turn's meaning to render targets, so such a turn has render_targets = [] while its explanation text is still shown.
+- Tests: verify/k34_msm_suite.js, 7 cases (K3-MSM, K4-MANIFEST). General pipeline changes only. No answer patches. Held-out set not read.
+- Release fixes for 4.9.69:
+  - forge_spine.js now loads before msm.js and kernel.js in index.html. It depends only on sha256.js, so the BROWSER-LOAD-ORDER law holds.
+  - The single-file bundle budget is raised from 1.460 MB / 445 kB gzip to 1.560 MB / 475 kB gzip, per the user's ruling "size is never a blocker; functionality first". The K3/K4 code made the bundle 8 KB over the old limit.

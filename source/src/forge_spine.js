@@ -161,7 +161,7 @@
 
   /* ===== forge meaning_structure_manifest (MSM-v1) ===== */
   const MSM_IDS = { package_id: 'aiweb-forge-meaning-structure-manifest', schema_id: 'aiweb-forge-meaning-structure-manifest-v1', schema_version: 'MSM-v1', authority_document: 'Document 2 of 10 - MeaningStructureManifest v1' };
-  const PRESERVATION = ['negation', 'uncertainty_and_claim_strength', 'modality_and_conditional_scope', 'time_and_operational_status', 'evidence_boundary', 'permission_versus_request', 'privacy_and_identity_boundary', 'refusal_and_containment_boundary', 'unresolved_ambiguity', 'memory_boundary', 'economic_and_ledger_boundary', 'non_llm_provenance'];
+  const PRESERVATION = ['negation', 'uncertainty_and_claim_strength', 'modality_and_conditional_scope', 'time_and_operational_status', 'evidence_boundary', 'action_proposal_simulation_and_observation', 'permission_versus_request', 'privacy_and_identity_boundary', 'refusal_and_containment_boundary', 'unresolved_ambiguity', 'memory_boundary', 'economic_and_ledger_boundary', 'non_llm_provenance'];
   const NON_SELECTION = ['unresolved', 'clarification_required', 'refused', 'unsupported', 'authority_blocked'];
 
   /* ===== forge MEA fixed_point_math_contract.py ===== */
@@ -200,7 +200,7 @@
     ls: W('lineage_origin candidate_meaning unresolved clarification_required refused unsupported authority_blocked selected_governed_meaning governed_result_referenced governed_outward_meaning expression_linked validation_linked delivery_linked containment_linked corrected superseded'),
     ns: NON_SELECTION, dl: W('delivery_linked containment_linked'), tk: W('ancestry correction supersession rejection containment narrowing broadening'), ok: W('source_bound_human_expression authorized_outward_expression_purpose'), dr: W('inward outward'),
     ak: W('raw_source_or_input_event parsed_question_or_typed_input source_custody evidence_or_claim_status mea_problem_state existing_rmc_meaning_or_render_artifact manifest_contract capability_contract_or_routing_admission invocation_execution_or_verification_receipt render_preview_or_output_object rmc_echo_validator_receipt delivery_or_containment_receipt memory_authorization_or_event_receipt identity_access_consent_or_user_authority contribution_economy_or_ledger rollback_patch_runtime_or_containment licensing_provenance_or_resource_admission'),
-    pc: PRESERVATION.concat('action_proposal_simulation_and_observation') };
+    pc: PRESERVATION }; /* 4.9.68 K3: PRESERVATION now carries all 13 classes (action_proposal_simulation_and_observation was missing) */
   const MR = { candidate_meanings: 'candidate_meaning candidate_meaning source_expression_ref:t communicative_act:t concept_refs:l relation_refs:l meaning_modifiers:l ambiguity_reasons:l unresolved_referents:l authority_sensitive_implications:l preservation_classes:pc',
     non_selection_outcomes: 'non_selection_outcome - outcome_kind:ns candidate_refs:l reasons:l required_clarifications:l external_authority_refs:l',
     selected_governed_meanings: 'selected_governed_meaning selected_governed_meaning selected_candidate_ref:t selection_authority_ref:t communicative_act:t concept_refs:l relation_refs:l meaning_modifiers:l inherited_limitations:l authority_sensitive_distinctions:l preservation_classes:pc',
