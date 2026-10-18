@@ -387,3 +387,34 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - **Regenerated proposals:** `mea_data.js` (seed 1, n 8) is regenerated with all of the above. None is approvable; the outcome of each is in the release report.
 - **M4 stays parked:** the dynamics work (causal rows, what-if, rates, reports, adverb scope) remains on local branch m4-wip and was **not** shipped. It will be renumbered later.
 - **Still open for Nic:** frames, lexicon classes and parser rules are not yet evolvable. Until they are (MEA_SPEC §e step 6), every relation-property proposal against a semantically correct table should be rejected, and that is the expected result.
+
+## v4.9.66: K1 drift unification and the memory-write rule (2026-10-18)
+
+- **One drift threshold table (Nic's drift ruling), used by every path.** `kmath.DRIFT_TABLE` holds the table. `driftFunctional` (turn band), `driftGovernance` (learned objects, MEA, EDE, evolve), `turnGovernance` (the kernel turn gate), containment and the drift export all read it. The edges are applied to raw ε_s with no rounding.
+
+  | ε_s | turn band | governance | effect |
+  |---|---|---|---|
+  | ≤ 0.35 | clean | projectable | may project; may be approved; the **only** band that may write memory or admit a working fact |
+  | 0.35 < ε_s < 0.40 | correct | correct | χ correction step on the turn SFE (ε ← ε(1 − Θ/μ), RSOC §3.2.1), recorded as `trace.correction`; **nothing is written**; a turn that would have written is withheld (DRIFT-CORRECT-NO-WRITE) rather than claim a write; a non-writing turn projects only if the corrected ε_s ≤ 0.35, otherwise it is quarantined |
+  | 0.40 ≤ ε_s ≤ 0.80 | elevated | explore | quarantine-only exploration: drift archive, never written, never projected (DRIFT-EXPLORE-QUARANTINE) |
+  | > 0.80 | hard_stop | reject | hard stop (χ grace or Ĉ archival, as before) |
+
+  A **forbidden phase transition** is a separate yes/no gate (`kmath.isForbidden`). It blocks at any ε_s, including 0.1, and the block reason names the transition.
+- **Superseded:** the RMC Implementation Addendum coherence bands 0.50 / 0.78 (warning / intervention). The dead `intervention` and `bounded` bands are removed. Addendum `echo_min` 0.80 still gates Echo. forge `coherence_math` 0.72 is exported in `thresholds.json` as `reference_only` and gates nothing.
+- **Probe result:** no kernel turn in the suites has ε_s in 0.35–0.80. Normal turns are ≤ 0.35 and forbidden-bypass turns are 1.22–1.37. So the new middle bands are exercised by the verify-only `opts.testDrift` pin, which the app never sets. The derivation realizer's own display drift (8→9, about 0.37–0.39) is now labelled `correct`. It is display-only and gates nothing.
+- **Memory-write rule (general pipeline change, inside the drift gate):**
+  1. A plain statement ("my bike is green") becomes a **working fact** for this conversation (`wf:` id; not stored). It is checked against stored and working facts, and it answers questions with `wf:` evidence.
+  2. **Lasting memory only** on an explicit "remember …" (promotes the working twin) or a confirm tap (`promoteWorking(id, true)`, which refuses a working fact that contradicts a stored one).
+  3. **On a contradiction**, with a stored fact or a working fact, the kernel asks before changing either (MEM-WORKING-CONTRADICTION-ASK). "No" keeps everything. "Yes" replaces the stored fact (an explicit confirmation) or only the working fact.
+  4. **M2:** a conclusion that used a working fact records the `wf:` premise. Forgetting the working fact withdraws the conclusion (receipt). Promoting it keeps the conclusion IN.
+  5. A working fact is admitted only when the turn may write memory (MEM-WORKING-DRIFT-GATED otherwise).
+- **Changed expectations (old policy only):** `test/kernel.test.js` "drift bands follow the RMC Implementation Addendum thresholds" encoded the superseded 0.50/0.78 bands. It now asserts the ruling table. No other suite expectation changed.
+- **Naming:** the lexicon entry for χ no longer uses the old alias name. χ is the "correction function" everywhere in code.
+- **Paper contradictions recorded, not resolved (MEA_SPEC §f.3):**
+  - P1 ⟁ averages μ, but RSOC/kmath sums it.
+  - P1 §6.1 allows Φ ± 1, but RPMC is forward-only with a 9→1 wrap.
+  - σ_res is a linear standard deviation over a cyclic phase.
+  - The papers contain no numeric weights; RSOC constants stay "in use, unablated".
+- **Known limits:**
+  - Location "in" is not functional, so "Rex is in Paris" then "Rex is in London" is not a contradiction (containment by design).
+  - The forget-confirm question for a working fact still says "move it to cold storage".

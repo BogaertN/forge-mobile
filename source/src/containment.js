@@ -1,6 +1,6 @@
 /* containment.js — W2 RMC containment (Register E-01…E-11, D-14, G-07), ported from forge rmc_engine_v1
  * containment_router.py (Patch 265), dream_state_quarantine.py / ghost_loop_containment.py / drift_archive.py (Patch 266),
- * spc_cold_storage.py tiers and resurrection_engine.py (Patch 269, ChristPing 7 gates). Deterministic; no reply text. */
+ * spc_cold_storage.py tiers and resurrection_engine.py (Patch 269, 7 resurrection gates). Deterministic; no reply text. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
   const Gv = isNode ? require('./governance.js') : root.KGov; const HY = isNode ? require('./hypothesis.js') : root.KHyp; const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
@@ -16,7 +16,7 @@
     const f = []; let r;
     const breaker = !!(p.sealed || p.forbidden_transition);
     const ghost = !breaker && (CAPACITY_KINDS.has(p.kind) || p.derivation_failed || p.echo_failed);
-    const dream = !!p.dream; const elevated = p.band === 'elevated' && !!p.would_write;
+    const dream = !!p.dream; const elevated = p.band === 'elevated' || !!p.quarantine; /* K1: the exploration band is quarantine-only, write or not */
     if (breaker) { r = 'spc_cold_storage_required'; f.push(p.sealed ? 'CR-CIRCUIT-BREAKER-HARD-STOP' : 'CR-PHASE-VIOLATION ' + p.forbidden_transition); }
     else if (ghost) { r = 'ghost_loop_containment_required'; f.push('CR-GATE7-CAPACITY ' + (p.derivation_failed ? 'derivation' : p.echo_failed ? 'echo' : p.kind)); }
     else if (dream) { r = 'dream_state_quarantine_candidate'; f.push('CR-DREAM-ELIGIBLE'); }
@@ -30,7 +30,7 @@
 
   /* ---- active-loop lifecycle (D-14 / G-07); transition table is ours — the docs name the states but not the edges (flagged) ---- */
   const LOOP_EDGES = { active: ['paused', 'collapsed', 'closed'], paused: ['active', 'closed'], collapsed: ['quarantined'], quarantined: ['resurrected', 'closed'], resurrected: ['active', 'closed'], closed: [] };
-  const TIERS = { WARM: 'resurrection eligible (ChristPing 7 gates)', COLD: 'forensic only', DEEP: 'permanently sealed' };
+  const TIERS = { WARM: 'resurrection eligible (7 resurrection gates)', COLD: 'forensic only', DEEP: 'permanently sealed' };
   const LIMIT = 5, CAPACITY = 0.75;
 
   function Containment(store, opts) {
@@ -70,7 +70,7 @@
     function tierOf(rec, policy) {
       if (rec.breach) return 'DEEP'; if ((rec.resurrection_attempts || 0) >= LIMIT) return 'DEEP';
       if (rec.record && rec.record.status === 'forgotten' && policy && policy.forgottenTier === 'COLD') return 'COLD'; return rec.tier || 'WARM'; }
-    /* ChristPing 7-gate evaluation (read-only) — resurrection_engine.py */
+    /* 7-gate resurrection evaluation (read-only) — resurrection_engine.py */
     function gates(rec, policy) {
       const r = rec.record || null; const tier = tierOf(rec, policy); const att = rec.resurrection_attempts || 0;
       const eps = r && r.sfe ? r.sfe.eps : (rec.msm && rec.msm.drift ? rec.msm.drift.eps_s : 1);

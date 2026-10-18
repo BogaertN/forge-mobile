@@ -2,7 +2,7 @@
  *   RMC Addendum (2026-09) §3 — newest operational definitions (preferred on conflict):
  *     ε_s = (σ_res + D_score + |ΔΦ|) / ρ ; σ_res = std-dev of phase history;
  *     D_score = 1.0 for Φ5→Φ8 else 0 ; |ΔΦ| = |actual − expected| / 9 ; ρ = max(1, depth)
- *     bands: <0.50 clean · 0.50–<0.78 elevated · 0.78–<0.80 intervention · ≥0.80 hard stop
+ *     bands: the Addendum's 0.50/0.78/0.80 bands are SUPERSEDED (4.9.66 K1) by Nic's drift ruling — see DRIFT_TABLE below
  *   RSOC (Dec 2025) §2.2 SFE ψ=(Φ,ρ,Δ,ν,μ|ψ_id,τ,ε,λ,χ); §3.1 operators; §3.2 χ(t), Θ(t)
  *   RPMC Full Protocol §1.4 phase constants Φ1..Φ9; RPM(x,t)=Σ ΦMₙ·exp(−εₙ)+χ(t)·Θ
  *   RMC §5.7 Score(c)=αM+βP+γU+δN−λD (α=β=γ=δ=λ=1 in the RMC worked example)
@@ -23,9 +23,24 @@ const PHASES = {
   9: { sym: 'Φ₉', name: 'Return', role: 'Echo Ê round-trip; memory write; loop closure' },
 };
 const FORBIDDEN = [[5, 8], [4, 8]]; // RMC Addendum §4 (Φ5→Φ8); RSOC Axiom 2 (4→8 "Luciferian ascent")
-const BANDS = [
-  { max: 0.50, name: 'clean' }, { max: 0.78, name: 'elevated' },
-  { max: 0.80, name: 'intervention' }, { max: Infinity, name: 'hard_stop' }];
+/* K1 (4.9.66): THE one drift threshold table. Every path (turn governance, containment, learned objects, MEA, EDE, hypotheses) reads it,
+   through driftBand() / driftGovernance(). Nic's ruling (2026-10-14, reaffirmed 2026-10-18):
+     ε_s ≤ 0.35        → 'clean'     / projectable : may be projected or approved; the only band in which memory may be written
+     0.35 < ε_s < 0.40 → 'correct'   / correct     : needs correction (the χ correction step); never written this turn
+     0.40 ≤ ε_s ≤ 0.80 → 'elevated'  / explore     : quarantine-only exploration (drift archive); never written, never projected
+     ε_s > 0.80        → 'hard_stop' / reject      : hard stop (Ĉ archival unless χ lawfully fires)
+   'turn' is the name the turn trace carries, 'gov' the name learned objects carry; same rows, same edges.
+   A forbidden phase transition (FORBIDDEN) is a SEPARATE yes/no gate — it blocks at any ε_s (see forbiddenTransition()).
+   0.72 (forge coherence_math) is a reference value only (drift_export.js); it is not a gate. */
+const DRIFT_RULING = Object.freeze({ project_max: 0.35, explore_min: 0.4, explore_max: 0.8, cite: 'Nic ruling 2026-10-14 (RMC §8.3 θ; RSOC 0.4–0.8 novelty band)' });
+const DRIFT_TABLE = Object.freeze([
+  Object.freeze({ turn: 'clean', gov: 'projectable', test: e => e <= DRIFT_RULING.project_max, may_project: true, may_write_memory: true, quarantine: false }),
+  Object.freeze({ turn: 'correct', gov: 'correct', test: e => e < DRIFT_RULING.explore_min, may_project: false, may_write_memory: false, quarantine: true, correction: true }),
+  Object.freeze({ turn: 'elevated', gov: 'explore', test: e => e <= DRIFT_RULING.explore_max, may_project: false, may_write_memory: false, quarantine: true, explore: true }),
+  Object.freeze({ turn: 'hard_stop', gov: 'reject', test: () => true, may_project: false, may_write_memory: false, quarantine: true, hard_stop: true })]);
+const driftRow = eps => DRIFT_TABLE.find(r => r.test(eps));
+const BANDS = DRIFT_TABLE; /* back-compat export name */
+const isForbidden = t => !!(t && FORBIDDEN.some(([a, b]) => t.from === a && t.to === b));
 
 function std(xs) { if (xs.length < 2) return 0; const m = xs.reduce((a, b) => a + b, 0) / xs.length; return Math.sqrt(xs.reduce((a, b) => a + (b - m) ** 2, 0) / xs.length); }
 const r4 = x => Math.round(x * 1e4) / 1e4;
@@ -34,12 +49,12 @@ const r4 = x => Math.round(x * 1e4) / 1e4;
  * (normalised Φ/9 so σ_res ∈ [0,1] — normalisation is our inference; Addendum leaves it open). */
 function driftFunctional({ phaseHistory, transition, depth }) {
   const sigma_res = std(phaseHistory.map(p => p / 9));
-  const D_score = transition && FORBIDDEN.some(([a, b]) => transition.from === a && transition.to === b) ? 1.0 : 0.0;
+  const D_score = isForbidden(transition) ? 1.0 : 0.0;
   const dPhi = transition ? Math.abs(transition.to - transition.expected) / 9 : 0;
   const rho = Math.max(1, depth || 0);
   const eps = (sigma_res + D_score + dPhi) / rho;
-  const band = BANDS.find(b => eps < b.max).name;
-  return { eps_s: r4(eps), sigma_res: r4(sigma_res), D_score, dPhi: r4(dPhi), rho, band,
+  const band = driftRow(eps).turn;
+  return { eps_s: r4(eps), sigma_res: r4(sigma_res), D_score, dPhi: r4(dPhi), rho, band, forbidden_transition: D_score === 1,
     formula: `ε_s = (σ_res + D_score + |ΔΦ|)/ρ = (${r4(sigma_res)} + ${D_score} + ${r4(dPhi)})/${rho} = ${r4(eps)}`,
     cite: 'RMC Implementation Addendum §3' };
 }
@@ -53,8 +68,8 @@ function graceIntegral(tau, eps, mu, epsMax = 0.8) { // eps: number or per-step 
   return r4(th);
 }
 /* χ(t) invocation conditions, RSOC §3.2 (all four required) */
-function chiConditions({ eps_s, echoTrace, chiFlag, dPhiAvg }) {
-  const c = { 'ε_s ≥ 0.8': eps_s >= 0.8, 'Ê(τ) = 1': !!echoTrace, 'χ flag = 0': chiFlag === 0, '|ΔΦ_avg| ≤ π/3': dPhiAvg <= Math.PI / 3 };
+function chiConditions({ eps_s, echoTrace, chiFlag, dPhiAvg, forbidden }) {
+  const c = { 'ε_s > 0.80 (hard stop) or forbidden transition': !!driftRow(eps_s).hard_stop || !!forbidden, 'Ê(τ) = 1': !!echoTrace, 'χ flag = 0': chiFlag === 0, '|ΔΦ_avg| ≤ π/3': dPhiAvg <= Math.PI / 3 };
   return { fire: Object.values(c).every(Boolean), conditions: c, cite: 'RSOC §3.2; RMC Addendum §4' };
 }
 /* χ(t) update, RSOC §3.2.1 / §4.2.2: Δ←0, ν←1.4, ε←ε(1−Θ/μ_total), μ←μ+0.9Θ, χ←1 */
@@ -152,12 +167,15 @@ function computeExpr(src) {
   const exact = !!r.q; const value = exact ? r.q.toString() : String(+v.toFixed(6));
   return { ok: verified, exact, value, approx: !exact, ast, pretty: pretty(ast), phaseForm: pretty(ast, PHASE_OPSYM), verify: { rational: exact ? r.q.toString() : null, float: f, agree: verified }, cite: 'GP-014 math lane; RPMC O_phase {+_Φ,−_Φ,×_Φ,÷_Φ}' };
 }
-/* Nic-approved drift ruling (2026-10-14): explore at 0.4 ≤ ε_s ≤ 0.8 ONLY inside quarantine; project only once ε_s ≤ θ = 0.35 after correction.
-   0.35 < ε_s < 0.4 is neither: held for correction. > 0.8 is outside the exploration band (rejected). Unmeasured ε_s never projects. */
-const DRIFT_RULING = Object.freeze({ project_max: 0.35, explore_min: 0.4, explore_max: 0.8, cite: 'Nic ruling 2026-10-14 (RMC §8.3 θ; RSOC 0.4–0.8 novelty band)' });
-function driftGovernance(eps) { const R = DRIFT_RULING, ok = typeof eps === 'number' && isFinite(eps) && eps >= 0;
-  const band = !ok ? 'unmeasured' : eps <= R.project_max ? 'projectable' : eps < R.explore_min ? 'correct' : eps <= R.explore_max ? 'explore' : 'reject';
-  return { eps_s: ok ? r4(eps) : null, band, may_project: band === 'projectable', may_explore: band === 'explore', quarantine: band !== 'projectable', ruling: R.cite }; }
-const api = { DRIFT_RULING, driftGovernance, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
+/* Learned-object governance (EDE, hypotheses, MEA, evolve, reason) — same table. Unmeasured ε_s never projects. */
+function driftGovernance(eps) { const ok = typeof eps === 'number' && isFinite(eps) && eps >= 0, row = ok ? driftRow(eps) : null;
+  const band = !ok ? 'unmeasured' : row.gov;
+  return { eps_s: ok ? r4(eps) : null, band, may_project: !!(row && row.may_project), may_explore: band === 'explore', quarantine: band !== 'projectable', ruling: DRIFT_RULING.cite }; }
+/* Turn governance (K1): what a turn at this ε_s and transition may do. The forbidden-transition gate is independent of ε_s. */
+function turnGovernance(eps, transition) { const forbidden = isForbidden(transition), ok = typeof eps === 'number' && isFinite(eps) && eps >= 0, row = ok ? driftRow(eps) : DRIFT_TABLE[3];
+  const route = forbidden ? 'blocked_forbidden_transition' : row.hard_stop ? 'hard_stop' : row.explore ? 'quarantine' : row.correction ? 'correct' : 'project';
+  return { band: row.turn, route, forbidden, may_project: !forbidden && row.may_project, may_write_memory: !forbidden && row.may_write_memory, needs_correction: !forbidden && !!row.correction,
+    quarantine: forbidden || row.quarantine, blocked: forbidden || !!row.hard_stop, ruling: DRIFT_RULING.cite }; }
+const api = { DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);
