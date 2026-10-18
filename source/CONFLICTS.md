@@ -571,3 +571,37 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   - Cells of a pair whose partner is not evolvable are no longer mutable. Mutable cells went from 31 to 25 and units from 21 to 17.
   - **Decision for Nic:** should the functional 'in' row's transitivity become an evolvable cell, which would re-open contain/in as one unit?
 - src/mea_data.js regenerated (tools/mea_eval.js 1 8). All 8 seeded proposals were re-judged on the held-out, mutation, world-state and guard suites: all are rejected (regressions or legality), and nothing is adopted.
+
+## v4.9.72: Nic's rulings of 2026-10-18 (6:20 PM) + MEA problem lane core (2026-10-18)
+- Ruling 1 (recorded): an inferred 'where' answer that says "in" for a fact stated with inside/within is acceptable (one alias class since 4.9.71). No code change.
+- Ruling 2 (applied): `.github/workflows/fuzz.yml`, "Fuzz (non-blocking)". It is a separate workflow that runs on push to main and on manual dispatch, with read-only permissions. The job and every step are `continue-on-error`. It runs `node source/tools/fuzz.js 8` (which always exits 0), prints `_fuzz/failures.jsonl` to the job log and uploads `source/_fuzz/` as the "fuzz-failures" artifact. It has no notification step, sends no messages, and is not a dependency of "Deploy Pages", so it never gates deploy.
+- Ruling 3 (documented, frozen): 'in' / 'contain' transitivity stays frozen. It is correct by meaning: the alias class plus the inverse pair make "a in b, b in c ⇒ a in c" hold exactly when "c contains b contains a" does. The 4.9.71 relation-property guard and the inverse-pair legality check (`pairOf`: a one-sided change is INVERSE-PAIR-INCONSISTENT:contain/in) prove it on every release. The 4.9.71 open question (should 'in' become evolvable?) is therefore closed as "no".
+- Ruling 4 (applied, display/docs only; storage keys unchanged). The packet names are used in UI text, comments and docs:
+  - The 'Gilligan' pattern feature is now shown as "Pattern Reflection" (operator function name `gilligan`, the trace id EF-FRAME-PATTERNS and the "run gilligan" phrase are kept).
+  - "Home node" is now shown as "Genesis Node (prototype)" (vault label key 'home node key' kept).
+  - Audit / receipts / M2 ledger / containment / drift tracking are described as the ProtoForge layer in the docs (this file and APPRENTICE_PACKET_NOTES.md). The status panel shows the same rows as "Foundation layer" plus an "AI.Web layers" row, without the word.
+  - Conflict found: the 4.9.5 cleanup guard CLEANUP-495 ("no user-facing ProtoForge UI in index.html or app*.js") bans the word anywhere in the app UI. The first release run failed on the status-panel label (1 of 2733). The guard was kept, not weakened, and the label moved to docs.
+  - **Decision for Nic:** may the status panel say "ProtoForge layer"? That would mean narrowing CLEANUP-495 to ProtoForge controls only.
+  - It was folded into the first MEA release, as allowed.
+- MEA problem lane core (src/mea_p.js, pure, no store). Packet naming throughout: MEA (Manifest Evolution), problem manifest, archive (cold storage), RMC handoff.
+  - **Problem statements are data.** data/canonical_problems.json now carries a `manifest` per problem: goal, Φ state, known facts with evidence tiers, unknowns (measurement / quantity with symbol / choice with options), options (assumptions, exact likelihood, exact condition, falsifier), derivations (exact expressions) and success conditions.
+  - The code never names a domain or an option, and never reads `expected_outcome`. A verify case enforces this.
+  - tools/gen_mea_problems.js ships the manifests (not the expected outcomes) as src/mea_problems_data.js.
+  - **Selection, with no invented weights.** Hard gates come first, in this order: REPLAY, TAMPER, LEGALITY (identity invariance), EVIDENCE, PHASE, DRIFT (0.35/0.40/0.80 bands), CLAIM, I_ZERO, NOVELTY, BUDGET. Then Pareto, then lexicographic: B↓ L↑ Ω↑ I↑ A↑ ε↓ K↓, then id.
+  - The weighted score uses unit coefficients and is DISPLAY ONLY. A verify case shows that permuting it changes no rank.
+  - **Proof debt B is a count ratio:** undischarged premises / premises. Discharged tiers are empirical_measurement, published, given and derived_exact. 'internal', hypothesis, speculative and unknown are not discharged. The forge tier numbers were not reused, because using them would invent weights.
+  - **An option is "favoured" only if it beats the next option on a real key** (not the id tie-break). Otherwise it is a tie, and ⧧ splits the slate into sealed sub-manifests that keep their lineage.
+  - **Speculation is quarantined.** An option with no likelihood, condition or falsifier is a speculative branch: it takes the Φ−1 quarantine path (the kmath phaseStep quarantine law) and the shadow route, is archived as blocked on capability:projection, and is never committed as a claim.
+  - **Commit is tap-only and bound to the cycle** (fresh cycle hash, the ⟁ resolution candidate, eligible route, projectable drift). Its phase path walks the successors to Φ7, honouring the 4.9.71 gate rule [5, 7].
+    - It adds derived facts (tier derived_exact), resolves options and eliminates options.
+    - It archives non-eligible candidates with typed blocked_on: gate:*, capability:exact_lane, capability:projection or value:<unknown>.
+    - It withdraws earlier claims that are no longer supported, with wd: receipts, and writes a mear: receipt.
+  - **requeue(archive, capability) returns proposals only** ("rerun_cycle"); it never commits.
+  - **handoff(M)** gives typed params (derived, established, conditional, favoured, hypotheses, eliminated, open), and only for a committed (Φ7, render_allowed) manifest.
+- Tests: verify/meap_suite.js, 12 cases (MEAP). They cover:
+  - schema/hash, replay and determinism;
+  - forged / phase-skip / unsupported-evidence gates, and the claim law;
+  - display score not ranking, tap-only and stale-cycle commits, and domain-generality;
+  - the three canonical problems end-to-end, plus a synthetic fourth problem (a logistics "route window" with a quarantined speculative option);
+  - archive and requeue.
+- Kernel/app wiring (conversation frame, Memory-tab card, RMC rendering with Echo) is the next release.
