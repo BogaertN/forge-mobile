@@ -161,7 +161,12 @@ function Kernel(opts) {
   opts = opts || {};
   /* private case files (4.9.42, plan §2): while a case is open, the case-scoped stores are a separate namespace case:<id>:<store>; nothing outside the case
      sees them, and the shared layer reads only the global namespace (SHARED-CASEFILE-NEVER-SHARED). At rest a closed case is sealed with the vault key. */
-  const baseStore = opts.store || MemoryStore(); let caseNS = null, pendingCase; const CASE_CATS = new Set(['memory', 'evidence', 'cold_storage', 'reminders', 'trace']);
+  /* M1 (4.9.57): every route proposes inside a sandbox; store writes made while a route proposes go to a transaction overlay (TX, nestable) and
+     only the selected candidate's overlay is committed. Nothing a losing route did reaches memory. */
+  const baseStore0 = opts.store || MemoryStore(); let TX = null;
+  const txGet = c => { for (let t = TX; t; t = t.parent) if (t.map.has(c)) return { v: t.map.get(c) }; return null; };
+  const baseStore = Object.assign(Object.create(baseStore0), { load: c => { const h = TX && txGet(c); return h ? JSON.parse(h.v) : baseStore0.load(c); }, save: (c, v) => (TX ? void TX.map.set(c, JSON.stringify(v)) : baseStore0.save(c, v)) });
+  let caseNS = null, pendingCase; const CASE_CATS = new Set(['memory', 'evidence', 'cold_storage', 'reminders', 'trace']);
   const nsOf = c => (caseNS && CASE_CATS.has(c) ? caseNS + ':' + c : c);
   const store = Object.assign(Object.create(baseStore), { load: c => baseStore.load(nsOf(c)), save: (c, v) => baseStore.save(nsOf(c), v) });
   /* GKS shared facts: the build-manifest seed plus facts ingested from a verified GKS snapshot (store gks_facts); read-only premises with provenance */
@@ -392,40 +397,135 @@ function Kernel(opts) {
   function asksAboutStored(text) { // a bare question is a memory question only when one of its open-class words names something in a stored fact
     const ws = G.tokenize(String(text)).map(t => String(t.w).toLowerCase()).filter(w => /^[a-z][a-z'-]*$/.test(w) && !G.CL[w]); if (!ws.length) return false;
     return activeFacts().some(r => { const have = clauseWords(r.clause, new Set((r.entities || []).map(entWord))); return ws.some(w => have.has(w)); }); }
-  function evaluate(raw, low, ctx) {
+    /* M1 (4.9.58) RMC CHOOSES AMONG CANDIDATES. evaluate() no longer returns the first route whose pattern matches: the routes of the table below
+     run (each in a sandbox: its own rules, gates, memory/store writes and held state), every route whose pattern applies PROPOSES a candidate, and
+     rmcChoose() selects by fixed, non-numeric keys over recorded terms (no weight): Echo gate → held-selection continuation → proof completeness →
+     SPECIFICITY (apavāda over utsarga) → drift ε_s → RMC §5.7 Score M+P+U+N−D at unit weights. Remaining true ties between different decisions
+     become a clarification; nothing is picked by route order. */
+  const ROUTE_IDS = ['world.preflight', 'turn.reentry', 'capability.frame', 'gks.quantity', 'world.proof', 'math.gp014', 'directive.frame', 'language.core'];
+  const ROUTE_NAME = { 'world.preflight': 'the answer from the checked world', 'turn.reentry': 'the answer to my last question', 'capability.frame': 'the capability request', 'gks.quantity': 'the answer from the shared fact', 'world.proof': 'the answer from the checked world', 'math.gp014': 'the calculation', 'directive.frame': 'the request to act', 'language.core': 'the answer from the sentence structure' };
+  /* SPECIFICITY (static partial order, not a weight). Pāṇinian paribhāṣā "apavāda blocks utsarga" (a special rule set aside the general rule in its
+     own domain; cf. A 1.4.2 vipratiṣedhe paraṃ kāryam for rules of EQUAL standing). Each specific route's precondition is a declared strict subset of
+     the inputs the general language core reads; specific routes are mutually incomparable (equal standing). */
+  const ROUTE_SPEC = { 'world.preflight': ['specific', 'a sentence set the world reasoner structures in full (premises + query)'], 'turn.reentry': ['specific', 'a reply while Forge holds its own question'],
+    'capability.frame': ['specific', 'a capability frame: lexical class V/N in structural position + an operand'], 'gks.quantity': ['specific', 'a quantity question over a shared GKS fact'],
+    'world.proof': ['specific', 'a question the world reasoner can pose against stated premises'], 'math.gp014': ['specific', 'a mathematical expression or equation'],
+    'directive.frame': ['specific', 'an imperative / request frame or a bare referent the directive grammar reads'], 'language.core': ['general', 'every input (sentence structure)'] };
+  const isSpecific = id => (ROUTE_SPEC[id] || [])[0] === 'specific';
+  /* proof completeness (ordinal read from what the candidate carries — no weights):
+     2 checked: a complete world closure whose proofs replayed, a world form Echo re-verifies independently (quantity check, wh / why / conjunctive
+       bindings each with a replayed proof), a verified computation, or cited evidence records / premises;
+     1 complete for its claim: the route's derivation terminated in a decision, a refusal, or the route's own clarification, with recorded rules;
+     0 incomplete: no lawful candidate, an incomplete preservation, an incomplete world derivation, a world limitation (the route could not structure
+       the input), a computation whose verification failed, or no recorded derivation. */
+  function completeness(sel) { const m = sel.material || {}, x = sel.math;
+    if (m.kind === 'world_limitation' && m.code === 'INPUT_LIMIT') return 1; /* the measured length is the complete proof of this refusal */
+    if (sel.outcome === 'NO_LAWFUL_CANDIDATE' || sel.outcome === 'INCOMPLETE_PRESERVED' || m.kind === 'world_limitation' || m.kind === 'no_frame' || !(sel.rules || []).length) return 0;
+    if (m.kind === 'world_answer') { /* the world forms Echo re-verifies independently (worldReverify): qty → R.qtyCheck, wh / why / conj → each cited proof replayed */
+      if (m.qty) return m.qty.status === 'undetermined' ? 1 : 2; if (m.wh) return (m.wh.answers || []).length ? 2 : 1; if (m.why || m.conj) return 2;
+      if (!m.derivation) return 1; const ck = m.checker || {}, pr = m.proofs || {}; if (!m.derivation.complete) return 0; return (!pr.support || (ck.support && ck.support.ok)) && (!pr.refutation || (ck.refutation && ck.refutation.ok)) ? 2 : 0; }
+    if (x && sel.outcome === 'SELECTED_MEANING' && (x.verified === false || x.check === false)) return 0;
+    if (sel.outcome !== 'SELECTED_MEANING') return 1; if (x && x.ok !== false && (x.verified === true || x.check === true || (x.ok === true && !('verified' in x)))) return 2;
+    return (sel.evidenceRefs || []).length || (sel.premises || []).length ? 2 : 1; }
+  const MAX_COMPLETENESS = 2;
+  /* the decided content of a candidate: its meaning without the explanatory fields (why it was decided), so two routes that decide the same thing
+     for different stated reasons AGREE rather than tie */
+  const EXPLAIN = new Set(['reason', 'rule', 'detail', 'code', 'why', 'note', 'source', 'span', 'parser_version', 'envelope', 'cite']);
+  /* typed normal form of a decided VALUE, declared per kind, so the same value reached by two routes in different representations agrees
+     (a world quantity computation and a unit conversion both decide "value v in unit u") */
+  const valueNF = m => m.kind === 'world_answer' && m.qty && m.qty.status === 'computed' ? ['value', String(m.qty.value), String(m.qty.unit || '')] : m.kind === 'converted' ? ['value', String(m.value), String(m.to || '')] : null;
+  const decisionOf = m => { const o = {}; for (const k of Object.keys(m || {}).sort()) if (!EXPLAIN.has(k)) o[k] = m[k]; return o; };
+  const termSet = t => new Set(String(t || '').toLowerCase().replace(/[“”"’‘]/g, ' ').split(/[^a-z0-9']+/).filter(w => w.length > 2 && !G.CL[w]));
+  const jacc = (a, b) => { let i = 0; for (const x of a) if (b.has(x)) i++; return i / ((a.size + b.size - i) || 1); };
+  /* one realization memo per turn: the selected candidate's realization + Echo is reused by process() for the same meaning (no second derivation) */
+  let RMEMO = new Map();
+  const realizeMemo = mat => { const k = canon(mat); if (RMEMO.has(k)) return RMEMO.get(k); let real = null, ev; try { real = D.realizeMeaning(mat, ENV); ev = real.echo || echo(real.text, mat, real.vakya); } catch (e) { ev = { pass: false, reason: 'derivation failed: ' + String(e && e.message).slice(0, 60) }; } const r = { real, ev }; RMEMO.set(k, r); return r; };
+  /* one candidate = the route's answer + derivation + Echo round trip + drift + the four RMC distances (recorded UNWEIGHTED, never combined).
+     Drift, score and completeness need no surface; the surface (realization + Echo + distances) is derived when the candidate is checked. */
+  function propose(id, sel, state, ctx) { const mat = sel.material || {};
+    const forbidden = !!(sel.forbiddenPath || (ctx.bypassTurn && !/^FR\.WORLD/.test(sel.frame || ''))), att = forbidden ? { from: 5, to: 8, expected: 6 } : { from: 7, to: 8, expected: 8 };
+    const dr = M.driftFunctional({ phaseHistory: meta.phaseHistory.slice(-8).concat([9]), transition: att, depth: ctx.depth || 0 });
+    const needsMem = /QUESTION|ABOUT|WHEN/.test(sel.frame || ''), filled = ['SELECTED_MEANING', 'SELECTED_RESTRICTED_MEANING', 'UNDERSTOOD_ACTION_BLOCKED', 'REFUSAL_RELEVANT'].includes(sel.outcome);
+    const terms = { M: needsMem ? (/recall|yesno|about|when/.test(mat.kind || '') ? 1 : 0.5) : 1, P: forbidden ? 0 : 1, U: filled ? 1 : sel.outcome === 'NO_LAWFUL_CANDIDATE' ? 0 : 0.5, N: sel.write ? 1 : 0, D: Math.min(1, dr.eps_s) };
+    const comp = completeness(sel);
+    return { route: id, specificity: (ROUTE_SPEC[id] || ['general'])[0], sel, state, outcome: sel.outcome, kind: mat.kind || null, frame: sel.frame || null, answer: null, derivation: { rules: (sel.rules || []).map(r => r.id).slice(0, 24), proof_ids: mat.kind === 'world_answer' && mat.rmc ? mat.rmc.proof_ids : [], evidence: (sel.evidenceRefs || []).slice(0, 8) },
+      echo: null, eps_s: dr.eps_s, band: dr.band, distances: null, completeness: comp, spec: isSpecific(id) && comp >= 1 ? 1 : 0, score: M.score(terms).score, score_terms: terms, resolvesHold: !!sel.resolvesHold, att, decision: canon([sel.outcome].concat(valueNF(mat) || [mat.kind, decisionOf(mat)])) }; }
+  function checkCand(c, ctx) { if (c.echo) return c.echo.pass || c.echo.ambiguous; const mat = c.sel.material || {}, { real, ev } = realizeMemo(mat);
+    c.answer = real ? String(real.text).slice(0, 240) : null; c.echo = { pass: !!ev.pass, ambiguous: !!ev.ambiguous, mode: ev.mode || null, reason: ev.pass ? null : String(ev.reason || '').slice(0, 120) };
+    const inT = termSet(ctx.raw), outT = termSet(real && real.text), qIn = /\?\s*$/.test(String(ctx.raw || '')) || /^(?:who|whom|what|which|where|when|why|how|is|are|was|were|do|does|did|can|could|will|would|should|may|might|has|have)\b/i.test(String(ctx.low || '')), qAct = /^(?:question|answer)$/.test(c.sel.act || '');
+    c.distances = { semantic_distance: r4(inT.size ? 1 - [...inT].filter(w => outT.has(w)).length / inT.size : 0), phase_path_distance: r4(Math.abs(c.att.to - c.att.expected) / 8), operator_path_distance: qIn === qAct ? 0 : 1, structural_distance: r4(1 - jacc(inT, outT)), weights: null, weights_status: 'open (RMC §6.4): recorded, never combined, never used to select' };
+    if (!(c.echo.pass || c.echo.ambiguous)) { c.status = 'rejected'; c.why = 'Echo round trip failed' + (c.echo.reason ? ': ' + c.echo.reason : ''); } return c.echo.pass || c.echo.ambiguous; }
+  /* sandbox: a route proposes against a snapshot of the turn state; its writes and held state are kept with its candidate and restored away */
+  function sandbox(fn, ctx) { const snapM = () => Object.assign({}, meta, { alias: Object.assign({}, meta.alias) }); const s0 = { meta: snapM(), pendingRender, stagedHyps, refBind, ctx: Object.assign({}, ctx) };
+    const tx = { parent: TX, map: new Map() }; TX = tx; let out = null, err = null; try { out = fn(); } catch (e) { err = e; } finally { TX = tx.parent; }
+    const s1 = { meta: snapM(), pendingRender, stagedHyps, ctx: Object.assign({}, ctx), tx };
+    meta = s0.meta; pendingRender = s0.pendingRender; stagedHyps = s0.stagedHyps; refBind = s0.refBind; for (const k of Object.keys(ctx)) delete ctx[k]; Object.assign(ctx, s0.ctx); return { out, err, state: s1 }; }
+  function commit(st, ctx) { meta = st.meta; pendingRender = st.pendingRender; stagedHyps = st.stagedHyps; for (const k of Object.keys(ctx)) delete ctx[k]; Object.assign(ctx, st.ctx);
+    for (const [c, v] of st.tx.map) { if (TX) TX.map.set(c, v); else baseStore0.save(c, JSON.parse(v)); } }
+  const candSummary = c => ({ route: c.route, specificity: c.specificity, outcome: c.outcome, kind: c.kind, frame: c.frame, answer: c.answer, derivation: c.derivation, echo: c.echo || { checked: false }, eps_s: c.eps_s, band: c.band, distances: c.distances, completeness: c.completeness, score: c.score, score_terms: c.score_terms, resolves_hold: c.resolvesHold || undefined, status: c.status, why: c.why });
+  /* RMC selection (RMC §5.7; RSOC ⧧ hold ancestry; Pāṇinian apavāda/utsarga). Order of the gates and keys is fixed; every key is a recorded term:
+     E  Echo: a candidate whose surface does not survive the round trip is rejected (an ambiguous Echo is kept: the turn re-routes it to a clarification)
+     H  held selection: a candidate that completes the clarification Forge itself held last turn is the continuation; the others read the reply cold
+     then lexicographically: (1) proof completeness (higher), (2) specificity — a specific route whose proof is complete for its claim (≥ 1) outranks
+     the general core (apavāda over utsarga); specific routes do not outrank each other — (3) drift ε_s (lower), (4) Score = M + P + U + N − D (higher).
+     Candidates equal on every key with DIFFERENT decisions are a true tie → a clarification listing them (held for a "1"/"2" reply); equal decisions agree.
+     Echo is checked in rank order (equivalent to filtering first: a candidate below the first Echo-passing key class can never be selected). The general
+     core is evaluated unless a specific candidate that passes Echo already outranks anything it could propose (completeness at the maximum, or the
+     held-question continuation); then it is recorded as "not evaluated: outranked by specific route X". */
+  const KEYS = ['completeness', 'specificity', 'eps_s', 'score'];
+  const keyDiff = (a, b) => (b.completeness - a.completeness) ? 'completeness' : (b.spec - a.spec) ? 'specificity' : (a.eps_s - b.eps_s) ? 'eps_s' : (b.score - a.score) ? 'score' : null;
+  const cmp = (a, b) => (b.completeness - a.completeness) || (b.spec - a.spec) || (a.eps_s - b.eps_s) || (b.score - a.score);
+  const KEY_WHY = { completeness: 'higher proof completeness', specificity: 'specificity (a specific route over the general core: apavāda over utsarga)', eps_s: 'lower drift ε_s', score: 'higher score' };
+  /* rank the live pool; Echo-check in order; returns { pool, top, ranked, echoAllFailed } */
+  function rmcRank(live, ctx) { let pool = live;
+    const holders = live.filter(c => c.resolvesHold).sort(cmp); if (holders.some(c => checkCand(c, ctx))) pool = holders.filter(c => c.echo.pass || c.echo.ambiguous);
+    const ranked = pool.slice().sort((a, b) => cmp(a, b) || (ROUTE_IDS.indexOf(a.route) - ROUTE_IDS.indexOf(b.route))); /* the route index only orders the report; it never decides (see tie rule) */
+    const lead = ranked.find(c => checkCand(c, ctx)); if (!lead) { return { pool, ranked, top: ranked.filter(c => !cmp(c, ranked[0])), echoAllFailed: ranked.length > 0, lead: null }; }
+    const top = ranked.filter(c => !cmp(c, lead) && checkCand(c, ctx)); return { pool, ranked, top, lead, echoAllFailed: false }; }
+  function rmcChoose(RT, ctx) { const cands = [], ran = [], skipped = [], fns = new Map(RT.routes); RMEMO = new Map();
+    const run = id => { ran.push(id); RT.reset(); const sb = sandbox(fns.get(id), ctx);
+      if (sb.err) { cands.push({ route: id, specificity: (ROUTE_SPEC[id] || [])[0], status: 'route_error', why: String(sb.err && sb.err.message).slice(0, 120), rejected: true }); return; } if (sb.out) cands.push(propose(id, sb.out, sb.state, ctx)); };
+    /* admissibility (hard gate, like Echo — not a preference): an input beyond the declared bound R.LIMITS.MAX_INPUT_CHARS is read by no route;
+       only the typed INPUT_LIMIT limitation the world preflight measured is proposed */
+    const overLimit = !!(ctx.worldPreflight && ctx.worldPreflight.material && ctx.worldPreflight.material.code === 'INPUT_LIMIT');
+    const order = ROUTE_IDS.filter(id => fns.has(id) && (!ctx.onlyRoute || ctx.onlyRoute === id) && (!overLimit || id === 'world.preflight' || !skipped.push({ route: id, status: 'not_evaluated', why: 'not evaluated: the input exceeds the declared input limit (' + R.LIMITS.MAX_INPUT_CHARS + ' characters; hard admissibility gate)' })));
+    for (const id of order) if (isSpecific(id)) run(id);
+    for (const id of order) if (!isSpecific(id)) { const pre = rmcRank(cands.filter(c => !c.rejected), ctx).lead;
+      if (pre && isSpecific(pre.route) && pre.spec && (pre.resolvesHold || pre.completeness >= MAX_COMPLETENESS)) skipped.push({ route: id, status: 'not_evaluated', why: 'not evaluated: outranked by specific route ' + pre.route + (pre.resolvesHold ? ' (continuation of the held question)' : ' (passes Echo with a checked proof; the general core cannot exceed it)') });
+      else run(id); }
+    const live = cands.filter(c => !c.rejected), R0 = rmcRank(live, ctx), { ranked, echoAllFailed } = R0, top = R0.top.slice();
+    const distinct = [...new Set(top.map(c => c.decision))];
+    /* agreeing candidates (same decision): the specific route supplies the derivation over the general core (apavāda over utsarga); between specific
+       routes of equal standing, the longer recorded derivation. This orders equal decisions only; it never decides between different ones. */
+    if (distinct.length === 1 && top.length > 1) top.sort((a, b) => (isSpecific(b.route) - isSpecific(a.route)) || (b.derivation.rules.length - a.derivation.rules.length));
+    const routes = ROUTE_IDS.map(id => { const s = skipped.find(x => x.route === id); return s ? { route: id, specificity: ROUTE_SPEC[id][0], evaluated: false, why: s.why } : { route: id, specificity: ROUTE_SPEC[id][0], evaluated: ran.includes(id), why: ran.includes(id) ? (cands.some(c => c.route === id) ? 'proposed a candidate' : 'pattern does not apply') : 'excluded by the user\'s choice of reading' }; });
+    const record = { schema: 'RMC-ROUTE-SELECTION/v2', routes_run: ran.slice(), routes, route_table: ROUTE_IDS.slice(), specificity: Object.fromEntries(ROUTE_IDS.map(id => [id, ROUTE_SPEC[id][0]])), user_route: ctx.onlyRoute || undefined, gates: ['echo', 'held_selection'], keys: KEYS.slice(), weights: 'none (RMC §5.7 unit score; four distances recorded unweighted; specificity is a static partial order)', echo_all_failed: echoAllFailed || undefined };
+    const finishRest = (winnerKey) => { for (const c of ranked) if (!c.status) { if (!c.echo) { c.status = 'not_selected'; c.why = 'outranked by ' + winnerKey.route + ' on ' + KEY_WHY[keyDiff(winnerKey, c) || 'score'] + ' (Echo not needed)'; } else { c.status = top.includes(c) ? 'agreed' : 'not_selected'; c.why = top.includes(c) ? 'same decision as the selected candidate' : 'outranked by ' + winnerKey.route + ' on ' + KEY_WHY[keyDiff(winnerKey, c) || 'score']; } }
+      for (const c of cands) if (!c.status) { c.status = 'not_selected'; c.why = 'reads the reply without the held clarification (RSOC ⧧ hold ancestry)'; } record.candidates = cands.map(candSummary).concat(skipped.map(s => ({ route: s.route, specificity: ROUTE_SPEC[s.route][0], status: s.status, why: s.why }))); };
+    if (!ranked.length) { record.reason = 'no route proposed a candidate'; record.winner = null; record.candidates = cands.map(candSummary);
+      const rest = String(ctx.raw || '').replace(/[.!?\s]+$/, '').slice(0, 120); return { outcome: 'NO_LAWFUL_CANDIDATE', material: { kind: 'no_frame', rest }, gates: { expectancy: 'no candidate' }, rules: [{ id: 'RMC-NO-CANDIDATE', doc: 'RMC §5.7 (no route proposed)' }], frame: 'none', act: 'unknown', selection: record }; }
+    if (distinct.length > 1) { /* true tie between routes of equal standing: never an arbitrary pick */
+      for (const c of top) { c.status = 'tied'; c.why = 'equal completeness, specificity, drift and score with a different decision'; }
+      const readings = top.map(c => ROUTE_NAME[c.route] || c.route).slice(0, 4); record.reason = 'tie between ' + top.map(c => c.route).join(', ') + ' → clarification'; record.winner = null; record.tie = top.map(c => c.route);
+      finishRest(top[0]);
+      meta.pending = { type: 'route', raw: ctx.raw, low: ctx.low, routes: top.slice(0, 4).map(c => c.route), count: readings.length };
+      return { outcome: 'AMBIGUITY_PRESERVED', material: { kind: 'clarify_readings', readings }, gates: { expectancy: 'pass', congruity: 'pass', connectedness: 'tie between candidates', purpose: 'pass' }, rules: [{ id: 'RMC-TIE-CLARIFY', doc: 'RMC §5.7; Doc6 §29 (a tie is held open, never guessed)', note: record.tie.join(' = ') }], frame: 'FR.RMC.TIE', act: 'question', selection: record }; }
+    const winner = top[0]; winner.status = 'selected'; const runner = ranked.find(c => c !== winner && !top.includes(c) && c.status !== 'rejected');
+    winner.why = top.length > 1 ? 'agrees with ' + top.slice(1).map(c => c.route).join(', ') + (top.some(c => !isSpecific(c.route)) && isSpecific(winner.route) ? ' (specific route supplies the derivation: apavāda over utsarga)' : '')
+      : runner ? 'selected over ' + runner.route + ' by ' + KEY_WHY[keyDiff(winner, runner) || 'score'] : 'only candidate' + (live.length > 1 || skipped.length ? ' after the gates' : '');
+    if (echoAllFailed) winner.why += ' (no candidate passed Echo: the turn\'s Echo gate decides)';
+    finishRest(winner); record.winner = winner.route; record.reason = winner.why; record.candidates = cands.map(candSummary).concat(skipped.map(s => ({ route: s.route, specificity: ROUTE_SPEC[s.route][0], status: s.status, why: s.why })));
+    commit(winner.state, ctx); const out = winner.sel; delete out.resolvesHold; out.selection = record; return out; }
+  function evaluate(raw, low, ctx) { return rmcChoose(routeTable(raw, low, ctx), ctx); }
+  function routeTable(raw, low, ctx) {
     if (!ctx.raw) { ctx.raw = raw; ctx.low = low; }
-    const rules = [], g = { expectancy: 'pass', congruity: 'pass', connectedness: 'pass', purpose: 'pass' };
+    let rules = [], g = { expectancy: 'pass', congruity: 'pass', connectedness: 'pass', purpose: 'pass' };
     const res = (outcome, material, extra) => { if (caseNS && material && /^(?:recall|yesno|inferred|no_reason)$/.test(material.kind) && ((extra && extra.evidenceRefs) || []).some(id => !/^gks:/.test(id))) material = Object.assign({}, material, { caseLabel: caseNS.slice(5) }); return Object.assign({ outcome, material, gates: g, rules, frame: 'none', act: 'unknown' }, extra || {}); };
     const worldResult = rr => { rules.push(...(rr.rules || [])); if (rr.reasoningState) ctx.reasoningState = rr.reasoningState; return res(rr.outcome, rr.material, { frame: rr.frame, act: rr.act, uncertainty: rr.uncertainty, reasoningCandidates: rr.reasoningCandidates, reasoningState: rr.reasoningState }); };
-    if (ctx.worldPreflight && ctx.worldPreflight.handled) return worldResult(ctx.worldPreflight);
     const clarifyUnknown = ws => { if (/\?\s*$/.test(ctx.raw || raw) || /^(?:who|whom|what|which|where|when|why|how|is|are|does|do)\b/i.test(ctx.low || low)) { const rr = R.evaluate(ctx.raw || raw, { bareWh: true }); if (rr.handled && !(rr.material && rr.material.kind === 'world_limitation' && rr.material.code === 'UNSUPPORTED_QUERY_STRUCTURE')) return worldResult(rr);
         /* W-Q-UNDETERMINED (4.9.51): a question the world cannot structure is undetermined, never an unknown-word trap or a limitation — AQ-1 looks it up */
         if (rr.handled && /^(?:who|whom|what|which|where|when|why|how)\b/i.test(ctx.low || low)) { rules.push({ id: 'W-Q-UNDETERMINED', doc: 'AQ-1 (4.9.48); a question is a lookup request' }); return worldResult(Object.assign({}, rr, { material: Object.assign({}, rr.material, { kind: 'world_answer', code: undefined, wh: { question: String(ctx.raw || raw).trim(), count: false, slots: [], instances: 0, answers: [] }, status: 'undetermined', query: null, query_text: '', opposite_text: '' }) })); } } g.connectedness = 'unknown-concept'; rules.push({ id: 'LX-UNKNOWN', doc: 'Doc4 unknown-concept state; Doc3 §41', note: ws.join(', ') }); return res('CLARIFICATION_REQUIRED', { kind: 'clarify_unknown', words: ws }, { frame: ctx.frame || 'FR.UNKNOWN', act: 'unknown' }); };
-    if (meta.pending) { const p = meta.pending; /* 4.9.41 reconnect grammar for a held question (no phrase set): a polarity particle (closed class), or a VP whose
-         verb class decides polarity (replace/do/overwrite → yes; keep/retain → no) over the held item (pronoun it/that, or "the old one"); an ordinal/cardinal
-         (closed class or digit), optionally "the", optionally a pro-noun (one/sense/reading/option/meaning), selects the held reading by position */
-      const aw = low.split(' '), AFF = new Set(['yes', 'yeah', 'yep', 'ok', 'okay', 'sure', 'correct']), NEGP = new Set(['no', 'nope']), heldNP = r => (r.length === 1 && /^(?:it|that)$/.test(r[0])) || (r.length >= 2 && r[0] === 'the' && r[r.length - 1] === 'one' && r.length <= 3);
-      const yes = (aw.length === 1 && AFF.has(aw[0])) || (/^(?:replace|do|overwrite)$/.test(aw[0]) && heldNP(aw.slice(1))), no = (aw.length === 1 && NEGP.has(aw[0])) || (/^(?:keep|retain)$/.test(aw[0]) && heldNP(aw.slice(1)));
-      const ordW = { first: 1, one: 1, second: 2, two: 2, third: 3, three: 3, fourth: 4, four: 4, fifth: 5, five: 5, sixth: 6, six: 6 }; const ow = aw[0] === 'the' ? aw.slice(1) : aw;
-      const n = ow.length >= 1 && ow.length <= 2 && (/^\d$/.test(ow[0]) || ordW[ow[0]]) && (ow.length === 1 || /^(?:one|sense|reading|option|meaning)$/.test(ow[1])) ? +(/^\d$/.test(ow[0]) ? ow[0] : ordW[ow[0]]) : null;
-      if (p.type === 'replace' && (yes || no)) { meta.pending = null; rules.push({ id: 'G-REENTRY-' + (yes ? 'CONFIRM' : 'DECLINE'), doc: 'Doc6 §34 (re-entry)' }); if (yes) return res('SELECTED_MEANING', { kind: 'replaced', clause: p.clause }, { frame: 'FR.CONFIRM', act: 'answer', write: { clause: p.clause, supersede: p.oldIds }, auth: 'explicit confirmation' }); return res('SELECTED_MEANING', { kind: 'kept', clause: p.old }, { frame: 'FR.CONFIRM', act: 'answer' }); }
-      if (p.type === 'sense' && n) { meta.pending = null; const s = p.senses[n - 1]; rules.push({ id: s ? 'G-REENTRY-SENSE-CHOSEN' : 'G-REENTRY-OUT-OF-RANGE', doc: 'Doc6 §30', note: s ? s.sid : String(n) }); if (!s) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_ambiguous', word: p.word, senses: p.senses.map(x => x.gloss) }, { frame: 'FR.DEFINE', act: 'question' }); return res('SELECTED_MEANING', { kind: 'define', term: p.word, gloss: s.gloss, source: s.source }, { frame: 'FR.DEFINE', act: 'question', evidenceRefs: [s.sid] }); }
-      if (p.type === 'case_delete' && (yes || no)) { meta.pending = null; rules.push({ id: 'G-REENTRY-' + (yes ? 'CONFIRM' : 'DECLINE'), doc: 'Doc6 §34 (re-entry)' }); if (!yes) return res('SELECTED_MEANING', { kind: 'case_kept', id: p.id }, { frame: 'FR.CASE.DELETE', act: 'answer' });
-        rules.push({ id: 'CASE-DELETED-LEDGER-HASH', doc: 'plan §2: per-case delete; ledger keeps only hashes' }); return res('SELECTED_MEANING', { kind: 'case_deleted', id: p.id }, { frame: 'FR.CASE.DELETE', act: 'answer', effect: 'case_delete:' + p.id }); }
-      if (p.type === 'forget' && (yes || no)) { meta.pending = null; rules.push({ id: 'G-REENTRY-' + (yes ? 'CONFIRM' : 'DECLINE'), doc: 'Doc6 §34 (re-entry)' }); const recs = activeFacts().filter(r => p.ids.includes(r.id));
-        if (yes && recs.length) { rules.push({ id: 'AUTH-FORGET-CONFIRMED', doc: 'Doc7 (lawful delete = move to cold storage with provenance; never erase)' }); return res('SELECTED_MEANING', { kind: 'forgotten', items: recs.map(r => r.clause) }, { frame: 'FR.FORGET', act: 'answer', write: { forget: recs.map(r => r.id) }, auth: 'explicit confirmation' }); }
-        return res('SELECTED_MEANING', { kind: 'forget_kept' }, { frame: 'FR.FORGET', act: 'answer' }); }
-      if (p.type === 'reading' && n) { meta.pending = null; if (!p.count || n > p.count) { rules.push({ id: 'G-REENTRY-OUT-OF-RANGE', doc: 'Doc6 §30', note: String(n) }); return res('CLARIFICATION_REQUIRED', { kind: 'clarify_readings', readings: p.readings }, { frame: p.frame, act: p.act }); }
-        rules.push({ id: 'G-REENTRY-READING-CHOSEN', doc: 'Doc6 §30, §34 (user selects among preserved readings)', note: 'reading ' + n + ' of ' + p.count }); ctx.chosenReading = n; ctx.raw = p.raw; ctx.low = p.low; return evaluate(p.raw, p.low, ctx); }
-      if (p.type === 'teach') { const km = low.match(/^(?:(?:it|they|that|this|those)(?: is|'s| are) )?(?:an? )?(noun|verb|adjective|name)s?\.?$/); if (km) { meta.pending = null; const cat = { noun: 'entity', name: 'entity', verb: 'action', adjective: 'attribute' }[km[1]];
-          for (const w0 of p.words) { const w = km[1] === 'verb' ? w0.replace(/([^aeiou])ies$/, '$1y').replace(/(ch|sh|x|z|ss)es$/, '$1').replace(/([^s])s$/, '$1').replace(/([^aeiou])ied$/, '$1y').replace(/([^e])ed$/, '$1') : w0, pr = lex.proposeConcept({ surface: w, gloss: 'taught in chat as a ' + km[1], category: cat, licence: 'user-owned', evidence: 'chat: ' + p.raw }); const ap = pr.ok ? lex.approveConcept(pr.record.id, true) : pr; if (!ap.ok) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_unknown', words: [w] }, { frame: 'FR.UNKNOWN', act: 'unknown' }); }
-          rules.push({ id: 'LX-TEACH-ADMITTED', doc: 'lexicon gate (quarantine → inspected → approved by the typed answer); local, never shared', note: p.words.join(', ') + ' = ' + km[1] }); ctx.raw = p.raw; ctx.low = p.low; return evaluate(p.raw, p.low, ctx); } }
-      if (p.type === 'referent') { const tk = content(G.tokenize(String(raw).replace(/[.!?]+\s*$/, ''))), np = n && p.options && p.options[n - 1] ? null : G.Parser(tk, glex).np(0).filter(x => x.i === tk.length);
-        const opt = n && p.options && p.options[n - 1] ? G.Parser(content(G.tokenize(p.options[n - 1])), glex).np(0).filter(x => x.i === content(G.tokenize(p.options[n - 1])).length) : null, pick = (opt && opt.length === 1 ? opt : np && np.length === 1 ? np : null);
-        if (pick) { meta.pending = null; rules.push({ id: 'G-REENTRY-REFERENT-BOUND', doc: 'Doc6 §30, §34; ⧧ hold ancestry (RSOC §3.1.1)', note: p.word + (p.reading ? ' in reading ' + p.reading + ' of ' + p.count : '') }); refBind = { pr: p.word, np: clone(pick[0].node), note: p.reading ? ' (held reading ' + p.reading + ' of ' + p.count + ')' : ' (held option)' }; ctx.chosenReading = p.reading || undefined; ctx.raw = p.raw; ctx.low = p.low;
-          try { return evaluate(p.raw, p.low, ctx); } finally { refBind = null; } } }
-      meta.pending = null; }
-    if (/^(yes|yeah|yep|ok|okay|sure|correct|no|nope|wrong)$/.test(low)) return res('SELECTED_MEANING', { kind: 'ack' }, { frame: 'FR.ACK', act: 'answer' });
+    const raw0 = raw, low0 = low, held = meta.pending; meta.pending = null; /* intake: a held question lasts one turn (Doc6 §34); only turn.reentry reads it */
     /* LC-CAP-FRAME (4.9.40): capability entry points are capability frames read from sentence structure, not command regexes. A frame is
        [please] [can/could/will/would you] V(lemma in the frame's verb class, a lexicon verb) [particle] [sampradāna] [(DET) (modifier N)* N(head in the frame's noun class)] OPERAND,
        or the bare NP (DET) (mod)* N(head) OPERAND (optionally under "what is" / "find"). Only the OPERAND — a number, a repo slug, a URL, an expression — is
@@ -442,6 +542,38 @@ function Kernel(opts) {
       if (!mm && sp.np) { let j = i; if (sp.whis && L(j) === 'what' && /^(?:is|are)$/.test(L(j + 1))) j += 2; else if (sp.whis && L(j) === 'find') j++; if (CAP_DET.has(L(j))) j++; const j0 = j; j = mods(j); if ((!sp.reqMod || j > j0) && nAt(j, sp.np)) { mm = tail(j + 1); head = L(j); } }
       if (!mm && sp.bare && i === 0) { mm = tail(0); if (mm) { mm.head = ''; return mm; } }
       if (!mm) return null; mm.head = head; rules.push({ id: 'LC-CAP-FRAME', doc: 'capability frame: verb class + structural object position; operand read by the engine', note: (sp.id || '') + (head ? ' ← ' + head : '') }); return mm; };
+    const routes = [
+      ['world.preflight', () => (ctx.worldPreflight && ctx.worldPreflight.handled ? worldResult(ctx.worldPreflight) : null)],
+      ['turn.reentry', () => { const hr = held ? (() => {
+    { const p = held; /* 4.9.41 reconnect grammar for a held question (no phrase set): a polarity particle (closed class), or a VP whose
+         verb class decides polarity (replace/do/overwrite → yes; keep/retain → no) over the held item (pronoun it/that, or "the old one"); an ordinal/cardinal
+         (closed class or digit), optionally "the", optionally a pro-noun (one/sense/reading/option/meaning), selects the held reading by position */
+      const aw = low.split(' '), AFF = new Set(['yes', 'yeah', 'yep', 'ok', 'okay', 'sure', 'correct']), NEGP = new Set(['no', 'nope']), heldNP = r => (r.length === 1 && /^(?:it|that)$/.test(r[0])) || (r.length >= 2 && r[0] === 'the' && r[r.length - 1] === 'one' && r.length <= 3);
+      const yes = (aw.length === 1 && AFF.has(aw[0])) || (/^(?:replace|do|overwrite)$/.test(aw[0]) && heldNP(aw.slice(1))), no = (aw.length === 1 && NEGP.has(aw[0])) || (/^(?:keep|retain)$/.test(aw[0]) && heldNP(aw.slice(1)));
+      const ordW = { first: 1, one: 1, second: 2, two: 2, third: 3, three: 3, fourth: 4, four: 4, fifth: 5, five: 5, sixth: 6, six: 6 }; const ow = aw[0] === 'the' ? aw.slice(1) : aw;
+      const n = ow.length >= 1 && ow.length <= 2 && (/^\d$/.test(ow[0]) || ordW[ow[0]]) && (ow.length === 1 || /^(?:one|sense|reading|option|meaning)$/.test(ow[1])) ? +(/^\d$/.test(ow[0]) ? ow[0] : ordW[ow[0]]) : null;
+      if (p.type === 'replace' && (yes || no)) { meta.pending = null; rules.push({ id: 'G-REENTRY-' + (yes ? 'CONFIRM' : 'DECLINE'), doc: 'Doc6 §34 (re-entry)' }); if (yes) return res('SELECTED_MEANING', { kind: 'replaced', clause: p.clause }, { frame: 'FR.CONFIRM', act: 'answer', write: { clause: p.clause, supersede: p.oldIds }, auth: 'explicit confirmation' }); return res('SELECTED_MEANING', { kind: 'kept', clause: p.old }, { frame: 'FR.CONFIRM', act: 'answer' }); }
+      if (p.type === 'sense' && n) { meta.pending = null; const s = p.senses[n - 1]; rules.push({ id: s ? 'G-REENTRY-SENSE-CHOSEN' : 'G-REENTRY-OUT-OF-RANGE', doc: 'Doc6 §30', note: s ? s.sid : String(n) }); if (!s) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_ambiguous', word: p.word, senses: p.senses.map(x => x.gloss) }, { frame: 'FR.DEFINE', act: 'question' }); return res('SELECTED_MEANING', { kind: 'define', term: p.word, gloss: s.gloss, source: s.source }, { frame: 'FR.DEFINE', act: 'question', evidenceRefs: [s.sid] }); }
+      if (p.type === 'case_delete' && (yes || no)) { meta.pending = null; rules.push({ id: 'G-REENTRY-' + (yes ? 'CONFIRM' : 'DECLINE'), doc: 'Doc6 §34 (re-entry)' }); if (!yes) return res('SELECTED_MEANING', { kind: 'case_kept', id: p.id }, { frame: 'FR.CASE.DELETE', act: 'answer' });
+        rules.push({ id: 'CASE-DELETED-LEDGER-HASH', doc: 'plan §2: per-case delete; ledger keeps only hashes' }); return res('SELECTED_MEANING', { kind: 'case_deleted', id: p.id }, { frame: 'FR.CASE.DELETE', act: 'answer', effect: 'case_delete:' + p.id }); }
+      if (p.type === 'forget' && (yes || no)) { meta.pending = null; rules.push({ id: 'G-REENTRY-' + (yes ? 'CONFIRM' : 'DECLINE'), doc: 'Doc6 §34 (re-entry)' }); const recs = activeFacts().filter(r => p.ids.includes(r.id));
+        if (yes && recs.length) { rules.push({ id: 'AUTH-FORGET-CONFIRMED', doc: 'Doc7 (lawful delete = move to cold storage with provenance; never erase)' }); return res('SELECTED_MEANING', { kind: 'forgotten', items: recs.map(r => r.clause) }, { frame: 'FR.FORGET', act: 'answer', write: { forget: recs.map(r => r.id) }, auth: 'explicit confirmation' }); }
+        return res('SELECTED_MEANING', { kind: 'forget_kept' }, { frame: 'FR.FORGET', act: 'answer' }); }
+      if (p.type === 'route' && n) { meta.pending = null; if (n > (p.routes || []).length) { rules.push({ id: 'G-REENTRY-OUT-OF-RANGE', doc: 'Doc6 §30', note: String(n) }); return null; }
+        rules.push({ id: 'RMC-TIE-RESOLVED-BY-USER', doc: 'RMC §5.7; Doc6 §30, §34 (the user selects among tied candidates)', note: p.routes[n - 1] }); ctx.onlyRoute = p.routes[n - 1]; ctx.raw = p.raw; ctx.low = p.low; try { return evaluate(p.raw, p.low, ctx); } finally { delete ctx.onlyRoute; } }
+      if (p.type === 'reading' && n) { meta.pending = null; if (!p.count || n > p.count) { rules.push({ id: 'G-REENTRY-OUT-OF-RANGE', doc: 'Doc6 §30', note: String(n) }); return res('CLARIFICATION_REQUIRED', { kind: 'clarify_readings', readings: p.readings }, { frame: p.frame, act: p.act }); }
+        rules.push({ id: 'G-REENTRY-READING-CHOSEN', doc: 'Doc6 §30, §34 (user selects among preserved readings)', note: 'reading ' + n + ' of ' + p.count }); ctx.chosenReading = n; ctx.raw = p.raw; ctx.low = p.low; return evaluate(p.raw, p.low, ctx); }
+      if (p.type === 'teach') { const km = low.match(/^(?:(?:it|they|that|this|those)(?: is|'s| are) )?(?:an? )?(noun|verb|adjective|name)s?\.?$/); if (km) { meta.pending = null; const cat = { noun: 'entity', name: 'entity', verb: 'action', adjective: 'attribute' }[km[1]];
+          for (const w0 of p.words) { const w = km[1] === 'verb' ? w0.replace(/([^aeiou])ies$/, '$1y').replace(/(ch|sh|x|z|ss)es$/, '$1').replace(/([^s])s$/, '$1').replace(/([^aeiou])ied$/, '$1y').replace(/([^e])ed$/, '$1') : w0, pr = lex.proposeConcept({ surface: w, gloss: 'taught in chat as a ' + km[1], category: cat, licence: 'user-owned', evidence: 'chat: ' + p.raw }); const ap = pr.ok ? lex.approveConcept(pr.record.id, true) : pr; if (!ap.ok) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_unknown', words: [w] }, { frame: 'FR.UNKNOWN', act: 'unknown' }); }
+          rules.push({ id: 'LX-TEACH-ADMITTED', doc: 'lexicon gate (quarantine → inspected → approved by the typed answer); local, never shared', note: p.words.join(', ') + ' = ' + km[1] }); ctx.raw = p.raw; ctx.low = p.low; return evaluate(p.raw, p.low, ctx); } }
+      if (p.type === 'referent') { const tk = content(G.tokenize(String(raw).replace(/[.!?]+\s*$/, ''))), np = n && p.options && p.options[n - 1] ? null : G.Parser(tk, glex).np(0).filter(x => x.i === tk.length);
+        const opt = n && p.options && p.options[n - 1] ? G.Parser(content(G.tokenize(p.options[n - 1])), glex).np(0).filter(x => x.i === content(G.tokenize(p.options[n - 1])).length) : null, pick = (opt && opt.length === 1 ? opt : np && np.length === 1 ? np : null);
+        if (pick) { meta.pending = null; rules.push({ id: 'G-REENTRY-REFERENT-BOUND', doc: 'Doc6 §30, §34; ⧧ hold ancestry (RSOC §3.1.1)', note: p.word + (p.reading ? ' in reading ' + p.reading + ' of ' + p.count : '') }); refBind = { pr: p.word, np: clone(pick[0].node), note: p.reading ? ' (held reading ' + p.reading + ' of ' + p.count + ')' : ' (held option)' }; ctx.chosenReading = p.reading || undefined; ctx.raw = p.raw; ctx.low = p.low;
+          try { return evaluate(p.raw, p.low, ctx); } finally { refBind = null; } } }
+      } return null; })() : null; if (hr) return Object.assign(hr, { resolvesHold: true });
+    if (/^(yes|yeah|yep|ok|okay|sure|correct|no|nope|wrong)$/.test(low)) return res('SELECTED_MEANING', { kind: 'ack' }, { frame: 'FR.ACK', act: 'answer' });
+      return null; }],
+      ['capability.frame', () => {
     /* private case files (plan §2): "open (the|a new) case ID" / "close the case" are capability frames; an open case switches the case-scoped stores */
     { const co = capF(raw, { id: 'case.open', v: ['open', 'start'], obj: ['case'], mods: ['new'], re: /^([A-Za-z0-9][\w-]{0,40})$/ }); if (co) { const id = co[1].toLowerCase(), sb = baseStore.load('case:' + id + ':sealed');
         if (sb && !Array.isArray(sb) && sb.ct) { rules.push({ id: 'CASE-SEALED', doc: 'plan §2: a closed case is sealed with the vault key; unseal it first' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: 'open the case ' + id, reason: 'CASE_SEALED' }, { frame: 'FR.CASE', act: 'request' }); }
@@ -463,6 +595,8 @@ function Kernel(opts) {
     for (const [id, act, re, fn, x] of META) if (re.test(low)) { if (x && x.rule) rules.push({ id: x.rule, doc: 'Doc7; Doc6 §37' }); return res((x && x.outcome) || 'SELECTED_MEANING', fn(), Object.assign({ frame: id, act }, x && x.effect ? { effect: x.effect } : {})); }
     if (opts.commandMeaning) { const cm = opts.commandMeaning(raw); if (cm) { rules.push({ id: 'CMD-LEGACY-LLM-' + cm.leg.kind.toUpperCase(), doc: 'forge agents/forge/llm_authority.py (explicit command; routed through the kernel)', note: cm.leg.command });
       return res(cm.leg.kind === 'refused' ? 'REFUSAL_RELEVANT' : 'SELECTED_MEANING', cm.material, { frame: 'FR.COMMAND.LEGACY', act: 'request' }); } }
+      return null; }],
+      ['gks.quantity', () => {
     function gksQtyYN(text) { const tk = G.tokenize(String(text).replace(/[?\s]+$/, '')); if (tk.length < 3) return null; const w0 = String(tk[0].w).toLowerCase(), mean = w0 === 'does' || w0 === 'do';
       if (!mean && !(G.CL[w0] || []).includes('COP')) return null;
       for (let j = tk.length - 1; j >= 2; j--) { const np = npOnly(tk.slice(1, j)); if (!np) continue; const hits = gksIndex().filter(e => e.keys.includes(npKey(np))).filter(e => e.f.status !== 'retracted'); if (!hits.length) continue;
@@ -475,13 +609,16 @@ function Kernel(opts) {
           return ans ? res('SELECTED_MEANING', { kind: 'gks_fact', answer: ans, items: [item] }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: [f.id] })
             : res('SELECTED_MEANING', { kind: 'gks_unconfirmed', question: String(text).trim().replace(/[?\s]+$/, ''), related: [item] }, { frame: 'FR.QUESTION', act: 'question', uncertainty: 'undetermined', evidenceRefs: [f.id] }); } }
       return null; }
-    { const gq = gksQtyYN(ctx.raw || raw); if (gq) return gq; }
+      return gksQtyYN(ctx.raw || raw) || null; }],
+      ['world.proof', () => {
     /* 4.9.51: a question the world grammar cannot structure is never answered with that limitation: it goes on to the language core and, when nothing
        stored decides it, to the cited lookup (AQ-1). The test is the parse: a wh-word, or a finite auxiliary / copula first, or a final question mark. */
     function isQuestionTurn() { const r0 = String(ctx.raw || raw).trim(); if (/\?$/.test(r0)) return true; try { const t = content(G.tokenize(r0)); const P = t.length ? G.Parser(t, glex) : null; return !!(P && (P.at(0, 'WH').length || P.at(0, 'AUX').length || P.at(0, 'COP').length || P.at(0, 'MOD').length)); } catch (e) { return false; } }
     function kernelDerives() { try { const t = content(G.tokenize(String(ctx.raw || raw).replace(/[?.!\s]+$/, ""))); if (t.length < 2 || !/^(?:do|does|did|is|are|was|were|will|can|could|might|may|should|has|have)$/.test(t[0].w)) return false; for (let k = 2; k < t.length; k++) if (derive(t.slice(1, k).concat([t[0]], t.slice(k))).parses.length) return true; } catch (e) { /* no derivation */ } return false; }
     { const wt0 = ctx.worldText || raw, sh = worldShared(wt0), wt = sh.prefix + wt0; let rr = R.evaluate(wt, { allowBareQuery: !asksAboutStored(wt0) && !asksAboutShared(wt0) });
       if (sh.used.length && rr.handled) rr = sharedWorld(rr, sh, wt0); if (rr.handled && !(rr.material && rr.material.kind === 'world_limitation' && rr.material.code === 'UNSUPPORTED_QUERY_STRUCTURE' && (kernelDerives() || isQuestionTurn()))) return worldResult(rr); } /* 4.9.48: a question the world grammar cannot read but the language core derives goes on to the language core */ // world grammar → world reasoner; a bare question goes to memory only when it names a stored entity (unrelated memory never changes the route)
+      return null; }],
+      ['math.gp014', () => {
     const phi = meta.notation === 'phi';
     const calc = (() => { const ops = /^(.+?)(?: with respect to ([a-z]))?(?: from (-?[\w./π]+) to (-?[\w./π]+))?$/; let c = capF(low, { id: 'calculus', v: ['differentiate', 'integrate'], re: /^([\s\S]+)$/ }) || capF(low, { id: 'calculus', np: ['derivative', 'integral', 'antiderivative'], whis: true, re: /^of ([\s\S]+)$/ }), dv;
       if (!c) { const ws = low.replace(/^please /, '').split(' '), d = /^d\/d([a-z])$/.exec(ws[0] || ''); if (d && ws.length > 1) { c = [low, ws.slice(1).join(' ')]; c.head = 'd/d'; dv = d[1]; rules.push({ id: 'LC-CAP-FRAME', doc: 'operator notation d/dx (operand grammar)', note: 'calculus ← d/d' + dv }); } }
@@ -545,6 +682,8 @@ function Kernel(opts) {
       if (!r.ok && r.error === 'DIV0') { g.congruity = 'division by zero'; rules.push({ id: 'RPMC-DIV-PHASE-INVALID', doc: 'RPMC Full Protocol ÷_Φ' }); return res('REFUSAL_RELEVANT', { kind: 'refuse', reason: 'DIV0_PHI' }, { frame: 'FR.MATH', act: 'question', math: r }); }
       if (!r.ok) { g.congruity = 'not a well-formed expression'; return res('INCONGRUENT_REJECTED', { kind: 'refuse', reason: 'MALFORMED_EXPR' }, { frame: 'FR.MATH', act: 'question', math: r }); }
       return res('SELECTED_MEANING', { kind: 'math', expr: r.pretty, exprPhi: r.phaseForm, value: r.value, approx: r.approx, phi }, { frame: 'FR.MATH', act: 'question', math: r, uncertainty: r.approx ? 'approximate (irrational)' : 'none' }); }
+      return null; }],
+      ['directive.frame', () => {
     let m;
     /* FR.NOTE.ADD by directive parse (4.9.39; no phrase list): the act is read from the verb group — V "note" | V+PART "write/jot down" | light verb
        "make/take/add" + "a note" | "remind" + me (sampradāna) + "to" — and its complement is MENTIONED text (kept verbatim, not parsed). A timed reminder
@@ -640,7 +779,9 @@ function Kernel(opts) {
           const at = low.indexOf(body[0].w), tl = low.slice(at < 0 ? 0 : at).replace(/[?.!]+\s*$/, ''), ti = raw.toLowerCase().lastIndexOf(tl);
           return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: (ti >= 0 && raw.length - ti - tl.length <= 1 ? raw.substr(ti, tl.length) : tl).replace(/\bmy\b/gi, 'your'), reason: 'NO_EXTERNAL' }, { frame: 'FR.EXTERNAL', act: 'request' }); } } }
     if ((() => { const tk = content(G.tokenize(raw)); return tk.length === 3 && tk[0].w === 'what' && (G.CL[tk[1].w] || []).includes('COP') && /^(it|this|that|they)$/.test(tk[2].w); })()) { /* Q-WH-COPULA over a bare deictic/anaphor with no antecedent: the referent is unresolved (parse: WH COP PRON) */ const low2 = 'what is ' + content(G.tokenize(raw))[2].w; low = low2; rules.push({ id: 'LL-REF-UNRESOLVED', doc: 'Doc6 §23' }); g.connectedness = 'unresolved referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: low.split(' ')[2], options: [] }, { frame: 'FR.DEFINE', act: 'question' }); }
-    return grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown);
+      return null; }],
+      ['language.core', () => grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown)]];
+    return { routes, held, reset: () => { rules = []; g = { expectancy: 'pass', congruity: 'pass', connectedness: 'pass', purpose: 'pass' }; raw = raw0; low = low0; } };
   }
 
   function grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown) {
@@ -1129,11 +1270,13 @@ function Kernel(opts) {
     { const Ap = appositive(raw); if (Ap) { trace.rules.push({ id: 'LL-APPOSITIVE-RELATIVE', doc: 'Doc5 relative-clause frame (non-restrictive: both propositions asserted)', note: Ap.note }); raw = Ap.raw; low = raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } }
     { const Tq = tagQuestion(raw); if (Tq) { trace.rules.push({ id: 'LL-TAG-QUESTION', doc: 'Doc5 §15 speech acts (tag = yes/no question)', note: Tq.note }); if (Tq.raw) { raw = Tq.raw; low = Tq.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     { const E = ellipsis(raw); if (E) { trace.rules.push({ id: 'LL-ELLIPSIS-VP', doc: 'Doc 3 ellipsis; Register F-11', note: E.note }); if (E.raw) { raw = E.raw; low = E.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
+    ctx.depth = depth; ctx.bypassTurn = !!bypass; /* candidate drift uses the same functional inputs as the turn (M1) */
     let sel; try { sel = evaluate(raw, low, ctx); }
     catch (e) { sel = { outcome: 'NO_LAWFUL_CANDIDATE', material: { kind: 'no_frame', rest: String(raw).replace(/[.!?\s]+$/, '').slice(0, 120) }, gates: { expectancy: 'derivation error' }, rules: [{ id: 'G-DERIVATION-ERROR', doc: 'Doc6 §35', note: String(e && e.message).slice(0, 80) }], frame: 'none', act: 'unknown' }; }
     const worldTurn = /^FR\.WORLD/.test(sel.frame || '');
     if (bypass && worldTurn) { trace.bypass_flag = true; trace.rules.push({ id: 'ADV-BYPASS-FLAGGED', doc: 'bypass phrase flagged; the checked world result stands' }); } else if (bypass) sel.forbiddenPath = true;
     Ph(3, 'purpose: ' + sel.act + ' via ' + sel.frame);
+    if (sel.selection) trace.selection = sel.selection; /* M1: every candidate the routes proposed, the gates and keys, the winner and why */
     trace.rules.push(...(sel.rules || [])); trace.gates = sel.gates; trace.outcome = { category: sel.outcome, class: OUTCOME_CLASS[sel.outcome] || 'reject', cite: 'Doc6 §36' }; if (sel.sense) trace.sense = sel.sense;
     Ph(4, 'gates → ' + sel.outcome + ' (' + trace.outcome.class + ')');
     const attempted = sel.forbiddenPath ? { from: 5, to: 8, expected: 6 } : { from: 7, to: 8, expected: 8 };
@@ -1203,12 +1346,12 @@ function Kernel(opts) {
       trace.rsoc.ops.push('Ĉ'); Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = 'Hard stop: ε_s = ' + drift.eps_s + ' ≥ 0.80 and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
     Ph(7, 'manifest named ψ_id ' + psi_id.slice(0, 12) + '…');
     { const mk = canon(msm.meaning); if (meta.spoken && meta.spoken.m === mk && meta.spoken.loop === meta.loop) msm.meaning = Object.assign({}, msm.meaning, { field: { last: meta.spoken.text } }); if (ctx.topicFront) msm.meaning = Object.assign({}, msm.meaning, { field: Object.assign({}, msm.meaning.field, { topic: ctx.topicFront }) }); if (ctx.qVoice) msm.meaning = Object.assign({}, msm.meaning, { field: Object.assign({}, msm.meaning.field, { voice: ctx.qVoice }) }); trace.rsoc.meaning_key = mk; } // the local field: what Forge last said for this same meaning (RSOC ⧒ phase alignment cos(Φ − Φ₀))
-    let real; try { real = D.realizeMeaning(msm.meaning, ENV); } catch (e) { trace.derivation_error = String(e && e.message); }
+    let real, memoEv = null; try { const hit = RMEMO.get(canon(msm.meaning)); if (hit && hit.real) { real = hit.real; memoEv = hit.ev; } else real = D.realizeMeaning(msm.meaning, ENV); } catch (e) { trace.derivation_error = String(e && e.message); } /* the selected candidate's own realization (same meaning) is reused */
     if (!real) { routeOf({ derivation_failed: true }); trace.blocked = true; trace.block_reason = 'Derivation failed (' + trace.derivation_error + ') — no sūtra sequence derives this meaning; output blocked.'; meta.pending = null; Ph(9, 'derivation FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
     let text = real.text; trace.derivation = real.derivation; trace.rsoc.outward = real.derivation.rsoc || null; if (opts.renderFault) text = opts.renderFault(text, msm);
     Ph(8, 'derived by ' + real.derivation.rule_count + ' sūtra applications (' + real.derivation.distinct_rules + ' distinct); trail ' + real.derivation.phase_trail);
     if (real.derivation.forbidden_transition) { routeOf({ forbidden_transition: real.derivation.forbidden_transition }); trace.blocked = true; trace.block_reason = 'Derivation phase trail contains a forbidden transition (' + real.derivation.forbidden_transition + ').'; meta.pending = null; Ph(9, 'forbidden derivation path → blocked'); return finish(trace, 9, null, msm, sfe); }
-    let ev = (!opts.renderFault && real.echo && real.text === text) ? real.echo : echo(text, msm.meaning, real.vakya); trace.echo = ev; trace.rsoc.phrasing = real.derivation.phrasing || null;
+    let ev = (!opts.renderFault && memoEv && real.text === text) ? memoEv : (!opts.renderFault && real.echo && real.text === text) ? real.echo : echo(text, msm.meaning, real.vakya); trace.echo = ev; trace.rsoc.phrasing = real.derivation.phrasing || null;
     if (!ev.pass && ev.ambiguous && !opts.renderFault && msm.meaning.kind !== 'clarify_echo') { // lawful re-routing: an ambiguous outward reading becomes a clarification (Doc6 §29), never a guess and never a write
       trace.rules.push({ id: 'ECHO-AMBIGUITY-CLARIFY', doc: 'Doc6 §29; RMC §6.7', note: ev.reason }); trace.echo_first = Object.assign({ text }, ev); trace.meaning_first = msm.meaning; const alt = { kind: 'clarify_echo' }; const r2 = D.realizeMeaning(alt, ENV); const ev2 = echo(r2.text, alt);
       if (ev2.pass) { msm.meaning = alt; msm.limits.may_write_memory = false; trace.outcome = { category: 'CLARIFICATION_REQUIRED', class: 'clarify', cite: 'Doc6 §36' }; text = r2.text; trace.derivation = r2.derivation; ev = ev2; trace.echo = ev2; meta.pending = null; sel.write = null; routeOf(); } }
@@ -1326,7 +1469,7 @@ function Kernel(opts) {
     const mem = store.load('memory'), refs = (t.msm.evidence && t.msm.evidence.refs) || []; const prem = [];
     for (const id of [...new Set(refs.concat((t.msm.meaning.shared_premises || []).map(x => x.id)))]) { const g = gksFacts().find(f => f.id === id); if (g) { prem.push({ id, kind: 'shared', class: g.source.class, citation: g.source.citation, url: g.source.url || null, lineage_root: g.lineage_root, status: g.status, body_sha256: g.body_sha256, fact: g }); continue; }
       const r = mem.find(x => x.id === id); if (r && r.sensitive) return { ok: false, rule: 'PROOF-SENSITIVE-PREMISE' }; prem.push(r ? { id, kind: caseNS ? 'case' : 'private', clause: r.clause, at: r.created_at || r.at || null } : { id, kind: 'unresolved' }); }
-    const body = { schema: 'FORGE-PROOF/v1', turn: t.turn, at: t.at, question: t.input, answer: t.output, meaning: t.msm.meaning, outcome: t.outcome, rules: (t.rules || []).map(r => r.id), echo: t.echo ? { pass: !!t.echo.pass, mode: t.echo.mode || null } : null, premises: prem, confidential: caseNS ? 'Confidential — case ' + caseNS.slice(5) : null, checker: 'derive.js realize + inverse analysis (Echo); knowledge.js validate/bodyHash' };
+    const body = { schema: 'FORGE-PROOF/v1', turn: t.turn, at: t.at, question: t.input, answer: t.output, meaning: t.msm.meaning, outcome: t.outcome, rules: (t.rules || []).map(r => r.id), echo: t.echo ? { pass: !!t.echo.pass, mode: t.echo.mode || null } : null, premises: prem, selection: t.selection ? { schema: t.selection.schema, winner: t.selection.winner, reason: t.selection.reason, keys: t.selection.keys, routes: t.selection.routes, candidates: (t.selection.candidates || []).map(c => ({ route: c.route, specificity: c.specificity, status: c.status, why: c.why, outcome: c.outcome, answer: c.answer, echo: c.echo && c.echo.pass, completeness: c.completeness, eps_s: c.eps_s, score: c.score, distances: c.distances })) } : null, confidential: caseNS ? 'Confidential — case ' + caseNS.slice(5) : null, checker: 'derive.js realize + inverse analysis (Echo); knowledge.js validate/bodyHash' };
     return { ok: true, bundle: Object.assign(body, { sha256: sha256(canon(body)) }) }; }
   /* LOOKUP PLAN (4.9.51) — what a cited lookup asks, read from the parse and the lexicon, never from keywords: the named entity (a proper-name run, with a
      lower-case initialism next to it: "oj Simpson"), the content lemmas, the yes/no structure ("is A a B" → class check; "is A a P of B" → property check),
