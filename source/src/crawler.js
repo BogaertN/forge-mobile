@@ -54,7 +54,7 @@
     const title = ((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || '').replace(/\s+/g, ' ').trim();
     const meta = (html.match(/<meta[^>]+name=["']robots["'][^>]*>/gi) || []).join(' ').toLowerCase();
     const body = html.replace(/<(script|style|noscript|template|iframe|svg|nav|footer|header)[\s\S]*?<\/\1>/gi, ' ').replace(/<!--[\s\S]*?-->/g, ' ');
-    const blocks = body.split(/<\/?(?:p|div|li|h[1-6]|section|article|br|tr|td|blockquote|pre)[^>]*>/i).map(b => b.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>').replace(/"/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim()).filter(b => b.length > 0);
+    const blocks = body.split(/<\/?(?:p|div|li|h[1-6]|section|article|br|tr|td|blockquote|pre)[^>]*>/i).map(b => b.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\x26amp;/g, '&').replace(/\x26lt;/g, '<').replace(/\x26gt;/g, '>').replace(/\x26quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim()).filter(b => b.length > 0);
     return { title, blocks, noai: /noai|noimageai/.test(meta), noindex: /noindex/.test(meta) }; }
   const forms = s => { const o = new Set(); for (const w of String(s).toLowerCase().match(/[\p{L}\p{N}]+(?:[-'’][\p{L}\p{N}]+)*/gu) || []) if (w.length > 1 && !STOP.has(w)) o.add(w); return o; };
   /* exact-excerpt resonance scoring — same terms and weights as research_acquisition._relevant_excerpt */
