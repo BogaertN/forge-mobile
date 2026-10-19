@@ -605,3 +605,18 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
   - the three canonical problems end-to-end, plus a synthetic fourth problem (a logistics "route window" with a quarantined speculative option);
   - archive and requeue.
 - Kernel/app wiring (conversation frame, Memory-tab card, RMC rendering with Echo) is the next release.
+
+## v4.9.73: MEA problem lane wired into the kernel, the conversation and the Memory tab (2026-10-18)
+- **Kernel.** It loads src/mea_p.js and the shipped problem manifests. New store categories: mea_problems, mea_candidates, mea_archive and mea_receipts.
+- **APIs:**
+  - meaProblems;
+  - meaCycle (session cache; pure);
+  - meaSupply (a session draft; nothing stored until commit);
+  - meaCommit(pid, candidateId, userTap) (permission-decided 'hypothesis.write' plus mea_p's own tap and fresh-cycle checks; stores the manifest, sub-manifests, archive, receipts and withdrawals; writes a containment receipt);
+  - meaArchive, meaReceipts, meaRequeue and meaHandoff.
+  - adoptManifest now also returns `mea_requeue`: proposals only, never a commit.
+- **Conversation.** A capability frame reads "show the problems" and "show problem <id or id part>". The RMC handoff gives typed params to new derive plans: mea_problems, mea_result, mea_not_committed and mea_none. Every reply goes through Echo. An uncommitted manifest is never rendered beyond "has no result".
+  - Realizer lexicon additions: verbs derive / prefer / reject / need, nouns problem / hypothesis / option / test, and the adjective conditional. These are closed-class additions, not answer text.
+- **Memory tab.** New card "MEA (Manifest Evolution) — problem manifests". It has Run cycle, Supply <value> (a prompt for an exact number), and Commit (tap + confirm). It shows the candidates with their route, status, rank, B/L/Ω/I/ε, and the display score labelled as never ranking.
+- Tests: meap_suite has 2 new kernel cases (MEAP, 14 total): supply/draft/commit/render plus an unknown problem, and RMC handoff + Echo + tap-required.
+- data/command_catalog.json regenerated (tools/build_catalog.js) for the new mea_problem frame. The first release run failed the catalog freshness check (B-11) and its two claim-guard dependants.
