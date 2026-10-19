@@ -707,3 +707,18 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - Test edits: MEAP problem counts 3 → 6 (the WIP added 3 professional analogues).
 - Budget (Nic's standing rule): single-file app 1.600 → 1.650 MB raw, 475 → 500 kB gzip (was 1,626,742 / 482,142).
 - Registry: I-06 and J-02 → Implemented; V1 §11 checked; restriction stated (MEA-K judging is build-time only).
+
+## v4.9.77 — M4 cause/effect + rates over time (from m4-wip dc75aee, rewritten)
+- Source: m4-wip dc75aee. I brought over the M4 parts only: dynamics.js, the causal rows in world_rules.js, the kernel world.dynamics route and the JTMS ledger item, derive dynPlan, and dynamics_suite. Its v4.9.65 CONFLICTS draft, VERSION and registry edits, and its M5 files (mea.js, mea_data.js, tools/mea_*, mea_suite, relprop_guard) were NOT carried, because main already ships the M5 work. Conflicts resolved against main: world_rules kept main's containment-functional guard and canonicalPred and added the WIP's `entails` rules; kernel kept main's MEA-K imports and process() start and added the dynamics whole-input read.
+- New in 4.9.77 (WMS §5.10–5.12, KERNEL_COMPONENTS_SPEC R-WM-2..5):
+  - CausalResult forge-causal-result/v1 on every dynamics meaning (kernel adds query_id and a world version = hash of stated links + stored conditionals). Mode predict / explain / intervene / compare / deduce. Status conditionally_predicted, candidate_explanation, underdetermined, entailed_under_assumptions, unsupported, resource_limited.
+  - Tank: a 65-gal measurement against the 70-gal prediction is kept separate. The candidate explanations are generated from the model's own inputs (start, each rate, duration, an unmodelled outflow or inflow by the sign of the gap, the measurement), and none is asserted.
+  - Same solver for battery and inventory: hyphenated compound units, flow verbs as data (draw, dispatch, ship, sell, discharge, …), plural fix (days, not daies).
+  - C7: incompatible units → diagnostic "no conversion between X and Y is stated" with no number. This changes the WIP DYN-RATE expectation, which was "not answered at all"; the test now expects the diagnostic (test edit).
+  - C3: an unstated start for a duration question → "I need the starting amount".
+  - C2: rows correlate__with and associated_with (causal: association) are reported by a what-if but never followed. Status unsupported, missing "a causal mechanism"; no ledger item.
+  - C12: LINK_BUDGET 32 per what-if; past it → resource_limited with the frontier kept.
+- Not done (recorded for later): bitemporal journal and measurement supersession over time (K9), C6 temporal order, C8 non-invertibility, C11 falsifier downgrade, C14 live-app causal run, MEA-P hand-off of causal results.
+- Budget (standing rule): 1.650 MB → 1.700 MB raw, 500 → 510 kB gzip (was 1,657,188 / 492,127).
+- Test edits: WS-DATA declared row keys gain `causal` and `entails` (M4 data keys); DYN-RATE mixed units now expect the C7 diagnostic.
+- The rule docs for DYN-* moved into dynamics.js data (DERIVATION scan: no English sentence literals in kernel.js).
