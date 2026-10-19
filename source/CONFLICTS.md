@@ -695,3 +695,15 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - **Test fixes.**
   - The w16 RECOVERY and w14 NOTES plaintext-leak checks now look for "locker 4411", not "4411". The phrase contains a space, which base64 and hex never produce, so random ciphertext or hashes can no longer fail these checks by chance. Before the fix, 4.9.74's release hit one such chance failure.
   - My own entity_suite case 4 used the question "can ibuprofen cause …" with the predicate "increase", which made "cause" a required entity word. The question was corrected to "does ibuprofen increase …" before the implementation was judged.
+
+## v4.9.76 — wip-tense-mea6 (6efe633) brought over; MEA rulings 3–5; MEA steps 6–8
+- Brought over 6efe633 onto main e0df2a9 (index.html / sw.js conflicts resolved: kept main, added the MEA-K scripts). It carries rulings 1–2 and the fuzz items: ProtoForge naming bans the controls, not the word; ⧧ splits only when tied options need different tests; past atoms keep the alias class ("X was inside/within Y" → "x was in y", fuzz seeds 40397980, 135741104); derived-word teach; pronoun gender.
+- Fuzz CI diagnosis (4.9.73 job ran to its 30-min timeout vs 2 min on 4.9.72): not a pipeline hang. The verifier's own GELC nonce generator was a float LCG whose product passed 2^53 and fell into a 220-state cycle (reproduced at seed 986631739), so nonce() looped forever. Fixed in the WIP: exact Math.imul LCG, bounded nonce(), per-seed time limit in tools/fuzz.js that logs a HARNESS hang.
+- Ruling 3 (proof debt): internal = unproven, published = proven. Already true in mea_p; RULINGS-476 pins it. Consequence: the WIP's MEA-ACCEPT anti-canning world used an `internal` premise and expected `derived_claim`; that contradicts the ruling, so the test's second premise is now `published` (test edit, documented here).
+- Ruling 4: options that both meet exact conditions are both established. cycle() archives the ⧧ split for such an unknown ("its options are established exactly: no split", blocked_on decided:established); splitNeeded() is false; commit keeps every established option in `resolved_options` (option order), `resolved_option` = the first.
+- Ruling 5: requeue entries carry route "proposal" and adopt false; nothing re-runs, commits or adopts. Pinned for MEA-P and MEA-K requeue, with store state unchanged.
+- New: commit re-derives the cycle from the manifest and refuses a tampered resolution or pool (MEA-TAMPERED). The WIP's MEA-ACCEPT 144 Hz test had shown a tampered resolution committing.
+- Wiring: mea_accept_suite and rulings476_suite added to verify/run.js (mea_accept was missing in the WIP). mea_k_data.js / mea_k.js moved after mea_p.js in index.html and sw.js (BROWSER-LOAD-ORDER: mea_k.js reads KMEAP).
+- Test edits: MEAP problem counts 3 → 6 (the WIP added 3 professional analogues).
+- Budget (Nic's standing rule): single-file app 1.600 → 1.650 MB raw, 475 → 500 kB gzip (was 1,626,742 / 482,142).
+- Registry: I-06 and J-02 → Implemented; V1 §11 checked; restriction stated (MEA-K judging is build-time only).
