@@ -215,6 +215,8 @@ for (const c of SP.LEGACY_LLM) C('LEGACY-LLM', `legacy LLM command ${c}: determi
   require('./tms_suite.js')({ C, expect, K, ROOT }); /* M2: justifications + truth maintenance */
   require('./world_state_suite.js')({ C, expect, K, ROOT }); /* M3: durable world state + relation properties as data */
   require('./evidence_suite.js')({ C, expect, ROOT }); /* M3: evidence engine (vault-only evidence objects, support levels, rank order) */
+  require('./dynamics_suite.js')({ C, expect, ROOT }); /* M4 (4.9.65): cause/effect + rate/time + scope/report constructions */
+  require('./causal_suite.js')({ C, expect, ROOT }); /* M4 (4.9.77): CausalResult, tank/battery/inventory, WMS C1-C5, C7, C9, C10, C12, C13 */
   require('./relprop_guard_suite.js')({ C, expect, ROOT }); /* MEA step 0 (4.9.65): relation-property meaning guard, one case per MEA-mutable cell */
   require('./mea_suite.js')({ C, expect, ROOT }); /* M5: MEA manifest evolution (seeded operators, suite fitness, tap-only adoption, M2 withdrawal) */
   require('./k1_memrule_suite.js')({ C, expect, ROOT }); /* 4.9.66: K1 drift unification (one threshold table) + memory-write rule (working facts) */
