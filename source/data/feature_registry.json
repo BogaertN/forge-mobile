@@ -1,5 +1,5 @@
 {
- "version": "4.9.76",
+ "version": "4.9.77",
  "features": [
   {
    "id": "A-01",
@@ -2549,14 +2549,30 @@
    "proof": [
     "SECRET-SCAN"
    ]
+  },
+  {
+   "id": "WM-M4",
+   "name": "World model M4: cause/effect, rates over time, interventions (CausalResult)",
+   "source": "KERNEL_COMPONENTS_SPEC.md §15 R-WM-2..5 and WM engineering spec §5.10–5.12 (2026-10-18); BUILD_ORDER_OCT18 item 4",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.77: dynamics.js (exact rational rate/level solver, what-if over stored causal links, measurement reports, adverb scope) with a forge-causal-result/v1 record on every answer (mode, status, assumptions, premise and intervention refs, effects, competing models, world version). Tank 70 gal conditional; a differing measurement kept separate with candidate explanations; battery/inventory on the same solver; WMS C1–C5, C7, C9, C10, C12, C13 tested. Not yet: bitemporal journal (C9 for measurements over time), C6 temporal order, C8 non-invertibility, C11 falsifier downgrade, C14 live-app run, MEA problem-lane hand-off of causal results.",
+   "proof": [
+    "DYN-RATE",
+    "DYN-REPORTS",
+    "DYN-SCOPE",
+    "DYN-CAUSAL",
+    "DYN-PURE",
+    "M4-CAUSAL"
+   ]
   }
  ],
- "count": 234,
+ "count": 235,
  "claims": {
   "Implemented": 112,
   "Missing": 9,
   "Not feasible on phone": 28,
   "Out of scope / parked": 13,
-  "Partial": 72
+  "Partial": 73
  }
 }

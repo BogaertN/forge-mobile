@@ -1,0 +1,150 @@
+/* M4 (4.9.65) DYNAMICS: cause/effect + rate/time operators and two grammar constructions, deterministic and exact (BigInt rationals).
+ * - RATES: a resource with a level (stated start, capacity, lower bound) changed by constant inflows and outflows (rate = quantity per time unit).
+ *   The state equation is level(t) = start + (Σ in − Σ out)·t, bounded by [lower, capacity]; questions ask the time to reach a bound or the level
+ *   after a duration. Verb classes, unit words and time units are DATA below; no domain word ("tank", "pump") is read. Every answer states its
+ *   assumptions (constant rates, an unstated start). A what-if re-runs the SAME stated scenario with one input changed (a branch, never cumulative);
+ *   a measurement that differs from the prediction is reported as a conflict and kept, never silently overwritten.
+ * - REPORTS: "S1 reports 20 C, S2 reports 30 C at the same time" — each value attributed to its source; differing values for the same time are a
+ *   conflict that stays unresolved (no averaging, no pick).
+ * - SCOPE: a fronted sentence adverb + a subject with a relative clause ("Instinctively, eagles that fly swim") — the adverb modifies the MAIN verb,
+ *   never the verb inside the relative clause (structure dependence); a question about either verb is answered from that structure.
+ * - WHAT-IF: an intervention on a node of the user's stored causal links (durable world): do(X) follows the cause chains; removing X lists what loses
+ *   a stored cause and what still has another; a stated prevention qualifies an effect. Read only; the kernel records the answer in the ledger.
+ * Nothing here stores, fetches or weighs anything. */
+(function (root) {
+const isNode = typeof module !== 'undefined' && module.exports;
+/* ---- exact rationals ---- */
+const gcd = (a, b) => { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) [a, b] = [b, a % b]; return a || 1n; };
+const Q = (n, d = 1n) => { if (d < 0n) { n = -n; d = -d; } const g = gcd(n, d); return { n: n / g, d: d / g }; };
+const qp = s => { const m = String(s).match(/^(-?)(\d+)(?:\.(\d+))?$/); if (!m) return null; const f = m[3] || ''; return Q(BigInt(m[1] + m[2] + f), 10n ** BigInt(f.length)); };
+const add = (a, b) => Q(a.n * b.d + b.n * a.d, a.d * b.d), sub = (a, b) => add(a, Q(-b.n, b.d)), mul = (a, b) => Q(a.n * b.n, a.d * b.d), div = (a, b) => Q(a.n * b.d, a.d * b.n);
+const sgn = a => (a.n > 0n ? 1 : a.n < 0n ? -1 : 0), lt = (a, b) => sgn(sub(a, b)) < 0;
+const fmt = a => { const neg = a.n < 0n, n = neg ? -a.n : a.n, w = n / a.d, r = n % a.d; return (neg ? '−' : '') + (r ? (w ? w + ' ' : '') + r + '/' + a.d : String(w)); };
+/* ---- data: words ---- */
+const NUMW = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, fifteen: 15, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, hundred: 100 };
+const TIME = { second: Q(1n, 60n), sec: Q(1n, 60n), minute: Q(1n), min: Q(1n), hour: Q(60n), hr: Q(60n), day: Q(1440n) }; /* in minutes */
+const UNIT_ALIAS = { gal: 'gallon', l: 'liter', litre: 'liter', liters: 'liter', litres: 'liter', kg: 'kilogram', unit: 'unit' };
+const IN_VERBS = ['fill', 'add', 'pour', 'enter', 'gain', 'receive', 'supply', 'flow in', 'pump in', 'arrive', 'restock', 'deliver', 'deposit', 'collect', 'accumulate']; /* level rises */
+const OUT_VERBS = ['drain', 'remove', 'leak', 'lose', 'use', 'consume', 'withdraw', 'flow out', 'pump out', 'take out', 'leave', 'empty', 'draw', 'dispatch', 'ship', 'sell', 'spend', 'discharge', 'burn', 'deplete']; /* level falls */
+const REPORT_VERBS = ['report', 'read', 'measure', 'show', 'say', 'record', 'indicate'];
+const TEMP = { c: '°C', '°c': '°C', celsius: '°C', f: '°F', '°f': '°F', fahrenheit: '°F', k: 'K', kelvin: 'K' };
+const sing = w => { w = String(w).toLowerCase(); if (UNIT_ALIAS[w]) return UNIT_ALIAS[w]; if (/ies$/.test(w)) return w.slice(0, -3) + 'y'; if (/(?:ss|us)$/.test(w)) return w; return w.replace(/s$/, ''); };
+const plural = (w, q) => (q && q.n === q.d ? w : /[^aeiou]y$/.test(w) ? w.slice(0, -1) + 'ies' : /(?:s|x|ch|sh)$/.test(w) ? w + 'es' : w + 's');
+const verbIn = (txt, list) => list.find(v => { const [h, ...t] = v.split(' '); return new RegExp('\\b' + h + '(?:s|es|ed|ing)?' + (t.length ? ' ' + t.join(' ') : '') + '\\b').test(txt); });
+const num = s => (NUMW[s] != null ? Q(BigInt(NUMW[s])) : qp(s));
+const NUM = '(\\d+(?:\\.\\d+)?|' + Object.keys(NUMW).join('|') + ')';
+/* ---- RATES ---- */
+function readRates(raw, last) { const low = String(raw).toLowerCase().replace(/[“”"]/g, '').replace(/\s+/g, ' ').trim(), sents = low.split(/(?<=[.;!?])\s+/).map(s => s.replace(/[.;!]+$/, '').trim()).filter(Boolean);
+  const qs = sents.filter(s => /\?$/.test(s) || /^(?:how|when|what)\b/.test(s)), facts = sents.filter(s => !qs.includes(s));
+  const sc = { subject: null, unit: null, tunit: null, start: null, cap: null, low: null, ins: [], outs: [], dur: null }; let bad = false;
+  const unitOk = u => { u = sing(u); if (TIME[u]) return false; if (!sc.unit) sc.unit = u; else if (sc.unit !== u) { if (!(sc.mixed || []).includes(u)) sc.mixed = (sc.mixed || [sc.unit]).concat([u]); } return true; }; /* C7: a second volume unit is a diagnostic (no conversion is stated), never a silent drop */
+  const rateRe = new RegExp(NUM + '[ -]([a-z]+(?:-[a-z]+)*) (?:per|each|every|a|an|/) ?(second|sec|minute|min|hour|hr|day)s?\\b', 'g');
+  for (const s of facts) {
+    const capm = s.match(new RegExp('^(?:a|an|the) ' + NUM + '[ -]([a-z]+(?:-[a-z]+)*) ([a-z]+)')) || null; if (capm && !TIME[sing(capm[2])] && unitOk(capm[2])) { sc.cap = num(capm[1]); sc.subject = sc.subject || 'the ' + capm[3]; }
+    const cap2 = s.match(new RegExp('(?:capacity of|holds? up to|can hold|holds at most) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)')); if (cap2 && unitOk(cap2[2])) sc.cap = num(cap2[1]);
+    const lo = s.match(new RegExp('(?:(?:cannot|can\'t|must not|never) (?:go|fall|drop) below|lower bound of|minimum of|at least) ' + NUM + '[ -]([a-z]+(?:-[a-z]+)*)')); if (lo && unitOk(lo[2])) sc.low = num(lo[1]);
+    if (!sc.subject) { const sm = s.match(/^(?:a|an|the) ([a-z]+)\b/); if (sm) sc.subject = 'the ' + sm[1]; }
+    for (const cl of s.split(/,? and |, /)) { let m; rateRe.lastIndex = 0; const rm = rateRe.exec(cl) || new RegExp(NUM + ' ([a-z]+(?:-[a-z]+)*) (?:each|every|per|a) (second|sec|minute|min|hour|hr|day)\\b').exec(cl);
+      if (rm) { if (!unitOk(rm[2])) { bad = true; continue; } const t = sing(rm[3]); if (!sc.tunit) sc.tunit = t; const r = div(mul(num(rm[1]), TIME[sc.tunit]), TIME[t]); /* per the scenario's time unit */
+        const vin = verbIn(cl, IN_VERBS), vout = verbIn(cl, OUT_VERBS); if (vin && !vout) sc.ins.push(r); else if (vout && !vin) sc.outs.push(r); else bad = true; }
+      else if ((m = cl.match(new RegExp('\\b(?:contains?|has|holds?|starts? (?:with|at)|begins? with|is at) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)'))) && !/capacity|up to|at most/.test(cl) && unitOk(m[2])) sc.start = num(m[1]);
+      else if (/\bis empty\b|\bstarts? empty\b/.test(cl)) sc.start = Q(0n); else if (/\bis full\b|\bstarts? full\b/.test(cl)) sc.start = 'cap';
+      const dm = cl.match(new RegExp('\\bfor ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?\\b')); if (dm) sc.dur = [num(dm[1]), sing(dm[2])]; } }
+  if (sc.start === 'cap') sc.start = sc.cap;
+  if (bad || !sc.ins.length && !sc.outs.length || !qs.length || !sc.unit || !sc.tunit) return null;
+  const q = qs[qs.length - 1]; let ask = null; const qd = q.match(new RegExp('\\b(?:after|in|for) ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?\\b'));
+  if (/\bhow long\b|\bwhen\b|\bhow many (?:seconds|minutes|hours|days)\b/.test(q)) ask = /\bempty\b|\brun out\b|\breach (?:zero|0)\b/.test(q) ? 'empty' : /\bfull\b|\bfill\b|\boverflow\b/.test(q) ? 'fill' : null;
+  else if (/\bhow much\b|\bhow many\b|\bwhat (?:is|will be) the (?:level|amount|volume|stock|charge)\b/.test(q)) ask = 'after';
+  if (!ask) return null; if (qd) sc.dur = [num(qd[1]), sing(qd[2])]; if (ask === 'after' && !sc.dur) return null; sc.subject = sc.subject || 'it'; sc.ask = ask; return sc; }
+/* what-if / measurement against the last stated scenario (a branch from the STATED inputs) */
+function readFollow(raw, last) { if (!last) return null; const low = String(raw).toLowerCase().replace(/\s+/g, ' ').trim().replace(/[?.!]+$/, '');
+  let m = low.match(new RegExp('^what (?:if|about)(?: it| they| the [a-z]+)? (?:ran|runs|run|went|goes|continued|lasted)?(?: for| after)? ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?$'));
+  if (m) return Object.assign({}, last, { ask: 'after', dur: [num(m[1]), sing(m[2])], branch: 'duration' });
+  m = low.match(new RegExp('^(?:i|we) measured ' + NUM + ' ([a-z]+(?:-[a-z]+)*) after ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?$')) || low.match(new RegExp('^(?:a|the) [a-z0-9 ]+ (?:reports|reads|shows) ' + NUM + ' ([a-z]+(?:-[a-z]+)*) after ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?$'));
+  if (m && sing(m[2]) === last.unit) return Object.assign({}, last, { ask: 'after', dur: [num(m[3]), sing(m[4])], measured: num(m[1]), branch: 'measurement' });
+  return null; }
+const qty = (v, u) => fmt(v) + ' ' + plural(u, v), rate = (v, sc) => fmt(v) + ' ' + plural(sc.unit, v) + '/' + sc.tunit;
+function solveRates(sc) {
+  /* C7 / C3 (4.9.77): an incompatible unit or an unstated start for a duration question is a typed diagnostic: no number is produced */
+  if (sc.mixed) return { mode: 'rate', subject: sc.subject, diagnostic: 'units', units: sc.mixed.map(x => plural(x, Q(2n))), missing: ['unit conversion'], assumed: [], scenario: enc(sc), result: null };
+  if (sc.start == null && sc.ask === 'after') return { mode: 'rate', subject: sc.subject, diagnostic: 'start', missing: ['the starting amount'], assumed: [], scenario: enc(sc), result: null };
+  const net = sc.ins.concat(sc.outs.map(x => Q(-x.n, x.d))).reduce(add, Q(0n)), u = sc.unit, T = sc.tunit, assumed = [sc.ins.length + sc.outs.length > 1 ? 'the rates stay constant' : 'the rate stays constant'];
+  const list = xs => xs.map(x => rate(x, sc)).join(' + '), grp = xs => (xs.length > 1 ? '(' + list(xs) + ')' : list(xs));
+  const rising = () => (sc.outs.length ? '(' + list(sc.ins) + ' − ' + list(sc.outs) + ')' : grp(sc.ins)), falling = () => (sc.ins.length ? '(' + list(sc.outs) + ' − ' + list(sc.ins) + ')' : grp(sc.outs));
+  const lowB = sc.low || Q(0n); let start = sc.start; if (start == null) { if (sc.ask === 'fill') { start = Q(0n); assumed.push(sc.subject + ' starts with 0 ' + plural(u, Q(2n))); } else return null; }
+  const out = { mode: 'rate', subject: sc.subject, assumed, scenario: enc(sc) }, abs = x => (x.n < 0n ? Q(-x.n, x.d) : x);
+  const toward = (tgt) => { const gap = sub(tgt, start), up = sgn(gap) > 0; return { expr: (up ? '(' + qty(tgt, u) + ' − ' + qty(start, u) + ')' : '(' + qty(start, u) + ' − ' + qty(tgt, u) + ')') + ' ÷ ' + (up ? rising() : falling()), t: div(abs(gap), abs(net)) }; };
+  if (sc.ask === 'fill' || sc.ask === 'empty') { const tgt = sc.ask === 'fill' ? sc.cap : lowB; if (tgt == null) return null; const gap = sub(tgt, start);
+    if (sgn(gap) === 0) return Object.assign(out, { expr: qty(start, u) + ' − ' + qty(tgt, u), result: { text: '0 ' + plural(u, Q(2n)) } });
+    if (sgn(net) === 0 || sgn(net) !== sgn(gap)) return Object.assign(out, { expr: sc.ins.length && sc.outs.length ? list(sc.ins) + ' − ' + list(sc.outs) : sc.ins.length ? list(sc.ins) : '0 − ' + grp(sc.outs), result: { text: rate(net, sc), never: true }, target: qty(tgt, u) });
+    const w = toward(tgt); return Object.assign(out, { expr: w.expr, result: { text: fmt(w.t) + ' ' + plural(T, w.t) } }); }
+  const d = div(mul(sc.dur[0], TIME[sc.dur[1]]), TIME[T]), v = add(start, mul(net, d)), bnd = sgn(net) < 0 && lt(v, lowB) ? [lowB, sc.low ? 'the stated lower bound' : 'it cannot go below empty'] : sgn(net) > 0 && sc.cap && lt(sc.cap, v) ? [sc.cap, 'its capacity'] : null;
+  if (bnd) { const w = toward(bnd[0]); Object.assign(out, { expr: w.expr, result: { text: fmt(w.t) + ' ' + plural(T, w.t), bound: qty(bnd[0], u) } }); assumed.push('it stays at ' + qty(bnd[0], u) + ' until ' + qty(d, T) + ' (' + bnd[1] + ')'); }
+  else Object.assign(out, { expr: qty(start, u) + (sgn(net) < 0 || (!sc.ins.length) ? ' − ' + falling() : ' + ' + rising()) + ' × ' + qty(d, T), result: { text: qty(v, u) } });
+  const final = bnd ? bnd[0] : v; if (sc.measured) { if (fmt(sc.measured) !== fmt(final)) { out.measured = qty(sc.measured, u) + ' after ' + qty(d, T); out.predicted = qty(final, u);
+      /* WMS §5.11: a discrepancy is evidence that SOME input of the model may be wrong; each input and an unmodelled flow is a candidate, none is asserted */
+      out.explanations = [sc.start != null ? 'the start was not ' + qty(sc.start, u) : null].concat(sc.ins.map(x => 'the inflow was not ' + rate(x, sc)), sc.outs.map(x => 'the outflow was not ' + rate(x, sc)),
+        ['the duration was not ' + qty(d, T), lt(sc.measured, final) ? 'an unmodelled outflow' : 'an unmodelled inflow', 'the measurement is wrong']).filter(Boolean); } else out.assumed.push('the measured ' + qty(sc.measured, u) + ' agrees'); }
+  return out; }
+const enc = sc => JSON.parse(JSON.stringify(sc, (k, v) => (v && typeof v === 'object' && typeof v.n === 'bigint' ? fmt(v) : typeof v === 'bigint' ? String(v) : v)));
+const dec = sc => { const r = s => { const m = String(s).replace('−', '-').match(/^(-?)(?:(\d+) )?(\d+)(?:\/(\d+))?$/); if (!m) return null; const neg = m[1] ? -1n : 1n; if (m[4]) return Q(neg * (BigInt(m[2] || 0) * BigInt(m[4]) + BigInt(m[3])), BigInt(m[4])); return Q(neg * BigInt(m[3])); };
+  return Object.assign({}, sc, { start: sc.start == null ? null : r(sc.start), cap: sc.cap == null ? null : r(sc.cap), low: sc.low == null ? null : r(sc.low), measured: sc.measured == null ? undefined : r(sc.measured), ins: sc.ins.map(r), outs: sc.outs.map(r), dur: sc.dur ? [r(sc.dur[0]), sc.dur[1]] : null }); };
+/* ---- REPORTS ---- */
+function readReports(raw) { const t = String(raw).replace(/\s+/g, ' ').trim(), body = t.replace(/;?\s*(?:what do we know|what can we conclude|what is the [a-z]+|which is (?:right|true|correct))\?*\s*$/i, ''), same = /\bat the same time\b|\bsimultaneously\b/i.test(body);
+  const re = new RegExp('(?:^|[,;]\\s*|\\band\\s+|\\.\\s+)(?:(?:the|a)\\s+)?((?:[A-Za-z]+\\s+)?[A-Z][A-Za-z]*\\d+|[A-Z]\\d*)\\s+(' + REPORT_VERBS.map(v => v + 's?').join('|') + ')\\s+(-?\\d+(?:\\.\\d+)?)\\s*(°?[A-Za-z%]+)\\b(?:\\s+at\\s+(\\d{1,2}(?::\\d\\d)?(?:\\s*[ap]m)?))?', 'g');
+  const reps = []; let m; while ((m = re.exec(body))) { const u = TEMP[m[4].toLowerCase()] || m[4]; reps.push({ source: m[1].replace(/\s+/g, ' '), value: m[3] + ' ' + u, unit: u, num: m[3], at: m[5] || null }); }
+  if (reps.length < 2 || new Set(reps.map(r => r.unit)).size !== 1) return null; const times = new Set(reps.map(r => r.at)); const simultaneous = same || (times.size === 1 && reps[0].at);
+  const differ = new Set(reps.map(r => fmt(qp(r.num)))).size > 1; return { mode: 'reports', reports: reps.map(r => ({ source: r.source, value: r.value })), conflict: differ && !!simultaneous, differ, simultaneous: !!simultaneous }; }
+/* ---- SCOPE ---- */
+function readScope(raw, isVerb) { const sents = String(raw).replace(/\s+/g, ' ').trim().split(/(?<=[.!?])\s+/), st = sents[0].replace(/[.!]$/, ''), m = st.match(/^([A-Za-z]+ly),\s+(.+)$/); if (!m) return null;
+  const adv = m[1].toLowerCase(), w = m[2].toLowerCase().split(' '), ri = w.findIndex(x => x === 'that' || x === 'who' || x === 'which'); if (ri < 1 || ri > 3) return null;
+  const np = w.slice(0, ri).join(' '); let mi = -1; for (let i = ri + 2; i < w.length; i++) if (isVerb(w[i])) { mi = i; break; } if (mi < 0 || !isVerb(w[ri + 1])) return null;
+  const inner = w.slice(ri + 1, mi).join(' '), main = w.slice(mi).join(' '), reading = np + ' ' + w[ri] + ' ' + inner + ' ' + main + ' ' + adv, out = { mode: 'scope', adverb: adv, main: w[mi], inner: w[ri + 1], reading };
+  const q = (sents[1] || '').toLowerCase().replace(/\?$/, ''); if (q) { const qm = q.match(/^(?:do|does|did) (.+?) ([a-z]+) ([a-z]+ly)$/) || q.match(/^(?:do|does|did) (.+?) ([a-z]+ly) ([a-z]+)$/); if (!qm) return null;
+    const [qv, qa] = /ly$/.test(qm[3]) ? [qm[2], qm[3]] : [qm[3], qm[2]], head = np.split(' ').pop(); if (qa !== adv || qm[1].split(' ').pop() !== head) return null;
+    const stem = x => x.replace(/(?:es|s)$/, ''); if (stem(qv) === stem(w[mi])) out.answer = 'yes'; else if (stem(qv) === stem(w[ri + 1])) { out.answer = 'unsaid'; out.asked = qm[1] + ' ' + qv + ' ' + adv; } else return null; }
+  return out; }
+/* ---- WHAT-IF over the durable causal links ---- */
+const LINK_BUDGET = 32; /* C12: the most cause links one what-if follows; past it the result is resource_limited and the frontier is kept */
+function readWhatIf(raw, links, nodes) { const low = String(raw).toLowerCase().replace(/\s+/g, ' ').trim().replace(/[?.!]+$/, ''), m = low.match(/^what (?:happens|would happen|will happen|follows|if)\s*(?:if\s+)?(.+)$/); if (!m || !links.length) return null;
+  let c = m[1].replace(/^if\s+/, ''), op = 'do'; const c0 = c.replace(/^the /, ''); const rm = c.match(/^(?:there (?:is|are|were|was) no|there were no|without|no|we remove|you remove|someone removes|(?:we|you) stop) (?:the )?(.+)$/) || c.match(/^(?:the )?(.+?) (?:stops|stopped|ends|ended|is removed|are removed|disappears|disappear)$/);
+  if (rm) { op = 'remove'; c = rm[1]; } else { const dm = c.match(/^there (?:is|are|was|were) (?:a |an |some )?(.+)$/) || c.match(/^it ([a-z]+?)s$/) || c.match(/^(?:the )?(.+?) (?:happens|happen|occurs|occur|starts|start|begins)$/); if (dm) c = dm[1]; }
+  const key = nodes.find(n => n === m[1].replace(/^if\s+/, '')) || nodes.find(n => n.replace(/^the /, '') === c0) || nodes.find(n => n === c || n === c.replace(/^(?:a|an|the|some) /, '') || sing(n) === sing(c)); if (!key) return null;
+  const causes = links.filter(l => l.kind === 'cause'), prev = links.filter(l => l.kind === 'prevent'), effects = [], seen = new Set([key]), q = [key];
+  let limited = false; while (q.length && !limited) { const x = q.shift(); for (const l of causes.filter(l => l.a === x)) { if (effects.length >= LINK_BUDGET) { limited = true; q.unshift(x); break; } if (!effects.some(e => e.from === l.a && e.to === l.b)) effects.push(Object.assign({ from: l.a, to: l.b, premise: l.premise, text: l.text }, l.form ? { form: l.form } : {})); if (!seen.has(l.b)) { seen.add(l.b); q.push(l.b); } } }
+  const prevented = prev.filter(p => seen.has(p.b) && p.b !== key).map(p => ({ by: p.a, what: p.b, premise: p.premise, text: p.text }));
+  /* removal: what still has a stored cause chain that does not pass through X, and what loses every stored cause */
+  const other = op === 'remove' ? causes.filter(l => seen.has(l.b) && l.b !== key && !seen.has(l.a)).map(l => ({ by: l.a, what: l.b, premise: l.premise, text: l.text })) : [];
+  const kept = new Set(), st = other.map(o => o.what); while (st.length) { const x = st.pop(); if (kept.has(x)) continue; kept.add(x); for (const l of causes.filter(l => l.a === x && l.b !== key)) st.push(l.b); }
+  const lost = op === 'remove' ? [...seen].filter(n => n !== key && !kept.has(n)) : [];
+  /* C2: an association (correlation) is not a mechanism: it is reported, never followed */
+  const association = links.filter(l => l.kind === 'association' && (l.a === key || l.b === key)).map(l => ({ a: l.a, b: l.b, premise: l.premise, text: l.text }));
+  return Object.assign({ mode: 'whatif', node: key, op, effects, prevented, other, lost, association }, limited ? { status: 'resource_limited', frontier: [...new Set(q)] } : {}); }
+function causalLinks(relations, causalOf, conds) { return (conds || []).map(c => Object.assign({ kind: 'cause', form: 'if' }, c)).concat(relations.filter(r => r.origin === 'stated' && r.polarity === 'pos' && causalOf(r.pred)).map(r => ({ a: r.a.replace(/_/g, ' '), b: r.b.replace(/_/g, ' '), kind: causalOf(r.pred), premise: r.premise, text: r.text }))); }
+/* the one entry: the first construction that reads the WHOLE input decides; none → null (the input is not a dynamics input) */
+function read(raw, env) { const f = readFollow(raw, env.last && dec(env.last)); if (f) { const r = solveRates(f); return r && Object.assign(r, { branch: f.branch }); }
+  const sc = readRates(raw); if (sc) return solveRates(sc);
+  const rp = readReports(raw); if (rp) return rp; const s = readScope(raw, env.isVerb || (() => false)); if (s) return s;
+  if (env.links) { const links = causalLinks(env.links, env.causalOf, env.conds), nodes = [...new Set(links.flatMap(l => [l.a, l.b]))]; return readWhatIf(raw, links, nodes); } return null; }
+/* independent re-verification of a voiced answer (Echo): the decision is recomputed from the material's own inputs */
+function check(m, env) { try { if (m.mode === 'rate') { const r = solveRates(dec(m.scenario)); if (m.diagnostic) return !!r && r.diagnostic === m.diagnostic && JSON.stringify(r.missing) === JSON.stringify(m.missing); return !!r && !r.diagnostic && r.expr === m.expr && r.result.text === m.result.text && !!r.result.never === !!m.result.never && JSON.stringify(r.explanations || null) === JSON.stringify(m.explanations || null); }
+  if (m.mode === 'reports') { const vs = m.reports.map(r => r.value), differ = new Set(vs).size > 1; return differ === m.differ && m.conflict === (differ && m.simultaneous); }
+  if (m.mode === 'scope') return m.main !== m.inner && m.reading.split(' ').pop() === m.adverb;
+  if (m.mode === 'whatif') { const links = causalLinks(env.links || [], env.causalOf, env.conds), r = readWhatIf(m.op === 'remove' ? 'what if there is no ' + m.node : 'what happens if ' + m.node, links, [...new Set(links.flatMap(l => [l.a, l.b]))]); return !!r && JSON.stringify(r.effects) === JSON.stringify(m.effects) && JSON.stringify(r.other) === JSON.stringify(m.other) && JSON.stringify(r.association) === JSON.stringify(m.association) && (r.status || null) === (m.status || null); } } catch (e) { return false; } return undefined; }
+/* ---- CausalResult (WMS §5.10, forge-causal-result/v1): the typed record of what a dynamics answer is and rests on; the kernel adds the world version ---- */
+function causalResult(m, ctx) { const c = ctx || {}, base = { schema: 'forge-causal-result/v1', query_id: c.query_id || null, world_version: c.world_version || null, mechanism_ids: [], premise_refs: [], intervention_refs: [], derived_effects: [], assumptions: (m.assumed || []).slice(), counterevidence_refs: [], competing_models: [], falsifiers: [], missing: [], resource_report: { link_budget: LINK_BUDGET, frontier: m.frontier || [] } };
+  if (m.mode === 'rate') { if (m.diagnostic) return Object.assign(base, { mode: 'predict', status: 'unsupported', missing: m.missing.slice(), mechanism_ids: ['DYN-LEVEL'] });
+    const eff = { text: m.subject + ': ' + (m.expr + ' = ' + m.result.text), observed: false }, r = Object.assign(base, { mode: 'predict', status: 'conditionally_predicted', mechanism_ids: ['DYN-LEVEL'], derived_effects: [eff], falsifiers: ['a measurement that differs from ' + m.result.text] });
+    if (m.measured) Object.assign(r, { mode: 'explain', status: 'candidate_explanation', counterevidence_refs: ['reported ' + m.measured], competing_models: (m.explanations || []).slice() });
+    return r; }
+  if (m.mode === 'reports') return Object.assign(base, { mode: 'compare', status: m.conflict ? 'underdetermined' : 'entailed_under_assumptions', premise_refs: m.reports.map(r => r.source + ': ' + r.value) });
+  if (m.mode === 'scope') return Object.assign(base, { mode: 'deduce', status: 'entailed_under_assumptions', mechanism_ids: ['DYN-SCOPE'] });
+  if (m.mode === 'whatif') { const prem = [...new Set(m.effects.concat(m.prevented, m.other).map(e => e.premise).filter(Boolean))];
+    if (!m.effects.length && (m.association || []).length) return Object.assign(base, { mode: 'intervene', status: 'unsupported', intervention_refs: [m.node], premise_refs: [...new Set(m.association.map(a => a.premise))], missing: ['a causal mechanism'] });
+    return Object.assign(base, { mode: 'intervene', status: m.status === 'resource_limited' ? 'resource_limited' : 'conditionally_predicted', mechanism_ids: ['CAUSAL-' + (m.op === 'remove' ? 'REMOVE' : 'DO')], intervention_refs: [m.node], premise_refs: prem,
+      derived_effects: m.effects.map(e => ({ text: e.from + ' → ' + e.to, observed: false })), competing_models: m.other.map(o => o.by + ' also causes ' + o.what), assumptions: ['only the stored links act'] }); }
+  return Object.assign(base, { mode: 'deduce', status: 'unsupported' }); }
+const DOCS = { rate: 'M4 rate/time: level(t) = start + (Σin − Σout)·t within its bounds; constant rates assumed and stated', reports: 'M4 reports: each value attributed; same-time difference = unresolved conflict, never averaged', scope: 'M4 scope: a fronted adverb modifies the main verb, not the relative clause (structure dependence)', whatif: 'M4 intervention over stored causal links (world_rules causal rows)' };
+const api = { read, check, causalResult, LINK_BUDGET, DOCS, solveRates, readRates, readReports, readScope, readWhatIf, causalLinks, fmt, Q, IN_VERBS, OUT_VERBS, REPORT_VERBS, TIME };
+if (isNode) module.exports = api; else root.KDynamics = api;
+})(typeof self !== 'undefined' ? self : this);
