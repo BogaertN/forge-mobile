@@ -677,3 +677,4 @@ Nic's three rulings ("make the evidence and authority layers honest; failing tes
   - The `subject_suite` memo key now includes the page text, because the Bell "unrelated" case was being served the cached "good" result.
 - **Budget.** The single-file bundle grew to 1.562 MB raw for provenance.js and the guard. The raw budget was raised from 1.560 MB to 1.600 MB (`tools/verify_release.js`, `w5_suite` PRO); the gzip budget of 475 kB is unchanged.
 
+- **Push transport.** The file-push tool decodes named HTML entities (ampersand + amp/lt/gt/quot + semicolon) in file content. The four literals of this kind (`app.js esc`, the `app_bench.js` "Backup & Recovery" heading, the `crawler.js` entity decoder) are now written as the JS escape `\x26` + name + `;`, which is the identical string at runtime. A release check compares the GitHub tree hash with the local tree hash.
