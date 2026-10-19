@@ -1,5 +1,5 @@
 {
- "version": "4.9.73",
+ "version": "4.9.74",
  "features": [
   {
    "id": "A-01",
@@ -1888,8 +1888,10 @@
    "source": "Forge 2.0 Production Build Bible §25 Phase 2 (Drive 1WrnuwxhX…); forge2 roadmap",
    "wave": "W1",
    "claim": "Partial",
-   "note": "permission service + switchable policy (D1–D12); exact approval tokens per action class not specified by docs",
+   "note": "permission service + switchable policy (D1–D12); exact approval tokens per action class not specified by docs 4.9.74: the authority badge separates \"kernel network: none\" from \"tool egress: <tool> · <on-device | external>\".",
    "proof": [
+    "EV-HONEST",
+    "HONEST-BADGE",
     "PERMISSION"
    ]
   },
@@ -2047,9 +2049,13 @@
    "source": "Forge 2.0 Production Build Bible §25 Phase 18 (Drive 1WrnuwxhX…); forge2 roadmap",
    "wave": "W5",
    "claim": "Partial",
-   "note": "research: tracker-free crawler (port of research_acquisition.py) returns ranked exact excerpts as evidence; answer-fit scoring beyond excerpt resonance not built",
+   "note": "research: tracker-free crawler (port of research_acquisition.py) returns ranked exact excerpts as evidence; answer-fit scoring beyond excerpt resonance not built 4.9.74: every evidence answer shows a provenance tier beside each source (curated archive / peer-reviewed index / open fallback) and a summary line; each cited source needs a verbatim supporting span from its stored excerpt (deterministic entailment) or the claim is marked unsupported. 4.9.74 (items 4–7): a source counts only if its primary entity matches the question entity (exact ordinals; SUBJECT_MISMATCH otherwise) or the answer entity with a span naming both; agreement is reported as \"K agree, M disagree, N unusable\" over origins; a claim with no supporting span in any source is stated as \"Unsupported: …\".",
    "proof": [
     "CRAWLER",
+    "EV-HONEST",
+    "EV-SUBJECT",
+    "HONEST-ENTAIL",
+    "HONEST-TIER",
     "VAULT-CAPTURE"
    ]
   },
