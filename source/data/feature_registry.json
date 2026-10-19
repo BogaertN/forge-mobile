@@ -1,5 +1,5 @@
 {
- "version": "4.9.74",
+ "version": "4.9.75",
  "features": [
   {
    "id": "A-01",
@@ -2049,9 +2049,10 @@
    "source": "Forge 2.0 Production Build Bible §25 Phase 18 (Drive 1WrnuwxhX…); forge2 roadmap",
    "wave": "W5",
    "claim": "Partial",
-   "note": "research: tracker-free crawler (port of research_acquisition.py) returns ranked exact excerpts as evidence; answer-fit scoring beyond excerpt resonance not built 4.9.74: every evidence answer shows a provenance tier beside each source (curated archive / peer-reviewed index / open fallback) and a summary line; each cited source needs a verbatim supporting span from its stored excerpt (deterministic entailment) or the claim is marked unsupported. 4.9.74 (items 4–7): a source counts only if its primary entity matches the question entity (exact ordinals; SUBJECT_MISMATCH otherwise) or the answer entity with a span naming both; agreement is reported as \"K agree, M disagree, N unusable\" over origins; a claim with no supporting span in any source is stated as \"Unsupported: …\".",
+   "note": "research: tracker-free crawler (port of research_acquisition.py) returns ranked exact excerpts as evidence; answer-fit scoring beyond excerpt resonance not built 4.9.74: every evidence answer shows a provenance tier beside each source (curated archive / peer-reviewed index / open fallback) and a summary line; each cited source needs a verbatim supporting span from its stored excerpt (deterministic entailment) or the claim is marked unsupported. 4.9.74 (items 4–7): a source counts only if its primary entity matches the question entity (exact ordinals; SUBJECT_MISMATCH otherwise) or the answer entity with a span naming both; agreement is reported as \"K agree, M disagree, N unusable\" over origins; a claim with no supporting span in any source is stated as \"Unsupported: …\". 4.9.75: the primary entity is the title head, case parties or lead subject (first-sentence subject); \"What is X?\" accepts a definitional sentence whose subject is X.",
    "proof": [
     "CRAWLER",
+    "EV-ENTITY",
     "EV-HONEST",
     "EV-SUBJECT",
     "HONEST-ENTAIL",
