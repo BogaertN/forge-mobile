@@ -102,6 +102,27 @@ function primaryEntity(src) { const s = src || {}; const title = String(s.title 
   const first = String(s.excerpt || '').slice(0, (sentences(s.excerpt)[0] || [0, 0])[1]); const toks = first.split(/\s+/).filter(Boolean); const run = [];
   for (const t of toks) { if (!run.length && /^(The|A|An)$/.test(t)) continue; if (/^[A-Z0-9]/.test(t)) run.push(...words(t)); else break; }
   if (run.length) return run.join(' '); const cop = COPULA.exec(first); return words(cop ? first.slice(0, cop.index) : first).filter(w => !/^(the|a|an)$/.test(w)).join(' '); }
+/* 4.9.75 (Nic 12:32): the LEAD SUBJECT of a text: the grammatical subject of its first sentence. The subject is the run of words before
+   the first finite verb: a copula, modal or common verb, or a lowercase word ending in -s/-es/-ed after a noun. It is cut to its head like
+   a title. A sentence that opens with a preposition or a pronoun has no lead subject. Deterministic; no model */
+const VERB_LIST = new Set('is are was were be been has have had do does did can could may might must shall should will would means refers provides prevents protects requires became remains includes contains fell began wrote made took gave came went built won led grew rose held ran found brought saw said told left met kept lost paid sent spent broke chose drew drove flew knew lay rode sang sank shook spoke stole struck threw wore bore sought taught thought fought'.split(' '));
+const PRONOUN_LEAD = new Set('it he she they this that these those we you i there here'.split(' '));
+function headCut(toks) { const head = []; for (const w of toks) { if (CUT.has(w) && head.length) break; if (!(head.length === 0 && /^(the|a|an)$/.test(w))) head.push(w); } return head; }
+function leadSubject(text) { const c = leadClause(text); return c ? c.subject : null; }
+function leadClause(text) { const s = String(text || ''); const ss = sentences(s); if (!ss.length) return null; const first = s.slice(ss[0][0], ss[0][1]).replace(/\s*\([^)]*\)\s*/g, ' ');
+  const raw = first.split(/\s+/).filter(Boolean); const toks = []; for (const t of raw) { const w = words(t); if (!w.length) continue; toks.push({ w: w.join('-').replace(/-/g, w.length > 1 ? '-' : ''), ws: w, cap: /^[A-Z0-9“"]/.test(t), punct: /[,;:]$/.test(t) }); }
+  if (!toks.length) return null; const f0 = toks[0].ws[0]; if (PRONOUN_LEAD.has(f0) || (CUT.has(f0) && !/^(the|a|an)$/.test(f0))) return null;
+  const subj = []; for (let i = 0; i < toks.length; i++) { const t = toks[i], w = t.ws[t.ws.length - 1];
+    const verb = subj.some(x => !/^(the|a|an)$/.test(x)) && !t.cap && !CUT.has(w) && !FUNCTION_WORDS.has(w) ? (VERB_LIST.has(w) || /^[a-z]{3,}(s|es|ed)$/.test(w) && !/(ss|us|is)$/.test(w)) : VERB_LIST.has(w) && subj.length > 0;
+    const nx = toks[i + 1] && toks[i + 1].ws[0]; const beforeDet = subj.length > 0 && !t.cap && !CUT.has(w) && !FUNCTION_WORDS.has(w) && /^(the|a|an|this|that|these|those|its|their|his|her)$/.test(nx || ''); /* "Auditors test the …": a bare word before a determiner is the verb */
+    if (verb || beforeDet) { const head = headCut(subj); return head.length ? { subject: head.join(' '), verb: w } : null; } subj.push(...t.ws); if (t.punct) break; if (i > 14) return null; }
+  const head = headCut(subj); return head.length ? { subject: head.join(' '), verb: null } : null; }
+/* 4.9.75 (Nic 12:32, "What is X?"): a DEFINITIONAL sentence: its grammatical subject names X and a finite verb follows ("The First Amendment …
+   prevents Congress from …"); returns that verbatim sentence, or null */
+function definitional(text, entity) { const s = String(text || ''), q = words(entity); if (!q.length) return null;
+  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), c = leadClause(t); if (c && c.verb && names(q, words(c.subject))) return t; } return null; }
+/* the parties of a case name ("Miranda v. Arizona" → ["miranda", "arizona"]) */
+function partiesOf(title) { const m = /^(.+?)\s+v(?:s)?\.?\s+(.+)$/i.exec(String(title || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim()); if (!m) return []; return [m[1], m[2].split(/[,;]/)[0]].map(x => headCut(words(x)).join(' ')).filter(Boolean); }
 /* the head of a source's primary entity, minus the archive's declared document noun ("ASPIRIN drug label" → "aspirin") */
 function headOf(src) { let h = words(primaryEntity(src)); const dn = words((src && src.doc_noun) || ''); if (dn.length && h.length > dn.length && dn.every((w, i) => same(h[h.length - dn.length + i], w))) h = h.slice(0, h.length - dn.length); return h; }
 /* the question entity q names this head: every question word is in the head (ordinals exact), and the head nouns agree */
@@ -112,10 +133,13 @@ const namesAnswer = (a, h) => a.length > 0 && h.length > 0 && a.every(w => h.som
 /* SUBJECT GUARD (4.9.74, Nic item 4 + ruling 11:15): a source's primary entity must match the question's subject entity (via "question") or the
    candidate answer entity (via "answer"; the caller then also needs a verbatim span naming both, see qualifies). Otherwise SUBJECT_MISMATCH */
 function subjectMatch(questionEnt, src, answerEnt) { const q = words(questionEnt), h = headOf(src), pe = h.join(' ');
-  const res = { ok: false, via: null, limitation: 'SUBJECT_MISMATCH', primary_entity: pe, question_entity: q.join(' ') };
-  if (!q.length) return Object.assign(res, { ok: true, via: 'question', limitation: null, note: 'no question entity resolved' });
-  if (names(q, h)) return Object.assign(res, { ok: true, via: 'question', limitation: null });
-  const a = answerEnt == null ? [] : words(String(answerEnt).replace(/^probably\s+/i, '')); if (namesAnswer(a, h)) return Object.assign(res, { ok: true, via: 'answer', limitation: null, answer_entity: a.join(' ') });
+  const res = { ok: false, via: null, basis: null, limitation: 'SUBJECT_MISMATCH', primary_entity: pe, question_entity: q.join(' ') };
+  if (!q.length) return Object.assign(res, { ok: true, via: 'question', basis: 'none', limitation: null, note: 'no question entity resolved' });
+  /* 4.9.75: the primary entity is the title head OR a case party OR the lead subject (first sentence subject); each is tested the same way */
+  const parties = partiesOf(src && src.title); /* a case name's entity is its parties, not "miranda v arizona" */ const cands = (parties.length ? [] : [['title', h]]).concat(parties.map(p => ['party', words(p)]), (() => { const l = leadSubject(src && src.excerpt); return l ? [['lead', words(l)]] : []; })());
+  for (const [basis, c] of cands) if (names(q, c)) return Object.assign(res, { ok: true, via: 'question', basis, limitation: null, primary_entity: c.join(' ') });
+  const a = answerEnt == null ? [] : words(String(answerEnt).replace(/^probably\s+/i, ''));
+  for (const [basis, c] of cands) if (namesAnswer(a, c)) return Object.assign(res, { ok: true, via: 'answer', basis, limitation: null, answer_entity: a.join(' '), primary_entity: c.join(' ') });
   return res; }
 /* a verbatim span (one sentence) naming both the question subject and the answer */
 function bothSpan(excerpt, questionEnt, answerEnt) { const s = String(excerpt || ''), q = words(questionEnt), a = words(String(answerEnt || '').replace(/^probably\s+/i, '')); if (!q.length || !a.length) return null;
@@ -170,6 +194,6 @@ function reportHTML(pv, esc) { if (!pv) return ''; const e = esc || (s => String
     pv.sources.map(s => '<li class="tier-' + e(s.tier) + (s.tier === 'open_fallback' ? ' fallback' : '') + '">' + e(s.label) + ' <span class="pill' + (s.tier === 'open_fallback' ? ' warn' : '') + '">' + e(s.tier_label) + '</span> ' +
       (s.supported ? '<span class="pill ok">supported</span><div class="small">verbatim span: “' + e(s.span) + '”</div>' : '<span class="pill bad">unsupported</span><div class="small">no verbatim span with the answer\'s key content (' + e(String(s.reason).replace(/_/g, ' ')) + ')</div>') + '</li>').join('') + '</ol>' +
     ((pv.rejected || []).length ? '<div class="small">set aside (' + e(pv.rejected[0].limitation) + '): ' + pv.rejected.map(r => e(r.name + ': ' + r.title) + ' — about “' + e(r.primary_entity) + '”, not “' + e(r.question_entity) + '”').join('; ') + '</div>' : '') + '</div>'; }
-const api = { SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
+const api = { SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KProv = api;
 })(typeof self !== 'undefined' ? self : this);
