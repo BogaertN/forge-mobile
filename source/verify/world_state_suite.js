@@ -63,7 +63,7 @@ module.exports = ({ C, expect, K, ROOT }) => {
     f.process('does Cobalt contain Aster?'); const w2 = f.process('why?'); expect(/from “Aster is inside Beryl” and “Beryl is inside Cobalt”/.test(w2.reply) && w2.trace.echo.pass, w2.reply);
     const g = K(); g.process('Ola is inside Pel. Pel is inside Ras. Is Ola inside Ras?'); const w3 = g.process('why?'); expect(/from “Ola is inside Pel” and “Pel is inside Ras”/.test(w3.reply), w3.reply); });
   C('WS-DATA', 'relation properties are DATA: every RELATIONS row uses only declared keys, inverse partners are mutual, functional is subject|object; the grammar reads the declared phrases (no relation phrase is hard-coded in reason.js); RELPROP rule ids are stable; no numeric weights', () => {
-    const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional', 'containment', 'alias', 'same_as', 'comparative', 'one']), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));
+    const KEYS = new Set(['pred', 'phrase', 'transitive', 'symmetric', 'inverse', 'functional', 'containment', 'alias', 'same_as', 'comparative', 'one', 'causal', 'entails' /* 4.9.77 M4: causal link kind (cause | prevent | association) and declared entailment between link verbs */]), by = new Map(WR.RELATIONS.map(r => [r.pred, r]));
     expect(Object.isFrozen(WR.RELATIONS) && WR.RELATIONS.length >= 20, 'table');
     for (const r of WR.RELATIONS) { expect(Object.keys(r).every(k => KEYS.has(k)) && Object.values(r).every(v => typeof v !== 'number'), JSON.stringify(r));
       if (r.inverse) expect(by.has(r.inverse) && by.get(r.inverse).inverse === r.pred, 'inverse not mutual ' + r.pred); if (r.functional) expect(['subject', 'object'].includes(r.functional), r.pred); }
