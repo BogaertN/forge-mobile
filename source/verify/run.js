@@ -263,7 +263,7 @@ for (const [u, s] of mth) C('MATH-V3', u, () => { const r = FKN().process(u); ex
 C('PRIVACY', 'sensitive value never echoed on store', () => { const r = FKN().process('remember that my pin is 4321'); expect(!/4321/.test(r.reply) && /Identity Vault/.test(r.reply), r.reply); });
 C('PRIVACY', 'sensitive value absent from receipts and InputEvent-free outputs', () => { const k = FKN(); k.process('remember that my pin is 4321'); expect(!JSON.stringify(k.receipts()).includes('4321')); });
 /* AUTHORITY BOUNDARY */
-for (const u of ['hello', 'remember that my car is red', 'buy milk', 'solve x = 2', 'show forge status']) C('AUTHORITY', `authority boundary flags (no LLM, no network, no exec): "${u}"`, () => { const b = FKN().process(u).forge.authority_boundary; expect(b.calls_llm === false && b.network === false && b.execution_enabled === false, JSON.stringify(b)); });
+for (const u of ['hello', 'remember that my car is red', 'buy milk', 'solve x = 2', 'show forge status']) C('AUTHORITY', `authority boundary flags (no LLM, no network, no exec): "${u}"`, () => { const b = FKN().process(u).forge.authority_boundary; expect(b.calls_llm === false && b.kernel_network === 'none' && b.tool_egress === 'none' && !('network' in b) && b.execution_enabled === false, JSON.stringify(b)); });
 /* v3 generated grids */
 const sg = n => (n < 0 ? '- ' + -n : '+ ' + n);
 for (let a = -4; a <= 4; a++) for (let b = a; b <= 4; b++) { if (a === 0 || b === 0) continue; const B = -(a + b), Cc = a * b; const p = 'x^2 ' + (B ? sg(B) + 'x ' : '') + sg(Cc); C('MATH-V3', `factor ${p}`, () => { const r = FKN().process('factor ' + p); const f = z => z < 0 ? '(x + ' + -z + ')' : '(x - ' + z + ')'; expect((r.reply || '').includes(a === b ? f(a) : '') && r.trace.echo.pass, r.reply || r.block_reason); }); }
@@ -496,6 +496,10 @@ require('./w12_suite.js')({ C, expect, KMOD, LEX, EXT, ROOT });
 }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w34_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26 })); } catch (e) { rows = [{ cls: 'TOOLBENCH', name: 'w34 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+{ let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'subject_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'EV-SUBJECT', name: 'subject suite ran', ok: false, why: e.message }]; } /* 4.9.74 (Nic items 4-6): subject guard, agreement over origins, regression guards, span ruling */
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+{ let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'evhonest_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'EV-HONEST', name: 'evhonest suite ran', ok: false, why: e.message }]; } /* 4.9.74: honest evidence + authority layers (tool egress, provenance tiers, verbatim-span entailment) */
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w6_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W6', name: 'w6 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w7_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'W7', name: 'w7 suite ran', ok: false, why: e.message }]; }
@@ -512,6 +516,9 @@ require('./w12_suite.js')({ C, expect, KMOD, LEX, EXT, ROOT });
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'pk_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 300000 })); } catch (e) { rows = [{ cls: 'CASE', name: 'pk suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w18_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 26, timeout: 600000 })); } catch (e) { rows = [{ cls: 'W18', name: 'w18 suite ran', ok: false, why: e.message }]; }
+  for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
+/* 4.9.74 evidence + authority honesty (Nic): badge split, per-source provenance tiers, deterministic entailment spans */
+{ let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'honesty_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 600000 })); } catch (e) { rows = [{ cls: 'HONEST', name: 'honesty suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }
 { let rows; try { rows = JSON.parse(require('child_process').execFileSync('node', [path.join(__dirname, 'w50_suite.js')], { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 600000 })); } catch (e) { rows = [{ cls: 'LANGUAGE-CORE', name: 'w50 suite ran', ok: false, why: e.message }]; }
   for (const r of rows) C(r.cls, r.name, () => { if (r.not_run) throw NOT_RUN(r.why); expect(r.ok, r.why); }); }

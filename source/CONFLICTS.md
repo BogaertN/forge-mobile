@@ -620,3 +620,61 @@ Rejected: wsearch.nlm.nih.gov (no CORS) and govinfo (needs an API key).
 - **Memory tab.** New card "MEA (Manifest Evolution) — problem manifests". It has Run cycle, Supply <value> (a prompt for an exact number), and Commit (tap + confirm). It shows the candidates with their route, status, rank, B/L/Ω/I/ε, and the display score labelled as never ranking.
 - Tests: meap_suite has 2 new kernel cases (MEAP, 14 total): supply/draft/commit/render plus an unknown problem, and RMC handoff + Echo + tap-required.
 - data/command_catalog.json regenerated (tools/build_catalog.js) for the new mea_problem frame. The first release run failed the catalog freshness check (B-11) and its two claim-guard dependants.
+
+## v4.9.74: evidence and authority honesty (Nic, 2026-10-19)
+Nic's three rulings ("make the evidence and authority layers honest; failing tests first"). The tests in `verify/honesty_suite.js` (classes HONEST-BADGE / HONEST-TIER / HONEST-ENTAIL) were committed first, in a8b6663. Run before the implementation, 11 of the 12 failed. The one that passed is the regression guard "unsupported evidence never counts; the lookup answer is never stored as a fact".
+- **1. Badge split.** The single `network: no` flag is gone from the UI. The badge shows two labels:
+  - **kernel network: none**: the kernel never touches the network;
+  - **tool egress: <tool> · <on-device | external>**: the tool that ran on this turn, or `none`.
+  The egress comes from the tool's Tool Bench manifest (`network` = the effect class reads the network). An unknown tool counts as external, never as on-device. The research/feed/capture turn that starts the tool already reads `tool egress: research.web · external`, and so does the turn with its result. `authority_boundary` now carries `kernel_network` and `tool_egress`. The old boolean `network` field is removed, so no flag can be read as "nothing left the device". `verify/run.js` AUTHORITY now checks `kernel_network === 'none'`, `tool_egress === 'none'` and that no `network` field exists. Code: `provenance.js egressLabel / boundaryLabels`, `forge.js toolEgress / authorityLabels`, `app.js AB`.
+- **2. Provenance tiers.** The evidence.js rank classes map onto three tiers (declared data: `EV.TIER_OF`):
+
+  | rank class (evidence.js) | archives | tier |
+  |---|---|---|
+  | primary_authority | MedlinePlus, openFDA, CourtListener, eCFR | **curated_archive** |
+  | peer_reviewed | PubMed, OpenAlex, Crossref | **peer_reviewed_index** |
+  | structured_reference | Wikidata (openly edited) | **open_fallback** |
+  | encyclopedia | Wikipedia | **open_fallback** |
+  | anything else (general web) | — | **open_fallback** |
+
+  Every cited source in a research answer is listed with its tier ("openFDA: Aspirin label · curated archive"). A summary line follows, e.g. `The provenance is “sources: 2 curated, 1 peer-reviewed, 2 open fallback”.`, with zero counts left out. When every source is an open fallback, the line ends with "(open fallback only: no curated or peer-reviewed source)" and the evidence card is styled as a fallback.
+  - Wikidata is placed in open_fallback because it is openly edited and is not a curated archive (**Nic's ruling, 2026-10-19**).
+  - The rank ORDER used by support and conflicts is unchanged.
+- **3. Entailment (deterministic: no model, no embeddings).** Each cited source is checked against the answer sentence it is attached to, using the answer's key content, which comes from the language core's lookup plan and the extracted claim:
+  - the extracted value, when the question asks for a date, person, place or quantity;
+  - every content word of the entity;
+  - at least one relation word, meaning one of the asked predicate's forms.
+
+  The source supports the sentence only if one sentence of its stored excerpt (span ruling below) contains that key content as an exact substring (`EV.entail`). If no such span exists:
+  - the source is marked `· unsupported`;
+  - its evidence object gets `entailed: false` and never counts toward support. Citation presence is not support;
+  - **ruling 11:23** ("mark the claim unsupported in the output"): an unsupported citation stays visible, marked `· unsupported`, and counts toward neither support nor agreement. When NO source supports the answer, the reply does not present it as an answer; it says `The claim is “Unsupported: <claim> (no verbatim span in any source)”.` A related-passage reply (no excerpt fits the answer type) is not an answer and keeps its wording. Tests: `subject_suite` "unsupported claim" ×2, committed first in 02f4770 (fail on d2eeef3).
+
+  A span offered from outside (`x.span`) is accepted only if `EV.verifySpan` passes: it must be an exact substring of the stored excerpt and hold the key content. Anything else, such as a fabricated span, is rejected and counted (`rejected_spans`).
+- Unchanged:
+  - excerpts stay sealed in the Identity Vault as evidence only;
+  - a live lookup answer is never stored as a fact;
+  - evidence.js stays pure: it may require only `./sha256.js` and the new pure `./provenance.js` (no imports, no I/O). The purity regexes in `honesty_suite` and `evidence_suite` were widened to allow `./provenance.js`, and only that file;
+  - the kernel imports neither evidence.js nor sb_sync.js.
+- This is a general pipeline change; no individual answer was patched. The realizer lexicon gained two closed-class nouns, "provenance" and "agreement".
+- **Span ruling (Nic, 2026-10-19).** A span is one sentence by default. Two adjacent sentences form one span only when the second sentence's subject is `It / He / She / They` or `The / This <X>` where X is the entity's head noun or the noun after the first sentence's copula, and the first sentence names the entity in its opening words (`provenance.js joinable`). Otherwise the pair is not a span (`multi_sentence_span`) and the claim is unsupported. Tests: `subject_suite` "span ruling" ×2.
+
+### 4.9.74 part 2: Nic items 4–7 (steering 2026-10-19)
+- **4. Subject guard: `SUBJECT_MISMATCH`.** A source's primary entity is its title head: parentheticals are dropped, the title is cut at the first preposition/conjunction or punctuation, a leading article is removed, and the archive's declared document noun is stripped ("ASPIRIN drug label" → "aspirin"). Without a title, the excerpt's lead subject is used. The source matches if every word of the question's entity is in the head and the head nouns agree. Ordinals and numbers must match exactly ("first" ≠ "twenty-first", which is one token), so "First Amendment audit" (head noun "audit") is a mismatch.
+  - Checks run at acquisition (`crawler.acquirePlanned opts.subject`) and again before assessment. A mismatched source is set aside with the typed limitation, never cited, quoted or counted, and still sealed as evidence only. The reply says "The limitation is “SUBJECT_MISMATCH: N sources were about another subject and set aside”". If every source is rejected, the turn is `tool_failed` with the code SUBJECT_MISMATCH.
+  - **Ruling 11:15 (answer entity).** A source also qualifies when its primary entity matches the candidate answer entity (extracted by `AR.extract`). Matching means every answer word is in the head with the head nouns agreeing, or the answer is the head's leading run of ≥2 words. Such a source counts only with a verbatim one-sentence span naming both the question subject and the answer; otherwise it is SUBJECT_MISMATCH. This path is used only when the question asks for an entity (answer type person/place). Rows carry `subject_match: question | answer`.
+  - Ranking: the article whose primary entity is exactly the question entity gets +3 at acquisition. So does a provisional answer-entity article whose intro names the question subject and the asked relation. A noun phrase that the research plan split into head + complement ("the first amendment" → "first" + "amendment") is re-read as one entity (head "amendment", modifier "first"). These are general changes.
+  - Before/after: on 4.9.73, "What is the first amendment?" answered from the Twenty-first Amendment article ("It is the only amendment to repeal another."). On 4.9.74 it cites only "First Amendment to the United States Constitution" and sets the Twenty-first Amendment and "First Amendment audit" aside as SUBJECT_MISMATCH.
+  - **For Nic:** strict title-head matching will set aside more peer-reviewed papers and court opinions, whose titles rarely name the question entity as their head.
+- **5. Agreement over origins.** Each answer reports "K agree, M disagree, N unusable", with the count taken over ORIGINS, never over ranked results.
+  - Origins: Wikipedia and Wikidata are one origin (wikimedia). MedlinePlus is nlm, openFDA is fda, CourtListener is free-law-project, and eCFR is federal-register. A peer-reviewed paper is one origin across PubMed/OpenAlex/Crossref (normalized title). The web is counted by domain.
+  - An origin's status is the best of its rows (agree > disagree > unusable). Unsupported and subject-rejected rows are unusable.
+  - `support.n` is capped by the agreeing origins: corroborated needs ≥2, one origin makes the answer "probably", and none gives no support. The phrase "N independent ranked sources" can no longer appear (6b).
+- **6. Tests.** `verify/subject_suite.js` (EV-SUBJECT, 17 cases) was committed first in daa1f4a, d2eeef3 (Bell) and 02f4770 (ruling 11:23). Case 6a ("square root of 4536" ≈ 67.349833 with full trace) passed before the change; it is a regression guard, not a fix.
+- **Test edits after failing-first (documented, not weakened).**
+  - `evhonest_suite` fixtures were retitled "Berlin" → "Berlin Wall" and "Label" → "Aspirin". Under the new subject guard, an article titled "Berlin" is about another subject, and those tests are about entailment, not the subject.
+  - The egress expectation became the string form (`research.web · external`).
+  - The `subject_suite` memo key now includes the page text, because the Bell "unrelated" case was being served the cached "good" result.
+- **Budget.** The single-file bundle grew to 1.562 MB raw for provenance.js and the guard. The raw budget was raised from 1.560 MB to 1.600 MB (`tools/verify_release.js`, `w5_suite` PRO); the gzip budget of 475 kB is unchanged.
+
+- **Push transport.** The file-push tool decodes named HTML entities (ampersand + amp/lt/gt/quot + semicolon) in file content. The four literals of this kind (`app.js esc`, the `app_bench.js` "Backup & Recovery" heading, the `crawler.js` entity decoder) are now written as the JS escape `\x26` + name + `;`, which is the identical string at runtime. A release check compares the GitHub tree hash with the local tree hash.
