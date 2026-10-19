@@ -62,11 +62,29 @@ function evolve(facts, opts) { const o = Object.assign({}, DEFAULTS, opts || {})
     if (f.covers.length >= o.min_support && f.drift.may_project) return 'promotable'; return f.drift.may_explore || f.drift.band === 'correct' || f.covers.length ? 'quarantine' : 'rejected'; };
   const population = all.map(c => ({ id: c.rule.id, rule: { id: 'GELC-INDUCED:' + c.rule.id.slice(5), name: 'GELC-ADMITTED-RULE', body: c.rule.body, head: c.rule.head }, text: text(c.rule), op: c.rule.op, parents: c.rule.parents, gen: c.gen, covers: c.fit.covers, contradicts: c.fit.contradicts, predicted: c.fit.predicted, parsimony: c.fit.parsimony, drift: c.fit.drift, route: route(c), status: 'HYPOTHESIS' }));
   return { schema: 'GELCPopulation/v1', world_root: root, params: o, generations: gens, population, population_hash: sha256(canon(population.map(p => [p.id, p.route, p.covers.map(x => x.proof_id)]))), explored: seen.size }; }
+/* RECOMBINE over rule SETS (4.9.75, MEA build-plan step 6 — MEA_SPEC §e "RECOMBINE over rule sets"): pairs of promotable rules are judged TOGETHER
+   by the same held-out replay (leave-one-out over the stored facts with both rules active). A set is promotable iff it contradicts nothing, its
+   drift may project (ε_s ≤ 0.35), it covers ≥ min_support facts and it covers MORE than either member alone (a non-vacuous evidence delta: the
+   rules prove something jointly that neither proves by itself). A set that contradicts a fact is CONFLICTED (each member may be fine alone).
+   Deterministic: pairs in population order, at most o.recombine of them. Nothing is admitted here; members are admitted one tap at a time. */
+function setFitness(rules, facts) { let rw; try { rw = R.ruleWorld(facts, rules); } catch (e) { return null; } const ids = rules.map(r => r.id), heads = new Set(rules.map(r => r.head.predicate + '|' + r.head.polarity));
+  const stated = new Map(facts.map(f => [key(f.atom), f])), derived = rw.atoms().filter(a => !stated.has(key(a))), covers = [], contradicts = [];
+  for (const f of facts) { if (!heads.has(f.atom.predicate + '|' + f.atom.polarity)) continue; const rest = facts.filter(x => x !== f); let pr = null; try { pr = R.ruleWorld(rest, rules).prove(f.atom); } catch (e) { pr = null; }
+    if (pr && pr.rule_ids.some(x => ids.includes(x)) && R.checkRuleProof(rest, rules, pr).ok) covers.push({ fact: f.id, atom: f.atom, proof_id: pr.proof_id }); }
+  for (const a of rw.atoms()) { const opp = Object.assign({}, a, { polarity: a.polarity === 'neg' ? 'pos' : 'neg' }); if (stated.has(key(opp))) contradicts.push(stated.get(key(opp)).id); }
+  const sigma = covers.length + contradicts.length ? contradicts.length / (covers.length + contradicts.length) : 0, D = derived.length + covers.length ? derived.length / (derived.length + covers.length) : 1, eps = (sigma + D + 0) / 3;
+  return { covers, contradicts: [...new Set(contradicts)], predicted: derived.length, drift: Object.assign(KM.driftGovernance(eps), { sigma_res: KM.r4(sigma), D_score: KM.r4(D), dPhi: 0, n: 3 }) }; }
+function recombine(population, facts, opts) { const o = Object.assign({}, DEFAULTS, { recombine: 6 }, opts || {}), prom = population.filter(p => p.route === 'promotable'), out = [];
+  for (let i = 0; i < prom.length && out.length < o.recombine; i++) for (let j = i + 1; j < prom.length && out.length < o.recombine; j++) { const a = prom[i], b = prom[j], rs = [a.rule, b.rule].map(r => ({ id: r.id, body: r.body, head: r.head, name: r.name }));
+    const f = setFitness(rs, facts); if (!f) continue; const best = Math.max(a.covers.length, b.covers.length), delta = f.covers.length - best;
+    const route = f.drift.band === 'reject' ? 'rejected' : f.contradicts.length ? 'conflicted' : f.covers.length >= o.min_support && f.drift.may_project && delta > 0 ? 'promotable' : delta <= 0 ? 'no_evidence' : 'quarantine';
+    out.push({ id: 'ruleset:' + sha256(canon([a.id, b.id].sort())).slice(0, 16), op: 'RECOMBINE', members: [a.id, b.id], texts: [a.text, b.text], covers: f.covers, contradicts: f.contradicts, evidence_delta: delta, drift: f.drift, route, status: 'HYPOTHESIS' }); }
+  return out; }
 /* S6: offline calibration of the projection threshold from human labels; advisory only — projection stays governed by the drift ruling */
 function calibrate(rows) { const L = (rows || []).filter(r => r && r.human_label && r.drift && typeof r.drift.eps_s === 'number'), pos = r => r.human_label === 'useful_bounded_novelty';
   if (L.length < 20 || L.filter(pos).length < 5 || L.filter(r => !pos(r)).length < 5) return { status: 'insufficient_labels', labelled: L.length, needed: '≥ 20 with ≥ 5 per class' };
   let best = null; for (const t of [...new Set(L.map(r => r.drift.eps_s))].sort((a, b) => a - b)) { const tp = L.filter(r => pos(r) && r.drift.eps_s <= t).length / L.filter(pos).length, tn = L.filter(r => !pos(r) && r.drift.eps_s > t).length / L.filter(r => !pos(r)).length, ba = (tp + tn) / 2; if (!best || ba > best.balanced_accuracy) best = { theta_fit: t, balanced_accuracy: KM.r4(ba) }; }
   const body = Object.assign({ labelled: L.length, method: 'max balanced accuracy over observed ε_s cut points' }, best); return Object.assign({ status: 'fitted', params_version: 'gelc-calibration/v1:' + sha256(canon(body)).slice(0, 12), authority: 'advisory: never changes the Nic drift ruling (project ≤ 0.35)' }, body); }
-const api = { DEFAULTS, generalise, specialise, transfer, abduce, fitness, evolve, calibrate, lgg, text };
+const api = { DEFAULTS, generalise, specialise, transfer, abduce, fitness, evolve, recombine, setFitness, calibrate, lgg, text };
 if (isNode) module.exports = api; else root.KEvolve = api;
 })(typeof self !== 'undefined' ? self : this);
