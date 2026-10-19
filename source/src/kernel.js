@@ -9,7 +9,7 @@ const G = isNode ? require('./grammar.js') : root.KGrammar;
 const D = isNode ? require('./derive.js') : root.KDerive;
 const IF = isNode ? require('./infer.js') : root.KInfer; const SM = isNode ? require('./selfmodel.js') : root.KSelf;
 const R = isNode ? require('./reason.js') : root.KReason;
-const WR = isNode ? require('./world_rules.js') : root.KWorldRules; const EVO = isNode ? require('./evolve.js') : root.KEvolve; const MEA = isNode ? require('./mea.js') : root.KMEA; const MEAD = isNode ? require('./mea_data.js') : (root.KMEAData || { candidates: [] }); const MEAP = isNode ? require('./mea_p.js') : root.KMEAP; const MEAPD = isNode ? require('./mea_problems_data.js') : (root.KMEAProblems || { problems: [] }); const KN = isNode ? require('./knowledge.js') : root.KKnow; const MEAK = isNode ? require('./mea_k.js') : root.KMEAK; const MEAKD = isNode ? require('./mea_k_data.js') : (root.KMEAKData || { candidates: [], archive: [] });
+const WR = isNode ? require('./world_rules.js') : root.KWorldRules; const EVO = isNode ? require('./evolve.js') : root.KEvolve; const MEA = isNode ? require('./mea.js') : root.KMEA; const MEAD = isNode ? require('./mea_data.js') : (root.KMEAData || { candidates: [] }); const MEAP = isNode ? require('./mea_p.js') : root.KMEAP; const MEAPD = isNode ? require('./mea_problems_data.js') : (root.KMEAProblems || { problems: [] }); const KN = isNode ? require('./knowledge.js') : root.KKnow; const MEAK = isNode ? require('./mea_k.js') : root.KMEAK; const MEAKD = isNode ? require('./mea_k_data.js') : (root.KMEAKData || { candidates: [], archive: [] }); const DY = isNode ? require('./dynamics.js') : root.KDynamics;
 const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const TB = isNode ? require('./toolbench.js') : root.KTools;
 const OP = isNode ? require('./operator.js') : root.KOperator;
@@ -449,6 +449,7 @@ function Kernel(opts) {
       else if (m.status === 'supported_only' && m.proofs) one(m.query_text, m.proofs.support, m.world, m.status);
       else if (m.status === 'refuted_only' && m.proofs) one(m.opposite_text, m.proofs.refutation, m.world, m.status);
       return out; }
+    if (m.kind === 'dynamics' && m.mode === 'whatif' && refs.length && (m.effects.length || m.op === 'remove')) { /* C2: an association-only what-if derives nothing */ const ps = [...new Set(refs)].map(prem); put(m.op === 'remove' ? 'without ' + m.node + ', no other stored cause remains for: ' + ((m.lost || []).join('; ') || 'nothing') : 'if ' + m.node + ', then: ' + (m.effects.map(e => e.to).filter((x, i, a) => a.indexOf(x) === i).join('; ') || 'nothing stored follows'), ps, [m.op === 'remove' ? 'CAUSAL-REMOVE' : 'CAUSAL-DO'], { kind: 'causal', node: m.node, op: m.op }); return out; }
     if (m.kind === 'inferred' && m.answer === 'yes' && m.claim && refs.length) { const used = (trace.rules || []).flatMap(r => r.rules_used || []), ar = store.load('admitted_rules');
       const adm = used.map(rid => (ar.find(x => x.rule.id === rid && x.status === 'admitted') || {}).id).filter(Boolean), inf = (trace.rules || []).filter(r => /^(?:INF-|GELC-ADMITTED-RULE)/.test(r.id) && !/^INF-NEG/.test(r.id)).map(r => r.id);
       const relp = (trace.rules || []).filter(r => r.id === 'INF-RELPROP').flatMap(r => r.rules_used || []);
@@ -566,15 +567,15 @@ function Kernel(opts) {
      rmcChoose() selects by fixed, non-numeric keys over recorded terms (no weight): Echo gate → held-selection continuation → proof completeness →
      SPECIFICITY (apavāda over utsarga) → drift ε_s → RMC §5.7 Score M+P+U+N−D at unit weights. Remaining true ties between different decisions
      become a clarification; nothing is picked by route order. */
-  const ROUTE_IDS = ['world.preflight', 'turn.reentry', 'capability.frame', 'gks.quantity', 'world.proof', 'math.gp014', 'directive.frame', 'justify.followup', 'language.core'];
-  const ROUTE_NAME = { 'world.preflight': 'the answer from the checked world', 'turn.reentry': 'the answer to my last question', 'capability.frame': 'the capability request', 'gks.quantity': 'the answer from the shared fact', 'world.proof': 'the answer from the checked world', 'math.gp014': 'the calculation', 'directive.frame': 'the request to act', 'justify.followup': 'the reason for my last answer', 'language.core': 'the answer from the sentence structure' };
+  const ROUTE_IDS = ['world.preflight', 'turn.reentry', 'capability.frame', 'gks.quantity', 'world.proof', 'math.gp014', 'directive.frame', 'justify.followup', 'world.dynamics', 'language.core'];
+  const ROUTE_NAME = { 'world.preflight': 'the answer from the checked world', 'turn.reentry': 'the answer to my last question', 'capability.frame': 'the capability request', 'gks.quantity': 'the answer from the shared fact', 'world.proof': 'the answer from the checked world', 'math.gp014': 'the calculation', 'directive.frame': 'the request to act', 'justify.followup': 'the reason for my last answer', 'world.dynamics': 'the cause, rate or structure answer', 'language.core': 'the answer from the sentence structure' };
   /* SPECIFICITY (static partial order, not a weight). Pāṇinian paribhāṣā "apavāda blocks utsarga" (a special rule set aside the general rule in its
      own domain; cf. A 1.4.2 vipratiṣedhe paraṃ kāryam for rules of EQUAL standing). Each specific route's precondition is a declared strict subset of
      the inputs the general language core reads; specific routes are mutually incomparable (equal standing). */
   const ROUTE_SPEC = { 'world.preflight': ['specific', 'a sentence set the world reasoner structures in full (premises + query)'], 'turn.reentry': ['specific', 'a reply while Forge holds its own question'],
     'capability.frame': ['specific', 'a capability frame: lexical class V/N in structural position + an operand'], 'gks.quantity': ['specific', 'a quantity question over a shared GKS fact'],
     'world.proof': ['specific', 'a question the world reasoner can pose against stated premises'], 'math.gp014': ['specific', 'a mathematical expression or equation'],
-    'directive.frame': ['specific', 'an imperative / request frame or a bare referent the directive grammar reads'], 'justify.followup': ['specific', 'a why / how-do-you-know / based-on follow-up about the previous answer or a named recorded conclusion'], 'language.core': ['general', 'every input (sentence structure)'] };
+    'directive.frame': ['specific', 'an imperative / request frame or a bare referent the directive grammar reads'], 'justify.followup': ['specific', 'a why / how-do-you-know / based-on follow-up about the previous answer or a named recorded conclusion'], 'world.dynamics': ['specific', 'a rate scenario with a question, measurement reports, a fronted adverb over a relative clause, or a what-if over stored causal links (dynamics.js reads the whole input)'], 'language.core': ['general', 'every input (sentence structure)'] };
   const isSpecific = id => (ROUTE_SPEC[id] || [])[0] === 'specific';
   /* proof completeness (ordinal read from what the candidate carries — no weights):
      2 checked: a complete world closure whose proofs replayed, a world form Echo re-verifies independently (quantity check, wh / why / conjunctive
@@ -985,10 +986,26 @@ function Kernel(opts) {
     if ((() => { const tk = content(G.tokenize(raw)); return tk.length === 3 && tk[0].w === 'what' && (G.CL[tk[1].w] || []).includes('COP') && /^(it|this|that|they)$/.test(tk[2].w); })()) { /* Q-WH-COPULA over a bare deictic/anaphor with no antecedent: the referent is unresolved (parse: WH COP PRON) */ const low2 = 'what is ' + content(G.tokenize(raw))[2].w; low = low2; rules.push({ id: 'LL-REF-UNRESOLVED', doc: 'Doc6 §23' }); g.connectedness = 'unresolved referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: low.split(' ')[2], options: [] }, { frame: 'FR.DEFINE', act: 'question' }); }
       return null; }],
       ['justify.followup', () => justifyFollowup(low, res, rules)],
+      ['world.dynamics', () => dynRoute(raw, res, rules)],
       ['language.core', () => grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown)]];
     return { routes, held, reset: () => { rules = []; g = { expectancy: 'pass', congruity: 'pass', connectedness: 'pass', purpose: 'pass' }; raw = raw0; low = low0; } };
   }
 
+  /* M4 (4.9.65): cause/effect + rate/time + report/scope constructions (dynamics.js decides from the whole input; the turn world never writes to the
+     durable world; a what-if reads the user's stored causal links and is recorded in the ledger with those facts as premises) */
+  /* a stored conditional ("if X, Y") is a causal link between two clauses, with the fact as its premise */
+  const condLinks = () => activeFacts().filter(r => r.clause && r.clause.cond && !r.sensitive).map(r => { const t = memText(r), m = t.match(/^if (.+?), (?:then )?(.+?)\.?$/i); return m ? { a: m[1].toLowerCase(), b: m[2].toLowerCase(), premise: r.id, text: tmsText(t) } : null; }).filter(Boolean);
+  const causalOf = p => { const i = WR.relInfo(p); return (i && i.row.causal) || null; };
+  const worldVersion = () => 'wv:' + sha256(JSON.stringify([worldStateView().relations.filter(r => r.origin === 'stated').map(r => [r.pred, r.a, r.b, r.polarity, r.premise]), condLinks().map(c => c.premise)])).slice(0, 16);
+  const isVerbW = w => [w, w.replace(/s$/, ''), w.replace(/es$/, ''), w.replace(/ies$/, 'y')].some(x => x && glex.hasPos(x, 'v'));
+  function dynRoute(raw, res, rules) { let m = null; try { m = DY.read(raw, { last: meta.dynScenario || null, isVerb: isVerbW, links: worldStateView().relations, causalOf, conds: condLinks() }); } catch (e) { m = null; } if (!m) return null;
+    if (m.mode === 'rate' && !m.branch) meta.dynScenario = m.scenario;
+    rules.push({ id: 'DYN-' + m.mode.toUpperCase() + (m.branch ? '-' + m.branch.toUpperCase() : ''), doc: DY.DOCS[m.mode] }); /* rule docs are dynamics.js data */
+    const refs = m.mode === 'whatif' ? [...new Set(m.effects.concat(m.prevented, m.other, m.association || []).map(e => e.premise).filter(Boolean))] : [];
+    if (m.mode === 'whatif' && !refs.length) return null;
+    /* 4.9.77 (WMS §5.10): every dynamics answer carries its CausalResult; the world version names the stated links and conditionals it read (a what-if never changes it) */
+    m.causal = DY.causalResult(m, { query_id: 'q:' + meta.turn, world_version: worldVersion() });
+    return res('SELECTED_MEANING', Object.assign({ kind: 'dynamics' }, m), { frame: 'FR.WORLD.DYNAMICS', act: 'answer', evidenceRefs: refs, premises: m.mode === 'whatif' ? refs : [String(raw).trim()] }); }
   function grammarFrames(raw, low, ctx, rules, g, res, clarifyUnknown) {
     let toks = content(G.tokenize(raw.replace(/^\s*please[,\s]+/i, '').replace(/[,\s]+please[.!?]?\s*$/i, '')));
     let instead = false; if (toks.length && toks[toks.length - 1].w === 'instead') { toks = toks.slice(0, -1); instead = true; }
@@ -1351,7 +1368,7 @@ function Kernel(opts) {
     }
   }
 
-  const ENV = { debug: !!(isNode && globalThis.process.env.FDEBUG), reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: (m, text) => m && m.kind === 'world_answer' ? worldReverify(m, text) : m && m.kind === 'justification' ? justifyReverify(m, text) : mathReverify(m) };
+  const ENV = { debug: !!(isNode && globalThis.process.env.FDEBUG), reparseClause: t => reparseClause(t), reparseNP: t => reparseNP(t), reverify: (m, text) => m && m.kind === 'dynamics' ? DY.check(m, { links: worldStateView().relations, causalOf, conds: condLinks() }) : m && m.kind === 'world_answer' ? worldReverify(m, text) : m && m.kind === 'justification' ? justifyReverify(m, text) : mathReverify(m) };
   /* world answers: the proposition quoted in the surface is re-parsed by the world grammar and must be the checked query (or its
      opposite) of that status, and the proof it cites is replayed again against its own (branch-scoped) world */
   function worldReverify(m, text) { if (m.pron) { const pm = String(text).match(/^([\s\S]*?) The pronoun means “([^”]+)”\. It can mean “([^”]+)”\.([\s\S]*)$/), sy = s => String(s).replace(/_/g, ' ');
@@ -1442,6 +1459,8 @@ function Kernel(opts) {
      the user's own first-person statements in it are kept (as “remember that …”) so a later question in the same message can use them */
   const SEQ_CODES = /^(?:QUERY_NOT_FINAL|UNSUPPORTED_QUERY_STRUCTURE|MULTIPLE_QUERIES|SENTENCE_LIMIT)$/;
   function process(input) { WR.setManifest(activeManifest()); if (MEAK) MEAK.apply(activeManifestK()); lex.setStrict(true); if (pendingCase !== undefined) { caseNS = pendingCase; pendingCase = undefined; if (caseNS) { const ix = baseStore.load('case_index'); const id = caseNS.slice(5); if (!ix.includes(id)) baseStore.save('case_index', ix.concat([id])); } } const txt = String(input || '').normalize('NFC'), parts = txt.split(/(?<=[.!?])\s+/).map(x => x.trim()).filter(Boolean);
+    /* M4: a dynamics construction reads the WHOLE input (a rate scenario with its question, reports joined by ";", an adverb sentence with its question): never split it */
+    if (parts.length > 1 || /;/.test(txt)) { let whole = null; try { whole = DY.read(txt, { last: meta.dynScenario || null, isVerb: isVerbW }); } catch (e) { whole = null; } if (whole) return process1(input); }
     if (parts.length > 1 && parts.length <= 400 && !P.redact(txt).secrets.length) { let rr = null; try { rr = R.evaluate(txt, { allowBareQuery: true }); } catch (e) { rr = null; }
       if (rr && rr.handled && rr.material && SEQ_CODES.test(rr.material.code || '')) { const outs = parts.map(p => process1(/^(?:i|my|i'm|i’m)\b/i.test(p) && !/\?$/.test(p) ? 'remember that ' + p.replace(/^my\b/, 'my') : p));
         return combine(outs, { id: 'LL-SEQUENTIAL-SENTENCES', doc: 'Doc5 discourse (one sentence at a time)', note: rr.material.code + ' → ' + parts.length + ' sentences' }); } }
