@@ -4,6 +4,8 @@
  * display score is shown only. The three canonical problems and a synthetic fourth run end-to-end; expected outcomes are read only here. */
 module.exports = ({ C, expect, ROOT }) => {
   const fs = require('fs'), P = require(ROOT + '/src/mea_p.js'), CP = JSON.parse(fs.readFileSync(ROOT + '/data/canonical_problems.json', 'utf8'));
+  const KM = require(ROOT + '/src/kernel.js'), LEX = require(ROOT + '/data/lexicon.json'), EXT = require(ROOT + '/data/lexicon-ext.json');
+  const kern = () => { const st = {}; return KM.Kernel({ clock: () => '2026-10-18T12:00:00Z', lexicon: LEX, lexiconExt: EXT, store: KM.MemoryStore({ get: x => st[x], set: (x, v) => { st[x] = v; } }) }); };
   const prob = d => P.normalize(CP.problems.find(p => p.domain === d)), run = M => { const cy = P.cycle(M); const cm = P.commit(M, cy, cy.resolution && cy.resolution.candidate_id, true); return { cy, cm }; };
   const by = (cy, f) => cy.candidates.filter(f), opt = (cy, o) => cy.candidates.find(c => c.op === 'hypothesize' && c.option === o);
   const SYN = { id: 'synthetic:route-window', domain: 'logistics', manifest: { goal: 'decide which route fits a 30-minute window', phase_state: 4,
@@ -37,7 +39,8 @@ module.exports = ({ C, expect, ROOT }) => {
   C('MEAP', 'commit is tap-only and needs this cycle: no tap, a stale cycle, or a non-resolution candidate are refused', () => {
     const M = prob('physics'), cy = P.cycle(M); expect(P.commit(M, cy, cy.resolution.candidate_id, false).rule === 'MEA-TAP-REQUIRED', 'no tap');
     expect(!P.commit(M, cy, cy.candidates[0].candidate_id, true).ok, 'non-resolution committed'); const M2 = P.supply(prob('chemistry'), 'u1', '16').manifest;
-    expect(!P.commit(M2, cy, cy.resolution.candidate_id, true).ok, 'stale cycle committed'); });
+    expect(!P.commit(M2, cy, cy.resolution.candidate_id, true).ok, 'stale cycle committed');
+    const k = kern(), id = 'canon:physics-144hz', c = k.meaCycle(id); expect(!k.meaCommit(id, c.cycle.resolution.candidate_id, false).ok && k.meaProblems().find(p => p.problem_id === id).claim_status === 'unclassified', 'kernel committed without a tap'); });
   C('MEAP', 'domain-general: mea_p.js names no domain, option or expected outcome; the kernel lane has no per-problem branch', () => {
     const src = fs.readFileSync(ROOT + '/src/mea_p.js', 'utf8'); for (const w of ['expected_outcome', 'physics', 'chemistry', 'biology', 'myelin', 'harmonic', 'O2', 'H2', 'X-linked', 'XLD', '144']) expect(!src.includes(w), 'mea_p.js mentions ' + w);
     const ks = fs.readFileSync(ROOT + '/src/kernel.js', 'utf8'); expect(!/canon:(physics|chemistry|biology)/.test(ks), 'kernel names a canonical problem'); });
@@ -71,4 +74,16 @@ module.exports = ({ C, expect, ROOT }) => {
   C('MEAP', 'archive (cold storage) + requeue: blocked items carry typed blocked_on; requeue only proposes (rerun_cycle) and adopting a grammar manifest returns proposals, never a commit', () => {
     const { cm: c1 } = run(prob('chemistry')), { cm } = run(P.supply(c1.manifest, 'u1', '16').manifest); expect(cm.archive.length && cm.archive.every(a => Array.isArray(a.blocked_on) && a.blocked_on.length), 'untyped archive ' + JSON.stringify(cm.archive.map(a => a.blocked_on)));
     const rq = P.requeue(cm.archive, 'value:u1'); expect(rq.length >= 1 && rq.every(r => r.proposal === 'rerun_cycle'), 'requeue ' + JSON.stringify(rq)); expect(!P.requeue(cm.archive, 'value:zz').length, 'requeue matched an unrelated capability'); });
+  C('MEAP', 'kernel lane: supply → draft (not stored) → cycle → tap commit stores the manifest, archive and receipts; "show problem chemistry" renders the resolved status through Echo; sub-manifests stay out of the top list', () => {
+    const k = kern(), id = 'canon:chemistry-limiting-reagent'; let c = k.meaCycle(id); expect(k.meaCommit(id, c.cycle.resolution.candidate_id, true).ok, 'first commit');
+    expect(k.meaProblems().filter(p => p.sub_of === id).length === 2 && k.meaProblems().filter(p => !p.sub_of).length === 3, 'sub-manifests ' + JSON.stringify(k.meaProblems().map(p => p.problem_id)));
+    expect(k.meaSupply(id, 'u1', '16').ok && k.meaProblems().find(p => p.problem_id === id).draft, 'draft'); c = k.meaCycle(id); const r = k.meaCommit(id, c.cycle.resolution.candidate_id, true);
+    expect(r.ok && r.manifest.claim_status === 'resolved_manifest' && k.meaArchive().length >= 2 && k.meaReceipts().some(x => /^wd:/.test(x.receipt || '')), 'second commit ' + JSON.stringify([r.rule, r.manifest && r.manifest.claim_status, k.meaArchive().length]));
+    const t = k.process('show problem chemistry'); expect(t.trace.echo.pass && /status “resolved manifest”/.test(t.reply) && /I decided 1 answer: \(1\) “O2 is limiting”/.test(t.reply) && /I rejected 1 option: \(1\) “H2 is limiting”/.test(t.reply), 'render ' + t.reply);
+    const u = k.process('show problem zebra'); expect(u.trace.echo.pass && /I have no problem/.test(u.reply), 'unknown ' + u.reply); });
+  C('MEAP', 'RMC handoff: only a committed manifest hands typed params to the realizer; the reply passes Echo and states the claim status', () => {
+    const k = kern(), id = 'canon:biology-inheritance'; let r = k.process('show problem biology'); expect(r.trace.echo && r.trace.echo.pass && /no result/.test(r.reply), 'uncommitted ' + r.reply);
+    const c = k.meaCycle(id); expect(k.meaCommit(id, c.cycle.resolution.candidate_id, true).ok, 'commit'); r = k.process('show problem biology');
+    expect(r.trace.echo && r.trace.echo.pass && /status “hypothesis”/.test(r.reply) && /I prefer 1 hypothesis: \(1\) “X-linked dominant”/.test(r.reply) && /needs a test/.test(r.reply), 'committed ' + r.reply);
+    r = k.process('show the problems'); expect(r.trace.echo.pass && /I have 3 problems/.test(r.reply), 'list ' + r.reply); });
 };
