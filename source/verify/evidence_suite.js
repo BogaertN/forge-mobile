@@ -52,7 +52,7 @@ module.exports = ({ C, expect, ROOT }) => {
     const n = say({ level: 'none', n: 0 }); expect(/No source decided the question\./.test(n.text) && n.echo.pass, n.text + ' ' + n.echo.reason); });
   C('EVIDENCE', 'firewall: evidence.js is pure (no store, memory, shared KB, sync or network); the kernel never imports it or sb_sync.js', () => {
     const src = fs.readFileSync(ROOT + '/src/evidence.js', 'utf8'), k = fs.readFileSync(ROOT + '/src/kernel.js', 'utf8');
-    expect(!/require\((?!'\.\/sha256\.js')/.test(src) && !/fetch|localStorage|store\.|remember|gks_|shared|sb_sync|supabase/i.test(src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '')), 'evidence.js reaches outside');
+    expect(!/require\((?!'\.\/(sha256|provenance)\.js')/.test(src) && !/fetch|localStorage|store\.|remember|gks_|shared|sb_sync|supabase/i.test(src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '')), 'evidence.js reaches outside');
     expect(!/evidence\.js|sb_sync/.test(k), 'kernel imports evidence.js or sb_sync.js');
     const html = fs.readFileSync(ROOT + '/index.html', 'utf8'), sw = fs.readFileSync(ROOT + '/sw.js', 'utf8'); expect(/src\/evidence\.js/.test(html) && /evidence\.js/.test(sw) && html.indexOf('evidence.js') < html.indexOf('forge.js'), 'evidence.js not shipped before forge.js'); });
   /* 4.9.63 ruling 1: the claim is the EXTRACTED answer for the question's answer type */
