@@ -124,7 +124,12 @@ function generate(op, theta, M, pool) { const p = M.phase_state, base = { schema
 function replay(c, M, pool) { const r = generate(c.op, c.theta, M, pool); return r ? r.candidate_id : null; }
 
 /* ---------- step 2: term scorers (no weights) ---------- */
-function terms(c, M, budget) { const P = c.premises || [], und = P.filter(q => !DISCHARGED.includes(q.tier)).length;
+/* operator cost schedule (4.9.74, MEA step 7: MEA's own data is MEA-K-evolvable): costs = { op: integer ≥ 1 } overrides the uniform registry cost for
+   the K term only (a resolution costs ⟁ plus its members); with no schedule every executable operator costs 1 and K is exactly as before. Costs
+   enter K, the LAST lexicographic term before id — they never gate, never weigh, and the gates / thresholds / drift ruling are not data. */
+function opCost(c, costs, pool) { const k = op => (costs && Number.isInteger(costs[op]) && costs[op] >= 1 ? costs[op] : (OPERATORS[op] || { cost: 1 }).cost);
+  if (!costs) return c.ops || 1; if (c.op === 'merge') return k('merge') + (c.members || []).reduce((a, id) => { const m = (pool || []).find(x => x.candidate_id === id); return a + (m ? opCost(m, costs, pool) : 1); }, 0); return k(c.op); }
+function terms(c, M, budget, costs, pool) { const P = c.premises || [], und = P.filter(q => !DISCHARGED.includes(q.tier)).length;
   const nU = M.unknowns.length || 1, nS = M.success_conditions.length;
   const dF = c.new_facts ? c.new_facts / (M.known_facts.length + c.new_facts) : 0, dQ = (c.resolves || []).length / nU, dX = 0;
   const I = Math.min(1, dF + dQ + dX), Omega = nS ? (c.satisfies || []).length / nS : 0;
@@ -134,7 +139,7 @@ function terms(c, M, budget) { const P = c.premises || [], und = P.filter(q => !
   const known = M.known_facts.reduce((s, f) => { for (const w of termsOf(f.text)) s.add(w); return s; }, new Set()), ct = termsOf(c.claim);
   const N = ct.size ? 1 - jacc(ct, known) : 0;
   const L = c.likelihood != null ? KM.computeExpr(c.likelihood).verify.float : null;
-  return { B: micro(und, P.length || 1), I: Math.round(I * MICRO), Omega: Math.round(Omega * MICRO), A: Math.round(A * MICRO), K: micro(c.ops || 1, budget || DEFAULT_BUDGET),
+  return { B: micro(und, P.length || 1), I: Math.round(I * MICRO), Omega: Math.round(Omega * MICRO), A: Math.round(A * MICRO), K: micro(opCost(c, costs, pool), budget || DEFAULT_BUDGET),
     eps: Math.round(dr.eps_s * MICRO), N: Math.round(N * MICRO), L: L == null ? null : Math.round(L * MICRO), L_exact: c.likelihood, drift: { band: KM.driftGovernance(dr.eps_s).band, formula: dr.formula },
     formula: { B: 'B = undischarged premises / premises (' + und + '/' + P.length + ')', I: 'I = ΔF + ΔQ + ΔX = ' + [dF, dQ, dX].map(x => Math.round(x * 1e4) / 1e4).join(' + '), Omega: 'Ω = satisfied / total success conditions', A: 'A = retained root-goal terms / root-goal terms', K: 'K = operators / budget (uniform cost 1)' } }; }
 const noveltyClass = n => { const P = EDE.DEFAULTS, x = n / MICRO; return x < P.N_min ? 'recall_band' : x <= P.N_max ? 'bounded' : 'overextended'; };
@@ -191,14 +196,17 @@ function cycle(M0, opts) { const M = M0, o = Object.assign({ budget: DEFAULT_BUD
   if ((M.breaker || {}).failed_cycles >= 2) return { ok: false, rule: 'MEA-CIRCUIT-BREAKER', note: 'two consecutive cycles without an eligible candidate', candidates: [] };
   const vio = validate(M); if (vio.length) return { ok: false, rule: 'MEA-INVALID-MANIFEST', violations: vio, candidates: [] };
   const uv = unknownVector(M), drafts = [];
-  for (const d of M.derivations) drafts.push(['derive', { derivation: d.id }]);
-  for (const u of M.unknowns) if (u.kind === 'choice' && !u.resolved_option) { for (const op of u.options) drafts.push(['hypothesize', { unknown: u.id, option: op.id }]); drafts.push(['split', { unknown: u.id }]); }
+  const dv = M.derivations.map(d => ['derive', { derivation: d.id }]), ch = []; /* operator schedule: derive first (default) or choice first (o.order, MEA-K meta data) */
+  for (const u of M.unknowns) if (u.kind === 'choice' && !u.resolved_option) { for (const op of u.options) ch.push(['hypothesize', { unknown: u.id, option: op.id }]); ch.push(['split', { unknown: u.id }]); }
+  for (const x of (o.order === 'choice_first' ? ch.concat(dv) : dv.concat(ch))) drafts.push(x);
   const pool = []; let stop = null;
   for (const [op, th] of drafts) { if (pool.length >= o.budget) { stop = { rule: 'MEA-BUDGET', note: 'per-cycle budget ' + o.budget + ' reached' }; break; } const c = generate(op, th, M); if (c) pool.push(c); }
-  const verify = (c, i, extra) => { const t = terms(c, M, o.budget), cl = classify(c, t, M), g = gates(c, M, Object.assign({ terms: t, cls: cl, pool, budget: o.budget, index: i }, extra || {}));
+  const verify = (c, i, extra) => { const t = terms(c, M, o.budget, o.costs, pool), cl = classify(c, t, M), g = gates(c, M, Object.assign({ terms: t, cls: cl, pool, budget: o.budget, index: i }, extra || {}));
     const failed = g.filter(x => !x.ok); const route = failed.length ? 'rejected' : c.kind === 'eliminated' || c.kind === 'withdrawn' ? 'archived' : c.kind === 'failed' ? 'archived' : c.quarantine || t.drift.band === 'explore' ? 'shadow' : 'eligible';
     return Object.assign(c, { terms: t, claim_status: failed.length ? 'rejected' : cl.claim_status, required_next_action: failed.length ? 'none' : cl.required_next_action, gates: g, route, novelty_class: noveltyClass(t.N), display_score: displayScore(t) }); };
   pool.forEach((c, i) => verify(c, i));
+  /* 4.9.76 ruling 4 (Nic): options that meet their exact conditions are ESTABLISHED, all of them: there is no tie to split and no single pick */
+  for (const c of pool.filter(x => x.op === 'split' && x.route === 'eligible')) if (pool.some(x => x.op === 'hypothesize' && x.unknown === c.unknown && x.kind === 'established' && x.route === 'eligible')) Object.assign(c, { route: 'archived', reason: 'its options are established exactly: no split', needs: ['decided:established'] });
   if (pool.some(c => c.terms.eps > 0.8 * MICRO)) stop = { rule: 'MEA-DRIFT-EXCURSION', note: 'a candidate exceeded the 0.80 hard stop' };
   /* slates: the options of each choice unknown compete; derived claims do not compete with each other */
   const slates = {}; for (const u of M.unknowns.filter(x => x.kind === 'choice')) { const cs = pool.filter(c => c.op === 'hypothesize' && c.unknown === u.id && c.route === 'eligible'); const r = rank(cs);
@@ -208,12 +216,21 @@ function cycle(M0, opts) { const M = M0, o = Object.assign({ budget: DEFAULT_BUD
   let resolution = null; if (members.length) { resolution = generate('merge', { members }, M, pool); if (resolution) { resolution.members_kinds = [...new Set(members.map(id => pool.find(x => x.candidate_id === id).kind))].sort(); verify(resolution, pool.length, { pool }); } }
   const eligible = pool.filter(c => c.route === 'eligible').length;
   return { ok: !stop || stop.rule === 'MEA-BUDGET', problem_id: M.problem_id, parent_hash: M.hash, unknown_vector: uv, candidates: pool, slates, resolution, stop, eligible,
-    lex_order: LEX_ORDER.map(([k, d]) => k + (d > 0 ? '↑' : '↓')).concat(['id']), log }; }
+    lex_order: LEX_ORDER.map(([k, d]) => k + (d > 0 ? '↑' : '↓')).concat(['id']), log, opts: { budget: o.budget, order: o.order || null, costs: o.costs || null } }; }
 
 /* ---------- step 4: commit (pure; the kernel persists it only on a user tap) ---------- */
+/* 4.9.74 ruling 2 (Nic): ⧧ splits a tie into sub-manifests only when the tied options need DIFFERENT tests or conditions (their exact condition
+   or falsifier differs); options that would be settled by the same test stay together in the parent. The tie is the top of the slate ranking
+   down to the last option that differs from the leader only by the id tie-break. */
+const testSig = (M, uid, oid) => { const U = M.unknowns.find(x => x.id === uid), O = U && (U.options || []).find(x => x.id === oid) || {}; return canon({ condition: O.condition || null, falsifier: O.falsifier || null }); };
+function tiedOptions(M, cy, uid) { const sl = cy.slates[uid]; if (!sl || !sl.ranking.length) return []; const out = [sl.ranking[0]]; for (let i = 1; i < sl.ranking.length && sl.ranking[i].decided_by === 'id'; i++) out.push(sl.ranking[i]);
+  return out.map(r => (cy.candidates.find(c => c.candidate_id === r.id) || {}).option).filter(Boolean); }
+function splitNeeded(M, cy, uid) { if ((cy.candidates || []).some(c => c.op === 'hypothesize' && c.unknown === uid && c.kind === 'established' && c.route === 'eligible')) return false; /* ruling 4 */ const t = tiedOptions(M, cy, uid); return t.length >= 2 && new Set(t.map(o => testSig(M, uid, o))).size >= 2; }
 function commit(M, cy, candidateId, tap) { if (tap !== true) return { ok: false, rule: 'MEA-TAP-REQUIRED' };
   if (!cy || cy.parent_hash !== M.hash) return { ok: false, rule: 'MEA-STALE-CYCLE' };
   const r = cy.resolution; if (!r || r.candidate_id !== candidateId) return { ok: false, rule: 'MEA-NOT-COMMITTABLE', note: 'only the ⟁ resolution candidate of this cycle is committable' };
+  /* 4.9.76: the commit re-derives the cycle from the manifest; a resolution (or pool) edited after the cycle is not the one the gates passed */
+  { const fr = cycle(M, Object.assign({}, cy.opts || {}, { order: (cy.opts || {}).order || undefined, costs: (cy.opts || {}).costs || undefined })); if (!fr.resolution || canon(fr.resolution) !== canon(r) || canon(fr.candidates) !== canon(cy.candidates)) return { ok: false, rule: 'MEA-TAMPERED', note: 'the resolution does not match a fresh cycle of this manifest' }; }
   if (r.route !== 'eligible') return { ok: false, rule: 'MEA-GATES', failed: r.gates.filter(g => !g.ok).map(g => g.gate) };
   if (r.terms.drift.band !== 'projectable') return { ok: false, rule: 'MEA-DRIFT-NOT-APPROVABLE' };
   /* ⧙ seal: the committed path walks lawful successors to Φ7 (naming); ruling 3 gates Φ5, Φ7 (and Φ6 when χ corrected) must not be skipped */
@@ -222,7 +239,8 @@ function commit(M, cy, candidateId, tap) { if (tap !== true) return { ok: false,
   const byId = id => cy.candidates.find(c => c.candidate_id === id), mem = r.members.map(byId);
   const N = clone(M); delete N.hash;
   for (const c of mem.filter(x => x.kind === 'derived' && x.claim_status !== 'recall')) { const d = N.derivations.find(x => x.id === c.theta.derivation); if (d && !N.known_facts.some(f => f.from === c.theta.derivation)) N.known_facts.push({ id: 'k' + c.theta.derivation, text: c.claim, tier: 'derived_exact', value: c.value, from: c.theta.derivation }); }
-  for (const c of mem.filter(x => x.kind === 'established')) { const u = N.unknowns.find(x => x.id === c.unknown); u.resolved_option = c.option; }
+  for (const c of mem.filter(x => x.kind === 'established')) { const u = N.unknowns.find(x => x.id === c.unknown); if (!u.resolved_options) { u.resolved_options = []; u.resolved_option = c.option; } if (!u.resolved_options.includes(c.option)) u.resolved_options.push(c.option); } /* ruling 4: every established option is kept */
+  for (const u of N.unknowns) if (u.resolved_options) { const ord = (u.options || []).map(o => o.id); u.resolved_options.sort((a, b) => ord.indexOf(a) - ord.indexOf(b)); u.resolved_option = u.resolved_options[0]; }
   const archive = [];
   for (const c of cy.candidates.filter(x => x.route !== 'eligible' || x.kind === 'eliminated')) { if (c.kind === 'eliminated') { const u = N.unknowns.find(x => x.id === c.unknown), op = u && (u.options || []).find(x => x.id === c.option); if (op) op.eliminated = true; }
     archive.push({ id: 'arc:' + c.candidate_id.slice(5), problem_id: M.problem_id, candidate_id: c.candidate_id, op: c.op, glyph: '⧀', claim: c.claim, claim_status: c.kind === 'eliminated' ? 'contradiction_exposed' : 'cold_stored', route: c.route,
@@ -232,7 +250,7 @@ function commit(M, cy, candidateId, tap) { if (tap !== true) return { ok: false,
   const claims = mem.map(c => ({ id: c.candidate_id, text: c.claim, status: c.claim_status, kind: c.kind, favoured: !!c.favoured, rank: c.rank || null, likelihood: c.likelihood || null, next: c.required_next_action }));
   const withdrawn = (M.claims || []).filter(x => !claims.some(y => y.text === x.text && y.status === x.status)).map(x => ({ claim: x.text, status: x.status, receipt: 'wd:' + H(['mea-withdraw', M.hash, x.id]).slice(0, 24) }));
   /* ⧧ eligible splits become sub-manifests (lineage kept: goal_ancestry + the assumed option); stored sealed, never rendered by themselves */
-  const children = []; for (const c of cy.candidates.filter(x => x.kind === 'split' && x.route === 'eligible' && cy.slates[x.unknown] && !cy.slates[x.unknown].favoured && cy.slates[x.unknown].ranking.length >= 2 /* only an undecided slate branches */)) for (const ch of c.children) { const opt = ch.problem_id.split('=').pop();
+  const children = []; for (const c of cy.candidates.filter(x => x.kind === 'split' && x.route === 'eligible' && cy.slates[x.unknown] && !cy.slates[x.unknown].favoured && cy.slates[x.unknown].ranking.length >= 2 /* only an undecided slate branches */ && splitNeeded(M, cy, x.unknown) /* 4.9.74 ruling 2 */)) for (const ch of c.children.filter(ch => tiedOptions(M, cy, c.unknown).includes(ch.problem_id.split('=').pop()))) { const opt = ch.problem_id.split('=').pop();
     const S = clone(M); delete S.hash; S.problem_id = ch.problem_id; S.sub_of = M.problem_id; S.goal_ancestry = ch.goal_ancestry; const u = S.unknowns.find(x => x.id === c.unknown); u.resolved_option = opt; u.assumed = true;
     S.claims = [{ id: c.candidate_id + ':' + opt, text: ch.assumption, status: 'hypothesis', kind: 'assumed_branch', next: 'test_required' }]; S.claim_status = 'hypothesis'; S.required_next_action = 'test_required';
     S.parent_hash = M.hash; S.output_permissions = 'sealed'; S.cycle = 0; S.operator_history = (M.operator_history || []).concat([{ operator_id: 'split', glyph: '⧧', parameters: { unknown: c.unknown, option: opt }, input_manifest_hash: M.hash, candidate_id: c.candidate_id, operator_family: 'O_gen' }]); S.hash = manifestHash(S); children.push(S); }
@@ -250,7 +268,7 @@ function supply(M, unknownId, value) { const u = M.unknowns.find(x => x.id === u
   const N = clone(M); delete N.hash; const v = N.unknowns.find(x => x.id === unknownId); v.value = r.value; N.known_facts.push({ id: 'v' + unknownId, text: u.text + ' = ' + r.value, tier: 'given', value: r.value, from: 'user' });
   N.parent_hash = M.hash; N.output_permissions = 'sealed'; N.hash = manifestHash(N); return { ok: true, manifest: N, capability: 'value:' + unknownId }; }
 /* step 4 recursion: archived entries whose blocking reason names a capability that has now grown are re-queued — as PROPOSALS only */
-function requeue(archive, capability) { const cap = String(capability); return (archive || []).filter(a => (a.blocked_on || []).some(b => b === cap || (/^kernel:/.test(cap) && /^capability:/.test(b)))).map(a => ({ archive_id: a.id, problem_id: a.problem_id, claim: a.claim, because: cap, proposal: 'rerun_cycle' })); }
+function requeue(archive, capability) { const cap = String(capability); return (archive || []).filter(a => (a.blocked_on || []).some(b => b === cap || (/^kernel:/.test(cap) && /^capability:/.test(b)))).map(a => ({ archive_id: a.id, problem_id: a.problem_id, claim: a.claim, because: cap, proposal: 'rerun_cycle', route: 'proposal', adopt: false })); } /* ruling 5: proposals only */
 /* step 5: the typed hand-off to the RMC (R2.3: typed parameters, never a merged schema). Only a committed (render_allowed) manifest crosses. */
 function handoff(M) { if (!M || M.output_permissions !== 'render_allowed' || M.phase_state !== 7) return { ok: false, rule: 'MEA-NOT-COMMITTED' };
   const cs = M.claims || [], pick = f => cs.filter(f).map(c => c.text);
@@ -258,7 +276,7 @@ function handoff(M) { if (!M || M.output_permissions !== 'render_allowed' || M.p
     derived: pick(c => c.status === 'derived_claim' && c.kind !== 'established'), established: pick(c => c.kind === 'established'), conditional: pick(c => c.status === 'partial_resolution'),
     favoured: pick(c => c.favoured && c.status === 'hypothesis'), hypotheses: pick(c => (c.status === 'hypothesis' || c.status === 'speculative_branch') && c.kind !== 'derived'),
     eliminated: M.unknowns.flatMap(u => (u.options || []).filter(o => o.eliminated).map(o => o.text)), open: unknownVector(M).filter(x => !x.resolved).map(x => x.text), manifest_hash: M.hash } }; }
-const api = { SCHEMA, CSCHEMA, VERSION, MICRO, CLAIM_STATUS, NEXT_ACTIONS, GAP_TYPES, TIERS, DISCHARGED, OPERATORS, LEX_ORDER, DEFAULT_BUDGET, canon, manifestHash, normalize, validate, unknownVector, exact, condHolds,
-  generate, replay, candHash, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, displayScore };
+const api = { opCost, SCHEMA, CSCHEMA, VERSION, MICRO, CLAIM_STATUS, NEXT_ACTIONS, GAP_TYPES, TIERS, DISCHARGED, OPERATORS, LEX_ORDER, DEFAULT_BUDGET, canon, manifestHash, normalize, validate, unknownVector, exact, condHolds,
+  generate, replay, candHash, tiedOptions, splitNeeded, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, displayScore };
 if (isNode) module.exports = api; else root.KMEAP = api;
 })(typeof self !== 'undefined' ? self : this);

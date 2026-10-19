@@ -396,8 +396,20 @@ function coordSplit(text) { const m = clean(text).match(rx('^((?:' + SP + ',\\s*
   return subs.map(x => x + ' ' + [v].concat(w.slice(1)).join(' ')); }
 /* one assertion → its rules/facts (shared by interpret and the integrity re-derivation, so both see the same grammar) */
 /* discourse: a personal pronoun refers to the most recent named subject of an earlier sentence (deterministic recency; one referent) */
-function resolvePron(texts, out) { let last = null; const names = []; return texts.map(t => { let u = clean(t); const u0 = u; if (last) u = u.replace(/^(he|she|it|they)\s(?=(?:is|are|was|were|does|do|did|not|\S+s)\b)/i, '"' + last + '" ').replace(/\s(him|her|them)$/i, ' "' + last + '"').replace(/^((?:is|are|was|were|does|do|did)\s+)(he|she|it|they)\s/i, '$1"' + last + '" ');
-  const a = parseAtomic(u.replace(/^(?:is|are|was|were|does|do|did)\s+(\S+)\s+(.+)$/i, '$1 is $2'), false) || parseAtomic(stripLead(u), false); if (out && last && u !== u0) { const o = names.filter(n => n !== last); if (o.length) out.amb = { chosen: last, also: o[o.length - 1] }; } if (a && !/^any_/.test(a.args[0])) { last = a.args[0]; if (!names.includes(last)) names.push(last); } return u; }); }
+/* 4.9.75: gender agreement (Doc6 §23 φ-features). he/him may not take a referent whose head noun is in the FEMALE class, she/her none in the MALE class
+   (the classes are grammar.js FEMALE/MALE — MEA-K lexclass cells); the referent is the most recent COMPATIBLE subject, and with none the pronoun
+   stays unresolved (no fact is proved about it). Before 4.9.75 recency alone decided ("The aunt is tall. Is he tall?" answered Yes). */
+const pronGender = w => ({ he: 'm', him: 'm', his: 'm', she: 'f', her: 'f' })[String(w).toLowerCase()] || null;
+const refGender = n => { const h = String(n).split(/[_\s]+/).pop().toLowerCase(); return G.FEMALE.has(h) ? 'f' : G.MALE.has(h) ? 'm' : null; };
+const agrees = (w, n) => { const p = pronGender(w), r = refGender(n); return !p || !r || p === r; };
+function resolvePron(texts, out) { const names = []; return texts.map(t => { let u = clean(t); const u0 = u; const pick = w => { for (let i = names.length - 1; i >= 0; i--) if (agrees(w, names[i])) return names[i]; return null; }; let chosen = null;
+  const sub = (re, f) => { u = u.replace(re, (...m) => { const r = f(...m); return r === null ? m[0] : r; }); };
+  if (names.length) { sub(/^(he|she|it|they)\s(?=(?:is|are|was|were|does|do|did|not|\S+s)\b)/i, (m0, w) => { const r = pick(w); if (r) chosen = r; return r ? '"' + r + '" ' : null; });
+    sub(/\s(him|her|them)$/i, (m0, w) => { const r = pick(w); if (r) chosen = r; return r ? ' "' + r + '"' : null; });
+    sub(/^((?:is|are|was|were|does|do|did)\s+)(he|she|it|they)\s/i, (m0, aux, w) => { const r = pick(w); if (r) chosen = r; return r ? aux + '"' + r + '" ' : null; }); }
+  const a = parseAtomic(u.replace(/^(?:is|are|was|were|does|do|did)\s+(\S+)\s+(.+)$/i, '$1 is $2'), false) || parseAtomic(stripLead(u), false);
+  if (out && chosen && u !== u0) { const pw = (u0.match(/\b(he|she|it|they|him|her|them)\b/i) || [])[1] || '', o = names.filter(n => n !== chosen && agrees(pw, n)); if (o.length) out.amb = { chosen, also: o[o.length - 1] }; }
+  if (a && !/^any_/.test(a.args[0])) { const nm = a.args[0]; const i = names.indexOf(nm); if (i >= 0) names.splice(i, 1); names.push(nm); } return u; }); }
 /* P5 (derived): "must" entails "can" with the same sign (deontic D: O p ⇒ P p, O ¬p ⇒ ¬P p); never the reverse; "may"/"can" entail nothing */
 function mustRules(a, cmp, out) { const m = a && a.predicate.match(/^modmust_(.+)$/); if (!m || cmp.has(a.predicate)) return; cmp.add(a.predicate); const v = a.args.map((_, i) => ['$x', '$y'][i]);
   for (const pol of ['pos', 'neg']) out.push({ r: { body: [atom(a.predicate, v, pol)], head: atom('modcan_' + m[1], v, pol), form: 'modal_entailment' } }); }

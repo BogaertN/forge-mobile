@@ -1,0 +1,299 @@
+{
+ "schema": "FORGE-MEA-K-CELLS/v1",
+ "generated_by": "tools/mea_k_cells.js",
+ "pool_cap": 8,
+ "lexclass": {
+  "FEMALE": {
+   "members": [
+    "aunt",
+    "daughter",
+    "girl",
+    "girlfriend",
+    "grandma",
+    "grandmother",
+    "lady",
+    "mom",
+    "mother",
+    "mum",
+    "niece",
+    "queen",
+    "sister",
+    "wife",
+    "woman"
+   ],
+   "pool": [
+    "eve",
+    "mistress",
+    "miss",
+    "housewife",
+    "widow"
+   ]
+  },
+  "MALE": {
+   "members": [
+    "boy",
+    "boyfriend",
+    "brother",
+    "dad",
+    "father",
+    "grandfather",
+    "grandpa",
+    "husband",
+    "king",
+    "man",
+    "nephew",
+    "son",
+    "uncle"
+   ],
+   "pool": [
+    "don",
+    "fellow",
+    "adam",
+    "gentleman",
+    "guy",
+    "sir",
+    "stiff",
+    "lad"
+   ]
+  }
+ },
+ "frame": {
+  "ADJ_INF": {
+   "entries": [
+    "able",
+    "afraid",
+    "anxious",
+    "difficult",
+    "eager",
+    "easy",
+    "fit",
+    "glad",
+    "happy",
+    "hard",
+    "impossible",
+    "keen",
+    "likely",
+    "pleasant",
+    "ready",
+    "reluctant",
+    "simple",
+    "tough",
+    "unable",
+    "unlikely",
+    "willing"
+   ],
+   "values": [
+    "subj",
+    "karma",
+    "both"
+   ]
+  },
+  "FRAME_SUPP": {
+   "bareinf": {
+    "members": [
+     "feel",
+     "have",
+     "hear",
+     "help",
+     "let",
+     "make",
+     "notice",
+     "observe",
+     "see",
+     "watch"
+    ],
+    "field": "verb.perception",
+    "pool": [
+     "present",
+     "show",
+     "blast",
+     "suffer",
+     "gag",
+     "look",
+     "air",
+     "expose"
+    ]
+   },
+   "objinf": {
+    "members": [
+     "advise",
+     "allow",
+     "ask",
+     "authorise",
+     "authorize",
+     "cause",
+     "compel",
+     "direct",
+     "enable",
+     "encourage",
+     "expect",
+     "force",
+     "help",
+     "instruct",
+     "invite",
+     "oblige",
+     "order",
+     "permit",
+     "persuade",
+     "remind",
+     "require",
+     "teach",
+     "tell",
+     "train",
+     "urge",
+     "want",
+     "warn"
+    ],
+    "field": "verb.communication",
+    "pool": [
+     "call",
+     "point",
+     "deal",
+     "rail",
+     "snap",
+     "deliver",
+     "project",
+     "say"
+    ]
+   }
+  }
+ },
+ "parser": {
+  "PREP": {
+   "members": [
+    "about",
+    "above",
+    "across",
+    "after",
+    "against",
+    "along",
+    "amid",
+    "among",
+    "around",
+    "as",
+    "at",
+    "before",
+    "behind",
+    "below",
+    "beneath",
+    "beside",
+    "between",
+    "beyond",
+    "by",
+    "concerning",
+    "despite",
+    "during",
+    "for",
+    "from",
+    "in",
+    "inside",
+    "into",
+    "near",
+    "of",
+    "on",
+    "onto",
+    "outside",
+    "over",
+    "past",
+    "per",
+    "regarding",
+    "since",
+    "through",
+    "throughout",
+    "to",
+    "toward",
+    "towards",
+    "under",
+    "underneath",
+    "until",
+    "upon",
+    "versus",
+    "via",
+    "with",
+    "within",
+    "without"
+   ],
+   "pool": []
+  },
+  "SUB": {
+   "members": [
+    "although",
+    "because",
+    "whereas",
+    "while"
+   ],
+   "pool": []
+  },
+  "ADV": {
+   "members": [
+    "again",
+    "already",
+    "also",
+    "always",
+    "certainly",
+    "definitely",
+    "here",
+    "later",
+    "maybe",
+    "never",
+    "now",
+    "often",
+    "perhaps",
+    "possibly",
+    "probably",
+    "really",
+    "sometimes",
+    "soon",
+    "still",
+    "there",
+    "today",
+    "tomorrow",
+    "tonight",
+    "too",
+    "usually",
+    "very",
+    "yesterday"
+   ],
+   "pool": [
+    "well",
+    "badly",
+    "hard",
+    "right",
+    "short",
+    "so",
+    "ahead",
+    "apart"
+   ]
+  },
+  "PART": {
+   "members": [
+    "away",
+    "back",
+    "down",
+    "off",
+    "out",
+    "up"
+   ],
+   "pool": []
+  }
+ },
+ "immutable_categories": [
+  "AUX",
+  "COMP",
+  "CONJ",
+  "COP",
+  "DET",
+  "IF",
+  "INTJ",
+  "MOD",
+  "NEG",
+  "PLEASE",
+  "POSS",
+  "PRON",
+  "QUANT",
+  "REL",
+  "THAN",
+  "THEN",
+  "WH"
+ ]
+}

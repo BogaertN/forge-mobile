@@ -470,6 +470,6 @@ function clauseText(c, persp) {
 }
 /* canonical material meaning (for Echo comparison) */
 function material(x) { return JSON.parse(JSON.stringify(x, (k, v) => (v && typeof v === 'object' && v.boundOrig ? v.boundOrig : ['rules', 'surface', 'f', 'form', 'dosupport', 'sense', 'resolvedFrom', 'plural', 'resolved_reading', 'front', 'indefinite', 'group'].includes(k) ? undefined : v))); }
-const api = { ADJ_INF, IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, learnExc, tokenize, analyse, analyseAll, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
+const api = { ADJ_INF, FRAME_SUPP, SEED_FRAMES, IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, learnExc, tokenize, analyse, analyseAll, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KGrammar = api;
 })(this);

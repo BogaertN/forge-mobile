@@ -1,5 +1,5 @@
 {
- "version": "4.9.75",
+ "version": "4.9.76",
  "features": [
   {
    "id": "A-01",
@@ -1192,13 +1192,17 @@
    "name": "MEA APIs",
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/restricted\"",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "MEA score + per-reference evidence tiers (v4.3). 4.9.64 added bounded manifest evolution over relation-property rows only (kernel meaCandidates / adoptManifest / withdrawManifest; tap-only, M2 ledger + receipt); its shipped fitness was INVALID (the evaluator reset the candidate). 4.9.65 (MEA step 0): evaluator fixed, meaning guard suite, inverse-pair legality gate, no-evidence route, integer drift, rng lineage. No MEA-P problem/candidate API, no frame or parser-rule evolution yet. 4.9.73 adds the MEA problem lane APIs: meaProblems / meaCycle / meaSupply (session draft) / meaCommit (tap-only, permission-decided, receipts) / meaArchive / meaReceipts / meaRequeue / meaHandoff; adoptManifest returns requeue proposals.",
+   "claim": "Implemented",
+   "note": "MEA score + per-reference evidence tiers (v4.3). 4.9.64 added bounded manifest evolution over relation-property rows only (kernel meaCandidates / adoptManifest / withdrawManifest; tap-only, M2 ledger + receipt); its shipped fitness was INVALID (the evaluator reset the candidate). 4.9.65 (MEA step 0): evaluator fixed, meaning guard suite, inverse-pair legality gate, no-evidence route, integer drift, rng lineage. No MEA-P problem/candidate API, no frame or parser-rule evolution yet. 4.9.73 adds the MEA problem lane APIs: meaProblems / meaCycle / meaSupply (session draft) / meaCommit (tap-only, permission-decided, receipts) / meaArchive / meaReceipts / meaRequeue / meaHandoff; adoptManifest returns requeue proposals. · 4.9.76: V1 §11 “MEA does bounded manifest evolution”: checked. MEA build-plan steps 6–8 shipped: MEA-K typed delta families for lexicon classes, frames and parser-rule data (plus MEA’s own data: budget, operator schedule, cost schedule) judged at build time on held-out + mutation + world-state + guard suites + structure guard; approvable only at 0 regressions, ε_s ≤ 0.35 and a non-vacuous evidence delta; adoption by tap only; archive with typed blocked_on; a capability change requeues archived branches as proposals only (ruling 5); options that meet exact conditions are all established (ruling 4); internal premises are proof debt (ruling 3); Memory → MEA panel; acceptance suite. Restriction: MEA-K judging is build-time only (no on-device re-judging).",
    "proof": [
     "LIFECYCLE",
     "MEA",
     "MEAP",
-    "RELPROP-GUARD"
+    "RELPROP-GUARD",
+    "MEAK",
+    "MEA-ACCEPT",
+    "STRUCTURE-GUARD",
+    "RULINGS-476"
    ]
   },
   {
@@ -1282,13 +1286,17 @@
    "name": "Manifest Evolution Architecture (MEA)",
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md §e steps 1–8). · 4.9.67: the three canonical problems (144 Hz, limiting reagent, inheritance) adopted (data/canonical_problems.json); exact sub-results checked, MEA-P outcomes pending 4.9.72: MEA problem lane core (src/mea_p.js, pure): problem manifests as data (data/canonical_problems.json); operators derive / ⧒ / ⧧ / ⟁; hard gates → Pareto → lexicographic (B↓ L↑ Ω↑ I↑ A↑ ε↓ K↓, then id); display score shown only; claim status + next action; tap-only commit with receipts; archive (cold storage) + requeue proposals; typed RMC handoff params. The 144 Hz, limiting-reagent and inheritance problems run end-to-end with no per-problem code. 4.9.73: kernel lane (stores mea_problems / mea_candidates / mea_archive / mea_receipts), conversation frame \"show problem <id>\" / \"show the problems\" rendered by RMC with Echo, Memory-tab card (Run cycle, Supply value, Commit with tap + confirm).",
+   "claim": "Implemented",
+   "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md §e steps 1–8). · 4.9.67: the three canonical problems (144 Hz, limiting reagent, inheritance) adopted (data/canonical_problems.json); exact sub-results checked, MEA-P outcomes pending 4.9.72: MEA problem lane core (src/mea_p.js, pure): problem manifests as data (data/canonical_problems.json); operators derive / ⧒ / ⧧ / ⟁; hard gates → Pareto → lexicographic (B↓ L↑ Ω↑ I↑ A↑ ε↓ K↓, then id); display score shown only; claim status + next action; tap-only commit with receipts; archive (cold storage) + requeue proposals; typed RMC handoff params. The 144 Hz, limiting-reagent and inheritance problems run end-to-end with no per-problem code. 4.9.73: kernel lane (stores mea_problems / mea_candidates / mea_archive / mea_receipts), conversation frame \"show problem <id>\" / \"show the problems\" rendered by RMC with Echo, Memory-tab card (Run cycle, Supply value, Commit with tap + confirm). · 4.9.76: V1 §11 “MEA does bounded manifest evolution”: checked. MEA build-plan steps 6–8 shipped: MEA-K typed delta families for lexicon classes, frames and parser-rule data (plus MEA’s own data: budget, operator schedule, cost schedule) judged at build time on held-out + mutation + world-state + guard suites + structure guard; approvable only at 0 regressions, ε_s ≤ 0.35 and a non-vacuous evidence delta; adoption by tap only; archive with typed blocked_on; a capability change requeues archived branches as proposals only (ruling 5); options that meet exact conditions are all established (ruling 4); internal premises are proof debt (ruling 3); Memory → MEA panel; acceptance suite. Restriction: MEA-K judging is build-time only (no on-device re-judging).",
    "proof": [
     "LIFECYCLE",
     "MEA",
     "MEAP",
-    "RELPROP-GUARD"
+    "RELPROP-GUARD",
+    "MEAK",
+    "MEA-ACCEPT",
+    "STRUCTURE-GUARD",
+    "RULINGS-476"
    ]
   },
   {
@@ -2545,10 +2553,10 @@
  ],
  "count": 234,
  "claims": {
-  "Implemented": 110,
+  "Implemented": 112,
   "Missing": 9,
   "Not feasible on phone": 28,
   "Out of scope / parked": 13,
-  "Partial": 74
+  "Partial": 72
  }
 }

@@ -76,7 +76,7 @@ module.exports = ({ C, expect, ROOT }) => {
     const rq = P.requeue(cm.archive, 'value:u1'); expect(rq.length >= 1 && rq.every(r => r.proposal === 'rerun_cycle'), 'requeue ' + JSON.stringify(rq)); expect(!P.requeue(cm.archive, 'value:zz').length, 'requeue matched an unrelated capability'); });
   C('MEAP', 'kernel lane: supply → draft (not stored) → cycle → tap commit stores the manifest, archive and receipts; "show problem chemistry" renders the resolved status through Echo; sub-manifests stay out of the top list', () => {
     const k = kern(), id = 'canon:chemistry-limiting-reagent'; let c = k.meaCycle(id); expect(k.meaCommit(id, c.cycle.resolution.candidate_id, true).ok, 'first commit');
-    expect(k.meaProblems().filter(p => p.sub_of === id).length === 2 && k.meaProblems().filter(p => !p.sub_of).length === 3, 'sub-manifests ' + JSON.stringify(k.meaProblems().map(p => p.problem_id)));
+    expect(k.meaProblems().filter(p => p.sub_of === id).length === 2 && k.meaProblems().filter(p => !p.sub_of).length === 6 /* 4.9.76: 3 canonical + 3 professional analogues */, 'sub-manifests ' + JSON.stringify(k.meaProblems().map(p => p.problem_id)));
     expect(k.meaSupply(id, 'u1', '16').ok && k.meaProblems().find(p => p.problem_id === id).draft, 'draft'); c = k.meaCycle(id); const r = k.meaCommit(id, c.cycle.resolution.candidate_id, true);
     expect(r.ok && r.manifest.claim_status === 'resolved_manifest' && k.meaArchive().length >= 2 && k.meaReceipts().some(x => /^wd:/.test(x.receipt || '')), 'second commit ' + JSON.stringify([r.rule, r.manifest && r.manifest.claim_status, k.meaArchive().length]));
     const t = k.process('show problem chemistry'); expect(t.trace.echo.pass && /status “resolved manifest”/.test(t.reply) && /I decided 1 answer: \(1\) “O2 is limiting”/.test(t.reply) && /I rejected 1 option: \(1\) “H2 is limiting”/.test(t.reply), 'render ' + t.reply);
@@ -85,5 +85,5 @@ module.exports = ({ C, expect, ROOT }) => {
     const k = kern(), id = 'canon:biology-inheritance'; let r = k.process('show problem biology'); expect(r.trace.echo && r.trace.echo.pass && /no result/.test(r.reply), 'uncommitted ' + r.reply);
     const c = k.meaCycle(id); expect(k.meaCommit(id, c.cycle.resolution.candidate_id, true).ok, 'commit'); r = k.process('show problem biology');
     expect(r.trace.echo && r.trace.echo.pass && /status “hypothesis”/.test(r.reply) && /I prefer 1 hypothesis: \(1\) “X-linked dominant”/.test(r.reply) && /needs a test/.test(r.reply), 'committed ' + r.reply);
-    r = k.process('show the problems'); expect(r.trace.echo.pass && /I have 3 problems/.test(r.reply), 'list ' + r.reply); });
+    r = k.process('show the problems'); expect(r.trace.echo.pass && /I have 6 problems/.test(r.reply), 'list ' + r.reply); });
 };
