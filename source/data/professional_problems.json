@@ -1,0 +1,41 @@
+{
+  "schema": "MEAProblemManifest/v1-set",
+  "adopted": false,
+  "note": "4.9.74 (MEA build-plan step 8): professional-domain analogues beside the 144 Hz case — each has exactly one missing measurement, so each must stay hypothesis + test_required and never become verified_claim. PROPOSED, not adopted: MEA_SPEC §e Q5 leaves the professional analogue to Nic. Written from the domain, not from any test.",
+  "problems": [
+    { "id": "pro:clinical-microcytic-anaemia", "domain": "clinical", "proposed": true,
+      "expected_outcome": { "status": "hypothesis", "next": "test_required", "never": "verified_claim", "missing": "serum ferritin" },
+      "manifest": { "goal": "decide whether an adult woman's microcytic anaemia is from iron deficiency or from thalassaemia trait", "phase_state": 4,
+        "known_facts": [ { "id": "f1", "text": "haemoglobin 10.2 g/dL", "tier": "given" }, { "id": "f2", "text": "mean cell volume 72 fL", "tier": "given" },
+          { "id": "f3", "text": "adult female haemoglobin lower reference limit 12.0 g/dL", "tier": "published" }, { "id": "f4", "text": "microcytosis is a mean cell volume below 80 fL", "tier": "published" } ],
+        "unknowns": [ { "id": "u1", "text": "the serum ferritin (not measured)", "kind": "measurement" },
+          { "id": "u2", "text": "the cause of the microcytic anaemia", "kind": "choice", "options": [
+            { "id": "iron", "text": "iron-deficiency anaemia", "assumptions": [], "falsifier": "a serum ferritin of 100 ng/mL or more" },
+            { "id": "thal", "text": "thalassaemia trait", "assumptions": [], "falsifier": "a normal haemoglobin electrophoresis (HbA2 at most 3.5%)" } ] } ],
+        "derivations": [ { "id": "d1", "expr": "12.0-10.2", "claim": "haemoglobin is {v} g/dL below the lower reference limit", "uses": ["f1", "f3"] },
+          { "id": "d2", "expr": "80-72", "claim": "the mean cell volume is {v} fL below the microcytosis threshold", "uses": ["f2", "f4"] } ],
+        "success_conditions": [ { "id": "s1", "text": "the cause is decided", "unknown": "u2" }, { "id": "s2", "text": "the ferritin is measured", "unknown": "u1" } ] } },
+    { "id": "pro:legal-limitation-period", "domain": "legal", "proposed": true,
+      "expected_outcome": { "status": "hypothesis", "next": "test_required", "never": "verified_claim", "missing": "the date the harm was discovered" },
+      "manifest": { "goal": "decide whether a claim filed 800 days after the incident is time-barred under a 2-year limitation period", "phase_state": 4,
+        "known_facts": [ { "id": "f1", "text": "the claim was filed 800 days after the incident", "tier": "given" }, { "id": "f2", "text": "the limitation period is 2 years (730 days)", "tier": "published" } ],
+        "unknowns": [ { "id": "u1", "text": "the day the harm was discovered (not in the file)", "kind": "measurement" },
+          { "id": "u2", "text": "whether the claim is in time", "kind": "choice", "options": [
+            { "id": "barred", "text": "the claim is time-barred", "assumptions": [], "falsifier": "evidence that the harm could not have been discovered before day 70" },
+            { "id": "timely", "text": "the claim is timely under the discovery rule", "assumptions": ["the discovery rule applies to this claim"], "falsifier": "evidence that the harm was discovered before day 70" } ] } ],
+        "derivations": [ { "id": "d1", "expr": "800-730", "claim": "measured from the incident, the claim is {v} days outside the period", "uses": ["f1", "f2"] } ],
+        "success_conditions": [ { "id": "s1", "text": "timeliness is decided", "unknown": "u2" } ] } },
+    { "id": "pro:engineering-beam-adequacy", "domain": "engineering", "proposed": true,
+      "expected_outcome": { "status": "hypothesis", "next": "test_required", "never": "verified_claim", "missing": "the steel's yield strength" },
+      "manifest": { "goal": "decide whether an existing steel beam of undocumented grade is adequate for a 120 kN·m bending moment", "phase_state": 4,
+        "known_facts": [ { "id": "f1", "text": "design bending moment 120 kN·m", "tier": "given" }, { "id": "f2", "text": "elastic section modulus 800 cm³", "tier": "given" },
+          { "id": "f3", "text": "a material factor of 1.5 on yield", "tier": "published" } ],
+        "unknowns": [ { "id": "u1", "text": "the steel's yield strength (grade undocumented)", "kind": "measurement" },
+          { "id": "u2", "text": "whether the beam is adequate", "kind": "choice", "options": [
+            { "id": "adequate", "text": "the beam is adequate", "assumptions": ["the steel is at least grade S275"], "falsifier": "a coupon test yield strength below 225 MPa" },
+            { "id": "inadequate", "text": "the beam is not adequate", "assumptions": ["the steel is an older mild steel near 210 MPa"], "falsifier": "a coupon test yield strength of 225 MPa or more" } ] } ],
+        "derivations": [ { "id": "d1", "expr": "120*1000/800", "claim": "the bending stress is {v} MPa (moment / section modulus)", "uses": ["f1", "f2"] },
+          { "id": "d2", "expr": "120*1000/800*1.5", "claim": "the yield strength needed with the material factor is {v} MPa", "uses": ["f1", "f2", "f3"] } ],
+        "success_conditions": [ { "id": "s1", "text": "adequacy is decided", "unknown": "u2" } ] } }
+  ]
+}
