@@ -48,7 +48,15 @@
     { pred: 'before', transitive: true, inverse: 'after' }, { pred: 'after', transitive: true, inverse: 'before' },
     { pred: 'above', transitive: true, inverse: 'below' }, { pred: 'below', transitive: true, inverse: 'above' },
     { pred: 'born_in', phrase: 'born in', functional: 'subject', one: { who: 'person', has: 'birthplace' } }, { pred: 'capital_of', phrase: 'capital of', functional: 'subject', one: { who: 'capital', has: 'country' } },
-    { pred: 'alias_of', phrase: ['also called', 'also known as'], symmetric: true, transitive: true, alias: true }]);
+    { pred: 'alias_of', phrase: ['also called', 'also known as'], symmetric: true, transitive: true, alias: true },
+    /* M4 (4.9.65) CAUSAL LINKS as data: the verb lemmas the world grammar gives causal statements ("X causes / leads to / triggers / produces Y",
+       "X prevents Y"). `causal` names the link kind; `entails` declares that one link implies another between the same two things (a trigger is a
+       cause; "lead to" and "cause" read each other); a cause chain is transitive (an indirect cause is a cause, and the chain is always shown).
+       Prevention composes with nothing by rule: it qualifies a what-if (causal.js), never derives a "no". Causal rows are not MEA-mutable. */
+    { pred: 'cause', causal: 'cause', transitive: true, entails: ['lead__to'] }, { pred: 'lead__to', causal: 'cause', entails: ['cause'] },
+    { pred: 'trigger', causal: 'cause', entails: ['cause'] }, { pred: 'produce', causal: 'cause', entails: ['cause'] }, { pred: 'prevent', causal: 'prevent' },
+    /* 4.9.77 (WMS C2): an observational association is a distinct kind; it is reported by a what-if but never followed as a mechanism */
+    { pred: 'correlate__with', causal: 'association' }, { pred: 'associated_with', phrase: 'associated with', causal: 'association' }]);
   const REL_BY = new Map(RELATIONS.map(r => [r.pred, r]));
   /* M5 (4.9.64) MEA MANIFEST OVERLAY: an adopted manifest (mea.js) is a list of property deltas { pred, prop, value } over these rows; only the
      yes/no properties in MEA_MUTABLE change, the grammar's phrases and comparative words never do. null = the shipped rows. */
@@ -77,6 +85,8 @@
       if (r.transitive && !/_than$/.test(b)) add('transitive', [A(q, '$x', '$y'), A(q, '$y', '$z')], A(q, '$x', '$z'));
       if (r.symmetric) add('symmetric', [A(q, '$x', '$y')], A(q, '$y', '$x'));
       if (r.inverse) add('inverse', [A(q, '$x', '$y')], A(pre + r.inverse, '$y', '$x'));
+      for (const e of r.entails || []) { add('entails', [A(q, '$x', '$y')], A(pre + e, '$x', '$y')); if (b === i.base && rowOf(e)) for (const e2 of rowOf(e).entails || []) if (e2 !== b) add('entails', [A(pre + e, '$x', '$y')], A(pre + e2, '$x', '$y')); }
+      if (r.entails && b === i.base) for (const e of r.entails) { const er = rowOf(e); if (er && er.transitive) add('transitive', [A(pre + e, '$x', '$y'), A(pre + e, '$y', '$z')], A(pre + e, '$x', '$z')); }
       /* 4.9.67 ruling 3: a containment row's functionality is level-relative (a rule or an unstated place may put one inside the other), so it
          never derives a refutation — the kernel only asks about a second stated place (conflicts) */
       if (r.functional === 'subject' && !r.containment) add('functional', [A(q, '$x', '$y'), A(q, '$x', '$z')], A(q, '$x', '$z', 'neg'), [['apart', '$y', '$z']]);
@@ -89,7 +99,7 @@
     for (const b of [i.base].concat(i.row.inverse ? [i.row.inverse] : [])) { const r = rowOf(b); if (!r || !r.comparative) continue;
       out.push({ prop: 'transitive', pred: b, body: [A(b, '$x', '$y'), A(b, '$y', '$z')], head: A(b, '$x', '$z') }, { prop: 'asymmetric', pred: b, body: [A(b, '$x', '$y')], head: A(b, '$y', '$x', 'neg') }); }
     return out; }
-  const propertyDataRules = p => propertyRules(p).concat(orderRules(p)).map(r => Object.assign({ id: 'RELPROP-' + r.prop.toUpperCase() + ':' + r.head.predicate.replace(/^past_/, '') + (r.prop === 'inverse' ? '<' + r.pred : ''), name: 'RELPROP-' + r.prop.toUpperCase(), body: r.body, head: r.head }, r.guard ? { guard: r.guard } : {}));
+  const propertyDataRules = p => propertyRules(p).concat(orderRules(p)).map(r => Object.assign({ id: 'RELPROP-' + r.prop.toUpperCase() + ':' + r.head.predicate.replace(/^past_/, '') + (r.prop === 'inverse' || r.prop === 'entails' ? '<' + r.pred : ''), name: 'RELPROP-' + r.prop.toUpperCase(), body: r.body, head: r.head }, r.guard ? { guard: r.guard } : {}));
   const api = { setManifest, MEA_MUTABLE, activeManifest: () => (OVER ? [...OVER.keys()] : null), transitiveRule, TRANSITIVE, FAMILY, transitive, RELATIONS, PHRASES, COMPARATIVES, relInfo, canonicalPred, apartness, propertyRules, propertyDataRules, orderRules, NAME_PRIORITY: ['INF-FAMILY-COMPOSE', 'INF-FAMILY-SIBLING-TRANSITIVE', 'INF-FAMILY-INVERSE'] };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KWorldRules = api;
 })(typeof self !== 'undefined' ? self : this);
