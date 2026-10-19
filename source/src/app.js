@@ -1,5 +1,5 @@
 (function () {
-const $ = s => document.querySelector(s); const $$ = s => document.querySelectorAll(s); const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const $ = s => document.querySelector(s); const $$ = s => document.querySelectorAll(s); const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&', '<': '<', '>': '>', '"': '"' })[c]);
 let backend; try { localStorage.setItem('kernel.probe', '1'); backend = { get: k => localStorage.getItem(k), set: (k, v) => localStorage.setItem(k, v), del: k => localStorage.removeItem(k), keys: () => Object.keys(localStorage) }; } catch (e) { backend = null; }
 const fmt = iso => { try { return new Date(iso).toLocaleString([], { dateStyle: 'short', timeStyle: 'short', timeZoneName: 'short' }); } catch (e) { return iso; } };
 const forge = KForge.ForgeKernel({ store: KKernel.MemoryStore(backend), formatTime: fmt }); window.forge = forge; window.kernel = forge;
@@ -21,7 +21,7 @@ window.openTab = openTab; window.openRecovery = () => { openTab('echoforge'); co
 $('#railBtn').onclick = () => { $('#rail').hidden = false; refreshChrome(); }; $('#railClose').onclick = () => { $('#rail').hidden = true; };
 function resultKind(r) { const c = r.outcome ? r.outcome.class : ''; const k = r.trace && r.trace.msm && r.trace.msm.meaning ? r.trace.msm.meaning.kind : '';
   if (r.forge && r.forge.bridge && /plan/.test(r.forge.bridge.route)) return 'proposal_plan'; if (/^confirm_/.test(k) || c === 'understood-but-blocked') return 'approval_required'; if (c === 'clarify' || c === 'ambiguous') return 'deterministic_hold'; if (c === 'refuse' || c === 'reject' || r.blocked) return 'refused_or_question'; return 'deterministic_route'; }
-const AB = f => { const b = f && f.authority_boundary || { calls_llm: false, writes_files: false, network: false, execution_enabled: false, memory_write: false }; return ['calls_llm', 'writes_files', 'network', 'execution_enabled', 'memory_write'].map(k => '<span class="flag ' + (b[k] ? 'on' : 'off') + '">' + k.replace(/_/g, ' ') + ': ' + (b[k] ? 'yes' : 'no') + '</span>').join(''); };
+const AB = (f, authorityLabels = KProv.boundaryLabels) => authorityLabels(f && f.authority_boundary).map(l => '<span class="flag ' + (/: yes$| · external$/.test(l) ? 'on' : 'off') + '">' + esc(l) + '</span>').join(''); window.AB = AB; /* 4.9.74: kernel network + tool egress labels, never one network flag */
 function traceHTML(r) { const t = r.trace, f = r.forge || {}; const rows = o => '<table>' + Object.entries(o || {}).map(([k, v]) => '<tr><td>' + esc(k) + '</td><td>' + esc(typeof v === 'object' ? JSON.stringify(v) : v) + '</td></tr>').join('') + '</table>';
   let h = '<div class="tr">';
   if (t.world_model) { const wm = t.world_model, world = wm.world || {}, proofList = Object.entries(wm.proofs || {}).filter(x => x[1]);
