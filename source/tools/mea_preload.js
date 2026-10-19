@@ -5,6 +5,9 @@ const WR = require(ROOT + '/src/world_rules.js');
 /* the kernel re-applies its own (adopted) manifest at every process() call, so the candidate is installed UNDER that call: with no adoption (the
    suites never adopt) the candidate stays active. 4.9.64 set it once and the first process() reset it (fix 4.9.65). */
 if (process.env.MEA_MANIFEST) { const cand = JSON.parse(fs.readFileSync(process.env.MEA_MANIFEST, 'utf8')), set = WR.setManifest; WR.setManifest = d => set(d && d.length ? d : cand); WR.setManifest(null); }
+/* MEA-K (4.9.75): MEAK_MANIFEST = JSON file of MEA-K deltas (lexclass / frame / parser). The kernel re-applies its own adopted MEA-K manifest at every
+   process(); the candidate is installed UNDER that call the same way (an empty / absent adoption keeps the candidate; apply(null) re-installs it). */
+if (process.env.MEAK_MANIFEST) { const MK = require(ROOT + '/src/mea_k.js'), cand = JSON.parse(fs.readFileSync(process.env.MEAK_MANIFEST, 'utf8')), ap = MK.apply; MK.apply = d => ap(d && d.length ? d : cand); MK.apply(null); }
 const OUT = process.env.MEA_OUT; if (OUT) { const E = require(ROOT + '/verify/eval_lib.js'); let echo = 0; const run = E.runCase;
   E.writeArtifact = (name, obj) => { fs.mkdirSync(OUT, { recursive: true }); fs.writeFileSync(path.join(OUT, name), JSON.stringify(obj)); };
   E.runCase = (open, turns) => { const r = run(open, turns); if (r && r.trace && r.trace.echo && r.trace.echo.pass) echo++; return r; };
