@@ -1,5 +1,5 @@
 (function () {
-const $ = s => document.querySelector(s); const $$ = s => document.querySelectorAll(s); const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&', '<': '<', '>': '>', '"': '"' })[c]);
+const $ = s => document.querySelector(s); const $$ = s => document.querySelectorAll(s); const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '\x26amp;', '<': '\x26lt;', '>': '\x26gt;', '"': '\x26quot;' })[c]);
 let backend; try { localStorage.setItem('kernel.probe', '1'); backend = { get: k => localStorage.getItem(k), set: (k, v) => localStorage.setItem(k, v), del: k => localStorage.removeItem(k), keys: () => Object.keys(localStorage) }; } catch (e) { backend = null; }
 const fmt = iso => { try { return new Date(iso).toLocaleString([], { dateStyle: 'short', timeStyle: 'short', timeZoneName: 'short' }); } catch (e) { return iso; } };
 const forge = KForge.ForgeKernel({ store: KKernel.MemoryStore(backend), formatTime: fmt }); window.forge = forge; window.kernel = forge;
