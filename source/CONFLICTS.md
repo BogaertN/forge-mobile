@@ -678,3 +678,20 @@ Nic's three rulings ("make the evidence and authority layers honest; failing tes
 - **Budget.** The single-file bundle grew to 1.562 MB raw for provenance.js and the guard. The raw budget was raised from 1.560 MB to 1.600 MB (`tools/verify_release.js`, `w5_suite` PRO); the gzip budget of 475 kB is unchanged.
 
 - **Push transport.** The file-push tool decodes named HTML entities (ampersand + amp/lt/gt/quot + semicolon) in file content. The four literals of this kind (`app.js esc`, the `app_bench.js` "Backup & Recovery" heading, the `crawler.js` entity decoder) are now written as the JS escape `\x26` + name + `;`, which is the identical string at runtime. A release check compares the GitHub tree hash with the local tree hash.
+
+## v4.9.75: primary entity from the lead subject; definitional "What is X?" (Nic, 2026-10-19 12:32)
+The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first, in 0953935, and run on the test-only tree. 5 of the 6 failed. The case that passed was "ordinal / about-the-entity mismatches still reject", a regression guard. That commit's `run.js` wiring had a brace error; it was fixed in the implementation commit. The suite itself ran as a child process and produced the fail-first rows.
+- **(1) Primary entity.** A source's primary entity is now its title head, OR its case parties, OR its lead subject. Any one of them may match, and each is tested with the same rule (`provenance.js subjectMatch`, which reports `basis: title | party | lead`).
+  - **Case parties** are used for court opinions ("Miranda v. Arizona" → miranda, arizona). When a title is a case name, the parties replace the title head.
+  - **Lead subject** is the grammatical subject of the first sentence: the words before the first finite verb, cut to their head.
+    - A finite verb is a copula, a modal, a listed common or irregular verb, a lowercase -s/-es/-ed word after the subject, or a bare word directly before a determiner ("Auditors test the …").
+    - A first sentence that opens with a preposition or pronoun gives no lead subject.
+  - Ordinal mismatches and about-the-entity sources still reject: "The Twenty-first Amendment …", "A First Amendment audit …" and "First Amendment Coalition v. …" all fail.
+  - This addresses the 4.9.74 concern that peer-reviewed papers and opinions were being wrongly set aside.
+- **(2) Definitional sentences.** For "What is X?", a sentence fits when its grammatical subject names X and a finite verb follows (`provenance.js definitional`, used by `archives.js fit`). Example: "The First Amendment … prevents Congress from …".
+  - Spans stay verbatim, and the subject guard still applies.
+  - "What is the first amendment?" now answers with that sentence instead of "related passages".
+- **(3) Size budget.** The raise is accepted (Nic's standing rule).
+- **Test fixes.**
+  - The w16 RECOVERY and w14 NOTES plaintext-leak checks now look for "locker 4411", not "4411". The phrase contains a space, which base64 and hex never produce, so random ciphertext or hashes can no longer fail these checks by chance. Before the fix, 4.9.74's release hit one such chance failure.
+  - My own entity_suite case 4 used the question "can ibuprofen cause …" with the predicate "increase", which made "cause" a required entity word. The question was corrected to "does ibuprofen increase …" before the implementation was judged.

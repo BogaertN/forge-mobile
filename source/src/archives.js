@@ -19,7 +19,7 @@
     { id: 'wikidata', name: 'Wikidata', publisher: 'Wikimedia Foundation', cls: 'structured_reference', domains: ['*'], noun: 'record', api: 'https://www.wikidata.org/w/api.php', cors: 'Access-Control-Allow-Origin: * (origin=*)' }];
   const BY = Object.fromEntries(ARCHIVES.map(a => [a.id, a]));
   const INIT = { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'no-store', redirect: 'follow', mode: 'cors' };
-  const strip = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+  const strip = s => String(s || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\x26amp;/g, '&').replace(/&#39;|\x26apos;/g, "'").replace(/\x26quot;/g, '"').replace(/\s+/g, ' ').trim();
   const sentences = t => strip(t).split(/(?<=[.!?])\s+(?=[A-Z0-9“"(])/).filter(s => s.length > 20 && s.length < 600);
   /* term matching by stem: a term matches a word that starts with its first max(4, len-2) letters (cough ~ coughs, coughing; guilty ~ guilt) */
   const stem = w => String(w).toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, Math.max(4, String(w).length - 2));
@@ -217,6 +217,7 @@
     if (a === 'quantity') return unitRe(plan.dims).test(t);
     if (a === 'cause' && e.defn) return true; /* CAUSE-FRAME sentence */ if (a === 'cause') { /* the effect (an argument of the question) precedes the causal connective: "rust forms when …", not "because of … rust" */ const m = /\b(because|due to|caused by|result(?:s|ed)? (?:of|from)|owing to|formed by|forms? when|occurs? when|reaction (?:of|between)|reacts? with)\b/i.exec(t); if (!m) return false; const before = t.slice(0, m.index).split(/[^A-Za-z]+/).filter(Boolean).slice(-14).join(' '); return !plan.args || !plan.args.length || hits(before, plan.args) >= 1 }
     if (a === 'method') return !!e.defn || /\b(by (?:means of )?[a-z]+ing|using|uses?|through (?:a|an|the)|via|works by|consists of)\b/i.test(t);
+    if (a === 'description') { const P = typeof module !== 'undefined' && module.exports ? require('./provenance.js') : root.KProv; /* 4.9.75 (Nic 12:32): a definitional sentence whose subject is X (the question's entity) fits "What is X?" */ const X = P ? P.questionEntity(plan, plan.question) : ''; if (X && P.definitional(t, X)) return true; }
     return /\b(is|are|was|were|means|refers|provides|requires|shall|must|begins?|runs?|depends?|var(?:y|ies))\b/i.test(t) && (!plan.args || hits(t + ' ' + (e.title || ''), plan.args) >= plan.args.length && hits(t, plan.args.slice(-1)) >= 1); /* 4.9.55: the most specific (last) argument in the excerpt itself, not only the title; a definition must mention every nominal argument ("statute of limitations for fraud" → fraud) */ }
   /* EXTRACT (4.9.63, ruling 1): the answer an excerpt gives for the question's answer type — the claim its evidence object carries. A yes/no
      question: the verdict. Otherwise only a fitted excerpt answers: a typed value, the event year, a number with its unit, a personal name; a fitted
