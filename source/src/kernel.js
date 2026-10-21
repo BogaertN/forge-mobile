@@ -598,7 +598,10 @@ function Kernel(opts) {
   const EXPLAIN = new Set(['reason', 'rule', 'detail', 'code', 'why', 'note', 'source', 'span', 'parser_version', 'envelope', 'cite']);
   /* typed normal form of a decided VALUE, declared per kind, so the same value reached by two routes in different representations agrees
      (a world quantity computation and a unit conversion both decide "value v in unit u") */
-  const valueNF = m => m.kind === 'world_answer' && m.qty && m.qty.status === 'computed' ? ['value', String(m.qty.value), String(m.qty.unit || '')] : m.kind === 'converted' ? ['value', String(m.value), String(m.to || '')] : null;
+  /* 4.9.79: a quantity decision names its unit by the unit's identity (dimension and factor in the unit table), not its spelling: "180 minutes" and
+     "180 min" are one decision (two routes that agree are not two readings) */
+  const unitId = u => { const s = String(u || '').toLowerCase().trim(), x = A.U[s] || A.U[s.replace(/e?s$/, '')]; return x ? x.dim + ':' + String(x.f && x.f.toString ? x.f.toString() : x.f) : s; };
+  const valueNF = m => m.kind === 'world_answer' && m.qty && m.qty.status === 'computed' ? ['value', String(m.qty.value), unitId(m.qty.unit)] : m.kind === 'converted' ? ['value', String(m.value), unitId(m.to)] : null;
   const decisionOf = m => { const o = {}; for (const k of Object.keys(m || {}).sort()) if (!EXPLAIN.has(k)) o[k] = m[k]; return o; };
   const termSet = t => new Set(String(t || '').toLowerCase().replace(/[“”"’‘]/g, ' ').split(/[^a-z0-9']+/).filter(w => w.length > 2 && !G.CL[w]));
   const jacc = (a, b) => { let i = 0; for (const x of a) if (b.has(x)) i++; return i / ((a.size + b.size - i) || 1); };
@@ -696,7 +699,10 @@ function Kernel(opts) {
       for (const c of cands) if (!c.status) { c.status = 'not_selected'; c.why = 'reads the reply without the held clarification (RSOC ⧧ hold ancestry)'; } record.candidates = cands.map(candSummary).concat(skipped.map(s => ({ route: s.route, specificity: ROUTE_SPEC[s.route][0], status: s.status, why: s.why }))); };
     if (!ranked.length) { record.reason = 'no route proposed a candidate'; record.winner = null; record.candidates = cands.map(candSummary);
       const rest = String(ctx.raw || '').replace(/[.!?\s]+$/, '').slice(0, 120); return { outcome: 'NO_LAWFUL_CANDIDATE', material: { kind: 'no_frame', rest }, gates: { expectancy: 'no candidate' }, rules: [{ id: 'RMC-NO-CANDIDATE', doc: 'RMC §5.7 (no route proposed)' }], frame: 'none', act: 'unknown', selection: record }; }
-    if (distinct.length > 1) { /* true tie between routes of equal standing: never an arbitrary pick */
+    /* 4.9.79 TIE OF NON-ANSWERS: when every tied candidate withholds (a typed limitation or a clarification, none selects a meaning), there is no
+       reading to choose between; the specific route reports its limitation (apavāda over utsarga), the others are recorded as agreeing to withhold */
+    if (distinct.length > 1 && top.every(c => !/^SELECTED/.test(String(c.outcome || '')))) { top.sort((a, b) => (isSpecific(b.route) - isSpecific(a.route))); record.non_answer_tie = top.map(c => c.route); }
+    else if (distinct.length > 1) { /* true tie between routes of equal standing: never an arbitrary pick */
       for (const c of top) { c.status = 'tied'; c.why = 'equal completeness, specificity, drift and score with a different decision'; }
       const readings = top.map(c => ROUTE_NAME[c.route] || c.route).slice(0, 4); record.reason = 'tie between ' + top.map(c => c.route).join(', ') + ' → clarification'; record.winner = null; record.tie = top.map(c => c.route);
       finishRest(top[0]);
@@ -1457,21 +1463,33 @@ function Kernel(opts) {
     return { note: 'tag question form not covered → left as typed' }; }
   /* a multi-sentence message the one-query world grammar cannot take (query not final, first-person query) is read sentence by sentence;
      the user's own first-person statements in it are kept (as “remember that …”) so a later question in the same message can use them */
-  const SEQ_CODES = /^(?:QUERY_NOT_FINAL|UNSUPPORTED_QUERY_STRUCTURE|MULTIPLE_QUERIES|SENTENCE_LIMIT)$/;
+  const SEQ_CODES = /^(?:QUERY_NOT_FINAL|UNSUPPORTED_QUERY_STRUCTURE|UNSUPPORTED_ASSERTION_STRUCTURE|MULTIPLE_QUERIES|SENTENCE_LIMIT)$/; /* 4.9.79: a premise the world cannot read as a whole (a conditional, a causal statement) is read as discourse, one sentence at a time */
   function process(input) { WR.setManifest(activeManifest()); if (MEAK) MEAK.apply(activeManifestK()); lex.setStrict(true); if (pendingCase !== undefined) { caseNS = pendingCase; pendingCase = undefined; if (caseNS) { const ix = baseStore.load('case_index'); const id = caseNS.slice(5); if (!ix.includes(id)) baseStore.save('case_index', ix.concat([id])); } } const txt = String(input || '').normalize('NFC'), parts = txt.split(/(?<=[.!?])\s+/).map(x => x.trim()).filter(Boolean);
     /* M4: a dynamics construction reads the WHOLE input (a rate scenario with its question, reports joined by ";", an adverb sentence with its question): never split it */
     if (parts.length > 1 || /;/.test(txt)) { let whole = null; try { whole = DY.read(txt, { last: meta.dynScenario || null, isVerb: isVerbW }); } catch (e) { whole = null; } if (whole) return process1(input); }
     if (parts.length > 1 && parts.length <= 400 && !P.redact(txt).secrets.length) { let rr = null; try { rr = R.evaluate(txt, { allowBareQuery: true }); } catch (e) { rr = null; }
-      if (rr && rr.handled && rr.material && SEQ_CODES.test(rr.material.code || '')) { const outs = parts.map(p => process1(/^(?:i|my|i'm|i’m)\b/i.test(p) && !/\?$/.test(p) ? 'remember that ' + p.replace(/^my\b/, 'my') : p));
-        return combine(outs, { id: 'LL-SEQUENTIAL-SENTENCES', doc: 'Doc5 discourse (one sentence at a time)', note: rr.material.code + ' → ' + parts.length + ' sentences' }); } }
+      /* 4.9.79: a run of statements the world does not handle at all is discourse too (no that-complement verb scopes over the rest) */
+      const stmts = !(rr && rr.handled) && parts.every(p => !/\?$/.test(p)) && !/^(?:please )?(?:remember|note|keep in mind|store|forget)\b/i.test(txt);
+      if (rr && rr.handled && rr.material && SEQ_CODES.test(rr.material.code || '') || stmts) { const outs = parts.map(p => process1(/^(?:i|my|i'm|i’m)\b/i.test(p) && !/\?$/.test(p) ? 'remember that ' + p.replace(/^my\b/, 'my') : p));
+        return combine(outs, { id: 'LL-SEQUENTIAL-SENTENCES', doc: 'Doc5 discourse (one sentence at a time)', note: (rr && rr.material && rr.material.code || 'STATEMENTS') + ' → ' + parts.length + ' sentences' }, true); } }
     /* scope attachment (Pāṇini paper D3 scope; L2736–2751 negation/action preservation): independent clauses joined by ";" are separate scope domains, so a
        prohibition ("do not install X") binds only its own clause ("explain its failure" is read on its own). A that-complement (remember/note …) runs to the end. */
     const sc = txt.split(/;\s+/).map(x => x.trim()).filter(Boolean);
     if (sc.length > 1 && sc.length <= 20 && !/^(?:please )?(?:remember|note|keep in mind)\b/i.test(txt) && !P.redact(txt).secrets.length) { const outs = sc.map(p => process1(p)); outs.forEach((o, i) => o.trace.rules.push({ id: 'LL-CLAUSE-SCOPE', doc: 'Pāṇini paper D3 (scope); D5 L5552–5560', note: 'clause ' + (i + 1) + '/' + sc.length + (o.trace.msm && o.trace.msm.purpose.negated_act ? ': prohibition scoped here only' : '') }));
       return combine(outs, { id: 'LL-CLAUSE-SEQUENCE', doc: 'Doc5 discourse', note: sc.length + ' clauses' }); }
     return process1(input); }
-  function combine(outs, rule) { const last = outs[outs.length - 1]; last.trace.rules.push(rule);
-        const reply = outs.map(o => o.reply).filter(Boolean).join(' '), ms = outs.map(o => o.trace.msm && o.trace.msm.meaning);
+  /* 4.9.79 DISCOURSE ORDER + AGGREGATION: when a discourse ends in a question, its answer leads (the premises are what it answers from);
+     consecutive plain acknowledgements (no bindings, no derived words) are one assert_acks meaning, realized by the derivation (never joined text) */
+  function discourse(outs) { const ms = outs.map(o => o.trace.msm && o.trace.msm.meaning); if (!ms.every(Boolean)) return null; const last = outs.length - 1;
+    const order = ms[last].kind !== 'assert_ack' && /\?\s*$/.test(String(outs[last].trace.input || '')) ? [last].concat(outs.map((o, i) => i).slice(0, last)) : outs.map((o, i) => i);
+    const plainAck = m => m.kind === 'assert_ack' && !!m.clause; const groups = [];
+    for (const i of order) { const g = groups[groups.length - 1]; if (plainAck(ms[i]) && g && g.ack && g.working === !!ms[i].working) g.idx.push(i); else groups.push({ ack: plainAck(ms[i]), working: !!ms[i].working, idx: [i] }); }
+    if (!groups.some(g => g.ack && g.idx.length > 1)) return order[0] === 0 ? null : { parts: order.map(i => ms[i]), reply: order.map(i => outs[i].reply).filter(Boolean).join(' ') };
+    const parts = [], text = []; for (const g of groups) { if (g.ack && g.idx.length > 1) { const m = { kind: 'assert_acks', items: g.idx.map(i => ms[i].clause), working: g.working, binds: [].concat(...g.idx.map(i => ms[i].binds || [])), derived: [].concat(...g.idx.map(i => ms[i].derived || [])) };
+      { const cl = x => { const y = JSON.parse(JSON.stringify(x)); const strip = o => { if (o && typeof o === 'object') { delete o.f; Object.values(o).forEach(strip); } }; strip(y); return canon(y); }; const steps = new Set(((parts[0] && parts[0].steps) || []).map(cl)); if (steps.size && m.items.every(c => steps.has(cl(c)))) m.cited = true; } let t = null; try { t = D.realizeMeaning(m, ENV).text; } catch (e) { t = null; } if (!t) return null; parts.push(m); text.push(t); } else for (const i of g.idx) { parts.push(ms[i]); text.push(outs[i].reply); } }
+    return { parts, reply: text.filter(Boolean).join(' ') }; }
+  function combine(outs, rule, isDiscourse) { const last = outs[outs.length - 1]; last.trace.rules.push(rule); const dz = isDiscourse ? discourse(outs) : null;
+        const reply = dz ? dz.reply : outs.map(o => o.reply).filter(Boolean).join(' '), ms = dz ? dz.parts : outs.map(o => o.trace.msm && o.trace.msm.meaning);
         const trace = Object.assign({}, last.trace, { derivation: { plan: 'sequence', rules: [].concat(...outs.map(o => (o.trace.derivation && o.trace.derivation.rules) || [])), parts: outs.map(o => o.trace.derivation), surface: reply } });
         if (ms.every(Boolean) && last.trace.msm) trace.msm = Object.assign({}, last.trace.msm, { meaning: { kind: 'sequence', parts: ms } });
         return Object.assign({}, last, { reply, blocked: outs.some(o => o.blocked), trace, parts: outs }); }
