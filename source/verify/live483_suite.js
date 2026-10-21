@@ -19,6 +19,10 @@ T('e: do-support bare verb is the predicate (how does a compass work)', () => is
 T('e: do-support verb + object: subject is the first NP (how do bats find food)', () => is('How do bats find food?', 'bats'));
 T('e: subject gap "what V-s NP" asks about the object (what causes tides)', () => is('What causes tides?', 'tides'));
 T('e: a compound subject stays whole (how are solar panels made)', () => is('How are solar panels made?', 'solar panels'));
+T('e: a nationality adjective inside the subject is not the predicate (what does the Italian navy do)', () => is('What does the Italian navy do?', 'italian navy'));
+T('e: an unknown head noun still bounds the subject (why are axolotls pink)', () => is('Why are axolotls pink?', 'axolotls'));
+T('e: an unknown bare verb at the end is the predicate (why do dogs pant)', () => is('Why do dogs pant?', 'dogs'));
+T('e: "what is NP of …" keeps the whole NP (no clause split after what-is)', () => { const e = ent('What is the melting point of copper?'); expect(e && /copper/.test(e) && !/^melting$/.test(e), JSON.stringify(e)); });
 T('b: a formula is one token (CH4)', () => { const t = G.tokenize('What is CH4?').map(x => x.w); expect(t.includes('ch4'), JSON.stringify(t)); });
 T('b: an ordinal is one token (19th)', () => { const t = G.tokenize('the 19th century').map(x => x.w); expect(t.includes('19th'), JSON.stringify(t)); });
 T('b: the entity of a formula question is the formula', () => is('What is CH4?', 'ch4'));

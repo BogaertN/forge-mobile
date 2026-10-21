@@ -124,7 +124,7 @@ function splitSentences(text) { const out = []; let cur = ''; for (const piece o
 function tokenize(text) {
   const raw = String(text).replace(/[’‘]/g, "'").replace(/[“”]/g, '"');
   /* T-ABBREVIATION (4.9.79; orthography): an initialism with internal periods ("U.S.", "e.g.") and a title abbreviation ("Dr.", "Mr.") are one word, period included */
-  const parts = raw.match(/"[^"]*"|(?:[A-Za-z]\.){2,}|\b(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr)\.(?=\s+[A-Z])|[A-Za-zÀ-ÿ]+-\d+\b|[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\-]*(?:'(?!s\b)[a-z]+)?|'s\b|\d+(?:\.\d+)?|[?,;:.!]/g) || [];
+  const parts = raw.match(/"[^"]*"|(?:[A-Za-z]\.){2,}|\b(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr)\.(?=\s+[A-Z])|[A-Za-zÀ-ÿ]+-\d+\b|[A-Za-z]+\d[A-Za-z0-9]*\b|\d+[A-Za-z]+[A-Za-z0-9]*\b|[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\-]*(?:'(?!s\b)[a-z]+)?|'s\b|\d+(?:\.\d+)?|[?,;:.!]/g) || [];
   const exp = Object.assign(Object.create(null), { "don't": 'do not', "doesn't": 'does not', "didn't": 'did not', "isn't": 'is not', "aren't": 'are not', "wasn't": 'was not', "weren't": 'were not', "won't": 'will not', "can't": 'can not', "cannot": 'can not', "couldn't": 'could not', "wouldn't": 'would not', "shouldn't": 'should not', "i'm": 'i am', "you're": 'you are', "we're": 'we are', "they're": 'they are', "i've": 'i have', "i'll": 'i will', "you'll": 'you will', "he's": 'he is', "she's": 'she is', "it's": 'it is', "what's": 'what is', "who's": 'who is', "where's": 'where is', "that's": 'that is', "let's": 'let us', "haven't": 'have not', "hasn't": 'has not' });
   const toks = [];
   for (const p of parts) { const lw = p.toLowerCase(); if (exp[lw]) { exp[lw].split(' ').forEach((x, i) => toks.push({ w: x, orig: i === 0 && /^[A-Z]/.test(p) ? x[0].toUpperCase() + x.slice(1) : x, contraction: lw })); } else toks.push({ w: lw, orig: p }); }
