@@ -12,32 +12,14 @@
  *   contradict  the negation of the asked proposition added as a premise                               → conflict
  * Scores are REPORTED (artifact verify/mutation_scores.json + console). The suite blocks a release only on a crash, on a base case that no longer
  * passes, or on a variant that passed at the recorded baseline (eval_baseline.json) and fails now. Seeded: the same tree gives the same variants. */
-const E = require('./eval_lib.js'); const ROOT = E.ROOT;
+const E = require('./eval_lib.js'); const ROOT = E.ROOT; const fs = require('fs');
 const KMOD = require(ROOT + '/src/kernel.js'), G = require(ROOT + '/src/grammar.js'); const LEX = require(ROOT + '/data/lexicon.json'), EXT = require(ROOT + '/data/lexicon-ext.json');
 const open = () => KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock: () => '2026-10-18T12:00:00Z' });
 const rows = [], tests = []; const T = (name, fn) => tests.push({ name, fn }); const expect = (x, why) => { if (!x) throw new Error(why || 'expectation failed'); };
-/* base cases: copied verbatim from passing checks (source noted); fact = index of the minor premise for neg-fact, factIsQuery = that premise is the asked proposition */
-const BASES = [
-  { id: 'b01', src: 'run.js GELC-ACCEPT', turns: ['All blorfs are zindles. Tom is a blorf. Is Tom a zindle?'], expect: 'yes', fact: 1 },
-  { id: 'b02', src: 'run.js GELC-ACCEPT', turns: ['If something is a wug then it is a dax. Pim is a wug. Is Pim a dax?'], expect: 'yes', fact: 1 },
-  { id: 'b03', src: 'run.js GELC-ACCEPT', turns: ['No glorbs are frits. Zed is a glorb. Is Zed a frit?'], expect: 'no', fact: 1 },
-  { id: 'b04', src: 'run.js GELC-ACCEPT', turns: ['Every krell that is red is a vosk. Ana is a krell. Ana is red. Is Ana a vosk?'], expect: 'yes', fact: 2 },
-  { id: 'b05', src: 'run.js GELC-ACCEPT', turns: ['Tom is a blorf. Tom is not a blorf. Is Tom a blorf?'], expect: 'conflict' },
-  { id: 'b06', src: 'w19 worldCase', turns: ['Every glimmer is a nova. Every nova is quiet. Rhea is a glimmer. Is Rhea quiet?'], expect: 'yes', fact: 2 },
-  { id: 'b07', src: 'w19', turns: ['Every arin is bel. Every bel is cor. Every cor is dul. Ivo is an arin. Is Ivo dul?'], expect: 'yes', fact: 3 },
-  { id: 'b08', src: 'w19', turns: ['Every pilot vexes Orin. Sava is a pilot. Does Sava vex Orin?'], expect: 'yes', fact: 1 },
-  { id: 'b09', src: 'w19', turns: ['If someone admires Sol, then they trust Luna. Nera admires Sol. Does Nera trust Luna?'], expect: 'yes', fact: 1 },
-  { id: 'b10', src: 'w19', turns: ['Lio is amber. Is Lio not amber?'], expect: 'no', fact: 0, factIsQuery: true },
-  { id: 'b11', src: 'w19', turns: ['Every flint is gleam. Rava is flint. Orin is quiet. Is Rava gleam?'], expect: 'yes', fact: 1 },
-  { id: 'b12', src: 'w19', turns: ['Every glimmer is quiet. Rhea is not glimmer. Is Rhea quiet?'], expect: 'unknown' },
-  { id: 'b13', src: 'w19', turns: ['Every quorin is a vexal. Every vexal is lucid. Toma is a quorin. Is Toma lucid?'], expect: 'yes', fact: 2 },
-  { id: 'b14', src: 'run.js POSITIVE', turns: ['remember that my car is red', 'is my car red?'], expect: 'yes', memory: true },
-  { id: 'b15', src: 'w19', turns: ['Every blorf is a zindle. Suppose Tom is a blorf. Is Tom a zindle?'], expect: 'yes', noShuffle: true },
-  { id: 'b16', src: 'w19', turns: ['All horses are animals. Tom is a horse. Is Tom an animal?'], expect: 'yes', fact: 1 },
-  { id: 'b17', src: 'w19', turns: ['Every dog is an animal. Rex is a dog. Is Rex an animal?'], expect: 'yes', fact: 1 },
-  { id: 'b18', src: 'w19', turns: ['Every artist admires Luna. Nera is an artist. Does Nera admire Luna?'], expect: 'yes', fact: 1 },
-  { id: 'b19', src: 'w19', turns: ['All buses are cars. Tom is a bus. Is Tom a car?'], expect: 'yes', fact: 1 },
-  { id: 'b20', src: 'run.js POSITIVE', turns: ['remember that my sister lives in Paris', 'where does my sister live?'], expect: 'contains:Paris', memory: true }];
+/* base cases (copied verbatim from passing checks; source noted) are PRIVATE since 4.9.78: $FORGE_PRIVATE/mutation_bases.json, never in the repo.
+   fact = index of the minor premise for neg-fact, factIsQuery = that premise is the asked proposition. Without the private file (a fresh clone,
+   CI) the recorded outcomes in verify/heldout/heldout_record.json are validated against the current tree hash instead (heldout_record.js) */
+const HR = require('./heldout_record.js'); const PB = HR.privateJSON('mutation_bases.json'); const BASES = PB ? PB.bases : []; const REC = HR.recorded('mutation');
 const FUNC = new Set(['every', 'all', 'no', 'if', 'is', 'are', 'does', 'do', 'can', 'suppose', 'each', 'some', 'then', 'it', 'they', 'something', 'someone', 'not', 'a', 'an', 'the', 'that', 'remember', 'my']);
 const inLex = l => !!(LEX.L[l] || (EXT.L && EXT.L[l]) || (LEX.exc && LEX.exc[l]));
 const known = w => { const l = w.toLowerCase(); return inLex(l) || inLex(l.replace(/s$/, '')) || inLex(l.replace(/es$/, '')) || inLex(l.replace(/e?d$/, '')); };
@@ -87,17 +69,27 @@ function variants(b) { const v = []; for (const s of [11, 23, 37]) { const t = r
   { const t = contradict(b); if (t) v.push({ op: 'contradict', turns: t, expect: 'conflict' }); }
   const n = {}; return v.map(x => Object.assign(x, { id: b.id + ':' + x.op + ':' + (n[x.op] = (n[x.op] || 0) + 1) })); }
 const run = (turns, ex) => { let r = null, err = null; try { r = E.runCase(open, turns); } catch (e) { err = String(e && e.message || e).slice(0, 200); } const v = err ? 'crash' : E.verdict(r); return { verdict: v, pass: !err && E.judge(ex, v, r && r.reply), crash: err, reply: r && r.reply ? String(r.reply).slice(0, 160) : null }; };
-const baseRes = BASES.map(b => Object.assign({ id: b.id, src: b.src, expect: b.expect }, run(b.turns, b.expect)));
-const muts = []; for (const b of BASES) for (const v of variants(b)) muts.push(Object.assign({ id: v.id, base: b.id, op: v.op, input: v.turns.join(' ⏎ '), expect: v.expect }, run(v.turns, v.expect)));
-const baseline = E.readBaseline(), passed = muts.filter(x => x.pass).length;
-E.writeArtifact('mutation_scores.json', { schema: 'forge-mutation-score/v1', bases: baseRes.length, bases_passed: baseRes.filter(x => x.pass).length, variants: muts.length, passed, rate: +(passed / (muts.length || 1)).toFixed(4), by_operator: E.tally(muts, 'op'), results: muts, base_results: baseRes });
-T('MUTATION every base case (copied from a passing check) still passes', () => { const bad = baseRes.filter(x => !x.pass); expect(!bad.length, bad.map(x => x.id + ' ' + x.verdict + ' ≠ ' + x.expect).join(' | ')); });
-T('MUTATION generator yields every operator (rename, synonym, shuffle, paraphrase, word-order, neg-q, neg-fact, contradict) and at least 80 variants', () => { const ops = new Set(muts.map(x => x.op)); for (const o of ['rename', 'synonym', 'shuffle', 'paraphrase', 'word-order', 'neg-q', 'neg-fact', 'contradict']) expect(ops.has(o), 'no ' + o + ' variants'); expect(muts.length >= 80, muts.length + ' variants'); });
+const pub = ({ input, reply, crash, expect: ex, src, ...x }) => Object.assign(x, { crash: !!crash, input_sha256: input ? HR.sha(input) : x.input_sha256 }); /* the record and the artifact carry digests, never case text */
+let baseRes, muts, mtotal = null;
+if (PB) { baseRes = BASES.map(b => Object.assign({ id: b.id, case_sha256: HR.sha(JSON.stringify(b)), expect: b.expect }, run(b.turns, b.expect)));
+  muts = []; for (const b of BASES) for (const v of variants(b)) muts.push(Object.assign({ id: v.id, base: b.id, op: v.op, input: v.turns.join(' ⏎ '), expect: v.expect }, run(v.turns, v.expect))); }
+else if (REC.status === 'ok' && !REC.manifest) { baseRes = REC.part.bases.map(x => Object.assign({}, x)); muts = REC.part.variants.map(x => Object.assign({}, x)); }
+else { baseRes = []; muts = []; if (REC.manifest) mtotal = REC.manifest; }
+const part = { bases: baseRes.map(x => pub(Object.assign({}, x))), variants: muts.map(x => pub(Object.assign({}, x))) };
+const baseline = E.readBaseline(), passed = mtotal ? mtotal.passed : muts.filter(x => x.pass).length, nvar = mtotal ? mtotal.total : muts.length;
+E.writeArtifact('mutation_scores.json', { schema: 'forge-mutation-score/v1', mode: PB ? 'private' : 'record', bases: baseRes.length, bases_passed: baseRes.filter(x => x.pass).length, variants: nvar, passed, rate: +(passed / (nvar || 1)).toFixed(4), by_operator: E.tally(muts, 'op'), results: part.variants, base_results: part.bases });
+if (PB && HR.recording()) HR.writePart('mutation', HR.manifestKey() !== '-|-' ? { passed, total: nvar } : part);
+T('MUTATION the base sentences are not in the repo (private file); the record matches the current tree (' + (PB ? 'private bases present: the evaluation reproduces the record' : 'no private bases: the record is validated') + '; re-record with node verify/record_heldout.js)', () => {
+  expect(!/turns: \['/.test(fs.readFileSync(__filename, 'utf8')), 'base sentences in the suite'); if (PB && HR.recording()) return;
+  expect(REC.status === 'ok', 'record ' + REC.status + (REC.recorded_tree ? ' (recorded tree ' + REC.recorded_tree.slice(0, 12) + ', current ' + REC.tree.slice(0, 12) + ')' : '') + (REC.note ? ': ' + REC.note : ''));
+  if (PB) { if (REC.manifest) expect(REC.manifest.passed === passed && REC.manifest.total === nvar, 'manifest score differs from the record'); else expect(JSON.stringify(REC.part) === JSON.stringify(part), 'the evaluation differs from the record'); } });
+T('MUTATION every base case (copied from a passing check) still passes', () => { if (mtotal) return; const bad = baseRes.filter(x => !x.pass); expect(!bad.length, bad.map(x => x.id + ' ' + x.verdict + ' ≠ ' + x.expect).join(' | ')); });
+T('MUTATION generator yields every operator (rename, synonym, shuffle, paraphrase, word-order, neg-q, neg-fact, contradict) and at least 80 variants', () => { if (mtotal) { expect(mtotal.total >= 80, mtotal.total + ' variants'); return; } const ops = new Set(muts.map(x => x.op)); for (const o of ['rename', 'synonym', 'shuffle', 'paraphrase', 'word-order', 'neg-q', 'neg-fact', 'contradict']) expect(ops.has(o), 'no ' + o + ' variants'); expect(muts.length >= 80, muts.length + ' variants'); });
 T('MUTATION every variant runs to a reply without a crash', () => { const bad = muts.filter(x => x.crash); expect(!bad.length, bad.slice(0, 5).map(x => x.id + ': ' + x.crash).join(' | ')); });
 T('MUTATION no regression: every variant that passed at the recorded baseline still passes (scores are reported, not required)', () => {
   expect(baseline && baseline.mutation && Array.isArray(baseline.mutation.passed_ids), 'no recorded mutation baseline in verify/eval_baseline.json');
-  const now = new Set(muts.filter(x => x.pass).map(x => x.id)); const lost = baseline.mutation.passed_ids.filter(id => !now.has(id));
-  expect(!lost.length, 'regressed vs baseline: ' + lost.map(id => { const x = muts.find(y => y.id === id); return id + (x ? ' (' + x.verdict + ' ≠ ' + x.expect + ': ' + x.input + ')' : ' (variant no longer generated)'); }).join(' | ')); });
+  if (mtotal) return; const now = new Set(muts.filter(x => x.pass).map(x => x.id)); const lost = baseline.mutation.passed_ids.filter(id => !now.has(id));
+  expect(!lost.length, 'regressed vs baseline: ' + lost.map(id => { const x = muts.find(y => y.id === id); return id + (x ? ' (' + x.verdict + ' ≠ ' + x.expect + (x.input ? ': ' + x.input : '') + ')' : ' (variant no longer generated)'); }).join(' | ')); });
 for (const t of tests) { try { t.fn(); rows.push({ cls: 'MUTATION-EVAL', name: t.name, ok: true }); } catch (e) { rows.push({ cls: 'MUTATION-EVAL', name: t.name, ok: false, why: String(e && e.message || e).slice(0, 1400) }); } }
 if (process.argv.includes('--report')) process.stderr.write('MUTATION ' + passed + '/' + muts.length + ' ' + JSON.stringify(E.tally(muts, 'op')) + '\n' + muts.map(x => (x.pass ? 'PASS ' : 'FAIL ') + x.id + ' [' + x.verdict + ' vs ' + x.expect + '] ' + x.input + ' → ' + (x.reply || x.crash || '')).join('\n') + '\n');
 process.stdout.write(JSON.stringify(rows));

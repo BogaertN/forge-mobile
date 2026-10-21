@@ -1,0 +1,1 @@
+{"url":"https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=asthma&df=primary_name&ef=icd10cm_codes&maxList=3","status":200,"ct":"application/json; charset=utf-8","body":"[5,[\"366\",\"30572\",\"30573\"],{\"icd10cm_codes\":[\"J45.909\",\"J45.30\",\"J45.40\"]},[[\"Asthma\"],[\"Asthma - mild persistent\"],[\"Asthma - moderate persistent\"]]]"}

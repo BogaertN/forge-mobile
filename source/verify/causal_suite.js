@@ -25,8 +25,8 @@ module.exports = ({ C, expect, ROOT }) => {
     const b = K().process('A warehouse has 500 crates. A truck dispatches 40 crates each day for 5 days. How many remain?'); expect(/× 5 days = 300 crates\./.test(b.reply), b.reply);
     const src = require('fs').readFileSync(ROOT + '/src/dynamics.js', 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''); expect(!/\b(?:tank|battery|warehouse|crate|motor|truck)\b/.test(src), 'domain word in dynamics.js'); });
   C('M4-CAUSAL', 'C7 dimension check: incompatible units block the derivation with a diagnostic naming both units (status unsupported, missing "unit conversion"); no number is produced', () => {
-    const r = K().process('A tank contains 100 gallons. A pump removes 10 liters each minute for 3 minutes. How much remains?'), c = CR(r);
-    expect(/gallons/.test(r.reply) && /liters/.test(r.reply) && /no conversion/.test(r.reply) && !/= \d/.test(r.reply) && c && c.status === 'unsupported' && c.missing.includes('unit conversion'), r.reply + ' ' + JSON.stringify(c)); });
+    const r = K().process('A tank contains 100 kilograms. A pump removes 10 liters each minute for 3 minutes. How much remains?'), c = CR(r); /* 4.9.78 test edit: litres ↔ gallons is now an exact (qualified) or ambiguous (unqualified) case (r478_suite); a mass vs a volume stays incompatible */
+    expect(/kilograms/.test(r.reply) && /liters/.test(r.reply) && /no conversion/.test(r.reply) && !/= \d/.test(r.reply) && c && c.status === 'unsupported' && c.missing.includes('unit conversion'), r.reply + ' ' + JSON.stringify(c)); });
   C('M4-CAUSAL', 'C3 unresolved precondition: an unstated start for "how much after" yields an unsupported result that asks for the start; nothing is assumed or invented', () => {
     const r = K().process('A pump removes 10 gallons each minute. How much remains after 3 minutes?'), c = CR(r);
     expect(c && c.status === 'unsupported' && c.missing.includes('the starting amount') && /starting amount/.test(r.reply) && !/= \d/.test(r.reply), r.reply + ' ' + JSON.stringify(c)); });

@@ -132,7 +132,7 @@ T.PHI6|phi6,Φ6,grace,correction|term|Φ6 Grace / Correction: the only phase whe
 T.PHI7|phi7,Φ7,naming|term|Φ7 Naming: identity assignment; echo validation is required before naming.|RPMC §1.4
 T.PHI8|phi8,Φ8,projection|term|Φ8 Power / Projection: outward expression. Φ5→Φ8 (projection without correction and naming) is forbidden.|RPMC §1.4; RMC Addendum §4
 T.PHI9|phi9,Φ9,return,closure|term|Φ9 Return: loop closure; echo(ψ,Φ9) must equal ψ(Φ1).|RPMC §1.4
-T.CHI|chi,χ|term|χ(t), the correction operator: the only entropy-reducing operator. The χ correction step runs for 0.35 < ε_s < 0.40; the χ override fires at most once per loop binding when ε_s > 0.80 (or a forbidden transition), Ê(τ)=1, χ flag = 0 and |ΔΦ_avg| ≤ π/3. In the runtime it re-routes; it does not by itself authorize output.|RSOC §3.2; RMC Addendum §4
+T.CHI|chi,χ|term|χ(t), the correction function: the only entropy-reducing operator. The χ correction step runs for 0.35 < ε_s < 0.40; the χ override fires at most once per loop binding when ε_s > 0.80 (or a forbidden transition), Ê(τ)=1, χ flag = 0 and |ΔΦ_avg| ≤ π/3. In the runtime it re-routes; it does not by itself authorize output.|RSOC §3.2; RMC Addendum §4
 T.ECHO|echo|term|Echo validation Ê: the rendered output is re-parsed and must return the same material meaning as the manifest; failure blocks output.|RMC §5.12, §6.7; RSOC §3.1
 T.SPC|spc,capacitor|term|Symbolic Phase Capacitor: lossless cold storage for a sealed loop (Ĉ); erasure is never the lawful response to collapse.|RSOC §5; RPMC
 T.COLD|cold,archival,archive|term|Controlled archival Ĉ: an unresolvable state is sealed into cold storage with its phase, echo and entropy metadata.|RSOC §3.1; Symbolic Cold Storage Theory

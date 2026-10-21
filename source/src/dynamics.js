@@ -19,11 +19,20 @@ const Q = (n, d = 1n) => { if (d < 0n) { n = -n; d = -d; } const g = gcd(n, d); 
 const qp = s => { const m = String(s).match(/^(-?)(\d+)(?:\.(\d+))?$/); if (!m) return null; const f = m[3] || ''; return Q(BigInt(m[1] + m[2] + f), 10n ** BigInt(f.length)); };
 const add = (a, b) => Q(a.n * b.d + b.n * a.d, a.d * b.d), sub = (a, b) => add(a, Q(-b.n, b.d)), mul = (a, b) => Q(a.n * b.n, a.d * b.d), div = (a, b) => Q(a.n * b.d, a.d * b.n);
 const sgn = a => (a.n > 0n ? 1 : a.n < 0n ? -1 : 0), lt = (a, b) => sgn(sub(a, b)) < 0;
-const fmt = a => { const neg = a.n < 0n, n = neg ? -a.n : a.n, w = n / a.d, r = n % a.d; return (neg ? '−' : '') + (r ? (w ? w + ' ' : '') + r + '/' + a.d : String(w)); };
+let DECIMAL = false; /* 4.9.78: a scenario that applied a decimal-defined unit conversion states its exact terminating values as decimals */
+const decOf = a => { let d = a.d, k = 0; while (d % 2n === 0n) { d /= 2n; k++; } let j = 0; while (d % 5n === 0n) { d /= 5n; j++; } if (d !== 1n) return null; const e = BigInt(Math.max(k, j)), neg = a.n < 0n, n = (neg ? -a.n : a.n) * (10n ** e) / a.d; const st = n.toString().padStart(Number(e) + 1, '0'); const w = e ? st.slice(0, -Number(e)) : st, f = e ? st.slice(-Number(e)).replace(/0+$/, '') : ''; return (neg ? '−' : '') + w + (f ? '.' + f : ''); };
+const fmtQ = a => { const neg = a.n < 0n, n = neg ? -a.n : a.n, w = n / a.d, r = n % a.d; return (neg ? '−' : '') + (r ? (w ? w + ' ' : '') + r + '/' + a.d : String(w)); }; /* the exact fraction (scenario encoding) */
+const fmt = a => { if (DECIMAL && a.d !== 1n) { const x = decOf(a); if (x) return x; } const neg = a.n < 0n, n = neg ? -a.n : a.n, w = n / a.d, r = n % a.d; return (neg ? '−' : '') + (r ? (w ? w + ' ' : '') + r + '/' + a.d : String(w)); };
 /* ---- data: words ---- */
 const NUMW = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, fifteen: 15, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, hundred: 100 };
 const TIME = { second: Q(1n, 60n), sec: Q(1n, 60n), minute: Q(1n), min: Q(1n), hour: Q(60n), hr: Q(60n), day: Q(1440n) }; /* in minutes */
 const UNIT_ALIAS = { gal: 'gallon', l: 'liter', litre: 'liter', liters: 'liter', litres: 'liter', kg: 'kilogram', unit: 'unit' };
+/* 4.9.78 EXACT VOLUME CONVERSIONS (defined values, in liters): applied only between units that are both listed. A unit with several
+   definitions (the gallon: US 3.785411784 L or imperial 4.54609 L) is ambiguous unless the turn qualifies it */
+const VOL = { liter: Q(1n), milliliter: Q(1n, 1000n), 'cubic-meter': Q(1000n), 'us-gallon': Q(3785411784n, 1000000000n), 'imperial-gallon': Q(454609n, 100000n) };
+const AMBIGUOUS_UNIT = { gallon: ['us-gallon', 'imperial-gallon'] };
+const UNIT_NAME = { 'us-gallon': 'US gallon', 'imperial-gallon': 'imperial gallon', 'cubic-meter': 'cubic meter' };
+const qualifyUnits = low => low.replace(/\b(?:us|u\.s\.|american) (gallon)s?\b/g, (m, u) => 'us-' + u + (/s$/.test(m) ? 's' : '')).replace(/\b(?:imperial|uk|british) (gallon)s?\b/g, (m, u) => 'imperial-' + u + (/s$/.test(m) ? 's' : '')).replace(/\b(?:millilitres?|milliliters?)\b/g, m => 'milliliter' + (/s$/.test(m) ? 's' : '')).replace(/\bcubic (?:metres?|meters?)\b/g, m => 'cubic-meter' + (/s$/.test(m) ? 's' : ''));
 const IN_VERBS = ['fill', 'add', 'pour', 'enter', 'gain', 'receive', 'supply', 'flow in', 'pump in', 'arrive', 'restock', 'deliver', 'deposit', 'collect', 'accumulate']; /* level rises */
 const OUT_VERBS = ['drain', 'remove', 'leak', 'lose', 'use', 'consume', 'withdraw', 'flow out', 'pump out', 'take out', 'leave', 'empty', 'draw', 'dispatch', 'ship', 'sell', 'spend', 'discharge', 'burn', 'deplete']; /* level falls */
 const REPORT_VERBS = ['report', 'read', 'measure', 'show', 'say', 'record', 'indicate'];
@@ -34,20 +43,25 @@ const verbIn = (txt, list) => list.find(v => { const [h, ...t] = v.split(' '); r
 const num = s => (NUMW[s] != null ? Q(BigInt(NUMW[s])) : qp(s));
 const NUM = '(\\d+(?:\\.\\d+)?|' + Object.keys(NUMW).join('|') + ')';
 /* ---- RATES ---- */
-function readRates(raw, last) { const low = String(raw).toLowerCase().replace(/[“”"]/g, '').replace(/\s+/g, ' ').trim(), sents = low.split(/(?<=[.;!?])\s+/).map(s => s.replace(/[.;!]+$/, '').trim()).filter(Boolean);
+function readRates(raw, last) { const low = qualifyUnits(String(raw).toLowerCase().replace(/[“”"]/g, '').replace(/\s+/g, ' ').trim()), sents = low.split(/(?<=[.;!?])\s+/).map(s => s.replace(/[.;!]+$/, '').trim()).filter(Boolean);
   const qs = sents.filter(s => /\?$/.test(s) || /^(?:how|when|what)\b/.test(s)), facts = sents.filter(s => !qs.includes(s));
   const sc = { subject: null, unit: null, tunit: null, start: null, cap: null, low: null, ins: [], outs: [], dur: null }; let bad = false;
-  const unitOk = u => { u = sing(u); if (TIME[u]) return false; if (!sc.unit) sc.unit = u; else if (sc.unit !== u) { if (!(sc.mixed || []).includes(u)) sc.mixed = (sc.mixed || [sc.unit]).concat([u]); } return true; }; /* C7: a second volume unit is a diagnostic (no conversion is stated), never a silent drop */
+  let F = Q(1n); /* the factor of the unit last accepted by unitOk, into the scenario's unit */
+  const unitOk = u => { u = sing(u); if (TIME[u]) return false; F = Q(1n); if (!sc.unit) sc.unit = u; else if (sc.unit !== u) {
+      if (VOL[u] && VOL[sc.unit]) { F = div(VOL[u], VOL[sc.unit]); if (!(sc.conv || []).includes(u)) sc.conv = (sc.conv || []).concat([u]); } /* 4.9.78: an exact, defined conversion */
+      else if ((AMBIGUOUS_UNIT[u] && (VOL[sc.unit] || AMBIGUOUS_UNIT[sc.unit])) || (AMBIGUOUS_UNIT[sc.unit] && VOL[u])) sc.ambiguous = AMBIGUOUS_UNIT[u] ? u : sc.unit; /* US or imperial: never assumed */
+      else if (!(sc.mixed || []).includes(u)) sc.mixed = (sc.mixed || [sc.unit]).concat([u]); } return true; }; /* C7: a second volume unit is a diagnostic (no conversion is stated), never a silent drop */
+  const cv = v => (v && v.n !== undefined ? mul(v, F) : v);
   const rateRe = new RegExp(NUM + '[ -]([a-z]+(?:-[a-z]+)*) (?:per|each|every|a|an|/) ?(second|sec|minute|min|hour|hr|day)s?\\b', 'g');
   for (const s of facts) {
-    const capm = s.match(new RegExp('^(?:a|an|the) ' + NUM + '[ -]([a-z]+(?:-[a-z]+)*) ([a-z]+)')) || null; if (capm && !TIME[sing(capm[2])] && unitOk(capm[2])) { sc.cap = num(capm[1]); sc.subject = sc.subject || 'the ' + capm[3]; }
-    const cap2 = s.match(new RegExp('(?:capacity of|holds? up to|can hold|holds at most) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)')); if (cap2 && unitOk(cap2[2])) sc.cap = num(cap2[1]);
-    const lo = s.match(new RegExp('(?:(?:cannot|can\'t|must not|never) (?:go|fall|drop) below|lower bound of|minimum of|at least) ' + NUM + '[ -]([a-z]+(?:-[a-z]+)*)')); if (lo && unitOk(lo[2])) sc.low = num(lo[1]);
+    const capm = s.match(new RegExp('^(?:a|an|the) ' + NUM + '[ -]([a-z]+(?:-[a-z]+)*) ([a-z]+)')) || null; if (capm && !TIME[sing(capm[2])] && unitOk(capm[2])) { sc.cap = cv(num(capm[1])); sc.subject = sc.subject || 'the ' + capm[3]; }
+    const cap2 = s.match(new RegExp('(?:capacity of|holds? up to|can hold|holds at most) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)')); if (cap2 && unitOk(cap2[2])) sc.cap = cv(num(cap2[1]));
+    const lo = s.match(new RegExp('(?:(?:cannot|can\'t|must not|never) (?:go|fall|drop) below|lower bound of|minimum of|at least) ' + NUM + '[ -]([a-z]+(?:-[a-z]+)*)')); if (lo && unitOk(lo[2])) sc.low = cv(num(lo[1]));
     if (!sc.subject) { const sm = s.match(/^(?:a|an|the) ([a-z]+)\b/); if (sm) sc.subject = 'the ' + sm[1]; }
     for (const cl of s.split(/,? and |, /)) { let m; rateRe.lastIndex = 0; const rm = rateRe.exec(cl) || new RegExp(NUM + ' ([a-z]+(?:-[a-z]+)*) (?:each|every|per|a) (second|sec|minute|min|hour|hr|day)\\b').exec(cl);
-      if (rm) { if (!unitOk(rm[2])) { bad = true; continue; } const t = sing(rm[3]); if (!sc.tunit) sc.tunit = t; const r = div(mul(num(rm[1]), TIME[sc.tunit]), TIME[t]); /* per the scenario's time unit */
+      if (rm) { if (!unitOk(rm[2])) { bad = true; continue; } const t = sing(rm[3]); if (!sc.tunit) sc.tunit = t; const r = cv(div(mul(num(rm[1]), TIME[sc.tunit]), TIME[t])); /* per the scenario's time unit */
         const vin = verbIn(cl, IN_VERBS), vout = verbIn(cl, OUT_VERBS); if (vin && !vout) sc.ins.push(r); else if (vout && !vin) sc.outs.push(r); else bad = true; }
-      else if ((m = cl.match(new RegExp('\\b(?:contains?|has|holds?|starts? (?:with|at)|begins? with|is at) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)'))) && !/capacity|up to|at most/.test(cl) && unitOk(m[2])) sc.start = num(m[1]);
+      else if ((m = cl.match(new RegExp('\\b(?:contains?|has|holds?|starts? (?:with|at)|begins? with|is at) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)'))) && !/capacity|up to|at most/.test(cl) && unitOk(m[2])) sc.start = cv(num(m[1]));
       else if (/\bis empty\b|\bstarts? empty\b/.test(cl)) sc.start = Q(0n); else if (/\bis full\b|\bstarts? full\b/.test(cl)) sc.start = 'cap';
       const dm = cl.match(new RegExp('\\bfor ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?\\b')); if (dm) sc.dur = [num(dm[1]), sing(dm[2])]; } }
   if (sc.start === 'cap') sc.start = sc.cap;
@@ -63,12 +77,14 @@ function readFollow(raw, last) { if (!last) return null; const low = String(raw)
   m = low.match(new RegExp('^(?:i|we) measured ' + NUM + ' ([a-z]+(?:-[a-z]+)*) after ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?$')) || low.match(new RegExp('^(?:a|the) [a-z0-9 ]+ (?:reports|reads|shows) ' + NUM + ' ([a-z]+(?:-[a-z]+)*) after ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?$'));
   if (m && sing(m[2]) === last.unit) return Object.assign({}, last, { ask: 'after', dur: [num(m[3]), sing(m[4])], measured: num(m[1]), branch: 'measurement' });
   return null; }
-const qty = (v, u) => fmt(v) + ' ' + plural(u, v), rate = (v, sc) => fmt(v) + ' ' + plural(sc.unit, v) + '/' + sc.tunit;
+const unm = u => UNIT_NAME[u] || u, qty = (v, u) => fmt(v) + ' ' + plural(unm(u), v), rate = (v, sc) => fmt(v) + ' ' + plural(unm(sc.unit), v) + '/' + sc.tunit;
 function solveRates(sc) {
   /* C7 / C3 (4.9.77): an incompatible unit or an unstated start for a duration question is a typed diagnostic: no number is produced */
+  DECIMAL = !!sc.conv;
+  if (sc.ambiguous && !sc.mixed) return { mode: 'rate', subject: sc.subject, diagnostic: 'ambiguous_unit', unit: sc.ambiguous, readings: AMBIGUOUS_UNIT[sc.ambiguous].map(x => UNIT_NAME[x] || x), missing: ['which ' + sc.ambiguous + ' is meant'], assumed: [], scenario: enc(sc), result: null };
   if (sc.mixed) return { mode: 'rate', subject: sc.subject, diagnostic: 'units', units: sc.mixed.map(x => plural(x, Q(2n))), missing: ['unit conversion'], assumed: [], scenario: enc(sc), result: null };
   if (sc.start == null && sc.ask === 'after') return { mode: 'rate', subject: sc.subject, diagnostic: 'start', missing: ['the starting amount'], assumed: [], scenario: enc(sc), result: null };
-  const net = sc.ins.concat(sc.outs.map(x => Q(-x.n, x.d))).reduce(add, Q(0n)), u = sc.unit, T = sc.tunit, assumed = [sc.ins.length + sc.outs.length > 1 ? 'the rates stay constant' : 'the rate stays constant'];
+  const net = sc.ins.concat(sc.outs.map(x => Q(-x.n, x.d))).reduce(add, Q(0n)), u = sc.unit, T = sc.tunit, assumed = [sc.ins.length + sc.outs.length > 1 ? 'the rates stay constant' : 'the rate stays constant'].concat((sc.conv || []).map(x => '1 ' + unm(x) + ' = ' + (() => { const d0 = DECIMAL; DECIMAL = true; const t = fmt(div(VOL[x], VOL[sc.unit])); DECIMAL = d0; return t; })() + ' ' + plural(unm(sc.unit), Q(2n)) + ' (exact by definition)'));
   const list = xs => xs.map(x => rate(x, sc)).join(' + '), grp = xs => (xs.length > 1 ? '(' + list(xs) + ')' : list(xs));
   const rising = () => (sc.outs.length ? '(' + list(sc.ins) + ' − ' + list(sc.outs) + ')' : grp(sc.ins)), falling = () => (sc.ins.length ? '(' + list(sc.outs) + ' − ' + list(sc.ins) + ')' : grp(sc.outs));
   const lowB = sc.low || Q(0n); let start = sc.start; if (start == null) { if (sc.ask === 'fill') { start = Q(0n); assumed.push(sc.subject + ' starts with 0 ' + plural(u, Q(2n))); } else return null; }
@@ -86,7 +102,7 @@ function solveRates(sc) {
       out.explanations = [sc.start != null ? 'the start was not ' + qty(sc.start, u) : null].concat(sc.ins.map(x => 'the inflow was not ' + rate(x, sc)), sc.outs.map(x => 'the outflow was not ' + rate(x, sc)),
         ['the duration was not ' + qty(d, T), lt(sc.measured, final) ? 'an unmodelled outflow' : 'an unmodelled inflow', 'the measurement is wrong']).filter(Boolean); } else out.assumed.push('the measured ' + qty(sc.measured, u) + ' agrees'); }
   return out; }
-const enc = sc => JSON.parse(JSON.stringify(sc, (k, v) => (v && typeof v === 'object' && typeof v.n === 'bigint' ? fmt(v) : typeof v === 'bigint' ? String(v) : v)));
+const enc = sc => JSON.parse(JSON.stringify(sc, (k, v) => (v && typeof v === 'object' && typeof v.n === 'bigint' ? fmtQ(v) : typeof v === 'bigint' ? String(v) : v)));
 const dec = sc => { const r = s => { const m = String(s).replace('−', '-').match(/^(-?)(?:(\d+) )?(\d+)(?:\/(\d+))?$/); if (!m) return null; const neg = m[1] ? -1n : 1n; if (m[4]) return Q(neg * (BigInt(m[2] || 0) * BigInt(m[4]) + BigInt(m[3])), BigInt(m[4])); return Q(neg * BigInt(m[3])); };
   return Object.assign({}, sc, { start: sc.start == null ? null : r(sc.start), cap: sc.cap == null ? null : r(sc.cap), low: sc.low == null ? null : r(sc.low), measured: sc.measured == null ? undefined : r(sc.measured), ins: sc.ins.map(r), outs: sc.outs.map(r), dur: sc.dur ? [r(sc.dur[0]), sc.dur[1]] : null }); };
 /* ---- REPORTS ---- */

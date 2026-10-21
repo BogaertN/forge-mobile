@@ -58,14 +58,14 @@ const VALUE_TYPES = new Set(['date', 'person', 'place', 'quantity']);
 /* relation words of the question (asked predicate forms; the degree word and dimension noun of a quantity question) */
 const relationOf = p => uniq([].concat(p.askedForms || [], p.predForms || [], [p.asked, p.pred, p.degree, p.dimNoun]).filter(Boolean).map(x => String(x).toLowerCase()).filter(x => /^[a-z]+$/.test(x)));
 /* the question's entity: the lookup plan's entity / object, else the first run of content words that are not relation words */
-function questionEntity(plan, question) { const p = plan || {}; if (p.entity) return words(p.entity).join(' '); if (p.object) return words(p.object).join(' ');
+function questionEntity(plan, question) { const p = plan || {}; if (p.subject) return words(p.subject).join(' '); /* 4.9.78: the parse's subject noun phrase first */ if (p.entity) return words(p.entity).join(' '); if (p.object) return words(p.object).join(' ');
   const rel = relationOf(p), ws = words(question || p.question || ''), run = []; let started = false;
   for (const w of ws) { const content = !FUNCTION_WORDS.has(w) && !rel.some(r => same(r, w)); if (content) { run.push(w); started = true; } else if (started) break; }
   return run.join(' '); }
 /* the key content of the answer sentence a source is cited for */
 function keyContent(plan, claim) { const p = plan || {}; const relation = relationOf(p);
   const value = claim && claim.kind === 'value' && claim.answer ? uniq(words(claim.answer)) : [];
-  const entities = uniq(words(p.question || [].concat(p.object ? [p.object] : [], p.entity ? [p.entity] : [], p.args || []).join(' ')).filter(w => !FUNCTION_WORDS.has(w) && !relation.some(r => same(r, w)) && !value.some(v => same(v, w))));
+  const entities = uniq(words(p.subject || p.question || [].concat(p.object ? [p.object] : [], p.entity ? [p.entity] : [], p.args || []).join(' ')).filter( /* 4.9.78: the parse's subject noun phrase when it has one (a participle predicate is not an entity word) */w => !FUNCTION_WORDS.has(w) && !relation.some(r => same(r, w)) && !value.some(v => same(v, w))));
   const polarity = claim && claim.kind === 'verdict' && /^(yes|no)$/i.test(claim.answer) ? ((String(claim.answer).toLowerCase() === 'no') !== !!p.neg ? 'negative' : 'positive') : null;
   return { value, entities, relation, polarity, needs_value: VALUE_TYPES.has(p.atype) && !value.length }; }
 /* any key shape (keyContent's, or { value: '1989', entities: [['berlin', 'wall']], relation: [...] }) → the normal form */
@@ -137,10 +137,22 @@ function subjectMatch(questionEnt, src, answerEnt) { const q = words(questionEnt
   if (!q.length) return Object.assign(res, { ok: true, via: 'question', basis: 'none', limitation: null, note: 'no question entity resolved' });
   /* 4.9.75: the primary entity is the title head OR a case party OR the lead subject (first sentence subject); each is tested the same way */
   const parties = partiesOf(src && src.title); /* a case name's entity is its parties, not "miranda v arizona" */ const cands = (parties.length ? [] : [['title', h]]).concat(parties.map(p => ['party', words(p)]), (() => { const l = leadSubject(src && src.excerpt); return l ? [['lead', words(l)]] : []; })());
+  /* 4.9.78: an ALTERNATE NAME of the source (a title that redirects to it, a recorded alias) is tested like its title: "<Country> military"
+     → "<Country> Armed Forces" */
+  for (const al of (src && src.aliases) || []) cands.push(['alias', headCut(words(String(al).replace(/\s*\([^)]*\)\s*/g, ' ')))]);
   for (const [basis, c] of cands) if (names(q, c)) return Object.assign(res, { ok: true, via: 'question', basis, limitation: null, primary_entity: c.join(' ') });
+  /* 4.9.78 DESCRIPTION: a sentence of the source that states "<Name> is the <question subject>" verbatim makes the source the subject's
+     referent (a definite description resolves to the name it is predicated of); the resolved name is recorded */
+  { const d = describedBy(src && src.excerpt, q.join(' ')); if (d) return Object.assign(res, { ok: true, via: 'question', basis: 'description', limitation: null, primary_entity: d.answer, resolved_entity: d.answer, span: d.span }); }
   const a = answerEnt == null ? [] : words(String(answerEnt).replace(/^probably\s+/i, ''));
   for (const [basis, c] of cands) if (namesAnswer(a, c)) return Object.assign(res, { ok: true, via: 'answer', basis, limitation: null, answer_entity: a.join(' '), primary_entity: c.join(' ') });
   return res; }
+/* DESCRIBED BY (4.9.78): the first sentence whose grammatical subject X is followed by a copula, "the" and then the description's words in
+   order (contiguous, ordinals and numbers exact); returns { answer: X, span } or null. A description of one word is not a description */
+function describedBy(text, descr) { const s = String(text || ''), d = words(descr); if (d.length < 2) return null;
+  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), ws = words(t), c = leadClause(t); if (!c || !c.subject) continue;
+    for (let i = 0; i + d.length + 2 <= ws.length; i++) if (/^(is|was|are|were)$/.test(ws[i]) && ws[i + 1] === 'the' && d.every((w, j) => ws[i + 2 + j] === w)) return { answer: c.subject, span: t }; }
+  return null; }
 /* a verbatim span (one sentence) naming both the question subject and the answer */
 function bothSpan(excerpt, questionEnt, answerEnt) { const s = String(excerpt || ''), q = words(questionEnt), a = words(String(answerEnt || '').replace(/^probably\s+/i, '')); if (!q.length || !a.length) return null;
   for (const [x, y] of sentences(s)) { const t = s.slice(x, y), ws = words(t); if (q.every(w => ws.some(v => same(v, w))) && a.every(w => ws.some(v => same(v, w)))) return t; } return null; }
@@ -148,8 +160,9 @@ function bothSpan(excerpt, questionEnt, answerEnt) { const s = String(excerpt ||
 function qualifies(questionEnt, src, answerEnt) { const m = subjectMatch(questionEnt, src, answerEnt); if (!m.ok || m.via === 'question') return m;
   const sp = bothSpan(src && src.excerpt, questionEnt, answerEnt); return sp ? Object.assign(m, { span: sp }) : Object.assign(m, { ok: false, via: null, limitation: 'SUBJECT_MISMATCH', note: 'answer entity without a span naming the question subject and the answer' }); }
 /* ---------------- 5. AGREEMENT ---------------- */
-const ORIGIN = Object.freeze({ wikipedia: 'wikimedia', wikidata: 'wikimedia', medlineplus: 'nlm', openfda: 'fda', courtlistener: 'free-law-project', ecfr: 'federal-register' });
-function originOf(r) { if (r.cls === 'peer_reviewed') return 'paper:' + words(r.title).join(' '); if (ORIGIN[r.archive]) return ORIGIN[r.archive];
+const ORIGIN = Object.freeze({ wikipedia: 'wikimedia', wikidata: 'wikimedia', medlineplus: 'nlm', openfda: 'fda', courtlistener: 'free-law-project', ecfr: 'federal-register',
+  /* 4.9.78: one publisher is one origin (agreement counts origins, never archives or results) */ pubchem: 'nlm', mesh: 'nlm', ncbigene: 'nlm', rxclass: 'nlm', chebi: 'embl-ebi', federalregister: 'federal-register', legislationgovuk: 'the-national-archives-uk', uniprot: 'uniprot', gbif: 'gbif', loc: 'library-of-congress' });
+function originOf(r) { if (r.origin) return String(r.origin); /* a record that restates another archive's text (PubChem quoting ChEBI) has that archive's origin */ if (r.cls === 'peer_reviewed') return 'paper:' + words(r.title).join(' '); if (ORIGIN[r.archive]) return ORIGIN[r.archive];
   const dom = /^https?:\/\/([^/]+)/i.exec(String(r.url || '')); return dom ? 'web:' + dom[1].toLowerCase().replace(/^www\./, '') : 'archive:' + String(r.archive || 'unknown'); }
 const normAns = a => words(String(a == null ? '' : a).replace(/^probably\s+/i, '')).join(' ');
 function agreement(rows, answer) { const by = new Map(); const ans = answer == null ? null : normAns(answer);
@@ -164,7 +177,7 @@ function rowsFor(sources, keyFor) { let rejected_spans = 0;
   const rows = (sources || []).map((s, i) => { const tier = tierOf(s.cls), title = String(s.title || '').replace(/\s+/g, ' ').trim().slice(0, 70), name = String(s.name || 'Wikipedia'), key = keyFor(s);
     let span = null, reason; if (s.span != null) { const c = checkSpan(s.excerpt, s.span, key); if (c.ok) { span = s.span; reason = c.reason; } else rejected_spans++; }
     if (span === null) { span = extractSpan(s.excerpt, key); reason = span ? 'verbatim_span_with_key_content' : hasKey(normKey(key)) ? 'no_span_with_key_content' : normKey(key).needs_value ? 'no_extracted_value' : 'no_key_content'; }
-    return { n: i + 1, archive: String(s.archive || 'wikipedia'), name, title, url: String(s.url || ''), label: name + ': ' + (title || 'untitled'), rank_class: s.cls || 'unknown', tier, tier_label: TIER_LABEL[tier], tier_name: TIER_LABEL[tier], supported: span !== null, span, reason, claim: claimText(s.claim) }; });
+    return Object.assign({ n: i + 1, archive: String(s.archive || 'wikipedia'), name, title, url: String(s.url || ''), label: name + ': ' + (title || 'untitled'), rank_class: s.cls || 'unknown', tier, tier_label: TIER_LABEL[tier], tier_name: TIER_LABEL[tier], supported: span !== null, span, reason, claim: claimText(s.claim) }, s.origin ? { origin: String(s.origin) } : {}); });
   return { rows, rejected_spans }; }
 const countsOf = rows => { const c = { curated_archive: 0, peer_reviewed_index: 0, open_fallback: 0 }; for (const r of rows) c[r.tier]++; return c; };
 const itemOf = r => r.label + ' · ' + r.tier_label + (r.supported ? '' : ' · unsupported');
@@ -194,6 +207,6 @@ function reportHTML(pv, esc) { if (!pv) return ''; const e = esc || (s => String
     pv.sources.map(s => '<li class="tier-' + e(s.tier) + (s.tier === 'open_fallback' ? ' fallback' : '') + '">' + e(s.label) + ' <span class="pill' + (s.tier === 'open_fallback' ? ' warn' : '') + '">' + e(s.tier_label) + '</span> ' +
       (s.supported ? '<span class="pill ok">supported</span><div class="small">verbatim span: “' + e(s.span) + '”</div>' : '<span class="pill bad">unsupported</span><div class="small">no verbatim span with the answer\'s key content (' + e(String(s.reason).replace(/_/g, ' ')) + ')</div>') + '</li>').join('') + '</ol>' +
     ((pv.rejected || []).length ? '<div class="small">set aside (' + e(pv.rejected[0].limitation) + '): ' + pv.rejected.map(r => e(r.name + ': ' + r.title) + ' — about “' + e(r.primary_entity) + '”, not “' + e(r.question_entity) + '”').join('; ') + '</div>' : '') + '</div>'; }
-const api = { SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
+const api = { describedBy, SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KProv = api;
 })(typeof self !== 'undefined' ? self : this);

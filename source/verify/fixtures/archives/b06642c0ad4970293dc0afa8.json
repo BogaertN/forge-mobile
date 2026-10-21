@@ -1,0 +1,1 @@
+{"url":"https://id.nlm.nih.gov/mesh/lookup/descriptor?match=exact&limit=1&label=Aspirin","status":200,"ct":"application/json","body":"[{\"resource\":\"http://id.nlm.nih.gov/mesh/D001241\",\"label\":\"Aspirin\"}]"}

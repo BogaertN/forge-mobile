@@ -1,0 +1,22 @@
+{
+ "schema": "forge-research-probe-digests/v1",
+ "note": "SHA-256 of the normalised (eval_lib norm) audit probe questions of 2026-10-21; the questions themselves are private ($FORGE_PRIVATE/research_probes.json) and are run against the live web by the post-release probe, never stored here",
+ "count": 7,
+ "windows": {
+  "5": [
+   "926016237b50a1de5da956cfd684fa484a868e453c8bca7b1afef251259aa091",
+   "b5fd6ffb2952a2b051ea3df31171780bd0c2d9824a453592e7c49ed729d53b3f"
+  ],
+  "6": [
+   "1e18b386a044f9739f86fb6538f329a1d62c85b5e43c16283885ffcf8abf3429",
+   "abe11b9e9344255c72f1fc1a2223759ea0d1700e6a44f3ac4080f0792f55fb69"
+  ],
+  "7": [
+   "b9941b77743dbf2bd4279cd87cca055f3fedbab47d543938c1735e03f9be219b"
+  ],
+  "8": [
+   "5c4fd9a4ebadb63699ee310ed86ddfe22974774de2691dabcb419485852cae95",
+   "72798a296d21ed073da4772234484a4627f16b834799268471ebc870503fb473"
+  ]
+ }
+}

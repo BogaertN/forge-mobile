@@ -39,7 +39,7 @@ for (const [q, s, j] of [['What does the French Navy do?', 'french navy', 'franc
   T('2: "' + q + '" keeps the full noun phrase "' + s + '" as the subject; the country is the jurisdiction modifier "' + j + '"', () => { const p = plan(q), e = qEnt(q); expect(e === s, 'subject "' + e + '" (plan entity ' + (p && p.entity) + ')'); expect(p && p.juris === j, 'juris ' + (p && p.juris)); });
 for (const q of ['What is bronze made of?', 'What does a heart do?', 'How does a telescope work?'])
   T('2: no blanket default jurisdiction: "' + q + '" names no polity, so the plan has none', () => { const p = plan(q); expect(p && (p.juris === null || p.juris === undefined), 'juris ' + (p && p.juris)); });
-const FR = { France: 'France is a country in Western Europe. Its total area is 643,801 square kilometres.', 'French Navy': 'The French Navy is the maritime arm of the French Armed Forces. Applicants must be at least 17 years old.',
+const FR = { France: 'France, officially the French Republic, is a country in Western Europe. Its total area is 643,801 square kilometres.', 'French Navy': 'The French Navy is the maritime arm of the French Armed Forces. Applicants must be at least 17 years old.',
   'French Armed Forces': 'The French Armed Forces are the military forces of France. They include the French Army, the French Navy and the French Air and Space Force.\nRecruits must be at least 17 years old.',
   'Taxation in France': 'Taxation in France is governed by the French tax code, the Code général des impôts. It sets out income tax and value added tax.', 'French Revolution': 'The French Revolution was a period of political change in France that began in 1789.' };
 T('2: the bare country article never stands in for "<country> <institution>": the institution\'s own article is cited and its lead sentence (about the subject) is shown', async () => {
@@ -50,7 +50,7 @@ T('2: a title reached by a redirect from the full phrase (an alternate name) mat
   expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'French Armed Forces', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/The French Armed Forces are the military forces of France/.test(rp) && !/Recruits must/.test(rp), rp); });
 T('2: a directive "research <country> tax code" is answered by the article the full phrase redirects to, never by the country article', async () => {
   const x = await ask(FR, 'research France tax code', { 'France tax code': 'Taxation in France' }); const rp = replyOf(x);
-  expect(x.m && x.m.source === 'Taxation in France', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(!/643,801/.test(rp), rp); });
+  expect(x.m && (x.m.source || (x.m.items || [])[0]) === 'Taxation in France', 'source ' + (x.m && (x.m.source || x.m.items)) + ' | ' + rp); /* a directive lists its sources (tool_result: items, no answer source) */ expect(!/643,801/.test(rp), rp); });
 T('2: with only the country article and unrelated pages, the answer is an honest subject mismatch — never the country article\'s sentence', async () => {
   const pages = { France: FR.France, 'French Revolution': FR['French Revolution'] }; const x = await ask(pages, 'What does the French Navy do?'); const rp = replyOf(x);
   expect(x.m && x.m.kind === 'tool_failed' && x.m.limitation === 'SUBJECT_MISMATCH', 'kind ' + (x.m && x.m.kind) + ' | ' + rp); expect(!/643,801|Western Europe/.test(rp), rp); });
@@ -106,6 +106,10 @@ T('6: no plain-text held-out set or mutation base sentences in the repo (digests
   expect(!fs.existsSync(path.join(__dirname, 'heldout', 'HELDOUT_DO_NOT_TUNE.json')), 'plain-text held-out file still in the repo');
   const ms = fs.readFileSync(path.join(__dirname, 'mutation_suite.js'), 'utf8'); expect(!/turns:\s*\[\s*'/.test(ms), 'mutation base sentences still in mutation_suite.js');
   const rec = path.join(__dirname, 'heldout', 'heldout_record.json'); expect(fs.existsSync(rec), 'no held-out record'); expect(!/"turns"/.test(fs.readFileSync(rec, 'utf8')), 'record holds case text'); });
+T('6: the audit probe questions are digests only: no word window of the shipped source or of this suite hashes to one (verify/heldout/research_probe_digests.json)', () => {
+  const D = JSON.parse(fs.readFileSync(path.join(__dirname, 'heldout', 'research_probe_digests.json'), 'utf8')), HR = require('./heldout_record.js'), E = require('./eval_lib.js'); expect(D.count >= 7, 'fewer than 7 probe digests');
+  expect(!HR.shippedWindowHits(D.windows).length, 'a probe question is in the shipped source'); const words = E.norm(fs.readFileSync(__filename, 'utf8')).split(' '), crypto = require('crypto');
+  for (const [L, list] of Object.entries(D.windows)) { const set = new Set(list); for (let j = 0; j + +L <= words.length; j++) expect(!set.has(crypto.createHash('sha256').update(words.slice(j, j + +L).join(' ')).digest('hex')), 'a probe question is in this suite'); } });
 T('6: the held-out baseline protects the current score (≥ 48 of 54 passed ids)', () => { const b = JSON.parse(fs.readFileSync(path.join(__dirname, 'eval_baseline.json'), 'utf8')); expect(b.heldout && b.heldout.passed_ids.length >= 48, 'baseline ' + (b.heldout && b.heldout.passed_ids.length)); });
 
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R478', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();

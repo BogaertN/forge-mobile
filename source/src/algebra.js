@@ -62,12 +62,15 @@ function simplify(expr) { try { const p = poly(expr); return { ok: true, result:
 function checkSame(expr, p) { const vs = P.vars(p); const pts = [2, 3, 5]; return pts.every(t => { let a = p, b = poly(expr); for (const v of vs) { a = P.subst(a, v, new Q(BigInt(t + vs.indexOf(v)))); b = P.subst(b, v, new Q(BigInt(t + vs.indexOf(v)))); } return qs(P.constVal(a)) === qs(P.constVal(b)); }); }
 function evaluateAt(expr, x, val) { try { const p = poly(expr); const r = P.subst(p, x, Q.parse(val)); if (!P.isConst(r)) return { ok: false, error: 'FREE_VARIABLES', rest: P.str(r) }; return { ok: true, value: qs(P.constVal(r)), expr: P.str(p) }; } catch (e) { return { ok: false, error: e.message }; } }
 /* ---- units (exact SI factors; NIST/SI definitions) ---- */
-const U = {}; const defU = (dim, f, names) => names.split(',').forEach(n => (U[n] = { dim, f: Q.parse(f), name: names.split(',')[0] }));
+const U = {}; const defU = (dim, f, names, disp) => names.split(',').forEach(n => (U[n] = { dim, f: Q.parse(f), name: disp || names.split(',')[0] }));
+/* 4.9.78: a unit name with several legal definitions is AMBIGUOUS: the gallon is the US gallon (3.785411784 L) or the imperial gallon (4.54609 L); it is never assumed */
+const AMBIG = { gal: ['US gallon', 'imperial gallon'], gallon: ['US gallon', 'imperial gallon'], gallons: ['US gallon', 'imperial gallon'] };
+const qualifyUnit = s => String(s).replace(/\b(?:us|u\.s\.|american) (gal|gallons?)\b/gi, (m, u) => 'us-' + u.toLowerCase()).replace(/\b(?:imperial|uk|british) (gal|gallons?)\b/gi, (m, u) => 'imperial-' + u.toLowerCase());
 defU('length', '1', 'm,meter,meters,metre,metres'); defU('length', '1000', 'km,kilometer,kilometers,kilometre,kilometres'); defU('length', '0.01', 'cm,centimeter,centimeters'); defU('length', '0.001', 'mm,millimeter,millimeters');
 defU('length', '1609.344', 'mi,mile,miles'); defU('length', '0.9144', 'yd,yard,yards'); defU('length', '0.3048', 'ft,foot,feet'); defU('length', '0.0254', 'in,inch,inches');
 defU('mass', '1', 'kg,kilogram,kilograms'); defU('mass', '0.001', 'g,gram,grams'); defU('mass', '0.000001', 'mg,milligram,milligrams'); defU('mass', '0.45359237', 'lb,lbs,pound,pounds'); defU('mass', '0.028349523125', 'oz,ounce,ounces'); defU('mass', '1000', 't,tonne,tonnes');
 defU('time', '1', 's,sec,second,seconds'); defU('time', '60', 'min,minute,minutes'); defU('time', '3600', 'h,hr,hour,hours'); defU('time', '86400', 'day,days'); defU('time', '604800', 'week,weeks');
-defU('volume', '1', 'l,liter,liters,litre,litres'); defU('volume', '0.001', 'ml,milliliter,milliliters'); defU('volume', '3.785411784', 'gal,gallon,gallons'); defU('volume', '0.2365882365', 'cup,cups');
+defU('volume', '1', 'l,liter,liters,litre,litres'); defU('volume', '0.001', 'ml,milliliter,milliliters'); defU('volume', '3.785411784', 'us-gal,us-gallon,us-gallons', 'US gal'); defU('volume', '4.54609', 'imperial-gal,imperial-gallon,imperial-gallons', 'imperial gal'); defU('volume', '0.2365882365', 'cup,cups');
 const TEMP = { c: 'C', celsius: 'C', f: 'F', fahrenheit: 'F', k: 'K', kelvin: 'K' };
 function toK(v, u) { return u === 'K' ? v : u === 'C' ? v.add(Q.parse('273.15')) : v.sub(new Q(32n)).mul(new Q(5n, 9n)).add(Q.parse('273.15')); }
 function fromK(v, u) { return u === 'K' ? v : u === 'C' ? v.sub(Q.parse('273.15')) : v.sub(Q.parse('273.15')).mul(new Q(9n, 5n)).add(new Q(32n)); }
@@ -75,6 +78,7 @@ function decimal(q) { const s = qs(q); if (!s.includes('/')) return { text: s, e
 function convert(valStr, from, to) {
   from = from.toLowerCase(); to = to.toLowerCase(); const v = Q.parse(valStr);
   if (TEMP[from] && TEMP[to]) { const r = fromK(toK(v, TEMP[from]), TEMP[to]); return { ok: true, value: decimal(r), from: valStr + ' °' + TEMP[from], to: '°' + TEMP[to], dim: 'temperature' }; }
+  if (AMBIG[from] || AMBIG[to]) return { ok: false, error: 'AMBIGUOUS_UNIT', unit: AMBIG[from] ? from : to, readings: AMBIG[AMBIG[from] ? from : to] };
   const a = U[from], b = U[to]; if (!a || !b) return { ok: false, error: 'UNKNOWN_UNIT', unit: !a ? from : to };
   if (a.dim !== b.dim) return { ok: false, error: 'DIMENSION_MISMATCH', dims: [a.dim, b.dim] };
   const r = v.mul(a.f).div(b.f); return { ok: true, value: decimal(r), from: valStr + ' ' + a.name, to: b.name, dim: a.dim, factor: qs(a.f.div(b.f)) };
@@ -178,7 +182,7 @@ const UB = Object.create(null); const ub = (names, f, L, Mm, T) => names.split('
 ub('m,meter,meters,metre,metres', '1', 1, 0, 0); ub('km,kilometer,kilometers,kilometre,kilometres', '1000', 1, 0, 0); ub('cm,centimeter,centimeters', '0.01', 1, 0, 0); ub('mm,millimeter,millimeters', '0.001', 1, 0, 0); ub('mi,mile,miles', '1609.344', 1, 0, 0); ub('yd,yard,yards', '0.9144', 1, 0, 0); ub('ft,foot,feet', '0.3048', 1, 0, 0); ub('in,inch,inches', '0.0254', 1, 0, 0);
 ub('kg,kilogram,kilograms', '1', 0, 1, 0); ub('g,gram,grams', '0.001', 0, 1, 0); ub('mg,milligram,milligrams', '0.000001', 0, 1, 0); ub('lb,lbs,pound,pounds', '0.45359237', 0, 1, 0); ub('oz,ounce,ounces', '0.028349523125', 0, 1, 0); ub('t,tonne,tonnes', '1000', 0, 1, 0);
 ub('s,sec,second,seconds', '1', 0, 0, 1); ub('min,minute,minutes', '60', 0, 0, 1); ub('h,hr,hour,hours', '3600', 0, 0, 1); ub('day,days', '86400', 0, 0, 1); ub('week,weeks', '604800', 0, 0, 1);
-ub('l,liter,liters,litre,litres', '0.001', 3, 0, 0); ub('ml,milliliter,milliliters', '0.000001', 3, 0, 0); ub('gal,gallon,gallons', '0.003785411784', 3, 0, 0); ub('ha,hectare,hectares', '10000', 2, 0, 0); ub('acre,acres', '4046.8564224', 2, 0, 0);
+ub('l,liter,liters,litre,litres', '0.001', 3, 0, 0); ub('ml,milliliter,milliliters', '0.000001', 3, 0, 0); ub('us-gal,us-gallon,us-gallons', '0.003785411784', 3, 0, 0); ub('imperial-gal,imperial-gallon,imperial-gallons', '0.00454609', 3, 0, 0); ub('ha,hectare,hectares', '10000', 2, 0, 0); ub('acre,acres', '4046.8564224', 2, 0, 0);
 ub('mph', '0.44704', 1, 0, -1); ub('kph,kmh', new Q(5n, 18n), 1, 0, -1); ub('n,newton,newtons', '1', 1, 1, -2); ub('j,joule,joules', '1', 2, 1, -2); ub('w,watt,watts', '1', 2, 1, -3);
 function parseUnit(str) {
   const s = str.toLowerCase().trim().replace(/\bper\b/g, '/').replace(/\bsquare\s+(\w+)/g, '$1^2').replace(/\bcubic\s+(\w+)/g, '$1^3').replace(/(\w+)\s+squared\b/g, '$1^2').replace(/(\w+)\s+cubed\b/g, '$1^3').replace(/²/g, '^2').replace(/³/g, '^3').replace(/·/g, '*').replace(/\s*([*/^])\s*/g, '$1').replace(/\s+/g, '*');
@@ -187,8 +191,8 @@ function parseUnit(str) {
     for (let i = 0; i < ex; i++) f = sign > 0 ? f.mul(d.f) : f.div(d.f); d.dim.forEach((x, i) => (dim[i] += x * ex * sign)); }
   return { f, dim }; }
 const dimName = d => ['L', 'M', 'T'].map((n, i) => (d[i] ? n + (d[i] === 1 ? '' : '^' + d[i]) : '')).filter(Boolean).join('·') || 'dimensionless';
-function convertCompound(valStr, from, to) { const a = parseUnit(from), b = parseUnit(to); if (!a || !b) return { ok: false, error: 'UNKNOWN_UNIT', unit: !a ? from : to }; if (a.dim.join() !== b.dim.join()) return { ok: false, error: 'DIMENSION_MISMATCH', dims: [dimName(a.dim), dimName(b.dim)] };
-  const r = Q.parse(valStr).mul(a.f).div(b.f); return { ok: true, value: decimal(r), from: valStr + ' ' + from, to, dim: dimName(a.dim), factor: frac(a.f.div(b.f)) }; }
+function convertCompound(valStr, from, to) { const from0 = from, to0 = to; from = qualifyUnit(from); to = qualifyUnit(to); { const amb = String(from + ' ' + to).toLowerCase().split(/[^a-z-]+/).find(w => AMBIG[w]); if (amb) return { ok: false, error: 'AMBIGUOUS_UNIT', unit: amb, readings: AMBIG[amb] }; } const a = parseUnit(from), b = parseUnit(to); if (!a || !b) return { ok: false, error: 'UNKNOWN_UNIT', unit: !a ? from : to }; if (a.dim.join() !== b.dim.join()) return { ok: false, error: 'DIMENSION_MISMATCH', dims: [dimName(a.dim), dimName(b.dim)] };
+  const r = Q.parse(valStr).mul(a.f).div(b.f); return { ok: true, value: decimal(r), from: valStr + ' ' + from0, to: to0, dim: dimName(a.dim), factor: frac(a.f.div(b.f)) }; }
 /* rational functions p(x)/q(x): cancel the polynomial GCD (Euclid over exact rationals); record excluded points (Doc9: domain kept, never silently widened) */
 function toArr(p, x) { const n = P.deg(p, x); const a = []; for (let i = n; i >= 0; i--) a.push(P.coef(p, x, i)); return a; }
 function trim(a) { let i = 0; while (i < a.length - 1 && qz(a[i])) i++; return a.slice(i); }
@@ -204,7 +208,7 @@ function ratSimplify(src) { const m = String(src).replace(/\s+/g, '').match(/^\(
   const result = P.isConst(den) && qs(P.constVal(den)) === '1' ? P.str(num) : '(' + P.str(num) + ')/(' + P.str(den) + ')';
   for (const t of [-2.5, 0.75, 3.25]) { const f = (pp, v) => { let s2 = 0; for (const [k, q] of pp) { const mm = unmono(k); s2 += q.toNumber() * Math.pow(v, mm[x] || 0); } return s2; }; const a = f(pn, t) / f(pd, t), b = f(num, t) / f(den, t); if (isFinite(a) && Math.abs(a - b) > 1e-9 * Math.max(1, Math.abs(a))) return { ok: false, error: 'UNVERIFIED' }; }
   return { ok: true, x, input: '(' + P.str(pn) + ')/(' + P.str(pd) + ')', result, cancelled, excluded: excl, check: 'value agreement at -2.5, 0.75, 3.25' }; }
-const api = { ratSimplify, P, poly, solve, solveAny, solvePoly, simplify, evaluateAt, convert, convertCompound, parseUnit, factor, solveSystem, derivative, integral, surdStr, frac, U, TEMP };
+const api = { ratSimplify, P, poly, solve, solveAny, solvePoly, simplify, evaluateAt, convert, convertCompound, parseUnit, AMBIG, qualifyUnit, factor, solveSystem, derivative, integral, surdStr, frac, U, TEMP };
 
 if (isNode) module.exports = api; else root.KAlgebra = api;
 })(this);

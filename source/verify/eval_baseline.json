@@ -1,18 +1,23 @@
 {
  "schema": "forge-eval-baseline/v1",
- "recorded": "M0 baseline at 4.9.56 kernel (ecd5e94), before M1",
- "version": "4.9.56",
+ "recorded": "4.9.78: re-recorded at the current score (audit 2026-10-21: the 4.9.57 baseline 43/54 was stale; 48/54 now protected)",
+ "version": "4.9.77",
  "history": [
   {
    "note": "M0 baseline at 4.9.56 kernel (ecd5e94), before M1",
    "heldout": "43/54",
    "mutation": "145/173"
+  },
+  {
+   "note": "4.9.78: re-recorded at the current score (audit 2026-10-21: the 4.9.57 baseline 43/54 was stale; 48/54 now protected)",
+   "heldout": "48/54",
+   "mutation": "145/173"
   }
  ],
  "heldout": {
-  "passed": 43,
+  "passed": 48,
   "cases": 54,
-  "rate": 0.7963,
+  "rate": 0.8889,
   "by_category": {
    "syllogism": {
     "pass": 9,
@@ -43,7 +48,7 @@
     "total": 5
    },
    "relation-chain": {
-    "pass": 1,
+    "pass": 5,
     "total": 6
    },
    "verb-frames": {
@@ -51,7 +56,7 @@
     "total": 4
    },
    "follow-up": {
-    "pass": 5,
+    "pass": 6,
     "total": 6
    },
    "identity": {
@@ -97,7 +102,11 @@
    "amb-01",
    "amb-02",
    "amb-05",
+   "rel-01",
+   "rel-02",
    "rel-03",
+   "rel-04",
+   "rel-05",
    "vrb-01",
    "vrb-02",
    "vrb-03",
@@ -106,6 +115,7 @@
    "fol-02",
    "fol-03",
    "fol-04",
+   "fol-05",
    "fol-06"
   ]
  },

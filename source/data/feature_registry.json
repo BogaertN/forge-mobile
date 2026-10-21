@@ -1,5 +1,5 @@
 {
- "version": "4.9.77",
+ "version": "4.9.78",
  "features": [
   {
    "id": "A-01",
@@ -2565,14 +2565,36 @@
     "DYN-PURE",
     "M4-CAUSAL"
    ]
+  },
+  {
+   "id": "R478-FIX",
+   "name": "Audit 2026-10-21 fixes: research subject/jurisdiction/description plan, research trace, held-out sealing, qualified gallons",
+   "source": "forge-audit-2026-10-21.md items 1-8 (approved 2026-10-21)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.78: \"what is X made of / <participle> of|by|from\" subject; full noun phrase subject with jurisdiction as a modifier (no US default); title/alias acceptance; ordinal/descriptive questions resolved by verbatim description match; acronyms not pronouns; FORGE-RESEARCH-TRACE/v1 with candidates and rejection reasons on every path (persisted as hashes); held-out set and mutation bases moved to a private location with a hash record; US/imperial gallon exact, bare gallon refused. Not yet: US cup still assumed; mixed imperial output prints fractions.",
+   "proof": [
+    "R478"
+   ]
+  },
+  {
+   "id": "R478-ARCH",
+   "name": "Factual archives: tiered keyless CORS archives routed by semantic type, field and jurisdiction",
+   "source": "Audit follow-up request 2026-10-21 (more factual archives)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.78: PubChem, ChEBI (OLS4), MeSH, UniProt, NCBI Gene, Federal Register, legislation.gov.uk (curated_archive); Europe PMC (peer_reviewed_index); RxClass, GBIF, Library of Congress (open_fallback); rank decides, the source URL is cited; offline fixture tests plus tools/archives_live_check.js. Not added: sources without CORS or behind a challenge.",
+   "proof": [
+    "ARCHIVES"
+   ]
   }
  ],
- "count": 235,
+ "count": 237,
  "claims": {
   "Implemented": 112,
-  "Missing": 9,
   "Not feasible on phone": 28,
-  "Out of scope / parked": 13,
-  "Partial": 73
+  "Partial": 75,
+  "Missing": 9,
+  "Out of scope / parked": 13
  }
 }

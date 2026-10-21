@@ -30,7 +30,7 @@ NEW = {
  'E-05':('Implemented','speculative frames (suppose / imagine / what if) → dream quarantine; never memory',['CONTAINMENT']),
  'E-06':('Implemented','capacity failures (unknown words, no derivation, echo ambiguity/failure) → ghost loop store',['CONTAINMENT']),
  'E-07':('Implemented','elevated / hard-stop drift recorded diagnostic-only in drift archive',['CONTAINMENT']),
- 'E-08':('Partial','ChristPing 7 gates evaluated; gate 6 is the forge preview comparator (harmonic comparator unspecified)',['RESURRECTION']),
+ 'E-08':('Partial','Seven-gate check evaluated; gate 6 is the forge preview comparator (harmonic comparator unspecified)',['RESURRECTION']),
  'E-09':('Implemented','typed collapse events with frozen hash snapshot; loop collapsed → quarantined',['LOOP-LIFECYCLE']),
  'D-14':('Implemented','loop lifecycle active/paused/collapsed/quarantined/resurrected/closed with legal-edge table',['LOOP-LIFECYCLE']),
  'G-07':('Implemented','loops persisted with transitions and receipts',['LOOP-LIFECYCLE']),

@@ -348,6 +348,7 @@ const REASON = {
   IDENTITY_EQ: () => [S(C('hold', { karta: N('equation', { det: 'that' }), roles: { tadartha: N('value', { det: 'every' }) } })), S(C('be', { karta: pr('it'), pred: N('identity', { det: 'a' }) }))],
   FALSE_EQ: () => [S(C('have', { karta: N('equation', { det: 'that' }), karma: N('solution', { det: 'no' }) })), S(C('reduce', { karta: pr('it'), roles: { gati: N('statement', { det: 'a', adj: ['false'] }) } }))],
   UNKNOWN_UNIT: m => [S(C('know', { karta: I, karma: N('unit', { det: 'the', app: Mn(m.unit) }), pol: 'neg' }))],
+  AMBIGUOUS_UNIT: m => [S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('the unit ' + m.unit + ' is ambiguous: it may be the ' + (m.readings || []).join(' or the ')) })), S(C('convert', { karta: I, karma: N('value', { det: 'the' }), tense: 'past', pol: 'neg' }))],
   DIM_MISMATCH: m => [S(C('measure', { karta: N('unit', { det: 'those', pl: true }), karma: N('quantity', { adj: ['different'], pl: true, list: { kind: 'mention', items: m.dims } }) }))],
   NO_EXTERNAL: () => [S(C('have', { karta: N('kernel', { det: 'this' }), karma: N('capability', { det: 'no' }), roles: { tadartha: N('action', { adj: ['external'], pl: true }) } }))],
   NOT_REGISTERED: () => [S(C('contain', { karta: N('register', { poss: 'my' }), karma: N('capability', { det: 'that' }), pol: 'neg' }))],
@@ -463,6 +464,7 @@ const unsupportedPlan = m => [S(C('be', { karta: N('claim', { det: 'the' }), pre
 /* M4 (4.9.65) dynamics answers (dynamics.js decides; this only voices): a rate computation as an equation over the stated quantities with its
    assumptions; measurement reports attributed to their sources with the conflict kept (never averaged); a fronted adverb's scope; a what-if */
 function dynPlan(m) { const out = [];
+  if (m.mode === 'rate' && m.diagnostic === 'ambiguous_unit') return [S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('the unit ' + m.unit + ' is ambiguous: it may be the ' + m.readings.join(' or the ')) })), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
   if (m.mode === 'rate' && m.diagnostic === 'units') return [S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('no conversion between ' + m.units.join(' and ') + ' is stated') })), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
   if (m.mode === 'rate' && m.diagnostic === 'start') return [S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' })), S(C('need', { karta: I, karma: N('amount', { det: 'the', adj: ['starting'] }) }))];
   if (m.mode === 'rate') { out.push(MS([X(m.expr), { rel: 'eq' }, X(m.result.text)])); if (m.result.never) out.push(S(C('reach', { karta: Mn(m.subject), karma: Mn(m.target), pol: 'neg' })));
@@ -614,6 +616,7 @@ const PLANS = {
         /* 4.9.74 (Nic items 4, 5): agreement over origins, and the typed limitation for sources about another subject (never named, never quoted) */
         m.agreement ? [S(C('be', { karta: N('agreement', { det: 'the' }), pred: Mn(m.agreement.text) }))] : [],
         (m.provenance.rejected || []).length ? [S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('SUBJECT_MISMATCH: ' + m.provenance.rejected.length + ' source' + (m.provenance.rejected.length === 1 ? ' was' : 's were') + ' about another subject and set aside') }))] : []) : [],
+      /* 4.9.78: the answer cites the lead source's URL */ m.source_url ? [S(C('be', { karta: N('link', { det: 'the' }), pred: Mn(m.source_url) }))] : [],
       [S(C('seal', { karta: I, karma: pr(m.items.length === 1 ? 'it' : 'they'), roles: { adhikarana: Nm('Identity Vault', 'the') }, tense: 'past' }))]),
   mea_problems: m => m.items.length ? [S(C('have', { karta: I, karma: N('problem', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }) }))] : [S(C('have', { karta: I, karma: N('problem', { det: 'no', pl: true }) }))],
   mea_none: m => [S(C('have', { karta: I, karma: N('problem', { det: 'no', app: Mn(m.key) }) }))],
