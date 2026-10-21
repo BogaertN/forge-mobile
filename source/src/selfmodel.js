@@ -58,10 +58,21 @@ function SelfModel(o) { const lex = o.lex, INF = o.INF;
   /* answer(q, gap, wh): q is the parsed question clause (or the copular frame); returns { meaning, rule, cls } or null (not a self-question this model settles) */
   function answer(q, gap, wh) { if (!q || q.coord || !q.verb || q.cond) return null; YN = !gap && !wh; const isK = n => n && n.pron === 'kernel' && !n.conj;
     /* identity: a wh-copula question whose subject is Forge and whose predicate is the gap */
+    /* SELF-ATTRIBUTE (4.9.82): "what are your N" with N an attribute / state noun (WordNet noun.attribute / noun.state: limits, weaknesses,
+       strengths) is answered by what Forge is, does, and lacks */
+    if (gap === 'pred' && q.verb.lemma === 'be' && q.subj && q.subj.owner === 'kernel' && q.subj.head && !q.subj.of) { const h = q.subj.head[q.subj.head.length - 1], l0 = lexnames(h, 'n')[0]; if (l0 === 'noun.attribute' || l0 === 'noun.state') return out(null, null, ['identity', 'rules', 'memory', 'experience', 'body'], 'SELF-ATTRIBUTE', l0); }
     if (gap === 'pred' && isK(q.subj) && q.verb.lemma === 'be') return out(null, null, wh === 'who' ? ['identity', 'person', 'rules', 'rsoc'] : ['identity', 'rsoc', 'rules', 'memory'], 'SELF-IDENTITY', 'identity');
     if (!isK(q.subj)) return null;
     if (gap && gap !== null && !/^role:karma$/.test(gap)) return null;
     const L = q.verb.lemma;
+    /* SELF-HAVE (4.9.82): "do you have N" — the karma's WordNet class decides: an affective state (noun.feeling, or a sense glossed as affective /
+       emotional) → no emotions; a body part or body (noun.body) → no body; a percept (noun.perception?) → no sensation */
+    if (L === 'have' && !gap && q.roles && q.roles.karma && q.roles.karma.head && !q.roles.karma.propn) { const h = q.roles.karma.head[q.roles.karma.head.length - 1], ss = lex.senses(h).filter(s => s.pos === 'n').slice(0, 2);
+      if (ss.some(s => s.lexname === 'noun.feeling' || /\b(affective|emotional)\b/.test(s.gloss))) return out('no', statement(q, 'neg'), ['emotion', 'experience', 'identity'], 'SELF-HAVE', 'feeling');
+      if (ss[0] && ss[0].lexname === 'noun.body') return out('no', statement(q, 'neg'), ['body', 'sensation', 'identity'], 'SELF-HAVE', 'body'); }
+    /* SELF-FALLIBLE (4.9.82): "can you V N" whose karma is glossed as something wrong / not correct (mistake, error) asks whether Forge can be
+       wrong: yes — it derives by fixed rules from the facts it is given, so a wrong fact or a missing rule gives a wrong answer */
+    if (q.verb.mod === 'able' && !gap && q.roles && q.roles.karma && q.roles.karma.head) { const h = q.roles.karma.head[q.roles.karma.head.length - 1]; if (lex.senses(h).filter(s => s.pos === 'n').slice(0, 2).some(s => /\b(wrong|not correct|incorrect)\b/.test(s.gloss))) return out('yes', statement(q, 'pos'), ['rules', 'memory'], 'SELF-FALLIBLE', 'error'); }
     /* copular yes/no: "are you X" */
     if (L === 'be' && !gap && q.pred) { const p = q.pred;
       if (p.type === 'adj' && p.words.length === 1) { const c = adjClass(p.words[0]); if (!c) { const r = out(null, null, ['identity', 'rsoc'], 'SELF-UNDECIDED', 'adj:unknown'); r.meaning.undecided = statement(q, 'pos'); return r; } /* the self-model does not settle it: say so, then state what it does hold */
