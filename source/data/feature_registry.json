@@ -1,5 +1,5 @@
 {
- "version": "4.9.80",
+ "version": "4.9.81",
  "features": [
   {
    "id": "A-01",
@@ -2609,13 +2609,24 @@
    "proof": [
     "R480"
    ]
+  },
+  {
+   "id": "R481-LANG",
+   "name": "What's-left round: conversation turns, cause, Forge-self, attribute research support, option ranking, subjects and routing, pronoun self-repair",
+   "source": "Nic instruction 2026-10-21 1:44 PM (what's-left list)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.81: LX-CONVERSATION-WORD (a coined word a current fact uses stays readable in questions), TMS-WHY-STATED, G-REPEAT-REQUEST, NP-APPOSITIVE-COUNT, G-CONTRAST-NOT, G-PHATIC-REJECT, INF-CAUSE-CHAIN through INF-RESULTATIVE-CAUSE (WordNet 'cause to be'), holds/last duration readings, DYN-WHATIF-LOCAL, DYN-RATE-COUNT, ATTR-OF-COMPLEMENT entailment key (N of X: X plus N or a WordNet synonym of N; entailment not loosened), MEAP-OPTION-RANK, question-entity kind-of / superlative / jurisdiction scope / name-through-of, FR-FORGET-SAID, REF-PLACE-NAME. Partial: held-back conversation and routing items remain.",
+   "proof": [
+    "R481"
+   ]
   }
  ],
- "count": 239,
+ "count": 240,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 77,
+  "Partial": 78,
   "Missing": 9,
   "Out of scope / parked": 13
  }
