@@ -625,7 +625,7 @@ const PLANS = {
   mea_problems: m => m.items.length ? [S(C('have', { karta: I, karma: N('problem', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }) }))] : [S(C('have', { karta: I, karma: N('problem', { det: 'no', pl: true }) }))],
   /* MEAP-PROBLEM-DIRECTIVE (4.9.79): the opened draft is reported from its manifest fields — goal, unknown, given facts — and its commit state */
   mea_problem_opened: m => [S(C('open', { karta: I, karma: N('problem', { det: 'a', adj: ['draft'], app: Mn(m.goal) }), tense: 'past' })), S(C('be', { karta: N('question', { det: 'the', adj: ['open'] }), pred: Mn(m.unknown) })),
-    ...(m.facts ? [S(C('use', { karta: I, karma: N('fact', { cnt: m.facts, adj: ['related'] }) }))] : []),
+    ...(m.options ? [S(C('derive', { karta: I, karma: N('option', { cnt: m.options.length, list: { kind: 'mention', items: m.options } }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }))] : m.facts ? [S(C('use', { karta: I, karma: N('fact', { cnt: m.facts, adj: ['related'] }) }))] : []),
     S(C('store', { karta: I, karma: N('problem', { det: 'the' }), aspect: 'perf', pol: 'neg' })), S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }))],
   mea_none: m => [S(C('have', { karta: I, karma: N('problem', { det: 'no', app: Mn(m.key) }) }))],
   mea_not_committed: m => [S(C('have', { karta: N('problem', { det: 'the', app: Mn(m.goal) }), karma: N('result', { det: 'no' }) }))],
