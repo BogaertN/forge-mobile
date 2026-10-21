@@ -1143,7 +1143,7 @@ function Kernel(opts) {
     if (isImp && !derive(toks).parses.length) { const vp = P0.vp(0).filter(v => v.i === toks.length);
       if (vp.length) { rules.push({ id: 'G-IMPERATIVE', doc: 'Doc5 §15 (directive speech act)' }, ...vp[0].rules.filter(Boolean).map(id => ({ id, doc: ruleDoc(id) })), { id: 'AUTH-UNDERSTOOD-NOT-AUTHORIZED', doc: 'Doc1; Doc6 §36.15' });
         if (ctx.negAct) return res('SELECTED_RESTRICTED_MEANING', { kind: 'neg_act', act: vp[0].node.verb.lemma }, { frame: 'FR.IMPERATIVE', act: 'request' });
-        { const pb = problemOf(vp[0].node); if (pb) { rules.pop(); rules.push({ id: 'MEAP-PROBLEM-DIRECTIVE', doc: 'MEA problem lane; WordNet lexical classes (' + pb.basis + ')' }); return res('SELECTED_MEANING', openProblem(pb), { frame: 'FR.MEA', act: 'request' }); } }
+        { let pb = null; for (const v of vp) { pb = problemOf(v.node); if (pb) break; } if (pb) { rules.pop(); rules.push({ id: 'MEAP-PROBLEM-DIRECTIVE', doc: 'MEA problem lane; WordNet lexical classes (' + pb.basis + ')' }); return res('SELECTED_MEANING', openProblem(pb), { frame: 'FR.MEA', act: 'request' }); } }
         return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: toks.map(t => (/^(my|me|i|myself)$/.test(t.w) ? swap[t.w] : t.orig)).join(' ').replace(/^\w/, c => c.toLowerCase()), reason: 'OUT_OF_SCOPE' }, { frame: 'FR.IMPERATIVE', act: 'request' }); } }
     lex.setStrict(false); /* LX-PROVISIONAL (4.9.50): a plain statement may read an unknown word from its position; the acknowledgment says so */
     const unk = unknownToks(toks); if (unk.length) return clarifyUnknown(unk);
