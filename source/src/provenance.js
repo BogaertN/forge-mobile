@@ -58,7 +58,18 @@ const VALUE_TYPES = new Set(['date', 'person', 'place', 'quantity']);
 /* relation words of the question (asked predicate forms; the degree word and dimension noun of a quantity question) */
 const relationOf = p => uniq([].concat(p.askedForms || [], p.predForms || [], [p.asked, p.pred, p.degree, p.dimNoun]).filter(Boolean).map(x => String(x).toLowerCase()).filter(x => /^[a-z]+$/.test(x)));
 /* the question's entity: the lookup plan's entity / object, else the first run of content words that are not relation words */
-function questionEntity(plan, question) { const p = plan || {}; if (p.subject) return words(p.subject).join(' '); /* 4.9.78: the parse's subject noun phrase first */ if (p.entity) return words(p.entity).join(' '); const ws = words(question || p.question || '');
+function questionEntity(plan, question) { const p0 = plan || {}; const Q = String(question || p0.question || '').trim().replace(/[?.!]+$/, '');
+  /* 4.9.81 ENT-KIND-OF: "what kind / sort / type / class of N is X" asks the class of X: the entity is X */
+  { const m = /^(?:what|which) (?:kind|sort|type|class|variety) of [a-z][a-z -]*? (?:is|are|was|were) (?:an? |the )?(.+)$/i.exec(Q); if (m && words(m[1]).length && words(m[1]).length <= 5) return words(m[1]).join(' '); }
+  /* 4.9.81 ENT-SUPERLATIVE: "which N is / are the ADJest (PP)" asks for the N that is ADJest: the superlative stays in the entity ("largest planet") */
+  { const m = /^which ([a-z]+(?: [a-z]+)?) (?:is|are|was|were) the ([a-z]+est|most [a-z]+|least [a-z]+)(?: .*)?$/i.exec(Q); if (m) return words(m[2]).concat(words(m[1])).join(' '); }
+  /* 4.9.81 ENT-JURIS-SCOPE: a trailing "in / under <ADJ> law" (the jurisdiction of the question) is a scope, not the subject; the subject is the
+     content run before it */
+  let p = p0; { const m = /\b(?:in|under) ((?:[A-Z][a-z]+ )+law)$/.exec(Q); if (m && [p0.subject, p0.entity, p0.object].some(x => x && words(x).join(' ') === words(m[1]).join(' '))) { p = Object.assign({}, p0, { subject: null, entity: null, object: null }); question = Q.slice(0, m.index).trim(); } }
+  /* 4.9.81 ENT-NAME-OF: a capitalised name continues through "of" + a capitalised word ("the International Court of Justice") */
+  const nameOf = e => { const ew = words(e); if (!ew.length) return e; const re = new RegExp('\\b' + ew.map(w => w[0].toUpperCase() + w.slice(1)).join('\\s+') + '((?:\\s+of(?:\\s+the)?\\s+[A-Z][a-z]+(?:\\s+[A-Z][a-z]+)*)+)'); const m = re.exec(Q); return m ? ew.concat(words(m[1])).join(' ') : e; };
+  const r0 = questionEntity0(p, question); return r0 ? nameOf(r0) : r0; }
+function questionEntity0(p, question) { if (p.subject) return words(p.subject).join(' '); /* 4.9.78: the parse's subject noun phrase first */ if (p.entity) return words(p.entity).join(' '); const ws = words(question || p.question || '');
   /* 4.9.80 ENT-OF-COMPLEMENT: an attribute noun phrase "the N of X" ("the main function of the spleen", "the symptoms of measles", "the boiling
      point of ethanol") is about X: when the candidate is directly followed by "of", the entity is the content run after it */
   const ofTail = cand => { const cw = words(cand); if (!cw.length) return cand; /* a capitalised head is part of a name ("the Bank of England"), kept whole */ if (new RegExp('(?:^|\\s)(?:the\\s+)?' + cw[cw.length - 1].replace(/[^a-z0-9]/g, '') + '\\s+of\\b', 'i').test(question || '') && new RegExp('\\b' + cw[cw.length - 1][0].toUpperCase() + cw[cw.length - 1].slice(1).replace(/[^a-z0-9]/g, '') + '\\s+of\\b').test(String(question || '').replace(/^\\s*\\S+/, ''))) return cand; for (let i = 0; i + cw.length < ws.length; i++) { if (cw.every((w, j) => ws[i + j] === w) && ws[i + cw.length] === 'of') { const out = []; for (const w of ws.slice(i + cw.length + 1)) { if (!out.length && /^(the|a|an)$/.test(w)) continue; if (FUNCTION_WORDS.has(w)) break; out.push(w); } return out.length ? out.join(' ') : cand; } } return cand; };
