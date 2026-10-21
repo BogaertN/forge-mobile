@@ -48,4 +48,22 @@ T('O: "what could we do to V" opens a problem', () => { const r = say('What coul
 /* X */
 T('X: "has an extractor fan" keeps one object and its determiner in proposed options', () => { const k = mk(true); k.process('The cellar has an extractor fan.'); k.process('The cellar has a heater.'); const r = k.process('Find a way to keep the cellar dry.'); expect(/an extractor fan/.test(r.reply || ''), r.reply); });
 
+/* V2 / M2 (second pass, same rules: new sentences; held-back category and failure type only — conversation unattached / missing, remember
+   missing / routed to research) */
+T('V2: "sorry, I meant NP" repairs the last statement\'s NP of the same kind', () => { const r = say('Ana lives in Porto.', 'Sorry, I meant Lisbon.', 'Where does Ana live?'); ok(r, /Lisbon/); expect(!/Porto/.test(r.reply), r.reply); });
+T('V2: a one-word discourse marker before a comma is read off ("wait, …")', () => { const r = say('Ana lives in Porto.', 'Okay, and where does Ana live?'); ok(r, /Porto/); });
+T('V2: "and NP?" re-asks the last question about NP', () => { const r = say('Ana lives in Porto.', 'Bo lives in Faro.', 'Where does Ana live?', 'And Bo?'); ok(r, /Faro/); });
+T('V2: "what about NP?" re-asks the last question about NP (local)', () => { const r = say('Ana lives in Porto.', 'Bo lives in Faro.', 'Where does Ana live?', 'What about Bo?'); ok(r, /Faro/); });
+T('V2: bare "are you sure?" asks for the reason of the last answer', () => { const r = say('Ola keeps goats.', 'Does Ola keep goats?', 'Are you sure?'); ok(r, /told me|goats/); });
+T('V2: "is that correct?" after an answer asks for its reason (local)', () => { const r = say('Ola keeps goats.', 'Does Ola keep goats?', 'Is that correct?'); ok(r, /goats/); });
+T('V2: "tell me more" continues about the topic entity', () => { const r = say('Ola keeps goats.', 'Ola lives in Bergen.', 'Does Ola keep goats?', 'Tell me more.'); ok(r, /Bergen/); });
+T('V2: evaluative short replies acknowledge ("sounds good", "fair enough", "absolutely")', () => { for (const s of ['Sounds good.', 'Fair enough.', 'Absolutely.']) { const r = say(s); expect(kindOf(r) === 'ack', s + ' → ' + kindOf(r) + ' | ' + r.reply); } });
+T('V2: first-person cognition with no object acknowledges ("I understand")', () => { const r = say('I understand.'); expect(kindOf(r) === 'ack', kindOf(r) + ' | ' + r.reply); });
+T('V2: "can I ask you something?" is answered as an invitation, not a fact check', () => { const r = say('Can I ask you something?'); ok(r); expect(!/cannot confirm/.test(r.reply), r.reply); });
+T('M2: "when" recalls a stated time adjunct of the subject ("moved to Thursday")', () => { const r = say('Remember that the meeting moved to Thursday.', 'When is the meeting?'); ok(r, /Thursday/); });
+T('M2: "when does X V" recalls a clock-time adjunct', () => { const r = say('Remember that my train leaves at 9 am.', 'When does my train leave?'); ok(r, /9/); });
+T('M2: "when is X" recalls a month in a stated locative predicate', () => { const r = say('Remember that my cousin\'s wedding is in June.', 'When is my cousin\'s wedding?'); ok(r, /June/); });
+T('M2: "what is X ADJ to?" (stranded preposition) recalls the complement', () => { const r = say('Remember that Omar is allergic to peanuts.', 'What is Omar allergic to?'); ok(r, /peanuts/); });
+T('M2: "how much do I V NP" over the user\'s own fact stays local', () => { const r = say('Remember that I owe Lea twenty euros.', 'How much do I owe Lea?'); ok(r, /twenty/); });
+
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R482', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
