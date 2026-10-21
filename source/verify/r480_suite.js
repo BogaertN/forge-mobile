@@ -38,7 +38,7 @@ for (const [q, s] of [['What is the main function of the spleen?', 'spleen'], ['
 
 /* Y */
 for (const q of ['How old are you?', 'When were you built?'])
-  T('Y: "' + q + '" is answered about Forge itself, not as a missing user fact', () => { const r = say(q); expect(!isTool(r) && kindOf(r) !== 'recall_none' && !/no stored fact/.test(r.reply || ''), kindOf(r) + ' | ' + r.reply); });
+  T('Y: "' + q + '" is answered about Forge itself, not as a missing user fact', () => { const r = say(q); expect(!isTool(r) && kindOf(r) !== 'recall_none' && !/no stored fact about/i.test(r.reply || '') && /computer program/.test(r.reply || ''), kindOf(r) + ' | ' + r.reply); });
 
 /* K */
 for (const q of ['Keep the greenhouse warm.', 'The sun made the paint dry.', 'Leave the door open.'])

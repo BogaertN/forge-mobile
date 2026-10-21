@@ -506,7 +506,7 @@ const PLANS = {
      is a kāraka structure realized by the inward grammar (a closed vākya when the sentence is inside the realizer's own lexicon) */
   /* 4.9.48: an interjection is named as the speech act it is (its lexical class), then the conversation is handed back — no reciprocal stock phrase */
   interjection: m => [S(C('recognise', { karta: I, karma: Mn(m.word), roles: { upamana: N({ greet: 'greeting', part: 'farewell', thank: 'thanks' }[m.act], { det: m.act === 'thank' ? undefined : 'a' }) }, tense: 'past' }))].concat(m.act === 'part' ? [] : [S(C('ask', { karma: N('question', { det: 'a' }) }), { force: 'imp', part: 'please' })]),
-  self_answer: m => (m.answer ? [S(null, { part: m.answer })] : []).concat(m.undecided ? [S(C('confirm', { karta: I, comp: { that: UC(m.undecided) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [], m.clauses.map(clauseSentence)),
+  self_answer: m => (m.answer ? [S(null, { part: m.answer })] : []).concat(m.none ? [S(C('answer', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('that') }))] : [], m.undecided ? [S(C('confirm', { karta: I, comp: { that: UC(m.undecided) }, mod: 'can', pol: 'neg' })), S(C('decide', { karta: N('fact', { det: 'no', adj: ['stored'] }), karma: pr('it') }))] : [], m.clauses.map(clauseSentence)),
   world_answer: worldPlan,
   world_limitation: worldLimitationPlan,
   stored: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' }))],

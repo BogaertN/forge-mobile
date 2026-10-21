@@ -73,7 +73,7 @@ function SelfModel(o) { const lex = o.lex, INF = o.INF;
         if (c === 'machine') return out('partly', null, ['identity', 'device', 'rsoc'], 'SELF-CLASS', c); }
       return null; }
     /* a predicative adjective of a linking verb (vidheya: "get lonely", "feel happy") classes the question by the adjective */
-    const vid = q.roles && q.roles.vidheya && q.roles.vidheya.adjp; if (vid && vid.length === 1) { const c = adjClass(vid[0]); if (c === 'feeling' || c === 'self_neg') return out('no', gap === 'role:karma' ? null : statement(q, 'neg'), c === 'feeling' ? ['emotion', 'experience', 'identity'] : ['experience', 'identity'], 'SELF-PREDICATE', c); }
+    const vid = q.roles && q.roles.vidheya && q.roles.vidheya.of !== 'karma' && q.roles.vidheya.adjp; if (vid && vid.length === 1) { const c = adjClass(vid[0]); if (c === 'feeling' || c === 'self_neg') return out('no', gap === 'role:karma' ? null : statement(q, 'neg'), c === 'feeling' ? ['emotion', 'experience', 'identity'] : ['experience', 'identity'], 'SELF-PREDICATE', c); }
     const vc = verbClass(L); if (!vc) return null; const asked = gap === 'role:karma' ? null : q; /* a wh-karma question has no single statement to re-voice */
     if (EXPERIENCE.has(vc) || BODILY.has(vc)) { let rs = REASON_OF[vc].slice(); const ro = q.roles || {};
       /* the karma's own lexical class sharpens the reason: a feeling (noun.feeling) → no emotions; a bodily state or percept → no sensation */
