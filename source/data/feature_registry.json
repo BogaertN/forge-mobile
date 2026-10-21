@@ -1,5 +1,5 @@
 {
- "version": "4.9.78",
+ "version": "4.9.79",
  "features": [
   {
    "id": "A-01",
@@ -2587,13 +2587,24 @@
    "proof": [
     "ARCHIVES"
    ]
+  },
+  {
+   "id": "R479-LANG",
+   "name": "Generative language pipeline: discourse reading, reference by answerability, apposition, open problems to the MEA lane, phatic acts, time predicates, unit products, initialism alternate names",
+   "source": "Nic approval 2026-10-21 9:40 AM (items A-C; held-back set v2 gaps)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.79: premises + question in one message read sentence by sentence (answer leads, acknowledgements aggregated); pronouns resolved by answerability; close apposition; unresolved pronoun never a lookup; open problems (noun.cognition karma, purpose infinitive, verb.cognition) open a DRAFT manifest in the MEA problem lane (drift-band gates, receipts, commit on tap); phatic noun phrases by WordNet gloss; kala predicates; unit products and SI prefixes; abbreviations keep their period; initialism alternate names for research. Not yet: candidate generation for user-opened problems, relational-noun research subjects, self questions beyond the self-model, object-predicative complements.",
+   "proof": [
+    "R479"
+   ]
   }
  ],
- "count": 237,
+ "count": 238,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 75,
+  "Partial": 76,
   "Missing": 9,
   "Out of scope / parked": 13
  }
