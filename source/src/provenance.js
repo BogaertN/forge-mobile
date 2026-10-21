@@ -67,16 +67,29 @@ function questionEntity(plan, question) { const p = plan || {}; if (p.subject) r
   for (const w of ws) { const content = !FUNCTION_WORDS.has(w) && !rel.some(r => same(r, w)); if (content) { run.push(w); started = true; } else if (started) break; }
   return ofTail(run.join(' ')); }
 /* the key content of the answer sentence a source is cited for */
-function keyContent(plan, claim) { const p = plan || {}; const relation = relationOf(p);
+/* 4.9.81 LEXICON HOOK: the host may supply WordNet synonymy (two words share a synset) and the part of speech of a word; without it only
+   stem identity counts */
+let LEXH = null; function setLexicon(h) { LEXH = h || null; }
+const synonym = (a, b) => { if (!LEXH || !LEXH.synonym) return false; try { return !!LEXH.synonym(a, b); } catch (e) { return false; } };
+const adjOnly = w => { if (!LEXH || !LEXH.adjOnly) return false; try { return !!LEXH.adjOnly(w); } catch (e) { return false; } };
+/* ATTR-OF-COMPLEMENT (4.9.81): in "the (ADJ) N of X" the attribute noun N is the RELATION asked about X, not an entity word: a supporting span must
+   name X and N (or a WordNet synonym of N: "function" ~ "role"); an adjective-only modifier of N ("main") is not required. Entailment is not
+   loosened: the span still names every word of X and an attribute word. */
+function attrOf(p) { if (p.subject || p.object || p.entity) return null; const q = p.question || ''; const qe = questionEntity(p, q); if (!qe) return null; const ws = words(q), ew = words(qe);
+  for (let i = 1; i + ew.length <= ws.length; i++) { const o = ws[i - 1] === 'of' ? i - 1 : i >= 2 && /^(the|a|an)$/.test(ws[i - 1]) && ws[i - 2] === 'of' ? i - 2 : -1; if (o < 0 || !ew.every((w, j) => ws[i + j] === w)) continue; const run = []; for (let j = o - 1; j >= 0 && !FUNCTION_WORDS.has(ws[j]); j--) run.unshift(ws[j]); if (!run.length) return null;
+    const head = run[run.length - 1]; return { entity: ew, head, mods: run.slice(0, -1).filter(w => !adjOnly(w)), dropped: run.slice(0, -1).filter(w => adjOnly(w)) }; }
+  return null; }
+function keyContent(plan, claim) { const p = plan || {}; const relation0 = relationOf(p); const at = attrOf(p); const relation = at ? uniq(relation0.concat([at.head])) : relation0;
   const value = claim && claim.kind === 'value' && claim.answer ? uniq(words(claim.answer)) : [];
-  const entities = uniq(words(p.subject || p.question || [].concat(p.object ? [p.object] : [], p.entity ? [p.entity] : [], p.args || []).join(' ')).filter( /* 4.9.78: the parse's subject noun phrase when it has one (a participle predicate is not an entity word) */w => !FUNCTION_WORDS.has(w) && !relation.some(r => same(r, w)) && !value.some(v => same(v, w))));
+  const entities = uniq(words(p.subject || p.question || [].concat(p.object ? [p.object] : [], p.entity ? [p.entity] : [], p.args || []).join(' ')).filter( /* 4.9.78: the parse's subject noun phrase when it has one (a participle predicate is not an entity word) */w => !FUNCTION_WORDS.has(w) && !relation.some(r => same(r, w)) && !value.some(v => same(v, w)) && !(at && at.dropped.includes(w))));
   const polarity = claim && claim.kind === 'verdict' && /^(yes|no)$/i.test(claim.answer) ? ((String(claim.answer).toLowerCase() === 'no') !== !!p.neg ? 'negative' : 'positive') : null;
   return { value, entities, relation, polarity, needs_value: VALUE_TYPES.has(p.atype) && !value.length }; }
 /* any key shape (keyContent's, or { value: '1989', entities: [['berlin', 'wall']], relation: [...] }) → the normal form */
 const normKey = k => { k = k || {}; return { value: Array.isArray(k.value) ? k.value.map(String) : k.value ? words(k.value) : [], entities: uniq(flat(k.entities)), relation: (k.relation || []).map(r => String(r).toLowerCase()), polarity: k.polarity || null, needs_value: !!k.needs_value }; };
+const relHas = (ws, r) => ws.some(x => same(x, r) || synonym(x, r));
 const hasKey = k => !k.needs_value && !!(k.value.length || k.entities.length || k.relation.length);
 function covers(span, k0) { const k = normKey(k0); if (!hasKey(k)) return false; const ws = words(span); const has = w => ws.some(x => same(x, w));
-  if (!k.value.every(w => ws.includes(w))) return false; if (!k.entities.every(has)) return false; if (k.relation.length && !k.relation.some(has)) return false;
+  if (!k.value.every(w => ws.includes(w))) return false; if (!k.entities.every(has)) return false; if (k.relation.length && !k.relation.some(r => relHas(ws, r))) return false;
   if (k.polarity && NEG.test(span) !== (k.polarity === 'negative')) return false; return true; }
 /* sentences as [start, end) offsets: a break after . ! ? followed by space and a capital / digit / quote, or at a newline */
 function sentences(ex) { const s = String(ex || ''), out = []; const re = /[.!?]["”’)]?(?=\s+[A-Z0-9“"(])|\n+/g; let a = 0, m;
@@ -215,6 +228,6 @@ function reportHTML(pv, esc) { if (!pv) return ''; const e = esc || (s => String
     pv.sources.map(s => '<li class="tier-' + e(s.tier) + (s.tier === 'open_fallback' ? ' fallback' : '') + '">' + e(s.label) + ' <span class="pill' + (s.tier === 'open_fallback' ? ' warn' : '') + '">' + e(s.tier_label) + '</span> ' +
       (s.supported ? '<span class="pill ok">supported</span><div class="small">verbatim span: “' + e(s.span) + '”</div>' : '<span class="pill bad">unsupported</span><div class="small">no verbatim span with the answer\'s key content (' + e(String(s.reason).replace(/_/g, ' ')) + ')</div>') + '</li>').join('') + '</ol>' +
     ((pv.rejected || []).length ? '<div class="small">set aside (' + e(pv.rejected[0].limitation) + '): ' + pv.rejected.map(r => e(r.name + ': ' + r.title) + ' — about “' + e(r.primary_entity) + '”, not “' + e(r.question_entity) + '”').join('; ') + '</div>' : '') + '</div>'; }
-const api = { describedBy, SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
+const api = { setLexicon, attrOf, describedBy, SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KProv = api;
 })(typeof self !== 'undefined' ? self : this);
