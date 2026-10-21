@@ -171,7 +171,7 @@ function Parser(toks, lex) {
       /* NP-COMPOUND-MODIFIER-APAVADA (4.9.50): a non-final member of a noun compound is uninflected ("the dog wants water" has no compound "dog wants"),
          and a deictic time phrase (last/next/this/every + time word) is a kāla adjunct, never a compound member */
       const lastN = nouns[nouns.length - 1]; if (lastN && lastN.f === 'pl' && /^M-SUFFIX/.test(lastN.rule || '')) { /* no further member */ } else
-      for (const n of at(j, 'N')) { if (j + 1 < T.length && TIMEW.has(word(j + 1)) && ['last', 'next', 'this', 'every', 'each'].includes(word(j))) continue; if (nouns.length && TIMEW.has(word(j)) && ['last', 'next', 'this', 'every', 'each'].includes(word(j - 1))) continue;
+      for (const n of at(j, 'N')) { if (j + 1 < T.length && KARAKA[word(j) + ' ' + word(j + 1)]) continue; /* 4.9.85: the first word of a two-word preposition ("due to") is not a compound member */ if (j + 1 < T.length && TIMEW.has(word(j + 1)) && ['last', 'next', 'this', 'every', 'each'].includes(word(j))) continue; if (nouns.length && TIMEW.has(word(j)) && ['last', 'next', 'this', 'every', 'each'].includes(word(j - 1))) continue;
         go(j + 1, adjs, nouns.concat([{ lemma: n.lemma, f: n.f, w: T[j].w, rule: n.rule }]), rules.concat([n.rule || 'TAG-N'])); }
       if (!nouns.length && !adjs.length && j > 0 && at(j - 1, 'DET').length && at(j, 'PROPN').length && j + 1 < T.length && at(j + 1, 'N').length) go(j + 1, adjs, [{ lemma: T[j].orig, f: 'sg', w: T[j].orig }], rules.concat(['NP-PROPN-MODIFIER'])); // 4.9.42: a name as a pre-nominal modifier after a determiner ("the Planck constant")
     })(i, [], [], []);
@@ -183,7 +183,11 @@ function Parser(toks, lex) {
       /* NP-INDEFINITE-POSTMOD (Merge: the quantifier pronoun is the head, the adjective merges to its right: "something cold", "anything new") */
       if (p.indef) for (const q of at(i + 1, 'ADJ')) if (q.f === 'pos') out.push(R({ indef: word(i), feats: p, adjs: [T[i + 1].w] }, i + 2, ['NP-INDEFINITE-PRON', 'NP-INDEFINITE-POSTMOD'])); }
     if (/^(?:this|these|those)$/.test(word(i)) && at(i, 'DET').length && !(i + 1 < T.length && ['N', 'ADJ', 'NUM', 'PROPN', 'DET', 'POSS', 'QUANT'].some(t => at(i + 1, t).length))) out.push(R({ pron3: word(i), feats: { p: 3, n: word(i) === 'this' ? 'sg' : 'pl', dem: true } }, i + 1, ['NP-DEMONSTRATIVE-PRON'])); // 4.9.40: a determiner with no nominal after it is a demonstrative pronoun ("use this")
-    if (at(i, 'PROPN').length) { let j = i; const ws = []; while (at(j, 'PROPN').length) { ws.push(T[j].orig); j++; } out.push(R({ propn: ws.join(' ') }, j, ['NP-PROPN'])); }
+    /* NP-DEFINITE-NAME (4.9.85): "the" before a capitalised name is part of the name ("the United States Constitution", "The Fifteenth Amendment") */
+    if (word(i) === 'the' && at(i + 1, 'PROPN').length && !at(i + 1, 'N').length) { let j = i + 1; const ws = [T[i].orig || T[i].w]; while (at(j, 'PROPN').length) { ws.push(T[j].orig); j++; } const last = String(ws[ws.length - 1]).toLowerCase(), whole = ws.slice(1).join('_').toLowerCase(); const pl = /[^s]s$/.test(last) && !!(lex.hasPos && lex.hasPos(last.slice(0, -1), 'n')) && !(lex.hasPos && lex.hasPos(whole, 'n')); /* "the French Armed Forces" are; "the United States" (one lexicon name) is */ out.push(R(Object.assign({ propn: ws.join(' ') }, pl ? { plural: true } : {}), j, ['NP-DEFINITE-NAME'])); }
+    if (at(i, 'PROPN').length) { let j = i; const ws = []; while (at(j, 'PROPN').length) { ws.push(T[j].orig); j++; } out.push(R({ propn: ws.join(' ') }, j, ['NP-PROPN']));
+      /* NP-PROPN-COMPOUND (4.9.85): a name modifying a common noun names one thing ("Rayleigh scattering", "Doppler effect"): the noun is the last word */
+      if (j < T.length && at(j, 'N').length && !at(j, 'PROPN').length && at(j, 'V').every(v => v.f === 'ing') && !(j + 1 < T.length && at(j + 1, 'N').length && !at(j + 1, 'V').length)) out.push(R({ propn: ws.join(' ') + ' ' + T[j].w }, j + 1, ['NP-PROPN-COMPOUND'])); }
     if (at(i, 'NUM').length && at(i + 1, 'NUM').length) { let j = i; const ns = []; while (at(j, 'NUM').length) { ns.push(word(j)); j++; } out.push(R({ num: ns.join(' ') }, j, ['NP-NUM-SEQUENCE'])); }
     for (const a of at(i, 'NUM')) { out.push(R({ num: a.lemma }, i + 1, ['NP-NUM'])); for (const n of nominal(i + 1)) out.push(R(Object.assign({ num: a.lemma }, n.node), n.i, ['NP-NUM-N'].concat(n.rules))); }
     for (const q of at(i, 'QUOTE')) out.push(R({ quote: q.lemma }, i + 1, ['NP-QUOTE']));
@@ -211,7 +215,7 @@ function Parser(toks, lex) {
     }
     /* NP-APPOSITION-CLOSE (4.9.79; close apposition — samānādhikaraṇa, two nominals with one referent): a common-noun phrase directly followed by a
        proper name names that person or thing ("my cousin Lorna", "the engineer Sato"): the name is the head, the common phrase its description */
-    for (const a of res.slice()) if (a.node.head && !a.node.propn && !a.node.pron && !a.node.pron3 && !a.node.of && at(a.i, 'PROPN').length) for (const b of npGen(a.i)) if (b.node.propn && !b.node.det && !b.node.owner) res.push(R(Object.assign({}, b.node, { appos: a.node }), b.i, a.rules.concat(['NP-APPOSITION-CLOSE'], b.rules)));
+    for (const a of res.slice()) if (a.node.head && !a.node.propn && !a.node.pron && !a.node.pron3 && !a.node.of && at(a.i, 'PROPN').length && !(!a.node.det && !(a.node.adjs || []).length && a.node.head.length === 1 && at(a.i - 1, 'PROPN').length)) /* 4.9.85: a bare word that is itself a name ("Charles Bourseul") is part of the name, not a description before it */ for (const b of npGen(a.i)) if (b.node.propn && !b.node.det && !b.node.owner) res.push(R(Object.assign({}, b.node, { appos: a.node }), b.i, a.rules.concat(['NP-APPOSITION-CLOSE'], b.rules)));
     /* NP-PARTICIPLE-POSTMOD (4.9.50; reduced relative): "chest pain radiating to the left arm" — an -ing phrase whose understood kartā is the head */
     for (const a of res.slice()) if (!a.node.pron && !a.node.pron3 && !a.node.indef && a.node.head) for (const c of vpNF(a.i, 'ing')) if (c.node.verb && c.node.verb.lemma !== 'be') res.push(R(Object.assign({}, a.node, { partRel: c.node }), c.i, a.rules.concat(['NP-PARTICIPLE-POSTMOD'], c.rules)));
     /* NP-PP-POSTMOD (4.9.50): a prepositional phrase merges into the noun phrase ("counsel for the defence"); G-ECONOMY prefers verb attachment when both derive */
@@ -230,7 +234,11 @@ function Parser(toks, lex) {
         const NUMW = { two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }; const hd = a.node.head || [], an = hd.length > 1 && NUMW[hd[0]] ? Object.assign({}, a.node, { head: hd.slice(1), surface: (a.node.surface || []).slice(1), adjs: [hd[0]].concat(a.node.adjs || []) }) : a.node; /* a numeral read as a compound modifier is the count */
         const cnt = an.head && an.plural && !an.propn ? (an.adjs || []).concat(an.num ? [an.num] : []).map(x => NUMW[x] || (/^\d+$/.test(x) ? +x : 0)).find(Boolean) : 0;
         if (cnt && b.node.op === 'and' && b.node.conj.length === cnt && b.node.conj.every(x => x.propn)) { if (co.some(x => x.i === b.i && x.node.members && String(x.node.head) === String(an.head))) continue; co.push(R(Object.assign({}, an, { members: b.node }), b.i, a.rules.concat(['NP-APPOSITIVE-COUNT'], b.rules))); continue; }
-        co.push(R({ conj: [a.node].concat(b.node.conj), op: b.node.op, plural: b.node.plural }, b.i, a.rules.concat(['G-COORD-NP-LIST'], b.rules))); } }
+        co.push(R({ conj: [a.node].concat(b.node.conj), op: b.node.op, plural: b.node.plural }, b.i, a.rules.concat(['G-COORD-NP-LIST'], b.rules))); }
+      /* G-COORD-NP-SERIAL (4.9.85): the serial (Oxford) comma list "race, color, or previous condition of servitude": common nouns, the last after ", and/or" */
+      if (cw === ',' && !a.node.conj) for (const b of np(a.i + 1, true)) { if (b.node.conj || !!b.node.propn !== !!a.node.propn) continue; /* all common nouns, or all names */ const items = [a.node, b.node]; let jj = b.i, rr = a.rules.concat(b.rules);
+        while (word(jj) === ',' && items.length < 6) { if (['and', 'or'].includes(word(jj + 1))) { const op = word(jj + 1); for (const c of np(jj + 2, noRel)) if (!c.node.conj) co.push(R({ conj: items.concat([c.node]), op, plural: op === 'and', listed: true, serial: true }, c.i, rr.concat(['G-COORD-NP-SERIAL'], c.rules))); break; }
+          const nx = np(jj + 1, true).find(x => !x.node.conj && !!x.node.propn === !!a.node.propn); if (!nx) break; items.push(nx.node); rr = rr.concat(nx.rules); jj = nx.i; } } }
     return all.concat(co);
   }
   // ---- adjuncts: PP / time ----
@@ -269,7 +277,8 @@ function Parser(toks, lex) {
     if (at(i, 'AUX').length && ['do', 'does', 'did'].includes(w)) { const n = neg(i + 1); for (const v of at(n.j, 'V')) if (v.f === 'base') res.push(R({ lemma: v.lemma, tense: w === 'did' ? 'past' : 'present', pol: n.pol, mod: 'asserted', dosupport: true }, n.j + 1, ['V-DO-SUPPORT'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : [])));
       if (preAdv(n.j)) for (const v of at(n.j + 1, 'V')) if (v.f === 'base') res.push(R({ lemma: v.lemma, tense: w === 'did' ? 'past' : 'present', pol: n.pol, mod: 'asserted', dosupport: true, preAdv: [word(n.j)] }, n.j + 2, ['V-DO-SUPPORT', 'K-PRAKARA-ADV-PREVERBAL'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
     /* V-PERFECT-COPULA (4.9.82): "have / has / had (not) been" + predicate is the copula in the perfect ("Pavel has been sick") */
-    if (['have', 'has', 'had'].includes(w)) { const n = neg(i + 1); if (word(n.j) === 'been') res.push(R({ cop: true, tense: w === 'had' ? 'past' : 'present', aspect: 'perfect', pol: n.pol, mod: 'asserted', form: w + ' been' }, n.j + 1, ['V-PERFECT-COPULA'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
+    if (['have', 'has', 'had'].includes(w)) { const n = neg(i + 1); if (word(n.j) === 'been') res.push(R({ cop: true, tense: w === 'had' ? 'past' : 'present', aspect: 'perfect', pol: n.pol, mod: 'asserted', form: w + ' been' }, n.j + 1, ['V-PERFECT-COPULA'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : [])));
+      /* V-PERFECT-COPULA-FQ (4.9.85): a floating quantifier between the auxiliary and 'been' ("they have all been credited") */ if (/^(all|both|each)$/.test(word(n.j)) && word(n.j + 1) === 'been') res.push(R({ cop: true, tense: w === 'had' ? 'past' : 'present', aspect: 'perfect', pol: n.pol, mod: 'asserted', form: w + ' ' + word(n.j) + ' been', fq: word(n.j) }, n.j + 2, ['V-PERFECT-COPULA-FQ'])); }
     if (at(i, 'AUX').length && ['have', 'has', 'had'].includes(w)) { const n = neg(i + 1); for (const v of at(n.j, 'V')) if (v.f === 'pp' || v.f === 'past') res.push(R({ lemma: v.lemma, tense: 'past', aspect: 'perfect', pol: n.pol, mod: 'asserted' }, n.j + 1, ['V-PERFECT'])); }
     /* possessive main verb “have” (Doc5 frame: possessor karta, possessed karma) — utsarga; the perfect auxiliary above is the apavāda when a participle follows */
     if (['have', 'has', 'had'].includes(w) && !at(i + 1, 'V').some(v => v.f === 'pp' || v.f === 'past')) res.push(R({ lemma: 'have', tense: w === 'had' ? 'past' : 'present', f: w === 'has' ? 'pres3' : w === 'had' ? 'past' : 'base', pol: 'pos', mod: 'asserted' }, i + 1, ['V-FINITE-HAVE-POSSESSIVE']));
@@ -297,6 +306,8 @@ function Parser(toks, lex) {
     if (form === 'base' && word(j) === 'be') gs.push(R({ cop: true, tense: 'none', pol: 'pos', mod: 'asserted', nf: nfw }, j + 1, ['V-NONFINITE-INF']));
     if (form === 'ing' && word(j) === 'being') gs.push(R({ cop: true, tense: 'none', pol: 'pos', mod: 'asserted', nf: nfw }, j + 1, ['V-NONFINITE-GER']));
     for (const v of at(j, 'V')) if (v.f === form && v.lemma !== 'be') gs.push(R({ lemma: v.lemma, tense: 'none', pol: 'pos', mod: 'asserted', nf: nfw }, j + 1, ['V-NONFINITE-' + (nfw === 'inf' ? 'INF' : 'GER')]));
+    /* V-GER-COORD (4.9.85): two gerunds share one object ("from denying or abridging the right"): one verb group with a coordinated root */
+    if (form === 'ing' && ['and', 'or'].includes(word(j + 1))) for (const v of at(j, 'V')) if (v.f === 'ing' && v.lemma !== 'be') for (const v2 of at(j + 2, 'V').concat(!at(j + 2, 'V').length && at(j + 2, 'UNK').length && /^[a-z]{3,}ing$/.test(word(j + 2)) ? [{ f: 'ing', lemma: word(j + 2).slice(0, -3) }] : [] /* an unknown -ing word in parallel with a gerund is a gerund */)) if (v2.f === 'ing' && v2.lemma !== 'be') gs.push(R({ lemma: v.lemma, coordLemma: v2.lemma, coordOp: word(j + 1), tense: 'none', pol: 'pos', mod: 'asserted', nf: nfw }, j + 3, ['V-GER-COORD']));
     return vp(j, gs); }
   function vp(i, groups) {
     const res = [];
@@ -383,7 +394,7 @@ function Parser(toks, lex) {
         let j = o.i, part = o.part || null; if (!part && at(j, 'PART').length && !(j + 1 < T.length && KARAKA[word(j) + ' ' + word(j + 1)])) { part = word(j); j++; } /* a two-word preposition is not a particle */
         for (const a of adjuncts(j)) { if (o.node.karma && o.node.karma.clause && a.node.length) continue; /* K-CLAUSE-LATE-CLOSURE: material after a that-complement closes inside the lowest clause (structural, not a choice) */
           if (infOK && !o.node.karma && a.node[0] && a.node[0].prep === 'to' && j === g.i) continue; /* K-INFINITIVE-APAVADA: licensed "to V" is a complement, not a PP */
-          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part } : {}, v.f ? { f: v.f } : {}, nf), roles: o.node, adj: (v.preAdv || []).map(x => ({ adv: x, role: 'prakara', pre: true })).concat(a.node) }, a.i, g.rules.concat(o.rules, a.rules))); }
+          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod }, v.aspect ? { aspect: v.aspect } : {}, part ? { particle: part } : {}, v.f ? { f: v.f } : {}, nf, v.coordLemma ? { coordLemma: v.coordLemma, coordOp: v.coordOp } : {}), roles: o.node, adj: (v.preAdv || []).map(x => ({ adv: x, role: 'prakara', pre: true })).concat(a.node) }, a.i, g.rules.concat(o.rules, a.rules))); }
       }
     }
     return res;
@@ -456,11 +467,11 @@ function Parser(toks, lex) {
 /* ---------- generation (inverse) ---------- */
 function npText(n, persp) {
   if (!n) return '';
-  if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
+  if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + (n.serial ? ',' : '') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
   if (n.boundOrig) return npText(n.boundOrig, persp); /* REF-BOUND-LOCAL: a structurally bound pronoun is realized as the pronoun */
   if (n.pron === 'user') return persp === 'user' ? 'I' : 'you'; if (n.pron === 'kernel') return persp === 'user' ? 'you' : 'I';
   if (n.members) return npText(Object.assign({}, n, { members: undefined }), persp) + ', ' + npText(n.members, persp); /* NP-APPOSITIVE-COUNT */
-  if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return (n.appos ? npText(n.appos, persp) + ' ' : '') + n.propn; /* NP-APPOSITION-CLOSE: the description, then the name */ if (n.quote !== undefined) return '"' + n.quote + '"';
+  if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return (n.appos ? npText(n.appos, persp) + ' ' : '') + n.propn + (n.pp ? ' ' + n.pp.prep + ' ' + (n.pp.np.pron ? objText(n.pp.np, persp) : npText(n.pp.np, persp)) : '') /* 4.9.85: a name's own prepositional modifier is said ("the Fifteenth Amendment to the United States Constitution") */; /* NP-APPOSITION-CLOSE: the description, then the name */ if (n.quote !== undefined) return '"' + n.quote + '"';
   let s = '';
   if (n.quant) s += n.quant + (n.partitive ? ' of ' : ' ');
   if (n.owner === 'user') s += persp === 'user' ? 'my ' : 'your '; else if (n.owner === 'kernel') s += persp === 'user' ? 'your ' : 'my '; else if (n.owner && n.owner.pron3) s += n.owner.pron3 + ' '; else if (n.owner && n.owner.boundOrig) s += n.owner.boundOrig.pron3 + ' '; else if (n.owner) s += npText(n.owner, persp) + "'s ";
@@ -476,7 +487,7 @@ function npText(n, persp) {
 }
 function agree(subj) { if (!subj) return 'pres3'; if (subj.pron === 'user') return 'pres1'; if (subj.pron === 'kernel') return 'pres'; if (subj.conj && subj.op === 'and') return 'pres'; if (subj.pron3) return ['they', 'we'].includes(subj.pron3) ? 'pres' : 'pres3'; if (subj.plural) return 'pres'; return 'pres3'; }
 function nfText(c, persp) { // non-finite VP: "to buy a car" / "reading books"
-  const v = c.verb; const head = v.lemma === 'be' ? (v.nf === 'inf' ? 'to be ' : 'being ') + predText(c.pred, persp) : (v.nf === 'inf' ? 'to ' + v.lemma : inflect(v.lemma, 'ing')) + (v.particle ? ' ' + v.particle : '');
+  const v = c.verb; const head = v.lemma === 'be' ? (v.nf === 'inf' ? 'to be ' : 'being ') + predText(c.pred, persp) : (v.nf === 'inf' ? 'to ' + v.lemma : inflect(v.lemma, 'ing') + (v.coordLemma ? ' ' + v.coordOp + ' ' + inflect(v.coordLemma, 'ing') : '')) + (v.particle ? ' ' + v.particle : '');
   return head + rolesText(c.roles || {}, persp) + adjText(c, persp); }
 function rolesText(r, persp) { if (r.vidheya && r.vidheya.of === 'karma' && r.karma) return ' ' + objText(r.karma, persp) + ' ' + r.vidheya.adjp.join(' '); if (r.vidheya) return ' ' + r.vidheya.adjp.join(' '); if (r.prayojana && r.karma) return ' ' + objText(r.karma, persp) + ' ' + nfText(r.prayojana.inf, persp); if (r.sampradana && r.karma) return ' ' + objText(r.sampradana, persp) + ' ' + objText(r.karma, persp); if (r.karma) return ' ' + objText(r.karma, persp); return ''; }
 function adjText(c, persp) { let s = ''; for (const a of c.adj || []) if (!a.pre) s += a.ger ? ' ' + a.prep + ' ' + nfText(a.ger, persp) : a.adv ? ' ' + a.adv : a.time ? ' ' + a.time : ' ' + a.prep + ' ' + (a.np.pron ? objText(a.np, persp) : npText(a.np, persp)); return s; }
@@ -487,7 +498,9 @@ function vpText(c, subj, persp) {
   const MODW = { possible: 'might', able: 'can', necessary: 'must', obligation: 'should', conditional: 'would' };
   if (v.nf) return nfText(c, persp);
   if (v.voice === 'passive') { let be; if (v.tense === 'future') be = 'will' + (neg ? ' not' : '') + ' be'; else if (v.mod && v.mod !== 'asserted') be = MODW[v.mod] + (neg ? (v.mod === 'able' ? 'not' : ' not') : '') + ' be';
+    else if (v.aspect === 'perfect') be = (v.tense === 'past' ? 'had' : ag === 'pres3' ? 'has' : 'have') + (neg ? ' not' : '') + ' been'; /* 4.9.85: the perfect passive ("have been credited") */
     else { if (v.tense === 'past') be = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else be = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') be = v.tense === 'past' ? 'were' : 'are'; if (subj && subj.pron === 'kernel' && persp === 'kernel') be = v.tense === 'past' ? 'was' : 'am'; if (neg) be += ' not'; }
+    { const pa = (c.adj || []).filter(a => a.pre && a.adv).map(a => a.adv); if (pa.length) { const t = be.split(' '); be = [t[0]].concat(pa, t.slice(1)).join(' '); } } /* 4.9.85: a pre-verbal adverb or floating quantifier after the first auxiliary ("have all been credited") */
     return be + ' ' + inflect(v.lemma, 'pp') + (v.particle ? ' ' + v.particle : '') + (c.roles && c.roles.karma ? ' ' + objText(c.roles.karma, persp) : '') /* K-KARMA-RETAINED */ + (c.roles && c.roles.karta ? ' by ' + objText(c.roles.karta, persp) : '') + adjText(c, persp); }
   if (v.lemma === 'be') {
     let cop; if (v.tense === 'future') cop = 'will' + (neg ? ' not' : '') + ' be'; else if (v.mod !== 'asserted') cop = MODW[v.mod] + (neg ? (v.mod === 'able' ? 'not' : ' not') : '') + ' be';
