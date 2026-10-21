@@ -25,16 +25,18 @@
   function Crawler(opts) {
     opts = opts || {}; const doFetch = opts.fetch || (typeof fetch !== 'undefined' ? fetch.bind(root) : null);
     const path = () => (opts.path ? opts.path() : null); /* user's own fetch path: { kind:'node'|'proxy', url } */
+    const lanes = new Map(); const pace = (u, fn) => { let h = ''; try { h = new URL(u).host; } catch (e) { return fn(); } const prev = lanes.get(h) || Promise.resolve(); const run = prev.catch(() => null).then(fn); lanes.set(h, run.catch(() => null).then(() => new Promise(z => setTimeout(z, 200)))); return run; };
     async function get(url, accept) {
       const v = validateUrl(url); const via = path(); const target = via ? via.url.replace(/\/$/, '') + '/fetch?url=' + encodeURIComponent(v) : v;
       if (!doFetch) throw new Error('research_no_fetch_available');
-      const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null; const t = ctl ? setTimeout(() => ctl.abort(), LIMITS.TIMEOUT_MS) : null;
+      let ctl = typeof AbortController !== 'undefined' ? new AbortController() : null; let t = ctl ? setTimeout(() => ctl.abort(), LIMITS.TIMEOUT_MS) : null;
       if (via && via.kind === 'node' && via.rpc) { if (t) clearTimeout(t); let o; try { o = await via.rpc('fetch', { url: v }); } catch (e) { throw new Error('research_path_unreachable'); } if (!o || !o.ok) throw new Error('research_node_' + (o && o.error || 'error'));
         if (o.text.length > LIMITS.MAX_RESPONSE_BYTES) throw new Error('research_response_size_limit_exceeded'); const ctN = String(o.content_type || ''); if (!new RegExp(accept || 'text/html|application/xhtml\\+xml|text/plain|application/json', 'i').test(ctN)) throw new Error('research_content_type_not_admitted');
         return { finalUrl: validateUrl(o.url || v), ct: ctN, text: o.text, via: 'node' }; }
       /* A-RATE (4.9.53, same policy as archives.js): a 429 / 503 is retried after Retry-After (≤ 8 s) or 0.5 s, 1 s — at most 3 attempts */
-      let r; for (let a = 0; ; a++) { try { r = await doFetch(target, Object.assign({}, FETCH_INIT, ctl ? { signal: ctl.signal } : {})); } catch (e) { if (t) clearTimeout(t); throw new Error(via ? 'research_path_unreachable' : 'research_not_cors_readable_needs_user_path'); }
-        if ((r.status === 429 || r.status === 503) && a < 2) { const ra = Number(r.headers && r.headers.get && r.headers.get('retry-after')); await new Promise(z => setTimeout(z, ra > 0 && ra <= 8 ? ra * 1000 : 500 * Math.pow(2, a))); continue; } break; }
+      /* 4.9.86: requests to one host are paced (one at a time, 200 ms apart: Wikipedia's 429s come from bursts); a 429 / 503 waits Retry-After (≤ 10 s) or 1 s, 2 s, 4 s, 8 s, with a fresh timeout per attempt */
+      let r; for (let a = 0; ; a++) { try { r = await pace(target, () => doFetch(target, Object.assign({}, FETCH_INIT, ctl ? { signal: ctl.signal } : {}))); } catch (e) { if (t) clearTimeout(t); throw new Error(via ? 'research_path_unreachable' : 'research_not_cors_readable_needs_user_path'); }
+        if ((r.status === 429 || r.status === 503) && a < 4) { if (t) clearTimeout(t); const ra = Number(r.headers && r.headers.get && r.headers.get('retry-after')); await new Promise(z => setTimeout(z, ra > 0 && ra <= 10 ? ra * 1000 : 1000 * Math.pow(2, a))); ctl = typeof AbortController !== 'undefined' ? new AbortController() : null; t = ctl ? setTimeout(() => ctl.abort(), LIMITS.TIMEOUT_MS) : null; continue; } break; }
       if (t) clearTimeout(t);
       if (!r.ok) throw new Error('research_http_' + r.status);
       const finalUrl = validateUrl(r.headers.get('x-final-url') || r.url || v); const ct = String(r.headers.get('content-type') || '');
