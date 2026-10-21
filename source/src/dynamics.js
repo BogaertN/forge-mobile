@@ -60,15 +60,17 @@ function readRates(raw, last) { const low = qualifyUnits(String(raw).toLowerCase
     if (!sc.subject) { const sm = s.match(/^(?:a|an|the) ([a-z]+)\b/); if (sm) sc.subject = 'the ' + sm[1]; }
     for (const cl of s.split(/,? and |, /)) { let m; rateRe.lastIndex = 0; const rm = rateRe.exec(cl) || new RegExp(NUM + ' ([a-z]+(?:-[a-z]+)*) (?:each|every|per|a) (second|sec|minute|min|hour|hr|day)\\b').exec(cl);
       if (rm) { if (!unitOk(rm[2])) { bad = true; continue; } const t = sing(rm[3]); if (!sc.tunit) sc.tunit = t; const r = cv(div(mul(num(rm[1]), TIME[sc.tunit]), TIME[t])); /* per the scenario's time unit */
-        const vin = verbIn(cl, IN_VERBS), vout = verbIn(cl, OUT_VERBS); if (vin && !vout) sc.ins.push(r); else if (vout && !vin) sc.outs.push(r); else bad = true; }
+        const vin = verbIn(cl, IN_VERBS), vout = verbIn(cl, OUT_VERBS); if (vin && !vout) sc.ins.push(r); else if (vout && !vin) sc.outs.push(r); else if (!vin && !vout && /^(?:an? |the )?[a-z]+ [a-z]+s\b/.test(cl.trim())) sc.prod = (sc.prod || []).concat([r]); else bad = true; } /* 4.9.81 DYN-RATE-COUNT: a verb in neither class ("prints 12 pages per minute") is a production rate: it is only counted (below) */
       else if ((m = cl.match(new RegExp('\\b(?:contains?|has|holds?|starts? (?:with|at)|begins? with|is at) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)'))) && !/capacity|up to|at most/.test(cl) && unitOk(m[2])) { sc.start = cv(num(m[1])); sc.holds = /\bholds?\b/.test(m[0]) ? sc.start : null; } /* 4.9.81: "holds N" is a capacity or a content; the question decides (below) */
       else if (/\bis empty\b|\bstarts? empty\b/.test(cl)) sc.start = Q(0n); else if (/\bis full\b|\bstarts? full\b/.test(cl)) sc.start = 'cap';
       const dm = cl.match(new RegExp('\\bfor ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?\\b')); if (dm) sc.dur = [num(dm[1]), sing(dm[2])]; } }
   if (sc.start === 'cap') sc.start = sc.cap;
+  if (sc.prod && sc.prod.length) { if (sc.ins.length || sc.outs.length || sc.start != null || sc.cap != null) bad = true; else { sc.ins = sc.prod; sc.counted = true; } }
   if (bad || !sc.ins.length && !sc.outs.length || !qs.length || !sc.unit || !sc.tunit) return null;
   const q = qs[qs.length - 1]; let ask = null; const qd = q.match(new RegExp('\\b(?:after|in|for) ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?\\b'));
   if (/\bhow long\b|\bwhen\b|\bhow many (?:seconds|minutes|hours|days)\b/.test(q)) ask = /\bempty\b|\brun out\b|\breach (?:zero|0)\b|\blast\b/.test(q) ? 'empty' /* 4.9.81: how long a stock lasts = until it runs out */ : /\bfull\b|\bfill\b|\boverflow\b/.test(q) ? 'fill' : null;
   else if (/\bhow much\b|\bhow many\b|\bwhat (?:is|will be) the (?:level|amount|volume|stock|charge)\b/.test(q)) ask = 'after';
+  if (sc.counted) { if (ask !== 'after') return null; sc.start = Q(0n); }
   if (!ask) return null; if (ask === 'fill' && sc.cap == null && sc.holds != null && sc.start === sc.holds) { sc.cap = sc.holds; sc.start = null; } /* 4.9.81: "holds N" asked to fill is the capacity (the start is unstated) */
   if (qd) sc.dur = [num(qd[1]), sing(qd[2])]; if (ask === 'after' && !sc.dur) return null; sc.subject = sc.subject || 'it'; sc.ask = ask; return sc; }
 /* what-if / measurement against the last stated scenario (a branch from the STATED inputs) */
@@ -97,7 +99,7 @@ function solveRates(sc) {
     const w = toward(tgt); return Object.assign(out, { expr: w.expr, result: { text: fmt(w.t) + ' ' + plural(T, w.t) } }); }
   const d = div(mul(sc.dur[0], TIME[sc.dur[1]]), TIME[T]), v = add(start, mul(net, d)), bnd = sgn(net) < 0 && lt(v, lowB) ? [lowB, sc.low ? 'the stated lower bound' : 'it cannot go below empty'] : sgn(net) > 0 && sc.cap && lt(sc.cap, v) ? [sc.cap, 'its capacity'] : null;
   if (bnd) { const w = toward(bnd[0]); Object.assign(out, { expr: w.expr, result: { text: fmt(w.t) + ' ' + plural(T, w.t), bound: qty(bnd[0], u) } }); assumed.push('it stays at ' + qty(bnd[0], u) + ' until ' + qty(d, T) + ' (' + bnd[1] + ')'); }
-  else Object.assign(out, { expr: qty(start, u) + (sgn(net) < 0 || (!sc.ins.length) ? ' − ' + falling() : ' + ' + rising()) + ' × ' + qty(d, T), result: { text: qty(v, u) } });
+  else Object.assign(out, { expr: sc.counted ? grp(sc.ins) + ' × ' + qty(d, T) : qty(start, u) + (sgn(net) < 0 || (!sc.ins.length) ? ' − ' + falling() : ' + ' + rising()) + ' × ' + qty(d, T), result: { text: qty(v, u) } });
   const final = bnd ? bnd[0] : v; if (sc.measured) { if (fmt(sc.measured) !== fmt(final)) { out.measured = qty(sc.measured, u) + ' after ' + qty(d, T); out.predicted = qty(final, u);
       /* WMS §5.11: a discrepancy is evidence that SOME input of the model may be wrong; each input and an unmodelled flow is a candidate, none is asserted */
       out.explanations = [sc.start != null ? 'the start was not ' + qty(sc.start, u) : null].concat(sc.ins.map(x => 'the inflow was not ' + rate(x, sc)), sc.outs.map(x => 'the outflow was not ' + rate(x, sc)),

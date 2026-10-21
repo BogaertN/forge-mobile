@@ -66,4 +66,10 @@ T('X: an unknown modifier noun keeps its place and determiner', () => { const r 
 /* R */
 T('R: self-repair through a pronoun replaces the earlier statement', () => { const r = say('Lucia lives in Porto.', 'Sorry, I meant she lives in Braga.', 'Where does Lucia live?'); expect(/Braga/.test(r.reply || '') && !/Porto/.test(r.reply || ''), r.reply); });
 
-(async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R480', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
+/* W: research-routing / memory-routing misses (new sentences; added with 4.9.81 item 6 — confirmed failing on 4.9.80) */
+T('W: "forget what I told you about NP" names the stored facts about NP (asks to confirm)', () => { const r = say('Remember that my bike is red.', 'Forget what I told you about my bike.'); expect(kindOf(r) === 'confirm_forget' && /bike is red/.test(r.reply || ''), kindOf(r) + ' | ' + r.reply); });
+T('W: "take back what I said about NP" is the same retraction', () => { const r = say('Remember that Lena keeps bees.', 'Take back what I said about Lena.'); expect(kindOf(r) === 'confirm_forget', kindOf(r) + ' | ' + r.reply); });
+T('W: "take back" with an ordinary object is not a retraction', () => { const r = say('Take back the book.'); expect(kindOf(r) !== 'confirm_forget', kindOf(r) + ' | ' + r.reply); });
+T('W: a production rate counts over a duration', () => { const r = say('A printer prints 12 pages per minute. How many pages does it print in 5 minutes?'); expect(/\b60 pages\b/.test(r.reply || '') && !isTool(r), r.reply); });
+
+(async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R481', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
