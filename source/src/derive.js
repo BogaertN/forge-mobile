@@ -519,6 +519,7 @@ const PLANS = {
   merged: m => [S(C('note', { karta: I, comp: { that: UC(m.clause) }, tense: 'past', adv: ['already'] })), S(C('reinforce', { karta: I, karma: pr('it'), roles: { karana: X('⟁') }, tense: 'past' }))],
   replaced: m => [S(C('store', { karta: I, comp: { that: UC(m.clause) }, tense: 'past' }))].concat(m.was ? [S(C('tell', { karta: YOU, samp: I, comp: { that: UC(m.was) }, tense: 'past' }), { front: [{ adv: 'before' }] })] : [], [S(C('move', { karta: I, karma: N('fact', { det: 'the', adj: ['earlier'] }), roles: { gati: coldStorage() }, tense: 'past' }))]), /* 4.9.38: the superseded fact is named */
   recall: m => m.items.map(told),
+  repeat_none: () => [S(C('give', { karta: I, karma: N('answer', { det: 'no' }), tense: 'past' })), S(C('ask', { karma: N('question', { det: 'a' }) }), { force: 'imp', part: 'please' })], /* 4.9.81 G-REPEAT-REQUEST with no earlier answer */
   /* GKS shared facts (4.9.42): the phrasing is chosen by the source class (plan §1) — primary_authority / reviewed_reference: stated as fact + its source
      and class; secondary: "SOURCE reports …" + "It is a claim."; weak_unverified: "SOURCE claims …" + "I did not verify it." Every reply names the source. */
   gks_unconfirmed: m => [S(C('confirm', { karta: I, karma: Mn(m.question), mod: 'can', pol: 'neg' }))].concat(...m.related.map(f => [S(C('be', { karta: N('fact', { det: 'the', adj: ['related', 'shared'] }), pred: Mn(f.text.replace(/[.]$/, '')) })), S(C('be', { karta: N('source', { det: 'the' }), pred: Mn(f.source) }))])),
