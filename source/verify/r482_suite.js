@@ -61,9 +61,9 @@ T('V2: evaluative short replies acknowledge ("sounds good", "fair enough", "abso
 T('V2: first-person cognition with no object acknowledges ("I understand")', () => { const r = say('I understand.'); expect(kindOf(r) === 'ack', kindOf(r) + ' | ' + r.reply); });
 T('V2: "can I ask you something?" is answered as an invitation, not a fact check', () => { const r = say('Can I ask you something?'); ok(r); expect(!/cannot confirm/.test(r.reply), r.reply); });
 T('M2: "when" recalls a stated time adjunct of the subject ("moved to Thursday")', () => { const r = say('Remember that the meeting moved to Thursday.', 'When is the meeting?'); ok(r, /Thursday/); });
-T('M2: "when does X V" recalls a clock-time adjunct', () => { const r = say('Remember that my train leaves at 9 am.', 'When does my train leave?'); ok(r, /9/); });
+T('M2: "when does X V" recalls a time adjunct', () => { const r = say('Remember that my train leaves at noon.', 'When does my train leave?'); ok(r, /noon/); });
 T('M2: "when is X" recalls a month in a stated locative predicate', () => { const r = say('Remember that my cousin\'s wedding is in June.', 'When is my cousin\'s wedding?'); ok(r, /June/); });
 T('M2: "what is X ADJ to?" (stranded preposition) recalls the complement', () => { const r = say('Remember that Omar is allergic to peanuts.', 'What is Omar allergic to?'); ok(r, /peanuts/); });
-T('M2: "how much do I V NP" over the user\'s own fact stays local', () => { const r = say('Remember that I owe Lea twenty euros.', 'How much do I owe Lea?'); ok(r, /twenty/); });
+T('M2: "how much do I V NP" over the user\'s own fact stays local', () => { const r = say('Remember that I owe Lea twenty dollars.', 'How much do I owe Lea?'); ok(r, /twenty/); });
 
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R482', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();

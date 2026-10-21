@@ -494,6 +494,7 @@ const PLANS = {
   justification: justPlan,
   dynamics: m => dynPlan(m),
   ack: () => [S(C('acknowledge', { karta: I, karma: pr('that') }))],
+  invite: () => [S(null, { part: 'yes' }), S(C('ask', { karma: N('question', { det: 'a' }) }), { force: 'imp', part: 'please' })],
   help: () => [S(C('do', { karta: I, karma: N('thing', { cnt: 8, list: { kind: 'vp', items: [C('remember', { karma: N('fact', { pl: true }) }), C('answer', { roles: { apadana: N('memory') } }), C('keep', { karma: N('note', { pl: true }) }), C('define', { karma: N('word', { pl: true }) }), C('solve', { karma: N('equation', { pl: true }) }), C('factor', { karma: N('polynomial', { pl: true }) }), C('convert', { karma: N('unit', { pl: true }) }), C('forget', { karma: N('fact', { pl: true }), roles: { paschat: N('confirmation') } })] } }), mod: 'can' })),
     S(C('say', { karma: { coord: 'or', items: ['remember', 'recall', 'note', 'math', 'solve', 'define', 'infer'].map(k => Mn(MENTIONS[k])) } }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] })],
   loop: () => [S(C('start', { karta: N('binding', { det: 'a', adj: ['new'], app: X('λ') }), aspect: 'perf' })), S(C('reset', { karta: I, karma: N('flag', { det: 'the', adj: ['grace'], app: X('χ(t)') }), aspect: 'perf' }))],
