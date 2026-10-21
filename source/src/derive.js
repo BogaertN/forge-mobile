@@ -211,7 +211,8 @@ function Analyser(env) {
       if (ch === '“') { const j = s.indexOf('”', i); if (j < 0) return null; toks.push({ m: s.slice(i + 1, j) }); i = j + 1; continue; }
       if (ch === '[') { const j = s.indexOf(']', i); if (j < 0) return null; toks.push({ stamp: s.slice(i + 1, j) }); i = j + 1; continue; }
       let j = i; while (j < s.length && s[j] !== ' ' && s[j] !== '“' && s[j] !== '[') j++; let w = s.slice(i, j); i = j; const tail = [];
-      while (/[,.;:?]$/.test(w) && !/^\(\d+\)$/.test(w)) { tail.unshift(w.slice(-1)); w = w.slice(0, -1); } if (w) toks.push({ w }); for (const t of tail) toks.push({ p: t }); }
+      const abbr = i < s.length && /^(?:(?:[A-Za-z]\.){2,}|(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr)\.)$/.test(w); /* T-ABBREVIATION: the period belongs to the word */
+      while (!abbr && /[,.;:?]$/.test(w) && !/^\(\d+\)$/.test(w)) { tail.unshift(w.slice(-1)); w = w.slice(0, -1); } if (w) toks.push({ w }); for (const t of tail) toks.push({ p: t }); }
     return toks; }
   const W = t => (t && t.w !== undefined ? t.w : null);
   const detok = toks => toks.map(t => (t.w !== undefined ? t.w : t.m !== undefined ? '"' + t.m + '"' : t.stamp !== undefined ? '[' + t.stamp + ']' : t.p)).join(' ').replace(/ ([,.;:?])/g, '$1');

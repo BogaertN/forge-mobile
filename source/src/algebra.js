@@ -184,10 +184,15 @@ ub('kg,kilogram,kilograms', '1', 0, 1, 0); ub('g,gram,grams', '0.001', 0, 1, 0);
 ub('s,sec,second,seconds', '1', 0, 0, 1); ub('min,minute,minutes', '60', 0, 0, 1); ub('h,hr,hour,hours', '3600', 0, 0, 1); ub('day,days', '86400', 0, 0, 1); ub('week,weeks', '604800', 0, 0, 1);
 ub('l,liter,liters,litre,litres', '0.001', 3, 0, 0); ub('ml,milliliter,milliliters', '0.000001', 3, 0, 0); ub('us-gal,us-gallon,us-gallons', '0.003785411784', 3, 0, 0); ub('imperial-gal,imperial-gallon,imperial-gallons', '0.00454609', 3, 0, 0); ub('ha,hectare,hectares', '10000', 2, 0, 0); ub('acre,acres', '4046.8564224', 2, 0, 0);
 ub('mph', '0.44704', 1, 0, -1); ub('kph,kmh', new Q(5n, 18n), 1, 0, -1); ub('n,newton,newtons', '1', 1, 1, -2); ub('j,joule,joules', '1', 2, 1, -2); ub('w,watt,watts', '1', 2, 1, -3);
+/* GP014-UNIT-PRODUCT / GP014-SI-PREFIX (4.9.79): a hyphenated pair of units is their product ("watt-hours" = W·h, "newton-metres" = N·m), and an SI
+   prefix on a unit's full name scales it by its power of ten ("kilowatt", "megajoule", "millisecond") — the dimension and factor follow, no table rows */
+const SI_PREFIX = { kilo: '1000', mega: '1000000', giga: '1000000000', milli: '0.001', micro: '0.000001' };
+function unitB(u) { const d = UB[u] || UB[u.replace(/s$/, '')]; if (d) return d; const m = /^(kilo|mega|giga|milli|micro)([a-z]{3,})$/.exec(u); if (!m) return null; const b = UB[m[2]] || UB[m[2].replace(/s$/, '')]; return b ? { f: b.f.mul(Q.parse(SI_PREFIX[m[1]])), dim: b.dim } : null; }
 function parseUnit(str) {
   const s = str.toLowerCase().trim().replace(/\bper\b/g, '/').replace(/\bsquare\s+(\w+)/g, '$1^2').replace(/\bcubic\s+(\w+)/g, '$1^3').replace(/(\w+)\s+squared\b/g, '$1^2').replace(/(\w+)\s+cubed\b/g, '$1^3').replace(/²/g, '^2').replace(/³/g, '^3').replace(/·/g, '*').replace(/\s*([*/^])\s*/g, '$1').replace(/\s+/g, '*');
+  const s1 = s; { const hy = s1.replace(/\b([a-z]+)-([a-z]+)\b/g, (m, a, b) => (UB[m] || UB[m.replace(/s$/, '')] ? m : a + '*' + b)); if (hy !== s1) return parseUnit(hy.replace(/\*/g, ' * ')); }
   let f = ONE; const dim = [0, 0, 0]; let sign = 1;
-  for (const t of s.split(/([*/])/)) { if (t === '*') continue; if (t === '/') { sign = -1; continue; } if (!t) return null; const [u, e] = t.split('^'); const ex = e ? +e : 1; const d = UB[u] || UB[u.replace(/s$/, '')]; if (!d || !Number.isInteger(ex) || ex < 1 || ex > 4) return null;
+  for (const t of s.split(/([*/])/)) { if (t === '*') continue; if (t === '/') { sign = -1; continue; } if (!t) return null; const [u, e] = t.split('^'); const ex = e ? +e : 1; const d = unitB(u); if (!d || !Number.isInteger(ex) || ex < 1 || ex > 4) return null;
     for (let i = 0; i < ex; i++) f = sign > 0 ? f.mul(d.f) : f.div(d.f); d.dim.forEach((x, i) => (dim[i] += x * ex * sign)); }
   return { f, dim }; }
 const dimName = d => ['L', 'M', 'T'].map((n, i) => (d[i] ? n + (d[i] === 1 ? '' : '^' + d[i]) : '')).filter(Boolean).join('·') || 'dimensionless';

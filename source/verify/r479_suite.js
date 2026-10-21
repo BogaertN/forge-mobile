@@ -48,4 +48,19 @@ for (const q of ['Write a poem about the harbour.', 'Cook the rice.', 'How do I 
   T('M: "' + q + '" is not an open problem', () => { const r = kV().process(q); expect(!isMea(r), kindOf(r) + ' | ' + r.reply); });
 T('M: an opened problem is a draft: nothing is committed without a tap, and the goal comes from the request', () => { const k = kV(); k.process('Find a way to cool the server room without power.'); const p = k.meaProblems().find(x => x.draft); expect(p && /cool the server room/.test(p.goal), JSON.stringify(p)); const cy = k.meaCycle(p.problem_id); expect(cy.ok, JSON.stringify(cy).slice(0, 200)); const c = (cy.cycle.candidates || [])[0]; const cm = k.meaCommit(p.problem_id, c ? c.candidate_id : 'x', false); expect(!cm.ok, JSON.stringify(cm)); });
 
+/* ---------------- A. abbreviations, W. time predicates, U. compound units, F. phatic acts ----------------
+ *  A  ORTHOGRAPHY: a period inside an initialism ("U.S.") or after a title abbreviation does not end the sentence.
+ *  W  KĀLA AS PREDICATE: "X is on <day>" states X's time; "when is X" asks for it (the time noun's lexical class, not a word list).
+ *  U  COMPOUND UNITS: a hyphenated product of two units ("watt-hours") is the product of their dimensions and factors.
+ *  F  PHATIC ACTS: a verbless greeting / thanks / farewell is recognised from the WordNet gloss of its head (an expression of greeting,
+ *     of gratitude, a farewell) and answered with the matching act, not a parse failure. */
+T('A: "Research the U.S. constitution" is one sentence and the research target keeps "U.S. constitution"', () => { const r = sayV('Research the U.S. constitution'); expect(kindOf(r) !== 'sequence', kindOf(r) + ' | ' + r.reply); const tr = r.trace.tool_request; expect(tr && /U\.S\. constitution/.test(tr.input), JSON.stringify(tr)); });
+T('A: a title abbreviation does not split a statement ("Mr. Pell sold the boat.")', () => { const r = say('Mr. Pell sold the boat.'); expect(kindOf(r) !== 'sequence' && /Pell sold the boat/.test(r.reply || ''), kindOf(r) + ' | ' + r.reply); });
+for (const [f, q, w] of [['The recital is on Friday.', 'When is the recital?', 'Friday'], ['The audit was in March.', 'When was the audit?', 'March']])
+  T('W: "' + q + '" after "' + f + '" recalls the time', () => { const r = say(f, q); expect(kindOf(r) === 'recall' && new RegExp(w).test(r.reply), kindOf(r) + ' | ' + r.reply); });
+for (const [q, v] of [['How many joules are in 2 watt-hours?', '7200'], ['How many watt-hours are in 36000 joules?', '10']])
+  T('U: "' + q + '" = ' + v, () => { const r = say(q); expect(new RegExp('\\b' + v + '\\b').test(String(r.reply).replace(/,/g, '')), kindOf(r) + ' | ' + r.reply); });
+for (const q of ['Good evening!', 'Many thanks for the help.', 'Cheers!', 'Farewell, friend.'])
+  T('F: "' + q + '" is recognised as a social act, not a parse failure', () => { const r = say(q); expect(kindOf(r) === 'phatic' && !!r.reply && !/could not attach|found no verb/.test(r.reply), kindOf(r) + ' | ' + r.reply); });
+
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R479', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();

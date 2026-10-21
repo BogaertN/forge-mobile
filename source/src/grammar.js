@@ -115,9 +115,13 @@ function analyse(tok, idx, lex) {
   if (!an.length) an.push({ tag: 'UNK', lemma: w, rule: 'LX-UNKNOWN' });
   return an;
 }
+/* T-SENTENCE-BOUNDARY (4.9.79): a sentence ends at . ! ? followed by space, except after an initialism or a title abbreviation (T-ABBREVIATION) */
+const ABBR_END = /(?:\b(?:[A-Za-z]\.){2,}|\b(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr)\.)$/;
+function splitSentences(text) { const out = []; let cur = ''; for (const piece of String(text).split(/(?<=[.!?])\s+/)) { cur = cur ? cur + ' ' + piece : piece; if (ABBR_END.test(cur) && !/[!?]$/.test(cur)) continue; out.push(cur); cur = ''; } if (cur) out.push(cur); return out.map(x => x.trim()).filter(Boolean); }
 function tokenize(text) {
   const raw = String(text).replace(/[’‘]/g, "'").replace(/[“”]/g, '"');
-  const parts = raw.match(/"[^"]*"|[A-Za-zÀ-ÿ]+-\d+\b|[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\-]*(?:'(?!s\b)[a-z]+)?|'s\b|\d+(?:\.\d+)?|[?,;:.!]/g) || [];
+  /* T-ABBREVIATION (4.9.79; orthography): an initialism with internal periods ("U.S.", "e.g.") and a title abbreviation ("Dr.", "Mr.") are one word, period included */
+  const parts = raw.match(/"[^"]*"|(?:[A-Za-z]\.){2,}|\b(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr)\.(?=\s+[A-Z])|[A-Za-zÀ-ÿ]+-\d+\b|[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\-]*(?:'(?!s\b)[a-z]+)?|'s\b|\d+(?:\.\d+)?|[?,;:.!]/g) || [];
   const exp = Object.assign(Object.create(null), { "don't": 'do not', "doesn't": 'does not', "didn't": 'did not', "isn't": 'is not', "aren't": 'are not', "wasn't": 'was not', "weren't": 'were not', "won't": 'will not', "can't": 'can not', "cannot": 'can not', "couldn't": 'could not', "wouldn't": 'would not', "shouldn't": 'should not', "i'm": 'i am', "you're": 'you are', "we're": 'we are', "they're": 'they are', "i've": 'i have', "i'll": 'i will', "you'll": 'you will', "he's": 'he is', "she's": 'she is', "it's": 'it is', "what's": 'what is', "who's": 'who is', "where's": 'where is', "that's": 'that is', "let's": 'let us', "haven't": 'have not', "hasn't": 'has not' });
   const toks = [];
   for (const p of parts) { const lw = p.toLowerCase(); if (exp[lw]) { exp[lw].split(' ').forEach((x, i) => toks.push({ w: x, orig: i === 0 && /^[A-Z]/.test(p) ? x[0].toUpperCase() + x.slice(1) : x, contraction: lw })); } else toks.push({ w: lw, orig: p }); }
@@ -480,6 +484,6 @@ function clauseText(c, persp) {
 }
 /* canonical material meaning (for Echo comparison) */
 function material(x) { return JSON.parse(JSON.stringify(x, (k, v) => (v && typeof v === 'object' && v.boundOrig ? v.boundOrig : ['rules', 'surface', 'f', 'form', 'dosupport', 'sense', 'resolvedFrom', 'plural', 'resolved_reading', 'front', 'indefinite', 'group'].includes(k) ? undefined : v))); }
-const api = { ADJ_INF, FRAME_SUPP, SEED_FRAMES, IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, learnExc, tokenize, analyse, analyseAll, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
+const api = { ADJ_INF, FRAME_SUPP, SEED_FRAMES, IRRV, IRRF, IRRNP, IRRN, dbl, CLOSED, CL, PRON, TIMEW, FEMALE, MALE, PERSONISH, NAMEISH, SUBW, CTRL_INF, CTRL_GER, learnExc, splitSentences, tokenize, analyse, analyseAll, lemmatize, inflect, Parser, npText, clauseText, vpText, material };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KGrammar = api;
 })(this);
