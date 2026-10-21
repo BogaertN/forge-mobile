@@ -1,5 +1,5 @@
 {
- "version": "4.9.81",
+ "version": "4.9.82",
  "features": [
   {
    "id": "A-01",
@@ -2620,13 +2620,24 @@
    "proof": [
     "R481"
    ]
+  },
+  {
+   "id": "R482-LANG",
+   "name": "Final language-core round: conversation management, remember variants and recall, Forge-self, cause, open-problem questions, extractor-fan object",
+   "source": "Nic instruction 2026-10-21 3:26 PM (final language-core round)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.82: G-META-PREV, G-ACK (WordNet-class acknowledgements, dismissals, (dis)agreement, evaluative replies, permission to ask), G-ELLIPSIS-NP, G-MORE-TOPIC, G-DISCOURSE-LEAD, MEM-SELF-REPAIR-NP, V-PERFECT-COPULA, MEM-DIRECTIVE-GENERAL, K-KARMA-RETAINED + Q-WH-PASSIVE-RETAINED, MEM-RECALL-SAID, MEM-RECALL-TIME-ADJUNCT, Q-WH-STRANDED-PREP, how-much amount recall, SELF-HAVE / SELF-FALLIBLE / SELF-ATTRIBUTE / Q-SELF-INABILITY, M-GERUND-NOUN-PL, Q-FLOAT, K-KARMA-GERUND-BARE, G-GIVEN-COMPOUND, CAUSE-COOCCURRENCE, INF-MODUS-PONENS-WHY, MEAP-PROBLEM-QUESTION-PURPOSE, extractor-fan fix (bare-infinitive frame needs a somebody object; derived words have no lexname). Partial: some held-back conversation / remember / odd / open-problem / Forge-self items still fail.",
+   "proof": [
+    "R482"
+   ]
   }
  ],
- "count": 240,
+ "count": 241,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 78,
+  "Partial": 79,
   "Missing": 9,
   "Out of scope / parked": 13
  }
