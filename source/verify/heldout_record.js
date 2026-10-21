@@ -17,13 +17,13 @@ const recording = () => process.env.FORGE_RECORD === '1';
 function treeFiles() { const out = []; const walk = d => { for (const n of fs.readdirSync(path.join(ROOT, d)).sort()) { const r = d + '/' + n, st = fs.statSync(path.join(ROOT, r)); if (st.isDirectory()) walk(r); else out.push(r); } }; walk('src');
   let tracked = []; try { tracked = cp.execFileSync('git', ['ls-files', 'data'], { cwd: ROOT, encoding: 'utf8' }).split('\n').filter(Boolean); } catch (e) { tracked = []; }
   const b64 = fs.existsSync(path.join(ROOT, '..', 'data')) ? fs.readdirSync(path.join(ROOT, '..', 'data')).filter(f => f.endsWith('.b64')).sort().map(f => '../data/' + f) : [];
-  return out.concat(tracked.sort(), b64, ['verify/eval_lib.js', 'verify/heldout_record.js', 'verify/heldout_suite.js', 'verify/mutation_suite.js', 'tools/mea_preload.js']); }
+  return out.concat(tracked.sort(), b64, ['verify/eval_lib.js', 'verify/heldout_record.js', 'verify/heldout_suite.js', 'verify/heldback_suite.js', 'verify/regression/public54.json', 'verify/mutation_suite.js', 'tools/mea_preload.js']); }
 function treeHash() { const h = crypto.createHash('sha256'); for (const f of treeFiles()) { h.update(f + '\0'); h.update(fs.readFileSync(path.join(ROOT, f))); h.update('\0'); } return h.digest('hex'); }
 const manifestKey = () => [process.env.MEA_MANIFEST, process.env.MEAK_MANIFEST].map(f => (f ? sha(fs.readFileSync(f, 'utf8')) : '-')).join('|');
 function readRecord() { try { return JSON.parse(fs.readFileSync(RECORD_FILE, 'utf8')); } catch (e) { return null; } }
 /* merge one suite's part into the record (record mode only) */
 function writePart(part, value) { const r = readRecord() || { schema: 'forge-heldout-record/v1' }; const k = manifestKey(), tree = treeHash();
-  if (r.tree_sha256 !== tree) { for (const x of ['heldout', 'mutation', 'manifests']) delete r[x]; r.tree_sha256 = tree; }
+  if (r.tree_sha256 !== tree) { for (const x of ['heldout', 'mutation', 'heldback', 'manifests']) delete r[x]; r.tree_sha256 = tree; }
   if (k === '-|-') r[part] = value; else { r.manifests = r.manifests || {}; r.manifests[k] = Object.assign(r.manifests[k] || {}, { [part]: { passed: value.passed, total: value.total } }); }
   r.recorded_files = treeFiles().length; fs.writeFileSync(RECORD_FILE, JSON.stringify(r, null, 1) + '\n'); }
 /* the record's view for this process: { status: 'ok' | 'stale' | 'missing', part, tree } */

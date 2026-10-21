@@ -1,6 +1,6 @@
 {
  "schema": "forge-eval-baseline/v1",
- "recorded": "4.9.78: re-recorded at the current score (audit 2026-10-21: the 4.9.57 baseline 43/54 was stale; 48/54 now protected)",
+ "recorded": "4.9.79: held-back baseline 51/93 on the 4.9.78 kernel (not tuned)",
  "version": "4.9.77",
  "history": [
   {
@@ -11,6 +11,12 @@
   {
    "note": "4.9.78: re-recorded at the current score (audit 2026-10-21: the 4.9.57 baseline 43/54 was stale; 48/54 now protected)",
    "heldout": "48/54",
+   "mutation": "145/173"
+  },
+  {
+   "note": "4.9.79: NEW private held-back set (93 cases, written blind 2026-10-21) scored on the 4.9.78 kernel; old 54 now the public regression set",
+   "heldout": "48/54",
+   "heldback": "51/93",
    "mutation": "145/173"
   }
  ],
@@ -303,6 +309,130 @@
    "b19:neg-q:1",
    "b19:neg-fact:1",
    "b19:contradict:1"
+  ]
+ },
+ "heldback": {
+  "passed": 51,
+  "cases": 93,
+  "rate": 0.5484,
+  "by_category": {
+   "conversation": {
+    "pass": 0,
+    "total": 15
+   },
+   "remember": {
+    "pass": 5,
+    "total": 8
+   },
+   "medicine": {
+    "pass": 3,
+    "total": 6
+   },
+   "law": {
+    "pass": 4,
+    "total": 6
+   },
+   "engineering": {
+    "pass": 4,
+    "total": 4
+   },
+   "chemistry": {
+    "pass": 3,
+    "total": 4
+   },
+   "biology": {
+    "pass": 4,
+    "total": 4
+   },
+   "physics": {
+    "pass": 3,
+    "total": 4
+   },
+   "history": {
+    "pass": 4,
+    "total": 4
+   },
+   "geography": {
+    "pass": 3,
+    "total": 4
+   },
+   "descriptive": {
+    "pass": 4,
+    "total": 5
+   },
+   "quantity": {
+    "pass": 5,
+    "total": 7
+   },
+   "cause": {
+    "pass": 0,
+    "total": 5
+   },
+   "open_problem": {
+    "pass": 3,
+    "total": 6
+   },
+   "odd": {
+    "pass": 4,
+    "total": 5
+   },
+   "forge": {
+    "pass": 2,
+    "total": 6
+   }
+  },
+  "passed_ids": [
+   "rw-02",
+   "rw-05",
+   "rw-06",
+   "rw-07",
+   "rw-08",
+   "pm-01",
+   "pm-03",
+   "pm-06",
+   "pl-03",
+   "pl-04",
+   "pl-05",
+   "pl-06",
+   "pe-01",
+   "pe-02",
+   "pe-03",
+   "pe-04",
+   "pc-01",
+   "pc-03",
+   "pc-04",
+   "pb-01",
+   "pb-02",
+   "pb-03",
+   "pb-04",
+   "pp-02",
+   "pp-03",
+   "pp-04",
+   "ph-01",
+   "ph-02",
+   "ph-03",
+   "ph-04",
+   "pg-02",
+   "pg-03",
+   "pg-04",
+   "do-01",
+   "do-02",
+   "do-03",
+   "do-04",
+   "qu-01",
+   "qu-03",
+   "qu-04",
+   "qu-05",
+   "qu-07",
+   "op-01",
+   "op-03",
+   "op-05",
+   "od-01",
+   "od-02",
+   "od-04",
+   "od-05",
+   "fg-03",
+   "fg-06"
   ]
  }
 }

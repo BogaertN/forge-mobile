@@ -6,7 +6,7 @@
 const fs = require('fs'), path = require('path');
 const E = require('./eval_lib.js'); const ROOT = E.ROOT;
 const KMOD = require(ROOT + '/src/kernel.js'); const LEX = require(ROOT + '/data/lexicon.json'), EXT = require(ROOT + '/data/lexicon-ext.json');
-const HR = require('./heldout_record.js'); const SET = HR.privateJSON('heldout.json'); /* null in a fresh clone / CI: the record is validated instead */
+const HR = require('./heldout_record.js'); const SET = JSON.parse(fs.readFileSync(path.join(__dirname, 'regression', 'public54.json'), 'utf8')); /* 4.9.79: the old held-out set is a PUBLIC regression set (Nic 2026-10-21); the private held-back set is heldback_suite.js */
 const open = () => KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock: () => '2026-10-18T12:00:00Z' });
 const rows = [], tests = []; const T = (name, fn) => tests.push({ name, fn }); const expect = (x, why) => { if (!x) throw new Error(why || 'expectation failed'); };
 const G = require(ROOT + '/src/grammar.js'); const inLex = l => !!(LEX.L[l] || (EXT.L && EXT.L[l]) || (LEX.exc && LEX.exc[l]) || G.CL[l]);
@@ -22,8 +22,8 @@ const part = SET ? { set_schema: SET.schema, set_sha256: HR.sha(JSON.stringify(S
 const base = E.readBaseline(); const passed = results ? results.filter(x => x.pass).length : REC.manifest.passed, total = results ? results.length : REC.manifest.total;
 const score = { schema: 'forge-heldout-score/v1', set: part && part.set_schema, mode: SET ? 'private' : 'record', cases: total, passed, rate: +(passed / (total || 1)).toFixed(4), by_category: results ? E.tally(results, 'cat') : {}, results: (results || []).map(({ _crash, _reply, ...x }) => x) };
 E.writeArtifact('heldout_scores.json', score); if (SET && HR.recording()) HR.writePart('heldout', HR.manifestKey() !== '-|-' ? { passed, total } : part);
-T('HELDOUT the plain-text held-out set is not in the repo; a fresh clone has digests and recorded outcomes only (verify/heldout/heldout_record.json)', () => {
-  expect(!fs.existsSync(path.join(__dirname, 'heldout', 'HELDOUT_DO_NOT_TUNE.json')), 'plain-text held-out file in the repo'); expect(!/"turns"/.test(fs.readFileSync(HR.RECORD_FILE, 'utf8')), 'case text in the record'); });
+T('HELDOUT the 54-case regression set is public (verify/regression/public54.json); the record keeps digests and outcomes only', () => {
+  expect(SET && SET.cases.length === 54, 'public regression set missing'); expect(!/"turns"/.test(fs.readFileSync(HR.RECORD_FILE, 'utf8')), 'case text in the record'); });
 T('HELDOUT the record matches the current tree (' + (SET ? 'private set present: the evaluation reproduces the record' : 'no private set: the record is validated') + '; a stale record fails — re-record with node verify/record_heldout.js)', () => {
   if (SET && HR.recording()) return; expect(REC.status === 'ok', 'record ' + REC.status + (REC.recorded_tree ? ' (recorded tree ' + REC.recorded_tree.slice(0, 12) + ', current ' + REC.tree.slice(0, 12) + ')' : '') + (REC.note ? ': ' + REC.note : ''));
   if (SET) { if (REC.manifest) expect(REC.manifest.passed === passed && REC.manifest.total === total, 'manifest score differs from the record');
