@@ -1,6 +1,6 @@
 {
  "schema": "forge-heldout-record/v1",
- "tree_sha256": "af52fff735a2f8a79a7ebb73ae4660dca7775c712a41d431ef521c99a4fbf541",
+ "tree_sha256": "ea3e07fdb95d34074d0311e66f4596ba5300695c5e97c9e93a71769eb538ad7e",
  "recorded_files": 91,
  "heldout": {
   "set_schema": "forge-heldout-eval/v1",
@@ -715,11 +715,10 @@
     "id": "cv-08",
     "cat": "conversation",
     "case_sha256": "4169fcd4717c05fe7516ca43629785f14b21d2dc31737f1db39ba58cf0b2c534",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "local",
     "pass": false,
     "fail": [
-     "unattached",
      "missing"
     ],
     "crash": false
@@ -1018,7 +1017,7 @@
     "id": "pe-02",
     "cat": "engineering",
     "case_sha256": "aff012ac4490bafe9957f3acea4adf97947fae9a76e7d325a795f346dbef7003",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "research",
     "pass": true,
     "fail": [],
@@ -1038,7 +1037,7 @@
     "id": "pe-04",
     "cat": "engineering",
     "case_sha256": "9df2d279b2bcb12f5379de447b784e773902bd305f418a639157db5415f84d0f",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "research",
     "pass": true,
     "fail": [],
@@ -1048,7 +1047,7 @@
     "id": "pc-01",
     "cat": "chemistry",
     "case_sha256": "81c184e98f863710d989e2ed1dbc39950b87d4337e07e8de9aa8a9dd7030b434",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "research",
     "pass": true,
     "fail": [],
@@ -1078,7 +1077,7 @@
     "id": "pc-04",
     "cat": "chemistry",
     "case_sha256": "bf0bf918545fe30503d08aaf0c0bd87528888e620efb97a113c00f8162a77991",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "research",
     "pass": true,
     "fail": [],
@@ -1405,11 +1404,9 @@
     "cat": "cause",
     "case_sha256": "ba7f55ea5fc757fdf5038806e0330a9ba3ac771525d14c72e75a9f1992bbfffb",
     "verdict": "other",
-    "route": "research",
-    "pass": false,
-    "fail": [
-     "route research"
-    ],
+    "route": "local",
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
