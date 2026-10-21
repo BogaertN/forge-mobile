@@ -26,4 +26,14 @@ for (const [q, v] of [['How many minutes are in 3 hours?', '180'], ['How many gr
 /* ---------------- T. ties of non-answers ---------------- */
 T('T: when every tied candidate withholds, no readings are offered (a withheld answer is not a reading)', () => { const r = say('Snow makes the trail icy. Icy trails cause falls. Does snow cause falls?'); expect(kindOf(r) !== 'clarify_readings', r.reply); });
 
+/* ---------------- P. pronouns and apposition ----------------
+ *  P  REFERENCE BY ANSWERABILITY: of several discourse candidates, the one under which the question can be answered is the referent;
+ *     CLOSE APPOSITION: "my neighbour Anselm" is one referent (name + description); an unresolved pronoun is never a public lookup. */
+const sayV = (...turns) => { const k = KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock: () => '2026-10-21T16:00:00Z', vaultState: () => 'unlocked' }); let r = null; for (const t of turns) r = k.process(t); return r; };
+T('P: "where is it" resolves to the candidate the stored fact can answer', () => { const r = say('The ledger is in the safe.', 'Where is it?'); expect(kindOf(r) === 'recall' && /ledger is in the safe/.test(r.reply), r.reply); });
+T('P: "where does she teach" after a named person resolves to that person', () => { const r = say('Mireille teaches in Lyon.', 'Where does she teach?'); expect(kindOf(r) === 'recall' && /Lyon/.test(r.reply), r.reply); });
+T('P: close apposition "my neighbour Anselm" is parsed (not blocked) and realized with its description', () => { const r = say('My neighbour Anselm repairs clocks.'); expect(!r.blocked && /neighbour Anselm repairs clocks/.test(r.reply || ''), String(r.reply)); });
+T('P: a pronoun question after an appositive statement is answered from it', () => { const r = sayV('My neighbour Anselm repairs clocks.', 'What does he repair?'); expect(kindOf(r) === 'recall' && /clocks/.test(r.reply), kindOf(r) + ' | ' + r.reply); });
+T('P: an unresolved pronoun question never starts a public lookup, and the pronoun keeps its case', () => { const r = sayV('Where does she work?'); expect(kindOf(r) !== 'tool_started', kindOf(r) + ' | ' + r.reply); expect(!/\babout she\b/.test(r.reply || ''), String(r.reply)); });
+
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R479', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();

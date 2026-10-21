@@ -198,6 +198,9 @@ function Parser(toks, lex) {
       res.push(a);
       if (word(a.i) === 'of' && !a.node.pron && !a.node.pron3) for (const b of npGen(a.i + 1)) res.push(R(Object.assign({}, a.node, { of: b.node }), b.i, a.rules.concat(['NP-OF'], b.rules)));
     }
+    /* NP-APPOSITION-CLOSE (4.9.79; close apposition — samānādhikaraṇa, two nominals with one referent): a common-noun phrase directly followed by a
+       proper name names that person or thing ("my cousin Lorna", "the engineer Sato"): the name is the head, the common phrase its description */
+    for (const a of res.slice()) if (a.node.head && !a.node.propn && !a.node.pron && !a.node.pron3 && !a.node.of && at(a.i, 'PROPN').length) for (const b of npGen(a.i)) if (b.node.propn && !b.node.det && !b.node.owner) res.push(R(Object.assign({}, b.node, { appos: a.node }), b.i, a.rules.concat(['NP-APPOSITION-CLOSE'], b.rules)));
     /* NP-PARTICIPLE-POSTMOD (4.9.50; reduced relative): "chest pain radiating to the left arm" — an -ing phrase whose understood kartā is the head */
     for (const a of res.slice()) if (!a.node.pron && !a.node.pron3 && !a.node.indef && a.node.head) for (const c of vpNF(a.i, 'ing')) if (c.node.verb && c.node.verb.lemma !== 'be') res.push(R(Object.assign({}, a.node, { partRel: c.node }), c.i, a.rules.concat(['NP-PARTICIPLE-POSTMOD'], c.rules)));
     /* NP-PP-POSTMOD (4.9.50): a prepositional phrase merges into the noun phrase ("counsel for the defence"); G-ECONOMY prefers verb attachment when both derive */
@@ -414,7 +417,7 @@ function npText(n, persp) {
   if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
   if (n.boundOrig) return npText(n.boundOrig, persp); /* REF-BOUND-LOCAL: a structurally bound pronoun is realized as the pronoun */
   if (n.pron === 'user') return persp === 'user' ? 'I' : 'you'; if (n.pron === 'kernel') return persp === 'user' ? 'you' : 'I';
-  if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return n.propn; if (n.quote !== undefined) return '"' + n.quote + '"';
+  if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return (n.appos ? npText(n.appos, persp) + ' ' : '') + n.propn; /* NP-APPOSITION-CLOSE: the description, then the name */ if (n.quote !== undefined) return '"' + n.quote + '"';
   let s = '';
   if (n.quant) s += n.quant + ' ';
   if (n.owner === 'user') s += persp === 'user' ? 'my ' : 'your '; else if (n.owner === 'kernel') s += persp === 'user' ? 'your ' : 'my '; else if (n.owner && n.owner.pron3) s += n.owner.pron3 + ' '; else if (n.owner && n.owner.boundOrig) s += n.owner.boundOrig.pron3 + ' '; else if (n.owner) s += npText(n.owner, persp) + "'s ";

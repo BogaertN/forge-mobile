@@ -30,7 +30,7 @@ const ROLE_VERBS = { apeksha: ['depend'], upamana: ['record', 'recognise', 'take
 const PP_ADJ = new Set();
 const INF_VERBS = new Set(['ask', 'authorize', 'say', 'open', 'want']); const NOUN_INF = new Set(['request']);
 const POSS = new Set(['its', 'my', 'your', 'their']);
-const PRON = { I: { nom: 'I', acc: 'me', p: 1, n: 'sg' }, you: { nom: 'you', acc: 'you', p: 2, n: 'pl' }, it: { nom: 'it', acc: 'it', p: 3, n: 'sg' }, they: { nom: 'they', acc: 'them', p: 3, n: 'pl' },
+const PRON = { I: { nom: 'I', acc: 'me', p: 1, n: 'sg' }, you: { nom: 'you', acc: 'you', p: 2, n: 'pl' }, it: { nom: 'it', acc: 'it', p: 3, n: 'sg' }, they: { nom: 'they', acc: 'them', p: 3, n: 'pl' }, he: { nom: 'he', acc: 'him', p: 3, n: 'sg' }, she: { nom: 'she', acc: 'her', p: 3, n: 'sg' },
   that: { nom: 'that', acc: 'that', p: 3, n: 'sg' }, anything: { nom: 'anything', acc: 'anything', p: 3, n: 'sg' }, something: { nom: 'something', acc: 'something', p: 3, n: 'sg' }, nothing: { nom: 'nothing', acc: 'nothing', p: 3, n: 'sg' }, everything: { nom: 'everything', acc: 'everything', p: 3, n: 'sg' },
   anyone: { nom: 'anyone', acc: 'anyone', p: 3, n: 'sg' }, someone: { nom: 'someone', acc: 'someone', p: 3, n: 'sg' }, noone: { nom: 'noone', acc: 'noone', p: 3, n: 'sg' }, everyone: { nom: 'everyone', acc: 'everyone', p: 3, n: 'sg' }, anybody: { nom: 'anybody', acc: 'anybody', p: 3, n: 'sg' }, somebody: { nom: 'somebody', acc: 'somebody', p: 3, n: 'sg' }, nobody: { nom: 'nobody', acc: 'nobody', p: 3, n: 'sg' }, everybody: { nom: 'everybody', acc: 'everybody', p: 3, n: 'sg' }, why: { nom: 'why', acc: 'why', p: 3, n: 'sg' } };
 const FORM2PRON = {}; for (const [k, v] of Object.entries(PRON)) { (FORM2PRON[v.nom] = FORM2PRON[v.nom] || []).push({ pr: k, c: 'nom' }); if (v.acc !== v.nom) (FORM2PRON[v.acc] = FORM2PRON[v.acc] || []).push({ pr: k, c: 'acc' }); }
@@ -318,7 +318,7 @@ function Analyser(env) {
 
 const pr = p => ({ pr: p }), N = (n, o) => Object.assign({ n }, o || {}), U = a => ({ u: a }), UC = a => ({ uc: a }), Mn = t => ({ m: String(t) }), X = t => ({ x: String(t) }), Nm = (s, det) => (det ? { name: s, det } : { name: s });
 const C = (v, o) => Object.assign({ v, tense: 'pres', pol: 'pos' }, o || {}); const S = (c, o) => Object.assign({ c, force: 'decl' }, o || {}); const MS = (items, o) => Object.assign({ mth: items, force: 'decl' }, o || {});
-const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && (s.pron === 'user' || /^(?:i|me|myself)$/i.test(String(s.propn || s.name || s.head || s.n || ''))) ? YOU : U(s);
+const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && (s.pron === 'user' || /^(?:i|me|myself)$/i.test(String(s.propn || s.name || s.head || s.n || ''))) ? YOU : s && s.pron3 && !s.boundOrig ? pr(s.pron3) : U(s); /* 4.9.79: a third-person pronoun is realized as a pronoun, so its case follows its position (about her, not "about she") */
 const told = cl => cl && cl.shared ? sharedStep(cl.shared) : S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
 /* a shared (GKS) premise in a proof chain is labelled by its source and class verb: primary/reviewed "states", secondary "reports", weak "claims" (4.9.43) */
 const sharedStep = sh => S(C(sh.cls === 'secondary' ? 'report' : sh.cls === 'weak_unverified' ? 'claim' : 'state', { karta: Mn(sh.source), karma: Mn(String(sh.text).replace(/[.]$/, '')) }));
