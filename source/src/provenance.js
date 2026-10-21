@@ -50,7 +50,13 @@ const NEG = /\b(not|no|never|none|cannot|without|neither|nor)\b|n't\b/i;
 const ORDINAL = /^(\d+(st|nd|rd|th)?|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|[a-z]+-(first|second|third|[a-z]+th)|[a-z]+teenth|[a-z]+ieth|hundredth|thousandth)$/;
 const words = t => String(t || '').replace(/(\d),(?=\d{3}\b)/g, '$1').toLowerCase().replace(/[‐‑–]/g, '-').match(/[a-z0-9]+(?:-[a-z0-9]+)*(?:\.[0-9]+)?/g) || [];
 const stem = w => (ORDINAL.test(w) || /\d/.test(w) ? w : (s => (s.length >= 3 ? s : w))(w.replace(/(ing|ed|es|s|e)$/, '')));
-const same = (a, b) => a === b || (!ORDINAL.test(a) && !ORDINAL.test(b) && stem(a) === stem(b));
+/* 4.9.83 NUMERAL FORMS (query compiler): an ordinal in digits and the same ordinal in words are one word ("15th" ≡ "fifteenth"), 1–99 */
+const ONES_ = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const TENS_ = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']; const ORD_IRR_ = { one: 'first', two: 'second', three: 'third', five: 'fifth', eight: 'eighth', nine: 'ninth', twelve: 'twelfth' };
+const ORD2W = {}, W2ORD = {}; for (let n = 1; n < 100; n++) { const c = n < 20 ? ONES_[n] : TENS_[Math.floor(n / 10)] + (n % 10 ? '-' + ONES_[n % 10] : ''); const ws = c.split('-'), last = ws.pop(); const w = ws.concat([ORD_IRR_[last] || (/y$/.test(last) ? last.slice(0, -1) + 'ieth' : last + 'th')]).join('-');
+  const d = n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th'); ORD2W[d] = w; W2ORD[w] = d; }
+const numeralForms = w => (ORD2W[w] ? [ORD2W[w]] : W2ORD[w] ? [W2ORD[w]] : []);
+const same = (a, b) => a === b || (!ORDINAL.test(a) && !ORDINAL.test(b) && stem(a) === stem(b)) || ORD2W[a] === b || W2ORD[a] === b;
 const uniq = xs => [...new Set(xs)];
 const flat = xs => [].concat(...(xs || []).map(x => (Array.isArray(x) ? flat(x) : words(x))));
 /* ---------------- 3. ENTAILMENT ---------------- */
@@ -239,6 +245,6 @@ function reportHTML(pv, esc) { if (!pv) return ''; const e = esc || (s => String
     pv.sources.map(s => '<li class="tier-' + e(s.tier) + (s.tier === 'open_fallback' ? ' fallback' : '') + '">' + e(s.label) + ' <span class="pill' + (s.tier === 'open_fallback' ? ' warn' : '') + '">' + e(s.tier_label) + '</span> ' +
       (s.supported ? '<span class="pill ok">supported</span><div class="small">verbatim span: “' + e(s.span) + '”</div>' : '<span class="pill bad">unsupported</span><div class="small">no verbatim span with the answer\'s key content (' + e(String(s.reason).replace(/_/g, ' ')) + ')</div>') + '</li>').join('') + '</ol>' +
     ((pv.rejected || []).length ? '<div class="small">set aside (' + e(pv.rejected[0].limitation) + '): ' + pv.rejected.map(r => e(r.name + ': ' + r.title) + ' — about “' + e(r.primary_entity) + '”, not “' + e(r.question_entity) + '”').join('; ') + '</div>' : '') + '</div>'; }
-const api = { setLexicon, attrOf, describedBy, SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
+const api = { numeralForms, setLexicon, attrOf, describedBy, SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KProv = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -70,7 +70,7 @@ T('6c: a question with no curated coverage (every curated archive silent) shows 
   const pv = m.provenance, fo = pv.fallback_only === true || (pv.summary && pv.summary.fallback_only === true); expect(fo && pv.sources.every(s => s.tier === 'open_fallback'), JSON.stringify(pv));
   expect(/open fallback/.test(t.reply) && /fallback only/.test(t.reply), t.reply); });
 T('4: when every source mismatches the subject, nothing is answered: the typed limitation SUBJECT_MISMATCH is the reply; no excerpt is quoted', async () => { const { t, m } = await ask(MISMATCH_ONLY, 'What is the first amendment?');
-  expect(m && (m.limitation === 'SUBJECT_MISMATCH' || m.reason === 'SUBJECT_MISMATCH'), JSON.stringify(m)); expect(/SUBJECT_MISMATCH/.test(t.reply || '') && !/Eighteenth|photographing|Twenty-first|audit/i.test(t.reply || ''), t.reply); expect(!m.answer, 'answered'); });
+  expect(m && m.limitation === 'ABOVE_DRIFT_BAND' && m.best_drift > m.band, JSON.stringify(m)); /* 4.9.83: drift-scored matching (query compiler) replaces the binary guard */ expect(/above 0\.35/.test(t.reply || '') && !/Eighteenth|photographing|Twenty-first|audit/i.test(t.reply || ''), t.reply); expect(!m.answer, 'answered'); });
 
 /* ---------------- 5. agreement counting ---------------- */
 T('5: agreement counts origins: Wikipedia + Wikidata are one origin; one paper in two indexes is one origin; disagreeing and unusable origins are counted; text "K agree, M disagree, N unusable"', () => { const ag = need(needPV(), 'agreement');

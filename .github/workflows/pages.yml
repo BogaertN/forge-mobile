@@ -30,8 +30,8 @@ jobs:
           python-version: '3.12'
       - name: Install the hash-locked Python dependency set
         run: python -m pip install --require-hashes --no-deps -r source/requirements-ci.txt
-      - name: Verify, build and check the release (verification first)
-        run: sh source/tools/release.sh
+      - name: Verify (targeted suites), build and check the release
+        run: sh source/tools/publish.sh  # 4.9.83: targeted gate (Nic dropped the full release.sh gate, 2026-10-21); release.sh stays runnable by hand
       - name: Release check summary
         run: tail -n 3 _release/verify/REPORT.md >/dev/null; node -e "const r=require('./_release/release_check.json');console.log(r.ok,r.version,r.commit,r.tests,r.manifest_sha256)"
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5 (v5.0.0)

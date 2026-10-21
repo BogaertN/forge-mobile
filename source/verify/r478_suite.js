@@ -54,7 +54,7 @@ T('2: a directive "research <country> tax code" is answered by the article the f
   expect(x.m && (x.m.source || (x.m.items || [])[0]) === 'Taxation in France', 'source ' + (x.m && (x.m.source || x.m.items)) + ' | ' + rp); /* a directive lists its sources (tool_result: items, no answer source) */ expect(!/643,801/.test(rp), rp); });
 T('2: with only the country article and unrelated pages, the answer is an honest subject mismatch — never the country article\'s sentence', async () => {
   const pages = { France: FR.France, 'French Revolution': FR['French Revolution'] }; const x = await ask(pages, 'What does the French Navy do?'); const rp = replyOf(x);
-  expect(x.m && x.m.kind === 'tool_failed' && x.m.limitation === 'SUBJECT_MISMATCH', 'kind ' + (x.m && x.m.kind) + ' | ' + rp); expect(!/643,801|Western Europe/.test(rp), rp); });
+  expect(x.m && x.m.kind === 'tool_failed' && x.m.limitation === 'ABOVE_DRIFT_BAND', 'kind ' + (x.m && x.m.kind) + ' | ' + rp); expect(!/643,801|Western Europe/.test(rp), rp); });
 
 /* ---------------- 3. descriptive / ordinal subjects ---------------- */
 const SOL = { Venus: 'Venus is the second planet from the Sun. It is a terrestrial planet.', Mercury: 'Mercury is the first planet from the Sun and the smallest in the Solar System.', Planet: 'A planet is a large, rounded astronomical body that orbits a star.', Sun: 'The Sun is the star at the centre of the Solar System.' };
@@ -79,7 +79,7 @@ T('4: "What does the US Senate do?" is a public lookup (research starts), not a 
 const traceOk = rt => rt && rt.schema === 'FORGE-RESEARCH-TRACE/v1' && typeof rt.subject === 'string' && 'juris' in rt && Array.isArray(rt.candidates) && rt.candidates.every(c => c.title && /^(accepted|rejected)$/.test(c.status) && (c.status === 'accepted' || c.reason));
 T('5: an answered research turn records subject, jurisdiction, every candidate with its status and each rejection reason', async () => {
   const x = await ask(FR, 'What does the French Navy do?'); expect(traceOk(x.rt), JSON.stringify(x.rt || null).slice(0, 400)); expect(x.rt.subject === 'french navy' && x.rt.juris === 'france', 'subject/juris ' + x.rt.subject + '/' + x.rt.juris);
-  const fr = x.rt.candidates.find(c => c.title === 'France'); expect(fr && fr.status === 'rejected' && /SUBJECT_MISMATCH/.test(fr.reason), 'France candidate ' + JSON.stringify(fr)); expect(x.rt.candidates.some(c => c.title === 'French Navy' && c.status === 'accepted'), 'accepted missing'); });
+  const fr = x.rt.candidates.find(c => c.title === 'France'); expect(fr && fr.status === 'rejected' && /ABOVE_DRIFT_BAND/.test(fr.reason) && fr.drift > 0.35, 'France candidate ' + JSON.stringify(fr)); expect(x.rt.candidates.some(c => c.title === 'French Navy' && c.status === 'accepted'), 'accepted missing'); });
 T('5: a SUBJECT_MISMATCH failure records the same trace', async () => { const x = await ask({ France: FR.France }, 'What does the French Navy do?'); expect(x.m && x.m.kind === 'tool_failed' && traceOk(x.rt) && x.rt.candidates.length >= 1 && x.rt.candidates.every(c => c.status === 'rejected'), JSON.stringify(x.rt || null).slice(0, 300)); });
 T('5: a network failure records the subject and jurisdiction with no candidates', async () => {
   const f = FK.ForgeKernel({ clock, lexicon: LEX, store: mkStore(), vaultIterations: 1000, fetch: async u => ({ ok: false, status: 503, url: String(u), headers: { get: () => '' }, text: async () => '', json: async () => ({}) }) }); await f.vault.setup('correct horse'); await f.vault.unlock('correct horse');
