@@ -101,10 +101,12 @@
        ASKED RELATION — the gap is filled: a definition for "what is X"; X doing something (an active verb with X leading) for "what does X do";
          the relation's marker (because / due to / causes …, by / when / through …, a name, a date, a place, a number) for the others; a definition
          instead of the asked relation: 0.2; nothing: 0.3. A yes/no question asks for the predicate only. */
-  function relationDrift(Q, sent, names) { const s0 = String(sent || ''), ws0 = words(s0);
+  function relationDrift(Q, sent, names, parts) { const s0 = String(sent || ''), ws0 = words(s0);
     /* a MENTION is not the referent: "a device … called telephone", "known as X", "the term X" name the word, not the thing; the subject is looked for outside them */
-    const s = s0.replace(/\b(?:called|named|termed|dubbed|known as|the (?:term|word|name))\s+(?:the\s+|a\s+)?[\w-]+/gi, ' '), ws = words(s);
+    let s = s0.replace(/\b(?:called|named|termed|dubbed|known as|the (?:term|word|name))\s+(?:the\s+|a\s+)?[\w-]+/gi, ' '); let ws;
     const forms = used(Q, 'subject').filter(e => e.drift <= DRIFT.synonym).map(e => e.form).concat(names || []).filter(Boolean); const defn = forms.some(f => PV.definitional(s, f));
+    /* 4.9.86: ANOTHER NAME is not the subject: a capitalised run holding a subject word next to a word of no subject form ("Blue Sky Studios", "Blue Sky") names something else; its words do not count */
+    const sw = new Set([].concat(...forms.map(f => words(f)))); s = s.replace(/\b[A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)+/g, run => { const rw = words(run).filter(w => !/^(the|of|a|an)$/.test(w)); return rw.some(w => sw.has(w) || [...sw].some(x => PV.covers(w, { entities: [x] }))) && rw.some(w => !sw.has(w) && ![...sw].some(x => PV.covers(w, { entities: [x] }))) ? ' ' : run; }); ws = words(s); const ws0m = words(s);
     /* the subject LEADS a clause when the clause opens with it and it is the whole phrase: the next word is not another noun of a compound
        ("A First Amendment audit is …" leads with "first amendment audit", not with "first amendment") */
     const VERBISH = /^(is|are|was|were|be|been|has|have|had|can|could|will|would|may|might|must|should|shall|does|do|did|not|also|which|that|who|and|or|of|in|on|at|to|by|for|from|with|as|consists?|\w+ed|\w+s)$/;
@@ -113,23 +115,24 @@
     const named = forms.some(f => words(f).every(w => ws.some(x => PV.covers(x, { entities: [w] }))));
     const pe = used(Q, 'predicate');
     /* the subject as the KARMA of the asked predicate: right after the verb or its nominalisation ("invented the telephone", "the invention of the telephone") */
-    const esc = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); const karma = pe.length && forms.some(f => pe.some(p => new RegExp('\\b' + esc(p.form) + '\\s+(?:of\\s+)?(?:the\\s+|a\\s+|an\\s+)?' + esc(f) + '\\b', 'i').test(s)));
+    const esc = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); const karma = pe.length && forms.some(f => pe.some(p => new RegExp('\\b' + esc(p.form) + '\\s+(?:of\\s+)?(?:the\\s+|a\\s+|an\\s+)?' + esc(f) + '\\b', 'i').test(s) || new RegExp('\\b' + esc(p.form) + '\\s+\\w+\\s+of\\s+(?:the\\s+)?(?:\\w+\\s+)?' + esc(f) + '\\b', 'i').test(s)))
+      || (Q.roles.asked === 'cause' && forms.some(f => new RegExp('\\b(?:caus(?:es|ed|ing)|cause|makes?|made|making|gives?|gave)\\s+(?:the\\s+|a\\s+)?' + esc(f) + '\\b', 'i').test(s))); /* 4.9.86: "the blue color of the sky"; for a why-question the subject as the karma of the causal verb ("causes the sky to appear blue") */
     const subjR = !Q.roles.subject ? 0 : led || karma ? 0 : /^(It|They|This)\b/.test(s) ? 0.05 : named ? 0.15 : 0.3;
-    const predHit = pe.filter(e => ws0.some(w => w === e.form || PV.covers(w, { entities: [e.form] }))).map(e => e.drift);
+    const predHit = pe.filter(e => ws0m.some(w => w === e.form || PV.covers(w, { entities: [e.form] }))).map(e => e.drift);
     const predR = !Q.roles.predicate || /^(description|function)$/.test(Q.roles.asked) ? 0 : predHit.length ? Math.min(...predHit) : 0.3;
     const a = Q.roles.asked; let askR;
     if (a === 'verdict') askR = 0; else if (a === 'description') askR = defn && led ? 0 : 0.3;
     else if (a === 'function') { const act = forms.some(f => new RegExp('(?:^|[,;:]\\s*|\\b(?:the|a|an)\\s+)' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+(?:\\w+ly\\s+)?(?!is\\b|was\\b|are\\b|were\\b|has\\b|had\\b)(\\w+s)\\b', 'i').test(s)); askR = act || CUE.function.test(s) ? 0 : defn ? 0.2 : 0.3; }
     else { const means = a === 'method' && pe.some(e => new RegExp('\\b' + e.form + '\\s+(?:by|through|using|via|when|because|as)\\b', 'i').test(s)); askR = means || (CUE[a] && CUE[a].test(s)) ? 0 : defn ? 0.2 : 0.3; }
-    return Math.round(Math.min(1, subjR + predR + askR) * 100) / 100; }
+    const rd = Math.round(Math.min(1, subjR + predR + askR) * 100) / 100; return parts ? { rd, ask: askR } : rd; }
   /* CLAIM DRIFT: a sentence of any fetched source that itself carries the subject, the predicate and the asked relation answers the question
      whatever the article's title (the claim is measured, not the title): DRIFT.claim + its relation drift, unhalved */
   const claimTotal = rd => Math.round(Math.min(1, DRIFT.claim + rd) * 100) / 100;
-  const total = (sd, rd) => Math.round(Math.min(1, sd + 0.5 * rd) * 100) / 100;
+  const total = (sd, r) => { const rd = typeof r === 'object' ? r.rd : r, ask = typeof r === 'object' ? r.ask : 0; return Math.round(Math.min(1, sd + 0.5 * (rd - ask) + ask) * 100) / 100; }; /* 4.9.86: an unfilled asked relation is never halved (a source on the subject that does not answer the question stays outside the band) */
   /* the lowest-drift sentence of a source text (its lead first on ties) */
   function bestSentence(Q, text, sd, names, claim) { const s = String(text || ''); let best = null; let n = 0;
-    for (const [a, b] of PV._sentences(s)) { const t = s.slice(a, b).trim(); if (t.length < 25 || t.length > 420 || /^=|\?$/.test(t) || !/[.!]["”’)]?$/.test(t)) continue; if (++n > 80) break;
-      const rd = relationDrift(Q, t, names), d = claim ? claimTotal(rd) : total(sd, rd); if (!best || d < best.drift) best = { sentence: t, drift: d, relation_drift: rd }; if (d === sd) break; }
+    for (const [a, b] of PV._sentences(s)) { const t = s.slice(a, b).trim(); if (t.length < 25 || t.length > 420 || /^=|\?$/.test(t) || !/[.!]["”’')]?$/.test(t)) continue; if (++n > 80) break;
+      const rp = relationDrift(Q, t, names, true), rd = rp.rd, d = claim ? claimTotal(rd) : total(sd, rp); if (!best || d < best.drift) best = { sentence: t, drift: d, relation_drift: rd }; if (d === sd) break; }
     return best; }
   /* the LOOKUP built from the roles (not keywords): the subject forms of drift ≤ 0.05 that differ from the typed subject (a numeral word, the
      other number), then the subject with the predicate root when the relation needs a predicate (why / how / cause) */
