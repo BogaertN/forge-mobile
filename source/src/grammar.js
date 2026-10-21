@@ -217,7 +217,13 @@ function Parser(toks, lex) {
       else withRel.push(R(Object.assign({}, a.node, { relObj: Object.assign(rc, { gap: 'karma' }) }), v.i, a.rules.concat(['G-REL-OBJ-GAP'], s2.rules, v.rules))); }
     const all = res.concat(withRel);
     const co = []; for (const a of all) { const cw = word(a.i); if (['and', 'or'].includes(cw)) { for (const b of np(a.i + 1, noRel)) if (!b.node.conj) co.push(R({ conj: [a.node, b.node], op: cw, plural: cw === 'and' }, b.i, a.rules.concat(['G-COORD-NP'], b.rules))); }
-      else if (cw === ',' && !a.node.conj) for (const b of np(a.i + 1, noRel)) if (b.node.conj && !b.node.listed) co.push(R({ conj: [a.node].concat(b.node.conj), op: b.node.op, plural: b.node.plural }, b.i, a.rules.concat(['G-COORD-NP-LIST'], b.rules))); }
+      else if (cw === ',' && !a.node.conj) for (const b of np(a.i + 1, noRel)) if (b.node.conj && !b.node.listed) {
+        /* NP-APPOSITIVE-COUNT (4.9.81): a counted plural common noun followed, after a comma, by a list of exactly that many names is one phrase — the list
+           names its members ("two sisters, Ola and Eva"); it is not a third and fourth conjunct */
+        const NUMW = { two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }; const hd = a.node.head || [], an = hd.length > 1 && NUMW[hd[0]] ? Object.assign({}, a.node, { head: hd.slice(1), surface: (a.node.surface || []).slice(1), adjs: [hd[0]].concat(a.node.adjs || []) }) : a.node; /* a numeral read as a compound modifier is the count */
+        const cnt = an.head && an.plural && !an.propn ? (an.adjs || []).concat(an.num ? [an.num] : []).map(x => NUMW[x] || (/^\d+$/.test(x) ? +x : 0)).find(Boolean) : 0;
+        if (cnt && b.node.op === 'and' && b.node.conj.length === cnt && b.node.conj.every(x => x.propn)) { if (co.some(x => x.i === b.i && x.node.members && String(x.node.head) === String(an.head))) continue; co.push(R(Object.assign({}, an, { members: b.node }), b.i, a.rules.concat(['NP-APPOSITIVE-COUNT'], b.rules))); continue; }
+        co.push(R({ conj: [a.node].concat(b.node.conj), op: b.node.op, plural: b.node.plural }, b.i, a.rules.concat(['G-COORD-NP-LIST'], b.rules))); } }
     return all.concat(co);
   }
   // ---- adjuncts: PP / time ----
@@ -432,6 +438,7 @@ function npText(n, persp) {
   if (n.conj) { const parts = n.conj.map(x => npText(x, persp)); return parts.length > 2 ? parts.slice(0, -1).join(', ') + ' ' + n.op + ' ' + parts[parts.length - 1] : parts.join(' ' + n.op + ' '); }
   if (n.boundOrig) return npText(n.boundOrig, persp); /* REF-BOUND-LOCAL: a structurally bound pronoun is realized as the pronoun */
   if (n.pron === 'user') return persp === 'user' ? 'I' : 'you'; if (n.pron === 'kernel') return persp === 'user' ? 'you' : 'I';
+  if (n.members) return npText(Object.assign({}, n, { members: undefined }), persp) + ', ' + npText(n.members, persp); /* NP-APPOSITIVE-COUNT */
   if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return (n.appos ? npText(n.appos, persp) + ' ' : '') + n.propn; /* NP-APPOSITION-CLOSE: the description, then the name */ if (n.quote !== undefined) return '"' + n.quote + '"';
   let s = '';
   if (n.quant) s += n.quant + ' ';
