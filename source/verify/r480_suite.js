@@ -52,6 +52,10 @@ for (const q of ['How many sisters does Ines have?', 'How many cousins does Toma
 /* L */
 T('L: the plural of a gerund noun is known ("Floodings were rare.")', () => { const r = say('Floodings were rare.'); expect(!/I took|unknown|could not/.test(r.reply || ''), r.reply); });
 
+/* I: soundness — a restricted universal licenses nothing about a plain member (found while checking the C change against the public set) */
+T('I: "every N that is A is a M" + "x is an N" does not give "x is an M" across turns', () => { const r = say('Every heron that is tall is a wader.', 'Olaf is a heron.', 'Is Olaf a wader?'); expect(!/^Yes/.test(r.reply || ''), r.reply); });
+T('I: the same in one message', () => { const r = say('Every heron that is tall is a wader. Olaf is a heron. Is Olaf a wader?'); expect(!/^Yes/.test(r.reply || ''), r.reply); });
+T('I: an adjective-restricted universal is restricted too', () => { const r = say('Every tall heron is a wader.', 'Olaf is a heron.', 'Is Olaf a wader?'); expect(!/^Yes/.test(r.reply || ''), r.reply); });
 /* R: self-repair (added with the fix; the turn class was diagnosed from a held-back failure, these sentences are new) */
 T('R: "Sorry, I meant S" replaces the speaker\'s own statement in this conversation', () => { const r = say('Lucia lives in Porto.', 'Sorry, I meant Lucia lives in Braga.', 'Where does Lucia live?'); expect(/Braga/.test(r.reply || '') && !/Porto/.test(r.reply || ''), r.reply); });
 T('R: "I meant that S" never silently replaces a stored fact', () => { const r = say('Remember that Lucia lives in Porto.', 'I meant that Lucia lives in Braga.'); expect(kindOf(r) === 'confirm_replace', kindOf(r) + ' | ' + r.reply); });

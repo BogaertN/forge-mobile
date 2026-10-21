@@ -55,10 +55,13 @@
     function classesOf(facts, key) { const out = []; for (const r of facts) { const c = r.clause; if (!c || c.coord || c.cond || c.verb.lemma !== 'be' || c.verb.mod !== 'asserted') continue;
       if (c.pred && c.pred.type === 'np' && c.pred.np && c.pred.np.head && !c.pred.np.owner && entKey(c.subj) === key) out.push({ cls: npHead(c.pred.np), neg: c.verb.pol === 'neg', id: r.id }); } return out; }
     /* generic class facts: "a poodle is a dog" / "poodles are dogs" → subj has no owner/propn, det a/an or plural */
-    function genericIsA(facts) { const out = []; for (const r of facts) { const c = r.clause; if (!c || c.coord || c.cond || c.verb.lemma !== 'be' || c.verb.pol !== 'pos' || c.verb.mod !== 'asserted') continue;
+    /* 4.9.80 INF-RESTRICTED-CLASS: a subject restricted by a relative clause or an adjective ("every gannet that is grey", "every grey gannet") names a
+       subclass, not the head noun's class — it licenses nothing about a plain member of the head class */
+    const restricted = n => !!(n && (n.rel || n.relc || (n.adjs || []).length || n.of || n.pp));
+    function genericIsA(facts) { const out = []; for (const r of facts) { const c = r.clause; if (!c || c.coord || c.cond || c.verb.lemma !== 'be' || c.verb.pol !== 'pos' || c.verb.mod !== 'asserted' || restricted(c.subj)) continue;
       if (c.pred && c.pred.type === 'np' && c.subj && c.subj.head && !c.subj.owner && !c.subj.propn && (!c.subj.quant || /^(all|every|each)$/.test(c.subj.quant)) && (c.subj.det === 'a' || c.subj.det === 'an' || c.subj.plural || !c.subj.det)) out.push({ a: npHead(c.subj), b: npHead(c.pred.np), id: r.id }); } return out; }
     /* negative universals: “no A is a B” / “an A is not a B” — disjointness (Doc6 §21) */
-    function disjoint(facts) { const out = []; for (const r of facts) { const c = r.clause; if (!c || c.coord || c.cond || c.verb.lemma !== 'be' || c.verb.mod !== 'asserted' || !c.pred || c.pred.type !== 'np' || !c.subj || c.subj.owner || c.subj.propn) continue;
+    function disjoint(facts) { const out = []; for (const r of facts) { const c = r.clause; if (!c || c.coord || c.cond || c.verb.lemma !== 'be' || c.verb.mod !== 'asserted' || !c.pred || c.pred.type !== 'np' || !c.subj || c.subj.owner || c.subj.propn || restricted(c.subj)) continue;
       const neg = (c.subj.quant === 'no' && c.verb.pol === 'pos') || (!c.subj.quant && c.verb.pol === 'neg' && (c.subj.det === 'a' || c.subj.det === 'an' || c.subj.plural)); if (neg) out.push({ a: npHead(c.subj), b: npHead(c.pred.np), id: r.id }); } return out; }
     /* stored is-a chains are proved (subclass transitivity as data); WordNet is only the lexical tail after the last stored class */
     function classReach(facts, cls, target) { if (cls === target) return { chain: [cls], via: [], wn: null, status: 'yes' };
