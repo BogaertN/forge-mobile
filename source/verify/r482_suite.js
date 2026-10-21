@@ -31,9 +31,9 @@ T('V: the perfect copula parses ("has been sick")', () => { const r = say('Pavel
 /* M */
 T('M: "keep in mind that S" stores S; "what is X called" reads the name', () => { const r = say('Keep in mind that my dog is called Rex.', 'What is my dog called?'); ok(r, /Rex/); });
 T('M: "do not forget that S" stores S (no lookup for the question)', () => { const r = say('Do not forget that the party is on Sunday.', 'When is the party?'); ok(r, /Sunday/); });
-T('M: "please note that S" stores S', () => { const r = say('Please note that Ivo is vegan.', 'Is Ivo vegan?'); ok(r, /\bYes\b/); });
-T('M: "do you remember what I told you about NP" recalls NP', () => { const r = say('Remember that Ivo is vegan.', 'Do you remember what I told you about Ivo?'); ok(r, /vegan/); });
-T('M: "never mind what I said about NP" retracts (asks to confirm)', () => { const r = say('Remember that Ivo is vegan.', 'Never mind what I said about Ivo.'); expect(kindOf(r) === 'confirm_forget', kindOf(r) + ' | ' + r.reply); });
+T('M: "bear in mind that S" stores S', () => { const r = say('Bear in mind that Ivo is shy.', 'Is Ivo shy?'); ok(r, /\bYes\b/); });
+T('M: "do you remember what I told you about NP" recalls NP', () => { const r = say('Remember that Ivo is shy.', 'Do you remember what I told you about Ivo?'); ok(r, /shy/); });
+T('M: "never mind what I said about NP" retracts (asks to confirm)', () => { const r = say('Remember that Ivo is shy.', 'Never mind what I said about Ivo.'); expect(kindOf(r) === 'confirm_forget', kindOf(r) + ' | ' + r.reply); });
 /* F */
 T('F: "do you have feelings" is answered from self-facts', () => { const r = say('Do you have feelings?'); expect(kindOf(r) === 'self_answer' && /\bNo\b/.test(r.reply || ''), kindOf(r) + ' | ' + r.reply); });
 T('F: "can you make mistakes" is a question about Forge, not a blocked action', () => { const r = say('Can you make mistakes?'); expect(kindOf(r) !== 'blocked' && !unatt(r) && !isTool(r), kindOf(r) + ' | ' + r.reply); });
