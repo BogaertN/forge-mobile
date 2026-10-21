@@ -133,7 +133,7 @@ function analyseAll(toks, lex) {
   /* TAG-CONVERSION-V-N (4.9.79; zero derivation, English conversion — Pāṇini's kṛt with a zero affix): a word the lexicon knows only as a verb, in
      its base form, right after a determiner or possessive, also reads as a singular noun ("the glaze", "a sprint"); the parse decides, never a list */
   for (let i = 1; i < T.length; i++) { const p = CL[T[i - 1].w] || []; if (!(p.includes('DET') || p.includes('POSS'))) continue; const an = T[i].an;
-    if (an.length && an.every(a => a.tag === 'V') && an.some(a => a.lemma === T[i].w)) an.push({ tag: 'N', lemma: T[i].w, f: 'sg', rule: 'TAG-CONVERSION-V-N' }); }
+    if (an.length && an.every(a => a.tag === 'V') && an.some(a => a.lemma === T[i].w && !a.provisional) && !(lex.tierPos && lex.tierPos(T[i].w, 'v') > 2)) an.push(/* only a verb the lexicon itself lists converts; a provisionally derived verb stays unknown-like (RULINGS-474) */ { tag: 'N', lemma: T[i].w, f: 'sg', rule: 'TAG-CONVERSION-V-N' }); }
   /* TAG-COMPLETE-TIER-APAVADA (4.9.50): the complete (lowest-assurance) tier is a last resort per word: a reading whose lemma and part of speech come only
      from it is dropped when the same word has a reading of the same category from the core or extended tier ("leaves" is leave, not the rare verb leaf) */
   if (lex.tierPos) { const PS = { N: 'n', V: 'v', ADJ: 'a', ADV: 'r' }; const rank = a => (PS[a.tag] && a.lemma && !a.provisional ? Math.min(lex.tierPos(a.lemma, PS[a.tag]), a.tag === 'ADJ' ? lex.tierPos(a.lemma, 's') : 9) : 0);
@@ -332,6 +332,9 @@ function Parser(toks, lex) {
       if (gerOK) for (const c of vpNF(g.i, 'ing')) objs.push(R({ karma: { ger: c.node } }, c.i, ['K-KARMA-GERUND'].concat(c.rules)));
       /* K-KARMA-CONTROL-INF (4.9.50; WordNet frame 24 "Somebody ----s somebody to INFINITIVE"): the karma controls the infinitive ("advised the client to remain silent") */
       if (!v.nf && takes(v.lemma, 'objinf')) for (const o of np(g.i, true)) if (word(o.i) === 'to') for (const c of vpNF(o.i + 1, 'base')) objs.push(R({ karma: o.node, prayojana: { inf: c.node } }, c.i, ['K-KARMA', 'K-KARMA-CONTROL-INF'].concat(o.rules, c.rules)));
+      /* K-PRAYOJANA-PURPOSE-INF (4.9.79; Aṣṭādhyāyī 3.3.10 tumun for an action done for the sake of another action): any transitive verb's
+         karma may be followed by a purpose infinitive whose kartā is the clause's kartā ("find a way to cool the room", "build a ramp to reach the shelf") */
+      if (!v.nf && !takes(v.lemma, 'objinf')) for (const o of np(g.i, true)) if (word(o.i) === 'to' && o.node.head && !o.node.pron && !o.node.pron3) for (const c of vpNF(o.i + 1, 'base')) if (c.node.verb && c.node.verb.lemma !== 'be') objs.push(R({ karma: o.node, prayojana: { inf: c.node, purpose: true } }, c.i, ['K-KARMA', 'K-PRAYOJANA-PURPOSE-INF'].concat(o.rules, c.rules)));
       /* K-VIDHEYA-ADJ (Doc5 kāraka; WordNet frames 6/7 "Somebody ----s Adjective"): an experiencer / linking verb merges with an adjective phrase
          that predicates of its kartā ("I feel tired", "the soup tastes cold"); the frame class decides, not the word */
       let vidOnly = -1; if (takes(v.lemma, 'adj')) (function go(j, ws, rules) { for (const a of at(j, 'ADJ')) { if (a.f === 'cmp' || a.f === 'sup' || at(j, 'N').length && at(j + 1, 'N').length) continue; if (at(j, 'N').length && lex.vframes1 && lex.vframes1(v.lemma).length && (!lex.vframes1(v.lemma).some(f => FRAME_RE.adj.test(f)) || lex.vframes1(v.lemma).some(f => /----s something$/.test(f)))) continue; /* K-VIDHEYA-APAVADA: a word that is also a noun is the karma when the verb's first sense takes a karma (or no adjective) */

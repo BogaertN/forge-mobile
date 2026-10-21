@@ -36,4 +36,16 @@ T('P: close apposition "my neighbour Anselm" is parsed (not blocked) and realize
 T('P: a pronoun question after an appositive statement is answered from it', () => { const r = sayV('My neighbour Anselm repairs clocks.', 'What does he repair?'); expect(kindOf(r) === 'recall' && /clocks/.test(r.reply), kindOf(r) + ' | ' + r.reply); });
 T('P: an unresolved pronoun question never starts a public lookup, and the pronoun keeps its case', () => { const r = sayV('Where does she work?'); expect(kindOf(r) !== 'tool_started', kindOf(r) + ' | ' + r.reply); expect(!/\babout she\b/.test(r.reply || ''), String(r.reply)); });
 
+/* ---------------- M. open problems → the MEA problem lane ----------------
+ *  M  A directive or a "how could/can we …" question whose object is a cognition artefact (WordNet noun.cognition: an explanation, method,
+ *     proof, theory) or whose verb is a cognition verb (verb.cognition: solve, prove, estimate), or a purpose infinitive goal ("a way to X"),
+ *     is an open problem: it opens a DRAFT problem manifest in the MEA lane (no lookup, nothing committed; a commit needs a tap). */
+const kV = () => KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock: () => '2026-10-21T16:00:00Z', vaultState: () => 'unlocked' });
+const isMea = r => /^mea_/.test(kindOf(r) || '') && !(r.trace && r.trace.tool_request);
+for (const q of ['Find a way to cool the server room without power.', 'Propose an explanation for the decline of the oyster beds.', 'How could we prove that the bridge is safe?', 'Devise a method to measure the depth of the lake.'])
+  T('M: "' + q + '" opens a draft problem in the MEA lane, not a lookup or a refusal', () => { const k = kV(), r = k.process(q); expect(isMea(r), kindOf(r) + ' | ' + r.reply); const ps = k.meaProblems().filter(p => p.draft); expect(ps.length === 1, 'drafts ' + ps.length); expect(!!r.reply && !/not authorized/.test(r.reply), r.reply); });
+for (const q of ['Write a poem about the harbour.', 'Cook the rice.', 'How do I boil an egg?'])
+  T('M: "' + q + '" is not an open problem', () => { const r = kV().process(q); expect(!isMea(r), kindOf(r) + ' | ' + r.reply); });
+T('M: an opened problem is a draft: nothing is committed without a tap, and the goal comes from the request', () => { const k = kV(); k.process('Find a way to cool the server room without power.'); const p = k.meaProblems().find(x => x.draft); expect(p && /cool the server room/.test(p.goal), JSON.stringify(p)); const cy = k.meaCycle(p.problem_id); expect(cy.ok, JSON.stringify(cy).slice(0, 200)); const c = (cy.cycle.candidates || [])[0]; const cm = k.meaCommit(p.problem_id, c ? c.candidate_id : 'x', false); expect(!cm.ok, JSON.stringify(cm)); });
+
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R479', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
