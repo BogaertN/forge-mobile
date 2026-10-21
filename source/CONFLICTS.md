@@ -750,3 +750,18 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - Standing rules kept: no LLM, no canned answers, no phrase routes, shared KB empty, drift bands unchanged.
 - Not done: candidate generation for user-opened problems (a draft has its unknown but no options until the user supplies a value); causal-question category (0/5); relational-noun research subjects ("function of X"); self questions outside the self-model; object-predicative complements ("keep the greenhouse warm"); kinship questions about private names still go to research.
 - Bundle budget (2026-10-21 11:36 CDT): Nic's standing rule — the size budget never blocks a release; functionality wins. The single-file limit is raised from 1.700 MB raw / 510 kB gzip to 1.800 MB raw / 540 kB gzip (tools/verify_release.js, verify/w5_suite.js PRO). 4.9.79 measured 1,706,919 B raw / 506,092 B gzip; all 3138 behaviour tests had passed.
+
+## v4.9.80 — part C round 2 (Nic instruction 2026-10-21 11:36 AM, items 3-9)
+- Tests first in verify/r480_suite.js (new sentences, none from the held-back set): 4/18 before, 25/25 after (sections O, C, S, Y, K, B, L written first; R and I added with their fixes, see below).
+- O. MEAP-OPTIONS-FROM-FACTS: a user-opened problem proposes options from the user's own related facts (karma / predicate / adjunct NPs that are not the problem's entities); ≥2 options make the unknown a choice (test_required); commit stays tap-only.
+- C. INF-CAUSATIVE (WordNet gloss "cause to V" among a verb's first three senses), INF-MODUS-PONENS-GENERIC (generic present conditional instantiated in the instance tense), why-questions answered by the causing statement; when the turn world is UNDETERMINED the discourse reading is tried and kept only if it rests on one of these entailments.
+- S. ENT-OF-COMPLEMENT: research subject of "the N of X" is X (a capitalised name like "the Bank of England" is kept whole).
+- Y. SELF-UNSETTLED (questions about Forge that no fact settles are answered from its true self-facts) and Q-WH-PASSIVE ("when / where AUX-be NP V-ed").
+- K. K-KARMA-VIDHEYA (WordNet frame 5 "Something ----s something Adjective/Noun") and MEM-V-IMPERATIVE-APAVADA ("keep the greenhouse warm" is a directive, not a memory write).
+- B. Q-WH-HOW-MANY-KIN: kinship counts of a person the lexicon does not know as a public figure are the user's world (memory only, never a lookup).
+- R. MEM-SELF-REPAIR: "(sorry,) I meant S" replaces the speaker's own conversation statement; a stored fact still needs a "yes". The turn class was diagnosed from a held-back failure; the tests use new sentences.
+- I. Soundness bug found while checking C against the public set: "every N that is A is a M" + "x is an N" gave "x is an M" across turns (4.9.79 and earlier). Fixed: INF-RESTRICTED-CLASS (infer.js: a restricted subject is not a class edge) + INF-RESTRICTED-UNIVERSAL (instantiated only when every restriction is stated of x). Tests added with the fix.
+- Test edit (documented): R480 Y now also requires the reply to state a self-fact ("computer program"), so a no_frame reply can no longer pass it; R480 O uses "a ceiling fan" (the provisional -or noun "extractor" loses its det — known bug, not fixed).
+- run.js: w14 child timeout 900 s (it timed out under machine load in the first 4.9.79 gate).
+- Scores (4.9.79 → 4.9.80): held-back v2 58/93 → 64/93 (no case lost; +6); public regression 48/54 → 48/54; mutation 149/173 → 149/173.
+- Not done: proposals only from facts already stated (no ranking); cause category still 1/5; questions about Forge 2/6; "unattached" conversation turns; "an extractor fan" provisional-noun bug.

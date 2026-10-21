@@ -1,6 +1,6 @@
 {
  "schema": "forge-heldout-record/v1",
- "tree_sha256": "442fbc5d1f196e2e687fa1e7dedd0b681e512c58bbfa1a855029cc20b9604ea2",
+ "tree_sha256": "646e7b7c78ad4ab8970bebfbade3e4ed0d08cdc56ce66310fed2eefa5d65f4bc",
  "recorded_files": 91,
  "heldout": {
   "set_schema": "forge-heldout-eval/v1",
@@ -745,13 +745,10 @@
     "id": "cv-10",
     "cat": "conversation",
     "case_sha256": "061784d45c390ccb338c4cf0bdbbdfbc8aaeea36958a3988ef6df605c61785f4",
-    "verdict": "blocked",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "blocked",
-     "missing"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -780,12 +777,10 @@
     "id": "cv-13",
     "cat": "conversation",
     "case_sha256": "6bc91ae82966750a0b1bba7c9787895c635ca19c1e02d7cf90bd02d2ba588b62",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "unattached"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -917,10 +912,8 @@
     "case_sha256": "34fe7e92d32b41903dd43598f512ec52ae047b8532118e45eb29ef4bf87f4e0e",
     "verdict": "other",
     "route": "research",
-    "pass": false,
-    "fail": [
-     "subject"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -939,10 +932,8 @@
     "case_sha256": "22b8640d5197ac0561237e3c6b47b80226c9205a888f901d9ff749276fe79394",
     "verdict": "other",
     "route": "research",
-    "pass": false,
-    "fail": [
-     "subject"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1087,10 +1078,8 @@
     "case_sha256": "4bd0185844be59763508cee6a6cda56183347f4897887c0068b0597f2ff1dee8",
     "verdict": "other",
     "route": "research",
-    "pass": false,
-    "fail": [
-     "subject"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1406,12 +1395,10 @@
     "id": "ce-01",
     "cat": "cause",
     "case_sha256": "282d66cd469dcd177896f7c33473dd53e1d4cc0d3f854a739f66bbff78718233",
-    "verdict": "other",
+    "verdict": "yes",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "verdict other"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1422,7 +1409,6 @@
     "route": "local",
     "pass": false,
     "fail": [
-     "unattached",
      "verdict other"
     ],
     "crash": false
