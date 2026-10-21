@@ -1,6 +1,6 @@
 {
  "schema": "forge-heldout-record/v1",
- "tree_sha256": "646e7b7c78ad4ab8970bebfbade3e4ed0d08cdc56ce66310fed2eefa5d65f4bc",
+ "tree_sha256": "af52fff735a2f8a79a7ebb73ae4660dca7775c712a41d431ef521c99a4fbf541",
  "recorded_files": 91,
  "heldout": {
   "set_schema": "forge-heldout-eval/v1",
@@ -653,12 +653,10 @@
     "id": "cv-02",
     "cat": "conversation",
     "case_sha256": "e754f27aee65b82df3670ed2c6d91b8392ed95efcdc9af6658bbebc639491bc7",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "unattached"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -687,13 +685,10 @@
     "id": "cv-05",
     "cat": "conversation",
     "case_sha256": "1c34445671021e0c97c391c14a4b5656be3f8042ebbc3348faa6132d841b7f10",
-    "verdict": "blocked",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "blocked",
-     "missing"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -733,12 +728,10 @@
     "id": "cv-09",
     "cat": "conversation",
     "case_sha256": "c5d93512afdbbf3efdee46194362f03db6b1f9986121b8fce9d9c603792d98c1",
-    "verdict": "unknown",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "missing"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -765,12 +758,10 @@
     "id": "cv-12",
     "cat": "conversation",
     "case_sha256": "6a878518ebd8793c9ed39bc750e486359bd97c756579479a6f09518d80dc936f",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "unattached"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -801,12 +792,9 @@
     "cat": "conversation",
     "case_sha256": "f9648870d577a41850d1946a89ef7f9fee1be16857f63cca8f911a00a539b566",
     "verdict": "other",
-    "route": "research",
-    "pass": false,
-    "fail": [
-     "route research",
-     "missing"
-    ],
+    "route": "local",
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -942,10 +930,8 @@
     "case_sha256": "528ac53e0ab9ada5eaca2b643695b9687f5a11a2cedeb7dae13a050084096582",
     "verdict": "other",
     "route": "research",
-    "pass": false,
-    "fail": [
-     "subject"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -964,10 +950,8 @@
     "case_sha256": "a502db0d60f702aef72ad12a96da3aef1ac395a20237512d026c67ea522e3132",
     "verdict": "clarify",
     "route": "research",
-    "pass": false,
-    "fail": [
-     "subject"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -976,10 +960,8 @@
     "case_sha256": "f7166c009781cf8085583d2448d4dade5ed22a75f42e1c1204a3a07c4dcbf2b9",
     "verdict": "other",
     "route": "research",
-    "pass": false,
-    "fail": [
-     "subject"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1312,10 +1294,8 @@
     "case_sha256": "bc28658162d7fc8f08a54d5323ba12f98f71a94d42edaa9106ac4df773409cc2",
     "verdict": "other",
     "route": "research",
-    "pass": false,
-    "fail": [
-     "subject"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1372,13 +1352,10 @@
     "id": "qu-06",
     "cat": "quantity",
     "case_sha256": "0bccf45fc50ee21dca2fd821c21abc6555f2069399a79ef6c8f9b25626c4f4a2",
-    "verdict": "clarify",
-    "route": "research",
-    "pass": false,
-    "fail": [
-     "route research",
-     "missing"
-    ],
+    "verdict": "other",
+    "route": "local",
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1405,12 +1382,10 @@
     "id": "ce-02",
     "cat": "cause",
     "case_sha256": "113c7b2ce88ce826461716d76a83295627ba74d97526115bd1cedc432cce3859",
-    "verdict": "other",
+    "verdict": "yes",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "verdict other"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1441,13 +1416,10 @@
     "id": "ce-05",
     "cat": "cause",
     "case_sha256": "8bbfc9bf070b360e2ed5322b6e6324744066a920967d565a904b655e966b9979",
-    "verdict": "clarify",
-    "route": "research",
-    "pass": false,
-    "fail": [
-     "route research",
-     "forbidden"
-    ],
+    "verdict": "unknown",
+    "route": "local",
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1569,24 +1541,20 @@
     "id": "fg-01",
     "cat": "forge",
     "case_sha256": "c6a3609077afce837d758dcad1e46a89a869ea4e88e700b16ba084f79a7f92ef",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "unattached"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
     "id": "fg-02",
     "cat": "forge",
     "case_sha256": "7c46f4194f7be38c9cadbc33424ea5ea91f42b7fffc1ccd46e993e403b493881",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "unattached"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
@@ -1603,12 +1571,10 @@
     "id": "fg-04",
     "cat": "forge",
     "case_sha256": "fb3eded514e4f3695e5eedad7aa6ab9273296a681b6d054a91b627c546ed9ce6",
-    "verdict": "clarify",
+    "verdict": "other",
     "route": "local",
-    "pass": false,
-    "fail": [
-     "unattached"
-    ],
+    "pass": true,
+    "fail": [],
     "crash": false
    },
    {
