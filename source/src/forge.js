@@ -170,7 +170,11 @@
           /* 4.9.78 RESEARCH TRACE: the picked subject, the jurisdiction, every candidate source and why it was set aside, on every path */
           rtrace = { schema: 'FORGE-RESEARCH-TRACE/v1', subject: qEnt || '', juris: (lp && lp.juris) || null, descr: (lp && lp.descr) || null, candidates: [] };
           /* the subject phrase as typed is a direct title candidate (a definite description names no title, so it has none) */
-          const direct = []; if (qEnt && !(lp && lp.descr)) { const ws = qEnt.split(' '), toks = String(q.input).match(/[\p{L}\p{N}'’-]+/gu) || []; for (let i = 0; i + ws.length <= toks.length; i++) if (ws.every((w, j) => toks[i + j].toLowerCase().replace(/[’']s$/, '') === w || toks[i + j].toLowerCase() === w + 's')) { const t = toks.slice(i, i + ws.length).join(' '); direct.push(t.charAt(0).toUpperCase() + t.slice(1)); break; } }
+          const direct = []; if (qEnt && !(lp && lp.descr)) { const ws = qEnt.split(' '), toks = String(q.input).match(/[\p{L}\p{N}'’-]+/gu) || []; for (let i = 0; i + ws.length <= toks.length; i++) if (ws.every((w, j) => toks[i + j].toLowerCase().replace(/[’']s$/, '') === w || toks[i + j].toLowerCase() === w + 's')) { const t = toks.slice(i, i + ws.length).join(' '); direct.push(t.charAt(0).toUpperCase() + t.slice(1)); break; }
+            /* ALT-NAME-INITIALISM (4.9.79): a run of two to four capitalised words in the phrase has its initialism as an alternate name ("United States" →
+               "U.S." / "US"); the phrase with the initialism is also a direct title, so its redirect (if the encyclopedia has one) reaches the article */
+            for (const t of direct.slice()) { const tw = t.split(' '); for (let a = 0; a < tw.length; a++) for (let b = Math.min(tw.length, a + 4); b >= a + 2; b--) { const run = tw.slice(a, b); if (!run.every(w => /^[A-Z][a-z]+$/.test(w))) continue; const ini = run.map(w => w[0]).join('');
+              for (const v of [ini.split('').join('.') + '.', ini]) { const alt = tw.slice(0, a).concat([v], tw.slice(b)).join(' '); if (!direct.includes(alt)) direct.push(alt); } } } }
           /* the on-topic sentence for a description question: the sentence stating the description of its lead subject, else the article's
              definitional sentence (its grammatical subject names the question subject, an alternate name or the article itself) that carries
              every subject word; verbatim from the page, else the crawler's own choice */

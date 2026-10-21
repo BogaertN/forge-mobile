@@ -126,7 +126,11 @@ function partiesOf(title) { const m = /^(.+?)\s+v(?:s)?\.?\s+(.+)$/i.exec(String
 /* the head of a source's primary entity, minus the archive's declared document noun ("ASPIRIN drug label" → "aspirin") */
 function headOf(src) { let h = words(primaryEntity(src)); const dn = words((src && src.doc_noun) || ''); if (dn.length && h.length > dn.length && dn.every((w, i) => same(h[h.length - dn.length + i], w))) h = h.slice(0, h.length - dn.length); return h; }
 /* the question entity q names this head: every question word is in the head (ordinals exact), and the head nouns agree */
-const names = (q, h) => q.length > 0 && h.length > 0 && q.every(w => h.some(x => same(x, w))) && same(h[h.length - 1], q[q.length - 1]);
+const names0 = (q, h) => q.length > 0 && h.length > 0 && q.every(w => h.some(x => same(x, w))) && same(h[h.length - 1], q[q.length - 1]);
+/* ALT-NAME-INITIALISM (4.9.79): an initialism names the run of words it abbreviates: "u s tax code" / "us tax code" names "united states tax code"
+   (single letters of a dotted initialism are rejoined; a run of 2–4 question words may stand as its initials) */
+const rejoin = h => { const o = []; for (let i = 0; i < h.length; i++) { if (h[i].length === 1 && /[a-z]/.test(h[i]) && h[i + 1] && h[i + 1].length === 1) { let j = i, s = ''; while (j < h.length && h[j].length === 1 && /[a-z]/.test(h[j])) s += h[j++]; o.push(s); i = j - 1; } else o.push(h[i]); } return o; };
+const names = (q, h) => { if (names0(q, h)) return true; const hc = rejoin(h); if (names0(q, hc)) return true; for (let a = 0; a < q.length; a++) for (let b = a + 2; b <= Math.min(q.length, a + 4); b++) { const v = q.slice(0, a).concat([q.slice(a, b).map(w => w[0]).join('')], q.slice(b)); if (hc.includes(v[a]) && names0(v, hc)) return true; } return false; };
 /* the answer entity a names this head: every answer word is in the head (ordinals exact) and the head nouns agree, or the answer is the
    head's leading run of two or more words (an extracted "alexander graham" for the head "alexander graham bell") */
 const namesAnswer = (a, h) => a.length > 0 && h.length > 0 && a.every(w => h.some(x => same(x, w))) && (same(h[h.length - 1], a[a.length - 1]) || (a.length >= 2 && a.every((w, i) => same(h[i], w))));

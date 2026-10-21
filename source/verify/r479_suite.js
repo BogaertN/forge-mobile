@@ -63,4 +63,19 @@ for (const [q, v] of [['How many joules are in 2 watt-hours?', '7200'], ['How ma
 for (const q of ['Good evening!', 'Many thanks for the help.', 'Cheers!', 'Farewell, friend.'])
   T('F: "' + q + '" is recognised as a social act, not a parse failure', () => { const r = say(q); expect(kindOf(r) === 'interjection' && !!r.reply && !/could not attach|found no verb/.test(r.reply), kindOf(r) + ' | ' + r.reply); });
 
+/* ---------------- X. alternate names by initialism ----------------
+ *  X  A proper-name run in the subject ("United States", "European Union") has its initialism as an alternate name ("U.S.", "US", "EU"): the
+ *     initialism form of the full phrase is also tried as a direct title (its redirect reaches the article), and a source whose alternate name
+ *     uses the initialism names the same subject. Offline fixture web only. */
+const FK = require(ROOT + '/src/forge.js'), AR = require(ROOT + '/src/archives.js'), { wiki } = require('./fixtures/wikimock.js');
+async function ask(pages, q, redirects) { if (AR._cache) AR._cache.clear(); const st = {}; const f = FK.ForgeKernel({ clock: () => '2026-10-21T16:00:00Z', lexicon: LEX, lexiconExt: EXT, store: KMOD.MemoryStore({ get: k => st[k], set: (k, v) => { st[k] = v; } }), vaultIterations: 1000, fetch: wiki(pages, redirects) }); await f.vault.setup('correct horse'); await f.vault.unlock('correct horse');
+  const r = f.process(q); const t = r.toolJob ? await r.toolJob : null; return { r, t, m: t && t.trace && t.trace.msm && t.trace.msm.meaning, reply: (t && (t.reply || t.text)) || '' }; }
+const srcOf = x => x.m && (x.m.source || (x.m.items || [])[0]);
+T('X: "research United States tax code" reaches the article that "U.S. tax code" redirects to', async () => {
+  const pages = { 'Internal Revenue Code': 'The Internal Revenue Code is the domestic portion of federal statutory tax law in the United States.', 'United States': 'The United States is a country primarily located in North America.', 'Taxation in the United States': 'The United States has separate federal, state, and local governments with taxes imposed at each of these levels.' };
+  const x = await ask(pages, 'research United States tax code', { 'U.S. tax code': 'Internal Revenue Code' }); expect(srcOf(x) === 'Internal Revenue Code', 'source ' + JSON.stringify(srcOf(x)) + ' | ' + x.reply); });
+T('X: the same mechanism without periods: "research European Union water code" via the redirect "EU water code"', async () => {
+  const pages = { 'Water Framework Directive': 'The Water Framework Directive is a directive of the European Union that commits member states to achieve good status of water bodies.', 'European Union': 'The European Union is a supranational political and economic union of member states located in Europe.' };
+  const x = await ask(pages, 'research European Union water code', { 'EU water code': 'Water Framework Directive' }); expect(srcOf(x) === 'Water Framework Directive', 'source ' + JSON.stringify(srcOf(x)) + ' | ' + x.reply); });
+
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R479', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
