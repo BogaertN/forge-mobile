@@ -13,7 +13,7 @@
   const isNode = typeof module !== 'undefined' && module.exports;
   const PV = isNode ? require('./provenance.js') : root.KProv; const KM = isNode ? require('./kmath.js') : root.KMath;
   const BAND = (KM && KM.DRIFT_RULING && KM.DRIFT_RULING.project_max) || 0.35;
-  const DRIFT = Object.freeze({ surface: 0, morph: 0.05, numeral: 0.05, redirect: 0.10, alias: 0.10, synonym: 0.15, hypernym: 0.30, hypernym2: 0.45, description: 0.05, narrower: 0.2, sense: 0.3 });
+  const DRIFT = Object.freeze({ surface: 0, morph: 0.05, numeral: 0.05, redirect: 0.10, alias: 0.10, synonym: 0.15, hypernym: 0.30, hypernym2: 0.45, description: 0.05, narrower: 0.2, sense: 0.3, qualifier: 0.1, derivation: 0.05, claim: 0.1 });
   const words = t => String(t || '').toLowerCase().replace(/[‐‑–]/g, '-').match(/[a-z0-9]+(?:-[a-z0-9]+)*/g) || [];
   const FW = new Set('a an the of to in on at by for with from into about than as and or but is are was were be been being do does did can could will would should may might must has have had what who whom when where why how which that this these those it its'.split(' '));
   const numeralForms = w => PV.numeralForms(w); /* digits ↔ words (provenance.js NUMERAL FORMS) */
@@ -33,13 +33,14 @@
   function compile(lp, text, lex, subject) { lp = lp || {}; const q = String(text || lp.question || '');
     const subj = String(subject || lp.subject || lp.entity || lp.object || '').toLowerCase().trim(); const sw = words(subj);
     const asked = RELATION[lp.atype] || (/^\s*why\b/i.test(q) ? 'cause' : /^\s*how\b/i.test(q) ? 'method' : /^\s*who\b/i.test(q) ? 'agent' : /^\s*when\b/i.test(q) ? 'time' : /^\s*where\b/i.test(q) ? 'place' : 'description');
+    /* "what does X do": the gap is X's activity (its function), not a definition */ const asked2 = asked === 'description' && /^\s*what\s+(?:does|do|did)\b.*\bdo\s*\??\s*$/i.test(q) ? 'function' : asked;
     const sl = sw.map(w => otherNumber(w).concat([w])); const notSubj = w => !sl.some(f => f.includes(w)) && !(lp.juris && w === lp.juris);
     /* the predicate root (dhātu): the asked verb, else the last content lemma of the plan that is not a subject word */
     const predW = (lp.terms || []).map(String).filter(w => !/\s/.test(w) && !FW.has(w) && notSubj(w)); const predicate = lp.asked || predW[predW.length - 1] || null;
     const ps = predicate && lex && lex.senses ? (lex.senses(predicate) || []).map(x => x.pos) : []; const qw = words(q);
     /* the predicate's part of speech from the question itself: a verb when it is inflected there or follows do-support, else an adjective / noun */
     const predPos = !predicate ? null : ps.includes('v') && (lp.asked || qw.some(w => w !== predicate && verbForms(predicate).concat(irregular(lex, predicate)).includes(w)) || /^(do|does|did)$/.test(qw[1] || '')) ? 'v' : ps.includes('a') || ps.includes('s') ? 'a' : ps[0] || null;
-    const roles = { subject: subj || null, predicate, predicate_pos: predPos, asked, modifiers: Object.assign({}, lp.juris ? { jurisdiction: lp.juris } : {}) };
+    const roles = { subject: subj || null, predicate: asked2 === 'function' ? null : predicate, predicate_pos: asked2 === 'function' ? null : predPos, asked: asked2, modifiers: Object.assign({}, lp.juris ? { jurisdiction: lp.juris } : {}) };
     const exps = []; const add = (role, form, drift, via) => { form = String(form).trim(); if (!form || exps.some(e => e.role === role && e.form === form)) return; exps.push({ role, form, drift: Math.round(drift * 100) / 100, via, used: drift <= BAND }); };
     if (sw.length) { add('subject', sw.join(' '), DRIFT.surface, 'surface'); const head = sw[sw.length - 1], pre = sw.slice(0, -1);
       for (const h of otherNumber(head)) add('subject', pre.concat([h]).join(' '), DRIFT.morph, 'morphology');
@@ -50,8 +51,10 @@
         const h1 = hypernymOf(lex, sid); if (h1) { const l1 = lemmaOf(lex, h1); if (l1) add('subject', l1.replace(/_/g, ' '), DRIFT.hypernym, 'wordnet:hypernym');
           const h2 = hypernymOf(lex, h1); const l2 = h2 && lemmaOf(lex, h2); if (l2) add('subject', l2.replace(/_/g, ' '), DRIFT.hypernym2, 'wordnet:hypernym'); } } }
     if (predicate) { const irr = irregular(lex, predicate); for (const f of (predPos === 'v' ? verbForms(predicate).filter(f => !(irr.length && /ed$/.test(f))).concat(irr) : [predicate])) add('predicate', f, f === predicate ? 0 : DRIFT.morph, f === predicate ? 'surface' : 'morphology');
-      const sid = firstSynset(lex, predicate, 'v'); if (sid) for (const l of synIndex(lex).get(sid) || []) if (l !== predicate && !/_/.test(l)) add('predicate', l, DRIFT.synonym, 'wordnet:synonym'); }
-    return { schema: 'FORGE-QUERY-COMPILED/v1', band: BAND, roles, expansions: exps, qwords: words(q) }; }
+      const sid = firstSynset(lex, predicate, 'v'); if (sid) for (const l of synIndex(lex).get(sid) || []) if (l !== predicate && !/_/.test(l)) add('predicate', l, DRIFT.synonym, 'wordnet:synonym');
+      /* the verb's NOMINALISATION (derivational morphology, a noun of the lexicon): invent → invention, form → formation, discover → discovery */
+      if (predPos === 'v') { const st = predicate.replace(/e$/, ''); for (const n of [st + 'ion', st + 'tion', st + 'ation', predicate + 'ment', st + 'y', st + 'al', st + 'ure']) if (n !== predicate && firstSynset(lex, n, 'n')) add('predicate', n, DRIFT.derivation, 'derivation'); } }
+    return { schema: 'FORGE-QUERY-COMPILED/v1', band: BAND, roles, expansions: exps, qwords: words(q), text: q.replace(/[?!.]+\s*$/, '').trim() }; }
   const used = (Q, role) => Q.expansions.filter(e => e.role === role && e.used);
   /* the forms worth trying as direct titles (surface, morphology, numeral words; never a hypernym) */
   const titleForms = Q => used(Q, 'subject').filter(e => /^(surface|morphology|numeral)$/.test(e.via)).map(e => e.form);
@@ -60,49 +63,91 @@
     let best = null; for (const e of used(Q, 'subject')) { const m = PV.subjectMatch(e.form, src); if (!m.ok || m.basis === 'none') continue; let d = e.drift + (m.basis === 'alias' ? DRIFT.redirect : m.basis === 'description' ? DRIFT.description : 0);
       /* SENSE drift of the title itself: a title that adds content words to the subject names a narrower thing (a kind of it, or a compound
          name: "personal cloud", "cirrus cloud"); a title with a disambiguating qualifier the question does not name is one of several senses */
-      if (m.basis === 'title') { const tw = PV.primaryEntity({ title: src.title }).split(' ').filter(Boolean), fw = words(e.form); const extra = tw.filter(w => !fw.some(x => PV.covers(w, { entities: [x] })) && !FW.has(w)); if (extra.length) d += DRIFT.narrower; }
+      /* the title's HEAD phrase (before of / to / in / for / from) names the referent; its complement only locates it. Content words the subject
+         lacks in the head make a narrower thing (+0.2 one word, +0.3 more) — unless the head word is the asked predicate's nominalisation
+         ("Invention of the telephone", "Formation of clouds": the article is about the asked relation itself, +0.05); in the complement they
+         qualify the same referent (+0.1: "Fifteenth Amendment to the United States Constitution") */
+      if (m.basis === 'title') { const tw = PV.primaryEntity({ title: src.title }).split(' ').filter(Boolean), fw = words(e.form); const cut = tw.findIndex((w, i) => i > 0 && /^(of|to|in|for|from|on)$/.test(w)); const head = cut > 0 ? tw.slice(0, cut) : tw, comp = cut > 0 ? tw.slice(cut + 1) : [];
+        const extra = ws => ws.filter(w => !fw.some(x => PV.covers(w, { entities: [x] })) && !FW.has(w)); const xh = extra(head), xc = extra(comp); const subjInComp = fw.every(x => comp.some(w => PV.covers(w, { entities: [x] })));
+        const nomin = w => used(Q, 'predicate').some(pe => pe.form.length >= 4 && w !== pe.form && w.startsWith(pe.form.replace(/e$/, '').slice(0, Math.max(4, pe.form.length - 2))) && /(tion|sion|ment|ance|ence|al|ure|ing)$/.test(w));
+        if (xh.length && subjInComp && xh.every(nomin)) d += DRIFT.derivation; else if (xh.length) d += xh.length > 1 ? DRIFT.narrower + 0.1 : DRIFT.narrower; else if (xc.length) d += DRIFT.qualifier; }
       { const qual = /\(([^)]*)\)\s*$/.exec(String(src.title || '')); if (qual && !words(qual[1]).some(w => Q.qwords.includes(w))) d += DRIFT.sense; }
       if (!best || d < best.drift) best = { drift: Math.round(d * 100) / 100, via: e.via + (m.basis === 'alias' ? '+redirect' : m.basis === 'description' ? '+description' : ''), form: e.form, basis: m.basis, resolved: m.resolved_entity || null }; }
-    if (best) return best; const tw = words(src && src.title), sw = words(Q.roles.subject); return { drift: sw.length && sw.every(w => tw.some(x => PV.covers(x, { entities: [w] }))) ? 0.6 : 1, via: 'unmatched', form: null }; }
+    if (best) return best; return titleWords(Q, src); }
+  /* a title that names the subject among other words: its HEAD phrase (before of / to / in / for / from / on) names the referent. The asked
+     predicate's nominalisation as the head with the subject in the complement is the asked relation itself ("Invention of the telephone",
+     +0.05); other head words make a narrower or different thing (+0.2 one word, +0.3 more: "Diffuse sky radiation"); a subject named only in
+     the complement of another head is a related thing (+0.3); not named: 1 */
+  function titleWords(Q, src) { const tw = words(PV.primaryEntity({ title: src && src.title }) || (src && src.title)), all = words(src && src.title); let best = { drift: 1, via: 'unmatched', form: null };
+    for (const e of used(Q, 'subject')) { const fw = words(e.form); if (!fw.length || !fw.every(w => all.some(x => PV.covers(x, { entities: [w] })))) continue;
+      const cut = all.findIndex((w, i) => i > 0 && /^(of|to|in|for|from|on)$/.test(w)); const head = cut > 0 ? all.slice(0, cut) : all, comp = cut > 0 ? all.slice(cut + 1) : [];
+      const xs = ws => ws.filter(w => !fw.some(x => PV.covers(w, { entities: [x] })) && !FW.has(w)); const xh = xs(head); const inHead = fw.every(x => head.some(w => PV.covers(w, { entities: [x] })));
+      const nominal = used(Q, 'predicate').filter(p => p.via === 'derivation').map(p => p.form); let d;
+      if (xh.length && xh.every(w => nominal.includes(w))) d = DRIFT.derivation; /* "Invention of the telephone", "Cloud formation" */ else if (inHead && PV.covers(head[head.length - 1], { entities: [fw[fw.length - 1]] })) d = xh.length > 1 ? DRIFT.narrower + 0.1 : DRIFT.narrower; /* a kind of the subject ("Cirrus cloud") */ else d = 0.4; /* the subject only modifies another head ("First Amendment audit", "Diffuse sky radiation"): another thing — its sentences may still carry the claim */
+      d = Math.round((e.drift + d) * 100) / 100; if (d < best.drift) best = { drift: d, via: e.via + (d === e.drift + DRIFT.derivation ? '+topic' : '+title-words'), form: e.form, basis: 'title-words' }; void tw; }
+    return best; }
   /* RELATION DRIFT of a sentence: does it fill the asked relation (and name the subject / the predicate)? */
   const CUE = { cause: /\b(because|due to|caus(?:e|es|ed|ing)|result(?:s|ing)? (?:of|from|in)|as a result|owing to|reason|so that|leads? to|responsible for|since)\b/i,
     /* a manner / means: the means cue after the predicate, or a process verb of formation */
     method: /\b(form(?:s|ed)? (?:when|by|from|through|as)|(?:is|are|was|were) (?:formed|produced|created|made|generated) (?:by|from|when|through|as|in)|process|mechanism|consists? of|made (?:of|from|by)|works? by|occurs? when|develops? (?:when|from))\b/i,
     agent: /\b[A-Z][a-z]+(?:\s+[A-Z][a-z.]+)+\b/, time: /\b(1[0-9]{3}|20[0-9]{2}|[0-9]{1,4} (?:BC|BCE|AD|CE))\b/, place: /\b(in|at|near|located|between)\s+(?:the\s+)?[A-Z][a-z]+/,
-    quantity: /\d/ };
-  function relationDrift(Q, sent, names) { const s = String(sent || ''), ws = words(s); let r;
-    const forms = used(Q, 'subject').filter(e => e.drift <= DRIFT.synonym).map(e => e.form).concat(names || []); const defn = forms.some(f => PV.definitional(s, f)); /* a definition is a sentence whose grammatical subject is the question's subject (or an alternate name of the source) */
-    const meansAfterPred = Q.roles.asked === 'method' && used(Q, 'predicate').some(e => new RegExp('\\b' + e.form + '\\s+(?:by|through|using|via|when|because)\\b', 'i').test(s)); /* "X works by …" */
-    const predIn = used(Q, 'predicate').some(e => ws.includes(e.form));
-    if (Q.roles.asked === 'verdict') r = predIn ? 0 : 0.4; /* a yes/no question: the sentence must state the asked predicate of the subject */
-    else if (Q.roles.asked === 'description') r = defn ? 0 : 0.4; else r = meansAfterPred || (CUE[Q.roles.asked] && CUE[Q.roles.asked].test(s)) ? 0 : defn ? 0.4 : 0.6;
-    const pf = used(Q, 'predicate').map(e => e.form); if (r > 0 && pf.length && ws.some(w => pf.includes(w))) r = Math.max(0, r - 0.2);
-    /* the subject's role in the sentence: it LEADS a clause (kartā / karma of the clause, no extra modifiers) → 0; named elsewhere → +0.1; not named → +0.2 */
-    const led = s.split(/[,;:()]/).some(cl => { const cw = words(cl).filter(w => !/^(the|a|an|on|in|at|for|most|all|many|some)$/.test(w)); return forms.some(f => { const fw = words(f); return fw.length && fw.every((w, i) => cw[i] && PV.covers(cw[i], { entities: [w] })); }); });
-    const named = led || forms.some(f => words(f).every(w => ws.some(x => PV.covers(x, { entities: [w] }))));
-    if (!led) r = Math.min(1, r + (named || /^(It|They|He|She)\b/.test(s) ? 0.1 : 0.2));
-    return Math.round(r * 100) / 100; }
+    quantity: /\d/, function: /\b(functions?|role|serves?|acts? as|works? as|responsible for|used (?:for|to)|helps?|purpose)\b/i };
+  /* RELATION DRIFT of a sentence (RSOC: the distance between the compiled question and the claim the sentence makes), summed over the
+     question's kāraka roles, each 0 when the sentence fills it as asked:
+       SUBJECT — the subject (or an expansion / the source's own name) leads a clause of the sentence: 0; the article's lead pronoun stands for
+         it: 0.05; it is named inside another phrase: 0.15; not named: 0.3
+       PREDICATE — the asked predicate (or a form / synonym of it) is stated: its expansion drift; not stated: 0.3 (a description or a function
+         question has no predicate role)
+       ASKED RELATION — the gap is filled: a definition for "what is X"; X doing something (an active verb with X leading) for "what does X do";
+         the relation's marker (because / due to / causes …, by / when / through …, a name, a date, a place, a number) for the others; a definition
+         instead of the asked relation: 0.2; nothing: 0.3. A yes/no question asks for the predicate only. */
+  function relationDrift(Q, sent, names) { const s0 = String(sent || ''), ws0 = words(s0);
+    /* a MENTION is not the referent: "a device … called telephone", "known as X", "the term X" name the word, not the thing; the subject is looked for outside them */
+    const s = s0.replace(/\b(?:called|named|termed|dubbed|known as|the (?:term|word|name))\s+(?:the\s+|a\s+)?[\w-]+/gi, ' '), ws = words(s);
+    const forms = used(Q, 'subject').filter(e => e.drift <= DRIFT.synonym).map(e => e.form).concat(names || []).filter(Boolean); const defn = forms.some(f => PV.definitional(s, f));
+    /* the subject LEADS a clause when the clause opens with it and it is the whole phrase: the next word is not another noun of a compound
+       ("A First Amendment audit is …" leads with "first amendment audit", not with "first amendment") */
+    const VERBISH = /^(is|are|was|were|be|been|has|have|had|can|could|will|would|may|might|must|should|shall|does|do|did|not|also|which|that|who|and|or|of|in|on|at|to|by|for|from|with|as|consists?|\w+ed|\w+s)$/;
+    const leads = cl => { const cw = words(cl).filter(w => !/^(the|a|an|on|in|at|for|most|all|many|some|also|thus|hence|however|therefore|for|example|of|this|that)$/.test(w)); return forms.some(f => { const fw = words(f); return fw.length && fw.every((w, i) => cw[i] && PV.covers(cw[i], { entities: [w] })) && (cw.length === fw.length || VERBISH.test(cw[fw.length])); }); };
+    const clauses = s.split(/[,;:()]|\s(?:and|but|while|whereas|because|since|so)\s/); const led = clauses.some(leads);
+    const named = forms.some(f => words(f).every(w => ws.some(x => PV.covers(x, { entities: [w] }))));
+    const pe = used(Q, 'predicate');
+    /* the subject as the KARMA of the asked predicate: right after the verb or its nominalisation ("invented the telephone", "the invention of the telephone") */
+    const esc = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); const karma = pe.length && forms.some(f => pe.some(p => new RegExp('\\b' + esc(p.form) + '\\s+(?:of\\s+)?(?:the\\s+|a\\s+|an\\s+)?' + esc(f) + '\\b', 'i').test(s)));
+    const subjR = !Q.roles.subject ? 0 : led || karma ? 0 : /^(It|They|This)\b/.test(s) ? 0.05 : named ? 0.15 : 0.3;
+    const predHit = pe.filter(e => ws0.some(w => w === e.form || PV.covers(w, { entities: [e.form] }))).map(e => e.drift);
+    const predR = !Q.roles.predicate || /^(description|function)$/.test(Q.roles.asked) ? 0 : predHit.length ? Math.min(...predHit) : 0.3;
+    const a = Q.roles.asked; let askR;
+    if (a === 'verdict') askR = 0; else if (a === 'description') askR = defn && led ? 0 : 0.3;
+    else if (a === 'function') { const act = forms.some(f => new RegExp('(?:^|[,;:]\\s*|\\b(?:the|a|an)\\s+)' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+(?:\\w+ly\\s+)?(?!is\\b|was\\b|are\\b|were\\b|has\\b|had\\b)(\\w+s)\\b', 'i').test(s)); askR = act || CUE.function.test(s) ? 0 : defn ? 0.2 : 0.3; }
+    else { const means = a === 'method' && pe.some(e => new RegExp('\\b' + e.form + '\\s+(?:by|through|using|via|when|because|as)\\b', 'i').test(s)); askR = means || (CUE[a] && CUE[a].test(s)) ? 0 : defn ? 0.2 : 0.3; }
+    return Math.round(Math.min(1, subjR + predR + askR) * 100) / 100; }
+  /* CLAIM DRIFT: a sentence of any fetched source that itself carries the subject, the predicate and the asked relation answers the question
+     whatever the article's title (the claim is measured, not the title): DRIFT.claim + its relation drift, unhalved */
+  const claimTotal = rd => Math.round(Math.min(1, DRIFT.claim + rd) * 100) / 100;
   const total = (sd, rd) => Math.round(Math.min(1, sd + 0.5 * rd) * 100) / 100;
   /* the lowest-drift sentence of a source text (its lead first on ties) */
-  function bestSentence(Q, text, sd, names) { const s = String(text || ''); let best = null; let n = 0;
+  function bestSentence(Q, text, sd, names, claim) { const s = String(text || ''); let best = null; let n = 0;
     for (const [a, b] of PV._sentences(s)) { const t = s.slice(a, b).trim(); if (t.length < 25 || t.length > 420 || /^=|\?$/.test(t) || !/[.!]["”’)]?$/.test(t)) continue; if (++n > 80) break;
-      const rd = relationDrift(Q, t, names), d = total(sd, rd); if (!best || d < best.drift) best = { sentence: t, drift: d, relation_drift: rd }; if (d === sd) break; }
+      const rd = relationDrift(Q, t, names), d = claim ? claimTotal(rd) : total(sd, rd); if (!best || d < best.drift) best = { sentence: t, drift: d, relation_drift: rd }; if (d === sd) break; }
     return best; }
   /* the LOOKUP built from the roles (not keywords): the subject forms of drift ≤ 0.05 that differ from the typed subject (a numeral word, the
      other number), then the subject with the predicate root when the relation needs a predicate (why / how / cause) */
   function queries(Q) { if (!Q.roles.subject) return []; const out = []; const sf = used(Q, 'subject').filter(e => e.drift <= DRIFT.numeral);
     for (const e of sf.filter(e => e.via === 'numeral')) out.push(e.form);
-    if (Q.roles.predicate && /^(cause|method|agent|time|place)$/.test(Q.roles.asked)) out.push(Q.roles.subject + ' ' + Q.roles.predicate);
-    return out.slice(0, 2); }
+    if (Q.roles.predicate && /^(cause|method|agent|time|place)$/.test(Q.roles.asked)) { out.push(Q.roles.subject + ' ' + Q.roles.predicate); if (Q.text) out.push(Q.text); } /* the question as asked finds the article that explains the relation ("Diffuse sky radiation") */
+    return out.slice(0, 3); }
   /* CORES of a proved source sentence, fullest first, for the generated answer (roots → roles → rules → surface): the sentence without
      parentheticals / reference marks; without a leading adjunct ("Except for X, …", "On Earth, …"); cut at a non-restrictive boundary
      (", which", ", and", "; " …). Each core is a sub-span of the proved sentence, so it adds no fact; the parser decides which one parses. */
-  function cores(sentence, leadName) { let s0 = String(sentence || '').replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^()]*\)/g, '').replace(/\s+([,.;:])/g, '$1').replace(/\s+/g, ' ').trim(); s0 = s0.split(/(?<=[a-z0-9)][.!?])\s*(?=[A-Z])/)[0].replace(/[.!]+$/, ''); /* one sentence: captions glued to the excerpt are not the claim */
+  function cores(sentence, leadName) { let s0 = String(sentence || '').replace(/(^|[\s(])['‘“"]+|['’”"]+(?=[\s,.;:)]|$)/g, '$1').replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^()]*\)/g, '').replace(/\s+([,.;:])/g, '$1').replace(/\s+/g, ' ').trim(); s0 = s0.split(/(?<=[a-z0-9)][.!?])\s*(?=[A-Z])/)[0].replace(/[.!]+$/, ''); /* one sentence: captions glued to the excerpt are not the claim */
+    s0 = s0.replace(/,\s+(?:among(?:st)? others|for example|for instance|in particular|in turn|for the most part)\s*,/gi, ''); /* a non-restrictive aside */
     if (leadName && /^(It|They)\s/.test(s0)) s0 = leadName.charAt(0).toUpperCase() + leadName.slice(1) + s0.replace(/^(It|They)/, ''); /* the article's own subject resolves its lead pronoun */
-    const out = []; const add = t => { t = String(t || '').trim().replace(/[,;:]+$/, ''); if (t.split(' ').length >= 3) { t = t.charAt(0).toUpperCase() + t.slice(1) + '.'; if (!out.includes(t)) out.push(t); } };
-    const noLead = x => { const m = /^([^,]{1,70}),\s+(.+)$/.exec(x); return m && m[2].split(' ').length >= 3 ? m[2] : null; };
+    s0 = s0.replace(/\b([\w'’-]+(?: [\w'’-]+){0,3}), ((?:[\w'’-]+ ){0,3}[\w'’-]+), ((?:and|or) )/g, '$1\u0001 $2\u0001 $3'); /* a list ("race, color, or previous condition") is one phrase: no clause cut inside it */
+    const out = []; const add = t => { t = String(t || '').replace(/\u0001/g, ',').trim().replace(/[,;:]+$/, ''); if (t.split(' ').length >= 3) { t = t.charAt(0).toUpperCase() + t.slice(1) + '.'; if (!out.includes(t)) out.push(t); } };
+    const LEADW = /^(?:for|in|on|at|during|after|before|with|without|from|by|as|under|over|near|since|unlike|like|except|despite|according|apart|following|when|while|although|though|if|because|however|thus|therefore|also|moreover|typically|generally|usually|today|currently|historically)\b/i; const noLead = x => { let y = x, n = 0; for (let m; n < 3 && (m = /^([^,]{1,70}),\s+(.+)$/.exec(y)) && m[2].split(' ').length >= 3 && (n === 0 ? !(/^(?:[A-Z][\w'’.-]*\s?)+$/.test(m[1]) && /^[A-Z]/.test(m[2])) : LEADW.test(m[1])); n++) y = m[2]; return n ? y : null; }; /* every lead adjunct is left out ("For the example …, in broad daylight, the sky is …"): the first comma phrase, then further ones that open with an adjunct word */
     const cut = x => { const m = /^(.+?)(?:,\s+(?:which|who|whom|where|while|although|though|and|but|or|as|so|with|making|including|leading|resulting)\b|;\s|\s[–—]\s|:\s|\s(?:when|whereas|unless)\s)/i.exec(x); return m ? m[1] : null; };
-    for (const x of [s0, noLead(s0)]) { if (!x) continue; add(x); let y = x; for (let i = 0; i < 3; i++) { const c = cut(y); if (!c || c === y) break; add(c); y = c; } const k = y.indexOf(', '); if (k > 0) add(y.slice(0, k)); /* last resort: the first clause up to its first comma */ }
+    for (const x of [s0, noLead(s0)]) { if (!x) continue; add(x); let y = x; for (let i = 0; i < 3; i++) { const c = cut(y); if (!c || c === y) break; add(c); y = c; } const k = y.indexOf(', '); if (k > 0 && /^, [a-z]/.test(y.slice(k)) && !/^, [a-z]+(?: [a-z]+){0,3},? (?:and|or) /.test(y.slice(k))) add(y.slice(0, k)); /* never inside a list of names */ /* last resort: the first clause up to its first comma */ }
     return out; }
   /* NO ADDED FACTS: every content word of the generated sentence is a word (or a form of a word) of the proved source sentence */
   /* NOTHING DROPPED: every content word of the proved core is said (the passive's 'by' and auxiliaries aside) */
@@ -121,34 +166,37 @@
   const lowerLead = t => t.replace(/^([A-Z])([a-z])/, (m, a, b) => a.toLowerCase() + b);
   /* number of a phrase: its head (the last noun before its first preposition) is a plural noun */
   const plOf = ts => { const k = ts.findIndex((t, i) => i > 0 && isTag(t, 'PREP')); const head = (k > 0 ? ts.slice(0, k) : ts).filter(t => isTag(t, 'N') || isTag(t, 'PROPN') || isTag(t, 'UNK')).pop(); return !!head && (head.an || []).some(a => a.tag === 'N' && a.f === 'pl') && !(head.an || []).some(a => a.tag === 'N' && a.f === 'sg'); };
-  function rolesOf(T) { const toks = (T || []).filter(t => !/^[.!?]$/.test(t.w)); let v = -1; if (toks.some(t => /^[,;:]$/.test(t.w))) return null; /* one clause only: the comma-free cores carry the claim */
+  function rolesOf(T) { const toks = (T || []).filter(t => !/^[.!?]$/.test(t.w)); let v = -1;
+    const inList = i => { for (let j = i + 1; j < Math.min(toks.length, i + 6); j++) { if (/^(and|or)$/.test(toks[j].w)) return j > i + 1 || (toks[i - 2] && toks[i - 2].w === ','); if (toks[j].w === ',') return !!toks[j + 1] && /^(and|or)$/.test(toks[j + 1].w); if (isTag(toks[j], 'V') && !isTag(toks[j], 'N')) return false; } return false; }; /* a comma inside a list of words ("race, color, or previous condition") */ const cap = t => !!t && /^[A-Z]/.test(t.orig || t.w); if (toks.some((t, i) => /^[;:]$/.test(t.w) || (t.w === ',' && !(cap(toks[i - 1]) && (cap(toks[i + 1]) || (toks[i + 1] && /^(and|or)$/.test(toks[i + 1].w) && cap(toks[i + 2])))) && !inList(i)))) return null; /* one clause only: the comma-free cores carry the claim (a comma inside a list of names is part of the phrase) */
     for (let i = 1; i < toks.length; i++) { const t = toks[i], p = toks[i - 1]; if (isTag(p, 'DET') || isTag(p, 'PREP')) continue; if (isTag(t, 'COP') || isTag(t, 'AUX') || isTag(t, 'MOD') || BE.test(t.w) || AUXW.test(t.w) || MODW.test(t.w) || vf(t, /^(pres3|past)$/)) { v = i; break; } }
-    if (v < 1) return null; let i = v; const grp = []; while (i < toks.length && (isTag(toks[i], 'COP') || isTag(toks[i], 'AUX') || isTag(toks[i], 'MOD') || BE.test(toks[i].w) || AUXW.test(toks[i].w) || MODW.test(toks[i].w) || toks[i].w === 'not' || /ly$/.test(toks[i].w) || isTag(toks[i], 'ADV'))) grp.push(toks[i++]);
+    if (v < 1) return null; let i = v; const grp = []; while (i < toks.length && (isTag(toks[i], 'COP') || isTag(toks[i], 'AUX') || isTag(toks[i], 'MOD') || BE.test(toks[i].w) || AUXW.test(toks[i].w) || MODW.test(toks[i].w) || toks[i].w === 'not' || /ly$/.test(toks[i].w) || isTag(toks[i], 'ADV') || (grp.length && /^(all|both|each)$/.test(toks[i].w)))) grp.push(toks[i++]); /* a floating quantifier sits inside the verb group ("have all been credited") */
     let main = null, voice = 'active'; const hasBe = grp.some(t => BE.test(t.w));
-    if (i < toks.length && vf(toks[i], /^(pp|past)$/) && grp.length && hasBe) { main = toks[i++]; voice = 'passive'; } else if (i < toks.length && vf(toks[i], /^(base|ing|pp)$/) && grp.length && !hasBe) main = toks[i++]; else if (!grp.length) main = toks[i++];
-    const first = grp[0] || main; const tense = /^(was|were|did|had)$/.test(first.w) || (!grp.length && vf(main, /^past$/)) ? 'past' : 'present'; const pol = grp.some(t => t.w === 'not') ? 'neg' : 'pos'; const mod = (grp.find(t => MODW.test(t.w)) || {}).w || null;
+    if (i < toks.length && vf(toks[i], /^(pp|past)$/) && grp.length && hasBe) { main = toks[i++]; voice = 'passive'; } else if (i < toks.length && vf(toks[i], grp.some(t => /^(has|have|had)$/.test(t.w)) ? /^(pp|past)$/ : /^(base|ing|pp)$/) && grp.length && !hasBe) main = toks[i++]; else if (!grp.length) main = toks[i++];
+    if (!main && grp.length && !grp.some(t => BE.test(t.w))) return null; /* an auxiliary with no main verb read */
+    const first = grp[0] || main; const tense = /^(was|were|did|had)$/.test(first.w) || (!grp.length && vf(main, /^past$/)) ? 'past' : 'present'; const pol = grp.some(t => t.w === 'not') ? 'neg' : 'pos'; const perf = grp.some(t => /^(has|have|had)$/.test(t.w)) && (!!main && vf(main, /^(pp|past)$/) || grp.some(t => t.w === 'been')); const mod = (grp.find(t => MODW.test(t.w)) || {}).w || null;
     const lemma = main ? vlemma(main) : 'be'; const subjT = toks.slice(0, v).filter(t => !/ly$/.test(t.w)); const subj = subjT.map(t => t.orig || t.w);
     const rest = toks.slice(i); let agent = null, obj = [], pps = [], cur = null; const TOP = new Set(['by', 'in', 'on', 'at', 'from', 'to', 'with', 'for', 'during', 'after', 'before', 'through', 'into', 'as', 'because', 'due', 'since', 'when', 'within', 'across', 'over', 'under']);
-    let agentT = [], whole = false; for (const t of rest) { const w = t.w; if (whole) { cur.np.push(t.orig || t.w); cur.T.push(t); continue; } /* a subordinate clause (since / because / when / while ...) is one adjunct, kept whole */ if (/^(since|because|when|while|although|though|whereas|if|unless)$/.test(w) && cur !== undefined) { cur = { prep: w, np: [], T: [] }; pps.push(cur); whole = true; continue; } if (TOP.has(w) && (isTag(t, 'PREP') || /^(because|due|since|when|as)$/.test(w))) { cur = { prep: w, np: [], T: [] }; pps.push(cur); continue; } if (cur) { cur.np.push(t.orig || t.w); cur.T.push(t); } else obj.push(t.orig || t.w); }
+    let agentT = [], whole = false; for (const t of rest) { const w = t.w; if (whole) { cur.np.push(t.orig || t.w); cur.T.push(t); continue; } /* a subordinate clause (since / because / when / while ...) is one adjunct, kept whole */ if (/^(since|because|when|while|although|though|whereas|if|unless)$/.test(w) && cur !== undefined) { cur = { prep: w, np: [], T: [] }; pps.push(cur); whole = true; continue; } if (cur && !cur.np.length && /^(due|according|prior|owing|thanks)$/.test(cur.prep) && w === 'to') { cur.prep += ' to'; continue; } /* a two-word preposition ("due to") */ if (TOP.has(w) && (isTag(t, 'PREP') || /^(because|due|since|when|as)$/.test(w))) { cur = { prep: w, np: [], T: [] }; pps.push(cur); continue; } if (cur) { cur.np.push(t.orig || t.w); cur.T.push(t); } else obj.push(t.orig || t.w); }
     pps = pps.filter(p => p.np.length); if (voice === 'passive') { const b = pps.findIndex(p => p.prep === 'by'); if (b >= 0) { agent = pps[b].np.join(' '); agentT = pps[b].T; pps.splice(b, 1); } }
     /* multiword prepositions keep their words: "as a result of X", "due to X", "because of X" */
     for (const p of pps) if ((p.prep === 'as' || p.prep === 'due' || p.prep === 'because') && p.np.length) { const m = /^(a result of|to|of)\s+(.+)$/i.exec(p.np.join(' ')); if (m) { p.prep = p.prep + ' ' + m[1]; p.np = m[2].split(' '); } }
-    if (!subj.length) return null; return { subj: subj.join(' '), subjPl: plOf(subjT), subjCommon: !!subjT[0] && (isTag(subjT[0], 'N') || !isTag(subjT[0], 'PROPN')) && !/^[A-Z]{2,}/.test(subjT[0].orig || ''), agentPl: plOf(agentT), agentCommon: !!agentT[0] && (isTag(agentT[0], 'N') || !isTag(agentT[0], 'PROPN')) && !/^[A-Z]{2,}/.test(agentT[0].orig || ''), lemma, tense, pol, mod, voice, cop: lemma === 'be', obj: obj.join(' ') || null, agent, pps: pps.map(p => ({ prep: p.prep, np: p.np.join(' ') })) }; }
+    if (!subj.length) return null; const agr = toks.slice(v, v + 3).find(t => /^(is|are|was|were|has|have|does|do)$/.test(t.w)); /* the source's own agreement tells the subject's number */ return { subj: subj.join(' '), subjPl: agr ? /^(are|were|have|do)$/.test(agr.w) : plOf(subjT) || subjT.some(t => t.w === 'and'), subjCommon: !!subjT[0] && (isTag(subjT[0], 'N') || !isTag(subjT[0], 'PROPN')) && !/^[A-Z]{2,}/.test(subjT[0].orig || ''), agentPl: plOf(agentT), agentCommon: !!agentT[0] && (isTag(agentT[0], 'N') || !isTag(agentT[0], 'PROPN')) && !/^[A-Z]{2,}/.test(agentT[0].orig || ''), lemma, tense, pol, mod, perf, fq: (grp.find(t => /^(all|both|each)$/.test(t.w)) || {}).w || null, voice, cop: lemma === 'be', obj: obj.join(' ') || null, agent, pps: pps.map(p => ({ prep: p.prep, np: p.np.join(' ') })) }; }
   /* the answer clause (grammar clause structure for G.clauseText) from the roles, with the answer rules applied */
-  function answerClause(R) { const NP = (t, pl, moved) => Object.assign({ propn: moved ? lowerLead(t) : t }, pl ? { plural: true } : {}); let c;
-    if (R.voice === 'passive' && R.agent) c = { subj: NP(R.agent, R.agentPl), verb: { lemma: R.lemma, tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, roles: { karma: NP(R.subj, R.subjPl, R.subjCommon) }, adj: [], rule: 'GEN-ACTIVE-FROM-AGENT' }; /* said actively: the agent is the kartā */
-    else if (R.cop) c = { subj: NP(R.subj, R.subjPl), verb: { lemma: 'be', tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, pred: { type: 'np', np: NP(R.obj || '') }, adj: [], rule: 'GEN-COPULA' };
-    else c = { subj: NP(R.subj, R.subjPl), verb: Object.assign({ lemma: R.lemma, tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, R.voice === 'passive' ? { voice: 'passive' } : {}), roles: R.obj ? { karma: NP(R.obj) } : {}, adj: [], rule: R.voice === 'passive' ? 'GEN-PASSIVE' : 'GEN-ACTIVE' };
-    if (R.cop && !R.obj) return null; for (const p of R.pps) c.adj.push({ prep: p.prep, np: NP(p.np) }); return c; }
+  function answerClause(R) { const detok = x => String(x).replace(/\s+([,;:])/g, '$1').replace(/\s+(['’]s?)(?=\s|$)/g, '$1'); const NP = (t, pl, moved) => Object.assign({ propn: detok(moved ? lowerLead(t) : t) }, pl ? { plural: true } : {}); let c;
+    if (R.voice === 'passive' && R.agent) c = { subj: NP(R.agent, R.agentPl), verb: Object.assign({ lemma: R.lemma, tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, R.perf ? { aspect: 'perfect' } : {}), roles: { karma: NP(R.subj, R.subjPl, R.subjCommon) }, adj: [], rule: 'GEN-ACTIVE-FROM-AGENT' }; /* said actively: the agent is the kartā */
+    else if (R.cop) c = { subj: NP(R.subj, R.subjPl), verb: Object.assign({ lemma: 'be', tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, R.perf ? { aspect: 'perfect' } : {}), pred: { type: 'np', np: NP(R.obj || '') }, adj: [], rule: 'GEN-COPULA' };
+    else c = { subj: NP(R.subj, R.subjPl), verb: Object.assign({ lemma: R.lemma, tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, R.perf ? { aspect: 'perfect' } : {}, R.voice === 'passive' ? { voice: 'passive' } : {}), roles: R.obj ? { karma: NP(R.obj) } : {}, adj: [], rule: R.voice === 'passive' ? 'GEN-PASSIVE' : 'GEN-ACTIVE' };
+    if (R.cop && !R.obj) return null; if (R.fq && c.rule !== 'GEN-ACTIVE-FROM-AGENT') c.adj.push({ pre: true, adv: R.fq }); /* the floating quantifier stays with its subject */ for (const p of R.pps) c.adj.push({ prep: p.prep, np: NP(p.np) }); return c; }
   /* the claim as an active-normalised role tuple (for Echo): who acts, on what, the root, the predicate and the adjuncts */
-  const tuple = R => R && JSON.stringify({ lemma: R.lemma, pol: R.pol, cop: R.cop, agent: String((R.voice === 'passive' ? R.agent : R.subj) || '').toLowerCase(), rest: words([R.voice === 'passive' ? R.subj : R.obj].concat(R.pps.map(p => p.prep + ' ' + p.np)).join(' ')).sort() }); /* PP attachment may differ between the two readings; the words of the non-agent material may not */
-  function generate(Q, sentence, hooks) { const out = []; for (const core of cores(sentence, hooks.leadName)) { let T; try { T = hooks.derive(core).T; } catch (e) { continue; } const R = rolesOf(T); if (!R) continue; const c = answerClause(R); if (!c) continue;
-      let text; try { text = hooks.clauseText(c); } catch (e) { continue; } text = text.replace(/\s+(['’]s)\b/g, '$1'); text = text.charAt(0).toUpperCase() + text.slice(1).replace(/[.\s]+$/, '') + '.';
+  const tuple = R => R && JSON.stringify({ lemma: R.lemma, pol: R.pol, cop: R.cop, tense: R.tense, perf: !!R.perf, agent: String((R.voice === 'passive' ? R.agent : R.subj) || '').toLowerCase(), rest: words([R.voice === 'passive' ? R.subj : R.obj].concat(R.pps.map(p => p.prep + ' ' + p.np)).join(' ')).sort() }); /* PP attachment may differ between the two readings; the words of the non-agent material may not */
+  function generate(Q, sentence, hooks) { const out = []; const sents = String(sentence || '').split(/(?<=[a-z0-9)\]][.!?])\s+(?=[A-Z])/).slice(0, 3); /* each proved sentence in turn: the one that fills the asked relation is said */
+    for (const one of sents) for (const core of cores(one, hooks.leadName)) { let T; try { T = hooks.derive(core).T; } catch (e) { continue; } const R = rolesOf(T); if (!R) continue; const c = answerClause(R); if (!c) continue;
+      let text; try { text = hooks.clauseText(c); } catch (e) { continue; } text = text.replace(/\s+(['’]s)\b/g, '$1').replace(/\s+,/g, ','); text = text.charAt(0).toUpperCase() + text.slice(1).replace(/[.\s]+$/, '') + '.';
       let R2 = null; try { R2 = rolesOf(hooks.derive(text).T); } catch (e) { R2 = null; } const echo = !!R2 && tuple(R2) === tuple(R) && addsNothing(text, sentence) && dropsNothing(text, core);
       /* the realizer's own reading of the generated surface is the clause it says (its nouns keep their number and form) */
-      let clause = c; if (echo && hooks.reparse) { try { const lc = c.rule === 'GEN-ACTIVE-FROM-AGENT' ? R.agentCommon : R.subjCommon; const g = (lc && hooks.reparse(lowerLead(text))) || hooks.reparse(text); if (g) clause = g; /* a common noun read in place, not as a sentence-initial name */ } catch (e) { /* keep the built clause */ } }
+      let clause = c; if (echo && hooks.reparse) { try { const lc = c.rule === 'GEN-ACTIVE-FROM-AGENT' ? R.agentCommon : R.subjCommon; const g = (lc && hooks.reparse(lowerLead(text))) || hooks.reparse(text); const norm = x => String(x || '').replace(/\s+(['’]s)\b/g, '$1').replace(/\s+,/g, ',').replace(/[.\s]+$/, '').toLowerCase(); if (g && norm(hooks.clauseText(g)) === norm(text)) clause = g; /* only a reading that says the same words (nothing the realizer would drop) */ /* a common noun read in place, not as a sentence-initial name */ } catch (e) { /* keep the built clause */ } }
       out.push({ core, roles: R, clause, text, rule: c.rule, echo }); }
     return out; }
-  const api = { compile, queries, cores, addsNothing, rolesOf, answerClause, generate, subjectDrift, relationDrift, bestSentence, total, titleForms, BAND, DRIFT, numeralForms };
+  const api = { claimTotal, compile, queries, cores, addsNothing, rolesOf, answerClause, generate, subjectDrift, relationDrift, bestSentence, total, titleForms, BAND, DRIFT, numeralForms };
   if (isNode) module.exports = api; else root.KQC = api;
 })(typeof self !== 'undefined' ? self : this);
