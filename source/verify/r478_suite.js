@@ -18,7 +18,8 @@ const { wiki } = require('./fixtures/wikimock.js'); const AR = require(ROOT + '/
 const rows = [], tests = []; const T = (name, fn) => tests.push({ name, fn }); const expect = (c, why) => { if (!c) throw new Error(why || 'expectation failed'); };
 let tick = 0; const clock = () => new Date(Date.UTC(2026, 9, 21, 16, 0, 0) + (tick++) * 1000).toISOString();
 const mkStore = () => { const st = {}; return KMOD.MemoryStore({ get: k => st[k], set: (k, v) => { st[k] = v; } }); };
-async function ask(pages, q, redirects) { AR._cache.clear(); const f = FK.ForgeKernel({ clock, lexicon: LEX, store: mkStore(), vaultIterations: 1000, fetch: wiki(pages, redirects) }); await f.vault.setup('correct horse'); await f.vault.unlock('correct horse');
+let EXT = null; /* 9: the same cases with the extended lexicon tier attached, as the app loads it */
+async function ask(pages, q, redirects) { AR._cache.clear(); const f = FK.ForgeKernel({ clock, lexicon: LEX, lexiconExt: EXT, store: mkStore(), vaultIterations: 1000, fetch: wiki(pages, redirects) }); await f.vault.setup('correct horse'); await f.vault.unlock('correct horse');
   const r = f.process(q); const t = r.toolJob ? await r.toolJob : null; return { f, r, t, m: t && t.trace && t.trace.msm && t.trace.msm.meaning, rt: t && t.trace && t.trace.research }; }
 const K = () => KMOD.Kernel({ lexicon: LEX, clock });
 const plan = q => K().lookupPlan(q);
@@ -111,5 +112,21 @@ T('6: the audit probe questions are digests only: no word window of the shipped 
   expect(!HR.shippedWindowHits(D.windows).length, 'a probe question is in the shipped source'); const words = E.norm(fs.readFileSync(__filename, 'utf8')).split(' '), crypto = require('crypto');
   for (const [L, list] of Object.entries(D.windows)) { const set = new Set(list); for (let j = 0; j + +L <= words.length; j++) expect(!set.has(crypto.createHash('sha256').update(words.slice(j, j + +L).join(' ')).digest('hex')), 'a probe question is in this suite'); } });
 T('6: the held-out baseline protects the current score (≥ 48 of 54 passed ids)', () => { const b = JSON.parse(fs.readFileSync(path.join(__dirname, 'eval_baseline.json'), 'utf8')); expect(b.heldout && b.heldout.passed_ids.length >= 48, 'baseline ' + (b.heldout && b.heldout.passed_ids.length)); });
+
+/* ---------------- 9. the extended lexicon tier (the app attaches it at start-up) ---------------- */
+/* every end-to-end case of 2-4 again with the ext tier attached: a polity the ext tier names ("US", "Britain") becomes the jurisdiction, and the
+   answer must still be the subject's own on-topic sentence (the archive sentence scan never replaces it) */
+for (const t of tests.filter(t => /^[234]: /.test(t.name) && t.fn.constructor.name === 'AsyncFunction')) tests.push({ name: '9 (ext tier): ' + t.name, fn: async () => { EXT = require(ROOT + '/data/lexicon-ext.json'); try { return await t.fn(); } finally { EXT = null; } } });
+T('9 (ext tier): "<Nationality> Army" with later off-topic sentences naming the head shows the lead sentence, never a scanned sentence', async () => {
+  EXT = require(ROOT + '/data/lexicon-ext.json'); try {
+  const pages = { 'Canadian Army': 'The Canadian Army is the command responsible for the operational readiness of the conventional ground forces of Canada.\nApplicants for the Army Reserve must be at least 16 years old.\nPrior to this, a soldier was enlisted into the Canadian Army for a fixed engagement.', Canada: 'Canada is a country in North America.' };
+  const x = await ask(pages, 'What does the Canadian Army do?'); const rp = replyOf(x);
+  expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'Canadian Army', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/The Canadian Army is the command responsible/.test(rp) && !/Applicants|Prior to this|Unsupported/.test(rp), rp); } finally { EXT = null; } });
+
+T('9: a sovereign KIND word ("Kingdom", "Republic") is not a polity; a lead sentence naming "the Kingdom of <country>" is not foreign', async () => {
+  for (const L of [null, require(ROOT + '/data/lexicon-ext.json')]) { EXT = L; try { const p = K2().lookupPlan('What does the Danish Army do?'); expect(p.juris === 'denmark', 'juris ' + p.juris); for (const w of ['Kingdom', 'Republic', 'Nation', 'Empire']) expect(!p.countryOf(w), w + ' → ' + p.countryOf(w));
+    const pages = { 'Danish Army': 'The Danish Army is the land-based branch of the Danish Defence, the armed forces of the Kingdom of Denmark.\nApplicants for the Army Reserve must be at least 18 years old.', Denmark: 'Denmark is a Nordic country in Northern Europe.' };
+    const x = await ask(pages, 'What does the Danish Army do?'); const rp = replyOf(x); expect(x.m && x.m.kind === 'research_answer' && /The Danish Army is the land-based branch/.test(rp) && !/Applicants|Unsupported/.test(rp), (L ? 'ext: ' : 'core: ') + rp); } finally { EXT = null; } } });
+const K2 = () => KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock });
 
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R478', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
