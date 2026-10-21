@@ -69,11 +69,13 @@
     /* a manner / means: the means cue after the predicate, or a process verb of formation */
     method: /\b(form(?:s|ed)? (?:when|by|from|through|as)|(?:is|are|was|were) (?:formed|produced|created|made|generated) (?:by|from|when|through|as|in)|process|mechanism|consists? of|made (?:of|from|by)|works? by|occurs? when|develops? (?:when|from))\b/i,
     agent: /\b[A-Z][a-z]+(?:\s+[A-Z][a-z.]+)+\b/, time: /\b(1[0-9]{3}|20[0-9]{2}|[0-9]{1,4} (?:BC|BCE|AD|CE))\b/, place: /\b(in|at|near|located|between)\s+(?:the\s+)?[A-Z][a-z]+/,
-    quantity: /\d/, verdict: /./ };
+    quantity: /\d/ };
   function relationDrift(Q, sent, names) { const s = String(sent || ''), ws = words(s); let r;
     const forms = used(Q, 'subject').filter(e => e.drift <= DRIFT.synonym).map(e => e.form).concat(names || []); const defn = forms.some(f => PV.definitional(s, f)); /* a definition is a sentence whose grammatical subject is the question's subject (or an alternate name of the source) */
     const meansAfterPred = Q.roles.asked === 'method' && used(Q, 'predicate').some(e => new RegExp('\\b' + e.form + '\\s+(?:by|through|using|via|when|because)\\b', 'i').test(s)); /* "X works by …" */
-    if (Q.roles.asked === 'description') r = defn ? 0 : 0.4; else r = meansAfterPred || (CUE[Q.roles.asked] && CUE[Q.roles.asked].test(s)) ? 0 : defn ? 0.4 : 0.6;
+    const predIn = used(Q, 'predicate').some(e => ws.includes(e.form));
+    if (Q.roles.asked === 'verdict') r = predIn ? 0 : 0.4; /* a yes/no question: the sentence must state the asked predicate of the subject */
+    else if (Q.roles.asked === 'description') r = defn ? 0 : 0.4; else r = meansAfterPred || (CUE[Q.roles.asked] && CUE[Q.roles.asked].test(s)) ? 0 : defn ? 0.4 : 0.6;
     const pf = used(Q, 'predicate').map(e => e.form); if (r > 0 && pf.length && ws.some(w => pf.includes(w))) r = Math.max(0, r - 0.2);
     /* the subject's role in the sentence: it LEADS a clause (kartā / karma of the clause, no extra modifiers) → 0; named elsewhere → +0.1; not named → +0.2 */
     const led = s.split(/[,;:()]/).some(cl => { const cw = words(cl).filter(w => !/^(the|a|an|on|in|at|for|most|all|many|some)$/.test(w)); return forms.some(f => { const fw = words(f); return fw.length && fw.every((w, i) => cw[i] && PV.covers(cw[i], { entities: [w] })); }); });
