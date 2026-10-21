@@ -526,7 +526,7 @@ function Kernel(opts) {
   const COLOUR = new Set('red orange yellow green blue purple violet pink brown black white grey gray silver gold beige turquoise navy maroon cyan magenta'.split(' ')), ATTR_CLASS = { colour: COLOUR, color: COLOUR }; /* closed value class for the attribute noun colour */
   const MEM_V = new Set(['remember', 'store', 'save', 'keep', 'memorize', 'memorise']); /* memory-write directive verb class */
   const SELF_PERC = new Set(['see', 'notice', 'observe', 'spot']);
-  const INTJ_ACT = { hello: 'greet', hi: 'greet', hey: 'greet', goodbye: 'part', bye: 'part', thanks: 'thank' }; /* interjection → speech-act class (lexical) */
+  const INTJ_ACT = { hello: 'greet', hi: 'greet', hey: 'greet', howdy: 'greet', goodbye: 'part', bye: 'part', thanks: 'thank', cheers: 'thank' }; /* interjection → speech-act class (lexical) */
   const SELF_REC = { fact: 'facts', thing: 'facts', memory: 'facts', note: 'notes', reminder: 'reminders' };
   const SELF_CAPS = new Set(['remember', 'recall', 'note', 'calculate', 'compute', 'define', 'explain', 'count', 'list', 'help', 'add', 'multiply', 'subtract', 'divide', 'solve', 'simplify', 'convert']);
   const LIFECYCLE = new Set(['propose', 'install', 'uninstall', 'fail', 'revert', 'deploy', 'approve', 'reject', 'release', 'withdraw', 'cancel', 'complete', 'succeed', 'pass']);
@@ -1155,6 +1155,14 @@ function Kernel(opts) {
       /* G-INTERJECTION (speech act without a clause): an utterance of interjections (closed class INTJ, with an optional vocative / deictic) is a complete
          speech act; its act class (greeting / parting / thanks) is the interjection's lexical class, answered in kind by the realizer */
       { const ia = tk0.length && tk0.every(t => (G.CL[t.w] || []).includes('INTJ') || /^(there|forge|everyone|all)$/.test(t.w)) ? tk0.map(t => INTJ_ACT[t.w]).find(Boolean) : null;
+        /* G-PHATIC-NP (4.9.79): a verbless noun phrase whose head noun is glossed in WordNet as an expression of greeting, farewell or appreciation
+           ("many thanks for the help", "farewell, friend"), or an optative wish of "good" + a time noun ("good evening": WordNet noun.time), is the same
+           speech act; a for-phrase (its reason) and a trailing vocative (a person noun or name) belong to it. The act class comes from the gloss. */
+        const phatic = (() => { if (ia || !tk0.length) return null; let t = tk0.slice(); const ci = t.findIndex(x => x.w === ','); if (ci > 0) { const voc = t.slice(ci + 1); if (!(voc.length && voc.length <= 3 && voc.every(x => /^(my|dear|the)$/.test(x.w) || /^[A-Z]/.test(x.orig) || lex.lexnameOf(x.w) === 'noun.person'))) return null; t = t.slice(0, ci); }
+          const fi = t.findIndex(x => x.w === 'for'); if (fi > 0) t = t.slice(0, fi); const MODS = /^(good|many|a|lot|very|much|so|warm|warmest|kind|kindest|best|heartfelt|sincere|big)$/; const heads = t.filter(x => !MODS.test(x.w)); if (heads.length !== 1 || t.length > 4) return null; const h = heads[0].w;
+          if (INTJ_ACT[h]) return INTJ_ACT[h]; const ss = (lex.senses(h) || []).filter(s => s.pos === 'n').slice(0, 3); if (t.length === 2 && t[0].w === 'good' && ss.length && ss[0].lexname === 'noun.time') return 'greet'; for (const s of ss) if (s.lexname === 'noun.communication') { if (/\b(greeting)\b/.test(s.gloss) && !/farewell|parting/.test(s.gloss)) return 'greet'; if (/\b(farewell|parting)\b/.test(s.gloss)) return 'part'; if (/\b(appreciation|gratitude)\b/.test(s.gloss)) return 'thank'; }
+          if (t.length === 2 && t[0].w === 'good' && ss.length && ss[0].lexname === 'noun.time') return 'greet'; return null; })();
+        if (phatic) { rules.push({ id: 'G-PHATIC-NP', doc: 'Doc5 §15 speech act; act class from the WordNet gloss of the head noun', note: phatic }); return res('SELECTED_MEANING', { kind: 'interjection', act: phatic, word: tk0.map(t => t.orig).join(' ').replace(/ ,/g, ',') }, { frame: 'FR.SOCIAL', act: 'social' }); }
         if (ia) { rules.push({ id: 'G-INTERJECTION', doc: 'Doc5 §15 speech act from the interjection class', note: ia }); return res('SELECTED_MEANING', { kind: 'interjection', act: ia, word: tk0.map(t => t.orig).join(' ') }, { frame: 'FR.SOCIAL', act: 'social' }); } }
       const tk = tk0; const pp = G.Parser(tk, glex).partial(); const span = (a, b) => tk.slice(a, b).map(t => t.orig).join(' ');
       const m = { kind: 'no_frame' }; if (pp.kind === 'clause') m.clause = clone(pp.node); else if (pp.kind === 'np') m.pieces = [{ text: span(0, pp.i), role: 'subject' }]; else if (pp.kind === 'vp') m.pieces = [{ text: span(0, pp.i), role: 'predicate' }];

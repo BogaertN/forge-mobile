@@ -11,7 +11,7 @@ const CLOSED = {
   NEG: 'not never', SUB: 'because while although whereas', THAN: 'than', PREP: 'as in on at to from with by for of about regarding concerning into onto under over after before during near without through across around between behind beside since until past per within throughout despite via toward towards upon beyond against along among amid inside outside below above beneath underneath versus',
   CONJ: 'and or but', IF: 'if unless', THEN: 'then', REL: 'who which that', COMP: 'that', PART: 'up down out off away back',
   ADV: 'also too very really now today tonight tomorrow yesterday here there always often sometimes usually never already still soon later again maybe perhaps probably possibly definitely certainly',
-  PLEASE: 'please', INTJ: 'hello hi hey yes no ok okay thanks goodbye bye',
+  PLEASE: 'please', INTJ: 'hello hi hey howdy yes no ok okay thanks cheers goodbye bye',
 };
 const CL = Object.create(null); for (const [t, ws] of Object.entries(CLOSED)) for (const w of ws.split(' ')) (CL[w] = CL[w] || []).push(t);
 const PRON = Object.assign(Object.create(null), { i: { p: 1, n: 'sg', c: 'nom' }, me: { p: 1, n: 'sg', c: 'acc' }, myself: { p: 1, n: 'sg', c: 'acc' }, you: { p: 2, n: 'sg' }, yourself: { p: 2, n: 'sg' },

@@ -61,6 +61,6 @@ for (const [f, q, w] of [['The recital is on Friday.', 'When is the recital?', '
 for (const [q, v] of [['How many joules are in 2 watt-hours?', '7200'], ['How many watt-hours are in 36000 joules?', '10']])
   T('U: "' + q + '" = ' + v, () => { const r = say(q); expect(new RegExp('\\b' + v + '\\b').test(String(r.reply).replace(/,/g, '')), kindOf(r) + ' | ' + r.reply); });
 for (const q of ['Good evening!', 'Many thanks for the help.', 'Cheers!', 'Farewell, friend.'])
-  T('F: "' + q + '" is recognised as a social act, not a parse failure', () => { const r = say(q); expect(kindOf(r) === 'phatic' && !!r.reply && !/could not attach|found no verb/.test(r.reply), kindOf(r) + ' | ' + r.reply); });
+  T('F: "' + q + '" is recognised as a social act, not a parse failure', () => { const r = say(q); expect(kindOf(r) === 'interjection' && !!r.reply && !/could not attach|found no verb/.test(r.reply), kindOf(r) + ' | ' + r.reply); });
 
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R479', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
