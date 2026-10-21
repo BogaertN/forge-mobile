@@ -58,10 +58,14 @@ const VALUE_TYPES = new Set(['date', 'person', 'place', 'quantity']);
 /* relation words of the question (asked predicate forms; the degree word and dimension noun of a quantity question) */
 const relationOf = p => uniq([].concat(p.askedForms || [], p.predForms || [], [p.asked, p.pred, p.degree, p.dimNoun]).filter(Boolean).map(x => String(x).toLowerCase()).filter(x => /^[a-z]+$/.test(x)));
 /* the question's entity: the lookup plan's entity / object, else the first run of content words that are not relation words */
-function questionEntity(plan, question) { const p = plan || {}; if (p.subject) return words(p.subject).join(' '); /* 4.9.78: the parse's subject noun phrase first */ if (p.entity) return words(p.entity).join(' '); if (p.object) return words(p.object).join(' ');
-  const rel = relationOf(p), ws = words(question || p.question || ''), run = []; let started = false;
+function questionEntity(plan, question) { const p = plan || {}; if (p.subject) return words(p.subject).join(' '); /* 4.9.78: the parse's subject noun phrase first */ if (p.entity) return words(p.entity).join(' '); const ws = words(question || p.question || '');
+  /* 4.9.80 ENT-OF-COMPLEMENT: an attribute noun phrase "the N of X" ("the main function of the spleen", "the symptoms of measles", "the boiling
+     point of ethanol") is about X: when the candidate is directly followed by "of", the entity is the content run after it */
+  const ofTail = cand => { const cw = words(cand); if (!cw.length) return cand; /* a capitalised head is part of a name ("the Bank of England"), kept whole */ if (new RegExp('(?:^|\\s)(?:the\\s+)?' + cw[cw.length - 1].replace(/[^a-z0-9]/g, '') + '\\s+of\\b', 'i').test(question || '') && new RegExp('\\b' + cw[cw.length - 1][0].toUpperCase() + cw[cw.length - 1].slice(1).replace(/[^a-z0-9]/g, '') + '\\s+of\\b').test(String(question || '').replace(/^\\s*\\S+/, ''))) return cand; for (let i = 0; i + cw.length < ws.length; i++) { if (cw.every((w, j) => ws[i + j] === w) && ws[i + cw.length] === 'of') { const out = []; for (const w of ws.slice(i + cw.length + 1)) { if (!out.length && /^(the|a|an)$/.test(w)) continue; if (FUNCTION_WORDS.has(w)) break; out.push(w); } return out.length ? out.join(' ') : cand; } } return cand; };
+  if (p.object) return ofTail(words(p.object).join(' '));
+  const rel = relationOf(p), run = []; let started = false;
   for (const w of ws) { const content = !FUNCTION_WORDS.has(w) && !rel.some(r => same(r, w)); if (content) { run.push(w); started = true; } else if (started) break; }
-  return run.join(' '); }
+  return ofTail(run.join(' ')); }
 /* the key content of the answer sentence a source is cited for */
 function keyContent(plan, claim) { const p = plan || {}; const relation = relationOf(p);
   const value = claim && claim.kind === 'value' && claim.answer ? uniq(words(claim.answer)) : [];
