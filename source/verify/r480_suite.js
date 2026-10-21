@@ -52,4 +52,9 @@ for (const q of ['How many sisters does Ines have?', 'How many cousins does Toma
 /* L */
 T('L: the plural of a gerund noun is known ("Floodings were rare.")', () => { const r = say('Floodings were rare.'); expect(!/I took|unknown|could not/.test(r.reply || ''), r.reply); });
 
+/* R: self-repair (added with the fix; the turn class was diagnosed from a held-back failure, these sentences are new) */
+T('R: "Sorry, I meant S" replaces the speaker\'s own statement in this conversation', () => { const r = say('Lucia lives in Porto.', 'Sorry, I meant Lucia lives in Braga.', 'Where does Lucia live?'); expect(/Braga/.test(r.reply || '') && !/Porto/.test(r.reply || ''), r.reply); });
+T('R: "I meant that S" never silently replaces a stored fact', () => { const r = say('Remember that Lucia lives in Porto.', 'I meant that Lucia lives in Braga.'); expect(kindOf(r) === 'confirm_replace', kindOf(r) + ' | ' + r.reply); });
+T('R: a past-tense report with a time adjunct is recalled through a pronoun', () => { const r = say('Jarek painted a fence last summer.', 'What did he paint?'); expect(/fence/.test(r.reply || ''), r.reply); });
+
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R480', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
