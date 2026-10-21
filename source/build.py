@@ -69,7 +69,10 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
     # ... and so are one-line ' /* note */' comments (space-delimited, quote-balanced prefix only; a line with an odd quote count keeps its comment)
     js = re.sub(r'(?m)^[ \t]*/\*[\s\S]*?\*/[ \t]*\n', '', slim(m, SRC(m)))
-    js = re.sub(r'(?m)^(.*?) /\* [^*\n]{3,}? \*/', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`') else k.group(0), js)
+    for _ in range(8):  # a line can hold several such notes: repeat until none is left (same quote-balance test each time)
+        js2 = re.sub(r'(?m)^(.*?) /\* [^*\n]{3,}? \*/', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`') else k.group(0), js)
+        if js2 == js: break
+        js = js2
     # trailing ' // note' line comments likewise (prefix must be quote-balanced and have an even '/' count, so no string or regex literal is cut)
     js = re.sub(r'(?m)^(.*?) // [^\n]*$', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`/') else k.group(0), js)
     js = re.sub(r'(?m)^[ \t]*// [^\n]*\n', '', js)
