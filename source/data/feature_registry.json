@@ -1,5 +1,5 @@
 {
- "version": "4.9.79",
+ "version": "4.9.80",
  "features": [
   {
    "id": "A-01",
@@ -2598,13 +2598,24 @@
    "proof": [
     "R479"
    ]
+  },
+  {
+   "id": "R480-LANG",
+   "name": "Generative pipeline round 2: proposals for user-opened problems, causative and generic-conditional entailment, attribute-noun research subjects, self questions, object predicatives, kinship counts, self-repair, restricted universals",
+   "source": "Nic instruction 2026-10-21 11:36 AM (part C items 3-9)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.80: a user-opened problem proposes options from the user's own facts (MEAP-OPTIONS-FROM-FACTS; choice unknown, test_required, commit only on tap); INF-CAUSATIVE (WordNet gloss 'cause to V'), INF-MODUS-PONENS-GENERIC (generic present conditional instantiated in the instance tense), why-questions answered by the causing statement; the discourse reading is tried when the turn world is undetermined and kept only when it rests on those entailments; ENT-OF-COMPLEMENT ('the N of X' is about X); SELF-UNSETTLED and Q-WH-PASSIVE (questions about Forge answered from its true self-facts); K-KARMA-VIDHEYA (WordNet frame 5) with the memory-verb imperative apavada; Q-WH-HOW-MANY-KIN (kinship counts of a non-public person are the user's world); MEM-SELF-REPAIR ('sorry, I meant S' replaces the speaker's own conversation statement; stored facts still need a yes); INF-RESTRICTED-CLASS (soundness: 'every N that is A' / 'every A N' licenses nothing about a plain N). Partial: proposals come only from facts already stated; no ranking of options.",
+   "proof": [
+    "R480"
+   ]
   }
  ],
- "count": 238,
+ "count": 239,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 76,
+  "Partial": 77,
   "Missing": 9,
   "Out of scope / parked": 13
  }
