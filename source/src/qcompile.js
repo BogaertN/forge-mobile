@@ -94,6 +94,61 @@
     for (const e of sf.filter(e => e.via === 'numeral')) out.push(e.form);
     if (Q.roles.predicate && /^(cause|method|agent|time|place)$/.test(Q.roles.asked)) out.push(Q.roles.subject + ' ' + Q.roles.predicate);
     return out.slice(0, 2); }
-  const api = { compile, queries, subjectDrift, relationDrift, bestSentence, total, titleForms, BAND, DRIFT, numeralForms };
+  /* CORES of a proved source sentence, fullest first, for the generated answer (roots → roles → rules → surface): the sentence without
+     parentheticals / reference marks; without a leading adjunct ("Except for X, …", "On Earth, …"); cut at a non-restrictive boundary
+     (", which", ", and", "; " …). Each core is a sub-span of the proved sentence, so it adds no fact; the parser decides which one parses. */
+  function cores(sentence, leadName) { let s0 = String(sentence || '').replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^()]*\)/g, '').replace(/\s+([,.;:])/g, '$1').replace(/\s+/g, ' ').trim(); s0 = s0.split(/(?<=[a-z0-9)][.!?])\s*(?=[A-Z])/)[0].replace(/[.!]+$/, ''); /* one sentence: captions glued to the excerpt are not the claim */
+    if (leadName && /^(It|They)\s/.test(s0)) s0 = leadName.charAt(0).toUpperCase() + leadName.slice(1) + s0.replace(/^(It|They)/, ''); /* the article's own subject resolves its lead pronoun */
+    const out = []; const add = t => { t = String(t || '').trim().replace(/[,;:]+$/, ''); if (t.split(' ').length >= 3) { t = t.charAt(0).toUpperCase() + t.slice(1) + '.'; if (!out.includes(t)) out.push(t); } };
+    const noLead = x => { const m = /^([^,]{1,70}),\s+(.+)$/.exec(x); return m && m[2].split(' ').length >= 3 ? m[2] : null; };
+    const cut = x => { const m = /^(.+?)(?:,\s+(?:which|who|whom|where|while|although|though|and|but|or|as|so|with|making|including|leading|resulting)\b|;\s|\s[–—]\s|:\s|\s(?:when|whereas|unless)\s)/i.exec(x); return m ? m[1] : null; };
+    for (const x of [s0, noLead(s0)]) { if (!x) continue; add(x); let y = x; for (let i = 0; i < 3; i++) { const c = cut(y); if (!c || c === y) break; add(c); y = c; } const k = y.indexOf(', '); if (k > 0) add(y.slice(0, k)); /* last resort: the first clause up to its first comma */ }
+    return out; }
+  /* NO ADDED FACTS: every content word of the generated sentence is a word (or a form of a word) of the proved source sentence */
+  /* NOTHING DROPPED: every content word of the proved core is said (the passive's 'by' and auxiliaries aside) */
+  function dropsNothing(generated, core) { const gw = words(generated); return words(core).filter(w => !FW.has(w)).every(w => gw.some(x => x === w || PV.covers(x, { entities: [w] }) || PV.covers(w, { entities: [x] }))); }
+  function addsNothing(generated, source, extra) { const sw = words(source).concat(words(extra || '')); return words(generated).filter(w => !FW.has(w)).every(w => sw.some(x => x === w || PV.covers(x, { entities: [w] }) || PV.covers(w, { entities: [x] }))); }
+  /* ---------------- GENERATED ANSWER (Nic 2026-10-21 4:58 PM: experts say it in their own words; the verbatim span is the hidden proof) ----------------
+     roots → roles → rules → surface: (1) the proved sentence (a core of it) is read into its kāraka roles by the kernel's own tagger (kartā,
+     the verb root with tense / voice / polarity, karma or the copular predicate, the agent of a passive, the adjunct phrases); (2) the answer
+     rules re-voice it (a passive with its agent is said actively: "X is caused by Y" → "Y causes X"; a lead adjunct and non-restrictive
+     clauses are left out); (3) the grammar's clause realizer gives the surface; (4) ECHO: the generated sentence is read back into roles and
+     must state the same claim (same agent, patient, root, predicate, adjuncts) and add no word that is not in the proof. */
+  const isTag = (t, g) => (t.an || []).some(a => a.tag === g); const vf = (t, f) => (t.an || []).some(a => a.tag === 'V' && (!f || f.test(a.f || '')));
+  const vlemma = t => { const a = (t.an || []).find(x => x.tag === 'V'); return a ? a.lemma : t.w; };
+  const BE = /^(is|are|was|were|be|been|being)$/; const AUXW = /^(has|have|had|do|does|did)$/; const MODW = /^(can|could|may|might|must|shall|should|will|would)$/;
+  /* a sentence-initial common word loses its capital when the phrase moves (a proper name keeps it) */
+  const lowerLead = t => t.replace(/^([A-Z])([a-z])/, (m, a, b) => a.toLowerCase() + b);
+  /* number of a phrase: its head (the last noun before its first preposition) is a plural noun */
+  const plOf = ts => { const k = ts.findIndex((t, i) => i > 0 && isTag(t, 'PREP')); const head = (k > 0 ? ts.slice(0, k) : ts).filter(t => isTag(t, 'N') || isTag(t, 'PROPN') || isTag(t, 'UNK')).pop(); return !!head && (head.an || []).some(a => a.tag === 'N' && a.f === 'pl') && !(head.an || []).some(a => a.tag === 'N' && a.f === 'sg'); };
+  function rolesOf(T) { const toks = (T || []).filter(t => !/^[.!?]$/.test(t.w)); let v = -1; if (toks.some(t => /^[,;:]$/.test(t.w))) return null; /* one clause only: the comma-free cores carry the claim */
+    for (let i = 1; i < toks.length; i++) { const t = toks[i], p = toks[i - 1]; if (isTag(p, 'DET') || isTag(p, 'PREP')) continue; if (isTag(t, 'COP') || isTag(t, 'AUX') || isTag(t, 'MOD') || BE.test(t.w) || AUXW.test(t.w) || MODW.test(t.w) || vf(t, /^(pres3|past)$/)) { v = i; break; } }
+    if (v < 1) return null; let i = v; const grp = []; while (i < toks.length && (isTag(toks[i], 'COP') || isTag(toks[i], 'AUX') || isTag(toks[i], 'MOD') || BE.test(toks[i].w) || AUXW.test(toks[i].w) || MODW.test(toks[i].w) || toks[i].w === 'not' || /ly$/.test(toks[i].w) || isTag(toks[i], 'ADV'))) grp.push(toks[i++]);
+    let main = null, voice = 'active'; const hasBe = grp.some(t => BE.test(t.w));
+    if (i < toks.length && vf(toks[i], /^(pp|past)$/) && grp.length && hasBe) { main = toks[i++]; voice = 'passive'; } else if (i < toks.length && vf(toks[i], /^(base|ing|pp)$/) && grp.length && !hasBe) main = toks[i++]; else if (!grp.length) main = toks[i++];
+    const first = grp[0] || main; const tense = /^(was|were|did|had)$/.test(first.w) || (!grp.length && vf(main, /^past$/)) ? 'past' : 'present'; const pol = grp.some(t => t.w === 'not') ? 'neg' : 'pos'; const mod = (grp.find(t => MODW.test(t.w)) || {}).w || null;
+    const lemma = main ? vlemma(main) : 'be'; const subjT = toks.slice(0, v).filter(t => !/ly$/.test(t.w)); const subj = subjT.map(t => t.orig || t.w);
+    const rest = toks.slice(i); let agent = null, obj = [], pps = [], cur = null; const TOP = new Set(['by', 'in', 'on', 'at', 'from', 'to', 'with', 'for', 'during', 'after', 'before', 'through', 'into', 'as', 'because', 'due', 'since', 'when', 'within', 'across', 'over', 'under']);
+    let agentT = [], whole = false; for (const t of rest) { const w = t.w; if (whole) { cur.np.push(t.orig || t.w); cur.T.push(t); continue; } /* a subordinate clause (since / because / when / while ...) is one adjunct, kept whole */ if (/^(since|because|when|while|although|though|whereas|if|unless)$/.test(w) && cur !== undefined) { cur = { prep: w, np: [], T: [] }; pps.push(cur); whole = true; continue; } if (TOP.has(w) && (isTag(t, 'PREP') || /^(because|due|since|when|as)$/.test(w))) { cur = { prep: w, np: [], T: [] }; pps.push(cur); continue; } if (cur) { cur.np.push(t.orig || t.w); cur.T.push(t); } else obj.push(t.orig || t.w); }
+    pps = pps.filter(p => p.np.length); if (voice === 'passive') { const b = pps.findIndex(p => p.prep === 'by'); if (b >= 0) { agent = pps[b].np.join(' '); agentT = pps[b].T; pps.splice(b, 1); } }
+    /* multiword prepositions keep their words: "as a result of X", "due to X", "because of X" */
+    for (const p of pps) if ((p.prep === 'as' || p.prep === 'due' || p.prep === 'because') && p.np.length) { const m = /^(a result of|to|of)\s+(.+)$/i.exec(p.np.join(' ')); if (m) { p.prep = p.prep + ' ' + m[1]; p.np = m[2].split(' '); } }
+    if (!subj.length) return null; return { subj: subj.join(' '), subjPl: plOf(subjT), subjCommon: !!subjT[0] && (isTag(subjT[0], 'N') || !isTag(subjT[0], 'PROPN')) && !/^[A-Z]{2,}/.test(subjT[0].orig || ''), agentPl: plOf(agentT), agentCommon: !!agentT[0] && (isTag(agentT[0], 'N') || !isTag(agentT[0], 'PROPN')) && !/^[A-Z]{2,}/.test(agentT[0].orig || ''), lemma, tense, pol, mod, voice, cop: lemma === 'be', obj: obj.join(' ') || null, agent, pps: pps.map(p => ({ prep: p.prep, np: p.np.join(' ') })) }; }
+  /* the answer clause (grammar clause structure for G.clauseText) from the roles, with the answer rules applied */
+  function answerClause(R) { const NP = (t, pl, moved) => Object.assign({ propn: moved ? lowerLead(t) : t }, pl ? { plural: true } : {}); let c;
+    if (R.voice === 'passive' && R.agent) c = { subj: NP(R.agent, R.agentPl), verb: { lemma: R.lemma, tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, roles: { karma: NP(R.subj, R.subjPl, R.subjCommon) }, adj: [], rule: 'GEN-ACTIVE-FROM-AGENT' }; /* said actively: the agent is the kartā */
+    else if (R.cop) c = { subj: NP(R.subj, R.subjPl), verb: { lemma: 'be', tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, pred: { type: 'np', np: NP(R.obj || '') }, adj: [], rule: 'GEN-COPULA' };
+    else c = { subj: NP(R.subj, R.subjPl), verb: Object.assign({ lemma: R.lemma, tense: R.tense, pol: R.pol, mod: R.mod || 'asserted' }, R.voice === 'passive' ? { voice: 'passive' } : {}), roles: R.obj ? { karma: NP(R.obj) } : {}, adj: [], rule: R.voice === 'passive' ? 'GEN-PASSIVE' : 'GEN-ACTIVE' };
+    if (R.cop && !R.obj) return null; for (const p of R.pps) c.adj.push({ prep: p.prep, np: NP(p.np) }); return c; }
+  /* the claim as an active-normalised role tuple (for Echo): who acts, on what, the root, the predicate and the adjuncts */
+  const tuple = R => R && JSON.stringify({ lemma: R.lemma, pol: R.pol, cop: R.cop, agent: String((R.voice === 'passive' ? R.agent : R.subj) || '').toLowerCase(), rest: words([R.voice === 'passive' ? R.subj : R.obj].concat(R.pps.map(p => p.prep + ' ' + p.np)).join(' ')).sort() }); /* PP attachment may differ between the two readings; the words of the non-agent material may not */
+  function generate(Q, sentence, hooks) { const out = []; for (const core of cores(sentence, hooks.leadName)) { let T; try { T = hooks.derive(core).T; } catch (e) { continue; } const R = rolesOf(T); if (!R) continue; const c = answerClause(R); if (!c) continue;
+      let text; try { text = hooks.clauseText(c); } catch (e) { continue; } text = text.replace(/\s+(['’]s)\b/g, '$1'); text = text.charAt(0).toUpperCase() + text.slice(1).replace(/[.\s]+$/, '') + '.';
+      let R2 = null; try { R2 = rolesOf(hooks.derive(text).T); } catch (e) { R2 = null; } const echo = !!R2 && tuple(R2) === tuple(R) && addsNothing(text, sentence) && dropsNothing(text, core);
+      /* the realizer's own reading of the generated surface is the clause it says (its nouns keep their number and form) */
+      let clause = c; if (echo && hooks.reparse) { try { const lc = c.rule === 'GEN-ACTIVE-FROM-AGENT' ? R.agentCommon : R.subjCommon; const g = (lc && hooks.reparse(lowerLead(text))) || hooks.reparse(text); if (g) clause = g; /* a common noun read in place, not as a sentence-initial name */ } catch (e) { /* keep the built clause */ } }
+      out.push({ core, roles: R, clause, text, rule: c.rule, echo }); }
+    return out; }
+  const api = { compile, queries, cores, addsNothing, rolesOf, answerClause, generate, subjectDrift, relationDrift, bestSentence, total, titleForms, BAND, DRIFT, numeralForms };
   if (isNode) module.exports = api; else root.KQC = api;
 })(typeof self !== 'undefined' ? self : this);

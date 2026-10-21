@@ -142,7 +142,8 @@ T('unsupported claim: when no source has a verbatim span stating the answer, the
 T('unsupported claim: with one supporting source the answer stands and the unsupported citation stays visible, marked unsupported, outside the agreement count', async () => {
   const { t, m } = await ask({ Telephone: TEL_ART.excerpt, 'Alexander Graham Bell': BELL_GOOD.excerpt }, 'who invented the telephone?'); const reply = (t && t.reply) || '';
   expect(!/Unsupported: /.test(reply) && /Alexander Graham Bell/.test(reply), 'a supported answer was withheld: ' + reply);
-  expect(/Wikipedia: Telephone · open fallback · unsupported/.test(reply) && /Wikipedia: Alexander Graham Bell · open fallback”/.test(reply), 'citations not marked: ' + reply);
+  /* 4.9.83 (Nic 2026-10-21 4:58 PM): the per-source tier list left the reply for the trace; the marks are checked there */ const ps = (m.provenance && m.provenance.sources) || [];
+  expect(ps.some(x => x.title === 'Telephone' && x.supported === false) && ps.some(x => x.title === 'Alexander Graham Bell' && x.supported === true) && !/Telephone \(Wikipedia\)/.test(reply), 'citations not marked in the trace: ' + JSON.stringify(ps.map(x => [x.title, x.supported])) + ' | ' + reply);
   expect(m.agreement.agree === 1 && m.agreement.origins.length === 1, 'agreement: ' + JSON.stringify(m.agreement)); });
 
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e.message).slice(0, 600); } rows.push({ cls: 'EV-SUBJECT', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();

@@ -23,7 +23,7 @@ const PRON = Object.assign(Object.create(null), { i: { p: 1, n: 'sg', c: 'nom' }
 const TIMEW = new Set('now today tonight tomorrow yesterday monday tuesday wednesday thursday friday saturday sunday january february march april may june july august september october november december morning afternoon evening night week month year weekend noon midnight'.split(' '));
 /* given names that are also common nouns (Doc4 controlled list): a capitalised occurrence is ambiguous unless memory settles it */
 const NAMEISH = new Set('rose lily daisy iris violet ivy jasmine hazel holly heather olive ruby pearl amber crystal jade grace joy hope faith mark bill will pat sue frank victor jack rob dawn april may june summer autumn sky river robin jay drew gene rich bob sandy dusty penny carol angel destiny melody harmony patience honor chase hunter cliff glen dale brook forest heath reed rocky skip buck chip guy art'.split(' '));
-const SUBW = new Set(['because', 'when', 'while', 'after', 'before', 'until']);
+const SUBW = new Set(['because', 'when', 'while', 'after', 'before', 'until', 'since']);
 const CTRL_INF = new Set('want need like love hate try decide plan hope expect agree refuse promise learn forget start begin continue prefer intend wish choose attempt manage fail offer seem afford arrange claim deserve pretend threaten tend volunteer wait'.split(' ')); // Doc5 frame registry: verbs licensing a to-infinitive (union with WordNet frames 28/32/35)
 const CTRL_GER = new Set('like love hate enjoy stop start finish avoid mind keep quit prefer begin continue try miss consider suggest practice practise imagine recommend risk deny admit appreciate dislike'.split(' ')); // verbs licensing a gerund (union with WordNet frame 33)
 /* FRAME_RE: which WordNet generic frame strings license each complement kind; FRAME_SUPP: lexicon supplements where WordNet lists no such frame for the lemma */
@@ -188,6 +188,9 @@ function Parser(toks, lex) {
     for (const a of at(i, 'NUM')) { out.push(R({ num: a.lemma }, i + 1, ['NP-NUM'])); for (const n of nominal(i + 1)) out.push(R(Object.assign({ num: a.lemma }, n.node), n.i, ['NP-NUM-N'].concat(n.rules))); }
     for (const q of at(i, 'QUOTE')) out.push(R({ quote: q.lemma }, i + 1, ['NP-QUOTE']));
     let quant = null, j = i; if (at(i, 'QUANT').length) { quant = word(i); j = i + 1; } else if (['too', 'so', 'very'].includes(word(i)) && ['much', 'many', 'few'].includes(word(i + 1))) { quant = word(i) + ' ' + word(i + 1); j = i + 2; } /* NP-DEGREE-QUANT: "too much current" */
+    /* NP-PARTITIVE (4.9.83): a quantifier with 'of' and a definite phrase takes a part of it ("most of the light", "some of my notes"); the head and
+       number are the phrase's own */
+    if (quant && !quant.includes(' ') && word(j) === 'of') for (const n of npBase(j + 1)) if ((n.node.det || n.node.owner) && n.node.head && !n.node.quant) out.push(R(Object.assign({}, n.node, { quant, partitive: true }), n.i, ['NP-PARTITIVE'].concat(n.rules)));
     const dets = [];
     if (at(j, 'POSS').length) { const w = word(j); dets.push({ owner: w === 'my' ? 'user' : w === 'your' ? 'kernel' : { pron3: w }, j: j + 1, rule: 'NP-POSS' }); }
     if (at(j, 'DET').length) dets.push({ det: word(j), j: j + 1, rule: 'NP-DET' });
@@ -203,7 +206,8 @@ function Parser(toks, lex) {
     const res = [];
     for (const a of npGen(i)) {
       res.push(a);
-      if (word(a.i) === 'of' && !a.node.pron && !a.node.pron3) for (const b of npGen(a.i + 1)) res.push(R(Object.assign({}, a.node, { of: b.node }), b.i, a.rules.concat(['NP-OF'], b.rules)));
+      /* NP-OF, chained (4.9.83): "a result of saturation of the air" — each 'of' phrase may take its own 'of' phrase (right-branching) */
+      if (word(a.i) === 'of' && !a.node.pron && !a.node.pron3) (function ofs(i, depth) { const out = []; for (const b of npGen(i)) { out.push(b); if (depth < 3 && word(b.i) === 'of' && !b.node.pron && !b.node.pron3) for (const c of ofs(b.i + 1, depth + 1)) out.push(R(Object.assign({}, b.node, { of: c.node }), c.i, b.rules.concat(['NP-OF'], c.rules))); } return out; })(a.i + 1, 1).forEach(b => res.push(R(Object.assign({}, a.node, { of: b.node }), b.i, a.rules.concat(['NP-OF'], b.rules))));
     }
     /* NP-APPOSITION-CLOSE (4.9.79; close apposition — samānādhikaraṇa, two nominals with one referent): a common-noun phrase directly followed by a
        proper name names that person or thing ("my cousin Lorna", "the engineer Sato"): the name is the head, the common phrase its description */
@@ -458,7 +462,7 @@ function npText(n, persp) {
   if (n.members) return npText(Object.assign({}, n, { members: undefined }), persp) + ', ' + npText(n.members, persp); /* NP-APPOSITIVE-COUNT */
   if (n.pron3) return n.pron3; if (n.indef) return n.indef + (n.adjs && n.adjs.length ? ' ' + n.adjs.join(' ') : ''); if (n.propn) return (n.appos ? npText(n.appos, persp) + ' ' : '') + n.propn; /* NP-APPOSITION-CLOSE: the description, then the name */ if (n.quote !== undefined) return '"' + n.quote + '"';
   let s = '';
-  if (n.quant) s += n.quant + ' ';
+  if (n.quant) s += n.quant + (n.partitive ? ' of ' : ' ');
   if (n.owner === 'user') s += persp === 'user' ? 'my ' : 'your '; else if (n.owner === 'kernel') s += persp === 'user' ? 'your ' : 'my '; else if (n.owner && n.owner.pron3) s += n.owner.pron3 + ' '; else if (n.owner && n.owner.boundOrig) s += n.owner.boundOrig.pron3 + ' '; else if (n.owner) s += npText(n.owner, persp) + "'s ";
   if (n.det) s += n.det + ' ';
   if (n.num) s += n.num + (n.head ? ' ' : '');

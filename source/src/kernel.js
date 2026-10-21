@@ -276,7 +276,10 @@ function Kernel(opts) {
   /* held-reading ancestry (Pāṇini paper D6 L6861–6893; RSOC ⧧ hold → ⧙ after clarification): a clause whose reading the user chose keeps its natural
      surface; on re-parse, the user's own earlier choice (not a frequency guess) selects among the readings */
   const heldKeys = () => new Set(heldNow.concat(activeFacts().filter(r => r.clause && r.clause.resolved_reading).map(r => canon(G.material(r.clause))))); let heldNow = [];
-  function reparseClause(text) { const d = derive(swapToks(text)); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); if (ks.size === 1) return d.parses[0].node.clause;
+  /* 8.3.1 read backwards (4.9.83): a sentence-initial capital is orthography — a first word that is a common noun of the lexicon (followed by a lower-case word) is read as that noun
+     first; a name (no common-noun reading) keeps its capital */
+  function reparseClause(text) { const m0 = /^([A-Z])([a-z]+)(?=\s+[a-z])/.exec(String(text || '')); /* not an abbreviation or the first word of a capitalised name ("Mr. Pell", "General Motors") */ if (m0) { const lw = (m0[1].toLowerCase() + m0[2]); const tg = derive(swapToks(lw)).T || []; if (tg[0] && (tg[0].an || []).some(a => a.tag === 'N') && !(tg[0].an || []).some(a => a.tag === 'PROPN' && a.rule !== 'TAG-PROPN-INITIAL-ALT')) { const r = reparseClause0(lw + String(text).slice(m0[0].length)); if (r) return r; } } return reparseClause0(text); }
+  function reparseClause0(text) { const d = derive(swapToks(text)); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); if (ks.size === 1) return d.parses[0].node.clause;
     const H = heldKeys(), hit = d.parses.filter(p => H.has(canon(G.material(p.node.clause)))); return hit.length && new Set(hit.map(p => canon(G.material(p.node.clause)))).size === 1 ? hit[0].node.clause : null; }
   /* 4.9.82 "how much / many AUX NP V NP": a stored fact of the same verb and subject answers when one of its role phrases is an amount (a numeral,
      a number word, a quantifier) and every role phrase of the question is among its role phrases (in any kāraka: "owe Lea" ~ "owe Lea twenty dollars") */
