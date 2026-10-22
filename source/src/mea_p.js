@@ -207,7 +207,7 @@ function cycle(M0, opts) { const M = M0, o = Object.assign({ budget: DEFAULT_BUD
   pool.forEach((c, i) => verify(c, i));
   /* 4.9.76 ruling 4 (Nic): options that meet their exact conditions are ESTABLISHED, all of them: there is no tie to split and no single pick */
   for (const c of pool.filter(x => x.op === 'split' && x.route === 'eligible')) if (pool.some(x => x.op === 'hypothesize' && x.unknown === c.unknown && x.kind === 'established' && x.route === 'eligible')) Object.assign(c, { route: 'archived', reason: 'its options are established exactly: no split', needs: ['decided:established'] });
-  if (pool.some(c => c.terms.eps > 0.8 * MICRO)) stop = { rule: 'MEA-DRIFT-EXCURSION', note: 'a candidate exceeded the 0.80 hard stop' };
+  if (pool.some(c => c.terms.eps > KM.DRIFT_RULING.explore_max * MICRO /* 4.9.87: the drift table's hard stop */)) stop = { rule: 'MEA-DRIFT-EXCURSION', note: 'a candidate exceeded the 0.80 hard stop' };
   /* slates: the options of each choice unknown compete; derived claims do not compete with each other */
   const slates = {}; for (const u of M.unknowns.filter(x => x.kind === 'choice')) { const cs = pool.filter(c => c.op === 'hypothesize' && c.unknown === u.id && c.route === 'eligible'); const r = rank(cs);
     const fav = r.length >= 2 && r[1].decided_by && r[1].decided_by !== 'id' && r[0].pareto ? r[0].id : r.length === 1 ? r[0].id : null; slates[u.id] = { ranking: r, favoured: fav }; for (const x of r) { const c = pool.find(y => y.candidate_id === x.id); c.rank = x.rank; c.pareto = x.pareto; c.favoured = x.id === fav; } }

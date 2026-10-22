@@ -22,7 +22,7 @@
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports; const { sha256 } = isNode ? require('./sha256.js') : root.KSha; const KM = isNode ? require('./kmath.js') : root.KMath;
 /* N_min 0.15 / N_max 0.75 / θ 0.35 are the RMC §8.3 WORKED EXAMPLES, not laws (user decision 2026-10-12). */
-const DEFAULTS = { N_min: 0.15, N_max: 0.75, theta: 0.35, budget: 24, seed: 1, task_mode: 'creative_brainstorming' };
+const DEFAULTS = { N_min: 0.15, N_max: 0.75, theta: KM.DRIFT_RULING.project_max /* 4.9.87: the one drift table, not a local θ */, budget: 24, seed: 1, task_mode: 'creative_brainstorming' };
 const THRESHOLD_STATUS = 'RMC §8.3 worked examples, not laws';
 /* PROVISIONAL task novelty budgets — evaluated in SHADOW only and never enforced: they are defined for the full N(c), whose weights are
  * deliberately open (Sept 21 implementation addendum: calibration/ablation/FP-FN testing unfinished), so no score here is on their scale. */
@@ -65,7 +65,7 @@ function explore(edges, o) { o = Object.assign({}, DEFAULTS, o || {}); const anc
       rec.N_base = { value: N_base, definition: 'N_base(c) = 1 − max memory_similarity(c, m) over active relevant memory nodes; similarity = token Jaccard', source: 'C2R Measurement Kernel build plan (May 2026)', status: 'provisional' };
       rec.N_vector = { semantic_distance: v.d_sem, phase_path_distance: v.d_phase, operator_path_distance: v.d_op, structural_distance: v.d_struct, weights: null, weights_status: 'open (RMC §6.4; Sept 21 addendum)' };
       rec.memory_anchors = b.anchors.map(x => ({ id: x.id, subject: x.a, relation: (x.neg ? '¬' : '') + x.rel, object: x.b, phi: x.phi || null })); rec.task_mode = o.task_mode; rec.novelty_formula_version = FORMULA_VERSION;
-      const cb = eps > KM.DRIFT_RULING.explore_max; rec.hard_gates = { novelty_delta_positive: N > 0, novelty_within_budget: N <= o.N_max, budget_used: { value: o.N_max, status: THRESHOLD_STATUS }, epsilon_below_threshold: eps <= o.theta, phase_path_legal: !phaseBlocked, operator_path_legal: LEGAL_OPS.has(op) && op !== 'contradiction_probe',
+      const cb = eps > KM.DRIFT_RULING.explore_max; rec.hard_gates = { novelty_delta_positive: N > 0, novelty_within_budget: N <= o.N_max, budget_used: { value: o.N_max, status: THRESHOLD_STATUS }, epsilon_below_threshold: KM.driftGovernance(eps).may_project /* 4.9.87: the drift table decides, not a local θ */, phase_path_legal: !phaseBlocked, operator_path_legal: LEGAL_OPS.has(op) && op !== 'contradiction_probe',
         memory_trace_present: b.anchors.length > 0 && b.anchors.every(x => x.id != null), speculative: false, circuit_breaker: cb, projection_violation: false, rule: 'every gate must hold; no average can offset a failed gate' };
       rec.hard_gates.all_pass = rec.hard_gates.novelty_delta_positive && rec.hard_gates.novelty_within_budget && rec.hard_gates.epsilon_below_threshold && rec.hard_gates.phase_path_legal && rec.hard_gates.operator_path_legal && (rec.hard_gates.memory_trace_present || rec.hard_gates.speculative) && !cb && !rec.hard_gates.projection_violation;
       rec.shadow = { task_mode: o.task_mode, task_budget: budget == null ? null : budget, budget_status: 'provisional, shadow only, not enforced', compared_value: N_base, compared_value_note: 'N_base is not N(c); comparison recorded for calibration only', within_budget_shadow: budget == null ? null : N_base <= budget }; }
