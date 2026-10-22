@@ -151,7 +151,7 @@ function leadClause(text) { const s = String(text || ''); const ss = sentences(s
 /* 4.9.75 (Nic 12:32, "What is X?"): a DEFINITIONAL sentence: its grammatical subject names X and a finite verb follows ("The First Amendment …
    prevents Congress from …"); returns that verbatim sentence, or null */
 function definitional(text, entity) { const s = String(text || ''), q = words(entity); if (!q.length) return null;
-  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), c = leadClause(t); if (c && c.verb && (names(q, words(c.subject)) || (c.full && names(q, words(c.full))))) return t; } return null; }
+  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), c = leadClause(t); if (c && c.verb && (names(q, words(c.subject)) || (c.full && q.includes('of') && names(q, words(c.full))))) return t; } return null; }
 /* the parties of a case name ("Miranda v. Arizona" → ["miranda", "arizona"]) */
 function partiesOf(title) { const m = /^(.+?)\s+v(?:s)?\.?\s+(.+)$/i.exec(String(title || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim()); if (!m) return []; return [m[1], m[2].split(/[,;]/)[0]].map(x => headCut(words(x)).join(' ')).filter(Boolean); }
 /* the head of a source's primary entity, minus the archive's declared document noun ("ASPIRIN drug label" → "aspirin") */
@@ -172,7 +172,7 @@ function subjectMatch(questionEnt, src, answerEnt) { const q = words(questionEnt
   if (!q.length) return Object.assign(res, { ok: true, via: 'question', basis: 'none', limitation: null, note: 'no question entity resolved' });
   /* 4.9.75: the primary entity is the title head OR a case party OR the lead subject (first sentence subject); each is tested the same way */
   const parties = partiesOf(src && src.title); /* a case name's entity is its parties, not "miranda v arizona" */ const fullT = words(String((src && src.title) || '').replace(/\s*\([^)]*\)\s*/g, ' ').split(/[,:;–—|]/)[0]).filter((w, i) => !(i === 0 && /^(the|a|an)$/.test(w))); /* 4.9.91: the whole title with its of-complement ("Treaty of Versailles") — the specific name before its general head */
-  const cands = (parties.length ? [] : [['title', h]].concat(fullT.length > h.length ? [['title', fullT]] : [])).concat(parties.map(p => ['party', words(p)]), (() => { const c = leadClause(src && src.excerpt); return c ? [['lead', words(c.subject)]].concat(c.full && c.full !== c.subject ? [['lead', words(c.full)]] : []) : []; })());
+  const cands = (parties.length ? [] : [['title', h]].concat(fullT.length > h.length && q.includes('of') ? [['title', fullT]] : [])).concat(parties.map(p => ['party', words(p)]), (() => { const c = leadClause(src && src.excerpt); return c ? [['lead', words(c.subject)]].concat(c.full && c.full !== c.subject && q.includes('of') ? [['lead', words(c.full)]] : []) /* the whole NP only when the question itself names the of-complement; "Fall of the Berlin Wall" is not the Berlin Wall */ : []; })());
   /* 4.9.78: an ALTERNATE NAME of the source (a title that redirects to it, a recorded alias) is tested like its title: "<Country> military"
      → "<Country> Armed Forces" */
   for (const al of (src && src.aliases) || []) cands.push(['alias', headCut(words(String(al).replace(/\s*\([^)]*\)\s*/g, ' ')))]);
