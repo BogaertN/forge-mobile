@@ -821,6 +821,7 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (e) Grammar: an ordinal ("15th", "3rd") modifies its noun like an adjective, so "the 15th amendment" is a noun phrase and research names its subject.
 - (e) Question compiler (`src/kernel.js` lookupPlan, WH-DET COPULAR): "what/which <NP> <be> <XP>" reads the copula's other side as the subject; an XP that is only a superlative is a property of the wh-phrase head (subject = ADJ + head); a PP or a passive participle closes the subject NP. The provenance.js ENT-KIND-OF and ENT-SUPERLATIVE regexes over question phrasings are removed — the entity arrives as plan.subject.
 - (e) TMS why-named (`src/kernel.js`): a wh question whose subject is the addressee and whose verb is a cognition or communication verb (WordNet lexname) with a clause complement asks the reason for that clause. It replaces the WHY_NAMED list of phrasings; "how did you learn that X" now reads back like "why do you think X".
+- (a) Research: when the question names what it asks for with a wh-phrase ("which planet is the largest"), that noun is the karma of the report ("No source named the planet.") instead of the generic relation noun; a subject the compiler assembled (ADJ + wh head) is realized as a definite NP ("I am researching the largest planet.").
 - Test conflicts: causal_suite and dynamics_suite matched the old quoted limitation strings; they now match the realized clauses.
 
 ## v4.9.87 — PIPELINE TO THE PAPERS, PART 1: REPLIES FROM ROLES, ONE DRIFT TABLE, RSOC STANDING (Nic 2026-10-21 7:36 PM)
