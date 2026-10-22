@@ -124,11 +124,12 @@
     if (a === 'verdict') askR = 0; else if (a === 'description') askR = defn && led ? 0 : 0.3;
     else if (a === 'function') { const act = forms.some(f => new RegExp('(?:^|[,;:]\\s*|\\b(?:the|a|an)\\s+)' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+(?:\\w+ly\\s+)?(?!is\\b|was\\b|are\\b|were\\b|has\\b|had\\b)(\\w+s)\\b', 'i').test(s)); askR = act || CUE.function.test(s) ? 0 : defn ? 0.2 : 0.3; }
     else { const means = a === 'method' && pe.some(e => new RegExp('\\b' + e.form + '\\s+(?:by|through|using|via|when|because|as)\\b', 'i').test(s)); askR = means || (CUE[a] && CUE[a].test(s)) ? 0 : defn ? 0.2 : 0.3; }
-    const rd = Math.round(Math.min(1, subjR + predR + askR) * 100) / 100; return parts ? { rd, ask: askR } : rd; }
+    if (predR >= 0.3 && askR < 0.3) askR = 0.3; /* 4.9.86: a relation marker of another predicate ("low oxygen due to …" for "why is the ocean salty") fills nothing */
+    const rd = Math.round(Math.min(1, subjR + predR + askR) * 100) / 100; return parts ? { rd, ask: predR + askR } : rd; }
   /* CLAIM DRIFT: a sentence of any fetched source that itself carries the subject, the predicate and the asked relation answers the question
      whatever the article's title (the claim is measured, not the title): DRIFT.claim + its relation drift, unhalved */
   const claimTotal = rd => Math.round(Math.min(1, DRIFT.claim + rd) * 100) / 100;
-  const total = (sd, r) => { const rd = typeof r === 'object' ? r.rd : r, ask = typeof r === 'object' ? r.ask : 0; return Math.round(Math.min(1, sd + 0.5 * (rd - ask) + ask) * 100) / 100; }; /* 4.9.86: an unfilled asked relation is never halved (a source on the subject that does not answer the question stays outside the band) */
+  const total = (sd, r) => { const rd = typeof r === 'object' ? r.rd : r, ask = typeof r === 'object' ? r.ask : 0; return Math.round(Math.min(1, sd + 0.5 * (rd - ask) + ask) * 100) / 100; }; /* 4.9.86: only the subject role is halved (the title can supply it); a missing predicate or unfilled asked relation counts in full */
   /* the lowest-drift sentence of a source text (its lead first on ties) */
   function bestSentence(Q, text, sd, names, claim) { const s = String(text || ''); let best = null; let n = 0;
     for (const [a, b] of PV._sentences(s)) { const t = s.slice(a, b).trim(); if (t.length < 25 || t.length > 420 || /^=|\?$/.test(t) || !/[.!]["”’')]?$/.test(t)) continue; if (++n > 80) break;
