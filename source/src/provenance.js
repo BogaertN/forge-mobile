@@ -140,7 +140,7 @@ const VERB_LIST = new Set('is are was were be been has have had do does did can 
 const PRONOUN_LEAD = new Set('it he she they this that these those we you i there here'.split(' '));
 function headCut(toks) { const head = []; for (const w of toks) { if (CUT.has(w) && head.length) break; if (!(head.length === 0 && /^(the|a|an)$/.test(w))) head.push(w); } return head; }
 function leadSubject(text) { const c = leadClause(text); return c ? c.subject : null; }
-function leadClause(text) { const s = String(text || ''); const ss = sentences(s); if (!ss.length) return null; const first = s.slice(ss[0][0], ss[0][1]).replace(/\s*\([^)]*\)\s*/g, ' ');
+function leadClause(text) { const s = String(text || ''); const ss = sentences(s); if (!ss.length) return null; const first = s.slice(ss[0][0], ss[0][1]).replace(/\s*\([^)]*\)\s*/g, ' ').replace(/,\s+(?:also\s+|commonly\s+|often\s+|sometimes\s+)?(?:known|called|named|termed|referred to)\s+(?:as\s+)?[^,]{1,60},/i, ''); /* 4.9.93: a naming aside is another name, not the end of the subject (as in qcompile cores) */
   const raw = first.split(/\s+/).filter(Boolean); const toks = []; for (const t of raw) { const w = words(t); if (!w.length) continue; toks.push({ w: w.join('-').replace(/-/g, w.length > 1 ? '-' : ''), ws: w, cap: /^[A-Z0-9“"]/.test(t), punct: /[,;:]$/.test(t) }); }
   if (!toks.length) return null; const f0 = toks[0].ws[0]; if (PRONOUN_LEAD.has(f0) || (CUT.has(f0) && !/^(the|a|an)$/.test(f0))) return null;
   const subj = []; for (let i = 0; i < toks.length; i++) { const t = toks[i], w = t.ws[t.ws.length - 1];

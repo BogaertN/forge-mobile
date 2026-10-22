@@ -103,7 +103,7 @@
          instead of the asked relation: 0.2; nothing: 0.3. A yes/no question asks for the predicate only. */
   function relationDrift(Q, sent, names, parts) { const s0 = String(sent || ''), ws0 = words(s0);
     /* a MENTION is not the referent: "a device … called telephone", "known as X", "the term X" name the word, not the thing; the subject is looked for outside them */
-    let s = s0.replace(/\b(?:called|named|termed|dubbed|known as|the (?:term|word|name))\s+(?:the\s+|a\s+)?[\w-]+/gi, ' '); let ws;
+    let s = s0.replace(/,\s+(?:also\s+|commonly\s+|often\s+|sometimes\s+)?(?:known|called|named|termed|referred to)\s+(?:as\s+)?[^,]{1,60},/gi, '').replace(/\b(?:called|named|termed|dubbed|known as|the (?:term|word|name))\s+(?:the\s+|a\s+)?[\w-]+/gi, ' '); /* 4.9.93: a naming aside goes whole first (another name, not the claim) */ let ws;
     const forms = used(Q, 'subject').filter(e => e.drift <= DRIFT.synonym).map(e => e.form).concat(names || []).filter(Boolean); const defn = forms.some(f => PV.definitional(s, f));
     /* 4.9.86: ANOTHER NAME is not the subject: a capitalised run holding a subject word next to a word of no subject form ("Blue Sky Studios", "Blue Sky") names something else; its words do not count */
     const sw = new Set([].concat(...forms.map(f => words(f)))); s = s.replace(/\b[A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)+/g, run => { const rw = words(run).filter(w => !/^(the|of|a|an)$/.test(w)); return rw.some(w => sw.has(w) || [...sw].some(x => PV.covers(w, { entities: [x] }))) && rw.some(w => !sw.has(w) && ![...sw].some(x => PV.covers(w, { entities: [x] }))) ? ' ' : run; }); ws = words(s); const ws0m = words(s);
