@@ -98,6 +98,7 @@ function lemmatize0(w, lex) {
 function analyse(tok, idx, lex) {
   const w = tok.w, an = []; if (tok.i0 !== undefined) idx = tok.i0; if (tok.rendered && idx === 0) idx = 1; // ECHO-RENDER-CASE: the realizer never capitalises sentence-initial common words, so a capital in rendered text is authoritative
   if (/^\d+(\.\d+)?$/.test(w)) return [{ tag: 'NUM', lemma: w }];
+  if (/^\d+(?:st|nd|rd|th)$/.test(w)) return [{ tag: 'ADJ', lemma: w, f: 'pos' }]; // an ordinal modifies its noun like an adjective (the 15th amendment)
   if (/^".*"$/.test(w)) return [{ tag: 'QUOTE', lemma: tok.orig.slice(1, -1) }];
   if (w === "'s") return [{ tag: 'GEN' }];
   if (/^[,;:]$/.test(w)) return [{ tag: 'PUNCT', lemma: w }];
