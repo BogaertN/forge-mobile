@@ -63,12 +63,15 @@ def slim(m, s):
     # single-file only: the registry's provenance 'source' strings are not read by any UI (the site copy keeps them)
     if m != 'src/features.js': return s
     a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
-    for f in d.get('features', []): f.pop('source', None)
-    return s[:a] + json.dumps(d, separators=(',', ':')) + s[b:]
+    # 4.9.87: and a long note is cut at a word boundary near 120 characters (the site copy keeps the full note); UTF-8 is written as is
+    for f in d.get('features', []):
+        f.pop('source', None); n = f.get('note') or ''
+        if len(n) > 120: f['note'] = n[:120].rsplit(' ', 1)[0] + ' …'
+    return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
     # ... and so are one-line ' /* note */' comments (space-delimited, quote-balanced prefix only; a line with an odd quote count keeps its comment)
-    js = re.sub(r'(?m)^[ \t]*/\*[\s\S]*?\*/[ \t]*\n', '', slim(m, SRC(m)))
+    js = re.sub(r'(?m)^[ \t]*/\*(?:[^*]|\*(?!/))*\*/[ \t]*\n', '', slim(m, SRC(m)))  # the block may not run past its own '*/' (4.9.87: a note that opened a line and closed mid-line swallowed code up to the next line-final '*/')
     for _ in range(8):  # a line can hold several such notes: repeat until none is left (same quote-balance test each time)
         js2 = re.sub(r'(?m)^(.*?) /\* [^*\n]{3,}? \*/', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`') else k.group(0), js)
         if js2 == js: break
