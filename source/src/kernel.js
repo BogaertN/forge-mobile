@@ -500,7 +500,12 @@ function Kernel(opts) {
     return undefined; }); }
   /* "why?" / "how do you know?" / "what is that based on?" read back the recorded justification of the previous answer (or a named item) */
   const WHY_BARE = /^(?:(?:but|and|so|ok|okay)[, ]+)?(?:why(?: is that| is it| so| that| do you (?:say|think) (?:that|so))?|how (?:do|did|would) you know(?: that| this| it)?|how come|what is (?:that|this|it) based on|what's (?:that|this|it) based on|what are you basing (?:that|this|it) on|on what basis|based on what|what makes you (?:say|think) (?:that|so))$/;
-  const WHY_NAMED = /^(?:how (?:do|did) you know|why do you (?:think|say)|what makes you (?:think|say)) (?:that )?(.+)$/;
+  /* WHY-NAMED (4.9.88): a wh question whose subject is the addressee and whose verb is one of cognition or communication (WordNet lexname), with a
+     clause complement, asks the reason for that named clause ("how do you know X", "why do you say that X", "what makes you think X") — read from
+     the verb's class and the clause position, not a list of phrasings */
+  function whyNamed(s) { const t = s.split(' '); if (!/^(how|why|what)$/.test(t[0])) return null; const k = t.indexOf('you'); if (k < 1 || k > 3) return null;
+    const vOK = w => G.lemmatize(w, glex).filter(x => x.pos === 'v').some(x => (lex.senses(x.lemma) || []).filter(z => z.pos === 'v').slice(0, 2).some(z => z.lexname === 'verb.cognition' || z.lexname === 'verb.communication'));
+    if (!t[k + 1] || !vOK(t[k + 1])) return null; let r = t.slice(k + 2); if (r[0] === 'that' && r.length > 1) r = r.slice(1); return r.length > 1 ? [s, r.join(' ')] : null; }
   function justifyMaterial(it) { if (!it) return { kind: 'justification', state: 'none', conclusion: null, premises: [], rules: 0, stated: false };
     const ok = j => j.premises.every(p => tmsIsIn(p.id).in || (TMS.get(p.id) || {}).status === 'in'), J = it.justifications.find(ok) || it.justifications[it.justifications.length - 1];
     const stated = J.premises.length === 1 && !J.rules.length && JT.norm(J.premises[0].text) === JT.norm(it.text);
@@ -524,7 +529,7 @@ function Kernel(opts) {
       if (mp === 'reason') { rules.push({ id: 'G-META-PREV', doc: 'Doc5 §15 question about the previous answer', note: 'reason' }); s = 'how do you know that'; } }
     let it = null, how = 'previous';
     if (WHY_BARE.test(s)) { const ids = meta.lastItems || []; it = ids.length ? TMS.get(ids[0]) : null; }
-    else { const n = s.match(WHY_NAMED); if (!n) return null; const hits = TMS.findByText(n[1]);
+    else { const n = whyNamed(s); if (!n) return null; const hits = TMS.findByText(n[1]);
       /* 4.9.81 TMS-WHY-STATED: a statement of this conversation that the truth-maintenance record does not hold as an item is its own reason — the user said it */
       if (!hits.length) { try { const ps = derive(content(G.tokenize(n[1]))).parses; const cs = ps.map(p => p.node && p.node.clause).filter(Boolean).map(c => canon(G.material(c))); const f = activeFacts().find(r => !r.sensitive && r.clause && cs.includes(canon(G.material(r.clause)))); if (f) { rules.push({ id: 'TMS-WHY-STATED', doc: 'Doc7: the reason for a stated fact is the statement itself' }); return res('SELECTED_MEANING', { kind: 'recall', items: [f.clause] }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: [f.id] }); } } catch (e) { /* no reading */ } return null; } it = hits[hits.length - 1]; how = 'named'; }
     const mat = justifyMaterial(it); rules.push({ id: 'TMS-WHY-READBACK', doc: 'justify.js (JTMS, Doyle 1979); the recorded justification, read back', note: (it ? it.id + ' · ' + mat.jid + ' · ' + how : 'no recorded premise') });
