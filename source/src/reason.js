@@ -821,9 +821,9 @@ function checkProof(world, proof) {
 
 /* RSOC decides the result (kmath rsocSelect): evidence C complete closure, K every proof replayed, S support proof, R refutation proof;
    each status candidate expects a pattern; the one the calculus ⧙-locks is selected. resultStatus below is the independent cross-check. */
-const RSOC_EXPECT = { supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } };
+/* 4.9.94: the table is kmath.RSOC_STANDING, shared with research replies */
 function rsocDecide(dv, ck) { const KM = isNode ? require('./kmath.js') : root.KMath, S = !!dv.support, R = !!dv.refutation;
-  return KM.rsocSelect({ C: !!dv.complete, K: !((S && !ck.support.ok) || (R && !ck.refutation.ok)), S, R }, Object.keys(RSOC_EXPECT).map(id => ({ id, expect: RSOC_EXPECT[id] })), 0); }
+  return KM.rsocStanding({ C: !!dv.complete, K: !((S && !ck.support.ok) || (R && !ck.refutation.ok)), S, R }); }
 function resultStatus(derivation, supportCheck, refutationCheck) {
   if (!derivation.complete) return 'incomplete';
   if ((derivation.support && !supportCheck.ok) || (derivation.refutation && !refutationCheck.ok)) return 'proof_rejected';

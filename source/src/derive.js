@@ -468,11 +468,14 @@ const reportS = (np, claim, v) => S(C(v || 'say', Object.assign({ karta: np }, c
 const REL_N = { cause: ['give', 'cause'], agent: ['name', 'person'], person: ['name', 'person'], time: ['give', 'date'], date: ['give', 'date'], place: ['name', 'location'], quantity: ['give', 'number'], description: ['give', 'definition'], method: ['describe', 'method'], function: ['describe', 'function'], verdict: ['give', 'answer'] };
 const relOf = (m, dflt) => m.askedNP ? ['name', U(m.askedNP)] : (r => [r[0], N(r[1], { det: 'the' })])(REL_N[m.asked] || dflt); /* the wh-phrase's own noun when the question names what it asks for */
 const noneS = (m, post) => { const r = relOf(m, ['answer', 'question']); return S(C(r[0], Object.assign({ karta: N('source', { det: 'no' }), karma: r[1], tense: 'past' }, post ? { post: [post] } : {}))); };
-const RES_EXPECT = { answered: { K: 1, S: 1, R: 0 }, contested: { K: 1, S: 1, R: 1 }, related: { K: 1, S: 0 }, unanswered: { K: 0, C: 1 }, interrupted: { K: 0, C: 0 } };
+/* 4.9.94 (Nic item (c)): research evidence is read into the SAME RSOC standing as memory and world-state answers (kmath.RSOC_STANDING); the
+   standing names the reply shape: supported → answered, conflicted / refuted → contested, undetermined → related, proof rejected → unanswered,
+   incomplete → interrupted. Nothing is written to the shared KB. */
+const RES_OF = { supported_only: 'answered', conflicted: 'contested', refuted_only: 'contested', undetermined: 'related', proof_rejected: 'unanswered', incomplete: 'interrupted' };
 function researchStanding(m) { const fail = m.kind === 'tool_failed', gen = !!(m.generated && !m.unsupported);
   const S0 = !(m.unsupported || m.nofit || (m.provenance && m.provenance.lead_supported === false) || (m.support && m.support.level === 'none' && !m.answer));
   const ev = { K: !fail, S: !fail && S0, R: !fail && S0 && !!(m.conflict && m.excerpt2 && (m.undetermined || m.events)), C: !(fail && RATE.test(String(m.reason || ''))) };
-  return M.rsocSelect(ev, Object.keys(RES_EXPECT).map(id => ({ id, expect: RES_EXPECT[id] })), 0); }
+  const L = M.rsocStanding(ev); return Object.assign({}, L, { standing: L.selected, selected: RES_OF[L.selected] }); }
 function researchPlan(m) { const st = researchStanding(m).selected, lead = docNP(m.source, m.archive, m.cls);
   if (st === 'interrupted') return [S(C('refuse', { karta: N('source', { det: 'the', pl: true }), karma: N('request', { poss: 'my', pl: true }), tense: 'past' })), S(C('ask', { post: ['again'] }), { force: 'imp' })];
   if (st === 'unanswered') return m.limitation === 'SUBJECT_MISMATCH' ? [S(C('match', { karta: N('source', { det: 'no' }), karma: N('subject', { det: 'the', of: N('question', { det: 'the' }) }), tense: 'past' }))] : [noneS(m)];

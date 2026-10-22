@@ -225,6 +225,11 @@ function turnGovernance(eps, transition) { const forbidden = isForbidden(transit
   const route = forbidden ? 'blocked_forbidden_transition' : row.hard_stop ? 'hard_stop' : row.explore ? 'quarantine' : row.correction ? 'correct' : 'project';
   return { band: row.turn, route, forbidden, may_project: !forbidden && row.may_project, may_write_memory: !forbidden && row.may_write_memory, needs_correction: !forbidden && !!row.correction,
     quarantine: forbidden || row.quarantine, blocked: forbidden || !!row.hard_stop, ruling: DRIFT_RULING.cite }; }
-const api = { GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
+/* RSOC STANDING (4.9.94): the one table of result standings over the evidence dims C (the lookup or derivation completed), K (every proof
+   replayed / the source inside the drift band), S (a support proof / verbatim supporting span), R (a refutation / an equal-rank contradiction).
+   reason.js (memory and world-state answers) and derive.js (research replies) read the same table through rsocSelect. */
+const RSOC_STANDING = Object.freeze({ supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } });
+const rsocStanding = ev => rsocSelect({ C: !!ev.C, K: !!ev.K, S: !!ev.S, R: !!ev.R }, Object.keys(RSOC_STANDING).map(id => ({ id, expect: RSOC_STANDING[id] })), 0);
+const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);
