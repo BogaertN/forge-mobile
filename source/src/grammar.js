@@ -170,6 +170,9 @@ function Parser(toks, lex) {
      participial compound ("coarse-grained"), or two of these joined by and / or ("distributed and diverse"); each is one modifier of the head */
   function premods(j) { const one = k => { const r = []; if (k >= T.length) return r; for (const a of at(k, 'ADJ')) r.push({ w: T[k].w, j: k + 1, rules: [a.rule] });
       if (at(k, 'ADV').length && !at(k, 'ADJ').length && k + 1 < T.length && at(k + 1, 'ADJ').some(a => a.f === 'pos')) r.push({ w: T[k].w + ' ' + T[k + 1].w, j: k + 2, rules: ['NP-ADV-ADJ'] });
+      const vMod = x => !at(x, 'ADJ').length && at(x, 'V').some(v => v.f === 'ing' || v.f === 'pp' || v.f === 'past') && x + 1 < T.length && (at(x + 1, 'N').length || at(x + 1, 'ADJ').length); /* 4.9.91: a participle before its noun ("a rapidly rotating column", "a rotating column") */
+      if (at(k, 'ADV').length && !at(k, 'ADJ').length && vMod(k + 1)) r.push({ w: T[k].w + ' ' + T[k + 1].w, j: k + 2, rules: ['NP-ADV-PARTICIPLE'] });
+      if (k > 0 && at(k - 1, 'DET').length && vMod(k) && at(k, 'V').some(v => v.f === 'ing')) r.push({ w: T[k].w, j: k + 1, rules: ['NP-PARTICIPLE-PREMOD'] });
       if (!at(k, 'ADJ').length && /^[a-z]+-[a-z]+ed$/.test(T[k].w) && at(k, 'V').some(v => v.f === 'past' || v.f === 'pp')) r.push({ w: T[k].w, j: k + 1, rules: ['NP-COMPOUND-ADJ'] });
       return r; };
     const ptc = k => k + 1 < T.length && !at(k, 'ADJ').length && at(k, 'V').some(v => v.f === 'past' || v.f === 'pp') && (at(k + 1, 'N').length || at(k + 1, 'ADJ').length) ? [{ w: T[k].w, j: k + 1, rules: ['NP-PARTICIPLE-PREMOD'] }] : []; /* a participle joined to a modifier ("roasted, ground") modifies too */
@@ -225,7 +228,7 @@ function Parser(toks, lex) {
     for (const a of npGen(i)) {
       res.push(a);
       /* NP-OF, chained (4.9.83): "a result of saturation of the air" — each 'of' phrase may take its own 'of' phrase (right-branching) */
-      if (word(a.i) === 'of' && !a.node.pron && !a.node.pron3) (function ofs(i, depth) { const out = []; for (const b of npGen(i)) { out.push(b); if (depth < 3 && word(b.i) === 'of' && !b.node.pron && !b.node.pron3) for (const c of ofs(b.i + 1, depth + 1)) out.push(R(Object.assign({}, b.node, { of: c.node }), c.i, b.rules.concat(['NP-OF'], c.rules))); } return out; })(a.i + 1, 1).forEach(b => res.push(R(Object.assign({}, a.node, { of: b.node }), b.i, a.rules.concat(['NP-OF'], b.rules))));
+      if (word(a.i) === 'of' && !a.node.pron && !a.node.pron3) (function ofs(i, depth) { const out = []; const gen = k => { const r = npGen(k); for (const b of r.slice()) if (b.node.head && !b.node.propn && !b.node.of && at(b.i, 'PROPN').length) for (const c of npGen(b.i)) if (c.node.propn && !c.node.det && !c.node.owner) r.push(R(Object.assign({}, c.node, { appos: b.node }), c.i, b.rules.concat(['NP-APPOSITION-CLOSE'], c.rules))); return r; }; /* 4.9.91: an of-phrase may be a close apposition ("of the genus Panthera") */ for (const b of gen(i)) { out.push(b); if (depth < 3 && word(b.i) === 'of' && !b.node.pron && !b.node.pron3) for (const c of ofs(b.i + 1, depth + 1)) out.push(R(Object.assign({}, b.node, { of: c.node }), c.i, b.rules.concat(['NP-OF'], c.rules))); } return out; })(a.i + 1, 1).forEach(b => res.push(R(Object.assign({}, a.node, { of: b.node }), b.i, a.rules.concat(['NP-OF'], b.rules))));
     }
     /* NP-APPOSITION-CLOSE (4.9.79; close apposition — samānādhikaraṇa, two nominals with one referent): a common-noun phrase directly followed by a
        proper name names that person or thing ("my cousin Lorna", "the engineer Sato"): the name is the head, the common phrase its description */

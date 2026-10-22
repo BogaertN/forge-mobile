@@ -146,6 +146,7 @@
      (", which", ", and", "; " …). Each core is a sub-span of the proved sentence, so it adds no fact; the parser decides which one parses. */
   function cores(sentence, leadName) { let s0 = String(sentence || '').replace(/(^|[\s(])['‘“"]+|['’”"]+(?=[\s,.;:)]|$)/g, '$1').replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^()]*\)/g, '').replace(/\s+([,.;:])/g, '$1').replace(/\s+/g, ' ').trim(); s0 = s0.split(/(?<=[a-z0-9)][.!?])\s*(?=[A-Z])/)[0].replace(/[.!]+$/, ''); /* one sentence: captions glued to the excerpt are not the claim */
     s0 = s0.replace(/,\s+(?:among(?:st)? others|for example|for instance|in particular|in turn|for the most part)\s*,/gi, ''); /* a non-restrictive aside */
+    s0 = s0.replace(/,\s+(?:also\s+|commonly\s+|often\s+|sometimes\s+)?(?:known|called|named|termed|referred to)\s+(?:as\s+)?[^,]{1,60},/gi, ''); /* 4.9.91: a naming aside (", also known as a twister,") is another name, not the claim */
     if (leadName && /^(It|They)\s/.test(s0)) s0 = leadName.charAt(0).toUpperCase() + leadName.slice(1) + s0.replace(/^(It|They)/, ''); /* the article's own subject resolves its lead pronoun */
     s0 = s0.replace(/\b([\w'’-]+(?: [\w'’-]+){0,3}), ((?:[\w'’-]+ ){0,3}[\w'’-]+), ((?:and|or) )/g, '$1\u0001 $2\u0001 $3');
     for (let k = 0; k < 8; k++) { const s1 = s0.replace(/([\w'’-]+), (?=(?:[\w'’-]+ ){0,3}[\w'’-]+\u0001)/g, '$1\u0001 '); if (s1 === s0) break; s0 = s1; } /* 4.9.91: every comma of a list ends in the marked serial comma ("private, public, academic, business, and government") */
