@@ -201,6 +201,12 @@
       let clause = c; if (echo && hooks.reparse) { try { const lc = c.rule === 'GEN-ACTIVE-FROM-AGENT' ? R.agentCommon : R.subjCommon; const g = (lc && hooks.reparse(lowerLead(text))) || hooks.reparse(text); const norm = x => String(x || '').replace(/\s+(['’]s)\b/g, '$1').replace(/\s+,/g, ',').replace(/[.\s]+$/, '').toLowerCase(); if (g && norm(hooks.clauseText(g)) === norm(text)) clause = g; /* a common noun read in place, not as a sentence-initial name */ } catch (e) { /* keep the built clause */ } }
       out.push({ core, roles: R, clause, text, rule: c.rule, echo }); }
     return out; }
-  const api = { claimTotal, compile, queries, cores, addsNothing, rolesOf, answerClause, generate, subjectDrift, relationDrift, bestSentence, total, titleForms, BAND, DRIFT, numeralForms };
+  /* 4.9.87 (Nic 7:36 PM; RMC §8.3 θ, RSOC 0.4–0.8 band, Nic drift ruling): every meaning comparison is governed by the ONE drift table —
+     ≤0.35 project, 0.35–0.40 χ correction once then re-measured, 0.40–0.80 quarantine (traced, never cited), >0.80 hard stop */
+  const govern = eps => KM && KM.turnGovernance ? KM.turnGovernance(eps, null).route : eps <= BAND ? 'project' : 'quarantine';
+  /* χ for a source in the correction band: the admitted sources are its phase-aligned ancestors (a completed record wraps 9→1, Φ₁); the
+     corrected drift is re-measured against the same table; applied at most once (chiCorrect is non-repeatable) */
+  const correct = (eps, admitted) => { const ch = KM.chiCorrect({ eps, ancestors: (admitted || []).filter(a => Number.isFinite(a.drift)).map(a => ({ Phi: 1, eps: a.drift, mu: 1 })) }); return Object.assign(ch, { route: ch.applied ? govern(ch.eps_after) : 'quarantine' }); };
+  const api = { govern, correct, claimTotal, compile, queries, cores, addsNothing, rolesOf, answerClause, generate, subjectDrift, relationDrift, bestSentence, total, titleForms, BAND, DRIFT, numeralForms };
   if (isNode) module.exports = api; else root.KQC = api;
 })(typeof self !== 'undefined' ? self : this);
