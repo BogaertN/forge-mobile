@@ -1637,6 +1637,12 @@ function Kernel(opts) {
       if (tail.length !== 2 * n || m.shared_premises.some((x, i) => tail[2 * i][1] !== x.id || tail[2 * i + 1][1] !== x.citation || !gksIndex().some(e => e.f.id === x.id && e.f.status === 'active' && e.f.source.citation === x.citation))) return false;
       const cut = t.lastIndexOf('. ', tail[0].index); if (cut < 0) return false; m = Object.assign({}, m); delete m.shared_premises; text = t.slice(0, cut + 1); }
     if (m.qty) { try { return R.qtyCheck(m.qty, text); } catch (e) { return false; } }
+    /* 4.9.94 (d): a preempting rule is named last ("The rule “S” outranks the rule “G”."); re-verified on its own: the defeated proof replays in the
+       same world and the specificity reading, re-run from the world's rules over the two proofs, selects the same winner */
+    const pe = m.derivation && m.derivation.preempted; if (pe) { const t = String(text), tail = ' The rule “' + pe.specific_text + '” outranks the rule “' + pe.general_text + '”.';
+      if (!t.endsWith(tail) || !pe.defeated || !R.checkProof(m.world, pe.defeated).ok) return false; const win = pe.winner === 'support' ? m.proofs.support : m.proofs.refutation; if (!win) return false;
+      const re = pe.winner === 'support' ? R.specificity(m.world, win, pe.defeated) : R.specificity(m.world, pe.defeated, win);
+      if (!re || re.winner !== pe.winner || re.specific_rule !== pe.specific_rule || re.general_rule !== pe.general_rule) return false; text = t.slice(0, t.length - tail.length); }
     if (m.wh) return whReverify(m, text); if (m.why) return whyReverify(m, text); if (m.conj) return conjReverify(m, text); try { const syms = [m.query.predicate].concat(m.query.args).filter(x => /_/.test(x) && !/_(?:than|v)$/.test(x) && !(WR.relInfo(x) && WR.relInfo(x).row.phrase)); /* a declared relation phrase re-parses by itself (M3) */
       const parse = t => { let u = t; for (const x of syms) u = u.split(x.replace(/_/g, ' ')).join(x); const at = R.parseAtomic(u, false, new Set([m.query.predicate])); if (at) R.alignVerbs(Object.assign({}, m.query), [at]); return at; };
       const said = (String(text).match(/“([^”]+)”/g) || []).map(q => parse(q.slice(1, -1))); if (!said.length || said.some(a => !a)) return false;

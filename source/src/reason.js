@@ -738,7 +738,27 @@ function deriveWorld(world) {
   const support = proofFor(world, supportEntry, steps), refutation = proofFor(world, refuteEntry, steps);
   const proofLimited = closureComplete && ((supportEntry && !support) || (refuteEntry && !refutation));
   const complete = closureComplete && !proofLimited;
-  return { complete, failure: complete ? null : budget.exhausted ? 'WORK_LIMIT' : !stable ? 'ROUND_LIMIT' : 'PROOF_LIMIT', work: budget.work, rounds: Math.min(rounds, world.limits.MAX_ROUNDS), derivations, closure_size: entries.size, support, refutation };
+  const out = { complete, failure: complete ? null : budget.exhausted ? 'WORK_LIMIT' : !stable ? 'ROUND_LIMIT' : 'PROOF_LIMIT', work: budget.work, rounds: Math.min(rounds, world.limits.MAX_ROUNDS), derivations, closure_size: entries.size, support, refutation };
+  const pre = complete && support && refutation ? specificity(world, support, refutation) : null;
+  if (pre && pre.winner) { out.preempted = pre; if (pre.winner === 'support') out.refutation = null; else out.support = null; }
+  return out;
+}
+/* 4.9.94 (d) SPECIFIC OVER GENERAL in the world model (Touretzky inferential distance; Poole/Simari–Loui specificity; RSOC §3.1–3.3 ⧙):
+   when the support and the refutation both close, and each ends in a universal over one class ("every penguin is not winged" against "every
+   bird is winged"), the class order is read from the stated universal subclass rules alone (every A is a B: an edge A → B, followed
+   transitively). The deciding rule over the strictly narrower class preempts the other; the calculus selects the reading over two
+   evidence dims (P_s the support's class is strictly narrower, P_r the refutation's is) and an equal or unrelated pair stays conflicted.
+   Stated facts about one individual never preempt each other (both are equally specific). The preempted proof is kept in the trace. */
+function specificity(world, support, refutation) {
+  const rules = new Map(world.rules.map(r => [r.id, r])), unary = r => r && r.body.length === 1 && r.body[0].args.length === 1 && r.head.args.length === 1 && r.body[0].polarity === 'pos' && r.body[0].args[0] === r.head.args[0];
+  const deciding = pf => { const st = pf.steps[pf.steps.length - 1], r = st && st.kind === 'rule' && rules.get(st.rule_id); return unary(r) ? { rule: r.id, cls: r.body[0].predicate } : null; };
+  const s = deciding(support), r = deciding(refutation); if (!s || !r || s.cls === r.cls) return null;
+  const up = new Map(); for (const x of world.rules) if (unary(x) && x.head.polarity === 'pos') { if (!up.has(x.body[0].predicate)) up.set(x.body[0].predicate, new Set()); up.get(x.body[0].predicate).add(x.head.predicate); }
+  const below = (a, b) => { const seen = new Set([a]), st = [a]; while (st.length) { for (const m of up.get(st.pop()) || []) { if (m === b) return true; if (!seen.has(m)) { seen.add(m); st.push(m); } } } return false; };
+  const ev = { Ps: below(s.cls, r.cls) && !below(r.cls, s.cls), Pr: below(r.cls, s.cls) && !below(s.cls, r.cls) };
+  const KM = isNode ? require('./kmath.js') : root.KMath, L = KM.rsocSelect(ev, [{ id: 'support', expect: { Ps: 1, Pr: 0 } }, { id: 'refutation', expect: { Ps: 0, Pr: 1 } }, { id: 'equal', expect: { Ps: 0, Pr: 0 } }], 0);
+  if (L.selected === 'equal') return null; const w = L.selected === 'support';
+  return { winner: L.selected, by: 'specificity', specific: (w ? s : r).cls, general: (w ? r : s).cls, specific_rule: (w ? s : r).rule, general_rule: (w ? r : s).rule, defeated: copy(w ? refutation : support), rsoc: { selected: L.selected, candidates: L.candidates } };
 }
 
 function replayProofCore(world, proof) {
@@ -859,6 +879,8 @@ function rmcSelect(world, derivation, status, checks) {
   return Object.assign({ manifest_id: digest('rmc-world-manifest', body) }, body);
 }
 
+/* the user's own sentence that states a rule (its source span), for naming a preempting rule */
+const ruleText = (raw, world, id) => { const r = world.rules.find(x => x.id === id), sp = r && r.source_span; return sp ? clean(String(raw).slice(sp.start, sp.end)).replace(/[.!?]+$/, '').replace(/^(?:Every|Each|All|No|Any|An?)\b/, w => w.toLowerCase()) : id; };
 function buildAnswer(raw, candidate, world, derivation) {
   const supportCheck = derivation.support ? checkProof(world, derivation.support) : { ok: true, code: 'NO_SUPPORT_PROOF' };
   const refutationCheck = derivation.refutation ? checkProof(world, derivation.refutation) : { ok: true, code: 'NO_REFUTATION_PROOF' };
@@ -886,7 +908,7 @@ function buildAnswer(raw, candidate, world, derivation) {
     kind: 'world_answer', schema: SCHEMA, status, query: copy(world.query.atom), query_text: queryText, opposite_text: oppositeText,
     interpretation: { candidate_id: candidate.candidate_id, parser_version: candidate.parser_version, sources: copy(candidate.sources), unresolved_symbols: [] },
     world: copy(world),
-    derivation: { complete: derivation.complete, failure: derivation.failure, work: derivation.work, rounds: derivation.rounds, derivations: derivation.derivations, closure_size: derivation.closure_size },
+    derivation: { preempted: derivation.preempted ? { by: derivation.preempted.by, specific_text: ruleText(raw, world, derivation.preempted.specific_rule), general_text: ruleText(raw, world, derivation.preempted.general_rule), specific: derivation.preempted.specific, general: derivation.preempted.general, specific_rule: derivation.preempted.specific_rule, general_rule: derivation.preempted.general_rule, winner: derivation.preempted.winner, defeated: copy(derivation.preempted.defeated) } : null, complete: derivation.complete, failure: derivation.failure, work: derivation.work, rounds: derivation.rounds, derivations: derivation.derivations, closure_size: derivation.closure_size },
     proofs: { support: derivation.support, refutation: derivation.refutation }, checker: checks, rmc, rsoc, envelope: envelopeBody
   };
 }
@@ -1116,6 +1138,6 @@ function evaluate0(raw, opts) {
   return { handled: true, outcome: 'UNSUPPORTED_PRESERVED', material: limitationMaterial(raw, f, mergedLimits(opts.limits)), frame: 'FR.WORLD.MODEL', act: 'question', rules: [{ id: 'WM-LANGUAGE-STRUCTURE-LIMIT', doc: DOC + ' I2', note: f.code + '; unknown_word=false' }], uncertainty: 'unsupported_structure', reasoningCandidates: [] };
 }
 
-const api = { SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, qtyCheck, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
+const api = { specificity, ruleText, SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, qtyCheck, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
 if (isNode) module.exports = api; else root.KReason = api;
 })(typeof self !== 'undefined' ? self : this);
