@@ -114,6 +114,7 @@ function analyse(tok, idx, lex) {
   if (cap && idx > 0 && !closed.length) return [{ tag: 'PROPN', lemma: tok.orig, rule: 'TAG-PROPN-CAPITAL-APAVADA' }]; // specific (capitalised, non-initial) overrides general lexical tagging
   if (cap && idx > 0 && !closed.length && lex.isName(w)) return [{ tag: 'PROPN', lemma: tok.orig, rule: 'TAG-PROPN-CAPITAL-KNOWN' }];
   for (const m of lemmatize(w, lex)) { const T = { n: 'N', v: 'V', a: 'ADJ', r: 'ADV' }[m.pos]; if (T === 'ADV' && closed.includes('ADV')) continue; an.push({ tag: T, lemma: m.lemma, f: m.f, rule: m.rule }); }
+  if (cap && idx === 0 && !closed.length && lex.isProper && lex.isProper(w)) return [{ tag: 'PROPN', lemma: tok.orig, rule: 'TAG-PROPN-LEXICON' }]; // 4.9.92: a word the lexicon knows only as a name stays a name at the start of a sentence ("Lena", "Jupiter")
   if (cap && idx === 0 && !closed.length && an.length && lex.coreNoun && !lex.coreNoun(w)) an.push({ tag: 'PROPN', lemma: tok.orig, rule: 'TAG-PROPN-INITIAL-ALT' }); // initial capital: name reading kept open unless a core common noun
   if (!an.length && cap) an.push({ tag: 'PROPN', lemma: tok.orig, rule: 'TAG-PROPN-CAPITAL' });
   if (!an.length && ctrl.length) an.push({ tag: 'N', lemma: w, f: 'sg', rule: 'TAG-CONTROLLED-TERM' });
@@ -250,7 +251,17 @@ function Parser(toks, lex) {
       if (at(v.i, 'PREP').length && !np(v.i + 1, true).length) withRel.push(R(Object.assign({}, a.node, { relObj: Object.assign(rc, { gap: 'adj', gapPrep: word(v.i) }) }), v.i + 1, a.rules.concat(['G-REL-OBJ-GAP-STRANDED-PREP'], s2.rules, v.rules)));
       else withRel.push(R(Object.assign({}, a.node, { relObj: Object.assign(rc, { gap: 'karma' }) }), v.i, a.rules.concat(['G-REL-OBJ-GAP'], s2.rules, v.rules))); }
     const all = res.concat(withRel);
-    const co = []; for (const a of all) { const cw = word(a.i); if (['and', 'or'].includes(cw)) { for (const b of np(a.i + 1, noRel)) if (!b.node.conj) co.push(R({ conj: [a.node, b.node], op: cw, plural: cw === 'and' }, b.i, a.rules.concat(['G-COORD-NP'], b.rules))); }
+    const co = []; for (const a of all) { const cw = word(a.i);
+      /* NP-ELIDED-HEAD after a comma: "the fifth planet from the Sun, and the largest in the Solar System" */
+      if (cw === ',' && ['and', 'or'].includes(word(a.i + 1)) && a.node.head && !a.node.conj && word(a.i + 2) === 'the' && at(a.i + 3, 'ADJ').some(x => x.f === 'sup') && !at(a.i + 4, 'N').length) { const op = word(a.i + 1), el = { det: 'the', head: [T[a.i + 3].w], elidedHead: a.node.head[a.node.head.length - 1] }, j = a.i + 4;
+        co.push(R({ conj: [a.node, el], op, plural: op === 'and' }, j, a.rules.concat(['G-COORD-NP', 'NP-ELIDED-HEAD'])));
+        if (at(j, 'PREP').length && !['as', 'than'].includes(word(j))) for (const b of npGen(j + 1)) co.push(R({ conj: [a.node, Object.assign({}, el, { pp: { prep: word(j), np: b.node } })], op, plural: op === 'and' }, b.i, a.rules.concat(['G-COORD-NP', 'NP-ELIDED-HEAD', 'NP-PP-POSTMOD'], b.rules))); }
+      if (['and', 'or'].includes(cw)) { for (const b of np(a.i + 1, noRel)) if (!b.node.conj) co.push(R({ conj: [a.node, b.node], op: cw, plural: cw === 'and' }, b.i, a.rules.concat(['G-COORD-NP'], b.rules)));
+        /* NP-ELIDED-HEAD (4.9.92; anuvṛtti — a word carried over from the earlier member): in a coordination, "the <superlative>" with no noun of its
+           own takes the head of the first conjunct ("the fifth planet from the Sun and the largest in the Solar System" = the largest planet) */
+        if (a.node.head && !a.node.conj && word(a.i + 1) === 'the' && at(a.i + 2, 'ADJ').some(x => x.f === 'sup') && !at(a.i + 3, 'N').length) { const el = { det: 'the', head: [T[a.i + 2].w], elidedHead: a.node.head[a.node.head.length - 1] }; const j = a.i + 3;
+          co.push(R({ conj: [a.node, el], op: cw, plural: cw === 'and' }, j, a.rules.concat(['G-COORD-NP', 'NP-ELIDED-HEAD'])));
+          if (at(j, 'PREP').length && !['as', 'than'].includes(word(j))) for (const b of npGen(j + 1)) co.push(R({ conj: [a.node, Object.assign({}, el, { pp: { prep: word(j), np: b.node } })], op: cw, plural: cw === 'and' }, b.i, a.rules.concat(['G-COORD-NP', 'NP-ELIDED-HEAD', 'NP-PP-POSTMOD'], b.rules))); } }
       else if (cw === ',' && !a.node.conj) for (const b of np(a.i + 1, noRel)) if (b.node.conj && !b.node.listed) {
         /* NP-APPOSITIVE-COUNT (4.9.81): a counted plural common noun followed, after a comma, by a list of exactly that many names is one phrase — the list
            names its members ("two sisters, Ola and Eva"); it is not a third and fourth conjunct */

@@ -183,12 +183,33 @@ function subjectMatch(questionEnt, src, answerEnt) { const q = words(questionEnt
   const a = answerEnt == null ? [] : words(String(answerEnt).replace(/^probably\s+/i, ''));
   for (const [basis, c] of cands) if (namesAnswer(a, c)) return Object.assign(res, { ok: true, via: 'answer', basis, limitation: null, answer_entity: a.join(' '), primary_entity: c.join(' ') });
   return res; }
-/* DESCRIBED BY (4.9.78): the first sentence whose grammatical subject X is followed by a copula, "the" and then the description's words in
-   order (contiguous, ordinals and numbers exact); returns { answer: X, span } or null. A description of one word is not a description */
+/* DESCRIBED BY (4.9.78; 4.9.92 superlatives): the first sentence that states the description of a named thing. Three readings of one copular
+   frame (Pāṇini samānādhikaraṇa: the name and the description share one referent):
+     X is the <description>                                     ("Venus is the second planet from the Sun")
+     X is the <ordinal> N … and the <superlative> (PP)          (an elided head: "Jupiter is the fifth planet from the Sun and the largest …")
+     The <superlative> N (…) is X                               (inverted: "The highest mountain on Earth is Mount Everest")
+   A superlative or ordinal and its head noun are the core; any further word of the description must appear in the matched noun phrase.
+   Returns { answer: X, span } or null. A description of one word is not a description */
+const SUPW = w => /^(most|least)$/.test(w) || /[a-z]{2,}est$/.test(w) || ORDINAL.test(w) || !!W2ORD[w];
+const plur = c => [c, c + 's', c + 'es', c.replace(/y$/, 'ies'), c.replace(/(?:f|fe)$/, 'ves')];
 function describedBy(text, descr) { const s = String(text || ''), d = words(descr); if (d.length < 2) return null;
-  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), ws = words(t), c = leadClause(t); if (!c || !c.subject) continue;
-    for (let i = 0; i + d.length + 2 <= ws.length; i++) if (/^(is|was|are|were)$/.test(ws[i]) && ws[i + 1] === 'the' && d.every((w, j) => ws[i + 2 + j] === w)) return { answer: c.subject, span: t }; }
+  const core = SUPW(d[0]) && d[0] !== 'most' ? 1 : SUPW(d[0]) ? 2 : 0; const cls = core && d[core] ? d[core] : null, rest = core ? d.slice(core + 1) : [];
+  const has = (ws, w) => ws.some(v => same(v, w)); const isCls = w => !!cls && plur(cls).includes(w);
+  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), ws = words(t), c = leadClause(t);
+    if (c && c.subject) for (let i = 0; i + d.length + 2 <= ws.length; i++) if (/^(is|was|are|were)$/.test(ws[i]) && ws[i + 1] === 'the' && d.every((w, j) => ws[i + 2 + j] === w)) return { answer: c.subject, span: t };
+    if (!cls) continue; const cop = ws.findIndex(w => /^(is|was|are|were)$/.test(w)); if (cop < 1) continue;
+    /* elided head: the superlative in a later conjunct of the predicate, its noun in an earlier one */
+    if (c && c.subject) for (let j = cop + 1; j + core < ws.length; j++) if (ws[j] === 'the' && d.slice(0, core).every((w, k) => ws[j + 1 + k] === w)) { const nx = ws[j + 1 + core];
+      const pred = ws.slice(cop + 1, j + 8); if ((nx === undefined || !/^[a-z]+$/.test(nx) || /^(in|of|on|among|by|known|ever|yet|and|to|from|within)$/.test(nx)) && ws.slice(cop + 1, j).some(isCls) && ws.slice(cop + 1, j).includes('and') && rest.every(w => has(pred, w))) return { answer: c.subject, span: t }; }
+    /* inverted: "The <sup> … <cls> … is <Name>" — the description is the subject, the name the complement */
+    if (ws[0] === 'the' && d.slice(0, core).every((w, k) => ws[1 + k] === w) && ws.slice(1 + core, cop).some(isCls) && rest.every(w => has(ws.slice(1, cop), w))) { const m = /\b(?:is|was|are|were)\s+((?:the\s+)?[\p{Lu}][\p{L}\p{N}'’-]*(?:\s+(?:of\s+(?:the\s+)?)?[\p{Lu}][\p{L}\p{N}'’-]*)*)/u.exec(t); if (m) return { answer: words(m[1]).filter((w, k) => !(k === 0 && w === 'the')).join(' '), span: t }; } }
   return null; }
+/* MEMBERS (4.9.92): the names a class article lists as its members — a run of capitalised names in apposition to the class noun's plural
+   ("the giant planets Jupiter, Saturn, Uranus, and Neptune"); a superlative over the class is then looked up in each member's lead */
+function membersOf(text, cls) { const s = String(text || ''), P = new Set(plur(String(cls || '').toLowerCase()).slice(1)), out = []; const toks = s.match(/[\p{L}\p{N}'’.-]+|[,;:()]/gu) || [];
+  for (let i = 0; i < toks.length; i++) { if (!P.has(toks[i].toLowerCase())) continue; let j = i + 1, cur = []; if (toks[j] === ':') j++; const flush = () => { if (cur.length) out.push(cur.join(' ').replace(/\.$/, '')); cur = []; };
+    for (; j < toks.length; j++) { const w = toks[j]; if (/^\p{Lu}/u.test(w)) { cur.push(w); if (/\.$/.test(w)) break; continue; } if (w === ',' || w === 'and' || w === 'or') { flush(); continue; } break; } flush(); }
+  return [...new Set(out)].slice(0, 16); }
 /* a verbatim span (one sentence) naming both the question subject and the answer */
 function bothSpan(excerpt, questionEnt, answerEnt) { const s = String(excerpt || ''), q = words(questionEnt), a = words(String(answerEnt || '').replace(/^probably\s+/i, '')); if (!q.length || !a.length) return null;
   for (const [x, y] of sentences(s)) { const t = s.slice(x, y), ws = words(t); if (q.every(w => ws.some(v => same(v, w))) && a.every(w => ws.some(v => same(v, w)))) return t; } return null; }
@@ -243,6 +264,6 @@ function reportHTML(pv, esc) { if (!pv) return ''; const e = esc || (s => String
     pv.sources.map(s => '<li class="tier-' + e(s.tier) + (s.tier === 'open_fallback' ? ' fallback' : '') + '">' + e(s.label) + ' <span class="pill' + (s.tier === 'open_fallback' ? ' warn' : '') + '">' + e(s.tier_label) + '</span> ' +
       (s.supported ? '<span class="pill ok">supported</span><div class="small">verbatim span: “' + e(s.span) + '”</div>' : '<span class="pill bad">unsupported</span><div class="small">no verbatim span with the answer\'s key content (' + e(String(s.reason).replace(/_/g, ' ')) + ')</div>') + '</li>').join('') + '</ol>' +
     ((pv.rejected || []).length ? '<div class="small">set aside (' + e(pv.rejected[0].limitation) + '): ' + pv.rejected.map(r => e(r.name + ': ' + r.title) + ' — about “' + e(r.primary_entity) + '”, not “' + e(r.question_entity) + '”').join('; ') + '</div>' : '') + '</div>'; }
-const api = { numeralForms, setLexicon, attrOf, describedBy, SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
+const api = { numeralForms, setLexicon, attrOf, describedBy, membersOf, SCHEMA, TIERS, TIER_OF_RANK, TIER_LABEL, TIER_SHORT, ORIGIN, tierOf, egressOf, egressLabel, boundaryLabels, summaryText, questionEntity, keyContent, normKey, covers, extractSpan, checkSpan, joinable, primaryEntity, leadSubject, leadClause, definitional, partiesOf, subjectMatch, qualifies, bothSpan, originOf, agreement, report, provenance, sealedCounts, reportHTML, _sentences: sentences };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KProv = api;
 })(typeof self !== 'undefined' ? self : this);
