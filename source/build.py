@@ -73,6 +73,8 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
         js2 = re.sub(r'(?m)^(.*?) /\* [^*\n]{3,}? \*/', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`') else k.group(0), js)
         if js2 == js: break
         js = js2
+    # a note that opens after code and runs over several lines (' /* …\n… */') is dropped the same way (quote-balanced prefix; no '*/' inside)
+    js = re.sub(r'(?m)^(.*?) /\* (?:[^*]|\*(?!/))*?\n(?:[^*]|\*(?!/))*?\*/', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`') else k.group(0), js)
     # trailing ' // note' line comments likewise (prefix must be quote-balanced and have an even '/' count, so no string or regex literal is cut)
     js = re.sub(r'(?m)^(.*?) // [^\n]*$', lambda k: k.group(1) if all(k.group(1).count(c) % 2 == 0 for c in '\'"`/') else k.group(0), js)
     js = re.sub(r'(?m)^[ \t]*// [^\n]*\n', '', js)

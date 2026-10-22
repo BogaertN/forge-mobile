@@ -446,11 +446,7 @@ function justPlan(m) { const L = xs => xs.length > 1 ? { coord: 'and', items: xs
   if (m.state === 'none' || !(m.premises || []).length) return [S(C('record', { karta: I, karma: N('premise', { det: 'no' }), roles: { tadartha: target }, tense: 'past' }))];
   const base = m.stated ? [S(C('state', { karta: YOU, karma: target, tense: 'past' }))] : [S(C('derive', { karta: I, karma: target, roles: { apadana: L(m.premises) }, tense: 'past' }))];
   return base.concat(m.rules ? [S(C('use', { karta: pr('it'), karma: N('rule', { cnt: m.rules }) }))] : [], m.state === 'withdrawn' ? [S(C('keep', { karta: I, karma: pr('it'), pol: 'neg' }))] : []); }
-/* 4.9.87 (Nic 7:36 PM; Pāṇini kāraka + RSOC §3.1–3.3 + EMN): a research reply is realized from roles. The source is the kartā of a
-   reporting verb and the claim, generated in Forge's own words, is its that-clause; the document noun follows the archive class (an article,
-   a paper, a record, an entry); the link is the source's sthāna ("It is at …"). Which reply is given is decided by the same RSOC ⟁/⧙
-   calculus as the world model's results, over the research evidence's own dims: K the lead lies inside the drift band, S a span of the lead
-   states the asked relation, R an equal-rank source contradicts it (EMN: rank decides, never headcount), C the lookup finished. */
+/* 4.9.87 (Nic 7:36 PM; Pāṇini kāraka + RSOC §3.1–3.3 + EMN): a research reply is realized from roles. The source is the kartā of a reporting verb and the claim, generated in Forge's own words, is its that-clause; the document noun follows the archive class (an article, a paper, a record, an entry); the link is the source's sthāna ("It is at …"). Which reply is given is decided by the same RSOC ⟁/⧙ calculus as the world model's results, over the research evidence's own dims: K the lead lies inside the drift band, S a span of the lead states the asked relation, R an equal-rank source contradicts it (EMN: rank decides, never headcount), C the lookup finished. */
 const DOC_N = { peer_reviewed: 'paper', primary_authority: 'record', structured_reference: 'entry', encyclopedia: 'article' };
 const docNP = (title, archive, cls) => { const a = archive || 'Wikipedia', k = String(cls || (a === 'Wikipedia' ? 'encyclopedia' : '')).split(',')[0];
   return a === 'Wikipedia' ? N('article', { det: 'the', adj: ['Wikipedia'], app: Mn(title) }) : N(DOC_N[k] || 'record', { det: 'the', app: Mn(title + ' (' + a + ')') }); };
@@ -472,8 +468,7 @@ function researchPlan(m) { const st = researchStanding(m).selected, lead = docNP
   if (st === 'related') return [noneS(m, 'directly'), S(C('be', { karta: N('source', { det: 'the', adj: ['best', 'related'] }), pred: lead }))].concat(linkS(m.source_url));
   if (st === 'contested') return [S(C('disagree', { karta: { coord: 'and', items: [lead, docNP(m.source2, m.archive2, m.cls2)] } })), S(C('outrank', { karta: N('source', { det: 'no' }), karma: N('source', { det: 'the', adj: ['other'] }) }))];
   const g = m.generated && !m.unsupported ? m.generated : null;
-  /* a claim the grammar reads back as an embedded clause is reported as the source's that-clause; one it reads only as a sentence of its own
-     (a coordinated or relative tail) is said as Forge's sentence, then attributed: the source is the predicate of a copular clause */
+  /* a claim the grammar reads back as an embedded clause is reported as the source's that-clause; one it reads only as a sentence of its own (a coordinated or relative tail) is said as Forge's sentence, then attributed: the source is the predicate of a copular clause */
   const gd = g && docNP(g.source, g.archive, g.source === m.source ? m.cls : null), emb = g && (t => { try { return !!(PLAN_ENV.reparseEmbedded && PLAN_ENV.reparseEmbedded(t)); } catch (e) { return false; } })(G.clauseText(g.clause, 'kernel'));
   return verdictS(m).concat(g ? (emb ? [reportS(gd, UC(g.clause))] : [Object.assign(clauseSentence(g.clause), { cap: true }), S(C('be', { karta: N('source', { det: 'the' }), pred: gd }))]) : m.answer ? [S(C('support', { karta: lead, karma: pr('it') }))] : [(r => S(C(r[0], { karta: lead, karma: N(r[1], { det: 'the' }) })))(REL_N[m.asked] || ['give', 'answer'])] /* the passage that states it is sealed in the vault; the reply names the source and the relation it gives, never quotes it */,
     m.conflict && m.excerpt2 && !g ? [S(C('disagree', { karta: docNP(m.source2, m.archive2, m.cls2) })), S(C('outrank', { karta: N('source', { det: 'the', adj: ['first'] }), karma: pr('it') }))] : [],

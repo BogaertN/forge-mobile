@@ -220,8 +220,7 @@
               if (!ok && route === 'correct') { corr.push(e); return false; } /* 4.9.87: the correction band waits for χ against the admitted sources */ /* an answer-entity source (ruling 11:15) with a verbatim span naming both */
               if (!ok) { subjectRejected.push(e); rtrace.candidates.push({ title: clean(e.title).slice(0, 120), archive: e.archive || 'wikipedia', status: 'rejected', reason: 'ABOVE_DRIFT_BAND', band: route, drift: d, subject_drift: sd.drift, via: sd.via, question_entity: qEnt }); } else if (sd.resolved) rtrace.resolved_entity = sd.resolved; return ok; };
             const corr = []; arcEv = arcEv.filter(keep); acq.evidence = acq.evidence.filter(keep);
-            /* χ (phase 6, once): a source in the correction band is corrected toward the admitted sources and re-measured; admitted only if it
-               now projects (its measured drift still orders it); otherwise quarantined like any source above the band */
+            /* χ (phase 6, once): a source in the correction band is corrected toward the admitted sources and re-measured; admitted only if it now projects (its measured drift still orders it); otherwise quarantined like any source above the band */
             for (const e of corr) { const ch = QC.correct(e.drift, arcEv.concat(acq.evidence)); e.chi = { applied: ch.applied, eps_after: ch.eps_after, route: ch.route, reason: ch.reason || null };
               if (ch.route === 'project') (e.archive && e.archive !== 'wikipedia' ? arcEv : acq.evidence).push(e);
               else { subjectRejected.push(e); rtrace.candidates.push({ title: clean(e.title).slice(0, 120), archive: e.archive || 'wikipedia', status: 'rejected', reason: 'ABOVE_DRIFT_BAND', band: 'correct→' + ch.route, drift: e.drift, chi: e.chi, question_entity: qEnt }); } }
