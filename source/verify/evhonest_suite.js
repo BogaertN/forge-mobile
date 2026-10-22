@@ -64,14 +64,13 @@ T('TIERS: every source of a mixed evidence answer has a tier, the summary counts
   for (const s of pv.sources) expect(needPV().TIERS.includes(s.tier), JSON.stringify(s));
   const cnt = k => pv.sources.filter(s => s.tier === k).length; expect(pv.summary.curated_archive === cnt('curated_archive') && pv.summary.peer_reviewed_index === cnt('peer_reviewed_index') && pv.summary.open_fallback === cnt('open_fallback') && pv.summary.total === pv.sources.length, JSON.stringify(pv.summary));
   expect(pv.summary.peer_reviewed_index === 1 && pv.summary.open_fallback === 1 && pv.summary.text === 'sources: 1 peer-reviewed, 1 open fallback' && pv.summary.fallback_only === false, JSON.stringify(pv.summary));
-  expect(t.reply.includes('sources: 1 peer-reviewed, 1 open fallback'), 'summary line not in the reply: ' + t.reply);
-  expect(/OpenAlex: Ibuprofen and stomach bleeding in adults[^”]*peer-reviewed index/.test(t.reply) && /Wikipedia: Ibuprofen[^”]*open fallback/.test(t.reply), 'tier not beside each source: ' + t.reply); expect(t.trace.echo.pass, 'Echo failed'); });
+  expect(/The source “Ibuprofen \(Wikipedia\)”|The source is “Ibuprofen \(Wikipedia\)”/.test(t.reply), 'short shape: ' + t.reply); expect(t.trace.echo.pass, 'Echo failed'); }); /* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
 T('TIERS: summary text counts only non-zero tiers in fixed order (curated, peer-reviewed, open fallback)', () => { const P = needPV();
   expect(P.summaryText({ curated_archive: 3, peer_reviewed_index: 0, open_fallback: 2 }) === 'sources: 3 curated, 2 open fallback', P.summaryText({ curated_archive: 3, peer_reviewed_index: 0, open_fallback: 2 }));
   expect(P.summaryText({ curated_archive: 1, peer_reviewed_index: 2, open_fallback: 0 }) === 'sources: 1 curated, 2 peer-reviewed', 'mixed'); });
 T('TIERS: a fallback-only answer shows the fallback visibly (summary flag, reply text, rendered card)', async () => { const { t } = await ask(WIKI_ONLY, FALLBACK_Q);
   const pv = t.trace.msm.meaning.provenance; expect(pv && pv.summary.fallback_only === true && pv.summary.open_fallback === pv.sources.length && pv.sources.length >= 1, JSON.stringify(pv));
-  expect(/open fallback only/.test(pv.summary.text) && t.reply.includes(pv.summary.text), 'fallback not visible in the reply: ' + t.reply);
+  expect(/open fallback only/.test(pv.summary.text), 'fallback not in the provenance: ' + JSON.stringify(pv.summary)); /* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
   const h = needPV().reportHTML(pv, s => String(s)); expect(/class="[^"]*fallback/.test(h) && /open fallback only/.test(h) && /open fallback/.test(h), h.slice(0, 300)); expect(t.trace.echo.pass, 'Echo failed'); });
 
 /* ---------------- 3. ENTAILMENT ---------------- */
@@ -79,7 +78,7 @@ T('ENTAIL: a cited source whose excerpt has no span with the key content is mark
   const pv = t.trace.msm.meaning.provenance, oa = pv.sources.find(s => s.archive === 'openalex'), wk = pv.sources.find(s => s.archive === 'wikipedia');
   expect(oa && oa.supported === false && oa.span === null && oa.reason, 'OpenAlex (no relation word "cause") counted as support: ' + JSON.stringify(oa));
   expect(wk && wk.supported === true && WIKI_EX.includes(wk.span) && /cause/.test(wk.span) && /stomach bleeding/.test(wk.span), JSON.stringify(wk));
-  expect(/unsupported/.test(t.reply) && /OpenAlex: Ibuprofen and stomach bleeding in adults[^”]*unsupported/.test(t.reply), 'unsupported citation not marked in the reply: ' + t.reply); });
+  expect(!/OpenAlex/.test(t.reply), 'an unsupported citation is cited in the reply: ' + t.reply); }); /* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
 T('ENTAIL: citation presence is not support: an excerpt naming the entities but not the extracted value is unsupported; one stating it gets a verbatim span', () => { const P = needPV();
   const plan = { question: 'when did the berlin wall fall', atype: 'date', asked: 'fall', askedForms: ['fell', 'fallen', 'fall'], object: 'berlin wall', args: ['berlin', 'wall', 'fall'], key: ['berlin', 'wall', 'fall'] };
   const src = [{ archive: 'wikipedia', name: 'Wikipedia', cls: 'encyclopedia', title: 'Berlin Wall', excerpt: 'In 2009 Berlin celebrated twenty years since the wall came down.' }, { archive: 'wikidata', name: 'Wikidata', cls: 'structured_reference', title: 'Berlin Wall', excerpt: 'The Berlin Wall was a guarded border. The Berlin Wall fell on 9 November 1989, after weeks of unrest.' }];

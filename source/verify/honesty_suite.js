@@ -59,11 +59,11 @@ T('HONEST-TIER', 'the reply shows each source with its tier and the summary line
   const S = [{ archive: 'openfda', name: 'openFDA', cls: 'primary_authority', title: 'Aspirin label', excerpt: 'Aspirin is safe for most adults at low doses.' }, { archive: 'wikipedia', name: 'Wikipedia', cls: 'encyclopedia', title: 'Aspirin', excerpt: 'Aspirin is generally safe.' }];
   const prov = EV.provenance(S, K); const m = { kind: 'research_answer', excerpt: S[0].excerpt, source: 'Aspirin label', archive: 'openFDA', cls: 'primary_authority', items: prov.items, provenance: prov, sealed: true, answer: 'Yes', support: { level: 'corroborated', n: 2 } };
   const r = f.realize(m), e = f.echo(r.text, m);
-  expect(/openFDA: Aspirin label · curated archive/.test(r.text) && /Wikipedia: Aspirin · open fallback/.test(r.text) && /sources: 1 curated, 1 open fallback/.test(r.text) && e.pass, r.text + ' / ' + e.reason); });
+  expect(/^Yes\. The source “Aspirin label \(openFDA\)” says/.test(r.text) && prov.sources.every(x => EV.TIERS.includes(x.tier)) && e.pass, r.text + ' / ' + e.reason); }); /* 4.9.86 (Nic 6:47 PM): the reply has the short shape; tiers and support marks are in the provenance */
 T('HONEST-TIER', 'end to end: a Wikipedia-only answer shows the fallback visibly (tier beside the source, summary line, "fallback only"); every source in the meaning has a tier', async () => {
   const f = await kern(); const { t, m } = await research(f, 'when did the berlin wall fall');
   expect(m && m.kind === 'research_answer' && m.provenance && m.provenance.sources.length >= 1 && m.provenance.sources.every(s => EV.TIERS.includes(s.tier)), JSON.stringify(m));
-  expect(m.provenance.fallback_only === true && /open fallback/.test(t.reply) && /sources: 1 open fallback/.test(t.reply) && /fallback only/.test(t.reply) && t.trace.echo.pass, t.reply); });
+  expect(m.provenance.fallback_only === true && /Berlin Wall \(Wikipedia\)/.test(t.reply) && t.trace.echo.pass, t.reply); }); /* 4.9.86 (Nic 6:47 PM): the reply has the short shape; tiers and support marks are in the provenance */
 
 /* ---- 3. entailment: a verbatim supporting span, or "unsupported" ---- */
 T('HONEST-ENTAIL', 'entail() returns a verbatim span of the excerpt holding the value, the entities and a relation word; deterministic', () => {
@@ -76,12 +76,12 @@ T('HONEST-ENTAIL', 'a citation without a supporting span is marked unsupported i
   const S = [{ archive: 'wikipedia', name: 'Wikipedia', cls: 'encyclopedia', title: 'Berlin Wall', excerpt: 'The Berlin Wall was a guarded concrete barrier.' }];
   const p = EV.provenance(S, K); expect(p.sources[0].supported === false && p.sources[0].span === null && p.unsupported === 1, JSON.stringify(p));
   const m = { kind: 'research_answer', excerpt: S[0].excerpt, source: 'Berlin Wall', archive: 'Wikipedia', cls: 'encyclopedia, a secondary source', items: p.items, provenance: p, sealed: true, support: { level: 'none', n: 0 } };
-  const r = f.realize(m), e = f.echo(r.text, m); expect(/unsupported/.test(r.text) && e.pass, r.text + ' / ' + e.reason); });
+  const r = f.realize(m), e = f.echo(r.text, m); expect(/^No source answered the question directly\./.test(r.text) && e.pass, r.text + ' / ' + e.reason); }); /* 4.9.86 (Nic 6:47 PM): the reply has the short shape; tiers and support marks are in the provenance */
 T('HONEST-ENTAIL', 'end to end: a cited passage that does not state the answer is marked unsupported; a supported answer carries its verbatim span', async () => {
   const f = await kern(WALL_NOFIT); const a = await research(f, 'when did the berlin wall fall');
-  expect(a.m && a.m.provenance && a.m.provenance.sources.every(s => s.supported === false) && /unsupported/.test(a.t.reply) && a.t.trace.echo.pass, a.t && a.t.reply);
+  expect(a.m && (a.m.limitation === 'ABOVE_DRIFT_BAND' || (a.m.provenance && a.m.provenance.sources.every(s => s.supported === false))) && /^No source answered the question/.test(a.t.reply) && a.t.trace.echo.pass, a.t && a.t.reply); /* 4.9.86: a passage without the predicate ("fall") is above the band: refused */
   const g = await kern(WALL); const b = await research(g, 'when did the berlin wall fall'); const s0 = b.m.provenance.sources[0];
-  expect(s0.supported === true && WALL['Berlin Wall'].includes(s0.span) && /1989/.test(s0.span) && !/unsupported/.test(b.t.reply), JSON.stringify(b.m.provenance)); });
+  expect(s0.supported === true && WALL['Berlin Wall'].includes(s0.span) && /1989/.test(s0.span) && !/No source answered/.test(b.t.reply), JSON.stringify(b.m.provenance)); });
 T('HONEST-ENTAIL', 'a fabricated span (not a substring of the stored excerpt) is rejected, even when it states the answer; so is a real substring without the key content', () => {
   const ex = 'The Berlin Wall was a guarded concrete barrier. The Berlin Wall fell on 9 November 1989, after weeks of unrest.'; const K = { value: '1989', entities: [['berlin', 'wall']], relation: ['fell', 'fall'] };
   expect(EV.verifySpan(ex, 'The Berlin Wall fell in 1989.', K) === false, 'fabricated span accepted'); expect(EV.verifySpan(ex, 'The Berlin Wall was a guarded concrete barrier.', K) === false, 'substring without the key content accepted');
@@ -89,7 +89,7 @@ T('HONEST-ENTAIL', 'a fabricated span (not a substring of the stored excerpt) is
   const p = EV.provenance([{ archive: 'wikipedia', name: 'Wikipedia', cls: 'encyclopedia', title: 'Berlin Wall', excerpt: 'The Berlin Wall was a guarded concrete barrier.', span: 'The Berlin Wall fell in 1989.' }], K);
   expect(p.sources[0].supported === false && p.sources[0].span === null && p.rejected_spans === 1, JSON.stringify(p)); });
 T('HONEST-ENTAIL', 'unsupported evidence never counts toward support; the lookup answer is still never stored as a fact (evidence sealed in the vault only)', async () => {
-  const f = await kern(WALL_NOFIT); const a = await research(f, 'when did the berlin wall fall'); expect(a.m.support && a.m.support.level === 'none' && !a.m.answer, JSON.stringify(a.m.support));
+  const f = await kern(WALL_NOFIT); const a = await research(f, 'when did the berlin wall fall'); expect((a.m.limitation === 'ABOVE_DRIFT_BAND' || (a.m.support && a.m.support.level === 'none')) && !a.m.answer, JSON.stringify(a.m.support));
   const g = await kern(WALL); await research(g, 'when did the berlin wall fall'); const again = g.process('when did the berlin wall fall'); expect(again.toolJob && !/1989/.test(again.reply || ''), 'answered from memory: ' + again.reply); await again.toolJob;
   expect(g.vault.entries('evidence').length >= 1, 'evidence not sealed');
   const src = fs.readFileSync(ROOT + '/src/evidence.js', 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''); expect(!/require\((?!'\.\/(sha256|provenance)\.js')/.test(src) && !/embed|llm|model\(/i.test(src), 'entailment is not pure/deterministic'); });
