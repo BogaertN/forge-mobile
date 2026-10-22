@@ -100,9 +100,14 @@ function keyContent(plan, claim) { const p = plan || {}; const relation0 = relat
   return { value, entities, relation, polarity, needs_value: VALUE_TYPES.has(p.atype) && !value.length }; }
 /* any key shape (keyContent's, or { value: '1989', entities: [['berlin', 'wall']], relation: [...] }) → the normal form */
 const normKey = k => { k = k || {}; return { value: Array.isArray(k.value) ? k.value.map(String) : k.value ? words(k.value) : [], entities: uniq(flat(k.entities)), relation: (k.relation || []).map(r => String(r).toLowerCase()), polarity: k.polarity || null, needs_value: !!k.needs_value }; };
-const relHas = (ws, r) => ws.some(x => same(x, r) || synonym(x, r));
+/* 4.9.95 DERIVATION: a relation word is stated by its nominalisation ("eruption" states erupt: the stem plus a nominal suffix); an entity is named by
+   its PERTAINYM (WordNet adj.pert, read from the lexicon the kernel registers: "volcanic" relating to volcanoes) */
+const nominalOf = (x, r) => r.length >= 4 && x !== r && x.startsWith(r.replace(/e$/, '').slice(0, Math.max(4, r.length - 2))) && /(tion|sion|ment|ance|ence|al|ure)$/.test(x);
+/* (the lexicon hook is setLexicon above; forge.js registers pertainym through it) */
+const pertainym = (x, e) => { if (!LEXH || !LEXH.pertainym || x === e) return false; try { return !!LEXH.pertainym(x, e); } catch (err) { return false; } };
+const relHas = (ws, r) => ws.some(x => same(x, r) || synonym(x, r) || nominalOf(x, r));
 const hasKey = k => !k.needs_value && !!(k.value.length || k.entities.length || k.relation.length);
-function covers(span, k0) { const k = normKey(k0); if (!hasKey(k)) return false; const ws = words(span); const has = w => ws.some(x => same(x, w));
+function covers(span, k0) { const k = normKey(k0); if (!hasKey(k)) return false; const ws = words(span); const has = w => ws.some((x, i) => same(x, w) || (pertainym(x, w) && !!ws[i + 1] && k.relation.some(r => same(ws[i + 1], r) || nominalOf(ws[i + 1], r)))); /* 4.9.95: a pertainym names the entity only as the argument of the stated relation's nominalisation ("volcanic eruption"), not of another head ("volcanic fields") */
   if (!k.value.every(w => ws.includes(w))) return false; if (!k.entities.every(has)) return false; if (k.relation.length && !k.relation.some(r => relHas(ws, r))) return false;
   if (k.polarity && NEG.test(span) !== (k.polarity === 'negative')) return false; return true; }
 /* sentences as [start, end) offsets: a break after . ! ? followed by space and a capital / digit / quote, or at a newline */
@@ -182,6 +187,9 @@ function subjectMatch(questionEnt, src, answerEnt) { const q = words(questionEnt
   { const d = describedBy(src && src.excerpt, q.join(' ')); if (d) return Object.assign(res, { ok: true, via: 'question', basis: 'description', limitation: null, primary_entity: d.answer, resolved_entity: d.answer, span: d.span }); }
   const a = answerEnt == null ? [] : words(String(answerEnt).replace(/^probably\s+/i, ''));
   for (const [basis, c] of cands) if (namesAnswer(a, c)) return Object.assign(res, { ok: true, via: 'answer', basis, limitation: null, answer_entity: a.join(' '), primary_entity: c.join(' ') });
+  /* 4.9.95 EVENT OF THE SUBJECT: a title "<pertainym of the subject> <event nominal>" ("Volcanic eruption") names the subject's own event; the
+     source is about the subject as that event's argument */
+  if (q.length === 1 && h.length === 2 && pertainym(h[0], q[0]) && /(tion|sion|ment|ance|ence|ure)$/.test(h[1])) return Object.assign(res, { ok: true, via: 'question', basis: 'event', limitation: null, primary_entity: pe });
   return res; }
 /* DESCRIBED BY (4.9.78; 4.9.92 superlatives): the first sentence that states the description of a named thing. Three readings of one copular
    frame (Pāṇini samānādhikaraṇa: the name and the description share one referent):

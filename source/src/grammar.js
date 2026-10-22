@@ -68,6 +68,9 @@ function lemmatize(w, lex) {
      spelling variant, compound head, prefix + base, or suffix + base — and admitted provisionally; then the ordinary inflection rules apply */
   return lex.derive(w, x => lemmatize0(x, lex).length > 0) ? lemmatize0(w, lex) : out;
 }
+/* 4.9.95 PP-L-DOUBLING: reading, the participle of an l-final verb is accepted in both spellings (expelled / traveled — American English doubles a
+   stressed final l, and stress is not written); the realizer keeps its one spelling */
+const ppSpelled = (lemma, w) => inflect(lemma, 'pp') === w || (/[aeiou]l$/.test(lemma) && w === lemma + 'led');
 function lemmatize0(w, lex) {
   const out = []; const add = (lemma, pos, f, rule) => { if (lex.hasPos(lemma, pos) && !out.some(o => o.lemma === lemma && o.pos === pos && o.f === f)) out.push({ lemma, pos, f, rule }); };
   for (const pos of ['n', 'v', 'a', 'r']) add(w, pos, pos === 'n' ? 'sg' : pos === 'v' ? 'base' : 'pos', 'M-BASE');
@@ -303,7 +306,7 @@ function Parser(toks, lex) {
   function vgroup(i) {
     const res = []; const w = word(i);
     const neg = j => (at(j, 'NEG').length ? { pol: 'neg', j: j + 1 } : { pol: 'pos', j });
-    const pass = (j, base) => at(j, 'V').filter(v => (v.f === 'pp' || v.f === 'past') && inflect(v.lemma, 'pp') === word(j)).map(v => R(Object.assign({ lemma: v.lemma, voice: 'passive', ppAdj: at(j, 'ADJ').length > 0 }, base), j + 1, ['V-PASSIVE']));
+    const pass = (j, base) => at(j, 'V').filter(v => (v.f === 'pp' || v.f === 'past') && ppSpelled(v.lemma, word(j))).map(v => R(Object.assign({ lemma: v.lemma, voice: 'passive', ppAdj: at(j, 'ADJ').length > 0 }, inflect(v.lemma, 'pp') !== word(j) ? { ppw: word(j) } : {}, base), j + 1, ['V-PASSIVE']));
     if (at(i, 'COP').length && !['be', 'been', 'being'].includes(w)) { const n = neg(i + 1); const tense = ['was', 'were'].includes(w) ? 'past' : 'present'; res.push(...pass(n.j, { tense, pol: n.pol, mod: 'asserted', form: w }).map(r => (n.pol === 'neg' ? Object.assign(r, { rules: r.rules.concat(['LL-NEG-PRED']) }) : r))); }
     if (at(i, 'COP').length) { const n = neg(i + 1); const tense = ['was', 'were'].includes(w) ? 'past' : 'present'; res.push(R({ cop: true, tense, pol: n.pol, mod: 'asserted', form: w }, n.j, ['V-COP-' + tense.toUpperCase()].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : [])));
       for (const v of at(n.j, 'V')) if (v.f === 'ing') res.push(R({ lemma: v.lemma, tense, aspect: 'progressive', pol: n.pol, mod: 'asserted' }, n.j + 1, ['V-PROGRESSIVE'].concat(n.pol === 'neg' ? ['LL-NEG-PRED'] : []))); }
@@ -359,7 +362,7 @@ if (/^(all|both|each)$/.test(word(n.j)) && word(n.j + 1) === 'been') res.push(R(
         /* P-ADJ-INFINITIVE: ADJ to V… — the lexical class decides the reading(s); a karma reading needs the infinitive's own karma slot empty (the gap);
            "to be V-en" (passive infinitive) gives only the karma reading */
         for (const a of at(g.i, 'ADJ')) { const cls = ADJ_INF[a.lemma]; if (!cls || a.f !== 'pos' || word(g.i + 1) !== 'to') continue;
-          if (word(g.i + 2) === 'be') for (const pv of at(g.i + 3, 'V')) { if (!((pv.f === 'pp' || pv.f === 'past') && inflect(pv.lemma, 'pp') === word(g.i + 3)) || cls === 'subj') continue; preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: { verb: { lemma: pv.lemma, tense: 'none', pol: 'pos', mod: 'asserted', nf: 'inf', voice: 'passive' }, roles: {}, adj: [] }, ctrl: 'karma' }, g.i + 4, ['P-ADJ-INFINITIVE', 'K-KARMA-PASSIVE-INFINITIVE'])); }
+          if (word(g.i + 2) === 'be') for (const pv of at(g.i + 3, 'V')) { if (!((pv.f === 'pp' || pv.f === 'past') && ppSpelled(pv.lemma, word(g.i + 3))) || cls === 'subj') continue; preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: { verb: { lemma: pv.lemma, tense: 'none', pol: 'pos', mod: 'asserted', nf: 'inf', voice: 'passive' }, roles: {}, adj: [] }, ctrl: 'karma' }, g.i + 4, ['P-ADJ-INFINITIVE', 'K-KARMA-PASSIVE-INFINITIVE'])); }
           for (const c of vpNF(g.i + 2, 'base')) { const cv = c.node; if (!cv.verb || cv.verb.lemma === 'be') continue; const hasK = !!(cv.roles && (cv.roles.karma || cv.roles.sampradana));
             if (cls !== 'karma') preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: cv, ctrl: 'karta' }, c.i, ['P-ADJ-INFINITIVE', 'K-KARTA-CONTROL'].concat(c.rules)));
             if (cls !== 'subj' && !hasK && (!lex.vframes || (lex.vframes(cv.verb.lemma) || []).some(f => /somebody|something/.test(f) && !/^Something ----s$|^Somebody ----s$/.test(f)) || !(lex.vframes(cv.verb.lemma) || []).length)) preds.push(R({ type: 'adjinf', words: [T[g.i].w], inf: cv, ctrl: 'karma' }, c.i, ['P-ADJ-INFINITIVE', 'K-KARMA-GAP'].concat(c.rules))); } }
@@ -384,11 +387,11 @@ if (/^(all|both|each)$/.test(word(n.j)) && word(n.j + 1) === 'been') res.push(R(
         let pj = g.i, ppart = null; if (at(pj, 'PART').length && (!at(pj, 'PREP').length || pj + 1 >= T.length || word(pj + 1) === ',')) { ppart = word(pj); pj++; }
         for (const a of adjuncts(pj)) { const by = a.node.findIndex(x => x.prep === 'by'); if (by < 0 && v.ppAdj && !ppart) continue; /* P-ADJ-PARTICIPLE-APAVADA: stative adjective reading wins without an agent */
           const roles = by >= 0 ? { karta: a.node[by].np } : {}; const adj = a.node.filter((x, k) => k !== by);
-          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod, voice: 'passive' }, ppart ? { particle: ppart } : {}, v.form ? { form: v.form } : {}), roles, adj }, a.i, g.rules.concat(ppart ? ['V-PASSIVE-PARTICLE'] : [], a.rules, by >= 0 ? ['K-KARTA-PASSIVE-AGENT'] : ['K-KARTA-PASSIVE-IMPLICIT']))); }
+          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod, voice: 'passive' }, ppart ? { particle: ppart } : {}, v.form ? { form: v.form } : {}, v.ppw ? { ppw: v.ppw } : {}), roles, adj }, a.i, g.rules.concat(ppart ? ['V-PASSIVE-PARTICLE'] : [], a.rules, by >= 0 ? ['K-KARTA-PASSIVE-AGENT'] : ['K-KARTA-PASSIVE-IMPLICIT']))); }
         /* K-KARMA-RETAINED (4.9.82): the passive of a two-object verb (WordNet frame 'Somebody ----s somebody something': "they call the dog Rex")
            promotes the first object to subject and keeps the second as karma ("the dog is called Rex") */
         if (!ppart && takes(v.lemma, 'dbl')) for (const o of np(g.i, true)) for (const a of adjuncts(o.i)) { const by = a.node.findIndex(x => x.prep === 'by'); const roles = Object.assign({ karma: o.node }, by >= 0 ? { karta: a.node[by].np } : {});
-          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod, voice: 'passive' }, v.form ? { form: v.form } : {}), roles, adj: a.node.filter((x, k) => k !== by) }, a.i, g.rules.concat(['K-KARMA-RETAINED'], o.rules, a.rules))); }
+          res.push(R({ verb: Object.assign({ lemma: v.lemma, tense: v.tense, pol: v.pol, mod: v.mod, voice: 'passive' }, v.form ? { form: v.form } : {}, v.ppw ? { ppw: v.ppw } : {}), roles, adj: a.node.filter((x, k) => k !== by) }, a.i, g.rules.concat(['K-KARMA-RETAINED'], o.rules, a.rules))); }
         continue; }
       const objs = [R({}, g.i, [])];
       const gerOK = licenses(v.lemma, 'ger') && at(g.i, 'V').some(x => x.f === 'ing');
@@ -533,7 +536,7 @@ function vpText(c, subj, persp) {
     else if (v.aspect === 'perfect') be = (v.tense === 'past' ? 'had' : ag === 'pres3' ? 'has' : 'have') + (neg ? ' not' : '') + ' been';
     else { if (v.tense === 'past') be = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else be = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') be = v.tense === 'past' ? 'were' : 'are'; if (subj && subj.pron === 'kernel' && persp === 'kernel') be = v.tense === 'past' ? 'was' : 'am'; if (neg) be += ' not'; }
     { const pa = (c.adj || []).filter(a => a.pre && a.adv).map(a => a.adv); if (pa.length) { const t = be.split(' '); be = [t[0]].concat(pa, t.slice(1)).join(' '); } }
-    return be + ' ' + inflect(v.lemma, 'pp') + (v.particle ? ' ' + v.particle : '') + (c.roles && c.roles.karma ? ' ' + objText(c.roles.karma, persp) : '') /* K-KARMA-RETAINED */ + (c.roles && c.roles.karta ? ' by ' + objText(c.roles.karta, persp) : '') + adjText(c, persp); }
+    return be + ' ' + (v.ppw || inflect(v.lemma, 'pp')) /* the participle keeps the spelling it was read in */ + (v.particle ? ' ' + v.particle : '') + (c.roles && c.roles.karma ? ' ' + objText(c.roles.karma, persp) : '') /* K-KARMA-RETAINED */ + (c.roles && c.roles.karta ? ' by ' + objText(c.roles.karta, persp) : '') + adjText(c, persp); }
   if (v.lemma === 'be') {
     let cop; if (v.tense === 'future') cop = 'will' + (neg ? ' not' : '') + ' be'; else if (v.mod !== 'asserted') cop = MODW[v.mod] + (neg ? (v.mod === 'able' ? 'not' : ' not') : '') + ' be';
     else { if (v.tense === 'past') cop = (ag === 'pres' || (ag === 'pres1' && persp === 'kernel')) ? 'were' : 'was'; else cop = ag === 'pres3' ? 'is' : ag === 'pres1' ? (persp === 'user' ? 'am' : 'are') : 'are'; if (persUser && persp === 'kernel') cop = v.tense === 'past' ? 'were' : 'are'; if (subj && subj.pron === 'kernel' && persp === 'kernel') cop = v.tense === 'past' ? 'was' : 'am'; /* LL-AGREEMENT: Forge speaking of itself is first person */ if (neg) cop += ' not'; }

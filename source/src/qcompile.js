@@ -54,7 +54,7 @@
       const sid = firstSynset(lex, predicate, 'v'); if (sid) for (const l of synIndex(lex).get(sid) || []) if (l !== predicate && !/_/.test(l)) add('predicate', l, DRIFT.synonym, 'wordnet:synonym');
       /* the verb's NOMINALISATION (derivational morphology, a noun of the lexicon): invent → invention, form → formation, discover → discovery */
       if (predPos === 'v') { const st = predicate.replace(/e$/, ''); for (const n of [st + 'ion', st + 'tion', st + 'ation', predicate + 'ment', st + 'y', st + 'al', st + 'ure']) if (n !== predicate && firstSynset(lex, n, 'n')) add('predicate', n, DRIFT.derivation, 'derivation'); } }
-    return { schema: 'FORGE-QUERY-COMPILED/v1', band: BAND, roles, expansions: exps, qwords: words(q), text: q.replace(/[?!.]+\s*$/, '').trim() }; }
+    const Q = { schema: 'FORGE-QUERY-COMPILED/v1', band: BAND, roles, expansions: exps, qwords: words(q), text: q.replace(/[?!.]+\s*$/, '').trim() }; Object.defineProperty(Q, 'lex', { value: lex, enumerable: false }); return Q; }
   const used = (Q, role) => Q.expansions.filter(e => e.role === role && e.used);
   /* the forms worth trying as direct titles (surface, morphology, numeral words; never a hypernym) */
   const titleForms = Q => used(Q, 'subject').filter(e => /^(surface|morphology|numeral)$/.test(e.via)).map(e => e.form);
@@ -78,10 +78,13 @@
      predicate's nominalisation as the head with the subject in the complement is the asked relation itself ("Invention of the telephone",
      +0.05); other head words make a narrower or different thing (+0.2 one word, +0.3 more: "Diffuse sky radiation"); a subject named only in
      the complement of another head is a related thing (+0.3); not named: 1 */
+  /* 4.9.95: a PERTAINYM names its noun (WordNet adj.pert: "volcanic" relating to volcanoes, "solar" relating to the sun): a title word that is the
+     subject's pertainym covers the subject word ("Volcanic eruption" names the volcano's eruption) */
+  const pertains = (Q, w, x) => { const lx = Q.lex; if (!lx || !lx.senses || w === x) return false; return (lx.senses(w) || []).some(z => z.pos === 'a' && z.lexname === 'adj.pert' && words(z.gloss).some(g => g === x || PV.covers(g, { entities: [x] }))); };
   function titleWords(Q, src) { const tw = words(PV.primaryEntity({ title: src && src.title }) || (src && src.title)), all = words(src && src.title); let best = { drift: 1, via: 'unmatched', form: null };
-    for (const e of used(Q, 'subject')) { const fw = words(e.form); if (!fw.length || !fw.every(w => all.some(x => PV.covers(x, { entities: [w] })))) continue;
+    for (const e of used(Q, 'subject')) { const fw = words(e.form); const cov = (t, x) => PV.covers(t, { entities: [x] }) || pertains(Q, t, x); if (!fw.length || !fw.every(w => all.some(x => cov(x, w)))) continue;
       const cut = all.findIndex((w, i) => i > 0 && /^(of|to|in|for|from|on)$/.test(w)); const head = cut > 0 ? all.slice(0, cut) : all, comp = cut > 0 ? all.slice(cut + 1) : [];
-      const xs = ws => ws.filter(w => !fw.some(x => PV.covers(w, { entities: [x] })) && !FW.has(w)); const xh = xs(head); const inHead = fw.every(x => head.some(w => PV.covers(w, { entities: [x] })));
+      const xs = ws => ws.filter(w => !fw.some(x => cov(w, x)) && !FW.has(w)); const xh = xs(head); const inHead = fw.every(x => head.some(w => cov(w, x)));
       const nominal = used(Q, 'predicate').filter(p => p.via === 'derivation').map(p => p.form); let d;
       if (xh.length && xh.every(w => nominal.includes(w))) d = DRIFT.derivation; /* "Invention of the telephone", "Cloud formation" */ else if (inHead && PV.covers(head[head.length - 1], { entities: [fw[fw.length - 1]] })) d = xh.length > 1 ? DRIFT.narrower + 0.1 : DRIFT.narrower; /* a kind of the subject ("Cirrus cloud") */ else d = 0.4; /* the subject only modifies another head ("First Amendment audit", "Diffuse sky radiation"): another thing — its sentences may still carry the claim */
       d = Math.round((e.drift + d) * 100) / 100; if (d < best.drift) best = { drift: d, via: e.via + (d === e.drift + DRIFT.derivation ? '+topic' : '+title-words'), form: e.form, basis: 'title-words' }; void tw; }
@@ -101,7 +104,7 @@
        ASKED RELATION — the gap is filled: a definition for "what is X"; X doing something (an active verb with X leading) for "what does X do";
          the relation's marker (because / due to / causes …, by / when / through …, a name, a date, a place, a number) for the others; a definition
          instead of the asked relation: 0.2; nothing: 0.3. A yes/no question asks for the predicate only. */
-  function relationDrift(Q, sent, names, parts) { const s0 = String(sent || ''), ws0 = words(s0);
+  function relationDrift(Q, sent, names, parts, body) { const s0 = String(sent || ''), ws0 = words(s0);
     /* a MENTION is not the referent: "a device … called telephone", "known as X", "the term X" name the word, not the thing; the subject is looked for outside them */
     let s = s0.replace(/,\s+(?:also\s+|commonly\s+|often\s+|sometimes\s+)?(?:known|called|named|termed|referred to)\s+(?:as\s+)?[^,]{1,60},/gi, '').replace(/\b(?:called|named|termed|dubbed|known as|the (?:term|word|name))\s+(?:the\s+|a\s+)?[\w-]+/gi, ' '); /* 4.9.93: a naming aside goes whole first (another name, not the claim) */ let ws;
     const forms = used(Q, 'subject').filter(e => e.drift <= DRIFT.synonym).map(e => e.form).concat(names || []).filter(Boolean); const defn = forms.some(f => PV.definitional(s, f));
@@ -117,7 +120,10 @@
     /* the subject as the KARMA of the asked predicate: right after the verb or its nominalisation ("invented the telephone", "the invention of the telephone") */
     const esc = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); const karma = pe.length && forms.some(f => pe.some(p => new RegExp('\\b' + esc(p.form) + '\\s+(?:of\\s+)?(?:the\\s+|a\\s+|an\\s+)?' + esc(f) + '\\b', 'i').test(s) || new RegExp('\\b' + esc(p.form) + '\\s+\\w+\\s+of\\s+(?:the\\s+)?(?:\\w+\\s+)?' + esc(f) + '\\b', 'i').test(s)))
       || (Q.roles.asked === 'cause' && forms.some(f => new RegExp('\\b(?:caus(?:es|ed|ing)|cause|makes?|made|making|gives?|gave)\\s+(?:the\\s+|a\\s+)?' + esc(f) + '\\b', 'i').test(s))); /* 4.9.86: "the blue color of the sky"; for a why-question the subject as the karma of the causal verb ("causes the sky to appear blue") */
-    const subjR = !Q.roles.subject ? 0 : led || karma ? 0 : /^(It|They|This)\b/.test(s) ? 0.05 : named ? 0.15 : 0.3;
+    /* 4.9.95: the subject's PERTAINYM modifying the predicate's nominalisation is the subject as that event's argument ("a volcanic eruption" =
+       a volcano erupting) */
+    const pertK = !karma && pe.length && (() => { const w = words(s); for (let i = 0; i + 1 < w.length; i++) if (pe.some(p => p.form === w[i + 1]) && forms.some(f => words(f).length === 1 && pertains(Q, w[i], words(f)[0]))) return true; return false; })();
+    const subjR = !Q.roles.subject ? 0 : led || karma || pertK ? 0 : !body && /^(It|They|This)\b/.test(s) ? 0.05 : /* 4.9.95: past the lead a pronoun stands for its local antecedent, not the article's subject */ named ? 0.15 : 0.3;
     const predHit = pe.filter(e => ws0m.some(w => w === e.form || PV.covers(w, { entities: [e.form] }))).map(e => e.drift);
     const predR = !Q.roles.predicate || /^(description|function)$/.test(Q.roles.asked) ? 0 : predHit.length ? Math.min(...predHit) : 0.3;
     const a = Q.roles.asked; let askR;
@@ -131,9 +137,9 @@
   const claimTotal = rd => Math.round(Math.min(1, DRIFT.claim + rd) * 100) / 100;
   const total = (sd, r) => { const rd = typeof r === 'object' ? r.rd : r, ask = typeof r === 'object' ? r.ask : 0; return Math.round(Math.min(1, sd + 0.5 * (rd - ask) + ask) * 100) / 100; }; /* 4.9.86: only the subject role is halved (the title can supply it); a missing predicate or unfilled asked relation counts in full */
   /* the lowest-drift sentence of a source text (its lead first on ties) */
-  function bestSentence(Q, text, sd, names, claim) { const s = String(text || ''); let best = null; let n = 0;
-    for (const [a, b] of PV._sentences(s)) { const t = s.slice(a, b).trim(); if (t.length < 25 || t.length > 420 || /^=|\?$/.test(t) || !/[.!]["”’')]?$/.test(t)) continue; if (++n > 80) break;
-      const rp = relationDrift(Q, t, names, true), rd = rp.rd, d = claim ? claimTotal(rd) : total(sd, rp); if (!best || d < best.drift) best = { sentence: t, drift: d, relation_drift: rd }; if (d === sd) break; }
+  function bestSentence(Q, text, sd, names, claim) { const s = String(text || ''); let best = null; let n = 0; const leadEnd = (i => i < 0 ? s.length : i)(s.search(/\n/));
+    for (const [a, b] of PV._sentences(s)) { const t = s.slice(a, b).trim(); if (t.length < 25 || t.length > 420 || /^=|\?$/.test(t) || !/[.!]["”’')]?$/.test(t)) continue; if (++n > 400) break; /* 4.9.95: the whole body, not only the lead (a process is often described past the lead) */
+      const rp = relationDrift(Q, t, names, true, a >= leadEnd), rd = rp.rd, d = claim ? claimTotal(rd) : total(sd, rp); if (!best || d < best.drift) best = { sentence: t, drift: d, relation_drift: rd }; if (d === sd) break; }
     return best; }
   /* the LOOKUP built from the roles (not keywords): the subject forms of drift ≤ 0.05 that differ from the typed subject (a numeral word, the
      other number), then the subject with the predicate root when the relation needs a predicate (why / how / cause) */
