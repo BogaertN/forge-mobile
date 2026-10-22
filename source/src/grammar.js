@@ -165,11 +165,19 @@ function Parser(toks, lex) {
   const R = (node, i, rules) => ({ node, i, rules: rules || [] });
   const flat = a => [].concat(...a);
   // ---- NP ----
+  /* NP-PREMOD (4.9.88, viśeṣaṇa): a pre-nominal modifier is an adjective, an adverb + adjective ("fully aquatic", "widely distributed"), a hyphenated
+     participial compound ("coarse-grained"), or two of these joined by and / or ("distributed and diverse"); each is one modifier of the head */
+  function premods(j) { const one = k => { const r = []; if (k >= T.length) return r; for (const a of at(k, 'ADJ')) r.push({ w: T[k].w, j: k + 1, rules: [a.rule] });
+      if (at(k, 'ADV').length && !at(k, 'ADJ').length && k + 1 < T.length && at(k + 1, 'ADJ').some(a => a.f === 'pos')) r.push({ w: T[k].w + ' ' + T[k + 1].w, j: k + 2, rules: ['NP-ADV-ADJ'] });
+      if (!at(k, 'ADJ').length && /^[a-z]+-[a-z]+ed$/.test(T[k].w) && at(k, 'V').some(v => v.f === 'past' || v.f === 'pp')) r.push({ w: T[k].w, j: k + 1, rules: ['NP-COMPOUND-ADJ'] });
+      return r; };
+    const out = one(j); for (const b of out.slice()) if (b.j + 1 < T.length && /^(and|or)$/.test(word(b.j))) for (const c of one(b.j + 1)) out.push({ w: b.w + ' ' + word(b.j) + ' ' + c.w, j: c.j, rules: b.rules.concat(['NP-ADJ-COORD'], c.rules) });
+    return out; }
   function nominal(i) { // ADJ* N+ (compound)
     const res = [];
     (function go(j, adjs, nouns, rules) {
       if (nouns.length) res.push(R({ adjs: adjs.slice(), head: nouns.map(n => n.lemma), plural: nouns[nouns.length - 1].f === 'pl', surface: nouns.map(n => n.w) }, j, rules));
-      if (!nouns.length) for (const a of at(j, "ADJ")) go(j + 1, adjs.concat([T[j].w]), nouns, rules.concat([a.rule]));
+      if (!nouns.length) for (const p of premods(j)) go(p.j, adjs.concat([p.w]), nouns, rules.concat(p.rules));
       /* NP-COMPOUND-MODIFIER-APAVADA (4.9.50): a non-final member of a noun compound is uninflected ("the dog wants water" has no compound "dog wants"),
          and a deictic time phrase (last/next/this/every + time word) is a kāla adjunct, never a compound member */
       const lastN = nouns[nouns.length - 1]; if (lastN && lastN.f === 'pl' && /^M-SUFFIX/.test(lastN.rule || '')) { /* no further member */ } else
@@ -222,6 +230,11 @@ function Parser(toks, lex) {
     for (const a of res.slice()) if (a.node.head && !a.node.propn && !a.node.pron && !a.node.pron3 && !a.node.of && at(a.i, 'PROPN').length && !(!a.node.det && !(a.node.adjs || []).length && a.node.head.length === 1 && at(a.i - 1, 'PROPN').length)) for (const b of npGen(a.i)) if (b.node.propn && !b.node.det && !b.node.owner) res.push(R(Object.assign({}, b.node, { appos: a.node }), b.i, a.rules.concat(['NP-APPOSITION-CLOSE'], b.rules)));
     /* NP-PARTICIPLE-POSTMOD (4.9.50; reduced relative): "chest pain radiating to the left arm" — an -ing phrase whose understood kartā is the head */
     for (const a of res.slice()) if (!a.node.pron && !a.node.pron3 && !a.node.indef && a.node.head) for (const c of vpNF(a.i, 'ing')) if (c.node.verb && c.node.verb.lemma !== 'be') res.push(R(Object.assign({}, a.node, { partRel: c.node }), c.i, a.rules.concat(['NP-PARTICIPLE-POSTMOD'], c.rules)));
+    /* NP-PASSIVE-PARTICIPLE-POSTMOD (4.9.88): a reduced passive relative — past participle, an optional adverb, and its prepositional complement —
+       modifies the noun ("a rock composed mostly of quartz", "a city founded in 1200") */
+    for (const a of res.slice()) if (!a.node.pron && !a.node.pron3 && !a.node.indef && a.node.head && !a.node.partRel) for (const v of at(a.i, 'V')) { if (v.f !== 'pp' && v.f !== 'past') continue;
+      const adv = at(a.i + 1, 'ADV').length && !at(a.i + 1, 'PREP').length ? 1 : 0, pi = a.i + 1 + adv; if (!at(pi, 'PREP').length) continue;
+      for (const b of npGen(pi + 1)) res.push(R(Object.assign({}, a.node, { ppRel: { v: word(a.i), lemma: v.lemma, adv: adv ? word(a.i + 1) : null, prep: word(pi), np: b.node } }), b.i, a.rules.concat(['NP-PASSIVE-PARTICIPLE-POSTMOD'], b.rules))); }
     /* NP-PP-POSTMOD (4.9.50): a prepositional phrase merges into the noun phrase ("counsel for the defence"); G-ECONOMY prefers verb attachment when both derive */
     for (const a of res.slice()) if (!a.node.pron && !a.node.pron3 && (a.node.head || a.node.propn) && at(a.i, 'PREP').length && !['of', 'as', 'than'].includes(word(a.i)) && !a.node.partRel) for (const b of npGen(a.i + 1)) res.push(R(Object.assign({}, a.node, { pp: { prep: word(a.i), np: b.node } }), b.i, a.rules.concat(['NP-PP-POSTMOD'], b.rules)));
     const withRel = [];
@@ -482,7 +495,7 @@ function npText(n, persp) {
   if (n.adjs && n.adjs.length) s += n.adjs.join(' ') + ' ';
   if (n.head) s += (n.surface || n.head).join(' ');
   if (n.of) s += ' of ' + npText(n.of, persp);
-  if (n.pp) s += ' ' + n.pp.prep + ' ' + (n.pp.np.pron ? objText(n.pp.np, persp) : npText(n.pp.np, persp)); if (n.partRel) s += ' ' + nfText(n.partRel, persp);
+  if (n.pp) s += ' ' + n.pp.prep + ' ' + (n.pp.np.pron ? objText(n.pp.np, persp) : npText(n.pp.np, persp)); if (n.partRel) s += ' ' + nfText(n.partRel, persp); if (n.ppRel) s += ' ' + n.ppRel.v + (n.ppRel.adv ? ' ' + n.ppRel.adv : '') + ' ' + n.ppRel.prep + ' ' + npText(n.ppRel.np, persp);
   if (n.rel) s += (n.propn || (n.head && n.head.some(h => FEMALE.has(h) || MALE.has(h) || PERSONISH.has(h))) ? ' who ' : ' that ') + vpText(n.rel, n, persp);
   if (n.relObj) s += ' that ' + clauseText(n.relObj, persp) + (n.relObj.gapPrep ? ' ' + n.relObj.gapPrep : '');
   return s.trim();
