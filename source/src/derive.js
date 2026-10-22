@@ -260,7 +260,7 @@ function Analyser(env) {
       if (i === toks.length) { const r = finish(c, objs, isBe); if (r) out.push(r); return; }
       const w = ws[i];
       if (w && POSTVERB_ADV.has(w)) go(i + 1, Object.assign({}, c, { post: (c.post || []).concat([w]) }), objs);
-      if (w === 'that' && i + 1 < toks.length && env.reparseClause) { const cl = env.reparseClause(detok(toks.slice(i + 1))); if (cl) { const x = { uc: G.material(cl) }; const r = finish(Object.assign({}, c, isBe && !objs.length && !c.pred ? { pred: { that: x } } : { comp: { that: x } }), objs, isBe); if (r) out.push(r); } }
+      if (w === 'that' && i + 1 < toks.length && env.reparseClause) { const cl = (env.reparseEmbedded || env.reparseClause)(detok(toks.slice(i + 1))); /* 4.9.87: inside a that-clause a capital is not sentence-initial, so a name keeps its case */ if (cl) { const x = { uc: G.material(cl) }; const r = finish(Object.assign({}, c, isBe && !objs.length && !c.pred ? { pred: { that: x } } : { comp: { that: x } }), objs, isBe); if (r) out.push(r); } }
       if ((w === 'to' || (w === 'not' && ws[i + 1] === 'to')) && !(c.comp && c.comp.inf) && INF_VERBS.has(c.v)) for (const v of parseInf(toks.slice(i))) { const r = finish(Object.assign({}, c, { comp: { inf: v } }), objs, isBe); if (r) out.push(r); }
       if (toks[i].p === ':' && w === null) { const items = splitList(toks.slice(i + 1)); for (const li of items) { const r = finish(c, objs, isBe, li); if (r) out.push(r); } return; }
       if (w && PREP_ROLES[w]) for (let j = i + 2; j <= toks.length; j++) { if (toks[j] && toks[j].p === ',') continue; for (const n of parseNP(toks.slice(i + 1, j), 'obj')) for (const role of PREP_ROLES[w]) { if (rprep(role, n) !== w || (c.roles || {})[role] || (ROLE_VERBS[role] && !ROLE_VERBS[role].includes(c.v))) continue; go(j, Object.assign({}, c, { roles: Object.assign({}, c.roles, { [role]: n }) }), objs); } }
@@ -462,7 +462,7 @@ const REL_N = { cause: ['give', 'cause'], agent: ['name', 'person'], person: ['n
 const noneS = (m, post) => { const r = REL_N[m.asked] || ['answer', 'question']; return S(C(r[0], Object.assign({ karta: N('source', { det: 'no' }), karma: N(r[1], { det: 'the' }), tense: 'past' }, post ? { post: [post] } : {}))); };
 const RES_EXPECT = { answered: { K: 1, S: 1, R: 0 }, contested: { K: 1, S: 1, R: 1 }, related: { K: 1, S: 0 }, unanswered: { K: 0, C: 1 }, interrupted: { K: 0, C: 0 } };
 function researchStanding(m) { const fail = m.kind === 'tool_failed', gen = !!(m.generated && !m.unsupported);
-  const S0 = (gen || !!m.answer || !!(m.conflict && (m.undetermined || m.events))) && !(m.unsupported || m.nofit || (m.provenance && m.provenance.lead_supported === false) || (m.support && m.support.level === 'none' && !m.answer));
+  const S0 = !(m.unsupported || m.nofit || (m.provenance && m.provenance.lead_supported === false) || (m.support && m.support.level === 'none' && !m.answer));
   const ev = { K: !fail, S: !fail && S0, R: !fail && S0 && !!(m.conflict && m.excerpt2 && (m.undetermined || m.events)), C: !(fail && RATE.test(String(m.reason || ''))) };
   return M.rsocSelect(ev, Object.keys(RES_EXPECT).map(id => ({ id, expect: RES_EXPECT[id] })), 0); }
 function researchPlan(m) { const st = researchStanding(m).selected, lead = docNP(m.source, m.archive, m.cls);
@@ -472,7 +472,7 @@ function researchPlan(m) { const st = researchStanding(m).selected, lead = docNP
   if (st === 'related') return [noneS(m, 'directly'), S(C('be', { karta: N('source', { det: 'the', adj: ['best', 'related'] }), pred: lead }))].concat(linkS(m.source_url));
   if (st === 'contested') return [S(C('disagree', { karta: { coord: 'and', items: [lead, docNP(m.source2, m.archive2, m.cls2)] } })), S(C('outrank', { karta: N('source', { det: 'no' }), karma: N('source', { det: 'the', adj: ['other'] }) }))];
   const g = m.generated && !m.unsupported ? m.generated : null;
-  return verdictS(m).concat(g ? [reportS(docNP(g.source, g.archive, g.source === m.source ? m.cls : null), UC(g.clause))] : [S(C('support', { karta: lead, karma: pr('it') }))],
+  return verdictS(m).concat(g ? [reportS(docNP(g.source, g.archive, g.source === m.source ? m.cls : null), UC(g.clause))] : m.answer ? [S(C('support', { karta: lead, karma: pr('it') }))] : [(r => S(C(r[0], { karta: lead, karma: N(r[1], { det: 'the' }) })))(REL_N[m.asked] || ['give', 'answer'])] /* the passage that states it is sealed in the vault; the reply names the source and the relation it gives, never quotes it */,
     m.conflict && m.excerpt2 && !g ? [S(C('disagree', { karta: docNP(m.source2, m.archive2, m.cls2) })), S(C('outrank', { karta: N('source', { det: 'the', adj: ['first'] }), karma: pr('it') }))] : [],
     linkS(g ? g.source_url : m.source_url), g && g.other ? [S(C('have', { karta: N('article', { det: 'the', adj: ['other'], app: Mn(g.other + ' (Wikipedia)') }), karma: N('name', { det: 'the', adj: ['same'] }) }))] : []); }
 const RATE = /^research_http_(429|503)$|rate/i;
