@@ -144,8 +144,10 @@ const NUMW = Object.assign(Object.create(null), { zero: 0, one: 1, two: 2, three
    quantifier or determiner, or a verb of calculation by its WordNet gloss). With do-support ("what does X equal") the final bare verb belongs to
    the frame. No frame hook: no frame words are accepted (the expression must stand alone). */
 function mathSurface(s, frame) { const tw = String(s).trim().split(/\s+/); const opnd = w => /^[\d(√−-]/.test(w) || w in NUMW || /^(sqrt|square|add|sum|subtract|multiply|divide)$/.test(w) || /^(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)-/.test(w);
-  let k = tw.findIndex((w, i) => opnd(w) || (w === 'the' && tw[i + 1] === 'square')); if (k < 0) return null; const pre = tw.slice(0, k); if (!pre.every((w, i) => !!frame && (frame(w) || pre[i - 1] === 'how' /* the wh-degree phrase "how much" */))) return null;
+  let k = tw.findIndex((w, i) => opnd(w) || (w === 'the' && tw[i + 1] === 'square')); if (k < 0) return null; const pre = tw.slice(0, k); if (!pre.every((w, i) => !!frame && (frame(w, pre[i - 1]) || pre[i - 1] === 'how' /* the wh-degree phrase "how much" */))) return null;
   let body = tw.slice(k); if (pre.some(w => /^(do|does|did)$/.test(w)) && body.length > 1 && !opnd(body[body.length - 1]) && frame && frame.verb && frame.verb(body[body.length - 1])) body = body.slice(0, -1);
+  /* a free relative ("tell me what 2 plus 2 is"): the wh-word in the frame leaves its copula after the expression */
+  if (frame && pre.some(w => (G.CL[w] || []).includes('WH')) && body.length > 1 && (G.CL[body[body.length - 1]] || []).includes('COP')) body = body.slice(0, -1);
   let t = body.join(' ');
   t = t.replace(/^(add|sum) (.+?) (?:and|to) (.+)$/, '($2) + ($3)').replace(/^subtract (.+?) from (.+)$/, '($2) - ($1)').replace(/^multiply (.+?) (?:by|and) (.+)$/, '($1) * ($2)').replace(/^divide (.+?) by (.+)$/, '($1) / ($2)');
   t = t.replace(/\bthe square root of\b|\bsquare root of\b|\bsqrt of\b|√/g, ' sqrt ').replace(/(\S+) percent of (\S+)/g, '($1/100*$2)')
@@ -535,8 +537,8 @@ function Kernel(opts) {
     if (!t.length || !(G.CL[t[0]] || []).includes('WH') && !(G.CL[t[0]] || []).includes('PREP') && !basisW(t[0])) return false; if (t.includes('not') || t.includes('never')) return false;
     if (t[0] === 'why') return t.slice(1).every(w => closedW(w) || cognV(w)) && (t.length === 1 || PROFORM(t[t.length - 1]) || t.length === 2);
     if (t[0] === 'how' && t.length === 2 && G.lemmatize(t[1], glex).some(x => x.pos === 'v' && x.lemma === 'come')) return true;
-    const k = t.indexOf('you'); /* "what" before do-support is the verb's object ("what do you know?" asks for content, not a reason); "how" is an adjunct */
-    if ((t[0] === 'how' || (t[0] === 'what' && !G.lemmatize(t[1] || '', glex).some(x => x.pos === 'v' && x.lemma === 'do'))) && k >= 1 && k <= 3 && t[k + 1] && cognV(t[k + 1])) { const r = t.slice(k + 2); if (!r.length || (r.length === 1 && PROFORM(r[0]))) return true; }
+    const k = t.indexOf('you'); /* "what (N)" with do-support is the verb's object ("what do you know?", "what patterns do you see" ask for content, not a reason); "how" is an adjunct; "what makes you think so" has "what" as subject */
+    if ((t[0] === 'how' || (t[0] === 'what' && k >= 1 && !G.lemmatize(t[k - 1] || '', glex).some(x => x.pos === 'v' && x.lemma === 'do'))) && k >= 1 && k <= 3 && t[k + 1] && cognV(t[k + 1])) { const r = t.slice(k + 2); if (!r.length || (r.length === 1 && PROFORM(r[0]))) return true; }
     const bw = t.filter(basisW); return t.includes('what') && bw.length >= 1 && t.every(w => closedW(w) || basisW(w)); }
   /* WHY-NAMED (4.9.88): a wh question whose subject is the addressee and whose verb is one of cognition or communication (WordNet lexname), with a
      clause complement, asks the reason for that named clause ("how do you know X", "why do you say that X", "what makes you think X") — read from
@@ -984,7 +986,8 @@ function Kernel(opts) {
         if (!r.ok) return res('REFUSAL_RELEVANT', r.error === 'AMBIGUOUS_UNIT' ? { kind: 'refuse', reason: 'AMBIGUOUS_UNIT', unit: r.unit, readings: r.readings } : { kind: 'refuse', reason: 'DIM_MISMATCH', dims: r.dims }, { frame: 'FR.UNITS', act: 'question', math: r });
         return res('SELECTED_MEANING', Object.assign({ kind: 'converted', from: r.from, value: r.value.text, to: r.to }, r.value.exact ? {} : { fraction: r.value.fraction }), { frame: 'FR.UNITS', act: 'question', math: r }); }
       return res('REFUSAL_RELEVANT', { kind: 'refuse', reason: 'UNKNOWN_UNIT', unit: (pa ? cu[3] : cu[2]).trim() }, { frame: 'FR.UNITS', act: 'question' }); }
-    const mFrame = Object.assign(w => (G.CL[w] || []).some(g => /^(WH|COP|AUX|MOD|DET|QUANT|PLEASE)$/.test(g)) || calcV(w), { verb: w => G.lemmatize(w, glex).some(x => x.pos === 'v') });
+    /* an imperative of a communication verb with its addressee ("tell me", "show us", "give me") frames the expression as its object */
+    const mFrame = Object.assign((w, prev) => (G.CL[w] || []).some(g => /^(WH|COP|AUX|MOD|DET|QUANT|PLEASE)$/.test(g)) || calcV(w) || commV(w) || ((G.CL[w] || []).includes('PRON') && !!prev && commV(prev)), { verb: w => G.lemmatize(w, glex).some(x => x.pos === 'v') });
     const ms = mathSurface(low, mFrame);
     if (ms) { const r = M.computeExpr(ms); rules.push({ id: 'GP014-MATH-LANE', doc: 'GP-014; RPMC O_phase', note: 'expr ' + ms });
       if (!r.ok && r.error === 'DIV0') { g.congruity = 'division by zero'; rules.push({ id: 'RPMC-DIV-PHASE-INVALID', doc: 'RPMC Full Protocol ÷_Φ' }); return res('REFUSAL_RELEVANT', { kind: 'refuse', reason: 'DIV0_PHI' }, { frame: 'FR.MATH', act: 'question', math: r }); }
@@ -1112,6 +1115,7 @@ function Kernel(opts) {
   const causalOf = p => { const i = WR.relInfo(p); return (i && i.row.causal) || null; };
   const worldVersion = () => 'wv:' + sha256(JSON.stringify([worldStateView().relations.filter(r => r.origin === 'stated').map(r => [r.pred, r.a, r.b, r.polarity, r.premise]), condLinks().map(c => c.premise)])).slice(0, 16);
   const isVerbW = w => [w, w.replace(/s$/, ''), w.replace(/es$/, ''), w.replace(/ies$/, 'y')].some(x => x && glex.hasPos(x, 'v'));
+  const commV = w => G.lemmatize(w, glex).filter(x => x.pos === 'v').some(x => (lex.senses(x.lemma) || []).filter(z => z.pos === 'v').slice(0, 2).some(z => z.lexname === 'verb.communication' || z.lexname === 'verb.possession'));
   const calcV = w => G.lemmatize(w, glex).filter(x => x.pos === 'v').some(x => (lex.senses(x.lemma) || []).filter(z => z.pos === 'v').slice(0, 2).some(z => /\b(calculat|comput|evaluat|mathematical)/.test(z.gloss)));
   const vGloss = re => w => G.lemmatize(w, glex).filter(x => x.pos === 'v').some(x => (lex.senses(x.lemma) || []).filter(z => z.pos === 'v').slice(0, 2).some(z => re.test(z.gloss)));
   const WHATIF_H = { aux: w => (G.CL[w] || []).some(g => g === 'AUX' || g === 'MOD'), occur: vGloss(/\b(come to pass|take place|happen|occur|be the (?:result|consequence)|come after)\b/), endV: vGloss(/\b(halt|cease|come to an end|have an end|remove|take away|disappear|discontinue|stop)\b/) }; /* 4.9.92 WHAT-IF verb classes from WordNet glosses */
@@ -1762,8 +1766,14 @@ function Kernel(opts) {
        inversion restored; do-support for a lexical verb) */
     if (parts.length === 1) { const tk = G.tokenize(txt.replace(/[.!?]+$/, '')); let i = 0; if (tk[i] && tk[i].w === 'please') i++;
       if (tk[i] && /^(tell|show)$/.test(tk[i].w) && tk[i + 1] && /^(me|us)$/.test(tk[i + 1].w) && tk[i + 2] && /^(what|who|where|when|why|how|which)$/.test(tk[i + 2].w)) { const e = tk.slice(i + 2); const AUX = /^(am|is|are|was|were|can|could|will|would|should|has|have|had|do|does|did)$/; let q = null;
-        for (let k = 1; k <= Math.min(4, e.length - 2) && !q; k++) for (let a = k + 1; a < e.length && !q; a++) if (AUX.test(e[a].w)) { const subj = e.slice(k, a); if (subj.length && npOnly(subj)) q = e.slice(0, k).concat([e[a]], subj, e.slice(a + 1)); }
-        if (!q) for (let k = 1; k <= Math.min(4, e.length - 2) && !q; k++) for (let a = k + 1; a < e.length && !q; a++) { const subj = e.slice(k, a), sn = subj.length ? npOnly(subj) : null; if (!sn) continue; const vs = G.Parser(e, glex).at(a, 'V').filter(x => x.f === 'past' || x.f === 'pres' || x.f === 'pres3' || x.f === 'base'); if (vs.length) { const v = vs[0]; const dsup = v.f === 'past' ? 'did' : v.f === 'pres3' ? 'does' : 'do'; q = e.slice(0, k).concat([{ w: dsup, orig: dsup }], subj, [{ w: v.lemma, orig: v.lemma }], e.slice(a + 1)); } }
+        /* the wh-phrase is the wh-word alone, "how" + its degree word, or which/what + a noun phrase ("what 2 plus" is not one) */
+        const card = t => /^\d/.test(t.w) || t.w in NUMW; /* a wh-determiner never takes a cardinal ("what 2 plus") */
+        const whp = k => k === 1 || (e[0].w === 'how' ? k === 2 || (!/^[A-Z]/.test(e[2].orig) && !!npOnly(e.slice(2, k))) : /^(what|which|whose)$/.test(e[0].w) && !card(e[1]) && !/^[A-Z]/.test(e[1].orig) && !(G.CL[e[1].w] || []).some(g => /^(PRON|DET|POSS)$/.test(g)) && !!npOnly(e.slice(1, k)));
+        /* a subject question ("which planet is the largest") is already direct: its verb follows the wh-phrase; the longest wh-phrase is tried first */
+        const finV = a => G.Parser(e, glex).at(a, 'V').some(x => x.f === 'past' || x.f === 'pres' || x.f === 'pres3');
+        for (let k = Math.min(4, e.length - 2); k >= 1 && !q; k--) if (whp(k) && e[k + 1] && (AUX.test(e[k].w) ? k > 1 : finV(k))) q = e.slice();
+        for (let k = Math.min(4, e.length - 2); k >= 1 && !q; k--) if (whp(k)) for (let a = k + 1; a < e.length && !q; a++) if (AUX.test(e[a].w) && !(e[a].w === 'has' || e[a].w === 'have' || e[a].w === 'had') || (AUX.test(e[a].w) && a + 1 < e.length)) { const subj = e.slice(k, a); if (subj.length && npOnly(subj)) q = e.slice(0, k).concat([e[a]], subj, e.slice(a + 1)); }
+        if (!q) for (let k = Math.min(4, e.length - 2); k >= 1 && !q; k--) if (whp(k)) for (let a = k + 1; a < e.length && !q; a++) { const subj = e.slice(k, a), sn = subj.length ? npOnly(subj) : null; if (!sn) continue; const hv = { has: 'pres3', have: 'pres', had: 'past' }[e[a].w], vs = hv && a === e.length - 1 ? [{ f: hv, lemma: 'have' }] /* clause-final have is the lexical verb */ : G.Parser(e, glex).at(a, 'V').filter(x => x.f === 'past' || x.f === 'pres' || x.f === 'pres3' || x.f === 'base'); if (vs.length) { const v = vs[0]; const dsup = v.f === 'past' ? 'did' : v.f === 'pres3' ? 'does' : 'do'; q = e.slice(0, k).concat([{ w: dsup, orig: dsup }], subj, [{ w: v.lemma, orig: v.lemma }], e.slice(a + 1)); } }
         if (q) { const qt = q.map(t => t.orig).join(' ').replace(/ ,/g, ',').replace(/^\w/, c => c.toUpperCase()) + '?'; const o = process(qt); o.trace.rules.push({ id: 'G-INDIRECT-QUESTION', doc: 'Doc5 §15 (embedded question read as its direct question)', note: qt }); return o; } } }
     if (parts.length === 1) { const ci = txt.indexOf(','); if (ci > 0 && ci < 40) { const head = txt.slice(0, ci).trim(), rest = txt.slice(ci + 1).trim(); let ph = null, whole = null; try { const a = phaticOf(content(G.tokenize(head))); ph = a.phatic || a.ia; const b = phaticOf(content(G.tokenize(txt.replace(/[.!?]+$/, '')))); whole = b.phatic || b.ia; } catch (e) { ph = null; }
       if (ph && !whole && rest && G.tokenize(rest).filter(t => /\w/.test(t.w)).length >= 2) { const o1 = process1(head + '.');
