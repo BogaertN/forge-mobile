@@ -535,7 +535,8 @@ function Kernel(opts) {
     if (!t.length || !(G.CL[t[0]] || []).includes('WH') && !(G.CL[t[0]] || []).includes('PREP') && !basisW(t[0])) return false; if (t.includes('not') || t.includes('never')) return false;
     if (t[0] === 'why') return t.slice(1).every(w => closedW(w) || cognV(w)) && (t.length === 1 || PROFORM(t[t.length - 1]) || t.length === 2);
     if (t[0] === 'how' && t.length === 2 && G.lemmatize(t[1], glex).some(x => x.pos === 'v' && x.lemma === 'come')) return true;
-    const k = t.indexOf('you'); if (/^(how|what)$/.test(t[0]) && k >= 1 && k <= 3 && t[k + 1] && cognV(t[k + 1])) { const r = t.slice(k + 2); if (!r.length || (r.length === 1 && PROFORM(r[0]))) return true; }
+    const k = t.indexOf('you'); /* "what" before do-support is the verb's object ("what do you know?" asks for content, not a reason); "how" is an adjunct */
+    if ((t[0] === 'how' || (t[0] === 'what' && !G.lemmatize(t[1] || '', glex).some(x => x.pos === 'v' && x.lemma === 'do'))) && k >= 1 && k <= 3 && t[k + 1] && cognV(t[k + 1])) { const r = t.slice(k + 2); if (!r.length || (r.length === 1 && PROFORM(r[0]))) return true; }
     const bw = t.filter(basisW); return t.includes('what') && bw.length >= 1 && t.every(w => closedW(w) || basisW(w)); }
   /* WHY-NAMED (4.9.88): a wh question whose subject is the addressee and whose verb is one of cognition or communication (WordNet lexname), with a
      clause complement, asks the reason for that named clause ("how do you know X", "why do you say that X", "what makes you think X") — read from
