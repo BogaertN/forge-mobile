@@ -11,7 +11,7 @@ const VERBS = new Set(words('describe outrank research conclude derive prefer re
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause assume modify average prevent'));
 const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } };
-const NOUNS = new Set(words('paper method explanation amount association problem provenance agreement hypothesis option test conversation location thing passage person birthplace mother father capital country noun modifier form article proof hash label status reason case name class claim conflict source fact colour color dimension table pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
+const NOUNS = new Set(words('conversion paper method explanation amount association problem provenance agreement hypothesis option test conversation location thing passage person birthplace mother father capital country noun modifier form article proof hash label status reason case name class claim conflict source fact colour color dimension table pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
@@ -327,6 +327,7 @@ const coldStorage = () => N('storage', { adj: ['cold'] });
 const yesNo = () => S(C('answer', { karma: { coord: 'or', items: [Mn('yes'), Mn('no')] } }), { force: 'imp', part: 'please' });
 const forExample = k => S(C('say', { karma: Mn(MENTIONS[k]) }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] });
 const cannot = (v, karma) => S(C(v, { karta: I, karma: karma || pr('that'), mod: 'can', pol: 'neg' }));
+const unitReadingsS = m => S(C('have', { karta: N('unit', { det: 'the', app: Mn(m.unit) }), karma: N('reading', { cnt: (m.readings || []).length, list: { kind: 'mention', items: m.readings || [] } }) }));
 const REASON = {
   NO_TIME_SOURCE: () => [cannot('answer'), S(C('have', { karta: I, karma: N('source', { det: 'no', adj: ['authorized', 'evidence'] }), roles: { tadartha: N('time', { det: 'the' }) } }))],
   DEFINITE_ONE_VAR: () => [S(C('need', { karta: N('integral', { det: 'a', adj: ['definite'] }), karma: N('variable', { det: 'a', adj: ['single'] }) }))],
@@ -349,7 +350,7 @@ const REASON = {
   IDENTITY_EQ: () => [S(C('hold', { karta: N('equation', { det: 'that' }), roles: { tadartha: N('value', { det: 'every' }) } })), S(C('be', { karta: pr('it'), pred: N('identity', { det: 'a' }) }))],
   FALSE_EQ: () => [S(C('have', { karta: N('equation', { det: 'that' }), karma: N('solution', { det: 'no' }) })), S(C('reduce', { karta: pr('it'), roles: { gati: N('statement', { det: 'a', adj: ['false'] }) } }))],
   UNKNOWN_UNIT: m => [S(C('know', { karta: I, karma: N('unit', { det: 'the', app: Mn(m.unit) }), pol: 'neg' }))],
-  AMBIGUOUS_UNIT: m => [S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('the unit ' + m.unit + ' is ambiguous: it may be the ' + (m.readings || []).join(' or the ')) })), S(C('convert', { karta: I, karma: N('value', { det: 'the' }), tense: 'past', pol: 'neg' }))],
+  AMBIGUOUS_UNIT: m => [unitReadingsS(m) /* 4.9.87: from roles, not a mentioned sentence */, S(C('convert', { karta: I, karma: N('value', { det: 'the' }), tense: 'past', pol: 'neg' }))],
   DIM_MISMATCH: m => [S(C('measure', { karta: N('unit', { det: 'those', pl: true }), karma: N('quantity', { adj: ['different'], pl: true, list: { kind: 'mention', items: m.dims } }) }))],
   NO_EXTERNAL: () => [S(C('have', { karta: N('kernel', { det: 'this' }), karma: N('capability', { det: 'no' }), roles: { tadartha: N('action', { adj: ['external'], pl: true }) } }))],
   NOT_REGISTERED: () => [S(C('contain', { karta: N('register', { poss: 'my' }), karma: N('capability', { det: 'that' }), pol: 'neg' }))],
@@ -477,14 +478,14 @@ const RATE = /^research_http_(429|503)$|rate/i;
 /* M4 (4.9.65) dynamics answers (dynamics.js decides; this only voices): a rate computation as an equation over the stated quantities with its
    assumptions; measurement reports attributed to their sources with the conflict kept (never averaged); a fronted adverb's scope; a what-if */
 function dynPlan(m) { const out = [];
-  if (m.mode === 'rate' && m.diagnostic === 'ambiguous_unit') return [S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('the unit ' + m.unit + ' is ambiguous: it may be the ' + m.readings.join(' or the ')) })), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
-  if (m.mode === 'rate' && m.diagnostic === 'units') return [S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('no conversion between ' + m.units.join(' and ') + ' is stated') })), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
+  if (m.mode === 'rate' && m.diagnostic === 'ambiguous_unit') return [unitReadingsS(m), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
+  if (m.mode === 'rate' && m.diagnostic === 'units') return [S(C('have', { karta: I, karma: N('conversion', { det: 'no' }), roles: { apadana: Mn(m.units[0]), gati: Mn(m.units[1]) } })), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
   if (m.mode === 'rate' && m.diagnostic === 'start') return [S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' })), S(C('need', { karta: I, karma: N('amount', { det: 'the', adj: ['starting'] }) }))];
   if (m.mode === 'rate') { out.push(MS([X(m.expr), { rel: 'eq' }, X(m.result.text)])); if (m.result.never) out.push(S(C('reach', { karta: Mn(m.subject), karma: Mn(m.target), pol: 'neg' })));
       if (m.result.bound) out.push(S(C('reach', { karta: Mn(m.subject), karma: Mn(m.result.bound), tense: 'past' })));
       for (const a of m.assumed) out.push(S(C('assume', { karta: I, karma: Mn(a), tense: 'past' })));
       if (m.measured) out.push(S(C('report', { karta: YOU, karma: Mn(m.measured), tense: 'past' })), S(C('report', { karta: I, karma: N('conflict', { det: 'a' }) })), S(C('replace', { karta: I, karma: N('prediction', { poss: 'my' }), tense: 'past', pol: 'neg' })));
-      if (m.explanations && m.explanations.length) out.push(S(C('keep', { karta: I, karma: N('explanation', { cnt: m.explanations.length, adj: ['candidate'], list: { kind: 'mention', items: m.explanations } }) })), S(C('conclude', { karta: I, karma: Mn('which one holds'), pol: 'neg' })));
+      if (m.explanations && m.explanations.length) out.push(S(C('keep', { karta: I, karma: N('explanation', { cnt: m.explanations.length, adj: ['candidate'], list: { kind: 'mention', items: m.explanations } }) })), S(C('know', { karta: I, karma: N('explanation', { det: 'the', adj: ['right'] }), pol: 'neg' })));
       return out; }
   if (m.mode === 'reports') { for (const r of m.reports) out.push(S(C('report', { karta: Mn(r.source), karma: Mn(r.value) })));
     if (m.conflict) out.push(S(C('report', { karta: I, karma: N('conflict', { det: 'a' }) })), S(C('average', { karta: I, karma: N('report', { det: 'the', pl: true }), pol: 'neg' })));
@@ -498,8 +499,8 @@ function dynPlan(m) { const out = [];
     for (const r of m.other) out.push(S(C('cause', { karta: Mn(r.by), karma: Mn(r.what), adv: ['also'] })));
     for (const n of m.lost || []) out.push(S(C('have', { karta: Mn(n), karma: N('cause', { det: 'no', adj: ['other', 'stored'] }) })));
     if (!m.effects.length) out.push(S(C('have', { karta: I, karma: N('effect', { det: 'no', adj: ['stored'] }) })));
-    if (!m.effects.length && (m.association || []).length) { for (const a of m.association) out.push(S(C('tell', { karta: YOU, samp: I, karma: Mn(a.text), tense: 'past' }))); out.push(S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('an association does not tell me what an intervention would do') }))); }
-    if (m.status === 'resource_limited') out.push(S(C('follow', { karta: I, karma: N('link', { cnt: m.effects.length }), tense: 'past' })), S(C('be', { karta: N('limitation', { det: 'the' }), pred: Mn('the link budget was reached; more effects may follow') })));
+    if (!m.effects.length && (m.association || []).length) { for (const a of m.association) out.push(S(C('tell', { karta: YOU, samp: I, karma: Mn(a.text), tense: 'past' }))); out.push(S(C('show', { karta: N('association', { det: 'a' }), karma: N('effect', { det: 'the', of: N('intervention', { det: 'a' }) }), pol: 'neg' }))); }
+    if (m.status === 'resource_limited') out.push(S(C('follow', { karta: I, karma: N('link', { cnt: m.effects.length }), tense: 'past' })), S(C('reach', { karta: I, karma: N('limit', { poss: 'my', of: N('link', { pl: true }) }), tense: 'past' })), S(C('follow', { karta: N('effect', { adj: ['other'], pl: true }), mod: 'may' })));
     return out; }
   return out; }
 const PLANS = {

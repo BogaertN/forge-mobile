@@ -16,7 +16,7 @@ module.exports = ({ C, expect, ROOT }) => {
   C('M4-CAUSAL', 'a measurement that differs (65 gal) stays a separate claim: the prediction is kept, candidate explanations are listed from the model\'s own inputs (start, rate, duration, an unmodelled outflow, the measurement) and none is asserted — no leak is concluded', () => {
     const f = K(); f.process('A tank contains 100 gallons. A pump removes 10 gallons each minute for 3 minutes. How much remains?'); const r = f.process('I measured 65 gallons after 3 minutes'), c = CR(r);
     expect(/= 70 gallons\./.test(r.reply) && /reported “65 gallons after 3 minutes”/.test(r.reply) && /did not replace my prediction/.test(r.reply), r.reply);
-    expect(/candidate explanations?/.test(r.reply) && /unmodelled outflow/.test(r.reply) && /the measurement/.test(r.reply) && /the start/.test(r.reply) && /I do not conclude “which one holds”/.test(r.reply) && !/\bleak/.test(r.reply), 'explanations: ' + r.reply);
+    expect(/candidate explanations?/.test(r.reply) && /unmodelled outflow/.test(r.reply) && /the measurement/.test(r.reply) && /the start/.test(r.reply) && /I do not know the right explanation/.test(r.reply) /* 4.9.87: realized from roles */ && !/\bleak/.test(r.reply), 'explanations: ' + r.reply);
     expect(c && c.status === 'candidate_explanation' && c.competing_models.length >= 4 && c.counterevidence_refs.length === 1 && /65 gallons/.test(c.counterevidence_refs[0]), JSON.stringify(c));
     const g = K(); g.process('A tank contains 100 gallons. A pump removes 10 gallons each minute for 3 minutes. How much remains?'); const u = g.process('I measured 80 gallons after 3 minutes');
     expect(/unmodelled inflow/.test(u.reply) && !/unmodelled outflow/.test(u.reply), 'a higher reading names an inflow, not an outflow: ' + u.reply); });
@@ -35,7 +35,7 @@ module.exports = ({ C, expect, ROOT }) => {
     expect(rs.every(r => /= 30 liters\./.test(r.reply)) && new Set(rs.map(r => JSON.stringify(CR(r).derived_effects))).size === 1, rs.map(r => r.reply).join(' | ')); });
   C('M4-CAUSAL', 'C2 association is not cause: a stored correlation never authorises an intervention prediction; the what-if says so (status unsupported)', () => {
     const f = K(); run(f, ['remember that rain correlates with umbrellas']); const r = f.process('what happens if there is rain?'), c = CR(r);
-    expect(c && c.status === 'unsupported' && /correlat|associat/.test(r.reply) && /does not tell me what an intervention/.test(r.reply) && !/causes “umbrellas”/.test(r.reply), r.reply + ' ' + JSON.stringify(c));
+    expect(c && c.status === 'unsupported' && /correlat|associat/.test(r.reply) && /does not show the effect of an intervention/.test(r.reply) && !/causes “umbrellas”/.test(r.reply), r.reply + ' ' + JSON.stringify(c));
     const g = K(); run(g, ['remember that rain is associated with umbrellas']); const s = g.process('what happens if there is rain?'); expect(CR(s) && CR(s).status === 'unsupported', 'phrase form: ' + s.reply); });
   C('M4-CAUSAL', 'C5 / C13 intervention isolation: a what-if over stored links is mode intervene / conditionally_predicted with its intervention and premise refs; the world version, facts and tool jobs are unchanged', () => {
     const f = K(); run(f, ['remember that frost causes cracks', 'remember that cracks cause leaks']); const v0 = durable(f), r = f.process('what happens if there is frost?'), c = CR(r);
