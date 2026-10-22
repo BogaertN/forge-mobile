@@ -1811,6 +1811,12 @@ function Kernel(opts) {
     Ph(2, 'scope operators: ' + (Object.keys(ops).filter(k => ops[k]).join(', ') || 'none') + (ctx.negAct ? '; NEGATED ACT' : ''));
     { const Ap = appositive(raw); if (Ap) { trace.rules.push({ id: 'LL-APPOSITIVE-RELATIVE', doc: 'Doc5 relative-clause frame (non-restrictive: both propositions asserted)', note: Ap.note }); raw = Ap.raw; low = raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } }
     { const Tq = tagQuestion(raw); if (Tq) { trace.rules.push({ id: 'LL-TAG-QUESTION', doc: 'Doc5 §15 speech acts (tag = yes/no question)', note: Tq.note }); if (Tq.raw) { raw = Tq.raw; low = Tq.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
+    /* LL-DIRECTIVE-MEANING (4.9.90): a directive whose verb is one of meaning (define / explain) and whose whole rest is one noun phrase asks what that
+       noun phrase is — the same meaning as the copular question, so it takes the same route (controlled lexicon first, then sources) */
+    { const tk = content(G.tokenize(raw.replace(/[.!?]+\s*$/, ''))); const P = tk.length > 1 ? G.Parser(tk, glex) : null;
+      if (P && P.at(0, 'V').some(a => a.f === 'base' && SELF_MEAN_V.has(a.lemma) && a.lemma !== 'mean') && !P.at(1, 'PRON').length) { let np = null; try { np = npOnly(tk.slice(1)); } catch (e) { np = null; }
+        const nounOnly = !np && tk.slice(1).every((t, k) => ['N', 'PROPN', 'DET', 'ADJ', 'PREP', 'NUM'].some(g => P.at(k + 1, g).length) && !(P.at(k + 1, 'V').length && !P.at(k + 1, 'N').length && !P.at(k + 1, 'PROPN').length)) && !tk.slice(1).some((t, k) => P.at(k + 1, 'POSS').length || /^(how|why|what|when|where|who|which|whether|if)$/.test(t.w)); /* a name the NP grammar does not join ("the Treaty of Versailles") is still one nominal when no word of it is only a verb */
+        if ((np && (np.head || np.propn) && !np.conj && !np.owner) || nounOnly) { const q = 'what is ' + tk.slice(1).map(t => t.orig).join(' '); trace.rules.push({ id: 'LL-DIRECTIVE-MEANING', doc: 'Doc5 §15 (directive of a meaning verb = the copular description question)', note: q }); raw = q; low = q.toLowerCase(); } } }
     { const E = ellipsis(raw); if (E) { trace.rules.push({ id: 'LL-ELLIPSIS-VP', doc: 'Doc 3 ellipsis; Register F-11', note: E.note }); if (E.raw) { raw = E.raw; low = E.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     ctx.depth = depth; ctx.bypassTurn = !!bypass; /* candidate drift uses the same functional inputs as the turn (M1) */
     let sel; try { sel = evaluate(raw, low, ctx); }
