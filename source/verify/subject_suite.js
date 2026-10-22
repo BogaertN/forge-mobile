@@ -68,9 +68,9 @@ T('6b + 5: the first-amendment answer claims no agreement from ranked counts: "K
   const a = m.agreement; expect(a && a.agree === 1 && a.disagree === 0 && typeof a.unusable === 'number', JSON.stringify(a)); });
 T('6c: a question with no curated coverage (every curated archive silent) shows open_fallback provenance in the meaning and the reply', async () => { const { t, m } = await ask(AMEND, 'What is the first amendment?');
   const pv = m.provenance, fo = pv.fallback_only === true || (pv.summary && pv.summary.fallback_only === true); expect(fo && pv.sources.every(s => s.tier === 'open_fallback'), JSON.stringify(pv));
-  expect(/^The /.test(t.reply) && /The link is/.test(t.reply), t.reply); }); /* 4.9.86: the tier and fallback marks are in the provenance; the reply is the short shape */
+  expect(/^The /.test(t.reply) && /You can find it at “https:/.test(t.reply), t.reply); }); /* 4.9.87: realized from roles (source as kartā of a reporting verb, the link as its sthāna); the passage stays sealed in the meaning */ /* 4.9.86: the tier and fallback marks are in the provenance; the reply is the short shape */
 T('4: when every source mismatches the subject, nothing is answered: the typed limitation SUBJECT_MISMATCH is the reply; no excerpt is quoted', async () => { const { t, m } = await ask(MISMATCH_ONLY, 'What is the first amendment?');
-  expect(m && m.limitation === 'ABOVE_DRIFT_BAND' && m.best_drift > m.band, JSON.stringify(m)); /* 4.9.83: drift-scored matching (query compiler) replaces the binary guard */ expect(/^No source answered the question\./.test(t.reply || '') && !/Eighteenth|photographing|Twenty-first|audit/i.test(t.reply || ''), t.reply); expect(!m.answer, 'answered'); });
+  expect(m && m.limitation === 'ABOVE_DRIFT_BAND' && m.best_drift > m.band, JSON.stringify(m)); /* 4.9.83: drift-scored matching (query compiler) replaces the binary guard */ expect(/^No source \w+ the \w+\./.test(t.reply || '') && !/Eighteenth|photographing|Twenty-first|audit/i.test(t.reply || ''), t.reply); expect(!m.answer, 'answered'); });
 
 /* ---------------- 5. agreement counting ---------------- */
 T('5: agreement counts origins: Wikipedia + Wikidata are one origin; one paper in two indexes is one origin; disagreeing and unusable origins are counted; text "K agree, M disagree, N unusable"', () => { const ag = need(needPV(), 'agreement');
@@ -134,7 +134,7 @@ T('answer entity end to end: "who invented the telephone?" cites the Bell articl
 const TEL_PATENT = 'The telephone was patented by Alexander Graham Bell in 1876.';
 T('unsupported claim: when no source has a verbatim span stating the answer, the reply states "Unsupported: <claim> (no verbatim span in any source)" and never presents it as the answer', async () => {
   const { t, m } = await ask({ Telephone: TEL_PATENT }, 'who invented the telephone?'); const reply = (t && t.reply) || '';
-  expect(/^No source (answered the question|supported the answer)\./.test(reply), 'claim not refused: ' + reply); /* 4.9.86: a patent sentence does not fill "who invented" (predicate missing): refused in the short shape */
+  expect(/^No source \w+ the \w+( directly)?\./.test(reply), 'claim not refused: ' + reply); /* 4.9.86: a patent sentence does not fill "who invented" (predicate missing): refused in the short shape */
   expect(!/\bThe answer is\b/.test(reply) && !(m && m.answer), 'an unsupported claim is presented as the answer: ' + reply);
   expect(m && (m.limitation === 'ABOVE_DRIFT_BAND' || (m.provenance && m.provenance.sources.length === 1 && m.provenance.sources[0].supported === false)), 'the unsupported citation is not marked: ' + JSON.stringify(m || null).slice(0, 300));
   expect(m.limitation === 'ABOVE_DRIFT_BAND' || (m.agreement && m.agreement.agree === 0 && !(m.support && m.support.n > 0)), 'an unsupported source counted toward support or agreement: ' + JSON.stringify([m.agreement, m.support]));

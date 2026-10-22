@@ -164,7 +164,8 @@
      clauses are left out); (3) the grammar's clause realizer gives the surface; (4) ECHO: the generated sentence is read back into roles and
      must state the same claim (same agent, patient, root, predicate, adjuncts) and add no word that is not in the proof. */
   const isTag = (t, g) => (t.an || []).some(a => a.tag === g); const vf = (t, f) => (t.an || []).some(a => a.tag === 'V' && (!f || f.test(a.f || '')));
-  const vlemma = t => { const a = (t.an || []).find(x => x.tag === 'V'); return a ? a.lemma : t.w; };
+  let PREF = null; /* 4.9.87 (specific over general): of a word's verb readings, the one whose root is the question's own predicate (fell → fall for "when did X fall") */
+  const vlemma = t => { const vs = (t.an || []).filter(x => x.tag === 'V'), a = (PREF && vs.find(x => x.lemma === PREF)) || vs[0]; return a ? a.lemma : t.w; };
   const BE = /^(is|are|was|were|be|been|being)$/; const AUXW = /^(has|have|had|do|does|did)$/; const MODW = /^(can|could|may|might|must|shall|should|will|would)$/;
   /* a sentence-initial common word loses its capital when the phrase moves (a proper name keeps it) */
   const lowerLead = t => t.replace(/^([A-Z])([a-z])/, (m, a, b) => a.toLowerCase() + b);
@@ -193,7 +194,8 @@
     if (R.cop && !R.obj) return null; if (R.fq && c.rule !== 'GEN-ACTIVE-FROM-AGENT') c.adj.push({ pre: true, adv: R.fq }); for (const p of R.pps) c.adj.push({ prep: p.prep, np: NP(p.np) }); return c; }
   /* the claim as an active-normalised role tuple (for Echo): who acts, on what, the root, the predicate and the adjuncts */
   const tuple = R => R && JSON.stringify({ lemma: R.lemma, pol: R.pol, cop: R.cop, tense: R.tense, perf: !!R.perf, agent: String((R.voice === 'passive' ? R.agent : R.subj) || '').toLowerCase(), rest: words([R.voice === 'passive' ? R.subj : R.obj].concat(R.pps.map(p => p.prep + ' ' + p.np)).join(' ')).sort() }); /* PP attachment may differ between the two readings; the words of the non-agent material may not */
-  function generate(Q, sentence, hooks) { const out = []; const sents = String(sentence || '').split(/(?<=[a-z0-9)\]][.!?])\s+(?=[A-Z])/).slice(0, 3); /* each proved sentence in turn: the one that fills the asked relation is said */
+  function generate(Q, sentence, hooks) { PREF = Q && Q.roles && Q.roles.predicate || null; try { return generate0(Q, sentence, hooks); } finally { PREF = null; } }
+  function generate0(Q, sentence, hooks) { const out = []; const sents = String(sentence || '').split(/(?<=[a-z0-9)\]][.!?])\s+(?=[A-Z])/).slice(0, 3); /* each proved sentence in turn: the one that fills the asked relation is said */
     for (const one of sents) for (const core of cores(one, hooks.leadName)) { let T; try { T = hooks.derive(core).T; } catch (e) { continue; } const R = rolesOf(T); if (!R) continue; const c = answerClause(R); if (!c) continue;
       let text; try { text = hooks.clauseText(c); } catch (e) { continue; } text = text.replace(/\s+(['’]s)\b/g, '$1').replace(/\s+,/g, ','); text = text.charAt(0).toUpperCase() + text.slice(1).replace(/[.\s]+$/, '') + '.';
       let R2 = null; try { R2 = rolesOf(hooks.derive(text).T); } catch (e) { R2 = null; } const echo = !!R2 && tuple(R2) === tuple(R) && addsNothing(text, sentence) && dropsNothing(text, core);

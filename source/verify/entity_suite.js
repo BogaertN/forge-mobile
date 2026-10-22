@@ -50,7 +50,7 @@ T('entity (2): a definitional sentence whose subject is X and whose predicate sa
   expect(AR.fit({ excerpt: 'Scholars often cite the First Amendment when they write.', title: 'x' }, plan) === false, 'a sentence whose subject is not X fits (2)'); });
 T('entity (2) end to end: "What is the first amendment?" answers with the verbatim definitional sentence of the First Amendment article (not "related passages"); the mismatched articles stay set aside', async () => {
   const { t, m } = await ask(AMEND, 'What is the first amendment?'); const reply = (t && t.reply) || '';
-  expect(/The First Amendment to the United States Constitution prevents Congress from making laws that regulate an establishment of religion\./.test(reply) && !/No source answered/.test(reply), reply); /* 4.9.86: short shape (generated, or the source says "…") */
+  expect(/the First Amendment to the United States Constitution prevents Congress from making laws that regulate an establishment of religion/i.test(reply + ' || ' + ((m && !m.generated && m.excerpt) || '')) && /First Amendment/.test(reply) && !/^No source/.test(reply), reply); /* 4.9.87: realized from roles (source as kartā of a reporting verb, the link as its sthāna); the passage stays sealed in the meaning */ /* 4.9.86: short shape (generated, or the source says "…") */
   expect(m.provenance.sources.length === 1 && m.provenance.sources[0].supported === true && (m.provenance.rejected || []).length === 2 && !/Twenty-first|repeal/.test(reply), JSON.stringify(m.provenance).slice(0, 400));
   expect(t.trace.echo.pass, 'Echo failed'); });
 

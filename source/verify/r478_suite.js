@@ -25,6 +25,8 @@ const K = () => KMOD.Kernel({ lexicon: LEX, clock });
 const plan = q => K().lookupPlan(q);
 const qEnt = q => PV.questionEntity(plan(q), q);
 const replyOf = x => (x.t && (x.t.reply || x.t.text)) || '';
+/* 4.9.87 (Nic 7:36 PM: answers in Forge's own words, never quoted): the lead sentence is either restated in the reply or sealed in the meaning */
+const shown = x => replyOf(x) + ' || ' + ((x.m && !x.m.generated && x.m.excerpt) || '');
 
 /* ---------------- 1. participle questions ---------------- */
 for (const [q, s] of [['What is bronze made of?', 'bronze'], ['What is paper produced from?', 'paper'], ['What are bricks composed of?', 'brick'], ['What was the telescope invented by?', 'telescope'], ['What is cheese derived from?', 'cheese']])
@@ -33,7 +35,7 @@ T('1: end to end — the subject\'s own article answers a made-of question; a ti
   const pages = { 'Made in Italy': 'Made in Italy is a merchandise mark indicating that a product is designed and manufactured in Italy.', 'Bronze Age': 'The Bronze Age was a historical period characterised by the use of bronze.',
     Bronze: 'Bronze is an alloy consisting primarily of copper, commonly with about 12 percent tin.\nBronze is harder than copper.' };
   const x = await ask(pages, 'What is bronze made of?'); expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'Bronze', 'kind ' + (x.m && x.m.kind) + ' source ' + (x.m && x.m.source) + ' | ' + replyOf(x));
-  expect(/Bronze is an alloy consisting primarily of copper/.test(replyOf(x)) && !/Unsupported/.test(replyOf(x)), replyOf(x)); });
+  expect(/Bronze is an alloy consisting primarily of copper/i.test(shown(x)) && !/Unsupported/.test(replyOf(x)), replyOf(x)); });
 
 /* ---------------- 2. full noun phrase, jurisdiction, alternate names, sentence selection ---------------- */
 for (const [q, s, j] of [['What does the French Navy do?', 'french navy', 'france'], ['What does the Canadian Army do?', 'canadian army', 'canada'], ['What does the French military do?', 'french military', 'france'], ['research France tax code', 'france tax code', 'france']])
@@ -45,10 +47,10 @@ const FR = { France: 'France, officially the French Republic, is a country in We
   'Taxation in France': 'Taxation in France is governed by the French tax code, the Code général des impôts. It sets out income tax and value added tax.', 'French Revolution': 'The French Revolution was a period of political change in France that began in 1789.' };
 T('2: the bare country article never stands in for "<country> <institution>": the institution\'s own article is cited and its lead sentence (about the subject) is shown', async () => {
   const x = await ask(FR, 'What does the French Navy do?'); const rp = replyOf(x); expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'French Navy', 'source ' + (x.m && x.m.source) + ' | ' + rp);
-  expect(/The French Navy is the maritime arm of the French Armed Forces/.test(rp) && !/Applicants must/.test(rp) && !/643,801/.test(rp), 'off-topic or wrong sentence: ' + rp); expect(!/Unsupported/.test(rp), 'unsupported shown: ' + rp); });
+  expect(/The French Navy is the maritime arm of the French Armed Forces/i.test(shown(x)) && !/Applicants must/.test(shown(x)) && !/643,801/.test(rp), 'off-topic or wrong sentence: ' + rp); expect(!/Unsupported/.test(rp), 'unsupported shown: ' + rp); });
 T('2: a title reached by a redirect from the full phrase (an alternate name) matches it; the country article is set aside', async () => {
   const x = await ask(FR, 'What does the French military do?', { 'French military': 'French Armed Forces' }); const rp = replyOf(x);
-  expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'French Armed Forces', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/The French Armed Forces are the military forces of France/.test(rp) && !/Recruits must/.test(rp), rp); });
+  expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'French Armed Forces', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/The French Armed Forces are the military forces of France/i.test(shown(x)) && !/Recruits must/.test(shown(x)), rp); });
 T('2: a directive "research <country> tax code" is answered by the article the full phrase redirects to, never by the country article', async () => {
   const x = await ask(FR, 'research France tax code', { 'France tax code': 'Taxation in France' }); const rp = replyOf(x);
   expect(x.m && (x.m.source || (x.m.items || [])[0]) === 'Taxation in France', 'source ' + (x.m && (x.m.source || x.m.items)) + ' | ' + rp); /* a directive lists its sources (tool_result: items, no answer source) */ expect(!/643,801/.test(rp), rp); });
@@ -60,7 +62,7 @@ T('2: with only the country article and unrelated pages, the answer is an honest
 const SOL = { Venus: 'Venus is the second planet from the Sun. It is a terrestrial planet.', Mercury: 'Mercury is the first planet from the Sun and the smallest in the Solar System.', Planet: 'A planet is a large, rounded astronomical body that orbits a star.', Sun: 'The Sun is the star at the centre of the Solar System.' };
 T('3: "the second planet from the sun" resolves to the entity a source sentence verbatim names as it; a different ordinal never matches', async () => {
   const x = await ask(SOL, 'What is the second planet from the sun?'); const rp = replyOf(x);
-  expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'Venus', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/Venus is the second planet from the Sun/.test(rp) && !/Mercury/.test(rp) && !/Unsupported/.test(rp), rp);
+  expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'Venus', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/Venus is the second planet from the Sun/i.test(shown(x)) && !/Mercury/.test(rp) && !/Unsupported/.test(rp), rp);
   expect(x.rt && x.rt.resolved_entity && /venus/i.test(x.rt.resolved_entity), 'trace resolved entity ' + JSON.stringify(x.rt && x.rt.resolved_entity)); });
 T('3: a superlative description resolves the same way ("the largest moon of <planet>")', async () => {
   const pages = { Titan: 'Titan is the largest moon of Saturn and the second-largest in the Solar System.', 'Moons of Saturn': 'The moons of Saturn are numerous and diverse.', Saturn: 'Saturn is the sixth planet from the Sun.' };
@@ -121,12 +123,12 @@ T('9 (ext tier): "<Nationality> Army" with later off-topic sentences naming the 
   EXT = require(ROOT + '/data/lexicon-ext.json'); try {
   const pages = { 'Canadian Army': 'The Canadian Army is the command responsible for the operational readiness of the conventional ground forces of Canada.\nApplicants for the Army Reserve must be at least 16 years old.\nPrior to this, a soldier was enlisted into the Canadian Army for a fixed engagement.', Canada: 'Canada is a country in North America.' };
   const x = await ask(pages, 'What does the Canadian Army do?'); const rp = replyOf(x);
-  expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'Canadian Army', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/The Canadian Army is the command responsible/.test(rp) && !/Applicants|Prior to this|Unsupported/.test(rp), rp); } finally { EXT = null; } });
+  expect(x.m && x.m.kind === 'research_answer' && x.m.source === 'Canadian Army', 'source ' + (x.m && x.m.source) + ' | ' + rp); expect(/The Canadian Army is the command responsible/i.test(shown(x)) && !/Applicants|Prior to this|Unsupported/.test(shown(x)), rp); } finally { EXT = null; } });
 
 T('9: a sovereign KIND word ("Kingdom", "Republic") is not a polity; a lead sentence naming "the Kingdom of <country>" is not foreign', async () => {
   for (const L of [null, require(ROOT + '/data/lexicon-ext.json')]) { EXT = L; try { const p = K2().lookupPlan('What does the Danish Army do?'); expect(p.juris === 'denmark', 'juris ' + p.juris); for (const w of ['Kingdom', 'Republic', 'Nation', 'Empire']) expect(!p.countryOf(w), w + ' → ' + p.countryOf(w));
     const pages = { 'Danish Army': 'The Danish Army is the land-based branch of the Danish Defence, the armed forces of the Kingdom of Denmark.\nApplicants for the Army Reserve must be at least 18 years old.', Denmark: 'Denmark is a Nordic country in Northern Europe.' };
-    const x = await ask(pages, 'What does the Danish Army do?'); const rp = replyOf(x); expect(x.m && x.m.kind === 'research_answer' && /The Danish Army is the land-based branch/.test(rp) && !/Applicants|Unsupported/.test(rp), (L ? 'ext: ' : 'core: ') + rp); } finally { EXT = null; } } });
+    const x = await ask(pages, 'What does the Danish Army do?'); const rp = replyOf(x); expect(x.m && x.m.kind === 'research_answer' && /The Danish Army is the land-based branch/i.test(shown(x)) && !/Applicants|Unsupported/.test(shown(x)), (L ? 'ext: ' : 'core: ') + rp); } finally { EXT = null; } } });
 const K2 = () => KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock });
 
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = String(e && e.stack || e).slice(0, 700); } rows.push({ cls: 'R478', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
