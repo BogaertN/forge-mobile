@@ -110,7 +110,7 @@
     /* the subject LEADS a clause when the clause opens with it and it is the whole phrase: the next word is not another noun of a compound
        ("A First Amendment audit is …" leads with "first amendment audit", not with "first amendment") */
     const VERBISH = /^(is|are|was|were|be|been|has|have|had|can|could|will|would|may|might|must|should|shall|does|do|did|not|also|which|that|who|and|or|of|in|on|at|to|by|for|from|with|as|consists?|\w+ed|\w+s)$/;
-    const leads = cl => { const cw = words(cl).filter(w => !/^(the|a|an|on|in|at|for|most|all|many|some|also|thus|hence|however|therefore|for|example|of|this|that)$/.test(w)); return forms.some(f => { const fw = words(f); return fw.length && fw.every((w, i) => cw[i] && PV.covers(cw[i], { entities: [w] })) && (cw.length === fw.length || VERBISH.test(cw[fw.length])); }); };
+    const LEADSKIP = /^(the|a|an|on|in|at|for|most|all|many|some|also|thus|hence|however|therefore|for|example|of|this|that)$/; const leads = cl => { const cw = words(cl).filter(w => !LEADSKIP.test(w)); return forms.some(f => { const fw = words(f).filter(w => !LEADSKIP.test(w)); /* the form is read with the same words skipped ("treaty of versailles") */ return fw.length && fw.every((w, i) => cw[i] && PV.covers(cw[i], { entities: [w] })) && (cw.length === fw.length || VERBISH.test(cw[fw.length])); }); };
     const clauses = s.split(/[,;:()]|\s(?:and|but|while|whereas|because|since|so)\s/); const led = clauses.some(leads);
     const named = forms.some(f => words(f).every(w => ws.some(x => PV.covers(x, { entities: [w] }))));
     const pe = used(Q, 'predicate');

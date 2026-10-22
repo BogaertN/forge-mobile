@@ -146,12 +146,12 @@ function leadClause(text) { const s = String(text || ''); const ss = sentences(s
   const subj = []; for (let i = 0; i < toks.length; i++) { const t = toks[i], w = t.ws[t.ws.length - 1];
     const verb = subj.some(x => !/^(the|a|an)$/.test(x)) && !t.cap && !CUT.has(w) && !FUNCTION_WORDS.has(w) ? (VERB_LIST.has(w) || /^[a-z]{3,}(s|es|ed)$/.test(w) && !/(ss|us|is)$/.test(w)) : VERB_LIST.has(w) && subj.length > 0;
     const nx = toks[i + 1] && toks[i + 1].ws[0]; const beforeDet = subj.length > 0 && !t.cap && !CUT.has(w) && !FUNCTION_WORDS.has(w) && /^(the|a|an|this|that|these|those|its|their|his|her)$/.test(nx || ''); /* "Auditors test the …": a bare word before a determiner is the verb */
-    if (verb || beforeDet) { const head = headCut(subj); return head.length ? { subject: head.join(' '), verb: w } : null; } subj.push(...t.ws); if (t.punct) break; if (i > 14) return null; }
+    if (verb || beforeDet) { const head = headCut(subj); return head.length ? { subject: head.join(' '), full: subj.filter(x => !/^(the|a|an)$/.test(x)).join(' '), verb: w } : null; /* full: the whole subject NP with its of-phrase ("Treaty of Versailles") */ } subj.push(...t.ws); if (t.punct) break; if (i > 14) return null; }
   const head = headCut(subj); return head.length ? { subject: head.join(' '), verb: null } : null; }
 /* 4.9.75 (Nic 12:32, "What is X?"): a DEFINITIONAL sentence: its grammatical subject names X and a finite verb follows ("The First Amendment …
    prevents Congress from …"); returns that verbatim sentence, or null */
 function definitional(text, entity) { const s = String(text || ''), q = words(entity); if (!q.length) return null;
-  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), c = leadClause(t); if (c && c.verb && names(q, words(c.subject))) return t; } return null; }
+  for (const [a, b] of sentences(s)) { const t = s.slice(a, b), c = leadClause(t); if (c && c.verb && (names(q, words(c.subject)) || (c.full && names(q, words(c.full))))) return t; } return null; }
 /* the parties of a case name ("Miranda v. Arizona" → ["miranda", "arizona"]) */
 function partiesOf(title) { const m = /^(.+?)\s+v(?:s)?\.?\s+(.+)$/i.exec(String(title || '').replace(/\s*\([^)]*\)\s*/g, ' ').trim()); if (!m) return []; return [m[1], m[2].split(/[,;]/)[0]].map(x => headCut(words(x)).join(' ')).filter(Boolean); }
 /* the head of a source's primary entity, minus the archive's declared document noun ("ASPIRIN drug label" → "aspirin") */
@@ -171,7 +171,8 @@ function subjectMatch(questionEnt, src, answerEnt) { const q = words(questionEnt
   const res = { ok: false, via: null, basis: null, limitation: 'SUBJECT_MISMATCH', primary_entity: pe, question_entity: q.join(' ') };
   if (!q.length) return Object.assign(res, { ok: true, via: 'question', basis: 'none', limitation: null, note: 'no question entity resolved' });
   /* 4.9.75: the primary entity is the title head OR a case party OR the lead subject (first sentence subject); each is tested the same way */
-  const parties = partiesOf(src && src.title); /* a case name's entity is its parties, not "miranda v arizona" */ const cands = (parties.length ? [] : [['title', h]]).concat(parties.map(p => ['party', words(p)]), (() => { const l = leadSubject(src && src.excerpt); return l ? [['lead', words(l)]] : []; })());
+  const parties = partiesOf(src && src.title); /* a case name's entity is its parties, not "miranda v arizona" */ const fullT = words(String((src && src.title) || '').replace(/\s*\([^)]*\)\s*/g, ' ').split(/[,:;–—|]/)[0]).filter((w, i) => !(i === 0 && /^(the|a|an)$/.test(w))); /* 4.9.91: the whole title with its of-complement ("Treaty of Versailles") — the specific name before its general head */
+  const cands = (parties.length ? [] : [['title', h]].concat(fullT.length > h.length ? [['title', fullT]] : [])).concat(parties.map(p => ['party', words(p)]), (() => { const c = leadClause(src && src.excerpt); return c ? [['lead', words(c.subject)]].concat(c.full && c.full !== c.subject ? [['lead', words(c.full)]] : []) : []; })());
   /* 4.9.78: an ALTERNATE NAME of the source (a title that redirects to it, a recorded alias) is tested like its title: "<Country> military"
      → "<Country> Armed Forces" */
   for (const al of (src && src.aliases) || []) cands.push(['alias', headCut(words(String(al).replace(/\s*\([^)]*\)\s*/g, ' ')))]);
