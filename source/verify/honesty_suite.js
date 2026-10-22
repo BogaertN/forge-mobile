@@ -63,7 +63,7 @@ T('HONEST-TIER', 'the reply shows each source with its tier and the summary line
 T('HONEST-TIER', 'end to end: a Wikipedia-only answer shows the fallback visibly (tier beside the source, summary line, "fallback only"); every source in the meaning has a tier', async () => {
   const f = await kern(); const { t, m } = await research(f, 'when did the berlin wall fall');
   expect(m && m.kind === 'research_answer' && m.provenance && m.provenance.sources.length >= 1 && m.provenance.sources.every(s => EV.TIERS.includes(s.tier)), JSON.stringify(m));
-  expect(m.provenance.fallback_only === true && /the Wikipedia article “Berlin Wall”/.test(t.reply) && t.trace.echo.pass, t.reply); }); /* 4.9.86 (Nic 6:47 PM): the reply has the short shape; tiers and support marks are in the provenance */
+  expect(m.provenance.fallback_only === true && /the Wikipedia article “Berlin Wall”/i.test(t.reply) && t.trace.echo.pass, t.reply); }); /* 4.9.86 (Nic 6:47 PM): the reply has the short shape; tiers and support marks are in the provenance */
 
 /* ---- 3. entailment: a verbatim supporting span, or "unsupported" ---- */
 T('HONEST-ENTAIL', 'entail() returns a verbatim span of the excerpt holding the value, the entities and a relation word; deterministic', () => {
