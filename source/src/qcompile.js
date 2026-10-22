@@ -29,11 +29,11 @@
   function hypernymOf(lex, sid) { const wn = (lex && lex.wn) || {}; for (const t of ['core', 'ext', 'pro']) { const d = wn[t]; if (d && d.H && own(d.H, sid)) return d.H[sid][0] || null; } return null; }
   const lemmaOf = (lex, sid) => { const a = synIndex(lex).get(sid); return a && a.length ? a[0] : null; };
   /* the ASKED RELATION from the language core's answer type (the gap of the wh-word) */
-  const RELATION = { cause: 'cause', method: 'method', person: 'agent', date: 'time', place: 'place', quantity: 'quantity', description: 'description', verdict: 'verdict' };
+  const RELATION = { function: 'function', cause: 'cause', method: 'method', person: 'agent', date: 'time', place: 'place', quantity: 'quantity', description: 'description', verdict: 'verdict' };
   function compile(lp, text, lex, subject) { lp = lp || {}; const q = String(text || lp.question || '');
     const subj = String(subject || lp.subject || lp.entity || lp.object || '').toLowerCase().trim(); const sw = words(subj);
-    const asked = RELATION[lp.atype] || (/^\s*why\b/i.test(q) ? 'cause' : /^\s*how\b/i.test(q) ? 'method' : /^\s*who\b/i.test(q) ? 'agent' : /^\s*when\b/i.test(q) ? 'time' : /^\s*where\b/i.test(q) ? 'place' : 'description');
-    /* "what does X do": the gap is X's activity (its function), not a definition */ const asked2 = asked === 'description' && /^\s*what\s+(?:does|do|did)\b.*\bdo\s*\??\s*$/i.test(q) ? 'function' : asked;
+    /* 4.9.87 (Nic 7:36 PM (e)): the asked relation is the wh-operator's typed gap as the parse reads it (lookupPlan ANS-TYPE), never a phrase list */
+    const asked2 = RELATION[lp.gap || lp.atype] || 'description', asked = asked2;
     const sl = sw.map(w => otherNumber(w).concat([w])); const notSubj = w => !sl.some(f => f.includes(w)) && !(lp.juris && w === lp.juris);
     /* the predicate root (dhātu): the asked verb, else the last content lemma of the plan that is not a subject word */
     const predW = (lp.terms || []).map(String).filter(w => !/\s/.test(w) && !FW.has(w) && notSubj(w)); const predicate = lp.asked || predW[predW.length - 1] || null;
