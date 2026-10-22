@@ -65,10 +65,7 @@ const VALUE_TYPES = new Set(['date', 'person', 'place', 'quantity']);
 const relationOf = p => uniq([].concat(p.askedForms || [], p.predForms || [], [p.asked, p.pred, p.degree, p.dimNoun]).filter(Boolean).map(x => String(x).toLowerCase()).filter(x => /^[a-z]+$/.test(x)));
 /* the question's entity: the lookup plan's entity / object, else the first run of content words that are not relation words */
 function questionEntity(plan, question) { const p0 = plan || {}; const Q = String(question || p0.question || '').trim().replace(/[?.!]+$/, '');
-  /* 4.9.81 ENT-KIND-OF: "what kind / sort / type / class of N is X" asks the class of X: the entity is X */
-  { const m = /^(?:what|which) (?:kind|sort|type|class|variety) of [a-z][a-z -]*? (?:is|are|was|were) (?:an? |the )?(.+)$/i.exec(Q); if (m && words(m[1]).length && words(m[1]).length <= 5) return words(m[1]).join(' '); }
-  /* 4.9.81 ENT-SUPERLATIVE: "which N is / are the ADJest (PP)" asks for the N that is ADJest: the superlative stays in the entity ("largest planet") */
-  { const m = /^which ([a-z]+(?: [a-z]+)?) (?:is|are|was|were) the ([a-z]+est|most [a-z]+|least [a-z]+)(?: .*)?$/i.exec(Q); if (m) return words(m[2]).concat(words(m[1])).join(' '); }
+  /* 4.9.88: kind-of and superlative questions are read structurally by the question compiler (WH-DET COPULAR) and arrive as plan.subject */
   /* 4.9.81 ENT-JURIS-SCOPE: a trailing "in / under <ADJ> law" (the jurisdiction of the question) is a scope, not the subject; the subject is the
      content run before it */
   let p = p0; { const m = /\b(?:in|under) ((?:[A-Z][a-z]+ )+law)$/.exec(Q); if (m && [p0.subject, p0.entity, p0.object].some(x => x && words(x).join(' ') === words(m[1]).join(' '))) { p = Object.assign({}, p0, { subject: null, entity: null, object: null }); question = Q.slice(0, m.index).trim(); } }

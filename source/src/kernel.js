@@ -2313,6 +2313,15 @@ function Kernel(opts) {
     const w0 = toks[0].w, a1 = toks[1] && (P.at(1, 'ADJ').length || /^(many|much)$/.test(toks[1].w)); const atype = yn ? 'verdict' : w0 === 'what' && toks[1] && P.at(1, 'V').some(v => effectNounsOf(v.lemma).length) ? 'cause' /* CAUSE-WHAT (4.9.56): "what causes X" asks for the cause (the verb has effect nominals) */ : /^(who|whom|whose)$/.test(w0) ? 'person' : w0 === 'when' ? 'date' : w0 === 'where' ? 'place' : w0 === 'why' ? 'cause' : w0 === 'how' ? (a1 ? 'quantity' : 'method') : 'description';
     const proDo = /^(what|which)$/.test(w0) && toks.length > 3 && /^(do|does|did)$/.test(toks[1].w) && toks[toks.length - 1].w === 'do' && P.at(toks.length - 1, 'AUX').length && !toks.slice(2, -1).some((t, k) => P.at(k + 2, 'V').length && !P.at(k + 2, 'N').length); /* PRO-VERB (4.9.87): the wh-word is the karma of the pro-verb "do" after do-support — the gap is the subject's activity, read from the parse */ 
     if (proDo && !subject) { const sw = toks.slice(2, -1).map(t => t.w).filter(w => !(G.CL[w] && G.CL[w].includes('DET'))); if (sw.length) subject = sw.join(' '); } /* PRO-VERB: the subject is the noun phrase between do-support and the pro-verb */
+    /* WH-DET COPULAR (4.9.88): "what/which <NP> <be> <XP>" — the wh-phrase is the predicate nominal (the class asked for), the copula's other side is the
+       subject. An XP that is only a superlative ("the largest", "the lightest in …") is a property of the wh-phrase's head, so the subject is ADJ + head.
+       Read from the tags, not from a list of question phrasings. */
+    if (!subject && /^(what|which)$/.test(w0) && toks.length > 3) { const c = toks.findIndex((t, k) => k > 1 && /^(is|are|was|were)$/.test(t.w)); /* the copula's finite forms */
+      const whNP = c > 1 ? toks.slice(1, c) : [], isN = k => P.at(k, 'N').length > 0, isV = k => P.at(k, 'V').length > 0 && !isN(k);
+      if (c > 1 && whNP.some((t, k) => isN(k + 1)) && !whNP.some((t, k) => isV(k + 1))) { let r = toks.slice(c + 1).map((t, k) => ({ w: t.w, k: k + c + 1 })).filter(x => !P.at(x.k, 'DET').length);
+        const pp = r.findIndex(x => P.at(x.k, 'PREP').length && !isN(x.k) || P.at(x.k, 'V').some(v => v.f === 'pp' || v.f === 'past')); if (pp >= 0) r = r.slice(0, pp); /* a PP or a passive participle closes the subject NP */
+        const head = [...whNP.keys()].reverse().map(k => k + 1).find(isN), sup = r.length && r.every(x => P.at(x.k, 'ADJ').length && !isN(x.k) || x.w === 'most' || x.w === 'least');
+        if (r.length && sup && head) subject = r.map(x => x.w).concat([toks[head].w]).join(' '); else if (r.length && r.length <= 5) subject = r.map(x => x.w).join(' '); } }
     /* DIM (4.9.52): the dimension a degree adjective measures is read from its WordNet glosses (tall = "great in vertical dimension" → length;
        heavy = "great physical weight" → mass; old = "lived … long time" → time) */
     const dimOf = a => { const g = []; for (const t of ['core', 'ext', 'pro']) { const L = lex.wn[t] && lex.wn[t].L; if (L && L[a]) for (const e of L[a]) if (e[0] === 'a') for (const sn of e[1]) g.push(String(sn[2] || '')); } const G2 = g.join(' / '); const d = [];
