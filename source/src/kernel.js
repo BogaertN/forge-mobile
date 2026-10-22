@@ -139,8 +139,14 @@ function Lexicon(store) {
 }
 
 const NUMW = Object.assign(Object.create(null), { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100, thousand: 1000 });
-function mathSurface(s) {
-  let t = s.replace(/^(?:what is|what are|calculate|compute|evaluate|how much is|what does)\s+/, '').replace(/\s+(?:equal|equals|make)$/, '');
+/* MATH-FRAME (4.9.92; replaces the phrase prefix strip): the expression is the span from its first operand or operator word to the end; what
+   precedes it is the question frame, accepted only when every word of it is a frame word (frame(w): a closed-class wh-word, copula, auxiliary,
+   quantifier or determiner, or a verb of calculation by its WordNet gloss). With do-support ("what does X equal") the final bare verb belongs to
+   the frame. No frame hook: no frame words are accepted (the expression must stand alone). */
+function mathSurface(s, frame) { const tw = String(s).trim().split(/\s+/); const opnd = w => /^[\d(√−-]/.test(w) || w in NUMW || /^(sqrt|square|add|sum|subtract|multiply|divide)$/.test(w) || /^(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)-/.test(w);
+  let k = tw.findIndex((w, i) => opnd(w) || (w === 'the' && tw[i + 1] === 'square')); if (k < 0) return null; const pre = tw.slice(0, k); if (!pre.every((w, i) => !!frame && (frame(w) || pre[i - 1] === 'how' /* the wh-degree phrase "how much" */))) return null;
+  let body = tw.slice(k); if (pre.some(w => /^(do|does|did)$/.test(w)) && body.length > 1 && !opnd(body[body.length - 1]) && frame && frame.verb && frame.verb(body[body.length - 1])) body = body.slice(0, -1);
+  let t = body.join(' ');
   t = t.replace(/^(add|sum) (.+?) (?:and|to) (.+)$/, '($2) + ($3)').replace(/^subtract (.+?) from (.+)$/, '($2) - ($1)').replace(/^multiply (.+?) (?:by|and) (.+)$/, '($1) * ($2)').replace(/^divide (.+?) by (.+)$/, '($1) / ($2)');
   t = t.replace(/\bthe square root of\b|\bsquare root of\b|\bsqrt of\b|√/g, ' sqrt ').replace(/(\S+) percent of (\S+)/g, '($1/100*$2)')
     .replace(/\bmultiplied by\b|\btimes\b|×/g, ' * ').replace(/\bdivided by\b|\bover\b|÷/g, ' / ').replace(/\bplus\b/g, ' + ').replace(/\bminus\b|−/g, ' - ')
@@ -215,7 +221,7 @@ function Kernel(opts) {
   const now = () => (opts.clock ? opts.clock() : new Date().toISOString());
   const perm = opts.perm || Gv.PermissionService(store, { clock: now }); const cont = CT.Containment(store, { clock: now, perm }); const bench = TB.Bench(store, { clock: now, perm });
   const fmtTime = opts.formatTime || (iso => iso.replace('T', ' ').slice(0, 16) + ' UTC');
-  const glex = { hasPos: (l, p) => lex.hasPos(l, p) || (p === 'v' && SELF_V.has(l)) || (p === 'n' && (SELF_N.has(l) || GKS_N().has(l))), /* Forge's own self-query words are lexicon entries of the kernel (closed class), so they parse even with no WordNet lexicon */ exc: lex.exc, tier: lex.tier, tierPos: lex.tierPos, derive: lex.derive, provisional: (l, p) => (lex.isStrict() ? null : lex.provisional(l, p)), provisionalOK: () => !lex.isStrict(), lexnameOf: w => (lex.lexnameOf && !(lex.provInfo && lex.provInfo(w)) ? lex.lexnameOf(w) : null), /* 4.9.82: a word known only by derivation has no lexicographer class here */ controlled: lex.controlled, known: w => lex.known(w) || GKS_N().has(String(w).toLowerCase()), isName: lex.isName, isProper: lex.isProper, coreNoun: lex.coreNoun,
+  const glex = { hasPos: (l, p) => lex.hasPos(l, p) || (p === 'v' && SELF_V.has(l)) || (p === 'n' && (SELF_N.has(l) || GKS_N().has(l))), /* Forge's own self-query words are lexicon entries of the kernel (closed class), so they parse even with no WordNet lexicon */ exc: lex.exc, tier: lex.tier, tierPos: lex.tierPos, derive: lex.derive, provisional: (l, p) => (lex.isStrict() ? null : lex.provisional(l, p)), provisionalOK: () => !lex.isStrict(), lexnameOf: w => (lex.lexnameOf && !(lex.provInfo && lex.provInfo(w)) ? lex.lexnameOf(w) : null), /* 4.9.82: a word known only by derivation has no lexicographer class here */ controlled: lex.controlled, known: w => lex.known(w) || GKS_N().has(String(w).toLowerCase()), isName: lex.isName, isProper: lex.isProper, entityName: w => memNames().get(w) || null, /* 4.9.92: a word the stored facts hold as a name (or as a common noun) keeps that reading at the start of a sentence */ coreNoun: lex.coreNoun,
     /* 4.9.48: verb complement frames are lexicon facts (WordNet 3.0 generic frames of the lemma's verb senses), read by grammar.js */
     vclasses: l => lex.senses(l).filter(s => s.pos === 'v').map(s => s.lexname), /* WordNet lexicographer classes of the verb senses, most frequent first */
     vframes1: l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; const s = FR && lex.senses(l).find(x => x.pos === 'v'); return s ? s.frames.map(f => FR[f]).filter(Boolean) : []; },
@@ -227,6 +233,9 @@ function Kernel(opts) {
   const working = [];
   const storedFacts = () => store.load('memory').filter(r => r.kind !== 'note' && r.status === 'active');
   const activeFacts = () => storedFacts().concat(working.filter(w => w.status === 'active'));
+  let memNamesKey = null, memNamesMap = new Map(); const memNames = () => { let fs; try { fs = activeFacts(); } catch (e) { return memNamesMap; } const key = fs.length + ':' + (fs.length ? fs[fs.length - 1].id : ''); if (key === memNamesKey) return memNamesMap; const m = new Map();
+    const walk = o => { if (!o || typeof o !== 'object') return; if (Array.isArray(o)) return o.forEach(walk); if (typeof o.propn === 'string' && /^[A-Z]/.test(o.propn) && !o.propn.includes(' ')) m.set(o.propn.toLowerCase(), 'name'); if (Array.isArray(o.head) && o.head.length === 1 && !m.has(o.head[0])) m.set(o.head[0], 'common'); for (const v of Object.values(o)) walk(v); };
+    for (const f of fs) if (!f.sensitive) walk(f.clause); memNamesKey = key; memNamesMap = m; return m; };
   function addWorking(c, turn, sense) { const id = 'wf:' + sha256(canon(G.material(c)) + '|' + turn).slice(0, 16), subjTxt = c.coord ? '' : G.npText(c.subj, 'user').toLowerCase();
     const rec = { id, kind: 'relation', clause: clone(c), pred: c.coord ? 'and' : c.verb.lemma, subjKey: c.coord ? null : entKey(c.subj), entities: [...new Set(nps(c).filter(n => !n.pron3).map(entKey).filter(Boolean))], sensitive: SENSITIVE.test(subjTxt), sense: sense || null,
       status: 'active', working: true, sfe: { Phi: 9, rho: 1, Delta: 0, nu: 0, mu: 1.0, eps: 0, tau: [], lambda: meta.loop, chi: meta.chi }, provenance: { source: 'user statement (working)', turn } };
@@ -285,7 +294,7 @@ function Kernel(opts) {
   const heldKeys = () => new Set(heldNow.concat(activeFacts().filter(r => r.clause && r.clause.resolved_reading).map(r => canon(G.material(r.clause))))); let heldNow = [];
   /* 8.3.1 read backwards (4.9.83): a sentence-initial capital is orthography — a first word that is a common noun of the lexicon (followed by a lower-case word) is read as that noun
      first; a name (no common-noun reading) keeps its capital */
-  function reparseClause(text, open) { const m0 = /^([A-Z])([a-z]+)(?=\s+[a-z])/.exec(String(text || '')); /* not an abbreviation or the first word of a capitalised name ("Mr. Pell", "General Motors") */ if (m0 && !(lex.isProper && lex.isProper(m0[1].toLowerCase() + m0[2]))) /* 4.9.92: a lexicon name keeps its capital */ { const lw = (m0[1].toLowerCase() + m0[2]); const tg = derive(swapToks(lw), open).T || []; if (tg[0] && (tg[0].an || []).some(a => a.tag === 'N') && !(tg[0].an || []).some(a => a.tag === 'PROPN' && a.rule !== 'TAG-PROPN-INITIAL-ALT')) { const r = reparseClause0(lw + String(text).slice(m0[0].length), open); if (r) return r; } } return reparseClause0(text, open); }
+  function reparseClause(text, open) { const m0 = /^([A-Z])([a-z]+)(?=\s+[a-z])/.exec(String(text || '')); /* not an abbreviation or the first word of a capitalised name ("Mr. Pell", "General Motors") */ if (m0 && !(lex.isProper && lex.isProper(m0[1].toLowerCase() + m0[2])) && memNames().get(m0[1].toLowerCase() + m0[2]) !== 'name') /* 4.9.92: a lexicon name keeps its capital */ { const lw = (m0[1].toLowerCase() + m0[2]); const tg = derive(swapToks(lw), open).T || []; if (tg[0] && (tg[0].an || []).some(a => a.tag === 'N') && !(tg[0].an || []).some(a => a.tag === 'PROPN' && a.rule !== 'TAG-PROPN-INITIAL-ALT')) { const r = reparseClause0(lw + String(text).slice(m0[0].length), open); if (r) return r; } } return reparseClause0(text, open); }
   function reparseClause0(text, open) { const d = derive(swapToks(text), open); if (!d.parses.length) return null; const ks = new Set(d.parses.map(p => canon(G.material(p.node.clause)))); if (ks.size === 1) return d.parses[0].node.clause;
     const H = heldKeys(), hit = d.parses.filter(p => H.has(canon(G.material(p.node.clause)))); if (hit.length) return new Set(hit.map(p => canon(G.material(p.node.clause)))).size === 1 ? hit[0].node.clause : null;
     /* 4.9.87: an embedded clause is read as the main clause is (G-ECONOMY: fewest Merges, Late Closure, Minimal Attachment), so a that-clause has the reading its sentence would have */
@@ -509,7 +518,21 @@ function Kernel(opts) {
       try { const pr = R.ruleWorld(F, rules).prove(rp.atom); return !!pr && R.checkRuleProof(F, rules, pr).ok && R.atomKey(rp.atom) === it.key; } catch (e) { return false; } }
     return undefined; }); }
   /* "why?" / "how do you know?" / "what is that based on?" read back the recorded justification of the previous answer (or a named item) */
-  const WHY_BARE = /^(?:(?:but|and|so|ok|okay)[, ]+)?(?:why(?: is that| is it| so| that| do you (?:say|think) (?:that|so))?|how (?:do|did|would) you know(?: that| this| it)?|how come|what is (?:that|this|it) based on|what's (?:that|this|it) based on|what are you basing (?:that|this|it) on|on what basis|based on what|what makes you (?:say|think) (?:that|so))$/;
+  /* BARE-REASON (4.9.92; replaces the WHY_BARE phrase list): a question with no content of its own asks the reason for the previous answer. Read
+     structurally: leading discourse connectives (CONJ, INTJ) are dropped; then (a) the reason wh-word "why" with only closed-class words and
+     pro-forms after it ("why", "why is that", "why so", "why do you say that"); (b) "how" with the verb come and nothing else; (c) a wh-question
+     whose subject is the addressee and whose verb is one of cognition or communication with no complement or only a pro-form ("how do you know",
+     "what makes you think so"); (d) a wh-question whose only content word is a basis word (a sense glossed "basis" / "foundation": "on what
+     basis", "what is that based on") */
+  const PROFORM = w => /^(that|this|it|so)$/.test(w); const closedW = w => !!G.CL[w] || PROFORM(w);
+  const cognV = w => G.lemmatize(w, glex).filter(x => x.pos === 'v').some(x => (lex.senses(x.lemma) || []).filter(z => z.pos === 'v').slice(0, 2).some(z => z.lexname === 'verb.cognition' || z.lexname === 'verb.communication'));
+  const basisW = w => !G.CL[w] && [w].concat(G.lemmatize(w, glex).map(x => x.lemma)).some(l => ['n', 'v'].some(p => (lex.senses(l) || []).filter(z => z.pos === p).slice(0, 2).some(z => /\b(basis|foundation)\b/.test(z.gloss)))); /* the first senses of each part of speech */
+  function bareReason(s) { let t = String(s || '').replace(/[,;]/g, ' ').trim().split(/\s+/).filter(Boolean); while (t.length > 1 && ((G.CL[t[0]] || []).some(g => g === 'CONJ' || g === 'INTJ') || (t[0] === 'so' && (G.CL[t[1]] || []).includes('WH')))) t = t.slice(1);
+    if (!t.length || !(G.CL[t[0]] || []).includes('WH') && !(G.CL[t[0]] || []).includes('PREP') && !basisW(t[0])) return false; if (t.includes('not') || t.includes('never')) return false;
+    if (t[0] === 'why') return t.slice(1).every(w => closedW(w) || cognV(w)) && (t.length === 1 || PROFORM(t[t.length - 1]) || t.length === 2);
+    if (t[0] === 'how' && t.length === 2 && G.lemmatize(t[1], glex).some(x => x.pos === 'v' && x.lemma === 'come')) return true;
+    const k = t.indexOf('you'); if (/^(how|what)$/.test(t[0]) && k >= 1 && k <= 3 && t[k + 1] && cognV(t[k + 1])) { const r = t.slice(k + 2); if (!r.length || (r.length === 1 && PROFORM(r[0]))) return true; }
+    const bw = t.filter(basisW); return t.includes('what') && bw.length >= 1 && t.every(w => closedW(w) || basisW(w)); }
   /* WHY-NAMED (4.9.88): a wh question whose subject is the addressee and whose verb is one of cognition or communication (WordNet lexname), with a
      clause complement, asks the reason for that named clause ("how do you know X", "why do you say that X", "what makes you think X") — read from
      the verb's class and the clause position, not a list of phrasings */
@@ -538,7 +561,7 @@ function Kernel(opts) {
     { const mp = metaPrev(s); if (mp === 'restate' && lastMeaning) { rules.push({ id: 'G-META-PREV', doc: 'Doc5 §15 question about the previous answer', note: 'restate' }); return res('SELECTED_MEANING', lastMeaning.m, { frame: lastMeaning.frame || 'FR.QUESTION', act: lastMeaning.act || 'question' }); }
       if (mp === 'reason') { rules.push({ id: 'G-META-PREV', doc: 'Doc5 §15 question about the previous answer', note: 'reason' }); s = 'how do you know that'; } }
     let it = null, how = 'previous';
-    if (WHY_BARE.test(s)) { const ids = meta.lastItems || []; it = ids.length ? TMS.get(ids[0]) : null; }
+    if (bareReason(s)) { const ids = meta.lastItems || []; it = ids.length ? TMS.get(ids[0]) : null; }
     else { const n = whyNamed(s); if (!n) return null; const hits = TMS.findByText(n[1]);
       /* 4.9.81 TMS-WHY-STATED: a statement of this conversation that the truth-maintenance record does not hold as an item is its own reason — the user said it */
       if (!hits.length) { try { const ps = derive(content(G.tokenize(n[1]))).parses; const cs = ps.map(p => p.node && p.node.clause).filter(Boolean).map(c => canon(G.material(c))); const f = activeFacts().find(r => !r.sensitive && r.clause && cs.includes(canon(G.material(r.clause)))); if (f) { rules.push({ id: 'TMS-WHY-STATED', doc: 'Doc7: the reason for a stated fact is the statement itself' }); return res('SELECTED_MEANING', { kind: 'recall', items: [f.clause] }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: [f.id] }); } } catch (e) { /* no reading */ } return null; } it = hits[hits.length - 1]; how = 'named'; }
@@ -956,7 +979,8 @@ function Kernel(opts) {
         if (!r.ok) return res('REFUSAL_RELEVANT', r.error === 'AMBIGUOUS_UNIT' ? { kind: 'refuse', reason: 'AMBIGUOUS_UNIT', unit: r.unit, readings: r.readings } : { kind: 'refuse', reason: 'DIM_MISMATCH', dims: r.dims }, { frame: 'FR.UNITS', act: 'question', math: r });
         return res('SELECTED_MEANING', Object.assign({ kind: 'converted', from: r.from, value: r.value.text, to: r.to }, r.value.exact ? {} : { fraction: r.value.fraction }), { frame: 'FR.UNITS', act: 'question', math: r }); }
       return res('REFUSAL_RELEVANT', { kind: 'refuse', reason: 'UNKNOWN_UNIT', unit: (pa ? cu[3] : cu[2]).trim() }, { frame: 'FR.UNITS', act: 'question' }); }
-    const ms = mathSurface(low);
+    const mFrame = Object.assign(w => (G.CL[w] || []).some(g => /^(WH|COP|AUX|MOD|DET|QUANT|PLEASE)$/.test(g)) || calcV(w), { verb: w => G.lemmatize(w, glex).some(x => x.pos === 'v') });
+    const ms = mathSurface(low, mFrame);
     if (ms) { const r = M.computeExpr(ms); rules.push({ id: 'GP014-MATH-LANE', doc: 'GP-014; RPMC O_phase', note: 'expr ' + ms });
       if (!r.ok && r.error === 'DIV0') { g.congruity = 'division by zero'; rules.push({ id: 'RPMC-DIV-PHASE-INVALID', doc: 'RPMC Full Protocol ÷_Φ' }); return res('REFUSAL_RELEVANT', { kind: 'refuse', reason: 'DIV0_PHI' }, { frame: 'FR.MATH', act: 'question', math: r }); }
       if (!r.ok) { g.congruity = 'not a well-formed expression'; return res('INCONGRUENT_REJECTED', { kind: 'refuse', reason: 'MALFORMED_EXPR' }, { frame: 'FR.MATH', act: 'question', math: r }); }
@@ -1083,7 +1107,10 @@ function Kernel(opts) {
   const causalOf = p => { const i = WR.relInfo(p); return (i && i.row.causal) || null; };
   const worldVersion = () => 'wv:' + sha256(JSON.stringify([worldStateView().relations.filter(r => r.origin === 'stated').map(r => [r.pred, r.a, r.b, r.polarity, r.premise]), condLinks().map(c => c.premise)])).slice(0, 16);
   const isVerbW = w => [w, w.replace(/s$/, ''), w.replace(/es$/, ''), w.replace(/ies$/, 'y')].some(x => x && glex.hasPos(x, 'v'));
-  function dynRoute(raw, res, rules) { let m = null; try { m = DY.read(raw, { last: meta.dynScenario || null, isVerb: isVerbW, links: worldStateView().relations, causalOf, conds: condLinks() }); } catch (e) { m = null; }
+  const calcV = w => G.lemmatize(w, glex).filter(x => x.pos === 'v').some(x => (lex.senses(x.lemma) || []).filter(z => z.pos === 'v').slice(0, 2).some(z => /\b(calculat|comput|evaluat|mathematical)/.test(z.gloss)));
+  const vGloss = re => w => G.lemmatize(w, glex).filter(x => x.pos === 'v').some(x => (lex.senses(x.lemma) || []).filter(z => z.pos === 'v').slice(0, 2).some(z => re.test(z.gloss)));
+  const WHATIF_H = { aux: w => (G.CL[w] || []).some(g => g === 'AUX' || g === 'MOD'), occur: vGloss(/\b(come to pass|take place|happen|occur|be the (?:result|consequence)|come after)\b/), endV: vGloss(/\b(halt|cease|come to an end|have an end|remove|take away|disappear|discontinue|stop)\b/) }; /* 4.9.92 WHAT-IF verb classes from WordNet glosses */
+  function dynRoute(raw, res, rules) { let m = null; try { m = DY.read(raw, { last: meta.dynScenario || null, isVerb: isVerbW, links: worldStateView().relations, causalOf, conds: condLinks(), whatIf: WHATIF_H }); } catch (e) { m = null; }
     /* DYN-WHATIF-LOCAL (4.9.81): "what would happen to the N if S" asks the consequence for a described thing under a supposition; it is answered only
        from the user's stated causal links (a what-if), never looked up. With no stored link about that thing the answer says so. */
     if (!m) { const cf = String(raw).trim().replace(/[?]+$/, '').match(/^what (?:would|will|could) happen to (the [a-z][a-z -]*?) if (.+)$/i); if (cf) { const tt = content(G.tokenize(cf[1])); const ns = G.Parser(tt, glex).np(0).filter(x => x.i === tt.length); if (ns.length) { rules.push({ id: 'DYN-WHATIF-LOCAL', doc: 'dynamics.js WHAT-IF (stated causal links only); no stored link about the thing' }); return res('SELECTED_MEANING', { kind: 'recall_none', subj: ns[0].node, personal: true /* a supposition about the user's described system, never a public lookup */ }, { frame: 'FR.QUESTION', act: 'question' }); } } return null; }
@@ -2339,7 +2366,7 @@ function Kernel(opts) {
     /* ANS-TYPE (4.9.52; the wh-word / degree-adverb is the operator whose variable the answer binds — Chomsky's wh-movement leaves a typed gap):
        who → person, when → date, where → place, why → cause, how + ADJ / how many / how much → quantity, bare how → method, aux-first → verdict */
     const w0 = toks[0].w, a1 = toks[1] && (P.at(1, 'ADJ').length || /^(many|much)$/.test(toks[1].w)); const atype = yn ? 'verdict' : w0 === 'what' && toks[1] && P.at(1, 'V').some(v => effectNounsOf(v.lemma).length) ? 'cause' /* CAUSE-WHAT (4.9.56): "what causes X" asks for the cause (the verb has effect nominals) */ : /^(who|whom|whose)$/.test(w0) ? 'person' : w0 === 'when' ? 'date' : w0 === 'where' ? 'place' : w0 === 'why' ? 'cause' : w0 === 'how' ? (a1 ? 'quantity' : 'method') : 'description';
-    const proDo = /^(what|which)$/.test(w0) && toks.length > 3 && /^(do|does|did)$/.test(toks[1].w) && toks[toks.length - 1].w === 'do' && P.at(toks.length - 1, 'AUX').length && !toks.slice(2, -1).some((t, k) => P.at(k + 2, 'V').length && !P.at(k + 2, 'N').length); /* PRO-VERB (4.9.87): the wh-word is the karma of the pro-verb "do" after do-support — the gap is the subject's activity, read from the parse */ 
+    const proDo = /^(what|which)$/.test(w0) && toks.length > 3 && /^(do|does|did)$/.test(toks[1].w) && toks[toks.length - 1].w === 'do' && P.at(toks.length - 1, 'AUX').length && !toks.slice(2, -1).some((t, k) => P.at(k + 2, 'V').length && !P.at(k + 2, 'N').length); /* PRO-VERB (4.9.87): the wh-word is the karma of the pro-verb "do" after do-support — the gap is the subject's activity, read from the parse */
     if (proDo && !subject) { const sw = toks.slice(2, -1).map(t => t.w).filter(w => !(G.CL[w] && G.CL[w].includes('DET'))); if (sw.length) subject = sw.join(' '); } /* PRO-VERB: the subject is the noun phrase between do-support and the pro-verb */
     /* WH-DET COPULAR (4.9.88): "what/which <NP> <be> <XP>" — the wh-phrase is the predicate nominal (the class asked for), the copula's other side is the
        subject. An XP that is only a superlative ("the largest", "the lightest in …") is a property of the wh-phrase's head, so the subject is ADJ + head.

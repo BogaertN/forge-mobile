@@ -125,10 +125,18 @@ function readScope(raw, isVerb) { const sents = String(raw).replace(/\s+/g, ' ')
   return out; }
 /* ---- WHAT-IF over the durable causal links ---- */
 const LINK_BUDGET = 32; /* C12: the most cause links one what-if follows; past it the result is resource_limited and the frontier is kept */
-function readWhatIf(raw, links, nodes) { const low = String(raw).toLowerCase().replace(/\s+/g, ' ').trim().replace(/[?.!]+$/, ''), m = low.match(/^what (?:happens|would happen|will happen|follows|if)\s*(?:if\s+)?(.+)$/); if (!m || !links.length) return null;
-  let c = m[1].replace(/^if\s+/, ''), op = 'do'; const c0 = c.replace(/^the /, ''); const rm = c.match(/^(?:there (?:is|are|were|was) no|there were no|without|no|we remove|you remove|someone removes|(?:we|you) stop) (?:the )?(.+)$/) || c.match(/^(?:the )?(.+?) (?:stops|stopped|ends|ended|is removed|are removed|disappears|disappear)$/);
-  if (rm) { op = 'remove'; c = rm[1]; } else { const dm = c.match(/^there (?:is|are|was|were) (?:a |an |some )?(.+)$/) || c.match(/^it ([a-z]+?)s$/) || c.match(/^(?:the )?(.+?) (?:happens|happen|occurs|occur|starts|start|begins)$/); if (dm) c = dm[1]; }
-  const key = nodes.find(n => n === m[1].replace(/^if\s+/, '')) || nodes.find(n => n.replace(/^the /, '') === c0) || nodes.find(n => n === c || n === c.replace(/^(?:a|an|the|some) /, '') || sing(n) === sing(c)); if (!key) return null;
+/* WHAT-IF reading (4.9.92; replaces the phrase filters): the question is "what" + (nothing | a verb group whose verb is one of occurrence) +
+   "if" + a clause. The node is the longest stored causal node the clause contains (token for token, number aside); the supposition removes it
+   when a word outside the node is a negator (closed class: no, not, without, never) or a verb of ending (H.endV, by its WordNet gloss). H comes
+   from the kernel's lexicon: H.occur(w) (a verb glossed "come to pass / take place / happen / result"), H.endV(w), H.aux(w) (closed-class
+   auxiliary or modal). Without H, only "what if" and the verb "happen" are read (no lexicon: no verb classes). */
+const NEGW = new Set(['no', 'not', 'without', 'never']);
+function readWhatIf(raw, links, nodes, H) { H = H || {}; const low = String(raw).toLowerCase().replace(/\s+/g, ' ').trim().replace(/[?.!]+$/, ''); const t = low.split(' '); if (t[0] !== 'what' || !links.length) return null;
+  const i = t.indexOf('if'); if (i < 1 || i === t.length - 1) return null; const mid = t.slice(1, i); const aux = H.aux || (w => /^(would|will|could|might|does|did|do|can)$/.test(w)); const occur = H.occur || (w => /^happen(s|ed)?$/.test(w));
+  if (mid.length && !(mid.slice(0, -1).every(aux) && occur(mid[mid.length - 1]))) return null;
+  const c = t.slice(i + 1); const sg = w => w.replace(/(?<=[a-z]{3})s$/, ''); let key = null, at = -1, len = 0;
+  for (const n of nodes) { const nw = String(n).split(' ').filter(w => !/^(the|a|an|some)$/.test(w)); if (!nw.length || nw.length <= len) continue; for (let j = 0; j + nw.length <= c.length; j++) if (nw.every((w, k) => sg(c[j + k]) === sg(w))) { key = n; at = j; len = nw.length; break; } }
+  if (!key) return null; const outside = c.filter((w, j) => j < at || j >= at + len); const op = outside.some(w => NEGW.has(w) || (H.endV && H.endV(w))) ? 'remove' : 'do';
   const causes = links.filter(l => l.kind === 'cause'), prev = links.filter(l => l.kind === 'prevent'), effects = [], seen = new Set([key]), q = [key];
   let limited = false; while (q.length && !limited) { const x = q.shift(); for (const l of causes.filter(l => l.a === x)) { if (effects.length >= LINK_BUDGET) { limited = true; q.unshift(x); break; } if (!effects.some(e => e.from === l.a && e.to === l.b)) effects.push(Object.assign({ from: l.a, to: l.b, premise: l.premise, text: l.text }, l.form ? { form: l.form } : {})); if (!seen.has(l.b)) { seen.add(l.b); q.push(l.b); } } }
   const prevented = prev.filter(p => seen.has(p.b) && p.b !== key).map(p => ({ by: p.a, what: p.b, premise: p.premise, text: p.text }));
@@ -144,7 +152,7 @@ function causalLinks(relations, causalOf, conds) { return (conds || []).map(c =>
 function read(raw, env) { const f = readFollow(raw, env.last && dec(env.last)); if (f) { const r = solveRates(f); return r && Object.assign(r, { branch: f.branch }); }
   const sc = readRates(raw); if (sc) return solveRates(sc);
   const rp = readReports(raw); if (rp) return rp; const s = readScope(raw, env.isVerb || (() => false)); if (s) return s;
-  if (env.links) { const links = causalLinks(env.links, env.causalOf, env.conds), nodes = [...new Set(links.flatMap(l => [l.a, l.b]))]; return readWhatIf(raw, links, nodes); } return null; }
+  if (env.links) { const links = causalLinks(env.links, env.causalOf, env.conds), nodes = [...new Set(links.flatMap(l => [l.a, l.b]))]; return readWhatIf(raw, links, nodes, env.whatIf); } return null; }
 /* independent re-verification of a voiced answer (Echo): the decision is recomputed from the material's own inputs */
 function check(m, env) { try { if (m.mode === 'rate') { const r = solveRates(dec(m.scenario)); if (m.diagnostic) return !!r && r.diagnostic === m.diagnostic && JSON.stringify(r.missing) === JSON.stringify(m.missing); return !!r && !r.diagnostic && r.expr === m.expr && r.result.text === m.result.text && !!r.result.never === !!m.result.never && JSON.stringify(r.explanations || null) === JSON.stringify(m.explanations || null); }
   if (m.mode === 'reports') { const vs = m.reports.map(r => r.value), differ = new Set(vs).size > 1; return differ === m.differ && m.conflict === (differ && m.simultaneous); }
