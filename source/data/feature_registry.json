@@ -1,5 +1,5 @@
 {
- "version": "4.9.96",
+ "version": "4.9.97",
  "features": [
   {
    "id": "A-01",
@@ -2636,13 +2636,24 @@
    "proof": [
     "R482"
    ]
+  },
+  {
+   "id": "R497-LANG",
+   "name": "Residual generative Echo and assimilation intake",
+   "source": "NEXT_BUILD 4.9.97; AIWEB architecture vision §3.2 (intake only)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.97: cores strip a naming aside (comma or dash, aka, or-alias, reduced relative) before roles; rolesOf keeps a coordinated nominal of any length and does not take a reduced participle as the finite verb when a finite verb still follows; generate binds It/They/He/She to the article subject only on the lead and to a compatible local antecedent past the lead. QC.intakeStanding reads DRIFT_TABLE + RSOC_STANDING + ε_w: projectable offers an explicit remember; contested reuses memory.write and PERM-D10 held writes; hard stop stores nothing. Live lookup is never stored. Shared KB stays empty. χ is the correction function, once, then re-measured.",
+   "proof": [
+    "R497"
+   ]
   }
  ],
- "count": 241,
+ "count": 242,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 79,
+  "Partial": 80,
   "Missing": 9,
   "Out of scope / parked": 13
  }

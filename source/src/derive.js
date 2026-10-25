@@ -19,7 +19,7 @@ const NOUNS = new Set(words('network error conversion paper method explanation a
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences', hypothesis: 'hypotheses' };
 const ADJ = new Set(words('clean elevated hard correction stop first draft candidate starting conditional ranked shared second Wikipedia related other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
-  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete'));
+  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete contested'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now', 'later']);
 const POSTVERB_ADV = new Set(['directly', 'further', 'again', 'exactly', 'normally', 'unambiguously', 'here', 'yet', 'first', 'locally']);
 const PARTICLES = new Set(['yes', 'no', 'partly', 'hello', 'goodbye', 'please']);
@@ -474,22 +474,30 @@ const noneS = (m, post) => { const r = relOf(m, ['answer', 'question']); return 
    standing names the reply shape: supported → answered, conflicted / refuted → contested, undetermined → related, proof rejected → unanswered,
    incomplete → interrupted. Nothing is written to the shared KB. */
 const RES_OF = { supported_only: 'answered', conflicted: 'contested', refuted_only: 'contested', undetermined: 'related', proof_rejected: 'unanswered', incomplete: 'interrupted' };
+/* 4.9.97: the intake law is spoken with the research reply. Projectable offers an explicit remember; contested with a held id
+   reuses the write_held shape (the claim, not a fact); a hard stop says it was not stored. The trace already carries the standing. */
+function intakeTail(m) { const a = m && m.assimilation; if (!a || !a.intake) return [];
+  if (a.intake === 'projectable') return [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('say', { karma: Mn(MENTIONS.remember_ellipsis), comp: { inf: C('keep', { karma: pr('it') }) } }), { force: 'imp' })];
+  if (a.intake === 'hard_stop') return [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }))];
+  if (a.intake === 'contested' && a.held_id) return [S(C('hold', { karta: I, karma: N('claim', { det: 'the', adj: ['contested'] }), roles: { tadartha: N('approval', { poss: 'your' }) }, tense: 'past' })), S(C('approve', { karma: pr('it'), roles: { adhikarana: Nm('RMC Memory tab', 'the') } }), { force: 'imp', part: 'please' })];
+  if (a.intake === 'contested') return [S(C('store', { karta: I, karma: N('claim', { det: 'the' }), aspect: 'perf', pol: 'neg' }))];
+  return []; }
 function researchStanding(m) { const fail = m.kind === 'tool_failed', gen = !!(m.generated && !m.unsupported);
   const S0 = !(m.unsupported || m.nofit || (m.provenance && m.provenance.lead_supported === false) || (m.support && m.support.level === 'none' && !m.answer));
   const ev = { K: !fail, S: !fail && S0, R: !fail && S0 && !!(m.conflict && m.excerpt2 && (m.undetermined || m.events)), C: !(fail && RATE.test(String(m.reason || ''))) };
   const L = M.rsocStanding(ev); return Object.assign({}, L, { standing: L.selected, selected: RES_OF[L.selected] }); }
-function researchPlan(m) { const st = researchStanding(m).selected, lead = docNP(m.source, m.archive, m.cls);
-  if (st === 'interrupted') return [S(C('refuse', { karta: N('source', { det: 'the', pl: true }), karma: N('request', { poss: 'my', pl: true }), tense: 'past' })), S(C('ask', { post: ['again'] }), { force: 'imp' })];
-  if (st === 'unanswered') return m.limitation === 'SUBJECT_MISMATCH' ? [S(C('match', { karta: N('source', { det: 'no' }), karma: N('subject', { det: 'the', of: N('question', { det: 'the' }) }), tense: 'past' }))] : [noneS(m)];
+function researchPlan(m) { const st = researchStanding(m).selected, lead = docNP(m.source, m.archive, m.cls), tail = intakeTail(m);
+  if (st === 'interrupted') return [S(C('refuse', { karta: N('source', { det: 'the', pl: true }), karma: N('request', { poss: 'my', pl: true }), tense: 'past' })), S(C('ask', { post: ['again'] }), { force: 'imp' })].concat(tail);
+  if (st === 'unanswered') return (m.limitation === 'SUBJECT_MISMATCH' ? [S(C('match', { karta: N('source', { det: 'no' }), karma: N('subject', { det: 'the', of: N('question', { det: 'the' }) }), tense: 'past' }))] : [noneS(m)]).concat(tail);
   /* Forge answers in its own words, never by quotation: a source passage it could not restate is named as related, not quoted */
-  if (st === 'related') return [noneS(m, 'directly'), S(C('be', { karta: N('source', { det: 'the', adj: ['best', 'related'] }), pred: lead }))].concat(linkS(m.source_url));
-  if (st === 'contested') return [S(C('disagree', { karta: { coord: 'and', items: [lead, docNP(m.source2, m.archive2, m.cls2)] } })), S(C('outrank', { karta: N('source', { det: 'no' }), karma: N('source', { det: 'the', adj: ['other'] }) }))];
+  if (st === 'related') return [noneS(m, 'directly'), S(C('be', { karta: N('source', { det: 'the', adj: ['best', 'related'] }), pred: lead }))].concat(linkS(m.source_url), tail);
+  if (st === 'contested') return [S(C('disagree', { karta: { coord: 'and', items: [lead, docNP(m.source2, m.archive2, m.cls2)] } })), S(C('outrank', { karta: N('source', { det: 'no' }), karma: N('source', { det: 'the', adj: ['other'] }) }))].concat(tail);
   const g = m.generated && !m.unsupported ? m.generated : null;
   /* a claim the grammar reads back as an embedded clause is reported as the source's that-clause; one it reads only as a sentence of its own (a coordinated or relative tail) is said as Forge's sentence, then attributed: the source is the predicate of a copular clause */
   const gd = g && docNP(g.source, g.archive, g.source === m.source ? m.cls : null), emb = g && (t => { try { return PLAN_ENV.reparseEmbedded ? PLAN_ENV.reparseEmbedded(t) : null; } catch (e) { return null; } })(G.clauseText(g.clause, 'kernel')); /* the grammar's own reading of the claim's surface is the clause reported (a name list read as coordinated names) */
   return verdictS(m).concat(g ? (emb ? [reportS(gd, UC(emb))] : [Object.assign(clauseSentence(g.clause), { cap: true }), S(C('be', { karta: N('source', { det: 'the' }), pred: gd }))]) : m.answer ? [S(C('support', { karta: lead, karma: pr('it') }))] : [(r => S(C(r[0], { karta: lead, karma: r[1] })))(relOf(m, ['give', 'answer']))] /* the passage that states it is sealed in the vault; the reply names the source and the relation it gives, never quotes it */,
     m.conflict && m.excerpt2 && !g ? [S(C('disagree', { karta: docNP(m.source2, m.archive2, m.cls2) })), S(C('outrank', { karta: N('source', { det: 'the', adj: ['first'] }), karma: pr('it') }))] : [],
-    linkS(g ? g.source_url : m.source_url), g && g.other ? [S(C('have', { karta: N('article', { det: 'the', adj: ['other'], app: Mn(g.other + ' (Wikipedia)') }), karma: N('name', { det: 'the', adj: ['same'] }) }))] : []); }
+    linkS(g ? g.source_url : m.source_url), g && g.other ? [S(C('have', { karta: N('article', { det: 'the', adj: ['other'], app: Mn(g.other + ' (Wikipedia)') }), karma: N('name', { det: 'the', adj: ['same'] }) }))] : [], tail); }
 const RATE = /^research_http_(429|503)$|rate/i;
 /* M4 (4.9.65) dynamics answers (dynamics.js decides; this only voices): a rate computation as an equation over the stated quantities with its
    assumptions; measurement reports attributed to their sources with the conflict kept (never averaged); a fronted adverb's scope; a what-if */

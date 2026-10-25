@@ -84,6 +84,8 @@
       if (action === 'workbench.run') { if (pol.workbench === 'parked') return { decision: 'deny', rule: 'PERM-D4-WORKBENCH-PARKED' }; return ctx.userTap ? { decision: 'allow', rule: 'PERM-USER-TAP' } : { decision: 'needs_approval', rule: 'PERM-NEEDS-USER-TAP' }; }
       if (ctx.blocked) return { decision: 'deny', rule: 'PERM-UPSTREAM-BLOCK' };
       if (action === 'memory.write' || action === 'memory.forget') {
+        /* 4.9.97: a research-derived claim is never a silent write. Contested intake reuses the D10 hold; anything else is refused. */
+        if (ctx.researchIntake) return ctx.contested ? { decision: 'needs_approval', rule: 'PERM-D10-CONTESTED-OR-SENSITIVE' } : { decision: 'deny', rule: 'PERM-RESEARCH-NO-SILENT-WRITE' };
         if (!ctx.explicit) return { decision: 'deny', rule: 'PERM-NO-EXPLICIT-REQUEST' };
         if (pol.memoryApproval === 'every_write') return { decision: 'needs_approval', rule: 'PERM-D10-EVERY-WRITE' };
         if (pol.memoryApproval === 'contested_or_sensitive' && (ctx.contested || ctx.sensitive)) return { decision: 'needs_approval', rule: 'PERM-D10-CONTESTED-OR-SENSITIVE' };
