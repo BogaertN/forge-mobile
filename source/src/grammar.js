@@ -249,6 +249,8 @@ function Parser(toks, lex) {
     const withRel = [];
     const relAgr = (n, v) => { const f = v.verb && v.verb.f, be = v.verb && v.verb.lemma === 'be'; if (!f || be || !n.head) return true; return f === 'pres3' ? !n.plural : f === 'pres' ? !!n.plural || !!n.conj : true; }; /* 4.9.91: a subject-gap relative agrees with its antecedent ("the system of networks that uses …" attaches to system) */
     if (!noRel) for (const a of res) if (['who', 'which', 'that'].includes(word(a.i)) && !a.node.pron) for (const v of vp(a.i + 1)) if (relAgr(a.node, v.node)) withRel.push(R(Object.assign({}, a.node, { rel: v.node }), v.i, a.rules.concat(['G-REL-SUBJ-GAP'], v.rules)));
+    /* G-REL-WHOSE (4.9.96): a possessive relative — "whose" + possessed NP + VP — attaches to the antecedent; the possessed head is the relative's kartā ("a planet whose moons are large") */
+    if (!noRel) for (const a of res) if (word(a.i) === 'whose' && !a.node.pron && !a.node.pron3) for (const n of np(a.i + 1, true)) for (const v of vp(n.i)) if (relAgr(n.node, v.node)) withRel.push(R(Object.assign({}, a.node, { relWhose: { possessed: n.node, vp: v.node } }), v.i, a.rules.concat(['G-REL-WHOSE'], n.rules, v.rules)));
     if (!noRel) for (const a of res) if (['who', 'whom', 'which', 'that'].includes(word(a.i)) && !a.node.pron && !a.node.pron3) for (const s2 of np(a.i + 1, true)) for (const v of vp(s2.i)) { const c = v.node; if (!c.verb || c.verb.lemma === 'be' || c.verb.voice || c.verb.nf || (c.roles && (c.roles.karma || c.roles.sampradana))) continue;
       const rc = JSON.parse(JSON.stringify(Object.assign({ subj: s2.node }, c))); delete rc.verb.f;
       if (at(v.i, 'PREP').length && !np(v.i + 1, true).length) withRel.push(R(Object.assign({}, a.node, { relObj: Object.assign(rc, { gap: 'adj', gapPrep: word(v.i) }) }), v.i + 1, a.rules.concat(['G-REL-OBJ-GAP-STRANDED-PREP'], s2.rules, v.rules)));
@@ -517,6 +519,7 @@ function npText(n, persp) {
   if (n.of) s += ' of ' + npText(n.of, persp);
   if (n.pp) s += ' ' + n.pp.prep + ' ' + (n.pp.np.pron ? objText(n.pp.np, persp) : npText(n.pp.np, persp)); if (n.partRel) s += ' ' + nfText(n.partRel, persp); if (n.ppRel) s += ' ' + n.ppRel.v + (n.ppRel.adv ? ' ' + n.ppRel.adv : '') + ' ' + n.ppRel.prep + ' ' + npText(n.ppRel.np, persp);
   if (n.rel) s += (n.propn || (n.head && n.head.some(h => FEMALE.has(h) || MALE.has(h) || PERSONISH.has(h))) ? ' who ' : ' that ') + vpText(n.rel, n, persp);
+  if (n.relWhose) s += ' whose ' + npText(n.relWhose.possessed, persp) + ' ' + vpText(n.relWhose.vp, n.relWhose.possessed, persp); /* G-REL-WHOSE */
   if (n.relObj) s += ' that ' + clauseText(n.relObj, persp) + (n.relObj.gapPrep ? ' ' + n.relObj.gapPrep : '');
   return s.trim();
 }
