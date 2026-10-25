@@ -94,7 +94,24 @@
         const a = entKey(x.a), b = entKey(x.b); if (!a || !b) continue; E.push(Object.assign({ rel: x.rel, neg: c.verb.pol === 'neg', id: r.id }, x.swap ? { a: b, b: a } : { a, b })); } return E; }
     function relPath(facts, q) { const x = relOf(q); if (!x) return null; let a = entKey(x.a), b = entKey(x.b); if (!a || !b) return null; if (x.swap) [a, b] = [b, a];
       const path = chain(relEdges(facts).filter(e => e.rel === x.rel), x.rel.replace(/[^\p{L}\p{N}]+/gu, '_'), a, b); return path ? { rel: x.rel, path } : null; }
-    return { disjoint, relOf, relEdges, relPath, locEdges, locPath, isA, classesOf, classReach, famTriples, famRel, genderStated, lastProof, FAMILY, GENDERED, GENDER_OF_ROLE, npHead };
+    /* 4.9.98 temporal stub: a bare kāla year on a stored or working event. Direct pairs only — a chain would cite one fact. */
+    const YEAR = /^(?:[1-9]\d{2,3})$/;
+    function yearSpan(c) {
+      if (!c || c.coord || c.cond || !c.verb || c.verb.mod !== 'asserted' || c.verb.pol === 'neg' || c.verb.tense === 'future') return null;
+      const ys = []; for (const a of c.adj || []) if (a && a.role === 'kala' && a.np && a.np.num != null && !a.np.head && YEAR.test(String(a.np.num))) ys.push(+a.np.num);
+      if (!ys.length) return null; return { min: Math.min.apply(null, ys), max: Math.max.apply(null, ys) }; }
+    function yearPairs(facts) {
+      const by = new Map();
+      for (const r of facts || []) { const c = r && r.clause; const sp = yearSpan(c); if (!sp || !c.subj) continue; const key = entKey(c.subj); if (!key) continue;
+        const o = by.get(key) || { key, min: sp.min, max: sp.max, ids: [] }; o.min = Math.min(o.min, sp.min); o.max = Math.max(o.max, sp.max); if (!o.ids.includes(r.id)) o.ids.push(r.id); by.set(key, o); }
+      const rows = [...by.values()], pairs = [], intervals = [];
+      for (const a of rows) for (const b of rows) if (a.key !== b.key && a.max < b.min) pairs.push({ a: a.key, b: b.key, ids: [...new Set(a.ids.concat(b.ids))] });
+      for (const a of rows) if (a.max > a.min) intervals.push({ key: a.key, start: a.min, end: a.max, years: a.max - a.min, ids: a.ids.slice() });
+      return { pairs, intervals, rows }; }
+    function yearOrder(facts, a, b) { if (!a || !b || a === b) return null; const { pairs } = yearPairs(facts);
+      const hit = pairs.find(p => p.a === a && p.b === b); if (hit) return { before: true, ids: hit.ids };
+      const rev = pairs.find(p => p.a === b && p.b === a); if (rev) return { before: false, ids: rev.ids }; return null; }
+    return { disjoint, relOf, relEdges, relPath, locEdges, locPath, isA, classesOf, classReach, famTriples, famRel, genderStated, lastProof, FAMILY, GENDERED, GENDER_OF_ROLE, npHead, yearSpan, yearPairs, yearOrder };
   }
   const api = { Infer, FAMILY };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KInfer = api;

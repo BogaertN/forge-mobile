@@ -344,11 +344,12 @@ function Kernel(opts) {
       /* REF-BOUND-LOCAL (4.9.50; binding by structure — Chomsky, structure dependence; Pāṇini sva- "one's own"): a possessive or object pronoun is bound by
          the kartā of its own clause, and the kartā pronoun of an embedded clause by the kartā of the clause above, when gender and number agree
          ("the potter fires his kiln" — his = the potter's). Structure decides before discourse recency. */
-      const fits = f => (w === 'it' ? !f.anim : w === 'they' ? f.n === 'pl' : f.anim && f.n !== 'pl' && (f.g === 'u' || !f.g || f.g === (w === 'she' ? 'f' : 'm')));
+      const demSg = w === 'this' || w === 'that', demPl = w === 'these' || w === 'those'; /* 4.9.98: a demonstrative is not bound by the kartā ("Ada held this" stays this); discourse decides */
+      const fits = f => demSg || demPl ? false : (w === 'it' ? !f.anim : w === 'they' ? f.n === 'pl' : f.anim && f.n !== 'pl' && (f.g === 'u' || !f.g || f.g === (w === 'she' ? 'f' : 'm')));
       const B = ctx && ctx.binder; if (B && B !== n && !B.pron3 && !B.pron && (B.head || B.propn) && fits(featsOf(B))) { const ante = Object.assign(clone(B), { resolvedFrom: pr, boundOrig: clone(viaOwner ? n.owner : n) }); delete ante.rel; if (viaOwner) n.owner = ante; else holder[key] = ante; rules.push({ id: 'REF-BOUND-LOCAL', doc: 'binding by structure (c-command by the clause kartā); Doc6 §23', note: pr + ' → ' + G.npText(B, 'kernel') }); return; }
       if (refBind && refBind.pr === pr) { const ante = Object.assign(clone(refBind.np), { resolvedFrom: pr }); if (viaOwner) n.owner = ante; else holder[key] = ante; rules.push({ id: 'REF-BOUND-BY-CLARIFICATION', doc: 'Doc6 §30, §34; Pāṇini paper D6 L6861–6893 (held candidate keeps its ancestry)', note: pr + ' → ' + G.npText(refBind.np, 'kernel') + refBind.note }); return; }
       const cands = []; const seen = new Set();
-      for (const d of meta.discourse.filter(d => (d.turn || 0) >= meta.turn - 2)) { const ok = w === 'it' ? !d.f.anim : w === 'they' ? d.f.n === 'pl' : d.f.anim && (d.f.g === 'u' || d.f.g === (w === 'she' ? 'f' : 'm')); if (ok && !seen.has(d.key)) { seen.add(d.key); cands.push(d); } }
+      for (const d of meta.discourse.filter(d => (d.turn || 0) >= meta.turn - 2)) { const ok = w === 'it' ? !d.f.anim : (w === 'they' || demPl) ? d.f.n === 'pl' : demSg ? d.f.n !== 'pl' : d.f.anim && (d.f.g === 'u' || d.f.g === (w === 'she' ? 'f' : 'm')); if (ok && !seen.has(d.key)) { seen.add(d.key); cands.push(d); } } /* 4.9.98: this/that agree with a singular antecedent, these/those with a plural one; several still ask unless exactly one answers */
       /* REF-RESOLVED-ANSWERABLE (4.9.79; relevance — a question is asked to be answered): when several antecedents agree in gender and number but
          exactly one makes the question answerable from what was stated ("where is it" after "the parcel is on the porch": the porch has no stated
          place), that one is the referent; the others are recorded. Never a guess: zero or several answerable candidates still ask. */
@@ -422,12 +423,18 @@ function Kernel(opts) {
         const premises = pr.fact_ids.filter((x, i, xs) => xs.indexOf(x) === i).map(pid => { const f = A.find(y => y.id === pid); return { id: pid, text: f ? tmsText(memText(f.rec)) : null }; });
         TMS.justify({ id, kind: 'relation', text, key: R.atomKey(a), turn }, { premises, rules: pr.rule_ids.slice(), derivation_rules: ['INF-RELPROP'], selection: null, replay: { kind: 'relprop', proof_id: pr.proof_id, atom: a }, turn });
         derived.push({ pred: a.predicate, a: a.args[0], b: a.args[1], polarity: a.polarity, origin: 'derived', text, item: id, premises: premises.map(p => p.id), rules: pr.rule_ids.slice(), proof: pr.proof_id }); } } catch (e) { /* a closure over the stored facts that fails is simply not derived */ } }
+    /* 4.9.98 temporal stub: non-overlapping kāla years are the same `before` relation, recomputed from stored facts. Not a ledger item and not a new store. */
+    const bare = k => String(k || '').replace(/^(?:thing|name):/, '').replace(/_/g, ' ');
+    const yp = INF.yearPairs(mem);
+    for (const p of yp.pairs) { if (rels.concat(derived).some(r => r.pred === 'before' && r.a === p.a && r.b === p.b && r.polarity === 'pos')) continue;
+      derived.push({ pred: 'before', a: p.a, b: p.b, polarity: 'pos', origin: 'derived', text: bare(p.a) + ' is before ' + bare(p.b), premises: p.ids, rules: ['TEMPORAL-YEAR-ORDER'] }); }
+    for (const iv of yp.intervals) attrs.push({ entity: iv.key, attr: 'interval', polarity: 'pos', origin: 'derived', start: iv.start, end: iv.end, years: iv.years, unit: 'year', premises: iv.ids, text: iv.start + '–' + iv.end, rules: ['TEMPORAL-YEAR-INTERVAL'] });
     const state = { schema: DWS_SCHEMA, signature: sig, built_turn: turn, entities: [...ents.values()].sort((x, y) => x.id.localeCompare(y.id)), relations: rels.concat(derived), attributes: attrs, relation_properties: [...new Set(rules.map(r => r.id))].sort(), note: 'derived from stored facts only; the turn world and "Suppose" branches never write here' };
     store.save('world_state', state); return { changed: true, state }; }
   /* the view with ledger status: a derived relation whose justifications all lost a premise is listed as withdrawn (with its receipt), never silently dropped */
   function worldStateView() { const s = store.load('world_state'); if (!s || Array.isArray(s)) return { schema: DWS_SCHEMA, entities: [], relations: [], attributes: [], withdrawn: [] };
     const withdrawn = TMS.list().filter(x => x.kind === 'relation' && x.status === 'withdrawn').map(x => ({ item: x.id, text: x.text, receipt: (x.history.filter(h => h.status === 'withdrawn').pop() || {}).receipt || null }));
-    return Object.assign({}, s, { relations: s.relations.filter(r => r.origin === 'stated' || (TMS.get(r.item) || {}).status === 'in'), withdrawn }); }
+    return Object.assign({}, s, { relations: s.relations.filter(r => r.origin === 'stated' || (r.rules || []).includes('TEMPORAL-YEAR-ORDER') || (TMS.get(r.item) || {}).status === 'in'), withdrawn }); } /* 4.9.98: a year-order row is recomputed from stored facts, so it has no ledger item */
   /* GELC promotion gate: the rule must be range-restricted, must PROVE its own claim from stored facts (RuleProof replayed by the independent checker),
      and the rule together with every admitted rule must derive nothing whose opposite is stated. A high score or a tap alone never admits. */
   function admissionCheck(rule, claim) { const facts = ruleFacts(storedFacts().filter(r => !r.sensitive)), all = admittedRules().concat([rule]); let rw;
@@ -1561,6 +1568,14 @@ function Kernel(opts) {
       let tgt = null; if (q.verb.lemma === 'be' && q.pred && q.pred.type === 'pp' && /^(in|at|inside|within)$/.test(q.pred.prep)) tgt = q.pred.np; else if (/^(live|reside|stay)$/.test(q.verb.lemma)) { const ad = (q.adj || []).find(x => x.role === 'adhikarana'); if (ad) tgt = ad.np; }
       if (tgt && a) { const p = INF.locPath(facts, a, entKey(tgt)); if (p && p.length >= 2) return done('INF-LOC-TRANSITIVE', p.map(e => e.id), null, INF.lastProof()); }
       { const rp = INF.relPath(facts, q); if (rp && rp.path.length >= 1) return done('INF-REL-TRANSITIVE-' + rp.rel.replace(/^cmp:.*/, 'COMPARATIVE').toUpperCase(), rp.path.map(e => e.id), null, INF.lastProof()); }
+      /* 4.9.98: one historical class — non-overlapping kāla years decide before/after, including "happen before". A stated before-chain above still wins. Same year or an overlap decides nothing. */
+      { const kb = (q.adj || []).find(a => a.role === 'kala' && a.np && /^(before|after)$/.test(a.prep));
+        const pp = q.verb && q.verb.lemma === 'be' && q.pred && q.pred.type === 'pp' && q.pred.np && /^(before|after)$/.test(q.pred.prep) ? q.pred : null;
+        const mark = kb || pp; if (mark && q.subj) { let ea = entKey(q.subj), eb = entKey(mark.np); if (mark.prep === 'after') { const t = ea; ea = eb; eb = t; }
+          const yo = ea && eb && INF.yearOrder(facts, ea, eb);
+          if (yo && yo.before) return done('TEMPORAL-YEAR-ORDER', yo.ids, null, null);
+          if (yo && yo.before === false) { rules.push({ id: 'TEMPORAL-YEAR-ORDER', doc: 'stored kāla years: a later year is not before an earlier year', note: yo.ids.join(',') });
+            const stepsC = yo.ids.map(byId).filter(Boolean); return res('SELECTED_MEANING', { kind: 'yesno', answer: q.verb.pol === 'neg' ? 'yes' : 'no', items: stepsC.map(stepOf) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: yo.ids }); } } }
       { const AR = admittedRules(), ents = [...new Set(nps(q).filter(n => !n.pron3).map(entKey).filter(Boolean))]; if (AR.length && ents.length === 2) { const F = ruleFacts(facts); try { const pr = R.ruleWorld(F, AR).prove({ predicate: predOf(q) === 'be' ? 'isa' : predOf(q), args: ents, polarity: 'pos' });
         if (pr && R.checkRuleProof(F, AR, pr).ok) { const out = done('GELC-ADMITTED-RULE', pr.fact_ids, null, pr); rules.find(x => x.id === 'GELC-ADMITTED-RULE').rules_used = pr.rule_ids.slice(); return out; } } catch (e) { /* an unsafe stored rule never answers */ } } }
       { const rp = relPropProve(facts, q); if (rp) { const out = done('INF-RELPROP', [...new Set(rp.fact_ids)], null, rp); rules.find(x => x.id === 'INF-RELPROP').rules_used = rp.rule_ids.slice(); return out; } }
