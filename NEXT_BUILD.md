@@ -1,9 +1,17 @@
-# Next build order — after 4.9.97
+# Next build order — after 4.9.98
 **Date:** 2026-10-25 (America/Chicago)
-**Baseline:** live 4.9.97 (shipped from 4.9.96 / `918747000fb18586bd8c4c61fb736b0c8b695a1f`)
+**Baseline:** live 4.9.98 (shipped from 4.9.97 / `1a8c2a82b51bf3b67be1f2d5a07698bc76f90e1f`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.97+.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.98+.
+
+---
+
+## Shipped: **4.9.98** (2026-10-25)
+
+1. **Demonstratives** — bare that is a pronoun when no nominal follows. This/that take one singular antecedent; these/those take a plural one. Several still ask, unless exactly one candidate answers the question.
+2. **Generation** — a finite verb after a determiner, and a plural subject's base verb, is the clause verb. This/That/These/Those bind like It/They: the article name on the lead, the local antecedent past it. A determiner use (`this mineral`) stays a determiner.
+3. **Year order** — two events with non-overlapping years answer before/after, including “happen before”. Both facts are cited. The comparison is a derived before row on world state, and a from-year/to-year span is an interval. How long uses the existing extent recall. Nothing new is stored. Rates, months, persistence, and inertia stay out.
 
 ---
 
@@ -22,8 +30,7 @@ Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT
 
 | Release | Language lead | One reasoning step (maps to vision §3) |
 |---------|---------------|----------------------------------------|
-| **4.9.98** (next) | Discourse leftovers (reference / answerability edges) | **World-history / temporal stub** — event order, intervals, one class of historical / rate questions (§3.3) |
-| **4.9.99** | Compiler coverage for remaining structural shapes the probe flags | **Rest of cause/effect** — interventions vs deduction, non-unique inversion, mechanism downgrade (§3.5) |
+| **4.9.99** (next) | Compiler coverage for remaining structural shapes the probe flags | **Rest of cause/effect** — interventions vs deduction, non-unique inversion, mechanism downgrade (§3.5) |
 | **4.9.100** | Surface polish only when probe regresses | **Quantities / units / conservation** where still thin; dimensional checks; no guessed conversions (§3.4) |
 | **4.9.101** | Bidirectional intent surface for one new intent | **Counterfactual / hypothetical branches** isolated from observed history (§3.6) |
 | **4.9.102** | Bidirectional intents continue (EXPLAIN / SIMULATE / CLARIFY as needed) | **MEA-on-phone learning** — revisable rule induction from evidence; proposals never auto-act (§3.7) |
