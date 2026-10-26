@@ -2167,6 +2167,25 @@ function Kernel(opts) {
   /* explicit result state (Pāṇini paper D5 L5552–5560, D6 L6956–6977): understanding is never permission. draft ≠ send, inspect ≠ install,
      remember-request ≠ memory-write, support ≠ prove are kept apart as separate fields of the manifest. */
   const MEANING_STATE = { selected: 'understood', 'understood-but-blocked': 'understood', refuse: 'understood', ambiguous: 'held_open', clarify: 'unresolved', reject: 'not_understood' };
+  /* 4.9.103: one job name for the turn, taken from the route that already ran. Not a menu. */
+  const INTENT_KINDS = ['READ', 'DERIVE', 'EXPLAIN', 'SIMULATE', 'PROPOSE_EVIDENCE', 'REQUEST_COMMIT', 'CLARIFY', 'UNSUPPORTED'];
+  function intentOf(trace, msm) {
+    const m = (msm && msm.meaning) || {}, k = m.kind || '';
+    const ids = new Set((trace.rules || []).map(r => r && r.id).filter(Boolean));
+    const oc = (trace.outcome && trace.outcome.class) || '', cat = (trace.outcome && trace.outcome.category) || '';
+    const has = id => ids.has(id);
+    let intent = 'UNSUPPORTED';
+    if (m.branch || k === 'sim_result' || k === 'sim_replay' || k === 'dream_held' || has('WM-WHAT-IF-BRANCH') || has('WM-OBSERVED-BASE') || has('DYN-WHATIF') || has('EF-FRAME-SIM') || has('EF-SIM-REPLAY') || (k === 'dynamics' && m.mode === 'whatif')) intent = 'SIMULATE';
+    else if (k === 'mea_proposals' || k === 'ede_result' || has('MEA-PHONE-PROPOSE') || has('GELC-EVOLVE')) intent = 'PROPOSE_EVIDENCE';
+    else if (/^clarify_/.test(k) || k === 'no_frame' || k === 'depends' || k === 'repeat_none' || k === 'invite' || k === 'interjection' || oc === 'clarify' || oc === 'ambiguous' || cat === 'CLARIFICATION_REQUIRED' || cat === 'AMBIGUITY_PRESERVED' || cat === 'INCOMPLETE_PRESERVED') intent = 'CLARIFY';
+    else if (has('Q-WH-HOW-PASSIVE') || has('Q-WH-HOW-STATE') || has('Q-WH-HOW-MANNER') || has('Q-WH-WHY') || has('CAUSAL-INVERSION-CHAIN') || has('CAUSAL-INVERSION-NONUNIQUE') || has('LL-DIRECTIVE-MEANING') || has('INF-CAUSATIVE') || k === 'define' || k === 'justification' || k === 'no_reason' || k === 'self_answer' || k === 'help') intent = 'EXPLAIN';
+    else if (k === 'world_answer' || k === 'math' || k === 'solved' || k === 'factored' || k === 'system' || k === 'simplified' || k === 'converted' || k === 'inferred' || k === 'dynamics' || has('INF-RELPROP') || has('INF-CAUSE-CHAIN') || has('DYN-CONSERVATION') || has('GELC-ADMITTED-RULE')) intent = 'DERIVE';
+    else if (k === 'stored' || k === 'stored_sensitive' || k === 'merged' || k === 'replaced' || k === 'forgotten' || k === 'write_held' || k === 'write_failed' || k === 'secret_dropped' || k === 'note_added' || k === 'confirm_forget' || k === 'confirm_replace' || k === 'kept' || k === 'forget_kept' || k === 'neg_act' || has('AUTH-EXPLICIT-REMEMBER')) intent = 'REQUEST_COMMIT';
+    else if (k === 'blocked' || k === 'world_limitation' || k === 'tool_denied' || oc === 'understood-but-blocked' || oc === 'refuse' || oc === 'reject' || cat === 'UNDERSTOOD_ACTION_BLOCKED' || cat === 'UNSUPPORTED_PRESERVED' || cat === 'NO_LAWFUL_CANDIDATE' || cat === 'REFUSAL_RELEVANT' || cat === 'INCONGRUENT_REJECTED' || cat === 'DISCONNECTED_REJECTED' || cat === 'PURPOSE_UNRECOVERABLE') intent = 'UNSUPPORTED';
+    else if (oc === 'selected' || k === 'recall' || k === 'recall_none' || k === 'yesno' || k === 'about' || k === 'facts' || k === 'mea_problems') intent = 'READ';
+    const language = /Echo validation failed|Derivation failed|forbidden transition/.test(String(trace.block_reason || '')) ? 'LANGUAGE_UNEXPRESSIBLE' : null;
+    return { intent_kind: INTENT_KINDS.includes(intent) ? intent : 'UNSUPPORTED', language };
+  }
   function resultState(trace, msm) { const k = msm.meaning && msm.meaning.kind, wrote = (trace.memory || []).length > 0;
     return { meaning: trace.blocked ? 'blocked_before_release' : MEANING_STATE[trace.outcome && trace.outcome.class] || 'not_understood',
       action: k === 'blocked' ? 'blocked:' + (msm.meaning.reason || 'unauthorized') : k === 'neg_act' ? 'withheld:prohibited' : k === 'write_held' ? 'held_for_approval' : wrote ? 'memory_written' : k === 'assert_ack' ? 'not_stored' : k === 'tool_denied' ? 'blocked:tool' : 'none',
@@ -2174,6 +2193,7 @@ function Kernel(opts) {
   function finish(trace, terminal, text, msm, sfe) { { const quar = !!(trace.containment && trace.containment.route === 'drift_archive_only'), committed = !trace.blocked && !quar; /* 4.9.71 ruling 3: the gates that apply to a committed meaning — Φ5 collapse (it was selected), Φ6 χ (its drift is in the correction band), Φ7 naming (it is named) */
       trace.phase_law = M.phaseLaw((trace.phases || []).map(p => p.phase), { quarantine: quar, gates: committed ? [5].concat(trace.drift && trace.drift.band === 'correct' ? [6] : []).concat([7]) : [] }); } /* 4.9.67 ruling 1 */ if (sideRules.length) { const seen = new Set(trace.rules.map(r => r.id)); for (const r of sideRules) if (!seen.has(r.id)) trace.rules.push(r); sideRules = []; }
     msm.phase = { trajectory: trace.phases.map(p => p.sym).join('→'), terminal: M.PHASES[terminal].sym }; msm.state = resultState(trace, msm);
+    { const job = intentOf(trace, msm); trace.intent_kind = job.intent_kind; if (job.language) trace.language = job.language; } /* 4.9.103: the job and, when the surface was refused, LANGUAGE_UNEXPRESSIBLE */
     if (trace.containment && !opts.noContainment) { try { const c = cont.apply(trace, trace.containment, { clause: msm.meaning && msm.meaning.clause, cause: trace.containment.cause, state: { turn: meta.turn, loop: meta.loop, chi: meta.chi } }); trace.containment_applied = { route: c.route, records: c.records, collapse: c.collapse ? c.collapse.id : null }; } catch (e) { trace.containment_error = String(e && e.message); } } trace.output = text; trace.sfe = Object.assign({}, sfe, { Phi: terminal });
     const mem = store.load('memory'); const rec = (msm.evidence.refs || []).map(id => mem.find(r => r.id === id)).filter(Boolean);
     trace.rpm = rec.map(r => ({ id: r.id, mu: r.sfe.mu, eps: r.sfe.eps, weight: M.rpmWeight(r.sfe), formula: 'ΦM·exp(−ε) = ' + r.sfe.mu + '·exp(−' + r.sfe.eps + ') (RPMC §1; display only)' }));

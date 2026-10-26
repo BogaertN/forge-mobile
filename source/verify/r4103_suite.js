@@ -112,7 +112,7 @@ T('an ambiguity and an unresolved word are CLARIFY', () => {
   const a = k.process('I saw her duck');
   expectJob(a, 'CLARIFY');
   expect(/readings/.test(a.reply || ''), a.reply);
-  const u = k.process('what is it?');
+  const u = mk().process('what is it?');
   expectJob(u, 'CLARIFY');
   expect(/cannot resolve/.test(u.reply || ''), u.reply);
   expect(!k.memory().length, 'a clarification stored a fact');
