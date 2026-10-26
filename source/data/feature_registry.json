@@ -1,5 +1,5 @@
 {
- "version": "4.9.101",
+ "version": "4.9.102",
  "features": [
   {
    "id": "A-01",
@@ -2691,13 +2691,24 @@
    "proof": [
     "R4101"
    ]
+  },
+  {
+   "id": "R4102-MEA",
+   "name": "MEA-on-phone learning",
+   "source": "NEXT_BUILD 4.9.102; AIWEB architecture vision §3.7 (revisable rule induction; proposals never auto-act)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.102: “show the proposals” and “explain the proposals” induce rules from stored facts with the existing evolve.js operators. Promotable hypotheses are spoken. Nothing is written to memory, world_state, drift_archive, admitted_rules, or the shared KB, and a proposal does not answer a question. A user tap admits one rule only when that show passed Echo, the recomputed drift may project (ε_s ≤ 0.35), the replay contradicts nothing, and admissionCheck accepts a replayed proof. Withdrawal is the existing withdrawRule. No shared-KB seed. No LLM, embedding, RAG, or learned classifier.",
+   "proof": [
+    "R4102"
+   ]
   }
  ],
- "count": 246,
+ "count": 247,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 84,
+  "Partial": 85,
   "Missing": 9,
   "Out of scope / parked": 13
  }

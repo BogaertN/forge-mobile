@@ -652,6 +652,12 @@ const PLANS = {
      source count and the provenance summary stay in the trace */
   research_answer: researchPlan, /* 4.9.87: realized from roles; the standing is RSOC-selected (see researchPlan) */
   mea_problems: m => m.items.length ? [S(C('have', { karta: I, karma: N('problem', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }) }))] : [S(C('have', { karta: I, karma: N('problem', { det: 'no', pl: true }) }))],
+  /* 4.9.102: a shown proposal is a hypothesis derived from the user's facts. It is not stored, and a tap is the only way to seal it. */
+  mea_proposals: m => { const items = m.items || []; const head = items.length
+      ? S(C('derive', { karta: I, karma: N('hypothesis', { cnt: items.length, list: { kind: 'mention', items } }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }))
+      : S(C('derive', { karta: I, karma: N('hypothesis', { det: 'no' }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }));
+    const stored = S(C('store', { karta: I, karma: N('rule', { det: 'the' }), aspect: 'perf', pol: 'neg' }));
+    return items.length ? [head, stored, S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }))] : [head, stored]; },
   /* MEAP-PROBLEM-DIRECTIVE (4.9.79): the opened draft is reported from its manifest fields — goal, unknown, given facts — and its commit state */
   mea_problem_opened: m => [S(C('open', { karta: I, karma: N('problem', { det: 'a', adj: ['draft'], app: Mn(m.goal) }), tense: 'past' })), S(C('be', { karta: N('question', { det: 'the', adj: ['open'] }), pred: Mn(m.unknown) })),
     ...(m.options ? [S(C('derive', { karta: I, karma: N('option', { cnt: m.options.length, list: { kind: 'mention', items: m.options } }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }))] : m.facts ? [S(C('use', { karta: I, karma: N('fact', { cnt: m.facts, adj: ['related'] }) }))] : []),
