@@ -1,5 +1,5 @@
 {
- "version": "4.9.103",
+ "version": "4.9.104",
  "features": [
   {
    "id": "A-01",
@@ -2713,13 +2713,24 @@
    "proof": [
     "R4103"
    ]
+  },
+  {
+   "id": "R4104-MEAP",
+   "name": "MEA-P one cycle on the 144 Hz problem",
+   "source": "NEXT_BUILD 4.9.104; MEA_SPEC problem lane (audit gap #2)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.104: “propose problem physics” runs one cycle of the shipped 144 Hz problem manifest (MEAProblemManifest/v1), separate from the RMC meaning. derive and hypothesize are the registered operators; llm_generate stays non-executable. A candidate is spoken only when DRIFT_TABLE projects (ε_s ≤ 0.35), RSOC_STANDING is stamped, and EDE novelty is bounded. Correction, quarantine, hard stop, over-extended novelty, and the split operator are parked in mea_archive after Echo, append-only. The reply is PROPOSE_EVIDENCE. A tap is still the only commit. Nothing is written to memory, world state, the drift archive, or the shared KB. No LLM, embedding, RAG, or learned classifier.",
+   "proof": [
+    "R4104"
+   ]
   }
  ],
- "count": 248,
+ "count": 249,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 86,
+  "Partial": 87,
   "Missing": 9,
   "Out of scope / parked": 13
  }
