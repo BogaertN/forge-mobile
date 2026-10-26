@@ -1,5 +1,5 @@
 {
- "version": "4.9.102",
+ "version": "4.9.103",
  "features": [
   {
    "id": "A-01",
@@ -2702,13 +2702,24 @@
    "proof": [
     "R4102"
    ]
+  },
+  {
+   "id": "R4103-INT",
+   "name": "Typed bidirectional intents",
+   "source": "NEXT_BUILD 4.9.103; AIWEB architecture vision §3.8 (full bidirectional language-to-world execution)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.103: every finished turn carries one intent_kind from READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED. The name is taken from the route that already ran. A Suppose branch, a bare Suppose, and a dynamics what-if are SIMULATE. Show/explain proposals and explore ideas are PROPOSE_EVIDENCE. Remember is REQUEST_COMMIT. An Echo failure, a derivation failure, or a forbidden derivation trail is LANGUAGE_UNEXPRESSIBLE: the reply stays empty and nothing is stored. No new grammar. No LLM, embedding, RAG, or learned classifier. Shared KB stays empty.",
+   "proof": [
+    "R4103"
+   ]
   }
  ],
- "count": 247,
+ "count": 248,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 85,
+  "Partial": 86,
   "Missing": 9,
   "Out of scope / parked": 13
  }
