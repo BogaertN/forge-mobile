@@ -1,9 +1,21 @@
-# Next build order — after 4.9.105
+# Next build order — after 4.9.106
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.105 (shipped from 4.9.104 / `de11abb5ef81c52c2d3ea7c67e177a256c720192`)
+**Baseline:** live 4.9.106 (shipped from 4.9.105 / `67654504f97c493201ef281b7bc977676795f8d6`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.104+.
+**Core audit queue: complete.** Ranked gaps 1–4 are shipped (4.9.103 intents, 4.9.104 MEA-P, 4.9.105 world head, 4.9.106 dream/SPC). Do not auto-start another release from this queue.
+
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.106.
+
+---
+
+## Shipped: **4.9.106** (2026-10-26)
+
+1. **Named route** — a contained turn still carries exactly one live route: `active_stack_candidate`, `correction_queue`, `spc_cold_storage_required`, `dream_state_quarantine_candidate`, `drift_archive_only`, or `ghost_loop_containment_required`. A bare “Suppose …” stays dream quarantine. It is not merged into memory or the world head.
+2. **Inspect** — “show quarantine”, “show cold storage”, and “show containment” list the route, the tier or quarantined status, and a short label. An empty list says so. Forget still says the fact moved to cold storage. The sealed row is still there afterward. The language does not say it was erased.
+3. **WARM and COLD** — the list uses the existing tier. A forgotten row is WARM unless policy says COLD. DEEP stays the breach and attempt-limit seal.
+4. **Proposal, not approval** — “resurrect …” and “bring back …” on a WARM row return it to processing as a proposal. They do not write memory, the world head, or the shared KB. A COLD row is not returned. The Memory-screen Resurrect button still restores after the existing gates and a tap.
+5. **No LLM** — no model call, embedding, RAG, or learned classifier. Shared KB stays empty. Adapters stay parked.
 
 ---
 
@@ -91,9 +103,13 @@
 
 Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT-as-money, or agent products in these releases.
 
-| Release | Language lead | One reasoning step (maps to vision §3) |
-|---------|---------------|----------------------------------------|
-| **4.9.106** (next) | Stay on the typed intents from 4.9.103 | Dream/SPC UX closer to the paper (audit #4). Adapters (Genesis, HCS, Identity Vault, marketplace, CT-as-money) stay parked |
+The ranked audit core queue is done. Nothing in this table is a next release to start.
+
+| Remaining | What it is |
+|-----------|------------|
+| Parked adapters | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money. Not core. |
+| Paper-open | Forge 1 vs Forge 2, Register L-08, feature_registry lag catch-up only when touching the compiler, versioned RSOC ops if still listed. |
+| Dream/SPC still open vs paper | The Memory-screen Resurrect button still writes after the 7 gates. `must_archive` is not a route input. No hardware SPC. No ChristPing automation without a user act. |
 
 ### Standing laws from the report (do not reopen without Nic)
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.

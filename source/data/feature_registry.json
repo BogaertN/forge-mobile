@@ -1,5 +1,5 @@
 {
- "version": "4.9.105",
+ "version": "4.9.106",
  "features": [
   {
    "id": "A-01",
@@ -2735,13 +2735,24 @@
    "proof": [
     "R4105"
    ]
+  },
+  {
+   "id": "R4106-DSPC",
+   "name": "Dream quarantine and SPC cold storage inspect",
+   "source": "NEXT_BUILD 4.9.106; KERNEL_COMPONENTS §9 R-CONT-1/2/3 (audit gap #4)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.106: show quarantine, show cold storage, and show containment list one live route, a tier or quarantined status, and a short label. A bare Suppose stays dream_state_quarantine_candidate and is not merged into memory or the world head. Forget still says moved to cold storage, keeps correction_queue, and the sealed row remains inspectable as spc_cold_storage_required. tierOf speaks WARM, COLD, or DEEP. resurrect and bring back on a WARM row are a proposal (PROPOSE_EVIDENCE) and do not write memory, the world head, or the shared KB. COLD is refused. kernel.resurrect(id, true) is unchanged. No seventh route. No Christ function. No LLM. Shared KB stays empty.",
+   "proof": [
+    "R4106"
+   ]
   }
  ],
- "count": 250,
+ "count": 251,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 88,
+  "Partial": 89,
   "Missing": 9,
   "Out of scope / parked": 13
  }
