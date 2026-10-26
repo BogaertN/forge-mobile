@@ -1,9 +1,18 @@
-# Next build order — after 4.9.100
+# Next build order — after 4.9.101
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.100 (shipped from 4.9.99 / `cc91932e225c2c0c98b8add670d78e78447a0669`)
+**Baseline:** live 4.9.101 (shipped from 4.9.100 / `202fd16e09834e78b80d5c5138a4cc9bd3a7cef5`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.100+.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.101+.
+
+---
+
+## Shipped: **4.9.101** (2026-10-26)
+
+1. **No new grammar** — suppose, assume, imagine, what if, let’s say, and hypothetically were already the one intent. The reply stays “I answered in a branch.” and “The branch does not change the world.”
+2. **Observed base** — “Remember that Pim is inside Quo.” then “Suppose Quo is inside Rub. Is Pim inside Rub?” answers yes inside that same branch. The remembered sentence is the committed base. The supposition is the overlay. A working statement in this conversation is the same kind of base.
+3. **Isolation** — the branch does not write memory, world state, or the shared KB. A later “Is Pim inside Rub?” is not yes. “Suppose Quo is not inside Rub” does not retract “Quo is inside Rub.” “What if there is no frost?” stays the dynamics intervention.
+4. **No LLM** — no model call, embedding, RAG, or learned classifier.
 
 ---
 
@@ -47,8 +56,7 @@ Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT
 
 | Release | Language lead | One reasoning step (maps to vision §3) |
 |---------|---------------|----------------------------------------|
-| **4.9.101** (next) | Bidirectional intent surface for one new intent | **Counterfactual / hypothetical branches** isolated from observed history (§3.6) |
-| **4.9.102** | Bidirectional intents continue (EXPLAIN / SIMULATE / CLARIFY as needed) | **MEA-on-phone learning** — revisable rule induction from evidence; proposals never auto-act (§3.7) |
+| **4.9.102** (next) | Bidirectional intents continue (EXPLAIN / SIMULATE / CLARIFY as needed) | **MEA-on-phone learning** — revisable rule induction from evidence; proposals never auto-act (§3.7) |
 | **later** | **Full bidirectional intents**: READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED; `LANGUAGE_UNEXPRESSIBLE` instead of canned fallback (§3.8) | Versioned RSOC operators without claiming numerical manuscript equivalence (§3.9); safe tool continuations; **adapters** (Genesis, HCS, Identity Vault, marketplace, CT-as-money) only after core is solid (§3.10–11) — parked |
 
 ### Standing laws from the report (do not reopen without Nic)

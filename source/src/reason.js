@@ -1138,6 +1138,6 @@ function evaluate0(raw, opts) {
   return { handled: true, outcome: 'UNSUPPORTED_PRESERVED', material: limitationMaterial(raw, f, mergedLimits(opts.limits)), frame: 'FR.WORLD.MODEL', act: 'question', rules: [{ id: 'WM-LANGUAGE-STRUCTURE-LIMIT', doc: DOC + ' I2', note: f.code + '; unknown_word=false' }], uncertainty: 'unsupported_structure', reasoningCandidates: [] };
 }
 
-const api = { specificity, ruleText, SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, qtyCheck, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
+const api = { specificity, ruleText, SCHEMA, CANDIDATE_SCHEMA, WORLD_SCHEMA, PROOF_SCHEMA, ENVELOPE_SCHEMA, PARSER_VERSION, ENGINE_VERSION, CHECKER_VERSION, LIMITS, canon, sourceSegments, supposed, symbol, atom, atomKey, opposite, atomText, parseAtomic, alignVerbs, IRR_PAST, parseRule, parseQuery, interpret, buildTurnWorld, worldIntegrity, branchIntegrity, buildWorlds, deriveWorld, checkProof, evaluate, qtyCheck, ruleWorld, checkRuleProof, RULE_PROOF_SCHEMA };
 if (isNode) module.exports = api; else root.KReason = api;
 })(typeof self !== 'undefined' ? self : this);

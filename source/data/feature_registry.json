@@ -1,5 +1,5 @@
 {
- "version": "4.9.100",
+ "version": "4.9.101",
  "features": [
   {
    "id": "A-01",
@@ -2680,13 +2680,24 @@
    "proof": [
     "R4100"
    ]
+  },
+  {
+   "id": "R4101-CF",
+   "name": "Counterfactual branch over observed history",
+   "source": "NEXT_BUILD 4.9.101; AIWEB architecture vision §3.6 (counterfactual branches isolated from observed history)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.101: a Suppose / what-if branch reuses buildWorlds. An active stored or working fact that shares an entity with the turn, and that the world grammar already reads as one atom, is the committed base; the supposition stays the overlay (WM-OBSERVED-BASE). A prefix the proof never cites is dropped. A supposition does not retract an observed fact and writes nothing to memory, world_state, or the shared KB. No second branch store. No new grammar. No LLM, embedding, RAG, or learned classifier.",
+   "proof": [
+    "R4101"
+   ]
   }
  ],
- "count": 245,
+ "count": 246,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 83,
+  "Partial": 84,
   "Missing": 9,
   "Out of scope / parked": 13
  }
