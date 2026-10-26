@@ -2108,6 +2108,13 @@ function Kernel(opts) {
       Ph(6, 'χ correction step: ε_s ' + drift.eps_s + ' → ' + cx.eps_after + (ok ? ' (re-measured: projectable)' : ' → held')); }
     else if (gov.route === 'quarantine') { quarantined = true; trace.rules.push({ id: 'DRIFT-EXPLORE-QUARANTINE', doc: 'Nic drift ruling (0.40–0.80 quarantine-only exploration; never written)', note: 'ε_s ' + drift.eps_s }); Ph(6, 'exploration band → quarantine (no projection, no write)'); }
     else Ph(6, 'χ(t) not required (band ' + drift.band + ')');
+    { const cite = id => { const e = M.contract(id); return e ? { id: e.id, version: e.version } : null; };
+      const used = ['drift-measure', 'drift-table', 'phase-scheme', 'rsoc-select'];
+      if (trace.correction) used.push('chi-correction');
+      if (trace.chi) used.push('chi-invoke');
+      trace.math_contracts = used.map(cite).filter(Boolean);
+      trace.phase_scheme_id = M.MATH_CONTRACTS.phase_scheme_id;
+      if (trace.rsoc) trace.rsoc.contract = cite('rsoc-select'); }
     const k = sel.material.kind;
     const capability = sel.write ? (sel.write.note ? 'notes.write' : 'memory.write') : /recall|yesno|facts|notes|count|about|when/.test(k) ? 'memory.read' : /math|solved|simplified|converted/.test(k) ? 'math.gp014' : k === 'define' ? 'lexicon.read' : k === 'blocked' ? 'external/unsupported' : 'conversation';
     const msm = { msm_version: 'MSM-v1 (fields inferred from Docs 1, 3, R0 — Doc 2 file not located)', msm_id: psi_id, status: sealed ? 'sealed (Ĉ)' : 'named',
