@@ -1,9 +1,18 @@
-# Next build order — after 4.9.102
+# Next build order — after 4.9.103
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.102 (shipped from 4.9.101 / `412f7dfb1a0fde88607259428500f18554f96ec3`)
+**Baseline:** live 4.9.103 (shipped from 4.9.102 / `261c082c59bac9a0528596be2592629f6cb81b89`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.102+.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.103+.
+
+---
+
+## Shipped: **4.9.103** (2026-10-26)
+
+1. **One job name** — every turn carries `intent_kind`. “What is my car?” is READ. “Rex is a dog. Every dog is an animal. Is Rex an animal?” is DERIVE. “Why did I stay home?” and “define drift” are EXPLAIN. “Suppose Quo is inside Rub. Is Pim inside Rub?” and “what if there is no frost?” are SIMULATE. “Show the proposals.” and “explore ideas” are PROPOSE_EVIDENCE. “Remember that my car is red.” is REQUEST_COMMIT. “I saw her duck” and “what is it?” are CLARIFY. “Buy milk” is UNSUPPORTED.
+2. **Unexpressible** — a renderer fault that Echo rejects leaves the reply empty, stores nothing, and sets `language` to LANGUAGE_UNEXPRESSIBLE. The intent stays REQUEST_COMMIT for that remember. No success sentence is substituted.
+3. **No new answers** — the sentences of 4.9.101 and 4.9.102 stay. A proposal still does not admit a rule. A branch still does not change the world. The shared KB stays empty.
+4. **No LLM** — no model call, embedding, RAG, or learned classifier.
 
 ---
 
@@ -65,7 +74,7 @@ Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT
 
 | Release | Language lead | One reasoning step (maps to vision §3) |
 |---------|---------------|----------------------------------------|
-| **later** (next) | **Full bidirectional intents**: READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED; `LANGUAGE_UNEXPRESSIBLE` instead of canned fallback (§3.8) | Versioned RSOC operators without claiming numerical manuscript equivalence (§3.9); safe tool continuations; **adapters** (Genesis, HCS, Identity Vault, marketplace, CT-as-money) only after core is solid (§3.10–11) — parked |
+| **later** (next) | Stay on the typed intents from 4.9.103 | Versioned RSOC operators without claiming numerical manuscript equivalence (§3.9); safe tool continuations; **adapters** (Genesis, HCS, Identity Vault, marketplace, CT-as-money) only after core is solid (§3.10–11) — parked |
 
 ### Standing laws from the report (do not reopen without Nic)
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.
