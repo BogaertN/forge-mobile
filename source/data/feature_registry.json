@@ -1,5 +1,5 @@
 {
- "version": "4.9.99",
+ "version": "4.9.100",
  "features": [
   {
    "id": "A-01",
@@ -2669,13 +2669,24 @@
    "proof": [
     "R499"
    ]
+  },
+  {
+   "id": "R4100-QTY",
+   "name": "Conservation of a stated stock",
+   "source": "NEXT_BUILD 4.9.100; AIWEB architecture vision §3.4 (quantities, units, conservation)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.100: a stated stock plus a finite inflow or outflow (an amount, not a rate) is the existing level equation with no time. Same unit: exact sum or difference (DYN-CONSERVATION). A factor already in the volume table (milliliter, qualified US gallon) is applied and stated. An unqualified gallon mixed with another volume unit stays ambiguous. A second dimension, or a unit the table does not define, is the existing no-conversion diagnostic: no number. A missing start asks for the start. Crossing empty or a stated capacity keeps the exact difference and names the bound. Nothing is written to memory or the shared KB. No LLM, embedding, RAG, or learned classifier.",
+   "proof": [
+    "R4100"
+   ]
   }
  ],
- "count": 244,
+ "count": 245,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 82,
+  "Partial": 83,
   "Missing": 9,
   "Out of scope / parked": 13
  }

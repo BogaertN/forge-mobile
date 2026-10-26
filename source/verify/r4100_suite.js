@@ -116,6 +116,16 @@ T('defined factor: milliliters use the existing volume table and the factor is s
   expect(r.trace.echo && r.trace.echo.pass, (r.trace.echo && r.trace.echo.reason) || 'echo failed');
   quiet(k);
 });
+T('defined factor: a qualified US gallon uses the existing volume table', () => {
+  const k = mk();
+  const r = k.process('A tank contains 4 liters. A pump removes 1 US gallon. How much remains?');
+  expect(/1 US gallon = 3\.785411784 liters \(exact by definition\)/.test(r.reply || ''), r.reply);
+  expect(/4 liters − 3\.785411784 liters = 0\.214588216 liters\./.test(r.reply || ''), r.reply);
+  expect(!/imperial/.test(r.reply || ''), r.reply);
+  expect(ids(r).includes('DYN-CONSERVATION'), ids(r).join(','));
+  expect(r.trace.echo && r.trace.echo.pass, (r.trace.echo && r.trace.echo.reason) || 'echo failed');
+  quiet(k);
+});
 T('conservation: a missing start asks for the start and gives no number', () => {
   const k = mk();
   const r = k.process('A pump removes 12 liters. How much remains?');
