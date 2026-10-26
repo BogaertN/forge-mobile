@@ -1,11 +1,20 @@
-# Next build order — after 4.9.109
+# Next build order — after 4.9.110
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.109 (shipped from 4.9.108 / `2e0d2aafe1eec283196e964375dd7ae8aa7bd2a7`)
+**Baseline:** live 4.9.110 (shipped from 4.9.109 / `85f2a4263656d9e1cae722cb775266e54271c169`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene R483+/FB-11 is not done. The coordinator sends the next brief. Do not start 4.9.110 from this file. The six-item Page queue is not complete.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. Do not start 4.9.111 from this file.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.109.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.110. CONFLICTS.md, VERSION, and this file govern Forge Mobile acceptance. Ledger v2 “General Language Runtime NOT LIVE” and Capability Register L-08 “Parked post-1.0” are stale for Mobile.
+
+---
+
+## Shipped: **4.9.110** (2026-10-26)
+
+1. **Shipped ids** — 4.9.83 through 4.9.96 are registered as R483-QC through R496-WHOSE. Each was already in the compiler. Each claim is Partial. FB-11 was already the request-compiler row and stays Implemented.
+2. **Operative status** — CONFLICTS, VERSION, and this file govern Forge Mobile acceptance. The Ledger “NOT LIVE” line and the Register L-08 park are stale for Mobile. They may remain for desktop Forge 1. L-08 stays Partial.
+3. **No new behavior** — no new answer, route, or drift threshold. The historical claims-object delta stays.
+4. **No LLM** — no model call, embedding, RAG, or learned classifier. Shared KB stays empty. Adapters stay parked.
 
 ---
 
@@ -130,13 +139,12 @@
 
 ---
 
-## Following releases (Page order, then parked)
+## Following releases
 
-The coordinator sends the next brief. Do not start it from this file. **Do NOT build** Genesis Node, HCS, marketplace, CT-as-money, or agent products in these releases.
+The audit Page “Recommended next core work” is complete for Forge Mobile. Do not start 4.9.111 from this file. **Do NOT build** Genesis Node, HCS, marketplace, CT-as-money, or agent products from this file.
 
-| Next, in Page order | What it is |
+| Still parked | What it is |
 |-----------|------------|
-| 6. Registry / CONFLICTS hygiene | R483+ and FB-11. Not a dedicated catch-up yet. Next release. The coordinator sends the brief. Do not rewrite historical claim tallies. Do not start 4.9.110 from this file. |
 | Parked | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money, agents. |
 | Dream/SPC still open vs paper | The Memory-screen Resurrect button still writes after the 7 gates. `must_archive` is not a route input. No hardware SPC. No ChristPing automation without a user act. |
 
@@ -151,6 +159,6 @@ The coordinator sends the next brief. Do not start it from this file. **Do NOT b
 
 ## Hygiene each release
 - CONFLICTS.md section first (ruling + non-goals).
-- Bump feature_registry for that release’s ids only (catch up FB-11 / R483+ when touching compiler).
+- Bump feature_registry for that release’s ids only. The 4.9.83–4.9.96 compiler lag is registered. Do not rewrite the historical claims-object delta.
 - Live probe before publish; targeted gate OK.
 - No Drive/paper upload into the bundle; no unsolicited messages; shared KB remains locked empty.

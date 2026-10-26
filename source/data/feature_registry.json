@@ -1,5 +1,5 @@
 {
- "version": "4.9.109",
+ "version": "4.9.110",
  "features": [
   {
    "id": "A-01",
@@ -1638,7 +1638,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
    "wave": "—",
    "claim": "Partial",
-   "note": "installable PWA + paired home node; v4.5 N5: one node key per Identity-Vault user, legacy shared key migrated and revocable",
+   "note": "installable PWA + paired home node; v4.5 N5: one node key per Identity-Vault user, legacy shared key migrated and revocable. 4.9.110: the Capability Register line “Parked post-1.0” is stale for Forge Mobile acceptance. CONFLICTS.md, VERSION, and NEXT_BUILD govern Mobile. Desktop Forge 1 may still park distributed operator clients.",
    "proof": [
     "PRO",
     "HOMENODE",
@@ -1989,7 +1989,7 @@
    "source": "Forge 2.0 Production Build Bible §25 Phase 11 (Drive 1WrnuwxhX…); forge2 roadmap",
    "wave": "W3",
    "claim": "Implemented",
-   "note": "RequestContract built from rule candidates; no conflict/freshness/correction hooks · 4.9.96: WH-DET whose sets whHead to the possessed noun; askedNP returns the possessed head; G-REL-WHOSE feeds the compiler — request compiler claim Implemented for these relatives.",
+   "note": "RequestContract built from rule candidates; no conflict/freshness/correction hooks · 4.9.96: WH-DET whose sets whHead to the possessed noun; askedNP returns the possessed head; G-REL-WHOSE feeds the compiler — request compiler claim Implemented for these relatives. 4.9.110: the 4.9.83–4.9.96 compiler slices are registered as their own ids (R483-QC through R496-WHOSE). This claim is not rewritten.",
    "proof": [
     "FORGE2-PORT",
     "R496"
@@ -2779,13 +2779,139 @@
    "proof": [
     "R4109"
    ]
+  },
+  {
+   "id": "R483-QC",
+   "name": "Query compiler",
+   "source": "CONFLICTS.md v4.9.83; Nic 2026-10-21 query compiler",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.83: already shipped. The question compiles to kāraka roles and FORGE-QUERY-COMPILED/v1. A source is kept only inside the 0.35 band. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R484-GEN",
+   "name": "Generated answers from roles",
+   "source": "CONFLICTS.md v4.9.84",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.84: already shipped. A proved span is re-voiced (GEN-ACTIVE-FROM-AGENT and the other answer rules) and must pass Echo. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R485-DRIFT",
+   "name": "Relation drift recalibration",
+   "source": "CONFLICTS.md v4.9.85",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.85: already shipped. relationDrift scores the subject, the predicate, and the asked relation. The band stayed 0.35. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R486-RATE",
+   "name": "Paced lookups and one reply shape",
+   "source": "CONFLICTS.md v4.9.86",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.86: already shipped. One host is paced, and a 429 waits Retry-After. A status code is not the answer. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R487-ROLE",
+   "name": "Research replies from roles",
+   "source": "CONFLICTS.md v4.9.87",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.87: already shipped. researchPlan realizes the source as the kartā of a reporting verb. Standing uses the one RSOC table. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R488-TOOL",
+   "name": "Tool acts and copular question shapes",
+   "source": "CONFLICTS.md v4.9.88",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.88: already shipped. Tool limitations and tool_started are clauses from roles. WH-DET COPULAR reads the other side of the copula as the subject. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R489-GRAM",
+   "name": "Source sentences that the grammar can re-read",
+   "source": "CONFLICTS.md v4.9.89",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.89: already shipped. A reduced passive relative is NP-PASSIVE-PARTICIPLE-POSTMOD, and a pre-nominal modifier may be an adverb plus an adjective. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R490-DIR",
+   "name": "Directives of meaning from roles",
+   "source": "CONFLICTS.md v4.9.90",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.90: already shipped. LL-DIRECTIVE-MEANING reads define/explain of one nominal as the copular question. A tool failure is a clause from its roles. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R491-NAME",
+   "name": "Whole names and open nominals",
+   "source": "CONFLICTS.md v4.9.91",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.91: already shipped. A research subject keeps a name through of. An unknown word in a source sentence is an open nominal. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R492-PROP",
+   "name": "Lexicon names and superlative descriptions",
+   "source": "CONFLICTS.md v4.9.92",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.92: already shipped. TAG-PROPN-LEXICON keeps a capital-only lemma a name. A which-superlative question is the same description as the what-superlative question. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R493-STRUCT",
+   "name": "Structural readings in place of phrase lists",
+   "source": "CONFLICTS.md v4.9.93",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.93: already shipped. BARE-REASON, MATH-FRAME, and WHAT-IF read structure. A stored name stays a name at the start of a sentence. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R494-RSOC",
+   "name": "One drift table and one RSOC standing",
+   "source": "CONFLICTS.md v4.9.94",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.94: already shipped. Discourse and writes use the one drift table. RSOC_STANDING is the one evidence table. A narrower class preempts a wider one. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R495-LEFT",
+   "name": "Method questions and pertainym subjects",
+   "source": "CONFLICTS.md v4.9.95",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.95: already shipped. A pertainym plus the predicate's nominalisation names the subject's event. A communication imperative frames the following expression as its object. Registered in 4.9.110. No new behavior.",
+   "proof": ["R4110"]
+  },
+  {
+   "id": "R496-WHOSE",
+   "name": "Whose, prakāra through Echo, and option rank",
+   "source": "CONFLICTS.md v4.9.96",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.96: already shipped. G-REL-WHOSE attaches whose plus the possessed nominal. A mid-sentence adverb survives generate to Echo. rankOptions holds when every option is above the projectable band. Registered in 4.9.110. FB-11 stays the request-compiler row. No new behavior.",
+   "proof": ["R4110"]
   }
  ],
- "count": 254,
+ "count": 268,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 92,
+  "Partial": 106,
   "Missing": 9,
   "Out of scope / parked": 13
  }
