@@ -207,6 +207,17 @@ function cycle(M0, opts) { const M = M0, o = Object.assign({ budget: DEFAULT_BUD
   pool.forEach((c, i) => verify(c, i));
   /* 4.9.76 ruling 4 (Nic): options that meet their exact conditions are ESTABLISHED, all of them: there is no tie to split and no single pick */
   for (const c of pool.filter(x => x.op === 'split' && x.route === 'eligible')) if (pool.some(x => x.op === 'hypothesize' && x.unknown === c.unknown && x.kind === 'established' && x.route === 'eligible')) Object.assign(c, { route: 'archived', reason: 'its options are established exactly: no split', needs: ['decided:established'] });
+  /* 4.9.108: a later cycle consumes parked debt and claims already on the manifest. Those candidates are carried, not a fresh one-shot. */
+  const prior = (Array.isArray(o.prior) ? o.prior : []).map(a => ({ claim: String(a && a.claim || ''), op: a && a.op || null, blocked_on: Array.isArray(a && a.blocked_on) ? a.blocked_on.slice() : [] })).filter(a => a.claim);
+  const carryClaims = o.carry_claims === true || prior.length > 0;
+  const claimed = carryClaims ? new Set((M.claims || []).map(c => c.text)) : new Set();
+  if (prior.length || claimed.size) for (const c of pool) {
+    const hit = prior.find(a => a.claim === c.claim && (a.op == null || a.op === c.op));
+    if (!hit && !claimed.has(c.claim)) continue;
+    c.carried = true; c.carried_from = hit ? 'archive' : 'manifest';
+    c.blocked_on = hit && hit.blocked_on.length ? hit.blocked_on.slice() : ['claim:on_manifest'];
+    if (c.route === 'eligible') { c.route = 'carried'; c.reason = hit ? 'parked debt from a prior cycle' : 'already claimed on this manifest'; }
+  }
   if (pool.some(c => c.terms.eps > KM.DRIFT_RULING.explore_max * MICRO /* 4.9.87: the drift table's hard stop */)) stop = { rule: 'MEA-DRIFT-EXCURSION', note: 'a candidate exceeded the 0.80 hard stop' };
   /* slates: the options of each choice unknown compete; derived claims do not compete with each other */
   const slates = {}; for (const u of M.unknowns.filter(x => x.kind === 'choice')) { const cs = pool.filter(c => c.op === 'hypothesize' && c.unknown === u.id && c.route === 'eligible'); const r = rank(cs);
@@ -216,7 +227,7 @@ function cycle(M0, opts) { const M = M0, o = Object.assign({ budget: DEFAULT_BUD
   let resolution = null; if (members.length) { resolution = generate('merge', { members }, M, pool); if (resolution) { resolution.members_kinds = [...new Set(members.map(id => pool.find(x => x.candidate_id === id).kind))].sort(); verify(resolution, pool.length, { pool }); } }
   const eligible = pool.filter(c => c.route === 'eligible').length;
   return { ok: !stop || stop.rule === 'MEA-BUDGET', problem_id: M.problem_id, parent_hash: M.hash, unknown_vector: uv, candidates: pool, slates, resolution, stop, eligible,
-    lex_order: LEX_ORDER.map(([k, d]) => k + (d > 0 ? '↑' : '↓')).concat(['id']), log, opts: { budget: o.budget, order: o.order || null, costs: o.costs || null } }; }
+    lex_order: LEX_ORDER.map(([k, d]) => k + (d > 0 ? '↑' : '↓')).concat(['id']), log, opts: { budget: o.budget, order: o.order || null, costs: o.costs || null, prior, carry_claims: carryClaims } }; }
 
 /* ---------- step 4: commit (pure; the kernel persists it only on a user tap) ---------- */
 /* 4.9.74 ruling 2 (Nic): ⧧ splits a tie into sub-manifests only when the tied options need DIFFERENT tests or conditions (their exact condition
@@ -272,8 +283,9 @@ function requeue(archive, capability) { const cap = String(capability); return (
 /* 4.9.104: one cycle's candidates, screened for speech. DRIFT_TABLE (turnGovernance) and RSOC_STANDING decide the band and the standing.
    EDE novelty (N_min..N_max) decides whether a projectable claim may be spoken. A correction-band candidate is parked (χ only). Quarantine,
    hard stop, a failed gate, an over-extended novelty and a lineage operator (split / merge) are parked. Nothing here writes. */
-function screen(M, cy) { const pool = (cy && cy.candidates) || [], hard = !!(cy && cy.stop && cy.stop.rule === 'MEA-DRIFT-EXCURSION'), speak = [], park = [];
+function screen(M, cy) { const pool = (cy && cy.candidates) || [], hard = !!(cy && cy.stop && cy.stop.rule === 'MEA-DRIFT-EXCURSION'), speak = [], park = [], carried = [];
   for (const c of pool) { const epsMicro = c.terms && Number.isInteger(c.terms.eps) ? c.terms.eps : 0, eps = epsMicro / MICRO, gov = KM.turnGovernance(eps, null);
+    if (c.carried) { carried.push({ id: 'carried:' + String(c.candidate_id || '').slice(5), problem_id: M.problem_id, candidate_id: c.candidate_id, op: c.op, claim: c.claim, carried_from: c.carried_from, blocked_on: c.blocked_on || [], eps, parent_hash: M.hash }); continue; }
     const nov = c.novelty_class || noveltyClass((c.terms && c.terms.N) || 0), B = c.terms ? c.terms.B : MICRO;
     const dims = { C: !!(cy && cy.ok !== false && !cy.rule), K: gov.route === 'project', S: B === 0 && (c.claim_status === 'derived_claim' || c.claim_status === 'verified_claim' || c.kind === 'established'), R: c.kind === 'eliminated' || c.claim_status === 'contradiction_exposed' };
     let standing = 'undetermined'; try { const s = KM.rsocStanding(dims); if (s && s.selected) standing = s.selected; } catch (e) { standing = 'undetermined'; }
@@ -290,7 +302,13 @@ function screen(M, cy) { const pool = (cy && cy.candidates) || [], hard = !!(cy 
     else { why = 'not a spoken proposal'; blocked = ['park:not_spoken']; }
     park.push({ id: 'arc:' + String(c.candidate_id || '').slice(5), schema: 'MEAArchive/v1', problem_id: M.problem_id, candidate_id: c.candidate_id, op: c.op, glyph: '⧀', claim: c.claim, claim_status: c.route === 'rejected' ? 'rejected' : 'cold_stored', route: c.route, reason: why, blocked_on: blocked, eps_micro: epsMicro, novelty_micro: c.terms ? c.terms.N : 0, novelty_class: nov, standing, drift_route: gov.route, parent_hash: M.hash }); }
   speak.sort((a, b) => a.candidate_id < b.candidate_id ? -1 : a.candidate_id > b.candidate_id ? 1 : 0);
-  return { schema: 'MEAProposalScreen/v1', problem_id: M.problem_id, parent_hash: M.hash, manifest_schema: SCHEMA, speak, park, cite: 'DRIFT_TABLE + RSOC_STANDING + EDE novelty' }; }
+  return { schema: 'MEAProposalScreen/v1', problem_id: M.problem_id, parent_hash: M.hash, manifest_schema: SCHEMA, speak, park, carried, cite: 'DRIFT_TABLE + RSOC_STANDING + EDE novelty' }; }
+/* 4.9.108: a declared frame or parser cell as proposal data. applied is never taken from the caller. Nothing here installs a grammar table. */
+function mutableCandidates(rows) { const out = [];
+  for (const s of rows || []) { if (!s || (s.fam !== 'frame' && s.fam !== 'parser') || s.legal === false) continue; if (s.proposed === undefined || s.proposed === s.base) continue;
+    const eps = typeof s.eps === 'number' ? s.eps : 0; if (eps > 0.35) continue;
+    out.push({ schema: 'MEAMutableCell/v1', fam: s.fam, row: String(s.row), key: String(s.key), base: s.base, proposed: s.proposed, applied: false, authority: 'proposal', eps }); }
+  return out; }
 /* step 5: the typed hand-off to the RMC (R2.3: typed parameters, never a merged schema). Only a committed (render_allowed) manifest crosses. */
 function handoff(M) { if (!M || M.output_permissions !== 'render_allowed' || M.phase_state !== 7) return { ok: false, rule: 'MEA-NOT-COMMITTED' };
   const cs = M.claims || [], pick = f => cs.filter(f).map(c => c.text);
@@ -299,6 +317,6 @@ function handoff(M) { if (!M || M.output_permissions !== 'render_allowed' || M.p
     favoured: pick(c => c.favoured && c.status === 'hypothesis'), hypotheses: pick(c => (c.status === 'hypothesis' || c.status === 'speculative_branch') && c.kind !== 'derived'),
     eliminated: M.unknowns.flatMap(u => (u.options || []).filter(o => o.eliminated).map(o => o.text)), open: unknownVector(M).filter(x => !x.resolved).map(x => x.text), manifest_hash: M.hash } }; }
 const api = { opCost, SCHEMA, CSCHEMA, VERSION, MICRO, CLAIM_STATUS, NEXT_ACTIONS, GAP_TYPES, TIERS, DISCHARGED, OPERATORS, LEX_ORDER, DEFAULT_BUDGET, canon, manifestHash, normalize, validate, unknownVector, exact, condHolds,
-  generate, replay, candHash, tiedOptions, splitNeeded, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, screen, displayScore };
+  generate, replay, candHash, tiedOptions, splitNeeded, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, screen, mutableCandidates, displayScore };
 if (isNode) module.exports = api; else root.KMEAP = api;
 })(typeof self !== 'undefined' ? self : this);

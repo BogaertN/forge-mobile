@@ -1,5 +1,5 @@
 {
- "version": "4.9.107",
+ "version": "4.9.108",
  "features": [
   {
    "id": "A-01",
@@ -2757,13 +2757,24 @@
    "proof": [
     "R4107"
    ]
+  },
+  {
+   "id": "R4108-MEAP",
+   "name": "Multi-cycle MEA-P on one problem",
+   "source": "NEXT_BUILD 4.9.108; audit Page Recommended next core work item 4",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.108: a tapped 144 Hz manifest keeps the same problem id and goal. The next propose carries parked archive debt and the open unknown vector, and it does not archive those candidates again. A declared frame cell and a declared parser cell are proposal data only and are not applied. Spoken candidates stay at or under 0.35. No LLM. Shared KB stays empty. Doc4/5 live grammar tables are not mutated.",
+   "proof": [
+    "R4108"
+   ]
   }
  ],
- "count": 252,
+ "count": 253,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 90,
+  "Partial": 91,
   "Missing": 9,
   "Out of scope / parked": 13
  }
