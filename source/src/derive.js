@@ -12,7 +12,7 @@ const VERBS = new Set(words('fall capture describe outrank research conclude der
   'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause assume modify average prevent downgrade'));
 const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } };
 const NOUNS = new Set(words('network error conversion paper method explanation amount association problem provenance agreement hypothesis option test conversation location thing passage person birthplace mother father capital country noun modifier form article proof hash label status reason case name class claim conflict source fact colour color dimension table pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
-  'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question ' +
+  'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question proposal ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
   'failure relation sign code divisor limit limitation subject predicate verb role greeting farewell thanks correction vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker rate assumption sensor adverb effect measurement prediction bound mechanism'));
@@ -679,6 +679,20 @@ const PLANS = {
     const stored = S(C('store', { karta: I, karma: N('problem', { det: 'the' }), aspect: 'perf', pol: 'neg' }));
     const arch = m.archived ? [S(C('archive', { karta: I, karma: N('candidate', { cnt: m.archived }), tense: 'past' }))] : [];
     return items.length ? [head, stored, S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }))].concat(arch) : [head, stored].concat(arch); },
+  /* 4.9.108: a later cycle of the same problem. Open questions and parked debt are named. The new proposal is not stored. */
+  mea_p_continued: m => { const items = m.items || [], open = m.open || [];
+    const head = S(C('keep', { karta: I, karma: N('problem', { det: 'the', adj: ['same'] }), tense: 'past' }));
+    const derived = items.length
+      ? S(C('derive', { karta: I, karma: N('hypothesis', { cnt: items.length, list: { kind: 'mention', items } }), roles: { apadana: N('problem', { det: 'the' }) }, tense: 'past' }))
+      : S(C('derive', { karta: I, karma: N('hypothesis', { det: 'no' }), roles: { apadana: N('problem', { det: 'the' }) }, tense: 'past' }));
+    const qs = open.length
+      ? S(C('have', { karta: I, karma: N('question', { cnt: open.length, adj: ['open'], list: { kind: 'mention', items: open } }) }))
+      : S(C('have', { karta: I, karma: N('question', { det: 'no', adj: ['open'] }) }));
+    const debt = m.debt ? S(C('keep', { karta: I, karma: N('candidate', { cnt: m.debt }), tense: 'past' })) : S(C('keep', { karta: I, karma: N('candidate', { det: 'no' }), tense: 'past' }));
+    const stored = S(C('store', { karta: I, karma: N('proposal', { det: 'the' }), aspect: 'perf', pol: 'neg' }));
+    const seal = S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }));
+    const arch = m.archived ? [S(C('archive', { karta: I, karma: N('candidate', { cnt: m.archived }), tense: 'past' }))] : [];
+    return [head, derived, qs, debt, stored, seal].concat(arch); },
   /* MEAP-PROBLEM-DIRECTIVE (4.9.79): the opened draft is reported from its manifest fields — goal, unknown, given facts — and its commit state */
   mea_problem_opened: m => [S(C('open', { karta: I, karma: N('problem', { det: 'a', adj: ['draft'], app: Mn(m.goal) }), tense: 'past' })), S(C('be', { karta: N('question', { det: 'the', adj: ['open'] }), pred: Mn(m.unknown) })),
     ...(m.options ? [S(C('derive', { karta: I, karma: N('option', { cnt: m.options.length, list: { kind: 'mention', items: m.options } }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }))] : m.facts ? [S(C('use', { karta: I, karma: N('fact', { cnt: m.facts, adj: ['related'] }) }))] : []),

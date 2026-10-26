@@ -1,11 +1,21 @@
-# Next build order — after 4.9.107
+# Next build order — after 4.9.108
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.107 (shipped from 4.9.106 / `a0574c2aec19101450f33f67cb63de874b079650`)
+**Baseline:** live 4.9.108 (shipped from 4.9.107 / `c0b47b169ec9926eaa11250d812dac05258435d6`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is still open (only one 144 Hz cycle). Item 5 versioned RSOC operators is not done. Item 6 registry/CONFLICTS hygiene R483+/FB-11 is not done. The coordinator sends the next brief. Do not start 4.9.108 from this file.
+**Page “Recommended next core work”:** item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108 (multi-cycle on one problem; frame and parser cells are proposal data only). Item 5 versioned RSOC operators is not done. Item 6 registry/CONFLICTS hygiene R483+/FB-11 is not done. The coordinator sends the next brief. Do not start 4.9.109 from this file.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.107.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.108.
+
+---
+
+## Shipped: **4.9.108** (2026-10-26)
+
+1. **Same problem, next cycle** — a tap stores the 144 Hz manifest. The next “propose problem physics” keeps that problem id and that goal. It is still a proposal. It does not store the new cycle.
+2. **Parked debt is an input** — candidates already in the archive, and claims already on the manifest, are carried. They are not spoken again and they are not archived again. The open measurement and the open choice are named. The first propose, and a second propose before any tap, stay the 4.9.104 sentences.
+3. **Frame and parser cells** — one declared frame cell and one declared parser cell ride along as proposal data. They are not applied. The live grammar tables stay as shipped. A tap through the existing grammar-manifest adopt is still the only install, and this release does not perform one.
+4. **Drift** — a spoken candidate stays at or under 0.35. Correction, quarantine, a hard stop, and an over-extended novelty stay parked.
+5. **No LLM** — no model call, embedding, RAG, or learned classifier. Shared KB stays empty. Adapters stay parked. 4.9.103 intents, 4.9.105 world head, 4.9.106 dream/SPC, and 4.9.107 admission stay as they are.
 
 ---
 
@@ -117,8 +127,7 @@ The coordinator sends the next brief. Do not start it from this file. **Do NOT b
 
 | Next, in Page order | What it is |
 |-----------|------------|
-| 4. MEA-P deepening | More than one 144 Hz cycle. Frames and the parser are still not mutable. |
-| 5. Versioned RSOC operators | Not done. |
+| 5. Versioned RSOC operators | Not done. Next release. The coordinator sends the brief. |
 | 6. Registry / CONFLICTS hygiene | R483+ and FB-11. Not a dedicated catch-up yet. Do not rewrite historical claim tallies. |
 | Parked | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money, agents. |
 | Dream/SPC still open vs paper | The Memory-screen Resurrect button still writes after the 7 gates. `must_archive` is not a route input. No hardware SPC. No ChristPing automation without a user act. |

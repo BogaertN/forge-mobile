@@ -1198,8 +1198,11 @@ function Kernel(opts) {
       if (hits.length > 1) { rules.push({ id: 'MEAP-FRAME-LIST', doc: 'MEA problem lane', note: hits.length + ' matches for ' + key }); return res('SELECTED_MEANING', { kind: 'mea_problems', items: hits.map(p => p.goal + ' (' + p.claim_status.replace(/_/g, ' ') + ')') }, { frame: 'FR.MEA', act: 'question' }); }
       const packed = proposePacked(hits[0].problem_id); if (!packed) { rules.push({ id: 'MEAP-NO-SUCH-PROBLEM', doc: 'MEA problem lane', note: key }); return res('SELECTED_MEANING', { kind: 'mea_none', key }, { frame: 'FR.MEA', act: 'question' }); }
       const have = new Set((store.load('mea_archive') || []).map(a => a.id)), fresh = packed.screen.park.filter(a => a && a.id && !have.has(a.id));
-      meaPPending = Object.assign({}, packed, { fresh }); rules.push({ id: 'MEAP-PROPOSE', doc: 'MEA-P one cycle: registered operators, DRIFT_TABLE + RSOC_STANDING + novelty; proposals only', note: packed.pid + ' · ' + packed.screen.speak.length + ' spoken · ' + fresh.length + ' newly parked · ' + packed.M.hash.slice(0, 12) });
-      return res('SELECTED_MEANING', { kind: 'mea_p_proposals', problem_id: packed.pid, goal: packed.M.goal, items: packed.screen.speak.map(s => s.claim), archived: fresh.length }, { frame: 'FR.MEA', act: 'question' }); } }
+      meaPPending = Object.assign({}, packed, { fresh }); rules.push({ id: 'MEAP-PROPOSE', doc: 'MEA-P cycle: registered operators, prior archive and claims carried, DRIFT_TABLE + RSOC_STANDING + novelty; proposals only', note: packed.pid + ' · cycle ' + ((packed.M.cycle || 0) + 1) + ' · ' + packed.screen.speak.length + ' spoken · ' + fresh.length + ' newly parked · ' + packed.M.hash.slice(0, 12) });
+      const items = packed.screen.speak.map(s => s.claim);
+      if ((packed.M.cycle || 0) >= 1) { const open = ((packed.cy && packed.cy.unknown_vector) || []).filter(u => !u.resolved).map(u => u.text), debt = ((packed.screen.carried) || []).filter(c => c.carried_from === 'archive').length;
+        return res('SELECTED_MEANING', { kind: 'mea_p_continued', problem_id: packed.pid, goal: packed.M.goal, items, open, debt, archived: fresh.length, cycle: (packed.M.cycle || 0) + 1 }, { frame: 'FR.MEA', act: 'question' }); }
+      return res('SELECTED_MEANING', { kind: 'mea_p_proposals', problem_id: packed.pid, goal: packed.M.goal, items, archived: fresh.length }, { frame: 'FR.MEA', act: 'question' }); } }
     { const prp = capF(low, { id: 'mea_proposal', v: ['show', 'explain'], obj: ['proposal'], re: /^$/ }); if (prp) { /* 4.9.102 MEA-on-phone: induce from stored facts only. The reply lists promotable hypotheses. Nothing is written, and nothing answers a later question. */
       const facts = ruleFacts(store.load('memory').filter(r => r.status === 'active' && r.clause && !r.sensitive));
       const evo = EVO.evolve(facts), speak = p => String(p.text || '').replace(/\b[a-z]+:/g, '');
@@ -2184,8 +2187,9 @@ function Kernel(opts) {
     if (!ev.pass) { phonePending = null; meaPPending = null; routeOf({ echo_failed: true }); trace.blocked = true; trace.block_reason = 'Echo validation failed (' + (ev.reason || '') + '; components ' + JSON.stringify(ev.components) + ') — output blocked, no memory write.'; meta.pending = null; trace.rsoc.ops.push('Ê=0'); Ph(9, 'Echo FAIL → output blocked'); return finish(trace, 9, null, msm, sfe); }
     if (msm.meaning && msm.meaning.kind === 'mea_proposals' && phonePending && phonePending.records) phoneProposals = phonePending.records.map(r => Object.assign({}, r, { echo: true, turn: meta.turn }));
     phonePending = null;
-    if (msm.meaning && msm.meaning.kind === 'mea_p_proposals' && meaPPending && meaPPending.pid === msm.meaning.problem_id) { const p = meaPPending; meaCyc.set(p.pid, { M: p.M, cy: p.cy }); appendMeaArchive(p.fresh || p.screen.park);
+    if (msm.meaning && (msm.meaning.kind === 'mea_p_proposals' || msm.meaning.kind === 'mea_p_continued') && meaPPending && meaPPending.pid === msm.meaning.problem_id) { const p = meaPPending; meaCyc.set(p.pid, { M: p.M, cy: p.cy }); appendMeaArchive(p.fresh || p.screen.park);
       trace.mea_p = { schema: MEAP.SCHEMA, problem_id: p.pid, parent_hash: p.M.hash, manifest_schema: MEAP.SCHEMA, operators: [...new Set(p.cy.candidates.map(c => c.op))], spoken_operators: [...new Set(p.screen.speak.map(s => s.op))], speak: p.screen.speak.map(s => ({ op: s.op, claim: s.claim, claim_status: s.claim_status, eps: s.eps, route: s.route, novelty: s.novelty, standing: s.standing })), archived: p.screen.park.map(a => ({ id: a.id, op: a.op, blocked_on: a.blocked_on, reason: a.reason })), cite: p.screen.cite, separate_from: 'MSM-v1' };
+      if (msm.meaning.kind === 'mea_p_continued') Object.assign(trace.mea_p, { cycle: (p.M.cycle || 0) + 1, unknown_vector: p.cy.unknown_vector, carried: p.screen.carried || [], used_prior: !!((p.cy.opts && p.cy.opts.prior) || []).length, mutable: p.mutable || [] });
       meaPProposals = p.screen.speak.map(s => Object.assign({}, s, { echo: true, turn: meta.turn })); }
     meaPPending = null;
     if ((msm.meaning.kind === 'world_answer' || msm.meaning.kind === 'world_limitation') && msm.meaning.envelope) {
@@ -2245,7 +2249,7 @@ function Kernel(opts) {
     const has = id => ids.has(id);
     let intent = 'UNSUPPORTED';
     if (m.branch || k === 'sim_result' || k === 'sim_replay' || k === 'dream_held' || has('WM-WHAT-IF-BRANCH') || has('WM-OBSERVED-BASE') || has('DYN-WHATIF') || has('EF-FRAME-SIM') || has('EF-SIM-REPLAY') || (k === 'dynamics' && m.mode === 'whatif')) intent = 'SIMULATE';
-    else if (k === 'mea_proposals' || k === 'mea_p_proposals' || k === 'spc_proposal' || k === 'ede_result' || has('MEA-PHONE-PROPOSE') || has('MEAP-PROPOSE') || has('GELC-EVOLVE')) intent = 'PROPOSE_EVIDENCE';
+    else if (k === 'mea_proposals' || k === 'mea_p_proposals' || k === 'mea_p_continued' || k === 'spc_proposal' || k === 'ede_result' || has('MEA-PHONE-PROPOSE') || has('MEAP-PROPOSE') || has('GELC-EVOLVE')) intent = 'PROPOSE_EVIDENCE';
     else if (/^clarify_/.test(k) || k === 'no_frame' || k === 'depends' || k === 'repeat_none' || k === 'invite' || k === 'interjection' || oc === 'clarify' || oc === 'ambiguous' || cat === 'CLARIFICATION_REQUIRED' || cat === 'AMBIGUITY_PRESERVED' || cat === 'INCOMPLETE_PRESERVED') intent = 'CLARIFY';
     else if (has('Q-WH-HOW-PASSIVE') || has('Q-WH-HOW-STATE') || has('Q-WH-HOW-MANNER') || has('Q-WH-WHY') || has('CAUSAL-INVERSION-CHAIN') || has('CAUSAL-INVERSION-NONUNIQUE') || has('LL-DIRECTIVE-MEANING') || has('INF-CAUSATIVE') || k === 'define' || k === 'justification' || k === 'no_reason' || k === 'self_answer' || k === 'help') intent = 'EXPLAIN';
     else if (k === 'world_answer' || k === 'math' || k === 'solved' || k === 'factored' || k === 'system' || k === 'simplified' || k === 'converted' || k === 'inferred' || k === 'dynamics' || has('INF-RELPROP') || has('INF-CAUSE-CHAIN') || has('DYN-CONSERVATION') || has('GELC-ADMITTED-RULE')) intent = 'DERIVE';
@@ -2418,7 +2422,15 @@ function Kernel(opts) {
       archive: store.load('mea_archive').filter(a => a.problem_id === pid) }; }
   function meaCycle(pid) { const M = meaCurrent(pid); if (!M) return { ok: false, rule: 'MEAP-UNKNOWN' }; const ms = MEAK ? MEAK.metaSettings(activeMeta()).MEAP : null; const cy = ms ? MEAP.cycle(M, { budget: ms.budget, costs: ms.costs, order: ms.order }) : MEAP.cycle(M); meaCyc.set(pid, { M, cy }); return { ok: true, cycle: cy }; }
   /* 4.9.104: the same cycle as meaCycle, but not cached and not stored. The propose turn caches it only after Echo. */
-  function proposePacked(pid) { const M = meaCurrent(pid); if (!M) return null; const ms = MEAK ? MEAK.metaSettings(activeMeta()).MEAP : null; const cy = ms ? MEAP.cycle(M, { budget: ms.budget, costs: ms.costs, order: ms.order }) : MEAP.cycle(M); return { pid, M, cy, screen: MEAP.screen(M, cy) }; }
+  function mutableCells() { if (!MEAK || !MEAK.cells) return []; const all = MEAK.cells();
+    const frame = all.find(c => c.fam === 'frame' && c.row === 'ADJ_INF' && c.type === 'role'), parser = all.find(c => c.fam === 'parser' && c.type === 'bool' && c.growth);
+    const spec = c => { if (!c) return null; const base = MEAK.baseVal(c), proposed = c.type === 'bool' ? !base : (c.values || []).find(v => v !== base); if (proposed === undefined || proposed === base) return null;
+      const legal = MEAK.legality([{ fam: c.fam, row: c.row, key: c.key, value: proposed }]).length === 0; return { fam: c.fam, row: c.row, key: c.key, base, proposed, legal, eps: 0 }; };
+    return MEAP.mutableCandidates([spec(frame), spec(parser)].filter(Boolean)); }
+  function proposePacked(pid) { const M = meaCurrent(pid); if (!M) return null; const ms = MEAK ? MEAK.metaSettings(activeMeta()).MEAP : null;
+    const prior = (store.load('mea_archive') || []).filter(a => a && a.problem_id === pid).map(a => ({ claim: a.claim, op: a.op, blocked_on: (a.blocked_on || []).slice() }));
+    const continued = (M.cycle || 0) >= 1, o = { prior, carry_claims: continued }; if (ms) { o.budget = ms.budget; o.costs = ms.costs; o.order = ms.order; }
+    const cy = MEAP.cycle(M, o); return { pid, M, cy, screen: MEAP.screen(M, cy), mutable: continued ? mutableCells() : [] }; }
   function appendMeaArchive(rows) { if (!rows || !rows.length) return 0; const ar = store.load('mea_archive'), have = new Set(ar.map(a => a.id)); let n = 0; for (const a of rows) if (a && a.id && !have.has(a.id)) { ar.push(a); have.add(a.id); n++; } if (n) store.save('mea_archive', ar); return n; }
   function meaSupply(pid, uid, value) { const M = meaCurrent(pid); if (!M) return { ok: false, rule: 'MEAP-UNKNOWN' }; const r = MEAP.supply(M, uid, value); if (r.ok) { meaDraft.set(pid, r.manifest); meaCyc.delete(pid); } return r; }
   function meaCommit(pid, candId, userTap) { const e = meaCyc.get(pid); if (!e) return { ok: false, rule: 'MEAP-NO-CYCLE' };
