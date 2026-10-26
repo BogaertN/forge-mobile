@@ -1,5 +1,5 @@
 {
- "version": "4.9.104",
+ "version": "4.9.105",
  "features": [
   {
    "id": "A-01",
@@ -2724,13 +2724,24 @@
    "proof": [
     "R4104"
    ]
+  },
+  {
+   "id": "R4105-WV",
+   "name": "Persistent versioned world head",
+   "source": "NEXT_BUILD 4.9.105; WMS §3.7 WorldSnapshot, §4.6 atomic commit, Slice I6 (audit gap #3)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.105: a selectable WorldSnapshot (forge-world-state/v1) with world_id, version_id, parent_versions, content hash, and commit receipt. version_id is not the MemoryStore generation. The head is published only after a staged readback. A failed stage (WV-STAGE-ABORTED) does not select a head and does not save the new projection. The same store reloads the same version_id and hash. A Suppose branch and a conservation step do not move the head. Forgetting a premise withdraws one dependent into the next head. trace.world_version names the head. No bitemporal index. No LLM. Shared KB stays empty.",
+   "proof": [
+    "R4105"
+   ]
   }
  ],
- "count": 249,
+ "count": 250,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 87,
+  "Partial": 88,
   "Missing": 9,
   "Out of scope / parked": 13
  }

@@ -1,9 +1,19 @@
-# Next build order — after 4.9.104
+# Next build order — after 4.9.105
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.104 (shipped from 4.9.103 / `38a0dc42710e95ee789ac41a42a9fe521a11b466`)
+**Baseline:** live 4.9.105 (shipped from 4.9.104 / `de11abb5ef81c52c2d3ea7c67e177a256c720192`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.103+.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.104+.
+
+---
+
+## Shipped: **4.9.105** (2026-10-26)
+
+1. **World head** — a remember commits a WorldSnapshot (`forge-world-state/v1`) whose `version_id` is not the MemoryStore generation. The snapshot carries `world_id`, `parent_versions`, a content hash, and a `wrc:` commit receipt. The projection underneath stays `FORGE-WORLD-STATE/v1`.
+2. **Atomic commit** — the next head is staged and becomes current only after it reads back. A failed stage does not report success and does not leave that stage as the current head. The same store, opened again, returns the same version and hash.
+3. **What does not move it** — a Suppose branch and a conservation step leave the committed head in place. “propose problem physics” does not commit a head. An Echo failure stores nothing and does not commit a head. Shared KB stays empty.
+4. **One dependent** — forgetting “Beryl is inside Cobalt” withdraws “aster is in cobalt” and commits the next head with that item invalidated. The intents from 4.9.103 and the 144 Hz proposal from 4.9.104 stay as they were.
+5. **No LLM** — no model call, embedding, RAG, or learned classifier. No bitemporal index and no dream/SPC screen in this release.
 
 ---
 
@@ -83,7 +93,7 @@ Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT
 
 | Release | Language lead | One reasoning step (maps to vision §3) |
 |---------|---------------|----------------------------------------|
-| **4.9.105** (next) | Stay on the typed intents from 4.9.103 | Persistent versioned W_v (audit #3). Adapters (Genesis, HCS, Identity Vault, marketplace, CT-as-money) stay parked |
+| **4.9.106** (next) | Stay on the typed intents from 4.9.103 | Dream/SPC UX closer to the paper (audit #4). Adapters (Genesis, HCS, Identity Vault, marketplace, CT-as-money) stay parked |
 
 ### Standing laws from the report (do not reopen without Nic)
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.
