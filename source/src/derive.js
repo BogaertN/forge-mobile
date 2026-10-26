@@ -658,6 +658,13 @@ const PLANS = {
       : S(C('derive', { karta: I, karma: N('hypothesis', { det: 'no' }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }));
     const stored = S(C('store', { karta: I, karma: N('rule', { det: 'the' }), aspect: 'perf', pol: 'neg' }));
     return items.length ? [head, stored, S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }))] : [head, stored]; },
+  /* 4.9.104: a problem-lane proposal. The claim texts are mentions. The manifest itself is not a meaning field. */
+  mea_p_proposals: m => { const items = m.items || []; const head = items.length
+      ? S(C('derive', { karta: I, karma: N('hypothesis', { cnt: items.length, list: { kind: 'mention', items } }), roles: { apadana: N('problem', { det: 'the' }) }, tense: 'past' }))
+      : S(C('derive', { karta: I, karma: N('hypothesis', { det: 'no' }), roles: { apadana: N('problem', { det: 'the' }) }, tense: 'past' }));
+    const stored = S(C('store', { karta: I, karma: N('problem', { det: 'the' }), aspect: 'perf', pol: 'neg' }));
+    const arch = m.archived ? [S(C('archive', { karta: I, karma: N('candidate', { cnt: m.archived }), tense: 'past' }))] : [];
+    return items.length ? [head, stored, S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }))].concat(arch) : [head, stored].concat(arch); },
   /* MEAP-PROBLEM-DIRECTIVE (4.9.79): the opened draft is reported from its manifest fields — goal, unknown, given facts — and its commit state */
   mea_problem_opened: m => [S(C('open', { karta: I, karma: N('problem', { det: 'a', adj: ['draft'], app: Mn(m.goal) }), tense: 'past' })), S(C('be', { karta: N('question', { det: 'the', adj: ['open'] }), pred: Mn(m.unknown) })),
     ...(m.options ? [S(C('derive', { karta: I, karma: N('option', { cnt: m.options.length, list: { kind: 'mention', items: m.options } }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }))] : m.facts ? [S(C('use', { karta: I, karma: N('fact', { cnt: m.facts, adj: ['related'] }) }))] : []),

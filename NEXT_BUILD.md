@@ -1,9 +1,18 @@
-# Next build order — after 4.9.103
+# Next build order — after 4.9.104
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.103 (shipped from 4.9.102 / `261c082c59bac9a0528596be2592629f6cb81b89`)
+**Baseline:** live 4.9.104 (shipped from 4.9.103 / `38a0dc42710e95ee789ac41a42a9fe521a11b466`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
 **Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.103+.
+
+---
+
+## Shipped: **4.9.104** (2026-10-26)
+
+1. **144 Hz, one cycle** — “propose problem physics” reads the shipped problem manifest and runs the registered operators. The reply is: I derived 1 hypothesis from the problem: (1) “144 Hz is a substrate (fundamental) frequency”. I have not stored the problem. I can only seal it after your confirmation. I archived 4 candidates.
+2. **Gates** — a candidate is spoken only when drift projects at or under 0.35, standing is stamped, and novelty is inside the existing bounds. The correction band is parked. Quarantine and a hard stop are parked. The exact ratios are parked because their novelty is past the bound, so they are not spoken as the physical answer. The status stays hypothesis.
+3. **Nothing automatic** — the propose writes the parked candidates to the problem archive, once. It does not write memory, world state, the drift archive, or the shared KB. “show problem physics” still has no result until a tap. “show the proposals” is still the rule induction from 4.9.102.
+4. **No LLM** — no model call, embedding, RAG, or learned classifier.
 
 ---
 
@@ -74,7 +83,7 @@ Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT
 
 | Release | Language lead | One reasoning step (maps to vision §3) |
 |---------|---------------|----------------------------------------|
-| **later** (next) | Stay on the typed intents from 4.9.103 | Versioned RSOC operators without claiming numerical manuscript equivalence (§3.9); safe tool continuations; **adapters** (Genesis, HCS, Identity Vault, marketplace, CT-as-money) only after core is solid (§3.10–11) — parked |
+| **4.9.105** (next) | Stay on the typed intents from 4.9.103 | Persistent versioned W_v (audit #3). Adapters (Genesis, HCS, Identity Vault, marketplace, CT-as-money) stay parked |
 
 ### Standing laws from the report (do not reopen without Nic)
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.

@@ -269,6 +269,28 @@ function supply(M, unknownId, value) { const u = M.unknowns.find(x => x.id === u
   N.parent_hash = M.hash; N.output_permissions = 'sealed'; N.hash = manifestHash(N); return { ok: true, manifest: N, capability: 'value:' + unknownId }; }
 /* step 4 recursion: archived entries whose blocking reason names a capability that has now grown are re-queued — as PROPOSALS only */
 function requeue(archive, capability) { const cap = String(capability); return (archive || []).filter(a => (a.blocked_on || []).some(b => b === cap || (/^kernel:/.test(cap) && /^capability:/.test(b)))).map(a => ({ archive_id: a.id, problem_id: a.problem_id, claim: a.claim, because: cap, proposal: 'rerun_cycle', route: 'proposal', adopt: false })); } /* ruling 5: proposals only */
+/* 4.9.104: one cycle's candidates, screened for speech. DRIFT_TABLE (turnGovernance) and RSOC_STANDING decide the band and the standing.
+   EDE novelty (N_min..N_max) decides whether a projectable claim may be spoken. A correction-band candidate is parked (χ only). Quarantine,
+   hard stop, a failed gate, an over-extended novelty and a lineage operator (split / merge) are parked. Nothing here writes. */
+function screen(M, cy) { const pool = (cy && cy.candidates) || [], hard = !!(cy && cy.stop && cy.stop.rule === 'MEA-DRIFT-EXCURSION'), speak = [], park = [];
+  for (const c of pool) { const epsMicro = c.terms && Number.isInteger(c.terms.eps) ? c.terms.eps : 0, eps = epsMicro / MICRO, gov = KM.turnGovernance(eps, null);
+    const nov = c.novelty_class || noveltyClass((c.terms && c.terms.N) || 0), B = c.terms ? c.terms.B : MICRO;
+    const dims = { C: !!(cy && cy.ok !== false && !cy.rule), K: gov.route === 'project', S: B === 0 && (c.claim_status === 'derived_claim' || c.claim_status === 'verified_claim' || c.kind === 'established'), R: c.kind === 'eliminated' || c.claim_status === 'contradiction_exposed' };
+    let standing = 'undetermined'; try { const s = KM.rsocStanding(dims); if (s && s.selected) standing = s.selected; } catch (e) { standing = 'undetermined'; }
+    const spokenKind = c.kind === 'hypothesis' || c.kind === 'established' || c.kind === 'derived' || c.kind === 'conditional';
+    if (!hard && c.route === 'eligible' && !c.quarantine && (c.op === 'hypothesize' || c.op === 'derive') && gov.route === 'project' && nov === 'bounded' && spokenKind) { speak.push({ candidate_id: c.candidate_id, op: c.op, claim: c.claim, claim_status: c.claim_status, kind: c.kind, eps, route: gov.route, novelty: nov, standing, dims }); continue; }
+    let why, blocked; if (hard || gov.route === 'hard_stop') { why = 'hard stop: ε_s above 0.80'; blocked = ['band:hard_stop']; }
+    else if (gov.route === 'correct') { why = 'correction band: χ only, not a proposal'; blocked = ['band:correct']; }
+    else if (gov.route === 'quarantine' || gov.route === 'blocked_forbidden_transition') { why = 'quarantine band: not projectable'; blocked = ['band:quarantine']; }
+    else if (c.route === 'rejected') { const failed = (c.gates || []).filter(g => !g.ok); why = 'gates failed: ' + failed.map(g => g.gate).join(', '); blocked = failed.length ? failed.map(g => 'gate:' + g.gate) : ['gate:rejected']; }
+    else if (nov === 'overextended') { why = 'novelty above N_max'; blocked = ['novelty:overextended']; }
+    else if (nov === 'recall_band' && c.claim_status !== 'recall') { why = 'recall is not a discovery'; blocked = ['novelty:recall']; }
+    else if (c.op === 'split' || c.op === 'merge') { why = 'lineage operator; the options are the proposals'; blocked = ['operator:' + c.op]; }
+    else if (c.quarantine || c.route === 'shadow' || c.route === 'archived') { why = 'shadow or quarantine'; blocked = ['capability:projection']; }
+    else { why = 'not a spoken proposal'; blocked = ['park:not_spoken']; }
+    park.push({ id: 'arc:' + String(c.candidate_id || '').slice(5), schema: 'MEAArchive/v1', problem_id: M.problem_id, candidate_id: c.candidate_id, op: c.op, glyph: '⧀', claim: c.claim, claim_status: c.route === 'rejected' ? 'rejected' : 'cold_stored', route: c.route, reason: why, blocked_on: blocked, eps_micro: epsMicro, novelty_micro: c.terms ? c.terms.N : 0, novelty_class: nov, standing, drift_route: gov.route, parent_hash: M.hash }); }
+  speak.sort((a, b) => a.candidate_id < b.candidate_id ? -1 : a.candidate_id > b.candidate_id ? 1 : 0);
+  return { schema: 'MEAProposalScreen/v1', problem_id: M.problem_id, parent_hash: M.hash, manifest_schema: SCHEMA, speak, park, cite: 'DRIFT_TABLE + RSOC_STANDING + EDE novelty' }; }
 /* step 5: the typed hand-off to the RMC (R2.3: typed parameters, never a merged schema). Only a committed (render_allowed) manifest crosses. */
 function handoff(M) { if (!M || M.output_permissions !== 'render_allowed' || M.phase_state !== 7) return { ok: false, rule: 'MEA-NOT-COMMITTED' };
   const cs = M.claims || [], pick = f => cs.filter(f).map(c => c.text);
@@ -277,6 +299,6 @@ function handoff(M) { if (!M || M.output_permissions !== 'render_allowed' || M.p
     favoured: pick(c => c.favoured && c.status === 'hypothesis'), hypotheses: pick(c => (c.status === 'hypothesis' || c.status === 'speculative_branch') && c.kind !== 'derived'),
     eliminated: M.unknowns.flatMap(u => (u.options || []).filter(o => o.eliminated).map(o => o.text)), open: unknownVector(M).filter(x => !x.resolved).map(x => x.text), manifest_hash: M.hash } }; }
 const api = { opCost, SCHEMA, CSCHEMA, VERSION, MICRO, CLAIM_STATUS, NEXT_ACTIONS, GAP_TYPES, TIERS, DISCHARGED, OPERATORS, LEX_ORDER, DEFAULT_BUDGET, canon, manifestHash, normalize, validate, unknownVector, exact, condHolds,
-  generate, replay, candHash, tiedOptions, splitNeeded, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, displayScore };
+  generate, replay, candHash, tiedOptions, splitNeeded, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, screen, displayScore };
 if (isNode) module.exports = api; else root.KMEAP = api;
 })(typeof self !== 'undefined' ? self : this);
