@@ -1,58 +1,204 @@
-# forge-mobile
+# Forge Mobile
 
-Forge Mobile is an installable PWA with no LLM. Its Pāṇinian-style Bidirectional Language Core compiles supported language into symbolic meaning and back into language; the separate RMC reasoning, trace and memory spine compares candidates, applies warrants and selects supported conclusions. Replies are derived by governed rules and carry a full trace. No language model generates anything. Every action goes through the permission service.
+Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-Version 4.9.3 adds a bounded, general-purpose symbolic world-model path for controlled English. It compiles previously unseen content identifiers, finite facts, rules and a final query into an immutable turn world; derives positive and negative consequences; independently replays the selected proof; uses RMC to select only checked results; and has Echo verify the rendered answer. Unsupported structures return typed limitations. This is not unrestricted natural language, external world knowledge or a hidden language-model call.
+**Version 4.9.110**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json): registry 268, publish-gate tests 210 passed of 210, service-worker cache `forge-mobile-v4.9.110`.
 
-Live site: https://bogaertn.github.io/forge-mobile/
+## The app
 
-## Release: one command from a fresh clone
+The site installs on a phone and runs from its cache (`source/manifest.json`, `source/sw.js`). Eight tabs (`source/index.html`): Forge Output, Identity Vault, Tool Bench, RMC Memory, Deep Dry-Run, Context Library, Audit / Receipts, and System Status.
 
-Requirements: Node 20 and Python 3 with the `cryptography` package (used by the home-node tests). CI installs the hash-locked set with `python -m pip install --require-hashes --no-deps -r source/requirements-ci.txt`, and every workflow action is pinned to a commit SHA.
+Ask Forge is the conversation. The prompt says it will not execute commands. Voice input uses the device speech recognizer and is marked unverified. Each reply carries a trace: the rules that ran, the gate, drift, the containment route, Echo, and the meaning manifest.
+
+A turn has five steps.
+
+1. **Language Core** compiles supported English into symbolic meaning and, once a meaning is selected, realizes it as a sentence (`source/src/grammar.js`, `source/src/derive.js`).
+2. **RMC** runs candidate routes and selects one meaning (`source/src/kernel.js`).
+3. **World** answers from the sentences in front of it, and from the persistent world a remember has committed (`source/src/reason.js`).
+4. **Render** produces one of eleven output forms. Chat uses text (`source/src/render.js`).
+5. **Echo** parses that text again. A mismatch blocks the reply.
+
+The permission service (`source/src/governance.js`) decides every governed action. Understanding a sentence is separate from permission to store it, send it, or run it. The app is marked a prototype. Hashes are SHA-256.
+
+## A turn
+
+`Kernel.process` is the conversation entry.
+
+Text is Unicode-normalized. Passwords, keys, card numbers, and the other sensitive shapes in `source/src/privacy.js` are replaced with the word “sealed” before reasoning. The kernel, the trace, and memory see that word. When a remember of such a value is allowed and the vault is unlocked, the value is encrypted on the device (AES-GCM, key from the passphrase). A locked vault drops the value. The turn id is the SHA-256 of the turn number, the loop, and the redacted text.
+
+Before routes run, a message may be split or lightly rewritten: a fronted topic, a contrastive “not”, a tag question, an embedded “tell me what…”, a greeting ahead of the real sentence, or a semicolon that keeps a prohibition inside its own clause. Several declarative sentences are read one at a time when the turn world does not take the whole message. A rate problem, a measurement report, or a dynamics what-if stays whole.
+
+Applicable routes run in a sandbox, so a route that loses keeps no writes. In report order they are `world.preflight`, `turn.reentry`, `capability.frame`, `gks.quantity`, `world.proof`, `math.gp014`, `directive.frame`, `justify.followup`, `world.dynamics`, and `language.core`. World preflight is measured when the input is longer than 2,000 characters. Past 100,000 characters the only proposal is the input-limit refusal.
+
+Echo rejects a surface that does not round-trip. An ambiguous Echo becomes a clarification. A reply that finishes a clarification from the previous turn is preferred. After that, the order is proof completeness, specificity (a specific route ahead of the general language core), lower drift, then the score M+P+U+N−D. A true tie lists the readings and waits for “1” or “2”.
+
+The drift write law then decides whether the turn may be spoken or stored. The sentence is realized and parsed again. Math answers are re-verified on their own. Echo compares structure, with no word-overlap score. If derivation fails, the derivation trail is forbidden, or Echo fails, the reply is empty, nothing is stored, and the trace records `LANGUAGE_UNEXPRESSIBLE`.
+
+A plain statement is acknowledged and may be kept as a working fact for the conversation. Lasting memory requires “remember …”, the projectable band, a passed Echo, and permission for `memory.write`. Research results and Suppose branches leave memory, the world head, and shared knowledge unchanged. Every finished turn carries one intent:
+
+| Intent | The turn |
+|---|---|
+| `READ` | Recall, a yes/no over memory, a list, an inspect |
+| `DERIVE` | A checked proof, an admitted rule, math, a rate, or conservation |
+| `EXPLAIN` | Why, how, a definition, or a cause walked backward |
+| `SIMULATE` | A Suppose branch or a dynamics what-if |
+| `PROPOSE_EVIDENCE` | A proposal or a research answer |
+| `REQUEST_COMMIT` | Remember, a note, or a refusal to store |
+| `CLARIFY` | An ambiguity or an unresolved reference |
+| `UNSUPPORTED` | An action or a structure the grammar does not take |
+
+## Language
+
+The Language Core is a bidirectional compiler. Inward it tokenizes, tags, derives each reading, assigns roles, and keeps scope. Outward the same roles become a sentence, with agreement, tense, aspect, negation, and lists. Every choice is a recorded rule.
+
+Closed-class words live in `grammar.js`. Open-class words come from the lexicon: a small seed in `source/src/lexicon.js`, and Princeton WordNet 3.0 loaded lazily in tiers (core, extended, complete). The licence is `source/data/WORDNET_LICENSE.txt`. WordNet supplies tags, morphology, frames, and relations. A definition is taken from the controlled lexicon. When more than one controlled sense fits, the turn asks which one. An unknown word inside a remember-request is asked about.
+
+The request compiler (`source/src/qcompile.js`) turns a question into a record of subject, predicate, and the asked relation: who, what, where, when, why, how, quantity, or verdict. Research retrieval uses that record. Expansions above the projectable band are kept on the record and left unused.
+
+What the compiler handles:
+
+- Questions over stored relations: what, who, where, when, whether, and “what do you know about”.
+- Role questions, including whose, how, and why.
+- Pronouns and demonstratives. One fitting antecedent binds. Several stay open. On a research lead, *it*, *they*, *he*, and *she* follow the article subject; after the lead, only a local antecedent binds.
+- Lists of any length as one object, with or without an Oxford comma. A comma before a new finite clause starts a new clause. Naming asides (a comma, a dash, “aka”, a reduced relative) drop before roles are assigned.
+- Year order. Two stored events with non-overlapping years answer before and after. A from-year / to-year span is an interval. The comparison itself stores nothing.
+- Cause. “Does A cause B?” follows stored links forward. “What causes B?” walks them backward and cites each upstream cause. A what-if is an intervention on that graph.
+- Conservation and rates. A stated stock plus a finite amount in or out answers how much remains, in the same unit, with exact arithmetic. A rate stays a rate. A missing conversion, a mixed dimension, or an unqualified gallon against liters yields no number.
+- Suppose, assume, imagine, what if, and hypothetically. The reply names the branch and states that the branch leaves the world unchanged. A remembered fact can be the base of the branch. A later question outside the branch sees the stored world only.
+- Rule proposals. “Show the proposals” may offer a hypothesis drawn from stored facts. Admission waits for a tap, and only while drift is at or under 0.35 and replay contradicts nothing stored.
+- Math, in `source/src/algebra.js` and `source/src/calculus.js`: exact rationals, polynomials, factoring, linear systems, derivatives and integrals of polynomials, and unit conversion by exact factors. Degree above 4 is refused. Degree 3 or 4 with no rational root is a labelled numeric root. A malformed expression or a division by zero is a refusal.
+
+This is a controlled English for those constructions.
+
+## Memory and world
+
+### The turn world
+
+`source/src/reason.js` compiles one turn — facts, rules, and a final query, including words it has not seen before — into an immutable turn world. Closure is finite and paraconsistent: a contradiction, support, a refutation, and “the premises do not decide” remain different results. The selected proof is replayed. The turn world writes neither lasting memory nor the persistent head.
+
+### The persistent world
+
+Stored facts project to entities, relations, and attributes. A successful remember publishes a world snapshot (`forge-world-state/v1`, world id `world:local`). The snapshot’s version id is separate from the storage generation. It carries parent versions, a content hash, and a commit receipt. The next head is staged and becomes current only after that stage reads back. A failed stage leaves the previous head in place.
+
+Suppose, a conservation step, and “propose problem physics” leave the committed head unchanged. So does an Echo failure. Forgetting a premise withdraws dependents that rested on it and publishes the next head with those items invalidated.
+
+### Remember
+
+A memory row keeps the clause, its entities, provenance, and time. A contradiction (polarity, a single-valued attribute, or exclusive classes) asks rather than overwriting. “Instead” or “actually” replaces the row, and the previous row moves to cold storage. Forget moves the row to cold storage and says so. Hard delete is unavailable (`hardDelete` is `never`).
+
+A research claim is named on the reply:
+
+| Status | What the app does |
+|---|---|
+| Projectable (ε ≤ 0.35, supported) | Offers remember. “Remember that …” is what stores it. |
+| Correction (0.35 < ε < 0.40) | Runs χ once, then measures the turn again. |
+| Contested or held (0.40–0.80, a conflict, or a correction still above 0.35) | A held claim with a generated clause waits in held writes. A tap stores it. “Show quarantine” and “show containment” list held claims. |
+| Refused (above 0.80, or a forbidden transition) | Leaves the claim unheld and unstored. |
+
+The intake record keeps both `stored` and `shared_kb` false.
+
+### On the device
+
+The shared knowledge store is empty in this build. The shared-layer switch defaults to off. A reviewed manifest, if accepted, is evidence only: the signature names who signed it. Vault contents stay on the device. A live lookup remains evidence: it is not written into memory. A signed general-knowledge snapshot can be pinned; ordinary conversation does not fill one.
+
+Contribution counts (`source/src/economy.js`) are recognition. They are not payment. A candidate is signed by a reviewer who is not the contributor and who supplies evidence, then finalized as a capsule. A later nullification is appended. The attribution ledger (`source/src/ledger.js`) is one hash chain per device. An export is the full chain or a checkpoint. A divergent foreign chain is recorded beside this device’s chain.
+
+Backup (`source/src/operator.js`) is one portable file: AES-GCM, with its PBKDF2-SHA-256 parameters and salt inside the file, so a fresh install can open it. Bounds on size, depth, and the key derivation are checked before any key is derived. Restore writes a new storage generation, reads it back, then switches a single pointer. The passphrase is at least 8 characters. A lost passphrase cannot be recovered.
+
+The Identity Vault tab is this local encrypted store.
+
+## Drift, containment, and proposals
+
+Drift ε_s is the write law (`source/src/kmath.js`):
+
+| ε_s | Band | Effect |
+|---|---|---|
+| ≤ 0.35 | Projectable | May be spoken. The only band in which memory may be written. |
+| 0.35 < ε_s < 0.40 | Correction | χ, the correction function, runs once. The turn is measured again. A write in this turn requires the new value to be ≤ 0.35. |
+| 0.40 ≤ ε_s ≤ 0.80 | Quarantine | Archived. Withheld from projection and from memory. |
+| > 0.80 | Hard stop | Sealed, unless the χ hard-stop check fires and re-routes the turn with a restricted meaning. |
+
+Forbidden phase jumps, Φ5→Φ8 and Φ4→Φ8, are a separate gate. The trace names the math contracts that ran: the drift measure, this table, the χ correction, the χ hard-stop check, the RSOC speech selector, and the phase scheme from Φ1 Initiation through Φ9 Return. RSOC chooses among rival phrasings. One alignment locks. Several stay open. A sever may split a clause list when the clauses themselves are unchanged.
+
+Each turn receives exactly one containment route (`source/src/containment.js`):
+
+- `active_stack_candidate` — the ordinary turn
+- `correction_queue` — a clarification, a confirm, a forget, a replace, or a χ re-route
+- `spc_cold_storage_required` — a hard stop or a forbidden phase jump. The forgotten fact itself lives in cold storage; the forget turn is a correction
+- `dream_state_quarantine_candidate` — a bare Suppose, imagine, or similar statement with no question attached. The row stays out of memory and out of the world head. A dynamics what-if answered by the dynamics route is a simulation, not this route
+- `drift_archive_only` — the quarantine band, including a correction that stays above 0.35
+- `ghost_loop_containment_required` — the turn could not be resolved: no frame, an unknown the grammar could not structure, a derivation failure, or an Echo failure
+
+“Show quarantine”, “show cold storage”, and “show containment” list the route, the tier, and a short label. An empty list says so. A forgotten row is warm unless policy sets it cold. Deep storage is the seal for a breach or for too many resurrection attempts. Saying “resurrect” or “bring back” in the conversation, on a warm row, returns a proposal and writes nothing. The Resurrect control on the Memory screen writes after its seven gates and a tap. Cold storage here is a software tier.
+
+**Problem proposals.** “Propose problem physics” runs one problem cycle on the shipped 144 Hz problem. A candidate is spoken only when it is projectable, standing is stamped, and novelty sits inside the existing bounds. The spoken line is a hypothesis. Parked candidates go to the problem archive after Echo passes. A tap is the only seal. The propose leaves memory, the world head, and shared knowledge unchanged. After that tap, a later propose keeps the same problem and goal, carries candidates already archived or already on the manifest, and may attach one frame cell and one parser cell as proposal data. Those cells stay unapplied. Grammar changes are a separate lane: typed deltas over declared pronoun classes, a few complement frames, and open parser categories. Adoption is a tap. Withdrawal restores the shipped tables.
+
+**Dynamics.** Stated scenarios use exact rational arithmetic: levels, constant rates, conservation of an amount, causal what-if, and measurements that disagree. A disagreeing measurement stays beside the equation. An association is left as an association. The solver neither stores nor fetches.
+
+## Research and tools
+
+The Tool Bench (`source/src/toolbench.js`) is a set of declared tools. Each manifest sets `uses_model` false. The kernel calls a tool only from a selected predicate frame, and the permission service decides the call. The result is an evidence record on a hash-chained log.
+
+Research is a read-only lookup. The research switch defaults to on request. A factual question that no stored, shared, or private fact answers counts as that request, once the vault is unlocked so the excerpts can be sealed. Personal questions, commands, greetings, and tool turns stay on the language path. Archives (`source/src/archives.js`) are keyless public endpoints, ranked primary authority, then peer-reviewed, then structured reference, then encyclopedia. Two things named in one statement are not treated as a cause. The reply names the archive and the evidence class, and it writes no memory.
+
+Page capture is tracker-free: no extra headers, no credentials, no referrer. The capture is sealed the same way. A site the browser cannot read needs a user-owned node or proxy, and that URL must be https. The default fetch path is direct browser access only.
+
+User tools (`source/src/toolbuilder.js`) are ForgeScript in a worker with no network, no page, and no storage. Tests pass before a tool is enabled. Three consecutive runtime failures disable it. Results are evidence.
+
+Deep Dry-Run runs the pipeline on an isolated copy of the stores it snapshots, then discards that copy. The conversation store is unchanged. The tab shows the trace.
+
+## Architecture
+
+| Module | Role |
+|---|---|
+| `kernel.js` | The turn: routes, drift, containment, memory, world head, intents |
+| `grammar.js`, `derive.js` | Language in, language out, Echo |
+| `reason.js`, `infer.js` | Turn world and checked proofs |
+| `kmath.js`, `algebra.js`, `calculus.js` | Drift, speech selection, math |
+| `qcompile.js`, `archives.js`, `crawler.js` | Query compiler and cited lookup |
+| `dynamics.js` | Rates, conservation, what-if |
+| `mea_p.js`, `mea_k.js` | Problem proposals and grammar-cell proposals |
+| `governance.js`, `containment.js`, `privacy.js` | Permission, one containment route, local vault |
+| `render.js`, `app.js` | Output forms and the eight tabs |
+| `toolbench.js`, `toolbuilder.js` | Declared tools and user tools |
+| `economy.js`, `ledger.js`, `operator.js` | Counts, attribution, backup |
+| `sb_sync.js` | Optional Supabase sign-in. Blob sync attaches in `sb_blobs.js` |
+
+`source/verify/` holds the suite: `run.js` for a full run, `targeted.js` for the Pages list in `targeted.json`. `source/tools/` is prepare, release, publish, and live comparison. `source/data/feature_registry.json` is the feature list: 268 entries at version 4.9.110. System Status shows a claim as proved when the suites linked to it passed in the verification run that built the page.
+
+Sign-in is a magic link plus device public-key registration. Reasoning modules do not import the account client, and answers are the same signed in or signed out. Row Level Security is the server boundary. The account schema and the `register-device` function are under `supabase/`.
+
+Rendered forms, each in an envelope `forge-rmc-output-envelope/v1`, are text, speech, JSON, JavaScript, Python, glyph, field, tone, dashboard, memory, and API. Text, speech, memory, and the non-executing API action are implemented. JSON, the code forms, and the dashboard are partial. Glyph, field, and tone are prototypes: a coherence picture and a trace sonification. They are not a musical score, and the app emits no `.hfield` file.
+
+Build Doctor (`source/src/doctor.js`) reports schema, ledger, receipts, storage, tools, quarantine, reminders, and drift, and names a runbook step for each failure. It leaves the store unchanged.
+
+## Release
+
+Requirements are Node 20 and Python 3. From a fresh clone, the full gate is:
 
 ```
 git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile && sh source/tools/release.sh
 ```
 
-`release.sh` runs four steps in a fixed order. **Verification is the source of release truth.**
+`source/tools/release.sh` changes into `source/` and runs four steps. From the repository root the same steps are:
 
-1. `source/tools/prepare_clone.sh` decodes the binary inputs into git-ignored paths. The inputs are `data/*.gz.b64`, `icons/*.b64` and `vendor/` at the repo root.
-2. `node source/verify/run.js` runs the full suite. It prints `TOTAL passed/total passed= failed= not_run=`. A check with no authoritative reference is reported NOT_RUN, never as passed; external comparisons use the committed hashes in `source/test/external_fixtures.json`. The build needs 0 failed. It writes only to the artifact directory `_release/`, which is git-ignored and outside the source tree, and never to a tracked file.
-3. `python3 source/build.py` refuses to build unless the verification summary passed on this exact tree. The tree hash covers every shipped input plus the verifier. The build writes `_release/site/` (the Pages deployment) and `_release/single/` (single-file builds). The build date is the commit date, so the same commit always builds byte-identical files.
-4. `node source/tools/verify_release.js` fails unless all of the following hold:
-   - every deployed file matches `BUILD_MANIFEST.json`;
-   - one version appears everywhere (`VERSION`, build info, release record, feature registry, `features.js`, web manifest, service-worker cache name, build manifest);
-   - one test total appears everywhere;
-   - the commit equals `git rev-parse HEAD`;
-   - single-file CSP hashes match;
-   - no secrets ship;
-   - `git status --porcelain` is empty.
+1. `sh source/tools/prepare_clone.sh` decodes lexicon data, icons, and `vendor/` into git-ignored paths under `source/`.
+2. `node source/verify/run.js` runs the full suite. A check with no authoritative reference is `NOT_RUN` and is never counted as passed. Output stays under `_release/`.
+3. `python3 source/build.py` builds when the summary exists, nothing failed, passed plus not-run equals the total, the version matches `source/VERSION`, and the tree hash matches. It writes `_release/site` (the Pages tree, including `BUILD_MANIFEST.json` and `build-info.json`) and `_release/single`. The build date is the commit date.
+4. `node source/tools/verify_release.js` checks file hashes against the manifest, one version across the artifact, zero failed and zero not-run, the commit, the tree hash, and a clean git status. A summary that still contains not-run checks can pass step 3 and fail this step.
 
-The Pages workflow (`.github/workflows/pages.yml`) runs this same command and uploads **only** `_release/site`. Nothing is copied from an old tree. To check that the live site is the verified artifact, run `node source/tools/verify_live.js https://bogaertn.github.io/forge-mobile/` after a local release run of the same commit. It compares every live file hash with the local manifest.
+GitHub Pages (`.github/workflows/pages.yml`) runs `sh source/tools/publish.sh` and uploads `_release/site` only. Publish uses the same prepare, build, and release check, with the targeted list in `source/verify/targeted.json` in place of the full suite. That list is the 210 tests reported on the live 4.9.110 artifact. A live probe at the end of publish does not block the upload.
 
-## Architecture (current)
+`BUILD_MANIFEST.json` is the hash list of the site just built. After a local build of the same commit, `node source/tools/verify_live.js https://bogaertn.github.io/forge-mobile/` compares the live manifest and every listed file with `_release/site`.
 
-- `source/src/`: the app.
-  - Kernel and derivation: `kernel.js`, `derive.js`, `grammar.js`.
-  - Permission service: `governance.js`.
-  - Mobile Identity Vault: `privacy.js`. This is a local encrypted secret store, not the full Identity Vault service.
-  - Shared knowledge layer: `shared.js`. Items are signed, consented and treated as evidence only.
-  - Memory Economy: `economy.js`. It is count-only and append-only. The lifecycle is candidate → signed breath validation → finalized capsule. Revoking credit appends a signed nullification. CT is never money. Credit received from another device is reconstructed locally from the signed source manifest; anything missing or mismatching is quarantined and counts zero. A validator ID is derived from the validator's own key. A fork ancestor's ×½ counts zero on other devices until its signed lineage resolves.
-  - First-breath co-creation: co-creators named in the author-signed body who sign that exact draft before publication get ×1. Anyone who co-signs later gets 1/3. Late co-signatures are merged deterministically, one per signer.
-  - Attribution ledger: `ledger.js`. Exports carry the full chain or a formal checkpoint.
-  - Backup & Recovery: `operator.js`. There is ONE backup system (portable backup, inspect, atomic restore, rollback); the old v1 backup/restore route is removed, and old v1 files go only through the labelled legacy converter, which commits through the same staged-generation path. The portable encrypted backup opens on a fresh install. Restores are staged into a new storage generation and committed by one active-generation pointer switch, so a failure before the switch leaves the old data byte-identical. Backups are size-, depth- and KDF-bounded before any key derivation or decoding.
-  - Output forms: `render.js` renders 11 output forms, each with an honest scope label and the common `forge-rmc-output-envelope/v1`.
-  - Build Doctor: `doctor.js`. It runs checks and gives fix instructions; it does not repair automatically.
-  - Account (optional): `sb_sync.js` is the only module that talks to the Supabase backend (magic-link sign-in, device public-key registration via the `register-device` Edge Function). Storage and sync only; the reasoning core never references it, and answers are identical signed in or out (verify `SBSYNC-ISOLATION`). Backend schema and RLS live in `supabase/`.
-  - Tool Builder: `toolbuilder.js`. User tools run in an isolated, compute-only ForgeScript worker with no network, page or storage access.
-- `source/verify/`: the verifier (`run.js` plus the suite files).
-- `source/tools/`: the release pipeline (`release.sh`, `shipset.js`, `verify_release.js`, `verify_live.js`), the home node (`forge_node.py`) and helpers.
-- **Ecosystem boundaries.** Forge Mobile does not merge Harmonic Conductor Studio (HCS), Identity Vault, Genesis Node, EchoForge or ProtoForge into one application. It coordinates them only through versioned adapters, signed packets, explicit permissions, receipts and shared navigation.
-  - HCS owns `.hfield` and music rendering. Forge Mobile never emits `.hfield`, and it claims no live HCS adapter.
-  - Identity Vault owns private identity and custody.
-  - Genesis Node is the user-owned sync layer.
-  - EchoForge is advisory.
-  - ProtoForge is the construction and execution layer.
-- Economic processing, payments, transfer and redemption are disabled.
+## Boundaries
 
-Lexicon data derives from Princeton WordNet 3.0 (licence in `source/data/WORDNET_LICENSE.txt`).
+The reasoning core makes no language-model call, uses no embeddings, and runs no learned classifier. The Tool Bench is the tool surface.
+
+Harmonic Conductor Studio is a separate application for music and `.hfield` scores. Forge Mobile does not emit `.hfield`.
+
+Genesis Node, a tool marketplace, payment, and agent products sit outside this app. An optional paired home node (`source/tools/forge_node.py`) is available as a helper. Sale, transfer, and redemption are unavailable. Contribution counts are not currency.
+
+A 3-D scene preview on the phone is labelled a preview. ProtoForge execution is unavailable here; a plan remains a proposal.
+
+The Identity Vault tab is the local store in `source/src/privacy.js`.
