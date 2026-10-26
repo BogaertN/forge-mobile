@@ -1,11 +1,23 @@
-# Next build order — after 4.9.106
+# Next build order — after 4.9.107
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.106 (shipped from 4.9.105 / `67654504f97c493201ef281b7bc977676795f8d6`)
+**Baseline:** live 4.9.107 (shipped from 4.9.106 / `a0574c2aec19101450f33f67cb63de874b079650`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Core audit queue: complete.** Ranked gaps 1–4 are shipped (4.9.103 intents, 4.9.104 MEA-P, 4.9.105 world head, 4.9.106 dream/SPC). Do not auto-start another release from this queue.
+**Page “Recommended next core work”:** item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is still open (only one 144 Hz cycle). Item 5 versioned RSOC operators is not done. Item 6 registry/CONFLICTS hygiene R483+/FB-11 is not done. The coordinator sends the next brief. Do not start 4.9.108 from this file.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.106.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.107.
+
+---
+
+## Shipped: **4.9.107** (2026-10-26)
+
+1. **Named admission** — research standing and ε_w still go through the one drift table. The reply and the trace name the status: projectable, contested, held, or refused. A supported claim at or under 0.35 is projectable and offers remember. The correction band is χ once, then re-measured. Quarantine, conflict, or a correction that stays above 0.35 is contested. Above 0.80 is refused.
+2. **No silent web fact** — a research answer is PROPOSE_EVIDENCE. It does not write memory, the world head, or the shared KB. The lookup stays a candidate.
+3. **Inspect** — a held contested claim is listed by “show quarantine” and “show containment” as a claim in the quarantine. It is not a dream row. A projectable claim is not put on that list. An empty dream list stays the 4.9.106 sentence.
+4. **Explicit commit** — “remember that …” of a projectable claim is REQUEST_COMMIT and is what stores it. A held claim is stored only by the existing tap (`commitHeld` with a user tap). A tap-less commit stores nothing.
+5. **No LLM** — no model call, embedding, RAG, or learned classifier. Shared KB stays empty. Adapters stay parked. 4.9.103 intents, 4.9.104 one MEA-P cycle, 4.9.105 world head, and 4.9.106 dream/SPC stay as they are.
+
+---
 
 ---
 
@@ -99,16 +111,16 @@
 
 ---
 
-## Following releases (vision report §3 "finished Forge Mobile" — language lead + one reasoning step each)
+## Following releases (Page order, then parked)
 
-Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT-as-money, or agent products in these releases.
+The coordinator sends the next brief. Do not start it from this file. **Do NOT build** Genesis Node, HCS, marketplace, CT-as-money, or agent products in these releases.
 
-The ranked audit core queue is done. Nothing in this table is a next release to start.
-
-| Remaining | What it is |
+| Next, in Page order | What it is |
 |-----------|------------|
-| Parked adapters | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money. Not core. |
-| Paper-open | Forge 1 vs Forge 2, Register L-08, feature_registry lag catch-up only when touching the compiler, versioned RSOC ops if still listed. |
+| 4. MEA-P deepening | More than one 144 Hz cycle. Frames and the parser are still not mutable. |
+| 5. Versioned RSOC operators | Not done. |
+| 6. Registry / CONFLICTS hygiene | R483+ and FB-11. Not a dedicated catch-up yet. Do not rewrite historical claim tallies. |
+| Parked | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money, agents. |
 | Dream/SPC still open vs paper | The Memory-screen Resurrect button still writes after the 7 gates. `must_archive` is not a route input. No hardware SPC. No ChristPing automation without a user act. |
 
 ### Standing laws from the report (do not reopen without Nic)

@@ -289,7 +289,9 @@
     else if (route === 'correct' && !ev.chiApplied) intake = 'correction';
     else if (route === 'project' && supported && gW.may_write_memory) { intake = 'projectable'; offer = 'remember'; }
     else { intake = 'contested'; hold = true; }
-    return { schema: 'FORGE-ASSIMILATION-INTAKE/v1', intake, route, standing, drift: Number.isFinite(driftN) ? Math.round(driftN * 100) / 100 : null, eps_w: epsW, superseded: s, offer, hold, stored: false, shared_kb: false, chi_applied: !!ev.chiApplied, cite: 'RSOC_STANDING + DRIFT_TABLE + ε_w' }; }
+    /* 4.9.107: the admission word the reply and the trace name. correction is not an admission; a later hold may narrow contested to held. */
+    const admission = intake === 'hard_stop' ? 'refused' : intake === 'projectable' ? 'projectable' : intake === 'contested' ? 'contested' : null;
+    return { schema: 'FORGE-ASSIMILATION-INTAKE/v1', intake, route, standing, drift: Number.isFinite(driftN) ? Math.round(driftN * 100) / 100 : null, eps_w: epsW, superseded: s, offer, hold, admission, stored: false, shared_kb: false, chi_applied: !!ev.chiApplied, cite: 'RSOC_STANDING + DRIFT_TABLE + ε_w' }; }
   const api = { govern, correct, claimTotal, compile, queries, cores, addsNothing, rolesOf, answerClause, generate, subjectDrift, relationDrift, bestSentence, total, titleForms, BAND, DRIFT, numeralForms, rankOptions, intakeStanding };
   if (isNode) module.exports = api; else root.KQC = api;
 })(typeof self !== 'undefined' ? self : this);

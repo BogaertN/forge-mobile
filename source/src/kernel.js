@@ -1092,13 +1092,14 @@ function Kernel(opts) {
     let m;
     /* 4.9.106: inspect dream quarantine and SPC cold storage, and propose a WARM row back into processing. No write. */
     { const dreamLines = () => cont.list().dream.filter(h => h.hyp_status === 'quarantined').map(h => { let label = 'quarantine'; if (h.clause) { try { label = G.clauseText(h.clause, 'kernel'); } catch (e) { label = 'quarantine'; } } return (h.route || 'dream_state_quarantine_candidate') + ' quarantined ' + label; });
+      const admissionLines = () => (store.load('held_writes') || []).filter(h => h && h.kind === 'research_intake' && h.status === 'held' && h.write && h.write.clause).map(h => { let label = 'claim'; try { label = G.clauseText(h.write.clause, 'kernel'); } catch (e) { label = 'claim'; } return 'held ' + label; });
       const spcLines = () => { const pol = perm.policy(); return (store.load('cold_storage') || []).map(rec => { const tier = cont.tierOf(rec, pol), row = rec.record || {}; let label = 'sealed record'; if (row.sensitive) label = 'sensitive record'; else if (row.clause) { try { label = G.clauseText(row.clause, 'kernel'); } catch (e) { label = 'sealed record'; } } else if (row.text && !row.sensitive) label = String(row.text).slice(0, 80); return 'spc_cold_storage_required ' + tier + ' ' + label; }); };
       const dq = capF(low, { id: 'dream_list', v: ['show'], obj: ['quarantine'], re: /^$/ });
-      if (dq) { rules.push({ id: 'CT-DREAM-LIST', doc: '4.9.106 dream quarantine inspect (route + status + label)' }); return res('SELECTED_MEANING', { kind: 'dream_list', items: dreamLines() }, { frame: 'FR.CONTAIN', act: 'question' }); }
+      if (dq) { rules.push({ id: 'CT-DREAM-LIST', doc: '4.9.106 dream quarantine inspect; 4.9.107 also lists a held research claim' }); return res('SELECTED_MEANING', { kind: 'dream_list', items: dreamLines(), admissions: admissionLines() }, { frame: 'FR.CONTAIN', act: 'question' }); }
       const cs = capF(low, { id: 'spc_list', v: ['show'], obj: ['storage'], mods: ['cold'], re: /^$/ });
       if (cs) { rules.push({ id: 'CT-SPC-LIST', doc: '4.9.106 SPC cold storage inspect (route + tier + label)' }); return res('SELECTED_MEANING', { kind: 'spc_list', items: spcLines() }, { frame: 'FR.CONTAIN', act: 'question' }); }
       const both = capF(low, { id: 'containment_list', v: ['show'], obj: ['containment'], re: /^$/ });
-      if (both) { rules.push({ id: 'CT-CONTAIN-LIST', doc: '4.9.106 containment inspect' }); return res('SELECTED_MEANING', { kind: 'containment_list', items: dreamLines(), cold: spcLines() }, { frame: 'FR.CONTAIN', act: 'question' }); }
+      if (both) { rules.push({ id: 'CT-CONTAIN-LIST', doc: '4.9.106 containment inspect; 4.9.107 includes a held research claim' }); return res('SELECTED_MEANING', { kind: 'containment_list', items: dreamLines(), admissions: admissionLines(), cold: spcLines() }, { frame: 'FR.CONTAIN', act: 'question' }); }
       const rs = capF(low, { id: 'spc_resurrect', v: ['resurrect'], re: /^(.+)$/ }) || capF(low, { id: 'spc_bring', v: ['bring'], part: 'back', re: /^(.+)$/ });
       if (rs) { let tk = content(G.tokenize(String(rs[1] || '')) || []); if (tk[0] && tk[0].w === 'that') tk = tk.slice(1);
         let label = String(rs[1] || '').replace(/^that\s+/, '').trim() || 'that', rows = [];
