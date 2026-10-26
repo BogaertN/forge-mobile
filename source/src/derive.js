@@ -328,6 +328,10 @@ const dreamQuarantine = () => N('quarantine', { det: 'the', adj: ['dream'] });
 const dreamListPlan = m => (m.items || []).length
   ? [S(C('have', { karta: I, karma: N('item', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), roles: { adhikarana: dreamQuarantine() } }))]
   : [S(C('have', { karta: I, karma: N('item', { det: 'no', pl: true }), roles: { adhikarana: dreamQuarantine() } }))];
+/* 4.9.107: a held research claim is a claim in the quarantine, not a dream row. An empty list adds no sentence. */
+const admissionListPlan = m => (m.admissions || []).length
+  ? [S(C('have', { karta: I, karma: N('claim', { cnt: m.admissions.length, list: { kind: 'mention', items: m.admissions } }), roles: { adhikarana: N('quarantine', { det: 'the' }) } }))]
+  : [];
 const spcListPlan = m => (m.items || []).length
   ? [S(C('have', { karta: I, karma: N('record', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), roles: { adhikarana: coldStorage() } }))]
   : [S(C('have', { karta: I, karma: N('record', { det: 'no', pl: true }), roles: { adhikarana: coldStorage() } }))];
@@ -482,13 +486,16 @@ const noneS = (m, post) => { const r = relOf(m, ['answer', 'question']); return 
    incomplete → interrupted. Nothing is written to the shared KB. */
 const RES_OF = { supported_only: 'answered', conflicted: 'contested', refuted_only: 'contested', undetermined: 'related', proof_rejected: 'unanswered', incomplete: 'interrupted' };
 /* 4.9.97: the intake law is spoken with the research reply. Projectable offers an explicit remember; contested with a held id
-   reuses the write_held shape (the claim, not a fact); a hard stop says it was not stored. The trace already carries the standing. */
-function intakeTail(m) { const a = m && m.assimilation; if (!a || !a.intake) return [];
-  if (a.intake === 'projectable') return [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('say', { karma: Mn(MENTIONS.remember_ellipsis), comp: { inf: C('keep', { karma: pr('it') }) } }), { force: 'imp' })];
-  if (a.intake === 'hard_stop') return [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }))];
-  if (a.intake === 'contested' && a.held_id) return [S(C('hold', { karta: I, karma: N('claim', { det: 'the', adj: ['contested'] }), roles: { tadartha: N('approval', { poss: 'your' }) }, tense: 'past' })), S(C('approve', { karma: pr('it'), roles: { adhikarana: Nm('RMC Memory tab', 'the') } }), { force: 'imp', part: 'please' })];
-  if (a.intake === 'contested') return [S(C('store', { karta: I, karma: N('claim', { det: 'the' }), aspect: 'perf', pol: 'neg' }))];
-  return []; }
+   reuses the write_held shape (the claim, not a fact); a hard stop says it was not stored. The trace already carries the standing.
+   4.9.107: the same reply names the admission status (contested / held / projectable / refused). Nothing here stores the claim. */
+function admissionName(a) { if (!a || !a.intake || a.intake === 'correction') return null; if (a.admission === 'refused' || a.admission === 'projectable' || a.admission === 'held' || a.admission === 'contested') return a.admission; if (a.intake === 'hard_stop') return 'refused'; if (a.intake === 'projectable') return 'projectable'; if (a.intake === 'contested') return a.held_id ? 'held' : 'contested'; return null; }
+const admitStatus = a => { const n = admissionName(a); return n ? [S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(n) }) }))] : []; };
+function intakeTail(m) { const a = m && m.assimilation; if (!a || !a.intake) return []; const st = admitStatus(a);
+  if (a.intake === 'projectable') return [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('say', { karma: Mn(MENTIONS.remember_ellipsis), comp: { inf: C('keep', { karma: pr('it') }) } }), { force: 'imp' })].concat(st);
+  if (a.intake === 'hard_stop') return [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }))].concat(st);
+  if (a.intake === 'contested' && a.held_id) return [S(C('hold', { karta: I, karma: N('claim', { det: 'the', adj: ['contested'] }), roles: { tadartha: N('approval', { poss: 'your' }) }, tense: 'past' })), S(C('approve', { karma: pr('it'), roles: { adhikarana: Nm('RMC Memory tab', 'the') } }), { force: 'imp', part: 'please' })].concat(st);
+  if (a.intake === 'contested') return [S(C('store', { karta: I, karma: N('claim', { det: 'the' }), aspect: 'perf', pol: 'neg' }))].concat(st);
+  return st; }
 function researchStanding(m) { const fail = m.kind === 'tool_failed', gen = !!(m.generated && !m.unsupported);
   const S0 = !(m.unsupported || m.nofit || (m.provenance && m.provenance.lead_supported === false) || (m.support && m.support.level === 'none' && !m.answer));
   const ev = { K: !fail, S: !fail && S0, R: !fail && S0 && !!(m.conflict && m.excerpt2 && (m.undetermined || m.events)), C: !(fail && RATE.test(String(m.reason || ''))) };
@@ -691,9 +698,9 @@ const PLANS = {
   patterns: m => m.items.length ? [S(C('notice', { karta: I, karma: N('pattern', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), tense: 'past' })), S(C('store', { karta: I, karma: pr('they'), tense: 'past', pol: 'neg' }))] : [S(C('notice', { karta: I, karma: N('pattern', { det: 'no', pl: true }), tense: 'past' }))],
   dream_held: m => [S(C(m.verb || 'suppose', { karta: YOU, comp: { that: UC(m.clause) }, tense: 'past' })), S(C('keep', { karta: I, karma: pr('it'), roles: { adhikarana: dreamQuarantine() }, tense: 'past' })), S(C('be', { karta: pr('it'), pol: 'neg', pred: N('fact', { det: 'a', adj: ['stored'] }) }))],
   /* 4.9.106: inspect lists. The route, tier, and label are mentions. A resurrection phrase proposes; it does not restore. */
-  dream_list: dreamListPlan,
+  dream_list: m => dreamListPlan(m).concat(admissionListPlan(m)),
   spc_list: spcListPlan,
-  containment_list: m => dreamListPlan(m).concat(spcListPlan({ items: m.cold || [] })),
+  containment_list: m => dreamListPlan(m).concat(admissionListPlan(m)).concat(spcListPlan({ items: m.cold || [] })),
   spc_proposal: m => [S(C('derive', { karta: I, karma: N('hypothesis', { det: 'a', app: Mn(m.label) }), roles: { apadana: coldStorage() }, tense: 'past' })), S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.route + ' ' + m.tier) }) }))],
   spc_refused: m => [S(C('restore', { karta: I, karma: N('record', { det: 'the', app: Mn(m.label) }), mod: 'can', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.tier) }) }))],
   spc_none: m => [S(C('have', { karta: I, karma: N('record', { det: 'no', app: Mn(m.label) }), roles: { adhikarana: coldStorage() } }))],

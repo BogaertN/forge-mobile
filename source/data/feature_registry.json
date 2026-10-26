@@ -1,5 +1,5 @@
 {
- "version": "4.9.106",
+ "version": "4.9.107",
  "features": [
   {
    "id": "A-01",
@@ -2746,13 +2746,24 @@
    "proof": [
     "R4106"
    ]
+  },
+  {
+   "id": "R4107-ADMIT",
+   "name": "Evidence admission and quarantine honesty",
+   "source": "NEXT_BUILD 4.9.107; audit Page Recommended next core work item 2",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.107: intakeStanding still uses the one drift table. The reply and the trace name the admission as contested, held, projectable, or refused. A research answer is PROPOSE_EVIDENCE and does not write memory, the world head, or the shared KB. A held contested claim is listed by show quarantine and show containment. A projectable claim is stored only by an explicit remember (REQUEST_COMMIT). A held claim is stored only by commitHeld with a tap. No seventh route. No LLM. Shared KB stays empty.",
+   "proof": [
+    "R4107"
+   ]
   }
  ],
- "count": 251,
+ "count": 252,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 89,
+  "Partial": 90,
   "Missing": 9,
   "Out of scope / parked": 13
  }
