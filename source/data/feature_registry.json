@@ -1,5 +1,5 @@
 {
- "version": "4.9.98",
+ "version": "4.9.99",
  "features": [
   {
    "id": "A-01",
@@ -2658,13 +2658,24 @@
    "proof": [
     "R498"
    ]
+  },
+  {
+   "id": "R499-LANG",
+   "name": "How-copula coverage and cause-inversion stub",
+   "source": "NEXT_BUILD 4.9.99; AIWEB architecture vision §3.5 (cause/effect stub only)",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.99: a how-question keeps the noun phrase as the subject. A following participle is the means (Q-WH-HOW-PASSIVE); a following predicate adjective is the how-state predicate. How are you, when-passive, and how-does stay on their own rules. An intervention stays a what-if. A deductive yes/no stays the forward cause chain. What-causes walks stored positive cause links backward: one upstream kartā is cited as the chain (CAUSAL-INVERSION-CHAIN); more than one is cited in full and none is selected (CAUSAL-INVERSION-NONUNIQUE). Nothing is written to memory or the shared KB. A rate measurement that disagrees clears DYN-LEVEL as the asserted mechanism (DYN-MECHANISM-DOWNGRADE) and still reports the equation, the measurement, the conflict, and that the prediction was not replaced.",
+   "proof": [
+    "R499"
+   ]
   }
  ],
- "count": 243,
+ "count": 244,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 81,
+  "Partial": 82,
   "Missing": 9,
   "Out of scope / parked": 13
  }

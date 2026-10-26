@@ -1132,6 +1132,7 @@ function Kernel(opts) {
     if (!m) { const cf = String(raw).trim().replace(/[?]+$/, '').match(/^what (?:would|will|could) happen to (the [a-z][a-z -]*?) if (.+)$/i); if (cf) { const tt = content(G.tokenize(cf[1])); const ns = G.Parser(tt, glex).np(0).filter(x => x.i === tt.length); if (ns.length) { rules.push({ id: 'DYN-WHATIF-LOCAL', doc: 'dynamics.js WHAT-IF (stated causal links only); no stored link about the thing' }); return res('SELECTED_MEANING', { kind: 'recall_none', subj: ns[0].node, personal: true /* a supposition about the user's described system, never a public lookup */ }, { frame: 'FR.QUESTION', act: 'question' }); } } return null; }
     if (m.mode === 'rate' && !m.branch) meta.dynScenario = m.scenario;
     rules.push({ id: 'DYN-' + m.mode.toUpperCase() + (m.branch ? '-' + m.branch.toUpperCase() : ''), doc: DY.DOCS[m.mode] }); /* rule docs are dynamics.js data */
+    if (m.mode === 'rate' && m.measured) rules.push({ id: 'DYN-MECHANISM-DOWNGRADE', doc: 'WMS §5.11: a measurement that differs is counterevidence; the level equation is not kept as the asserted mechanism' });
     const refs = m.mode === 'whatif' ? [...new Set(m.effects.concat(m.prevented, m.other, m.association || []).map(e => e.premise).filter(Boolean))] : [];
     if (m.mode === 'whatif' && !refs.length) return null;
     /* 4.9.77 (WMS §5.10): every dynamics answer carries its CausalResult; the world version names the stated links and conditionals it read (a what-if never changes it) */
@@ -1477,12 +1478,31 @@ function Kernel(opts) {
       else if (w === 'how' && toks.length > 2) { // Q-WH-HOW: "how ADJ is NP" (degree), "how is NP" (state), "how did NP V …" (manner/instrument)
         let i = 1, adjW = null; if (!/^(is|are|was|were|do|does|did)$/.test(toks[1].w)) { adjW = toks[1].w; i = 2; } if (!toks[i]) return null;
         const aux = toks[i].w, rest = toks.slice(i + 1);
-        if (/^(is|are|was|were)$/.test(aux) && rest.length) { const n = G.Parser(rest, glex).np(0).filter(x => x.i === rest.length); if (!n.length) return null;
-          const q = { subj: clone(n[0].node), verb: { lemma: 'be', tense: /^(was|were)$/.test(aux) ? 'past' : 'present', pol: 'pos', mod: 'asserted' } }; rules.push({ id: adjW ? 'Q-WH-HOW-DEGREE' : 'Q-WH-HOW-STATE', doc: 'Doc5 §15 (how-question over the predicate)' });
-          const rr = resolveRefs(q, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); ctx.clauseForDiscourse = q;
-          const hits = activeFacts().filter(r => !r.sensitive && !r.clause.coord && r.clause.verb.lemma === 'be' && r.clause.pred && subjMatch(q.subj, r.clause.subj) && (adjW ? JSON.stringify(G.material(r.clause.pred)).includes('"' + adjW + '"') : r.clause.pred.type === 'adj'));
-          rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7', note: 'how → ' + hits.length });
-          return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : (selfUnsettled(q, rules, adjW ? null : 'state') || res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.QUESTION', act: 'question' })); }
+        if (/^(is|are|was|were)$/.test(aux) && rest.length) { /* 4.9.99: the noun phrase is the subject. A participle or a predicate adjective after it is not part of that noun phrase. */
+          const tense = /^(was|were)$/.test(aux) ? 'past' : 'present';
+          const howBe = (subj, want, ruleId) => { const q = { subj: clone(subj), verb: { lemma: 'be', tense, pol: 'pos', mod: 'asserted' } }; rules.push({ id: ruleId, doc: 'Doc5 §15 (how-question over the predicate)' });
+            const rr = resolveRefs(q, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); ctx.clauseForDiscourse = q;
+            const hits = activeFacts().filter(r => !r.sensitive && r.clause && !r.clause.coord && r.clause.verb && r.clause.verb.lemma === 'be' && r.clause.pred && subjMatch(q.subj, r.clause.subj) && (want ? JSON.stringify(G.material(r.clause.pred)).includes('"' + want + '"') : r.clause.pred.type === 'adj'));
+            rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7', note: 'how → ' + hits.length });
+            return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : (selfUnsettled(q, rules, ruleId === 'Q-WH-HOW-STATE' ? 'state' : null) || res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.QUESTION', act: 'question' })); };
+          const hpAnswer = (subj, partWord, means) => { const q = { subj: clone(subj), verb: { lemma: 'be', tense, pol: 'pos', mod: 'asserted' } }; rules.push({ id: 'Q-WH-HOW-PASSIVE', doc: 'Doc5 §15 (how + be restores after the subject; the gap is the means of the participle)' });
+            const rr = resolveRefs(q, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); ctx.clauseForDiscourse = q;
+            const samePart = c => (c.verb && c.verb.lemma === 'be' && c.pred && c.pred.type === 'adj' && (c.pred.words || []).includes(partWord)) || (c.verb && c.verb.voice === 'passive' && (c.verb.ppw === partWord || G.inflect(c.verb.lemma, 'pp') === partWord));
+            const meansOk = c => means ? (c.adj || []).some(a => a.prep === means.prep && a.np && subjMatch(means.np, a.np)) : ((c.adj || []).some(a => /^(karana|apadana|adhikarana|prakara)$/.test(a.role)) || !!(c.verb && c.verb.voice === 'passive' && c.roles && c.roles.karta));
+            const hits = activeFacts().filter(r => !r.sensitive && r.clause && !r.clause.coord && samePart(r.clause) && subjMatch(q.subj, r.clause.subj) && meansOk(r.clause));
+            rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7', note: 'how passive → ' + hits.length });
+            return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : (selfUnsettled(q, rules) || res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.QUESTION', act: 'question' })); };
+          const P = G.Parser(rest, glex), spans = P.np(0), full = spans.filter(x => x.i === rest.length), plain = full.filter(x => !x.node.ppRel);
+          if (plain.length) return howBe(plain[0].node, adjW, adjW ? 'Q-WH-HOW-DEGREE' : 'Q-WH-HOW-STATE');
+          const partFull = full.filter(x => x.node.ppRel && (x.rules || []).includes('NP-PASSIVE-PARTICIPLE-POSTMOD'));
+          if (partFull.length) { const headOf = n => { const x = clone(n); delete x.ppRel; return x; }; const h0 = headOf(partFull[0].node), rel0 = partFull[0].node.ppRel;
+            const agree = partFull.every(x => canon(G.material(headOf(x.node))) === canon(G.material(h0)) && x.node.ppRel.prep === rel0.prep && x.node.ppRel.v === rel0.v && canon(G.material(x.node.ppRel.np)) === canon(G.material(rel0.np)));
+            if (agree) return hpAnswer(h0, rel0.v, { prep: rel0.prep, np: rel0.np }); }
+          if (!full.length) { const seen = new Set(); const prefs = spans.filter(x => x.i > 0 && x.i < rest.length && !x.node.ppRel && !x.node.rel && !x.node.partRel).sort((a, b) => b.i - a.i);
+            for (const np of prefs) { if (seen.has(np.i)) continue; seen.add(np.i); const tail = rest.slice(np.i); const part = P.at(np.i, 'V').some(v => v.f === 'pp' || v.f === 'past');
+              if (part && tail.length === 1) { const ins = insertAt(rest, toks[i]).filter(p => { const c = p.node && p.node.clause; return c && !c.coord && c.verb && (c.verb.voice === 'passive' || (c.verb.lemma === 'be' && c.pred && c.pred.type === 'adj' && (c.pred.words || [])[0] === tail[0].w)); }); if (ins.length) return hpAnswer(np.node, tail[0].w, null); }
+              if (tail.length === 1 && P.at(np.i, 'ADJ').length && !part) return howBe(np.node, tail[0].w, 'Q-WH-HOW-STATE'); } }
+          return null; }
         if (!adjW && /^(do|does|did)$/.test(aux)) { const rs = insertAt(rest, toks[i]); if (rs.length !== 1) return null; const q = rs[0].node.clause; { const mq = metaQ(q, 'manner', null); if (mq) return mq; } rules.push({ id: 'Q-WH-HOW-MANNER', doc: 'Doc5 karaṇa (instrument/means)' }); const rr = resolveRefs(q, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' });
           const hits = activeFacts().filter(r => !r.sensitive && !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(q.subj, r.clause.subj) && ((r.clause.adj || []).some(a => a.role === 'karana' || a.role === 'prakara') || (r.clause.sub && r.clause.sub.conj === 'because'))); /* 4.9.38: a stored manner adverb (prakāra) answers how */
           return hits.length ? res('SELECTED_MEANING', { kind: 'recall', items: hits.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits.map(r => r.id) }) : (selfUnsettled(q, rules, 'manner') || res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj }, { frame: 'FR.QUESTION', act: 'question' })); }
@@ -1607,10 +1627,36 @@ function Kernel(opts) {
         if (hits.length) { const gReq = INF.GENDER_OF_ROLE[role]; if (gReq) { const gs = INF.genderStated(facts, a); if (gs !== gReq) { rules.push({ id: 'INF-FAMILY-GENDER-UNSTATED', doc: 'gender only from explicit user statements' }); return res('SELECTED_MEANING', { kind: 'refuse', reason: 'GENDER_UNSTATED', want }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: hits[0].via }); } }
           return done(hits[0].rule, hits[0].via, null, hits[0].proof); } }
       return null; }
+    /* 4.9.99: "what causes EFFECT" walks stored positive cause links backward. One upstream kartā is the chain.
+       More than one is cited in full and none is selected. Direct causes only stay on the structural recall.
+       The walk reads stored clauses. It does not write memory or the shared KB, and it is not an intervention. */
+    function invertCauses(q) {
+      const nk = n => !n || n.conj || n.clause ? null : n.propn ? 'p:' + String(n.propn).toLowerCase() : n.head ? (n.adjs || []).slice().sort().join(' ') + '|' + n.head.join(' ') : null;
+      const target = nk(q.roles.karma); if (!target) return null;
+      const edges = [];
+      for (const r of activeFacts()) { const c = r.clause; if (!c || c.coord || c.cond || r.sensitive || !c.verb || c.verb.pol !== 'pos' || (c.verb.mod && c.verb.mod !== 'asserted') || c.verb.voice || !c.roles || !c.roles.karma || (c.subj && c.subj.conj)) continue;
+        const p = predOf(c); if (causalOf(p) !== 'cause' && c.verb.lemma !== 'cause') continue;
+        const a = nk(c.subj), b = nk(c.roles.karma); if (!a || !b || a === b) continue; edges.push({ a, b, id: r.id, clause: c }); }
+      if (!edges.length) return null;
+      const incoming = new Map(); for (const e of edges) { if (!incoming.has(e.b)) incoming.set(e.b, []); incoming.get(e.b).push(e); }
+      const reach = new Set([target]), queue = [target], used = [], seenE = new Set();
+      while (queue.length) { const x = queue.shift(); for (const e of incoming.get(x) || []) { const k = e.a + '>' + e.b + ':' + e.id; if (!seenE.has(k)) { seenE.add(k); used.push(e); } if (!reach.has(e.a)) { reach.add(e.a); queue.push(e.a); } } }
+      if (!used.some(e => e.b !== target)) return null;
+      const sources = [...reach].filter(n => n !== target && !(incoming.get(n) || []).some(e => reach.has(e.a)));
+      if (!sources.length) return null;
+      const outs = new Map(); for (const e of used) { if (!outs.has(e.a)) outs.set(e.a, []); outs.get(e.a).push(e); }
+      const order = [], seen = new Set(), q2 = sources.slice();
+      while (q2.length) { const x = q2.shift(); for (const e of outs.get(x) || []) { const k = e.a + '>' + e.b + ':' + e.id; if (seen.has(k)) continue; seen.add(k); order.push(e); q2.push(e.b); } }
+      if (!order.length) return null;
+      const many = sources.length > 1;
+      rules.push({ id: many ? 'CAUSAL-INVERSION-NONUNIQUE' : 'CAUSAL-INVERSION-CHAIN', doc: many ? 'stored cause links: more than one kartā reaches the effect, so none is selected' : 'stored cause links: one kartā reaches the effect; the chain is cited, not an intervention' });
+      return res('SELECTED_MEANING', { kind: 'recall', items: order.map(e => e.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: order.map(e => e.id) });
+    }
     function answer(q, gap, qrule, prules) {
       rules.push({ id: qrule, doc: 'Doc5 §15 (question speech act); Doc3' }, ...prules.filter(Boolean).map(id => ({ id, doc: ruleDoc(id) })));
       if (q.subj) { const rr = resolveRefs(q, rules, gap ? { answerable: qq => activeFacts().some(r => !r.sensitive && matches(qq, gap, r)) } : null); if (rr.clarify) { g.connectedness = 'referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); } }
       if (q.subj) ctx.clauseForDiscourse = q;
+      if (gap === 'subj' && q.verb && q.verb.lemma === 'cause' && q.verb.pol === 'pos' && !q.cond && q.roles && q.roles.karma && !q.roles.karma.conj) { const inv = invertCauses(q); if (inv) return inv; }
       let recs = activeFacts().filter(r => matches(q, gap, r));
       if (!recs.length && gap) { const fs = activeFacts().filter(r => !r.sensitive); const vs = virtualFacts(fs).filter(v => matches(q, gap, { clause: v.clause })); if (vs.length) { rules.push({ id: vs[0].rule, doc: vs[0].doc, note: 'wh-recall through a one-step derivation' }); recs = vs.map(v => ({ id: v.from[0], clause: v.clause, entities: [] })); } }
       if (!recs.length && gap === 'pred' && q.subj) recs = activeFacts().filter(r => !r.clause.coord && r.clause.verb.lemma === 'be' && r.clause.pred && r.clause.pred.np && entKeys(r.clause.pred.np).includes(entKey(q.subj)));
