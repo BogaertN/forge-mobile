@@ -40,6 +40,31 @@ const DRIFT_TABLE = Object.freeze([
   Object.freeze({ turn: 'hard_stop', gov: 'reject', test: () => true, may_project: false, may_write_memory: false, quarantine: true, hard_stop: true })]);
 const driftRow = eps => DRIFT_TABLE.find(r => r.test(eps));
 const BANDS = DRIFT_TABLE; /* back-compat export name */
+/* 4.9.109: the operators this file runs, each with a stable id and version. Two χ entries stay distinct.
+   The phase scheme is a reconstruction, not a numerical identity of RSOC with RMC.
+   I.1: a ROC/CFBC/RSOC numerical equivalence is refused. Originals are unresolved. No ROC or CFBC formula is invented here. */
+const MATH_CONTRACTS = Object.freeze({
+  schema: 'FORGE-MATH-CONTRACT/v1',
+  phase_scheme_id: 'phase-scheme/rmc-rpmc/v1',
+  phase_scheme_status: 'reconstruction',
+  entries: Object.freeze([
+    Object.freeze({ id: 'drift-measure', version: 'addendum-3/v1', role: 'drift' }),
+    Object.freeze({ id: 'drift-table', version: 'nic-2026-10-14/v1', role: 'bands' }),
+    Object.freeze({ id: 'chi-correction', version: 'R-CHI-1/v1', role: 'correction' }),
+    Object.freeze({ id: 'chi-invoke', version: 'R-CHI-1/invoke/v1', role: 'hard_stop' }),
+    Object.freeze({ id: 'rsoc-select', version: 'RSOC/v1', role: 'standing' }),
+    Object.freeze({ id: 'phase-scheme', version: 'rmc-rpmc/v1', role: 'phases', status: 'reconstruction' })
+  ])
+});
+const contract = id => MATH_CONTRACTS.entries.find(e => e.id === id) || null;
+const contractRef = id => { const e = contract(id); return e ? { id: e.id, version: e.version } : null; };
+function equivalenceClaim(text) {
+  const s = String(text || '');
+  const names = ['ROC', 'CFBC', 'RSOC'].filter(n => new RegExp('\\b' + n + '\\b').test(s));
+  const equiv = /≡|equivalent|equivalence|numerically equal|\bthe same\b/i.test(s);
+  if (names.length >= 2 && equiv) return { ok: false, status: 'SOURCE_NOT_VERIFIED', equivalent: false, rule: 'I.1', cite: 'WM Spec Hardening I.1; originals unresolved' };
+  return { ok: true, status: 'not_an_equivalence_claim', equivalent: false };
+}
 /* 4.9.67 ruling 1 (Nic): committed meanings move FORWARD only (RPMC; 9→1 is the lawful closure step, not a step back). A Φ−1 step back is
    allowed only inside quarantine exploration (MEA / drift archive; never touches memory) — t.quarantine marks such a path. */
 const phaseNext = n => (n % 9) + 1, phasePrev = n => ((n + 7) % 9) + 1;
@@ -74,7 +99,7 @@ function driftFunctional({ phaseHistory, transition, depth }) {
   const band = driftRow(eps).turn;
   return { eps_s: r4(eps), sigma_res: r4(sigma_res), D_score, dPhi: r4(dPhi), rho, band, forbidden_transition: D_score === 1,
     formula: `ε_s = (σ_res + D_score + |ΔΦ|)/ρ = (${r4(sigma_res)} + ${D_score} + ${r4(dPhi)})/${rho} = ${r4(eps)}`,
-    cite: 'RMC Implementation Addendum §3' };
+    cite: 'RMC Implementation Addendum §3', contract: contractRef('drift-measure'), table: contractRef('drift-table') };
 }
 /* Phase angle Φ ∈ [0,2π) for discrete index n (RSOC §2.2: "equivalently the discrete phase index 1–9") */
 const phaseAngle = n => ((n - 1) / 9) * TWO_PI;
@@ -88,7 +113,7 @@ function graceIntegral(tau, eps, mu, epsMax = 0.8) { // eps: number or per-step 
 /* χ(t) invocation conditions, RSOC §3.2 (all four required) */
 function chiConditions({ eps_s, echoTrace, chiFlag, dPhiAvg, forbidden }) {
   const c = { 'ε_s > 0.80 (hard stop) or forbidden transition': !!driftRow(eps_s).hard_stop || !!forbidden, 'Ê(τ) = 1': !!echoTrace, 'χ flag = 0': chiFlag === 0, '|ΔΦ_avg| ≤ π/3': dPhiAvg <= Math.PI / 3 };
-  return { fire: Object.values(c).every(Boolean), conditions: c, cite: 'RSOC §3.2; RMC Addendum §4' };
+  return { fire: Object.values(c).every(Boolean), conditions: c, cite: 'RSOC §3.2; RMC Addendum §4', contract: contractRef('chi-invoke') };
 }
 /* χ(t) update, RSOC §3.2.1 / §4.2.2: Δ←0, ν←1.4, ε←ε(1−Θ̂), μ←μ+0.9Θ, χ←1 (the RSOC route at a hard stop; restricted meaning only).
    4.9.67 ruling 5: Θ is a SUM over the trace τ, so the old ε(1 − Θ/μ) gave Θ/μ > 1 and collapsed ε to 0; ε now uses the normalised
@@ -109,7 +134,7 @@ function applyChi(sfe, Theta) {
      no aligned ancestor → no grace (G = 0 < G_min): not applied; already applied for this ψ → not applied (non-repeatable);
      App B.12 validation: the corrected drift must be LOWER, otherwise the correction routes to archive (applied: false). No new constants. */
 function chiCorrect({ eps, ancestors, applied, epsMax = 0.8 }) {
-  const base = { eps_before: eps, cite: 'RPMC §3 (once per ψ, phase-aligned ancestors); RSOC §3.2.1 grace kernel; RMC App B.12 (drift must fall or archive)' };
+  const base = { eps_before: eps, cite: 'RPMC §3 (once per ψ, phase-aligned ancestors); RSOC §3.2.1 grace kernel; RMC App B.12 (drift must fall or archive)', contract: contractRef('chi-correction') };
   if (applied) return Object.assign(base, { applied: false, eps_after: eps, reason: 'χ already applied for this ψ (non-repeatable)' });
   const A = (ancestors || []).filter(a => a && Number.isFinite(a.Phi) && Number.isFinite(a.eps) && Math.abs(Math.atan2(Math.sin(phaseAngle(a.Phi)), Math.cos(phaseAngle(a.Phi)))) <= Math.PI / 4 + 1e-12);
   if (!A.length) return Object.assign(base, { applied: false, eps_after: eps, aligned: 0, reason: 'no phase-aligned ancestor (G = 0): no grace' });
@@ -148,7 +173,7 @@ function rsocSelect(ev, cands, chi) { const ops = [], E = {}, res = []; for (con
     const eps_s = r4((eps + Math.abs(Dl) + (1 - (n ? H / n : 0))) / Math.max(1, rho)), lock = !resid && n > 0 && chi === 0 && eps_s < 0.6;
     ops.push({ op: '⧙', c: c.id, ok: lock, eps_s }); res.push({ id: c.id, mu: r4(mu), eps_s, residue: resid, locked: lock }); }
   const L = res.filter(r => r.locked); if (L.length !== 1) throw new Error('RSOC_NO_UNIQUE_LOCK:' + L.length);
-  return { calculus: 'RSOC/v1', selected: L[0].id, candidates: res, ops, cite: 'RSOC §3.1.1 ⟁, §3.1.2/§3.2.2 ⧙, §3.3' }; }
+  return { calculus: 'RSOC/v1', contract: contractRef('rsoc-select'), selected: L[0].id, candidates: res, ops, cite: 'RSOC §3.1.1 ⟁, §3.1.2/§3.2.2 ⧙, §3.3' }; }
 /* RSOC reading admission (inward language, v4.9.33): an unlawful reading is a rejected ⟁ (δ = π); coincident readings ⟁-fuse (δ = 0);
    one survivor is ⧙-locked; several are ⧧-held open (ambiguity preserved, never guessed). */
 function rsocAdmit(xs, lawful, key) { const out = [], seen = new Set(); let f = 0, x = 0;
@@ -219,17 +244,17 @@ function computeExpr(src) {
 /* Learned-object governance (EDE, hypotheses, MEA, evolve, reason) — same table. Unmeasured ε_s never projects. */
 function driftGovernance(eps) { const ok = typeof eps === 'number' && isFinite(eps) && eps >= 0, row = ok ? driftRow(eps) : null;
   const band = !ok ? 'unmeasured' : row.gov;
-  return { eps_s: ok ? r4(eps) : null, band, may_project: !!(row && row.may_project), may_explore: band === 'explore', quarantine: band !== 'projectable', ruling: DRIFT_RULING.cite }; }
+  return { eps_s: ok ? r4(eps) : null, band, may_project: !!(row && row.may_project), may_explore: band === 'explore', quarantine: band !== 'projectable', ruling: DRIFT_RULING.cite, contract: contractRef('drift-table') }; }
 /* Turn governance (K1): what a turn at this ε_s and transition may do. The forbidden-transition gate is independent of ε_s. */
 function turnGovernance(eps, transition) { const forbidden = isForbidden(transition), ok = typeof eps === 'number' && isFinite(eps) && eps >= 0, row = ok ? driftRow(eps) : DRIFT_TABLE[3];
   const route = forbidden ? 'blocked_forbidden_transition' : row.hard_stop ? 'hard_stop' : row.explore ? 'quarantine' : row.correction ? 'correct' : 'project';
   return { band: row.turn, route, forbidden, may_project: !forbidden && row.may_project, may_write_memory: !forbidden && row.may_write_memory, needs_correction: !forbidden && !!row.correction,
-    quarantine: forbidden || row.quarantine, blocked: forbidden || !!row.hard_stop, ruling: DRIFT_RULING.cite }; }
+    quarantine: forbidden || row.quarantine, blocked: forbidden || !!row.hard_stop, ruling: DRIFT_RULING.cite, contract: contractRef('drift-table') }; }
 /* RSOC STANDING (4.9.94): the one table of result standings over the evidence dims C (the lookup or derivation completed), K (every proof
    replayed / the source inside the drift band), S (a support proof / verbatim supporting span), R (a refutation / an equal-rank contradiction).
    reason.js (memory and world-state answers) and derive.js (research replies) read the same table through rsocSelect. */
 const RSOC_STANDING = Object.freeze({ supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } });
 const rsocStanding = ev => rsocSelect({ C: !!ev.C, K: !!ev.K, S: !!ev.S, R: !!ev.R }, Object.keys(RSOC_STANDING).map(id => ({ id, expect: RSOC_STANDING[id] })), 0);
-const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
+const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

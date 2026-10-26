@@ -1,11 +1,20 @@
-# Next build order — after 4.9.108
+# Next build order — after 4.9.109
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.108 (shipped from 4.9.107 / `c0b47b169ec9926eaa11250d812dac05258435d6`)
+**Baseline:** live 4.9.109 (shipped from 4.9.108 / `2e0d2aafe1eec283196e964375dd7ae8aa7bd2a7`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108 (multi-cycle on one problem; frame and parser cells are proposal data only). Item 5 versioned RSOC operators is not done. Item 6 registry/CONFLICTS hygiene R483+/FB-11 is not done. The coordinator sends the next brief. Do not start 4.9.109 from this file.
+**Page “Recommended next core work”:** item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene R483+/FB-11 is not done. The coordinator sends the next brief. Do not start 4.9.110 from this file. The six-item Page queue is not complete.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.108.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.109.
+
+---
+
+## Shipped: **4.9.109** (2026-10-26)
+
+1. **Versioned operators** — MathContractRegistry lists the drift measure, Nic’s drift table, the χ correction, the χ hard-stop invoke, the RSOC selector, and the phase scheme. Each entry has a stable id and version. A turn cites the versions that ran.
+2. **No manuscript identity** — ROC ≡ CFBC ≡ RSOC stays SOURCE_NOT_VERIFIED. The originals are unresolved. The phase map stays a reconstruction.
+3. **Write law unchanged** — project and write stay at or under 0.35. χ correction stays 0.35–0.40. Quarantine stays 0.40–0.80. A hard stop stays above 0.80. χ is the correction function only.
+4. **No LLM** — no model call, embedding, RAG, or learned classifier. Shared KB stays empty. Adapters stay parked. 4.9.103 through 4.9.108 stay as they are.
 
 ---
 
@@ -127,8 +136,7 @@ The coordinator sends the next brief. Do not start it from this file. **Do NOT b
 
 | Next, in Page order | What it is |
 |-----------|------------|
-| 5. Versioned RSOC operators | Not done. Next release. The coordinator sends the brief. |
-| 6. Registry / CONFLICTS hygiene | R483+ and FB-11. Not a dedicated catch-up yet. Do not rewrite historical claim tallies. |
+| 6. Registry / CONFLICTS hygiene | R483+ and FB-11. Not a dedicated catch-up yet. Next release. The coordinator sends the brief. Do not rewrite historical claim tallies. Do not start 4.9.110 from this file. |
 | Parked | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money, agents. |
 | Dream/SPC still open vs paper | The Memory-screen Resurrect button still writes after the 7 gates. `must_archive` is not a route input. No hardware SPC. No ChristPing automation without a user act. |
 
