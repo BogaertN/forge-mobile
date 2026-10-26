@@ -235,6 +235,54 @@ function Kernel(opts) {
   const working = [];
   const storedFacts = () => store.load('memory').filter(r => r.kind !== 'note' && r.status === 'active');
   const activeFacts = () => storedFacts().concat(working.filter(w => w.status === 'active'));
+  /* 4.9.101: an existing Suppose branch takes observed history as its committed base. Eligible facts are active
+     (stored or working), share an entity with the turn, and are already one atom in the world grammar. They are
+     prefixed as ordinary sentences so buildWorlds keeps them committed and the supposition as the overlay.
+     No second store. A prefix the proof never cites is not used. */
+  function observedPremises(wt0) {
+    const none = { prefix: '', used: [] };
+    let segs; try { segs = R.sourceSegments(String(wt0)); } catch (e) { return none; }
+    if (!segs.some(s => R.supposed(s.text))) return none;
+    let c = null; try { const i = R.interpret(wt0, { allowBareQuery: true }); c = i && i.candidate; } catch (e) { c = null; }
+    if (!c || !Array.isArray(c.entities) || !c.entities.length) return none;
+    const ents = new Set(c.entities.map(e => String(e).toLowerCase())), room = R.LIMITS.MAX_SENTENCES - segs.length;
+    if (room < 1) return none;
+    const used = [];
+    for (const r of activeFacts()) {
+      if (!r || r.sensitive || !r.clause || r.clause.coord || r.clause.cond) continue;
+      const keys = (r.entities || []).map(e => String(e).toLowerCase().replace(/^.*[:/]/, ''));
+      if (!keys.some(k => ents.has(k))) continue;
+      let sentence; try { sentence = G.clauseText(r.clause, 'kernel'); } catch (e) { continue; }
+      if (!sentence) continue;
+      sentence = String(sentence).replace(/[.]+$/, '').trim();
+      let atom = null; try { atom = R.parseAtomic(sentence, false); } catch (e) { atom = null; }
+      if (!atom) continue;
+      let key; try { key = JSON.stringify(R.atomKey(atom)); } catch (e) { continue; }
+      if (used.some(u => u.key === key)) continue;
+      used.push({ id: r.id, key, sentence: sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.' });
+      if (used.length >= room) break;
+    }
+    if (!used.length) return none;
+    let prefix = ''; for (const u of used) prefix += u.sentence + ' ';
+    return { prefix, used };
+  }
+  function citedHistory(rr, hist) {
+    const proofs = rr && rr.material && rr.material.proofs; if (!proofs) return [];
+    const steps = [proofs.support, proofs.refutation].filter(Boolean).flatMap(p => (p.steps || []).filter(s => s.kind === 'fact' && s.conclusion)), have = new Set();
+    for (const s of steps) { try { have.add(JSON.stringify(R.atomKey(s.conclusion))); } catch (e) { /* a step with no atom is not a citation */ } }
+    return hist.used.filter(u => have.has(u.key)).map(u => u.id);
+  }
+  function withObservedBase(rr, wt0, sh) {
+    const m0 = rr && rr.material; if (!m0 || m0.kind !== 'world_answer' || !m0.branch) return rr;
+    const hist = observedPremises(wt0); if (!hist.used.length) return rr;
+    const opts = { allowBareQuery: !asksAboutStored(wt0) && !asksAboutShared(wt0) }, base = hist.prefix + wt0;
+    let rr2; try { rr2 = R.evaluate(sh.prefix + base, opts); } catch (e) { return rr; }
+    if (!rr2 || !rr2.handled || !rr2.material || rr2.material.kind !== 'world_answer' || !rr2.material.branch) return rr;
+    if (sh.used.length) rr2 = sharedWorld(rr2, sh, base);
+    if (!rr2 || !rr2.handled || !rr2.material || rr2.material.kind !== 'world_answer' || !rr2.material.branch) return rr;
+    const cited = citedHistory(rr2, hist); if (!cited.length) return rr;
+    return Object.assign({}, rr2, { rules: (rr2.rules || []).concat([{ id: 'WM-OBSERVED-BASE', doc: '4.9.101 vision §3.6: observed facts are the committed base of the existing Suppose branch; the supposition is the overlay; nothing is written', note: cited.join(', ') }]) });
+  }
   let memNamesKey = null, memNamesMap = new Map(); const memNames = () => { let fs; try { fs = activeFacts(); } catch (e) { return memNamesMap; } const key = fs.length + ':' + (fs.length ? fs[fs.length - 1].id : ''); if (key === memNamesKey) return memNamesMap; const m = new Map();
     const walk = o => { if (!o || typeof o !== 'object') return; if (Array.isArray(o)) return o.forEach(walk); if (typeof o.propn === 'string' && /^[A-Z]/.test(o.propn) && !o.propn.includes(' ')) m.set(o.propn.toLowerCase(), 'name'); if (Array.isArray(o.head) && o.head.length === 1 && !m.has(o.head[0])) m.set(o.head[0], 'common'); for (const v of Object.values(o)) walk(v); };
     for (const f of fs) if (!f.sensitive) walk(f.clause); memNamesKey = key; memNamesMap = m; return m; };
@@ -932,7 +980,7 @@ function Kernel(opts) {
     function isQuestionTurn() { const r0 = String(ctx.raw || raw).trim(); if (/\?$/.test(r0)) return true; try { const t = content(G.tokenize(r0)); const P = t.length ? G.Parser(t, glex) : null; return !!(P && (P.at(0, 'WH').length || P.at(0, 'AUX').length || P.at(0, 'COP').length || P.at(0, 'MOD').length)); } catch (e) { return false; } }
     function kernelDerives() { try { const t = content(G.tokenize(String(ctx.raw || raw).replace(/[?.!\s]+$/, ""))); if (t.length < 2 || !/^(?:do|does|did|is|are|was|were|will|can|could|might|may|should|has|have)$/.test(t[0].w)) return false; for (let k = 2; k < t.length; k++) if (derive(t.slice(1, k).concat([t[0]], t.slice(k))).parses.length) return true; } catch (e) { /* no derivation */ } return false; }
     { const wt0 = ctx.worldText || raw, sh = worldShared(wt0), wt = sh.prefix + wt0; let rr = R.evaluate(wt, { allowBareQuery: !asksAboutStored(wt0) && !asksAboutShared(wt0) });
-      if (sh.used.length && rr.handled) rr = sharedWorld(rr, sh, wt0); if (rr.handled && !(rr.material && rr.material.kind === 'world_limitation' && rr.material.code === 'UNSUPPORTED_QUERY_STRUCTURE' && (kernelDerives() || isQuestionTurn()))) return worldResult(rr); } /* 4.9.48: a question the world grammar cannot read but the language core derives goes on to the language core */ // world grammar → world reasoner; a bare question goes to memory only when it names a stored entity (unrelated memory never changes the route)
+      if (sh.used.length && rr.handled) rr = sharedWorld(rr, sh, wt0); if (rr.handled && !(rr.material && rr.material.kind === 'world_limitation' && rr.material.code === 'UNSUPPORTED_QUERY_STRUCTURE' && (kernelDerives() || isQuestionTurn()))) return worldResult(withObservedBase(rr, wt0, sh)); } /* 4.9.48: a question the world grammar cannot read but the language core derives goes on to the language core; 4.9.101: a branch may take observed facts as its committed base */ // world grammar → world reasoner; a bare question goes to memory only when it names a stored entity (unrelated memory never changes the route)
       return null; }],
       ['math.gp014', () => {
     const phi = meta.notation === 'phi';
