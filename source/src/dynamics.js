@@ -45,7 +45,7 @@ const NUM = '(\\d+(?:\\.\\d+)?|' + Object.keys(NUMW).join('|') + ')';
 /* ---- RATES ---- */
 function readRates(raw, last) { const low = qualifyUnits(String(raw).toLowerCase().replace(/[“”"]/g, '').replace(/\s+/g, ' ').trim()), sents = low.split(/(?<=[.;!?])\s+/).map(s => s.replace(/[.;!]+$/, '').trim()).filter(Boolean);
   const qs = sents.filter(s => /\?$/.test(s) || /^(?:how|when|what)\b/.test(s)), facts = sents.filter(s => !qs.includes(s));
-  const sc = { subject: null, unit: null, tunit: null, start: null, cap: null, low: null, ins: [], outs: [], dur: null }; let bad = false;
+  const sc = { subject: null, unit: null, tunit: null, start: null, cap: null, low: null, ins: [], outs: [], lumpIn: [], lumpOut: [], dur: null }; let bad = false;
   let F = Q(1n); /* the factor of the unit last accepted by unitOk, into the scenario's unit */
   const unitOk = u => { u = sing(u); if (TIME[u]) return false; F = Q(1n); if (!sc.unit) sc.unit = u; else if (sc.unit !== u) {
       if (VOL[u] && VOL[sc.unit]) { F = div(VOL[u], VOL[sc.unit]); if (!(sc.conv || []).includes(u)) sc.conv = (sc.conv || []).concat([u]); } /* 4.9.78: an exact, defined conversion */
@@ -63,13 +63,21 @@ function readRates(raw, last) { const low = qualifyUnits(String(raw).toLowerCase
         const vin = verbIn(cl, IN_VERBS), vout = verbIn(cl, OUT_VERBS); if (vin && !vout) sc.ins.push(r); else if (vout && !vin) sc.outs.push(r); else if (!vin && !vout && /^(?:an? |the )?[a-z]+ [a-z]+s\b/.test(cl.trim())) sc.prod = (sc.prod || []).concat([r]); else bad = true; } /* 4.9.81 DYN-RATE-COUNT: a verb in neither class ("prints 12 pages per minute") is a production rate: it is only counted (below) */
       else if ((m = cl.match(new RegExp('\\b(?:contains?|has|holds?|starts? (?:with|at)|begins? with|is at) ' + NUM + ' ([a-z]+(?:-[a-z]+)*)'))) && !/capacity|up to|at most/.test(cl) && unitOk(m[2])) { sc.start = cv(num(m[1])); sc.holds = /\bholds?\b/.test(m[0]) ? sc.start : null; } /* 4.9.81: "holds N" is a capacity or a content; the question decides (below) */
       else if (/\bis empty\b|\bstarts? empty\b/.test(cl)) sc.start = Q(0n); else if (/\bis full\b|\bstarts? full\b/.test(cl)) sc.start = 'cap';
+      else { const vin = verbIn(cl, IN_VERBS), vout = verbIn(cl, OUT_VERBS), lm = cl.match(new RegExp('\\b' + NUM + ' ([a-z]+(?:-[a-z]+)*)\\b'));
+        /* 4.9.100: a finite amount on an inflow or outflow verb is a lump, not a rate. A "per" we did not read is not guessed to be either. */
+        if ((vin || vout) && (lm || /\b(?:per|each|every)\b/.test(cl))) { if (vin && vout || /\b(?:per|each|every)\b/.test(cl) || !lm || TIME[sing(lm[2])] || !unitOk(lm[2])) bad = true;
+          else { const qv = cv(num(lm[1])); if (!qv) bad = true; else if (vin) sc.lumpIn.push(qv); else sc.lumpOut.push(qv); } } }
       const dm = cl.match(new RegExp('\\bfor ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?\\b')); if (dm) sc.dur = [num(dm[1]), sing(dm[2])]; } }
   if (sc.start === 'cap') sc.start = sc.cap;
   if (sc.prod && sc.prod.length) { if (sc.ins.length || sc.outs.length || sc.start != null || sc.cap != null) bad = true; else { sc.ins = sc.prod; sc.counted = true; } }
-  if (bad || !sc.ins.length && !sc.outs.length || !qs.length || !sc.unit || !sc.tunit) return null;
+  const rates = sc.ins.length || sc.outs.length, lumps = sc.lumpIn.length || sc.lumpOut.length;
+  if (rates && lumps || lumps && sc.dur) bad = true; /* a rate and a lump, or a lump with a duration, is not one reading */
+  if (bad || !rates && !lumps || !qs.length || !sc.unit) return null;
+  if (rates && !sc.tunit) return null;
   const q = qs[qs.length - 1]; let ask = null; const qd = q.match(new RegExp('\\b(?:after|in|for) ' + NUM + ' (second|sec|minute|min|hour|hr|day)s?\\b'));
   if (/\bhow long\b|\bwhen\b|\bhow many (?:seconds|minutes|hours|days)\b/.test(q)) ask = /\bempty\b|\brun out\b|\breach (?:zero|0)\b|\blast\b/.test(q) ? 'empty' /* 4.9.81: how long a stock lasts = until it runs out */ : /\bfull\b|\bfill\b|\boverflow\b/.test(q) ? 'fill' : null;
-  else if (/\bhow much\b|\bhow many\b|\bwhat (?:is|will be) the (?:level|amount|volume|stock|charge)\b/.test(q)) ask = 'after';
+  else if (/\bhow much\b|\bhow many\b|\bwhat (?:is|will be) the (?:level|amount|volume|stock|charge)\b|\bremain/.test(q)) ask = 'after';
+  if (!rates && lumps) { if (ask !== 'after' || qd) return null; sc.subject = sc.subject || 'it'; sc.ask = 'remain'; return sc; } /* 4.9.100: timeless conservation; a duration in the question is a rate question */
   if (sc.counted) { if (ask !== 'after') return null; sc.start = Q(0n); }
   if (!ask) return null; if (ask === 'fill' && sc.cap == null && sc.holds != null && sc.start === sc.holds) { sc.cap = sc.holds; sc.start = null; } /* 4.9.81: "holds N" asked to fill is the capacity (the start is unstated) */
   if (qd) sc.dur = [num(qd[1]), sing(qd[2])]; if (ask === 'after' && !sc.dur) return null; sc.subject = sc.subject || 'it'; sc.ask = ask; return sc; }
@@ -84,9 +92,20 @@ const unm = u => UNIT_NAME[u] || u, qty = (v, u) => fmt(v) + ' ' + plural(unm(u)
 function solveRates(sc) {
   /* C7 / C3 (4.9.77): an incompatible unit or an unstated start for a duration question is a typed diagnostic: no number is produced */
   DECIMAL = !!sc.conv;
-  if (sc.ambiguous && !sc.mixed) return { mode: 'rate', subject: sc.subject, diagnostic: 'ambiguous_unit', unit: sc.ambiguous, readings: AMBIGUOUS_UNIT[sc.ambiguous].map(x => UNIT_NAME[x] || x), missing: ['which ' + sc.ambiguous + ' is meant'], assumed: [], scenario: enc(sc), result: null };
-  if (sc.mixed) return { mode: 'rate', subject: sc.subject, diagnostic: 'units', units: sc.mixed.map(x => plural(x, Q(2n))), missing: ['unit conversion'], assumed: [], scenario: enc(sc), result: null };
-  if (sc.start == null && sc.ask === 'after') return { mode: 'rate', subject: sc.subject, diagnostic: 'start', missing: ['the starting amount'], assumed: [], scenario: enc(sc), result: null };
+  if (sc.ambiguous && !sc.mixed) return { mode: 'rate', subject: sc.subject, diagnostic: 'ambiguous_unit', unit: sc.ambiguous, readings: AMBIGUOUS_UNIT[sc.ambiguous].map(x => UNIT_NAME[x] || x), missing: ['which ' + sc.ambiguous + ' is meant'], assumed: [], scenario: enc(sc), result: null, ask: sc.ask };
+  if (sc.mixed) return { mode: 'rate', subject: sc.subject, diagnostic: 'units', units: sc.mixed.map(x => plural(x, Q(2n))), missing: ['unit conversion'], assumed: [], scenario: enc(sc), result: null, ask: sc.ask };
+  if (sc.start == null && (sc.ask === 'after' || sc.ask === 'remain')) return { mode: 'rate', subject: sc.subject, diagnostic: 'start', missing: ['the starting amount'], assumed: [], scenario: enc(sc), result: null, ask: sc.ask };
+  if (sc.ask === 'remain') { const ins = sc.lumpIn || [], outs = sc.lumpOut || []; if (!ins.length && !outs.length) return null;
+    const net = ins.concat(outs.map(x => Q(-x.n, x.d))).reduce(add, Q(0n)), u = sc.unit, lowB = sc.low || Q(0n), v = add(sc.start, net);
+    const list = xs => xs.map(x => qty(x, u)).join(' + '), grp = xs => (xs.length > 1 ? '(' + list(xs) + ')' : list(xs));
+    let expr = qty(sc.start, u); if (ins.length) expr += ' + ' + grp(ins); if (outs.length) expr += ' − ' + grp(outs);
+    const convNote = x => { const d0 = DECIMAL; DECIMAL = true; const t = fmt(div(VOL[x], VOL[sc.unit])); DECIMAL = d0; return '1 ' + unm(x) + ' = ' + t + ' ' + plural(unm(sc.unit), Q(2n)) + ' (exact by definition)'; };
+    const assumed = ['only the stated amounts change the stock'].concat((sc.conv || []).map(convNote));
+    const out = { mode: 'rate', subject: sc.subject, assumed, scenario: enc(sc), ask: 'remain', expr };
+    if (lt(v, lowB)) { assumed.push(sc.low ? 'the stated lower bound' : 'it cannot go below empty'); return Object.assign(out, { result: { text: qty(v, u), unbound: qty(v, u), bound: qty(lowB, u), clamped: true } }); }
+    if (sc.cap && lt(sc.cap, v)) { assumed.push('the stock cannot pass its capacity'); return Object.assign(out, { result: { text: qty(v, u), unbound: qty(v, u), bound: qty(sc.cap, u), clamped: true } }); }
+    return Object.assign(out, { result: { text: qty(v, u) } }); }
+  if (!sc.tunit) return null; /* a conserved stock has no rate; do not invent one on a later turn */
   const net = sc.ins.concat(sc.outs.map(x => Q(-x.n, x.d))).reduce(add, Q(0n)), u = sc.unit, T = sc.tunit, assumed = [sc.ins.length + sc.outs.length > 1 ? 'the rates stay constant' : 'the rate stays constant'].concat((sc.conv || []).map(x => '1 ' + unm(x) + ' = ' + (() => { const d0 = DECIMAL; DECIMAL = true; const t = fmt(div(VOL[x], VOL[sc.unit])); DECIMAL = d0; return t; })() + ' ' + plural(unm(sc.unit), Q(2n)) + ' (exact by definition)'));
   const list = xs => xs.map(x => rate(x, sc)).join(' + '), grp = xs => (xs.length > 1 ? '(' + list(xs) + ')' : list(xs));
   const rising = () => (sc.outs.length ? '(' + list(sc.ins) + ' − ' + list(sc.outs) + ')' : grp(sc.ins)), falling = () => (sc.ins.length ? '(' + list(sc.outs) + ' − ' + list(sc.ins) + ')' : grp(sc.outs));
@@ -107,7 +126,7 @@ function solveRates(sc) {
   return out; }
 const enc = sc => JSON.parse(JSON.stringify(sc, (k, v) => (v && typeof v === 'object' && typeof v.n === 'bigint' ? fmtQ(v) : typeof v === 'bigint' ? String(v) : v)));
 const dec = sc => { const r = s => { const m = String(s).replace('−', '-').match(/^(-?)(?:(\d+) )?(\d+)(?:\/(\d+))?$/); if (!m) return null; const neg = m[1] ? -1n : 1n; if (m[4]) return Q(neg * (BigInt(m[2] || 0) * BigInt(m[4]) + BigInt(m[3])), BigInt(m[4])); return Q(neg * BigInt(m[3])); };
-  return Object.assign({}, sc, { start: sc.start == null ? null : r(sc.start), cap: sc.cap == null ? null : r(sc.cap), low: sc.low == null ? null : r(sc.low), measured: sc.measured == null ? undefined : r(sc.measured), ins: sc.ins.map(r), outs: sc.outs.map(r), dur: sc.dur ? [r(sc.dur[0]), sc.dur[1]] : null }); };
+  return Object.assign({}, sc, { start: sc.start == null ? null : r(sc.start), cap: sc.cap == null ? null : r(sc.cap), low: sc.low == null ? null : r(sc.low), measured: sc.measured == null ? undefined : r(sc.measured), ins: (sc.ins || []).map(r), outs: (sc.outs || []).map(r), lumpIn: (sc.lumpIn || []).map(r), lumpOut: (sc.lumpOut || []).map(r), dur: sc.dur ? [r(sc.dur[0]), sc.dur[1]] : null }); };
 /* ---- REPORTS ---- */
 function readReports(raw) { const t = String(raw).replace(/\s+/g, ' ').trim(), body = t.replace(/;?\s*(?:what do we know|what can we conclude|what is the [a-z]+|which is (?:right|true|correct))\?*\s*$/i, ''), same = /\bat the same time\b|\bsimultaneously\b/i.test(body);
   const re = new RegExp('(?:^|[,;]\\s*|\\band\\s+|\\.\\s+)(?:(?:the|a)\\s+)?((?:[A-Za-z]+\\s+)?[A-Z][A-Za-z]*\\d+|[A-Z]\\d*)\\s+(' + REPORT_VERBS.map(v => v + 's?').join('|') + ')\\s+(-?\\d+(?:\\.\\d+)?)\\s*(°?[A-Za-z%]+)\\b(?:\\s+at\\s+(\\d{1,2}(?::\\d\\d)?(?:\\s*[ap]m)?))?', 'g');
@@ -161,7 +180,7 @@ function check(m, env) { try { if (m.mode === 'rate') { const r = solveRates(dec
 /* ---- CausalResult (WMS §5.10, forge-causal-result/v1): the typed record of what a dynamics answer is and rests on; the kernel adds the world version ---- */
 function causalResult(m, ctx) { const c = ctx || {}, base = { schema: 'forge-causal-result/v1', query_id: c.query_id || null, world_version: c.world_version || null, mechanism_ids: [], premise_refs: [], intervention_refs: [], derived_effects: [], assumptions: (m.assumed || []).slice(), counterevidence_refs: [], competing_models: [], falsifiers: [], missing: [], resource_report: { link_budget: LINK_BUDGET, frontier: m.frontier || [] } };
   if (m.mode === 'rate') { if (m.diagnostic) return Object.assign(base, { mode: 'predict', status: 'unsupported', missing: m.missing.slice(), mechanism_ids: ['DYN-LEVEL'] });
-    const eff = { text: m.subject + ': ' + (m.expr + ' = ' + m.result.text), observed: false }, r = Object.assign(base, { mode: 'predict', status: 'conditionally_predicted', mechanism_ids: ['DYN-LEVEL'], derived_effects: [eff], falsifiers: ['a measurement that differs from ' + m.result.text] });
+    const rhs = m.result.clamped ? m.result.unbound : m.result.text, eff = { text: m.subject + ': ' + (m.expr + ' = ' + rhs) + (m.result.clamped ? ' (bounded at ' + m.result.bound + ')' : ''), observed: false }, r = Object.assign(base, { mode: 'predict', status: 'conditionally_predicted', mechanism_ids: ['DYN-LEVEL'], derived_effects: [eff], falsifiers: ['a measurement that differs from ' + (m.result.clamped ? m.result.bound : m.result.text)] });
     if (m.measured) Object.assign(r, { mode: 'explain', status: 'candidate_explanation', mechanism_ids: [], counterevidence_refs: ['reported ' + m.measured], competing_models: (m.explanations || []).slice() }); /* C11: the level equation is no longer the asserted mechanism */
     return r; }
   if (m.mode === 'reports') return Object.assign(base, { mode: 'compare', status: m.conflict ? 'underdetermined' : 'entailed_under_assumptions', premise_refs: m.reports.map(r => r.source + ': ' + r.value) });

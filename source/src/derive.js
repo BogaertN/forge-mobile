@@ -505,6 +505,7 @@ function dynPlan(m) { const out = [];
   if (m.mode === 'rate' && m.diagnostic === 'ambiguous_unit') return [unitReadingsS(m), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
   if (m.mode === 'rate' && m.diagnostic === 'units') return [S(C('have', { karta: I, karma: N('conversion', { det: 'no' }), roles: { apadana: Mn(m.units[0]), gati: Mn(m.units[1]) } })), S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' }))];
   if (m.mode === 'rate' && m.diagnostic === 'start') return [S(C('compute', { karta: I, karma: N('result', { det: 'a' }), tense: 'past', pol: 'neg' })), S(C('need', { karta: I, karma: N('amount', { det: 'the', adj: ['starting'] }) }))];
+  if (m.mode === 'rate' && m.result && m.result.clamped) { out.push(MS([X(m.expr), { rel: 'eq' }, X(m.result.unbound)])); out.push(S(C('reach', { karta: Mn(m.subject), karma: Mn(m.result.bound), tense: 'past' }))); for (const a of m.assumed) out.push(S(C('assume', { karta: I, karma: Mn(a), tense: 'past' }))); return out; }
   if (m.mode === 'rate') { out.push(MS([X(m.expr), { rel: 'eq' }, X(m.result.text)])); if (m.result.never) out.push(S(C('reach', { karta: Mn(m.subject), karma: Mn(m.target), pol: 'neg' })));
       if (m.result.bound) out.push(S(C('reach', { karta: Mn(m.subject), karma: Mn(m.result.bound), tense: 'past' })));
       for (const a of m.assumed) out.push(S(C('assume', { karta: I, karma: Mn(a), tense: 'past' })));
