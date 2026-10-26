@@ -324,6 +324,13 @@ const told = cl => cl && cl.shared ? sharedStep(cl.shared) : S(C('tell', { karta
 /* a shared (GKS) premise in a proof chain is labelled by its source and class verb: primary/reviewed "states", secondary "reports", weak "claims" (4.9.43) */
 const sharedStep = sh => S(C(sh.cls === 'secondary' ? 'report' : sh.cls === 'weak_unverified' ? 'claim' : 'state', { karta: Mn(sh.source), karma: Mn(String(sh.text).replace(/[.]$/, '')) }));
 const coldStorage = () => N('storage', { adj: ['cold'] });
+const dreamQuarantine = () => N('quarantine', { det: 'the', adj: ['dream'] });
+const dreamListPlan = m => (m.items || []).length
+  ? [S(C('have', { karta: I, karma: N('item', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), roles: { adhikarana: dreamQuarantine() } }))]
+  : [S(C('have', { karta: I, karma: N('item', { det: 'no', pl: true }), roles: { adhikarana: dreamQuarantine() } }))];
+const spcListPlan = m => (m.items || []).length
+  ? [S(C('have', { karta: I, karma: N('record', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), roles: { adhikarana: coldStorage() } }))]
+  : [S(C('have', { karta: I, karma: N('record', { det: 'no', pl: true }), roles: { adhikarana: coldStorage() } }))];
 const yesNo = () => S(C('answer', { karma: { coord: 'or', items: [Mn('yes'), Mn('no')] } }), { force: 'imp', part: 'please' });
 const forExample = k => S(C('say', { karma: Mn(MENTIONS[k]) }), { force: 'imp', front: [{ role: 'tadartha', np: N('example') }] });
 const cannot = (v, karma) => S(C(v, { karta: I, karma: karma || pr('that'), mod: 'can', pol: 'neg' }));
@@ -682,7 +689,14 @@ const PLANS = {
     if (m.required_next_action === 'test_required') out.push(S(C('need', { karta: N('problem', { det: 'the' }), karma: N('test', { det: 'a' }) })));
     return out; },
   patterns: m => m.items.length ? [S(C('notice', { karta: I, karma: N('pattern', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }), tense: 'past' })), S(C('store', { karta: I, karma: pr('they'), tense: 'past', pol: 'neg' }))] : [S(C('notice', { karta: I, karma: N('pattern', { det: 'no', pl: true }), tense: 'past' }))],
-  dream_held: m => [S(C(m.verb || 'suppose', { karta: YOU, comp: { that: UC(m.clause) }, tense: 'past' })), S(C('keep', { karta: I, karma: pr('it'), roles: { adhikarana: N('quarantine', { det: 'the', adj: ['dream'] }) }, tense: 'past' })), S(C('be', { karta: pr('it'), pol: 'neg', pred: N('fact', { det: 'a', adj: ['stored'] }) }))],
+  dream_held: m => [S(C(m.verb || 'suppose', { karta: YOU, comp: { that: UC(m.clause) }, tense: 'past' })), S(C('keep', { karta: I, karma: pr('it'), roles: { adhikarana: dreamQuarantine() }, tense: 'past' })), S(C('be', { karta: pr('it'), pol: 'neg', pred: N('fact', { det: 'a', adj: ['stored'] }) }))],
+  /* 4.9.106: inspect lists. The route, tier, and label are mentions. A resurrection phrase proposes; it does not restore. */
+  dream_list: dreamListPlan,
+  spc_list: spcListPlan,
+  containment_list: m => dreamListPlan(m).concat(spcListPlan({ items: m.cold || [] })),
+  spc_proposal: m => [S(C('derive', { karta: I, karma: N('hypothesis', { det: 'a', app: Mn(m.label) }), roles: { apadana: coldStorage() }, tense: 'past' })), S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.route + ' ' + m.tier) }) }))],
+  spc_refused: m => [S(C('restore', { karta: I, karma: N('record', { det: 'the', app: Mn(m.label) }), mod: 'can', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.tier) }) }))],
+  spc_none: m => [S(C('have', { karta: I, karma: N('record', { det: 'no', app: Mn(m.label) }), roles: { adhikarana: coldStorage() } }))],
   write_held: m => [S(C('hold', { karta: I, karma: N('fact', { det: 'the' }), roles: { tadartha: N('approval', { poss: 'your' }) }, tense: 'past' }))].concat(m.sensitive ? [S(C('keep', { karta: I, karma: N('value', { det: 'the', adj: ['sensitive'] }), tense: 'past', pol: 'neg' }))] : []).concat([S(C('approve', { karma: pr('it'), roles: { adhikarana: Nm('RMC Memory tab', 'the') } }), { force: 'imp', part: 'please' })]),
   write_failed: () => [S(C('verify', { karta: I, karma: N('record', { det: 'the', adj: ['new'] }), mod: 'can', tense: 'past', pol: 'neg' })), S(C('restore', { karta: I, karma: N('memory', { poss: 'my' }), tense: 'past' }), { conj: 'so' }), S(C('say', { karma: pr('it'), post: ['again'] }), { force: 'imp', part: 'please' })],
   echoforge_disabled: () => [S(C('be', { karta: Nm('EchoForge'), pred: { adj: 'disabled' } }))].concat(REASON.ECHOFORGE()),
