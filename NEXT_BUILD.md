@@ -1,9 +1,18 @@
-# Next build order — after 4.9.101
+# Next build order — after 4.9.102
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.101 (shipped from 4.9.100 / `202fd16e09834e78b80d5c5138a4cc9bd3a7cef5`)
+**Baseline:** live 4.9.102 (shipped from 4.9.101 / `412f7dfb1a0fde88607259428500f18554f96ec3`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.101+.
+**Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.102+.
+
+---
+
+## Shipped: **4.9.102** (2026-10-26)
+
+1. **Show and explain the proposals** — after “Remember Rex is a dog.”, “Remember Fido is a dog.”, “Remember Rex chases cats.”, “Remember Fido chases cats.”, and “Remember Bo is a dog.”, both phrasings answer: I derived 2 hypotheses from your facts: (1) “a is a dog if a chases cat”; (2) “a chases cat if a is a dog”. I have not stored the rule. I can only seal it after your confirmation.
+2. **A tap is the only admission** — confirming the chase rule makes “Does Bo chase cats?” yes, through that admitted rule, and only while drift stays at or under 0.35 and the replay contradicts nothing. Withdrawing the rule makes the question not yes again. “Remember that Bo does not chase cats.” leaves only the dog rule speakable; tapping the chase rule is refused.
+3. **Nothing automatic** — a proposal writes nothing to memory, world state, the drift archive, or the shared KB. “Does Bo chase cats?” is not yes before the tap. “show the problems” still lists the six problems. “what if there is no frost?” stays the dynamics intervention. “explore ideas” stays the existing exploration.
+4. **No LLM** — no model call, embedding, RAG, or learned classifier. The learner is the existing symbolic operator algebra.
 
 ---
 
@@ -56,8 +65,7 @@ Reorder only if Nic says so. **Do NOT build** Genesis Node, HCS, marketplace, CT
 
 | Release | Language lead | One reasoning step (maps to vision §3) |
 |---------|---------------|----------------------------------------|
-| **4.9.102** (next) | Bidirectional intents continue (EXPLAIN / SIMULATE / CLARIFY as needed) | **MEA-on-phone learning** — revisable rule induction from evidence; proposals never auto-act (§3.7) |
-| **later** | **Full bidirectional intents**: READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED; `LANGUAGE_UNEXPRESSIBLE` instead of canned fallback (§3.8) | Versioned RSOC operators without claiming numerical manuscript equivalence (§3.9); safe tool continuations; **adapters** (Genesis, HCS, Identity Vault, marketplace, CT-as-money) only after core is solid (§3.10–11) — parked |
+| **later** (next) | **Full bidirectional intents**: READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED; `LANGUAGE_UNEXPRESSIBLE` instead of canned fallback (§3.8) | Versioned RSOC operators without claiming numerical manuscript equivalence (§3.9); safe tool continuations; **adapters** (Genesis, HCS, Identity Vault, marketplace, CT-as-money) only after core is solid (§3.10–11) — parked |
 
 ### Standing laws from the report (do not reopen without Nic)
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.
