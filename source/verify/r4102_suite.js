@@ -14,7 +14,7 @@ const active = k => k.memory().filter(x => x.status === 'active');
 const sharedN = k => (k.store.load('shared_knowledge') || []).length;
 const admittedN = k => (k.admittedRules() || []).filter(x => x.status === 'admitted').length;
 const BASE = ['Remember that Rex is a dog.', 'Remember that Fido is a dog.', 'Remember that Rex chases cats.', 'Remember that Fido chases cats.', 'Remember that Bo is a dog.'];
-const SHOWN = 'I derived 2 hypotheses from your facts: (1) “a chases cat if a is a dog”; (2) “a is a dog if a chases cat”. I have not stored the rule. I can only seal it after your confirmation.';
+const SHOWN = 'I derived 2 hypotheses from your facts: (1) “a is a dog if a chases cat”; (2) “a chases cat if a is a dog”. I have not stored the rule. I can only seal it after your confirmation.';
 const NONE = 'I derived no hypothesis from your facts. I have not stored the rule.';
 const ONE = 'I derived 1 hypothesis from your facts: (1) “a is a dog if a chases cat”. I have not stored the rule. I can only seal it after your confirmation.';
 const quiet = k => { expect(sharedN(k) === 0, 'shared KB written'); expect(admittedN(k) === 0, 'a rule was admitted'); expect((k.store.load('drift_archive') || []).length === 0, 'drift archive written'); };
