@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -99,10 +99,28 @@
    "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_02"
   },
   {
+   "id": "cs_k_k2_01",
+   "text": "K2 is the second highest mountain in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · K2 · cs_k_k2_01"
+  },
+  {
+   "id": "cs_k_kalahari_desert_01",
+   "text": "The Kalahari Desert is in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kalahari Desert · cs_k_kalahari_desert_01"
+  },
+  {
    "id": "cs_k_kansas_01",
    "text": "Topeka is the capital of Kansas",
    "standing": "projectable",
    "evidence": "geography · product curator · Kansas · cs_k_kansas_01"
+  },
+  {
+   "id": "cs_k_kyoto_01",
+   "text": "Kyoto was the capital of Japan for centuries",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kyoto · cs_k_kyoto_01"
   },
   {
    "id": "cs_k_krakatoa_01",
@@ -159,6 +177,12 @@
    "evidence": "science · product curator · Kuiper Belt · cs_k_kuiper_belt_02"
   },
   {
+   "id": "cs_k_keratin_01",
+   "text": "Hair is made of keratin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Keratin · cs_k_keratin_01"
+  },
+  {
    "id": "cs_k_kidney_01",
    "text": "Humans normally have two kidneys",
    "standing": "projectable",
@@ -213,6 +237,12 @@
    "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_01"
   },
   {
+   "id": "cs_k_komodo_dragon_02",
+   "text": "The Komodo dragon lives in Indonesia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_02"
+  },
+  {
    "id": "cs_k_killer_whale_01",
    "text": "The killer whale is the largest member of the dolphin family",
    "standing": "projectable",
@@ -261,6 +291,12 @@
    "evidence": "nature · product curator · Kiwifruit · cs_k_kiwifruit_01"
   },
   {
+   "id": "cs_k_king_martin_luther_jr_01",
+   "text": "King gave a famous speech in 1963",
+   "standing": "projectable",
+   "evidence": "history · product curator · King, Martin Luther Jr. · cs_k_king_martin_luther_jr_01"
+  },
+  {
    "id": "cs_k_king_martin_luther_jr_02",
    "text": "Martin Luther King Jr. won the Nobel Peace Prize in 1964",
    "standing": "projectable",
@@ -297,6 +333,12 @@
    "evidence": "history · product curator · Korean War · cs_k_korean_war_01"
   },
   {
+   "id": "cs_k_korean_war_02",
+   "text": "Fighting in Korea stopped in 1953",
+   "standing": "projectable",
+   "evidence": "history · product curator · Korean War · cs_k_korean_war_02"
+  },
+  {
    "id": "cs_k_kremlin_01",
    "text": "The Kremlin is a fortified complex in Moscow",
    "standing": "projectable",
@@ -307,6 +349,12 @@
    "text": "Knossos was a major Minoan site on Crete",
    "standing": "projectable",
    "evidence": "history · product curator · Knossos · cs_k_knossos_01"
+  },
+  {
+   "id": "cs_k_kilometer_01",
+   "text": "A kilometer is one thousand meters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_01"
   },
   {
    "id": "cs_k_kilometer_02",
@@ -387,6 +435,18 @@
    "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_01"
   },
   {
+   "id": "cs_k_kilauea_01",
+   "text": "Kilauea is an active volcano in Hawaii",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kilauea · cs_k_kilauea_01"
+  },
+  {
+   "id": "cs_k_karst_01",
+   "text": "Karst forms when water dissolves limestone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Karst · cs_k_karst_01"
+  },
+  {
    "id": "cs_k_kilimanjaro_03",
    "text": "Kilimanjaro is the highest mountain in Africa",
    "standing": "projectable",
@@ -397,6 +457,18 @@
    "text": "Kilimanjaro is in Tanzania",
    "standing": "projectable",
    "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_04"
+  },
+  {
+   "id": "cs_k_kilometer_03",
+   "text": "One kilometer equals one thousand meters",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kilometer · cs_k_kilometer_03"
+  },
+  {
+   "id": "cs_k_kangaroo_03",
+   "text": "Kangaroos are marsupials from Australia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_03"
   },
   {
    "id": "cs_k_kiwi_02",
@@ -411,10 +483,22 @@
    "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_02"
   },
   {
+   "id": "cs_k_kennedy_john_f_03",
+   "text": "Kennedy was the 35th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_03"
+  },
+  {
    "id": "cs_k_kuwait_02",
    "text": "Kuwait is on the Persian Gulf",
    "standing": "projectable",
    "evidence": "geography · product curator · Kuwait · cs_k_kuwait_02"
+  },
+  {
+   "id": "cs_k_kyoto_02",
+   "text": "Kyoto was the capital of Japan for a thousand years",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kyoto · cs_k_kyoto_02"
   },
   {
    "id": "cs_k_krill_03",
@@ -469,6 +553,12 @@
    "text": "Kingfishers have long, sharp bills",
    "standing": "projectable",
    "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_03"
+  },
+  {
+   "id": "cs_k_kabul_01",
+   "text": "Kabul is the capital of Afghanistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kabul · cs_k_kabul_01"
   }
  ]
 }

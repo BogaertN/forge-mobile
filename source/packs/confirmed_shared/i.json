@@ -6,13 +6,19 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 105,
  "items": [
   {
    "id": "cs_i_indonesia_01",
    "text": "Jakarta is the capital of Indonesia",
    "standing": "projectable",
    "evidence": "geography · product curator · Indonesia · cs_i_indonesia_01"
+  },
+  {
+   "id": "cs_i_indonesia_02",
+   "text": "Indonesia is the largest country made of islands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Indonesia · cs_i_indonesia_02"
   },
   {
    "id": "cs_i_italy_01",
@@ -39,6 +45,12 @@
    "evidence": "geography · product curator · Israel · cs_i_israel_01"
   },
   {
+   "id": "cs_i_indian_ocean_01",
+   "text": "The Indian Ocean is the third largest ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Indian Ocean · cs_i_indian_ocean_01"
+  },
+  {
    "id": "cs_i_istanbul_01",
    "text": "Istanbul spans Europe and Asia",
    "standing": "projectable",
@@ -49,6 +61,12 @@
    "text": "Islamabad is the capital of Pakistan",
    "standing": "projectable",
    "evidence": "geography · product curator · Islamabad · cs_i_islamabad_01"
+  },
+  {
+   "id": "cs_i_indus_river_01",
+   "text": "The Indus flows through Pakistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Indus River · cs_i_indus_river_01"
   },
   {
    "id": "cs_i_iberian_peninsula_01",
@@ -81,10 +99,28 @@
    "evidence": "geography · product curator · Isthmus of Panama · cs_i_isthmus_of_panama_01"
   },
   {
+   "id": "cs_i_island_01",
+   "text": "An island is land surrounded by water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Island · cs_i_island_01"
+  },
+  {
    "id": "cs_i_iron_01",
    "text": "Iron has the chemical symbol Fe",
    "standing": "projectable",
    "evidence": "science · product curator · Iron · cs_i_iron_01"
+  },
+  {
+   "id": "cs_i_iron_02",
+   "text": "Iron has an atomic number of 26",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_02"
+  },
+  {
+   "id": "cs_i_iodine_01",
+   "text": "The symbol for iodine is I",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iodine · cs_i_iodine_01"
   },
   {
    "id": "cs_i_iridium_01",
@@ -93,10 +129,22 @@
    "evidence": "science · product curator · Iridium · cs_i_iridium_01"
   },
   {
+   "id": "cs_i_indium_01",
+   "text": "Indium is a chemical element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Indium · cs_i_indium_01"
+  },
+  {
    "id": "cs_i_io_01",
    "text": "Io is a moon of Jupiter",
    "standing": "projectable",
    "evidence": "science · product curator · Io · cs_i_io_01"
+  },
+  {
+   "id": "cs_i_io_02",
+   "text": "Io is a volcanic moon of Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Io · cs_i_io_02"
   },
   {
    "id": "cs_i_ice_01",
@@ -121,6 +169,12 @@
    "text": "Inertia is an object's resistance to changes in motion",
    "standing": "projectable",
    "evidence": "science · product curator · Inertia · cs_i_inertia_01"
+  },
+  {
+   "id": "cs_i_infrared_01",
+   "text": "Infrared waves are longer than visible light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Infrared · cs_i_infrared_01"
   },
   {
    "id": "cs_i_insulin_01",
@@ -157,6 +211,12 @@
    "text": "Iguanas are lizards",
    "standing": "projectable",
    "evidence": "nature · product curator · Iguana · cs_i_iguana_01"
+  },
+  {
+   "id": "cs_i_ibis_01",
+   "text": "The ibis is a wading bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ibis · cs_i_ibis_01"
   },
   {
    "id": "cs_i_invertebrate_01",
@@ -213,6 +273,12 @@
    "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_02"
   },
   {
+   "id": "cs_i_iliad_01",
+   "text": "The Iliad is a Greek epic poem",
+   "standing": "projectable",
+   "evidence": "history · product curator · Iliad · cs_i_iliad_01"
+  },
+  {
    "id": "cs_i_indian_independence_01",
    "text": "India gained independence from Britain in 1947",
    "standing": "projectable",
@@ -223,6 +289,12 @@
    "text": "Integers include negative whole numbers, zero, and positive whole numbers",
    "standing": "projectable",
    "evidence": "math · product curator · Integer · cs_i_integer_01"
+  },
+  {
+   "id": "cs_i_inch_01",
+   "text": "One inch is 2.54 centimeters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Inch · cs_i_inch_01"
   },
   {
    "id": "cs_i_infinity_01",
@@ -253,6 +325,12 @@
    "text": "Italian is a Romance language",
    "standing": "projectable",
    "evidence": "language · product curator · Italian · cs_i_italian_01"
+  },
+  {
+   "id": "cs_i_icelandic_01",
+   "text": "Icelandic is a Germanic language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Icelandic · cs_i_icelandic_01"
   },
   {
    "id": "cs_i_iceland_02",
@@ -303,6 +381,30 @@
    "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_03"
   },
   {
+   "id": "cs_i_ibn_battuta_01",
+   "text": "Ibn Battuta was a Moroccan traveler",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ibn Battuta · cs_i_ibn_battuta_01"
+  },
+  {
+   "id": "cs_i_imhotep_01",
+   "text": "Imhotep was an Egyptian architect",
+   "standing": "projectable",
+   "evidence": "history · product curator · Imhotep · cs_i_imhotep_01"
+  },
+  {
+   "id": "cs_i_ink_01",
+   "text": "People write with ink",
+   "standing": "projectable",
+   "evidence": "general · product curator · Ink · cs_i_ink_01"
+  },
+  {
+   "id": "cs_i_island_02",
+   "text": "Madagascar is an island near Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Island · cs_i_island_02"
+  },
+  {
    "id": "cs_i_ionosphere_01",
    "text": "The ionosphere is part of Earth's upper atmosphere",
    "standing": "projectable",
@@ -319,6 +421,12 @@
    "text": "The small intestine absorbs most nutrients from food",
    "standing": "projectable",
    "evidence": "science · product curator · Intestine · cs_i_intestine_01"
+  },
+  {
+   "id": "cs_i_irrawaddy_river_01",
+   "text": "The Irrawaddy flows through Myanmar",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Irrawaddy River · cs_i_irrawaddy_river_01"
   },
   {
    "id": "cs_i_iron_04",
@@ -387,6 +495,30 @@
    "evidence": "nature · product curator · Ibex · cs_i_ibex_01"
   },
   {
+   "id": "cs_i_iguana_02",
+   "text": "Iguanas are lizards",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_02"
+  },
+  {
+   "id": "cs_i_inchworm_01",
+   "text": "Inchworms are caterpillars",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Inchworm · cs_i_inchworm_01"
+  },
+  {
+   "id": "cs_i_ivy_03",
+   "text": "Poison ivy causes an itchy rash",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_03"
+  },
+  {
+   "id": "cs_i_incisor_01",
+   "text": "Incisors cut food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Incisor · cs_i_incisor_01"
+  },
+  {
    "id": "cs_i_inclined_plane_01",
    "text": "An inclined plane is a simple machine",
    "standing": "projectable",
@@ -397,6 +529,42 @@
    "text": "Ice caps cover parts of Greenland and Antarctica",
    "standing": "projectable",
    "evidence": "geography · product curator · Ice cap · cs_i_ice_cap_01"
+  },
+  {
+   "id": "cs_i_idaho_01",
+   "text": "Idaho is in the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Idaho · cs_i_idaho_01"
+  },
+  {
+   "id": "cs_i_iceland_03",
+   "text": "Reykjavik is the capital of Iceland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iceland · cs_i_iceland_03"
+  },
+  {
+   "id": "cs_i_iraq_01",
+   "text": "Baghdad is the capital of Iraq",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iraq · cs_i_iraq_01"
+  },
+  {
+   "id": "cs_i_india_01",
+   "text": "New Delhi is the capital of India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · India · cs_i_india_01"
+  },
+  {
+   "id": "cs_i_ireland_03",
+   "text": "Dublin is the capital of Ireland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ireland · cs_i_ireland_03"
+  },
+  {
+   "id": "cs_i_israel_03",
+   "text": "Israel is a country in the Middle East",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Israel · cs_i_israel_03"
   }
  ]
 }
