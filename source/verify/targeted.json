@@ -31,6 +31,7 @@
   "entity_suite.js",
   "evhonest_suite.js",
   "honesty_suite.js",
-  "archives_suite.js"
+  "archives_suite.js",
+  "r4121_suite.js"
  ]
 }
