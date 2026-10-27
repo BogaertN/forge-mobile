@@ -1,5 +1,5 @@
 {
-  "version": "4.9.114",
+  "version": "4.9.115",
  "features": [
   {
    "id": "A-01",
@@ -1315,7 +1315,7 @@
   },
   {
    "id": "J-04",
-   "name": "EchoForge advisory/debate",
+   "name": "Tool Bench, not EchoForge",
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
    "wave": "—",
    "claim": "Implemented",
@@ -1327,7 +1327,7 @@
   },
   {
    "id": "J-05",
-   "name": "Gilligan personal agent",
+   "name": "Pattern Reflection, not Gilligan",
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/disconnected\"",
    "wave": "W4",
    "claim": "Partial",
@@ -1760,7 +1760,7 @@
   },
   {
    "id": "X-12",
-   "name": "Gilligan cross-session pattern reflection",
+   "name": "Pattern Reflection cross-session",
    "source": "Drive \"AIWeb_GenNode_Doc10_Gilligan_EchoForge\"; aiweb agents/gilligan, engines/gilligan_drift_correction_upgrade",
    "wave": "W4",
    "claim": "Implemented",
@@ -2977,13 +2977,31 @@
    "claim": "Partial",
    "note": "4.9.114: trace.msm cites reconstructed Doc 2 / MSM-v1 record ids. MSM does not select, execute, write memory, or approve Echo. μ_t, evidence, memory, and Echo stay outside the manifest. A receipt is not written into MSM. Shared KB stays empty.",
    "proof": ["R4114"]
+  },
+  {
+   "id": "R4115-NAMES",
+   "name": "Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer stay distinct",
+   "source": "CONFLICTS.md v4.9.115",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.115: Pattern Reflection is not Gilligan. Tool Bench is not EchoForge. RMC Echo is not EchoForge. Audit / Receipts is the Foundation layer. CLEANUP-495 still bans ProtoForge controls. Storage keys stay.",
+   "proof": ["R4115"]
+  },
+  {
+   "id": "R4115-REPLAY",
+   "name": "Offline verify of an exported turn packet",
+   "source": "CONFLICTS.md v4.9.115",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.115: FORGE-TURN-PACKET/v1 verifies offline by SHA-256. Echo and selection are reexecuted. Drift, memory, world, containment, gate, and doc7 stay recorded-only. The check does not read the turn store. Shared KB stays empty.",
+   "proof": ["R4115"]
   }
  ],
- "count": 276,
+ "count": 278,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 114,
+  "Partial": 116,
   "Missing": 9,
   "Out of scope / parked": 13
  }

@@ -2,9 +2,11 @@
  * 4.9.112: the same packet names the Doc 6 gate, when one already fired, and lists every
  * route that was not selected with the reason the turn already recorded.
  * 4.9.113: the same receipt names the Doc 7 category the belief rests on.
+ * 4.9.115: the same packet seals a SHA-256 of its body and can be checked offline.
  * Echo stays an exact reparse. This module names the receipt. It does not choose the route. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
+  const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
   const SCHEMA = 'FORGE-TURN-PACKET/v1';
   const FAILURE_SCHEMA = 'FORGE-FAILURE-RECEIPT/v1';
   const ANSWER_SCHEMA = 'FORGE-ANSWER-RECEIPT/v1';
@@ -152,6 +154,51 @@
     }
     return cands.filter(c => c && c.status && c.status !== 'selected' && c.status !== 'agreed').map(c => ({ route: c.route, status: c.status, reason: c.why || c.reason || '' })).filter(c => c.route && c.reason);
   }
+  function clone(v) { try { return v == null ? v : JSON.parse(JSON.stringify(v)); } catch (e) { return null; } }
+  function scrubMeaning(m) {
+    const bits = [];
+    const take = s => { if (typeof s === 'string' && s.length >= 24) bits.push(s.slice(0, 80)); };
+    if (m && typeof m === 'object') { take(m.excerpt); take(m.excerpt2); if (m.generated) { take(m.generated.text); delete m.generated.text; delete m.generated.clause; } delete m.excerpt; delete m.excerpt2; }
+    return bits;
+  }
+  function holdsProse(v, bits) { if (!bits.length || v == null) return false; const s = typeof v === 'string' ? v : JSON.stringify(v); return bits.some(b => s.indexOf(b.slice(0, 24)) >= 0); }
+  function stable(v) {
+    if (v === undefined || v === null || typeof v !== 'object') return JSON.stringify(v == null ? null : v);
+    if (Array.isArray(v)) return '[' + v.map(x => stable(x === undefined ? null : x)).join(',') + ']';
+    const keys = Object.keys(v).filter(k => v[k] !== undefined).sort();
+    return '{' + keys.map(k => JSON.stringify(k) + ':' + stable(v[k])).join(',') + '}';
+  }
+  function bodyOf(packet) { const raw = clone(packet) || {}; delete raw.integrity; return raw; }
+  function seal(packet) { if (!packet || typeof packet !== 'object') return packet; delete packet.integrity; packet.integrity = { alg: 'SHA-256', hash: sha256(stable(bodyOf(packet))) }; return packet; }
+  function num(c) { return !!(c && [c.completeness, c.specificity, c.eps_s, c.score].every(n => typeof n === 'number' && isFinite(n))); }
+  function better(a, b) { return ((a.completeness - b.completeness) || (a.specificity - b.specificity) || (b.eps_s - a.eps_s) || (a.score - b.score)) > 0; }
+  function poolOf(cs) { const keyed = (cs || []).filter(num), holders = keyed.filter(c => c.resolves_hold), passed = (holders.some(c => c.echo_pass) ? holders : keyed).filter(c => c.echo_pass); return passed.length ? passed : keyed; }
+  function selectionClaim(sel) { sel = sel || {}; return { winner: sel.winner || null, candidates: (sel.candidates || []).filter(c => c && c.route).map(c => ({ route: c.route, status: c.status || null, outcome: c.outcome || null, completeness: typeof c.completeness === 'number' ? c.completeness : null, specificity: typeof c.spec === 'number' ? c.spec : null, eps_s: typeof c.eps_s === 'number' ? c.eps_s : null, score: typeof c.score === 'number' ? c.score : null, echo_pass: !!(c.echo && (c.echo.pass || c.echo.ambiguous)), resolves_hold: !!c.resolves_hold })) }; }
+  function verify(input, hooks) {
+    hooks = hooks || {}; const checks = [], issues = []; let packet = input;
+    if (input && (input.schema === FAILURE_SCHEMA || input.schema === ANSWER_SCHEMA) && input.packet) { if (input.receipt_type && input.packet.receipt_type && input.receipt_type !== input.packet.receipt_type) issues.push('receipt type'); packet = input.packet; }
+    if (!packet || packet.schema !== SCHEMA) issues.push('schema');
+    const recorded = packet && packet.integrity && packet.integrity.hash; let hash = '';
+    try { hash = packet ? sha256(stable(bodyOf(packet))) : ''; } catch (e) { issues.push('hash'); }
+    const integrityOk = !!(packet && recorded && recorded === hash && packet.integrity.alg === 'SHA-256' && !issues.length);
+    checks.push({ id: 'integrity', mode: 'reexecuted', ok: integrityOk, detail: integrityOk ? 'hash matches' : 'hash mismatch' });
+    const claim = packet && packet.echo ? packet.echo.pass : null, replay = (packet && packet.replay) || {};
+    if (claim === true || claim === false) {
+      if (replay.output == null || !replay.meaning) { checks.push({ id: 'echo', mode: 'recorded-only', ok: null, detail: replay.output == null ? 'surface not in the packet' : 'meaning missing' }); if (replay.output != null) issues.push('echo'); }
+      else if (typeof hooks.echo !== 'function') { checks.push({ id: 'echo', mode: 'recorded-only', ok: null, detail: 'no echo hook' }); issues.push('echo'); }
+      else { let again = null, err = ''; try { again = hooks.echo(replay.output, replay.meaning, replay.vakya || undefined); } catch (e) { err = String(e && e.message || e).slice(0, 160); }
+        const ok = !err && !!again && !!again.pass === (claim === true); checks.push({ id: 'echo', mode: 'reexecuted', ok: ok, detail: err || (ok ? 'reparse matches the claim' : 'reparse disagrees') }); if (!ok) issues.push('echo'); }
+    } else checks.push({ id: 'echo', mode: 'recorded-only', ok: null, detail: 'no echo claim' });
+    const sel = replay.selection, winner = sel && sel.winner || null, route = packet && packet.selected && packet.selected.route || null;
+    if (!sel || !Array.isArray(sel.candidates)) checks.push({ id: 'selection', mode: 'recorded-only', ok: null, detail: 'selection keys not recorded' });
+    else if (!winner) checks.push({ id: 'selection', mode: 'recorded-only', ok: null, detail: 'no winner to re-rank' });
+    else { const pool = poolOf(sel.candidates), w = pool.find(c => c.route === winner) || sel.candidates.find(c => c.route === winner);
+      if (!w) { checks.push({ id: 'selection', mode: 'reexecuted', ok: false, detail: 'winner not in candidates' }); issues.push('selection'); }
+      else if (!num(w)) checks.push({ id: 'selection', mode: 'recorded-only', ok: null, detail: 'winner has no rank keys' });
+      else { const dom = pool.filter(num).some(c => c.route !== w.route && better(c, w)), same = route === winner; checks.push({ id: 'selection', mode: 'reexecuted', ok: !dom && same, detail: !same ? 'winner disagrees with selected route' : dom ? 'a recorded rival outranks the winner' : 'winner is not outranked' }); if (dom || !same) issues.push('selection'); } }
+    for (const id of ['drift', 'memory', 'world', 'containment', 'gate', 'doc7']) checks.push({ id: id, mode: 'recorded-only', ok: null, detail: 'not re-run offline' });
+    return { schema: 'FORGE-PACKET-VERIFY/v1', ok: !issues.length && checks.filter(c => c.mode === 'reexecuted').every(c => c.ok), trusted_ui: false, checks: checks };
+  }
   function echoOf(trace) {
     const ev = trace.echo;
     if (!ev) return { pass: null, signature_notes: null };
@@ -176,7 +223,7 @@
     const worldAttempted = !!(wc && wc.skipped === false);
     const failure = classify(trace, msm);
     const spoken = text != null && text !== '';
-    return {
+    const packet = {
       schema: SCHEMA,
       packet_version: PACKET_VERSION,
       turn_id: trace.psi_id || (msm && msm.msm_id) || null,
@@ -210,8 +257,10 @@
       gate: doc6Of(trace, failure, intent),
       doc7: doc7Of(trace, msm),
       receipt_type: failure ? failure.class : 'answer',
-      audit_receipt_id: null
+      audit_receipt_id: null,
+      replay: (function () { const meaning = clone((msm && msm.meaning) || null), bits = scrubMeaning(meaning); let output = trace.echo_surface != null ? String(trace.echo_surface) : (text == null ? null : String(text)), vakya = clone(trace.echo_vakya || null); if (holdsProse(output, bits)) output = null; if (holdsProse(vakya, bits)) vakya = null; return { output: output, meaning: meaning, vakya: vakya, selection: selectionClaim(trace.selection) }; })()
     };
+    return seal(packet);
   }
   function openReceipt(packet) {
     if (!packet) return null;
@@ -234,6 +283,6 @@
     const cats = doc7HTML(packet.doc7);
     return cats + '<details class="card"' + open + ' data-receipt-type="' + esc(t) + '"' + doc + '><summary>' + esc((LABELS[t] || t) + sub) + '</summary><div class="meta">turn ' + esc(packet.turn) + ' · ' + esc(packet.turn_id) + intent + '</div>' + (detail ? '<div class="small">' + esc(detail) + '</div>' : '') + list + '<button type="button" data-export-turn="' + esc(packet.turn) + '">Export turn packet</button></details>';
   }
-  const api = { SCHEMA, FAILURE_SCHEMA, ANSWER_SCHEMA, FAILURE_TYPES, GATE_SUBTYPES, DOC6_LABEL, DOC7_IDS, DOC7_LABEL, PRESENCE_LAW, PACKET_VERSION, build, classify, doc6Of, doc7Of, census, categoryPanel, notSelectedOf, openReceipt, receiptCard };
+  const api = { SCHEMA, FAILURE_SCHEMA, ANSWER_SCHEMA, FAILURE_TYPES, GATE_SUBTYPES, DOC6_LABEL, DOC7_IDS, DOC7_LABEL, PRESENCE_LAW, PACKET_VERSION, build, classify, doc6Of, doc7Of, census, categoryPanel, notSelectedOf, openReceipt, receiptCard, seal, verify };
   if (isNode) module.exports = api; else root.KTurnPacket = api;
 })(typeof self !== 'undefined' ? self : this);

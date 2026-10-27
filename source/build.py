@@ -63,10 +63,11 @@ def slim(m, s):
     # single-file only: the registry's provenance 'source' strings are not read by any UI (the site copy keeps them)
     if m != 'src/features.js': return s
     a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
-    # 4.9.87: and a long note is cut at a word boundary near 120 characters (the site copy keeps the full note); UTF-8 is written as is
+    # 4.9.87: a long note is cut at a word boundary (the site copy keeps the full note); UTF-8 is written as is.
+    # 4.9.115: the single-file cut is 72 characters so kernel-app.html stays within 1.920 MB. The Pages site is unchanged.
     for f in d.get('features', []):
         f.pop('source', None); n = f.get('note') or ''
-        if len(n) > 120: f['note'] = n[:120].rsplit(' ', 1)[0] + ' …'
+        if len(n) > 72: f['note'] = n[:72].rsplit(' ', 1)[0] + ' …'
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
