@@ -1,4 +1,6 @@
 /* 4.9.111: one audited turn packet, success or failure, and a receipt a person can open.
+ * 4.9.112: the same packet names the Doc 6 gate, when one already fired, and lists every
+ * route that was not selected with the reason the turn already recorded.
  * Echo stays an exact reparse. This module names the receipt. It does not choose the route. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
@@ -9,6 +11,7 @@
   const FAILURE_TYPES = ['echo_fail', 'language_unexpressible', 'gate_refusal', 'quarantine', 'chi_reroute'];
   const GATE_SUBTYPES = ['ambiguity', 'unsupported', 'action_blocked'];
   const LABELS = { echo_fail: 'Echo failed', language_unexpressible: 'Language unexpressible', gate_refusal: 'Gate refusal', quarantine: 'Quarantine', chi_reroute: 'χ re-route', answer: 'Answer' };
+  const DOC6_LABEL = { ambiguity: 'ambiguity / clarification-required', 'clarification-required': 'clarification-required', unsupported: 'unsupported', action_blocked: 'meaning-understood-but-action-blocked' };
 
   function idsOf(trace, msm) {
     const ev = (msm && msm.evidence && msm.evidence.refs) || [];
@@ -36,6 +39,53 @@
     if (subtype) return { class: 'gate_refusal', subtype, detail: reason || cat || kind };
     return null;
   }
+  /* Doc 6 names for a gate the turn already classified. A clarification that is
+   * spoken as an answer stays an answer; the label is the state, not a new receipt. */
+  function doc6Of(trace, failure, intent) {
+    const cat = (trace.outcome && trace.outcome.category) || '';
+    const cls = (trace.outcome && trace.outcome.class) || '';
+    const sub = failure && failure.class === 'gate_refusal' ? failure.subtype : null;
+    let state = null;
+    if (sub === 'action_blocked') state = 'action_blocked';
+    else if (sub === 'unsupported') state = 'unsupported';
+    else if (sub === 'ambiguity') state = 'ambiguity';
+    else if (failure) state = null;
+    else if (cat === 'UNDERSTOOD_ACTION_BLOCKED' || cls === 'understood-but-blocked') state = 'action_blocked';
+    else if (cat === 'AMBIGUITY_PRESERVED' || cls === 'ambiguous') state = 'ambiguity';
+    else if (cat === 'CLARIFICATION_REQUIRED' || cat === 'INCOMPLETE_PRESERVED' || cls === 'clarify') state = 'clarification-required';
+    else if (cat === 'UNSUPPORTED_PRESERVED' || cat === 'NO_LAWFUL_CANDIDATE' || cat === 'REFUSAL_RELEVANT' || cat === 'INCONGRUENT_REJECTED' || cat === 'DISCONNECTED_REJECTED' || cat === 'PURPOSE_UNRECOVERABLE' || cls === 'refuse' || cls === 'reject') state = 'unsupported';
+    if (!state || !DOC6_LABEL[state]) return null;
+    return { state: state, label: DOC6_LABEL[state], intent: intent || null, subtype: sub };
+  }
+  /* Every route except the winner. A candidate that lost keeps its recorded why.
+   * A route that never proposed keeps the reason on the route table. */
+  function notSelectedOf(sel) {
+    sel = sel || {};
+    const routes = sel.routes || [];
+    const cands = sel.candidates || [];
+    const winner = sel.winner || null;
+    const cand = new Map();
+    for (const c of cands) if (c && c.route && c.status && c.status !== 'selected') cand.set(c.route, c);
+    const out = [];
+    const seen = new Set();
+    const push = (route, status, reason) => {
+      const why = String(reason || '').trim();
+      if (!route || route === winner || seen.has(route) || !status || !why) return;
+      seen.add(route);
+      out.push({ route: route, status: status, reason: why });
+    };
+    if (routes.length) {
+      for (const rt of routes) {
+        if (!rt || !rt.route || rt.route === winner) continue;
+        const c = cand.get(rt.route);
+        if (c) push(rt.route, c.status, c.why || c.reason || rt.why);
+        else push(rt.route, rt.evaluated === false ? 'not_evaluated' : 'not_applicable', rt.why);
+      }
+      for (const c of cands) if (c && c.status && c.status !== 'selected') push(c.route, c.status, c.why || c.reason);
+      return out;
+    }
+    return cands.filter(c => c && c.status && c.status !== 'selected' && c.status !== 'agreed').map(c => ({ route: c.route, status: c.status, reason: c.why || c.reason || '' })).filter(c => c.route && c.reason);
+  }
   function echoOf(trace) {
     const ev = trace.echo;
     if (!ev) return { pass: null, signature_notes: null };
@@ -50,7 +100,7 @@
     trace = trace || {}; msm = msm || trace.msm || {};
     const sel = trace.selection || {};
     const winner = (sel.candidates || []).find(c => c && c.status === 'selected');
-    const notSelected = (sel.candidates || []).filter(c => c && c.status && c.status !== 'selected' && c.status !== 'agreed').map(c => ({ route: c.route, status: c.status, reason: c.why || c.reason || '' }));
+    const notSelected = notSelectedOf(sel);
     const ids = idsOf(trace, msm);
     const ops = (trace.memory || []).map(m => ({ op: m.op, id: m.id || null }));
     const intent = trace.intent_kind || null;
@@ -91,6 +141,7 @@
       world: { attempted: worldAttempted, blocked: worldAttempted && !(wc && wc.ok), version_id: worldAttempted && wc && wc.ok ? (wc.version_id || null) : null },
       spoken: spoken,
       failure: failure,
+      gate: doc6Of(trace, failure, intent),
       receipt_type: failure ? failure.class : 'answer',
       audit_receipt_id: null
     };
@@ -104,11 +155,17 @@
   function receiptCard(packet) {
     if (!packet) return '';
     const t = packet.receipt_type || 'answer';
-    const sub = packet.failure && packet.failure.subtype ? ' · ' + String(packet.failure.subtype).replace(/_/g, '-') : '';
+    const gate = packet.gate || null;
+    const label = gate && gate.label ? gate.label : '';
+    const sub = label ? ' · ' + label : '';
     const detail = packet.failure && packet.failure.detail ? packet.failure.detail : '';
-    const open = t === 'answer' ? '' : ' open';
-    return '<details class="card"' + open + ' data-receipt-type="' + esc(t) + '"><summary>' + esc((LABELS[t] || t) + sub) + '</summary><div class="meta">turn ' + esc(packet.turn) + ' · ' + esc(packet.turn_id) + '</div>' + (detail ? '<div class="small">' + esc(detail) + '</div>' : '') + '<button type="button" data-export-turn="' + esc(packet.turn) + '">Export turn packet</button></details>';
+    const ns = Array.isArray(packet.not_selected) ? packet.not_selected : [];
+    const open = (t === 'answer' && !ns.length && !gate) ? '' : ' open';
+    const doc = gate && gate.state ? ' data-doc6-state="' + esc(gate.state) + '"' : '';
+    const list = ns.length ? '<ul class="not-selected" data-not-selected="' + ns.length + '">' + ns.map(c => '<li data-route="' + esc(c.route) + '"><b>' + esc(c.route) + '</b> <span class="meta">' + esc(c.status) + '</span> — ' + esc(c.reason) + '</li>').join('') + '</ul>' : '';
+    const intent = gate && gate.intent ? ' · intent ' + esc(gate.intent) : '';
+    return '<details class="card"' + open + ' data-receipt-type="' + esc(t) + '"' + doc + '><summary>' + esc((LABELS[t] || t) + sub) + '</summary><div class="meta">turn ' + esc(packet.turn) + ' · ' + esc(packet.turn_id) + intent + '</div>' + (detail ? '<div class="small">' + esc(detail) + '</div>' : '') + list + '<button type="button" data-export-turn="' + esc(packet.turn) + '">Export turn packet</button></details>';
   }
-  const api = { SCHEMA, FAILURE_SCHEMA, ANSWER_SCHEMA, FAILURE_TYPES, GATE_SUBTYPES, PACKET_VERSION, build, classify, openReceipt, receiptCard };
+  const api = { SCHEMA, FAILURE_SCHEMA, ANSWER_SCHEMA, FAILURE_TYPES, GATE_SUBTYPES, DOC6_LABEL, PACKET_VERSION, build, classify, doc6Of, notSelectedOf, openReceipt, receiptCard };
   if (isNode) module.exports = api; else root.KTurnPacket = api;
 })(typeof self !== 'undefined' ? self : this);

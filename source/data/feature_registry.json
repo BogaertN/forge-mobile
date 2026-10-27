@@ -1,5 +1,5 @@
 {
- "version": "4.9.111",
+  "version": "4.9.112",
  "features": [
   {
    "id": "A-01",
@@ -2923,13 +2923,31 @@
    "claim": "Partial",
    "note": "4.9.111: echo_fail, language_unexpressible, gate_refusal, quarantine, and chi_reroute open as receipts. A spoken answer stays an answer receipt. A dream stays an answer. \u03c7 is the correction function only.",
    "proof": ["R4111"]
+  },
+  {
+   "id": "R4112-GATE",
+   "name": "Doc 6 gate states on Ask Forge and Audit",
+   "source": "CONFLICTS.md v4.9.112",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.112: ambiguity / clarification-required, clarification-required, unsupported, and meaning-understood-but-action-blocked (action_blocked) are visible labels. They use the intent the turn already carries and the 4.9.111 gate_refusal subtypes. A spoken clarification stays an answer. The label is not a menu.",
+   "proof": ["R4112"]
+  },
+  {
+   "id": "R4112-CANDIDATES",
+   "name": "Not-selected candidates on the turn packet",
+   "source": "CONFLICTS.md v4.9.112",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.112: FORGE-TURN-PACKET/v1 lists every route except the winner. Each row keeps the rejection reason already recorded, including a route whose pattern does not apply. Ask Forge and Audit show the list when it is present.",
+   "proof": ["R4112"]
   }
  ],
- "count": 270,
+ "count": 272,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 108,
+  "Partial": 110,
   "Missing": 9,
   "Out of scope / parked": 13
  }

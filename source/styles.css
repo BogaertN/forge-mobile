@@ -18,7 +18,8 @@ form{display:flex;flex-wrap:wrap;gap:6px}form textarea,form input{flex:1 1 220px
 .badges{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.sb{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:11px}.sb b{color:var(--accent)}
 .msg{margin:8px 0;padding:8px 10px;border-radius:8px;border:1px solid var(--line)}.msg.user{background:#0c2238;margin-left:18%;color:#cfeaff}.msg.bot{background:var(--panel)}.msg.bot.blocked{border-color:var(--bad)}
 .kind{font-size:10px;text-transform:uppercase;color:var(--chrome);background:var(--accent);border-radius:4px;padding:1px 5px;margin-right:4px}.kind.deterministic_hold,.kind.refused_or_question{background:var(--warn)}.kind.approval_required{background:var(--bad);color:#fff}
-.tag{display:inline-block;font-size:10px;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin:0 3px 3px 0}
+.tag{display:inline-block;font-size:10px;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin:0 3px 3px 0}.tag.doc6{color:var(--fg);border-color:var(--warn)}
+.not-selected{margin:6px 0 8px;padding-left:1.1em}.not-selected li{margin:2px 0}
 .flags{display:flex;flex-wrap:wrap;gap:6px}.flag{font-size:11px;border-radius:4px;padding:2px 6px;border:1px solid}.flag.off{color:var(--ok);border-color:#0b5a33}.flag.on{color:var(--warn);border-color:#6b4a00}
 details{margin-top:6px}summary{color:var(--accent);font-size:12px;cursor:pointer}.tr h4{color:var(--accent);margin:8px 0 2px;font-size:12px}.tr{font-size:11px;overflow-x:auto}
 pre{white-space:pre-wrap;word-break:break-word;font-size:10px;background:#0a1320;padding:6px;border-radius:6px;max-height:340px;overflow:auto}
