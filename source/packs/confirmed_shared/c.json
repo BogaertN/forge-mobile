@@ -15,6 +15,18 @@
    "evidence": "geography · product curator · Canada · cs_c_canada_01"
   },
   {
+   "id": "cs_c_canada_02",
+   "text": "Canada is the second largest country by total area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Canada · cs_c_canada_02"
+  },
+  {
+   "id": "cs_c_china_01",
+   "text": "China is a very populous country",
+   "standing": "projectable",
+   "evidence": "geography · product curator · China · cs_c_china_01"
+  },
+  {
    "id": "cs_c_chile_01",
    "text": "Santiago is the capital of Chile",
    "standing": "projectable",
@@ -81,6 +93,24 @@
    "evidence": "geography · product curator · Caribbean Sea · cs_c_caribbean_sea_01"
   },
   {
+   "id": "cs_c_congo_river_01",
+   "text": "The Congo is in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Congo River · cs_c_congo_river_01"
+  },
+  {
+   "id": "cs_c_colorado_river_01",
+   "text": "The Colorado carved the Grand Canyon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Colorado River · cs_c_colorado_river_01"
+  },
+  {
+   "id": "cs_c_california_01",
+   "text": "California has the largest population of any state",
+   "standing": "projectable",
+   "evidence": "geography · product curator · California · cs_c_california_01"
+  },
+  {
    "id": "cs_c_california_02",
    "text": "Sacramento is the capital of California",
    "standing": "projectable",
@@ -97,6 +127,12 @@
    "text": "Denver is the capital of Colorado",
    "standing": "projectable",
    "evidence": "geography · product curator · Colorado · cs_c_colorado_01"
+  },
+  {
+   "id": "cs_c_continent_01",
+   "text": "The Earth has seven continents",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Continent · cs_c_continent_01"
   },
   {
    "id": "cs_c_carbon_01",
@@ -165,6 +201,12 @@
    "evidence": "science · product curator · Cell · cs_c_cell_01"
   },
   {
+   "id": "cs_c_chlorophyll_01",
+   "text": "Chlorophyll makes plants green",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chlorophyll · cs_c_chlorophyll_01"
+  },
+  {
    "id": "cs_c_chromosome_01",
    "text": "Human body cells typically have 46 chromosomes",
    "standing": "projectable",
@@ -199,6 +241,12 @@
    "text": "The crust is Earth's outermost solid layer",
    "standing": "projectable",
    "evidence": "science · product curator · Crust · cs_c_crust_01"
+  },
+  {
+   "id": "cs_c_core_01",
+   "text": "The core of the Earth is mostly iron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Core · cs_c_core_01"
   },
   {
    "id": "cs_c_ceres_01",
@@ -237,6 +285,12 @@
    "evidence": "science · product curator · Celsius · cs_c_celsius_02"
   },
   {
+   "id": "cs_c_camel_02",
+   "text": "A Bactrian camel has two humps",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Camel · cs_c_camel_02"
+  },
+  {
    "id": "cs_c_crocodile_01",
    "text": "Crocodiles are reptiles",
    "standing": "projectable",
@@ -253,6 +307,12 @@
    "text": "Cows are ruminants",
    "standing": "projectable",
    "evidence": "nature · product curator · Cow · cs_c_cow_01"
+  },
+  {
+   "id": "cs_c_coral_01",
+   "text": "Coral reefs are built by tiny animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Coral · cs_c_coral_01"
   },
   {
    "id": "cs_c_chameleon_01",
@@ -289,6 +349,12 @@
    "text": "Octopuses are cephalopods",
    "standing": "projectable",
    "evidence": "nature · product curator · Cephalopod · cs_c_cephalopod_01"
+  },
+  {
+   "id": "cs_c_caesar_julius_01",
+   "text": "Caesar was assassinated in Rome",
+   "standing": "projectable",
+   "evidence": "history · product curator · Caesar, Julius · cs_c_caesar_julius_01"
   },
   {
    "id": "cs_c_columbus_christopher_01",
@@ -339,10 +405,46 @@
    "evidence": "history · product curator · Civil War, American · cs_c_civil_war_american_01"
   },
   {
+   "id": "cs_c_charlemagne_01",
+   "text": "Charlemagne was crowned emperor in 800",
+   "standing": "projectable",
+   "evidence": "history · product curator · Charlemagne · cs_c_charlemagne_01"
+  },
+  {
+   "id": "cs_c_constitution_us_01",
+   "text": "The American Constitution was signed in 1787",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Constitution, US · cs_c_constitution_us_01"
+  },
+  {
+   "id": "cs_c_congress_us_01",
+   "text": "The American Congress consists of the Senate and the House of Representatives",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Congress, US · cs_c_congress_us_01"
+  },
+  {
    "id": "cs_c_cabinet_01",
    "text": "A cabinet is a body of senior government officials",
    "standing": "projectable",
    "evidence": "civics · product curator · Cabinet · cs_c_cabinet_01"
+  },
+  {
+   "id": "cs_c_census_01",
+   "text": "The American census happens every ten years",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Census · cs_c_census_01"
+  },
+  {
+   "id": "cs_c_chinese_01",
+   "text": "Mandarin has the largest number of native speakers",
+   "standing": "projectable",
+   "evidence": "language · product curator · Chinese · cs_c_chinese_01"
+  },
+  {
+   "id": "cs_c_chess_01",
+   "text": "A chess board has 64 squares",
+   "standing": "projectable",
+   "evidence": "general · product curator · Chess · cs_c_chess_01"
   },
   {
    "id": "cs_c_chess_02",
@@ -387,6 +489,12 @@
    "evidence": "science · product curator · Copper · cs_c_copper_03"
   },
   {
+   "id": "cs_c_coral_02",
+   "text": "Coral reefs are made by small animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Coral · cs_c_coral_02"
+  },
+  {
    "id": "cs_c_condor_01",
    "text": "The Andean condor is one of the largest flying birds",
    "standing": "projectable",
@@ -403,6 +511,12 @@
    "text": "N'Djamena is the capital of Chad",
    "standing": "projectable",
    "evidence": "geography · product curator · Chad · cs_c_chad_01"
+  },
+  {
+   "id": "cs_c_cyprus_01",
+   "text": "Cyprus is an island in the Mediterranean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cyprus · cs_c_cyprus_01"
   },
   {
    "id": "cs_c_colombo_01",
@@ -423,6 +537,12 @@
    "evidence": "geography · product curator · Corsica · cs_c_corsica_01"
   },
   {
+   "id": "cs_c_crete_01",
+   "text": "Crete is the largest island of Greece",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Crete · cs_c_crete_01"
+  },
+  {
    "id": "cs_c_cardinal_01",
    "text": "The northern cardinal male has bright red plumage",
    "standing": "projectable",
@@ -433,6 +553,12 @@
    "text": "Clams are bivalve mollusks",
    "standing": "projectable",
    "evidence": "nature · product curator · Clam · cs_c_clam_01"
+  },
+  {
+   "id": "cs_c_cricket_01",
+   "text": "Male crickets chirp with their wings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cricket · cs_c_cricket_01"
   },
   {
    "id": "cs_c_crow_01",

@@ -15,10 +15,22 @@
    "evidence": "geography · product curator · Africa · cs_a_africa_01"
   },
   {
+   "id": "cs_a_africa_02",
+   "text": "Africa is the second largest continent by land area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Africa · cs_a_africa_02"
+  },
+  {
    "id": "cs_a_asia_01",
    "text": "Asia is the largest continent by land area",
    "standing": "projectable",
    "evidence": "geography · product curator · Asia · cs_a_asia_01"
+  },
+  {
+   "id": "cs_a_asia_02",
+   "text": "Asia has the largest population of any continent",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Asia · cs_a_asia_02"
   },
   {
    "id": "cs_a_antarctica_01",
@@ -45,6 +57,42 @@
    "evidence": "geography · product curator · Australia · cs_a_australia_02"
   },
   {
+   "id": "cs_a_atlantic_ocean_01",
+   "text": "The Atlantic Ocean is the second largest ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Atlantic Ocean · cs_a_atlantic_ocean_01"
+  },
+  {
+   "id": "cs_a_atlantic_ocean_02",
+   "text": "The Atlantic Ocean lies east of the Americas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Atlantic Ocean · cs_a_atlantic_ocean_02"
+  },
+  {
+   "id": "cs_a_arctic_ocean_01",
+   "text": "The Arctic Ocean is the smallest ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Arctic Ocean · cs_a_arctic_ocean_01"
+  },
+  {
+   "id": "cs_a_amazon_river_01",
+   "text": "The Amazon flows through South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Amazon River · cs_a_amazon_river_01"
+  },
+  {
+   "id": "cs_a_amazon_river_02",
+   "text": "The Amazon empties into the Atlantic Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Amazon River · cs_a_amazon_river_02"
+  },
+  {
+   "id": "cs_a_amazon_rainforest_01",
+   "text": "The Amazon is the largest tropical forest",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Amazon rainforest · cs_a_amazon_rainforest_01"
+  },
+  {
    "id": "cs_a_andes_01",
    "text": "The Andes is a mountain range in South America",
    "standing": "projectable",
@@ -55,6 +103,12 @@
    "text": "The Alps is a mountain range in Europe",
    "standing": "projectable",
    "evidence": "geography · product curator · Alps · cs_a_alps_01"
+  },
+  {
+   "id": "cs_a_appalachian_mountains_01",
+   "text": "The Appalachian Mountains are in North America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Appalachian Mountains · cs_a_appalachian_mountains_01"
   },
   {
    "id": "cs_a_argentina_01",
@@ -111,6 +165,12 @@
    "evidence": "geography · product curator · Ankara · cs_a_ankara_01"
   },
   {
+   "id": "cs_a_alaska_01",
+   "text": "Alaska is the largest state in the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Alaska · cs_a_alaska_01"
+  },
+  {
    "id": "cs_a_alaska_02",
    "text": "The United States purchased Alaska from Russia in 1867",
    "standing": "projectable",
@@ -165,6 +225,18 @@
    "evidence": "science · product curator · Aluminium · cs_a_aluminium_01"
   },
   {
+   "id": "cs_a_aluminium_02",
+   "text": "Aluminium is the commonest metal in the crust of the Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aluminium · cs_a_aluminium_02"
+  },
+  {
+   "id": "cs_a_arsenic_01",
+   "text": "Arsenic is a chemical element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Arsenic · cs_a_arsenic_01"
+  },
+  {
    "id": "cs_a_americium_01",
    "text": "Americium is a synthetic radioactive element",
    "standing": "projectable",
@@ -201,6 +273,18 @@
    "evidence": "science · product curator · Acceleration · cs_a_acceleration_01"
   },
   {
+   "id": "cs_a_atmosphere_01",
+   "text": "Nitrogen makes up most of the air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_01"
+  },
+  {
+   "id": "cs_a_atmosphere_02",
+   "text": "Oxygen is the second commonest gas in the atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_02"
+  },
+  {
    "id": "cs_a_asteroid_belt_01",
    "text": "The main asteroid belt lies between Mars and Jupiter",
    "standing": "projectable",
@@ -219,10 +303,28 @@
    "evidence": "science · product curator · Andromeda Galaxy · cs_a_andromeda_galaxy_02"
   },
   {
+   "id": "cs_a_apollo_11_01",
+   "text": "Apollo Eleven landed on the Moon in 1969",
+   "standing": "projectable",
+   "evidence": "history · product curator · Apollo 11 · cs_a_apollo_11_01"
+  },
+  {
    "id": "cs_a_armstrong_neil_01",
    "text": "Neil Armstrong was the first person to walk on the Moon",
    "standing": "projectable",
    "evidence": "history · product curator · Armstrong, Neil · cs_a_armstrong_neil_01"
+  },
+  {
+   "id": "cs_a_aldrin_buzz_01",
+   "text": "Aldrin walked on the Moon in 1969",
+   "standing": "projectable",
+   "evidence": "history · product curator · Aldrin, Buzz · cs_a_aldrin_buzz_01"
+  },
+  {
+   "id": "cs_a_antibiotic_01",
+   "text": "Antibiotics kill bacteria",
+   "standing": "projectable",
+   "evidence": "science · product curator · Antibiotic · cs_a_antibiotic_01"
   },
   {
    "id": "cs_a_artery_01",
@@ -303,6 +405,18 @@
    "evidence": "nature · product curator · Acorn · cs_a_acorn_01"
   },
   {
+   "id": "cs_a_aristotle_01",
+   "text": "Aristotle was a Greek philosopher",
+   "standing": "projectable",
+   "evidence": "history · product curator · Aristotle · cs_a_aristotle_01"
+  },
+  {
+   "id": "cs_a_alexander_the_great_01",
+   "text": "Alexander was king of Macedon",
+   "standing": "projectable",
+   "evidence": "history · product curator · Alexander the Great · cs_a_alexander_the_great_01"
+  },
+  {
    "id": "cs_a_augustus_01",
    "text": "Augustus was the first Roman emperor",
    "standing": "projectable",
@@ -357,6 +471,12 @@
    "evidence": "math · product curator · Angle · cs_a_angle_01"
   },
   {
+   "id": "cs_a_acute_angle_01",
+   "text": "An acute angle is smaller than a right angle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Acute angle · cs_a_acute_angle_01"
+  },
+  {
    "id": "cs_a_addition_01",
    "text": "Addition is commutative",
    "standing": "projectable",
@@ -367,6 +487,24 @@
    "text": "The arithmetic mean is the sum of values divided by their count",
    "standing": "projectable",
    "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_01"
+  },
+  {
+   "id": "cs_a_amendment_01",
+   "text": "The First Amendment to the American Constitution protects freedom of speech",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_01"
+  },
+  {
+   "id": "cs_a_amendment_02",
+   "text": "The American Constitution has 27 amendments",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_02"
+  },
+  {
+   "id": "cs_a_ambassador_01",
+   "text": "An ambassador represents a country abroad",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Ambassador · cs_a_ambassador_01"
   },
   {
    "id": "cs_a_atlas_mountains_01",

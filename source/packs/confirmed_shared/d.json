@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 102,
+ "curated_facts": 104,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -51,6 +51,18 @@
    "evidence": "geography · product curator · Danube · cs_d_danube_01"
   },
   {
+   "id": "cs_d_danube_02",
+   "text": "The Danube is the second longest river in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Danube · cs_d_danube_02"
+  },
+  {
+   "id": "cs_d_dead_sea_01",
+   "text": "The Dead Sea is the lowest place on land",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dead Sea · cs_d_dead_sea_01"
+  },
+  {
    "id": "cs_d_dead_sea_02",
    "text": "The Dead Sea is extremely salty",
    "standing": "projectable",
@@ -79,6 +91,12 @@
    "text": "A desert receives very little precipitation",
    "standing": "projectable",
    "evidence": "geography · product curator · Desert · cs_d_desert_02"
+  },
+  {
+   "id": "cs_d_delta_01",
+   "text": "A river deposits sediment at its delta",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Delta · cs_d_delta_01"
   },
   {
    "id": "cs_d_dna_01",
@@ -115,6 +133,18 @@
    "text": "Pluto is classified as a dwarf planet",
    "standing": "projectable",
    "evidence": "science · product curator · Dwarf planet · cs_d_dwarf_planet_01"
+  },
+  {
+   "id": "cs_d_diffusion_01",
+   "text": "Particles spread from high concentration to low concentration in diffusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_01"
+  },
+  {
+   "id": "cs_d_digestion_01",
+   "text": "Digestion breaks food into nutrients",
+   "standing": "projectable",
+   "evidence": "science · product curator · Digestion · cs_d_digestion_01"
   },
   {
    "id": "cs_d_dolphin_01",
@@ -177,10 +207,28 @@
    "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_01"
   },
   {
+   "id": "cs_d_darwin_charles_02",
+   "text": "Darwin published On the Origin of Species in 1859",
+   "standing": "projectable",
+   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_02"
+  },
+  {
+   "id": "cs_d_d_day_01",
+   "text": "The Allies landed in Normandy on 6 June 1944",
+   "standing": "projectable",
+   "evidence": "history · product curator · D-Day · cs_d_d_day_01"
+  },
+  {
    "id": "cs_d_declaration_of_independence_01",
    "text": "Thomas Jefferson was the principal author of the Declaration of Independence",
    "standing": "projectable",
    "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_01"
+  },
+  {
+   "id": "cs_d_da_vinci_leonardo_01",
+   "text": "Leonardo painted the Mona Lisa",
+   "standing": "projectable",
+   "evidence": "history · product curator · Da Vinci, Leonardo · cs_d_da_vinci_leonardo_01"
   },
   {
    "id": "cs_d_dickens_charles_01",
@@ -223,6 +271,18 @@
    "text": "Division by zero is undefined",
    "standing": "projectable",
    "evidence": "math · product curator · Division · cs_d_division_01"
+  },
+  {
+   "id": "cs_d_democracy_01",
+   "text": "Citizens choose leaders by voting in a democracy",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Democracy · cs_d_democracy_01"
+  },
+  {
+   "id": "cs_d_dollar_01",
+   "text": "The American dollar is the currency of the United States",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Dollar · cs_d_dollar_01"
   },
   {
    "id": "cs_d_djibouti_01",
@@ -279,6 +339,18 @@
    "evidence": "geography · product curator · Detroit · cs_d_detroit_01"
   },
   {
+   "id": "cs_d_dnieper_01",
+   "text": "The Dnieper flows into the Black Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dnieper · cs_d_dnieper_01"
+  },
+  {
+   "id": "cs_d_drakensberg_01",
+   "text": "The Drakensberg is a mountain range in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Drakensberg · cs_d_drakensberg_01"
+  },
+  {
    "id": "cs_d_dune_01",
    "text": "A dune is a hill of sand formed by wind or water",
    "standing": "projectable",
@@ -289,6 +361,12 @@
    "text": "Deimos is one of the two moons of Mars",
    "standing": "projectable",
    "evidence": "science · product curator · Deimos · cs_d_deimos_01"
+  },
+  {
+   "id": "cs_d_day_01",
+   "text": "A day lasts about 24 hours",
+   "standing": "projectable",
+   "evidence": "science · product curator · Day · cs_d_day_01"
   },
   {
    "id": "cs_d_dew_01",
@@ -309,6 +387,12 @@
    "evidence": "science · product curator · Dry ice · cs_d_dry_ice_01"
   },
   {
+   "id": "cs_d_dry_ice_02",
+   "text": "Dry ice turns directly from solid to gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dry ice · cs_d_dry_ice_02"
+  },
+  {
    "id": "cs_d_dysprosium_01",
    "text": "Dysprosium has the chemical symbol Dy",
    "standing": "projectable",
@@ -325,6 +409,12 @@
    "text": "The Doppler effect is the change in frequency of a wave due to motion of the source or observer",
    "standing": "projectable",
    "evidence": "science · product curator · Doppler effect · cs_d_doppler_effect_01"
+  },
+  {
+   "id": "cs_d_donkey_01",
+   "text": "The donkey belongs to the horse family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Donkey · cs_d_donkey_01"
   },
   {
    "id": "cs_d_daisy_01",
@@ -369,6 +459,12 @@
    "evidence": "math · product curator · Degree · cs_d_degree_01"
   },
   {
+   "id": "cs_d_digit_01",
+   "text": "The decimal system uses ten digits",
+   "standing": "projectable",
+   "evidence": "math · product curator · Digit · cs_d_digit_01"
+  },
+  {
    "id": "cs_d_dune_02",
    "text": "A dune is a hill of sand formed by wind",
    "standing": "projectable",
@@ -387,10 +483,28 @@
    "evidence": "nature · product curator · Drought · cs_d_drought_01"
   },
   {
+   "id": "cs_d_duck_02",
+   "text": "Ducks have webbed feet",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Duck · cs_d_duck_02"
+  },
+  {
+   "id": "cs_d_dormouse_01",
+   "text": "The dormouse is a rodent",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dormouse · cs_d_dormouse_01"
+  },
+  {
    "id": "cs_d_diamond_03",
    "text": "Diamond is a form of carbon",
    "standing": "projectable",
    "evidence": "science · product curator · Diamond · cs_d_diamond_03"
+  },
+  {
+   "id": "cs_d_dew_point_01",
+   "text": "Dew forms when air cools to the dew point",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dew point · cs_d_dew_point_01"
   },
   {
    "id": "cs_d_dynamite_01",
@@ -403,6 +517,12 @@
    "text": "Dominica is an island nation in the Caribbean",
    "standing": "projectable",
    "evidence": "geography · product curator · Dominica · cs_d_dominica_02"
+  },
+  {
+   "id": "cs_d_dolomites_01",
+   "text": "The Dolomites are mountains in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dolomites · cs_d_dolomites_01"
   },
   {
    "id": "cs_d_drizzle_01",
@@ -427,6 +547,18 @@
    "text": "The Douglas fir is a conifer of western North America",
    "standing": "projectable",
    "evidence": "nature · product curator · Douglas fir · cs_d_douglas_fir_01"
+  },
+  {
+   "id": "cs_d_dhaka_01",
+   "text": "Dhaka is the capital of Bangladesh",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dhaka · cs_d_dhaka_01"
+  },
+  {
+   "id": "cs_d_denmark_02",
+   "text": "Copenhagen is the capital of Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Denmark · cs_d_denmark_02"
   }
  ]
 }
