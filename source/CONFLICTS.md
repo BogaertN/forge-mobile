@@ -1151,3 +1151,11 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (6) Starter onboarding. A one-liner names starter_pack. Clear starter knowledge and Import confirmed facts stay reachable on Memory.
 - Parked: deep IA rewrite, Soft Echo, marketplace/LLM skins, shared KB write.
 
+
+## v4.9.127 — gated confirmed_shared + letter packs A–Z (Nic 2026-10-27)
+- Design sources: BRIEF_4.9.127_CONFIRMED_SHARED; curated drafts under kernel-papers/oct25/confirmed_shared_packs/ (letter_a…letter_z); README distributed confirmed path. Echo stays exact. Soft Echo stays parked. Scrapbook shared_knowledge stays empty. No language model. Soft budget stays ≤1.920 MB / ≤570 kB gzip; packs stay hosted, not inside single-file gzip.
+- (1) Gate. A new on-device store `confirmed_shared` admits FORGE-CONFIRMED-PACK/v1 items with provenance `confirmed_shared` and rule CONFIRMED-SHARED. Product-curator packs admit projectable/confirmed without a user tap. Contested/quarantine stay held until Admit. Receipts reuse FORGE-IMPORT-RECEIPT/v1. Shared_kb / write_shared flags refuse.
+- (2) Letter packs A–Z. Hosted `packs/confirmed_shared/{a…z,index}.json` on Pages (FORGE-CONFIRMED-SHARED-INDEX/v1 lists letters; app fetches each pack without baking them into single-file gzip). First open / Refresh shared confirmed admits every indexed letter. Offline keeps the last-good cache. CREATE, COMPOSE, and SIMULATE never auto-write confirmed_shared.
+- (3) Anchor priority. Invent and compose prefer user memory, then confirmed_shared, then import_pack, then starter_pack. Speech names the confirmed pack. Audit census shows confirmed_shared. UI never says shared KB.
+- A scrapbook shared-knowledge write was not started and stays next. Out of scope: Genesis, HCS, marketplace, agents, fluency, Soft Echo, a deep IA rewrite, hardware SPC, ChristPing, EchoForge as authority.
+- Tests: `verify/r4127_suite.js`, written failing first. Targeted gate adds that suite. HELDOUT untouched.
