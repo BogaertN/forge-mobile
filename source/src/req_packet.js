@@ -78,6 +78,13 @@
     echo: 'an Echo miss blocks the expansion and stores nothing',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.123 and leave the confirmed-facts design unstarted'
   };
+  const I = {
+    seed: 'a cleared starter leaves invent unbound and an installed starter anchors invent',
+    compose: 'compose uses starter anchors and names starter pack provenance',
+    clear: 'Clear starter knowledge restores unbound invent and does not write memory or shared knowledge',
+    audit: 'Audit and the starter view name starter_pack and creative paths do not store confirmed facts',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.124 and leave import and a shared write unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -106,6 +113,9 @@
     ] },
     { schema: SCHEMA, release: '4.9.123', requirements: [
       { id: 'R4123-COMPOSE', statement: 'COMPOSE expands a staged idea or a selected meaning into several Language Core sentences that develop the idea. The paragraph exact-Echoes. Claim status stays visible. Memory, the world head, and the shared KB stay unchanged.', falsify: 'Compose only restates the claim, a compose phrase is READ or EXPLAIN, the expansion writes memory, the world head, or the shared KB, or a refusal stores a row.', tests: [L('R4123.expand', 'r4123_suite.js', 'R4123', H.expand, 'POSITIVE'), L('R4123.phrase', 'r4123_suite.js', 'R4123', H.phrase, 'POSITIVE'), L('R4123.quarantine', 'r4123_suite.js', 'R4123', H.quarantine, 'ADVERSARIAL'), L('R4123.refuse', 'r4123_suite.js', 'R4123', H.refuse, 'NEGATIVE'), L('R4123.meaning', 'r4123_suite.js', 'R4123', H.meaning, 'POSITIVE'), L('R4123.echo', 'r4123_suite.js', 'R4123', H.echo, 'ADVERSARIAL'), L('R4123.ver', 'r4123_suite.js', 'R4123', H.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.124', requirements: [
+      { id: 'R4124-SEED', statement: 'A small on-device starter pack is confirmed on first open. CREATE and COMPOSE use it when memory has no anchors. Provenance is starter_pack. Clear starter knowledge removes it. Memory and the shared KB stay unchanged.', falsify: 'A fresh invent is unbound while the pack is present, compose says the user told the kernel, Clear writes memory or shared knowledge, or a creative path stores a confirmed fact.', tests: [L('R4124.seed', 'r4124_suite.js', 'R4124', I.seed, 'POSITIVE'), L('R4124.compose', 'r4124_suite.js', 'R4124', I.compose, 'POSITIVE'), L('R4124.clear', 'r4124_suite.js', 'R4124', I.clear, 'NEGATIVE'), L('R4124.audit', 'r4124_suite.js', 'R4124', I.audit, 'ADVERSARIAL'), L('R4124.ver', 'r4124_suite.js', 'R4124', I.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };

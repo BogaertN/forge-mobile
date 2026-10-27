@@ -74,7 +74,9 @@
   function categoryPanel(load) {
     const c = census(load);
     const rows = DOC7_IDS.map(id => '<div data-doc7-cat="' + id + '"><b>' + esc(DOC7_LABEL[id]) + '</b> ' + c.counts[id] + '</div>').join('');
-    return '<div class="card" data-doc7-census><div class="cardhead">Doc 7 categories</div><div class="small">Language corpus ≠ Evidence ≠ Memory ≠ Trace/receipt ≠ Authority records. ' + esc(PRESENCE_LAW) + '.</div>' + rows + '<div data-doc7-shared>Shared knowledge ' + c.shared_knowledge + (c.shared_knowledge ? '' : ' · empty') + '. A lookup is not written here.</div></div>';
+    let starter = '';
+    try { const st = load('starter_pack'); if (st && !Array.isArray(st)) starter = '<div data-starter-pack>Starter knowledge ' + (st.status === 'present' ? 'present' : 'cleared') + '. Provenance starter_pack.</div>'; } catch (e) { starter = ''; }
+    return '<div class="card" data-doc7-census><div class="cardhead">Doc 7 categories</div><div class="small">Language corpus ≠ Evidence ≠ Memory ≠ Trace/receipt ≠ Authority records. ' + esc(PRESENCE_LAW) + '.</div>' + rows + '<div data-doc7-shared>Shared knowledge ' + c.shared_knowledge + (c.shared_knowledge ? '' : ' · empty') + '. A lookup is not written here.</div>' + starter + '</div>';
   }
   function doc7HTML(d) {
     if (!d || !d.present) return '';

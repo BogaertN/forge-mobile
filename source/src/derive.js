@@ -15,11 +15,11 @@ const NOUNS = new Set(words('network error conversion paper method explanation a
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question proposal ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
-  'failure relation sign code divisor limit limitation subject predicate verb role greeting farewell thanks correction vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker rate assumption sensor adverb effect measurement prediction bound mechanism paragraph idea'));
+  'failure relation sign code divisor limit limitation subject predicate verb role greeting farewell thanks correction vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker rate assumption sensor adverb effect measurement prediction bound mechanism paragraph idea pack'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences', hypothesis: 'hypotheses' };
 const ADJ = new Set(words('clean elevated hard correction stop first draft candidate starting conditional ranked shared second Wikipedia related other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
-  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete contested'));
+  'several online simplified expanded controlled local encrypted locked unlocked hidden empty inconsistent advisory disabled clarification echo missing possible sealed family WordNet dream limited correct same additional checked complete contested starter'));
 const PREVERB_ADV = new Set(['also', 'only', 'still', 'already', 'never', 'no-longer', 'now', 'later']);
 const POSTVERB_ADV = new Set(['directly', 'further', 'again', 'exactly', 'normally', 'unambiguously', 'here', 'yet', 'first', 'locally']);
 const PARTICLES = new Set(['yes', 'no', 'partly', 'hello', 'goodbye', 'please']);
@@ -321,6 +321,7 @@ const pr = p => ({ pr: p }), N = (n, o) => Object.assign({ n }, o || {}), U = a 
 const C = (v, o) => Object.assign({ v, tense: 'pres', pol: 'pos' }, o || {}); const S = (c, o) => Object.assign({ c, force: 'decl' }, o || {}); const MS = (items, o) => Object.assign({ mth: items, force: 'decl' }, o || {});
 const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && (s.pron === 'user' || /^(?:i|me|myself)$/i.test(String(s.propn || s.name || s.head || s.n || ''))) ? YOU : s && s.pron3 && !s.boundOrig ? pr(s.pron3) : U(s); /* 4.9.79: a third-person pronoun is realized as a pronoun, so its case follows its position (about her, not "about she") */
 const told = cl => cl && cl.shared ? sharedStep(cl.shared) : S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
+const starterTold = cl => S(C('state', { karta: N('pack', { det: 'the', adj: ['starter'] }), comp: { that: UC(cl) } }));
 /* a shared (GKS) premise in a proof chain is labelled by its source and class verb: primary/reviewed "states", secondary "reports", weak "claims" (4.9.43) */
 const sharedStep = sh => S(C(sh.cls === 'secondary' ? 'report' : sh.cls === 'weak_unverified' ? 'claim' : 'state', { karta: Mn(sh.source), karma: Mn(String(sh.text).replace(/[.]$/, '')) }));
 const coldStorage = () => N('storage', { adj: ['cold'] });
@@ -545,8 +546,9 @@ function dynPlan(m) { const out = [];
 /* 4.9.120: one plan for a spoken idea and for a typed refusal. The claim texts and the status are mentions. */
 function creativePlan(m) {
   const items = m.items || [];
+  const from = m.anchor_kind === 'starter_pack' ? N('pack', { det: 'the', adj: ['starter'] }) : N('fact', { poss: 'your', pl: true });
   const head = items.length
-    ? S(C('derive', { karta: I, karma: N('hypothesis', { cnt: items.length, list: { kind: 'mention', items } }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }))
+    ? S(C('derive', { karta: I, karma: N('hypothesis', { cnt: items.length, list: { kind: 'mention', items } }), roles: { apadana: from }, tense: 'past' }))
     : S(C('derive', { karta: I, karma: N('hypothesis', { det: 'no' }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }));
   const stored = S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }));
   const seal = items.length ? [S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }))] : [];
@@ -565,7 +567,8 @@ function composePlan(m) {
   const ex = m.expand || {};
   const developed = [];
   if (ex.clause) developed.push(clauseSentence(ex.clause));
-  for (const a of ex.anchors || []) if (a) developed.push(told(a));
+  const sayAnchor = ex.anchor_kind === 'starter_pack' ? starterTold : told;
+  for (const a of ex.anchors || []) if (a) developed.push(sayAnchor(a));
   for (const r of ex.roles || []) if (r && r.role && r.term) developed.push(S(C('hold', { karta: N(r.role, { det: 'the' }), karma: N('role', { det: 'the', app: Mn(r.term) }) })));
   if (ex.frame) developed.push(S(C('hold', { karta: N('frame', { det: 'the' }), karma: N('role', { det: 'the', app: Mn(ex.frame) }) })));
   if (ex.gloss && ex.gloss.term && ex.gloss.text) developed.push(S(C('mean', { karta: N('definition', { det: 'the', of: Mn(ex.gloss.term) }), karma: Mn(ex.gloss.text) })));
