@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 91,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -99,22 +99,10 @@
    "evidence": "science · product curator · Fossil · cs_f_fossil_01"
   },
   {
-   "id": "cs_f_fossil_fuel_01",
-   "text": "coal, oil, and natural gas are fossil fuels",
-   "standing": "projectable",
-   "evidence": "science · product curator · Fossil fuel · cs_f_fossil_fuel_01"
-  },
-  {
    "id": "cs_f_fusion_01",
    "text": "The Sun is powered by nuclear fusion",
    "standing": "projectable",
    "evidence": "science · product curator · Fusion · cs_f_fusion_01"
-  },
-  {
-   "id": "cs_f_freezing_point_01",
-   "text": "pure water freezes at 32 degrees Fahrenheit at sea-level pressure",
-   "standing": "projectable",
-   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_01"
   },
   {
    "id": "cs_f_fahrenheit_01",
@@ -433,6 +421,36 @@
    "text": "The First Amendment protects freedom of religion",
    "standing": "projectable",
    "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_01"
+  },
+  {
+   "id": "cs_f_florida_keys_01",
+   "text": "The Florida Keys are a chain of islands in Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida Keys · cs_f_florida_keys_01"
+  },
+  {
+   "id": "cs_f_friction_02",
+   "text": "Friction is a force that opposes motion between surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_02"
+  },
+  {
+   "id": "cs_f_fungus_03",
+   "text": "Mushrooms are the fruiting bodies of some fungi",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fungus · cs_f_fungus_03"
+  },
+  {
+   "id": "cs_f_fern_02",
+   "text": "Ferns reproduce using spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_02"
+  },
+  {
+   "id": "cs_f_fruit_bat_01",
+   "text": "Fruit bats eat fruit and nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit bat · cs_f_fruit_bat_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -343,6 +343,84 @@
    "text": "An ice hockey team has six players on the ice at a time",
    "standing": "projectable",
    "evidence": "general · product curator · Hockey · cs_h_hockey_01"
+  },
+  {
+   "id": "cs_h_hydrogen_04",
+   "text": "Hydrogen is the lightest chemical element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_04"
+  },
+  {
+   "id": "cs_h_habitat_01",
+   "text": "A habitat is the natural home of an organism",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Habitat · cs_h_habitat_01"
+  },
+  {
+   "id": "cs_h_hyena_02",
+   "text": "Hyenas live in Africa and parts of Asia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hyena · cs_h_hyena_02"
+  },
+  {
+   "id": "cs_h_hornet_01",
+   "text": "Hornets are a type of wasp",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hornet · cs_h_hornet_01"
+  },
+  {
+   "id": "cs_h_heron_02",
+   "text": "Herons are long-legged wading birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Heron · cs_h_heron_02"
+  },
+  {
+   "id": "cs_h_habeas_corpus_01",
+   "text": "Habeas corpus protects against unlawful detention",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Habeas corpus · cs_h_habeas_corpus_01"
+  },
+  {
+   "id": "cs_h_hobart_01",
+   "text": "Hobart is the capital of Tasmania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hobart · cs_h_hobart_01"
+  },
+  {
+   "id": "cs_h_hamburg_01",
+   "text": "Hamburg is a port city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hamburg · cs_h_hamburg_01"
+  },
+  {
+   "id": "cs_h_hispaniola_01",
+   "text": "Haiti and the Dominican Republic share the island of Hispaniola",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hispaniola · cs_h_hispaniola_01"
+  },
+  {
+   "id": "cs_h_halibut_01",
+   "text": "Halibut are large flatfish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Halibut · cs_h_halibut_01"
+  },
+  {
+   "id": "cs_h_hazel_01",
+   "text": "Hazel trees produce hazelnuts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hazel · cs_h_hazel_01"
+  },
+  {
+   "id": "cs_h_hibiscus_01",
+   "text": "Hibiscus plants have large showy flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hibiscus · cs_h_hibiscus_01"
+  },
+  {
+   "id": "cs_h_hyacinth_01",
+   "text": "Hyacinths grow from bulbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hyacinth · cs_h_hyacinth_01"
   }
  ]
 }
