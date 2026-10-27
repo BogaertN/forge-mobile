@@ -95,6 +95,16 @@
     budget: 'the single-file budget stays within 1.920 MB raw and 570 kB gzip',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.125 and leave a shared write unstarted'
   };
+  const K = {
+    chrome: 'chrome, nav, typography, and spacing carry the calm shell markers',
+    pills: 'Doc 7 status pills and calm empty states name projectable contested quarantine hypothesis',
+    discover: 'Ask shows invent and compose discoverability one-liners without hiding them behind Advanced',
+    next: 'UNSUPPORTED and dead-end turns show a gentle next-step redirect',
+    onboard: 'starter onboarding one-liner names starter_pack and keeps Clear starter knowledge reachable',
+    reach: 'non-negotiables stay reachable: gates, packet export, Audit, Ideas tap, Remember, invent/compose/suppose, Clear starter, Import',
+    budget: 'the single-file budget stays within 1.920 MB raw and 570 kB gzip',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA rewrite and a shared write unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -129,6 +139,11 @@
     ] },
     { schema: SCHEMA, release: '4.9.125', requirements: [
       { id: 'R4125-IMPORT', statement: 'A person can load a confirmed pack. Confirmed items are admitted. Contested items stay held until a tap. A bad pack is a typed refusal. Import does not write shared knowledge.', falsify: 'A valid pack writes shared knowledge, a contested item is projectable before a tap, a bad pack is admitted, invent ignores a newly admitted anchor, or a creative path stores a confirmed fact.', tests: [L('R4125.admit', 'r4125_suite.js', 'R4125', J.admit, 'POSITIVE'), L('R4125.hold', 'r4125_suite.js', 'R4125', J.hold, 'ADVERSARIAL'), L('R4125.refuse', 'r4125_suite.js', 'R4125', J.refuse, 'NEGATIVE'), L('R4125.anchor', 'r4125_suite.js', 'R4125', J.anchor, 'POSITIVE'), L('R4125.quiet', 'r4125_suite.js', 'R4125', J.quiet, 'NEGATIVE'), L('R4125.audit', 'r4125_suite.js', 'R4125', J.audit, 'ADVERSARIAL'), L('R4125.budget', 'r4125_suite.js', 'R4125', J.budget, 'REGRESSION'), L('R4125.ver', 'r4125_suite.js', 'R4125', J.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.126', requirements: [
+      { id: 'R4126-SHELL', statement: 'Calm chrome, Doc 7 status pills, and empty states with one next step. Power surfaces stay reachable. Soft budget unchanged.', falsify: 'A power surface is removed, Doc 7 pills are absent, empty states hide the next step, or the soft budget rises.', tests: [L('R4126.chrome', 'r4126_suite.js', 'R4126', K.chrome, 'POSITIVE'), L('R4126.pills', 'r4126_suite.js', 'R4126', K.pills, 'POSITIVE'), L('R4126.budget', 'r4126_suite.js', 'R4126', K.budget, 'REGRESSION')] },
+      { id: 'R4126-COPY', statement: 'Invent and compose discoverability one-liners stay visible. UNSUPPORTED turns show a gentle next-step redirect.', falsify: 'Invent is Advanced-only, compose is unnamed, or an unsupported turn has no next step.', tests: [L('R4126.discover', 'r4126_suite.js', 'R4126', K.discover, 'POSITIVE'), L('R4126.next', 'r4126_suite.js', 'R4126', K.next, 'ADVERSARIAL')] },
+      { id: 'R4126-REACH', statement: 'Starter onboarding names starter_pack. Clear starter knowledge and Import confirmed facts stay reachable. Shared KB stays empty. A deep IA rewrite is not started.', falsify: 'Clear starter is removed, Import is removed, shared knowledge is written, or a deep IA rewrite ships.', tests: [L('R4126.onboard', 'r4126_suite.js', 'R4126', K.onboard, 'POSITIVE'), L('R4126.reach', 'r4126_suite.js', 'R4126', K.reach, 'ADVERSARIAL'), L('R4126.ver', 'r4126_suite.js', 'R4126', K.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };
