@@ -1,0 +1,426 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_s",
+ "provenance": "confirmed_shared",
+ "letter": "S",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 84,
+ "items": [
+  {
+   "id": "cs_s_sweden_01",
+   "text": "Stockholm is the capital of Sweden",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sweden · cs_s_sweden_01"
+  },
+  {
+   "id": "cs_s_switzerland_01",
+   "text": "Switzerland is a landlocked country",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Switzerland · cs_s_switzerland_01"
+  },
+  {
+   "id": "cs_s_singapore_01",
+   "text": "Singapore is a city-state in Southeast Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Singapore · cs_s_singapore_01"
+  },
+  {
+   "id": "cs_s_south_africa_01",
+   "text": "South Africa has three capital cities",
+   "standing": "projectable",
+   "evidence": "geography · product curator · South Africa · cs_s_south_africa_01"
+  },
+  {
+   "id": "cs_s_south_korea_01",
+   "text": "Seoul is the capital of South Korea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · South Korea · cs_s_south_korea_01"
+  },
+  {
+   "id": "cs_s_serbia_01",
+   "text": "Belgrade is the capital of Serbia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Serbia · cs_s_serbia_01"
+  },
+  {
+   "id": "cs_s_slovakia_01",
+   "text": "Bratislava is the capital of Slovakia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Slovakia · cs_s_slovakia_01"
+  },
+  {
+   "id": "cs_s_somalia_01",
+   "text": "Mogadishu is the capital of Somalia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Somalia · cs_s_somalia_01"
+  },
+  {
+   "id": "cs_s_sri_lanka_01",
+   "text": "Sri Lanka is an island in the Indian Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sri Lanka · cs_s_sri_lanka_01"
+  },
+  {
+   "id": "cs_s_stockholm_01",
+   "text": "Stockholm is built on a group of islands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Stockholm · cs_s_stockholm_01"
+  },
+  {
+   "id": "cs_s_sahara_02",
+   "text": "The Sahara is the largest hot desert in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sahara · cs_s_sahara_02"
+  },
+  {
+   "id": "cs_s_siberia_01",
+   "text": "Siberia is a region of Russia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Siberia · cs_s_siberia_01"
+  },
+  {
+   "id": "cs_s_sicily_01",
+   "text": "Sicily is the largest island in the Mediterranean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sicily · cs_s_sicily_01"
+  },
+  {
+   "id": "cs_s_southern_ocean_01",
+   "text": "The Southern Ocean surrounds Antarctica",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Southern Ocean · cs_s_southern_ocean_01"
+  },
+  {
+   "id": "cs_s_suez_canal_01",
+   "text": "The Suez Canal connects the Mediterranean Sea and the Red Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Suez Canal · cs_s_suez_canal_01"
+  },
+  {
+   "id": "cs_s_suez_canal_02",
+   "text": "The Suez Canal opened in 1869",
+   "standing": "projectable",
+   "evidence": "history · product curator · Suez Canal · cs_s_suez_canal_02"
+  },
+  {
+   "id": "cs_s_superior_lake_01",
+   "text": "Lake Superior is the largest freshwater lake by surface area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Superior, Lake · cs_s_superior_lake_01"
+  },
+  {
+   "id": "cs_s_salt_lake_city_01",
+   "text": "Salt Lake City is the capital of Utah",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Salt Lake City · cs_s_salt_lake_city_01"
+  },
+  {
+   "id": "cs_s_sun_01",
+   "text": "The Sun is a star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sun · cs_s_sun_01"
+  },
+  {
+   "id": "cs_s_sun_02",
+   "text": "The Sun is at the center of the solar system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sun · cs_s_sun_02"
+  },
+  {
+   "id": "cs_s_sun_03",
+   "text": "Light from the Sun takes about eight minutes to reach Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sun · cs_s_sun_03"
+  },
+  {
+   "id": "cs_s_saturn_01",
+   "text": "Saturn is the sixth planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Saturn · cs_s_saturn_01"
+  },
+  {
+   "id": "cs_s_saturn_02",
+   "text": "Saturn has a prominent ring system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Saturn · cs_s_saturn_02"
+  },
+  {
+   "id": "cs_s_saturn_03",
+   "text": "Titan is the largest moon of Saturn",
+   "standing": "projectable",
+   "evidence": "science · product curator · Saturn · cs_s_saturn_03"
+  },
+  {
+   "id": "cs_s_solar_system_01",
+   "text": "The solar system has eight planets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Solar system · cs_s_solar_system_01"
+  },
+  {
+   "id": "cs_s_supernova_01",
+   "text": "A supernova is the explosion of a star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Supernova · cs_s_supernova_01"
+  },
+  {
+   "id": "cs_s_silicon_01",
+   "text": "Silicon has the chemical symbol Si",
+   "standing": "projectable",
+   "evidence": "science · product curator · Silicon · cs_s_silicon_01"
+  },
+  {
+   "id": "cs_s_silver_01",
+   "text": "Silver has the chemical symbol Ag",
+   "standing": "projectable",
+   "evidence": "science · product curator · Silver · cs_s_silver_01"
+  },
+  {
+   "id": "cs_s_sodium_01",
+   "text": "Sodium has the chemical symbol Na",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sodium · cs_s_sodium_01"
+  },
+  {
+   "id": "cs_s_sulfur_01",
+   "text": "Sulfur has the chemical symbol S",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sulfur · cs_s_sulfur_01"
+  },
+  {
+   "id": "cs_s_strontium_01",
+   "text": "Strontium has the chemical symbol Sr",
+   "standing": "projectable",
+   "evidence": "science · product curator · Strontium · cs_s_strontium_01"
+  },
+  {
+   "id": "cs_s_scandium_01",
+   "text": "Scandium has the chemical symbol Sc",
+   "standing": "projectable",
+   "evidence": "science · product curator · Scandium · cs_s_scandium_01"
+  },
+  {
+   "id": "cs_s_selenium_01",
+   "text": "Selenium has the chemical symbol Se",
+   "standing": "projectable",
+   "evidence": "science · product curator · Selenium · cs_s_selenium_01"
+  },
+  {
+   "id": "cs_s_sodium_chloride_01",
+   "text": "Table salt is sodium chloride",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sodium chloride · cs_s_sodium_chloride_01"
+  },
+  {
+   "id": "cs_s_speed_of_sound_01",
+   "text": "Sound travels about 343 meters per second in air at 20 degrees Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Speed of sound · cs_s_speed_of_sound_01"
+  },
+  {
+   "id": "cs_s_sound_01",
+   "text": "Sound cannot travel through a vacuum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sound · cs_s_sound_01"
+  },
+  {
+   "id": "cs_s_sublimation_01",
+   "text": "Sublimation is the change from solid directly to gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sublimation · cs_s_sublimation_01"
+  },
+  {
+   "id": "cs_s_sedimentary_rock_01",
+   "text": "Sandstone is a sedimentary rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sedimentary rock · cs_s_sedimentary_rock_01"
+  },
+  {
+   "id": "cs_s_skeleton_01",
+   "text": "The skull protects the brain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Skeleton · cs_s_skeleton_01"
+  },
+  {
+   "id": "cs_s_skin_01",
+   "text": "The skin is the largest organ of the human body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Skin · cs_s_skin_01"
+  },
+  {
+   "id": "cs_s_stomach_01",
+   "text": "The stomach produces acid to help digest food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Stomach · cs_s_stomach_01"
+  },
+  {
+   "id": "cs_s_shark_01",
+   "text": "Sharks have skeletons made of cartilage",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Shark · cs_s_shark_01"
+  },
+  {
+   "id": "cs_s_snake_01",
+   "text": "Snakes are reptiles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Snake · cs_s_snake_01"
+  },
+  {
+   "id": "cs_s_snake_02",
+   "text": "Snakes have no legs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Snake · cs_s_snake_02"
+  },
+  {
+   "id": "cs_s_spider_01",
+   "text": "Spiders spin silk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spider · cs_s_spider_01"
+  },
+  {
+   "id": "cs_s_starfish_01",
+   "text": "Starfish are echinoderms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Starfish · cs_s_starfish_01"
+  },
+  {
+   "id": "cs_s_sloth_01",
+   "text": "Sloths are native to Central and South America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sloth · cs_s_sloth_01"
+  },
+  {
+   "id": "cs_s_squirrel_01",
+   "text": "Squirrels are rodents",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Squirrel · cs_s_squirrel_01"
+  },
+  {
+   "id": "cs_s_swan_01",
+   "text": "Swans are waterfowl",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Swan · cs_s_swan_01"
+  },
+  {
+   "id": "cs_s_seal_01",
+   "text": "Seals are marine mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Seal · cs_s_seal_01"
+  },
+  {
+   "id": "cs_s_skunk_01",
+   "text": "Skunks spray a strong-smelling liquid for defense",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Skunk · cs_s_skunk_01"
+  },
+  {
+   "id": "cs_s_snow_leopard_01",
+   "text": "Snow leopards live in the mountains of Central Asia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Snow leopard · cs_s_snow_leopard_01"
+  },
+  {
+   "id": "cs_s_sequoia_01",
+   "text": "Giant sequoias are the largest trees by volume",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_01"
+  },
+  {
+   "id": "cs_s_spruce_01",
+   "text": "Spruce trees are conifers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spruce · cs_s_spruce_01"
+  },
+  {
+   "id": "cs_s_shakespeare_william_01",
+   "text": "William Shakespeare wrote Hamlet",
+   "standing": "projectable",
+   "evidence": "history · product curator · Shakespeare, William · cs_s_shakespeare_william_01"
+  },
+  {
+   "id": "cs_s_shakespeare_william_02",
+   "text": "William Shakespeare was born in Stratford-upon-Avon",
+   "standing": "projectable",
+   "evidence": "history · product curator · Shakespeare, William · cs_s_shakespeare_william_02"
+  },
+  {
+   "id": "cs_s_statue_of_liberty_01",
+   "text": "The Statue of Liberty was a gift from France",
+   "standing": "projectable",
+   "evidence": "history · product curator · Statue of Liberty · cs_s_statue_of_liberty_01"
+  },
+  {
+   "id": "cs_s_statue_of_liberty_02",
+   "text": "The Statue of Liberty was dedicated in 1886",
+   "standing": "projectable",
+   "evidence": "history · product curator · Statue of Liberty · cs_s_statue_of_liberty_02"
+  },
+  {
+   "id": "cs_s_stonehenge_01",
+   "text": "Stonehenge is a prehistoric monument in England",
+   "standing": "projectable",
+   "evidence": "history · product curator · Stonehenge · cs_s_stonehenge_01"
+  },
+  {
+   "id": "cs_s_sphinx_01",
+   "text": "The Great Sphinx is at Giza",
+   "standing": "projectable",
+   "evidence": "history · product curator · Sphinx · cs_s_sphinx_01"
+  },
+  {
+   "id": "cs_s_silk_road_01",
+   "text": "The Silk Road was a network of trade routes linking East and West",
+   "standing": "projectable",
+   "evidence": "history · product curator · Silk Road · cs_s_silk_road_01"
+  },
+  {
+   "id": "cs_s_sphere_01",
+   "text": "Every point on a sphere is the same distance from its center",
+   "standing": "projectable",
+   "evidence": "math · product curator · Sphere · cs_s_sphere_01"
+  },
+  {
+   "id": "cs_s_square_root_01",
+   "text": "The square root of 144 is 12",
+   "standing": "projectable",
+   "evidence": "math · product curator · Square root · cs_s_square_root_01"
+  },
+  {
+   "id": "cs_s_second_01",
+   "text": "The second is the SI base unit of time",
+   "standing": "projectable",
+   "evidence": "math · product curator · Second · cs_s_second_01"
+  },
+  {
+   "id": "cs_s_spanish_01",
+   "text": "Spanish is a Romance language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Spanish · cs_s_spanish_01"
+  },
+  {
+   "id": "cs_s_swahili_01",
+   "text": "Swahili is widely spoken in East Africa",
+   "standing": "projectable",
+   "evidence": "language · product curator · Swahili · cs_s_swahili_01"
+  },
+  {
+   "id": "cs_s_september_01",
+   "text": "September has 30 days",
+   "standing": "projectable",
+   "evidence": "general · product curator · September · cs_s_september_01"
+  },
+  {
+   "id": "cs_s_soccer_01",
+   "text": "A soccer team has 11 players on the field",
+   "standing": "projectable",
+   "evidence": "general · product curator · Soccer · cs_s_soccer_01"
+  },
+  {
+   "id": "cs_s_sweden_02",
+   "text": "Sweden is in Scandinavia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sweden · cs_s_sweden_02"
+  }
+ ]
+}

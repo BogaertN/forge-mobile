@@ -1,0 +1,372 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_q",
+ "provenance": "confirmed_shared",
+ "letter": "Q",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 88,
+ "items": [
+  {
+   "id": "cs_q_qatar_01",
+   "text": "Qatar is a peninsula on the Persian Gulf",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_01"
+  },
+  {
+   "id": "cs_q_quito_01",
+   "text": "Quito lies in the Andes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quito · cs_q_quito_01"
+  },
+  {
+   "id": "cs_q_quebec_01",
+   "text": "Quebec is the largest province of Canada by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_01"
+  },
+  {
+   "id": "cs_q_quebec_02",
+   "text": "French is the official language of Quebec",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_02"
+  },
+  {
+   "id": "cs_q_quebec_city_01",
+   "text": "Quebec City is the capital of Quebec",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quebec City · cs_q_quebec_city_01"
+  },
+  {
+   "id": "cs_q_queensland_01",
+   "text": "Brisbane is the capital of Queensland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_01"
+  },
+  {
+   "id": "cs_q_queensland_02",
+   "text": "The Great Barrier Reef lies off Queensland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_02"
+  },
+  {
+   "id": "cs_q_queens_01",
+   "text": "Queens is a borough of New York City",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Queens · cs_q_queens_01"
+  },
+  {
+   "id": "cs_q_qingdao_01",
+   "text": "Qingdao is a port city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qingdao · cs_q_qingdao_01"
+  },
+  {
+   "id": "cs_q_quartz_01",
+   "text": "Quartz is made of silicon and oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_01"
+  },
+  {
+   "id": "cs_q_quark_01",
+   "text": "Protons and neutrons are made of quarks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_01"
+  },
+  {
+   "id": "cs_q_quark_02",
+   "text": "A proton contains three quarks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_02"
+  },
+  {
+   "id": "cs_q_quantum_mechanics_01",
+   "text": "Quantum mechanics describes physics at atomic scales",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quantum mechanics · cs_q_quantum_mechanics_01"
+  },
+  {
+   "id": "cs_q_quicksilver_01",
+   "text": "Quicksilver is an old name for mercury",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quicksilver · cs_q_quicksilver_01"
+  },
+  {
+   "id": "cs_q_quicklime_01",
+   "text": "Quicklime is calcium oxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quicklime · cs_q_quicklime_01"
+  },
+  {
+   "id": "cs_q_quaternary_01",
+   "text": "The Quaternary is the current geological period",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quaternary · cs_q_quaternary_01"
+  },
+  {
+   "id": "cs_q_quail_01",
+   "text": "Quails are small ground-nesting birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_01"
+  },
+  {
+   "id": "cs_q_quoll_01",
+   "text": "Quolls are carnivorous marsupials",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quoll · cs_q_quoll_01"
+  },
+  {
+   "id": "cs_q_queen_bee_01",
+   "text": "A queen bee lays the eggs in a honeybee colony",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_01"
+  },
+  {
+   "id": "cs_q_quince_01",
+   "text": "The quince is a fruit related to apples and pears",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quince · cs_q_quince_01"
+  },
+  {
+   "id": "cs_q_quinoa_01",
+   "text": "Quinoa is native to the Andes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_01"
+  },
+  {
+   "id": "cs_q_quinoa_02",
+   "text": "Quinoa is grown for its edible seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_02"
+  },
+  {
+   "id": "cs_q_queen_anne_s_lace_01",
+   "text": "Queen Anne's lace is a wild carrot",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Queen Anne's lace · cs_q_queen_anne_s_lace_01"
+  },
+  {
+   "id": "cs_q_quahog_01",
+   "text": "The quahog is an edible clam",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quahog · cs_q_quahog_01"
+  },
+  {
+   "id": "cs_q_queen_victoria_01",
+   "text": "Queen Victoria reigned from 1837 to 1901",
+   "standing": "projectable",
+   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_01"
+  },
+  {
+   "id": "cs_q_queen_victoria_02",
+   "text": "The Victorian era is named after Queen Victoria",
+   "standing": "projectable",
+   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_02"
+  },
+  {
+   "id": "cs_q_qin_dynasty_01",
+   "text": "The Terracotta Army was built for Qin Shi Huang",
+   "standing": "projectable",
+   "evidence": "history · product curator · Qin dynasty · cs_q_qin_dynasty_01"
+  },
+  {
+   "id": "cs_q_qing_dynasty_01",
+   "text": "The Qing dynasty was the last imperial dynasty of China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Qing dynasty · cs_q_qing_dynasty_01"
+  },
+  {
+   "id": "cs_q_qing_dynasty_02",
+   "text": "The Qing dynasty ended in 1912",
+   "standing": "projectable",
+   "evidence": "history · product curator · Qing dynasty · cs_q_qing_dynasty_02"
+  },
+  {
+   "id": "cs_q_quran_01",
+   "text": "The Quran is the holy book of Islam",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quran · cs_q_quran_01"
+  },
+  {
+   "id": "cs_q_quran_02",
+   "text": "The Quran is written in Arabic",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quran · cs_q_quran_02"
+  },
+  {
+   "id": "cs_q_quakers_01",
+   "text": "Quakers are members of the Religious Society of Friends",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quakers · cs_q_quakers_01"
+  },
+  {
+   "id": "cs_q_queen_elizabeth_ii_01",
+   "text": "Queen Elizabeth II was crowned in 1953",
+   "standing": "projectable",
+   "evidence": "history · product curator · Queen Elizabeth II · cs_q_queen_elizabeth_ii_01"
+  },
+  {
+   "id": "cs_q_quadrilateral_01",
+   "text": "A quadrilateral has four sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_01"
+  },
+  {
+   "id": "cs_q_quadrilateral_02",
+   "text": "The interior angles of a quadrilateral add up to 360 degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_02"
+  },
+  {
+   "id": "cs_q_quotient_01",
+   "text": "A quotient is the result of division",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quotient · cs_q_quotient_01"
+  },
+  {
+   "id": "cs_q_quadrant_01",
+   "text": "The coordinate plane has four quadrants",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_01"
+  },
+  {
+   "id": "cs_q_quarter_01",
+   "text": "A quarter is one-fourth",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quarter · cs_q_quarter_01"
+  },
+  {
+   "id": "cs_q_quadratic_equation_01",
+   "text": "A quadratic equation has a highest power of two",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadratic equation · cs_q_quadratic_equation_01"
+  },
+  {
+   "id": "cs_q_quintillion_01",
+   "text": "A quintillion is 10 to the power of 18 in the short scale",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quintillion · cs_q_quintillion_01"
+  },
+  {
+   "id": "cs_q_quadrillion_01",
+   "text": "A quadrillion is 10 to the power of 15 in the short scale",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrillion · cs_q_quadrillion_01"
+  },
+  {
+   "id": "cs_q_quartet_01",
+   "text": "A quartet is a group of four musicians",
+   "standing": "projectable",
+   "evidence": "general · product curator · Quartet · cs_q_quartet_01"
+  },
+  {
+   "id": "cs_q_queen_01",
+   "text": "In chess, the queen can move any number of squares in any direction",
+   "standing": "projectable",
+   "evidence": "general · product curator · Queen · cs_q_queen_01"
+  },
+  {
+   "id": "cs_q_quill_01",
+   "text": "A quill is a pen made from a feather",
+   "standing": "projectable",
+   "evidence": "general · product curator · Quill · cs_q_quill_01"
+  },
+  {
+   "id": "cs_q_quiver_01",
+   "text": "A quiver holds arrows",
+   "standing": "projectable",
+   "evidence": "general · product curator · Quiver · cs_q_quiver_01"
+  },
+  {
+   "id": "cs_q_q_01",
+   "text": "Q is the 17th letter of the English alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Q · cs_q_q_01"
+  },
+  {
+   "id": "cs_q_quechua_01",
+   "text": "Quechua is an Indigenous language of the Andes",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quechua · cs_q_quechua_01"
+  },
+  {
+   "id": "cs_q_question_mark_01",
+   "text": "A question mark ends a direct question",
+   "standing": "projectable",
+   "evidence": "language · product curator · Question mark · cs_q_question_mark_01"
+  },
+  {
+   "id": "cs_q_quiche_01",
+   "text": "Quiche is a savory egg tart",
+   "standing": "projectable",
+   "evidence": "general · product curator · Quiche · cs_q_quiche_01"
+  },
+  {
+   "id": "cs_q_quicksand_01",
+   "text": "Quicksand is sand saturated with water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_01"
+  },
+  {
+   "id": "cs_q_quartzite_01",
+   "text": "Quartzite is a metamorphic rock formed from sandstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_01"
+  },
+  {
+   "id": "cs_q_quasar_02",
+   "text": "Quasars are found at very large distances from Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quasar · cs_q_quasar_02"
+  },
+  {
+   "id": "cs_q_quantum_01",
+   "text": "A quantum is the smallest discrete amount of a physical quantity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quantum · cs_q_quantum_01"
+  },
+  {
+   "id": "cs_q_quetzalcoatl_01",
+   "text": "Quetzalcoatl was a feathered serpent deity of Mesoamerica",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_01"
+  },
+  {
+   "id": "cs_q_queensland_03",
+   "text": "Queensland is a state of Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_03"
+  },
+  {
+   "id": "cs_q_quail_02",
+   "text": "Quail eggs are speckled",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_02"
+  },
+  {
+   "id": "cs_q_quill_02",
+   "text": "Porcupine quills are modified hairs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quill · cs_q_quill_02"
+  },
+  {
+   "id": "cs_q_quarter_horse_01",
+   "text": "The American Quarter Horse is a horse breed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quarter horse · cs_q_quarter_horse_01"
+  },
+  {
+   "id": "cs_q_queen_consort_01",
+   "text": "A queen consort is the wife of a reigning king",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Queen consort · cs_q_queen_consort_01"
+  },
+  {
+   "id": "cs_q_quarterback_01",
+   "text": "A quarterback is a position in American football",
+   "standing": "projectable",
+   "evidence": "general · product curator · Quarterback · cs_q_quarterback_01"
+  }
+ ]
+}

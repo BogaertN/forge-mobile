@@ -1,0 +1,378 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_t",
+ "provenance": "confirmed_shared",
+ "letter": "T",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_t_tunisia_01",
+   "text": "Tunis is the capital of Tunisia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tunisia · cs_t_tunisia_01"
+  },
+  {
+   "id": "cs_t_tanzania_01",
+   "text": "Dodoma is the official capital of Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tanzania · cs_t_tanzania_01"
+  },
+  {
+   "id": "cs_t_taiwan_01",
+   "text": "Taipei is the largest city in Taiwan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Taiwan · cs_t_taiwan_01"
+  },
+  {
+   "id": "cs_t_tehran_01",
+   "text": "Tehran is the capital of Iran",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tehran · cs_t_tehran_01"
+  },
+  {
+   "id": "cs_t_tallinn_01",
+   "text": "Tallinn is the capital of Estonia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tallinn · cs_t_tallinn_01"
+  },
+  {
+   "id": "cs_t_tbilisi_01",
+   "text": "Tbilisi is the capital of Georgia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tbilisi · cs_t_tbilisi_01"
+  },
+  {
+   "id": "cs_t_tirana_01",
+   "text": "Tirana is the capital of Albania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tirana · cs_t_tirana_01"
+  },
+  {
+   "id": "cs_t_tashkent_01",
+   "text": "Tashkent is the capital of Uzbekistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tashkent · cs_t_tashkent_01"
+  },
+  {
+   "id": "cs_t_tegucigalpa_01",
+   "text": "Tegucigalpa is the capital of Honduras",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tegucigalpa · cs_t_tegucigalpa_01"
+  },
+  {
+   "id": "cs_t_thimphu_01",
+   "text": "Thimphu is the capital of Bhutan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Thimphu · cs_t_thimphu_01"
+  },
+  {
+   "id": "cs_t_tripoli_01",
+   "text": "Tripoli is the capital of Libya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tripoli · cs_t_tripoli_01"
+  },
+  {
+   "id": "cs_t_texas_01",
+   "text": "Austin is the capital of Texas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Texas · cs_t_texas_01"
+  },
+  {
+   "id": "cs_t_tennessee_01",
+   "text": "Nashville is the capital of Tennessee",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tennessee · cs_t_tennessee_01"
+  },
+  {
+   "id": "cs_t_tallahassee_01",
+   "text": "Tallahassee is the capital of Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tallahassee · cs_t_tallahassee_01"
+  },
+  {
+   "id": "cs_t_topeka_01",
+   "text": "Topeka is the capital of Kansas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Topeka · cs_t_topeka_01"
+  },
+  {
+   "id": "cs_t_trenton_01",
+   "text": "Trenton is the capital of New Jersey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Trenton · cs_t_trenton_01"
+  },
+  {
+   "id": "cs_t_thames_01",
+   "text": "The Thames flows through London",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Thames · cs_t_thames_01"
+  },
+  {
+   "id": "cs_t_tibet_01",
+   "text": "The Tibetan Plateau is the highest plateau in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tibet · cs_t_tibet_01"
+  },
+  {
+   "id": "cs_t_tasmania_01",
+   "text": "Tasmania is an island state of Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tasmania · cs_t_tasmania_01"
+  },
+  {
+   "id": "cs_t_table_mountain_01",
+   "text": "Table Mountain overlooks Cape Town",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Table Mountain · cs_t_table_mountain_01"
+  },
+  {
+   "id": "cs_t_tornado_01",
+   "text": "A tornado is a rotating column of air in contact with the ground",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tornado · cs_t_tornado_01"
+  },
+  {
+   "id": "cs_t_titan_01",
+   "text": "Titan has a thick atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Titan · cs_t_titan_01"
+  },
+  {
+   "id": "cs_t_triton_01",
+   "text": "Triton orbits Neptune in the opposite direction of the planet's rotation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Triton · cs_t_triton_01"
+  },
+  {
+   "id": "cs_t_telescope_01",
+   "text": "Telescopes collect light to view distant objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Telescope · cs_t_telescope_01"
+  },
+  {
+   "id": "cs_t_tin_01",
+   "text": "Tin has the chemical symbol Sn",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tin · cs_t_tin_01"
+  },
+  {
+   "id": "cs_t_titanium_01",
+   "text": "Titanium has the chemical symbol Ti",
+   "standing": "projectable",
+   "evidence": "science · product curator · Titanium · cs_t_titanium_01"
+  },
+  {
+   "id": "cs_t_tungsten_01",
+   "text": "Tungsten has the chemical symbol W",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tungsten · cs_t_tungsten_01"
+  },
+  {
+   "id": "cs_t_tungsten_02",
+   "text": "Tungsten has the highest melting point of any metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tungsten · cs_t_tungsten_02"
+  },
+  {
+   "id": "cs_t_thallium_01",
+   "text": "Thallium has the chemical symbol Tl",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thallium · cs_t_thallium_01"
+  },
+  {
+   "id": "cs_t_thorium_01",
+   "text": "Thorium has the chemical symbol Th",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thorium · cs_t_thorium_01"
+  },
+  {
+   "id": "cs_t_tellurium_01",
+   "text": "Tellurium has the chemical symbol Te",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tellurium · cs_t_tellurium_01"
+  },
+  {
+   "id": "cs_t_technetium_01",
+   "text": "Technetium is the lightest element with no stable isotopes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Technetium · cs_t_technetium_01"
+  },
+  {
+   "id": "cs_t_tide_01",
+   "text": "Tides are caused mainly by the Moon's gravity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tide · cs_t_tide_01"
+  },
+  {
+   "id": "cs_t_tooth_01",
+   "text": "Tooth enamel is the hardest substance in the human body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tooth · cs_t_tooth_01"
+  },
+  {
+   "id": "cs_t_tiger_01",
+   "text": "The tiger is the largest living cat species",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tiger · cs_t_tiger_01"
+  },
+  {
+   "id": "cs_t_turtle_01",
+   "text": "Turtles are reptiles with shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Turtle · cs_t_turtle_01"
+  },
+  {
+   "id": "cs_t_tortoise_01",
+   "text": "Tortoises are land-dwelling turtles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_01"
+  },
+  {
+   "id": "cs_t_termite_01",
+   "text": "Termites eat wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Termite · cs_t_termite_01"
+  },
+  {
+   "id": "cs_t_tadpole_01",
+   "text": "A tadpole is the larval stage of a frog or toad",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_01"
+  },
+  {
+   "id": "cs_t_toad_01",
+   "text": "Toads are amphibians",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Toad · cs_t_toad_01"
+  },
+  {
+   "id": "cs_t_tarantula_01",
+   "text": "Tarantulas are large hairy spiders",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tarantula · cs_t_tarantula_01"
+  },
+  {
+   "id": "cs_t_trout_01",
+   "text": "Trout are freshwater fish related to salmon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Trout · cs_t_trout_01"
+  },
+  {
+   "id": "cs_t_tulip_01",
+   "text": "Tulips grow from bulbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tulip · cs_t_tulip_01"
+  },
+  {
+   "id": "cs_t_tutankhamun_01",
+   "text": "Tutankhamun's tomb was discovered in 1922",
+   "standing": "projectable",
+   "evidence": "history · product curator · Tutankhamun · cs_t_tutankhamun_01"
+  },
+  {
+   "id": "cs_t_taj_mahal_02",
+   "text": "The Taj Mahal was built by the Mughal emperor Shah Jahan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Taj Mahal · cs_t_taj_mahal_02"
+  },
+  {
+   "id": "cs_t_tesla_nikola_01",
+   "text": "Nikola Tesla worked on alternating current systems",
+   "standing": "projectable",
+   "evidence": "history · product curator · Tesla, Nikola · cs_t_tesla_nikola_01"
+  },
+  {
+   "id": "cs_t_thirteen_colonies_01",
+   "text": "The United States began as thirteen colonies",
+   "standing": "projectable",
+   "evidence": "history · product curator · Thirteen Colonies · cs_t_thirteen_colonies_01"
+  },
+  {
+   "id": "cs_t_trojan_war_01",
+   "text": "The Trojan War is described in the Iliad",
+   "standing": "projectable",
+   "evidence": "history · product curator · Trojan War · cs_t_trojan_war_01"
+  },
+  {
+   "id": "cs_t_tower_of_london_01",
+   "text": "The Tower of London houses the Crown Jewels",
+   "standing": "projectable",
+   "evidence": "history · product curator · Tower of London · cs_t_tower_of_london_01"
+  },
+  {
+   "id": "cs_t_triangle_01",
+   "text": "The angles of a triangle add up to 180 degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Triangle · cs_t_triangle_01"
+  },
+  {
+   "id": "cs_t_thousand_01",
+   "text": "One thousand is ten to the third power",
+   "standing": "projectable",
+   "evidence": "math · product curator · Thousand · cs_t_thousand_01"
+  },
+  {
+   "id": "cs_t_treaty_01",
+   "text": "A treaty is a formal agreement between countries",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Treaty · cs_t_treaty_01"
+  },
+  {
+   "id": "cs_t_thai_01",
+   "text": "Thai is the official language of Thailand",
+   "standing": "projectable",
+   "evidence": "language · product curator · Thai · cs_t_thai_01"
+  },
+  {
+   "id": "cs_t_turkish_01",
+   "text": "Turkish is written in the Latin alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Turkish · cs_t_turkish_01"
+  },
+  {
+   "id": "cs_t_tuesday_01",
+   "text": "Tuesday is the day after Monday",
+   "standing": "projectable",
+   "evidence": "general · product curator · Tuesday · cs_t_tuesday_01"
+  },
+  {
+   "id": "cs_t_tennis_01",
+   "text": "A tennis score of zero is called love",
+   "standing": "projectable",
+   "evidence": "general · product curator · Tennis · cs_t_tennis_01"
+  },
+  {
+   "id": "cs_t_trumpet_01",
+   "text": "The trumpet is a brass instrument",
+   "standing": "projectable",
+   "evidence": "general · product curator · Trumpet · cs_t_trumpet_01"
+  },
+  {
+   "id": "cs_t_thermometer_01",
+   "text": "A thermometer measures temperature",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thermometer · cs_t_thermometer_01"
+  },
+  {
+   "id": "cs_t_toronto_01",
+   "text": "Toronto is the largest city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Toronto · cs_t_toronto_01"
+  },
+  {
+   "id": "cs_t_timbuktu_01",
+   "text": "Timbuktu is a historic city in Mali",
+   "standing": "projectable",
+   "evidence": "history · product curator · Timbuktu · cs_t_timbuktu_01"
+  },
+  {
+   "id": "cs_t_turquoise_01",
+   "text": "Turquoise is a blue-green mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Turquoise · cs_t_turquoise_01"
+  }
+ ]
+}
