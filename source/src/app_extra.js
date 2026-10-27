@@ -20,7 +20,8 @@
     ['Credit', 'Counted credit only (no money). Direct ×1, a fork\'s original creator ×½ (provisional), later co-signers ×⅓.'],
     ['Build Doctor', 'Checks plus fix instructions. It never repairs anything by itself.'],
     ['Outputs', 'Text and memory are complete. Other outputs are partial. Field is not a measurement and not .hfield. Harmonic Conductor Studio is a separate app.'],
-    ['Traces', '“Show traces” reveals every rule used for each reply.']];
+    ['Traces', '“Show traces” reveals every rule used for each reply.'],
+    ['Names', 'Pattern Reflection is not Gilligan. Tool Bench is not EchoForge. RMC Echo is not EchoForge. Audit / Receipts is the Foundation layer.']];
   document.querySelector('header.chrome').insertAdjacentHTML('beforeend', '<button id="helpBtn" class="icon" aria-label="Help">?</button>');
   $('#helpBtn').onclick = () => { if ($('#helpDlg')) return $('#helpDlg').remove(); document.body.insertAdjacentHTML('beforeend', '<div id="helpDlg" class="onb" role="dialog" aria-modal="true" aria-labelledby="helpT"><div class="onbcard"><h2 id="helpT">How Forge works</h2>' + HELP.map(h => '<p><b>' + esc(h[0]) + '.</b> ' + esc(h[1]) + '</p>').join('') + '<div class="row"><button id="helpClose" class="primary">Close</button></div></div></div>'); $('#helpClose').onclick = () => $('#helpDlg').remove(); };
   /* ---- Onboarding: vault + passphrase + pairing walkthrough (skippable, shown once) ---- */

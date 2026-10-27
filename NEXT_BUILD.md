@@ -1,9 +1,18 @@
-# Next build order — after 4.9.114
+# Next build order — after 4.9.115
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.114 reconstructed Doc 2 / MSM-v1 custody (shipped from 4.9.113 / `8c83ea42dbae36724f739a677dabd19a12d53c1c`)
+**Baseline:** 4.9.115 naming hygiene and offline packet replay (shipped from 4.9.114 / `a7325dc2422e3a9d5c0c4eb683aaae591dd0c49d`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. An offline replay verifier and naming renames stay parked. Do not start them from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. Do not start Genesis, HCS, marketplace, agents, a shared KB, or fluency work from this file.
+
+---
+
+## Shipped: **4.9.115** (2026-10-27)
+
+1. **Names** — Pattern Reflection is not Gilligan. Tool Bench is not EchoForge. RMC Echo is not EchoForge. Audit / Receipts is the Foundation layer. CLEANUP-495 still bans ProtoForge controls. Storage keys `echoforge` and `gilligan` stay.
+2. **Offline verify** — `FORGE-TURN-PACKET/v1` and a failure receipt check a SHA-256 body hash. Echo and selection are reexecuted. Drift, memory, world, containment, the gate, and doc7 stay recorded-only. The check does not read the turn store. Audit has Verify packet. `source/tools/verify_packet.js` is the same check.
+3. **Unchanged law** — Echo is an exact Language Core reparse. Project and write stay at or under 0.35. χ correction stays 0.35–0.40. Quarantine stays 0.40–0.80. A hard stop stays above 0.80. χ is the correction function only. Shared KB stays empty. The packet schema stays `FORGE-TURN-PACKET/v1`.
+4. **Locked queue** — this is the last item. Out of scope: Genesis, HCS, marketplace, agents, a shared-KB write, fluency, and any LLM. Do not start them in this release.
 
 ---
 
