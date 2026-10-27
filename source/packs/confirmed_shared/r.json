@@ -39,6 +39,12 @@
    "evidence": "geography · product curator · Rome · cs_r_rome_01"
   },
   {
+   "id": "cs_r_rome_02",
+   "text": "Vatican City is inside Rome",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rome · cs_r_rome_02"
+  },
+  {
    "id": "cs_r_riga_01",
    "text": "Riga is the capital of Latvia",
    "standing": "projectable",
@@ -69,6 +75,12 @@
    "evidence": "geography · product curator · Riyadh · cs_r_riyadh_01"
   },
   {
+   "id": "cs_r_rio_de_janeiro_01",
+   "text": "Rio was the capital of Brazil",
+   "standing": "projectable",
+   "evidence": "history · product curator · Rio de Janeiro · cs_r_rio_de_janeiro_01"
+  },
+  {
    "id": "cs_r_rhine_01",
    "text": "The Rhine flows into the North Sea",
    "standing": "projectable",
@@ -97,6 +109,12 @@
    "text": "The Red Sea lies between Africa and the Arabian Peninsula",
    "standing": "projectable",
    "evidence": "geography · product curator · Red Sea · cs_r_red_sea_01"
+  },
+  {
+   "id": "cs_r_rhode_island_01",
+   "text": "Rhode Island is the smallest state",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rhode Island · cs_r_rhode_island_01"
   },
   {
    "id": "cs_r_raleigh_01",
@@ -177,6 +195,12 @@
    "evidence": "science · product curator · Rutherfordium · cs_r_rutherfordium_01"
   },
   {
+   "id": "cs_r_refraction_01",
+   "text": "Refraction is the bending of light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Refraction · cs_r_refraction_01"
+  },
+  {
    "id": "cs_r_reflection_01",
    "text": "The angle of incidence equals the angle of reflection",
    "standing": "projectable",
@@ -187,6 +211,12 @@
    "text": "Radio waves have the longest wavelengths in the electromagnetic spectrum",
    "standing": "projectable",
    "evidence": "science · product curator · Radio wave · cs_r_radio_wave_01"
+  },
+  {
+   "id": "cs_r_red_giant_01",
+   "text": "A red giant is a large old star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Red giant · cs_r_red_giant_01"
   },
   {
    "id": "cs_r_rust_01",
@@ -205,6 +235,12 @@
    "text": "Red blood cells contain hemoglobin",
    "standing": "projectable",
    "evidence": "science · product curator · Red blood cell · cs_r_red_blood_cell_01"
+  },
+  {
+   "id": "cs_r_rabbit_01",
+   "text": "Rabbits are not rodents",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rabbit · cs_r_rabbit_01"
   },
   {
    "id": "cs_r_raccoon_01",
@@ -249,6 +285,12 @@
    "evidence": "nature · product curator · Robin · cs_r_robin_01"
   },
   {
+   "id": "cs_r_rodent_01",
+   "text": "The teeth of rodents keep growing",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rodent · cs_r_rodent_01"
+  },
+  {
    "id": "cs_r_reptile_01",
    "text": "Reptiles have scales",
    "standing": "projectable",
@@ -259,6 +301,12 @@
    "text": "Roses are flowering shrubs",
    "standing": "projectable",
    "evidence": "nature · product curator · Rose · cs_r_rose_01"
+  },
+  {
+   "id": "cs_r_redwood_01",
+   "text": "Redwoods are the tallest trees on Earth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Redwood · cs_r_redwood_01"
   },
   {
    "id": "cs_r_rice_01",
@@ -285,6 +333,12 @@
    "evidence": "history · product curator · Renaissance · cs_r_renaissance_01"
   },
   {
+   "id": "cs_r_roman_empire_01",
+   "text": "The Western Roman Empire fell in 476",
+   "standing": "projectable",
+   "evidence": "history · product curator · Roman Empire · cs_r_roman_empire_01"
+  },
+  {
    "id": "cs_r_rosetta_stone_02",
    "text": "The Rosetta Stone is kept in the British Museum",
    "standing": "projectable",
@@ -295,6 +349,12 @@
    "text": "Paul Revere made a midnight ride in 1775",
    "standing": "projectable",
    "evidence": "history · product curator · Revere, Paul · cs_r_revere_paul_01"
+  },
+  {
+   "id": "cs_r_ride_sally_01",
+   "text": "Sally Ride was the first American woman in space",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ride, Sally · cs_r_ride_sally_01"
   },
   {
    "id": "cs_r_rembrandt_01",
@@ -321,10 +381,28 @@
    "evidence": "math · product curator · Rhombus · cs_r_rhombus_01"
   },
   {
+   "id": "cs_r_radius_01",
+   "text": "The radius of a circle is half of the diameter",
+   "standing": "projectable",
+   "evidence": "math · product curator · Radius · cs_r_radius_01"
+  },
+  {
+   "id": "cs_r_right_triangle_01",
+   "text": "A right triangle has a right angle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Right triangle · cs_r_right_triangle_01"
+  },
+  {
    "id": "cs_r_roman_numerals_01",
    "text": "In Roman numerals, X stands for 10",
    "standing": "projectable",
    "evidence": "math · product curator · Roman numerals · cs_r_roman_numerals_01"
+  },
+  {
+   "id": "cs_r_roman_numerals_02",
+   "text": "M is 1000 in Roman numerals",
+   "standing": "projectable",
+   "evidence": "math · product curator · Roman numerals · cs_r_roman_numerals_02"
   },
   {
    "id": "cs_r_ratio_01",
@@ -337,6 +415,12 @@
    "text": "In a republic, the head of state is not a hereditary monarch",
    "standing": "projectable",
    "evidence": "civics · product curator · Republic · cs_r_republic_01"
+  },
+  {
+   "id": "cs_r_representative_01",
+   "text": "Members of the American House serve two-year terms",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Representative · cs_r_representative_01"
   },
   {
    "id": "cs_r_russian_01",
@@ -387,6 +471,12 @@
    "evidence": "nature · product curator · Robin · cs_r_robin_02"
   },
   {
+   "id": "cs_r_rhinoceros_02",
+   "text": "The rhinoceros has horns",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rhinoceros · cs_r_rhinoceros_02"
+  },
+  {
    "id": "cs_r_roman_empire_02",
    "text": "Latin was the language of the Roman Empire",
    "standing": "projectable",
@@ -409,6 +499,12 @@
    "text": "The Red Sea separates Africa from the Arabian Peninsula",
    "standing": "projectable",
    "evidence": "geography · product curator · Red Sea · cs_r_red_sea_02"
+  },
+  {
+   "id": "cs_r_rio_grande_02",
+   "text": "The Rio Grande forms part of the border between the United States and Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rio Grande · cs_r_rio_grande_02"
   },
   {
    "id": "cs_r_root_01",
