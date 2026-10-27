@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 103,
+ "curated_facts": 105,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -559,6 +559,18 @@
    "text": "Jerusalem is a holy city",
    "standing": "projectable",
    "evidence": "history · product curator · Jerusalem · cs_j_jerusalem_02"
+  },
+  {
+   "id": "cs_j_jellyfish_05",
+   "text": "A jellyfish lives in the ocean",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_05"
+  },
+  {
+   "id": "cs_j_japanese_03",
+   "text": "Japanese is the official language of Japan",
+   "standing": "projectable",
+   "evidence": "language · product curator · Japanese · cs_j_japanese_03"
   }
  ]
 }

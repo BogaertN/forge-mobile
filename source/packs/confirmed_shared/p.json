@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -559,6 +559,12 @@
    "text": "Plums are stone fruits",
    "standing": "projectable",
    "evidence": "nature · product curator · Plum · cs_p_plum_01"
+  },
+  {
+   "id": "cs_p_penguin_03",
+   "text": "A penguin is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_03"
   }
  ]
 }

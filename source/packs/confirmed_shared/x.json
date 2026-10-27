@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 102,
+ "curated_facts": 103,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -565,6 +565,12 @@
    "text": "Xalapa is the capital of Veracruz",
    "standing": "projectable",
    "evidence": "geography · product curator · Xalapa · cs_x_xalapa_02"
+  },
+  {
+   "id": "cs_x_xylophone_06",
+   "text": "A xylophone is a musical instrument",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_06"
   }
  ]
 }

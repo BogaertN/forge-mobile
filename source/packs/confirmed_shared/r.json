@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 108,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -553,6 +553,48 @@
    "text": "Roses have thorny stems",
    "standing": "projectable",
    "evidence": "nature · product curator · Rose · cs_r_rose_02"
+  },
+  {
+   "id": "cs_r_rhine_02",
+   "text": "The Rhine flows through Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rhine · cs_r_rhine_02"
+  },
+  {
+   "id": "cs_r_raccoon_02",
+   "text": "A raccoon is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Raccoon · cs_r_raccoon_02"
+  },
+  {
+   "id": "cs_r_rabbit_03",
+   "text": "A rabbit is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rabbit · cs_r_rabbit_03"
+  },
+  {
+   "id": "cs_r_rattlesnake_03",
+   "text": "A rattlesnake is a snake",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rattlesnake · cs_r_rattlesnake_03"
+  },
+  {
+   "id": "cs_r_radius_03",
+   "text": "The radius is half of the diameter",
+   "standing": "projectable",
+   "evidence": "math · product curator · Radius · cs_r_radius_03"
+  },
+  {
+   "id": "cs_r_ruble_01",
+   "text": "The ruble is the currency of Russia",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Ruble · cs_r_ruble_01"
+  },
+  {
+   "id": "cs_r_russian_02",
+   "text": "Russian is the official language of Russia",
+   "standing": "projectable",
+   "evidence": "language · product curator · Russian · cs_r_russian_02"
   }
  ]
 }

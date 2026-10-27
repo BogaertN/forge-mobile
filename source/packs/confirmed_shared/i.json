@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 105,
+ "curated_facts": 107,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -565,6 +565,18 @@
    "text": "Israel is a country in the Middle East",
    "standing": "projectable",
    "evidence": "geography · product curator · Israel · cs_i_israel_03"
+  },
+  {
+   "id": "cs_i_iguana_03",
+   "text": "An iguana is a reptile",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_03"
+  },
+  {
+   "id": "cs_i_inch_02",
+   "text": "An inch is a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Inch · cs_i_inch_02"
   }
  ]
 }

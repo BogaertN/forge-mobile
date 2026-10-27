@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 103,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -565,6 +565,24 @@
    "text": "Tuna are fast-swimming ocean fish",
    "standing": "projectable",
    "evidence": "nature · product curator · Tuna · cs_t_tuna_01"
+  },
+  {
+   "id": "cs_t_togo_01",
+   "text": "Lome is the capital of Togo",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Togo · cs_t_togo_01"
+  },
+  {
+   "id": "cs_t_tiger_03",
+   "text": "A tiger has stripes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tiger · cs_t_tiger_03"
+  },
+  {
+   "id": "cs_t_triangle_02",
+   "text": "A triangle has three sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Triangle · cs_t_triangle_02"
   }
  ]
 }

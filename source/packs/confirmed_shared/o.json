@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 103,
+ "curated_facts": 105,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -559,6 +559,18 @@
    "text": "Ottawa is the capital of Canada",
    "standing": "projectable",
    "evidence": "geography · product curator · Ottawa · cs_o_ottawa_02"
+  },
+  {
+   "id": "cs_o_owl_05",
+   "text": "An owl is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Owl · cs_o_owl_05"
+  },
+  {
+   "id": "cs_o_otter_03",
+   "text": "An otter is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Otter · cs_o_otter_03"
   }
  ]
 }

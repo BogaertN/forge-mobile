@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 106,
+ "curated_facts": 138,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -529,6 +529,198 @@
    "text": "Quetzalcoatl was a god of the Aztecs",
    "standing": "projectable",
    "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_02"
+  },
+  {
+   "id": "cs_q_quito_05",
+   "text": "Quito is in the Andes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quito · cs_q_quito_05"
+  },
+  {
+   "id": "cs_q_quito_06",
+   "text": "Quito lies near the equator",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quito · cs_q_quito_06"
+  },
+  {
+   "id": "cs_q_quebec_04",
+   "text": "Quebec is a province of Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_04"
+  },
+  {
+   "id": "cs_q_qatar_05",
+   "text": "Qatar is a country in Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_05"
+  },
+  {
+   "id": "cs_q_qatar_06",
+   "text": "Qatar borders Saudi Arabia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_06"
+  },
+  {
+   "id": "cs_q_qatar_07",
+   "text": "Qatar is on the Persian Gulf",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_07"
+  },
+  {
+   "id": "cs_q_quartz_04",
+   "text": "Quartz is a mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_04"
+  },
+  {
+   "id": "cs_q_quartz_05",
+   "text": "Amethyst is a kind of quartz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_05"
+  },
+  {
+   "id": "cs_q_quail_05",
+   "text": "A quail is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_05"
+  },
+  {
+   "id": "cs_q_quail_06",
+   "text": "Quails lay eggs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_06"
+  },
+  {
+   "id": "cs_q_quince_02",
+   "text": "The quince is a fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quince · cs_q_quince_02"
+  },
+  {
+   "id": "cs_q_quinoa_03",
+   "text": "Quinoa is a seed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_03"
+  },
+  {
+   "id": "cs_q_quinoa_04",
+   "text": "Quinoa comes from South America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_04"
+  },
+  {
+   "id": "cs_q_quart_03",
+   "text": "A quart is a unit of volume",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quart · cs_q_quart_03"
+  },
+  {
+   "id": "cs_q_quart_04",
+   "text": "Four quarts make a gallon",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quart · cs_q_quart_04"
+  },
+  {
+   "id": "cs_q_quadrilateral_03",
+   "text": "A square is a quadrilateral",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_03"
+  },
+  {
+   "id": "cs_q_quark_03",
+   "text": "A quark is a subatomic particle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_03"
+  },
+  {
+   "id": "cs_q_quark_04",
+   "text": "Protons are made of quarks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_04"
+  },
+  {
+   "id": "cs_q_queen_02",
+   "text": "Elizabeth II was Queen of the United Kingdom",
+   "standing": "projectable",
+   "evidence": "history · product curator · Queen · cs_q_queen_02"
+  },
+  {
+   "id": "cs_q_queen_03",
+   "text": "Victoria was Queen of the United Kingdom",
+   "standing": "projectable",
+   "evidence": "history · product curator · Queen · cs_q_queen_03"
+  },
+  {
+   "id": "cs_q_quiche_02",
+   "text": "Quiche is a French dish",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quiche · cs_q_quiche_02"
+  },
+  {
+   "id": "cs_q_question_mark_02",
+   "text": "A question mark ends a question",
+   "standing": "projectable",
+   "evidence": "language · product curator · Question mark · cs_q_question_mark_02"
+  },
+  {
+   "id": "cs_q_quail_07",
+   "text": "Quails eat seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_07"
+  },
+  {
+   "id": "cs_q_quartz_06",
+   "text": "Quartz is common in sand",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_06"
+  },
+  {
+   "id": "cs_q_quartz_07",
+   "text": "Quartz is hard",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_07"
+  },
+  {
+   "id": "cs_q_quebec_05",
+   "text": "Montreal is a city in Quebec",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_05"
+  },
+  {
+   "id": "cs_q_quebec_06",
+   "text": "People in Quebec speak French",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quebec · cs_q_quebec_06"
+  },
+  {
+   "id": "cs_q_quilt_02",
+   "text": "A quilt is a blanket",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_02"
+  },
+  {
+   "id": "cs_q_queen_04",
+   "text": "A queen is a female monarch",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Queen · cs_q_queen_04"
+  },
+  {
+   "id": "cs_q_queen_bee_03",
+   "text": "A queen bee lays eggs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_03"
+  },
+  {
+   "id": "cs_q_queen_bee_04",
+   "text": "A hive has one queen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_04"
+  },
+  {
+   "id": "cs_q_quick_01",
+   "text": "Quick means fast",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quick · cs_q_quick_01"
   }
  ]
 }

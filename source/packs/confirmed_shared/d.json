@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 104,
+ "curated_facts": 107,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -559,6 +559,24 @@
    "text": "Copenhagen is the capital of Denmark",
    "standing": "projectable",
    "evidence": "geography · product curator · Denmark · cs_d_denmark_02"
+  },
+  {
+   "id": "cs_d_dolphin_03",
+   "text": "A dolphin is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_03"
+  },
+  {
+   "id": "cs_d_duck_03",
+   "text": "A duck is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Duck · cs_d_duck_03"
+  },
+  {
+   "id": "cs_d_dutch_01",
+   "text": "Dutch is the official language of the Netherlands",
+   "standing": "projectable",
+   "evidence": "language · product curator · Dutch · cs_d_dutch_01"
   }
  ]
 }
