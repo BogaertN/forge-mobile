@@ -2,7 +2,7 @@
  "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
  "provenance": "confirmed_shared",
  "who_confirmed": "product_curator",
- "version": "4.9.127",
+ "version": "4.9.128",
  "letters": [
   "a",
   "b",
@@ -35,160 +35,160 @@
   "a": {
    "path": "a.json",
    "letter": "A",
-   "items": 60,
-   "curated_facts": 84
+   "items": 75,
+   "curated_facts": 101
   },
   "b": {
    "path": "b.json",
    "letter": "B",
-   "items": 59,
-   "curated_facts": 84
+   "items": 75,
+   "curated_facts": 104
   },
   "c": {
    "path": "c.json",
    "letter": "C",
-   "items": 59,
-   "curated_facts": 81
+   "items": 76,
+   "curated_facts": 103
   },
   "d": {
    "path": "d.json",
    "letter": "D",
-   "items": 61,
-   "curated_facts": 85
+   "items": 70,
+   "curated_facts": 102
   },
   "e": {
    "path": "e.json",
    "letter": "E",
-   "items": 69,
-   "curated_facts": 96
+   "items": 73,
+   "curated_facts": 100
   },
   "f": {
    "path": "f.json",
    "letter": "F",
-   "items": 71,
-   "curated_facts": 91
+   "items": 74,
+   "curated_facts": 100
   },
   "g": {
    "path": "g.json",
    "letter": "G",
-   "items": 64,
-   "curated_facts": 80
+   "items": 80,
+   "curated_facts": 101
   },
   "h": {
    "path": "h.json",
    "letter": "H",
-   "items": 56,
-   "curated_facts": 80
+   "items": 69,
+   "curated_facts": 100
   },
   "i": {
    "path": "i.json",
    "letter": "I",
-   "items": 52,
-   "curated_facts": 80
+   "items": 65,
+   "curated_facts": 100
   },
   "j": {
    "path": "j.json",
    "letter": "J",
-   "items": 62,
-   "curated_facts": 80
+   "items": 77,
+   "curated_facts": 101
   },
   "k": {
    "path": "k.json",
    "letter": "K",
-   "items": 63,
-   "curated_facts": 80
+   "items": 77,
+   "curated_facts": 100
   },
   "l": {
    "path": "l.json",
    "letter": "L",
-   "items": 63,
-   "curated_facts": 80
+   "items": 78,
+   "curated_facts": 101
   },
   "m": {
    "path": "m.json",
    "letter": "M",
-   "items": 67,
-   "curated_facts": 85
+   "items": 78,
+   "curated_facts": 100
   },
   "n": {
    "path": "n.json",
    "letter": "N",
-   "items": 64,
-   "curated_facts": 80
+   "items": 78,
+   "curated_facts": 100
   },
   "o": {
    "path": "o.json",
    "letter": "O",
-   "items": 61,
-   "curated_facts": 83
+   "items": 71,
+   "curated_facts": 101
   },
   "p": {
    "path": "p.json",
    "letter": "P",
-   "items": 64,
-   "curated_facts": 81
+   "items": 76,
+   "curated_facts": 100
   },
   "q": {
    "path": "q.json",
    "letter": "Q",
-   "items": 60,
-   "curated_facts": 88
+   "items": 70,
+   "curated_facts": 100
   },
   "r": {
    "path": "r.json",
    "letter": "R",
-   "items": 61,
-   "curated_facts": 80
+   "items": 75,
+   "curated_facts": 101
   },
   "s": {
    "path": "s.json",
    "letter": "S",
-   "items": 69,
-   "curated_facts": 84
+   "items": 80,
+   "curated_facts": 101
   },
   "t": {
    "path": "t.json",
    "letter": "T",
-   "items": 61,
-   "curated_facts": 80
+   "items": 76,
+   "curated_facts": 100
   },
   "u": {
    "path": "u.json",
    "letter": "U",
-   "items": 46,
-   "curated_facts": 80
+   "items": 62,
+   "curated_facts": 100
   },
   "v": {
    "path": "v.json",
    "letter": "V",
-   "items": 52,
-   "curated_facts": 80
+   "items": 66,
+   "curated_facts": 101
   },
   "w": {
    "path": "w.json",
    "letter": "W",
-   "items": 59,
-   "curated_facts": 80
+   "items": 71,
+   "curated_facts": 100
   },
   "x": {
    "path": "x.json",
    "letter": "X",
-   "items": 48,
-   "curated_facts": 81
+   "items": 62,
+   "curated_facts": 100
   },
   "y": {
    "path": "y.json",
    "letter": "Y",
-   "items": 62,
-   "curated_facts": 88
+   "items": 71,
+   "curated_facts": 100
   },
   "z": {
    "path": "z.json",
    "letter": "Z",
-   "items": 51,
-   "curated_facts": 84
+   "items": 65,
+   "curated_facts": 105
   }
  },
- "total_items": 1564,
- "total_curated": 2155
+ "total_items": 1890,
+ "total_curated": 2622
 }

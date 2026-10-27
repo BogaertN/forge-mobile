@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 84,
+ "curated_facts": 105,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -313,6 +313,90 @@
    "text": "Zebras live in herds",
    "standing": "projectable",
    "evidence": "nature · product curator · Zebra · cs_z_zebra_05"
+  },
+  {
+   "id": "cs_z_zanzibar_03",
+   "text": "Zanzibar is part of Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_03"
+  },
+  {
+   "id": "cs_z_zinc_06",
+   "text": "The chemical symbol for zinc is Zn",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_06"
+  },
+  {
+   "id": "cs_z_zooplankton_02",
+   "text": "Zooplankton are tiny animals that drift in water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_02"
+  },
+  {
+   "id": "cs_z_zygote_02",
+   "text": "A zygote forms when two gametes join",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygote · cs_z_zygote_02"
+  },
+  {
+   "id": "cs_z_zanzibar_04",
+   "text": "Zanzibar is an island in the Indian Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_04"
+  },
+  {
+   "id": "cs_z_zurich_03",
+   "text": "Zurich is in Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_03"
+  },
+  {
+   "id": "cs_z_zebra_06",
+   "text": "No two zebras have the same stripe pattern",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_06"
+  },
+  {
+   "id": "cs_z_zebra_07",
+   "text": "Zebras are herbivores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_07"
+  },
+  {
+   "id": "cs_z_zucchini_02",
+   "text": "Zucchini is a type of summer squash",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_02"
+  },
+  {
+   "id": "cs_z_zinnia_03",
+   "text": "Zinnias are native to the Americas",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_03"
+  },
+  {
+   "id": "cs_z_zinc_07",
+   "text": "Zinc is a metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_07"
+  },
+  {
+   "id": "cs_z_zoology_02",
+   "text": "Zoology is the study of animals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zoology · cs_z_zoology_02"
+  },
+  {
+   "id": "cs_z_zeus_04",
+   "text": "Zeus was associated with thunder and lightning",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Zeus · cs_z_zeus_04"
+  },
+  {
+   "id": "cs_z_zulu_03",
+   "text": "Zulu is a language of South Africa",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Zulu · cs_z_zulu_03"
   }
  ]
 }

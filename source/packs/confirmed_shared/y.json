@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 88,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -379,6 +379,60 @@
    "text": "Yak milk is used to make butter",
    "standing": "projectable",
    "evidence": "nature · product curator · Yak · cs_y_yak_03"
+  },
+  {
+   "id": "cs_y_yangtze_river_05",
+   "text": "The Yangtze is the longest river in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_05"
+  },
+  {
+   "id": "cs_y_yukon_04",
+   "text": "The Yukon is a territory of Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yukon · cs_y_yukon_04"
+  },
+  {
+   "id": "cs_y_yak_04",
+   "text": "Yaks live in the Himalayan region",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_04"
+  },
+  {
+   "id": "cs_y_yew_03",
+   "text": "The yew is an evergreen tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yew · cs_y_yew_03"
+  },
+  {
+   "id": "cs_y_yard_03",
+   "text": "A yard equals three feet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yard · cs_y_yard_03"
+  },
+  {
+   "id": "cs_y_yamoussoukro_02",
+   "text": "Yamoussoukro is the capital of Ivory Coast",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yamoussoukro · cs_y_yamoussoukro_02"
+  },
+  {
+   "id": "cs_y_yellow_sea_02",
+   "text": "The Yellow Sea lies between China and Korea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_02"
+  },
+  {
+   "id": "cs_y_yak_05",
+   "text": "Yaks have long shaggy hair",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_05"
+  },
+  {
+   "id": "cs_y_yeast_04",
+   "text": "Yeast is a fungus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_04"
   }
  ]
 }
