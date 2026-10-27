@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 104,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -559,6 +559,24 @@
    "text": "Kabul is the capital of Afghanistan",
    "standing": "projectable",
    "evidence": "geography · product curator · Kabul · cs_k_kabul_01"
+  },
+  {
+   "id": "cs_k_kangaroo_04",
+   "text": "A kangaroo is a marsupial",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_04"
+  },
+  {
+   "id": "cs_k_kilogram_02",
+   "text": "A kilogram equals 1000 grams",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_02"
+  },
+  {
+   "id": "cs_k_kilometer_04",
+   "text": "A kilometer equals 1000 meters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_04"
   }
  ]
 }

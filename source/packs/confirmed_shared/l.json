@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 104,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -559,6 +559,24 @@
    "text": "Limes are citrus fruits",
    "standing": "projectable",
    "evidence": "nature · product curator · Lime · cs_l_lime_01"
+  },
+  {
+   "id": "cs_l_lion_03",
+   "text": "A lion is a big cat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lion · cs_l_lion_03"
+  },
+  {
+   "id": "cs_l_leopard_03",
+   "text": "A leopard has spots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_03"
+  },
+  {
+   "id": "cs_l_liter_02",
+   "text": "A liter is a unit of volume",
+   "standing": "projectable",
+   "evidence": "math · product curator · Liter · cs_l_liter_02"
   }
  ]
 }

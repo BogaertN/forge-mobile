@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -565,6 +565,12 @@
    "text": "Nomads do not settle permanently",
    "standing": "projectable",
    "evidence": "culture · product curator · Nomad · cs_n_nomad_01"
+  },
+  {
+   "id": "cs_n_newt_02",
+   "text": "A newt is an amphibian",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Newt · cs_n_newt_02"
   }
  ]
 }
