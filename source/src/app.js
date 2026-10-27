@@ -207,7 +207,8 @@ function renderAudit() { const rs = forge.receipts(); const v = forge.verifyAudi
   const cards = packets.slice(-60).reverse().map(p => KTurnPacket.receiptCard(p)).join('');
   const chain = rs.slice(-60).reverse().map(r => '<div class="card" data-doc7-cat="trace_receipt"><div class="small"><b>turn ' + esc(r.turn) + '</b> · ' + esc(fmt(r.at)) + ' · ' + esc(r.eligibility) + ' · ' + esc(r.echo) + ' · Trace/receipt · presence ≠ truth</div><div class="meta">' + esc(r.receipt_id) + '<br>input ' + esc(r.input_event) + '<br>msm ' + esc(r.msm_manifest) + (r.request_contract ? '<br>contract ' + esc(r.request_contract) : '') + '<br>prev ' + esc(r.previous_receipt || '—') + '</div></div>').join('');
   const panel = KTurnPacket.categoryPanel(c => forge.store.load(c));
-  $('#auditList').innerHTML = panel + (cards || '') + (chain || '<div class="meta">no receipts yet</div>'); }
+  const reqCard = window.KReqPacket ? KReqPacket.auditCard() : '';
+  $('#auditList').innerHTML = reqCard + panel + (cards || '') + (chain || '<div class="meta">no receipts yet</div>'); }
 $('#verifyAudit').onclick = () => { renderAudit(); openTab('audit'); }; $('#refreshAudit').onclick = renderAudit;
 $('#pktVerify').onsubmit = e => { e.preventDefault(); let p; try { p = JSON.parse($('#pktIn').value); } catch (err) { $('#pktOut').textContent = 'That is not JSON.'; return; } const v = KTurnPacket.verify(p, { echo: (t, m, vk) => forge.kernel.echo(t, m, vk) }); $('#pktOut').innerHTML = '<b>' + (v.ok ? 'verified' : 'not verified') + '</b><br>' + v.checks.map(c => esc(c.id + ' ' + c.mode + ' ' + (c.ok == null ? 'recorded' : c.ok ? 'ok' : 'fail') + (c.detail ? ' — ' + c.detail : ''))).join('<br>'); };
 function renderStatus() { setTimeout(() => window.renderOperator && window.renderOperator(), 0); const st = forge.lexicon.stats(), m = forge.meta(); const T = BUILD.tests || {};

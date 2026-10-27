@@ -73,7 +73,7 @@ The steps run in a fixed order:
   * Contradictions are detected (polarity, single-valued attributes, exclusive classes, single-valued verbs) and the app asks yes/no. Adding "instead" or "actually" replaces the old fact directly. Old facts go to Ĉ cold storage.
   * Supported queries: "what do you know about X", "when did I tell you about X", counts, wh-questions over roles, and "what is X doing".
 * **Math lane.** `src/algebra.js` gives exact BigInt rationals and polynomials. It can simplify/expand, substitute values, and solve linear and quadratic equations (rational or surd roots, or "no real solution"). It converts units with exact SI factors. Every answer is re-verified. A toggle renders answers in Φ-notation (+_Φ −_Φ ×_Φ ÷_Φ).
-* **Verification.** `node verify/run.js` runs the Doc 9-style suite. It prints `TOTAL passed/total` and writes its reports to `<repo>/_release/verify/`.
+* **Verification.** `node verify/run.js` runs the Doc 9-style suite. It prints `TOTAL passed/total` and writes its reports to `<repo>/_release/verify/`. The publish gate writes `req_packet.json` (`FORGE-REQ-PACKET/v1`) from those same classes.
 
 ## Run / test
 * `node verify/run.js`: the full suite, which also runs `test/kernel.test.js` and `test/v2.test.js`. `./test/smoke.sh` runs headless Chrome.

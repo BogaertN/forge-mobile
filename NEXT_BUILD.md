@@ -1,9 +1,18 @@
-# Next build order — after 4.9.116
+# Next build order — after 4.9.117
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.116 Docs 4–5 lexicon and frames (shipped from 4.9.115)
+**Baseline:** 4.9.117 Doc 9 verification packets (shipped from 4.9.116)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. Do not start Genesis, HCS, marketplace, agents, a shared KB, fluency, creative writing, Doc 9 packets, math honesty, or dream/SPC from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. 4.9.117 records the requirement packet for that slice, keeps behavior tests separate from verifier gates, and writes the non-model receipt. Do not start Genesis, HCS, marketplace, agents, a shared KB, fluency, creative writing, math honesty, or dream/SPC from this file.
+
+---
+
+## Shipped: **4.9.117** (2026-10-27)
+
+1. **Requirement packet** — `FORGE-REQ-PACKET/v1` maps `R4116-LEXICON` and `R4116-FRAMES` to the tests that check them. A blank template is the same schema. Audit shows the ids. Pass or fail comes from the verify run.
+2. **Behavior and gates** — the behavior total and the verifier gates are decided separately. A passing behavior run does not override a failed gate (GP-015). Held-out and mutation stay named outside this gate.
+3. **Non-model receipt** — `FORGE-NONLLM-RECEIPT/v1` is the same scan as the Doc 9 non-model class. Shared KB stays empty.
+4. **Not this release** — math honesty, dream/SPC, and creative writing were not started. Genesis, HCS, marketplace, agents, fluency, and a shared KB stay out.
 
 ---
 

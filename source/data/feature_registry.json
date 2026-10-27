@@ -1,5 +1,5 @@
 {
-  "version": "4.9.116",
+  "version": "4.9.117",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level)",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3013,13 +3013,40 @@
    "claim": "Partial",
    "note": "4.9.116: seven Doc 5 frames, including smell-of. Frame recognition is not execute, not a memory write, and not Echo approval. Creative writing not started. Shared KB stays empty.",
    "proof": ["R4116"]
+  },
+  {
+   "id": "R4117-TRACE",
+   "name": "Requirement to test packet",
+   "source": "CONFLICTS.md v4.9.117",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.117: FORGE-REQ-PACKET/v1 maps 4.9.116 requirement ids to the tests that check them, plus a blank template. Pass or fail comes from the verify run. Shared KB stays empty.",
+   "proof": ["R4117"]
+  },
+  {
+   "id": "R4117-GATES",
+   "name": "Behavior does not override a failed gate",
+   "source": "CONFLICTS.md v4.9.117",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.117: GP-015. Behavior totals and verifier gates are decided separately. A passing behavior run does not override a failed gate. Shared KB stays empty.",
+   "proof": ["R4117"]
+  },
+  {
+   "id": "R4117-NONLLM",
+   "name": "Authority path non-model receipt",
+   "source": "CONFLICTS.md v4.9.117",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.117: FORGE-NONLLM-RECEIPT/v1 is the same scan as the Doc 9 non-model class. The authority path records no language model. Shared KB stays empty.",
+   "proof": ["R4117"]
   }
  ],
- "count": 280,
+ "count": 283,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 118,
+  "Partial": 121,
   "Missing": 9,
   "Out of scope / parked": 13
  }
