@@ -1173,4 +1173,9 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (1) Hosted A–Z refresh. `packs/confirmed_shared/{a…z,index}.json` index 4.9.129; 2413 admitted / 2651 curated (R4128 floors ≥1890 / ≥2622 still hold). Product shared knowledge remains this hosted layer — not scrapbook, not starter, not a mass phone DB dump.
 - (2) Nic locks unchanged. Read/pull for everyone into session RAM. Write needs Nic’s write key (`SHARED-KB-WRITE-KEY-REQUIRED`). CREATE/COMPOSE/SIMULATE never auto-write. UI/Audit name Shared knowledge base.
 - Tests: `verify/r4128_suite.js` lead (softened for 4.9.129); HELDOUT untouched.
+## v4.9.130 — hosted shared knowledge pack refresh (Nic, 2026-10-27)
+- Design sources: BRIEF_4.9.128_SHARED_KB_AZ; REBUILD_NOTE cs4130; curated drafts + rewrites (2818 curated). Echo stays exact. Soft Echo stays parked. No language model. Soft budget ≤1.920 MB / ≤570 kB gzip; packs stay hosted, not inside single-file gzip. Starter_pack / phone Remember stay user-owned.
+- (1) Hosted A–Z refresh. `packs/confirmed_shared/{a…z,index}.json` index 4.9.130; 2580 admitted / 2818 curated (R4128 floors ≥1890 / ≥2622 still hold). Product shared knowledge remains this hosted layer — not scrapbook, not starter, not a mass phone DB dump.
+- (2) Nic locks unchanged. Read/pull for everyone into session RAM. Write needs Nic’s write key (`SHARED-KB-WRITE-KEY-REQUIRED`). CREATE/COMPOSE/SIMULATE never auto-write. UI/Audit name Shared knowledge base.
+- Tests: `verify/r4128_suite.js` lead (softened for 4.9.130); HELDOUT untouched.
 
