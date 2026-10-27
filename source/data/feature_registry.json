@@ -1,5 +1,5 @@
 {
-  "version": "4.9.121",
+  "version": "4.9.122",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3148,13 +3148,40 @@
    "claim": "Partial",
    "note": "4.9.121: the source claim status stays visible. A paragraph does not write memory, the world head, or the shared KB. Shared KB stays empty.",
    "proof": ["R4121"]
+  },
+  {
+   "id": "R4122-ISOLATE",
+   "name": "Suppose story branches stay off the world head",
+   "source": "CONFLICTS.md v4.9.122",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.122: suppose a story, open a simulation, and what if a story are SIMULATE. The branch is not a stored fact and does not write memory, the world head, or the shared KB. Shared KB stays empty.",
+   "proof": ["R4122"]
+  },
+  {
+   "id": "R4122-SURFACE",
+   "name": "A story branch is named a counterfactual simulation",
+   "source": "CONFLICTS.md v4.9.122",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.122: the reply names the branch a simulation and a counterfactual. The claim status stays speculative_branch. It is not a verified claim. Shared KB stays empty.",
+   "proof": ["R4122"]
+  },
+  {
+   "id": "R4122-EXIT",
+   "name": "Parking a story branch uses dream quarantine",
+   "source": "CONFLICTS.md v4.9.122",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.122: park or end keeps the branch in dream quarantine. A world-write is world_write. An unbound discovery is novelty_unbound. A commit with no branch is commit_without_proposal. Shared KB stays empty.",
+   "proof": ["R4122"]
   }
  ],
- "count": 295,
+ "count": 298,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 133,
+  "Partial": 136,
   "Missing": 9,
   "Out of scope / parked": 13
  }

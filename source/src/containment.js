@@ -63,7 +63,7 @@
     function apply(tr, decision, extra) {
       extra = extra || {}; const lp = current(); const base = { at: now(), turn: tr.turn, loop: lp.id, route: decision.route, rules: decision.rules, msm_id: tr.msm ? tr.msm.msm_id : null };
       const out = { route: decision.route, records: [] };
-      if (decision.route === 'dream_state_quarantine_candidate') out.records.push(putHyp('speculation', decision.route, extra.clause || null, base, { clause: extra.clause || null, truth_support_allowed: false, stable_memory_allowed: false, projection_allowed: false }));
+      if (decision.route === 'dream_state_quarantine_candidate') out.records.push(putHyp('speculation', decision.route, extra.clause || null, base, { clause: extra.clause || null, label: extra.label || null, truth_support_allowed: false, stable_memory_allowed: false, projection_allowed: false }));
       if (decision.route === 'ghost_loop_containment_required') out.records.push(putHyp('unresolved', decision.route, tr.input, base, { input: tr.input, reason: extra.reason || (tr.msm && tr.msm.meaning ? tr.msm.meaning.kind : 'unresolved'), gate_failed: '7', status_label: 'held for a future capability', can_reenter: false }));
       if (decision.route === 'drift_archive_only' || (tr.drift && (tr.drift.band === 'elevated' || tr.drift.band === 'hard_stop')))
         out.records.push(put('drift_archive', Object.assign({ id: 'drift:' + sha256(String(tr.input) + '|' + tr.turn + '|' + now()).slice(0, 16), eps_s: tr.drift ? tr.drift.eps_s : null, band: tr.drift ? tr.drift.band : null, components: tr.drift ? tr.drift.components || null : null, diagnostic_only: true, truth_support_allowed: false }, base)));

@@ -40,6 +40,7 @@ const stateOf = r => r.record_kind === 'lineage_root' ? 'lineage_origin' : r.rec
 /* reconstructed Doc 2: action proposals, simulations, and observations. Not the forge2 draft/candidate contract edges. */
 function observesAction(meaning, ctx) { const m = meaning || {}, k = String(m.kind || ''), c = ctx || {};
   if (c.intent === 'SIMULATE' || c.intent === 'CREATE' || c.intent === 'EXPLORE' || c.intent === 'COMPOSE') return true;
+  if (/^suppose_/.test(k)) return true;
   if (k === 'blocked' || k === 'dream_held' || k === 'sim_result' || k === 'sim_replay') return true;
   if (/^(?:tool_|ede_|mea_p|mea_proposals|spc_proposal|must_archive|creative_|compose_)/.test(k)) return true;
   if (k === 'dynamics' && m.mode === 'whatif') return true;
