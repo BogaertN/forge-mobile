@@ -9,6 +9,12 @@
  "curated_facts": 100,
  "items": [
   {
+   "id": "cs_e_egypt_01",
+   "text": "The Nile flows through Egypt",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Egypt · cs_e_egypt_01"
+  },
+  {
    "id": "cs_e_ethiopia_01",
    "text": "Addis Ababa is the capital of Ethiopia",
    "standing": "projectable",
@@ -63,6 +69,12 @@
    "evidence": "geography · product curator · Everest · cs_e_everest_02"
   },
   {
+   "id": "cs_e_equator_01",
+   "text": "The equator divides the Earth into two hemispheres",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Equator · cs_e_equator_01"
+  },
+  {
    "id": "cs_e_equator_02",
    "text": "The equator divides Earth into the Northern and Southern Hemispheres",
    "standing": "projectable",
@@ -79,6 +91,24 @@
    "text": "Earth is the third planet from the Sun",
    "standing": "projectable",
    "evidence": "science · product curator · Earth · cs_e_earth_01"
+  },
+  {
+   "id": "cs_e_earth_02",
+   "text": "The Moon is the only natural satellite of the Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earth · cs_e_earth_02"
+  },
+  {
+   "id": "cs_e_earth_03",
+   "text": "Water covers most of the surface of the Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earth · cs_e_earth_03"
+  },
+  {
+   "id": "cs_e_eclipse_01",
+   "text": "The Moon passes between the Earth and the Sun in a solar eclipse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_01"
   },
   {
    "id": "cs_e_eclipse_02",
@@ -105,10 +135,34 @@
    "evidence": "science · product curator · Evaporation · cs_e_evaporation_01"
   },
   {
+   "id": "cs_e_energy_01",
+   "text": "Energy cannot be created",
+   "standing": "projectable",
+   "evidence": "science · product curator · Energy · cs_e_energy_01"
+  },
+  {
    "id": "cs_e_einstein_albert_01",
    "text": "Albert Einstein developed the theory of relativity",
    "standing": "projectable",
    "evidence": "history · product curator · Einstein, Albert · cs_e_einstein_albert_01"
+  },
+  {
+   "id": "cs_e_einstein_albert_02",
+   "text": "Einstein won the Nobel Prize in Physics",
+   "standing": "projectable",
+   "evidence": "history · product curator · Einstein, Albert · cs_e_einstein_albert_02"
+  },
+  {
+   "id": "cs_e_earthquake_01",
+   "text": "Most earthquakes happen along faults",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earthquake · cs_e_earthquake_01"
+  },
+  {
+   "id": "cs_e_erosion_01",
+   "text": "Water wears away land by erosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Erosion · cs_e_erosion_01"
   },
   {
    "id": "cs_e_ecosystem_01",
@@ -159,6 +213,12 @@
    "evidence": "nature · product curator · Earthworm · cs_e_earthworm_01"
   },
   {
+   "id": "cs_e_elizabeth_i_01",
+   "text": "Elizabeth was queen of England from 1558 to 1603",
+   "standing": "projectable",
+   "evidence": "history · product curator · Elizabeth I · cs_e_elizabeth_i_01"
+  },
+  {
    "id": "cs_e_edison_thomas_01",
    "text": "Thomas Edison was an American inventor",
    "standing": "projectable",
@@ -175,6 +235,18 @@
    "text": "The Eiffel Tower was completed in 1889",
    "standing": "projectable",
    "evidence": "history · product curator · Eiffel Tower · cs_e_eiffel_tower_02"
+  },
+  {
+   "id": "cs_e_egyptian_pyramids_01",
+   "text": "The Great Pyramid of Giza is very old",
+   "standing": "projectable",
+   "evidence": "history · product curator · Egyptian pyramids · cs_e_egyptian_pyramids_01"
+  },
+  {
+   "id": "cs_e_euclid_01",
+   "text": "Euclid was a Greek mathematician",
+   "standing": "projectable",
+   "evidence": "history · product curator · Euclid · cs_e_euclid_01"
   },
   {
    "id": "cs_e_even_number_01",
@@ -195,10 +267,22 @@
    "evidence": "math · product curator · Equilateral triangle · cs_e_equilateral_triangle_02"
   },
   {
+   "id": "cs_e_exponent_01",
+   "text": "An exponent shows repeated multiplication",
+   "standing": "projectable",
+   "evidence": "math · product curator · Exponent · cs_e_exponent_01"
+  },
+  {
    "id": "cs_e_election_01",
    "text": "An election is a formal process for choosing officials by vote",
    "standing": "projectable",
    "evidence": "civics · product curator · Election · cs_e_election_01"
+  },
+  {
+   "id": "cs_e_electoral_college_01",
+   "text": "The American president is formally elected by the Electoral College",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Electoral College · cs_e_electoral_college_01"
   },
   {
    "id": "cs_e_european_union_01",
@@ -235,6 +319,18 @@
    "text": "Estonia borders the Baltic Sea",
    "standing": "projectable",
    "evidence": "geography · product curator · Estonia · cs_e_estonia_02"
+  },
+  {
+   "id": "cs_e_euphrates_01",
+   "text": "The Euphrates flows through Iraq",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Euphrates · cs_e_euphrates_01"
+  },
+  {
+   "id": "cs_e_elbe_01",
+   "text": "The Elbe flows into the North Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Elbe · cs_e_elbe_01"
   },
   {
    "id": "cs_e_english_channel_01",
@@ -327,10 +423,22 @@
    "evidence": "science · product curator · Echo · cs_e_echo_01"
   },
   {
+   "id": "cs_e_echolocation_01",
+   "text": "Bats use sound to find their way",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Echolocation · cs_e_echolocation_01"
+  },
+  {
    "id": "cs_e_elk_01",
    "text": "Elk are a species of deer",
    "standing": "projectable",
    "evidence": "nature · product curator · Elk · cs_e_elk_01"
+  },
+  {
+   "id": "cs_e_egret_01",
+   "text": "Egrets are birds in the heron family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Egret · cs_e_egret_01"
   },
   {
    "id": "cs_e_earwig_01",
@@ -355,6 +463,12 @@
    "text": "Elizabeth II was queen of the United Kingdom from 1952 to 2022",
    "standing": "projectable",
    "evidence": "history · product curator · Elizabeth II · cs_e_elizabeth_ii_01"
+  },
+  {
+   "id": "cs_e_erie_canal_01",
+   "text": "The Erie Canal connects the Hudson to Lake Erie",
+   "standing": "projectable",
+   "evidence": "history · product curator · Erie Canal · cs_e_erie_canal_01"
   },
   {
    "id": "cs_e_emancipation_proclamation_01",
@@ -399,16 +513,34 @@
    "evidence": "math · product curator · Edge · cs_e_edge_01"
   },
   {
+   "id": "cs_e_executive_branch_01",
+   "text": "The American president heads the executive branch",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Executive branch · cs_e_executive_branch_01"
+  },
+  {
    "id": "cs_e_embassy_01",
    "text": "An embassy is a country's diplomatic mission in another country",
    "standing": "projectable",
    "evidence": "civics · product curator · Embassy · cs_e_embassy_01"
   },
   {
+   "id": "cs_e_esperanto_01",
+   "text": "Esperanto is an artificial language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Esperanto · cs_e_esperanto_01"
+  },
+  {
    "id": "cs_e_esperanto_02",
    "text": "Esperanto was created by L. L. Zamenhof",
    "standing": "projectable",
    "evidence": "language · product curator · Esperanto · cs_e_esperanto_02"
+  },
+  {
+   "id": "cs_e_easter_island_01",
+   "text": "Easter Island is famous for its stone statues",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Easter Island · cs_e_easter_island_01"
   },
   {
    "id": "cs_e_easter_island_02",
