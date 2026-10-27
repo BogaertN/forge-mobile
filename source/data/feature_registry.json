@@ -1,5 +1,5 @@
 {
-  "version": "4.9.117",
+  "version": "4.9.118",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3040,13 +3040,40 @@
    "claim": "Partial",
    "note": "4.9.117: FORGE-NONLLM-RECEIPT/v1 is the same scan as the Doc 9 non-model class. The authority path records no language model. Shared KB stays empty.",
    "proof": ["R4117"]
+  },
+  {
+   "id": "R4118-DRIFT",
+   "name": "Offline drift divisor contrast",
+   "source": "CONFLICTS.md v4.9.118",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.118: research-only. driftFunctional divides by rho. ede.js, evolve.js, and reason.js stamp n = 3. RSOC n = max(1, rho+1) stays SOURCE_NOT_VERIFIED and is not executed. The contrast is not applied to the write law. Shared KB stays empty.",
+   "proof": ["R4118"]
+  },
+  {
+   "id": "R4118-ABLATE",
+   "name": "Phase ablation stubs",
+   "source": "CONFLICTS.md v4.9.118",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.118: research-only. Nine phase stubs stay unmeasured. The phase scheme stays a reconstruction. Phi1-Phi9 is not proven cognition. Shared KB stays empty.",
+   "proof": ["R4118"]
+  },
+  {
+   "id": "R4118-ECHO",
+   "name": "Echo rates on recorded Language Core surfaces",
+   "source": "CONFLICTS.md v4.9.118",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.118: research-only. False-positive and false-negative counts are scored on recorded Language Core surfaces and marked SOURCE_NOT_VERIFIED. They are not a product calibration. Echo stays an exact reparse. Shared KB stays empty.",
+   "proof": ["R4118"]
   }
  ],
- "count": 283,
+ "count": 286,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 121,
+  "Partial": 124,
   "Missing": 9,
   "Out of scope / parked": 13
  }
