@@ -23,6 +23,13 @@
     wire: 'the targeted gate writes the packet and the release check uses one decision',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.117 and leave the later queue unstarted'
   };
+  const C = {
+    drift: 'drift n and rho stay distinguished and are not a manuscript identity',
+    phase: 'phase ablation stubs stay unmeasured reconstructions',
+    echo: 'echo false rates on recorded surfaces stay research-only',
+    gates: 'mobile drift gates stay Nic 0.35 and are not the paper bands',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.118 and leave dream and creative writing unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -33,6 +40,9 @@
       { id: 'R4117-TRACE', statement: 'A slice names requirement ids, test ids, and a blank template.', falsify: 'A requirement id has no test in the suite.', tests: [L('R4117.map', 'r4117_suite.js', 'R4117', B.map, 'REGRESSION'), L('R4117.tool', 'r4117_suite.js', 'R4117', B.tool, 'REGRESSION'), L('R4117.audit', 'r4117_suite.js', 'R4117', B.audit, 'REGRESSION'), L('R4117.ver', 'r4117_suite.js', 'R4117', B.ver, 'REGRESSION')] },
       { id: 'R4117-GATES', statement: 'A passing behavior run does not override a failed gate.', falsify: 'A passing behavior total makes a failed gate pass.', tests: [L('R4117.gate', 'r4117_suite.js', 'R4117', B.gate, 'REGRESSION'), L('R4117.wire', 'r4117_suite.js', 'R4117', B.wire, 'REGRESSION')] },
       { id: 'R4117-NONLLM', statement: 'The authority path keeps the Doc 9 non-model scan.', falsify: 'The authority-path scan accepts a model call.', tests: [L('R4117.scan', 'r4117_suite.js', 'R4117', B.scan, 'NON-LLM SCAN')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.118', requirements: [
+      { id: 'R4118-NONEQ', statement: 'Math honesty is research-only and is not a manuscript equivalence.', falsify: 'A research divisor or a phase stub is treated as the Mobile write law or as a verified manuscript number.', tests: [L('R4118.drift', 'r4118_suite.js', 'R4118', C.drift, 'CALIBRATION'), L('R4118.phase', 'r4118_suite.js', 'R4118', C.phase, 'NEGATIVE'), L('R4118.echo', 'r4118_suite.js', 'R4118', C.echo, 'CALIBRATION'), L('R4118.gates', 'r4118_suite.js', 'R4118', C.gates, 'REGRESSION'), L('R4118.ver', 'r4118_suite.js', 'R4118', C.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };

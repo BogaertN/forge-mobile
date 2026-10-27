@@ -1,0 +1,49 @@
+{
+  "schema": "FORGE-LC-SURFACE-RECORD/v1",
+  "honesty": {
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "research_only": true,
+    "label": "research-only",
+    "note": "These surfaces are sentences already in the Language Core verification corpus. The expected Echo pass or fail was recorded from that corpus. This file is not a manuscript gold set."
+  },
+  "surfaces": [
+    {
+      "id": "LC-HELLO",
+      "utterance": "hello",
+      "expected_pass": true,
+      "recorded_in": "verify/run.js CALIBRATION everyday utterance"
+    },
+    {
+      "id": "LC-ARITH",
+      "utterance": "what is 3 + 4",
+      "expected_pass": true,
+      "recorded_in": "verify/run.js POSITIVE arithmetic"
+    },
+    {
+      "id": "LC-REMEMBER",
+      "utterance": "remember that my car is red",
+      "expected_pass": true,
+      "recorded_in": "verify/run.js POSITIVE remember/recall"
+    },
+    {
+      "id": "LC-HELP",
+      "utterance": "help",
+      "expected_pass": true,
+      "recorded_in": "verify/run.js CALIBRATION everyday utterance"
+    },
+    {
+      "id": "LC-REMEMBER-FAULT",
+      "utterance": "remember that my car is red",
+      "fault": { "from": "noted", "to": "denied" },
+      "expected_pass": false,
+      "recorded_in": "verify/run.js ADVERSARIAL renderer fault (dropped word)"
+    },
+    {
+      "id": "LC-ARITH-FAULT",
+      "utterance": "what is 3 + 4",
+      "fault": { "from": "= 7", "to": "= 8" },
+      "expected_pass": false,
+      "recorded_in": "verify/run.js ADVERSARIAL renderer fault (wrong math value), on the recorded 3 + 4 surface"
+    }
+  ]
+}

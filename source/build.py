@@ -64,7 +64,7 @@ def slim(m, s):
     if m != 'src/features.js': return s
     a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
     # 4.9.87: a long note is cut at a word boundary (the site copy keeps the full note); UTF-8 is written as is.
-    # 4.9.115 cut notes at 72 characters. 4.9.116 cuts at 40. 4.9.117 cuts at 16 so kernel-app.html stays within 1.920 MB after the requirement packet. The Pages site keeps the full note.
+    # 4.9.115 cut notes at 72 characters. 4.9.116 cuts at 40. 4.9.117 cuts at 16 so kernel-app.html stays within 1.920 MB after the requirement packet. 4.9.118 keeps that cut. Math-honesty tables stay in source/research and are not inlined. The Pages site keeps the full note.
     for f in d.get('features', []):
         f.pop('source', None); n = f.get('note') or ''
         if len(n) > 16: f['note'] = n[:16].rsplit(' ', 1)[0] + ' …'

@@ -1,0 +1,369 @@
+{
+ "schema": "FORGE-MATH-HONESTY/v1",
+ "release": "4.9.118",
+ "product_claim": false,
+ "proven_cognition": false,
+ "honesty": {
+  "manuscript": "SOURCE_NOT_VERIFIED",
+  "phase_scheme": "reconstruction",
+  "research_only": true,
+  "label": "research-only"
+ },
+ "manuscript_equivalence": {
+  "ok": false,
+  "status": "SOURCE_NOT_VERIFIED",
+  "equivalent": false,
+  "rule": "I.1",
+  "cite": "WM Spec Hardening I.1; originals unresolved"
+ },
+ "mobile_write_law": {
+  "project_max": 0.35,
+  "chi_below": 0.4,
+  "quarantine_min": 0.4,
+  "quarantine_max": 0.8,
+  "hard_stop_above": 0.8,
+  "unchanged": true,
+  "paper_0_4_0_8_adopted": false,
+  "paper_0_50_0_78_0_80_adopted": false,
+  "cite": "Nic ruling 2026-10-14 (RMC §8.3 θ; RSOC 0.4–0.8 novelty band)",
+  "contract": "drift-table/nic-2026-10-14/v1",
+  "honesty": "research-only",
+  "manuscript": "SOURCE_NOT_VERIFIED"
+ },
+ "drift": {
+  "honesty": "research-only",
+  "manuscript": "SOURCE_NOT_VERIFIED",
+  "distinguished": true,
+  "equivalent": false,
+  "formulations": [
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "id": "rho",
+    "executed": true,
+    "divisor": "max(1, depth)",
+    "contract": "drift-measure/addendum-3/v1",
+    "where": "src/kmath.js driftFunctional"
+   },
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "id": "n3",
+    "executed": true,
+    "divisor": 3,
+    "where": "src/ede.js, src/evolve.js, src/reason.js"
+   },
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "id": "rsoc-n",
+    "executed": false,
+    "status": "SOURCE_NOT_VERIFIED",
+    "divisor": "max(1, ρ+1)",
+    "where": "src/kmath.js header; src/ede.js comment",
+    "note": "Noted and not used. This harness does not compute it and does not install it as a gate."
+   }
+  ],
+  "cases": [
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "id": "depth-1",
+    "depth": 1,
+    "divisor_rho": 1,
+    "divisor_n3": 3,
+    "sigma_res": 0.1191,
+    "D_score": 1,
+    "dPhi": 0.2222,
+    "eps_rho": 1.3414,
+    "eps_n3": 0.4471,
+    "band_if_rho": "hard_stop",
+    "band_if_n3": "elevated",
+    "same_number": false,
+    "same_band": false,
+    "live_measure": "rho",
+    "applied_to_write_law": false,
+    "components_note": "Numerator components are the ones driftFunctional already returns. Dividing them by 3 uses the divisor ede.js, evolve.js, and reason.js stamp. EDE measures different components, so this row is a divisor contrast, not an EDE score."
+   },
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "id": "depth-3",
+    "depth": 3,
+    "divisor_rho": 3,
+    "divisor_n3": 3,
+    "sigma_res": 0.1191,
+    "D_score": 1,
+    "dPhi": 0.2222,
+    "eps_rho": 0.4471,
+    "eps_n3": 0.4471,
+    "band_if_rho": "elevated",
+    "band_if_n3": "elevated",
+    "same_number": true,
+    "same_band": true,
+    "live_measure": "rho",
+    "applied_to_write_law": false,
+    "components_note": "Numerator components are the ones driftFunctional already returns. Dividing them by 3 uses the divisor ede.js, evolve.js, and reason.js stamp. EDE measures different components, so this row is a divisor contrast, not an EDE score."
+   },
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "id": "depth-5",
+    "depth": 5,
+    "divisor_rho": 5,
+    "divisor_n3": 3,
+    "sigma_res": 0.1191,
+    "D_score": 1,
+    "dPhi": 0.2222,
+    "eps_rho": 0.2683,
+    "eps_n3": 0.4471,
+    "band_if_rho": "clean",
+    "band_if_n3": "elevated",
+    "same_number": false,
+    "same_band": false,
+    "live_measure": "rho",
+    "applied_to_write_law": false,
+    "components_note": "Numerator components are the ones driftFunctional already returns. Dividing them by 3 uses the divisor ede.js, evolve.js, and reason.js stamp. EDE measures different components, so this row is a divisor contrast, not an EDE score."
+   }
+  ],
+  "ede": {
+   "honesty": "research-only",
+   "manuscript": "SOURCE_NOT_VERIFIED",
+   "code": "src/ede.js",
+   "executed": true,
+   "n": 3,
+   "divisor": 3,
+   "eps_s": 0.0833,
+   "uses_rho": false,
+   "equivalent_to_addendum_rho": false,
+   "recorded_edges": 5,
+   "note": "EDE stamps n = 3 on its own components. It does not call driftFunctional and it does not divide by ρ."
+  },
+  "static_n3": [
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "file": "src/evolve.js",
+    "stamps_n_3": true,
+    "divides_by_3": true,
+    "uses_driftFunctional": false
+   },
+   {
+    "honesty": "research-only",
+    "manuscript": "SOURCE_NOT_VERIFIED",
+    "file": "src/reason.js",
+    "stamps_n_3": true,
+    "divides_by_3": true,
+    "uses_driftFunctional": false
+   }
+  ]
+ },
+ "phase_ablation": [
+  {
+   "phase": 1,
+   "symbol": "Φ₁",
+   "name": "Initiation",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 2,
+   "symbol": "Φ₂",
+   "name": "Polarity",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 3,
+   "symbol": "Φ₃",
+   "name": "Desire",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 4,
+   "symbol": "Φ₄",
+   "name": "Friction",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 5,
+   "symbol": "Φ₅",
+   "name": "Entropy",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 6,
+   "symbol": "Φ₆",
+   "name": "Grace / Correction",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 7,
+   "symbol": "Φ₇",
+   "name": "Naming",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 8,
+   "symbol": "Φ₈",
+   "name": "Projection",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  },
+  {
+   "phase": 9,
+   "symbol": "Φ₉",
+   "name": "Return",
+   "dropped": true,
+   "measured": false,
+   "delta_eps": null,
+   "status": "stub",
+   "phase_scheme_status": "reconstruction",
+   "phase_scheme_id": "phase-scheme/rmc-rpmc/v1",
+   "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
+   "honesty": "research-only",
+   "proven_cognition": false,
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+  }
+ ],
+ "echo": {
+  "honesty": "research-only",
+  "manuscript": "SOURCE_NOT_VERIFIED",
+  "product_claim": false,
+  "fixture": "research/lc_surfaces.json",
+  "surfaces": 6,
+  "rows": [
+   {
+    "id": "LC-HELLO",
+    "utterance": "hello",
+    "expected_pass": true,
+    "actual_pass": true,
+    "recorded_in": "verify/run.js CALIBRATION everyday utterance",
+    "fault": null
+   },
+   {
+    "id": "LC-ARITH",
+    "utterance": "what is 3 + 4",
+    "expected_pass": true,
+    "actual_pass": true,
+    "recorded_in": "verify/run.js POSITIVE arithmetic",
+    "fault": null
+   },
+   {
+    "id": "LC-REMEMBER",
+    "utterance": "remember that my car is red",
+    "expected_pass": true,
+    "actual_pass": true,
+    "recorded_in": "verify/run.js POSITIVE remember/recall",
+    "fault": null
+   },
+   {
+    "id": "LC-HELP",
+    "utterance": "help",
+    "expected_pass": true,
+    "actual_pass": true,
+    "recorded_in": "verify/run.js CALIBRATION everyday utterance",
+    "fault": null
+   },
+   {
+    "id": "LC-REMEMBER-FAULT",
+    "utterance": "remember that my car is red",
+    "expected_pass": false,
+    "actual_pass": false,
+    "recorded_in": "verify/run.js ADVERSARIAL renderer fault (dropped word)",
+    "fault": {
+     "from": "noted",
+     "to": "denied"
+    }
+   },
+   {
+    "id": "LC-ARITH-FAULT",
+    "utterance": "what is 3 + 4",
+    "expected_pass": false,
+    "actual_pass": false,
+    "recorded_in": "verify/run.js ADVERSARIAL renderer fault (wrong math value), on the recorded 3 + 4 surface",
+    "fault": {
+     "from": "= 7",
+     "to": "= 8"
+    }
+   }
+  ],
+  "true_positive": 4,
+  "true_negative": 2,
+  "false_positive": 0,
+  "false_negative": 0,
+  "false_positive_rate": 0,
+  "false_negative_rate": 0,
+  "shared_kb_writes": 0,
+  "note": "Rates are counts on this recorded set divided by the recorded positives or negatives. A zero here is not a manuscript calibration and not a claim of proven cognition."
+ }
+}

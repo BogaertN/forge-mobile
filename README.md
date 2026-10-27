@@ -2,7 +2,7 @@
 
 Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-**Version 4.9.117**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). 4.9.117 records the requirement packet, registry 283, publish-gate tests 254 passed of 254 (0 failed, 0 not run), service-worker cache `forge-mobile-v4.9.117`. 4.9.116 shipped the household pathways and recorded registry 280, publish-gate tests 246 passed of 246 (0 failed, 0 not run), service-worker cache `forge-mobile-v4.9.116`. 4.9.115 shipped Pattern Reflection and Verify packet.
+**Version 4.9.118**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). 4.9.118 keeps an offline research note. The drift divisors already in the code are not one manuscript number, and Φ1–Φ9 is not proven cognition. The write law stays at or under 0.35. 4.9.117 records the requirement packet, registry 283, publish-gate tests 254 passed of 254 (0 failed, 0 not run), service-worker cache `forge-mobile-v4.9.117`. 4.9.116 shipped the household pathways and recorded registry 280, publish-gate tests 246 passed of 246 (0 failed, 0 not run), service-worker cache `forge-mobile-v4.9.116`. 4.9.115 shipped Pattern Reflection and Verify packet.
 
 ## The app
 
@@ -119,6 +119,8 @@ Drift ε_s is the write law (`source/src/kmath.js`):
 | 0.35 < ε_s < 0.40 | Correction | χ, the correction function, runs once. The turn is measured again. A write in this turn requires the new value to be ≤ 0.35. |
 | 0.40 ≤ ε_s ≤ 0.80 | Quarantine | Archived. Withheld from projection and from memory. |
 | > 0.80 | Hard stop | Sealed, unless the χ hard-stop check fires and re-routes the turn with a restricted meaning. |
+
+An offline research note compares the ρ divisor in this table's measure with the n = 3 divisor already stamped on other scores. That note is not this write law. ROC, CFBC, and RSOC are not treated as one manuscript number. Φ1–Φ9 is not proven cognition.
 
 Forbidden phase jumps, Φ5→Φ8 and Φ4→Φ8, are a separate gate. The trace names the math contracts that ran: the drift measure, this table, the χ correction, the χ hard-stop check, the RSOC speech selector, and the phase scheme from Φ1 Initiation through Φ9 Return. RSOC chooses among rival phrasings. One alignment locks. Several stay open. A sever may split a clause list when the clauses themselves are unchanged.
 

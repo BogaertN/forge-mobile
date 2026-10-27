@@ -1,9 +1,18 @@
-# Next build order — after 4.9.117
+# Next build order — after 4.9.118
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.117 Doc 9 verification packets (shipped from 4.9.116)
+**Baseline:** 4.9.118 math honesty offline research (shipped from 4.9.117)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. 4.9.117 records the requirement packet for that slice, keeps behavior tests separate from verifier gates, and writes the non-model receipt. Do not start Genesis, HCS, marketplace, agents, a shared KB, fluency, creative writing, math honesty, or dream/SPC from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. 4.9.117 records the requirement packet for that slice, keeps behavior tests separate from verifier gates, and writes the non-model receipt. 4.9.118 adds an offline math honesty research harness. It refuses manuscript equivalence. Nic's Mobile drift bands stay. Do not start Genesis, HCS, marketplace, agents, a shared KB, fluency, creative writing, or dream/SPC from this file.
+
+---
+
+## Shipped: **4.9.118** (2026-10-27)
+
+1. **Drift divisors** — the offline harness reports ρ = max(1, depth) and n = 3 as the divisors the code already uses. RSOC n = max(1, ρ+1) stays noted and not executed (`SOURCE_NOT_VERIFIED`). The contrast is research-only. It does not change the write law.
+2. **Phase stubs** — nine ablation stubs stay unmeasured. The phase scheme stays a reconstruction. Φ1–Φ9 is not proven cognition.
+3. **Echo rates** — false-positive and false-negative counts are scored on recorded Language Core surfaces and labeled research-only. They are not README product truth.
+4. **Not this release** — dream/SPC was not started. Creative writing was not started. Genesis, HCS, marketplace, agents, fluency, Soft Echo, and a shared KB stay out. Do not start them from this file.
 
 ---
 
