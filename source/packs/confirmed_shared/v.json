@@ -51,6 +51,12 @@
    "evidence": "geography · product curator · Victoria, Lake · cs_v_victoria_lake_01"
   },
   {
+   "id": "cs_v_victoria_falls_01",
+   "text": "Victoria Falls lies on the Zambezi",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Victoria Falls · cs_v_victoria_falls_01"
+  },
+  {
    "id": "cs_v_victoria_falls_02",
    "text": "Victoria Falls is on the border of Zambia and Zimbabwe",
    "standing": "projectable",
@@ -75,6 +81,12 @@
    "evidence": "geography · product curator · Venice · cs_v_venice_01"
   },
   {
+   "id": "cs_v_vesuvius_01",
+   "text": "Vesuvius is a volcano near Naples",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vesuvius · cs_v_vesuvius_01"
+  },
+  {
    "id": "cs_v_vancouver_01",
    "text": "Vancouver is a city in British Columbia",
    "standing": "projectable",
@@ -97,6 +109,12 @@
    "text": "A valley is low land between hills or mountains",
    "standing": "projectable",
    "evidence": "geography · product curator · Valley · cs_v_valley_01"
+  },
+  {
+   "id": "cs_v_volcano_01",
+   "text": "Magma erupts through a volcano",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Volcano · cs_v_volcano_01"
   },
   {
    "id": "cs_v_venus_01",
@@ -147,6 +165,12 @@
    "evidence": "science · product curator · Volt · cs_v_volt_01"
   },
   {
+   "id": "cs_v_voltage_01",
+   "text": "Voltage equals current multiplied by resistance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voltage · cs_v_voltage_01"
+  },
+  {
    "id": "cs_v_vapor_01",
    "text": "Water vapor is water in its gaseous state",
    "standing": "projectable",
@@ -171,6 +195,36 @@
    "evidence": "science · product curator · Virus · cs_v_virus_01"
   },
   {
+   "id": "cs_v_vitamin_d_01",
+   "text": "Sunlight helps the skin make vitamin D",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vitamin D · cs_v_vitamin_d_01"
+  },
+  {
+   "id": "cs_v_voyager_1_01",
+   "text": "Voyager was launched in 1977",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voyager 1 · cs_v_voyager_1_01"
+  },
+  {
+   "id": "cs_v_voyager_1_02",
+   "text": "Voyager is the farthest spacecraft from Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voyager 1 · cs_v_voyager_1_02"
+  },
+  {
+   "id": "cs_v_vulture_01",
+   "text": "Vultures are scavengers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_01"
+  },
+  {
+   "id": "cs_v_viper_01",
+   "text": "Vipers are venomous snakes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Viper · cs_v_viper_01"
+  },
+  {
    "id": "cs_v_vampire_bat_01",
    "text": "Vampire bats feed on blood",
    "standing": "projectable",
@@ -181,6 +235,12 @@
    "text": "Voles are small rodents",
    "standing": "projectable",
    "evidence": "nature · product curator · Vole · cs_v_vole_01"
+  },
+  {
+   "id": "cs_v_vicuna_01",
+   "text": "The vicuna is related to the llama",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vicuña · cs_v_vicuna_01"
   },
   {
    "id": "cs_v_violet_01",
@@ -205,6 +265,30 @@
    "text": "Queen Victoria was queen of the United Kingdom",
    "standing": "projectable",
    "evidence": "history · product curator · Victoria, Queen · cs_v_victoria_queen_01"
+  },
+  {
+   "id": "cs_v_vikings_01",
+   "text": "The Vikings came from Scandinavia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vikings · cs_v_vikings_01"
+  },
+  {
+   "id": "cs_v_vikings_02",
+   "text": "Leif Erikson reached North America around 1000",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vikings · cs_v_vikings_02"
+  },
+  {
+   "id": "cs_v_van_gogh_vincent_01",
+   "text": "Van Gogh painted The Starry Night",
+   "standing": "projectable",
+   "evidence": "history · product curator · Van Gogh, Vincent · cs_v_van_gogh_vincent_01"
+  },
+  {
+   "id": "cs_v_van_gogh_vincent_02",
+   "text": "Van Gogh was a Dutch painter",
+   "standing": "projectable",
+   "evidence": "history · product curator · Van Gogh, Vincent · cs_v_van_gogh_vincent_02"
   },
   {
    "id": "cs_v_vespucci_amerigo_01",
@@ -237,6 +321,18 @@
    "evidence": "history · product curator · Vivaldi, Antonio · cs_v_vivaldi_antonio_01"
   },
   {
+   "id": "cs_v_volta_alessandro_01",
+   "text": "Volta invented an early battery",
+   "standing": "projectable",
+   "evidence": "history · product curator · Volta, Alessandro · cs_v_volta_alessandro_01"
+  },
+  {
+   "id": "cs_v_vertex_01",
+   "text": "A vertex is a corner",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vertex · cs_v_vertex_01"
+  },
+  {
    "id": "cs_v_vertex_02",
    "text": "A cube has eight vertices",
    "standing": "projectable",
@@ -261,6 +357,30 @@
    "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_01"
   },
   {
+   "id": "cs_v_veto_01",
+   "text": "The American president can veto bills passed by Congress",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Veto · cs_v_veto_01"
+  },
+  {
+   "id": "cs_v_vice_president_01",
+   "text": "The American vice president presides over the Senate",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Vice president · cs_v_vice_president_01"
+  },
+  {
+   "id": "cs_v_vote_01",
+   "text": "American citizens can vote at 18",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Vote · cs_v_vote_01"
+  },
+  {
+   "id": "cs_v_vowel_01",
+   "text": "English has five vowel letters",
+   "standing": "projectable",
+   "evidence": "language · product curator · Vowel · cs_v_vowel_01"
+  },
+  {
    "id": "cs_v_verb_01",
    "text": "A verb expresses an action or state",
    "standing": "projectable",
@@ -277,6 +397,12 @@
    "text": "The violin has four strings",
    "standing": "projectable",
    "evidence": "general · product curator · Violin · cs_v_violin_01"
+  },
+  {
+   "id": "cs_v_viola_01",
+   "text": "The viola is larger than the violin",
+   "standing": "projectable",
+   "evidence": "general · product curator · Viola · cs_v_viola_01"
   },
   {
    "id": "cs_v_volleyball_01",
@@ -339,10 +465,28 @@
    "evidence": "history · product curator · Vikings · cs_v_vikings_03"
   },
   {
+   "id": "cs_v_vote_02",
+   "text": "Citizens over 18 can vote",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Vote · cs_v_vote_02"
+  },
+  {
    "id": "cs_v_vatican_city_03",
    "text": "Vatican City is the smallest country by area",
    "standing": "projectable",
    "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_03"
+  },
+  {
+   "id": "cs_v_vesuvius_02",
+   "text": "Vesuvius is near Naples",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vesuvius · cs_v_vesuvius_02"
+  },
+  {
+   "id": "cs_v_vesuvius_03",
+   "text": "Vesuvius buried Pompeii",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vesuvius · cs_v_vesuvius_03"
   },
   {
    "id": "cs_v_vein_02",
@@ -361,6 +505,12 @@
    "text": "The volt is the unit of electric potential",
    "standing": "projectable",
    "evidence": "science · product curator · Volt · cs_v_volt_02"
+  },
+  {
+   "id": "cs_v_vertex_03",
+   "text": "Lines meet at a vertex",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vertex · cs_v_vertex_03"
   },
   {
    "id": "cs_v_vine_02",
@@ -385,6 +535,18 @@
    "text": "Virginia is one of the original thirteen states",
    "standing": "projectable",
    "evidence": "history · product curator · Virginia · cs_v_virginia_02"
+  },
+  {
+   "id": "cs_v_volcano_03",
+   "text": "A dormant volcano is not erupting",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volcano · cs_v_volcano_03"
+  },
+  {
+   "id": "cs_v_vowel_02",
+   "text": "E is a vowel",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Vowel · cs_v_vowel_02"
   },
   {
    "id": "cs_v_violin_02",

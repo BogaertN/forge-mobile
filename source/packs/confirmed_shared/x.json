@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 102,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -19,6 +19,12 @@
    "text": "Xenon is a noble gas",
    "standing": "projectable",
    "evidence": "science · product curator · Xenon · cs_x_xenon_02"
+  },
+  {
+   "id": "cs_x_xenon_03",
+   "text": "Xenon has an atomic number of 54",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_03"
   },
   {
    "id": "cs_x_xenon_04",
@@ -45,6 +51,12 @@
    "evidence": "science · product curator · X-ray · cs_x_x_ray_02"
   },
   {
+   "id": "cs_x_x_ray_03",
+   "text": "X rays are shorter than ultraviolet waves",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_03"
+  },
+  {
    "id": "cs_x_x_ray_04",
    "text": "X-rays can pass through soft tissue",
    "standing": "projectable",
@@ -61,6 +73,12 @@
    "text": "X-ray astronomy studies X-rays from objects in space",
    "standing": "projectable",
    "evidence": "science · product curator · X-ray astronomy · cs_x_x_ray_astronomy_01"
+  },
+  {
+   "id": "cs_x_x_ray_astronomy_02",
+   "text": "The atmosphere blocks X rays from space",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray astronomy · cs_x_x_ray_astronomy_02"
   },
   {
    "id": "cs_x_x_ray_crystallography_01",
@@ -87,10 +105,22 @@
    "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_03"
   },
   {
+   "id": "cs_x_xylem_01",
+   "text": "Xylem carries water in plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylem · cs_x_xylem_01"
+  },
+  {
    "id": "cs_x_xylem_02",
    "text": "Xylem is a vascular tissue in plants",
    "standing": "projectable",
    "evidence": "science · product curator · Xylem · cs_x_xylem_02"
+  },
+  {
+   "id": "cs_x_xylem_03",
+   "text": "Wood is made of xylem",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylem · cs_x_xylem_03"
   },
   {
    "id": "cs_x_xylose_01",
@@ -115,6 +145,18 @@
    "text": "Xanthophylls are yellow pigments found in leaves",
    "standing": "projectable",
    "evidence": "science · product curator · Xanthophyll · cs_x_xanthophyll_01"
+  },
+  {
+   "id": "cs_x_xerus_01",
+   "text": "Xerus is a genus of squirrels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xerus · cs_x_xerus_01"
+  },
+  {
+   "id": "cs_x_xenopus_01",
+   "text": "Xenopus is a genus of frogs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xenopus · cs_x_xenopus_01"
   },
   {
    "id": "cs_x_xoloitzcuintle_01",
@@ -165,10 +207,40 @@
    "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_01"
   },
   {
+   "id": "cs_x_xinjiang_02",
+   "text": "Urumqi is the capital of Xinjiang",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_02"
+  },
+  {
+   "id": "cs_x_xiamen_01",
+   "text": "Xiamen is a port city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_01"
+  },
+  {
+   "id": "cs_x_xingu_river_01",
+   "text": "The Xingu is a tributary of the Amazon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xingu River · cs_x_xingu_river_01"
+  },
+  {
+   "id": "cs_x_xingu_river_02",
+   "text": "The Xingu flows through Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xingu River · cs_x_xingu_river_02"
+  },
+  {
    "id": "cs_x_xochimilco_01",
    "text": "Xochimilco in Mexico City is known for its canals",
    "standing": "projectable",
    "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_01"
+  },
+  {
+   "id": "cs_x_xochimilco_02",
+   "text": "Xochimilco is a UNESCO site",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_02"
   },
   {
    "id": "cs_x_xai_xai_01",
@@ -183,6 +255,36 @@
    "evidence": "geography · product curator · Xalapa · cs_x_xalapa_01"
   },
   {
+   "id": "cs_x_xanthi_01",
+   "text": "Xanthi is a city in Greece",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xanthi · cs_x_xanthi_01"
+  },
+  {
+   "id": "cs_x_xerxes_i_01",
+   "text": "Xerxes was a king of Persia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_01"
+  },
+  {
+   "id": "cs_x_xerxes_i_02",
+   "text": "Xerxes invaded Greece",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_02"
+  },
+  {
+   "id": "cs_x_xerxes_i_03",
+   "text": "Xerxes was the son of Darius",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_03"
+  },
+  {
+   "id": "cs_x_xenophon_01",
+   "text": "Xenophon was a Greek historian",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xenophon · cs_x_xenophon_01"
+  },
+  {
    "id": "cs_x_xenophon_02",
    "text": "Xenophon was a student of Socrates",
    "standing": "projectable",
@@ -193,6 +295,24 @@
    "text": "Xenophon wrote the Anabasis",
    "standing": "projectable",
    "evidence": "history · product curator · Xenophon · cs_x_xenophon_03"
+  },
+  {
+   "id": "cs_x_xenophanes_01",
+   "text": "Xenophanes was a Greek philosopher",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xenophanes · cs_x_xenophanes_01"
+  },
+  {
+   "id": "cs_x_xuanzang_01",
+   "text": "Xuanzang was a Chinese monk who traveled to India",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xuanzang · cs_x_xuanzang_01"
+  },
+  {
+   "id": "cs_x_xia_dynasty_01",
+   "text": "The Xia is the earliest dynasty in Chinese tradition",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_01"
   },
   {
    "id": "cs_x_xochiquetzal_01",
@@ -249,6 +369,12 @@
    "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_01"
   },
   {
+   "id": "cs_x_x_intercept_01",
+   "text": "A graph crosses the x axis at the x intercept",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_01"
+  },
+  {
    "id": "cs_x_xylophone_01",
    "text": "The xylophone is a percussion instrument",
    "standing": "projectable",
@@ -261,10 +387,22 @@
    "evidence": "general · product curator · Xylophone · cs_x_xylophone_02"
   },
   {
+   "id": "cs_x_xylophone_03",
+   "text": "The word xylophone comes from Greek",
+   "standing": "projectable",
+   "evidence": "language · product curator · Xylophone · cs_x_xylophone_03"
+  },
+  {
    "id": "cs_x_xmas_01",
    "text": "Xmas is an abbreviation of Christmas",
    "standing": "projectable",
    "evidence": "language · product curator · Xmas · cs_x_xmas_01"
+  },
+  {
+   "id": "cs_x_xerography_01",
+   "text": "Xerography is a dry copying process",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerography · cs_x_xerography_01"
   },
   {
    "id": "cs_x_xerography_02",
@@ -279,10 +417,22 @@
    "evidence": "general · product curator · XML · cs_x_xml_01"
   },
   {
+   "id": "cs_x_xbox_01",
+   "text": "Microsoft makes the Xbox",
+   "standing": "projectable",
+   "evidence": "general · product curator · Xbox · cs_x_xbox_01"
+  },
+  {
    "id": "cs_x_xenophobia_01",
    "text": "Xenophobia is fear or dislike of foreigners",
    "standing": "projectable",
    "evidence": "language · product curator · Xenophobia · cs_x_xenophobia_01"
+  },
+  {
+   "id": "cs_x_xeriscaping_01",
+   "text": "Xeriscaping needs little water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xeriscaping · cs_x_xeriscaping_01"
   },
   {
    "id": "cs_x_x_15_01",
@@ -295,6 +445,12 @@
    "text": "Xinhua is China's state news agency",
    "standing": "projectable",
    "evidence": "general · product curator · Xinhua · cs_x_xinhua_01"
+  },
+  {
+   "id": "cs_x_xenon_06",
+   "text": "Xenon is a noble gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_06"
   },
   {
    "id": "cs_x_x_ray_06",
@@ -325,6 +481,12 @@
    "text": "Xinjiang is a region in northwest China",
    "standing": "projectable",
    "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_03"
+  },
+  {
+   "id": "cs_x_xerxes_i_04",
+   "text": "Xerxes was a king of the Persian Empire",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_04"
   },
   {
    "id": "cs_x_xhosa_05",
@@ -363,6 +525,12 @@
    "evidence": "science · product curator · Xylitol · cs_x_xylitol_02"
   },
   {
+   "id": "cs_x_xia_dynasty_02",
+   "text": "The Xia was the first dynasty of China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_02"
+  },
+  {
    "id": "cs_x_xiamen_02",
    "text": "Xiamen is a port city in China",
    "standing": "projectable",
@@ -375,10 +543,28 @@
    "evidence": "history · product curator · Xi'an · cs_x_xi_an_05"
   },
   {
+   "id": "cs_x_xenophon_04",
+   "text": "Xenophon was a Greek writer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xenophon · cs_x_xenophon_04"
+  },
+  {
    "id": "cs_x_xylophone_05",
    "text": "The xylophone is played with mallets",
    "standing": "projectable",
    "evidence": "culture · product curator · Xylophone · cs_x_xylophone_05"
+  },
+  {
+   "id": "cs_x_xining_01",
+   "text": "Xining is the capital of Qinghai",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xining · cs_x_xining_01"
+  },
+  {
+   "id": "cs_x_xalapa_02",
+   "text": "Xalapa is the capital of Veracruz",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_02"
   }
  ]
 }
