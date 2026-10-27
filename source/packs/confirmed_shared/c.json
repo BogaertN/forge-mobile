@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 81,
+ "curated_facts": 103,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -361,6 +361,108 @@
    "text": "A magnetic compass needle points toward magnetic north",
    "standing": "projectable",
    "evidence": "science · product curator · Compass · cs_c_compass_01"
+  },
+  {
+   "id": "cs_c_cape_town_01",
+   "text": "Cape Town is a city in South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cape Town · cs_c_cape_town_01"
+  },
+  {
+   "id": "cs_c_concord_01",
+   "text": "Concord is the capital of New Hampshire",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Concord · cs_c_concord_01"
+  },
+  {
+   "id": "cs_c_costa_rica_01",
+   "text": "San José is the capital of Costa Rica",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Costa Rica · cs_c_costa_rica_01"
+  },
+  {
+   "id": "cs_c_copper_03",
+   "text": "The chemical symbol for copper is Cu",
+   "standing": "projectable",
+   "evidence": "science · product curator · Copper · cs_c_copper_03"
+  },
+  {
+   "id": "cs_c_condor_01",
+   "text": "The Andean condor is one of the largest flying birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Condor · cs_c_condor_01"
+  },
+  {
+   "id": "cs_c_coyote_01",
+   "text": "Coyotes are members of the dog family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Coyote · cs_c_coyote_01"
+  },
+  {
+   "id": "cs_c_chad_01",
+   "text": "N'Djamena is the capital of Chad",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chad · cs_c_chad_01"
+  },
+  {
+   "id": "cs_c_colombo_01",
+   "text": "Colombo is the largest city in Sri Lanka",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Colombo · cs_c_colombo_01"
+  },
+  {
+   "id": "cs_c_conakry_01",
+   "text": "Conakry is the capital of Guinea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Conakry · cs_c_conakry_01"
+  },
+  {
+   "id": "cs_c_corsica_01",
+   "text": "Corsica is a French island in the Mediterranean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Corsica · cs_c_corsica_01"
+  },
+  {
+   "id": "cs_c_cardinal_01",
+   "text": "The northern cardinal male has bright red plumage",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cardinal · cs_c_cardinal_01"
+  },
+  {
+   "id": "cs_c_clam_01",
+   "text": "Clams are bivalve mollusks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Clam · cs_c_clam_01"
+  },
+  {
+   "id": "cs_c_crow_01",
+   "text": "Crows are highly intelligent birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Crow · cs_c_crow_01"
+  },
+  {
+   "id": "cs_c_cedar_01",
+   "text": "Cedars are coniferous trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cedar · cs_c_cedar_01"
+  },
+  {
+   "id": "cs_c_cumulus_cloud_01",
+   "text": "Cumulus clouds are puffy clouds with flat bases",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cumulus cloud · cs_c_cumulus_cloud_01"
+  },
+  {
+   "id": "cs_c_cube_03",
+   "text": "A cube has six square faces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cube · cs_c_cube_03"
+  },
+  {
+   "id": "cs_c_cylinder_01",
+   "text": "A cylinder has two parallel circular bases",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cylinder · cs_c_cylinder_01"
   }
  ]
 }
