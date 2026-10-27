@@ -146,8 +146,12 @@ def slim(m, s):
     # 4.9.87: a long note is cut at a word boundary (the site copy keeps the full note); UTF-8 is written as is.
     # 4.9.115 cut notes at 72 characters. 4.9.116 cuts at 40. 4.9.117 cuts at 16. 4.9.118 cuts at 4.
     # 4.9.119 omits note and wave from kernel-app.html so the dream/SPC copy stays within 1.920 MB. The claim table still shows id, name, status, and proof. Math-honesty tables stay in source/research. The Pages site keeps the full registry.
+    # 4.9.125 hotfix: truncate long feature names at a word boundary (≤20) so CI zlib.gzipSync stays under 570 kB; proofs stay. Pages site keeps full names.
     for f in d.get('features', []):
         f.pop('source', None); f.pop('note', None); f.pop('wave', None)
+        n = f.get('name') or ''
+        if len(n) > 20:
+            cut = n[:20]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 12 else cut
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)

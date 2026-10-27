@@ -453,34 +453,34 @@ function Kernel(opts) {
   function ruleEdges(mem) { const edges = INF.relEdges(mem).map(e => Object.assign({}, e)); const typed = new Set(edges.map(e => e.id));
     for (const r of mem) { if (typed.has(r.id) || !r.entities || r.entities.length !== 2 || r.clause.coord || r.clause.cond) continue; edges.push({ id: r.id, a: r.entities[0], b: r.entities[1], rel: r.pred === 'be' ? 'isa' : r.pred, neg: r.clause.verb && r.clause.verb.pol === 'neg' }); } return edges; }
   /* 4.9.124: a small on-device starter pack. Confirmed on first open. Not memory and not shared knowledge. */
-  const STARTER_SCHEMA = 'FORGE-STARTER-PACK/v1';
+  const STARTER_SCHEMA = 'FORGE-STARTER-PACK/v1', PACK_ST = 'starter_pack', PACK_IM = 'import_pack';
   const STARTER_LINES = [{ id: 'st:spaniel-dog', text: 'a spaniel is a dog' }, { id: 'st:dog-animal', text: 'a dog is an animal' }, { id: 'st:paw-dog', text: 'a paw is part of a dog' }, { id: 'st:dog-coat', text: 'a dog has a coat' }];
-  function starterRecord() { const v = store.load('starter_pack'); return v && !Array.isArray(v) && typeof v === 'object' ? v : null; }
+  function packRecord(cat) { const v = store.load(cat); return v && !Array.isArray(v) && typeof v === 'object' ? v : null; }
+  function starterRecord() { return packRecord(PACK_ST); }
   function starterFacts() { const v = starterRecord(); return v && v.status === 'present' && Array.isArray(v.facts) ? v.facts : []; }
   function starterFact(id, clause) { const ents = [...new Set(nps(clause).filter(n => !n.pron3).map(entKey).filter(Boolean))];
-    return { id, kind: 'relation', clause, pred: clause.coord ? 'and' : clause.verb.lemma, subjKey: clause.coord ? null : entKey(clause.subj), entities: ents, status: 'active', sfe: { Phi: 9, rho: 1, Delta: 0, nu: 0, mu: 1.0, eps: 0, tau: [], lambda: 0, chi: 0 }, provenance: { source: 'starter_pack', rule: 'STARTER-PACK', turn: null } }; }
+    return { id, kind: 'relation', clause, pred: clause.coord ? 'and' : clause.verb.lemma, subjKey: clause.coord ? null : entKey(clause.subj), entities: ents, status: 'active', sfe: { Phi: 9, rho: 1, Delta: 0, nu: 0, mu: 1.0, eps: 0, tau: [], lambda: 0, chi: 0 }, provenance: { source: PACK_ST, rule: 'STARTER-PACK', turn: null } }; }
   function ensureStarter() { const cur = starterRecord(); if (cur && (cur.status === 'present' || cur.status === 'cleared')) return cur; const facts = [];
     for (const line of STARTER_LINES) { let clause = null; try { clause = reparseClause(line.text); } catch (e) { clause = null; } if (!clause || clause.coord || !clause.verb) return cur; facts.push(starterFact(line.id, clause)); }
-    if (facts.length !== STARTER_LINES.length) return cur; const pack = { schema: STARTER_SCHEMA, status: 'present', provenance: 'starter_pack', facts }; store.save('starter_pack', pack); return pack; }
-  function starterView() { const v = starterRecord(); const present = !!(v && v.status === 'present'); const facts = present ? (v.facts || []).map(f => { let text = ''; try { text = G.clauseText(f.clause, 'kernel'); } catch (e) { text = ''; } return { id: f.id, text, provenance: 'starter_pack' }; }) : [];
-    return { schema: STARTER_SCHEMA, status: present ? 'present' : 'cleared', provenance: 'starter_pack', facts }; }
-  function clearStarterKnowledge() { store.save('starter_pack', { schema: STARTER_SCHEMA, status: 'cleared', provenance: 'starter_pack', facts: [] }); return starterView(); }
-  /* 4.9.125: on-device import pack. Confirmed and projectable items are admitted. Contested and quarantine items stay held until a tap. Not memory and not shared knowledge. */
+    if (facts.length !== STARTER_LINES.length) return cur; const pack = { schema: STARTER_SCHEMA, status: 'present', provenance: PACK_ST, facts }; store.save(PACK_ST, pack); return pack; }
+  function starterView() { const v = starterRecord(); const present = !!(v && v.status === 'present'); const facts = present ? (v.facts || []).map(f => { let text = ''; try { text = G.clauseText(f.clause, 'kernel'); } catch (e) { text = ''; } return { id: f.id, text, provenance: PACK_ST }; }) : [];
+    return { schema: STARTER_SCHEMA, status: present ? 'present' : 'cleared', provenance: PACK_ST, facts }; }
+  function clearStarterKnowledge() { store.save(PACK_ST, { schema: STARTER_SCHEMA, status: 'cleared', provenance: PACK_ST, facts: [] }); return starterView(); }
+  /* 4.9.125: on-device import pack. Reuses starterFact literals. Confirmed/projectable admit; contested/quarantine held until tap. Not memory, not shared knowledge. */
   const IMPORT_SCHEMA = 'FORGE-CONFIRMED-PACK/v1', IMPORT_RECEIPT = 'FORGE-IMPORT-RECEIPT/v1';
   const ADMIT_ST = { confirmed: 1, projectable: 1 }, HOLD_ST = { contested: 1, quarantine: 1 };
-  function importRecord() { const v = store.load('import_pack'); return v && !Array.isArray(v) && typeof v === 'object' ? v : null; }
+  function importRecord() { return packRecord(PACK_IM); }
   function importFacts() { const v = importRecord(); return v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active' && f.clause) : []; }
   const normImport = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
   const importId = t => 'im:' + sha256(normImport(t)).slice(0, 16);
-  function importFact(id, clause, evidence, standing) { const ents = [...new Set(nps(clause).filter(n => !n.pron3).map(entKey).filter(Boolean))];
-    return { id, kind: 'relation', clause, pred: clause.coord ? 'and' : clause.verb.lemma, subjKey: clause.coord ? null : entKey(clause.subj), entities: ents, status: 'active', standing, evidence, sfe: { Phi: 9, rho: 1, Delta: 0, nu: 0, mu: 1.0, eps: 0, tau: [], lambda: 0, chi: 0 }, provenance: { source: 'import_pack', rule: 'IMPORT-PACK', turn: null } }; }
+  function importFact(id, clause, evidence, standing) { const f = starterFact(id, clause); f.standing = standing; f.evidence = evidence; f.provenance = { source: PACK_IM, rule: 'IMPORT-PACK', turn: null }; return f; }
   function importText(f) { try { return G.clauseText(f.clause, 'kernel'); } catch (e) { return f.text || ''; } }
-  function importRow(f) { return { id: f.id, text: f.clause ? importText(f) : (f.text || ''), evidence: f.evidence || '', provenance: 'import_pack' }; }
+  function importRow(f) { return { id: f.id, text: f.clause ? importText(f) : (f.text || ''), evidence: f.evidence || '', provenance: PACK_IM }; }
   function importView() { const v = importRecord(); const facts = v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active') : []; const held = v && Array.isArray(v.held) ? v.held : [];
-    return { provenance: 'import_pack', admitted: facts.map(importRow), held: held.map(importRow) }; }
+    return { provenance: PACK_IM, admitted: facts.map(importRow), held: held.map(importRow) }; }
   function importReceipt(cls, reason, admitted, held) { return { schema: IMPORT_RECEIPT, class: cls, reason: reason || null, shared_kb: false, admitted: admitted || [], held: held || [] }; }
-  function saveImport(rec, receipt) { rec.receipts = (rec.receipts || []).concat([receipt]).slice(-40); store.save('import_pack', rec); }
-  function blankImport() { return { schema: IMPORT_SCHEMA, provenance: 'import_pack', facts: [], held: [], receipts: [] }; }
+  function saveImport(rec, receipt) { rec.receipts = (rec.receipts || []).concat([receipt]).slice(-40); store.save(PACK_IM, rec); }
+  function blankImport() { return { schema: IMPORT_SCHEMA, provenance: PACK_IM, facts: [], held: [], receipts: [] }; }
   function judgeImport(text) { let data; try { data = JSON.parse(String(text || '')); } catch (e) { return { ok: false, reason: 'not_json' }; }
     if (!data || typeof data !== 'object' || Array.isArray(data) || data.schema !== IMPORT_SCHEMA) return { ok: false, reason: 'schema' };
     if (data.shared_kb === true || data.write_shared === true) return { ok: false, reason: 'shared_write' };
@@ -502,7 +502,7 @@ function Kernel(opts) {
     if (opts.userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP', receipt: importReceipt('refused', 'needs_tap', [], []) };
     const j = judgeImport(text), cur = importRecord() || blankImport();
     if (!j.ok) { const receipt = importReceipt('refused', j.reason, [], []); saveImport(cur, receipt); return { ok: false, receipt, view: importView() }; }
-    cur.schema = IMPORT_SCHEMA; cur.provenance = 'import_pack'; cur.facts = cur.facts || []; cur.held = cur.held || [];
+    cur.schema = IMPORT_SCHEMA; cur.provenance = PACK_IM; cur.facts = cur.facts || []; cur.held = cur.held || [];
     const admitted = [], held = [];
     for (const row of j.rows) { const fact = importFact(row.id, row.clause, row.evidence, row.hold ? row.standing : 'confirmed'), textOut = importText(fact);
       const fi = cur.facts.findIndex(f => f.id === row.id), hi = cur.held.findIndex(f => f.id === row.id);
@@ -518,7 +518,7 @@ function Kernel(opts) {
     const fact = importFact(row.id, clause, row.evidence || '', 'confirmed'), textOut = importText(fact);
     cur.facts = cur.facts || []; const fi = cur.facts.findIndex(f => f.id === fact.id); if (fi >= 0) cur.facts[fi] = fact; else cur.facts.push(fact);
     const receipt = importReceipt('admit', null, [textOut], []); saveImport(cur, receipt); return { ok: true, receipt, view: importView() }; }
-  function clearImportPack() { const cur = importRecord() || blankImport(); cur.schema = IMPORT_SCHEMA; cur.provenance = 'import_pack'; cur.facts = []; cur.held = []; store.save('import_pack', cur); return importView(); }
+  function clearImportPack() { const cur = importRecord() || blankImport(); cur.schema = IMPORT_SCHEMA; cur.provenance = PACK_IM; cur.facts = []; cur.held = []; store.save(PACK_IM, cur); return importView(); }
   const ruleFacts = mem => ruleEdges(mem).map(e => ({ id: e.id, atom: { predicate: e.rel, args: [e.a, e.b], polarity: e.neg ? 'neg' : 'pos' } }));
   const admittedRules = () => store.load('admitted_rules').filter(r => r.status === 'admitted').map(r => r.rule);
   /* M3 (4.9.60) DURABLE WORLD STATE. The world the user has authorized: every active stored fact (memory written by an explicit "remember"
