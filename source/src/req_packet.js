@@ -58,6 +58,17 @@
     guard: 'CREATE, EXPLORE, READ, PROPOSE_EVIDENCE, and SIMULATE stay on their own intents',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.121 and leave Suppose unstarted'
   };
+  const G = {
+    open: 'a suppose story opens an isolated simulation and does not write the world',
+    cont: 'continuing the branch keeps the same simulation and the claim stays speculative',
+    park: 'parking or ending the branch uses dream quarantine and does not write the world',
+    world: 'a world-write attempt is refused and the world head stays',
+    unbound: 'an unbound novelty spoken as a discovery is refused',
+    none: 'commit the branch with no simulation is commit_without_proposal',
+    echo: 'an Echo miss blocks the simulation and stores nothing',
+    guard: 'a syllogism Suppose, a bare Suppose, and a dynamics what-if stay on their routes',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.122 and leave the next creative unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -80,6 +91,9 @@
     ] },
     { schema: SCHEMA, release: '4.9.121', requirements: [
       { id: 'R4121-COMPOSE', statement: 'COMPOSE narrates a selected idea or MSM as multi-sentence Language Core prose. The paragraph exact-Echoes. Claim status stays visible. Memory, the world head, and the shared KB stay unchanged.', falsify: 'A compose phrase is READ or EXPLAIN, an unbound novelty is spoken as a discovery, a paragraph writes memory or the world head, or a compose with no proposal stores a row.', tests: [L('R4121.none', 'r4121_suite.js', 'R4121', F.none, 'NEGATIVE'), L('R4121.project', 'r4121_suite.js', 'R4121', F.project, 'POSITIVE'), L('R4121.quarantine', 'r4121_suite.js', 'R4121', F.quarantine, 'ADVERSARIAL'), L('R4121.unbound', 'r4121_suite.js', 'R4121', F.unbound, 'NEGATIVE'), L('R4121.express', 'r4121_suite.js', 'R4121', F.express, 'ADVERSARIAL'), L('R4121.meaning', 'r4121_suite.js', 'R4121', F.meaning, 'POSITIVE'), L('R4121.guard', 'r4121_suite.js', 'R4121', F.guard, 'REGRESSION'), L('R4121.ver', 'r4121_suite.js', 'R4121', F.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.122', requirements: [
+      { id: 'R4122-SUPPOSE', statement: 'A Suppose story is an isolated SIMULATE branch. The surface names it a counterfactual simulation. Parking it uses dream quarantine. It does not write the world head, memory, or the shared KB.', falsify: 'A story suppose is spoken as a fact, a park writes the world, or a world-write, an unbound discovery, or a commit with no branch is stored.', tests: [L('R4122.open', 'r4122_suite.js', 'R4122', G.open, 'POSITIVE'), L('R4122.cont', 'r4122_suite.js', 'R4122', G.cont, 'POSITIVE'), L('R4122.park', 'r4122_suite.js', 'R4122', G.park, 'ADVERSARIAL'), L('R4122.world', 'r4122_suite.js', 'R4122', G.world, 'NEGATIVE'), L('R4122.unbound', 'r4122_suite.js', 'R4122', G.unbound, 'NEGATIVE'), L('R4122.none', 'r4122_suite.js', 'R4122', G.none, 'NEGATIVE'), L('R4122.echo', 'r4122_suite.js', 'R4122', G.echo, 'ADVERSARIAL'), L('R4122.guard', 'r4122_suite.js', 'R4122', G.guard, 'REGRESSION'), L('R4122.ver', 'r4122_suite.js', 'R4122', G.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };

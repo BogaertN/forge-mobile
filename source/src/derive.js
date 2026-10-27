@@ -567,6 +567,26 @@ function composePlan(m) {
   const status = m.status ? [S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.status) }) }))] : [];
   return [head].concat(stated).concat([stored, shared, world]).concat(status);
 }
+/* 4.9.122: a story branch is a counterfactual simulation. The claim and the status are mentions. Nothing is stored. */
+function supposePlan(m) {
+  const items = m.items || [];
+  const act = m.act || 'open';
+  const head = act === 'park'
+    ? S(C('keep', { karta: I, karma: N('simulation', { det: 'the' }), roles: { adhikarana: dreamQuarantine() }, tense: 'past' }))
+    : act === 'continue'
+      ? S(C('keep', { karta: I, karma: N('simulation', { det: 'the', adj: ['same'] }), tense: 'past' }))
+      : items.length
+        ? S(C('open', { karta: I, karma: N('simulation', { det: 'a' }), tense: 'past' }))
+        : S(C('open', { karta: I, karma: N('simulation', { det: 'no' }), tense: 'past' }));
+  const cf = S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn('counterfactual') }) }));
+  const stated = items.length ? [S(C('state', { karta: N('simulation', { det: 'the' }), karma: N('claim', { cnt: items.length, list: { kind: 'mention', items } }) }))] : [];
+  const status = S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.status || 'speculative_branch') }) }));
+  const fact = S(C('be', { karta: pr('it'), pol: 'neg', pred: N('fact', { det: 'a', adj: ['stored'] }) }));
+  const verified = S(C('be', { karta: pr('it'), pol: 'neg', pred: N('status', { det: 'the', app: Mn('verified_claim') }) }));
+  const world = S(C('write', { karta: I, karma: N('world', { det: 'the' }), tense: 'past', pol: 'neg' }));
+  const stored = S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }));
+  return [head, cf].concat(stated).concat([status, fact, verified, world, stored]);
+}
 const PLANS = {
   justification: justPlan,
   dynamics: m => dynPlan(m),
@@ -748,6 +768,9 @@ const PLANS = {
   /* 4.9.121: multi-sentence prose of a selected meaning. The claim status is a mention. Nothing is stored. */
   compose_narrative: m => composePlan(m),
   compose_refusal: m => composePlan(m),
+  /* 4.9.122: an isolated story branch. The status is a mention. Nothing is stored. */
+  suppose_branch: m => supposePlan(m),
+  suppose_refusal: m => supposePlan(m),
   must_archive: m => [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn('must_archive') }) })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.route || 'spc_cold_storage_required') }) }))],
   spc_refused: m => [S(C('restore', { karta: I, karma: N('record', { det: 'the', app: Mn(m.label) }), mod: 'can', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.tier) }) }))],
   spc_none: m => [S(C('have', { karta: I, karma: N('record', { det: 'no', app: Mn(m.label) }), roles: { adhikarana: coldStorage() } }))],
