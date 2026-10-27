@@ -519,17 +519,27 @@ function Kernel(opts) {
     cur.facts = cur.facts || []; const fi = cur.facts.findIndex(f => f.id === fact.id); if (fi >= 0) cur.facts[fi] = fact; else cur.facts.push(fact);
     const receipt = importReceipt('admit', null, [textOut], []); saveImport(cur, receipt); return { ok: true, receipt, view: importView() }; }
   function clearImportPack() { const cur = importRecord() || blankImport(); cur.schema = IMPORT_SCHEMA; cur.provenance = PACK_IM; cur.facts = []; cur.held = []; store.save(PACK_IM, cur); return importView(); }
-  /* 4.9.127: confirmed_shared from hosted packs; product curator admits; not scrapbook. */
-  const PACK_CS = 'confirmed_shared', CS_RULE = 'CONFIRMED-SHARED';
+  /* 4.9.127/128: hosted shared knowledge (packs/confirmed_shared). Read for all into RAM; write needs Nic's key; not phone-DB product brain. */
+  const PACK_CS = 'confirmed_shared', CS_RULE = 'CONFIRMED-SHARED', SHARED_KB_WRITE_RULE = 'SHARED-KB-WRITE-KEY-REQUIRED';
+  let hostedSharedKb = { schema: IMPORT_SCHEMA, provenance: PACK_CS, facts: [], held: [], receipts: [], hosted: true, phone_db: false };
+  let sharedKbWriteKeyHeld = null;
+  function setSharedKbWriteKey(key) { const k = String(key == null ? '' : key); if (k.length < 12) { sharedKbWriteKeyHeld = null; return { ok: false, rule: 'SHARED-KB-WRITE-KEY-WEAK' }; } sharedKbWriteKeyHeld = k; return { ok: true }; }
+  function clearSharedKbWriteKey() { sharedKbWriteKeyHeld = null; return { ok: true }; }
+  function authorizeSharedKbWrite(opts) { opts = opts || {}; const offered = String(opts.writeKey || opts.write_key || opts.productCuratorKey || ''); if (!offered || !sharedKbWriteKeyHeld || offered !== sharedKbWriteKeyHeld) return { ok: false, rule: SHARED_KB_WRITE_RULE }; return { ok: true }; }
   function csRecord() { return packRecord(PACK_CS); }
-  function confirmedSharedFacts() { const v = csRecord(); return v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active' && f.clause) : []; }
+  function hostedSharedFacts() { return (hostedSharedKb.facts || []).filter(f => f && f.status === 'active' && f.clause); }
+  function confirmedSharedFacts() { const hosted = hostedSharedFacts(); if (hosted.length) return hosted; const v = csRecord(); return v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active' && f.clause) : []; }
   const csId = t => 'cs:' + sha256(normImport(t)).slice(0, 16);
   function csFact(id, clause, evidence, standing) { const f = starterFact(id, clause); f.standing = standing; f.evidence = evidence; f.provenance = { source: PACK_CS, rule: CS_RULE, turn: null }; return f; }
   function csRow(f) { return { id: f.id, text: f.clause ? importText(f) : (f.text || ''), evidence: f.evidence || '', provenance: PACK_CS }; }
-  function confirmedSharedView() { const v = csRecord(); const facts = v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active') : []; const held = v && Array.isArray(v.held) ? v.held : [];
-    return { provenance: PACK_CS, admitted: facts.map(csRow), held: held.map(csRow), letter: v && v.letter || null, pack_id: v && v.pack_id || null }; }
+  function sharedKnowledgeView() {
+    const facts = (hostedSharedKb.facts || []).filter(f => f && f.status === 'active');
+    const held = hostedSharedKb.held || [];
+    return { provenance: PACK_CS, label: 'shared knowledge', hosted: true, phone_db: false, read_only: !sharedKbWriteKeyHeld, admitted: facts.map(csRow), held: held.map(csRow), letter: hostedSharedKb.letter || null, pack_id: hostedSharedKb.pack_id || null, count: facts.length };
+  }
+  function confirmedSharedView() { return sharedKnowledgeView(); }
   function blankCs() { return { schema: IMPORT_SCHEMA, provenance: PACK_CS, facts: [], held: [], receipts: [] }; }
-  function saveCs(rec, receipt) { rec.receipts = (rec.receipts || []).concat([receipt]).slice(-40); store.save(PACK_CS, rec); }
+  function wipePhoneConfirmedShared() { try { const cur = blankCs(); store.save(PACK_CS, cur); } catch (e) { /* ignore */ } }
   function normalizeCsPack(data) {
     if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
     if (data.schema === IMPORT_SCHEMA && Array.isArray(data.items)) return data;
@@ -568,42 +578,64 @@ function Kernel(opts) {
     if (!rows.length) return { ok: false, reason: skipped.includes('unparsed') ? 'unparsed' : 'empty' };
     return { ok: true, rows, meta: { letter: data.letter || null, pack_id: data.pack_id || null, who_confirmed: data.who_confirmed || null, provenance: data.provenance || PACK_CS } };
   }
-  function admitConfirmedShared(text, opts) {
-    opts = opts || {};
-    const product = opts.productCurator === true || opts.product_curator === true;
-    if (!product && opts.userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP', receipt: importReceipt('refused', 'needs_tap', [], []) };
-    const j = judgeConfirmedShared(text), cur = csRecord() || blankCs();
-    if (!j.ok) { const receipt = importReceipt('refused', j.reason, [], []); saveCs(cur, receipt); return { ok: false, receipt, view: confirmedSharedView() }; }
-    cur.schema = IMPORT_SCHEMA; cur.provenance = PACK_CS; cur.facts = cur.facts || []; cur.held = cur.held || [];
-    if (j.meta) { if (j.meta.letter) cur.letter = j.meta.letter; if (j.meta.pack_id) cur.pack_id = j.meta.pack_id; if (j.meta.who_confirmed) cur.who_confirmed = j.meta.who_confirmed; }
+  function mergeHostedRows(j) {
+    hostedSharedKb.schema = IMPORT_SCHEMA; hostedSharedKb.provenance = PACK_CS; hostedSharedKb.hosted = true; hostedSharedKb.phone_db = false;
+    hostedSharedKb.facts = hostedSharedKb.facts || []; hostedSharedKb.held = hostedSharedKb.held || [];
+    if (j.meta) { if (j.meta.letter) hostedSharedKb.letter = j.meta.letter; if (j.meta.pack_id) hostedSharedKb.pack_id = j.meta.pack_id; if (j.meta.who_confirmed) hostedSharedKb.who_confirmed = j.meta.who_confirmed; }
     const admitted = [], held = [];
     for (const row of j.rows) {
       const fact = csFact(row.id, row.clause, row.evidence, row.hold ? row.standing : (row.standing === 'projectable' ? 'projectable' : 'confirmed')), textOut = importText(fact);
-      const fi = cur.facts.findIndex(f => f.id === row.id || normImport(importText(f)) === normImport(textOut));
-      const hi = cur.held.findIndex(f => f.id === row.id);
+      const fi = hostedSharedKb.facts.findIndex(f => f.id === row.id || normImport(importText(f)) === normImport(textOut));
+      const hi = hostedSharedKb.held.findIndex(f => f.id === row.id);
       if (row.hold) {
-        if (fi >= 0) { admitted.push(importText(cur.facts[fi])); continue; }
-        if (!product && opts.userTap !== true) continue;
-        const heldRow = Object.assign({}, fact, { status: 'held', text: textOut }); if (hi >= 0) cur.held[hi] = heldRow; else cur.held.push(heldRow); held.push(textOut);
+        if (fi >= 0) { admitted.push(importText(hostedSharedKb.facts[fi])); continue; }
+        const heldRow = Object.assign({}, fact, { status: 'held', text: textOut }); if (hi >= 0) hostedSharedKb.held[hi] = heldRow; else hostedSharedKb.held.push(heldRow); held.push(textOut);
       } else {
-        if (hi >= 0) cur.held.splice(hi, 1);
-        if (fi >= 0) cur.facts[fi] = fact; else cur.facts.push(fact); admitted.push(textOut);
+        if (hi >= 0) hostedSharedKb.held.splice(hi, 1);
+        if (fi >= 0) hostedSharedKb.facts[fi] = fact; else hostedSharedKb.facts.push(fact); admitted.push(textOut);
       }
     }
-    const receipt = importReceipt('import', null, admitted, held); saveCs(cur, receipt);
-    return { ok: true, receipt, view: confirmedSharedView() };
+    return { admitted, held };
+  }
+  /* Read path: everyone may pull hosted packs into session RAM. Never mass-writes phone DB. */
+  function pullHostedSharedPack(text) {
+    const j = judgeConfirmedShared(text);
+    if (!j.ok) return { ok: false, reason: j.reason, receipt: importReceipt('refused', j.reason, [], []), view: sharedKnowledgeView() };
+    const { admitted, held } = mergeHostedRows(j);
+    wipePhoneConfirmedShared();
+    const receipt = importReceipt('import', null, admitted, held); receipt.hosted = true; receipt.phone_db = false; receipt.shared_kb = false;
+    hostedSharedKb.receipts = (hostedSharedKb.receipts || []).concat([receipt]).slice(-40);
+    return { ok: true, receipt, view: sharedKnowledgeView() };
+  }
+  /* Write path: Nic's write key required. Mutates session hosted cache only (still not phone-DB product brain). */
+  function writeSharedKnowledge(text, opts) {
+    opts = opts || {};
+    const auth = authorizeSharedKbWrite(opts);
+    if (!auth.ok) return { ok: false, rule: auth.rule, receipt: importReceipt('refused', auth.rule, [], []), view: sharedKnowledgeView() };
+    return pullHostedSharedPack(text);
+  }
+  function admitConfirmedShared(text, opts) {
+    opts = opts || {};
+    /* 4.9.128: productCurator boolean alone is not a write key. Default users: read-only. */
+    const auth = authorizeSharedKbWrite(opts);
+    if (!auth.ok) {
+      if (opts.productCurator === true || opts.product_curator === true) return { ok: false, rule: SHARED_KB_WRITE_RULE, receipt: importReceipt('refused', SHARED_KB_WRITE_RULE, [], []), view: sharedKnowledgeView() };
+      if (opts.userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP', receipt: importReceipt('refused', 'needs_tap', [], []), view: sharedKnowledgeView() };
+      return { ok: false, rule: SHARED_KB_WRITE_RULE, receipt: importReceipt('refused', SHARED_KB_WRITE_RULE, [], []), view: sharedKnowledgeView() };
+    }
+    return writeSharedKnowledge(text, opts);
   }
   function admitConfirmedSharedItem(id, userTap) {
     if (userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP' };
-    const cur = csRecord(); if (!cur || !Array.isArray(cur.held)) return { ok: false, rule: 'CONFIRMED-SHARED-MISSING' };
-    const i = cur.held.findIndex(f => f && f.id === id); if (i < 0) return { ok: false, rule: 'CONFIRMED-SHARED-MISSING' };
-    const row = cur.held.splice(i, 1)[0]; let clause = row.clause; if (!clause && row.text) { try { clause = reparseClause(row.text); } catch (e) { clause = null; } }
-    if (!clause) { cur.held.splice(i, 0, row); return { ok: false, rule: 'CONFIRMED-SHARED-UNPARSED' }; }
-    const fact = csFact(row.id, clause, row.evidence || '', 'confirmed'), textOut = importText(fact);
-    cur.facts = cur.facts || []; const fi = cur.facts.findIndex(f => f.id === fact.id); if (fi >= 0) cur.facts[fi] = fact; else cur.facts.push(fact);
-    const receipt = importReceipt('admit', null, [textOut], []); saveCs(cur, receipt); return { ok: true, receipt, view: confirmedSharedView() };
+    return { ok: false, rule: SHARED_KB_WRITE_RULE, view: sharedKnowledgeView() };
   }
-  function clearConfirmedShared() { const cur = csRecord() || blankCs(); cur.schema = IMPORT_SCHEMA; cur.provenance = PACK_CS; cur.facts = []; cur.held = []; store.save(PACK_CS, cur); return confirmedSharedView(); }
+  function clearConfirmedShared() {
+    hostedSharedKb = { schema: IMPORT_SCHEMA, provenance: PACK_CS, facts: [], held: [], receipts: [], hosted: true, phone_db: false };
+    wipePhoneConfirmedShared();
+    return sharedKnowledgeView();
+  }
+  function clearHostedSharedKnowledge() { return clearConfirmedShared(); }
+
   const ruleFacts = mem => ruleEdges(mem).map(e => ({ id: e.id, atom: { predicate: e.rel, args: [e.a, e.b], polarity: e.neg ? 'neg' : 'pos' } }));
   const admittedRules = () => store.load('admitted_rules').filter(r => r.status === 'admitted').map(r => r.rule);
   /* M3 (4.9.60) DURABLE WORLD STATE. The world the user has authorized: every active stored fact (memory written by an explicit "remember"
@@ -3056,7 +3088,7 @@ function Kernel(opts) {
   ensureStarter();
   return { meaDetail, meaMetaK, adoptMetaK, withdrawMetaK, meaMetaAdoptions: () => store.load('admitted_meta'), meaCandidatesK, meaArchiveK, meaRequeueK, adoptManifestK, withdrawManifestK, meaAdoptionsK: () => store.load('admitted_manifests_k'), meaProblems, meaCycle, meaSupply, meaCommit, meaArchive: () => store.load('mea_archive'), meaReceipts: () => store.load('mea_receipts'), meaRequeue, meaHandoff: meaHandoffOf, workingFacts: () => working.filter(w => w.status === 'active').map(w => ({ id: w.id, text: w.sensitive ? null : memText(w), turn: w.provenance.turn })), promoteWorking, meaCandidates, adoptManifest, withdrawManifest, meaAdoptions: () => store.load('admitted_manifests'), process, exportTurnPacket, turnPackets, lookupPlan, subjectNP, askedNP, grammarLex: glex, countryOf, gksIndex: () => gksIndex(), proofExports: () => baseStore.load('proof_exports'), caseState, caseSeal, caseUnseal, exportProof, gksFacts, ingestShared, challengeShared, withdrawRule, lexicon: lex, store, echo, perm, containment: cont, bench, commitHeld, rejectHeld, heldWrites: () => store.load('held_writes'), resurrect, commitResurrection, commitIdea, creativeProposals: () => (store.load('creative_proposals') || []).map(p => ({ id: p.id, claim: p.claim, claim_status: p.claim_status, novelty: p.novelty, drift: p.drift, status: p.status, intent: p.intent })), resurrectionProposals: () => proposals().map(p => ({ id: p.id, label: p.label, tier: p.tier, status: p.status })), resurrectPreview, releaseDream, approveHypothesis, adoptPhoneProposal, phoneProposals: () => phoneProposals.map(p => ({ id: p.id, text: p.text, route: p.route, eps_s: p.eps_s, may_project: !!p.may_project, contradicts: p.contradicts, echo: !!p.echo })), meaPProposals: () => meaPProposals.map(p => ({ candidate_id: p.candidate_id, op: p.op, claim: p.claim, claim_status: p.claim_status, eps: p.eps, route: p.route, novelty: p.novelty, standing: p.standing, echo: !!p.echo })), admittedRules: () => store.load('admitted_rules'), stagedHypotheses: () => stagedHyps.map(h => JSON.parse(JSON.stringify(h))), hypotheses: () => cont.hypotheses.list(), realize: m => D.realizeMeaning(m, ENV), deriveEnv: ENV, meta: () => meta, setNotation(n) { meta.notation = n === 'phi' ? 'phi' : 'plain'; saveMeta(); },
     attachLexicon(data, tier) { lex.attach(data, tier); ensureStarter(); },
-    starterView, clearStarterKnowledge, previewImport, importConfirmedPack, admitImportItem, clearImportPack, importView, confirmedSharedView, admitConfirmedShared, admitConfirmedSharedItem, clearConfirmedShared,
+    starterView, clearStarterKnowledge, previewImport, importConfirmedPack, admitImportItem, clearImportPack, importView, confirmedSharedView, sharedKnowledgeView, pullHostedSharedPack, writeSharedKnowledge, setSharedKbWriteKey, clearSharedKbWriteKey, admitConfirmedShared, admitConfirmedSharedItem, clearConfirmedShared, clearHostedSharedKnowledge,
     memory: () => store.load('memory'), cold: () => store.load('cold_storage'), evidence: () => store.load('evidence'), traces: () => store.load('trace'), examples: () => store.load('language_examples'),
     deleteRecord(id, reason, userTap) { if (userTap === false) return false; const pd = perm.authorize('memory.delete_ui', { userTap: true, subject: id }); if (pd.decision !== 'allow') return false; const mem = store.load('memory'); const i = mem.findIndex(r => r.id === id); if (i < 0) return false; const r = mem.splice(i, 1)[0]; r.status = 'forgotten'; store.save('memory', mem); const cold = store.load('cold_storage'); cold.push({ id: r.id, sealed_at: now(), reason: 'forgotten from the Memory screen (explicit tap + confirm)', record: r, successor: { kind: 'lifecycle_transition', from: 'accepted', to: 'archived', rule: 'forge2 APPEND_ONLY_SUCCESSOR_LAWS_V1 §Lifecycle transition' }, tier: 'WARM', resurrection_attempts: 0 }); store.save('cold_storage', cold); const tr = store.load('trace'); tr.push({ turn: 'ui', at: now(), input: '[Memory screen] delete ' + id, rules: [{ id: 'AUTH-UI-DELETE', doc: 'Doc7 (explicit user action)', note: reason || '' }], deleted: { id, kind: r.kind } }); store.save('trace', tr); const ws = dwsBuild(meta.turn); const tm = tmsSync({ op: 'memory.delete_ui', id }); try { publishWorldHead(projectView(ws.changed ? ws.state : null), ws.changed ? ws.state : null, meta.turn, tm.withdrawn.map(w => w.id)); } catch (e) { /* the delete already landed; a head failure does not report the tap as refused */ } return true; },
     justifications: () => TMS.list(), worldState: () => worldStateView(), worldHead: () => liveHead(), withdrawalReceipts: () => TMS.receipts(), replayJustification: id => tmsReplay(id), whyOf: id => justifyMaterial(TMS.get(id)),
