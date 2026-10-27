@@ -64,10 +64,10 @@ def slim(m, s):
     if m != 'src/features.js': return s
     a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
     # 4.9.87: a long note is cut at a word boundary (the site copy keeps the full note); UTF-8 is written as is.
-    # 4.9.115 cut notes at 72 characters. 4.9.116 cuts at 40. 4.9.117 cuts at 16 so kernel-app.html stays within 1.920 MB after the requirement packet. 4.9.118 cuts at 4 so the research packet still fits. Math-honesty tables stay in source/research and are not inlined. The Pages site keeps the full note.
+    # 4.9.115 cut notes at 72 characters. 4.9.116 cuts at 40. 4.9.117 cuts at 16. 4.9.118 cuts at 4.
+    # 4.9.119 omits note and wave from kernel-app.html so the dream/SPC copy stays within 1.920 MB. The claim table still shows id, name, status, and proof. Math-honesty tables stay in source/research. The Pages site keeps the full registry.
     for f in d.get('features', []):
-        f.pop('source', None); n = f.get('note') or ''
-        if len(n) > 4: f['note'] = n[:4].rsplit(' ', 1)[0] + ' …'
+        f.pop('source', None); f.pop('note', None); f.pop('wave', None)
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)

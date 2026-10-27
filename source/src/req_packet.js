@@ -30,6 +30,16 @@
     gates: 'mobile drift gates stay Nic 0.35 and are not the paper bands',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.118 and leave dream and creative writing unstarted'
   };
+  const D = {
+    propose: 'a memory resurrect is a proposal and does not write memory, the world head, or the shared KB',
+    commit: 'a separate commit tap is the only resurrection store',
+    phrase: 'a resurrection phrase stages a proposal and still does not write',
+    route: 'must_archive is a containment route input after ghost and before dream',
+    inspect: 'a must_archive turn names the route on inspect and writes nothing',
+    quiet: 'dream, phrase, and quarantine turns do not silently write past echo',
+    copy: 'product copy refuses hardware SPC and automatic ChristPing and keeps chi as the correction function',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.119 and leave creative writing unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -43,6 +53,9 @@
     ] },
     { schema: SCHEMA, release: '4.9.118', requirements: [
       { id: 'R4118-NONEQ', statement: 'Math honesty is research-only and is not a manuscript equivalence.', falsify: 'A research divisor or a phase stub is treated as the Mobile write law or as a verified manuscript number.', tests: [L('R4118.drift', 'r4118_suite.js', 'R4118', C.drift, 'CALIBRATION'), L('R4118.phase', 'r4118_suite.js', 'R4118', C.phase, 'NEGATIVE'), L('R4118.echo', 'r4118_suite.js', 'R4118', C.echo, 'CALIBRATION'), L('R4118.gates', 'r4118_suite.js', 'R4118', C.gates, 'REGRESSION'), L('R4118.ver', 'r4118_suite.js', 'R4118', C.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.119', requirements: [
+      { id: 'R4119-DREAM', statement: 'Resurrection is a proposal, must_archive is a route input, and dream, SPC, and quarantine do not silently write.', falsify: 'Seven gates store memory, must_archive stays a side flag, or a dream or quarantine turn writes memory or the world head.', tests: [L('R4119.propose', 'r4119_suite.js', 'R4119', D.propose, 'POSITIVE'), L('R4119.commit', 'r4119_suite.js', 'R4119', D.commit, 'POSITIVE'), L('R4119.phrase', 'r4119_suite.js', 'R4119', D.phrase, 'POSITIVE'), L('R4119.route', 'r4119_suite.js', 'R4119', D.route, 'REGRESSION'), L('R4119.inspect', 'r4119_suite.js', 'R4119', D.inspect, 'ADVERSARIAL'), L('R4119.quiet', 'r4119_suite.js', 'R4119', D.quiet, 'NEGATIVE'), L('R4119.copy', 'r4119_suite.js', 'R4119', D.copy, 'REGRESSION'), L('R4119.ver', 'r4119_suite.js', 'R4119', D.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };

@@ -424,6 +424,7 @@
   "marketplaceTransfer",
   "memoryApproval",
   "mobileStatus",
+  "mustArchive",
   "nodeSync",
   "research",
   "retentionDays",

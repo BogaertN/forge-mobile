@@ -144,7 +144,8 @@ T('the research tool prints json and markdown outside the single-file app', () =
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.118 and leave dream and creative writing unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.118', ver);
+  const parts = ver.split('.').map(Number);
+  expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 118, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   for (const id of ['R4118-DRIFT', 'R4118-ABLATE', 'R4118-ECHO']) {
@@ -171,7 +172,8 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.118 and leave dream and
   expect(/4\.9\.118/.test(readme) && /4\.9\.117/.test(readme) && /research/.test(readme) && /0\.35/.test(readme), 'README');
   expect(!/false_positive_rate|failing-first|bot instruction/i.test(readme), 'README product');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(targeted.release === '4.9.118' && targeted.suites[0] === 'r4118_suite.js' && targeted.suites.includes('r4117_suite.js'), targeted.release);
+  const tp = String(targeted.release || '').split('.').map(Number);
+  expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 118 && targeted.suites.includes('r4118_suite.js') && targeted.suites.includes('r4117_suite.js'), targeted.release);
   expect(!fs.existsSync(ROOT + '/src/creative.js'), 'creative writing started');
   const RP = require(ROOT + '/src/req_packet.js');
   const slice = RP.packet('4.9.118');

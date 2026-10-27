@@ -16,16 +16,20 @@
     const f = []; let r;
     const breaker = !!(p.sealed || p.forbidden_transition);
     const ghost = !breaker && (CAPACITY_KINDS.has(p.kind) || p.derivation_failed || p.echo_failed);
+    const archive = !breaker && !ghost && !!p.must_archive;
+    const proposal = !breaker && !ghost && !archive && p.kind === 'spc_proposal';
     const dream = !!p.dream; const elevated = p.band === 'elevated' || !!p.quarantine; /* K1: the exploration band is quarantine-only, write or not */
     if (breaker) { r = 'spc_cold_storage_required'; f.push(p.sealed ? 'CR-CIRCUIT-BREAKER-HARD-STOP' : 'CR-PHASE-VIOLATION ' + p.forbidden_transition); }
     else if (ghost) { r = 'ghost_loop_containment_required'; f.push('CR-GATE7-CAPACITY ' + (p.derivation_failed ? 'derivation' : p.echo_failed ? 'echo' : p.kind)); }
+    else if (archive) { r = 'spc_cold_storage_required'; f.push('CR-MUST-ARCHIVE'); }
+    else if (proposal) { r = 'active_stack_candidate'; f.push('CR-SPC-PROPOSAL'); }
     else if (dream) { r = 'dream_state_quarantine_candidate'; f.push('CR-DREAM-ELIGIBLE'); }
     else if (elevated) { r = 'drift_archive_only'; f.push('CR-DRIFT-ELEVATED-ARCHIVE'); }
     else if (p.restricted) { r = 'correction_queue'; f.push('CR-CHI-CORRECTION'); }
     else if (CORRECTION_KINDS.has(p.kind)) { r = 'correction_queue'; f.push('CR-CORRECTION-REQUIRED'); }
     else if (p.kind) { r = 'active_stack_candidate'; f.push('CR-ACTIVE'); }
     else { r = 'drift_archive_only'; f.push('CR-FALLBACK'); }
-    return { route: r, sealed: SEALED.has(r), may_project: !SEALED.has(r), cause: p.sealed ? 'hard_stop' : p.forbidden_transition ? 'forbidden_transition' : p.derivation_failed ? 'derivation_failed' : p.echo_failed ? 'echo_failed' : null, may_write_memory: r === 'active_stack_candidate' || r === 'correction_queue', rules: f, cite: 'forge rmc_engine_v1/containment_router.py (Patch 265)' };
+    return { route: r, sealed: SEALED.has(r), may_project: !SEALED.has(r), cause: p.sealed ? 'hard_stop' : p.forbidden_transition ? 'forbidden_transition' : p.derivation_failed ? 'derivation_failed' : p.echo_failed ? 'echo_failed' : null, may_write_memory: !proposal && (r === 'active_stack_candidate' || r === 'correction_queue'), rules: f, cite: 'forge rmc_engine_v1/containment_router.py (Patch 265)' };
   }
 
   /* ---- active-loop lifecycle (D-14 / G-07); transition table is ours — the docs name the states but not the edges (flagged) ---- */
@@ -63,7 +67,7 @@
       if (decision.route === 'ghost_loop_containment_required') out.records.push(putHyp('unresolved', decision.route, tr.input, base, { input: tr.input, reason: extra.reason || (tr.msm && tr.msm.meaning ? tr.msm.meaning.kind : 'unresolved'), gate_failed: '7', status_label: 'held for a future capability', can_reenter: false }));
       if (decision.route === 'drift_archive_only' || (tr.drift && (tr.drift.band === 'elevated' || tr.drift.band === 'hard_stop')))
         out.records.push(put('drift_archive', Object.assign({ id: 'drift:' + sha256(String(tr.input) + '|' + tr.turn + '|' + now()).slice(0, 16), eps_s: tr.drift ? tr.drift.eps_s : null, band: tr.drift ? tr.drift.band : null, components: tr.drift ? tr.drift.components || null : null, diagnostic_only: true, truth_support_allowed: false }, base)));
-      if (decision.route === 'spc_cold_storage_required') out.collapse = collapse(tr, extra.cause || 'circuit_breaker', extra.state);
+      if (decision.route === 'spc_cold_storage_required' && (decision.rules || []).some(id => /^CR-CIRCUIT-BREAKER|^CR-PHASE-VIOLATION/.test(id))) out.collapse = collapse(tr, extra.cause || 'circuit_breaker', extra.state);
       return out; }
 
     /* tier assignment (spc_cold_storage.py): breach or limit → DEEP; explicit cold → COLD; otherwise WARM */

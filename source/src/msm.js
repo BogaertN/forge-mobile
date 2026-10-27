@@ -41,7 +41,7 @@ const stateOf = r => r.record_kind === 'lineage_root' ? 'lineage_origin' : r.rec
 function observesAction(meaning, ctx) { const m = meaning || {}, k = String(m.kind || ''), c = ctx || {};
   if (c.intent === 'SIMULATE') return true;
   if (k === 'blocked' || k === 'dream_held' || k === 'sim_result' || k === 'sim_replay') return true;
-  if (/^(?:tool_|ede_|mea_p|mea_proposals|spc_proposal)/.test(k)) return true;
+  if (/^(?:tool_|ede_|mea_p|mea_proposals|spc_proposal|must_archive)/.test(k)) return true;
   if (k === 'dynamics' && m.mode === 'whatif') return true;
   return /what_?if|predict|hypothes|observ/.test(k); }
 /* canonical strict JSON (35D; forge2 profile): sorted keys, no whitespace, NFC strings, integers only */
