@@ -57,10 +57,34 @@
    "evidence": "geography · product curator · Harare · cs_h_harare_01"
   },
   {
+   "id": "cs_h_himalayas_01",
+   "text": "Mount Everest is in the Himalayas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_01"
+  },
+  {
+   "id": "cs_h_hawaii_01",
+   "text": "Hawaii is a state made of islands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hawaii · cs_h_hawaii_01"
+  },
+  {
    "id": "cs_h_hawaii_02",
    "text": "Honolulu is the capital of Hawaii",
    "standing": "projectable",
    "evidence": "geography · product curator · Hawaii · cs_h_hawaii_02"
+  },
+  {
+   "id": "cs_h_hawaii_03",
+   "text": "Hawaii became a state in 1959",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hawaii · cs_h_hawaii_03"
+  },
+  {
+   "id": "cs_h_hudson_river_01",
+   "text": "The Hudson flows through New York",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hudson River · cs_h_hudson_river_01"
   },
   {
    "id": "cs_h_hudson_bay_01",
@@ -79,6 +103,12 @@
    "text": "Hong Kong is a special administrative region of China",
    "standing": "projectable",
    "evidence": "geography · product curator · Hong Kong · cs_h_hong_kong_01"
+  },
+  {
+   "id": "cs_h_hokkaido_01",
+   "text": "Hokkaido is the northernmost main island of Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hokkaido · cs_h_hokkaido_01"
   },
   {
    "id": "cs_h_honshu_01",
@@ -123,10 +153,34 @@
    "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_01"
   },
   {
+   "id": "cs_h_hydrogen_02",
+   "text": "Hydrogen has an atomic number of 1",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_02"
+  },
+  {
+   "id": "cs_h_hydrogen_03",
+   "text": "Hydrogen is the commonest element in the universe",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_03"
+  },
+  {
+   "id": "cs_h_helium_01",
+   "text": "The symbol for helium is He",
+   "standing": "projectable",
+   "evidence": "science · product curator · Helium · cs_h_helium_01"
+  },
+  {
    "id": "cs_h_helium_02",
    "text": "Helium is a noble gas",
    "standing": "projectable",
    "evidence": "science · product curator · Helium · cs_h_helium_02"
+  },
+  {
+   "id": "cs_h_helium_03",
+   "text": "Helium has an atomic number of 2",
+   "standing": "projectable",
+   "evidence": "science · product curator · Helium · cs_h_helium_03"
   },
   {
    "id": "cs_h_hafnium_01",
@@ -225,6 +279,12 @@
    "evidence": "nature · product curator · Hawk · cs_h_hawk_01"
   },
   {
+   "id": "cs_h_heron_01",
+   "text": "Herons wade in water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Heron · cs_h_heron_01"
+  },
+  {
    "id": "cs_h_hyena_01",
    "text": "Hyenas live in Africa and Asia",
    "standing": "projectable",
@@ -253,6 +313,12 @@
    "text": "Hares are related to rabbits",
    "standing": "projectable",
    "evidence": "nature · product curator · Hare · cs_h_hare_01"
+  },
+  {
+   "id": "cs_h_holly_01",
+   "text": "Holly has red berries",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Holly · cs_h_holly_01"
   },
   {
    "id": "cs_h_hemlock_01",
@@ -291,16 +357,40 @@
    "evidence": "history · product curator · Henry VIII · cs_h_henry_viii_02"
   },
   {
+   "id": "cs_h_hiroshima_01",
+   "text": "An atomic bomb destroyed Hiroshima in 1945",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hiroshima · cs_h_hiroshima_01"
+  },
+  {
    "id": "cs_h_homer_01",
    "text": "Homer is credited with the Iliad and the Odyssey",
    "standing": "projectable",
    "evidence": "history · product curator · Homer · cs_h_homer_01"
   },
   {
+   "id": "cs_h_hippocrates_01",
+   "text": "Hippocrates was a Greek physician",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hippocrates · cs_h_hippocrates_01"
+  },
+  {
    "id": "cs_h_hundred_years_war_01",
    "text": "The Hundred Years' War was fought between England and France",
    "standing": "projectable",
    "evidence": "history · product curator · Hundred Years' War · cs_h_hundred_years_war_01"
+  },
+  {
+   "id": "cs_h_hoover_dam_01",
+   "text": "The Hoover Dam is on the Colorado",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hoover Dam · cs_h_hoover_dam_01"
+  },
+  {
+   "id": "cs_h_hawking_stephen_01",
+   "text": "Stephen Hawking was a British physicist",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hawking, Stephen · cs_h_hawking_stephen_01"
   },
   {
    "id": "cs_h_hexagon_01",
@@ -319,6 +409,18 @@
    "text": "An hour has 60 minutes",
    "standing": "projectable",
    "evidence": "math · product curator · Hour · cs_h_hour_01"
+  },
+  {
+   "id": "cs_h_hectare_01",
+   "text": "A hectare is ten thousand square meters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hectare · cs_h_hectare_01"
+  },
+  {
+   "id": "cs_h_house_of_representatives_01",
+   "text": "The American House of Representatives has 435 voting members",
+   "standing": "projectable",
+   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_01"
   },
   {
    "id": "cs_h_house_of_commons_01",
@@ -343,6 +445,12 @@
    "text": "An ice hockey team has six players on the ice at a time",
    "standing": "projectable",
    "evidence": "general · product curator · Hockey · cs_h_hockey_01"
+  },
+  {
+   "id": "cs_h_hail_01",
+   "text": "Hail is made of balls of ice",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hail · cs_h_hail_01"
   },
   {
    "id": "cs_h_hydrogen_04",
@@ -399,6 +507,12 @@
    "evidence": "geography · product curator · Hispaniola · cs_h_hispaniola_01"
   },
   {
+   "id": "cs_h_hudson_bay_02",
+   "text": "Hudson Bay is in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_02"
+  },
+  {
    "id": "cs_h_halibut_01",
    "text": "Halibut are large flatfish",
    "standing": "projectable",
@@ -415,6 +529,12 @@
    "text": "Hibiscus plants have large showy flowers",
    "standing": "projectable",
    "evidence": "nature · product curator · Hibiscus · cs_h_hibiscus_01"
+  },
+  {
+   "id": "cs_h_horseshoe_crab_01",
+   "text": "Horseshoe crabs are related to spiders",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Horseshoe crab · cs_h_horseshoe_crab_01"
   },
   {
    "id": "cs_h_hyacinth_01",

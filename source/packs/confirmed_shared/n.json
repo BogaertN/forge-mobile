@@ -45,6 +45,12 @@
    "evidence": "geography · product curator · Nigeria · cs_n_nigeria_01"
   },
   {
+   "id": "cs_n_nigeria_02",
+   "text": "Nigeria has the largest population in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nigeria · cs_n_nigeria_02"
+  },
+  {
    "id": "cs_n_niger_01",
    "text": "Niamey is the capital of Niger",
    "standing": "projectable",
@@ -99,6 +105,12 @@
    "evidence": "geography · product curator · North Sea · cs_n_north_sea_01"
   },
   {
+   "id": "cs_n_north_america_01",
+   "text": "North America is the third largest continent by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North America · cs_n_north_america_01"
+  },
+  {
    "id": "cs_n_nebraska_01",
    "text": "Lincoln is the capital of Nebraska",
    "standing": "projectable",
@@ -109,6 +121,12 @@
    "text": "Carson City is the capital of Nevada",
    "standing": "projectable",
    "evidence": "geography · product curator · Nevada · cs_n_nevada_01"
+  },
+  {
+   "id": "cs_n_new_york_city_01",
+   "text": "New York City has the largest population in the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · New York City · cs_n_new_york_city_01"
   },
   {
    "id": "cs_n_new_mexico_01",
@@ -127,6 +145,12 @@
    "text": "Nashville is the capital of Tennessee",
    "standing": "projectable",
    "evidence": "geography · product curator · Nashville · cs_n_nashville_01"
+  },
+  {
+   "id": "cs_n_normandy_01",
+   "text": "Normandy is a region in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Normandy · cs_n_normandy_01"
   },
   {
    "id": "cs_n_neptune_01",
@@ -213,6 +237,12 @@
    "evidence": "science · product curator · Neutron · cs_n_neutron_01"
   },
   {
+   "id": "cs_n_nucleus_01",
+   "text": "The nucleus of a cell contains DNA",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_01"
+  },
+  {
    "id": "cs_n_newton_unit_01",
    "text": "The newton is the SI unit of force",
    "standing": "projectable",
@@ -261,6 +291,12 @@
    "evidence": "nature · product curator · Nautilus · cs_n_nautilus_01"
   },
   {
+   "id": "cs_n_nettle_01",
+   "text": "Nettles sting the skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nettle · cs_n_nettle_01"
+  },
+  {
    "id": "cs_n_nut_01",
    "text": "An acorn is a type of nut",
    "standing": "projectable",
@@ -285,10 +321,22 @@
    "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_02"
   },
   {
+   "id": "cs_n_nightingale_florence_01",
+   "text": "Nightingale was a famous nurse",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nightingale, Florence · cs_n_nightingale_florence_01"
+  },
+  {
    "id": "cs_n_nero_01",
    "text": "Nero was a Roman emperor",
    "standing": "projectable",
    "evidence": "history · product curator · Nero · cs_n_nero_01"
+  },
+  {
+   "id": "cs_n_nefertiti_01",
+   "text": "Nefertiti was an Egyptian queen",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nefertiti · cs_n_nefertiti_01"
   },
   {
    "id": "cs_n_nobel_alfred_01",
@@ -307,6 +355,18 @@
    "text": "The Norman Conquest of England began in 1066",
    "standing": "projectable",
    "evidence": "history · product curator · Norman Conquest · cs_n_norman_conquest_01"
+  },
+  {
+   "id": "cs_n_notre_dame_de_paris_01",
+   "text": "Notre Dame is a cathedral in Paris",
+   "standing": "projectable",
+   "evidence": "history · product curator · Notre-Dame de Paris · cs_n_notre_dame_de_paris_01"
+  },
+  {
+   "id": "cs_n_nineteenth_amendment_01",
+   "text": "The Nineteenth Amendment granted American women the right to vote in 1920",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Nineteenth Amendment · cs_n_nineteenth_amendment_01"
   },
   {
    "id": "cs_n_nato_01",
@@ -333,6 +393,12 @@
    "evidence": "math · product curator · Negative number · cs_n_negative_number_01"
   },
   {
+   "id": "cs_n_nautical_mile_01",
+   "text": "A nautical mile is 1852 meters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Nautical mile · cs_n_nautical_mile_01"
+  },
+  {
    "id": "cs_n_november_01",
    "text": "November has 30 days",
    "standing": "projectable",
@@ -349,6 +415,12 @@
    "text": "Netball is played by two teams of seven players",
    "standing": "projectable",
    "evidence": "general · product curator · Netball · cs_n_netball_01"
+  },
+  {
+   "id": "cs_n_norwegian_01",
+   "text": "Norwegian is a Germanic language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Norwegian · cs_n_norwegian_01"
   },
   {
    "id": "cs_n_noun_01",
@@ -465,6 +537,18 @@
    "evidence": "nature · product curator · Nest · cs_n_nest_01"
   },
   {
+   "id": "cs_n_newfoundland_02",
+   "text": "Newfoundland is an island in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Newfoundland · cs_n_newfoundland_02"
+  },
+  {
+   "id": "cs_n_north_star_01",
+   "text": "The North Star is called Polaris",
+   "standing": "projectable",
+   "evidence": "science · product curator · North Star · cs_n_north_star_01"
+  },
+  {
    "id": "cs_n_nocturnal_02",
    "text": "Nocturnal animals are active at night",
    "standing": "projectable",
@@ -475,6 +559,12 @@
    "text": "Nutmeg is a spice from the seed of a tropical tree",
    "standing": "projectable",
    "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_01"
+  },
+  {
+   "id": "cs_n_nomad_01",
+   "text": "Nomads do not settle permanently",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Nomad · cs_n_nomad_01"
   }
  ]
 }

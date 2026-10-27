@@ -81,6 +81,12 @@
    "evidence": "geography · product curator · Texas · cs_t_texas_01"
   },
   {
+   "id": "cs_t_texas_02",
+   "text": "Texas is the second largest state",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Texas · cs_t_texas_02"
+  },
+  {
    "id": "cs_t_tennessee_01",
    "text": "Nashville is the capital of Tennessee",
    "standing": "projectable",
@@ -111,6 +117,12 @@
    "evidence": "geography · product curator · Thames · cs_t_thames_01"
   },
   {
+   "id": "cs_t_tigris_01",
+   "text": "The Tigris flows through Iraq",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tigris · cs_t_tigris_01"
+  },
+  {
    "id": "cs_t_tibet_01",
    "text": "The Tibetan Plateau is the highest plateau in the world",
    "standing": "projectable",
@@ -127,6 +139,18 @@
    "text": "Table Mountain overlooks Cape Town",
    "standing": "projectable",
    "evidence": "geography · product curator · Table Mountain · cs_t_table_mountain_01"
+  },
+  {
+   "id": "cs_t_tundra_01",
+   "text": "Tundra is cold and treeless",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tundra · cs_t_tundra_01"
+  },
+  {
+   "id": "cs_t_tsunami_01",
+   "text": "An undersea earthquake can cause a tsunami",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tsunami · cs_t_tsunami_01"
   },
   {
    "id": "cs_t_tornado_01",
@@ -201,6 +225,12 @@
    "evidence": "science · product curator · Technetium · cs_t_technetium_01"
   },
   {
+   "id": "cs_t_temperature_01",
+   "text": "Temperature measures heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Temperature · cs_t_temperature_01"
+  },
+  {
    "id": "cs_t_tide_01",
    "text": "Tides are caused mainly by the Moon's gravity",
    "standing": "projectable",
@@ -267,10 +297,34 @@
    "evidence": "nature · product curator · Tulip · cs_t_tulip_01"
   },
   {
+   "id": "cs_t_tomato_01",
+   "text": "The tomato is a fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tomato · cs_t_tomato_01"
+  },
+  {
+   "id": "cs_t_tyrannosaurus_01",
+   "text": "Tyrannosaurus was a meat eating dinosaur",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tyrannosaurus · cs_t_tyrannosaurus_01"
+  },
+  {
+   "id": "cs_t_titanic_01",
+   "text": "The Titanic sank in 1912",
+   "standing": "projectable",
+   "evidence": "history · product curator · Titanic · cs_t_titanic_01"
+  },
+  {
    "id": "cs_t_tutankhamun_01",
    "text": "Tutankhamun's tomb was discovered in 1922",
    "standing": "projectable",
    "evidence": "history · product curator · Tutankhamun · cs_t_tutankhamun_01"
+  },
+  {
+   "id": "cs_t_taj_mahal_01",
+   "text": "The Taj Mahal is in Agra",
+   "standing": "projectable",
+   "evidence": "history · product curator · Taj Mahal · cs_t_taj_mahal_01"
   },
   {
    "id": "cs_t_taj_mahal_02",
@@ -283,6 +337,12 @@
    "text": "Nikola Tesla worked on alternating current systems",
    "standing": "projectable",
    "evidence": "history · product curator · Tesla, Nikola · cs_t_tesla_nikola_01"
+  },
+  {
+   "id": "cs_t_terracotta_army_01",
+   "text": "The Terracotta Army is in China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Terracotta Army · cs_t_terracotta_army_01"
   },
   {
    "id": "cs_t_thirteen_colonies_01",
@@ -315,10 +375,22 @@
    "evidence": "math · product curator · Thousand · cs_t_thousand_01"
   },
   {
+   "id": "cs_t_ton_01",
+   "text": "A metric ton is 1000 kilograms",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ton · cs_t_ton_01"
+  },
+  {
    "id": "cs_t_treaty_01",
    "text": "A treaty is a formal agreement between countries",
    "standing": "projectable",
    "evidence": "civics · product curator · Treaty · cs_t_treaty_01"
+  },
+  {
+   "id": "cs_t_twenty_second_amendment_01",
+   "text": "The Twenty-second Amendment limits a president to two elected terms",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Twenty-second Amendment · cs_t_twenty_second_amendment_01"
   },
   {
    "id": "cs_t_thai_01",
@@ -387,6 +459,12 @@
    "evidence": "science · product curator · Thunder · cs_t_thunder_01"
   },
   {
+   "id": "cs_t_telescope_02",
+   "text": "Telescopes magnify distant objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Telescope · cs_t_telescope_02"
+  },
+  {
    "id": "cs_t_termite_02",
    "text": "Termites live in colonies",
    "standing": "projectable",
@@ -397,6 +475,18 @@
    "text": "The Titanic sank in 1912",
    "standing": "projectable",
    "evidence": "history · product curator · Titanic · cs_t_titanic_03"
+  },
+  {
+   "id": "cs_t_thirteen_colonies_02",
+   "text": "Britain had thirteen colonies in America",
+   "standing": "projectable",
+   "evidence": "history · product curator · Thirteen Colonies · cs_t_thirteen_colonies_02"
+  },
+  {
+   "id": "cs_t_twenty_sixth_amendment_01",
+   "text": "The Twenty-sixth Amendment set the American voting age at 18",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Twenty-sixth Amendment · cs_t_twenty_sixth_amendment_01"
   },
   {
    "id": "cs_t_tanganyika_lake_01",
@@ -447,10 +537,22 @@
    "evidence": "nature · product curator · Thistle · cs_t_thistle_01"
   },
   {
+   "id": "cs_t_thanksgiving_01",
+   "text": "Americans celebrate Thanksgiving in November",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Thanksgiving · cs_t_thanksgiving_01"
+  },
+  {
    "id": "cs_t_tower_of_london_02",
    "text": "The Tower of London is a castle on the River Thames",
    "standing": "projectable",
    "evidence": "history · product curator · Tower of London · cs_t_tower_of_london_02"
+  },
+  {
+   "id": "cs_t_tsunami_02",
+   "text": "A tsunami is a huge wave",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tsunami · cs_t_tsunami_02"
   },
   {
    "id": "cs_t_teak_01",

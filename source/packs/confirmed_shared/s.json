@@ -63,10 +63,22 @@
    "evidence": "geography · product curator · Sri Lanka · cs_s_sri_lanka_01"
   },
   {
+   "id": "cs_s_seoul_01",
+   "text": "Seoul lies on the Han",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Seoul · cs_s_seoul_01"
+  },
+  {
    "id": "cs_s_stockholm_01",
    "text": "Stockholm is built on a group of islands",
    "standing": "projectable",
    "evidence": "geography · product curator · Stockholm · cs_s_stockholm_01"
+  },
+  {
+   "id": "cs_s_sahara_01",
+   "text": "The Sahara is in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sahara · cs_s_sahara_01"
   },
   {
    "id": "cs_s_sahara_02",
@@ -91,6 +103,12 @@
    "text": "The Southern Ocean surrounds Antarctica",
    "standing": "projectable",
    "evidence": "geography · product curator · Southern Ocean · cs_s_southern_ocean_01"
+  },
+  {
+   "id": "cs_s_south_america_01",
+   "text": "South America is the fourth largest continent by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · South America · cs_s_south_america_01"
   },
   {
    "id": "cs_s_suez_canal_01",
@@ -321,6 +339,12 @@
    "evidence": "nature · product curator · Snow leopard · cs_s_snow_leopard_01"
   },
   {
+   "id": "cs_s_sunflower_01",
+   "text": "Young sunflowers follow the Sun",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sunflower · cs_s_sunflower_01"
+  },
+  {
    "id": "cs_s_sequoia_01",
    "text": "Giant sequoias are the largest trees by volume",
    "standing": "projectable",
@@ -333,6 +357,12 @@
    "evidence": "nature · product curator · Spruce · cs_s_spruce_01"
   },
   {
+   "id": "cs_s_socrates_01",
+   "text": "Socrates was a Greek philosopher",
+   "standing": "projectable",
+   "evidence": "history · product curator · Socrates · cs_s_socrates_01"
+  },
+  {
    "id": "cs_s_shakespeare_william_01",
    "text": "William Shakespeare wrote Hamlet",
    "standing": "projectable",
@@ -343,6 +373,12 @@
    "text": "William Shakespeare was born in Stratford-upon-Avon",
    "standing": "projectable",
    "evidence": "history · product curator · Shakespeare, William · cs_s_shakespeare_william_02"
+  },
+  {
+   "id": "cs_s_sputnik_1_01",
+   "text": "Sputnik was the first artificial satellite",
+   "standing": "projectable",
+   "evidence": "history · product curator · Sputnik 1 · cs_s_sputnik_1_01"
   },
   {
    "id": "cs_s_statue_of_liberty_01",
@@ -375,6 +411,18 @@
    "evidence": "history · product curator · Silk Road · cs_s_silk_road_01"
   },
   {
+   "id": "cs_s_sparta_01",
+   "text": "Sparta was a Greek city state",
+   "standing": "projectable",
+   "evidence": "history · product curator · Sparta · cs_s_sparta_01"
+  },
+  {
+   "id": "cs_s_square_01",
+   "text": "A square has four equal sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Square · cs_s_square_01"
+  },
+  {
    "id": "cs_s_sphere_01",
    "text": "Every point on a sphere is the same distance from its center",
    "standing": "projectable",
@@ -391,6 +439,24 @@
    "text": "The second is the SI base unit of time",
    "standing": "projectable",
    "evidence": "math · product curator · Second · cs_s_second_01"
+  },
+  {
+   "id": "cs_s_supreme_court_01",
+   "text": "The American Supreme Court has nine justices",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Supreme Court · cs_s_supreme_court_01"
+  },
+  {
+   "id": "cs_s_senate_01",
+   "text": "The American Senate has 100 members",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Senate · cs_s_senate_01"
+  },
+  {
+   "id": "cs_s_senate_02",
+   "text": "American senators serve six-year terms",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Senate · cs_s_senate_02"
   },
   {
    "id": "cs_s_spanish_01",
@@ -417,6 +483,12 @@
    "evidence": "general · product curator · Soccer · cs_s_soccer_01"
   },
   {
+   "id": "cs_s_saturday_01",
+   "text": "Saturday is named after Saturn",
+   "standing": "projectable",
+   "evidence": "language · product curator · Saturday · cs_s_saturday_01"
+  },
+  {
    "id": "cs_s_sweden_02",
    "text": "Sweden is in Scandinavia",
    "standing": "projectable",
@@ -435,6 +507,12 @@
    "evidence": "science · product curator · Solid · cs_s_solid_01"
   },
   {
+   "id": "cs_s_swan_02",
+   "text": "Swans are large birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Swan · cs_s_swan_02"
+  },
+  {
    "id": "cs_s_sparrow_01",
    "text": "Sparrows are small songbirds",
    "standing": "projectable",
@@ -445,6 +523,12 @@
    "text": "Spiders have eight legs",
    "standing": "projectable",
    "evidence": "nature · product curator · Spider · cs_s_spider_02"
+  },
+  {
+   "id": "cs_s_supreme_court_02",
+   "text": "The American Supreme Court is the highest federal court",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Supreme Court · cs_s_supreme_court_02"
   },
   {
    "id": "cs_s_south_carolina_01",
@@ -477,10 +561,28 @@
    "evidence": "nature · product curator · Stork · cs_s_stork_01"
   },
   {
+   "id": "cs_s_sunflower_02",
+   "text": "Young sunflowers face the Sun",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sunflower · cs_s_sunflower_02"
+  },
+  {
+   "id": "cs_s_squid_01",
+   "text": "A squid has ten arms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Squid · cs_s_squid_01"
+  },
+  {
    "id": "cs_s_snail_01",
    "text": "Snails are mollusks",
    "standing": "projectable",
    "evidence": "nature · product curator · Snail · cs_s_snail_01"
+  },
+  {
+   "id": "cs_s_sapphire_01",
+   "text": "Sapphire is usually blue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sapphire · cs_s_sapphire_01"
   },
   {
    "id": "cs_s_starling_01",

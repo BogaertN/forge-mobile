@@ -6,8 +6,14 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 102,
  "items": [
+  {
+   "id": "cs_u_united_states_01",
+   "text": "Washington is the capital of the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · United States · cs_u_united_states_01"
+  },
   {
    "id": "cs_u_united_kingdom_01",
    "text": "The United Kingdom consists of England, Scotland, Wales, and Northern Ireland",
@@ -63,16 +69,34 @@
    "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_01"
   },
   {
+   "id": "cs_u_ural_river_01",
+   "text": "The Ural flows into the Caspian Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ural River · cs_u_ural_river_01"
+  },
+  {
    "id": "cs_u_utah_01",
    "text": "Salt Lake City is the capital of Utah",
    "standing": "projectable",
    "evidence": "geography · product curator · Utah · cs_u_utah_01"
   },
   {
+   "id": "cs_u_uluru_01",
+   "text": "Uluru is a sandstone rock in Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uluru · cs_u_uluru_01"
+  },
+  {
    "id": "cs_u_uppsala_01",
    "text": "Uppsala is a city in Sweden",
    "standing": "projectable",
    "evidence": "geography · product curator · Uppsala · cs_u_uppsala_01"
+  },
+  {
+   "id": "cs_u_ushuaia_01",
+   "text": "Ushuaia is in Argentina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ushuaia · cs_u_ushuaia_01"
   },
   {
    "id": "cs_u_upstream_01",
@@ -111,16 +135,34 @@
    "evidence": "science · product curator · Uranium · cs_u_uranium_01"
   },
   {
+   "id": "cs_u_uranium_02",
+   "text": "Uranium has an atomic number of 92",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_02"
+  },
+  {
    "id": "cs_u_uranium_03",
    "text": "Uranium is used as fuel in nuclear reactors",
    "standing": "projectable",
    "evidence": "science · product curator · Uranium · cs_u_uranium_03"
   },
   {
+   "id": "cs_u_ultraviolet_01",
+   "text": "Ultraviolet waves are shorter than visible light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_01"
+  },
+  {
    "id": "cs_u_ultraviolet_02",
    "text": "Ultraviolet radiation can cause sunburn",
    "standing": "projectable",
    "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_02"
+  },
+  {
+   "id": "cs_u_ultrasound_01",
+   "text": "Humans cannot hear ultrasound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_01"
   },
   {
    "id": "cs_u_umbra_01",
@@ -153,6 +195,12 @@
    "evidence": "science · product curator · Unicellular organism · cs_u_unicellular_organism_01"
   },
   {
+   "id": "cs_u_universal_gravitation_01",
+   "text": "Newton described universal gravitation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Universal gravitation · cs_u_universal_gravitation_01"
+  },
+  {
    "id": "cs_u_urchin_01",
    "text": "Sea urchins are spiny echinoderms",
    "standing": "projectable",
@@ -177,10 +225,22 @@
    "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_01"
   },
   {
+   "id": "cs_u_underbrush_01",
+   "text": "Underbrush grows beneath the forest canopy",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Underbrush · cs_u_underbrush_01"
+  },
+  {
    "id": "cs_u_understory_01",
    "text": "The understory is the forest layer below the canopy",
    "standing": "projectable",
    "evidence": "nature · product curator · Understory · cs_u_understory_01"
+  },
+  {
+   "id": "cs_u_udon_01",
+   "text": "Udon is a Japanese noodle",
+   "standing": "projectable",
+   "evidence": "general · product curator · Udon · cs_u_udon_01"
   },
   {
    "id": "cs_u_united_nations_01",
@@ -189,16 +249,58 @@
    "evidence": "civics · product curator · United Nations · cs_u_united_nations_01"
   },
   {
+   "id": "cs_u_united_nations_02",
+   "text": "The United Nations is based in New York",
+   "standing": "projectable",
+   "evidence": "civics · product curator · United Nations · cs_u_united_nations_02"
+  },
+  {
    "id": "cs_u_united_nations_03",
    "text": "The UN Security Council has five permanent members",
    "standing": "projectable",
    "evidence": "civics · product curator · United Nations · cs_u_united_nations_03"
   },
   {
+   "id": "cs_u_unesco_01",
+   "text": "UNESCO is an agency of the United Nations",
+   "standing": "projectable",
+   "evidence": "civics · product curator · UNESCO · cs_u_unesco_01"
+  },
+  {
+   "id": "cs_u_unicef_01",
+   "text": "UNICEF helps children",
+   "standing": "projectable",
+   "evidence": "civics · product curator · UNICEF · cs_u_unicef_01"
+  },
+  {
+   "id": "cs_u_us_constitution_01",
+   "text": "The American Constitution establishes three branches of government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · US Constitution · cs_u_us_constitution_01"
+  },
+  {
+   "id": "cs_u_us_capitol_01",
+   "text": "The American Capitol is the meeting place of Congress",
+   "standing": "projectable",
+   "evidence": "civics · product curator · US Capitol · cs_u_us_capitol_01"
+  },
+  {
    "id": "cs_u_union_01",
    "text": "The northern states were called the Union in the American Civil War",
    "standing": "projectable",
    "evidence": "history · product curator · Union · cs_u_union_01"
+  },
+  {
+   "id": "cs_u_ur_01",
+   "text": "Ur was an ancient city in Sumer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ur · cs_u_ur_01"
+  },
+  {
+   "id": "cs_u_uruk_01",
+   "text": "Uruk was a city in Mesopotamia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Uruk · cs_u_uruk_01"
   },
   {
    "id": "cs_u_ulysses_01",
@@ -243,6 +345,12 @@
    "evidence": "math · product curator · Unit · cs_u_unit_01"
   },
   {
+   "id": "cs_u_union_sets_01",
+   "text": "The union of two sets contains all their elements",
+   "standing": "projectable",
+   "evidence": "math · product curator · Union (sets) · cs_u_union_sets_01"
+  },
+  {
    "id": "cs_u_unity_01",
    "text": "In mathematics, unity means the number one",
    "standing": "projectable",
@@ -273,6 +381,18 @@
    "evidence": "general · product curator · Umbrella · cs_u_umbrella_01"
   },
   {
+   "id": "cs_u_uniform_01",
+   "text": "A uniform is clothing for a group",
+   "standing": "projectable",
+   "evidence": "general · product curator · Uniform · cs_u_uniform_01"
+  },
+  {
+   "id": "cs_u_utah_02",
+   "text": "The Great Salt Lake is in Utah",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Utah · cs_u_utah_02"
+  },
+  {
    "id": "cs_u_uganda_02",
    "text": "Uganda borders Lake Victoria",
    "standing": "projectable",
@@ -283,6 +403,36 @@
    "text": "Uruguay won the first FIFA World Cup in 1930",
    "standing": "projectable",
    "evidence": "history · product curator · Uruguay · cs_u_uruguay_02"
+  },
+  {
+   "id": "cs_u_urn_01",
+   "text": "An urn is a vase",
+   "standing": "projectable",
+   "evidence": "general · product curator · Urn · cs_u_urn_01"
+  },
+  {
+   "id": "cs_u_upper_house_01",
+   "text": "The American Senate is the upper house of Congress",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Upper house · cs_u_upper_house_01"
+  },
+  {
+   "id": "cs_u_united_states_03",
+   "text": "The capital of the United States is Washington",
+   "standing": "projectable",
+   "evidence": "geography · product curator · United States · cs_u_united_states_03"
+  },
+  {
+   "id": "cs_u_ural_mountains_02",
+   "text": "The Ural Mountains separate Europe from Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_02"
+  },
+  {
+   "id": "cs_u_uluru_02",
+   "text": "Uluru is in the Northern Territory",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uluru · cs_u_uluru_02"
   },
   {
    "id": "cs_u_uranium_04",
@@ -375,10 +525,28 @@
    "evidence": "history · product curator · USSR · cs_u_ussr_03"
   },
   {
+   "id": "cs_u_us_capitol_02",
+   "text": "Congress meets in the Capitol",
+   "standing": "projectable",
+   "evidence": "civics · product curator · US Capitol · cs_u_us_capitol_02"
+  },
+  {
    "id": "cs_u_uranus_05",
    "text": "Uranus has a blue-green color",
    "standing": "projectable",
    "evidence": "science · product curator · Uranus · cs_u_uranus_05"
+  },
+  {
+   "id": "cs_u_ukraine_02",
+   "text": "Kyiv is the capital of Ukraine",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_02"
+  },
+  {
+   "id": "cs_u_united_kingdom_02",
+   "text": "London is the capital of the United Kingdom",
+   "standing": "projectable",
+   "evidence": "geography · product curator · United Kingdom · cs_u_united_kingdom_02"
   }
  ]
 }

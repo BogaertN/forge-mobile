@@ -9,6 +9,12 @@
  "curated_facts": 100,
  "items": [
   {
+   "id": "cs_w_warsaw_01",
+   "text": "The Vistula flows through Warsaw",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Warsaw · cs_w_warsaw_01"
+  },
+  {
    "id": "cs_w_wellington_01",
    "text": "Wellington is the capital of New Zealand",
    "standing": "projectable",
@@ -147,6 +153,12 @@
    "evidence": "science · product curator · Wheel and axle · cs_w_wheel_and_axle_01"
   },
   {
+   "id": "cs_w_white_blood_cell_01",
+   "text": "White blood cells fight infection",
+   "standing": "projectable",
+   "evidence": "science · product curator · White blood cell · cs_w_white_blood_cell_01"
+  },
+  {
    "id": "cs_w_whale_01",
    "text": "Whales are mammals",
    "standing": "projectable",
@@ -165,10 +177,28 @@
    "evidence": "nature · product curator · Wolf · cs_w_wolf_01"
   },
   {
+   "id": "cs_w_walrus_01",
+   "text": "The walrus has long tusks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Walrus · cs_w_walrus_01"
+  },
+  {
+   "id": "cs_w_walrus_02",
+   "text": "The walrus lives in the Arctic",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Walrus · cs_w_walrus_02"
+  },
+  {
    "id": "cs_w_woodpecker_01",
    "text": "Woodpeckers peck holes in trees",
    "standing": "projectable",
    "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_01"
+  },
+  {
+   "id": "cs_w_wombat_01",
+   "text": "Wombats are marsupials from Australia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wombat · cs_w_wombat_01"
   },
   {
    "id": "cs_w_wasp_01",
@@ -237,10 +267,34 @@
    "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_01"
   },
   {
+   "id": "cs_w_wright_brothers_02",
+   "text": "The Wright brothers first flew at Kitty Hawk",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_02"
+  },
+  {
+   "id": "cs_w_world_war_i_01",
+   "text": "The First World War lasted from 1914 to 1918",
+   "standing": "projectable",
+   "evidence": "history · product curator · World War I · cs_w_world_war_i_01"
+  },
+  {
    "id": "cs_w_world_war_ii_01",
    "text": "World War II lasted from 1939 to 1945",
    "standing": "projectable",
    "evidence": "history · product curator · World War II · cs_w_world_war_ii_01"
+  },
+  {
+   "id": "cs_w_waterloo_battle_of_01",
+   "text": "The Battle of Waterloo took place in present day Belgium",
+   "standing": "projectable",
+   "evidence": "history · product curator · Waterloo, Battle of · cs_w_waterloo_battle_of_01"
+  },
+  {
+   "id": "cs_w_william_the_conqueror_01",
+   "text": "William became king of England in 1066",
+   "standing": "projectable",
+   "evidence": "history · product curator · William the Conqueror · cs_w_william_the_conqueror_01"
   },
   {
    "id": "cs_w_watt_james_01",
@@ -253,6 +307,24 @@
    "text": "Woodrow Wilson was the 28th president of the United States",
    "standing": "projectable",
    "evidence": "history · product curator · Wilson, Woodrow · cs_w_wilson_woodrow_01"
+  },
+  {
+   "id": "cs_w_white_house_01",
+   "text": "The White House is the official residence of the American president",
+   "standing": "projectable",
+   "evidence": "civics · product curator · White House · cs_w_white_house_01"
+  },
+  {
+   "id": "cs_w_white_house_02",
+   "text": "The White House is on Pennsylvania Avenue",
+   "standing": "projectable",
+   "evidence": "civics · product curator · White House · cs_w_white_house_02"
+  },
+  {
+   "id": "cs_w_washington_monument_01",
+   "text": "The Washington Monument is an obelisk",
+   "standing": "projectable",
+   "evidence": "history · product curator · Washington Monument · cs_w_washington_monument_01"
   },
   {
    "id": "cs_w_whole_number_01",
@@ -297,6 +369,12 @@
    "evidence": "general · product curator · Wimbledon · cs_w_wimbledon_02"
   },
   {
+   "id": "cs_w_world_cup_01",
+   "text": "The World Cup happens every four years",
+   "standing": "projectable",
+   "evidence": "general · product curator · World Cup · cs_w_world_cup_01"
+  },
+  {
    "id": "cs_w_water_polo_01",
    "text": "Water polo is played in a swimming pool",
    "standing": "projectable",
@@ -327,6 +405,18 @@
    "evidence": "geography · product curator · Warsaw · cs_w_warsaw_02"
   },
   {
+   "id": "cs_w_washington_d_c_01",
+   "text": "Washington lies on the Potomac",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Washington, D.C. · cs_w_washington_d_c_01"
+  },
+  {
+   "id": "cs_w_wyoming_03",
+   "text": "Wyoming has the smallest population of any state",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wyoming · cs_w_wyoming_03"
+  },
+  {
    "id": "cs_w_woolly_mammoth_01",
    "text": "Woolly mammoths are extinct relatives of elephants",
    "standing": "projectable",
@@ -351,16 +441,34 @@
    "evidence": "nature · product curator · Wool · cs_w_wool_01"
   },
   {
+   "id": "cs_w_wing_01",
+   "text": "The wings of bats are made of skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wing · cs_w_wing_01"
+  },
+  {
    "id": "cs_w_wellington_boot_01",
    "text": "Wellington boots are waterproof boots",
    "standing": "projectable",
    "evidence": "general · product curator · Wellington boot · cs_w_wellington_boot_01"
   },
   {
+   "id": "cs_w_written_constitution_01",
+   "text": "The American Constitution is the oldest written constitution in use",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Written constitution · cs_w_written_constitution_01"
+  },
+  {
    "id": "cs_w_water_03",
    "text": "Water is made of hydrogen and oxygen",
    "standing": "projectable",
    "evidence": "science · product curator · Water · cs_w_water_03"
+  },
+  {
+   "id": "cs_w_water_04",
+   "text": "Water boils at 100 degrees Celsius at sea level",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water · cs_w_water_04"
   },
   {
    "id": "cs_w_wavelength_02",
@@ -381,10 +489,34 @@
    "evidence": "nature · product curator · Wolf · cs_w_wolf_02"
   },
   {
+   "id": "cs_w_washington_george_03",
+   "text": "George Washington was the first American president",
+   "standing": "projectable",
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_03"
+  },
+  {
    "id": "cs_w_world_war_ii_02",
    "text": "World War II ended in 1945",
    "standing": "projectable",
    "evidence": "history · product curator · World War II · cs_w_world_war_ii_02"
+  },
+  {
+   "id": "cs_w_world_war_i_02",
+   "text": "The First World War began in 1914",
+   "standing": "projectable",
+   "evidence": "history · product curator · World War I · cs_w_world_war_i_02"
+  },
+  {
+   "id": "cs_w_washington_d_c_02",
+   "text": "The White House is in Washington",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Washington, D.C. · cs_w_washington_d_c_02"
+  },
+  {
+   "id": "cs_w_west_bank_01",
+   "text": "The West Bank is west of the Jordan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · West Bank · cs_w_west_bank_01"
   },
   {
    "id": "cs_w_white_nile_02",
@@ -423,6 +555,12 @@
    "evidence": "nature · product curator · Willow · cs_w_willow_02"
   },
   {
+   "id": "cs_w_wasp_02",
+   "text": "Some wasps can sting many times",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_02"
+  },
+  {
    "id": "cs_w_whale_shark_02",
    "text": "The whale shark is the largest fish",
    "standing": "projectable",
@@ -433,6 +571,12 @@
    "text": "The Battle of Waterloo was fought in 1815",
    "standing": "projectable",
    "evidence": "history · product curator · Waterloo, Battle of · cs_w_waterloo_battle_of_02"
+  },
+  {
+   "id": "cs_w_white_house_03",
+   "text": "The White House is the home of the American president",
+   "standing": "projectable",
+   "evidence": "civics · product curator · White House · cs_w_white_house_03"
   }
  ]
 }

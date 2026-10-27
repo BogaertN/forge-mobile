@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 102,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -27,6 +27,12 @@
    "evidence": "geography · product curator · Yaoundé · cs_y_yaounde_01"
   },
   {
+   "id": "cs_y_yamoussoukro_01",
+   "text": "Yamoussoukro is the capital of Ivory Coast",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yamoussoukro · cs_y_yamoussoukro_01"
+  },
+  {
    "id": "cs_y_yangon_01",
    "text": "Yangon is the largest city in Myanmar",
    "standing": "projectable",
@@ -45,10 +51,28 @@
    "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_02"
   },
   {
+   "id": "cs_y_yangtze_river_03",
+   "text": "The Three Gorges Dam is on the Yangtze",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_03"
+  },
+  {
+   "id": "cs_y_yellow_river_01",
+   "text": "The Yellow is the second longest river in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellow River · cs_y_yellow_river_01"
+  },
+  {
    "id": "cs_y_yellow_sea_01",
    "text": "The Yellow Sea lies between China and the Korean Peninsula",
    "standing": "projectable",
    "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_01"
+  },
+  {
+   "id": "cs_y_yellowstone_national_park_01",
+   "text": "Yellowstone was the first national park",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_01"
   },
   {
    "id": "cs_y_yellowstone_national_park_02",
@@ -81,6 +105,12 @@
    "evidence": "geography · product curator · Yukon · cs_y_yukon_01"
   },
   {
+   "id": "cs_y_yukon_river_01",
+   "text": "The Yukon flows into the Bering Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yukon River · cs_y_yukon_river_01"
+  },
+  {
    "id": "cs_y_yucatan_peninsula_01",
    "text": "The Yucatán Peninsula separates the Gulf of Mexico from the Caribbean Sea",
    "standing": "projectable",
@@ -91,6 +121,12 @@
    "text": "Yokohama is a port city in Japan",
    "standing": "projectable",
    "evidence": "geography · product curator · Yokohama · cs_y_yokohama_01"
+  },
+  {
+   "id": "cs_y_york_01",
+   "text": "York is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · York · cs_y_york_01"
   },
   {
    "id": "cs_y_yorkshire_01",
@@ -117,6 +153,12 @@
    "evidence": "science · product curator · Yttrium · cs_y_yttrium_01"
   },
   {
+   "id": "cs_y_yttrium_02",
+   "text": "Yttrium has an atomic number of 39",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_02"
+  },
+  {
    "id": "cs_y_ytterby_01",
    "text": "Four chemical elements are named after the Swedish village of Ytterby",
    "standing": "projectable",
@@ -133,6 +175,12 @@
    "text": "The Y chromosome is smaller than the X chromosome",
    "standing": "projectable",
    "evidence": "science · product curator · Y chromosome · cs_y_y_chromosome_02"
+  },
+  {
+   "id": "cs_y_yeast_01",
+   "text": "Yeast is a fungus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_01"
   },
   {
    "id": "cs_y_yeast_02",
@@ -219,6 +267,12 @@
    "evidence": "history · product curator · Yorktown, Siege of · cs_y_yorktown_siege_of_01"
   },
   {
+   "id": "cs_y_yalta_conference_01",
+   "text": "The Yalta Conference took place in 1945",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yalta Conference · cs_y_yalta_conference_01"
+  },
+  {
    "id": "cs_y_yuan_dynasty_01",
    "text": "The Yuan dynasty was founded by Kublai Khan",
    "standing": "projectable",
@@ -259,6 +313,12 @@
    "text": "A yard is three feet",
    "standing": "projectable",
    "evidence": "math · product curator · Yard · cs_y_yard_01"
+  },
+  {
+   "id": "cs_y_yard_02",
+   "text": "A yard is about 0.91 meters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Yard · cs_y_yard_02"
   },
   {
    "id": "cs_y_y_axis_01",
@@ -309,6 +369,18 @@
    "evidence": "civics · product curator · Yuan · cs_y_yuan_01"
   },
   {
+   "id": "cs_y_yoga_01",
+   "text": "Yoga originated in India",
+   "standing": "projectable",
+   "evidence": "general · product curator · Yoga · cs_y_yoga_01"
+  },
+  {
+   "id": "cs_y_yogurt_01",
+   "text": "Yogurt is made from milk",
+   "standing": "projectable",
+   "evidence": "general · product curator · Yogurt · cs_y_yogurt_01"
+  },
+  {
    "id": "cs_y_yacht_01",
    "text": "A yacht is a recreational boat",
    "standing": "projectable",
@@ -325,6 +397,12 @@
    "text": "In soccer, a yellow card is a caution",
    "standing": "projectable",
    "evidence": "general · product curator · Yellow card · cs_y_yellow_card_01"
+  },
+  {
+   "id": "cs_y_yarn_01",
+   "text": "People knit with yarn",
+   "standing": "projectable",
+   "evidence": "general · product curator · Yarn · cs_y_yarn_01"
   },
   {
    "id": "cs_y_yemen_03",
@@ -349,6 +427,12 @@
    "text": "The Yangtze flows through Shanghai",
    "standing": "projectable",
    "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_04"
+  },
+  {
+   "id": "cs_y_yellowstone_national_park_04",
+   "text": "Yellowstone sits on a large volcano",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_04"
   },
   {
    "id": "cs_y_yosemite_national_park_03",
@@ -381,10 +465,22 @@
    "evidence": "nature · product curator · Yak · cs_y_yak_03"
   },
   {
+   "id": "cs_y_yew_02",
+   "text": "Yew trees can live for a thousand years",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yew · cs_y_yew_02"
+  },
+  {
    "id": "cs_y_yangtze_river_05",
    "text": "The Yangtze is the longest river in China",
    "standing": "projectable",
    "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_05"
+  },
+  {
+   "id": "cs_y_yellow_river_02",
+   "text": "The Yellow is in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellow River · cs_y_yellow_river_02"
   },
   {
    "id": "cs_y_yukon_04",
@@ -405,6 +501,12 @@
    "evidence": "nature · product curator · Yew · cs_y_yew_03"
   },
   {
+   "id": "cs_y_year_04",
+   "text": "A year has 365 days",
+   "standing": "projectable",
+   "evidence": "science · product curator · Year · cs_y_year_04"
+  },
+  {
    "id": "cs_y_yard_03",
    "text": "A yard equals three feet",
    "standing": "projectable",
@@ -423,6 +525,12 @@
    "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_02"
   },
   {
+   "id": "cs_y_yucatan_peninsula_03",
+   "text": "The Yucatan Peninsula is in Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_03"
+  },
+  {
    "id": "cs_y_yak_05",
    "text": "Yaks have long shaggy hair",
    "standing": "projectable",
@@ -433,6 +541,18 @@
    "text": "Yeast is a fungus",
    "standing": "projectable",
    "evidence": "science · product curator · Yeast · cs_y_yeast_04"
+  },
+  {
+   "id": "cs_y_yerevan_02",
+   "text": "Yerevan is the capital of Armenia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yerevan · cs_y_yerevan_02"
+  },
+  {
+   "id": "cs_y_yaounde_02",
+   "text": "Yaounde is the capital of Cameroon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yaounde · cs_y_yaounde_02"
   }
  ]
 }

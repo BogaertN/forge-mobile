@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 103,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -75,6 +75,12 @@
    "evidence": "geography · product curator · Jefferson City · cs_j_jefferson_city_01"
   },
   {
+   "id": "cs_j_jordan_river_01",
+   "text": "The Jordan flows into the Dead Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jordan River · cs_j_jordan_river_01"
+  },
+  {
    "id": "cs_j_jungle_01",
    "text": "A jungle is land covered with dense vegetation",
    "standing": "projectable",
@@ -123,6 +129,12 @@
    "evidence": "science · product curator · Jet stream · cs_j_jet_stream_01"
   },
   {
+   "id": "cs_j_james_webb_space_telescope_01",
+   "text": "The James Webb Space Telescope launched in 2021",
+   "standing": "projectable",
+   "evidence": "science · product curator · James Webb Space Telescope · cs_j_james_webb_space_telescope_01"
+  },
+  {
    "id": "cs_j_james_webb_space_telescope_02",
    "text": "The James Webb Space Telescope observes mainly in infrared",
    "standing": "projectable",
@@ -145,6 +157,12 @@
    "text": "Jackals belong to the dog family",
    "standing": "projectable",
    "evidence": "nature · product curator · Jackal · cs_j_jackal_01"
+  },
+  {
+   "id": "cs_j_jay_01",
+   "text": "Blue jays are native to North America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_01"
   },
   {
    "id": "cs_j_jackrabbit_01",
@@ -201,10 +219,22 @@
    "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_02"
   },
   {
+   "id": "cs_j_jamestown_01",
+   "text": "Jamestown was an English settlement",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jamestown · cs_j_jamestown_01"
+  },
+  {
    "id": "cs_j_jamestown_02",
    "text": "Jamestown was founded in 1607",
    "standing": "projectable",
    "evidence": "history · product curator · Jamestown · cs_j_jamestown_02"
+  },
+  {
+   "id": "cs_j_justinian_i_01",
+   "text": "Justinian was a Byzantine emperor",
+   "standing": "projectable",
+   "evidence": "history · product curator · Justinian I · cs_j_justinian_i_01"
   },
   {
    "id": "cs_j_jenner_edward_01",
@@ -255,10 +285,34 @@
    "evidence": "general · product curator · July · cs_j_july_01"
   },
   {
+   "id": "cs_j_judiciary_01",
+   "text": "The American Supreme Court is the highest court in the federal judiciary",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judiciary · cs_j_judiciary_01"
+  },
+  {
    "id": "cs_j_jury_01",
    "text": "A jury decides questions of fact in a trial",
    "standing": "projectable",
    "evidence": "civics · product curator · Jury · cs_j_jury_01"
+  },
+  {
+   "id": "cs_j_justice_01",
+   "text": "Justices serve on the American Supreme Court",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Justice · cs_j_justice_01"
+  },
+  {
+   "id": "cs_j_japanese_01",
+   "text": "Japanese uses two syllabic scripts",
+   "standing": "projectable",
+   "evidence": "language · product curator · Japanese · cs_j_japanese_01"
+  },
+  {
+   "id": "cs_j_japanese_02",
+   "text": "Japanese writing also uses Chinese characters",
+   "standing": "projectable",
+   "evidence": "language · product curator · Japanese · cs_j_japanese_02"
   },
   {
    "id": "cs_j_judo_01",
@@ -381,6 +435,12 @@
    "evidence": "science · product curator · Juno · cs_j_juno_01"
   },
   {
+   "id": "cs_j_jupiter_07",
+   "text": "Jupiter has a giant storm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_07"
+  },
+  {
    "id": "cs_j_jackal_02",
    "text": "Jackals are members of the dog family",
    "standing": "projectable",
@@ -391,6 +451,18 @@
    "text": "The blue jay is a bird of North America",
    "standing": "projectable",
    "evidence": "nature · product curator · Jay · cs_j_jay_02"
+  },
+  {
+   "id": "cs_j_jasmine_02",
+   "text": "Jasmine has fragrant flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_02"
+  },
+  {
+   "id": "cs_j_jefferson_thomas_04",
+   "text": "Thomas Jefferson was the third American president",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_04"
   },
   {
    "id": "cs_j_jefferson_thomas_05",
@@ -435,6 +507,12 @@
    "evidence": "science · product curator · Jupiter · cs_j_jupiter_08"
   },
   {
+   "id": "cs_j_jaw_02",
+   "text": "Teeth are set in the jaw",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jaw · cs_j_jaw_02"
+  },
+  {
    "id": "cs_j_jackrabbit_02",
    "text": "Jackrabbits are hares of western North America",
    "standing": "projectable",
@@ -469,6 +547,18 @@
    "text": "Jazz originated in the United States",
    "standing": "projectable",
    "evidence": "culture · product curator · Jazz · cs_j_jazz_02"
+  },
+  {
+   "id": "cs_j_jakarta_03",
+   "text": "Jakarta is the capital of Indonesia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_03"
+  },
+  {
+   "id": "cs_j_jerusalem_02",
+   "text": "Jerusalem is a holy city",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jerusalem · cs_j_jerusalem_02"
   }
  ]
 }

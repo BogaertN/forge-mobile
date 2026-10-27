@@ -69,16 +69,40 @@
    "evidence": "geography · product curator · Greenland · cs_g_greenland_02"
   },
   {
+   "id": "cs_g_great_barrier_reef_01",
+   "text": "The Great Barrier Reef lies off Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Great Barrier Reef · cs_g_great_barrier_reef_01"
+  },
+  {
    "id": "cs_g_great_barrier_reef_02",
    "text": "The Great Barrier Reef is the world's largest coral reef system",
    "standing": "projectable",
    "evidence": "geography · product curator · Great Barrier Reef · cs_g_great_barrier_reef_02"
   },
   {
+   "id": "cs_g_grand_canyon_01",
+   "text": "The Grand Canyon was carved by the Colorado",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Grand Canyon · cs_g_grand_canyon_01"
+  },
+  {
+   "id": "cs_g_great_lakes_01",
+   "text": "The Great Lakes are five lakes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Great Lakes · cs_g_great_lakes_01"
+  },
+  {
    "id": "cs_g_gobi_desert_01",
    "text": "The Gobi Desert is in China and Mongolia",
    "standing": "projectable",
    "evidence": "geography · product curator · Gobi Desert · cs_g_gobi_desert_01"
+  },
+  {
+   "id": "cs_g_ganges_01",
+   "text": "The Ganges flows into the Bay of Bengal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ganges · cs_g_ganges_01"
   },
   {
    "id": "cs_g_gibraltar_strait_of_01",
@@ -103,6 +127,12 @@
    "text": "Glasgow is the largest city in Scotland",
    "standing": "projectable",
    "evidence": "geography · product curator · Glasgow · cs_g_glasgow_01"
+  },
+  {
+   "id": "cs_g_georgia_us_state_01",
+   "text": "Atlanta is the capital of the American state of Georgia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Georgia (US state) · cs_g_georgia_us_state_01"
   },
   {
    "id": "cs_g_gulf_of_mexico_01",
@@ -151,6 +181,12 @@
    "text": "Gold has the chemical symbol Au",
    "standing": "projectable",
    "evidence": "science · product curator · Gold · cs_g_gold_01"
+  },
+  {
+   "id": "cs_g_gold_02",
+   "text": "Gold has an atomic number of 79",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gold · cs_g_gold_02"
   },
   {
    "id": "cs_g_gallium_01",
@@ -267,6 +303,12 @@
    "evidence": "nature · product curator · Great white shark · cs_g_great_white_shark_01"
   },
   {
+   "id": "cs_g_grape_01",
+   "text": "Wine is made from grapes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Grape · cs_g_grape_01"
+  },
+  {
    "id": "cs_g_galileo_galilei_01",
    "text": "Galileo Galilei observed four moons of Jupiter in 1610",
    "standing": "projectable",
@@ -315,6 +357,12 @@
    "evidence": "history · product curator · Gold Rush · cs_g_gold_rush_01"
   },
   {
+   "id": "cs_g_gagarin_yuri_01",
+   "text": "Gagarin was the first human in space",
+   "standing": "projectable",
+   "evidence": "history · product curator · Gagarin, Yuri · cs_g_gagarin_yuri_01"
+  },
+  {
    "id": "cs_g_golden_gate_bridge_01",
    "text": "The Golden Gate Bridge is in San Francisco",
    "standing": "projectable",
@@ -339,6 +387,12 @@
    "evidence": "math · product curator · Gram · cs_g_gram_01"
   },
   {
+   "id": "cs_g_gallon_01",
+   "text": "A gallon equals four quarts",
+   "standing": "projectable",
+   "evidence": "math · product curator · Gallon · cs_g_gallon_01"
+  },
+  {
    "id": "cs_g_geometry_01",
    "text": "Geometry is the branch of mathematics dealing with shapes and space",
    "standing": "projectable",
@@ -355,6 +409,12 @@
    "text": "The greatest common divisor of 12 and 18 is 6",
    "standing": "projectable",
    "evidence": "math · product curator · Greatest common divisor · cs_g_greatest_common_divisor_01"
+  },
+  {
+   "id": "cs_g_governor_01",
+   "text": "A governor leads each state",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Governor · cs_g_governor_01"
   },
   {
    "id": "cs_g_greek_alphabet_01",
@@ -385,6 +445,18 @@
    "text": "A standard round of golf has 18 holes",
    "standing": "projectable",
    "evidence": "general · product curator · Golf · cs_g_golf_01"
+  },
+  {
+   "id": "cs_g_greenwich_01",
+   "text": "The prime meridian passes through Greenwich",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Greenwich · cs_g_greenwich_01"
+  },
+  {
+   "id": "cs_g_gulf_stream_01",
+   "text": "The Gulf Stream is a warm current in the Atlantic",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gulf Stream · cs_g_gulf_stream_01"
   },
   {
    "id": "cs_g_gray_wolf_01",
@@ -441,10 +513,22 @@
    "evidence": "nature · product curator · Goat · cs_g_goat_01"
   },
   {
+   "id": "cs_g_guinea_pig_01",
+   "text": "Guinea pigs are rodents from South America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Guinea pig · cs_g_guinea_pig_01"
+  },
+  {
    "id": "cs_g_gutenberg_johannes_02",
    "text": "Johannes Gutenberg developed a movable-type printing press",
    "standing": "projectable",
    "evidence": "history · product curator · Gutenberg, Johannes · cs_g_gutenberg_johannes_02"
+  },
+  {
+   "id": "cs_g_grant_ulysses_s_01",
+   "text": "Ulysses Grant was the 18th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Grant, Ulysses S. · cs_g_grant_ulysses_s_01"
   },
   {
    "id": "cs_g_gettysburg_battle_of_01",

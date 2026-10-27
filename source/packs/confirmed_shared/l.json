@@ -117,6 +117,12 @@
    "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_01"
   },
   {
+   "id": "cs_l_lake_baikal_02",
+   "text": "Lake Baikal is in Russia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_02"
+  },
+  {
    "id": "cs_l_lake_victoria_01",
    "text": "Lake Victoria is the largest lake in Africa",
    "standing": "projectable",
@@ -181,6 +187,18 @@
    "text": "Lava is molten rock that has reached Earth's surface",
    "standing": "projectable",
    "evidence": "science · product curator · Lava · cs_l_lava_01"
+  },
+  {
+   "id": "cs_l_light_01",
+   "text": "Light travels about 300000 kilometers per second",
+   "standing": "projectable",
+   "evidence": "science · product curator · Light · cs_l_light_01"
+  },
+  {
+   "id": "cs_l_light_year_01",
+   "text": "A light year is the distance light travels in a year",
+   "standing": "projectable",
+   "evidence": "science · product curator · Light-year · cs_l_light_year_01"
   },
   {
    "id": "cs_l_lightning_01",
@@ -255,6 +273,12 @@
    "evidence": "science · product curator · Lung · cs_l_lung_01"
   },
   {
+   "id": "cs_l_lion_01",
+   "text": "Lions live in prides",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lion · cs_l_lion_01"
+  },
+  {
    "id": "cs_l_lion_02",
    "text": "Lions are native to Africa and India",
    "standing": "projectable",
@@ -265,6 +289,12 @@
    "text": "Leopards are big cats",
    "standing": "projectable",
    "evidence": "nature · product curator · Leopard · cs_l_leopard_01"
+  },
+  {
+   "id": "cs_l_llama_01",
+   "text": "Llamas are domestic animals from South America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Llama · cs_l_llama_01"
   },
   {
    "id": "cs_l_lobster_01",
@@ -291,6 +321,12 @@
    "evidence": "nature · product curator · Lizard · cs_l_lizard_01"
   },
   {
+   "id": "cs_l_lichen_01",
+   "text": "A lichen is a partnership of a fungus with an alga",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_01"
+  },
+  {
    "id": "cs_l_lotus_01",
    "text": "The lotus is an aquatic plant",
    "standing": "projectable",
@@ -307,6 +343,12 @@
    "text": "A larva is the juvenile stage of many insects",
    "standing": "projectable",
    "evidence": "nature · product curator · Larva · cs_l_larva_01"
+  },
+  {
+   "id": "cs_l_leonardo_da_vinci_01",
+   "text": "Leonardo painted The Last Supper",
+   "standing": "projectable",
+   "evidence": "history · product curator · Leonardo da Vinci · cs_l_leonardo_da_vinci_01"
   },
   {
    "id": "cs_l_lincoln_abraham_01",
@@ -339,6 +381,12 @@
    "evidence": "history · product curator · Luther, Martin · cs_l_luther_martin_01"
   },
   {
+   "id": "cs_l_library_of_alexandria_01",
+   "text": "The Library of Alexandria was in Egypt",
+   "standing": "projectable",
+   "evidence": "history · product curator · Library of Alexandria · cs_l_library_of_alexandria_01"
+  },
+  {
    "id": "cs_l_liberty_bell_01",
    "text": "The Liberty Bell is in Philadelphia",
    "standing": "projectable",
@@ -367,6 +415,24 @@
    "text": "A legislature makes laws",
    "standing": "projectable",
    "evidence": "civics · product curator · Legislature · cs_l_legislature_01"
+  },
+  {
+   "id": "cs_l_library_of_congress_01",
+   "text": "The Library of Congress is in Washington",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Library of Congress · cs_l_library_of_congress_01"
+  },
+  {
+   "id": "cs_l_latin_01",
+   "text": "The Romans spoke Latin",
+   "standing": "projectable",
+   "evidence": "language · product curator · Latin · cs_l_latin_01"
+  },
+  {
+   "id": "cs_l_latin_alphabet_01",
+   "text": "Many languages use the Latin alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Latin alphabet · cs_l_latin_alphabet_01"
   },
   {
    "id": "cs_l_lighthouse_01",
@@ -411,6 +477,18 @@
    "evidence": "science · product curator · Lung · cs_l_lung_02"
   },
   {
+   "id": "cs_l_light_02",
+   "text": "Light is faster than sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Light · cs_l_light_02"
+  },
+  {
+   "id": "cs_l_liquid_01",
+   "text": "A liquid has a fixed volume",
+   "standing": "projectable",
+   "evidence": "science · product curator · Liquid · cs_l_liquid_01"
+  },
+  {
    "id": "cs_l_lily_01",
    "text": "Lilies grow from bulbs",
    "standing": "projectable",
@@ -421,6 +499,12 @@
    "text": "The Louisiana Purchase took place in 1803",
    "standing": "projectable",
    "evidence": "history · product curator · Louisiana Purchase · cs_l_louisiana_purchase_02"
+  },
+  {
+   "id": "cs_l_lincoln_abraham_02",
+   "text": "Lincoln was the 16th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lincoln, Abraham · cs_l_lincoln_abraham_02"
   },
   {
    "id": "cs_l_lilongwe_01",

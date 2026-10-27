@@ -87,6 +87,12 @@
    "evidence": "geography · product curator · Budapest · cs_b_budapest_01"
   },
   {
+   "id": "cs_b_budapest_02",
+   "text": "The Danube flows through Budapest",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Budapest · cs_b_budapest_02"
+  },
+  {
    "id": "cs_b_bern_01",
    "text": "Bern is the federal city of Switzerland",
    "standing": "projectable",
@@ -111,6 +117,12 @@
    "evidence": "geography · product curator · Beirut · cs_b_beirut_01"
   },
   {
+   "id": "cs_b_baltic_sea_01",
+   "text": "The Baltic Sea is in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Baltic Sea · cs_b_baltic_sea_01"
+  },
+  {
    "id": "cs_b_black_sea_01",
    "text": "The Black Sea lies between Europe and Asia",
    "standing": "projectable",
@@ -121,6 +133,12 @@
    "text": "The Bering Strait separates Asia and North America",
    "standing": "projectable",
    "evidence": "geography · product curator · Bering Strait · cs_b_bering_strait_01"
+  },
+  {
+   "id": "cs_b_borneo_01",
+   "text": "Borneo is the third largest island in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Borneo · cs_b_borneo_01"
   },
   {
    "id": "cs_b_bay_of_bengal_01",
@@ -165,6 +183,12 @@
    "evidence": "science · product curator · Boron · cs_b_boron_01"
   },
   {
+   "id": "cs_b_beryllium_01",
+   "text": "Beryllium is a chemical element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Beryllium · cs_b_beryllium_01"
+  },
+  {
    "id": "cs_b_bromine_01",
    "text": "Bromine is a liquid at room temperature",
    "standing": "projectable",
@@ -193,6 +217,30 @@
    "text": "A base has a pH above 7",
    "standing": "projectable",
    "evidence": "science · product curator · Base · cs_b_base_01"
+  },
+  {
+   "id": "cs_b_boiling_point_01",
+   "text": "Water boils at 100 degrees Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boiling point · cs_b_boiling_point_01"
+  },
+  {
+   "id": "cs_b_black_hole_01",
+   "text": "Light cannot escape a black hole",
+   "standing": "projectable",
+   "evidence": "science · product curator · Black hole · cs_b_black_hole_01"
+  },
+  {
+   "id": "cs_b_big_bang_01",
+   "text": "The universe began with the Big Bang",
+   "standing": "projectable",
+   "evidence": "science · product curator · Big Bang · cs_b_big_bang_01"
+  },
+  {
+   "id": "cs_b_bacteria_01",
+   "text": "Bacteria are tiny organisms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bacteria · cs_b_bacteria_01"
   },
   {
    "id": "cs_b_bacteria_02",
@@ -225,10 +273,28 @@
    "evidence": "science · product curator · Blood · cs_b_blood_01"
   },
   {
+   "id": "cs_b_battery_01",
+   "text": "A battery stores chemical energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Battery · cs_b_battery_01"
+  },
+  {
+   "id": "cs_b_binary_01",
+   "text": "Binary numbers use only two digits",
+   "standing": "projectable",
+   "evidence": "math · product curator · Binary · cs_b_binary_01"
+  },
+  {
    "id": "cs_b_bisector_01",
    "text": "A bisector divides something into two equal parts",
    "standing": "projectable",
    "evidence": "math · product curator · Bisector · cs_b_bisector_01"
+  },
+  {
+   "id": "cs_b_billion_01",
+   "text": "One billion is a thousand million",
+   "standing": "projectable",
+   "evidence": "math · product curator · Billion · cs_b_billion_01"
   },
   {
    "id": "cs_b_bird_01",
@@ -249,6 +315,12 @@
    "evidence": "nature · product curator · Bird · cs_b_bird_03"
   },
   {
+   "id": "cs_b_bat_01",
+   "text": "Bats are mammals that can fly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bat · cs_b_bat_01"
+  },
+  {
    "id": "cs_b_bee_01",
    "text": "Honeybees make honey from nectar",
    "standing": "projectable",
@@ -267,10 +339,22 @@
    "evidence": "nature · product curator · Butterfly · cs_b_butterfly_01"
   },
   {
+   "id": "cs_b_blue_whale_01",
+   "text": "The blue whale is the largest animal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_01"
+  },
+  {
    "id": "cs_b_blue_whale_02",
    "text": "Blue whales are mammals",
    "standing": "projectable",
    "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_02"
+  },
+  {
+   "id": "cs_b_bear_01",
+   "text": "The polar bear lives in the Arctic",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bear · cs_b_bear_01"
   },
   {
    "id": "cs_b_beaver_01",
@@ -285,10 +369,28 @@
    "evidence": "nature · product curator · Bamboo · cs_b_bamboo_01"
   },
   {
+   "id": "cs_b_bamboo_02",
+   "text": "Pandas mostly eat bamboo",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bamboo · cs_b_bamboo_02"
+  },
+  {
    "id": "cs_b_bald_eagle_01",
    "text": "The bald eagle is the national bird of the United States",
    "standing": "projectable",
    "evidence": "nature · product curator · Bald eagle · cs_b_bald_eagle_01"
+  },
+  {
+   "id": "cs_b_beethoven_ludwig_van_01",
+   "text": "Beethoven was a German composer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Beethoven, Ludwig van · cs_b_beethoven_ludwig_van_01"
+  },
+  {
+   "id": "cs_b_bach_johann_sebastian_01",
+   "text": "Bach was a German composer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Bach, Johann Sebastian · cs_b_bach_johann_sebastian_01"
   },
   {
    "id": "cs_b_bell_alexander_graham_01",
@@ -321,16 +423,52 @@
    "evidence": "history · product curator · Byzantine Empire · cs_b_byzantine_empire_02"
   },
   {
+   "id": "cs_b_bastille_01",
+   "text": "The Bastille fell in 1789",
+   "standing": "projectable",
+   "evidence": "history · product curator · Bastille · cs_b_bastille_01"
+  },
+  {
    "id": "cs_b_bronze_age_01",
    "text": "The Bronze Age came before the Iron Age",
    "standing": "projectable",
    "evidence": "history · product curator · Bronze Age · cs_b_bronze_age_01"
   },
   {
+   "id": "cs_b_bronze_01",
+   "text": "Bronze is an alloy of copper",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bronze · cs_b_bronze_01"
+  },
+  {
    "id": "cs_b_brass_01",
    "text": "Brass is an alloy of copper and zinc",
    "standing": "projectable",
    "evidence": "science · product curator · Brass · cs_b_brass_01"
+  },
+  {
+   "id": "cs_b_buddhism_01",
+   "text": "Buddhism originated in India",
+   "standing": "projectable",
+   "evidence": "history · product curator · Buddhism · cs_b_buddhism_01"
+  },
+  {
+   "id": "cs_b_bill_of_rights_01",
+   "text": "The Bill of Rights is the first ten amendments to the American Constitution",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Bill of Rights · cs_b_bill_of_rights_01"
+  },
+  {
+   "id": "cs_b_bill_of_rights_02",
+   "text": "The American Bill of Rights was ratified in 1791",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Bill of Rights · cs_b_bill_of_rights_02"
+  },
+  {
+   "id": "cs_b_ballot_01",
+   "text": "A ballot records a vote",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Ballot · cs_b_ballot_01"
   },
   {
    "id": "cs_b_bicycle_01",

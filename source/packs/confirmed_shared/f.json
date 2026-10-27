@@ -99,10 +99,22 @@
    "evidence": "science · product curator · Fossil · cs_f_fossil_01"
   },
   {
+   "id": "cs_f_fossil_fuel_01",
+   "text": "Coal is a fossil fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fossil fuel · cs_f_fossil_fuel_01"
+  },
+  {
    "id": "cs_f_fusion_01",
    "text": "The Sun is powered by nuclear fusion",
    "standing": "projectable",
    "evidence": "science · product curator · Fusion · cs_f_fusion_01"
+  },
+  {
+   "id": "cs_f_freezing_point_01",
+   "text": "Water freezes at 32 degrees Fahrenheit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_01"
   },
   {
    "id": "cs_f_fahrenheit_01",
@@ -141,6 +153,12 @@
    "evidence": "nature · product curator · Flamingo · cs_f_flamingo_01"
   },
   {
+   "id": "cs_f_fox_01",
+   "text": "Foxes belong to the dog family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fox · cs_f_fox_01"
+  },
+  {
    "id": "cs_f_falcon_01",
    "text": "The peregrine falcon is the fastest bird in a dive",
    "standing": "projectable",
@@ -171,6 +189,12 @@
    "evidence": "history · product curator · French Revolution · cs_f_french_revolution_01"
   },
   {
+   "id": "cs_f_franklin_benjamin_01",
+   "text": "Benjamin Franklin was a founder of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Franklin, Benjamin · cs_f_franklin_benjamin_01"
+  },
+  {
    "id": "cs_f_franklin_benjamin_02",
    "text": "Benjamin Franklin conducted experiments with electricity",
    "standing": "projectable",
@@ -193,6 +217,12 @@
    "text": "Alexander Fleming discovered penicillin in 1928",
    "standing": "projectable",
    "evidence": "history · product curator · Fleming, Alexander · cs_f_fleming_alexander_01"
+  },
+  {
+   "id": "cs_f_frank_anne_01",
+   "text": "Anne Frank wrote a diary during the war",
+   "standing": "projectable",
+   "evidence": "history · product curator · Frank, Anne · cs_f_frank_anne_01"
   },
   {
    "id": "cs_f_forbidden_city_01",
@@ -225,10 +255,28 @@
    "evidence": "math · product curator · Foot · cs_f_foot_01"
   },
   {
+   "id": "cs_f_foot_02",
+   "text": "One foot is about 30 centimeters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_02"
+  },
+  {
    "id": "cs_f_federalism_01",
    "text": "Federalism divides power between national and regional governments",
    "standing": "projectable",
    "evidence": "civics · product curator · Federalism · cs_f_federalism_01"
+  },
+  {
+   "id": "cs_f_flag_01",
+   "text": "The American flag has 50 stars",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Flag · cs_f_flag_01"
+  },
+  {
+   "id": "cs_f_flag_02",
+   "text": "The American flag has 13 stripes",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Flag · cs_f_flag_02"
   },
   {
    "id": "cs_f_french_01",
@@ -303,6 +351,12 @@
    "evidence": "geography · product curator · Fargo · cs_f_fargo_01"
   },
   {
+   "id": "cs_f_fault_01",
+   "text": "A fault is a crack in rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_01"
+  },
+  {
    "id": "cs_f_frequency_01",
    "text": "Frequency is measured in hertz",
    "standing": "projectable",
@@ -325,6 +379,18 @@
    "text": "Nuclear fission splits a heavy nucleus into lighter nuclei",
    "standing": "projectable",
    "evidence": "science · product curator · Fission · cs_f_fission_01"
+  },
+  {
+   "id": "cs_f_fog_01",
+   "text": "Fog is a cloud near the ground",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fog · cs_f_fog_01"
+  },
+  {
+   "id": "cs_f_food_chain_01",
+   "text": "Energy passes along a food chain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Food chain · cs_f_food_chain_01"
   },
   {
    "id": "cs_f_fulcrum_01",
@@ -399,16 +465,34 @@
    "evidence": "history · product curator · Fahrenheit, Daniel Gabriel · cs_f_fahrenheit_daniel_gabriel_01"
   },
   {
+   "id": "cs_f_ferdinand_magellan_01",
+   "text": "Magellan led the first voyage around the world",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ferdinand Magellan · cs_f_ferdinand_magellan_01"
+  },
+  {
    "id": "cs_f_fort_sumter_01",
    "text": "The American Civil War began with the attack on Fort Sumter in 1861",
    "standing": "projectable",
    "evidence": "history · product curator · Fort Sumter · cs_f_fort_sumter_01"
   },
   {
+   "id": "cs_f_frederick_the_great_01",
+   "text": "Frederick was king of Prussia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Frederick the Great · cs_f_frederick_the_great_01"
+  },
+  {
    "id": "cs_f_freud_sigmund_01",
    "text": "Sigmund Freud founded psychoanalysis",
    "standing": "projectable",
    "evidence": "history · product curator · Freud, Sigmund · cs_f_freud_sigmund_01"
+  },
+  {
+   "id": "cs_f_fahrenheit_451_01",
+   "text": "Ray Bradbury wrote Fahrenheit 451",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fahrenheit 451 · cs_f_fahrenheit_451_01"
   },
   {
    "id": "cs_f_fathom_01",
@@ -435,10 +519,28 @@
    "evidence": "science · product curator · Friction · cs_f_friction_02"
   },
   {
+   "id": "cs_f_freezing_point_02",
+   "text": "Water freezes at 0 degrees Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_02"
+  },
+  {
    "id": "cs_f_fungus_03",
    "text": "Mushrooms are the fruiting bodies of some fungi",
    "standing": "projectable",
    "evidence": "nature · product curator · Fungus · cs_f_fungus_03"
+  },
+  {
+   "id": "cs_f_fifth_amendment_01",
+   "text": "The Fifth Amendment is part of the United States Bill of Rights",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_01"
+  },
+  {
+   "id": "cs_f_florida_03",
+   "text": "Florida is a peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida · cs_f_florida_03"
   },
   {
    "id": "cs_f_fern_02",

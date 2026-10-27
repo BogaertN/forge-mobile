@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 105,
+ "curated_facts": 110,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -27,10 +27,22 @@
    "evidence": "geography · product curator · Zurich · cs_z_zurich_01"
   },
   {
+   "id": "cs_z_zanzibar_01",
+   "text": "Zanzibar is part of Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_01"
+  },
+  {
    "id": "cs_z_zambezi_river_01",
    "text": "The Zambezi flows into the Indian Ocean",
    "standing": "projectable",
    "evidence": "geography · product curator · Zambezi River · cs_z_zambezi_river_01"
+  },
+  {
+   "id": "cs_z_zambezi_river_02",
+   "text": "Victoria Falls is on the Zambezi",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambezi River · cs_z_zambezi_river_02"
   },
   {
    "id": "cs_z_zagros_mountains_01",
@@ -63,6 +75,12 @@
    "evidence": "geography · product curator · Zaragoza · cs_z_zaragoza_01"
   },
   {
+   "id": "cs_z_zhengzhou_01",
+   "text": "Zhengzhou is the capital of Henan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zhengzhou · cs_z_zhengzhou_01"
+  },
+  {
    "id": "cs_z_zanzibar_city_01",
    "text": "Stone Town is the old part of Zanzibar City",
    "standing": "projectable",
@@ -75,6 +93,12 @@
    "evidence": "science · product curator · Zinc · cs_z_zinc_01"
   },
   {
+   "id": "cs_z_zinc_02",
+   "text": "Zinc has an atomic number of 30",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_02"
+  },
+  {
    "id": "cs_z_zinc_04",
    "text": "Brass contains zinc",
    "standing": "projectable",
@@ -85,6 +109,12 @@
    "text": "Zirconium has the chemical symbol Zr",
    "standing": "projectable",
    "evidence": "science · product curator · Zirconium · cs_z_zirconium_01"
+  },
+  {
+   "id": "cs_z_zirconium_02",
+   "text": "Zirconium has an atomic number of 40",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_02"
   },
   {
    "id": "cs_z_zircon_01",
@@ -115,6 +145,12 @@
    "text": "Zooplankton are tiny animals drifting in water",
    "standing": "projectable",
    "evidence": "science · product curator · Zooplankton · cs_z_zooplankton_01"
+  },
+  {
+   "id": "cs_z_zygote_01",
+   "text": "A zygote forms when two gametes fuse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygote · cs_z_zygote_01"
   },
   {
    "id": "cs_z_zoology_01",
@@ -201,6 +237,12 @@
    "evidence": "history · product curator · Zhou dynasty · cs_z_zhou_dynasty_01"
   },
   {
+   "id": "cs_z_zoroastrianism_01",
+   "text": "Zoroastrianism began in Persia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zoroastrianism · cs_z_zoroastrianism_01"
+  },
+  {
    "id": "cs_z_zulu_kingdom_01",
    "text": "Shaka was a king of the Zulu",
    "standing": "projectable",
@@ -213,10 +255,34 @@
    "evidence": "language · product curator · Zulu · cs_z_zulu_01"
   },
   {
+   "id": "cs_z_zulu_02",
+   "text": "Zulu is spoken in South Africa",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zulu · cs_z_zulu_02"
+  },
+  {
+   "id": "cs_z_zeppelin_02",
+   "text": "The Hindenburg burned in 1937",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeppelin · cs_z_zeppelin_02"
+  },
+  {
    "id": "cs_z_zamenhof_l_l_01",
    "text": "L. L. Zamenhof created Esperanto",
    "standing": "projectable",
    "evidence": "history · product curator · Zamenhof, L. L. · cs_z_zamenhof_l_l_01"
+  },
+  {
+   "id": "cs_z_zapotec_01",
+   "text": "The Zapotec civilization arose in Oaxaca",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zapotec · cs_z_zapotec_01"
+  },
+  {
+   "id": "cs_z_zero_01",
+   "text": "Zero is not positive",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_01"
   },
   {
    "id": "cs_z_zero_02",
@@ -255,10 +321,28 @@
    "evidence": "language · product curator · Z · cs_z_z_01"
   },
   {
+   "id": "cs_z_zoning_01",
+   "text": "Zoning regulates the use of land",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_01"
+  },
+  {
+   "id": "cs_z_zither_01",
+   "text": "A zither has strings",
+   "standing": "projectable",
+   "evidence": "general · product curator · Zither · cs_z_zither_01"
+  },
+  {
    "id": "cs_z_zipper_01",
    "text": "A zipper fastens two edges of fabric",
    "standing": "projectable",
    "evidence": "general · product curator · Zipper · cs_z_zipper_01"
+  },
+  {
+   "id": "cs_z_zamboni_01",
+   "text": "A Zamboni resurfaces ice rinks",
+   "standing": "projectable",
+   "evidence": "general · product curator · Zamboni · cs_z_zamboni_01"
   },
   {
    "id": "cs_z_zumba_01",
@@ -277,6 +361,12 @@
    "text": "Zen Buddhism developed in China as Chan",
    "standing": "projectable",
    "evidence": "history · product curator · Zen · cs_z_zen_02"
+  },
+  {
+   "id": "cs_z_zambia_02",
+   "text": "Zambia is named after the Zambezi",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_02"
   },
   {
    "id": "cs_z_zimbabwe_03",
@@ -315,6 +405,12 @@
    "evidence": "nature · product curator · Zebra · cs_z_zebra_05"
   },
   {
+   "id": "cs_z_zeus_03",
+   "text": "Jupiter is the Roman counterpart of Zeus",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_03"
+  },
+  {
    "id": "cs_z_zanzibar_03",
    "text": "Zanzibar is part of Tanzania",
    "standing": "projectable",
@@ -343,6 +439,18 @@
    "text": "Zanzibar is an island in the Indian Ocean",
    "standing": "projectable",
    "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_04"
+  },
+  {
+   "id": "cs_z_zambia_03",
+   "text": "Zambia is a landlocked country",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_03"
+  },
+  {
+   "id": "cs_z_zimbabwe_04",
+   "text": "Zimbabwe is a landlocked country",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_04"
   },
   {
    "id": "cs_z_zurich_03",
@@ -397,6 +505,36 @@
    "text": "Zulu is a language of South Africa",
    "standing": "projectable",
    "evidence": "culture · product curator · Zulu · cs_z_zulu_03"
+  },
+  {
+   "id": "cs_z_zagreb_02",
+   "text": "Zagreb is the capital of Croatia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zagreb · cs_z_zagreb_02"
+  },
+  {
+   "id": "cs_z_zambia_04",
+   "text": "Lusaka is the capital of Zambia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_04"
+  },
+  {
+   "id": "cs_z_zimbabwe_05",
+   "text": "Harare is the capital of Zimbabwe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_05"
+  },
+  {
+   "id": "cs_z_zeus_05",
+   "text": "Zeus was the king of the Greek gods",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_05"
+  },
+  {
+   "id": "cs_z_zurich_04",
+   "text": "Zurich is a city in Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_04"
   }
  ]
 }

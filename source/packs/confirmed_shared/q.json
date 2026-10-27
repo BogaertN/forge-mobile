@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 106,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -67,6 +67,18 @@
    "text": "Quartz is made of silicon and oxygen",
    "standing": "projectable",
    "evidence": "science · product curator · Quartz · cs_q_quartz_01"
+  },
+  {
+   "id": "cs_q_quartz_02",
+   "text": "Quartz is a common mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_02"
+  },
+  {
+   "id": "cs_q_quartz_03",
+   "text": "Quartz crystals keep time in watches",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_03"
   },
   {
    "id": "cs_q_quark_01",
@@ -165,6 +177,12 @@
    "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_02"
   },
   {
+   "id": "cs_q_qin_shi_huang_01",
+   "text": "Qin Shi Huang was the first emperor of China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Qin Shi Huang · cs_q_qin_shi_huang_01"
+  },
+  {
    "id": "cs_q_qin_dynasty_01",
    "text": "The Terracotta Army was built for Qin Shi Huang",
    "standing": "projectable",
@@ -201,6 +219,12 @@
    "evidence": "history · product curator · Quakers · cs_q_quakers_01"
   },
   {
+   "id": "cs_q_quakers_02",
+   "text": "William Penn founded Pennsylvania",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quakers · cs_q_quakers_02"
+  },
+  {
    "id": "cs_q_queen_elizabeth_ii_01",
    "text": "Queen Elizabeth II was crowned in 1953",
    "standing": "projectable",
@@ -229,6 +253,12 @@
    "text": "The coordinate plane has four quadrants",
    "standing": "projectable",
    "evidence": "math · product curator · Quadrant · cs_q_quadrant_01"
+  },
+  {
+   "id": "cs_q_quart_01",
+   "text": "A quart equals two pints",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quart · cs_q_quart_01"
   },
   {
    "id": "cs_q_quarter_01",
@@ -279,10 +309,28 @@
    "evidence": "general · product curator · Quiver · cs_q_quiver_01"
   },
   {
+   "id": "cs_q_quilt_01",
+   "text": "A quilt is made of layers of fabric",
+   "standing": "projectable",
+   "evidence": "general · product curator · Quilt · cs_q_quilt_01"
+  },
+  {
+   "id": "cs_q_qwerty_01",
+   "text": "QWERTY is the commonest keyboard layout",
+   "standing": "projectable",
+   "evidence": "general · product curator · QWERTY · cs_q_qwerty_01"
+  },
+  {
    "id": "cs_q_q_01",
    "text": "Q is the 17th letter of the English alphabet",
    "standing": "projectable",
    "evidence": "language · product curator · Q · cs_q_q_01"
+  },
+  {
+   "id": "cs_q_q_02",
+   "text": "Q usually comes before U in English",
+   "standing": "projectable",
+   "evidence": "language · product curator · Q · cs_q_q_02"
   },
   {
    "id": "cs_q_quechua_01",
@@ -297,10 +345,22 @@
    "evidence": "language · product curator · Question mark · cs_q_question_mark_01"
   },
   {
+   "id": "cs_q_quotation_marks_01",
+   "text": "Quotation marks show the words of a speaker",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quotation marks · cs_q_quotation_marks_01"
+  },
+  {
    "id": "cs_q_quiche_01",
    "text": "Quiche is a savory egg tart",
    "standing": "projectable",
    "evidence": "general · product curator · Quiche · cs_q_quiche_01"
+  },
+  {
+   "id": "cs_q_quarry_01",
+   "text": "Stone is cut from a quarry",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_01"
   },
   {
    "id": "cs_q_quicksand_01",
@@ -331,6 +391,12 @@
    "text": "Quetzalcoatl was a feathered serpent deity of Mesoamerica",
    "standing": "projectable",
    "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_01"
+  },
+  {
+   "id": "cs_q_quebec_03",
+   "text": "Champlain founded Quebec in 1608",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quebec · cs_q_quebec_03"
   },
   {
    "id": "cs_q_queensland_03",
@@ -427,6 +493,42 @@
    "text": "A quill pen is made from a bird's feather",
    "standing": "projectable",
    "evidence": "history · product curator · Quill · cs_q_quill_03"
+  },
+  {
+   "id": "cs_q_quito_03",
+   "text": "Quito is the capital of Ecuador",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quito · cs_q_quito_03"
+  },
+  {
+   "id": "cs_q_quito_04",
+   "text": "Quito is a city in the Andes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quito · cs_q_quito_04"
+  },
+  {
+   "id": "cs_q_qatar_03",
+   "text": "Doha is the capital of Qatar",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_03"
+  },
+  {
+   "id": "cs_q_qatar_04",
+   "text": "Qatar is a country in the Middle East",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_04"
+  },
+  {
+   "id": "cs_q_queen_victoria_03",
+   "text": "Queen Victoria ruled the United Kingdom from 1837 to 1901",
+   "standing": "projectable",
+   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_03"
+  },
+  {
+   "id": "cs_q_quetzalcoatl_02",
+   "text": "Quetzalcoatl was a god of the Aztecs",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_02"
   }
  ]
 }
