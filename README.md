@@ -2,7 +2,7 @@
 
 Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-**Version 4.9.116**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json): registry 280, publish-gate tests recorded after the 4.9.116 targeted run, service-worker cache `forge-mobile-v4.9.116`. 4.9.115 shipped Pattern Reflection and Verify packet.
+**Version 4.9.116**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json): registry 280, publish-gate tests 246 passed of 246 (0 failed, 0 not run), service-worker cache `forge-mobile-v4.9.116`. 4.9.115 shipped Pattern Reflection and Verify packet.
 
 ## The app
 
@@ -189,7 +189,7 @@ git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile && sh 
 3. `python3 source/build.py` builds when the summary exists, nothing failed, passed plus not-run equals the total, the version matches `source/VERSION`, and the tree hash matches. It writes `_release/site` (the Pages tree, including `BUILD_MANIFEST.json` and `build-info.json`) and `_release/single`. The build date is the commit date.
 4. `node source/tools/verify_release.js` checks file hashes against the manifest, one version across the artifact, zero failed and zero not-run, the commit, the tree hash, and a clean git status. A summary that still contains not-run checks can pass step 3 and fail this step.
 
-GitHub Pages (`.github/workflows/pages.yml`) runs `sh source/tools/publish.sh` and uploads `_release/site` only. Publish uses the same prepare, build, and release check, with the targeted list in `source/verify/targeted.json` in place of the full suite. That list is the publish gate for 4.9.116. The 4.9.115 gate was 237 passed of 237, 0 failed, 0 not run. The 4.9.114 gate was 234. The 4.9.113 gate was 231. The live 4.9.112 artifact reported 226 tests. A live probe at the end of publish does not block the upload.
+GitHub Pages (`.github/workflows/pages.yml`) runs `sh source/tools/publish.sh` and uploads `_release/site` only. Publish uses the same prepare, build, and release check, with the targeted list in `source/verify/targeted.json` in place of the full suite. That list is the publish gate for 4.9.116: 246 passed of 246, 0 failed, 0 not run. The 4.9.115 gate was 237 passed of 237, 0 failed, 0 not run. The 4.9.114 gate was 234. The 4.9.113 gate was 231. The live 4.9.112 artifact reported 226 tests. A live probe at the end of publish does not block the upload.
 
 `BUILD_MANIFEST.json` is the hash list of the site just built. After a local build of the same commit, `node source/tools/verify_live.js https://bogaertn.github.io/forge-mobile/` compares the live manifest and every listed file with `_release/site`.
 
