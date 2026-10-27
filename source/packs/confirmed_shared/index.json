@@ -1,0 +1,194 @@
+{
+ "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
+ "provenance": "confirmed_shared",
+ "who_confirmed": "product_curator",
+ "version": "4.9.127",
+ "letters": [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
+ ],
+ "packs": {
+  "a": {
+   "path": "a.json",
+   "letter": "A",
+   "items": 60,
+   "curated_facts": 84
+  },
+  "b": {
+   "path": "b.json",
+   "letter": "B",
+   "items": 59,
+   "curated_facts": 84
+  },
+  "c": {
+   "path": "c.json",
+   "letter": "C",
+   "items": 59,
+   "curated_facts": 81
+  },
+  "d": {
+   "path": "d.json",
+   "letter": "D",
+   "items": 61,
+   "curated_facts": 85
+  },
+  "e": {
+   "path": "e.json",
+   "letter": "E",
+   "items": 69,
+   "curated_facts": 96
+  },
+  "f": {
+   "path": "f.json",
+   "letter": "F",
+   "items": 71,
+   "curated_facts": 91
+  },
+  "g": {
+   "path": "g.json",
+   "letter": "G",
+   "items": 64,
+   "curated_facts": 80
+  },
+  "h": {
+   "path": "h.json",
+   "letter": "H",
+   "items": 56,
+   "curated_facts": 80
+  },
+  "i": {
+   "path": "i.json",
+   "letter": "I",
+   "items": 52,
+   "curated_facts": 80
+  },
+  "j": {
+   "path": "j.json",
+   "letter": "J",
+   "items": 62,
+   "curated_facts": 80
+  },
+  "k": {
+   "path": "k.json",
+   "letter": "K",
+   "items": 63,
+   "curated_facts": 80
+  },
+  "l": {
+   "path": "l.json",
+   "letter": "L",
+   "items": 63,
+   "curated_facts": 80
+  },
+  "m": {
+   "path": "m.json",
+   "letter": "M",
+   "items": 67,
+   "curated_facts": 85
+  },
+  "n": {
+   "path": "n.json",
+   "letter": "N",
+   "items": 64,
+   "curated_facts": 80
+  },
+  "o": {
+   "path": "o.json",
+   "letter": "O",
+   "items": 61,
+   "curated_facts": 83
+  },
+  "p": {
+   "path": "p.json",
+   "letter": "P",
+   "items": 64,
+   "curated_facts": 81
+  },
+  "q": {
+   "path": "q.json",
+   "letter": "Q",
+   "items": 60,
+   "curated_facts": 88
+  },
+  "r": {
+   "path": "r.json",
+   "letter": "R",
+   "items": 61,
+   "curated_facts": 80
+  },
+  "s": {
+   "path": "s.json",
+   "letter": "S",
+   "items": 69,
+   "curated_facts": 84
+  },
+  "t": {
+   "path": "t.json",
+   "letter": "T",
+   "items": 61,
+   "curated_facts": 80
+  },
+  "u": {
+   "path": "u.json",
+   "letter": "U",
+   "items": 46,
+   "curated_facts": 80
+  },
+  "v": {
+   "path": "v.json",
+   "letter": "V",
+   "items": 52,
+   "curated_facts": 80
+  },
+  "w": {
+   "path": "w.json",
+   "letter": "W",
+   "items": 59,
+   "curated_facts": 80
+  },
+  "x": {
+   "path": "x.json",
+   "letter": "X",
+   "items": 48,
+   "curated_facts": 81
+  },
+  "y": {
+   "path": "y.json",
+   "letter": "Y",
+   "items": 62,
+   "curated_facts": 88
+  },
+  "z": {
+   "path": "z.json",
+   "letter": "Z",
+   "items": 51,
+   "curated_facts": 84
+  }
+ },
+ "total_items": 1564,
+ "total_curated": 2155
+}

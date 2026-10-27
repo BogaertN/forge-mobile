@@ -1,0 +1,318 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_z",
+ "provenance": "confirmed_shared",
+ "letter": "Z",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 84,
+ "items": [
+  {
+   "id": "cs_z_zambia_01",
+   "text": "Zambia is a landlocked country",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_01"
+  },
+  {
+   "id": "cs_z_zimbabwe_02",
+   "text": "Great Zimbabwe is a ruined medieval city in Zimbabwe",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zimbabwe · cs_z_zimbabwe_02"
+  },
+  {
+   "id": "cs_z_zurich_01",
+   "text": "Zurich is the largest city in Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_01"
+  },
+  {
+   "id": "cs_z_zambezi_river_01",
+   "text": "The Zambezi flows into the Indian Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambezi River · cs_z_zambezi_river_01"
+  },
+  {
+   "id": "cs_z_zagros_mountains_01",
+   "text": "The Zagros Mountains are in Iran",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zagros Mountains · cs_z_zagros_mountains_01"
+  },
+  {
+   "id": "cs_z_zion_national_park_01",
+   "text": "Zion National Park is in Utah",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zion National Park · cs_z_zion_national_park_01"
+  },
+  {
+   "id": "cs_z_zealand_01",
+   "text": "Zealand is the largest island of Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zealand · cs_z_zealand_01"
+  },
+  {
+   "id": "cs_z_zealand_02",
+   "text": "Copenhagen is on the island of Zealand",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zealand · cs_z_zealand_02"
+  },
+  {
+   "id": "cs_z_zaragoza_01",
+   "text": "Zaragoza is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zaragoza · cs_z_zaragoza_01"
+  },
+  {
+   "id": "cs_z_zanzibar_city_01",
+   "text": "Stone Town is the old part of Zanzibar City",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zanzibar City · cs_z_zanzibar_city_01"
+  },
+  {
+   "id": "cs_z_zinc_01",
+   "text": "Zinc has the chemical symbol Zn",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_01"
+  },
+  {
+   "id": "cs_z_zinc_04",
+   "text": "Brass contains zinc",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_04"
+  },
+  {
+   "id": "cs_z_zirconium_01",
+   "text": "Zirconium has the chemical symbol Zr",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_01"
+  },
+  {
+   "id": "cs_z_zircon_01",
+   "text": "Zircon is a mineral containing zirconium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zircon · cs_z_zircon_01"
+  },
+  {
+   "id": "cs_z_zircon_02",
+   "text": "Zircon crystals are among the oldest known minerals on Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zircon · cs_z_zircon_02"
+  },
+  {
+   "id": "cs_z_zodiac_01",
+   "text": "The zodiac is a band of constellations along the ecliptic",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_01"
+  },
+  {
+   "id": "cs_z_zodiac_02",
+   "text": "The traditional zodiac has twelve signs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_02"
+  },
+  {
+   "id": "cs_z_zooplankton_01",
+   "text": "Zooplankton are tiny animals drifting in water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zooplankton · cs_z_zooplankton_01"
+  },
+  {
+   "id": "cs_z_zoology_01",
+   "text": "Zoology is the scientific study of animals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zoology · cs_z_zoology_01"
+  },
+  {
+   "id": "cs_z_zebra_01",
+   "text": "Zebras are native to Africa",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_01"
+  },
+  {
+   "id": "cs_z_zebra_02",
+   "text": "Zebras have black and white stripes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_02"
+  },
+  {
+   "id": "cs_z_zebra_03",
+   "text": "Zebras belong to the horse family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_03"
+  },
+  {
+   "id": "cs_z_zebra_04",
+   "text": "Each zebra has a unique stripe pattern",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_04"
+  },
+  {
+   "id": "cs_z_zebra_finch_01",
+   "text": "The zebra finch is native to Australia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_01"
+  },
+  {
+   "id": "cs_z_zebra_mussel_01",
+   "text": "Zebra mussels are freshwater mollusks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_01"
+  },
+  {
+   "id": "cs_z_zebra_shark_01",
+   "text": "The zebra shark lives in the Indo-Pacific",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra shark · cs_z_zebra_shark_01"
+  },
+  {
+   "id": "cs_z_zinnia_01",
+   "text": "Zinnias are flowering plants in the daisy family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_01"
+  },
+  {
+   "id": "cs_z_zucchini_01",
+   "text": "Zucchini is a summer squash",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_01"
+  },
+  {
+   "id": "cs_z_zinnia_02",
+   "text": "Zinnias were grown on the International Space Station in 2016",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinnia · cs_z_zinnia_02"
+  },
+  {
+   "id": "cs_z_zeus_01",
+   "text": "Zeus was the king of the gods in Greek mythology",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_01"
+  },
+  {
+   "id": "cs_z_zeus_02",
+   "text": "The Statue of Zeus at Olympia was one of the Seven Wonders of the Ancient World",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_02"
+  },
+  {
+   "id": "cs_z_zhou_dynasty_01",
+   "text": "The Zhou dynasty was the longest-ruling dynasty in Chinese history",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zhou dynasty · cs_z_zhou_dynasty_01"
+  },
+  {
+   "id": "cs_z_zulu_kingdom_01",
+   "text": "Shaka was a king of the Zulu",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zulu Kingdom · cs_z_zulu_kingdom_01"
+  },
+  {
+   "id": "cs_z_zulu_01",
+   "text": "Zulu is an official language of South Africa",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zulu · cs_z_zulu_01"
+  },
+  {
+   "id": "cs_z_zamenhof_l_l_01",
+   "text": "L. L. Zamenhof created Esperanto",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zamenhof, L. L. · cs_z_zamenhof_l_l_01"
+  },
+  {
+   "id": "cs_z_zero_02",
+   "text": "Any number multiplied by zero equals zero",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_02"
+  },
+  {
+   "id": "cs_z_zero_03",
+   "text": "Zero is an even number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_03"
+  },
+  {
+   "id": "cs_z_zero_04",
+   "text": "Adding zero to a number leaves it unchanged",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_04"
+  },
+  {
+   "id": "cs_z_z_axis_01",
+   "text": "The z-axis is the third axis in a three-dimensional coordinate system",
+   "standing": "projectable",
+   "evidence": "math · product curator · Z-axis · cs_z_z_axis_01"
+  },
+  {
+   "id": "cs_z_zigzag_01",
+   "text": "A zigzag is a line with sharp alternating turns",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zigzag · cs_z_zigzag_01"
+  },
+  {
+   "id": "cs_z_z_01",
+   "text": "Z is the 26th and last letter of the English alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Z · cs_z_z_01"
+  },
+  {
+   "id": "cs_z_zipper_01",
+   "text": "A zipper fastens two edges of fabric",
+   "standing": "projectable",
+   "evidence": "general · product curator · Zipper · cs_z_zipper_01"
+  },
+  {
+   "id": "cs_z_zumba_01",
+   "text": "Zumba is a dance fitness program",
+   "standing": "projectable",
+   "evidence": "general · product curator · Zumba · cs_z_zumba_01"
+  },
+  {
+   "id": "cs_z_zen_01",
+   "text": "Zen is a school of Buddhism",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zen · cs_z_zen_01"
+  },
+  {
+   "id": "cs_z_zen_02",
+   "text": "Zen Buddhism developed in China as Chan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zen · cs_z_zen_02"
+  },
+  {
+   "id": "cs_z_zimbabwe_03",
+   "text": "Zimbabwe is landlocked",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_03"
+  },
+  {
+   "id": "cs_z_zurich_02",
+   "text": "Zurich lies on Lake Zurich",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_02"
+  },
+  {
+   "id": "cs_z_zagreb_01",
+   "text": "Zagreb is the largest city in Croatia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zagreb · cs_z_zagreb_01"
+  },
+  {
+   "id": "cs_z_zanzibar_02",
+   "text": "Zanzibar is known for spices such as cloves",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_02"
+  },
+  {
+   "id": "cs_z_zinc_05",
+   "text": "Zinc is a transition metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_05"
+  },
+  {
+   "id": "cs_z_zebra_05",
+   "text": "Zebras live in herds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_05"
+  }
+ ]
+}
