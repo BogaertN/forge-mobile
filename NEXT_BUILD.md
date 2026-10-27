@@ -1,9 +1,18 @@
-# Next build order — after 4.9.111
-**Date:** 2026-10-26 (America/Chicago)
-**Baseline:** 4.9.111 turn packet and failure receipts (shipped from live 4.9.110)
+# Next build order — after 4.9.112
+**Date:** 2026-10-27 (America/Chicago)
+**Baseline:** 4.9.112 Doc 6 gate labels and not-selected candidates (shipped from 4.9.111 / `28fb777c760422239f19e16e5c3b6a8e14198e73`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. An offline replay verifier, a Doc 7 Audit category UI, MSM Doc 2 reconstruction, and naming renames are out of scope. Do not start them from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. An offline replay verifier, a Doc 7 Audit category UI, MSM Doc 2 reconstruction, and naming renames stay parked. Do not start them from this file.
+
+---
+
+## Shipped: **4.9.112** (2026-10-27)
+
+1. **Doc 6 gate** — Ask Forge and Audit / Receipts show a typed state when the turn already hit one: ambiguity / clarification-required, clarification-required, unsupported, or meaning-understood-but-action-blocked (`action_blocked`). The label uses the intent already on the turn and the 4.9.111 `gate_refusal` subtype. A spoken clarification stays an answer. The label is not a menu.
+2. **Not-selected candidates** — `FORGE-TURN-PACKET/v1` lists every route except the winner, each with the rejection reason already recorded. A route whose pattern does not apply is on that list. Ask Forge and Audit show the list when it is present.
+3. **Unchanged law** — Echo is an exact Language Core reparse. Project and write stay at or under 0.35. χ correction stays 0.35–0.40. Quarantine stays 0.40–0.80. A hard stop stays above 0.80. χ is the correction function only. Shared KB stays empty. The packet schema stays `FORGE-TURN-PACKET/v1`.
+4. **Out of scope** — an offline replay verifier, a Doc 7 Audit category UI (4.9.113), MSM Doc 2 reconstruction (4.9.114), and naming renames (4.9.115). Do not build them in this release. No LLM. Adapters stay parked.
 
 ---
 
