@@ -39,9 +39,9 @@ const COLLECTIONS = Object.freeze(Object.values(COLL));
 const stateOf = r => r.record_kind === 'lineage_root' ? 'lineage_origin' : r.record_kind === 'non_selection_outcome' ? r.outcome_kind : r.record_kind === 'delivery_or_containment_link' ? r.disposition : r.lifecycle_state;
 /* reconstructed Doc 2: action proposals, simulations, and observations. Not the forge2 draft/candidate contract edges. */
 function observesAction(meaning, ctx) { const m = meaning || {}, k = String(m.kind || ''), c = ctx || {};
-  if (c.intent === 'SIMULATE' || c.intent === 'CREATE' || c.intent === 'EXPLORE') return true;
+  if (c.intent === 'SIMULATE' || c.intent === 'CREATE' || c.intent === 'EXPLORE' || c.intent === 'COMPOSE') return true;
   if (k === 'blocked' || k === 'dream_held' || k === 'sim_result' || k === 'sim_replay') return true;
-  if (/^(?:tool_|ede_|mea_p|mea_proposals|spc_proposal|must_archive|creative_)/.test(k)) return true;
+  if (/^(?:tool_|ede_|mea_p|mea_proposals|spc_proposal|must_archive|creative_|compose_)/.test(k)) return true;
   if (k === 'dynamics' && m.mode === 'whatif') return true;
   return /what_?if|predict|hypothes|observ/.test(k); }
 /* canonical strict JSON (35D; forge2 profile): sorted keys, no whitespace, NFC strings, integers only */
