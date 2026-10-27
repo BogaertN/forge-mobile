@@ -171,6 +171,20 @@ function parseSeed() {
   }
   return out;
 }
-const api = { SEED_CONCEPTS: parseSeed() };
+/* 4.9.116 Docs 4–5: five controlled action concepts and their frames, plus one of-frame for a verb the lexicon already has.
+   A concept id is not evidence. A frame does not execute, write, or approve Echo. */
+const DOC45_FLAG = { executes: false, writes: false, echo: false };
+const DOC45 = [
+  ['C.MISPLACE', 'misplace', 'put something where it cannot be found', [['FR.MISPLACE.TR', 'action', ['karta', 'karma']]]],
+  ['C.BANDAGE', 'bandage', 'cover a wound with a bandage', [['FR.BANDAGE.TR', 'action', ['karta', 'karma']]]],
+  ['C.PREHEAT', 'preheat', 'heat an oven or a thing before use', [['FR.PREHEAT.TR', 'action', ['karta', 'karma']], ['FR.PREHEAT.INCH', 'process', ['karta']]]],
+  ['C.UNPLUG', 'unplug', 'disconnect a device from a socket', [['FR.UNPLUG.TR', 'action', ['karta', 'karma']]]],
+  ['C.MARINATE', 'marinate', 'soak food in a seasoned liquid', [['FR.MARINATE.TR', 'action', ['karta', 'karma']]]]
+];
+function doc45Concepts() {
+  return DOC45.map(([id, surface, gloss, frames]) => ({ id, senses: [{ sid: id + '.s1', gloss }], surfaces: [surface], category: 'action', source: 'Doc4', status: 'seed', version: 1, history: [], frames: frames.map(([fid, kind, roles]) => Object.assign({ id: fid, lemma: surface, roles: roles.slice(), kind }, DOC45_FLAG)) }));
+}
+const DOC45_OF = { smell: Object.assign({ id: 'FR.SMELL.OF', lemma: 'smell', roles: ['karta', 'vishaya'], prep: 'of', kind: 'process' }, DOC45_FLAG) };
+const api = { SEED_CONCEPTS: parseSeed().concat(doc45Concepts()), DOC45_OF };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KLexicon = api;
 })(this);

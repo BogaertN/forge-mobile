@@ -92,7 +92,7 @@ function Lexicon(store) {
 
   /* 4.9.74: a PROVISIONAL entry (morphological derivation or position reading, prov) never shadows a user-approved concept: the user's taught
      category is consulted too (before, "defin" derived as a verb from de- + fin stayed a verb after the user taught it as a noun, so the teach loop repeated) */
-  function hasPos(l, p) { const e = wnEntry(l); if (e && e.some(x => x[0] === p)) return true; if (e && !prov.has(l)) return false; return controlled(l).some(c => c.surfaces[0] === l && (CAT2POS[c.category] === p || (p === 'n' && c.category === 'social'))); }
+  function hasPos(l, p) { const e = wnEntry(l); if (e && e.some(x => x[0] === p)) return true; if (controlled(l).some(c => String(c.id).startsWith('C.') && c.surfaces[0] === l && CAT2POS[c.category] === p)) return true; if (e && !prov.has(l)) return false; return controlled(l).some(c => c.surfaces[0] === l && (CAT2POS[c.category] === p || (p === 'n' && c.category === 'social'))); }
   function senses(l) { const out = []; const tier = wn.core && own(wn.core.L, l) ? 'core' : wn.ext && own(wn.ext.L, l) ? 'extended' : 'complete'; const LN = wn.core ? wn.core.meta.lexnames : [];
     for (const [p, ss, q] of wnEntry(l) || []) for (const [id, lx, gl, fr] of ss) out.push({ sid: 'wn30:' + id, pos: p, lexname: LN[lx] || lx, gloss: gl, frames: [...fr].map(ch => ch.charCodeAt(0) - 48), tier, quarantined_other: q, provenance: 'Princeton WordNet 3.0', license: 'WordNet 3.0 License', doc8_state: tier === 'core' ? 'admitted (SemCor-attested)' : tier === 'extended' ? 'admitted-extended (lower assurance)' : 'admitted-complete (lowest assurance)' });
     return out; }
@@ -133,7 +133,7 @@ function Lexicon(store) {
   const lexnameOf = l => { const e = wnEntry(l); if (!e) return null; const n = e.find(x => x[0] === 'n'); return n && wn.core ? wn.core.meta.lexnames[n[1][0][1]] : null; };
   const coreNoun = w => [...new Set([w, w.replace(/ies$/, 'y'), w.replace(/es$/, ''), w.replace(/s$/, '')])].some(x => { const e = wnDirect(x); return !!(e && e.some(y => y[0] === 'n') && (x !== w || !isName(x))); }); /* 4.9.50: a common noun of any tier (or its plural) is not read as a sentence-initial name */
   const tierPos = (l, p) => { for (const [k, t] of [[0, 'core'], [1, 'ext'], [2, 'pro']]) if (wn[t] && own(wn[t].L, l) && wn[t].L[l].some(e => e[0] === p)) return k; return prov.has(l) ? 3 : 4; };
-  return { setStrict: b => { strict = !!b; }, isStrict: () => strict, setConvo: s => { convo = s instanceof Set ? s : new Set(); }, provWords: () => [...provInfo.keys()].filter(l => /^LX-PROVISIONAL/.test(provInfo.get(l).rule)), tierPos, tier: l => (wn.core && own(wn.core.L, l) ? 0 : wn.ext && own(wn.ext.L, l) ? 1 : wn.pro && own(wn.pro.L, l) ? 2 : prov.has(l) ? 3 : 4), derive, provisional, provInfo: l => provInfo.get(l) || null, LICENCES, proposeConcept, inspectConcept, approveConcept, rejectConcept, admissions: () => store.load('admission_queue'), lookup, addConcept, all, controlled, hasPos, senses, known, isName, isProper, lexnameOf, exc, coreNoun,
+  return { setStrict: b => { strict = !!b; }, isStrict: () => strict, setConvo: s => { convo = s instanceof Set ? s : new Set(); }, provWords: () => [...provInfo.keys()].filter(l => /^LX-PROVISIONAL/.test(provInfo.get(l).rule)), tierPos, tier: l => (wn.core && own(wn.core.L, l) ? 0 : wn.ext && own(wn.ext.L, l) ? 1 : wn.pro && own(wn.pro.L, l) ? 2 : prov.has(l) ? 3 : 4), derive, provisional, provInfo: l => provInfo.get(l) || null, LICENCES, proposeConcept, inspectConcept, approveConcept, rejectConcept, admissions: () => store.load('admission_queue'), lookup, addConcept, all, controlled, hasPos, senses, known, isName, isProper, lexnameOf, exc, coreNoun, doc45: l => controlled(l).filter(c => String(c.id).startsWith('C.') && c.surfaces[0] === l), doc45of: l => (L.DOC45_OF && L.DOC45_OF[l]) || null,
     attach(data, tier) { wn[tier] = data; if (data && data.exc) G.learnExc(data.exc); },
     stats() { return { controlled: all().filter(c => !c.retired).length, user_admitted: user.length, wordnet_core: wn.core ? Object.keys(wn.core.L).length : 0, wordnet_extended: wn.ext ? Object.keys(wn.ext.L).length : 0, wordnet_complete: wn.pro ? Object.keys(wn.pro.L).length : 0, wn_meta: wn.core ? wn.core.meta.stats : null }; },
     count: () => all().filter(c => !c.retired).length + (wn.core ? Object.keys(wn.core.L).length : 0) + (wn.ext ? Object.keys(wn.ext.L).length : 0) + (wn.pro ? Object.keys(wn.pro.L).length : 0), wn };
@@ -228,7 +228,28 @@ function Kernel(opts) {
     /* 4.9.48: verb complement frames are lexicon facts (WordNet 3.0 generic frames of the lemma's verb senses), read by grammar.js */
     vclasses: l => lex.senses(l).filter(s => s.pos === 'v').map(s => s.lexname), /* WordNet lexicographer classes of the verb senses, most frequent first */
     vframes1: l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; const s = FR && lex.senses(l).find(x => x.pos === 'v'); return s ? s.frames.map(f => FR[f]).filter(Boolean) : []; },
-    vframes: (() => { const cache = new Map(); return l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; if (!FR) return []; const k = l + '|' + (lex.wn.ext ? 1 : 0) + (lex.wn.pro ? 1 : 0); if (!cache.has(k)) cache.set(k, [...new Set(lex.senses(l).filter(s => s.pos === 'v').flatMap(s => s.frames))].map(f => FR[f]).filter(Boolean)); return cache.get(k); }; })() };
+    vframes: (() => { const cache = new Map(); return l => { const FR = lex.wn.core ? lex.wn.core.meta.verb_frames : null; if (!FR) return []; const k = l + '|' + (lex.wn.ext ? 1 : 0) + (lex.wn.pro ? 1 : 0); if (!cache.has(k)) cache.set(k, [...new Set(lex.senses(l).filter(s => s.pos === 'v').flatMap(s => s.frames))].map(f => FR[f]).filter(Boolean)); return cache.get(k); }; })(),
+    doc45of: l => lex.doc45of(l) };
+  function doc45Cite(sel) {
+    const concepts = [], frames = [], seenC = Object.create(null), seenF = Object.create(null);
+    const pushC = c => { if (!c || seenC[c.id]) return; seenC[c.id] = 1; concepts.push({ id: c.id, sense: (c.senses && c.senses[0] && c.senses[0].sid) || c.id + '.s1', lemma: c.surfaces[0] }); };
+    const pushF = f => { if (!f || seenF[f.id]) return; seenF[f.id] = 1; frames.push({ id: f.id, roles: (f.roles || []).slice(), kind: f.kind, executes: false, writes: false, echo: false }); };
+    const ofAdj = cl => (cl.adj || []).some(a => a && a.prep === 'of' && a.role === 'vishaya');
+    const citeClause = cl => {
+      if (!cl) return;
+      if (cl.coord && Array.isArray(cl.coord)) cl.coord.forEach(citeClause);
+      if (!cl.verb || !cl.verb.lemma || cl.verb.lemma === 'be') return;
+      const lemma = cl.verb.lemma, wantKarma = !!(cl.roles && cl.roles.karma), wantOf = ofAdj(cl);
+      for (const c of lex.doc45(lemma) || []) { const pool = c.frames || []; const fr = pool.find(f => wantOf ? f.roles.includes('vishaya') : wantKarma ? f.roles.includes('karma') : !f.roles.includes('karma')) || pool[0]; if (fr) { pushC(c); pushF(fr); } }
+      if (lemma === 'smell' && wantOf) { const f = lex.doc45of('smell'); if (f) pushF(f); }
+      if (cl.cond) citeClause(cl.cond); if (cl.sub && cl.sub.clause) citeClause(cl.sub.clause);
+    };
+    const walk = x => { if (!x || typeof x !== 'object') return; if (x.verb) citeClause(x); else if (x.clause && x.clause.verb) citeClause(x.clause); if (Array.isArray(x.items)) x.items.forEach(walk); if (x.old) walk(x.old); if (Array.isArray(x.coord)) x.coord.forEach(walk); };
+    const m = (sel && sel.material) || {}; walk(m);
+    if (!frames.length && (m.kind === 'blocked' || m.kind === 'neg_act') && m.action) { const w = String(m.action).toLowerCase().split(/\s+/)[0]; const hit = G.lemmatize(w, glex).find(x => x.pos === 'v'); const lemma = hit ? hit.lemma : w; for (const c of lex.doc45(lemma) || []) { const fr = (c.frames || []).find(f => f.roles.includes('karma')) || (c.frames || [])[0]; if (fr) { pushC(c); pushF(fr); } } }
+    if (!concepts.length && !frames.length) return null;
+    return { law: 'word ≠ concept ≠ evidence ≠ permission', concepts, frames };
+  }
   /* 4.9.66 MEMORY-WRITE RULE. A plain statement ("Rex is in Paris") is a WORKING fact: it lives for this conversation only (this kernel instance,
      never persisted, never synced, never in the durable world), it is checked against the known facts (stored + working) and a contradiction
      is asked about before either side changes. Lasting memory only on an explicit "remember …" or a confirm tap (promoteWorking). Working facts
@@ -1394,12 +1415,12 @@ function Kernel(opts) {
       /* meaning: "what does X mean", "define / explain X", "what is (a|the) X", "what is the meaning of X" */
       const generic = n => n && !n.conj && !n.owner && !n.rel && !n.relObj && !n.of && !n.quant && !n.num && n.head && n.head.length === 1 && (!n.adjs || !n.adjs.length) && (!n.det || /^(a|an|the)$/.test(n.det));
       const meaningOf = n => n && n.head && n.head.length === 1 && SELF_MEAN_N.has(n.head[0]) && n.of && generic(n.of) ? n.of : null;
-      let term = null; if (wh === 'what' && gap === 'role:karma' && L === 'mean' && q.subj && q.subj.quote !== undefined && /^[a-z][a-z'-]*$/i.test(q.subj.quote)) return defineWord(q.subj.quote.toLowerCase()) || (!lex.known(q.subj.quote.toLowerCase()) ? clarifyUnknown([q.subj.quote.toLowerCase()]) : null);
+      let term = null, nounAsk = false; if (wh === 'what' && gap === 'role:karma' && L === 'mean' && q.subj && q.subj.quote !== undefined && /^[a-z][a-z'-]*$/i.test(q.subj.quote)) return defineWord(q.subj.quote.toLowerCase()) || (!lex.known(q.subj.quote.toLowerCase()) ? clarifyUnknown([q.subj.quote.toLowerCase()]) : null);
       if (wh === 'what' && gap === 'role:karma' && SELF_MEAN_V.has(L) && L === 'mean' && generic(q.subj)) term = q.subj;
       else if (gap === 'imp' && SELF_MEAN_V.has(L) && L !== 'mean' && generic(ro.karma) && !ro.sampradana) term = ro.karma;
-      else if (gap === 'pred' && wh === 'what' && q.verb.lemma === 'be') term = meaningOf(q.subj) || (generic(q.subj) ? q.subj : null);
+      else if (gap === 'pred' && wh === 'what' && q.verb.lemma === 'be') { term = meaningOf(q.subj) || (generic(q.subj) ? q.subj : null); nounAsk = !!term; }
       else if (gap === 'np') term = meaningOf(q.subj);
-      if (term) return defineWord((term.surface || term.head)[0].toLowerCase(), term.head[0]);
+      if (term) return defineWord((term.surface || term.head)[0].toLowerCase(), term.head[0], nounAsk ? { noun: true } : null);
       /* SELF-MODEL (4.9.48): a question about Forge itself (kartā / copular subject = the addressee) is answered from selfmodel.js — true facts about Forge
          selected by the lexical class of the questioned predicate and composed with the question's own clause (no preset reply) */
       if (!(q.verb.mod === 'able' && SELF_CAPS.has(L))) { const sa = SELF.answer(q, gap, wh); if (sa) { rules.push({ id: 'Q-SELF-MODEL', doc: 'selfmodel.js: true self-facts by lexical class (' + sa.cls + ')', note: sa.rule }); return res('SELECTED_MEANING', sa.meaning, { frame: 'FR.SELF.MODEL', act: 'question' }); } }
@@ -1408,7 +1429,7 @@ function Kernel(opts) {
         if (reg && bare) { rules.push({ id: 'Q-SELF-CAPABILITY', doc: 'Doc5 §17 capability registry; frame from the parse (kartā Forge, mod able)' }); return res('SELECTED_MEANING', { kind: 'help' }, { frame: 'FR.CAPABILITY', act: 'question' }); }
         if (!reg) { rules.push({ id: 'CAP-UNSUPPORTED', doc: 'Doc5 §17; frame from the parse' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: G.vpText(Object.assign({}, q, { verb: Object.assign({}, q.verb, { mod: 'asserted', tense: 'none', nf: 'inf' }) }), q.subj, 'kernel').replace(/^to /, ''), reason: 'NOT_REGISTERED' }, { frame: 'FR.CAPABILITY', act: 'question' }); } }
       return null; }
-    function defineWord(w, lemma) { const ctl = lex.lookup(w).concat(lemma && lemma !== w ? lex.lookup(lemma) : []).filter((c, i, a) => c.id !== 'NUM.LITERAL' && c.category !== 'function' && a.findIndex(x => x.id === c.id) === i);
+    function defineWord(w, lemma, opts) { let ctl = lex.lookup(w).concat(lemma && lemma !== w ? lex.lookup(lemma) : []).filter((c, i, a) => c.id !== 'NUM.LITERAL' && c.category !== 'function' && a.findIndex(x => x.id === c.id) === i); if (opts && opts.noun) ctl = ctl.filter(c => !(String(c.id).startsWith('C.') && c.category === 'action'));
       if (ctl.length === 1) { const k = ctl[0]; rules.push({ id: 'LX-CONTROLLED-FIRST', doc: 'Doc4; Doc5 §12.28; Doc8 (controlled terms precede external resources); frame from the parse (Q-SELF-MEANING)', note: k.id }); return res('SELECTED_MEANING', { kind: 'define', term: w, gloss: k.senses[0].gloss, source: k.source || 'seed lexicon' }, { frame: 'FR.DEFINE', act: 'question', evidenceRefs: ['lexicon:' + k.id] }); }
       if (ctl.length > 1) { rules.push({ id: 'LL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29', note: ctl.map(x => x.id).join(' | ') }); meta.pending = { type: 'sense', word: w, senses: ctl.map(x => ({ sid: x.id, gloss: x.senses[0].gloss.replace(/\.$/, ''), source: x.source || 'seed lexicon' })) }; return res('AMBIGUITY_PRESERVED', { kind: 'clarify_ambiguous', word: w, senses: ctl.map(x => x.senses[0].gloss.replace(/\.$/, '')) }, { frame: 'FR.DEFINE', act: 'question' }); }
       return null; }
@@ -2070,6 +2091,7 @@ function Kernel(opts) {
     ctx.depth = depth; ctx.bypassTurn = !!bypass; /* candidate drift uses the same functional inputs as the turn (M1) */
     let sel; try { sel = evaluate(raw, low, ctx); }
     catch (e) { sel = { outcome: 'NO_LAWFUL_CANDIDATE', material: { kind: 'no_frame', rest: String(raw).replace(/[.!?\s]+$/, '').slice(0, 120) }, gates: { expectancy: 'derivation error' }, rules: [{ id: 'G-DERIVATION-ERROR', doc: 'Doc6 §35', note: String(e && e.message).slice(0, 80) }], frame: 'none', act: 'unknown' }; }
+    sel.lexicon = doc45Cite(sel); trace.lexicon = sel.lexicon;
     const worldTurn = /^FR\.WORLD/.test(sel.frame || '');
     if (bypass && worldTurn) { trace.bypass_flag = true; trace.rules.push({ id: 'ADV-BYPASS-FLAGGED', doc: 'bypass phrase flagged; the checked world result stands' }); } else if (bypass) sel.forbiddenPath = true;
     Ph(3, 'purpose: ' + sel.act + ' via ' + sel.frame);

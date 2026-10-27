@@ -1,9 +1,18 @@
-# Next build order — after 4.9.115
+# Next build order — after 4.9.116
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.115 naming hygiene and offline packet replay (shipped from 4.9.114 / `a7325dc2422e3a9d5c0c4eb683aaae591dd0c49d`)
+**Baseline:** 4.9.116 Docs 4–5 lexicon and frames (shipped from 4.9.115)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. Do not start Genesis, HCS, marketplace, agents, a shared KB, or fluency work from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. Do not start Genesis, HCS, marketplace, agents, a shared KB, fluency, creative writing, Doc 9 packets, math honesty, or dream/SPC from this file.
+
+---
+
+## Shipped: **4.9.116** (2026-10-27)
+
+1. **Concepts** — five Doc 4 action concepts: misplace, bandage, preheat, unplug, marinate. They add a verb reading only where the loaded lexicon had none. The noun bandage stays a noun.
+2. **Frames** — seven Doc 5 frames, including an inchoative preheat and smell-of. Recognizing a frame does not execute, write, or approve Echo. A plain statement is still not durable memory.
+3. **Law** — a word is not a concept, a concept is not evidence, and evidence is not permission. Traces and receipts show the ids. The packet schema stays `FORGE-TURN-PACKET/v1`. Shared KB stays empty.
+4. **Not this release** — creative writing was not started. Doc 9 packets, math honesty, dream/SPC, Genesis, HCS, marketplace, agents, fluency, and any LLM stay out of scope.
 
 ---
 
