@@ -147,12 +147,14 @@ def slim(m, s):
     # 4.9.115 cut notes at 72 characters. 4.9.116 cuts at 40. 4.9.117 cuts at 16. 4.9.118 cuts at 4.
     # 4.9.119 omits note and wave from kernel-app.html so the dream/SPC copy stays within 1.920 MB. The claim table still shows id, name, status, and proof. Math-honesty tables stay in source/research. The Pages site keeps the full registry.
     # 4.9.125 hotfix: truncate long feature names at a word boundary (≤20) so CI zlib.gzipSync stays under 570 kB; proofs stay. Pages site keeps full names.
+    # 4.9.127 hotfix: one CSP script + name ≤12 for CI zlib.gzipSync headroom; proofs stay.
     for f in d.get('features', []):
         f.pop('source', None); f.pop('note', None); f.pop('wave', None)
         n = f.get('name') or ''
-        if len(n) > 20:
-            cut = n[:20]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 12 else cut
+        if len(n) > 12:
+            cut = n[:12]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 7 else cut
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
+bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
     # ... and so are one-line ' /* note */' comments (space-delimited, quote-balanced prefix only; a line with an odd quote count keeps its comment)
@@ -170,8 +172,13 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     if all(l.count('`') % 2 == 0 for l in js.split('\n')) and not re.search(r'\\\n', js): js = re.sub(r'(?m)^[ \t]+', '', js)
     # 4.9.120: spaces beside {}()[],; are dropped in kernel-app.html so CREATE/EXPLORE stays within 1.920 MB. Newlines stay (ASI). Strings, templates, and regex literals stay. The Pages site keeps the spaced source.
     js = tighten(js)
-    h = h.replace('<script src="' + m + '"></script>', '<script>' + js.replace('</script', '<\\/script') + '</script>')
-h = h.replace('</head>', '<script>window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';</script></head>', 1)
+    bundle.append(js)
+    h = h.replace('<script src="' + m + '"></script>', '', 1)
+# 4.9.127 gzip hotfix: one script tag → one CSP sha256 (74 high-entropy hashes were ~3 kB gzip). Modules stay IIFE-scoped; Pages multi-file site unchanged.
+bundle.insert(0, 'window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';')
+joined = '\n'.join(bundle).replace('</script', '<\\/script')
+hi = h.index('</head>')
+h = h[:hi] + '<script>' + joined + '</script>' + h[hi:]
 ico = base64.b64encode(open(os.path.join(SITE, 'icons/icon-192.png'), 'rb').read()).decode()
 h = h.replace('<link rel="manifest" href="manifest.json">', '').replace('href="icons/icon-192.png"', 'href="data:image/png;base64,' + ico + '"')
 def with_csp(doc):
