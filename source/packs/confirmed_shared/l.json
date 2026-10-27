@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -309,12 +309,6 @@
    "evidence": "nature · product curator · Larva · cs_l_larva_01"
   },
   {
-   "id": "cs_l_leonardo_da_vinci_01",
-   "text": "leonardo da Vinci painted The Last Supper",
-   "standing": "projectable",
-   "evidence": "history · product curator · Leonardo da Vinci · cs_l_leonardo_da_vinci_01"
-  },
-  {
    "id": "cs_l_lincoln_abraham_01",
    "text": "Abraham Lincoln was assassinated in 1865",
    "standing": "projectable",
@@ -385,6 +379,102 @@
    "text": "Llamas are used as pack animals in the Andes",
    "standing": "projectable",
    "evidence": "nature · product curator · Llama · cs_l_llama_02"
+  },
+  {
+   "id": "cs_l_lagos_01",
+   "text": "Lagos is the largest city in Nigeria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lagos · cs_l_lagos_01"
+  },
+  {
+   "id": "cs_l_lake_tanganyika_01",
+   "text": "Lake Tanganyika is in East Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake Tanganyika · cs_l_lake_tanganyika_01"
+  },
+  {
+   "id": "cs_l_loire_01",
+   "text": "The Loire is the longest river in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Loire · cs_l_loire_01"
+  },
+  {
+   "id": "cs_l_lava_02",
+   "text": "Lava is molten rock that reaches Earth's surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lava · cs_l_lava_02"
+  },
+  {
+   "id": "cs_l_lung_02",
+   "text": "Lungs are the main organs of breathing",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lung · cs_l_lung_02"
+  },
+  {
+   "id": "cs_l_lily_01",
+   "text": "Lilies grow from bulbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lily · cs_l_lily_01"
+  },
+  {
+   "id": "cs_l_louisiana_purchase_02",
+   "text": "The Louisiana Purchase took place in 1803",
+   "standing": "projectable",
+   "evidence": "history · product curator · Louisiana Purchase · cs_l_louisiana_purchase_02"
+  },
+  {
+   "id": "cs_l_lilongwe_01",
+   "text": "Lilongwe is the capital of Malawi",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lilongwe · cs_l_lilongwe_01"
+  },
+  {
+   "id": "cs_l_los_angeles_02",
+   "text": "Los Angeles is a city in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Los Angeles · cs_l_los_angeles_02"
+  },
+  {
+   "id": "cs_l_lightning_02",
+   "text": "Lightning is a discharge of electricity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lightning · cs_l_lightning_02"
+  },
+  {
+   "id": "cs_l_llama_03",
+   "text": "Llamas are domesticated in the Andes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Llama · cs_l_llama_03"
+  },
+  {
+   "id": "cs_l_leopard_02",
+   "text": "Leopards often drag prey into trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_02"
+  },
+  {
+   "id": "cs_l_locust_01",
+   "text": "Locusts are a kind of grasshopper that can swarm",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Locust · cs_l_locust_01"
+  },
+  {
+   "id": "cs_l_lilac_01",
+   "text": "Lilacs have fragrant purple or white flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lilac · cs_l_lilac_01"
+  },
+  {
+   "id": "cs_l_labrador_sea_01",
+   "text": "The Labrador Sea lies between Labrador and Greenland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Labrador Sea · cs_l_labrador_sea_01"
+  },
+  {
+   "id": "cs_l_lime_01",
+   "text": "Limes are citrus fruits",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lime · cs_l_lime_01"
   }
  ]
 }
