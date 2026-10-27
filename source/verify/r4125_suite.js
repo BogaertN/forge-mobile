@@ -194,7 +194,10 @@ T('create compose and simulate do not store confirmed facts and Clear starter st
   expect(!(cleared.admitted || []).length && !(cleared.held || []).length && kept.starterView().status === 'cleared', JSON.stringify(cleared));
   expect(kept.memory().length === 1 && sharedN(kept) === 0 && sameHead(kept, h), 'Clear import touched Remember or the world');
   const unbound = kept.process('invent a hypothesis');
-  expect(cr(unbound) && cr(unbound).failure && cr(unbound).failure.class === 'novelty_unbound', JSON.stringify(cr(unbound)));
+  expect(unbound.trace.intent_kind === 'CREATE' && unbound.trace.echo.pass, unbound.trace.intent_kind + ' · ' + unbound.reply);
+  expect(!/imported pack|starter pack/.test(unbound.reply || ''), unbound.reply);
+  expect(admittedIds(kept) === '' && kept.starterView().status === 'cleared' && kept.memory().length === 1, 'invent restored a pack');
+  quiet(kept, h, 1);
   const explicit = mk();
   explicit.process('Remember that a bike is a vehicle.');
   const eh = head(explicit);
