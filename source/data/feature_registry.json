@@ -1,5 +1,5 @@
 {
-  "version": "4.9.118",
+  "version": "4.9.119",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3067,13 +3067,40 @@
    "claim": "Partial",
    "note": "4.9.118: research-only. False-positive and false-negative counts are scored on recorded Language Core surfaces and marked SOURCE_NOT_VERIFIED. They are not a product calibration. Echo stays an exact reparse. Shared KB stays empty.",
    "proof": ["R4118"]
+  },
+  {
+   "id": "R4119-RESURRECT",
+   "name": "Resurrection returns to processing as a proposal",
+   "source": "CONFLICTS.md v4.9.119",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.119: Memory-screen Resurrect and the phrase stage a proposal after the seven gates. A separate tap is the only store. Shared KB stays empty. Creative writing was not started.",
+   "proof": ["R4119"]
+  },
+  {
+   "id": "R4119-ARCHIVE",
+   "name": "must_archive is a containment route input",
+   "source": "CONFLICTS.md v4.9.119",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.119: policy must_archive routes to software cold storage after ghost and before dream, and inspect names must_archive. Hardware SPC is not claimed. Shared KB stays empty.",
+   "proof": ["R4119"]
+  },
+  {
+   "id": "R4119-NOWRITE",
+   "name": "Dream, SPC, and quarantine do not silently write",
+   "source": "CONFLICTS.md v4.9.119",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.119: a proposal, a dream, and a quarantine inspect do not write memory, the world head, or the shared KB. χ is the correction function only. Shared KB stays empty.",
+   "proof": ["R4119"]
   }
  ],
- "count": 286,
+ "count": 289,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 124,
+  "Partial": 127,
   "Missing": 9,
   "Out of scope / parked": 13
  }

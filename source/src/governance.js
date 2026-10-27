@@ -12,6 +12,7 @@
   const SWITCHES = {
     memoryApproval: { decision: 'D10', values: { explicit_request: { built: true }, contested_or_sensitive: { built: true }, every_write: { built: true } }, default: 'explicit_request', effect: 'which memory writes wait for a tap-to-approve on the RMC Memory tab' },
     forgottenTier: { decision: 'D11', values: { WARM: { built: true }, COLD: { built: true } }, default: 'WARM', effect: 'whether user-forgotten facts stay resurrection-eligible (WARM) or forensic-only (COLD)' },
+    mustArchive: { decision: 'D12', values: { off: { built: true }, on: { built: true } }, default: 'off', effect: 'when on, the turn routes to software cold storage and inspect names must_archive. Hardware SPC is not claimed. ChristPing is not built. χ is the correction function only' },
     hardDelete: { decision: 'D11', values: { never: { built: true }, after_retention: { built: false } }, default: 'never', effect: 'forget = move to cold storage; hard delete is not built' },
     retentionDays: { decision: 'D11', values: { none: { built: true } }, default: 'none', effect: 'no automatic expiry of cold storage, dream, ghost or drift archives' },
     echoForge: { decision: 'D6', values: { tool_bench: { built: true }, disabled: { built: true } }, default: 'tool_bench', effect: 'Tool Bench is not EchoForge. No-LLM tools; storage key echoForge stays. Disabled turns every tool off' },

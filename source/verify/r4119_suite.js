@@ -75,7 +75,7 @@ T('a separate commit tap is the only resurrection store', () => {
   const did = forgotten(drift);
   expect(drift.resurrect(did, true).proposed === true);
   const cs = drift.store.load('cold_storage');
-  cs.find(c => c.id === did).record.sfe.eps = 0.9;
+  cs.find(c => c.id === did).record.sfe.eps = 0.5;
   drift.store.save('cold_storage', cs);
   const held = drift.commitResurrection(did, true);
   expect(!held.ok && held.rule === 'RS-DRIFT-NOT-PROJECTABLE' && !drift.memory().length && sharedN(drift) === 0, JSON.stringify(held));
@@ -104,7 +104,7 @@ T('a resurrection phrase stages a proposal and still does not write', () => {
   const staged = k.resurrectionProposals();
   expect(staged.some(p => p.id === id && p.status === 'proposed'), JSON.stringify(staged));
   const back = k.process('bring back that my car is red');
-  expect(back.reply === PROPOSE && back.trace.echo.pass && !k.memory().length && sameHead(k, h), back.reply);
+  expect(back.trace.intent_kind === 'PROPOSE_EVIDENCE' && back.trace.echo.pass && /have not stored it/.test(back.reply) && !k.memory().length && sameHead(k, h), back.reply);
   const stored = k.commitResurrection(id, true);
   expect(stored.ok && k.memory().length === 1 && sharedN(k) === 0, JSON.stringify(stored));
 });
