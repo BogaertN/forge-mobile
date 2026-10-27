@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -327,12 +327,6 @@
    "evidence": "math · product curator · Numerator · cs_n_numerator_01"
   },
   {
-   "id": "cs_n_natural_number_01",
-   "text": "natural numbers are the counting numbers",
-   "standing": "projectable",
-   "evidence": "math · product curator · Natural number · cs_n_natural_number_01"
-  },
-  {
    "id": "cs_n_negative_number_01",
    "text": "A negative number is less than zero",
    "standing": "projectable",
@@ -391,6 +385,96 @@
    "text": "Skopje is the capital of North Macedonia",
    "standing": "projectable",
    "evidence": "geography · product curator · North Macedonia · cs_n_north_macedonia_01"
+  },
+  {
+   "id": "cs_n_nicosia_01",
+   "text": "Nicosia is the capital of Cyprus",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nicosia · cs_n_nicosia_01"
+  },
+  {
+   "id": "cs_n_nightingale_02",
+   "text": "Nightingales are known for their song",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_02"
+  },
+  {
+   "id": "cs_n_nuthatch_01",
+   "text": "Nuthatches are small birds that climb tree trunks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_01"
+  },
+  {
+   "id": "cs_n_napoleon_bonaparte_03",
+   "text": "Napoleon Bonaparte was defeated at the Battle of Waterloo",
+   "standing": "projectable",
+   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_03"
+  },
+  {
+   "id": "cs_n_new_deal_01",
+   "text": "The New Deal was a set of programs under Franklin D. Roosevelt",
+   "standing": "projectable",
+   "evidence": "history · product curator · New Deal · cs_n_new_deal_01"
+  },
+  {
+   "id": "cs_n_nineteenth_amendment_02",
+   "text": "The Nineteenth Amendment was ratified in 1920",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Nineteenth Amendment · cs_n_nineteenth_amendment_02"
+  },
+  {
+   "id": "cs_n_nectar_02",
+   "text": "Bees collect nectar to make honey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_02"
+  },
+  {
+   "id": "cs_n_nautilus_02",
+   "text": "The nautilus has a coiled shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_02"
+  },
+  {
+   "id": "cs_n_nickel_02",
+   "text": "The chemical symbol for nickel is Ni",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nickel · cs_n_nickel_02"
+  },
+  {
+   "id": "cs_n_neptune_06",
+   "text": "Neptune is the farthest known planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neptune · cs_n_neptune_06"
+  },
+  {
+   "id": "cs_n_namib_desert_01",
+   "text": "The Namib Desert runs along the coast of Namibia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Namib Desert · cs_n_namib_desert_01"
+  },
+  {
+   "id": "cs_n_night_01",
+   "text": "Night occurs when a place on Earth faces away from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Night · cs_n_night_01"
+  },
+  {
+   "id": "cs_n_nest_01",
+   "text": "Many birds build nests to lay eggs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nest · cs_n_nest_01"
+  },
+  {
+   "id": "cs_n_nocturnal_02",
+   "text": "Nocturnal animals are active at night",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nocturnal · cs_n_nocturnal_02"
+  },
+  {
+   "id": "cs_n_nutmeg_01",
+   "text": "Nutmeg is a spice from the seed of a tropical tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_01"
   }
  ]
 }

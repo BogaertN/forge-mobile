@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 83,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -291,12 +291,6 @@
    "evidence": "math · product curator · Odd number · cs_o_odd_number_01"
   },
   {
-   "id": "cs_o_origin_01",
-   "text": "The origin of a coordinate plane is the point",
-   "standing": "projectable",
-   "evidence": "math · product curator · Origin · cs_o_origin_01"
-  },
-  {
    "id": "cs_o_oval_01",
    "text": "An oval is a rounded, elongated shape",
    "standing": "projectable",
@@ -373,6 +367,72 @@
    "text": "Opal is a gemstone",
    "standing": "projectable",
    "evidence": "science · product curator · Opal · cs_o_opal_01"
+  },
+  {
+   "id": "cs_o_oxygen_04",
+   "text": "The chemical symbol for oxygen is O",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_04"
+  },
+  {
+   "id": "cs_o_ozone_layer_02",
+   "text": "The ozone layer absorbs much of the Sun's ultraviolet radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ozone layer · cs_o_ozone_layer_02"
+  },
+  {
+   "id": "cs_o_owl_03",
+   "text": "Most owls are nocturnal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Owl · cs_o_owl_03"
+  },
+  {
+   "id": "cs_o_orangutan_03",
+   "text": "Orangutans live in Borneo and Sumatra",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_03"
+  },
+  {
+   "id": "cs_o_otter_02",
+   "text": "Sea otters use tools to open shellfish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Otter · cs_o_otter_02"
+  },
+  {
+   "id": "cs_o_oregon_02",
+   "text": "Oregon is on the Pacific coast of the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oregon · cs_o_oregon_02"
+  },
+  {
+   "id": "cs_o_orion_02",
+   "text": "Orion is a constellation named after a hunter in Greek mythology",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orion · cs_o_orion_02"
+  },
+  {
+   "id": "cs_o_orca_02",
+   "text": "Orcas are the largest members of the dolphin family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orca · cs_o_orca_02"
+  },
+  {
+   "id": "cs_o_oyster_01",
+   "text": "Oysters can produce pearls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_01"
+  },
+  {
+   "id": "cs_o_osprey_01",
+   "text": "Ospreys are birds of prey that eat fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Osprey · cs_o_osprey_01"
+  },
+  {
+   "id": "cs_o_opossum_02",
+   "text": "The Virginia opossum is the only marsupial native to North America north of Mexico",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Opossum · cs_o_opossum_02"
   }
  ]
 }
