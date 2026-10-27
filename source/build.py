@@ -148,11 +148,12 @@ def slim(m, s):
     # 4.9.119 omits note and wave from kernel-app.html so the dream/SPC copy stays within 1.920 MB. The claim table still shows id, name, status, and proof. Math-honesty tables stay in source/research. The Pages site keeps the full registry.
     # 4.9.125 hotfix: truncate long feature names at a word boundary (≤20) so CI zlib.gzipSync stays under 570 kB; proofs stay. Pages site keeps full names.
     # 4.9.127 hotfix: one CSP script + name ≤12 for CI zlib.gzipSync headroom; proofs stay.
+    # 4.9.129 hotfix: name ≤7 so zlib.gzipSync leave stays ≥5 kB under 570 kB; proofs stay. Pages keeps full names.
     for f in d.get('features', []):
         f.pop('source', None); f.pop('note', None); f.pop('wave', None)
         n = f.get('name') or ''
-        if len(n) > 12:
-            cut = n[:12]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 7 else cut
+        if len(n) > 7:
+            cut = n[:7]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 3 else cut
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
