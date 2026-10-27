@@ -28,7 +28,7 @@ const PACK_DIR = path.join(ROOT, 'packs', 'confirmed_shared');
 const letterA = () => fs.readFileSync(path.join(PACK_DIR, 'a.json'), 'utf8');
 const SCHEMA = 'FORGE-CONFIRMED-PACK/v1';
 
-T('hosted letter-A pack is FORGE-CONFIRMED-PACK/v1 with provenance confirmed_shared and LC-admissible items', () => {
+T('letter-A FORGE-CONFIRMED-PACK/v1 confirmed_shared', () => {
   expect(fs.existsSync(path.join(PACK_DIR, 'a.json')), 'missing packs/confirmed_shared/a.json');
   expect(fs.existsSync(path.join(PACK_DIR, 'index.json')), 'missing index');
   const pack = JSON.parse(letterA());
@@ -46,7 +46,7 @@ T('hosted letter-A pack is FORGE-CONFIRMED-PACK/v1 with provenance confirmed_sha
   expect(/packs\/confirmed_shared\/z\.json/.test(ship), 'shipset hosts z.json');
 });
 
-T('product curator admit loads confirmed_shared without a user tap and leaves scrapbook empty', () => {
+T('curator admit confirmed_shared without tap', () => {
   const k = mk();
   const h = head(k);
   const starter = (k.starterView().facts || []).map(f => f.id).join(',');
@@ -69,7 +69,7 @@ T('product curator admit loads confirmed_shared without a user tap and leaves sc
   quiet(k, h, 0);
 });
 
-T('invent and compose prefer confirmed_shared over starter and name confirmed pack, never shared KB', () => {
+T('invent compose prefer confirmed_shared', () => {
   const k = mk();
   k.clearStarterKnowledge();
   const h = head(k);
@@ -90,7 +90,7 @@ T('invent and compose prefer confirmed_shared over starter and name confirmed pa
   quiet(k, h, 0);
 });
 
-T('user memory still wins over confirmed_shared; import stays available; scrapbook stays empty', () => {
+T('memory wins over confirmed_shared; scrapbook empty', () => {
   const k = mk();
   /* invent needs a short is-a chain; a lone bike/vehicle edge yields no spoken candidate */
   expect(k.process('Remember that a spaniel is a dog.').trace.echo.pass, 'remember spaniel');
@@ -110,7 +110,7 @@ T('user memory still wins over confirmed_shared; import stays available; scrapbo
   expect(sharedN(k) === 0, 'scrapbook');
 });
 
-T('CREATE COMPOSE SIMULATE never auto-write confirmed_shared and Clear confirmed shared works', () => {
+T('CREATE COMPOSE SIMULATE no auto-write confirmed_shared', () => {
   const k = mk();
   const h = head(k);
   expect(k.admitConfirmedShared(letterA(), { productCurator: true }).ok, 'admit');
@@ -130,7 +130,7 @@ T('CREATE COMPOSE SIMULATE never auto-write confirmed_shared and Clear confirmed
   /* starter was still present unless cleared — clear only confirmed */
 });
 
-T('Audit census names confirmed_shared; Memory card never says shared KB; packs stay out of single-file budget', () => {
+T('Audit names confirmed_shared; packs not in single', () => {
   const k = mk();
   expect(k.admitConfirmedShared(letterA(), { productCurator: true }).ok, 'admit');
   const panel = TP.categoryPanel(c => k.store.load(c));
@@ -156,7 +156,7 @@ T('Audit census names confirmed_shared; Memory card never says shared KB; packs 
   }
 });
 
-T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.127 and leave scrapbook shared write as next', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.127', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
   expect(ver === '4.9.127', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
