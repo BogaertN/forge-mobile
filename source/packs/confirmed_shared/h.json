@@ -1,0 +1,348 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_h",
+ "provenance": "confirmed_shared",
+ "letter": "H",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_h_hungary_01",
+   "text": "Budapest is the capital of Hungary",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hungary · cs_h_hungary_01"
+  },
+  {
+   "id": "cs_h_honduras_01",
+   "text": "Tegucigalpa is the capital of Honduras",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Honduras · cs_h_honduras_01"
+  },
+  {
+   "id": "cs_h_haiti_01",
+   "text": "Port-au-Prince is the capital of Haiti",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Haiti · cs_h_haiti_01"
+  },
+  {
+   "id": "cs_h_haiti_02",
+   "text": "Haiti shares the island of Hispaniola with the Dominican Republic",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Haiti · cs_h_haiti_02"
+  },
+  {
+   "id": "cs_h_helsinki_01",
+   "text": "Helsinki is the capital of Finland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Helsinki · cs_h_helsinki_01"
+  },
+  {
+   "id": "cs_h_hanoi_01",
+   "text": "Hanoi is the capital of Vietnam",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hanoi · cs_h_hanoi_01"
+  },
+  {
+   "id": "cs_h_havana_01",
+   "text": "Havana is the capital of Cuba",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Havana · cs_h_havana_01"
+  },
+  {
+   "id": "cs_h_harare_01",
+   "text": "Harare is the capital of Zimbabwe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Harare · cs_h_harare_01"
+  },
+  {
+   "id": "cs_h_hawaii_02",
+   "text": "Honolulu is the capital of Hawaii",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hawaii · cs_h_hawaii_02"
+  },
+  {
+   "id": "cs_h_hudson_bay_01",
+   "text": "Hudson Bay is in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_01"
+  },
+  {
+   "id": "cs_h_huron_lake_01",
+   "text": "Lake Huron is one of the Great Lakes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Huron, Lake · cs_h_huron_lake_01"
+  },
+  {
+   "id": "cs_h_hong_kong_01",
+   "text": "Hong Kong is a special administrative region of China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hong Kong · cs_h_hong_kong_01"
+  },
+  {
+   "id": "cs_h_honshu_01",
+   "text": "Honshu is the largest island of Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Honshu · cs_h_honshu_01"
+  },
+  {
+   "id": "cs_h_horn_of_africa_01",
+   "text": "Somalia is part of the Horn of Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Horn of Africa · cs_h_horn_of_africa_01"
+  },
+  {
+   "id": "cs_h_harrisburg_01",
+   "text": "Harrisburg is the capital of Pennsylvania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Harrisburg · cs_h_harrisburg_01"
+  },
+  {
+   "id": "cs_h_helena_01",
+   "text": "Helena is the capital of Montana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Helena · cs_h_helena_01"
+  },
+  {
+   "id": "cs_h_hartford_01",
+   "text": "Hartford is the capital of Connecticut",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hartford · cs_h_hartford_01"
+  },
+  {
+   "id": "cs_h_hemisphere_01",
+   "text": "The equator divides Earth into the Northern and Southern Hemispheres",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hemisphere · cs_h_hemisphere_01"
+  },
+  {
+   "id": "cs_h_hydrogen_01",
+   "text": "Hydrogen is the lightest element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_01"
+  },
+  {
+   "id": "cs_h_helium_02",
+   "text": "Helium is a noble gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Helium · cs_h_helium_02"
+  },
+  {
+   "id": "cs_h_hafnium_01",
+   "text": "Hafnium has the chemical symbol Hf",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_01"
+  },
+  {
+   "id": "cs_h_holmium_01",
+   "text": "Holmium has the chemical symbol Ho",
+   "standing": "projectable",
+   "evidence": "science · product curator · Holmium · cs_h_holmium_01"
+  },
+  {
+   "id": "cs_h_hassium_01",
+   "text": "Hassium has the chemical symbol Hs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hassium · cs_h_hassium_01"
+  },
+  {
+   "id": "cs_h_hertz_01",
+   "text": "The hertz is the unit of frequency",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hertz · cs_h_hertz_01"
+  },
+  {
+   "id": "cs_h_heart_01",
+   "text": "The human heart has four chambers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Heart · cs_h_heart_01"
+  },
+  {
+   "id": "cs_h_heart_02",
+   "text": "The heart pumps blood through the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Heart · cs_h_heart_02"
+  },
+  {
+   "id": "cs_h_hemoglobin_01",
+   "text": "Hemoglobin carries oxygen in red blood cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_01"
+  },
+  {
+   "id": "cs_h_hubble_space_telescope_01",
+   "text": "The Hubble Space Telescope was launched in 1990",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hubble Space Telescope · cs_h_hubble_space_telescope_01"
+  },
+  {
+   "id": "cs_h_herbivore_01",
+   "text": "A herbivore eats plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Herbivore · cs_h_herbivore_01"
+  },
+  {
+   "id": "cs_h_humidity_01",
+   "text": "Humidity is the amount of water vapor in the air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Humidity · cs_h_humidity_01"
+  },
+  {
+   "id": "cs_h_hippopotamus_02",
+   "text": "Hippopotamuses are semi-aquatic mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hippopotamus · cs_h_hippopotamus_02"
+  },
+  {
+   "id": "cs_h_horse_01",
+   "text": "Horses are hoofed mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Horse · cs_h_horse_01"
+  },
+  {
+   "id": "cs_h_hummingbird_01",
+   "text": "Hummingbirds can hover in flight",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_01"
+  },
+  {
+   "id": "cs_h_hummingbird_02",
+   "text": "The bee hummingbird is the smallest living bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_02"
+  },
+  {
+   "id": "cs_h_hedgehog_01",
+   "text": "Hedgehogs have spines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_01"
+  },
+  {
+   "id": "cs_h_hawk_01",
+   "text": "Hawks are birds of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hawk · cs_h_hawk_01"
+  },
+  {
+   "id": "cs_h_hyena_01",
+   "text": "Hyenas live in Africa and Asia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hyena · cs_h_hyena_01"
+  },
+  {
+   "id": "cs_h_honeybee_01",
+   "text": "A honeybee colony has one queen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_01"
+  },
+  {
+   "id": "cs_h_hermit_crab_01",
+   "text": "Hermit crabs live in empty shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hermit crab · cs_h_hermit_crab_01"
+  },
+  {
+   "id": "cs_h_hamster_01",
+   "text": "Hamsters are rodents",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hamster · cs_h_hamster_01"
+  },
+  {
+   "id": "cs_h_hare_01",
+   "text": "Hares are related to rabbits",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hare · cs_h_hare_01"
+  },
+  {
+   "id": "cs_h_hemlock_01",
+   "text": "Hemlock trees are conifers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hemlock · cs_h_hemlock_01"
+  },
+  {
+   "id": "cs_h_hannibal_01",
+   "text": "Hannibal crossed the Alps with war elephants",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hannibal · cs_h_hannibal_01"
+  },
+  {
+   "id": "cs_h_hammurabi_01",
+   "text": "The Code of Hammurabi is a Babylonian law code",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_01"
+  },
+  {
+   "id": "cs_h_hastings_battle_of_01",
+   "text": "The Battle of Hastings took place in 1066",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hastings, Battle of · cs_h_hastings_battle_of_01"
+  },
+  {
+   "id": "cs_h_henry_viii_01",
+   "text": "Henry VIII was king of England",
+   "standing": "projectable",
+   "evidence": "history · product curator · Henry VIII · cs_h_henry_viii_01"
+  },
+  {
+   "id": "cs_h_henry_viii_02",
+   "text": "Henry VIII had six wives",
+   "standing": "projectable",
+   "evidence": "history · product curator · Henry VIII · cs_h_henry_viii_02"
+  },
+  {
+   "id": "cs_h_homer_01",
+   "text": "Homer is credited with the Iliad and the Odyssey",
+   "standing": "projectable",
+   "evidence": "history · product curator · Homer · cs_h_homer_01"
+  },
+  {
+   "id": "cs_h_hundred_years_war_01",
+   "text": "The Hundred Years' War was fought between England and France",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hundred Years' War · cs_h_hundred_years_war_01"
+  },
+  {
+   "id": "cs_h_hexagon_01",
+   "text": "A hexagon has six sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hexagon · cs_h_hexagon_01"
+  },
+  {
+   "id": "cs_h_hypotenuse_01",
+   "text": "The hypotenuse is the longest side of a right triangle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hypotenuse · cs_h_hypotenuse_01"
+  },
+  {
+   "id": "cs_h_hour_01",
+   "text": "An hour has 60 minutes",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hour · cs_h_hour_01"
+  },
+  {
+   "id": "cs_h_house_of_commons_01",
+   "text": "The House of Commons is the lower house of the UK Parliament",
+   "standing": "projectable",
+   "evidence": "civics · product curator · House of Commons · cs_h_house_of_commons_01"
+  },
+  {
+   "id": "cs_h_hindi_01",
+   "text": "Hindi is written in the Devanagari script",
+   "standing": "projectable",
+   "evidence": "language · product curator · Hindi · cs_h_hindi_01"
+  },
+  {
+   "id": "cs_h_hebrew_01",
+   "text": "Hebrew is written from right to left",
+   "standing": "projectable",
+   "evidence": "language · product curator · Hebrew · cs_h_hebrew_01"
+  },
+  {
+   "id": "cs_h_hockey_01",
+   "text": "An ice hockey team has six players on the ice at a time",
+   "standing": "projectable",
+   "evidence": "general · product curator · Hockey · cs_h_hockey_01"
+  }
+ ]
+}

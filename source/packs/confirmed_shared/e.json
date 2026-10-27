@@ -1,0 +1,426 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_e",
+ "provenance": "confirmed_shared",
+ "letter": "E",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 96,
+ "items": [
+  {
+   "id": "cs_e_ethiopia_01",
+   "text": "Addis Ababa is the capital of Ethiopia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ethiopia · cs_e_ethiopia_01"
+  },
+  {
+   "id": "cs_e_ecuador_01",
+   "text": "Quito is the capital of Ecuador",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ecuador · cs_e_ecuador_01"
+  },
+  {
+   "id": "cs_e_ecuador_02",
+   "text": "The equator passes through Ecuador",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ecuador · cs_e_ecuador_02"
+  },
+  {
+   "id": "cs_e_estonia_01",
+   "text": "Tallinn is the capital of Estonia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Estonia · cs_e_estonia_01"
+  },
+  {
+   "id": "cs_e_edinburgh_01",
+   "text": "Edinburgh is the capital of Scotland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Edinburgh · cs_e_edinburgh_01"
+  },
+  {
+   "id": "cs_e_england_01",
+   "text": "London is the capital of England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · England · cs_e_england_01"
+  },
+  {
+   "id": "cs_e_europe_01",
+   "text": "Europe is a continent",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Europe · cs_e_europe_01"
+  },
+  {
+   "id": "cs_e_everest_01",
+   "text": "Mount Everest is the highest mountain above sea level",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Everest · cs_e_everest_01"
+  },
+  {
+   "id": "cs_e_everest_02",
+   "text": "Mount Everest is in the Himalayas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Everest · cs_e_everest_02"
+  },
+  {
+   "id": "cs_e_equator_02",
+   "text": "The equator divides Earth into the Northern and Southern Hemispheres",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Equator · cs_e_equator_02"
+  },
+  {
+   "id": "cs_e_erie_lake_01",
+   "text": "Lake Erie is one of the Great Lakes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Erie, Lake · cs_e_erie_lake_01"
+  },
+  {
+   "id": "cs_e_earth_01",
+   "text": "Earth is the third planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earth · cs_e_earth_01"
+  },
+  {
+   "id": "cs_e_eclipse_02",
+   "text": "A lunar eclipse occurs when Earth's shadow falls on the Moon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_02"
+  },
+  {
+   "id": "cs_e_electron_01",
+   "text": "An electron has a negative electric charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electron · cs_e_electron_01"
+  },
+  {
+   "id": "cs_e_element_01",
+   "text": "A chemical element is made of atoms with the same number of protons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Element · cs_e_element_01"
+  },
+  {
+   "id": "cs_e_evaporation_01",
+   "text": "Evaporation is the change from liquid to gas at a surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_01"
+  },
+  {
+   "id": "cs_e_einstein_albert_01",
+   "text": "Albert Einstein developed the theory of relativity",
+   "standing": "projectable",
+   "evidence": "history · product curator · Einstein, Albert · cs_e_einstein_albert_01"
+  },
+  {
+   "id": "cs_e_ecosystem_01",
+   "text": "An ecosystem is a community of organisms and their environment",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ecosystem · cs_e_ecosystem_01"
+  },
+  {
+   "id": "cs_e_elephant_01",
+   "text": "The African elephant is the largest living land animal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_01"
+  },
+  {
+   "id": "cs_e_elephant_02",
+   "text": "Elephants are herbivores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_02"
+  },
+  {
+   "id": "cs_e_eagle_01",
+   "text": "Eagles are birds of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_01"
+  },
+  {
+   "id": "cs_e_eel_01",
+   "text": "Eels are fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Eel · cs_e_eel_01"
+  },
+  {
+   "id": "cs_e_emu_01",
+   "text": "The emu is a flightless bird native to Australia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Emu · cs_e_emu_01"
+  },
+  {
+   "id": "cs_e_emperor_penguin_01",
+   "text": "The emperor penguin is the largest living penguin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Emperor penguin · cs_e_emperor_penguin_01"
+  },
+  {
+   "id": "cs_e_earthworm_01",
+   "text": "Earthworms are invertebrates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_01"
+  },
+  {
+   "id": "cs_e_edison_thomas_01",
+   "text": "Thomas Edison was an American inventor",
+   "standing": "projectable",
+   "evidence": "history · product curator · Edison, Thomas · cs_e_edison_thomas_01"
+  },
+  {
+   "id": "cs_e_eiffel_tower_01",
+   "text": "The Eiffel Tower is in Paris",
+   "standing": "projectable",
+   "evidence": "history · product curator · Eiffel Tower · cs_e_eiffel_tower_01"
+  },
+  {
+   "id": "cs_e_eiffel_tower_02",
+   "text": "The Eiffel Tower was completed in 1889",
+   "standing": "projectable",
+   "evidence": "history · product curator · Eiffel Tower · cs_e_eiffel_tower_02"
+  },
+  {
+   "id": "cs_e_even_number_01",
+   "text": "An even number is divisible by 2",
+   "standing": "projectable",
+   "evidence": "math · product curator · Even number · cs_e_even_number_01"
+  },
+  {
+   "id": "cs_e_equilateral_triangle_01",
+   "text": "An equilateral triangle has three equal sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Equilateral triangle · cs_e_equilateral_triangle_01"
+  },
+  {
+   "id": "cs_e_equilateral_triangle_02",
+   "text": "Each angle of an equilateral triangle measures 60 degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Equilateral triangle · cs_e_equilateral_triangle_02"
+  },
+  {
+   "id": "cs_e_election_01",
+   "text": "An election is a formal process for choosing officials by vote",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Election · cs_e_election_01"
+  },
+  {
+   "id": "cs_e_european_union_01",
+   "text": "The European Union is a political and economic union of European countries",
+   "standing": "projectable",
+   "evidence": "civics · product curator · European Union · cs_e_european_union_01"
+  },
+  {
+   "id": "cs_e_english_01",
+   "text": "English is written in the Latin alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · English · cs_e_english_01"
+  },
+  {
+   "id": "cs_e_eritrea_01",
+   "text": "Asmara is the capital of Eritrea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Eritrea · cs_e_eritrea_01"
+  },
+  {
+   "id": "cs_e_el_salvador_01",
+   "text": "San Salvador is the capital of El Salvador",
+   "standing": "projectable",
+   "evidence": "geography · product curator · El Salvador · cs_e_el_salvador_01"
+  },
+  {
+   "id": "cs_e_eswatini_01",
+   "text": "Eswatini was formerly known as Swaziland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Eswatini · cs_e_eswatini_01"
+  },
+  {
+   "id": "cs_e_estonia_02",
+   "text": "Estonia borders the Baltic Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Estonia · cs_e_estonia_02"
+  },
+  {
+   "id": "cs_e_english_channel_01",
+   "text": "The English Channel separates England from France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · English Channel · cs_e_english_channel_01"
+  },
+  {
+   "id": "cs_e_etna_mount_01",
+   "text": "Mount Etna is an active volcano in Sicily",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Etna, Mount · cs_e_etna_mount_01"
+  },
+  {
+   "id": "cs_e_everglades_01",
+   "text": "The Everglades is a wetland in Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Everglades · cs_e_everglades_01"
+  },
+  {
+   "id": "cs_e_europa_01",
+   "text": "Europa is a moon of Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Europa · cs_e_europa_01"
+  },
+  {
+   "id": "cs_e_enceladus_01",
+   "text": "Enceladus is a moon of Saturn",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enceladus · cs_e_enceladus_01"
+  },
+  {
+   "id": "cs_e_eris_01",
+   "text": "Eris is a dwarf planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eris · cs_e_eris_01"
+  },
+  {
+   "id": "cs_e_equinox_01",
+   "text": "An equinox occurs twice each year",
+   "standing": "projectable",
+   "evidence": "science · product curator · Equinox · cs_e_equinox_01"
+  },
+  {
+   "id": "cs_e_electricity_01",
+   "text": "Electric current is measured in amperes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electricity · cs_e_electricity_01"
+  },
+  {
+   "id": "cs_e_electromagnet_01",
+   "text": "An electromagnet produces a magnetic field when current flows through it",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electromagnet · cs_e_electromagnet_01"
+  },
+  {
+   "id": "cs_e_enzyme_01",
+   "text": "Enzymes are proteins that speed up chemical reactions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_01"
+  },
+  {
+   "id": "cs_e_evolution_01",
+   "text": "Natural selection is a mechanism of evolution",
+   "standing": "projectable",
+   "evidence": "science · product curator · Evolution · cs_e_evolution_01"
+  },
+  {
+   "id": "cs_e_einsteinium_01",
+   "text": "Einsteinium has the chemical symbol Es",
+   "standing": "projectable",
+   "evidence": "science · product curator · Einsteinium · cs_e_einsteinium_01"
+  },
+  {
+   "id": "cs_e_erbium_01",
+   "text": "Erbium has the chemical symbol Er",
+   "standing": "projectable",
+   "evidence": "science · product curator · Erbium · cs_e_erbium_01"
+  },
+  {
+   "id": "cs_e_europium_01",
+   "text": "Europium has the chemical symbol Eu",
+   "standing": "projectable",
+   "evidence": "science · product curator · Europium · cs_e_europium_01"
+  },
+  {
+   "id": "cs_e_echo_01",
+   "text": "An echo is a reflected sound wave",
+   "standing": "projectable",
+   "evidence": "science · product curator · Echo · cs_e_echo_01"
+  },
+  {
+   "id": "cs_e_elk_01",
+   "text": "Elk are a species of deer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elk · cs_e_elk_01"
+  },
+  {
+   "id": "cs_e_earwig_01",
+   "text": "Earwigs are insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Earwig · cs_e_earwig_01"
+  },
+  {
+   "id": "cs_e_electric_eel_01",
+   "text": "The electric eel can generate electric shocks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Electric eel · cs_e_electric_eel_01"
+  },
+  {
+   "id": "cs_e_echidna_01",
+   "text": "The echidna is an egg-laying mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Echidna · cs_e_echidna_01"
+  },
+  {
+   "id": "cs_e_elizabeth_ii_01",
+   "text": "Elizabeth II was queen of the United Kingdom from 1952 to 2022",
+   "standing": "projectable",
+   "evidence": "history · product curator · Elizabeth II · cs_e_elizabeth_ii_01"
+  },
+  {
+   "id": "cs_e_emancipation_proclamation_01",
+   "text": "Abraham Lincoln issued the Emancipation Proclamation in 1863",
+   "standing": "projectable",
+   "evidence": "history · product curator · Emancipation Proclamation · cs_e_emancipation_proclamation_01"
+  },
+  {
+   "id": "cs_e_eratosthenes_01",
+   "text": "Eratosthenes estimated the circumference of Earth",
+   "standing": "projectable",
+   "evidence": "history · product curator · Eratosthenes · cs_e_eratosthenes_01"
+  },
+  {
+   "id": "cs_e_edison_thomas_02",
+   "text": "Thomas Edison developed the phonograph",
+   "standing": "projectable",
+   "evidence": "history · product curator · Edison, Thomas · cs_e_edison_thomas_02"
+  },
+  {
+   "id": "cs_e_euler_leonhard_01",
+   "text": "Leonhard Euler was a Swiss mathematician",
+   "standing": "projectable",
+   "evidence": "history · product curator · Euler, Leonhard · cs_e_euler_leonhard_01"
+  },
+  {
+   "id": "cs_e_ellipse_01",
+   "text": "A circle is a special case of an ellipse",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_01"
+  },
+  {
+   "id": "cs_e_equation_01",
+   "text": "An equation states that two expressions are equal",
+   "standing": "projectable",
+   "evidence": "math · product curator · Equation · cs_e_equation_01"
+  },
+  {
+   "id": "cs_e_edge_01",
+   "text": "A triangular prism has nine edges",
+   "standing": "projectable",
+   "evidence": "math · product curator · Edge · cs_e_edge_01"
+  },
+  {
+   "id": "cs_e_embassy_01",
+   "text": "An embassy is a country's diplomatic mission in another country",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Embassy · cs_e_embassy_01"
+  },
+  {
+   "id": "cs_e_esperanto_02",
+   "text": "Esperanto was created by L. L. Zamenhof",
+   "standing": "projectable",
+   "evidence": "language · product curator · Esperanto · cs_e_esperanto_02"
+  },
+  {
+   "id": "cs_e_easter_island_02",
+   "text": "Easter Island is a territory of Chile",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Easter Island · cs_e_easter_island_02"
+  },
+  {
+   "id": "cs_e_edinburgh_castle_01",
+   "text": "Edinburgh Castle stands on Castle Rock in Edinburgh",
+   "standing": "projectable",
+   "evidence": "history · product curator · Edinburgh Castle · cs_e_edinburgh_castle_01"
+  }
+ ]
+}
