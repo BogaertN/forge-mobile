@@ -519,7 +519,7 @@ function Kernel(opts) {
     cur.facts = cur.facts || []; const fi = cur.facts.findIndex(f => f.id === fact.id); if (fi >= 0) cur.facts[fi] = fact; else cur.facts.push(fact);
     const receipt = importReceipt('admit', null, [textOut], []); saveImport(cur, receipt); return { ok: true, receipt, view: importView() }; }
   function clearImportPack() { const cur = importRecord() || blankImport(); cur.schema = IMPORT_SCHEMA; cur.provenance = PACK_IM; cur.facts = []; cur.held = []; store.save(PACK_IM, cur); return importView(); }
-  /* 4.9.127: distributed confirmed_shared. Hosted packs/confirmed_shared/*. Product curator admits projectable without tap; contested held. Not scrapbook shared_knowledge. */
+  /* 4.9.127: confirmed_shared from hosted packs; product curator admits; not scrapbook. */
   const PACK_CS = 'confirmed_shared', CS_RULE = 'CONFIRMED-SHARED';
   function csRecord() { return packRecord(PACK_CS); }
   function confirmedSharedFacts() { const v = csRecord(); return v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active' && f.clause) : []; }
@@ -533,18 +533,15 @@ function Kernel(opts) {
   function normalizeCsPack(data) {
     if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
     if (data.schema === IMPORT_SCHEMA && Array.isArray(data.items)) return data;
-    /* curated draft shape: format + facts[{claim,...}] */
     if ((data.format === IMPORT_SCHEMA || data.schema === IMPORT_SCHEMA) && Array.isArray(data.facts) && !data.items) {
       const items = [];
       for (const f of data.facts) {
         if (!f || typeof f !== 'object') continue;
         const text = String(f.text || f.claim || '').trim(); if (!text) continue;
-        const honesty = String(f.honesty || '').toLowerCase();
-        const standing = (honesty === 'projectable' || f.standing === 'projectable') ? 'projectable'
-          : (honesty === 'contested' || f.standing === 'contested' || f.claim_status === 'contested') ? 'contested'
-          : (honesty === 'quarantine' || f.standing === 'quarantine') ? 'quarantine' : 'confirmed';
+        const h = String(f.honesty || '').toLowerCase(), st = String(f.standing || f.claim_status || '').toLowerCase();
+        const standing = ADMIT_ST[h] || HOLD_ST[h] ? h : ADMIT_ST[st] || HOLD_ST[st] ? st : 'confirmed';
         const evidence = typeof f.evidence === 'string' && f.evidence.trim() ? f.evidence.trim()
-          : [f.category || 'general', 'product curator', f.headword || '', f.id || ''].filter(Boolean).join(' · ') || 'product curator';
+          : [f.category || 'general', 'curator', f.headword || '', f.id || ''].filter(Boolean).join(' · ') || 'curator';
         items.push({ id: f.id, text, standing, evidence });
       }
       return Object.assign({}, data, { schema: IMPORT_SCHEMA, items, provenance: data.provenance || PACK_CS });

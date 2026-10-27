@@ -116,7 +116,7 @@
       "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
       "wave": "W1",
       "claim": "Partial",
-      "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. 4.9.126 polishes the UI shell (calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding) and does not write a shared fact. 4.9.127 gates distributed confirmed_shared with hosted letter packs A–Z and does not write a shared fact. Older claims stay suite-level.",
+      "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. 4.9.126 polishes the UI shell (calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding) and does not write a shared fact. 4.9.127 gates distributed confirmed_shared with hosted letter packs A-Z and does not write a shared fact. Older claims stay suite-level.",
       "proof": [
         "CLAIM-GUARD"
       ]
@@ -3398,7 +3398,7 @@
     },
     {
       "id": "R4127-GATE",
-      "name": "Gated confirmed_shared store admits curated packs",
+      "name": "confirmed_shared",
       "source": "CONFLICTS.md v4.9.127",
       "wave": "W2",
       "claim": "Partial",
@@ -3409,7 +3409,7 @@
     },
     {
       "id": "R4127-LETTER-A",
-      "name": "Hosted letter packs A–Z anchor invent and compose",
+      "name": "letter packs",
       "source": "CONFLICTS.md v4.9.127; packs/confirmed_shared/{a…z,index}.json",
       "wave": "W2",
       "claim": "Partial",
@@ -3420,7 +3420,7 @@
     },
     {
       "id": "R4127-PROV",
-      "name": "Audit provenance is confirmed_shared and never shared KB",
+      "name": "Audit confirmed",
       "source": "CONFLICTS.md v4.9.127",
       "wave": "W2",
       "claim": "Partial",
