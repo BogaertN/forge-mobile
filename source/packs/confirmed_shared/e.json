@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -577,6 +577,12 @@
    "text": "The elm is a deciduous tree",
    "standing": "projectable",
    "evidence": "nature · product curator · Elm · cs_e_elm_01"
+  },
+  {
+   "id": "cs_e_eagle_02",
+   "text": "An eagle is a bird of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_02"
   }
  ]
 }

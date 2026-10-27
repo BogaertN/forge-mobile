@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 107,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -553,6 +553,48 @@
    "text": "Fruit bats eat fruit and nectar",
    "standing": "projectable",
    "evidence": "nature · product curator · Fruit bat · cs_f_fruit_bat_01"
+  },
+  {
+   "id": "cs_f_finland_03",
+   "text": "Finland is a country in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Finland · cs_f_finland_03"
+  },
+  {
+   "id": "cs_f_falcon_02",
+   "text": "A falcon is a bird of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Falcon · cs_f_falcon_02"
+  },
+  {
+   "id": "cs_f_fox_02",
+   "text": "A fox is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fox · cs_f_fox_02"
+  },
+  {
+   "id": "cs_f_frog_02",
+   "text": "A frog is an amphibian",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Frog · cs_f_frog_02"
+  },
+  {
+   "id": "cs_f_foot_03",
+   "text": "A foot equals twelve inches",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_03"
+  },
+  {
+   "id": "cs_f_fraction_02",
+   "text": "A fraction is part of a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_02"
+  },
+  {
+   "id": "cs_f_french_02",
+   "text": "French is the official language of France",
+   "standing": "projectable",
+   "evidence": "language · product curator · French · cs_f_french_02"
   }
  ]
 }
