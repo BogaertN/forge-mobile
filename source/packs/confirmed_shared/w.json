@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 102,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -577,6 +577,18 @@
    "text": "The White House is the home of the American president",
    "standing": "projectable",
    "evidence": "civics · product curator · White House · cs_w_white_house_03"
+  },
+  {
+   "id": "cs_w_walrus_03",
+   "text": "A walrus has tusks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Walrus · cs_w_walrus_03"
+  },
+  {
+   "id": "cs_w_wolf_03",
+   "text": "A wolf is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_03"
   }
  ]
 }

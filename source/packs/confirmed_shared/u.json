@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 102,
+ "curated_facts": 120,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -547,6 +547,114 @@
    "text": "London is the capital of the United Kingdom",
    "standing": "projectable",
    "evidence": "geography · product curator · United Kingdom · cs_u_united_kingdom_02"
+  },
+  {
+   "id": "cs_u_uganda_04",
+   "text": "Uganda is a country in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_04"
+  },
+  {
+   "id": "cs_u_uranus_06",
+   "text": "Uranus is a planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranus · cs_u_uranus_06"
+  },
+  {
+   "id": "cs_u_uranium_05",
+   "text": "Uranium is a metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_05"
+  },
+  {
+   "id": "cs_u_uranium_06",
+   "text": "The symbol for uranium is U",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_06"
+  },
+  {
+   "id": "cs_u_umbrella_02",
+   "text": "An umbrella keeps off rain",
+   "standing": "projectable",
+   "evidence": "history · product curator · Umbrella · cs_u_umbrella_02"
+  },
+  {
+   "id": "cs_u_unicorn_01",
+   "text": "The unicorn is the national animal of Scotland",
+   "standing": "projectable",
+   "evidence": "history · product curator · Unicorn · cs_u_unicorn_01"
+  },
+  {
+   "id": "cs_u_ulysses_02",
+   "text": "Ulysses was the Roman name for Odysseus",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ulysses · cs_u_ulysses_02"
+  },
+  {
+   "id": "cs_u_unit_02",
+   "text": "A meter is a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit · cs_u_unit_02"
+  },
+  {
+   "id": "cs_u_unicameral_01",
+   "text": "A unicameral legislature has one chamber",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Unicameral · cs_u_unicameral_01"
+  },
+  {
+   "id": "cs_u_uganda_05",
+   "text": "Uganda borders Kenya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_05"
+  },
+  {
+   "id": "cs_u_uganda_06",
+   "text": "Lake Victoria is in Uganda",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_06"
+  },
+  {
+   "id": "cs_u_uruguay_04",
+   "text": "Uruguay borders Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_04"
+  },
+  {
+   "id": "cs_u_uruguay_05",
+   "text": "Uruguay borders Argentina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_05"
+  },
+  {
+   "id": "cs_u_uranus_07",
+   "text": "Uranus has rings",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranus · cs_u_uranus_07"
+  },
+  {
+   "id": "cs_u_utah_04",
+   "text": "Utah is a state in the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Utah · cs_u_utah_04"
+  },
+  {
+   "id": "cs_u_ukraine_03",
+   "text": "Ukraine is a country in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_03"
+  },
+  {
+   "id": "cs_u_ukraine_04",
+   "text": "Ukraine borders Russia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_04"
+  },
+  {
+   "id": "cs_u_universe_03",
+   "text": "The universe contains galaxies",
+   "standing": "projectable",
+   "evidence": "science · product curator · Universe · cs_u_universe_03"
   }
  ]
 }

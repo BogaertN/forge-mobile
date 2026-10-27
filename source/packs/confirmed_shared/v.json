@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 103,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -565,6 +565,18 @@
    "text": "Carrots are root vegetables",
    "standing": "projectable",
    "evidence": "nature · product curator · Vegetable · cs_v_vegetable_01"
+  },
+  {
+   "id": "cs_v_vietnam_02",
+   "text": "Vietnam is a country in Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vietnam · cs_v_vietnam_02"
+  },
+  {
+   "id": "cs_v_vulture_04",
+   "text": "A vulture is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_04"
   }
  ]
 }
