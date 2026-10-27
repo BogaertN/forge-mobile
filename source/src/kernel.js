@@ -2306,7 +2306,7 @@ function Kernel(opts) {
     const sealed = /^sealed/.test(String(msm.status || '')), quarantined = !!(trace.containment && trace.containment.route === 'drift_archive_only');
     const sensitive = !!((msm.meaning && msm.meaning.sensitive) || /sensitive|vault|secret/.test(kind) || curSecrets.length || rec.some(r => r.sensitive));
     const sc = (trace.selection && trace.selection.candidates) || trace.candidates || [];
-    const b = MSMV1.buildTurn({ psi: msm.msm_id, turn: trace.turn, act: msm.purpose && msm.purpose.speech_act, frame: msm.purpose && msm.purpose.frame, outcome_category: oc.category, outcome_class: oc.class, meaning: msm.meaning,
+    const b = MSMV1.buildTurn({ psi: msm.msm_id, turn: trace.turn, act: msm.purpose && msm.purpose.speech_act, intent: trace.intent_kind, frame: msm.purpose && msm.purpose.frame, outcome_category: oc.category, outcome_class: oc.class, meaning: msm.meaning,
       candidates: sc.map(c => ({ route: c.route, kind: c.kind, frame: c.frame, outcome: c.outcome, selected: c.status === 'selected' })), evidence: (msm.evidence && msm.evidence.refs) || [], blocked: !!trace.blocked, block_reason: trace.block_reason,
       sealed, quarantined, output: text, echo: trace.echo ? { pass: !!trace.echo.pass, ambiguous: !!trace.echo.ambiguous, disposition: trace.echo.disposition || null } : null, write: (trace.memory || []).length > 0, sensitive, limitations: restr, act: msm.purpose && msm.purpose.speech_act });
     const v = MSMV1.validate(b.manifest); if (!v.valid) throw new Error('MSM-V1-INVALID ' + JSON.stringify(v.issues).slice(0, 160));

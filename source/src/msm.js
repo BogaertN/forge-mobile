@@ -37,6 +37,13 @@ const RULES = Object.freeze([
 const COLL = Object.freeze({ candidate_meaning: 'candidate_meanings', non_selection_outcome: 'non_selection_outcomes', selected_governed_meaning: 'selected_governed_meanings', governed_result_reference: 'governed_result_references', governed_outward_meaning: 'governed_outward_meanings', expression_link: 'expression_links', validation_link: 'validation_links', delivery_or_containment_link: 'delivery_or_containment_links', external_authority_reference: 'external_authority_references', semantic_transition_trace: 'semantic_transition_traces' });
 const COLLECTIONS = Object.freeze(Object.values(COLL));
 const stateOf = r => r.record_kind === 'lineage_root' ? 'lineage_origin' : r.record_kind === 'non_selection_outcome' ? r.outcome_kind : r.record_kind === 'delivery_or_containment_link' ? r.disposition : r.lifecycle_state;
+/* reconstructed Doc 2: action proposals, simulations, and observations. Not the forge2 draft/candidate contract edges. */
+function observesAction(meaning, ctx) { const m = meaning || {}, k = String(m.kind || ''), c = ctx || {};
+  if (c.intent === 'SIMULATE') return true;
+  if (k === 'blocked' || k === 'dream_held' || k === 'sim_result' || k === 'sim_replay') return true;
+  if (/^(?:tool_|ede_|mea_p|mea_proposals|spc_proposal)/.test(k)) return true;
+  if (k === 'dynamics' && m.mode === 'whatif') return true;
+  return /what_?if|predict|hypothes|observ/.test(k); }
 /* canonical strict JSON (35D; forge2 profile): sorted keys, no whitespace, NFC strings, integers only */
 function canon(v) { if (v === null) return 'null'; if (typeof v === 'boolean') return v ? 'true' : 'false';
   if (typeof v === 'number') { if (!Number.isSafeInteger(v)) throw new Error('float_rejected'); return String(v); } if (typeof v === 'string') return JSON.stringify(v.normalize('NFC'));
@@ -80,7 +87,7 @@ const sha = m => H.sha256(canon(m));
 function preservation(meaning, ctx) { const m = meaning || {}, c = m.clause || m.claim || null, v = c && c.verb || {}, k = String(m.kind || ''), out = new Set(['non_llm_provenance']);
   if (v.pol === 'neg' || m.answer === 'no' || /neg/.test(k)) out.add('negation'); if ((v.mod && v.mod !== 'asserted') || /hypothes|maybe|unconfirmed/.test(k) || m.answer === 'unconfirmed') out.add('uncertainty_and_claim_strength');
   if (c && c.cond) out.add('modality_and_conditional_scope'); if (v.tense === 'past' || v.tense === 'future' || /lifecycle|when|time|remind/.test(k)) out.add('time_and_operational_status');
-  if ((ctx.evidence || []).length) out.add('evidence_boundary'); if (/tool|sim|what_?if|predict|hypothes|ede|observ/.test(k)) out.add('action_proposal_simulation_and_observation');
+  if ((ctx.evidence || []).length) out.add('evidence_boundary'); if (observesAction(meaning, ctx)) out.add('action_proposal_simulation_and_observation');
   if (ctx.act === 'request') out.add('permission_versus_request'); if (ctx.sensitive || /vault|sensitive|secret/.test(k)) out.add('privacy_and_identity_boundary');
   if (/refus|blocked|neg_act/.test(k) || ctx.blocked) out.add('refusal_and_containment_boundary'); if (/clarif|ambig|readings/.test(k)) out.add('unresolved_ambiguity');
   if (ctx.write || /recall|stored|noted|forget|remember|facts|assert_ack|working/.test(k)) out.add('memory_boundary'); if (/econ|ledger|credit|capsule/.test(k)) out.add('economic_and_ledger_boundary');
@@ -164,7 +171,7 @@ function validateProjection(om, target) { const no = (step, why) => ({ ok: false
   if (om.visibility === 'private' && PUBLIC_TARGETS.includes(target)) return no('visibility', 'private memory never renders to a public target (D.4 rule 3)');
   if (om.drift_status !== 'projectable') return no('drift_status', 'drift status ' + om.drift_status);
   return { ok: true, step: 'approve' }; }
-const api = { IDS, ENVELOPE, PRESERVATION, RULES, COLLECTIONS, create, reference, transition, validate, encode, decode, canon, sha, buildTurn, preservation, find, stateOf,
+const api = { IDS, ENVELOPE, PRESERVATION, RULES, COLLECTIONS, create, reference, transition, validate, encode, decode, canon, sha, buildTurn, preservation, observesAction, find, stateOf,
   PROJECTION_SCHEMA_VERSION, PROJECTION_STATUSES, PUBLIC_TARGETS, projectionStatus, projection, compatProjection, validateProjection };
 if (isNode) module.exports = api; else root.KMSM = api;
 })(typeof self !== 'undefined' ? self : this);

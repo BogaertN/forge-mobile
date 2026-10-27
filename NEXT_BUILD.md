@@ -1,9 +1,18 @@
-# Next build order — after 4.9.113
+# Next build order — after 4.9.114
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.113 Doc 7 category labels (shipped from 4.9.112 / `3c0cb15b81791c2f43dba983db06363a291060ee`)
+**Baseline:** 4.9.114 reconstructed Doc 2 / MSM-v1 custody (shipped from 4.9.113 / `8c83ea42dbae36724f739a677dabd19a12d53c1c`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. An offline replay verifier, MSM Doc 2 reconstruction, and naming renames stay parked. Do not start them from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. An offline replay verifier and naming renames stay parked. Do not start them from this file.
+
+---
+
+## Shipped: **4.9.114** (2026-10-27)
+
+1. **Reconstructed Doc 2 / MSM-v1** — the 13th preservation class `action_proposal_simulation_and_observation` is on an action, a simulation, and an observation. A greeting and a remember do not carry it. The Drive file was not recovered.
+2. **Lifecycle and bytes** — live records follow the forge 35C meaning-state law. An illegal transition is rejected. That law is not the forge2 draft/candidate contract table. 35D canonical bytes round-trip, and the manifest id matches those bytes. A receipt cites the manifest and is not written into it.
+3. **Projection** — `trace.msm` cites the MSM record ids. μ_t, evidence, memory, and Echo stay outside MSM. MSM does not select, execute, write memory, or approve Echo. Shared KB stays empty.
+4. **Out of scope** — an offline replay verifier and naming renames (4.9.115). Do not build them in this release. No LLM. Adapters stay parked.
 
 ---
 
