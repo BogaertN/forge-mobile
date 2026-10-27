@@ -1,5 +1,5 @@
 {
-  "version": "4.9.124",
+  "version": "4.9.125",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3229,13 +3229,40 @@
    "claim": "Partial",
    "note": "4.9.124: Audit names starter_pack. Remember stays person-authored. CREATE, COMPOSE, SIMULATE, and research do not write confirmed facts. Shared KB stays empty.",
    "proof": ["R4124"]
+  },
+  {
+   "id": "R4125-ADMIT",
+   "name": "An importable confirmed pack admits on-device anchors",
+   "source": "CONFLICTS.md v4.9.125",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.125: a file or a paste of FORGE-CONFIRMED-PACK/v1 admits confirmed and projectable sentences into import_pack. Provenance is import_pack. Starter knowledge and Remember stay. Shared KB stays empty.",
+   "proof": ["R4125"]
+  },
+  {
+   "id": "R4125-HOLD",
+   "name": "Contested import items stay held until a tap",
+   "source": "CONFLICTS.md v4.9.125",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.125: contested and quarantine sentences stay held until a tap admits them. They are not projectable before that tap. Shared KB stays empty.",
+   "proof": ["R4125"]
+  },
+  {
+   "id": "R4125-QUIET",
+   "name": "A bad pack is refused and creative paths do not store",
+   "source": "CONFLICTS.md v4.9.125",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.125: a bad pack is a typed refusal and writes no anchor. CREATE, COMPOSE, and SIMULATE do not store confirmed facts. Clear starter knowledge still works. Shared KB stays empty.",
+   "proof": ["R4125"]
   }
  ],
- "count": 304,
+ "count": 307,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 142,
+  "Partial": 145,
   "Missing": 9,
   "Out of scope / parked": 13
  }

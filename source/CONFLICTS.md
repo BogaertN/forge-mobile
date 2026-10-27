@@ -1133,3 +1133,11 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (3) Custody. CREATE, COMPOSE, SIMULATE, and research do not write confirmed facts. Remember stays person-authored. The turn packet stays `FORGE-TURN-PACKET/v1` at packet version 4.9.111. Nothing in this release is a shared KB write.
 - An import pack was not started. A shared KB write was not started. Do not start them in this release. Out of scope: Genesis, HCS, marketplace, agents, fluency, Soft Echo, a shared KB write, hardware SPC, ChristPing, and EchoForge as authority.
 - Tests: `verify/r4124_suite.js`, written failing first. Targeted gate adds that suite. HELDOUT untouched.
+
+## v4.9.125 — importable confirmed pack (Nic 2026-10-27)
+- Design sources: the 4.9.124 starter seed. No shared store. No new drift threshold. Echo stays an exact Language Core reparse. χ stays the correction function only. Shared KB stays empty. No language model. Soft Echo stays parked. Nic's bands stay: project and write at or under 0.35, χ correction 0.35–0.40, quarantine 0.40–0.80, hard stop above 0.80.
+- (1) Pack. A person can paste or load a file whose schema is `FORGE-CONFIRMED-PACK/v1`. Each item has text, a standing, and evidence. Confirmed and projectable items are admitted into `import_pack`. Contested and quarantine items stay held until a tap. Provenance is `import_pack`. The rule is `IMPORT-PACK`. A receipt is `FORGE-IMPORT-RECEIPT/v1`.
+- (2) Held for tap. A contested or quarantine sentence is not an anchor until the person taps Admit. CREATE and COMPOSE use admitted import anchors ahead of the starter pack. Remember stays person-authored and is not cleared. Starter knowledge is not cleared unless the person asks.
+- (3) Refuse. A pack that is not JSON, has the wrong schema, is empty, does not parse, lacks evidence, has an unknown standing, repeats a sentence, or asks for a shared write is refused with a typed receipt. Nothing is admitted. CREATE, COMPOSE, and SIMULATE do not write confirmed facts.
+- A shared KB write was not started. Do not start one in this release. Echo stays exact. Soft Echo stays parked. Out of scope: Genesis, HCS, marketplace, agents, fluency, and a full UI redesign.
+- Tests: `verify/r4125_suite.js`, written failing first. Targeted gate adds that suite. HELDOUT untouched.

@@ -85,6 +85,16 @@
     audit: 'Audit and the starter view name starter_pack and creative paths do not store confirmed facts',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.124 and leave import and a shared write unstarted'
   };
+  const J = {
+    admit: 'a valid pack admits confirmed anchors and leaves starter and remembered facts in place',
+    hold: 'a contested import stays held until a tap admits it',
+    refuse: 'a bad pack refuses with a typed receipt and writes no anchor',
+    anchor: 'invent and compose use a newly admitted import anchor',
+    quiet: 'create compose and simulate do not store confirmed facts and Clear starter still works',
+    audit: 'Audit shows the import receipt and the Memory screen has Import next to starter',
+    budget: 'the single-file budget stays within 1.920 MB raw and 570 kB gzip',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.125 and leave a shared write unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -116,6 +126,9 @@
     ] },
     { schema: SCHEMA, release: '4.9.124', requirements: [
       { id: 'R4124-SEED', statement: 'A small on-device starter pack is confirmed on first open. CREATE and COMPOSE use it when memory has no anchors. Provenance is starter_pack. Clear starter knowledge removes it. Memory and the shared KB stay unchanged.', falsify: 'A fresh invent is unbound while the pack is present, compose says the user told the kernel, Clear writes memory or shared knowledge, or a creative path stores a confirmed fact.', tests: [L('R4124.seed', 'r4124_suite.js', 'R4124', I.seed, 'POSITIVE'), L('R4124.compose', 'r4124_suite.js', 'R4124', I.compose, 'POSITIVE'), L('R4124.clear', 'r4124_suite.js', 'R4124', I.clear, 'NEGATIVE'), L('R4124.audit', 'r4124_suite.js', 'R4124', I.audit, 'ADVERSARIAL'), L('R4124.ver', 'r4124_suite.js', 'R4124', I.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.125', requirements: [
+      { id: 'R4125-IMPORT', statement: 'A person can load a confirmed pack from a file or a paste. Confirmed items are admitted. Contested items stay held until a tap. A bad pack is a typed refusal. Import does not write shared knowledge and does not clear starter knowledge or Remember unless asked.', falsify: 'A valid pack writes shared knowledge, a contested item is projectable before a tap, a bad pack is admitted, invent ignores a newly admitted anchor, or a creative path stores a confirmed fact.', tests: [L('R4125.admit', 'r4125_suite.js', 'R4125', J.admit, 'POSITIVE'), L('R4125.hold', 'r4125_suite.js', 'R4125', J.hold, 'ADVERSARIAL'), L('R4125.refuse', 'r4125_suite.js', 'R4125', J.refuse, 'NEGATIVE'), L('R4125.anchor', 'r4125_suite.js', 'R4125', J.anchor, 'POSITIVE'), L('R4125.quiet', 'r4125_suite.js', 'R4125', J.quiet, 'NEGATIVE'), L('R4125.audit', 'r4125_suite.js', 'R4125', J.audit, 'ADVERSARIAL'), L('R4125.budget', 'r4125_suite.js', 'R4125', J.budget, 'REGRESSION'), L('R4125.ver', 'r4125_suite.js', 'R4125', J.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };

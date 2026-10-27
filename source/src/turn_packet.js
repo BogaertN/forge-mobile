@@ -76,7 +76,9 @@
     const rows = DOC7_IDS.map(id => '<div data-doc7-cat="' + id + '"><b>' + esc(DOC7_LABEL[id]) + '</b> ' + c.counts[id] + '</div>').join('');
     let starter = '';
     try { const st = load('starter_pack'); if (st && !Array.isArray(st)) starter = '<div data-starter-pack>Starter knowledge ' + (st.status === 'present' ? 'present' : 'cleared') + '. Provenance starter_pack.</div>'; } catch (e) { starter = ''; }
-    return '<div class="card" data-doc7-census><div class="cardhead">Doc 7 categories</div><div class="small">Language corpus ≠ Evidence ≠ Memory ≠ Trace/receipt ≠ Authority records. ' + esc(PRESENCE_LAW) + '.</div>' + rows + '<div data-doc7-shared>Shared knowledge ' + c.shared_knowledge + (c.shared_knowledge ? '' : ' · empty') + '. A lookup is not written here.</div>' + starter + '</div>';
+    let imported = '';
+    try { const ip = load('import_pack'); if (ip && !Array.isArray(ip)) { const n = (ip.facts || []).filter(f => f && f.status === 'active').length, h = (ip.held || []).length; imported = '<div data-import-pack>Import pack ' + (n || h ? 'present' : 'empty') + '. Admitted ' + n + '. Held for tap ' + h + '. Provenance import_pack.</div>'; const last = (ip.receipts || [])[(ip.receipts || []).length - 1]; if (last && last.schema) imported += '<div data-import-receipt>Import receipt ' + esc(last.class || '') + ' ' + esc(last.reason || '') + '. Admitted ' + ((last.admitted || []).length) + '. Held for tap ' + ((last.held || []).length) + '.</div>'; } } catch (e) { imported = ''; }
+    return '<div class="card" data-doc7-census><div class="cardhead">Doc 7 categories</div><div class="small">Language corpus ≠ Evidence ≠ Memory ≠ Trace/receipt ≠ Authority records. ' + esc(PRESENCE_LAW) + '.</div>' + rows + '<div data-doc7-shared>Shared knowledge ' + c.shared_knowledge + (c.shared_knowledge ? '' : ' · empty') + '. A lookup is not written here.</div>' + starter + imported + '</div>';
   }
   function doc7HTML(d) {
     if (!d || !d.present) return '';

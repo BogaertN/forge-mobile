@@ -15,7 +15,7 @@ const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const TB = isNode ? require('./toolbench.js') : root.KTools;
 const OP = isNode ? require('./operator.js') : root.KOperator;
 
-const CATEGORIES = ['shared_outbox', 'shared_inbox', 'shared_knowledge', 'shared_challenges', 'user_tools', 'economy_capsules', 'economy_events', 'usage_events', 'usage_counts', 'reminders', 'request_receipts', 'request_policy_gaps', 'hypotheses', 'admitted_rules', 'ede_calibration', 'economy_seen', 'economy_quarantine', 'pf_echo', 'pf_agents', 'pf_drift_log', 'mea_seals', 'mea_problems', 'mea_candidates', 'mea_archive', 'mea_receipts', 'capsules', 'council', 'promotions', 'device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'resurrection_proposals', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path', 'justifications', 'withdrawal_receipts', 'world_state', 'world_head', 'world_head_stage', 'admitted_manifests', 'admitted_manifests_k', 'admitted_meta', 'starter_pack'];
+const CATEGORIES = ['shared_outbox', 'shared_inbox', 'shared_knowledge', 'shared_challenges', 'user_tools', 'economy_capsules', 'economy_events', 'usage_events', 'usage_counts', 'reminders', 'request_receipts', 'request_policy_gaps', 'hypotheses', 'admitted_rules', 'ede_calibration', 'economy_seen', 'economy_quarantine', 'pf_echo', 'pf_agents', 'pf_drift_log', 'mea_seals', 'mea_problems', 'mea_candidates', 'mea_archive', 'mea_receipts', 'capsules', 'council', 'promotions', 'device', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'sync_log', 'ui_errors', 'rejected_meanings', 'admission_queue', 'sim_runs', 'node_jobs', 'node_pairing', 'symbol_index', 'migrations', 'memory', 'evidence', 'language_examples', 'trace', 'cold_storage', 'resurrection_proposals', 'lexicon_user', 'meta', 'policy', 'permissions', 'held_writes', 'loops', 'collapse_events', 'drift_archive', 'containment_receipts', 'tool_invocations', 'feedback', 'profiles', 'consent', 'buyers', 'offers', 'consent_ledger', 'export_packages', 'jobs', 'workbench_events', 'web_evidence', 'fetch_path', 'justifications', 'withdrawal_receipts', 'world_state', 'world_head', 'world_head_stage', 'admitted_manifests', 'admitted_manifests_k', 'admitted_meta', 'starter_pack', 'import_pack'];
 const ALL_STORES = [...new Set(CATEGORIES.concat(['gks_facts', 'case_index', 'case_ledger', 'proof_exports', 'economy_manifests', 'shared_drafts', 'economy_foreign', 'receipts', 'shared_cursor', 'vault', 'signing_key', 'buyers', 'consent', 'consent_ledger', 'export_packages', 'offers', 'profiles', 'workbench_events', 'device', 'economy_events', 'usage_events', 'attribution_ledger', 'attribution_foreign', 'memory', 'meta', 'migrations', 'policy', 'permissions', 'trace', 'e2ee_queue', 'e2ee_cursor', 'gks_pinned']))].sort();
 const GEN_KEY = 'kernel.__gen', GEN_PREV_KEY = 'kernel.__gen_prev';
 function MemoryStore(backend) { const mem = {}; const b = backend || { get: k => (Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null), set: (k, v) => { mem[k] = String(v); }, del: k => { delete mem[k]; }, keys: () => Object.keys(mem) };
@@ -465,6 +465,60 @@ function Kernel(opts) {
   function starterView() { const v = starterRecord(); const present = !!(v && v.status === 'present'); const facts = present ? (v.facts || []).map(f => { let text = ''; try { text = G.clauseText(f.clause, 'kernel'); } catch (e) { text = ''; } return { id: f.id, text, provenance: 'starter_pack' }; }) : [];
     return { schema: STARTER_SCHEMA, status: present ? 'present' : 'cleared', provenance: 'starter_pack', facts }; }
   function clearStarterKnowledge() { store.save('starter_pack', { schema: STARTER_SCHEMA, status: 'cleared', provenance: 'starter_pack', facts: [] }); return starterView(); }
+  /* 4.9.125: on-device import pack. Confirmed and projectable items are admitted. Contested and quarantine items stay held until a tap. Not memory and not shared knowledge. */
+  const IMPORT_SCHEMA = 'FORGE-CONFIRMED-PACK/v1', IMPORT_RECEIPT = 'FORGE-IMPORT-RECEIPT/v1';
+  const ADMIT_ST = { confirmed: 1, projectable: 1 }, HOLD_ST = { contested: 1, quarantine: 1 };
+  function importRecord() { const v = store.load('import_pack'); return v && !Array.isArray(v) && typeof v === 'object' ? v : null; }
+  function importFacts() { const v = importRecord(); return v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active' && f.clause) : []; }
+  const normImport = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
+  const importId = t => 'im:' + sha256(normImport(t)).slice(0, 16);
+  function importFact(id, clause, evidence, standing) { const ents = [...new Set(nps(clause).filter(n => !n.pron3).map(entKey).filter(Boolean))];
+    return { id, kind: 'relation', clause, pred: clause.coord ? 'and' : clause.verb.lemma, subjKey: clause.coord ? null : entKey(clause.subj), entities: ents, status: 'active', standing, evidence, sfe: { Phi: 9, rho: 1, Delta: 0, nu: 0, mu: 1.0, eps: 0, tau: [], lambda: 0, chi: 0 }, provenance: { source: 'import_pack', rule: 'IMPORT-PACK', turn: null } }; }
+  function importText(f) { try { return G.clauseText(f.clause, 'kernel'); } catch (e) { return f.text || ''; } }
+  function importRow(f) { return { id: f.id, text: f.clause ? importText(f) : (f.text || ''), evidence: f.evidence || '', provenance: 'import_pack' }; }
+  function importView() { const v = importRecord(); const facts = v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active') : []; const held = v && Array.isArray(v.held) ? v.held : [];
+    return { provenance: 'import_pack', admitted: facts.map(importRow), held: held.map(importRow) }; }
+  function importReceipt(cls, reason, admitted, held) { return { schema: IMPORT_RECEIPT, class: cls, reason: reason || null, shared_kb: false, admitted: admitted || [], held: held || [] }; }
+  function saveImport(rec, receipt) { rec.receipts = (rec.receipts || []).concat([receipt]).slice(-40); store.save('import_pack', rec); }
+  function blankImport() { return { schema: IMPORT_SCHEMA, provenance: 'import_pack', facts: [], held: [], receipts: [] }; }
+  function judgeImport(text) { let data; try { data = JSON.parse(String(text || '')); } catch (e) { return { ok: false, reason: 'not_json' }; }
+    if (!data || typeof data !== 'object' || Array.isArray(data) || data.schema !== IMPORT_SCHEMA) return { ok: false, reason: 'schema' };
+    if (data.shared_kb === true || data.write_shared === true) return { ok: false, reason: 'shared_write' };
+    if (!Array.isArray(data.items) || !data.items.length) return { ok: false, reason: 'empty' };
+    const seen = new Set(), rows = [];
+    for (const it of data.items) { if (!it || typeof it !== 'object') return { ok: false, reason: 'unparsed' };
+      const standing = String(it.standing || ''); if (!ADMIT_ST[standing] && !HOLD_ST[standing]) return { ok: false, reason: 'standing' };
+      const evidence = typeof it.evidence === 'string' ? it.evidence.trim() : ''; if (!evidence) return { ok: false, reason: 'evidence' };
+      const raw = String(it.text || '').trim(), key = normImport(raw); if (!key) return { ok: false, reason: 'unparsed' };
+      if (seen.has(key)) return { ok: false, reason: 'duplicate' }; seen.add(key);
+      let clause = null; try { clause = reparseClause(raw); } catch (e) { clause = null; }
+      if (!clause || clause.coord || !clause.verb) return { ok: false, reason: 'unparsed' };
+      rows.push({ standing, evidence, clause, id: importId(raw), hold: !!HOLD_ST[standing] }); }
+    return { ok: true, rows }; }
+  function previewImport(text) { const j = judgeImport(text); if (!j.ok) return { ok: false, class: 'refused', reason: j.reason };
+    const admitted = [], held = []; for (const r of j.rows) (r.hold ? held : admitted).push(importText({ clause: r.clause }));
+    return { ok: true, class: 'import', admitted, held, plain: 'admit ' + admitted.join(' | ') + ' held ' + held.join(' | ') }; }
+  function importConfirmedPack(text, opts) { opts = opts || {};
+    if (opts.userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP', receipt: importReceipt('refused', 'needs_tap', [], []) };
+    const j = judgeImport(text), cur = importRecord() || blankImport();
+    if (!j.ok) { const receipt = importReceipt('refused', j.reason, [], []); saveImport(cur, receipt); return { ok: false, receipt, view: importView() }; }
+    cur.schema = IMPORT_SCHEMA; cur.provenance = 'import_pack'; cur.facts = cur.facts || []; cur.held = cur.held || [];
+    const admitted = [], held = [];
+    for (const row of j.rows) { const fact = importFact(row.id, row.clause, row.evidence, row.hold ? row.standing : 'confirmed'), textOut = importText(fact);
+      const fi = cur.facts.findIndex(f => f.id === row.id), hi = cur.held.findIndex(f => f.id === row.id);
+      if (row.hold) { if (fi >= 0) { admitted.push(importText(cur.facts[fi])); continue; } const heldRow = Object.assign({}, fact, { status: 'held', text: textOut }); if (hi >= 0) cur.held[hi] = heldRow; else cur.held.push(heldRow); held.push(textOut); }
+      else { if (hi >= 0) cur.held.splice(hi, 1); if (fi >= 0) cur.facts[fi] = fact; else cur.facts.push(fact); admitted.push(textOut); } }
+    const receipt = importReceipt('import', null, admitted, held); saveImport(cur, receipt); if (opts.wipeStarter === true) clearStarterKnowledge();
+    return { ok: true, receipt, view: importView() }; }
+  function admitImportItem(id, userTap) { if (userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP' };
+    const cur = importRecord(); if (!cur || !Array.isArray(cur.held)) return { ok: false, rule: 'IMPORT-MISSING' };
+    const i = cur.held.findIndex(f => f && f.id === id); if (i < 0) return { ok: false, rule: 'IMPORT-MISSING' };
+    const row = cur.held.splice(i, 1)[0]; let clause = row.clause; if (!clause && row.text) { try { clause = reparseClause(row.text); } catch (e) { clause = null; } }
+    if (!clause) { cur.held.splice(i, 0, row); return { ok: false, rule: 'IMPORT-UNPARSED' }; }
+    const fact = importFact(row.id, clause, row.evidence || '', 'confirmed'), textOut = importText(fact);
+    cur.facts = cur.facts || []; const fi = cur.facts.findIndex(f => f.id === fact.id); if (fi >= 0) cur.facts[fi] = fact; else cur.facts.push(fact);
+    const receipt = importReceipt('admit', null, [textOut], []); saveImport(cur, receipt); return { ok: true, receipt, view: importView() }; }
+  function clearImportPack() { const cur = importRecord() || blankImport(); cur.schema = IMPORT_SCHEMA; cur.provenance = 'import_pack'; cur.facts = []; cur.held = []; store.save('import_pack', cur); return importView(); }
   const ruleFacts = mem => ruleEdges(mem).map(e => ({ id: e.id, atom: { predicate: e.rel, args: [e.a, e.b], polarity: e.neg ? 'neg' : 'pos' } }));
   const admittedRules = () => store.load('admitted_rules').filter(r => r.status === 'admitted').map(r => r.rule);
   /* M3 (4.9.60) DURABLE WORLD STATE. The world the user has authorized: every active stored fact (memory written by an explicit "remember"
@@ -1216,9 +1270,10 @@ function Kernel(opts) {
       const spoken = screen.speak || []; creativePending = spoken.length ? { intent, speak: spoken } : null;
       const meaning = { kind: 'creative_idea', creative_intent: intent, items: spoken.map(c => c.claim), status: spoken.length ? spoken[0].claim_status : 'overextended', creative: pack }; if (screen.anchor_kind) meaning.anchor_kind = screen.anchor_kind;
       return res('SELECTED_MEANING', meaning, { frame: 'FR.TOOL.EDE', act: 'question' }); };
-    const screenCreative = intent => { const mem = store.load('memory').filter(r => r.status === 'active' && r.clause); const userEdges = ruleEdges(mem); const st = userEdges.length ? [] : starterFacts(); const edges = userEdges.length ? userEdges : ruleEdges(st); const src = userEdges.length ? mem : st;
+    const screenCreative = intent => { const mem = store.load('memory').filter(r => r.status === 'active' && r.clause); const userEdges = ruleEdges(mem); const im = importFacts(); const imEdges = ruleEdges(im);
+      const st = userEdges.length || imEdges.length ? [] : starterFacts(); const edges = imEdges.length ? imEdges : userEdges.length ? userEdges : ruleEdges(st); const src = imEdges.length ? im : userEdges.length ? mem : st;
       for (const e of edges) { const r = src.find(x => x.id === e.id); e.held = !!(r && r.sense && r.sense.status === 'held-open'); e.phi = r && r.sfe && r.sfe.Phi ? r.sfe.Phi : 9; }
-      const screen = MEAP.creativeScreen(EDE.explore(edges, { seed: 1, task_mode: 'creative_brainstorming' }), { intent }); if (!userEdges.length && edges.length) screen.anchor_kind = 'starter_pack'; return screen; };
+      const screen = MEAP.creativeScreen(EDE.explore(edges, { seed: 1, task_mode: 'creative_brainstorming' }), { intent }); if (imEdges.length) screen.anchor_kind = 'import_pack'; else if (!userEdges.length && edges.length) screen.anchor_kind = 'starter_pack'; return screen; };
     if (capF(low, { id: 'create.idea', v: ['come'], part: 'up', re: /^with an idea$/ }) || capF(low, { id: 'create.idea', v: ['invent'], obj: ['hypothesis'], re: /^$/ }) || capF(low, { id: 'create.idea', v: ['create'], obj: ['idea'], re: /^$/ })) return creativeTurn('CREATE', screenCreative('CREATE'));
     if (capF(low, { id: 'explore.alt', v: ['explore'], obj: ['alternative'], re: /^$/ })) return creativeTurn('EXPLORE', screenCreative('EXPLORE'));
     if (capF(low, { id: 'commit.idea', v: ['seal', 'commit'], obj: ['idea', 'hypothesis'], re: /^$/ })) { const open = (store.load('creative_proposals') || []).filter(r => r && r.status === 'proposed'); const row = open[open.length - 1];
@@ -1249,8 +1304,10 @@ function Kernel(opts) {
       if (clause && !clause.coord) { const hs = headOf(clause.subj), hp = clause.pred && clause.pred.np ? headOf(clause.pred.np) : ''; if (hs) want.add(hs); if (hp) want.add(hp); }
       const anchors = []; const seen = new Set();
       const userRows = activeFacts().filter(f => f && !f.sensitive && f.clause);
-      const useStarter = !userRows.length;
-      const pool = useStarter ? starterFacts() : activeFacts();
+      const imRows = importFacts();
+      const useImport = imRows.length > 0;
+      const useStarter = !useImport && !userRows.length;
+      const pool = useImport ? imRows : useStarter ? starterFacts() : activeFacts();
       if (want.size) for (const f of pool) {
         if (!f || f.sensitive || !f.clause || f.clause.coord || f.clause.cond) continue;
         const hs = [headOf(f.clause.subj)]; if (f.clause.pred && f.clause.pred.np) hs.push(headOf(f.clause.pred.np));
@@ -1276,7 +1333,7 @@ function Kernel(opts) {
       for (const a of anchors) { glossTerms.push(headOf(a.subj)); if (a.pred && a.pred.np) glossTerms.push(headOf(a.pred.np)); }
       let gloss = null; for (const w of glossTerms) { const g = glossOf(w); if (g) { gloss = { term: w, text: g }; break; } }
       let frame = null; if (parsed && (parsed.rel === 'is a' || parsed.rel === 'part of' || /^shares /.test(parsed.rel || ''))) frame = parsed.rel; else if (roles.some(r => r.role === 'relation' && r.term === 'is a')) frame = 'is a';
-      const expand = {}; if (developed) expand.clause = developed; if (anchors.length) expand.anchors = anchors.slice(0, 3); if (roles.length) expand.roles = roles; if (frame) expand.frame = frame; if (gloss) expand.gloss = gloss; if (useStarter && anchors.length) expand.anchor_kind = 'starter_pack';
+      const expand = {}; if (developed) expand.clause = developed; if (anchors.length) expand.anchors = anchors.slice(0, 3); if (roles.length) expand.roles = roles; if (frame) expand.frame = frame; if (gloss) expand.gloss = gloss; if (anchors.length && useImport) expand.anchor_kind = 'import_pack'; else if (useStarter && anchors.length) expand.anchor_kind = 'starter_pack';
       return Object.keys(expand).length ? expand : null;
     };
     const composeNarrate = (source, row) => { creativePending = null; const claim = composeClaim(row.claim); const novelty = row.novelty || { N: null, class: 'not_measured', anchored: true };
@@ -2904,7 +2961,7 @@ function Kernel(opts) {
   ensureStarter();
   return { meaDetail, meaMetaK, adoptMetaK, withdrawMetaK, meaMetaAdoptions: () => store.load('admitted_meta'), meaCandidatesK, meaArchiveK, meaRequeueK, adoptManifestK, withdrawManifestK, meaAdoptionsK: () => store.load('admitted_manifests_k'), meaProblems, meaCycle, meaSupply, meaCommit, meaArchive: () => store.load('mea_archive'), meaReceipts: () => store.load('mea_receipts'), meaRequeue, meaHandoff: meaHandoffOf, workingFacts: () => working.filter(w => w.status === 'active').map(w => ({ id: w.id, text: w.sensitive ? null : memText(w), turn: w.provenance.turn })), promoteWorking, meaCandidates, adoptManifest, withdrawManifest, meaAdoptions: () => store.load('admitted_manifests'), process, exportTurnPacket, turnPackets, lookupPlan, subjectNP, askedNP, grammarLex: glex, countryOf, gksIndex: () => gksIndex(), proofExports: () => baseStore.load('proof_exports'), caseState, caseSeal, caseUnseal, exportProof, gksFacts, ingestShared, challengeShared, withdrawRule, lexicon: lex, store, echo, perm, containment: cont, bench, commitHeld, rejectHeld, heldWrites: () => store.load('held_writes'), resurrect, commitResurrection, commitIdea, creativeProposals: () => (store.load('creative_proposals') || []).map(p => ({ id: p.id, claim: p.claim, claim_status: p.claim_status, novelty: p.novelty, drift: p.drift, status: p.status, intent: p.intent })), resurrectionProposals: () => proposals().map(p => ({ id: p.id, label: p.label, tier: p.tier, status: p.status })), resurrectPreview, releaseDream, approveHypothesis, adoptPhoneProposal, phoneProposals: () => phoneProposals.map(p => ({ id: p.id, text: p.text, route: p.route, eps_s: p.eps_s, may_project: !!p.may_project, contradicts: p.contradicts, echo: !!p.echo })), meaPProposals: () => meaPProposals.map(p => ({ candidate_id: p.candidate_id, op: p.op, claim: p.claim, claim_status: p.claim_status, eps: p.eps, route: p.route, novelty: p.novelty, standing: p.standing, echo: !!p.echo })), admittedRules: () => store.load('admitted_rules'), stagedHypotheses: () => stagedHyps.map(h => JSON.parse(JSON.stringify(h))), hypotheses: () => cont.hypotheses.list(), realize: m => D.realizeMeaning(m, ENV), deriveEnv: ENV, meta: () => meta, setNotation(n) { meta.notation = n === 'phi' ? 'phi' : 'plain'; saveMeta(); },
     attachLexicon(data, tier) { lex.attach(data, tier); ensureStarter(); },
-    starterView, clearStarterKnowledge,
+    starterView, clearStarterKnowledge, previewImport, importConfirmedPack, admitImportItem, clearImportPack, importView,
     memory: () => store.load('memory'), cold: () => store.load('cold_storage'), evidence: () => store.load('evidence'), traces: () => store.load('trace'), examples: () => store.load('language_examples'),
     deleteRecord(id, reason, userTap) { if (userTap === false) return false; const pd = perm.authorize('memory.delete_ui', { userTap: true, subject: id }); if (pd.decision !== 'allow') return false; const mem = store.load('memory'); const i = mem.findIndex(r => r.id === id); if (i < 0) return false; const r = mem.splice(i, 1)[0]; r.status = 'forgotten'; store.save('memory', mem); const cold = store.load('cold_storage'); cold.push({ id: r.id, sealed_at: now(), reason: 'forgotten from the Memory screen (explicit tap + confirm)', record: r, successor: { kind: 'lifecycle_transition', from: 'accepted', to: 'archived', rule: 'forge2 APPEND_ONLY_SUCCESSOR_LAWS_V1 §Lifecycle transition' }, tier: 'WARM', resurrection_attempts: 0 }); store.save('cold_storage', cold); const tr = store.load('trace'); tr.push({ turn: 'ui', at: now(), input: '[Memory screen] delete ' + id, rules: [{ id: 'AUTH-UI-DELETE', doc: 'Doc7 (explicit user action)', note: reason || '' }], deleted: { id, kind: r.kind } }); store.save('trace', tr); const ws = dwsBuild(meta.turn); const tm = tmsSync({ op: 'memory.delete_ui', id }); try { publishWorldHead(projectView(ws.changed ? ws.state : null), ws.changed ? ws.state : null, meta.turn, tm.withdrawn.map(w => w.id)); } catch (e) { /* the delete already landed; a head failure does not report the tap as refused */ } return true; },
     justifications: () => TMS.list(), worldState: () => worldStateView(), worldHead: () => liveHead(), withdrawalReceipts: () => TMS.receipts(), replayJustification: id => tmsReplay(id), whyOf: id => justifyMaterial(TMS.get(id)),
