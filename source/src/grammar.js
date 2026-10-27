@@ -147,7 +147,7 @@ function analyseAll(toks, lex) {
   /* TAG-CONVERSION-V-N (4.9.79; zero derivation, English conversion — Pāṇini's kṛt with a zero affix): a word the lexicon knows only as a verb, in
      its base form, right after a determiner or possessive, also reads as a singular noun ("the glaze", "a sprint"); the parse decides, never a list */
   for (let i = 1; i < T.length; i++) { const p = CL[T[i - 1].w] || []; if (!(p.includes('DET') || p.includes('POSS'))) continue; const an = T[i].an;
-    if (an.length && an.every(a => a.tag === 'V') && an.some(a => a.lemma === T[i].w && !a.provisional) && !(lex.tierPos && lex.tierPos(T[i].w, 'v') > 2)) an.push(/* only a verb the lexicon itself lists converts; a provisionally derived verb stays unknown-like (RULINGS-474) */ { tag: 'N', lemma: T[i].w, f: 'sg', rule: 'TAG-CONVERSION-V-N' }); }
+    if (an.length && an.every(a => a.tag === 'V') && an.some(a => a.lemma === T[i].w && !a.provisional) && !(lex.tierPos && lex.tierPos(T[i].w, 'v') > 2)) an.push( /* only a verb the lexicon itself lists converts; a provisionally derived verb stays unknown-like (RULINGS-474) */ { tag: 'N', lemma: T[i].w, f: 'sg', rule: 'TAG-CONVERSION-V-N' }); }
   /* TAG-COMPLETE-TIER-APAVADA (4.9.50): the complete (lowest-assurance) tier is a last resort per word: a reading whose lemma and part of speech come only
      from it is dropped when the same word has a reading of the same category from the core or extended tier ("leaves" is leave, not the rare verb leaf) */
   if (lex.tierPos) { const PS = { N: 'n', V: 'v', ADJ: 'a', ADV: 'r' }; const rank = a => (PS[a.tag] && a.lemma && !a.provisional ? Math.min(lex.tierPos(a.lemma, PS[a.tag]), a.tag === 'ADJ' ? lex.tierPos(a.lemma, 's') : 9) : 0);

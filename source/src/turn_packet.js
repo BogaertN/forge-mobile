@@ -13,89 +13,70 @@
   const GATE_SUBTYPES = ['ambiguity', 'unsupported', 'action_blocked'];
   const LABELS = { echo_fail: 'Echo failed', language_unexpressible: 'Language unexpressible', gate_refusal: 'Gate refusal', quarantine: 'Quarantine', chi_reroute: 'χ re-route', answer: 'Answer' };
   const DOC6_LABEL = { ambiguity: 'ambiguity / clarification-required', 'clarification-required': 'clarification-required', unsupported: 'unsupported', action_blocked: 'meaning-understood-but-action-blocked' };
-  /* 4.9.113: five Doc 7 categories, labeled from records the turn already kept.
-   * Presence of a record is not the truth of a sentence. A lookup is evidence. */
+  /* 4.9.113: five categories, from records the turn already kept. Presence is not truth. A lookup is evidence. */
   const DOC7_IDS = ['language_corpus', 'evidence', 'memory', 'trace_receipt', 'authority'];
   const DOC7_LABEL = { language_corpus: 'Language corpus', evidence: 'Evidence', memory: 'Memory', trace_receipt: 'Trace/receipt', authority: 'Authority records' };
   const PRESENCE_LAW = 'presence ≠ truth';
+  const NOT_STORE = ' This is not a knowledge store.';
   const DOC7_WHY = {
-    memory: 'why we believe this: it is in memory. Presence ≠ truth.',
-    memory_evidence: 'why we believe this: it is in memory. The utterance is evidence of what was said, and that is a different category. Presence ≠ truth.',
-    language_corpus: 'why we believe this: it is a gloss in the language corpus. That is not evidence and not memory. Presence ≠ truth.',
-    evidence: 'why we believe this: the lookup is evidence. A source can be present without support. Presence ≠ truth. This is not a knowledge store.',
-    evidence_supported: 'why we believe this: the lookup is evidence. A verbatim span supports the sentence. Presence ≠ truth. This is not a knowledge store.',
-    evidence_unsupported: 'why we believe this: the lookup is evidence. The citation is present and unsupported. Presence ≠ truth. This is not a knowledge store.',
-    evidence_started: 'why we believe this: a lookup is starting. Its results are evidence, not a knowledge store. Presence ≠ truth.',
-    authority: 'why we believe this: an authority record withheld the action. That record is not the truth of the sentence. Presence ≠ truth.',
-    trace_receipt: 'why we believe this: the calculation is on this receipt. It is not evidence, not memory, and not the language corpus. Presence ≠ truth.',
-    none: 'why we believe this: this turn adds no belief. The receipt records what happened. Presence ≠ truth.'
+    memory: 'Why: it is in memory.',
+    memory_evidence: 'Why: it is in memory. The utterance is evidence of what was said, a different category.',
+    language_corpus: 'Why: a gloss in the language corpus. That is not evidence and not memory.',
+    evidence: 'Why: the lookup is evidence. A source can be present without support.' + NOT_STORE,
+    evidence_supported: 'Why: the lookup is evidence. A verbatim span supports the sentence.' + NOT_STORE,
+    evidence_unsupported: 'Why: the lookup is evidence. The citation is present and unsupported.' + NOT_STORE,
+    evidence_started: 'Why: a lookup is starting. Its results are evidence, not a knowledge store.',
+    authority: 'Why: an authority record withheld the action.',
+    trace_receipt: 'Why: the calculation is on this receipt, not evidence, not memory, and not the language corpus.',
+    none: 'Why: this turn adds no belief. The receipt records what happened.'
   };
   function tierFor(id) {
     const s = String(id || '');
     if (/^lexicon:/.test(s)) return 'language_corpus';
     if (/^mem:/.test(s)) return 'memory';
     if (/^ev:/.test(s)) return 'user_statement';
-    if (/^(evd:|archive:|src:)/.test(s)) return 'evidence';
-    return 'user_statement';
+    return /^(evd:|archive:|src:)/.test(s) ? 'evidence' : 'user_statement';
   }
   function doc7Of(trace, msm) {
     trace = trace || {}; msm = msm || trace.msm || {};
-    const m = msm.meaning || {};
-    const kind = m.kind || '';
-    const tool = m.tool || (trace.tool && trace.tool.tool) || '';
-    const refs = (msm.evidence && msm.evidence.refs) || [];
-    const ops = trace.memory || [];
+    const m = msm.meaning || {}, kind = m.kind || '', tool = m.tool || (trace.tool && trace.tool.tool) || '';
+    const refs = (msm.evidence && msm.evidence.refs) || [], ops = trace.memory || [];
     const rules = new Set((trace.rules || []).map(r => r && r.id).filter(Boolean));
     const winner = (trace.selection && trace.selection.winner) || '';
     const results = !!(trace.research) || kind === 'research_answer' || (kind === 'tool_result' && tool === 'research.web');
     const started = !results && kind === 'tool_started' && tool === 'research.web';
-    const lexicon = kind === 'define' || refs.some(id => /^lexicon:/.test(String(id)));
+    const lexicon = kind === 'define' || refs.some(id => /^lexicon:/.test(id));
     const memWrite = ops.some(op => op && op.op && !/^evidence\./.test(op.op));
-    const memRead = (trace.rpm || []).length > 0 || refs.some(id => /^mem:/.test(String(id)));
-    const evidenceTouch = results || ops.some(op => op && /^evidence\./.test(String(op.op || '')));
-    const math = kind === 'math' || winner === 'math.gp014';
+    const memRead = (trace.rpm || []).length > 0 || refs.some(id => /^mem:/.test(id));
+    const evTouch = results || ops.some(op => op && /^evidence\./.test(String(op.op || '')));
     const withheld = kind === 'blocked' || kind === 'tool_denied' || kind === 'neg_act' || rules.has('AUTH-UNDERSTOOD-NOT-AUTHORIZED') || rules.has('PERM-VAULT-LOCKED');
-    const authority = !!(trace.permission) || withheld;
     let belief = 'none', why = DOC7_WHY.none;
     if (results) {
       belief = 'evidence';
-      const unsupported = !!(m.unsupported || (m.provenance && m.provenance.lead_supported === false) || (m.support && m.support.level === 'none'));
-      const supported = !unsupported && (!!(m.provenance && m.provenance.lead_supported === true) || !!(m.support && /^(single|corroborated|answered)$/.test(m.support.level)));
-      why = unsupported ? DOC7_WHY.evidence_unsupported : supported ? DOC7_WHY.evidence_supported : DOC7_WHY.evidence;
+      const bad = !!(m.unsupported || (m.provenance && m.provenance.lead_supported === false) || (m.support && m.support.level === 'none'));
+      const good = !bad && (!!(m.provenance && m.provenance.lead_supported === true) || !!(m.support && /^(single|corroborated|answered)$/.test(m.support.level)));
+      why = bad ? DOC7_WHY.evidence_unsupported : good ? DOC7_WHY.evidence_supported : DOC7_WHY.evidence;
     } else if (lexicon) { belief = 'language_corpus'; why = DOC7_WHY.language_corpus; }
-    else if (memWrite || memRead) { belief = 'memory'; why = evidenceTouch ? DOC7_WHY.memory_evidence : DOC7_WHY.memory; }
-    else if (math) { belief = 'trace_receipt'; why = DOC7_WHY.trace_receipt; }
+    else if (memWrite || memRead) { belief = 'memory'; why = evTouch ? DOC7_WHY.memory_evidence : DOC7_WHY.memory; }
+    else if (kind === 'math' || winner === 'math.gp014') { belief = 'trace_receipt'; why = DOC7_WHY.trace_receipt; }
     else if (withheld) { belief = 'authority'; why = DOC7_WHY.authority; }
     else if (started) { belief = 'evidence'; why = DOC7_WHY.evidence_started; }
-    return {
-      law: PRESENCE_LAW, belief: belief, why: why, knowledge_store: false, research: results || started,
-      present: { language_corpus: lexicon, evidence: evidenceTouch || started || belief === 'evidence', memory: memWrite || memRead, trace_receipt: true, authority: authority }
-    };
+    return { law: PRESENCE_LAW, belief, why, knowledge_store: false, research: results || started, present: { language_corpus: lexicon, evidence: evTouch || started || belief === 'evidence', memory: memWrite || memRead, trace_receipt: true, authority: !!(trace.permission) || withheld } };
   }
   function nOf(load, keys) { let n = 0; for (const k of keys) { const v = load(k); if (Array.isArray(v)) n += v.length; } return n; }
   function census(load) {
     load = typeof load === 'function' ? load : () => [];
-    return {
-      law: PRESENCE_LAW, knowledge_store: false, shared_knowledge: nOf(load, ['shared_knowledge']),
-      counts: {
-        language_corpus: nOf(load, ['language_examples', 'lexicon_user']),
-        evidence: nOf(load, ['evidence', 'web_evidence']),
-        memory: nOf(load, ['memory', 'cold_storage']),
-        trace_receipt: nOf(load, ['trace', 'receipts', 'containment_receipts']),
-        authority: nOf(load, ['permissions', 'admitted_rules'])
-      }
-    };
+    return { law: PRESENCE_LAW, knowledge_store: false, shared_knowledge: nOf(load, ['shared_knowledge']), counts: { language_corpus: nOf(load, ['language_examples', 'lexicon_user']), evidence: nOf(load, ['evidence', 'web_evidence']), memory: nOf(load, ['memory', 'cold_storage']), trace_receipt: nOf(load, ['trace', 'receipts', 'containment_receipts']), authority: nOf(load, ['permissions', 'admitted_rules']) } };
   }
   function categoryPanel(load) {
     const c = census(load);
-    const rows = DOC7_IDS.map(id => '<div data-doc7-cat="' + id + '"><b>' + esc(DOC7_LABEL[id]) + '</b> ' + c.counts[id] + ' · ' + esc(PRESENCE_LAW) + '</div>').join('');
-    const shared = '<div data-doc7-shared>Shared knowledge ' + c.shared_knowledge + (c.shared_knowledge ? '' : ' · empty') + '. A lookup is not written here.</div>';
-    return '<div class="card" data-doc7-census><div class="cardhead">Doc 7 categories</div><div class="small">Language corpus ≠ Evidence ≠ Memory ≠ Trace/receipt ≠ Authority records. ' + esc(PRESENCE_LAW) + '.</div>' + rows + shared + '</div>';
+    const rows = DOC7_IDS.map(id => '<div data-doc7-cat="' + id + '"><b>' + esc(DOC7_LABEL[id]) + '</b> ' + c.counts[id] + '</div>').join('');
+    return '<div class="card" data-doc7-census><div class="cardhead">Doc 7 categories</div><div class="small">Language corpus ≠ Evidence ≠ Memory ≠ Trace/receipt ≠ Authority records. ' + esc(PRESENCE_LAW) + '.</div>' + rows + '<div data-doc7-shared>Shared knowledge ' + c.shared_knowledge + (c.shared_knowledge ? '' : ' · empty') + '. A lookup is not written here.</div></div>';
   }
   function doc7HTML(d) {
     if (!d || !d.present) return '';
-    const tags = DOC7_IDS.map(id => '<span class="tag doc7' + (d.belief === id ? ' on' : '') + '" data-doc7-cat="' + id + '" data-doc7-present="' + (d.present[id] ? '1' : '0') + '"' + (d.belief === id ? ' data-doc7-belief="1"' : '') + '>' + esc(DOC7_LABEL[id]) + '</span>').join('');
-    return '<div class="doc7" data-doc7 data-doc7-belief="' + esc(d.belief) + '"' + (d.research ? ' data-doc7-research="evidence"' : '') + '><div class="small">Doc 7 · ' + esc(d.law) + '</div>' + tags + '<div class="small" data-doc7-why>' + esc(d.why) + '</div></div>';
+    const tags = DOC7_IDS.map(id => '<span class="tag doc7' + (d.belief === id ? ' on' : '') + '" data-doc7-cat="' + id + '"' + (d.belief === id ? ' data-doc7-belief="1"' : '') + '>' + esc(DOC7_LABEL[id]) + '</span>').join('');
+    return '<div class="doc7" data-doc7-belief="' + esc(d.belief) + '"' + (d.research ? ' data-doc7-research="evidence"' : '') + '><div class="small">Doc 7 · ' + esc(d.law) + '</div>' + tags + '<div class="small" data-doc7-why>' + esc(d.why) + '</div></div>';
   }
 
   function idsOf(trace, msm) {

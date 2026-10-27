@@ -1,7 +1,5 @@
-/* Pyodide cross-check worker (mobile plan wave 1: "in-browser Python cross-check of the forge RMC engine / sympy / pint, loaded lazily").
- * Runs ONLY in this dedicated worker so the app document keeps a strict CSP (no eval). pyodide.js is fetched, its SHA-384 is checked
- * against the pinned digest (SRI-equivalent), then imported from a Blob URL. Packages are integrity-checked by Pyodide's lock file.
- * Results are evidence: agree / disagree with the kernel's own answer. Never authority, never reply text. */
+/* Pyodide worker. Fetched pyodide.js is SHA-384 checked, then imported from a Blob URL. Packages use Pyodide's lock file.
+ * Results are evidence: agree or disagree with the kernel. Never authority, never reply text. */
 'use strict';
 let py = null;
 async function sha384b64(buf) { const d = await crypto.subtle.digest('SHA-384', buf); let s = ''; for (const b of new Uint8Array(d)) s += String.fromCharCode(b); return btoa(s); }

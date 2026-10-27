@@ -176,7 +176,8 @@ const COP_CMP = rx('^' + NP + '\\s+(?:is|are)\\s+(not\\s+)?(' + SP + ')\\s+than\
 const QUERY_CMP = rx('^is\\s+' + NP + '\\s+(not\\s+)?(' + SP + ')\\s+than\\s+' + NP + '$');
 /* "X is ADJ than Y" names a strict order: the binary predicate ADJ_than; its order properties (transitive, asymmetric) are the grammatical meaning
    of the comparative construction and enter the world as explicit rules sourced to the sentence that used it — never a topic fact */
-const cmpAtom = (m, v) => { const w = clean(m[3]).toLowerCase(), dp = !/^"/.test(m[3]) && WRL().COMPARATIVES.get(w), s = term(m[1], v), p = dp || symbol(m[3], 'predicate'), o = term(m[4], v); return s && p && o ? atom(dp ? dp : p + '_than', [s, o], m[2] ? 'neg' : 'pos') : null; }; /* 4.9.61: declared comparative words (world_rules.js) name the row's predicate */
+const cmpAtom = (m, v) => { const w = clean(m[3]).toLowerCase(), dp = !/^"/.test(m[3]) && WRL().COMPARATIVES.get(w), s = term(m[1], v), p = dp || symbol(m[3], 'predicate'), o = term(m[4], v); return s && p && o ? atom(dp ? dp : p + '_than', [s, o], m[2] ? 'neg' : 'pos') : null; };
+/* 4.9.61: declared comparative words (world_rules.js) name the row's predicate */
 const orderRules = p => [{ body: [atom(p, ['$x', '$y']), atom(p, ['$y', '$z'])], head: atom(p, ['$x', '$z']), form: 'comparative_order' }, { body: [atom(p, ['$x', '$y'])], head: atom(p, ['$y', '$x'], 'neg'), form: 'comparative_order' }];
 /* past tense is a marker on the proposition (§4.1): "was/were", "did", regular "-ed" give a past_ atom, distinct from the present one
    ("X was in Y" does not answer "is X in Y?"); time intervals stay deferred (§13) */
