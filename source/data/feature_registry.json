@@ -1,5 +1,5 @@
 {
-  "version": "4.9.123",
+  "version": "4.9.124",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3202,13 +3202,40 @@
    "claim": "Partial",
    "note": "4.9.123: claim status stays hypothesis or speculative_branch. Quarantine stays non-projectable. Refusals stay commit_without_proposal, novelty_unbound, drift_hard, and language_unexpressible. Nothing is written to memory, the world head, or the shared KB. Shared KB stays empty.",
    "proof": ["R4123"]
+  },
+  {
+   "id": "R4124-SEED",
+   "name": "On-device starter pack anchors invent and compose",
+   "source": "CONFLICTS.md v4.9.124",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.124: a small starter pack is confirmed on first open. CREATE and COMPOSE use it when memory has no relational anchors. Provenance is starter_pack. Shared KB stays empty.",
+   "proof": ["R4124"]
+  },
+  {
+   "id": "R4124-CLEAR",
+   "name": "Clear starter knowledge removes the on-device pack",
+   "source": "CONFLICTS.md v4.9.124",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.124: one Memory control, Clear starter knowledge, clears the pack. It does not write memory or shared knowledge. A cleared pack is not reinstalled. Shared KB stays empty.",
+   "proof": ["R4124"]
+  },
+  {
+   "id": "R4124-PROV",
+   "name": "Starter provenance is starter_pack and creative paths do not store",
+   "source": "CONFLICTS.md v4.9.124",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.124: Audit names starter_pack. Remember stays person-authored. CREATE, COMPOSE, SIMULATE, and research do not write confirmed facts. Shared KB stays empty.",
+   "proof": ["R4124"]
   }
  ],
- "count": 301,
+ "count": 304,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 139,
+  "Partial": 142,
   "Missing": 9,
   "Out of scope / parked": 13
  }

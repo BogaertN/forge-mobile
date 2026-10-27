@@ -41,6 +41,7 @@ T('novelty without anchors is unbound and not a discovery claim', () => {
 
 T('an unanchored invent is CREATE and refuses an unbound novelty', () => {
   const k = mk();
+  k.clearStarterKnowledge();
   const h = head(k);
   const r = k.process('invent a hypothesis');
   expect(r.trace.intent_kind === 'CREATE', (r.trace.intent_kind || 'missing') + ' · ' + r.reply);
@@ -52,9 +53,11 @@ T('an unanchored invent is CREATE and refuses an unbound novelty', () => {
   expect(/have not stored/.test(r.reply || '') && /unbound/.test(r.reply || ''), r.reply);
   expect(r.turn_packet.schema === 'FORGE-TURN-PACKET/v1' && r.turn_packet.packet_version === '4.9.111' && r.turn_packet.receipt_type === 'gate_refusal', r.turn_packet && r.turn_packet.receipt_type);
   quietStores(k, h, 0);
-  const come = mk().process('come up with an idea');
+  const comeK = mk(); comeK.clearStarterKnowledge();
+  const come = comeK.process('come up with an idea');
   expect(come.trace.intent_kind === 'CREATE' && come.trace.echo.pass && cr(come).failure.class === 'novelty_unbound', come.trace.intent_kind + ' · ' + come.reply);
-  const made = mk().process('create an idea');
+  const madeK = mk(); madeK.clearStarterKnowledge();
+  const made = madeK.process('create an idea');
   expect(made.trace.intent_kind === 'CREATE' && cr(made).failure.class === 'novelty_unbound', made.trace.intent_kind + ' · ' + made.reply);
 });
 
