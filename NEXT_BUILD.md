@@ -1,9 +1,18 @@
-# Next build order — after 4.9.110
+# Next build order — after 4.9.111
 **Date:** 2026-10-26 (America/Chicago)
-**Baseline:** live 4.9.110 (shipped from 4.9.109 / `85f2a4263656d9e1cae722cb775266e54271c169`)
+**Baseline:** 4.9.111 turn packet and failure receipts (shipped from live 4.9.110)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. Do not start 4.9.111 from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. An offline replay verifier, a Doc 7 Audit category UI, MSM Doc 2 reconstruction, and naming renames are out of scope. Do not start them from this file.
+
+---
+
+## Shipped: **4.9.111** (2026-10-26)
+
+1. **Turn packet** — a finished turn, success or failure, exports as one `FORGE-TURN-PACKET/v1`. Ask Forge has one Export turn packet control. “export the turn packet” and “export the packet for turn N” return that packet.
+2. **Failure receipts** — `echo_fail`, `language_unexpressible`, `gate_refusal` (`ambiguity`, `unsupported`, `action_blocked`), `quarantine`, and `chi_reroute` open on Ask Forge and on Audit / Receipts. A spoken answer stays an answer receipt. A dream stays an answer on the dream route.
+3. **Unchanged law** — Echo is an exact Language Core reparse. Project and write stay at or under 0.35. χ correction stays 0.35–0.40. Quarantine stays 0.40–0.80. A hard stop stays above 0.80. χ is the correction function only. Shared KB stays empty.
+4. **Out of scope** — an offline replay verifier, a Doc 7 Audit category UI, MSM Doc 2 reconstruction, and naming renames. Do not build them in this release. No LLM. Adapters stay parked.
 
 **Sources:** `CATCHUP_AUDIT.md`, `SCREENSHOT_NOTES.md`, oct18 `BUILD_ORDER_OCT18.md` / `DECISIONS_OCT18.md`, and Nic's architecture report `AIWEB_ARCHITECTURE_VISION_REPORT.md` (prepared 2026-10-14; §3 "finished Forge Mobile" is the backlog). Status snapshots in that report are stale — live is 4.9.110. CONFLICTS.md, VERSION, and this file govern Forge Mobile acceptance. Ledger v2 “General Language Runtime NOT LIVE” and Capability Register L-08 “Parked post-1.0” are stale for Mobile.
 
