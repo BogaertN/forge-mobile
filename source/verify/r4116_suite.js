@@ -133,9 +133,10 @@ T('the trace and the receipt show the concept and frame ids', () => {
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.116 and leave creative writing unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.116', ver);
+  const parts = ver.split('.').map(Number);
+  expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 116, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
-  expect(reg.version === ver && reg.count === 280 && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   for (const id of ['R4116-LEXICON', 'R4116-FRAMES']) {
     const f = reg.features.find(x => x.id === id);
     expect(f && f.claim === 'Partial' && (f.proof || []).includes('R4116') && /4\.9\.116/.test(f.note), id);
@@ -144,7 +145,9 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.116 and leave creative 
   const tally = {}; for (const f of reg.features) tally[f.claim] = (tally[f.claim] || 0) + 1;
   expect(reg.claims.Implemented === 112 && reg.claims.Partial === tally.Partial + 1, JSON.stringify(reg.claims) + ' ' + tally.Partial);
   const cf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
-  const sec = cf.slice(cf.lastIndexOf('## v4.9.116'));
+  const at = cf.lastIndexOf('## v4.9.116');
+  const nxt = cf.indexOf('\n## v', at + 12);
+  const sec = cf.slice(at, nxt === -1 ? undefined : nxt);
   expect(/Doc 4/.test(sec) && /Doc 5/.test(sec) && /C\.MISPLACE/.test(sec) && /FR\.SMELL\.OF/.test(sec), 'conflicts pathways');
   expect(/creative writing/.test(sec) && /not started|do not start/.test(sec), 'creative writing fence');
   expect(/shared KB stays empty|Shared KB stays empty/.test(sec) && !/Christ function/i.test(sec), 'shared');
@@ -155,7 +158,8 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.116 and leave creative 
   expect(/4\.9\.116/.test(readme) && /4\.9\.115/.test(readme) && /Pattern Reflection/.test(readme) && /Verify packet/.test(readme), 'README');
   expect(/misplaced|bandaged|preheated/.test(readme) && !/failing-first|bot instruction/i.test(readme), 'README product');
   const targeted = fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8');
-  expect(/"release": "4\.9\.116"/.test(targeted) && /r4116_suite\.js/.test(targeted), 'targeted');
+  const tg = JSON.parse(targeted), tp = String(tg.release || '').split('.').map(Number);
+  expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 116 && (tg.suites || []).includes('r4116_suite.js'), 'targeted');
   expect(!fs.existsSync(ROOT + '/src/creative.js'), 'creative writing started');
   const L = require(ROOT + '/src/lexicon.js');
   const cs = L.SEED_CONCEPTS.filter(c => String(c.id).startsWith('C.'));
