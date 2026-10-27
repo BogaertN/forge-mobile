@@ -1,0 +1,438 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_f",
+ "provenance": "confirmed_shared",
+ "letter": "F",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 91,
+ "items": [
+  {
+   "id": "cs_f_france_01",
+   "text": "Paris is the capital of France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · France · cs_f_france_01"
+  },
+  {
+   "id": "cs_f_finland_01",
+   "text": "Helsinki is the capital of Finland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Finland · cs_f_finland_01"
+  },
+  {
+   "id": "cs_f_fiji_01",
+   "text": "Fiji is an island country in the South Pacific",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fiji · cs_f_fiji_01"
+  },
+  {
+   "id": "cs_f_fiji_02",
+   "text": "Suva is the capital of Fiji",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fiji · cs_f_fiji_02"
+  },
+  {
+   "id": "cs_f_florida_01",
+   "text": "Tallahassee is the capital of Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida · cs_f_florida_01"
+  },
+  {
+   "id": "cs_f_florida_02",
+   "text": "Florida is a peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida · cs_f_florida_02"
+  },
+  {
+   "id": "cs_f_fuji_mount_01",
+   "text": "Mount Fuji is the highest mountain in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fuji, Mount · cs_f_fuji_mount_01"
+  },
+  {
+   "id": "cs_f_fuji_mount_02",
+   "text": "Mount Fuji is a volcano",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fuji, Mount · cs_f_fuji_mount_02"
+  },
+  {
+   "id": "cs_f_frankfort_01",
+   "text": "Frankfort is the capital of Kentucky",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Frankfort · cs_f_frankfort_01"
+  },
+  {
+   "id": "cs_f_freetown_01",
+   "text": "Freetown is the capital of Sierra Leone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Freetown · cs_f_freetown_01"
+  },
+  {
+   "id": "cs_f_fluorine_01",
+   "text": "Fluorine has the chemical symbol F",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_01"
+  },
+  {
+   "id": "cs_f_fluorine_02",
+   "text": "Fluorine is a halogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_02"
+  },
+  {
+   "id": "cs_f_francium_01",
+   "text": "Francium has the chemical symbol Fr",
+   "standing": "projectable",
+   "evidence": "science · product curator · Francium · cs_f_francium_01"
+  },
+  {
+   "id": "cs_f_friction_01",
+   "text": "Friction is a force that opposes motion between surfaces in contact",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_01"
+  },
+  {
+   "id": "cs_f_fossil_01",
+   "text": "A fossil is preserved evidence of ancient life",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fossil · cs_f_fossil_01"
+  },
+  {
+   "id": "cs_f_fossil_fuel_01",
+   "text": "coal, oil, and natural gas are fossil fuels",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fossil fuel · cs_f_fossil_fuel_01"
+  },
+  {
+   "id": "cs_f_fusion_01",
+   "text": "The Sun is powered by nuclear fusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fusion · cs_f_fusion_01"
+  },
+  {
+   "id": "cs_f_freezing_point_01",
+   "text": "pure water freezes at 32 degrees Fahrenheit at sea-level pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_01"
+  },
+  {
+   "id": "cs_f_fahrenheit_01",
+   "text": "Water boils at 212 degrees Fahrenheit at sea-level pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fahrenheit · cs_f_fahrenheit_01"
+  },
+  {
+   "id": "cs_f_fungus_01",
+   "text": "Mushrooms are fungi",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fungus · cs_f_fungus_01"
+  },
+  {
+   "id": "cs_f_fungus_02",
+   "text": "Fungi are not plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fungus · cs_f_fungus_02"
+  },
+  {
+   "id": "cs_f_fish_02",
+   "text": "Fish are vertebrates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fish · cs_f_fish_02"
+  },
+  {
+   "id": "cs_f_frog_01",
+   "text": "Frogs begin life as tadpoles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Frog · cs_f_frog_01"
+  },
+  {
+   "id": "cs_f_flamingo_01",
+   "text": "Flamingos get their pink color from their diet",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flamingo · cs_f_flamingo_01"
+  },
+  {
+   "id": "cs_f_falcon_01",
+   "text": "The peregrine falcon is the fastest bird in a dive",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Falcon · cs_f_falcon_01"
+  },
+  {
+   "id": "cs_f_fern_01",
+   "text": "Ferns reproduce with spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_01"
+  },
+  {
+   "id": "cs_f_flower_01",
+   "text": "Flowers are the reproductive structures of flowering plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flower · cs_f_flower_01"
+  },
+  {
+   "id": "cs_f_firefly_01",
+   "text": "Fireflies produce light through bioluminescence",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_01"
+  },
+  {
+   "id": "cs_f_french_revolution_01",
+   "text": "The French Revolution began in 1789",
+   "standing": "projectable",
+   "evidence": "history · product curator · French Revolution · cs_f_french_revolution_01"
+  },
+  {
+   "id": "cs_f_franklin_benjamin_02",
+   "text": "Benjamin Franklin conducted experiments with electricity",
+   "standing": "projectable",
+   "evidence": "history · product curator · Franklin, Benjamin · cs_f_franklin_benjamin_02"
+  },
+  {
+   "id": "cs_f_ford_henry_01",
+   "text": "Henry Ford founded the Ford Motor Company",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ford, Henry · cs_f_ford_henry_01"
+  },
+  {
+   "id": "cs_f_ford_henry_02",
+   "text": "The Ford Model T was introduced in 1908",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ford, Henry · cs_f_ford_henry_02"
+  },
+  {
+   "id": "cs_f_fleming_alexander_01",
+   "text": "Alexander Fleming discovered penicillin in 1928",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fleming, Alexander · cs_f_fleming_alexander_01"
+  },
+  {
+   "id": "cs_f_forbidden_city_01",
+   "text": "The Forbidden City is in Beijing",
+   "standing": "projectable",
+   "evidence": "history · product curator · Forbidden City · cs_f_forbidden_city_01"
+  },
+  {
+   "id": "cs_f_fraction_01",
+   "text": "A fraction represents part of a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_01"
+  },
+  {
+   "id": "cs_f_factor_01",
+   "text": "A factor of a number divides it with no remainder",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_01"
+  },
+  {
+   "id": "cs_f_fibonacci_sequence_01",
+   "text": "In the Fibonacci sequence, each number is the sum of the two before it",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fibonacci sequence · cs_f_fibonacci_sequence_01"
+  },
+  {
+   "id": "cs_f_foot_01",
+   "text": "One foot equals 12 inches",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_01"
+  },
+  {
+   "id": "cs_f_federalism_01",
+   "text": "Federalism divides power between national and regional governments",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Federalism · cs_f_federalism_01"
+  },
+  {
+   "id": "cs_f_french_01",
+   "text": "French is an official language of Canada",
+   "standing": "projectable",
+   "evidence": "language · product curator · French · cs_f_french_01"
+  },
+  {
+   "id": "cs_f_february_01",
+   "text": "February is the shortest month of the Gregorian calendar",
+   "standing": "projectable",
+   "evidence": "general · product curator · February · cs_f_february_01"
+  },
+  {
+   "id": "cs_f_february_02",
+   "text": "February has 29 days in a leap year",
+   "standing": "projectable",
+   "evidence": "general · product curator · February · cs_f_february_02"
+  },
+  {
+   "id": "cs_f_finland_02",
+   "text": "Finland borders Sweden, Norway, and Russia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Finland · cs_f_finland_02"
+  },
+  {
+   "id": "cs_f_france_02",
+   "text": "France is the largest country in the European Union by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · France · cs_f_france_02"
+  },
+  {
+   "id": "cs_f_french_guiana_01",
+   "text": "French Guiana is an overseas region of France in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · French Guiana · cs_f_french_guiana_01"
+  },
+  {
+   "id": "cs_f_faroe_islands_01",
+   "text": "The Faroe Islands are a self-governing territory of Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Faroe Islands · cs_f_faroe_islands_01"
+  },
+  {
+   "id": "cs_f_falkland_islands_01",
+   "text": "The Falkland Islands are in the South Atlantic Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Falkland Islands · cs_f_falkland_islands_01"
+  },
+  {
+   "id": "cs_f_florence_01",
+   "text": "Florence is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florence · cs_f_florence_01"
+  },
+  {
+   "id": "cs_f_florence_02",
+   "text": "Florence is the capital of the Tuscany region",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florence · cs_f_florence_02"
+  },
+  {
+   "id": "cs_f_funafuti_01",
+   "text": "Funafuti is the capital of Tuvalu",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Funafuti · cs_f_funafuti_01"
+  },
+  {
+   "id": "cs_f_fargo_01",
+   "text": "Fargo is a city in North Dakota",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fargo · cs_f_fargo_01"
+  },
+  {
+   "id": "cs_f_frequency_01",
+   "text": "Frequency is measured in hertz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frequency · cs_f_frequency_01"
+  },
+  {
+   "id": "cs_f_fermium_01",
+   "text": "Fermium has the chemical symbol Fm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermium · cs_f_fermium_01"
+  },
+  {
+   "id": "cs_f_flerovium_01",
+   "text": "Flerovium has the chemical symbol Fl",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flerovium · cs_f_flerovium_01"
+  },
+  {
+   "id": "cs_f_fission_01",
+   "text": "Nuclear fission splits a heavy nucleus into lighter nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_01"
+  },
+  {
+   "id": "cs_f_fulcrum_01",
+   "text": "A lever pivots on a fulcrum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fulcrum · cs_f_fulcrum_01"
+  },
+  {
+   "id": "cs_f_fluorescence_01",
+   "text": "Fluorescent materials emit light after absorbing radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorescence · cs_f_fluorescence_01"
+  },
+  {
+   "id": "cs_f_frost_01",
+   "text": "Frost forms when water vapor freezes on surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_01"
+  },
+  {
+   "id": "cs_f_ferret_01",
+   "text": "Ferrets are domesticated mammals related to weasels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ferret · cs_f_ferret_01"
+  },
+  {
+   "id": "cs_f_flounder_01",
+   "text": "Flounders are flatfish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flounder · cs_f_flounder_01"
+  },
+  {
+   "id": "cs_f_fly_01",
+   "text": "Flies are insects with one pair of wings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fly · cs_f_fly_01"
+  },
+  {
+   "id": "cs_f_finch_01",
+   "text": "Finches are small seed-eating birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Finch · cs_f_finch_01"
+  },
+  {
+   "id": "cs_f_fir_01",
+   "text": "Fir trees are conifers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_01"
+  },
+  {
+   "id": "cs_f_feather_01",
+   "text": "Feathers are made of keratin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Feather · cs_f_feather_01"
+  },
+  {
+   "id": "cs_f_flying_fish_01",
+   "text": "Flying fish can glide above the water's surface",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flying fish · cs_f_flying_fish_01"
+  },
+  {
+   "id": "cs_f_faraday_michael_01",
+   "text": "Michael Faraday discovered electromagnetic induction",
+   "standing": "projectable",
+   "evidence": "history · product curator · Faraday, Michael · cs_f_faraday_michael_01"
+  },
+  {
+   "id": "cs_f_fahrenheit_daniel_gabriel_01",
+   "text": "Daniel Gabriel Fahrenheit invented the mercury thermometer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fahrenheit, Daniel Gabriel · cs_f_fahrenheit_daniel_gabriel_01"
+  },
+  {
+   "id": "cs_f_fort_sumter_01",
+   "text": "The American Civil War began with the attack on Fort Sumter in 1861",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fort Sumter · cs_f_fort_sumter_01"
+  },
+  {
+   "id": "cs_f_freud_sigmund_01",
+   "text": "Sigmund Freud founded psychoanalysis",
+   "standing": "projectable",
+   "evidence": "history · product curator · Freud, Sigmund · cs_f_freud_sigmund_01"
+  },
+  {
+   "id": "cs_f_fathom_01",
+   "text": "A fathom is six feet",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fathom · cs_f_fathom_01"
+  },
+  {
+   "id": "cs_f_first_amendment_01",
+   "text": "The First Amendment protects freedom of religion",
+   "standing": "projectable",
+   "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_01"
+  }
+ ]
+}

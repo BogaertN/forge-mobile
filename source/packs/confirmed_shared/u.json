@@ -1,0 +1,288 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_u",
+ "provenance": "confirmed_shared",
+ "letter": "U",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_u_united_kingdom_01",
+   "text": "The United Kingdom consists of England, Scotland, Wales, and Northern Ireland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · United Kingdom · cs_u_united_kingdom_01"
+  },
+  {
+   "id": "cs_u_uganda_01",
+   "text": "Kampala is the capital of Uganda",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_01"
+  },
+  {
+   "id": "cs_u_uruguay_01",
+   "text": "Montevideo is the capital of Uruguay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_01"
+  },
+  {
+   "id": "cs_u_uzbekistan_01",
+   "text": "Tashkent is the capital of Uzbekistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uzbekistan · cs_u_uzbekistan_01"
+  },
+  {
+   "id": "cs_u_uzbekistan_02",
+   "text": "Uzbekistan is doubly landlocked",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uzbekistan · cs_u_uzbekistan_02"
+  },
+  {
+   "id": "cs_u_united_arab_emirates_01",
+   "text": "Abu Dhabi is the capital of the United Arab Emirates",
+   "standing": "projectable",
+   "evidence": "geography · product curator · United Arab Emirates · cs_u_united_arab_emirates_01"
+  },
+  {
+   "id": "cs_u_united_arab_emirates_02",
+   "text": "The Burj Khalifa in Dubai is the tallest building in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · United Arab Emirates · cs_u_united_arab_emirates_02"
+  },
+  {
+   "id": "cs_u_ulaanbaatar_01",
+   "text": "Ulaanbaatar is the capital of Mongolia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ulaanbaatar · cs_u_ulaanbaatar_01"
+  },
+  {
+   "id": "cs_u_ural_mountains_01",
+   "text": "The Ural Mountains form part of the boundary between Europe and Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_01"
+  },
+  {
+   "id": "cs_u_utah_01",
+   "text": "Salt Lake City is the capital of Utah",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Utah · cs_u_utah_01"
+  },
+  {
+   "id": "cs_u_uppsala_01",
+   "text": "Uppsala is a city in Sweden",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uppsala · cs_u_uppsala_01"
+  },
+  {
+   "id": "cs_u_upstream_01",
+   "text": "Upstream means toward the source of a river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Upstream · cs_u_upstream_01"
+  },
+  {
+   "id": "cs_u_uranus_01",
+   "text": "Uranus is the seventh planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranus · cs_u_uranus_01"
+  },
+  {
+   "id": "cs_u_uranus_02",
+   "text": "Uranus rotates on its side",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranus · cs_u_uranus_02"
+  },
+  {
+   "id": "cs_u_uranus_03",
+   "text": "Uranus was discovered by William Herschel in 1781",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranus · cs_u_uranus_03"
+  },
+  {
+   "id": "cs_u_uranus_04",
+   "text": "Uranus is an ice giant",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranus · cs_u_uranus_04"
+  },
+  {
+   "id": "cs_u_uranium_01",
+   "text": "Uranium has the chemical symbol U",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_01"
+  },
+  {
+   "id": "cs_u_uranium_03",
+   "text": "Uranium is used as fuel in nuclear reactors",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_03"
+  },
+  {
+   "id": "cs_u_ultraviolet_02",
+   "text": "Ultraviolet radiation can cause sunburn",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_02"
+  },
+  {
+   "id": "cs_u_umbra_01",
+   "text": "The umbra is the darkest part of a shadow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbra · cs_u_umbra_01"
+  },
+  {
+   "id": "cs_u_ulna_01",
+   "text": "The ulna is a bone in the forearm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ulna · cs_u_ulna_01"
+  },
+  {
+   "id": "cs_u_uterus_01",
+   "text": "The uterus is an organ of the female reproductive system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uterus · cs_u_uterus_01"
+  },
+  {
+   "id": "cs_u_urea_01",
+   "text": "Urea is excreted in urine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urea · cs_u_urea_01"
+  },
+  {
+   "id": "cs_u_unicellular_organism_01",
+   "text": "A unicellular organism consists of a single cell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Unicellular organism · cs_u_unicellular_organism_01"
+  },
+  {
+   "id": "cs_u_urchin_01",
+   "text": "Sea urchins are spiny echinoderms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_01"
+  },
+  {
+   "id": "cs_u_ungulate_01",
+   "text": "Ungulates are hoofed mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_01"
+  },
+  {
+   "id": "cs_u_ungulate_02",
+   "text": "Horses and deer are ungulates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_02"
+  },
+  {
+   "id": "cs_u_upland_sandpiper_01",
+   "text": "The upland sandpiper is a shorebird that lives in grasslands",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_01"
+  },
+  {
+   "id": "cs_u_understory_01",
+   "text": "The understory is the forest layer below the canopy",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Understory · cs_u_understory_01"
+  },
+  {
+   "id": "cs_u_united_nations_01",
+   "text": "The United Nations was founded in 1945",
+   "standing": "projectable",
+   "evidence": "civics · product curator · United Nations · cs_u_united_nations_01"
+  },
+  {
+   "id": "cs_u_united_nations_03",
+   "text": "The UN Security Council has five permanent members",
+   "standing": "projectable",
+   "evidence": "civics · product curator · United Nations · cs_u_united_nations_03"
+  },
+  {
+   "id": "cs_u_union_01",
+   "text": "The northern states were called the Union in the American Civil War",
+   "standing": "projectable",
+   "evidence": "history · product curator · Union · cs_u_union_01"
+  },
+  {
+   "id": "cs_u_ulysses_01",
+   "text": "Ulysses is the Latin name for Odysseus",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ulysses · cs_u_ulysses_01"
+  },
+  {
+   "id": "cs_u_ulysses_s_grant_01",
+   "text": "Ulysses S. Grant was the 18th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ulysses S. Grant · cs_u_ulysses_s_grant_01"
+  },
+  {
+   "id": "cs_u_ulysses_s_grant_02",
+   "text": "Ulysses S. Grant commanded Union armies in the Civil War",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ulysses S. Grant · cs_u_ulysses_s_grant_02"
+  },
+  {
+   "id": "cs_u_ussr_01",
+   "text": "The USSR dissolved in 1991",
+   "standing": "projectable",
+   "evidence": "history · product curator · USSR · cs_u_ussr_01"
+  },
+  {
+   "id": "cs_u_ussr_02",
+   "text": "The USSR was founded in 1922",
+   "standing": "projectable",
+   "evidence": "history · product curator · USSR · cs_u_ussr_02"
+  },
+  {
+   "id": "cs_u_unit_fraction_01",
+   "text": "A unit fraction has a numerator of 1",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_01"
+  },
+  {
+   "id": "cs_u_unit_01",
+   "text": "The meter is a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit · cs_u_unit_01"
+  },
+  {
+   "id": "cs_u_unity_01",
+   "text": "In mathematics, unity means the number one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unity · cs_u_unity_01"
+  },
+  {
+   "id": "cs_u_urdu_01",
+   "text": "Urdu is the national language of Pakistan",
+   "standing": "projectable",
+   "evidence": "language · product curator · Urdu · cs_u_urdu_01"
+  },
+  {
+   "id": "cs_u_u_01",
+   "text": "U is the 21st letter of the English alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · U · cs_u_u_01"
+  },
+  {
+   "id": "cs_u_unicycle_01",
+   "text": "A unicycle has one wheel",
+   "standing": "projectable",
+   "evidence": "general · product curator · Unicycle · cs_u_unicycle_01"
+  },
+  {
+   "id": "cs_u_umbrella_01",
+   "text": "An umbrella protects from rain or sun",
+   "standing": "projectable",
+   "evidence": "general · product curator · Umbrella · cs_u_umbrella_01"
+  },
+  {
+   "id": "cs_u_uganda_02",
+   "text": "Uganda borders Lake Victoria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_02"
+  },
+  {
+   "id": "cs_u_uruguay_02",
+   "text": "Uruguay won the first FIFA World Cup in 1930",
+   "standing": "projectable",
+   "evidence": "history · product curator · Uruguay · cs_u_uruguay_02"
+  }
+ ]
+}

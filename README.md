@@ -2,19 +2,19 @@
 
 Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-**Version 4.9.126**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). Registry 310. Publish-gate tests for this line of releases stay at zero failed. Service-worker cache `forge-mobile-v4.9.126`.
+**Version 4.9.127**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). Registry 313. Publish-gate tests for this line of releases stay at zero failed. Service-worker cache `forge-mobile-v4.9.127`.
 
 ## What this build does
 
 **Ask shell.** 4.9.126 polishes the conversation chrome: calm tabs and typography, Doc 7 status pills, empty states with one next step, invent and compose discoverability, gentler unsupported redirects, and a starter-pack onboarding one-liner. Clear starter knowledge and Import confirmed facts stay reachable.
 
-**Creative writing (4.9.120–4.9.123).** Invent and explore speak a novelty-banded idea as a hypothesis or a speculative branch. Compose turns a staged idea into a short paragraph; 4.9.123 expands that into a developed multi-sentence paragraph under the Language Core and exact Echo. Suppose runs a counterfactual simulation; parking the branch stays in dream quarantine. Creative output stays hypothesis or speculative branch. A tap may commit an idea record when drift is at or under 0.35. Creative turns never auto-write lasting memory, the world head, or confirmed knowledge.
+**Creative writing (4.9.120–4.9.123).** Invent and explore speak a novelty-banded idea as a hypothesis or a speculative branch. 4.9.121 Compose turns a staged idea into a short paragraph; 4.9.123 expands that into a developed multi-sentence paragraph under the Language Core and exact Echo. 4.9.122 Suppose runs a counterfactual simulation; parking the branch stays in dream quarantine. Creative output stays hypothesis or speculative branch. A tap may commit an idea record when drift is at or under 0.35. Creative turns never auto-write lasting memory, the world head, or confirmed knowledge.
 
 **Confirmed facts on the device (4.9.124–4.9.125).** A small product starter pack lands on first open so invent and compose have anchors. Audit provenance is `starter_pack`. Clear starter knowledge removes that pack without wiping Remember facts. Import loads a versioned confirmed pack from a file or a paste (`import_pack`). Projectable entries admit with a receipt. Contested entries stay held until a tap. A bad pack is a typed refusal. Import does not clear starter knowledge or remembered facts.
 
-**Distributed confirmed knowledge (shipping).** The product path for general knowledge everybody can use is a gated confirmed layer with provenance `confirmed_shared` — curated, verified factual packs (general knowledge filled letter by letter, starting with A), not an automatic scrapbook. Research lookups remain evidence. Invent, compose, and suppose still never auto-write that layer. The older empty shared-knowledge scrapbook switch stays off and empty; confirmed packs are not that scrapbook.
+**Distributed confirmed knowledge (4.9.127).** 4.9.127 ships the gate and hosted letter packs A–Z. **Distributed confirmed knowledge (shipping).** The product path for general knowledge everybody can use is a gated confirmed layer with provenance `confirmed_shared` — curated, verified factual packs (general knowledge filled letter by letter; A–Z hosted under `packs/confirmed_shared/` with an index the app fetches), not an automatic scrapbook. Research lookups remain evidence. Invent, compose, and suppose still never auto-write that layer. The older empty shared-knowledge scrapbook switch stays off and empty; confirmed packs are not that scrapbook.
 
-**Earlier honesty and packets.** 4.9.111–4.9.119 keep exportable turn packets, gate honesty, Doc 7 category labels, MSM custody, naming hygiene, offline receipt replay, lexicon and frames pathways, requirement packets, math honesty notes, and dream or SPC proposal-only resurrection. Cold storage is a software tier. Hardware SPC is not claimed. ChristPing is not built. χ is the correction function only. The write law stays at or under 0.35. Drift divisors already in the code are not one manuscript number, and Φ1–Φ9 is not proven cognition.
+**Earlier honesty and packets.** 4.9.111–4.9.119 (including 4.9.117 requirement packets and 4.9.118 math honesty research notes) keep exportable turn packets, gate honesty, Doc 7 category labels, MSM custody, naming hygiene, offline receipt replay, lexicon and frames pathways, requirement packets, math honesty notes, and dream or SPC proposal-only resurrection. Cold storage is a software tier. Hardware SPC is not claimed. ChristPing is not built. χ is the correction function only. The write law stays at or under 0.35. Drift divisors already in the code are not one manuscript number, and Φ1–Φ9 is not proven cognition.
 
 ## The app
 
@@ -92,7 +92,7 @@ Forge separates **evidence**, **hypothesis**, and **confirmed memory**. Presence
 |---|---|---|
 | `starter_pack` | Small on-device seed so invent and compose are not empty on first open | Product-admitted; Clear starter knowledge removes it |
 | `import_pack` | Versioned pack from a file or a paste (`FORGE-CONFIRMED-PACK/v1`) | Projectable admits with a receipt; contested waits for a tap |
-| `confirmed_shared` | Distributed curated general-knowledge packs for every install | Product curator; letter packs (A, then B, and onward) as they publish |
+| `confirmed_shared` | Distributed curated general-knowledge packs for every install | Product curator; letter packs A–Z hosted on Pages |
 | Remember | Person-authored lasting facts | Explicit “remember …” plus projectable band and Echo |
 | Research lookup | Cited evidence | Never silent promotion into confirmed memory |
 | Invent / compose / suppose | Hypothesis or speculative branch | Never auto-write confirmed memory |

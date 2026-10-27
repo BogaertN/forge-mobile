@@ -1,0 +1,396 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_p",
+ "provenance": "confirmed_shared",
+ "letter": "P",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 81,
+ "items": [
+  {
+   "id": "cs_p_paris_01",
+   "text": "The Seine flows through Paris",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Paris · cs_p_paris_01"
+  },
+  {
+   "id": "cs_p_poland_01",
+   "text": "Warsaw is the capital of Poland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Poland · cs_p_poland_01"
+  },
+  {
+   "id": "cs_p_panama_01",
+   "text": "Panama City is the capital of Panama",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Panama · cs_p_panama_01"
+  },
+  {
+   "id": "cs_p_panama_canal_01",
+   "text": "The Panama Canal connects the Atlantic and Pacific Oceans",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Panama Canal · cs_p_panama_canal_01"
+  },
+  {
+   "id": "cs_p_panama_canal_02",
+   "text": "The Panama Canal opened in 1914",
+   "standing": "projectable",
+   "evidence": "history · product curator · Panama Canal · cs_p_panama_canal_02"
+  },
+  {
+   "id": "cs_p_paraguay_01",
+   "text": "Asunción is the capital of Paraguay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Paraguay · cs_p_paraguay_01"
+  },
+  {
+   "id": "cs_p_prague_01",
+   "text": "Prague is the capital of the Czech Republic",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Prague · cs_p_prague_01"
+  },
+  {
+   "id": "cs_p_pacific_ocean_01",
+   "text": "The Pacific Ocean is the largest and deepest ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_01"
+  },
+  {
+   "id": "cs_p_pacific_ocean_02",
+   "text": "The Ring of Fire surrounds the Pacific Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_02"
+  },
+  {
+   "id": "cs_p_patagonia_01",
+   "text": "Patagonia is a region in Argentina and Chile",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Patagonia · cs_p_patagonia_01"
+  },
+  {
+   "id": "cs_p_persian_gulf_01",
+   "text": "The Persian Gulf is an extension of the Indian Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Persian Gulf · cs_p_persian_gulf_01"
+  },
+  {
+   "id": "cs_p_po_river_01",
+   "text": "The Po is the longest river in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Po River · cs_p_po_river_01"
+  },
+  {
+   "id": "cs_p_phoenix_01",
+   "text": "Phoenix is the capital of Arizona",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Phoenix · cs_p_phoenix_01"
+  },
+  {
+   "id": "cs_p_providence_01",
+   "text": "Providence is the capital of Rhode Island",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Providence · cs_p_providence_01"
+  },
+  {
+   "id": "cs_p_pierre_01",
+   "text": "Pierre is the capital of South Dakota",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pierre · cs_p_pierre_01"
+  },
+  {
+   "id": "cs_p_peninsula_01",
+   "text": "A peninsula is land surrounded by water on three sides",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Peninsula · cs_p_peninsula_01"
+  },
+  {
+   "id": "cs_p_plateau_01",
+   "text": "A plateau is a raised area of flat land",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Plateau · cs_p_plateau_01"
+  },
+  {
+   "id": "cs_p_pluto_01",
+   "text": "Pluto was discovered in 1930",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pluto · cs_p_pluto_01"
+  },
+  {
+   "id": "cs_p_pluto_02",
+   "text": "Pluto was reclassified as a dwarf planet in 2006",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pluto · cs_p_pluto_02"
+  },
+  {
+   "id": "cs_p_pluto_03",
+   "text": "Charon is the largest moon of Pluto",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pluto · cs_p_pluto_03"
+  },
+  {
+   "id": "cs_p_photosynthesis_01",
+   "text": "Photosynthesis converts light energy into chemical energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Photosynthesis · cs_p_photosynthesis_01"
+  },
+  {
+   "id": "cs_p_photosynthesis_02",
+   "text": "Photosynthesis releases oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Photosynthesis · cs_p_photosynthesis_02"
+  },
+  {
+   "id": "cs_p_proton_01",
+   "text": "A proton has a positive electric charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Proton · cs_p_proton_01"
+  },
+  {
+   "id": "cs_p_photon_01",
+   "text": "A photon is a particle of light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Photon · cs_p_photon_01"
+  },
+  {
+   "id": "cs_p_phosphorus_01",
+   "text": "Phosphorus has the chemical symbol P",
+   "standing": "projectable",
+   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_01"
+  },
+  {
+   "id": "cs_p_potassium_01",
+   "text": "Potassium has the chemical symbol K",
+   "standing": "projectable",
+   "evidence": "science · product curator · Potassium · cs_p_potassium_01"
+  },
+  {
+   "id": "cs_p_platinum_01",
+   "text": "Platinum has the chemical symbol Pt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Platinum · cs_p_platinum_01"
+  },
+  {
+   "id": "cs_p_plutonium_01",
+   "text": "Plutonium has the chemical symbol Pu",
+   "standing": "projectable",
+   "evidence": "science · product curator · Plutonium · cs_p_plutonium_01"
+  },
+  {
+   "id": "cs_p_polonium_01",
+   "text": "Polonium was discovered by Marie and Pierre Curie",
+   "standing": "projectable",
+   "evidence": "science · product curator · Polonium · cs_p_polonium_01"
+  },
+  {
+   "id": "cs_p_periodic_table_01",
+   "text": "The periodic table arranges elements by atomic number",
+   "standing": "projectable",
+   "evidence": "science · product curator · Periodic table · cs_p_periodic_table_01"
+  },
+  {
+   "id": "cs_p_ph_01",
+   "text": "The pH scale typically runs from 0 to 14",
+   "standing": "projectable",
+   "evidence": "science · product curator · pH · cs_p_ph_01"
+  },
+  {
+   "id": "cs_p_ph_02",
+   "text": "pure water has a pH of 7",
+   "standing": "projectable",
+   "evidence": "science · product curator · pH · cs_p_ph_02"
+  },
+  {
+   "id": "cs_p_pulley_01",
+   "text": "A pulley is a simple machine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pulley · cs_p_pulley_01"
+  },
+  {
+   "id": "cs_p_pressure_01",
+   "text": "Pressure is force per unit area",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pressure · cs_p_pressure_01"
+  },
+  {
+   "id": "cs_p_pangaea_01",
+   "text": "Pangaea was a supercontinent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pangaea · cs_p_pangaea_01"
+  },
+  {
+   "id": "cs_p_penguin_01",
+   "text": "Penguins are flightless birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_01"
+  },
+  {
+   "id": "cs_p_penguin_02",
+   "text": "Most penguins live in the Southern Hemisphere",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_02"
+  },
+  {
+   "id": "cs_p_polar_bear_01",
+   "text": "polar bears have black skin under their fur",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Polar bear · cs_p_polar_bear_01"
+  },
+  {
+   "id": "cs_p_panda_01",
+   "text": "The red panda is not closely related to the giant panda",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Panda · cs_p_panda_01"
+  },
+  {
+   "id": "cs_p_parrot_01",
+   "text": "Some parrots can imitate human speech",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Parrot · cs_p_parrot_01"
+  },
+  {
+   "id": "cs_p_peacock_01",
+   "text": "The male peafowl is called a peacock",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_01"
+  },
+  {
+   "id": "cs_p_pelican_01",
+   "text": "Pelicans have a throat pouch for catching fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pelican · cs_p_pelican_01"
+  },
+  {
+   "id": "cs_p_porcupine_01",
+   "text": "Porcupines have quills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_01"
+  },
+  {
+   "id": "cs_p_python_01",
+   "text": "Pythons are constricting snakes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Python · cs_p_python_01"
+  },
+  {
+   "id": "cs_p_piranha_01",
+   "text": "Piranhas are freshwater fish of South America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Piranha · cs_p_piranha_01"
+  },
+  {
+   "id": "cs_p_pine_01",
+   "text": "Pine trees bear cones",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pine · cs_p_pine_01"
+  },
+  {
+   "id": "cs_p_pollen_01",
+   "text": "Bees carry pollen between flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pollen · cs_p_pollen_01"
+  },
+  {
+   "id": "cs_p_primate_01",
+   "text": "Humans are primates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Primate · cs_p_primate_01"
+  },
+  {
+   "id": "cs_p_plato_01",
+   "text": "Plato was a student of Socrates",
+   "standing": "projectable",
+   "evidence": "history · product curator · Plato · cs_p_plato_01"
+  },
+  {
+   "id": "cs_p_pasteur_louis_01",
+   "text": "Louis Pasteur developed pasteurization",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pasteur, Louis · cs_p_pasteur_louis_01"
+  },
+  {
+   "id": "cs_p_parthenon_01",
+   "text": "The Parthenon is a temple dedicated to Athena",
+   "standing": "projectable",
+   "evidence": "history · product curator · Parthenon · cs_p_parthenon_01"
+  },
+  {
+   "id": "cs_p_pilgrims_01",
+   "text": "The Pilgrims founded Plymouth Colony in 1620",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pilgrims · cs_p_pilgrims_01"
+  },
+  {
+   "id": "cs_p_picasso_pablo_01",
+   "text": "Pablo Picasso was a Spanish artist",
+   "standing": "projectable",
+   "evidence": "history · product curator · Picasso, Pablo · cs_p_picasso_pablo_01"
+  },
+  {
+   "id": "cs_p_printing_press_01",
+   "text": "The printing press spread rapidly in Europe in the 15th century",
+   "standing": "projectable",
+   "evidence": "history · product curator · Printing press · cs_p_printing_press_01"
+  },
+  {
+   "id": "cs_p_prime_number_01",
+   "text": "A prime number has exactly two divisors",
+   "standing": "projectable",
+   "evidence": "math · product curator · Prime number · cs_p_prime_number_01"
+  },
+  {
+   "id": "cs_p_prime_number_02",
+   "text": "2 is the only even prime number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Prime number · cs_p_prime_number_02"
+  },
+  {
+   "id": "cs_p_parallelogram_01",
+   "text": "A parallelogram has two pairs of parallel sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Parallelogram · cs_p_parallelogram_01"
+  },
+  {
+   "id": "cs_p_percent_01",
+   "text": "Percent means per hundred",
+   "standing": "projectable",
+   "evidence": "math · product curator · Percent · cs_p_percent_01"
+  },
+  {
+   "id": "cs_p_pound_01",
+   "text": "One pound is about 0.454 kilograms",
+   "standing": "projectable",
+   "evidence": "math · product curator · Pound · cs_p_pound_01"
+  },
+  {
+   "id": "cs_p_parliament_01",
+   "text": "The UK Parliament meets in the Palace of Westminster",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Parliament · cs_p_parliament_01"
+  },
+  {
+   "id": "cs_p_prime_minister_01",
+   "text": "A prime minister is a head of government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Prime minister · cs_p_prime_minister_01"
+  },
+  {
+   "id": "cs_p_portuguese_01",
+   "text": "Portuguese is a Romance language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Portuguese · cs_p_portuguese_01"
+  },
+  {
+   "id": "cs_p_piano_01",
+   "text": "The piano is a keyboard instrument",
+   "standing": "projectable",
+   "evidence": "general · product curator · Piano · cs_p_piano_01"
+  },
+  {
+   "id": "cs_p_pacific_ocean_03",
+   "text": "The Pacific Ocean was named by Ferdinand Magellan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pacific Ocean · cs_p_pacific_ocean_03"
+  }
+ ]
+}

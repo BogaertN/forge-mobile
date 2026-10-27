@@ -1,3 +1,14 @@
+# Next build order — after 4.9.127
+**Date:** 2026-10-27 (America/Chicago)
+**Baseline:** 4.9.127 gated confirmed_shared + hosted letter packs A–Z (shipped from 4.9.126)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; scrapbook shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.127:** gated `confirmed_shared` store; hosted letter packs A–Z on Pages (`packs/confirmed_shared/{a…z,index}.json`); invent/compose prefer memory > confirmed_shared > import > starter; Audit provenance confirmed_shared; CREATE/COMPOSE/SIMULATE never auto-write confirmed; scrapbook stays empty. Soft budget unchanged; packs not in single-file.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; raising the 1.920 MB / 570 kB budget.
+
+**Manual:** still paused.
+
 # Next build order — after 4.9.126
 **Date:** 2026-10-27 (America/Chicago)
 **Baseline:** 4.9.126 UI shell polish (shipped from 4.9.125)

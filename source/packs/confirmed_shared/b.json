@@ -1,0 +1,366 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_b",
+ "provenance": "confirmed_shared",
+ "letter": "B",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 84,
+ "items": [
+  {
+   "id": "cs_b_brazil_01",
+   "text": "Brazil is the largest country in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Brazil · cs_b_brazil_01"
+  },
+  {
+   "id": "cs_b_brazil_02",
+   "text": "Brasília is the capital of Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Brazil · cs_b_brazil_02"
+  },
+  {
+   "id": "cs_b_brazil_03",
+   "text": "Portuguese is the official language of Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Brazil · cs_b_brazil_03"
+  },
+  {
+   "id": "cs_b_belgium_01",
+   "text": "Brussels is the capital of Belgium",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Belgium · cs_b_belgium_01"
+  },
+  {
+   "id": "cs_b_bulgaria_01",
+   "text": "Sofia is the capital of Bulgaria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bulgaria · cs_b_bulgaria_01"
+  },
+  {
+   "id": "cs_b_bangladesh_01",
+   "text": "Dhaka is the capital of Bangladesh",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bangladesh · cs_b_bangladesh_01"
+  },
+  {
+   "id": "cs_b_bhutan_01",
+   "text": "Thimphu is the capital of Bhutan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bhutan · cs_b_bhutan_01"
+  },
+  {
+   "id": "cs_b_botswana_01",
+   "text": "Gaborone is the capital of Botswana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Botswana · cs_b_botswana_01"
+  },
+  {
+   "id": "cs_b_belarus_01",
+   "text": "Minsk is the capital of Belarus",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Belarus · cs_b_belarus_01"
+  },
+  {
+   "id": "cs_b_berlin_01",
+   "text": "Berlin is the capital of Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Berlin · cs_b_berlin_01"
+  },
+  {
+   "id": "cs_b_beijing_01",
+   "text": "Beijing is the capital of China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Beijing · cs_b_beijing_01"
+  },
+  {
+   "id": "cs_b_bangkok_01",
+   "text": "Bangkok is the capital of Thailand",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bangkok · cs_b_bangkok_01"
+  },
+  {
+   "id": "cs_b_budapest_01",
+   "text": "Budapest is the capital of Hungary",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Budapest · cs_b_budapest_01"
+  },
+  {
+   "id": "cs_b_bern_01",
+   "text": "Bern is the federal city of Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bern · cs_b_bern_01"
+  },
+  {
+   "id": "cs_b_bogota_01",
+   "text": "Bogotá is the capital of Colombia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bogotá · cs_b_bogota_01"
+  },
+  {
+   "id": "cs_b_baghdad_01",
+   "text": "Baghdad is the capital of Iraq",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Baghdad · cs_b_baghdad_01"
+  },
+  {
+   "id": "cs_b_beirut_01",
+   "text": "Beirut is the capital of Lebanon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Beirut · cs_b_beirut_01"
+  },
+  {
+   "id": "cs_b_black_sea_01",
+   "text": "The Black Sea lies between Europe and Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Black Sea · cs_b_black_sea_01"
+  },
+  {
+   "id": "cs_b_bering_strait_01",
+   "text": "The Bering Strait separates Asia and North America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bering Strait · cs_b_bering_strait_01"
+  },
+  {
+   "id": "cs_b_bay_of_bengal_01",
+   "text": "The Bay of Bengal is part of the Indian Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bay of Bengal · cs_b_bay_of_bengal_01"
+  },
+  {
+   "id": "cs_b_boston_01",
+   "text": "Boston is the capital of Massachusetts",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Boston · cs_b_boston_01"
+  },
+  {
+   "id": "cs_b_baton_rouge_01",
+   "text": "Baton Rouge is the capital of Louisiana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Baton Rouge · cs_b_baton_rouge_01"
+  },
+  {
+   "id": "cs_b_boise_01",
+   "text": "Boise is the capital of Idaho",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Boise · cs_b_boise_01"
+  },
+  {
+   "id": "cs_b_bismarck_01",
+   "text": "Bismarck is the capital of North Dakota",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bismarck · cs_b_bismarck_01"
+  },
+  {
+   "id": "cs_b_big_ben_01",
+   "text": "Big Ben is the nickname of the great bell at the Palace of Westminster in London",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Big Ben · cs_b_big_ben_01"
+  },
+  {
+   "id": "cs_b_boron_01",
+   "text": "Boron has the chemical symbol B",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boron · cs_b_boron_01"
+  },
+  {
+   "id": "cs_b_bromine_01",
+   "text": "Bromine is a liquid at room temperature",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bromine · cs_b_bromine_01"
+  },
+  {
+   "id": "cs_b_bromine_02",
+   "text": "Bromine has the chemical symbol Br",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bromine · cs_b_bromine_02"
+  },
+  {
+   "id": "cs_b_barium_01",
+   "text": "Barium has the chemical symbol Ba",
+   "standing": "projectable",
+   "evidence": "science · product curator · Barium · cs_b_barium_01"
+  },
+  {
+   "id": "cs_b_bismuth_01",
+   "text": "Bismuth has the chemical symbol Bi",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bismuth · cs_b_bismuth_01"
+  },
+  {
+   "id": "cs_b_base_01",
+   "text": "A base has a pH above 7",
+   "standing": "projectable",
+   "evidence": "science · product curator · Base · cs_b_base_01"
+  },
+  {
+   "id": "cs_b_boiling_point_01",
+   "text": "pure water boils at 100 degrees Celsius at sea-level pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boiling point · cs_b_boiling_point_01"
+  },
+  {
+   "id": "cs_b_bacteria_02",
+   "text": "Bacteria do not have a cell nucleus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bacteria · cs_b_bacteria_02"
+  },
+  {
+   "id": "cs_b_brain_01",
+   "text": "The brain is part of the central nervous system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Brain · cs_b_brain_01"
+  },
+  {
+   "id": "cs_b_bone_01",
+   "text": "An adult human skeleton typically has 206 bones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bone · cs_b_bone_01"
+  },
+  {
+   "id": "cs_b_bone_02",
+   "text": "The femur is the longest bone in the human body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bone · cs_b_bone_02"
+  },
+  {
+   "id": "cs_b_blood_01",
+   "text": "Red blood cells carry oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Blood · cs_b_blood_01"
+  },
+  {
+   "id": "cs_b_bisector_01",
+   "text": "A bisector divides something into two equal parts",
+   "standing": "projectable",
+   "evidence": "math · product curator · Bisector · cs_b_bisector_01"
+  },
+  {
+   "id": "cs_b_bird_01",
+   "text": "Birds are warm-blooded vertebrates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bird · cs_b_bird_01"
+  },
+  {
+   "id": "cs_b_bird_02",
+   "text": "Birds lay eggs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bird · cs_b_bird_02"
+  },
+  {
+   "id": "cs_b_bird_03",
+   "text": "All birds have feathers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bird · cs_b_bird_03"
+  },
+  {
+   "id": "cs_b_bee_01",
+   "text": "Honeybees make honey from nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bee · cs_b_bee_01"
+  },
+  {
+   "id": "cs_b_bee_02",
+   "text": "Bees are insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bee · cs_b_bee_02"
+  },
+  {
+   "id": "cs_b_butterfly_01",
+   "text": "Butterflies develop from caterpillars",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Butterfly · cs_b_butterfly_01"
+  },
+  {
+   "id": "cs_b_blue_whale_02",
+   "text": "Blue whales are mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_02"
+  },
+  {
+   "id": "cs_b_bear_01",
+   "text": "polar bears live in the Arctic",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bear · cs_b_bear_01"
+  },
+  {
+   "id": "cs_b_beaver_01",
+   "text": "Beavers build dams",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beaver · cs_b_beaver_01"
+  },
+  {
+   "id": "cs_b_bamboo_01",
+   "text": "Bamboo is a type of grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bamboo · cs_b_bamboo_01"
+  },
+  {
+   "id": "cs_b_bald_eagle_01",
+   "text": "The bald eagle is the national bird of the United States",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bald eagle · cs_b_bald_eagle_01"
+  },
+  {
+   "id": "cs_b_bell_alexander_graham_01",
+   "text": "Alexander Graham Bell is credited with patenting the telephone in 1876",
+   "standing": "projectable",
+   "evidence": "history · product curator · Bell, Alexander Graham · cs_b_bell_alexander_graham_01"
+  },
+  {
+   "id": "cs_b_berlin_wall_01",
+   "text": "The Berlin Wall fell in 1989",
+   "standing": "projectable",
+   "evidence": "history · product curator · Berlin Wall · cs_b_berlin_wall_01"
+  },
+  {
+   "id": "cs_b_berlin_wall_02",
+   "text": "The Berlin Wall was built in 1961",
+   "standing": "projectable",
+   "evidence": "history · product curator · Berlin Wall · cs_b_berlin_wall_02"
+  },
+  {
+   "id": "cs_b_byzantine_empire_01",
+   "text": "Constantinople was the capital of the Byzantine Empire",
+   "standing": "projectable",
+   "evidence": "history · product curator · Byzantine Empire · cs_b_byzantine_empire_01"
+  },
+  {
+   "id": "cs_b_byzantine_empire_02",
+   "text": "The Byzantine Empire ended with the fall of Constantinople in 1453",
+   "standing": "projectable",
+   "evidence": "history · product curator · Byzantine Empire · cs_b_byzantine_empire_02"
+  },
+  {
+   "id": "cs_b_bronze_age_01",
+   "text": "The Bronze Age came before the Iron Age",
+   "standing": "projectable",
+   "evidence": "history · product curator · Bronze Age · cs_b_bronze_age_01"
+  },
+  {
+   "id": "cs_b_brass_01",
+   "text": "Brass is an alloy of copper and zinc",
+   "standing": "projectable",
+   "evidence": "science · product curator · Brass · cs_b_brass_01"
+  },
+  {
+   "id": "cs_b_bicycle_01",
+   "text": "A standard bicycle has two wheels",
+   "standing": "projectable",
+   "evidence": "general · product curator · Bicycle · cs_b_bicycle_01"
+  },
+  {
+   "id": "cs_b_baseball_01",
+   "text": "A baseball team fields nine players at a time",
+   "standing": "projectable",
+   "evidence": "general · product curator · Baseball · cs_b_baseball_01"
+  },
+  {
+   "id": "cs_b_basketball_01",
+   "text": "Basketball was invented by James Naismith in 1891",
+   "standing": "projectable",
+   "evidence": "history · product curator · Basketball · cs_b_basketball_01"
+  }
+ ]
+}

@@ -1,0 +1,378 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_r",
+ "provenance": "confirmed_shared",
+ "letter": "R",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_r_russia_01",
+   "text": "Russia is the largest country by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Russia · cs_r_russia_01"
+  },
+  {
+   "id": "cs_r_russia_02",
+   "text": "Russia spans eleven time zones",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Russia · cs_r_russia_02"
+  },
+  {
+   "id": "cs_r_romania_01",
+   "text": "Bucharest is the capital of Romania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Romania · cs_r_romania_01"
+  },
+  {
+   "id": "cs_r_rwanda_01",
+   "text": "Kigali is the capital of Rwanda",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rwanda · cs_r_rwanda_01"
+  },
+  {
+   "id": "cs_r_rome_01",
+   "text": "Rome is the capital of Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rome · cs_r_rome_01"
+  },
+  {
+   "id": "cs_r_riga_01",
+   "text": "Riga is the capital of Latvia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Riga · cs_r_riga_01"
+  },
+  {
+   "id": "cs_r_reykjavik_01",
+   "text": "Reykjavík is the capital of Iceland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reykjavík · cs_r_reykjavik_01"
+  },
+  {
+   "id": "cs_r_reykjavik_02",
+   "text": "Reykjavík is the northernmost capital of a sovereign state",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reykjavík · cs_r_reykjavik_02"
+  },
+  {
+   "id": "cs_r_rabat_01",
+   "text": "Rabat is the capital of Morocco",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rabat · cs_r_rabat_01"
+  },
+  {
+   "id": "cs_r_riyadh_01",
+   "text": "Riyadh is the capital of Saudi Arabia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Riyadh · cs_r_riyadh_01"
+  },
+  {
+   "id": "cs_r_rio_de_janeiro_01",
+   "text": "rio de Janeiro was the capital of Brazil until 1960",
+   "standing": "projectable",
+   "evidence": "history · product curator · Rio de Janeiro · cs_r_rio_de_janeiro_01"
+  },
+  {
+   "id": "cs_r_rhine_01",
+   "text": "The Rhine flows into the North Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rhine · cs_r_rhine_01"
+  },
+  {
+   "id": "cs_r_rhone_01",
+   "text": "The Rhône flows into the Mediterranean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rhône · cs_r_rhone_01"
+  },
+  {
+   "id": "cs_r_rio_grande_01",
+   "text": "The Rio Grande forms part of the border between the United States and Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rio Grande · cs_r_rio_grande_01"
+  },
+  {
+   "id": "cs_r_rocky_mountains_01",
+   "text": "The Rocky Mountains are in western North America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rocky Mountains · cs_r_rocky_mountains_01"
+  },
+  {
+   "id": "cs_r_red_sea_01",
+   "text": "The Red Sea lies between Africa and the Arabian Peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Red Sea · cs_r_red_sea_01"
+  },
+  {
+   "id": "cs_r_raleigh_01",
+   "text": "Raleigh is the capital of North Carolina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Raleigh · cs_r_raleigh_01"
+  },
+  {
+   "id": "cs_r_richmond_01",
+   "text": "Richmond is the capital of Virginia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Richmond · cs_r_richmond_01"
+  },
+  {
+   "id": "cs_r_ring_of_fire_01",
+   "text": "Most of the world's earthquakes occur along the Ring of Fire",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ring of Fire · cs_r_ring_of_fire_01"
+  },
+  {
+   "id": "cs_r_reef_01",
+   "text": "A reef is a ridge of rock, sand, or coral near the water's surface",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reef · cs_r_reef_01"
+  },
+  {
+   "id": "cs_r_radium_01",
+   "text": "Radium has the chemical symbol Ra",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radium · cs_r_radium_01"
+  },
+  {
+   "id": "cs_r_radium_02",
+   "text": "Radium was discovered by Marie and Pierre Curie",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radium · cs_r_radium_02"
+  },
+  {
+   "id": "cs_r_radon_01",
+   "text": "Radon is a radioactive noble gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radon · cs_r_radon_01"
+  },
+  {
+   "id": "cs_r_rubidium_01",
+   "text": "Rubidium has the chemical symbol Rb",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rubidium · cs_r_rubidium_01"
+  },
+  {
+   "id": "cs_r_rhodium_01",
+   "text": "Rhodium has the chemical symbol Rh",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rhodium · cs_r_rhodium_01"
+  },
+  {
+   "id": "cs_r_ruthenium_01",
+   "text": "Ruthenium has the chemical symbol Ru",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ruthenium · cs_r_ruthenium_01"
+  },
+  {
+   "id": "cs_r_rhenium_01",
+   "text": "Rhenium has the chemical symbol Re",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rhenium · cs_r_rhenium_01"
+  },
+  {
+   "id": "cs_r_roentgenium_01",
+   "text": "Roentgenium has the chemical symbol Rg",
+   "standing": "projectable",
+   "evidence": "science · product curator · Roentgenium · cs_r_roentgenium_01"
+  },
+  {
+   "id": "cs_r_rutherfordium_01",
+   "text": "Rutherfordium has the chemical symbol Rf",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rutherfordium · cs_r_rutherfordium_01"
+  },
+  {
+   "id": "cs_r_reflection_01",
+   "text": "The angle of incidence equals the angle of reflection",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflection · cs_r_reflection_01"
+  },
+  {
+   "id": "cs_r_radio_wave_01",
+   "text": "Radio waves have the longest wavelengths in the electromagnetic spectrum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radio wave · cs_r_radio_wave_01"
+  },
+  {
+   "id": "cs_r_rust_01",
+   "text": "Rust is iron oxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rust · cs_r_rust_01"
+  },
+  {
+   "id": "cs_r_respiration_01",
+   "text": "Cellular respiration releases energy from glucose",
+   "standing": "projectable",
+   "evidence": "science · product curator · Respiration · cs_r_respiration_01"
+  },
+  {
+   "id": "cs_r_red_blood_cell_01",
+   "text": "Red blood cells contain hemoglobin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Red blood cell · cs_r_red_blood_cell_01"
+  },
+  {
+   "id": "cs_r_raccoon_01",
+   "text": "Raccoons are native to North America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Raccoon · cs_r_raccoon_01"
+  },
+  {
+   "id": "cs_r_rattlesnake_01",
+   "text": "Rattlesnakes are venomous pit vipers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rattlesnake · cs_r_rattlesnake_01"
+  },
+  {
+   "id": "cs_r_raven_01",
+   "text": "Ravens are members of the crow family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Raven · cs_r_raven_01"
+  },
+  {
+   "id": "cs_r_reindeer_01",
+   "text": "Reindeer are called caribou in North America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reindeer · cs_r_reindeer_01"
+  },
+  {
+   "id": "cs_r_reindeer_02",
+   "text": "Both male and female reindeer grow antlers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reindeer · cs_r_reindeer_02"
+  },
+  {
+   "id": "cs_r_rhinoceros_01",
+   "text": "Rhinoceros horns are made of keratin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rhinoceros · cs_r_rhinoceros_01"
+  },
+  {
+   "id": "cs_r_robin_01",
+   "text": "The American robin is a songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Robin · cs_r_robin_01"
+  },
+  {
+   "id": "cs_r_reptile_01",
+   "text": "Reptiles have scales",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reptile · cs_r_reptile_01"
+  },
+  {
+   "id": "cs_r_rose_01",
+   "text": "Roses are flowering shrubs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rose · cs_r_rose_01"
+  },
+  {
+   "id": "cs_r_rice_01",
+   "text": "Rice is a cereal grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rice · cs_r_rice_01"
+  },
+  {
+   "id": "cs_r_roosevelt_franklin_d_01",
+   "text": "Franklin D. Roosevelt was elected president four times",
+   "standing": "projectable",
+   "evidence": "history · product curator · Roosevelt, Franklin D. · cs_r_roosevelt_franklin_d_01"
+  },
+  {
+   "id": "cs_r_roosevelt_theodore_01",
+   "text": "Theodore Roosevelt was the 26th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Roosevelt, Theodore · cs_r_roosevelt_theodore_01"
+  },
+  {
+   "id": "cs_r_renaissance_01",
+   "text": "The Renaissance began in Italy",
+   "standing": "projectable",
+   "evidence": "history · product curator · Renaissance · cs_r_renaissance_01"
+  },
+  {
+   "id": "cs_r_rosetta_stone_02",
+   "text": "The Rosetta Stone is kept in the British Museum",
+   "standing": "projectable",
+   "evidence": "history · product curator · Rosetta Stone · cs_r_rosetta_stone_02"
+  },
+  {
+   "id": "cs_r_revere_paul_01",
+   "text": "Paul Revere made a midnight ride in 1775",
+   "standing": "projectable",
+   "evidence": "history · product curator · Revere, Paul · cs_r_revere_paul_01"
+  },
+  {
+   "id": "cs_r_rembrandt_01",
+   "text": "Rembrandt was a Dutch painter",
+   "standing": "projectable",
+   "evidence": "history · product curator · Rembrandt · cs_r_rembrandt_01"
+  },
+  {
+   "id": "cs_r_russian_revolution_01",
+   "text": "The Russian Revolution took place in 1917",
+   "standing": "projectable",
+   "evidence": "history · product curator · Russian Revolution · cs_r_russian_revolution_01"
+  },
+  {
+   "id": "cs_r_rectangle_01",
+   "text": "A rectangle has four right angles",
+   "standing": "projectable",
+   "evidence": "math · product curator · Rectangle · cs_r_rectangle_01"
+  },
+  {
+   "id": "cs_r_rhombus_01",
+   "text": "A rhombus has four equal sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Rhombus · cs_r_rhombus_01"
+  },
+  {
+   "id": "cs_r_roman_numerals_01",
+   "text": "In Roman numerals, X stands for 10",
+   "standing": "projectable",
+   "evidence": "math · product curator · Roman numerals · cs_r_roman_numerals_01"
+  },
+  {
+   "id": "cs_r_ratio_01",
+   "text": "A ratio compares two quantities",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ratio · cs_r_ratio_01"
+  },
+  {
+   "id": "cs_r_republic_01",
+   "text": "In a republic, the head of state is not a hereditary monarch",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Republic · cs_r_republic_01"
+  },
+  {
+   "id": "cs_r_russian_01",
+   "text": "Russian is written in the Cyrillic alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Russian · cs_r_russian_01"
+  },
+  {
+   "id": "cs_r_rugby_01",
+   "text": "A rugby union team has 15 players on the field",
+   "standing": "projectable",
+   "evidence": "general · product curator · Rugby · cs_r_rugby_01"
+  },
+  {
+   "id": "cs_r_rome_03",
+   "text": "The Colosseum is in Rome",
+   "standing": "projectable",
+   "evidence": "history · product curator · Rome · cs_r_rome_03"
+  },
+  {
+   "id": "cs_r_rwanda_02",
+   "text": "Rwanda is a landlocked country in East Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rwanda · cs_r_rwanda_02"
+  },
+  {
+   "id": "cs_r_reykjavik_03",
+   "text": "Reykjavík is the largest city in Iceland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reykjavík · cs_r_reykjavik_03"
+  }
+ ]
+}

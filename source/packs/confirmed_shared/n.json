@@ -1,0 +1,396 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_n",
+ "provenance": "confirmed_shared",
+ "letter": "N",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_n_nepal_01",
+   "text": "Nepal is a landlocked country in South Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nepal · cs_n_nepal_01"
+  },
+  {
+   "id": "cs_n_norway_01",
+   "text": "Oslo is the capital of Norway",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Norway · cs_n_norway_01"
+  },
+  {
+   "id": "cs_n_netherlands_01",
+   "text": "The seat of government of the Netherlands is The Hague",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Netherlands · cs_n_netherlands_01"
+  },
+  {
+   "id": "cs_n_new_zealand_01",
+   "text": "Wellington is the capital of New Zealand",
+   "standing": "projectable",
+   "evidence": "geography · product curator · New Zealand · cs_n_new_zealand_01"
+  },
+  {
+   "id": "cs_n_new_zealand_02",
+   "text": "New Zealand consists mainly of the North Island and the South Island",
+   "standing": "projectable",
+   "evidence": "geography · product curator · New Zealand · cs_n_new_zealand_02"
+  },
+  {
+   "id": "cs_n_nigeria_01",
+   "text": "Abuja is the capital of Nigeria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nigeria · cs_n_nigeria_01"
+  },
+  {
+   "id": "cs_n_niger_01",
+   "text": "Niamey is the capital of Niger",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Niger · cs_n_niger_01"
+  },
+  {
+   "id": "cs_n_nicaragua_01",
+   "text": "Managua is the capital of Nicaragua",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nicaragua · cs_n_nicaragua_01"
+  },
+  {
+   "id": "cs_n_namibia_01",
+   "text": "Windhoek is the capital of Namibia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Namibia · cs_n_namibia_01"
+  },
+  {
+   "id": "cs_n_nairobi_01",
+   "text": "Nairobi is the capital of Kenya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nairobi · cs_n_nairobi_01"
+  },
+  {
+   "id": "cs_n_nile_01",
+   "text": "The Nile flows into the Mediterranean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nile · cs_n_nile_01"
+  },
+  {
+   "id": "cs_n_nile_02",
+   "text": "The Nile flows northward",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nile · cs_n_nile_02"
+  },
+  {
+   "id": "cs_n_niagara_falls_01",
+   "text": "Niagara Falls lies on the border of the United States and Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Niagara Falls · cs_n_niagara_falls_01"
+  },
+  {
+   "id": "cs_n_north_pole_01",
+   "text": "The North Pole is in the Arctic Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North Pole · cs_n_north_pole_01"
+  },
+  {
+   "id": "cs_n_north_sea_01",
+   "text": "The North Sea is part of the Atlantic Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North Sea · cs_n_north_sea_01"
+  },
+  {
+   "id": "cs_n_nebraska_01",
+   "text": "Lincoln is the capital of Nebraska",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nebraska · cs_n_nebraska_01"
+  },
+  {
+   "id": "cs_n_nevada_01",
+   "text": "Carson City is the capital of Nevada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nevada · cs_n_nevada_01"
+  },
+  {
+   "id": "cs_n_new_mexico_01",
+   "text": "Santa Fe is the capital of New Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · New Mexico · cs_n_new_mexico_01"
+  },
+  {
+   "id": "cs_n_new_jersey_01",
+   "text": "Trenton is the capital of New Jersey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · New Jersey · cs_n_new_jersey_01"
+  },
+  {
+   "id": "cs_n_nashville_01",
+   "text": "Nashville is the capital of Tennessee",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nashville · cs_n_nashville_01"
+  },
+  {
+   "id": "cs_n_neptune_01",
+   "text": "Neptune is the eighth planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neptune · cs_n_neptune_01"
+  },
+  {
+   "id": "cs_n_neptune_02",
+   "text": "Neptune is the farthest planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neptune · cs_n_neptune_02"
+  },
+  {
+   "id": "cs_n_neptune_03",
+   "text": "Triton is the largest moon of Neptune",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neptune · cs_n_neptune_03"
+  },
+  {
+   "id": "cs_n_neptune_04",
+   "text": "Neptune is an ice giant",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neptune · cs_n_neptune_04"
+  },
+  {
+   "id": "cs_n_nitrogen_01",
+   "text": "Nitrogen has the chemical symbol N",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_01"
+  },
+  {
+   "id": "cs_n_nitrogen_02",
+   "text": "Nitrogen makes up about 78 percent of Earth's atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_02"
+  },
+  {
+   "id": "cs_n_neon_01",
+   "text": "Neon has the chemical symbol Ne",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neon · cs_n_neon_01"
+  },
+  {
+   "id": "cs_n_neon_02",
+   "text": "Neon is a noble gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neon · cs_n_neon_02"
+  },
+  {
+   "id": "cs_n_nickel_01",
+   "text": "Nickel has the chemical symbol Ni",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nickel · cs_n_nickel_01"
+  },
+  {
+   "id": "cs_n_na_chemical_symbol_01",
+   "text": "Na is the chemical symbol for sodium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Na (chemical symbol) · cs_n_na_chemical_symbol_01"
+  },
+  {
+   "id": "cs_n_neodymium_01",
+   "text": "Neodymium has the chemical symbol Nd",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neodymium · cs_n_neodymium_01"
+  },
+  {
+   "id": "cs_n_niobium_01",
+   "text": "Niobium has the chemical symbol Nb",
+   "standing": "projectable",
+   "evidence": "science · product curator · Niobium · cs_n_niobium_01"
+  },
+  {
+   "id": "cs_n_nobelium_01",
+   "text": "Nobelium has the chemical symbol No",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nobelium · cs_n_nobelium_01"
+  },
+  {
+   "id": "cs_n_neutron_01",
+   "text": "A neutron has no electric charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neutron · cs_n_neutron_01"
+  },
+  {
+   "id": "cs_n_newton_unit_01",
+   "text": "The newton is the SI unit of force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Newton (unit) · cs_n_newton_unit_01"
+  },
+  {
+   "id": "cs_n_nebula_01",
+   "text": "A nebula is a cloud of gas and dust in space",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nebula · cs_n_nebula_01"
+  },
+  {
+   "id": "cs_n_neuron_01",
+   "text": "A neuron is a nerve cell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neuron · cs_n_neuron_01"
+  },
+  {
+   "id": "cs_n_nectar_01",
+   "text": "Nectar is a sugary liquid produced by flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_01"
+  },
+  {
+   "id": "cs_n_newt_01",
+   "text": "Newts are amphibians",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Newt · cs_n_newt_01"
+  },
+  {
+   "id": "cs_n_nightingale_01",
+   "text": "The nightingale is a songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_01"
+  },
+  {
+   "id": "cs_n_nocturnal_01",
+   "text": "Owls are mostly nocturnal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nocturnal · cs_n_nocturnal_01"
+  },
+  {
+   "id": "cs_n_nautilus_01",
+   "text": "The nautilus is a cephalopod with an external shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_01"
+  },
+  {
+   "id": "cs_n_nut_01",
+   "text": "An acorn is a type of nut",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nut · cs_n_nut_01"
+  },
+  {
+   "id": "cs_n_newton_isaac_01",
+   "text": "Isaac Newton wrote the Principia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Newton, Isaac · cs_n_newton_isaac_01"
+  },
+  {
+   "id": "cs_n_napoleon_bonaparte_01",
+   "text": "Napoleon Bonaparte was emperor of the French",
+   "standing": "projectable",
+   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_01"
+  },
+  {
+   "id": "cs_n_napoleon_bonaparte_02",
+   "text": "Napoleon was defeated at the Battle of Waterloo in 1815",
+   "standing": "projectable",
+   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_02"
+  },
+  {
+   "id": "cs_n_nero_01",
+   "text": "Nero was a Roman emperor",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nero · cs_n_nero_01"
+  },
+  {
+   "id": "cs_n_nobel_alfred_01",
+   "text": "Alfred Nobel invented dynamite",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nobel, Alfred · cs_n_nobel_alfred_01"
+  },
+  {
+   "id": "cs_n_nobel_prize_01",
+   "text": "The Nobel Prizes were first awarded in 1901",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nobel Prize · cs_n_nobel_prize_01"
+  },
+  {
+   "id": "cs_n_norman_conquest_01",
+   "text": "The Norman Conquest of England began in 1066",
+   "standing": "projectable",
+   "evidence": "history · product curator · Norman Conquest · cs_n_norman_conquest_01"
+  },
+  {
+   "id": "cs_n_nato_01",
+   "text": "NATO was founded in 1949",
+   "standing": "projectable",
+   "evidence": "civics · product curator · NATO · cs_n_nato_01"
+  },
+  {
+   "id": "cs_n_nasa_01",
+   "text": "NASA was established in 1958",
+   "standing": "projectable",
+   "evidence": "science · product curator · NASA · cs_n_nasa_01"
+  },
+  {
+   "id": "cs_n_numerator_01",
+   "text": "The numerator is the top number of a fraction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Numerator · cs_n_numerator_01"
+  },
+  {
+   "id": "cs_n_natural_number_01",
+   "text": "natural numbers are the counting numbers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Natural number · cs_n_natural_number_01"
+  },
+  {
+   "id": "cs_n_negative_number_01",
+   "text": "A negative number is less than zero",
+   "standing": "projectable",
+   "evidence": "math · product curator · Negative number · cs_n_negative_number_01"
+  },
+  {
+   "id": "cs_n_november_01",
+   "text": "November has 30 days",
+   "standing": "projectable",
+   "evidence": "general · product curator · November · cs_n_november_01"
+  },
+  {
+   "id": "cs_n_november_02",
+   "text": "November is the eleventh month of the year",
+   "standing": "projectable",
+   "evidence": "general · product curator · November · cs_n_november_02"
+  },
+  {
+   "id": "cs_n_netball_01",
+   "text": "Netball is played by two teams of seven players",
+   "standing": "projectable",
+   "evidence": "general · product curator · Netball · cs_n_netball_01"
+  },
+  {
+   "id": "cs_n_noun_01",
+   "text": "A noun names a person, place, thing, or idea",
+   "standing": "projectable",
+   "evidence": "language · product curator · Noun · cs_n_noun_01"
+  },
+  {
+   "id": "cs_n_neptune_05",
+   "text": "Neptune was discovered in 1846",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neptune · cs_n_neptune_05"
+  },
+  {
+   "id": "cs_n_newfoundland_01",
+   "text": "Newfoundland is an island in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Newfoundland · cs_n_newfoundland_01"
+  },
+  {
+   "id": "cs_n_nauru_01",
+   "text": "Nauru is an island country in the Pacific Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nauru · cs_n_nauru_01"
+  },
+  {
+   "id": "cs_n_north_korea_01",
+   "text": "Pyongyang is the capital of North Korea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North Korea · cs_n_north_korea_01"
+  },
+  {
+   "id": "cs_n_north_macedonia_01",
+   "text": "Skopje is the capital of North Macedonia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North Macedonia · cs_n_north_macedonia_01"
+  }
+ ]
+}

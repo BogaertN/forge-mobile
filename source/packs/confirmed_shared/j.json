@@ -1,0 +1,384 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_j",
+ "provenance": "confirmed_shared",
+ "letter": "J",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_j_japan_01",
+   "text": "Tokyo is the capital of Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Japan · cs_j_japan_01"
+  },
+  {
+   "id": "cs_j_japan_02",
+   "text": "Japan is an island country in East Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Japan · cs_j_japan_02"
+  },
+  {
+   "id": "cs_j_jamaica_01",
+   "text": "Kingston is the capital of Jamaica",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_01"
+  },
+  {
+   "id": "cs_j_jordan_01",
+   "text": "Amman is the capital of Jordan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jordan · cs_j_jordan_01"
+  },
+  {
+   "id": "cs_j_jakarta_01",
+   "text": "Jakarta is on the island of Java",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_01"
+  },
+  {
+   "id": "cs_j_java_01",
+   "text": "Java is an island of Indonesia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Java · cs_j_java_01"
+  },
+  {
+   "id": "cs_j_jerusalem_01",
+   "text": "Jerusalem is an ancient city in the Middle East",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jerusalem · cs_j_jerusalem_01"
+  },
+  {
+   "id": "cs_j_johannesburg_01",
+   "text": "Johannesburg is the largest city in South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Johannesburg · cs_j_johannesburg_01"
+  },
+  {
+   "id": "cs_j_juneau_01",
+   "text": "Juneau is the capital of Alaska",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Juneau · cs_j_juneau_01"
+  },
+  {
+   "id": "cs_j_jackson_01",
+   "text": "Jackson is the capital of Mississippi",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jackson · cs_j_jackson_01"
+  },
+  {
+   "id": "cs_j_jefferson_city_01",
+   "text": "Jefferson City is the capital of Missouri",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jefferson City · cs_j_jefferson_city_01"
+  },
+  {
+   "id": "cs_j_jungle_01",
+   "text": "A jungle is land covered with dense vegetation",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jungle · cs_j_jungle_01"
+  },
+  {
+   "id": "cs_j_jura_mountains_01",
+   "text": "The Jura Mountains lie along the border of France and Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jura Mountains · cs_j_jura_mountains_01"
+  },
+  {
+   "id": "cs_j_jupiter_01",
+   "text": "Jupiter is the largest planet in the solar system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_01"
+  },
+  {
+   "id": "cs_j_jupiter_02",
+   "text": "Jupiter is the fifth planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_02"
+  },
+  {
+   "id": "cs_j_jupiter_03",
+   "text": "Jupiter is a gas giant",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_03"
+  },
+  {
+   "id": "cs_j_jupiter_04",
+   "text": "The Great Red Spot is a giant storm on Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_04"
+  },
+  {
+   "id": "cs_j_jupiter_05",
+   "text": "Jupiter has the shortest day of any planet in the solar system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_05"
+  },
+  {
+   "id": "cs_j_jet_stream_01",
+   "text": "A jet stream is a fast-flowing band of air high in the atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_01"
+  },
+  {
+   "id": "cs_j_james_webb_space_telescope_02",
+   "text": "The James Webb Space Telescope observes mainly in infrared",
+   "standing": "projectable",
+   "evidence": "science · product curator · James Webb Space Telescope · cs_j_james_webb_space_telescope_02"
+  },
+  {
+   "id": "cs_j_jellyfish_02",
+   "text": "Jellyfish are invertebrates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_02"
+  },
+  {
+   "id": "cs_j_jaguar_02",
+   "text": "Jaguars are native to the Americas",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jaguar · cs_j_jaguar_02"
+  },
+  {
+   "id": "cs_j_jackal_01",
+   "text": "Jackals belong to the dog family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_01"
+  },
+  {
+   "id": "cs_j_jackrabbit_01",
+   "text": "Jackrabbits are hares",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_01"
+  },
+  {
+   "id": "cs_j_jasmine_01",
+   "text": "Jasmine is a fragrant flowering plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_01"
+  },
+  {
+   "id": "cs_j_juniper_01",
+   "text": "Juniper is a coniferous shrub or tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_01"
+  },
+  {
+   "id": "cs_j_jade_01",
+   "text": "Jade is an ornamental stone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jade · cs_j_jade_01"
+  },
+  {
+   "id": "cs_j_jefferson_thomas_01",
+   "text": "Thomas Jefferson was the third president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_01"
+  },
+  {
+   "id": "cs_j_jefferson_thomas_02",
+   "text": "Thomas Jefferson completed the Louisiana Purchase in 1803",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_02"
+  },
+  {
+   "id": "cs_j_joan_of_arc_01",
+   "text": "Joan of Arc was a French military leader in the Hundred Years' War",
+   "standing": "projectable",
+   "evidence": "history · product curator · Joan of Arc · cs_j_joan_of_arc_01"
+  },
+  {
+   "id": "cs_j_julius_caesar_01",
+   "text": "Julius Caesar was a Roman general and statesman",
+   "standing": "projectable",
+   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_01"
+  },
+  {
+   "id": "cs_j_julius_caesar_02",
+   "text": "The month of July is named after Julius Caesar",
+   "standing": "projectable",
+   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_02"
+  },
+  {
+   "id": "cs_j_jamestown_02",
+   "text": "Jamestown was founded in 1607",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jamestown · cs_j_jamestown_02"
+  },
+  {
+   "id": "cs_j_jenner_edward_01",
+   "text": "Edward Jenner developed the smallpox vaccine",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jenner, Edward · cs_j_jenner_edward_01"
+  },
+  {
+   "id": "cs_j_jackson_andrew_01",
+   "text": "Andrew Jackson was the seventh president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jackson, Andrew · cs_j_jackson_andrew_01"
+  },
+  {
+   "id": "cs_j_johnson_lyndon_b_01",
+   "text": "Lyndon B. Johnson was the 36th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Johnson, Lyndon B. · cs_j_johnson_lyndon_b_01"
+  },
+  {
+   "id": "cs_j_jazz_01",
+   "text": "Jazz originated in New Orleans",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jazz · cs_j_jazz_01"
+  },
+  {
+   "id": "cs_j_january_01",
+   "text": "January is the first month of the Gregorian calendar",
+   "standing": "projectable",
+   "evidence": "general · product curator · January · cs_j_january_01"
+  },
+  {
+   "id": "cs_j_january_02",
+   "text": "January has 31 days",
+   "standing": "projectable",
+   "evidence": "general · product curator · January · cs_j_january_02"
+  },
+  {
+   "id": "cs_j_june_01",
+   "text": "June has 30 days",
+   "standing": "projectable",
+   "evidence": "general · product curator · June · cs_j_june_01"
+  },
+  {
+   "id": "cs_j_july_01",
+   "text": "July has 31 days",
+   "standing": "projectable",
+   "evidence": "general · product curator · July · cs_j_july_01"
+  },
+  {
+   "id": "cs_j_jury_01",
+   "text": "A jury decides questions of fact in a trial",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Jury · cs_j_jury_01"
+  },
+  {
+   "id": "cs_j_judo_01",
+   "text": "Judo originated in Japan",
+   "standing": "projectable",
+   "evidence": "general · product curator · Judo · cs_j_judo_01"
+  },
+  {
+   "id": "cs_j_jet_engine_01",
+   "text": "A jet engine produces thrust by expelling gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet engine · cs_j_jet_engine_01"
+  },
+  {
+   "id": "cs_j_jet_lag_01",
+   "text": "Jet lag can occur after flying across several time zones",
+   "standing": "projectable",
+   "evidence": "general · product curator · Jet lag · cs_j_jet_lag_01"
+  },
+  {
+   "id": "cs_j_jurassic_01",
+   "text": "The Jurassic period was part of the Mesozoic Era",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jurassic · cs_j_jurassic_01"
+  },
+  {
+   "id": "cs_j_jurassic_02",
+   "text": "The Jurassic period came after the Triassic period",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jurassic · cs_j_jurassic_02"
+  },
+  {
+   "id": "cs_j_jaw_01",
+   "text": "The mandible is the lower jaw bone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jaw · cs_j_jaw_01"
+  },
+  {
+   "id": "cs_j_joint_01",
+   "text": "The knee is the largest joint in the human body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joint · cs_j_joint_01"
+  },
+  {
+   "id": "cs_j_jakarta_02",
+   "text": "Jakarta is the largest city in Indonesia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_02"
+  },
+  {
+   "id": "cs_j_jamaica_02",
+   "text": "Jamaica is in the Caribbean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_02"
+  },
+  {
+   "id": "cs_j_japan_03",
+   "text": "Mount Fuji is in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Japan · cs_j_japan_03"
+  },
+  {
+   "id": "cs_j_jersey_01",
+   "text": "Jersey is one of the Channel Islands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jersey · cs_j_jersey_01"
+  },
+  {
+   "id": "cs_j_juba_01",
+   "text": "Juba is the capital of South Sudan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Juba · cs_j_juba_01"
+  },
+  {
+   "id": "cs_j_jordan_02",
+   "text": "Jordan borders the Dead Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jordan · cs_j_jordan_02"
+  },
+  {
+   "id": "cs_j_joshua_tree_01",
+   "text": "The Joshua tree grows in the Mojave Desert",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Joshua tree · cs_j_joshua_tree_01"
+  },
+  {
+   "id": "cs_j_jumping_spider_01",
+   "text": "Jumping spiders are arachnids",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_01"
+  },
+  {
+   "id": "cs_j_jerboa_01",
+   "text": "Jerboas are desert rodents that hop",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_01"
+  },
+  {
+   "id": "cs_j_jet_01",
+   "text": "Jet is a black gemstone formed from wood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet · cs_j_jet_01"
+  },
+  {
+   "id": "cs_j_jupiter_06",
+   "text": "Jupiter has faint rings",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_06"
+  },
+  {
+   "id": "cs_j_jefferson_thomas_03",
+   "text": "Thomas Jefferson founded the University of Virginia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_03"
+  },
+  {
+   "id": "cs_j_juno_01",
+   "text": "Juno is a NASA spacecraft that orbits Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Juno · cs_j_juno_01"
+  }
+ ]
+}

@@ -105,6 +105,15 @@
     budget: 'the single-file budget stays within 1.920 MB raw and 570 kB gzip',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA rewrite and a shared write unstarted'
   };
+  const M = {
+    pack: 'hosted letter-A pack is FORGE-CONFIRMED-PACK/v1 with provenance confirmed_shared and LC-admissible items',
+    gate: 'product curator admit loads confirmed_shared without a user tap and leaves scrapbook empty',
+    invent: 'invent and compose prefer confirmed_shared over starter and name confirmed pack, never shared KB',
+    memory: 'user memory still wins over confirmed_shared; import stays available; scrapbook stays empty',
+    quiet: 'CREATE COMPOSE SIMULATE never auto-write confirmed_shared and Clear confirmed shared works',
+    audit: 'Audit census names confirmed_shared; Memory card never says shared KB; packs stay out of single-file budget',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.127 and leave scrapbook shared write as next'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -144,6 +153,11 @@
       { id: 'R4126-SHELL', statement: 'Calm chrome, Doc 7 status pills, and empty states with one next step. Power surfaces stay reachable. Soft budget unchanged.', falsify: 'A power surface is removed, Doc 7 pills are absent, empty states hide the next step, or the soft budget rises.', tests: [L('R4126.chrome', 'r4126_suite.js', 'R4126', K.chrome, 'POSITIVE'), L('R4126.pills', 'r4126_suite.js', 'R4126', K.pills, 'POSITIVE'), L('R4126.budget', 'r4126_suite.js', 'R4126', K.budget, 'REGRESSION')] },
       { id: 'R4126-COPY', statement: 'Invent and compose discoverability one-liners stay visible. UNSUPPORTED turns show a gentle next-step redirect.', falsify: 'Invent is Advanced-only, compose is unnamed, or an unsupported turn has no next step.', tests: [L('R4126.discover', 'r4126_suite.js', 'R4126', K.discover, 'POSITIVE'), L('R4126.next', 'r4126_suite.js', 'R4126', K.next, 'ADVERSARIAL')] },
       { id: 'R4126-REACH', statement: 'Starter onboarding names starter_pack. Clear starter knowledge and Import confirmed facts stay reachable. Shared KB stays empty. A deep IA rewrite is not started.', falsify: 'Clear starter is removed, Import is removed, shared knowledge is written, or a deep IA rewrite ships.', tests: [L('R4126.onboard', 'r4126_suite.js', 'R4126', K.onboard, 'POSITIVE'), L('R4126.reach', 'r4126_suite.js', 'R4126', K.reach, 'ADVERSARIAL'), L('R4126.ver', 'r4126_suite.js', 'R4126', K.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.127', requirements: [
+      { id: 'R4127-GATE', statement: 'Product-curator packs admit into confirmed_shared. Contested stay held until a tap. CREATE/COMPOSE/SIMULATE never auto-write. Scrapbook shared_knowledge stays empty.', falsify: 'A product pack needs a user tap for projectable items, contested items project before Admit, a creative path writes confirmed_shared, or scrapbook shared_knowledge gains a row.', tests: [L('R4127.gate', 'r4127_suite.js', 'R4127', M.gate, 'POSITIVE'), L('R4127.quiet', 'r4127_suite.js', 'R4127', M.quiet, 'NEGATIVE'), L('R4127.memory', 'r4127_suite.js', 'R4127', M.memory, 'ADVERSARIAL')] },
+      { id: 'R4127-LETTER-A', statement: 'Hosted packs/confirmed_shared/a.json ships FORGE-CONFIRMED-PACK/v1 letter A. Invent and compose prefer memory > confirmed_shared > import > starter and name the confirmed pack.', falsify: 'Letter A is missing, invent ignores confirmed_shared, speech says shared KB, or packs are baked into single-file as the main brain.', tests: [L('R4127.pack', 'r4127_suite.js', 'R4127', M.pack, 'POSITIVE'), L('R4127.invent', 'r4127_suite.js', 'R4127', M.invent, 'POSITIVE')] },
+      { id: 'R4127-PROV', statement: 'Audit names confirmed_shared. Memory never says shared KB. Soft budget unchanged. Letter B+ is next.', falsify: 'Audit omits confirmed_shared, UI says shared KB, the soft budget rises, or scrapbook shared_knowledge is written.', tests: [L('R4127.audit', 'r4127_suite.js', 'R4127', M.audit, 'ADVERSARIAL'), L('R4127.ver', 'r4127_suite.js', 'R4127', M.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };

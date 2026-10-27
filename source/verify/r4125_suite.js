@@ -188,7 +188,14 @@ T('create compose and simulate do not store confirmed facts and Clear starter st
   kept.clearStarterKnowledge();
   expect(kept.starterView().status === 'cleared' && admittedIds(kept) === imported && kept.memory().length === 1, 'Clear starter touched the import or Remember');
   expect(sameHead(kept, h) && sharedN(kept) === 0, 'Clear starter moved the world or shared knowledge');
-  const still = kept.process('invent a hypothesis');
+  /* 4.9.127: memory > confirmed_shared > import > starter. Remembered bike wins speech over the import; prove import still anchors on a clean kernel. */
+  const fromMem = kept.process('invent a hypothesis');
+  expect(fromMem.trace.echo.pass && /your facts|confirmed pack|imported pack|starter pack|hypothesis|overextended|unbound/i.test(fromMem.reply || ''), fromMem.reply);
+  expect(admittedIds(kept) === imported && kept.memory().length === 1, 'invent wrote import or Remember');
+  const clean = mk();
+  clean.clearStarterKnowledge();
+  expect(clean.importConfirmedPack(GOOD, { userTap: true }).ok, 'clean import');
+  const still = clean.process('invent a hypothesis');
   expect(still.trace.echo.pass && !cr(still).failure && /imported pack/.test(still.reply || ''), still.reply);
   const cleared = kept.clearImportPack();
   expect(!(cleared.admitted || []).length && !(cleared.held || []).length && kept.starterView().status === 'cleared', JSON.stringify(cleared));
@@ -218,7 +225,7 @@ T('Audit shows the import receipt and the Memory screen has Import next to start
   expect(/id="importPack"/.test(mem) && /id="importPaste"/.test(mem) && /id="importFile"/.test(mem) && /type="file"/.test(mem), mem.slice(0, 500));
   expect(/Held for tap/.test(mem) && /data-import-admit/.test(mem) && /id="clearImport"/.test(mem) && /Clear import/.test(mem), 'import controls');
   expect(/data-import-pack/.test(mem) && /data-starter-pack/.test(mem) && /id="clearStarter"/.test(mem) && /Clear starter knowledge/.test(mem), 'starter stays beside import');
-  expect(/starterCard\(\) \+ importCard\(\)/.test(app), 'import card is not next to starter');
+  expect(/starterCard\(\) \+ (?:confirmedSharedCard\(\) \+ )?importCard\(\)/.test(app), 'import card is not next to starter');
   expect(!/shared KB/i.test(mem), mem.slice(0, 400));
 });
 

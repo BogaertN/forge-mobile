@@ -1,0 +1,390 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_l",
+ "provenance": "confirmed_shared",
+ "letter": "L",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_l_london_01",
+   "text": "London is the capital of the United Kingdom",
+   "standing": "projectable",
+   "evidence": "geography · product curator · London · cs_l_london_01"
+  },
+  {
+   "id": "cs_l_london_02",
+   "text": "The River Thames flows through London",
+   "standing": "projectable",
+   "evidence": "geography · product curator · London · cs_l_london_02"
+  },
+  {
+   "id": "cs_l_lisbon_01",
+   "text": "Lisbon is the capital of Portugal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lisbon · cs_l_lisbon_01"
+  },
+  {
+   "id": "cs_l_lima_01",
+   "text": "Lima is the capital of Peru",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lima · cs_l_lima_01"
+  },
+  {
+   "id": "cs_l_la_paz_01",
+   "text": "La Paz is the seat of government of Bolivia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · La Paz · cs_l_la_paz_01"
+  },
+  {
+   "id": "cs_l_luxembourg_01",
+   "text": "Luxembourg City is the capital of Luxembourg",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Luxembourg · cs_l_luxembourg_01"
+  },
+  {
+   "id": "cs_l_latvia_01",
+   "text": "Riga is the capital of Latvia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Latvia · cs_l_latvia_01"
+  },
+  {
+   "id": "cs_l_lithuania_01",
+   "text": "Vilnius is the capital of Lithuania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lithuania · cs_l_lithuania_01"
+  },
+  {
+   "id": "cs_l_laos_01",
+   "text": "Vientiane is the capital of Laos",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Laos · cs_l_laos_01"
+  },
+  {
+   "id": "cs_l_lebanon_01",
+   "text": "Beirut is the capital of Lebanon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lebanon · cs_l_lebanon_01"
+  },
+  {
+   "id": "cs_l_liberia_01",
+   "text": "Monrovia is the capital of Liberia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Liberia · cs_l_liberia_01"
+  },
+  {
+   "id": "cs_l_libya_01",
+   "text": "Tripoli is the capital of Libya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Libya · cs_l_libya_01"
+  },
+  {
+   "id": "cs_l_lesotho_01",
+   "text": "Lesotho is entirely surrounded by South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lesotho · cs_l_lesotho_01"
+  },
+  {
+   "id": "cs_l_liechtenstein_01",
+   "text": "Vaduz is the capital of Liechtenstein",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Liechtenstein · cs_l_liechtenstein_01"
+  },
+  {
+   "id": "cs_l_ljubljana_01",
+   "text": "Ljubljana is the capital of Slovenia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ljubljana · cs_l_ljubljana_01"
+  },
+  {
+   "id": "cs_l_luanda_01",
+   "text": "Luanda is the capital of Angola",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Luanda · cs_l_luanda_01"
+  },
+  {
+   "id": "cs_l_lusaka_01",
+   "text": "Lusaka is the capital of Zambia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lusaka · cs_l_lusaka_01"
+  },
+  {
+   "id": "cs_l_lake_baikal_01",
+   "text": "Lake Baikal is the deepest lake in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_01"
+  },
+  {
+   "id": "cs_l_lake_victoria_01",
+   "text": "Lake Victoria is the largest lake in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake Victoria · cs_l_lake_victoria_01"
+  },
+  {
+   "id": "cs_l_lake_titicaca_01",
+   "text": "Lake Titicaca lies on the border of Peru and Bolivia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake Titicaca · cs_l_lake_titicaca_01"
+  },
+  {
+   "id": "cs_l_los_angeles_01",
+   "text": "Los Angeles is in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Los Angeles · cs_l_los_angeles_01"
+  },
+  {
+   "id": "cs_l_louisiana_01",
+   "text": "Baton Rouge is the capital of Louisiana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Louisiana · cs_l_louisiana_01"
+  },
+  {
+   "id": "cs_l_lincoln_01",
+   "text": "Lincoln is the capital of Nebraska",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lincoln · cs_l_lincoln_01"
+  },
+  {
+   "id": "cs_l_lansing_01",
+   "text": "Lansing is the capital of Michigan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lansing · cs_l_lansing_01"
+  },
+  {
+   "id": "cs_l_little_rock_01",
+   "text": "Little Rock is the capital of Arkansas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Little Rock · cs_l_little_rock_01"
+  },
+  {
+   "id": "cs_l_latitude_01",
+   "text": "Latitude measures distance north or south of the equator",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Latitude · cs_l_latitude_01"
+  },
+  {
+   "id": "cs_l_longitude_01",
+   "text": "Longitude measures distance east or west of the prime meridian",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Longitude · cs_l_longitude_01"
+  },
+  {
+   "id": "cs_l_lagoon_01",
+   "text": "A lagoon is a shallow body of water separated from the sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_01"
+  },
+  {
+   "id": "cs_l_lava_01",
+   "text": "Lava is molten rock that has reached Earth's surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lava · cs_l_lava_01"
+  },
+  {
+   "id": "cs_l_lightning_01",
+   "text": "Thunder is caused by lightning",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lightning · cs_l_lightning_01"
+  },
+  {
+   "id": "cs_l_lead_01",
+   "text": "Lead has the chemical symbol Pb",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lead · cs_l_lead_01"
+  },
+  {
+   "id": "cs_l_lithium_01",
+   "text": "Lithium has the chemical symbol Li",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lithium · cs_l_lithium_01"
+  },
+  {
+   "id": "cs_l_lithium_02",
+   "text": "Lithium is the lightest metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lithium · cs_l_lithium_02"
+  },
+  {
+   "id": "cs_l_lanthanum_01",
+   "text": "Lanthanum has the chemical symbol La",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lanthanum · cs_l_lanthanum_01"
+  },
+  {
+   "id": "cs_l_lutetium_01",
+   "text": "Lutetium has the chemical symbol Lu",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lutetium · cs_l_lutetium_01"
+  },
+  {
+   "id": "cs_l_lawrencium_01",
+   "text": "Lawrencium has the chemical symbol Lr",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lawrencium · cs_l_lawrencium_01"
+  },
+  {
+   "id": "cs_l_livermorium_01",
+   "text": "Livermorium has the chemical symbol Lv",
+   "standing": "projectable",
+   "evidence": "science · product curator · Livermorium · cs_l_livermorium_01"
+  },
+  {
+   "id": "cs_l_lever_01",
+   "text": "A lever is a simple machine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lever · cs_l_lever_01"
+  },
+  {
+   "id": "cs_l_limestone_01",
+   "text": "Limestone is a sedimentary rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Limestone · cs_l_limestone_01"
+  },
+  {
+   "id": "cs_l_liver_01",
+   "text": "The liver is the largest internal organ in the human body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Liver · cs_l_liver_01"
+  },
+  {
+   "id": "cs_l_lung_01",
+   "text": "Humans have two lungs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lung · cs_l_lung_01"
+  },
+  {
+   "id": "cs_l_lion_02",
+   "text": "Lions are native to Africa and India",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lion · cs_l_lion_02"
+  },
+  {
+   "id": "cs_l_leopard_01",
+   "text": "Leopards are big cats",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_01"
+  },
+  {
+   "id": "cs_l_lobster_01",
+   "text": "Lobsters are crustaceans",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lobster · cs_l_lobster_01"
+  },
+  {
+   "id": "cs_l_lemur_01",
+   "text": "Lemurs are native to Madagascar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lemur · cs_l_lemur_01"
+  },
+  {
+   "id": "cs_l_ladybug_01",
+   "text": "Ladybugs are beetles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_01"
+  },
+  {
+   "id": "cs_l_lizard_01",
+   "text": "Lizards are reptiles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lizard · cs_l_lizard_01"
+  },
+  {
+   "id": "cs_l_lotus_01",
+   "text": "The lotus is an aquatic plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lotus · cs_l_lotus_01"
+  },
+  {
+   "id": "cs_l_lavender_01",
+   "text": "Lavender belongs to the mint family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lavender · cs_l_lavender_01"
+  },
+  {
+   "id": "cs_l_larva_01",
+   "text": "A larva is the juvenile stage of many insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Larva · cs_l_larva_01"
+  },
+  {
+   "id": "cs_l_leonardo_da_vinci_01",
+   "text": "leonardo da Vinci painted The Last Supper",
+   "standing": "projectable",
+   "evidence": "history · product curator · Leonardo da Vinci · cs_l_leonardo_da_vinci_01"
+  },
+  {
+   "id": "cs_l_lincoln_abraham_01",
+   "text": "Abraham Lincoln was assassinated in 1865",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lincoln, Abraham · cs_l_lincoln_abraham_01"
+  },
+  {
+   "id": "cs_l_louis_xiv_01",
+   "text": "Louis XIV of France was known as the Sun King",
+   "standing": "projectable",
+   "evidence": "history · product curator · Louis XIV · cs_l_louis_xiv_01"
+  },
+  {
+   "id": "cs_l_louisiana_purchase_01",
+   "text": "The United States bought the Louisiana territory from France in 1803",
+   "standing": "projectable",
+   "evidence": "history · product curator · Louisiana Purchase · cs_l_louisiana_purchase_01"
+  },
+  {
+   "id": "cs_l_lewis_and_clark_expedition_01",
+   "text": "The Lewis and Clark Expedition began in 1804",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lewis and Clark Expedition · cs_l_lewis_and_clark_expedition_01"
+  },
+  {
+   "id": "cs_l_luther_martin_01",
+   "text": "Martin Luther published the Ninety-five Theses in 1517",
+   "standing": "projectable",
+   "evidence": "history · product curator · Luther, Martin · cs_l_luther_martin_01"
+  },
+  {
+   "id": "cs_l_liberty_bell_01",
+   "text": "The Liberty Bell is in Philadelphia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Liberty Bell · cs_l_liberty_bell_01"
+  },
+  {
+   "id": "cs_l_lindbergh_charles_01",
+   "text": "Charles Lindbergh made the first solo nonstop transatlantic flight in 1927",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lindbergh, Charles · cs_l_lindbergh_charles_01"
+  },
+  {
+   "id": "cs_l_line_segment_01",
+   "text": "A line segment has two endpoints",
+   "standing": "projectable",
+   "evidence": "math · product curator · Line segment · cs_l_line_segment_01"
+  },
+  {
+   "id": "cs_l_leap_year_01",
+   "text": "A leap year has 366 days",
+   "standing": "projectable",
+   "evidence": "math · product curator · Leap year · cs_l_leap_year_01"
+  },
+  {
+   "id": "cs_l_legislature_01",
+   "text": "A legislature makes laws",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Legislature · cs_l_legislature_01"
+  },
+  {
+   "id": "cs_l_lighthouse_01",
+   "text": "A lighthouse guides ships with light",
+   "standing": "projectable",
+   "evidence": "general · product curator · Lighthouse · cs_l_lighthouse_01"
+  },
+  {
+   "id": "cs_l_llama_02",
+   "text": "Llamas are used as pack animals in the Andes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Llama · cs_l_llama_02"
+  }
+ ]
+}

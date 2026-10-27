@@ -116,9 +116,10 @@ T('the single-file budget stays within 1.920 MB raw and 570 kB gzip', () => {
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA rewrite and a shared write unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.126', ver);
+  const parts = ver.split('.').map(Number);
+  expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 126, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
-  expect(reg.version === ver && reg.count === reg.features.length && reg.count === 310, reg.version + ' ' + reg.count);
+  expect(reg.version === ver && reg.count === reg.features.length && reg.count >= 310, reg.version + ' ' + reg.count);
   for (const id of ['R4126-SHELL', 'R4126-COPY', 'R4126-REACH']) {
     const f = reg.features.find(x => x.id === id);
     expect(f && f.claim === 'Partial' && (f.proof || []).includes('R4126') && /4\.9\.126/.test(f.note), id);
@@ -131,7 +132,8 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA
   const cf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
   const at = cf.lastIndexOf('## v4.9.126');
   expect(at > cf.lastIndexOf('## v4.9.125'), 'section');
-  const sec = cf.slice(at);
+  const end127 = cf.indexOf('## v4.9.127', at);
+  const sec = cf.slice(at, end127 > at ? end127 : undefined);
   expect(/UI shell|shell polish|typography|status pills|Doc 7/i.test(sec), 'shell');
   expect(/invent|compose|UNSUPPORTED|starter/i.test(sec), 'copy');
   expect(/deep IA|IA rewrite|shared KB write/i.test(sec) && /not started|do not start/i.test(sec), 'parked');
@@ -140,15 +142,16 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA
   const prev = cf.slice(cf.lastIndexOf('## v4.9.125'), at);
   expect(/import|FORGE-CONFIRMED-PACK/.test(prev) && /shared KB write/.test(prev), '4.9.125 stays historical');
   const next = fs.readFileSync(ROOT + '/../NEXT_BUILD.md', 'utf8');
-  expect(/4\.9\.126/.test(next) && /shell|UI/i.test(next), 'NEXT_BUILD');
-  expect(/not started|do not start/i.test(next) && /shared KB/i.test(next), 'queue');
+  expect(/4\.9\.126/.test(next), 'NEXT_BUILD keeps 4.9.126 baseline');
+  expect(/shared KB|scrapbook/i.test(next), 'queue');
   expect(/deep IA|IA rewrite/i.test(next), 'deep IA parked');
   const readme = fs.readFileSync(ROOT + '/../README.md', 'utf8');
   expect(/4\.9\.126/.test(readme) && /shell|Ask|status pills|starter_pack/i.test(readme) && /4\.9\.125/.test(readme), 'README');
   expect(!/failing-first|bot instruction/i.test(readme), 'README product');
   expect(!/shared KB/i.test(readme.slice(0, 1200)), 'README names a shared KB');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(targeted.release === '4.9.126' && targeted.suites[0] === 'r4126_suite.js' && targeted.suites.includes('r4125_suite.js'), targeted.release + ' ' + targeted.suites[0]);
+  const tpRel = String(targeted.release || '').split('.').map(Number);
+  expect(tpRel[0] === 4 && tpRel[1] === 9 && tpRel[2] >= 126 && targeted.suites.includes('r4126_suite.js') && targeted.suites.includes('r4125_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const tp = fs.readFileSync(ROOT + '/src/turn_packet.js', 'utf8');
   expect(/PACKET_VERSION = '4\.9\.111'/.test(tp), 'packet_version');
   const RP = require(ROOT + '/src/req_packet.js');

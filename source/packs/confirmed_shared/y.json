@@ -1,0 +1,384 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_y",
+ "provenance": "confirmed_shared",
+ "letter": "Y",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 88,
+ "items": [
+  {
+   "id": "cs_y_yemen_01",
+   "text": "Sanaa is the capital of Yemen",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_01"
+  },
+  {
+   "id": "cs_y_yemen_02",
+   "text": "Yemen is on the Arabian Peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_02"
+  },
+  {
+   "id": "cs_y_yaounde_01",
+   "text": "Yaoundé is the capital of Cameroon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yaoundé · cs_y_yaounde_01"
+  },
+  {
+   "id": "cs_y_yangon_01",
+   "text": "Yangon is the largest city in Myanmar",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangon · cs_y_yangon_01"
+  },
+  {
+   "id": "cs_y_yangtze_river_01",
+   "text": "The Yangtze is the longest river in Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_01"
+  },
+  {
+   "id": "cs_y_yangtze_river_02",
+   "text": "The Yangtze flows into the East China Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_02"
+  },
+  {
+   "id": "cs_y_yellow_sea_01",
+   "text": "The Yellow Sea lies between China and the Korean Peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_01"
+  },
+  {
+   "id": "cs_y_yellowstone_national_park_02",
+   "text": "Yellowstone was established in 1872",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_02"
+  },
+  {
+   "id": "cs_y_yellowstone_national_park_03",
+   "text": "Old Faithful is in Yellowstone National Park",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_03"
+  },
+  {
+   "id": "cs_y_yosemite_national_park_01",
+   "text": "Yosemite National Park is in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yosemite National Park · cs_y_yosemite_national_park_01"
+  },
+  {
+   "id": "cs_y_yosemite_national_park_02",
+   "text": "El Capitan is a granite cliff in Yosemite",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yosemite National Park · cs_y_yosemite_national_park_02"
+  },
+  {
+   "id": "cs_y_yukon_01",
+   "text": "Whitehorse is the capital of Yukon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yukon · cs_y_yukon_01"
+  },
+  {
+   "id": "cs_y_yucatan_peninsula_01",
+   "text": "The Yucatán Peninsula separates the Gulf of Mexico from the Caribbean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_01"
+  },
+  {
+   "id": "cs_y_yokohama_01",
+   "text": "Yokohama is a port city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yokohama · cs_y_yokohama_01"
+  },
+  {
+   "id": "cs_y_yorkshire_01",
+   "text": "Yorkshire is a historic county of England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yorkshire · cs_y_yorkshire_01"
+  },
+  {
+   "id": "cs_y_year_02",
+   "text": "A common year has 365 days",
+   "standing": "projectable",
+   "evidence": "math · product curator · Year · cs_y_year_02"
+  },
+  {
+   "id": "cs_y_ytterbium_01",
+   "text": "Ytterbium has the chemical symbol Yb",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_01"
+  },
+  {
+   "id": "cs_y_yttrium_01",
+   "text": "Yttrium has the chemical symbol Y",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_01"
+  },
+  {
+   "id": "cs_y_ytterby_01",
+   "text": "Four chemical elements are named after the Swedish village of Ytterby",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ytterby · cs_y_ytterby_01"
+  },
+  {
+   "id": "cs_y_y_chromosome_01",
+   "text": "The Y chromosome is a human sex chromosome",
+   "standing": "projectable",
+   "evidence": "science · product curator · Y chromosome · cs_y_y_chromosome_01"
+  },
+  {
+   "id": "cs_y_y_chromosome_02",
+   "text": "The Y chromosome is smaller than the X chromosome",
+   "standing": "projectable",
+   "evidence": "science · product curator · Y chromosome · cs_y_y_chromosome_02"
+  },
+  {
+   "id": "cs_y_yeast_02",
+   "text": "Yeast makes bread dough rise",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_02"
+  },
+  {
+   "id": "cs_y_yeast_03",
+   "text": "Yeast ferments sugar into alcohol and carbon dioxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_03"
+  },
+  {
+   "id": "cs_y_yolk_01",
+   "text": "The yolk of an egg provides nutrients to a developing embryo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yolk · cs_y_yolk_01"
+  },
+  {
+   "id": "cs_y_yellow_dwarf_01",
+   "text": "The Sun is a yellow dwarf star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yellow dwarf · cs_y_yellow_dwarf_01"
+  },
+  {
+   "id": "cs_y_yak_01",
+   "text": "Yaks live in the Himalayas and the Tibetan Plateau",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_01"
+  },
+  {
+   "id": "cs_y_yak_02",
+   "text": "Yaks are long-haired bovines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_02"
+  },
+  {
+   "id": "cs_y_yellowjacket_01",
+   "text": "Yellowjackets are wasps",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellowjacket · cs_y_yellowjacket_01"
+  },
+  {
+   "id": "cs_y_yew_01",
+   "text": "Yew trees are conifers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yew · cs_y_yew_01"
+  },
+  {
+   "id": "cs_y_yucca_01",
+   "text": "Yucca plants grow in hot, dry regions of the Americas",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_01"
+  },
+  {
+   "id": "cs_y_yam_01",
+   "text": "Yams are edible tubers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yam · cs_y_yam_01"
+  },
+  {
+   "id": "cs_y_yellow_eyed_penguin_01",
+   "text": "The yellow-eyed penguin is native to New Zealand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellow-eyed penguin · cs_y_yellow_eyed_penguin_01"
+  },
+  {
+   "id": "cs_y_yorkshire_terrier_01",
+   "text": "The Yorkshire Terrier is a small dog breed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yorkshire Terrier · cs_y_yorkshire_terrier_01"
+  },
+  {
+   "id": "cs_y_yarrow_01",
+   "text": "Yarrow is a flowering plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_01"
+  },
+  {
+   "id": "cs_y_yorktown_siege_of_01",
+   "text": "The British surrendered at Yorktown in 1781",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yorktown, Siege of · cs_y_yorktown_siege_of_01"
+  },
+  {
+   "id": "cs_y_yuan_dynasty_01",
+   "text": "The Yuan dynasty was founded by Kublai Khan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yuan dynasty · cs_y_yuan_dynasty_01"
+  },
+  {
+   "id": "cs_y_yamato_01",
+   "text": "Yamato is an ancient name for Japan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yamato · cs_y_yamato_01"
+  },
+  {
+   "id": "cs_y_yeltsin_boris_01",
+   "text": "Boris Yeltsin was the first president of the Russian Federation",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yeltsin, Boris · cs_y_yeltsin_boris_01"
+  },
+  {
+   "id": "cs_y_yeats_w_b_01",
+   "text": "W. B. Yeats was an Irish poet",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yeats, W. B. · cs_y_yeats_w_b_01"
+  },
+  {
+   "id": "cs_y_yeats_w_b_02",
+   "text": "W. B. Yeats won the Nobel Prize in Literature in 1923",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yeats, W. B. · cs_y_yeats_w_b_02"
+  },
+  {
+   "id": "cs_y_yom_kippur_01",
+   "text": "Yom Kippur is the Day of Atonement in Judaism",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yom Kippur · cs_y_yom_kippur_01"
+  },
+  {
+   "id": "cs_y_yard_01",
+   "text": "A yard is three feet",
+   "standing": "projectable",
+   "evidence": "math · product curator · Yard · cs_y_yard_01"
+  },
+  {
+   "id": "cs_y_y_axis_01",
+   "text": "The y-axis is the vertical axis of a coordinate plane",
+   "standing": "projectable",
+   "evidence": "math · product curator · Y-axis · cs_y_y_axis_01"
+  },
+  {
+   "id": "cs_y_y_coordinate_01",
+   "text": "The y-coordinate of a point gives its vertical position",
+   "standing": "projectable",
+   "evidence": "math · product curator · Y-coordinate · cs_y_y_coordinate_01"
+  },
+  {
+   "id": "cs_y_year_03",
+   "text": "A decade contains ten years",
+   "standing": "projectable",
+   "evidence": "math · product curator · Year · cs_y_year_03"
+  },
+  {
+   "id": "cs_y_y_01",
+   "text": "Y is the 25th letter of the English alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Y · cs_y_y_01"
+  },
+  {
+   "id": "cs_y_yiddish_01",
+   "text": "Yiddish is written in the Hebrew alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_01"
+  },
+  {
+   "id": "cs_y_yiddish_02",
+   "text": "Yiddish developed among Ashkenazi Jews",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_02"
+  },
+  {
+   "id": "cs_y_yoruba_01",
+   "text": "Yoruba is a language spoken in Nigeria",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yoruba · cs_y_yoruba_01"
+  },
+  {
+   "id": "cs_y_yuan_01",
+   "text": "The yuan is the basic unit of China's currency",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Yuan · cs_y_yuan_01"
+  },
+  {
+   "id": "cs_y_yacht_01",
+   "text": "A yacht is a recreational boat",
+   "standing": "projectable",
+   "evidence": "general · product curator · Yacht · cs_y_yacht_01"
+  },
+  {
+   "id": "cs_y_yodeling_01",
+   "text": "Yodeling is associated with the Alps",
+   "standing": "projectable",
+   "evidence": "general · product curator · Yodeling · cs_y_yodeling_01"
+  },
+  {
+   "id": "cs_y_yellow_card_01",
+   "text": "In soccer, a yellow card is a caution",
+   "standing": "projectable",
+   "evidence": "general · product curator · Yellow card · cs_y_yellow_card_01"
+  },
+  {
+   "id": "cs_y_yemen_03",
+   "text": "Yemen borders Saudi Arabia and Oman",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_03"
+  },
+  {
+   "id": "cs_y_yokohama_02",
+   "text": "Yokohama is the second-most populous city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yokohama · cs_y_yokohama_02"
+  },
+  {
+   "id": "cs_y_yucatan_peninsula_02",
+   "text": "The Chicxulub crater lies beneath the Yucatán Peninsula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_02"
+  },
+  {
+   "id": "cs_y_yangtze_river_04",
+   "text": "The Yangtze flows through Shanghai",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_04"
+  },
+  {
+   "id": "cs_y_yosemite_national_park_03",
+   "text": "Yosemite became a national park in 1890",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yosemite National Park · cs_y_yosemite_national_park_03"
+  },
+  {
+   "id": "cs_y_yukon_02",
+   "text": "Yukon is a territory of Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yukon · cs_y_yukon_02"
+  },
+  {
+   "id": "cs_y_yukon_03",
+   "text": "The Klondike Gold Rush took place in Yukon",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yukon · cs_y_yukon_03"
+  },
+  {
+   "id": "cs_y_yerevan_01",
+   "text": "Mount Ararat is visible from Yerevan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yerevan · cs_y_yerevan_01"
+  },
+  {
+   "id": "cs_y_yak_03",
+   "text": "Yak milk is used to make butter",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_03"
+  }
+ ]
+}

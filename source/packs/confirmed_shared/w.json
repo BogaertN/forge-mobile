@@ -1,0 +1,366 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_w",
+ "provenance": "confirmed_shared",
+ "letter": "W",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_w_wellington_01",
+   "text": "Wellington is the capital of New Zealand",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wellington · cs_w_wellington_01"
+  },
+  {
+   "id": "cs_w_wellington_02",
+   "text": "Wellington is the southernmost capital of a sovereign state",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wellington · cs_w_wellington_02"
+  },
+  {
+   "id": "cs_w_windhoek_01",
+   "text": "Windhoek is the capital of Namibia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Windhoek · cs_w_windhoek_01"
+  },
+  {
+   "id": "cs_w_wales_01",
+   "text": "Cardiff is the capital of Wales",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wales · cs_w_wales_01"
+  },
+  {
+   "id": "cs_w_western_sahara_01",
+   "text": "Western Sahara is a territory in northwest Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Western Sahara · cs_w_western_sahara_01"
+  },
+  {
+   "id": "cs_w_washington_state_01",
+   "text": "Olympia is the capital of Washington State",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Washington (state) · cs_w_washington_state_01"
+  },
+  {
+   "id": "cs_w_west_virginia_01",
+   "text": "Charleston is the capital of West Virginia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · West Virginia · cs_w_west_virginia_01"
+  },
+  {
+   "id": "cs_w_wisconsin_01",
+   "text": "Madison is the capital of Wisconsin",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wisconsin · cs_w_wisconsin_01"
+  },
+  {
+   "id": "cs_w_wyoming_01",
+   "text": "Cheyenne is the capital of Wyoming",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wyoming · cs_w_wyoming_01"
+  },
+  {
+   "id": "cs_w_white_nile_01",
+   "text": "The White Nile meets the Blue Nile at Khartoum",
+   "standing": "projectable",
+   "evidence": "geography · product curator · White Nile · cs_w_white_nile_01"
+  },
+  {
+   "id": "cs_w_waterfall_01",
+   "text": "Angel Falls is the tallest uninterrupted waterfall in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Waterfall · cs_w_waterfall_01"
+  },
+  {
+   "id": "cs_w_wetland_01",
+   "text": "A wetland is land saturated with water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wetland · cs_w_wetland_01"
+  },
+  {
+   "id": "cs_w_water_01",
+   "text": "Water has the chemical formula H2O",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water · cs_w_water_01"
+  },
+  {
+   "id": "cs_w_water_02",
+   "text": "Water expands when it freezes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water · cs_w_water_02"
+  },
+  {
+   "id": "cs_w_water_cycle_01",
+   "text": "The water cycle includes evaporation, condensation, and precipitation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water cycle · cs_w_water_cycle_01"
+  },
+  {
+   "id": "cs_w_watt_01",
+   "text": "The watt is the SI unit of power",
+   "standing": "projectable",
+   "evidence": "science · product curator · Watt · cs_w_watt_01"
+  },
+  {
+   "id": "cs_w_wavelength_01",
+   "text": "Wavelength is the distance between successive wave crests",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wavelength · cs_w_wavelength_01"
+  },
+  {
+   "id": "cs_w_weight_01",
+   "text": "Weight is the force of gravity on a mass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weight · cs_w_weight_01"
+  },
+  {
+   "id": "cs_w_white_dwarf_01",
+   "text": "A white dwarf is the dense remnant of a low-mass star",
+   "standing": "projectable",
+   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_01"
+  },
+  {
+   "id": "cs_w_weather_01",
+   "text": "Weather is the state of the atmosphere at a place and time",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weather · cs_w_weather_01"
+  },
+  {
+   "id": "cs_w_wind_01",
+   "text": "Wind is the movement of air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wind · cs_w_wind_01"
+  },
+  {
+   "id": "cs_w_wedge_01",
+   "text": "A wedge is a simple machine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wedge · cs_w_wedge_01"
+  },
+  {
+   "id": "cs_w_wheel_and_axle_01",
+   "text": "The wheel and axle is a simple machine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wheel and axle · cs_w_wheel_and_axle_01"
+  },
+  {
+   "id": "cs_w_whale_01",
+   "text": "Whales are mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whale · cs_w_whale_01"
+  },
+  {
+   "id": "cs_w_whale_02",
+   "text": "Whales breathe through blowholes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whale · cs_w_whale_02"
+  },
+  {
+   "id": "cs_w_wolf_01",
+   "text": "Wolves are the largest wild members of the dog family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_01"
+  },
+  {
+   "id": "cs_w_woodpecker_01",
+   "text": "Woodpeckers peck holes in trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_01"
+  },
+  {
+   "id": "cs_w_wasp_01",
+   "text": "Wasps are insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_01"
+  },
+  {
+   "id": "cs_w_warthog_01",
+   "text": "Warthogs are wild pigs of Africa",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Warthog · cs_w_warthog_01"
+  },
+  {
+   "id": "cs_w_weasel_01",
+   "text": "Weasels are small carnivorous mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_01"
+  },
+  {
+   "id": "cs_w_whale_shark_01",
+   "text": "The whale shark is the largest living fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_01"
+  },
+  {
+   "id": "cs_w_willow_01",
+   "text": "Willow trees often grow near water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Willow · cs_w_willow_01"
+  },
+  {
+   "id": "cs_w_wheat_01",
+   "text": "Wheat is a cereal grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_01"
+  },
+  {
+   "id": "cs_w_wheat_02",
+   "text": "Flour is commonly made from wheat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_02"
+  },
+  {
+   "id": "cs_w_wildflower_01",
+   "text": "A wildflower grows without cultivation",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wildflower · cs_w_wildflower_01"
+  },
+  {
+   "id": "cs_w_washington_george_01",
+   "text": "George Washington was the first president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_01"
+  },
+  {
+   "id": "cs_w_washington_george_02",
+   "text": "George Washington served two terms as president",
+   "standing": "projectable",
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_02"
+  },
+  {
+   "id": "cs_w_wright_brothers_01",
+   "text": "The Wright brothers made the first powered airplane flight in 1903",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_01"
+  },
+  {
+   "id": "cs_w_world_war_ii_01",
+   "text": "World War II lasted from 1939 to 1945",
+   "standing": "projectable",
+   "evidence": "history · product curator · World War II · cs_w_world_war_ii_01"
+  },
+  {
+   "id": "cs_w_watt_james_01",
+   "text": "James Watt improved the steam engine",
+   "standing": "projectable",
+   "evidence": "history · product curator · Watt, James · cs_w_watt_james_01"
+  },
+  {
+   "id": "cs_w_wilson_woodrow_01",
+   "text": "Woodrow Wilson was the 28th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wilson, Woodrow · cs_w_wilson_woodrow_01"
+  },
+  {
+   "id": "cs_w_whole_number_01",
+   "text": "Whole numbers are the non-negative integers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Whole number · cs_w_whole_number_01"
+  },
+  {
+   "id": "cs_w_week_01",
+   "text": "A week has seven days",
+   "standing": "projectable",
+   "evidence": "math · product curator · Week · cs_w_week_01"
+  },
+  {
+   "id": "cs_w_weight_unit_01",
+   "text": "A kilogram is about 2.2 pounds",
+   "standing": "projectable",
+   "evidence": "math · product curator · Weight unit · cs_w_weight_unit_01"
+  },
+  {
+   "id": "cs_w_welsh_01",
+   "text": "Welsh is a Celtic language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Welsh · cs_w_welsh_01"
+  },
+  {
+   "id": "cs_w_wednesday_01",
+   "text": "Wednesday is named after the god Woden",
+   "standing": "projectable",
+   "evidence": "language · product curator · Wednesday · cs_w_wednesday_01"
+  },
+  {
+   "id": "cs_w_wimbledon_01",
+   "text": "Wimbledon is the oldest tennis tournament in the world",
+   "standing": "projectable",
+   "evidence": "general · product curator · Wimbledon · cs_w_wimbledon_01"
+  },
+  {
+   "id": "cs_w_wimbledon_02",
+   "text": "Wimbledon is played on grass courts",
+   "standing": "projectable",
+   "evidence": "general · product curator · Wimbledon · cs_w_wimbledon_02"
+  },
+  {
+   "id": "cs_w_water_polo_01",
+   "text": "Water polo is played in a swimming pool",
+   "standing": "projectable",
+   "evidence": "general · product curator · Water polo · cs_w_water_polo_01"
+  },
+  {
+   "id": "cs_w_winter_01",
+   "text": "Winter in the Northern Hemisphere begins around the December solstice",
+   "standing": "projectable",
+   "evidence": "science · product curator · Winter · cs_w_winter_01"
+  },
+  {
+   "id": "cs_w_winter_solstice_01",
+   "text": "The winter solstice has the least daylight of the year in its hemisphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Winter solstice · cs_w_winter_solstice_01"
+  },
+  {
+   "id": "cs_w_wales_02",
+   "text": "Wales is part of the United Kingdom",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wales · cs_w_wales_02"
+  },
+  {
+   "id": "cs_w_warsaw_02",
+   "text": "Warsaw is the largest city in Poland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Warsaw · cs_w_warsaw_02"
+  },
+  {
+   "id": "cs_w_woolly_mammoth_01",
+   "text": "Woolly mammoths are extinct relatives of elephants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Woolly mammoth · cs_w_woolly_mammoth_01"
+  },
+  {
+   "id": "cs_w_wren_01",
+   "text": "Wrens are small songbirds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wren · cs_w_wren_01"
+  },
+  {
+   "id": "cs_w_wisteria_01",
+   "text": "Wisteria is a climbing plant with hanging flower clusters",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_01"
+  },
+  {
+   "id": "cs_w_wool_01",
+   "text": "Wool comes mostly from sheep",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wool · cs_w_wool_01"
+  },
+  {
+   "id": "cs_w_wing_01",
+   "text": "bats' wings are made of skin stretched between long fingers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wing · cs_w_wing_01"
+  },
+  {
+   "id": "cs_w_wellington_boot_01",
+   "text": "Wellington boots are waterproof boots",
+   "standing": "projectable",
+   "evidence": "general · product curator · Wellington boot · cs_w_wellington_boot_01"
+  }
+ ]
+}

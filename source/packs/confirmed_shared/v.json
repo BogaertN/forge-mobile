@@ -1,0 +1,324 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_v",
+ "provenance": "confirmed_shared",
+ "letter": "V",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_v_venezuela_01",
+   "text": "Angel Falls in Venezuela is the world's tallest uninterrupted waterfall",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Venezuela · cs_v_venezuela_01"
+  },
+  {
+   "id": "cs_v_vatican_city_01",
+   "text": "Vatican City is the smallest country in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_01"
+  },
+  {
+   "id": "cs_v_vienna_01",
+   "text": "The Danube flows through Vienna",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vienna · cs_v_vienna_01"
+  },
+  {
+   "id": "cs_v_valletta_01",
+   "text": "Valletta is the capital of Malta",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valletta · cs_v_valletta_01"
+  },
+  {
+   "id": "cs_v_vientiane_01",
+   "text": "Vientiane is the capital of Laos",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vientiane · cs_v_vientiane_01"
+  },
+  {
+   "id": "cs_v_vaduz_01",
+   "text": "Vaduz is the capital of Liechtenstein",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vaduz · cs_v_vaduz_01"
+  },
+  {
+   "id": "cs_v_victoria_lake_01",
+   "text": "Lake Victoria is a source of the White Nile",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Victoria, Lake · cs_v_victoria_lake_01"
+  },
+  {
+   "id": "cs_v_victoria_falls_02",
+   "text": "Victoria Falls is on the border of Zambia and Zimbabwe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Victoria Falls · cs_v_victoria_falls_02"
+  },
+  {
+   "id": "cs_v_volga_01",
+   "text": "The Volga is the longest river in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Volga · cs_v_volga_01"
+  },
+  {
+   "id": "cs_v_volga_02",
+   "text": "The Volga flows into the Caspian Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Volga · cs_v_volga_02"
+  },
+  {
+   "id": "cs_v_venice_01",
+   "text": "Venice is built on islands in a lagoon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Venice · cs_v_venice_01"
+  },
+  {
+   "id": "cs_v_vancouver_01",
+   "text": "Vancouver is a city in British Columbia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vancouver · cs_v_vancouver_01"
+  },
+  {
+   "id": "cs_v_vermont_01",
+   "text": "Montpelier is the capital of Vermont",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vermont · cs_v_vermont_01"
+  },
+  {
+   "id": "cs_v_virginia_01",
+   "text": "Richmond is the capital of Virginia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Virginia · cs_v_virginia_01"
+  },
+  {
+   "id": "cs_v_valley_01",
+   "text": "A valley is low land between hills or mountains",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valley · cs_v_valley_01"
+  },
+  {
+   "id": "cs_v_venus_01",
+   "text": "Venus is the second planet from the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Venus · cs_v_venus_01"
+  },
+  {
+   "id": "cs_v_venus_02",
+   "text": "Venus is the hottest planet in the solar system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Venus · cs_v_venus_02"
+  },
+  {
+   "id": "cs_v_venus_03",
+   "text": "Venus rotates in the opposite direction to most planets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Venus · cs_v_venus_03"
+  },
+  {
+   "id": "cs_v_venus_04",
+   "text": "Venus has no moons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Venus · cs_v_venus_04"
+  },
+  {
+   "id": "cs_v_vanadium_01",
+   "text": "Vanadium has the chemical symbol V",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_01"
+  },
+  {
+   "id": "cs_v_vacuum_01",
+   "text": "A vacuum is space with no matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vacuum · cs_v_vacuum_01"
+  },
+  {
+   "id": "cs_v_velocity_01",
+   "text": "Velocity is speed in a given direction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Velocity · cs_v_velocity_01"
+  },
+  {
+   "id": "cs_v_volt_01",
+   "text": "The volt is the SI unit of electric potential",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volt · cs_v_volt_01"
+  },
+  {
+   "id": "cs_v_vapor_01",
+   "text": "Water vapor is water in its gaseous state",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vapor · cs_v_vapor_01"
+  },
+  {
+   "id": "cs_v_vertebrate_01",
+   "text": "Vertebrates have a backbone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vertebrate · cs_v_vertebrate_01"
+  },
+  {
+   "id": "cs_v_vein_01",
+   "text": "Veins carry blood toward the heart",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vein · cs_v_vein_01"
+  },
+  {
+   "id": "cs_v_virus_01",
+   "text": "A virus can replicate only inside living cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Virus · cs_v_virus_01"
+  },
+  {
+   "id": "cs_v_visible_light_01",
+   "text": "visible light ranges from violet to red",
+   "standing": "projectable",
+   "evidence": "science · product curator · Visible light · cs_v_visible_light_01"
+  },
+  {
+   "id": "cs_v_vampire_bat_01",
+   "text": "Vampire bats feed on blood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_01"
+  },
+  {
+   "id": "cs_v_vole_01",
+   "text": "Voles are small rodents",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vole · cs_v_vole_01"
+  },
+  {
+   "id": "cs_v_violet_01",
+   "text": "Violets are flowering plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Violet · cs_v_violet_01"
+  },
+  {
+   "id": "cs_v_vine_01",
+   "text": "A vine is a plant with climbing or trailing stems",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vine · cs_v_vine_01"
+  },
+  {
+   "id": "cs_v_vanilla_01",
+   "text": "Vanilla comes from the pods of an orchid",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_01"
+  },
+  {
+   "id": "cs_v_victoria_queen_01",
+   "text": "Queen Victoria was queen of the United Kingdom",
+   "standing": "projectable",
+   "evidence": "history · product curator · Victoria, Queen · cs_v_victoria_queen_01"
+  },
+  {
+   "id": "cs_v_vespucci_amerigo_01",
+   "text": "The Americas are named after Amerigo Vespucci",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vespucci, Amerigo · cs_v_vespucci_amerigo_01"
+  },
+  {
+   "id": "cs_v_versailles_palace_of_01",
+   "text": "The Palace of Versailles is near Paris",
+   "standing": "projectable",
+   "evidence": "history · product curator · Versailles, Palace of · cs_v_versailles_palace_of_01"
+  },
+  {
+   "id": "cs_v_versailles_treaty_of_01",
+   "text": "The Treaty of Versailles was signed in 1919",
+   "standing": "projectable",
+   "evidence": "history · product curator · Versailles, Treaty of · cs_v_versailles_treaty_of_01"
+  },
+  {
+   "id": "cs_v_vietnam_war_01",
+   "text": "The Vietnam War ended in 1975",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vietnam War · cs_v_vietnam_war_01"
+  },
+  {
+   "id": "cs_v_vivaldi_antonio_01",
+   "text": "Antonio Vivaldi composed The Four Seasons",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vivaldi, Antonio · cs_v_vivaldi_antonio_01"
+  },
+  {
+   "id": "cs_v_vertex_02",
+   "text": "A cube has eight vertices",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vertex · cs_v_vertex_02"
+  },
+  {
+   "id": "cs_v_variable_01",
+   "text": "A variable is a symbol that represents a number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Variable · cs_v_variable_01"
+  },
+  {
+   "id": "cs_v_vector_01",
+   "text": "A vector has both magnitude and direction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vector · cs_v_vector_01"
+  },
+  {
+   "id": "cs_v_venn_diagram_01",
+   "text": "A Venn diagram uses overlapping circles to show relationships between sets",
+   "standing": "projectable",
+   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_01"
+  },
+  {
+   "id": "cs_v_verb_01",
+   "text": "A verb expresses an action or state",
+   "standing": "projectable",
+   "evidence": "language · product curator · Verb · cs_v_verb_01"
+  },
+  {
+   "id": "cs_v_vietnamese_01",
+   "text": "Vietnamese is written in the Latin alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Vietnamese · cs_v_vietnamese_01"
+  },
+  {
+   "id": "cs_v_violin_01",
+   "text": "The violin has four strings",
+   "standing": "projectable",
+   "evidence": "general · product curator · Violin · cs_v_violin_01"
+  },
+  {
+   "id": "cs_v_volleyball_01",
+   "text": "A volleyball team has six players on the court",
+   "standing": "projectable",
+   "evidence": "general · product curator · Volleyball · cs_v_volleyball_01"
+  },
+  {
+   "id": "cs_v_vatican_city_02",
+   "text": "Vatican City is surrounded by Rome",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_02"
+  },
+  {
+   "id": "cs_v_venezuela_02",
+   "text": "Venezuela is in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Venezuela · cs_v_venezuela_02"
+  },
+  {
+   "id": "cs_v_vietnam_01",
+   "text": "Vietnam is in Southeast Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vietnam · cs_v_vietnam_01"
+  },
+  {
+   "id": "cs_v_victoria_01",
+   "text": "Victoria is the capital of British Columbia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Victoria · cs_v_victoria_01"
+  },
+  {
+   "id": "cs_v_venus_05",
+   "text": "Venus is the brightest planet in Earth's night sky",
+   "standing": "projectable",
+   "evidence": "science · product curator · Venus · cs_v_venus_05"
+  }
+ ]
+}
