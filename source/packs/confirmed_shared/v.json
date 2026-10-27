@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -171,12 +171,6 @@
    "evidence": "science · product curator · Virus · cs_v_virus_01"
   },
   {
-   "id": "cs_v_visible_light_01",
-   "text": "visible light ranges from violet to red",
-   "standing": "projectable",
-   "evidence": "science · product curator · Visible light · cs_v_visible_light_01"
-  },
-  {
    "id": "cs_v_vampire_bat_01",
    "text": "Vampire bats feed on blood",
    "standing": "projectable",
@@ -319,6 +313,96 @@
    "text": "Venus is the brightest planet in Earth's night sky",
    "standing": "projectable",
    "evidence": "science · product curator · Venus · cs_v_venus_05"
+  },
+  {
+   "id": "cs_v_volcano_02",
+   "text": "Volcanoes can erupt lava, ash, and gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volcano · cs_v_volcano_02"
+  },
+  {
+   "id": "cs_v_vulture_02",
+   "text": "Vultures feed mainly on carrion",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_02"
+  },
+  {
+   "id": "cs_v_viper_02",
+   "text": "Vipers are venomous snakes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Viper · cs_v_viper_02"
+  },
+  {
+   "id": "cs_v_vikings_03",
+   "text": "The Vikings came from Scandinavia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vikings · cs_v_vikings_03"
+  },
+  {
+   "id": "cs_v_vatican_city_03",
+   "text": "Vatican City is the smallest country by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_03"
+  },
+  {
+   "id": "cs_v_vein_02",
+   "text": "Veins carry blood back to the heart",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vein · cs_v_vein_02"
+  },
+  {
+   "id": "cs_v_vitamin_c_02",
+   "text": "Citrus fruits are a source of vitamin C",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vitamin C · cs_v_vitamin_c_02"
+  },
+  {
+   "id": "cs_v_volt_02",
+   "text": "The volt is the unit of electric potential",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volt · cs_v_volt_02"
+  },
+  {
+   "id": "cs_v_vine_02",
+   "text": "Grapes grow on vines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vine · cs_v_vine_02"
+  },
+  {
+   "id": "cs_v_vulture_03",
+   "text": "Vultures have keen eyesight",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_03"
+  },
+  {
+   "id": "cs_v_vermont_02",
+   "text": "Vermont is in New England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vermont · cs_v_vermont_02"
+  },
+  {
+   "id": "cs_v_virginia_02",
+   "text": "Virginia is one of the original thirteen states",
+   "standing": "projectable",
+   "evidence": "history · product curator · Virginia · cs_v_virginia_02"
+  },
+  {
+   "id": "cs_v_violin_02",
+   "text": "The violin is a string instrument",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Violin · cs_v_violin_02"
+  },
+  {
+   "id": "cs_v_vatican_city_04",
+   "text": "The pope lives in Vatican City",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_04"
+  },
+  {
+   "id": "cs_v_vegetable_01",
+   "text": "Carrots are root vegetables",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_01"
   }
  ]
 }

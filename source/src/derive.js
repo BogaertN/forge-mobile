@@ -323,7 +323,7 @@ const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I')
 const told = cl => cl && cl.shared ? sharedStep(cl.shared) : S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
 const starterTold = cl => S(C('state', { karta: N('pack', { det: 'the', adj: ['starter'] }), comp: { that: UC(cl) } }));
 const importTold = cl => S(C('state', { karta: N('pack', { det: 'the', adj: ['imported'] }), comp: { that: UC(cl) } }));
-const confirmedTold = cl => S(C('state', { karta: Mn('the confirmed pack'), comp: { that: UC(cl) } }));
+const confirmedTold = cl => S(C('state', { karta: Mn('the shared knowledge base'), comp: { that: UC(cl) } }));
 /* a shared (GKS) premise in a proof chain is labelled by its source and class verb: primary/reviewed "states", secondary "reports", weak "claims" (4.9.43) */
 const sharedStep = sh => S(C(sh.cls === 'secondary' ? 'report' : sh.cls === 'weak_unverified' ? 'claim' : 'state', { karta: Mn(sh.source), karma: Mn(String(sh.text).replace(/[.]$/, '')) }));
 const coldStorage = () => N('storage', { adj: ['cold'] });
@@ -548,7 +548,7 @@ function dynPlan(m) { const out = [];
 /* 4.9.120: one plan for a spoken idea and for a typed refusal. The claim texts and the status are mentions. */
 function creativePlan(m) {
   const items = m.items || [];
-  const from = m.anchor_kind === 'confirmed_shared' ? Mn('the confirmed pack') : m.anchor_kind === 'import_pack' ? N('pack', { det: 'the', adj: ['imported'] }) : m.anchor_kind === 'starter_pack' ? N('pack', { det: 'the', adj: ['starter'] }) : N('fact', { poss: 'your', pl: true });
+  const from = m.anchor_kind === 'confirmed_shared' ? Mn('the shared knowledge base') : m.anchor_kind === 'import_pack' ? N('pack', { det: 'the', adj: ['imported'] }) : m.anchor_kind === 'starter_pack' ? N('pack', { det: 'the', adj: ['starter'] }) : N('fact', { poss: 'your', pl: true });
   const head = items.length
     ? S(C('derive', { karta: I, karma: N('hypothesis', { cnt: items.length, list: { kind: 'mention', items } }), roles: { apadana: from }, tense: 'past' }))
     : S(C('derive', { karta: I, karma: N('hypothesis', { det: 'no' }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }));

@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 84,
+ "curated_facts": 104,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -195,12 +195,6 @@
    "evidence": "science · product curator · Base · cs_b_base_01"
   },
   {
-   "id": "cs_b_boiling_point_01",
-   "text": "pure water boils at 100 degrees Celsius at sea-level pressure",
-   "standing": "projectable",
-   "evidence": "science · product curator · Boiling point · cs_b_boiling_point_01"
-  },
-  {
    "id": "cs_b_bacteria_02",
    "text": "Bacteria do not have a cell nucleus",
    "standing": "projectable",
@@ -279,12 +273,6 @@
    "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_02"
   },
   {
-   "id": "cs_b_bear_01",
-   "text": "polar bears live in the Arctic",
-   "standing": "projectable",
-   "evidence": "nature · product curator · Bear · cs_b_bear_01"
-  },
-  {
    "id": "cs_b_beaver_01",
    "text": "Beavers build dams",
    "standing": "projectable",
@@ -361,6 +349,114 @@
    "text": "Basketball was invented by James Naismith in 1891",
    "standing": "projectable",
    "evidence": "history · product curator · Basketball · cs_b_basketball_01"
+  },
+  {
+   "id": "cs_b_bolivia_01",
+   "text": "Bolivia is a landlocked country in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bolivia · cs_b_bolivia_01"
+  },
+  {
+   "id": "cs_b_barometer_01",
+   "text": "A barometer measures atmospheric pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Barometer · cs_b_barometer_01"
+  },
+  {
+   "id": "cs_b_butterfly_02",
+   "text": "Butterflies develop through complete metamorphosis",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Butterfly · cs_b_butterfly_02"
+  },
+  {
+   "id": "cs_b_bison_01",
+   "text": "The American bison is the national mammal of the United States",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bison · cs_b_bison_01"
+  },
+  {
+   "id": "cs_b_buffalo_02",
+   "text": "The African buffalo lives in sub-Saharan Africa",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Buffalo · cs_b_buffalo_02"
+  },
+  {
+   "id": "cs_b_boston_tea_party_01",
+   "text": "The Boston Tea Party took place in 1773",
+   "standing": "projectable",
+   "evidence": "history · product curator · Boston Tea Party · cs_b_boston_tea_party_01"
+  },
+  {
+   "id": "cs_b_bunker_hill_battle_of_01",
+   "text": "The Battle of Bunker Hill was fought in 1775",
+   "standing": "projectable",
+   "evidence": "history · product curator · Bunker Hill, Battle of · cs_b_bunker_hill_battle_of_01"
+  },
+  {
+   "id": "cs_b_bahamas_01",
+   "text": "Nassau is the capital of the Bahamas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bahamas · cs_b_bahamas_01"
+  },
+  {
+   "id": "cs_b_barbados_01",
+   "text": "Barbados is an island in the Caribbean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Barbados · cs_b_barbados_01"
+  },
+  {
+   "id": "cs_b_baku_01",
+   "text": "Baku is the capital of Azerbaijan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Baku · cs_b_baku_01"
+  },
+  {
+   "id": "cs_b_belize_01",
+   "text": "Belize is a country in Central America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Belize · cs_b_belize_01"
+  },
+  {
+   "id": "cs_b_benin_01",
+   "text": "Benin is a country in West Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Benin · cs_b_benin_01"
+  },
+  {
+   "id": "cs_b_badger_01",
+   "text": "Badgers are burrowing mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Badger · cs_b_badger_01"
+  },
+  {
+   "id": "cs_b_barracuda_01",
+   "text": "Barracudas are predatory ocean fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Barracuda · cs_b_barracuda_01"
+  },
+  {
+   "id": "cs_b_beetle_01",
+   "text": "Beetles are the largest order of insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beetle · cs_b_beetle_01"
+  },
+  {
+   "id": "cs_b_blackbird_01",
+   "text": "The common blackbird is a species of thrush",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Blackbird · cs_b_blackbird_01"
+  },
+  {
+   "id": "cs_b_buttercup_01",
+   "text": "Buttercups usually have yellow flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Buttercup · cs_b_buttercup_01"
+  },
+  {
+   "id": "cs_b_boiling_01",
+   "text": "Boiling is the change from liquid to gas throughout a liquid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boiling · cs_b_boiling_01"
   }
  ]
 }

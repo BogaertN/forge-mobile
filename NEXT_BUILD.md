@@ -1,3 +1,14 @@
+# Next build order — after 4.9.128
+**Date:** 2026-10-27 (America/Chicago)
+**Baseline:** 4.9.128 hosted shared knowledge A–Z (read-for-all, write-key; not phone DB; shipped from 4.9.127)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; scrapbook shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.128:** hosted A–Z shared knowledge base (index 4.9.128; ≥1890 admitted / 2622 curated) as product source of truth — read/pull for everyone into session RAM; write gated by Nic’s write key (`SHARED-KB-WRITE-KEY-REQUIRED` without it); A–Z not dumped into on-phone DB; scrapbook stays empty; starter/Remember user-owned; UI/Audit name Shared knowledge base. Soft budget unchanged; packs not in single-file.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget.
+
+**Manual:** still paused.
+
 # Next build order — after 4.9.127
 **Date:** 2026-10-27 (America/Chicago)
 **Baseline:** 4.9.127 gated confirmed_shared + hosted letter packs A–Z (shipped from 4.9.126)
@@ -309,7 +320,7 @@ The audit Page “Recommended next core work” is complete for Forge Mobile. Do
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.
 - Echo = same Language Core reparse + **exact LC signature match** (predicate, args, polarity, modality, time, units, evidence status, prakāra). **Not** θ_echo similarity.
 - Drift gates for Forge Mobile (Nic ruling): ≤0.35 project/write; χ correction 0.35–0.40; quarantine 0.40–0.80; hard stop >0.80. Paper 0.4/0.8 alone does not replace the 0.35 write gate. **χ in code = correction function only** (never "Christ function").
-- Shared KB locked empty until Nic enables it. Live lookup never stored as facts.
+- Shared knowledge scrapbook stays empty; product shared knowledge is the hosted A–Z layer (4.9.128). Live lookup never stored as facts.
 - Parked until after 1.0 / core solid: Genesis Node, Harmonic Conductor Studio, tool marketplace, CT as money, Gilligan/Neo/Athena as products, Forge 2.0 rewrite.
 
 ---
@@ -318,4 +329,4 @@ The audit Page “Recommended next core work” is complete for Forge Mobile. Do
 - CONFLICTS.md section first (ruling + non-goals).
 - Bump feature_registry for that release’s ids only. The 4.9.83–4.9.96 compiler lag is registered. Do not rewrite the historical claims-object delta.
 - Live probe before publish; targeted gate OK.
-- No Drive/paper upload into the bundle; no unsolicited messages; shared KB remains locked empty.
+- No Drive/paper upload into the bundle; no unsolicited messages; scrapbook shared KB remains empty; hosted shared knowledge is read-only without Nic’s key.

@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 85,
+ "curated_facts": 102,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -181,12 +181,6 @@
    "text": "Thomas Jefferson was the principal author of the Declaration of Independence",
    "standing": "projectable",
    "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_01"
-  },
-  {
-   "id": "cs_d_da_vinci_leonardo_01",
-   "text": "leonardo da Vinci painted the Mona Lisa",
-   "standing": "projectable",
-   "evidence": "history · product curator · Da Vinci, Leonardo · cs_d_da_vinci_leonardo_01"
   },
   {
    "id": "cs_d_dickens_charles_01",
@@ -373,6 +367,66 @@
    "text": "A full rotation is 360 degrees",
    "standing": "projectable",
    "evidence": "math · product curator · Degree · cs_d_degree_01"
+  },
+  {
+   "id": "cs_d_dune_02",
+   "text": "A dune is a hill of sand formed by wind",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dune · cs_d_dune_02"
+  },
+  {
+   "id": "cs_d_dam_01",
+   "text": "A dam holds back water to form a reservoir",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dam · cs_d_dam_01"
+  },
+  {
+   "id": "cs_d_drought_01",
+   "text": "A drought is a long period with little rain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Drought · cs_d_drought_01"
+  },
+  {
+   "id": "cs_d_diamond_03",
+   "text": "Diamond is a form of carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diamond · cs_d_diamond_03"
+  },
+  {
+   "id": "cs_d_dynamite_01",
+   "text": "Dynamite was invented by Alfred Nobel",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dynamite · cs_d_dynamite_01"
+  },
+  {
+   "id": "cs_d_dominica_02",
+   "text": "Dominica is an island nation in the Caribbean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dominica · cs_d_dominica_02"
+  },
+  {
+   "id": "cs_d_drizzle_01",
+   "text": "Drizzle is light rain with very small drops",
+   "standing": "projectable",
+   "evidence": "science · product curator · Drizzle · cs_d_drizzle_01"
+  },
+  {
+   "id": "cs_d_dragonfly_02",
+   "text": "Dragonflies have four wings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_02"
+  },
+  {
+   "id": "cs_d_dung_beetle_01",
+   "text": "Dung beetles feed on animal dung",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dung beetle · cs_d_dung_beetle_01"
+  },
+  {
+   "id": "cs_d_douglas_fir_01",
+   "text": "The Douglas fir is a conifer of western North America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Douglas fir · cs_d_douglas_fir_01"
   }
  ]
 }

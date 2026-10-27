@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 96,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_e_ethiopia_01",
@@ -421,6 +421,30 @@
    "text": "Edinburgh Castle stands on Castle Rock in Edinburgh",
    "standing": "projectable",
    "evidence": "history · product curator · Edinburgh Castle · cs_e_edinburgh_castle_01"
+  },
+  {
+   "id": "cs_e_ethiopia_02",
+   "text": "Ethiopia is a landlocked country in the Horn of Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ethiopia · cs_e_ethiopia_02"
+  },
+  {
+   "id": "cs_e_evaporation_02",
+   "text": "Evaporation turns liquid water into water vapor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_02"
+  },
+  {
+   "id": "cs_e_echidna_02",
+   "text": "Echidnas are egg-laying mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Echidna · cs_e_echidna_02"
+  },
+  {
+   "id": "cs_e_elm_01",
+   "text": "The elm is a deciduous tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elm · cs_e_elm_01"
   }
  ]
 }

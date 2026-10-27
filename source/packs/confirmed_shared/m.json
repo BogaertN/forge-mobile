@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 85,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -409,6 +409,72 @@
    "text": "Mount Rushmore is in South Dakota",
    "standing": "projectable",
    "evidence": "history · product curator · Mount Rushmore · cs_m_mount_rushmore_01"
+  },
+  {
+   "id": "cs_m_moon_03",
+   "text": "The Moon orbits Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Moon · cs_m_moon_03"
+  },
+  {
+   "id": "cs_m_mercury_planet_03",
+   "text": "Mercury is the planet closest to the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mercury (planet) · cs_m_mercury_planet_03"
+  },
+  {
+   "id": "cs_m_mole_02",
+   "text": "Moles are small burrowing mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mole · cs_m_mole_02"
+  },
+  {
+   "id": "cs_m_magpie_01",
+   "text": "Magpies are birds in the crow family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Magpie · cs_m_magpie_01"
+  },
+  {
+   "id": "cs_m_mayflower_02",
+   "text": "The Mayflower arrived in North America in 1620",
+   "standing": "projectable",
+   "evidence": "history · product curator · Mayflower · cs_m_mayflower_02"
+  },
+  {
+   "id": "cs_m_maputo_01",
+   "text": "Maputo is the capital of Mozambique",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Maputo · cs_m_maputo_01"
+  },
+  {
+   "id": "cs_m_mars_05",
+   "text": "Mars is called the Red Planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mars · cs_m_mars_05"
+  },
+  {
+   "id": "cs_m_mackerel_01",
+   "text": "Mackerel are fast-swimming ocean fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mackerel · cs_m_mackerel_01"
+  },
+  {
+   "id": "cs_m_mongoose_01",
+   "text": "Mongooses are known for fighting snakes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mongoose · cs_m_mongoose_01"
+  },
+  {
+   "id": "cs_m_moth_02",
+   "text": "Moths are insects related to butterflies",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Moth · cs_m_moth_02"
+  },
+  {
+   "id": "cs_m_marmot_01",
+   "text": "Marmots are large ground squirrels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marmot · cs_m_marmot_01"
   }
  ]
 }

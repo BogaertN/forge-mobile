@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_w_wellington_01",
@@ -351,16 +351,88 @@
    "evidence": "nature · product curator · Wool · cs_w_wool_01"
   },
   {
-   "id": "cs_w_wing_01",
-   "text": "bats' wings are made of skin stretched between long fingers",
-   "standing": "projectable",
-   "evidence": "nature · product curator · Wing · cs_w_wing_01"
-  },
-  {
    "id": "cs_w_wellington_boot_01",
    "text": "Wellington boots are waterproof boots",
    "standing": "projectable",
    "evidence": "general · product curator · Wellington boot · cs_w_wellington_boot_01"
+  },
+  {
+   "id": "cs_w_water_03",
+   "text": "Water is made of hydrogen and oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water · cs_w_water_03"
+  },
+  {
+   "id": "cs_w_wavelength_02",
+   "text": "Wavelength is the distance between wave crests",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wavelength · cs_w_wavelength_02"
+  },
+  {
+   "id": "cs_w_woodpecker_02",
+   "text": "Woodpeckers drill into trees with their beaks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_02"
+  },
+  {
+   "id": "cs_w_wolf_02",
+   "text": "Wolves live in packs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_02"
+  },
+  {
+   "id": "cs_w_world_war_ii_02",
+   "text": "World War II ended in 1945",
+   "standing": "projectable",
+   "evidence": "history · product curator · World War II · cs_w_world_war_ii_02"
+  },
+  {
+   "id": "cs_w_white_nile_02",
+   "text": "The White Nile and Blue Nile meet at Khartoum",
+   "standing": "projectable",
+   "evidence": "geography · product curator · White Nile · cs_w_white_nile_02"
+  },
+  {
+   "id": "cs_w_weather_02",
+   "text": "Weather describes conditions in the atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weather · cs_w_weather_02"
+  },
+  {
+   "id": "cs_w_watt_02",
+   "text": "The watt is the unit of power",
+   "standing": "projectable",
+   "evidence": "science · product curator · Watt · cs_w_watt_02"
+  },
+  {
+   "id": "cs_w_walnut_01",
+   "text": "Walnuts grow on trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Walnut · cs_w_walnut_01"
+  },
+  {
+   "id": "cs_w_wren_02",
+   "text": "Wrens are small brown songbirds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wren · cs_w_wren_02"
+  },
+  {
+   "id": "cs_w_willow_02",
+   "text": "Willows often grow near water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Willow · cs_w_willow_02"
+  },
+  {
+   "id": "cs_w_whale_shark_02",
+   "text": "The whale shark is the largest fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_02"
+  },
+  {
+   "id": "cs_w_waterloo_battle_of_02",
+   "text": "The Battle of Waterloo was fought in 1815",
+   "standing": "projectable",
+   "evidence": "history · product curator · Waterloo, Battle of · cs_w_waterloo_battle_of_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 88,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -367,6 +367,66 @@
    "text": "A quarterback is a position in American football",
    "standing": "projectable",
    "evidence": "general · product curator · Quarterback · cs_q_quarterback_01"
+  },
+  {
+   "id": "cs_q_quito_02",
+   "text": "Quito is located near the equator",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quito · cs_q_quito_02"
+  },
+  {
+   "id": "cs_q_quart_02",
+   "text": "A quart equals two pints",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quart · cs_q_quart_02"
+  },
+  {
+   "id": "cs_q_quail_03",
+   "text": "Quails are small ground-dwelling birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_03"
+  },
+  {
+   "id": "cs_q_quebec_city_02",
+   "text": "Quebec City is the capital of the province of Quebec",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quebec City · cs_q_quebec_city_02"
+  },
+  {
+   "id": "cs_q_quadrant_02",
+   "text": "A coordinate plane has four quadrants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quadrant · cs_q_quadrant_02"
+  },
+  {
+   "id": "cs_q_quarter_03",
+   "text": "A quarter is one fourth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quarter · cs_q_quarter_03"
+  },
+  {
+   "id": "cs_q_quail_04",
+   "text": "Quail are game birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_04"
+  },
+  {
+   "id": "cs_q_queen_bee_02",
+   "text": "A honeybee colony usually has one queen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_02"
+  },
+  {
+   "id": "cs_q_quokka_04",
+   "text": "Quokkas are found on Rottnest Island",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quokka · cs_q_quokka_04"
+  },
+  {
+   "id": "cs_q_quill_03",
+   "text": "A quill pen is made from a bird's feather",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quill · cs_q_quill_03"
   }
  ]
 }

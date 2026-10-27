@@ -1159,3 +1159,12 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (3) Anchor priority. Invent and compose prefer user memory, then confirmed_shared, then import_pack, then starter_pack. Speech names the confirmed pack. Audit census shows confirmed_shared. UI never says shared KB.
 - A scrapbook shared-knowledge write was not started and stays next. Out of scope: Genesis, HCS, marketplace, agents, fluency, Soft Echo, a deep IA rewrite, hardware SPC, ChristPing, EchoForge as authority.
 - Tests: `verify/r4127_suite.js`, written failing first. Targeted gate adds that suite. HELDOUT untouched.
+
+## v4.9.128 — hosted shared knowledge A–Z (Nic t117–t121, 2026-10-27)
+- Design sources: BRIEF_4.9.128_SHARED_KB_AZ; BRIEF_4.9.128_PACK_REFRESH; thickened drafts (2622 curated). Echo stays exact. Soft Echo stays parked. No language model. Soft budget ≤1.920 MB / ≤570 kB gzip; packs stay hosted, not inside single-file gzip. Starter_pack / phone Remember stay user-owned and are not enlarged as the product brain.
+- (1) Hosted source of truth. Full A–Z under `packs/confirmed_shared/{a…z,index}.json` (index 4.9.128; ≥1890 admitted / 2622 curated). Product shared knowledge for everyone is this hosted layer — not scrapbook, not starter, not a mass localStorage/IndexedDB dump.
+- (2) Read for all. App `pullHostedSharedPack` / `ensureSharedKnowledge` fetches packs into session RAM for invent/compose anchors. Phone `confirmed_shared` store is wiped/kept empty on pull. Scrapbook `shared_knowledge` stays empty.
+- (3) Write gated by Nic's key. `writeSharedKnowledge` / `admitConfirmedShared` refuse with `SHARED-KB-WRITE-KEY-REQUIRED` unless `setSharedKbWriteKey` + matching `writeKey`. Product-curator boolean alone is not enough. Default users are read-only.
+- (4) Naming. UI card and Audit say **Shared knowledge base** (hosted · read for everyone · write needs Nic's key · not phone DB). Invent/compose speech says “the shared knowledge base”. Pack provenance id remains `confirmed_shared`.
+- (5) CREATE/COMPOSE/SIMULATE never auto-write shared knowledge. User memory still wins over hosted anchors.
+- Tests: `verify/r4128_suite.js` lead targeted suite; `r4127_suite.js` softened. HELDOUT untouched.

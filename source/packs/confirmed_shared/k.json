@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -385,6 +385,90 @@
    "text": "The Kamchatka Peninsula is in the Russian Far East",
    "standing": "projectable",
    "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_01"
+  },
+  {
+   "id": "cs_k_kilimanjaro_03",
+   "text": "Kilimanjaro is the highest mountain in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_03"
+  },
+  {
+   "id": "cs_k_kilimanjaro_04",
+   "text": "Kilimanjaro is in Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_04"
+  },
+  {
+   "id": "cs_k_kiwi_02",
+   "text": "The kiwi is a flightless bird of New Zealand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_02"
+  },
+  {
+   "id": "cs_k_kingfisher_02",
+   "text": "Kingfishers dive into water to catch fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_02"
+  },
+  {
+   "id": "cs_k_kuwait_02",
+   "text": "Kuwait is on the Persian Gulf",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kuwait · cs_k_kuwait_02"
+  },
+  {
+   "id": "cs_k_krill_03",
+   "text": "Krill are small crustaceans eaten by whales",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Krill · cs_k_krill_03"
+  },
+  {
+   "id": "cs_k_koi_02",
+   "text": "Koi are colorful varieties of carp",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Koi · cs_k_koi_02"
+  },
+  {
+   "id": "cs_k_kudu_01",
+   "text": "Kudus are antelopes with spiral horns",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kudu · cs_k_kudu_01"
+  },
+  {
+   "id": "cs_k_kelp_02",
+   "text": "Kelp is a large brown seaweed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_02"
+  },
+  {
+   "id": "cs_k_kidney_03",
+   "text": "Kidneys filter blood to make urine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kidney · cs_k_kidney_03"
+  },
+  {
+   "id": "cs_k_kremlin_02",
+   "text": "The Kremlin is in Moscow",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kremlin · cs_k_kremlin_02"
+  },
+  {
+   "id": "cs_k_kite_02",
+   "text": "Kites are birds of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kite · cs_k_kite_02"
+  },
+  {
+   "id": "cs_k_kauai_01",
+   "text": "Kauai is one of the Hawaiian Islands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kauai · cs_k_kauai_01"
+  },
+  {
+   "id": "cs_k_kingfisher_03",
+   "text": "Kingfishers have long, sharp bills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_03"
   }
  ]
 }

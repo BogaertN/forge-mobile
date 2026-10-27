@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -379,6 +379,96 @@
    "text": "Juno is a NASA spacecraft that orbits Jupiter",
    "standing": "projectable",
    "evidence": "science · product curator · Juno · cs_j_juno_01"
+  },
+  {
+   "id": "cs_j_jackal_02",
+   "text": "Jackals are members of the dog family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_02"
+  },
+  {
+   "id": "cs_j_jay_02",
+   "text": "The blue jay is a bird of North America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_02"
+  },
+  {
+   "id": "cs_j_jefferson_thomas_05",
+   "text": "Thomas Jefferson was the main author of the Declaration of Independence",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_05"
+  },
+  {
+   "id": "cs_j_joan_of_arc_02",
+   "text": "Joan of Arc was a French heroine of the Hundred Years' War",
+   "standing": "projectable",
+   "evidence": "history · product curator · Joan of Arc · cs_j_joan_of_arc_02"
+  },
+  {
+   "id": "cs_j_jamaica_03",
+   "text": "Jamaica is an island in the Caribbean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_03"
+  },
+  {
+   "id": "cs_j_jersey_city_01",
+   "text": "Jersey City is in New Jersey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jersey City · cs_j_jersey_city_01"
+  },
+  {
+   "id": "cs_j_jacksonville_01",
+   "text": "Jacksonville is a city in Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jacksonville · cs_j_jacksonville_01"
+  },
+  {
+   "id": "cs_j_jeddah_01",
+   "text": "Jeddah is a port city in Saudi Arabia on the Red Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jeddah · cs_j_jeddah_01"
+  },
+  {
+   "id": "cs_j_jupiter_08",
+   "text": "Jupiter's moon Ganymede is the largest moon in the solar system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_08"
+  },
+  {
+   "id": "cs_j_jackrabbit_02",
+   "text": "Jackrabbits are hares of western North America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_02"
+  },
+  {
+   "id": "cs_j_jaguar_03",
+   "text": "Jaguars are strong swimmers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jaguar · cs_j_jaguar_03"
+  },
+  {
+   "id": "cs_j_juniper_02",
+   "text": "Juniper is an evergreen conifer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_02"
+  },
+  {
+   "id": "cs_j_jay_03",
+   "text": "Jays belong to the crow family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_03"
+  },
+  {
+   "id": "cs_j_judo_02",
+   "text": "Judo is a martial art that originated in Japan",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Judo · cs_j_judo_02"
+  },
+  {
+   "id": "cs_j_jazz_02",
+   "text": "Jazz originated in the United States",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Jazz · cs_j_jazz_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 81,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -195,12 +195,6 @@
    "evidence": "science · product curator · pH · cs_p_ph_01"
   },
   {
-   "id": "cs_p_ph_02",
-   "text": "pure water has a pH of 7",
-   "standing": "projectable",
-   "evidence": "science · product curator · pH · cs_p_ph_02"
-  },
-  {
    "id": "cs_p_pulley_01",
    "text": "A pulley is a simple machine",
    "standing": "projectable",
@@ -229,12 +223,6 @@
    "text": "Most penguins live in the Southern Hemisphere",
    "standing": "projectable",
    "evidence": "nature · product curator · Penguin · cs_p_penguin_02"
-  },
-  {
-   "id": "cs_p_polar_bear_01",
-   "text": "polar bears have black skin under their fur",
-   "standing": "projectable",
-   "evidence": "nature · product curator · Polar bear · cs_p_polar_bear_01"
   },
   {
    "id": "cs_p_panda_01",
@@ -391,6 +379,90 @@
    "text": "The Pacific Ocean was named by Ferdinand Magellan",
    "standing": "projectable",
    "evidence": "history · product curator · Pacific Ocean · cs_p_pacific_ocean_03"
+  },
+  {
+   "id": "cs_p_pacific_ocean_04",
+   "text": "The Pacific Ocean is the largest ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_04"
+  },
+  {
+   "id": "cs_p_prism_01",
+   "text": "A prism can split white light into colors",
+   "standing": "projectable",
+   "evidence": "science · product curator · Prism · cs_p_prism_01"
+  },
+  {
+   "id": "cs_p_puffin_01",
+   "text": "Puffins are seabirds with colorful bills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Puffin · cs_p_puffin_01"
+  },
+  {
+   "id": "cs_p_python_02",
+   "text": "Pythons are nonvenomous snakes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Python · cs_p_python_02"
+  },
+  {
+   "id": "cs_p_plankton_01",
+   "text": "Plankton are organisms that drift in water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Plankton · cs_p_plankton_01"
+  },
+  {
+   "id": "cs_p_pretoria_01",
+   "text": "Pretoria is an administrative capital of South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pretoria · cs_p_pretoria_01"
+  },
+  {
+   "id": "cs_p_puerto_rico_01",
+   "text": "Puerto Rico is an island in the Caribbean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Puerto Rico · cs_p_puerto_rico_01"
+  },
+  {
+   "id": "cs_p_pupil_01",
+   "text": "The pupil lets light into the eye",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pupil · cs_p_pupil_01"
+  },
+  {
+   "id": "cs_p_porcupine_02",
+   "text": "Porcupines are covered in sharp quills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_02"
+  },
+  {
+   "id": "cs_p_pine_02",
+   "text": "Pine trees produce cones",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pine · cs_p_pine_02"
+  },
+  {
+   "id": "cs_p_poppy_01",
+   "text": "Poppies are flowering plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Poppy · cs_p_poppy_01"
+  },
+  {
+   "id": "cs_p_pony_express_01",
+   "text": "The Pony Express carried mail by horseback in 1860 and 1861",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pony Express · cs_p_pony_express_01"
+  },
+  {
+   "id": "cs_p_paul_revere_01",
+   "text": "Paul Revere made a famous midnight ride in 1775",
+   "standing": "projectable",
+   "evidence": "history · product curator · Paul Revere · cs_p_paul_revere_01"
+  },
+  {
+   "id": "cs_p_plum_01",
+   "text": "Plums are stone fruits",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Plum · cs_p_plum_01"
   }
  ]
 }

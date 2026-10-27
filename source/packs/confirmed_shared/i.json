@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -319,6 +319,84 @@
    "text": "The small intestine absorbs most nutrients from food",
    "standing": "projectable",
    "evidence": "science · product curator · Intestine · cs_i_intestine_01"
+  },
+  {
+   "id": "cs_i_iron_04",
+   "text": "The chemical symbol for iron is Fe",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_04"
+  },
+  {
+   "id": "cs_i_ivy_02",
+   "text": "Ivy is a climbing evergreen plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_02"
+  },
+  {
+   "id": "cs_i_impala_02",
+   "text": "Impalas are antelopes found in Africa",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Impala · cs_i_impala_02"
+  },
+  {
+   "id": "cs_i_industrial_revolution_02",
+   "text": "The Industrial Revolution began in Britain",
+   "standing": "projectable",
+   "evidence": "history · product curator · Industrial Revolution · cs_i_industrial_revolution_02"
+  },
+  {
+   "id": "cs_i_israel_02",
+   "text": "Israel is in the Middle East",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Israel · cs_i_israel_02"
+  },
+  {
+   "id": "cs_i_ivory_coast_01",
+   "text": "Ivory Coast is a country in West Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ivory Coast · cs_i_ivory_coast_01"
+  },
+  {
+   "id": "cs_i_iguazu_falls_01",
+   "text": "Iguazu Falls is on the border of Argentina and Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iguazu Falls · cs_i_iguazu_falls_01"
+  },
+  {
+   "id": "cs_i_ireland_02",
+   "text": "Ireland is an island in the North Atlantic Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ireland · cs_i_ireland_02"
+  },
+  {
+   "id": "cs_i_iris_02",
+   "text": "The iris controls the size of the pupil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iris · cs_i_iris_02"
+  },
+  {
+   "id": "cs_i_iron_05",
+   "text": "Iron is a metal attracted by magnets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_05"
+  },
+  {
+   "id": "cs_i_ibex_01",
+   "text": "Ibexes are wild mountain goats",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ibex · cs_i_ibex_01"
+  },
+  {
+   "id": "cs_i_inclined_plane_01",
+   "text": "An inclined plane is a simple machine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inclined plane · cs_i_inclined_plane_01"
+  },
+  {
+   "id": "cs_i_ice_cap_01",
+   "text": "Ice caps cover parts of Greenland and Antarctica",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ice cap · cs_i_ice_cap_01"
   }
  ]
 }

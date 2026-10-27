@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -391,6 +391,102 @@
    "text": "Gray wolves live in packs",
    "standing": "projectable",
    "evidence": "nature · product curator · Gray wolf · cs_g_gray_wolf_01"
+  },
+  {
+   "id": "cs_g_guatemala_02",
+   "text": "Guatemala is a country in Central America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Guatemala · cs_g_guatemala_02"
+  },
+  {
+   "id": "cs_g_guam_01",
+   "text": "Guam is an island in the western Pacific Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Guam · cs_g_guam_01"
+  },
+  {
+   "id": "cs_g_ganges_02",
+   "text": "The Ganges flows into the Bay of Bengal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ganges · cs_g_ganges_02"
+  },
+  {
+   "id": "cs_g_gulf_of_mexico_02",
+   "text": "The Gulf of Mexico borders the United States and Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gulf of Mexico · cs_g_gulf_of_mexico_02"
+  },
+  {
+   "id": "cs_g_gravity_03",
+   "text": "Gravity pulls objects toward Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gravity · cs_g_gravity_03"
+  },
+  {
+   "id": "cs_g_gold_03",
+   "text": "The chemical symbol for gold is Au",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gold · cs_g_gold_03"
+  },
+  {
+   "id": "cs_g_gas_01",
+   "text": "A gas has no fixed shape or volume",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gas · cs_g_gas_01"
+  },
+  {
+   "id": "cs_g_goat_01",
+   "text": "Goats are domesticated ruminant animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Goat · cs_g_goat_01"
+  },
+  {
+   "id": "cs_g_gutenberg_johannes_02",
+   "text": "Johannes Gutenberg developed a movable-type printing press",
+   "standing": "projectable",
+   "evidence": "history · product curator · Gutenberg, Johannes · cs_g_gutenberg_johannes_02"
+  },
+  {
+   "id": "cs_g_gettysburg_battle_of_01",
+   "text": "The Battle of Gettysburg was fought in 1863",
+   "standing": "projectable",
+   "evidence": "history · product curator · Gettysburg, Battle of · cs_g_gettysburg_battle_of_01"
+  },
+  {
+   "id": "cs_g_great_depression_01",
+   "text": "The Great Depression began in 1929",
+   "standing": "projectable",
+   "evidence": "history · product curator · Great Depression · cs_g_great_depression_01"
+  },
+  {
+   "id": "cs_g_gulf_of_aden_01",
+   "text": "The Gulf of Aden lies between Yemen and Somalia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gulf of Aden · cs_g_gulf_of_aden_01"
+  },
+  {
+   "id": "cs_g_gibbon_01",
+   "text": "Gibbons are apes that swing through trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_01"
+  },
+  {
+   "id": "cs_g_gull_01",
+   "text": "Gulls are seabirds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gull · cs_g_gull_01"
+  },
+  {
+   "id": "cs_g_gram_02",
+   "text": "A gram is one thousandth of a kilogram",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gram · cs_g_gram_02"
+  },
+  {
+   "id": "cs_g_gemini_01",
+   "text": "Gemini is a constellation of the zodiac",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gemini · cs_g_gemini_01"
   }
  ]
 }

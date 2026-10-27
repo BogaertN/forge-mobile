@@ -1,5 +1,5 @@
 {
-  "version": "4.9.127",
+  "version": "4.9.128",
   "features": [
     {
       "id": "A-01",
@@ -116,7 +116,7 @@
       "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
       "wave": "W1",
       "claim": "Partial",
-      "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. 4.9.126 polishes the UI shell (calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding) and does not write a shared fact. 4.9.127 gates distributed confirmed_shared with hosted letter packs A-Z and does not write a shared fact. Older claims stay suite-level.",
+      "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. 4.9.126 polishes the UI shell (calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding) and does not write a shared fact. 4.9.127 gates distributed confirmed_shared with hosted letter packs A-Z and does not write a shared fact. 4.9.128 refreshes those hosted packs from thickened curated drafts (admitted items grow; scrapbook empty; starter unchanged) and does not write a shared fact. Older claims stay suite-level.",
       "proof": [
         "CLAIM-GUARD"
       ]
@@ -3399,10 +3399,10 @@
     {
       "id": "R4127-GATE",
       "name": "confirmed_shared",
-      "source": "CONFLICTS.md v4.9.127",
+      "source": "CONFLICTS.md v4.9.127; CONFLICTS.md v4.9.128",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.127: product-curator packs admit into confirmed_shared. Contested stay held until a tap. CREATE/COMPOSE/SIMULATE never auto-write. Scrapbook shared_knowledge stays empty.",
+      "note": "4.9.127 gate kept as pack provenance. 4.9.128: product path is hosted pull (RAM), not phone admit; write needs Nic key; scrapbook stays empty.",
       "proof": [
         "R4127"
       ]
@@ -3410,31 +3410,64 @@
     {
       "id": "R4127-LETTER-A",
       "name": "letter packs",
-      "source": "CONFLICTS.md v4.9.127; packs/confirmed_shared/{a…z,index}.json",
+      "source": "CONFLICTS.md v4.9.128; packs/confirmed_shared/{a…z,index}.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.127: packs/confirmed_shared/{a…z,index}.json (FORGE-CONFIRMED-PACK/v1) ship on Pages. Invent/compose prefer memory > confirmed_shared > import > starter. Soft budget unchanged; packs stay out of single-file.",
+      "note": "4.9.128: full A–Z hosted refresh (curated 2622; admitted ≥1890). Invent/compose prefer memory > hosted shared knowledge > import > starter. Soft budget unchanged; packs out of single-file.",
       "proof": [
         "R4127"
       ]
     },
     {
       "id": "R4127-PROV",
-      "name": "Audit confirmed",
-      "source": "CONFLICTS.md v4.9.127",
+      "name": "Audit shared KB",
+      "source": "CONFLICTS.md v4.9.128",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.127: Audit and Memory name confirmed_shared. Speech says confirmed pack. UI never labels shared KB. Scrapbook shared_knowledge write stays next.",
+      "note": "4.9.128: Audit/UI name Shared knowledge base (hosted). Pack provenance id remains confirmed_shared. Scrapbook empty.",
       "proof": [
         "R4127"
       ]
+    },
+    {
+      "id": "R4128-HOSTED",
+      "name": "hosted shared KB",
+      "source": "CONFLICTS.md v4.9.128; BRIEF_4.9.128_SHARED_KB_AZ",
+      "wave": "W2",
+      "claim": "Partial",
+      "note": "Hosted A–Z is the shared knowledge source of truth. pullHostedSharedPack loads session RAM for invent/compose. Phone confirmed_shared stays empty. Scrapbook shared_knowledge stays empty.",
+      "proof": [
+        "R4128"
+      ]
+    },
+    {
+      "id": "R4128-WRITE-KEY",
+      "name": "shared write key",
+      "source": "CONFLICTS.md v4.9.128; Nic t121u",
+      "wave": "W2",
+      "claim": "Partial",
+      "note": "Everyone may read/pull. writeSharedKnowledge and admitConfirmedShared refuse SHARED-KB-WRITE-KEY-REQUIRED without setSharedKbWriteKey + matching writeKey. productCurator boolean alone is not enough.",
+      "proof": [
+        "R4128"
+      ]
+    },
+    {
+      "id": "R4128-AZ",
+      "name": "A-Z corpus",
+      "source": "CONFLICTS.md v4.9.128; packs/confirmed_shared/index.json",
+      "wave": "W2",
+      "claim": "Partial",
+      "note": "Index 4.9.128 ships all 26 letters; total_items ≥1890 from 2622 curated. UI card Shared knowledge base. Speech says shared knowledge base.",
+      "proof": [
+        "R4128"
+      ]
     }
   ],
-  "count": 313,
+  "count": 316,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 151,
+    "Partial": 154,
     "Missing": 9,
     "Out of scope / parked": 13
   }

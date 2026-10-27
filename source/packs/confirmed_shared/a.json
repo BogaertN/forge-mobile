@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 84,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -367,6 +367,96 @@
    "text": "The arithmetic mean is the sum of values divided by their count",
    "standing": "projectable",
    "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_01"
+  },
+  {
+   "id": "cs_a_atlas_mountains_01",
+   "text": "The Atlas Mountains are in northwest Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Atlas Mountains · cs_a_atlas_mountains_01"
+  },
+  {
+   "id": "cs_a_adriatic_sea_01",
+   "text": "The Adriatic Sea lies between Italy and the Balkan Peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Adriatic Sea · cs_a_adriatic_sea_01"
+  },
+  {
+   "id": "cs_a_aegean_sea_01",
+   "text": "The Aegean Sea lies between Greece and Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Aegean Sea · cs_a_aegean_sea_01"
+  },
+  {
+   "id": "cs_a_albany_01",
+   "text": "Albany is the capital of New York State",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Albany · cs_a_albany_01"
+  },
+  {
+   "id": "cs_a_annapolis_01",
+   "text": "Annapolis is the capital of Maryland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Annapolis · cs_a_annapolis_01"
+  },
+  {
+   "id": "cs_a_atlanta_01",
+   "text": "Atlanta is the capital of Georgia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Atlanta · cs_a_atlanta_01"
+  },
+  {
+   "id": "cs_a_ammonia_01",
+   "text": "Ammonia is a compound of nitrogen and hydrogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ammonia · cs_a_ammonia_01"
+  },
+  {
+   "id": "cs_a_atom_03",
+   "text": "An atom has a nucleus surrounded by electrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atom · cs_a_atom_03"
+  },
+  {
+   "id": "cs_a_anteater_01",
+   "text": "Anteaters feed mainly on ants and termites",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Anteater · cs_a_anteater_01"
+  },
+  {
+   "id": "cs_a_armadillo_01",
+   "text": "Armadillos have a protective bony shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Armadillo · cs_a_armadillo_01"
+  },
+  {
+   "id": "cs_a_avocado_01",
+   "text": "The avocado is native to Mexico and Central America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Avocado · cs_a_avocado_01"
+  },
+  {
+   "id": "cs_a_aardvark_02",
+   "text": "Aardvarks feed mainly on ants and termites",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Aardvark · cs_a_aardvark_02"
+  },
+  {
+   "id": "cs_a_arctic_fox_01",
+   "text": "The Arctic fox has a white coat in winter",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Arctic fox · cs_a_arctic_fox_01"
+  },
+  {
+   "id": "cs_a_anemone_01",
+   "text": "Sea anemones are related to jellyfish and corals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Anemone · cs_a_anemone_01"
+  },
+  {
+   "id": "cs_a_aquarius_01",
+   "text": "Aquarius is a constellation of the zodiac",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aquarius · cs_a_aquarius_01"
   }
  ]
 }
