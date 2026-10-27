@@ -1,9 +1,18 @@
-# Next build order — after 4.9.112
+# Next build order — after 4.9.113
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.112 Doc 6 gate labels and not-selected candidates (shipped from 4.9.111 / `28fb777c760422239f19e16e5c3b6a8e14198e73`)
+**Baseline:** 4.9.113 Doc 7 category labels (shipped from 4.9.112 / `3c0cb15b81791c2f43dba983db06363a291060ee`)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. An offline replay verifier, a Doc 7 Audit category UI, MSM Doc 2 reconstruction, and naming renames stay parked. Do not start them from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. An offline replay verifier, MSM Doc 2 reconstruction, and naming renames stay parked. Do not start them from this file.
+
+---
+
+## Shipped: **4.9.113** (2026-10-27)
+
+1. **Five categories** — Audit / Receipts, RMC Memory, and the Identity Vault show Language corpus, Evidence, Memory, Trace/receipt, and Authority records as different labels. Each says presence ≠ truth. The labels read stores that already exist. No new knowledge store.
+2. **Why we believe this** — the turn receipt names the one category the belief rests on. A remember is memory, and the utterance beside it is evidence of what was said. A gloss is the language corpus. A calculation is the receipt. A blocked action is an authority record. A greeting, a dream, and an Echo failure add no belief.
+3. **Lookup stays evidence** — a research result is evidence. A verbatim span can support the sentence. A citation can be present and unsupported. A lookup that has not run is not a found source. Sealed research is not a knowledge store and not memory. Shared KB stays empty.
+4. **Out of scope** — an offline replay verifier, MSM Doc 2 reconstruction (4.9.114), and naming renames (4.9.115). Do not build them in this release. No LLM. Adapters stay parked.
 
 ---
 

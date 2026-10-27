@@ -1,5 +1,5 @@
 {
-  "version": "4.9.112",
+  "version": "4.9.113",
  "features": [
   {
    "id": "A-01",
@@ -2941,13 +2941,31 @@
    "claim": "Partial",
    "note": "4.9.112: FORGE-TURN-PACKET/v1 lists every route except the winner. Each row keeps the rejection reason already recorded, including a route whose pattern does not apply. Ask Forge and Audit show the list when it is present.",
    "proof": ["R4112"]
+  },
+  {
+   "id": "R4113-CATEGORIES",
+   "name": "Doc 7 categories on Audit and custody surfaces",
+   "source": "CONFLICTS.md v4.9.113",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.113: Audit / Receipts, RMC Memory, and the Identity Vault keep Language corpus, Evidence, Memory, Trace/receipt, and Authority records apart. Each label says presence ≠ truth. No new store.",
+   "proof": ["R4113"]
+  },
+  {
+   "id": "R4113-BELIEF",
+   "name": "Why we believe this, with research kept as evidence",
+   "source": "CONFLICTS.md v4.9.113",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.113: a turn receipt says why we believe it, from the record that already supports it. A lookup stays evidence. A source can be present and unsupported. Shared KB stays empty.",
+   "proof": ["R4113"]
   }
  ],
- "count": 272,
+ "count": 274,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 110,
+  "Partial": 112,
   "Missing": 9,
   "Out of scope / parked": 13
  }
