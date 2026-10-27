@@ -1,3 +1,14 @@
+# Next build order — after 4.9.126
+**Date:** 2026-10-27 (America/Chicago)
+**Baseline:** 4.9.126 UI shell polish (shipped from 4.9.125)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.126:** calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding. Clear starter + Import stay reachable. Soft budget unchanged.
+
+**Do not start:** a deep IA rewrite; a shared KB write; Soft Echo; marketplace/LLM skins; raising the 1.920 MB / 570 kB budget.
+
+**Manual:** still paused.
+
 # Next build order — after 4.9.125
 **Date:** 2026-10-27 (America/Chicago)
 **Baseline:** 4.9.125 importable confirmed pack (shipped from 4.9.124)

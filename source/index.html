@@ -5,15 +5,15 @@
 <title>Forge Mobile — Language Kernel</title>
 <link rel="manifest" href="manifest.json"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="styles.css">
-</head><body>
+</head><body data-ui-shell="4.9.126">
 <header class="chrome">
   <button id="railBtn" class="icon" aria-label="Open left rail">☰</button>
-  <div class="brand"><b>AI.WEB FORGE</b> <span>MOBILE KERNEL</span><div class="buildnote" id="buildNote">no LLM · deterministic · forge2 contract spine</div></div>
+  <div class="brand"><b>Forge Mobile</b> <span>Language Kernel</span><div class="buildnote" id="buildNote">no LLM · deterministic · forge2 contract spine</div></div>
   <span id="lexBadge" class="badge">lexicon: loading…</span><button id="installBtn" class="icon" hidden aria-label="Install app">⤓</button>
 </header>
 <div id="errBanner" class="errbanner" role="alert" hidden></div>
 <nav id="tabs" class="toptabs" role="tablist">
-  <button data-tab="output" class="on" role="tab" aria-controls="output" aria-selected="true">Forge Output</button><button data-tab="vault" role="tab" aria-controls="vault" aria-selected="false">Identity Vault</button><button data-tab="echoforge" role="tab" aria-controls="echoforge" aria-selected="false">Tool Bench</button><button data-tab="memory" role="tab" aria-controls="memory" aria-selected="false">RMC Memory</button><button data-tab="dryrun" role="tab" aria-controls="dryrun" aria-selected="false">Deep Dry-Run</button><button data-tab="library" role="tab" aria-controls="library" aria-selected="false">Context Library</button><button data-tab="audit" role="tab" aria-controls="audit" aria-selected="false">Audit / Receipts</button><button data-tab="status" role="tab" aria-controls="status" aria-selected="false">System Status</button>
+  <button data-tab="output" class="on" role="tab" aria-controls="output" aria-selected="true">Ask</button><button data-tab="memory" role="tab" aria-controls="memory" aria-selected="false">Memory</button><button data-tab="ideas" role="tab" aria-controls="ideas" aria-selected="false">Ideas</button><button data-tab="audit" role="tab" aria-controls="audit" aria-selected="false">Audit</button><button data-tab="vault" role="tab" aria-controls="vault" aria-selected="false">Vault</button><button data-tab="echoforge" role="tab" aria-controls="echoforge" aria-selected="false">Tools</button><button data-tab="dryrun" role="tab" aria-controls="dryrun" aria-selected="false">Dry-Run</button><button data-tab="library" role="tab" aria-controls="library" aria-selected="false">Library</button><button data-tab="status" role="tab" aria-controls="status" aria-selected="false">Status</button>
 </nav>
 <aside id="rail" class="rail" hidden>
   <div class="railhead">LEFT RAIL <button class="icon" id="railClose" aria-label="Close">✕</button></div>
@@ -22,8 +22,10 @@
 <main>
 <section id="output" class="tab on" role="tabpanel">
   <div class="badges" id="statusBadges"></div>
-  <div class="card ask"><div class="cardhead">Ask Forge <span class="pill ok" data-claim="A-01">plan only</span><span class="pill">no LLM</span></div>
-    <form id="f"><textarea id="q" rows="2" autocomplete="off" placeholder="Ask Forge anything. It will not execute commands." aria-label="Ask Forge"></textarea><button type="button" id="mic" aria-label="voice input (device speech recognition; text marked unverified)" title="voice input — unverified">🎤</button><button class="primary">Send</button></form></div>
+  <div class="card ask"><div class="cardhead">Ask <span class="pill ok" data-claim="A-01">plan only</span><span class="pill">no LLM</span></div>
+    <div class="meta" data-starter-onboard>starter_pack on · Clear starter knowledge in Memory</div>
+    <div class="discover" data-discover="invent-compose">invent a hypothesis · compose that idea · suppose a story</div>
+    <form id="f"><textarea id="q" rows="2" autocomplete="off" placeholder="Ask anything. It will not execute commands." aria-label="Ask Forge"></textarea><button type="button" id="mic" aria-label="voice input (device speech recognition; text marked unverified)" title="voice input — unverified">🎤</button><button class="primary">Send</button></form></div>
   <div id="log" role="log" aria-live="polite" aria-label="Conversation"></div>
   <div class="card"><div class="cardhead">Authority Boundary</div><div id="authBoundary" class="flags"></div></div>
 </section>
@@ -44,6 +46,7 @@
     <label class="small"><input type="checkbox" id="cSup"> supersede my earlier version (creates a new version)</label><button>Quarantine and inspect</button><div id="cMsg" class="small" role="status" aria-live="polite"></div><div id="admQueue"></div></form>
   <div class="card"><input id="lexFilter" placeholder="look up a word (WordNet 3.0) or filter controlled concepts…"><div id="lexCount" class="small"></div><div id="wnList"></div><div id="lexList"></div></div>
   <div class="card" id="mathDoc"></div><div class="card" id="gp014Doc"></div></section>
+<section id="ideas" class="tab" role="tabpanel"><div id="ideasList"></div></section>
 <section id="audit" class="tab" role="tabpanel"><div class="bar"><button id="verifyAudit">Verify chain</button><button id="refreshAudit">Refresh</button></div><form id="pktVerify" class="card"><div class="cardhead">Verify packet</div><div class="small">Paste an exported turn packet. This check does not read the turn store.</div><textarea id="pktIn" rows="3" aria-label="exported turn packet" placeholder="FORGE-TURN-PACKET/v1 JSON"></textarea><button type="submit">Verify packet</button><div id="pktOut" class="small" role="status"></div></form><div id="auditHead" class="badges"></div><div id="auditList"></div></section>
 <section id="status" class="tab" role="tabpanel"><div id="statusBody"></div><div id="operatorBody"></div></section>
 </main>

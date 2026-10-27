@@ -1141,3 +1141,13 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (3) Refuse. A pack that is not JSON, has the wrong schema, is empty, does not parse, lacks evidence, has an unknown standing, repeats a sentence, or asks for a shared write is refused with a typed receipt. Nothing is admitted. CREATE, COMPOSE, and SIMULATE do not write confirmed facts.
 - A shared KB write was not started. Do not start one in this release. Echo stays exact. Soft Echo stays parked. Out of scope: Genesis, HCS, marketplace, agents, fluency, and a full UI redesign.
 - Tests: `verify/r4125_suite.js`, written failing first. Targeted gate adds that suite. HELDOUT untouched.
+## v4.9.126 — UI shell polish (Nic 2026-10-27)
+- Design sources: Page 2376d9f3 §7 Soon. Soft budget stays ≤1.920 MB / ≤570 kB gzip. Echo stays exact. Soft Echo stays parked. Shared KB write is not started. A deep IA rewrite is not started. Do not start a shared KB write. No language model.
+- (1) Calm chrome. Typography and spacing use a system-ui shell. Cardheads drop shouty uppercase. Tabs read Ask / Memory / Ideas / Audit while ids stay. Progressive disclosure keeps power under Audit and Advanced.
+- (2) Doc 7 status pills. Ideas and related surfaces show projectable / contested / quarantine / hypothesis as pills.
+- (3) Empty states. Each empty list names one next step (invent a hypothesis, remember that, open Audit).
+- (4) Discoverability. Ask shows invent / compose / suppose one-liners without hiding them behind Advanced.
+- (5) Gentler UNSUPPORTED. Clarify and unsupported turns suggest rephrase, Ideas, Audit, or Remember.
+- (6) Starter onboarding. A one-liner names starter_pack. Clear starter knowledge and Import confirmed facts stay reachable on Memory.
+- Parked: deep IA rewrite, Soft Echo, marketplace/LLM skins, shared KB write.
+
