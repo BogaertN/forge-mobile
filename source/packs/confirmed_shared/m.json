@@ -15,6 +15,12 @@
    "evidence": "geography · product curator · Mexico · cs_m_mexico_01"
   },
   {
+   "id": "cs_m_madagascar_01",
+   "text": "Madagascar is the fourth largest island in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Madagascar · cs_m_madagascar_01"
+  },
+  {
    "id": "cs_m_madagascar_02",
    "text": "Antananarivo is the capital of Madagascar",
    "standing": "projectable",
@@ -69,6 +75,12 @@
    "evidence": "geography · product curator · Montevideo · cs_m_montevideo_01"
   },
   {
+   "id": "cs_m_monaco_01",
+   "text": "Monaco is the second smallest country in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Monaco · cs_m_monaco_01"
+  },
+  {
    "id": "cs_m_maldives_01",
    "text": "The Maldives is an island country in the Indian Ocean",
    "standing": "projectable",
@@ -79,6 +91,24 @@
    "text": "The Mediterranean Sea lies between Europe, Africa, and Asia",
    "standing": "projectable",
    "evidence": "geography · product curator · Mediterranean Sea · cs_m_mediterranean_sea_01"
+  },
+  {
+   "id": "cs_m_mississippi_river_01",
+   "text": "The Mississippi flows into the Gulf of Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mississippi River · cs_m_mississippi_river_01"
+  },
+  {
+   "id": "cs_m_missouri_river_01",
+   "text": "The Missouri is the longest river in the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Missouri River · cs_m_missouri_river_01"
+  },
+  {
+   "id": "cs_m_mekong_01",
+   "text": "The Mekong flows through Southeast Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mekong · cs_m_mekong_01"
   },
   {
    "id": "cs_m_mount_kilimanjaro_01",
@@ -105,6 +135,12 @@
    "evidence": "geography · product curator · Mojave Desert · cs_m_mojave_desert_01"
   },
   {
+   "id": "cs_m_michigan_lake_01",
+   "text": "Lake Michigan lies entirely within the United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Michigan, Lake · cs_m_michigan_lake_01"
+  },
+  {
    "id": "cs_m_maine_01",
    "text": "Augusta is the capital of Maine",
    "standing": "projectable",
@@ -127,6 +163,12 @@
    "text": "Mars is the fourth planet from the Sun",
    "standing": "projectable",
    "evidence": "science · product curator · Mars · cs_m_mars_01"
+  },
+  {
+   "id": "cs_m_mars_02",
+   "text": "Mars is called the Red Planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mars · cs_m_mars_02"
   },
   {
    "id": "cs_m_mars_03",
@@ -169,6 +211,12 @@
    "text": "The Moon is Earth's only natural satellite",
    "standing": "projectable",
    "evidence": "science · product curator · Moon · cs_m_moon_01"
+  },
+  {
+   "id": "cs_m_moon_02",
+   "text": "The Moon causes most ocean tides",
+   "standing": "projectable",
+   "evidence": "science · product curator · Moon · cs_m_moon_02"
   },
   {
    "id": "cs_m_milky_way_01",
@@ -273,6 +321,12 @@
    "evidence": "nature · product curator · Manatee · cs_m_manatee_01"
   },
   {
+   "id": "cs_m_meerkat_01",
+   "text": "Meerkats live in Africa",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_01"
+  },
+  {
    "id": "cs_m_monarch_butterfly_01",
    "text": "Monarch butterflies migrate across North America",
    "standing": "projectable",
@@ -333,6 +387,12 @@
    "evidence": "history · product curator · Mesopotamia · cs_m_mesopotamia_01"
   },
   {
+   "id": "cs_m_michelangelo_01",
+   "text": "Michelangelo painted the ceiling of the Sistine Chapel",
+   "standing": "projectable",
+   "evidence": "history · product curator · Michelangelo · cs_m_michelangelo_01"
+  },
+  {
    "id": "cs_m_mozart_wolfgang_amadeus_01",
    "text": "Wolfgang Amadeus Mozart was an Austrian composer",
    "standing": "projectable",
@@ -369,16 +429,34 @@
    "evidence": "math · product curator · Meter · cs_m_meter_01"
   },
   {
+   "id": "cs_m_mile_01",
+   "text": "A mile is 5280 feet",
+   "standing": "projectable",
+   "evidence": "math · product curator · Mile · cs_m_mile_01"
+  },
+  {
    "id": "cs_m_minute_01",
    "text": "A minute has 60 seconds",
    "standing": "projectable",
    "evidence": "math · product curator · Minute · cs_m_minute_01"
   },
   {
+   "id": "cs_m_millennium_01",
+   "text": "A millennium is a thousand years",
+   "standing": "projectable",
+   "evidence": "math · product curator · Millennium · cs_m_millennium_01"
+  },
+  {
    "id": "cs_m_multiplication_01",
    "text": "Multiplication is commutative",
    "standing": "projectable",
    "evidence": "math · product curator · Multiplication · cs_m_multiplication_01"
+  },
+  {
+   "id": "cs_m_median_01",
+   "text": "The median is the middle value in a set of numbers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Median · cs_m_median_01"
   },
   {
    "id": "cs_m_mayor_01",
@@ -411,10 +489,22 @@
    "evidence": "history · product curator · Mount Rushmore · cs_m_mount_rushmore_01"
   },
   {
+   "id": "cs_m_mount_rushmore_02",
+   "text": "Mount Rushmore depicts four American presidents",
+   "standing": "projectable",
+   "evidence": "history · product curator · Mount Rushmore · cs_m_mount_rushmore_02"
+  },
+  {
    "id": "cs_m_moon_03",
    "text": "The Moon orbits Earth",
    "standing": "projectable",
    "evidence": "science · product curator · Moon · cs_m_moon_03"
+  },
+  {
+   "id": "cs_m_moon_04",
+   "text": "The Moon has phases",
+   "standing": "projectable",
+   "evidence": "science · product curator · Moon · cs_m_moon_04"
   },
   {
    "id": "cs_m_mercury_planet_03",
@@ -471,10 +561,22 @@
    "evidence": "nature · product curator · Moth · cs_m_moth_02"
   },
   {
+   "id": "cs_m_marigold_01",
+   "text": "Marigolds have orange flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marigold · cs_m_marigold_01"
+  },
+  {
    "id": "cs_m_marmot_01",
    "text": "Marmots are large ground squirrels",
    "standing": "projectable",
    "evidence": "nature · product curator · Marmot · cs_m_marmot_01"
+  },
+  {
+   "id": "cs_m_meerkat_02",
+   "text": "Meerkats live in groups",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_02"
   }
  ]
 }

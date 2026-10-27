@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 103,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -57,16 +57,34 @@
    "evidence": "geography · product curator · Ontario · cs_o_ontario_01"
   },
   {
+   "id": "cs_o_orinoco_01",
+   "text": "The Orinoco flows through Venezuela",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Orinoco · cs_o_orinoco_01"
+  },
+  {
    "id": "cs_o_okavango_delta_01",
    "text": "The Okavango Delta is in Botswana",
    "standing": "projectable",
    "evidence": "geography · product curator · Okavango Delta · cs_o_okavango_delta_01"
   },
   {
+   "id": "cs_o_ob_river_01",
+   "text": "The Ob flows through Siberia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ob River · cs_o_ob_river_01"
+  },
+  {
    "id": "cs_o_oceania_01",
    "text": "Oceania includes Australia and the Pacific islands",
    "standing": "projectable",
    "evidence": "geography · product curator · Oceania · cs_o_oceania_01"
+  },
+  {
+   "id": "cs_o_ocean_01",
+   "text": "The Earth has five oceans",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ocean · cs_o_ocean_01"
   },
   {
    "id": "cs_o_ocean_02",
@@ -81,10 +99,22 @@
    "evidence": "geography · product curator · Okinawa · cs_o_okinawa_01"
   },
   {
+   "id": "cs_o_orkney_01",
+   "text": "Orkney is north of Scotland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Orkney · cs_o_orkney_01"
+  },
+  {
    "id": "cs_o_oxygen_01",
    "text": "Oxygen has the chemical symbol O",
    "standing": "projectable",
    "evidence": "science · product curator · Oxygen · cs_o_oxygen_01"
+  },
+  {
+   "id": "cs_o_oxygen_02",
+   "text": "Oxygen has an atomic number of 8",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_02"
   },
   {
    "id": "cs_o_oxygen_03",
@@ -105,10 +135,22 @@
    "evidence": "science · product curator · Osmium · cs_o_osmium_02"
   },
   {
+   "id": "cs_o_oganesson_01",
+   "text": "Oganesson has an atomic number of 118",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oganesson · cs_o_oganesson_01"
+  },
+  {
    "id": "cs_o_ozone_01",
    "text": "Ozone is a molecule of three oxygen atoms",
    "standing": "projectable",
    "evidence": "science · product curator · Ozone · cs_o_ozone_01"
+  },
+  {
+   "id": "cs_o_ozone_layer_01",
+   "text": "The ozone layer absorbs ultraviolet radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ozone layer · cs_o_ozone_layer_01"
   },
   {
    "id": "cs_o_orbit_01",
@@ -279,16 +321,46 @@
    "evidence": "history · product curator · Oregon Trail · cs_o_oregon_trail_01"
   },
   {
+   "id": "cs_o_oppenheimer_j_robert_01",
+   "text": "Oppenheimer led the laboratory at Los Alamos",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oppenheimer, J. Robert · cs_o_oppenheimer_j_robert_01"
+  },
+  {
    "id": "cs_o_orwell_george_01",
    "text": "George Orwell wrote Nineteen Eighty-Four",
    "standing": "projectable",
    "evidence": "history · product curator · Orwell, George · cs_o_orwell_george_01"
   },
   {
+   "id": "cs_o_owens_jesse_01",
+   "text": "Jesse Owens won four gold medals in 1936",
+   "standing": "projectable",
+   "evidence": "history · product curator · Owens, Jesse · cs_o_owens_jesse_01"
+  },
+  {
+   "id": "cs_o_octagon_01",
+   "text": "A stop sign has eight sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Octagon · cs_o_octagon_01"
+  },
+  {
+   "id": "cs_o_obtuse_angle_01",
+   "text": "An obtuse angle is larger than a right angle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Obtuse angle · cs_o_obtuse_angle_01"
+  },
+  {
    "id": "cs_o_odd_number_01",
    "text": "An odd number is not divisible by 2",
    "standing": "projectable",
    "evidence": "math · product curator · Odd number · cs_o_odd_number_01"
+  },
+  {
+   "id": "cs_o_ounce_01",
+   "text": "A pound has 16 ounces",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ounce · cs_o_ounce_01"
   },
   {
    "id": "cs_o_oval_01",
@@ -333,6 +405,18 @@
    "evidence": "general · product curator · Origami · cs_o_origami_01"
   },
   {
+   "id": "cs_o_oath_of_office_01",
+   "text": "The president takes an oath of office",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Oath of office · cs_o_oath_of_office_01"
+  },
+  {
+   "id": "cs_o_old_english_01",
+   "text": "Old English was spoken in England",
+   "standing": "projectable",
+   "evidence": "language · product curator · Old English · cs_o_old_english_01"
+  },
+  {
    "id": "cs_o_oxford_01",
    "text": "The University of Oxford is in England",
    "standing": "projectable",
@@ -367,6 +451,12 @@
    "text": "Opal is a gemstone",
    "standing": "projectable",
    "evidence": "science · product curator · Opal · cs_o_opal_01"
+  },
+  {
+   "id": "cs_o_orbit_02",
+   "text": "The Earth takes a year to orbit the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_02"
   },
   {
    "id": "cs_o_oxygen_04",
@@ -405,10 +495,34 @@
    "evidence": "geography · product curator · Oregon · cs_o_oregon_02"
   },
   {
+   "id": "cs_o_ohio_river_01",
+   "text": "The Ohio flows into the Mississippi",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ohio River · cs_o_ohio_river_01"
+  },
+  {
+   "id": "cs_o_okinawa_02",
+   "text": "Okinawa is an island in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Okinawa · cs_o_okinawa_02"
+  },
+  {
    "id": "cs_o_orion_02",
    "text": "Orion is a constellation named after a hunter in Greek mythology",
    "standing": "projectable",
    "evidence": "science · product curator · Orion · cs_o_orion_02"
+  },
+  {
+   "id": "cs_o_orbit_03",
+   "text": "The Moon orbits the Earth monthly",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_03"
+  },
+  {
+   "id": "cs_o_oval_02",
+   "text": "An oval is a rounded shape",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oval · cs_o_oval_02"
   },
   {
    "id": "cs_o_orca_02",
@@ -433,6 +547,18 @@
    "text": "The Virginia opossum is the only marsupial native to North America north of Mexico",
    "standing": "projectable",
    "evidence": "nature · product curator · Opossum · cs_o_opossum_02"
+  },
+  {
+   "id": "cs_o_oslo_01",
+   "text": "Oslo is the capital of Norway",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oslo · cs_o_oslo_01"
+  },
+  {
+   "id": "cs_o_ottawa_02",
+   "text": "Ottawa is the capital of Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ottawa · cs_o_ottawa_02"
   }
  ]
 }

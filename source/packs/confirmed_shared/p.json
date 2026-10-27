@@ -51,6 +51,12 @@
    "evidence": "geography · product curator · Prague · cs_p_prague_01"
   },
   {
+   "id": "cs_p_pyongyang_01",
+   "text": "Pyongyang is on the Taedong",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pyongyang · cs_p_pyongyang_01"
+  },
+  {
    "id": "cs_p_pacific_ocean_01",
    "text": "The Pacific Ocean is the largest and deepest ocean",
    "standing": "projectable",
@@ -127,6 +133,18 @@
    "text": "Charon is the largest moon of Pluto",
    "standing": "projectable",
    "evidence": "science · product curator · Pluto · cs_p_pluto_03"
+  },
+  {
+   "id": "cs_p_planet_01",
+   "text": "The solar system has eight planets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Planet · cs_p_planet_01"
+  },
+  {
+   "id": "cs_p_phobos_01",
+   "text": "Phobos is the larger moon of Mars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Phobos · cs_p_phobos_01"
   },
   {
    "id": "cs_p_photosynthesis_01",
@@ -207,6 +225,12 @@
    "evidence": "science · product curator · Pressure · cs_p_pressure_01"
   },
   {
+   "id": "cs_p_plate_tectonics_01",
+   "text": "The crust of the Earth is divided into plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Plate tectonics · cs_p_plate_tectonics_01"
+  },
+  {
    "id": "cs_p_pangaea_01",
    "text": "Pangaea was a supercontinent",
    "standing": "projectable",
@@ -223,6 +247,12 @@
    "text": "Most penguins live in the Southern Hemisphere",
    "standing": "projectable",
    "evidence": "nature · product curator · Penguin · cs_p_penguin_02"
+  },
+  {
+   "id": "cs_p_polar_bear_01",
+   "text": "The polar bear has black skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Polar bear · cs_p_polar_bear_01"
   },
   {
    "id": "cs_p_panda_01",
@@ -291,10 +321,28 @@
    "evidence": "history · product curator · Plato · cs_p_plato_01"
   },
   {
+   "id": "cs_p_pythagoras_01",
+   "text": "Pythagoras was a Greek mathematician",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pythagoras · cs_p_pythagoras_01"
+  },
+  {
    "id": "cs_p_pasteur_louis_01",
    "text": "Louis Pasteur developed pasteurization",
    "standing": "projectable",
    "evidence": "history · product curator · Pasteur, Louis · cs_p_pasteur_louis_01"
+  },
+  {
+   "id": "cs_p_pearl_harbor_01",
+   "text": "Japan attacked Pearl Harbor in 1941",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pearl Harbor · cs_p_pearl_harbor_01"
+  },
+  {
+   "id": "cs_p_pompeii_01",
+   "text": "Mount Vesuvius buried Pompeii",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pompeii · cs_p_pompeii_01"
   },
   {
    "id": "cs_p_parthenon_01",
@@ -319,6 +367,18 @@
    "text": "The printing press spread rapidly in Europe in the 15th century",
    "standing": "projectable",
    "evidence": "history · product curator · Printing press · cs_p_printing_press_01"
+  },
+  {
+   "id": "cs_p_pythagorean_theorem_01",
+   "text": "The Pythagorean theorem relates the sides of a right triangle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Pythagorean theorem · cs_p_pythagorean_theorem_01"
+  },
+  {
+   "id": "cs_p_pi_01",
+   "text": "Pi is about 3.14",
+   "standing": "projectable",
+   "evidence": "math · product curator · Pi · cs_p_pi_01"
   },
   {
    "id": "cs_p_prime_number_01",
@@ -357,6 +417,12 @@
    "evidence": "civics · product curator · Parliament · cs_p_parliament_01"
   },
   {
+   "id": "cs_p_president_01",
+   "text": "The American president serves a four-year term",
+   "standing": "projectable",
+   "evidence": "civics · product curator · President · cs_p_president_01"
+  },
+  {
    "id": "cs_p_prime_minister_01",
    "text": "A prime minister is a head of government",
    "standing": "projectable",
@@ -373,6 +439,12 @@
    "text": "The piano is a keyboard instrument",
    "standing": "projectable",
    "evidence": "general · product curator · Piano · cs_p_piano_01"
+  },
+  {
+   "id": "cs_p_pentagon_building_01",
+   "text": "The Pentagon is the headquarters of the American Department of Defense",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Pentagon (building) · cs_p_pentagon_building_01"
   },
   {
    "id": "cs_p_pacific_ocean_03",
@@ -429,10 +501,22 @@
    "evidence": "science · product curator · Pupil · cs_p_pupil_01"
   },
   {
+   "id": "cs_p_pint_01",
+   "text": "A pint is two cups",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pint · cs_p_pint_01"
+  },
+  {
    "id": "cs_p_porcupine_02",
    "text": "Porcupines are covered in sharp quills",
    "standing": "projectable",
    "evidence": "nature · product curator · Porcupine · cs_p_porcupine_02"
+  },
+  {
+   "id": "cs_p_peacock_02",
+   "text": "Male peacocks have colorful tails",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_02"
   },
   {
    "id": "cs_p_pine_02",
@@ -457,6 +541,18 @@
    "text": "Paul Revere made a famous midnight ride in 1775",
    "standing": "projectable",
    "evidence": "history · product curator · Paul Revere · cs_p_paul_revere_01"
+  },
+  {
+   "id": "cs_p_panda_02",
+   "text": "Pandas mostly eat bamboo",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Panda · cs_p_panda_02"
+  },
+  {
+   "id": "cs_p_pharaoh_02",
+   "text": "The pharaohs were kings of Egypt",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pharaoh · cs_p_pharaoh_02"
   },
   {
    "id": "cs_p_plum_01",
