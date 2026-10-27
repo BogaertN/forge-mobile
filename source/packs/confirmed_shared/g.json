@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 103,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -571,6 +571,18 @@
    "text": "Gemini is a constellation of the zodiac",
    "standing": "projectable",
    "evidence": "science · product curator · Gemini · cs_g_gemini_01"
+  },
+  {
+   "id": "cs_g_giraffe_02",
+   "text": "A giraffe has a long neck",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Giraffe · cs_g_giraffe_02"
+  },
+  {
+   "id": "cs_g_gallon_02",
+   "text": "A gallon is a unit of volume",
+   "standing": "projectable",
+   "evidence": "math · product curator · Gallon · cs_g_gallon_02"
   }
  ]
 }

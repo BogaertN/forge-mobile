@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 131,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -541,6 +541,192 @@
    "text": "Hyacinths grow from bulbs",
    "standing": "projectable",
    "evidence": "nature · product curator · Hyacinth · cs_h_hyacinth_01"
+  },
+  {
+   "id": "cs_h_hungary_02",
+   "text": "Hungary is a country in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hungary · cs_h_hungary_02"
+  },
+  {
+   "id": "cs_h_honduras_02",
+   "text": "Honduras is a country in Central America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Honduras · cs_h_honduras_02"
+  },
+  {
+   "id": "cs_h_haiti_03",
+   "text": "Haiti is a country in the Caribbean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Haiti · cs_h_haiti_03"
+  },
+  {
+   "id": "cs_h_himalayas_02",
+   "text": "The Himalayas are a mountain range in Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_02"
+  },
+  {
+   "id": "cs_h_himalayas_03",
+   "text": "The Himalayas are the highest mountains on Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_03"
+  },
+  {
+   "id": "cs_h_hamburg_02",
+   "text": "Hamburg is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hamburg · cs_h_hamburg_02"
+  },
+  {
+   "id": "cs_h_houston_01",
+   "text": "Houston is a city in Texas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Houston · cs_h_houston_01"
+  },
+  {
+   "id": "cs_h_hiroshima_02",
+   "text": "Hiroshima is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hiroshima · cs_h_hiroshima_02"
+  },
+  {
+   "id": "cs_h_hawk_02",
+   "text": "A hawk is a bird of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hawk · cs_h_hawk_02"
+  },
+  {
+   "id": "cs_h_hedgehog_02",
+   "text": "A hedgehog has spines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_02"
+  },
+  {
+   "id": "cs_h_horse_02",
+   "text": "A horse is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Horse · cs_h_horse_02"
+  },
+  {
+   "id": "cs_h_hummingbird_03",
+   "text": "A hummingbird can fly backward",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_03"
+  },
+  {
+   "id": "cs_h_hummingbird_04",
+   "text": "Hummingbirds drink nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_04"
+  },
+  {
+   "id": "cs_h_hyena_03",
+   "text": "Hyenas live in Africa",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hyena · cs_h_hyena_03"
+  },
+  {
+   "id": "cs_h_honey_01",
+   "text": "Bees make honey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Honey · cs_h_honey_01"
+  },
+  {
+   "id": "cs_h_hour_02",
+   "text": "An hour has sixty minutes",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hour · cs_h_hour_02"
+  },
+  {
+   "id": "cs_h_hour_03",
+   "text": "A day has twenty four hours",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hour · cs_h_hour_03"
+  },
+  {
+   "id": "cs_h_hectare_02",
+   "text": "A hectare is a unit of area",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hectare · cs_h_hectare_02"
+  },
+  {
+   "id": "cs_h_helium_04",
+   "text": "Helium is lighter than air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Helium · cs_h_helium_04"
+  },
+  {
+   "id": "cs_h_heat_01",
+   "text": "Heat flows from hot objects to cold objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Heat · cs_h_heat_01"
+  },
+  {
+   "id": "cs_h_hail_02",
+   "text": "Hail is made of ice",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hail · cs_h_hail_02"
+  },
+  {
+   "id": "cs_h_homer_02",
+   "text": "Homer wrote the Iliad",
+   "standing": "projectable",
+   "evidence": "history · product curator · Homer · cs_h_homer_02"
+  },
+  {
+   "id": "cs_h_homer_03",
+   "text": "Homer wrote the Odyssey",
+   "standing": "projectable",
+   "evidence": "history · product curator · Homer · cs_h_homer_03"
+  },
+  {
+   "id": "cs_h_hammurabi_02",
+   "text": "Hammurabi was a king of Babylon",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_02"
+  },
+  {
+   "id": "cs_h_hannibal_02",
+   "text": "Hannibal was a general of Carthage",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hannibal · cs_h_hannibal_02"
+  },
+  {
+   "id": "cs_h_hastings_01",
+   "text": "The Battle of Hastings was in 1066",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hastings · cs_h_hastings_01"
+  },
+  {
+   "id": "cs_h_house_of_representatives_02",
+   "text": "The House of Representatives is part of Congress",
+   "standing": "projectable",
+   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_02"
+  },
+  {
+   "id": "cs_h_house_of_representatives_03",
+   "text": "The House of Representatives has 435 members",
+   "standing": "projectable",
+   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_03"
+  },
+  {
+   "id": "cs_h_hebrew_02",
+   "text": "Hebrew is the official language of Israel",
+   "standing": "projectable",
+   "evidence": "language · product curator · Hebrew · cs_h_hebrew_02"
+  },
+  {
+   "id": "cs_h_hindi_02",
+   "text": "Hindi is a language of India",
+   "standing": "projectable",
+   "evidence": "language · product curator · Hindi · cs_h_hindi_02"
+  },
+  {
+   "id": "cs_h_homonym_01",
+   "text": "A homonym sounds like another word",
+   "standing": "projectable",
+   "evidence": "language · product curator · Homonym · cs_h_homonym_01"
   }
  ]
 }
