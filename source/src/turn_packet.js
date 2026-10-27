@@ -3,6 +3,7 @@
  * route that was not selected with the reason the turn already recorded.
  * 4.9.113: the same receipt names the Doc 7 category the belief rests on.
  * 4.9.115: the same packet seals a SHA-256 of its body and can be checked offline.
+ * 4.9.116: when the turn used a controlled concept or a predicate-role frame, the packet names those ids. The ids are not evidence.
  * Echo stays an exact reparse. This module names the receipt. It does not choose the route. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
@@ -260,6 +261,7 @@
       audit_receipt_id: null,
       replay: (function () { const meaning = clone((msm && msm.meaning) || null), bits = scrubMeaning(meaning); let output = trace.echo_surface != null ? String(trace.echo_surface) : (text == null ? null : String(text)), vakya = clone(trace.echo_vakya || null); if (holdsProse(output, bits)) output = null; if (holdsProse(vakya, bits)) vakya = null; return { output: output, meaning: meaning, vakya: vakya, selection: selectionClaim(trace.selection) }; })()
     };
+    if (trace.lexicon) packet.lexicon = trace.lexicon;
     return seal(packet);
   }
   function openReceipt(packet) {
@@ -281,7 +283,10 @@
     const list = ns.length ? '<ul class="not-selected" data-not-selected="' + ns.length + '">' + ns.map(c => '<li data-route="' + esc(c.route) + '"><b>' + esc(c.route) + '</b> <span class="meta">' + esc(c.status) + '</span> — ' + esc(c.reason) + '</li>').join('') + '</ul>' : '';
     const intent = gate && gate.intent ? ' · intent ' + esc(gate.intent) : '';
     const cats = doc7HTML(packet.doc7);
-    return cats + '<details class="card"' + open + ' data-receipt-type="' + esc(t) + '"' + doc + '><summary>' + esc((LABELS[t] || t) + sub) + '</summary><div class="meta">turn ' + esc(packet.turn) + ' · ' + esc(packet.turn_id) + intent + '</div>' + (detail ? '<div class="small">' + esc(detail) + '</div>' : '') + list + '<button type="button" data-export-turn="' + esc(packet.turn) + '">Export turn packet</button></details>';
+    const lx = packet.lexicon;
+    const lxIds = lx ? (lx.concepts || []).map(c => c.id).concat((lx.frames || []).map(f => f.id)) : [];
+    const lxLine = lxIds.length ? '<div class="small" data-lexicon="' + esc(lxIds.join(' ')) + '">' + esc(lxIds.join(' · ')) + '</div>' : '';
+    return cats + '<details class="card"' + open + ' data-receipt-type="' + esc(t) + '"' + doc + '><summary>' + esc((LABELS[t] || t) + sub) + '</summary><div class="meta">turn ' + esc(packet.turn) + ' · ' + esc(packet.turn_id) + intent + '</div>' + (detail ? '<div class="small">' + esc(detail) + '</div>' : '') + lxLine + list + '<button type="button" data-export-turn="' + esc(packet.turn) + '">Export turn packet</button></details>';
   }
   const api = { SCHEMA, FAILURE_SCHEMA, ANSWER_SCHEMA, FAILURE_TYPES, GATE_SUBTYPES, DOC6_LABEL, DOC7_IDS, DOC7_LABEL, PRESENCE_LAW, PACKET_VERSION, build, classify, doc6Of, doc7Of, census, categoryPanel, notSelectedOf, openReceipt, receiptCard, seal, verify };
   if (isNode) module.exports = api; else root.KTurnPacket = api;

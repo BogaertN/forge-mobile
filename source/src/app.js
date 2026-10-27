@@ -47,6 +47,7 @@ function traceHTML(r) { const t = r.trace, f = r.forge || {}; const rows = o => 
   if (t.math_contracts && t.math_contracts.length) h += '<h4>Math contracts</h4>' + t.math_contracts.map(c => esc(c.id + ' ' + c.version)).join(' · ') + (t.phase_scheme_id ? '<br>' + esc(t.phase_scheme_id) : '');
   if (t.chi) h += '<h4>χ(t) / Ĉ</h4>' + esc(t.chi.Theta_formula) + '<br>' + esc(t.chi.result);
   if (t.sense) h += '<h4>Sense</h4>' + esc(t.sense.status + ' · ' + (t.sense.candidates || []).join(' | '));
+  if (t.lexicon) h += '<h4>Lexicon / frames</h4>' + esc(((t.lexicon.concepts || []).map(c => c.id).concat((t.lexicon.frames || []).map(f => f.id)).join(' · ') || 'none') + ' · ' + (t.lexicon.law || ''));
   if (t.echo) h += '<h4>Echo (structural MSM round-trip) — ' + (t.echo.pass ? 'PASS' : 'FAIL') + '</h4>' + rows(t.echo.components);
   if (f.gp014) h += '<h4>GP-014 operator check over the derivation</h4>' + esc(f.gp014.selected ? '⧙ locked atoms kept: ' + Object.values(f.gp014.locked_atoms).filter(Boolean).join(' · ') : '⧧ severed') + '<br><span class="meta">' + esc(f.gp014.rule + ' · severed ' + f.gp014.severed.length + ' · discharged ' + f.gp014.discharged.length) + '</span>';
   if (f.mea) h += '<h4>MEA fixed-point score (display only)</h4>' + esc(f.mea.mode + ' · S = ' + f.mea.signed_score_decimal_text + ' · ' + f.mea.equation);

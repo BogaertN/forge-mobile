@@ -1,5 +1,5 @@
 {
-  "version": "4.9.115",
+  "version": "4.9.116",
  "features": [
   {
    "id": "A-01",
@@ -2995,13 +2995,31 @@
    "claim": "Partial",
    "note": "4.9.115: FORGE-TURN-PACKET/v1 verifies offline by SHA-256. Echo and selection are reexecuted. Drift, memory, world, containment, gate, and doc7 stay recorded-only. The check does not read the turn store. Shared KB stays empty.",
    "proof": ["R4115"]
+  },
+  {
+   "id": "R4116-LEXICON",
+   "name": "Controlled concepts for pathways the loaded lexicon could not say",
+   "source": "CONFLICTS.md v4.9.116",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.116: five Doc 4 concepts (misplace, bandage, preheat, unplug, marinate) unlock ordinary pathways. A word is not a concept, a concept is not evidence, and evidence is not permission. Creative writing not started. Shared KB stays empty.",
+   "proof": ["R4116"]
+  },
+  {
+   "id": "R4116-FRAMES",
+   "name": "Predicate-role frames that do not execute, write, or approve Echo",
+   "source": "CONFLICTS.md v4.9.116",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.116: seven Doc 5 frames, including smell-of. Frame recognition is not execute, not a memory write, and not Echo approval. Creative writing not started. Shared KB stays empty.",
+   "proof": ["R4116"]
   }
  ],
- "count": 278,
+ "count": 280,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 116,
+  "Partial": 118,
   "Missing": 9,
   "Out of scope / parked": 13
  }

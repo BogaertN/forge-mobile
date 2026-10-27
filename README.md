@@ -2,7 +2,7 @@
 
 Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-**Version 4.9.115**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json): registry 278, publish-gate tests 237 passed of 237 (0 failed, 0 not run), service-worker cache `forge-mobile-v4.9.115`.
+**Version 4.9.116**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json): registry 280, publish-gate tests recorded after the 4.9.116 targeted run, service-worker cache `forge-mobile-v4.9.116`. 4.9.115 shipped Pattern Reflection and Verify packet.
 
 ## The app
 
@@ -52,6 +52,8 @@ A plain statement is acknowledged and may be kept as a working fact for the conv
 The Language Core is a bidirectional compiler. Inward it tokenizes, tags, derives each reading, assigns roles, and keeps scope. Outward the same roles become a sentence, with agreement, tense, aspect, negation, and lists. Every choice is a recorded rule.
 
 Closed-class words live in `grammar.js`. Open-class words come from the lexicon: a small seed in `source/src/lexicon.js`, and Princeton WordNet 3.0 loaded lazily in tiers (core, extended, complete). The licence is `source/data/WORDNET_LICENSE.txt`. WordNet supplies tags, morphology, frames, and relations. A definition is taken from the controlled lexicon. When more than one controlled sense fits, the turn asks which one. An unknown word inside a remember-request is asked about.
+
+Five household pathways that the loaded lexicon could not parse now use a controlled concept and a predicate-role frame: misplaced keys, a bandaged wound, a preheated oven (and an oven that preheated on its own), an unplugged kettle, and marinated tofu. A room that smells of bread uses the smell-of frame and no new smell concept. The noun bandage is still a bandage. Asking what bandage means cites the language corpus. Saying the sentence does not store it, and asking Forge to bandage the wound stays blocked. Recognizing the frame does not run the action or approve Echo.
 
 The request compiler (`source/src/qcompile.js`) turns a question into a record of subject, predicate, and the asked relation: who, what, where, when, why, how, quantity, or verdict. Research retrieval uses that record. Expansions above the projectable band are kept on the record and left unused.
 
@@ -164,7 +166,7 @@ Deep Dry-Run runs the pipeline on an isolated copy of the stores it snapshots, t
 | `economy.js`, `ledger.js`, `operator.js` | Counts, attribution, backup |
 | `sb_sync.js` | Optional Supabase sign-in. Blob sync attaches in `sb_blobs.js` |
 
-`source/verify/` holds the suite: `run.js` for a full run, `targeted.js` for the Pages list in `targeted.json`. `source/tools/` is prepare, release, publish, and live comparison. `source/data/feature_registry.json` is the feature list: 278 entries at version 4.9.115. System Status shows a claim as proved when the suites linked to it passed in the verification run that built the page.
+`source/verify/` holds the suite: `run.js` for a full run, `targeted.js` for the Pages list in `targeted.json`. `source/tools/` is prepare, release, publish, and live comparison. `source/data/feature_registry.json` is the feature list: 280 entries at version 4.9.116. System Status shows a claim as proved when the suites linked to it passed in the verification run that built the page.
 
 Sign-in is a magic link plus device public-key registration. Reasoning modules do not import the account client, and answers are the same signed in or signed out. Row Level Security is the server boundary. The account schema and the `register-device` function are under `supabase/`.
 
@@ -187,7 +189,7 @@ git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile && sh 
 3. `python3 source/build.py` builds when the summary exists, nothing failed, passed plus not-run equals the total, the version matches `source/VERSION`, and the tree hash matches. It writes `_release/site` (the Pages tree, including `BUILD_MANIFEST.json` and `build-info.json`) and `_release/single`. The build date is the commit date.
 4. `node source/tools/verify_release.js` checks file hashes against the manifest, one version across the artifact, zero failed and zero not-run, the commit, the tree hash, and a clean git status. A summary that still contains not-run checks can pass step 3 and fail this step.
 
-GitHub Pages (`.github/workflows/pages.yml`) runs `sh source/tools/publish.sh` and uploads `_release/site` only. Publish uses the same prepare, build, and release check, with the targeted list in `source/verify/targeted.json` in place of the full suite. That list is the publish gate for 4.9.115: 237 passed of 237, 0 failed, 0 not run. The 4.9.114 gate was 234. The 4.9.113 gate was 231. The live 4.9.112 artifact reported 226 tests. A live probe at the end of publish does not block the upload.
+GitHub Pages (`.github/workflows/pages.yml`) runs `sh source/tools/publish.sh` and uploads `_release/site` only. Publish uses the same prepare, build, and release check, with the targeted list in `source/verify/targeted.json` in place of the full suite. That list is the publish gate for 4.9.116. The 4.9.115 gate was 237 passed of 237, 0 failed, 0 not run. The 4.9.114 gate was 234. The 4.9.113 gate was 231. The live 4.9.112 artifact reported 226 tests. A live probe at the end of publish does not block the upload.
 
 `BUILD_MANIFEST.json` is the hash list of the site just built. After a local build of the same commit, `node source/tools/verify_live.js https://bogaertn.github.io/forge-mobile/` compares the live manifest and every listed file with `_release/site`.
 

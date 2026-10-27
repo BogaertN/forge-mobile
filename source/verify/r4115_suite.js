@@ -105,7 +105,8 @@ T('an exported packet and a failure receipt verify offline, and a forged echo cl
 
 T('version, registry, CONFLICTS, and the in-app control close the locked queue', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.115', ver);
+  const parts = ver.split('.').map(Number);
+  expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 115, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' count ' + reg.count);
   const ids = reg.features.map(f => f.id);
@@ -141,7 +142,8 @@ T('version, registry, CONFLICTS, and the in-app control close the locked queue',
   const fn = app.slice(i, i + 700);
   expect(/KTurnPacket\.verify/.test(fn) && !/exportTurnPacket|store\.load\(/.test(fn), 'verify reads the turn store');
   const targeted = fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8');
-  expect(/"release": "4\.9\.115"/.test(targeted) && /r4115_suite\.js/.test(targeted), 'targeted gate');
+  const tg = JSON.parse(targeted), tp = String(tg.release || '').split('.').map(Number);
+  expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 115 && (tg.suites || []).includes('r4115_suite.js'), 'targeted gate');
 });
 
 (async () => {
