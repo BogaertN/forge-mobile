@@ -1,0 +1,378 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_o",
+ "provenance": "confirmed_shared",
+ "letter": "O",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 83,
+ "items": [
+  {
+   "id": "cs_o_oman_01",
+   "text": "Muscat is the capital of Oman",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oman · cs_o_oman_01"
+  },
+  {
+   "id": "cs_o_ottawa_01",
+   "text": "Ottawa is in the province of Ontario",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ottawa · cs_o_ottawa_01"
+  },
+  {
+   "id": "cs_o_ouagadougou_01",
+   "text": "Ouagadougou is the capital of Burkina Faso",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ouagadougou · cs_o_ouagadougou_01"
+  },
+  {
+   "id": "cs_o_ohio_01",
+   "text": "Columbus is the capital of Ohio",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ohio · cs_o_ohio_01"
+  },
+  {
+   "id": "cs_o_oklahoma_01",
+   "text": "Oklahoma City is the capital of Oklahoma",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oklahoma · cs_o_oklahoma_01"
+  },
+  {
+   "id": "cs_o_oregon_01",
+   "text": "Salem is the capital of Oregon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oregon · cs_o_oregon_01"
+  },
+  {
+   "id": "cs_o_olympia_01",
+   "text": "Olympia is the capital of Washington State",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Olympia · cs_o_olympia_01"
+  },
+  {
+   "id": "cs_o_ontario_01",
+   "text": "Toronto is the capital of Ontario",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ontario · cs_o_ontario_01"
+  },
+  {
+   "id": "cs_o_okavango_delta_01",
+   "text": "The Okavango Delta is in Botswana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Okavango Delta · cs_o_okavango_delta_01"
+  },
+  {
+   "id": "cs_o_oceania_01",
+   "text": "Oceania includes Australia and the Pacific islands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oceania · cs_o_oceania_01"
+  },
+  {
+   "id": "cs_o_ocean_02",
+   "text": "The Pacific is the largest ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ocean · cs_o_ocean_02"
+  },
+  {
+   "id": "cs_o_okinawa_01",
+   "text": "Okinawa is an island of Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Okinawa · cs_o_okinawa_01"
+  },
+  {
+   "id": "cs_o_oxygen_01",
+   "text": "Oxygen has the chemical symbol O",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_01"
+  },
+  {
+   "id": "cs_o_oxygen_03",
+   "text": "Oxygen makes up about 21 percent of Earth's atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_03"
+  },
+  {
+   "id": "cs_o_osmium_01",
+   "text": "Osmium has the chemical symbol Os",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmium · cs_o_osmium_01"
+  },
+  {
+   "id": "cs_o_osmium_02",
+   "text": "Osmium is the densest naturally occurring element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmium · cs_o_osmium_02"
+  },
+  {
+   "id": "cs_o_ozone_01",
+   "text": "Ozone is a molecule of three oxygen atoms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ozone · cs_o_ozone_01"
+  },
+  {
+   "id": "cs_o_orbit_01",
+   "text": "Earth orbits the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_01"
+  },
+  {
+   "id": "cs_o_ohm_01",
+   "text": "The ohm is the SI unit of electrical resistance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ohm · cs_o_ohm_01"
+  },
+  {
+   "id": "cs_o_oort_cloud_01",
+   "text": "The Oort cloud is a distant shell of icy bodies surrounding the solar system",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oort cloud · cs_o_oort_cloud_01"
+  },
+  {
+   "id": "cs_o_olympus_mons_01",
+   "text": "Olympus Mons is on Mars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Olympus Mons · cs_o_olympus_mons_01"
+  },
+  {
+   "id": "cs_o_orion_01",
+   "text": "Orion is a constellation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orion · cs_o_orion_01"
+  },
+  {
+   "id": "cs_o_optic_nerve_01",
+   "text": "The optic nerve carries visual signals from the eye to the brain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_01"
+  },
+  {
+   "id": "cs_o_osmosis_01",
+   "text": "Osmosis is the movement of water across a semipermeable membrane",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_01"
+  },
+  {
+   "id": "cs_o_obsidian_01",
+   "text": "Obsidian is volcanic glass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_01"
+  },
+  {
+   "id": "cs_o_owl_01",
+   "text": "Owls are birds of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Owl · cs_o_owl_01"
+  },
+  {
+   "id": "cs_o_owl_02",
+   "text": "Owls can rotate their heads about 270 degrees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Owl · cs_o_owl_02"
+  },
+  {
+   "id": "cs_o_octopus_01",
+   "text": "An octopus has eight arms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Octopus · cs_o_octopus_01"
+  },
+  {
+   "id": "cs_o_octopus_02",
+   "text": "An octopus has three hearts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Octopus · cs_o_octopus_02"
+  },
+  {
+   "id": "cs_o_ostrich_01",
+   "text": "The ostrich is the largest living bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_01"
+  },
+  {
+   "id": "cs_o_ostrich_02",
+   "text": "Ostriches cannot fly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_02"
+  },
+  {
+   "id": "cs_o_orangutan_01",
+   "text": "Orangutans are great apes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_01"
+  },
+  {
+   "id": "cs_o_orangutan_02",
+   "text": "Orangutans are native to Borneo and Sumatra",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_02"
+  },
+  {
+   "id": "cs_o_otter_01",
+   "text": "Sea otters use rocks as tools to open shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Otter · cs_o_otter_01"
+  },
+  {
+   "id": "cs_o_opossum_01",
+   "text": "The Virginia opossum is a marsupial",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Opossum · cs_o_opossum_01"
+  },
+  {
+   "id": "cs_o_oak_01",
+   "text": "Oak trees produce acorns",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oak · cs_o_oak_01"
+  },
+  {
+   "id": "cs_o_orchid_01",
+   "text": "Orchids are flowering plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orchid · cs_o_orchid_01"
+  },
+  {
+   "id": "cs_o_olive_01",
+   "text": "Olive oil is pressed from olives",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Olive · cs_o_olive_01"
+  },
+  {
+   "id": "cs_o_ox_01",
+   "text": "An ox is a cattle animal trained for draft work",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ox · cs_o_ox_01"
+  },
+  {
+   "id": "cs_o_olympic_games_02",
+   "text": "The first modern Olympic Games were held in Athens in 1896",
+   "standing": "projectable",
+   "evidence": "history · product curator · Olympic Games · cs_o_olympic_games_02"
+  },
+  {
+   "id": "cs_o_olympic_rings_01",
+   "text": "The Olympic flag has five rings",
+   "standing": "projectable",
+   "evidence": "general · product curator · Olympic rings · cs_o_olympic_rings_01"
+  },
+  {
+   "id": "cs_o_ottoman_empire_01",
+   "text": "The Ottoman Empire captured Constantinople in 1453",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ottoman Empire · cs_o_ottoman_empire_01"
+  },
+  {
+   "id": "cs_o_octavian_01",
+   "text": "Octavian took the title Augustus",
+   "standing": "projectable",
+   "evidence": "history · product curator · Octavian · cs_o_octavian_01"
+  },
+  {
+   "id": "cs_o_odyssey_01",
+   "text": "The Odyssey tells of Odysseus's journey home",
+   "standing": "projectable",
+   "evidence": "history · product curator · Odyssey · cs_o_odyssey_01"
+  },
+  {
+   "id": "cs_o_oregon_trail_01",
+   "text": "The Oregon Trail was a pioneer route to the American West",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oregon Trail · cs_o_oregon_trail_01"
+  },
+  {
+   "id": "cs_o_orwell_george_01",
+   "text": "George Orwell wrote Nineteen Eighty-Four",
+   "standing": "projectable",
+   "evidence": "history · product curator · Orwell, George · cs_o_orwell_george_01"
+  },
+  {
+   "id": "cs_o_odd_number_01",
+   "text": "An odd number is not divisible by 2",
+   "standing": "projectable",
+   "evidence": "math · product curator · Odd number · cs_o_odd_number_01"
+  },
+  {
+   "id": "cs_o_origin_01",
+   "text": "The origin of a coordinate plane is the point",
+   "standing": "projectable",
+   "evidence": "math · product curator · Origin · cs_o_origin_01"
+  },
+  {
+   "id": "cs_o_oval_01",
+   "text": "An oval is a rounded, elongated shape",
+   "standing": "projectable",
+   "evidence": "math · product curator · Oval · cs_o_oval_01"
+  },
+  {
+   "id": "cs_o_october_01",
+   "text": "October has 31 days",
+   "standing": "projectable",
+   "evidence": "general · product curator · October · cs_o_october_01"
+  },
+  {
+   "id": "cs_o_october_02",
+   "text": "October is the tenth month of the year",
+   "standing": "projectable",
+   "evidence": "general · product curator · October · cs_o_october_02"
+  },
+  {
+   "id": "cs_o_orchestra_01",
+   "text": "A symphony orchestra includes strings, woodwinds, brass, and percussion",
+   "standing": "projectable",
+   "evidence": "general · product curator · Orchestra · cs_o_orchestra_01"
+  },
+  {
+   "id": "cs_o_oboe_01",
+   "text": "The oboe is a woodwind instrument",
+   "standing": "projectable",
+   "evidence": "general · product curator · Oboe · cs_o_oboe_01"
+  },
+  {
+   "id": "cs_o_opera_01",
+   "text": "Opera is a dramatic work set to music",
+   "standing": "projectable",
+   "evidence": "general · product curator · Opera · cs_o_opera_01"
+  },
+  {
+   "id": "cs_o_origami_01",
+   "text": "Origami is the Japanese art of paper folding",
+   "standing": "projectable",
+   "evidence": "general · product curator · Origami · cs_o_origami_01"
+  },
+  {
+   "id": "cs_o_oxford_01",
+   "text": "The University of Oxford is in England",
+   "standing": "projectable",
+   "evidence": "general · product curator · Oxford · cs_o_oxford_01"
+  },
+  {
+   "id": "cs_o_oxford_02",
+   "text": "The University of Oxford is the oldest university in the English-speaking world",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oxford · cs_o_oxford_02"
+  },
+  {
+   "id": "cs_o_oak_02",
+   "text": "Oaks belong to the genus Quercus",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oak · cs_o_oak_02"
+  },
+  {
+   "id": "cs_o_orange_01",
+   "text": "Oranges are citrus fruits",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orange · cs_o_orange_01"
+  },
+  {
+   "id": "cs_o_ozone_02",
+   "text": "Ozone has the chemical formula O3",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ozone · cs_o_ozone_02"
+  },
+  {
+   "id": "cs_o_opal_01",
+   "text": "Opal is a gemstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Opal · cs_o_opal_01"
+  }
+ ]
+}
