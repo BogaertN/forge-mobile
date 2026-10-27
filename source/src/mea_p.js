@@ -303,6 +303,69 @@ function screen(M, cy) { const pool = (cy && cy.candidates) || [], hard = !!(cy 
     park.push({ id: 'arc:' + String(c.candidate_id || '').slice(5), schema: 'MEAArchive/v1', problem_id: M.problem_id, candidate_id: c.candidate_id, op: c.op, glyph: '⧀', claim: c.claim, claim_status: c.route === 'rejected' ? 'rejected' : 'cold_stored', route: c.route, reason: why, blocked_on: blocked, eps_micro: epsMicro, novelty_micro: c.terms ? c.terms.N : 0, novelty_class: nov, standing, drift_route: gov.route, parent_hash: M.hash }); }
   speak.sort((a, b) => a.candidate_id < b.candidate_id ? -1 : a.candidate_id > b.candidate_id ? 1 : 0);
   return { schema: 'MEAProposalScreen/v1', problem_id: M.problem_id, parent_hash: M.hash, manifest_schema: SCHEMA, speak, park, carried, cite: 'DRIFT_TABLE + RSOC_STANDING + EDE novelty' }; }
+/* 4.9.120: CREATE/EXPLORE over an EDE result. Novelty without anchors is unbound, never a discovery claim.
+   Quarantine-band anchored ideas may be spoken. Projectable speech still needs bounded novelty. Nothing here writes. */
+const DISCOVERY_STATUS = { verified_claim: 1, derived_claim: 1, resolved_manifest: 1, named_concept: 1 };
+function creativeScreen(edeOut, opts) {
+  const intent = opts && opts.intent === 'EXPLORE' ? 'EXPLORE' : 'CREATE';
+  const P = EDE.DEFAULTS;
+  const lab = k => (/^user\//.test(String(k)) ? 'your ' + String(k).slice(5) : k === 'user' ? 'you' : String(k == null ? '' : k).replace(/^[a-z]+:/, ''));
+  const rel = r => (/^cmp:/.test(r) ? r.slice(4) + 'er than' : r === 'isa' ? 'is a' : r === 'partof' ? 'part of' : /^shares:/.test(r) ? 'shares ' + rel(r.slice(7)) + ' with' : String(r).replace(/∘/g, ' then '));
+  const textOf = c => { const cl = (c && c.claim) || {}; return lab(cl.subject) + ' ' + rel(cl.relation || '') + ' ' + lab(cl.object); };
+  const klassOf = (N, anchored) => !anchored || typeof N !== 'number' || !isFinite(N) ? 'unbound' : N < P.N_min ? 'redundant' : N > P.N_max ? 'overextended' : 'bounded';
+  const pub = c => ({ id: c.id, claim: c.claim, claim_status: c.claim_status, novelty: c.novelty, drift: c.drift, spoken: !!c.spoken, reason: c.spoken ? null : c.reason });
+  if (!edeOut || !edeOut.anchors) {
+    const cand = { id: null, claim: null, claim_status: 'rejected', novelty: { N: null, class: 'unbound', anchored: false }, drift: { eps_s: null, band: 'unmeasured' }, spoken: false, reason: 'novelty unbound' };
+    return { schema: 'MEACreativeScreen/v1', intent, failure: { class: 'novelty_unbound', detail: 'novelty without a memory anchor' }, candidates: [pub(cand)], speak: [] };
+  }
+  const rows = [].concat(edeOut.retained || [], edeOut.archived || [], edeOut.rejected || []);
+  const cands = rows.map(c => {
+    const N = c.novelty && typeof c.novelty.N === 'number' ? c.novelty.N : null;
+    const anchored = !!(c.anchor_ids && c.anchor_ids.length);
+    const klass = klassOf(N, anchored);
+    const eps = c.drift && typeof c.drift.eps_s === 'number' ? c.drift.eps_s : null;
+    const band = KM.driftGovernance(eps).band;
+    const op = String(c.creation_operator || '');
+    const contradiction = op === 'contradiction_probe' || c.archive_status === 'unresolved_contradiction';
+    const phaseGated = c.archive_status === 'phase_gated';
+    let claim_status = 'rejected';
+    if (anchored && klass !== 'unbound' && band !== 'reject' && band !== 'unmeasured') {
+      if (band === 'explore') claim_status = klass === 'bounded' ? 'hypothesis' : 'speculative_branch';
+      else if (band === 'projectable' && klass === 'bounded') claim_status = 'hypothesis';
+    }
+    if (klass === 'unbound' || DISCOVERY_STATUS[claim_status] && klass === 'unbound') claim_status = 'rejected';
+    let spoken = false, reason = null;
+    if (!anchored || klass === 'unbound') reason = 'novelty unbound';
+    else if (band === 'reject' || (typeof eps === 'number' && eps > 0.80)) reason = 'hard stop: ε_s above 0.80';
+    else if (contradiction) reason = 'contradiction probe';
+    else if (phaseGated) reason = 'phase gated';
+    else if (band === 'correct') reason = 'correction band: χ only';
+    else if (band === 'projectable' && klass !== 'bounded') reason = klass === 'overextended' ? 'novelty above N_max' : 'novelty below N_min';
+    else if (band === 'explore' && (claim_status === 'hypothesis' || claim_status === 'speculative_branch')) spoken = true;
+    else if (band === 'projectable' && klass === 'bounded' && claim_status === 'hypothesis') spoken = true;
+    else reason = 'not a spoken proposal';
+    return { id: c.branch_id || null, claim: textOf(c), claim_status, novelty: { N: N, class: klass, anchored }, drift: { eps_s: eps, band }, spoken, reason };
+  });
+  let failure = null;
+  if (cands.length && cands.every(c => c.drift.band === 'reject' || c.novelty.class === 'unbound')) {
+    failure = { class: 'drift_hard', detail: 'drift above 0.80' };
+    for (const c of cands) { c.spoken = false; if (!c.reason) c.reason = 'hard stop: ε_s above 0.80'; }
+  }
+  let speak = cands.filter(c => c.spoken);
+  if (!failure && intent === 'CREATE' && speak.length > 1) {
+    const pick = speak.find(c => c.drift.band === 'explore') || speak.find(c => c.drift.band === 'projectable') || speak[0];
+    for (const c of speak) if (c !== pick) { c.spoken = false; c.reason = 'not selected'; }
+    speak = [pick];
+  }
+  if (!failure && intent === 'EXPLORE' && speak.length > 4) {
+    const keep = new Set(speak.slice(0, 4));
+    for (const c of speak) if (!keep.has(c)) { c.spoken = false; c.reason = 'not selected'; }
+    speak = speak.slice(0, 4);
+  }
+  for (const c of cands) if (c.novelty.class === 'unbound' && DISCOVERY_STATUS[c.claim_status]) c.claim_status = 'rejected';
+  const candidates = cands.map(pub);
+  return { schema: 'MEACreativeScreen/v1', intent, failure, candidates, speak: candidates.filter(c => c.spoken) };
+}
 /* 4.9.108: a declared frame or parser cell as proposal data. applied is never taken from the caller. Nothing here installs a grammar table. */
 function mutableCandidates(rows) { const out = [];
   for (const s of rows || []) { if (!s || (s.fam !== 'frame' && s.fam !== 'parser') || s.legal === false) continue; if (s.proposed === undefined || s.proposed === s.base) continue;
@@ -317,6 +380,6 @@ function handoff(M) { if (!M || M.output_permissions !== 'render_allowed' || M.p
     favoured: pick(c => c.favoured && c.status === 'hypothesis'), hypotheses: pick(c => (c.status === 'hypothesis' || c.status === 'speculative_branch') && c.kind !== 'derived'),
     eliminated: M.unknowns.flatMap(u => (u.options || []).filter(o => o.eliminated).map(o => o.text)), open: unknownVector(M).filter(x => !x.resolved).map(x => x.text), manifest_hash: M.hash } }; }
 const api = { opCost, SCHEMA, CSCHEMA, VERSION, MICRO, CLAIM_STATUS, NEXT_ACTIONS, GAP_TYPES, TIERS, DISCHARGED, OPERATORS, LEX_ORDER, DEFAULT_BUDGET, canon, manifestHash, normalize, validate, unknownVector, exact, condHolds,
-  generate, replay, candHash, tiedOptions, splitNeeded, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, screen, mutableCandidates, displayScore };
+  generate, replay, candHash, tiedOptions, splitNeeded, terms, classify, gates, dominates, rank, cycle, commit, supply, requeue, handoff, screen, creativeScreen, mutableCandidates, displayScore };
 if (isNode) module.exports = api; else root.KMEAP = api;
 })(typeof self !== 'undefined' ? self : this);

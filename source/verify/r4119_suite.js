@@ -193,9 +193,10 @@ T('product copy refuses hardware SPC and automatic ChristPing and keeps chi as t
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.119 and leave creative writing unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.119', ver);
+  const parts = ver.split('.').map(Number);
+  expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 119, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
-  expect(reg.version === ver && reg.count === reg.features.length && reg.count === 289, reg.version + ' ' + reg.count);
+  expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   for (const id of ['R4119-RESURRECT', 'R4119-ARCHIVE', 'R4119-NOWRITE']) {
     const f = reg.features.find(x => x.id === id);
     expect(f && f.claim === 'Partial' && (f.proof || []).includes('R4119') && /4\.9\.119/.test(f.note), id);
@@ -204,7 +205,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.119 and leave creative 
   const a11 = reg.features.find(x => x.id === 'A-11');
   expect(a11 && /4\.9\.117/.test(a11.note) && /4\.9\.118/.test(a11.note) && /4\.9\.119/.test(a11.note), a11 && a11.note);
   const tally = {}; for (const f of reg.features) tally[f.claim] = (tally[f.claim] || 0) + 1;
-  expect(reg.claims.Implemented === 112 && reg.claims.Partial === tally.Partial + 1 && reg.claims.Partial === 127, JSON.stringify(reg.claims) + ' ' + tally.Partial);
+  expect(reg.claims.Implemented === 112 && reg.claims.Partial === tally.Partial + 1, JSON.stringify(reg.claims) + ' ' + tally.Partial);
   const cf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
   const at = cf.lastIndexOf('## v4.9.119');
   expect(at > cf.lastIndexOf('## v4.9.118'), 'section');
@@ -215,7 +216,8 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.119 and leave creative 
   const next = fs.readFileSync(ROOT + '/../NEXT_BUILD.md', 'utf8');
   expect(/4\.9\.119/.test(next) && /116–119|116-119/.test(next) && /creative writing/.test(next) && /not started|do not start/i.test(next), 'NEXT_BUILD');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(targeted.release === '4.9.119' && targeted.suites[0] === 'r4119_suite.js' && targeted.suites.includes('r4118_suite.js'), targeted.release + ' ' + targeted.suites[0]);
+  const tp = String(targeted.release || '').split('.').map(Number);
+  expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 119 && targeted.suites.includes('r4119_suite.js') && targeted.suites.includes('r4118_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const RP = require(ROOT + '/src/req_packet.js');
   const slice = RP.packet('4.9.119');
   expect(slice && slice.requirements.some(r => r.id === 'R4119-DREAM'), JSON.stringify(slice && slice.requirements.map(r => r.id)));

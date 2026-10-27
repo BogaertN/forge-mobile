@@ -1,5 +1,5 @@
 {
-  "version": "4.9.119",
+  "version": "4.9.120",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3094,13 +3094,40 @@
    "claim": "Partial",
    "note": "4.9.119: a proposal, a dream, and a quarantine inspect do not write memory, the world head, or the shared KB. χ is the correction function only. Shared KB stays empty.",
    "proof": ["R4119"]
+  },
+  {
+   "id": "R4120-INTENT",
+   "name": "CREATE and EXPLORE intents",
+   "source": "CONFLICTS.md v4.9.120",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.120: invent a hypothesis, come up with an idea, and create an idea are CREATE. explore alternatives is EXPLORE. explore ideas stays PROPOSE_EVIDENCE. Shared KB stays empty.",
+   "proof": ["R4120"]
+  },
+  {
+   "id": "R4120-NOVELTY",
+   "name": "Creative candidates carry novelty and drift",
+   "source": "CONFLICTS.md v4.9.120",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.120: a creative candidate records EDE novelty N and drift. Novelty without a memory anchor is unbound and is not a discovery claim. Shared KB stays empty.",
+   "proof": ["R4120"]
+  },
+  {
+   "id": "R4120-QUARANTINE",
+   "name": "A quarantine idea is spoken and tap-committed as a record",
+   "source": "CONFLICTS.md v4.9.120",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.120: drift 0.40–0.80 may be spoken as a hypothesis or a speculative branch. A tap commits the idea record only when drift is projectable. Memory, the world head, and the shared KB stay unchanged. Shared KB stays empty.",
+   "proof": ["R4120"]
   }
  ],
- "count": 289,
+ "count": 292,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 127,
+  "Partial": 130,
   "Missing": 9,
   "Out of scope / parked": 13
  }

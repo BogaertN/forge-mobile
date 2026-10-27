@@ -1,9 +1,18 @@
-# Next build order — after 4.9.119
+# Next build order — after 4.9.120
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.119 dream/SPC cleanup (shipped from 4.9.118)
+**Baseline:** 4.9.120 CREATE/EXPLORE novelty-banded ideas (shipped from 4.9.119)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. 4.9.117 records the requirement packet for that slice, keeps behavior tests separate from verifier gates, and writes the non-model receipt. 4.9.118 adds an offline math honesty research harness. It refuses manuscript equivalence. Nic's Mobile drift bands stay. 4.9.119 closes the dream/SPC honesty holes: resurrection is a proposal, and must_archive is a route input. The locked queue 116–119 is complete. Creative writing is next and was not started. Do not start Genesis, HCS, marketplace, agents, a shared KB, fluency, or creative writing from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. 4.9.117 records the requirement packet for that slice, keeps behavior tests separate from verifier gates, and writes the non-model receipt. 4.9.118 adds an offline math honesty research harness. It refuses manuscript equivalence. Nic's Mobile drift bands stay. 4.9.119 closes the dream/SPC honesty holes: resurrection is a proposal, and must_archive is a route input. The locked queue 116–119 is complete. 4.9.120 speaks a novelty-banded idea. Next is 4.9.121 COMPOSE. 4.9.122 Suppose story branches were not started. Do not start COMPOSE or Suppose from this file. Do not start Genesis, HCS, marketplace, agents, a shared KB, or fluency from this file.
+
+---
+
+## Shipped: **4.9.120** (2026-10-27)
+
+1. **CREATE and EXPLORE** — “invent a hypothesis”, “come up with an idea”, and “create an idea” are CREATE. “Explore alternatives” is EXPLORE. “Explore ideas” stays PROPOSE_EVIDENCE. Echo stays an exact Language Core reparse.
+2. **Novelty and drift** — each creative candidate carries EDE novelty N and drift. Novelty without a memory anchor is unbound and is refused for a discovery claim. A projectable bounded idea may be spoken as a hypothesis.
+3. **Quarantine speech, tap-only record** — drift 0.40–0.80 may be spoken as a hypothesis or a speculative branch. A seal phrase is not a tap. `commitIdea(id, true)` commits the idea record only when drift is at or under 0.35. Memory, the world head, and the shared KB stay unchanged. Drift above 0.80 is refused.
+4. **Queue** — 4.9.121 COMPOSE was not started. 4.9.122 Suppose was not started. Do not start them from this file. Genesis, HCS, marketplace, agents, fluency, Soft Echo, and a shared KB stay out.
 
 ---
 
@@ -12,7 +21,7 @@
 1. **Resurrection** — Memory-screen Resurrect and “resurrect” / “bring back” return a warm row to processing as a proposal. The seven gates do not store it. A separate commit tap is the only store. Echo stays an exact Language Core reparse.
 2. **must_archive** — the switch defaults to off. When it is on, containment routes the turn to software cold storage (`CR-MUST-ARCHIVE`) and inspect names `must_archive`. Ghost and the circuit breaker still win.
 3. **No silent write** — dream, SPC proposal, and quarantine inspect do not write memory, the world head, or the shared KB. Hardware SPC is not claimed. ChristPing is not built. χ is the correction function only.
-4. **Queue** — 4.9.116 through 4.9.119 are complete. Creative writing / novel-idea generative Language Core is next and was not started. Do not start it from this file. Genesis, HCS, marketplace, agents, fluency, Soft Echo, and a shared KB stay out.
+4. **Queue** — 4.9.116 through 4.9.119 are complete (queue 116–119). Creative writing / novel-idea generative Language Core is next and was not started. Do not start it from this file. Genesis, HCS, marketplace, agents, fluency, Soft Echo, and a shared KB stay out.
 
 ---
 
@@ -227,7 +236,7 @@ The audit Page “Recommended next core work” is complete for Forge Mobile. Do
 | Still parked | What it is |
 |-----------|------------|
 | Parked | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money, agents. |
-| Creative writing next | Novel-idea generative Language Core. Not started. Awaiting Nic. Dream/SPC cleanup shipped in 4.9.119. Hardware SPC is not claimed. ChristPing is not built. |
+| COMPOSE next | 4.9.121 narrative composition. Not started. 4.9.120 shipped CREATE/EXPLORE. 4.9.122 Suppose was not started. Hardware SPC is not claimed. ChristPing is not built. |
 
 ### Standing laws from the report (do not reopen without Nic)
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.

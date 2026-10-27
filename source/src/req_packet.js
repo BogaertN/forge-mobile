@@ -40,6 +40,14 @@
     copy: 'product copy refuses hardware SPC and automatic ChristPing and keeps chi as the correction function',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.119 and leave creative writing unstarted'
   };
+  const E = {
+    unbound: 'an unanchored invent is CREATE and refuses an unbound novelty',
+    project: 'a projectable hypothesis is CREATE and a tap commits the idea record only',
+    quarantine: 'explore alternatives speaks a quarantine idea and a tap does not store it',
+    hard: 'a hard drift seal is refused and a seal without a proposal is refused',
+    guard: 'explore ideas stays PROPOSE_EVIDENCE and a question about an idea stays READ',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.120 and leave COMPOSE and Suppose unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -56,6 +64,9 @@
     ] },
     { schema: SCHEMA, release: '4.9.119', requirements: [
       { id: 'R4119-DREAM', statement: 'Resurrection is a proposal, must_archive is a route input, and dream, SPC, and quarantine do not silently write.', falsify: 'Seven gates store memory, must_archive stays a side flag, or a dream or quarantine turn writes memory or the world head.', tests: [L('R4119.propose', 'r4119_suite.js', 'R4119', D.propose, 'POSITIVE'), L('R4119.commit', 'r4119_suite.js', 'R4119', D.commit, 'POSITIVE'), L('R4119.phrase', 'r4119_suite.js', 'R4119', D.phrase, 'POSITIVE'), L('R4119.route', 'r4119_suite.js', 'R4119', D.route, 'REGRESSION'), L('R4119.inspect', 'r4119_suite.js', 'R4119', D.inspect, 'ADVERSARIAL'), L('R4119.quiet', 'r4119_suite.js', 'R4119', D.quiet, 'NEGATIVE'), L('R4119.copy', 'r4119_suite.js', 'R4119', D.copy, 'REGRESSION'), L('R4119.ver', 'r4119_suite.js', 'R4119', D.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.120', requirements: [
+      { id: 'R4120-IDEA', statement: 'CREATE and EXPLORE carry novelty and drift. An unbound novelty is not a discovery. A quarantine idea may be spoken. A tap commits the idea record only.', falsify: 'A creative phrase is READ, an unbound novelty is spoken as a discovery, a quarantine tap writes memory or the world head, or a seal without a proposal stores a row.', tests: [L('R4120.unbound', 'r4120_suite.js', 'R4120', E.unbound, 'NEGATIVE'), L('R4120.project', 'r4120_suite.js', 'R4120', E.project, 'POSITIVE'), L('R4120.quarantine', 'r4120_suite.js', 'R4120', E.quarantine, 'ADVERSARIAL'), L('R4120.hard', 'r4120_suite.js', 'R4120', E.hard, 'NEGATIVE'), L('R4120.guard', 'r4120_suite.js', 'R4120', E.guard, 'REGRESSION'), L('R4120.ver', 'r4120_suite.js', 'R4120', E.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };
