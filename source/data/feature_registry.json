@@ -1,5 +1,5 @@
 {
-  "version": "4.9.113",
+  "version": "4.9.114",
  "features": [
   {
    "id": "A-01",
@@ -2959,13 +2959,31 @@
    "claim": "Partial",
    "note": "4.9.113: a turn receipt says why we believe it, from the record that already supports it. A lookup stays evidence. A source can be present and unsupported. Shared KB stays empty.",
    "proof": ["R4113"]
+  },
+  {
+   "id": "R4114-LAW",
+   "name": "MSM-v1 preservation class and lifecycle law",
+   "source": "CONFLICTS.md v4.9.114",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.114: reconstructed Doc 2 / MSM-v1. The Drive file was not recovered. The 13th preservation class action_proposal_simulation_and_observation is stamped on action, simulation, and observation records. Live transitions follow forge slice 35C. Illegal edges are rejected. 35D canonical bytes round-trip. This is not the forge2 draft/candidate contract table.",
+   "proof": ["R4114"]
+  },
+  {
+   "id": "R4114-CUSTODY",
+   "name": "MSM custody is separate from μ_t, evidence, memory, and Echo",
+   "source": "CONFLICTS.md v4.9.114",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.114: trace.msm cites reconstructed Doc 2 / MSM-v1 record ids. MSM does not select, execute, write memory, or approve Echo. μ_t, evidence, memory, and Echo stay outside the manifest. A receipt is not written into MSM. Shared KB stays empty.",
+   "proof": ["R4114"]
   }
  ],
- "count": 274,
+ "count": 276,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 112,
+  "Partial": 114,
   "Missing": 9,
   "Out of scope / parked": 13
  }
