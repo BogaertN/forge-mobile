@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -67,12 +67,6 @@
    "text": "Riyadh is the capital of Saudi Arabia",
    "standing": "projectable",
    "evidence": "geography · product curator · Riyadh · cs_r_riyadh_01"
-  },
-  {
-   "id": "cs_r_rio_de_janeiro_01",
-   "text": "rio de Janeiro was the capital of Brazil until 1960",
-   "standing": "projectable",
-   "evidence": "history · product curator · Rio de Janeiro · cs_r_rio_de_janeiro_01"
   },
   {
    "id": "cs_r_rhine_01",
@@ -373,6 +367,96 @@
    "text": "Reykjavík is the largest city in Iceland",
    "standing": "projectable",
    "evidence": "geography · product curator · Reykjavík · cs_r_reykjavik_03"
+  },
+  {
+   "id": "cs_r_rust_02",
+   "text": "Rust forms when iron reacts with oxygen and water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rust · cs_r_rust_02"
+  },
+  {
+   "id": "cs_r_rain_01",
+   "text": "Rain is liquid precipitation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rain · cs_r_rain_01"
+  },
+  {
+   "id": "cs_r_robin_02",
+   "text": "The American robin has a red-orange breast",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Robin · cs_r_robin_02"
+  },
+  {
+   "id": "cs_r_roman_empire_02",
+   "text": "Latin was the language of the Roman Empire",
+   "standing": "projectable",
+   "evidence": "history · product curator · Roman Empire · cs_r_roman_empire_02"
+  },
+  {
+   "id": "cs_r_revolutionary_war_01",
+   "text": "The American Revolutionary War ended with the Treaty of Paris in 1783",
+   "standing": "projectable",
+   "evidence": "history · product curator · Revolutionary War · cs_r_revolutionary_war_01"
+  },
+  {
+   "id": "cs_r_republic_02",
+   "text": "In a republic, citizens elect representatives",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Republic · cs_r_republic_02"
+  },
+  {
+   "id": "cs_r_red_sea_02",
+   "text": "The Red Sea separates Africa from the Arabian Peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Red Sea · cs_r_red_sea_02"
+  },
+  {
+   "id": "cs_r_root_01",
+   "text": "Roots absorb water and nutrients for plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Root · cs_r_root_01"
+  },
+  {
+   "id": "cs_r_reflection_02",
+   "text": "A mirror reflects light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflection · cs_r_reflection_02"
+  },
+  {
+   "id": "cs_r_rattlesnake_02",
+   "text": "Rattlesnakes are venomous snakes of the Americas",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rattlesnake · cs_r_rattlesnake_02"
+  },
+  {
+   "id": "cs_r_raven_02",
+   "text": "Ravens are large black birds in the crow family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Raven · cs_r_raven_02"
+  },
+  {
+   "id": "cs_r_rabbit_02",
+   "text": "Rabbits are herbivores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rabbit · cs_r_rabbit_02"
+  },
+  {
+   "id": "cs_r_ruby_01",
+   "text": "Ruby is a red gemstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ruby · cs_r_ruby_01"
+  },
+  {
+   "id": "cs_r_rocky_mountains_02",
+   "text": "The Rocky Mountains run from Canada to New Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rocky Mountains · cs_r_rocky_mountains_02"
+  },
+  {
+   "id": "cs_r_rose_02",
+   "text": "Roses have thorny stems",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rose · cs_r_rose_02"
   }
  ]
 }

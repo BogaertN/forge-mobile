@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 84,
+ "curated_facts": 101,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -421,6 +421,72 @@
    "text": "Sweden is in Scandinavia",
    "standing": "projectable",
    "evidence": "geography · product curator · Sweden · cs_s_sweden_02"
+  },
+  {
+   "id": "cs_s_switzerland_02",
+   "text": "Bern is the capital of Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Switzerland · cs_s_switzerland_02"
+  },
+  {
+   "id": "cs_s_solid_01",
+   "text": "A solid has a fixed shape and volume",
+   "standing": "projectable",
+   "evidence": "science · product curator · Solid · cs_s_solid_01"
+  },
+  {
+   "id": "cs_s_sparrow_01",
+   "text": "Sparrows are small songbirds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sparrow · cs_s_sparrow_01"
+  },
+  {
+   "id": "cs_s_spider_02",
+   "text": "Spiders have eight legs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spider · cs_s_spider_02"
+  },
+  {
+   "id": "cs_s_south_carolina_01",
+   "text": "Columbia is the capital of South Carolina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · South Carolina · cs_s_south_carolina_01"
+  },
+  {
+   "id": "cs_s_saturn_04",
+   "text": "Saturn is known for its rings",
+   "standing": "projectable",
+   "evidence": "science · product curator · Saturn · cs_s_saturn_04"
+  },
+  {
+   "id": "cs_s_steel_01",
+   "text": "Steel is an alloy of iron and carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Steel · cs_s_steel_01"
+  },
+  {
+   "id": "cs_s_sheep_01",
+   "text": "Sheep are raised for wool and meat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sheep · cs_s_sheep_01"
+  },
+  {
+   "id": "cs_s_stork_01",
+   "text": "Storks are large wading birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Stork · cs_s_stork_01"
+  },
+  {
+   "id": "cs_s_snail_01",
+   "text": "Snails are mollusks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Snail · cs_s_snail_01"
+  },
+  {
+   "id": "cs_s_starling_01",
+   "text": "Starlings often fly in large flocks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Starling · cs_s_starling_01"
   }
  ]
 }

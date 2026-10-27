@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -373,6 +373,96 @@
    "text": "Turquoise is a blue-green mineral",
    "standing": "projectable",
    "evidence": "science · product curator · Turquoise · cs_t_turquoise_01"
+  },
+  {
+   "id": "cs_t_tigris_02",
+   "text": "The Tigris flows through Turkey, Syria, and Iraq",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tigris · cs_t_tigris_02"
+  },
+  {
+   "id": "cs_t_thunder_01",
+   "text": "Thunder is caused by lightning heating the air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thunder · cs_t_thunder_01"
+  },
+  {
+   "id": "cs_t_termite_02",
+   "text": "Termites live in colonies",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Termite · cs_t_termite_02"
+  },
+  {
+   "id": "cs_t_titanic_03",
+   "text": "The Titanic sank in 1912",
+   "standing": "projectable",
+   "evidence": "history · product curator · Titanic · cs_t_titanic_03"
+  },
+  {
+   "id": "cs_t_tanganyika_lake_01",
+   "text": "Lake Tanganyika is one of the deepest lakes in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tanganyika, Lake · cs_t_tanganyika_lake_01"
+  },
+  {
+   "id": "cs_t_tornado_02",
+   "text": "Tornadoes are rotating columns of air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tornado · cs_t_tornado_02"
+  },
+  {
+   "id": "cs_t_tongue_01",
+   "text": "The tongue helps with taste and speech",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tongue · cs_t_tongue_01"
+  },
+  {
+   "id": "cs_t_trout_02",
+   "text": "Trout are freshwater fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Trout · cs_t_trout_02"
+  },
+  {
+   "id": "cs_t_tapir_01",
+   "text": "Tapirs have a short flexible snout",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tapir · cs_t_tapir_01"
+  },
+  {
+   "id": "cs_t_tick_01",
+   "text": "Ticks are arachnids",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tick · cs_t_tick_01"
+  },
+  {
+   "id": "cs_t_tortoise_02",
+   "text": "Tortoises live on land",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_02"
+  },
+  {
+   "id": "cs_t_thistle_01",
+   "text": "Thistles are prickly flowering plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Thistle · cs_t_thistle_01"
+  },
+  {
+   "id": "cs_t_tower_of_london_02",
+   "text": "The Tower of London is a castle on the River Thames",
+   "standing": "projectable",
+   "evidence": "history · product curator · Tower of London · cs_t_tower_of_london_02"
+  },
+  {
+   "id": "cs_t_teak_01",
+   "text": "Teak is a tropical hardwood tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Teak · cs_t_teak_01"
+  },
+  {
+   "id": "cs_t_tuna_01",
+   "text": "Tuna are fast-swimming ocean fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tuna · cs_t_tuna_01"
   }
  ]
 }
