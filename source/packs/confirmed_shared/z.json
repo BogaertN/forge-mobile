@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 110,
+ "curated_facts": 136,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -535,6 +535,162 @@
    "text": "Zurich is a city in Switzerland",
    "standing": "projectable",
    "evidence": "geography · product curator · Zurich · cs_z_zurich_04"
+  },
+  {
+   "id": "cs_z_zambia_05",
+   "text": "Zambia is a country in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_05"
+  },
+  {
+   "id": "cs_z_zambia_06",
+   "text": "Zambia borders Zimbabwe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_06"
+  },
+  {
+   "id": "cs_z_zimbabwe_06",
+   "text": "Zimbabwe is a country in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_06"
+  },
+  {
+   "id": "cs_z_zimbabwe_07",
+   "text": "Zimbabwe borders South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_07"
+  },
+  {
+   "id": "cs_z_zambezi_01",
+   "text": "The Zambezi is a river in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambezi · cs_z_zambezi_01"
+  },
+  {
+   "id": "cs_z_zanzibar_05",
+   "text": "Zanzibar is an island",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_05"
+  },
+  {
+   "id": "cs_z_zebra_08",
+   "text": "A zebra has black and white stripes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_08"
+  },
+  {
+   "id": "cs_z_zebra_09",
+   "text": "Zebras live in Africa",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_09"
+  },
+  {
+   "id": "cs_z_zebra_10",
+   "text": "A zebra is a herbivore",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_10"
+  },
+  {
+   "id": "cs_z_zebra_11",
+   "text": "Zebras eat grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_11"
+  },
+  {
+   "id": "cs_z_zinc_08",
+   "text": "The symbol for zinc is Zn",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_08"
+  },
+  {
+   "id": "cs_z_zirconium_03",
+   "text": "Zirconium is a metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_03"
+  },
+  {
+   "id": "cs_z_zucchini_03",
+   "text": "Zucchini is green",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_03"
+  },
+  {
+   "id": "cs_z_zeus_06",
+   "text": "Zeus was a god of the sky",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_06"
+  },
+  {
+   "id": "cs_z_zodiac_03",
+   "text": "The zodiac has twelve signs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_03"
+  },
+  {
+   "id": "cs_z_zipper_02",
+   "text": "A zipper fastens clothes",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zipper · cs_z_zipper_02"
+  },
+  {
+   "id": "cs_z_zinnia_04",
+   "text": "A zinnia is a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_04"
+  },
+  {
+   "id": "cs_z_zinc_09",
+   "text": "Zinc is used in batteries",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_09"
+  },
+  {
+   "id": "cs_z_zebra_12",
+   "text": "A zebra is related to the horse",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_12"
+  },
+  {
+   "id": "cs_z_zeus_07",
+   "text": "Zeus threw lightning",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_07"
+  },
+  {
+   "id": "cs_z_zeus_08",
+   "text": "Jupiter was the Roman name for Zeus",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_08"
+  },
+  {
+   "id": "cs_z_zanzibar_06",
+   "text": "Zanzibar is in the Indian Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_06"
+  },
+  {
+   "id": "cs_z_zambia_07",
+   "text": "Zambia has copper",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_07"
+  },
+  {
+   "id": "cs_z_zucchini_04",
+   "text": "Zucchini grows on a vine",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_04"
+  },
+  {
+   "id": "cs_z_zoologist_01",
+   "text": "A zoologist studies animals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zoologist · cs_z_zoologist_01"
+  },
+  {
+   "id": "cs_z_zimbabwe_08",
+   "text": "Zimbabwe has no coast",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_08"
   }
  ]
 }

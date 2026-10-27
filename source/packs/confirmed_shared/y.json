@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 102,
+ "curated_facts": 120,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -553,6 +553,114 @@
    "text": "Yaounde is the capital of Cameroon",
    "standing": "projectable",
    "evidence": "geography · product curator · Yaounde · cs_y_yaounde_02"
+  },
+  {
+   "id": "cs_y_yemen_04",
+   "text": "Yemen is a country in Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_04"
+  },
+  {
+   "id": "cs_y_yemen_05",
+   "text": "Yemen borders Saudi Arabia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_05"
+  },
+  {
+   "id": "cs_y_yangtze_01",
+   "text": "The Yangtze flows through China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_01"
+  },
+  {
+   "id": "cs_y_yak_06",
+   "text": "A yak lives in the Himalayas",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_06"
+  },
+  {
+   "id": "cs_y_yak_07",
+   "text": "A yak has long hair",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_07"
+  },
+  {
+   "id": "cs_y_yeast_05",
+   "text": "Yeast makes bread rise",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_05"
+  },
+  {
+   "id": "cs_y_year_05",
+   "text": "A year has twelve months",
+   "standing": "projectable",
+   "evidence": "math · product curator · Year · cs_y_year_05"
+  },
+  {
+   "id": "cs_y_yuan_02",
+   "text": "The yuan is the currency of China",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Yuan · cs_y_yuan_02"
+  },
+  {
+   "id": "cs_y_yiddish_03",
+   "text": "Yiddish is a Jewish language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_03"
+  },
+  {
+   "id": "cs_y_yangtze_02",
+   "text": "The Yangtze is a river in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_02"
+  },
+  {
+   "id": "cs_y_yellowstone_01",
+   "text": "Yellowstone is in Wyoming",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_01"
+  },
+  {
+   "id": "cs_y_yellowstone_02",
+   "text": "Yellowstone has geysers",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_02"
+  },
+  {
+   "id": "cs_y_yemen_06",
+   "text": "Yemen borders Oman",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_06"
+  },
+  {
+   "id": "cs_y_yak_08",
+   "text": "Yaks live in Tibet",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_08"
+  },
+  {
+   "id": "cs_y_yeast_06",
+   "text": "Bakers use yeast",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_06"
+  },
+  {
+   "id": "cs_y_yolk_02",
+   "text": "An egg has a yolk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_02"
+  },
+  {
+   "id": "cs_y_yolk_03",
+   "text": "A yolk is yellow",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_03"
+  },
+  {
+   "id": "cs_y_yard_04",
+   "text": "A yard is a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Yard · cs_y_yard_04"
   }
  ]
 }
