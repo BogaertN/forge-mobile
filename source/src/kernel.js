@@ -1221,6 +1221,47 @@ function Kernel(opts) {
       const pack = { intent: 'COMPOSE', source: source || null, failure, candidates: cand || [], msm_id: null };
       rules.push({ id: 'COMPOSE-REFUSE', doc: '4.9.121 COMPOSE: a paragraph is not a store and not a discovery', note: failure.class });
       return res('REFUSAL_RELEVANT', { kind: 'compose_refusal', creative_intent: 'COMPOSE', source: source || null, status: st, items: [], creative: pack }, { frame: 'FR.TOOL.EDE', act: 'question' }); };
+    /* 4.9.123: develop an admitted claim from memory anchors and lexicon glosses already on hand. No new fact is invented, and nothing is stored. */
+    const composeExpand = (claim, clause) => {
+      const clean = s => String(s || '').replace(/[“”"]/g, '').replace(/\s+/g, ' ').trim();
+      const headOf = n => { if (!n || typeof n !== 'object') return ''; if (n.propn) return String(n.propn).toLowerCase(); if (Array.isArray(n.head) && n.head.length) return String(n.head[n.head.length - 1]).toLowerCase(); return ''; };
+      const npHead = s => { const t = clean(s).toLowerCase().replace(/^(?:a|an|the)\s+/, '').trim(); if (!t) return ''; const bits = t.split(/\s+/); return bits[bits.length - 1]; };
+      const meta = /noted|told|composed|stored|paragraph/i;
+      const text = clean(claim); let parsed = null, m;
+      if ((m = /^(.*?) shares (.+) with (.*)$/i.exec(text)) && m[1] && m[3] && !meta.test(m[1])) parsed = { isa: false, subj: npHead(m[1]), obj: npHead(m[3]), rel: ('shares ' + clean(m[2]).toLowerCase() + ' with').replace(/\s+/g, ' ') };
+      else if ((m = /^(.*?) part of (.*)$/i.exec(text)) && m[1] && m[2] && !meta.test(m[1])) parsed = { isa: false, subj: npHead(m[1]), obj: npHead(m[2]), rel: 'part of' };
+      else if ((m = /^(.*?) is an? (.*)$/i.exec(text)) && m[1] && m[2] && !meta.test(m[1])) parsed = { isa: true, subj: npHead(m[1]), obj: npHead(m[2]), rel: 'is a' };
+      const want = new Set(); if (parsed) { if (parsed.subj) want.add(parsed.subj); if (parsed.obj) want.add(parsed.obj); }
+      if (clause && !clause.coord) { const hs = headOf(clause.subj), hp = clause.pred && clause.pred.np ? headOf(clause.pred.np) : ''; if (hs) want.add(hs); if (hp) want.add(hp); }
+      const anchors = []; const seen = new Set();
+      if (want.size) for (const f of activeFacts()) {
+        if (!f || f.sensitive || !f.clause || f.clause.coord || f.clause.cond) continue;
+        const hs = [headOf(f.clause.subj)]; if (f.clause.pred && f.clause.pred.np) hs.push(headOf(f.clause.pred.np));
+        if (!hs.some(h => h && want.has(h))) continue;
+        let sentence = ''; try { sentence = G.clauseText(f.clause, 'kernel'); } catch (e) { sentence = ''; }
+        sentence = String(sentence || '').replace(/[.]+$/, '').trim().toLowerCase(); if (!sentence || seen.has(sentence)) continue;
+        seen.add(sentence); anchors.push(f.clause); if (anchors.length >= 3) break;
+      }
+      const beNp = c => !!(c && c.verb && c.verb.lemma === 'be' && c.pred && c.pred.np && !c.coord);
+      let developed = null;
+      if (parsed && parsed.isa) { let subj = null, pred = null;
+        for (const f of activeFacts()) { if (!beNp(f.clause)) continue; if (!subj && headOf(f.clause.subj) === parsed.subj) subj = clone(f.clause.subj); if (!pred && headOf(f.clause.pred.np) === parsed.obj) pred = clone(f.clause.pred); }
+        if (subj && pred) developed = { subj, verb: { lemma: 'be', tense: 'present', pol: 'pos', mod: 'asserted' }, pred, roles: {}, adj: [] };
+      } else if (!parsed && beNp(clause)) developed = clause;
+      if (developed) { let devText = ''; try { devText = String(G.clauseText(developed, 'kernel') || '').replace(/[.]+$/, '').trim().toLowerCase(); } catch (e) { devText = ''; }
+        if (devText) { const kept = []; for (const a of anchors) { let t = ''; try { t = String(G.clauseText(a, 'kernel') || '').replace(/[.]+$/, '').trim().toLowerCase(); } catch (e) { t = ''; } if (t !== devText) kept.push(a); } anchors.length = 0; for (const a of kept) anchors.push(a); } }
+      const roles = [];
+      if (parsed && parsed.subj && parsed.rel && parsed.obj) roles.push({ role: 'subject', term: parsed.subj }, { role: 'relation', term: parsed.rel }, { role: 'predicate', term: parsed.obj });
+      else if (beNp(developed) || beNp(clause)) { const c = beNp(developed) ? developed : clause; const s = headOf(c.subj), o = headOf(c.pred.np); if (s) roles.push({ role: 'subject', term: s }); roles.push({ role: 'relation', term: 'is a' }); if (o) roles.push({ role: 'predicate', term: o }); }
+      const glossOf = w => { if (!w || !/^[a-z][a-z-]*$/.test(w) || !lex.senses) return ''; const ss = (lex.senses(w) || []).filter(s => s && s.pos === 'n' && s.gloss && s.provenance === 'Princeton WordNet 3.0' && !/provisional/i.test(s.gloss)); if (!ss.length) return ''; const g = String(ss[0].gloss).replace(/[“”"]/g, '').replace(/[.?!]/g, '').replace(/\s+/g, ' ').trim(); return !g || g.length > 220 ? '' : g; };
+      const glossTerms = []; if (parsed) glossTerms.push(parsed.subj, parsed.obj);
+      const c0 = developed || clause; if (c0) { glossTerms.push(headOf(c0.subj)); if (c0.pred && c0.pred.np) glossTerms.push(headOf(c0.pred.np)); }
+      for (const a of anchors) { glossTerms.push(headOf(a.subj)); if (a.pred && a.pred.np) glossTerms.push(headOf(a.pred.np)); }
+      let gloss = null; for (const w of glossTerms) { const g = glossOf(w); if (g) { gloss = { term: w, text: g }; break; } }
+      let frame = null; if (parsed && (parsed.rel === 'is a' || parsed.rel === 'part of' || /^shares /.test(parsed.rel || ''))) frame = parsed.rel; else if (roles.some(r => r.role === 'relation' && r.term === 'is a')) frame = 'is a';
+      const expand = {}; if (developed) expand.clause = developed; if (anchors.length) expand.anchors = anchors.slice(0, 3); if (roles.length) expand.roles = roles; if (frame) expand.frame = frame; if (gloss) expand.gloss = gloss;
+      return Object.keys(expand).length ? expand : null;
+    };
     const composeNarrate = (source, row) => { creativePending = null; const claim = composeClaim(row.claim); const novelty = row.novelty || { N: null, class: 'not_measured', anchored: true };
       const eps = row.drift && typeof row.drift.eps_s === 'number' ? row.drift.eps_s : null; const gov = M.driftGovernance(eps); const band = (row.drift && row.drift.band) || gov.band;
       const drift = { eps_s: eps, band }; const id = row.id; const discovery = ['verified_claim', 'derived_claim', 'resolved_manifest', 'named_concept'];
@@ -1229,13 +1270,14 @@ function Kernel(opts) {
       if (novelty.class === 'unbound' || novelty.anchored === false || (discovery.includes(row.claim_status) && novelty.class !== 'bounded')) return composeRefuse(source, { class: 'novelty_unbound', detail: 'unbound novelty is not a discovery' }, cand(false, 'novelty unbound', 'rejected'));
       if (band === 'reject' || (typeof eps === 'number' && eps > 0.80)) return composeRefuse(source, { class: 'drift_hard', detail: 'drift above 0.80' }, cand(false, 'hard stop: ε_s above 0.80', 'rejected'));
       const status = row.claim_status || 'hypothesis'; const pack = { intent: 'COMPOSE', source, failure: null, candidates: cand(true, null, status), msm_id: row.msm_id || null };
-      rules.push({ id: 'COMPOSE-NARRATE', doc: '4.9.121 COMPOSE: multi-sentence Language Core prose of an admitted meaning', note: source + ' · ' + status });
-      return res('SELECTED_MEANING', { kind: 'compose_narrative', creative_intent: 'COMPOSE', source, items: [claim], status, creative: pack }, { frame: 'FR.TOOL.EDE', act: 'question' }); };
+      const meaning = { kind: 'compose_narrative', creative_intent: 'COMPOSE', source, items: [claim], status, creative: pack }; const expand = composeExpand(claim, row.clause || null); if (expand) meaning.expand = expand;
+      rules.push({ id: 'COMPOSE-NARRATE', doc: '4.9.123 COMPOSE: the paragraph develops the admitted meaning and does not store', note: source + ' · ' + status });
+      return res('SELECTED_MEANING', meaning, { frame: 'FR.TOOL.EDE', act: 'question' }); };
     const ideaRow = () => { const rows = (store.load('creative_proposals') || []).filter(r => r && (r.status === 'proposed' || r.status === 'committed')); return rows.length ? rows[rows.length - 1] : null; };
     const msmRow = () => { const tl = store.load('trace') || []; for (let i = tl.length - 1; i >= 0; i--) { const t = tl[i]; const kind = t && t.msm && t.msm.meaning && t.msm.meaning.kind; if (!(t && t.output && !t.blocked && t.msm_v1 && t.msm_v1.manifest_id) || /^compose_/.test(kind || '')) continue; return t; } return null; };
     const asIdea = row => ({ id: row.id, claim: row.claim, claim_status: row.claim_status || 'hypothesis', novelty: row.novelty, drift: row.drift, msm_id: null });
     const asMsm = t => { const meaning = (t.msm && t.msm.meaning) || {}; const status = meaning.status || (meaning.kind === 'stored' ? 'stored' : (meaning.kind || 'spoken'));
-      return { id: t.msm_v1.manifest_id, claim: t.output, claim_status: status, novelty: meaning.novelty || { N: null, class: 'not_measured', anchored: true }, drift: t.drift || { eps_s: null, band: 'unmeasured' }, msm_id: t.msm_v1.manifest_id }; };
+      return { id: t.msm_v1.manifest_id, claim: t.output, claim_status: status, novelty: meaning.novelty || { N: null, class: 'not_measured', anchored: true }, drift: t.drift || { eps_s: null, band: 'unmeasured' }, msm_id: t.msm_v1.manifest_id, clause: meaning.kind === 'stored' ? meaning.clause : null }; };
     let composePick = null;
     if (capF(low, { id: 'compose.idea', v: ['compose'], obj: ['idea'], re: /^$/ })) composePick = 'idea';
     else if (capF(low, { id: 'compose.msm', v: ['compose'], obj: ['meaning'], re: /^$/ })) composePick = 'msm';

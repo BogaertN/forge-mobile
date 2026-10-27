@@ -1,9 +1,18 @@
-# Next build order — after 4.9.122
+# Next build order — after 4.9.123
 **Date:** 2026-10-27 (America/Chicago)
-**Baseline:** 4.9.122 Suppose story branches as isolated SIMULATE (shipped from 4.9.121)
+**Baseline:** 4.9.123 richer COMPOSE expansion under Language Core (shipped from 4.9.122)
 **Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; shared KB stays empty; size never blocks; do not push from audit.
 
-**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. 4.9.117 records the requirement packet for that slice, keeps behavior tests separate from verifier gates, and writes the non-model receipt. 4.9.118 adds an offline math honesty research harness. It refuses manuscript equivalence. Nic's Mobile drift bands stay. 4.9.119 closes the dream/SPC honesty holes: resurrection is a proposal, and must_archive is a route input. The locked queue 116–119 is complete. 4.9.120 speaks a novelty-banded idea. 4.9.121 composes that idea or meaning as a paragraph. 4.9.122 isolates a story suppose as a counterfactual simulation. creative queue 120–122 complete. Await Nic. Do not start a further creative phase from this file. Do not start Genesis, HCS, marketplace, agents, a shared KB, or fluency from this file.
+**Page “Recommended next core work”:** all six items are complete for Forge Mobile. Item 1 intents is 4.9.103. Item 2 evidence admission is 4.9.107. Item 3 persistent W_v is 4.9.105. Item 4 MEA-P deepening is 4.9.108. Item 5 versioned RSOC operators is 4.9.109. Item 6 registry/CONFLICTS hygiene is 4.9.110. 4.9.111 shipped the exportable turn packet. 4.9.112 names the Doc 6 gate and fills not-selected candidates. 4.9.113 separates Language corpus, Evidence, Memory, Trace/receipt, and Authority records on Audit / Receipts. 4.9.114 finishes reconstructed Doc 2 / MSM-v1 custody. The Doc 2 file was not recovered. 4.9.115 separates Pattern Reflection, Tool Bench, RMC Echo, and the Foundation layer, and verifies an exported packet offline. Nic's locked architecture queue is complete. 4.9.116 admits five controlled concepts and seven predicate-role frames for ordinary pathways the loaded lexicon could not say. 4.9.117 records the requirement packet for that slice, keeps behavior tests separate from verifier gates, and writes the non-model receipt. 4.9.118 adds an offline math honesty research harness. It refuses manuscript equivalence. Nic's Mobile drift bands stay. 4.9.119 closes the dream/SPC honesty holes: resurrection is a proposal, and must_archive is a route input. The locked queue 116–119 is complete. 4.9.120 speaks a novelty-banded idea. 4.9.121 composes that idea or meaning as a paragraph. 4.9.122 isolates a story suppose as a counterfactual simulation. creative queue 120–122 complete. Await Nic. Do not start a further creative phase from this file. Do not start Genesis, HCS, marketplace, agents, a shared KB, or fluency from this file. 4.9.123 expands a composed paragraph from roles, relations, memory anchors, and a lexicon gloss already licensed by the kernel. The next item is the confirmed-facts design Page. That design was not started. Do not start a shared KB write from this file.
+
+---
+
+## Shipped: **4.9.123** (2026-10-27)
+
+1. **COMPOSE expansion** — “compose that idea”, “write it out”, and “explain it as a short paragraph” still route to COMPOSE. The paragraph develops the idea in several Language Core sentences: the proposition, what was already told, the roles, the frame, and a lexicon gloss already on hand. Echo stays an exact Language Core reparse.
+2. **Status** — a hypothesis stays a hypothesis. A speculative branch stays a speculative branch. The reply still says it has not stored the paragraph. Quarantine ideas may expand and stay non-projectable.
+3. **Custody** — compose does not write memory, the world head, or the shared KB. Unbound novelty, drift above 0.80, an empty claim, and a missing selection stay refused and do not expand.
+4. **Queue** — the confirmed-facts design Page was not started. A shared KB write was not started. Do not start them from this file. Genesis, HCS, marketplace, agents, fluency, Soft Echo, and hardware SPC stay out.
 
 ---
 
@@ -254,7 +263,7 @@ The audit Page “Recommended next core work” is complete for Forge Mobile. Do
 | Still parked | What it is |
 |-----------|------------|
 | Parked | Genesis Node, HCS, Identity Vault as a product, marketplace, CT-as-money, agents. |
-| Creative queue | creative queue 120–122 complete. 4.9.120 CREATE/EXPLORE, 4.9.121 COMPOSE, and 4.9.122 Suppose SIMULATE shipped. Await Nic. Do not start a further creative phase. Hardware SPC is not claimed. ChristPing is not built. |
+| Creative queue | creative queue 120–122 complete. 4.9.120 CREATE/EXPLORE, 4.9.121 COMPOSE, and 4.9.122 Suppose SIMULATE shipped. 4.9.123 expands COMPOSE. The next item is the confirmed-facts design Page. That design was not started. No shared KB write. Await Nic. Do not start a further creative phase. Hardware SPC is not claimed. ChristPing is not built. |
 
 ### Standing laws from the report (do not reopen without Nic)
 - No LLM / embedding / learned-classifier **authority** in the core. EchoForge advisory only.

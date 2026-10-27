@@ -553,19 +553,28 @@ function creativePlan(m) {
   const status = m.status ? [S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.status) }) }))] : [];
   return [head, stored].concat(seal).concat(status);
 }
-/* 4.9.121: a paragraph of an admitted idea or MSM. The claim and the status are mentions. The sentences do not store a fact. */
+/* 4.9.121: a paragraph of an admitted idea or MSM. The claim and the status are mentions. The sentences do not store a fact.
+ * 4.9.123: when the meaning carries an expansion, the paragraph develops that idea in further Language Core sentences
+ * (the proposition, what was told, the roles, the frame, a lexicon definition). A refusal carries no expansion. */
 function composePlan(m) {
   const src = m.source === 'msm' ? 'meaning' : 'idea';
   const items = m.items || [];
   const head = items.length
     ? S(C('compose', { karta: I, karma: N('paragraph', { det: 'a' }), roles: { apadana: N(src, { det: 'the' }) }, tense: 'past' }))
     : S(C('compose', { karta: I, karma: N('paragraph', { det: 'no' }), tense: 'past' }));
+  const ex = m.expand || {};
+  const developed = [];
+  if (ex.clause) developed.push(clauseSentence(ex.clause));
+  for (const a of ex.anchors || []) if (a) developed.push(told(a));
+  for (const r of ex.roles || []) if (r && r.role && r.term) developed.push(S(C('hold', { karta: N(r.role, { det: 'the' }), karma: N('role', { det: 'the', app: Mn(r.term) }) })));
+  if (ex.frame) developed.push(S(C('hold', { karta: N('frame', { det: 'the' }), karma: N('role', { det: 'the', app: Mn(ex.frame) }) })));
+  if (ex.gloss && ex.gloss.term && ex.gloss.text) developed.push(S(C('mean', { karta: N('definition', { det: 'the', of: Mn(ex.gloss.term) }), karma: Mn(ex.gloss.text) })));
   const stated = items.length ? [S(C('state', { karta: N('paragraph', { det: 'the' }), karma: N('claim', { cnt: items.length, list: { kind: 'mention', items } }) }))] : [];
   const stored = S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }));
   const shared = S(C('store', { karta: I, karma: N('fact', { det: 'a', adj: ['shared'] }), aspect: 'perf', pol: 'neg' }));
   const world = S(C('write', { karta: I, karma: N('world', { det: 'the' }), tense: 'past', pol: 'neg' }));
   const status = m.status ? [S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.status) }) }))] : [];
-  return [head].concat(stated).concat([stored, shared, world]).concat(status);
+  return [head].concat(developed).concat(stated).concat([stored, shared, world]).concat(status);
 }
 /* 4.9.122: a story branch is a counterfactual simulation. The claim and the status are mentions. Nothing is stored. */
 function supposePlan(m) {

@@ -69,6 +69,15 @@
     guard: 'a syllogism Suppose, a bare Suppose, and a dynamics what-if stay on their routes',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.122 and leave the next creative unstarted'
   };
+  const H = {
+    expand: 'a projectable idea expands beyond the claim into roles, anchors, and a lexicon gloss',
+    phrase: 'compose phrases still route to COMPOSE and each one expands the same idea',
+    quarantine: 'a quarantine idea expands and stays non-projectable',
+    refuse: 'compose refusals stay commit_without_proposal, novelty_unbound, drift_hard, and language_unexpressible',
+    meaning: 'compose that meaning expands the selected clause and does not store',
+    echo: 'an Echo miss blocks the expansion and stores nothing',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.123 and leave the confirmed-facts design unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -94,6 +103,9 @@
     ] },
     { schema: SCHEMA, release: '4.9.122', requirements: [
       { id: 'R4122-SUPPOSE', statement: 'A Suppose story is an isolated SIMULATE branch. The surface names it a counterfactual simulation. Parking it uses dream quarantine. It does not write the world head, memory, or the shared KB.', falsify: 'A story suppose is spoken as a fact, a park writes the world, or a world-write, an unbound discovery, or a commit with no branch is stored.', tests: [L('R4122.open', 'r4122_suite.js', 'R4122', G.open, 'POSITIVE'), L('R4122.cont', 'r4122_suite.js', 'R4122', G.cont, 'POSITIVE'), L('R4122.park', 'r4122_suite.js', 'R4122', G.park, 'ADVERSARIAL'), L('R4122.world', 'r4122_suite.js', 'R4122', G.world, 'NEGATIVE'), L('R4122.unbound', 'r4122_suite.js', 'R4122', G.unbound, 'NEGATIVE'), L('R4122.none', 'r4122_suite.js', 'R4122', G.none, 'NEGATIVE'), L('R4122.echo', 'r4122_suite.js', 'R4122', G.echo, 'ADVERSARIAL'), L('R4122.guard', 'r4122_suite.js', 'R4122', G.guard, 'REGRESSION'), L('R4122.ver', 'r4122_suite.js', 'R4122', G.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.123', requirements: [
+      { id: 'R4123-COMPOSE', statement: 'COMPOSE expands a staged idea or a selected meaning into several Language Core sentences that develop the idea. The paragraph exact-Echoes. Claim status stays visible. Memory, the world head, and the shared KB stay unchanged.', falsify: 'Compose only restates the claim, a compose phrase is READ or EXPLAIN, the expansion writes memory, the world head, or the shared KB, or a refusal stores a row.', tests: [L('R4123.expand', 'r4123_suite.js', 'R4123', H.expand, 'POSITIVE'), L('R4123.phrase', 'r4123_suite.js', 'R4123', H.phrase, 'POSITIVE'), L('R4123.quarantine', 'r4123_suite.js', 'R4123', H.quarantine, 'ADVERSARIAL'), L('R4123.refuse', 'r4123_suite.js', 'R4123', H.refuse, 'NEGATIVE'), L('R4123.meaning', 'r4123_suite.js', 'R4123', H.meaning, 'POSITIVE'), L('R4123.echo', 'r4123_suite.js', 'R4123', H.echo, 'ADVERSARIAL'), L('R4123.ver', 'r4123_suite.js', 'R4123', H.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };

@@ -1,5 +1,5 @@
 {
-  "version": "4.9.122",
+  "version": "4.9.123",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3175,13 +3175,40 @@
    "claim": "Partial",
    "note": "4.9.122: park or end keeps the branch in dream quarantine. A world-write is world_write. An unbound discovery is novelty_unbound. A commit with no branch is commit_without_proposal. Shared KB stays empty.",
    "proof": ["R4122"]
+  },
+  {
+   "id": "R4123-EXPAND",
+   "name": "COMPOSE expands a staged idea into several sentences",
+   "source": "CONFLICTS.md v4.9.123",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.123: compose that idea, write it out, and explain it as a short paragraph develop the idea in several Language Core sentences. A custody restatement is not the paragraph. Shared KB stays empty.",
+   "proof": ["R4123"]
+  },
+  {
+   "id": "R4123-GROUND",
+   "name": "Expansion uses licensed anchors, roles, and lexicon glosses",
+   "source": "CONFLICTS.md v4.9.123",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.123: roles, relations, memory anchors, and a WordNet gloss already in the lexicon are the only elaboration. Echo stays an exact Language Core reparse. Shared KB stays empty.",
+   "proof": ["R4123"]
+  },
+  {
+   "id": "R4123-QUIET",
+   "name": "Compose expansion writes nothing",
+   "source": "CONFLICTS.md v4.9.123",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.123: claim status stays hypothesis or speculative_branch. Quarantine stays non-projectable. Refusals stay commit_without_proposal, novelty_unbound, drift_hard, and language_unexpressible. Nothing is written to memory, the world head, or the shared KB. Shared KB stays empty.",
+   "proof": ["R4123"]
   }
  ],
- "count": 298,
+ "count": 301,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 136,
+  "Partial": 139,
   "Missing": 9,
   "Out of scope / parked": 13
  }
