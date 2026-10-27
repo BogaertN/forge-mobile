@@ -1,0 +1,366 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_c",
+ "provenance": "confirmed_shared",
+ "letter": "C",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 81,
+ "items": [
+  {
+   "id": "cs_c_canada_01",
+   "text": "Ottawa is the capital of Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Canada · cs_c_canada_01"
+  },
+  {
+   "id": "cs_c_chile_01",
+   "text": "Santiago is the capital of Chile",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chile · cs_c_chile_01"
+  },
+  {
+   "id": "cs_c_colombia_01",
+   "text": "Colombia is in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Colombia · cs_c_colombia_01"
+  },
+  {
+   "id": "cs_c_cuba_01",
+   "text": "Havana is the capital of Cuba",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cuba · cs_c_cuba_01"
+  },
+  {
+   "id": "cs_c_cuba_02",
+   "text": "Cuba is an island country in the Caribbean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cuba · cs_c_cuba_02"
+  },
+  {
+   "id": "cs_c_croatia_01",
+   "text": "Zagreb is the capital of Croatia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Croatia · cs_c_croatia_01"
+  },
+  {
+   "id": "cs_c_cambodia_01",
+   "text": "Phnom Penh is the capital of Cambodia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cambodia · cs_c_cambodia_01"
+  },
+  {
+   "id": "cs_c_cairo_01",
+   "text": "Cairo is the capital of Egypt",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cairo · cs_c_cairo_01"
+  },
+  {
+   "id": "cs_c_copenhagen_01",
+   "text": "Copenhagen is the capital of Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Copenhagen · cs_c_copenhagen_01"
+  },
+  {
+   "id": "cs_c_caracas_01",
+   "text": "Caracas is the capital of Venezuela",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Caracas · cs_c_caracas_01"
+  },
+  {
+   "id": "cs_c_caspian_sea_01",
+   "text": "The Caspian Sea is the largest inland body of water on Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Caspian Sea · cs_c_caspian_sea_01"
+  },
+  {
+   "id": "cs_c_caribbean_sea_01",
+   "text": "The Caribbean Sea is part of the Atlantic Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Caribbean Sea · cs_c_caribbean_sea_01"
+  },
+  {
+   "id": "cs_c_california_02",
+   "text": "Sacramento is the capital of California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · California · cs_c_california_02"
+  },
+  {
+   "id": "cs_c_chicago_01",
+   "text": "Chicago lies on Lake Michigan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chicago · cs_c_chicago_01"
+  },
+  {
+   "id": "cs_c_colorado_01",
+   "text": "Denver is the capital of Colorado",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Colorado · cs_c_colorado_01"
+  },
+  {
+   "id": "cs_c_carbon_01",
+   "text": "Carbon has the chemical symbol C",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon · cs_c_carbon_01"
+  },
+  {
+   "id": "cs_c_carbon_02",
+   "text": "Diamond and graphite are both forms of carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon · cs_c_carbon_02"
+  },
+  {
+   "id": "cs_c_carbon_dioxide_01",
+   "text": "Carbon dioxide has the chemical formula CO2",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon dioxide · cs_c_carbon_dioxide_01"
+  },
+  {
+   "id": "cs_c_carbon_dioxide_02",
+   "text": "Plants take in carbon dioxide during photosynthesis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon dioxide · cs_c_carbon_dioxide_02"
+  },
+  {
+   "id": "cs_c_calcium_01",
+   "text": "Calcium has the chemical symbol Ca",
+   "standing": "projectable",
+   "evidence": "science · product curator · Calcium · cs_c_calcium_01"
+  },
+  {
+   "id": "cs_c_chlorine_01",
+   "text": "Chlorine has the chemical symbol Cl",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chlorine · cs_c_chlorine_01"
+  },
+  {
+   "id": "cs_c_copper_01",
+   "text": "Copper has the chemical symbol Cu",
+   "standing": "projectable",
+   "evidence": "science · product curator · Copper · cs_c_copper_01"
+  },
+  {
+   "id": "cs_c_copper_02",
+   "text": "Copper is a good conductor of electricity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Copper · cs_c_copper_02"
+  },
+  {
+   "id": "cs_c_cobalt_01",
+   "text": "Cobalt has the chemical symbol Co",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cobalt · cs_c_cobalt_01"
+  },
+  {
+   "id": "cs_c_caesium_01",
+   "text": "Caesium has the chemical symbol Cs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Caesium · cs_c_caesium_01"
+  },
+  {
+   "id": "cs_c_cell_01",
+   "text": "The cell is the basic unit of life",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cell · cs_c_cell_01"
+  },
+  {
+   "id": "cs_c_chromosome_01",
+   "text": "Human body cells typically have 46 chromosomes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chromosome · cs_c_chromosome_01"
+  },
+  {
+   "id": "cs_c_comet_01",
+   "text": "A comet is an icy body that can develop a tail near the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Comet · cs_c_comet_01"
+  },
+  {
+   "id": "cs_c_celsius_01",
+   "text": "Water freezes at 0 degrees Celsius at sea-level pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Celsius · cs_c_celsius_01"
+  },
+  {
+   "id": "cs_c_conductor_01",
+   "text": "Metals are generally good conductors of heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Conductor · cs_c_conductor_01"
+  },
+  {
+   "id": "cs_c_condensation_01",
+   "text": "Condensation is the change from gas to liquid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Condensation · cs_c_condensation_01"
+  },
+  {
+   "id": "cs_c_crust_01",
+   "text": "The crust is Earth's outermost solid layer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Crust · cs_c_crust_01"
+  },
+  {
+   "id": "cs_c_ceres_01",
+   "text": "Ceres is a dwarf planet in the asteroid belt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ceres · cs_c_ceres_01"
+  },
+  {
+   "id": "cs_c_circle_02",
+   "text": "A circle has 360 degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Circle · cs_c_circle_02"
+  },
+  {
+   "id": "cs_c_cube_01",
+   "text": "A cube has six faces",
+   "standing": "projectable",
+   "evidence": "math · product curator · Cube · cs_c_cube_01"
+  },
+  {
+   "id": "cs_c_cube_02",
+   "text": "A cube has twelve edges",
+   "standing": "projectable",
+   "evidence": "math · product curator · Cube · cs_c_cube_02"
+  },
+  {
+   "id": "cs_c_century_01",
+   "text": "A century is 100 years",
+   "standing": "projectable",
+   "evidence": "math · product curator · Century · cs_c_century_01"
+  },
+  {
+   "id": "cs_c_celsius_02",
+   "text": "Temperatures on the Celsius scale are measured in degrees Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Celsius · cs_c_celsius_02"
+  },
+  {
+   "id": "cs_c_crocodile_01",
+   "text": "Crocodiles are reptiles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Crocodile · cs_c_crocodile_01"
+  },
+  {
+   "id": "cs_c_cat_01",
+   "text": "Domestic cats are carnivores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cat · cs_c_cat_01"
+  },
+  {
+   "id": "cs_c_cow_01",
+   "text": "Cows are ruminants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cow · cs_c_cow_01"
+  },
+  {
+   "id": "cs_c_chameleon_01",
+   "text": "Chameleons can change their skin color",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Chameleon · cs_c_chameleon_01"
+  },
+  {
+   "id": "cs_c_caterpillar_01",
+   "text": "A caterpillar is the larva of a butterfly or moth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Caterpillar · cs_c_caterpillar_01"
+  },
+  {
+   "id": "cs_c_cactus_01",
+   "text": "Cacti are adapted to dry environments",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cactus · cs_c_cactus_01"
+  },
+  {
+   "id": "cs_c_conifer_01",
+   "text": "Pine trees are conifers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Conifer · cs_c_conifer_01"
+  },
+  {
+   "id": "cs_c_crab_01",
+   "text": "Crabs are crustaceans",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Crab · cs_c_crab_01"
+  },
+  {
+   "id": "cs_c_cephalopod_01",
+   "text": "Octopuses are cephalopods",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cephalopod · cs_c_cephalopod_01"
+  },
+  {
+   "id": "cs_c_columbus_christopher_01",
+   "text": "Christopher Columbus reached the Americas in 1492",
+   "standing": "projectable",
+   "evidence": "history · product curator · Columbus, Christopher · cs_c_columbus_christopher_01"
+  },
+  {
+   "id": "cs_c_constantinople_01",
+   "text": "Constantinople is the former name of Istanbul",
+   "standing": "projectable",
+   "evidence": "history · product curator · Constantinople · cs_c_constantinople_01"
+  },
+  {
+   "id": "cs_c_cleopatra_01",
+   "text": "Cleopatra was the last active ruler of Ptolemaic Egypt",
+   "standing": "projectable",
+   "evidence": "history · product curator · Cleopatra · cs_c_cleopatra_01"
+  },
+  {
+   "id": "cs_c_curie_marie_01",
+   "text": "Marie Curie won Nobel Prizes in both physics and chemistry",
+   "standing": "projectable",
+   "evidence": "history · product curator · Curie, Marie · cs_c_curie_marie_01"
+  },
+  {
+   "id": "cs_c_copernicus_nicolaus_01",
+   "text": "Nicolaus Copernicus proposed a Sun-centered model of the solar system",
+   "standing": "projectable",
+   "evidence": "history · product curator · Copernicus, Nicolaus · cs_c_copernicus_nicolaus_01"
+  },
+  {
+   "id": "cs_c_confucius_01",
+   "text": "Confucius was a Chinese philosopher",
+   "standing": "projectable",
+   "evidence": "history · product curator · Confucius · cs_c_confucius_01"
+  },
+  {
+   "id": "cs_c_colosseum_01",
+   "text": "The Colosseum is an ancient amphitheater in Rome",
+   "standing": "projectable",
+   "evidence": "history · product curator · Colosseum · cs_c_colosseum_01"
+  },
+  {
+   "id": "cs_c_civil_war_american_01",
+   "text": "The American Civil War lasted from 1861 to 1865",
+   "standing": "projectable",
+   "evidence": "history · product curator · Civil War, American · cs_c_civil_war_american_01"
+  },
+  {
+   "id": "cs_c_cabinet_01",
+   "text": "A cabinet is a body of senior government officials",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Cabinet · cs_c_cabinet_01"
+  },
+  {
+   "id": "cs_c_chess_02",
+   "text": "Each chess player starts with 16 pieces",
+   "standing": "projectable",
+   "evidence": "general · product curator · Chess · cs_c_chess_02"
+  },
+  {
+   "id": "cs_c_calendar_01",
+   "text": "A common year in the Gregorian calendar has 365 days",
+   "standing": "projectable",
+   "evidence": "general · product curator · Calendar · cs_c_calendar_01"
+  },
+  {
+   "id": "cs_c_compass_01",
+   "text": "A magnetic compass needle points toward magnetic north",
+   "standing": "projectable",
+   "evidence": "science · product curator · Compass · cs_c_compass_01"
+  }
+ ]
+}

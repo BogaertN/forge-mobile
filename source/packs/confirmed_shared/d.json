@@ -1,0 +1,378 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_d",
+ "provenance": "confirmed_shared",
+ "letter": "D",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 85,
+ "items": [
+  {
+   "id": "cs_d_dominican_republic_01",
+   "text": "Santo Domingo is the capital of the Dominican Republic",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dominican Republic · cs_d_dominican_republic_01"
+  },
+  {
+   "id": "cs_d_dublin_01",
+   "text": "Dublin is the capital of Ireland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dublin · cs_d_dublin_01"
+  },
+  {
+   "id": "cs_d_delhi_01",
+   "text": "New Delhi is the capital of India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Delhi · cs_d_delhi_01"
+  },
+  {
+   "id": "cs_d_damascus_01",
+   "text": "Damascus is the capital of Syria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Damascus · cs_d_damascus_01"
+  },
+  {
+   "id": "cs_d_doha_01",
+   "text": "Doha is the capital of Qatar",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Doha · cs_d_doha_01"
+  },
+  {
+   "id": "cs_d_dakar_01",
+   "text": "Dakar is the capital of Senegal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dakar · cs_d_dakar_01"
+  },
+  {
+   "id": "cs_d_danube_01",
+   "text": "The Danube flows into the Black Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Danube · cs_d_danube_01"
+  },
+  {
+   "id": "cs_d_dead_sea_02",
+   "text": "The Dead Sea is extremely salty",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dead Sea · cs_d_dead_sea_02"
+  },
+  {
+   "id": "cs_d_delaware_02",
+   "text": "Dover is the capital of Delaware",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Delaware · cs_d_delaware_02"
+  },
+  {
+   "id": "cs_d_des_moines_01",
+   "text": "Des Moines is the capital of Iowa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Des Moines · cs_d_des_moines_01"
+  },
+  {
+   "id": "cs_d_desert_01",
+   "text": "The Sahara is the largest hot desert",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Desert · cs_d_desert_01"
+  },
+  {
+   "id": "cs_d_desert_02",
+   "text": "A desert receives very little precipitation",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Desert · cs_d_desert_02"
+  },
+  {
+   "id": "cs_d_dna_01",
+   "text": "DNA carries genetic information",
+   "standing": "projectable",
+   "evidence": "science · product curator · DNA · cs_d_dna_01"
+  },
+  {
+   "id": "cs_d_dna_02",
+   "text": "DNA has a double-helix structure",
+   "standing": "projectable",
+   "evidence": "science · product curator · DNA · cs_d_dna_02"
+  },
+  {
+   "id": "cs_d_diamond_01",
+   "text": "Diamond is made of carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diamond · cs_d_diamond_01"
+  },
+  {
+   "id": "cs_d_diamond_02",
+   "text": "Diamond is the hardest natural mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diamond · cs_d_diamond_02"
+  },
+  {
+   "id": "cs_d_density_01",
+   "text": "Density is mass divided by volume",
+   "standing": "projectable",
+   "evidence": "science · product curator · Density · cs_d_density_01"
+  },
+  {
+   "id": "cs_d_dwarf_planet_01",
+   "text": "Pluto is classified as a dwarf planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dwarf planet · cs_d_dwarf_planet_01"
+  },
+  {
+   "id": "cs_d_dolphin_01",
+   "text": "Dolphins are mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_01"
+  },
+  {
+   "id": "cs_d_dolphin_02",
+   "text": "Dolphins breathe air through a blowhole",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_02"
+  },
+  {
+   "id": "cs_d_dog_01",
+   "text": "Dogs were domesticated from wolves",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dog · cs_d_dog_01"
+  },
+  {
+   "id": "cs_d_duck_01",
+   "text": "Ducks are waterfowl",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Duck · cs_d_duck_01"
+  },
+  {
+   "id": "cs_d_dragonfly_01",
+   "text": "Dragonflies are insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_01"
+  },
+  {
+   "id": "cs_d_dinosaur_01",
+   "text": "Non-avian dinosaurs went extinct about 66 million years ago",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dinosaur · cs_d_dinosaur_01"
+  },
+  {
+   "id": "cs_d_dinosaur_02",
+   "text": "Birds are descendants of dinosaurs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dinosaur · cs_d_dinosaur_02"
+  },
+  {
+   "id": "cs_d_dodo_01",
+   "text": "The dodo was a flightless bird from Mauritius",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dodo · cs_d_dodo_01"
+  },
+  {
+   "id": "cs_d_dodo_02",
+   "text": "The dodo is extinct",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dodo · cs_d_dodo_02"
+  },
+  {
+   "id": "cs_d_darwin_charles_01",
+   "text": "Charles Darwin wrote On the Origin of Species",
+   "standing": "projectable",
+   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_01"
+  },
+  {
+   "id": "cs_d_declaration_of_independence_01",
+   "text": "Thomas Jefferson was the principal author of the Declaration of Independence",
+   "standing": "projectable",
+   "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_01"
+  },
+  {
+   "id": "cs_d_da_vinci_leonardo_01",
+   "text": "leonardo da Vinci painted the Mona Lisa",
+   "standing": "projectable",
+   "evidence": "history · product curator · Da Vinci, Leonardo · cs_d_da_vinci_leonardo_01"
+  },
+  {
+   "id": "cs_d_dickens_charles_01",
+   "text": "Charles Dickens wrote Oliver Twist",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dickens, Charles · cs_d_dickens_charles_01"
+  },
+  {
+   "id": "cs_d_dante_alighieri_01",
+   "text": "Dante Alighieri wrote the Divine Comedy",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dante Alighieri · cs_d_dante_alighieri_01"
+  },
+  {
+   "id": "cs_d_decimal_01",
+   "text": "The decimal system is based on ten",
+   "standing": "projectable",
+   "evidence": "math · product curator · Decimal · cs_d_decimal_01"
+  },
+  {
+   "id": "cs_d_decade_01",
+   "text": "A decade is ten years",
+   "standing": "projectable",
+   "evidence": "math · product curator · Decade · cs_d_decade_01"
+  },
+  {
+   "id": "cs_d_denominator_01",
+   "text": "The denominator is the bottom number of a fraction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Denominator · cs_d_denominator_01"
+  },
+  {
+   "id": "cs_d_dozen_01",
+   "text": "A dozen is twelve",
+   "standing": "projectable",
+   "evidence": "math · product curator · Dozen · cs_d_dozen_01"
+  },
+  {
+   "id": "cs_d_division_01",
+   "text": "Division by zero is undefined",
+   "standing": "projectable",
+   "evidence": "math · product curator · Division · cs_d_division_01"
+  },
+  {
+   "id": "cs_d_djibouti_01",
+   "text": "Djibouti is a country in the Horn of Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Djibouti · cs_d_djibouti_01"
+  },
+  {
+   "id": "cs_d_dodoma_01",
+   "text": "Dodoma is the capital of Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dodoma · cs_d_dodoma_01"
+  },
+  {
+   "id": "cs_d_dushanbe_01",
+   "text": "Dushanbe is the capital of Tajikistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dushanbe · cs_d_dushanbe_01"
+  },
+  {
+   "id": "cs_d_dili_01",
+   "text": "Dili is the capital of East Timor",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dili · cs_d_dili_01"
+  },
+  {
+   "id": "cs_d_denmark_01",
+   "text": "Greenland is an autonomous territory within the Kingdom of Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Denmark · cs_d_denmark_01"
+  },
+  {
+   "id": "cs_d_dominica_01",
+   "text": "Dominica is an island country in the Caribbean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dominica · cs_d_dominica_01"
+  },
+  {
+   "id": "cs_d_death_valley_01",
+   "text": "Death Valley is in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Death Valley · cs_d_death_valley_01"
+  },
+  {
+   "id": "cs_d_death_valley_02",
+   "text": "Badwater Basin in Death Valley is the lowest point in North America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Death Valley · cs_d_death_valley_02"
+  },
+  {
+   "id": "cs_d_detroit_01",
+   "text": "Detroit is in Michigan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Detroit · cs_d_detroit_01"
+  },
+  {
+   "id": "cs_d_dune_01",
+   "text": "A dune is a hill of sand formed by wind or water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dune · cs_d_dune_01"
+  },
+  {
+   "id": "cs_d_deimos_01",
+   "text": "Deimos is one of the two moons of Mars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Deimos · cs_d_deimos_01"
+  },
+  {
+   "id": "cs_d_dew_01",
+   "text": "Dew forms when water vapor condenses on cool surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dew · cs_d_dew_01"
+  },
+  {
+   "id": "cs_d_deuterium_01",
+   "text": "Deuterium is an isotope of hydrogen with one neutron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Deuterium · cs_d_deuterium_01"
+  },
+  {
+   "id": "cs_d_dry_ice_01",
+   "text": "Dry ice is solid carbon dioxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dry ice · cs_d_dry_ice_01"
+  },
+  {
+   "id": "cs_d_dysprosium_01",
+   "text": "Dysprosium has the chemical symbol Dy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dysprosium · cs_d_dysprosium_01"
+  },
+  {
+   "id": "cs_d_darmstadtium_01",
+   "text": "Darmstadtium has the chemical symbol Ds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Darmstadtium · cs_d_darmstadtium_01"
+  },
+  {
+   "id": "cs_d_doppler_effect_01",
+   "text": "The Doppler effect is the change in frequency of a wave due to motion of the source or observer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Doppler effect · cs_d_doppler_effect_01"
+  },
+  {
+   "id": "cs_d_daisy_01",
+   "text": "Daisies are flowering plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Daisy · cs_d_daisy_01"
+  },
+  {
+   "id": "cs_d_dandelion_01",
+   "text": "Dandelion seeds are dispersed by wind",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_01"
+  },
+  {
+   "id": "cs_d_dove_01",
+   "text": "Doves and pigeons belong to the same bird family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dove · cs_d_dove_01"
+  },
+  {
+   "id": "cs_d_descartes_rene_01",
+   "text": "René Descartes wrote \"I think, therefore I am.\"",
+   "standing": "projectable",
+   "evidence": "history · product curator · Descartes, René · cs_d_descartes_rene_01"
+  },
+  {
+   "id": "cs_d_douglass_frederick_01",
+   "text": "Frederick Douglass was an American abolitionist and writer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Douglass, Frederick · cs_d_douglass_frederick_01"
+  },
+  {
+   "id": "cs_d_domesday_book_01",
+   "text": "The Domesday Book was a survey of England completed in 1086",
+   "standing": "projectable",
+   "evidence": "history · product curator · Domesday Book · cs_d_domesday_book_01"
+  },
+  {
+   "id": "cs_d_degree_01",
+   "text": "A full rotation is 360 degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Degree · cs_d_degree_01"
+  }
+ ]
+}

@@ -1,0 +1,372 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_a",
+ "provenance": "confirmed_shared",
+ "letter": "A",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 84,
+ "items": [
+  {
+   "id": "cs_a_africa_01",
+   "text": "Africa is a continent",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Africa · cs_a_africa_01"
+  },
+  {
+   "id": "cs_a_asia_01",
+   "text": "Asia is the largest continent by land area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Asia · cs_a_asia_01"
+  },
+  {
+   "id": "cs_a_antarctica_01",
+   "text": "Antarctica is the southernmost continent",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Antarctica · cs_a_antarctica_01"
+  },
+  {
+   "id": "cs_a_antarctica_02",
+   "text": "The South Pole is located in Antarctica",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Antarctica · cs_a_antarctica_02"
+  },
+  {
+   "id": "cs_a_australia_01",
+   "text": "Australia is both a country and a continent",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Australia · cs_a_australia_01"
+  },
+  {
+   "id": "cs_a_australia_02",
+   "text": "Canberra is the capital of Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Australia · cs_a_australia_02"
+  },
+  {
+   "id": "cs_a_andes_01",
+   "text": "The Andes is a mountain range in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Andes · cs_a_andes_01"
+  },
+  {
+   "id": "cs_a_alps_01",
+   "text": "The Alps is a mountain range in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Alps · cs_a_alps_01"
+  },
+  {
+   "id": "cs_a_argentina_01",
+   "text": "Buenos Aires is the capital of Argentina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Argentina · cs_a_argentina_01"
+  },
+  {
+   "id": "cs_a_austria_01",
+   "text": "Vienna is the capital of Austria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Austria · cs_a_austria_01"
+  },
+  {
+   "id": "cs_a_afghanistan_01",
+   "text": "Kabul is the capital of Afghanistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Afghanistan · cs_a_afghanistan_01"
+  },
+  {
+   "id": "cs_a_algeria_01",
+   "text": "Algiers is the capital of Algeria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Algeria · cs_a_algeria_01"
+  },
+  {
+   "id": "cs_a_algeria_02",
+   "text": "Algeria is the largest country in Africa by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Algeria · cs_a_algeria_02"
+  },
+  {
+   "id": "cs_a_armenia_01",
+   "text": "Yerevan is the capital of Armenia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Armenia · cs_a_armenia_01"
+  },
+  {
+   "id": "cs_a_athens_01",
+   "text": "Athens is the capital of Greece",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Athens · cs_a_athens_01"
+  },
+  {
+   "id": "cs_a_amsterdam_01",
+   "text": "Amsterdam is the capital of the Netherlands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Amsterdam · cs_a_amsterdam_01"
+  },
+  {
+   "id": "cs_a_ankara_01",
+   "text": "Ankara is the capital of Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ankara · cs_a_ankara_01"
+  },
+  {
+   "id": "cs_a_alaska_02",
+   "text": "The United States purchased Alaska from Russia in 1867",
+   "standing": "projectable",
+   "evidence": "history · product curator · Alaska · cs_a_alaska_02"
+  },
+  {
+   "id": "cs_a_arizona_01",
+   "text": "The Grand Canyon is in Arizona",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Arizona · cs_a_arizona_01"
+  },
+  {
+   "id": "cs_a_alabama_01",
+   "text": "Montgomery is the capital of Alabama",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Alabama · cs_a_alabama_01"
+  },
+  {
+   "id": "cs_a_atom_01",
+   "text": "An atom is made of protons, neutrons, and electrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atom · cs_a_atom_01"
+  },
+  {
+   "id": "cs_a_atom_02",
+   "text": "The nucleus of an atom contains protons and neutrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atom · cs_a_atom_02"
+  },
+  {
+   "id": "cs_a_atomic_number_01",
+   "text": "An element's atomic number is the number of protons in its nucleus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atomic number · cs_a_atomic_number_01"
+  },
+  {
+   "id": "cs_a_argon_01",
+   "text": "Argon is a noble gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Argon · cs_a_argon_01"
+  },
+  {
+   "id": "cs_a_argon_02",
+   "text": "Argon has the chemical symbol Ar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Argon · cs_a_argon_02"
+  },
+  {
+   "id": "cs_a_aluminium_01",
+   "text": "Aluminium has the chemical symbol Al",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aluminium · cs_a_aluminium_01"
+  },
+  {
+   "id": "cs_a_americium_01",
+   "text": "Americium is a synthetic radioactive element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Americium · cs_a_americium_01"
+  },
+  {
+   "id": "cs_a_acid_01",
+   "text": "An acid has a pH below 7",
+   "standing": "projectable",
+   "evidence": "science · product curator · Acid · cs_a_acid_01"
+  },
+  {
+   "id": "cs_a_alkali_01",
+   "text": "An alkaline solution has a pH above 7",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alkali · cs_a_alkali_01"
+  },
+  {
+   "id": "cs_a_absolute_zero_01",
+   "text": "Absolute zero is 0 kelvin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_01"
+  },
+  {
+   "id": "cs_a_absolute_zero_02",
+   "text": "Absolute zero equals −273.15 degrees Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_02"
+  },
+  {
+   "id": "cs_a_acceleration_01",
+   "text": "Acceleration is the rate of change of velocity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Acceleration · cs_a_acceleration_01"
+  },
+  {
+   "id": "cs_a_asteroid_belt_01",
+   "text": "The main asteroid belt lies between Mars and Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Asteroid belt · cs_a_asteroid_belt_01"
+  },
+  {
+   "id": "cs_a_andromeda_galaxy_01",
+   "text": "The Andromeda Galaxy is a spiral galaxy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Andromeda Galaxy · cs_a_andromeda_galaxy_01"
+  },
+  {
+   "id": "cs_a_andromeda_galaxy_02",
+   "text": "The Andromeda Galaxy is the nearest large galaxy to the Milky Way",
+   "standing": "projectable",
+   "evidence": "science · product curator · Andromeda Galaxy · cs_a_andromeda_galaxy_02"
+  },
+  {
+   "id": "cs_a_armstrong_neil_01",
+   "text": "Neil Armstrong was the first person to walk on the Moon",
+   "standing": "projectable",
+   "evidence": "history · product curator · Armstrong, Neil · cs_a_armstrong_neil_01"
+  },
+  {
+   "id": "cs_a_artery_01",
+   "text": "Arteries carry blood away from the heart",
+   "standing": "projectable",
+   "evidence": "science · product curator · Artery · cs_a_artery_01"
+  },
+  {
+   "id": "cs_a_aorta_01",
+   "text": "The aorta is the largest artery in the human body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aorta · cs_a_aorta_01"
+  },
+  {
+   "id": "cs_a_amphibian_01",
+   "text": "Frogs are amphibians",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_01"
+  },
+  {
+   "id": "cs_a_amphibian_02",
+   "text": "Amphibians are cold-blooded vertebrates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_02"
+  },
+  {
+   "id": "cs_a_ant_01",
+   "text": "Ants are insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ant · cs_a_ant_01"
+  },
+  {
+   "id": "cs_a_ant_02",
+   "text": "Ants live in colonies",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ant · cs_a_ant_02"
+  },
+  {
+   "id": "cs_a_antelope_01",
+   "text": "Antelopes are hoofed mammals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Antelope · cs_a_antelope_01"
+  },
+  {
+   "id": "cs_a_alligator_01",
+   "text": "Alligators are reptiles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Alligator · cs_a_alligator_01"
+  },
+  {
+   "id": "cs_a_albatross_01",
+   "text": "The wandering albatross has the largest wingspan of any living bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Albatross · cs_a_albatross_01"
+  },
+  {
+   "id": "cs_a_arachnid_01",
+   "text": "Spiders are arachnids",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Arachnid · cs_a_arachnid_01"
+  },
+  {
+   "id": "cs_a_arachnid_02",
+   "text": "Arachnids have eight legs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Arachnid · cs_a_arachnid_02"
+  },
+  {
+   "id": "cs_a_apple_01",
+   "text": "Apples grow on trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Apple · cs_a_apple_01"
+  },
+  {
+   "id": "cs_a_acorn_01",
+   "text": "An acorn is the nut of an oak tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Acorn · cs_a_acorn_01"
+  },
+  {
+   "id": "cs_a_augustus_01",
+   "text": "Augustus was the first Roman emperor",
+   "standing": "projectable",
+   "evidence": "history · product curator · Augustus · cs_a_augustus_01"
+  },
+  {
+   "id": "cs_a_american_revolution_01",
+   "text": "The American Declaration of Independence was adopted in 1776",
+   "standing": "projectable",
+   "evidence": "history · product curator · American Revolution · cs_a_american_revolution_01"
+  },
+  {
+   "id": "cs_a_abraham_lincoln_01",
+   "text": "Abraham Lincoln was the 16th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Abraham Lincoln · cs_a_abraham_lincoln_01"
+  },
+  {
+   "id": "cs_a_adams_john_01",
+   "text": "John Adams was the second president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Adams, John · cs_a_adams_john_01"
+  },
+  {
+   "id": "cs_a_aztec_01",
+   "text": "Tenochtitlan was the capital of the Aztec Empire",
+   "standing": "projectable",
+   "evidence": "history · product curator · Aztec · cs_a_aztec_01"
+  },
+  {
+   "id": "cs_a_acropolis_01",
+   "text": "The Parthenon stands on the Acropolis of Athens",
+   "standing": "projectable",
+   "evidence": "history · product curator · Acropolis · cs_a_acropolis_01"
+  },
+  {
+   "id": "cs_a_alphabet_01",
+   "text": "The English alphabet has 26 letters",
+   "standing": "projectable",
+   "evidence": "language · product curator · Alphabet · cs_a_alphabet_01"
+  },
+  {
+   "id": "cs_a_arabic_01",
+   "text": "Arabic is written from right to left",
+   "standing": "projectable",
+   "evidence": "language · product curator · Arabic · cs_a_arabic_01"
+  },
+  {
+   "id": "cs_a_angle_01",
+   "text": "A right angle measures 90 degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Angle · cs_a_angle_01"
+  },
+  {
+   "id": "cs_a_addition_01",
+   "text": "Addition is commutative",
+   "standing": "projectable",
+   "evidence": "math · product curator · Addition · cs_a_addition_01"
+  },
+  {
+   "id": "cs_a_arithmetic_mean_01",
+   "text": "The arithmetic mean is the sum of values divided by their count",
+   "standing": "projectable",
+   "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_01"
+  }
+ ]
+}
