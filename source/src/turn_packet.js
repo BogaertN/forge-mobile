@@ -155,6 +155,13 @@
     return cands.filter(c => c && c.status && c.status !== 'selected' && c.status !== 'agreed').map(c => ({ route: c.route, status: c.status, reason: c.why || c.reason || '' })).filter(c => c.route && c.reason);
   }
   function clone(v) { try { return v == null ? v : JSON.parse(JSON.stringify(v)); } catch (e) { return null; } }
+  function scrubMeaning(m) {
+    const bits = [];
+    const take = s => { if (typeof s === 'string' && s.length >= 24) bits.push(s.slice(0, 80)); };
+    if (m && typeof m === 'object') { take(m.excerpt); take(m.excerpt2); if (m.generated) { take(m.generated.text); delete m.generated.text; delete m.generated.clause; } delete m.excerpt; delete m.excerpt2; }
+    return bits;
+  }
+  function holdsProse(v, bits) { if (!bits.length || v == null) return false; const s = typeof v === 'string' ? v : JSON.stringify(v); return bits.some(b => s.indexOf(b.slice(0, 24)) >= 0); }
   function stable(v) {
     if (v === undefined || v === null || typeof v !== 'object') return JSON.stringify(v == null ? null : v);
     if (Array.isArray(v)) return '[' + v.map(x => stable(x === undefined ? null : x)).join(',') + ']';
@@ -177,7 +184,8 @@
     checks.push({ id: 'integrity', mode: 'reexecuted', ok: integrityOk, detail: integrityOk ? 'hash matches' : 'hash mismatch' });
     const claim = packet && packet.echo ? packet.echo.pass : null, replay = (packet && packet.replay) || {};
     if (claim === true || claim === false) {
-      if (typeof hooks.echo !== 'function' || replay.output == null || !replay.meaning) { checks.push({ id: 'echo', mode: 'recorded-only', ok: null, detail: typeof hooks.echo !== 'function' ? 'no echo hook' : 'surface or meaning missing' }); issues.push('echo'); }
+      if (replay.output == null || !replay.meaning) { checks.push({ id: 'echo', mode: 'recorded-only', ok: null, detail: replay.output == null ? 'surface not in the packet' : 'meaning missing' }); if (replay.output != null) issues.push('echo'); }
+      else if (typeof hooks.echo !== 'function') { checks.push({ id: 'echo', mode: 'recorded-only', ok: null, detail: 'no echo hook' }); issues.push('echo'); }
       else { let again = null, err = ''; try { again = hooks.echo(replay.output, replay.meaning, replay.vakya || undefined); } catch (e) { err = String(e && e.message || e).slice(0, 160); }
         const ok = !err && !!again && !!again.pass === (claim === true); checks.push({ id: 'echo', mode: 'reexecuted', ok: ok, detail: err || (ok ? 'reparse matches the claim' : 'reparse disagrees') }); if (!ok) issues.push('echo'); }
     } else checks.push({ id: 'echo', mode: 'recorded-only', ok: null, detail: 'no echo claim' });
@@ -250,7 +258,7 @@
       doc7: doc7Of(trace, msm),
       receipt_type: failure ? failure.class : 'answer',
       audit_receipt_id: null,
-      replay: { output: trace.echo_surface != null ? String(trace.echo_surface) : (text == null ? null : String(text)), meaning: clone((msm && msm.meaning) || null), vakya: clone(trace.echo_vakya || null), selection: selectionClaim(trace.selection) }
+      replay: (function () { const meaning = clone((msm && msm.meaning) || null), bits = scrubMeaning(meaning); let output = trace.echo_surface != null ? String(trace.echo_surface) : (text == null ? null : String(text)), vakya = clone(trace.echo_vakya || null); if (holdsProse(output, bits)) output = null; if (holdsProse(vakya, bits)) vakya = null; return { output: output, meaning: meaning, vakya: vakya, selection: selectionClaim(trace.selection) }; })()
     };
     return seal(packet);
   }
