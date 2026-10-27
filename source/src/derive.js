@@ -586,6 +586,7 @@ const PLANS = {
   gks_challenged: m => [S(C('challenge', { karta: I, karma: Mn(m.id), tense: 'past' })), S(C('be', { karta: N('status', { poss: 'its' }), pred: Mn('challenged') }))],
   gks_kept: m => [S(C('change', { karta: I, karma: Mn(m.id), tense: 'past', pol: 'neg' })), S(C('be', { karta: N('reason', { det: 'the' }), pred: Mn(m.rule) }))],
   proof_exported: m => [S(C('export', { karta: I, karma: N('proof', { det: 'the' }), tense: 'past' })), S(C('be', { karta: N('hash', { poss: 'its' }), pred: Mn(m.sha) }))].concat(m.label ? [S(C('be', { karta: N('label', { poss: 'its' }), pred: Mn(m.label) }))] : []),
+  turn_packet_exported: m => [S(C('export', { karta: I, karma: N('receipt', { det: 'the' }), tense: 'past' })), S(C('be', { karta: N('turn', { poss: 'its' }), pred: Mn(m.n) }))],
   case_opened: m => [S(C('open', { karta: I, karma: N('case', { det: 'a' }), tense: 'past' })), S(C('be', { karta: N('name', { poss: 'its' }), pred: Mn(m.id) }))],
   case_closed: m => [S(C('close', { karta: I, karma: N('case', { det: 'the' }), tense: 'past' })), S(C('be', { karta: N('name', { poss: 'its' }), pred: Mn(m.id) }))],
   gks_conflict: m => [told(m.clause), S(C('state', { karta: Mn(m.fact.source), karma: Mn(m.fact.text.replace(/[.]$/, '')) })), S(C('report', { karta: I, karma: N('conflict', { det: 'a' }) }))],

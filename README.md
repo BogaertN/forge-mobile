@@ -2,13 +2,13 @@
 
 Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-**Version 4.9.110**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json): registry 268, publish-gate tests 210 passed of 210, service-worker cache `forge-mobile-v4.9.110`.
+**Version 4.9.111**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json): registry 270, publish-gate tests 221 passed of 221, service-worker cache `forge-mobile-v4.9.111`.
 
 ## The app
 
 The site installs on a phone and runs from its cache (`source/manifest.json`, `source/sw.js`). Eight tabs (`source/index.html`): Forge Output, Identity Vault, Tool Bench, RMC Memory, Deep Dry-Run, Context Library, Audit / Receipts, and System Status.
 
-Ask Forge is the conversation. The prompt says it will not execute commands. Voice input uses the device speech recognizer and is marked unverified. Each reply carries a trace: the rules that ran, the gate, drift, the containment route, Echo, and the meaning manifest.
+Ask Forge is the conversation. The prompt says it will not execute commands. Voice input uses the device speech recognizer and is marked unverified. Each reply carries a trace: the rules that ran, the gate, drift, the containment route, Echo, and the meaning manifest. One control, Export turn packet, saves that turn as a packet whether the turn spoke an answer or failed. Audit / Receipts opens the same packet. A failure receipt is one of echo fail, language unexpressible, gate refusal, quarantine, or χ re-route.
 
 A turn has five steps.
 
@@ -164,7 +164,7 @@ Deep Dry-Run runs the pipeline on an isolated copy of the stores it snapshots, t
 | `economy.js`, `ledger.js`, `operator.js` | Counts, attribution, backup |
 | `sb_sync.js` | Optional Supabase sign-in. Blob sync attaches in `sb_blobs.js` |
 
-`source/verify/` holds the suite: `run.js` for a full run, `targeted.js` for the Pages list in `targeted.json`. `source/tools/` is prepare, release, publish, and live comparison. `source/data/feature_registry.json` is the feature list: 268 entries at version 4.9.110. System Status shows a claim as proved when the suites linked to it passed in the verification run that built the page.
+`source/verify/` holds the suite: `run.js` for a full run, `targeted.js` for the Pages list in `targeted.json`. `source/tools/` is prepare, release, publish, and live comparison. `source/data/feature_registry.json` is the feature list: 270 entries at version 4.9.111. System Status shows a claim as proved when the suites linked to it passed in the verification run that built the page.
 
 Sign-in is a magic link plus device public-key registration. Reasoning modules do not import the account client, and answers are the same signed in or signed out. Row Level Security is the server boundary. The account schema and the `register-device` function are under `supabase/`.
 
@@ -187,7 +187,7 @@ git clone https://github.com/BogaertN/forge-mobile.git && cd forge-mobile && sh 
 3. `python3 source/build.py` builds when the summary exists, nothing failed, passed plus not-run equals the total, the version matches `source/VERSION`, and the tree hash matches. It writes `_release/site` (the Pages tree, including `BUILD_MANIFEST.json` and `build-info.json`) and `_release/single`. The build date is the commit date.
 4. `node source/tools/verify_release.js` checks file hashes against the manifest, one version across the artifact, zero failed and zero not-run, the commit, the tree hash, and a clean git status. A summary that still contains not-run checks can pass step 3 and fail this step.
 
-GitHub Pages (`.github/workflows/pages.yml`) runs `sh source/tools/publish.sh` and uploads `_release/site` only. Publish uses the same prepare, build, and release check, with the targeted list in `source/verify/targeted.json` in place of the full suite. That list is the 210 tests reported on the live 4.9.110 artifact. A live probe at the end of publish does not block the upload.
+GitHub Pages (`.github/workflows/pages.yml`) runs `sh source/tools/publish.sh` and uploads `_release/site` only. Publish uses the same prepare, build, and release check, with the targeted list in `source/verify/targeted.json` in place of the full suite. That list is the publish gate for 4.9.111. The live 4.9.110 artifact reported 210 tests. A live probe at the end of publish does not block the upload.
 
 `BUILD_MANIFEST.json` is the hash list of the site just built. After a local build of the same commit, `node source/tools/verify_live.js https://bogaertn.github.io/forge-mobile/` compares the live manifest and every listed file with `_release/site`.
 

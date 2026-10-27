@@ -1,5 +1,5 @@
 {
- "version": "4.9.110",
+ "version": "4.9.111",
  "features": [
   {
    "id": "A-01",
@@ -2905,13 +2905,31 @@
    "claim": "Partial",
    "note": "4.9.96: already shipped. G-REL-WHOSE attaches whose plus the possessed nominal. A mid-sentence adverb survives generate to Echo. rankOptions holds when every option is above the projectable band. Registered in 4.9.110. FB-11 stays the request-compiler row. No new behavior.",
    "proof": ["R4110"]
+  },
+  {
+   "id": "R4111-PACKET",
+   "name": "Exportable turn packet",
+   "source": "CONFLICTS.md v4.9.111",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.111: a finished turn exports as one FORGE-TURN-PACKET/v1 from Ask Forge, from Audit / Receipts, and from \"export the turn packet\". The packet carries the turn id, intent, manifest ids, warrants, the selected route, not-selected candidates, drift, containment, Echo, and memory and world operations.",
+   "proof": ["R4111"]
+  },
+  {
+   "id": "R4111-RECEIPT",
+   "name": "Failure receipts",
+   "source": "CONFLICTS.md v4.9.111",
+   "wave": "W3",
+   "claim": "Partial",
+   "note": "4.9.111: echo_fail, language_unexpressible, gate_refusal, quarantine, and chi_reroute open as receipts. A spoken answer stays an answer receipt. A dream stays an answer. \u03c7 is the correction function only.",
+   "proof": ["R4111"]
   }
  ],
- "count": 268,
+ "count": 270,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 106,
+  "Partial": 108,
   "Missing": 9,
   "Out of scope / parked": 13
  }
