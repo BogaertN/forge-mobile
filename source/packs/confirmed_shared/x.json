@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 81,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -295,6 +295,90 @@
    "text": "Xinhua is China's state news agency",
    "standing": "projectable",
    "evidence": "general · product curator · Xinhua · cs_x_xinhua_01"
+  },
+  {
+   "id": "cs_x_x_ray_06",
+   "text": "X-rays were discovered by Wilhelm Röntgen",
+   "standing": "projectable",
+   "evidence": "history · product curator · X-ray · cs_x_x_ray_06"
+  },
+  {
+   "id": "cs_x_x_ray_07",
+   "text": "X-rays are used to make images of bones",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_07"
+  },
+  {
+   "id": "cs_x_xylem_04",
+   "text": "Xylem carries water in plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylem · cs_x_xylem_04"
+  },
+  {
+   "id": "cs_x_xylophone_04",
+   "text": "A xylophone is a percussion instrument",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Xylophone · cs_x_xylophone_04"
+  },
+  {
+   "id": "cs_x_xinjiang_03",
+   "text": "Xinjiang is a region in northwest China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_03"
+  },
+  {
+   "id": "cs_x_xhosa_05",
+   "text": "Xhosa is a language of South Africa",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Xhosa · cs_x_xhosa_05"
+  },
+  {
+   "id": "cs_x_xenon_07",
+   "text": "Xenon is used in some lamps",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_07"
+  },
+  {
+   "id": "cs_x_xenon_08",
+   "text": "Xenon is a colorless gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_08"
+  },
+  {
+   "id": "cs_x_x_coordinate_02",
+   "text": "The x-coordinate gives horizontal position",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-coordinate · cs_x_x_coordinate_02"
+  },
+  {
+   "id": "cs_x_x_chromosome_04",
+   "text": "The X chromosome is a sex chromosome",
+   "standing": "projectable",
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_04"
+  },
+  {
+   "id": "cs_x_xylitol_02",
+   "text": "Xylitol is a sugar alcohol used as a sweetener",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_02"
+  },
+  {
+   "id": "cs_x_xiamen_02",
+   "text": "Xiamen is a port city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_02"
+  },
+  {
+   "id": "cs_x_xi_an_05",
+   "text": "Xi'an was an eastern end of the Silk Road",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xi'an · cs_x_xi_an_05"
+  },
+  {
+   "id": "cs_x_xylophone_05",
+   "text": "The xylophone is played with mallets",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Xylophone · cs_x_xylophone_05"
   }
  ]
 }

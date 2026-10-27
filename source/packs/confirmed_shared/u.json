@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 80,
+ "curated_facts": 100,
  "items": [
   {
    "id": "cs_u_united_kingdom_01",
@@ -283,6 +283,102 @@
    "text": "Uruguay won the first FIFA World Cup in 1930",
    "standing": "projectable",
    "evidence": "history · product curator · Uruguay · cs_u_uruguay_02"
+  },
+  {
+   "id": "cs_u_uranium_04",
+   "text": "The chemical symbol for uranium is U",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_04"
+  },
+  {
+   "id": "cs_u_universe_02",
+   "text": "The universe contains billions of galaxies",
+   "standing": "projectable",
+   "evidence": "science · product curator · Universe · cs_u_universe_02"
+  },
+  {
+   "id": "cs_u_urchin_02",
+   "text": "Sea urchins are covered in spines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_02"
+  },
+  {
+   "id": "cs_u_ungulate_03",
+   "text": "Ungulates are mammals with hooves",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_03"
+  },
+  {
+   "id": "cs_u_upper_peninsula_01",
+   "text": "The Upper Peninsula is part of Michigan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Upper Peninsula · cs_u_upper_peninsula_01"
+  },
+  {
+   "id": "cs_u_utah_03",
+   "text": "Utah is in the western United States",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Utah · cs_u_utah_03"
+  },
+  {
+   "id": "cs_u_uganda_03",
+   "text": "Uganda is a landlocked country in East Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_03"
+  },
+  {
+   "id": "cs_u_ukraine_01",
+   "text": "Ukraine is a country in Eastern Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_01"
+  },
+  {
+   "id": "cs_u_uruguay_03",
+   "text": "Uruguay is a country in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_03"
+  },
+  {
+   "id": "cs_u_ural_mountains_03",
+   "text": "The Ural Mountains are in Russia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_03"
+  },
+  {
+   "id": "cs_u_ultraviolet_03",
+   "text": "Sunburn is caused by ultraviolet radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_03"
+  },
+  {
+   "id": "cs_u_urchin_03",
+   "text": "Sea urchins are echinoderms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_03"
+  },
+  {
+   "id": "cs_u_unicorn_fish_01",
+   "text": "Unicornfish are tropical reef fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Unicorn fish · cs_u_unicorn_fish_01"
+  },
+  {
+   "id": "cs_u_uakari_02",
+   "text": "Uakaris are monkeys of the Amazon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Uakari · cs_u_uakari_02"
+  },
+  {
+   "id": "cs_u_ussr_03",
+   "text": "The Soviet Union dissolved in 1991",
+   "standing": "projectable",
+   "evidence": "history · product curator · USSR · cs_u_ussr_03"
+  },
+  {
+   "id": "cs_u_uranus_05",
+   "text": "Uranus has a blue-green color",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranus · cs_u_uranus_05"
   }
  ]
 }
