@@ -542,6 +542,17 @@ function dynPlan(m) { const out = [];
     if (m.status === 'resource_limited') out.push(S(C('follow', { karta: I, karma: N('link', { cnt: m.effects.length }), tense: 'past' })), S(C('reach', { karta: I, karma: N('limit', { poss: 'my', of: N('link', { pl: true }) }), tense: 'past' })), S(C('follow', { karta: N('effect', { adj: ['other'], pl: true }), mod: 'may' })));
     return out; }
   return out; }
+/* 4.9.120: one plan for a spoken idea and for a typed refusal. The claim texts and the status are mentions. */
+function creativePlan(m) {
+  const items = m.items || [];
+  const head = items.length
+    ? S(C('derive', { karta: I, karma: N('hypothesis', { cnt: items.length, list: { kind: 'mention', items } }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }))
+    : S(C('derive', { karta: I, karma: N('hypothesis', { det: 'no' }), roles: { apadana: N('fact', { poss: 'your', pl: true }) }, tense: 'past' }));
+  const stored = S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }));
+  const seal = items.length ? [S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } }))] : [];
+  const status = m.status ? [S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.status) }) }))] : [];
+  return [head, stored].concat(seal).concat(status);
+}
 const PLANS = {
   justification: justPlan,
   dynamics: m => dynPlan(m),
@@ -717,6 +728,9 @@ const PLANS = {
   spc_list: spcListPlan,
   containment_list: m => dreamListPlan(m).concat(admissionListPlan(m)).concat(spcListPlan({ items: m.cold || [] })),
   spc_proposal: m => [S(C('derive', { karta: I, karma: N('hypothesis', { det: 'a', app: Mn(m.label) }), roles: { apadana: coldStorage() }, tense: 'past' })), S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('seal', { karta: I, karma: pr('it'), mod: 'can', adv: ['only'], roles: { paschat: N('confirmation', { poss: 'your' }) } })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.route + ' ' + m.tier) }) }))],
+  /* 4.9.120: a spoken idea is a hypothesis derived from stored facts. The status is a mention. Nothing in the sentence is a stored fact. */
+  creative_idea: m => creativePlan(m),
+  creative_refusal: m => creativePlan(m),
   must_archive: m => [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn('must_archive') }) })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.route || 'spc_cold_storage_required') }) }))],
   spc_refused: m => [S(C('restore', { karta: I, karma: N('record', { det: 'the', app: Mn(m.label) }), mod: 'can', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.tier) }) }))],
   spc_none: m => [S(C('have', { karta: I, karma: N('record', { det: 'no', app: Mn(m.label) }), roles: { adhikarana: coldStorage() } }))],

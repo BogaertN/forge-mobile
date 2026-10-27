@@ -262,6 +262,7 @@
       replay: (function () { const meaning = clone((msm && msm.meaning) || null), bits = scrubMeaning(meaning); let output = trace.echo_surface != null ? String(trace.echo_surface) : (text == null ? null : String(text)), vakya = clone(trace.echo_vakya || null); if (holdsProse(output, bits)) output = null; if (holdsProse(vakya, bits)) vakya = null; return { output: output, meaning: meaning, vakya: vakya, selection: selectionClaim(trace.selection) }; })()
     };
     if (trace.lexicon) packet.lexicon = trace.lexicon;
+    if (trace.creative) packet.creative = trace.creative;
     return seal(packet);
   }
   function openReceipt(packet) {
@@ -286,7 +287,9 @@
     const lx = packet.lexicon;
     const lxIds = lx ? (lx.concepts || []).map(c => c.id).concat((lx.frames || []).map(f => f.id)) : [];
     const lxLine = lxIds.length ? '<div class="small" data-lexicon="' + esc(lxIds.join(' ')) + '">' + esc(lxIds.join(' · ')) + '</div>' : '';
-    return cats + '<details class="card"' + open + ' data-receipt-type="' + esc(t) + '"' + doc + '><summary>' + esc((LABELS[t] || t) + sub) + '</summary><div class="meta">turn ' + esc(packet.turn) + ' · ' + esc(packet.turn_id) + intent + '</div>' + (detail ? '<div class="small">' + esc(detail) + '</div>' : '') + lxLine + list + '<button type="button" data-export-turn="' + esc(packet.turn) + '">Export turn packet</button></details>';
+    const cr = packet.creative;
+    const crLine = cr && Array.isArray(cr.candidates) && cr.candidates.length ? '<div class="small" data-creative="' + esc((cr.intent || '') + (cr.failure && cr.failure.class ? ' ' + cr.failure.class : '')) + '">' + esc(cr.candidates.slice(0, 6).map(c => (c.spoken ? 'spoken' : 'held') + ' ' + (c.claim_status || '') + ' N=' + (c.novelty && c.novelty.N != null ? c.novelty.N : 'unbound') + ' ε=' + (c.drift && c.drift.eps_s != null ? c.drift.eps_s : '—') + (c.drift && c.drift.band ? ' ' + c.drift.band : '') + (c.reason ? ' (' + c.reason + ')' : '')).join(' · ')) + '</div>' : '';
+    return cats + '<details class="card"' + open + ' data-receipt-type="' + esc(t) + '"' + doc + '><summary>' + esc((LABELS[t] || t) + sub) + '</summary><div class="meta">turn ' + esc(packet.turn) + ' · ' + esc(packet.turn_id) + intent + '</div>' + (detail ? '<div class="small">' + esc(detail) + '</div>' : '') + crLine + lxLine + list + '<button type="button" data-export-turn="' + esc(packet.turn) + '">Export turn packet</button></details>';
   }
   const api = { SCHEMA, FAILURE_SCHEMA, ANSWER_SCHEMA, FAILURE_TYPES, GATE_SUBTYPES, DOC6_LABEL, DOC7_IDS, DOC7_LABEL, PRESENCE_LAW, PACKET_VERSION, build, classify, doc6Of, doc7Of, census, categoryPanel, notSelectedOf, openReceipt, receiptCard, seal, verify };
   if (isNode) module.exports = api; else root.KTurnPacket = api;

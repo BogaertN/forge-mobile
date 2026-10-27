@@ -59,6 +59,86 @@ put('BUILD_MANIFEST.json', json.dumps(doc, indent=1))
 # single-file builds (from the site copy, so they carry the same generated metadata)
 SRC = lambda rel: open(os.path.join(SITE, rel), encoding='utf-8').read()
 h = SRC('index.html').replace('<link rel="stylesheet" href="styles.css">', '<style>' + SRC('styles.css') + '</style>')
+def tighten(src):
+    punct = set('{}()[],;'); re_prev = set('([{:;,=!?&|~^%+-<>')
+    keys = ('return', 'throw', 'case', 'typeof', 'void', 'delete', 'do', 'in', 'of', 'instanceof', 'yield', 'await', 'else', 'new', 'extends')
+    def walk(s):
+        out = []; i = 0; n = len(s)
+        while i < n:
+            c = s[i]
+            if c in ' \t':
+                while i < n and s[i] in ' \t': i += 1
+                prev = out[-1] if out else ''; nxt = s[i] if i < n else ''
+                if prev in punct or nxt in punct: continue
+                out.append(' '); continue
+            if c in '\'"`':
+                q = c; out.append(c); i += 1
+                while i < n:
+                    ch = s[i]
+                    if ch == '\\':
+                        out.append(s[i:i + 2]); i += 2; continue
+                    if q == '`' and ch == '$' and i + 1 < n and s[i + 1] == '{':
+                        out.append('${'); i += 2; k = i; d = 1
+                        while k < n and d:
+                            ch2 = s[k]
+                            if ch2 in '\'"`':
+                                qq = ch2; k += 1
+                                while k < n:
+                                    if s[k] == '\\':
+                                        k += 2; continue
+                                    if qq == '`' and k + 1 < n and s[k] == '$' and s[k + 1] == '{':
+                                        k += 2; dd = 1
+                                        while k < n and dd:
+                                            if s[k] == '{': dd += 1
+                                            elif s[k] == '}': dd -= 1
+                                            if s[k] == '\\':
+                                                k += 2; continue
+                                            k += 1
+                                        continue
+                                    if s[k] == qq:
+                                        k += 1; break
+                                    k += 1
+                                continue
+                            if ch2 == '{': d += 1
+                            elif ch2 == '}': d -= 1
+                            if d == 0: break
+                            k += 1
+                        out.append(walk(s[i:k])); out.append('}'); i = k + 1; continue
+                    out.append(ch); i += 1
+                    if ch == q: break
+                continue
+            if c == '/' and i + 1 < n and s[i + 1] == '/':
+                j = s.find('\n', i)
+                if j < 0: out.append(s[i:]); break
+                out.append(s[i:j]); i = j; continue
+            if c == '/' and i + 1 < n and s[i + 1] == '*':
+                j = s.find('*/', i + 2)
+                if j < 0: out.append(s[i:]); break
+                out.append(s[i:j + 2]); i = j + 2; continue
+            if c == '/':
+                prev = ''.join(out).rstrip(' \t'); is_re = not prev or prev[-1] in re_prev
+                if not is_re:
+                    for k in keys:
+                        if prev.endswith(k) and (len(prev) == len(k) or not (prev[-len(k) - 1].isalnum() or prev[-len(k) - 1] in '_$')):
+                            is_re = True; break
+                if is_re:
+                    out.append(c); i += 1; in_class = False
+                    while i < n:
+                        ch = s[i]
+                        if ch == '\\':
+                            out.append(s[i:i + 2]); i += 2; continue
+                        out.append(ch); i += 1
+                        if ch == '[' and not in_class: in_class = True; continue
+                        if ch == ']' and in_class: in_class = False; continue
+                        if ch == '/' and not in_class:
+                            while i < n and (s[i].isalnum() or s[i] == '_'):
+                                out.append(s[i]); i += 1
+                            break
+                        if ch == '\n': break
+                    continue
+            out.append(c); i += 1
+        return ''.join(out)
+    return walk(src)
 def slim(m, s):
     # single-file only: the registry's provenance 'source' strings are not read by any UI (the site copy keeps them)
     if m != 'src/features.js': return s
@@ -84,6 +164,8 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     js = re.sub(r'(?m)^[ \t]*// [^\n]*\n', '', js)
     # leading indentation is dropped too, but only in a script where every template literal opens and closes on one line (no string spans a line)
     if all(l.count('`') % 2 == 0 for l in js.split('\n')) and not re.search(r'\\\n', js): js = re.sub(r'(?m)^[ \t]+', '', js)
+    # 4.9.120: spaces beside {}()[],; are dropped in kernel-app.html so CREATE/EXPLORE stays within 1.920 MB. Newlines stay (ASI). Strings, templates, and regex literals stay. The Pages site keeps the spaced source.
+    js = tighten(js)
     h = h.replace('<script src="' + m + '"></script>', '<script>' + js.replace('</script', '<\\/script') + '</script>')
 h = h.replace('</head>', '<script>window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';</script></head>', 1)
 ico = base64.b64encode(open(os.path.join(SITE, 'icons/icon-192.png'), 'rb').read()).decode()
