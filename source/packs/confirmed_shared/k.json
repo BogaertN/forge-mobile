@@ -1,0 +1,390 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_k",
+ "provenance": "confirmed_shared",
+ "letter": "K",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_k_kenya_01",
+   "text": "Nairobi is the capital of Kenya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kenya · cs_k_kenya_01"
+  },
+  {
+   "id": "cs_k_kazakhstan_01",
+   "text": "Kazakhstan is the largest landlocked country",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kazakhstan · cs_k_kazakhstan_01"
+  },
+  {
+   "id": "cs_k_kazakhstan_02",
+   "text": "Astana is the capital of Kazakhstan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kazakhstan · cs_k_kazakhstan_02"
+  },
+  {
+   "id": "cs_k_kuwait_01",
+   "text": "Kuwait City is the capital of Kuwait",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kuwait · cs_k_kuwait_01"
+  },
+  {
+   "id": "cs_k_kyrgyzstan_01",
+   "text": "Bishkek is the capital of Kyrgyzstan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kyrgyzstan · cs_k_kyrgyzstan_01"
+  },
+  {
+   "id": "cs_k_kathmandu_01",
+   "text": "Kathmandu is the capital of Nepal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kathmandu · cs_k_kathmandu_01"
+  },
+  {
+   "id": "cs_k_kyiv_01",
+   "text": "Kyiv is the capital of Ukraine",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kyiv · cs_k_kyiv_01"
+  },
+  {
+   "id": "cs_k_kampala_01",
+   "text": "Kampala is the capital of Uganda",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kampala · cs_k_kampala_01"
+  },
+  {
+   "id": "cs_k_khartoum_01",
+   "text": "Khartoum is the capital of Sudan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Khartoum · cs_k_khartoum_01"
+  },
+  {
+   "id": "cs_k_khartoum_02",
+   "text": "The Blue Nile and White Nile meet at Khartoum",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Khartoum · cs_k_khartoum_02"
+  },
+  {
+   "id": "cs_k_kigali_01",
+   "text": "Kigali is the capital of Rwanda",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kigali · cs_k_kigali_01"
+  },
+  {
+   "id": "cs_k_kinshasa_01",
+   "text": "Kinshasa is the capital of the Democratic Republic of the Congo",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kinshasa · cs_k_kinshasa_01"
+  },
+  {
+   "id": "cs_k_kuala_lumpur_01",
+   "text": "Kuala Lumpur is the capital of Malaysia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kuala Lumpur · cs_k_kuala_lumpur_01"
+  },
+  {
+   "id": "cs_k_kilimanjaro_01",
+   "text": "Mount Kilimanjaro is the highest mountain in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_01"
+  },
+  {
+   "id": "cs_k_kilimanjaro_02",
+   "text": "Mount Kilimanjaro is in Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_02"
+  },
+  {
+   "id": "cs_k_kansas_01",
+   "text": "Topeka is the capital of Kansas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kansas · cs_k_kansas_01"
+  },
+  {
+   "id": "cs_k_krakatoa_01",
+   "text": "Krakatoa erupted catastrophically in 1883",
+   "standing": "projectable",
+   "evidence": "history · product curator · Krakatoa · cs_k_krakatoa_01"
+  },
+  {
+   "id": "cs_k_kelvin_01",
+   "text": "The kelvin is the SI base unit of temperature",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kelvin · cs_k_kelvin_01"
+  },
+  {
+   "id": "cs_k_kilogram_01",
+   "text": "The kilogram is the SI base unit of mass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kilogram · cs_k_kilogram_01"
+  },
+  {
+   "id": "cs_k_kinetic_energy_01",
+   "text": "Kinetic energy is the energy of motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_01"
+  },
+  {
+   "id": "cs_k_krypton_01",
+   "text": "Krypton has the chemical symbol Kr",
+   "standing": "projectable",
+   "evidence": "science · product curator · Krypton · cs_k_krypton_01"
+  },
+  {
+   "id": "cs_k_krypton_02",
+   "text": "Krypton is a noble gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Krypton · cs_k_krypton_02"
+  },
+  {
+   "id": "cs_k_k_chemical_symbol_01",
+   "text": "K is the chemical symbol for potassium",
+   "standing": "projectable",
+   "evidence": "science · product curator · K (chemical symbol) · cs_k_k_chemical_symbol_01"
+  },
+  {
+   "id": "cs_k_kuiper_belt_01",
+   "text": "The Kuiper Belt lies beyond the orbit of Neptune",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kuiper Belt · cs_k_kuiper_belt_01"
+  },
+  {
+   "id": "cs_k_kuiper_belt_02",
+   "text": "Pluto is in the Kuiper Belt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kuiper Belt · cs_k_kuiper_belt_02"
+  },
+  {
+   "id": "cs_k_kidney_01",
+   "text": "Humans normally have two kidneys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kidney · cs_k_kidney_01"
+  },
+  {
+   "id": "cs_k_kidney_02",
+   "text": "Kidneys filter waste from the blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kidney · cs_k_kidney_02"
+  },
+  {
+   "id": "cs_k_kepler_johannes_01",
+   "text": "Johannes Kepler described the laws of planetary motion",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kepler, Johannes · cs_k_kepler_johannes_01"
+  },
+  {
+   "id": "cs_k_kepler_johannes_02",
+   "text": "Kepler showed that planets orbit in ellipses",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kepler, Johannes · cs_k_kepler_johannes_02"
+  },
+  {
+   "id": "cs_k_kangaroo_01",
+   "text": "Kangaroos are marsupials",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_01"
+  },
+  {
+   "id": "cs_k_kangaroo_02",
+   "text": "Kangaroos are native to Australia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_02"
+  },
+  {
+   "id": "cs_k_koala_01",
+   "text": "Koalas are marsupials",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Koala · cs_k_koala_01"
+  },
+  {
+   "id": "cs_k_kiwi_01",
+   "text": "The kiwi is a flightless bird native to New Zealand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_01"
+  },
+  {
+   "id": "cs_k_komodo_dragon_01",
+   "text": "The Komodo dragon is the largest living lizard",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_01"
+  },
+  {
+   "id": "cs_k_killer_whale_01",
+   "text": "The killer whale is the largest member of the dolphin family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Killer whale · cs_k_killer_whale_01"
+  },
+  {
+   "id": "cs_k_kingfisher_01",
+   "text": "Kingfishers dive to catch fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_01"
+  },
+  {
+   "id": "cs_k_krill_01",
+   "text": "Krill are small crustaceans",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Krill · cs_k_krill_01"
+  },
+  {
+   "id": "cs_k_koi_01",
+   "text": "Koi are ornamental varieties of carp",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Koi · cs_k_koi_01"
+  },
+  {
+   "id": "cs_k_kelp_01",
+   "text": "Kelp is a large brown alga",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_01"
+  },
+  {
+   "id": "cs_k_kestrel_01",
+   "text": "Kestrels are small falcons",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kestrel · cs_k_kestrel_01"
+  },
+  {
+   "id": "cs_k_king_cobra_01",
+   "text": "The king cobra is the longest venomous snake",
+   "standing": "projectable",
+   "evidence": "nature · product curator · King cobra · cs_k_king_cobra_01"
+  },
+  {
+   "id": "cs_k_kiwifruit_01",
+   "text": "Kiwifruit has brown fuzzy skin and green flesh",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kiwifruit · cs_k_kiwifruit_01"
+  },
+  {
+   "id": "cs_k_king_martin_luther_jr_02",
+   "text": "Martin Luther King Jr. won the Nobel Peace Prize in 1964",
+   "standing": "projectable",
+   "evidence": "history · product curator · King, Martin Luther Jr. · cs_k_king_martin_luther_jr_02"
+  },
+  {
+   "id": "cs_k_kennedy_john_f_01",
+   "text": "John F. Kennedy was the 35th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_01"
+  },
+  {
+   "id": "cs_k_kennedy_john_f_02",
+   "text": "John F. Kennedy was assassinated in 1963",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_02"
+  },
+  {
+   "id": "cs_k_khufu_01",
+   "text": "The Great Pyramid of Giza was built for the pharaoh Khufu",
+   "standing": "projectable",
+   "evidence": "history · product curator · Khufu · cs_k_khufu_01"
+  },
+  {
+   "id": "cs_k_kublai_khan_01",
+   "text": "Kublai Khan founded the Yuan dynasty in China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kublai Khan · cs_k_kublai_khan_01"
+  },
+  {
+   "id": "cs_k_korean_war_01",
+   "text": "The Korean War began in 1950",
+   "standing": "projectable",
+   "evidence": "history · product curator · Korean War · cs_k_korean_war_01"
+  },
+  {
+   "id": "cs_k_kremlin_01",
+   "text": "The Kremlin is a fortified complex in Moscow",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kremlin · cs_k_kremlin_01"
+  },
+  {
+   "id": "cs_k_knossos_01",
+   "text": "Knossos was a major Minoan site on Crete",
+   "standing": "projectable",
+   "evidence": "history · product curator · Knossos · cs_k_knossos_01"
+  },
+  {
+   "id": "cs_k_kilometer_02",
+   "text": "One mile is about 1.609 kilometers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_02"
+  },
+  {
+   "id": "cs_k_kite_01",
+   "text": "A kite is a quadrilateral with two pairs of adjacent equal sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kite · cs_k_kite_01"
+  },
+  {
+   "id": "cs_k_knot_01",
+   "text": "One knot equals one nautical mile per hour",
+   "standing": "projectable",
+   "evidence": "math · product curator · Knot · cs_k_knot_01"
+  },
+  {
+   "id": "cs_k_korean_01",
+   "text": "Korean is written in the Hangul alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Korean · cs_k_korean_01"
+  },
+  {
+   "id": "cs_k_karate_01",
+   "text": "Karate is a martial art developed in Okinawa",
+   "standing": "projectable",
+   "evidence": "general · product curator · Karate · cs_k_karate_01"
+  },
+  {
+   "id": "cs_k_keyboard_01",
+   "text": "A standard piano has 88 keys",
+   "standing": "projectable",
+   "evidence": "general · product curator · Keyboard · cs_k_keyboard_01"
+  },
+  {
+   "id": "cs_k_knight_01",
+   "text": "In chess, the knight moves in an L shape",
+   "standing": "projectable",
+   "evidence": "general · product curator · Knight · cs_k_knight_01"
+  },
+  {
+   "id": "cs_k_kenya_02",
+   "text": "Kenya lies on the equator",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kenya · cs_k_kenya_02"
+  },
+  {
+   "id": "cs_k_kenya_03",
+   "text": "Swahili and English are official languages of Kenya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kenya · cs_k_kenya_03"
+  },
+  {
+   "id": "cs_k_kiribati_01",
+   "text": "Kiribati spans all four hemispheres",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kiribati · cs_k_kiribati_01"
+  },
+  {
+   "id": "cs_k_kosovo_01",
+   "text": "Pristina is the capital of Kosovo",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kosovo · cs_k_kosovo_01"
+  },
+  {
+   "id": "cs_k_korea_01",
+   "text": "The Korean Peninsula is in East Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Korea · cs_k_korea_01"
+  },
+  {
+   "id": "cs_k_kamchatka_01",
+   "text": "The Kamchatka Peninsula is in the Russian Far East",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_01"
+  }
+ ]
+}

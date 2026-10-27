@@ -1,0 +1,324 @@
+{
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_i",
+ "provenance": "confirmed_shared",
+ "letter": "I",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 80,
+ "items": [
+  {
+   "id": "cs_i_indonesia_01",
+   "text": "Jakarta is the capital of Indonesia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Indonesia · cs_i_indonesia_01"
+  },
+  {
+   "id": "cs_i_italy_01",
+   "text": "Rome is the capital of Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Italy · cs_i_italy_01"
+  },
+  {
+   "id": "cs_i_iceland_01",
+   "text": "Reykjavík is the capital of Iceland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iceland · cs_i_iceland_01"
+  },
+  {
+   "id": "cs_i_iran_01",
+   "text": "Tehran is the capital of Iran",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iran · cs_i_iran_01"
+  },
+  {
+   "id": "cs_i_israel_01",
+   "text": "Israel borders the Mediterranean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Israel · cs_i_israel_01"
+  },
+  {
+   "id": "cs_i_istanbul_01",
+   "text": "Istanbul spans Europe and Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Istanbul · cs_i_istanbul_01"
+  },
+  {
+   "id": "cs_i_islamabad_01",
+   "text": "Islamabad is the capital of Pakistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Islamabad · cs_i_islamabad_01"
+  },
+  {
+   "id": "cs_i_iberian_peninsula_01",
+   "text": "Spain and Portugal are on the Iberian Peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iberian Peninsula · cs_i_iberian_peninsula_01"
+  },
+  {
+   "id": "cs_i_illinois_01",
+   "text": "Springfield is the capital of Illinois",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Illinois · cs_i_illinois_01"
+  },
+  {
+   "id": "cs_i_indiana_01",
+   "text": "Indianapolis is the capital of Indiana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Indiana · cs_i_indiana_01"
+  },
+  {
+   "id": "cs_i_iowa_01",
+   "text": "Des Moines is the capital of Iowa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iowa · cs_i_iowa_01"
+  },
+  {
+   "id": "cs_i_isthmus_of_panama_01",
+   "text": "The Isthmus of Panama connects North and South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Isthmus of Panama · cs_i_isthmus_of_panama_01"
+  },
+  {
+   "id": "cs_i_iron_01",
+   "text": "Iron has the chemical symbol Fe",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_01"
+  },
+  {
+   "id": "cs_i_iridium_01",
+   "text": "Iridium has the chemical symbol Ir",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iridium · cs_i_iridium_01"
+  },
+  {
+   "id": "cs_i_io_01",
+   "text": "Io is a moon of Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Io · cs_i_io_01"
+  },
+  {
+   "id": "cs_i_ice_01",
+   "text": "Ice is less dense than liquid water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice · cs_i_ice_01"
+  },
+  {
+   "id": "cs_i_ice_02",
+   "text": "Ice floats on liquid water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice · cs_i_ice_02"
+  },
+  {
+   "id": "cs_i_isotope_01",
+   "text": "Isotopes of an element have different numbers of neutrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Isotope · cs_i_isotope_01"
+  },
+  {
+   "id": "cs_i_inertia_01",
+   "text": "Inertia is an object's resistance to changes in motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inertia · cs_i_inertia_01"
+  },
+  {
+   "id": "cs_i_insulin_01",
+   "text": "Insulin is a hormone made by the pancreas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Insulin · cs_i_insulin_01"
+  },
+  {
+   "id": "cs_i_ion_01",
+   "text": "An ion is an atom or molecule with a net electric charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ion · cs_i_ion_01"
+  },
+  {
+   "id": "cs_i_international_space_station_01",
+   "text": "The International Space Station orbits Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · International Space Station · cs_i_international_space_station_01"
+  },
+  {
+   "id": "cs_i_insect_01",
+   "text": "Insects have six legs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Insect · cs_i_insect_01"
+  },
+  {
+   "id": "cs_i_insect_02",
+   "text": "An insect's body has three main parts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Insect · cs_i_insect_02"
+  },
+  {
+   "id": "cs_i_iguana_01",
+   "text": "Iguanas are lizards",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_01"
+  },
+  {
+   "id": "cs_i_invertebrate_01",
+   "text": "Invertebrates are animals without a backbone",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_01"
+  },
+  {
+   "id": "cs_i_ivy_01",
+   "text": "Ivy is a climbing plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_01"
+  },
+  {
+   "id": "cs_i_iris_01",
+   "text": "The iris is the colored part of the eye",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iris · cs_i_iris_01"
+  },
+  {
+   "id": "cs_i_inca_empire_01",
+   "text": "Cusco was the capital of the Inca Empire",
+   "standing": "projectable",
+   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_01"
+  },
+  {
+   "id": "cs_i_inca_empire_02",
+   "text": "Machu Picchu was built by the Inca",
+   "standing": "projectable",
+   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_02"
+  },
+  {
+   "id": "cs_i_industrial_revolution_01",
+   "text": "The Industrial Revolution began in Great Britain",
+   "standing": "projectable",
+   "evidence": "history · product curator · Industrial Revolution · cs_i_industrial_revolution_01"
+  },
+  {
+   "id": "cs_i_iron_age_01",
+   "text": "The Iron Age followed the Bronze Age",
+   "standing": "projectable",
+   "evidence": "history · product curator · Iron Age · cs_i_iron_age_01"
+  },
+  {
+   "id": "cs_i_isaac_newton_01",
+   "text": "Isaac Newton formulated the laws of motion",
+   "standing": "projectable",
+   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_01"
+  },
+  {
+   "id": "cs_i_isaac_newton_02",
+   "text": "Isaac Newton described universal gravitation",
+   "standing": "projectable",
+   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_02"
+  },
+  {
+   "id": "cs_i_indian_independence_01",
+   "text": "India gained independence from Britain in 1947",
+   "standing": "projectable",
+   "evidence": "history · product curator · Indian independence · cs_i_indian_independence_01"
+  },
+  {
+   "id": "cs_i_integer_01",
+   "text": "Integers include negative whole numbers, zero, and positive whole numbers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integer · cs_i_integer_01"
+  },
+  {
+   "id": "cs_i_infinity_01",
+   "text": "Infinity is not a real number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Infinity · cs_i_infinity_01"
+  },
+  {
+   "id": "cs_i_irrational_number_01",
+   "text": "Pi is an irrational number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Irrational number · cs_i_irrational_number_01"
+  },
+  {
+   "id": "cs_i_irrational_number_02",
+   "text": "The square root of 2 is irrational",
+   "standing": "projectable",
+   "evidence": "math · product curator · Irrational number · cs_i_irrational_number_02"
+  },
+  {
+   "id": "cs_i_icosahedron_01",
+   "text": "An icosahedron has 20 faces",
+   "standing": "projectable",
+   "evidence": "math · product curator · Icosahedron · cs_i_icosahedron_01"
+  },
+  {
+   "id": "cs_i_italian_01",
+   "text": "Italian is a Romance language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Italian · cs_i_italian_01"
+  },
+  {
+   "id": "cs_i_iceland_02",
+   "text": "Iceland lies on the Mid-Atlantic Ridge",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iceland · cs_i_iceland_02"
+  },
+  {
+   "id": "cs_i_ionian_sea_01",
+   "text": "The Ionian Sea is part of the Mediterranean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ionian Sea · cs_i_ionian_sea_01"
+  },
+  {
+   "id": "cs_i_irish_sea_01",
+   "text": "The Irish Sea separates Ireland and Great Britain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Irish Sea · cs_i_irish_sea_01"
+  },
+  {
+   "id": "cs_i_iron_03",
+   "text": "Steel is an alloy made mainly of iron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_03"
+  },
+  {
+   "id": "cs_i_ivory_01",
+   "text": "Elephant tusks are made of ivory",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ivory · cs_i_ivory_01"
+  },
+  {
+   "id": "cs_i_ice_age_01",
+   "text": "During ice ages, large ice sheets covered parts of the continents",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice age · cs_i_ice_age_01"
+  },
+  {
+   "id": "cs_i_ice_sheet_01",
+   "text": "Antarctica is covered by an ice sheet",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ice sheet · cs_i_ice_sheet_01"
+  },
+  {
+   "id": "cs_i_isaac_newton_03",
+   "text": "Isaac Newton built a reflecting telescope",
+   "standing": "projectable",
+   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_03"
+  },
+  {
+   "id": "cs_i_ionosphere_01",
+   "text": "The ionosphere is part of Earth's upper atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ionosphere · cs_i_ionosphere_01"
+  },
+  {
+   "id": "cs_i_invertebrate_02",
+   "text": "Jellyfish are invertebrates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_02"
+  },
+  {
+   "id": "cs_i_intestine_01",
+   "text": "The small intestine absorbs most nutrients from food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Intestine · cs_i_intestine_01"
+  }
+ ]
+}
