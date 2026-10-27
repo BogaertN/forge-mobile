@@ -9,13 +9,13 @@ const VERBS = new Set(words('fall capture describe outrank research conclude der
   'confirm conflict infer reinforce replace show calculate need refer name pick rephrase run call write browse exist hold reach lead list start reset recognise derive support depend decide determine explain count state cite ' +
   'give make quote assert guess display admit receive record require check contain compute round agree hide mention choose see stop mark archive report apply block want type issue ' +
   'resolve compile lose leave go look come cover try work restate pass fail differentiate integrate divide convert reduce acknowledge refuse substitute expand simplify measure enter unlock lock ' +
-  'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause assume modify average prevent downgrade'));
+  'count close accept state remove bypass exclude save memorise memorize repeat echo print output delete erase send email text buy post share suppose imagine approve restore retain record log recall preserve explain identify diagnose infer recognize recognise adapt improve revise correct avoid predict generalize generalise apply adjust transfer learn master establish support weaken differ cause assume modify average prevent downgrade compose'));
 const MODALS = { can: { past: 'could' }, should: {}, must: {}, may: { past: 'might' } };
 const NOUNS = new Set(words('network error conversion paper method explanation amount association problem provenance agreement hypothesis option test conversation location thing passage person birthplace mother father capital country noun modifier form article proof hash label status reason case name class claim conflict source fact colour color dimension table pronoun tag link memory reminder time device branch candidate fact scene feed item intervention sample agent task status turn form check answer symbol body hash preview replay tool topic page result excerpt pattern evidence repository file passphrase vault tab fact note word sense way reading record storage value source time date unit solution equation system variable expression factorization quotient division zero identity statement ' +
   'request rule validation step gender inference kernel model capability register command file lexicon entry receipt chain drift turn flag loop simulation backend gate result device reason question proposal ' +
   'memory meaning manifest thing polynomial degree root decimal rational answer sentence structure form prototype compiler language binding integral derivative number evidence authority action ' +
   'definition term project frame referent version phone build plan status history conflict transition phase operator quantity reply list example band delivery text part run lane report hold ' +
-  'failure relation sign code divisor limit limitation subject predicate verb role greeting farewell thanks correction vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker rate assumption sensor adverb effect measurement prediction bound mechanism'));
+  'failure relation sign code divisor limit limitation subject predicate verb role greeting farewell thanks correction vault passphrase secret tab chat screen discriminant interval fraction function context confirmation suite detail quarantine hypothesis approval case cause premise claim formula move change world proof decision derivation checker rate assumption sensor adverb effect measurement prediction bound mechanism paragraph idea'));
 const IRR_PL = { capability: 'capabilities', entry: 'entries', identity: 'identities', quantity: 'quantities', history: 'histories', memory: 'memories', reply: 'replies', inference: 'inferences', hypothesis: 'hypotheses' };
 const ADJ = new Set(words('clean elevated hard correction stop first draft candidate starting conditional ranked shared second Wikipedia related other open admitted bounded drift echo preview final recorded best deterministic language stored sensitive earlier new right cold real approximate exact irrational welcome incomplete malformed valid single definite linear polynomial authorized ' +
   'evidence external different false independent unknown active legacy refusal audit last drift grace simulation desktop phone ProtoForge Forge meaning sentence supported free broken project ' +
@@ -553,6 +553,20 @@ function creativePlan(m) {
   const status = m.status ? [S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.status) }) }))] : [];
   return [head, stored].concat(seal).concat(status);
 }
+/* 4.9.121: a paragraph of an admitted idea or MSM. The claim and the status are mentions. The sentences do not store a fact. */
+function composePlan(m) {
+  const src = m.source === 'msm' ? 'meaning' : 'idea';
+  const items = m.items || [];
+  const head = items.length
+    ? S(C('compose', { karta: I, karma: N('paragraph', { det: 'a' }), roles: { apadana: N(src, { det: 'the' }) }, tense: 'past' }))
+    : S(C('compose', { karta: I, karma: N('paragraph', { det: 'no' }), tense: 'past' }));
+  const stated = items.length ? [S(C('state', { karta: N('paragraph', { det: 'the' }), karma: N('claim', { cnt: items.length, list: { kind: 'mention', items } }) }))] : [];
+  const stored = S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' }));
+  const shared = S(C('store', { karta: I, karma: N('fact', { det: 'a', adj: ['shared'] }), aspect: 'perf', pol: 'neg' }));
+  const world = S(C('write', { karta: I, karma: N('world', { det: 'the' }), tense: 'past', pol: 'neg' }));
+  const status = m.status ? [S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.status) }) }))] : [];
+  return [head].concat(stated).concat([stored, shared, world]).concat(status);
+}
 const PLANS = {
   justification: justPlan,
   dynamics: m => dynPlan(m),
@@ -731,6 +745,9 @@ const PLANS = {
   /* 4.9.120: a spoken idea is a hypothesis derived from stored facts. The status is a mention. Nothing in the sentence is a stored fact. */
   creative_idea: m => creativePlan(m),
   creative_refusal: m => creativePlan(m),
+  /* 4.9.121: multi-sentence prose of a selected meaning. The claim status is a mention. Nothing is stored. */
+  compose_narrative: m => composePlan(m),
+  compose_refusal: m => composePlan(m),
   must_archive: m => [S(C('store', { karta: I, karma: pr('it'), aspect: 'perf', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn('must_archive') }) })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.route || 'spc_cold_storage_required') }) }))],
   spc_refused: m => [S(C('restore', { karta: I, karma: N('record', { det: 'the', app: Mn(m.label) }), mod: 'can', pol: 'neg' })), S(C('be', { karta: pr('it'), pred: N('status', { det: 'the', app: Mn(m.tier) }) }))],
   spc_none: m => [S(C('have', { karta: I, karma: N('record', { det: 'no', app: Mn(m.label) }), roles: { adhikarana: coldStorage() } }))],

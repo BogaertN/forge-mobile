@@ -1,5 +1,5 @@
 {
-  "version": "4.9.120",
+  "version": "4.9.121",
  "features": [
   {
    "id": "A-01",
@@ -116,7 +116,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
    "wave": "W1",
    "claim": "Partial",
-   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. Older claims stay suite-level.",
+   "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. Older claims stay suite-level.",
    "proof": [
     "CLAIM-GUARD"
    ]
@@ -3121,13 +3121,40 @@
    "claim": "Partial",
    "note": "4.9.120: drift 0.40–0.80 may be spoken as a hypothesis or a speculative branch. A tap commits the idea record only when drift is projectable. Memory, the world head, and the shared KB stay unchanged. Shared KB stays empty.",
    "proof": ["R4120"]
+  },
+  {
+   "id": "R4121-INTENT",
+   "name": "COMPOSE intent",
+   "source": "CONFLICTS.md v4.9.121",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.121: compose that idea, write it out, and explain it as a short paragraph are COMPOSE. They are not CREATE, EXPLORE, or READ. Shared KB stays empty.",
+   "proof": ["R4121"]
+  },
+  {
+   "id": "R4121-PROSE",
+   "name": "Multi-sentence Language Core paragraph",
+   "source": "CONFLICTS.md v4.9.121",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.121: a paragraph is several Language Core sentences and exact-Echoes. It is not Soft Echo and not a discovery claim. Shared KB stays empty.",
+   "proof": ["R4121"]
+  },
+  {
+   "id": "R4121-CUSTODY",
+   "name": "Compose keeps claim status and writes nothing",
+   "source": "CONFLICTS.md v4.9.121",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "4.9.121: the source claim status stays visible. A paragraph does not write memory, the world head, or the shared KB. Shared KB stays empty.",
+   "proof": ["R4121"]
   }
  ],
- "count": 292,
+ "count": 295,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 130,
+  "Partial": 133,
   "Missing": 9,
   "Out of scope / parked": 13
  }

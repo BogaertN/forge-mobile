@@ -1215,6 +1215,42 @@ function Kernel(opts) {
       creativePending = null; const pack = { intent: 'CREATE', failure: null, candidates: [{ id: row.id, claim: row.claim, claim_status: row.claim_status, novelty: row.novelty, drift: { eps_s: eps, band }, spoken: true, reason: null }] };
       rules.push({ id: 'CREATIVE-COMMIT-PHRASE', doc: '4.9.120 a seal phrase repeats the proposal; the tap is the only commit', note: row.id });
       return res('SELECTED_MEANING', { kind: 'creative_idea', creative_intent: 'CREATE', items: [row.claim], status: row.claim_status || 'hypothesis', creative: pack }, { frame: 'FR.TOOL.EDE', act: 'question' }); }
+    /* 4.9.121 COMPOSE: narrate an admitted idea or the latest spoken MSM. The paragraph does not store. */
+    const composeClaim = s => String(s || '').replace(/\s+/g, ' ').trim().replace(/^[“"]+|[”".?!]+$/g, '').trim();
+    const composeRefuse = (source, failure, cand) => { creativePending = null; const st = failure.class === 'drift_hard' ? 'hard_stop' : failure.class === 'novelty_unbound' ? 'unbound' : failure.class;
+      const pack = { intent: 'COMPOSE', source: source || null, failure, candidates: cand || [], msm_id: null };
+      rules.push({ id: 'COMPOSE-REFUSE', doc: '4.9.121 COMPOSE: a paragraph is not a store and not a discovery', note: failure.class });
+      return res('REFUSAL_RELEVANT', { kind: 'compose_refusal', creative_intent: 'COMPOSE', source: source || null, status: st, items: [], creative: pack }, { frame: 'FR.TOOL.EDE', act: 'question' }); };
+    const composeNarrate = (source, row) => { creativePending = null; const claim = composeClaim(row.claim); const novelty = row.novelty || { N: null, class: 'not_measured', anchored: true };
+      const eps = row.drift && typeof row.drift.eps_s === 'number' ? row.drift.eps_s : null; const gov = M.driftGovernance(eps); const band = (row.drift && row.drift.band) || gov.band;
+      const drift = { eps_s: eps, band }; const id = row.id; const discovery = ['verified_claim', 'derived_claim', 'resolved_manifest', 'named_concept'];
+      const cand = (spoken, reason, status) => [{ id, claim: claim || row.claim || '', claim_status: status, novelty, drift, spoken, reason }];
+      if (!claim) return composeRefuse(source, { class: 'language_unexpressible', detail: 'no claim text' }, cand(false, 'no claim text', 'rejected'));
+      if (novelty.class === 'unbound' || novelty.anchored === false || (discovery.includes(row.claim_status) && novelty.class !== 'bounded')) return composeRefuse(source, { class: 'novelty_unbound', detail: 'unbound novelty is not a discovery' }, cand(false, 'novelty unbound', 'rejected'));
+      if (band === 'reject' || (typeof eps === 'number' && eps > 0.80)) return composeRefuse(source, { class: 'drift_hard', detail: 'drift above 0.80' }, cand(false, 'hard stop: ε_s above 0.80', 'rejected'));
+      const status = row.claim_status || 'hypothesis'; const pack = { intent: 'COMPOSE', source, failure: null, candidates: cand(true, null, status), msm_id: row.msm_id || null };
+      rules.push({ id: 'COMPOSE-NARRATE', doc: '4.9.121 COMPOSE: multi-sentence Language Core prose of an admitted meaning', note: source + ' · ' + status });
+      return res('SELECTED_MEANING', { kind: 'compose_narrative', creative_intent: 'COMPOSE', source, items: [claim], status, creative: pack }, { frame: 'FR.TOOL.EDE', act: 'question' }); };
+    const ideaRow = () => { const rows = (store.load('creative_proposals') || []).filter(r => r && (r.status === 'proposed' || r.status === 'committed')); return rows.length ? rows[rows.length - 1] : null; };
+    const msmRow = () => { const tl = store.load('trace') || []; for (let i = tl.length - 1; i >= 0; i--) { const t = tl[i]; const kind = t && t.msm && t.msm.meaning && t.msm.meaning.kind; if (!(t && t.output && !t.blocked && t.msm_v1 && t.msm_v1.manifest_id) || /^compose_/.test(kind || '')) continue; return t; } return null; };
+    const asIdea = row => ({ id: row.id, claim: row.claim, claim_status: row.claim_status || 'hypothesis', novelty: row.novelty, drift: row.drift, msm_id: null });
+    const asMsm = t => { const meaning = (t.msm && t.msm.meaning) || {}; const status = meaning.status || (meaning.kind === 'stored' ? 'stored' : (meaning.kind || 'spoken'));
+      return { id: t.msm_v1.manifest_id, claim: t.output, claim_status: status, novelty: meaning.novelty || { N: null, class: 'not_measured', anchored: true }, drift: t.drift || { eps_s: null, band: 'unmeasured' }, msm_id: t.msm_v1.manifest_id }; };
+    let composePick = null;
+    if (capF(low, { id: 'compose.idea', v: ['compose'], obj: ['idea'], re: /^$/ })) composePick = 'idea';
+    else if (capF(low, { id: 'compose.msm', v: ['compose'], obj: ['meaning'], re: /^$/ })) composePick = 'msm';
+    else if (capF(low, { id: 'compose.write.idea', v: ['write'], obj: ['idea'], re: /^out$/ }) || capF(low, { id: 'compose.write.idea', v: ['write'], part: 'out', obj: ['idea'], re: /^$/ })) composePick = 'idea';
+    else if (capF(low, { id: 'compose.write.msm', v: ['write'], obj: ['meaning'], re: /^out$/ }) || capF(low, { id: 'compose.write.msm', v: ['write'], part: 'out', obj: ['meaning'], re: /^$/ })) composePick = 'msm';
+    else if (capF(low, { id: 'compose.write.it', v: ['write'], re: /^(?:it|that) out$/ })) composePick = 'selected';
+    else if (capF(low, { id: 'compose.explain.it', v: ['explain'], re: /^(?:it|that) as a short paragraph$/ })) composePick = 'selected';
+    else if (capF(low, { id: 'compose.explain.idea', v: ['explain'], obj: ['idea'], re: /^as a short paragraph$/ })) composePick = 'idea';
+    else if (capF(low, { id: 'compose.explain.msm', v: ['explain'], obj: ['meaning'], re: /^as a short paragraph$/ })) composePick = 'msm';
+    if (composePick) { const idea = ideaRow(), msm = msmRow(); let picked = null;
+      if (composePick === 'idea') picked = idea ? { source: 'idea', row: asIdea(idea) } : null;
+      else if (composePick === 'msm') picked = msm ? { source: 'msm', row: asMsm(msm) } : null;
+      else picked = idea ? { source: 'idea', row: asIdea(idea) } : msm ? { source: 'msm', row: asMsm(msm) } : null;
+      if (!picked) return composeRefuse(composePick === 'selected' ? null : composePick, { class: 'commit_without_proposal', detail: 'no proposal' }, []);
+      return composeNarrate(picked.source, picked.row); }
     const SIM3D = /^(?:an? )?(?:in )?3-?d(?: physics)?(?: (?:simulation|preview))?(?: of)?(?: (\d{1,2}))?(?: (boxes|spheres|cylinders|bodies))?(?: with seed (\d{1,9}))?$/;
     if ((m = capF(low, { id: 'sim3d', v: ['simulate', 'preview', 'run'], obj: ['simulation', 'preview'], objOpt: true, mods: ['physics'], np: ['simulation', 'preview'], bare: true, re: SIM3D }))) { const shape = m[2] && m[2] !== 'bodies' ? m[2].replace(/s$/, '').replace(/e$/, 'e') : undefined; const arg = JSON.stringify({ count: m[1] ? +m[1] : 4, shape: shape === 'boxe' ? 'box' : shape, seed: m[3] ? +m[3] : 1 });
       rules.push({ id: 'EF-FRAME-SIM3D', doc: '3-D preview: cannon-es 0.20.0 + three.js r169 (vendored, MIT); PyBullet defaults g=−9.81, dt=1/240' }); return res('SELECTED_MEANING', { kind: 'tool_started', tool: 'sim3d.run', target: '3-D preview', noun: 'scene', local: true }, { frame: 'FR.TOOL.SIM3D', act: 'request', toolRequest: { tool: 'sim3d.run', input: arg } }); }
@@ -1436,7 +1472,7 @@ function Kernel(opts) {
       const meaningOf = n => n && n.head && n.head.length === 1 && SELF_MEAN_N.has(n.head[0]) && n.of && generic(n.of) ? n.of : null;
       let term = null, nounAsk = false; if (wh === 'what' && gap === 'role:karma' && L === 'mean' && q.subj && q.subj.quote !== undefined && /^[a-z][a-z'-]*$/i.test(q.subj.quote)) return defineWord(q.subj.quote.toLowerCase()) || (!lex.known(q.subj.quote.toLowerCase()) ? clarifyUnknown([q.subj.quote.toLowerCase()]) : null);
       if (wh === 'what' && gap === 'role:karma' && SELF_MEAN_V.has(L) && L === 'mean' && generic(q.subj)) term = q.subj;
-      else if (gap === 'imp' && SELF_MEAN_V.has(L) && L !== 'mean' && generic(ro.karma) && !ro.sampradana) term = ro.karma;
+      else if (gap === 'imp' && SELF_MEAN_V.has(L) && L !== 'mean' && generic(ro.karma) && !ro.sampradana && !ro.upamana && !/as a short paragraph$/.test(low)) term = ro.karma;
       else if (gap === 'pred' && wh === 'what' && q.verb.lemma === 'be') { term = meaningOf(q.subj) || (generic(q.subj) ? q.subj : null); nounAsk = !!term; }
       else if (gap === 'np') term = meaningOf(q.subj);
       if (term) return defineWord((term.surface || term.head)[0].toLowerCase(), term.head[0], nounAsk ? { noun: true } : null);
@@ -2104,8 +2140,10 @@ function Kernel(opts) {
     { const tk = content(G.tokenize(raw.replace(/[.!?]+\s*$/, ''))); const P = tk.length > 1 ? G.Parser(tk, glex) : null;
       if (P && P.at(0, 'V').some(a => a.f === 'base' && SELF_MEAN_V.has(a.lemma) && a.lemma !== 'mean') && !P.at(1, 'PRON').length) { let np = null; try { np = npOnly(tk.slice(1)); } catch (e) { np = null; }
         const nounOnly = !np && tk.slice(1).every((t, k) => ['N', 'PROPN', 'DET', 'ADJ', 'PREP', 'NUM'].some(g => P.at(k + 1, g).length) && !(P.at(k + 1, 'V').length && !P.at(k + 1, 'N').length && !P.at(k + 1, 'PROPN').length)) && !tk.slice(1).some((t, k) => P.at(k + 1, 'POSS').length || /^(how|why|what|when|where|who|which|whether|if)$/.test(t.w)); /* a name the NP grammar does not join ("the Treaty of Versailles") is still one nominal when no word of it is only a verb */
-        const proposals = /^(?:the\s+)?proposals?$/.test(tk.slice(1).map(t => t.w).join(' ')); /* 4.9.102: "explain the proposals" is the MEA surface, not a definition question */
-        if (!proposals && ((np && (np.head || np.propn) && !np.conj && !np.owner) || nounOnly)) { const q = 'what is ' + tk.slice(1).map(t => t.orig).join(' '); dirObj = tk.slice(1).map(t => t.orig).join(' '); trace.rules.push({ id: 'LL-DIRECTIVE-MEANING', doc: 'Doc5 §15 (directive of a meaning verb = the copular description question)', note: q }); raw = q; low = q.toLowerCase(); } } }
+        const rest = tk.slice(1).map(t => t.w).join(' ');
+        const proposals = /^(?:the\s+)?proposals?$/.test(rest); /* 4.9.102: "explain the proposals" is the MEA surface, not a definition question */
+        const paragraph = /\bas a short paragraph$/.test(rest); /* 4.9.121: "explain the idea as a short paragraph" is COMPOSE, not a definition */
+        if (!proposals && !paragraph && ((np && (np.head || np.propn) && !np.conj && !np.owner) || nounOnly)) { const q = 'what is ' + tk.slice(1).map(t => t.orig).join(' '); dirObj = tk.slice(1).map(t => t.orig).join(' '); trace.rules.push({ id: 'LL-DIRECTIVE-MEANING', doc: 'Doc5 §15 (directive of a meaning verb = the copular description question)', note: q }); raw = q; low = q.toLowerCase(); } } }
     { const E = ellipsis(raw); if (E) { trace.rules.push({ id: 'LL-ELLIPSIS-VP', doc: 'Doc 3 ellipsis; Register F-11', note: E.note }); if (E.raw) { raw = E.raw; low = E.raw.toLowerCase().replace(/[.!?]+\s*$/, ''); } } }
     ctx.depth = depth; ctx.bypassTurn = !!bypass; /* candidate drift uses the same functional inputs as the turn (M1) */
     let sel; try { sel = evaluate(raw, low, ctx); }
@@ -2301,7 +2339,7 @@ function Kernel(opts) {
      remember-request ≠ memory-write, support ≠ prove are kept apart as separate fields of the manifest. */
   const MEANING_STATE = { selected: 'understood', 'understood-but-blocked': 'understood', refuse: 'understood', ambiguous: 'held_open', clarify: 'unresolved', reject: 'not_understood' };
   /* 4.9.103: one job name for the turn, taken from the route that already ran. Not a menu. */
-  const INTENT_KINDS = ['READ', 'DERIVE', 'EXPLAIN', 'SIMULATE', 'PROPOSE_EVIDENCE', 'CREATE', 'EXPLORE', 'REQUEST_COMMIT', 'CLARIFY', 'UNSUPPORTED'];
+  const INTENT_KINDS = ['READ', 'DERIVE', 'EXPLAIN', 'SIMULATE', 'PROPOSE_EVIDENCE', 'CREATE', 'EXPLORE', 'COMPOSE', 'REQUEST_COMMIT', 'CLARIFY', 'UNSUPPORTED'];
   function intentOf(trace, msm) {
     const m = (msm && msm.meaning) || {}, k = m.kind || '';
     const ids = new Set((trace.rules || []).map(r => r && r.id).filter(Boolean));
@@ -2314,6 +2352,7 @@ function Kernel(opts) {
     else if (has('Q-WH-HOW-PASSIVE') || has('Q-WH-HOW-STATE') || has('Q-WH-HOW-MANNER') || has('Q-WH-WHY') || has('CAUSAL-INVERSION-CHAIN') || has('CAUSAL-INVERSION-NONUNIQUE') || has('LL-DIRECTIVE-MEANING') || has('INF-CAUSATIVE') || k === 'define' || k === 'justification' || k === 'no_reason' || k === 'self_answer' || k === 'help') intent = 'EXPLAIN';
     else if (k === 'world_answer' || k === 'math' || k === 'solved' || k === 'factored' || k === 'system' || k === 'simplified' || k === 'converted' || k === 'inferred' || k === 'dynamics' || has('INF-RELPROP') || has('INF-CAUSE-CHAIN') || has('DYN-CONSERVATION') || has('GELC-ADMITTED-RULE')) intent = 'DERIVE';
     else if (k === 'stored' || k === 'stored_sensitive' || k === 'merged' || k === 'replaced' || k === 'forgotten' || k === 'write_held' || k === 'write_failed' || k === 'secret_dropped' || k === 'note_added' || k === 'confirm_forget' || k === 'confirm_replace' || k === 'kept' || k === 'forget_kept' || k === 'neg_act' || has('AUTH-EXPLICIT-REMEMBER')) intent = 'REQUEST_COMMIT';
+    else if (m.creative_intent === 'COMPOSE' || k === 'compose_narrative' || k === 'compose_refusal') intent = 'COMPOSE';
     else if (m.creative_intent === 'EXPLORE' || m.creative_intent === 'CREATE' || k === 'creative_idea' || k === 'creative_refusal') intent = m.creative_intent === 'EXPLORE' ? 'EXPLORE' : 'CREATE';
     else if (k === 'blocked' || k === 'spc_refused' || k === 'world_limitation' || k === 'tool_denied' || oc === 'understood-but-blocked' || oc === 'refuse' || oc === 'reject' || cat === 'UNDERSTOOD_ACTION_BLOCKED' || cat === 'UNSUPPORTED_PRESERVED' || cat === 'NO_LAWFUL_CANDIDATE' || cat === 'REFUSAL_RELEVANT' || cat === 'INCONGRUENT_REJECTED' || cat === 'DISCONNECTED_REJECTED' || cat === 'PURPOSE_UNRECOVERABLE') intent = 'UNSUPPORTED';
     else if (k === 'turn_packet_exported' || k === 'proof_exported' || oc === 'selected' || k === 'recall' || k === 'recall_none' || k === 'yesno' || k === 'about' || k === 'facts' || k === 'mea_problems' || k === 'dream_list' || k === 'spc_list' || k === 'containment_list' || k === 'spc_none') intent = 'READ';

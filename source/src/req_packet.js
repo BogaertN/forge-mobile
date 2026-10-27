@@ -48,6 +48,16 @@
     guard: 'explore ideas stays PROPOSE_EVIDENCE and a question about an idea stays READ',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.120 and leave COMPOSE and Suppose unstarted'
   };
+  const F = {
+    none: 'compose that idea with no proposal is COMPOSE and refuses commit_without_proposal',
+    project: 'a projectable idea composes to a multi-sentence paragraph that exact-Echoes and a tap still commits the record only',
+    quarantine: 'a quarantine idea stays a speculative branch when written out and a tap still refuses it',
+    unbound: 'an unbound novelty spoken as a discovery is refused',
+    express: 'an empty claim is language_unexpressible and an Echo miss blocks the paragraph',
+    meaning: 'compose that meaning narrates the selected MSM and does not open an idea record',
+    guard: 'CREATE, EXPLORE, READ, PROPOSE_EVIDENCE, and SIMULATE stay on their own intents',
+    ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.121 and leave Suppose unstarted'
+  };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
     { schema: SCHEMA, release: '4.9.116', requirements: [
@@ -67,6 +77,9 @@
     ] },
     { schema: SCHEMA, release: '4.9.120', requirements: [
       { id: 'R4120-IDEA', statement: 'CREATE and EXPLORE carry novelty and drift. An unbound novelty is not a discovery. A quarantine idea may be spoken. A tap commits the idea record only.', falsify: 'A creative phrase is READ, an unbound novelty is spoken as a discovery, a quarantine tap writes memory or the world head, or a seal without a proposal stores a row.', tests: [L('R4120.unbound', 'r4120_suite.js', 'R4120', E.unbound, 'NEGATIVE'), L('R4120.project', 'r4120_suite.js', 'R4120', E.project, 'POSITIVE'), L('R4120.quarantine', 'r4120_suite.js', 'R4120', E.quarantine, 'ADVERSARIAL'), L('R4120.hard', 'r4120_suite.js', 'R4120', E.hard, 'NEGATIVE'), L('R4120.guard', 'r4120_suite.js', 'R4120', E.guard, 'REGRESSION'), L('R4120.ver', 'r4120_suite.js', 'R4120', E.ver, 'REGRESSION')] }
+    ] },
+    { schema: SCHEMA, release: '4.9.121', requirements: [
+      { id: 'R4121-COMPOSE', statement: 'COMPOSE narrates a selected idea or MSM as multi-sentence Language Core prose. The paragraph exact-Echoes. Claim status stays visible. Memory, the world head, and the shared KB stay unchanged.', falsify: 'A compose phrase is READ or EXPLAIN, an unbound novelty is spoken as a discovery, a paragraph writes memory or the world head, or a compose with no proposal stores a row.', tests: [L('R4121.none', 'r4121_suite.js', 'R4121', F.none, 'NEGATIVE'), L('R4121.project', 'r4121_suite.js', 'R4121', F.project, 'POSITIVE'), L('R4121.quarantine', 'r4121_suite.js', 'R4121', F.quarantine, 'ADVERSARIAL'), L('R4121.unbound', 'r4121_suite.js', 'R4121', F.unbound, 'NEGATIVE'), L('R4121.express', 'r4121_suite.js', 'R4121', F.express, 'ADVERSARIAL'), L('R4121.meaning', 'r4121_suite.js', 'R4121', F.meaning, 'POSITIVE'), L('R4121.guard', 'r4121_suite.js', 'R4121', F.guard, 'REGRESSION'), L('R4121.ver', 'r4121_suite.js', 'R4121', F.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };
