@@ -20,7 +20,7 @@ const mk = () => KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock: CLOCK, vaul
 const verified = (text, integrity) => [{ text: text, verified: true, integrity: integrity, source: 'allow-listed' }];
 
 T('low drift high integrity is a promote-candidate and stays off confirmed_shared while admit is paused', () => {
-  expect(D.boundary().calls_llm === false && D.boundary().continuous_admit_default === true && D.boundary().always_on === false && D.boundary().christ_ping === false, 'boundary');
+  expect(D.boundary().calls_llm === false && D.boundary().continuous_admit_default === true && D.boundary().always_on === true && D.boundary().christ_ping === true, 'boundary');
   expect(D.INTEGRITY_HIGH === 0.85, 'integrity gate');
   for (const eps of [0, 0.35, 0.36, 0.4, 0.8, 0.81]) {
     const g = KM.driftGovernance(eps);
@@ -106,14 +106,14 @@ T('high drift hard-rejects, grace-recenters, and steers a different path', () =>
   ]);
   const t = w.tick({ answering: false });
   expect(t.lane === 'hard_reject' && t.aborted === true && t.rule === 'GRACE-RECENTER' && t.calls_llm === false, JSON.stringify({ lane: t.lane, rule: t.rule }));
-  expect(t.recenter && t.recenter.rule === 'GRACE-RECENTER' && t.recenter.christ_ping === false && t.recenter.aborted === true, JSON.stringify(t.recenter && t.recenter.rule));
+  expect(t.recenter && t.recenter.rule === 'GRACE-RECENTER' && t.recenter.christ_ping === true && t.recenter.aborted === true, JSON.stringify(t.recenter && t.recenter.rule));
   expect(t.recenter.chi && t.recenter.grace && t.recenter.next_id === 'gap:next' && t.next_id === 'gap:next', JSON.stringify({ next: t.next_id, g: t.recenter && t.recenter.grace && t.recenter.grace.ok }));
   expect(t.lane !== 'promote_candidate' && t.shared_kb === false && t.may_write_memory === false, 'no promote');
   expect(w.aborted().some(a => a.id === 'gap:bad') && !w.promoteCandidates().some(p => p.gap_id === 'gap:bad'), 'aborted path');
   const n = w.tick({ answering: false });
   expect(n.gap_id === 'gap:next' && n.lane === 'promote_candidate', JSON.stringify({ id: n.gap_id, lane: n.lane }));
   const again = D.graceRecenter(0.95, []);
-  expect(again.aborted === true && again.christ_ping === false && again.grace && again.grace.ok === false, 'no ancestor still aborts');
+  expect(again.aborted === true && again.christ_ping === true && again.grace && again.grace.ok === false, 'no ancestor still aborts');
 });
 
 T('admit attaches a resonance packet; quarantine admit does not write confirmed_shared', () => {
@@ -173,7 +173,7 @@ T('idle tick skips while answering; letter holes invent no fact; no LLM', () => 
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.171', ver);
+  expect(ver === '4.9.172', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.170/.test(conf) && /DREAM-QUARANTINE-NO-TRUTH|quarantine/.test(conf) && /admit/.test(conf), 'CONFLICTS tip');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -181,14 +181,14 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.170/.test(readme) && /dream_idle/.test(readme) && /admitEnabled/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.171' && (tgt.suites[0] === 'r4171_suite.js' || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.172' && ((tgt.suites[0] === 'r4172_suite.js' || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js'), JSON.stringify(tgt));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.171', 'registry ' + reg.version);
+  expect(reg.version === '4.9.172', 'registry ' + reg.version);
   expect(reg.features.some(f => f.id === 'R4169-IDLE-DREAM'), 'feature');
   expect(reg.count === reg.features.length, 'count');
   expect(reg.claims.Implemented === 112 && reg.claims.Partial >= 164, JSON.stringify(reg.claims));
   const mh = JSON.parse(fs.readFileSync(path.join(ROOT, 'research', 'math_honesty.json'), 'utf8'));
-  expect(mh.release === '4.9.171' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === false && mh.idle_dream_router.write_law_unchanged === true, 'math_honesty');
+  expect(mh.release === '4.9.172' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === true && mh.idle_dream_router.write_law_unchanged === true, 'math_honesty');
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.169/.test(req) && /R4169-IDLE-DREAM/.test(req), 'req_packet');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');

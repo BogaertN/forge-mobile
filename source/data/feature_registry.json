@@ -1,5 +1,5 @@
 {
- "version": "4.9.171",
+ "version": "4.9.172",
  "features": [
   {
    "id": "A-01",
@@ -3595,13 +3595,24 @@
    "proof": [
     "R4171"
    ]
+  },
+  {
+   "id": "R4172-ALWAYS-ON",
+   "name": "Always-on daemons, backend fill, ChristPing",
+   "source": "CONFLICTS.md v4.9.172; Gilligan Agent Core 1HSjAk6UY; Gilligan Codex 1hbLsNhrE; Dream Drift 14fVCPgQ0; RPMC 1G-Yj323fee; Orchestration 1O5Txx2rL; RMC §10.8 1COtSEuXY; Coherence 1q5JcF-v1",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Daemons are always on. Athena researches continuously and admits a lawful promote into the hosted session KB with no UI click. Gilligan re-curates cold storage. Quarantine custody does not spend the spawn window and does not write confirmed_shared. ChristPing is Gilligan-only and recenters hard drift onto a different path. Phone pack publish stays gated. Ask pauses helpers, then they resume. No LLM.",
+   "proof": [
+    "R4172"
+   ]
   }
  ],
- "count": 328,
+ "count": 329,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 166,
+  "Partial": 167,
   "Missing": 9,
   "Out of scope / parked": 13
  }
