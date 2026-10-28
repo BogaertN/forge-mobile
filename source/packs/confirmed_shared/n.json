@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 197,
+ "curated_facts": 205,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1147,6 +1147,54 @@
    "text": "A numerator sits above a bar",
    "standing": "projectable",
    "evidence": "math · product curator · Numerator · cs_n_numerator_02"
+  },
+  {
+   "id": "cs_n_nautilus_04",
+   "text": "A nautilus has chambers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_04"
+  },
+  {
+   "id": "cs_n_nautilus_05",
+   "text": "Shells spiral on a nautilus",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_05"
+  },
+  {
+   "id": "cs_n_nebula_03",
+   "text": "Stars form in a nebula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nebula · cs_n_nebula_03"
+  },
+  {
+   "id": "cs_n_negative_number_03",
+   "text": "Debt is a negative number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Negative number · cs_n_negative_number_03"
+  },
+  {
+   "id": "cs_n_neodymium_02",
+   "text": "Neodymium is a rare earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neodymium · cs_n_neodymium_02"
+  },
+  {
+   "id": "cs_n_neutron_star_01",
+   "text": "A neutron star is dense",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neutron star · cs_n_neutron_star_01"
+  },
+  {
+   "id": "cs_n_nitrate_03",
+   "text": "Fertilizer holds nitrate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_03"
+  },
+  {
+   "id": "cs_n_nut_02",
+   "text": "A squirrel stores a nut",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nut · cs_n_nut_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 202,
+ "curated_facts": 210,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -1147,6 +1147,54 @@
    "text": "Uplift raises mountain ranges",
    "standing": "projectable",
    "evidence": "geography · product curator · Uplift · cs_u_uplift_02"
+  },
+  {
+   "id": "cs_u_ultraviolet_06",
+   "text": "The sun emits ultraviolet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_06"
+  },
+  {
+   "id": "cs_u_umbra_03",
+   "text": "The umbra is full shadow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbra · cs_u_umbra_03"
+  },
+  {
+   "id": "cs_u_understory_05",
+   "text": "Shade suits the understory",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Understory · cs_u_understory_05"
+  },
+  {
+   "id": "cs_u_ungulate_06",
+   "text": "Hooves mark an ungulate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_06"
+  },
+  {
+   "id": "cs_u_unicellular_02",
+   "text": "Amoebas are unicellular",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Unicellular · cs_u_unicellular_02"
+  },
+  {
+   "id": "cs_u_unicycle_03",
+   "text": "Riders balance a unicycle",
+   "standing": "projectable",
+   "evidence": "history · product curator · Unicycle · cs_u_unicycle_03"
+  },
+  {
+   "id": "cs_u_uranium_09",
+   "text": "Uranium fuels reactors",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_09"
+  },
+  {
+   "id": "cs_u_uvula_01",
+   "text": "Speech moves the uvula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uvula · cs_u_uvula_01"
   }
  ]
 }

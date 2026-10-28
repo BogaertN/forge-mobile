@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 199,
+ "curated_facts": 208,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1141,6 +1141,60 @@
    "text": "A reed grows in marshes",
    "standing": "projectable",
    "evidence": "nature · product curator · Reed · cs_r_reed_02"
+  },
+  {
+   "id": "cs_r_radium_04",
+   "text": "Radium glows in the dark",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radium · cs_r_radium_04"
+  },
+  {
+   "id": "cs_r_ratio_02",
+   "text": "A ratio compares amounts",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ratio · cs_r_ratio_02"
+  },
+  {
+   "id": "cs_r_rattlesnake_05",
+   "text": "Venom arms a rattlesnake",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rattlesnake · cs_r_rattlesnake_05"
+  },
+  {
+   "id": "cs_r_reactor_02",
+   "text": "Coolant fills a reactor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reactor · cs_r_reactor_02"
+  },
+  {
+   "id": "cs_r_reflection_05",
+   "text": "Light bounces in reflection",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflection · cs_r_reflection_05"
+  },
+  {
+   "id": "cs_r_reflection_06",
+   "text": "Mirrors show reflection",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflection · cs_r_reflection_06"
+  },
+  {
+   "id": "cs_r_refraction_05",
+   "text": "Glass causes refraction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Refraction · cs_r_refraction_05"
+  },
+  {
+   "id": "cs_r_remora_02",
+   "text": "Remoras hitch on turtles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Remora · cs_r_remora_02"
+  },
+  {
+   "id": "cs_r_rhinoceros_03",
+   "text": "Grass feeds a rhinoceros",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rhinoceros · cs_r_rhinoceros_03"
   }
  ]
 }
