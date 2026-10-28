@@ -189,7 +189,17 @@ function run() {
     mobile_write_law: mobileLaw(),
     drift: driftSection(),
     phase_ablation: phaseAblation(),
-    echo: echoSection()
+    echo: echoSection(),
+    answer_path_grace: {
+      status: 'wired',
+      honesty: 'research-only',
+      manuscript: 'SOURCE_NOT_VERIFIED',
+      product_claim: false,
+      proven_cognition: false,
+      note: '4.9.165: answer-path grace is no longer a stub for the RPMC→RSOC factual-miss gate. kernel.js rpmcAncestorCandidates calls kmath.graceOverAncestors (Axiom 4 phase-align + §3.4 graceIntegral; G_MIN=1e-4). Candidates feed AUTH-AQ1/research (RSOC-COMPOSE-EVIDENCE); not a class-dump answer. Does not claim Φ1–Φ9 is proven cognition; does not claim manuscript equivalence.',
+      where: ['src/kmath.js graceOverAncestors', 'src/kmath.js graceIntegral', 'src/kernel.js rpmcAncestorCandidates', 'src/forge.js rpmc_priors', 'verify/r4165_suite.js'],
+      cite: 'RPMC §3.4 Grace Integral; Axiom 4; Nic t129u–t132u'
+    }
   };
 }
 
@@ -220,6 +230,12 @@ function markdown(report) {
   lines.push('');
   for (const s of report.phase_ablation) lines.push('- ' + s.symbol + ' ' + s.name + ': ' + s.status + ', measured ' + s.measured);
   lines.push('');
+  lines.push('## Answer-path grace (4.9.165)');
+  lines.push('');
+  if (report.answer_path_grace) {
+    lines.push('status ' + report.answer_path_grace.status + '. ' + (report.answer_path_grace.note || ''));
+    lines.push('');
+  }
   lines.push('## Echo on recorded Language Core surfaces');
   lines.push('');
   const e = report.echo;
