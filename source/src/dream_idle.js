@@ -7,6 +7,9 @@
  * Every spawn and result is FORGE-RESONANCE-PACKET/v1 {Phi,eps,mu} or FORGE-IDLE-DREAM/v1. Freeform is refused.
  * Helper tasks: resonance_place, pack_append, research, extract, letter_fill, ancestor_probe. Undeclared tasks refused.
  * There is no timer. Pattern Reflection is not Gilligan. No LLM. No open crawl. Continuous fill stays paused. ChristPing is not built.
+ * Doc law: Gilligan Core 1HSjAk6UY (ψ₁ seed, cold custody); RPMC Blueprint §14 1L_f5I2In (ghost/cold, reintegrate once);
+ * Orchestration 1O5Txx2rL Ch 4.5–6.3 (lifecycle, registry, fork, budgets); RMC §10.8 1COtSEuXY (packets, not freeform);
+ * Dream Drift 14fVCPgQ0 Codex 3.24 (idle only, drift under 0.4, χ quiet); Stack 6 16qImMjbF (promoter vs quarantine).
  * Bands are kmath.DRIFT_RULING only (≤0.35 project, χ below 0.40, quarantine through 0.80, hard stop above).
  * Stack 6 sandbox_promoter spirit: high integrity may stage a promote-candidate. That route is not
  * dream_state_quarantine_candidate. E-05 bans stay on the quarantine lane (no truth, no stable memory, no projection).
@@ -42,6 +45,19 @@
   /* Manual spirit is max_agents 32. One lawful admit spawns three curator helpers, so the per-parent cap stays above that. */
   const SPAWN_BUDGET = Object.freeze({ max_helpers: 8, max_per_parent: 4, max_spawn_per_idle_window: 8 });
   const PRIORITY = Object.freeze(['neo', 'athena', 'gilligan']);
+  const PSI1 = 'gilligan:psi1';
+  const FORBIDDEN_ACTIONS = Object.freeze(['calls_llm', 'write_confirmed_shared', 'neo_spawn', 'direct_peer']);
+  const DOC_CITES = Object.freeze({
+    gilligan_core: '1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE',
+    rpmc_s14: '1L_f5I2InqyMiGKX7ERs0et9jY9-gzpVgvqmZ-VAl46E',
+    dream_drift: '14fVCPgQ0UtRBnSclMfQ-3fazrdwKc-BrknfqYFolJ8g',
+    memory_stacks: '16qImMjbFIwEdiuYSmUarJasQAn3ODPFQPqihvH6t8fU',
+    rpmc_protocol: '1G-Yj323feeMBklm6sENdawfBBTC1VfdL4slIGtoFRxE',
+    orchestration: '1O5Txx2rLvWehvmHY_8miMtVrFTqmQgo_xLyzA_P5dGA',
+    rmc_10_8: '1COtSEuXYxfgfomzDBu99jrnaHoLWuIM79WVUy-glq54',
+    harmonic_viii: '1eLLPI6U95TrmSXBsQhl2Jk2JBdu1lRgsHJfEE8H9hCE',
+    coherence: '1q5JcF-v1M2plJ500UcKxRHRM1fRbt1RCzc-AXjuoReE'
+  });
   const norm = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
 
   function boundary() {
@@ -57,10 +73,11 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.171',
-      drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.171', psi1: PSI1,
+      drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
+      docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
-      cite: 'Nic drift ruling; E-05 quarantine honesty; Stack 6 sandbox_promoter spirit; 4.9.168 resonance packet; Gilligan/Athena/Neo role map (codex not ported)'
+      cite: 'Nic drift ruling; E-05 quarantine honesty; Stack 6 sandbox_promoter; RPMC §14 cold reintegration; Orchestration Ch 4.5–6.3; RMC §10.8 packets; Codex 3.24 idle drift < 0.4'
     };
   }
 
@@ -259,6 +276,22 @@
     return pkt.schema === SCHEMA;
   }
 
+  function driftStatus(eps) {
+    if (eps == null || !Number.isFinite(Number(eps))) return 'unmeasured';
+    const n = Number(eps);
+    if (n > KM.DRIFT_RULING.explore_max) return 'hard_reject';
+    if (n >= KM.DRIFT_RULING.explore_min) return 'quarantine';
+    if (n > KM.DRIFT_RULING.project_max) return 'chi';
+    return 'projectable';
+  }
+
+  function manifestFor(task, eps) {
+    return {
+      source_trace: PSI1, phase_path: ['spawn'], drift_status: driftStatus(eps),
+      projection_status: 'not_projectable', requested_action: task, forbidden_actions: FORBIDDEN_ACTIONS.slice()
+    };
+  }
+
   function domainKey(task, gapId) {
     const g = gapId || 'unbound';
     if (task === 'resonance_place') return 'policy:admit';
@@ -394,6 +427,7 @@
     const ancestry = [];
     const cold = [];
     const integrations = [];
+    const spc = [];
     const admitted = new Set();
     const inFlight = new Set();
     const TASKS = {
@@ -418,13 +452,24 @@
       return { ok: false, ran: false, schema: SCHEMA, rule: 'DREAM-IDLE-BUSY', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
     }
     function logPhase(phase, agent, extra) {
-      ancestry.push(Object.assign({ phase: phase, id: agent && agent.id, parent: agent && agent.parent, parent_id: agent && agent.parent_id || null, task: agent && agent.task, at: now(), calls_llm: false }, extra || {}));
+      if (agent) {
+        if (!agent.phase_path) agent.phase_path = [];
+        agent.phase_path.push(phase);
+      }
+      ancestry.push(Object.assign({ phase: phase, phase_index: phase === 'spawn' ? 'init' : phase, id: agent && agent.id, parent: agent && agent.parent, parent_id: agent && agent.parent_id || null, task: agent && agent.task, psi1: PSI1, at: now(), calls_llm: false }, extra || {}));
       if (ancestry.length > 400) ancestry.splice(0, ancestry.length - 400);
+    }
+    function writeSpc(agent, kind) {
+      spc.push({
+        schema: 'FORGE-IDLE-SPC/v1', id: agent.id, kind: kind, psi1: PSI1, intent: agent.task,
+        override: PRIORITY.slice(), gap_id: agent.gap_id || null, at: now(), calls_llm: false, wrote_confirmed_shared: false
+      });
     }
     function pauseAll() {
       for (const ag of helpers) {
         if (ag.status !== 'active') continue;
         ag.status = 'hibernated';
+        ag.active = false;
         ag.hold = 'ask';
         logPhase('hibernate', ag, { hold: 'ask' });
       }
@@ -433,6 +478,7 @@
       for (const ag of helpers) {
         if (ag.hold !== 'ask' || ag.status !== 'hibernated') continue;
         ag.status = 'active';
+        ag.active = true;
         ag.hold = null;
         logPhase('resume', ag, { hold: 'ask' });
       }
@@ -543,6 +589,8 @@
       if (CURATOR_TASKS.indexOf(s.task) < 0) {
         if (s.chi_active) return refusal('ATHENA-SPAWN-CHI', { role: 'athena' });
         if (s.eps != null && Number.isFinite(Number(s.eps)) && Number(s.eps) > KM.DRIFT_RULING.explore_max) return refusal('ATHENA-SPAWN-HARD-REJECT', { role: 'athena' });
+        /* Codex 3.24: dream rehearsal starts only while drift is under 0.4. Quarantine-band work stays in custody. */
+        if (s.eps != null && Number.isFinite(Number(s.eps)) && Number(s.eps) >= KM.DRIFT_RULING.explore_min) return refusal('ATHENA-SPAWN-DRIFT', { role: 'athena' });
       }
       const domain = domainKey(s.task, s.gap_id || s.letter);
       if (domainHeld(domain, null)) return refusal('ATHENA-DOMAIN-HELD', { role: 'athena', domain: domain });
@@ -558,33 +606,67 @@
       const s = readSpec(spec);
       seq += 1;
       const curator = CURATOR_TASKS.indexOf(s.task) >= 0;
+      const eps = s.eps === undefined ? null : s.eps;
+      const manifest = manifestFor(s.task, eps);
+      const packet = Object.assign({}, s.packet, { psi1: PSI1, manifest: manifest });
       const agent = {
         id: 'athena-' + seq, schema: HELPER_SCHEMA, role: 'athena_helper', task: s.task,
-        name: s.name || (s.task + '-' + seq), status: 'active', calls_llm: false, os_process: false, created: now(),
+        name: s.name || (s.task + '-' + seq), status: 'active', active: true, calls_llm: false, os_process: false, created: now(),
         parent: s.parent, parent_id: s.parent_id, spawned_by: 'athena', gap_id: s.gap_id, domain: decision.domain,
-        packet: s.packet, hold: null,
+        packet: packet, hold: null, psi1: PSI1, override: PRIORITY.slice(), intent: s.task,
+        drift_index: { eps: eps, status: driftStatus(eps), cite: KM.DRIFT_RULING.cite },
+        phase_path: [],
         stack: {
-          packet: s.packet, eps: s.eps === undefined ? null : s.eps,
-          eps_unmeasured: !curator && (s.eps === null || s.eps === undefined),
+          packet: packet, eps: eps,
+          eps_unmeasured: !curator && (eps === null || eps === undefined),
           integrity: null, lane: 'spawn', calls_llm: false, curator: curator
         },
-        memory: [{ phase: 'spawn', at: now(), packet_schema: s.packet.schema }]
+        memory: [{ phase: 'init', at: now(), packet_schema: packet.schema, psi1: PSI1, intent: s.task }]
       };
       helpers.push(agent);
       spawnsThisWindow += 1;
-      logPhase('spawn', agent, { packet_schema: s.packet.schema });
-      return { ok: true, agent: Object.assign({}, agent), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA, packet: s.packet };
+      writeSpc(agent, 'seed');
+      logPhase('spawn', agent, { packet_schema: packet.schema, phase_index: 'init', psi1: PSI1 });
+      return { ok: true, agent: Object.assign({}, agent), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA, packet: packet };
     }
     function spawn(task, name) {
       const pkt = { schema: SCHEMA, calls_llm: false, task: task, parent: 'athena', spawned_by: 'athena', kind: 'helper_spawn', lane: 'spawn' };
       return spawnHelper({ task: task, name: typeof name === 'string' ? name : null, parent: 'athena', spawned_by: 'athena', packet: pkt });
+    }
+    function forkHelper(id, extra) {
+      if (guardAsk()) return busyRefusal();
+      const ag = helpers.find(h => h.id === id);
+      if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
+      if (ag.status !== 'active' && ag.status !== 'hibernated') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
+      extra = extra || {};
+      const gap = extra.gap_id || ((ag.gap_id || ag.id) + ':fork');
+      const child = spawnHelper({
+        task: ag.task, parent: ag.parent, parent_id: ag.id, spawned_by: 'athena', gap_id: gap,
+        name: (ag.name || ag.task) + ':fork', eps: ag.stack ? ag.stack.eps : null,
+        packet: Object.assign({}, ag.packet || {}, { schema: (ag.packet && ag.packet.schema) || SCHEMA, gap_id: gap, parent_id: ag.id, forked_from: ag.id, calls_llm: false })
+      });
+      if (!child.ok) return child;
+      const born = helpers.find(h => h.id === child.agent.id);
+      if (born && ag.stack) {
+        born.stack = Object.assign({}, ag.stack, { forked_from: ag.id });
+        born.memory = (ag.memory || []).map(row => Object.assign({}, row));
+        born.memory.push({ phase: 'fork', at: now(), forked_from: ag.id });
+        born.drift_index = ag.drift_index ? Object.assign({}, ag.drift_index) : born.drift_index;
+      }
+      logPhase('fork', born || ag, { forked_from: ag.id });
+      return Object.assign({}, child, { forked_from: ag.id, calls_llm: false, wrote_confirmed_shared: false });
     }
     function run(id, payload) {
       if (guardAsk()) return busyRefusal();
       const ag = helpers.find(h => h.id === id);
       if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
       if (ag.status !== 'active') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
-      const out = TASKS[ag.task] ? TASKS[ag.task](payload || {}) : refusal('ATHENA-TASK-UNDECLARED', { role: 'athena' });
+      payload = payload || {};
+      if (payload.peer || payload.direct || payload.target_helper) {
+        logPhase('refuse', ag, { rule: 'ORCH-UNMEDIATED' });
+        return refusal('ORCH-UNMEDIATED', { role: 'athena', helper: ag.id });
+      }
+      const out = TASKS[ag.task] ? TASKS[ag.task](payload) : refusal('ATHENA-TASK-UNDECLARED', { role: 'athena' });
       const result = Object.assign({ ok: false, helper: ag.id, role: 'athena', calls_llm: false, schema: SCHEMA, wrote_pack: false, wrote_confirmed_shared: false }, out || { rule: 'ATHENA-HELPER-FAILED' });
       if (!out || out.ok == null) {
         const refuse = !out || result.rule === 'DREAM-LLM-REFUSED' || result.rule === 'DREAM-RESEARCH-CONTRACT' || result.rule === 'DREAM-OPEN-CRAWL-REFUSED' || result.rule === 'ATHENA-HELPER-FAILED';
@@ -592,8 +674,13 @@
       }
       result.calls_llm = false;
       remember(ag, result);
+      if (result.eps != null && Number(result.eps) > KM.DRIFT_RULING.explore_max) ag.isolated = true;
       logPhase('run', ag, { rule: result.rule || null, ok: result.ok === true });
       if (ag.gap_id) reintegrate(ag, result);
+      if (payload.child) {
+        const childSpec = Object.assign({ parent_id: ag.id, spawned_by: 'athena', parent: ag.parent || 'athena' }, payload.child);
+        result.child = spawnHelper(childSpec);
+      }
       return result;
     }
     function hibernateHelper(id) {
@@ -601,6 +688,7 @@
       if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
       if (ag.status !== 'active') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
       ag.status = 'hibernated';
+      ag.active = false;
       ag.hold = null;
       logPhase('hibernate', ag, {});
       return { ok: true, agent: Object.assign({}, ag), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA };
@@ -611,6 +699,7 @@
       if (ag.status !== 'active' && ag.status !== 'hibernated') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
       const row = writeCold(ag);
       ag.status = 'retired';
+      ag.active = false;
       ag.hold = null;
       logPhase('retire', ag, { cold_sha256: row.sha256, route: row.route });
       return { ok: true, agent: Object.assign({}, ag), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA, cold: { schema: COLD_SCHEMA, sha256: row.sha256, route: row.route, wrote_confirmed_shared: false } };
@@ -627,6 +716,7 @@
       if (domainHeld(ag.domain, ag.id)) return refusal('ATHENA-DOMAIN-HELD', { role: 'athena', domain: ag.domain });
       if (living().length >= budget.max_helpers) return refusal('ATHENA-SPAWN-CAP', { role: 'athena', max_helpers: budget.max_helpers });
       ag.status = 'active';
+      ag.active = true;
       ag.hold = null;
       logPhase('resurrect', ag, { cold_sha256: row.sha256 });
       return { ok: true, agent: Object.assign({}, ag), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA };
@@ -673,12 +763,13 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       tasks: () => HELPER_TASKS.slice(),
-      spawn: spawn, run: run,
+      spawn: spawn, run: run, forkHelper: forkHelper,
       hibernate: hibernateHelper, retire: retireHelper, resurrect: resurrectHelper,
       spawnHelper: spawnHelper, hibernateHelper: hibernateHelper, retireHelper: retireHelper, resurrectHelper: resurrectHelper,
       listActive: () => helpers.filter(h => h.status === 'active').map(copyAgent),
       helpers: () => helpers.map(copyAgent),
       ancestry: () => ancestry.map(a => Object.assign({}, a)),
+      spcLog: () => spc.map(row => Object.assign({}, row, { override: (row.override || []).slice() })),
       coldBank: () => cold.map(r => Object.assign({}, r, { body: r.body, wrote_confirmed_shared: false })),
       integrations: () => integrations.map(r => Object.assign({}, r)),
       exportCold: exportCold, loadCold: loadCold,
@@ -903,7 +994,7 @@
     return {
       schema: SCHEMA, boundary: boundary, enqueue: enqueue, tick: tick, run: run, schedule: schedule, admitRecord: admitRecord, admitStaged: admitStaged,
       athena: athena, orchestrator: athena, daemons: () => DAEMONS.map(d => Object.assign({}, d)), helpers: () => athena.helpers(),
-      spawnHelper: athena.spawnHelper, retireHelper: athena.retireHelper, hibernateHelper: athena.hibernateHelper, resurrectHelper: athena.resurrectHelper,
+      spawnHelper: athena.spawnHelper, forkHelper: athena.forkHelper, retireHelper: athena.retireHelper, hibernateHelper: athena.hibernateHelper, resurrectHelper: athena.resurrectHelper,
       listActive: athena.listActive, maySpawn: athena.maySpawn, mayAdmit: athena.mayAdmit, ancestry: athena.ancestry, coldBank: athena.coldBank,
       setAdmitEnabled(v) { admitEnabled = v === true; return { ok: true, admitEnabled: admitEnabled, calls_llm: false }; },
       admitEnabled: () => admitEnabled,
@@ -920,6 +1011,6 @@
     };
   }
 
-  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, resonancePacket, athenaGate, applyResearchContract, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
+  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, resonancePacket, athenaGate, applyResearchContract, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
   if (isNode) module.exports = api; else root.KDreamIdle = api;
 })(typeof self !== 'undefined' ? self : this);

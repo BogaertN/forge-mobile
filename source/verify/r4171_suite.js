@@ -46,7 +46,12 @@ T('registry lifecycle spawns, hibernates, retires into a hashed cold bank, and r
   const a = D.createIdleOrchestrator({ clock: CLOCK });
   expect(a.orchestrator === 'FORGE-IDLE-ORCHESTRATOR/v1' && a.lifecycle.join(',') === 'spawn,run,hibernate,retire,resurrect', a.lifecycle.join(','));
   const spawned = a.spawn('resonance_place', 'gate');
-  expect(spawned.ok === true && spawned.agent.os_process === false && spawned.agent.status === 'active' && spawned.packet.schema === D.SCHEMA && spawned.calls_llm === false, JSON.stringify(spawned.agent));
+  expect(spawned.ok === true && spawned.agent.os_process === false && spawned.agent.status === 'active' && spawned.agent.active === true && spawned.packet.schema === D.SCHEMA && spawned.calls_llm === false, JSON.stringify(spawned.agent));
+  expect(spawned.agent.psi1 === D.PSI1 && spawned.agent.drift_index && spawned.agent.drift_index.status === 'unmeasured', JSON.stringify(spawned.agent.drift_index));
+  expect(spawned.packet.manifest && spawned.packet.manifest.source_trace === D.PSI1 && spawned.packet.manifest.forbidden_actions.indexOf('calls_llm') >= 0 && spawned.packet.manifest.forbidden_actions.indexOf('direct_peer') >= 0, JSON.stringify(spawned.packet.manifest));
+  expect(a.spcLog().length === 1 && a.spcLog()[0].wrote_confirmed_shared === false && a.spcLog()[0].psi1 === D.PSI1, JSON.stringify(a.spcLog()[0]));
+  expect(a.ancestry()[0].phase === 'spawn' && a.ancestry()[0].phase_index === 'init', JSON.stringify(a.ancestry()[0]));
+  expect(D.boundary().docs.orchestration === '1O5Txx2rLvWehvmHY_8miMtVrFTqmQgo_xLyzA_P5dGA' && D.boundary().docs.rmc_10_8 === '1COtSEuXYxfgfomzDBu99jrnaHoLWuIM79WVUy-glq54' && D.boundary().idle_drift_below === 0.4, JSON.stringify(D.boundary().docs));
   expect(a.listActive().length === 1 && a.listActive()[0].id === spawned.agent.id, 'active');
   const ran = a.run(spawned.agent.id, { rec: { lane: 'quarantine', route: 'dream_state_quarantine_candidate', eps: 0.55 } });
   expect(ran.ok === false && ran.rule === 'DREAM-QUARANTINE-NO-TRUTH' && ran.wrote_confirmed_shared === false && ran.wrote_pack === false && ran.schema === D.SCHEMA, JSON.stringify(ran));
@@ -176,10 +181,13 @@ T('helper results are resonance or idle-dream packets and research refuses a mod
   expect(ran.schema === D.SCHEMA && ran.packet && ran.packet.schema === D.PACKET_SCHEMA && ran.packet.sfe.eps === 0.12 && ran.lane === 'promote_candidate' && ran.calls_llm === false, JSON.stringify({ lane: ran.lane, eps: ran.eps, schema: ran.schema }));
   a.retire(resonance.agent.id);
   expect(a.resurrect(resonance.agent.id).ok === true, 'projectable research returns');
+  const tooFar = a.maySpawn({ task: 'research', parent: 'gilligan', spawned_by: 'athena', gap_id: 'mid', eps: 0.55, packet: idlePacket({ task: 'research', gap_id: 'mid', kind: 'aq1_miss', eps: 0.55 }) });
+  expect(tooFar.ok === false && tooFar.rule === 'ATHENA-SPAWN-DRIFT' && tooFar.wrote_confirmed_shared === false, JSON.stringify(tooFar));
   const drifted = a.spawnHelper({
     task: 'research', parent: 'gilligan', spawned_by: 'athena', gap_id: 'drift',
-    packet: idlePacket({ task: 'research', gap_id: 'drift', kind: 'aq1_miss', eps: 0.55, integrity: 0.99, claim: 'Phlogiston is a substance' })
+    packet: idlePacket({ task: 'research', gap_id: 'drift', kind: 'aq1_miss', eps: 0.12, integrity: 0.99, claim: 'Quartz is a mineral' })
   });
+  expect(drifted.ok === true, JSON.stringify(drifted));
   a.run(drifted.agent.id, { gap: { kind: 'aq1_miss', claim: 'Phlogiston is a substance', eps: 0.55, integrity: 0.99, extracts: verified('Phlogiston is a substance', 0.99) } });
   a.retire(drifted.agent.id);
   const stay = a.resurrect(drifted.agent.id);
@@ -206,6 +214,25 @@ T('helper results are resonance or idle-dream packets and research refuses a mod
   const mismatch = a.spawnHelper({ task: 'letter_fill', parent: 'athena', gap_id: 'bad-letter', packet: idlePacket({ task: 'letter_fill', gap_id: 'bad-letter', kind: 'aq1_miss' }) });
   const wrong = a.run(mismatch.agent.id, { gap: { kind: 'aq1_miss', claim: 'Quartz is a mineral' } });
   expect(wrong.ok === false && wrong.rule === 'ATHENA-TASK-MISMATCH' && wrong.wrote_confirmed_shared === false, JSON.stringify(wrong));
+});
+
+T('orchestrator forks a seeded helper and refuses a direct peer call', () => {
+  const a = D.createAthena({ clock: CLOCK });
+  const parent = a.spawnHelper(researchSpec('fork-src', 'gilligan'));
+  expect(parent.ok === true && parent.agent.psi1 === D.PSI1, JSON.stringify(parent.agent && parent.agent.psi1));
+  const peer = a.run(parent.agent.id, { peer: 'athena-9', gap: quartzGap() });
+  expect(peer.ok === false && peer.rule === 'ORCH-UNMEDIATED' && peer.wrote_confirmed_shared === false && a.listActive().length === 1, JSON.stringify(peer));
+  const forked = a.forkHelper(parent.agent.id);
+  expect(forked.ok === true && forked.forked_from === parent.agent.id && forked.agent.id !== parent.agent.id && forked.agent.parent_id === parent.agent.id, JSON.stringify(forked.agent));
+  expect(forked.agent.psi1 === D.PSI1 && forked.wrote_confirmed_shared === false, 'fork keeps the seed and does not write truth');
+  expect(a.ancestry().some(row => row.phase === 'fork' && row.forked_from === parent.agent.id), 'fork ancestry');
+  expect(a.spcLog().every(row => row.wrote_confirmed_shared === false && row.psi1 === D.PSI1), 'spc custody');
+  const child = a.run(parent.agent.id, {
+    gap: quartzGap(),
+    child: researchSpec('fork-child', 'gilligan')
+  });
+  expect(child.ok === true && child.child && child.child.ok === true && child.child.agent.parent_id === parent.agent.id, JSON.stringify(child.child));
+  expect(child.child.wrote_confirmed_shared === false, 'child spawn is not an admit');
 });
 
 T('a helper reintegrates once and Athena admits the gap once', () => {
