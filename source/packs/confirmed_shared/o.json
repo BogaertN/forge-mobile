@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 175,
+ "curated_facts": 183,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -991,6 +991,54 @@
    "text": "An oven bakes food",
    "standing": "projectable",
    "evidence": "science · product curator · Oven · cs_o_oven_01"
+  },
+  {
+   "id": "cs_o_ohm_02",
+   "text": "An ohm measures resistance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ohm · cs_o_ohm_02"
+  },
+  {
+   "id": "cs_o_otter_04",
+   "text": "An otter swims in rivers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Otter · cs_o_otter_04"
+  },
+  {
+   "id": "cs_o_osmium_03",
+   "text": "Osmium is a dense metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmium · cs_o_osmium_03"
+  },
+  {
+   "id": "cs_o_oath_02",
+   "text": "Witnesses swear an oath",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Oath · cs_o_oath_02"
+  },
+  {
+   "id": "cs_o_olive_03",
+   "text": "Olives grow on Mediterranean trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Olive · cs_o_olive_03"
+  },
+  {
+   "id": "cs_o_onion_03",
+   "text": "An onion has layered bulbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Onion · cs_o_onion_03"
+  },
+  {
+   "id": "cs_o_origin_02",
+   "text": "A graph has an origin at zero",
+   "standing": "projectable",
+   "evidence": "math · product curator · Origin · cs_o_origin_02"
+  },
+  {
+   "id": "cs_o_optic_nerve_03",
+   "text": "The optic nerve carries sight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_03"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 174,
+ "curated_facts": 179,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1003,6 +1003,36 @@
    "text": "Egypt built stone pyramids",
    "standing": "projectable",
    "evidence": "history · product curator · Pyramid · cs_p_pyramid_02"
+  },
+  {
+   "id": "cs_p_peat_01",
+   "text": "Peat forms in wet bogs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peat · cs_p_peat_01"
+  },
+  {
+   "id": "cs_p_peninsula_02",
+   "text": "A peninsula has water on three sides",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Peninsula · cs_p_peninsula_02"
+  },
+  {
+   "id": "cs_p_photon_02",
+   "text": "Light travels as photons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Photon · cs_p_photon_02"
+  },
+  {
+   "id": "cs_p_pulley_03",
+   "text": "A pulley lifts heavy loads",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pulley · cs_p_pulley_03"
+  },
+  {
+   "id": "cs_p_pod_01",
+   "text": "Peas grow in a pod",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pod · cs_p_pod_01"
   }
  ]
 }
