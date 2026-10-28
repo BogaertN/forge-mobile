@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 112,
+ "curated_facts": 141,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -649,6 +649,180 @@
    "text": "A mallard is a duck",
    "standing": "projectable",
    "evidence": "nature · product curator · Mallard · cs_m_mallard_01"
+  },
+  {
+   "id": "cs_m_macaw_01",
+   "text": "A macaw is a large parrot",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Macaw · cs_m_macaw_01"
+  },
+  {
+   "id": "cs_m_magnitude_01",
+   "text": "Magnitude measures the brightness of a star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnitude · cs_m_magnitude_01"
+  },
+  {
+   "id": "cs_m_mammoth_cave_01",
+   "text": "Mammoth Cave is the longest known cave system",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mammoth Cave · cs_m_mammoth_cave_01"
+  },
+  {
+   "id": "cs_m_manuscript_01",
+   "text": "A manuscript is a handwritten document",
+   "standing": "projectable",
+   "evidence": "language · product curator · Manuscript · cs_m_manuscript_01"
+  },
+  {
+   "id": "cs_m_marble_01",
+   "text": "Marble is a metamorphic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Marble · cs_m_marble_01"
+  },
+  {
+   "id": "cs_m_marie_curie_01",
+   "text": "Marie Curie won two Nobel Prizes",
+   "standing": "projectable",
+   "evidence": "history · product curator · Marie Curie · cs_m_marie_curie_01"
+  },
+  {
+   "id": "cs_m_matterhorn_01",
+   "text": "The Matterhorn is a mountain in the Alps",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Matterhorn · cs_m_matterhorn_01"
+  },
+  {
+   "id": "cs_m_metaphor_01",
+   "text": "A metaphor is a figure of speech",
+   "standing": "projectable",
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_01"
+  },
+  {
+   "id": "cs_m_mica_01",
+   "text": "Mica is a mineral that splits into thin sheets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mica · cs_m_mica_01"
+  },
+  {
+   "id": "cs_m_midnight_sun_01",
+   "text": "The midnight sun occurs in polar summer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Midnight sun · cs_m_midnight_sun_01"
+  },
+  {
+   "id": "cs_m_ming_dynasty_01",
+   "text": "The Ming dynasty ruled China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ming dynasty · cs_m_ming_dynasty_01"
+  },
+  {
+   "id": "cs_m_minotaur_01",
+   "text": "The Minotaur is a creature of Greek myth",
+   "standing": "projectable",
+   "evidence": "language · product curator · Minotaur · cs_m_minotaur_01"
+  },
+  {
+   "id": "cs_m_mollusk_01",
+   "text": "A snail is a mollusk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mollusk · cs_m_mollusk_01"
+  },
+  {
+   "id": "cs_m_mount_everest_01",
+   "text": "Mount Everest is the highest mountain on Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mount Everest · cs_m_mount_everest_01"
+  },
+  {
+   "id": "cs_m_mummy_01",
+   "text": "A mummy is a preserved body",
+   "standing": "projectable",
+   "evidence": "history · product curator · Mummy · cs_m_mummy_01"
+  },
+  {
+   "id": "cs_m_mycelium_01",
+   "text": "Mycelium is the root network of a fungus",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mycelium · cs_m_mycelium_01"
+  },
+  {
+   "id": "cs_m_mean_01",
+   "text": "The mean is the average of a set of numbers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Mean · cs_m_mean_01"
+  },
+  {
+   "id": "cs_m_magistrate_01",
+   "text": "A magistrate is a judicial officer",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Magistrate · cs_m_magistrate_01"
+  },
+  {
+   "id": "cs_m_mauna_loa_01",
+   "text": "Mauna Loa is a volcano in Hawaii",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mauna Loa · cs_m_mauna_loa_01"
+  },
+  {
+   "id": "cs_m_mosaic_01",
+   "text": "A mosaic is a picture made of small tiles",
+   "standing": "projectable",
+   "evidence": "history · product curator · Mosaic · cs_m_mosaic_01"
+  },
+  {
+   "id": "cs_m_meteorite_01",
+   "text": "A meteorite is a meteor that reaches the ground",
+   "standing": "projectable",
+   "evidence": "science · product curator · Meteorite · cs_m_meteorite_01"
+  },
+  {
+   "id": "cs_m_magellan_ferdinand_01",
+   "text": "Ferdinand Magellan was a Portuguese explorer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Magellan, Ferdinand · cs_m_magellan_ferdinand_01"
+  },
+  {
+   "id": "cs_m_mantis_01",
+   "text": "A mantis is an insect",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mantis · cs_m_mantis_01"
+  },
+  {
+   "id": "cs_m_marlin_01",
+   "text": "A marlin is a large fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marlin · cs_m_marlin_01"
+  },
+  {
+   "id": "cs_m_monet_claude_01",
+   "text": "Claude Monet was a French painter",
+   "standing": "projectable",
+   "evidence": "history · product curator · Monet, Claude · cs_m_monet_claude_01"
+  },
+  {
+   "id": "cs_m_milton_john_01",
+   "text": "John Milton wrote Paradise Lost",
+   "standing": "projectable",
+   "evidence": "history · product curator · Milton, John · cs_m_milton_john_01"
+  },
+  {
+   "id": "cs_m_montreal_01",
+   "text": "Montreal is a city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Montreal · cs_m_montreal_01"
+  },
+  {
+   "id": "cs_m_melbourne_01",
+   "text": "Melbourne is a city in Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Melbourne · cs_m_melbourne_01"
+  },
+  {
+   "id": "cs_m_minnow_01",
+   "text": "A minnow is a small fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Minnow · cs_m_minnow_01"
   }
  ]
 }

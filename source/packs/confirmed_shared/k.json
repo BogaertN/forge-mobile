@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 113,
+ "curated_facts": 135,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -631,6 +631,138 @@
    "text": "A kingfisher is a bird",
    "standing": "projectable",
    "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_04"
+  },
+  {
+   "id": "cs_k_kabuki_01",
+   "text": "Kabuki is a form of Japanese theater",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kabuki · cs_k_kabuki_01"
+  },
+  {
+   "id": "cs_k_kaolin_01",
+   "text": "Kaolin is a white clay",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kaolin · cs_k_kaolin_01"
+  },
+  {
+   "id": "cs_k_kelvin_scale_01",
+   "text": "The Kelvin scale starts at absolute zero",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kelvin scale · cs_k_kelvin_scale_01"
+  },
+  {
+   "id": "cs_k_kerosene_01",
+   "text": "Kerosene is a fuel made from petroleum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_01"
+  },
+  {
+   "id": "cs_k_khmer_empire_01",
+   "text": "The Khmer Empire built Angkor Wat",
+   "standing": "projectable",
+   "evidence": "history · product curator · Khmer Empire · cs_k_khmer_empire_01"
+  },
+  {
+   "id": "cs_k_kiln_01",
+   "text": "A kiln is an oven for firing pottery",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kiln · cs_k_kiln_01"
+  },
+  {
+   "id": "cs_k_kilohertz_01",
+   "text": "A kilohertz is one thousand hertz",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilohertz · cs_k_kilohertz_01"
+  },
+  {
+   "id": "cs_k_kite_bird__01",
+   "text": "A kite is a bird of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kite (bird) · cs_k_kite_bird__01"
+  },
+  {
+   "id": "cs_k_klondike_gold_rush_01",
+   "text": "The Klondike Gold Rush began in 1896",
+   "standing": "projectable",
+   "evidence": "history · product curator · Klondike Gold Rush · cs_k_klondike_gold_rush_01"
+  },
+  {
+   "id": "cs_k_koran_01",
+   "text": "The Koran is the holy book of Islam",
+   "standing": "projectable",
+   "evidence": "history · product curator · Koran · cs_k_koran_01"
+  },
+  {
+   "id": "cs_k_kumquat_01",
+   "text": "A kumquat is a small citrus fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_01"
+  },
+  {
+   "id": "cs_k_kwanzaa_01",
+   "text": "Kwanzaa is a holiday celebrated in December",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kwanzaa · cs_k_kwanzaa_01"
+  },
+  {
+   "id": "cs_k_kingdom_biology__01",
+   "text": "A kingdom is a rank in biological classification",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kingdom (biology) · cs_k_kingdom_biology__01"
+  },
+  {
+   "id": "cs_k_kite_geometry__01",
+   "text": "A kite has two pairs of adjacent equal sides",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kite (geometry) · cs_k_kite_geometry__01"
+  },
+  {
+   "id": "cs_k_kangaroo_rat_01",
+   "text": "A kangaroo rat is a desert rodent",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kangaroo rat · cs_k_kangaroo_rat_01"
+  },
+  {
+   "id": "cs_k_kettle_01",
+   "text": "A kettle boils water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kettle · cs_k_kettle_01"
+  },
+  {
+   "id": "cs_k_kingfisher_dive_01",
+   "text": "A kingfisher dives for fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher dive · cs_k_kingfisher_dive_01"
+  },
+  {
+   "id": "cs_k_knowledge_01",
+   "text": "Knowledge is a noun",
+   "standing": "projectable",
+   "evidence": "language · product curator · Knowledge · cs_k_knowledge_01"
+  },
+  {
+   "id": "cs_k_keats_john_01",
+   "text": "John Keats was an English poet",
+   "standing": "projectable",
+   "evidence": "history · product curator · Keats, John · cs_k_keats_john_01"
+  },
+  {
+   "id": "cs_k_kafka_franz_01",
+   "text": "Franz Kafka was a Czech writer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kafka, Franz · cs_k_kafka_franz_01"
+  },
+  {
+   "id": "cs_k_kahlo_frida_01",
+   "text": "Frida Kahlo was a Mexican painter",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kahlo, Frida · cs_k_kahlo_frida_01"
+  },
+  {
+   "id": "cs_k_kandinsky_wassily_01",
+   "text": "Wassily Kandinsky was a Russian painter",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kandinsky, Wassily · cs_k_kandinsky_wassily_01"
   }
  ]
 }
