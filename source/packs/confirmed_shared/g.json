@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 213,
+ "curated_facts": 223,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1243,6 +1243,66 @@
    "text": "Pencils use graphite",
    "standing": "projectable",
    "evidence": "science · product curator · Graphite · cs_g_graphite_02"
+  },
+  {
+   "id": "cs_g_galaxy_05",
+   "text": "A galaxy holds many stars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_05"
+  },
+  {
+   "id": "cs_g_garlic_01",
+   "text": "Garlic flavors cooked food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Garlic · cs_g_garlic_01"
+  },
+  {
+   "id": "cs_g_gasoline_01",
+   "text": "Gasoline fuels car engines",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gasoline · cs_g_gasoline_01"
+  },
+  {
+   "id": "cs_g_gear_05",
+   "text": "A gear turns another gear",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gear · cs_g_gear_05"
+  },
+  {
+   "id": "cs_g_glacier_03",
+   "text": "A glacier carves a valley",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Glacier · cs_g_glacier_03"
+  },
+  {
+   "id": "cs_g_goose_03",
+   "text": "A goose migrates south",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Goose · cs_g_goose_03"
+  },
+  {
+   "id": "cs_g_graphite_03",
+   "text": "Graphite lubricates locks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Graphite · cs_g_graphite_03"
+  },
+  {
+   "id": "cs_g_gravity_05",
+   "text": "Gravity pulls mass together",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gravity · cs_g_gravity_05"
+  },
+  {
+   "id": "cs_g_gypsum_04",
+   "text": "Gypsum forms wallboard",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_04"
+  },
+  {
+   "id": "cs_g_gunpowder_03",
+   "text": "Gunpowder burns fast",
+   "standing": "projectable",
+   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_03"
   }
  ]
 }

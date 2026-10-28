@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 217,
+ "curated_facts": 227,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1243,6 +1243,66 @@
    "text": "Engineers study hydrology",
    "standing": "projectable",
    "evidence": "science · product curator · Hydrology · cs_h_hydrology_01"
+  },
+  {
+   "id": "cs_h_habitat_03",
+   "text": "A habitat shelters wildlife",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Habitat · cs_h_habitat_03"
+  },
+  {
+   "id": "cs_h_harbor_02",
+   "text": "A harbor shelters ships",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Harbor · cs_h_harbor_02"
+  },
+  {
+   "id": "cs_h_hare_02",
+   "text": "A hare runs across fields",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hare · cs_h_hare_02"
+  },
+  {
+   "id": "cs_h_hedge_02",
+   "text": "A hedge marks a field edge",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hedge · cs_h_hedge_02"
+  },
+  {
+   "id": "cs_h_helmet_01",
+   "text": "A helmet protects the head",
+   "standing": "projectable",
+   "evidence": "history · product curator · Helmet · cs_h_helmet_01"
+  },
+  {
+   "id": "cs_h_hive_02",
+   "text": "Bees fill a hive",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hive · cs_h_hive_02"
+  },
+  {
+   "id": "cs_h_hormone_02",
+   "text": "A hormone signals cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hormone · cs_h_hormone_02"
+  },
+  {
+   "id": "cs_h_horizon_02",
+   "text": "The horizon meets the sky",
+   "standing": "projectable",
+   "evidence": "science · product curator · Horizon · cs_h_horizon_02"
+  },
+  {
+   "id": "cs_h_host_01",
+   "text": "A host feeds a parasite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Host · cs_h_host_01"
+  },
+  {
+   "id": "cs_h_hydrometer_02",
+   "text": "A hydrometer gauges density",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_02"
   }
  ]
 }

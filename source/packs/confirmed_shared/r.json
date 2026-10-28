@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 216,
+ "curated_facts": 226,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1243,6 +1243,66 @@
    "text": "Iron forms rust in moist air",
    "standing": "projectable",
    "evidence": "science · product curator · Rust · cs_r_rust_03"
+  },
+  {
+   "id": "cs_r_radar_04",
+   "text": "Radar detects distant objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radar · cs_r_radar_04"
+  },
+  {
+   "id": "cs_r_refrigerator_01",
+   "text": "A refrigerator removes heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Refrigerator · cs_r_refrigerator_01"
+  },
+  {
+   "id": "cs_r_relay_01",
+   "text": "A relay switches a circuit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Relay · cs_r_relay_01"
+  },
+  {
+   "id": "cs_r_resin_03",
+   "text": "Resin seals wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Resin · cs_r_resin_03"
+  },
+  {
+   "id": "cs_r_resistance_01",
+   "text": "Resistance limits current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Resistance · cs_r_resistance_01"
+  },
+  {
+   "id": "cs_r_respiration_02",
+   "text": "Respiration releases energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Respiration · cs_r_respiration_02"
+  },
+  {
+   "id": "cs_r_ridge_01",
+   "text": "A ridge divides watersheds",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ridge · cs_r_ridge_01"
+  },
+  {
+   "id": "cs_r_rocket_01",
+   "text": "A rocket expels hot gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rocket · cs_r_rocket_01"
+  },
+  {
+   "id": "cs_r_rodent_02",
+   "text": "A rodent gnaws hard food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rodent · cs_r_rodent_02"
+  },
+  {
+   "id": "cs_r_rudder_01",
+   "text": "A rudder steers a ship",
+   "standing": "projectable",
+   "evidence": "history · product curator · Rudder · cs_r_rudder_01"
   }
  ]
 }

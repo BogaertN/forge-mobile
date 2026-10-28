@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 211,
+ "curated_facts": 221,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1243,6 +1243,66 @@
    "text": "An exponent marks powers",
    "standing": "projectable",
    "evidence": "math · product curator · Exponent · cs_e_exponent_02"
+  },
+  {
+   "id": "cs_e_ebony_01",
+   "text": "Ebony hardens into dense wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ebony · cs_e_ebony_01"
+  },
+  {
+   "id": "cs_e_elbow_01",
+   "text": "The elbow bends the arm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Elbow · cs_e_elbow_01"
+  },
+  {
+   "id": "cs_e_electricity_02",
+   "text": "Electricity powers lights",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electricity · cs_e_electricity_02"
+  },
+  {
+   "id": "cs_e_elm_04",
+   "text": "Elm wood resists rot",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elm · cs_e_elm_04"
+  },
+  {
+   "id": "cs_e_enamel_02",
+   "text": "Brushing protects enamel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enamel · cs_e_enamel_02"
+  },
+  {
+   "id": "cs_e_equator_04",
+   "text": "The equator circles Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Equator · cs_e_equator_04"
+  },
+  {
+   "id": "cs_e_erosion_04",
+   "text": "Rain drives soil erosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Erosion · cs_e_erosion_04"
+  },
+  {
+   "id": "cs_e_ether_01",
+   "text": "Early surgeons used ether",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ether · cs_e_ether_01"
+  },
+  {
+   "id": "cs_e_expansion_01",
+   "text": "Ice causes pipe expansion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Expansion · cs_e_expansion_01"
+  },
+  {
+   "id": "cs_e_eyebrow_01",
+   "text": "An eyebrow shields the eye",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eyebrow · cs_e_eyebrow_01"
   }
  ]
 }

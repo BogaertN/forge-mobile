@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 211,
+ "curated_facts": 221,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1243,6 +1243,66 @@
    "text": "A mule carries heavy loads",
    "standing": "projectable",
    "evidence": "nature · product curator · Mule · cs_m_mule_02"
+  },
+  {
+   "id": "cs_m_machine_01",
+   "text": "A machine multiplies force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Machine · cs_m_machine_01"
+  },
+  {
+   "id": "cs_m_magnesium_03",
+   "text": "Magnesium burns bright white",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnesium · cs_m_magnesium_03"
+  },
+  {
+   "id": "cs_m_mandible_02",
+   "text": "The mandible forms the jaw",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mandible · cs_m_mandible_02"
+  },
+  {
+   "id": "cs_m_maple_04",
+   "text": "A maple yields sweet sap",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Maple · cs_m_maple_04"
+  },
+  {
+   "id": "cs_m_marble_02",
+   "text": "Marble forms from limestone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Marble · cs_m_marble_02"
+  },
+  {
+   "id": "cs_m_methane_01",
+   "text": "Methane burns as fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Methane · cs_m_methane_01"
+  },
+  {
+   "id": "cs_m_mica_02",
+   "text": "Mica splits into sheets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mica · cs_m_mica_02"
+  },
+  {
+   "id": "cs_m_mist_02",
+   "text": "Mist forms over cool water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mist · cs_m_mist_02"
+  },
+  {
+   "id": "cs_m_mold_01",
+   "text": "Mold grows on damp bread",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mold · cs_m_mold_01"
+  },
+  {
+   "id": "cs_m_moth_03",
+   "text": "A moth flies toward light",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Moth · cs_m_moth_03"
   }
  ]
 }

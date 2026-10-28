@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 214,
+ "curated_facts": 224,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1249,6 +1249,66 @@
    "text": "Insects hatch as nymphs",
    "standing": "projectable",
    "evidence": "nature · product curator · Nymph · cs_n_nymph_01"
+  },
+  {
+   "id": "cs_n_naphtha_01",
+   "text": "Naphtha dissolves grease",
+   "standing": "projectable",
+   "evidence": "science · product curator · Naphtha · cs_n_naphtha_01"
+  },
+  {
+   "id": "cs_n_nectar_04",
+   "text": "Butterflies drink nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_04"
+  },
+  {
+   "id": "cs_n_nephron_01",
+   "text": "A nephron filters blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nephron · cs_n_nephron_01"
+  },
+  {
+   "id": "cs_n_neon_05",
+   "text": "Neon glows in signs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neon · cs_n_neon_05"
+  },
+  {
+   "id": "cs_n_nest_02",
+   "text": "Wasps build a paper nest",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nest · cs_n_nest_02"
+  },
+  {
+   "id": "cs_n_neuron_05",
+   "text": "A neuron fires impulses",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neuron · cs_n_neuron_05"
+  },
+  {
+   "id": "cs_n_nitrate_04",
+   "text": "Nitrate fertilizes soil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_04"
+  },
+  {
+   "id": "cs_n_nitrogen_05",
+   "text": "Nitrogen fills most air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_05"
+  },
+  {
+   "id": "cs_n_nose_02",
+   "text": "The nose filters air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nose · cs_n_nose_02"
+  },
+  {
+   "id": "cs_n_nut_03",
+   "text": "A nut stores seed food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nut · cs_n_nut_03"
   }
  ]
 }

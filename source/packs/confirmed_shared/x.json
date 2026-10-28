@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 215,
+ "curated_facts": 225,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1243,6 +1243,66 @@
    "text": "Mallets strike a xylophone",
    "standing": "projectable",
    "evidence": "history · product curator · Xylophone · cs_x_xylophone_12"
+  },
+  {
+   "id": "cs_x_x_band_03",
+   "text": "Satellites use the X band",
+   "standing": "projectable",
+   "evidence": "science · product curator · X band · cs_x_x_band_03"
+  },
+  {
+   "id": "cs_x_x_chromosome_06",
+   "text": "An X chromosome carries genes",
+   "standing": "projectable",
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_06"
+  },
+  {
+   "id": "cs_x_x_axis_07",
+   "text": "Plots place x on the x-axis",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_07"
+  },
+  {
+   "id": "cs_x_xenon_15",
+   "text": "Xenon fills camera flashes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_15"
+  },
+  {
+   "id": "cs_x_xerxes_03",
+   "text": "Xerxes led Persian armies",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerxes · cs_x_xerxes_03"
+  },
+  {
+   "id": "cs_x_xochimilco_04",
+   "text": "Xochimilco holds floating gardens",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_04"
+  },
+  {
+   "id": "cs_x_xuanzang_02",
+   "text": "Xuanzang traveled to India",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xuanzang · cs_x_xuanzang_02"
+  },
+  {
+   "id": "cs_x_xylaria_04",
+   "text": "Xylaria feeds on fallen logs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_04"
+  },
+  {
+   "id": "cs_x_xylem_10",
+   "text": "Xylem carries water up stems",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_10"
+  },
+  {
+   "id": "cs_x_xylene_06",
+   "text": "Xylene dissolves greases",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylene · cs_x_xylene_06"
   }
  ]
 }

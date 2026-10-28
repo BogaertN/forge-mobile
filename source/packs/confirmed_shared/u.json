@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 218,
+ "curated_facts": 228,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -1243,6 +1243,66 @@
    "text": "Mammals grow in a uterus",
    "standing": "projectable",
    "evidence": "science · product curator · Uterus · cs_u_uterus_02"
+  },
+  {
+   "id": "cs_u_ulna_04",
+   "text": "The ulna lies beside the radius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ulna · cs_u_ulna_04"
+  },
+  {
+   "id": "cs_u_unit_05",
+   "text": "A unit measures quantity",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit · cs_u_unit_05"
+  },
+  {
+   "id": "cs_u_upland_02",
+   "text": "Upland soils drain well",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Upland · cs_u_upland_02"
+  },
+  {
+   "id": "cs_u_uracil_01",
+   "text": "Uracil pairs in RNA",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uracil · cs_u_uracil_01"
+  },
+  {
+   "id": "cs_u_uraninite_01",
+   "text": "Uraninite holds uranium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uraninite · cs_u_uraninite_01"
+  },
+  {
+   "id": "cs_u_urine_02",
+   "text": "Kidneys form urine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urine · cs_u_urine_02"
+  },
+  {
+   "id": "cs_u_utensil_02",
+   "text": "A utensil serves food",
+   "standing": "projectable",
+   "evidence": "history · product curator · Utensil · cs_u_utensil_02"
+  },
+  {
+   "id": "cs_u_uterus_03",
+   "text": "A uterus shelters a fetus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uterus · cs_u_uterus_03"
+  },
+  {
+   "id": "cs_u_utility_01",
+   "text": "A utility delivers power",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Utility · cs_u_utility_01"
+  },
+  {
+   "id": "cs_u_uvea_01",
+   "text": "The uvea nourishes the eye",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uvea · cs_u_uvea_01"
   }
  ]
 }
