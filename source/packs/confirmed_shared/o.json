@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 203,
+ "curated_facts": 213,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1159,6 +1159,66 @@
    "text": "An oyster makes a pearl",
    "standing": "projectable",
    "evidence": "nature · product curator · Oyster · cs_o_oyster_03"
+  },
+  {
+   "id": "cs_o_obsidian_02",
+   "text": "Obsidian fractures sharply",
+   "standing": "projectable",
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_02"
+  },
+  {
+   "id": "cs_o_octopus_03",
+   "text": "An octopus changes color",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Octopus · cs_o_octopus_03"
+  },
+  {
+   "id": "cs_o_okra_04",
+   "text": "Okra thickens soup",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Okra · cs_o_okra_04"
+  },
+  {
+   "id": "cs_o_onion_04",
+   "text": "An onion grows underground",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Onion · cs_o_onion_04"
+  },
+  {
+   "id": "cs_o_opaque_01",
+   "text": "An opaque object blocks light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Opaque · cs_o_opaque_01"
+  },
+  {
+   "id": "cs_o_orbit_05",
+   "text": "Earth completes an orbit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_05"
+  },
+  {
+   "id": "cs_o_orbit_06",
+   "text": "The moon follows an orbit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_06"
+  },
+  {
+   "id": "cs_o_orogeny_01",
+   "text": "Orogeny builds mountains",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Orogeny · cs_o_orogeny_01"
+  },
+  {
+   "id": "cs_o_otter_05",
+   "text": "An otter floats on its back",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Otter · cs_o_otter_05"
+  },
+  {
+   "id": "cs_o_outcrop_01",
+   "text": "Rock shows at an outcrop",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Outcrop · cs_o_outcrop_01"
   }
  ]
 }

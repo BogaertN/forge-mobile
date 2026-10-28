@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 201,
+ "curated_facts": 211,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1159,6 +1159,66 @@
    "text": "Lime sweetens acidic soil",
    "standing": "projectable",
    "evidence": "science · product curator · Lime · cs_l_lime_03"
+  },
+  {
+   "id": "cs_l_landslide_01",
+   "text": "A landslide moves downhill",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Landslide · cs_l_landslide_01"
+  },
+  {
+   "id": "cs_l_lapis_01",
+   "text": "Lapis is a blue gemstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lapis · cs_l_lapis_01"
+  },
+  {
+   "id": "cs_l_lark_02",
+   "text": "A lark sings in flight",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lark · cs_l_lark_02"
+  },
+  {
+   "id": "cs_l_laser_04",
+   "text": "A laser emits a narrow beam",
+   "standing": "projectable",
+   "evidence": "science · product curator · Laser · cs_l_laser_04"
+  },
+  {
+   "id": "cs_l_leaf_03",
+   "text": "A leaf captures sunlight",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leaf · cs_l_leaf_03"
+  },
+  {
+   "id": "cs_l_limestone_02",
+   "text": "Acid dissolves limestone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Limestone · cs_l_limestone_02"
+  },
+  {
+   "id": "cs_l_lithium_05",
+   "text": "Lithium powers batteries",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lithium · cs_l_lithium_05"
+  },
+  {
+   "id": "cs_l_litmus_02",
+   "text": "Litmus turns red in acid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Litmus · cs_l_litmus_02"
+  },
+  {
+   "id": "cs_l_liver_02",
+   "text": "The liver cleans the blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Liver · cs_l_liver_02"
+  },
+  {
+   "id": "cs_l_lyre_01",
+   "text": "A lyre is an ancient harp",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lyre · cs_l_lyre_01"
   }
  ]
 }
