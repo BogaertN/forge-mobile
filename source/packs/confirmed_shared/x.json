@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 182,
+ "curated_facts": 190,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1045,6 +1045,54 @@
    "text": "Xerox copies a page",
    "standing": "projectable",
    "evidence": "history · product curator · Xerox · cs_x_xerox_02"
+  },
+  {
+   "id": "cs_x_xylem_08",
+   "text": "Xylem moves water from roots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_08"
+  },
+  {
+   "id": "cs_x_xenon_12",
+   "text": "Xenon is denser than air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_12"
+  },
+  {
+   "id": "cs_x_xylophone_10",
+   "text": "A xylophone has tuned bars",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_10"
+  },
+  {
+   "id": "cs_x_x_axis_05",
+   "text": "Graphs plot x on the x-axis",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_05"
+  },
+  {
+   "id": "cs_x_x_intercept_05",
+   "text": "A line meets the x-axis at an x-intercept",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_05"
+  },
+  {
+   "id": "cs_x_xylitol_03",
+   "text": "Xylitol sweetens gum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_03"
+  },
+  {
+   "id": "cs_x_xerography_03",
+   "text": "Xerography copies documents",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerography · cs_x_xerography_03"
+  },
+  {
+   "id": "cs_x_xeriscaping_03",
+   "text": "Xeriscaping saves water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xeriscaping · cs_x_xeriscaping_03"
   }
  ]
 }

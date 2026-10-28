@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 196,
+ "curated_facts": 204,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1051,6 +1051,54 @@
    "text": "Zoology studies animals",
    "standing": "projectable",
    "evidence": "science · product curator · Zoology · cs_z_zoology_03"
+  },
+  {
+   "id": "cs_z_zebra_13",
+   "text": "A zebra grazes on grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_13"
+  },
+  {
+   "id": "cs_z_zirconium_07",
+   "text": "Zirconium coats nuclear fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_07"
+  },
+  {
+   "id": "cs_z_zeolite_03",
+   "text": "Zeolite softens hard water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_03"
+  },
+  {
+   "id": "cs_z_zenith_05",
+   "text": "Stars pass the zenith",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zenith · cs_z_zenith_05"
+  },
+  {
+   "id": "cs_z_zone_03",
+   "text": "Earth has climate zones",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zone · cs_z_zone_03"
+  },
+  {
+   "id": "cs_z_zoning_06",
+   "text": "Zoning guides city growth",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_06"
+  },
+  {
+   "id": "cs_z_zygote_06",
+   "text": "A zygote begins a new organism",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygote · cs_z_zygote_06"
+  },
+  {
+   "id": "cs_z_zircon_05",
+   "text": "Geologists date zircon crystals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zircon · cs_z_zircon_05"
   }
  ]
 }

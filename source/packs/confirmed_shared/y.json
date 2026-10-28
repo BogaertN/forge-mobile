@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 186,
+ "curated_facts": 192,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1057,6 +1057,42 @@
    "text": "A yolk feeds a growing chick",
    "standing": "projectable",
    "evidence": "nature · product curator · Yolk · cs_y_yolk_05"
+  },
+  {
+   "id": "cs_y_yak_11",
+   "text": "Yaks live in cold mountains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_11"
+  },
+  {
+   "id": "cs_y_yield_04",
+   "text": "Good soil raises crop yield",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yield · cs_y_yield_04"
+  },
+  {
+   "id": "cs_y_yolk_06",
+   "text": "Chickens have a yellow yolk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_06"
+  },
+  {
+   "id": "cs_y_yarn_04",
+   "text": "Weavers spin yarn",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yarn · cs_y_yarn_04"
+  },
+  {
+   "id": "cs_y_yoke_03",
+   "text": "Farmers fit a yoke on oxen",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yoke · cs_y_yoke_03"
+  },
+  {
+   "id": "cs_y_yolk_sac_03",
+   "text": "Embryos draw food from a yolk sac",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_03"
   }
  ]
 }
