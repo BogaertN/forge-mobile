@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 186,
+ "curated_facts": 191,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1063,6 +1063,36 @@
    "text": "A ray has one endpoint",
    "standing": "projectable",
    "evidence": "math · product curator · Ray · cs_r_ray_02"
+  },
+  {
+   "id": "cs_r_radar_03",
+   "text": "Ships use radar in fog",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radar · cs_r_radar_03"
+  },
+  {
+   "id": "cs_r_rain_02",
+   "text": "Clouds release rain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rain · cs_r_rain_02"
+  },
+  {
+   "id": "cs_r_reactor_01",
+   "text": "A reactor splits atoms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reactor · cs_r_reactor_01"
+  },
+  {
+   "id": "cs_r_reflex_01",
+   "text": "A doctor tests a reflex",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflex · cs_r_reflex_01"
+  },
+  {
+   "id": "cs_r_refraction_03",
+   "text": "A prism causes refraction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Refraction · cs_r_refraction_03"
   }
  ]
 }
