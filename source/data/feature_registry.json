@@ -1,5 +1,5 @@
 {
- "version": "4.9.169",
+ "version": "4.9.170",
  "features": [
   {
    "id": "A-01",
@@ -3573,13 +3573,24 @@
    "proof": [
     "R4169"
    ]
+  },
+  {
+   "id": "R4170-IDLE-ADMIT",
+   "name": "Idle admit on, null epsilon, Athena pack publish",
+   "source": "CONFLICTS.md v4.9.170; Nic idle dream lock 2026-10-28",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Admit defaults on for the idle worker. Explicit eps null is unmeasured, not zero. Athena spawn resonance_place then pack_append writes hosted letter packs. Quarantine does not. Gilligan ticks only while Ask is idle. Neo is the Ask surface. In-process Spawn Run Hibernate Retire Resurrect. No LLM. OS pool is 4.9.171.",
+   "proof": [
+    "R4170"
+   ]
   }
  ],
- "count": 326,
+ "count": 327,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 164,
+  "Partial": 165,
   "Missing": 9,
   "Out of scope / parked": 13
  }

@@ -20,7 +20,7 @@ const mk = () => KMOD.Kernel({ lexicon: LEX, lexiconExt: EXT, clock: CLOCK, vaul
 const verified = (text, integrity) => [{ text: text, verified: true, integrity: integrity, source: 'allow-listed' }];
 
 T('low drift high integrity is a promote-candidate and stays off confirmed_shared while admit is paused', () => {
-  expect(D.boundary().calls_llm === false && D.boundary().continuous_admit_default === false && D.boundary().christ_ping === false, 'boundary');
+  expect(D.boundary().calls_llm === false && D.boundary().continuous_admit_default === true && D.boundary().always_on === false && D.boundary().christ_ping === false, 'boundary');
   expect(D.INTEGRITY_HIGH === 0.85, 'integrity gate');
   for (const eps of [0, 0.35, 0.36, 0.4, 0.8, 0.81]) {
     const g = KM.driftGovernance(eps);
@@ -36,8 +36,8 @@ T('low drift high integrity is a promote-candidate and stays off confirmed_share
   expect(metered.meter === 'integrity_complement' && metered.eps === 0.1 && metered.lane === 'promote_candidate', JSON.stringify({ meter: metered.meter, eps: metered.eps, lane: metered.lane }));
   const midMeter = D.routeMeasurement({ integrity: 0.5, verified: true, claim: 'Quartz is a mineral' });
   expect(midMeter.meter === 'integrity_complement' && midMeter.eps === 0.5 && midMeter.lane === 'quarantine', JSON.stringify({ eps: midMeter.eps, lane: midMeter.lane }));
-  const w = D.createIdleDream({ clock: CLOCK });
-  expect(w.admitEnabled() === false, 'default off');
+  const w = D.createIdleDream({ clock: CLOCK, admitEnabled: false });
+  expect(w.admitEnabled() === false, 'explicit pause');
   w.enqueue([{ id: 'gap:quartz', kind: 'aq1_miss', subject: 'quartz', claim: 'Quartz is a mineral', eps: 0.2, integrity: 0.95, extracts: verified('Quartz is a mineral', 0.95) }]);
   const busy = w.tick({ answering: true });
   expect(busy.ran === false && busy.rule === 'DREAM-IDLE-BUSY' && busy.calls_llm === false, JSON.stringify(busy));
@@ -71,7 +71,7 @@ T('quarantine band keeps researching and does not write confirmed_shared', () =>
   expect(edge.lane === 'quarantine' && edgeHi.lane === 'quarantine', edge.lane + '/' + edgeHi.lane);
   const one = w.admitRecord(w.quarantine()[0], { host: k, writeKey: KEY, admitEnabled: true });
   expect(one.ok === false && one.rule === 'DREAM-QUARANTINE-NO-TRUTH' && one.wrote_confirmed_shared === false, JSON.stringify(one));
-  const staged = w.admitStaged({ host: k, writeKey: KEY });
+  const staged = w.admitStaged({ host: k, writeKey: KEY, publishPacks: false });
   expect(staged.wrote_confirmed_shared === false && staged.ok === false, JSON.stringify({ ok: staged.ok, rule: staged.rule, wrote: staged.wrote_confirmed_shared }));
   expect(k.sharedKnowledgeView().count === beforeView, 'view ' + k.sharedKnowledgeView().count);
   const phone = k.store.load('confirmed_shared');
@@ -94,7 +94,7 @@ T('chi caution band corrects once and does not write confirmed_shared', () => {
   const k = mk();
   k.setSharedKbWriteKey(KEY);
   w.tick({ answering: false });
-  const adm = w.admitStaged({ host: k, writeKey: KEY });
+  const adm = w.admitStaged({ host: k, writeKey: KEY, publishPacks: false });
   expect(adm.wrote_confirmed_shared !== true && k.sharedKnowledgeView().count === 0, JSON.stringify({ rule: adm.rule, wrote: adm.wrote_confirmed_shared, n: k.sharedKnowledgeView().count }));
 });
 
@@ -128,13 +128,13 @@ T('admit attaches a resonance packet; quarantine admit does not write confirmed_
   ]);
   expect(w.tick({ answering: false }).lane === 'promote_candidate', 'promote');
   expect(w.tick({ answering: false }).lane === 'quarantine', 'quar');
-  const paused = w.admitStaged({ host: k, writeKey: KEY });
+  const paused = w.admitStaged({ host: k, writeKey: KEY, publishPacks: false });
   expect(paused.rule === 'DREAM-IDLE-ADMIT-PAUSED' && paused.wrote_confirmed_shared === false && k.sharedKnowledgeView().count === 0, JSON.stringify(paused.rule));
   expect(paused.packets[0].schema === 'FORGE-RESONANCE-PACKET/v1' && paused.refused.some(r => r.rule === 'DREAM-QUARANTINE-NO-TRUTH'), 'paused packet + quarantine refused');
   w.setAdmitEnabled(true);
   const noKey = w.admitRecord(w.promoteCandidates()[0], { host: k, writeKey: '', admitEnabled: true });
   expect(noKey.ok === false && noKey.rule === 'SHARED-KB-WRITE-KEY-REQUIRED' && noKey.wrote_confirmed_shared === false, JSON.stringify(noKey));
-  const adm = w.admitStaged({ host: k, writeKey: KEY });
+  const adm = w.admitStaged({ host: k, writeKey: KEY, publishPacks: false });
   expect(adm.wrote_confirmed_shared === true && adm.admitted.length === 1, JSON.stringify({ ok: adm.ok, wrote: adm.wrote_confirmed_shared, n: adm.admitted && adm.admitted.length, rule: adm.rule, refused: (adm.refused || []).map(r => r.rule) }));
   const row = (k.sharedKnowledgeView().admitted || []).find(x => /quartz/i.test(x.text || ''));
   expect(row && row.sfe && row.sfe.Phi === 9 && Number.isFinite(row.sfe.eps) && row.sfe.eps <= 0.35 && row.sfe.mu > 0, JSON.stringify(row));
@@ -171,24 +171,24 @@ T('idle tick skips while answering; letter holes invent no fact; no LLM', () => 
   expect(a.lane === b.lane && a.eps === b.eps && a.packet.sfe.mu === b.packet.sfe.mu, 'deterministic');
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.169', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.170', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.169', ver);
+  expect(ver === '4.9.170', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
-  expect(/v4\.9\.169/.test(conf) && /DREAM-QUARANTINE-NO-TRUTH|quarantine/.test(conf) && /admit/.test(conf), 'CONFLICTS tip');
+  expect(/v4\.9\.170/.test(conf) && /DREAM-QUARANTINE-NO-TRUTH|quarantine/.test(conf) && /admit/.test(conf), 'CONFLICTS tip');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
-  expect(/4\.9\.169/.test(nb), 'NEXT_BUILD tip');
+  expect(/4\.9\.170/.test(nb), 'NEXT_BUILD tip');
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
-  expect(/4\.9\.169/.test(readme) && /dream_idle/.test(readme) && /admitEnabled/.test(readme), 'README');
+  expect(/4\.9\.170/.test(readme) && /dream_idle/.test(readme) && /admitEnabled/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.169' && tgt.suites[0] === 'r4169_suite.js', JSON.stringify(tgt));
+  expect(tgt.release === '4.9.170' && (tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js'), JSON.stringify(tgt));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.169', 'registry ' + reg.version);
+  expect(reg.version === '4.9.170', 'registry ' + reg.version);
   expect(reg.features.some(f => f.id === 'R4169-IDLE-DREAM'), 'feature');
   expect(reg.count === reg.features.length, 'count');
   expect(reg.claims.Implemented === 112 && reg.claims.Partial >= 164, JSON.stringify(reg.claims));
   const mh = JSON.parse(fs.readFileSync(path.join(ROOT, 'research', 'math_honesty.json'), 'utf8'));
-  expect(mh.release === '4.9.169' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === false && mh.idle_dream_router.write_law_unchanged === true, 'math_honesty');
+  expect(mh.release === '4.9.170' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === false && mh.idle_dream_router.write_law_unchanged === true, 'math_honesty');
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.169/.test(req) && /R4169-IDLE-DREAM/.test(req), 'req_packet');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');

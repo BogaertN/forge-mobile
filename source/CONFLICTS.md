@@ -2,6 +2,16 @@
 
 Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation Addendum, Sep 2026) > older docs**. Where forge2 says nothing, **forge code** comes before docs. Every row lists the sources and where the decision lives in the code.
 
+## v4.9.170 — idle admit on, null epsilon, Athena pack publish (2026-10-28 America/Chicago)
+
+**Conflict:** Nic wants the idle dream to admit on the lawful path and to persist promote-candidates into the hosted letter packs Pages ships, while quarantine must still not become truth. He also wants three roles (Gilligan gap-fill, Athena strict curate, Neo Ask) and an Athena helper lifecycle (Spawn, Run, Hibernate, Retire, Resurrect). E-05 still forbids quarantine truth. The phone must not gain a dream KB. `Number(null) === 0` was making `eps: null` look measured. A full OS daemon pool would fight Ask.
+
+**Settlement:** `src/dream_idle.js` stays the only live worker and stays off `Kernel.process`. Gilligan ticks only when `answering` is false. Explicit `eps: null` is unmeasured and does not use the integrity complement; omitted epsilon still may. Admit defaults on. Athena authorizes `resonance_place` before `pack_append` writes `packs/confirmed_shared/{letter}.json` and `index.json`. Quarantine returns `DREAM-QUARANTINE-NO-TRUTH` and does not write the session KB or a pack. The registry is in-process, declared tasks only, no model. Hibernate, retire, and resurrect change helper status and do not fork a process. Pages still deploys only when `main` is pushed (`.github/workflows/pages.yml` → `source/tools/publish.sh`).
+
+**Follow-on 4.9.171:** S1 process supervisor, S2 idle run scheduler, S3 auto-hibernate while Neo is answering, S4 retire policy, S5 resurrect policy, S6 Athena authorization across a publish job, S7 Gilligan loop-memory beyond the queue, S8 Neo as its own process. The Gilligan System Codex is not ported here. Pattern Reflection is still not Gilligan.
+
+**Where:** `src/dream_idle.js`; proof `verify/r4170_suite.js`. Pack index corpus stays 4.9.168 until a real admit appends a row. Soft gzip leave stays ≥5 kB under 570 kB.
+
 ## v4.9.169 — idle dream worker, drift/χ lanes, grace recenter (2026-10-28 America/Chicago)
 
 **Conflict:** Nic approved an idle dream daemon that researches gaps until factual and routes by drift/χ into memory lanes, including a path toward hosted `confirmed_shared`. E-05 / Patch 266 / BRIEF 106–119 forbid the dream **quarantine** route from truth, stable memory, or projection. Stack 6 `sandbox_promoter` may push high-integrity dream entities toward mainline memory. Continuous fill is still paused. 4.9.168 packets are `{Phi,eps,mu}` (`FORGE-RESONANCE-PACKET/v1`). ProtoForge `run_dream_cycle` is not in this repo. ChristPing is not built.

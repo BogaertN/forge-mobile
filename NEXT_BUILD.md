@@ -1,3 +1,15 @@
+# Next build order — after 4.9.170 (shipped)
+
+**Baseline:** 4.9.170 idle dream. Gilligan gap-fill only while Ask is idle. Athena admit defaults on and writes hosted letter packs through a declared helper. Neo is the Ask surface. Explicit `eps: null` is unmeasured. Quarantine does not write packs. No LLM. Soft leave ≥5 kB under 570 kB.
+
+**Shipped 4.9.170:** Null-ε fix. Admit default on. Pages pack wire (`pack_append` → `packs/confirmed_shared/{letter}.json`, published by `pages.yml` → `publish.sh` on push to main). Curated extracts only. In-process Athena registry: Spawn, Run, Hibernate, Retire, Resurrect. Three roles live in one `dream_idle.js`. Tick and spawn no-op while `answering:true`.
+
+**Follow-on 4.9.171 (S1–S8), do not block this ship:** S1 process supervisor. S2 idle run scheduler. S3 auto-hibernate when Neo is answering. S4 retire policy. S5 resurrect policy. S6 Athena authorization across a pack publish job. S7 Gilligan loop-memory beyond the queue. S8 Neo as its own process. Full Gilligan System Codex is not started.
+
+**Do not start:** an OS helper pool inside 4.9.170; a model call; an open crawl; probe answer patches; stuffing the phone dream KB; a timer that runs during Ask.
+
+**Pack publish:** host calls `tick({ answering: false })`, then `admitStaged({ host, writeKey })`. Athena’s `pack_append` writes the letter file. Pages deploys on the next push to `main`.
+
 # Next build order — after 4.9.169 (shipped)
 
 **Baseline:** 4.9.169 idle dream/research worker (separate from Ask) + drift/χ lane router + grace recenter. Promote-candidates can admit to hosted `confirmed_shared` with `FORGE-RESONANCE-PACKET/v1` only when `admitEnabled` is on. Default off. Quarantine does not write `confirmed_shared`. No LLM. No on-device dream KB. Continuous fill stays PAUSED. Soft leave ≥5 kB under 570 kB.

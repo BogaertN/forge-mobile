@@ -1,6 +1,6 @@
 {
  "schema": "FORGE-MATH-HONESTY/v1",
- "release": "4.9.169",
+ "release": "4.9.170",
  "product_claim": false,
  "proven_cognition": false,
  "honesty": {
@@ -390,17 +390,21 @@
   "proven_cognition": false,
   "christ_ping": false,
   "write_law_unchanged": true,
-  "continuous_admit_default": false,
+  "continuous_admit_default": true,
+  "always_on": false,
   "quarantine_writes_confirmed_shared": false,
+  "quarantine_writes_packs": false,
+  "null_eps_is_unmeasured": true,
+  "os_process_pool": false,
   "integrity_high": 0.85,
-  "integrity_meter": "when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Product skeleton meter only. Not driftFunctional. Not the Mobile write law.",
-  "note": "4.9.169 idle dream router reads kmath.driftGovernance (Nic ≤0.35 project, χ below 0.40, quarantine through 0.80, hard stop above). Grace recenter calls chiCorrect and graceOverAncestors and aborts the path above 0.80. ChristPing is not built. Quarantine does not write confirmed_shared. Continuous admit stays default-off.",
+  "integrity_meter": "when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.",
+  "note": "4.9.170 idle dream: Gilligan gap-fill on idle ticks only (answering yields). Athena admit defaults on and spawns declared helpers (resonance_place, pack_append) with Spawn, Run, Hibernate, Retire, Resurrect in-process. Neo is the Ask surface. Explicit eps null is unmeasured. Quarantine does not write confirmed_shared or packs. No LLM. OS process pool is 4.9.171. ChristPing is not built. Write law unchanged.",
   "where": [
    "src/dream_idle.js",
    "src/kmath.js driftGovernance",
    "src/kmath.js chiCorrect",
    "src/kmath.js graceOverAncestors",
-   "verify/r4169_suite.js"
+   "verify/r4170_suite.js"
   ],
   "cite": "Nic drift ruling 2026-10-14; RPMC §3 χ; §3.4 Grace Integral; E-05 quarantine honesty"
  }
