@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 146,
+ "curated_facts": 156,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -829,6 +829,66 @@
    "text": "A function maps each input to one output",
    "standing": "projectable",
    "evidence": "math · product curator · Function · cs_f_function_01"
+  },
+  {
+   "id": "cs_f_factor_02",
+   "text": "A factor divides a number evenly",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_02"
+  },
+  {
+   "id": "cs_f_fahrenheit_02",
+   "text": "Fahrenheit is a temperature scale",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fahrenheit · cs_f_fahrenheit_02"
+  },
+  {
+   "id": "cs_f_fault_03",
+   "text": "A fault is a break in rock",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fault · cs_f_fault_03"
+  },
+  {
+   "id": "cs_f_feather_02",
+   "text": "A feather covers a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Feather · cs_f_feather_02"
+  },
+  {
+   "id": "cs_f_feldspar_02",
+   "text": "Feldspar is a common mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_02"
+  },
+  {
+   "id": "cs_f_fermentation_02",
+   "text": "Yeast causes fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_02"
+  },
+  {
+   "id": "cs_f_fern_04",
+   "text": "A fern reproduces with spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_04"
+  },
+  {
+   "id": "cs_f_fiber_01",
+   "text": "Dietary fiber aids digestion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fiber · cs_f_fiber_01"
+  },
+  {
+   "id": "cs_f_finch_02",
+   "text": "A finch is a small songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Finch · cs_f_finch_02"
+  },
+  {
+   "id": "cs_f_fibula_01",
+   "text": "The fibula is a bone in the lower leg",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibula · cs_f_fibula_01"
   }
  ]
 }

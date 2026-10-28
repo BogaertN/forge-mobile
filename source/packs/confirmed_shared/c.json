@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 144,
+ "curated_facts": 152,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -835,6 +835,54 @@
    "text": "A contour line joins points of equal elevation",
    "standing": "projectable",
    "evidence": "geography · product curator · Contour line · cs_c_contour_line_01"
+  },
+  {
+   "id": "cs_c_calcium_02",
+   "text": "Calcium strengthens bones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Calcium · cs_c_calcium_02"
+  },
+  {
+   "id": "cs_c_camel_03",
+   "text": "A camel stores fat in its hump",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Camel · cs_c_camel_03"
+  },
+  {
+   "id": "cs_c_canal_01",
+   "text": "A canal is a human made waterway",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Canal · cs_c_canal_01"
+  },
+  {
+   "id": "cs_c_canine_01",
+   "text": "A canine tooth tears food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Canine · cs_c_canine_01"
+  },
+  {
+   "id": "cs_c_canyon_01",
+   "text": "A canyon is a deep valley",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Canyon · cs_c_canyon_01"
+  },
+  {
+   "id": "cs_c_capillary_01",
+   "text": "A capillary is a tiny blood vessel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Capillary · cs_c_capillary_01"
+  },
+  {
+   "id": "cs_c_cloud_01",
+   "text": "A cloud forms from water vapor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cloud · cs_c_cloud_01"
+  },
+  {
+   "id": "cs_c_coast_01",
+   "text": "A coast borders the sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Coast · cs_c_coast_01"
   }
  ]
 }
