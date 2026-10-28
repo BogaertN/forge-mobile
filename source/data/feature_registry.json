@@ -1,5 +1,5 @@
 {
-  "version": "4.9.134",
+  "version": "4.9.135",
   "features": [
     {
       "id": "A-01",
@@ -116,7 +116,7 @@
       "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
       "wave": "W1",
       "claim": "Partial",
-      "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. 4.9.126 polishes the UI shell (calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding) and does not write a shared fact. 4.9.127 gates distributed confirmed_shared with hosted letter packs A-Z and does not write a shared fact. 4.9.128 refreshes those hosted packs from thickened curated drafts (admitted items grow; scrapbook empty; starter unchanged) and does not write a shared fact. 4.9.129 refreshes hosted A-Z (2413/2651). 4.9.130 refreshes hosted A-Z (2580/2818). 4.9.131 refreshes hosted A-Z (2710/2948). 4.9.132 refreshes hosted A-Z (2914/3152). 4.9.133 refreshes hosted A-Z (3042/3280). 4.9.134 refreshes hosted A-Z (3189/3427). Older claims stay suite-level.",
+      "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. 4.9.126 polishes the UI shell (calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding) and does not write a shared fact. 4.9.127 gates distributed confirmed_shared with hosted letter packs A-Z and does not write a shared fact. 4.9.128 refreshes those hosted packs from thickened curated drafts (admitted items grow; scrapbook empty; starter unchanged) and does not write a shared fact. 4.9.129 refreshes hosted A-Z (2413/2651). 4.9.130 refreshes hosted A-Z (2580/2818). 4.9.131 refreshes hosted A-Z (2710/2948). 4.9.132 refreshes hosted A-Z (2914/3152). 4.9.133 refreshes hosted A-Z (3042/3280). 4.9.134 refreshes hosted A-Z (3189/3427). 4.9.135 refreshes hosted A-Z (3313/3551). Older claims stay suite-level.",
       "proof": [
         "CLAIM-GUARD"
       ]
@@ -3410,10 +3410,10 @@
     {
       "id": "R4127-LETTER-A",
       "name": "letter packs",
-      "source": "CONFLICTS.md v4.9.134; packs/confirmed_shared/{a…z,index}.json",
+      "source": "CONFLICTS.md v4.9.135; packs/confirmed_shared/{a…z,index}.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.134: hosted A-Z refresh (3427 curated; 3189 admitted). Prefer memory > hosted shared > import > starter. Soft Echo stays parked.",
+      "note": "4.9.135: hosted A-Z refresh (3551 curated; 3313 admitted). Prefer memory > hosted shared > import > starter. Soft Echo stays parked.",
       "proof": [
         "R4127"
       ]
@@ -3432,7 +3432,7 @@
     {
       "id": "R4128-HOSTED",
       "name": "hosted shared KB",
-      "source": "CONFLICTS.md v4.9.134; BRIEF_4.9.128_SHARED_KB_AZ",
+      "source": "CONFLICTS.md v4.9.135; BRIEF_4.9.128_SHARED_KB_AZ",
       "wave": "W2",
       "claim": "Partial",
       "note": "Hosted A–Z is the shared knowledge source of truth. pullHostedSharedPack loads session RAM for invent/compose. Phone confirmed_shared stays empty. Scrapbook shared_knowledge stays empty.",
@@ -3454,10 +3454,10 @@
     {
       "id": "R4128-AZ",
       "name": "A-Z corpus",
-      "source": "CONFLICTS.md v4.9.133; packs/confirmed_shared/index.json",
+      "source": "CONFLICTS.md v4.9.135; packs/confirmed_shared/index.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "Index 4.9.134: 26 letters; 3189 items / 3427 curated (≥1890/≥2622). UI/speech: Shared knowledge base.",
+      "note": "Index 4.9.135: 26 letters; 3313 items / 3551 curated (≥1890/≥2622). UI/speech: Shared knowledge base.",
       "proof": [
         "R4128"
       ]

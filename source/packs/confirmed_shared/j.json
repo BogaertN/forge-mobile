@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 130,
+ "curated_facts": 146,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -721,6 +721,102 @@
    "text": "The Great Red Spot is a storm on Jupiter",
    "standing": "projectable",
    "evidence": "science · product curator · Jupiter's Great Red Spot · cs_j_jupiter_s_great_red_spot_01"
+  },
+  {
+   "id": "cs_j_jute_01",
+   "text": "Jute is a plant fiber used for rope",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jute · cs_j_jute_01"
+  },
+  {
+   "id": "cs_j_judge_01",
+   "text": "A judge decides cases in court",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judge · cs_j_judge_01"
+  },
+  {
+   "id": "cs_j_jefferson_01",
+   "text": "Thomas Jefferson wrote the Declaration of Independence",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jefferson · cs_j_jefferson_01"
+  },
+  {
+   "id": "cs_j_justice_02",
+   "text": "Justice is fair treatment under the law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Justice · cs_j_justice_02"
+  },
+  {
+   "id": "cs_j_jury_02",
+   "text": "A jury decides facts in a trial",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Jury · cs_j_jury_02"
+  },
+  {
+   "id": "cs_j_juniper_04",
+   "text": "A juniper is an evergreen shrub",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_04"
+  },
+  {
+   "id": "cs_j_jungle_02",
+   "text": "A jungle is a dense tropical forest",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_02"
+  },
+  {
+   "id": "cs_j_july_02",
+   "text": "July is the seventh month of the year",
+   "standing": "projectable",
+   "evidence": "language · product curator · July · cs_j_july_02"
+  },
+  {
+   "id": "cs_j_judo_03",
+   "text": "Judo is a Japanese martial art",
+   "standing": "projectable",
+   "evidence": "history · product curator · Judo · cs_j_judo_03"
+  },
+  {
+   "id": "cs_j_judiciary_02",
+   "text": "The judiciary interprets the law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judiciary · cs_j_judiciary_02"
+  },
+  {
+   "id": "cs_j_jackal_04",
+   "text": "A jackal is a wild canine",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_04"
+  },
+  {
+   "id": "cs_j_jade_02",
+   "text": "Jade is a hard green stone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jade · cs_j_jade_02"
+  },
+  {
+   "id": "cs_j_jasper_02",
+   "text": "Jasper is an opaque form of quartz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jasper · cs_j_jasper_02"
+  },
+  {
+   "id": "cs_j_jay_05",
+   "text": "A jay is a colorful bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_05"
+  },
+  {
+   "id": "cs_j_jazz_03",
+   "text": "Jazz is a music style from the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jazz · cs_j_jazz_03"
+  },
+  {
+   "id": "cs_j_jet_stream_02",
+   "text": "The jet stream is a fast wind high in the atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_02"
   }
  ]
 }

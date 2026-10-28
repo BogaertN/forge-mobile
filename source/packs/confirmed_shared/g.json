@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 124,
+ "curated_facts": 144,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -709,6 +709,126 @@
    "text": "Gyeongju is a city in South Korea",
    "standing": "projectable",
    "evidence": "geography · product curator · Gyeongju · cs_g_gyeongju_01"
+  },
+  {
+   "id": "cs_g_gyrus_01",
+   "text": "A gyrus is a ridge on the brain surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gyrus · cs_g_gyrus_01"
+  },
+  {
+   "id": "cs_g_gypsum_01",
+   "text": "Gypsum is a soft mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_01"
+  },
+  {
+   "id": "cs_g_gunpowder_01",
+   "text": "Gunpowder was invented in China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_01"
+  },
+  {
+   "id": "cs_g_gum_tree_01",
+   "text": "A gum tree is a eucalyptus",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gum tree · cs_g_gum_tree_01"
+  },
+  {
+   "id": "cs_g_guano_01",
+   "text": "Guano is seabird droppings used as fertilizer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Guano · cs_g_guano_01"
+  },
+  {
+   "id": "cs_g_growth_ring_01",
+   "text": "A growth ring marks one year of tree growth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Growth ring · cs_g_growth_ring_01"
+  },
+  {
+   "id": "cs_g_groundwater_01",
+   "text": "Groundwater fills spaces in soil and rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Groundwater · cs_g_groundwater_01"
+  },
+  {
+   "id": "cs_g_gregorian_calendar_01",
+   "text": "The Gregorian calendar is the common civil calendar",
+   "standing": "projectable",
+   "evidence": "history · product curator · Gregorian calendar · cs_g_gregorian_calendar_01"
+  },
+  {
+   "id": "cs_g_greenhouse_01",
+   "text": "A greenhouse traps heat for plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_01"
+  },
+  {
+   "id": "cs_g_great_circle_01",
+   "text": "A great circle is the largest circle on a sphere",
+   "standing": "projectable",
+   "evidence": "math · product curator · Great circle · cs_g_great_circle_01"
+  },
+  {
+   "id": "cs_g_gray_matter_01",
+   "text": "Gray matter contains nerve cell bodies",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gray matter · cs_g_gray_matter_01"
+  },
+  {
+   "id": "cs_g_gravel_01",
+   "text": "Gravel is loose rock fragments",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gravel · cs_g_gravel_01"
+  },
+  {
+   "id": "cs_g_grassland_01",
+   "text": "A grassland is dominated by grasses",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Grassland · cs_g_grassland_01"
+  },
+  {
+   "id": "cs_g_gabbro_01",
+   "text": "Gabbro is an igneous rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gabbro · cs_g_gabbro_01"
+  },
+  {
+   "id": "cs_g_gannet_01",
+   "text": "A gannet is a seabird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gannet · cs_g_gannet_01"
+  },
+  {
+   "id": "cs_g_gneiss_01",
+   "text": "Gneiss is a metamorphic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gneiss · cs_g_gneiss_01"
+  },
+  {
+   "id": "cs_g_gondwana_01",
+   "text": "Gondwana was an ancient supercontinent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gondwana · cs_g_gondwana_01"
+  },
+  {
+   "id": "cs_g_gauss_01",
+   "text": "A gauss is a unit of magnetic field",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gauss · cs_g_gauss_01"
+  },
+  {
+   "id": "cs_g_geothermal_energy_01",
+   "text": "Geothermal energy comes from heat inside Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Geothermal energy · cs_g_geothermal_energy_01"
+  },
+  {
+   "id": "cs_g_gorge_01",
+   "text": "A gorge is a deep narrow valley",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gorge · cs_g_gorge_01"
   }
  ]
 }

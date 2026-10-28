@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 124,
+ "curated_facts": 140,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -721,6 +721,102 @@
    "text": "Wuhan is a city in China",
    "standing": "projectable",
    "evidence": "geography · product curator · Wuhan · cs_w_wuhan_01"
+  },
+  {
+   "id": "cs_w_wrist_01",
+   "text": "The wrist joins the hand to the arm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wrist · cs_w_wrist_01"
+  },
+  {
+   "id": "cs_w_wood_01",
+   "text": "Wood is the hard tissue of a tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wood · cs_w_wood_01"
+  },
+  {
+   "id": "cs_w_wire_01",
+   "text": "A wire is a thin metal strand",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wire · cs_w_wire_01"
+  },
+  {
+   "id": "cs_w_wheel_01",
+   "text": "A wheel is a circular object that turns on an axle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wheel · cs_w_wheel_01"
+  },
+  {
+   "id": "cs_w_wave_01",
+   "text": "A wave transfers energy through a medium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wave · cs_w_wave_01"
+  },
+  {
+   "id": "cs_w_water_vapor_01",
+   "text": "Water vapor is water in gas form",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water vapor · cs_w_water_vapor_01"
+  },
+  {
+   "id": "cs_w_warm_front_01",
+   "text": "A warm front brings warmer air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Warm front · cs_w_warm_front_01"
+  },
+  {
+   "id": "cs_w_wallaby_01",
+   "text": "A wallaby is a small kangaroo",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wallaby · cs_w_wallaby_01"
+  },
+  {
+   "id": "cs_w_wader_01",
+   "text": "A wader is a long legged shorebird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wader · cs_w_wader_01"
+  },
+  {
+   "id": "cs_w_watershed_01",
+   "text": "A watershed drains into a common river or lake",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Watershed · cs_w_watershed_01"
+  },
+  {
+   "id": "cs_w_wavelength_03",
+   "text": "Wavelength is the distance between wave peaks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wavelength · cs_w_wavelength_03"
+  },
+  {
+   "id": "cs_w_weathering_02",
+   "text": "Weathering breaks rock into smaller pieces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weathering · cs_w_weathering_02"
+  },
+  {
+   "id": "cs_w_white_dwarf_02",
+   "text": "A white dwarf is a dense remnant of a star",
+   "standing": "projectable",
+   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_02"
+  },
+  {
+   "id": "cs_w_whole_number_02",
+   "text": "A whole number is zero or a positive integer",
+   "standing": "projectable",
+   "evidence": "math · product curator · Whole number · cs_w_whole_number_02"
+  },
+  {
+   "id": "cs_w_water_cycle_02",
+   "text": "The water cycle moves water through Earth systems",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water cycle · cs_w_water_cycle_02"
+  },
+  {
+   "id": "cs_w_waterfall_02",
+   "text": "A waterfall is a stream that falls over a cliff",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Waterfall · cs_w_waterfall_02"
   }
  ]
 }
