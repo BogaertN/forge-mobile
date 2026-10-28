@@ -1,4 +1,4 @@
-/* R4165 (4.9.165): RPMC→RSOC→Panini answer path (Nic t129u/t130u/t131u/t132u).
+/* R4165 (4.9.166): RPMC→RSOC→Panini answer path (Nic t129u/t130u/t131u/t132u).
  * Order: archives/sources → RPMC (phase-align/grace/χ) → RSOC select → Panini NL.
  * Zero canned. Related CS = candidates into AQ-1/research, NOT class-dump answer.
  * Silence only for true no-basis novelty — factual WH still reaches AUTH-AQ1. */
@@ -108,9 +108,9 @@ T('Second rights WH stages RPMC priors into AQ-1; deliberate miss AQ-1 without f
   expect(phoneEmpty(k) && sharedN(k) === 0, 'no write on miss');
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.165', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.166', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.165', ver);
+  expect(ver === '4.9.166', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
   for (const id of ['R4165-RESONATE-ANCESTOR', 'R4164-GZIP-LEAVE', 'R4163-CIVICS-WH', 'R4163-DISCOURSE-CS', 'R4162-READ-CONNECT', 'R4128-HOSTED']) {
@@ -125,11 +125,11 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.165', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.165/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.165' && tgt.suites[0] === 'r4165_suite.js', JSON.stringify(tgt));
+  expect(tgt.release === '4.9.166' && (tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js'), JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
   expect(/4\.9\.165/.test(req) && /R4165/.test(req), 'req_packet');
   const mh = JSON.parse(fs.readFileSync(ROOT + '/research/math_honesty.json', 'utf8'));
-  expect(mh.release === '4.9.165', 'math_honesty ' + mh.release);
+  expect(mh.release === '4.9.166', 'math_honesty ' + mh.release);
   expect(mh.answer_path_grace && mh.answer_path_grace.status === 'wired' && /no longer a?\s*stub/i.test(mh.answer_path_grace.note || ''), 'answer_path_grace ' + JSON.stringify(mh.answer_path_grace));
   const idx = JSON.parse(fs.readFileSync(ROOT + '/packs/confirmed_shared/index.json', 'utf8'));
   expect(idx.version === '4.9.163' && idx.packs.f.items >= 262, JSON.stringify(idx.packs.f));

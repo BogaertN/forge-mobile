@@ -1,3 +1,13 @@
+# Next build order — after 4.9.166
+
+**Baseline:** 4.9.166 QuotaExceeded-safe `kernel.trace` persist + AQ-1 RPMC gather for world-gap factual misses (RPMC→RSOC→Panini; no canned; continuous fill PAUSED; soft leave ≥5 kB under 570 kB)
+
+**Standing:** Grok Bot computer ONLY. No CloudAgent. Soft budget ≤1.920 MB / ≤570 kB gzip. No LLM. Pathway not patches. Continuous fill remains PAUSED.
+
+**Shipped 4.9.166:** MemoryStore soft-quota (evict/shrink/retry; STORE-QUOTA-SOFT); finish/forge never uncaught on routine trace save; world-undetermined WH still logs RPMC-ANCESTOR-* before AUTH-AQ1 (h2s proves). Soft budget unchanged. No H2S pack thicken.
+
+---
+
 # Next build order — after 4.9.165
 **Date:** 2026-10-28 (America/Chicago)
 **Baseline:** 4.9.165 RPMC→RSOC→Panini (archives/sources → RPMC grace/phase candidates → AQ-1/research → RSOC → Panini NL; class-dump removed; First/Fifth exact unchanged; soft leave ≥5 kB under 570 kB)
