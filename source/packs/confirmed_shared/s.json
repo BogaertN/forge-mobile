@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 186,
+ "curated_facts": 196,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1099,6 +1099,66 @@
    "text": "Light casts a shadow",
    "standing": "projectable",
    "evidence": "science · product curator · Shadow · cs_s_shadow_01"
+  },
+  {
+   "id": "cs_s_sea_lion_01",
+   "text": "A sea lion barks on shore",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sea lion · cs_s_sea_lion_01"
+  },
+  {
+   "id": "cs_s_seal_02",
+   "text": "A seal is a marine mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Seal · cs_s_seal_02"
+  },
+  {
+   "id": "cs_s_septum_01",
+   "text": "A septum divides a cavity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Septum · cs_s_septum_01"
+  },
+  {
+   "id": "cs_s_sodium_02",
+   "text": "Sodium reacts with water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sodium · cs_s_sodium_02"
+  },
+  {
+   "id": "cs_s_solvent_01",
+   "text": "Water is a common solvent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Solvent · cs_s_solvent_01"
+  },
+  {
+   "id": "cs_s_songbird_01",
+   "text": "A songbird sings a melody",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Songbird · cs_s_songbird_01"
+  },
+  {
+   "id": "cs_s_soot_01",
+   "text": "Soot is black carbon dust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Soot · cs_s_soot_01"
+  },
+  {
+   "id": "cs_s_sorghum_01",
+   "text": "Sorghum is a cereal grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sorghum · cs_s_sorghum_01"
+  },
+  {
+   "id": "cs_s_sponge_01",
+   "text": "A sponge filters seawater",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sponge · cs_s_sponge_01"
+  },
+  {
+   "id": "cs_s_stress_01",
+   "text": "Stress is force over area",
+   "standing": "projectable",
+   "evidence": "science · product curator · Stress · cs_s_stress_01"
   }
  ]
 }

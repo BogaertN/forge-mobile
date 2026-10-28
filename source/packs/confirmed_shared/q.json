@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 201,
+ "curated_facts": 210,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1099,6 +1099,60 @@
    "text": "Physics measures a quantity",
    "standing": "projectable",
    "evidence": "math · product curator · Quantity · cs_q_quantity_02"
+  },
+  {
+   "id": "cs_q_quail_10",
+   "text": "A quail nests on the ground",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_10"
+  },
+  {
+   "id": "cs_q_quake_01",
+   "text": "A quake shakes the ground",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quake · cs_q_quake_01"
+  },
+  {
+   "id": "cs_q_quarantine_02",
+   "text": "Quarantine isolates the sick",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quarantine · cs_q_quarantine_02"
+  },
+  {
+   "id": "cs_q_quarter_05",
+   "text": "Four quarters make a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quarter · cs_q_quarter_05"
+  },
+  {
+   "id": "cs_q_quartz_09",
+   "text": "Quartz scratches glass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_09"
+  },
+  {
+   "id": "cs_q_quatrain_01",
+   "text": "A quatrain has four lines",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quatrain · cs_q_quatrain_01"
+  },
+  {
+   "id": "cs_q_quicksand_03",
+   "text": "Quicksand traps a heavy load",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_03"
+  },
+  {
+   "id": "cs_q_quinine_02",
+   "text": "Quinine treats malaria",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quinine · cs_q_quinine_02"
+  },
+  {
+   "id": "cs_q_quiver_02",
+   "text": "An archer carries arrows in a quiver",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quiver · cs_q_quiver_02"
   }
  ]
 }

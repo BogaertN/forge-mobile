@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 187,
+ "curated_facts": 197,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1099,6 +1099,66 @@
    "text": "A worm tunnels through soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Worm · cs_w_worm_01"
+  },
+  {
+   "id": "cs_w_waist_01",
+   "text": "The waist is the mid torso",
+   "standing": "projectable",
+   "evidence": "science · product curator · Waist · cs_w_waist_01"
+  },
+  {
+   "id": "cs_w_walnut_03",
+   "text": "A walnut has a hard shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Walnut · cs_w_walnut_03"
+  },
+  {
+   "id": "cs_w_warehouse_01",
+   "text": "A warehouse stores goods",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Warehouse · cs_w_warehouse_01"
+  },
+  {
+   "id": "cs_w_wasabi_01",
+   "text": "Wasabi is a hot green paste",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wasabi · cs_w_wasabi_01"
+  },
+  {
+   "id": "cs_w_wasp_03",
+   "text": "A wasp has a narrow waist",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_03"
+  },
+  {
+   "id": "cs_w_weak_force_01",
+   "text": "The weak force drives decay",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weak force · cs_w_weak_force_01"
+  },
+  {
+   "id": "cs_w_whey_01",
+   "text": "Whey is liquid from cheese",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whey · cs_w_whey_01"
+  },
+  {
+   "id": "cs_w_white_01",
+   "text": "White reflects all light",
+   "standing": "projectable",
+   "evidence": "science · product curator · White · cs_w_white_01"
+  },
+  {
+   "id": "cs_w_womb_01",
+   "text": "A mammal grows in a womb",
+   "standing": "projectable",
+   "evidence": "science · product curator · Womb · cs_w_womb_01"
+  },
+  {
+   "id": "cs_w_woodpecker_04",
+   "text": "A woodpecker drills a tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_04"
   }
  ]
 }
