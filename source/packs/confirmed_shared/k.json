@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 170,
+ "curated_facts": 173,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -973,6 +973,24 @@
    "text": "A kumquat has edible skin",
    "standing": "projectable",
    "evidence": "nature · product curator · Kumquat · cs_k_kumquat_03"
+  },
+  {
+   "id": "cs_k_kite_05",
+   "text": "Wind lifts a kite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kite · cs_k_kite_05"
+  },
+  {
+   "id": "cs_k_knot_03",
+   "text": "Sailors tie a knot",
+   "standing": "projectable",
+   "evidence": "history · product curator · Knot · cs_k_knot_03"
+  },
+  {
+   "id": "cs_k_kernel_02",
+   "text": "A grain has a kernel",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_02"
   }
  ]
 }

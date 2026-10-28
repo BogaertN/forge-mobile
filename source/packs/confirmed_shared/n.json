@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 170,
+ "curated_facts": 172,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -985,6 +985,18 @@
    "text": "Students plot points on a number line",
    "standing": "projectable",
    "evidence": "math · product curator · Number line · cs_n_number_line_03"
+  },
+  {
+   "id": "cs_n_noun_03",
+   "text": "Cat is a noun",
+   "standing": "projectable",
+   "evidence": "language · product curator · Noun · cs_n_noun_03"
+  },
+  {
+   "id": "cs_n_net_01",
+   "text": "A net catches fish",
+   "standing": "projectable",
+   "evidence": "science · product curator · Net · cs_n_net_01"
   }
  ]
 }

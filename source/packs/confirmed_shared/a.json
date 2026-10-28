@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 167,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -979,6 +979,18 @@
    "text": "An axis is a reference line",
    "standing": "projectable",
    "evidence": "math · product curator · Axis · cs_a_axis_01"
+  },
+  {
+   "id": "cs_a_asphalt_01",
+   "text": "Roads use asphalt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Asphalt · cs_a_asphalt_01"
+  },
+  {
+   "id": "cs_a_april_02",
+   "text": "April follows March",
+   "standing": "projectable",
+   "evidence": "civics · product curator · April · cs_a_april_02"
   }
  ]
 }

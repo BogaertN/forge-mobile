@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 177,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -949,6 +949,78 @@
    "text": "A vampire bat feeds on blood",
    "standing": "projectable",
    "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_02"
+  },
+  {
+   "id": "cs_v_volume_04",
+   "text": "A cube has volume",
+   "standing": "projectable",
+   "evidence": "math · product curator · Volume · cs_v_volume_04"
+  },
+  {
+   "id": "cs_v_vapor_02",
+   "text": "Steam is water vapor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vapor · cs_v_vapor_02"
+  },
+  {
+   "id": "cs_v_voice_01",
+   "text": "Speech uses the voice",
+   "standing": "projectable",
+   "evidence": "language · product curator · Voice · cs_v_voice_01"
+  },
+  {
+   "id": "cs_v_vegetable_02",
+   "text": "A carrot is a vegetable",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_02"
+  },
+  {
+   "id": "cs_v_valley_05",
+   "text": "Erosion carves a valley",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valley · cs_v_valley_05"
+  },
+  {
+   "id": "cs_v_veto_03",
+   "text": "A president can veto a bill",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Veto · cs_v_veto_03"
+  },
+  {
+   "id": "cs_v_voyage_01",
+   "text": "Explorers make a long voyage",
+   "standing": "projectable",
+   "evidence": "history · product curator · Voyage · cs_v_voyage_01"
+  },
+  {
+   "id": "cs_v_void_01",
+   "text": "A void is empty space",
+   "standing": "projectable",
+   "evidence": "math · product curator · Void · cs_v_void_01"
+  },
+  {
+   "id": "cs_v_vine_03",
+   "text": "A vine climbs a support",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vine · cs_v_vine_03"
+  },
+  {
+   "id": "cs_v_viscosity_02",
+   "text": "Honey has high viscosity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_02"
+  },
+  {
+   "id": "cs_v_vulture_06",
+   "text": "A vulture feeds on carrion",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_06"
+  },
+  {
+   "id": "cs_v_vowel_04",
+   "text": "Speech needs a vowel sound",
+   "standing": "projectable",
+   "evidence": "language · product curator · Vowel · cs_v_vowel_04"
   }
  ]
 }

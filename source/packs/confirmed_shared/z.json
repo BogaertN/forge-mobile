@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 179,
+ "curated_facts": 195,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -949,6 +949,102 @@
    "text": "The Zhou ruled for centuries in China",
    "standing": "projectable",
    "evidence": "history · product curator · Zhou · cs_z_zhou_01"
+  },
+  {
+   "id": "cs_z_zeus_10",
+   "text": "Zeus was a Greek god",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_10"
+  },
+  {
+   "id": "cs_z_zinc_11",
+   "text": "Zinc is a bluish metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_11"
+  },
+  {
+   "id": "cs_z_zone_02",
+   "text": "Climate zones circle the Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zone · cs_z_zone_02"
+  },
+  {
+   "id": "cs_z_zebra_crossing_03",
+   "text": "Pedestrians use a zebra crossing",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zebra crossing · cs_z_zebra_crossing_03"
+  },
+  {
+   "id": "cs_z_zulu_05",
+   "text": "Speakers use Zulu in South Africa",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zulu · cs_z_zulu_05"
+  },
+  {
+   "id": "cs_z_zircon_04",
+   "text": "Zircon is a durable mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zircon · cs_z_zircon_04"
+  },
+  {
+   "id": "cs_z_zoning_05",
+   "text": "Cities use zoning to plan land use",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_05"
+  },
+  {
+   "id": "cs_z_zinc_oxide_03",
+   "text": "Sunscreen contains zinc oxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_03"
+  },
+  {
+   "id": "cs_z_zenith_04",
+   "text": "The sun reaches its zenith at noon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zenith · cs_z_zenith_04"
+  },
+  {
+   "id": "cs_z_zigzag_02",
+   "text": "A zigzag line turns sharply",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zigzag · cs_z_zigzag_02"
+  },
+  {
+   "id": "cs_z_zirconium_06",
+   "text": "Zirconium resists heat and corrosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_06"
+  },
+  {
+   "id": "cs_z_zygote_05",
+   "text": "Fertilization forms a zygote",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygote · cs_z_zygote_05"
+  },
+  {
+   "id": "cs_z_zealand_03",
+   "text": "Zealand lies east of mainland Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zealand · cs_z_zealand_03"
+  },
+  {
+   "id": "cs_z_zither_02",
+   "text": "Musicians pluck a zither",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zither · cs_z_zither_02"
+  },
+  {
+   "id": "cs_z_zebra_mussel_04",
+   "text": "Zebra mussels clog water pipes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_04"
+  },
+  {
+   "id": "cs_z_zero_08",
+   "text": "Adding zero leaves a number unchanged",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_08"
   }
  ]
 }

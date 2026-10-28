@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 166,
+ "curated_facts": 169,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -973,6 +973,24 @@
    "text": "Etymology studies word origins",
    "standing": "projectable",
    "evidence": "language · product curator · Etymology · cs_e_etymology_03"
+  },
+  {
+   "id": "cs_e_emotion_01",
+   "text": "Joy is an emotion",
+   "standing": "projectable",
+   "evidence": "language · product curator · Emotion · cs_e_emotion_01"
+  },
+  {
+   "id": "cs_e_egg_01",
+   "text": "A bird lays an egg",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Egg · cs_e_egg_01"
+  },
+  {
+   "id": "cs_e_element_03",
+   "text": "Oxygen is an element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Element · cs_e_element_03"
   }
  ]
 }

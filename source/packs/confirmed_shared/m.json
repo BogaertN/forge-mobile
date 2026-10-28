@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 162,
+ "curated_facts": 175,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -949,6 +949,84 @@
    "text": "Multiplication finds a product",
    "standing": "projectable",
    "evidence": "math · product curator · Multiplication · cs_m_multiplication_02"
+  },
+  {
+   "id": "cs_m_mist_01",
+   "text": "Mist is thin fog",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mist · cs_m_mist_01"
+  },
+  {
+   "id": "cs_m_monarchy_04",
+   "text": "Kings rule a monarchy",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_04"
+  },
+  {
+   "id": "cs_m_mars_06",
+   "text": "Mars is a rocky planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mars · cs_m_mars_06"
+  },
+  {
+   "id": "cs_m_mean_02",
+   "text": "The mean is an average",
+   "standing": "projectable",
+   "evidence": "math · product curator · Mean · cs_m_mean_02"
+  },
+  {
+   "id": "cs_m_moss_02",
+   "text": "Moss grows on damp rocks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Moss · cs_m_moss_02"
+  },
+  {
+   "id": "cs_m_museum_01",
+   "text": "A museum displays artifacts",
+   "standing": "projectable",
+   "evidence": "history · product curator · Museum · cs_m_museum_01"
+  },
+  {
+   "id": "cs_m_metaphor_03",
+   "text": "Writers use metaphor for comparison",
+   "standing": "projectable",
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_03"
+  },
+  {
+   "id": "cs_m_marsh_01",
+   "text": "A marsh is a wetland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Marsh · cs_m_marsh_01"
+  },
+  {
+   "id": "cs_m_mucus_02",
+   "text": "The nose produces mucus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mucus · cs_m_mucus_02"
+  },
+  {
+   "id": "cs_m_mammal_04",
+   "text": "A mammal nurses its young",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_04"
+  },
+  {
+   "id": "cs_m_minute_03",
+   "text": "Clocks mark each minute",
+   "standing": "projectable",
+   "evidence": "math · product curator · Minute · cs_m_minute_03"
+  },
+  {
+   "id": "cs_m_multiplication_03",
+   "text": "Students practice multiplication",
+   "standing": "projectable",
+   "evidence": "math · product curator · Multiplication · cs_m_multiplication_03"
+  },
+  {
+   "id": "cs_m_momentum_01",
+   "text": "A heavy fast object has momentum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Momentum · cs_m_momentum_01"
   }
  ]
 }

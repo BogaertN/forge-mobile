@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 173,
+ "curated_facts": 176,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -973,6 +973,24 @@
    "text": "Panama is an isthmus",
    "standing": "projectable",
    "evidence": "geography · product curator · Isthmus · cs_i_isthmus_02"
+  },
+  {
+   "id": "cs_i_ink_02",
+   "text": "Ink marks paper",
+   "standing": "projectable",
+   "evidence": "language · product curator · Ink · cs_i_ink_02"
+  },
+  {
+   "id": "cs_i_inhale_01",
+   "text": "Lungs inhale oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inhale · cs_i_inhale_01"
+  },
+  {
+   "id": "cs_i_iron_ore_01",
+   "text": "Miners dig iron ore",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Iron ore · cs_i_iron_ore_01"
   }
  ]
 }

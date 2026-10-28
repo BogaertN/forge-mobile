@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 166,
+ "curated_facts": 179,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -949,6 +949,84 @@
    "text": "A flatworm is a simple animal",
    "standing": "projectable",
    "evidence": "nature · product curator · Flatworm · cs_f_flatworm_02"
+  },
+  {
+   "id": "cs_f_fur_01",
+   "text": "Fur keeps mammals warm",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fur · cs_f_fur_01"
+  },
+  {
+   "id": "cs_f_force_02",
+   "text": "Force can change motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Force · cs_f_force_02"
+  },
+  {
+   "id": "cs_f_fraction_04",
+   "text": "A fraction names part of a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_04"
+  },
+  {
+   "id": "cs_f_foothill_01",
+   "text": "A foothill lies at the base of a mountain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Foothill · cs_f_foothill_01"
+  },
+  {
+   "id": "cs_f_fragment_01",
+   "text": "A sentence fragment lacks a complete thought",
+   "standing": "projectable",
+   "evidence": "language · product curator · Fragment · cs_f_fragment_01"
+  },
+  {
+   "id": "cs_f_focus_02",
+   "text": "A lens has a focus point",
+   "standing": "projectable",
+   "evidence": "science · product curator · Focus · cs_f_focus_02"
+  },
+  {
+   "id": "cs_f_fiber_02",
+   "text": "Fiber strengthens plant tissue",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fiber · cs_f_fiber_02"
+  },
+  {
+   "id": "cs_f_formula_01",
+   "text": "A formula states a mathematical relation",
+   "standing": "projectable",
+   "evidence": "math · product curator · Formula · cs_f_formula_01"
+  },
+  {
+   "id": "cs_f_fluorine_03",
+   "text": "Fluorine is a reactive gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_03"
+  },
+  {
+   "id": "cs_f_fruit_01",
+   "text": "A fruit develops from a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit · cs_f_fruit_01"
+  },
+  {
+   "id": "cs_f_flask_01",
+   "text": "Chemists heat liquid in a flask",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flask · cs_f_flask_01"
+  },
+  {
+   "id": "cs_f_flower_02",
+   "text": "Bees visit a flower for nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flower · cs_f_flower_02"
+  },
+  {
+   "id": "cs_f_front_01",
+   "text": "Cold air meets warm air at a front",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Front · cs_f_front_01"
   }
  ]
 }

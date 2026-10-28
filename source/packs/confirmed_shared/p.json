@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 168,
+ "curated_facts": 174,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -967,6 +967,42 @@
    "text": "A prime number has exactly two factors",
    "standing": "projectable",
    "evidence": "math · product curator · Prime · cs_p_prime_01"
+  },
+  {
+   "id": "cs_p_prime_02",
+   "text": "Seven is a prime",
+   "standing": "projectable",
+   "evidence": "math · product curator · Prime · cs_p_prime_02"
+  },
+  {
+   "id": "cs_p_planet_03",
+   "text": "Earth is a planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Planet · cs_p_planet_03"
+  },
+  {
+   "id": "cs_p_pollen_02",
+   "text": "Bees carry pollen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pollen · cs_p_pollen_02"
+  },
+  {
+   "id": "cs_p_precipitation_02",
+   "text": "Rain is precipitation",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Precipitation · cs_p_precipitation_02"
+  },
+  {
+   "id": "cs_p_president_03",
+   "text": "Voters elect a president",
+   "standing": "projectable",
+   "evidence": "civics · product curator · President · cs_p_president_03"
+  },
+  {
+   "id": "cs_p_pyramid_02",
+   "text": "Egypt built stone pyramids",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pyramid · cs_p_pyramid_02"
   }
  ]
 }

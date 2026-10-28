@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 171,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -967,6 +967,42 @@
    "text": "A word is a unit of language",
    "standing": "projectable",
    "evidence": "language · product curator · Word · cs_w_word_01"
+  },
+  {
+   "id": "cs_w_wind_02",
+   "text": "Wind is moving air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wind · cs_w_wind_02"
+  },
+  {
+   "id": "cs_w_whalebone_01",
+   "text": "Whalebone is baleen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whalebone · cs_w_whalebone_01"
+  },
+  {
+   "id": "cs_w_word_02",
+   "text": "Letters form a word",
+   "standing": "projectable",
+   "evidence": "language · product curator · Word · cs_w_word_02"
+  },
+  {
+   "id": "cs_w_wednesday_03",
+   "text": "Wednesday follows Tuesday",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Wednesday · cs_w_wednesday_03"
+  },
+  {
+   "id": "cs_w_wetland_03",
+   "text": "A wetland is saturated land",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wetland · cs_w_wetland_03"
+  },
+  {
+   "id": "cs_w_wingspan_01",
+   "text": "Wingspan is the distance tip to tip",
+   "standing": "projectable",
+   "evidence": "math · product curator · Wingspan · cs_w_wingspan_01"
   }
  ]
 }

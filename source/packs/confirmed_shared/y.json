@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 172,
+ "curated_facts": 175,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -973,6 +973,24 @@
    "text": "A yucca grows in dry soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Yucca · cs_y_yucca_03"
+  },
+  {
+   "id": "cs_y_yeast_08",
+   "text": "Yeast ferments sugar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yeast · cs_y_yeast_08"
+  },
+  {
+   "id": "cs_y_yolk_sac_02",
+   "text": "An embryo has a yolk sac",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_02"
+  },
+  {
+   "id": "cs_y_yield_sign_01",
+   "text": "Drivers slow at a yield sign",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Yield sign · cs_y_yield_sign_01"
   }
  ]
 }

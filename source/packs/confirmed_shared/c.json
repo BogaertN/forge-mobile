@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 167,
+ "curated_facts": 170,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -973,6 +973,24 @@
    "text": "A comet orbits the Sun",
    "standing": "projectable",
    "evidence": "science · product curator · Comet · cs_c_comet_02"
+  },
+  {
+   "id": "cs_c_cereal_01",
+   "text": "Oats are a cereal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cereal · cs_c_cereal_01"
+  },
+  {
+   "id": "cs_c_crest_01",
+   "text": "A wave has a crest",
+   "standing": "projectable",
+   "evidence": "science · product curator · Crest · cs_c_crest_01"
+  },
+  {
+   "id": "cs_c_clay_02",
+   "text": "Potters shape clay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Clay · cs_c_clay_02"
   }
  ]
 }
