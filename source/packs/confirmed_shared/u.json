@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 135,
+ "curated_facts": 149,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -745,6 +745,90 @@
    "text": "Ursa Minor contains the North Star",
    "standing": "projectable",
    "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_01"
+  },
+  {
+   "id": "cs_u_understory_02",
+   "text": "The understory is the layer of plants under the forest canopy",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Understory · cs_u_understory_02"
+  },
+  {
+   "id": "cs_u_unit_circle_02",
+   "text": "A unit circle has radius one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_02"
+  },
+  {
+   "id": "cs_u_unit_fraction_02",
+   "text": "A unit fraction has numerator one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_02"
+  },
+  {
+   "id": "cs_u_universe_04",
+   "text": "The universe contains all matter and energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Universe · cs_u_universe_04"
+  },
+  {
+   "id": "cs_u_urban_01",
+   "text": "An urban area is a city or town",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Urban · cs_u_urban_01"
+  },
+  {
+   "id": "cs_u_ursa_minor_02",
+   "text": "Ursa Minor contains Polaris",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_02"
+  },
+  {
+   "id": "cs_u_uganda_07",
+   "text": "Uganda is a country in East Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_07"
+  },
+  {
+   "id": "cs_u_ultrasound_02",
+   "text": "Ultrasound is sound above the human hearing range",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_02"
+  },
+  {
+   "id": "cs_u_umbra_02",
+   "text": "An eclipse has an umbra",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbra · cs_u_umbra_02"
+  },
+  {
+   "id": "cs_u_unicameral_02",
+   "text": "Nebraska has a unicameral legislature",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Unicameral · cs_u_unicameral_02"
+  },
+  {
+   "id": "cs_u_unicellular_organism_02",
+   "text": "A bacterium is a unicellular organism",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Unicellular organism · cs_u_unicellular_organism_02"
+  },
+  {
+   "id": "cs_u_union_sets_02",
+   "text": "Set union combines elements from two sets",
+   "standing": "projectable",
+   "evidence": "math · product curator · Union (sets) · cs_u_union_sets_02"
+  },
+  {
+   "id": "cs_u_ursa_major_02",
+   "text": "The Big Dipper is part of Ursa Major",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_02"
+  },
+  {
+   "id": "cs_u_uplift_01",
+   "text": "Uplift raises crustal rocks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uplift · cs_u_uplift_01"
   }
  ]
 }

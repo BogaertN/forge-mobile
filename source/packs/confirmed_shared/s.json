@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 129,
+ "curated_facts": 141,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -757,6 +757,78 @@
    "text": "A sheriff is a county officer",
    "standing": "projectable",
    "evidence": "civics · product curator · Sheriff · cs_s_sheriff_01"
+  },
+  {
+   "id": "cs_s_saffron_01",
+   "text": "Saffron comes from a crocus flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Saffron · cs_s_saffron_01"
+  },
+  {
+   "id": "cs_s_sahel_02",
+   "text": "The Sahel is a dry grassland south of the Sahara",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sahel · cs_s_sahel_02"
+  },
+  {
+   "id": "cs_s_salt_01",
+   "text": "Salt is sodium chloride",
+   "standing": "projectable",
+   "evidence": "science · product curator · Salt · cs_s_salt_01"
+  },
+  {
+   "id": "cs_s_saturn_05",
+   "text": "Saturn has prominent rings",
+   "standing": "projectable",
+   "evidence": "science · product curator · Saturn · cs_s_saturn_05"
+  },
+  {
+   "id": "cs_s_saxophone_02",
+   "text": "A saxophone is a woodwind instrument",
+   "standing": "projectable",
+   "evidence": "history · product curator · Saxophone · cs_s_saxophone_02"
+  },
+  {
+   "id": "cs_s_semicolon_02",
+   "text": "A semicolon joins related independent clauses",
+   "standing": "projectable",
+   "evidence": "language · product curator · Semicolon · cs_s_semicolon_02"
+  },
+  {
+   "id": "cs_s_sentence_01",
+   "text": "A sentence expresses a complete thought",
+   "standing": "projectable",
+   "evidence": "language · product curator · Sentence · cs_s_sentence_01"
+  },
+  {
+   "id": "cs_s_seismograph_01",
+   "text": "A seismograph records earthquakes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Seismograph · cs_s_seismograph_01"
+  },
+  {
+   "id": "cs_s_sequoia_02",
+   "text": "A sequoia is a giant evergreen tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_02"
+  },
+  {
+   "id": "cs_s_slope_01",
+   "text": "Slope measures steepness of a line",
+   "standing": "projectable",
+   "evidence": "math · product curator · Slope · cs_s_slope_01"
+  },
+  {
+   "id": "cs_s_species_01",
+   "text": "A species is a group of organisms that can interbreed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Species · cs_s_species_01"
+  },
+  {
+   "id": "cs_s_synapse_01",
+   "text": "A synapse is a junction between nerve cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Synapse · cs_s_synapse_01"
   }
  ]
 }
