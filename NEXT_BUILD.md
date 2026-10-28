@@ -1,3 +1,11 @@
+# Next build order — after 4.9.171 (shipped)
+
+**Baseline:** 4.9.171 Athena spawn mesh on the 4.9.170 in-process registry. Gilligan gap-fill only while Ask is idle. Athena `maySpawn` / `mayAdmit`. Neo is the Ask surface and does not spawn. Admit stays default on and idle-gated. Explicit `eps: null` is unmeasured. Quarantine does not write packs or `confirmed_shared`. No LLM. Soft leave ≥5 kB under 570 kB.
+
+**Shipped 4.9.171 (S1–S8):** S1 `IdleOrchestrator` lifecycle Spawn, Run, Hibernate, Retire, Resurrect, with ancestry. S2 Athena `maySpawn` / `mayAdmit` and one enforcer per policy domain. S3 caps 8 / 4 / 8 with typed refuses. S4 hashed cold-bank handoff. Research resurrection requires drift ≤ 0.35 and integrity ≥ 0.85. S5 every spawn and result is a resonance packet or an idle-dream packet. S6 allow-listed extracts, `calls_llm` hard refuse, null ε stays unmeasured. S7 Ask pauses every helper. Priority Neo > Athena > Gilligan. S8 helper completion returns to the Gilligan gap and Athena admits that gap once.
+
+**Do not start:** an OS process pool; a model call; an open crawl; resuming continuous fill; ChristPing; a phone dream KB; Stack 6 avatar UI.
+
 # Next build order — after 4.9.170 (shipped)
 
 **Baseline:** 4.9.170 idle dream. Gilligan gap-fill only while Ask is idle. Athena admit defaults on and writes hosted letter packs through a declared helper. Neo is the Ask surface. Explicit `eps: null` is unmeasured. Quarantine does not write packs. No LLM. Soft leave ≥5 kB under 570 kB.

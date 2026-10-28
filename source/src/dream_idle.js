@@ -1,10 +1,15 @@
-/* dream_idle.js — 4.9.170 three daemons. Gilligan System Codex is not ported. No OS process pool.
+/* dream_idle.js — 4.9.171 Athena spawn mesh on the 4.9.170 in-process registry. No OS process pool.
  * Gilligan: gap-fill, connect-dots, novel ideas inside the drift table. Idle ticks only. Yields while Ask is answering.
- * Athena: strict curator. Admits into the hosted KB and re-checks resonance placement. Spawns declared helper tasks only.
- * Neo: Ask surface (Kernel.process). Listed here so the role map is complete. This file does not run Ask.
- * Spawn follows ProtoForge Orchestrator.spawn: a declared task list, undeclared tasks refused, deterministic, no model.
- * Helper tasks in this ship: resonance_place, pack_append. An OS helper pool is a follow-on, not a hidden side path.
- * There is no timer. Pattern Reflection is not Gilligan. No LLM. No open crawl.
+ * Athena: strict curator. maySpawn / mayAdmit. One enforcer per policy domain. Authorizes short-lived helpers.
+ * Neo: Ask surface (Kernel.process). Priority Neo > Athena gate > Gilligan. Neo does not spawn. This file does not run Ask.
+ * Lifecycle is Spawn → Run → Hibernate → Retire → Resurrect (Recursive Agent Orchestration, no model adapter).
+ * Retire writes a hashed cold record (RPMC §14 ghost/cold; nothing discarded). Research resurrection needs drift ≤0.35 and integrity ≥0.85.
+ * Every spawn and result is FORGE-RESONANCE-PACKET/v1 {Phi,eps,mu} or FORGE-IDLE-DREAM/v1. Freeform is refused.
+ * Helper tasks: resonance_place, pack_append, research, extract, letter_fill, ancestor_probe. Undeclared tasks refused.
+ * There is no timer. Pattern Reflection is not Gilligan. No LLM. No open crawl. Continuous fill stays paused. ChristPing is not built.
+ * Doc law: Gilligan Core 1HSjAk6UY (ψ₁ seed, cold custody); RPMC Blueprint §14 1L_f5I2In (ghost/cold, reintegrate once);
+ * Orchestration 1O5Txx2rL Ch 4.5–6.3 (lifecycle, registry, fork, budgets); RMC §10.8 1COtSEuXY (packets, not freeform);
+ * Dream Drift 14fVCPgQ0 Codex 3.24 (idle only, drift under 0.4, χ quiet); Stack 6 16qImMjbF (promoter vs quarantine).
  * Bands are kmath.DRIFT_RULING only (≤0.35 project, χ below 0.40, quarantine through 0.80, hard stop above).
  * Stack 6 sandbox_promoter spirit: high integrity may stage a promote-candidate. That route is not
  * dream_state_quarantine_candidate. E-05 bans stay on the quarantine lane (no truth, no stable memory, no projection).
@@ -32,24 +37,47 @@
     { id: 'daemon:athena', role: 'athena', duty: 'strict_curate_admit', runs: 'on_host_admit', writes_confirmed_shared: true, spawns_helpers: true },
     { id: 'daemon:neo', role: 'neo', duty: 'ask_surface', runs: 'kernel_process', writes_confirmed_shared: false, spawns_helpers: false, in_this_file: false }
   ];
-  const HELPER_TASKS = ['resonance_place', 'pack_append'];
+  const CURATOR_TASKS = ['resonance_place', 'pack_append'];
+  const RESEARCH_TASKS = ['research', 'extract', 'letter_fill', 'ancestor_probe'];
+  const HELPER_TASKS = CURATOR_TASKS.concat(RESEARCH_TASKS);
+  const COLD_SCHEMA = 'FORGE-IDLE-COLD/v1';
+  const HELPER_SCHEMA = 'FORGE-ATHENA-HELPER/v1';
+  /* Manual spirit is max_agents 32. One lawful admit spawns three curator helpers, so the per-parent cap stays above that. */
+  const SPAWN_BUDGET = Object.freeze({ max_helpers: 8, max_per_parent: 4, max_spawn_per_idle_window: 8 });
+  const PRIORITY = Object.freeze(['neo', 'athena', 'gilligan']);
+  const PSI1 = 'gilligan:psi1';
+  const FORBIDDEN_ACTIONS = Object.freeze(['calls_llm', 'write_confirmed_shared', 'neo_spawn', 'direct_peer']);
+  const DOC_CITES = Object.freeze({
+    gilligan_core: '1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE',
+    rpmc_s14: '1L_f5I2InqyMiGKX7ERs0et9jY9-gzpVgvqmZ-VAl46E',
+    dream_drift: '14fVCPgQ0UtRBnSclMfQ-3fazrdwKc-BrknfqYFolJ8g',
+    memory_stacks: '16qImMjbFIwEdiuYSmUarJasQAn3ODPFQPqihvH6t8fU',
+    rpmc_protocol: '1G-Yj323feeMBklm6sENdawfBBTC1VfdL4slIGtoFRxE',
+    orchestration: '1O5Txx2rLvWehvmHY_8miMtVrFTqmQgo_xLyzA_P5dGA',
+    rmc_10_8: '1COtSEuXYxfgfomzDBu99jrnaHoLWuIM79WVUy-glq54',
+    harmonic_viii: '1eLLPI6U95TrmSXBsQhl2Jk2JBdu1lRgsHJfEE8H9hCE',
+    coherence: '1q5JcF-v1M2plJ500UcKxRHRM1fRbt1RCzc-AXjuoReE'
+  });
   const norm = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
 
   function boundary() {
     return {
       schema: SCHEMA, calls_llm: false, separate_from_ask_path: true, phone_dream_kb: false,
       continuous_admit_default: true, quarantine_writes_confirmed_shared: false, quarantine_writes_packs: false,
-      christ_ping: false, always_on: false, idle_gated: true, one_shot_fill: false,
+      christ_ping: false, always_on: false, idle_gated: true, one_shot_fill: false, continuous_fill: 'paused',
       gap_research: 'idle_only', continuous_curation: 'measurement_and_custody',
       gilligan_codex_ported: false, pattern_reflection_is_gilligan: false, open_crawl: false,
-      research: 'allow-listed-or-curated', os_process_pool: false, spawn_pool: 'in_process_declared_tasks',
+      research: 'allow-listed-or-curated', os_process_pool: false, spawn_pool: 'in_process_mesh',
       roles: { neo: 'ask_surface', gilligan: 'gap_fill_within_drift', athena: 'strict_curate_admit' },
       daemons: DAEMONS.map(d => d.role), helper_tasks: HELPER_TASKS.slice(),
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
-      spawn_follow_on: '4.9.171',
-      drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH,
+      priority: PRIORITY.slice(),
+      spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.171', psi1: PSI1,
+      drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
+      docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
-      cite: 'Nic drift ruling; E-05 quarantine honesty; Stack 6 sandbox_promoter spirit; 4.9.168 resonance packet; Gilligan/Athena/Neo role map (codex not ported)'
+      cite: 'Nic drift ruling; E-05 quarantine honesty; Stack 6 sandbox_promoter; RPMC §14 cold reintegration; Orchestration Ch 4.5–6.3; RMC §10.8 packets; Codex 3.24 idle drift < 0.4'
     };
   }
 
@@ -167,6 +195,9 @@
     if (raw && raw.rule === 'DREAM-RESEARCH-FAILED') {
       return finish('quarantine', measure({}), { rule: 'DREAM-RESEARCH-FAILED', keep_researching: true, claim: null });
     }
+    if (raw && raw.rule === 'DREAM-RESEARCH-CONTRACT') {
+      return finish('quarantine', measure({}), { rule: 'DREAM-RESEARCH-CONTRACT', keep_researching: false, claim: null });
+    }
     const measured = measure(raw);
     const gov = measured.eps == null ? KM.driftGovernance(NaN) : KM.driftGovernance(measured.eps);
     let lane = laneFromGov(gov, measured);
@@ -197,7 +228,99 @@
   }
 
   function refusal(rule, extra) {
-    return Object.assign({ ok: false, calls_llm: false, wrote_confirmed_shared: false, wrote_pack: false, shared_kb: false, phone_db: false, rule: rule }, extra || {});
+    return Object.assign({ ok: false, schema: SCHEMA, calls_llm: false, wrote_confirmed_shared: false, wrote_pack: false, shared_kb: false, phone_db: false, rule: rule }, extra || {});
+  }
+
+  function canon(v) {
+    if (Array.isArray(v)) return '[' + v.map(canon).join(',') + ']';
+    if (v && typeof v === 'object') return '{' + Object.keys(v).sort().map(k => JSON.stringify(k) + ':' + canon(v[k])).join(',') + '}';
+    return JSON.stringify(v == null ? null : v);
+  }
+
+  function llmShaped(raw) {
+    if (!raw || typeof raw !== 'object') return false;
+    if (raw.calls_llm === true) return true;
+    return Object.keys(raw).some(k => /^(prompt|completion|messages|llm)$/i.test(k));
+  }
+
+  /* Allow-listed extracts only. Explicit eps null stays null. A model-shaped payload is a hard refuse. */
+  function applyResearchContract(raw) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return { ok: false, rule: 'DREAM-RESEARCH-CONTRACT', body: { calls_llm: false, rule: 'DREAM-RESEARCH-CONTRACT', eps: null, claim: null, extracts: [], ancestors: [] } };
+    }
+    if (llmShaped(raw)) {
+      return { ok: false, rule: 'DREAM-LLM-REFUSED', body: { calls_llm: true, rule: 'DREAM-LLM-REFUSED', eps: null, claim: null, extracts: [], ancestors: [] } };
+    }
+    if (Array.isArray(raw.extracts) && raw.extracts.length && raw.extracts.every(e => !acceptExtract(e))) {
+      return { ok: false, rule: 'DREAM-RESEARCH-CONTRACT', body: { calls_llm: false, rule: 'DREAM-RESEARCH-CONTRACT', eps: null, claim: null, extracts: [], ancestors: [], conflict: false } };
+    }
+    const body = Object.assign({}, raw, { calls_llm: false });
+    if (raw.eps === null) body.eps = null;
+    if (Array.isArray(raw.extracts)) body.extracts = raw.extracts.filter(acceptExtract);
+    return { ok: true, rule: null, body: body };
+  }
+
+  function packetOf(spec) {
+    if (!spec || typeof spec !== 'object') return null;
+    if (spec.schema === PACKET_SCHEMA || spec.schema === SCHEMA) return spec;
+    if (spec.packet && (spec.packet.schema === PACKET_SCHEMA || spec.packet.schema === SCHEMA)) return spec.packet;
+    return null;
+  }
+
+  function packetLawful(pkt) {
+    if (!pkt || pkt.calls_llm === true) return false;
+    if (pkt.schema === PACKET_SCHEMA) {
+      const sfe = pkt.sfe || pkt;
+      return Number.isFinite(Number(sfe.Phi)) && Number.isFinite(Number(sfe.eps)) && Number.isFinite(Number(sfe.mu));
+    }
+    return pkt.schema === SCHEMA;
+  }
+
+  function driftStatus(eps) {
+    if (eps == null || !Number.isFinite(Number(eps))) return 'unmeasured';
+    const n = Number(eps);
+    if (n > KM.DRIFT_RULING.explore_max) return 'hard_reject';
+    if (n >= KM.DRIFT_RULING.explore_min) return 'quarantine';
+    if (n > KM.DRIFT_RULING.project_max) return 'chi';
+    return 'projectable';
+  }
+
+  function manifestFor(task, eps) {
+    return {
+      source_trace: PSI1, phase_path: ['spawn'], drift_status: driftStatus(eps),
+      projection_status: 'not_projectable', requested_action: task, forbidden_actions: FORBIDDEN_ACTIONS.slice()
+    };
+  }
+
+  function domainKey(task, gapId) {
+    const g = gapId || 'unbound';
+    if (task === 'resonance_place') return 'policy:admit';
+    if (task === 'pack_append') return 'policy:pack_publish';
+    if (task === 'research' || task === 'extract') return 'policy:gap_research:' + g;
+    if (task === 'letter_fill') return 'policy:letter_fill:' + g;
+    if (task === 'ancestor_probe') return 'policy:ancestor_probe:' + g;
+    return 'policy:other:' + String(task || 'none');
+  }
+
+  function readSpec(spec) {
+    spec = spec || {};
+    const direct = spec.schema === SCHEMA || spec.schema === PACKET_SCHEMA;
+    const pkt = direct ? spec : (spec.packet || null);
+    const eps = direct ? spec.eps : (spec.eps !== undefined ? spec.eps : (pkt ? pkt.eps : undefined));
+    return {
+      task: spec.task || (pkt && pkt.task) || null,
+      parent: spec.parent || (pkt && pkt.parent) || 'athena',
+      spawned_by: spec.spawned_by || (pkt && pkt.spawned_by) || 'athena',
+      parent_id: spec.parent_id || (pkt && pkt.parent_id) || null,
+      gap_id: spec.gap_id || (pkt && (pkt.gap_id || null)) || null,
+      name: spec.name || null,
+      packet: direct ? spec : pkt,
+      chi_active: spec.chi_active === true || (pkt && pkt.chi_active === true),
+      eps: eps,
+      kind: spec.kind || (pkt && pkt.kind) || null,
+      letter: spec.letter || (pkt && pkt.letter) || null,
+      calls_llm: spec.calls_llm === true || (pkt && pkt.calls_llm === true)
+    };
   }
 
   function claimLetter(claim) {
@@ -286,54 +409,375 @@
     return { ok: true, role: 'athena', athena: 'admit', packet: pkt, calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false };
   }
 
-  /* Declared helper tasks only. Same refusal shape as ProtoForge Orchestrator.spawn (undeclared task refused). In-process. No model. No OS fork. */
+  /* Idle orchestrator. One registry. Athena authorizes. Gilligan does not spawn. Neo does not spawn. */
   function createAthena(opts) {
     opts = opts || {};
     const now = () => (opts.clock ? opts.clock() : '1970-01-01T00:00:00Z');
-    const answering = typeof opts.answering === 'function' ? opts.answering : (() => false);
+    const externalAsk = typeof opts.answering === 'function' ? opts.answering : null;
+    const budget = {
+      max_helpers: opts.budget && Number.isFinite(Number(opts.budget.max_helpers)) ? Number(opts.budget.max_helpers) : SPAWN_BUDGET.max_helpers,
+      max_per_parent: opts.budget && Number.isFinite(Number(opts.budget.max_per_parent)) ? Number(opts.budget.max_per_parent) : SPAWN_BUDGET.max_per_parent,
+      max_spawn_per_idle_window: opts.budget && Number.isFinite(Number(opts.budget.max_spawn_per_idle_window)) ? Number(opts.budget.max_spawn_per_idle_window) : SPAWN_BUDGET.max_spawn_per_idle_window
+    };
+    let latch = false;
+    let wasHeld = false;
+    let seq = 0;
+    let spawnsThisWindow = 0;
     const helpers = [];
+    const ancestry = [];
+    const cold = [];
+    const integrations = [];
+    const spc = [];
+    const admitted = new Set();
+    const inFlight = new Set();
     const TASKS = {
       resonance_place: payload => athenaGate(payload && (payload.rec || payload)),
       pack_append: payload => {
         const gate = payload && payload.gate;
         if (!gate || gate.ok !== true || gate.role !== 'athena') return refusal('DREAM-ATHENA-GATE-REQUIRED', { role: 'athena' });
         if (!payload.dir || !payload.item) return refusal('DREAM-PACK-DIR-REQUIRED', { role: 'athena' });
-        return publishPromotedPack(payload.item, payload.dir);
-      }
+        const published = publishPromotedPack(payload.item, payload.dir);
+        return Object.assign({ schema: SCHEMA, calls_llm: false, wrote_confirmed_shared: false }, published);
+      },
+      research: payload => runResearch('research', payload),
+      extract: payload => runResearch('extract', payload),
+      letter_fill: payload => runResearch('letter_fill', payload),
+      ancestor_probe: payload => runResearch('ancestor_probe', payload)
     };
-    function spawn(task, name) {
-      if (answering()) return { ok: false, ran: false, rule: 'DREAM-IDLE-BUSY', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
-      if (!Object.prototype.hasOwnProperty.call(TASKS, task)) return { ok: false, rule: 'ATHENA-TASK-UNDECLARED', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', task: task == null ? null : String(task) };
-      const id = 'athena-' + (helpers.length + 1);
-      const agent = { id: id, schema: 'FORGE-ATHENA-HELPER/v1', role: 'athena_helper', task: task, name: name || (task + '-' + (helpers.length + 1)), status: 'active', calls_llm: false, os_process: false, created: now() };
+    function askHeld() { return latch || (externalAsk ? externalAsk() === true : false); }
+    function living() { return helpers.filter(h => h.status !== 'retired'); }
+    function domainHeld(key, exceptId) { return living().some(h => h.domain === key && h.id !== exceptId); }
+    function parentCount(key) { return living().filter(h => (h.parent_id || h.parent) === key).length; }
+    function busyRefusal() {
+      return { ok: false, ran: false, schema: SCHEMA, rule: 'DREAM-IDLE-BUSY', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
+    }
+    function logPhase(phase, agent, extra) {
+      if (agent) {
+        if (!agent.phase_path) agent.phase_path = [];
+        agent.phase_path.push(phase);
+      }
+      ancestry.push(Object.assign({ phase: phase, phase_index: phase === 'spawn' ? 'init' : phase, id: agent && agent.id, parent: agent && agent.parent, parent_id: agent && agent.parent_id || null, task: agent && agent.task, psi1: PSI1, at: now(), calls_llm: false }, extra || {}));
+      if (ancestry.length > 400) ancestry.splice(0, ancestry.length - 400);
+    }
+    function writeSpc(agent, kind) {
+      spc.push({
+        schema: 'FORGE-IDLE-SPC/v1', id: agent.id, kind: kind, psi1: PSI1, intent: agent.task,
+        override: PRIORITY.slice(), gap_id: agent.gap_id || null, at: now(), calls_llm: false, wrote_confirmed_shared: false
+      });
+    }
+    function pauseAll() {
+      for (const ag of helpers) {
+        if (ag.status !== 'active') continue;
+        ag.status = 'hibernated';
+        ag.active = false;
+        ag.hold = 'ask';
+        logPhase('hibernate', ag, { hold: 'ask' });
+      }
+    }
+    function resumeAsk() {
+      for (const ag of helpers) {
+        if (ag.hold !== 'ask' || ag.status !== 'hibernated') continue;
+        ag.status = 'active';
+        ag.active = true;
+        ag.hold = null;
+        logPhase('resume', ag, { hold: 'ask' });
+      }
+    }
+    function noteAsk(busy) {
+      latch = busy === true;
+      const held = askHeld();
+      if (held) pauseAll();
+      else resumeAsk();
+      if (wasHeld && !held) spawnsThisWindow = 0;
+      wasHeld = held;
+      return { ok: true, answering: held, calls_llm: false, role: 'neo', schema: SCHEMA };
+    }
+    function guardAsk() {
+      if (!askHeld()) return false;
+      pauseAll();
+      wasHeld = true;
+      return true;
+    }
+    function coldRoute(stack) {
+      const lane = stack && stack.lane;
+      const rule = stack && stack.rule;
+      const eps = stack && stack.eps;
+      if (lane === 'quarantine' || lane === 'hard_reject' || rule === 'DREAM-QUARANTINE-NO-TRUTH' || rule === 'DREAM-HARD-REJECT-NO-TRUTH' || rule === 'DREAM-QUARANTINE-KEEP' || (Number.isFinite(Number(eps)) && Number(eps) >= KM.DRIFT_RULING.explore_min)) return 'dream_state_quarantine_candidate';
+      return 'cold_archive';
+    }
+    function coldIntact(row) {
+      if (!row || row.schema !== COLD_SCHEMA || typeof row.bytes !== 'string' || typeof row.sha256 !== 'string') return false;
+      if (sha256(row.bytes) !== row.sha256) return false;
+      if (!row.body || canon(row.body) !== row.bytes) return false;
+      if (row.body.calls_llm === true || row.wrote_confirmed_shared === true || row.body.wrote_confirmed_shared === true) return false;
+      return true;
+    }
+    function writeCold(agent) {
+      const stack = agent.stack || { packet: agent.packet || null, eps: null, eps_unmeasured: false, integrity: null, lane: 'spawn', calls_llm: false, curator: CURATOR_TASKS.indexOf(agent.task) >= 0 };
+      const route = coldRoute(stack);
+      const body = {
+        schema: COLD_SCHEMA, id: agent.id, task: agent.task, parent: agent.parent, parent_id: agent.parent_id, gap_id: agent.gap_id,
+        domain: agent.domain, stack: stack, memory: agent.memory || [], route: route,
+        truth_support_allowed: false, stable_memory_allowed: false, projection_allowed: false,
+        wrote_confirmed_shared: false, wrote_pack: false, calls_llm: false, retired_at: now()
+      };
+      const bytes = canon(body);
+      const row = { schema: COLD_SCHEMA, id: agent.id, sha256: sha256(bytes), bytes: bytes, body: body, route: route, wrote_confirmed_shared: false, wrote_pack: false, calls_llm: false, retired_at: body.retired_at };
+      cold.push(row);
+      if (route === 'dream_state_quarantine_candidate' && typeof opts.onQuarantine === 'function') opts.onQuarantine(row);
+      return row;
+    }
+    function latestCold(id) {
+      for (let i = cold.length - 1; i >= 0; i--) if (cold[i].id === id) return cold[i];
+      return null;
+    }
+    function resurrectGates(agent, body) {
+      if (agent.calls_llm === true || (body && body.calls_llm === true)) return refusal('DREAM-LLM-REFUSED', { role: 'athena' });
+      if (CURATOR_TASKS.indexOf(agent.task) >= 0) return null;
+      const stack = (body && body.stack) || {};
+      if (stack.eps_unmeasured === true || stack.eps == null || !Number.isFinite(Number(stack.eps))) return refusal('DREAM-RESURRECT-UNMEASURED', { role: 'athena' });
+      if (Number(stack.eps) > KM.DRIFT_RULING.project_max) return refusal('ATHENA-RESURRECT-DRIFT', { role: 'athena' });
+      if (!Number.isFinite(Number(stack.integrity)) || Number(stack.integrity) < INTEGRITY_HIGH) return refusal('ATHENA-RESURRECT-INTEGRITY', { role: 'athena' });
+      return null;
+    }
+    function remember(agent, result) {
+      const hasEps = result && Object.prototype.hasOwnProperty.call(result, 'eps');
+      const eps = hasEps ? result.eps : null;
+      agent.stack = {
+        packet: (result && result.packet) || agent.packet || null,
+        eps: eps == null ? null : eps,
+        eps_unmeasured: eps == null,
+        integrity: result && result.integrity != null && Number.isFinite(Number(result.integrity)) ? Number(result.integrity) : null,
+        claim: result && result.claim || null,
+        lane: result && result.lane || null,
+        rule: result && result.rule || null,
+        calls_llm: false,
+        curator: CURATOR_TASKS.indexOf(agent.task) >= 0
+      };
+      agent.memory.push({ phase: 'run', at: now(), rule: agent.stack.rule, lane: agent.stack.lane });
+    }
+    function reintegrate(agent, result) {
+      if (!agent.gap_id) return { ok: true, skipped: true, schema: SCHEMA, rule: 'DREAM-REINTEGRATE-NO-GAP', calls_llm: false, wrote_confirmed_shared: false };
+      if (integrations.some(x => x.helper_id === agent.id)) return { ok: true, duplicate: true, schema: SCHEMA, rule: 'DREAM-REINTEGRATE-ONCE', calls_llm: false, wrote_confirmed_shared: false };
+      const row = {
+        schema: SCHEMA, gap_id: agent.gap_id, helper_id: agent.id, parent: agent.parent, at: now(),
+        lane: result.lane || null, rule: result.rule || null, packet: result.packet || null,
+        eps: result && Object.prototype.hasOwnProperty.call(result, 'eps') ? result.eps : null,
+        calls_llm: false, wrote_confirmed_shared: false, wrote_pack: result.wrote_pack === true
+      };
+      integrations.push(row);
+      if (typeof opts.onReintegrate === 'function') opts.onReintegrate(row);
+      logPhase('reintegrate', agent, { gap_id: agent.gap_id, rule: row.rule });
+      return { ok: true, rule: 'DREAM-REINTEGRATED', integration: row, calls_llm: false, schema: SCHEMA, wrote_confirmed_shared: false };
+    }
+    function runResearch(task, payload) {
+      const raw = payload && (payload.gap || payload.rec || payload) || {};
+      if (task === 'letter_fill' && raw.kind !== 'letter_hole' && !raw.letter) return refusal('ATHENA-TASK-MISMATCH', { role: 'athena', task: task });
+      if (task === 'ancestor_probe' && raw.kind !== 'rpmc_ancestor_none' && !Array.isArray(raw.ancestors)) return refusal('ATHENA-TASK-MISMATCH', { role: 'athena', task: task });
+      if (task === 'extract' && !(raw.extracts || []).some(acceptExtract)) return routeMeasurement({ rule: 'DREAM-RESEARCH-CONTRACT', calls_llm: false, eps: null, claim: null, extracts: [] });
+      const gated = applyResearchContract(raw);
+      return routeMeasurement(gated.body);
+    }
+    function maySpawn(spec) {
+      const s = readSpec(spec);
+      if (guardAsk()) return busyRefusal();
+      if (s.calls_llm || llmShaped(spec) || (s.packet && llmShaped(s.packet))) return refusal('DREAM-LLM-REFUSED', { role: 'athena' });
+      if (s.parent === 'neo' || s.spawned_by === 'neo') return refusal('NEO-DOES-NOT-SPAWN', { role: 'athena' });
+      if (s.spawned_by === 'gilligan') return refusal('GILLIGAN-DOES-NOT-SPAWN', { role: 'athena' });
+      if (!packetLawful(s.packet)) return refusal('DREAM-PACKET-REQUIRED', { role: 'athena' });
+      if (HELPER_TASKS.indexOf(s.task) < 0) return refusal('ATHENA-TASK-UNDECLARED', { role: 'athena', task: s.task == null ? null : String(s.task) });
+      if (CURATOR_TASKS.indexOf(s.task) < 0) {
+        if (s.chi_active) return refusal('ATHENA-SPAWN-CHI', { role: 'athena' });
+        if (s.eps != null && Number.isFinite(Number(s.eps)) && Number(s.eps) > KM.DRIFT_RULING.explore_max) return refusal('ATHENA-SPAWN-HARD-REJECT', { role: 'athena' });
+        /* Codex 3.24: dream rehearsal starts only while drift is under 0.4. Quarantine-band work stays in custody. */
+        if (s.eps != null && Number.isFinite(Number(s.eps)) && Number(s.eps) >= KM.DRIFT_RULING.explore_min) return refusal('ATHENA-SPAWN-DRIFT', { role: 'athena' });
+      }
+      const domain = domainKey(s.task, s.gap_id || s.letter);
+      if (domainHeld(domain, null)) return refusal('ATHENA-DOMAIN-HELD', { role: 'athena', domain: domain });
+      if (living().length >= budget.max_helpers) return refusal('ATHENA-SPAWN-CAP', { role: 'athena', max_helpers: budget.max_helpers });
+      const pkey = s.parent_id || s.parent || 'athena';
+      if (parentCount(pkey) >= budget.max_per_parent) return refusal('ATHENA-SPAWN-PARENT-CAP', { role: 'athena', max_per_parent: budget.max_per_parent });
+      if (spawnsThisWindow >= budget.max_spawn_per_idle_window) return refusal('ATHENA-SPAWN-WINDOW-CAP', { role: 'athena', max_spawn_per_idle_window: budget.max_spawn_per_idle_window });
+      return { ok: true, role: 'athena', athena: 'spawn', task: s.task, domain: domain, parent: s.parent, calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, packet: s.packet, schema: SCHEMA };
+    }
+    function spawnHelper(spec) {
+      const decision = maySpawn(spec);
+      if (!decision.ok) return decision;
+      const s = readSpec(spec);
+      seq += 1;
+      const curator = CURATOR_TASKS.indexOf(s.task) >= 0;
+      const eps = s.eps === undefined ? null : s.eps;
+      const manifest = manifestFor(s.task, eps);
+      const packet = Object.assign({}, s.packet, { psi1: PSI1, manifest: manifest });
+      const agent = {
+        id: 'athena-' + seq, schema: HELPER_SCHEMA, role: 'athena_helper', task: s.task,
+        name: s.name || (s.task + '-' + seq), status: 'active', active: true, calls_llm: false, os_process: false, created: now(),
+        parent: s.parent, parent_id: s.parent_id, spawned_by: 'athena', gap_id: s.gap_id, domain: decision.domain,
+        packet: packet, hold: null, psi1: PSI1, override: PRIORITY.slice(), intent: s.task,
+        drift_index: { eps: eps, status: driftStatus(eps), cite: KM.DRIFT_RULING.cite },
+        phase_path: [],
+        stack: {
+          packet: packet, eps: eps,
+          eps_unmeasured: !curator && (eps === null || eps === undefined),
+          integrity: null, lane: 'spawn', calls_llm: false, curator: curator
+        },
+        memory: [{ phase: 'init', at: now(), packet_schema: packet.schema, psi1: PSI1, intent: s.task }]
+      };
       helpers.push(agent);
-      return { ok: true, agent: agent, calls_llm: false, wrote_pack: false, role: 'athena' };
+      spawnsThisWindow += 1;
+      writeSpc(agent, 'seed');
+      logPhase('spawn', agent, { packet_schema: packet.schema, phase_index: 'init', psi1: PSI1 });
+      return { ok: true, agent: Object.assign({}, agent), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA, packet: packet };
+    }
+    function spawn(task, name) {
+      const pkt = { schema: SCHEMA, calls_llm: false, task: task, parent: 'athena', spawned_by: 'athena', kind: 'helper_spawn', lane: 'spawn' };
+      return spawnHelper({ task: task, name: typeof name === 'string' ? name : null, parent: 'athena', spawned_by: 'athena', packet: pkt });
+    }
+    function forkHelper(id, extra) {
+      if (guardAsk()) return busyRefusal();
+      const ag = helpers.find(h => h.id === id);
+      if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
+      if (ag.status !== 'active' && ag.status !== 'hibernated') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
+      extra = extra || {};
+      const gap = extra.gap_id || ((ag.gap_id || ag.id) + ':fork');
+      const child = spawnHelper({
+        task: ag.task, parent: ag.parent, parent_id: ag.id, spawned_by: 'athena', gap_id: gap,
+        name: (ag.name || ag.task) + ':fork', eps: ag.stack ? ag.stack.eps : null,
+        packet: Object.assign({}, ag.packet || {}, { schema: (ag.packet && ag.packet.schema) || SCHEMA, gap_id: gap, parent_id: ag.id, forked_from: ag.id, calls_llm: false })
+      });
+      if (!child.ok) return child;
+      const born = helpers.find(h => h.id === child.agent.id);
+      if (born && ag.stack) {
+        born.stack = Object.assign({}, ag.stack, { forked_from: ag.id });
+        born.memory = (ag.memory || []).map(row => Object.assign({}, row));
+        born.memory.push({ phase: 'fork', at: now(), forked_from: ag.id });
+        born.drift_index = ag.drift_index ? Object.assign({}, ag.drift_index) : born.drift_index;
+      }
+      logPhase('fork', born || ag, { forked_from: ag.id });
+      return Object.assign({}, child, { forked_from: ag.id, calls_llm: false, wrote_confirmed_shared: false });
     }
     function run(id, payload) {
-      if (answering()) return { ok: false, ran: false, rule: 'DREAM-IDLE-BUSY', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
+      if (guardAsk()) return busyRefusal();
       const ag = helpers.find(h => h.id === id);
-      if (!ag) return { ok: false, rule: 'ATHENA-HELPER-UNKNOWN', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
-      if (ag.status !== 'active') return { ok: false, rule: 'ATHENA-HELPER-NOT-ACTIVE', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
-      const out = TASKS[ag.task](payload || {});
-      if (!out || out.ok === false) return Object.assign({ ok: false, helper: ag.id, role: 'athena', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false }, out || { rule: 'ATHENA-HELPER-FAILED' });
-      return Object.assign({ ok: true, helper: ag.id, role: 'athena', calls_llm: false }, out);
+      if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
+      if (ag.status !== 'active') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
+      payload = payload || {};
+      if (payload.peer || payload.direct || payload.target_helper) {
+        logPhase('refuse', ag, { rule: 'ORCH-UNMEDIATED' });
+        return refusal('ORCH-UNMEDIATED', { role: 'athena', helper: ag.id });
+      }
+      const out = TASKS[ag.task] ? TASKS[ag.task](payload) : refusal('ATHENA-TASK-UNDECLARED', { role: 'athena' });
+      const result = Object.assign({ ok: false, helper: ag.id, role: 'athena', calls_llm: false, schema: SCHEMA, wrote_pack: false, wrote_confirmed_shared: false }, out || { rule: 'ATHENA-HELPER-FAILED' });
+      if (!out || out.ok == null) {
+        const refuse = !out || result.rule === 'DREAM-LLM-REFUSED' || result.rule === 'DREAM-RESEARCH-CONTRACT' || result.rule === 'DREAM-OPEN-CRAWL-REFUSED' || result.rule === 'ATHENA-HELPER-FAILED';
+        result.ok = !refuse;
+      }
+      result.calls_llm = false;
+      remember(ag, result);
+      if (result.eps != null && Number(result.eps) > KM.DRIFT_RULING.explore_max) ag.isolated = true;
+      logPhase('run', ag, { rule: result.rule || null, ok: result.ok === true });
+      if (ag.gap_id) reintegrate(ag, result);
+      if (payload.child) {
+        const childSpec = Object.assign({ parent_id: ag.id, spawned_by: 'athena', parent: ag.parent || 'athena' }, payload.child);
+        result.child = spawnHelper(childSpec);
+      }
+      return result;
     }
-    function transition(id, from, to) {
+    function hibernateHelper(id) {
       const ag = helpers.find(h => h.id === id);
-      if (!ag) return { ok: false, rule: 'ATHENA-HELPER-UNKNOWN', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
-      if (from.indexOf(ag.status) < 0) return { ok: false, rule: 'ATHENA-HELPER-NOT-ACTIVE', calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', status: ag.status };
-      ag.status = to;
-      return { ok: true, agent: Object.assign({}, ag), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena' };
+      if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
+      if (ag.status !== 'active') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
+      ag.status = 'hibernated';
+      ag.active = false;
+      ag.hold = null;
+      logPhase('hibernate', ag, {});
+      return { ok: true, agent: Object.assign({}, ag), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA };
     }
+    function retireHelper(id) {
+      const ag = helpers.find(h => h.id === id);
+      if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
+      if (ag.status !== 'active' && ag.status !== 'hibernated') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
+      const row = writeCold(ag);
+      ag.status = 'retired';
+      ag.active = false;
+      ag.hold = null;
+      logPhase('retire', ag, { cold_sha256: row.sha256, route: row.route });
+      return { ok: true, agent: Object.assign({}, ag), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA, cold: { schema: COLD_SCHEMA, sha256: row.sha256, route: row.route, wrote_confirmed_shared: false } };
+    }
+    function resurrectHelper(id) {
+      if (guardAsk()) return busyRefusal();
+      const ag = helpers.find(h => h.id === id);
+      if (!ag) return refusal('ATHENA-HELPER-UNKNOWN', { role: 'athena' });
+      if (ag.status !== 'retired') return refusal('ATHENA-HELPER-NOT-ACTIVE', { role: 'athena', status: ag.status });
+      const row = latestCold(id);
+      if (!row || !coldIntact(row)) return refusal('ATHENA-RESURRECT-INTEGRITY', { role: 'athena' });
+      const gate = resurrectGates(ag, row.body);
+      if (gate) return gate;
+      if (domainHeld(ag.domain, ag.id)) return refusal('ATHENA-DOMAIN-HELD', { role: 'athena', domain: ag.domain });
+      if (living().length >= budget.max_helpers) return refusal('ATHENA-SPAWN-CAP', { role: 'athena', max_helpers: budget.max_helpers });
+      ag.status = 'active';
+      ag.active = true;
+      ag.hold = null;
+      logPhase('resurrect', ag, { cold_sha256: row.sha256 });
+      return { ok: true, agent: Object.assign({}, ag), calls_llm: false, wrote_pack: false, wrote_confirmed_shared: false, role: 'athena', schema: SCHEMA };
+    }
+    function mayAdmit(candidate) {
+      if (guardAsk()) return busyRefusal();
+      const id = candidate && (candidate.gap_id || candidate.id) || null;
+      if (id && (admitted.has(id) || inFlight.has(id))) return refusal('ATHENA-ADMIT-ONCE', { role: 'athena', gap_id: id });
+      const gate = athenaGate(candidate);
+      if (!gate.ok) return gate;
+      return Object.assign({ gap_id: id, schema: SCHEMA }, gate);
+    }
+    function beginAdmit(id) {
+      if (!id) return null;
+      if (admitted.has(id) || inFlight.has(id)) return refusal('ATHENA-ADMIT-ONCE', { role: 'athena', gap_id: id });
+      inFlight.add(id);
+      return null;
+    }
+    function finishAdmit(id, ok) {
+      if (!id) return { ok: true, calls_llm: false };
+      inFlight.delete(id);
+      if (ok) admitted.add(id);
+      return { ok: true, admitted: admitted.has(id), calls_llm: false, gap_id: id };
+    }
+    function exportCold() {
+      return JSON.stringify(cold.map(r => ({
+        schema: r.schema, id: r.id, sha256: r.sha256, bytes: r.bytes, body: r.body, route: r.route,
+        wrote_confirmed_shared: false, wrote_pack: false, calls_llm: false, retired_at: r.retired_at
+      })));
+    }
+    function loadCold(json) {
+      let rows;
+      try { rows = typeof json === 'string' ? JSON.parse(json) : json; }
+      catch (e) { return refusal('ATHENA-RESURRECT-INTEGRITY', { role: 'athena' }); }
+      if (!Array.isArray(rows)) return refusal('ATHENA-RESURRECT-INTEGRITY', { role: 'athena' });
+      for (const row of rows) if (!coldIntact(row)) return refusal('ATHENA-RESURRECT-INTEGRITY', { role: 'athena', wrote_confirmed_shared: false });
+      cold.length = 0;
+      for (const row of rows) cold.push(row);
+      return { ok: true, calls_llm: false, loaded: cold.length, wrote_confirmed_shared: false, schema: COLD_SCHEMA };
+    }
+    function copyAgent(h) { return Object.assign({}, h, { memory: (h.memory || []).slice(), stack: h.stack ? Object.assign({}, h.stack) : null }); }
     return {
-      schema: 'FORGE-ATHENA-CURATOR/v1', role: 'athena', calls_llm: false, os_process: false,
+      schema: 'FORGE-ATHENA-CURATOR/v1', orchestrator: 'FORGE-IDLE-ORCHESTRATOR/v1', role: 'athena', calls_llm: false, os_process: false,
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
-      tasks: () => HELPER_TASKS.slice(), spawn: spawn, run: run,
-      hibernate: id => transition(id, ['active'], 'hibernated'),
-      retire: id => transition(id, ['active', 'hibernated'], 'retired'),
-      resurrect: id => transition(id, ['retired'], 'active'),
-      helpers: () => helpers.map(h => Object.assign({}, h)),
-      daemons: () => DAEMONS.map(d => Object.assign({}, d))
+      priority: PRIORITY.slice(),
+      tasks: () => HELPER_TASKS.slice(),
+      spawn: spawn, run: run, forkHelper: forkHelper,
+      hibernate: hibernateHelper, retire: retireHelper, resurrect: resurrectHelper,
+      spawnHelper: spawnHelper, hibernateHelper: hibernateHelper, retireHelper: retireHelper, resurrectHelper: resurrectHelper,
+      listActive: () => helpers.filter(h => h.status === 'active').map(copyAgent),
+      helpers: () => helpers.map(copyAgent),
+      ancestry: () => ancestry.map(a => Object.assign({}, a)),
+      spcLog: () => spc.map(row => Object.assign({}, row, { override: (row.override || []).slice() })),
+      coldBank: () => cold.map(r => Object.assign({}, r, { body: r.body, wrote_confirmed_shared: false })),
+      integrations: () => integrations.map(r => Object.assign({}, r)),
+      exportCold: exportCold, loadCold: loadCold,
+      maySpawn: maySpawn, mayAdmit: mayAdmit, beginAdmit: beginAdmit, finishAdmit: finishAdmit,
+      noteAsk: noteAsk, setAnswering: v => noteAsk(v === true), askHeld: askHeld,
+      budget: () => ({ max_helpers: budget.max_helpers, max_per_parent: budget.max_per_parent, max_spawn_per_idle_window: budget.max_spawn_per_idle_window, living: living().length, spawns_this_window: spawnsThisWindow }),
+      daemons: () => DAEMONS.map(d => Object.assign({}, d)),
+      admitted: () => Array.from(admitted)
     };
   }
 
@@ -343,7 +787,25 @@
     const research = typeof opts.research === 'function' ? opts.research : null;
     let admitEnabled = opts.admitEnabled !== false;
     let answering = false;
-    const athena = createAthena({ clock: now, answering: () => answering });
+    const gaps = new Map();
+    const athena = createAthena({
+      clock: now, answering: () => answering, budget: opts.budget,
+      onReintegrate: row => {
+        const g = gaps.get(row.gap_id);
+        if (!g) return;
+        if (!g.integrations) g.integrations = [];
+        if (g.integrations.some(x => x.helper_id === row.helper_id)) return;
+        g.integrations.push(row);
+      },
+      onQuarantine: row => {
+        quarantine.push({
+          schema: SCHEMA, gap_id: 'cold:' + row.id, lane: 'quarantine', route: 'dream_state_quarantine_candidate',
+          rule: 'DREAM-QUARANTINE-KEEP', status: 'quarantined', calls_llm: false,
+          wrote_confirmed_shared: false, wrote_pack: false, truth_support_allowed: false,
+          stable_memory_allowed: false, projection_allowed: false, cold_sha256: row.sha256, shared_kb: false, phone_db: false
+        });
+      }
+    });
     const queue = [];
     const promote = [];
     const quarantine = [];
@@ -351,13 +813,14 @@
     const log = [];
     const seen = new Set();
 
-    function enqueue(gaps) {
+    function enqueue(items) {
       const added = [];
-      for (const g of gaps || []) {
+      for (const g of items || []) {
         const id = gapId(g);
         if (seen.has(id)) continue;
         seen.add(id);
-        const row = Object.assign({ extracts: [], ancestors: [], claim: null, attempts: 0, status: 'open' }, g, { id: id });
+        const row = Object.assign({ extracts: [], ancestors: [], claim: null, attempts: 0, status: 'open', integrations: [] }, g, { id: id });
+        gaps.set(id, row);
         queue.push(row);
         added.push(id);
       }
@@ -370,13 +833,24 @@
         try { extra = research(gap) || {}; }
         catch (e) { return { calls_llm: false, rule: 'DREAM-RESEARCH-FAILED', eps: null, claim: null, conflict: false, ancestors: [], extracts: [] }; }
       }
-      return Object.assign({}, gap, extra, { calls_llm: extra && extra.calls_llm === true });
+      const merged = Object.assign({}, gap, extra);
+      if (extra && extra.calls_llm === true) merged.calls_llm = true;
+      return applyResearchContract(merged).body;
     }
 
     function tick(o) {
       o = o || {};
-      if (o.answering === true || answering) return { ok: false, ran: false, rule: 'DREAM-IDLE-BUSY', calls_llm: false };
+      const busy = o.answering === true || answering;
+      athena.noteAsk(busy);
+      if (busy || athena.askHeld()) return { ok: false, ran: false, schema: SCHEMA, rule: 'DREAM-IDLE-BUSY', calls_llm: false };
+      if (athena.listActive().some(h => h.task === 'resonance_place' || h.task === 'pack_append')) {
+        return { ok: false, ran: false, schema: SCHEMA, rule: 'DREAM-ATHENA-PRIORITY', calls_llm: false };
+      }
       if (!queue.length) return { ok: true, ran: false, rule: 'DREAM-IDLE-EMPTY', calls_llm: false };
+      if (queue[0] && athena.listActive().some(h => h.gap_id && h.gap_id === queue[0].id)) {
+        queue.push(queue.shift());
+        return { ok: true, ran: false, schema: SCHEMA, rule: 'DREAM-HELPER-OWNS-GAP', calls_llm: false };
+      }
       const gap = queue.shift();
       const raw = researchGap(gap);
       const routed = routeMeasurement(raw);
@@ -414,17 +888,29 @@
       return { ok: true, calls_llm: false, steps: steps };
     }
 
+    function curatorPacket(task, rec) {
+      const gap = rec && (rec.gap_id || rec.id) || null;
+      return { schema: SCHEMA, calls_llm: false, task: task, parent: 'athena', spawned_by: 'athena', kind: 'helper_spawn', lane: 'spawn', gap_id: gap };
+    }
+
     function place(rec) {
-      const spawned = athena.spawn('resonance_place');
+      const spawned = athena.spawnHelper({ task: 'resonance_place', parent: 'athena', spawned_by: 'athena', gap_id: rec && (rec.gap_id || rec.id) || null, packet: curatorPacket('resonance_place', rec) });
       if (!spawned.ok) return spawned;
-      return athena.run(spawned.agent.id, { rec: rec });
+      const out = athena.run(spawned.agent.id, { rec: rec });
+      athena.retire(spawned.agent.id);
+      return out;
     }
 
     function admitRecord(rec, o) {
       o = o || {};
       const enabled = o.admitEnabled === true || (o.admitEnabled == null && admitEnabled);
-      if (answering || o.answering === true) return refusal('DREAM-IDLE-BUSY', { role: 'athena' });
+      if (answering || o.answering === true || athena.askHeld()) return refusal('DREAM-IDLE-BUSY', { role: 'athena' });
       if (!enabled) return refusal('DREAM-IDLE-ADMIT-PAUSED', { staged: true, packet: rec && rec.packet, role: 'athena' });
+      const admitId = rec && (rec.gap_id || rec.id) || null;
+      const held = athena.beginAdmit(admitId);
+      if (held) return held;
+      let wrote = false;
+      try {
       const placed = place(rec);
       if (!placed.ok) return placed;
       const pkt = placed.packet || (rec && rec.packet);
@@ -457,13 +943,15 @@
         const phone = host.store.load('confirmed_shared');
         if (phone && Array.isArray(phone.facts) && phone.facts.length) return refusal('DREAM-IDLE-PHONE-DB', { packet: pkt });
       }
+      wrote = true;
       const placedAgain = place(rec);
       if (!placedAgain.ok) return placedAgain;
       let published = { ok: true, wrote_pack: false, letter: null, path: null, id: null };
       if (pub.enabled) {
-        const writer = athena.spawn('pack_append');
+        const writer = athena.spawnHelper({ task: 'pack_append', parent: 'athena', spawned_by: 'athena', gap_id: admitId, packet: curatorPacket('pack_append', rec) });
         if (!writer.ok) return writer;
         published = athena.run(writer.agent.id, { item: hostedItem(claim, rec, pkt), dir: pub.dir, gate: placedAgain });
+        athena.retire(writer.agent.id);
         if (!published.ok) return refusal(published.rule || 'DREAM-PACK-PUBLISH-FAILED', { packet: pkt, wrote_pack: false, role: 'athena' });
       }
       rec.status = 'admitted';
@@ -474,6 +962,9 @@
         pack_letter: published.letter || null, pack_path: published.path || null, pack_id: published.id || null,
         pack_duplicate: published.duplicate === true, pack_publish_trigger: PACK_PUBLISH_TRIGGER
       };
+      } finally {
+        athena.finishAdmit(admitId, wrote);
+      }
     }
 
     function admitStaged(o) {
@@ -502,18 +993,24 @@
 
     return {
       schema: SCHEMA, boundary: boundary, enqueue: enqueue, tick: tick, run: run, schedule: schedule, admitRecord: admitRecord, admitStaged: admitStaged,
-      athena: athena, daemons: () => DAEMONS.map(d => Object.assign({}, d)), helpers: () => athena.helpers(),
+      athena: athena, orchestrator: athena, daemons: () => DAEMONS.map(d => Object.assign({}, d)), helpers: () => athena.helpers(),
+      spawnHelper: athena.spawnHelper, forkHelper: athena.forkHelper, retireHelper: athena.retireHelper, hibernateHelper: athena.hibernateHelper, resurrectHelper: athena.resurrectHelper,
+      listActive: athena.listActive, maySpawn: athena.maySpawn, mayAdmit: athena.mayAdmit, ancestry: athena.ancestry, coldBank: athena.coldBank,
       setAdmitEnabled(v) { admitEnabled = v === true; return { ok: true, admitEnabled: admitEnabled, calls_llm: false }; },
       admitEnabled: () => admitEnabled,
-      setAnswering(v) { answering = v === true; return { ok: true, answering: answering, calls_llm: false }; },
+      setAnswering(v) { answering = v === true; athena.noteAsk(answering); return { ok: true, answering: answering, calls_llm: false }; },
       promoteCandidates: () => promote.map(p => Object.assign({}, p)),
       quarantine: () => quarantine.map(q => Object.assign({}, q)),
       aborted: () => aborted.map(a => Object.assign({}, a)),
       queued: () => queue.map(g => g.id),
-      log: () => log.map(x => Object.assign({}, x))
+      log: () => log.map(x => Object.assign({}, x)),
+      gapRecord(id) {
+        const g = gaps.get(id);
+        return g ? Object.assign({}, g, { integrations: (g.integrations || []).map(x => Object.assign({}, x)) }) : null;
+      }
     };
   }
 
-  const api = { SCHEMA, PACKET_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, resonancePacket, athenaGate, createAthena, createIdleDream };
+  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, resonancePacket, athenaGate, applyResearchContract, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
   if (isNode) module.exports = api; else root.KDreamIdle = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -36,9 +36,9 @@ Nine stubs. measured false. reconstruction. SOURCE_NOT_VERIFIED. No delta is rep
 
 status wired. 4.9.165: answer-path grace is no longer a stub for the RPMC→RSOC factual-miss gate. kernel.js rpmcAncestorCandidates calls kmath.graceOverAncestors (Axiom 4 phase-align + §3.4 graceIntegral; G_MIN=1e-4). Candidates feed AUTH-AQ1/research (RSOC-COMPOSE-EVIDENCE); not a class-dump answer. Does not claim Φ1–Φ9 is proven cognition; does not claim manuscript equivalence.
 
-## Idle dream router (4.9.170)
+## Idle dream router (4.9.171)
 
-status wired. 4.9.170 idle dream: Gilligan gap-fill on idle ticks only (answering yields). Athena admit defaults on and spawns declared helpers (resonance_place, pack_append) with Spawn, Run, Hibernate, Retire, Resurrect in-process. Neo is the Ask surface. Explicit eps null is unmeasured. Quarantine does not write confirmed_shared or packs. No LLM. OS process pool is 4.9.171. ChristPing is not built. Write law unchanged.
+status wired. 4.9.171 idle dream mesh: Gilligan gap-fill on idle ticks only (answering pauses every helper). Athena maySpawn and mayAdmit. One enforcer per policy domain. Caps 8 living helpers, 4 per parent, 8 spawns per idle window. Spawn, run, hibernate, retire, resurrect stay in-process. Retire writes a hashed cold record. Research resurrection requires drift at or under 0.35 and integrity at least 0.85. Explicit eps null is unmeasured. Every spawn and result is a resonance packet or an idle-dream packet. Quarantine does not write confirmed_shared or packs. No LLM. No OS process pool. ChristPing is not built. Write law unchanged.
 
 when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.
 

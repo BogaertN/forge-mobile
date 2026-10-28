@@ -1,5 +1,5 @@
 {
- "version": "4.9.170",
+ "version": "4.9.171",
  "features": [
   {
    "id": "A-01",
@@ -3584,13 +3584,24 @@
    "proof": [
     "R4170"
    ]
+  },
+  {
+   "id": "R4171-SPAWN-MESH",
+   "name": "Athena idle spawn mesh",
+   "source": "CONFLICTS.md v4.9.171; Recursive Agent Orchestration lifecycle; RPMC section 14 cold reintegration",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "In-process IdleOrchestrator on the 4.9.170 registry. Spawn, run, hibernate, retire, resurrect. Athena maySpawn and mayAdmit. One enforcer per policy domain. Caps 8/4/8. Hashed cold bank. Packet-bound exchange. Ask pauses every helper. One admit per gap. Quarantine does not write confirmed_shared. No LLM. No OS pool. ChristPing is not built.",
+   "proof": [
+    "R4171"
+   ]
   }
  ],
- "count": 327,
+ "count": 328,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 165,
+  "Partial": 166,
   "Missing": 9,
   "Out of scope / parked": 13
  }
