@@ -132,9 +132,9 @@ T('store laws: save returns soft rule under impossible quota; Soft cats never re
   expect(threw || true, 'meta may throw after soft eviction exhausted — documented');
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.167', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.168', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.167', ver);
+  expect(ver === '4.9.168', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
   for (const id of ['R4166-TRACE-QUOTA', 'R4165-RESONATE-ANCESTOR', 'R4164-GZIP-LEAVE', 'R4163-CIVICS-WH', 'R4128-HOSTED']) {
@@ -142,22 +142,22 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.167', () => {
     expect(f && (f.claim === 'Partial' || f.claim === 'Implemented'), id + ' ' + JSON.stringify(f));
   }
   const conf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
-  expect(/v4\.9\.167/.test(conf) && /v4\.9\.166/.test(conf) && /QuotaExceeded|STORE-QUOTA-SOFT|kernel\.trace/i.test(conf), 'CONFLICTS');
+  expect(/v4\.9\.168/.test(conf) && /v4\.9\.166/.test(conf) && /QuotaExceeded|STORE-QUOTA-SOFT|kernel\.trace/i.test(conf), 'CONFLICTS');
   expect(/v4\.9\.165/.test(conf), 'CONFLICTS 165');
   const next = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
-  expect(/4\.9\.167/.test(next) || /4\.9\.166/.test(next), 'NEXT_BUILD');
+  expect(/4\.9\.168/.test(next) || /4\.9\.166/.test(next), 'NEXT_BUILD');
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
-  expect(/4\.9\.167/.test(readme) || /4\.9\.166/.test(readme), 'README');
+  expect(/4\.9\.168/.test(readme) || /4\.9\.166/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.167' && (tgt.suites[0] === 'r4167_suite.js' || tgt.suites[0] === 'r4166_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.168' && ((tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js'), JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
   expect(/4\.9\.16[67]/.test(req) && /R4166/.test(req), 'req_packet');
   const mh = JSON.parse(fs.readFileSync(ROOT + '/research/math_honesty.json', 'utf8'));
-  expect(mh.release === '4.9.167', 'math_honesty ' + mh.release);
+  expect(mh.release === '4.9.168', 'math_honesty ' + mh.release);
   const src = fs.readFileSync(ROOT + '/src/kernel.js', 'utf8');
   expect(/STORE-QUOTA-SOFT|isQuota|compactTrace/.test(src), 'kernel has quota-safe save');
   const idx = JSON.parse(fs.readFileSync(ROOT + '/packs/confirmed_shared/index.json', 'utf8'));
-  expect(idx.version === '4.9.163' && idx.packs.f.items >= 262, JSON.stringify(idx.packs.f));
+  expect((idx.version === '4.9.168' || idx.version === '4.9.163') && idx.packs.f.items >= 262, JSON.stringify(idx.packs.f));
 });
 
 (async () => {
