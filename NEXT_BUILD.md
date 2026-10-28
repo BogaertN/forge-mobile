@@ -1,3 +1,14 @@
+# Next build order — after 4.9.164
+**Date:** 2026-10-28 (America/Chicago)
+**Baseline:** 4.9.164 soft-gzip leave reclaim (keeps 4.9.163 civics WH + CS discourse pathways; single-file empty names + ASI-safe newline join; soft leave ≥5 kB under 570 kB)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; scrapbook shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.164:** Pages deploy soft leave restored after 4.9.163 CI zlib.gzipSync went 527 over 570 kB. Behavior unchanged from 4.9.163 (G-IRRN-SURFACE, CS-COMPOSE-PRESENCE-ABOUT, CS-RECALL-RIGHTS-ABOUT, First/Fifth pack thicken). Soft budget unchanged (≤1.920 MB / ≤570 kB).
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget; stuffing one amendment as a special-case answer patch.
+
+**Manual:** still paused.
+
 # Next build order — after 4.9.163
 **Date:** 2026-10-28 (America/Chicago)
 **Baseline:** 4.9.163 civics WH substance + CS discourse continuity (IRRN collapse, compose presence+about, rights about-fallback; First/Fifth pack thicken; index 4.9.163)

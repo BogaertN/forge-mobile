@@ -149,11 +149,12 @@ def slim(m, s):
     # 4.9.125 hotfix: truncate long feature names at a word boundary (≤20) so CI zlib.gzipSync stays under 570 kB; proofs stay. Pages site keeps full names.
     # 4.9.127 hotfix: one CSP script + name ≤12 for CI zlib.gzipSync headroom; proofs stay.
     # 4.9.129 hotfix: name ≤7 so zlib.gzipSync leave stays ≥5 kB under 570 kB; proofs stay. Pages keeps full names.
+    # 4.9.164 hotfix: omit feature names in kernel-app.html so gzip leave stays ≥5 kB under 570 kB (CI Node 20 zlib ~+3.3 kB vs local). Claim table still has id, status, proof. Pages site keeps full names.
     for f in d.get('features', []):
         f.pop('source', None); f.pop('note', None); f.pop('wave', None)
-        n = f.get('name') or ''
-        if len(n) > 5:
-            cut = n[:5]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 2 else cut
+        f.pop('name', None)  # 4.9.164: omit empty name key (claim table keeps id/status/proof); Pages keeps full names
+    # 4.9.164: verify-only keys not shown in the claim table; Pages site keeps them
+    d.pop('generated', None); d.pop('gate', None)
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
@@ -173,6 +174,20 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     if all(l.count('`') % 2 == 0 for l in js.split('\n')) and not re.search(r'\\\n', js): js = re.sub(r'(?m)^[ \t]+', '', js)
     # 4.9.120: spaces beside {}()[],; are dropped in kernel-app.html so CREATE/EXPLORE stays within 1.920 MB. Newlines stay (ASI). Strings, templates, and regex literals stay. The Pages site keeps the spaced source.
     js = tighten(js)
+    # 4.9.164 hotfix: ASI-safe newline join in kernel-app.html (indent drop already requires single-line templates). After ;{}:, join unless next is ( [ ` + - /; keep }else/while/catch/finally; join )] before . or {; join =/{[= and else/try/do/catch/while before {[. Pages site keeps newlines.
+    if all(l.count('`') % 2 == 0 for l in js.split('\n')) and not re.search(r'\\\n', js):
+        lines = js.split('\n'); out = [lines[0]] if lines else []
+        for i in range(1, len(lines)):
+            prev = out[-1].rstrip(' \t') if out else ''; nxt = lines[i].lstrip(' \t')
+            if not prev: out.append(nxt); continue
+            pc = prev[-1]; keep = True
+            if pc in ';{},:' and nxt and not re.match(r'^[\(\[\`\+\-/]', nxt) and not (pc == '}' and re.match(r'^(else|while|catch|finally)\b', nxt)): keep = False
+            elif pc in ')]' and (nxt.startswith('.') or nxt.startswith('{')): keep = False
+            elif pc == '=' and nxt[:1] in '{[': keep = False
+            elif re.search(r'(?:else|finally|try|do|catch|while)$', prev) and nxt[:1] in '{[': keep = False
+            if keep: out.append(nxt)
+            else: out[-1] = prev + nxt
+        js = '\n'.join(out)
     bundle.append(js)
     h = h.replace('<script src="' + m + '"></script>', '', 1)
 # 4.9.127 gzip hotfix: one script tag → one CSP sha256 (74 high-entropy hashes were ~3 kB gzip). Modules stay IIFE-scoped; Pages multi-file site unchanged.

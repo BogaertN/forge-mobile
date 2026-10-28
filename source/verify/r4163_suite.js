@@ -95,25 +95,26 @@ T('First Amendment rights still from shared KB; deliberate miss still AQ-1', () 
   expect(phoneEmpty(k) && sharedN(k) === 0, 'no write on miss');
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.163', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.164', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.163', ver);
+  expect(ver === '4.9.164', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
-  for (const id of ['R4163-CIVICS-WH', 'R4163-DISCOURSE-CS', 'R4162-READ-CONNECT', 'R4128-HOSTED']) {
+  for (const id of ['R4164-GZIP-LEAVE', 'R4163-CIVICS-WH', 'R4163-DISCOURSE-CS', 'R4162-READ-CONNECT', 'R4128-HOSTED']) {
     const f = reg.features.find(x => x.id === id);
     expect(f && (f.claim === 'Partial' || f.claim === 'Implemented'), id + ' ' + JSON.stringify(f));
   }
   const conf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
-  expect(/v4\.9\.163/.test(conf) && /IRRN|rights|discourse|Fifth/i.test(conf), 'CONFLICTS');
+  expect(/v4\.9\.164/.test(conf) && /gzip|leave|IRRN|rights|discourse|Fifth/i.test(conf), 'CONFLICTS');
+  expect(/v4\.9\.163/.test(conf), 'CONFLICTS 163');
   const next = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
-  expect(/4\.9\.163/.test(next), 'NEXT_BUILD');
+  expect(/4\.9\.164/.test(next), 'NEXT_BUILD');
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
-  expect(/4\.9\.163/.test(readme), 'README');
+  expect(/4\.9\.164/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.163' && tgt.suites[0] === 'r4163_suite.js', JSON.stringify(tgt));
+  expect(tgt.release === '4.9.164' && tgt.suites[0] === 'r4163_suite.js', JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
-  expect(/4\.9\.163/.test(req) && /R4163/.test(req), 'req_packet');
+  expect(/4\.9\.164/.test(req) && /R4163/.test(req) && /R4164/.test(req), 'req_packet');
   const idx = JSON.parse(fs.readFileSync(ROOT + '/packs/confirmed_shared/index.json', 'utf8'));
   expect(idx.version === '4.9.163' && idx.packs.f.items >= 262, JSON.stringify(idx.packs.f));
 });
