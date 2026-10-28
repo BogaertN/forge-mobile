@@ -12,1501 +12,2751 @@
    "id": "cs_q_qatar_01",
    "text": "Qatar is a peninsula on the Persian Gulf",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qatar · cs_q_qatar_01"
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quito_01",
    "text": "Quito lies in the Andes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quito · cs_q_quito_01"
+   "evidence": "geography · product curator · Quito · cs_q_quito_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_01",
    "text": "Quebec is the largest province of Canada by area",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quebec · cs_q_quebec_01"
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_02",
    "text": "French is the official language of Quebec",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quebec · cs_q_quebec_02"
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_city_01",
    "text": "Quebec City is the capital of Quebec",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quebec City · cs_q_quebec_city_01"
+   "evidence": "geography · product curator · Quebec City · cs_q_quebec_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queensland_01",
    "text": "Brisbane is the capital of Queensland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Queensland · cs_q_queensland_01"
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queensland_02",
    "text": "The Great Barrier Reef lies off Queensland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Queensland · cs_q_queensland_02"
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queens_01",
    "text": "Queens is a borough of New York City",
    "standing": "projectable",
-   "evidence": "geography · product curator · Queens · cs_q_queens_01"
+   "evidence": "geography · product curator · Queens · cs_q_queens_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qingdao_01",
    "text": "Qingdao is a port city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qingdao · cs_q_qingdao_01"
+   "evidence": "geography · product curator · Qingdao · cs_q_qingdao_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_01",
    "text": "Quartz is made of silicon and oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_01"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_02",
    "text": "Quartz is a common mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_02"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_03",
    "text": "Quartz crystals keep time in watches",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_03"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_01",
    "text": "Protons and neutrons are made of quarks",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_01"
+   "evidence": "science · product curator · Quark · cs_q_quark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_02",
    "text": "A proton contains three quarks",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_02"
+   "evidence": "science · product curator · Quark · cs_q_quark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantum_mechanics_01",
    "text": "Quantum mechanics describes physics at atomic scales",
    "standing": "projectable",
-   "evidence": "science · product curator · Quantum mechanics · cs_q_quantum_mechanics_01"
+   "evidence": "science · product curator · Quantum mechanics · cs_q_quantum_mechanics_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicksilver_01",
    "text": "Quicksilver is an old name for mercury",
    "standing": "projectable",
-   "evidence": "science · product curator · Quicksilver · cs_q_quicksilver_01"
+   "evidence": "science · product curator · Quicksilver · cs_q_quicksilver_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicklime_01",
    "text": "Quicklime is calcium oxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Quicklime · cs_q_quicklime_01"
+   "evidence": "science · product curator · Quicklime · cs_q_quicklime_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quaternary_01",
    "text": "The Quaternary is the current geological period",
    "standing": "projectable",
-   "evidence": "science · product curator · Quaternary · cs_q_quaternary_01"
+   "evidence": "science · product curator · Quaternary · cs_q_quaternary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_01",
    "text": "Quails are small ground-nesting birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_01"
+   "evidence": "nature · product curator · Quail · cs_q_quail_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quoll_01",
    "text": "Quolls are carnivorous marsupials",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quoll · cs_q_quoll_01"
+   "evidence": "nature · product curator · Quoll · cs_q_quoll_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_bee_01",
    "text": "A queen bee lays the eggs in a honeybee colony",
    "standing": "projectable",
-   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_01"
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quince_01",
    "text": "The quince is a fruit related to apples and pears",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quince · cs_q_quince_01"
+   "evidence": "nature · product curator · Quince · cs_q_quince_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_01",
    "text": "Quinoa is native to the Andes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_01"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_02",
    "text": "Quinoa is grown for its edible seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_02"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_anne_s_lace_01",
    "text": "Queen Anne's lace is a wild carrot",
    "standing": "projectable",
-   "evidence": "nature · product curator · Queen Anne's lace · cs_q_queen_anne_s_lace_01"
+   "evidence": "nature · product curator · Queen Anne's lace · cs_q_queen_anne_s_lace_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quahog_01",
    "text": "The quahog is an edible clam",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quahog · cs_q_quahog_01"
+   "evidence": "nature · product curator · Quahog · cs_q_quahog_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_victoria_01",
    "text": "Queen Victoria reigned from 1837 to 1901",
    "standing": "projectable",
-   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_01"
+   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_victoria_02",
    "text": "The Victorian era is named after Queen Victoria",
    "standing": "projectable",
-   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_02"
+   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qin_shi_huang_01",
    "text": "Qin Shi Huang was the first emperor of China",
    "standing": "projectable",
-   "evidence": "history · product curator · Qin Shi Huang · cs_q_qin_shi_huang_01"
+   "evidence": "history · product curator · Qin Shi Huang · cs_q_qin_shi_huang_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qin_dynasty_01",
    "text": "The Terracotta Army was built for Qin Shi Huang",
    "standing": "projectable",
-   "evidence": "history · product curator · Qin dynasty · cs_q_qin_dynasty_01"
+   "evidence": "history · product curator · Qin dynasty · cs_q_qin_dynasty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qing_dynasty_01",
    "text": "The Qing dynasty was the last imperial dynasty of China",
    "standing": "projectable",
-   "evidence": "history · product curator · Qing dynasty · cs_q_qing_dynasty_01"
+   "evidence": "history · product curator · Qing dynasty · cs_q_qing_dynasty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qing_dynasty_02",
    "text": "The Qing dynasty ended in 1912",
    "standing": "projectable",
-   "evidence": "history · product curator · Qing dynasty · cs_q_qing_dynasty_02"
+   "evidence": "history · product curator · Qing dynasty · cs_q_qing_dynasty_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quran_01",
    "text": "The Quran is the holy book of Islam",
    "standing": "projectable",
-   "evidence": "history · product curator · Quran · cs_q_quran_01"
+   "evidence": "history · product curator · Quran · cs_q_quran_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quran_02",
    "text": "The Quran is written in Arabic",
    "standing": "projectable",
-   "evidence": "language · product curator · Quran · cs_q_quran_02"
+   "evidence": "language · product curator · Quran · cs_q_quran_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quakers_01",
    "text": "Quakers are members of the Religious Society of Friends",
    "standing": "projectable",
-   "evidence": "history · product curator · Quakers · cs_q_quakers_01"
+   "evidence": "history · product curator · Quakers · cs_q_quakers_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quakers_02",
    "text": "William Penn founded Pennsylvania",
    "standing": "projectable",
-   "evidence": "history · product curator · Quakers · cs_q_quakers_02"
+   "evidence": "history · product curator · Quakers · cs_q_quakers_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_elizabeth_ii_01",
    "text": "Queen Elizabeth II was crowned in 1953",
    "standing": "projectable",
-   "evidence": "history · product curator · Queen Elizabeth II · cs_q_queen_elizabeth_ii_01"
+   "evidence": "history · product curator · Queen Elizabeth II · cs_q_queen_elizabeth_ii_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrilateral_01",
    "text": "A quadrilateral has four sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_01"
+   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrilateral_02",
    "text": "The interior angles of a quadrilateral add up to 360 degrees",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_02"
+   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quotient_01",
    "text": "A quotient is the result of division",
    "standing": "projectable",
-   "evidence": "math · product curator · Quotient · cs_q_quotient_01"
+   "evidence": "math · product curator · Quotient · cs_q_quotient_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_01",
    "text": "The coordinate plane has four quadrants",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrant · cs_q_quadrant_01"
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_01",
    "text": "A quart equals two pints",
    "standing": "projectable",
-   "evidence": "math · product curator · Quart · cs_q_quart_01"
+   "evidence": "math · product curator · Quart · cs_q_quart_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarter_01",
    "text": "A quarter is one-fourth",
    "standing": "projectable",
-   "evidence": "math · product curator · Quarter · cs_q_quarter_01"
+   "evidence": "math · product curator · Quarter · cs_q_quarter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadratic_equation_01",
    "text": "A quadratic equation has a highest power of two",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadratic equation · cs_q_quadratic_equation_01"
+   "evidence": "math · product curator · Quadratic equation · cs_q_quadratic_equation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quintillion_01",
    "text": "A quintillion is 10 to the power of 18 in the short scale",
    "standing": "projectable",
-   "evidence": "math · product curator · Quintillion · cs_q_quintillion_01"
+   "evidence": "math · product curator · Quintillion · cs_q_quintillion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrillion_01",
    "text": "A quadrillion is 10 to the power of 15 in the short scale",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrillion · cs_q_quadrillion_01"
+   "evidence": "math · product curator · Quadrillion · cs_q_quadrillion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartet_01",
    "text": "A quartet is a group of four musicians",
    "standing": "projectable",
-   "evidence": "general · product curator · Quartet · cs_q_quartet_01"
+   "evidence": "general · product curator · Quartet · cs_q_quartet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_01",
    "text": "In chess, the queen can move any number of squares in any direction",
    "standing": "projectable",
-   "evidence": "general · product curator · Queen · cs_q_queen_01"
+   "evidence": "general · product curator · Queen · cs_q_queen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_01",
    "text": "A quill is a pen made from a feather",
    "standing": "projectable",
-   "evidence": "general · product curator · Quill · cs_q_quill_01"
+   "evidence": "general · product curator · Quill · cs_q_quill_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quiver_01",
    "text": "A quiver holds arrows",
    "standing": "projectable",
-   "evidence": "general · product curator · Quiver · cs_q_quiver_01"
+   "evidence": "general · product curator · Quiver · cs_q_quiver_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_01",
    "text": "A quilt is made of layers of fabric",
    "standing": "projectable",
-   "evidence": "general · product curator · Quilt · cs_q_quilt_01"
+   "evidence": "general · product curator · Quilt · cs_q_quilt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qwerty_01",
    "text": "QWERTY is the commonest keyboard layout",
    "standing": "projectable",
-   "evidence": "general · product curator · QWERTY · cs_q_qwerty_01"
+   "evidence": "general · product curator · QWERTY · cs_q_qwerty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_q_01",
    "text": "Q is the 17th letter of the English alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Q · cs_q_q_01"
+   "evidence": "language · product curator · Q · cs_q_q_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_q_02",
    "text": "Q usually comes before U in English",
    "standing": "projectable",
-   "evidence": "language · product curator · Q · cs_q_q_02"
+   "evidence": "language · product curator · Q · cs_q_q_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quechua_01",
    "text": "Quechua is an Indigenous language of the Andes",
    "standing": "projectable",
-   "evidence": "language · product curator · Quechua · cs_q_quechua_01"
+   "evidence": "language · product curator · Quechua · cs_q_quechua_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_question_mark_01",
    "text": "A question mark ends a direct question",
    "standing": "projectable",
-   "evidence": "language · product curator · Question mark · cs_q_question_mark_01"
+   "evidence": "language · product curator · Question mark · cs_q_question_mark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quotation_marks_01",
    "text": "Quotation marks show the words of a speaker",
    "standing": "projectable",
-   "evidence": "language · product curator · Quotation marks · cs_q_quotation_marks_01"
+   "evidence": "language · product curator · Quotation marks · cs_q_quotation_marks_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quiche_01",
    "text": "Quiche is a savory egg tart",
    "standing": "projectable",
-   "evidence": "general · product curator · Quiche · cs_q_quiche_01"
+   "evidence": "general · product curator · Quiche · cs_q_quiche_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarry_01",
    "text": "Stone is cut from a quarry",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quarry · cs_q_quarry_01"
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicksand_01",
    "text": "Quicksand is sand saturated with water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_01"
+   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartzite_01",
    "text": "Quartzite is a metamorphic rock formed from sandstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartzite · cs_q_quartzite_01"
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quasar_02",
    "text": "Quasars are found at very large distances from Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Quasar · cs_q_quasar_02"
+   "evidence": "science · product curator · Quasar · cs_q_quasar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantum_01",
    "text": "A quantum is the smallest discrete amount of a physical quantity",
    "standing": "projectable",
-   "evidence": "science · product curator · Quantum · cs_q_quantum_01"
+   "evidence": "science · product curator · Quantum · cs_q_quantum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quetzalcoatl_01",
    "text": "Quetzalcoatl was a feathered serpent deity of Mesoamerica",
    "standing": "projectable",
-   "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_01"
+   "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_03",
    "text": "Champlain founded Quebec in 1608",
    "standing": "projectable",
-   "evidence": "history · product curator · Quebec · cs_q_quebec_03"
+   "evidence": "history · product curator · Quebec · cs_q_quebec_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queensland_03",
    "text": "Queensland is a state of Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Queensland · cs_q_queensland_03"
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_02",
    "text": "Quail eggs are speckled",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_02"
+   "evidence": "nature · product curator · Quail · cs_q_quail_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_02",
    "text": "Porcupine quills are modified hairs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quill · cs_q_quill_02"
+   "evidence": "nature · product curator · Quill · cs_q_quill_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarter_horse_01",
    "text": "The American Quarter Horse is a horse breed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quarter horse · cs_q_quarter_horse_01"
+   "evidence": "nature · product curator · Quarter horse · cs_q_quarter_horse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_consort_01",
    "text": "A queen consort is the wife of a reigning king",
    "standing": "projectable",
-   "evidence": "civics · product curator · Queen consort · cs_q_queen_consort_01"
+   "evidence": "civics · product curator · Queen consort · cs_q_queen_consort_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarterback_01",
    "text": "A quarterback is a position in American football",
    "standing": "projectable",
-   "evidence": "general · product curator · Quarterback · cs_q_quarterback_01"
+   "evidence": "general · product curator · Quarterback · cs_q_quarterback_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quito_02",
    "text": "Quito is located near the equator",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quito · cs_q_quito_02"
+   "evidence": "geography · product curator · Quito · cs_q_quito_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_02",
    "text": "A quart equals two pints",
    "standing": "projectable",
-   "evidence": "science · product curator · Quart · cs_q_quart_02"
+   "evidence": "science · product curator · Quart · cs_q_quart_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_03",
    "text": "Quails are small ground-dwelling birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_03"
+   "evidence": "nature · product curator · Quail · cs_q_quail_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_city_02",
    "text": "Quebec City is the capital of the province of Quebec",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quebec City · cs_q_quebec_city_02"
+   "evidence": "geography · product curator · Quebec City · cs_q_quebec_city_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_02",
    "text": "A coordinate plane has four quadrants",
    "standing": "projectable",
-   "evidence": "science · product curator · Quadrant · cs_q_quadrant_02"
+   "evidence": "science · product curator · Quadrant · cs_q_quadrant_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarter_03",
    "text": "A quarter is one fourth",
    "standing": "projectable",
-   "evidence": "science · product curator · Quarter · cs_q_quarter_03"
+   "evidence": "science · product curator · Quarter · cs_q_quarter_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_04",
    "text": "Quail are game birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_04"
+   "evidence": "nature · product curator · Quail · cs_q_quail_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_bee_02",
    "text": "A honeybee colony usually has one queen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_02"
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quokka_04",
    "text": "Quokkas are found on Rottnest Island",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quokka · cs_q_quokka_04"
+   "evidence": "nature · product curator · Quokka · cs_q_quokka_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_03",
    "text": "A quill pen is made from a bird's feather",
    "standing": "projectable",
-   "evidence": "history · product curator · Quill · cs_q_quill_03"
+   "evidence": "history · product curator · Quill · cs_q_quill_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quito_03",
    "text": "Quito is the capital of Ecuador",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quito · cs_q_quito_03"
+   "evidence": "geography · product curator · Quito · cs_q_quito_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quito_04",
    "text": "Quito is a city in the Andes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quito · cs_q_quito_04"
+   "evidence": "geography · product curator · Quito · cs_q_quito_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qatar_03",
    "text": "Doha is the capital of Qatar",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qatar · cs_q_qatar_03"
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qatar_04",
    "text": "Qatar is a country in the Middle East",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qatar · cs_q_qatar_04"
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_victoria_03",
    "text": "Queen Victoria ruled the United Kingdom from 1837 to 1901",
    "standing": "projectable",
-   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_03"
+   "evidence": "history · product curator · Queen Victoria · cs_q_queen_victoria_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quetzalcoatl_02",
    "text": "Quetzalcoatl was a god of the Aztecs",
    "standing": "projectable",
-   "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_02"
+   "evidence": "history · product curator · Quetzalcoatl · cs_q_quetzalcoatl_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quito_05",
    "text": "Quito is in the Andes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quito · cs_q_quito_05"
+   "evidence": "geography · product curator · Quito · cs_q_quito_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quito_06",
    "text": "Quito lies near the equator",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quito · cs_q_quito_06"
+   "evidence": "geography · product curator · Quito · cs_q_quito_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_04",
    "text": "Quebec is a province of Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quebec · cs_q_quebec_04"
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qatar_05",
    "text": "Qatar is a country in Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qatar · cs_q_qatar_05"
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qatar_06",
    "text": "Qatar borders Saudi Arabia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qatar · cs_q_qatar_06"
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qatar_07",
    "text": "Qatar is on the Persian Gulf",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qatar · cs_q_qatar_07"
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_04",
    "text": "Quartz is a mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_04"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_05",
    "text": "Amethyst is a kind of quartz",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_05"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_05",
    "text": "A quail is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_05"
+   "evidence": "nature · product curator · Quail · cs_q_quail_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_06",
    "text": "Quails lay eggs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_06"
+   "evidence": "nature · product curator · Quail · cs_q_quail_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quince_02",
    "text": "The quince is a fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quince · cs_q_quince_02"
+   "evidence": "nature · product curator · Quince · cs_q_quince_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_03",
    "text": "Quinoa is a seed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_03"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_04",
    "text": "Quinoa comes from South America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_04"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_03",
    "text": "A quart is a unit of volume",
    "standing": "projectable",
-   "evidence": "math · product curator · Quart · cs_q_quart_03"
+   "evidence": "math · product curator · Quart · cs_q_quart_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_04",
    "text": "Four quarts make a gallon",
    "standing": "projectable",
-   "evidence": "math · product curator · Quart · cs_q_quart_04"
+   "evidence": "math · product curator · Quart · cs_q_quart_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrilateral_03",
    "text": "A square is a quadrilateral",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_03"
+   "evidence": "math · product curator · Quadrilateral · cs_q_quadrilateral_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_03",
    "text": "A quark is a subatomic particle",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_03"
+   "evidence": "science · product curator · Quark · cs_q_quark_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_04",
    "text": "Protons are made of quarks",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_04"
+   "evidence": "science · product curator · Quark · cs_q_quark_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_02",
    "text": "Elizabeth II was Queen of the United Kingdom",
    "standing": "projectable",
-   "evidence": "history · product curator · Queen · cs_q_queen_02"
+   "evidence": "history · product curator · Queen · cs_q_queen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_03",
    "text": "Victoria was Queen of the United Kingdom",
    "standing": "projectable",
-   "evidence": "history · product curator · Queen · cs_q_queen_03"
+   "evidence": "history · product curator · Queen · cs_q_queen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quiche_02",
    "text": "Quiche is a French dish",
    "standing": "projectable",
-   "evidence": "language · product curator · Quiche · cs_q_quiche_02"
+   "evidence": "language · product curator · Quiche · cs_q_quiche_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_question_mark_02",
    "text": "A question mark ends a question",
    "standing": "projectable",
-   "evidence": "language · product curator · Question mark · cs_q_question_mark_02"
+   "evidence": "language · product curator · Question mark · cs_q_question_mark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_07",
    "text": "Quails eat seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_07"
+   "evidence": "nature · product curator · Quail · cs_q_quail_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_06",
    "text": "Quartz is common in sand",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_06"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_07",
    "text": "Quartz is hard",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_07"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_05",
    "text": "Montreal is a city in Quebec",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quebec · cs_q_quebec_05"
+   "evidence": "geography · product curator · Quebec · cs_q_quebec_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebec_06",
    "text": "People in Quebec speak French",
    "standing": "projectable",
-   "evidence": "language · product curator · Quebec · cs_q_quebec_06"
+   "evidence": "language · product curator · Quebec · cs_q_quebec_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_02",
    "text": "A quilt is a blanket",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_02"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_04",
    "text": "A queen is a female monarch",
    "standing": "projectable",
-   "evidence": "civics · product curator · Queen · cs_q_queen_04"
+   "evidence": "civics · product curator · Queen · cs_q_queen_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_bee_03",
    "text": "A queen bee lays eggs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_03"
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_bee_04",
    "text": "A hive has one queen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_04"
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quick_01",
    "text": "Quick means fast",
    "standing": "projectable",
-   "evidence": "language · product curator · Quick · cs_q_quick_01"
+   "evidence": "language · product curator · Quick · cs_q_quick_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadratic_01",
    "text": "A quadratic equation has degree two",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadratic · cs_q_quadratic_01"
+   "evidence": "math · product curator · Quadratic · cs_q_quadratic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qin_01",
    "text": "The Qin dynasty unified China",
    "standing": "projectable",
-   "evidence": "history · product curator · Qin · cs_q_qin_01"
+   "evidence": "history · product curator · Qin · cs_q_qin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_05",
    "text": "Quinoa is a seed crop from the Andes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_05"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_03",
    "text": "A quilt is a padded bed cover",
    "standing": "projectable",
-   "evidence": "language · product curator · Quilt · cs_q_quilt_03"
+   "evidence": "language · product curator · Quilt · cs_q_quilt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_04",
    "text": "A quill is a feather used for writing",
    "standing": "projectable",
-   "evidence": "history · product curator · Quill · cs_q_quill_04"
+   "evidence": "history · product curator · Quill · cs_q_quill_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicksand_02",
    "text": "Quicksand is loose wet sand that yields under weight",
    "standing": "projectable",
-   "evidence": "science · product curator · Quicksand · cs_q_quicksand_02"
+   "evidence": "science · product curator · Quicksand · cs_q_quicksand_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_05",
    "text": "A quark is a basic particle of matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_05"
+   "evidence": "science · product curator · Quark · cs_q_quark_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_03",
    "text": "A quadrant is one fourth of a circle",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrant · cs_q_quadrant_03"
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quince_03",
    "text": "A quince is a yellow fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quince · cs_q_quince_03"
+   "evidence": "nature · product curator · Quince · cs_q_quince_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicksilver_02",
    "text": "Quicksilver is another name for mercury",
    "standing": "projectable",
-   "evidence": "science · product curator · Quicksilver · cs_q_quicksilver_02"
+   "evidence": "science · product curator · Quicksilver · cs_q_quicksilver_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_bee_05",
    "text": "A queen bee lays eggs in a hive",
    "standing": "projectable",
-   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_05"
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartzite_02",
    "text": "Quartzite is a metamorphic rock from sandstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartzite · cs_q_quartzite_02"
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarter_04",
    "text": "A quarter is one fourth of a whole",
    "standing": "projectable",
-   "evidence": "math · product curator · Quarter · cs_q_quarter_04"
+   "evidence": "math · product curator · Quarter · cs_q_quarter_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_08",
    "text": "A quail is a small game bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_08"
+   "evidence": "nature · product curator · Quail · cs_q_quail_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_qatar_08",
    "text": "Qatar is a country on the Persian Gulf",
    "standing": "projectable",
-   "evidence": "geography · product curator · Qatar · cs_q_qatar_08"
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_question_01",
    "text": "A question asks for information",
    "standing": "projectable",
-   "evidence": "language · product curator · Question · cs_q_question_01"
+   "evidence": "language · product curator · Question · cs_q_question_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantum_02",
    "text": "A quantum is a discrete packet of energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Quantum · cs_q_quantum_02"
+   "evidence": "science · product curator · Quantum · cs_q_quantum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queensland_04",
    "text": "Queensland is a state in Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Queensland · cs_q_queensland_04"
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_09",
    "text": "A quail is a small ground bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_09"
+   "evidence": "nature · product curator · Quail · cs_q_quail_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_08",
    "text": "Quartz is a hard mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_08"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_question_02",
    "text": "A question seeks an answer",
    "standing": "projectable",
-   "evidence": "language · product curator · Question · cs_q_question_02"
+   "evidence": "language · product curator · Question · cs_q_question_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_question_mark_03",
    "text": "A question mark ends an interrogative sentence",
    "standing": "projectable",
-   "evidence": "language · product curator · Question mark · cs_q_question_mark_03"
+   "evidence": "language · product curator · Question mark · cs_q_question_mark_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_05",
    "text": "A quill is a hollow feather shaft",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quill · cs_q_quill_05"
+   "evidence": "nature · product curator · Quill · cs_q_quill_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartzite_03",
    "text": "Quartzite is a metamorphic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartzite · cs_q_quartzite_03"
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queue_01",
    "text": "A queue is a waiting line",
    "standing": "projectable",
-   "evidence": "math · product curator · Queue · cs_q_queue_01"
+   "evidence": "math · product curator · Queue · cs_q_queue_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinine_01",
    "text": "Quinine comes from cinchona bark",
    "standing": "projectable",
-   "evidence": "science · product curator · Quinine · cs_q_quinine_01"
+   "evidence": "science · product curator · Quinine · cs_q_quinine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadratic_02",
    "text": "A quadratic has a squared term",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadratic · cs_q_quadratic_02"
+   "evidence": "math · product curator · Quadratic · cs_q_quadratic_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrillion_02",
    "text": "A quadrillion is a thousand trillion",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrillion · cs_q_quadrillion_02"
+   "evidence": "math · product curator · Quadrillion · cs_q_quadrillion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartet_02",
    "text": "A string quartet has four players",
    "standing": "projectable",
-   "evidence": "history · product curator · Quartet · cs_q_quartet_02"
+   "evidence": "history · product curator · Quartet · cs_q_quartet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_04",
    "text": "A quilt is a layered fabric covering",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_04"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_05",
    "text": "A quilt keeps a sleeper warm",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_05"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quince_04",
    "text": "Cooks often stew quince fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quince · cs_q_quince_04"
+   "evidence": "nature · product curator · Quince · cs_q_quince_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quintillion_02",
    "text": "A quintillion is a thousand quadrillion",
    "standing": "projectable",
-   "evidence": "math · product curator · Quintillion · cs_q_quintillion_02"
+   "evidence": "math · product curator · Quintillion · cs_q_quintillion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quotient_02",
    "text": "Twelve divided by three has quotient four",
    "standing": "projectable",
-   "evidence": "math · product curator · Quotient · cs_q_quotient_02"
+   "evidence": "math · product curator · Quotient · cs_q_quotient_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_question_03",
    "text": "An interrogative sentence asks a question",
    "standing": "projectable",
-   "evidence": "language · product curator · Question · cs_q_question_03"
+   "evidence": "language · product curator · Question · cs_q_question_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarter_horse_02",
    "text": "A quarter horse is a breed of horse",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quarter horse · cs_q_quarter_horse_02"
+   "evidence": "nature · product curator · Quarter horse · cs_q_quarter_horse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_04",
    "text": "A quadrant is a quarter of a plane",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrant · cs_q_quadrant_04"
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_06",
    "text": "A quark is a fundamental particle",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_06"
+   "evidence": "science · product curator · Quark · cs_q_quark_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartet_03",
    "text": "A quartet has four performers",
    "standing": "projectable",
-   "evidence": "history · product curator · Quartet · cs_q_quartet_03"
+   "evidence": "history · product curator · Quartet · cs_q_quartet_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quechua_02",
    "text": "Quechua is an Andean language",
    "standing": "projectable",
-   "evidence": "language · product curator · Quechua · cs_q_quechua_02"
+   "evidence": "language · product curator · Quechua · cs_q_quechua_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_06",
    "text": "A quilt is a layered bed covering",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_06"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quince_05",
    "text": "A quince is a tart fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quince · cs_q_quince_05"
+   "evidence": "nature · product curator · Quince · cs_q_quince_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_07",
    "text": "Sewers stitch a quilt",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_07"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_07",
    "text": "Protons contain quarks",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_07"
+   "evidence": "science · product curator · Quark · cs_q_quark_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quota_01",
    "text": "A quota is a set limit",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quota · cs_q_quota_01"
+   "evidence": "civics · product curator · Quota · cs_q_quota_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quay_01",
    "text": "Ships dock at a quay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quay · cs_q_quay_01"
+   "evidence": "geography · product curator · Quay · cs_q_quay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_06",
    "text": "A quill was a writing pen",
    "standing": "projectable",
-   "evidence": "history · product curator · Quill · cs_q_quill_06"
+   "evidence": "history · product curator · Quill · cs_q_quill_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quota_02",
    "text": "A quota sets a limit",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quota · cs_q_quota_02"
+   "evidence": "civics · product curator · Quota · cs_q_quota_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quotient_03",
    "text": "Division yields a quotient",
    "standing": "projectable",
-   "evidence": "math · product curator · Quotient · cs_q_quotient_03"
+   "evidence": "math · product curator · Quotient · cs_q_quotient_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarry_02",
    "text": "Workers dig stone from a quarry",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quarry · cs_q_quarry_02"
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantity_01",
    "text": "A quantity has a number and a unit",
    "standing": "projectable",
-   "evidence": "math · product curator · Quantity · cs_q_quantity_01"
+   "evidence": "math · product curator · Quantity · cs_q_quantity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quotation_01",
    "text": "A quotation repeats exact words",
    "standing": "projectable",
-   "evidence": "language · product curator · Quotation · cs_q_quotation_01"
+   "evidence": "language · product curator · Quotation · cs_q_quotation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_05",
    "text": "Four quarts equal one gallon",
    "standing": "projectable",
-   "evidence": "math · product curator · Quart · cs_q_quart_05"
+   "evidence": "math · product curator · Quart · cs_q_quart_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_07",
    "text": "A porcupine has a quill",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quill · cs_q_quill_07"
+   "evidence": "nature · product curator · Quill · cs_q_quill_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quotient_rule_01",
    "text": "Calculus uses the quotient rule",
    "standing": "projectable",
-   "evidence": "math · product curator · Quotient rule · cs_q_quotient_rule_01"
+   "evidence": "math · product curator · Quotient rule · cs_q_quotient_rule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quote_01",
    "text": "Writers mark a quote with marks",
    "standing": "projectable",
-   "evidence": "language · product curator · Quote · cs_q_quote_01"
+   "evidence": "language · product curator · Quote · cs_q_quote_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_08",
    "text": "Writers dipped a quill in ink",
    "standing": "projectable",
-   "evidence": "history · product curator · Quill · cs_q_quill_08"
+   "evidence": "history · product curator · Quill · cs_q_quill_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_06",
    "text": "Milk comes in a quart",
    "standing": "projectable",
-   "evidence": "math · product curator · Quart · cs_q_quart_06"
+   "evidence": "math · product curator · Quart · cs_q_quart_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarry_03",
    "text": "Marble comes from a quarry",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quarry · cs_q_quarry_03"
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queen_05",
    "text": "A queen bee heads a hive",
    "standing": "projectable",
-   "evidence": "nature · product curator · Queen · cs_q_queen_05"
+   "evidence": "nature · product curator · Queen · cs_q_queen_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quay_02",
    "text": "Cargo loads at a quay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quay · cs_q_quay_02"
+   "evidence": "geography · product curator · Quay · cs_q_quay_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quota_03",
    "text": "Fisheries set a catch quota",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quota · cs_q_quota_03"
+   "evidence": "civics · product curator · Quota · cs_q_quota_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantity_02",
    "text": "Physics measures a quantity",
    "standing": "projectable",
-   "evidence": "math · product curator · Quantity · cs_q_quantity_02"
+   "evidence": "math · product curator · Quantity · cs_q_quantity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_10",
    "text": "A quail nests on the ground",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_10"
+   "evidence": "nature · product curator · Quail · cs_q_quail_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quake_01",
    "text": "A quake shakes the ground",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quake · cs_q_quake_01"
+   "evidence": "geography · product curator · Quake · cs_q_quake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarantine_02",
    "text": "Quarantine isolates the sick",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quarantine · cs_q_quarantine_02"
+   "evidence": "civics · product curator · Quarantine · cs_q_quarantine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarter_05",
    "text": "Four quarters make a whole",
    "standing": "projectable",
-   "evidence": "math · product curator · Quarter · cs_q_quarter_05"
+   "evidence": "math · product curator · Quarter · cs_q_quarter_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_09",
    "text": "Quartz scratches glass",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_09"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quatrain_01",
    "text": "A quatrain has four lines",
    "standing": "projectable",
-   "evidence": "language · product curator · Quatrain · cs_q_quatrain_01"
+   "evidence": "language · product curator · Quatrain · cs_q_quatrain_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicksand_03",
    "text": "Quicksand traps a heavy load",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_03"
+   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinine_02",
    "text": "Quinine treats malaria",
    "standing": "projectable",
-   "evidence": "science · product curator · Quinine · cs_q_quinine_02"
+   "evidence": "science · product curator · Quinine · cs_q_quinine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quiver_02",
    "text": "An archer carries arrows in a quiver",
    "standing": "projectable",
-   "evidence": "history · product curator · Quiver · cs_q_quiver_02"
+   "evidence": "history · product curator · Quiver · cs_q_quiver_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_05",
    "text": "A quadrant measures angles",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrant · cs_q_quadrant_05"
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_11",
    "text": "Quails scratch for seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_11"
+   "evidence": "nature · product curator · Quail · cs_q_quail_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantum_03",
    "text": "Light arrives in a quantum",
    "standing": "projectable",
-   "evidence": "science · product curator · Quantum · cs_q_quantum_03"
+   "evidence": "science · product curator · Quantum · cs_q_quantum_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_10",
    "text": "Sand often contains quartz",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_10"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebracho_01",
    "text": "Quebracho yields tannin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quebracho · cs_q_quebracho_01"
+   "evidence": "nature · product curator · Quebracho · cs_q_quebracho_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_queue_02",
    "text": "A queue orders waiting items",
    "standing": "projectable",
-   "evidence": "math · product curator · Queue · cs_q_queue_02"
+   "evidence": "math · product curator · Queue · cs_q_queue_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicklime_02",
    "text": "Quicklime heats with water",
    "standing": "projectable",
-   "evidence": "science · product curator · Quicklime · cs_q_quicklime_02"
+   "evidence": "science · product curator · Quicklime · cs_q_quicklime_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinine_03",
    "text": "Doctors prescribe quinine",
    "standing": "projectable",
-   "evidence": "science · product curator · Quinine · cs_q_quinine_03"
+   "evidence": "science · product curator · Quinine · cs_q_quinine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_06",
    "text": "Quinoa stores plant protein",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_06"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quiver_03",
    "text": "An arrow rests in a quiver",
    "standing": "projectable",
-   "evidence": "history · product curator · Quiver · cs_q_quiver_03"
+   "evidence": "history · product curator · Quiver · cs_q_quiver_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_12",
    "text": "A quail bursts into flight",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_12"
+   "evidence": "nature · product curator · Quail · cs_q_quail_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_08",
    "text": "Quarks bind inside protons",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_08"
+   "evidence": "science · product curator · Quark · cs_q_quark_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_07",
    "text": "A quart holds four cups",
    "standing": "projectable",
-   "evidence": "math · product curator · Quart · cs_q_quart_07"
+   "evidence": "math · product curator · Quart · cs_q_quart_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartet_04",
    "text": "Four singers form a quartet",
    "standing": "projectable",
-   "evidence": "history · product curator · Quartet · cs_q_quartet_04"
+   "evidence": "history · product curator · Quartet · cs_q_quartet_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quenching_01",
    "text": "Quenching hardens steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Quenching · cs_q_quenching_01"
+   "evidence": "science · product curator · Quenching · cs_q_quenching_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicksand_04",
    "text": "Quicksand yields under weight",
    "standing": "projectable",
-   "evidence": "science · product curator · Quicksand · cs_q_quicksand_04"
+   "evidence": "science · product curator · Quicksand · cs_q_quicksand_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quiet_01",
    "text": "Carpets keep rooms quiet",
    "standing": "projectable",
-   "evidence": "science · product curator · Quiet · cs_q_quiet_01"
+   "evidence": "science · product curator · Quiet · cs_q_quiet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_08",
    "text": "A quilt traps warm air",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_08"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinine_04",
    "text": "Cinchona bark yields quinine",
    "standing": "projectable",
-   "evidence": "history · product curator · Quinine · cs_q_quinine_04"
+   "evidence": "history · product curator · Quinine · cs_q_quinine_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_09",
    "text": "Ink flowed from a quill",
    "standing": "projectable",
-   "evidence": "history · product curator · Quill · cs_q_quill_09"
+   "evidence": "history · product curator · Quill · cs_q_quill_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_06",
    "text": "Pilots read a compass quadrant",
    "standing": "projectable",
-   "evidence": "science · product curator · Quadrant · cs_q_quadrant_06"
+   "evidence": "science · product curator · Quadrant · cs_q_quadrant_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quail_13",
    "text": "Farmers raise quail for eggs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quail · cs_q_quail_13"
+   "evidence": "nature · product curator · Quail · cs_q_quail_13",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_09",
    "text": "Quarks carry fractional charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_09"
+   "evidence": "science · product curator · Quark · cs_q_quark_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_11",
    "text": "Sand grains hold quartz",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_11"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_09",
    "text": "Stitchers layer a warm quilt",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_09"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinine_05",
    "text": "Doctors dose quinine for malaria",
    "standing": "projectable",
-   "evidence": "science · product curator · Quinine · cs_q_quinine_05"
+   "evidence": "science · product curator · Quinine · cs_q_quinine_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_07",
    "text": "Quinoa seeds pack protein",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_07"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quiver_04",
    "text": "Archers carry arrows in a quiver",
    "standing": "projectable",
-   "evidence": "history · product curator · Quiver · cs_q_quiver_04"
+   "evidence": "history · product curator · Quiver · cs_q_quiver_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quota_04",
    "text": "A quota limits imports",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quota · cs_q_quota_04"
+   "evidence": "civics · product curator · Quota · cs_q_quota_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_07",
    "text": "A quadrant maps sky arcs",
    "standing": "projectable",
-   "evidence": "science · product curator · Quadrant · cs_q_quadrant_07"
+   "evidence": "science · product curator · Quadrant · cs_q_quadrant_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quake_02",
    "text": "Earthquakes rupture faults",
    "standing": "projectable",
-   "evidence": "science · product curator · Quake · cs_q_quake_02"
+   "evidence": "science · product curator · Quake · cs_q_quake_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quality_01",
    "text": "Quality ranks product worth",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quality · cs_q_quality_01"
+   "evidence": "civics · product curator · Quality · cs_q_quality_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarry_04",
    "text": "Blasting opens a quarry",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quarry · cs_q_quarry_04"
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quart_08",
    "text": "Four cups equal one quart",
    "standing": "projectable",
-   "evidence": "math · product curator · Quart · cs_q_quart_08"
+   "evidence": "math · product curator · Quart · cs_q_quart_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartz_12",
    "text": "Quartz forms hard crystals",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartz · cs_q_quartz_12"
+   "evidence": "science · product curator · Quartz · cs_q_quartz_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quebracho_02",
    "text": "Quebracho wood tans leather",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quebracho · cs_q_quebracho_02"
+   "evidence": "nature · product curator · Quebracho · cs_q_quebracho_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quilt_10",
    "text": "A quilt layers warm cloth",
    "standing": "projectable",
-   "evidence": "history · product curator · Quilt · cs_q_quilt_10"
+   "evidence": "history · product curator · Quilt · cs_q_quilt_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_08",
    "text": "Quinoa packs seed protein",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_08"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quota_05",
    "text": "A quota limits catch size",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quota · cs_q_quota_05"
+   "evidence": "civics · product curator · Quota · cs_q_quota_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quahog_02",
    "text": "Quahogs filter tidal mud",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quahog · cs_q_quahog_02"
+   "evidence": "nature · product curator · Quahog · cs_q_quahog_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantity_03",
    "text": "Scales report a quantity",
    "standing": "projectable",
-   "evidence": "math · product curator · Quantity · cs_q_quantity_03"
+   "evidence": "math · product curator · Quantity · cs_q_quantity_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_10",
    "text": "Quarks form proton cores",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_10"
+   "evidence": "science · product curator · Quark · cs_q_quark_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quagga_03",
    "text": "Quaggas grazed African plains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quagga · cs_q_quagga_03"
+   "evidence": "nature · product curator · Quagga · cs_q_quagga_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quay_03",
    "text": "A quay docks cargo ships",
    "standing": "projectable",
-   "evidence": "civics · product curator · Quay · cs_q_quay_03"
+   "evidence": "civics · product curator · Quay · cs_q_quay_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_10",
    "text": "Birds grow flight quills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quill · cs_q_quill_10"
+   "evidence": "nature · product curator · Quill · cs_q_quill_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quince_06",
    "text": "Quince ripens tart fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quince · cs_q_quince_06"
+   "evidence": "nature · product curator · Quince · cs_q_quince_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinoa_09",
    "text": "Quinoa cooks like grain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_09"
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quotient_04",
    "text": "A quotient divides two numbers",
    "standing": "projectable",
-   "evidence": "math · product curator · Quotient · cs_q_quotient_04"
+   "evidence": "math · product curator · Quotient · cs_q_quotient_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quantum_04",
    "text": "A quantum packs energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Quantum · cs_q_quantum_04"
+   "evidence": "science · product curator · Quantum · cs_q_quantum_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quadrant_08",
    "text": "Axes split a quadrant",
    "standing": "projectable",
-   "evidence": "math · product curator · Quadrant · cs_q_quadrant_08"
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quahog_03",
    "text": "A quahog buries in sand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quahog · cs_q_quahog_03"
+   "evidence": "nature · product curator · Quahog · cs_q_quahog_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quark_11",
    "text": "Quarks form protons",
    "standing": "projectable",
-   "evidence": "science · product curator · Quark · cs_q_quark_11"
+   "evidence": "science · product curator · Quark · cs_q_quark_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quarry_05",
    "text": "Workers cut stone at a quarry",
    "standing": "projectable",
-   "evidence": "history · product curator · Quarry · cs_q_quarry_05"
+   "evidence": "history · product curator · Quarry · cs_q_quarry_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quartzite_04",
    "text": "Quartzite hardens from sandstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Quartzite · cs_q_quartzite_04"
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quaternary_02",
    "text": "Quaternary ice carved valleys",
    "standing": "projectable",
-   "evidence": "science · product curator · Quaternary · cs_q_quaternary_02"
+   "evidence": "science · product curator · Quaternary · cs_q_quaternary_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quill_11",
    "text": "A quill writes with ink",
    "standing": "projectable",
-   "evidence": "history · product curator · Quill · cs_q_quill_11"
+   "evidence": "history · product curator · Quill · cs_q_quill_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quicksand_05",
    "text": "Quicksand traps heavy objects",
    "standing": "projectable",
-   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_05"
+   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quince_07",
    "text": "Cooks bake quince into jelly",
    "standing": "projectable",
-   "evidence": "nature · product curator · Quince · cs_q_quince_07"
+   "evidence": "nature · product curator · Quince · cs_q_quince_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_q_quinine_06",
    "text": "Quinine bitter-tastes tonic water",
    "standing": "projectable",
-   "evidence": "science · product curator · Quinine · cs_q_quinine_06"
+   "evidence": "science · product curator · Quinine · cs_q_quinine_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
