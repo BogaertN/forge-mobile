@@ -38,7 +38,31 @@ function MemoryStore(backend) { const mem = {}; const b = backend || { get: k =>
     if (!m || m.staged !== gen() || !Number.isInteger(m.prev)) return { ok: false, rule: 'RB-NO-PRE-RESTORE-GENERATION' };
     b.set(GEN_KEY, String(m.prev)); try { b.set(GEN_PREV_KEY, JSON.stringify({ prev: null, staged: null, rolled_back_from: m.staged })); } catch (e) { /* pointer already switched */ } return { ok: true, active: m.prev, from: m.staged }; }
   const hasRollback = () => { try { const m = JSON.parse(b.get(GEN_PREV_KEY) || 'null'); return !!(m && m.staged === gen() && Number.isInteger(m.prev)); } catch (e) { return false; } };
-  return { load(cat) { return rawLoad(gen(), cat); }, save(cat, val) { b.set(pre(gen()) + cat, JSON.stringify(val)); }, categories: CATEGORIES, allStores: ALL_STORES,
+  /* 4.9.166: persist must survive QuotaExceeded — never throw uncaught into the UI banner for a routine save (esp. kernel.trace).
+     Evict older gen keys / shrink array payloads (trace first), retry; soft cats swallow after last shrink so the answer path still completes. */
+  const isQuota = e => !!(e && (/quota/i.test(String(e.name || '') + ' ' + String(e.message || '')) || e.code === 22 || e.code === 1014));
+  const SOFT_CATS = new Set(['trace', 'ui_errors', 'jobs', 'sim_runs', 'mea_candidates', 'mea_archive', 'mea_receipts', 'mea_problems', 'mea_seals', 'reminders', 'feedback', 'sync_log', 'request_policy_gaps', 'node_jobs', 'pf_drift_log', 'ede_calibration', 'drift_archive', 'containment_receipts', 'tool_invocations', 'workbench_events', 'web_evidence', 'fetch_path', 'council', 'promotions', 'rejected_meanings', 'loops', 'collapse_events', 'language_examples', 'resurrection_proposals', 'admission_queue', 'shared_challenges', 'shared_cursor', 'shared_drafts', 'shared_outbox', 'shared_inbox', 'capsules', 'proof_exports', 'case_index', 'case_ledger', 'economy_events', 'economy_seen', 'economy_quarantine', 'economy_capsules', 'economy_manifests', 'economy_foreign', 'usage_events', 'usage_counts', 'attribution_ledger', 'attribution_foreign', 'ledger_conflicts', 'synced_items', 'receipts', 'justifications', 'withdrawal_receipts', 'hypotheses', 'admitted_rules', 'pf_echo', 'pf_agents']);
+  const compactTrace = t => { if (!t || typeof t !== 'object') return t; return { turn: t.turn, at: t.at, input: typeof t.input === 'string' ? t.input.slice(0, 240) : t.input, rules: Array.isArray(t.rules) ? t.rules.map(r => (r && typeof r === 'object' ? { id: r.id || r, doc: r.doc } : r)).slice(0, 48) : t.rules, outcome: t.outcome, blocked: t.blocked, intent_kind: t.intent_kind, psi_id: t.psi_id, _shrunk: true }; };
+  function freeQuotaSpace(skipCat) { if (!(b.del && b.keys)) return; const g = gen(); try {
+    for (const k of b.keys()) { const m = /^kernel\.g(\d+)\./.exec(k); const kg = m ? Number(m[1]) : (/^kernel\.(?!__|g\d+\.)/.test(k) && k !== 'kernel.probe' ? 0 : -1);
+      if (kg >= 0 && kg !== g) { try { b.del(k); } catch (e) { /* keep freeing */ } } }
+    for (const c of ['ui_errors', 'sim_runs', 'jobs', 'mea_candidates', 'web_evidence', 'tool_invocations', 'pf_drift_log', 'sync_log']) {
+      if (c === skipCat) continue; const k = pre(g) + c; if (b.get(k) == null) continue; try { b.set(k, JSON.stringify([])); } catch (e) { try { b.del(k); } catch (e2) { /* ignore */ } } }
+    if (skipCat !== 'trace') { const tk = pre(g) + 'trace'; const raw = b.get(tk); if (raw) { try { const arr = JSON.parse(raw); if (Array.isArray(arr) && arr.length > 5) b.set(tk, JSON.stringify(arr.slice(-5).map(compactTrace))); } catch (e) { /* ignore */ } } }
+  } catch (e) { /* best-effort eviction */ } }
+  function save(cat, val) { const key = pre(gen()) + cat; const put = v => { b.set(key, JSON.stringify(v)); };
+    try { put(val); return { ok: true }; }
+    catch (e) { if (!isQuota(e)) throw e;
+      freeQuotaSpace(cat);
+      try { put(val); return { ok: true, freed: true }; } catch (e2) { if (!isQuota(e2)) throw e2; }
+      if (Array.isArray(val)) {
+        for (const n of [100, 50, 25, 10, 5, 2, 1, 0]) {
+          try { let next = val.slice(-n); if (cat === 'trace') next = next.map(compactTrace); put(next); return { ok: true, shrunk: true, kept: next.length }; }
+          catch (e3) { if (!isQuota(e3)) throw e3; } }
+      }
+      if (SOFT_CATS.has(cat) || Array.isArray(val)) return { ok: false, rule: 'STORE-QUOTA-SOFT', cat };
+      throw e; } }
+  return { load(cat) { return rawLoad(gen(), cat); }, save, categories: CATEGORIES, allStores: ALL_STORES,
     generation: gen, stageGeneration, commitGeneration, rollbackGeneration, hasRollback, generationKeys: g => namesIn(g == null ? gen() : g).map(c => pre(g == null ? gen() : g) + c) }; }
 function canon(o) { if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']'; if (o && typeof o === 'object') return '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}'; return JSON.stringify(o); }
 const clone = o => JSON.parse(JSON.stringify(o));
@@ -2206,7 +2230,7 @@ function Kernel(opts) {
           if (gate.ok&&gate.recs.length) { const about=aboutPick(q.subj,gate.recs,6);
             rpmcPriors={G:gate.G,aligned:gate.aligned,chi:gate.chi||null,recs:about.map(r=>({id:r.id,text:r.text||(r.clause&&G.clauseText(r.clause,'kernel'))||'',provenance:'confirmed_shared'}))};
             rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.165 RPMC Axiom 4 + §3.4 grace; candidates into AQ-1/RSOC — not answer dump', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r=>r.id).join(', ') }); }
-          else if (classHeadOf(q.subj)) rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.165 no phase-aligned CS ancestors; factual WH still falls to AQ-1/research (silence only for no-basis novelty)', note: (gate.reason||'none') + ' G=' + (gate.G||0) }); } }
+          else rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.165/4.9.166 no phase-aligned CS ancestors; factual WH still falls to AQ-1/research (silence only for no-basis novelty)', note: (gate.reason||'none') + ' G=' + (gate.G||0) }); } }
       /* MEM-RECALL-TIME-ADJUNCT (4.9.82): "when is / does NP (V)" with no exact match recalls a fact about the same subject (and, for a lexical verb,
          the same verb) that carries a time: a kāla adjunct, or an adjunct / predicate phrase whose noun is of the WordNet time class
          ("moved to Thursday", "is in June") — the time is the answer, whatever the preposition */
@@ -2584,6 +2608,20 @@ function Kernel(opts) {
           if (t2[0].w === 'what' && /^(could|can|might|should|would)$/.test(t2[1].w) && /^(we|i)$/.test(t2[2].w) && t2[3].w === 'do' && t2[4].w === 'to') for (const pz of derive([t2[2], t2[1]].concat(t2.slice(5))).parses) { const c = pz.node.clause; if (!c || !c.verb || !(c.verb.mod && c.verb.mod !== 'asserted')) continue; pb = problemOf(c); if (pb) break; } } catch (e) { pb = null; }
         if (pb) { trace.rules.push({ id: 'MEAP-PROBLEM-QUESTION', doc: 'MEA problem lane; WordNet lexical classes (' + pb.basis + ')', note: 'purpose infinitive' }); msm.meaning = openProblem(pb); msm.limits.may_write_memory = false; sel.frame = 'FR.MEA'; routeOf(); } }
       if (msm.meaning.kind !== 'mea_problem_opened' && gap && (whQ || ynQ) && !personal && perm.policy().research === 'on_request') { const vst = opts.vaultState ? opts.vaultState() : 'none';
+        /* 4.9.166: RPMC gather before AQ-1 when language-core answer() did not already stage it
+           (world_answer undetermined / world_limitation skip answer(); still RPMC→RSOC→research). */
+        if (!rpmcPriors && !trace.rules.some(r => /^RPMC-ANCESTOR-/.test(r.id))) {
+          let np = (gm.subj && (gm.subj.head || gm.subj.propn)) ? gm.subj : null;
+          if (!np) try { np = subjectNP(raw); } catch (e) { np = null; }
+          if (!np) { const m = String(raw).trim().replace(/[?]+$/, '').match(/^(?:what|who|which)\s+(?:is|are|was|were)\s+(.+)$/i);
+            if (m) { try { np = reparseNP(m[1].trim()); } catch (e) { np = null; }
+              if (!np && m[1].trim() && m[1].trim().length < 80) np = { propn: m[1].trim().replace(/\s+/g, '_'), surface: m[1].trim().split(/\s+/) }; } }
+          if (np) { const gate = rpmcAncestorCandidates(np, {});
+            if (gate.ok && gate.recs.length) { const about = aboutPick(np, gate.recs, 6);
+              rpmcPriors = { G: gate.G, aligned: gate.aligned, chi: gate.chi || null, recs: about.map(r => ({ id: r.id, text: r.text || (r.clause && G.clauseText(r.clause, 'kernel')) || '', provenance: 'confirmed_shared' })) };
+              trace.rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.166 RPMC before AQ-1 (world/language gap); candidates into research/RSOC — not answer dump', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r => r.id).join(', ') }); }
+            else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.166 no phase-aligned CS ancestors at AQ-1; factual WH falls to research', note: (gate.reason || 'none') + ' G=' + (gate.G || 0) }); }
+          else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.166 AQ-1 with no recoverable subject NP for RPMC gather', note: 'no-subj' }); }
         trace.rules.push({ id: 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST', doc: 'CONFLICTS.md v4.9.48 AQ-1; gap=' + gk });
         if (vst === 'unlocked') { sel.toolRequest = Object.assign({ tool: 'research.web', input: raw.replace(/[?\s]+$/, ''), auto: true }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {}); sel.frame = 'FR.TOOL.RESEARCH'; msm.meaning = Object.assign({ kind: 'tool_started', tool: 'research.web', target: dirObj || raw.replace(/[?\s]+$/, ''), noun: dirObj ? 'topic' : 'question' }, (np => np ? { np } : {})(subjectNP(raw)), rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {}); msm.limits.may_write_memory = false; if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.165 RPMC priors → research/RSOC select → Panini NL', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length }); routeOf(); }
         else { msm.meaning = Object.assign({}, gm, { lookupHint: vst }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {}); if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.165 RPMC priors staged for research when vault unlocks; not a canned answer', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length }); } } }
@@ -2724,7 +2762,7 @@ function Kernel(opts) {
     let msmFull = null; try { msmFull = turnManifests(trace, msm, text, rec); } catch (e) { trace.msm_v1 = { error: String(e && e.message).slice(0, 200) }; trace.output_manifest = null; }
     if (msm.meaning && msm.meaning.creative) trace.creative = msm.meaning.creative;
     trace.turn_packet = TP.build(trace, text, msm); delete trace.echo_surface; delete trace.echo_vakya;
-    const tr = store.load('trace'); tr.push(trace); store.save('trace', tr.slice(-200));
+    try { const tr = store.load('trace'); tr.push(trace); store.save('trace', tr.slice(-200)); } catch (e) { /* 4.9.166: MemoryStore soft-quota; answer still completes */ try { store.save('trace', [{ turn: trace.turn, at: trace.at, input: String(trace.input || '').slice(0, 200), rules: (trace.rules || []).slice(0, 20), _quota: true }]); } catch (e2) { /* leave prior traces */ } }
     const outR = { reply: text, blocked: trace.blocked, block_reason: trace.block_reason || null, outcome: trace.outcome, trace, msm, turn_packet: trace.turn_packet };
     if (msm.meaning && msm.meaning.kind === 'turn_packet_exported' && msm.meaning.n != null) { const prior = exportTurnPacket(+msm.meaning.n); if (prior) outR.exported_packet = prior; }
     const sealOk = curSecrets.length && !trace.blocked && msm.meaning && msm.meaning.kind === 'stored_sensitive';
