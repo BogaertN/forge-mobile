@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 204,
+ "curated_facts": 213,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1099,6 +1099,60 @@
    "text": "Geologists date zircon crystals",
    "standing": "projectable",
    "evidence": "science · product curator · Zircon · cs_z_zircon_05"
+  },
+  {
+   "id": "cs_z_zaffre_01",
+   "text": "Zaffre is a cobalt blue pigment",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zaffre · cs_z_zaffre_01"
+  },
+  {
+   "id": "cs_z_zest_01",
+   "text": "Zest is citrus peel",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zest · cs_z_zest_01"
+  },
+  {
+   "id": "cs_z_zinc_oxide_04",
+   "text": "Zinc oxide blocks sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_04"
+  },
+  {
+   "id": "cs_z_zincite_01",
+   "text": "Zincite is a zinc ore",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zincite · cs_z_zincite_01"
+  },
+  {
+   "id": "cs_z_zinc_12",
+   "text": "Zinc coats steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_12"
+  },
+  {
+   "id": "cs_z_zinnia_06",
+   "text": "A zinnia has bright petals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_06"
+  },
+  {
+   "id": "cs_z_zirconia_01",
+   "text": "Zirconia is a hard ceramic",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconia · cs_z_zirconia_01"
+  },
+  {
+   "id": "cs_z_zoisite_01",
+   "text": "Zoisite is a silicate mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zoisite · cs_z_zoisite_01"
+  },
+  {
+   "id": "cs_z_zymase_01",
+   "text": "Zymase ferments sugar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zymase · cs_z_zymase_01"
   }
  ]
 }
