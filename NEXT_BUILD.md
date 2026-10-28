@@ -1,3 +1,11 @@
+# Next build order — after 4.9.172 (shipped)
+
+**Baseline:** 4.9.172 always-on workers on the 4.9.171 mesh. Athena researches continuously and writes a lawful promote into the hosted session KB with no UI click. Gilligan re-curates cold storage. ChristPing is Gilligan-only (`GRACE-RECENTER` on drift above 0.80, noisy claim not admitted). Ask pauses helpers, then they resume. Quarantine does not write `confirmed_shared` and does not spend the spawn window. Phone pack publish stays gated. No LLM. Soft leave ≥5 kB under 570 kB.
+
+**Shipped 4.9.172:** `schedule()` is `DREAM-ALWAYS-ON`. Backend fill is on. ChristPing rules are typed. The admit-window regression is covered by `verify/r4172_suite.js`.
+
+**Do not start:** an OS process pool; a model call; an open crawl; stuffing phone letter packs from the automatic fill; a phone dream KB; a ChristPing tone or HUD; Stack 6 avatar UI.
+
 # Next build order — after 4.9.171 (shipped)
 
 **Baseline:** 4.9.171 Athena spawn mesh on the 4.9.170 in-process registry. Gilligan gap-fill only while Ask is idle. Athena `maySpawn` / `mayAdmit`. Neo is the Ask surface and does not spawn. Admit stays default on and idle-gated. Explicit `eps: null` is unmeasured. Quarantine does not write packs or `confirmed_shared`. No LLM. Soft leave ≥5 kB under 570 kB.

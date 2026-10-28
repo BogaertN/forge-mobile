@@ -1,26 +1,18 @@
-/* dream_idle.js — 4.9.171 Athena spawn mesh on the 4.9.170 in-process registry. No OS process pool.
- * Gilligan: gap-fill, connect-dots, novel ideas inside the drift table. Idle ticks only. Yields while Ask is answering.
- * Athena: strict curator. maySpawn / mayAdmit. One enforcer per policy domain. Authorizes short-lived helpers.
- * Neo: Ask surface (Kernel.process). Priority Neo > Athena gate > Gilligan. Neo does not spawn. This file does not run Ask.
- * Lifecycle is Spawn → Run → Hibernate → Retire → Resurrect (Recursive Agent Orchestration, no model adapter).
- * Retire writes a hashed cold record (RPMC §14 ghost/cold; nothing discarded). Research resurrection needs drift ≤0.35 and integrity ≥0.85.
- * Every spawn and result is FORGE-RESONANCE-PACKET/v1 {Phi,eps,mu} or FORGE-IDLE-DREAM/v1. Freeform is refused.
- * Helper tasks: resonance_place, pack_append, research, extract, letter_fill, ancestor_probe. Undeclared tasks refused.
- * There is no timer. Pattern Reflection is not Gilligan. No LLM. No open crawl. Continuous fill stays paused. ChristPing is not built.
- * Doc law: Gilligan Core 1HSjAk6UY (ψ₁ seed, cold custody); RPMC Blueprint §14 1L_f5I2In (ghost/cold, reintegrate once);
- * Orchestration 1O5Txx2rL Ch 4.5–6.3 (lifecycle, registry, fork, budgets); RMC §10.8 1COtSEuXY (packets, not freeform);
- * Dream Drift 14fVCPgQ0 Codex 3.24 (idle only, drift under 0.4, χ quiet); Stack 6 16qImMjbF (promoter vs quarantine).
- * Bands are kmath.DRIFT_RULING only (≤0.35 project, χ below 0.40, quarantine through 0.80, hard stop above).
- * Stack 6 sandbox_promoter spirit: high integrity may stage a promote-candidate. That route is not
- * dream_state_quarantine_candidate. E-05 bans stay on the quarantine lane (no truth, no stable memory, no projection).
- * Admit defaults on for the idle worker. Explicit admitEnabled:false still pauses (DREAM-IDLE-ADMIT-PAUSED).
- * A lawful promote writes the session hosted KB and appends packs/confirmed_shared/{letter}.json.
- * Pages deploys those files on push to main (.github/workflows/pages.yml → source/tools/publish.sh). This file does not deploy.
- * Explicit eps:null is unmeasured. Number(null)===0 must not count as measured zero or as projectable.
- * Omitted eps may still use the integrity complement. Research is allow-listed or curated extracts only. No open crawl.
- * Grace recenter is χ (chiCorrect) plus the grace integral (graceOverAncestors). ChristPing is not built.
- * The integrity complement is a product skeleton meter. It is not driftFunctional and it is not the Mobile write law.
- * No on-device dream KB. This file is not on the ask path and is not in the phone bundle. */
+/* dream_idle.js — 4.9.172 always-on workers on the 4.9.171 mesh. No OS process pool. No timer. No LLM.
+ * Nic lock: Gilligan, Athena, Neo, and helpers are continuous workers. Ask pauses helpers while answering, then they resume.
+ * Manual hibernate stays hibernated. Codex 3.24 idle-trigger is yield etiquette only. It is not the schedule.
+ * Athena always researches the gap queue and admits/curates/places resonance automatically. No UI click path.
+ * Gilligan always revisits the cold bank and re-curates. Quarantine cold never becomes confirmed_shared.
+ * Backend fill: a lawful promote (drift ≤0.35, integrity ≥0.85, packet) writes the hosted session KB.
+ * Phone letter-pack publish stays gated (publishPacks true). Pages still ships packs only via publish.sh on main.
+ * ChristPing is first-class. Only Gilligan initiates it. Hard drift (>0.80) runs χ grace recenter, aborts that claim,
+ * and opens a different research path. The noisy claim is not admitted.
+ * Neo is the Ask surface. Neo does not spawn. Neo is not Neil. This file does not run Ask.
+ * Lifecycle is Spawn → Run → Hibernate → Retire → Resurrect. Quarantine custody does not spend the spawn window.
+ * Doc law: Gilligan Core 1HSjAk6UY (ChristPing / χ(t), only Gilligan initiates); Gilligan Codex 1hbLsNhrE;
+ * RPMC Blueprint §14 1L_f5I2In; RPMC protocol 1G-Yj323fee; Dream Drift 14fVCPgQ0; Orchestration 1O5Txx2rL;
+ * RMC §10.8 1COtSEuXY; Coherence Engine 1q5JcF-v1. Bands are kmath.DRIFT_RULING only.
+ * Explicit eps:null is unmeasured. No on-device dream KB. This file is not on the ask path and is not in the phone bundle. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
   const KM = isNode ? require('./kmath.js') : root.KMath;
@@ -31,10 +23,10 @@
   const INTEGRITY_HIGH = 0.85;
   const MAX_ATTEMPTS = 8;
   const LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  const PACK_PUBLISH_TRIGGER = 'Athena spawn pack_append (after resonance_place passes) writes packs/confirmed_shared/{letter}.json and index.json. The host calls that admit only while Ask is idle. Push to main runs .github/workflows/pages.yml → source/tools/publish.sh, which ships those files. Gilligan does not publish. Neo does not publish. Nothing here deploys or loops.';
+  const PACK_PUBLISH_TRIGGER = 'Backend fill writes the hosted session KB on a lawful promote with no UI click. Phone pack_append stays gated: it runs only when publishPacks is true, after resonance_place passes, and writes packs/confirmed_shared/{letter}.json. Push to main runs .github/workflows/pages.yml → source/tools/publish.sh. Gilligan does not publish. Neo does not publish. Nothing here deploys.';
   const DAEMONS = [
-    { id: 'daemon:gilligan', role: 'gilligan', duty: 'gap_fill_within_drift', runs: 'idle_only', writes_confirmed_shared: false, spawns_helpers: false },
-    { id: 'daemon:athena', role: 'athena', duty: 'strict_curate_admit', runs: 'on_host_admit', writes_confirmed_shared: true, spawns_helpers: true },
+    { id: 'daemon:gilligan', role: 'gilligan', duty: 'cold_revisit_re_curate', runs: 'always_on', writes_confirmed_shared: false, spawns_helpers: false },
+    { id: 'daemon:athena', role: 'athena', duty: 'continuous_research_and_admit', runs: 'always_on', writes_confirmed_shared: true, spawns_helpers: true },
     { id: 'daemon:neo', role: 'neo', duty: 'ask_surface', runs: 'kernel_process', writes_confirmed_shared: false, spawns_helpers: false, in_this_file: false }
   ];
   const CURATOR_TASKS = ['resonance_place', 'pack_append'];
@@ -56,16 +48,20 @@
     orchestration: '1O5Txx2rLvWehvmHY_8miMtVrFTqmQgo_xLyzA_P5dGA',
     rmc_10_8: '1COtSEuXYxfgfomzDBu99jrnaHoLWuIM79WVUy-glq54',
     harmonic_viii: '1eLLPI6U95TrmSXBsQhl2Jk2JBdu1lRgsHJfEE8H9hCE',
-    coherence: '1q5JcF-v1M2plJ500UcKxRHRM1fRbt1RCzc-AXjuoReE'
+    coherence: '1q5JcF-v1M2plJ500UcKxRHRM1fRbt1RCzc-AXjuoReE',
+    gilligan_codex: '1hbLsNhrEeeomonxkHAUjEkw4tXsHllcnuUzx8Mv8hOM'
   });
+  const CHRIST_RULES = Object.freeze(['CHRIST-PING', 'CHRIST-PING-REDIRECT', 'CHRIST-PING-GILLIGAN-ONLY', 'CHRIST-PING-NOT-HARD', 'GRACE-RECENTER']);
   const norm = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
 
   function boundary() {
     return {
       schema: SCHEMA, calls_llm: false, separate_from_ask_path: true, phone_dream_kb: false,
       continuous_admit_default: true, quarantine_writes_confirmed_shared: false, quarantine_writes_packs: false,
-      christ_ping: false, always_on: false, idle_gated: true, one_shot_fill: false, continuous_fill: 'paused',
-      gap_research: 'idle_only', continuous_curation: 'measurement_and_custody',
+      christ_ping: true, always_on: true, idle_gated: false, one_shot_fill: false, continuous_fill: 'backend_hosted',
+      phone_pack_publish: 'gated', pages_pack_ship: 'gated', ui_click_required: false, automatic_curation: true,
+      gap_research: 'continuous', cold_revisit: 'continuous', continuous_curation: 'automatic',
+      schedule_law: 'DREAM-ALWAYS-ON', christ_rules: CHRIST_RULES.slice(),
       gilligan_codex_ported: false, pattern_reflection_is_gilligan: false, open_crawl: false,
       research: 'allow-listed-or-curated', os_process_pool: false, spawn_pool: 'in_process_mesh',
       roles: { neo: 'ask_surface', gilligan: 'gap_fill_within_drift', athena: 'strict_curate_admit' },
@@ -73,11 +69,11 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.171', psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.172', psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
-      cite: 'Nic drift ruling; E-05 quarantine honesty; Stack 6 sandbox_promoter; RPMC §14 cold reintegration; Orchestration Ch 4.5–6.3; RMC §10.8 packets; Codex 3.24 idle drift < 0.4'
+      cite: 'Nic 2026-10-28 always-on workers; Athena continuous research; Gilligan cold re-curate; backend hosted fill; ChristPing Gilligan-only; E-05 quarantine honesty; RPMC §3 χ and §3.4 grace; Orchestration Ch 4.5–6.3; RMC §10.8 packets; Codex 3.24 is Ask-yield etiquette, not the schedule'
     };
   }
 
@@ -163,9 +159,38 @@
     const chi = KM.chiCorrect({ eps: Number(eps), ancestors: ancestors || [], applied: false });
     const grace = KM.graceOverAncestors(ancestors || []);
     return {
-      rule: 'GRACE-RECENTER', christ_ping: false, aborted: true, chi: chi, grace: grace,
+      rule: 'GRACE-RECENTER', christ_ping: true, initiator: 'gilligan', aborted: true, chi: chi, grace: grace,
       eps_before: Number.isFinite(Number(eps)) ? KM.r4(Number(eps)) : null, eps_after: chi.eps_after,
-      cite: 'RPMC §3 χ once per path; §3.4 Grace Integral. Hard stop above 0.80 aborts the path. ChristPing is not built.'
+      cite: 'Gilligan Agent Core 1HSjAk6UY: only Gilligan reinitializes collapse through χ(t). RPMC §3 χ once per path; §3.4 Grace Integral. Hard stop above 0.80 aborts the path and does not admit it.'
+    };
+  }
+
+  /* Gilligan is the only ChristPing initiator (Core: "Issues ChristPing"; "only node authorized to reinitialize through χ(t)").
+     Hard drift, or an explicit Gilligan request, aborts the noisy claim and opens a different research path. No confirmed_shared write.
+     Phone ritual UI (tone, HUD, biometrics) is not this path. */
+  function christPing(raw) {
+    raw = raw || {};
+    const who = raw.initiator || raw.spawned_by || 'gilligan';
+    if (who !== 'gilligan') return refusal('CHRIST-PING-GILLIGAN-ONLY', { christ_ping: false, christ_pain: false, initiator: String(who), role: 'gilligan' });
+    if (raw.calls_llm === true || llmShaped(raw)) return refusal('DREAM-LLM-REFUSED', { christ_ping: false, christ_pain: false, initiator: 'gilligan', role: 'gilligan' });
+    const eps = Number(raw.eps);
+    const hard = Number.isFinite(eps) && eps > KM.DRIFT_RULING.explore_max;
+    const explicit = raw.request === true || raw.explicit === true;
+    if (!hard && !explicit) return refusal('CHRIST-PING-NOT-HARD', { christ_ping: false, christ_pain: false, initiator: 'gilligan', role: 'gilligan', eps: Number.isFinite(eps) ? KM.r4(eps) : null });
+    const ancestors = Array.isArray(raw.ancestors) ? raw.ancestors : [];
+    const recenter = graceRecenter(Number.isFinite(eps) ? eps : KM.DRIFT_RULING.explore_max + 0.01, ancestors);
+    const from = raw.gap_id || raw.id || 'gap';
+    const redirect = {
+      id: String(from) + ':christ', kind: raw.kind || 'aq1_miss', from_id: String(from),
+      christ_ping: true, christ_pain: true, claim: null, extracts: [], ancestors: ancestors,
+      eps: recenter.chi && recenter.chi.applied === true ? recenter.eps_after : null,
+      integrity: null, calls_llm: false, rule: 'CHRIST-PING-REDIRECT'
+    };
+    return {
+      ok: true, rule: 'CHRIST-PING', christ_ping: true, christ_pain: true, initiator: 'gilligan', aborted: true,
+      wrote_confirmed_shared: false, wrote_pack: false, shared_kb: false, phone_db: false, calls_llm: false,
+      schema: SCHEMA, role: 'gilligan', recenter: recenter, redirect: redirect,
+      cite: recenter.cite
     };
   }
 
@@ -741,6 +766,26 @@
       if (ok) admitted.add(id);
       return { ok: true, admitted: admitted.has(id), calls_llm: false, gap_id: id };
     }
+    /* Quarantine and hard-reject custody. Hashed cold row. Does not spawn and does not spend the window. */
+    function noteCustody(rec, rule) {
+      const lane = (rec && rec.lane) || 'quarantine';
+      const body = {
+        schema: COLD_SCHEMA, id: 'custody:' + String((rec && (rec.gap_id || rec.id)) || sha256(String(rule || 'custody')).slice(0, 12)),
+        task: 'custody', parent: 'athena', parent_id: null, gap_id: rec && (rec.gap_id || rec.id) || null, domain: 'policy:custody',
+        stack: {
+          packet: rec && rec.packet || null, eps: rec && rec.eps != null ? rec.eps : null, eps_unmeasured: !rec || rec.eps == null,
+          integrity: rec && rec.integrity != null ? rec.integrity : null, claim: rec && rec.claim || null,
+          lane: lane, rule: rule || 'DREAM-QUARANTINE-NO-TRUTH', calls_llm: false, curator: false
+        },
+        memory: [], route: 'dream_state_quarantine_candidate',
+        truth_support_allowed: false, stable_memory_allowed: false, projection_allowed: false,
+        wrote_confirmed_shared: false, wrote_pack: false, calls_llm: false, retired_at: now(), spawn_counted: false
+      };
+      const bytes = canon(body);
+      const row = { schema: COLD_SCHEMA, id: body.id, sha256: sha256(bytes), bytes: bytes, body: body, route: body.route, wrote_confirmed_shared: false, wrote_pack: false, calls_llm: false, retired_at: body.retired_at, spawn_counted: false };
+      cold.push(row);
+      return row;
+    }
     function exportCold() {
       return JSON.stringify(cold.map(r => ({
         schema: r.schema, id: r.id, sha256: r.sha256, bytes: r.bytes, body: r.body, route: r.route,
@@ -773,7 +818,7 @@
       coldBank: () => cold.map(r => Object.assign({}, r, { body: r.body, wrote_confirmed_shared: false })),
       integrations: () => integrations.map(r => Object.assign({}, r)),
       exportCold: exportCold, loadCold: loadCold,
-      maySpawn: maySpawn, mayAdmit: mayAdmit, beginAdmit: beginAdmit, finishAdmit: finishAdmit,
+      maySpawn: maySpawn, mayAdmit: mayAdmit, beginAdmit: beginAdmit, finishAdmit: finishAdmit, noteCustody: noteCustody,
       noteAsk: noteAsk, setAnswering: v => noteAsk(v === true), askHeld: askHeld,
       budget: () => ({ max_helpers: budget.max_helpers, max_per_parent: budget.max_per_parent, max_spawn_per_idle_window: budget.max_spawn_per_idle_window, living: living().length, spawns_this_window: spawnsThisWindow }),
       daemons: () => DAEMONS.map(d => Object.assign({}, d)),
@@ -811,6 +856,8 @@
     const quarantine = [];
     const aborted = [];
     const log = [];
+    const christLog = [];
+    const coldSeen = new Set();
     const seen = new Set();
 
     function enqueue(items) {
@@ -838,15 +885,68 @@
       return applyResearchContract(merged).body;
     }
 
+    function hostReady(o) {
+      o = o || {};
+      const host = o.host || opts.host;
+      const key = o.writeKey || o.write_key || opts.writeKey || opts.write_key || '';
+      return !!(admitEnabled && host && typeof host.writeSharedKnowledge === 'function' && key && o.autoFill !== false && opts.autoFill !== false);
+    }
+
+    function fillBackend(staged, o) {
+      o = o || {};
+      if (!hostReady(o)) return { ok: false, ran: false, rule: 'DREAM-BACKEND-FILL-IDLE', wrote_confirmed_shared: false, wrote_pack: false, calls_llm: false, phone_db: false };
+      const packs = o.publishPacks === true || opts.publishPacks === true;
+      return admitRecord(staged, { host: o.host || opts.host, writeKey: o.writeKey || o.write_key || opts.writeKey || opts.write_key, publishPacks: packs, packDir: o.packDir || opts.packDir, answering: false });
+    }
+
+    function coldKept(row) {
+      const stack = (row && row.body && row.body.stack) || {};
+      if (!row || row.route === 'dream_state_quarantine_candidate' || row.wrote_confirmed_shared === true) return true;
+      if (stack.lane === 'quarantine' || stack.lane === 'hard_reject') return true;
+      if (stack.rule === 'DREAM-QUARANTINE-NO-TRUTH' || stack.rule === 'DREAM-HARD-REJECT-NO-TRUTH' || stack.rule === 'DREAM-QUARANTINE-KEEP' || stack.rule === 'GRACE-RECENTER' || stack.rule === 'CHRIST-PING') return true;
+      return false;
+    }
+
+    function revisitCold(o) {
+      const rows = athena.coldBank();
+      let row = null;
+      for (const r of rows) { if (!coldSeen.has(r.sha256)) { row = r; break; } }
+      if (!row) return { ok: true, ran: false, role: 'gilligan', rule: 'GILLIGAN-COLD-QUIET', calls_llm: false, wrote_confirmed_shared: false, wrote_pack: false, shared_kb: false, phone_db: false };
+      coldSeen.add(row.sha256);
+      if (coldKept(row)) return { ok: true, ran: true, role: 'gilligan', rule: 'GILLIGAN-COLD-KEEP', cold_id: row.id, calls_llm: false, wrote_confirmed_shared: false, wrote_pack: false, shared_kb: false, phone_db: false };
+      const stack = row.body.stack || {};
+      const measured = routeMeasurement({ eps: stack.eps, integrity: stack.integrity, claim: stack.claim, extracts: [], ancestors: stack.ancestors || [], calls_llm: false });
+      if (measured.lane !== 'promote_candidate' || !measured.claim || !(Number(measured.integrity) >= INTEGRITY_HIGH)) {
+        return { ok: true, ran: true, role: 'gilligan', rule: 'GILLIGAN-COLD-KEEP', cold_id: row.id, lane: measured.lane, calls_llm: false, wrote_confirmed_shared: false, wrote_pack: false, shared_kb: false, phone_db: false };
+      }
+      const staged = Object.assign({}, measured, { gap_id: (row.body && row.body.gap_id) || row.id, id: (row.body && row.body.gap_id) || row.id, status: 'staged', evidence: 'dream-idle · cold re-curate · ' + row.id });
+      const fill = fillBackend(staged, o);
+      return {
+        ok: true, ran: true, role: 'gilligan', rule: 'GILLIGAN-COLD-RECURATE', cold_id: row.id, lane: 'promote_candidate',
+        calls_llm: false, wrote_confirmed_shared: fill.wrote_confirmed_shared === true, wrote_pack: fill.wrote_pack === true,
+        shared_kb: fill.wrote_confirmed_shared === true, phone_db: false, backend_fill: { ok: fill.ok === true, rule: fill.rule, wrote_confirmed_shared: fill.wrote_confirmed_shared === true, wrote_pack: fill.wrote_pack === true, phone_db: false }
+      };
+    }
+
+    function noteChrist(ping) {
+      if (!ping) return;
+      christLog.push({ rule: ping.rule, christ_ping: ping.christ_ping === true, christ_pain: ping.christ_pain === true, initiator: ping.initiator || null, wrote_confirmed_shared: false, at: now(), calls_llm: false });
+      if (christLog.length > 80) christLog.splice(0, christLog.length - 80);
+    }
+
     function tick(o) {
       o = o || {};
       const busy = o.answering === true || answering;
       athena.noteAsk(busy);
-      if (busy || athena.askHeld()) return { ok: false, ran: false, schema: SCHEMA, rule: 'DREAM-IDLE-BUSY', calls_llm: false };
+      if (busy || athena.askHeld()) return { ok: false, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-IDLE-BUSY', calls_llm: false, researcher: 'athena' };
       if (athena.listActive().some(h => h.task === 'resonance_place' || h.task === 'pack_append')) {
-        return { ok: false, ran: false, schema: SCHEMA, rule: 'DREAM-ATHENA-PRIORITY', calls_llm: false };
+        return { ok: false, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-ATHENA-PRIORITY', calls_llm: false, researcher: 'athena' };
       }
-      if (!queue.length) return { ok: true, ran: false, rule: 'DREAM-IDLE-EMPTY', calls_llm: false };
+      const cold = revisitCold(o);
+      if (!queue.length) {
+        if (cold.ran) return Object.assign({ schema: SCHEMA, always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan' }, cold);
+        return { ok: true, ran: false, schema: SCHEMA, always_on: true, idle_gated: false, rule: 'DREAM-IDLE-EMPTY', calls_llm: false, cold: cold, researcher: 'athena', cold_curator: 'gilligan' };
+      }
       if (queue[0] && athena.listActive().some(h => h.gap_id && h.gap_id === queue[0].id)) {
         queue.push(queue.shift());
         return { ok: true, ran: false, schema: SCHEMA, rule: 'DREAM-HELPER-OWNS-GAP', calls_llm: false };
@@ -854,16 +954,35 @@
       const gap = queue.shift();
       const raw = researchGap(gap);
       const routed = routeMeasurement(raw);
-      const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now() }, routed);
+      const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false }, routed);
       if (routed.lane === 'hard_reject') {
+        const ping = christPing({ initiator: 'gilligan', eps: routed.eps, ancestors: gap.ancestors, gap_id: gap.id, kind: gap.kind });
+        noteChrist(ping);
+        rec.christ = ping;
+        rec.christ_ping = true;
+        rec.recenter = ping.recenter || rec.recenter;
+        rec.rule = 'GRACE-RECENTER';
+        rec.aborted = true;
+        rec.wrote_confirmed_shared = false;
+        rec.shared_kb = false;
         gap.status = 'aborted';
         if (rec.recenter) rec.recenter.next_id = queue.length ? queue[0].id : null;
         rec.next_id = queue.length ? queue[0].id : null;
-        aborted.push({ id: gap.id, kind: gap.kind, eps: routed.eps, recenter: rec.recenter });
+        if (ping.redirect) enqueue([ping.redirect]);
+        aborted.push({ id: gap.id, kind: gap.kind, eps: routed.eps, recenter: rec.recenter, christ_ping: true, redirect_id: ping.redirect && ping.redirect.id });
       } else if (routed.lane === 'promote_candidate') {
         gap.status = 'promote_candidate';
         const staged = Object.assign({}, rec, { evidence: evidenceOf(gap, routed), status: 'staged' });
         promote.push(staged);
+        if (hostReady(o)) {
+          const fill = fillBackend(staged, o);
+          rec.backend_fill = { ok: fill.ok === true, rule: fill.rule, wrote_confirmed_shared: fill.wrote_confirmed_shared === true, wrote_pack: fill.wrote_pack === true, phone_db: false };
+          rec.wrote_confirmed_shared = fill.wrote_confirmed_shared === true;
+          rec.wrote_pack = fill.wrote_pack === true;
+          rec.shared_kb = fill.wrote_confirmed_shared === true;
+          rec.phone_db = false;
+          if (fill.ok) rec.rule = 'DREAM-BACKEND-FILL';
+        }
       } else {
         gap.attempts = (gap.attempts || 0) + 1;
         gap.status = routed.lane;
@@ -906,6 +1025,11 @@
       const enabled = o.admitEnabled === true || (o.admitEnabled == null && admitEnabled);
       if (answering || o.answering === true || athena.askHeld()) return refusal('DREAM-IDLE-BUSY', { role: 'athena' });
       if (!enabled) return refusal('DREAM-IDLE-ADMIT-PAUSED', { staged: true, packet: rec && rec.packet, role: 'athena' });
+      const gate = athenaGate(rec);
+      if (!gate.ok) {
+        if (gate.rule === 'DREAM-QUARANTINE-NO-TRUTH' || gate.rule === 'DREAM-HARD-REJECT-NO-TRUTH') athena.noteCustody(rec, gate.rule);
+        return gate;
+      }
       const admitId = rec && (rec.gap_id || rec.id) || null;
       const held = athena.beginAdmit(admitId);
       if (held) return held;
@@ -987,8 +1111,17 @@
       return { ok: wrote && refused.every(x => x.rule === 'DREAM-QUARANTINE-NO-TRUTH' || x.wrote_confirmed_shared === false), calls_llm: false, wrote_confirmed_shared: wrote, wrote_pack: wrotePack, admitted: admitted, refused: refused, packets: packets, phone_db: false, pack_publish_trigger: PACK_PUBLISH_TRIGGER };
     }
 
-    function schedule() {
-      return { ok: false, ran: false, always_on: false, idle_gated: true, rule: 'DREAM-IDLE-GATED', calls_llm: false, pack_publish_trigger: PACK_PUBLISH_TRIGGER };
+    function schedule(o) {
+      o = o || {};
+      if (o.answering === true) answering = true;
+      if (o.answering === false) answering = false;
+      const busy = o.answering === true || answering;
+      athena.noteAsk(busy);
+      if (busy || athena.askHeld()) {
+        return { ok: true, ran: false, always_on: true, idle_gated: false, paused_for_ask: true, rule: 'DREAM-ASK-PAUSE', calls_llm: false, mode: 'continuous', researcher: 'athena', cold_curator: 'gilligan', ui_click_required: false, resume: 'ask_clear' };
+      }
+      const step = tick(Object.assign({}, o, { answering: false }));
+      return { ok: true, ran: step.ran === true, always_on: true, idle_gated: false, rule: 'DREAM-ALWAYS-ON', calls_llm: false, mode: 'continuous', researcher: 'athena', cold_curator: 'gilligan', ui_click_required: false, step: step, pack_publish_trigger: PACK_PUBLISH_TRIGGER };
     }
 
     return {
@@ -1004,6 +1137,7 @@
       aborted: () => aborted.map(a => Object.assign({}, a)),
       queued: () => queue.map(g => g.id),
       log: () => log.map(x => Object.assign({}, x)),
+      christLog: () => christLog.map(x => Object.assign({}, x)),
       gapRecord(id) {
         const g = gaps.get(id);
         return g ? Object.assign({}, g, { integrations: (g.integrations || []).map(x => Object.assign({}, x)) }) : null;
@@ -1011,6 +1145,6 @@
     };
   }
 
-  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, resonancePacket, athenaGate, applyResearchContract, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
+  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, CHRIST_RULES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, christPing, resonancePacket, athenaGate, applyResearchContract, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
   if (isNode) module.exports = api; else root.KDreamIdle = api;
 })(typeof self !== 'undefined' ? self : this);
