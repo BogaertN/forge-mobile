@@ -12,1525 +12,2795 @@
    "id": "cs_p_paris_01",
    "text": "The Seine flows through Paris",
    "standing": "projectable",
-   "evidence": "geography · product curator · Paris · cs_p_paris_01"
+   "evidence": "geography · product curator · Paris · cs_p_paris_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_poland_01",
    "text": "Warsaw is the capital of Poland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Poland · cs_p_poland_01"
+   "evidence": "geography · product curator · Poland · cs_p_poland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_panama_01",
    "text": "Panama City is the capital of Panama",
    "standing": "projectable",
-   "evidence": "geography · product curator · Panama · cs_p_panama_01"
+   "evidence": "geography · product curator · Panama · cs_p_panama_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_panama_canal_01",
    "text": "The Panama Canal connects the Atlantic and Pacific Oceans",
    "standing": "projectable",
-   "evidence": "geography · product curator · Panama Canal · cs_p_panama_canal_01"
+   "evidence": "geography · product curator · Panama Canal · cs_p_panama_canal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_panama_canal_02",
    "text": "The Panama Canal opened in 1914",
    "standing": "projectable",
-   "evidence": "history · product curator · Panama Canal · cs_p_panama_canal_02"
+   "evidence": "history · product curator · Panama Canal · cs_p_panama_canal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_paraguay_01",
    "text": "Asunción is the capital of Paraguay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Paraguay · cs_p_paraguay_01"
+   "evidence": "geography · product curator · Paraguay · cs_p_paraguay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prague_01",
    "text": "Prague is the capital of the Czech Republic",
    "standing": "projectable",
-   "evidence": "geography · product curator · Prague · cs_p_prague_01"
+   "evidence": "geography · product curator · Prague · cs_p_prague_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pyongyang_01",
    "text": "Pyongyang is on the Taedong",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pyongyang · cs_p_pyongyang_01"
+   "evidence": "geography · product curator · Pyongyang · cs_p_pyongyang_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pacific_ocean_01",
    "text": "The Pacific Ocean is the largest and deepest ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_01"
+   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pacific_ocean_02",
    "text": "The Ring of Fire surrounds the Pacific Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_02"
+   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_patagonia_01",
    "text": "Patagonia is a region in Argentina and Chile",
    "standing": "projectable",
-   "evidence": "geography · product curator · Patagonia · cs_p_patagonia_01"
+   "evidence": "geography · product curator · Patagonia · cs_p_patagonia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_persian_gulf_01",
    "text": "The Persian Gulf is an extension of the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Persian Gulf · cs_p_persian_gulf_01"
+   "evidence": "geography · product curator · Persian Gulf · cs_p_persian_gulf_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_po_river_01",
    "text": "The Po is the longest river in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Po River · cs_p_po_river_01"
+   "evidence": "geography · product curator · Po River · cs_p_po_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phoenix_01",
    "text": "Phoenix is the capital of Arizona",
    "standing": "projectable",
-   "evidence": "geography · product curator · Phoenix · cs_p_phoenix_01"
+   "evidence": "geography · product curator · Phoenix · cs_p_phoenix_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_providence_01",
    "text": "Providence is the capital of Rhode Island",
    "standing": "projectable",
-   "evidence": "geography · product curator · Providence · cs_p_providence_01"
+   "evidence": "geography · product curator · Providence · cs_p_providence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pierre_01",
    "text": "Pierre is the capital of South Dakota",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pierre · cs_p_pierre_01"
+   "evidence": "geography · product curator · Pierre · cs_p_pierre_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peninsula_01",
    "text": "A peninsula is land surrounded by water on three sides",
    "standing": "projectable",
-   "evidence": "geography · product curator · Peninsula · cs_p_peninsula_01"
+   "evidence": "geography · product curator · Peninsula · cs_p_peninsula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plateau_01",
    "text": "A plateau is a raised area of flat land",
    "standing": "projectable",
-   "evidence": "geography · product curator · Plateau · cs_p_plateau_01"
+   "evidence": "geography · product curator · Plateau · cs_p_plateau_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pluto_01",
    "text": "Pluto was discovered in 1930",
    "standing": "projectable",
-   "evidence": "science · product curator · Pluto · cs_p_pluto_01"
+   "evidence": "science · product curator · Pluto · cs_p_pluto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pluto_02",
    "text": "Pluto was reclassified as a dwarf planet in 2006",
    "standing": "projectable",
-   "evidence": "science · product curator · Pluto · cs_p_pluto_02"
+   "evidence": "science · product curator · Pluto · cs_p_pluto_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pluto_03",
    "text": "Charon is the largest moon of Pluto",
    "standing": "projectable",
-   "evidence": "science · product curator · Pluto · cs_p_pluto_03"
+   "evidence": "science · product curator · Pluto · cs_p_pluto_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_planet_01",
    "text": "The solar system has eight planets",
    "standing": "projectable",
-   "evidence": "science · product curator · Planet · cs_p_planet_01"
+   "evidence": "science · product curator · Planet · cs_p_planet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phobos_01",
    "text": "Phobos is the larger moon of Mars",
    "standing": "projectable",
-   "evidence": "science · product curator · Phobos · cs_p_phobos_01"
+   "evidence": "science · product curator · Phobos · cs_p_phobos_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photosynthesis_01",
    "text": "Photosynthesis converts light energy into chemical energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Photosynthesis · cs_p_photosynthesis_01"
+   "evidence": "science · product curator · Photosynthesis · cs_p_photosynthesis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photosynthesis_02",
    "text": "Photosynthesis releases oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Photosynthesis · cs_p_photosynthesis_02"
+   "evidence": "science · product curator · Photosynthesis · cs_p_photosynthesis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_proton_01",
    "text": "A proton has a positive electric charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Proton · cs_p_proton_01"
+   "evidence": "science · product curator · Proton · cs_p_proton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photon_01",
    "text": "A photon is a particle of light",
    "standing": "projectable",
-   "evidence": "science · product curator · Photon · cs_p_photon_01"
+   "evidence": "science · product curator · Photon · cs_p_photon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phosphorus_01",
    "text": "Phosphorus has the chemical symbol P",
    "standing": "projectable",
-   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_01"
+   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_potassium_01",
    "text": "Potassium has the chemical symbol K",
    "standing": "projectable",
-   "evidence": "science · product curator · Potassium · cs_p_potassium_01"
+   "evidence": "science · product curator · Potassium · cs_p_potassium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_platinum_01",
    "text": "Platinum has the chemical symbol Pt",
    "standing": "projectable",
-   "evidence": "science · product curator · Platinum · cs_p_platinum_01"
+   "evidence": "science · product curator · Platinum · cs_p_platinum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plutonium_01",
    "text": "Plutonium has the chemical symbol Pu",
    "standing": "projectable",
-   "evidence": "science · product curator · Plutonium · cs_p_plutonium_01"
+   "evidence": "science · product curator · Plutonium · cs_p_plutonium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_polonium_01",
    "text": "Polonium was discovered by Marie and Pierre Curie",
    "standing": "projectable",
-   "evidence": "science · product curator · Polonium · cs_p_polonium_01"
+   "evidence": "science · product curator · Polonium · cs_p_polonium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_periodic_table_01",
    "text": "The periodic table arranges elements by atomic number",
    "standing": "projectable",
-   "evidence": "science · product curator · Periodic table · cs_p_periodic_table_01"
+   "evidence": "science · product curator · Periodic table · cs_p_periodic_table_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_ph_01",
    "text": "The pH scale typically runs from 0 to 14",
    "standing": "projectable",
-   "evidence": "science · product curator · pH · cs_p_ph_01"
+   "evidence": "science · product curator · pH · cs_p_ph_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pulley_01",
    "text": "A pulley is a simple machine",
    "standing": "projectable",
-   "evidence": "science · product curator · Pulley · cs_p_pulley_01"
+   "evidence": "science · product curator · Pulley · cs_p_pulley_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pressure_01",
    "text": "Pressure is force per unit area",
    "standing": "projectable",
-   "evidence": "science · product curator · Pressure · cs_p_pressure_01"
+   "evidence": "science · product curator · Pressure · cs_p_pressure_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plate_tectonics_01",
    "text": "The crust of the Earth is divided into plates",
    "standing": "projectable",
-   "evidence": "science · product curator · Plate tectonics · cs_p_plate_tectonics_01"
+   "evidence": "science · product curator · Plate tectonics · cs_p_plate_tectonics_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pangaea_01",
    "text": "Pangaea was a supercontinent",
    "standing": "projectable",
-   "evidence": "science · product curator · Pangaea · cs_p_pangaea_01"
+   "evidence": "science · product curator · Pangaea · cs_p_pangaea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_penguin_01",
    "text": "Penguins are flightless birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Penguin · cs_p_penguin_01"
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_penguin_02",
    "text": "Most penguins live in the Southern Hemisphere",
    "standing": "projectable",
-   "evidence": "nature · product curator · Penguin · cs_p_penguin_02"
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_polar_bear_01",
    "text": "The polar bear has black skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Polar bear · cs_p_polar_bear_01"
+   "evidence": "nature · product curator · Polar bear · cs_p_polar_bear_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_panda_01",
    "text": "The red panda is not closely related to the giant panda",
    "standing": "projectable",
-   "evidence": "nature · product curator · Panda · cs_p_panda_01"
+   "evidence": "nature · product curator · Panda · cs_p_panda_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parrot_01",
    "text": "Some parrots can imitate human speech",
    "standing": "projectable",
-   "evidence": "nature · product curator · Parrot · cs_p_parrot_01"
+   "evidence": "nature · product curator · Parrot · cs_p_parrot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peacock_01",
    "text": "The male peafowl is called a peacock",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peacock · cs_p_peacock_01"
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pelican_01",
    "text": "Pelicans have a throat pouch for catching fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pelican · cs_p_pelican_01"
+   "evidence": "nature · product curator · Pelican · cs_p_pelican_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_porcupine_01",
    "text": "Porcupines have quills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_01"
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_python_01",
    "text": "Pythons are constricting snakes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Python · cs_p_python_01"
+   "evidence": "nature · product curator · Python · cs_p_python_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_piranha_01",
    "text": "Piranhas are freshwater fish of South America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Piranha · cs_p_piranha_01"
+   "evidence": "nature · product curator · Piranha · cs_p_piranha_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pine_01",
    "text": "Pine trees bear cones",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pine · cs_p_pine_01"
+   "evidence": "nature · product curator · Pine · cs_p_pine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pollen_01",
    "text": "Bees carry pollen between flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pollen · cs_p_pollen_01"
+   "evidence": "nature · product curator · Pollen · cs_p_pollen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_primate_01",
    "text": "Humans are primates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Primate · cs_p_primate_01"
+   "evidence": "nature · product curator · Primate · cs_p_primate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plato_01",
    "text": "Plato was a student of Socrates",
    "standing": "projectable",
-   "evidence": "history · product curator · Plato · cs_p_plato_01"
+   "evidence": "history · product curator · Plato · cs_p_plato_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pythagoras_01",
    "text": "Pythagoras was a Greek mathematician",
    "standing": "projectable",
-   "evidence": "history · product curator · Pythagoras · cs_p_pythagoras_01"
+   "evidence": "history · product curator · Pythagoras · cs_p_pythagoras_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pasteur_louis_01",
    "text": "Louis Pasteur developed pasteurization",
    "standing": "projectable",
-   "evidence": "history · product curator · Pasteur, Louis · cs_p_pasteur_louis_01"
+   "evidence": "history · product curator · Pasteur, Louis · cs_p_pasteur_louis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pearl_harbor_01",
    "text": "Japan attacked Pearl Harbor in 1941",
    "standing": "projectable",
-   "evidence": "history · product curator · Pearl Harbor · cs_p_pearl_harbor_01"
+   "evidence": "history · product curator · Pearl Harbor · cs_p_pearl_harbor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pompeii_01",
    "text": "Mount Vesuvius buried Pompeii",
    "standing": "projectable",
-   "evidence": "history · product curator · Pompeii · cs_p_pompeii_01"
+   "evidence": "history · product curator · Pompeii · cs_p_pompeii_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parthenon_01",
    "text": "The Parthenon is a temple dedicated to Athena",
    "standing": "projectable",
-   "evidence": "history · product curator · Parthenon · cs_p_parthenon_01"
+   "evidence": "history · product curator · Parthenon · cs_p_parthenon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pilgrims_01",
    "text": "The Pilgrims founded Plymouth Colony in 1620",
    "standing": "projectable",
-   "evidence": "history · product curator · Pilgrims · cs_p_pilgrims_01"
+   "evidence": "history · product curator · Pilgrims · cs_p_pilgrims_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_picasso_pablo_01",
    "text": "Pablo Picasso was a Spanish artist",
    "standing": "projectable",
-   "evidence": "history · product curator · Picasso, Pablo · cs_p_picasso_pablo_01"
+   "evidence": "history · product curator · Picasso, Pablo · cs_p_picasso_pablo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_printing_press_01",
    "text": "The printing press spread rapidly in Europe in the 15th century",
    "standing": "projectable",
-   "evidence": "history · product curator · Printing press · cs_p_printing_press_01"
+   "evidence": "history · product curator · Printing press · cs_p_printing_press_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pythagorean_theorem_01",
    "text": "The Pythagorean theorem relates the sides of a right triangle",
    "standing": "projectable",
-   "evidence": "math · product curator · Pythagorean theorem · cs_p_pythagorean_theorem_01"
+   "evidence": "math · product curator · Pythagorean theorem · cs_p_pythagorean_theorem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pi_01",
    "text": "Pi is about 3.14",
    "standing": "projectable",
-   "evidence": "math · product curator · Pi · cs_p_pi_01"
+   "evidence": "math · product curator · Pi · cs_p_pi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prime_number_01",
    "text": "A prime number has exactly two divisors",
    "standing": "projectable",
-   "evidence": "math · product curator · Prime number · cs_p_prime_number_01"
+   "evidence": "math · product curator · Prime number · cs_p_prime_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prime_number_02",
    "text": "2 is the only even prime number",
    "standing": "projectable",
-   "evidence": "math · product curator · Prime number · cs_p_prime_number_02"
+   "evidence": "math · product curator · Prime number · cs_p_prime_number_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parallelogram_01",
    "text": "A parallelogram has two pairs of parallel sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Parallelogram · cs_p_parallelogram_01"
+   "evidence": "math · product curator · Parallelogram · cs_p_parallelogram_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_percent_01",
    "text": "Percent means per hundred",
    "standing": "projectable",
-   "evidence": "math · product curator · Percent · cs_p_percent_01"
+   "evidence": "math · product curator · Percent · cs_p_percent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pound_01",
    "text": "One pound is about 0.454 kilograms",
    "standing": "projectable",
-   "evidence": "math · product curator · Pound · cs_p_pound_01"
+   "evidence": "math · product curator · Pound · cs_p_pound_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parliament_01",
    "text": "The UK Parliament meets in the Palace of Westminster",
    "standing": "projectable",
-   "evidence": "civics · product curator · Parliament · cs_p_parliament_01"
+   "evidence": "civics · product curator · Parliament · cs_p_parliament_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_president_01",
    "text": "The American president serves a four-year term",
    "standing": "projectable",
-   "evidence": "civics · product curator · President · cs_p_president_01"
+   "evidence": "civics · product curator · President · cs_p_president_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prime_minister_01",
    "text": "A prime minister is a head of government",
    "standing": "projectable",
-   "evidence": "civics · product curator · Prime minister · cs_p_prime_minister_01"
+   "evidence": "civics · product curator · Prime minister · cs_p_prime_minister_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_portuguese_01",
    "text": "Portuguese is a Romance language",
    "standing": "projectable",
-   "evidence": "language · product curator · Portuguese · cs_p_portuguese_01"
+   "evidence": "language · product curator · Portuguese · cs_p_portuguese_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_piano_01",
    "text": "The piano is a keyboard instrument",
    "standing": "projectable",
-   "evidence": "general · product curator · Piano · cs_p_piano_01"
+   "evidence": "general · product curator · Piano · cs_p_piano_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pentagon_building_01",
    "text": "The Pentagon is the headquarters of the American Department of Defense",
    "standing": "projectable",
-   "evidence": "civics · product curator · Pentagon (building) · cs_p_pentagon_building_01"
+   "evidence": "civics · product curator · Pentagon (building) · cs_p_pentagon_building_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pacific_ocean_03",
    "text": "The Pacific Ocean was named by Ferdinand Magellan",
    "standing": "projectable",
-   "evidence": "history · product curator · Pacific Ocean · cs_p_pacific_ocean_03"
+   "evidence": "history · product curator · Pacific Ocean · cs_p_pacific_ocean_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pacific_ocean_04",
    "text": "The Pacific Ocean is the largest ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_04"
+   "evidence": "geography · product curator · Pacific Ocean · cs_p_pacific_ocean_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prism_01",
    "text": "A prism can split white light into colors",
    "standing": "projectable",
-   "evidence": "science · product curator · Prism · cs_p_prism_01"
+   "evidence": "science · product curator · Prism · cs_p_prism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_puffin_01",
    "text": "Puffins are seabirds with colorful bills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Puffin · cs_p_puffin_01"
+   "evidence": "nature · product curator · Puffin · cs_p_puffin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_python_02",
    "text": "Pythons are nonvenomous snakes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Python · cs_p_python_02"
+   "evidence": "nature · product curator · Python · cs_p_python_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plankton_01",
    "text": "Plankton are organisms that drift in water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Plankton · cs_p_plankton_01"
+   "evidence": "nature · product curator · Plankton · cs_p_plankton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pretoria_01",
    "text": "Pretoria is an administrative capital of South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pretoria · cs_p_pretoria_01"
+   "evidence": "geography · product curator · Pretoria · cs_p_pretoria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_puerto_rico_01",
    "text": "Puerto Rico is an island in the Caribbean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Puerto Rico · cs_p_puerto_rico_01"
+   "evidence": "geography · product curator · Puerto Rico · cs_p_puerto_rico_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pupil_01",
    "text": "The pupil lets light into the eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Pupil · cs_p_pupil_01"
+   "evidence": "science · product curator · Pupil · cs_p_pupil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pint_01",
    "text": "A pint is two cups",
    "standing": "projectable",
-   "evidence": "science · product curator · Pint · cs_p_pint_01"
+   "evidence": "science · product curator · Pint · cs_p_pint_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_porcupine_02",
    "text": "Porcupines are covered in sharp quills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_02"
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peacock_02",
    "text": "Male peacocks have colorful tails",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peacock · cs_p_peacock_02"
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pine_02",
    "text": "Pine trees produce cones",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pine · cs_p_pine_02"
+   "evidence": "nature · product curator · Pine · cs_p_pine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_poppy_01",
    "text": "Poppies are flowering plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Poppy · cs_p_poppy_01"
+   "evidence": "nature · product curator · Poppy · cs_p_poppy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pony_express_01",
    "text": "The Pony Express carried mail by horseback in 1860 and 1861",
    "standing": "projectable",
-   "evidence": "history · product curator · Pony Express · cs_p_pony_express_01"
+   "evidence": "history · product curator · Pony Express · cs_p_pony_express_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_paul_revere_01",
    "text": "Paul Revere made a famous midnight ride in 1775",
    "standing": "projectable",
-   "evidence": "history · product curator · Paul Revere · cs_p_paul_revere_01"
+   "evidence": "history · product curator · Paul Revere · cs_p_paul_revere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_panda_02",
    "text": "Pandas mostly eat bamboo",
    "standing": "projectable",
-   "evidence": "nature · product curator · Panda · cs_p_panda_02"
+   "evidence": "nature · product curator · Panda · cs_p_panda_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pharaoh_02",
    "text": "The pharaohs were kings of Egypt",
    "standing": "projectable",
-   "evidence": "history · product curator · Pharaoh · cs_p_pharaoh_02"
+   "evidence": "history · product curator · Pharaoh · cs_p_pharaoh_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plum_01",
    "text": "Plums are stone fruits",
    "standing": "projectable",
-   "evidence": "nature · product curator · Plum · cs_p_plum_01"
+   "evidence": "nature · product curator · Plum · cs_p_plum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_penguin_03",
    "text": "A penguin is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Penguin · cs_p_penguin_03"
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_paraguay_02",
    "text": "Asuncion is the capital of Paraguay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Paraguay · cs_p_paraguay_02"
+   "evidence": "geography · product curator · Paraguay · cs_p_paraguay_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pretoria_02",
    "text": "Pretoria is a city in South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pretoria · cs_p_pretoria_02"
+   "evidence": "geography · product curator · Pretoria · cs_p_pretoria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_porto_01",
    "text": "Porto is a city in Portugal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Porto · cs_p_porto_01"
+   "evidence": "geography · product curator · Porto · cs_p_porto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_perth_01",
    "text": "Perth is a city in Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Perth · cs_p_perth_01"
+   "evidence": "geography · product curator · Perth · cs_p_perth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pisa_01",
    "text": "Pisa is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pisa · cs_p_pisa_01"
+   "evidence": "geography · product curator · Pisa · cs_p_pisa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pittsburgh_01",
    "text": "Pittsburgh is a city in Pennsylvania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pittsburgh · cs_p_pittsburgh_01"
+   "evidence": "geography · product curator · Pittsburgh · cs_p_pittsburgh_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_portland_01",
    "text": "Portland is a city in Oregon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Portland · cs_p_portland_01"
+   "evidence": "geography · product curator · Portland · cs_p_portland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_palermo_01",
    "text": "Palermo is a city in Sicily",
    "standing": "projectable",
-   "evidence": "geography · product curator · Palermo · cs_p_palermo_01"
+   "evidence": "geography · product curator · Palermo · cs_p_palermo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_papua_new_guinea_01",
    "text": "Port Moresby is the capital of Papua New Guinea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Papua New Guinea · cs_p_papua_new_guinea_01"
+   "evidence": "geography · product curator · Papua New Guinea · cs_p_papua_new_guinea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parrot_02",
    "text": "A parrot is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Parrot · cs_p_parrot_02"
+   "evidence": "nature · product curator · Parrot · cs_p_parrot_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_panda_03",
    "text": "A panda is a bear",
    "standing": "projectable",
-   "evidence": "nature · product curator · Panda · cs_p_panda_03"
+   "evidence": "nature · product curator · Panda · cs_p_panda_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_python_03",
    "text": "A python is a snake",
    "standing": "projectable",
-   "evidence": "nature · product curator · Python · cs_p_python_03"
+   "evidence": "nature · product curator · Python · cs_p_python_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pelican_02",
    "text": "A pelican is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pelican · cs_p_pelican_02"
+   "evidence": "nature · product curator · Pelican · cs_p_pelican_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pine_03",
    "text": "A pine is a tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pine · cs_p_pine_03"
+   "evidence": "nature · product curator · Pine · cs_p_pine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peach_01",
    "text": "A peach is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Peach · cs_p_peach_01"
+   "evidence": "food · product curator · Peach · cs_p_peach_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pear_01",
    "text": "A pear is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Pear · cs_p_pear_01"
+   "evidence": "food · product curator · Pear · cs_p_pear_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_potato_01",
    "text": "A potato is a vegetable",
    "standing": "projectable",
-   "evidence": "food · product curator · Potato · cs_p_potato_01"
+   "evidence": "food · product curator · Potato · cs_p_potato_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plum_02",
    "text": "A plum is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Plum · cs_p_plum_02"
+   "evidence": "food · product curator · Plum · cs_p_plum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_piano_02",
    "text": "A piano is an instrument",
    "standing": "projectable",
-   "evidence": "culture · product curator · Piano · cs_p_piano_02"
+   "evidence": "culture · product curator · Piano · cs_p_piano_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_platinum_02",
    "text": "Platinum is a metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Platinum · cs_p_platinum_02"
+   "evidence": "science · product curator · Platinum · cs_p_platinum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pluto_04",
    "text": "Pluto is a dwarf planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Pluto · cs_p_pluto_04"
+   "evidence": "science · product curator · Pluto · cs_p_pluto_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_padua_01",
    "text": "Padua is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Padua · cs_p_padua_01"
+   "evidence": "geography · product curator · Padua · cs_p_padua_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_poznan_01",
    "text": "Poznan is a city in Poland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Poznan · cs_p_poznan_01"
+   "evidence": "geography · product curator · Poznan · cs_p_poznan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_puebla_01",
    "text": "Puebla is a city in Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Puebla · cs_p_puebla_01"
+   "evidence": "geography · product curator · Puebla · cs_p_puebla_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pune_01",
    "text": "Pune is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Pune · cs_p_pune_01"
+   "evidence": "geography · product curator · Pune · cs_p_pune_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plymouth_01",
    "text": "Plymouth is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Plymouth · cs_p_plymouth_01"
+   "evidence": "geography · product curator · Plymouth · cs_p_plymouth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parma_01",
    "text": "Parma is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Parma · cs_p_parma_01"
+   "evidence": "geography · product curator · Parma · cs_p_parma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pheasant_01",
    "text": "A pheasant is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_01"
+   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peacock_03",
    "text": "A peacock is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peacock · cs_p_peacock_03"
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pigeon_01",
    "text": "A pigeon is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pigeon · cs_p_pigeon_01"
+   "evidence": "nature · product curator · Pigeon · cs_p_pigeon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pumpkin_01",
    "text": "A pumpkin is a squash",
    "standing": "projectable",
-   "evidence": "food · product curator · Pumpkin · cs_p_pumpkin_01"
+   "evidence": "food · product curator · Pumpkin · cs_p_pumpkin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pea_01",
    "text": "A pea is a vegetable",
    "standing": "projectable",
-   "evidence": "food · product curator · Pea · cs_p_pea_01"
+   "evidence": "food · product curator · Pea · cs_p_pea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parallelogram_02",
    "text": "Opposite sides of a parallelogram are equal",
    "standing": "projectable",
-   "evidence": "math · product curator · Parallelogram · cs_p_parallelogram_02"
+   "evidence": "math · product curator · Parallelogram · cs_p_parallelogram_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_perimeter_01",
    "text": "Perimeter is the distance around a figure",
    "standing": "projectable",
-   "evidence": "math · product curator · Perimeter · cs_p_perimeter_01"
+   "evidence": "math · product curator · Perimeter · cs_p_perimeter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_petal_01",
    "text": "A petal is a colorful part of a flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Petal · cs_p_petal_01"
+   "evidence": "nature · product curator · Petal · cs_p_petal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phloem_01",
    "text": "Phloem carries food in a plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Phloem · cs_p_phloem_01"
+   "evidence": "nature · product curator · Phloem · cs_p_phloem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pi_02",
    "text": "Pi is the ratio of circumference to diameter",
    "standing": "projectable",
-   "evidence": "math · product curator · Pi · cs_p_pi_02"
+   "evidence": "math · product curator · Pi · cs_p_pi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pistil_01",
    "text": "The pistil is the female part of a flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pistil · cs_p_pistil_01"
+   "evidence": "nature · product curator · Pistil · cs_p_pistil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plasma_01",
    "text": "Plasma is ionized gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Plasma · cs_p_plasma_01"
+   "evidence": "science · product curator · Plasma · cs_p_plasma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_polygon_01",
    "text": "A polygon is a closed plane figure",
    "standing": "projectable",
-   "evidence": "math · product curator · Polygon · cs_p_polygon_01"
+   "evidence": "math · product curator · Polygon · cs_p_polygon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_polymer_01",
    "text": "A polymer is a long chain of repeating units",
    "standing": "projectable",
-   "evidence": "science · product curator · Polymer · cs_p_polymer_01"
+   "evidence": "science · product curator · Polymer · cs_p_polymer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_precipitation_01",
    "text": "Precipitation falls from clouds as rain or snow",
    "standing": "projectable",
-   "evidence": "science · product curator · Precipitation · cs_p_precipitation_01"
+   "evidence": "science · product curator · Precipitation · cs_p_precipitation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pronoun_01",
    "text": "A pronoun replaces a noun",
    "standing": "projectable",
-   "evidence": "language · product curator · Pronoun · cs_p_pronoun_01"
+   "evidence": "language · product curator · Pronoun · cs_p_pronoun_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_proton_02",
    "text": "A proton has a positive charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Proton · cs_p_proton_02"
+   "evidence": "science · product curator · Proton · cs_p_proton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pancreas_01",
    "text": "The pancreas produces insulin",
    "standing": "projectable",
-   "evidence": "science · product curator · Pancreas · cs_p_pancreas_01"
+   "evidence": "science · product curator · Pancreas · cs_p_pancreas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_panda_04",
    "text": "A panda eats bamboo",
    "standing": "projectable",
-   "evidence": "nature · product curator · Panda · cs_p_panda_04"
+   "evidence": "nature · product curator · Panda · cs_p_panda_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parallel_lines_01",
    "text": "Parallel lines never meet",
    "standing": "projectable",
-   "evidence": "math · product curator · Parallel lines · cs_p_parallel_lines_01"
+   "evidence": "math · product curator · Parallel lines · cs_p_parallel_lines_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_particle_01",
    "text": "A particle is a tiny bit of matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Particle · cs_p_particle_01"
+   "evidence": "science · product curator · Particle · cs_p_particle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_penguin_04",
    "text": "A penguin is a flightless bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Penguin · cs_p_penguin_04"
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_percent_02",
    "text": "A percent is a part per hundred",
    "standing": "projectable",
-   "evidence": "math · product curator · Percent · cs_p_percent_02"
+   "evidence": "math · product curator · Percent · cs_p_percent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_perimeter_02",
    "text": "The perimeter is the distance around a shape",
    "standing": "projectable",
-   "evidence": "math · product curator · Perimeter · cs_p_perimeter_02"
+   "evidence": "math · product curator · Perimeter · cs_p_perimeter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_period_01",
    "text": "A period ends a declarative sentence",
    "standing": "projectable",
-   "evidence": "language · product curator · Period · cs_p_period_01"
+   "evidence": "language · product curator · Period · cs_p_period_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_permafrost_01",
    "text": "Permafrost is permanently frozen ground",
    "standing": "projectable",
-   "evidence": "geography · product curator · Permafrost · cs_p_permafrost_01"
+   "evidence": "geography · product curator · Permafrost · cs_p_permafrost_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parliament_02",
    "text": "A parliament is a legislative body",
    "standing": "projectable",
-   "evidence": "civics · product curator · Parliament · cs_p_parliament_02"
+   "evidence": "civics · product curator · Parliament · cs_p_parliament_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pine_04",
    "text": "A pine is an evergreen conifer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pine · cs_p_pine_04"
+   "evidence": "nature · product curator · Pine · cs_p_pine_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_planet_02",
    "text": "A planet orbits a star",
    "standing": "projectable",
-   "evidence": "science · product curator · Planet · cs_p_planet_02"
+   "evidence": "science · product curator · Planet · cs_p_planet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_predator_01",
    "text": "A predator hunts other animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Predator · cs_p_predator_01"
+   "evidence": "nature · product curator · Predator · cs_p_predator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_president_02",
    "text": "A president is a head of state",
    "standing": "projectable",
-   "evidence": "civics · product curator · President · cs_p_president_02"
+   "evidence": "civics · product curator · President · cs_p_president_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prey_01",
    "text": "Prey is an animal hunted by a predator",
    "standing": "projectable",
-   "evidence": "nature · product curator · Prey · cs_p_prey_01"
+   "evidence": "nature · product curator · Prey · cs_p_prey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_protein_01",
    "text": "A protein is a chain of amino acids",
    "standing": "projectable",
-   "evidence": "science · product curator · Protein · cs_p_protein_01"
+   "evidence": "science · product curator · Protein · cs_p_protein_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pulley_02",
    "text": "A pulley changes the direction of a force",
    "standing": "projectable",
-   "evidence": "science · product curator · Pulley · cs_p_pulley_02"
+   "evidence": "science · product curator · Pulley · cs_p_pulley_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pyramid_01",
    "text": "A pyramid has a polygonal base",
    "standing": "projectable",
-   "evidence": "math · product curator · Pyramid · cs_p_pyramid_01"
+   "evidence": "math · product curator · Pyramid · cs_p_pyramid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_period_02",
    "text": "A geologic period is a span of deep time",
    "standing": "projectable",
-   "evidence": "history · product curator · Period · cs_p_period_02"
+   "evidence": "history · product curator · Period · cs_p_period_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photosynthesis_03",
    "text": "Photosynthesis makes sugar in plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Photosynthesis · cs_p_photosynthesis_03"
+   "evidence": "nature · product curator · Photosynthesis · cs_p_photosynthesis_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_piston_01",
    "text": "A piston moves inside a cylinder",
    "standing": "projectable",
-   "evidence": "science · product curator · Piston · cs_p_piston_01"
+   "evidence": "science · product curator · Piston · cs_p_piston_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plateau_02",
    "text": "A plateau is a flat elevated land",
    "standing": "projectable",
-   "evidence": "geography · product curator · Plateau · cs_p_plateau_02"
+   "evidence": "geography · product curator · Plateau · cs_p_plateau_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prime_01",
    "text": "A prime number has exactly two factors",
    "standing": "projectable",
-   "evidence": "math · product curator · Prime · cs_p_prime_01"
+   "evidence": "math · product curator · Prime · cs_p_prime_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prime_02",
    "text": "Seven is a prime",
    "standing": "projectable",
-   "evidence": "math · product curator · Prime · cs_p_prime_02"
+   "evidence": "math · product curator · Prime · cs_p_prime_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_planet_03",
    "text": "Earth is a planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Planet · cs_p_planet_03"
+   "evidence": "science · product curator · Planet · cs_p_planet_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pollen_02",
    "text": "Bees carry pollen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pollen · cs_p_pollen_02"
+   "evidence": "nature · product curator · Pollen · cs_p_pollen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_precipitation_02",
    "text": "Rain is precipitation",
    "standing": "projectable",
-   "evidence": "geography · product curator · Precipitation · cs_p_precipitation_02"
+   "evidence": "geography · product curator · Precipitation · cs_p_precipitation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_president_03",
    "text": "Voters elect a president",
    "standing": "projectable",
-   "evidence": "civics · product curator · President · cs_p_president_03"
+   "evidence": "civics · product curator · President · cs_p_president_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pyramid_02",
    "text": "Egypt built stone pyramids",
    "standing": "projectable",
-   "evidence": "history · product curator · Pyramid · cs_p_pyramid_02"
+   "evidence": "history · product curator · Pyramid · cs_p_pyramid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peat_01",
    "text": "Peat forms in wet bogs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peat · cs_p_peat_01"
+   "evidence": "nature · product curator · Peat · cs_p_peat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peninsula_02",
    "text": "A peninsula has water on three sides",
    "standing": "projectable",
-   "evidence": "geography · product curator · Peninsula · cs_p_peninsula_02"
+   "evidence": "geography · product curator · Peninsula · cs_p_peninsula_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photon_02",
    "text": "Light travels as photons",
    "standing": "projectable",
-   "evidence": "science · product curator · Photon · cs_p_photon_02"
+   "evidence": "science · product curator · Photon · cs_p_photon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pulley_03",
    "text": "A pulley lifts heavy loads",
    "standing": "projectable",
-   "evidence": "science · product curator · Pulley · cs_p_pulley_03"
+   "evidence": "science · product curator · Pulley · cs_p_pulley_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pod_01",
    "text": "Peas grow in a pod",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pod · cs_p_pod_01"
+   "evidence": "nature · product curator · Pod · cs_p_pod_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parliament_03",
    "text": "A parliament makes laws",
    "standing": "projectable",
-   "evidence": "civics · product curator · Parliament · cs_p_parliament_03"
+   "evidence": "civics · product curator · Parliament · cs_p_parliament_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parrot_03",
    "text": "A parrot can mimic speech",
    "standing": "projectable",
-   "evidence": "nature · product curator · Parrot · cs_p_parrot_03"
+   "evidence": "nature · product curator · Parrot · cs_p_parrot_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_penguin_05",
    "text": "A penguin cannot fly",
    "standing": "projectable",
-   "evidence": "nature · product curator · Penguin · cs_p_penguin_05"
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_porcupine_03",
    "text": "A porcupine has sharp quills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_03"
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_potassium_02",
    "text": "Potassium is an alkali metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Potassium · cs_p_potassium_02"
+   "evidence": "science · product curator · Potassium · cs_p_potassium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_polymer_02",
    "text": "Plastic is a polymer",
    "standing": "projectable",
-   "evidence": "science · product curator · Polymer · cs_p_polymer_02"
+   "evidence": "science · product curator · Polymer · cs_p_polymer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plankton_02",
    "text": "Whales eat plankton",
    "standing": "projectable",
-   "evidence": "nature · product curator · Plankton · cs_p_plankton_02"
+   "evidence": "nature · product curator · Plankton · cs_p_plankton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_poppy_02",
    "text": "A poppy has bright petals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Poppy · cs_p_poppy_02"
+   "evidence": "nature · product curator · Poppy · cs_p_poppy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photon_03",
    "text": "Light travels as a photon",
    "standing": "projectable",
-   "evidence": "science · product curator · Photon · cs_p_photon_03"
+   "evidence": "science · product curator · Photon · cs_p_photon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_primate_02",
    "text": "A chimpanzee is a primate",
    "standing": "projectable",
-   "evidence": "nature · product curator · Primate · cs_p_primate_02"
+   "evidence": "nature · product curator · Primate · cs_p_primate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pheasant_02",
    "text": "A pheasant nests in grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_02"
+   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pumpkin_02",
    "text": "A pumpkin grows on a vine",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pumpkin · cs_p_pumpkin_02"
+   "evidence": "nature · product curator · Pumpkin · cs_p_pumpkin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_petal_02",
    "text": "A flower opens its petals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Petal · cs_p_petal_02"
+   "evidence": "nature · product curator · Petal · cs_p_petal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_puffin_02",
    "text": "A puffin nests on cliffs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Puffin · cs_p_puffin_02"
+   "evidence": "nature · product curator · Puffin · cs_p_puffin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pine_05",
    "text": "A pine keeps its needles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pine · cs_p_pine_05"
+   "evidence": "nature · product curator · Pine · cs_p_pine_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_potato_02",
    "text": "A potato grows underground",
    "standing": "projectable",
-   "evidence": "nature · product curator · Potato · cs_p_potato_02"
+   "evidence": "nature · product curator · Potato · cs_p_potato_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_perimeter_03",
    "text": "A fence marks a perimeter",
    "standing": "projectable",
-   "evidence": "math · product curator · Perimeter · cs_p_perimeter_03"
+   "evidence": "math · product curator · Perimeter · cs_p_perimeter_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_piano_03",
    "text": "A piano has keyed strings",
    "standing": "projectable",
-   "evidence": "history · product curator · Piano · cs_p_piano_03"
+   "evidence": "history · product curator · Piano · cs_p_piano_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pyramid_03",
    "text": "Egyptians built a pyramid",
    "standing": "projectable",
-   "evidence": "history · product curator · Pyramid · cs_p_pyramid_03"
+   "evidence": "history · product curator · Pyramid · cs_p_pyramid_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pancreas_02",
    "text": "Enzymes leave the pancreas",
    "standing": "projectable",
-   "evidence": "science · product curator · Pancreas · cs_p_pancreas_02"
+   "evidence": "science · product curator · Pancreas · cs_p_pancreas_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pangaea_02",
    "text": "Continents formed Pangaea",
    "standing": "projectable",
-   "evidence": "science · product curator · Pangaea · cs_p_pangaea_02"
+   "evidence": "science · product curator · Pangaea · cs_p_pangaea_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pangaea_03",
    "text": "Pangaea broke into plates",
    "standing": "projectable",
-   "evidence": "science · product curator · Pangaea · cs_p_pangaea_03"
+   "evidence": "science · product curator · Pangaea · cs_p_pangaea_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peacock_04",
    "text": "A peacock fans its train",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peacock · cs_p_peacock_04"
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peacock_05",
    "text": "Feathers adorn a peacock",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peacock · cs_p_peacock_05"
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pelican_03",
    "text": "Pouches fill on a pelican",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pelican · cs_p_pelican_03"
+   "evidence": "nature · product curator · Pelican · cs_p_pelican_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pheasant_03",
    "text": "A pheasant nests on ground",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_03"
+   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pupa_01",
    "text": "A pupa rests before wings",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pupa · cs_p_pupa_01"
+   "evidence": "nature · product curator · Pupa · cs_p_pupa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pathogen_01",
    "text": "A pathogen causes disease",
    "standing": "projectable",
-   "evidence": "science · product curator · Pathogen · cs_p_pathogen_01"
+   "evidence": "science · product curator · Pathogen · cs_p_pathogen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pearl_01",
    "text": "A pearl grows in a mollusk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pearl · cs_p_pearl_01"
+   "evidence": "nature · product curator · Pearl · cs_p_pearl_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phloem_02",
    "text": "Phloem carries plant sugars",
    "standing": "projectable",
-   "evidence": "nature · product curator · Phloem · cs_p_phloem_02"
+   "evidence": "nature · product curator · Phloem · cs_p_phloem_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photon_04",
    "text": "A photon carries energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Photon · cs_p_photon_04"
+   "evidence": "science · product curator · Photon · cs_p_photon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pipe_01",
    "text": "Water flows through a pipe",
    "standing": "projectable",
-   "evidence": "science · product curator · Pipe · cs_p_pipe_01"
+   "evidence": "science · product curator · Pipe · cs_p_pipe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plate_01",
    "text": "Earth has tectonic plates",
    "standing": "projectable",
-   "evidence": "science · product curator · Plate · cs_p_plate_01"
+   "evidence": "science · product curator · Plate · cs_p_plate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pollen_03",
    "text": "Pollen fertilizes flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pollen · cs_p_pollen_03"
+   "evidence": "nature · product curator · Pollen · cs_p_pollen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_protein_02",
    "text": "Muscle is rich in protein",
    "standing": "projectable",
-   "evidence": "science · product curator · Protein · cs_p_protein_02"
+   "evidence": "science · product curator · Protein · cs_p_protein_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parachute_01",
    "text": "A parachute slows a fall",
    "standing": "projectable",
-   "evidence": "science · product curator · Parachute · cs_p_parachute_01"
+   "evidence": "science · product curator · Parachute · cs_p_parachute_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peak_01",
    "text": "A peak rises above clouds",
    "standing": "projectable",
-   "evidence": "geography · product curator · Peak · cs_p_peak_01"
+   "evidence": "geography · product curator · Peak · cs_p_peak_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_petal_03",
    "text": "A petal attracts insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Petal · cs_p_petal_03"
+   "evidence": "nature · product curator · Petal · cs_p_petal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phosphorus_02",
    "text": "Phosphorus fertilizes soil",
    "standing": "projectable",
-   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_02"
+   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pigeon_02",
    "text": "A pigeon nests on ledges",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pigeon · cs_p_pigeon_02"
+   "evidence": "nature · product curator · Pigeon · cs_p_pigeon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pistil_02",
    "text": "A pistil receives pollen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pistil · cs_p_pistil_02"
+   "evidence": "nature · product curator · Pistil · cs_p_pistil_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plankton_03",
    "text": "Plankton feeds ocean life",
    "standing": "projectable",
-   "evidence": "nature · product curator · Plankton · cs_p_plankton_03"
+   "evidence": "nature · product curator · Plankton · cs_p_plankton_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_platinum_03",
    "text": "Platinum resists corrosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Platinum · cs_p_platinum_03"
+   "evidence": "science · product curator · Platinum · cs_p_platinum_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_plover_01",
    "text": "A plover nests on beaches",
    "standing": "projectable",
-   "evidence": "nature · product curator · Plover · cs_p_plover_01"
+   "evidence": "nature · product curator · Plover · cs_p_plover_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_porcupine_04",
    "text": "A porcupine raises quills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_04"
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parallax_01",
    "text": "Parallax shifts nearby stars",
    "standing": "projectable",
-   "evidence": "science · product curator · Parallax · cs_p_parallax_01"
+   "evidence": "science · product curator · Parallax · cs_p_parallax_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_patella_01",
    "text": "The patella shields the knee",
    "standing": "projectable",
-   "evidence": "science · product curator · Patella · cs_p_patella_01"
+   "evidence": "science · product curator · Patella · cs_p_patella_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peat_02",
    "text": "Peat stores swamp carbon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peat · cs_p_peat_02"
+   "evidence": "nature · product curator · Peat · cs_p_peat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pericardium_01",
    "text": "The pericardium wraps the heart",
    "standing": "projectable",
-   "evidence": "science · product curator · Pericardium · cs_p_pericardium_01"
+   "evidence": "science · product curator · Pericardium · cs_p_pericardium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_permafrost_02",
    "text": "Permafrost locks frozen soil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Permafrost · cs_p_permafrost_02"
+   "evidence": "geography · product curator · Permafrost · cs_p_permafrost_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phosphorus_03",
    "text": "Phosphorus lights match heads",
    "standing": "projectable",
-   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_03"
+   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_piston_02",
    "text": "A piston compresses engine gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Piston · cs_p_piston_02"
+   "evidence": "science · product curator · Piston · cs_p_piston_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pituitary_01",
    "text": "The pituitary steers hormones",
    "standing": "projectable",
-   "evidence": "science · product curator · Pituitary · cs_p_pituitary_01"
+   "evidence": "science · product curator · Pituitary · cs_p_pituitary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_placenta_01",
    "text": "The placenta feeds a fetus",
    "standing": "projectable",
-   "evidence": "science · product curator · Placenta · cs_p_placenta_01"
+   "evidence": "science · product curator · Placenta · cs_p_placenta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_platelet_01",
    "text": "Platelets start blood clots",
    "standing": "projectable",
-   "evidence": "science · product curator · Platelet · cs_p_platelet_01"
+   "evidence": "science · product curator · Platelet · cs_p_platelet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pancreas_03",
    "text": "The pancreas aids digestion",
    "standing": "projectable",
-   "evidence": "science · product curator · Pancreas · cs_p_pancreas_03"
+   "evidence": "science · product curator · Pancreas · cs_p_pancreas_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pathogen_02",
    "text": "Pathogens trigger immune fight",
    "standing": "projectable",
-   "evidence": "science · product curator · Pathogen · cs_p_pathogen_02"
+   "evidence": "science · product curator · Pathogen · cs_p_pathogen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peacock_06",
    "text": "Peacocks fan bright trains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peacock · cs_p_peacock_06"
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pearl_02",
    "text": "Nacre layers build pearls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pearl · cs_p_pearl_02"
+   "evidence": "nature · product curator · Pearl · cs_p_pearl_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_photon_05",
    "text": "Photons carry light energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Photon · cs_p_photon_05"
+   "evidence": "science · product curator · Photon · cs_p_photon_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_piston_03",
    "text": "Engines drive piston rods",
    "standing": "projectable",
-   "evidence": "science · product curator · Piston · cs_p_piston_03"
+   "evidence": "science · product curator · Piston · cs_p_piston_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prime_03",
    "text": "Two ranks the first prime",
    "standing": "projectable",
-   "evidence": "math · product curator · Prime · cs_p_prime_03"
+   "evidence": "math · product curator · Prime · cs_p_prime_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_proton_03",
    "text": "Hydrogen holds one proton",
    "standing": "projectable",
-   "evidence": "science · product curator · Proton · cs_p_proton_03"
+   "evidence": "science · product curator · Proton · cs_p_proton_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parasite_01",
    "text": "A parasite feeds on hosts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Parasite · cs_p_parasite_01"
+   "evidence": "nature · product curator · Parasite · cs_p_parasite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pelvis_01",
    "text": "The pelvis braces hip bones",
    "standing": "projectable",
-   "evidence": "science · product curator · Pelvis · cs_p_pelvis_01"
+   "evidence": "science · product curator · Pelvis · cs_p_pelvis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_petiole_01",
    "text": "A petiole joins leaf stems",
    "standing": "projectable",
-   "evidence": "nature · product curator · Petiole · cs_p_petiole_01"
+   "evidence": "nature · product curator · Petiole · cs_p_petiole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pigment_01",
    "text": "Pigment colors plant tissue",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pigment · cs_p_pigment_01"
+   "evidence": "nature · product curator · Pigment · cs_p_pigment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_polyp_01",
    "text": "A polyp builds coral reefs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Polyp · cs_p_polyp_01"
+   "evidence": "nature · product curator · Polyp · cs_p_polyp_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_power_01",
    "text": "Power ranks energy per time",
    "standing": "projectable",
-   "evidence": "science · product curator · Power · cs_p_power_01"
+   "evidence": "science · product curator · Power · cs_p_power_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_precipitation_03",
    "text": "Clouds drop precipitation",
    "standing": "projectable",
-   "evidence": "science · product curator · Precipitation · cs_p_precipitation_03"
+   "evidence": "science · product curator · Precipitation · cs_p_precipitation_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_predator_02",
    "text": "Predators hunt live prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Predator · cs_p_predator_02"
+   "evidence": "nature · product curator · Predator · cs_p_predator_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_prism_02",
    "text": "A prism splits white light",
    "standing": "projectable",
-   "evidence": "science · product curator · Prism · cs_p_prism_02"
+   "evidence": "science · product curator · Prism · cs_p_prism_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_proton_04",
    "text": "A proton packs nucleus charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Proton · cs_p_proton_04"
+   "evidence": "science · product curator · Proton · cs_p_proton_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_parallax_02",
    "text": "Parallax ranks star distance",
    "standing": "projectable",
-   "evidence": "science · product curator · Parallax · cs_p_parallax_02"
+   "evidence": "science · product curator · Parallax · cs_p_parallax_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pectin_01",
    "text": "Pectin gels fruit preserves",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pectin · cs_p_pectin_01"
+   "evidence": "nature · product curator · Pectin · cs_p_pectin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peptide_01",
    "text": "A peptide links amino acids",
    "standing": "projectable",
-   "evidence": "science · product curator · Peptide · cs_p_peptide_01"
+   "evidence": "science · product curator · Peptide · cs_p_peptide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_peduncle_01",
    "text": "A peduncle holds flower stems",
    "standing": "projectable",
-   "evidence": "nature · product curator · Peduncle · cs_p_peduncle_01"
+   "evidence": "nature · product curator · Peduncle · cs_p_peduncle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_phosphate_01",
    "text": "Phosphates feed plant growth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Phosphate · cs_p_phosphate_01"
+   "evidence": "nature · product curator · Phosphate · cs_p_phosphate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pumice_01",
    "text": "Pumice floats volcanic froth",
    "standing": "projectable",
-   "evidence": "science · product curator · Pumice · cs_p_pumice_01"
+   "evidence": "science · product curator · Pumice · cs_p_pumice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_potential_01",
    "text": "Potential ranks stored energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Potential · cs_p_potential_01"
+   "evidence": "science · product curator · Potential · cs_p_potential_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pivot_01",
    "text": "A door swings on a pivot",
    "standing": "projectable",
-   "evidence": "science · product curator · Pivot · cs_p_pivot_01"
+   "evidence": "science · product curator · Pivot · cs_p_pivot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_polyp_02",
    "text": "Polyps build coral reefs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Polyp · cs_p_polyp_02"
+   "evidence": "nature · product curator · Polyp · cs_p_polyp_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_p_pupa_02",
    "text": "A pupa remakes insect form",
    "standing": "projectable",
-   "evidence": "nature · product curator · Pupa · cs_p_pupa_02"
+   "evidence": "nature · product curator · Pupa · cs_p_pupa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

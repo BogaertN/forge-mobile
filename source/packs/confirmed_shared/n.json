@@ -12,1519 +12,2784 @@
    "id": "cs_n_nepal_01",
    "text": "Nepal is a landlocked country in South Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nepal · cs_n_nepal_01"
+   "evidence": "geography · product curator · Nepal · cs_n_nepal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_norway_01",
    "text": "Oslo is the capital of Norway",
    "standing": "projectable",
-   "evidence": "geography · product curator · Norway · cs_n_norway_01"
+   "evidence": "geography · product curator · Norway · cs_n_norway_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_netherlands_01",
    "text": "The seat of government of the Netherlands is The Hague",
    "standing": "projectable",
-   "evidence": "geography · product curator · Netherlands · cs_n_netherlands_01"
+   "evidence": "geography · product curator · Netherlands · cs_n_netherlands_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_zealand_01",
    "text": "Wellington is the capital of New Zealand",
    "standing": "projectable",
-   "evidence": "geography · product curator · New Zealand · cs_n_new_zealand_01"
+   "evidence": "geography · product curator · New Zealand · cs_n_new_zealand_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_zealand_02",
    "text": "New Zealand consists mainly of the North Island and the South Island",
    "standing": "projectable",
-   "evidence": "geography · product curator · New Zealand · cs_n_new_zealand_02"
+   "evidence": "geography · product curator · New Zealand · cs_n_new_zealand_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nigeria_01",
    "text": "Abuja is the capital of Nigeria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nigeria · cs_n_nigeria_01"
+   "evidence": "geography · product curator · Nigeria · cs_n_nigeria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nigeria_02",
    "text": "Nigeria has the largest population in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nigeria · cs_n_nigeria_02"
+   "evidence": "geography · product curator · Nigeria · cs_n_nigeria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_niger_01",
    "text": "Niamey is the capital of Niger",
    "standing": "projectable",
-   "evidence": "geography · product curator · Niger · cs_n_niger_01"
+   "evidence": "geography · product curator · Niger · cs_n_niger_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nicaragua_01",
    "text": "Managua is the capital of Nicaragua",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nicaragua · cs_n_nicaragua_01"
+   "evidence": "geography · product curator · Nicaragua · cs_n_nicaragua_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_namibia_01",
    "text": "Windhoek is the capital of Namibia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Namibia · cs_n_namibia_01"
+   "evidence": "geography · product curator · Namibia · cs_n_namibia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nairobi_01",
    "text": "Nairobi is the capital of Kenya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nairobi · cs_n_nairobi_01"
+   "evidence": "geography · product curator · Nairobi · cs_n_nairobi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nile_01",
    "text": "The Nile flows into the Mediterranean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nile · cs_n_nile_01"
+   "evidence": "geography · product curator · Nile · cs_n_nile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nile_02",
    "text": "The Nile flows northward",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nile · cs_n_nile_02"
+   "evidence": "geography · product curator · Nile · cs_n_nile_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_niagara_falls_01",
    "text": "Niagara Falls lies on the border of the United States and Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Niagara Falls · cs_n_niagara_falls_01"
+   "evidence": "geography · product curator · Niagara Falls · cs_n_niagara_falls_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_pole_01",
    "text": "The North Pole is in the Arctic Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · North Pole · cs_n_north_pole_01"
+   "evidence": "geography · product curator · North Pole · cs_n_north_pole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_sea_01",
    "text": "The North Sea is part of the Atlantic Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · North Sea · cs_n_north_sea_01"
+   "evidence": "geography · product curator · North Sea · cs_n_north_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_america_01",
    "text": "North America is the third largest continent by area",
    "standing": "projectable",
-   "evidence": "geography · product curator · North America · cs_n_north_america_01"
+   "evidence": "geography · product curator · North America · cs_n_north_america_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nebraska_01",
    "text": "Lincoln is the capital of Nebraska",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nebraska · cs_n_nebraska_01"
+   "evidence": "geography · product curator · Nebraska · cs_n_nebraska_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nevada_01",
    "text": "Carson City is the capital of Nevada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nevada · cs_n_nevada_01"
+   "evidence": "geography · product curator · Nevada · cs_n_nevada_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_york_city_01",
    "text": "New York City has the largest population in the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · New York City · cs_n_new_york_city_01"
+   "evidence": "geography · product curator · New York City · cs_n_new_york_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_mexico_01",
    "text": "Santa Fe is the capital of New Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · New Mexico · cs_n_new_mexico_01"
+   "evidence": "geography · product curator · New Mexico · cs_n_new_mexico_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_jersey_01",
    "text": "Trenton is the capital of New Jersey",
    "standing": "projectable",
-   "evidence": "geography · product curator · New Jersey · cs_n_new_jersey_01"
+   "evidence": "geography · product curator · New Jersey · cs_n_new_jersey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nashville_01",
    "text": "Nashville is the capital of Tennessee",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nashville · cs_n_nashville_01"
+   "evidence": "geography · product curator · Nashville · cs_n_nashville_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_normandy_01",
    "text": "Normandy is a region in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Normandy · cs_n_normandy_01"
+   "evidence": "geography · product curator · Normandy · cs_n_normandy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neptune_01",
    "text": "Neptune is the eighth planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Neptune · cs_n_neptune_01"
+   "evidence": "science · product curator · Neptune · cs_n_neptune_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neptune_02",
    "text": "Neptune is the farthest planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Neptune · cs_n_neptune_02"
+   "evidence": "science · product curator · Neptune · cs_n_neptune_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neptune_03",
    "text": "Triton is the largest moon of Neptune",
    "standing": "projectable",
-   "evidence": "science · product curator · Neptune · cs_n_neptune_03"
+   "evidence": "science · product curator · Neptune · cs_n_neptune_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neptune_04",
    "text": "Neptune is an ice giant",
    "standing": "projectable",
-   "evidence": "science · product curator · Neptune · cs_n_neptune_04"
+   "evidence": "science · product curator · Neptune · cs_n_neptune_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrogen_01",
    "text": "Nitrogen has the chemical symbol N",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_01"
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrogen_02",
    "text": "Nitrogen makes up about 78 percent of Earth's atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_02"
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neon_01",
    "text": "Neon has the chemical symbol Ne",
    "standing": "projectable",
-   "evidence": "science · product curator · Neon · cs_n_neon_01"
+   "evidence": "science · product curator · Neon · cs_n_neon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neon_02",
    "text": "Neon is a noble gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Neon · cs_n_neon_02"
+   "evidence": "science · product curator · Neon · cs_n_neon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nickel_01",
    "text": "Nickel has the chemical symbol Ni",
    "standing": "projectable",
-   "evidence": "science · product curator · Nickel · cs_n_nickel_01"
+   "evidence": "science · product curator · Nickel · cs_n_nickel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_na_chemical_symbol_01",
    "text": "Na is the chemical symbol for sodium",
    "standing": "projectable",
-   "evidence": "science · product curator · Na (chemical symbol) · cs_n_na_chemical_symbol_01"
+   "evidence": "science · product curator · Na (chemical symbol) · cs_n_na_chemical_symbol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neodymium_01",
    "text": "Neodymium has the chemical symbol Nd",
    "standing": "projectable",
-   "evidence": "science · product curator · Neodymium · cs_n_neodymium_01"
+   "evidence": "science · product curator · Neodymium · cs_n_neodymium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_niobium_01",
    "text": "Niobium has the chemical symbol Nb",
    "standing": "projectable",
-   "evidence": "science · product curator · Niobium · cs_n_niobium_01"
+   "evidence": "science · product curator · Niobium · cs_n_niobium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nobelium_01",
    "text": "Nobelium has the chemical symbol No",
    "standing": "projectable",
-   "evidence": "science · product curator · Nobelium · cs_n_nobelium_01"
+   "evidence": "science · product curator · Nobelium · cs_n_nobelium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neutron_01",
    "text": "A neutron has no electric charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Neutron · cs_n_neutron_01"
+   "evidence": "science · product curator · Neutron · cs_n_neutron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nucleus_01",
    "text": "The nucleus of a cell contains DNA",
    "standing": "projectable",
-   "evidence": "science · product curator · Nucleus · cs_n_nucleus_01"
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newton_unit_01",
    "text": "The newton is the SI unit of force",
    "standing": "projectable",
-   "evidence": "science · product curator · Newton (unit) · cs_n_newton_unit_01"
+   "evidence": "science · product curator · Newton (unit) · cs_n_newton_unit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nebula_01",
    "text": "A nebula is a cloud of gas and dust in space",
    "standing": "projectable",
-   "evidence": "science · product curator · Nebula · cs_n_nebula_01"
+   "evidence": "science · product curator · Nebula · cs_n_nebula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neuron_01",
    "text": "A neuron is a nerve cell",
    "standing": "projectable",
-   "evidence": "science · product curator · Neuron · cs_n_neuron_01"
+   "evidence": "science · product curator · Neuron · cs_n_neuron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nectar_01",
    "text": "Nectar is a sugary liquid produced by flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nectar · cs_n_nectar_01"
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newt_01",
    "text": "Newts are amphibians",
    "standing": "projectable",
-   "evidence": "nature · product curator · Newt · cs_n_newt_01"
+   "evidence": "nature · product curator · Newt · cs_n_newt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nightingale_01",
    "text": "The nightingale is a songbird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_01"
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nocturnal_01",
    "text": "Owls are mostly nocturnal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nocturnal · cs_n_nocturnal_01"
+   "evidence": "nature · product curator · Nocturnal · cs_n_nocturnal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautilus_01",
    "text": "The nautilus is a cephalopod with an external shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_01"
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nettle_01",
    "text": "Nettles sting the skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nettle · cs_n_nettle_01"
+   "evidence": "nature · product curator · Nettle · cs_n_nettle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nut_01",
    "text": "An acorn is a type of nut",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nut · cs_n_nut_01"
+   "evidence": "nature · product curator · Nut · cs_n_nut_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newton_isaac_01",
    "text": "Isaac Newton wrote the Principia",
    "standing": "projectable",
-   "evidence": "history · product curator · Newton, Isaac · cs_n_newton_isaac_01"
+   "evidence": "history · product curator · Newton, Isaac · cs_n_newton_isaac_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_napoleon_bonaparte_01",
    "text": "Napoleon Bonaparte was emperor of the French",
    "standing": "projectable",
-   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_01"
+   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_napoleon_bonaparte_02",
    "text": "Napoleon was defeated at the Battle of Waterloo in 1815",
    "standing": "projectable",
-   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_02"
+   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nightingale_florence_01",
    "text": "Nightingale was a famous nurse",
    "standing": "projectable",
-   "evidence": "history · product curator · Nightingale, Florence · cs_n_nightingale_florence_01"
+   "evidence": "history · product curator · Nightingale, Florence · cs_n_nightingale_florence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nero_01",
    "text": "Nero was a Roman emperor",
    "standing": "projectable",
-   "evidence": "history · product curator · Nero · cs_n_nero_01"
+   "evidence": "history · product curator · Nero · cs_n_nero_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nefertiti_01",
    "text": "Nefertiti was an Egyptian queen",
    "standing": "projectable",
-   "evidence": "history · product curator · Nefertiti · cs_n_nefertiti_01"
+   "evidence": "history · product curator · Nefertiti · cs_n_nefertiti_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nobel_alfred_01",
    "text": "Alfred Nobel invented dynamite",
    "standing": "projectable",
-   "evidence": "history · product curator · Nobel, Alfred · cs_n_nobel_alfred_01"
+   "evidence": "history · product curator · Nobel, Alfred · cs_n_nobel_alfred_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nobel_prize_01",
    "text": "The Nobel Prizes were first awarded in 1901",
    "standing": "projectable",
-   "evidence": "history · product curator · Nobel Prize · cs_n_nobel_prize_01"
+   "evidence": "history · product curator · Nobel Prize · cs_n_nobel_prize_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_norman_conquest_01",
    "text": "The Norman Conquest of England began in 1066",
    "standing": "projectable",
-   "evidence": "history · product curator · Norman Conquest · cs_n_norman_conquest_01"
+   "evidence": "history · product curator · Norman Conquest · cs_n_norman_conquest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_notre_dame_de_paris_01",
    "text": "Notre Dame is a cathedral in Paris",
    "standing": "projectable",
-   "evidence": "history · product curator · Notre-Dame de Paris · cs_n_notre_dame_de_paris_01"
+   "evidence": "history · product curator · Notre-Dame de Paris · cs_n_notre_dame_de_paris_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nineteenth_amendment_01",
    "text": "The Nineteenth Amendment granted American women the right to vote in 1920",
    "standing": "projectable",
-   "evidence": "civics · product curator · Nineteenth Amendment · cs_n_nineteenth_amendment_01"
+   "evidence": "civics · product curator · Nineteenth Amendment · cs_n_nineteenth_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nato_01",
    "text": "NATO was founded in 1949",
    "standing": "projectable",
-   "evidence": "civics · product curator · NATO · cs_n_nato_01"
+   "evidence": "civics · product curator · NATO · cs_n_nato_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nasa_01",
    "text": "NASA was established in 1958",
    "standing": "projectable",
-   "evidence": "science · product curator · NASA · cs_n_nasa_01"
+   "evidence": "science · product curator · NASA · cs_n_nasa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_numerator_01",
    "text": "The numerator is the top number of a fraction",
    "standing": "projectable",
-   "evidence": "math · product curator · Numerator · cs_n_numerator_01"
+   "evidence": "math · product curator · Numerator · cs_n_numerator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_negative_number_01",
    "text": "A negative number is less than zero",
    "standing": "projectable",
-   "evidence": "math · product curator · Negative number · cs_n_negative_number_01"
+   "evidence": "math · product curator · Negative number · cs_n_negative_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautical_mile_01",
    "text": "A nautical mile is 1852 meters",
    "standing": "projectable",
-   "evidence": "math · product curator · Nautical mile · cs_n_nautical_mile_01"
+   "evidence": "math · product curator · Nautical mile · cs_n_nautical_mile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_november_01",
    "text": "November has 30 days",
    "standing": "projectable",
-   "evidence": "general · product curator · November · cs_n_november_01"
+   "evidence": "general · product curator · November · cs_n_november_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_november_02",
    "text": "November is the eleventh month of the year",
    "standing": "projectable",
-   "evidence": "general · product curator · November · cs_n_november_02"
+   "evidence": "general · product curator · November · cs_n_november_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_netball_01",
    "text": "Netball is played by two teams of seven players",
    "standing": "projectable",
-   "evidence": "general · product curator · Netball · cs_n_netball_01"
+   "evidence": "general · product curator · Netball · cs_n_netball_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_norwegian_01",
    "text": "Norwegian is a Germanic language",
    "standing": "projectable",
-   "evidence": "language · product curator · Norwegian · cs_n_norwegian_01"
+   "evidence": "language · product curator · Norwegian · cs_n_norwegian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noun_01",
    "text": "A noun names a person, place, thing, or idea",
    "standing": "projectable",
-   "evidence": "language · product curator · Noun · cs_n_noun_01"
+   "evidence": "language · product curator · Noun · cs_n_noun_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neptune_05",
    "text": "Neptune was discovered in 1846",
    "standing": "projectable",
-   "evidence": "science · product curator · Neptune · cs_n_neptune_05"
+   "evidence": "science · product curator · Neptune · cs_n_neptune_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newfoundland_01",
    "text": "Newfoundland is an island in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Newfoundland · cs_n_newfoundland_01"
+   "evidence": "geography · product curator · Newfoundland · cs_n_newfoundland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nauru_01",
    "text": "Nauru is an island country in the Pacific Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nauru · cs_n_nauru_01"
+   "evidence": "geography · product curator · Nauru · cs_n_nauru_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_korea_01",
    "text": "Pyongyang is the capital of North Korea",
    "standing": "projectable",
-   "evidence": "geography · product curator · North Korea · cs_n_north_korea_01"
+   "evidence": "geography · product curator · North Korea · cs_n_north_korea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_macedonia_01",
    "text": "Skopje is the capital of North Macedonia",
    "standing": "projectable",
-   "evidence": "geography · product curator · North Macedonia · cs_n_north_macedonia_01"
+   "evidence": "geography · product curator · North Macedonia · cs_n_north_macedonia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nicosia_01",
    "text": "Nicosia is the capital of Cyprus",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nicosia · cs_n_nicosia_01"
+   "evidence": "geography · product curator · Nicosia · cs_n_nicosia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nightingale_02",
    "text": "Nightingales are known for their song",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_02"
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuthatch_01",
    "text": "Nuthatches are small birds that climb tree trunks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_01"
+   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_napoleon_bonaparte_03",
    "text": "Napoleon Bonaparte was defeated at the Battle of Waterloo",
    "standing": "projectable",
-   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_03"
+   "evidence": "history · product curator · Napoleon Bonaparte · cs_n_napoleon_bonaparte_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_deal_01",
    "text": "The New Deal was a set of programs under Franklin D. Roosevelt",
    "standing": "projectable",
-   "evidence": "history · product curator · New Deal · cs_n_new_deal_01"
+   "evidence": "history · product curator · New Deal · cs_n_new_deal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nineteenth_amendment_02",
    "text": "The Nineteenth Amendment was ratified in 1920",
    "standing": "projectable",
-   "evidence": "civics · product curator · Nineteenth Amendment · cs_n_nineteenth_amendment_02"
+   "evidence": "civics · product curator · Nineteenth Amendment · cs_n_nineteenth_amendment_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nectar_02",
    "text": "Bees collect nectar to make honey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nectar · cs_n_nectar_02"
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautilus_02",
    "text": "The nautilus has a coiled shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_02"
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nickel_02",
    "text": "The chemical symbol for nickel is Ni",
    "standing": "projectable",
-   "evidence": "science · product curator · Nickel · cs_n_nickel_02"
+   "evidence": "science · product curator · Nickel · cs_n_nickel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neptune_06",
    "text": "Neptune is the farthest known planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Neptune · cs_n_neptune_06"
+   "evidence": "science · product curator · Neptune · cs_n_neptune_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_namib_desert_01",
    "text": "The Namib Desert runs along the coast of Namibia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Namib Desert · cs_n_namib_desert_01"
+   "evidence": "geography · product curator · Namib Desert · cs_n_namib_desert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_night_01",
    "text": "Night occurs when a place on Earth faces away from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Night · cs_n_night_01"
+   "evidence": "science · product curator · Night · cs_n_night_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nest_01",
    "text": "Many birds build nests to lay eggs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nest · cs_n_nest_01"
+   "evidence": "nature · product curator · Nest · cs_n_nest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newfoundland_02",
    "text": "Newfoundland is an island in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Newfoundland · cs_n_newfoundland_02"
+   "evidence": "geography · product curator · Newfoundland · cs_n_newfoundland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_star_01",
    "text": "The North Star is called Polaris",
    "standing": "projectable",
-   "evidence": "science · product curator · North Star · cs_n_north_star_01"
+   "evidence": "science · product curator · North Star · cs_n_north_star_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nocturnal_02",
    "text": "Nocturnal animals are active at night",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nocturnal · cs_n_nocturnal_02"
+   "evidence": "nature · product curator · Nocturnal · cs_n_nocturnal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nutmeg_01",
    "text": "Nutmeg is a spice from the seed of a tropical tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_01"
+   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nomad_01",
    "text": "Nomads do not settle permanently",
    "standing": "projectable",
-   "evidence": "culture · product curator · Nomad · cs_n_nomad_01"
+   "evidence": "culture · product curator · Nomad · cs_n_nomad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newt_02",
    "text": "A newt is an amphibian",
    "standing": "projectable",
-   "evidence": "nature · product curator · Newt · cs_n_newt_02"
+   "evidence": "nature · product curator · Newt · cs_n_newt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nepal_02",
    "text": "Pokhara is a city in Nepal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nepal · cs_n_nepal_02"
+   "evidence": "geography · product curator · Nepal · cs_n_nepal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_norway_02",
    "text": "Bergen is a city in Norway",
    "standing": "projectable",
-   "evidence": "geography · product curator · Norway · cs_n_norway_02"
+   "evidence": "geography · product curator · Norway · cs_n_norway_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_naples_01",
    "text": "Naples is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Naples · cs_n_naples_01"
+   "evidence": "geography · product curator · Naples · cs_n_naples_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nice_01",
    "text": "Nice is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nice · cs_n_nice_01"
+   "evidence": "geography · product curator · Nice · cs_n_nice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nagoya_01",
    "text": "Nagoya is a city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nagoya · cs_n_nagoya_01"
+   "evidence": "geography · product curator · Nagoya · cs_n_nagoya_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nightingale_03",
    "text": "A nightingale is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_03"
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nickel_03",
    "text": "Nickel is a metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Nickel · cs_n_nickel_03"
+   "evidence": "science · product curator · Nickel · cs_n_nickel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neptune_07",
    "text": "Neptune is a planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Neptune · cs_n_neptune_07"
+   "evidence": "science · product curator · Neptune · cs_n_neptune_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nantes_01",
    "text": "Nantes is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nantes · cs_n_nantes_01"
+   "evidence": "geography · product curator · Nantes · cs_n_nantes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nairobi_02",
    "text": "Nairobi is a city in Kenya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nairobi · cs_n_nairobi_02"
+   "evidence": "geography · product curator · Nairobi · cs_n_nairobi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nanjing_01",
    "text": "Nanjing is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nanjing · cs_n_nanjing_01"
+   "evidence": "geography · product curator · Nanjing · cs_n_nanjing_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newcastle_01",
    "text": "Newcastle is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Newcastle · cs_n_newcastle_01"
+   "evidence": "geography · product curator · Newcastle · cs_n_newcastle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuthatch_02",
    "text": "A nuthatch is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_02"
+   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_national_park_01",
    "text": "A national park protects land for public use",
    "standing": "projectable",
-   "evidence": "civics · product curator · National park · cs_n_national_park_01"
+   "evidence": "civics · product curator · National park · cs_n_national_park_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautical_chart_01",
    "text": "A nautical chart maps the sea",
    "standing": "projectable",
-   "evidence": "science · product curator · Nautical chart · cs_n_nautical_chart_01"
+   "evidence": "science · product curator · Nautical chart · cs_n_nautical_chart_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neolithic_01",
    "text": "The Neolithic period followed the Mesolithic",
    "standing": "projectable",
-   "evidence": "history · product curator · Neolithic · cs_n_neolithic_01"
+   "evidence": "history · product curator · Neolithic · cs_n_neolithic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nerve_01",
    "text": "A nerve carries signals through the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Nerve · cs_n_nerve_01"
+   "evidence": "science · product curator · Nerve · cs_n_nerve_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neutral_atom_01",
    "text": "A neutral atom has equal protons and electrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Neutral atom · cs_n_neutral_atom_01"
+   "evidence": "science · product curator · Neutral atom · cs_n_neutral_atom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nightshade_01",
    "text": "The nightshade family includes tomatoes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nightshade · cs_n_nightshade_01"
+   "evidence": "nature · product curator · Nightshade · cs_n_nightshade_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nineteenth_century_01",
    "text": "The nineteenth century ran from 1801 to 1900",
    "standing": "projectable",
-   "evidence": "history · product curator · Nineteenth century · cs_n_nineteenth_century_01"
+   "evidence": "history · product curator · Nineteenth century · cs_n_nineteenth_century_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrogen_cycle_01",
    "text": "The nitrogen cycle moves nitrogen through ecosystems",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrogen cycle · cs_n_nitrogen_cycle_01"
+   "evidence": "science · product curator · Nitrogen cycle · cs_n_nitrogen_cycle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nixon_richard_01",
    "text": "Richard Nixon was the 37th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Nixon, Richard · cs_n_nixon_richard_01"
+   "evidence": "history · product curator · Nixon, Richard · cs_n_nixon_richard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nobel_prize_in_physics_01",
    "text": "The Nobel Prize in Physics honors discoveries in physics",
    "standing": "projectable",
-   "evidence": "history · product curator · Nobel Prize in Physics · cs_n_nobel_prize_in_physics_01"
+   "evidence": "history · product curator · Nobel Prize in Physics · cs_n_nobel_prize_in_physics_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nomadic_01",
    "text": "A nomadic people move with the seasons",
    "standing": "projectable",
-   "evidence": "history · product curator · Nomadic · cs_n_nomadic_01"
+   "evidence": "history · product curator · Nomadic · cs_n_nomadic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noun_phrase_01",
    "text": "A noun phrase acts as a noun in a sentence",
    "standing": "projectable",
-   "evidence": "language · product curator · Noun phrase · cs_n_noun_phrase_01"
+   "evidence": "language · product curator · Noun phrase · cs_n_noun_phrase_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nubia_01",
    "text": "Nubia was an ancient region along the Nile",
    "standing": "projectable",
-   "evidence": "history · product curator · Nubia · cs_n_nubia_01"
+   "evidence": "history · product curator · Nubia · cs_n_nubia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuclear_fission_01",
    "text": "Nuclear fission splits an atomic nucleus",
    "standing": "projectable",
-   "evidence": "science · product curator · Nuclear fission · cs_n_nuclear_fission_01"
+   "evidence": "science · product curator · Nuclear fission · cs_n_nuclear_fission_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuclear_fusion_01",
    "text": "Nuclear fusion joins atomic nuclei",
    "standing": "projectable",
-   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_01"
+   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuclear_reactor_01",
    "text": "A nuclear reactor produces energy from fission",
    "standing": "projectable",
-   "evidence": "science · product curator · Nuclear reactor · cs_n_nuclear_reactor_01"
+   "evidence": "science · product curator · Nuclear reactor · cs_n_nuclear_reactor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_null_hypothesis_01",
    "text": "A null hypothesis assumes no effect",
    "standing": "projectable",
-   "evidence": "math · product curator · Null hypothesis · cs_n_null_hypothesis_01"
+   "evidence": "math · product curator · Null hypothesis · cs_n_null_hypothesis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_number_line_01",
    "text": "A number line shows numbers in order",
    "standing": "projectable",
-   "evidence": "math · product curator · Number line · cs_n_number_line_01"
+   "evidence": "math · product curator · Number line · cs_n_number_line_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_national_anthem_01",
    "text": "A national anthem is the official song of a country",
    "standing": "projectable",
-   "evidence": "civics · product curator · National anthem · cs_n_national_anthem_01"
+   "evidence": "civics · product curator · National anthem · cs_n_national_anthem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_navy_01",
    "text": "A navy is a branch of the armed forces",
    "standing": "projectable",
-   "evidence": "civics · product curator · Navy · cs_n_navy_01"
+   "evidence": "civics · product curator · Navy · cs_n_navy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_brunswick_01",
    "text": "New Brunswick is a province of Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · New Brunswick · cs_n_new_brunswick_01"
+   "evidence": "geography · product curator · New Brunswick · cs_n_new_brunswick_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_new_guinea_01",
    "text": "New Guinea is the second largest island in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · New Guinea · cs_n_new_guinea_01"
+   "evidence": "geography · product curator · New Guinea · cs_n_new_guinea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noon_01",
    "text": "Noon is twelve o'clock in the day",
    "standing": "projectable",
-   "evidence": "language · product curator · Noon · cs_n_noon_01"
+   "evidence": "language · product curator · Noon · cs_n_noon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nose_01",
    "text": "The nose is an organ of smell",
    "standing": "projectable",
-   "evidence": "science · product curator · Nose · cs_n_nose_01"
+   "evidence": "science · product curator · Nose · cs_n_nose_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nunavut_01",
    "text": "Iqaluit is the capital of Nunavut",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nunavut · cs_n_nunavut_01"
+   "evidence": "geography · product curator · Nunavut · cs_n_nunavut_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nylon_01",
    "text": "Nylon is a synthetic polymer",
    "standing": "projectable",
-   "evidence": "science · product curator · Nylon · cs_n_nylon_01"
+   "evidence": "science · product curator · Nylon · cs_n_nylon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_namib_desert_02",
    "text": "The Namib Desert is one of the oldest deserts",
    "standing": "projectable",
-   "evidence": "geography · product curator · Namib Desert · cs_n_namib_desert_02"
+   "evidence": "geography · product curator · Namib Desert · cs_n_namib_desert_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_natural_number_02",
    "text": "Zero is sometimes treated as a natural number",
    "standing": "projectable",
-   "evidence": "math · product curator · Natural number · cs_n_natural_number_02"
+   "evidence": "math · product curator · Natural number · cs_n_natural_number_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_navy_02",
    "text": "A navy operates ships at sea",
    "standing": "projectable",
-   "evidence": "civics · product curator · Navy · cs_n_navy_02"
+   "evidence": "civics · product curator · Navy · cs_n_navy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_negative_number_02",
    "text": "The product of two negative numbers is positive",
    "standing": "projectable",
-   "evidence": "math · product curator · Negative number · cs_n_negative_number_02"
+   "evidence": "math · product curator · Negative number · cs_n_negative_number_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nettle_02",
    "text": "A nettle has stinging hairs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nettle · cs_n_nettle_02"
+   "evidence": "nature · product curator · Nettle · cs_n_nettle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neuron_02",
    "text": "A neuron transmits electrical signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Neuron · cs_n_neuron_02"
+   "evidence": "science · product curator · Neuron · cs_n_neuron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newt_03",
    "text": "A newt can regenerate lost limbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Newt · cs_n_newt_03"
+   "evidence": "nature · product curator · Newt · cs_n_newt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newton_isaac_02",
    "text": "Isaac Newton formulated the law of universal gravitation",
    "standing": "projectable",
-   "evidence": "history · product curator · Newton, Isaac · cs_n_newton_isaac_02"
+   "evidence": "history · product curator · Newton, Isaac · cs_n_newton_isaac_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrate_01",
    "text": "A nitrate is a salt of nitric acid",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrate · cs_n_nitrate_01"
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_america_02",
    "text": "Canada is in North America",
    "standing": "projectable",
-   "evidence": "geography · product curator · North America · cs_n_north_america_02"
+   "evidence": "geography · product curator · North America · cs_n_north_america_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noun_phrase_02",
    "text": "A noun phrase can include adjectives",
    "standing": "projectable",
-   "evidence": "language · product curator · Noun phrase · cs_n_noun_phrase_02"
+   "evidence": "language · product curator · Noun phrase · cs_n_noun_phrase_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nucleus_02",
    "text": "The nucleus of an atom contains protons",
    "standing": "projectable",
-   "evidence": "science · product curator · Nucleus · cs_n_nucleus_02"
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_null_hypothesis_02",
    "text": "Scientists test a null hypothesis",
    "standing": "projectable",
-   "evidence": "math · product curator · Null hypothesis · cs_n_null_hypothesis_02"
+   "evidence": "math · product curator · Null hypothesis · cs_n_null_hypothesis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_number_line_02",
    "text": "Integers appear on a number line",
    "standing": "projectable",
-   "evidence": "math · product curator · Number line · cs_n_number_line_02"
+   "evidence": "math · product curator · Number line · cs_n_number_line_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nutmeg_02",
    "text": "Nutmeg is grated as a spice",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_02"
+   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_natural_number_03",
    "text": "A natural number is a counting number",
    "standing": "projectable",
-   "evidence": "math · product curator · Natural number · cs_n_natural_number_03"
+   "evidence": "math · product curator · Natural number · cs_n_natural_number_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_pole_02",
    "text": "The North Pole is the northernmost point on Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · North Pole · cs_n_north_pole_02"
+   "evidence": "geography · product curator · North Pole · cs_n_north_pole_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noun_02",
    "text": "A noun names a person place or thing",
    "standing": "projectable",
-   "evidence": "language · product curator · Noun · cs_n_noun_02"
+   "evidence": "language · product curator · Noun · cs_n_noun_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_november_03",
    "text": "Thanksgiving falls in November in the United States",
    "standing": "projectable",
-   "evidence": "civics · product curator · November · cs_n_november_03"
+   "evidence": "civics · product curator · November · cs_n_november_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautilus_03",
    "text": "A nautilus is a shelled cephalopod",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_03"
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neuron_03",
    "text": "A neuron transmits nerve impulses",
    "standing": "projectable",
-   "evidence": "science · product curator · Neuron · cs_n_neuron_03"
+   "evidence": "science · product curator · Neuron · cs_n_neuron_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nacre_01",
    "text": "Nacre lines some mollusk shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nacre · cs_n_nacre_01"
+   "evidence": "nature · product curator · Nacre · cs_n_nacre_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_naples_02",
    "text": "Naples is a port city",
    "standing": "projectable",
-   "evidence": "geography · product curator · Naples · cs_n_naples_02"
+   "evidence": "geography · product curator · Naples · cs_n_naples_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_navy_03",
    "text": "A navy defends at sea",
    "standing": "projectable",
-   "evidence": "civics · product curator · Navy · cs_n_navy_03"
+   "evidence": "civics · product curator · Navy · cs_n_navy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_netball_02",
    "text": "Netball is a team sport",
    "standing": "projectable",
-   "evidence": "history · product curator · Netball · cs_n_netball_02"
+   "evidence": "history · product curator · Netball · cs_n_netball_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nile_03",
    "text": "Ships sail the Nile",
    "standing": "projectable",
-   "evidence": "geography · product curator · Nile · cs_n_nile_03"
+   "evidence": "geography · product curator · Nile · cs_n_nile_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrogen_03",
    "text": "Nitrogen is a colorless gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_03"
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noon_02",
    "text": "Noon is midday",
    "standing": "projectable",
-   "evidence": "civics · product curator · Noon · cs_n_noon_02"
+   "evidence": "civics · product curator · Noon · cs_n_noon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nucleotide_01",
    "text": "A nucleotide builds DNA",
    "standing": "projectable",
-   "evidence": "science · product curator · Nucleotide · cs_n_nucleotide_01"
+   "evidence": "science · product curator · Nucleotide · cs_n_nucleotide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_number_line_03",
    "text": "Students plot points on a number line",
    "standing": "projectable",
-   "evidence": "math · product curator · Number line · cs_n_number_line_03"
+   "evidence": "math · product curator · Number line · cs_n_number_line_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noun_03",
    "text": "Cat is a noun",
    "standing": "projectable",
-   "evidence": "language · product curator · Noun · cs_n_noun_03"
+   "evidence": "language · product curator · Noun · cs_n_noun_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_net_01",
    "text": "A net catches fish",
    "standing": "projectable",
-   "evidence": "science · product curator · Net · cs_n_net_01"
+   "evidence": "science · product curator · Net · cs_n_net_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nectar_03",
    "text": "Bees gather nectar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nectar · cs_n_nectar_03"
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nettle_03",
    "text": "A nettle stings skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nettle · cs_n_nettle_03"
+   "evidence": "nature · product curator · Nettle · cs_n_nettle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_niche_01",
    "text": "Each species has a niche",
    "standing": "projectable",
-   "evidence": "nature · product curator · Niche · cs_n_niche_01"
+   "evidence": "nature · product curator · Niche · cs_n_niche_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nova_01",
    "text": "A nova is a bright star outburst",
    "standing": "projectable",
-   "evidence": "science · product curator · Nova · cs_n_nova_01"
+   "evidence": "science · product curator · Nova · cs_n_nova_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_natural_number_04",
    "text": "Natural numbers start at one",
    "standing": "projectable",
-   "evidence": "math · product curator · Natural number · cs_n_natural_number_04"
+   "evidence": "math · product curator · Natural number · cs_n_natural_number_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrate_02",
    "text": "Plants absorb nitrate",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrate · cs_n_nitrate_02"
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nacre_02",
    "text": "Nacre lines a pearl oyster",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nacre · cs_n_nacre_02"
+   "evidence": "nature · product curator · Nacre · cs_n_nacre_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neon_03",
    "text": "Neon glows in glass tubes",
    "standing": "projectable",
-   "evidence": "science · product curator · Neon · cs_n_neon_03"
+   "evidence": "science · product curator · Neon · cs_n_neon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nobelium_02",
    "text": "Nobelium is a synthetic element",
    "standing": "projectable",
-   "evidence": "science · product curator · Nobelium · cs_n_nobelium_02"
+   "evidence": "science · product curator · Nobelium · cs_n_nobelium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nightingale_04",
    "text": "A nightingale sings at night",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_04"
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuthatch_03",
    "text": "A nuthatch climbs tree trunks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_03"
+   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nickel_04",
    "text": "Nickel resists corrosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Nickel · cs_n_nickel_04"
+   "evidence": "science · product curator · Nickel · cs_n_nickel_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_niobium_02",
    "text": "Niobium strengthens steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Niobium · cs_n_niobium_02"
+   "evidence": "science · product curator · Niobium · cs_n_niobium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nebula_02",
    "text": "A nebula forms new stars",
    "standing": "projectable",
-   "evidence": "science · product curator · Nebula · cs_n_nebula_02"
+   "evidence": "science · product curator · Nebula · cs_n_nebula_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nutmeg_03",
    "text": "Nutmeg flavors baked goods",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_03"
+   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nickel_05",
    "text": "Coins often contain nickel",
    "standing": "projectable",
-   "evidence": "science · product curator · Nickel · cs_n_nickel_05"
+   "evidence": "science · product curator · Nickel · cs_n_nickel_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neon_04",
    "text": "Neon lights glow red",
    "standing": "projectable",
-   "evidence": "science · product curator · Neon · cs_n_neon_04"
+   "evidence": "science · product curator · Neon · cs_n_neon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nucleotide_02",
    "text": "DNA contains nucleotides",
    "standing": "projectable",
-   "evidence": "science · product curator · Nucleotide · cs_n_nucleotide_02"
+   "evidence": "science · product curator · Nucleotide · cs_n_nucleotide_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nucleus_03",
    "text": "A nucleus holds protons",
    "standing": "projectable",
-   "evidence": "science · product curator · Nucleus · cs_n_nucleus_03"
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_newt_04",
    "text": "A newt lives near water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Newt · cs_n_newt_04"
+   "evidence": "nature · product curator · Newt · cs_n_newt_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nubia_02",
    "text": "Nubia lay south of Egypt",
    "standing": "projectable",
-   "evidence": "history · product curator · Nubia · cs_n_nubia_02"
+   "evidence": "history · product curator · Nubia · cs_n_nubia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuclear_fusion_02",
    "text": "Stars run on nuclear fusion",
    "standing": "projectable",
-   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_02"
+   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neuron_04",
    "text": "A neuron sends signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Neuron · cs_n_neuron_04"
+   "evidence": "science · product curator · Neuron · cs_n_neuron_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_navy_04",
    "text": "A navy guards the coast",
    "standing": "projectable",
-   "evidence": "civics · product curator · Navy · cs_n_navy_04"
+   "evidence": "civics · product curator · Navy · cs_n_navy_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_numerator_02",
    "text": "A numerator sits above a bar",
    "standing": "projectable",
-   "evidence": "math · product curator · Numerator · cs_n_numerator_02"
+   "evidence": "math · product curator · Numerator · cs_n_numerator_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautilus_04",
    "text": "A nautilus has chambers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_04"
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautilus_05",
    "text": "Shells spiral on a nautilus",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_05"
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nebula_03",
    "text": "Stars form in a nebula",
    "standing": "projectable",
-   "evidence": "science · product curator · Nebula · cs_n_nebula_03"
+   "evidence": "science · product curator · Nebula · cs_n_nebula_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_negative_number_03",
    "text": "Debt is a negative number",
    "standing": "projectable",
-   "evidence": "math · product curator · Negative number · cs_n_negative_number_03"
+   "evidence": "math · product curator · Negative number · cs_n_negative_number_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neodymium_02",
    "text": "Neodymium is a rare earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Neodymium · cs_n_neodymium_02"
+   "evidence": "science · product curator · Neodymium · cs_n_neodymium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neutron_star_01",
    "text": "A neutron star is dense",
    "standing": "projectable",
-   "evidence": "science · product curator · Neutron star · cs_n_neutron_star_01"
+   "evidence": "science · product curator · Neutron star · cs_n_neutron_star_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrate_03",
    "text": "Fertilizer holds nitrate",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrate · cs_n_nitrate_03"
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nut_02",
    "text": "A squirrel stores a nut",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nut · cs_n_nut_02"
+   "evidence": "nature · product curator · Nut · cs_n_nut_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_network_01",
    "text": "A network links computers",
    "standing": "projectable",
-   "evidence": "science · product curator · Network · cs_n_network_01"
+   "evidence": "science · product curator · Network · cs_n_network_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neutron_02",
    "text": "Atoms hold neutrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Neutron · cs_n_neutron_02"
+   "evidence": "science · product curator · Neutron · cs_n_neutron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nickel_06",
    "text": "Coins once used nickel",
    "standing": "projectable",
-   "evidence": "science · product curator · Nickel · cs_n_nickel_06"
+   "evidence": "science · product curator · Nickel · cs_n_nickel_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nightingale_05",
    "text": "Nightingales sing at night",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_05"
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrogen_04",
    "text": "Air holds nitrogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_04"
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_pole_03",
    "text": "Ice covers the North Pole",
    "standing": "projectable",
-   "evidence": "geography · product curator · North Pole · cs_n_north_pole_03"
+   "evidence": "geography · product curator · North Pole · cs_n_north_pole_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nuclear_fusion_03",
    "text": "The Sun uses nuclear fusion",
    "standing": "projectable",
-   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_03"
+   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nucleus_04",
    "text": "DNA fills a cell nucleus",
    "standing": "projectable",
-   "evidence": "science · product curator · Nucleus · cs_n_nucleus_04"
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nymph_01",
    "text": "Insects hatch as nymphs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nymph · cs_n_nymph_01"
+   "evidence": "nature · product curator · Nymph · cs_n_nymph_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_naphtha_01",
    "text": "Naphtha dissolves grease",
    "standing": "projectable",
-   "evidence": "science · product curator · Naphtha · cs_n_naphtha_01"
+   "evidence": "science · product curator · Naphtha · cs_n_naphtha_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nectar_04",
    "text": "Butterflies drink nectar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nectar · cs_n_nectar_04"
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nephron_01",
    "text": "A nephron filters blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Nephron · cs_n_nephron_01"
+   "evidence": "science · product curator · Nephron · cs_n_nephron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neon_05",
    "text": "Neon glows in signs",
    "standing": "projectable",
-   "evidence": "science · product curator · Neon · cs_n_neon_05"
+   "evidence": "science · product curator · Neon · cs_n_neon_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nest_02",
    "text": "Wasps build a paper nest",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nest · cs_n_nest_02"
+   "evidence": "nature · product curator · Nest · cs_n_nest_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neuron_05",
    "text": "A neuron fires impulses",
    "standing": "projectable",
-   "evidence": "science · product curator · Neuron · cs_n_neuron_05"
+   "evidence": "science · product curator · Neuron · cs_n_neuron_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrate_04",
    "text": "Nitrate fertilizes soil",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrate · cs_n_nitrate_04"
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrogen_05",
    "text": "Nitrogen fills most air",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_05"
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nose_02",
    "text": "The nose filters air",
    "standing": "projectable",
-   "evidence": "science · product curator · Nose · cs_n_nose_02"
+   "evidence": "science · product curator · Nose · cs_n_nose_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nut_03",
    "text": "A nut stores seed food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nut · cs_n_nut_03"
+   "evidence": "nature · product curator · Nut · cs_n_nut_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neodymium_03",
    "text": "Neodymium strengthens magnets",
    "standing": "projectable",
-   "evidence": "science · product curator · Neodymium · cs_n_neodymium_03"
+   "evidence": "science · product curator · Neodymium · cs_n_neodymium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neuron_06",
    "text": "A neuron fires electric spikes",
    "standing": "projectable",
-   "evidence": "science · product curator · Neuron · cs_n_neuron_06"
+   "evidence": "science · product curator · Neuron · cs_n_neuron_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neoprene_01",
    "text": "Neoprene seals diving suits",
    "standing": "projectable",
-   "evidence": "science · product curator · Neoprene · cs_n_neoprene_01"
+   "evidence": "science · product curator · Neoprene · cs_n_neoprene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrate_05",
    "text": "Nitrate feeds plant roots",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nitrate · cs_n_nitrate_05"
+   "evidence": "nature · product curator · Nitrate · cs_n_nitrate_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_notochord_01",
    "text": "A notochord stiffens early embryos",
    "standing": "projectable",
-   "evidence": "nature · product curator · Notochord · cs_n_notochord_01"
+   "evidence": "nature · product curator · Notochord · cs_n_notochord_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nylon_02",
    "text": "Nylon stretches into strong fiber",
    "standing": "projectable",
-   "evidence": "science · product curator · Nylon · cs_n_nylon_02"
+   "evidence": "science · product curator · Nylon · cs_n_nylon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nacre_03",
    "text": "Nacre builds pearl layers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nacre · cs_n_nacre_03"
+   "evidence": "nature · product curator · Nacre · cs_n_nacre_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nebula_04",
    "text": "Dust fills a glowing nebula",
    "standing": "projectable",
-   "evidence": "science · product curator · Nebula · cs_n_nebula_04"
+   "evidence": "science · product curator · Nebula · cs_n_nebula_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nectar_05",
    "text": "Bees collect flower nectar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nectar · cs_n_nectar_05"
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nephron_02",
    "text": "Nephrons filter blood waste",
    "standing": "projectable",
-   "evidence": "science · product curator · Nephron · cs_n_nephron_02"
+   "evidence": "science · product curator · Nephron · cs_n_nephron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neutron_03",
    "text": "Neutrons bind atomic nuclei",
    "standing": "projectable",
-   "evidence": "science · product curator · Neutron · cs_n_neutron_03"
+   "evidence": "science · product curator · Neutron · cs_n_neutron_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nickel_07",
    "text": "Nickel hardens steel alloys",
    "standing": "projectable",
-   "evidence": "science · product curator · Nickel · cs_n_nickel_07"
+   "evidence": "science · product curator · Nickel · cs_n_nickel_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrogen_06",
    "text": "Legumes fix air nitrogen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nitrogen · cs_n_nitrogen_06"
+   "evidence": "nature · product curator · Nitrogen · cs_n_nitrogen_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_noble_gas_02",
    "text": "Helium ranks a noble gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Noble gas · cs_n_noble_gas_02"
+   "evidence": "science · product curator · Noble gas · cs_n_noble_gas_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_north_star_02",
    "text": "The North Star marks north",
    "standing": "projectable",
-   "evidence": "science · product curator · North Star · cs_n_north_star_02"
+   "evidence": "science · product curator · North Star · cs_n_north_star_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nucleus_05",
    "text": "Genes fill a cell nucleus",
    "standing": "projectable",
-   "evidence": "science · product curator · Nucleus · cs_n_nucleus_05"
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_negative_feedback_01",
    "text": "Feedback steadies body heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Negative feedback · cs_n_negative_feedback_01"
+   "evidence": "science · product curator · Negative feedback · cs_n_negative_feedback_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nestling_01",
    "text": "Nestlings beg parent food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nestling · cs_n_nestling_01"
+   "evidence": "nature · product curator · Nestling · cs_n_nestling_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_net_force_01",
    "text": "Net force accelerates a mass",
    "standing": "projectable",
-   "evidence": "science · product curator · Net force · cs_n_net_force_01"
+   "evidence": "science · product curator · Net force · cs_n_net_force_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neuromuscular_01",
    "text": "Nerves fire muscle fibers",
    "standing": "projectable",
-   "evidence": "science · product curator · Neuromuscular · cs_n_neuromuscular_01"
+   "evidence": "science · product curator · Neuromuscular · cs_n_neuromuscular_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_neutrophil_01",
    "text": "Neutrophils eat invading germs",
    "standing": "projectable",
-   "evidence": "science · product curator · Neutrophil · cs_n_neutrophil_01"
+   "evidence": "science · product curator · Neutrophil · cs_n_neutrophil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_niche_02",
    "text": "A niche fits species needs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Niche · cs_n_niche_02"
+   "evidence": "nature · product curator · Niche · cs_n_niche_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrous_01",
    "text": "Nitrous oxide dulls pain",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrous · cs_n_nitrous_01"
+   "evidence": "science · product curator · Nitrous · cs_n_nitrous_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_node_of_ranvier_01",
    "text": "Nodes speed nerve impulses",
    "standing": "projectable",
-   "evidence": "science · product curator · Node of Ranvier · cs_n_node_of_ranvier_01"
+   "evidence": "science · product curator · Node of Ranvier · cs_n_node_of_ranvier_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nodule_01",
    "text": "Root nodules fix air nitrogen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nodule · cs_n_nodule_01"
+   "evidence": "nature · product curator · Nodule · cs_n_nodule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nymph_stage_01",
    "text": "A nymph molts soft skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nymph stage · cs_n_nymph_stage_01"
+   "evidence": "nature · product curator · Nymph stage · cs_n_nymph_stage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_naphtha_02",
    "text": "Naphtha thins oil paint",
    "standing": "projectable",
-   "evidence": "science · product curator · Naphtha · cs_n_naphtha_02"
+   "evidence": "science · product curator · Naphtha · cs_n_naphtha_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nautilus_06",
    "text": "A nautilus jets seawater",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_06"
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_niobium_03",
    "text": "Niobium alloys jet engines",
    "standing": "projectable",
-   "evidence": "science · product curator · Niobium · cs_n_niobium_03"
+   "evidence": "science · product curator · Niobium · cs_n_niobium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrate_06",
    "text": "Nitrates feed plant roots",
    "standing": "projectable",
-   "evidence": "nature · product curator · Nitrate · cs_n_nitrate_06"
+   "evidence": "nature · product curator · Nitrate · cs_n_nitrate_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitrile_01",
    "text": "Nitrile resists oil solvents",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitrile · cs_n_nitrile_01"
+   "evidence": "science · product curator · Nitrile · cs_n_nitrile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nylon_03",
    "text": "Nylon strengthens rope fibers",
    "standing": "projectable",
-   "evidence": "science · product curator · Nylon · cs_n_nylon_03"
+   "evidence": "science · product curator · Nylon · cs_n_nylon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nonmetal_01",
    "text": "A nonmetal gains electrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Nonmetal · cs_n_nonmetal_01"
+   "evidence": "science · product curator · Nonmetal · cs_n_nonmetal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nozzle_01",
    "text": "A nozzle directs fluid flow",
    "standing": "projectable",
-   "evidence": "science · product curator · Nozzle · cs_n_nozzle_01"
+   "evidence": "science · product curator · Nozzle · cs_n_nozzle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nitric_01",
    "text": "Nitric acid dissolves metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Nitric · cs_n_nitric_01"
+   "evidence": "science · product curator · Nitric · cs_n_nitric_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_n_nasal_01",
    "text": "The nasal cavity filters air",
    "standing": "projectable",
-   "evidence": "science · product curator · Nasal · cs_n_nasal_01"
+   "evidence": "science · product curator · Nasal · cs_n_nasal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
