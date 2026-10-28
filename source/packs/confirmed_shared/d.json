@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 107,
+ "curated_facts": 132,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -577,6 +577,156 @@
    "text": "Dutch is the official language of the Netherlands",
    "standing": "projectable",
    "evidence": "language · product curator · Dutch · cs_d_dutch_01"
+  },
+  {
+   "id": "cs_d_dresden_01",
+   "text": "Dresden is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dresden · cs_d_dresden_01"
+  },
+  {
+   "id": "cs_d_dortmund_01",
+   "text": "Dortmund is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dortmund · cs_d_dortmund_01"
+  },
+  {
+   "id": "cs_d_durban_01",
+   "text": "Durban is a city in South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Durban · cs_d_durban_01"
+  },
+  {
+   "id": "cs_d_dhaka_02",
+   "text": "Dhaka is a city in Bangladesh",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dhaka · cs_d_dhaka_02"
+  },
+  {
+   "id": "cs_d_dalian_01",
+   "text": "Dalian is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dalian · cs_d_dalian_01"
+  },
+  {
+   "id": "cs_d_dijon_01",
+   "text": "Dijon is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dijon · cs_d_dijon_01"
+  },
+  {
+   "id": "cs_d_dundee_01",
+   "text": "Dundee is a city in Scotland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dundee · cs_d_dundee_01"
+  },
+  {
+   "id": "cs_d_derby_01",
+   "text": "Derby is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Derby · cs_d_derby_01"
+  },
+  {
+   "id": "cs_d_durham_01",
+   "text": "Durham is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Durham · cs_d_durham_01"
+  },
+  {
+   "id": "cs_d_dover_01",
+   "text": "Dover is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dover · cs_d_dover_01"
+  },
+  {
+   "id": "cs_d_davao_01",
+   "text": "Davao is a city in the Philippines",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Davao · cs_d_davao_01"
+  },
+  {
+   "id": "cs_d_delft_01",
+   "text": "Delft is a city in the Netherlands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Delft · cs_d_delft_01"
+  },
+  {
+   "id": "cs_d_dubrovnik_01",
+   "text": "Dubrovnik is a city in Croatia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dubrovnik · cs_d_dubrovnik_01"
+  },
+  {
+   "id": "cs_d_daegu_01",
+   "text": "Daegu is a city in South Korea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Daegu · cs_d_daegu_01"
+  },
+  {
+   "id": "cs_d_dallas_01",
+   "text": "Dallas is a city in Texas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dallas · cs_d_dallas_01"
+  },
+  {
+   "id": "cs_d_denver_01",
+   "text": "Denver is a city in Colorado",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Denver · cs_d_denver_01"
+  },
+  {
+   "id": "cs_d_detroit_02",
+   "text": "Detroit is a city in Michigan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Detroit · cs_d_detroit_02"
+  },
+  {
+   "id": "cs_d_dayton_01",
+   "text": "Dayton is a city in Ohio",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dayton · cs_d_dayton_01"
+  },
+  {
+   "id": "cs_d_duluth_01",
+   "text": "Duluth is a city in Minnesota",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Duluth · cs_d_duluth_01"
+  },
+  {
+   "id": "cs_d_darwin_01",
+   "text": "Darwin is a city in Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Darwin · cs_d_darwin_01"
+  },
+  {
+   "id": "cs_d_dunedin_01",
+   "text": "Dunedin is a city in New Zealand",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dunedin · cs_d_dunedin_01"
+  },
+  {
+   "id": "cs_d_dakar_02",
+   "text": "Dakar is a city in Senegal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dakar · cs_d_dakar_02"
+  },
+  {
+   "id": "cs_d_dodoma_02",
+   "text": "Dodoma is a city in Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dodoma · cs_d_dodoma_02"
+  },
+  {
+   "id": "cs_d_duisburg_01",
+   "text": "Duisburg is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Duisburg · cs_d_duisburg_01"
+  },
+  {
+   "id": "cs_d_dongguan_01",
+   "text": "Dongguan is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dongguan · cs_d_dongguan_01"
   }
  ]
 }

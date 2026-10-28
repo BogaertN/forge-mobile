@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 104,
+ "curated_facts": 126,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -595,6 +595,138 @@
    "text": "Boiling is the change from liquid to gas throughout a liquid",
    "standing": "projectable",
    "evidence": "science · product curator · Boiling · cs_b_boiling_01"
+  },
+  {
+   "id": "cs_b_bremen_01",
+   "text": "Bremen is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bremen · cs_b_bremen_01"
+  },
+  {
+   "id": "cs_b_bonn_01",
+   "text": "Bonn is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bonn · cs_b_bonn_01"
+  },
+  {
+   "id": "cs_b_bordeaux_01",
+   "text": "Bordeaux is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bordeaux · cs_b_bordeaux_01"
+  },
+  {
+   "id": "cs_b_brest_01",
+   "text": "Brest is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Brest · cs_b_brest_01"
+  },
+  {
+   "id": "cs_b_bruges_01",
+   "text": "Bruges is a city in Belgium",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bruges · cs_b_bruges_01"
+  },
+  {
+   "id": "cs_b_bilbao_01",
+   "text": "Bilbao is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bilbao · cs_b_bilbao_01"
+  },
+  {
+   "id": "cs_b_bologna_01",
+   "text": "Bologna is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bologna · cs_b_bologna_01"
+  },
+  {
+   "id": "cs_b_bari_01",
+   "text": "Bari is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bari · cs_b_bari_01"
+  },
+  {
+   "id": "cs_b_bergamo_01",
+   "text": "Bergamo is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bergamo · cs_b_bergamo_01"
+  },
+  {
+   "id": "cs_b_bristol_01",
+   "text": "Bristol is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bristol · cs_b_bristol_01"
+  },
+  {
+   "id": "cs_b_brighton_01",
+   "text": "Brighton is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Brighton · cs_b_brighton_01"
+  },
+  {
+   "id": "cs_b_bath_01",
+   "text": "Bath is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bath · cs_b_bath_01"
+  },
+  {
+   "id": "cs_b_belfast_01",
+   "text": "Belfast is a city in Northern Ireland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Belfast · cs_b_belfast_01"
+  },
+  {
+   "id": "cs_b_busan_01",
+   "text": "Busan is a city in South Korea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Busan · cs_b_busan_01"
+  },
+  {
+   "id": "cs_b_bhopal_01",
+   "text": "Bhopal is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bhopal · cs_b_bhopal_01"
+  },
+  {
+   "id": "cs_b_boston_02",
+   "text": "Boston is a city in Massachusetts",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Boston · cs_b_boston_02"
+  },
+  {
+   "id": "cs_b_buffalo_03",
+   "text": "Buffalo is a city in New York",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Buffalo · cs_b_buffalo_03"
+  },
+  {
+   "id": "cs_b_baltimore_01",
+   "text": "Baltimore is a city in Maryland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Baltimore · cs_b_baltimore_01"
+  },
+  {
+   "id": "cs_b_brisbane_01",
+   "text": "Brisbane is a city in Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Brisbane · cs_b_brisbane_01"
+  },
+  {
+   "id": "cs_b_basra_01",
+   "text": "Basra is a city in Iraq",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Basra · cs_b_basra_01"
+  },
+  {
+   "id": "cs_b_bursa_01",
+   "text": "Bursa is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bursa · cs_b_bursa_01"
+  },
+  {
+   "id": "cs_b_brno_01",
+   "text": "Brno is a city in the Czech Republic",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Brno · cs_b_brno_01"
   }
  ]
 }

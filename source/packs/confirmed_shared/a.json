@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 125,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -595,6 +595,150 @@
    "text": "Aquarius is a constellation of the zodiac",
    "standing": "projectable",
    "evidence": "science · product curator · Aquarius · cs_a_aquarius_01"
+  },
+  {
+   "id": "cs_a_aachen_01",
+   "text": "Aachen is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Aachen · cs_a_aachen_01"
+  },
+  {
+   "id": "cs_a_augsburg_01",
+   "text": "Augsburg is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Augsburg · cs_a_augsburg_01"
+  },
+  {
+   "id": "cs_a_avignon_01",
+   "text": "Avignon is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Avignon · cs_a_avignon_01"
+  },
+  {
+   "id": "cs_a_amiens_01",
+   "text": "Amiens is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Amiens · cs_a_amiens_01"
+  },
+  {
+   "id": "cs_a_antwerp_01",
+   "text": "Antwerp is a city in Belgium",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Antwerp · cs_a_antwerp_01"
+  },
+  {
+   "id": "cs_a_aarhus_01",
+   "text": "Aarhus is a city in Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Aarhus · cs_a_aarhus_01"
+  },
+  {
+   "id": "cs_a_alicante_01",
+   "text": "Alicante is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Alicante · cs_a_alicante_01"
+  },
+  {
+   "id": "cs_a_ancona_01",
+   "text": "Ancona is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ancona · cs_a_ancona_01"
+  },
+  {
+   "id": "cs_a_agra_01",
+   "text": "Agra is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Agra · cs_a_agra_01"
+  },
+  {
+   "id": "cs_a_ahmedabad_01",
+   "text": "Ahmedabad is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ahmedabad · cs_a_ahmedabad_01"
+  },
+  {
+   "id": "cs_a_amritsar_01",
+   "text": "Amritsar is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Amritsar · cs_a_amritsar_01"
+  },
+  {
+   "id": "cs_a_aleppo_01",
+   "text": "Aleppo is a city in Syria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Aleppo · cs_a_aleppo_01"
+  },
+  {
+   "id": "cs_a_antalya_01",
+   "text": "Antalya is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Antalya · cs_a_antalya_01"
+  },
+  {
+   "id": "cs_a_adana_01",
+   "text": "Adana is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Adana · cs_a_adana_01"
+  },
+  {
+   "id": "cs_a_akron_01",
+   "text": "Akron is a city in Ohio",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Akron · cs_a_akron_01"
+  },
+  {
+   "id": "cs_a_albany_02",
+   "text": "Albany is a city in New York",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Albany · cs_a_albany_02"
+  },
+  {
+   "id": "cs_a_austin_01",
+   "text": "Austin is a city in Texas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Austin · cs_a_austin_01"
+  },
+  {
+   "id": "cs_a_anaheim_01",
+   "text": "Anaheim is a city in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Anaheim · cs_a_anaheim_01"
+  },
+  {
+   "id": "cs_a_aberdeen_01",
+   "text": "Aberdeen is a city in Scotland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Aberdeen · cs_a_aberdeen_01"
+  },
+  {
+   "id": "cs_a_adelaide_01",
+   "text": "Adelaide is a city in Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Adelaide · cs_a_adelaide_01"
+  },
+  {
+   "id": "cs_a_auckland_01",
+   "text": "Auckland is a city in New Zealand",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Auckland · cs_a_auckland_01"
+  },
+  {
+   "id": "cs_a_alexandria_01",
+   "text": "Alexandria is a city in Egypt",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Alexandria · cs_a_alexandria_01"
+  },
+  {
+   "id": "cs_a_arequipa_01",
+   "text": "Arequipa is a city in Peru",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Arequipa · cs_a_arequipa_01"
+  },
+  {
+   "id": "cs_a_arusha_01",
+   "text": "Arusha is a city in Tanzania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Arusha · cs_a_arusha_01"
   }
  ]
 }
