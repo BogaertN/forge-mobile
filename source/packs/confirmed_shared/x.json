@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 192,
+ "curated_facts": 195,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1105,6 +1105,24 @@
    "text": "A graph has an x-axis",
    "standing": "projectable",
    "evidence": "math · product curator · X-axis · cs_x_x_axis_06"
+  },
+  {
+   "id": "cs_x_xanthan_01",
+   "text": "Xanthan thickens sauces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_01"
+  },
+  {
+   "id": "cs_x_xerosis_01",
+   "text": "Cold air causes xerosis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerosis · cs_x_xerosis_01"
+  },
+  {
+   "id": "cs_x_xerox_03",
+   "text": "A Xerox makes a copy",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerox · cs_x_xerox_03"
   }
  ]
 }

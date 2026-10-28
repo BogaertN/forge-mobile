@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 195,
+ "curated_facts": 198,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1111,6 +1111,24 @@
    "text": "Yeast raises bread",
    "standing": "projectable",
    "evidence": "science · product curator · Yeast · cs_y_yeast_09"
+  },
+  {
+   "id": "cs_y_yellowcake_01",
+   "text": "Yellowcake is uranium oxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yellowcake · cs_y_yellowcake_01"
+  },
+  {
+   "id": "cs_y_yellowwood_01",
+   "text": "Yellowwood is a hard timber",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_01"
+  },
+  {
+   "id": "cs_y_yttrium_06",
+   "text": "Yttrium strengthens alloys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_06"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 193,
+ "curated_facts": 202,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1099,6 +1099,60 @@
    "text": "A jerboa hops on sand",
    "standing": "projectable",
    "evidence": "nature · product curator · Jerboa · cs_j_jerboa_02"
+  },
+  {
+   "id": "cs_j_jaundice_01",
+   "text": "Jaundice yellows the skin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jaundice · cs_j_jaundice_01"
+  },
+  {
+   "id": "cs_j_jeans_01",
+   "text": "Jeans use durable denim",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jeans · cs_j_jeans_01"
+  },
+  {
+   "id": "cs_j_jelly_01",
+   "text": "Jelly sets with pectin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jelly · cs_j_jelly_01"
+  },
+  {
+   "id": "cs_j_jet_03",
+   "text": "A jet flies on turbines",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet · cs_j_jet_03"
+  },
+  {
+   "id": "cs_j_jewel_02",
+   "text": "A jewel adorns a crown",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jewel · cs_j_jewel_02"
+  },
+  {
+   "id": "cs_j_joist_01",
+   "text": "A joist supports a floor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joist · cs_j_joist_01"
+  },
+  {
+   "id": "cs_j_jugular_01",
+   "text": "The jugular drains the head",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jugular · cs_j_jugular_01"
+  },
+  {
+   "id": "cs_j_jupiter_09",
+   "text": "Jupiter has many moons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_09"
+  },
+  {
+   "id": "cs_j_juvenile_01",
+   "text": "A juvenile is a young animal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juvenile · cs_j_juvenile_01"
   }
  ]
 }

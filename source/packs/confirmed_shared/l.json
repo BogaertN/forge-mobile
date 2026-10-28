@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 191,
+ "curated_facts": 201,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1099,6 +1099,66 @@
    "text": "Lithium is a soft metal",
    "standing": "projectable",
    "evidence": "science · product curator · Lithium · cs_l_lithium_04"
+  },
+  {
+   "id": "cs_l_lac_01",
+   "text": "Lac insects make shellac",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lac · cs_l_lac_01"
+  },
+  {
+   "id": "cs_l_lamprey_01",
+   "text": "A lamprey attaches to fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lamprey · cs_l_lamprey_01"
+  },
+  {
+   "id": "cs_l_latex_01",
+   "text": "Rubber trees yield latex",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Latex · cs_l_latex_01"
+  },
+  {
+   "id": "cs_l_lemon_02",
+   "text": "A lemon is a sour citrus",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lemon · cs_l_lemon_02"
+  },
+  {
+   "id": "cs_l_leopard_05",
+   "text": "A leopard has spotted fur",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_05"
+  },
+  {
+   "id": "cs_l_lepidolite_01",
+   "text": "Lepidolite holds lithium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lepidolite · cs_l_lepidolite_01"
+  },
+  {
+   "id": "cs_l_lever_04",
+   "text": "A lever multiplies force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lever · cs_l_lever_04"
+  },
+  {
+   "id": "cs_l_lignite_01",
+   "text": "Lignite is soft brown coal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lignite · cs_l_lignite_01"
+  },
+  {
+   "id": "cs_l_lilac_02",
+   "text": "A lilac blooms in spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lilac · cs_l_lilac_02"
+  },
+  {
+   "id": "cs_l_lime_03",
+   "text": "Lime sweetens acidic soil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lime · cs_l_lime_03"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 191,
+ "curated_facts": 200,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1099,6 +1099,60 @@
    "text": "Nails contain keratin",
    "standing": "projectable",
    "evidence": "science · product curator · Keratin · cs_k_keratin_03"
+  },
+  {
+   "id": "cs_k_kangaroo_rat_02",
+   "text": "A kangaroo rat stores seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kangaroo rat · cs_k_kangaroo_rat_02"
+  },
+  {
+   "id": "cs_k_kaolinite_01",
+   "text": "Kaolinite forms soft clay",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kaolinite · cs_k_kaolinite_01"
+  },
+  {
+   "id": "cs_k_keel_01",
+   "text": "A keel stabilizes a ship",
+   "standing": "projectable",
+   "evidence": "history · product curator · Keel · cs_k_keel_01"
+  },
+  {
+   "id": "cs_k_kelp_04",
+   "text": "Kelp grows in cold seas",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_04"
+  },
+  {
+   "id": "cs_k_kilogram_06",
+   "text": "A kilogram measures mass",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_06"
+  },
+  {
+   "id": "cs_k_kitten_01",
+   "text": "A kitten is a young cat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kitten · cs_k_kitten_01"
+  },
+  {
+   "id": "cs_k_knight_03",
+   "text": "A knight served a lord",
+   "standing": "projectable",
+   "evidence": "history · product curator · Knight · cs_k_knight_03"
+  },
+  {
+   "id": "cs_k_kudu_03",
+   "text": "A kudu has spiral horns",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kudu · cs_k_kudu_03"
+  },
+  {
+   "id": "cs_k_kyanite_01",
+   "text": "Kyanite is a blue mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kyanite · cs_k_kyanite_01"
   }
  ]
 }

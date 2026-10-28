@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 194,
+ "curated_facts": 204,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1099,6 +1099,66 @@
    "text": "A beetle is an insect",
    "standing": "projectable",
    "evidence": "nature · product curator · Insect · cs_i_insect_04"
+  },
+  {
+   "id": "cs_i_ileum_01",
+   "text": "The ileum absorbs nutrients",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ileum · cs_i_ileum_01"
+  },
+  {
+   "id": "cs_i_image_01",
+   "text": "A mirror forms an image",
+   "standing": "projectable",
+   "evidence": "science · product curator · Image · cs_i_image_01"
+  },
+  {
+   "id": "cs_i_indium_02",
+   "text": "Indium coats touch screens",
+   "standing": "projectable",
+   "evidence": "science · product curator · Indium · cs_i_indium_02"
+  },
+  {
+   "id": "cs_i_ink_03",
+   "text": "Writers dip a pen in ink",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ink · cs_i_ink_03"
+  },
+  {
+   "id": "cs_i_integer_04",
+   "text": "An integer has no fraction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integer · cs_i_integer_04"
+  },
+  {
+   "id": "cs_i_intestine_02",
+   "text": "The intestine digests food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Intestine · cs_i_intestine_02"
+  },
+  {
+   "id": "cs_i_iridium_03",
+   "text": "Iridium tips spark plugs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iridium · cs_i_iridium_03"
+  },
+  {
+   "id": "cs_i_iris_03",
+   "text": "An iris blooms in spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iris · cs_i_iris_03"
+  },
+  {
+   "id": "cs_i_isomer_01",
+   "text": "An isomer shares a formula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Isomer · cs_i_isomer_01"
+  },
+  {
+   "id": "cs_i_ivory_02",
+   "text": "Elephant tusks hold ivory",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ivory · cs_i_ivory_02"
   }
  ]
 }

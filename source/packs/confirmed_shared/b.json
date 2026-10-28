@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 188,
+ "curated_facts": 198,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1099,6 +1099,66 @@
    "text": "Botany studies plants",
    "standing": "projectable",
    "evidence": "science · product curator · Botany · cs_b_botany_01"
+  },
+  {
+   "id": "cs_b_balance_01",
+   "text": "A balance weighs objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Balance · cs_b_balance_01"
+  },
+  {
+   "id": "cs_b_banana_01",
+   "text": "A banana grows in a bunch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Banana · cs_b_banana_01"
+  },
+  {
+   "id": "cs_b_beryl_01",
+   "text": "Aquamarine is a blue beryl",
+   "standing": "projectable",
+   "evidence": "science · product curator · Beryl · cs_b_beryl_01"
+  },
+  {
+   "id": "cs_b_beryl_02",
+   "text": "Emerald is a green beryl",
+   "standing": "projectable",
+   "evidence": "science · product curator · Beryl · cs_b_beryl_02"
+  },
+  {
+   "id": "cs_b_bismuth_02",
+   "text": "Bismuth melts at low heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bismuth · cs_b_bismuth_02"
+  },
+  {
+   "id": "cs_b_blackbird_02",
+   "text": "A blackbird sings at dawn",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Blackbird · cs_b_blackbird_02"
+  },
+  {
+   "id": "cs_b_bolt_01",
+   "text": "Lightning is a giant bolt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bolt · cs_b_bolt_01"
+  },
+  {
+   "id": "cs_b_bract_01",
+   "text": "A bract looks like a leaf",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bract · cs_b_bract_01"
+  },
+  {
+   "id": "cs_b_bud_01",
+   "text": "A bud opens into a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bud · cs_b_bud_01"
+  },
+  {
+   "id": "cs_b_bulb_01",
+   "text": "A tulip grows from a bulb",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bulb · cs_b_bulb_01"
   }
  ]
 }
