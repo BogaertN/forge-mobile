@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 251,
+ "curated_facts": 261,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1471,6 +1471,66 @@
    "text": "A gust lifts dust clouds",
    "standing": "projectable",
    "evidence": "science · product curator · Gust · cs_g_gust_01"
+  },
+  {
+   "id": "cs_g_gamete_01",
+   "text": "Gametes fuse at fertilization",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gamete · cs_g_gamete_01"
+  },
+  {
+   "id": "cs_g_ganglion_01",
+   "text": "A ganglion clusters nerve cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ganglion · cs_g_ganglion_01"
+  },
+  {
+   "id": "cs_g_gastric_02",
+   "text": "Gastric juice digests protein",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gastric · cs_g_gastric_02"
+  },
+  {
+   "id": "cs_g_gneiss_02",
+   "text": "Gneiss bands metamorphic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gneiss · cs_g_gneiss_02"
+  },
+  {
+   "id": "cs_g_graphite_04",
+   "text": "Graphite lubricates lock pins",
+   "standing": "projectable",
+   "evidence": "science · product curator · Graphite · cs_g_graphite_04"
+  },
+  {
+   "id": "cs_g_guano_02",
+   "text": "Guano fertilizes crop fields",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Guano · cs_g_guano_02"
+  },
+  {
+   "id": "cs_g_gypsum_07",
+   "text": "Gypsum softens wall plaster",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_07"
+  },
+  {
+   "id": "cs_g_gyrus_02",
+   "text": "A gyrus folds brain cortex",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gyrus · cs_g_gyrus_02"
+  },
+  {
+   "id": "cs_g_gopher_01",
+   "text": "A gopher digs soil tunnels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gopher · cs_g_gopher_01"
+  },
+  {
+   "id": "cs_g_gymnosperm_01",
+   "text": "Gymnosperms bear naked seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gymnosperm · cs_g_gymnosperm_01"
   }
  ]
 }

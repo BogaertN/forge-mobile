@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 253,
+ "curated_facts": 263,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1471,6 +1471,66 @@
    "text": "A furrow drains field water",
    "standing": "projectable",
    "evidence": "nature · product curator · Furrow · cs_f_furrow_01"
+  },
+  {
+   "id": "cs_f_fatigue_01",
+   "text": "Metal fatigue cracks under stress",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fatigue · cs_f_fatigue_01"
+  },
+  {
+   "id": "cs_f_fault_07",
+   "text": "A fault slips crust blocks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_07"
+  },
+  {
+   "id": "cs_f_fiber_03",
+   "text": "Fiber speeds gut transit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fiber · cs_f_fiber_03"
+  },
+  {
+   "id": "cs_f_fibrin_03",
+   "text": "Fibrin seals wound clots",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibrin · cs_f_fibrin_03"
+  },
+  {
+   "id": "cs_f_fibroblast_01",
+   "text": "Fibroblasts build scar tissue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibroblast · cs_f_fibroblast_01"
+  },
+  {
+   "id": "cs_f_firn_02",
+   "text": "Firn packs glacier snow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Firn · cs_f_firn_02"
+  },
+  {
+   "id": "cs_f_flatworm_03",
+   "text": "Flatworms regenerate lost parts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flatworm · cs_f_flatworm_03"
+  },
+  {
+   "id": "cs_f_fluorine_05",
+   "text": "Fluorine etches glassware",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_05"
+  },
+  {
+   "id": "cs_f_fructose_03",
+   "text": "Fructose sweetens fruit pulp",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fructose · cs_f_fructose_03"
+  },
+  {
+   "id": "cs_f_flotation_01",
+   "text": "Flotation lifts ore particles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flotation · cs_f_flotation_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 249,
+ "curated_facts": 259,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1471,6 +1471,66 @@
    "text": "Extrusion shapes hot metal",
    "standing": "projectable",
    "evidence": "science · product curator · Extrusion · cs_e_extrusion_01"
+  },
+  {
+   "id": "cs_e_elastin_02",
+   "text": "Elastin stretches vessel walls",
+   "standing": "projectable",
+   "evidence": "science · product curator · Elastin · cs_e_elastin_02"
+  },
+  {
+   "id": "cs_e_electromagnet_02",
+   "text": "Electromagnets lift scrap steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electromagnet · cs_e_electromagnet_02"
+  },
+  {
+   "id": "cs_e_endosperm_02",
+   "text": "Endosperm feeds seedling growth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Endosperm · cs_e_endosperm_02"
+  },
+  {
+   "id": "cs_e_epiphyte_05",
+   "text": "Epiphytes root on host trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_05"
+  },
+  {
+   "id": "cs_e_erosion_05",
+   "text": "Erosion wears rock faces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Erosion · cs_e_erosion_05"
+  },
+  {
+   "id": "cs_e_ethane_02",
+   "text": "Ethane fuels gas burners",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ethane · cs_e_ethane_02"
+  },
+  {
+   "id": "cs_e_eucalyptus_02",
+   "text": "Eucalyptus sheds bark sheets",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Eucalyptus · cs_e_eucalyptus_02"
+  },
+  {
+   "id": "cs_e_exoskeleton_03",
+   "text": "An exoskeleton shields insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_03"
+  },
+  {
+   "id": "cs_e_effluent_01",
+   "text": "Plants treat waste effluent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Effluent · cs_e_effluent_01"
+  },
+  {
+   "id": "cs_e_ellipsoid_01",
+   "text": "Earth approximates an ellipsoid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ellipsoid · cs_e_ellipsoid_01"
   }
  ]
 }
