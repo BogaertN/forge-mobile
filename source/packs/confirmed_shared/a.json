@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 233,
+ "curated_facts": 243,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1387,6 +1387,66 @@
    "text": "Axons carry nerve signals",
    "standing": "projectable",
    "evidence": "science · product curator · Axon · cs_a_axon_03"
+  },
+  {
+   "id": "cs_a_aerosol_01",
+   "text": "Aerosols scatter sunlight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aerosol · cs_a_aerosol_01"
+  },
+  {
+   "id": "cs_a_agar_01",
+   "text": "Agar gels culture plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Agar · cs_a_agar_01"
+  },
+  {
+   "id": "cs_a_albedo_01",
+   "text": "Albedo reflects solar light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Albedo · cs_a_albedo_01"
+  },
+  {
+   "id": "cs_a_andesite_01",
+   "text": "Andesite cools from lava",
+   "standing": "projectable",
+   "evidence": "science · product curator · Andesite · cs_a_andesite_01"
+  },
+  {
+   "id": "cs_a_anion_01",
+   "text": "Anions carry negative charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Anion · cs_a_anion_01"
+  },
+  {
+   "id": "cs_a_antibody_01",
+   "text": "Antibodies mark invaders",
+   "standing": "projectable",
+   "evidence": "science · product curator · Antibody · cs_a_antibody_01"
+  },
+  {
+   "id": "cs_a_aphid_02",
+   "text": "Aphids suck plant sap",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Aphid · cs_a_aphid_02"
+  },
+  {
+   "id": "cs_a_atom_06",
+   "text": "Atoms form ordinary matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atom · cs_a_atom_06"
+  },
+  {
+   "id": "cs_a_auricle_02",
+   "text": "Auricles collect sound waves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Auricle · cs_a_auricle_02"
+  },
+  {
+   "id": "cs_a_azimuth_01",
+   "text": "Azimuth ranks compass bearing",
+   "standing": "projectable",
+   "evidence": "science · product curator · Azimuth · cs_a_azimuth_01"
   }
  ]
 }

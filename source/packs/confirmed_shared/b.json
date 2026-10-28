@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 236,
+ "curated_facts": 246,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1387,6 +1387,66 @@
    "text": "Buffers resist pH swings",
    "standing": "projectable",
    "evidence": "science · product curator · Buffer · cs_b_buffer_02"
+  },
+  {
+   "id": "cs_b_beak_02",
+   "text": "A beak cracks hard seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beak · cs_b_beak_02"
+  },
+  {
+   "id": "cs_b_bearing_01",
+   "text": "Oil lubricates a bearing",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bearing · cs_b_bearing_01"
+  },
+  {
+   "id": "cs_b_binary_03",
+   "text": "Binary codes computer bits",
+   "standing": "projectable",
+   "evidence": "math · product curator · Binary · cs_b_binary_03"
+  },
+  {
+   "id": "cs_b_ballast_02",
+   "text": "Ballast steadies ship keels",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ballast · cs_b_ballast_02"
+  },
+  {
+   "id": "cs_b_bond_01",
+   "text": "Atoms share electron bonds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bond · cs_b_bond_01"
+  },
+  {
+   "id": "cs_b_bone_03",
+   "text": "Calcium strengthens bone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bone · cs_b_bone_03"
+  },
+  {
+   "id": "cs_b_brain_02",
+   "text": "The brain steers the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Brain · cs_b_brain_02"
+  },
+  {
+   "id": "cs_b_breath_01",
+   "text": "Breath carries lung oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Breath · cs_b_breath_01"
+  },
+  {
+   "id": "cs_b_breeze_02",
+   "text": "Breezes cool coastal towns",
+   "standing": "projectable",
+   "evidence": "science · product curator · Breeze · cs_b_breeze_02"
+  },
+  {
+   "id": "cs_b_bulb_02",
+   "text": "Bulbs store winter starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bulb · cs_b_bulb_02"
   }
  ]
 }
