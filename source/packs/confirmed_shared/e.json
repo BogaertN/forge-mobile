@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 119,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -583,6 +583,114 @@
    "text": "An eagle is a bird of prey",
    "standing": "projectable",
    "evidence": "nature · product curator · Eagle · cs_e_eagle_02"
+  },
+  {
+   "id": "cs_e_essen_01",
+   "text": "Essen is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Essen · cs_e_essen_01"
+  },
+  {
+   "id": "cs_e_erfurt_01",
+   "text": "Erfurt is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Erfurt · cs_e_erfurt_01"
+  },
+  {
+   "id": "cs_e_exeter_01",
+   "text": "Exeter is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Exeter · cs_e_exeter_01"
+  },
+  {
+   "id": "cs_e_edinburgh_02",
+   "text": "Edinburgh is a city in Scotland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Edinburgh · cs_e_edinburgh_02"
+  },
+  {
+   "id": "cs_e_eindhoven_01",
+   "text": "Eindhoven is a city in the Netherlands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Eindhoven · cs_e_eindhoven_01"
+  },
+  {
+   "id": "cs_e_edmonton_01",
+   "text": "Edmonton is a city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Edmonton · cs_e_edmonton_01"
+  },
+  {
+   "id": "cs_e_eugene_01",
+   "text": "Eugene is a city in Oregon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Eugene · cs_e_eugene_01"
+  },
+  {
+   "id": "cs_e_erie_01",
+   "text": "Erie is a city in Pennsylvania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Erie · cs_e_erie_01"
+  },
+  {
+   "id": "cs_e_evansville_01",
+   "text": "Evansville is a city in Indiana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Evansville · cs_e_evansville_01"
+  },
+  {
+   "id": "cs_e_ephesus_01",
+   "text": "Ephesus is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ephesus · cs_e_ephesus_01"
+  },
+  {
+   "id": "cs_e_esfahan_01",
+   "text": "Esfahan is a city in Iran",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Esfahan · cs_e_esfahan_01"
+  },
+  {
+   "id": "cs_e_entebbe_01",
+   "text": "Entebbe is a city in Uganda",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Entebbe · cs_e_entebbe_01"
+  },
+  {
+   "id": "cs_e_eldoret_01",
+   "text": "Eldoret is a city in Kenya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Eldoret · cs_e_eldoret_01"
+  },
+  {
+   "id": "cs_e_ely_01",
+   "text": "Ely is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ely · cs_e_ely_01"
+  },
+  {
+   "id": "cs_e_enschede_01",
+   "text": "Enschede is a city in the Netherlands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Enschede · cs_e_enschede_01"
+  },
+  {
+   "id": "cs_e_elche_01",
+   "text": "Elche is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Elche · cs_e_elche_01"
+  },
+  {
+   "id": "cs_e_espoo_01",
+   "text": "Espoo is a city in Finland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Espoo · cs_e_espoo_01"
+  },
+  {
+   "id": "cs_e_erzurum_01",
+   "text": "Erzurum is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Erzurum · cs_e_erzurum_01"
   }
  ]
 }

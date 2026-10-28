@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 107,
+ "curated_facts": 121,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -595,6 +595,90 @@
    "text": "French is the official language of France",
    "standing": "projectable",
    "evidence": "language · product curator · French · cs_f_french_02"
+  },
+  {
+   "id": "cs_f_ferrara_01",
+   "text": "Ferrara is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ferrara · cs_f_ferrara_01"
+  },
+  {
+   "id": "cs_f_frankfurt_01",
+   "text": "Frankfurt is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Frankfurt · cs_f_frankfurt_01"
+  },
+  {
+   "id": "cs_f_freiburg_01",
+   "text": "Freiburg is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Freiburg · cs_f_freiburg_01"
+  },
+  {
+   "id": "cs_f_fukuoka_01",
+   "text": "Fukuoka is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fukuoka · cs_f_fukuoka_01"
+  },
+  {
+   "id": "cs_f_fuzhou_01",
+   "text": "Fuzhou is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fuzhou · cs_f_fuzhou_01"
+  },
+  {
+   "id": "cs_f_foshan_01",
+   "text": "Foshan is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Foshan · cs_f_foshan_01"
+  },
+  {
+   "id": "cs_f_faro_01",
+   "text": "Faro is a city in Portugal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Faro · cs_f_faro_01"
+  },
+  {
+   "id": "cs_f_fez_01",
+   "text": "Fez is a city in Morocco",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fez · cs_f_fez_01"
+  },
+  {
+   "id": "cs_f_fresno_01",
+   "text": "Fresno is a city in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fresno · cs_f_fresno_01"
+  },
+  {
+   "id": "cs_f_flint_01",
+   "text": "Flint is a city in Michigan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Flint · cs_f_flint_01"
+  },
+  {
+   "id": "cs_f_fremont_01",
+   "text": "Fremont is a city in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fremont · cs_f_fremont_01"
+  },
+  {
+   "id": "cs_f_fribourg_01",
+   "text": "Fribourg is a city in Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fribourg · cs_f_fribourg_01"
+  },
+  {
+   "id": "cs_f_fortaleza_01",
+   "text": "Fortaleza is a city in Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fortaleza · cs_f_fortaleza_01"
+  },
+  {
+   "id": "cs_f_faisalabad_01",
+   "text": "Faisalabad is a city in Pakistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Faisalabad · cs_f_faisalabad_01"
   }
  ]
 }
