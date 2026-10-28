@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 119,
+ "curated_facts": 126,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -691,6 +691,48 @@
    "text": "Erzurum is a city in Turkey",
    "standing": "projectable",
    "evidence": "geography · product curator · Erzurum · cs_e_erzurum_01"
+  },
+  {
+   "id": "cs_e_ear_canal_01",
+   "text": "The ear canal leads to the eardrum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ear canal · cs_e_ear_canal_01"
+  },
+  {
+   "id": "cs_e_ear_drum_01",
+   "text": "The eardrum vibrates with sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ear drum · cs_e_ear_drum_01"
+  },
+  {
+   "id": "cs_e_early_modern_01",
+   "text": "The early modern period followed the Middle Ages",
+   "standing": "projectable",
+   "evidence": "history · product curator · Early modern · cs_e_early_modern_01"
+  },
+  {
+   "id": "cs_e_earth_science_01",
+   "text": "Earth science studies the planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earth science · cs_e_earth_science_01"
+  },
+  {
+   "id": "cs_e_earthquake_magnitude_01",
+   "text": "Earthquake magnitude measures shaking strength",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earthquake magnitude · cs_e_earthquake_magnitude_01"
+  },
+  {
+   "id": "cs_e_electrode_01",
+   "text": "An electrode is a conductor that touches an electrolyte",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electrode · cs_e_electrode_01"
+  },
+  {
+   "id": "cs_e_empty_set_01",
+   "text": "The empty set has no elements",
+   "standing": "projectable",
+   "evidence": "math · product curator · Empty set · cs_e_empty_set_01"
   }
  ]
 }

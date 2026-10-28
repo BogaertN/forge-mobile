@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 123,
+ "curated_facts": 137,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -673,6 +673,90 @@
    "text": "Ipswich is a town in England",
    "standing": "projectable",
    "evidence": "geography · product curator · Ipswich · cs_i_ipswich_01"
+  },
+  {
+   "id": "cs_i_ichthyosaur_01",
+   "text": "An ichthyosaur was a marine reptile",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ichthyosaur · cs_i_ichthyosaur_01"
+  },
+  {
+   "id": "cs_i_ideal_gas_01",
+   "text": "An ideal gas obeys a simple equation of state",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ideal gas · cs_i_ideal_gas_01"
+  },
+  {
+   "id": "cs_i_imaginary_number_01",
+   "text": "An imaginary number involves the square root of negative one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Imaginary number · cs_i_imaginary_number_01"
+  },
+  {
+   "id": "cs_i_immune_system_01",
+   "text": "The immune system defends the body against disease",
+   "standing": "projectable",
+   "evidence": "science · product curator · Immune system · cs_i_immune_system_01"
+  },
+  {
+   "id": "cs_i_imperative_mood_01",
+   "text": "The imperative mood gives a command",
+   "standing": "projectable",
+   "evidence": "language · product curator · Imperative mood · cs_i_imperative_mood_01"
+  },
+  {
+   "id": "cs_i_incandescent_01",
+   "text": "An incandescent bulb glows from a hot filament",
+   "standing": "projectable",
+   "evidence": "science · product curator · Incandescent · cs_i_incandescent_01"
+  },
+  {
+   "id": "cs_i_incident_ray_01",
+   "text": "An incident ray strikes a surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Incident ray · cs_i_incident_ray_01"
+  },
+  {
+   "id": "cs_i_index_fossil_01",
+   "text": "An index fossil helps date rock layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Index fossil · cs_i_index_fossil_01"
+  },
+  {
+   "id": "cs_i_indicator_01",
+   "text": "An acid base indicator changes color",
+   "standing": "projectable",
+   "evidence": "science · product curator · Indicator · cs_i_indicator_01"
+  },
+  {
+   "id": "cs_i_indirect_object_01",
+   "text": "An indirect object receives the direct object",
+   "standing": "projectable",
+   "evidence": "language · product curator · Indirect object · cs_i_indirect_object_01"
+  },
+  {
+   "id": "cs_i_iamb_01",
+   "text": "An iamb is a metrical foot of two syllables",
+   "standing": "projectable",
+   "evidence": "language · product curator · Iamb · cs_i_iamb_01"
+  },
+  {
+   "id": "cs_i_interphase_01",
+   "text": "Interphase is a stage of the cell cycle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Interphase · cs_i_interphase_01"
+  },
+  {
+   "id": "cs_i_infrared_radiation_01",
+   "text": "Infrared radiation is heat radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Infrared radiation · cs_i_infrared_radiation_01"
+  },
+  {
+   "id": "cs_i_ionic_bond_01",
+   "text": "An ionic bond transfers electrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ionic bond · cs_i_ionic_bond_01"
   }
  ]
 }

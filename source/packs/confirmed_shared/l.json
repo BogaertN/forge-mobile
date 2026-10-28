@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 119,
+ "curated_facts": 135,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -667,6 +667,102 @@
    "text": "The lumen is a unit of luminous flux",
    "standing": "projectable",
    "evidence": "science · product curator · Lumen · cs_l_lumen_01"
+  },
+  {
+   "id": "cs_l_land_breeze_01",
+   "text": "A land breeze blows from land to sea at night",
+   "standing": "projectable",
+   "evidence": "science · product curator · Land breeze · cs_l_land_breeze_01"
+  },
+  {
+   "id": "cs_l_large_intestine_01",
+   "text": "The large intestine absorbs water from waste",
+   "standing": "projectable",
+   "evidence": "science · product curator · Large intestine · cs_l_large_intestine_01"
+  },
+  {
+   "id": "cs_l_laser_01",
+   "text": "A laser produces a narrow beam of light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Laser · cs_l_laser_01"
+  },
+  {
+   "id": "cs_l_launch_01",
+   "text": "A launch sends a rocket into flight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Launch · cs_l_launch_01"
+  },
+  {
+   "id": "cs_l_lead_pencil_01",
+   "text": "A lead pencil writes with graphite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lead pencil · cs_l_lead_pencil_01"
+  },
+  {
+   "id": "cs_l_leaf_litter_01",
+   "text": "Leaf litter covers a forest floor",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leaf litter · cs_l_leaf_litter_01"
+  },
+  {
+   "id": "cs_l_leakey_mary_01",
+   "text": "Mary Leakey was a paleoanthropologist",
+   "standing": "projectable",
+   "evidence": "history · product curator · Leakey, Mary · cs_l_leakey_mary_01"
+  },
+  {
+   "id": "cs_l_leaning_tower_of_pisa_01",
+   "text": "The Leaning Tower of Pisa leans to one side",
+   "standing": "projectable",
+   "evidence": "history · product curator · Leaning Tower of Pisa · cs_l_leaning_tower_of_pisa_01"
+  },
+  {
+   "id": "cs_l_left_hemisphere_01",
+   "text": "The left hemisphere of the brain controls the right side of the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Left hemisphere · cs_l_left_hemisphere_01"
+  },
+  {
+   "id": "cs_l_leibniz_01",
+   "text": "Gottfried Leibniz was a German mathematician",
+   "standing": "projectable",
+   "evidence": "history · product curator · Leibniz · cs_l_leibniz_01"
+  },
+  {
+   "id": "cs_l_lanthanide_01",
+   "text": "A lanthanide is a rare earth element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lanthanide · cs_l_lanthanide_01"
+  },
+  {
+   "id": "cs_l_lepton_01",
+   "text": "An electron is a lepton",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lepton · cs_l_lepton_01"
+  },
+  {
+   "id": "cs_l_logarithm_01",
+   "text": "A logarithm is the inverse of an exponential",
+   "standing": "projectable",
+   "evidence": "math · product curator · Logarithm · cs_l_logarithm_01"
+  },
+  {
+   "id": "cs_l_larch_01",
+   "text": "A larch is a deciduous conifer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Larch · cs_l_larch_01"
+  },
+  {
+   "id": "cs_l_ligament_01",
+   "text": "A ligament connects bone to bone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ligament · cs_l_ligament_01"
+  },
+  {
+   "id": "cs_l_litmus_01",
+   "text": "Litmus paper tests acidity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Litmus · cs_l_litmus_01"
   }
  ]
 }
