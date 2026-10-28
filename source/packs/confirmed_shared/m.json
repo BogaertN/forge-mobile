@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 239,
+ "curated_facts": 249,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1411,6 +1411,66 @@
    "text": "Mules haul mountain loads",
    "standing": "projectable",
    "evidence": "nature · product curator · Mule · cs_m_mule_03"
+  },
+  {
+   "id": "cs_m_magnetite_02",
+   "text": "Magnetite holds magnetic domains",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnetite · cs_m_magnetite_02"
+  },
+  {
+   "id": "cs_m_mandible_03",
+   "text": "A mandible hinges the jaw",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mandible · cs_m_mandible_03"
+  },
+  {
+   "id": "cs_m_medulla_01",
+   "text": "The medulla steers breathing",
+   "standing": "projectable",
+   "evidence": "science · product curator · Medulla · cs_m_medulla_01"
+  },
+  {
+   "id": "cs_m_meristem_01",
+   "text": "Meristem grows new plant tissue",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Meristem · cs_m_meristem_01"
+  },
+  {
+   "id": "cs_m_metabolism_01",
+   "text": "Metabolism burns food energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Metabolism · cs_m_metabolism_01"
+  },
+  {
+   "id": "cs_m_microbe_01",
+   "text": "Microbes digest soil waste",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Microbe · cs_m_microbe_01"
+  },
+  {
+   "id": "cs_m_mitosis_02",
+   "text": "Mitosis copies cell nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mitosis · cs_m_mitosis_02"
+  },
+  {
+   "id": "cs_m_molecule_04",
+   "text": "Atoms bind into molecules",
+   "standing": "projectable",
+   "evidence": "science · product curator · Molecule · cs_m_molecule_04"
+  },
+  {
+   "id": "cs_m_mollusk_02",
+   "text": "Mollusks grow hard shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mollusk · cs_m_mollusk_02"
+  },
+  {
+   "id": "cs_m_mucus_04",
+   "text": "Mucus traps airway dust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mucus · cs_m_mucus_04"
   }
  ]
 }

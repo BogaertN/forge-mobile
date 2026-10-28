@@ -1,3 +1,14 @@
+# Next build order — after 4.9.159
+**Date:** 2026-10-28 (America/Chicago)
+**Baseline:** 4.9.159 hosted shared knowledge A–Z refresh (read-for-all, write-key; not phone DB; shipped from 4.9.158)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; scrapbook shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.159:** hosted A–Z shared knowledge base refresh (index 4.9.159; 6270 admitted / 6508 curated) as product source of truth — read/pull for everyone into session RAM; write gated by Nic’s write key (`SHARED-KB-WRITE-KEY-REQUIRED` without it); A–Z not dumped into on-phone DB; scrapbook stays empty; starter/Remember user-owned; UI/Audit name Shared knowledge base. Soft budget unchanged; packs not in single-file.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget.
+
+**Manual:** still paused.
+
 # Next build order — after 4.9.158
 **Date:** 2026-10-28 (America/Chicago)
 **Baseline:** 4.9.158 hosted shared knowledge A–Z refresh (read-for-all, write-key; not phone DB; shipped from 4.9.157)

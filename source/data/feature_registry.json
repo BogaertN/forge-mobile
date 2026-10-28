@@ -1,13 +1,13 @@
 {
-  "version": "4.9.158",
+  "version": "4.9.159",
   "features": [
     {
       "id": "A-01",
       "name": "Command intake and result surface",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "Ask Forge chat (Output tab); every turn → kernel.process with trace",
+      "note": "Ask Forge chat (Output tab); every turn \u2192 kernel.process with trace",
       "proof": [
         "POSITIVE"
       ]
@@ -15,7 +15,7 @@
     {
       "id": "A-02",
       "name": "HTTP command API",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/wired\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/wired\"",
       "wave": "W5",
       "claim": "Not feasible on phone",
       "note": "No server on a phone PWA; in-process JS API (forge.process/vault/receipts) stands in. Needs desktop Forge to expose one",
@@ -24,10 +24,10 @@
     {
       "id": "A-03",
       "name": "Plan / Go confirmation flow",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Partial",
-      "note": "Plan-only replies + RUN-PROTOFORGE gate phrase; no unified preview→approve→execute→receipt state machine",
+      "note": "Plan-only replies + RUN-PROTOFORGE gate phrase; no unified preview\u2192approve\u2192execute\u2192receipt state machine",
       "proof": [
         "PERMISSION"
       ]
@@ -35,7 +35,7 @@
     {
       "id": "A-04",
       "name": "Permission and approval-token boundary",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/wired\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/wired\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "single PermissionService; every memory, vault, export, restore, release and policy action is decided and logged",
@@ -46,8 +46,8 @@
     {
       "id": "A-05",
       "name": "Audit-event stream and tail view",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Audit tab: SHA-256 hash-chained receipts, Verify-chain button (AUDIT suite)",
       "proof": [
@@ -57,10 +57,10 @@
     {
       "id": "A-06",
       "name": "Session status, history, and receipts",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/restricted\"",
       "wave": "W4",
       "claim": "Partial",
-      "note": "Receipts + ψ_id per turn; no session list/history view separated from memory",
+      "note": "Receipts + \u03c8_id per turn; no session list/history view separated from memory",
       "proof": [
         "AUDIT"
       ]
@@ -68,10 +68,10 @@
     {
       "id": "A-07",
       "name": "Page capture / seen-pages register",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/restricted\"",
       "wave": "W5",
       "claim": "Implemented",
-      "note": "tracker-free page capture → sealed vault record + hash-only evidence index; robots.txt and noai honoured",
+      "note": "tracker-free page capture \u2192 sealed vault record + hash-only evidence index; robots.txt and noai honoured",
       "proof": [
         "CRAWLER",
         "VAULT-CAPTURE"
@@ -80,7 +80,7 @@
     {
       "id": "A-08",
       "name": "Read-only inspection surface",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "Trace, Deep Dry-Run, Memory, Library are read-only views; no single inspection mode switch",
@@ -91,7 +91,7 @@
     {
       "id": "A-09",
       "name": "Capability registry and action contracts",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Stub/scaffold\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "CapabilityRequirement contract (forge2 port) + \"register does not contain that capability\" refusals; no typed capability registry with risk/rollback law",
@@ -102,7 +102,7 @@
     {
       "id": "A-10",
       "name": "Authority scanner and status-claim guard",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Stub/scaffold\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "claim guard: UI feature status comes only from proof-backed registry; unproven claims are downgraded",
@@ -113,7 +113,7 @@
     {
       "id": "A-11",
       "name": "Decision baseline and requirements traceability",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Stub/scaffold\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "every Implemented feature is linked to proof suites; per-test feature IDs still coarse (suite level). 4.9.117 adds FORGE-REQ-PACKET/v1 for a shipped slice, starting with 4.9.116. 4.9.118 adds a research-only math honesty row and refuses manuscript equivalence. 4.9.119 returns resurrection to processing as a proposal and names must_archive on inspect. 4.9.120 speaks a novelty-banded idea as a proposal. 4.9.121 narrates a selected idea or meaning as a paragraph and keeps the claim status. 4.9.122 names a story branch as a counterfactual simulation and parks it in dream quarantine. 4.9.123 expands a composed paragraph from licensed roles, anchors, and a lexicon gloss and does not write a shared fact. 4.9.124 installs a small on-device starter pack as confirmed anchors and does not write a shared fact. 4.9.125 admits an importable confirmed pack as on-device anchors and does not write a shared fact. 4.9.126 polishes the UI shell (calm chrome, Doc 7 status pills, empty next steps, invent/compose discoverability, gentler UNSUPPORTED redirects, starter onboarding) and does not write a shared fact. 4.9.127 gates distributed confirmed_shared with hosted letter packs A-Z and does not write a shared fact. 4.9.128 refreshes those hosted packs from thickened curated drafts (admitted items grow; scrapbook empty; starter unchanged) and does not write a shared fact. 4.9.129 refreshes hosted A-Z (2413/2651). 4.9.130 refreshes hosted A-Z (2580/2818). 4.9.131 refreshes hosted A-Z (2710/2948). 4.9.132 refreshes hosted A-Z (2914/3152). 4.9.133 refreshes hosted A-Z (3042/3280). 4.9.134 refreshes hosted A-Z (3189/3427). 4.9.135 refreshes hosted A-Z (3313/3551). 4.9.136 refreshes hosted A-Z (3435/3673). 4.9.137 refreshes hosted A-Z (3546/3784). 4.9.138 refreshes hosted A-Z (3666/3904). 4.9.139 refreshes hosted A-Z (3814/4052). 4.9.140 refreshes hosted A-Z (3928/4166). 4.9.141 refreshes hosted A-Z (4048/4286). 4.9.142 refreshes hosted A-Z (4161/4399). 4.9.143 refreshes hosted A-Z (4313/4551). 4.9.144 refreshes hosted A-Z (4470/4708). Older claims stay suite-level.",
@@ -124,7 +124,7 @@
     {
       "id": "A-12",
       "name": "Original left/right operator rails",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §A; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7A; register state \"Implemented/disconnected\"",
       "wave": "W4",
       "claim": "Missing",
       "note": "Phone uses top tabs; no left/right rails (DatasetGrowthRail, RightAuditRail). Could become drawers",
@@ -133,8 +133,8 @@
     {
       "id": "B-01",
       "name": "Repository and source-tree inspection",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No repository/filesystem on phone",
       "proof": []
@@ -142,10 +142,10 @@
     {
       "id": "B-02",
       "name": "Symbol, function, import, and call-site indexing",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Partial",
-      "note": "v4.3: definitions index (functions/classes/constants; py/js/ts/go/rs/java/sh) from GitHub repos via the sealed read-only token; “where is X defined?”. No import/call-site graph yet.",
+      "note": "v4.3: definitions index (functions/classes/constants; py/js/ts/go/rs/java/sh) from GitHub repos via the sealed read-only token; \u201cwhere is X defined?\u201d. No import/call-site graph yet.",
       "proof": [
         "SYMBOLS"
       ]
@@ -153,8 +153,8 @@
     {
       "id": "B-03",
       "name": "Text and structural search",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Partial",
       "note": "structural memory queries (yes/no, wh, transitive) + code symbol lookup; no full-text search over documents",
       "proof": [
@@ -165,7 +165,7 @@
     {
       "id": "B-04",
       "name": "Canonical source snapshots and checksums",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Implemented/wired\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Implemented/wired\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "v4.4: BUILD_MANIFEST.json lists every shipped file with sha256, verified by the suite",
@@ -176,7 +176,7 @@
     {
       "id": "B-05",
       "name": "Document authority and supersession chain",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Implemented/disconnected\"",
       "wave": "W5",
       "claim": "Missing",
       "note": "No document registry (Drive ID, revision, predecessor, status)",
@@ -185,8 +185,8 @@
     {
       "id": "B-06",
       "name": "Corpus registration, source mention, and evidence separation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Separate stores: language_examples, evidence, memory, cold_storage, trace, lexicon_user (Doc 7 categories)",
       "proof": [
@@ -197,7 +197,7 @@
     {
       "id": "B-07",
       "name": "Google Drive / Library ingestion boundary",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Stub/scaffold\"",
       "wave": "W5",
       "claim": "Missing",
       "note": "No Drive/Library import",
@@ -206,7 +206,7 @@
     {
       "id": "B-08",
       "name": "External-resource quarantine",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "WordNet senses admitted vs quarantined (15,606 quarantined); no general download quarantine",
@@ -217,8 +217,8 @@
     {
       "id": "B-09",
       "name": "Duplicate, backup, and artifact hygiene",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "Repo hygiene is a desktop-repo concern",
       "proof": []
@@ -226,7 +226,7 @@
     {
       "id": "B-10",
       "name": "Machine-readable feature register",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Documented only\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "data/feature_registry.json (198 features) with proof links; src/features.js generated by verify",
@@ -237,7 +237,7 @@
     {
       "id": "B-11",
       "name": "Generated command and route catalogs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Documented only\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "data/command_catalog.json generated at build",
@@ -248,7 +248,7 @@
     {
       "id": "B-12",
       "name": "Cross-document concept and feature map",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §B; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7B; register state \"Documented only\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "This plan + REQUIREMENTS_AUDIT cross-map features to docs/code",
@@ -257,8 +257,8 @@
     {
       "id": "C-01",
       "name": "Patch proposal generation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No code workspace or patch target on phone",
       "proof": []
@@ -266,8 +266,8 @@
     {
       "id": "C-02",
       "name": "Patch preview and diff inspection",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "same",
       "proof": []
@@ -275,8 +275,8 @@
     {
       "id": "C-03",
       "name": "Exact-scope patch application",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "same",
       "proof": []
@@ -284,8 +284,8 @@
     {
       "id": "C-04",
       "name": "Pre-change backup and protected-boundary hashing",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "same",
       "proof": []
@@ -293,8 +293,8 @@
     {
       "id": "C-05",
       "name": "Rollback and receipt verification",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No patch apply; memory forget/supersede is reversible via cold storage instead",
       "proof": []
@@ -302,8 +302,8 @@
     {
       "id": "C-06",
       "name": "Disposable rehearsal / sandbox operator",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No shell/sandbox on phone (Deep Dry-Run on a memory copy is the phone analogue)",
       "proof": []
@@ -311,7 +311,7 @@
     {
       "id": "C-07",
       "name": "Slice-scoped test selection",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "25 named suites, run together; no per-capability selection",
@@ -320,10 +320,10 @@
     {
       "id": "C-08",
       "name": "End-to-end dry-run harness",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "Deep Dry-Run runs inward→outward on a deep copy; no writes (verified)",
+      "note": "Deep Dry-Run runs inward\u2192outward on a deep copy; no writes (verified)",
       "proof": [
         "PRIVACY"
       ]
@@ -331,7 +331,7 @@
     {
       "id": "C-09",
       "name": "Independent verification packets",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/wired\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/wired\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "checksummed evidence bundle + build manifest; verification report not yet packaged with them",
@@ -343,10 +343,10 @@
     {
       "id": "C-10",
       "name": "Failure evidence and blocked-state reporting",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "Structured reason codes (OUT_OF_SCOPE, UNDERSTOOD_ACTION_BLOCKED, vault_locked…) all derived",
+      "note": "Structured reason codes (OUT_OF_SCOPE, UNDERSTOOD_ACTION_BLOCKED, vault_locked\u2026) all derived",
       "proof": [
         "DERIVATION",
         "NEGATIVE"
@@ -355,7 +355,7 @@
     {
       "id": "C-11",
       "name": "Installer, migration, and uninstall rehearsal",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "v4.3: ordered, idempotent schema migrations recorded with before/after hashes (schema 3); no uninstall rehearsal yet.",
@@ -366,7 +366,7 @@
     {
       "id": "C-12",
       "name": "Release acceptance and claim review",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §C; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7C; register state \"Documented only\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "release record (version, test totals, per-file SHA-256) generated by verify; human claim review not automated",
@@ -377,8 +377,8 @@
     {
       "id": "D-01",
       "name": "Phase parsing / request framing",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/wired (heuristic)\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/wired (heuristic)\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Phase framing derived from frames/speech acts, not keyword lists (LC-RMC inward)",
       "proof": [
@@ -389,8 +389,8 @@
     {
       "id": "D-02",
       "name": "Memory recall for the active trace",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Deterministic recall over relation memory with provenance/turn",
       "proof": [
@@ -399,11 +399,11 @@
     },
     {
       "id": "D-03",
-      "name": "ψ1 trace ancestry and recursive trace construction",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
+      "name": "\u03c81 trace ancestry and recursive trace construction",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Partial",
-      "note": "ψ_id, MSM id, supersede links; not full ancestry for every candidate/correction",
+      "note": "\u03c8_id, MSM id, supersede links; not full ancestry for every candidate/correction",
       "proof": [
         "MSM-V1"
       ]
@@ -411,8 +411,8 @@
     {
       "id": "D-04",
       "name": "Candidate-meaning construction",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Grammar and WordNet candidates plus SemanticCandidate/v1 for bounded controlled-English facts, rules and queries with arbitrary content identifiers; not unrestricted natural-language interpretation",
       "proof": [
@@ -423,7 +423,7 @@
     {
       "id": "D-05",
       "name": "Linguistic vs. cognitive candidate separation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/disconnected\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "SemanticCandidate/v1 remains separate from immutable TurnWorld/v1 and RMC result candidates; unrestricted learned hypothesis exploration remains unbuilt",
@@ -435,10 +435,10 @@
     {
       "id": "D-06",
       "name": "Evolutionary drift exploration",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "v4.6: Evolutionary Drift Explorer = RMC §5.6 + Algorithm 3 §8.3 (anchor → adjacent branches → N(c) → ε_s → retain bounded / archive unstable, projection blocked); paper thresholds 0.15/0.75/0.35; seeded, budget-bounded; “explore ideas”",
+      "note": "v4.6: Evolutionary Drift Explorer = RMC \u00a75.6 + Algorithm 3 \u00a78.3 (anchor \u2192 adjacent branches \u2192 N(c) \u2192 \u03b5_s \u2192 retain bounded / archive unstable, projection blocked); paper thresholds 0.15/0.75/0.35; seeded, budget-bounded; \u201cexplore ideas\u201d",
       "proof": [
         "EDE"
       ]
@@ -446,7 +446,7 @@
     {
       "id": "D-07",
       "name": "Coherence scoring",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "Score(c) with components in trace; feature set not the documented coherence model",
@@ -457,7 +457,7 @@
     {
       "id": "D-08",
       "name": "Correction engine and naming",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "Contradiction yes/no + \"instead/actually\" correction; no naming engine",
@@ -468,10 +468,10 @@
     {
       "id": "D-09",
       "name": "MeaningStructureManifest / recursive manifest compilation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Partial",
-      "note": "v4.3: MSM-v1 records + full lifecycle states per turn (captured→…→delivered/blocked); forge serialization schema not byte-mirrored. · 4.9.69 (K3): msm.js — 31-rule lifecycle law with issue codes, append-only frozen records, canonical envelope bytes (round trip; non-canonical rejected), 13 preservation classes incl. action_proposal_simulation_and_observation; every turn builds and validates its MSM-v1 manifest (trace.msm_v1). Doc 2 itself is a reconstruction (Appendix R).",
+      "note": "v4.3: MSM-v1 records + full lifecycle states per turn (captured\u2192\u2026\u2192delivered/blocked); forge serialization schema not byte-mirrored. \u00b7 4.9.69 (K3): msm.js \u2014 31-rule lifecycle law with issue codes, append-only frozen records, canonical envelope bytes (round trip; non-canonical rejected), 13 preservation classes incl. action_proposal_simulation_and_observation; every turn builds and validates its MSM-v1 manifest (trace.msm_v1). Doc 2 itself is a reconstruction (Appendix R).",
       "proof": [
         "MSM-V1",
         "LIFECYCLE",
@@ -481,10 +481,10 @@
     {
       "id": "D-10",
       "name": "Deterministic output rendering handoff",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "derive.js sūtra realization from MSM; static scan proves no templates (DERIVATION suite) · 4.9.69 (K4): RMC App D projection manifest μ_t per turn (trace.output_manifest) and the D.7 validation order gating every render (RMC-RENDER-GATE-*).",
+      "note": "derive.js s\u016btra realization from MSM; static scan proves no templates (DERIVATION suite) \u00b7 4.9.69 (K4): RMC App D projection manifest \u03bc_t per turn (trace.output_manifest) and the D.7 validation order gating every render (RMC-RENDER-GATE-*).",
       "proof": [
         "DERIVATION",
         "K4-MANIFEST"
@@ -493,10 +493,10 @@
     {
       "id": "D-11",
       "name": "Echo validation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "Echo = inverse-sūtra reparse + structural identity, no similarity (ROUND-TRIP suite) · 4.9.70 (K6): typed Echo results (echo_types.js): 13 dimension findings, 17 drift kinds, materiality, classification state, PASSED/REJECTED/CONTAINED with custody; every Echo creates an MSM ValidationLink. Structural identity remains the only pass condition.",
+      "note": "Echo = inverse-s\u016btra reparse + structural identity, no similarity (ROUND-TRIP suite) \u00b7 4.9.70 (K6): typed Echo results (echo_types.js): 13 dimension findings, 17 drift kinds, materiality, classification state, PASSED/REJECTED/CONTAINED with custody; every Echo creates an MSM ValidationLink. Structural identity remains the only pass condition.",
       "proof": [
         "ROUND-TRIP",
         "K6-ECHO"
@@ -505,10 +505,10 @@
     {
       "id": "D-12",
       "name": "Memory write planning",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Partial",
-      "note": "write plan held/visible only when D10 approval is on · 4.9.66: plain statements are working facts for the conversation (checked, contradictions asked); lasting memory only on \"remember …\" or a confirm tap",
+      "note": "write plan held/visible only when D10 approval is on \u00b7 4.9.66: plain statements are working facts for the conversation (checked, contradictions asked); lasting memory only on \"remember \u2026\" or a confirm tap",
       "proof": [
         "PERMISSION",
         "MEMRULE"
@@ -517,7 +517,7 @@
     {
       "id": "D-13",
       "name": "Explicit stable-memory promotion",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "read-back receipts built; tap-to-approve exists behind D10 switch (default off)",
@@ -529,7 +529,7 @@
     {
       "id": "D-14",
       "name": "Active-loop persistence",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Implemented/disconnected\"",
       "wave": "W2",
       "claim": "Implemented",
       "note": "loop lifecycle active/paused/collapsed/quarantined/resurrected/closed with legal-edge table",
@@ -540,10 +540,10 @@
     {
       "id": "D-15",
       "name": "RMC end-to-end conformance harness",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §D; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7D; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "English→LC→RMC→MSM→LC→reparse proven by DERIVATION/ROUND-TRIP/DETERMINISM suites",
+      "note": "English\u2192LC\u2192RMC\u2192MSM\u2192LC\u2192reparse proven by DERIVATION/ROUND-TRIP/DETERMINISM suites",
       "proof": [
         "DERIVATION",
         "DETERMINISM",
@@ -553,7 +553,7 @@
     {
       "id": "E-01",
       "name": "First-class Containment Router",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
       "wave": "W2",
       "claim": "Implemented",
       "note": "six-route containment router ported from containment_router.py (exactly one route per turn)",
@@ -564,10 +564,10 @@
     {
       "id": "E-02",
       "name": "Active, correction, SPC, dream, drift-archive, and ghost routes",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
       "wave": "W2",
       "claim": "Implemented",
-      "note": "active, correction, SPC, dream, drift-archive and ghost destinations with stores and receipts · 4.9.66 K1: one drift table (≤0.35 project/write; 0.35–0.40 χ correction, no write; 0.40–0.80 quarantine only; >0.80 hard stop; forbidden transition = separate gate)",
+      "note": "active, correction, SPC, dream, drift-archive and ghost destinations with stores and receipts \u00b7 4.9.66 K1: one drift table (\u22640.35 project/write; 0.35\u20130.40 \u03c7 correction, no write; 0.40\u20130.80 quarantine only; >0.80 hard stop; forbidden transition = separate gate)",
       "proof": [
         "CONTAINMENT",
         "K1"
@@ -575,11 +575,11 @@
     },
     {
       "id": "E-03",
-      "name": "χ(t) correction-execution gate",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted (preview)\"",
+      "name": "\u03c7(t) correction-execution gate",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted (preview)\"",
       "wave": "W2",
       "claim": "Partial",
-      "note": "χ(t) firing now routes to correction_queue; correction execution still the restricted refusal",
+      "note": "\u03c7(t) firing now routes to correction_queue; correction execution still the restricted refusal",
       "proof": [
         "CONTAINMENT"
       ]
@@ -587,10 +587,10 @@
     {
       "id": "E-04",
       "name": "SPC cold storage",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "Forget/supersede → cold_storage with reason (FORGET suite)",
+      "note": "Forget/supersede \u2192 cold_storage with reason (FORGET suite)",
       "proof": [
         "FORGET"
       ]
@@ -598,10 +598,10 @@
     {
       "id": "E-05",
       "name": "Dream quarantine",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
       "wave": "W2",
       "claim": "Implemented",
-      "note": "speculative frames (suppose / imagine / what if) → dream quarantine; never memory",
+      "note": "speculative frames (suppose / imagine / what if) \u2192 dream quarantine; never memory",
       "proof": [
         "CONTAINMENT"
       ]
@@ -609,10 +609,10 @@
     {
       "id": "E-06",
       "name": "Ghost loops",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
       "wave": "W2",
       "claim": "Implemented",
-      "note": "capacity failures (unknown words, no derivation, echo ambiguity/failure) → ghost loop store",
+      "note": "capacity failures (unknown words, no derivation, echo ambiguity/failure) \u2192 ghost loop store",
       "proof": [
         "CONTAINMENT"
       ]
@@ -620,7 +620,7 @@
     {
       "id": "E-07",
       "name": "Drift archive",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
       "wave": "W2",
       "claim": "Implemented",
       "note": "elevated / hard-stop drift recorded diagnostic-only in drift archive",
@@ -631,7 +631,7 @@
     {
       "id": "E-08",
       "name": "Seven-gate resurrection",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted (preview)\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted (preview)\"",
       "wave": "W2",
       "claim": "Partial",
       "note": "7 resurrection gates evaluated; gate 6 is the forge preview comparator (harmonic comparator unspecified)",
@@ -642,10 +642,10 @@
     {
       "id": "E-09",
       "name": "Collapse / resurrection boundary",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/disconnected\"",
       "wave": "W2",
       "claim": "Implemented",
-      "note": "typed collapse events with frozen hash snapshot; loop collapsed → quarantined",
+      "note": "typed collapse events with frozen hash snapshot; loop collapsed \u2192 quarantined",
       "proof": [
         "LOOP-LIFECYCLE"
       ]
@@ -653,10 +653,10 @@
     {
       "id": "E-10",
       "name": "Temporal resonance and FFT-derived diagnostics",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "DFT over ε_s and Φ series",
+      "note": "DFT over \u03b5_s and \u03a6 series",
       "proof": [
         "DOCTOR"
       ]
@@ -664,7 +664,7 @@
     {
       "id": "E-11",
       "name": "Dominance, correction, and supersession history",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/disconnected\"",
       "wave": "W2",
       "claim": "Partial",
       "note": "Supersession keeps predecessor in cold storage; no dominance rules or lineage view",
@@ -675,7 +675,7 @@
     {
       "id": "E-12",
       "name": "ProtoForge2 live-drift connector",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §E; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7E; register state \"Implemented/restricted\"",
       "wave": "W5",
       "claim": "Not feasible on phone",
       "note": "Needs ProtoForge2 backend on desktop",
@@ -684,7 +684,7 @@
     {
       "id": "F-01",
       "name": "Exact source-expression custody",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "InputEvent custody + PRIV-1 redaction; spans/offsets not kept for every token",
@@ -695,8 +695,8 @@
     {
       "id": "F-02",
       "name": "Sentence, clause, token, and multiword segmentation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Deterministic segmentation for declared coverage",
       "proof": [
@@ -707,8 +707,8 @@
     {
       "id": "F-03",
       "name": "Contractions, lemmas, inflection, and morphology",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Morphology, contractions, WordNet exceptions, agreement, tense/aspect/voice",
       "proof": [
@@ -719,10 +719,10 @@
     {
       "id": "F-04",
       "name": "Clause and argument structure",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Stub/scaffold\"",
       "wave": "W3",
       "claim": "Partial",
-      "note": "Passives, relatives, coordination, questions; coverage bounded (no ellipsis-heavy, few comparatives) · 4.9.96: G-REL-WHOSE (possessive relative; possessed head is relative kartā) + npText realization.",
+      "note": "Passives, relatives, coordination, questions; coverage bounded (no ellipsis-heavy, few comparatives) \u00b7 4.9.96: G-REL-WHOSE (possessive relative; possessed head is relative kart\u0101) + npText realization.",
       "proof": [
         "GRAMMAR-V3",
         "R496"
@@ -730,11 +730,11 @@
     },
     {
       "id": "F-05",
-      "name": "Pāṇinian-style derivation runtime",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Documented only\"",
-      "wave": "—",
+      "name": "P\u0101\u1e47inian-style derivation runtime",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "derive.js: numbered sūtras, utsarga/apavāda blocking, phase trail, trace of every rule",
+      "note": "derive.js: numbered s\u016btras, utsarga/apav\u0101da blocking, phase trail, trace of every rule",
       "proof": [
         "DERIVATION"
       ]
@@ -742,8 +742,8 @@
     {
       "id": "F-06",
       "name": "Concept and sense registry",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/restricted (bounded)\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Implemented/restricted (bounded)\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "WordNet 3.0 core+extended, admitted/quarantined, provenance+license per sense",
       "proof": [
@@ -754,10 +754,10 @@
     {
       "id": "F-07",
       "name": "Predicate, frame, role, and valency registry",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/restricted (bounded)\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Implemented/restricted (bounded)\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "10,245 verb-sense×frame predicate frames, kāraka roles",
+      "note": "10,245 verb-sense\u00d7frame predicate frames, k\u0101raka roles",
       "proof": [
         "GRAMMAR-V3"
       ]
@@ -765,8 +765,8 @@
     {
       "id": "F-08",
       "name": "Candidate meaning construction",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/disconnected\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Implemented/disconnected\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Candidates from derived structure, not operator-supplied roots",
       "proof": [
@@ -776,8 +776,8 @@
     {
       "id": "F-09",
       "name": "Four verbal-cognition gates",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Expectancy/congruity/connectedness/recoverable-purpose evaluators + composition (FORGE-GATES suite)",
       "proof": [
@@ -787,7 +787,7 @@
     {
       "id": "F-10",
       "name": "Selected meaning and MSM integration",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Implemented/disconnected\"",
       "wave": "W3",
       "claim": "Implemented",
       "note": "v4.3: rejected-meaning (NonSelection) records persisted with reasons, incl. inverse quantifier scope.",
@@ -799,7 +799,7 @@
     {
       "id": "F-11",
       "name": "Reference, scope, discourse, and attachment",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Stub/scaffold\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "Source spans, role relations, entity/variable declarations and turn-scoped multi-sentence custody exist in the controlled world path; unrestricted discourse and scope remain incomplete",
@@ -812,8 +812,8 @@
     {
       "id": "F-12",
       "name": "Ambiguity and clarification dialogue",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Numbered sense clarification, derived (AMBIGUITY suite)",
       "proof": [
@@ -823,8 +823,8 @@
     {
       "id": "F-13",
       "name": "Deterministic English generation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Deterministic generation from checked TurnWorld results and proofs for the supported controlled grammar; not unrestricted English generation",
       "proof": [
@@ -836,8 +836,8 @@
     {
       "id": "F-14",
       "name": "True semantic round-trip Echo",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Blocked on F-02–F-13\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Blocked on F-02\u2013F-13\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Echo checks each rendered symbolic proposition against the selected checked TurnWorld result; unrestricted semantic Echo remains outside current coverage",
       "proof": [
@@ -848,10 +848,10 @@
     {
       "id": "F-15",
       "name": "Lexicon, corpus evidence, and admission workflow",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Stub/scaffold\"",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "v4.3: quarantine → inspect (licence, evidence, privacy, conflict, hash) → user-approved admission; rejections kept.",
+      "note": "v4.3: quarantine \u2192 inspect (licence, evidence, privacy, conflict, hash) \u2192 user-approved admission; rejections kept.",
       "proof": [
         "ADMISSION"
       ]
@@ -859,8 +859,8 @@
     {
       "id": "F-16",
       "name": "LC-RMC-001 inward adapter",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Approved/not built\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Approved/not built\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Inward adapter replaces keyword phase parser in the app",
       "proof": [
@@ -871,8 +871,8 @@
     {
       "id": "F-17",
       "name": "Outward LC adapter",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Outward realization from selected MSM",
       "proof": [
@@ -882,8 +882,8 @@
     {
       "id": "F-18",
       "name": "GP-014 bounded symbolic-math lane",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §F; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7F; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "gp014Check over derived math replies (GP-014 suite)",
       "proof": [
@@ -893,7 +893,7 @@
     {
       "id": "G-01",
       "name": "Memory storage classes and namespaces",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/disconnected\"",
       "wave": "W2",
       "claim": "Implemented",
       "note": "typed namespaces incl. dream_quarantine, ghost_loops, drift_archive, collapse_events, loops, held_writes",
@@ -904,8 +904,8 @@
     {
       "id": "G-02",
       "name": "Read-only recall",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Read-only recall with provenance",
       "proof": [
@@ -915,7 +915,7 @@
     {
       "id": "G-03",
       "name": "Memory proposal and write plan",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "held write proposals exist when D10 requires approval (default off)",
@@ -926,7 +926,7 @@
     {
       "id": "G-04",
       "name": "Explicit commit and readback",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "post-write read-back hash per record; mismatch restores the pre-write snapshot and the reply is re-derived",
@@ -937,10 +937,10 @@
     {
       "id": "G-05",
       "name": "Stable-memory promotion",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/restricted\"",
       "wave": "W2",
       "claim": "Partial",
-      "note": "v4.5: MEA seal packet → replay → tap-gated atomic commit (read-back) and language promotion user_admitted→corpus_supported (≥3 uses + tap) · 4.9.66: working fact → stored fact by \"remember …\" or tap (promoteWorking; refuses a contradiction)",
+      "note": "v4.5: MEA seal packet \u2192 replay \u2192 tap-gated atomic commit (read-back) and language promotion user_admitted\u2192corpus_supported (\u22653 uses + tap) \u00b7 4.9.66: working fact \u2192 stored fact by \"remember \u2026\" or tap (promoteWorking; refuses a contradiction)",
       "proof": [
         "STUBS",
         "FORGET",
@@ -950,8 +950,8 @@
     {
       "id": "G-06",
       "name": "Correction and supersession",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/disconnected\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/disconnected\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Never silent overwrite; predecessor to cold storage",
       "proof": [
@@ -961,7 +961,7 @@
     {
       "id": "G-07",
       "name": "Active-loop persistence and lifecycle",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/disconnected\"",
       "wave": "W2",
       "claim": "Implemented",
       "note": "loops persisted with transitions and receipts",
@@ -972,8 +972,8 @@
     {
       "id": "G-08",
       "name": "Corpus, evidence, memory, and trace separation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Corpus/evidence/memory/trace separated (PRIVACY + AUDIT suites)",
       "proof": [
@@ -984,7 +984,7 @@
     {
       "id": "G-09",
       "name": "Feedback intake and learning proposal",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "feedback intake (helpful/wrong/unclear per reply, tap-gated, linked to trace); learning proposals not built",
@@ -995,7 +995,7 @@
     {
       "id": "G-10",
       "name": "External-resource admission",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Stub/scaffold\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "Public-URL validation, robots/noai, size/type limits, candidate-evidence-only; word admissions have a review queue, web resources do not yet.",
@@ -1007,7 +1007,7 @@
     {
       "id": "G-11",
       "name": "Memory economy / contribution accounting",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Implemented/restricted\"",
       "wave": "W5",
       "claim": "Partial",
       "note": "consent/provenance/ledger plumbing for the user-owned data marketplace (no CT minting, no sale)",
@@ -1018,7 +1018,7 @@
     {
       "id": "G-12",
       "name": "Backup, retention, and disaster recovery",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §G; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7G; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "portable encrypted backup (own KDF params + salt) opens on a fresh install; atomic restore with rollback; delete-all with export-first; retention policy undecided (D11 none)",
@@ -1030,8 +1030,8 @@
     {
       "id": "H-01",
       "name": "Controlled text output",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Final English from LC grammar only (no templates; static scan)",
       "proof": [
@@ -1041,7 +1041,7 @@
     {
       "id": "H-02",
       "name": "JSON/API output packets",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/wired\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Implemented/wired\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "MSM/trace JSON in trace + export; no versioned published schema",
@@ -1052,7 +1052,7 @@
     {
       "id": "H-03",
       "name": "Dashboard rendering",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Implemented/restricted\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "compact trace status rendered from the manifest (outcome, echo, drift band, gates, route); not the full layered RMC dashboard",
@@ -1063,7 +1063,7 @@
     {
       "id": "H-04",
       "name": "Glyph and SVG packets",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Implemented/restricted\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "v4.5: SVG glyph packets (ring/spiral/fracture/bridge + phase/echo/memory marks) derived from the manifest; Echo re-reads marks and maps the primary mark back to the state class",
@@ -1074,7 +1074,7 @@
     {
       "id": "H-05",
       "name": "Speech output",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "v4.5: speech line = derived surface split into intonation units (Web Speech API plays it); Echo = identity round trip",
@@ -1085,8 +1085,8 @@
     {
       "id": "H-06",
       "name": "Code and patch manifests",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/disconnected\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Implemented/disconnected\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No code/patch target on phone",
       "proof": []
@@ -1094,8 +1094,8 @@
     {
       "id": "H-07",
       "name": "H-field / audible / cymatic output",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Partial",
       "note": "prototypes only: Forge trace sonification preview (forge-audible-trace-v1; not music, not a Harmonic Field Score) and a simulated coherence field (not a physical measurement, not .hfield). HCS is a separate application; no live adapter",
       "proof": [
@@ -1105,10 +1105,10 @@
     {
       "id": "H-08",
       "name": "Multimodal output evidence",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
-      "note": "v4.5: one manifest → 11 forms (text, speech, json, code.js, code.py, glyph, field, tone, dashboard, memory, api), each with its own Echo; no camera/image input",
+      "note": "v4.5: one manifest \u2192 11 forms (text, speech, json, code.js, code.py, glyph, field, tone, dashboard, memory, api), each with its own Echo; no camera/image input",
       "proof": [
         "RENDER"
       ]
@@ -1116,7 +1116,7 @@
     {
       "id": "H-09",
       "name": "Exportable evidence bundles",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/wired\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Implemented/wired\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "v4.4: forge-evidence-bundle/v1 (per-store files + sha256 manifest + attribution chain) and Hermes drift-toolkit export, both verifiable",
@@ -1127,7 +1127,7 @@
     {
       "id": "H-10",
       "name": "ProtoForge realization handoff",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §H; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7H; register state \"Implemented/disconnected\"",
       "wave": "W5",
       "claim": "Not feasible on phone",
       "note": "ProtoForge backend absent; app records plans only",
@@ -1136,8 +1136,8 @@
     {
       "id": "I-01",
       "name": "System status and health APIs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/wired\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/wired\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Status tab: build, lexicon tiers, stores, vault state. v4.9.4: chat \"forge status\" exact-phrase route removed; status comes from the Status tab and Build Doctor.",
       "proof": [
@@ -1147,7 +1147,7 @@
     {
       "id": "I-02",
       "name": "Command and audit APIs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/wired\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/wired\"",
       "wave": "W5",
       "claim": "Partial",
       "note": "Audit view; no command API",
@@ -1158,8 +1158,8 @@
     {
       "id": "I-03",
       "name": "RMC inspection APIs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Trace + Deep Dry-Run expose candidates, gates, MSM, Echo, write plan read-only",
       "proof": [
@@ -1169,7 +1169,7 @@
     {
       "id": "I-04",
       "name": "RMC promotion UI",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/restricted\"",
       "wave": "W1",
       "claim": "Partial",
       "note": "approve/reject held writes on the RMC Memory tab; promotion tiers not specified",
@@ -1180,10 +1180,10 @@
     {
       "id": "I-05",
       "name": "Language Core inspection APIs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Stub/scaffold\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Stub/scaffold\"",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "Trace shows tokens, sūtras, phase trail, gates, MSM, realization, Echo",
+      "note": "Trace shows tokens, s\u016btras, phase trail, gates, MSM, realization, Echo",
       "proof": [
         "DERIVATION"
       ]
@@ -1191,10 +1191,10 @@
     {
       "id": "I-06",
       "name": "MEA APIs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "MEA score + per-reference evidence tiers (v4.3). 4.9.64 added bounded manifest evolution over relation-property rows only (kernel meaCandidates / adoptManifest / withdrawManifest; tap-only, M2 ledger + receipt); its shipped fitness was INVALID (the evaluator reset the candidate). 4.9.65 (MEA step 0): evaluator fixed, meaning guard suite, inverse-pair legality gate, no-evidence route, integer drift, rng lineage. No MEA-P problem/candidate API, no frame or parser-rule evolution yet. 4.9.73 adds the MEA problem lane APIs: meaProblems / meaCycle / meaSupply (session draft) / meaCommit (tap-only, permission-decided, receipts) / meaArchive / meaReceipts / meaRequeue / meaHandoff; adoptManifest returns requeue proposals. · 4.9.76: V1 §11 “MEA does bounded manifest evolution”: checked. MEA build-plan steps 6–8 shipped: MEA-K typed delta families for lexicon classes, frames and parser-rule data (plus MEA’s own data: budget, operator schedule, cost schedule) judged at build time on held-out + mutation + world-state + guard suites + structure guard; approvable only at 0 regressions, ε_s ≤ 0.35 and a non-vacuous evidence delta; adoption by tap only; archive with typed blocked_on; a capability change requeues archived branches as proposals only (ruling 5); options that meet exact conditions are all established (ruling 4); internal premises are proof debt (ruling 3); Memory → MEA panel; acceptance suite. Restriction: MEA-K judging is build-time only (no on-device re-judging). · 4.9.96: option ranking on the consult path (FORGE-OPTION-RANK/v1) — score only, no new writer, no shared-KB seed.",
+      "note": "MEA score + per-reference evidence tiers (v4.3). 4.9.64 added bounded manifest evolution over relation-property rows only (kernel meaCandidates / adoptManifest / withdrawManifest; tap-only, M2 ledger + receipt); its shipped fitness was INVALID (the evaluator reset the candidate). 4.9.65 (MEA step 0): evaluator fixed, meaning guard suite, inverse-pair legality gate, no-evidence route, integer drift, rng lineage. No MEA-P problem/candidate API, no frame or parser-rule evolution yet. 4.9.73 adds the MEA problem lane APIs: meaProblems / meaCycle / meaSupply (session draft) / meaCommit (tap-only, permission-decided, receipts) / meaArchive / meaReceipts / meaRequeue / meaHandoff; adoptManifest returns requeue proposals. \u00b7 4.9.76: V1 \u00a711 \u201cMEA does bounded manifest evolution\u201d: checked. MEA build-plan steps 6\u20138 shipped: MEA-K typed delta families for lexicon classes, frames and parser-rule data (plus MEA\u2019s own data: budget, operator schedule, cost schedule) judged at build time on held-out + mutation + world-state + guard suites + structure guard; approvable only at 0 regressions, \u03b5_s \u2264 0.35 and a non-vacuous evidence delta; adoption by tap only; archive with typed blocked_on; a capability change requeues archived branches as proposals only (ruling 5); options that meet exact conditions are all established (ruling 4); internal premises are proof debt (ruling 3); Memory \u2192 MEA panel; acceptance suite. Restriction: MEA-K judging is build-time only (no on-device re-judging). \u00b7 4.9.96: option ranking on the consult path (FORGE-OPTION-RANK/v1) \u2014 score only, no new writer, no shared-KB seed.",
       "proof": [
         "LIFECYCLE",
         "MEA",
@@ -1210,7 +1210,7 @@
     {
       "id": "I-07",
       "name": "ProtoForge APIs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/restricted\"",
       "wave": "W5",
       "claim": "Partial",
       "note": "v4.5: ProtoForge drift + agent tools behind bench manifests (protoforge.drift / protoforge.agents); v4.9.5: internal to Forge only, no user UI or chat lane (typed PF_INTERNAL limitation); PyBullet execution remains desktop",
@@ -1221,8 +1221,8 @@
     {
       "id": "I-08",
       "name": "Identity Vault status boundary",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/disconnected\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/disconnected\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Vault status (none/locked/unlocked) shown; never leaks values (PRIVACY-V4 suite)",
       "proof": [
@@ -1233,7 +1233,7 @@
     {
       "id": "I-09",
       "name": "Contribution economy APIs",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Implemented/restricted\"",
       "wave": "W5",
       "claim": "Partial",
       "note": "consent, buyer, offer, revocation and package APIs; every transfer/payment hard-denied",
@@ -1244,7 +1244,7 @@
     {
       "id": "I-10",
       "name": "Trace and failure debugger",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Documented only\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "trace/failure debugger: stage-by-stage pass/fail with first failing stage (Trace tab)",
@@ -1255,7 +1255,7 @@
     {
       "id": "I-11",
       "name": "Build Doctor and lifecycle menu",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "Build Doctor: checks plus fix instructions (no auto repair); forge.doctor()",
@@ -1266,8 +1266,8 @@
     {
       "id": "I-12",
       "name": "Generated route/command registry",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §I; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7I; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No route/command dispatch on phone (desktop concern)",
       "proof": []
@@ -1275,7 +1275,7 @@
     {
       "id": "J-01",
       "name": "ProtoForge realization and execution",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Implemented/restricted\"",
       "wave": "W5",
       "claim": "Partial",
       "note": "v4.6: URDF box/sphere/cylinder links simulate on the phone (cannon-es, PyBullet defaults); joints, meshes and PyBullet itself remain desktop",
@@ -1286,10 +1286,10 @@
     {
       "id": "J-02",
       "name": "Manifest Evolution Architecture (MEA)",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Implemented/restricted\"",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md §e steps 1–8). · 4.9.67: the three canonical problems (144 Hz, limiting reagent, inheritance) adopted (data/canonical_problems.json); exact sub-results checked, MEA-P outcomes pending 4.9.72: MEA problem lane core (src/mea_p.js, pure): problem manifests as data (data/canonical_problems.json); operators derive / ⧒ / ⧧ / ⟁; hard gates → Pareto → lexicographic (B↓ L↑ Ω↑ I↑ A↑ ε↓ K↓, then id); display score shown only; claim status + next action; tap-only commit with receipts; archive (cold storage) + requeue proposals; typed RMC handoff params. The 144 Hz, limiting-reagent and inheritance problems run end-to-end with no per-problem code. 4.9.73: kernel lane (stores mea_problems / mea_candidates / mea_archive / mea_receipts), conversation frame \"show problem <id>\" / \"show the problems\" rendered by RMC with Echo, Memory-tab card (Run cycle, Supply value, Commit with tap + confirm). · 4.9.76: V1 §11 “MEA does bounded manifest evolution”: checked. MEA build-plan steps 6–8 shipped: MEA-K typed delta families for lexicon classes, frames and parser-rule data (plus MEA’s own data: budget, operator schedule, cost schedule) judged at build time on held-out + mutation + world-state + guard suites + structure guard; approvable only at 0 regressions, ε_s ≤ 0.35 and a non-vacuous evidence delta; adoption by tap only; archive with typed blocked_on; a capability change requeues archived branches as proposals only (ruling 5); options that meet exact conditions are all established (ruling 4); internal premises are proof debt (ruling 3); Memory → MEA panel; acceptance suite. Restriction: MEA-K judging is build-time only (no on-device re-judging). · 4.9.96: MEA-P slice 1 option ranking uses the same drift table + RSOC standing; learning / assimilation deferred.",
+      "note": "MEA scoring + evidence tiers. Manifest evolution exists only for relation-property rows (transitive / symmetric, 33 cells in 23 units; inverse pairs coupled), judged at build time on held-out + mutation + world-state + relation-property guard suites; current seed-1 proposals: none approvable. Frames, lexicon classes and parser rules are not yet evolvable; no MEA-P lane (MEA_SPEC.md \u00a7e steps 1\u20138). \u00b7 4.9.67: the three canonical problems (144 Hz, limiting reagent, inheritance) adopted (data/canonical_problems.json); exact sub-results checked, MEA-P outcomes pending 4.9.72: MEA problem lane core (src/mea_p.js, pure): problem manifests as data (data/canonical_problems.json); operators derive / \u29d2 / \u29e7 / \u27c1; hard gates \u2192 Pareto \u2192 lexicographic (B\u2193 L\u2191 \u03a9\u2191 I\u2191 A\u2191 \u03b5\u2193 K\u2193, then id); display score shown only; claim status + next action; tap-only commit with receipts; archive (cold storage) + requeue proposals; typed RMC handoff params. The 144 Hz, limiting-reagent and inheritance problems run end-to-end with no per-problem code. 4.9.73: kernel lane (stores mea_problems / mea_candidates / mea_archive / mea_receipts), conversation frame \"show problem <id>\" / \"show the problems\" rendered by RMC with Echo, Memory-tab card (Run cycle, Supply value, Commit with tap + confirm). \u00b7 4.9.76: V1 \u00a711 \u201cMEA does bounded manifest evolution\u201d: checked. MEA build-plan steps 6\u20138 shipped: MEA-K typed delta families for lexicon classes, frames and parser-rule data (plus MEA\u2019s own data: budget, operator schedule, cost schedule) judged at build time on held-out + mutation + world-state + guard suites + structure guard; approvable only at 0 regressions, \u03b5_s \u2264 0.35 and a non-vacuous evidence delta; adoption by tap only; archive with typed blocked_on; a capability change requeues archived branches as proposals only (ruling 5); options that meet exact conditions are all established (ruling 4); internal premises are proof debt (ruling 3); Memory \u2192 MEA panel; acceptance suite. Restriction: MEA-K judging is build-time only (no on-device re-judging). \u00b7 4.9.96: MEA-P slice 1 option ranking uses the same drift table + RSOC standing; learning / assimilation deferred.",
       "proof": [
         "LIFECYCLE",
         "MEA",
@@ -1305,7 +1305,7 @@
     {
       "id": "J-03",
       "name": "Identity Vault",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Implemented/disconnected\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "Mobile Identity Vault: a local AES-GCM encrypted secret store, not the full Identity Vault service; no operational-identity ownership service",
@@ -1316,8 +1316,8 @@
     {
       "id": "J-04",
       "name": "Tool Bench, not EchoForge",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/restricted\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Implemented/restricted\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "Tool Bench (renamed from \"EchoForge\" by ruling 9, 2026-10-18; EchoForge is the separate debate/reflection app) re-enabled as the no-LLM tool bench (user decision D6, 2026-10-11): 11 declared tool manifests, frame-selected, permission-decided, evidence-only, hash-chained log; LLM advisory lane excluded",
       "proof": [
@@ -1328,10 +1328,10 @@
     {
       "id": "J-05",
       "name": "Pattern Reflection, not Gilligan",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Implemented/disconnected\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Implemented/disconnected\"",
       "wave": "W4",
       "claim": "Partial",
-      "note": "Pattern Reflection (display name since 4.9.72, packet naming; was \"Gilligan\") cross-session pattern reflection (recurring entities, repeated unknowns, wrong-feedback) — reflection only; no autonomous agent",
+      "note": "Pattern Reflection (display name since 4.9.72, packet naming; was \"Gilligan\") cross-session pattern reflection (recurring entities, repeated unknowns, wrong-feedback) \u2014 reflection only; no autonomous agent",
       "proof": [
         "OPERATOR"
       ]
@@ -1339,7 +1339,7 @@
     {
       "id": "J-06",
       "name": "Agent competency and agent-manifest protocol",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Documented only\"",
       "wave": "W5",
       "claim": "Missing",
       "note": "No agent manifests",
@@ -1348,7 +1348,7 @@
     {
       "id": "J-07",
       "name": "Context and Library ingestion",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Stub/scaffold\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Stub/scaffold\"",
       "wave": "W5",
       "claim": "Partial",
       "note": "concept admission with licence/evidence/quarantine; no document context ingestion (Drive import design-only, N3)",
@@ -1359,8 +1359,8 @@
     {
       "id": "J-08",
       "name": "Genesis Node / network participation",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Post-1.0 network",
       "proof": []
@@ -1368,8 +1368,8 @@
     {
       "id": "J-09",
       "name": "GILIN / heartbeat and node coordination",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Post-1.0",
       "proof": []
@@ -1377,8 +1377,8 @@
     {
       "id": "J-10",
       "name": "Athena investor-site chatbot",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Outside Forge core\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Outside Forge core\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Separate product (Athena)",
       "proof": []
@@ -1386,8 +1386,8 @@
     {
       "id": "J-11",
       "name": "Harmonic Intelligence music system",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Outside Forge core\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Outside Forge core\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Separate product (Harmonic Conductor)",
       "proof": []
@@ -1395,8 +1395,8 @@
     {
       "id": "J-12",
       "name": "Recursive Symbolic Co-pilot cloud product",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Historical/adjacent\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7J; register state \"Historical/adjacent\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Historical cloud co-pilot",
       "proof": []
@@ -1404,8 +1404,8 @@
     {
       "id": "K-01",
       "name": "Decompose monolithic main.py",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Required/high priority\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Required/high priority\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "Desktop main.py decomposition",
       "proof": []
@@ -1413,8 +1413,8 @@
     {
       "id": "K-02",
       "name": "Single route, command, and capability registries",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Required/high priority\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Required/high priority\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "Desktop dispatch",
       "proof": []
@@ -1422,8 +1422,8 @@
     {
       "id": "K-03",
       "name": "pyproject.toml and pinned dependency lock",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "Python packaging",
       "proof": []
@@ -1431,8 +1431,8 @@
     {
       "id": "K-04",
       "name": "Unit, contract, integration, property, and acceptance tests",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Implemented/disconnected\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Implemented/disconnected\"",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "1,581-case verify suite, 25 classes, all pass",
       "proof": [
@@ -1442,7 +1442,7 @@
     {
       "id": "K-05",
       "name": "Formatting, lint, and type gates",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "lint gate in verify",
@@ -1453,7 +1453,7 @@
     {
       "id": "K-06",
       "name": "Secret scanning and repository hygiene",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Required before remote push\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Required before remote push\"",
       "wave": "W1",
       "claim": "Implemented",
       "note": "v4.4: secret scan of every shipped file (tokens, keys, cloud credentials) in the suite",
@@ -1464,7 +1464,7 @@
     {
       "id": "K-07",
       "name": "Dependency vulnerability and license checks",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "v4.4: SBOM (data/SBOM.json) with licences and declared external origins; no vulnerability feed",
@@ -1475,7 +1475,7 @@
     {
       "id": "K-08",
       "name": "Software bill of materials",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "data/SBOM.json with licences + hashes",
@@ -1487,8 +1487,8 @@
     {
       "id": "K-09",
       "name": "OCI container image",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "OCI not applicable to PWA",
       "proof": []
@@ -1496,8 +1496,8 @@
     {
       "id": "K-10",
       "name": "Compose-based local stack",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "n/a",
       "proof": []
@@ -1505,8 +1505,8 @@
     {
       "id": "K-11",
       "name": "Rootless container execution",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "n/a",
       "proof": []
@@ -1514,10 +1514,10 @@
     {
       "id": "K-12",
       "name": "Supported-platform contract",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Implemented",
-      "note": "v4.4: platform contract (src/platform.js) — required vs optional browser APIs, shown in the app",
+      "note": "v4.4: platform contract (src/platform.js) \u2014 required vs optional browser APIs, shown in the app",
       "proof": [
         "PROVENANCE"
       ]
@@ -1525,7 +1525,7 @@
     {
       "id": "K-13",
       "name": "Installer, uninstaller, and migrations",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "PWA install/update; schema migrations (v4.3); no uninstall/data-wipe flow.",
@@ -1536,7 +1536,7 @@
     {
       "id": "K-14",
       "name": "Health checks, Build Doctor, and recovery runbooks",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "checks plus fix instructions (runbook steps); no auto repair. A future auto-fix needs preview, approval, backup, receipt, read-back and rollback",
@@ -1547,7 +1547,7 @@
     {
       "id": "K-15",
       "name": "Performance and resource budgets",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "v4.3: bundle and node-side kernel time budgets enforced in tests; on-device budgets measured in headless Chrome, not yet enforced.",
@@ -1558,7 +1558,7 @@
     {
       "id": "K-16",
       "name": "Forge 1.0 release record and soak",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §K; register state \"Documented only\"",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7K; register state \"Documented only\"",
       "wave": "W4",
       "claim": "Partial",
       "note": "release record built each verification; soak period not run",
@@ -1569,8 +1569,8 @@
     {
       "id": "L-01",
       "name": "Decentralized Genesis network",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Parked",
       "proof": []
@@ -1578,10 +1578,10 @@
     {
       "id": "L-02",
       "name": "Cross-node memory or manifest exchange",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Partial",
-      "note": "v4.4: Doc 11 opt-in sync (OFF by default, N2) of sealed loops/dead paths via the user’s home node + Doc 12 per-device attribution chains with fork-safe merge. Register parked this; built only because the user asked (opt-in).",
+      "note": "v4.4: Doc 11 opt-in sync (OFF by default, N2) of sealed loops/dead paths via the user\u2019s home node + Doc 12 per-device attribution chains with fork-safe merge. Register parked this; built only because the user asked (opt-in).",
       "proof": [
         "SYNC",
         "LEDGER"
@@ -1590,8 +1590,8 @@
     {
       "id": "L-03",
       "name": "Contribution-token settlement",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Parked",
       "proof": []
@@ -1599,8 +1599,8 @@
     {
       "id": "L-04",
       "name": "Agent/service marketplace",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Parked",
       "proof": []
@@ -1608,8 +1608,8 @@
     {
       "id": "L-05",
       "name": "Remote delivery and autonomous external actions",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Parked",
       "proof": []
@@ -1617,8 +1617,8 @@
     {
       "id": "L-06",
       "name": "Multi-user and hosted Forge",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Parked",
       "proof": []
@@ -1626,8 +1626,8 @@
     {
       "id": "L-07",
       "name": "H-field / resonance hardware control",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Parked",
       "proof": []
@@ -1635,10 +1635,10 @@
     {
       "id": "L-08",
       "name": "Mobile and distributed operator clients",
-      "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §L; register state \"Parked post-1.0\"",
-      "wave": "—",
+      "source": "Capability Register (Drive 1tS_VLjZ\u2026/1FaALlnv\u2026, 2026-07-25) \u00a7L; register state \"Parked post-1.0\"",
+      "wave": "\u2014",
       "claim": "Partial",
-      "note": "installable PWA + paired home node; v4.5 N5: one node key per Identity-Vault user, legacy shared key migrated and revocable. 4.9.110: the Capability Register line “Parked post-1.0” is stale for Forge Mobile acceptance. CONFLICTS.md, VERSION, and NEXT_BUILD govern Mobile. Desktop Forge 1 may still park distributed operator clients.",
+      "note": "installable PWA + paired home node; v4.5 N5: one node key per Identity-Vault user, legacy shared key migrated and revocable. 4.9.110: the Capability Register line \u201cParked post-1.0\u201d is stale for Forge Mobile acceptance. CONFLICTS.md, VERSION, and NEXT_BUILD govern Mobile. Desktop Forge 1 may still park distributed operator clients.",
       "proof": [
         "PRO",
         "HOMENODE",
@@ -1658,7 +1658,7 @@
       "id": "X-02",
       "name": "Forge operator-console tab set and look",
       "source": "forge operator_console_src/{TopTabs,OperatorLayout,theme.css}; REQUIREMENTS_AUDIT B1",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "All 9 tabs present; theme ported (styles.css #0e1624/#00ccf0/Courier New)",
       "proof": [
@@ -1669,7 +1669,7 @@
       "id": "X-03",
       "name": "Ask Forge result kinds",
       "source": "forge main.py _p255_operator_llm_request_v1",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "resultKind() in app.js; LEGACY-LLM + CLEANUP-494 suites. v4.9.4: BRIDGE-1 removed; legacy commands now run through the kernel.",
       "proof": [
@@ -1690,7 +1690,7 @@
       "id": "X-05",
       "name": "Legacy LLM command refusal envelope (28 commands)",
       "source": "forge agents/forge/llm_authority.py; commit fcbf9176",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "LEGACY-LLM suite",
       "proof": [
@@ -1699,11 +1699,11 @@
     },
     {
       "id": "X-06",
-      "name": "Forge language Bridges 1–5 envelopes",
-      "source": "forge forge_language_bridge_v1…v5; scripts/AIWEB_FORGE_LANGUAGE_CORE_BRIDGE5_*.md",
+      "name": "Forge language Bridges 1\u20135 envelopes",
+      "source": "forge forge_language_bridge_v1\u2026v5; scripts/AIWEB_FORGE_LANGUAGE_CORE_BRIDGE5_*.md",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "v4.3: Bridges 2–5 records (custody, structural preview, candidate custody, eligibility) on every turn, all non-authority. v4.9.4: Bridge 1 exact-phrase routes removed; every turn goes through the kernel.",
+      "note": "v4.3: Bridges 2\u20135 records (custody, structural preview, candidate custody, eligibility) on every turn, all non-authority. v4.9.4: Bridge 1 exact-phrase routes removed; every turn goes through the kernel.",
       "proof": [
         "LIFECYCLE",
         "CLEANUP-494"
@@ -1713,7 +1713,7 @@
       "id": "X-07",
       "name": "forge2 contract spine",
       "source": "forge2 src/forge2/contracts/* (HEAD 262a95eb)",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "FORGE2-PORT suite",
       "proof": [
@@ -1723,7 +1723,7 @@
     {
       "id": "X-08",
       "name": "Operational-identity profiles (user/agent JSON: working style, meta-rules, safe words, drift tracking, session state)",
-      "source": "identity-vault repo README; Drive \"Self-Hosted Identity Vault\" §3–6; \"Identity Vault Pro – Product Overview\"",
+      "source": "identity-vault repo README; Drive \"Self-Hosted Identity Vault\" \u00a73\u20136; \"Identity Vault Pro \u2013 Product Overview\"",
       "wave": "W4",
       "claim": "Implemented",
       "note": "operational-identity profiles separate from secrets (D8), versioned, secret-refusing",
@@ -1734,16 +1734,16 @@
     {
       "id": "X-09",
       "name": "Identity Vault Pro enterprise features (ZKP, RBAC, multi-agent orchestration, team vaults, IPFS/Arweave sharing, REST/GraphQL)",
-      "source": "Drive \"Identity Vault Pro – Product Overview\"; \"Integrating Legacy LLMs with IV Pro\"; Self-Hosted IV §7–9",
-      "wave": "—",
+      "source": "Drive \"Identity Vault Pro \u2013 Product Overview\"; \"Integrating Legacy LLMs with IV Pro\"; Self-Hosted IV \u00a77\u20139",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Server/multi-tenant product; field-level encryption alone is done (AES-GCM + PBKDF2)",
       "proof": []
     },
     {
       "id": "X-10",
-      "name": "IV ↔ Forge governed bootstrap (template repair, inactive profiles, read-only adapters, RMC namespaces, handshake, activation gate, Gilligan→Athena→Neo one at a time)",
-      "source": "Drive AIWEBOS \"AI.Web Bootstrap Blueprint\" Phases 1–10 (Patches 226D–235A)",
+      "name": "IV \u2194 Forge governed bootstrap (template repair, inactive profiles, read-only adapters, RMC namespaces, handshake, activation gate, Gilligan\u2192Athena\u2192Neo one at a time)",
+      "source": "Drive AIWEBOS \"AI.Web Bootstrap Blueprint\" Phases 1\u201310 (Patches 226D\u2013235A)",
       "wave": "W5",
       "claim": "Missing",
       "note": "Not built; depends on agents (J-05/J-06)",
@@ -1752,8 +1752,8 @@
     {
       "id": "X-11",
       "name": "EchoForge debate/journal platform (6-agent debate chain, weighted journaling, Dead Path Archive, ghost-loop tracking, resonance maps, daily debates, persona switch, exports)",
-      "source": "echo-forge repo; Drive \"EchoForge v1.0 – LLM Debate Application Design Document\" v1.2; \"EchoForge\" doc",
-      "wave": "—",
+      "source": "echo-forge repo; Drive \"EchoForge v1.0 \u2013 LLM Debate Application Design Document\" v1.2; \"EchoForge\" doc",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "LLM-only by design; the phone app has no LLM. Tab shown disabled",
       "proof": []
@@ -1787,7 +1787,7 @@
       "source": "Drive \"# Complete ProtoForge File Structure\"; \"The memory-drift protoforge v2.0\"",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "v4.5: ProtoForge thermodynamic drift analyzer (DTW, Landauer, trajectory), base_drift utilities, Build-Task-1 orchestrator + agents + echo chain + χ(t) + MVP drift monitor, ported to protoforge.js and registered on the bench",
+      "note": "v4.5: ProtoForge thermodynamic drift analyzer (DTW, Landauer, trajectory), base_drift utilities, Build-Task-1 orchestrator + agents + echo chain + \u03c7(t) + MVP drift monitor, ported to protoforge.js and registered on the bench",
       "proof": [
         "PROTOFORGE"
       ]
@@ -1795,10 +1795,10 @@
     {
       "id": "X-15",
       "name": "ProtoForge Codex Vol II/III phase-bound engine (online memory host, listening to the world, learning without drift, echo co-pilot, agent prep, hosting)",
-      "source": "Drive \"ProtoForge Volume II – The Full System Dashboard…\" (Ch. I–X); \"RUNTIME CODEX Volume I\"",
+      "source": "Drive \"ProtoForge Volume II \u2013 The Full System Dashboard\u2026\" (Ch. I\u2013X); \"RUNTIME CODEX Volume I\"",
       "wave": "W2",
       "claim": "Partial",
-      "note": "Loop concepts present (χ, Ĉ cold storage, phase trail, Φ5→Φ8 stop); world listening/hosting not feasible offline",
+      "note": "Loop concepts present (\u03c7, \u0108 cold storage, phase trail, \u03a65\u2192\u03a68 stop); world listening/hosting not feasible offline",
       "proof": [
         "CONTAINMENT"
       ]
@@ -1809,7 +1809,7 @@
       "source": "Drive math docs (kernel-papers/math/*); forge rmc_engine_v1/mea, rpmc_kernel",
       "wave": "W3",
       "claim": "Partial",
-      "note": "kmath.js citations + Φ-notation toggle; MEA evidence tiers/fixed-point partial · 4.9.67: canonical χ (chiCorrect: once per ψ, phase-aligned ancestors, bounded), circular σ_res, forward-only phase law, RSOC↔RMC phase map (reconstruction)",
+      "note": "kmath.js citations + \u03a6-notation toggle; MEA evidence tiers/fixed-point partial \u00b7 4.9.67: canonical \u03c7 (chiCorrect: once per \u03c8, phase-aligned ancestors, bounded), circular \u03c3_res, forward-only phase law, RSOC\u2194RMC phase map (reconstruction)",
       "proof": [
         "MEA",
         "RULINGS-467"
@@ -1819,7 +1819,7 @@
       "id": "X-17",
       "name": "Exact math lane (rationals, polynomials, factoring, quadratics/surds, systems, units)",
       "source": "forge general_pipeline gp013/gp014; MEA symbolic_math_worker (sympy/pint)",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "MATH-V3 suite",
       "proof": [
@@ -1830,7 +1830,7 @@
       "id": "X-18",
       "name": "Privacy: redaction at ingestion + sealed Identity Vault",
       "source": "User directive (v4 round); Doc 7 privacy; forge IdentityVaultTab",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "PRIVACY-V4 suite",
       "proof": [
@@ -1842,7 +1842,7 @@
       "id": "X-19",
       "name": "Inference (transitive location, is-a via WordNet hypernyms, family relations)",
       "source": "User directive; Doc 5 frames",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "INFERENCE suite",
       "proof": [
@@ -1862,7 +1862,7 @@
     },
     {
       "id": "X-21",
-      "name": "RMC dashboard state (§09.7) and applications (§10.3 coding assistant, §10.8 agent-to-agent communication)",
+      "name": "RMC dashboard state (\u00a709.7) and applications (\u00a710.3 coding assistant, \u00a710.8 agent-to-agent communication)",
       "source": "RMC sections 09.7, 10.3, 10.8 (kernel-papers/RMC_sections)",
       "wave": "W4",
       "claim": "Partial",
@@ -1876,7 +1876,7 @@
       "id": "X-22",
       "name": "AI.Web Dashboard / PuLsE hosting suite (hosting, site builder, security, SEO, Web3 staking, investor tiers, Athena)",
       "source": "Drive \"AI.Web Dashboard 1.0.0\", \"Dashboard Walkthrough & Feature Guide\", \"ai.web dashboard outline\", \"File5 Guide to code AI.Web Dashboard\", \"AI.Web Execution Roadmap (2025-2026)\"",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Out of scope / parked",
       "note": "Not Forge core (register J-10 treats Athena as separate)",
       "proof": []
@@ -1884,7 +1884,7 @@
     {
       "id": "X-23",
       "name": "Lexicon build-out with optional EchoForge challenge, Forge as acceptance authority",
-      "source": "Drive untitled 2026-07-24 (items 8–9); \"Build Plan: RMC Resonance Lexicon + Gold Reference\"",
+      "source": "Drive untitled 2026-07-24 (items 8\u20139); \"Build Plan: RMC Resonance Lexicon + Gold Reference\"",
       "wave": "W3",
       "claim": "Partial",
       "note": "WordNet tiers + licensed admission queue + Tool Bench; no gold-reference workflow",
@@ -1896,10 +1896,10 @@
     {
       "id": "FB-02",
       "name": "Authority service and policy engine",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 2 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 2 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W1",
       "claim": "Partial",
-      "note": "permission service + switchable policy (D1–D12); exact approval tokens per action class not specified by docs 4.9.74: the authority badge separates \"kernel network: none\" from \"tool egress: <tool> · <on-device | external>\".",
+      "note": "permission service + switchable policy (D1\u2013D12); exact approval tokens per action class not specified by docs 4.9.74: the authority badge separates \"kernel network: none\" from \"tool egress: <tool> \u00b7 <on-device | external>\".",
       "proof": [
         "EV-HONEST",
         "HONEST-BADGE",
@@ -1909,8 +1909,8 @@
     {
       "id": "FB-03",
       "name": "Workspace manager and execution broker",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 3 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 3 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No shell on phone",
       "proof": []
@@ -1918,8 +1918,8 @@
     {
       "id": "FB-04",
       "name": "Repository intelligence",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 4 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 4 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "No repo on phone",
       "proof": []
@@ -1927,7 +1927,7 @@
     {
       "id": "FB-05",
       "name": "Local capability inventory",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 5 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 5 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W1",
       "claim": "Partial",
       "note": "registry is machine-readable; capability inventory not yet generated from code",
@@ -1938,8 +1938,8 @@
     {
       "id": "FB-06",
       "name": "Open-source discovery providers",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 6 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 6 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
       "note": "Network/tooling",
       "proof": []
@@ -1947,26 +1947,26 @@
     {
       "id": "FB-07",
       "name": "Quarantine and capability qualification",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 7 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 7 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
-      "note": "—",
+      "note": "\u2014",
       "proof": []
     },
     {
       "id": "FB-08",
       "name": "Capability adapters and registry",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 8 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 8 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
-      "note": "—",
+      "note": "\u2014",
       "proof": []
     },
     {
       "id": "FB-09",
       "name": "Exact input custody + deterministic language foundation",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 9 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 9 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "InputEvent + derivation + DETERMINISM suite",
       "proof": [
@@ -1977,8 +1977,8 @@
     {
       "id": "FB-10",
       "name": "Traditional machine-learning classifier",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 10 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 10 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Missing",
       "note": "Deliberately absent: conflicts with Doc 9 \"no learned classifiers\" (contradiction C2)",
       "proof": []
@@ -1986,10 +1986,10 @@
     {
       "id": "FB-11",
       "name": "Request compiler",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 11 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 11 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W3",
       "claim": "Implemented",
-      "note": "RequestContract built from rule candidates; no conflict/freshness/correction hooks · 4.9.96: WH-DET whose sets whHead to the possessed noun; askedNP returns the possessed head; G-REL-WHOSE feeds the compiler — request compiler claim Implemented for these relatives. 4.9.110: the 4.9.83–4.9.96 compiler slices are registered as their own ids (R483-QC through R496-WHOSE). This claim is not rewritten.",
+      "note": "RequestContract built from rule candidates; no conflict/freshness/correction hooks \u00b7 4.9.96: WH-DET whose sets whHead to the possessed noun; askedNP returns the possessed head; G-REL-WHOSE feeds the compiler \u2014 request compiler claim Implemented for these relatives. 4.9.110: the 4.9.83\u20134.9.96 compiler slices are registered as their own ids (R483-QC through R496-WHOSE). This claim is not rewritten.",
       "proof": [
         "FORGE2-PORT",
         "R496"
@@ -1998,7 +1998,7 @@
     {
       "id": "FB-12",
       "name": "Context builder",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 12 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 12 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W3",
       "claim": "Partial",
       "note": "ContextManifest ported; not used to bound recall",
@@ -2009,7 +2009,7 @@
     {
       "id": "FB-13",
       "name": "Symbolic planner and durable agent loop",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 13 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 13 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W5",
       "claim": "Missing",
       "note": "No planner",
@@ -2018,17 +2018,17 @@
     {
       "id": "FB-14",
       "name": "Construction engine",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 14 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 14 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
-      "note": "—",
+      "note": "\u2014",
       "proof": []
     },
     {
       "id": "FB-15",
       "name": "Independent verifier",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 15 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 15 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Partial",
       "note": "The app's own verify suite; no candidate-change verifier",
       "proof": [
@@ -2038,16 +2038,16 @@
     {
       "id": "FB-16",
       "name": "Supervised self-construction",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 16 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 16 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Not feasible on phone",
-      "note": "—",
+      "note": "\u2014",
       "proof": []
     },
     {
       "id": "FB-17",
       "name": "Clean operator API and UI",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 17 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 17 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W5",
       "claim": "Partial",
       "note": "phone UI + operator actions through the permission service; no HTTP API",
@@ -2058,10 +2058,10 @@
     {
       "id": "FB-18",
       "name": "Research and answer-fit",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 18 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 18 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W5",
       "claim": "Partial",
-      "note": "research: tracker-free crawler (port of research_acquisition.py) returns ranked exact excerpts as evidence; answer-fit scoring beyond excerpt resonance not built 4.9.74: every evidence answer shows a provenance tier beside each source (curated archive / peer-reviewed index / open fallback) and a summary line; each cited source needs a verbatim supporting span from its stored excerpt (deterministic entailment) or the claim is marked unsupported. 4.9.74 (items 4–7): a source counts only if its primary entity matches the question entity (exact ordinals; SUBJECT_MISMATCH otherwise) or the answer entity with a span naming both; agreement is reported as \"K agree, M disagree, N unusable\" over origins; a claim with no supporting span in any source is stated as \"Unsupported: …\". 4.9.75: the primary entity is the title head, case parties or lead subject (first-sentence subject); \"What is X?\" accepts a definitional sentence whose subject is X.",
+      "note": "research: tracker-free crawler (port of research_acquisition.py) returns ranked exact excerpts as evidence; answer-fit scoring beyond excerpt resonance not built 4.9.74: every evidence answer shows a provenance tier beside each source (curated archive / peer-reviewed index / open fallback) and a summary line; each cited source needs a verbatim supporting span from its stored excerpt (deterministic entailment) or the claim is marked unsupported. 4.9.74 (items 4\u20137): a source counts only if its primary entity matches the question entity (exact ordinals; SUBJECT_MISMATCH otherwise) or the answer entity with a span naming both; agreement is reported as \"K agree, M disagree, N unusable\" over origins; a claim with no supporting span in any source is stated as \"Unsupported: \u2026\". 4.9.75: the primary entity is the title head, case parties or lead subject (first-sentence subject); \"What is X?\" accepts a definitional sentence whose subject is X.",
       "proof": [
         "CRAWLER",
         "EV-ENTITY",
@@ -2075,8 +2075,8 @@
     {
       "id": "FB-19",
       "name": "Mathematics and scientific computation through tools",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 19 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 19 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Partial",
       "note": "Built-in exact algebra instead of external tools",
       "proof": [
@@ -2086,8 +2086,8 @@
     {
       "id": "FB-20",
       "name": "Simulation and experiment execution",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 20 (Drive 1WrnuwxhX…); forge2 roadmap",
-      "wave": "—",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 20 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
+      "wave": "\u2014",
       "claim": "Partial",
       "note": "See X-13 (browser preview only).",
       "proof": [
@@ -2097,7 +2097,7 @@
     {
       "id": "FB-21",
       "name": "Memory, correction, classifier learning",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 21 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 21 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W4",
       "claim": "Partial",
       "note": "Corrections yes; no learning proposals",
@@ -2108,10 +2108,10 @@
     {
       "id": "FB-22",
       "name": "Contribution Economy bridge",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 22 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 22 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W5",
       "claim": "Partial",
-      "note": "count-only bridge (E1–E5); no economic processing",
+      "note": "count-only bridge (E1\u2013E5); no economic processing",
       "proof": [
         "ECONOMY",
         "COSIGN",
@@ -2121,16 +2121,16 @@
     {
       "id": "FB-23",
       "name": "Policy-authorized automation",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 23 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 23 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W5",
       "claim": "Missing",
-      "note": "—",
+      "note": "\u2014",
       "proof": []
     },
     {
       "id": "FB-24",
       "name": "Security, reliability, operations hardening",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 24 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 24 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W4",
       "claim": "Partial",
       "note": "Privacy hardening done; no threat model doc",
@@ -2141,7 +2141,7 @@
     {
       "id": "FB-25",
       "name": "Packaging and Forge 2.0 release",
-      "source": "Forge 2.0 Production Build Bible §25 Phase 25 (Drive 1WrnuwxhX…); forge2 roadmap",
+      "source": "Forge 2.0 Production Build Bible \u00a725 Phase 25 (Drive 1WrnuwxhX\u2026); forge2 roadmap",
       "wave": "W4",
       "claim": "Partial",
       "note": "build.py + make_deploy.py: single-file HTML, PWA, checksummed BUILD_MANIFEST.json, GitHub Pages; no signed release",
@@ -2154,7 +2154,7 @@
       "id": "N5",
       "name": "Per-Identity-Vault-user home-node keys",
       "source": "user decision N5 (2026-10-11)",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "node state users{uid}; per-user replay counters, jobs and sync namespaces; client pairing table byUser; shared key migrated (MIG-N5-SHARED-KEY), flagged legacy, --revoke",
       "proof": [
@@ -2165,7 +2165,7 @@
       "id": "RMC-MO",
       "name": "RMC multi-output with per-form Echo, code in a declared safe subset (never executed without a tap)",
       "source": "RMC 00/01 output forms",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Partial",
       "note": "11 forms with honest scope labels and the common envelope forge-rmc-output-envelope/v1; text, speech, memory record and API proposal complete; JSON/code/dashboard partial; glyph/field/tone prototypes",
       "proof": [
@@ -2176,9 +2176,9 @@
       "id": "STUB-CE",
       "name": "Memory Capsules + Operator Council (stub completions)",
       "source": "forge contribution_economy_v1/capsules; aiweb operator_council",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
-      "note": "capsule candidate→validated→finalized, economic scopes NOT_AUTHORIZED; council = four deterministic roles, recommendation only",
+      "note": "capsule candidate\u2192validated\u2192finalized, economic scopes NOT_AUTHORIZED; council = four deterministic roles, recommendation only",
       "proof": [
         "STUBS"
       ]
@@ -2186,8 +2186,8 @@
     {
       "id": "REQ-LC",
       "name": "Request lifecycle (25 states) with transition receipts; Doc 10 status ladder",
-      "source": "Forge 2.0 Build Bible §7.4, §22.1, §22.3; forge2 request_state.py; Doc 10 §46.31–32",
-      "wave": "—",
+      "source": "Forge 2.0 Build Bible \u00a77.4, \u00a722.1, \u00a722.3; forge2 request_state.py; Doc 10 \u00a746.31\u201332",
+      "wave": "\u2014",
       "claim": "Partial",
       "note": "specified rules implemented (sequence, no silent skip, receipts, cancel, ladder); return edges from CLARIFICATION_REQUIRED / HELD / FAILED are unspecified and refused (gap)",
       "proof": [
@@ -2198,7 +2198,7 @@
       "id": "N6",
       "name": "Voice input via OS speech recognition, marked unverified (no neural model)",
       "source": "user decision N6 (2026-10-11)",
-      "wave": "—",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "mic button; transcript shown for review and labelled unverified",
       "proof": [
@@ -2207,9 +2207,9 @@
     },
     {
       "id": "SE-CLS",
-      "name": "Bible §7.3 side-effect class on every tool",
-      "source": "Forge 2.0 Build Bible §7.3",
-      "wave": "—",
+      "name": "Bible \u00a77.3 side-effect class on every tool",
+      "source": "Forge 2.0 Build Bible \u00a77.3",
+      "wave": "\u2014",
       "claim": "Implemented",
       "note": "derived from manifest effect",
       "proof": [
@@ -2288,7 +2288,7 @@
     {
       "id": "NOTES",
       "name": "Notes: create/edit/tag/link/search/forget/seal/export",
-      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC §6.2/§6.4; Memory Economy §1.3)",
+      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC \u00a76.2/\u00a76.4; Memory Economy \u00a71.3)",
       "wave": "W6",
       "claim": "Implemented",
       "note": "v4.8.0",
@@ -2298,8 +2298,8 @@
     },
     {
       "id": "COSIGN",
-      "name": "Co-signing for collaborator ⅓ credit",
-      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC §6.2/§6.4; Memory Economy §1.3)",
+      "name": "Co-signing for collaborator \u2153 credit",
+      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC \u00a76.2/\u00a76.4; Memory Economy \u00a71.3)",
       "wave": "W6",
       "claim": "Implemented",
       "note": "v4.8.0",
@@ -2310,7 +2310,7 @@
     {
       "id": "LMERGE",
       "name": "Signed cross-device credit-ledger merge",
-      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC §6.2/§6.4; Memory Economy §1.3)",
+      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC \u00a76.2/\u00a76.4; Memory Economy \u00a71.3)",
       "wave": "W6",
       "claim": "Implemented",
       "note": "signed snapshot of full chain + append-only events; totals derived from verified events; concurrent branches unioned and recomputed",
@@ -2322,7 +2322,7 @@
     {
       "id": "BGREM",
       "name": "Background reminders (periodic sync, no push server)",
-      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC §6.2/§6.4; Memory Economy §1.3)",
+      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC \u00a76.2/\u00a76.4; Memory Economy \u00a71.3)",
       "wave": "W6",
       "claim": "Implemented",
       "note": "v4.8.0",
@@ -2332,11 +2332,11 @@
     },
     {
       "id": "EDE-D",
-      "name": "EDE §6.4 distance components recorded",
-      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC §6.2/§6.4; Memory Economy §1.3)",
+      "name": "EDE \u00a76.4 distance components recorded",
+      "source": "user direction 2026-10-12 (E3/E5 defaults; RMC \u00a76.2/\u00a76.4; Memory Economy \u00a71.3)",
       "wave": "W6",
       "claim": "Implemented",
-      "note": "v4.8.0 · 4.9.70 (K5): per-turn candidate distances now measured against M_relevant (memory), not input-vs-output; unweighted, never combined; novelty = d_struct recorded in μ_t, never a selection key.",
+      "note": "v4.8.0 \u00b7 4.9.70 (K5): per-turn candidate distances now measured against M_relevant (memory), not input-vs-output; unweighted, never combined; novelty = d_struct recorded in \u03bc_t, never a selection key.",
       "proof": [
         "EDE",
         "K5-DISTANCES"
@@ -2345,7 +2345,7 @@
     {
       "id": "EDE-CAL",
       "name": "EDE novelty record, hard gates, shadow calibration",
-      "source": "user decision 2026-10-12; RMC §6.4/§8.3; C2R Measurement Kernel build plan (May 2026, provisional)",
+      "source": "user decision 2026-10-12; RMC \u00a76.4/\u00a78.3; C2R Measurement Kernel build plan (May 2026, provisional)",
       "wave": "W6",
       "claim": "Implemented",
       "note": "simple score = authoritative retention scalar (not the full RMC N(c)); N_base provisional; N_vector unweighted; task budgets shadow-only; 0.15/0.75/0.35 worked examples. Kept separate and NOT part of N(c): D_score weights (0.25 entropy, 0.20 structure, 0.20 semantic, 0.20 phase, 0.15 taxonomy) belong to drift severity; C2R overall coherence weights belong to candidate selection. No fitted weights shipped.",
@@ -2557,10 +2557,10 @@
     {
       "id": "WM-M4",
       "name": "World model M4: cause/effect, rates over time, interventions (CausalResult)",
-      "source": "KERNEL_COMPONENTS_SPEC.md §15 R-WM-2..5 and WM engineering spec §5.10–5.12 (2026-10-18); BUILD_ORDER_OCT18 item 4",
+      "source": "KERNEL_COMPONENTS_SPEC.md \u00a715 R-WM-2..5 and WM engineering spec \u00a75.10\u20135.12 (2026-10-18); BUILD_ORDER_OCT18 item 4",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.77: dynamics.js (exact rational rate/level solver, what-if over stored causal links, measurement reports, adverb scope) with a forge-causal-result/v1 record on every answer (mode, status, assumptions, premise and intervention refs, effects, competing models, world version). Tank 70 gal conditional; a differing measurement kept separate with candidate explanations; battery/inventory on the same solver; WMS C1–C5, C7, C9, C10, C12, C13 tested. Not yet: bitemporal journal (C9 for measurements over time), C6 temporal order, C8 non-invertibility, C11 falsifier downgrade, C14 live-app run, MEA problem-lane hand-off of causal results.",
+      "note": "4.9.77: dynamics.js (exact rational rate/level solver, what-if over stored causal links, measurement reports, adverb scope) with a forge-causal-result/v1 record on every answer (mode, status, assumptions, premise and intervention refs, effects, competing models, world version). Tank 70 gal conditional; a differing measurement kept separate with candidate explanations; battery/inventory on the same solver; WMS C1\u2013C5, C7, C9, C10, C12, C13 tested. Not yet: bitemporal journal (C9 for measurements over time), C6 temporal order, C8 non-invertibility, C11 falsifier downgrade, C14 live-app run, MEA problem-lane hand-off of causal results.",
       "proof": [
         "DYN-RATE",
         "DYN-REPORTS",
@@ -2620,7 +2620,7 @@
       "source": "Nic instruction 2026-10-21 1:44 PM (what's-left list)",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.81: LX-CONVERSATION-WORD (a coined word a current fact uses stays readable in questions), TMS-WHY-STATED, G-REPEAT-REQUEST, NP-APPOSITIVE-COUNT, G-CONTRAST-NOT, G-PHATIC-REJECT, INF-CAUSE-CHAIN through INF-RESULTATIVE-CAUSE (WordNet 'cause to be'), holds/last duration readings, DYN-WHATIF-LOCAL, DYN-RATE-COUNT, ATTR-OF-COMPLEMENT entailment key (N of X: X plus N or a WordNet synonym of N; entailment not loosened), MEAP-OPTION-RANK, question-entity kind-of / superlative / jurisdiction scope / name-through-of, FR-FORGET-SAID, REF-PLACE-NAME. Partial: held-back conversation and routing items remain. · 4.9.96 MEA-P slice 1: QC.rankOptions scores options vs archive evidence (DRIFT_TABLE + RSOC_STANDING); forge rtrace.option_ranking; hold when every option above projectable band. Prakāra ADV survives generate→Echo.",
+      "note": "4.9.81: LX-CONVERSATION-WORD (a coined word a current fact uses stays readable in questions), TMS-WHY-STATED, G-REPEAT-REQUEST, NP-APPOSITIVE-COUNT, G-CONTRAST-NOT, G-PHATIC-REJECT, INF-CAUSE-CHAIN through INF-RESULTATIVE-CAUSE (WordNet 'cause to be'), holds/last duration readings, DYN-WHATIF-LOCAL, DYN-RATE-COUNT, ATTR-OF-COMPLEMENT entailment key (N of X: X plus N or a WordNet synonym of N; entailment not loosened), MEAP-OPTION-RANK, question-entity kind-of / superlative / jurisdiction scope / name-through-of, FR-FORGET-SAID, REF-PLACE-NAME. Partial: held-back conversation and routing items remain. \u00b7 4.9.96 MEA-P slice 1: QC.rankOptions scores options vs archive evidence (DRIFT_TABLE + RSOC_STANDING); forge rtrace.option_ranking; hold when every option above projectable band. Prak\u0101ra ADV survives generate\u2192Echo.",
       "proof": [
         "R481",
         "R496"
@@ -2640,10 +2640,10 @@
     {
       "id": "R497-LANG",
       "name": "Residual generative Echo and assimilation intake",
-      "source": "NEXT_BUILD 4.9.97; AIWEB architecture vision §3.2 (intake only)",
+      "source": "NEXT_BUILD 4.9.97; AIWEB architecture vision \u00a73.2 (intake only)",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.97: cores strip a naming aside (comma or dash, aka, or-alias, reduced relative) before roles; rolesOf keeps a coordinated nominal of any length and does not take a reduced participle as the finite verb when a finite verb still follows; generate binds It/They/He/She to the article subject only on the lead and to a compatible local antecedent past the lead. QC.intakeStanding reads DRIFT_TABLE + RSOC_STANDING + ε_w: projectable offers an explicit remember; contested reuses memory.write and PERM-D10 held writes; hard stop stores nothing. Live lookup is never stored. Shared KB stays empty. χ is the correction function, once, then re-measured.",
+      "note": "4.9.97: cores strip a naming aside (comma or dash, aka, or-alias, reduced relative) before roles; rolesOf keeps a coordinated nominal of any length and does not take a reduced participle as the finite verb when a finite verb still follows; generate binds It/They/He/She to the article subject only on the lead and to a compatible local antecedent past the lead. QC.intakeStanding reads DRIFT_TABLE + RSOC_STANDING + \u03b5_w: projectable offers an explicit remember; contested reuses memory.write and PERM-D10 held writes; hard stop stores nothing. Live lookup is never stored. Shared KB stays empty. \u03c7 is the correction function, once, then re-measured.",
       "proof": [
         "R497"
       ]
@@ -2651,10 +2651,10 @@
     {
       "id": "R498-LANG",
       "name": "Demonstrative reference and year-order stub",
-      "source": "NEXT_BUILD 4.9.98; AIWEB architecture vision §3.3 (temporal stub only)",
+      "source": "NEXT_BUILD 4.9.98; AIWEB architecture vision \u00a73.3 (temporal stub only)",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.98: bare that is a demonstrative pronoun when no nominal follows; this/that take a singular discourse antecedent and these/those a plural one; several still ask unless exactly one candidate answers. Generation treats a finite verb after a determiner, and a plural subject's base verb, as the clause verb, and binds This/That/These/Those by the lead / local-antecedent law. A bare year after from/to/since/until is kāla. Non-overlapping years answer before/after (TEMPORAL-YEAR-ORDER, both facts cited) and are a derived before row plus an interval attribute on world_state. Nothing is written to memory or the shared KB. Months, rates, persistence, and inertia stay out.",
+      "note": "4.9.98: bare that is a demonstrative pronoun when no nominal follows; this/that take a singular discourse antecedent and these/those a plural one; several still ask unless exactly one candidate answers. Generation treats a finite verb after a determiner, and a plural subject's base verb, as the clause verb, and binds This/That/These/Those by the lead / local-antecedent law. A bare year after from/to/since/until is k\u0101la. Non-overlapping years answer before/after (TEMPORAL-YEAR-ORDER, both facts cited) and are a derived before row plus an interval attribute on world_state. Nothing is written to memory or the shared KB. Months, rates, persistence, and inertia stay out.",
       "proof": [
         "R498"
       ]
@@ -2662,10 +2662,10 @@
     {
       "id": "R499-LANG",
       "name": "How-copula coverage and cause-inversion stub",
-      "source": "NEXT_BUILD 4.9.99; AIWEB architecture vision §3.5 (cause/effect stub only)",
+      "source": "NEXT_BUILD 4.9.99; AIWEB architecture vision \u00a73.5 (cause/effect stub only)",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.99: a how-question keeps the noun phrase as the subject. A following participle is the means (Q-WH-HOW-PASSIVE); a following predicate adjective is the how-state predicate. How are you, when-passive, and how-does stay on their own rules. An intervention stays a what-if. A deductive yes/no stays the forward cause chain. What-causes walks stored positive cause links backward: one upstream kartā is cited as the chain (CAUSAL-INVERSION-CHAIN); more than one is cited in full and none is selected (CAUSAL-INVERSION-NONUNIQUE). Nothing is written to memory or the shared KB. A rate measurement that disagrees clears DYN-LEVEL as the asserted mechanism (DYN-MECHANISM-DOWNGRADE) and still reports the equation, the measurement, the conflict, and that the prediction was not replaced.",
+      "note": "4.9.99: a how-question keeps the noun phrase as the subject. A following participle is the means (Q-WH-HOW-PASSIVE); a following predicate adjective is the how-state predicate. How are you, when-passive, and how-does stay on their own rules. An intervention stays a what-if. A deductive yes/no stays the forward cause chain. What-causes walks stored positive cause links backward: one upstream kart\u0101 is cited as the chain (CAUSAL-INVERSION-CHAIN); more than one is cited in full and none is selected (CAUSAL-INVERSION-NONUNIQUE). Nothing is written to memory or the shared KB. A rate measurement that disagrees clears DYN-LEVEL as the asserted mechanism (DYN-MECHANISM-DOWNGRADE) and still reports the equation, the measurement, the conflict, and that the prediction was not replaced.",
       "proof": [
         "R499"
       ]
@@ -2673,7 +2673,7 @@
     {
       "id": "R4100-QTY",
       "name": "Conservation of a stated stock",
-      "source": "NEXT_BUILD 4.9.100; AIWEB architecture vision §3.4 (quantities, units, conservation)",
+      "source": "NEXT_BUILD 4.9.100; AIWEB architecture vision \u00a73.4 (quantities, units, conservation)",
       "wave": "W3",
       "claim": "Partial",
       "note": "4.9.100: a stated stock plus a finite inflow or outflow (an amount, not a rate) is the existing level equation with no time. Same unit: exact sum or difference (DYN-CONSERVATION). A factor already in the volume table (milliliter, qualified US gallon) is applied and stated. An unqualified gallon mixed with another volume unit stays ambiguous. A second dimension, or a unit the table does not define, is the existing no-conversion diagnostic: no number. A missing start asks for the start. Crossing empty or a stated capacity keeps the exact difference and names the bound. Nothing is written to memory or the shared KB. No LLM, embedding, RAG, or learned classifier.",
@@ -2684,7 +2684,7 @@
     {
       "id": "R4101-CF",
       "name": "Counterfactual branch over observed history",
-      "source": "NEXT_BUILD 4.9.101; AIWEB architecture vision §3.6 (counterfactual branches isolated from observed history)",
+      "source": "NEXT_BUILD 4.9.101; AIWEB architecture vision \u00a73.6 (counterfactual branches isolated from observed history)",
       "wave": "W3",
       "claim": "Partial",
       "note": "4.9.101: a Suppose / what-if branch reuses buildWorlds. An active stored or working fact that shares an entity with the turn, and that the world grammar already reads as one atom, is the committed base; the supposition stays the overlay (WM-OBSERVED-BASE). A prefix the proof never cites is dropped. A supposition does not retract an observed fact and writes nothing to memory, world_state, or the shared KB. No second branch store. No new grammar. No LLM, embedding, RAG, or learned classifier.",
@@ -2695,10 +2695,10 @@
     {
       "id": "R4102-MEA",
       "name": "MEA-on-phone learning",
-      "source": "NEXT_BUILD 4.9.102; AIWEB architecture vision §3.7 (revisable rule induction; proposals never auto-act)",
+      "source": "NEXT_BUILD 4.9.102; AIWEB architecture vision \u00a73.7 (revisable rule induction; proposals never auto-act)",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.102: “show the proposals” and “explain the proposals” induce rules from stored facts with the existing evolve.js operators. Promotable hypotheses are spoken. Nothing is written to memory, world_state, drift_archive, admitted_rules, or the shared KB, and a proposal does not answer a question. A user tap admits one rule only when that show passed Echo, the recomputed drift may project (ε_s ≤ 0.35), the replay contradicts nothing, and admissionCheck accepts a replayed proof. Withdrawal is the existing withdrawRule. No shared-KB seed. No LLM, embedding, RAG, or learned classifier.",
+      "note": "4.9.102: \u201cshow the proposals\u201d and \u201cexplain the proposals\u201d induce rules from stored facts with the existing evolve.js operators. Promotable hypotheses are spoken. Nothing is written to memory, world_state, drift_archive, admitted_rules, or the shared KB, and a proposal does not answer a question. A user tap admits one rule only when that show passed Echo, the recomputed drift may project (\u03b5_s \u2264 0.35), the replay contradicts nothing, and admissionCheck accepts a replayed proof. Withdrawal is the existing withdrawRule. No shared-KB seed. No LLM, embedding, RAG, or learned classifier.",
       "proof": [
         "R4102"
       ]
@@ -2706,7 +2706,7 @@
     {
       "id": "R4103-INT",
       "name": "Typed bidirectional intents",
-      "source": "NEXT_BUILD 4.9.103; AIWEB architecture vision §3.8 (full bidirectional language-to-world execution)",
+      "source": "NEXT_BUILD 4.9.103; AIWEB architecture vision \u00a73.8 (full bidirectional language-to-world execution)",
       "wave": "W3",
       "claim": "Partial",
       "note": "4.9.103: every finished turn carries one intent_kind from READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED. The name is taken from the route that already ran. A Suppose branch, a bare Suppose, and a dynamics what-if are SIMULATE. Show/explain proposals and explore ideas are PROPOSE_EVIDENCE. Remember is REQUEST_COMMIT. An Echo failure, a derivation failure, or a forbidden derivation trail is LANGUAGE_UNEXPRESSIBLE: the reply stays empty and nothing is stored. No new grammar. No LLM, embedding, RAG, or learned classifier. Shared KB stays empty.",
@@ -2720,7 +2720,7 @@
       "source": "NEXT_BUILD 4.9.104; MEA_SPEC problem lane (audit gap #2)",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.104: “propose problem physics” runs one cycle of the shipped 144 Hz problem manifest (MEAProblemManifest/v1), separate from the RMC meaning. derive and hypothesize are the registered operators; llm_generate stays non-executable. A candidate is spoken only when DRIFT_TABLE projects (ε_s ≤ 0.35), RSOC_STANDING is stamped, and EDE novelty is bounded. Correction, quarantine, hard stop, over-extended novelty, and the split operator are parked in mea_archive after Echo, append-only. The reply is PROPOSE_EVIDENCE. A tap is still the only commit. Nothing is written to memory, world state, the drift archive, or the shared KB. No LLM, embedding, RAG, or learned classifier.",
+      "note": "4.9.104: \u201cpropose problem physics\u201d runs one cycle of the shipped 144 Hz problem manifest (MEAProblemManifest/v1), separate from the RMC meaning. derive and hypothesize are the registered operators; llm_generate stays non-executable. A candidate is spoken only when DRIFT_TABLE projects (\u03b5_s \u2264 0.35), RSOC_STANDING is stamped, and EDE novelty is bounded. Correction, quarantine, hard stop, over-extended novelty, and the split operator are parked in mea_archive after Echo, append-only. The reply is PROPOSE_EVIDENCE. A tap is still the only commit. Nothing is written to memory, world state, the drift archive, or the shared KB. No LLM, embedding, RAG, or learned classifier.",
       "proof": [
         "R4104"
       ]
@@ -2728,7 +2728,7 @@
     {
       "id": "R4105-WV",
       "name": "Persistent versioned world head",
-      "source": "NEXT_BUILD 4.9.105; WMS §3.7 WorldSnapshot, §4.6 atomic commit, Slice I6 (audit gap #3)",
+      "source": "NEXT_BUILD 4.9.105; WMS \u00a73.7 WorldSnapshot, \u00a74.6 atomic commit, Slice I6 (audit gap #3)",
       "wave": "W3",
       "claim": "Partial",
       "note": "4.9.105: a selectable WorldSnapshot (forge-world-state/v1) with world_id, version_id, parent_versions, content hash, and commit receipt. version_id is not the MemoryStore generation. The head is published only after a staged readback. A failed stage (WV-STAGE-ABORTED) does not select a head and does not save the new projection. The same store reloads the same version_id and hash. A Suppose branch and a conservation step do not move the head. Forgetting a premise withdraws one dependent into the next head. trace.world_version names the head. No bitemporal index. No LLM. Shared KB stays empty.",
@@ -2739,7 +2739,7 @@
     {
       "id": "R4106-DSPC",
       "name": "Dream quarantine and SPC cold storage inspect",
-      "source": "NEXT_BUILD 4.9.106; KERNEL_COMPONENTS §9 R-CONT-1/2/3 (audit gap #4)",
+      "source": "NEXT_BUILD 4.9.106; KERNEL_COMPONENTS \u00a79 R-CONT-1/2/3 (audit gap #4)",
       "wave": "W3",
       "claim": "Partial",
       "note": "4.9.106: show quarantine, show cold storage, and show containment list one live route, a tier or quarantined status, and a short label. A bare Suppose stays dream_state_quarantine_candidate and is not merged into memory or the world head. Forget still says moved to cold storage, keeps correction_queue, and the sealed row remains inspectable as spc_cold_storage_required. tierOf speaks WARM, COLD, or DEEP. resurrect and bring back on a WARM row are a proposal (PROPOSE_EVIDENCE) and do not write memory, the world head, or the shared KB. COLD is refused. kernel.resurrect(id, true) is unchanged. No seventh route. No Christ function. No LLM. Shared KB stays empty.",
@@ -2775,7 +2775,7 @@
       "source": "NEXT_BUILD 4.9.109; audit Page Recommended next core work item 5",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.109: MathContractRegistry lists drift-measure addendum-3/v1, drift-table nic-2026-10-14/v1, chi-correction R-CHI-1/v1, chi-invoke R-CHI-1/invoke/v1, rsoc-select RSOC/v1, and phase-scheme rmc-rpmc/v1 (reconstruction). Turns cite those ids. ROC/CFBC/RSOC numerical equivalence stays SOURCE_NOT_VERIFIED (I.1). The live write law stays Nic 0.35 / 0.40 / 0.80. χ is the correction function only. No LLM. Shared KB stays empty.",
+      "note": "4.9.109: MathContractRegistry lists drift-measure addendum-3/v1, drift-table nic-2026-10-14/v1, chi-correction R-CHI-1/v1, chi-invoke R-CHI-1/invoke/v1, rsoc-select RSOC/v1, and phase-scheme rmc-rpmc/v1 (reconstruction). Turns cite those ids. ROC/CFBC/RSOC numerical equivalence stays SOURCE_NOT_VERIFIED (I.1). The live write law stays Nic 0.35 / 0.40 / 0.80. \u03c7 is the correction function only. No LLM. Shared KB stays empty.",
       "proof": [
         "R4109"
       ]
@@ -2786,7 +2786,7 @@
       "source": "CONFLICTS.md v4.9.83; Nic 2026-10-21 query compiler",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.83: already shipped. The question compiles to kāraka roles and FORGE-QUERY-COMPILED/v1. A source is kept only inside the 0.35 band. Registered in 4.9.110. No new behavior.",
+      "note": "4.9.83: already shipped. The question compiles to k\u0101raka roles and FORGE-QUERY-COMPILED/v1. A source is kept only inside the 0.35 band. Registered in 4.9.110. No new behavior.",
       "proof": [
         "R4110"
       ]
@@ -2830,7 +2830,7 @@
       "source": "CONFLICTS.md v4.9.87",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.87: already shipped. researchPlan realizes the source as the kartā of a reporting verb. Standing uses the one RSOC table. Registered in 4.9.110. No new behavior.",
+      "note": "4.9.87: already shipped. researchPlan realizes the source as the kart\u0101 of a reporting verb. Standing uses the one RSOC table. Registered in 4.9.110. No new behavior.",
       "proof": [
         "R4110"
       ]
@@ -2925,7 +2925,7 @@
     },
     {
       "id": "R496-WHOSE",
-      "name": "Whose, prakāra through Echo, and option rank",
+      "name": "Whose, prak\u0101ra through Echo, and option rank",
       "source": "CONFLICTS.md v4.9.96",
       "wave": "W3",
       "claim": "Partial",
@@ -2951,7 +2951,7 @@
       "source": "CONFLICTS.md v4.9.111",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.111: echo_fail, language_unexpressible, gate_refusal, quarantine, and chi_reroute open as receipts. A spoken answer stays an answer receipt. A dream stays an answer. χ is the correction function only.",
+      "note": "4.9.111: echo_fail, language_unexpressible, gate_refusal, quarantine, and chi_reroute open as receipts. A spoken answer stays an answer receipt. A dream stays an answer. \u03c7 is the correction function only.",
       "proof": [
         "R4111"
       ]
@@ -2984,7 +2984,7 @@
       "source": "CONFLICTS.md v4.9.113",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.113: Audit / Receipts, RMC Memory, and the Identity Vault keep Language corpus, Evidence, Memory, Trace/receipt, and Authority records apart. Each label says presence ≠ truth. No new store.",
+      "note": "4.9.113: Audit / Receipts, RMC Memory, and the Identity Vault keep Language corpus, Evidence, Memory, Trace/receipt, and Authority records apart. Each label says presence \u2260 truth. No new store.",
       "proof": [
         "R4113"
       ]
@@ -3013,11 +3013,11 @@
     },
     {
       "id": "R4114-CUSTODY",
-      "name": "MSM custody is separate from μ_t, evidence, memory, and Echo",
+      "name": "MSM custody is separate from \u03bc_t, evidence, memory, and Echo",
       "source": "CONFLICTS.md v4.9.114",
       "wave": "W3",
       "claim": "Partial",
-      "note": "4.9.114: trace.msm cites reconstructed Doc 2 / MSM-v1 record ids. MSM does not select, execute, write memory, or approve Echo. μ_t, evidence, memory, and Echo stay outside the manifest. A receipt is not written into MSM. Shared KB stays empty.",
+      "note": "4.9.114: trace.msm cites reconstructed Doc 2 / MSM-v1 record ids. MSM does not select, execute, write memory, or approve Echo. \u03bc_t, evidence, memory, and Echo stay outside the manifest. A receipt is not written into MSM. Shared KB stays empty.",
       "proof": [
         "R4114"
       ]
@@ -3160,7 +3160,7 @@
       "source": "CONFLICTS.md v4.9.119",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.119: a proposal, a dream, and a quarantine inspect do not write memory, the world head, or the shared KB. χ is the correction function only. Shared KB stays empty.",
+      "note": "4.9.119: a proposal, a dream, and a quarantine inspect do not write memory, the world head, or the shared KB. \u03c7 is the correction function only. Shared KB stays empty.",
       "proof": [
         "R4119"
       ]
@@ -3193,7 +3193,7 @@
       "source": "CONFLICTS.md v4.9.120",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.120: drift 0.40–0.80 may be spoken as a hypothesis or a speculative branch. A tap commits the idea record only when drift is projectable. Memory, the world head, and the shared KB stay unchanged. Shared KB stays empty.",
+      "note": "4.9.120: drift 0.40\u20130.80 may be spoken as a hypothesis or a speculative branch. A tap commits the idea record only when drift is projectable. Memory, the world head, and the shared KB stay unchanged. Shared KB stays empty.",
       "proof": [
         "R4120"
       ]
@@ -3366,7 +3366,7 @@
     {
       "id": "R4126-SHELL",
       "name": "Calm UI shell chrome and Doc 7 status pills",
-      "source": "CONFLICTS.md v4.9.126; design Page 2376d9f3 §7 Soon",
+      "source": "CONFLICTS.md v4.9.126; design Page 2376d9f3 \u00a77 Soon",
       "wave": "W2",
       "claim": "Partial",
       "note": "4.9.126: typography, spacing, progressive disclosure, and Doc 7 status pills (projectable / contested / quarantine / hypothesis) calm the chrome without deleting power surfaces. Shared KB stays empty.",
@@ -3410,10 +3410,10 @@
     {
       "id": "R4127-LETTER-A",
       "name": "letter packs",
-      "source": "CONFLICTS.md v4.9.138; packs/confirmed_shared/{a…z,index}.json",
+      "source": "CONFLICTS.md v4.9.138; packs/confirmed_shared/{a\u2026z,index}.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.158: hosted A-Z refresh (6388 curated; 6150 admitted). Prefer memory > hosted shared > import > starter. Soft Echo stays parked.",
+      "note": "4.9.159: hosted A-Z refresh (6508 curated; 6270 admitted). Prefer memory > hosted shared > import > starter. Soft Echo stays parked.",
       "proof": [
         "R4127"
       ]
@@ -3432,10 +3432,10 @@
     {
       "id": "R4128-HOSTED",
       "name": "hosted shared KB",
-      "source": "CONFLICTS.md v4.9.158; BRIEF_4.9.128_SHARED_KB_AZ",
+      "source": "CONFLICTS.md v4.9.159; BRIEF_4.9.128_SHARED_KB_AZ",
       "wave": "W2",
       "claim": "Partial",
-      "note": "Hosted A–Z is the shared knowledge source of truth. pullHostedSharedPack loads session RAM for invent/compose. Phone confirmed_shared stays empty. Scrapbook shared_knowledge stays empty.",
+      "note": "Hosted A\u2013Z is the shared knowledge source of truth. pullHostedSharedPack loads session RAM for invent/compose. Phone confirmed_shared stays empty. Scrapbook shared_knowledge stays empty.",
       "proof": [
         "R4128"
       ]
@@ -3454,10 +3454,10 @@
     {
       "id": "R4128-AZ",
       "name": "A-Z corpus",
-      "source": "CONFLICTS.md v4.9.158; packs/confirmed_shared/index.json",
+      "source": "CONFLICTS.md v4.9.159; packs/confirmed_shared/index.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "Index 4.9.158: 26 letters; 6150 items / 6388 curated (≥1890/≥2622). UI/speech: Shared knowledge base.",
+      "note": "Index 4.9.159: 26 letters; 6270 items / 6508 curated (\u22651890/\u22652622). UI/speech: Shared knowledge base.",
       "proof": [
         "R4128"
       ]

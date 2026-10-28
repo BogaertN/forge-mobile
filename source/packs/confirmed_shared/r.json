@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 244,
+ "curated_facts": 254,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1411,6 +1411,66 @@
    "text": "A rift splits a continent",
    "standing": "projectable",
    "evidence": "geography · product curator · Rift · cs_r_rift_02"
+  },
+  {
+   "id": "cs_r_receptor_02",
+   "text": "Receptors bind signal molecules",
+   "standing": "projectable",
+   "evidence": "science · product curator · Receptor · cs_r_receptor_02"
+  },
+  {
+   "id": "cs_r_redox_01",
+   "text": "Redox moves electron pairs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Redox · cs_r_redox_01"
+  },
+  {
+   "id": "cs_r_reef_05",
+   "text": "Coral builds shallow reefs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reef · cs_r_reef_05"
+  },
+  {
+   "id": "cs_r_remora_04",
+   "text": "Remoras hitch shark rides",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Remora · cs_r_remora_04"
+  },
+  {
+   "id": "cs_r_resin_06",
+   "text": "Resin seals tree wounds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Resin · cs_r_resin_06"
+  },
+  {
+   "id": "cs_r_ridge_02",
+   "text": "A ridge lifts ocean floor",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ridge · cs_r_ridge_02"
+  },
+  {
+   "id": "cs_r_rift_03",
+   "text": "A rift splits crust plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rift · cs_r_rift_03"
+  },
+  {
+   "id": "cs_r_rodent_03",
+   "text": "Rodents gnaw hard seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rodent · cs_r_rodent_03"
+  },
+  {
+   "id": "cs_r_rust_04",
+   "text": "Oxygen rusts iron surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rust · cs_r_rust_04"
+  },
+  {
+   "id": "cs_r_rutile_01",
+   "text": "Rutile yields titanium ore",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rutile · cs_r_rutile_01"
   }
  ]
 }

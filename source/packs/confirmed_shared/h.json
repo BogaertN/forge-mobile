@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 245,
+ "curated_facts": 255,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1411,6 +1411,66 @@
    "text": "Stars burn hydrogen fuel",
    "standing": "projectable",
    "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_06"
+  },
+  {
+   "id": "cs_h_hadrons_01",
+   "text": "Hadrons bind quark matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hadrons · cs_h_hadrons_01"
+  },
+  {
+   "id": "cs_h_half_life_01",
+   "text": "Half-life ranks decay speed",
+   "standing": "projectable",
+   "evidence": "science · product curator · Half-life · cs_h_half_life_01"
+  },
+  {
+   "id": "cs_h_halite_01",
+   "text": "Halite forms salt beds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Halite · cs_h_halite_01"
+  },
+  {
+   "id": "cs_h_hardwood_01",
+   "text": "Hardwood yields dense timber",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hardwood · cs_h_hardwood_01"
+  },
+  {
+   "id": "cs_h_hertz_06",
+   "text": "Hertz ranks wave frequency",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hertz · cs_h_hertz_06"
+  },
+  {
+   "id": "cs_h_homeostasis_01",
+   "text": "Homeostasis steadies body state",
+   "standing": "projectable",
+   "evidence": "science · product curator · Homeostasis · cs_h_homeostasis_01"
+  },
+  {
+   "id": "cs_h_hot_spot_01",
+   "text": "A hot spot melts plate rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hot spot · cs_h_hot_spot_01"
+  },
+  {
+   "id": "cs_h_hybrid_03",
+   "text": "Hybrids mix parent traits",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_03"
+  },
+  {
+   "id": "cs_h_hydrogen_07",
+   "text": "Hydrogen fuels fusion cores",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_07"
+  },
+  {
+   "id": "cs_h_hypha_01",
+   "text": "Hyphae spread fungus networks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hypha · cs_h_hypha_01"
   }
  ]
 }
