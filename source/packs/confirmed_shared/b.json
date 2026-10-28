@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 172,
+ "curated_facts": 179,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1003,6 +1003,48 @@
    "text": "Braille uses raised dots",
    "standing": "projectable",
    "evidence": "language · product curator · Braille · cs_b_braille_04"
+  },
+  {
+   "id": "cs_b_bark_01",
+   "text": "Tree bark protects the trunk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bark · cs_b_bark_01"
+  },
+  {
+   "id": "cs_b_barnacle_01",
+   "text": "A barnacle clings to rocks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Barnacle · cs_b_barnacle_01"
+  },
+  {
+   "id": "cs_b_beacon_01",
+   "text": "A beacon warns ships",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Beacon · cs_b_beacon_01"
+  },
+  {
+   "id": "cs_b_beaker_01",
+   "text": "Chemists pour liquid into a beaker",
+   "standing": "projectable",
+   "evidence": "science · product curator · Beaker · cs_b_beaker_01"
+  },
+  {
+   "id": "cs_b_bell_01",
+   "text": "A bell rings at noon",
+   "standing": "projectable",
+   "evidence": "history · product curator · Bell · cs_b_bell_01"
+  },
+  {
+   "id": "cs_b_berry_01",
+   "text": "A berry is a small fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Berry · cs_b_berry_01"
+  },
+  {
+   "id": "cs_b_bicarbonate_01",
+   "text": "Baking soda is sodium bicarbonate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bicarbonate · cs_b_bicarbonate_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 170,
+ "curated_facts": 180,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -991,6 +991,66 @@
    "text": "Potters shape clay",
    "standing": "projectable",
    "evidence": "geography · product curator · Clay · cs_c_clay_02"
+  },
+  {
+   "id": "cs_c_canal_02",
+   "text": "Barges travel on a canal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Canal · cs_c_canal_02"
+  },
+  {
+   "id": "cs_c_canopy_02",
+   "text": "Trees form a forest canopy",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_02"
+  },
+  {
+   "id": "cs_c_cartilage_01",
+   "text": "Cartilage cushions joints",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cartilage · cs_c_cartilage_01"
+  },
+  {
+   "id": "cs_c_chorus_01",
+   "text": "A chorus sings together",
+   "standing": "projectable",
+   "evidence": "language · product curator · Chorus · cs_c_chorus_01"
+  },
+  {
+   "id": "cs_c_chromium_01",
+   "text": "Chromium hardens steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chromium · cs_c_chromium_01"
+  },
+  {
+   "id": "cs_c_cocoon_01",
+   "text": "A moth spins a cocoon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cocoon · cs_c_cocoon_01"
+  },
+  {
+   "id": "cs_c_citizen_02",
+   "text": "A citizen holds civic rights",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Citizen · cs_c_citizen_02"
+  },
+  {
+   "id": "cs_c_citizen_03",
+   "text": "Citizens vote in a republic",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Citizen · cs_c_citizen_03"
+  },
+  {
+   "id": "cs_c_clause_02",
+   "text": "A clause has a subject and verb",
+   "standing": "projectable",
+   "evidence": "language · product curator · Clause · cs_c_clause_02"
+  },
+  {
+   "id": "cs_c_cliff_01",
+   "text": "A cliff drops steeply",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cliff · cs_c_cliff_01"
   }
  ]
 }
