@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 160,
+ "curated_facts": 168,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -901,6 +901,54 @@
    "text": "Justice is a goal of the legal system",
    "standing": "projectable",
    "evidence": "civics · product curator · Justice · cs_j_justice_03"
+  },
+  {
+   "id": "cs_j_jazz_05",
+   "text": "Jazz is an American music form",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jazz · cs_j_jazz_05"
+  },
+  {
+   "id": "cs_j_june_02",
+   "text": "June is the sixth month",
+   "standing": "projectable",
+   "evidence": "civics · product curator · June · cs_j_june_02"
+  },
+  {
+   "id": "cs_j_journal_02",
+   "text": "A journal is a written personal record",
+   "standing": "projectable",
+   "evidence": "language · product curator · Journal · cs_j_journal_02"
+  },
+  {
+   "id": "cs_j_jury_04",
+   "text": "A jury decides a verdict",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Jury · cs_j_jury_04"
+  },
+  {
+   "id": "cs_j_jade_04",
+   "text": "Jade is carved into ornaments",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jade · cs_j_jade_04"
+  },
+  {
+   "id": "cs_j_jay_06",
+   "text": "A jay is a colorful songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_06"
+  },
+  {
+   "id": "cs_j_jasper_03",
+   "text": "Jasper is used as a gemstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jasper · cs_j_jasper_03"
+  },
+  {
+   "id": "cs_j_july_03",
+   "text": "July follows June",
+   "standing": "projectable",
+   "evidence": "civics · product curator · July · cs_j_july_03"
   }
  ]
 }
