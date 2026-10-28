@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 170,
+ "curated_facts": 173,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -973,6 +973,24 @@
    "text": "Lymph is a clear body fluid",
    "standing": "projectable",
    "evidence": "science · product curator · Lymph · cs_l_lymph_01"
+  },
+  {
+   "id": "cs_l_lid_01",
+   "text": "A pot has a lid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lid · cs_l_lid_01"
+  },
+  {
+   "id": "cs_l_legend_01",
+   "text": "A map has a legend",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Legend · cs_l_legend_01"
+  },
+  {
+   "id": "cs_l_loan_01",
+   "text": "A bank makes a loan",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Loan · cs_l_loan_01"
   }
  ]
 }
