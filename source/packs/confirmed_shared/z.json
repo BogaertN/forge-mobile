@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 136,
+ "curated_facts": 140,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -691,6 +691,30 @@
    "text": "Zimbabwe has no coast",
    "standing": "projectable",
    "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_08"
+  },
+  {
+   "id": "cs_z_zen_buddhism_01",
+   "text": "Zen Buddhism emphasizes meditation",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zen Buddhism · cs_z_zen_buddhism_01"
+  },
+  {
+   "id": "cs_z_zebra_crossing_01",
+   "text": "A zebra crossing is a marked pedestrian crosswalk",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zebra crossing · cs_z_zebra_crossing_01"
+  },
+  {
+   "id": "cs_z_zero_gravity_01",
+   "text": "Zero gravity is weightlessness",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zero gravity · cs_z_zero_gravity_01"
+  },
+  {
+   "id": "cs_z_zinc_oxide_01",
+   "text": "Zinc oxide is a white compound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_01"
   }
  ]
 }
