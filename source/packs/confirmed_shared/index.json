@@ -2,7 +2,7 @@
  "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
  "provenance": "confirmed_shared",
  "who_confirmed": "product_curator",
- "version": "4.9.152",
+ "version": "4.9.153",
  "letters": [
   "a",
   "b",
@@ -53,32 +53,32 @@
   "d": {
    "path": "d.json",
    "letter": "D",
-   "items": 207,
-   "curated_facts": 219
+   "items": 217,
+   "curated_facts": 229
   },
   "e": {
    "path": "e.json",
    "letter": "E",
-   "items": 206,
-   "curated_facts": 211
+   "items": 216,
+   "curated_facts": 221
   },
   "f": {
    "path": "f.json",
    "letter": "F",
-   "items": 206,
-   "curated_facts": 215
+   "items": 216,
+   "curated_facts": 225
   },
   "g": {
    "path": "g.json",
    "letter": "G",
-   "items": 206,
-   "curated_facts": 213
+   "items": 216,
+   "curated_facts": 223
   },
   "h": {
    "path": "h.json",
    "letter": "H",
-   "items": 206,
-   "curated_facts": 217
+   "items": 216,
+   "curated_facts": 227
   },
   "i": {
    "path": "i.json",
@@ -107,14 +107,14 @@
   "m": {
    "path": "m.json",
    "letter": "M",
-   "items": 206,
-   "curated_facts": 211
+   "items": 216,
+   "curated_facts": 221
   },
   "n": {
    "path": "n.json",
    "letter": "N",
-   "items": 207,
-   "curated_facts": 214
+   "items": 217,
+   "curated_facts": 224
   },
   "o": {
    "path": "o.json",
@@ -125,8 +125,8 @@
   "p": {
    "path": "p.json",
    "letter": "P",
-   "items": 206,
-   "curated_facts": 214
+   "items": 216,
+   "curated_facts": 224
   },
   "q": {
    "path": "q.json",
@@ -137,8 +137,8 @@
   "r": {
    "path": "r.json",
    "letter": "R",
-   "items": 206,
-   "curated_facts": 216
+   "items": 216,
+   "curated_facts": 226
   },
   "s": {
    "path": "s.json",
@@ -155,14 +155,14 @@
   "u": {
    "path": "u.json",
    "letter": "U",
-   "items": 206,
-   "curated_facts": 218
+   "items": 216,
+   "curated_facts": 228
   },
   "v": {
    "path": "v.json",
    "letter": "V",
-   "items": 206,
-   "curated_facts": 214
+   "items": 216,
+   "curated_facts": 224
   },
   "w": {
    "path": "w.json",
@@ -173,8 +173,8 @@
   "x": {
    "path": "x.json",
    "letter": "X",
-   "items": 206,
-   "curated_facts": 215
+   "items": 216,
+   "curated_facts": 225
   },
   "y": {
    "path": "y.json",
@@ -189,6 +189,6 @@
    "curated_facts": 233
   }
  },
- "total_items": 5430,
- "total_curated": 5668
+ "total_items": 5550,
+ "total_curated": 5788
 }
