@@ -216,8 +216,8 @@ function run() {
       os_process_pool: false,
       integrity_high: 0.85,
       integrity_meter: 'when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.',
-      note: '4.9.170 idle dream: Gilligan gap-fill on idle ticks only (answering yields). Athena admit defaults on and spawns declared helpers (resonance_place, pack_append) with Spawn, Run, Hibernate, Retire, Resurrect in-process. Neo is the Ask surface. Explicit eps null is unmeasured. Quarantine does not write confirmed_shared or packs. No LLM. OS process pool is 4.9.171. ChristPing is not built. Write law unchanged.',
-      where: ['src/dream_idle.js', 'src/kmath.js driftGovernance', 'src/kmath.js chiCorrect', 'src/kmath.js graceOverAncestors', 'verify/r4170_suite.js'],
+      note: '4.9.171 idle dream mesh: Gilligan gap-fill on idle ticks only (answering pauses every helper). Athena maySpawn and mayAdmit. One enforcer per policy domain. Caps 8 living helpers, 4 per parent, 8 spawns per idle window. Spawn, run, hibernate, retire, resurrect stay in-process. Retire writes a hashed cold record. Research resurrection requires drift at or under 0.35 and integrity at least 0.85. Explicit eps null is unmeasured. Every spawn and result is a resonance packet or an idle-dream packet. Quarantine does not write confirmed_shared or packs. No LLM. No OS process pool. ChristPing is not built. Write law unchanged.',
+      where: ['src/dream_idle.js', 'src/kmath.js driftGovernance', 'src/kmath.js chiCorrect', 'src/kmath.js graceOverAncestors', 'verify/r4171_suite.js', 'verify/r4170_suite.js'],
       cite: 'Nic drift ruling 2026-10-14; RPMC §3 χ; §3.4 Grace Integral; E-05 quarantine honesty'
     }
   };
@@ -256,7 +256,7 @@ function markdown(report) {
     lines.push('status ' + report.answer_path_grace.status + '. ' + (report.answer_path_grace.note || ''));
     lines.push('');
   }
-  lines.push('## Idle dream router (4.9.170)');
+  lines.push('## Idle dream router (4.9.171)');
   lines.push('');
   if (report.idle_dream_router) {
     lines.push('status ' + report.idle_dream_router.status + '. ' + (report.idle_dream_router.note || ''));
