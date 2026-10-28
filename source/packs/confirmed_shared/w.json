@@ -12,1501 +12,2751 @@
    "id": "cs_w_warsaw_01",
    "text": "The Vistula flows through Warsaw",
    "standing": "projectable",
-   "evidence": "geography · product curator · Warsaw · cs_w_warsaw_01"
+   "evidence": "geography · product curator · Warsaw · cs_w_warsaw_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wellington_01",
    "text": "Wellington is the capital of New Zealand",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wellington · cs_w_wellington_01"
+   "evidence": "geography · product curator · Wellington · cs_w_wellington_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wellington_02",
    "text": "Wellington is the southernmost capital of a sovereign state",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wellington · cs_w_wellington_02"
+   "evidence": "geography · product curator · Wellington · cs_w_wellington_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_windhoek_01",
    "text": "Windhoek is the capital of Namibia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Windhoek · cs_w_windhoek_01"
+   "evidence": "geography · product curator · Windhoek · cs_w_windhoek_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wales_01",
    "text": "Cardiff is the capital of Wales",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wales · cs_w_wales_01"
+   "evidence": "geography · product curator · Wales · cs_w_wales_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_western_sahara_01",
    "text": "Western Sahara is a territory in northwest Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Western Sahara · cs_w_western_sahara_01"
+   "evidence": "geography · product curator · Western Sahara · cs_w_western_sahara_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_state_01",
    "text": "Olympia is the capital of Washington State",
    "standing": "projectable",
-   "evidence": "geography · product curator · Washington (state) · cs_w_washington_state_01"
+   "evidence": "geography · product curator · Washington (state) · cs_w_washington_state_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_west_virginia_01",
    "text": "Charleston is the capital of West Virginia",
    "standing": "projectable",
-   "evidence": "geography · product curator · West Virginia · cs_w_west_virginia_01"
+   "evidence": "geography · product curator · West Virginia · cs_w_west_virginia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wisconsin_01",
    "text": "Madison is the capital of Wisconsin",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wisconsin · cs_w_wisconsin_01"
+   "evidence": "geography · product curator · Wisconsin · cs_w_wisconsin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wyoming_01",
    "text": "Cheyenne is the capital of Wyoming",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wyoming · cs_w_wyoming_01"
+   "evidence": "geography · product curator · Wyoming · cs_w_wyoming_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_nile_01",
    "text": "The White Nile meets the Blue Nile at Khartoum",
    "standing": "projectable",
-   "evidence": "geography · product curator · White Nile · cs_w_white_nile_01"
+   "evidence": "geography · product curator · White Nile · cs_w_white_nile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_waterfall_01",
    "text": "Angel Falls is the tallest uninterrupted waterfall in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Waterfall · cs_w_waterfall_01"
+   "evidence": "geography · product curator · Waterfall · cs_w_waterfall_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wetland_01",
    "text": "A wetland is land saturated with water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wetland · cs_w_wetland_01"
+   "evidence": "geography · product curator · Wetland · cs_w_wetland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_01",
    "text": "Water has the chemical formula H2O",
    "standing": "projectable",
-   "evidence": "science · product curator · Water · cs_w_water_01"
+   "evidence": "science · product curator · Water · cs_w_water_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_02",
    "text": "Water expands when it freezes",
    "standing": "projectable",
-   "evidence": "science · product curator · Water · cs_w_water_02"
+   "evidence": "science · product curator · Water · cs_w_water_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_cycle_01",
    "text": "The water cycle includes evaporation, condensation, and precipitation",
    "standing": "projectable",
-   "evidence": "science · product curator · Water cycle · cs_w_water_cycle_01"
+   "evidence": "science · product curator · Water cycle · cs_w_water_cycle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watt_01",
    "text": "The watt is the SI unit of power",
    "standing": "projectable",
-   "evidence": "science · product curator · Watt · cs_w_watt_01"
+   "evidence": "science · product curator · Watt · cs_w_watt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wavelength_01",
    "text": "Wavelength is the distance between successive wave crests",
    "standing": "projectable",
-   "evidence": "science · product curator · Wavelength · cs_w_wavelength_01"
+   "evidence": "science · product curator · Wavelength · cs_w_wavelength_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weight_01",
    "text": "Weight is the force of gravity on a mass",
    "standing": "projectable",
-   "evidence": "science · product curator · Weight · cs_w_weight_01"
+   "evidence": "science · product curator · Weight · cs_w_weight_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_dwarf_01",
    "text": "A white dwarf is the dense remnant of a low-mass star",
    "standing": "projectable",
-   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_01"
+   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weather_01",
    "text": "Weather is the state of the atmosphere at a place and time",
    "standing": "projectable",
-   "evidence": "science · product curator · Weather · cs_w_weather_01"
+   "evidence": "science · product curator · Weather · cs_w_weather_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wind_01",
    "text": "Wind is the movement of air",
    "standing": "projectable",
-   "evidence": "science · product curator · Wind · cs_w_wind_01"
+   "evidence": "science · product curator · Wind · cs_w_wind_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wedge_01",
    "text": "A wedge is a simple machine",
    "standing": "projectable",
-   "evidence": "science · product curator · Wedge · cs_w_wedge_01"
+   "evidence": "science · product curator · Wedge · cs_w_wedge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheel_and_axle_01",
    "text": "The wheel and axle is a simple machine",
    "standing": "projectable",
-   "evidence": "science · product curator · Wheel and axle · cs_w_wheel_and_axle_01"
+   "evidence": "science · product curator · Wheel and axle · cs_w_wheel_and_axle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_blood_cell_01",
    "text": "White blood cells fight infection",
    "standing": "projectable",
-   "evidence": "science · product curator · White blood cell · cs_w_white_blood_cell_01"
+   "evidence": "science · product curator · White blood cell · cs_w_white_blood_cell_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whale_01",
    "text": "Whales are mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whale · cs_w_whale_01"
+   "evidence": "nature · product curator · Whale · cs_w_whale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whale_02",
    "text": "Whales breathe through blowholes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whale · cs_w_whale_02"
+   "evidence": "nature · product curator · Whale · cs_w_whale_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolf_01",
    "text": "Wolves are the largest wild members of the dog family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wolf · cs_w_wolf_01"
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walrus_01",
    "text": "The walrus has long tusks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Walrus · cs_w_walrus_01"
+   "evidence": "nature · product curator · Walrus · cs_w_walrus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walrus_02",
    "text": "The walrus lives in the Arctic",
    "standing": "projectable",
-   "evidence": "nature · product curator · Walrus · cs_w_walrus_02"
+   "evidence": "nature · product curator · Walrus · cs_w_walrus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_woodpecker_01",
    "text": "Woodpeckers peck holes in trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_01"
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wombat_01",
    "text": "Wombats are marsupials from Australia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wombat · cs_w_wombat_01"
+   "evidence": "nature · product curator · Wombat · cs_w_wombat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wasp_01",
    "text": "Wasps are insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wasp · cs_w_wasp_01"
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warthog_01",
    "text": "Warthogs are wild pigs of Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Warthog · cs_w_warthog_01"
+   "evidence": "nature · product curator · Warthog · cs_w_warthog_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weasel_01",
    "text": "Weasels are small carnivorous mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Weasel · cs_w_weasel_01"
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whale_shark_01",
    "text": "The whale shark is the largest living fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_01"
+   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_willow_01",
    "text": "Willow trees often grow near water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Willow · cs_w_willow_01"
+   "evidence": "nature · product curator · Willow · cs_w_willow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheat_01",
    "text": "Wheat is a cereal grain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wheat · cs_w_wheat_01"
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheat_02",
    "text": "Flour is commonly made from wheat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wheat · cs_w_wheat_02"
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wildflower_01",
    "text": "A wildflower grows without cultivation",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wildflower · cs_w_wildflower_01"
+   "evidence": "nature · product curator · Wildflower · cs_w_wildflower_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_george_01",
    "text": "George Washington was the first president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Washington, George · cs_w_washington_george_01"
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_george_02",
    "text": "George Washington served two terms as president",
    "standing": "projectable",
-   "evidence": "history · product curator · Washington, George · cs_w_washington_george_02"
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wright_brothers_01",
    "text": "The Wright brothers made the first powered airplane flight in 1903",
    "standing": "projectable",
-   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_01"
+   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wright_brothers_02",
    "text": "The Wright brothers first flew at Kitty Hawk",
    "standing": "projectable",
-   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_02"
+   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_world_war_i_01",
    "text": "The First World War lasted from 1914 to 1918",
    "standing": "projectable",
-   "evidence": "history · product curator · World War I · cs_w_world_war_i_01"
+   "evidence": "history · product curator · World War I · cs_w_world_war_i_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_world_war_ii_01",
    "text": "World War II lasted from 1939 to 1945",
    "standing": "projectable",
-   "evidence": "history · product curator · World War II · cs_w_world_war_ii_01"
+   "evidence": "history · product curator · World War II · cs_w_world_war_ii_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_waterloo_battle_of_01",
    "text": "The Battle of Waterloo took place in present day Belgium",
    "standing": "projectable",
-   "evidence": "history · product curator · Waterloo, Battle of · cs_w_waterloo_battle_of_01"
+   "evidence": "history · product curator · Waterloo, Battle of · cs_w_waterloo_battle_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_william_the_conqueror_01",
    "text": "William became king of England in 1066",
    "standing": "projectable",
-   "evidence": "history · product curator · William the Conqueror · cs_w_william_the_conqueror_01"
+   "evidence": "history · product curator · William the Conqueror · cs_w_william_the_conqueror_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watt_james_01",
    "text": "James Watt improved the steam engine",
    "standing": "projectable",
-   "evidence": "history · product curator · Watt, James · cs_w_watt_james_01"
+   "evidence": "history · product curator · Watt, James · cs_w_watt_james_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wilson_woodrow_01",
    "text": "Woodrow Wilson was the 28th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Wilson, Woodrow · cs_w_wilson_woodrow_01"
+   "evidence": "history · product curator · Wilson, Woodrow · cs_w_wilson_woodrow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_house_01",
    "text": "The White House is the official residence of the American president",
    "standing": "projectable",
-   "evidence": "civics · product curator · White House · cs_w_white_house_01"
+   "evidence": "civics · product curator · White House · cs_w_white_house_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_house_02",
    "text": "The White House is on Pennsylvania Avenue",
    "standing": "projectable",
-   "evidence": "civics · product curator · White House · cs_w_white_house_02"
+   "evidence": "civics · product curator · White House · cs_w_white_house_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_monument_01",
    "text": "The Washington Monument is an obelisk",
    "standing": "projectable",
-   "evidence": "history · product curator · Washington Monument · cs_w_washington_monument_01"
+   "evidence": "history · product curator · Washington Monument · cs_w_washington_monument_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whole_number_01",
    "text": "Whole numbers are the non-negative integers",
    "standing": "projectable",
-   "evidence": "math · product curator · Whole number · cs_w_whole_number_01"
+   "evidence": "math · product curator · Whole number · cs_w_whole_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_week_01",
    "text": "A week has seven days",
    "standing": "projectable",
-   "evidence": "math · product curator · Week · cs_w_week_01"
+   "evidence": "math · product curator · Week · cs_w_week_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weight_unit_01",
    "text": "A kilogram is about 2.2 pounds",
    "standing": "projectable",
-   "evidence": "math · product curator · Weight unit · cs_w_weight_unit_01"
+   "evidence": "math · product curator · Weight unit · cs_w_weight_unit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_welsh_01",
    "text": "Welsh is a Celtic language",
    "standing": "projectable",
-   "evidence": "language · product curator · Welsh · cs_w_welsh_01"
+   "evidence": "language · product curator · Welsh · cs_w_welsh_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wednesday_01",
    "text": "Wednesday is named after the god Woden",
    "standing": "projectable",
-   "evidence": "language · product curator · Wednesday · cs_w_wednesday_01"
+   "evidence": "language · product curator · Wednesday · cs_w_wednesday_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wimbledon_01",
    "text": "Wimbledon is the oldest tennis tournament in the world",
    "standing": "projectable",
-   "evidence": "general · product curator · Wimbledon · cs_w_wimbledon_01"
+   "evidence": "general · product curator · Wimbledon · cs_w_wimbledon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wimbledon_02",
    "text": "Wimbledon is played on grass courts",
    "standing": "projectable",
-   "evidence": "general · product curator · Wimbledon · cs_w_wimbledon_02"
+   "evidence": "general · product curator · Wimbledon · cs_w_wimbledon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_world_cup_01",
    "text": "The World Cup happens every four years",
    "standing": "projectable",
-   "evidence": "general · product curator · World Cup · cs_w_world_cup_01"
+   "evidence": "general · product curator · World Cup · cs_w_world_cup_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_polo_01",
    "text": "Water polo is played in a swimming pool",
    "standing": "projectable",
-   "evidence": "general · product curator · Water polo · cs_w_water_polo_01"
+   "evidence": "general · product curator · Water polo · cs_w_water_polo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_winter_01",
    "text": "Winter in the Northern Hemisphere begins around the December solstice",
    "standing": "projectable",
-   "evidence": "science · product curator · Winter · cs_w_winter_01"
+   "evidence": "science · product curator · Winter · cs_w_winter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_winter_solstice_01",
    "text": "The winter solstice has the least daylight of the year in its hemisphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Winter solstice · cs_w_winter_solstice_01"
+   "evidence": "science · product curator · Winter solstice · cs_w_winter_solstice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wales_02",
    "text": "Wales is part of the United Kingdom",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wales · cs_w_wales_02"
+   "evidence": "geography · product curator · Wales · cs_w_wales_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warsaw_02",
    "text": "Warsaw is the largest city in Poland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Warsaw · cs_w_warsaw_02"
+   "evidence": "geography · product curator · Warsaw · cs_w_warsaw_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_d_c_01",
    "text": "Washington lies on the Potomac",
    "standing": "projectable",
-   "evidence": "geography · product curator · Washington, D.C. · cs_w_washington_d_c_01"
+   "evidence": "geography · product curator · Washington, D.C. · cs_w_washington_d_c_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wyoming_03",
    "text": "Wyoming has the smallest population of any state",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wyoming · cs_w_wyoming_03"
+   "evidence": "geography · product curator · Wyoming · cs_w_wyoming_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_woolly_mammoth_01",
    "text": "Woolly mammoths are extinct relatives of elephants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Woolly mammoth · cs_w_woolly_mammoth_01"
+   "evidence": "nature · product curator · Woolly mammoth · cs_w_woolly_mammoth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wren_01",
    "text": "Wrens are small songbirds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wren · cs_w_wren_01"
+   "evidence": "nature · product curator · Wren · cs_w_wren_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wisteria_01",
    "text": "Wisteria is a climbing plant with hanging flower clusters",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_01"
+   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wool_01",
    "text": "Wool comes mostly from sheep",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wool · cs_w_wool_01"
+   "evidence": "nature · product curator · Wool · cs_w_wool_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wing_01",
    "text": "The wings of bats are made of skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wing · cs_w_wing_01"
+   "evidence": "nature · product curator · Wing · cs_w_wing_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wellington_boot_01",
    "text": "Wellington boots are waterproof boots",
    "standing": "projectable",
-   "evidence": "general · product curator · Wellington boot · cs_w_wellington_boot_01"
+   "evidence": "general · product curator · Wellington boot · cs_w_wellington_boot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_written_constitution_01",
    "text": "The American Constitution is the oldest written constitution in use",
    "standing": "projectable",
-   "evidence": "civics · product curator · Written constitution · cs_w_written_constitution_01"
+   "evidence": "civics · product curator · Written constitution · cs_w_written_constitution_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_03",
    "text": "Water is made of hydrogen and oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Water · cs_w_water_03"
+   "evidence": "science · product curator · Water · cs_w_water_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_04",
    "text": "Water boils at 100 degrees Celsius at sea level",
    "standing": "projectable",
-   "evidence": "science · product curator · Water · cs_w_water_04"
+   "evidence": "science · product curator · Water · cs_w_water_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wavelength_02",
    "text": "Wavelength is the distance between wave crests",
    "standing": "projectable",
-   "evidence": "science · product curator · Wavelength · cs_w_wavelength_02"
+   "evidence": "science · product curator · Wavelength · cs_w_wavelength_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_woodpecker_02",
    "text": "Woodpeckers drill into trees with their beaks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_02"
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolf_02",
    "text": "Wolves live in packs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wolf · cs_w_wolf_02"
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_george_03",
    "text": "George Washington was the first American president",
    "standing": "projectable",
-   "evidence": "history · product curator · Washington, George · cs_w_washington_george_03"
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_world_war_ii_02",
    "text": "World War II ended in 1945",
    "standing": "projectable",
-   "evidence": "history · product curator · World War II · cs_w_world_war_ii_02"
+   "evidence": "history · product curator · World War II · cs_w_world_war_ii_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_world_war_i_02",
    "text": "The First World War began in 1914",
    "standing": "projectable",
-   "evidence": "history · product curator · World War I · cs_w_world_war_i_02"
+   "evidence": "history · product curator · World War I · cs_w_world_war_i_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_d_c_02",
    "text": "The White House is in Washington",
    "standing": "projectable",
-   "evidence": "geography · product curator · Washington, D.C. · cs_w_washington_d_c_02"
+   "evidence": "geography · product curator · Washington, D.C. · cs_w_washington_d_c_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_west_bank_01",
    "text": "The West Bank is west of the Jordan",
    "standing": "projectable",
-   "evidence": "geography · product curator · West Bank · cs_w_west_bank_01"
+   "evidence": "geography · product curator · West Bank · cs_w_west_bank_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_nile_02",
    "text": "The White Nile and Blue Nile meet at Khartoum",
    "standing": "projectable",
-   "evidence": "geography · product curator · White Nile · cs_w_white_nile_02"
+   "evidence": "geography · product curator · White Nile · cs_w_white_nile_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weather_02",
    "text": "Weather describes conditions in the atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Weather · cs_w_weather_02"
+   "evidence": "science · product curator · Weather · cs_w_weather_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watt_02",
    "text": "The watt is the unit of power",
    "standing": "projectable",
-   "evidence": "science · product curator · Watt · cs_w_watt_02"
+   "evidence": "science · product curator · Watt · cs_w_watt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walnut_01",
    "text": "Walnuts grow on trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Walnut · cs_w_walnut_01"
+   "evidence": "nature · product curator · Walnut · cs_w_walnut_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wren_02",
    "text": "Wrens are small brown songbirds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wren · cs_w_wren_02"
+   "evidence": "nature · product curator · Wren · cs_w_wren_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_willow_02",
    "text": "Willows often grow near water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Willow · cs_w_willow_02"
+   "evidence": "nature · product curator · Willow · cs_w_willow_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wasp_02",
    "text": "Some wasps can sting many times",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wasp · cs_w_wasp_02"
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whale_shark_02",
    "text": "The whale shark is the largest fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_02"
+   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_waterloo_battle_of_02",
    "text": "The Battle of Waterloo was fought in 1815",
    "standing": "projectable",
-   "evidence": "history · product curator · Waterloo, Battle of · cs_w_waterloo_battle_of_02"
+   "evidence": "history · product curator · Waterloo, Battle of · cs_w_waterloo_battle_of_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_house_03",
    "text": "The White House is the home of the American president",
    "standing": "projectable",
-   "evidence": "civics · product curator · White House · cs_w_white_house_03"
+   "evidence": "civics · product curator · White House · cs_w_white_house_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walrus_03",
    "text": "A walrus has tusks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Walrus · cs_w_walrus_03"
+   "evidence": "nature · product curator · Walrus · cs_w_walrus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolf_03",
    "text": "A wolf is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wolf · cs_w_wolf_03"
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walrus_tusk_01",
    "text": "Walrus tusks are elongated canine teeth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Walrus tusk · cs_w_walrus_tusk_01"
+   "evidence": "nature · product curator · Walrus tusk · cs_w_walrus_tusk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whooping_crane_01",
    "text": "The whooping crane is the tallest bird in North America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whooping crane · cs_w_whooping_crane_01"
+   "evidence": "nature · product curator · Whooping crane · cs_w_whooping_crane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolfram_01",
    "text": "Wolfram is another name for tungsten",
    "standing": "projectable",
-   "evidence": "science · product curator · Wolfram · cs_w_wolfram_01"
+   "evidence": "science · product curator · Wolfram · cs_w_wolfram_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wildcat_01",
    "text": "The wildcat is a small wild cat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wildcat · cs_w_wildcat_01"
+   "evidence": "nature · product curator · Wildcat · cs_w_wildcat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walt_whitman_01",
    "text": "Walt Whitman wrote Leaves of Grass",
    "standing": "projectable",
-   "evidence": "history · product curator · Walt Whitman · cs_w_walt_whitman_01"
+   "evidence": "history · product curator · Walt Whitman · cs_w_walt_whitman_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_martha_01",
    "text": "Martha Washington was the first First Lady",
    "standing": "projectable",
-   "evidence": "history · product curator · Washington, Martha · cs_w_washington_martha_01"
+   "evidence": "history · product curator · Washington, Martha · cs_w_washington_martha_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wall_street_01",
    "text": "Wall Street is in New York City",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wall Street · cs_w_wall_street_01"
+   "evidence": "geography · product curator · Wall Street · cs_w_wall_street_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weathering_01",
    "text": "Weathering breaks down rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Weathering · cs_w_weathering_01"
+   "evidence": "science · product curator · Weathering · cs_w_weathering_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weekday_01",
    "text": "A weekday is a day from Monday to Friday",
    "standing": "projectable",
-   "evidence": "language · product curator · Weekday · cs_w_weekday_01"
+   "evidence": "language · product curator · Weekday · cs_w_weekday_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wright_frank_lloyd_01",
    "text": "Frank Lloyd Wright was an American architect",
    "standing": "projectable",
-   "evidence": "history · product curator · Wright, Frank Lloyd · cs_w_wright_frank_lloyd_01"
+   "evidence": "history · product curator · Wright, Frank Lloyd · cs_w_wright_frank_lloyd_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watercolor_01",
    "text": "Watercolor is a painting medium",
    "standing": "projectable",
-   "evidence": "history · product curator · Watercolor · cs_w_watercolor_01"
+   "evidence": "history · product curator · Watercolor · cs_w_watercolor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whip_01",
    "text": "A party whip enforces voting discipline in a legislature",
    "standing": "projectable",
-   "evidence": "civics · product curator · Whip · cs_w_whip_01"
+   "evidence": "civics · product curator · Whip · cs_w_whip_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wren_christopher_01",
    "text": "Christopher Wren was an English architect",
    "standing": "projectable",
-   "evidence": "history · product curator · Wren, Christopher · cs_w_wren_christopher_01"
+   "evidence": "history · product curator · Wren, Christopher · cs_w_wren_christopher_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warbler_01",
    "text": "A warbler is a small songbird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Warbler · cs_w_warbler_01"
+   "evidence": "nature · product curator · Warbler · cs_w_warbler_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_lily_01",
    "text": "A water lily is a flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Water lily · cs_w_water_lily_01"
+   "evidence": "nature · product curator · Water lily · cs_w_water_lily_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolf_spider_01",
    "text": "A wolf spider hunts on the ground",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wolf spider · cs_w_wolf_spider_01"
+   "evidence": "nature · product curator · Wolf spider · cs_w_wolf_spider_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wordsworth_william_01",
    "text": "William Wordsworth was an English poet",
    "standing": "projectable",
-   "evidence": "history · product curator · Wordsworth, William · cs_w_wordsworth_william_01"
+   "evidence": "history · product curator · Wordsworth, William · cs_w_wordsworth_william_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_booker_t__01",
    "text": "Booker T. Washington was an American educator",
    "standing": "projectable",
-   "evidence": "history · product curator · Washington, Booker T. · cs_w_washington_booker_t__01"
+   "evidence": "history · product curator · Washington, Booker T. · cs_w_washington_booker_t__01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wilde_oscar_01",
    "text": "Oscar Wilde was an Irish writer",
    "standing": "projectable",
-   "evidence": "history · product curator · Wilde, Oscar · cs_w_wilde_oscar_01"
+   "evidence": "history · product curator · Wilde, Oscar · cs_w_wilde_oscar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weimar_republic_01",
    "text": "The Weimar Republic was a German state",
    "standing": "projectable",
-   "evidence": "history · product curator · Weimar Republic · cs_w_weimar_republic_01"
+   "evidence": "history · product curator · Weimar Republic · cs_w_weimar_republic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_winnipeg_01",
    "text": "Winnipeg is a city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Winnipeg · cs_w_winnipeg_01"
+   "evidence": "geography · product curator · Winnipeg · cs_w_winnipeg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wuhan_01",
    "text": "Wuhan is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wuhan · cs_w_wuhan_01"
+   "evidence": "geography · product curator · Wuhan · cs_w_wuhan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wrist_01",
    "text": "The wrist joins the hand to the arm",
    "standing": "projectable",
-   "evidence": "science · product curator · Wrist · cs_w_wrist_01"
+   "evidence": "science · product curator · Wrist · cs_w_wrist_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wood_01",
    "text": "Wood is the hard tissue of a tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wood · cs_w_wood_01"
+   "evidence": "nature · product curator · Wood · cs_w_wood_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wire_01",
    "text": "A wire is a thin metal strand",
    "standing": "projectable",
-   "evidence": "science · product curator · Wire · cs_w_wire_01"
+   "evidence": "science · product curator · Wire · cs_w_wire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheel_01",
    "text": "A wheel is a circular object that turns on an axle",
    "standing": "projectable",
-   "evidence": "science · product curator · Wheel · cs_w_wheel_01"
+   "evidence": "science · product curator · Wheel · cs_w_wheel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wave_01",
    "text": "A wave transfers energy through a medium",
    "standing": "projectable",
-   "evidence": "science · product curator · Wave · cs_w_wave_01"
+   "evidence": "science · product curator · Wave · cs_w_wave_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_vapor_01",
    "text": "Water vapor is water in gas form",
    "standing": "projectable",
-   "evidence": "science · product curator · Water vapor · cs_w_water_vapor_01"
+   "evidence": "science · product curator · Water vapor · cs_w_water_vapor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warm_front_01",
    "text": "A warm front brings warmer air",
    "standing": "projectable",
-   "evidence": "science · product curator · Warm front · cs_w_warm_front_01"
+   "evidence": "science · product curator · Warm front · cs_w_warm_front_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wallaby_01",
    "text": "A wallaby is a small kangaroo",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wallaby · cs_w_wallaby_01"
+   "evidence": "nature · product curator · Wallaby · cs_w_wallaby_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wader_01",
    "text": "A wader is a long legged shorebird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wader · cs_w_wader_01"
+   "evidence": "nature · product curator · Wader · cs_w_wader_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watershed_01",
    "text": "A watershed drains into a common river or lake",
    "standing": "projectable",
-   "evidence": "geography · product curator · Watershed · cs_w_watershed_01"
+   "evidence": "geography · product curator · Watershed · cs_w_watershed_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wavelength_03",
    "text": "Wavelength is the distance between wave peaks",
    "standing": "projectable",
-   "evidence": "science · product curator · Wavelength · cs_w_wavelength_03"
+   "evidence": "science · product curator · Wavelength · cs_w_wavelength_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weathering_02",
    "text": "Weathering breaks rock into smaller pieces",
    "standing": "projectable",
-   "evidence": "science · product curator · Weathering · cs_w_weathering_02"
+   "evidence": "science · product curator · Weathering · cs_w_weathering_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_dwarf_02",
    "text": "A white dwarf is a dense remnant of a star",
    "standing": "projectable",
-   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_02"
+   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whole_number_02",
    "text": "A whole number is zero or a positive integer",
    "standing": "projectable",
-   "evidence": "math · product curator · Whole number · cs_w_whole_number_02"
+   "evidence": "math · product curator · Whole number · cs_w_whole_number_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_cycle_02",
    "text": "The water cycle moves water through Earth systems",
    "standing": "projectable",
-   "evidence": "science · product curator · Water cycle · cs_w_water_cycle_02"
+   "evidence": "science · product curator · Water cycle · cs_w_water_cycle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_waterfall_02",
    "text": "A waterfall is a stream that falls over a cliff",
    "standing": "projectable",
-   "evidence": "geography · product curator · Waterfall · cs_w_waterfall_02"
+   "evidence": "geography · product curator · Waterfall · cs_w_waterfall_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_washington_george_04",
    "text": "George Washington was the first U.S. president",
    "standing": "projectable",
-   "evidence": "history · product curator · Washington, George · cs_w_washington_george_04"
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_05",
    "text": "Water freezes at zero Celsius",
    "standing": "projectable",
-   "evidence": "science · product curator · Water · cs_w_water_05"
+   "evidence": "science · product curator · Water · cs_w_water_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wetland_02",
    "text": "Wetlands filter water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wetland · cs_w_wetland_02"
+   "evidence": "nature · product curator · Wetland · cs_w_wetland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whale_shark_03",
    "text": "A whale shark is the largest fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_03"
+   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_house_04",
    "text": "The White House is the home of the U.S. president",
    "standing": "projectable",
-   "evidence": "civics · product curator · White House · cs_w_white_house_04"
+   "evidence": "civics · product curator · White House · cs_w_white_house_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whole_number_03",
    "text": "A whole number is a non negative integer",
    "standing": "projectable",
-   "evidence": "math · product curator · Whole number · cs_w_whole_number_03"
+   "evidence": "math · product curator · Whole number · cs_w_whole_number_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_woodpecker_03",
    "text": "A woodpecker pecks wood for insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_03"
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wright_brothers_03",
    "text": "The Wright brothers flew the first powered airplane",
    "standing": "projectable",
-   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_03"
+   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_written_constitution_02",
    "text": "A written constitution sets out the basic law",
    "standing": "projectable",
-   "evidence": "civics · product curator · Written constitution · cs_w_written_constitution_02"
+   "evidence": "civics · product curator · Written constitution · cs_w_written_constitution_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walnut_02",
    "text": "A walnut is a hard shelled nut",
    "standing": "projectable",
-   "evidence": "nature · product curator · Walnut · cs_w_walnut_02"
+   "evidence": "nature · product curator · Walnut · cs_w_walnut_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warm_front_02",
    "text": "Clouds often form along a warm front",
    "standing": "projectable",
-   "evidence": "science · product curator · Warm front · cs_w_warm_front_02"
+   "evidence": "science · product curator · Warm front · cs_w_warm_front_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_vapor_02",
    "text": "Water vapor condenses into clouds",
    "standing": "projectable",
-   "evidence": "science · product curator · Water vapor · cs_w_water_vapor_02"
+   "evidence": "science · product curator · Water vapor · cs_w_water_vapor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wedge_02",
    "text": "A wedge converts force into splitting force",
    "standing": "projectable",
-   "evidence": "science · product curator · Wedge · cs_w_wedge_02"
+   "evidence": "science · product curator · Wedge · cs_w_wedge_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wednesday_02",
    "text": "Wednesday is a weekday",
    "standing": "projectable",
-   "evidence": "civics · product curator · Wednesday · cs_w_wednesday_02"
+   "evidence": "civics · product curator · Wednesday · cs_w_wednesday_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheat_03",
    "text": "Farmers grind wheat into flour",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wheat · cs_w_wheat_03"
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheel_02",
    "text": "A wheel reduces friction in transport",
    "standing": "projectable",
-   "evidence": "science · product curator · Wheel · cs_w_wheel_02"
+   "evidence": "science · product curator · Wheel · cs_w_wheel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whip_02",
    "text": "A whip is a long flexible cord",
    "standing": "projectable",
-   "evidence": "history · product curator · Whip · cs_w_whip_02"
+   "evidence": "history · product curator · Whip · cs_w_whip_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wing_02",
    "text": "A wing enables a bird to fly",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wing · cs_w_wing_02"
+   "evidence": "nature · product curator · Wing · cs_w_wing_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_winter_02",
    "text": "Winter is a cold season",
    "standing": "projectable",
-   "evidence": "science · product curator · Winter · cs_w_winter_02"
+   "evidence": "science · product curator · Winter · cs_w_winter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wire_02",
    "text": "Copper wire conducts electricity",
    "standing": "projectable",
-   "evidence": "science · product curator · Wire · cs_w_wire_02"
+   "evidence": "science · product curator · Wire · cs_w_wire_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolf_04",
    "text": "A wolf is a wild canine",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wolf · cs_w_wolf_04"
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watershed_02",
    "text": "A watershed drains into a common outlet",
    "standing": "projectable",
-   "evidence": "geography · product curator · Watershed · cs_w_watershed_02"
+   "evidence": "geography · product curator · Watershed · cs_w_watershed_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whale_03",
    "text": "A whale is a marine mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whale · cs_w_whale_03"
+   "evidence": "nature · product curator · Whale · cs_w_whale_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_witness_01",
    "text": "A witness gives testimony in court",
    "standing": "projectable",
-   "evidence": "civics · product curator · Witness · cs_w_witness_01"
+   "evidence": "civics · product curator · Witness · cs_w_witness_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_word_01",
    "text": "A word is a unit of language",
    "standing": "projectable",
-   "evidence": "language · product curator · Word · cs_w_word_01"
+   "evidence": "language · product curator · Word · cs_w_word_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wind_02",
    "text": "Wind is moving air",
    "standing": "projectable",
-   "evidence": "science · product curator · Wind · cs_w_wind_02"
+   "evidence": "science · product curator · Wind · cs_w_wind_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whalebone_01",
    "text": "Whalebone is baleen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whalebone · cs_w_whalebone_01"
+   "evidence": "nature · product curator · Whalebone · cs_w_whalebone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_word_02",
    "text": "Letters form a word",
    "standing": "projectable",
-   "evidence": "language · product curator · Word · cs_w_word_02"
+   "evidence": "language · product curator · Word · cs_w_word_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wednesday_03",
    "text": "Wednesday follows Tuesday",
    "standing": "projectable",
-   "evidence": "civics · product curator · Wednesday · cs_w_wednesday_03"
+   "evidence": "civics · product curator · Wednesday · cs_w_wednesday_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wetland_03",
    "text": "A wetland is saturated land",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wetland · cs_w_wetland_03"
+   "evidence": "geography · product curator · Wetland · cs_w_wetland_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wingspan_01",
    "text": "Wingspan is the distance tip to tip",
    "standing": "projectable",
-   "evidence": "math · product curator · Wingspan · cs_w_wingspan_01"
+   "evidence": "math · product curator · Wingspan · cs_w_wingspan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_willow_03",
    "text": "A willow grows by water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Willow · cs_w_willow_03"
+   "evidence": "nature · product curator · Willow · cs_w_willow_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wax_01",
    "text": "Bees make wax",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wax · cs_w_wax_01"
+   "evidence": "nature · product curator · Wax · cs_w_wax_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wedge_03",
    "text": "A wedge splits logs",
    "standing": "projectable",
-   "evidence": "science · product curator · Wedge · cs_w_wedge_03"
+   "evidence": "science · product curator · Wedge · cs_w_wedge_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watt_03",
    "text": "A light bulb draws power in watts",
    "standing": "projectable",
-   "evidence": "science · product curator · Watt · cs_w_watt_03"
+   "evidence": "science · product curator · Watt · cs_w_watt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_web_01",
    "text": "A spider spins a web",
    "standing": "projectable",
-   "evidence": "nature · product curator · Web · cs_w_web_01"
+   "evidence": "nature · product curator · Web · cs_w_web_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weld_01",
    "text": "Workers weld steel plates",
    "standing": "projectable",
-   "evidence": "science · product curator · Weld · cs_w_weld_01"
+   "evidence": "science · product curator · Weld · cs_w_weld_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wharf_01",
    "text": "Ships unload at a wharf",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wharf · cs_w_wharf_01"
+   "evidence": "geography · product curator · Wharf · cs_w_wharf_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weasel_02",
    "text": "A weasel is a slender hunter",
    "standing": "projectable",
-   "evidence": "nature · product curator · Weasel · cs_w_weasel_02"
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolf_05",
    "text": "A wolf hunts in a pack",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wolf · cs_w_wolf_05"
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_width_02",
    "text": "Width measures side-to-side distance",
    "standing": "projectable",
-   "evidence": "math · product curator · Width · cs_w_width_02"
+   "evidence": "math · product curator · Width · cs_w_width_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weasel_03",
    "text": "A weasel hunts small rodents",
    "standing": "projectable",
-   "evidence": "nature · product curator · Weasel · cs_w_weasel_03"
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_width_03",
    "text": "Width is a side-to-side measure",
    "standing": "projectable",
-   "evidence": "math · product curator · Width · cs_w_width_03"
+   "evidence": "math · product curator · Width · cs_w_width_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wave_02",
    "text": "Wind makes an ocean wave",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wave · cs_w_wave_02"
+   "evidence": "geography · product curator · Wave · cs_w_wave_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weather_03",
    "text": "Clouds signal weather change",
    "standing": "projectable",
-   "evidence": "geography · product curator · Weather · cs_w_weather_03"
+   "evidence": "geography · product curator · Weather · cs_w_weather_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weight_02",
    "text": "Gravity gives an object weight",
    "standing": "projectable",
-   "evidence": "science · product curator · Weight · cs_w_weight_02"
+   "evidence": "science · product curator · Weight · cs_w_weight_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_worm_01",
    "text": "A worm tunnels through soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Worm · cs_w_worm_01"
+   "evidence": "nature · product curator · Worm · cs_w_worm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_waist_01",
    "text": "The waist is the mid torso",
    "standing": "projectable",
-   "evidence": "science · product curator · Waist · cs_w_waist_01"
+   "evidence": "science · product curator · Waist · cs_w_waist_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_walnut_03",
    "text": "A walnut has a hard shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Walnut · cs_w_walnut_03"
+   "evidence": "nature · product curator · Walnut · cs_w_walnut_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warehouse_01",
    "text": "A warehouse stores goods",
    "standing": "projectable",
-   "evidence": "civics · product curator · Warehouse · cs_w_warehouse_01"
+   "evidence": "civics · product curator · Warehouse · cs_w_warehouse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wasabi_01",
    "text": "Wasabi is a hot green paste",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wasabi · cs_w_wasabi_01"
+   "evidence": "nature · product curator · Wasabi · cs_w_wasabi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wasp_03",
    "text": "A wasp has a narrow waist",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wasp · cs_w_wasp_03"
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weak_force_01",
    "text": "The weak force drives decay",
    "standing": "projectable",
-   "evidence": "science · product curator · Weak force · cs_w_weak_force_01"
+   "evidence": "science · product curator · Weak force · cs_w_weak_force_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whey_01",
    "text": "Whey is liquid from cheese",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whey · cs_w_whey_01"
+   "evidence": "nature · product curator · Whey · cs_w_whey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_01",
    "text": "White reflects all light",
    "standing": "projectable",
-   "evidence": "science · product curator · White · cs_w_white_01"
+   "evidence": "science · product curator · White · cs_w_white_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_womb_01",
    "text": "A mammal grows in a womb",
    "standing": "projectable",
-   "evidence": "science · product curator · Womb · cs_w_womb_01"
+   "evidence": "science · product curator · Womb · cs_w_womb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_woodpecker_04",
    "text": "A woodpecker drills a tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_04"
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wagon_01",
    "text": "A wagon rolls on wheels",
    "standing": "projectable",
-   "evidence": "history · product curator · Wagon · cs_w_wagon_01"
+   "evidence": "history · product curator · Wagon · cs_w_wagon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wake_01",
    "text": "A wake trails a boat",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wake · cs_w_wake_01"
+   "evidence": "geography · product curator · Wake · cs_w_wake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warrant_01",
    "text": "A warrant authorizes a search",
    "standing": "projectable",
-   "evidence": "civics · product curator · Warrant · cs_w_warrant_01"
+   "evidence": "civics · product curator · Warrant · cs_w_warrant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watt_04",
    "text": "A bulb uses watts of power",
    "standing": "projectable",
-   "evidence": "science · product curator · Watt · cs_w_watt_04"
+   "evidence": "science · product curator · Watt · cs_w_watt_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wave_03",
    "text": "Ocean waves carry energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Wave · cs_w_wave_03"
+   "evidence": "science · product curator · Wave · cs_w_wave_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whisker_01",
    "text": "A cat senses with a whisker",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whisker · cs_w_whisker_01"
+   "evidence": "nature · product curator · Whisker · cs_w_whisker_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_will_01",
    "text": "A will directs inheritance",
    "standing": "projectable",
-   "evidence": "civics · product curator · Will · cs_w_will_01"
+   "evidence": "civics · product curator · Will · cs_w_will_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wilt_01",
    "text": "Heat makes a plant wilt",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wilt · cs_w_wilt_01"
+   "evidence": "nature · product curator · Wilt · cs_w_wilt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wisteria_02",
    "text": "Wisteria has hanging blooms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_02"
+   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wrist_02",
    "text": "The wrist bends the hand",
    "standing": "projectable",
-   "evidence": "science · product curator · Wrist · cs_w_wrist_02"
+   "evidence": "science · product curator · Wrist · cs_w_wrist_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whale_04",
    "text": "A whale breathes air",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whale · cs_w_whale_04"
+   "evidence": "nature · product curator · Whale · cs_w_whale_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wetland_04",
    "text": "A wetland filters water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Wetland · cs_w_wetland_04"
+   "evidence": "geography · product curator · Wetland · cs_w_wetland_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheat_04",
    "text": "Wheat fills grain heads",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wheat · cs_w_wheat_04"
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheel_03",
    "text": "A wheel rotates on an axle",
    "standing": "projectable",
-   "evidence": "science · product curator · Wheel · cs_w_wheel_03"
+   "evidence": "science · product curator · Wheel · cs_w_wheel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wick_01",
    "text": "A wick draws melted wax",
    "standing": "projectable",
-   "evidence": "science · product curator · Wick · cs_w_wick_01"
+   "evidence": "science · product curator · Wick · cs_w_wick_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_willow_04",
    "text": "A willow bends in wind",
    "standing": "projectable",
-   "evidence": "nature · product curator · Willow · cs_w_willow_04"
+   "evidence": "nature · product curator · Willow · cs_w_willow_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wind_03",
    "text": "Wind can power turbines",
    "standing": "projectable",
-   "evidence": "science · product curator · Wind · cs_w_wind_03"
+   "evidence": "science · product curator · Wind · cs_w_wind_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wire_03",
    "text": "Copper wire carries current",
    "standing": "projectable",
-   "evidence": "science · product curator · Wire · cs_w_wire_03"
+   "evidence": "science · product curator · Wire · cs_w_wire_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_woodpecker_05",
    "text": "A woodpecker pecks holes in trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_05"
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wool_02",
    "text": "Knitters make fabric from wool",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wool · cs_w_wool_02"
+   "evidence": "nature · product curator · Wool · cs_w_wool_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_watershed_03",
    "text": "A watershed drains to one river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Watershed · cs_w_watershed_03"
+   "evidence": "geography · product curator · Watershed · cs_w_watershed_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wave_04",
    "text": "Energy travels in a wave",
    "standing": "projectable",
-   "evidence": "science · product curator · Wave · cs_w_wave_04"
+   "evidence": "science · product curator · Wave · cs_w_wave_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wax_02",
    "text": "Bees build wax honeycombs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wax · cs_w_wax_02"
+   "evidence": "nature · product curator · Wax · cs_w_wax_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weather_04",
    "text": "Fronts change the weather",
    "standing": "projectable",
-   "evidence": "science · product curator · Weather · cs_w_weather_04"
+   "evidence": "science · product curator · Weather · cs_w_weather_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wedge_04",
    "text": "A wedge splits wood grain",
    "standing": "projectable",
-   "evidence": "science · product curator · Wedge · cs_w_wedge_04"
+   "evidence": "science · product curator · Wedge · cs_w_wedge_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheat_05",
    "text": "Wheat yields edible grain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wheat · cs_w_wheat_05"
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_white_dwarf_03",
    "text": "A white dwarf cools slowly",
    "standing": "projectable",
-   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_03"
+   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_worm_02",
    "text": "A worm aerates garden soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Worm · cs_w_worm_02"
+   "evidence": "nature · product curator · Worm · cs_w_worm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wasp_04",
    "text": "A wasp builds paper nests",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wasp · cs_w_wasp_04"
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_water_06",
    "text": "Water dissolves many salts",
    "standing": "projectable",
-   "evidence": "science · product curator · Water · cs_w_water_06"
+   "evidence": "science · product curator · Water · cs_w_water_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wax_03",
    "text": "Wax seals honeycomb cells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wax · cs_w_wax_03"
+   "evidence": "nature · product curator · Wax · cs_w_wax_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weight_03",
    "text": "Weight pulls toward Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Weight · cs_w_weight_03"
+   "evidence": "science · product curator · Weight · cs_w_weight_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weld_02",
    "text": "A weld joins metal seams",
    "standing": "projectable",
-   "evidence": "science · product curator · Weld · cs_w_weld_02"
+   "evidence": "science · product curator · Weld · cs_w_weld_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheat_06",
    "text": "Wheat ripens golden grain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wheat · cs_w_wheat_06"
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_whey_02",
    "text": "Whey separates from curds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Whey · cs_w_whey_02"
+   "evidence": "nature · product curator · Whey · cs_w_whey_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_window_01",
    "text": "A window admits daylight",
    "standing": "projectable",
-   "evidence": "science · product curator · Window · cs_w_window_01"
+   "evidence": "science · product curator · Window · cs_w_window_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wool_03",
    "text": "Wool insulates sheep coats",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wool · cs_w_wool_03"
+   "evidence": "nature · product curator · Wool · cs_w_wool_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_worm_03",
    "text": "An earthworm digests soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Worm · cs_w_worm_03"
+   "evidence": "nature · product curator · Worm · cs_w_worm_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wasabi_02",
    "text": "Wasabi burns sinus tissue",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wasabi · cs_w_wasabi_02"
+   "evidence": "nature · product curator · Wasabi · cs_w_wasabi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weather_05",
    "text": "Weather fronts shift air",
    "standing": "projectable",
-   "evidence": "science · product curator · Weather · cs_w_weather_05"
+   "evidence": "science · product curator · Weather · cs_w_weather_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weld_03",
    "text": "Sparks fly from a weld arc",
    "standing": "projectable",
-   "evidence": "science · product curator · Weld · cs_w_weld_03"
+   "evidence": "science · product curator · Weld · cs_w_weld_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wheat_07",
    "text": "Wheat yields bread flour",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wheat · cs_w_wheat_07"
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_width_04",
    "text": "Width spans side distance",
    "standing": "projectable",
-   "evidence": "math · product curator · Width · cs_w_width_04"
+   "evidence": "math · product curator · Width · cs_w_width_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wildcat_02",
    "text": "Wildcats stalk night prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wildcat · cs_w_wildcat_02"
+   "evidence": "nature · product curator · Wildcat · cs_w_wildcat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weasel_04",
    "text": "Weasels hunt rodent prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Weasel · cs_w_weasel_04"
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_web_02",
    "text": "A web traps flying insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Web · cs_w_web_02"
+   "evidence": "nature · product curator · Web · cs_w_web_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_waterfall_03",
    "text": "Waterfalls erode rock lips",
    "standing": "projectable",
-   "evidence": "science · product curator · Waterfall · cs_w_waterfall_03"
+   "evidence": "science · product curator · Waterfall · cs_w_waterfall_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wire_04",
    "text": "Current flows through wire",
    "standing": "projectable",
-   "evidence": "science · product curator · Wire · cs_w_wire_04"
+   "evidence": "science · product curator · Wire · cs_w_wire_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wattage_01",
    "text": "Wattage ranks power draw",
    "standing": "projectable",
-   "evidence": "science · product curator · Wattage · cs_w_wattage_01"
+   "evidence": "science · product curator · Wattage · cs_w_wattage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_warp_01",
    "text": "Warp threads hold woven cloth",
    "standing": "projectable",
-   "evidence": "science · product curator · Warp · cs_w_warp_01"
+   "evidence": "science · product curator · Warp · cs_w_warp_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_weevil_01",
    "text": "A weevil eats stored grain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Weevil · cs_w_weevil_01"
+   "evidence": "nature · product curator · Weevil · cs_w_weevil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wind_shear_01",
    "text": "Wind shear breaks storm cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Wind shear · cs_w_wind_shear_01"
+   "evidence": "science · product curator · Wind shear · cs_w_wind_shear_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_willow_05",
    "text": "Willows root along stream banks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Willow · cs_w_willow_05"
+   "evidence": "nature · product curator · Willow · cs_w_willow_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wisteria_03",
    "text": "Wisteria climbs porch rails",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_03"
+   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wolfram_02",
    "text": "Wolfram hardens steel tools",
    "standing": "projectable",
-   "evidence": "science · product curator · Wolfram · cs_w_wolfram_02"
+   "evidence": "science · product curator · Wolfram · cs_w_wolfram_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_woodpecker_06",
    "text": "Woodpeckers drill insect holes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_06"
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wren_03",
    "text": "Wrens nest in brush piles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Wren · cs_w_wren_03"
+   "evidence": "nature · product curator · Wren · cs_w_wren_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_w_wurtzite_01",
    "text": "Wurtzite forms zinc crystals",
    "standing": "projectable",
-   "evidence": "science · product curator · Wurtzite · cs_w_wurtzite_01"
+   "evidence": "science · product curator · Wurtzite · cs_w_wurtzite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
