@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 206,
+ "curated_facts": 214,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1195,6 +1195,54 @@
    "text": "Batteries measure a volt",
    "standing": "projectable",
    "evidence": "science · product curator · Volt · cs_v_volt_06"
+  },
+  {
+   "id": "cs_v_valley_glacier_02",
+   "text": "Ice fills a valley glacier",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valley glacier · cs_v_valley_glacier_02"
+  },
+  {
+   "id": "cs_v_valve_03",
+   "text": "The heart has four valves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valve · cs_v_valve_03"
+  },
+  {
+   "id": "cs_v_vent_01",
+   "text": "Lava exits a vent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vent · cs_v_vent_01"
+  },
+  {
+   "id": "cs_v_virus_03",
+   "text": "A virus invades cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Virus · cs_v_virus_03"
+  },
+  {
+   "id": "cs_v_vitamin_03",
+   "text": "Vitamin C prevents scurvy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vitamin · cs_v_vitamin_03"
+  },
+  {
+   "id": "cs_v_vitreous_01",
+   "text": "Eyes hold vitreous humor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vitreous · cs_v_vitreous_01"
+  },
+  {
+   "id": "cs_v_vole_04",
+   "text": "Voles tunnel under grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vole · cs_v_vole_04"
+  },
+  {
+   "id": "cs_v_vulture_07",
+   "text": "Vultures clean carcasses",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_07"
   }
  ]
 }
