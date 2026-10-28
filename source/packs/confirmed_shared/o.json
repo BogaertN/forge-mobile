@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 231,
+ "curated_facts": 241,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1327,6 +1327,66 @@
    "text": "Smog raises ground ozone",
    "standing": "projectable",
    "evidence": "science · product curator · Ozone · cs_o_ozone_04"
+  },
+  {
+   "id": "cs_o_olivine_02",
+   "text": "Olivine greens mantle rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Olivine · cs_o_olivine_02"
+  },
+  {
+   "id": "cs_o_orbit_08",
+   "text": "Moons orbit their planets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_08"
+  },
+  {
+   "id": "cs_o_ore_04",
+   "text": "Ore yields useful metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ore · cs_o_ore_04"
+  },
+  {
+   "id": "cs_o_organelle_03",
+   "text": "Organelles run cell tasks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Organelle · cs_o_organelle_03"
+  },
+  {
+   "id": "cs_o_origin_03",
+   "text": "An origin marks zero point",
+   "standing": "projectable",
+   "evidence": "math · product curator · Origin · cs_o_origin_03"
+  },
+  {
+   "id": "cs_o_ostrich_05",
+   "text": "Ostriches run open plains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_05"
+  },
+  {
+   "id": "cs_o_ovary_01",
+   "text": "Flower ovaries hold seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ovary · cs_o_ovary_01"
+  },
+  {
+   "id": "cs_o_overburden_01",
+   "text": "Overburden covers ore beds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Overburden · cs_o_overburden_01"
+  },
+  {
+   "id": "cs_o_overcast_01",
+   "text": "Overcast blocks sunlight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Overcast · cs_o_overcast_01"
+  },
+  {
+   "id": "cs_o_oxygen_07",
+   "text": "Oxygen fuels cell burning",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_07"
   }
  ]
 }

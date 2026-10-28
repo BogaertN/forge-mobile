@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 227,
+ "curated_facts": 237,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1327,6 +1327,66 @@
    "text": "A tremor shakes the ground",
    "standing": "projectable",
    "evidence": "science · product curator · Tremor · cs_t_tremor_02"
+  },
+  {
+   "id": "cs_t_tannin_04",
+   "text": "Tannin preserves leather",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tannin · cs_t_tannin_04"
+  },
+  {
+   "id": "cs_t_taproot_03",
+   "text": "A taproot anchors a plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Taproot · cs_t_taproot_03"
+  },
+  {
+   "id": "cs_t_tarmac_01",
+   "text": "Tarmac hardens runway beds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tarmac · cs_t_tarmac_01"
+  },
+  {
+   "id": "cs_t_thalamus_01",
+   "text": "The thalamus relays senses",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thalamus · cs_t_thalamus_01"
+  },
+  {
+   "id": "cs_t_thumb_01",
+   "text": "The thumb opposes fingers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thumb · cs_t_thumb_01"
+  },
+  {
+   "id": "cs_t_tributary_03",
+   "text": "A tributary feeds a river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tributary · cs_t_tributary_03"
+  },
+  {
+   "id": "cs_t_thrombin_01",
+   "text": "Thrombin starts blood clots",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thrombin · cs_t_thrombin_01"
+  },
+  {
+   "id": "cs_t_tube_01",
+   "text": "A tube carries fluid flow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tube · cs_t_tube_01"
+  },
+  {
+   "id": "cs_t_turnip_01",
+   "text": "A turnip stores root food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Turnip · cs_t_turnip_01"
+  },
+  {
+   "id": "cs_t_twine_01",
+   "text": "Twine binds package loads",
+   "standing": "projectable",
+   "evidence": "science · product curator · Twine · cs_t_twine_01"
   }
  ]
 }

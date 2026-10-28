@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 239,
+ "curated_facts": 249,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1327,6 +1327,66 @@
    "text": "A quota limits imports",
    "standing": "projectable",
    "evidence": "civics · product curator · Quota · cs_q_quota_04"
+  },
+  {
+   "id": "cs_q_quadrant_07",
+   "text": "A quadrant maps sky arcs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quadrant · cs_q_quadrant_07"
+  },
+  {
+   "id": "cs_q_quake_02",
+   "text": "Earthquakes rupture faults",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quake · cs_q_quake_02"
+  },
+  {
+   "id": "cs_q_quality_01",
+   "text": "Quality ranks product worth",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quality · cs_q_quality_01"
+  },
+  {
+   "id": "cs_q_quarry_04",
+   "text": "Blasting opens a quarry",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_04"
+  },
+  {
+   "id": "cs_q_quart_08",
+   "text": "Four cups equal one quart",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quart · cs_q_quart_08"
+  },
+  {
+   "id": "cs_q_quartz_12",
+   "text": "Quartz forms hard crystals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_12"
+  },
+  {
+   "id": "cs_q_quebracho_02",
+   "text": "Quebracho wood tans leather",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quebracho · cs_q_quebracho_02"
+  },
+  {
+   "id": "cs_q_quilt_10",
+   "text": "A quilt layers warm cloth",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_10"
+  },
+  {
+   "id": "cs_q_quinoa_08",
+   "text": "Quinoa packs seed protein",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_08"
+  },
+  {
+   "id": "cs_q_quota_05",
+   "text": "A quota limits catch size",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quota · cs_q_quota_05"
   }
  ]
 }

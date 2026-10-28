@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 224,
+ "curated_facts": 234,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1327,6 +1327,66 @@
    "text": "A prism spreads a spectrum",
    "standing": "projectable",
    "evidence": "science · product curator · Spectrum · cs_s_spectrum_01"
+  },
+  {
+   "id": "cs_s_salt_03",
+   "text": "Salt preserves dried meat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Salt · cs_s_salt_03"
+  },
+  {
+   "id": "cs_s_screw_02",
+   "text": "A screw joins wood boards",
+   "standing": "projectable",
+   "evidence": "science · product curator · Screw · cs_s_screw_02"
+  },
+  {
+   "id": "cs_s_sediment_04",
+   "text": "Sediment settles in water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sediment · cs_s_sediment_04"
+  },
+  {
+   "id": "cs_s_selenium_03",
+   "text": "Selenium aids thyroid work",
+   "standing": "projectable",
+   "evidence": "science · product curator · Selenium · cs_s_selenium_03"
+  },
+  {
+   "id": "cs_s_serum_01",
+   "text": "Serum carries antibodies",
+   "standing": "projectable",
+   "evidence": "science · product curator · Serum · cs_s_serum_01"
+  },
+  {
+   "id": "cs_s_shear_01",
+   "text": "Shear slides rock layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Shear · cs_s_shear_01"
+  },
+  {
+   "id": "cs_s_shin_01",
+   "text": "The shin guards the tibia",
+   "standing": "projectable",
+   "evidence": "science · product curator · Shin · cs_s_shin_01"
+  },
+  {
+   "id": "cs_s_sieve_01",
+   "text": "A sieve sorts grain sizes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sieve · cs_s_sieve_01"
+  },
+  {
+   "id": "cs_s_starch_02",
+   "text": "Starch stores plant sugar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Starch · cs_s_starch_02"
+  },
+  {
+   "id": "cs_s_steel_02",
+   "text": "Steel hardens with carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Steel · cs_s_steel_02"
   }
  ]
 }

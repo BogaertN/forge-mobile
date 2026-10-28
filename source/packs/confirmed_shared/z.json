@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 242,
+ "curated_facts": 252,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1327,6 +1327,66 @@
    "text": "The zygomatic forms the cheek",
    "standing": "projectable",
    "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_01"
+  },
+  {
+   "id": "cs_z_zenith_07",
+   "text": "Zenith marks sky overhead",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zenith · cs_z_zenith_07"
+  },
+  {
+   "id": "cs_z_zest_03",
+   "text": "Zest flavors baked goods",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zest · cs_z_zest_03"
+  },
+  {
+   "id": "cs_z_zigzag_03",
+   "text": "A zigzag shifts direction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zigzag · cs_z_zigzag_03"
+  },
+  {
+   "id": "cs_z_zinc_16",
+   "text": "Zinc aids immune enzymes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_16"
+  },
+  {
+   "id": "cs_z_zipper_05",
+   "text": "A zipper joins cloth edges",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zipper · cs_z_zipper_05"
+  },
+  {
+   "id": "cs_z_zircon_07",
+   "text": "Zircon survives erosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zircon · cs_z_zircon_07"
+  },
+  {
+   "id": "cs_z_zodiac_08",
+   "text": "Planets travel the zodiac",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_08"
+  },
+  {
+   "id": "cs_z_zone_04",
+   "text": "Zones rank climate bands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zone · cs_z_zone_04"
+  },
+  {
+   "id": "cs_z_zoonosis_01",
+   "text": "A zoonosis crosses species",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zoonosis · cs_z_zoonosis_01"
+  },
+  {
+   "id": "cs_z_zygote_08",
+   "text": "Zygotes divide into embryos",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygote · cs_z_zygote_08"
   }
  ]
 }
