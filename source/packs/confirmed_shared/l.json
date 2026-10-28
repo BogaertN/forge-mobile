@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 157,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -895,6 +895,54 @@
    "text": "A lion is a large cat",
    "standing": "projectable",
    "evidence": "nature · product curator · Lion · cs_l_lion_04"
+  },
+  {
+   "id": "cs_l_lake_02",
+   "text": "A lake is a body of fresh water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake · cs_l_lake_02"
+  },
+  {
+   "id": "cs_l_logarithm_02",
+   "text": "A logarithm is an exponent",
+   "standing": "projectable",
+   "evidence": "math · product curator · Logarithm · cs_l_logarithm_02"
+  },
+  {
+   "id": "cs_l_language_02",
+   "text": "English is a Germanic language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Language · cs_l_language_02"
+  },
+  {
+   "id": "cs_l_legislature_02",
+   "text": "Congress is a legislature",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Legislature · cs_l_legislature_02"
+  },
+  {
+   "id": "cs_l_lagoon_03",
+   "text": "Coral reefs often enclose a lagoon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_03"
+  },
+  {
+   "id": "cs_l_line_03",
+   "text": "Two points determine a line",
+   "standing": "projectable",
+   "evidence": "math · product curator · Line · cs_l_line_03"
+  },
+  {
+   "id": "cs_l_lyric_poem_02",
+   "text": "A lyric poem is often short",
+   "standing": "projectable",
+   "evidence": "language · product curator · Lyric poem · cs_l_lyric_poem_02"
+  },
+  {
+   "id": "cs_l_ladybug_02",
+   "text": "A ladybug is a beetle",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_02"
   }
  ]
 }
