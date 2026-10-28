@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 166,
+ "curated_facts": 171,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -937,6 +937,36 @@
    "text": "A hypothesis is a testable explanation",
    "standing": "projectable",
    "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_01"
+  },
+  {
+   "id": "cs_h_hafnium_02",
+   "text": "Hafnium is a transition metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_02"
+  },
+  {
+   "id": "cs_h_halogen_01",
+   "text": "A halogen is a reactive nonmetal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Halogen · cs_h_halogen_01"
+  },
+  {
+   "id": "cs_h_hassium_02",
+   "text": "Hassium is a synthetic element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hassium · cs_h_hassium_02"
+  },
+  {
+   "id": "cs_h_helix_02",
+   "text": "A helix is a spiral shape",
+   "standing": "projectable",
+   "evidence": "math · product curator · Helix · cs_h_helix_02"
+  },
+  {
+   "id": "cs_h_hydrometer_01",
+   "text": "A hydrometer measures liquid density",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_01"
   }
  ]
 }

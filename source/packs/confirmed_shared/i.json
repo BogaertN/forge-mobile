@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 168,
+ "curated_facts": 173,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -943,6 +943,36 @@
    "text": "English ivy climbs walls",
    "standing": "projectable",
    "evidence": "nature · product curator · Ivy · cs_i_ivy_04"
+  },
+  {
+   "id": "cs_i_inch_04",
+   "text": "Twelve inches equal one foot",
+   "standing": "projectable",
+   "evidence": "math · product curator · Inch · cs_i_inch_04"
+  },
+  {
+   "id": "cs_i_incisor_03",
+   "text": "Front teeth include an incisor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Incisor · cs_i_incisor_03"
+  },
+  {
+   "id": "cs_i_iron_07",
+   "text": "Iron is a common metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_07"
+  },
+  {
+   "id": "cs_i_island_04",
+   "text": "Madagascar is a large island",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Island · cs_i_island_04"
+  },
+  {
+   "id": "cs_i_isthmus_02",
+   "text": "Panama is an isthmus",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_02"
   }
  ]
 }
