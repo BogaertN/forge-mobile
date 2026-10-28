@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 198,
+ "curated_facts": 208,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1159,6 +1159,66 @@
    "text": "A tulip grows from a bulb",
    "standing": "projectable",
    "evidence": "nature · product curator · Bulb · cs_b_bulb_01"
+  },
+  {
+   "id": "cs_b_biceps_01",
+   "text": "The biceps bends the arm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Biceps · cs_b_biceps_01"
+  },
+  {
+   "id": "cs_b_birch_02",
+   "text": "A birch has peeling bark",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Birch · cs_b_birch_02"
+  },
+  {
+   "id": "cs_b_bladder_01",
+   "text": "The bladder stores urine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bladder · cs_b_bladder_01"
+  },
+  {
+   "id": "cs_b_boar_01",
+   "text": "A wild boar roots for food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Boar · cs_b_boar_01"
+  },
+  {
+   "id": "cs_b_boom_01",
+   "text": "A sonic boom follows a jet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boom · cs_b_boom_01"
+  },
+  {
+   "id": "cs_b_boron_03",
+   "text": "Boron hardens steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boron · cs_b_boron_03"
+  },
+  {
+   "id": "cs_b_boulder_01",
+   "text": "A glacier drops a boulder",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Boulder · cs_b_boulder_01"
+  },
+  {
+   "id": "cs_b_branch_01",
+   "text": "A bird perches on a branch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Branch · cs_b_branch_01"
+  },
+  {
+   "id": "cs_b_buffalo_04",
+   "text": "A buffalo has curved horns",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Buffalo · cs_b_buffalo_04"
+  },
+  {
+   "id": "cs_b_buffer_01",
+   "text": "A buffer resists pH change",
+   "standing": "projectable",
+   "evidence": "science · product curator · Buffer · cs_b_buffer_01"
   }
  ]
 }

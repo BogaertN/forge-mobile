@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 195,
+ "curated_facts": 205,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1159,6 +1159,66 @@
    "text": "The auricle gathers sound",
    "standing": "projectable",
    "evidence": "science · product curator · Auricle · cs_a_auricle_01"
+  },
+  {
+   "id": "cs_a_acorn_03",
+   "text": "An oak grows from an acorn",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Acorn · cs_a_acorn_03"
+  },
+  {
+   "id": "cs_a_alum_01",
+   "text": "Alum clears cloudy water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alum · cs_a_alum_01"
+  },
+  {
+   "id": "cs_a_annual_ring_02",
+   "text": "A tree adds an annual ring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Annual ring · cs_a_annual_ring_02"
+  },
+  {
+   "id": "cs_a_antenna_01",
+   "text": "An antenna receives radio",
+   "standing": "projectable",
+   "evidence": "science · product curator · Antenna · cs_a_antenna_01"
+  },
+  {
+   "id": "cs_a_anthracite_01",
+   "text": "Anthracite is hard coal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Anthracite · cs_a_anthracite_01"
+  },
+  {
+   "id": "cs_a_aorta_02",
+   "text": "The aorta leaves the heart",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aorta · cs_a_aorta_02"
+  },
+  {
+   "id": "cs_a_arithmetic_01",
+   "text": "Students learn arithmetic",
+   "standing": "projectable",
+   "evidence": "math · product curator · Arithmetic · cs_a_arithmetic_01"
+  },
+  {
+   "id": "cs_a_aspen_01",
+   "text": "Aspen trees share root systems",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Aspen · cs_a_aspen_01"
+  },
+  {
+   "id": "cs_a_avocado_02",
+   "text": "An avocado has a large seed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Avocado · cs_a_avocado_02"
+  },
+  {
+   "id": "cs_a_azurite_01",
+   "text": "Azurite is a blue copper ore",
+   "standing": "projectable",
+   "evidence": "science · product curator · Azurite · cs_a_azurite_01"
   }
  ]
 }
