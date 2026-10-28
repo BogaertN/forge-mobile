@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 131,
+ "curated_facts": 147,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -727,6 +727,102 @@
    "text": "A homonym sounds like another word",
    "standing": "projectable",
    "evidence": "language · product curator · Homonym · cs_h_homonym_01"
+  },
+  {
+   "id": "cs_h_hague_01",
+   "text": "The Hague is a seat of international courts",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Hague · cs_h_hague_01"
+  },
+  {
+   "id": "cs_h_handel_01",
+   "text": "George Handel composed the Messiah oratorio",
+   "standing": "projectable",
+   "evidence": "history · product curator · Handel · cs_h_handel_01"
+  },
+  {
+   "id": "cs_h_hangul_01",
+   "text": "Hangul is the Korean alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Hangul · cs_h_hangul_01"
+  },
+  {
+   "id": "cs_h_hanseatic_league_01",
+   "text": "The Hanseatic League was a medieval trading alliance",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hanseatic League · cs_h_hanseatic_league_01"
+  },
+  {
+   "id": "cs_h_haploid_01",
+   "text": "A haploid cell has one set of chromosomes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Haploid · cs_h_haploid_01"
+  },
+  {
+   "id": "cs_h_harold_01",
+   "text": "Harold Godwinson died at the Battle of Hastings",
+   "standing": "projectable",
+   "evidence": "history · product curator · Harold · cs_h_harold_01"
+  },
+  {
+   "id": "cs_h_harvest_01",
+   "text": "A harvest is the gathering of ripe crops",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Harvest · cs_h_harvest_01"
+  },
+  {
+   "id": "cs_h_headwaters_01",
+   "text": "Headwaters are the source region of a river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Headwaters · cs_h_headwaters_01"
+  },
+  {
+   "id": "cs_h_hearsay_01",
+   "text": "Hearsay is secondhand testimony",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Hearsay · cs_h_hearsay_01"
+  },
+  {
+   "id": "cs_h_heat_capacity_01",
+   "text": "Heat capacity measures energy needed to raise temperature",
+   "standing": "projectable",
+   "evidence": "science · product curator · Heat capacity · cs_h_heat_capacity_01"
+  },
+  {
+   "id": "cs_h_hedge_01",
+   "text": "A hedge is a row of shrubs forming a boundary",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hedge · cs_h_hedge_01"
+  },
+  {
+   "id": "cs_h_helix_01",
+   "text": "A helix is a spiral curve",
+   "standing": "projectable",
+   "evidence": "math · product curator · Helix · cs_h_helix_01"
+  },
+  {
+   "id": "cs_h_house_of_lords_01",
+   "text": "The House of Lords is the upper chamber of the British Parliament",
+   "standing": "projectable",
+   "evidence": "civics · product curator · House of Lords · cs_h_house_of_lords_01"
+  },
+  {
+   "id": "cs_h_husbandry_01",
+   "text": "Husbandry is the care of crops and livestock",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Husbandry · cs_h_husbandry_01"
+  },
+  {
+   "id": "cs_h_hydra_01",
+   "text": "A hydra is a small freshwater animal with tentacles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hydra · cs_h_hydra_01"
+  },
+  {
+   "id": "cs_h_hyperbole_01",
+   "text": "Hyperbole is deliberate exaggeration",
+   "standing": "projectable",
+   "evidence": "language · product curator · Hyperbole · cs_h_hyperbole_01"
   }
  ]
 }
