@@ -1,1584 +1,2894 @@
 {
-  "schema": "FORGE-CONFIRMED-PACK/v1",
-  "format": "FORGE-CONFIRMED-PACK/v1",
-  "pack_id": "confirmed_shared_letter_f",
-  "provenance": "confirmed_shared",
-  "letter": "F",
-  "who_confirmed": "product_curator",
-  "shared_kb": false,
-  "curated_facts": 271,
-  "items": [
-    {
-      "id": "cs_f_france_01",
-      "text": "Paris is the capital of France",
-      "standing": "projectable",
-      "evidence": "geography · product curator · France · cs_f_france_01"
-    },
-    {
-      "id": "cs_f_finland_01",
-      "text": "Helsinki is the capital of Finland",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Finland · cs_f_finland_01"
-    },
-    {
-      "id": "cs_f_fiji_01",
-      "text": "Fiji is an island country in the South Pacific",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fiji · cs_f_fiji_01"
-    },
-    {
-      "id": "cs_f_fiji_02",
-      "text": "Suva is the capital of Fiji",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fiji · cs_f_fiji_02"
-    },
-    {
-      "id": "cs_f_florida_01",
-      "text": "Tallahassee is the capital of Florida",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Florida · cs_f_florida_01"
-    },
-    {
-      "id": "cs_f_florida_02",
-      "text": "Florida is a peninsula",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Florida · cs_f_florida_02"
-    },
-    {
-      "id": "cs_f_fuji_mount_01",
-      "text": "Mount Fuji is the highest mountain in Japan",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fuji, Mount · cs_f_fuji_mount_01"
-    },
-    {
-      "id": "cs_f_fuji_mount_02",
-      "text": "Mount Fuji is a volcano",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fuji, Mount · cs_f_fuji_mount_02"
-    },
-    {
-      "id": "cs_f_frankfort_01",
-      "text": "Frankfort is the capital of Kentucky",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Frankfort · cs_f_frankfort_01"
-    },
-    {
-      "id": "cs_f_freetown_01",
-      "text": "Freetown is the capital of Sierra Leone",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Freetown · cs_f_freetown_01"
-    },
-    {
-      "id": "cs_f_fluorine_01",
-      "text": "Fluorine has the chemical symbol F",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluorine · cs_f_fluorine_01"
-    },
-    {
-      "id": "cs_f_fluorine_02",
-      "text": "Fluorine is a halogen",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluorine · cs_f_fluorine_02"
-    },
-    {
-      "id": "cs_f_francium_01",
-      "text": "Francium has the chemical symbol Fr",
-      "standing": "projectable",
-      "evidence": "science · product curator · Francium · cs_f_francium_01"
-    },
-    {
-      "id": "cs_f_friction_01",
-      "text": "Friction is a force that opposes motion between surfaces in contact",
-      "standing": "projectable",
-      "evidence": "science · product curator · Friction · cs_f_friction_01"
-    },
-    {
-      "id": "cs_f_fossil_01",
-      "text": "A fossil is preserved evidence of ancient life",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fossil · cs_f_fossil_01"
-    },
-    {
-      "id": "cs_f_fossil_fuel_01",
-      "text": "Coal is a fossil fuel",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fossil fuel · cs_f_fossil_fuel_01"
-    },
-    {
-      "id": "cs_f_fusion_01",
-      "text": "The Sun is powered by nuclear fusion",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fusion · cs_f_fusion_01"
-    },
-    {
-      "id": "cs_f_freezing_point_01",
-      "text": "Water freezes at 32 degrees Fahrenheit",
-      "standing": "projectable",
-      "evidence": "science · product curator · Freezing point · cs_f_freezing_point_01"
-    },
-    {
-      "id": "cs_f_fahrenheit_01",
-      "text": "Water boils at 212 degrees Fahrenheit at sea-level pressure",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fahrenheit · cs_f_fahrenheit_01"
-    },
-    {
-      "id": "cs_f_fungus_01",
-      "text": "Mushrooms are fungi",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fungus · cs_f_fungus_01"
-    },
-    {
-      "id": "cs_f_fungus_02",
-      "text": "Fungi are not plants",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fungus · cs_f_fungus_02"
-    },
-    {
-      "id": "cs_f_fish_02",
-      "text": "Fish are vertebrates",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fish · cs_f_fish_02"
-    },
-    {
-      "id": "cs_f_frog_01",
-      "text": "Frogs begin life as tadpoles",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Frog · cs_f_frog_01"
-    },
-    {
-      "id": "cs_f_flamingo_01",
-      "text": "Flamingos get their pink color from their diet",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flamingo · cs_f_flamingo_01"
-    },
-    {
-      "id": "cs_f_fox_01",
-      "text": "Foxes belong to the dog family",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fox · cs_f_fox_01"
-    },
-    {
-      "id": "cs_f_falcon_01",
-      "text": "The peregrine falcon is the fastest bird in a dive",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Falcon · cs_f_falcon_01"
-    },
-    {
-      "id": "cs_f_fern_01",
-      "text": "Ferns reproduce with spores",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fern · cs_f_fern_01"
-    },
-    {
-      "id": "cs_f_flower_01",
-      "text": "Flowers are the reproductive structures of flowering plants",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flower · cs_f_flower_01"
-    },
-    {
-      "id": "cs_f_firefly_01",
-      "text": "Fireflies produce light through bioluminescence",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Firefly · cs_f_firefly_01"
-    },
-    {
-      "id": "cs_f_french_revolution_01",
-      "text": "The French Revolution began in 1789",
-      "standing": "projectable",
-      "evidence": "history · product curator · French Revolution · cs_f_french_revolution_01"
-    },
-    {
-      "id": "cs_f_franklin_benjamin_01",
-      "text": "Benjamin Franklin was a founder of the United States",
-      "standing": "projectable",
-      "evidence": "history · product curator · Franklin, Benjamin · cs_f_franklin_benjamin_01"
-    },
-    {
-      "id": "cs_f_franklin_benjamin_02",
-      "text": "Benjamin Franklin conducted experiments with electricity",
-      "standing": "projectable",
-      "evidence": "history · product curator · Franklin, Benjamin · cs_f_franklin_benjamin_02"
-    },
-    {
-      "id": "cs_f_ford_henry_01",
-      "text": "Henry Ford founded the Ford Motor Company",
-      "standing": "projectable",
-      "evidence": "history · product curator · Ford, Henry · cs_f_ford_henry_01"
-    },
-    {
-      "id": "cs_f_ford_henry_02",
-      "text": "The Ford Model T was introduced in 1908",
-      "standing": "projectable",
-      "evidence": "history · product curator · Ford, Henry · cs_f_ford_henry_02"
-    },
-    {
-      "id": "cs_f_fleming_alexander_01",
-      "text": "Alexander Fleming discovered penicillin in 1928",
-      "standing": "projectable",
-      "evidence": "history · product curator · Fleming, Alexander · cs_f_fleming_alexander_01"
-    },
-    {
-      "id": "cs_f_frank_anne_01",
-      "text": "Anne Frank wrote a diary during the war",
-      "standing": "projectable",
-      "evidence": "history · product curator · Frank, Anne · cs_f_frank_anne_01"
-    },
-    {
-      "id": "cs_f_forbidden_city_01",
-      "text": "The Forbidden City is in Beijing",
-      "standing": "projectable",
-      "evidence": "history · product curator · Forbidden City · cs_f_forbidden_city_01"
-    },
-    {
-      "id": "cs_f_fraction_01",
-      "text": "A fraction represents part of a whole",
-      "standing": "projectable",
-      "evidence": "math · product curator · Fraction · cs_f_fraction_01"
-    },
-    {
-      "id": "cs_f_factor_01",
-      "text": "A factor of a number divides it with no remainder",
-      "standing": "projectable",
-      "evidence": "math · product curator · Factor · cs_f_factor_01"
-    },
-    {
-      "id": "cs_f_fibonacci_sequence_01",
-      "text": "In the Fibonacci sequence, each number is the sum of the two before it",
-      "standing": "projectable",
-      "evidence": "math · product curator · Fibonacci sequence · cs_f_fibonacci_sequence_01"
-    },
-    {
-      "id": "cs_f_foot_01",
-      "text": "One foot equals 12 inches",
-      "standing": "projectable",
-      "evidence": "math · product curator · Foot · cs_f_foot_01"
-    },
-    {
-      "id": "cs_f_foot_02",
-      "text": "One foot is about 30 centimeters",
-      "standing": "projectable",
-      "evidence": "math · product curator · Foot · cs_f_foot_02"
-    },
-    {
-      "id": "cs_f_federalism_01",
-      "text": "Federalism divides power between national and regional governments",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Federalism · cs_f_federalism_01"
-    },
-    {
-      "id": "cs_f_flag_01",
-      "text": "The American flag has 50 stars",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Flag · cs_f_flag_01"
-    },
-    {
-      "id": "cs_f_flag_02",
-      "text": "The American flag has 13 stripes",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Flag · cs_f_flag_02"
-    },
-    {
-      "id": "cs_f_french_01",
-      "text": "French is an official language of Canada",
-      "standing": "projectable",
-      "evidence": "language · product curator · French · cs_f_french_01"
-    },
-    {
-      "id": "cs_f_february_01",
-      "text": "February is the shortest month of the Gregorian calendar",
-      "standing": "projectable",
-      "evidence": "general · product curator · February · cs_f_february_01"
-    },
-    {
-      "id": "cs_f_february_02",
-      "text": "February has 29 days in a leap year",
-      "standing": "projectable",
-      "evidence": "general · product curator · February · cs_f_february_02"
-    },
-    {
-      "id": "cs_f_finland_02",
-      "text": "Finland borders Sweden, Norway, and Russia",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Finland · cs_f_finland_02"
-    },
-    {
-      "id": "cs_f_france_02",
-      "text": "France is the largest country in the European Union by area",
-      "standing": "projectable",
-      "evidence": "geography · product curator · France · cs_f_france_02"
-    },
-    {
-      "id": "cs_f_french_guiana_01",
-      "text": "French Guiana is an overseas region of France in South America",
-      "standing": "projectable",
-      "evidence": "geography · product curator · French Guiana · cs_f_french_guiana_01"
-    },
-    {
-      "id": "cs_f_faroe_islands_01",
-      "text": "The Faroe Islands are a self-governing territory of Denmark",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Faroe Islands · cs_f_faroe_islands_01"
-    },
-    {
-      "id": "cs_f_falkland_islands_01",
-      "text": "The Falkland Islands are in the South Atlantic Ocean",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Falkland Islands · cs_f_falkland_islands_01"
-    },
-    {
-      "id": "cs_f_florence_01",
-      "text": "Florence is a city in Italy",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Florence · cs_f_florence_01"
-    },
-    {
-      "id": "cs_f_florence_02",
-      "text": "Florence is the capital of the Tuscany region",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Florence · cs_f_florence_02"
-    },
-    {
-      "id": "cs_f_funafuti_01",
-      "text": "Funafuti is the capital of Tuvalu",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Funafuti · cs_f_funafuti_01"
-    },
-    {
-      "id": "cs_f_fargo_01",
-      "text": "Fargo is a city in North Dakota",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fargo · cs_f_fargo_01"
-    },
-    {
-      "id": "cs_f_fault_01",
-      "text": "A fault is a crack in rock",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fault · cs_f_fault_01"
-    },
-    {
-      "id": "cs_f_frequency_01",
-      "text": "Frequency is measured in hertz",
-      "standing": "projectable",
-      "evidence": "science · product curator · Frequency · cs_f_frequency_01"
-    },
-    {
-      "id": "cs_f_fermium_01",
-      "text": "Fermium has the chemical symbol Fm",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fermium · cs_f_fermium_01"
-    },
-    {
-      "id": "cs_f_flerovium_01",
-      "text": "Flerovium has the chemical symbol Fl",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flerovium · cs_f_flerovium_01"
-    },
-    {
-      "id": "cs_f_fission_01",
-      "text": "Nuclear fission splits a heavy nucleus into lighter nuclei",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fission · cs_f_fission_01"
-    },
-    {
-      "id": "cs_f_fog_01",
-      "text": "Fog is a cloud near the ground",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fog · cs_f_fog_01"
-    },
-    {
-      "id": "cs_f_food_chain_01",
-      "text": "Energy passes along a food chain",
-      "standing": "projectable",
-      "evidence": "science · product curator · Food chain · cs_f_food_chain_01"
-    },
-    {
-      "id": "cs_f_fulcrum_01",
-      "text": "A lever pivots on a fulcrum",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fulcrum · cs_f_fulcrum_01"
-    },
-    {
-      "id": "cs_f_fluorescence_01",
-      "text": "Fluorescent materials emit light after absorbing radiation",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluorescence · cs_f_fluorescence_01"
-    },
-    {
-      "id": "cs_f_frost_01",
-      "text": "Frost forms when water vapor freezes on surfaces",
-      "standing": "projectable",
-      "evidence": "science · product curator · Frost · cs_f_frost_01"
-    },
-    {
-      "id": "cs_f_ferret_01",
-      "text": "Ferrets are domesticated mammals related to weasels",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Ferret · cs_f_ferret_01"
-    },
-    {
-      "id": "cs_f_flounder_01",
-      "text": "Flounders are flatfish",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flounder · cs_f_flounder_01"
-    },
-    {
-      "id": "cs_f_fly_01",
-      "text": "Flies are insects with one pair of wings",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fly · cs_f_fly_01"
-    },
-    {
-      "id": "cs_f_finch_01",
-      "text": "Finches are small seed-eating birds",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Finch · cs_f_finch_01"
-    },
-    {
-      "id": "cs_f_fir_01",
-      "text": "Fir trees are conifers",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fir · cs_f_fir_01"
-    },
-    {
-      "id": "cs_f_feather_01",
-      "text": "Feathers are made of keratin",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Feather · cs_f_feather_01"
-    },
-    {
-      "id": "cs_f_flying_fish_01",
-      "text": "Flying fish can glide above the water's surface",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flying fish · cs_f_flying_fish_01"
-    },
-    {
-      "id": "cs_f_faraday_michael_01",
-      "text": "Michael Faraday discovered electromagnetic induction",
-      "standing": "projectable",
-      "evidence": "history · product curator · Faraday, Michael · cs_f_faraday_michael_01"
-    },
-    {
-      "id": "cs_f_fahrenheit_daniel_gabriel_01",
-      "text": "Daniel Gabriel Fahrenheit invented the mercury thermometer",
-      "standing": "projectable",
-      "evidence": "history · product curator · Fahrenheit, Daniel Gabriel · cs_f_fahrenheit_daniel_gabriel_01"
-    },
-    {
-      "id": "cs_f_ferdinand_magellan_01",
-      "text": "Magellan led the first voyage around the world",
-      "standing": "projectable",
-      "evidence": "history · product curator · Ferdinand Magellan · cs_f_ferdinand_magellan_01"
-    },
-    {
-      "id": "cs_f_fort_sumter_01",
-      "text": "The American Civil War began with the attack on Fort Sumter in 1861",
-      "standing": "projectable",
-      "evidence": "history · product curator · Fort Sumter · cs_f_fort_sumter_01"
-    },
-    {
-      "id": "cs_f_frederick_the_great_01",
-      "text": "Frederick was king of Prussia",
-      "standing": "projectable",
-      "evidence": "history · product curator · Frederick the Great · cs_f_frederick_the_great_01"
-    },
-    {
-      "id": "cs_f_freud_sigmund_01",
-      "text": "Sigmund Freud founded psychoanalysis",
-      "standing": "projectable",
-      "evidence": "history · product curator · Freud, Sigmund · cs_f_freud_sigmund_01"
-    },
-    {
-      "id": "cs_f_fahrenheit_451_01",
-      "text": "Ray Bradbury wrote Fahrenheit 451",
-      "standing": "projectable",
-      "evidence": "history · product curator · Fahrenheit 451 · cs_f_fahrenheit_451_01"
-    },
-    {
-      "id": "cs_f_fathom_01",
-      "text": "A fathom is six feet",
-      "standing": "projectable",
-      "evidence": "math · product curator · Fathom · cs_f_fathom_01"
-    },
-    {
-      "id": "cs_f_first_amendment_01",
-      "text": "The First Amendment protects freedom of religion",
-      "standing": "projectable",
-      "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_01"
-    },
-    {
-      "id": "cs_f_florida_keys_01",
-      "text": "The Florida Keys are a chain of islands in Florida",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Florida Keys · cs_f_florida_keys_01"
-    },
-    {
-      "id": "cs_f_friction_02",
-      "text": "Friction is a force that opposes motion between surfaces",
-      "standing": "projectable",
-      "evidence": "science · product curator · Friction · cs_f_friction_02"
-    },
-    {
-      "id": "cs_f_freezing_point_02",
-      "text": "Water freezes at 0 degrees Celsius",
-      "standing": "projectable",
-      "evidence": "science · product curator · Freezing point · cs_f_freezing_point_02"
-    },
-    {
-      "id": "cs_f_fungus_03",
-      "text": "Mushrooms are the fruiting bodies of some fungi",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fungus · cs_f_fungus_03"
-    },
-    {
-      "id": "cs_f_fifth_amendment_01",
-      "text": "The Fifth Amendment is part of the United States Bill of Rights",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_01"
-    },
-    {
-      "id": "cs_f_florida_03",
-      "text": "Florida is a peninsula",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Florida · cs_f_florida_03"
-    },
-    {
-      "id": "cs_f_fern_02",
-      "text": "Ferns reproduce using spores",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fern · cs_f_fern_02"
-    },
-    {
-      "id": "cs_f_fruit_bat_01",
-      "text": "Fruit bats eat fruit and nectar",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fruit bat · cs_f_fruit_bat_01"
-    },
-    {
-      "id": "cs_f_finland_03",
-      "text": "Finland is a country in Europe",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Finland · cs_f_finland_03"
-    },
-    {
-      "id": "cs_f_falcon_02",
-      "text": "A falcon is a bird of prey",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Falcon · cs_f_falcon_02"
-    },
-    {
-      "id": "cs_f_fox_02",
-      "text": "A fox is a mammal",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fox · cs_f_fox_02"
-    },
-    {
-      "id": "cs_f_frog_02",
-      "text": "A frog is an amphibian",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Frog · cs_f_frog_02"
-    },
-    {
-      "id": "cs_f_foot_03",
-      "text": "A foot equals twelve inches",
-      "standing": "projectable",
-      "evidence": "math · product curator · Foot · cs_f_foot_03"
-    },
-    {
-      "id": "cs_f_fraction_02",
-      "text": "A fraction is part of a whole",
-      "standing": "projectable",
-      "evidence": "math · product curator · Fraction · cs_f_fraction_02"
-    },
-    {
-      "id": "cs_f_french_02",
-      "text": "French is the official language of France",
-      "standing": "projectable",
-      "evidence": "language · product curator · French · cs_f_french_02"
-    },
-    {
-      "id": "cs_f_ferrara_01",
-      "text": "Ferrara is a city in Italy",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Ferrara · cs_f_ferrara_01"
-    },
-    {
-      "id": "cs_f_frankfurt_01",
-      "text": "Frankfurt is a city in Germany",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Frankfurt · cs_f_frankfurt_01"
-    },
-    {
-      "id": "cs_f_freiburg_01",
-      "text": "Freiburg is a city in Germany",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Freiburg · cs_f_freiburg_01"
-    },
-    {
-      "id": "cs_f_fukuoka_01",
-      "text": "Fukuoka is a city in Japan",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fukuoka · cs_f_fukuoka_01"
-    },
-    {
-      "id": "cs_f_fuzhou_01",
-      "text": "Fuzhou is a city in China",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fuzhou · cs_f_fuzhou_01"
-    },
-    {
-      "id": "cs_f_foshan_01",
-      "text": "Foshan is a city in China",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Foshan · cs_f_foshan_01"
-    },
-    {
-      "id": "cs_f_faro_01",
-      "text": "Faro is a city in Portugal",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Faro · cs_f_faro_01"
-    },
-    {
-      "id": "cs_f_fez_01",
-      "text": "Fez is a city in Morocco",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fez · cs_f_fez_01"
-    },
-    {
-      "id": "cs_f_fresno_01",
-      "text": "Fresno is a city in California",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fresno · cs_f_fresno_01"
-    },
-    {
-      "id": "cs_f_flint_01",
-      "text": "Flint is a city in Michigan",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Flint · cs_f_flint_01"
-    },
-    {
-      "id": "cs_f_fremont_01",
-      "text": "Fremont is a city in California",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fremont · cs_f_fremont_01"
-    },
-    {
-      "id": "cs_f_fribourg_01",
-      "text": "Fribourg is a city in Switzerland",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fribourg · cs_f_fribourg_01"
-    },
-    {
-      "id": "cs_f_fortaleza_01",
-      "text": "Fortaleza is a city in Brazil",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fortaleza · cs_f_fortaleza_01"
-    },
-    {
-      "id": "cs_f_faisalabad_01",
-      "text": "Faisalabad is a city in Pakistan",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Faisalabad · cs_f_faisalabad_01"
-    },
-    {
-      "id": "cs_f_factor_tree_01",
-      "text": "A factor tree shows prime factors",
-      "standing": "projectable",
-      "evidence": "math · product curator · Factor tree · cs_f_factor_tree_01"
-    },
-    {
-      "id": "cs_f_fahrenheit_scale_01",
-      "text": "The Fahrenheit scale sets water freezing at 32",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fahrenheit scale · cs_f_fahrenheit_scale_01"
-    },
-    {
-      "id": "cs_f_fall_equinox_01",
-      "text": "The fall equinox marks equal day and night",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fall equinox · cs_f_fall_equinox_01"
-    },
-    {
-      "id": "cs_f_faraday_cage_01",
-      "text": "A Faraday cage blocks electric fields",
-      "standing": "projectable",
-      "evidence": "science · product curator · Faraday cage · cs_f_faraday_cage_01"
-    },
-    {
-      "id": "cs_f_fauna_01",
-      "text": "Fauna means the animals of a region",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fauna · cs_f_fauna_01"
-    },
-    {
-      "id": "cs_f_fermentation_01",
-      "text": "Fermentation converts sugar without oxygen",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fermentation · cs_f_fermentation_01"
-    },
-    {
-      "id": "cs_f_fertile_crescent_01",
-      "text": "The Fertile Crescent was a cradle of agriculture",
-      "standing": "projectable",
-      "evidence": "history · product curator · Fertile Crescent · cs_f_fertile_crescent_01"
-    },
-    {
-      "id": "cs_f_feldspar_01",
-      "text": "Feldspar is a common rock forming mineral",
-      "standing": "projectable",
-      "evidence": "science · product curator · Feldspar · cs_f_feldspar_01"
-    },
-    {
-      "id": "cs_f_fifteenth_amendment_01",
-      "text": "The Fifteenth Amendment protects voting rights",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifteenth Amendment · cs_f_fifteenth_amendment_01"
-    },
-    {
-      "id": "cs_f_flatworm_01",
-      "text": "A flatworm is a simple invertebrate",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flatworm · cs_f_flatworm_01"
-    },
-    {
-      "id": "cs_f_fourteenth_amendment_01",
-      "text": "The Fourteenth Amendment defines citizenship",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fourteenth Amendment · cs_f_fourteenth_amendment_01"
-    },
-    {
-      "id": "cs_f_facet_01",
-      "text": "A facet is a flat face on a gem",
-      "standing": "projectable",
-      "evidence": "science · product curator · Facet · cs_f_facet_01"
-    },
-    {
-      "id": "cs_f_fault_02",
-      "text": "An earthquake can occur along a fault",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fault · cs_f_fault_02"
-    },
-    {
-      "id": "cs_f_fermium_02",
-      "text": "Fermium is a synthetic element",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fermium · cs_f_fermium_02"
-    },
-    {
-      "id": "cs_f_fern_03",
-      "text": "A fern has fronds instead of flowers",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fern · cs_f_fern_03"
-    },
-    {
-      "id": "cs_f_fifth_amendment_02",
-      "text": "The Fifth Amendment protects the privilege against self incrimination",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_02"
-    },
-    {
-      "id": "cs_f_firefly_02",
-      "text": "A firefly produces light",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Firefly · cs_f_firefly_02"
-    },
-    {
-      "id": "cs_f_first_amendment_02",
-      "text": "The First Amendment protects freedom of speech",
-      "standing": "projectable",
-      "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_02"
-    },
-    {
-      "id": "cs_f_fish_03",
-      "text": "A fish breathes with gills",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fish · cs_f_fish_03"
-    },
-    {
-      "id": "cs_f_flamingo_02",
-      "text": "A flamingo is a long legged wading bird",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flamingo · cs_f_flamingo_02"
-    },
-    {
-      "id": "cs_f_focus_01",
-      "text": "The focus of an earthquake is the point of rupture",
-      "standing": "projectable",
-      "evidence": "science · product curator · Focus · cs_f_focus_01"
-    },
-    {
-      "id": "cs_f_fold_01",
-      "text": "A fold bends layers of rock",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fold · cs_f_fold_01"
-    },
-    {
-      "id": "cs_f_fossil_02",
-      "text": "A fossil preserves ancient life",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fossil · cs_f_fossil_02"
-    },
-    {
-      "id": "cs_f_freezing_point_03",
-      "text": "The freezing point of water is zero Celsius",
-      "standing": "projectable",
-      "evidence": "science · product curator · Freezing point · cs_f_freezing_point_03"
-    },
-    {
-      "id": "cs_f_function_01",
-      "text": "A function maps each input to one output",
-      "standing": "projectable",
-      "evidence": "math · product curator · Function · cs_f_function_01"
-    },
-    {
-      "id": "cs_f_factor_02",
-      "text": "A factor divides a number evenly",
-      "standing": "projectable",
-      "evidence": "math · product curator · Factor · cs_f_factor_02"
-    },
-    {
-      "id": "cs_f_fahrenheit_02",
-      "text": "Fahrenheit is a temperature scale",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fahrenheit · cs_f_fahrenheit_02"
-    },
-    {
-      "id": "cs_f_fault_03",
-      "text": "A fault is a break in rock",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fault · cs_f_fault_03"
-    },
-    {
-      "id": "cs_f_feather_02",
-      "text": "A feather covers a bird",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Feather · cs_f_feather_02"
-    },
-    {
-      "id": "cs_f_feldspar_02",
-      "text": "Feldspar is a common mineral",
-      "standing": "projectable",
-      "evidence": "science · product curator · Feldspar · cs_f_feldspar_02"
-    },
-    {
-      "id": "cs_f_fermentation_02",
-      "text": "Yeast causes fermentation",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fermentation · cs_f_fermentation_02"
-    },
-    {
-      "id": "cs_f_fern_04",
-      "text": "A fern reproduces with spores",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fern · cs_f_fern_04"
-    },
-    {
-      "id": "cs_f_fiber_01",
-      "text": "Dietary fiber aids digestion",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fiber · cs_f_fiber_01"
-    },
-    {
-      "id": "cs_f_finch_02",
-      "text": "A finch is a small songbird",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Finch · cs_f_finch_02"
-    },
-    {
-      "id": "cs_f_fibula_01",
-      "text": "The fibula is a bone in the lower leg",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fibula · cs_f_fibula_01"
-    },
-    {
-      "id": "cs_f_federalism_02",
-      "text": "Federalism divides power between levels of government",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Federalism · cs_f_federalism_02"
-    },
-    {
-      "id": "cs_f_foot_04",
-      "text": "A foot is a unit of length",
-      "standing": "projectable",
-      "evidence": "math · product curator · Foot · cs_f_foot_04"
-    },
-    {
-      "id": "cs_f_fault_04",
-      "text": "Earthquakes often occur along a fault",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fault · cs_f_fault_04"
-    },
-    {
-      "id": "cs_f_flag_03",
-      "text": "A national flag represents a country",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Flag · cs_f_flag_03"
-    },
-    {
-      "id": "cs_f_function_02",
-      "text": "A function maps inputs to outputs",
-      "standing": "projectable",
-      "evidence": "math · product curator · Function · cs_f_function_02"
-    },
-    {
-      "id": "cs_f_fold_02",
-      "text": "Mountain belts often contain folds",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Fold · cs_f_fold_02"
-    },
-    {
-      "id": "cs_f_fig_02",
-      "text": "A fig is a soft fruit",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fig · cs_f_fig_02"
-    },
-    {
-      "id": "cs_f_fraction_03",
-      "text": "Three fourths is a fraction",
-      "standing": "projectable",
-      "evidence": "math · product curator · Fraction · cs_f_fraction_03"
-    },
-    {
-      "id": "cs_f_fir_02",
-      "text": "A fir is an evergreen tree",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fir · cs_f_fir_02"
-    },
-    {
-      "id": "cs_f_flatworm_02",
-      "text": "A flatworm is a simple animal",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flatworm · cs_f_flatworm_02"
-    },
-    {
-      "id": "cs_f_fur_01",
-      "text": "Fur keeps mammals warm",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fur · cs_f_fur_01"
-    },
-    {
-      "id": "cs_f_force_02",
-      "text": "Force can change motion",
-      "standing": "projectable",
-      "evidence": "science · product curator · Force · cs_f_force_02"
-    },
-    {
-      "id": "cs_f_fraction_04",
-      "text": "A fraction names part of a whole",
-      "standing": "projectable",
-      "evidence": "math · product curator · Fraction · cs_f_fraction_04"
-    },
-    {
-      "id": "cs_f_foothill_01",
-      "text": "A foothill lies at the base of a mountain",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Foothill · cs_f_foothill_01"
-    },
-    {
-      "id": "cs_f_fragment_01",
-      "text": "A sentence fragment lacks a complete thought",
-      "standing": "projectable",
-      "evidence": "language · product curator · Fragment · cs_f_fragment_01"
-    },
-    {
-      "id": "cs_f_focus_02",
-      "text": "A lens has a focus point",
-      "standing": "projectable",
-      "evidence": "science · product curator · Focus · cs_f_focus_02"
-    },
-    {
-      "id": "cs_f_fiber_02",
-      "text": "Fiber strengthens plant tissue",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fiber · cs_f_fiber_02"
-    },
-    {
-      "id": "cs_f_formula_01",
-      "text": "A formula states a mathematical relation",
-      "standing": "projectable",
-      "evidence": "math · product curator · Formula · cs_f_formula_01"
-    },
-    {
-      "id": "cs_f_fluorine_03",
-      "text": "Fluorine is a reactive gas",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluorine · cs_f_fluorine_03"
-    },
-    {
-      "id": "cs_f_fruit_01",
-      "text": "A fruit develops from a flower",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fruit · cs_f_fruit_01"
-    },
-    {
-      "id": "cs_f_flask_01",
-      "text": "Chemists heat liquid in a flask",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flask · cs_f_flask_01"
-    },
-    {
-      "id": "cs_f_flower_02",
-      "text": "Bees visit a flower for nectar",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flower · cs_f_flower_02"
-    },
-    {
-      "id": "cs_f_front_01",
-      "text": "Cold air meets warm air at a front",
-      "standing": "projectable",
-      "evidence": "geography · product curator · Front · cs_f_front_01"
-    },
-    {
-      "id": "cs_f_facet_02",
-      "text": "A diamond has many facets",
-      "standing": "projectable",
-      "evidence": "science · product curator · Facet · cs_f_facet_02"
-    },
-    {
-      "id": "cs_f_factor_03",
-      "text": "Six is a factor of twelve",
-      "standing": "projectable",
-      "evidence": "math · product curator · Factor · cs_f_factor_03"
-    },
-    {
-      "id": "cs_f_falcon_03",
-      "text": "A falcon dives on prey",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Falcon · cs_f_falcon_03"
-    },
-    {
-      "id": "cs_f_flint_02",
-      "text": "People struck flint for sparks",
-      "standing": "projectable",
-      "evidence": "history · product curator · Flint · cs_f_flint_02"
-    },
-    {
-      "id": "cs_f_friction_03",
-      "text": "Friction slows a sliding object",
-      "standing": "projectable",
-      "evidence": "science · product curator · Friction · cs_f_friction_03"
-    },
-    {
-      "id": "cs_f_factor_tree_02",
-      "text": "Students draw a factor tree",
-      "standing": "projectable",
-      "evidence": "math · product curator · Factor tree · cs_f_factor_tree_02"
-    },
-    {
-      "id": "cs_f_ferret_02",
-      "text": "A ferret is a slender mammal",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Ferret · cs_f_ferret_02"
-    },
-    {
-      "id": "cs_f_firefly_03",
-      "text": "A firefly glows at night",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Firefly · cs_f_firefly_03"
-    },
-    {
-      "id": "cs_f_fox_03",
-      "text": "A fox hunts small animals",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fox · cs_f_fox_03"
-    },
-    {
-      "id": "cs_f_frog_03",
-      "text": "A frog begins as a tadpole",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Frog · cs_f_frog_03"
-    },
-    {
-      "id": "cs_f_fluorine_04",
-      "text": "Fluorine reacts with metals",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluorine · cs_f_fluorine_04"
-    },
-    {
-      "id": "cs_f_fermentation_03",
-      "text": "Yeast drives fermentation",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fermentation · cs_f_fermentation_03"
-    },
-    {
-      "id": "cs_f_flower_03",
-      "text": "A flower attracts insects",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flower · cs_f_flower_03"
-    },
-    {
-      "id": "cs_f_frequency_02",
-      "text": "Pitch rises with frequency",
-      "standing": "projectable",
-      "evidence": "science · product curator · Frequency · cs_f_frequency_02"
-    },
-    {
-      "id": "cs_f_freezing_point_04",
-      "text": "Water has a freezing point",
-      "standing": "projectable",
-      "evidence": "science · product curator · Freezing point · cs_f_freezing_point_04"
-    },
-    {
-      "id": "cs_f_formula_02",
-      "text": "Chemists write a formula",
-      "standing": "projectable",
-      "evidence": "science · product curator · Formula · cs_f_formula_02"
-    },
-    {
-      "id": "cs_f_fog_02",
-      "text": "Fog forms from cool air",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fog · cs_f_fog_02"
-    },
-    {
-      "id": "cs_f_fir_03",
-      "text": "A fir keeps its needles",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fir · cs_f_fir_03"
-    },
-    {
-      "id": "cs_f_fruit_bat_02",
-      "text": "A fruit bat eats ripe fruit",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fruit bat · cs_f_fruit_bat_02"
-    },
-    {
-      "id": "cs_f_fragment_02",
-      "text": "A fragment lacks a subject",
-      "standing": "projectable",
-      "evidence": "language · product curator · Fragment · cs_f_fragment_02"
-    },
-    {
-      "id": "cs_f_factor_04",
-      "text": "Six has a factor of three",
-      "standing": "projectable",
-      "evidence": "math · product curator · Factor · cs_f_factor_04"
-    },
-    {
-      "id": "cs_f_fauna_02",
-      "text": "Islands hold unique fauna",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fauna · cs_f_fauna_02"
-    },
-    {
-      "id": "cs_f_fermentation_04",
-      "text": "Bread rises by fermentation",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fermentation · cs_f_fermentation_04"
-    },
-    {
-      "id": "cs_f_ferret_03",
-      "text": "Ferrets live in burrows",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Ferret · cs_f_ferret_03"
-    },
-    {
-      "id": "cs_f_firefly_04",
-      "text": "Larvae become a firefly",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Firefly · cs_f_firefly_04"
-    },
-    {
-      "id": "cs_f_fission_02",
-      "text": "Nuclei split in fission",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fission · cs_f_fission_02"
-    },
-    {
-      "id": "cs_f_frost_02",
-      "text": "Cold nights leave frost",
-      "standing": "projectable",
-      "evidence": "science · product curator · Frost · cs_f_frost_02"
-    },
-    {
-      "id": "cs_f_fusion_02",
-      "text": "Hydrogen joins in fusion",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fusion · cs_f_fusion_02"
-    },
-    {
-      "id": "cs_f_feldspar_03",
-      "text": "Granite holds feldspar",
-      "standing": "projectable",
-      "evidence": "science · product curator · Feldspar · cs_f_feldspar_03"
-    },
-    {
-      "id": "cs_f_finch_03",
-      "text": "Finches crack seeds",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Finch · cs_f_finch_03"
-    },
-    {
-      "id": "cs_f_fir_04",
-      "text": "Firs keep winter needles",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fir · cs_f_fir_04"
-    },
-    {
-      "id": "cs_f_flint_03",
-      "text": "Sparks fly from flint",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flint · cs_f_flint_03"
-    },
-    {
-      "id": "cs_f_fluoride_01",
-      "text": "Toothpaste adds fluoride",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluoride · cs_f_fluoride_01"
-    },
-    {
-      "id": "cs_f_follicle_01",
-      "text": "Hair grows from a follicle",
-      "standing": "projectable",
-      "evidence": "science · product curator · Follicle · cs_f_follicle_01"
-    },
-    {
-      "id": "cs_f_friction_04",
-      "text": "Friction produces heat",
-      "standing": "projectable",
-      "evidence": "science · product curator · Friction · cs_f_friction_04"
-    },
-    {
-      "id": "cs_f_frost_03",
-      "text": "Frost forms on cold surfaces",
-      "standing": "projectable",
-      "evidence": "science · product curator · Frost · cs_f_frost_03"
-    },
-    {
-      "id": "cs_f_fabric_01",
-      "text": "Cotton forms soft fabric",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fabric · cs_f_fabric_01"
-    },
-    {
-      "id": "cs_f_fat_01",
-      "text": "Fat stores body energy",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fat · cs_f_fat_01"
-    },
-    {
-      "id": "cs_f_fault_05",
-      "text": "A fault shifts rock layers",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fault · cs_f_fault_05"
-    },
-    {
-      "id": "cs_f_feather_03",
-      "text": "A feather traps warm air",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Feather · cs_f_feather_03"
-    },
-    {
-      "id": "cs_f_feldspar_04",
-      "text": "Feldspar fills granite",
-      "standing": "projectable",
-      "evidence": "science · product curator · Feldspar · cs_f_feldspar_04"
-    },
-    {
-      "id": "cs_f_fern_05",
-      "text": "A fern unrolls new fronds",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fern · cs_f_fern_05"
-    },
-    {
-      "id": "cs_f_fertilizer_01",
-      "text": "Fertilizer feeds crop soil",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fertilizer · cs_f_fertilizer_01"
-    },
-    {
-      "id": "cs_f_flax_01",
-      "text": "Flax yields linen fiber",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flax · cs_f_flax_01"
-    },
-    {
-      "id": "cs_f_fluoride_02",
-      "text": "Fluoride hardens tooth enamel",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluoride · cs_f_fluoride_02"
-    },
-    {
-      "id": "cs_f_frost_04",
-      "text": "Frost coats cold grass",
-      "standing": "projectable",
-      "evidence": "science · product curator · Frost · cs_f_frost_04"
-    },
-    {
-      "id": "cs_f_fault_06",
-      "text": "Rock slips along a fault",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fault · cs_f_fault_06"
-    },
-    {
-      "id": "cs_f_ferritin_01",
-      "text": "Ferritin stores body iron",
-      "standing": "projectable",
-      "evidence": "science · product curator · Ferritin · cs_f_ferritin_01"
-    },
-    {
-      "id": "cs_f_fibrin_01",
-      "text": "Fibrin seals a clotting wound",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fibrin · cs_f_fibrin_01"
-    },
-    {
-      "id": "cs_f_fibula_02",
-      "text": "The fibula braces the shin",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fibula · cs_f_fibula_02"
-    },
-    {
-      "id": "cs_f_filament_01",
-      "text": "A filament glows in a bulb",
-      "standing": "projectable",
-      "evidence": "science · product curator · Filament · cs_f_filament_01"
-    },
-    {
-      "id": "cs_f_fission_03",
-      "text": "Uranium splits by fission",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fission · cs_f_fission_03"
-    },
-    {
-      "id": "cs_f_flagellum_01",
-      "text": "A flagellum propels a cell",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flagellum · cs_f_flagellum_01"
-    },
-    {
-      "id": "cs_f_frequency_03",
-      "text": "Frequency counts wave cycles",
-      "standing": "projectable",
-      "evidence": "science · product curator · Frequency · cs_f_frequency_03"
-    },
-    {
-      "id": "cs_f_fructose_01",
-      "text": "Fruits store sweet fructose",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fructose · cs_f_fructose_01"
-    },
-    {
-      "id": "cs_f_fur_02",
-      "text": "Fur insulates mammal skin",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fur · cs_f_fur_02"
-    },
-    {
-      "id": "cs_f_fermentation_05",
-      "text": "Yeast starts fermentation",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fermentation · cs_f_fermentation_05"
-    },
-    {
-      "id": "cs_f_fibrin_02",
-      "text": "Fibrin seals clotting wounds",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fibrin · cs_f_fibrin_02"
-    },
-    {
-      "id": "cs_f_fold_03",
-      "text": "Geologists map rock folds",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fold · cs_f_fold_03"
-    },
-    {
-      "id": "cs_f_follicle_02",
-      "text": "Hair grows from follicles",
-      "standing": "projectable",
-      "evidence": "science · product curator · Follicle · cs_f_follicle_02"
-    },
-    {
-      "id": "cs_f_friction_05",
-      "text": "Oil cuts machine friction",
-      "standing": "projectable",
-      "evidence": "science · product curator · Friction · cs_f_friction_05"
-    },
-    {
-      "id": "cs_f_fructose_02",
-      "text": "Honey packs rich fructose",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fructose · cs_f_fructose_02"
-    },
-    {
-      "id": "cs_f_fruit_02",
-      "text": "Seed spreads inside fruit",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fruit · cs_f_fruit_02"
-    },
-    {
-      "id": "cs_f_fusion_03",
-      "text": "Fusion joins light nuclei",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fusion · cs_f_fusion_03"
-    },
-    {
-      "id": "cs_f_fascia_01",
-      "text": "Fascia wraps muscle groups",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fascia · cs_f_fascia_01"
-    },
-    {
-      "id": "cs_f_firn_01",
-      "text": "Firn packs into glacier ice",
-      "standing": "projectable",
-      "evidence": "science · product curator · Firn · cs_f_firn_01"
-    },
-    {
-      "id": "cs_f_fission_04",
-      "text": "Fission splits heavy nuclei",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fission · cs_f_fission_04"
-    },
-    {
-      "id": "cs_f_flame_01",
-      "text": "A flame oxidizes fuel vapor",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flame · cs_f_flame_01"
-    },
-    {
-      "id": "cs_f_flexor_01",
-      "text": "Flexors bend joint angles",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flexor · cs_f_flexor_01"
-    },
-    {
-      "id": "cs_f_flowstone_01",
-      "text": "Flowstone coats cave walls",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flowstone · cs_f_flowstone_01"
-    },
-    {
-      "id": "cs_f_flux_01",
-      "text": "Flux cleans solder joints",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flux · cs_f_flux_01"
-    },
-    {
-      "id": "cs_f_foci_01",
-      "text": "Foci mark ellipse centers",
-      "standing": "projectable",
-      "evidence": "math · product curator · Foci · cs_f_foci_01"
-    },
-    {
-      "id": "cs_f_friction_06",
-      "text": "Friction slows sliding surfaces",
-      "standing": "projectable",
-      "evidence": "science · product curator · Friction · cs_f_friction_06"
-    },
-    {
-      "id": "cs_f_furrow_01",
-      "text": "A furrow drains field water",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Furrow · cs_f_furrow_01"
-    },
-    {
-      "id": "cs_f_fatigue_01",
-      "text": "Metal fatigue cracks under stress",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fatigue · cs_f_fatigue_01"
-    },
-    {
-      "id": "cs_f_fault_07",
-      "text": "A fault slips crust blocks",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fault · cs_f_fault_07"
-    },
-    {
-      "id": "cs_f_fiber_03",
-      "text": "Fiber speeds gut transit",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fiber · cs_f_fiber_03"
-    },
-    {
-      "id": "cs_f_fibrin_03",
-      "text": "Fibrin seals wound clots",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fibrin · cs_f_fibrin_03"
-    },
-    {
-      "id": "cs_f_fibroblast_01",
-      "text": "Fibroblasts build scar tissue",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fibroblast · cs_f_fibroblast_01"
-    },
-    {
-      "id": "cs_f_firn_02",
-      "text": "Firn packs glacier snow",
-      "standing": "projectable",
-      "evidence": "science · product curator · Firn · cs_f_firn_02"
-    },
-    {
-      "id": "cs_f_flatworm_03",
-      "text": "Flatworms regenerate lost parts",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Flatworm · cs_f_flatworm_03"
-    },
-    {
-      "id": "cs_f_fluorine_05",
-      "text": "Fluorine etches glassware",
-      "standing": "projectable",
-      "evidence": "science · product curator · Fluorine · cs_f_fluorine_05"
-    },
-    {
-      "id": "cs_f_fructose_03",
-      "text": "Fructose sweetens fruit pulp",
-      "standing": "projectable",
-      "evidence": "nature · product curator · Fructose · cs_f_fructose_03"
-    },
-    {
-      "id": "cs_f_flotation_01",
-      "text": "Flotation lifts ore particles",
-      "standing": "projectable",
-      "evidence": "science · product curator · Flotation · cs_f_flotation_01"
-    },
-    {
-      "id": "cs_f_fifth_amendment_03",
-      "text": "The Fifth Amendment protects due process of law",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_03"
-    },
-    {
-      "id": "cs_f_fifth_amendment_04",
-      "text": "The Fifth Amendment forbids a second trial for the same crime",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_04"
-    },
-    {
-      "id": "cs_f_fifth_amendment_05",
-      "text": "The Fifth Amendment protects grand jury indictment",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_05"
-    },
-    {
-      "id": "cs_f_fifth_amendment_06",
-      "text": "The Fifth Amendment protects private property",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_06"
-    },
-    {
-      "id": "cs_f_fifth_amendment_07",
-      "text": "The Fifth Amendment requires just compensation for taken private property",
-      "standing": "projectable",
-      "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_07"
-    },
-    {
-      "id": "cs_f_first_amendment_03",
-      "text": "The First Amendment protects freedom of the press",
-      "standing": "projectable",
-      "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_03"
-    },
-    {
-      "id": "cs_f_first_amendment_04",
-      "text": "The First Amendment protects freedom of assembly",
-      "standing": "projectable",
-      "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_04"
-    },
-    {
-      "id": "cs_f_first_amendment_05",
-      "text": "The First Amendment protects petitions to the government",
-      "standing": "projectable",
-      "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_05"
-    }
-  ]
+ "schema": "FORGE-CONFIRMED-PACK/v1",
+ "format": "FORGE-CONFIRMED-PACK/v1",
+ "pack_id": "confirmed_shared_letter_f",
+ "provenance": "confirmed_shared",
+ "letter": "F",
+ "who_confirmed": "product_curator",
+ "shared_kb": false,
+ "curated_facts": 271,
+ "items": [
+  {
+   "id": "cs_f_france_01",
+   "text": "Paris is the capital of France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · France · cs_f_france_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_finland_01",
+   "text": "Helsinki is the capital of Finland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Finland · cs_f_finland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fiji_01",
+   "text": "Fiji is an island country in the South Pacific",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fiji · cs_f_fiji_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fiji_02",
+   "text": "Suva is the capital of Fiji",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fiji · cs_f_fiji_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_florida_01",
+   "text": "Tallahassee is the capital of Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida · cs_f_florida_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_florida_02",
+   "text": "Florida is a peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida · cs_f_florida_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fuji_mount_01",
+   "text": "Mount Fuji is the highest mountain in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fuji, Mount · cs_f_fuji_mount_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fuji_mount_02",
+   "text": "Mount Fuji is a volcano",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fuji, Mount · cs_f_fuji_mount_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frankfort_01",
+   "text": "Frankfort is the capital of Kentucky",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Frankfort · cs_f_frankfort_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_freetown_01",
+   "text": "Freetown is the capital of Sierra Leone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Freetown · cs_f_freetown_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluorine_01",
+   "text": "Fluorine has the chemical symbol F",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluorine_02",
+   "text": "Fluorine is a halogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_francium_01",
+   "text": "Francium has the chemical symbol Fr",
+   "standing": "projectable",
+   "evidence": "science · product curator · Francium · cs_f_francium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_friction_01",
+   "text": "Friction is a force that opposes motion between surfaces in contact",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fossil_01",
+   "text": "A fossil is preserved evidence of ancient life",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fossil · cs_f_fossil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fossil_fuel_01",
+   "text": "Coal is a fossil fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fossil fuel · cs_f_fossil_fuel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fusion_01",
+   "text": "The Sun is powered by nuclear fusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fusion · cs_f_fusion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_freezing_point_01",
+   "text": "Water freezes at 32 degrees Fahrenheit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fahrenheit_01",
+   "text": "Water boils at 212 degrees Fahrenheit at sea-level pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fahrenheit · cs_f_fahrenheit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fungus_01",
+   "text": "Mushrooms are fungi",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fungus · cs_f_fungus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fungus_02",
+   "text": "Fungi are not plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fungus · cs_f_fungus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fish_02",
+   "text": "Fish are vertebrates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fish · cs_f_fish_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frog_01",
+   "text": "Frogs begin life as tadpoles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Frog · cs_f_frog_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flamingo_01",
+   "text": "Flamingos get their pink color from their diet",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flamingo · cs_f_flamingo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fox_01",
+   "text": "Foxes belong to the dog family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fox · cs_f_fox_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_falcon_01",
+   "text": "The peregrine falcon is the fastest bird in a dive",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Falcon · cs_f_falcon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fern_01",
+   "text": "Ferns reproduce with spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flower_01",
+   "text": "Flowers are the reproductive structures of flowering plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flower · cs_f_flower_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_firefly_01",
+   "text": "Fireflies produce light through bioluminescence",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_french_revolution_01",
+   "text": "The French Revolution began in 1789",
+   "standing": "projectable",
+   "evidence": "history · product curator · French Revolution · cs_f_french_revolution_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_franklin_benjamin_01",
+   "text": "Benjamin Franklin was a founder of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Franklin, Benjamin · cs_f_franklin_benjamin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_franklin_benjamin_02",
+   "text": "Benjamin Franklin conducted experiments with electricity",
+   "standing": "projectable",
+   "evidence": "history · product curator · Franklin, Benjamin · cs_f_franklin_benjamin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ford_henry_01",
+   "text": "Henry Ford founded the Ford Motor Company",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ford, Henry · cs_f_ford_henry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ford_henry_02",
+   "text": "The Ford Model T was introduced in 1908",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ford, Henry · cs_f_ford_henry_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fleming_alexander_01",
+   "text": "Alexander Fleming discovered penicillin in 1928",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fleming, Alexander · cs_f_fleming_alexander_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frank_anne_01",
+   "text": "Anne Frank wrote a diary during the war",
+   "standing": "projectable",
+   "evidence": "history · product curator · Frank, Anne · cs_f_frank_anne_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_forbidden_city_01",
+   "text": "The Forbidden City is in Beijing",
+   "standing": "projectable",
+   "evidence": "history · product curator · Forbidden City · cs_f_forbidden_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fraction_01",
+   "text": "A fraction represents part of a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_factor_01",
+   "text": "A factor of a number divides it with no remainder",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fibonacci_sequence_01",
+   "text": "In the Fibonacci sequence, each number is the sum of the two before it",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fibonacci sequence · cs_f_fibonacci_sequence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_foot_01",
+   "text": "One foot equals 12 inches",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_foot_02",
+   "text": "One foot is about 30 centimeters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_federalism_01",
+   "text": "Federalism divides power between national and regional governments",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Federalism · cs_f_federalism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flag_01",
+   "text": "The American flag has 50 stars",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Flag · cs_f_flag_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flag_02",
+   "text": "The American flag has 13 stripes",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Flag · cs_f_flag_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_french_01",
+   "text": "French is an official language of Canada",
+   "standing": "projectable",
+   "evidence": "language · product curator · French · cs_f_french_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_february_01",
+   "text": "February is the shortest month of the Gregorian calendar",
+   "standing": "projectable",
+   "evidence": "general · product curator · February · cs_f_february_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_february_02",
+   "text": "February has 29 days in a leap year",
+   "standing": "projectable",
+   "evidence": "general · product curator · February · cs_f_february_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_finland_02",
+   "text": "Finland borders Sweden, Norway, and Russia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Finland · cs_f_finland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_france_02",
+   "text": "France is the largest country in the European Union by area",
+   "standing": "projectable",
+   "evidence": "geography · product curator · France · cs_f_france_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_french_guiana_01",
+   "text": "French Guiana is an overseas region of France in South America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · French Guiana · cs_f_french_guiana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_faroe_islands_01",
+   "text": "The Faroe Islands are a self-governing territory of Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Faroe Islands · cs_f_faroe_islands_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_falkland_islands_01",
+   "text": "The Falkland Islands are in the South Atlantic Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Falkland Islands · cs_f_falkland_islands_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_florence_01",
+   "text": "Florence is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florence · cs_f_florence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_florence_02",
+   "text": "Florence is the capital of the Tuscany region",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florence · cs_f_florence_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_funafuti_01",
+   "text": "Funafuti is the capital of Tuvalu",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Funafuti · cs_f_funafuti_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fargo_01",
+   "text": "Fargo is a city in North Dakota",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fargo · cs_f_fargo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fault_01",
+   "text": "A fault is a crack in rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frequency_01",
+   "text": "Frequency is measured in hertz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frequency · cs_f_frequency_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fermium_01",
+   "text": "Fermium has the chemical symbol Fm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermium · cs_f_fermium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flerovium_01",
+   "text": "Flerovium has the chemical symbol Fl",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flerovium · cs_f_flerovium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fission_01",
+   "text": "Nuclear fission splits a heavy nucleus into lighter nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fog_01",
+   "text": "Fog is a cloud near the ground",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fog · cs_f_fog_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_food_chain_01",
+   "text": "Energy passes along a food chain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Food chain · cs_f_food_chain_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fulcrum_01",
+   "text": "A lever pivots on a fulcrum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fulcrum · cs_f_fulcrum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluorescence_01",
+   "text": "Fluorescent materials emit light after absorbing radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorescence · cs_f_fluorescence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frost_01",
+   "text": "Frost forms when water vapor freezes on surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ferret_01",
+   "text": "Ferrets are domesticated mammals related to weasels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ferret · cs_f_ferret_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flounder_01",
+   "text": "Flounders are flatfish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flounder · cs_f_flounder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fly_01",
+   "text": "Flies are insects with one pair of wings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fly · cs_f_fly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_finch_01",
+   "text": "Finches are small seed-eating birds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Finch · cs_f_finch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fir_01",
+   "text": "Fir trees are conifers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_feather_01",
+   "text": "Feathers are made of keratin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Feather · cs_f_feather_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flying_fish_01",
+   "text": "Flying fish can glide above the water's surface",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flying fish · cs_f_flying_fish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_faraday_michael_01",
+   "text": "Michael Faraday discovered electromagnetic induction",
+   "standing": "projectable",
+   "evidence": "history · product curator · Faraday, Michael · cs_f_faraday_michael_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fahrenheit_daniel_gabriel_01",
+   "text": "Daniel Gabriel Fahrenheit invented the mercury thermometer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fahrenheit, Daniel Gabriel · cs_f_fahrenheit_daniel_gabriel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ferdinand_magellan_01",
+   "text": "Magellan led the first voyage around the world",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ferdinand Magellan · cs_f_ferdinand_magellan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fort_sumter_01",
+   "text": "The American Civil War began with the attack on Fort Sumter in 1861",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fort Sumter · cs_f_fort_sumter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frederick_the_great_01",
+   "text": "Frederick was king of Prussia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Frederick the Great · cs_f_frederick_the_great_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_freud_sigmund_01",
+   "text": "Sigmund Freud founded psychoanalysis",
+   "standing": "projectable",
+   "evidence": "history · product curator · Freud, Sigmund · cs_f_freud_sigmund_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fahrenheit_451_01",
+   "text": "Ray Bradbury wrote Fahrenheit 451",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fahrenheit 451 · cs_f_fahrenheit_451_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fathom_01",
+   "text": "A fathom is six feet",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fathom · cs_f_fathom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_first_amendment_01",
+   "text": "The First Amendment protects freedom of religion",
+   "standing": "projectable",
+   "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_florida_keys_01",
+   "text": "The Florida Keys are a chain of islands in Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida Keys · cs_f_florida_keys_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_friction_02",
+   "text": "Friction is a force that opposes motion between surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_freezing_point_02",
+   "text": "Water freezes at 0 degrees Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fungus_03",
+   "text": "Mushrooms are the fruiting bodies of some fungi",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fungus · cs_f_fungus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifth_amendment_01",
+   "text": "The Fifth Amendment is part of the United States Bill of Rights",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_florida_03",
+   "text": "Florida is a peninsula",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Florida · cs_f_florida_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fern_02",
+   "text": "Ferns reproduce using spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fruit_bat_01",
+   "text": "Fruit bats eat fruit and nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit bat · cs_f_fruit_bat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_finland_03",
+   "text": "Finland is a country in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Finland · cs_f_finland_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_falcon_02",
+   "text": "A falcon is a bird of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Falcon · cs_f_falcon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fox_02",
+   "text": "A fox is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fox · cs_f_fox_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frog_02",
+   "text": "A frog is an amphibian",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Frog · cs_f_frog_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_foot_03",
+   "text": "A foot equals twelve inches",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fraction_02",
+   "text": "A fraction is part of a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_french_02",
+   "text": "French is the official language of France",
+   "standing": "projectable",
+   "evidence": "language · product curator · French · cs_f_french_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ferrara_01",
+   "text": "Ferrara is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ferrara · cs_f_ferrara_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frankfurt_01",
+   "text": "Frankfurt is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Frankfurt · cs_f_frankfurt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_freiburg_01",
+   "text": "Freiburg is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Freiburg · cs_f_freiburg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fukuoka_01",
+   "text": "Fukuoka is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fukuoka · cs_f_fukuoka_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fuzhou_01",
+   "text": "Fuzhou is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fuzhou · cs_f_fuzhou_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_foshan_01",
+   "text": "Foshan is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Foshan · cs_f_foshan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_faro_01",
+   "text": "Faro is a city in Portugal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Faro · cs_f_faro_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fez_01",
+   "text": "Fez is a city in Morocco",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fez · cs_f_fez_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fresno_01",
+   "text": "Fresno is a city in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fresno · cs_f_fresno_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flint_01",
+   "text": "Flint is a city in Michigan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Flint · cs_f_flint_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fremont_01",
+   "text": "Fremont is a city in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fremont · cs_f_fremont_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fribourg_01",
+   "text": "Fribourg is a city in Switzerland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fribourg · cs_f_fribourg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fortaleza_01",
+   "text": "Fortaleza is a city in Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fortaleza · cs_f_fortaleza_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_faisalabad_01",
+   "text": "Faisalabad is a city in Pakistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Faisalabad · cs_f_faisalabad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_factor_tree_01",
+   "text": "A factor tree shows prime factors",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor tree · cs_f_factor_tree_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fahrenheit_scale_01",
+   "text": "The Fahrenheit scale sets water freezing at 32",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fahrenheit scale · cs_f_fahrenheit_scale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fall_equinox_01",
+   "text": "The fall equinox marks equal day and night",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fall equinox · cs_f_fall_equinox_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_faraday_cage_01",
+   "text": "A Faraday cage blocks electric fields",
+   "standing": "projectable",
+   "evidence": "science · product curator · Faraday cage · cs_f_faraday_cage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fauna_01",
+   "text": "Fauna means the animals of a region",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fauna · cs_f_fauna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fermentation_01",
+   "text": "Fermentation converts sugar without oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fertile_crescent_01",
+   "text": "The Fertile Crescent was a cradle of agriculture",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fertile Crescent · cs_f_fertile_crescent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_feldspar_01",
+   "text": "Feldspar is a common rock forming mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifteenth_amendment_01",
+   "text": "The Fifteenth Amendment protects voting rights",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifteenth Amendment · cs_f_fifteenth_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flatworm_01",
+   "text": "A flatworm is a simple invertebrate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flatworm · cs_f_flatworm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fourteenth_amendment_01",
+   "text": "The Fourteenth Amendment defines citizenship",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fourteenth Amendment · cs_f_fourteenth_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_facet_01",
+   "text": "A facet is a flat face on a gem",
+   "standing": "projectable",
+   "evidence": "science · product curator · Facet · cs_f_facet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fault_02",
+   "text": "An earthquake can occur along a fault",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fermium_02",
+   "text": "Fermium is a synthetic element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermium · cs_f_fermium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fern_03",
+   "text": "A fern has fronds instead of flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifth_amendment_02",
+   "text": "The Fifth Amendment protects the privilege against self incrimination",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_firefly_02",
+   "text": "A firefly produces light",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_first_amendment_02",
+   "text": "The First Amendment protects freedom of speech",
+   "standing": "projectable",
+   "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fish_03",
+   "text": "A fish breathes with gills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fish · cs_f_fish_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flamingo_02",
+   "text": "A flamingo is a long legged wading bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flamingo · cs_f_flamingo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_focus_01",
+   "text": "The focus of an earthquake is the point of rupture",
+   "standing": "projectable",
+   "evidence": "science · product curator · Focus · cs_f_focus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fold_01",
+   "text": "A fold bends layers of rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fold · cs_f_fold_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fossil_02",
+   "text": "A fossil preserves ancient life",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fossil · cs_f_fossil_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_freezing_point_03",
+   "text": "The freezing point of water is zero Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_function_01",
+   "text": "A function maps each input to one output",
+   "standing": "projectable",
+   "evidence": "math · product curator · Function · cs_f_function_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_factor_02",
+   "text": "A factor divides a number evenly",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fahrenheit_02",
+   "text": "Fahrenheit is a temperature scale",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fahrenheit · cs_f_fahrenheit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fault_03",
+   "text": "A fault is a break in rock",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fault · cs_f_fault_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_feather_02",
+   "text": "A feather covers a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Feather · cs_f_feather_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_feldspar_02",
+   "text": "Feldspar is a common mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fermentation_02",
+   "text": "Yeast causes fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fern_04",
+   "text": "A fern reproduces with spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fiber_01",
+   "text": "Dietary fiber aids digestion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fiber · cs_f_fiber_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_finch_02",
+   "text": "A finch is a small songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Finch · cs_f_finch_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fibula_01",
+   "text": "The fibula is a bone in the lower leg",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibula · cs_f_fibula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_federalism_02",
+   "text": "Federalism divides power between levels of government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Federalism · cs_f_federalism_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_foot_04",
+   "text": "A foot is a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fault_04",
+   "text": "Earthquakes often occur along a fault",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fault · cs_f_fault_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flag_03",
+   "text": "A national flag represents a country",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Flag · cs_f_flag_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_function_02",
+   "text": "A function maps inputs to outputs",
+   "standing": "projectable",
+   "evidence": "math · product curator · Function · cs_f_function_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fold_02",
+   "text": "Mountain belts often contain folds",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fold · cs_f_fold_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fig_02",
+   "text": "A fig is a soft fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fig · cs_f_fig_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fraction_03",
+   "text": "Three fourths is a fraction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fir_02",
+   "text": "A fir is an evergreen tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flatworm_02",
+   "text": "A flatworm is a simple animal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flatworm · cs_f_flatworm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fur_01",
+   "text": "Fur keeps mammals warm",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fur · cs_f_fur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_force_02",
+   "text": "Force can change motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Force · cs_f_force_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fraction_04",
+   "text": "A fraction names part of a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_foothill_01",
+   "text": "A foothill lies at the base of a mountain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Foothill · cs_f_foothill_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fragment_01",
+   "text": "A sentence fragment lacks a complete thought",
+   "standing": "projectable",
+   "evidence": "language · product curator · Fragment · cs_f_fragment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_focus_02",
+   "text": "A lens has a focus point",
+   "standing": "projectable",
+   "evidence": "science · product curator · Focus · cs_f_focus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fiber_02",
+   "text": "Fiber strengthens plant tissue",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fiber · cs_f_fiber_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_formula_01",
+   "text": "A formula states a mathematical relation",
+   "standing": "projectable",
+   "evidence": "math · product curator · Formula · cs_f_formula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluorine_03",
+   "text": "Fluorine is a reactive gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fruit_01",
+   "text": "A fruit develops from a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit · cs_f_fruit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flask_01",
+   "text": "Chemists heat liquid in a flask",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flask · cs_f_flask_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flower_02",
+   "text": "Bees visit a flower for nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flower · cs_f_flower_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_front_01",
+   "text": "Cold air meets warm air at a front",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Front · cs_f_front_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_facet_02",
+   "text": "A diamond has many facets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Facet · cs_f_facet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_factor_03",
+   "text": "Six is a factor of twelve",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_falcon_03",
+   "text": "A falcon dives on prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Falcon · cs_f_falcon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flint_02",
+   "text": "People struck flint for sparks",
+   "standing": "projectable",
+   "evidence": "history · product curator · Flint · cs_f_flint_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_friction_03",
+   "text": "Friction slows a sliding object",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_factor_tree_02",
+   "text": "Students draw a factor tree",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor tree · cs_f_factor_tree_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ferret_02",
+   "text": "A ferret is a slender mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ferret · cs_f_ferret_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_firefly_03",
+   "text": "A firefly glows at night",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fox_03",
+   "text": "A fox hunts small animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fox · cs_f_fox_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frog_03",
+   "text": "A frog begins as a tadpole",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Frog · cs_f_frog_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluorine_04",
+   "text": "Fluorine reacts with metals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fermentation_03",
+   "text": "Yeast drives fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flower_03",
+   "text": "A flower attracts insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flower · cs_f_flower_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frequency_02",
+   "text": "Pitch rises with frequency",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frequency · cs_f_frequency_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_freezing_point_04",
+   "text": "Water has a freezing point",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_formula_02",
+   "text": "Chemists write a formula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Formula · cs_f_formula_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fog_02",
+   "text": "Fog forms from cool air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fog · cs_f_fog_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fir_03",
+   "text": "A fir keeps its needles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fruit_bat_02",
+   "text": "A fruit bat eats ripe fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit bat · cs_f_fruit_bat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fragment_02",
+   "text": "A fragment lacks a subject",
+   "standing": "projectable",
+   "evidence": "language · product curator · Fragment · cs_f_fragment_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_factor_04",
+   "text": "Six has a factor of three",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fauna_02",
+   "text": "Islands hold unique fauna",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fauna · cs_f_fauna_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fermentation_04",
+   "text": "Bread rises by fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ferret_03",
+   "text": "Ferrets live in burrows",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ferret · cs_f_ferret_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_firefly_04",
+   "text": "Larvae become a firefly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fission_02",
+   "text": "Nuclei split in fission",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frost_02",
+   "text": "Cold nights leave frost",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fusion_02",
+   "text": "Hydrogen joins in fusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fusion · cs_f_fusion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_feldspar_03",
+   "text": "Granite holds feldspar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_finch_03",
+   "text": "Finches crack seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Finch · cs_f_finch_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fir_04",
+   "text": "Firs keep winter needles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flint_03",
+   "text": "Sparks fly from flint",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flint · cs_f_flint_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluoride_01",
+   "text": "Toothpaste adds fluoride",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluoride · cs_f_fluoride_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_follicle_01",
+   "text": "Hair grows from a follicle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Follicle · cs_f_follicle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_friction_04",
+   "text": "Friction produces heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frost_03",
+   "text": "Frost forms on cold surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fabric_01",
+   "text": "Cotton forms soft fabric",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fabric · cs_f_fabric_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fat_01",
+   "text": "Fat stores body energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fat · cs_f_fat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fault_05",
+   "text": "A fault shifts rock layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_feather_03",
+   "text": "A feather traps warm air",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Feather · cs_f_feather_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_feldspar_04",
+   "text": "Feldspar fills granite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fern_05",
+   "text": "A fern unrolls new fronds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fertilizer_01",
+   "text": "Fertilizer feeds crop soil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fertilizer · cs_f_fertilizer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flax_01",
+   "text": "Flax yields linen fiber",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flax · cs_f_flax_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluoride_02",
+   "text": "Fluoride hardens tooth enamel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluoride · cs_f_fluoride_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frost_04",
+   "text": "Frost coats cold grass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fault_06",
+   "text": "Rock slips along a fault",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_ferritin_01",
+   "text": "Ferritin stores body iron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ferritin · cs_f_ferritin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fibrin_01",
+   "text": "Fibrin seals a clotting wound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibrin · cs_f_fibrin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fibula_02",
+   "text": "The fibula braces the shin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibula · cs_f_fibula_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_filament_01",
+   "text": "A filament glows in a bulb",
+   "standing": "projectable",
+   "evidence": "science · product curator · Filament · cs_f_filament_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fission_03",
+   "text": "Uranium splits by fission",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flagellum_01",
+   "text": "A flagellum propels a cell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flagellum · cs_f_flagellum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_frequency_03",
+   "text": "Frequency counts wave cycles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frequency · cs_f_frequency_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fructose_01",
+   "text": "Fruits store sweet fructose",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fructose · cs_f_fructose_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fur_02",
+   "text": "Fur insulates mammal skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fur · cs_f_fur_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fermentation_05",
+   "text": "Yeast starts fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fibrin_02",
+   "text": "Fibrin seals clotting wounds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibrin · cs_f_fibrin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fold_03",
+   "text": "Geologists map rock folds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fold · cs_f_fold_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_follicle_02",
+   "text": "Hair grows from follicles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Follicle · cs_f_follicle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_friction_05",
+   "text": "Oil cuts machine friction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fructose_02",
+   "text": "Honey packs rich fructose",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fructose · cs_f_fructose_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fruit_02",
+   "text": "Seed spreads inside fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit · cs_f_fruit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fusion_03",
+   "text": "Fusion joins light nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fusion · cs_f_fusion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fascia_01",
+   "text": "Fascia wraps muscle groups",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fascia · cs_f_fascia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_firn_01",
+   "text": "Firn packs into glacier ice",
+   "standing": "projectable",
+   "evidence": "science · product curator · Firn · cs_f_firn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fission_04",
+   "text": "Fission splits heavy nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flame_01",
+   "text": "A flame oxidizes fuel vapor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flame · cs_f_flame_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flexor_01",
+   "text": "Flexors bend joint angles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flexor · cs_f_flexor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flowstone_01",
+   "text": "Flowstone coats cave walls",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flowstone · cs_f_flowstone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flux_01",
+   "text": "Flux cleans solder joints",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flux · cs_f_flux_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_foci_01",
+   "text": "Foci mark ellipse centers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foci · cs_f_foci_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_friction_06",
+   "text": "Friction slows sliding surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_furrow_01",
+   "text": "A furrow drains field water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Furrow · cs_f_furrow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fatigue_01",
+   "text": "Metal fatigue cracks under stress",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fatigue · cs_f_fatigue_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fault_07",
+   "text": "A fault slips crust blocks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fiber_03",
+   "text": "Fiber speeds gut transit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fiber · cs_f_fiber_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fibrin_03",
+   "text": "Fibrin seals wound clots",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibrin · cs_f_fibrin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fibroblast_01",
+   "text": "Fibroblasts build scar tissue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibroblast · cs_f_fibroblast_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_firn_02",
+   "text": "Firn packs glacier snow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Firn · cs_f_firn_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flatworm_03",
+   "text": "Flatworms regenerate lost parts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flatworm · cs_f_flatworm_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fluorine_05",
+   "text": "Fluorine etches glassware",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fructose_03",
+   "text": "Fructose sweetens fruit pulp",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fructose · cs_f_fructose_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_flotation_01",
+   "text": "Flotation lifts ore particles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flotation · cs_f_flotation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifth_amendment_03",
+   "text": "The Fifth Amendment protects due process of law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifth_amendment_04",
+   "text": "The Fifth Amendment forbids a second trial for the same crime",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifth_amendment_05",
+   "text": "The Fifth Amendment protects grand jury indictment",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifth_amendment_06",
+   "text": "The Fifth Amendment protects private property",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_fifth_amendment_07",
+   "text": "The Fifth Amendment requires just compensation for taken private property",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_first_amendment_03",
+   "text": "The First Amendment protects freedom of the press",
+   "standing": "projectable",
+   "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_first_amendment_04",
+   "text": "The First Amendment protects freedom of assembly",
+   "standing": "projectable",
+   "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  },
+  {
+   "id": "cs_f_first_amendment_05",
+   "text": "The First Amendment protects petitions to the government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
+  }
+ ]
 }

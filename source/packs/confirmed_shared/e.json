@@ -12,1525 +12,2795 @@
    "id": "cs_e_egypt_01",
    "text": "The Nile flows through Egypt",
    "standing": "projectable",
-   "evidence": "geography · product curator · Egypt · cs_e_egypt_01"
+   "evidence": "geography · product curator · Egypt · cs_e_egypt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ethiopia_01",
    "text": "Addis Ababa is the capital of Ethiopia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ethiopia · cs_e_ethiopia_01"
+   "evidence": "geography · product curator · Ethiopia · cs_e_ethiopia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecuador_01",
    "text": "Quito is the capital of Ecuador",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ecuador · cs_e_ecuador_01"
+   "evidence": "geography · product curator · Ecuador · cs_e_ecuador_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecuador_02",
    "text": "The equator passes through Ecuador",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ecuador · cs_e_ecuador_02"
+   "evidence": "geography · product curator · Ecuador · cs_e_ecuador_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_estonia_01",
    "text": "Tallinn is the capital of Estonia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Estonia · cs_e_estonia_01"
+   "evidence": "geography · product curator · Estonia · cs_e_estonia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edinburgh_01",
    "text": "Edinburgh is the capital of Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Edinburgh · cs_e_edinburgh_01"
+   "evidence": "geography · product curator · Edinburgh · cs_e_edinburgh_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_england_01",
    "text": "London is the capital of England",
    "standing": "projectable",
-   "evidence": "geography · product curator · England · cs_e_england_01"
+   "evidence": "geography · product curator · England · cs_e_england_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_europe_01",
    "text": "Europe is a continent",
    "standing": "projectable",
-   "evidence": "geography · product curator · Europe · cs_e_europe_01"
+   "evidence": "geography · product curator · Europe · cs_e_europe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_everest_01",
    "text": "Mount Everest is the highest mountain above sea level",
    "standing": "projectable",
-   "evidence": "geography · product curator · Everest · cs_e_everest_01"
+   "evidence": "geography · product curator · Everest · cs_e_everest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_everest_02",
    "text": "Mount Everest is in the Himalayas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Everest · cs_e_everest_02"
+   "evidence": "geography · product curator · Everest · cs_e_everest_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equator_01",
    "text": "The equator divides the Earth into two hemispheres",
    "standing": "projectable",
-   "evidence": "geography · product curator · Equator · cs_e_equator_01"
+   "evidence": "geography · product curator · Equator · cs_e_equator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equator_02",
    "text": "The equator divides Earth into the Northern and Southern Hemispheres",
    "standing": "projectable",
-   "evidence": "geography · product curator · Equator · cs_e_equator_02"
+   "evidence": "geography · product curator · Equator · cs_e_equator_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erie_lake_01",
    "text": "Lake Erie is one of the Great Lakes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Erie, Lake · cs_e_erie_lake_01"
+   "evidence": "geography · product curator · Erie, Lake · cs_e_erie_lake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earth_01",
    "text": "Earth is the third planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Earth · cs_e_earth_01"
+   "evidence": "science · product curator · Earth · cs_e_earth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earth_02",
    "text": "The Moon is the only natural satellite of the Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Earth · cs_e_earth_02"
+   "evidence": "science · product curator · Earth · cs_e_earth_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earth_03",
    "text": "Water covers most of the surface of the Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Earth · cs_e_earth_03"
+   "evidence": "science · product curator · Earth · cs_e_earth_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eclipse_01",
    "text": "The Moon passes between the Earth and the Sun in a solar eclipse",
    "standing": "projectable",
-   "evidence": "science · product curator · Eclipse · cs_e_eclipse_01"
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eclipse_02",
    "text": "A lunar eclipse occurs when Earth's shadow falls on the Moon",
    "standing": "projectable",
-   "evidence": "science · product curator · Eclipse · cs_e_eclipse_02"
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electron_01",
    "text": "An electron has a negative electric charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Electron · cs_e_electron_01"
+   "evidence": "science · product curator · Electron · cs_e_electron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_element_01",
    "text": "A chemical element is made of atoms with the same number of protons",
    "standing": "projectable",
-   "evidence": "science · product curator · Element · cs_e_element_01"
+   "evidence": "science · product curator · Element · cs_e_element_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_evaporation_01",
    "text": "Evaporation is the change from liquid to gas at a surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Evaporation · cs_e_evaporation_01"
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_energy_01",
    "text": "Energy cannot be created",
    "standing": "projectable",
-   "evidence": "science · product curator · Energy · cs_e_energy_01"
+   "evidence": "science · product curator · Energy · cs_e_energy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_einstein_albert_01",
    "text": "Albert Einstein developed the theory of relativity",
    "standing": "projectable",
-   "evidence": "history · product curator · Einstein, Albert · cs_e_einstein_albert_01"
+   "evidence": "history · product curator · Einstein, Albert · cs_e_einstein_albert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_einstein_albert_02",
    "text": "Einstein won the Nobel Prize in Physics",
    "standing": "projectable",
-   "evidence": "history · product curator · Einstein, Albert · cs_e_einstein_albert_02"
+   "evidence": "history · product curator · Einstein, Albert · cs_e_einstein_albert_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earthquake_01",
    "text": "Most earthquakes happen along faults",
    "standing": "projectable",
-   "evidence": "science · product curator · Earthquake · cs_e_earthquake_01"
+   "evidence": "science · product curator · Earthquake · cs_e_earthquake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erosion_01",
    "text": "Water wears away land by erosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Erosion · cs_e_erosion_01"
+   "evidence": "science · product curator · Erosion · cs_e_erosion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecosystem_01",
    "text": "An ecosystem is a community of organisms and their environment",
    "standing": "projectable",
-   "evidence": "science · product curator · Ecosystem · cs_e_ecosystem_01"
+   "evidence": "science · product curator · Ecosystem · cs_e_ecosystem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elephant_01",
    "text": "The African elephant is the largest living land animal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elephant · cs_e_elephant_01"
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elephant_02",
    "text": "Elephants are herbivores",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elephant · cs_e_elephant_02"
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eagle_01",
    "text": "Eagles are birds of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Eagle · cs_e_eagle_01"
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eel_01",
    "text": "Eels are fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Eel · cs_e_eel_01"
+   "evidence": "nature · product curator · Eel · cs_e_eel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_emu_01",
    "text": "The emu is a flightless bird native to Australia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Emu · cs_e_emu_01"
+   "evidence": "nature · product curator · Emu · cs_e_emu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_emperor_penguin_01",
    "text": "The emperor penguin is the largest living penguin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Emperor penguin · cs_e_emperor_penguin_01"
+   "evidence": "nature · product curator · Emperor penguin · cs_e_emperor_penguin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earthworm_01",
    "text": "Earthworms are invertebrates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_01"
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elizabeth_i_01",
    "text": "Elizabeth was queen of England from 1558 to 1603",
    "standing": "projectable",
-   "evidence": "history · product curator · Elizabeth I · cs_e_elizabeth_i_01"
+   "evidence": "history · product curator · Elizabeth I · cs_e_elizabeth_i_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edison_thomas_01",
    "text": "Thomas Edison was an American inventor",
    "standing": "projectable",
-   "evidence": "history · product curator · Edison, Thomas · cs_e_edison_thomas_01"
+   "evidence": "history · product curator · Edison, Thomas · cs_e_edison_thomas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eiffel_tower_01",
    "text": "The Eiffel Tower is in Paris",
    "standing": "projectable",
-   "evidence": "history · product curator · Eiffel Tower · cs_e_eiffel_tower_01"
+   "evidence": "history · product curator · Eiffel Tower · cs_e_eiffel_tower_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eiffel_tower_02",
    "text": "The Eiffel Tower was completed in 1889",
    "standing": "projectable",
-   "evidence": "history · product curator · Eiffel Tower · cs_e_eiffel_tower_02"
+   "evidence": "history · product curator · Eiffel Tower · cs_e_eiffel_tower_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_egyptian_pyramids_01",
    "text": "The Great Pyramid of Giza is very old",
    "standing": "projectable",
-   "evidence": "history · product curator · Egyptian pyramids · cs_e_egyptian_pyramids_01"
+   "evidence": "history · product curator · Egyptian pyramids · cs_e_egyptian_pyramids_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_euclid_01",
    "text": "Euclid was a Greek mathematician",
    "standing": "projectable",
-   "evidence": "history · product curator · Euclid · cs_e_euclid_01"
+   "evidence": "history · product curator · Euclid · cs_e_euclid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_even_number_01",
    "text": "An even number is divisible by 2",
    "standing": "projectable",
-   "evidence": "math · product curator · Even number · cs_e_even_number_01"
+   "evidence": "math · product curator · Even number · cs_e_even_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equilateral_triangle_01",
    "text": "An equilateral triangle has three equal sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Equilateral triangle · cs_e_equilateral_triangle_01"
+   "evidence": "math · product curator · Equilateral triangle · cs_e_equilateral_triangle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equilateral_triangle_02",
    "text": "Each angle of an equilateral triangle measures 60 degrees",
    "standing": "projectable",
-   "evidence": "math · product curator · Equilateral triangle · cs_e_equilateral_triangle_02"
+   "evidence": "math · product curator · Equilateral triangle · cs_e_equilateral_triangle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_exponent_01",
    "text": "An exponent shows repeated multiplication",
    "standing": "projectable",
-   "evidence": "math · product curator · Exponent · cs_e_exponent_01"
+   "evidence": "math · product curator · Exponent · cs_e_exponent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_election_01",
    "text": "An election is a formal process for choosing officials by vote",
    "standing": "projectable",
-   "evidence": "civics · product curator · Election · cs_e_election_01"
+   "evidence": "civics · product curator · Election · cs_e_election_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electoral_college_01",
    "text": "The American president is formally elected by the Electoral College",
    "standing": "projectable",
-   "evidence": "civics · product curator · Electoral College · cs_e_electoral_college_01"
+   "evidence": "civics · product curator · Electoral College · cs_e_electoral_college_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_european_union_01",
    "text": "The European Union is a political and economic union of European countries",
    "standing": "projectable",
-   "evidence": "civics · product curator · European Union · cs_e_european_union_01"
+   "evidence": "civics · product curator · European Union · cs_e_european_union_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_english_01",
    "text": "English is written in the Latin alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · English · cs_e_english_01"
+   "evidence": "language · product curator · English · cs_e_english_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eritrea_01",
    "text": "Asmara is the capital of Eritrea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Eritrea · cs_e_eritrea_01"
+   "evidence": "geography · product curator · Eritrea · cs_e_eritrea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_el_salvador_01",
    "text": "San Salvador is the capital of El Salvador",
    "standing": "projectable",
-   "evidence": "geography · product curator · El Salvador · cs_e_el_salvador_01"
+   "evidence": "geography · product curator · El Salvador · cs_e_el_salvador_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eswatini_01",
    "text": "Eswatini was formerly known as Swaziland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Eswatini · cs_e_eswatini_01"
+   "evidence": "geography · product curator · Eswatini · cs_e_eswatini_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_estonia_02",
    "text": "Estonia borders the Baltic Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Estonia · cs_e_estonia_02"
+   "evidence": "geography · product curator · Estonia · cs_e_estonia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_euphrates_01",
    "text": "The Euphrates flows through Iraq",
    "standing": "projectable",
-   "evidence": "geography · product curator · Euphrates · cs_e_euphrates_01"
+   "evidence": "geography · product curator · Euphrates · cs_e_euphrates_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elbe_01",
    "text": "The Elbe flows into the North Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Elbe · cs_e_elbe_01"
+   "evidence": "geography · product curator · Elbe · cs_e_elbe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_english_channel_01",
    "text": "The English Channel separates England from France",
    "standing": "projectable",
-   "evidence": "geography · product curator · English Channel · cs_e_english_channel_01"
+   "evidence": "geography · product curator · English Channel · cs_e_english_channel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_etna_mount_01",
    "text": "Mount Etna is an active volcano in Sicily",
    "standing": "projectable",
-   "evidence": "geography · product curator · Etna, Mount · cs_e_etna_mount_01"
+   "evidence": "geography · product curator · Etna, Mount · cs_e_etna_mount_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_everglades_01",
    "text": "The Everglades is a wetland in Florida",
    "standing": "projectable",
-   "evidence": "geography · product curator · Everglades · cs_e_everglades_01"
+   "evidence": "geography · product curator · Everglades · cs_e_everglades_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_europa_01",
    "text": "Europa is a moon of Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Europa · cs_e_europa_01"
+   "evidence": "science · product curator · Europa · cs_e_europa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enceladus_01",
    "text": "Enceladus is a moon of Saturn",
    "standing": "projectable",
-   "evidence": "science · product curator · Enceladus · cs_e_enceladus_01"
+   "evidence": "science · product curator · Enceladus · cs_e_enceladus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eris_01",
    "text": "Eris is a dwarf planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Eris · cs_e_eris_01"
+   "evidence": "science · product curator · Eris · cs_e_eris_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equinox_01",
    "text": "An equinox occurs twice each year",
    "standing": "projectable",
-   "evidence": "science · product curator · Equinox · cs_e_equinox_01"
+   "evidence": "science · product curator · Equinox · cs_e_equinox_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electricity_01",
    "text": "Electric current is measured in amperes",
    "standing": "projectable",
-   "evidence": "science · product curator · Electricity · cs_e_electricity_01"
+   "evidence": "science · product curator · Electricity · cs_e_electricity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electromagnet_01",
    "text": "An electromagnet produces a magnetic field when current flows through it",
    "standing": "projectable",
-   "evidence": "science · product curator · Electromagnet · cs_e_electromagnet_01"
+   "evidence": "science · product curator · Electromagnet · cs_e_electromagnet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enzyme_01",
    "text": "Enzymes are proteins that speed up chemical reactions",
    "standing": "projectable",
-   "evidence": "science · product curator · Enzyme · cs_e_enzyme_01"
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_evolution_01",
    "text": "Natural selection is a mechanism of evolution",
    "standing": "projectable",
-   "evidence": "science · product curator · Evolution · cs_e_evolution_01"
+   "evidence": "science · product curator · Evolution · cs_e_evolution_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_einsteinium_01",
    "text": "Einsteinium has the chemical symbol Es",
    "standing": "projectable",
-   "evidence": "science · product curator · Einsteinium · cs_e_einsteinium_01"
+   "evidence": "science · product curator · Einsteinium · cs_e_einsteinium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erbium_01",
    "text": "Erbium has the chemical symbol Er",
    "standing": "projectable",
-   "evidence": "science · product curator · Erbium · cs_e_erbium_01"
+   "evidence": "science · product curator · Erbium · cs_e_erbium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_europium_01",
    "text": "Europium has the chemical symbol Eu",
    "standing": "projectable",
-   "evidence": "science · product curator · Europium · cs_e_europium_01"
+   "evidence": "science · product curator · Europium · cs_e_europium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echo_01",
    "text": "An echo is a reflected sound wave",
    "standing": "projectable",
-   "evidence": "science · product curator · Echo · cs_e_echo_01"
+   "evidence": "science · product curator · Echo · cs_e_echo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echolocation_01",
    "text": "Bats use sound to find their way",
    "standing": "projectable",
-   "evidence": "nature · product curator · Echolocation · cs_e_echolocation_01"
+   "evidence": "nature · product curator · Echolocation · cs_e_echolocation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elk_01",
    "text": "Elk are a species of deer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elk · cs_e_elk_01"
+   "evidence": "nature · product curator · Elk · cs_e_elk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_egret_01",
    "text": "Egrets are birds in the heron family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Egret · cs_e_egret_01"
+   "evidence": "nature · product curator · Egret · cs_e_egret_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earwig_01",
    "text": "Earwigs are insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Earwig · cs_e_earwig_01"
+   "evidence": "nature · product curator · Earwig · cs_e_earwig_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electric_eel_01",
    "text": "The electric eel can generate electric shocks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Electric eel · cs_e_electric_eel_01"
+   "evidence": "nature · product curator · Electric eel · cs_e_electric_eel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echidna_01",
    "text": "The echidna is an egg-laying mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Echidna · cs_e_echidna_01"
+   "evidence": "nature · product curator · Echidna · cs_e_echidna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elizabeth_ii_01",
    "text": "Elizabeth II was queen of the United Kingdom from 1952 to 2022",
    "standing": "projectable",
-   "evidence": "history · product curator · Elizabeth II · cs_e_elizabeth_ii_01"
+   "evidence": "history · product curator · Elizabeth II · cs_e_elizabeth_ii_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erie_canal_01",
    "text": "The Erie Canal connects the Hudson to Lake Erie",
    "standing": "projectable",
-   "evidence": "history · product curator · Erie Canal · cs_e_erie_canal_01"
+   "evidence": "history · product curator · Erie Canal · cs_e_erie_canal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_emancipation_proclamation_01",
    "text": "Abraham Lincoln issued the Emancipation Proclamation in 1863",
    "standing": "projectable",
-   "evidence": "history · product curator · Emancipation Proclamation · cs_e_emancipation_proclamation_01"
+   "evidence": "history · product curator · Emancipation Proclamation · cs_e_emancipation_proclamation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eratosthenes_01",
    "text": "Eratosthenes estimated the circumference of Earth",
    "standing": "projectable",
-   "evidence": "history · product curator · Eratosthenes · cs_e_eratosthenes_01"
+   "evidence": "history · product curator · Eratosthenes · cs_e_eratosthenes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edison_thomas_02",
    "text": "Thomas Edison developed the phonograph",
    "standing": "projectable",
-   "evidence": "history · product curator · Edison, Thomas · cs_e_edison_thomas_02"
+   "evidence": "history · product curator · Edison, Thomas · cs_e_edison_thomas_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_euler_leonhard_01",
    "text": "Leonhard Euler was a Swiss mathematician",
    "standing": "projectable",
-   "evidence": "history · product curator · Euler, Leonhard · cs_e_euler_leonhard_01"
+   "evidence": "history · product curator · Euler, Leonhard · cs_e_euler_leonhard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ellipse_01",
    "text": "A circle is a special case of an ellipse",
    "standing": "projectable",
-   "evidence": "math · product curator · Ellipse · cs_e_ellipse_01"
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equation_01",
    "text": "An equation states that two expressions are equal",
    "standing": "projectable",
-   "evidence": "math · product curator · Equation · cs_e_equation_01"
+   "evidence": "math · product curator · Equation · cs_e_equation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edge_01",
    "text": "A triangular prism has nine edges",
    "standing": "projectable",
-   "evidence": "math · product curator · Edge · cs_e_edge_01"
+   "evidence": "math · product curator · Edge · cs_e_edge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_executive_branch_01",
    "text": "The American president heads the executive branch",
    "standing": "projectable",
-   "evidence": "civics · product curator · Executive branch · cs_e_executive_branch_01"
+   "evidence": "civics · product curator · Executive branch · cs_e_executive_branch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_embassy_01",
    "text": "An embassy is a country's diplomatic mission in another country",
    "standing": "projectable",
-   "evidence": "civics · product curator · Embassy · cs_e_embassy_01"
+   "evidence": "civics · product curator · Embassy · cs_e_embassy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_esperanto_01",
    "text": "Esperanto is an artificial language",
    "standing": "projectable",
-   "evidence": "language · product curator · Esperanto · cs_e_esperanto_01"
+   "evidence": "language · product curator · Esperanto · cs_e_esperanto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_esperanto_02",
    "text": "Esperanto was created by L. L. Zamenhof",
    "standing": "projectable",
-   "evidence": "language · product curator · Esperanto · cs_e_esperanto_02"
+   "evidence": "language · product curator · Esperanto · cs_e_esperanto_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_easter_island_01",
    "text": "Easter Island is famous for its stone statues",
    "standing": "projectable",
-   "evidence": "geography · product curator · Easter Island · cs_e_easter_island_01"
+   "evidence": "geography · product curator · Easter Island · cs_e_easter_island_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_easter_island_02",
    "text": "Easter Island is a territory of Chile",
    "standing": "projectable",
-   "evidence": "geography · product curator · Easter Island · cs_e_easter_island_02"
+   "evidence": "geography · product curator · Easter Island · cs_e_easter_island_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edinburgh_castle_01",
    "text": "Edinburgh Castle stands on Castle Rock in Edinburgh",
    "standing": "projectable",
-   "evidence": "history · product curator · Edinburgh Castle · cs_e_edinburgh_castle_01"
+   "evidence": "history · product curator · Edinburgh Castle · cs_e_edinburgh_castle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ethiopia_02",
    "text": "Ethiopia is a landlocked country in the Horn of Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ethiopia · cs_e_ethiopia_02"
+   "evidence": "geography · product curator · Ethiopia · cs_e_ethiopia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_evaporation_02",
    "text": "Evaporation turns liquid water into water vapor",
    "standing": "projectable",
-   "evidence": "science · product curator · Evaporation · cs_e_evaporation_02"
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echidna_02",
    "text": "Echidnas are egg-laying mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Echidna · cs_e_echidna_02"
+   "evidence": "nature · product curator · Echidna · cs_e_echidna_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elm_01",
    "text": "The elm is a deciduous tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elm · cs_e_elm_01"
+   "evidence": "nature · product curator · Elm · cs_e_elm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eagle_02",
    "text": "An eagle is a bird of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Eagle · cs_e_eagle_02"
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_essen_01",
    "text": "Essen is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Essen · cs_e_essen_01"
+   "evidence": "geography · product curator · Essen · cs_e_essen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erfurt_01",
    "text": "Erfurt is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Erfurt · cs_e_erfurt_01"
+   "evidence": "geography · product curator · Erfurt · cs_e_erfurt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_exeter_01",
    "text": "Exeter is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Exeter · cs_e_exeter_01"
+   "evidence": "geography · product curator · Exeter · cs_e_exeter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edinburgh_02",
    "text": "Edinburgh is a city in Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Edinburgh · cs_e_edinburgh_02"
+   "evidence": "geography · product curator · Edinburgh · cs_e_edinburgh_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eindhoven_01",
    "text": "Eindhoven is a city in the Netherlands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Eindhoven · cs_e_eindhoven_01"
+   "evidence": "geography · product curator · Eindhoven · cs_e_eindhoven_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edmonton_01",
    "text": "Edmonton is a city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Edmonton · cs_e_edmonton_01"
+   "evidence": "geography · product curator · Edmonton · cs_e_edmonton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eugene_01",
    "text": "Eugene is a city in Oregon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Eugene · cs_e_eugene_01"
+   "evidence": "geography · product curator · Eugene · cs_e_eugene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erie_01",
    "text": "Erie is a city in Pennsylvania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Erie · cs_e_erie_01"
+   "evidence": "geography · product curator · Erie · cs_e_erie_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_evansville_01",
    "text": "Evansville is a city in Indiana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Evansville · cs_e_evansville_01"
+   "evidence": "geography · product curator · Evansville · cs_e_evansville_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ephesus_01",
    "text": "Ephesus is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ephesus · cs_e_ephesus_01"
+   "evidence": "geography · product curator · Ephesus · cs_e_ephesus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_esfahan_01",
    "text": "Esfahan is a city in Iran",
    "standing": "projectable",
-   "evidence": "geography · product curator · Esfahan · cs_e_esfahan_01"
+   "evidence": "geography · product curator · Esfahan · cs_e_esfahan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_entebbe_01",
    "text": "Entebbe is a city in Uganda",
    "standing": "projectable",
-   "evidence": "geography · product curator · Entebbe · cs_e_entebbe_01"
+   "evidence": "geography · product curator · Entebbe · cs_e_entebbe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eldoret_01",
    "text": "Eldoret is a city in Kenya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Eldoret · cs_e_eldoret_01"
+   "evidence": "geography · product curator · Eldoret · cs_e_eldoret_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ely_01",
    "text": "Ely is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ely · cs_e_ely_01"
+   "evidence": "geography · product curator · Ely · cs_e_ely_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enschede_01",
    "text": "Enschede is a city in the Netherlands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Enschede · cs_e_enschede_01"
+   "evidence": "geography · product curator · Enschede · cs_e_enschede_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elche_01",
    "text": "Elche is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Elche · cs_e_elche_01"
+   "evidence": "geography · product curator · Elche · cs_e_elche_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_espoo_01",
    "text": "Espoo is a city in Finland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Espoo · cs_e_espoo_01"
+   "evidence": "geography · product curator · Espoo · cs_e_espoo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erzurum_01",
    "text": "Erzurum is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Erzurum · cs_e_erzurum_01"
+   "evidence": "geography · product curator · Erzurum · cs_e_erzurum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ear_canal_01",
    "text": "The ear canal leads to the eardrum",
    "standing": "projectable",
-   "evidence": "science · product curator · Ear canal · cs_e_ear_canal_01"
+   "evidence": "science · product curator · Ear canal · cs_e_ear_canal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ear_drum_01",
    "text": "The eardrum vibrates with sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Ear drum · cs_e_ear_drum_01"
+   "evidence": "science · product curator · Ear drum · cs_e_ear_drum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_early_modern_01",
    "text": "The early modern period followed the Middle Ages",
    "standing": "projectable",
-   "evidence": "history · product curator · Early modern · cs_e_early_modern_01"
+   "evidence": "history · product curator · Early modern · cs_e_early_modern_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earth_science_01",
    "text": "Earth science studies the planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Earth science · cs_e_earth_science_01"
+   "evidence": "science · product curator · Earth science · cs_e_earth_science_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earthquake_magnitude_01",
    "text": "Earthquake magnitude measures shaking strength",
    "standing": "projectable",
-   "evidence": "science · product curator · Earthquake magnitude · cs_e_earthquake_magnitude_01"
+   "evidence": "science · product curator · Earthquake magnitude · cs_e_earthquake_magnitude_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electrode_01",
    "text": "An electrode is a conductor that touches an electrolyte",
    "standing": "projectable",
-   "evidence": "science · product curator · Electrode · cs_e_electrode_01"
+   "evidence": "science · product curator · Electrode · cs_e_electrode_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_empty_set_01",
    "text": "The empty set has no elements",
    "standing": "projectable",
-   "evidence": "math · product curator · Empty set · cs_e_empty_set_01"
+   "evidence": "math · product curator · Empty set · cs_e_empty_set_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eardrum_01",
    "text": "The eardrum vibrates when sound hits it",
    "standing": "projectable",
-   "evidence": "science · product curator · Eardrum · cs_e_eardrum_01"
+   "evidence": "science · product curator · Eardrum · cs_e_eardrum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edict_01",
    "text": "An edict is an official proclamation",
    "standing": "projectable",
-   "evidence": "civics · product curator · Edict · cs_e_edict_01"
+   "evidence": "civics · product curator · Edict · cs_e_edict_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_editorial_01",
    "text": "An editorial is an opinion article in a newspaper",
    "standing": "projectable",
-   "evidence": "language · product curator · Editorial · cs_e_editorial_01"
+   "evidence": "language · product curator · Editorial · cs_e_editorial_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_efficiency_01",
    "text": "Efficiency is useful output divided by input",
    "standing": "projectable",
-   "evidence": "science · product curator · Efficiency · cs_e_efficiency_01"
+   "evidence": "science · product curator · Efficiency · cs_e_efficiency_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electric_circuit_01",
    "text": "An electric circuit is a closed path for current",
    "standing": "projectable",
-   "evidence": "science · product curator · Electric circuit · cs_e_electric_circuit_01"
+   "evidence": "science · product curator · Electric circuit · cs_e_electric_circuit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electric_field_01",
    "text": "An electric field exerts force on charged particles",
    "standing": "projectable",
-   "evidence": "science · product curator · Electric field · cs_e_electric_field_01"
+   "evidence": "science · product curator · Electric field · cs_e_electric_field_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elevation_angle_01",
    "text": "Elevation angle is the angle above the horizon",
    "standing": "projectable",
-   "evidence": "math · product curator · Elevation angle · cs_e_elevation_angle_01"
+   "evidence": "math · product curator · Elevation angle · cs_e_elevation_angle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elevation_01",
    "text": "Elevation is height above sea level",
    "standing": "projectable",
-   "evidence": "geography · product curator · Elevation · cs_e_elevation_01"
+   "evidence": "geography · product curator · Elevation · cs_e_elevation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_emperor_01",
    "text": "An emperor rules an empire",
    "standing": "projectable",
-   "evidence": "history · product curator · Emperor · cs_e_emperor_01"
+   "evidence": "history · product curator · Emperor · cs_e_emperor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_empire_01",
    "text": "An empire is a group of territories under one ruler",
    "standing": "projectable",
-   "evidence": "history · product curator · Empire · cs_e_empire_01"
+   "evidence": "history · product curator · Empire · cs_e_empire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_endemic_01",
    "text": "An endemic species is native to a particular place",
    "standing": "projectable",
-   "evidence": "nature · product curator · Endemic · cs_e_endemic_01"
+   "evidence": "nature · product curator · Endemic · cs_e_endemic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enlightenment_01",
    "text": "The Enlightenment emphasized reason and individual rights",
    "standing": "projectable",
-   "evidence": "history · product curator · Enlightenment · cs_e_enlightenment_01"
+   "evidence": "history · product curator · Enlightenment · cs_e_enlightenment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epiphyte_01",
    "text": "An epiphyte grows on another plant for support",
    "standing": "projectable",
-   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_01"
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_era_01",
    "text": "An era is a long division of geologic time",
    "standing": "projectable",
-   "evidence": "history · product curator · Era · cs_e_era_01"
+   "evidence": "history · product curator · Era · cs_e_era_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_etymology_01",
    "text": "Etymology is the study of word origins",
    "standing": "projectable",
-   "evidence": "language · product curator · Etymology · cs_e_etymology_01"
+   "evidence": "language · product curator · Etymology · cs_e_etymology_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_extirpation_01",
    "text": "Extirpation is local extinction of a species",
    "standing": "projectable",
-   "evidence": "nature · product curator · Extirpation · cs_e_extirpation_01"
+   "evidence": "nature · product curator · Extirpation · cs_e_extirpation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eagle_03",
    "text": "An eagle is a large bird of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Eagle · cs_e_eagle_03"
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earthquake_02",
    "text": "An earthquake shakes the ground",
    "standing": "projectable",
-   "evidence": "science · product curator · Earthquake · cs_e_earthquake_02"
+   "evidence": "science · product curator · Earthquake · cs_e_earthquake_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echo_02",
    "text": "An echo is a reflected sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Echo · cs_e_echo_02"
+   "evidence": "science · product curator · Echo · cs_e_echo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecology_01",
    "text": "Ecology studies living things and their environment",
    "standing": "projectable",
-   "evidence": "science · product curator · Ecology · cs_e_ecology_01"
+   "evidence": "science · product curator · Ecology · cs_e_ecology_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecosystem_02",
    "text": "An ecosystem includes living and nonliving parts",
    "standing": "projectable",
-   "evidence": "science · product curator · Ecosystem · cs_e_ecosystem_02"
+   "evidence": "science · product curator · Ecosystem · cs_e_ecosystem_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eel_02",
    "text": "An eel is a long slender fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Eel · cs_e_eel_02"
+   "evidence": "nature · product curator · Eel · cs_e_eel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ellipse_02",
    "text": "An ellipse is a closed curved shape",
    "standing": "projectable",
-   "evidence": "math · product curator · Ellipse · cs_e_ellipse_02"
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_emperor_penguin_02",
    "text": "An emperor penguin breeds in Antarctica",
    "standing": "projectable",
-   "evidence": "nature · product curator · Emperor penguin · cs_e_emperor_penguin_02"
+   "evidence": "nature · product curator · Emperor penguin · cs_e_emperor_penguin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equator_03",
    "text": "The equator is an imaginary line around Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Equator · cs_e_equator_03"
+   "evidence": "geography · product curator · Equator · cs_e_equator_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eclipse_03",
    "text": "The Moon can block the Sun in an eclipse",
    "standing": "projectable",
-   "evidence": "science · product curator · Eclipse · cs_e_eclipse_03"
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_energy_02",
    "text": "Energy changes form",
    "standing": "projectable",
-   "evidence": "science · product curator · Energy · cs_e_energy_02"
+   "evidence": "science · product curator · Energy · cs_e_energy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edge_02",
    "text": "An edge joins two vertices of a polygon",
    "standing": "projectable",
-   "evidence": "math · product curator · Edge · cs_e_edge_02"
+   "evidence": "math · product curator · Edge · cs_e_edge_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_election_02",
    "text": "An election chooses public officials",
    "standing": "projectable",
-   "evidence": "civics · product curator · Election · cs_e_election_02"
+   "evidence": "civics · product curator · Election · cs_e_election_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erosion_02",
    "text": "Erosion wears away rock and soil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Erosion · cs_e_erosion_02"
+   "evidence": "geography · product curator · Erosion · cs_e_erosion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_etymology_02",
    "text": "Dictionaries include etymology notes",
    "standing": "projectable",
-   "evidence": "language · product curator · Etymology · cs_e_etymology_02"
+   "evidence": "language · product curator · Etymology · cs_e_etymology_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ellipse_03",
    "text": "An ellipse is a closed oval curve",
    "standing": "projectable",
-   "evidence": "math · product curator · Ellipse · cs_e_ellipse_03"
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_embassy_02",
    "text": "An embassy represents a country abroad",
    "standing": "projectable",
-   "evidence": "civics · product curator · Embassy · cs_e_embassy_02"
+   "evidence": "civics · product curator · Embassy · cs_e_embassy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elevation_02",
    "text": "Denver has high elevation",
    "standing": "projectable",
-   "evidence": "geography · product curator · Elevation · cs_e_elevation_02"
+   "evidence": "geography · product curator · Elevation · cs_e_elevation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_egret_02",
    "text": "An egret is a wading bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Egret · cs_e_egret_02"
+   "evidence": "nature · product curator · Egret · cs_e_egret_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_element_02",
    "text": "An element is a pure substance",
    "standing": "projectable",
-   "evidence": "science · product curator · Element · cs_e_element_02"
+   "evidence": "science · product curator · Element · cs_e_element_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_emerald_01",
    "text": "An emerald is a green gemstone",
    "standing": "projectable",
-   "evidence": "geography · product curator · Emerald · cs_e_emerald_01"
+   "evidence": "geography · product curator · Emerald · cs_e_emerald_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enzyme_02",
    "text": "An enzyme speeds a chemical reaction",
    "standing": "projectable",
-   "evidence": "science · product curator · Enzyme · cs_e_enzyme_02"
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_era_02",
    "text": "An era is a long period of history",
    "standing": "projectable",
-   "evidence": "history · product curator · Era · cs_e_era_02"
+   "evidence": "history · product curator · Era · cs_e_era_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_etymology_03",
    "text": "Etymology studies word origins",
    "standing": "projectable",
-   "evidence": "language · product curator · Etymology · cs_e_etymology_03"
+   "evidence": "language · product curator · Etymology · cs_e_etymology_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_emotion_01",
    "text": "Joy is an emotion",
    "standing": "projectable",
-   "evidence": "language · product curator · Emotion · cs_e_emotion_01"
+   "evidence": "language · product curator · Emotion · cs_e_emotion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_egg_01",
    "text": "A bird lays an egg",
    "standing": "projectable",
-   "evidence": "nature · product curator · Egg · cs_e_egg_01"
+   "evidence": "nature · product curator · Egg · cs_e_egg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_element_03",
    "text": "Oxygen is an element",
    "standing": "projectable",
-   "evidence": "science · product curator · Element · cs_e_element_03"
+   "evidence": "science · product curator · Element · cs_e_element_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eclipse_04",
    "text": "A lunar eclipse darkens the moon",
    "standing": "projectable",
-   "evidence": "science · product curator · Eclipse · cs_e_eclipse_04"
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_election_03",
    "text": "Citizens vote in an election",
    "standing": "projectable",
-   "evidence": "civics · product curator · Election · cs_e_election_03"
+   "evidence": "civics · product curator · Election · cs_e_election_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ellipse_04",
    "text": "An ellipse has two foci",
    "standing": "projectable",
-   "evidence": "math · product curator · Ellipse · cs_e_ellipse_04"
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elm_02",
    "text": "An elm is a shade tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elm · cs_e_elm_02"
+   "evidence": "nature · product curator · Elm · cs_e_elm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_essay_01",
    "text": "Students write an essay",
    "standing": "projectable",
-   "evidence": "language · product curator · Essay · cs_e_essay_01"
+   "evidence": "language · product curator · Essay · cs_e_essay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equinox_02",
    "text": "Day and night are equal at an equinox",
    "standing": "projectable",
-   "evidence": "science · product curator · Equinox · cs_e_equinox_02"
+   "evidence": "science · product curator · Equinox · cs_e_equinox_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elastic_01",
    "text": "An elastic band stretches",
    "standing": "projectable",
-   "evidence": "science · product curator · Elastic · cs_e_elastic_01"
+   "evidence": "science · product curator · Elastic · cs_e_elastic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enamel_01",
    "text": "Tooth enamel is very hard",
    "standing": "projectable",
-   "evidence": "science · product curator · Enamel · cs_e_enamel_01"
+   "evidence": "science · product curator · Enamel · cs_e_enamel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epic_01",
    "text": "An epic tells a long story",
    "standing": "projectable",
-   "evidence": "language · product curator · Epic · cs_e_epic_01"
+   "evidence": "language · product curator · Epic · cs_e_epic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_estuary_01",
    "text": "A river meets the sea at an estuary",
    "standing": "projectable",
-   "evidence": "geography · product curator · Estuary · cs_e_estuary_01"
+   "evidence": "geography · product curator · Estuary · cs_e_estuary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earthworm_02",
    "text": "An earthworm aerates soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_02"
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electron_02",
    "text": "An electron orbits a nucleus",
    "standing": "projectable",
-   "evidence": "science · product curator · Electron · cs_e_electron_02"
+   "evidence": "science · product curator · Electron · cs_e_electron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eclipse_05",
    "text": "A solar eclipse hides the sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Eclipse · cs_e_eclipse_05"
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elm_03",
    "text": "Elm trees shade streets",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elm · cs_e_elm_03"
+   "evidence": "nature · product curator · Elm · cs_e_elm_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ellipse_05",
    "text": "Planets follow an ellipse",
    "standing": "projectable",
-   "evidence": "math · product curator · Ellipse · cs_e_ellipse_05"
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equinox_03",
    "text": "Spring begins at an equinox",
    "standing": "projectable",
-   "evidence": "science · product curator · Equinox · cs_e_equinox_03"
+   "evidence": "science · product curator · Equinox · cs_e_equinox_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earthworm_03",
    "text": "Earthworms enrich soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_03"
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_evaporation_03",
    "text": "Puddles dry by evaporation",
    "standing": "projectable",
-   "evidence": "science · product curator · Evaporation · cs_e_evaporation_03"
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echo_03",
    "text": "A canyon returns an echo",
    "standing": "projectable",
-   "evidence": "science · product curator · Echo · cs_e_echo_03"
+   "evidence": "science · product curator · Echo · cs_e_echo_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electrode_02",
    "text": "A battery has an electrode",
    "standing": "projectable",
-   "evidence": "science · product curator · Electrode · cs_e_electrode_02"
+   "evidence": "science · product curator · Electrode · cs_e_electrode_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epiphyte_02",
    "text": "An orchid is an epiphyte",
    "standing": "projectable",
-   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_02"
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elephant_03",
    "text": "An elephant uses a trunk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elephant · cs_e_elephant_03"
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elk_02",
    "text": "An elk has large antlers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elk · cs_e_elk_02"
+   "evidence": "nature · product curator · Elk · cs_e_elk_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ear_canal_02",
    "text": "Sound enters the ear canal",
    "standing": "projectable",
-   "evidence": "science · product curator · Ear canal · cs_e_ear_canal_02"
+   "evidence": "science · product curator · Ear canal · cs_e_ear_canal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_egret_03",
    "text": "An egret wades for fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Egret · cs_e_egret_03"
+   "evidence": "nature · product curator · Egret · cs_e_egret_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echo_04",
    "text": "Mountains return an echo",
    "standing": "projectable",
-   "evidence": "science · product curator · Echo · cs_e_echo_04"
+   "evidence": "science · product curator · Echo · cs_e_echo_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eclipse_06",
    "text": "The moon causes an eclipse",
    "standing": "projectable",
-   "evidence": "science · product curator · Eclipse · cs_e_eclipse_06"
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_efficiency_02",
    "text": "Machines raise efficiency",
    "standing": "projectable",
-   "evidence": "science · product curator · Efficiency · cs_e_efficiency_02"
+   "evidence": "science · product curator · Efficiency · cs_e_efficiency_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electrode_03",
    "text": "Sensors use an electrode",
    "standing": "projectable",
-   "evidence": "science · product curator · Electrode · cs_e_electrode_03"
+   "evidence": "science · product curator · Electrode · cs_e_electrode_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electron_03",
    "text": "An electron carries charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Electron · cs_e_electron_03"
+   "evidence": "science · product curator · Electron · cs_e_electron_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elephant_04",
    "text": "Elephants remember paths",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elephant · cs_e_elephant_04"
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enzyme_03",
    "text": "An enzyme speeds digestion",
    "standing": "projectable",
-   "evidence": "science · product curator · Enzyme · cs_e_enzyme_03"
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_exoskeleton_01",
    "text": "A crab has an exoskeleton",
    "standing": "projectable",
-   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_01"
+   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_extinction_01",
    "text": "Fossils record extinction",
    "standing": "projectable",
-   "evidence": "science · product curator · Extinction · cs_e_extinction_01"
+   "evidence": "science · product curator · Extinction · cs_e_extinction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecosystem_03",
    "text": "Energy flows in an ecosystem",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ecosystem · cs_e_ecosystem_03"
+   "evidence": "nature · product curator · Ecosystem · cs_e_ecosystem_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_egret_04",
    "text": "Egrets stalk shallow water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Egret · cs_e_egret_04"
+   "evidence": "nature · product curator · Egret · cs_e_egret_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enzyme_04",
    "text": "Enzymes cut proteins",
    "standing": "projectable",
-   "evidence": "science · product curator · Enzyme · cs_e_enzyme_04"
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epiphyte_03",
    "text": "Orchids live as epiphytes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_03"
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erosion_03",
    "text": "Waves drive coastal erosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Erosion · cs_e_erosion_03"
+   "evidence": "science · product curator · Erosion · cs_e_erosion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_evaporation_04",
    "text": "Heat causes evaporation",
    "standing": "projectable",
-   "evidence": "science · product curator · Evaporation · cs_e_evaporation_04"
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_exoskeleton_02",
    "text": "Crabs wear an exoskeleton",
    "standing": "projectable",
-   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_02"
+   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_exponent_02",
    "text": "An exponent marks powers",
    "standing": "projectable",
-   "evidence": "math · product curator · Exponent · cs_e_exponent_02"
+   "evidence": "math · product curator · Exponent · cs_e_exponent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ebony_01",
    "text": "Ebony hardens into dense wood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ebony · cs_e_ebony_01"
+   "evidence": "nature · product curator · Ebony · cs_e_ebony_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elbow_01",
    "text": "The elbow bends the arm",
    "standing": "projectable",
-   "evidence": "science · product curator · Elbow · cs_e_elbow_01"
+   "evidence": "science · product curator · Elbow · cs_e_elbow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electricity_02",
    "text": "Electricity powers lights",
    "standing": "projectable",
-   "evidence": "science · product curator · Electricity · cs_e_electricity_02"
+   "evidence": "science · product curator · Electricity · cs_e_electricity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elm_04",
    "text": "Elm wood resists rot",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elm · cs_e_elm_04"
+   "evidence": "nature · product curator · Elm · cs_e_elm_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enamel_02",
    "text": "Brushing protects enamel",
    "standing": "projectable",
-   "evidence": "science · product curator · Enamel · cs_e_enamel_02"
+   "evidence": "science · product curator · Enamel · cs_e_enamel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_equator_04",
    "text": "The equator circles Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Equator · cs_e_equator_04"
+   "evidence": "geography · product curator · Equator · cs_e_equator_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erosion_04",
    "text": "Rain drives soil erosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Erosion · cs_e_erosion_04"
+   "evidence": "science · product curator · Erosion · cs_e_erosion_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ether_01",
    "text": "Early surgeons used ether",
    "standing": "projectable",
-   "evidence": "history · product curator · Ether · cs_e_ether_01"
+   "evidence": "history · product curator · Ether · cs_e_ether_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_expansion_01",
    "text": "Ice causes pipe expansion",
    "standing": "projectable",
-   "evidence": "science · product curator · Expansion · cs_e_expansion_01"
+   "evidence": "science · product curator · Expansion · cs_e_expansion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eyebrow_01",
    "text": "An eyebrow shields the eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Eyebrow · cs_e_eyebrow_01"
+   "evidence": "science · product curator · Eyebrow · cs_e_eyebrow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earwax_01",
    "text": "Earwax protects the ear canal",
    "standing": "projectable",
-   "evidence": "science · product curator · Earwax · cs_e_earwax_01"
+   "evidence": "science · product curator · Earwax · cs_e_earwax_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecliptic_01",
    "text": "Earth orbits along the ecliptic",
    "standing": "projectable",
-   "evidence": "science · product curator · Ecliptic · cs_e_ecliptic_01"
+   "evidence": "science · product curator · Ecliptic · cs_e_ecliptic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elastin_01",
    "text": "Elastin stretches soft tissue",
    "standing": "projectable",
-   "evidence": "science · product curator · Elastin · cs_e_elastin_01"
+   "evidence": "science · product curator · Elastin · cs_e_elastin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electrolyte_01",
    "text": "Electrolytes carry body charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Electrolyte · cs_e_electrolyte_01"
+   "evidence": "science · product curator · Electrolyte · cs_e_electrolyte_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_endorphin_01",
    "text": "Endorphins dull pain signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Endorphin · cs_e_endorphin_01"
+   "evidence": "science · product curator · Endorphin · cs_e_endorphin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_endosperm_01",
    "text": "Endosperm feeds a young seed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Endosperm · cs_e_endosperm_01"
+   "evidence": "nature · product curator · Endosperm · cs_e_endosperm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epidermis_01",
    "text": "Epidermis covers outer skin",
    "standing": "projectable",
-   "evidence": "science · product curator · Epidermis · cs_e_epidermis_01"
+   "evidence": "science · product curator · Epidermis · cs_e_epidermis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erythrocyte_01",
    "text": "Erythrocytes carry oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Erythrocyte · cs_e_erythrocyte_01"
+   "evidence": "science · product curator · Erythrocyte · cs_e_erythrocyte_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ethane_01",
    "text": "Ethane burns as a fuel gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Ethane · cs_e_ethane_01"
+   "evidence": "science · product curator · Ethane · cs_e_ethane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_excretion_01",
    "text": "Kidneys clear waste by excretion",
    "standing": "projectable",
-   "evidence": "science · product curator · Excretion · cs_e_excretion_01"
+   "evidence": "science · product curator · Excretion · cs_e_excretion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eagle_04",
    "text": "Eagles soar thermal drafts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Eagle · cs_e_eagle_04"
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earthworm_04",
    "text": "Earthworms digest soil scraps",
    "standing": "projectable",
-   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_04"
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echo_05",
    "text": "Echoes bounce hard walls",
    "standing": "projectable",
-   "evidence": "science · product curator · Echo · cs_e_echo_05"
+   "evidence": "science · product curator · Echo · cs_e_echo_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ecology_02",
    "text": "Ecology maps living links",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ecology · cs_e_ecology_02"
+   "evidence": "nature · product curator · Ecology · cs_e_ecology_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electrolyte_02",
    "text": "Electrolytes carry ion current",
    "standing": "projectable",
-   "evidence": "science · product curator · Electrolyte · cs_e_electrolyte_02"
+   "evidence": "science · product curator · Electrolyte · cs_e_electrolyte_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elephant_05",
    "text": "Elephants dig water holes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Elephant · cs_e_elephant_05"
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enamel_03",
    "text": "Enamel covers tooth crowns",
    "standing": "projectable",
-   "evidence": "science · product curator · Enamel · cs_e_enamel_03"
+   "evidence": "science · product curator · Enamel · cs_e_enamel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_evolution_02",
    "text": "Selection drives evolution",
    "standing": "projectable",
-   "evidence": "nature · product curator · Evolution · cs_e_evolution_02"
+   "evidence": "nature · product curator · Evolution · cs_e_evolution_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_earwax_02",
    "text": "Earwax traps canal dust",
    "standing": "projectable",
-   "evidence": "science · product curator · Earwax · cs_e_earwax_02"
+   "evidence": "science · product curator · Earwax · cs_e_earwax_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_echolocation_02",
    "text": "Bats map caves by echo",
    "standing": "projectable",
-   "evidence": "nature · product curator · Echolocation · cs_e_echolocation_02"
+   "evidence": "nature · product curator · Echolocation · cs_e_echolocation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_edema_01",
    "text": "Edema swells tissue fluid",
    "standing": "projectable",
-   "evidence": "science · product curator · Edema · cs_e_edema_01"
+   "evidence": "science · product curator · Edema · cs_e_edema_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enthalpy_01",
    "text": "Enthalpy ranks heat content",
    "standing": "projectable",
-   "evidence": "science · product curator · Enthalpy · cs_e_enthalpy_01"
+   "evidence": "science · product curator · Enthalpy · cs_e_enthalpy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_entropy_01",
    "text": "Entropy ranks disorder spread",
    "standing": "projectable",
-   "evidence": "science · product curator · Entropy · cs_e_entropy_01"
+   "evidence": "science · product curator · Entropy · cs_e_entropy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_enzyme_05",
    "text": "Enzymes speed body reactions",
    "standing": "projectable",
-   "evidence": "science · product curator · Enzyme · cs_e_enzyme_05"
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epidermis_02",
    "text": "Epidermis seals skin surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Epidermis · cs_e_epidermis_02"
+   "evidence": "science · product curator · Epidermis · cs_e_epidermis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epiphyte_04",
    "text": "Epiphytes grow on tree limbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_04"
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ethanol_01",
    "text": "Ethanol fuels clean engines",
    "standing": "projectable",
-   "evidence": "science · product curator · Ethanol · cs_e_ethanol_01"
+   "evidence": "science · product curator · Ethanol · cs_e_ethanol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_extrusion_01",
    "text": "Extrusion shapes hot metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Extrusion · cs_e_extrusion_01"
+   "evidence": "science · product curator · Extrusion · cs_e_extrusion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_elastin_02",
    "text": "Elastin stretches vessel walls",
    "standing": "projectable",
-   "evidence": "science · product curator · Elastin · cs_e_elastin_02"
+   "evidence": "science · product curator · Elastin · cs_e_elastin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_electromagnet_02",
    "text": "Electromagnets lift scrap steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Electromagnet · cs_e_electromagnet_02"
+   "evidence": "science · product curator · Electromagnet · cs_e_electromagnet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_endosperm_02",
    "text": "Endosperm feeds seedling growth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Endosperm · cs_e_endosperm_02"
+   "evidence": "nature · product curator · Endosperm · cs_e_endosperm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_epiphyte_05",
    "text": "Epiphytes root on host trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_05"
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_erosion_05",
    "text": "Erosion wears rock faces",
    "standing": "projectable",
-   "evidence": "science · product curator · Erosion · cs_e_erosion_05"
+   "evidence": "science · product curator · Erosion · cs_e_erosion_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ethane_02",
    "text": "Ethane fuels gas burners",
    "standing": "projectable",
-   "evidence": "science · product curator · Ethane · cs_e_ethane_02"
+   "evidence": "science · product curator · Ethane · cs_e_ethane_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_eucalyptus_02",
    "text": "Eucalyptus sheds bark sheets",
    "standing": "projectable",
-   "evidence": "nature · product curator · Eucalyptus · cs_e_eucalyptus_02"
+   "evidence": "nature · product curator · Eucalyptus · cs_e_eucalyptus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_exoskeleton_03",
    "text": "An exoskeleton shields insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_03"
+   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_effluent_01",
    "text": "Plants treat waste effluent",
    "standing": "projectable",
-   "evidence": "science · product curator · Effluent · cs_e_effluent_01"
+   "evidence": "science · product curator · Effluent · cs_e_effluent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_e_ellipsoid_01",
    "text": "Earth approximates an ellipsoid",
    "standing": "projectable",
-   "evidence": "science · product curator · Ellipsoid · cs_e_ellipsoid_01"
+   "evidence": "science · product curator · Ellipsoid · cs_e_ellipsoid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

@@ -12,1525 +12,2795 @@
    "id": "cs_g_germany_01",
    "text": "Berlin is the capital of Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Germany · cs_g_germany_01"
+   "evidence": "geography · product curator · Germany · cs_g_germany_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greece_01",
    "text": "Athens is the capital of Greece",
    "standing": "projectable",
-   "evidence": "geography · product curator · Greece · cs_g_greece_01"
+   "evidence": "geography · product curator · Greece · cs_g_greece_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_ghana_01",
    "text": "Accra is the capital of Ghana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ghana · cs_g_ghana_01"
+   "evidence": "geography · product curator · Ghana · cs_g_ghana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_georgia_country_01",
    "text": "Tbilisi is the capital of Georgia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Georgia (country) · cs_g_georgia_country_01"
+   "evidence": "geography · product curator · Georgia (country) · cs_g_georgia_country_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guatemala_01",
    "text": "Guatemala City is the capital of Guatemala",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guatemala · cs_g_guatemala_01"
+   "evidence": "geography · product curator · Guatemala · cs_g_guatemala_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guyana_01",
    "text": "Georgetown is the capital of Guyana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guyana · cs_g_guyana_01"
+   "evidence": "geography · product curator · Guyana · cs_g_guyana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gabon_01",
    "text": "Libreville is the capital of Gabon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gabon · cs_g_gabon_01"
+   "evidence": "geography · product curator · Gabon · cs_g_gabon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gambia_01",
    "text": "The Gambia is the smallest country on mainland Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gambia · cs_g_gambia_01"
+   "evidence": "geography · product curator · Gambia · cs_g_gambia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenland_01",
    "text": "Greenland is the world's largest island",
    "standing": "projectable",
-   "evidence": "geography · product curator · Greenland · cs_g_greenland_01"
+   "evidence": "geography · product curator · Greenland · cs_g_greenland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenland_02",
    "text": "Nuuk is the capital of Greenland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Greenland · cs_g_greenland_02"
+   "evidence": "geography · product curator · Greenland · cs_g_greenland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_great_barrier_reef_01",
    "text": "The Great Barrier Reef lies off Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Great Barrier Reef · cs_g_great_barrier_reef_01"
+   "evidence": "geography · product curator · Great Barrier Reef · cs_g_great_barrier_reef_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_great_barrier_reef_02",
    "text": "The Great Barrier Reef is the world's largest coral reef system",
    "standing": "projectable",
-   "evidence": "geography · product curator · Great Barrier Reef · cs_g_great_barrier_reef_02"
+   "evidence": "geography · product curator · Great Barrier Reef · cs_g_great_barrier_reef_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grand_canyon_01",
    "text": "The Grand Canyon was carved by the Colorado",
    "standing": "projectable",
-   "evidence": "geography · product curator · Grand Canyon · cs_g_grand_canyon_01"
+   "evidence": "geography · product curator · Grand Canyon · cs_g_grand_canyon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_great_lakes_01",
    "text": "The Great Lakes are five lakes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Great Lakes · cs_g_great_lakes_01"
+   "evidence": "geography · product curator · Great Lakes · cs_g_great_lakes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gobi_desert_01",
    "text": "The Gobi Desert is in China and Mongolia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gobi Desert · cs_g_gobi_desert_01"
+   "evidence": "geography · product curator · Gobi Desert · cs_g_gobi_desert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_ganges_01",
    "text": "The Ganges flows into the Bay of Bengal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ganges · cs_g_ganges_01"
+   "evidence": "geography · product curator · Ganges · cs_g_ganges_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gibraltar_strait_of_01",
    "text": "The Strait of Gibraltar connects the Atlantic Ocean and the Mediterranean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gibraltar, Strait of · cs_g_gibraltar_strait_of_01"
+   "evidence": "geography · product curator · Gibraltar, Strait of · cs_g_gibraltar_strait_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galapagos_islands_01",
    "text": "The Galápagos Islands belong to Ecuador",
    "standing": "projectable",
-   "evidence": "geography · product curator · Galápagos Islands · cs_g_galapagos_islands_01"
+   "evidence": "geography · product curator · Galápagos Islands · cs_g_galapagos_islands_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geneva_01",
    "text": "Geneva is a city in Switzerland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Geneva · cs_g_geneva_01"
+   "evidence": "geography · product curator · Geneva · cs_g_geneva_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glasgow_01",
    "text": "Glasgow is the largest city in Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Glasgow · cs_g_glasgow_01"
+   "evidence": "geography · product curator · Glasgow · cs_g_glasgow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_georgia_us_state_01",
    "text": "Atlanta is the capital of the American state of Georgia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Georgia (US state) · cs_g_georgia_us_state_01"
+   "evidence": "geography · product curator · Georgia (US state) · cs_g_georgia_us_state_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gulf_of_mexico_01",
    "text": "The Gulf of Mexico borders the United States, Mexico, and Cuba",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gulf of Mexico · cs_g_gulf_of_mexico_01"
+   "evidence": "geography · product curator · Gulf of Mexico · cs_g_gulf_of_mexico_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glacier_01",
    "text": "A glacier is a large, slow-moving mass of ice",
    "standing": "projectable",
-   "evidence": "geography · product curator · Glacier · cs_g_glacier_01"
+   "evidence": "geography · product curator · Glacier · cs_g_glacier_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geyser_01",
    "text": "Old Faithful is a geyser in Yellowstone National Park",
    "standing": "projectable",
-   "evidence": "geography · product curator · Geyser · cs_g_geyser_01"
+   "evidence": "geography · product curator · Geyser · cs_g_geyser_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galaxy_01",
    "text": "The Milky Way is a galaxy",
    "standing": "projectable",
-   "evidence": "science · product curator · Galaxy · cs_g_galaxy_01"
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_ganymede_01",
    "text": "Ganymede is the largest moon in the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Ganymede · cs_g_ganymede_01"
+   "evidence": "science · product curator · Ganymede · cs_g_ganymede_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_ganymede_02",
    "text": "Ganymede orbits Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Ganymede · cs_g_ganymede_02"
+   "evidence": "science · product curator · Ganymede · cs_g_ganymede_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gas_giant_01",
    "text": "Jupiter and Saturn are gas giants",
    "standing": "projectable",
-   "evidence": "science · product curator · Gas giant · cs_g_gas_giant_01"
+   "evidence": "science · product curator · Gas giant · cs_g_gas_giant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gold_01",
    "text": "Gold has the chemical symbol Au",
    "standing": "projectable",
-   "evidence": "science · product curator · Gold · cs_g_gold_01"
+   "evidence": "science · product curator · Gold · cs_g_gold_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gold_02",
    "text": "Gold has an atomic number of 79",
    "standing": "projectable",
-   "evidence": "science · product curator · Gold · cs_g_gold_02"
+   "evidence": "science · product curator · Gold · cs_g_gold_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gallium_01",
    "text": "Gallium has the chemical symbol Ga",
    "standing": "projectable",
-   "evidence": "science · product curator · Gallium · cs_g_gallium_01"
+   "evidence": "science · product curator · Gallium · cs_g_gallium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_germanium_01",
    "text": "Germanium has the chemical symbol Ge",
    "standing": "projectable",
-   "evidence": "science · product curator · Germanium · cs_g_germanium_01"
+   "evidence": "science · product curator · Germanium · cs_g_germanium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gadolinium_01",
    "text": "Gadolinium has the chemical symbol Gd",
    "standing": "projectable",
-   "evidence": "science · product curator · Gadolinium · cs_g_gadolinium_01"
+   "evidence": "science · product curator · Gadolinium · cs_g_gadolinium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gene_01",
    "text": "A gene is a segment of DNA",
    "standing": "projectable",
-   "evidence": "science · product curator · Gene · cs_g_gene_01"
+   "evidence": "science · product curator · Gene · cs_g_gene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glucose_01",
    "text": "Glucose is a simple sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Glucose · cs_g_glucose_01"
+   "evidence": "science · product curator · Glucose · cs_g_glucose_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glucose_02",
    "text": "Glucose has the chemical formula C6H12O6",
    "standing": "projectable",
-   "evidence": "science · product curator · Glucose · cs_g_glucose_02"
+   "evidence": "science · product curator · Glucose · cs_g_glucose_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_granite_01",
    "text": "Granite is an igneous rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Granite · cs_g_granite_01"
+   "evidence": "science · product curator · Granite · cs_g_granite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_graphite_01",
    "text": "Graphite is a form of carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Graphite · cs_g_graphite_01"
+   "evidence": "science · product curator · Graphite · cs_g_graphite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gamma_ray_01",
    "text": "Gamma rays have the shortest wavelengths in the electromagnetic spectrum",
    "standing": "projectable",
-   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_01"
+   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_giraffe_01",
    "text": "The giraffe is the tallest living land animal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Giraffe · cs_g_giraffe_01"
+   "evidence": "nature · product curator · Giraffe · cs_g_giraffe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gorilla_01",
    "text": "Gorillas are the largest living primates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gorilla · cs_g_gorilla_01"
+   "evidence": "nature · product curator · Gorilla · cs_g_gorilla_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gorilla_02",
    "text": "Gorillas are native to Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gorilla · cs_g_gorilla_02"
+   "evidence": "nature · product curator · Gorilla · cs_g_gorilla_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_giant_panda_01",
    "text": "The giant panda is native to China",
    "standing": "projectable",
-   "evidence": "nature · product curator · Giant panda · cs_g_giant_panda_01"
+   "evidence": "nature · product curator · Giant panda · cs_g_giant_panda_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goldfish_01",
    "text": "Goldfish are a domesticated type of carp",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goldfish · cs_g_goldfish_01"
+   "evidence": "nature · product curator · Goldfish · cs_g_goldfish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goose_01",
    "text": "Geese are waterfowl",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goose · cs_g_goose_01"
+   "evidence": "nature · product curator · Goose · cs_g_goose_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grasshopper_01",
    "text": "Grasshoppers are insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Grasshopper · cs_g_grasshopper_01"
+   "evidence": "nature · product curator · Grasshopper · cs_g_grasshopper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gecko_01",
    "text": "Geckos are lizards",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gecko · cs_g_gecko_01"
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gazelle_01",
    "text": "Gazelles are antelopes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_01"
+   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_great_white_shark_01",
    "text": "The great white shark is a fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Great white shark · cs_g_great_white_shark_01"
+   "evidence": "nature · product curator · Great white shark · cs_g_great_white_shark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grape_01",
    "text": "Wine is made from grapes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Grape · cs_g_grape_01"
+   "evidence": "nature · product curator · Grape · cs_g_grape_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galileo_galilei_01",
    "text": "Galileo Galilei observed four moons of Jupiter in 1610",
    "standing": "projectable",
-   "evidence": "history · product curator · Galileo Galilei · cs_g_galileo_galilei_01"
+   "evidence": "history · product curator · Galileo Galilei · cs_g_galileo_galilei_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gutenberg_johannes_01",
    "text": "Johannes Gutenberg introduced movable-type printing in Europe",
    "standing": "projectable",
-   "evidence": "history · product curator · Gutenberg, Johannes · cs_g_gutenberg_johannes_01"
+   "evidence": "history · product curator · Gutenberg, Johannes · cs_g_gutenberg_johannes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gandhi_mahatma_01",
    "text": "Mahatma Gandhi led nonviolent campaigns for Indian independence",
    "standing": "projectable",
-   "evidence": "history · product curator · Gandhi, Mahatma · cs_g_gandhi_mahatma_01"
+   "evidence": "history · product curator · Gandhi, Mahatma · cs_g_gandhi_mahatma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_great_wall_of_china_01",
    "text": "The Great Wall of China was built over many centuries",
    "standing": "projectable",
-   "evidence": "history · product curator · Great Wall of China · cs_g_great_wall_of_china_01"
+   "evidence": "history · product curator · Great Wall of China · cs_g_great_wall_of_china_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_giza_01",
    "text": "The Great Pyramid is at Giza in Egypt",
    "standing": "projectable",
-   "evidence": "history · product curator · Giza · cs_g_giza_01"
+   "evidence": "history · product curator · Giza · cs_g_giza_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_genghis_khan_01",
    "text": "Genghis Khan founded the Mongol Empire",
    "standing": "projectable",
-   "evidence": "history · product curator · Genghis Khan · cs_g_genghis_khan_01"
+   "evidence": "history · product curator · Genghis Khan · cs_g_genghis_khan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gettysburg_address_01",
    "text": "Abraham Lincoln delivered the Gettysburg Address in 1863",
    "standing": "projectable",
-   "evidence": "history · product curator · Gettysburg Address · cs_g_gettysburg_address_01"
+   "evidence": "history · product curator · Gettysburg Address · cs_g_gettysburg_address_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gold_rush_01",
    "text": "The California Gold Rush began in 1848",
    "standing": "projectable",
-   "evidence": "history · product curator · Gold Rush · cs_g_gold_rush_01"
+   "evidence": "history · product curator · Gold Rush · cs_g_gold_rush_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gagarin_yuri_01",
    "text": "Gagarin was the first human in space",
    "standing": "projectable",
-   "evidence": "history · product curator · Gagarin, Yuri · cs_g_gagarin_yuri_01"
+   "evidence": "history · product curator · Gagarin, Yuri · cs_g_gagarin_yuri_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_golden_gate_bridge_01",
    "text": "The Golden Gate Bridge is in San Francisco",
    "standing": "projectable",
-   "evidence": "history · product curator · Golden Gate Bridge · cs_g_golden_gate_bridge_01"
+   "evidence": "history · product curator · Golden Gate Bridge · cs_g_golden_gate_bridge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_golden_gate_bridge_02",
    "text": "The Golden Gate Bridge opened in 1937",
    "standing": "projectable",
-   "evidence": "history · product curator · Golden Gate Bridge · cs_g_golden_gate_bridge_02"
+   "evidence": "history · product curator · Golden Gate Bridge · cs_g_golden_gate_bridge_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_globe_theatre_01",
    "text": "The Globe Theatre was associated with William Shakespeare",
    "standing": "projectable",
-   "evidence": "history · product curator · Globe Theatre · cs_g_globe_theatre_01"
+   "evidence": "history · product curator · Globe Theatre · cs_g_globe_theatre_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gram_01",
    "text": "A gram is one-thousandth of a kilogram",
    "standing": "projectable",
-   "evidence": "math · product curator · Gram · cs_g_gram_01"
+   "evidence": "math · product curator · Gram · cs_g_gram_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gallon_01",
    "text": "A gallon equals four quarts",
    "standing": "projectable",
-   "evidence": "math · product curator · Gallon · cs_g_gallon_01"
+   "evidence": "math · product curator · Gallon · cs_g_gallon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geometry_01",
    "text": "Geometry is the branch of mathematics dealing with shapes and space",
    "standing": "projectable",
-   "evidence": "math · product curator · Geometry · cs_g_geometry_01"
+   "evidence": "math · product curator · Geometry · cs_g_geometry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_googol_01",
    "text": "A googol is 10 to the power of 100",
    "standing": "projectable",
-   "evidence": "math · product curator · Googol · cs_g_googol_01"
+   "evidence": "math · product curator · Googol · cs_g_googol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greatest_common_divisor_01",
    "text": "The greatest common divisor of 12 and 18 is 6",
    "standing": "projectable",
-   "evidence": "math · product curator · Greatest common divisor · cs_g_greatest_common_divisor_01"
+   "evidence": "math · product curator · Greatest common divisor · cs_g_greatest_common_divisor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_governor_01",
    "text": "A governor leads each state",
    "standing": "projectable",
-   "evidence": "civics · product curator · Governor · cs_g_governor_01"
+   "evidence": "civics · product curator · Governor · cs_g_governor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greek_alphabet_01",
    "text": "Alpha is the first letter of the Greek alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Greek alphabet · cs_g_greek_alphabet_01"
+   "evidence": "language · product curator · Greek alphabet · cs_g_greek_alphabet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greek_alphabet_02",
    "text": "Omega is the last letter of the Greek alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Greek alphabet · cs_g_greek_alphabet_02"
+   "evidence": "language · product curator · Greek alphabet · cs_g_greek_alphabet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_german_01",
    "text": "German is the official language of Germany",
    "standing": "projectable",
-   "evidence": "language · product curator · German · cs_g_german_01"
+   "evidence": "language · product curator · German · cs_g_german_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guitar_01",
    "text": "A standard guitar has six strings",
    "standing": "projectable",
-   "evidence": "general · product curator · Guitar · cs_g_guitar_01"
+   "evidence": "general · product curator · Guitar · cs_g_guitar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_golf_01",
    "text": "A standard round of golf has 18 holes",
    "standing": "projectable",
-   "evidence": "general · product curator · Golf · cs_g_golf_01"
+   "evidence": "general · product curator · Golf · cs_g_golf_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenwich_01",
    "text": "The prime meridian passes through Greenwich",
    "standing": "projectable",
-   "evidence": "geography · product curator · Greenwich · cs_g_greenwich_01"
+   "evidence": "geography · product curator · Greenwich · cs_g_greenwich_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gulf_stream_01",
    "text": "The Gulf Stream is a warm current in the Atlantic",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gulf Stream · cs_g_gulf_stream_01"
+   "evidence": "geography · product curator · Gulf Stream · cs_g_gulf_stream_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gray_wolf_01",
    "text": "Gray wolves live in packs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gray wolf · cs_g_gray_wolf_01"
+   "evidence": "nature · product curator · Gray wolf · cs_g_gray_wolf_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guatemala_02",
    "text": "Guatemala is a country in Central America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guatemala · cs_g_guatemala_02"
+   "evidence": "geography · product curator · Guatemala · cs_g_guatemala_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guam_01",
    "text": "Guam is an island in the western Pacific Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guam · cs_g_guam_01"
+   "evidence": "geography · product curator · Guam · cs_g_guam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_ganges_02",
    "text": "The Ganges flows into the Bay of Bengal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ganges · cs_g_ganges_02"
+   "evidence": "geography · product curator · Ganges · cs_g_ganges_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gulf_of_mexico_02",
    "text": "The Gulf of Mexico borders the United States and Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gulf of Mexico · cs_g_gulf_of_mexico_02"
+   "evidence": "geography · product curator · Gulf of Mexico · cs_g_gulf_of_mexico_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gravity_03",
    "text": "Gravity pulls objects toward Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Gravity · cs_g_gravity_03"
+   "evidence": "science · product curator · Gravity · cs_g_gravity_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gold_03",
    "text": "The chemical symbol for gold is Au",
    "standing": "projectable",
-   "evidence": "science · product curator · Gold · cs_g_gold_03"
+   "evidence": "science · product curator · Gold · cs_g_gold_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gas_01",
    "text": "A gas has no fixed shape or volume",
    "standing": "projectable",
-   "evidence": "science · product curator · Gas · cs_g_gas_01"
+   "evidence": "science · product curator · Gas · cs_g_gas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goat_01",
    "text": "Goats are domesticated ruminant animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goat · cs_g_goat_01"
+   "evidence": "nature · product curator · Goat · cs_g_goat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guinea_pig_01",
    "text": "Guinea pigs are rodents from South America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Guinea pig · cs_g_guinea_pig_01"
+   "evidence": "nature · product curator · Guinea pig · cs_g_guinea_pig_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gutenberg_johannes_02",
    "text": "Johannes Gutenberg developed a movable-type printing press",
    "standing": "projectable",
-   "evidence": "history · product curator · Gutenberg, Johannes · cs_g_gutenberg_johannes_02"
+   "evidence": "history · product curator · Gutenberg, Johannes · cs_g_gutenberg_johannes_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grant_ulysses_s_01",
    "text": "Ulysses Grant was the 18th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Grant, Ulysses S. · cs_g_grant_ulysses_s_01"
+   "evidence": "history · product curator · Grant, Ulysses S. · cs_g_grant_ulysses_s_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gettysburg_battle_of_01",
    "text": "The Battle of Gettysburg was fought in 1863",
    "standing": "projectable",
-   "evidence": "history · product curator · Gettysburg, Battle of · cs_g_gettysburg_battle_of_01"
+   "evidence": "history · product curator · Gettysburg, Battle of · cs_g_gettysburg_battle_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_great_depression_01",
    "text": "The Great Depression began in 1929",
    "standing": "projectable",
-   "evidence": "history · product curator · Great Depression · cs_g_great_depression_01"
+   "evidence": "history · product curator · Great Depression · cs_g_great_depression_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gulf_of_aden_01",
    "text": "The Gulf of Aden lies between Yemen and Somalia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gulf of Aden · cs_g_gulf_of_aden_01"
+   "evidence": "geography · product curator · Gulf of Aden · cs_g_gulf_of_aden_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gibbon_01",
    "text": "Gibbons are apes that swing through trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_01"
+   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gull_01",
    "text": "Gulls are seabirds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gull · cs_g_gull_01"
+   "evidence": "nature · product curator · Gull · cs_g_gull_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gram_02",
    "text": "A gram is one thousandth of a kilogram",
    "standing": "projectable",
-   "evidence": "science · product curator · Gram · cs_g_gram_02"
+   "evidence": "science · product curator · Gram · cs_g_gram_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gemini_01",
    "text": "Gemini is a constellation of the zodiac",
    "standing": "projectable",
-   "evidence": "science · product curator · Gemini · cs_g_gemini_01"
+   "evidence": "science · product curator · Gemini · cs_g_gemini_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_giraffe_02",
    "text": "A giraffe has a long neck",
    "standing": "projectable",
-   "evidence": "nature · product curator · Giraffe · cs_g_giraffe_02"
+   "evidence": "nature · product curator · Giraffe · cs_g_giraffe_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gallon_02",
    "text": "A gallon is a unit of volume",
    "standing": "projectable",
-   "evidence": "math · product curator · Gallon · cs_g_gallon_02"
+   "evidence": "math · product curator · Gallon · cs_g_gallon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glasgow_02",
    "text": "Glasgow is a city in Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Glasgow · cs_g_glasgow_02"
+   "evidence": "geography · product curator · Glasgow · cs_g_glasgow_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galway_01",
    "text": "Galway is a city in Ireland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Galway · cs_g_galway_01"
+   "evidence": "geography · product curator · Galway · cs_g_galway_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_genoa_01",
    "text": "Genoa is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Genoa · cs_g_genoa_01"
+   "evidence": "geography · product curator · Genoa · cs_g_genoa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_ghent_01",
    "text": "Ghent is a city in Belgium",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ghent · cs_g_ghent_01"
+   "evidence": "geography · product curator · Ghent · cs_g_ghent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_granada_01",
    "text": "Granada is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Granada · cs_g_granada_01"
+   "evidence": "geography · product curator · Granada · cs_g_granada_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grenoble_01",
    "text": "Grenoble is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Grenoble · cs_g_grenoble_01"
+   "evidence": "geography · product curator · Grenoble · cs_g_grenoble_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gdansk_01",
    "text": "Gdansk is a city in Poland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gdansk · cs_g_gdansk_01"
+   "evidence": "geography · product curator · Gdansk · cs_g_gdansk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_graz_01",
    "text": "Graz is a city in Austria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Graz · cs_g_graz_01"
+   "evidence": "geography · product curator · Graz · cs_g_graz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guangzhou_01",
    "text": "Guangzhou is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guangzhou · cs_g_guangzhou_01"
+   "evidence": "geography · product curator · Guangzhou · cs_g_guangzhou_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guilin_01",
    "text": "Guilin is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guilin · cs_g_guilin_01"
+   "evidence": "geography · product curator · Guilin · cs_g_guilin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gothenburg_01",
    "text": "Gothenburg is a city in Sweden",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gothenburg · cs_g_gothenburg_01"
+   "evidence": "geography · product curator · Gothenburg · cs_g_gothenburg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guwahati_01",
    "text": "Guwahati is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guwahati · cs_g_guwahati_01"
+   "evidence": "geography · product curator · Guwahati · cs_g_guwahati_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gaya_01",
    "text": "Gaya is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gaya · cs_g_gaya_01"
+   "evidence": "geography · product curator · Gaya · cs_g_gaya_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guadalajara_01",
    "text": "Guadalajara is a city in Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Guadalajara · cs_g_guadalajara_01"
+   "evidence": "geography · product curator · Guadalajara · cs_g_guadalajara_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galveston_01",
    "text": "Galveston is a city in Texas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Galveston · cs_g_galveston_01"
+   "evidence": "geography · product curator · Galveston · cs_g_galveston_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gary_01",
    "text": "Gary is a city in Indiana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gary · cs_g_gary_01"
+   "evidence": "geography · product curator · Gary · cs_g_gary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenville_01",
    "text": "Greenville is a city in South Carolina",
    "standing": "projectable",
-   "evidence": "geography · product curator · Greenville · cs_g_greenville_01"
+   "evidence": "geography · product curator · Greenville · cs_g_greenville_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gloucester_01",
    "text": "Gloucester is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gloucester · cs_g_gloucester_01"
+   "evidence": "geography · product curator · Gloucester · cs_g_gloucester_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_groningen_01",
    "text": "Groningen is a city in the Netherlands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Groningen · cs_g_groningen_01"
+   "evidence": "geography · product curator · Groningen · cs_g_groningen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gaziantep_01",
    "text": "Gaziantep is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gaziantep · cs_g_gaziantep_01"
+   "evidence": "geography · product curator · Gaziantep · cs_g_gaziantep_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gyeongju_01",
    "text": "Gyeongju is a city in South Korea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gyeongju · cs_g_gyeongju_01"
+   "evidence": "geography · product curator · Gyeongju · cs_g_gyeongju_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gyrus_01",
    "text": "A gyrus is a ridge on the brain surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Gyrus · cs_g_gyrus_01"
+   "evidence": "science · product curator · Gyrus · cs_g_gyrus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gypsum_01",
    "text": "Gypsum is a soft mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Gypsum · cs_g_gypsum_01"
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gunpowder_01",
    "text": "Gunpowder was invented in China",
    "standing": "projectable",
-   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_01"
+   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gum_tree_01",
    "text": "A gum tree is a eucalyptus",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gum tree · cs_g_gum_tree_01"
+   "evidence": "nature · product curator · Gum tree · cs_g_gum_tree_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guano_01",
    "text": "Guano is seabird droppings used as fertilizer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Guano · cs_g_guano_01"
+   "evidence": "nature · product curator · Guano · cs_g_guano_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_growth_ring_01",
    "text": "A growth ring marks one year of tree growth",
    "standing": "projectable",
-   "evidence": "science · product curator · Growth ring · cs_g_growth_ring_01"
+   "evidence": "science · product curator · Growth ring · cs_g_growth_ring_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_groundwater_01",
    "text": "Groundwater fills spaces in soil and rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Groundwater · cs_g_groundwater_01"
+   "evidence": "science · product curator · Groundwater · cs_g_groundwater_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gregorian_calendar_01",
    "text": "The Gregorian calendar is the common civil calendar",
    "standing": "projectable",
-   "evidence": "history · product curator · Gregorian calendar · cs_g_gregorian_calendar_01"
+   "evidence": "history · product curator · Gregorian calendar · cs_g_gregorian_calendar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenhouse_01",
    "text": "A greenhouse traps heat for plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_01"
+   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_great_circle_01",
    "text": "A great circle is the largest circle on a sphere",
    "standing": "projectable",
-   "evidence": "math · product curator · Great circle · cs_g_great_circle_01"
+   "evidence": "math · product curator · Great circle · cs_g_great_circle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gray_matter_01",
    "text": "Gray matter contains nerve cell bodies",
    "standing": "projectable",
-   "evidence": "science · product curator · Gray matter · cs_g_gray_matter_01"
+   "evidence": "science · product curator · Gray matter · cs_g_gray_matter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gravel_01",
    "text": "Gravel is loose rock fragments",
    "standing": "projectable",
-   "evidence": "science · product curator · Gravel · cs_g_gravel_01"
+   "evidence": "science · product curator · Gravel · cs_g_gravel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grassland_01",
    "text": "A grassland is dominated by grasses",
    "standing": "projectable",
-   "evidence": "nature · product curator · Grassland · cs_g_grassland_01"
+   "evidence": "nature · product curator · Grassland · cs_g_grassland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gabbro_01",
    "text": "Gabbro is an igneous rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Gabbro · cs_g_gabbro_01"
+   "evidence": "science · product curator · Gabbro · cs_g_gabbro_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gannet_01",
    "text": "A gannet is a seabird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gannet · cs_g_gannet_01"
+   "evidence": "nature · product curator · Gannet · cs_g_gannet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gneiss_01",
    "text": "Gneiss is a metamorphic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Gneiss · cs_g_gneiss_01"
+   "evidence": "science · product curator · Gneiss · cs_g_gneiss_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gondwana_01",
    "text": "Gondwana was an ancient supercontinent",
    "standing": "projectable",
-   "evidence": "science · product curator · Gondwana · cs_g_gondwana_01"
+   "evidence": "science · product curator · Gondwana · cs_g_gondwana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gauss_01",
    "text": "A gauss is a unit of magnetic field",
    "standing": "projectable",
-   "evidence": "science · product curator · Gauss · cs_g_gauss_01"
+   "evidence": "science · product curator · Gauss · cs_g_gauss_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geothermal_energy_01",
    "text": "Geothermal energy comes from heat inside Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Geothermal energy · cs_g_geothermal_energy_01"
+   "evidence": "science · product curator · Geothermal energy · cs_g_geothermal_energy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gorge_01",
    "text": "A gorge is a deep narrow valley",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gorge · cs_g_gorge_01"
+   "evidence": "geography · product curator · Gorge · cs_g_gorge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galaxy_02",
    "text": "A galaxy contains billions of stars",
    "standing": "projectable",
-   "evidence": "science · product curator · Galaxy · cs_g_galaxy_02"
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gallbladder_01",
    "text": "The gallbladder stores bile",
    "standing": "projectable",
-   "evidence": "science · product curator · Gallbladder · cs_g_gallbladder_01"
+   "evidence": "science · product curator · Gallbladder · cs_g_gallbladder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gamma_ray_02",
    "text": "A gamma ray is high energy radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_02"
+   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gas_02",
    "text": "A gas fills its container",
    "standing": "projectable",
-   "evidence": "science · product curator · Gas · cs_g_gas_02"
+   "evidence": "science · product curator · Gas · cs_g_gas_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gear_01",
    "text": "A gear transmits mechanical power",
    "standing": "projectable",
-   "evidence": "science · product curator · Gear · cs_g_gear_01"
+   "evidence": "science · product curator · Gear · cs_g_gear_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gene_02",
    "text": "A gene is a unit of heredity",
    "standing": "projectable",
-   "evidence": "science · product curator · Gene · cs_g_gene_02"
+   "evidence": "science · product curator · Gene · cs_g_gene_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geyser_02",
    "text": "A geyser erupts hot water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Geyser · cs_g_geyser_02"
+   "evidence": "geography · product curator · Geyser · cs_g_geyser_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glacier_02",
    "text": "A glacier is a large mass of ice",
    "standing": "projectable",
-   "evidence": "geography · product curator · Glacier · cs_g_glacier_02"
+   "evidence": "geography · product curator · Glacier · cs_g_glacier_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goose_02",
    "text": "A goose is a water bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goose · cs_g_goose_02"
+   "evidence": "nature · product curator · Goose · cs_g_goose_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_germination_01",
    "text": "A seed starts germination",
    "standing": "projectable",
-   "evidence": "nature · product curator · Germination · cs_g_germination_01"
+   "evidence": "nature · product curator · Germination · cs_g_germination_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gram_03",
    "text": "A gram is a unit of mass",
    "standing": "projectable",
-   "evidence": "math · product curator · Gram · cs_g_gram_03"
+   "evidence": "math · product curator · Gram · cs_g_gram_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geometry_02",
    "text": "Euclid wrote about geometry",
    "standing": "projectable",
-   "evidence": "history · product curator · Geometry · cs_g_geometry_02"
+   "evidence": "history · product curator · Geometry · cs_g_geometry_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gorge_02",
    "text": "A river can carve a gorge",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gorge · cs_g_gorge_02"
+   "evidence": "geography · product curator · Gorge · cs_g_gorge_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_governor_02",
    "text": "Voters elect a governor in many states",
    "standing": "projectable",
-   "evidence": "civics · product curator · Governor · cs_g_governor_02"
+   "evidence": "civics · product curator · Governor · cs_g_governor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gravel_02",
    "text": "Rivers deposit gravel in channels",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gravel · cs_g_gravel_02"
+   "evidence": "geography · product curator · Gravel · cs_g_gravel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gear_02",
    "text": "A gear transmits torque",
    "standing": "projectable",
-   "evidence": "science · product curator · Gear · cs_g_gear_02"
+   "evidence": "science · product curator · Gear · cs_g_gear_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gecko_02",
    "text": "A gecko is a climbing lizard",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gecko · cs_g_gecko_02"
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gene_03",
    "text": "A gene codes for a protein",
    "standing": "projectable",
-   "evidence": "science · product curator · Gene · cs_g_gene_03"
+   "evidence": "science · product curator · Gene · cs_g_gene_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_germination_02",
    "text": "Germination begins seed growth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Germination · cs_g_germination_02"
+   "evidence": "nature · product curator · Germination · cs_g_germination_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galaxy_03",
    "text": "A galaxy is a system of stars",
    "standing": "projectable",
-   "evidence": "science · product curator · Galaxy · cs_g_galaxy_03"
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gamma_ray_03",
    "text": "A gamma ray is high-energy radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_03"
+   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geometry_03",
    "text": "Geometry studies shapes and space",
    "standing": "projectable",
-   "evidence": "math · product curator · Geometry · cs_g_geometry_03"
+   "evidence": "math · product curator · Geometry · cs_g_geometry_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gill_01",
    "text": "A gill extracts oxygen from water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gill · cs_g_gill_01"
+   "evidence": "nature · product curator · Gill · cs_g_gill_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galaxy_04",
    "text": "Stars fill a galaxy",
    "standing": "projectable",
-   "evidence": "science · product curator · Galaxy · cs_g_galaxy_04"
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grain_01",
    "text": "Wheat is a grain crop",
    "standing": "projectable",
-   "evidence": "nature · product curator · Grain · cs_g_grain_01"
+   "evidence": "nature · product curator · Grain · cs_g_grain_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gravel_03",
    "text": "Gravel lines a riverbed",
    "standing": "projectable",
-   "evidence": "geography · product curator · Gravel · cs_g_gravel_03"
+   "evidence": "geography · product curator · Gravel · cs_g_gravel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geometry_04",
    "text": "Students study geometry",
    "standing": "projectable",
-   "evidence": "math · product curator · Geometry · cs_g_geometry_04"
+   "evidence": "math · product curator · Geometry · cs_g_geometry_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_governor_03",
    "text": "A governor leads a state",
    "standing": "projectable",
-   "evidence": "civics · product curator · Governor · cs_g_governor_03"
+   "evidence": "civics · product curator · Governor · cs_g_governor_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gunpowder_02",
    "text": "Gunpowder is an explosive mixture",
    "standing": "projectable",
-   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_02"
+   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grove_01",
    "text": "Oaks grow in a grove",
    "standing": "projectable",
-   "evidence": "nature · product curator · Grove · cs_g_grove_01"
+   "evidence": "nature · product curator · Grove · cs_g_grove_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gypsum_02",
    "text": "Builders use gypsum in plaster",
    "standing": "projectable",
-   "evidence": "science · product curator · Gypsum · cs_g_gypsum_02"
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gauge_01",
    "text": "A gauge measures pressure",
    "standing": "projectable",
-   "evidence": "science · product curator · Gauge · cs_g_gauge_01"
+   "evidence": "science · product curator · Gauge · cs_g_gauge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gazelle_02",
    "text": "A gazelle runs on plains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_02"
+   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gear_03",
    "text": "Gears change torque",
    "standing": "projectable",
-   "evidence": "science · product curator · Gear · cs_g_gear_03"
+   "evidence": "science · product curator · Gear · cs_g_gear_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gelatin_01",
    "text": "Gelatin sets a dessert",
    "standing": "projectable",
-   "evidence": "science · product curator · Gelatin · cs_g_gelatin_01"
+   "evidence": "science · product curator · Gelatin · cs_g_gelatin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gecko_03",
    "text": "A gecko climbs smooth walls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gecko · cs_g_gecko_03"
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gibbon_02",
    "text": "A gibbon swings through trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_02"
+   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glycogen_01",
    "text": "The liver stores glycogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Glycogen · cs_g_glycogen_01"
+   "evidence": "science · product curator · Glycogen · cs_g_glycogen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gecko_04",
    "text": "A gecko sheds its tail",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gecko · cs_g_gecko_04"
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gibbon_03",
    "text": "Gibbons sing in forests",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_03"
+   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glycogen_02",
    "text": "Muscles store glycogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Glycogen · cs_g_glycogen_02"
+   "evidence": "science · product curator · Glycogen · cs_g_glycogen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gravity_04",
    "text": "Gravity keeps planets in orbit",
    "standing": "projectable",
-   "evidence": "science · product curator · Gravity · cs_g_gravity_04"
+   "evidence": "science · product curator · Gravity · cs_g_gravity_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gazelle_03",
    "text": "Lions hunt gazelles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_03"
+   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gear_04",
    "text": "A bicycle uses gears",
    "standing": "projectable",
-   "evidence": "science · product curator · Gear · cs_g_gear_04"
+   "evidence": "science · product curator · Gear · cs_g_gear_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_growth_ring_02",
    "text": "A tree adds a growth ring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Growth ring · cs_g_growth_ring_02"
+   "evidence": "nature · product curator · Growth ring · cs_g_growth_ring_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gallium_02",
    "text": "Gallium melts in a warm hand",
    "standing": "projectable",
-   "evidence": "science · product curator · Gallium · cs_g_gallium_02"
+   "evidence": "science · product curator · Gallium · cs_g_gallium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_grassland_02",
    "text": "Zebras graze a grassland",
    "standing": "projectable",
-   "evidence": "nature · product curator · Grassland · cs_g_grassland_02"
+   "evidence": "nature · product curator · Grassland · cs_g_grassland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goat_02",
    "text": "A goat climbs rocky slopes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goat · cs_g_goat_02"
+   "evidence": "nature · product curator · Goat · cs_g_goat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gadolinium_02",
    "text": "Gadolinium is a rare earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Gadolinium · cs_g_gadolinium_02"
+   "evidence": "science · product curator · Gadolinium · cs_g_gadolinium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_googol_02",
    "text": "A googol is a huge number",
    "standing": "projectable",
-   "evidence": "math · product curator · Googol · cs_g_googol_02"
+   "evidence": "math · product curator · Googol · cs_g_googol_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenhouse_02",
    "text": "Gardeners use a greenhouse",
    "standing": "projectable",
-   "evidence": "nature · product curator · Greenhouse · cs_g_greenhouse_02"
+   "evidence": "nature · product curator · Greenhouse · cs_g_greenhouse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_germination_03",
    "text": "Seeds begin germination",
    "standing": "projectable",
-   "evidence": "nature · product curator · Germination · cs_g_germination_03"
+   "evidence": "nature · product curator · Germination · cs_g_germination_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gazelle_04",
    "text": "A gazelle outruns predators",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_04"
+   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gelatin_02",
    "text": "Desserts set with gelatin",
    "standing": "projectable",
-   "evidence": "science · product curator · Gelatin · cs_g_gelatin_02"
+   "evidence": "science · product curator · Gelatin · cs_g_gelatin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_germination_04",
    "text": "Warmth starts germination",
    "standing": "projectable",
-   "evidence": "nature · product curator · Germination · cs_g_germination_04"
+   "evidence": "nature · product curator · Germination · cs_g_germination_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glucose_03",
    "text": "Plants make glucose",
    "standing": "projectable",
-   "evidence": "science · product curator · Glucose · cs_g_glucose_03"
+   "evidence": "science · product curator · Glucose · cs_g_glucose_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goat_03",
    "text": "Goats chew tough shrubs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goat · cs_g_goat_03"
+   "evidence": "nature · product curator · Goat · cs_g_goat_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_granite_02",
    "text": "Granite forms from magma",
    "standing": "projectable",
-   "evidence": "science · product curator · Granite · cs_g_granite_02"
+   "evidence": "science · product curator · Granite · cs_g_granite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenhouse_03",
    "text": "Glass warms a greenhouse",
    "standing": "projectable",
-   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_03"
+   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_growth_ring_03",
    "text": "A stump shows a growth ring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Growth ring · cs_g_growth_ring_03"
+   "evidence": "nature · product curator · Growth ring · cs_g_growth_ring_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gypsum_03",
    "text": "Desert lakes leave gypsum",
    "standing": "projectable",
-   "evidence": "science · product curator · Gypsum · cs_g_gypsum_03"
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gall_bladder_01",
    "text": "The gall bladder stores bile",
    "standing": "projectable",
-   "evidence": "science · product curator · Gall bladder · cs_g_gall_bladder_01"
+   "evidence": "science · product curator · Gall bladder · cs_g_gall_bladder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gallium_03",
    "text": "Gallium melts near room heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Gallium · cs_g_gallium_03"
+   "evidence": "science · product curator · Gallium · cs_g_gallium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gecko_05",
    "text": "Geckos climb smooth walls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gecko · cs_g_gecko_05"
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_generator_01",
    "text": "Turbines spin a generator",
    "standing": "projectable",
-   "evidence": "science · product curator · Generator · cs_g_generator_01"
+   "evidence": "science · product curator · Generator · cs_g_generator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gland_01",
    "text": "A gland secretes hormones",
    "standing": "projectable",
-   "evidence": "science · product curator · Gland · cs_g_gland_01"
+   "evidence": "science · product curator · Gland · cs_g_gland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glucose_04",
    "text": "Blood carries glucose",
    "standing": "projectable",
-   "evidence": "science · product curator · Glucose · cs_g_glucose_04"
+   "evidence": "science · product curator · Glucose · cs_g_glucose_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goldfinch_01",
    "text": "Goldfinches eat thistle",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goldfinch · cs_g_goldfinch_01"
+   "evidence": "nature · product curator · Goldfinch · cs_g_goldfinch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_graphite_02",
    "text": "Pencils use graphite",
    "standing": "projectable",
-   "evidence": "science · product curator · Graphite · cs_g_graphite_02"
+   "evidence": "science · product curator · Graphite · cs_g_graphite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_galaxy_05",
    "text": "A galaxy holds many stars",
    "standing": "projectable",
-   "evidence": "science · product curator · Galaxy · cs_g_galaxy_05"
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_garlic_01",
    "text": "Garlic flavors cooked food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Garlic · cs_g_garlic_01"
+   "evidence": "nature · product curator · Garlic · cs_g_garlic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gasoline_01",
    "text": "Gasoline fuels car engines",
    "standing": "projectable",
-   "evidence": "science · product curator · Gasoline · cs_g_gasoline_01"
+   "evidence": "science · product curator · Gasoline · cs_g_gasoline_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gear_05",
    "text": "A gear turns another gear",
    "standing": "projectable",
-   "evidence": "science · product curator · Gear · cs_g_gear_05"
+   "evidence": "science · product curator · Gear · cs_g_gear_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glacier_03",
    "text": "A glacier carves a valley",
    "standing": "projectable",
-   "evidence": "geography · product curator · Glacier · cs_g_glacier_03"
+   "evidence": "geography · product curator · Glacier · cs_g_glacier_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_goose_03",
    "text": "A goose migrates south",
    "standing": "projectable",
-   "evidence": "nature · product curator · Goose · cs_g_goose_03"
+   "evidence": "nature · product curator · Goose · cs_g_goose_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_graphite_03",
    "text": "Graphite lubricates locks",
    "standing": "projectable",
-   "evidence": "science · product curator · Graphite · cs_g_graphite_03"
+   "evidence": "science · product curator · Graphite · cs_g_graphite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gravity_05",
    "text": "Gravity pulls mass together",
    "standing": "projectable",
-   "evidence": "science · product curator · Gravity · cs_g_gravity_05"
+   "evidence": "science · product curator · Gravity · cs_g_gravity_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gypsum_04",
    "text": "Gypsum forms wallboard",
    "standing": "projectable",
-   "evidence": "science · product curator · Gypsum · cs_g_gypsum_04"
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gunpowder_03",
    "text": "Gunpowder burns fast",
    "standing": "projectable",
-   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_03"
+   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gamma_ray_04",
    "text": "Gamma rays pierce dense matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_04"
+   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gastric_01",
    "text": "Gastric acid digests food",
    "standing": "projectable",
-   "evidence": "science · product curator · Gastric · cs_g_gastric_01"
+   "evidence": "science · product curator · Gastric · cs_g_gastric_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_genome_01",
    "text": "A genome stores all genes",
    "standing": "projectable",
-   "evidence": "science · product curator · Genome · cs_g_genome_01"
+   "evidence": "science · product curator · Genome · cs_g_genome_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glacier_04",
    "text": "A glacier scrapes bedrock",
    "standing": "projectable",
-   "evidence": "geography · product curator · Glacier · cs_g_glacier_04"
+   "evidence": "geography · product curator · Glacier · cs_g_glacier_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glucose_05",
    "text": "Cells burn glucose for fuel",
    "standing": "projectable",
-   "evidence": "science · product curator · Glucose · cs_g_glucose_05"
+   "evidence": "science · product curator · Glucose · cs_g_glucose_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gluten_01",
    "text": "Gluten binds wheat dough",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gluten · cs_g_gluten_01"
+   "evidence": "nature · product curator · Gluten · cs_g_gluten_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_golgi_01",
    "text": "The Golgi packs cell proteins",
    "standing": "projectable",
-   "evidence": "science · product curator · Golgi · cs_g_golgi_01"
+   "evidence": "science · product curator · Golgi · cs_g_golgi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_greenhouse_04",
    "text": "Glass traps greenhouse heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_04"
+   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gypsum_05",
    "text": "Gypsum forms soft crystals",
    "standing": "projectable",
-   "evidence": "science · product curator · Gypsum · cs_g_gypsum_05"
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gyroscope_01",
    "text": "A gyroscope holds spin axis",
    "standing": "projectable",
-   "evidence": "science · product curator · Gyroscope · cs_g_gyroscope_01"
+   "evidence": "science · product curator · Gyroscope · cs_g_gyroscope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gas_03",
    "text": "Heat expands a sealed gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Gas · cs_g_gas_03"
+   "evidence": "science · product curator · Gas · cs_g_gas_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gear_06",
    "text": "Gears transfer turning force",
    "standing": "projectable",
-   "evidence": "science · product curator · Gear · cs_g_gear_06"
+   "evidence": "science · product curator · Gear · cs_g_gear_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gecko_06",
    "text": "Geckos cling to smooth walls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gecko · cs_g_gecko_06"
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gene_04",
    "text": "Mutations alter gene code",
    "standing": "projectable",
-   "evidence": "science · product curator · Gene · cs_g_gene_04"
+   "evidence": "science · product curator · Gene · cs_g_gene_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_geyser_03",
    "text": "Heat drives geyser eruptions",
    "standing": "projectable",
-   "evidence": "science · product curator · Geyser · cs_g_geyser_03"
+   "evidence": "science · product curator · Geyser · cs_g_geyser_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glucose_06",
    "text": "Glucose fuels living cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Glucose · cs_g_glucose_06"
+   "evidence": "science · product curator · Glucose · cs_g_glucose_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gold_04",
    "text": "Gold resists chemical rust",
    "standing": "projectable",
-   "evidence": "science · product curator · Gold · cs_g_gold_04"
+   "evidence": "science · product curator · Gold · cs_g_gold_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gypsum_06",
    "text": "Walls hold gypsum plaster",
    "standing": "projectable",
-   "evidence": "science · product curator · Gypsum · cs_g_gypsum_06"
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gabbro_02",
    "text": "Gabbro cools deep magma",
    "standing": "projectable",
-   "evidence": "science · product curator · Gabbro · cs_g_gabbro_02"
+   "evidence": "science · product curator · Gabbro · cs_g_gabbro_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_garnet_01",
    "text": "Garnet forms deep crust",
    "standing": "projectable",
-   "evidence": "science · product curator · Garnet · cs_g_garnet_01"
+   "evidence": "science · product curator · Garnet · cs_g_garnet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glass_01",
    "text": "Glass cools molten silica",
    "standing": "projectable",
-   "evidence": "science · product curator · Glass · cs_g_glass_01"
+   "evidence": "science · product curator · Glass · cs_g_glass_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glucose_07",
    "text": "Glucose fuels cell energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Glucose · cs_g_glucose_07"
+   "evidence": "science · product curator · Glucose · cs_g_glucose_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glycogen_03",
    "text": "Glycogen stores muscle sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Glycogen · cs_g_glycogen_03"
+   "evidence": "science · product curator · Glycogen · cs_g_glycogen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_glycolysis_01",
    "text": "Glycolysis splits glucose chains",
    "standing": "projectable",
-   "evidence": "science · product curator · Glycolysis · cs_g_glycolysis_01"
+   "evidence": "science · product curator · Glycolysis · cs_g_glycolysis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_granule_01",
    "text": "Granules store cell cargo",
    "standing": "projectable",
-   "evidence": "science · product curator · Granule · cs_g_granule_01"
+   "evidence": "science · product curator · Granule · cs_g_granule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guard_cell_01",
    "text": "Guard cells open leaf pores",
    "standing": "projectable",
-   "evidence": "nature · product curator · Guard cell · cs_g_guard_cell_01"
+   "evidence": "nature · product curator · Guard cell · cs_g_guard_cell_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gum_resin_01",
    "text": "Gum resin seals plant cuts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gum resin · cs_g_gum_resin_01"
+   "evidence": "nature · product curator · Gum resin · cs_g_gum_resin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gust_01",
    "text": "A gust lifts dust clouds",
    "standing": "projectable",
-   "evidence": "science · product curator · Gust · cs_g_gust_01"
+   "evidence": "science · product curator · Gust · cs_g_gust_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gamete_01",
    "text": "Gametes fuse at fertilization",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gamete · cs_g_gamete_01"
+   "evidence": "nature · product curator · Gamete · cs_g_gamete_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_ganglion_01",
    "text": "A ganglion clusters nerve cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Ganglion · cs_g_ganglion_01"
+   "evidence": "science · product curator · Ganglion · cs_g_ganglion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gastric_02",
    "text": "Gastric juice digests protein",
    "standing": "projectable",
-   "evidence": "science · product curator · Gastric · cs_g_gastric_02"
+   "evidence": "science · product curator · Gastric · cs_g_gastric_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gneiss_02",
    "text": "Gneiss bands metamorphic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Gneiss · cs_g_gneiss_02"
+   "evidence": "science · product curator · Gneiss · cs_g_gneiss_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_graphite_04",
    "text": "Graphite lubricates lock pins",
    "standing": "projectable",
-   "evidence": "science · product curator · Graphite · cs_g_graphite_04"
+   "evidence": "science · product curator · Graphite · cs_g_graphite_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_guano_02",
    "text": "Guano fertilizes crop fields",
    "standing": "projectable",
-   "evidence": "nature · product curator · Guano · cs_g_guano_02"
+   "evidence": "nature · product curator · Guano · cs_g_guano_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gypsum_07",
    "text": "Gypsum softens wall plaster",
    "standing": "projectable",
-   "evidence": "science · product curator · Gypsum · cs_g_gypsum_07"
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gyrus_02",
    "text": "A gyrus folds brain cortex",
    "standing": "projectable",
-   "evidence": "science · product curator · Gyrus · cs_g_gyrus_02"
+   "evidence": "science · product curator · Gyrus · cs_g_gyrus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gopher_01",
    "text": "A gopher digs soil tunnels",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gopher · cs_g_gopher_01"
+   "evidence": "nature · product curator · Gopher · cs_g_gopher_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_g_gymnosperm_01",
    "text": "Gymnosperms bear naked seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Gymnosperm · cs_g_gymnosperm_01"
+   "evidence": "nature · product curator · Gymnosperm · cs_g_gymnosperm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
