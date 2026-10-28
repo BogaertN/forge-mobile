@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 168,
+ "curated_facts": 171,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -973,6 +973,24 @@
    "text": "A turbine converts fluid motion into rotation",
    "standing": "projectable",
    "evidence": "science · product curator · Turbine · cs_t_turbine_02"
+  },
+  {
+   "id": "cs_t_type_01",
+   "text": "Printers set type",
+   "standing": "projectable",
+   "evidence": "language · product curator · Type · cs_t_type_01"
+  },
+  {
+   "id": "cs_t_tissue_02",
+   "text": "Muscle is a tissue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tissue · cs_t_tissue_02"
+  },
+  {
+   "id": "cs_t_torch_01",
+   "text": "A torch gives light",
+   "standing": "projectable",
+   "evidence": "history · product curator · Torch · cs_t_torch_01"
   }
  ]
 }

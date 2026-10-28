@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 169,
+ "curated_facts": 180,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -949,6 +949,72 @@
    "text": "A sea urchin has spines",
    "standing": "projectable",
    "evidence": "nature · product curator · Urchin · cs_u_urchin_04"
+  },
+  {
+   "id": "cs_u_ungulate_05",
+   "text": "Deer are ungulates",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_05"
+  },
+  {
+   "id": "cs_u_utensil_01",
+   "text": "A spoon is a utensil",
+   "standing": "projectable",
+   "evidence": "history · product curator · Utensil · cs_u_utensil_01"
+  },
+  {
+   "id": "cs_u_union_04",
+   "text": "Workers form a union",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Union · cs_u_union_04"
+  },
+  {
+   "id": "cs_u_urine_01",
+   "text": "Kidneys produce urine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urine · cs_u_urine_01"
+  },
+  {
+   "id": "cs_u_utah_05",
+   "text": "Utah is a western state",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Utah · cs_u_utah_05"
+  },
+  {
+   "id": "cs_u_unit_04",
+   "text": "Meters are a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit · cs_u_unit_04"
+  },
+  {
+   "id": "cs_u_umbrella_04",
+   "text": "An umbrella sheds rain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbrella · cs_u_umbrella_04"
+  },
+  {
+   "id": "cs_u_urchin_05",
+   "text": "Sea urchins graze on algae",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_05"
+  },
+  {
+   "id": "cs_u_uranium_ore_01",
+   "text": "Miners extract uranium ore",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uranium ore · cs_u_uranium_ore_01"
+  },
+  {
+   "id": "cs_u_university_01",
+   "text": "A university grants degrees",
+   "standing": "projectable",
+   "evidence": "civics · product curator · University · cs_u_university_01"
+  },
+  {
+   "id": "cs_u_uniform_03",
+   "text": "Students wear a school uniform",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Uniform · cs_u_uniform_03"
   }
  ]
 }
