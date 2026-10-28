@@ -12,1501 +12,2751 @@
    "id": "cs_k_kenya_01",
    "text": "Nairobi is the capital of Kenya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kenya · cs_k_kenya_01"
+   "evidence": "geography · product curator · Kenya · cs_k_kenya_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kazakhstan_01",
    "text": "Kazakhstan is the largest landlocked country",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kazakhstan · cs_k_kazakhstan_01"
+   "evidence": "geography · product curator · Kazakhstan · cs_k_kazakhstan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kazakhstan_02",
    "text": "Astana is the capital of Kazakhstan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kazakhstan · cs_k_kazakhstan_02"
+   "evidence": "geography · product curator · Kazakhstan · cs_k_kazakhstan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kuwait_01",
    "text": "Kuwait City is the capital of Kuwait",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kuwait · cs_k_kuwait_01"
+   "evidence": "geography · product curator · Kuwait · cs_k_kuwait_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kyrgyzstan_01",
    "text": "Bishkek is the capital of Kyrgyzstan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kyrgyzstan · cs_k_kyrgyzstan_01"
+   "evidence": "geography · product curator · Kyrgyzstan · cs_k_kyrgyzstan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kathmandu_01",
    "text": "Kathmandu is the capital of Nepal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kathmandu · cs_k_kathmandu_01"
+   "evidence": "geography · product curator · Kathmandu · cs_k_kathmandu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kyiv_01",
    "text": "Kyiv is the capital of Ukraine",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kyiv · cs_k_kyiv_01"
+   "evidence": "geography · product curator · Kyiv · cs_k_kyiv_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kampala_01",
    "text": "Kampala is the capital of Uganda",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kampala · cs_k_kampala_01"
+   "evidence": "geography · product curator · Kampala · cs_k_kampala_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_khartoum_01",
    "text": "Khartoum is the capital of Sudan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Khartoum · cs_k_khartoum_01"
+   "evidence": "geography · product curator · Khartoum · cs_k_khartoum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_khartoum_02",
    "text": "The Blue Nile and White Nile meet at Khartoum",
    "standing": "projectable",
-   "evidence": "geography · product curator · Khartoum · cs_k_khartoum_02"
+   "evidence": "geography · product curator · Khartoum · cs_k_khartoum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kigali_01",
    "text": "Kigali is the capital of Rwanda",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kigali · cs_k_kigali_01"
+   "evidence": "geography · product curator · Kigali · cs_k_kigali_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinshasa_01",
    "text": "Kinshasa is the capital of the Democratic Republic of the Congo",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kinshasa · cs_k_kinshasa_01"
+   "evidence": "geography · product curator · Kinshasa · cs_k_kinshasa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kuala_lumpur_01",
    "text": "Kuala Lumpur is the capital of Malaysia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kuala Lumpur · cs_k_kuala_lumpur_01"
+   "evidence": "geography · product curator · Kuala Lumpur · cs_k_kuala_lumpur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilimanjaro_01",
    "text": "Mount Kilimanjaro is the highest mountain in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_01"
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilimanjaro_02",
    "text": "Mount Kilimanjaro is in Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_02"
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_k2_01",
    "text": "K2 is the second highest mountain in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · K2 · cs_k_k2_01"
+   "evidence": "geography · product curator · K2 · cs_k_k2_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kalahari_desert_01",
    "text": "The Kalahari Desert is in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kalahari Desert · cs_k_kalahari_desert_01"
+   "evidence": "geography · product curator · Kalahari Desert · cs_k_kalahari_desert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kansas_01",
    "text": "Topeka is the capital of Kansas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kansas · cs_k_kansas_01"
+   "evidence": "geography · product curator · Kansas · cs_k_kansas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kyoto_01",
    "text": "Kyoto was the capital of Japan for centuries",
    "standing": "projectable",
-   "evidence": "history · product curator · Kyoto · cs_k_kyoto_01"
+   "evidence": "history · product curator · Kyoto · cs_k_kyoto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krakatoa_01",
    "text": "Krakatoa erupted catastrophically in 1883",
    "standing": "projectable",
-   "evidence": "history · product curator · Krakatoa · cs_k_krakatoa_01"
+   "evidence": "history · product curator · Krakatoa · cs_k_krakatoa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelvin_01",
    "text": "The kelvin is the SI base unit of temperature",
    "standing": "projectable",
-   "evidence": "science · product curator · Kelvin · cs_k_kelvin_01"
+   "evidence": "science · product curator · Kelvin · cs_k_kelvin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilogram_01",
    "text": "The kilogram is the SI base unit of mass",
    "standing": "projectable",
-   "evidence": "science · product curator · Kilogram · cs_k_kilogram_01"
+   "evidence": "science · product curator · Kilogram · cs_k_kilogram_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinetic_energy_01",
    "text": "Kinetic energy is the energy of motion",
    "standing": "projectable",
-   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_01"
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krypton_01",
    "text": "Krypton has the chemical symbol Kr",
    "standing": "projectable",
-   "evidence": "science · product curator · Krypton · cs_k_krypton_01"
+   "evidence": "science · product curator · Krypton · cs_k_krypton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krypton_02",
    "text": "Krypton is a noble gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Krypton · cs_k_krypton_02"
+   "evidence": "science · product curator · Krypton · cs_k_krypton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_k_chemical_symbol_01",
    "text": "K is the chemical symbol for potassium",
    "standing": "projectable",
-   "evidence": "science · product curator · K (chemical symbol) · cs_k_k_chemical_symbol_01"
+   "evidence": "science · product curator · K (chemical symbol) · cs_k_k_chemical_symbol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kuiper_belt_01",
    "text": "The Kuiper Belt lies beyond the orbit of Neptune",
    "standing": "projectable",
-   "evidence": "science · product curator · Kuiper Belt · cs_k_kuiper_belt_01"
+   "evidence": "science · product curator · Kuiper Belt · cs_k_kuiper_belt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kuiper_belt_02",
    "text": "Pluto is in the Kuiper Belt",
    "standing": "projectable",
-   "evidence": "science · product curator · Kuiper Belt · cs_k_kuiper_belt_02"
+   "evidence": "science · product curator · Kuiper Belt · cs_k_kuiper_belt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keratin_01",
    "text": "Hair is made of keratin",
    "standing": "projectable",
-   "evidence": "science · product curator · Keratin · cs_k_keratin_01"
+   "evidence": "science · product curator · Keratin · cs_k_keratin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kidney_01",
    "text": "Humans normally have two kidneys",
    "standing": "projectable",
-   "evidence": "science · product curator · Kidney · cs_k_kidney_01"
+   "evidence": "science · product curator · Kidney · cs_k_kidney_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kidney_02",
    "text": "Kidneys filter waste from the blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Kidney · cs_k_kidney_02"
+   "evidence": "science · product curator · Kidney · cs_k_kidney_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kepler_johannes_01",
    "text": "Johannes Kepler described the laws of planetary motion",
    "standing": "projectable",
-   "evidence": "history · product curator · Kepler, Johannes · cs_k_kepler_johannes_01"
+   "evidence": "history · product curator · Kepler, Johannes · cs_k_kepler_johannes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kepler_johannes_02",
    "text": "Kepler showed that planets orbit in ellipses",
    "standing": "projectable",
-   "evidence": "science · product curator · Kepler, Johannes · cs_k_kepler_johannes_02"
+   "evidence": "science · product curator · Kepler, Johannes · cs_k_kepler_johannes_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kangaroo_01",
    "text": "Kangaroos are marsupials",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_01"
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kangaroo_02",
    "text": "Kangaroos are native to Australia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_02"
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_koala_01",
    "text": "Koalas are marsupials",
    "standing": "projectable",
-   "evidence": "nature · product curator · Koala · cs_k_koala_01"
+   "evidence": "nature · product curator · Koala · cs_k_koala_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiwi_01",
    "text": "The kiwi is a flightless bird native to New Zealand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_01"
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_komodo_dragon_01",
    "text": "The Komodo dragon is the largest living lizard",
    "standing": "projectable",
-   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_01"
+   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_komodo_dragon_02",
    "text": "The Komodo dragon lives in Indonesia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_02"
+   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_killer_whale_01",
    "text": "The killer whale is the largest member of the dolphin family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Killer whale · cs_k_killer_whale_01"
+   "evidence": "nature · product curator · Killer whale · cs_k_killer_whale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_01",
    "text": "Kingfishers dive to catch fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_01"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krill_01",
    "text": "Krill are small crustaceans",
    "standing": "projectable",
-   "evidence": "nature · product curator · Krill · cs_k_krill_01"
+   "evidence": "nature · product curator · Krill · cs_k_krill_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_koi_01",
    "text": "Koi are ornamental varieties of carp",
    "standing": "projectable",
-   "evidence": "nature · product curator · Koi · cs_k_koi_01"
+   "evidence": "nature · product curator · Koi · cs_k_koi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelp_01",
    "text": "Kelp is a large brown alga",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kelp · cs_k_kelp_01"
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kestrel_01",
    "text": "Kestrels are small falcons",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kestrel · cs_k_kestrel_01"
+   "evidence": "nature · product curator · Kestrel · cs_k_kestrel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_king_cobra_01",
    "text": "The king cobra is the longest venomous snake",
    "standing": "projectable",
-   "evidence": "nature · product curator · King cobra · cs_k_king_cobra_01"
+   "evidence": "nature · product curator · King cobra · cs_k_king_cobra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiwifruit_01",
    "text": "Kiwifruit has brown fuzzy skin and green flesh",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kiwifruit · cs_k_kiwifruit_01"
+   "evidence": "nature · product curator · Kiwifruit · cs_k_kiwifruit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_king_martin_luther_jr_01",
    "text": "King gave a famous speech in 1963",
    "standing": "projectable",
-   "evidence": "history · product curator · King, Martin Luther Jr. · cs_k_king_martin_luther_jr_01"
+   "evidence": "history · product curator · King, Martin Luther Jr. · cs_k_king_martin_luther_jr_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_king_martin_luther_jr_02",
    "text": "Martin Luther King Jr. won the Nobel Peace Prize in 1964",
    "standing": "projectable",
-   "evidence": "history · product curator · King, Martin Luther Jr. · cs_k_king_martin_luther_jr_02"
+   "evidence": "history · product curator · King, Martin Luther Jr. · cs_k_king_martin_luther_jr_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kennedy_john_f_01",
    "text": "John F. Kennedy was the 35th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_01"
+   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kennedy_john_f_02",
    "text": "John F. Kennedy was assassinated in 1963",
    "standing": "projectable",
-   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_02"
+   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_khufu_01",
    "text": "The Great Pyramid of Giza was built for the pharaoh Khufu",
    "standing": "projectable",
-   "evidence": "history · product curator · Khufu · cs_k_khufu_01"
+   "evidence": "history · product curator · Khufu · cs_k_khufu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kublai_khan_01",
    "text": "Kublai Khan founded the Yuan dynasty in China",
    "standing": "projectable",
-   "evidence": "history · product curator · Kublai Khan · cs_k_kublai_khan_01"
+   "evidence": "history · product curator · Kublai Khan · cs_k_kublai_khan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_korean_war_01",
    "text": "The Korean War began in 1950",
    "standing": "projectable",
-   "evidence": "history · product curator · Korean War · cs_k_korean_war_01"
+   "evidence": "history · product curator · Korean War · cs_k_korean_war_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_korean_war_02",
    "text": "Fighting in Korea stopped in 1953",
    "standing": "projectable",
-   "evidence": "history · product curator · Korean War · cs_k_korean_war_02"
+   "evidence": "history · product curator · Korean War · cs_k_korean_war_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kremlin_01",
    "text": "The Kremlin is a fortified complex in Moscow",
    "standing": "projectable",
-   "evidence": "history · product curator · Kremlin · cs_k_kremlin_01"
+   "evidence": "history · product curator · Kremlin · cs_k_kremlin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knossos_01",
    "text": "Knossos was a major Minoan site on Crete",
    "standing": "projectable",
-   "evidence": "history · product curator · Knossos · cs_k_knossos_01"
+   "evidence": "history · product curator · Knossos · cs_k_knossos_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilometer_01",
    "text": "A kilometer is one thousand meters",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilometer · cs_k_kilometer_01"
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilometer_02",
    "text": "One mile is about 1.609 kilometers",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilometer · cs_k_kilometer_02"
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_01",
    "text": "A kite is a quadrilateral with two pairs of adjacent equal sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Kite · cs_k_kite_01"
+   "evidence": "math · product curator · Kite · cs_k_kite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knot_01",
    "text": "One knot equals one nautical mile per hour",
    "standing": "projectable",
-   "evidence": "math · product curator · Knot · cs_k_knot_01"
+   "evidence": "math · product curator · Knot · cs_k_knot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_korean_01",
    "text": "Korean is written in the Hangul alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Korean · cs_k_korean_01"
+   "evidence": "language · product curator · Korean · cs_k_korean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_karate_01",
    "text": "Karate is a martial art developed in Okinawa",
    "standing": "projectable",
-   "evidence": "general · product curator · Karate · cs_k_karate_01"
+   "evidence": "general · product curator · Karate · cs_k_karate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keyboard_01",
    "text": "A standard piano has 88 keys",
    "standing": "projectable",
-   "evidence": "general · product curator · Keyboard · cs_k_keyboard_01"
+   "evidence": "general · product curator · Keyboard · cs_k_keyboard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knight_01",
    "text": "In chess, the knight moves in an L shape",
    "standing": "projectable",
-   "evidence": "general · product curator · Knight · cs_k_knight_01"
+   "evidence": "general · product curator · Knight · cs_k_knight_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kenya_02",
    "text": "Kenya lies on the equator",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kenya · cs_k_kenya_02"
+   "evidence": "geography · product curator · Kenya · cs_k_kenya_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kenya_03",
    "text": "Swahili and English are official languages of Kenya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kenya · cs_k_kenya_03"
+   "evidence": "geography · product curator · Kenya · cs_k_kenya_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiribati_01",
    "text": "Kiribati spans all four hemispheres",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kiribati · cs_k_kiribati_01"
+   "evidence": "geography · product curator · Kiribati · cs_k_kiribati_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kosovo_01",
    "text": "Pristina is the capital of Kosovo",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kosovo · cs_k_kosovo_01"
+   "evidence": "geography · product curator · Kosovo · cs_k_kosovo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_korea_01",
    "text": "The Korean Peninsula is in East Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Korea · cs_k_korea_01"
+   "evidence": "geography · product curator · Korea · cs_k_korea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kamchatka_01",
    "text": "The Kamchatka Peninsula is in the Russian Far East",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_01"
+   "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilauea_01",
    "text": "Kilauea is an active volcano in Hawaii",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kilauea · cs_k_kilauea_01"
+   "evidence": "geography · product curator · Kilauea · cs_k_kilauea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_karst_01",
    "text": "Karst forms when water dissolves limestone",
    "standing": "projectable",
-   "evidence": "geography · product curator · Karst · cs_k_karst_01"
+   "evidence": "geography · product curator · Karst · cs_k_karst_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilimanjaro_03",
    "text": "Kilimanjaro is the highest mountain in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_03"
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilimanjaro_04",
    "text": "Kilimanjaro is in Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_04"
+   "evidence": "geography · product curator · Kilimanjaro · cs_k_kilimanjaro_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilometer_03",
    "text": "One kilometer equals one thousand meters",
    "standing": "projectable",
-   "evidence": "science · product curator · Kilometer · cs_k_kilometer_03"
+   "evidence": "science · product curator · Kilometer · cs_k_kilometer_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kangaroo_03",
    "text": "Kangaroos are marsupials from Australia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_03"
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiwi_02",
    "text": "The kiwi is a flightless bird of New Zealand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_02"
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_02",
    "text": "Kingfishers dive into water to catch fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_02"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kennedy_john_f_03",
    "text": "Kennedy was the 35th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_03"
+   "evidence": "history · product curator · Kennedy, John F. · cs_k_kennedy_john_f_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kuwait_02",
    "text": "Kuwait is on the Persian Gulf",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kuwait · cs_k_kuwait_02"
+   "evidence": "geography · product curator · Kuwait · cs_k_kuwait_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kyoto_02",
    "text": "Kyoto was the capital of Japan for a thousand years",
    "standing": "projectable",
-   "evidence": "history · product curator · Kyoto · cs_k_kyoto_02"
+   "evidence": "history · product curator · Kyoto · cs_k_kyoto_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krill_03",
    "text": "Krill are small crustaceans eaten by whales",
    "standing": "projectable",
-   "evidence": "nature · product curator · Krill · cs_k_krill_03"
+   "evidence": "nature · product curator · Krill · cs_k_krill_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_koi_02",
    "text": "Koi are colorful varieties of carp",
    "standing": "projectable",
-   "evidence": "nature · product curator · Koi · cs_k_koi_02"
+   "evidence": "nature · product curator · Koi · cs_k_koi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kudu_01",
    "text": "Kudus are antelopes with spiral horns",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kudu · cs_k_kudu_01"
+   "evidence": "nature · product curator · Kudu · cs_k_kudu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelp_02",
    "text": "Kelp is a large brown seaweed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kelp · cs_k_kelp_02"
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kidney_03",
    "text": "Kidneys filter blood to make urine",
    "standing": "projectable",
-   "evidence": "science · product curator · Kidney · cs_k_kidney_03"
+   "evidence": "science · product curator · Kidney · cs_k_kidney_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kremlin_02",
    "text": "The Kremlin is in Moscow",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kremlin · cs_k_kremlin_02"
+   "evidence": "geography · product curator · Kremlin · cs_k_kremlin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_02",
    "text": "Kites are birds of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kite · cs_k_kite_02"
+   "evidence": "nature · product curator · Kite · cs_k_kite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kauai_01",
    "text": "Kauai is one of the Hawaiian Islands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kauai · cs_k_kauai_01"
+   "evidence": "geography · product curator · Kauai · cs_k_kauai_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_03",
    "text": "Kingfishers have long, sharp bills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_03"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kabul_01",
    "text": "Kabul is the capital of Afghanistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kabul · cs_k_kabul_01"
+   "evidence": "geography · product curator · Kabul · cs_k_kabul_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kangaroo_04",
    "text": "A kangaroo is a marsupial",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_04"
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilogram_02",
    "text": "A kilogram equals 1000 grams",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilogram · cs_k_kilogram_02"
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilometer_04",
    "text": "A kilometer equals 1000 meters",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilometer · cs_k_kilometer_04"
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kyoto_03",
    "text": "Kyoto is a city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kyoto · cs_k_kyoto_03"
+   "evidence": "geography · product curator · Kyoto · cs_k_kyoto_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krakow_01",
    "text": "Krakow is a city in Poland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Krakow · cs_k_krakow_01"
+   "evidence": "geography · product curator · Krakow · cs_k_krakow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiwi_03",
    "text": "A kiwi is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_03"
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kobe_01",
    "text": "Kobe is a city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kobe · cs_k_kobe_01"
+   "evidence": "geography · product curator · Kobe · cs_k_kobe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kolkata_01",
    "text": "Kolkata is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kolkata · cs_k_kolkata_01"
+   "evidence": "geography · product curator · Kolkata · cs_k_kolkata_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kazan_01",
    "text": "Kazan is a city in Russia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kazan · cs_k_kazan_01"
+   "evidence": "geography · product curator · Kazan · cs_k_kazan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_karachi_01",
    "text": "Karachi is a city in Pakistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Karachi · cs_k_karachi_01"
+   "evidence": "geography · product curator · Karachi · cs_k_karachi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kale_01",
    "text": "Kale is a vegetable",
    "standing": "projectable",
-   "evidence": "food · product curator · Kale · cs_k_kale_01"
+   "evidence": "food · product curator · Kale · cs_k_kale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_04",
    "text": "A kingfisher is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_04"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kabuki_01",
    "text": "Kabuki is a form of Japanese theater",
    "standing": "projectable",
-   "evidence": "history · product curator · Kabuki · cs_k_kabuki_01"
+   "evidence": "history · product curator · Kabuki · cs_k_kabuki_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kaolin_01",
    "text": "Kaolin is a white clay",
    "standing": "projectable",
-   "evidence": "science · product curator · Kaolin · cs_k_kaolin_01"
+   "evidence": "science · product curator · Kaolin · cs_k_kaolin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelvin_scale_01",
    "text": "The Kelvin scale starts at absolute zero",
    "standing": "projectable",
-   "evidence": "science · product curator · Kelvin scale · cs_k_kelvin_scale_01"
+   "evidence": "science · product curator · Kelvin scale · cs_k_kelvin_scale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kerosene_01",
    "text": "Kerosene is a fuel made from petroleum",
    "standing": "projectable",
-   "evidence": "science · product curator · Kerosene · cs_k_kerosene_01"
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_khmer_empire_01",
    "text": "The Khmer Empire built Angkor Wat",
    "standing": "projectable",
-   "evidence": "history · product curator · Khmer Empire · cs_k_khmer_empire_01"
+   "evidence": "history · product curator · Khmer Empire · cs_k_khmer_empire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiln_01",
    "text": "A kiln is an oven for firing pottery",
    "standing": "projectable",
-   "evidence": "history · product curator · Kiln · cs_k_kiln_01"
+   "evidence": "history · product curator · Kiln · cs_k_kiln_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilohertz_01",
    "text": "A kilohertz is one thousand hertz",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilohertz · cs_k_kilohertz_01"
+   "evidence": "math · product curator · Kilohertz · cs_k_kilohertz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_bird__01",
    "text": "A kite is a bird of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kite (bird) · cs_k_kite_bird__01"
+   "evidence": "nature · product curator · Kite (bird) · cs_k_kite_bird__01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_klondike_gold_rush_01",
    "text": "The Klondike Gold Rush began in 1896",
    "standing": "projectable",
-   "evidence": "history · product curator · Klondike Gold Rush · cs_k_klondike_gold_rush_01"
+   "evidence": "history · product curator · Klondike Gold Rush · cs_k_klondike_gold_rush_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_koran_01",
    "text": "The Koran is the holy book of Islam",
    "standing": "projectable",
-   "evidence": "history · product curator · Koran · cs_k_koran_01"
+   "evidence": "history · product curator · Koran · cs_k_koran_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kumquat_01",
    "text": "A kumquat is a small citrus fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_01"
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kwanzaa_01",
    "text": "Kwanzaa is a holiday celebrated in December",
    "standing": "projectable",
-   "evidence": "history · product curator · Kwanzaa · cs_k_kwanzaa_01"
+   "evidence": "history · product curator · Kwanzaa · cs_k_kwanzaa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingdom_biology__01",
    "text": "A kingdom is a rank in biological classification",
    "standing": "projectable",
-   "evidence": "science · product curator · Kingdom (biology) · cs_k_kingdom_biology__01"
+   "evidence": "science · product curator · Kingdom (biology) · cs_k_kingdom_biology__01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_geometry__01",
    "text": "A kite has two pairs of adjacent equal sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Kite (geometry) · cs_k_kite_geometry__01"
+   "evidence": "math · product curator · Kite (geometry) · cs_k_kite_geometry__01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kangaroo_rat_01",
    "text": "A kangaroo rat is a desert rodent",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kangaroo rat · cs_k_kangaroo_rat_01"
+   "evidence": "nature · product curator · Kangaroo rat · cs_k_kangaroo_rat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kettle_01",
    "text": "A kettle boils water",
    "standing": "projectable",
-   "evidence": "science · product curator · Kettle · cs_k_kettle_01"
+   "evidence": "science · product curator · Kettle · cs_k_kettle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_dive_01",
    "text": "A kingfisher dives for fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher dive · cs_k_kingfisher_dive_01"
+   "evidence": "nature · product curator · Kingfisher dive · cs_k_kingfisher_dive_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knowledge_01",
    "text": "Knowledge is a noun",
    "standing": "projectable",
-   "evidence": "language · product curator · Knowledge · cs_k_knowledge_01"
+   "evidence": "language · product curator · Knowledge · cs_k_knowledge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keats_john_01",
    "text": "John Keats was an English poet",
    "standing": "projectable",
-   "evidence": "history · product curator · Keats, John · cs_k_keats_john_01"
+   "evidence": "history · product curator · Keats, John · cs_k_keats_john_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kafka_franz_01",
    "text": "Franz Kafka was a Czech writer",
    "standing": "projectable",
-   "evidence": "history · product curator · Kafka, Franz · cs_k_kafka_franz_01"
+   "evidence": "history · product curator · Kafka, Franz · cs_k_kafka_franz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kahlo_frida_01",
    "text": "Frida Kahlo was a Mexican painter",
    "standing": "projectable",
-   "evidence": "history · product curator · Kahlo, Frida · cs_k_kahlo_frida_01"
+   "evidence": "history · product curator · Kahlo, Frida · cs_k_kahlo_frida_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kandinsky_wassily_01",
    "text": "Wassily Kandinsky was a Russian painter",
    "standing": "projectable",
-   "evidence": "history · product curator · Kandinsky, Wassily · cs_k_kandinsky_wassily_01"
+   "evidence": "history · product curator · Kandinsky, Wassily · cs_k_kandinsky_wassily_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_k2_02",
    "text": "K2 is the second highest mountain on Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · K2 · cs_k_k2_02"
+   "evidence": "geography · product curator · K2 · cs_k_k2_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kale_02",
    "text": "Kale is a leafy green vegetable",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kale · cs_k_kale_02"
+   "evidence": "nature · product curator · Kale · cs_k_kale_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kaolin_02",
    "text": "Kaolin is a fine white clay",
    "standing": "projectable",
-   "evidence": "science · product curator · Kaolin · cs_k_kaolin_02"
+   "evidence": "science · product curator · Kaolin · cs_k_kaolin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_karate_02",
    "text": "Karate is a Japanese martial art",
    "standing": "projectable",
-   "evidence": "history · product curator · Karate · cs_k_karate_02"
+   "evidence": "history · product curator · Karate · cs_k_karate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelvin_02",
    "text": "Absolute zero is zero on the Kelvin scale",
    "standing": "projectable",
-   "evidence": "science · product curator · Kelvin · cs_k_kelvin_02"
+   "evidence": "science · product curator · Kelvin · cs_k_kelvin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kepler_johannes_03",
    "text": "Johannes Kepler described planetary orbits",
    "standing": "projectable",
-   "evidence": "history · product curator · Kepler, Johannes · cs_k_kepler_johannes_03"
+   "evidence": "history · product curator · Kepler, Johannes · cs_k_kepler_johannes_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilogram_03",
    "text": "A kilogram is the SI unit of mass",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilogram · cs_k_kilogram_03"
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kimberlite_01",
    "text": "Kimberlite is a rock that can contain diamonds",
    "standing": "projectable",
-   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_01"
+   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_05",
    "text": "A kingfisher catches fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_05"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiwi_04",
    "text": "A kiwi is a flightless bird from New Zealand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_04"
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_komodo_dragon_03",
    "text": "A Komodo dragon is a large lizard",
    "standing": "projectable",
-   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_03"
+   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kangaroo_05",
    "text": "A kangaroo carries its young in a pouch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_05"
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kaolin_03",
    "text": "Kaolin is a clay mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Kaolin · cs_k_kaolin_03"
+   "evidence": "science · product curator · Kaolin · cs_k_kaolin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kernel_01",
    "text": "A seed kernel holds the embryo",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kernel · cs_k_kernel_01"
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kidney_04",
    "text": "A kidney filters blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Kidney · cs_k_kidney_04"
+   "evidence": "science · product curator · Kidney · cs_k_kidney_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilogram_04",
    "text": "A kilogram is a unit of mass",
    "standing": "projectable",
-   "evidence": "science · product curator · Kilogram · cs_k_kilogram_04"
+   "evidence": "science · product curator · Kilogram · cs_k_kilogram_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilometer_05",
    "text": "A kilometer equals one thousand meters",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilometer · cs_k_kilometer_05"
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinetic_energy_02",
    "text": "Kinetic energy is energy of motion",
    "standing": "projectable",
-   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_02"
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krill_04",
    "text": "Krill are small ocean crustaceans",
    "standing": "projectable",
-   "evidence": "nature · product curator · Krill · cs_k_krill_04"
+   "evidence": "nature · product curator · Krill · cs_k_krill_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingdom_01",
    "text": "A kingdom is a major group in classification",
    "standing": "projectable",
-   "evidence": "science · product curator · Kingdom · cs_k_kingdom_01"
+   "evidence": "science · product curator · Kingdom · cs_k_kingdom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knee_01",
    "text": "The knee is a joint in the leg",
    "standing": "projectable",
-   "evidence": "science · product curator · Knee · cs_k_knee_01"
+   "evidence": "science · product curator · Knee · cs_k_knee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_karst_02",
    "text": "Karst forms in soluble rock",
    "standing": "projectable",
-   "evidence": "geography · product curator · Karst · cs_k_karst_02"
+   "evidence": "geography · product curator · Karst · cs_k_karst_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knot_02",
    "text": "A knot is a unit of speed at sea",
    "standing": "projectable",
-   "evidence": "math · product curator · Knot · cs_k_knot_02"
+   "evidence": "math · product curator · Knot · cs_k_knot_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knight_02",
    "text": "A knight was a mounted warrior",
    "standing": "projectable",
-   "evidence": "history · product curator · Knight · cs_k_knight_02"
+   "evidence": "history · product curator · Knight · cs_k_knight_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kerosene_02",
    "text": "Kerosene is a liquid fuel",
    "standing": "projectable",
-   "evidence": "science · product curator · Kerosene · cs_k_kerosene_02"
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_06",
    "text": "A kingfisher hunts fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_06"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kettle_02",
    "text": "A kettle heats water",
    "standing": "projectable",
-   "evidence": "science · product curator · Kettle · cs_k_kettle_02"
+   "evidence": "science · product curator · Kettle · cs_k_kettle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kale_03",
    "text": "Kale is rich in vitamins",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kale · cs_k_kale_03"
+   "evidence": "nature · product curator · Kale · cs_k_kale_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_03",
    "text": "A kite is a light flying toy",
    "standing": "projectable",
-   "evidence": "science · product curator · Kite · cs_k_kite_03"
+   "evidence": "science · product curator · Kite · cs_k_kite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kumquat_02",
    "text": "A kumquat has an edible rind",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_02"
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keratin_02",
    "text": "Hair contains keratin",
    "standing": "projectable",
-   "evidence": "science · product curator · Keratin · cs_k_keratin_02"
+   "evidence": "science · product curator · Keratin · cs_k_keratin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilogram_05",
    "text": "One liter of water has a mass near one kilogram",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilogram · cs_k_kilogram_05"
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_07",
    "text": "Bright plumage marks a kingfisher",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_07"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_04",
    "text": "A kite flies on a string",
    "standing": "projectable",
-   "evidence": "science · product curator · Kite · cs_k_kite_04"
+   "evidence": "science · product curator · Kite · cs_k_kite_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kumquat_03",
    "text": "A kumquat has edible skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_03"
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_05",
    "text": "Wind lifts a kite",
    "standing": "projectable",
-   "evidence": "science · product curator · Kite · cs_k_kite_05"
+   "evidence": "science · product curator · Kite · cs_k_kite_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knot_03",
    "text": "Sailors tie a knot",
    "standing": "projectable",
-   "evidence": "history · product curator · Knot · cs_k_knot_03"
+   "evidence": "history · product curator · Knot · cs_k_knot_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kernel_02",
    "text": "A grain has a kernel",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kernel · cs_k_kernel_02"
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelp_03",
    "text": "Kelp forests shelter fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kelp · cs_k_kelp_03"
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiln_02",
    "text": "Potters fire clay in a kiln",
    "standing": "projectable",
-   "evidence": "history · product curator · Kiln · cs_k_kiln_02"
+   "evidence": "history · product curator · Kiln · cs_k_kiln_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingdom_02",
    "text": "Biology groups life into kingdoms",
    "standing": "projectable",
-   "evidence": "science · product curator · Kingdom · cs_k_kingdom_02"
+   "evidence": "science · product curator · Kingdom · cs_k_kingdom_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knuckle_01",
    "text": "A knuckle bends a finger",
    "standing": "projectable",
-   "evidence": "science · product curator · Knuckle · cs_k_knuckle_01"
+   "evidence": "science · product curator · Knuckle · cs_k_knuckle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krypton_03",
    "text": "Krypton glows in tubes",
    "standing": "projectable",
-   "evidence": "science · product curator · Krypton · cs_k_krypton_03"
+   "evidence": "science · product curator · Krypton · cs_k_krypton_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinetic_energy_03",
    "text": "Kinetic energy grows with speed",
    "standing": "projectable",
-   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_03"
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knee_02",
    "text": "The knee bends the leg",
    "standing": "projectable",
-   "evidence": "science · product curator · Knee · cs_k_knee_02"
+   "evidence": "science · product curator · Knee · cs_k_knee_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_key_01",
    "text": "A map key explains symbols",
    "standing": "projectable",
-   "evidence": "geography · product curator · Key · cs_k_key_01"
+   "evidence": "geography · product curator · Key · cs_k_key_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keyboard_02",
    "text": "Typists use a keyboard",
    "standing": "projectable",
-   "evidence": "history · product curator · Keyboard · cs_k_keyboard_02"
+   "evidence": "history · product curator · Keyboard · cs_k_keyboard_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_key_02",
    "text": "A key opens a lock",
    "standing": "projectable",
-   "evidence": "science · product curator · Key · cs_k_key_02"
+   "evidence": "science · product curator · Key · cs_k_key_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiln_03",
    "text": "A kiln heats pottery",
    "standing": "projectable",
-   "evidence": "history · product curator · Kiln · cs_k_kiln_03"
+   "evidence": "history · product curator · Kiln · cs_k_kiln_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kernel_03",
    "text": "Corn has a hard kernel",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kernel · cs_k_kernel_03"
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knee_03",
    "text": "A knee is a hinge joint",
    "standing": "projectable",
-   "evidence": "science · product curator · Knee · cs_k_knee_03"
+   "evidence": "science · product curator · Knee · cs_k_knee_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinetic_energy_04",
    "text": "A moving ball has kinetic energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_04"
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kite_06",
    "text": "A kite soars on wind",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kite · cs_k_kite_06"
+   "evidence": "nature · product curator · Kite · cs_k_kite_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kudu_02",
    "text": "A kudu is an African antelope",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kudu · cs_k_kudu_02"
+   "evidence": "nature · product curator · Kudu · cs_k_kudu_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_karst_03",
    "text": "Karst forms from dissolved limestone",
    "standing": "projectable",
-   "evidence": "geography · product curator · Karst · cs_k_karst_03"
+   "evidence": "geography · product curator · Karst · cs_k_karst_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keratin_03",
    "text": "Nails contain keratin",
    "standing": "projectable",
-   "evidence": "science · product curator · Keratin · cs_k_keratin_03"
+   "evidence": "science · product curator · Keratin · cs_k_keratin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kangaroo_rat_02",
    "text": "A kangaroo rat stores seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kangaroo rat · cs_k_kangaroo_rat_02"
+   "evidence": "nature · product curator · Kangaroo rat · cs_k_kangaroo_rat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kaolinite_01",
    "text": "Kaolinite forms soft clay",
    "standing": "projectable",
-   "evidence": "science · product curator · Kaolinite · cs_k_kaolinite_01"
+   "evidence": "science · product curator · Kaolinite · cs_k_kaolinite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keel_01",
    "text": "A keel stabilizes a ship",
    "standing": "projectable",
-   "evidence": "history · product curator · Keel · cs_k_keel_01"
+   "evidence": "history · product curator · Keel · cs_k_keel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelp_04",
    "text": "Kelp grows in cold seas",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kelp · cs_k_kelp_04"
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilogram_06",
    "text": "A kilogram measures mass",
    "standing": "projectable",
-   "evidence": "math · product curator · Kilogram · cs_k_kilogram_06"
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kitten_01",
    "text": "A kitten is a young cat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kitten · cs_k_kitten_01"
+   "evidence": "nature · product curator · Kitten · cs_k_kitten_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knight_03",
    "text": "A knight served a lord",
    "standing": "projectable",
-   "evidence": "history · product curator · Knight · cs_k_knight_03"
+   "evidence": "history · product curator · Knight · cs_k_knight_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kudu_03",
    "text": "A kudu has spiral horns",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kudu · cs_k_kudu_03"
+   "evidence": "nature · product curator · Kudu · cs_k_kudu_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kyanite_01",
    "text": "Kyanite is a blue mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Kyanite · cs_k_kyanite_01"
+   "evidence": "science · product curator · Kyanite · cs_k_kyanite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kamchatka_02",
    "text": "Volcanoes line Kamchatka",
    "standing": "projectable",
-   "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_02"
+   "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kapok_01",
    "text": "Kapok fibers stuff cushions",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kapok · cs_k_kapok_01"
+   "evidence": "nature · product curator · Kapok · cs_k_kapok_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelp_05",
    "text": "Divers harvest kelp",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kelp · cs_k_kelp_05"
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kettle_03",
    "text": "Steam rises from a kettle",
    "standing": "projectable",
-   "evidence": "science · product curator · Kettle · cs_k_kettle_03"
+   "evidence": "science · product curator · Kettle · cs_k_kettle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kilogram_07",
    "text": "Scales report a kilogram",
    "standing": "projectable",
-   "evidence": "science · product curator · Kilogram · cs_k_kilogram_07"
+   "evidence": "science · product curator · Kilogram · cs_k_kilogram_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kimberlite_02",
    "text": "Kimberlite carries diamonds",
    "standing": "projectable",
-   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_02"
+   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinematics_01",
    "text": "Kinematics describes motion",
    "standing": "projectable",
-   "evidence": "science · product curator · Kinematics · cs_k_kinematics_01"
+   "evidence": "science · product curator · Kinematics · cs_k_kinematics_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_08",
    "text": "Kingfishers nest in banks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_08"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knossos_02",
    "text": "Knossos was a Minoan palace",
    "standing": "projectable",
-   "evidence": "history · product curator · Knossos · cs_k_knossos_02"
+   "evidence": "history · product curator · Knossos · cs_k_knossos_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_komodo_01",
    "text": "A Komodo dragon hunts deer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Komodo · cs_k_komodo_01"
+   "evidence": "nature · product curator · Komodo · cs_k_komodo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kale_04",
    "text": "Kale stores vitamin K",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kale · cs_k_kale_04"
+   "evidence": "nature · product curator · Kale · cs_k_kale_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_khaki_01",
    "text": "Khaki dyes cloth tan",
    "standing": "projectable",
-   "evidence": "history · product curator · Khaki · cs_k_khaki_01"
+   "evidence": "history · product curator · Khaki · cs_k_khaki_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kernel_04",
    "text": "A kernel holds starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kernel · cs_k_kernel_04"
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kerosene_03",
    "text": "Kerosene fuels lamps",
    "standing": "projectable",
-   "evidence": "science · product curator · Kerosene · cs_k_kerosene_03"
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kettle_04",
    "text": "A kettle whistles steam",
    "standing": "projectable",
-   "evidence": "science · product curator · Kettle · cs_k_kettle_04"
+   "evidence": "science · product curator · Kettle · cs_k_kettle_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kneecap_01",
    "text": "The kneecap covers the knee joint",
    "standing": "projectable",
-   "evidence": "science · product curator · Kneecap · cs_k_kneecap_01"
+   "evidence": "science · product curator · Kneecap · cs_k_kneecap_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiln_04",
    "text": "Heat hardens clay in a kiln",
    "standing": "projectable",
-   "evidence": "science · product curator · Kiln · cs_k_kiln_04"
+   "evidence": "science · product curator · Kiln · cs_k_kiln_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiwi_05",
    "text": "A kiwi probes soft soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_05"
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knife_01",
    "text": "A knife cuts with a blade",
    "standing": "projectable",
-   "evidence": "science · product curator · Knife · cs_k_knife_01"
+   "evidence": "science · product curator · Knife · cs_k_knife_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knuckle_02",
    "text": "A knuckle flexes the hand",
    "standing": "projectable",
-   "evidence": "science · product curator · Knuckle · cs_k_knuckle_02"
+   "evidence": "science · product curator · Knuckle · cs_k_knuckle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelp_06",
    "text": "Kelp absorbs ocean nutrients",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kelp · cs_k_kelp_06"
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keratin_04",
    "text": "Feathers form from keratin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Keratin · cs_k_keratin_04"
+   "evidence": "nature · product curator · Keratin · cs_k_keratin_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kettle_05",
    "text": "Steam lifts a kettle lid",
    "standing": "projectable",
-   "evidence": "science · product curator · Kettle · cs_k_kettle_05"
+   "evidence": "science · product curator · Kettle · cs_k_kettle_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kidney_05",
    "text": "Kidneys balance body salt",
    "standing": "projectable",
-   "evidence": "science · product curator · Kidney · cs_k_kidney_05"
+   "evidence": "science · product curator · Kidney · cs_k_kidney_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knife_02",
    "text": "Steel hardens a knife edge",
    "standing": "projectable",
-   "evidence": "science · product curator · Knife · cs_k_knife_02"
+   "evidence": "science · product curator · Knife · cs_k_knife_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knight_04",
    "text": "A knight wore plate armor",
    "standing": "projectable",
-   "evidence": "history · product curator · Knight · cs_k_knight_04"
+   "evidence": "history · product curator · Knight · cs_k_knight_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knot_04",
    "text": "Fiber friction holds a knot",
    "standing": "projectable",
-   "evidence": "science · product curator · Knot · cs_k_knot_04"
+   "evidence": "science · product curator · Knot · cs_k_knot_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krypton_04",
    "text": "Krypton fills fluorescent tubes",
    "standing": "projectable",
-   "evidence": "science · product curator · Krypton · cs_k_krypton_04"
+   "evidence": "science · product curator · Krypton · cs_k_krypton_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kyanite_02",
    "text": "Kyanite forms blue blades",
    "standing": "projectable",
-   "evidence": "science · product curator · Kyanite · cs_k_kyanite_02"
+   "evidence": "science · product curator · Kyanite · cs_k_kyanite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelp_07",
    "text": "Kelp anchors rocky reefs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kelp · cs_k_kelp_07"
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keratin_05",
    "text": "Keratin strengthens hair",
    "standing": "projectable",
-   "evidence": "science · product curator · Keratin · cs_k_keratin_05"
+   "evidence": "science · product curator · Keratin · cs_k_keratin_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kerosene_04",
    "text": "Kerosene fuels lamp wicks",
    "standing": "projectable",
-   "evidence": "science · product curator · Kerosene · cs_k_kerosene_04"
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiln_05",
    "text": "A kiln fires ceramic ware",
    "standing": "projectable",
-   "evidence": "science · product curator · Kiln · cs_k_kiln_05"
+   "evidence": "science · product curator · Kiln · cs_k_kiln_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kimberlite_03",
    "text": "Kimberlite holds diamond",
    "standing": "projectable",
-   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_03"
+   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinematics_02",
    "text": "Kinematics tracks motion",
    "standing": "projectable",
-   "evidence": "science · product curator · Kinematics · cs_k_kinematics_02"
+   "evidence": "science · product curator · Kinematics · cs_k_kinematics_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kinetic_01",
    "text": "Kinetic energy moves mass",
    "standing": "projectable",
-   "evidence": "science · product curator · Kinetic · cs_k_kinetic_01"
+   "evidence": "science · product curator · Kinetic · cs_k_kinetic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kohlrabi_01",
    "text": "Kohlrabi stores stem food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kohlrabi · cs_k_kohlrabi_01"
+   "evidence": "nature · product curator · Kohlrabi · cs_k_kohlrabi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krypton_05",
    "text": "Krypton resists reactions",
    "standing": "projectable",
-   "evidence": "science · product curator · Krypton · cs_k_krypton_05"
+   "evidence": "science · product curator · Krypton · cs_k_krypton_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kudzu_01",
    "text": "Kudzu covers fence lines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kudzu · cs_k_kudzu_01"
+   "evidence": "nature · product curator · Kudzu · cs_k_kudzu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kapok_02",
    "text": "Kapok fills life jackets",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kapok · cs_k_kapok_02"
+   "evidence": "nature · product curator · Kapok · cs_k_kapok_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kelvin_03",
    "text": "Kelvin ranks absolute heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Kelvin · cs_k_kelvin_03"
+   "evidence": "science · product curator · Kelvin · cs_k_kelvin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keratin_06",
    "text": "Keratin coats bird beaks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Keratin · cs_k_keratin_06"
+   "evidence": "nature · product curator · Keratin · cs_k_keratin_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kernel_05",
    "text": "A kernel sprouts new corn",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kernel · cs_k_kernel_05"
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kingfisher_09",
    "text": "Kingfishers dive for fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_09"
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiwifruit_02",
    "text": "Kiwifruit stores vitamin C",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kiwifruit · cs_k_kiwifruit_02"
+   "evidence": "nature · product curator · Kiwifruit · cs_k_kiwifruit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knee_04",
    "text": "Knees hinge the lower leg",
    "standing": "projectable",
-   "evidence": "science · product curator · Knee · cs_k_knee_04"
+   "evidence": "science · product curator · Knee · cs_k_knee_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kohlrabi_02",
    "text": "Kohlrabi swells above soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kohlrabi · cs_k_kohlrabi_02"
+   "evidence": "nature · product curator · Kohlrabi · cs_k_kohlrabi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_krypton_06",
    "text": "Krypton fills some bulbs",
    "standing": "projectable",
-   "evidence": "science · product curator · Krypton · cs_k_krypton_06"
+   "evidence": "science · product curator · Krypton · cs_k_krypton_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kumquat_04",
    "text": "Kumquats ripen sweet peels",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_04"
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kaolinite_02",
    "text": "Kaolinite softens pottery clay",
    "standing": "projectable",
-   "evidence": "science · product curator · Kaolinite · cs_k_kaolinite_02"
+   "evidence": "science · product curator · Kaolinite · cs_k_kaolinite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_karst_04",
    "text": "Karst drains limestone caves",
    "standing": "projectable",
-   "evidence": "geography · product curator · Karst · cs_k_karst_04"
+   "evidence": "geography · product curator · Karst · cs_k_karst_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_keel_02",
    "text": "A keel steadies ship hulls",
    "standing": "projectable",
-   "evidence": "science · product curator · Keel · cs_k_keel_02"
+   "evidence": "science · product curator · Keel · cs_k_keel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kernel_06",
    "text": "Corn kernels hold seed oil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kernel · cs_k_kernel_06"
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_ketone_01",
    "text": "Ketones fuel fasting brains",
    "standing": "projectable",
-   "evidence": "science · product curator · Ketone · cs_k_ketone_01"
+   "evidence": "science · product curator · Ketone · cs_k_ketone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kidney_bean_01",
    "text": "Kidney beans pack protein",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kidney bean · cs_k_kidney_bean_01"
+   "evidence": "nature · product curator · Kidney bean · cs_k_kidney_bean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kiln_06",
    "text": "A kiln fires clay pots",
    "standing": "projectable",
-   "evidence": "science · product curator · Kiln · cs_k_kiln_06"
+   "evidence": "science · product curator · Kiln · cs_k_kiln_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knee_05",
    "text": "Knees cushion impact loads",
    "standing": "projectable",
-   "evidence": "science · product curator · Knee · cs_k_knee_05"
+   "evidence": "science · product curator · Knee · cs_k_knee_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_knuckle_03",
    "text": "Boxers wrap the knuckles",
    "standing": "projectable",
-   "evidence": "science · product curator · Knuckle · cs_k_knuckle_03"
+   "evidence": "science · product curator · Knuckle · cs_k_knuckle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_k_kumquat_05",
    "text": "Kumquats ripen citrus peel",
    "standing": "projectable",
-   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_05"
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

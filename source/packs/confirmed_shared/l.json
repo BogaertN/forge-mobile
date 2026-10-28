@@ -12,1501 +12,2751 @@
    "id": "cs_l_london_01",
    "text": "London is the capital of the United Kingdom",
    "standing": "projectable",
-   "evidence": "geography · product curator · London · cs_l_london_01"
+   "evidence": "geography · product curator · London · cs_l_london_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_london_02",
    "text": "The River Thames flows through London",
    "standing": "projectable",
-   "evidence": "geography · product curator · London · cs_l_london_02"
+   "evidence": "geography · product curator · London · cs_l_london_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lisbon_01",
    "text": "Lisbon is the capital of Portugal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lisbon · cs_l_lisbon_01"
+   "evidence": "geography · product curator · Lisbon · cs_l_lisbon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lima_01",
    "text": "Lima is the capital of Peru",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lima · cs_l_lima_01"
+   "evidence": "geography · product curator · Lima · cs_l_lima_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_la_paz_01",
    "text": "La Paz is the seat of government of Bolivia",
    "standing": "projectable",
-   "evidence": "geography · product curator · La Paz · cs_l_la_paz_01"
+   "evidence": "geography · product curator · La Paz · cs_l_la_paz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_luxembourg_01",
    "text": "Luxembourg City is the capital of Luxembourg",
    "standing": "projectable",
-   "evidence": "geography · product curator · Luxembourg · cs_l_luxembourg_01"
+   "evidence": "geography · product curator · Luxembourg · cs_l_luxembourg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latvia_01",
    "text": "Riga is the capital of Latvia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Latvia · cs_l_latvia_01"
+   "evidence": "geography · product curator · Latvia · cs_l_latvia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lithuania_01",
    "text": "Vilnius is the capital of Lithuania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lithuania · cs_l_lithuania_01"
+   "evidence": "geography · product curator · Lithuania · cs_l_lithuania_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_laos_01",
    "text": "Vientiane is the capital of Laos",
    "standing": "projectable",
-   "evidence": "geography · product curator · Laos · cs_l_laos_01"
+   "evidence": "geography · product curator · Laos · cs_l_laos_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lebanon_01",
    "text": "Beirut is the capital of Lebanon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lebanon · cs_l_lebanon_01"
+   "evidence": "geography · product curator · Lebanon · cs_l_lebanon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liberia_01",
    "text": "Monrovia is the capital of Liberia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Liberia · cs_l_liberia_01"
+   "evidence": "geography · product curator · Liberia · cs_l_liberia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_libya_01",
    "text": "Tripoli is the capital of Libya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Libya · cs_l_libya_01"
+   "evidence": "geography · product curator · Libya · cs_l_libya_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lesotho_01",
    "text": "Lesotho is entirely surrounded by South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lesotho · cs_l_lesotho_01"
+   "evidence": "geography · product curator · Lesotho · cs_l_lesotho_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liechtenstein_01",
    "text": "Vaduz is the capital of Liechtenstein",
    "standing": "projectable",
-   "evidence": "geography · product curator · Liechtenstein · cs_l_liechtenstein_01"
+   "evidence": "geography · product curator · Liechtenstein · cs_l_liechtenstein_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_ljubljana_01",
    "text": "Ljubljana is the capital of Slovenia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ljubljana · cs_l_ljubljana_01"
+   "evidence": "geography · product curator · Ljubljana · cs_l_ljubljana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_luanda_01",
    "text": "Luanda is the capital of Angola",
    "standing": "projectable",
-   "evidence": "geography · product curator · Luanda · cs_l_luanda_01"
+   "evidence": "geography · product curator · Luanda · cs_l_luanda_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lusaka_01",
    "text": "Lusaka is the capital of Zambia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lusaka · cs_l_lusaka_01"
+   "evidence": "geography · product curator · Lusaka · cs_l_lusaka_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_baikal_01",
    "text": "Lake Baikal is the deepest lake in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_01"
+   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_baikal_02",
    "text": "Lake Baikal is in Russia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_02"
+   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_victoria_01",
    "text": "Lake Victoria is the largest lake in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake Victoria · cs_l_lake_victoria_01"
+   "evidence": "geography · product curator · Lake Victoria · cs_l_lake_victoria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_titicaca_01",
    "text": "Lake Titicaca lies on the border of Peru and Bolivia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake Titicaca · cs_l_lake_titicaca_01"
+   "evidence": "geography · product curator · Lake Titicaca · cs_l_lake_titicaca_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_los_angeles_01",
    "text": "Los Angeles is in California",
    "standing": "projectable",
-   "evidence": "geography · product curator · Los Angeles · cs_l_los_angeles_01"
+   "evidence": "geography · product curator · Los Angeles · cs_l_los_angeles_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_louisiana_01",
    "text": "Baton Rouge is the capital of Louisiana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Louisiana · cs_l_louisiana_01"
+   "evidence": "geography · product curator · Louisiana · cs_l_louisiana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lincoln_01",
    "text": "Lincoln is the capital of Nebraska",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lincoln · cs_l_lincoln_01"
+   "evidence": "geography · product curator · Lincoln · cs_l_lincoln_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lansing_01",
    "text": "Lansing is the capital of Michigan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lansing · cs_l_lansing_01"
+   "evidence": "geography · product curator · Lansing · cs_l_lansing_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_little_rock_01",
    "text": "Little Rock is the capital of Arkansas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Little Rock · cs_l_little_rock_01"
+   "evidence": "geography · product curator · Little Rock · cs_l_little_rock_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latitude_01",
    "text": "Latitude measures distance north or south of the equator",
    "standing": "projectable",
-   "evidence": "geography · product curator · Latitude · cs_l_latitude_01"
+   "evidence": "geography · product curator · Latitude · cs_l_latitude_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_longitude_01",
    "text": "Longitude measures distance east or west of the prime meridian",
    "standing": "projectable",
-   "evidence": "geography · product curator · Longitude · cs_l_longitude_01"
+   "evidence": "geography · product curator · Longitude · cs_l_longitude_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lagoon_01",
    "text": "A lagoon is a shallow body of water separated from the sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_01"
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lava_01",
    "text": "Lava is molten rock that has reached Earth's surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Lava · cs_l_lava_01"
+   "evidence": "science · product curator · Lava · cs_l_lava_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_light_01",
    "text": "Light travels about 300000 kilometers per second",
    "standing": "projectable",
-   "evidence": "science · product curator · Light · cs_l_light_01"
+   "evidence": "science · product curator · Light · cs_l_light_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_light_year_01",
    "text": "A light year is the distance light travels in a year",
    "standing": "projectable",
-   "evidence": "science · product curator · Light-year · cs_l_light_year_01"
+   "evidence": "science · product curator · Light-year · cs_l_light_year_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lightning_01",
    "text": "Thunder is caused by lightning",
    "standing": "projectable",
-   "evidence": "science · product curator · Lightning · cs_l_lightning_01"
+   "evidence": "science · product curator · Lightning · cs_l_lightning_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lead_01",
    "text": "Lead has the chemical symbol Pb",
    "standing": "projectable",
-   "evidence": "science · product curator · Lead · cs_l_lead_01"
+   "evidence": "science · product curator · Lead · cs_l_lead_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lithium_01",
    "text": "Lithium has the chemical symbol Li",
    "standing": "projectable",
-   "evidence": "science · product curator · Lithium · cs_l_lithium_01"
+   "evidence": "science · product curator · Lithium · cs_l_lithium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lithium_02",
    "text": "Lithium is the lightest metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Lithium · cs_l_lithium_02"
+   "evidence": "science · product curator · Lithium · cs_l_lithium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lanthanum_01",
    "text": "Lanthanum has the chemical symbol La",
    "standing": "projectable",
-   "evidence": "science · product curator · Lanthanum · cs_l_lanthanum_01"
+   "evidence": "science · product curator · Lanthanum · cs_l_lanthanum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lutetium_01",
    "text": "Lutetium has the chemical symbol Lu",
    "standing": "projectable",
-   "evidence": "science · product curator · Lutetium · cs_l_lutetium_01"
+   "evidence": "science · product curator · Lutetium · cs_l_lutetium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lawrencium_01",
    "text": "Lawrencium has the chemical symbol Lr",
    "standing": "projectable",
-   "evidence": "science · product curator · Lawrencium · cs_l_lawrencium_01"
+   "evidence": "science · product curator · Lawrencium · cs_l_lawrencium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_livermorium_01",
    "text": "Livermorium has the chemical symbol Lv",
    "standing": "projectable",
-   "evidence": "science · product curator · Livermorium · cs_l_livermorium_01"
+   "evidence": "science · product curator · Livermorium · cs_l_livermorium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lever_01",
    "text": "A lever is a simple machine",
    "standing": "projectable",
-   "evidence": "science · product curator · Lever · cs_l_lever_01"
+   "evidence": "science · product curator · Lever · cs_l_lever_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_limestone_01",
    "text": "Limestone is a sedimentary rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Limestone · cs_l_limestone_01"
+   "evidence": "science · product curator · Limestone · cs_l_limestone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liver_01",
    "text": "The liver is the largest internal organ in the human body",
    "standing": "projectable",
-   "evidence": "science · product curator · Liver · cs_l_liver_01"
+   "evidence": "science · product curator · Liver · cs_l_liver_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lung_01",
    "text": "Humans have two lungs",
    "standing": "projectable",
-   "evidence": "science · product curator · Lung · cs_l_lung_01"
+   "evidence": "science · product curator · Lung · cs_l_lung_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lion_01",
    "text": "Lions live in prides",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lion · cs_l_lion_01"
+   "evidence": "nature · product curator · Lion · cs_l_lion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lion_02",
    "text": "Lions are native to Africa and India",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lion · cs_l_lion_02"
+   "evidence": "nature · product curator · Lion · cs_l_lion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leopard_01",
    "text": "Leopards are big cats",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leopard · cs_l_leopard_01"
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_llama_01",
    "text": "Llamas are domestic animals from South America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Llama · cs_l_llama_01"
+   "evidence": "nature · product curator · Llama · cs_l_llama_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lobster_01",
    "text": "Lobsters are crustaceans",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lobster · cs_l_lobster_01"
+   "evidence": "nature · product curator · Lobster · cs_l_lobster_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lemur_01",
    "text": "Lemurs are native to Madagascar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lemur · cs_l_lemur_01"
+   "evidence": "nature · product curator · Lemur · cs_l_lemur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_ladybug_01",
    "text": "Ladybugs are beetles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_01"
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lizard_01",
    "text": "Lizards are reptiles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lizard · cs_l_lizard_01"
+   "evidence": "nature · product curator · Lizard · cs_l_lizard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lichen_01",
    "text": "A lichen is a partnership of a fungus with an alga",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lichen · cs_l_lichen_01"
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lotus_01",
    "text": "The lotus is an aquatic plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lotus · cs_l_lotus_01"
+   "evidence": "nature · product curator · Lotus · cs_l_lotus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lavender_01",
    "text": "Lavender belongs to the mint family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lavender · cs_l_lavender_01"
+   "evidence": "nature · product curator · Lavender · cs_l_lavender_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larva_01",
    "text": "A larva is the juvenile stage of many insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Larva · cs_l_larva_01"
+   "evidence": "nature · product curator · Larva · cs_l_larva_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leonardo_da_vinci_01",
    "text": "Leonardo painted The Last Supper",
    "standing": "projectable",
-   "evidence": "history · product curator · Leonardo da Vinci · cs_l_leonardo_da_vinci_01"
+   "evidence": "history · product curator · Leonardo da Vinci · cs_l_leonardo_da_vinci_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lincoln_abraham_01",
    "text": "Abraham Lincoln was assassinated in 1865",
    "standing": "projectable",
-   "evidence": "history · product curator · Lincoln, Abraham · cs_l_lincoln_abraham_01"
+   "evidence": "history · product curator · Lincoln, Abraham · cs_l_lincoln_abraham_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_louis_xiv_01",
    "text": "Louis XIV of France was known as the Sun King",
    "standing": "projectable",
-   "evidence": "history · product curator · Louis XIV · cs_l_louis_xiv_01"
+   "evidence": "history · product curator · Louis XIV · cs_l_louis_xiv_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_louisiana_purchase_01",
    "text": "The United States bought the Louisiana territory from France in 1803",
    "standing": "projectable",
-   "evidence": "history · product curator · Louisiana Purchase · cs_l_louisiana_purchase_01"
+   "evidence": "history · product curator · Louisiana Purchase · cs_l_louisiana_purchase_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lewis_and_clark_expedition_01",
    "text": "The Lewis and Clark Expedition began in 1804",
    "standing": "projectable",
-   "evidence": "history · product curator · Lewis and Clark Expedition · cs_l_lewis_and_clark_expedition_01"
+   "evidence": "history · product curator · Lewis and Clark Expedition · cs_l_lewis_and_clark_expedition_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_luther_martin_01",
    "text": "Martin Luther published the Ninety-five Theses in 1517",
    "standing": "projectable",
-   "evidence": "history · product curator · Luther, Martin · cs_l_luther_martin_01"
+   "evidence": "history · product curator · Luther, Martin · cs_l_luther_martin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_library_of_alexandria_01",
    "text": "The Library of Alexandria was in Egypt",
    "standing": "projectable",
-   "evidence": "history · product curator · Library of Alexandria · cs_l_library_of_alexandria_01"
+   "evidence": "history · product curator · Library of Alexandria · cs_l_library_of_alexandria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liberty_bell_01",
    "text": "The Liberty Bell is in Philadelphia",
    "standing": "projectable",
-   "evidence": "history · product curator · Liberty Bell · cs_l_liberty_bell_01"
+   "evidence": "history · product curator · Liberty Bell · cs_l_liberty_bell_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lindbergh_charles_01",
    "text": "Charles Lindbergh made the first solo nonstop transatlantic flight in 1927",
    "standing": "projectable",
-   "evidence": "history · product curator · Lindbergh, Charles · cs_l_lindbergh_charles_01"
+   "evidence": "history · product curator · Lindbergh, Charles · cs_l_lindbergh_charles_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_line_segment_01",
    "text": "A line segment has two endpoints",
    "standing": "projectable",
-   "evidence": "math · product curator · Line segment · cs_l_line_segment_01"
+   "evidence": "math · product curator · Line segment · cs_l_line_segment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leap_year_01",
    "text": "A leap year has 366 days",
    "standing": "projectable",
-   "evidence": "math · product curator · Leap year · cs_l_leap_year_01"
+   "evidence": "math · product curator · Leap year · cs_l_leap_year_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_legislature_01",
    "text": "A legislature makes laws",
    "standing": "projectable",
-   "evidence": "civics · product curator · Legislature · cs_l_legislature_01"
+   "evidence": "civics · product curator · Legislature · cs_l_legislature_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_library_of_congress_01",
    "text": "The Library of Congress is in Washington",
    "standing": "projectable",
-   "evidence": "civics · product curator · Library of Congress · cs_l_library_of_congress_01"
+   "evidence": "civics · product curator · Library of Congress · cs_l_library_of_congress_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latin_01",
    "text": "The Romans spoke Latin",
    "standing": "projectable",
-   "evidence": "language · product curator · Latin · cs_l_latin_01"
+   "evidence": "language · product curator · Latin · cs_l_latin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latin_alphabet_01",
    "text": "Many languages use the Latin alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Latin alphabet · cs_l_latin_alphabet_01"
+   "evidence": "language · product curator · Latin alphabet · cs_l_latin_alphabet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lighthouse_01",
    "text": "A lighthouse guides ships with light",
    "standing": "projectable",
-   "evidence": "general · product curator · Lighthouse · cs_l_lighthouse_01"
+   "evidence": "general · product curator · Lighthouse · cs_l_lighthouse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_llama_02",
    "text": "Llamas are used as pack animals in the Andes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Llama · cs_l_llama_02"
+   "evidence": "nature · product curator · Llama · cs_l_llama_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lagos_01",
    "text": "Lagos is the largest city in Nigeria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lagos · cs_l_lagos_01"
+   "evidence": "geography · product curator · Lagos · cs_l_lagos_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_tanganyika_01",
    "text": "Lake Tanganyika is in East Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake Tanganyika · cs_l_lake_tanganyika_01"
+   "evidence": "geography · product curator · Lake Tanganyika · cs_l_lake_tanganyika_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_loire_01",
    "text": "The Loire is the longest river in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Loire · cs_l_loire_01"
+   "evidence": "geography · product curator · Loire · cs_l_loire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lava_02",
    "text": "Lava is molten rock that reaches Earth's surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Lava · cs_l_lava_02"
+   "evidence": "science · product curator · Lava · cs_l_lava_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lung_02",
    "text": "Lungs are the main organs of breathing",
    "standing": "projectable",
-   "evidence": "science · product curator · Lung · cs_l_lung_02"
+   "evidence": "science · product curator · Lung · cs_l_lung_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_light_02",
    "text": "Light is faster than sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Light · cs_l_light_02"
+   "evidence": "science · product curator · Light · cs_l_light_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liquid_01",
    "text": "A liquid has a fixed volume",
    "standing": "projectable",
-   "evidence": "science · product curator · Liquid · cs_l_liquid_01"
+   "evidence": "science · product curator · Liquid · cs_l_liquid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lily_01",
    "text": "Lilies grow from bulbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lily · cs_l_lily_01"
+   "evidence": "nature · product curator · Lily · cs_l_lily_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_louisiana_purchase_02",
    "text": "The Louisiana Purchase took place in 1803",
    "standing": "projectable",
-   "evidence": "history · product curator · Louisiana Purchase · cs_l_louisiana_purchase_02"
+   "evidence": "history · product curator · Louisiana Purchase · cs_l_louisiana_purchase_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lincoln_abraham_02",
    "text": "Lincoln was the 16th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Lincoln, Abraham · cs_l_lincoln_abraham_02"
+   "evidence": "history · product curator · Lincoln, Abraham · cs_l_lincoln_abraham_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lilongwe_01",
    "text": "Lilongwe is the capital of Malawi",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lilongwe · cs_l_lilongwe_01"
+   "evidence": "geography · product curator · Lilongwe · cs_l_lilongwe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_los_angeles_02",
    "text": "Los Angeles is a city in California",
    "standing": "projectable",
-   "evidence": "geography · product curator · Los Angeles · cs_l_los_angeles_02"
+   "evidence": "geography · product curator · Los Angeles · cs_l_los_angeles_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lightning_02",
    "text": "Lightning is a discharge of electricity",
    "standing": "projectable",
-   "evidence": "science · product curator · Lightning · cs_l_lightning_02"
+   "evidence": "science · product curator · Lightning · cs_l_lightning_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_llama_03",
    "text": "Llamas are domesticated in the Andes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Llama · cs_l_llama_03"
+   "evidence": "nature · product curator · Llama · cs_l_llama_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leopard_02",
    "text": "Leopards often drag prey into trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leopard · cs_l_leopard_02"
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_locust_01",
    "text": "Locusts are a kind of grasshopper that can swarm",
    "standing": "projectable",
-   "evidence": "nature · product curator · Locust · cs_l_locust_01"
+   "evidence": "nature · product curator · Locust · cs_l_locust_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lilac_01",
    "text": "Lilacs have fragrant purple or white flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lilac · cs_l_lilac_01"
+   "evidence": "nature · product curator · Lilac · cs_l_lilac_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_labrador_sea_01",
    "text": "The Labrador Sea lies between Labrador and Greenland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Labrador Sea · cs_l_labrador_sea_01"
+   "evidence": "geography · product curator · Labrador Sea · cs_l_labrador_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lime_01",
    "text": "Limes are citrus fruits",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lime · cs_l_lime_01"
+   "evidence": "nature · product curator · Lime · cs_l_lime_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lion_03",
    "text": "A lion is a big cat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lion · cs_l_lion_03"
+   "evidence": "nature · product curator · Lion · cs_l_lion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leopard_03",
    "text": "A leopard has spots",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leopard · cs_l_leopard_03"
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liter_02",
    "text": "A liter is a unit of volume",
    "standing": "projectable",
-   "evidence": "math · product curator · Liter · cs_l_liter_02"
+   "evidence": "math · product curator · Liter · cs_l_liter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lyon_01",
    "text": "Lyon is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lyon · cs_l_lyon_01"
+   "evidence": "geography · product curator · Lyon · cs_l_lyon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leeds_01",
    "text": "Leeds is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Leeds · cs_l_leeds_01"
+   "evidence": "geography · product curator · Leeds · cs_l_leeds_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liverpool_01",
    "text": "Liverpool is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Liverpool · cs_l_liverpool_01"
+   "evidence": "geography · product curator · Liverpool · cs_l_liverpool_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lagos_02",
    "text": "Lagos is a city in Nigeria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lagos · cs_l_lagos_02"
+   "evidence": "geography · product curator · Lagos · cs_l_lagos_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lemur_02",
    "text": "A lemur is a primate",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lemur · cs_l_lemur_02"
+   "evidence": "nature · product curator · Lemur · cs_l_lemur_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_llama_04",
    "text": "A llama is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Llama · cs_l_llama_04"
+   "evidence": "nature · product curator · Llama · cs_l_llama_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lemon_01",
    "text": "A lemon is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Lemon · cs_l_lemon_01"
+   "evidence": "food · product curator · Lemon · cs_l_lemon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lettuce_01",
    "text": "Lettuce is a vegetable",
    "standing": "projectable",
-   "evidence": "food · product curator · Lettuce · cs_l_lettuce_01"
+   "evidence": "food · product curator · Lettuce · cs_l_lettuce_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lille_01",
    "text": "Lille is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lille · cs_l_lille_01"
+   "evidence": "geography · product curator · Lille · cs_l_lille_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leipzig_01",
    "text": "Leipzig is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Leipzig · cs_l_leipzig_01"
+   "evidence": "geography · product curator · Leipzig · cs_l_leipzig_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lucknow_01",
    "text": "Lucknow is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lucknow · cs_l_lucknow_01"
+   "evidence": "geography · product curator · Lucknow · cs_l_lucknow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lahore_01",
    "text": "Lahore is a city in Pakistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lahore · cs_l_lahore_01"
+   "evidence": "geography · product curator · Lahore · cs_l_lahore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lime_02",
    "text": "A lime is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Lime · cs_l_lime_02"
+   "evidence": "food · product curator · Lime · cs_l_lime_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lark_01",
    "text": "A lark is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lark · cs_l_lark_01"
+   "evidence": "nature · product curator · Lark · cs_l_lark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lumen_01",
    "text": "The lumen is a unit of luminous flux",
    "standing": "projectable",
-   "evidence": "science · product curator · Lumen · cs_l_lumen_01"
+   "evidence": "science · product curator · Lumen · cs_l_lumen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_land_breeze_01",
    "text": "A land breeze blows from land to sea at night",
    "standing": "projectable",
-   "evidence": "science · product curator · Land breeze · cs_l_land_breeze_01"
+   "evidence": "science · product curator · Land breeze · cs_l_land_breeze_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_large_intestine_01",
    "text": "The large intestine absorbs water from waste",
    "standing": "projectable",
-   "evidence": "science · product curator · Large intestine · cs_l_large_intestine_01"
+   "evidence": "science · product curator · Large intestine · cs_l_large_intestine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_laser_01",
    "text": "A laser produces a narrow beam of light",
    "standing": "projectable",
-   "evidence": "science · product curator · Laser · cs_l_laser_01"
+   "evidence": "science · product curator · Laser · cs_l_laser_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_launch_01",
    "text": "A launch sends a rocket into flight",
    "standing": "projectable",
-   "evidence": "science · product curator · Launch · cs_l_launch_01"
+   "evidence": "science · product curator · Launch · cs_l_launch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lead_pencil_01",
    "text": "A lead pencil writes with graphite",
    "standing": "projectable",
-   "evidence": "science · product curator · Lead pencil · cs_l_lead_pencil_01"
+   "evidence": "science · product curator · Lead pencil · cs_l_lead_pencil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leaf_litter_01",
    "text": "Leaf litter covers a forest floor",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leaf litter · cs_l_leaf_litter_01"
+   "evidence": "nature · product curator · Leaf litter · cs_l_leaf_litter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leakey_mary_01",
    "text": "Mary Leakey was a paleoanthropologist",
    "standing": "projectable",
-   "evidence": "history · product curator · Leakey, Mary · cs_l_leakey_mary_01"
+   "evidence": "history · product curator · Leakey, Mary · cs_l_leakey_mary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leaning_tower_of_pisa_01",
    "text": "The Leaning Tower of Pisa leans to one side",
    "standing": "projectable",
-   "evidence": "history · product curator · Leaning Tower of Pisa · cs_l_leaning_tower_of_pisa_01"
+   "evidence": "history · product curator · Leaning Tower of Pisa · cs_l_leaning_tower_of_pisa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_left_hemisphere_01",
    "text": "The left hemisphere of the brain controls the right side of the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Left hemisphere · cs_l_left_hemisphere_01"
+   "evidence": "science · product curator · Left hemisphere · cs_l_left_hemisphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leibniz_01",
    "text": "Gottfried Leibniz was a German mathematician",
    "standing": "projectable",
-   "evidence": "history · product curator · Leibniz · cs_l_leibniz_01"
+   "evidence": "history · product curator · Leibniz · cs_l_leibniz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lanthanide_01",
    "text": "A lanthanide is a rare earth element",
    "standing": "projectable",
-   "evidence": "science · product curator · Lanthanide · cs_l_lanthanide_01"
+   "evidence": "science · product curator · Lanthanide · cs_l_lanthanide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lepton_01",
    "text": "An electron is a lepton",
    "standing": "projectable",
-   "evidence": "science · product curator · Lepton · cs_l_lepton_01"
+   "evidence": "science · product curator · Lepton · cs_l_lepton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_logarithm_01",
    "text": "A logarithm is the inverse of an exponential",
    "standing": "projectable",
-   "evidence": "math · product curator · Logarithm · cs_l_logarithm_01"
+   "evidence": "math · product curator · Logarithm · cs_l_logarithm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larch_01",
    "text": "A larch is a deciduous conifer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Larch · cs_l_larch_01"
+   "evidence": "nature · product curator · Larch · cs_l_larch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_ligament_01",
    "text": "A ligament connects bone to bone",
    "standing": "projectable",
-   "evidence": "science · product curator · Ligament · cs_l_ligament_01"
+   "evidence": "science · product curator · Ligament · cs_l_ligament_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_litmus_01",
    "text": "Litmus paper tests acidity",
    "standing": "projectable",
-   "evidence": "science · product curator · Litmus · cs_l_litmus_01"
+   "evidence": "science · product curator · Litmus · cs_l_litmus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_baikal_03",
    "text": "Lake Baikal is the deepest lake on Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_03"
+   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_language_01",
    "text": "Language is a system of communication",
    "standing": "projectable",
-   "evidence": "language · product curator · Language · cs_l_language_01"
+   "evidence": "language · product curator · Language · cs_l_language_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larva_02",
    "text": "A larva is an early stage of an insect",
    "standing": "projectable",
-   "evidence": "nature · product curator · Larva · cs_l_larva_02"
+   "evidence": "nature · product curator · Larva · cs_l_larva_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_laser_02",
    "text": "Laser light is coherent",
    "standing": "projectable",
-   "evidence": "science · product curator · Laser · cs_l_laser_02"
+   "evidence": "science · product curator · Laser · cs_l_laser_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latitude_02",
    "text": "The equator has latitude zero",
    "standing": "projectable",
-   "evidence": "geography · product curator · Latitude · cs_l_latitude_02"
+   "evidence": "geography · product curator · Latitude · cs_l_latitude_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_legume_01",
    "text": "A legume is a plant of the pea family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Legume · cs_l_legume_01"
+   "evidence": "nature · product curator · Legume · cs_l_legume_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lever_02",
    "text": "A lever can multiply force",
    "standing": "projectable",
-   "evidence": "science · product curator · Lever · cs_l_lever_02"
+   "evidence": "science · product curator · Lever · cs_l_lever_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lichen_02",
    "text": "A lichen is a partnership of fungus and alga",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lichen · cs_l_lichen_02"
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_line_01",
    "text": "A line extends forever in two directions",
    "standing": "projectable",
-   "evidence": "math · product curator · Line · cs_l_line_01"
+   "evidence": "math · product curator · Line · cs_l_line_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lithium_03",
    "text": "Lithium is an alkali metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Lithium · cs_l_lithium_03"
+   "evidence": "science · product curator · Lithium · cs_l_lithium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lyric_poem_01",
    "text": "A lyric poem expresses personal feeling",
    "standing": "projectable",
-   "evidence": "language · product curator · Lyric poem · cs_l_lyric_poem_01"
+   "evidence": "language · product curator · Lyric poem · cs_l_lyric_poem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lagoon_02",
    "text": "A lagoon is a shallow coastal water body",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_02"
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_01",
    "text": "A lake is a body of freshwater",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake · cs_l_lake_01"
+   "evidence": "geography · product curator · Lake · cs_l_lake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_laser_03",
    "text": "A laser produces a focused beam of light",
    "standing": "projectable",
-   "evidence": "science · product curator · Laser · cs_l_laser_03"
+   "evidence": "science · product curator · Laser · cs_l_laser_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latitude_03",
    "text": "Latitude measures distance from the equator",
    "standing": "projectable",
-   "evidence": "geography · product curator · Latitude · cs_l_latitude_03"
+   "evidence": "geography · product curator · Latitude · cs_l_latitude_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lava_03",
    "text": "Lava is molten rock on the surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Lava · cs_l_lava_03"
+   "evidence": "science · product curator · Lava · cs_l_lava_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leaf_02",
    "text": "A leaf makes food by photosynthesis",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leaf · cs_l_leaf_02"
+   "evidence": "nature · product curator · Leaf · cs_l_leaf_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leopard_04",
    "text": "A leopard is a spotted big cat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leopard · cs_l_leopard_04"
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_light_year_02",
    "text": "A light year is a unit of distance",
    "standing": "projectable",
-   "evidence": "science · product curator · Light year · cs_l_light_year_02"
+   "evidence": "science · product curator · Light year · cs_l_light_year_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_line_02",
    "text": "A line extends endlessly in two directions",
    "standing": "projectable",
-   "evidence": "math · product curator · Line · cs_l_line_02"
+   "evidence": "math · product curator · Line · cs_l_line_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lens_02",
    "text": "A lens bends light",
    "standing": "projectable",
-   "evidence": "science · product curator · Lens · cs_l_lens_02"
+   "evidence": "science · product curator · Lens · cs_l_lens_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lion_04",
    "text": "A lion is a large cat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lion · cs_l_lion_04"
+   "evidence": "nature · product curator · Lion · cs_l_lion_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_02",
    "text": "A lake is a body of fresh water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake · cs_l_lake_02"
+   "evidence": "geography · product curator · Lake · cs_l_lake_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_logarithm_02",
    "text": "A logarithm is an exponent",
    "standing": "projectable",
-   "evidence": "math · product curator · Logarithm · cs_l_logarithm_02"
+   "evidence": "math · product curator · Logarithm · cs_l_logarithm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_language_02",
    "text": "English is a Germanic language",
    "standing": "projectable",
-   "evidence": "language · product curator · Language · cs_l_language_02"
+   "evidence": "language · product curator · Language · cs_l_language_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_legislature_02",
    "text": "Congress is a legislature",
    "standing": "projectable",
-   "evidence": "civics · product curator · Legislature · cs_l_legislature_02"
+   "evidence": "civics · product curator · Legislature · cs_l_legislature_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lagoon_03",
    "text": "Coral reefs often enclose a lagoon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_03"
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_line_03",
    "text": "Two points determine a line",
    "standing": "projectable",
-   "evidence": "math · product curator · Line · cs_l_line_03"
+   "evidence": "math · product curator · Line · cs_l_line_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lyric_poem_02",
    "text": "A lyric poem is often short",
    "standing": "projectable",
-   "evidence": "language · product curator · Lyric poem · cs_l_lyric_poem_02"
+   "evidence": "language · product curator · Lyric poem · cs_l_lyric_poem_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_ladybug_02",
    "text": "A ladybug is a beetle",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_02"
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_ladybug_03",
    "text": "A ladybug eats aphids",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_03"
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lava_04",
    "text": "Hot lava flows from a volcano",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lava · cs_l_lava_04"
+   "evidence": "geography · product curator · Lava · cs_l_lava_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lever_03",
    "text": "A crowbar is a lever",
    "standing": "projectable",
-   "evidence": "science · product curator · Lever · cs_l_lever_03"
+   "evidence": "science · product curator · Lever · cs_l_lever_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_light_year_03",
    "text": "A light-year is a unit of distance",
    "standing": "projectable",
-   "evidence": "math · product curator · Light-year · cs_l_light_year_03"
+   "evidence": "math · product curator · Light-year · cs_l_light_year_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lymph_01",
    "text": "Lymph is a clear body fluid",
    "standing": "projectable",
-   "evidence": "science · product curator · Lymph · cs_l_lymph_01"
+   "evidence": "science · product curator · Lymph · cs_l_lymph_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lid_01",
    "text": "A pot has a lid",
    "standing": "projectable",
-   "evidence": "science · product curator · Lid · cs_l_lid_01"
+   "evidence": "science · product curator · Lid · cs_l_lid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_legend_01",
    "text": "A map has a legend",
    "standing": "projectable",
-   "evidence": "geography · product curator · Legend · cs_l_legend_01"
+   "evidence": "geography · product curator · Legend · cs_l_legend_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_loan_01",
    "text": "A bank makes a loan",
    "standing": "projectable",
-   "evidence": "civics · product curator · Loan · cs_l_loan_01"
+   "evidence": "civics · product curator · Loan · cs_l_loan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lake_03",
    "text": "A lake holds fresh water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lake · cs_l_lake_03"
+   "evidence": "geography · product curator · Lake · cs_l_lake_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larynx_01",
    "text": "The larynx holds vocal cords",
    "standing": "projectable",
-   "evidence": "science · product curator · Larynx · cs_l_larynx_01"
+   "evidence": "science · product curator · Larynx · cs_l_larynx_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lichen_03",
    "text": "Lichen grows on bare rock",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lichen · cs_l_lichen_03"
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_llama_05",
    "text": "A llama carries packs in mountains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Llama · cs_l_llama_05"
+   "evidence": "nature · product curator · Llama · cs_l_llama_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_loam_01",
    "text": "Loam is rich garden soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Loam · cs_l_loam_01"
+   "evidence": "nature · product curator · Loam · cs_l_loam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_loom_01",
    "text": "Weavers work at a loom",
    "standing": "projectable",
-   "evidence": "history · product curator · Loom · cs_l_loom_01"
+   "evidence": "history · product curator · Loom · cs_l_loom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lobe_01",
    "text": "The lung has lobes",
    "standing": "projectable",
-   "evidence": "science · product curator · Lobe · cs_l_lobe_01"
+   "evidence": "science · product curator · Lobe · cs_l_lobe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_longitude_02",
    "text": "Longitude measures east and west",
    "standing": "projectable",
-   "evidence": "geography · product curator · Longitude · cs_l_longitude_02"
+   "evidence": "geography · product curator · Longitude · cs_l_longitude_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lacquer_01",
    "text": "Lacquer coats wood",
    "standing": "projectable",
-   "evidence": "history · product curator · Lacquer · cs_l_lacquer_01"
+   "evidence": "history · product curator · Lacquer · cs_l_lacquer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lamp_01",
    "text": "A lamp gives light",
    "standing": "projectable",
-   "evidence": "science · product curator · Lamp · cs_l_lamp_01"
+   "evidence": "science · product curator · Lamp · cs_l_lamp_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larva_03",
    "text": "A caterpillar is a larva",
    "standing": "projectable",
-   "evidence": "nature · product curator · Larva · cs_l_larva_03"
+   "evidence": "nature · product curator · Larva · cs_l_larva_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_law_01",
    "text": "A law binds citizens",
    "standing": "projectable",
-   "evidence": "civics · product curator · Law · cs_l_law_01"
+   "evidence": "civics · product curator · Law · cs_l_law_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lamp_02",
    "text": "Oil lamps lit rooms",
    "standing": "projectable",
-   "evidence": "history · product curator · Lamp · cs_l_lamp_02"
+   "evidence": "history · product curator · Lamp · cs_l_lamp_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larva_04",
    "text": "A larva becomes an adult insect",
    "standing": "projectable",
-   "evidence": "nature · product curator · Larva · cs_l_larva_04"
+   "evidence": "nature · product curator · Larva · cs_l_larva_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_law_02",
    "text": "Parliament passes a law",
    "standing": "projectable",
-   "evidence": "civics · product curator · Law · cs_l_law_02"
+   "evidence": "civics · product curator · Law · cs_l_law_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lacquer_02",
    "text": "Artisans brush lacquer on wood",
    "standing": "projectable",
-   "evidence": "history · product curator · Lacquer · cs_l_lacquer_02"
+   "evidence": "history · product curator · Lacquer · cs_l_lacquer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lava_05",
    "text": "Hot lava hardens into rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Lava · cs_l_lava_05"
+   "evidence": "science · product curator · Lava · cs_l_lava_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lithium_04",
    "text": "Lithium is a soft metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Lithium · cs_l_lithium_04"
+   "evidence": "science · product curator · Lithium · cs_l_lithium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lac_01",
    "text": "Lac insects make shellac",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lac · cs_l_lac_01"
+   "evidence": "nature · product curator · Lac · cs_l_lac_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lamprey_01",
    "text": "A lamprey attaches to fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lamprey · cs_l_lamprey_01"
+   "evidence": "nature · product curator · Lamprey · cs_l_lamprey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latex_01",
    "text": "Rubber trees yield latex",
    "standing": "projectable",
-   "evidence": "nature · product curator · Latex · cs_l_latex_01"
+   "evidence": "nature · product curator · Latex · cs_l_latex_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lemon_02",
    "text": "A lemon is a sour citrus",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lemon · cs_l_lemon_02"
+   "evidence": "nature · product curator · Lemon · cs_l_lemon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leopard_05",
    "text": "A leopard has spotted fur",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leopard · cs_l_leopard_05"
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lepidolite_01",
    "text": "Lepidolite holds lithium",
    "standing": "projectable",
-   "evidence": "science · product curator · Lepidolite · cs_l_lepidolite_01"
+   "evidence": "science · product curator · Lepidolite · cs_l_lepidolite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lever_04",
    "text": "A lever multiplies force",
    "standing": "projectable",
-   "evidence": "science · product curator · Lever · cs_l_lever_04"
+   "evidence": "science · product curator · Lever · cs_l_lever_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lignite_01",
    "text": "Lignite is soft brown coal",
    "standing": "projectable",
-   "evidence": "science · product curator · Lignite · cs_l_lignite_01"
+   "evidence": "science · product curator · Lignite · cs_l_lignite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lilac_02",
    "text": "A lilac blooms in spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lilac · cs_l_lilac_02"
+   "evidence": "nature · product curator · Lilac · cs_l_lilac_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lime_03",
    "text": "Lime sweetens acidic soil",
    "standing": "projectable",
-   "evidence": "science · product curator · Lime · cs_l_lime_03"
+   "evidence": "science · product curator · Lime · cs_l_lime_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_landslide_01",
    "text": "A landslide moves downhill",
    "standing": "projectable",
-   "evidence": "geography · product curator · Landslide · cs_l_landslide_01"
+   "evidence": "geography · product curator · Landslide · cs_l_landslide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lapis_01",
    "text": "Lapis is a blue gemstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Lapis · cs_l_lapis_01"
+   "evidence": "science · product curator · Lapis · cs_l_lapis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lark_02",
    "text": "A lark sings in flight",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lark · cs_l_lark_02"
+   "evidence": "nature · product curator · Lark · cs_l_lark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_laser_04",
    "text": "A laser emits a narrow beam",
    "standing": "projectable",
-   "evidence": "science · product curator · Laser · cs_l_laser_04"
+   "evidence": "science · product curator · Laser · cs_l_laser_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leaf_03",
    "text": "A leaf captures sunlight",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leaf · cs_l_leaf_03"
+   "evidence": "nature · product curator · Leaf · cs_l_leaf_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_limestone_02",
    "text": "Acid dissolves limestone",
    "standing": "projectable",
-   "evidence": "science · product curator · Limestone · cs_l_limestone_02"
+   "evidence": "science · product curator · Limestone · cs_l_limestone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lithium_05",
    "text": "Lithium powers batteries",
    "standing": "projectable",
-   "evidence": "science · product curator · Lithium · cs_l_lithium_05"
+   "evidence": "science · product curator · Lithium · cs_l_lithium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_litmus_02",
    "text": "Litmus turns red in acid",
    "standing": "projectable",
-   "evidence": "science · product curator · Litmus · cs_l_litmus_02"
+   "evidence": "science · product curator · Litmus · cs_l_litmus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liver_02",
    "text": "The liver cleans the blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Liver · cs_l_liver_02"
+   "evidence": "science · product curator · Liver · cs_l_liver_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lyre_01",
    "text": "A lyre is an ancient harp",
    "standing": "projectable",
-   "evidence": "history · product curator · Lyre · cs_l_lyre_01"
+   "evidence": "history · product curator · Lyre · cs_l_lyre_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_labyrinth_01",
    "text": "A labyrinth twists paths",
    "standing": "projectable",
-   "evidence": "history · product curator · Labyrinth · cs_l_labyrinth_01"
+   "evidence": "history · product curator · Labyrinth · cs_l_labyrinth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lemur_03",
    "text": "Lemurs live in Madagascar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lemur · cs_l_lemur_03"
+   "evidence": "nature · product curator · Lemur · cs_l_lemur_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lily_02",
    "text": "A lily grows from a bulb",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lily · cs_l_lily_02"
+   "evidence": "nature · product curator · Lily · cs_l_lily_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liver_03",
    "text": "The liver clears toxins",
    "standing": "projectable",
-   "evidence": "science · product curator · Liver · cs_l_liver_03"
+   "evidence": "science · product curator · Liver · cs_l_liver_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lizard_02",
    "text": "A lizard basks on stone",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lizard · cs_l_lizard_02"
+   "evidence": "nature · product curator · Lizard · cs_l_lizard_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lizard_03",
    "text": "A lizard sheds its skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lizard · cs_l_lizard_03"
+   "evidence": "nature · product curator · Lizard · cs_l_lizard_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_locomotive_01",
    "text": "A locomotive pulls a train",
    "standing": "projectable",
-   "evidence": "science · product curator · Locomotive · cs_l_locomotive_01"
+   "evidence": "science · product curator · Locomotive · cs_l_locomotive_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_loop_01",
    "text": "A loop closes a circuit",
    "standing": "projectable",
-   "evidence": "science · product curator · Loop · cs_l_loop_01"
+   "evidence": "science · product curator · Loop · cs_l_loop_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lunar_01",
    "text": "A lunar tide pulls seas",
    "standing": "projectable",
-   "evidence": "science · product curator · Lunar · cs_l_lunar_01"
+   "evidence": "science · product curator · Lunar · cs_l_lunar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lymph_02",
    "text": "Lymph clears tissue waste",
    "standing": "projectable",
-   "evidence": "science · product curator · Lymph · cs_l_lymph_02"
+   "evidence": "science · product curator · Lymph · cs_l_lymph_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lava_06",
    "text": "Lava cools into hard rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Lava · cs_l_lava_06"
+   "evidence": "science · product curator · Lava · cs_l_lava_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lens_03",
    "text": "Glass curves into a lens",
    "standing": "projectable",
-   "evidence": "science · product curator · Lens · cs_l_lens_03"
+   "evidence": "science · product curator · Lens · cs_l_lens_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lithium_06",
    "text": "Batteries use lithium ions",
    "standing": "projectable",
-   "evidence": "science · product curator · Lithium · cs_l_lithium_06"
+   "evidence": "science · product curator · Lithium · cs_l_lithium_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_loam_02",
    "text": "Loam holds water for roots",
    "standing": "projectable",
-   "evidence": "nature · product curator · Loam · cs_l_loam_02"
+   "evidence": "nature · product curator · Loam · cs_l_loam_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lobster_02",
    "text": "A lobster molts its shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lobster · cs_l_lobster_02"
+   "evidence": "nature · product curator · Lobster · cs_l_lobster_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_locust_02",
    "text": "A locust swarms crop fields",
    "standing": "projectable",
-   "evidence": "nature · product curator · Locust · cs_l_locust_02"
+   "evidence": "nature · product curator · Locust · cs_l_locust_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lumber_01",
    "text": "Saws cut trees into lumber",
    "standing": "projectable",
-   "evidence": "history · product curator · Lumber · cs_l_lumber_01"
+   "evidence": "history · product curator · Lumber · cs_l_lumber_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lung_03",
    "text": "A lung exchanges oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Lung · cs_l_lung_03"
+   "evidence": "science · product curator · Lung · cs_l_lung_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lacquer_03",
    "text": "Lacquer seals wood grain",
    "standing": "projectable",
-   "evidence": "science · product curator · Lacquer · cs_l_lacquer_03"
+   "evidence": "science · product curator · Lacquer · cs_l_lacquer_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lactase_01",
    "text": "Lactase digests milk sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Lactase · cs_l_lactase_01"
+   "evidence": "science · product curator · Lactase · cs_l_lactase_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lactic_01",
    "text": "Lactic acid burns muscles",
    "standing": "projectable",
-   "evidence": "science · product curator · Lactic · cs_l_lactic_01"
+   "evidence": "science · product curator · Lactic · cs_l_lactic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larynx_02",
    "text": "Larynx vibrates for speech",
    "standing": "projectable",
-   "evidence": "science · product curator · Larynx · cs_l_larynx_02"
+   "evidence": "science · product curator · Larynx · cs_l_larynx_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_latex_02",
    "text": "Latex seals rubber gloves",
    "standing": "projectable",
-   "evidence": "science · product curator · Latex · cs_l_latex_02"
+   "evidence": "science · product curator · Latex · cs_l_latex_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leech_01",
    "text": "A leech drinks host blood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leech · cs_l_leech_01"
+   "evidence": "nature · product curator · Leech · cs_l_leech_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leyden_01",
    "text": "A Leyden jar stores charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Leyden · cs_l_leyden_01"
+   "evidence": "science · product curator · Leyden · cs_l_leyden_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lignin_01",
    "text": "Lignin stiffens wood cells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lignin · cs_l_lignin_01"
+   "evidence": "nature · product curator · Lignin · cs_l_lignin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leukocyte_01",
    "text": "Leukocytes fight infection",
    "standing": "projectable",
-   "evidence": "science · product curator · Leukocyte · cs_l_leukocyte_01"
+   "evidence": "science · product curator · Leukocyte · cs_l_leukocyte_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_longitude_03",
    "text": "Longitude ranks east west",
    "standing": "projectable",
-   "evidence": "geography · product curator · Longitude · cs_l_longitude_03"
+   "evidence": "geography · product curator · Longitude · cs_l_longitude_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_larch_02",
    "text": "Larch sheds soft needles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Larch · cs_l_larch_02"
+   "evidence": "nature · product curator · Larch · cs_l_larch_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lettuce_02",
    "text": "Lettuce stores leaf water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lettuce · cs_l_lettuce_02"
+   "evidence": "nature · product curator · Lettuce · cs_l_lettuce_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lichen_04",
    "text": "Lichens grow on bare rock",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lichen · cs_l_lichen_04"
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_ligament_02",
    "text": "Ligaments join bone ends",
    "standing": "projectable",
-   "evidence": "science · product curator · Ligament · cs_l_ligament_02"
+   "evidence": "science · product curator · Ligament · cs_l_ligament_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lipase_01",
    "text": "Lipase digests fat meals",
    "standing": "projectable",
-   "evidence": "science · product curator · Lipase · cs_l_lipase_01"
+   "evidence": "science · product curator · Lipase · cs_l_lipase_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liquid_02",
    "text": "A liquid fills its vessel",
    "standing": "projectable",
-   "evidence": "science · product curator · Liquid · cs_l_liquid_02"
+   "evidence": "science · product curator · Liquid · cs_l_liquid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_litmus_03",
    "text": "Litmus marks acid strength",
    "standing": "projectable",
-   "evidence": "science · product curator · Litmus · cs_l_litmus_03"
+   "evidence": "science · product curator · Litmus · cs_l_litmus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_liver_04",
    "text": "Liver stores body glycogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Liver · cs_l_liver_04"
+   "evidence": "science · product curator · Liver · cs_l_liver_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lobe_02",
    "text": "Lung lobes fill with air",
    "standing": "projectable",
-   "evidence": "science · product curator · Lobe · cs_l_lobe_02"
+   "evidence": "science · product curator · Lobe · cs_l_lobe_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lymph_03",
    "text": "Lymph nodes filter germs",
    "standing": "projectable",
-   "evidence": "science · product curator · Lymph · cs_l_lymph_03"
+   "evidence": "science · product curator · Lymph · cs_l_lymph_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_ladybug_04",
    "text": "Ladybugs eat soft aphids",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_04"
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lagoon_04",
    "text": "Lagoons hold calm seawater",
    "standing": "projectable",
-   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_04"
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lamprey_02",
    "text": "Lampreys latch onto fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lamprey · cs_l_lamprey_02"
+   "evidence": "nature · product curator · Lamprey · cs_l_lamprey_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_legume_02",
    "text": "Legumes fix soil nitrogen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Legume · cs_l_legume_02"
+   "evidence": "nature · product curator · Legume · cs_l_legume_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_leopard_06",
    "text": "Leopards climb tree limbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Leopard · cs_l_leopard_06"
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lightning_03",
    "text": "Lightning heats air plasma",
    "standing": "projectable",
-   "evidence": "science · product curator · Lightning · cs_l_lightning_03"
+   "evidence": "science · product curator · Lightning · cs_l_lightning_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_limestone_03",
    "text": "Limestone forms from shells",
    "standing": "projectable",
-   "evidence": "science · product curator · Limestone · cs_l_limestone_03"
+   "evidence": "science · product curator · Limestone · cs_l_limestone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_loam_03",
    "text": "Loam holds crop moisture",
    "standing": "projectable",
-   "evidence": "nature · product curator · Loam · cs_l_loam_03"
+   "evidence": "nature · product curator · Loam · cs_l_loam_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lobster_03",
    "text": "Lobsters molt hard shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Lobster · cs_l_lobster_03"
+   "evidence": "nature · product curator · Lobster · cs_l_lobster_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_l_lymph_04",
    "text": "Lymph returns tissue fluid",
    "standing": "projectable",
-   "evidence": "science · product curator · Lymph · cs_l_lymph_04"
+   "evidence": "science · product curator · Lymph · cs_l_lymph_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

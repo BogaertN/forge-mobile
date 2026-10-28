@@ -493,6 +493,20 @@ function Kernel(opts) {
   /* 4.9.125: on-device import pack. Reuses starterFact literals. Confirmed/projectable admit; contested/quarantine held until tap. Not memory, not shared knowledge. */
   const IMPORT_SCHEMA = 'FORGE-CONFIRMED-PACK/v1', IMPORT_RECEIPT = 'FORGE-IMPORT-RECEIPT/v1';
   const ADMIT_ST = { confirmed: 1, projectable: 1 }, HOLD_ST = { contested: 1, quarantine: 1 };
+  /* 4.9.168: minimal resonance packet for RPMC phase-align/combine (Axiom 4; §1 RPM; §3.4 Grace Integral; RSOC SFE {Φ,ε,μ}).
+     Every hosted KB / archive ancestor that participates in gather must carry {Phi,eps,mu}. Packets are not canned answers. */
+  const RESONANCE_CITE = 'RPMC §1 RPM; Axiom 4; §3.4 Grace Integral; RSOC SFE {Φ,ε,μ}';
+  function defaultResonancePacket(standing) {
+    const st = String(standing == null ? 'projectable' : standing).toLowerCase();
+    if (HOLD_ST[st]) return { Phi: 5, eps: 0.5, mu: 0 }; /* fail-closed: not phase-aligned to origin */
+    return { Phi: 9, eps: 0, mu: 1 }; /* committed Return — may combine */
+  }
+  function normalizeResonancePacket(raw, standing) {
+    const s = raw && typeof raw === 'object' ? (raw.sfe && typeof raw.sfe === 'object' ? raw.sfe : raw.resonance && typeof raw.resonance === 'object' ? raw.resonance : raw) : null;
+    if (s && Number.isFinite(Number(s.Phi)) && Number.isFinite(Number(s.eps)) && Number.isFinite(Number(s.mu)))
+      return { Phi: Number(s.Phi), eps: Number(s.eps), mu: Number(s.mu) };
+    return defaultResonancePacket(standing);
+  }
   function importRecord() { return packRecord(PACK_IM); }
   function importFacts() { const v = importRecord(); return v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active' && f.clause) : []; }
   const normImport = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
@@ -554,8 +568,8 @@ function Kernel(opts) {
   function hostedSharedFacts() { return (hostedSharedKb.facts || []).filter(f => f && f.status === 'active' && f.clause); }
   function confirmedSharedFacts() { const hosted = hostedSharedFacts(); if (hosted.length) return hosted; const v = csRecord(); return v && Array.isArray(v.facts) ? v.facts.filter(f => f && f.status === 'active' && f.clause) : []; }
   const csId = t => 'cs:' + sha256(normImport(t)).slice(0, 16);
-  function csFact(id, clause, evidence, standing) { const f = starterFact(id, clause); f.standing = standing; f.evidence = evidence; f.provenance = { source: PACK_CS, rule: CS_RULE, turn: null }; return f; }
-  function csRow(f) { return { id: f.id, text: f.clause ? importText(f) : (f.text || ''), evidence: f.evidence || '', provenance: PACK_CS }; }
+  function csFact(id, clause, evidence, standing, sfeIn) { const f = starterFact(id, clause); f.standing = standing; f.evidence = evidence; f.sfe = Object.assign({}, f.sfe, normalizeResonancePacket(sfeIn, standing)); f.provenance = { source: PACK_CS, rule: CS_RULE, turn: null }; return f; }
+  function csRow(f) { const s = f && f.sfe; return { id: f.id, text: f.clause ? importText(f) : (f.text || ''), evidence: f.evidence || '', provenance: PACK_CS, sfe: s && Number.isFinite(s.Phi) ? { Phi: s.Phi, eps: s.eps, mu: s.mu } : null }; }
   function sharedKnowledgeView() {
     const facts = (hostedSharedKb.facts || []).filter(f => f && f.status === 'active');
     const held = hostedSharedKb.held || [];
@@ -597,7 +611,8 @@ function Kernel(opts) {
       if (seen.has(key)) { skipped.push('duplicate'); continue; } seen.add(key);
       let clause = null; try { clause = reparseClause(raw); } catch (e) { clause = null; }
       if (!clause || clause.coord || !clause.verb) { skipped.push('unparsed'); continue; }
-      rows.push({ standing, evidence, clause, id: it.id && String(it.id).indexOf('cs:') === 0 ? String(it.id) : csId(raw), hold: !!HOLD_ST[standing] });
+      const sfe = normalizeResonancePacket(it.sfe || it.resonance || null, standing);
+      rows.push({ standing, evidence, clause, id: it.id && String(it.id).indexOf('cs:') === 0 ? String(it.id) : csId(raw), hold: !!HOLD_ST[standing], sfe, packet_attached: !(it.sfe || it.resonance) });
     }
     if (!rows.length) return { ok: false, reason: skipped.includes('unparsed') ? 'unparsed' : 'empty' };
     return { ok: true, rows, meta: { letter: data.letter || null, pack_id: data.pack_id || null, who_confirmed: data.who_confirmed || null, provenance: data.provenance || PACK_CS } };
@@ -608,7 +623,7 @@ function Kernel(opts) {
     if (j.meta) { if (j.meta.letter) hostedSharedKb.letter = j.meta.letter; if (j.meta.pack_id) hostedSharedKb.pack_id = j.meta.pack_id; if (j.meta.who_confirmed) hostedSharedKb.who_confirmed = j.meta.who_confirmed; }
     const admitted = [], held = [];
     for (const row of j.rows) {
-      const fact = csFact(row.id, row.clause, row.evidence, row.hold ? row.standing : (row.standing === 'projectable' ? 'projectable' : 'confirmed')), textOut = importText(fact);
+      const fact = csFact(row.id, row.clause, row.evidence, row.hold ? row.standing : (row.standing === 'projectable' ? 'projectable' : 'confirmed'), row.sfe), textOut = importText(fact);
       const fi = hostedSharedKb.facts.findIndex(f => f.id === row.id || normImport(importText(f)) === normImport(textOut));
       const hi = hostedSharedKb.held.findIndex(f => f.id === row.id);
       if (row.hold) {
@@ -784,7 +799,7 @@ function Kernel(opts) {
   const DOMAIN_SURF={chemistry:/\b(chemical|chemistry|compound|element|molecule|acid|gas|symbol|atomic|proton|atom|oxide|sulfide|sulfur|hydrogen|carbon|oxygen|nitrogen)\b/i,science:/\b(science|scientific|physics|planet|star|energy|particle)\b/i,biology:/\b(biology|organism|protein|gene|cell|enzyme|species)\b/i,medical:/\b(medical|disease|symptom|drug|medicine|clinical)\b/i,legal:/\b(law|legal|statute|amendment|constitution|court|right)\b/i};
   function ancestorDomainCandidates(np,opts){opts=opts||{};const domains=[].concat(opts.domains||[]).filter(Boolean);const surf=String(opts.surface||subjSurface(np)||'').toLowerCase().replace(/[_]+/g,' ');const WEAK=/^(the|and|for|with|from|that|this|what|which|when|where|whose|into|onto|over|under|about|quantum|protocol|process|system|theory|method|model|thing|stuff|waffle)$/;const toks=(surf.match(/[a-z0-9]{3,}/g)||[]).filter(w=>!WEAK.test(w));let head='';try{const p=peelNP(np);const h=p&&p.length?String(p.slice(-1)[0]||'').toLowerCase().replace(/[^a-z0-9]+/g,''):'';head=h&&!WEAK.test(h)?h:(toks.slice(-1)[0]||'')}catch(e){head=toks.slice(-1)[0]||''}const pool=confirmedSharedFacts().filter(r=>!r.sensitive&&((r.clause&&!r.clause.coord)||r.text));const exact=pool.filter(r=>r.clause&&r.clause.subj&&aboutSubjMatch(np,r.clause.subj));if(exact.length)return exact.slice(0,12);const hitStrong=(tx,sb)=>{const t=String(tx||'').toLowerCase(),b=String(sb||'').toLowerCase(),hay=t+' '+b;if(head&&head.length>=3&&(hay.includes(head)||b.replace(/[^a-z0-9]/g,'').includes(head)))return true;let n=0;for(const w of toks){if(w.length<4)continue;if(hay.includes(w)||(w.length>=5&&hay.includes(w.slice(0,5))))n++}return n>=2};const out=[],seen=new Set();const push=r=>{if(r&&r.id&&!seen.has(r.id)){seen.add(r.id);out.push(r)}};const recText=r=>r.text||(r.clause&&typeof G!=='undefined'&&G.clauseText?G.clauseText(r.clause,'kernel'):'')||'';const recSub=r=>r.clause&&r.clause.subj?subjSurface(r.clause.subj):'';for(const r of pool){if(out.length>=24)break;if(hitStrong(recText(r),recSub(r)))push(r)}for(const d of domains){const re=DOMAIN_SURF[d];if(re)for(const r of pool){if(out.length>=24)break;const tx=recText(r),sb=recSub(r);if(re.test(tx+' '+sb)&&hitStrong(tx,sb))push(r)}for(const stub of(ARCH_DOMAIN_PRIORS[d]||[]))if(out.length<24)push(Object.assign({},stub))}return out}
   /* sfe from record if present; else fail-closed defaults (Φ5 Entropy, hard ε, μ=0) so G→0 */
-  function ancestorSfe(r){const s=r&&r.sfe;if(s&&Number.isFinite(s.Phi)&&Number.isFinite(s.eps)&&Number.isFinite(s.mu))return{Phi:s.Phi,eps:s.eps,mu:s.mu>0?s.mu:1};return{Phi:5,eps:1,mu:0}}
+  function ancestorSfe(r){const s=(r&&r.sfe)||(r&&r.resonance);if(s&&Number.isFinite(s.Phi)&&Number.isFinite(s.eps)&&Number.isFinite(s.mu))return{Phi:s.Phi,eps:s.eps,mu:s.mu>0?s.mu:0};return{Phi:5,eps:1,mu:0}} /* missing packet → sealed (Axiom 4) */
   function priorProv(r){if(r&&r.provenance&&r.provenance.source)return r.provenance.source==='confirmed_shared'||String(r.id||'').indexOf('cs:')===0?'confirmed_shared':r.provenance.source;if(String(r&&r.id||'').indexOf('archive:')===0)return'archive_catalog';return isCsRec(r)?'confirmed_shared':'hosted_kb'}
   /* Axiom 4 + §3.4: phase-align + grace over related CS / domain priors; optional χ; rpmWeight ranks after gate.
      Returns candidates for RSOC/research — does NOT emit them as the answer (zero canned / no class dump).
@@ -2237,9 +2252,9 @@ function Kernel(opts) {
         if (gap==='pred'||rAsk) { let domains=[]; try{const lp=lookupPlan(raw);domains=(lp&&lp.domains)||[]}catch(e){domains=[]}
           const gate=rpmcAncestorCandidates(q.subj,{structureOnly:!!rAsk&&gap!=='pred',domains,surface:subjSurface(q.subj)});
           if (gate.ok&&gate.recs.length) { const about=aboutPick(q.subj,gate.recs,6);
-            rpmcPriors={G:gate.G,aligned:gate.aligned,chi:gate.chi||null,recs:about.map(r=>({id:r.id,text:r.text||(r.clause&&G.clauseText(r.clause,'kernel'))||'',provenance:priorProv(r)}))};
-            rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.167 RPMC class/domain candidates → AQ-1/RSOC', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r=>r.id).join(', ') }); }
-          else rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.167 no CS/domain ancestors; WH → AQ-1/research', note: (gate.reason||'none') + ' G=' + (gate.G||0) }); } }
+            rpmcPriors={G:gate.G,aligned:gate.aligned,chi:gate.chi||null,recs:about.map(r=>({id:r.id,text:r.text||(r.clause&&G.clauseText(r.clause,'kernel'))||'',provenance:priorProv(r),sfe:ancestorSfe(r)}))};
+            rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.168 RPMC class/domain candidates → AQ-1/RSOC', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r=>r.id).join(', ') }); }
+          else rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.168 no CS/domain ancestors; WH → AQ-1/research', note: (gate.reason||'none') + ' G=' + (gate.G||0) }); } }
       /* MEM-RECALL-TIME-ADJUNCT (4.9.82): "when is / does NP (V)" with no exact match recalls a fact about the same subject (and, for a lexical verb,
          the same verb) that carries a time: a kāla adjunct, or an adjunct / predicate phrase whose noun is of the WordNet time class
          ("moved to Thursday", "is in June") — the time is the answer, whatever the preposition */
@@ -2627,10 +2642,10 @@ function Kernel(opts) {
           let domains = []; try { const lp = lookupPlan(raw); domains = (lp && lp.domains) || []; } catch (e) { domains = []; }
           if (np) { const gate = rpmcAncestorCandidates(np, { domains, surface: subjSurface(np) || String(raw) });
             if (gate.ok && gate.recs.length) { const about = aboutPick(np, gate.recs, 6);
-              rpmcPriors = { G: gate.G, aligned: gate.aligned, chi: gate.chi || null, recs: about.map(r => ({ id: r.id, text: r.text || (r.clause && G.clauseText(r.clause, 'kernel')) || '', provenance: priorProv(r) })) };
-              trace.rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.167 RPMC before AQ-1; candidates → research/RSOC', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r => r.id).join(', ') }); }
-            else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.167 no ancestors at AQ-1; WH → research', note: (gate.reason || 'none') + ' G=' + (gate.G || 0) }); }
-          else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.167 AQ-1 no subject NP for RPMC', note: 'no-subj' }); }
+              rpmcPriors = { G: gate.G, aligned: gate.aligned, chi: gate.chi || null, recs: about.map(r => ({ id: r.id, text: r.text || (r.clause && G.clauseText(r.clause, 'kernel')) || '', provenance: priorProv(r), sfe: ancestorSfe(r) })) };
+              trace.rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.168 RPMC before AQ-1; candidates → research/RSOC', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r => r.id).join(', ') }); }
+            else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.168 no ancestors at AQ-1; WH → research', note: (gate.reason || 'none') + ' G=' + (gate.G || 0) }); }
+          else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.168 AQ-1 no subject NP for RPMC', note: 'no-subj' }); }
         trace.rules.push({ id: 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST', doc: 'AQ-1 lookup; gap=' + gk });
         /* 4.9.167: public what-is / domain / what|who|where|when → research.web vault-optional (ephemeral when locked). Other gaps (how-state, …) keep lookupHint when locked so structural WH frames are not overwritten. Vault passphrase only for vault_write. */
         let publicResearch = vst === 'unlocked';
@@ -2643,11 +2658,11 @@ function Kernel(opts) {
           sel.frame = 'FR.TOOL.RESEARCH';
           msm.meaning = Object.assign({ kind: 'tool_started', tool: 'research.web', target: dirObj || raw.replace(/[?\s]+$/, ''), noun: dirObj ? 'topic' : 'question', local: vst !== 'unlocked' }, (np => np ? { np } : {})(subjectNP(raw)), rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {});
           msm.limits.may_write_memory = false;
-          if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.167 RPMC priors → research/RSOC select → Panini NL', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length });
+          if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.168 RPMC priors+sfe → research/RSOC select → Panini NL', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length });
           routeOf();
         } else {
           msm.meaning = Object.assign({}, gm, { lookupHint: vst }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {});
-          if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.167 RPMC priors staged; structural gap keeps frame when vault locked', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length });
+          if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.168 RPMC priors+sfe staged; structural gap keeps frame when vault locked', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length });
         } } }
     if (msm.meaning && msm.meaning.kind === 'mea_problem_opened' && meaPending.has(msm.meaning.problem_id)) meaDraft.set(msm.meaning.problem_id, meaPending.get(msm.meaning.problem_id)); meaPending.clear(); /* MEAP-PROBLEM-DIRECTIVE: candidate readings have no side effect */
     { const tid = sel.toolRequest ? sel.toolRequest.tool : (msm.meaning.kind === 'tool_result' || msm.meaning.kind === 'tool_failed' ? msm.meaning.tool : bench.toolForKind(msm.meaning.kind));

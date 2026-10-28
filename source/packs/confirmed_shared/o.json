@@ -12,1501 +12,2751 @@
    "id": "cs_o_oman_01",
    "text": "Muscat is the capital of Oman",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oman · cs_o_oman_01"
+   "evidence": "geography · product curator · Oman · cs_o_oman_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ottawa_01",
    "text": "Ottawa is in the province of Ontario",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ottawa · cs_o_ottawa_01"
+   "evidence": "geography · product curator · Ottawa · cs_o_ottawa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ouagadougou_01",
    "text": "Ouagadougou is the capital of Burkina Faso",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ouagadougou · cs_o_ouagadougou_01"
+   "evidence": "geography · product curator · Ouagadougou · cs_o_ouagadougou_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ohio_01",
    "text": "Columbus is the capital of Ohio",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ohio · cs_o_ohio_01"
+   "evidence": "geography · product curator · Ohio · cs_o_ohio_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oklahoma_01",
    "text": "Oklahoma City is the capital of Oklahoma",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oklahoma · cs_o_oklahoma_01"
+   "evidence": "geography · product curator · Oklahoma · cs_o_oklahoma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oregon_01",
    "text": "Salem is the capital of Oregon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oregon · cs_o_oregon_01"
+   "evidence": "geography · product curator · Oregon · cs_o_oregon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olympia_01",
    "text": "Olympia is the capital of Washington State",
    "standing": "projectable",
-   "evidence": "geography · product curator · Olympia · cs_o_olympia_01"
+   "evidence": "geography · product curator · Olympia · cs_o_olympia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ontario_01",
    "text": "Toronto is the capital of Ontario",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ontario · cs_o_ontario_01"
+   "evidence": "geography · product curator · Ontario · cs_o_ontario_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orinoco_01",
    "text": "The Orinoco flows through Venezuela",
    "standing": "projectable",
-   "evidence": "geography · product curator · Orinoco · cs_o_orinoco_01"
+   "evidence": "geography · product curator · Orinoco · cs_o_orinoco_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okavango_delta_01",
    "text": "The Okavango Delta is in Botswana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Okavango Delta · cs_o_okavango_delta_01"
+   "evidence": "geography · product curator · Okavango Delta · cs_o_okavango_delta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ob_river_01",
    "text": "The Ob flows through Siberia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ob River · cs_o_ob_river_01"
+   "evidence": "geography · product curator · Ob River · cs_o_ob_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oceania_01",
    "text": "Oceania includes Australia and the Pacific islands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oceania · cs_o_oceania_01"
+   "evidence": "geography · product curator · Oceania · cs_o_oceania_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ocean_01",
    "text": "The Earth has five oceans",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ocean · cs_o_ocean_01"
+   "evidence": "geography · product curator · Ocean · cs_o_ocean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ocean_02",
    "text": "The Pacific is the largest ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ocean · cs_o_ocean_02"
+   "evidence": "geography · product curator · Ocean · cs_o_ocean_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okinawa_01",
    "text": "Okinawa is an island of Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Okinawa · cs_o_okinawa_01"
+   "evidence": "geography · product curator · Okinawa · cs_o_okinawa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orkney_01",
    "text": "Orkney is north of Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Orkney · cs_o_orkney_01"
+   "evidence": "geography · product curator · Orkney · cs_o_orkney_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_01",
    "text": "Oxygen has the chemical symbol O",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxygen · cs_o_oxygen_01"
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_02",
    "text": "Oxygen has an atomic number of 8",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxygen · cs_o_oxygen_02"
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_03",
    "text": "Oxygen makes up about 21 percent of Earth's atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxygen · cs_o_oxygen_03"
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmium_01",
    "text": "Osmium has the chemical symbol Os",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmium · cs_o_osmium_01"
+   "evidence": "science · product curator · Osmium · cs_o_osmium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmium_02",
    "text": "Osmium is the densest naturally occurring element",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmium · cs_o_osmium_02"
+   "evidence": "science · product curator · Osmium · cs_o_osmium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oganesson_01",
    "text": "Oganesson has an atomic number of 118",
    "standing": "projectable",
-   "evidence": "science · product curator · Oganesson · cs_o_oganesson_01"
+   "evidence": "science · product curator · Oganesson · cs_o_oganesson_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ozone_01",
    "text": "Ozone is a molecule of three oxygen atoms",
    "standing": "projectable",
-   "evidence": "science · product curator · Ozone · cs_o_ozone_01"
+   "evidence": "science · product curator · Ozone · cs_o_ozone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ozone_layer_01",
    "text": "The ozone layer absorbs ultraviolet radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · Ozone layer · cs_o_ozone_layer_01"
+   "evidence": "science · product curator · Ozone layer · cs_o_ozone_layer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_01",
    "text": "Earth orbits the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_01"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ohm_01",
    "text": "The ohm is the SI unit of electrical resistance",
    "standing": "projectable",
-   "evidence": "science · product curator · Ohm · cs_o_ohm_01"
+   "evidence": "science · product curator · Ohm · cs_o_ohm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oort_cloud_01",
    "text": "The Oort cloud is a distant shell of icy bodies surrounding the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Oort cloud · cs_o_oort_cloud_01"
+   "evidence": "science · product curator · Oort cloud · cs_o_oort_cloud_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olympus_mons_01",
    "text": "Olympus Mons is on Mars",
    "standing": "projectable",
-   "evidence": "science · product curator · Olympus Mons · cs_o_olympus_mons_01"
+   "evidence": "science · product curator · Olympus Mons · cs_o_olympus_mons_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orion_01",
    "text": "Orion is a constellation",
    "standing": "projectable",
-   "evidence": "science · product curator · Orion · cs_o_orion_01"
+   "evidence": "science · product curator · Orion · cs_o_orion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_optic_nerve_01",
    "text": "The optic nerve carries visual signals from the eye to the brain",
    "standing": "projectable",
-   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_01"
+   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmosis_01",
    "text": "Osmosis is the movement of water across a semipermeable membrane",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmosis · cs_o_osmosis_01"
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_obsidian_01",
    "text": "Obsidian is volcanic glass",
    "standing": "projectable",
-   "evidence": "science · product curator · Obsidian · cs_o_obsidian_01"
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_owl_01",
    "text": "Owls are birds of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Owl · cs_o_owl_01"
+   "evidence": "nature · product curator · Owl · cs_o_owl_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_owl_02",
    "text": "Owls can rotate their heads about 270 degrees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Owl · cs_o_owl_02"
+   "evidence": "nature · product curator · Owl · cs_o_owl_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octopus_01",
    "text": "An octopus has eight arms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Octopus · cs_o_octopus_01"
+   "evidence": "nature · product curator · Octopus · cs_o_octopus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octopus_02",
    "text": "An octopus has three hearts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Octopus · cs_o_octopus_02"
+   "evidence": "nature · product curator · Octopus · cs_o_octopus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ostrich_01",
    "text": "The ostrich is the largest living bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_01"
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ostrich_02",
    "text": "Ostriches cannot fly",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_02"
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orangutan_01",
    "text": "Orangutans are great apes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_01"
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orangutan_02",
    "text": "Orangutans are native to Borneo and Sumatra",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_02"
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_otter_01",
    "text": "Sea otters use rocks as tools to open shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Otter · cs_o_otter_01"
+   "evidence": "nature · product curator · Otter · cs_o_otter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opossum_01",
    "text": "The Virginia opossum is a marsupial",
    "standing": "projectable",
-   "evidence": "nature · product curator · Opossum · cs_o_opossum_01"
+   "evidence": "nature · product curator · Opossum · cs_o_opossum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oak_01",
    "text": "Oak trees produce acorns",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oak · cs_o_oak_01"
+   "evidence": "nature · product curator · Oak · cs_o_oak_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orchid_01",
    "text": "Orchids are flowering plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orchid · cs_o_orchid_01"
+   "evidence": "nature · product curator · Orchid · cs_o_orchid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olive_01",
    "text": "Olive oil is pressed from olives",
    "standing": "projectable",
-   "evidence": "nature · product curator · Olive · cs_o_olive_01"
+   "evidence": "nature · product curator · Olive · cs_o_olive_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ox_01",
    "text": "An ox is a cattle animal trained for draft work",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ox · cs_o_ox_01"
+   "evidence": "nature · product curator · Ox · cs_o_ox_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olympic_games_02",
    "text": "The first modern Olympic Games were held in Athens in 1896",
    "standing": "projectable",
-   "evidence": "history · product curator · Olympic Games · cs_o_olympic_games_02"
+   "evidence": "history · product curator · Olympic Games · cs_o_olympic_games_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olympic_rings_01",
    "text": "The Olympic flag has five rings",
    "standing": "projectable",
-   "evidence": "general · product curator · Olympic rings · cs_o_olympic_rings_01"
+   "evidence": "general · product curator · Olympic rings · cs_o_olympic_rings_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ottoman_empire_01",
    "text": "The Ottoman Empire captured Constantinople in 1453",
    "standing": "projectable",
-   "evidence": "history · product curator · Ottoman Empire · cs_o_ottoman_empire_01"
+   "evidence": "history · product curator · Ottoman Empire · cs_o_ottoman_empire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octavian_01",
    "text": "Octavian took the title Augustus",
    "standing": "projectable",
-   "evidence": "history · product curator · Octavian · cs_o_octavian_01"
+   "evidence": "history · product curator · Octavian · cs_o_octavian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_odyssey_01",
    "text": "The Odyssey tells of Odysseus's journey home",
    "standing": "projectable",
-   "evidence": "history · product curator · Odyssey · cs_o_odyssey_01"
+   "evidence": "history · product curator · Odyssey · cs_o_odyssey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oregon_trail_01",
    "text": "The Oregon Trail was a pioneer route to the American West",
    "standing": "projectable",
-   "evidence": "history · product curator · Oregon Trail · cs_o_oregon_trail_01"
+   "evidence": "history · product curator · Oregon Trail · cs_o_oregon_trail_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oppenheimer_j_robert_01",
    "text": "Oppenheimer led the laboratory at Los Alamos",
    "standing": "projectable",
-   "evidence": "history · product curator · Oppenheimer, J. Robert · cs_o_oppenheimer_j_robert_01"
+   "evidence": "history · product curator · Oppenheimer, J. Robert · cs_o_oppenheimer_j_robert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orwell_george_01",
    "text": "George Orwell wrote Nineteen Eighty-Four",
    "standing": "projectable",
-   "evidence": "history · product curator · Orwell, George · cs_o_orwell_george_01"
+   "evidence": "history · product curator · Orwell, George · cs_o_orwell_george_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_owens_jesse_01",
    "text": "Jesse Owens won four gold medals in 1936",
    "standing": "projectable",
-   "evidence": "history · product curator · Owens, Jesse · cs_o_owens_jesse_01"
+   "evidence": "history · product curator · Owens, Jesse · cs_o_owens_jesse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octagon_01",
    "text": "A stop sign has eight sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Octagon · cs_o_octagon_01"
+   "evidence": "math · product curator · Octagon · cs_o_octagon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_obtuse_angle_01",
    "text": "An obtuse angle is larger than a right angle",
    "standing": "projectable",
-   "evidence": "math · product curator · Obtuse angle · cs_o_obtuse_angle_01"
+   "evidence": "math · product curator · Obtuse angle · cs_o_obtuse_angle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_odd_number_01",
    "text": "An odd number is not divisible by 2",
    "standing": "projectable",
-   "evidence": "math · product curator · Odd number · cs_o_odd_number_01"
+   "evidence": "math · product curator · Odd number · cs_o_odd_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ounce_01",
    "text": "A pound has 16 ounces",
    "standing": "projectable",
-   "evidence": "math · product curator · Ounce · cs_o_ounce_01"
+   "evidence": "math · product curator · Ounce · cs_o_ounce_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oval_01",
    "text": "An oval is a rounded, elongated shape",
    "standing": "projectable",
-   "evidence": "math · product curator · Oval · cs_o_oval_01"
+   "evidence": "math · product curator · Oval · cs_o_oval_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_october_01",
    "text": "October has 31 days",
    "standing": "projectable",
-   "evidence": "general · product curator · October · cs_o_october_01"
+   "evidence": "general · product curator · October · cs_o_october_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_october_02",
    "text": "October is the tenth month of the year",
    "standing": "projectable",
-   "evidence": "general · product curator · October · cs_o_october_02"
+   "evidence": "general · product curator · October · cs_o_october_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orchestra_01",
    "text": "A symphony orchestra includes strings, woodwinds, brass, and percussion",
    "standing": "projectable",
-   "evidence": "general · product curator · Orchestra · cs_o_orchestra_01"
+   "evidence": "general · product curator · Orchestra · cs_o_orchestra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oboe_01",
    "text": "The oboe is a woodwind instrument",
    "standing": "projectable",
-   "evidence": "general · product curator · Oboe · cs_o_oboe_01"
+   "evidence": "general · product curator · Oboe · cs_o_oboe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opera_01",
    "text": "Opera is a dramatic work set to music",
    "standing": "projectable",
-   "evidence": "general · product curator · Opera · cs_o_opera_01"
+   "evidence": "general · product curator · Opera · cs_o_opera_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_origami_01",
    "text": "Origami is the Japanese art of paper folding",
    "standing": "projectable",
-   "evidence": "general · product curator · Origami · cs_o_origami_01"
+   "evidence": "general · product curator · Origami · cs_o_origami_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oath_of_office_01",
    "text": "The president takes an oath of office",
    "standing": "projectable",
-   "evidence": "civics · product curator · Oath of office · cs_o_oath_of_office_01"
+   "evidence": "civics · product curator · Oath of office · cs_o_oath_of_office_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_old_english_01",
    "text": "Old English was spoken in England",
    "standing": "projectable",
-   "evidence": "language · product curator · Old English · cs_o_old_english_01"
+   "evidence": "language · product curator · Old English · cs_o_old_english_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxford_01",
    "text": "The University of Oxford is in England",
    "standing": "projectable",
-   "evidence": "general · product curator · Oxford · cs_o_oxford_01"
+   "evidence": "general · product curator · Oxford · cs_o_oxford_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxford_02",
    "text": "The University of Oxford is the oldest university in the English-speaking world",
    "standing": "projectable",
-   "evidence": "history · product curator · Oxford · cs_o_oxford_02"
+   "evidence": "history · product curator · Oxford · cs_o_oxford_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oak_02",
    "text": "Oaks belong to the genus Quercus",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oak · cs_o_oak_02"
+   "evidence": "nature · product curator · Oak · cs_o_oak_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orange_01",
    "text": "Oranges are citrus fruits",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orange · cs_o_orange_01"
+   "evidence": "nature · product curator · Orange · cs_o_orange_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ozone_02",
    "text": "Ozone has the chemical formula O3",
    "standing": "projectable",
-   "evidence": "science · product curator · Ozone · cs_o_ozone_02"
+   "evidence": "science · product curator · Ozone · cs_o_ozone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opal_01",
    "text": "Opal is a gemstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Opal · cs_o_opal_01"
+   "evidence": "science · product curator · Opal · cs_o_opal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_02",
    "text": "The Earth takes a year to orbit the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_02"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_04",
    "text": "The chemical symbol for oxygen is O",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxygen · cs_o_oxygen_04"
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ozone_layer_02",
    "text": "The ozone layer absorbs much of the Sun's ultraviolet radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · Ozone layer · cs_o_ozone_layer_02"
+   "evidence": "science · product curator · Ozone layer · cs_o_ozone_layer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_owl_03",
    "text": "Most owls are nocturnal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Owl · cs_o_owl_03"
+   "evidence": "nature · product curator · Owl · cs_o_owl_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orangutan_03",
    "text": "Orangutans live in Borneo and Sumatra",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_03"
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_otter_02",
    "text": "Sea otters use tools to open shellfish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Otter · cs_o_otter_02"
+   "evidence": "nature · product curator · Otter · cs_o_otter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oregon_02",
    "text": "Oregon is on the Pacific coast of the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oregon · cs_o_oregon_02"
+   "evidence": "geography · product curator · Oregon · cs_o_oregon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ohio_river_01",
    "text": "The Ohio flows into the Mississippi",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ohio River · cs_o_ohio_river_01"
+   "evidence": "geography · product curator · Ohio River · cs_o_ohio_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okinawa_02",
    "text": "Okinawa is an island in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Okinawa · cs_o_okinawa_02"
+   "evidence": "geography · product curator · Okinawa · cs_o_okinawa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orion_02",
    "text": "Orion is a constellation named after a hunter in Greek mythology",
    "standing": "projectable",
-   "evidence": "science · product curator · Orion · cs_o_orion_02"
+   "evidence": "science · product curator · Orion · cs_o_orion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_03",
    "text": "The Moon orbits the Earth monthly",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_03"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oval_02",
    "text": "An oval is a rounded shape",
    "standing": "projectable",
-   "evidence": "science · product curator · Oval · cs_o_oval_02"
+   "evidence": "science · product curator · Oval · cs_o_oval_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orca_02",
    "text": "Orcas are the largest members of the dolphin family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orca · cs_o_orca_02"
+   "evidence": "nature · product curator · Orca · cs_o_orca_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oyster_01",
    "text": "Oysters can produce pearls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oyster · cs_o_oyster_01"
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osprey_01",
    "text": "Ospreys are birds of prey that eat fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Osprey · cs_o_osprey_01"
+   "evidence": "nature · product curator · Osprey · cs_o_osprey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opossum_02",
    "text": "The Virginia opossum is the only marsupial native to North America north of Mexico",
    "standing": "projectable",
-   "evidence": "nature · product curator · Opossum · cs_o_opossum_02"
+   "evidence": "nature · product curator · Opossum · cs_o_opossum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oslo_01",
    "text": "Oslo is the capital of Norway",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oslo · cs_o_oslo_01"
+   "evidence": "geography · product curator · Oslo · cs_o_oslo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ottawa_02",
    "text": "Ottawa is the capital of Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ottawa · cs_o_ottawa_02"
+   "evidence": "geography · product curator · Ottawa · cs_o_ottawa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_owl_05",
    "text": "An owl is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Owl · cs_o_owl_05"
+   "evidence": "nature · product curator · Owl · cs_o_owl_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_otter_03",
    "text": "An otter is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Otter · cs_o_otter_03"
+   "evidence": "nature · product curator · Otter · cs_o_otter_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_odessa_01",
    "text": "Odessa is a city in Ukraine",
    "standing": "projectable",
-   "evidence": "geography · product curator · Odessa · cs_o_odessa_01"
+   "evidence": "geography · product curator · Odessa · cs_o_odessa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxford_03",
    "text": "Oxford is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oxford · cs_o_oxford_03"
+   "evidence": "geography · product curator · Oxford · cs_o_oxford_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olympia_02",
    "text": "Olympia is the capital of Washington",
    "standing": "projectable",
-   "evidence": "geography · product curator · Olympia · cs_o_olympia_02"
+   "evidence": "geography · product curator · Olympia · cs_o_olympia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orlando_01",
    "text": "Orlando is a city in Florida",
    "standing": "projectable",
-   "evidence": "geography · product curator · Orlando · cs_o_orlando_01"
+   "evidence": "geography · product curator · Orlando · cs_o_orlando_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ostrich_03",
    "text": "An ostrich is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_03"
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oak_03",
    "text": "An oak is a tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oak · cs_o_oak_03"
+   "evidence": "nature · product curator · Oak · cs_o_oak_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orange_02",
    "text": "An orange is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Orange · cs_o_orange_02"
+   "evidence": "food · product curator · Orange · cs_o_orange_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onion_01",
    "text": "An onion is a vegetable",
    "standing": "projectable",
-   "evidence": "food · product curator · Onion · cs_o_onion_01"
+   "evidence": "food · product curator · Onion · cs_o_onion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oaxaca_01",
    "text": "Oaxaca is a city in Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oaxaca · cs_o_oaxaca_01"
+   "evidence": "geography · product curator · Oaxaca · cs_o_oaxaca_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_omaha_01",
    "text": "Omaha is a city in Nebraska",
    "standing": "projectable",
-   "evidence": "geography · product curator · Omaha · cs_o_omaha_01"
+   "evidence": "geography · product curator · Omaha · cs_o_omaha_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oakland_01",
    "text": "Oakland is a city in California",
    "standing": "projectable",
-   "evidence": "geography · product curator · Oakland · cs_o_oakland_01"
+   "evidence": "geography · product curator · Oakland · cs_o_oakland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orleans_01",
    "text": "Orleans is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Orleans · cs_o_orleans_01"
+   "evidence": "geography · product curator · Orleans · cs_o_orleans_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okra_01",
    "text": "Okra is a vegetable",
    "standing": "projectable",
-   "evidence": "food · product curator · Okra · cs_o_okra_01"
+   "evidence": "food · product curator · Okra · cs_o_okra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oriole_01",
    "text": "An oriole is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oriole · cs_o_oriole_01"
+   "evidence": "nature · product curator · Oriole · cs_o_oriole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oligarchy_01",
    "text": "An oligarchy is a form of government",
    "standing": "projectable",
-   "evidence": "civics · product curator · Oligarchy · cs_o_oligarchy_01"
+   "evidence": "civics · product curator · Oligarchy · cs_o_oligarchy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oak_ridge_01",
    "text": "Oak Ridge was a center of the Manhattan Project",
    "standing": "projectable",
-   "evidence": "history · product curator · Oak Ridge · cs_o_oak_ridge_01"
+   "evidence": "history · product curator · Oak Ridge · cs_o_oak_ridge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oboe_reed_01",
    "text": "An oboe reed vibrates to make sound",
    "standing": "projectable",
-   "evidence": "history · product curator · Oboe reed · cs_o_oboe_reed_01"
+   "evidence": "history · product curator · Oboe reed · cs_o_oboe_reed_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_occipital_bone_01",
    "text": "The occipital bone forms the back of the skull",
    "standing": "projectable",
-   "evidence": "science · product curator · Occipital bone · cs_o_occipital_bone_01"
+   "evidence": "science · product curator · Occipital bone · cs_o_occipital_bone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octave_01",
    "text": "An octave spans eight notes",
    "standing": "projectable",
-   "evidence": "math · product curator · Octave · cs_o_octave_01"
+   "evidence": "math · product curator · Octave · cs_o_octave_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oil_painting_01",
    "text": "Oil painting uses pigments in oil",
    "standing": "projectable",
-   "evidence": "history · product curator · Oil painting · cs_o_oil_painting_01"
+   "evidence": "history · product curator · Oil painting · cs_o_oil_painting_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olfactory_01",
    "text": "The olfactory system detects smell",
    "standing": "projectable",
-   "evidence": "science · product curator · Olfactory · cs_o_olfactory_01"
+   "evidence": "science · product curator · Olfactory · cs_o_olfactory_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_omaha_beach_01",
    "text": "Omaha Beach was a landing site on D Day",
    "standing": "projectable",
-   "evidence": "history · product curator · Omaha Beach · cs_o_omaha_beach_01"
+   "evidence": "history · product curator · Omaha Beach · cs_o_omaha_beach_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_open_set_01",
    "text": "An open set does not include its boundary",
    "standing": "projectable",
-   "evidence": "math · product curator · Open set · cs_o_open_set_01"
+   "evidence": "math · product curator · Open set · cs_o_open_set_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opposite_01",
    "text": "Opposite angles of a parallelogram are equal",
    "standing": "projectable",
-   "evidence": "math · product curator · Opposite · cs_o_opposite_01"
+   "evidence": "math · product curator · Opposite · cs_o_opposite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_optical_fiber_01",
    "text": "An optical fiber carries light signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Optical fiber · cs_o_optical_fiber_01"
+   "evidence": "science · product curator · Optical fiber · cs_o_optical_fiber_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orchestra_pit_01",
    "text": "An orchestra pit holds musicians below the stage",
    "standing": "projectable",
-   "evidence": "history · product curator · Orchestra pit · cs_o_orchestra_pit_01"
+   "evidence": "history · product curator · Orchestra pit · cs_o_orchestra_pit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_order_of_operations_01",
    "text": "The order of operations guides arithmetic",
    "standing": "projectable",
-   "evidence": "math · product curator · Order of operations · cs_o_order_of_operations_01"
+   "evidence": "math · product curator · Order of operations · cs_o_order_of_operations_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ordinal_number_01",
    "text": "An ordinal number shows position in a sequence",
    "standing": "projectable",
-   "evidence": "math · product curator · Ordinal number · cs_o_ordinal_number_01"
+   "evidence": "math · product curator · Ordinal number · cs_o_ordinal_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_organic_chemistry_01",
    "text": "Organic chemistry studies carbon compounds",
    "standing": "projectable",
-   "evidence": "science · product curator · Organic chemistry · cs_o_organic_chemistry_01"
+   "evidence": "science · product curator · Organic chemistry · cs_o_organic_chemistry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oberon_01",
    "text": "Oberon is a moon of Uranus",
    "standing": "projectable",
-   "evidence": "science · product curator · Oberon · cs_o_oberon_01"
+   "evidence": "science · product curator · Oberon · cs_o_oberon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_optics_01",
    "text": "Optics is the study of light",
    "standing": "projectable",
-   "evidence": "science · product curator · Optics · cs_o_optics_01"
+   "evidence": "science · product curator · Optics · cs_o_optics_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_organelle_01",
    "text": "An organelle is a structure inside a cell",
    "standing": "projectable",
-   "evidence": "science · product curator · Organelle · cs_o_organelle_01"
+   "evidence": "science · product curator · Organelle · cs_o_organelle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oboe_02",
    "text": "An oboe is a woodwind instrument",
    "standing": "projectable",
-   "evidence": "history · product curator · Oboe · cs_o_oboe_02"
+   "evidence": "history · product curator · Oboe · cs_o_oboe_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_obtuse_angle_02",
    "text": "An obtuse angle is greater than ninety degrees",
    "standing": "projectable",
-   "evidence": "math · product curator · Obtuse angle · cs_o_obtuse_angle_02"
+   "evidence": "math · product curator · Obtuse angle · cs_o_obtuse_angle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octave_02",
    "text": "An octave doubles the frequency of a note",
    "standing": "projectable",
-   "evidence": "science · product curator · Octave · cs_o_octave_02"
+   "evidence": "science · product curator · Octave · cs_o_octave_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_odd_number_02",
    "text": "An odd number is not divisible by two",
    "standing": "projectable",
-   "evidence": "math · product curator · Odd number · cs_o_odd_number_02"
+   "evidence": "math · product curator · Odd number · cs_o_odd_number_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oligarchy_02",
    "text": "An oligarchy is rule by a small group",
    "standing": "projectable",
-   "evidence": "civics · product curator · Oligarchy · cs_o_oligarchy_02"
+   "evidence": "civics · product curator · Oligarchy · cs_o_oligarchy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opera_02",
    "text": "An opera is a drama set to music",
    "standing": "projectable",
-   "evidence": "history · product curator · Opera · cs_o_opera_02"
+   "evidence": "history · product curator · Opera · cs_o_opera_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ore_01",
    "text": "Ore is rock that contains a valuable mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Ore · cs_o_ore_01"
+   "evidence": "science · product curator · Ore · cs_o_ore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orion_03",
    "text": "Orion contains the star Betelgeuse",
    "standing": "projectable",
-   "evidence": "science · product curator · Orion · cs_o_orion_03"
+   "evidence": "science · product curator · Orion · cs_o_orion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ostrich_04",
    "text": "An ostrich is a large flightless bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_04"
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxide_01",
    "text": "An oxide is a compound of oxygen and another element",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxide · cs_o_oxide_01"
+   "evidence": "science · product curator · Oxide · cs_o_oxide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oyster_02",
    "text": "An oyster is a bivalve mollusk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oyster · cs_o_oyster_02"
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oak_04",
    "text": "An oak is a hardwood tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oak · cs_o_oak_04"
+   "evidence": "nature · product curator · Oak · cs_o_oak_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ocean_03",
    "text": "An ocean is a vast body of salt water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ocean · cs_o_ocean_03"
+   "evidence": "geography · product curator · Ocean · cs_o_ocean_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oil_01",
    "text": "Oil is a liquid fossil fuel",
    "standing": "projectable",
-   "evidence": "science · product curator · Oil · cs_o_oil_01"
+   "evidence": "science · product curator · Oil · cs_o_oil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olive_02",
    "text": "An olive is a fruit of the olive tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Olive · cs_o_olive_02"
+   "evidence": "nature · product curator · Olive · cs_o_olive_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onion_02",
    "text": "An onion is a bulb vegetable",
    "standing": "projectable",
-   "evidence": "nature · product curator · Onion · cs_o_onion_02"
+   "evidence": "nature · product curator · Onion · cs_o_onion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opera_03",
    "text": "An opera is a staged musical drama",
    "standing": "projectable",
-   "evidence": "history · product curator · Opera · cs_o_opera_03"
+   "evidence": "history · product curator · Opera · cs_o_opera_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opinion_01",
    "text": "An opinion is a personal belief",
    "standing": "projectable",
-   "evidence": "civics · product curator · Opinion · cs_o_opinion_01"
+   "evidence": "civics · product curator · Opinion · cs_o_opinion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_optic_nerve_02",
    "text": "The optic nerve carries signals from the eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_02"
+   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_04",
    "text": "An orbit is a path around a body",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_04"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oath_01",
    "text": "An oath is a solemn promise",
    "standing": "projectable",
-   "evidence": "civics · product curator · Oath · cs_o_oath_01"
+   "evidence": "civics · product curator · Oath · cs_o_oath_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_odd_number_03",
    "text": "Seven is an odd number",
    "standing": "projectable",
-   "evidence": "math · product curator · Odd number · cs_o_odd_number_03"
+   "evidence": "math · product curator · Odd number · cs_o_odd_number_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_order_of_operations_02",
    "text": "Order of operations sets calculation priority",
    "standing": "projectable",
-   "evidence": "math · product curator · Order of operations · cs_o_order_of_operations_02"
+   "evidence": "math · product curator · Order of operations · cs_o_order_of_operations_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_organelle_02",
    "text": "Mitochondria are organelles",
    "standing": "projectable",
-   "evidence": "science · product curator · Organelle · cs_o_organelle_02"
+   "evidence": "science · product curator · Organelle · cs_o_organelle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oriole_02",
    "text": "An oriole is a colorful songbird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oriole · cs_o_oriole_02"
+   "evidence": "nature · product curator · Oriole · cs_o_oriole_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmosis_02",
    "text": "Plant roots take water by osmosis",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmosis · cs_o_osmosis_02"
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ounce_02",
    "text": "An ounce is a unit of mass",
    "standing": "projectable",
-   "evidence": "math · product curator · Ounce · cs_o_ounce_02"
+   "evidence": "math · product curator · Ounce · cs_o_ounce_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxide_02",
    "text": "Rust is an iron oxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxide · cs_o_oxide_02"
+   "evidence": "science · product curator · Oxide · cs_o_oxide_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_05",
    "text": "Oxygen supports combustion",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxygen · cs_o_oxygen_05"
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oath_of_office_02",
    "text": "Officials swear an oath of office",
    "standing": "projectable",
-   "evidence": "civics · product curator · Oath of office · cs_o_oath_of_office_02"
+   "evidence": "civics · product curator · Oath of office · cs_o_oath_of_office_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oboe_03",
    "text": "An oboe uses a double reed",
    "standing": "projectable",
-   "evidence": "history · product curator · Oboe · cs_o_oboe_03"
+   "evidence": "history · product curator · Oboe · cs_o_oboe_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oil_02",
    "text": "Oil floats on water",
    "standing": "projectable",
-   "evidence": "science · product curator · Oil · cs_o_oil_02"
+   "evidence": "science · product curator · Oil · cs_o_oil_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okra_02",
    "text": "Okra is a green seed pod vegetable",
    "standing": "projectable",
-   "evidence": "nature · product curator · Okra · cs_o_okra_02"
+   "evidence": "nature · product curator · Okra · cs_o_okra_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ore_02",
    "text": "Ore contains valuable metal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ore · cs_o_ore_02"
+   "evidence": "geography · product curator · Ore · cs_o_ore_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orthography_01",
    "text": "Orthography is a writing system",
    "standing": "projectable",
-   "evidence": "language · product curator · Orthography · cs_o_orthography_01"
+   "evidence": "language · product curator · Orthography · cs_o_orthography_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okra_03",
    "text": "Cooks fry okra",
    "standing": "projectable",
-   "evidence": "nature · product curator · Okra · cs_o_okra_03"
+   "evidence": "nature · product curator · Okra · cs_o_okra_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ore_03",
    "text": "Miners dig ore",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ore · cs_o_ore_03"
+   "evidence": "geography · product curator · Ore · cs_o_ore_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oven_01",
    "text": "An oven bakes food",
    "standing": "projectable",
-   "evidence": "science · product curator · Oven · cs_o_oven_01"
+   "evidence": "science · product curator · Oven · cs_o_oven_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ohm_02",
    "text": "An ohm measures resistance",
    "standing": "projectable",
-   "evidence": "science · product curator · Ohm · cs_o_ohm_02"
+   "evidence": "science · product curator · Ohm · cs_o_ohm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_otter_04",
    "text": "An otter swims in rivers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Otter · cs_o_otter_04"
+   "evidence": "nature · product curator · Otter · cs_o_otter_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmium_03",
    "text": "Osmium is a dense metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmium · cs_o_osmium_03"
+   "evidence": "science · product curator · Osmium · cs_o_osmium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oath_02",
    "text": "Witnesses swear an oath",
    "standing": "projectable",
-   "evidence": "civics · product curator · Oath · cs_o_oath_02"
+   "evidence": "civics · product curator · Oath · cs_o_oath_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olive_03",
    "text": "Olives grow on Mediterranean trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Olive · cs_o_olive_03"
+   "evidence": "nature · product curator · Olive · cs_o_olive_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onion_03",
    "text": "An onion has layered bulbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Onion · cs_o_onion_03"
+   "evidence": "nature · product curator · Onion · cs_o_onion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_origin_02",
    "text": "A graph has an origin at zero",
    "standing": "projectable",
-   "evidence": "math · product curator · Origin · cs_o_origin_02"
+   "evidence": "math · product curator · Origin · cs_o_origin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_optic_nerve_03",
    "text": "The optic nerve carries sight",
    "standing": "projectable",
-   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_03"
+   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oat_01",
    "text": "Oats are a cereal grain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oat · cs_o_oat_01"
+   "evidence": "nature · product curator · Oat · cs_o_oat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olympus_01",
    "text": "Mount Olympus is in Greece",
    "standing": "projectable",
-   "evidence": "geography · product curator · Olympus · cs_o_olympus_01"
+   "evidence": "geography · product curator · Olympus · cs_o_olympus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmosis_03",
    "text": "Water moves by osmosis",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmosis · cs_o_osmosis_03"
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ox_02",
    "text": "An ox pulls a plow",
    "standing": "projectable",
-   "evidence": "history · product curator · Ox · cs_o_ox_02"
+   "evidence": "history · product curator · Ox · cs_o_ox_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmosis_04",
    "text": "Osmosis moves water through a membrane",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmosis · cs_o_osmosis_04"
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olympus_02",
    "text": "Olympus is a Greek mountain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Olympus · cs_o_olympus_02"
+   "evidence": "geography · product curator · Olympus · cs_o_olympus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oat_02",
    "text": "Horses eat oats",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oat · cs_o_oat_02"
+   "evidence": "nature · product curator · Oat · cs_o_oat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oak_05",
    "text": "An oak drops acorns",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oak · cs_o_oak_05"
+   "evidence": "nature · product curator · Oak · cs_o_oak_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olivine_01",
    "text": "Olivine is a green mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Olivine · cs_o_olivine_01"
+   "evidence": "science · product curator · Olivine · cs_o_olivine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ozone_03",
    "text": "Ozone blocks ultraviolet light",
    "standing": "projectable",
-   "evidence": "science · product curator · Ozone · cs_o_ozone_03"
+   "evidence": "science · product curator · Ozone · cs_o_ozone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oleander_01",
    "text": "Oleander is a toxic shrub",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oleander · cs_o_oleander_01"
+   "evidence": "nature · product curator · Oleander · cs_o_oleander_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onyx_01",
    "text": "Onyx is banded chalcedony",
    "standing": "projectable",
-   "evidence": "science · product curator · Onyx · cs_o_onyx_01"
+   "evidence": "science · product curator · Onyx · cs_o_onyx_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_operculum_01",
    "text": "A fish has a gill operculum",
    "standing": "projectable",
-   "evidence": "nature · product curator · Operculum · cs_o_operculum_01"
+   "evidence": "nature · product curator · Operculum · cs_o_operculum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opinion_02",
    "text": "A court writes an opinion",
    "standing": "projectable",
-   "evidence": "civics · product curator · Opinion · cs_o_opinion_02"
+   "evidence": "civics · product curator · Opinion · cs_o_opinion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opposition_01",
    "text": "Mars reaches opposition",
    "standing": "projectable",
-   "evidence": "science · product curator · Opposition · cs_o_opposition_01"
+   "evidence": "science · product curator · Opposition · cs_o_opposition_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orangutan_04",
    "text": "An orangutan lives in trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_04"
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ordinal_01",
    "text": "An ordinal ranks position",
    "standing": "projectable",
-   "evidence": "math · product curator · Ordinal · cs_o_ordinal_01"
+   "evidence": "math · product curator · Ordinal · cs_o_ordinal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ornithology_01",
    "text": "Ornithology studies birds",
    "standing": "projectable",
-   "evidence": "science · product curator · Ornithology · cs_o_ornithology_01"
+   "evidence": "science · product curator · Ornithology · cs_o_ornithology_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxidizer_01",
    "text": "An oxidizer feeds a fire",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxidizer · cs_o_oxidizer_01"
+   "evidence": "science · product curator · Oxidizer · cs_o_oxidizer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oyster_03",
    "text": "An oyster makes a pearl",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oyster · cs_o_oyster_03"
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_obsidian_02",
    "text": "Obsidian fractures sharply",
    "standing": "projectable",
-   "evidence": "science · product curator · Obsidian · cs_o_obsidian_02"
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octopus_03",
    "text": "An octopus changes color",
    "standing": "projectable",
-   "evidence": "nature · product curator · Octopus · cs_o_octopus_03"
+   "evidence": "nature · product curator · Octopus · cs_o_octopus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okra_04",
    "text": "Okra thickens soup",
    "standing": "projectable",
-   "evidence": "nature · product curator · Okra · cs_o_okra_04"
+   "evidence": "nature · product curator · Okra · cs_o_okra_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onion_04",
    "text": "An onion grows underground",
    "standing": "projectable",
-   "evidence": "nature · product curator · Onion · cs_o_onion_04"
+   "evidence": "nature · product curator · Onion · cs_o_onion_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opaque_01",
    "text": "An opaque object blocks light",
    "standing": "projectable",
-   "evidence": "science · product curator · Opaque · cs_o_opaque_01"
+   "evidence": "science · product curator · Opaque · cs_o_opaque_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_05",
    "text": "Earth completes an orbit",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_05"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_06",
    "text": "The moon follows an orbit",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_06"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orogeny_01",
    "text": "Orogeny builds mountains",
    "standing": "projectable",
-   "evidence": "geography · product curator · Orogeny · cs_o_orogeny_01"
+   "evidence": "geography · product curator · Orogeny · cs_o_orogeny_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_otter_05",
    "text": "An otter floats on its back",
    "standing": "projectable",
-   "evidence": "nature · product curator · Otter · cs_o_otter_05"
+   "evidence": "nature · product curator · Otter · cs_o_otter_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_outcrop_01",
    "text": "Rock shows at an outcrop",
    "standing": "projectable",
-   "evidence": "geography · product curator · Outcrop · cs_o_outcrop_01"
+   "evidence": "geography · product curator · Outcrop · cs_o_outcrop_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oar_01",
    "text": "An oar propels a boat",
    "standing": "projectable",
-   "evidence": "history · product curator · Oar · cs_o_oar_01"
+   "evidence": "history · product curator · Oar · cs_o_oar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ohm_03",
    "text": "Resistance is measured in ohms",
    "standing": "projectable",
-   "evidence": "science · product curator · Ohm · cs_o_ohm_03"
+   "evidence": "science · product curator · Ohm · cs_o_ohm_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onion_05",
    "text": "An onion grows as a bulb",
    "standing": "projectable",
-   "evidence": "nature · product curator · Onion · cs_o_onion_05"
+   "evidence": "nature · product curator · Onion · cs_o_onion_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opal_02",
    "text": "Opal shows play of color",
    "standing": "projectable",
-   "evidence": "science · product curator · Opal · cs_o_opal_02"
+   "evidence": "science · product curator · Opal · cs_o_opal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_07",
    "text": "Earth keeps a stable orbit",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_07"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_otter_06",
    "text": "An otter lives near water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Otter · cs_o_otter_06"
+   "evidence": "nature · product curator · Otter · cs_o_otter_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oval_03",
    "text": "An oval stretches a circle",
    "standing": "projectable",
-   "evidence": "math · product curator · Oval · cs_o_oval_03"
+   "evidence": "math · product curator · Oval · cs_o_oval_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_owl_06",
    "text": "Owls hunt mostly at night",
    "standing": "projectable",
-   "evidence": "nature · product curator · Owl · cs_o_owl_06"
+   "evidence": "nature · product curator · Owl · cs_o_owl_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_06",
    "text": "Plants release oxygen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oxygen · cs_o_oxygen_06"
+   "evidence": "nature · product curator · Oxygen · cs_o_oxygen_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oyster_04",
    "text": "An oyster filters water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oyster · cs_o_oyster_04"
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oak_06",
    "text": "Oak wood resists splitting",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oak · cs_o_oak_06"
+   "evidence": "nature · product curator · Oak · cs_o_oak_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_obsidian_03",
    "text": "Obsidian fractures into blades",
    "standing": "projectable",
-   "evidence": "science · product curator · Obsidian · cs_o_obsidian_03"
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oil_03",
    "text": "Presses extract plant oil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oil · cs_o_oil_03"
+   "evidence": "nature · product curator · Oil · cs_o_oil_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olive_04",
    "text": "Olives yield cooking oil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Olive · cs_o_olive_04"
+   "evidence": "nature · product curator · Olive · cs_o_olive_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opal_03",
    "text": "Australia mines precious opal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Opal · cs_o_opal_03"
+   "evidence": "geography · product curator · Opal · cs_o_opal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oriole_03",
    "text": "An oriole weaves a hanging nest",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oriole · cs_o_oriole_03"
+   "evidence": "nature · product curator · Oriole · cs_o_oriole_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_osmosis_05",
    "text": "Salt drives water osmosis",
    "standing": "projectable",
-   "evidence": "science · product curator · Osmosis · cs_o_osmosis_05"
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ozone_04",
    "text": "Smog raises ground ozone",
    "standing": "projectable",
-   "evidence": "science · product curator · Ozone · cs_o_ozone_04"
+   "evidence": "science · product curator · Ozone · cs_o_ozone_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_olivine_02",
    "text": "Olivine greens mantle rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Olivine · cs_o_olivine_02"
+   "evidence": "science · product curator · Olivine · cs_o_olivine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orbit_08",
    "text": "Moons orbit their planets",
    "standing": "projectable",
-   "evidence": "science · product curator · Orbit · cs_o_orbit_08"
+   "evidence": "science · product curator · Orbit · cs_o_orbit_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ore_04",
    "text": "Ore yields useful metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Ore · cs_o_ore_04"
+   "evidence": "science · product curator · Ore · cs_o_ore_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_organelle_03",
    "text": "Organelles run cell tasks",
    "standing": "projectable",
-   "evidence": "science · product curator · Organelle · cs_o_organelle_03"
+   "evidence": "science · product curator · Organelle · cs_o_organelle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_origin_03",
    "text": "An origin marks zero point",
    "standing": "projectable",
-   "evidence": "math · product curator · Origin · cs_o_origin_03"
+   "evidence": "math · product curator · Origin · cs_o_origin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ostrich_05",
    "text": "Ostriches run open plains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_05"
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ovary_01",
    "text": "Flower ovaries hold seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ovary · cs_o_ovary_01"
+   "evidence": "nature · product curator · Ovary · cs_o_ovary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_overburden_01",
    "text": "Overburden covers ore beds",
    "standing": "projectable",
-   "evidence": "science · product curator · Overburden · cs_o_overburden_01"
+   "evidence": "science · product curator · Overburden · cs_o_overburden_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_overcast_01",
    "text": "Overcast blocks sunlight",
    "standing": "projectable",
-   "evidence": "science · product curator · Overcast · cs_o_overcast_01"
+   "evidence": "science · product curator · Overcast · cs_o_overcast_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_07",
    "text": "Oxygen fuels cell burning",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxygen · cs_o_oxygen_07"
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ocean_04",
    "text": "Oceans store heat energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Ocean · cs_o_ocean_04"
+   "evidence": "science · product curator · Ocean · cs_o_ocean_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_okra_05",
    "text": "Okra thickens stew broth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Okra · cs_o_okra_05"
+   "evidence": "nature · product curator · Okra · cs_o_okra_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onyx_02",
    "text": "Onyx shows banded layers",
    "standing": "projectable",
-   "evidence": "science · product curator · Onyx · cs_o_onyx_02"
+   "evidence": "science · product curator · Onyx · cs_o_onyx_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_opossum_03",
    "text": "Opossums carry pouch young",
    "standing": "projectable",
-   "evidence": "nature · product curator · Opossum · cs_o_opossum_03"
+   "evidence": "nature · product curator · Opossum · cs_o_opossum_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_optic_01",
    "text": "Optic nerves carry sight",
    "standing": "projectable",
-   "evidence": "science · product curator · Optic · cs_o_optic_01"
+   "evidence": "science · product curator · Optic · cs_o_optic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orion_04",
    "text": "Orion marks winter skies",
    "standing": "projectable",
-   "evidence": "science · product curator · Orion · cs_o_orion_04"
+   "evidence": "science · product curator · Orion · cs_o_orion_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ossicle_01",
    "text": "Ossicles carry ear sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Ossicle · cs_o_ossicle_01"
+   "evidence": "science · product curator · Ossicle · cs_o_ossicle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxide_03",
    "text": "Carbon dioxide traps heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxide · cs_o_oxide_03"
+   "evidence": "science · product curator · Oxide · cs_o_oxide_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxidizer_02",
    "text": "Oxidizers feed combustion",
    "standing": "projectable",
-   "evidence": "science · product curator · Oxidizer · cs_o_oxidizer_02"
+   "evidence": "science · product curator · Oxidizer · cs_o_oxidizer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oxygen_08",
    "text": "Gills extract water oxygen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oxygen · cs_o_oxygen_08"
+   "evidence": "nature · product curator · Oxygen · cs_o_oxygen_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_obsidian_04",
    "text": "Obsidian fractures sharp edges",
    "standing": "projectable",
-   "evidence": "science · product curator · Obsidian · cs_o_obsidian_04"
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_octave_03",
    "text": "An octave doubles pitch",
    "standing": "projectable",
-   "evidence": "science · product curator · Octave · cs_o_octave_03"
+   "evidence": "science · product curator · Octave · cs_o_octave_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_ohm_04",
    "text": "Ohms rank electric resistance",
    "standing": "projectable",
-   "evidence": "science · product curator · Ohm · cs_o_ohm_04"
+   "evidence": "science · product curator · Ohm · cs_o_ohm_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onion_06",
    "text": "Onions store bulb layers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Onion · cs_o_onion_06"
+   "evidence": "nature · product curator · Onion · cs_o_onion_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_onyx_03",
    "text": "Onyx bands colored stone",
    "standing": "projectable",
-   "evidence": "science · product curator · Onyx · cs_o_onyx_03"
+   "evidence": "science · product curator · Onyx · cs_o_onyx_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oocyte_01",
    "text": "Oocytes mature into eggs",
    "standing": "projectable",
-   "evidence": "science · product curator · Oocyte · cs_o_oocyte_01"
+   "evidence": "science · product curator · Oocyte · cs_o_oocyte_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_orange_03",
    "text": "Oranges store citrus pulp",
    "standing": "projectable",
-   "evidence": "nature · product curator · Orange · cs_o_orange_03"
+   "evidence": "nature · product curator · Orange · cs_o_orange_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_organelle_04",
    "text": "An organelle runs cell work",
    "standing": "projectable",
-   "evidence": "science · product curator · Organelle · cs_o_organelle_04"
+   "evidence": "science · product curator · Organelle · cs_o_organelle_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_owl_07",
    "text": "An owl turns its head far",
    "standing": "projectable",
-   "evidence": "nature · product curator · Owl · cs_o_owl_07"
+   "evidence": "nature · product curator · Owl · cs_o_owl_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_o_oyster_05",
    "text": "Oysters filter bay water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Oyster · cs_o_oyster_05"
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

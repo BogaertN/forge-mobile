@@ -12,1501 +12,2751 @@
    "id": "cs_a_africa_01",
    "text": "Africa is a continent",
    "standing": "projectable",
-   "evidence": "geography · product curator · Africa · cs_a_africa_01"
+   "evidence": "geography · product curator · Africa · cs_a_africa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_africa_02",
    "text": "Africa is the second largest continent by land area",
    "standing": "projectable",
-   "evidence": "geography · product curator · Africa · cs_a_africa_02"
+   "evidence": "geography · product curator · Africa · cs_a_africa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_asia_01",
    "text": "Asia is the largest continent by land area",
    "standing": "projectable",
-   "evidence": "geography · product curator · Asia · cs_a_asia_01"
+   "evidence": "geography · product curator · Asia · cs_a_asia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_asia_02",
    "text": "Asia has the largest population of any continent",
    "standing": "projectable",
-   "evidence": "geography · product curator · Asia · cs_a_asia_02"
+   "evidence": "geography · product curator · Asia · cs_a_asia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antarctica_01",
    "text": "Antarctica is the southernmost continent",
    "standing": "projectable",
-   "evidence": "geography · product curator · Antarctica · cs_a_antarctica_01"
+   "evidence": "geography · product curator · Antarctica · cs_a_antarctica_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antarctica_02",
    "text": "The South Pole is located in Antarctica",
    "standing": "projectable",
-   "evidence": "geography · product curator · Antarctica · cs_a_antarctica_02"
+   "evidence": "geography · product curator · Antarctica · cs_a_antarctica_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_australia_01",
    "text": "Australia is both a country and a continent",
    "standing": "projectable",
-   "evidence": "geography · product curator · Australia · cs_a_australia_01"
+   "evidence": "geography · product curator · Australia · cs_a_australia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_australia_02",
    "text": "Canberra is the capital of Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Australia · cs_a_australia_02"
+   "evidence": "geography · product curator · Australia · cs_a_australia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atlantic_ocean_01",
    "text": "The Atlantic Ocean is the second largest ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Atlantic Ocean · cs_a_atlantic_ocean_01"
+   "evidence": "geography · product curator · Atlantic Ocean · cs_a_atlantic_ocean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atlantic_ocean_02",
    "text": "The Atlantic Ocean lies east of the Americas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Atlantic Ocean · cs_a_atlantic_ocean_02"
+   "evidence": "geography · product curator · Atlantic Ocean · cs_a_atlantic_ocean_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arctic_ocean_01",
    "text": "The Arctic Ocean is the smallest ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Arctic Ocean · cs_a_arctic_ocean_01"
+   "evidence": "geography · product curator · Arctic Ocean · cs_a_arctic_ocean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amazon_river_01",
    "text": "The Amazon flows through South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Amazon River · cs_a_amazon_river_01"
+   "evidence": "geography · product curator · Amazon River · cs_a_amazon_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amazon_river_02",
    "text": "The Amazon empties into the Atlantic Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Amazon River · cs_a_amazon_river_02"
+   "evidence": "geography · product curator · Amazon River · cs_a_amazon_river_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amazon_rainforest_01",
    "text": "The Amazon is the largest tropical forest",
    "standing": "projectable",
-   "evidence": "geography · product curator · Amazon rainforest · cs_a_amazon_rainforest_01"
+   "evidence": "geography · product curator · Amazon rainforest · cs_a_amazon_rainforest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_andes_01",
    "text": "The Andes is a mountain range in South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Andes · cs_a_andes_01"
+   "evidence": "geography · product curator · Andes · cs_a_andes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alps_01",
    "text": "The Alps is a mountain range in Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Alps · cs_a_alps_01"
+   "evidence": "geography · product curator · Alps · cs_a_alps_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_appalachian_mountains_01",
    "text": "The Appalachian Mountains are in North America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Appalachian Mountains · cs_a_appalachian_mountains_01"
+   "evidence": "geography · product curator · Appalachian Mountains · cs_a_appalachian_mountains_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_argentina_01",
    "text": "Buenos Aires is the capital of Argentina",
    "standing": "projectable",
-   "evidence": "geography · product curator · Argentina · cs_a_argentina_01"
+   "evidence": "geography · product curator · Argentina · cs_a_argentina_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_austria_01",
    "text": "Vienna is the capital of Austria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Austria · cs_a_austria_01"
+   "evidence": "geography · product curator · Austria · cs_a_austria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_afghanistan_01",
    "text": "Kabul is the capital of Afghanistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Afghanistan · cs_a_afghanistan_01"
+   "evidence": "geography · product curator · Afghanistan · cs_a_afghanistan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_algeria_01",
    "text": "Algiers is the capital of Algeria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Algeria · cs_a_algeria_01"
+   "evidence": "geography · product curator · Algeria · cs_a_algeria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_algeria_02",
    "text": "Algeria is the largest country in Africa by area",
    "standing": "projectable",
-   "evidence": "geography · product curator · Algeria · cs_a_algeria_02"
+   "evidence": "geography · product curator · Algeria · cs_a_algeria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_armenia_01",
    "text": "Yerevan is the capital of Armenia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Armenia · cs_a_armenia_01"
+   "evidence": "geography · product curator · Armenia · cs_a_armenia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_athens_01",
    "text": "Athens is the capital of Greece",
    "standing": "projectable",
-   "evidence": "geography · product curator · Athens · cs_a_athens_01"
+   "evidence": "geography · product curator · Athens · cs_a_athens_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amsterdam_01",
    "text": "Amsterdam is the capital of the Netherlands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Amsterdam · cs_a_amsterdam_01"
+   "evidence": "geography · product curator · Amsterdam · cs_a_amsterdam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ankara_01",
    "text": "Ankara is the capital of Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ankara · cs_a_ankara_01"
+   "evidence": "geography · product curator · Ankara · cs_a_ankara_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alaska_01",
    "text": "Alaska is the largest state in the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Alaska · cs_a_alaska_01"
+   "evidence": "geography · product curator · Alaska · cs_a_alaska_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alaska_02",
    "text": "The United States purchased Alaska from Russia in 1867",
    "standing": "projectable",
-   "evidence": "history · product curator · Alaska · cs_a_alaska_02"
+   "evidence": "history · product curator · Alaska · cs_a_alaska_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arizona_01",
    "text": "The Grand Canyon is in Arizona",
    "standing": "projectable",
-   "evidence": "geography · product curator · Arizona · cs_a_arizona_01"
+   "evidence": "geography · product curator · Arizona · cs_a_arizona_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alabama_01",
    "text": "Montgomery is the capital of Alabama",
    "standing": "projectable",
-   "evidence": "geography · product curator · Alabama · cs_a_alabama_01"
+   "evidence": "geography · product curator · Alabama · cs_a_alabama_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atom_01",
    "text": "An atom is made of protons, neutrons, and electrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Atom · cs_a_atom_01"
+   "evidence": "science · product curator · Atom · cs_a_atom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atom_02",
    "text": "The nucleus of an atom contains protons and neutrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Atom · cs_a_atom_02"
+   "evidence": "science · product curator · Atom · cs_a_atom_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atomic_number_01",
    "text": "An element's atomic number is the number of protons in its nucleus",
    "standing": "projectable",
-   "evidence": "science · product curator · Atomic number · cs_a_atomic_number_01"
+   "evidence": "science · product curator · Atomic number · cs_a_atomic_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_argon_01",
    "text": "Argon is a noble gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Argon · cs_a_argon_01"
+   "evidence": "science · product curator · Argon · cs_a_argon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_argon_02",
    "text": "Argon has the chemical symbol Ar",
    "standing": "projectable",
-   "evidence": "science · product curator · Argon · cs_a_argon_02"
+   "evidence": "science · product curator · Argon · cs_a_argon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aluminium_01",
    "text": "Aluminium has the chemical symbol Al",
    "standing": "projectable",
-   "evidence": "science · product curator · Aluminium · cs_a_aluminium_01"
+   "evidence": "science · product curator · Aluminium · cs_a_aluminium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aluminium_02",
    "text": "Aluminium is the commonest metal in the crust of the Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Aluminium · cs_a_aluminium_02"
+   "evidence": "science · product curator · Aluminium · cs_a_aluminium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arsenic_01",
    "text": "Arsenic is a chemical element",
    "standing": "projectable",
-   "evidence": "science · product curator · Arsenic · cs_a_arsenic_01"
+   "evidence": "science · product curator · Arsenic · cs_a_arsenic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_americium_01",
    "text": "Americium is a synthetic radioactive element",
    "standing": "projectable",
-   "evidence": "science · product curator · Americium · cs_a_americium_01"
+   "evidence": "science · product curator · Americium · cs_a_americium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acid_01",
    "text": "An acid has a pH below 7",
    "standing": "projectable",
-   "evidence": "science · product curator · Acid · cs_a_acid_01"
+   "evidence": "science · product curator · Acid · cs_a_acid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alkali_01",
    "text": "An alkaline solution has a pH above 7",
    "standing": "projectable",
-   "evidence": "science · product curator · Alkali · cs_a_alkali_01"
+   "evidence": "science · product curator · Alkali · cs_a_alkali_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_absolute_zero_01",
    "text": "Absolute zero is 0 kelvin",
    "standing": "projectable",
-   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_01"
+   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_absolute_zero_02",
    "text": "Absolute zero equals −273.15 degrees Celsius",
    "standing": "projectable",
-   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_02"
+   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acceleration_01",
    "text": "Acceleration is the rate of change of velocity",
    "standing": "projectable",
-   "evidence": "science · product curator · Acceleration · cs_a_acceleration_01"
+   "evidence": "science · product curator · Acceleration · cs_a_acceleration_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atmosphere_01",
    "text": "Nitrogen makes up most of the air",
    "standing": "projectable",
-   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_01"
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atmosphere_02",
    "text": "Oxygen is the second commonest gas in the atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_02"
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_asteroid_belt_01",
    "text": "The main asteroid belt lies between Mars and Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Asteroid belt · cs_a_asteroid_belt_01"
+   "evidence": "science · product curator · Asteroid belt · cs_a_asteroid_belt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_andromeda_galaxy_01",
    "text": "The Andromeda Galaxy is a spiral galaxy",
    "standing": "projectable",
-   "evidence": "science · product curator · Andromeda Galaxy · cs_a_andromeda_galaxy_01"
+   "evidence": "science · product curator · Andromeda Galaxy · cs_a_andromeda_galaxy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_andromeda_galaxy_02",
    "text": "The Andromeda Galaxy is the nearest large galaxy to the Milky Way",
    "standing": "projectable",
-   "evidence": "science · product curator · Andromeda Galaxy · cs_a_andromeda_galaxy_02"
+   "evidence": "science · product curator · Andromeda Galaxy · cs_a_andromeda_galaxy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_apollo_11_01",
    "text": "Apollo Eleven landed on the Moon in 1969",
    "standing": "projectable",
-   "evidence": "history · product curator · Apollo 11 · cs_a_apollo_11_01"
+   "evidence": "history · product curator · Apollo 11 · cs_a_apollo_11_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_armstrong_neil_01",
    "text": "Neil Armstrong was the first person to walk on the Moon",
    "standing": "projectable",
-   "evidence": "history · product curator · Armstrong, Neil · cs_a_armstrong_neil_01"
+   "evidence": "history · product curator · Armstrong, Neil · cs_a_armstrong_neil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aldrin_buzz_01",
    "text": "Aldrin walked on the Moon in 1969",
    "standing": "projectable",
-   "evidence": "history · product curator · Aldrin, Buzz · cs_a_aldrin_buzz_01"
+   "evidence": "history · product curator · Aldrin, Buzz · cs_a_aldrin_buzz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antibiotic_01",
    "text": "Antibiotics kill bacteria",
    "standing": "projectable",
-   "evidence": "science · product curator · Antibiotic · cs_a_antibiotic_01"
+   "evidence": "science · product curator · Antibiotic · cs_a_antibiotic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_artery_01",
    "text": "Arteries carry blood away from the heart",
    "standing": "projectable",
-   "evidence": "science · product curator · Artery · cs_a_artery_01"
+   "evidence": "science · product curator · Artery · cs_a_artery_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aorta_01",
    "text": "The aorta is the largest artery in the human body",
    "standing": "projectable",
-   "evidence": "science · product curator · Aorta · cs_a_aorta_01"
+   "evidence": "science · product curator · Aorta · cs_a_aorta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amphibian_01",
    "text": "Frogs are amphibians",
    "standing": "projectable",
-   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_01"
+   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amphibian_02",
    "text": "Amphibians are cold-blooded vertebrates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_02"
+   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ant_01",
    "text": "Ants are insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ant · cs_a_ant_01"
+   "evidence": "nature · product curator · Ant · cs_a_ant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ant_02",
    "text": "Ants live in colonies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ant · cs_a_ant_02"
+   "evidence": "nature · product curator · Ant · cs_a_ant_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antelope_01",
    "text": "Antelopes are hoofed mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Antelope · cs_a_antelope_01"
+   "evidence": "nature · product curator · Antelope · cs_a_antelope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alligator_01",
    "text": "Alligators are reptiles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Alligator · cs_a_alligator_01"
+   "evidence": "nature · product curator · Alligator · cs_a_alligator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_albatross_01",
    "text": "The wandering albatross has the largest wingspan of any living bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Albatross · cs_a_albatross_01"
+   "evidence": "nature · product curator · Albatross · cs_a_albatross_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arachnid_01",
    "text": "Spiders are arachnids",
    "standing": "projectable",
-   "evidence": "nature · product curator · Arachnid · cs_a_arachnid_01"
+   "evidence": "nature · product curator · Arachnid · cs_a_arachnid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arachnid_02",
    "text": "Arachnids have eight legs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Arachnid · cs_a_arachnid_02"
+   "evidence": "nature · product curator · Arachnid · cs_a_arachnid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_apple_01",
    "text": "Apples grow on trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Apple · cs_a_apple_01"
+   "evidence": "nature · product curator · Apple · cs_a_apple_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acorn_01",
    "text": "An acorn is the nut of an oak tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Acorn · cs_a_acorn_01"
+   "evidence": "nature · product curator · Acorn · cs_a_acorn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aristotle_01",
    "text": "Aristotle was a Greek philosopher",
    "standing": "projectable",
-   "evidence": "history · product curator · Aristotle · cs_a_aristotle_01"
+   "evidence": "history · product curator · Aristotle · cs_a_aristotle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alexander_the_great_01",
    "text": "Alexander was king of Macedon",
    "standing": "projectable",
-   "evidence": "history · product curator · Alexander the Great · cs_a_alexander_the_great_01"
+   "evidence": "history · product curator · Alexander the Great · cs_a_alexander_the_great_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_augustus_01",
    "text": "Augustus was the first Roman emperor",
    "standing": "projectable",
-   "evidence": "history · product curator · Augustus · cs_a_augustus_01"
+   "evidence": "history · product curator · Augustus · cs_a_augustus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_american_revolution_01",
    "text": "The American Declaration of Independence was adopted in 1776",
    "standing": "projectable",
-   "evidence": "history · product curator · American Revolution · cs_a_american_revolution_01"
+   "evidence": "history · product curator · American Revolution · cs_a_american_revolution_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_abraham_lincoln_01",
    "text": "Abraham Lincoln was the 16th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Abraham Lincoln · cs_a_abraham_lincoln_01"
+   "evidence": "history · product curator · Abraham Lincoln · cs_a_abraham_lincoln_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_adams_john_01",
    "text": "John Adams was the second president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Adams, John · cs_a_adams_john_01"
+   "evidence": "history · product curator · Adams, John · cs_a_adams_john_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aztec_01",
    "text": "Tenochtitlan was the capital of the Aztec Empire",
    "standing": "projectable",
-   "evidence": "history · product curator · Aztec · cs_a_aztec_01"
+   "evidence": "history · product curator · Aztec · cs_a_aztec_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acropolis_01",
    "text": "The Parthenon stands on the Acropolis of Athens",
    "standing": "projectable",
-   "evidence": "history · product curator · Acropolis · cs_a_acropolis_01"
+   "evidence": "history · product curator · Acropolis · cs_a_acropolis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alphabet_01",
    "text": "The English alphabet has 26 letters",
    "standing": "projectable",
-   "evidence": "language · product curator · Alphabet · cs_a_alphabet_01"
+   "evidence": "language · product curator · Alphabet · cs_a_alphabet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arabic_01",
    "text": "Arabic is written from right to left",
    "standing": "projectable",
-   "evidence": "language · product curator · Arabic · cs_a_arabic_01"
+   "evidence": "language · product curator · Arabic · cs_a_arabic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_angle_01",
    "text": "A right angle measures 90 degrees",
    "standing": "projectable",
-   "evidence": "math · product curator · Angle · cs_a_angle_01"
+   "evidence": "math · product curator · Angle · cs_a_angle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acute_angle_01",
    "text": "An acute angle is smaller than a right angle",
    "standing": "projectable",
-   "evidence": "math · product curator · Acute angle · cs_a_acute_angle_01"
+   "evidence": "math · product curator · Acute angle · cs_a_acute_angle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_addition_01",
    "text": "Addition is commutative",
    "standing": "projectable",
-   "evidence": "math · product curator · Addition · cs_a_addition_01"
+   "evidence": "math · product curator · Addition · cs_a_addition_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arithmetic_mean_01",
    "text": "The arithmetic mean is the sum of values divided by their count",
    "standing": "projectable",
-   "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_01"
+   "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amendment_01",
    "text": "The First Amendment to the American Constitution protects freedom of speech",
    "standing": "projectable",
-   "evidence": "civics · product curator · Amendment · cs_a_amendment_01"
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amendment_02",
    "text": "The American Constitution has 27 amendments",
    "standing": "projectable",
-   "evidence": "civics · product curator · Amendment · cs_a_amendment_02"
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ambassador_01",
    "text": "An ambassador represents a country abroad",
    "standing": "projectable",
-   "evidence": "civics · product curator · Ambassador · cs_a_ambassador_01"
+   "evidence": "civics · product curator · Ambassador · cs_a_ambassador_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atlas_mountains_01",
    "text": "The Atlas Mountains are in northwest Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Atlas Mountains · cs_a_atlas_mountains_01"
+   "evidence": "geography · product curator · Atlas Mountains · cs_a_atlas_mountains_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_adriatic_sea_01",
    "text": "The Adriatic Sea lies between Italy and the Balkan Peninsula",
    "standing": "projectable",
-   "evidence": "geography · product curator · Adriatic Sea · cs_a_adriatic_sea_01"
+   "evidence": "geography · product curator · Adriatic Sea · cs_a_adriatic_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aegean_sea_01",
    "text": "The Aegean Sea lies between Greece and Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Aegean Sea · cs_a_aegean_sea_01"
+   "evidence": "geography · product curator · Aegean Sea · cs_a_aegean_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_albany_01",
    "text": "Albany is the capital of New York State",
    "standing": "projectable",
-   "evidence": "geography · product curator · Albany · cs_a_albany_01"
+   "evidence": "geography · product curator · Albany · cs_a_albany_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_annapolis_01",
    "text": "Annapolis is the capital of Maryland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Annapolis · cs_a_annapolis_01"
+   "evidence": "geography · product curator · Annapolis · cs_a_annapolis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atlanta_01",
    "text": "Atlanta is the capital of Georgia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Atlanta · cs_a_atlanta_01"
+   "evidence": "geography · product curator · Atlanta · cs_a_atlanta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ammonia_01",
    "text": "Ammonia is a compound of nitrogen and hydrogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Ammonia · cs_a_ammonia_01"
+   "evidence": "science · product curator · Ammonia · cs_a_ammonia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atom_03",
    "text": "An atom has a nucleus surrounded by electrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Atom · cs_a_atom_03"
+   "evidence": "science · product curator · Atom · cs_a_atom_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anteater_01",
    "text": "Anteaters feed mainly on ants and termites",
    "standing": "projectable",
-   "evidence": "nature · product curator · Anteater · cs_a_anteater_01"
+   "evidence": "nature · product curator · Anteater · cs_a_anteater_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_armadillo_01",
    "text": "Armadillos have a protective bony shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Armadillo · cs_a_armadillo_01"
+   "evidence": "nature · product curator · Armadillo · cs_a_armadillo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_avocado_01",
    "text": "The avocado is native to Mexico and Central America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Avocado · cs_a_avocado_01"
+   "evidence": "nature · product curator · Avocado · cs_a_avocado_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aardvark_02",
    "text": "Aardvarks feed mainly on ants and termites",
    "standing": "projectable",
-   "evidence": "nature · product curator · Aardvark · cs_a_aardvark_02"
+   "evidence": "nature · product curator · Aardvark · cs_a_aardvark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arctic_fox_01",
    "text": "The Arctic fox has a white coat in winter",
    "standing": "projectable",
-   "evidence": "nature · product curator · Arctic fox · cs_a_arctic_fox_01"
+   "evidence": "nature · product curator · Arctic fox · cs_a_arctic_fox_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anemone_01",
    "text": "Sea anemones are related to jellyfish and corals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Anemone · cs_a_anemone_01"
+   "evidence": "nature · product curator · Anemone · cs_a_anemone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aquarius_01",
    "text": "Aquarius is a constellation of the zodiac",
    "standing": "projectable",
-   "evidence": "science · product curator · Aquarius · cs_a_aquarius_01"
+   "evidence": "science · product curator · Aquarius · cs_a_aquarius_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aachen_01",
    "text": "Aachen is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Aachen · cs_a_aachen_01"
+   "evidence": "geography · product curator · Aachen · cs_a_aachen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_augsburg_01",
    "text": "Augsburg is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Augsburg · cs_a_augsburg_01"
+   "evidence": "geography · product curator · Augsburg · cs_a_augsburg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_avignon_01",
    "text": "Avignon is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Avignon · cs_a_avignon_01"
+   "evidence": "geography · product curator · Avignon · cs_a_avignon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amiens_01",
    "text": "Amiens is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Amiens · cs_a_amiens_01"
+   "evidence": "geography · product curator · Amiens · cs_a_amiens_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antwerp_01",
    "text": "Antwerp is a city in Belgium",
    "standing": "projectable",
-   "evidence": "geography · product curator · Antwerp · cs_a_antwerp_01"
+   "evidence": "geography · product curator · Antwerp · cs_a_antwerp_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aarhus_01",
    "text": "Aarhus is a city in Denmark",
    "standing": "projectable",
-   "evidence": "geography · product curator · Aarhus · cs_a_aarhus_01"
+   "evidence": "geography · product curator · Aarhus · cs_a_aarhus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alicante_01",
    "text": "Alicante is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Alicante · cs_a_alicante_01"
+   "evidence": "geography · product curator · Alicante · cs_a_alicante_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ancona_01",
    "text": "Ancona is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ancona · cs_a_ancona_01"
+   "evidence": "geography · product curator · Ancona · cs_a_ancona_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_agra_01",
    "text": "Agra is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Agra · cs_a_agra_01"
+   "evidence": "geography · product curator · Agra · cs_a_agra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ahmedabad_01",
    "text": "Ahmedabad is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ahmedabad · cs_a_ahmedabad_01"
+   "evidence": "geography · product curator · Ahmedabad · cs_a_ahmedabad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amritsar_01",
    "text": "Amritsar is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Amritsar · cs_a_amritsar_01"
+   "evidence": "geography · product curator · Amritsar · cs_a_amritsar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aleppo_01",
    "text": "Aleppo is a city in Syria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Aleppo · cs_a_aleppo_01"
+   "evidence": "geography · product curator · Aleppo · cs_a_aleppo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antalya_01",
    "text": "Antalya is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Antalya · cs_a_antalya_01"
+   "evidence": "geography · product curator · Antalya · cs_a_antalya_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_adana_01",
    "text": "Adana is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Adana · cs_a_adana_01"
+   "evidence": "geography · product curator · Adana · cs_a_adana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_akron_01",
    "text": "Akron is a city in Ohio",
    "standing": "projectable",
-   "evidence": "geography · product curator · Akron · cs_a_akron_01"
+   "evidence": "geography · product curator · Akron · cs_a_akron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_albany_02",
    "text": "Albany is a city in New York",
    "standing": "projectable",
-   "evidence": "geography · product curator · Albany · cs_a_albany_02"
+   "evidence": "geography · product curator · Albany · cs_a_albany_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_austin_01",
    "text": "Austin is a city in Texas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Austin · cs_a_austin_01"
+   "evidence": "geography · product curator · Austin · cs_a_austin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anaheim_01",
    "text": "Anaheim is a city in California",
    "standing": "projectable",
-   "evidence": "geography · product curator · Anaheim · cs_a_anaheim_01"
+   "evidence": "geography · product curator · Anaheim · cs_a_anaheim_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aberdeen_01",
    "text": "Aberdeen is a city in Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Aberdeen · cs_a_aberdeen_01"
+   "evidence": "geography · product curator · Aberdeen · cs_a_aberdeen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_adelaide_01",
    "text": "Adelaide is a city in Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Adelaide · cs_a_adelaide_01"
+   "evidence": "geography · product curator · Adelaide · cs_a_adelaide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_auckland_01",
    "text": "Auckland is a city in New Zealand",
    "standing": "projectable",
-   "evidence": "geography · product curator · Auckland · cs_a_auckland_01"
+   "evidence": "geography · product curator · Auckland · cs_a_auckland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alexandria_01",
    "text": "Alexandria is a city in Egypt",
    "standing": "projectable",
-   "evidence": "geography · product curator · Alexandria · cs_a_alexandria_01"
+   "evidence": "geography · product curator · Alexandria · cs_a_alexandria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arequipa_01",
    "text": "Arequipa is a city in Peru",
    "standing": "projectable",
-   "evidence": "geography · product curator · Arequipa · cs_a_arequipa_01"
+   "evidence": "geography · product curator · Arequipa · cs_a_arequipa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arusha_01",
    "text": "Arusha is a city in Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Arusha · cs_a_arusha_01"
+   "evidence": "geography · product curator · Arusha · cs_a_arusha_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_abbey_01",
    "text": "An abbey is a monastery headed by an abbot",
    "standing": "projectable",
-   "evidence": "history · product curator · Abbey · cs_a_abbey_01"
+   "evidence": "history · product curator · Abbey · cs_a_abbey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_absolute_value_01",
    "text": "Absolute value is distance from zero on a number line",
    "standing": "projectable",
-   "evidence": "math · product curator · Absolute value · cs_a_absolute_value_01"
+   "evidence": "math · product curator · Absolute value · cs_a_absolute_value_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_abstract_01",
    "text": "An abstract summarizes a longer work",
    "standing": "projectable",
-   "evidence": "language · product curator · Abstract · cs_a_abstract_01"
+   "evidence": "language · product curator · Abstract · cs_a_abstract_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acid_rain_01",
    "text": "Acid rain has a low pH from air pollution",
    "standing": "projectable",
-   "evidence": "science · product curator · Acid rain · cs_a_acid_rain_01"
+   "evidence": "science · product curator · Acid rain · cs_a_acid_rain_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_actin_01",
    "text": "Actin is a protein in muscle fibers",
    "standing": "projectable",
-   "evidence": "science · product curator · Actin · cs_a_actin_01"
+   "evidence": "science · product curator · Actin · cs_a_actin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_active_transport_01",
    "text": "Active transport moves substances against a concentration gradient",
    "standing": "projectable",
-   "evidence": "science · product curator · Active transport · cs_a_active_transport_01"
+   "evidence": "science · product curator · Active transport · cs_a_active_transport_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aerial_root_01",
    "text": "An aerial root grows above the ground",
    "standing": "projectable",
-   "evidence": "nature · product curator · Aerial root · cs_a_aerial_root_01"
+   "evidence": "nature · product curator · Aerial root · cs_a_aerial_root_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_affidavit_01",
    "text": "An affidavit is a sworn written statement",
    "standing": "projectable",
-   "evidence": "civics · product curator · Affidavit · cs_a_affidavit_01"
+   "evidence": "civics · product curator · Affidavit · cs_a_affidavit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_agriculture_01",
    "text": "Agriculture is the practice of farming",
    "standing": "projectable",
-   "evidence": "history · product curator · Agriculture · cs_a_agriculture_01"
+   "evidence": "history · product curator · Agriculture · cs_a_agriculture_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_algae_01",
    "text": "Algae are simple photosynthetic organisms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Algae · cs_a_algae_01"
+   "evidence": "nature · product curator · Algae · cs_a_algae_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alliteration_01",
    "text": "Alliteration repeats initial consonant sounds",
    "standing": "projectable",
-   "evidence": "language · product curator · Alliteration · cs_a_alliteration_01"
+   "evidence": "language · product curator · Alliteration · cs_a_alliteration_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_altitude_01",
    "text": "Altitude is height above a reference level",
    "standing": "projectable",
-   "evidence": "geography · product curator · Altitude · cs_a_altitude_01"
+   "evidence": "geography · product curator · Altitude · cs_a_altitude_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_annual_ring_01",
    "text": "An annual ring marks one year of tree growth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Annual ring · cs_a_annual_ring_01"
+   "evidence": "nature · product curator · Annual ring · cs_a_annual_ring_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_axiom_01",
    "text": "An axiom is a statement accepted without proof",
    "standing": "projectable",
-   "evidence": "math · product curator · Axiom · cs_a_axiom_01"
+   "evidence": "math · product curator · Axiom · cs_a_axiom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_absolute_value_02",
    "text": "Absolute value is never negative",
    "standing": "projectable",
-   "evidence": "math · product curator · Absolute value · cs_a_absolute_value_02"
+   "evidence": "math · product curator · Absolute value · cs_a_absolute_value_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_absolute_zero_03",
    "text": "Absolute zero is the lowest possible temperature",
    "standing": "projectable",
-   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_03"
+   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_abstract_02",
    "text": "An abstract summarizes a longer text",
    "standing": "projectable",
-   "evidence": "language · product curator · Abstract · cs_a_abstract_02"
+   "evidence": "language · product curator · Abstract · cs_a_abstract_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acute_angle_02",
    "text": "An acute angle is less than a right angle",
    "standing": "projectable",
-   "evidence": "math · product curator · Acute angle · cs_a_acute_angle_02"
+   "evidence": "math · product curator · Acute angle · cs_a_acute_angle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alphabet_02",
    "text": "An alphabet is a set of letters",
    "standing": "projectable",
-   "evidence": "language · product curator · Alphabet · cs_a_alphabet_02"
+   "evidence": "language · product curator · Alphabet · cs_a_alphabet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alps_02",
    "text": "The Alps are mountains in Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Alps · cs_a_alps_02"
+   "evidence": "geography · product curator · Alps · cs_a_alps_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amendment_03",
    "text": "An amendment changes a constitution",
    "standing": "projectable",
-   "evidence": "civics · product curator · Amendment · cs_a_amendment_03"
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_american_revolution_02",
    "text": "The American Revolution created the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · American Revolution · cs_a_american_revolution_02"
+   "evidence": "history · product curator · American Revolution · cs_a_american_revolution_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arithmetic_mean_02",
    "text": "The arithmetic mean is an average",
    "standing": "projectable",
-   "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_02"
+   "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atom_04",
    "text": "An atom is the basic unit of matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Atom · cs_a_atom_04"
+   "evidence": "science · product curator · Atom · cs_a_atom_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acid_02",
    "text": "An acid donates a proton in water",
    "standing": "projectable",
-   "evidence": "science · product curator · Acid · cs_a_acid_02"
+   "evidence": "science · product curator · Acid · cs_a_acid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_addition_02",
    "text": "Addition finds a sum",
    "standing": "projectable",
-   "evidence": "math · product curator · Addition · cs_a_addition_02"
+   "evidence": "math · product curator · Addition · cs_a_addition_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amphibian_03",
    "text": "An amphibian lives in water as a larva",
    "standing": "projectable",
-   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_03"
+   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antibiotic_02",
    "text": "An antibiotic fights bacterial infection",
    "standing": "projectable",
-   "evidence": "science · product curator · Antibiotic · cs_a_antibiotic_02"
+   "evidence": "science · product curator · Antibiotic · cs_a_antibiotic_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_area_02",
    "text": "Area measures the size of a surface",
    "standing": "projectable",
-   "evidence": "math · product curator · Area · cs_a_area_02"
+   "evidence": "math · product curator · Area · cs_a_area_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_artery_02",
    "text": "An artery carries blood from the heart",
    "standing": "projectable",
-   "evidence": "science · product curator · Artery · cs_a_artery_02"
+   "evidence": "science · product curator · Artery · cs_a_artery_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atmosphere_03",
    "text": "An atmosphere surrounds a planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_03"
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atom_05",
    "text": "An atom is the smallest unit of an element",
    "standing": "projectable",
-   "evidence": "science · product curator · Atom · cs_a_atom_05"
+   "evidence": "science · product curator · Atom · cs_a_atom_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acorn_02",
    "text": "An acorn is the nut of an oak",
    "standing": "projectable",
-   "evidence": "nature · product curator · Acorn · cs_a_acorn_02"
+   "evidence": "nature · product curator · Acorn · cs_a_acorn_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_adjective_01",
    "text": "An adjective modifies a noun",
    "standing": "projectable",
-   "evidence": "language · product curator · Adjective · cs_a_adjective_01"
+   "evidence": "language · product curator · Adjective · cs_a_adjective_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_altitude_02",
    "text": "Altitude is height above sea level",
    "standing": "projectable",
-   "evidence": "geography · product curator · Altitude · cs_a_altitude_02"
+   "evidence": "geography · product curator · Altitude · cs_a_altitude_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anther_01",
    "text": "An anther holds pollen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Anther · cs_a_anther_01"
+   "evidence": "nature · product curator · Anther · cs_a_anther_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_april_01",
    "text": "April is the fourth month",
    "standing": "projectable",
-   "evidence": "civics · product curator · April · cs_a_april_01"
+   "evidence": "civics · product curator · April · cs_a_april_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_asteroid_01",
    "text": "An asteroid orbits the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Asteroid · cs_a_asteroid_01"
+   "evidence": "science · product curator · Asteroid · cs_a_asteroid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aurora_01",
    "text": "An aurora lights the polar sky",
    "standing": "projectable",
-   "evidence": "science · product curator · Aurora · cs_a_aurora_01"
+   "evidence": "science · product curator · Aurora · cs_a_aurora_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_axis_01",
    "text": "An axis is a reference line",
    "standing": "projectable",
-   "evidence": "math · product curator · Axis · cs_a_axis_01"
+   "evidence": "math · product curator · Axis · cs_a_axis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_asphalt_01",
    "text": "Roads use asphalt",
    "standing": "projectable",
-   "evidence": "science · product curator · Asphalt · cs_a_asphalt_01"
+   "evidence": "science · product curator · Asphalt · cs_a_asphalt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_april_02",
    "text": "April follows March",
    "standing": "projectable",
-   "evidence": "civics · product curator · April · cs_a_april_02"
+   "evidence": "civics · product curator · April · cs_a_april_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amber_01",
    "text": "Amber traps ancient insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Amber · cs_a_amber_01"
+   "evidence": "nature · product curator · Amber · cs_a_amber_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aster_01",
    "text": "An aster blooms in autumn",
    "standing": "projectable",
-   "evidence": "nature · product curator · Aster · cs_a_aster_01"
+   "evidence": "nature · product curator · Aster · cs_a_aster_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_axiom_02",
    "text": "An axiom is a starting truth",
    "standing": "projectable",
-   "evidence": "math · product curator · Axiom · cs_a_axiom_02"
+   "evidence": "math · product curator · Axiom · cs_a_axiom_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_adobe_01",
    "text": "Builders shape adobe bricks",
    "standing": "projectable",
-   "evidence": "history · product curator · Adobe · cs_a_adobe_01"
+   "evidence": "history · product curator · Adobe · cs_a_adobe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amendment_04",
    "text": "Voters approve an amendment",
    "standing": "projectable",
-   "evidence": "civics · product curator · Amendment · cs_a_amendment_04"
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_adverb_01",
    "text": "An adverb modifies a verb",
    "standing": "projectable",
-   "evidence": "language · product curator · Adverb · cs_a_adverb_01"
+   "evidence": "language · product curator · Adverb · cs_a_adverb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ash_01",
    "text": "Ash falls from a volcano",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ash · cs_a_ash_01"
+   "evidence": "geography · product curator · Ash · cs_a_ash_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_axon_01",
    "text": "A neuron sends signals along an axon",
    "standing": "projectable",
-   "evidence": "science · product curator · Axon · cs_a_axon_01"
+   "evidence": "science · product curator · Axon · cs_a_axon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anther_02",
    "text": "Pollen forms in an anther",
    "standing": "projectable",
-   "evidence": "nature · product curator · Anther · cs_a_anther_02"
+   "evidence": "nature · product curator · Anther · cs_a_anther_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alkali_02",
    "text": "An alkali neutralizes acid",
    "standing": "projectable",
-   "evidence": "science · product curator · Alkali · cs_a_alkali_02"
+   "evidence": "science · product curator · Alkali · cs_a_alkali_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alliteration_02",
    "text": "Poets use alliteration",
    "standing": "projectable",
-   "evidence": "language · product curator · Alliteration · cs_a_alliteration_02"
+   "evidence": "language · product curator · Alliteration · cs_a_alliteration_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alliteration_03",
    "text": "Alliteration repeats starting sounds",
    "standing": "projectable",
-   "evidence": "language · product curator · Alliteration · cs_a_alliteration_03"
+   "evidence": "language · product curator · Alliteration · cs_a_alliteration_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_asteroid_02",
    "text": "An asteroid orbits between Mars and Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Asteroid · cs_a_asteroid_02"
+   "evidence": "science · product curator · Asteroid · cs_a_asteroid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_axis_02",
    "text": "Earth spins on its axis",
    "standing": "projectable",
-   "evidence": "science · product curator · Axis · cs_a_axis_02"
+   "evidence": "science · product curator · Axis · cs_a_axis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acre_01",
    "text": "An acre measures land area",
    "standing": "projectable",
-   "evidence": "math · product curator · Acre · cs_a_acre_01"
+   "evidence": "math · product curator · Acre · cs_a_acre_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aurora_02",
    "text": "An aurora glows near the poles",
    "standing": "projectable",
-   "evidence": "science · product curator · Aurora · cs_a_aurora_02"
+   "evidence": "science · product curator · Aurora · cs_a_aurora_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arch_01",
    "text": "An arch supports a bridge",
    "standing": "projectable",
-   "evidence": "history · product curator · Arch · cs_a_arch_01"
+   "evidence": "history · product curator · Arch · cs_a_arch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alloy_01",
    "text": "Bronze is an alloy",
    "standing": "projectable",
-   "evidence": "science · product curator · Alloy · cs_a_alloy_01"
+   "evidence": "science · product curator · Alloy · cs_a_alloy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alcohol_01",
    "text": "Alcohol evaporates quickly",
    "standing": "projectable",
-   "evidence": "science · product curator · Alcohol · cs_a_alcohol_01"
+   "evidence": "science · product curator · Alcohol · cs_a_alcohol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amethyst_01",
    "text": "Amethyst is purple quartz",
    "standing": "projectable",
-   "evidence": "science · product curator · Amethyst · cs_a_amethyst_01"
+   "evidence": "science · product curator · Amethyst · cs_a_amethyst_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ammonia_02",
    "text": "Ammonia has a sharp smell",
    "standing": "projectable",
-   "evidence": "science · product curator · Ammonia · cs_a_ammonia_02"
+   "evidence": "science · product curator · Ammonia · cs_a_ammonia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anemone_02",
    "text": "A sea anemone stings prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Anemone · cs_a_anemone_02"
+   "evidence": "nature · product curator · Anemone · cs_a_anemone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_annelid_01",
    "text": "An earthworm is an annelid",
    "standing": "projectable",
-   "evidence": "nature · product curator · Annelid · cs_a_annelid_01"
+   "evidence": "nature · product curator · Annelid · cs_a_annelid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antler_01",
    "text": "A deer sheds its antlers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Antler · cs_a_antler_01"
+   "evidence": "nature · product curator · Antler · cs_a_antler_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ant_03",
    "text": "An ant lives in a colony",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ant · cs_a_ant_03"
+   "evidence": "nature · product curator · Ant · cs_a_ant_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atmosphere_04",
    "text": "The atmosphere wraps Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_04"
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_augite_01",
    "text": "Augite is a dark mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Augite · cs_a_augite_01"
+   "evidence": "science · product curator · Augite · cs_a_augite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_auricle_01",
    "text": "The auricle gathers sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Auricle · cs_a_auricle_01"
+   "evidence": "science · product curator · Auricle · cs_a_auricle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acorn_03",
    "text": "An oak grows from an acorn",
    "standing": "projectable",
-   "evidence": "nature · product curator · Acorn · cs_a_acorn_03"
+   "evidence": "nature · product curator · Acorn · cs_a_acorn_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alum_01",
    "text": "Alum clears cloudy water",
    "standing": "projectable",
-   "evidence": "science · product curator · Alum · cs_a_alum_01"
+   "evidence": "science · product curator · Alum · cs_a_alum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_annual_ring_02",
    "text": "A tree adds an annual ring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Annual ring · cs_a_annual_ring_02"
+   "evidence": "nature · product curator · Annual ring · cs_a_annual_ring_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antenna_01",
    "text": "An antenna receives radio",
    "standing": "projectable",
-   "evidence": "science · product curator · Antenna · cs_a_antenna_01"
+   "evidence": "science · product curator · Antenna · cs_a_antenna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anthracite_01",
    "text": "Anthracite is hard coal",
    "standing": "projectable",
-   "evidence": "science · product curator · Anthracite · cs_a_anthracite_01"
+   "evidence": "science · product curator · Anthracite · cs_a_anthracite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aorta_02",
    "text": "The aorta leaves the heart",
    "standing": "projectable",
-   "evidence": "science · product curator · Aorta · cs_a_aorta_02"
+   "evidence": "science · product curator · Aorta · cs_a_aorta_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_arithmetic_01",
    "text": "Students learn arithmetic",
    "standing": "projectable",
-   "evidence": "math · product curator · Arithmetic · cs_a_arithmetic_01"
+   "evidence": "math · product curator · Arithmetic · cs_a_arithmetic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aspen_01",
    "text": "Aspen trees share root systems",
    "standing": "projectable",
-   "evidence": "nature · product curator · Aspen · cs_a_aspen_01"
+   "evidence": "nature · product curator · Aspen · cs_a_aspen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_avocado_02",
    "text": "An avocado has a large seed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Avocado · cs_a_avocado_02"
+   "evidence": "nature · product curator · Avocado · cs_a_avocado_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_azurite_01",
    "text": "Azurite is a blue copper ore",
    "standing": "projectable",
-   "evidence": "science · product curator · Azurite · cs_a_azurite_01"
+   "evidence": "science · product curator · Azurite · cs_a_azurite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acid_rain_02",
    "text": "Acid rain harms forests",
    "standing": "projectable",
-   "evidence": "science · product curator · Acid rain · cs_a_acid_rain_02"
+   "evidence": "science · product curator · Acid rain · cs_a_acid_rain_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_agriculture_02",
    "text": "Agriculture feeds cities",
    "standing": "projectable",
-   "evidence": "civics · product curator · Agriculture · cs_a_agriculture_02"
+   "evidence": "civics · product curator · Agriculture · cs_a_agriculture_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aerobic_01",
    "text": "An aerobic process uses oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Aerobic · cs_a_aerobic_01"
+   "evidence": "science · product curator · Aerobic · cs_a_aerobic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ampere_01",
    "text": "Current uses the ampere",
    "standing": "projectable",
-   "evidence": "science · product curator · Ampere · cs_a_ampere_01"
+   "evidence": "science · product curator · Ampere · cs_a_ampere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anode_01",
    "text": "Current leaves an anode",
    "standing": "projectable",
-   "evidence": "science · product curator · Anode · cs_a_anode_01"
+   "evidence": "science · product curator · Anode · cs_a_anode_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anteater_02",
    "text": "An anteater eats ants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Anteater · cs_a_anteater_02"
+   "evidence": "nature · product curator · Anteater · cs_a_anteater_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aperture_01",
    "text": "Light enters an aperture",
    "standing": "projectable",
-   "evidence": "science · product curator · Aperture · cs_a_aperture_01"
+   "evidence": "science · product curator · Aperture · cs_a_aperture_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aphid_01",
    "text": "An aphid feeds on plant sap",
    "standing": "projectable",
-   "evidence": "nature · product curator · Aphid · cs_a_aphid_01"
+   "evidence": "nature · product curator · Aphid · cs_a_aphid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_argon_03",
    "text": "Argon shields weld arcs",
    "standing": "projectable",
-   "evidence": "science · product curator · Argon · cs_a_argon_03"
+   "evidence": "science · product curator · Argon · cs_a_argon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ash_02",
    "text": "Ash enriches forest soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ash · cs_a_ash_02"
+   "evidence": "nature · product curator · Ash · cs_a_ash_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alloy_02",
    "text": "An alloy mixes metal atoms",
    "standing": "projectable",
-   "evidence": "science · product curator · Alloy · cs_a_alloy_02"
+   "evidence": "science · product curator · Alloy · cs_a_alloy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amber_02",
    "text": "Insects trap in amber sap",
    "standing": "projectable",
-   "evidence": "nature · product curator · Amber · cs_a_amber_02"
+   "evidence": "nature · product curator · Amber · cs_a_amber_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_ampere_02",
    "text": "An ampere measures current",
    "standing": "projectable",
-   "evidence": "science · product curator · Ampere · cs_a_ampere_02"
+   "evidence": "science · product curator · Ampere · cs_a_ampere_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_apex_01",
    "text": "A pyramid rises to an apex",
    "standing": "projectable",
-   "evidence": "math · product curator · Apex · cs_a_apex_01"
+   "evidence": "math · product curator · Apex · cs_a_apex_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_apricot_01",
    "text": "An apricot ripens on a tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Apricot · cs_a_apricot_01"
+   "evidence": "nature · product curator · Apricot · cs_a_apricot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_argon_04",
    "text": "Bulbs fill with argon gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Argon · cs_a_argon_04"
+   "evidence": "science · product curator · Argon · cs_a_argon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atrium_01",
    "text": "Blood fills a heart atrium",
    "standing": "projectable",
-   "evidence": "science · product curator · Atrium · cs_a_atrium_01"
+   "evidence": "science · product curator · Atrium · cs_a_atrium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_axon_02",
    "text": "Signals travel an axon",
    "standing": "projectable",
-   "evidence": "science · product curator · Axon · cs_a_axon_02"
+   "evidence": "science · product curator · Axon · cs_a_axon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alloy_03",
    "text": "Alloys harden soft metals",
    "standing": "projectable",
-   "evidence": "science · product curator · Alloy · cs_a_alloy_03"
+   "evidence": "science · product curator · Alloy · cs_a_alloy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alkali_03",
    "text": "Alkalis neutralize acids",
    "standing": "projectable",
-   "evidence": "science · product curator · Alkali · cs_a_alkali_03"
+   "evidence": "science · product curator · Alkali · cs_a_alkali_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amino_acid_01",
    "text": "Amino acids build proteins",
    "standing": "projectable",
-   "evidence": "science · product curator · Amino acid · cs_a_amino_acid_01"
+   "evidence": "science · product curator · Amino acid · cs_a_amino_acid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aorta_03",
    "text": "Aorta carries heart blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Aorta · cs_a_aorta_03"
+   "evidence": "science · product curator · Aorta · cs_a_aorta_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antigen_01",
    "text": "Antigens trigger immunity",
    "standing": "projectable",
-   "evidence": "science · product curator · Antigen · cs_a_antigen_01"
+   "evidence": "science · product curator · Antigen · cs_a_antigen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_argon_05",
    "text": "Argon fills light bulbs",
    "standing": "projectable",
-   "evidence": "science · product curator · Argon · cs_a_argon_05"
+   "evidence": "science · product curator · Argon · cs_a_argon_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atmosphere_05",
    "text": "Atmosphere traps solar heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_05"
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atrium_02",
    "text": "The atrium fills with blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Atrium · cs_a_atrium_02"
+   "evidence": "science · product curator · Atrium · cs_a_atrium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aurora_03",
    "text": "Auroras light polar skies",
    "standing": "projectable",
-   "evidence": "science · product curator · Aurora · cs_a_aurora_03"
+   "evidence": "science · product curator · Aurora · cs_a_aurora_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_axon_03",
    "text": "Axons carry nerve signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Axon · cs_a_axon_03"
+   "evidence": "science · product curator · Axon · cs_a_axon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aerosol_01",
    "text": "Aerosols scatter sunlight",
    "standing": "projectable",
-   "evidence": "science · product curator · Aerosol · cs_a_aerosol_01"
+   "evidence": "science · product curator · Aerosol · cs_a_aerosol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_agar_01",
    "text": "Agar gels culture plates",
    "standing": "projectable",
-   "evidence": "science · product curator · Agar · cs_a_agar_01"
+   "evidence": "science · product curator · Agar · cs_a_agar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_albedo_01",
    "text": "Albedo reflects solar light",
    "standing": "projectable",
-   "evidence": "science · product curator · Albedo · cs_a_albedo_01"
+   "evidence": "science · product curator · Albedo · cs_a_albedo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_andesite_01",
    "text": "Andesite cools from lava",
    "standing": "projectable",
-   "evidence": "science · product curator · Andesite · cs_a_andesite_01"
+   "evidence": "science · product curator · Andesite · cs_a_andesite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anion_01",
    "text": "Anions carry negative charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Anion · cs_a_anion_01"
+   "evidence": "science · product curator · Anion · cs_a_anion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_antibody_01",
    "text": "Antibodies mark invaders",
    "standing": "projectable",
-   "evidence": "science · product curator · Antibody · cs_a_antibody_01"
+   "evidence": "science · product curator · Antibody · cs_a_antibody_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_aphid_02",
    "text": "Aphids suck plant sap",
    "standing": "projectable",
-   "evidence": "nature · product curator · Aphid · cs_a_aphid_02"
+   "evidence": "nature · product curator · Aphid · cs_a_aphid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_atom_06",
    "text": "Atoms form ordinary matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Atom · cs_a_atom_06"
+   "evidence": "science · product curator · Atom · cs_a_atom_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_auricle_02",
    "text": "Auricles collect sound waves",
    "standing": "projectable",
-   "evidence": "science · product curator · Auricle · cs_a_auricle_02"
+   "evidence": "science · product curator · Auricle · cs_a_auricle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_azimuth_01",
    "text": "Azimuth ranks compass bearing",
    "standing": "projectable",
-   "evidence": "science · product curator · Azimuth · cs_a_azimuth_01"
+   "evidence": "science · product curator · Azimuth · cs_a_azimuth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acetic_01",
    "text": "Acetic acid sours vinegar",
    "standing": "projectable",
-   "evidence": "science · product curator · Acetic · cs_a_acetic_01"
+   "evidence": "science · product curator · Acetic · cs_a_acetic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_acetone_01",
    "text": "Acetone dissolves nail polish",
    "standing": "projectable",
-   "evidence": "science · product curator · Acetone · cs_a_acetone_01"
+   "evidence": "science · product curator · Acetone · cs_a_acetone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_actin_02",
    "text": "Actin pulls muscle fibers",
    "standing": "projectable",
-   "evidence": "science · product curator · Actin · cs_a_actin_02"
+   "evidence": "science · product curator · Actin · cs_a_actin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_albumin_01",
    "text": "Albumin carries blood solutes",
    "standing": "projectable",
-   "evidence": "science · product curator · Albumin · cs_a_albumin_01"
+   "evidence": "science · product curator · Albumin · cs_a_albumin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_alloy_04",
    "text": "Metals mix into an alloy",
    "standing": "projectable",
-   "evidence": "science · product curator · Alloy · cs_a_alloy_04"
+   "evidence": "science · product curator · Alloy · cs_a_alloy_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_amylase_01",
    "text": "Amylase digests starch chains",
    "standing": "projectable",
-   "evidence": "science · product curator · Amylase · cs_a_amylase_01"
+   "evidence": "science · product curator · Amylase · cs_a_amylase_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_angle_02",
    "text": "An angle joins two rays",
    "standing": "projectable",
-   "evidence": "math · product curator · Angle · cs_a_angle_02"
+   "evidence": "math · product curator · Angle · cs_a_angle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_anther_03",
    "text": "Anthers release pollen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Anther · cs_a_anther_03"
+   "evidence": "nature · product curator · Anther · cs_a_anther_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_assimilation_01",
    "text": "Plants assimilate carbon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Assimilation · cs_a_assimilation_01"
+   "evidence": "nature · product curator · Assimilation · cs_a_assimilation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_a_azimuth_02",
    "text": "Navigators measure azimuth",
    "standing": "projectable",
-   "evidence": "science · product curator · Azimuth · cs_a_azimuth_02"
+   "evidence": "science · product curator · Azimuth · cs_a_azimuth_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

@@ -12,1501 +12,2751 @@
    "id": "cs_s_sweden_01",
    "text": "Stockholm is the capital of Sweden",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sweden · cs_s_sweden_01"
+   "evidence": "geography · product curator · Sweden · cs_s_sweden_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_switzerland_01",
    "text": "Switzerland is a landlocked country",
    "standing": "projectable",
-   "evidence": "geography · product curator · Switzerland · cs_s_switzerland_01"
+   "evidence": "geography · product curator · Switzerland · cs_s_switzerland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_singapore_01",
    "text": "Singapore is a city-state in Southeast Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Singapore · cs_s_singapore_01"
+   "evidence": "geography · product curator · Singapore · cs_s_singapore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_south_africa_01",
    "text": "South Africa has three capital cities",
    "standing": "projectable",
-   "evidence": "geography · product curator · South Africa · cs_s_south_africa_01"
+   "evidence": "geography · product curator · South Africa · cs_s_south_africa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_south_korea_01",
    "text": "Seoul is the capital of South Korea",
    "standing": "projectable",
-   "evidence": "geography · product curator · South Korea · cs_s_south_korea_01"
+   "evidence": "geography · product curator · South Korea · cs_s_south_korea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_serbia_01",
    "text": "Belgrade is the capital of Serbia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Serbia · cs_s_serbia_01"
+   "evidence": "geography · product curator · Serbia · cs_s_serbia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_slovakia_01",
    "text": "Bratislava is the capital of Slovakia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Slovakia · cs_s_slovakia_01"
+   "evidence": "geography · product curator · Slovakia · cs_s_slovakia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_somalia_01",
    "text": "Mogadishu is the capital of Somalia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Somalia · cs_s_somalia_01"
+   "evidence": "geography · product curator · Somalia · cs_s_somalia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sri_lanka_01",
    "text": "Sri Lanka is an island in the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sri Lanka · cs_s_sri_lanka_01"
+   "evidence": "geography · product curator · Sri Lanka · cs_s_sri_lanka_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seoul_01",
    "text": "Seoul lies on the Han",
    "standing": "projectable",
-   "evidence": "geography · product curator · Seoul · cs_s_seoul_01"
+   "evidence": "geography · product curator · Seoul · cs_s_seoul_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stockholm_01",
    "text": "Stockholm is built on a group of islands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Stockholm · cs_s_stockholm_01"
+   "evidence": "geography · product curator · Stockholm · cs_s_stockholm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sahara_01",
    "text": "The Sahara is in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sahara · cs_s_sahara_01"
+   "evidence": "geography · product curator · Sahara · cs_s_sahara_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sahara_02",
    "text": "The Sahara is the largest hot desert in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sahara · cs_s_sahara_02"
+   "evidence": "geography · product curator · Sahara · cs_s_sahara_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_siberia_01",
    "text": "Siberia is a region of Russia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Siberia · cs_s_siberia_01"
+   "evidence": "geography · product curator · Siberia · cs_s_siberia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sicily_01",
    "text": "Sicily is the largest island in the Mediterranean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sicily · cs_s_sicily_01"
+   "evidence": "geography · product curator · Sicily · cs_s_sicily_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_southern_ocean_01",
    "text": "The Southern Ocean surrounds Antarctica",
    "standing": "projectable",
-   "evidence": "geography · product curator · Southern Ocean · cs_s_southern_ocean_01"
+   "evidence": "geography · product curator · Southern Ocean · cs_s_southern_ocean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_south_america_01",
    "text": "South America is the fourth largest continent by area",
    "standing": "projectable",
-   "evidence": "geography · product curator · South America · cs_s_south_america_01"
+   "evidence": "geography · product curator · South America · cs_s_south_america_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_suez_canal_01",
    "text": "The Suez Canal connects the Mediterranean Sea and the Red Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Suez Canal · cs_s_suez_canal_01"
+   "evidence": "geography · product curator · Suez Canal · cs_s_suez_canal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_suez_canal_02",
    "text": "The Suez Canal opened in 1869",
    "standing": "projectable",
-   "evidence": "history · product curator · Suez Canal · cs_s_suez_canal_02"
+   "evidence": "history · product curator · Suez Canal · cs_s_suez_canal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_superior_lake_01",
    "text": "Lake Superior is the largest freshwater lake by surface area",
    "standing": "projectable",
-   "evidence": "geography · product curator · Superior, Lake · cs_s_superior_lake_01"
+   "evidence": "geography · product curator · Superior, Lake · cs_s_superior_lake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salt_lake_city_01",
    "text": "Salt Lake City is the capital of Utah",
    "standing": "projectable",
-   "evidence": "geography · product curator · Salt Lake City · cs_s_salt_lake_city_01"
+   "evidence": "geography · product curator · Salt Lake City · cs_s_salt_lake_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sun_01",
    "text": "The Sun is a star",
    "standing": "projectable",
-   "evidence": "science · product curator · Sun · cs_s_sun_01"
+   "evidence": "science · product curator · Sun · cs_s_sun_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sun_02",
    "text": "The Sun is at the center of the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Sun · cs_s_sun_02"
+   "evidence": "science · product curator · Sun · cs_s_sun_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sun_03",
    "text": "Light from the Sun takes about eight minutes to reach Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Sun · cs_s_sun_03"
+   "evidence": "science · product curator · Sun · cs_s_sun_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saturn_01",
    "text": "Saturn is the sixth planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Saturn · cs_s_saturn_01"
+   "evidence": "science · product curator · Saturn · cs_s_saturn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saturn_02",
    "text": "Saturn has a prominent ring system",
    "standing": "projectable",
-   "evidence": "science · product curator · Saturn · cs_s_saturn_02"
+   "evidence": "science · product curator · Saturn · cs_s_saturn_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saturn_03",
    "text": "Titan is the largest moon of Saturn",
    "standing": "projectable",
-   "evidence": "science · product curator · Saturn · cs_s_saturn_03"
+   "evidence": "science · product curator · Saturn · cs_s_saturn_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_solar_system_01",
    "text": "The solar system has eight planets",
    "standing": "projectable",
-   "evidence": "science · product curator · Solar system · cs_s_solar_system_01"
+   "evidence": "science · product curator · Solar system · cs_s_solar_system_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_supernova_01",
    "text": "A supernova is the explosion of a star",
    "standing": "projectable",
-   "evidence": "science · product curator · Supernova · cs_s_supernova_01"
+   "evidence": "science · product curator · Supernova · cs_s_supernova_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_silicon_01",
    "text": "Silicon has the chemical symbol Si",
    "standing": "projectable",
-   "evidence": "science · product curator · Silicon · cs_s_silicon_01"
+   "evidence": "science · product curator · Silicon · cs_s_silicon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_silver_01",
    "text": "Silver has the chemical symbol Ag",
    "standing": "projectable",
-   "evidence": "science · product curator · Silver · cs_s_silver_01"
+   "evidence": "science · product curator · Silver · cs_s_silver_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sodium_01",
    "text": "Sodium has the chemical symbol Na",
    "standing": "projectable",
-   "evidence": "science · product curator · Sodium · cs_s_sodium_01"
+   "evidence": "science · product curator · Sodium · cs_s_sodium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sulfur_01",
    "text": "Sulfur has the chemical symbol S",
    "standing": "projectable",
-   "evidence": "science · product curator · Sulfur · cs_s_sulfur_01"
+   "evidence": "science · product curator · Sulfur · cs_s_sulfur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_strontium_01",
    "text": "Strontium has the chemical symbol Sr",
    "standing": "projectable",
-   "evidence": "science · product curator · Strontium · cs_s_strontium_01"
+   "evidence": "science · product curator · Strontium · cs_s_strontium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scandium_01",
    "text": "Scandium has the chemical symbol Sc",
    "standing": "projectable",
-   "evidence": "science · product curator · Scandium · cs_s_scandium_01"
+   "evidence": "science · product curator · Scandium · cs_s_scandium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_selenium_01",
    "text": "Selenium has the chemical symbol Se",
    "standing": "projectable",
-   "evidence": "science · product curator · Selenium · cs_s_selenium_01"
+   "evidence": "science · product curator · Selenium · cs_s_selenium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sodium_chloride_01",
    "text": "Table salt is sodium chloride",
    "standing": "projectable",
-   "evidence": "science · product curator · Sodium chloride · cs_s_sodium_chloride_01"
+   "evidence": "science · product curator · Sodium chloride · cs_s_sodium_chloride_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_speed_of_sound_01",
    "text": "Sound travels about 343 meters per second in air at 20 degrees Celsius",
    "standing": "projectable",
-   "evidence": "science · product curator · Speed of sound · cs_s_speed_of_sound_01"
+   "evidence": "science · product curator · Speed of sound · cs_s_speed_of_sound_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sound_01",
    "text": "Sound cannot travel through a vacuum",
    "standing": "projectable",
-   "evidence": "science · product curator · Sound · cs_s_sound_01"
+   "evidence": "science · product curator · Sound · cs_s_sound_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sublimation_01",
    "text": "Sublimation is the change from solid directly to gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Sublimation · cs_s_sublimation_01"
+   "evidence": "science · product curator · Sublimation · cs_s_sublimation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sedimentary_rock_01",
    "text": "Sandstone is a sedimentary rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Sedimentary rock · cs_s_sedimentary_rock_01"
+   "evidence": "science · product curator · Sedimentary rock · cs_s_sedimentary_rock_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_skeleton_01",
    "text": "The skull protects the brain",
    "standing": "projectable",
-   "evidence": "science · product curator · Skeleton · cs_s_skeleton_01"
+   "evidence": "science · product curator · Skeleton · cs_s_skeleton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_skin_01",
    "text": "The skin is the largest organ of the human body",
    "standing": "projectable",
-   "evidence": "science · product curator · Skin · cs_s_skin_01"
+   "evidence": "science · product curator · Skin · cs_s_skin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stomach_01",
    "text": "The stomach produces acid to help digest food",
    "standing": "projectable",
-   "evidence": "science · product curator · Stomach · cs_s_stomach_01"
+   "evidence": "science · product curator · Stomach · cs_s_stomach_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shark_01",
    "text": "Sharks have skeletons made of cartilage",
    "standing": "projectable",
-   "evidence": "nature · product curator · Shark · cs_s_shark_01"
+   "evidence": "nature · product curator · Shark · cs_s_shark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_snake_01",
    "text": "Snakes are reptiles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Snake · cs_s_snake_01"
+   "evidence": "nature · product curator · Snake · cs_s_snake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_snake_02",
    "text": "Snakes have no legs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Snake · cs_s_snake_02"
+   "evidence": "nature · product curator · Snake · cs_s_snake_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spider_01",
    "text": "Spiders spin silk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spider · cs_s_spider_01"
+   "evidence": "nature · product curator · Spider · cs_s_spider_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_starfish_01",
    "text": "Starfish are echinoderms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Starfish · cs_s_starfish_01"
+   "evidence": "nature · product curator · Starfish · cs_s_starfish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sloth_01",
    "text": "Sloths are native to Central and South America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sloth · cs_s_sloth_01"
+   "evidence": "nature · product curator · Sloth · cs_s_sloth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_squirrel_01",
    "text": "Squirrels are rodents",
    "standing": "projectable",
-   "evidence": "nature · product curator · Squirrel · cs_s_squirrel_01"
+   "evidence": "nature · product curator · Squirrel · cs_s_squirrel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_swan_01",
    "text": "Swans are waterfowl",
    "standing": "projectable",
-   "evidence": "nature · product curator · Swan · cs_s_swan_01"
+   "evidence": "nature · product curator · Swan · cs_s_swan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seal_01",
    "text": "Seals are marine mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Seal · cs_s_seal_01"
+   "evidence": "nature · product curator · Seal · cs_s_seal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_skunk_01",
    "text": "Skunks spray a strong-smelling liquid for defense",
    "standing": "projectable",
-   "evidence": "nature · product curator · Skunk · cs_s_skunk_01"
+   "evidence": "nature · product curator · Skunk · cs_s_skunk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_snow_leopard_01",
    "text": "Snow leopards live in the mountains of Central Asia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Snow leopard · cs_s_snow_leopard_01"
+   "evidence": "nature · product curator · Snow leopard · cs_s_snow_leopard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sunflower_01",
    "text": "Young sunflowers follow the Sun",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sunflower · cs_s_sunflower_01"
+   "evidence": "nature · product curator · Sunflower · cs_s_sunflower_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sequoia_01",
    "text": "Giant sequoias are the largest trees by volume",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_01"
+   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spruce_01",
    "text": "Spruce trees are conifers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spruce · cs_s_spruce_01"
+   "evidence": "nature · product curator · Spruce · cs_s_spruce_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_socrates_01",
    "text": "Socrates was a Greek philosopher",
    "standing": "projectable",
-   "evidence": "history · product curator · Socrates · cs_s_socrates_01"
+   "evidence": "history · product curator · Socrates · cs_s_socrates_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shakespeare_william_01",
    "text": "William Shakespeare wrote Hamlet",
    "standing": "projectable",
-   "evidence": "history · product curator · Shakespeare, William · cs_s_shakespeare_william_01"
+   "evidence": "history · product curator · Shakespeare, William · cs_s_shakespeare_william_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shakespeare_william_02",
    "text": "William Shakespeare was born in Stratford-upon-Avon",
    "standing": "projectable",
-   "evidence": "history · product curator · Shakespeare, William · cs_s_shakespeare_william_02"
+   "evidence": "history · product curator · Shakespeare, William · cs_s_shakespeare_william_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sputnik_1_01",
    "text": "Sputnik was the first artificial satellite",
    "standing": "projectable",
-   "evidence": "history · product curator · Sputnik 1 · cs_s_sputnik_1_01"
+   "evidence": "history · product curator · Sputnik 1 · cs_s_sputnik_1_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_statue_of_liberty_01",
    "text": "The Statue of Liberty was a gift from France",
    "standing": "projectable",
-   "evidence": "history · product curator · Statue of Liberty · cs_s_statue_of_liberty_01"
+   "evidence": "history · product curator · Statue of Liberty · cs_s_statue_of_liberty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_statue_of_liberty_02",
    "text": "The Statue of Liberty was dedicated in 1886",
    "standing": "projectable",
-   "evidence": "history · product curator · Statue of Liberty · cs_s_statue_of_liberty_02"
+   "evidence": "history · product curator · Statue of Liberty · cs_s_statue_of_liberty_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stonehenge_01",
    "text": "Stonehenge is a prehistoric monument in England",
    "standing": "projectable",
-   "evidence": "history · product curator · Stonehenge · cs_s_stonehenge_01"
+   "evidence": "history · product curator · Stonehenge · cs_s_stonehenge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sphinx_01",
    "text": "The Great Sphinx is at Giza",
    "standing": "projectable",
-   "evidence": "history · product curator · Sphinx · cs_s_sphinx_01"
+   "evidence": "history · product curator · Sphinx · cs_s_sphinx_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_silk_road_01",
    "text": "The Silk Road was a network of trade routes linking East and West",
    "standing": "projectable",
-   "evidence": "history · product curator · Silk Road · cs_s_silk_road_01"
+   "evidence": "history · product curator · Silk Road · cs_s_silk_road_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sparta_01",
    "text": "Sparta was a Greek city state",
    "standing": "projectable",
-   "evidence": "history · product curator · Sparta · cs_s_sparta_01"
+   "evidence": "history · product curator · Sparta · cs_s_sparta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_square_01",
    "text": "A square has four equal sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Square · cs_s_square_01"
+   "evidence": "math · product curator · Square · cs_s_square_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sphere_01",
    "text": "Every point on a sphere is the same distance from its center",
    "standing": "projectable",
-   "evidence": "math · product curator · Sphere · cs_s_sphere_01"
+   "evidence": "math · product curator · Sphere · cs_s_sphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_square_root_01",
    "text": "The square root of 144 is 12",
    "standing": "projectable",
-   "evidence": "math · product curator · Square root · cs_s_square_root_01"
+   "evidence": "math · product curator · Square root · cs_s_square_root_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_second_01",
    "text": "The second is the SI base unit of time",
    "standing": "projectable",
-   "evidence": "math · product curator · Second · cs_s_second_01"
+   "evidence": "math · product curator · Second · cs_s_second_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_supreme_court_01",
    "text": "The American Supreme Court has nine justices",
    "standing": "projectable",
-   "evidence": "civics · product curator · Supreme Court · cs_s_supreme_court_01"
+   "evidence": "civics · product curator · Supreme Court · cs_s_supreme_court_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_senate_01",
    "text": "The American Senate has 100 members",
    "standing": "projectable",
-   "evidence": "civics · product curator · Senate · cs_s_senate_01"
+   "evidence": "civics · product curator · Senate · cs_s_senate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_senate_02",
    "text": "American senators serve six-year terms",
    "standing": "projectable",
-   "evidence": "civics · product curator · Senate · cs_s_senate_02"
+   "evidence": "civics · product curator · Senate · cs_s_senate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spanish_01",
    "text": "Spanish is a Romance language",
    "standing": "projectable",
-   "evidence": "language · product curator · Spanish · cs_s_spanish_01"
+   "evidence": "language · product curator · Spanish · cs_s_spanish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_swahili_01",
    "text": "Swahili is widely spoken in East Africa",
    "standing": "projectable",
-   "evidence": "language · product curator · Swahili · cs_s_swahili_01"
+   "evidence": "language · product curator · Swahili · cs_s_swahili_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_september_01",
    "text": "September has 30 days",
    "standing": "projectable",
-   "evidence": "general · product curator · September · cs_s_september_01"
+   "evidence": "general · product curator · September · cs_s_september_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_soccer_01",
    "text": "A soccer team has 11 players on the field",
    "standing": "projectable",
-   "evidence": "general · product curator · Soccer · cs_s_soccer_01"
+   "evidence": "general · product curator · Soccer · cs_s_soccer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saturday_01",
    "text": "Saturday is named after Saturn",
    "standing": "projectable",
-   "evidence": "language · product curator · Saturday · cs_s_saturday_01"
+   "evidence": "language · product curator · Saturday · cs_s_saturday_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sweden_02",
    "text": "Sweden is in Scandinavia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sweden · cs_s_sweden_02"
+   "evidence": "geography · product curator · Sweden · cs_s_sweden_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_switzerland_02",
    "text": "Bern is the capital of Switzerland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Switzerland · cs_s_switzerland_02"
+   "evidence": "geography · product curator · Switzerland · cs_s_switzerland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_solid_01",
    "text": "A solid has a fixed shape and volume",
    "standing": "projectable",
-   "evidence": "science · product curator · Solid · cs_s_solid_01"
+   "evidence": "science · product curator · Solid · cs_s_solid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_swan_02",
    "text": "Swans are large birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Swan · cs_s_swan_02"
+   "evidence": "nature · product curator · Swan · cs_s_swan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sparrow_01",
    "text": "Sparrows are small songbirds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sparrow · cs_s_sparrow_01"
+   "evidence": "nature · product curator · Sparrow · cs_s_sparrow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spider_02",
    "text": "Spiders have eight legs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spider · cs_s_spider_02"
+   "evidence": "nature · product curator · Spider · cs_s_spider_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_supreme_court_02",
    "text": "The American Supreme Court is the highest federal court",
    "standing": "projectable",
-   "evidence": "civics · product curator · Supreme Court · cs_s_supreme_court_02"
+   "evidence": "civics · product curator · Supreme Court · cs_s_supreme_court_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_south_carolina_01",
    "text": "Columbia is the capital of South Carolina",
    "standing": "projectable",
-   "evidence": "geography · product curator · South Carolina · cs_s_south_carolina_01"
+   "evidence": "geography · product curator · South Carolina · cs_s_south_carolina_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saturn_04",
    "text": "Saturn is known for its rings",
    "standing": "projectable",
-   "evidence": "science · product curator · Saturn · cs_s_saturn_04"
+   "evidence": "science · product curator · Saturn · cs_s_saturn_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_steel_01",
    "text": "Steel is an alloy of iron and carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Steel · cs_s_steel_01"
+   "evidence": "science · product curator · Steel · cs_s_steel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sheep_01",
    "text": "Sheep are raised for wool and meat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sheep · cs_s_sheep_01"
+   "evidence": "nature · product curator · Sheep · cs_s_sheep_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stork_01",
    "text": "Storks are large wading birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Stork · cs_s_stork_01"
+   "evidence": "nature · product curator · Stork · cs_s_stork_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sunflower_02",
    "text": "Young sunflowers face the Sun",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sunflower · cs_s_sunflower_02"
+   "evidence": "nature · product curator · Sunflower · cs_s_sunflower_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_squid_01",
    "text": "A squid has ten arms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Squid · cs_s_squid_01"
+   "evidence": "nature · product curator · Squid · cs_s_squid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_snail_01",
    "text": "Snails are mollusks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Snail · cs_s_snail_01"
+   "evidence": "nature · product curator · Snail · cs_s_snail_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sapphire_01",
    "text": "Sapphire is usually blue",
    "standing": "projectable",
-   "evidence": "science · product curator · Sapphire · cs_s_sapphire_01"
+   "evidence": "science · product curator · Sapphire · cs_s_sapphire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_starling_01",
    "text": "Starlings often fly in large flocks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Starling · cs_s_starling_01"
+   "evidence": "nature · product curator · Starling · cs_s_starling_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salamander_01",
    "text": "A salamander is an amphibian",
    "standing": "projectable",
-   "evidence": "nature · product curator · Salamander · cs_s_salamander_01"
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sanskrit_01",
    "text": "Sanskrit is an ancient language of India",
    "standing": "projectable",
-   "evidence": "language · product curator · Sanskrit · cs_s_sanskrit_01"
+   "evidence": "language · product curator · Sanskrit · cs_s_sanskrit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sardinia_01",
    "text": "Sardinia is an island of Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sardinia · cs_s_sardinia_01"
+   "evidence": "geography · product curator · Sardinia · cs_s_sardinia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_satellite_01",
    "text": "A satellite orbits a larger body",
    "standing": "projectable",
-   "evidence": "science · product curator · Satellite · cs_s_satellite_01"
+   "evidence": "science · product curator · Satellite · cs_s_satellite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scorpion_01",
    "text": "A scorpion is an arachnid",
    "standing": "projectable",
-   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_01"
+   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_semicolon_01",
    "text": "A semicolon is a punctuation mark",
    "standing": "projectable",
-   "evidence": "language · product curator · Semicolon · cs_s_semicolon_01"
+   "evidence": "language · product curator · Semicolon · cs_s_semicolon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sextant_01",
    "text": "A sextant is a navigation instrument",
    "standing": "projectable",
-   "evidence": "science · product curator · Sextant · cs_s_sextant_01"
+   "evidence": "science · product curator · Sextant · cs_s_sextant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shinto_01",
    "text": "Shinto is a religion of Japan",
    "standing": "projectable",
-   "evidence": "history · product curator · Shinto · cs_s_shinto_01"
+   "evidence": "history · product curator · Shinto · cs_s_shinto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sirius_01",
    "text": "Sirius is the brightest star in the night sky",
    "standing": "projectable",
-   "evidence": "science · product curator · Sirius · cs_s_sirius_01"
+   "evidence": "science · product curator · Sirius · cs_s_sirius_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_slate_01",
    "text": "Slate is a metamorphic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Slate · cs_s_slate_01"
+   "evidence": "science · product curator · Slate · cs_s_slate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_solstice_01",
    "text": "The summer solstice is the longest day of the year",
    "standing": "projectable",
-   "evidence": "science · product curator · Solstice · cs_s_solstice_01"
+   "evidence": "science · product curator · Solstice · cs_s_solstice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_speaker_of_the_house_01",
    "text": "The Speaker of the House presides over the House of Representatives",
    "standing": "projectable",
-   "evidence": "civics · product curator · Speaker of the House · cs_s_speaker_of_the_house_01"
+   "evidence": "civics · product curator · Speaker of the House · cs_s_speaker_of_the_house_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stalactite_01",
    "text": "A stalactite hangs from the ceiling of a cave",
    "standing": "projectable",
-   "evidence": "science · product curator · Stalactite · cs_s_stalactite_01"
+   "evidence": "science · product curator · Stalactite · cs_s_stalactite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stratosphere_01",
    "text": "The stratosphere contains the ozone layer",
    "standing": "projectable",
-   "evidence": "science · product curator · Stratosphere · cs_s_stratosphere_01"
+   "evidence": "science · product curator · Stratosphere · cs_s_stratosphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sumer_01",
    "text": "Sumer was an ancient civilization in Mesopotamia",
    "standing": "projectable",
-   "evidence": "history · product curator · Sumer · cs_s_sumer_01"
+   "evidence": "history · product curator · Sumer · cs_s_sumer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_synonym_01",
    "text": "A synonym is a word with a similar meaning",
    "standing": "projectable",
-   "evidence": "language · product curator · Synonym · cs_s_synonym_01"
+   "evidence": "language · product curator · Synonym · cs_s_synonym_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sine_01",
    "text": "Sine is a trigonometric function",
    "standing": "projectable",
-   "evidence": "math · product curator · Sine · cs_s_sine_01"
+   "evidence": "math · product curator · Sine · cs_s_sine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sitka_spruce_01",
    "text": "The Sitka spruce is a conifer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sitka spruce · cs_s_sitka_spruce_01"
+   "evidence": "nature · product curator · Sitka spruce · cs_s_sitka_spruce_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sumatra_01",
    "text": "Sumatra is an island of Indonesia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sumatra · cs_s_sumatra_01"
+   "evidence": "geography · product curator · Sumatra · cs_s_sumatra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stegosaurus_01",
    "text": "Stegosaurus is an extinct dinosaur",
    "standing": "projectable",
-   "evidence": "nature · product curator · Stegosaurus · cs_s_stegosaurus_01"
+   "evidence": "nature · product curator · Stegosaurus · cs_s_stegosaurus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sapporo_01",
    "text": "Sapporo is a city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sapporo · cs_s_sapporo_01"
+   "evidence": "geography · product curator · Sapporo · cs_s_sapporo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sahel_01",
    "text": "The Sahel is a region in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sahel · cs_s_sahel_01"
+   "evidence": "geography · product curator · Sahel · cs_s_sahel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spinach_01",
    "text": "Spinach is a leafy vegetable",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spinach · cs_s_spinach_01"
+   "evidence": "nature · product curator · Spinach · cs_s_spinach_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stork_chick_01",
    "text": "A stork chick hatches from an egg",
    "standing": "projectable",
-   "evidence": "nature · product curator · Stork chick · cs_s_stork_chick_01"
+   "evidence": "nature · product curator · Stork chick · cs_s_stork_chick_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sonnet_01",
    "text": "A sonnet is a poem with fourteen lines",
    "standing": "projectable",
-   "evidence": "language · product curator · Sonnet · cs_s_sonnet_01"
+   "evidence": "language · product curator · Sonnet · cs_s_sonnet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_steam_engine_01",
    "text": "A steam engine burns coal",
    "standing": "projectable",
-   "evidence": "history · product curator · Steam engine · cs_s_steam_engine_01"
+   "evidence": "history · product curator · Steam engine · cs_s_steam_engine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saxophone_01",
    "text": "A saxophone is a musical instrument",
    "standing": "projectable",
-   "evidence": "history · product curator · Saxophone · cs_s_saxophone_01"
+   "evidence": "history · product curator · Saxophone · cs_s_saxophone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sheriff_01",
    "text": "A sheriff is a county officer",
    "standing": "projectable",
-   "evidence": "civics · product curator · Sheriff · cs_s_sheriff_01"
+   "evidence": "civics · product curator · Sheriff · cs_s_sheriff_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saffron_01",
    "text": "Saffron comes from a crocus flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Saffron · cs_s_saffron_01"
+   "evidence": "nature · product curator · Saffron · cs_s_saffron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sahel_02",
    "text": "The Sahel is a dry grassland south of the Sahara",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sahel · cs_s_sahel_02"
+   "evidence": "geography · product curator · Sahel · cs_s_sahel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salt_01",
    "text": "Salt is sodium chloride",
    "standing": "projectable",
-   "evidence": "science · product curator · Salt · cs_s_salt_01"
+   "evidence": "science · product curator · Salt · cs_s_salt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saturn_05",
    "text": "Saturn has prominent rings",
    "standing": "projectable",
-   "evidence": "science · product curator · Saturn · cs_s_saturn_05"
+   "evidence": "science · product curator · Saturn · cs_s_saturn_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saxophone_02",
    "text": "A saxophone is a woodwind instrument",
    "standing": "projectable",
-   "evidence": "history · product curator · Saxophone · cs_s_saxophone_02"
+   "evidence": "history · product curator · Saxophone · cs_s_saxophone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_semicolon_02",
    "text": "A semicolon joins related independent clauses",
    "standing": "projectable",
-   "evidence": "language · product curator · Semicolon · cs_s_semicolon_02"
+   "evidence": "language · product curator · Semicolon · cs_s_semicolon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sentence_01",
    "text": "A sentence expresses a complete thought",
    "standing": "projectable",
-   "evidence": "language · product curator · Sentence · cs_s_sentence_01"
+   "evidence": "language · product curator · Sentence · cs_s_sentence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seismograph_01",
    "text": "A seismograph records earthquakes",
    "standing": "projectable",
-   "evidence": "science · product curator · Seismograph · cs_s_seismograph_01"
+   "evidence": "science · product curator · Seismograph · cs_s_seismograph_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sequoia_02",
    "text": "A sequoia is a giant evergreen tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_02"
+   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_slope_01",
    "text": "Slope measures steepness of a line",
    "standing": "projectable",
-   "evidence": "math · product curator · Slope · cs_s_slope_01"
+   "evidence": "math · product curator · Slope · cs_s_slope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_species_01",
    "text": "A species is a group of organisms that can interbreed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Species · cs_s_species_01"
+   "evidence": "nature · product curator · Species · cs_s_species_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_synapse_01",
    "text": "A synapse is a junction between nerve cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Synapse · cs_s_synapse_01"
+   "evidence": "science · product curator · Synapse · cs_s_synapse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salamander_02",
    "text": "A salamander regenerates lost limbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Salamander · cs_s_salamander_02"
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sand_dollar_01",
    "text": "A sand dollar is a flat echinoderm",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sand dollar · cs_s_sand_dollar_01"
+   "evidence": "nature · product curator · Sand dollar · cs_s_sand_dollar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sap_01",
    "text": "Sap carries nutrients through a plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sap · cs_s_sap_01"
+   "evidence": "nature · product curator · Sap · cs_s_sap_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scale_01",
    "text": "A fish scale protects the skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Scale · cs_s_scale_01"
+   "evidence": "nature · product curator · Scale · cs_s_scale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scorpion_02",
    "text": "A scorpion has a venomous sting",
    "standing": "projectable",
-   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_02"
+   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sea_otter_01",
    "text": "A sea otter uses tools to open shellfish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sea otter · cs_s_sea_otter_01"
+   "evidence": "nature · product curator · Sea otter · cs_s_sea_otter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sediment_01",
    "text": "Sediment settles at the bottom of water",
    "standing": "projectable",
-   "evidence": "science · product curator · Sediment · cs_s_sediment_01"
+   "evidence": "science · product curator · Sediment · cs_s_sediment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_senate_03",
    "text": "The Senate is a chamber of a legislature",
    "standing": "projectable",
-   "evidence": "civics · product curator · Senate · cs_s_senate_03"
+   "evidence": "civics · product curator · Senate · cs_s_senate_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_senator_01",
    "text": "A senator represents a state or region",
    "standing": "projectable",
-   "evidence": "civics · product curator · Senator · cs_s_senator_01"
+   "evidence": "civics · product curator · Senator · cs_s_senator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_subtraction_01",
    "text": "Subtraction finds a difference",
    "standing": "projectable",
-   "evidence": "math · product curator · Subtraction · cs_s_subtraction_01"
+   "evidence": "math · product curator · Subtraction · cs_s_subtraction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saturday_02",
    "text": "Saturday is a weekend day",
    "standing": "projectable",
-   "evidence": "civics · product curator · Saturday · cs_s_saturday_02"
+   "evidence": "civics · product curator · Saturday · cs_s_saturday_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sediment_02",
    "text": "Sediment settles from water or air",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sediment · cs_s_sediment_02"
+   "evidence": "geography · product curator · Sediment · cs_s_sediment_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sine_02",
    "text": "Sine is a trigonometric ratio",
    "standing": "projectable",
-   "evidence": "math · product curator · Sine · cs_s_sine_02"
+   "evidence": "math · product curator · Sine · cs_s_sine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saxophone_03",
    "text": "A saxophone has a single reed",
    "standing": "projectable",
-   "evidence": "history · product curator · Saxophone · cs_s_saxophone_03"
+   "evidence": "history · product curator · Saxophone · cs_s_saxophone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_semicolon_03",
    "text": "Writers use a semicolon between independent clauses",
    "standing": "projectable",
-   "evidence": "language · product curator · Semicolon · cs_s_semicolon_03"
+   "evidence": "language · product curator · Semicolon · cs_s_semicolon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_senate_04",
    "text": "A senate is a legislative chamber",
    "standing": "projectable",
-   "evidence": "civics · product curator · Senate · cs_s_senate_04"
+   "evidence": "civics · product curator · Senate · cs_s_senate_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sphere_02",
    "text": "A sphere is a round solid",
    "standing": "projectable",
-   "evidence": "math · product curator · Sphere · cs_s_sphere_02"
+   "evidence": "math · product curator · Sphere · cs_s_sphere_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sentence_02",
    "text": "Every complete sentence has a verb",
    "standing": "projectable",
-   "evidence": "language · product curator · Sentence · cs_s_sentence_02"
+   "evidence": "language · product curator · Sentence · cs_s_sentence_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salmon_02",
    "text": "A salmon is a migratory fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Salmon · cs_s_salmon_02"
+   "evidence": "nature · product curator · Salmon · cs_s_salmon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_satellite_02",
    "text": "A satellite orbits a planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Satellite · cs_s_satellite_02"
+   "evidence": "science · product curator · Satellite · cs_s_satellite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scalar_01",
    "text": "A scalar has magnitude only",
    "standing": "projectable",
-   "evidence": "math · product curator · Scalar · cs_s_scalar_01"
+   "evidence": "math · product curator · Scalar · cs_s_scalar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_starch_01",
    "text": "Starch stores energy in plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Starch · cs_s_starch_01"
+   "evidence": "nature · product curator · Starch · cs_s_starch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sulfur_02",
    "text": "Sulfur is a yellow nonmetal",
    "standing": "projectable",
-   "evidence": "science · product curator · Sulfur · cs_s_sulfur_02"
+   "evidence": "science · product curator · Sulfur · cs_s_sulfur_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_symmetry_01",
    "text": "A circle has rotational symmetry",
    "standing": "projectable",
-   "evidence": "math · product curator · Symmetry · cs_s_symmetry_01"
+   "evidence": "math · product curator · Symmetry · cs_s_symmetry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sunset_01",
    "text": "Sunset ends the day",
    "standing": "projectable",
-   "evidence": "science · product curator · Sunset · cs_s_sunset_01"
+   "evidence": "science · product curator · Sunset · cs_s_sunset_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_string_01",
    "text": "A guitar has a string",
    "standing": "projectable",
-   "evidence": "history · product curator · String · cs_s_string_01"
+   "evidence": "history · product curator · String · cs_s_string_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seed_01",
    "text": "A seed grows into a plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Seed · cs_s_seed_01"
+   "evidence": "nature · product curator · Seed · cs_s_seed_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saliva_01",
    "text": "Saliva starts digestion",
    "standing": "projectable",
-   "evidence": "science · product curator · Saliva · cs_s_saliva_01"
+   "evidence": "science · product curator · Saliva · cs_s_saliva_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sandstone_01",
    "text": "Sandstone is a layered rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Sandstone · cs_s_sandstone_01"
+   "evidence": "science · product curator · Sandstone · cs_s_sandstone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sonar_01",
    "text": "Ships use sonar to find depth",
    "standing": "projectable",
-   "evidence": "science · product curator · Sonar · cs_s_sonar_01"
+   "evidence": "science · product curator · Sonar · cs_s_sonar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spore_01",
    "text": "Ferns release spores",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spore · cs_s_spore_01"
+   "evidence": "nature · product curator · Spore · cs_s_spore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spruce_02",
    "text": "A spruce is an evergreen tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spruce · cs_s_spruce_02"
+   "evidence": "nature · product curator · Spruce · cs_s_spruce_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_strait_01",
    "text": "A strait joins two seas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Strait · cs_s_strait_01"
+   "evidence": "geography · product curator · Strait · cs_s_strait_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_synapse_02",
    "text": "A synapse joins two neurons",
    "standing": "projectable",
-   "evidence": "science · product curator · Synapse · cs_s_synapse_02"
+   "evidence": "science · product curator · Synapse · cs_s_synapse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_senate_05",
    "text": "The Senate debates laws",
    "standing": "projectable",
-   "evidence": "civics · product curator · Senate · cs_s_senate_05"
+   "evidence": "civics · product curator · Senate · cs_s_senate_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sable_01",
    "text": "A sable is a fur-bearing mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sable · cs_s_sable_01"
+   "evidence": "nature · product curator · Sable · cs_s_sable_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sand_01",
    "text": "Sand is weathered rock grains",
    "standing": "projectable",
-   "evidence": "geography · product curator · Sand · cs_s_sand_01"
+   "evidence": "geography · product curator · Sand · cs_s_sand_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_selenium_02",
    "text": "Selenium is a trace element",
    "standing": "projectable",
-   "evidence": "science · product curator · Selenium · cs_s_selenium_02"
+   "evidence": "science · product curator · Selenium · cs_s_selenium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scarlet_01",
    "text": "Scarlet is a bright red",
    "standing": "projectable",
-   "evidence": "language · product curator · Scarlet · cs_s_scarlet_01"
+   "evidence": "language · product curator · Scarlet · cs_s_scarlet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sable_02",
    "text": "Trappers prized sable fur",
    "standing": "projectable",
-   "evidence": "history · product curator · Sable · cs_s_sable_02"
+   "evidence": "history · product curator · Sable · cs_s_sable_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salt_02",
    "text": "Salt dissolves in water",
    "standing": "projectable",
-   "evidence": "science · product curator · Salt · cs_s_salt_02"
+   "evidence": "science · product curator · Salt · cs_s_salt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scale_02",
    "text": "A fish has a protective scale",
    "standing": "projectable",
-   "evidence": "nature · product curator · Scale · cs_s_scale_02"
+   "evidence": "nature · product curator · Scale · cs_s_scale_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_science_01",
    "text": "Science tests ideas with evidence",
    "standing": "projectable",
-   "evidence": "science · product curator · Science · cs_s_science_01"
+   "evidence": "science · product curator · Science · cs_s_science_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scorpion_03",
    "text": "A scorpion has a stinging tail",
    "standing": "projectable",
-   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_03"
+   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shadow_01",
    "text": "Light casts a shadow",
    "standing": "projectable",
-   "evidence": "science · product curator · Shadow · cs_s_shadow_01"
+   "evidence": "science · product curator · Shadow · cs_s_shadow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sea_lion_01",
    "text": "A sea lion barks on shore",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sea lion · cs_s_sea_lion_01"
+   "evidence": "nature · product curator · Sea lion · cs_s_sea_lion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seal_02",
    "text": "A seal is a marine mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Seal · cs_s_seal_02"
+   "evidence": "nature · product curator · Seal · cs_s_seal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_septum_01",
    "text": "A septum divides a cavity",
    "standing": "projectable",
-   "evidence": "science · product curator · Septum · cs_s_septum_01"
+   "evidence": "science · product curator · Septum · cs_s_septum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sodium_02",
    "text": "Sodium reacts with water",
    "standing": "projectable",
-   "evidence": "science · product curator · Sodium · cs_s_sodium_02"
+   "evidence": "science · product curator · Sodium · cs_s_sodium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_solvent_01",
    "text": "Water is a common solvent",
    "standing": "projectable",
-   "evidence": "science · product curator · Solvent · cs_s_solvent_01"
+   "evidence": "science · product curator · Solvent · cs_s_solvent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_songbird_01",
    "text": "A songbird sings a melody",
    "standing": "projectable",
-   "evidence": "nature · product curator · Songbird · cs_s_songbird_01"
+   "evidence": "nature · product curator · Songbird · cs_s_songbird_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_soot_01",
    "text": "Soot is black carbon dust",
    "standing": "projectable",
-   "evidence": "science · product curator · Soot · cs_s_soot_01"
+   "evidence": "science · product curator · Soot · cs_s_soot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sorghum_01",
    "text": "Sorghum is a cereal grain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sorghum · cs_s_sorghum_01"
+   "evidence": "nature · product curator · Sorghum · cs_s_sorghum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sponge_01",
    "text": "A sponge filters seawater",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sponge · cs_s_sponge_01"
+   "evidence": "nature · product curator · Sponge · cs_s_sponge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stress_01",
    "text": "Stress is force over area",
    "standing": "projectable",
-   "evidence": "science · product curator · Stress · cs_s_stress_01"
+   "evidence": "science · product curator · Stress · cs_s_stress_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sage_01",
    "text": "Sage is an aromatic herb",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sage · cs_s_sage_01"
+   "evidence": "nature · product curator · Sage · cs_s_sage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salamander_03",
    "text": "A salamander has moist skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Salamander · cs_s_salamander_03"
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sap_02",
    "text": "Trees push sap in spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sap · cs_s_sap_02"
+   "evidence": "nature · product curator · Sap · cs_s_sap_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scheelite_01",
    "text": "Scheelite is a tungsten ore",
    "standing": "projectable",
-   "evidence": "science · product curator · Scheelite · cs_s_scheelite_01"
+   "evidence": "science · product curator · Scheelite · cs_s_scheelite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_schist_01",
    "text": "Schist splits into sheets",
    "standing": "projectable",
-   "evidence": "science · product curator · Schist · cs_s_schist_01"
+   "evidence": "science · product curator · Schist · cs_s_schist_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_screw_01",
    "text": "A screw is a simple machine",
    "standing": "projectable",
-   "evidence": "science · product curator · Screw · cs_s_screw_01"
+   "evidence": "science · product curator · Screw · cs_s_screw_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seam_01",
    "text": "Miners follow a coal seam",
    "standing": "projectable",
-   "evidence": "geography · product curator · Seam · cs_s_seam_01"
+   "evidence": "geography · product curator · Seam · cs_s_seam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_silver_02",
    "text": "Silver conducts heat well",
    "standing": "projectable",
-   "evidence": "science · product curator · Silver · cs_s_silver_02"
+   "evidence": "science · product curator · Silver · cs_s_silver_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sinew_01",
    "text": "Sinew ties bone to muscle",
    "standing": "projectable",
-   "evidence": "science · product curator · Sinew · cs_s_sinew_01"
+   "evidence": "science · product curator · Sinew · cs_s_sinew_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_steam_01",
    "text": "Boiling water makes steam",
    "standing": "projectable",
-   "evidence": "science · product curator · Steam · cs_s_steam_01"
+   "evidence": "science · product curator · Steam · cs_s_steam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sap_03",
    "text": "Sap flows in tree stems",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sap · cs_s_sap_03"
+   "evidence": "nature · product curator · Sap · cs_s_sap_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scar_01",
    "text": "A scar marks healed skin",
    "standing": "projectable",
-   "evidence": "science · product curator · Scar · cs_s_scar_01"
+   "evidence": "science · product curator · Scar · cs_s_scar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seedling_01",
    "text": "A seedling grows from a seed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Seedling · cs_s_seedling_01"
+   "evidence": "nature · product curator · Seedling · cs_s_seedling_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_smoke_01",
    "text": "Smoke rises from a fire",
    "standing": "projectable",
-   "evidence": "science · product curator · Smoke · cs_s_smoke_01"
+   "evidence": "science · product curator · Smoke · cs_s_smoke_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_snail_02",
    "text": "A snail carries a shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Snail · cs_s_snail_02"
+   "evidence": "nature · product curator · Snail · cs_s_snail_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_solstice_02",
    "text": "A solstice marks a season",
    "standing": "projectable",
-   "evidence": "science · product curator · Solstice · cs_s_solstice_02"
+   "evidence": "science · product curator · Solstice · cs_s_solstice_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sound_02",
    "text": "Sound travels as a wave",
    "standing": "projectable",
-   "evidence": "science · product curator · Sound · cs_s_sound_02"
+   "evidence": "science · product curator · Sound · cs_s_sound_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spleen_01",
    "text": "The spleen filters blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Spleen · cs_s_spleen_01"
+   "evidence": "science · product curator · Spleen · cs_s_spleen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_stomach_02",
    "text": "The stomach digests food",
    "standing": "projectable",
-   "evidence": "science · product curator · Stomach · cs_s_stomach_02"
+   "evidence": "science · product curator · Stomach · cs_s_stomach_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_succulent_01",
    "text": "A succulent stores water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Succulent · cs_s_succulent_01"
+   "evidence": "nature · product curator · Succulent · cs_s_succulent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sandstone_02",
    "text": "Sand packs into sandstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Sandstone · cs_s_sandstone_02"
+   "evidence": "science · product curator · Sandstone · cs_s_sandstone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sapphire_02",
    "text": "A sapphire scratches glass",
    "standing": "projectable",
-   "evidence": "science · product curator · Sapphire · cs_s_sapphire_02"
+   "evidence": "science · product curator · Sapphire · cs_s_sapphire_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sediment_03",
    "text": "Rivers drop fine sediment",
    "standing": "projectable",
-   "evidence": "science · product curator · Sediment · cs_s_sediment_03"
+   "evidence": "science · product curator · Sediment · cs_s_sediment_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sequoia_03",
    "text": "A sequoia grows massive trunks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_03"
+   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shale_01",
    "text": "Shale splits into thin layers",
    "standing": "projectable",
-   "evidence": "science · product curator · Shale · cs_s_shale_01"
+   "evidence": "science · product curator · Shale · cs_s_shale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_silk_01",
    "text": "Silkworms spin silk cocoons",
    "standing": "projectable",
-   "evidence": "nature · product curator · Silk · cs_s_silk_01"
+   "evidence": "nature · product curator · Silk · cs_s_silk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sonar_02",
    "text": "Ships use sonar to map depths",
    "standing": "projectable",
-   "evidence": "science · product curator · Sonar · cs_s_sonar_02"
+   "evidence": "science · product curator · Sonar · cs_s_sonar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spectrum_01",
    "text": "A prism spreads a spectrum",
    "standing": "projectable",
-   "evidence": "science · product curator · Spectrum · cs_s_spectrum_01"
+   "evidence": "science · product curator · Spectrum · cs_s_spectrum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salt_03",
    "text": "Salt preserves dried meat",
    "standing": "projectable",
-   "evidence": "science · product curator · Salt · cs_s_salt_03"
+   "evidence": "science · product curator · Salt · cs_s_salt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_screw_02",
    "text": "A screw joins wood boards",
    "standing": "projectable",
-   "evidence": "science · product curator · Screw · cs_s_screw_02"
+   "evidence": "science · product curator · Screw · cs_s_screw_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sediment_04",
    "text": "Sediment settles in water",
    "standing": "projectable",
-   "evidence": "science · product curator · Sediment · cs_s_sediment_04"
+   "evidence": "science · product curator · Sediment · cs_s_sediment_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_selenium_03",
    "text": "Selenium aids thyroid work",
    "standing": "projectable",
-   "evidence": "science · product curator · Selenium · cs_s_selenium_03"
+   "evidence": "science · product curator · Selenium · cs_s_selenium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_serum_01",
    "text": "Serum carries antibodies",
    "standing": "projectable",
-   "evidence": "science · product curator · Serum · cs_s_serum_01"
+   "evidence": "science · product curator · Serum · cs_s_serum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shear_01",
    "text": "Shear slides rock layers",
    "standing": "projectable",
-   "evidence": "science · product curator · Shear · cs_s_shear_01"
+   "evidence": "science · product curator · Shear · cs_s_shear_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shin_01",
    "text": "The shin guards the tibia",
    "standing": "projectable",
-   "evidence": "science · product curator · Shin · cs_s_shin_01"
+   "evidence": "science · product curator · Shin · cs_s_shin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sieve_01",
    "text": "A sieve sorts grain sizes",
    "standing": "projectable",
-   "evidence": "science · product curator · Sieve · cs_s_sieve_01"
+   "evidence": "science · product curator · Sieve · cs_s_sieve_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_starch_02",
    "text": "Starch stores plant sugar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Starch · cs_s_starch_02"
+   "evidence": "nature · product curator · Starch · cs_s_starch_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_steel_02",
    "text": "Steel hardens with carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Steel · cs_s_steel_02"
+   "evidence": "science · product curator · Steel · cs_s_steel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_shoulder_01",
    "text": "Shoulders lift arm loads",
    "standing": "projectable",
-   "evidence": "science · product curator · Shoulder · cs_s_shoulder_01"
+   "evidence": "science · product curator · Shoulder · cs_s_shoulder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sleep_01",
    "text": "Sleep restores body energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Sleep · cs_s_sleep_01"
+   "evidence": "science · product curator · Sleep · cs_s_sleep_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_slope_02",
    "text": "Slope ranks rise over run",
    "standing": "projectable",
-   "evidence": "math · product curator · Slope · cs_s_slope_02"
+   "evidence": "math · product curator · Slope · cs_s_slope_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_snail_03",
    "text": "Snails glide mucus trails",
    "standing": "projectable",
-   "evidence": "nature · product curator · Snail · cs_s_snail_03"
+   "evidence": "nature · product curator · Snail · cs_s_snail_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_snow_01",
    "text": "Snow blankets cold ground",
    "standing": "projectable",
-   "evidence": "nature · product curator · Snow · cs_s_snow_01"
+   "evidence": "nature · product curator · Snow · cs_s_snow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_solder_01",
    "text": "Solder joins metal wires",
    "standing": "projectable",
-   "evidence": "science · product curator · Solder · cs_s_solder_01"
+   "evidence": "science · product curator · Solder · cs_s_solder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_solstice_03",
    "text": "Solstice marks longest day",
    "standing": "projectable",
-   "evidence": "science · product curator · Solstice · cs_s_solstice_03"
+   "evidence": "science · product curator · Solstice · cs_s_solstice_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spice_01",
    "text": "Spice flavors cooked food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spice · cs_s_spice_01"
+   "evidence": "nature · product curator · Spice · cs_s_spice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spore_02",
    "text": "Spores spread fungal life",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spore · cs_s_spore_02"
+   "evidence": "nature · product curator · Spore · cs_s_spore_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_steel_03",
    "text": "Steel strengthens bridges",
    "standing": "projectable",
-   "evidence": "science · product curator · Steel · cs_s_steel_03"
+   "evidence": "science · product curator · Steel · cs_s_steel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_saffron_02",
    "text": "Saffron colors rice dishes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Saffron · cs_s_saffron_02"
+   "evidence": "nature · product curator · Saffron · cs_s_saffron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_salamander_04",
    "text": "Salamanders breathe through skin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Salamander · cs_s_salamander_04"
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sapphire_03",
    "text": "Sapphire ranks hard gems",
    "standing": "projectable",
-   "evidence": "science · product curator · Sapphire · cs_s_sapphire_03"
+   "evidence": "science · product curator · Sapphire · cs_s_sapphire_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scalar_02",
    "text": "Scalars rank magnitude alone",
    "standing": "projectable",
-   "evidence": "math · product curator · Scalar · cs_s_scalar_02"
+   "evidence": "math · product curator · Scalar · cs_s_scalar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_scar_02",
    "text": "Scar tissue seals wounds",
    "standing": "projectable",
-   "evidence": "science · product curator · Scar · cs_s_scar_02"
+   "evidence": "science · product curator · Scar · cs_s_scar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_schist_02",
    "text": "Schist splits along planes",
    "standing": "projectable",
-   "evidence": "science · product curator · Schist · cs_s_schist_02"
+   "evidence": "science · product curator · Schist · cs_s_schist_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_seed_02",
    "text": "A seed stores plant food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Seed · cs_s_seed_02"
+   "evidence": "nature · product curator · Seed · cs_s_seed_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_sphincter_01",
    "text": "A sphincter seals a tube",
    "standing": "projectable",
-   "evidence": "science · product curator · Sphincter · cs_s_sphincter_01"
+   "evidence": "science · product curator · Sphincter · cs_s_sphincter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spider_03",
    "text": "A spider spins silk webs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spider · cs_s_spider_03"
+   "evidence": "nature · product curator · Spider · cs_s_spider_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_s_spruce_03",
    "text": "Spruce wood builds violins",
    "standing": "projectable",
-   "evidence": "nature · product curator · Spruce · cs_s_spruce_03"
+   "evidence": "nature · product curator · Spruce · cs_s_spruce_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

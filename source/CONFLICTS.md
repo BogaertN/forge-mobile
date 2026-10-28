@@ -2,6 +2,16 @@
 
 Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation Addendum, Sep 2026) > older docs**. Where forge2 says nothing, **forge code** comes before docs. Every row lists the sources and where the decision lives in the code.
 
+## v4.9.168 — hosted KB resonance packets for RPMC (2026-10-28 America/Chicago)
+
+**Conflict:** Does every hosted `confirmed_shared` row need a resonance packet so RPMC can phase-align/combine? Packs historically carried only `id` / `standing` / `evidence` / `text`. RPMC gather used `ancestorSfe` but priors dropped `sfe`, and missing packets failed closed to sealed Φ5 — so combine could not lawfully project from uniform defaults either.
+
+**Settlement (Nic):** **YES** — every combine participant needs a minimal packet `{Phi, eps, mu}` (Axiom 4; RPMC §1 RPM; §3.4 Grace Integral; RSOC SFE). Defaults: projectable Φ9/ε0/μ1; held/contested Φ5/ε0.5/μ0. Packets are priors for grace/χ/echo — **not** answer text. Zero canned Naming for Roe / quartz / autism / laceration.
+
+**Where:** `kernel.js` `defaultResonancePacket` / `normalizeResonancePacket` / `csFact` / pull attach-on-admit; `ancestorSfe` + RPMC priors carry `sfe`; pack A–Z + `index.resonance_packets` backfilled packet-only (continuous fill stays PAUSED). Proof: `r4168_suite.js`. Soft budget unchanged.
+
+---
+
 | # | Conflict | Sources | Resolution | Where |
 |---|---|---|---|---|
 | 1 | "forge2 is the kernel implementation" vs. what the code contains | user premise; BogaertN/forge2@262a95eb `src/forge2/contracts/*` (Phase 0+1 contract spine only, no parser/gates/MSM) | Contract identities, canonical serialization, request states, InputEvent, CandidateSet, RequestContract, ContextManifest and CapabilityRequirement come from forge2. The kernel itself (gates, MSM-v1, bridges, MEA, GP-014) is ported from **forge**. | `src/forge_spine.js`, `src/forge.js` |

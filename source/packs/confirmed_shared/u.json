@@ -12,1465 +12,2685 @@
    "id": "cs_u_united_states_01",
    "text": "Washington is the capital of the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · United States · cs_u_united_states_01"
+   "evidence": "geography · product curator · United States · cs_u_united_states_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_kingdom_01",
    "text": "The United Kingdom consists of England, Scotland, Wales, and Northern Ireland",
    "standing": "projectable",
-   "evidence": "geography · product curator · United Kingdom · cs_u_united_kingdom_01"
+   "evidence": "geography · product curator · United Kingdom · cs_u_united_kingdom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uganda_01",
    "text": "Kampala is the capital of Uganda",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uganda · cs_u_uganda_01"
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruguay_01",
    "text": "Montevideo is the capital of Uruguay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_01"
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uzbekistan_01",
    "text": "Tashkent is the capital of Uzbekistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uzbekistan · cs_u_uzbekistan_01"
+   "evidence": "geography · product curator · Uzbekistan · cs_u_uzbekistan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uzbekistan_02",
    "text": "Uzbekistan is doubly landlocked",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uzbekistan · cs_u_uzbekistan_02"
+   "evidence": "geography · product curator · Uzbekistan · cs_u_uzbekistan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_arab_emirates_01",
    "text": "Abu Dhabi is the capital of the United Arab Emirates",
    "standing": "projectable",
-   "evidence": "geography · product curator · United Arab Emirates · cs_u_united_arab_emirates_01"
+   "evidence": "geography · product curator · United Arab Emirates · cs_u_united_arab_emirates_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_arab_emirates_02",
    "text": "The Burj Khalifa in Dubai is the tallest building in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · United Arab Emirates · cs_u_united_arab_emirates_02"
+   "evidence": "geography · product curator · United Arab Emirates · cs_u_united_arab_emirates_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulaanbaatar_01",
    "text": "Ulaanbaatar is the capital of Mongolia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ulaanbaatar · cs_u_ulaanbaatar_01"
+   "evidence": "geography · product curator · Ulaanbaatar · cs_u_ulaanbaatar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ural_mountains_01",
    "text": "The Ural Mountains form part of the boundary between Europe and Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_01"
+   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ural_river_01",
    "text": "The Ural flows into the Caspian Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ural River · cs_u_ural_river_01"
+   "evidence": "geography · product curator · Ural River · cs_u_ural_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utah_01",
    "text": "Salt Lake City is the capital of Utah",
    "standing": "projectable",
-   "evidence": "geography · product curator · Utah · cs_u_utah_01"
+   "evidence": "geography · product curator · Utah · cs_u_utah_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uluru_01",
    "text": "Uluru is a sandstone rock in Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uluru · cs_u_uluru_01"
+   "evidence": "geography · product curator · Uluru · cs_u_uluru_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uppsala_01",
    "text": "Uppsala is a city in Sweden",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uppsala · cs_u_uppsala_01"
+   "evidence": "geography · product curator · Uppsala · cs_u_uppsala_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ushuaia_01",
    "text": "Ushuaia is in Argentina",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ushuaia · cs_u_ushuaia_01"
+   "evidence": "geography · product curator · Ushuaia · cs_u_ushuaia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upstream_01",
    "text": "Upstream means toward the source of a river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Upstream · cs_u_upstream_01"
+   "evidence": "geography · product curator · Upstream · cs_u_upstream_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranus_01",
    "text": "Uranus is the seventh planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranus · cs_u_uranus_01"
+   "evidence": "science · product curator · Uranus · cs_u_uranus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranus_02",
    "text": "Uranus rotates on its side",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranus · cs_u_uranus_02"
+   "evidence": "science · product curator · Uranus · cs_u_uranus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranus_03",
    "text": "Uranus was discovered by William Herschel in 1781",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranus · cs_u_uranus_03"
+   "evidence": "science · product curator · Uranus · cs_u_uranus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranus_04",
    "text": "Uranus is an ice giant",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranus · cs_u_uranus_04"
+   "evidence": "science · product curator · Uranus · cs_u_uranus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_01",
    "text": "Uranium has the chemical symbol U",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_01"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_02",
    "text": "Uranium has an atomic number of 92",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_02"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_03",
    "text": "Uranium is used as fuel in nuclear reactors",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_03"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_01",
    "text": "Ultraviolet waves are shorter than visible light",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_01"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_02",
    "text": "Ultraviolet radiation can cause sunburn",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_02"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultrasound_01",
    "text": "Humans cannot hear ultrasound",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_01"
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbra_01",
    "text": "The umbra is the darkest part of a shadow",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbra · cs_u_umbra_01"
+   "evidence": "science · product curator · Umbra · cs_u_umbra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulna_01",
    "text": "The ulna is a bone in the forearm",
    "standing": "projectable",
-   "evidence": "science · product curator · Ulna · cs_u_ulna_01"
+   "evidence": "science · product curator · Ulna · cs_u_ulna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uterus_01",
    "text": "The uterus is an organ of the female reproductive system",
    "standing": "projectable",
-   "evidence": "science · product curator · Uterus · cs_u_uterus_01"
+   "evidence": "science · product curator · Uterus · cs_u_uterus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_01",
    "text": "Urea is excreted in urine",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea · cs_u_urea_01"
+   "evidence": "science · product curator · Urea · cs_u_urea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicellular_organism_01",
    "text": "A unicellular organism consists of a single cell",
    "standing": "projectable",
-   "evidence": "science · product curator · Unicellular organism · cs_u_unicellular_organism_01"
+   "evidence": "science · product curator · Unicellular organism · cs_u_unicellular_organism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_universal_gravitation_01",
    "text": "Newton described universal gravitation",
    "standing": "projectable",
-   "evidence": "science · product curator · Universal gravitation · cs_u_universal_gravitation_01"
+   "evidence": "science · product curator · Universal gravitation · cs_u_universal_gravitation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urchin_01",
    "text": "Sea urchins are spiny echinoderms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Urchin · cs_u_urchin_01"
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_01",
    "text": "Ungulates are hoofed mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_01"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_02",
    "text": "Horses and deer are ungulates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_02"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upland_sandpiper_01",
    "text": "The upland sandpiper is a shorebird that lives in grasslands",
    "standing": "projectable",
-   "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_01"
+   "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_underbrush_01",
    "text": "Underbrush grows beneath the forest canopy",
    "standing": "projectable",
-   "evidence": "nature · product curator · Underbrush · cs_u_underbrush_01"
+   "evidence": "nature · product curator · Underbrush · cs_u_underbrush_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_understory_01",
    "text": "The understory is the forest layer below the canopy",
    "standing": "projectable",
-   "evidence": "nature · product curator · Understory · cs_u_understory_01"
+   "evidence": "nature · product curator · Understory · cs_u_understory_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_udon_01",
    "text": "Udon is a Japanese noodle",
    "standing": "projectable",
-   "evidence": "general · product curator · Udon · cs_u_udon_01"
+   "evidence": "general · product curator · Udon · cs_u_udon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_nations_01",
    "text": "The United Nations was founded in 1945",
    "standing": "projectable",
-   "evidence": "civics · product curator · United Nations · cs_u_united_nations_01"
+   "evidence": "civics · product curator · United Nations · cs_u_united_nations_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_nations_02",
    "text": "The United Nations is based in New York",
    "standing": "projectable",
-   "evidence": "civics · product curator · United Nations · cs_u_united_nations_02"
+   "evidence": "civics · product curator · United Nations · cs_u_united_nations_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_nations_03",
    "text": "The UN Security Council has five permanent members",
    "standing": "projectable",
-   "evidence": "civics · product curator · United Nations · cs_u_united_nations_03"
+   "evidence": "civics · product curator · United Nations · cs_u_united_nations_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unesco_01",
    "text": "UNESCO is an agency of the United Nations",
    "standing": "projectable",
-   "evidence": "civics · product curator · UNESCO · cs_u_unesco_01"
+   "evidence": "civics · product curator · UNESCO · cs_u_unesco_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicef_01",
    "text": "UNICEF helps children",
    "standing": "projectable",
-   "evidence": "civics · product curator · UNICEF · cs_u_unicef_01"
+   "evidence": "civics · product curator · UNICEF · cs_u_unicef_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_us_constitution_01",
    "text": "The American Constitution establishes three branches of government",
    "standing": "projectable",
-   "evidence": "civics · product curator · US Constitution · cs_u_us_constitution_01"
+   "evidence": "civics · product curator · US Constitution · cs_u_us_constitution_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_us_capitol_01",
    "text": "The American Capitol is the meeting place of Congress",
    "standing": "projectable",
-   "evidence": "civics · product curator · US Capitol · cs_u_us_capitol_01"
+   "evidence": "civics · product curator · US Capitol · cs_u_us_capitol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_union_01",
    "text": "The northern states were called the Union in the American Civil War",
    "standing": "projectable",
-   "evidence": "history · product curator · Union · cs_u_union_01"
+   "evidence": "history · product curator · Union · cs_u_union_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ur_01",
    "text": "Ur was an ancient city in Sumer",
    "standing": "projectable",
-   "evidence": "history · product curator · Ur · cs_u_ur_01"
+   "evidence": "history · product curator · Ur · cs_u_ur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruk_01",
    "text": "Uruk was a city in Mesopotamia",
    "standing": "projectable",
-   "evidence": "history · product curator · Uruk · cs_u_uruk_01"
+   "evidence": "history · product curator · Uruk · cs_u_uruk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulysses_01",
    "text": "Ulysses is the Latin name for Odysseus",
    "standing": "projectable",
-   "evidence": "history · product curator · Ulysses · cs_u_ulysses_01"
+   "evidence": "history · product curator · Ulysses · cs_u_ulysses_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulysses_s_grant_01",
    "text": "Ulysses S. Grant was the 18th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Ulysses S. Grant · cs_u_ulysses_s_grant_01"
+   "evidence": "history · product curator · Ulysses S. Grant · cs_u_ulysses_s_grant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulysses_s_grant_02",
    "text": "Ulysses S. Grant commanded Union armies in the Civil War",
    "standing": "projectable",
-   "evidence": "history · product curator · Ulysses S. Grant · cs_u_ulysses_s_grant_02"
+   "evidence": "history · product curator · Ulysses S. Grant · cs_u_ulysses_s_grant_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ussr_01",
    "text": "The USSR dissolved in 1991",
    "standing": "projectable",
-   "evidence": "history · product curator · USSR · cs_u_ussr_01"
+   "evidence": "history · product curator · USSR · cs_u_ussr_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ussr_02",
    "text": "The USSR was founded in 1922",
    "standing": "projectable",
-   "evidence": "history · product curator · USSR · cs_u_ussr_02"
+   "evidence": "history · product curator · USSR · cs_u_ussr_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_fraction_01",
    "text": "A unit fraction has a numerator of 1",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_01"
+   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_01",
    "text": "The meter is a unit of length",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit · cs_u_unit_01"
+   "evidence": "math · product curator · Unit · cs_u_unit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_union_sets_01",
    "text": "The union of two sets contains all their elements",
    "standing": "projectable",
-   "evidence": "math · product curator · Union (sets) · cs_u_union_sets_01"
+   "evidence": "math · product curator · Union (sets) · cs_u_union_sets_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unity_01",
    "text": "In mathematics, unity means the number one",
    "standing": "projectable",
-   "evidence": "math · product curator · Unity · cs_u_unity_01"
+   "evidence": "math · product curator · Unity · cs_u_unity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urdu_01",
    "text": "Urdu is the national language of Pakistan",
    "standing": "projectable",
-   "evidence": "language · product curator · Urdu · cs_u_urdu_01"
+   "evidence": "language · product curator · Urdu · cs_u_urdu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_u_01",
    "text": "U is the 21st letter of the English alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · U · cs_u_u_01"
+   "evidence": "language · product curator · U · cs_u_u_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicycle_01",
    "text": "A unicycle has one wheel",
    "standing": "projectable",
-   "evidence": "general · product curator · Unicycle · cs_u_unicycle_01"
+   "evidence": "general · product curator · Unicycle · cs_u_unicycle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbrella_01",
    "text": "An umbrella protects from rain or sun",
    "standing": "projectable",
-   "evidence": "general · product curator · Umbrella · cs_u_umbrella_01"
+   "evidence": "general · product curator · Umbrella · cs_u_umbrella_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uniform_01",
    "text": "A uniform is clothing for a group",
    "standing": "projectable",
-   "evidence": "general · product curator · Uniform · cs_u_uniform_01"
+   "evidence": "general · product curator · Uniform · cs_u_uniform_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utah_02",
    "text": "The Great Salt Lake is in Utah",
    "standing": "projectable",
-   "evidence": "geography · product curator · Utah · cs_u_utah_02"
+   "evidence": "geography · product curator · Utah · cs_u_utah_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uganda_02",
    "text": "Uganda borders Lake Victoria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uganda · cs_u_uganda_02"
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruguay_02",
    "text": "Uruguay won the first FIFA World Cup in 1930",
    "standing": "projectable",
-   "evidence": "history · product curator · Uruguay · cs_u_uruguay_02"
+   "evidence": "history · product curator · Uruguay · cs_u_uruguay_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urn_01",
    "text": "An urn is a vase",
    "standing": "projectable",
-   "evidence": "general · product curator · Urn · cs_u_urn_01"
+   "evidence": "general · product curator · Urn · cs_u_urn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upper_house_01",
    "text": "The American Senate is the upper house of Congress",
    "standing": "projectable",
-   "evidence": "civics · product curator · Upper house · cs_u_upper_house_01"
+   "evidence": "civics · product curator · Upper house · cs_u_upper_house_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_states_03",
    "text": "The capital of the United States is Washington",
    "standing": "projectable",
-   "evidence": "geography · product curator · United States · cs_u_united_states_03"
+   "evidence": "geography · product curator · United States · cs_u_united_states_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ural_mountains_02",
    "text": "The Ural Mountains separate Europe from Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_02"
+   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uluru_02",
    "text": "Uluru is in the Northern Territory",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uluru · cs_u_uluru_02"
+   "evidence": "geography · product curator · Uluru · cs_u_uluru_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_04",
    "text": "The chemical symbol for uranium is U",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_04"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_universe_02",
    "text": "The universe contains billions of galaxies",
    "standing": "projectable",
-   "evidence": "science · product curator · Universe · cs_u_universe_02"
+   "evidence": "science · product curator · Universe · cs_u_universe_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urchin_02",
    "text": "Sea urchins are covered in spines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Urchin · cs_u_urchin_02"
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_03",
    "text": "Ungulates are mammals with hooves",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_03"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upper_peninsula_01",
    "text": "The Upper Peninsula is part of Michigan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Upper Peninsula · cs_u_upper_peninsula_01"
+   "evidence": "geography · product curator · Upper Peninsula · cs_u_upper_peninsula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utah_03",
    "text": "Utah is in the western United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Utah · cs_u_utah_03"
+   "evidence": "geography · product curator · Utah · cs_u_utah_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uganda_03",
    "text": "Uganda is a landlocked country in East Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uganda · cs_u_uganda_03"
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ukraine_01",
    "text": "Ukraine is a country in Eastern Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_01"
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruguay_03",
    "text": "Uruguay is a country in South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_03"
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ural_mountains_03",
    "text": "The Ural Mountains are in Russia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_03"
+   "evidence": "geography · product curator · Ural Mountains · cs_u_ural_mountains_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_03",
    "text": "Sunburn is caused by ultraviolet radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_03"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urchin_03",
    "text": "Sea urchins are echinoderms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Urchin · cs_u_urchin_03"
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicorn_fish_01",
    "text": "Unicornfish are tropical reef fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Unicorn fish · cs_u_unicorn_fish_01"
+   "evidence": "nature · product curator · Unicorn fish · cs_u_unicorn_fish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uakari_02",
    "text": "Uakaris are monkeys of the Amazon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Uakari · cs_u_uakari_02"
+   "evidence": "nature · product curator · Uakari · cs_u_uakari_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ussr_03",
    "text": "The Soviet Union dissolved in 1991",
    "standing": "projectable",
-   "evidence": "history · product curator · USSR · cs_u_ussr_03"
+   "evidence": "history · product curator · USSR · cs_u_ussr_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_us_capitol_02",
    "text": "Congress meets in the Capitol",
    "standing": "projectable",
-   "evidence": "civics · product curator · US Capitol · cs_u_us_capitol_02"
+   "evidence": "civics · product curator · US Capitol · cs_u_us_capitol_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranus_05",
    "text": "Uranus has a blue-green color",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranus · cs_u_uranus_05"
+   "evidence": "science · product curator · Uranus · cs_u_uranus_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ukraine_02",
    "text": "Kyiv is the capital of Ukraine",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_02"
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_kingdom_02",
    "text": "London is the capital of the United Kingdom",
    "standing": "projectable",
-   "evidence": "geography · product curator · United Kingdom · cs_u_united_kingdom_02"
+   "evidence": "geography · product curator · United Kingdom · cs_u_united_kingdom_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uganda_04",
    "text": "Uganda is a country in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uganda · cs_u_uganda_04"
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranus_06",
    "text": "Uranus is a planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranus · cs_u_uranus_06"
+   "evidence": "science · product curator · Uranus · cs_u_uranus_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_05",
    "text": "Uranium is a metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_05"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_06",
    "text": "The symbol for uranium is U",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_06"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbrella_02",
    "text": "An umbrella keeps off rain",
    "standing": "projectable",
-   "evidence": "history · product curator · Umbrella · cs_u_umbrella_02"
+   "evidence": "history · product curator · Umbrella · cs_u_umbrella_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicorn_01",
    "text": "The unicorn is the national animal of Scotland",
    "standing": "projectable",
-   "evidence": "history · product curator · Unicorn · cs_u_unicorn_01"
+   "evidence": "history · product curator · Unicorn · cs_u_unicorn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulysses_02",
    "text": "Ulysses was the Roman name for Odysseus",
    "standing": "projectable",
-   "evidence": "history · product curator · Ulysses · cs_u_ulysses_02"
+   "evidence": "history · product curator · Ulysses · cs_u_ulysses_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_02",
    "text": "A meter is a unit of length",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit · cs_u_unit_02"
+   "evidence": "math · product curator · Unit · cs_u_unit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicameral_01",
    "text": "A unicameral legislature has one chamber",
    "standing": "projectable",
-   "evidence": "civics · product curator · Unicameral · cs_u_unicameral_01"
+   "evidence": "civics · product curator · Unicameral · cs_u_unicameral_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uganda_05",
    "text": "Uganda borders Kenya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uganda · cs_u_uganda_05"
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uganda_06",
    "text": "Lake Victoria is in Uganda",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uganda · cs_u_uganda_06"
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruguay_04",
    "text": "Uruguay borders Brazil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_04"
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruguay_05",
    "text": "Uruguay borders Argentina",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_05"
+   "evidence": "geography · product curator · Uruguay · cs_u_uruguay_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranus_07",
    "text": "Uranus has rings",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranus · cs_u_uranus_07"
+   "evidence": "science · product curator · Uranus · cs_u_uranus_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utah_04",
    "text": "Utah is a state in the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Utah · cs_u_utah_04"
+   "evidence": "geography · product curator · Utah · cs_u_utah_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ukraine_03",
    "text": "Ukraine is a country in Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_03"
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ukraine_04",
    "text": "Ukraine borders Russia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_04"
+   "evidence": "geography · product curator · Ukraine · cs_u_ukraine_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_universe_03",
    "text": "The universe contains galaxies",
    "standing": "projectable",
-   "evidence": "science · product curator · Universe · cs_u_universe_03"
+   "evidence": "science · product curator · Universe · cs_u_universe_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umpire_01",
    "text": "An umpire enforces the rules of a game",
    "standing": "projectable",
-   "evidence": "language · product curator · Umpire · cs_u_umpire_01"
+   "evidence": "language · product curator · Umpire · cs_u_umpire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_u_turn_01",
    "text": "A U-turn reverses the direction of travel",
    "standing": "projectable",
-   "evidence": "language · product curator · U-turn · cs_u_u_turn_01"
+   "evidence": "language · product curator · U-turn · cs_u_u_turn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_udder_01",
    "text": "An udder produces milk in cattle",
    "standing": "projectable",
-   "evidence": "nature · product curator · Udder · cs_u_udder_01"
+   "evidence": "nature · product curator · Udder · cs_u_udder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultima_thule_01",
    "text": "Ultima Thule was a name for a far northern land",
    "standing": "projectable",
-   "evidence": "history · product curator · Ultima Thule · cs_u_ultima_thule_01"
+   "evidence": "history · product curator · Ultima Thule · cs_u_ultima_thule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_circle_01",
    "text": "A unit circle has a radius of one",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_01"
+   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_square_01",
    "text": "A unit square has sides of length one",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit square · cs_u_unit_square_01"
+   "evidence": "math · product curator · Unit square · cs_u_unit_square_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_nations_charter_01",
    "text": "The United Nations Charter was signed in 1945",
    "standing": "projectable",
-   "evidence": "civics · product curator · United Nations Charter · cs_u_united_nations_charter_01"
+   "evidence": "civics · product curator · United Nations Charter · cs_u_united_nations_charter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_united_states_congress_01",
    "text": "The United States Congress makes federal law",
    "standing": "projectable",
-   "evidence": "civics · product curator · United States Congress · cs_u_united_states_congress_01"
+   "evidence": "civics · product curator · United States Congress · cs_u_united_states_congress_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_universal_suffrage_01",
    "text": "Universal suffrage gives voting rights to all adults",
    "standing": "projectable",
-   "evidence": "civics · product curator · Universal suffrage · cs_u_universal_suffrage_01"
+   "evidence": "civics · product curator · Universal suffrage · cs_u_universal_suffrage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unsaturated_fat_01",
    "text": "An unsaturated fat has one or more double bonds",
    "standing": "projectable",
-   "evidence": "science · product curator · Unsaturated fat · cs_u_unsaturated_fat_01"
+   "evidence": "science · product curator · Unsaturated fat · cs_u_unsaturated_fat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_cycle_01",
    "text": "The urea cycle removes nitrogen from the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_01"
+   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ubangi_river_01",
    "text": "The Ubangi is a tributary of the Congo",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ubangi River · cs_u_ubangi_river_01"
+   "evidence": "geography · product curator · Ubangi River · cs_u_ubangi_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_light_01",
    "text": "Ultraviolet light is invisible to the human eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet light · cs_u_ultraviolet_light_01"
+   "evidence": "science · product curator · Ultraviolet light · cs_u_ultraviolet_light_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ursa_major_01",
    "text": "Ursa Major is a constellation",
    "standing": "projectable",
-   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_01"
+   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ursa_minor_01",
    "text": "Ursa Minor contains the North Star",
    "standing": "projectable",
-   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_01"
+   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_understory_02",
    "text": "The understory is the layer of plants under the forest canopy",
    "standing": "projectable",
-   "evidence": "nature · product curator · Understory · cs_u_understory_02"
+   "evidence": "nature · product curator · Understory · cs_u_understory_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_circle_02",
    "text": "A unit circle has radius one",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_02"
+   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_fraction_02",
    "text": "A unit fraction has numerator one",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_02"
+   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_universe_04",
    "text": "The universe contains all matter and energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Universe · cs_u_universe_04"
+   "evidence": "science · product curator · Universe · cs_u_universe_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urban_01",
    "text": "An urban area is a city or town",
    "standing": "projectable",
-   "evidence": "geography · product curator · Urban · cs_u_urban_01"
+   "evidence": "geography · product curator · Urban · cs_u_urban_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ursa_minor_02",
    "text": "Ursa Minor contains Polaris",
    "standing": "projectable",
-   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_02"
+   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uganda_07",
    "text": "Uganda is a country in East Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uganda · cs_u_uganda_07"
+   "evidence": "geography · product curator · Uganda · cs_u_uganda_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultrasound_02",
    "text": "Ultrasound is sound above the human hearing range",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_02"
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbra_02",
    "text": "An eclipse has an umbra",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbra · cs_u_umbra_02"
+   "evidence": "science · product curator · Umbra · cs_u_umbra_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicameral_02",
    "text": "Nebraska has a unicameral legislature",
    "standing": "projectable",
-   "evidence": "civics · product curator · Unicameral · cs_u_unicameral_02"
+   "evidence": "civics · product curator · Unicameral · cs_u_unicameral_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicellular_organism_02",
    "text": "A bacterium is a unicellular organism",
    "standing": "projectable",
-   "evidence": "nature · product curator · Unicellular organism · cs_u_unicellular_organism_02"
+   "evidence": "nature · product curator · Unicellular organism · cs_u_unicellular_organism_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_union_sets_02",
    "text": "Set union combines elements from two sets",
    "standing": "projectable",
-   "evidence": "math · product curator · Union (sets) · cs_u_union_sets_02"
+   "evidence": "math · product curator · Union (sets) · cs_u_union_sets_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ursa_major_02",
    "text": "The Big Dipper is part of Ursa Major",
    "standing": "projectable",
-   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_02"
+   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uplift_01",
    "text": "Uplift raises crustal rocks",
    "standing": "projectable",
-   "evidence": "science · product curator · Uplift · cs_u_uplift_01"
+   "evidence": "science · product curator · Uplift · cs_u_uplift_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_04",
    "text": "Ultraviolet light has short waves",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_04"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbilical_cord_01",
    "text": "The umbilical cord connects a fetus to the placenta",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbilical cord · cs_u_umbilical_cord_01"
+   "evidence": "science · product curator · Umbilical cord · cs_u_umbilical_cord_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicellular_01",
    "text": "A unicellular organism has one cell",
    "standing": "projectable",
-   "evidence": "science · product curator · Unicellular · cs_u_unicellular_01"
+   "evidence": "science · product curator · Unicellular · cs_u_unicellular_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_union_02",
    "text": "The union of sets combines their members",
    "standing": "projectable",
-   "evidence": "math · product curator · Union · cs_u_union_02"
+   "evidence": "math · product curator · Union · cs_u_union_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_07",
    "text": "Uranium is a radioactive metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_07"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urban_02",
    "text": "An urban area has dense settlement",
    "standing": "projectable",
-   "evidence": "geography · product curator · Urban · cs_u_urban_02"
+   "evidence": "geography · product curator · Urban · cs_u_urban_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_02",
    "text": "Urea is a waste product in urine",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea · cs_u_urea_02"
+   "evidence": "science · product curator · Urea · cs_u_urea_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ureter_01",
    "text": "A ureter carries urine from a kidney",
    "standing": "projectable",
-   "evidence": "science · product curator · Ureter · cs_u_ureter_01"
+   "evidence": "science · product curator · Ureter · cs_u_ureter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urethra_01",
    "text": "The urethra carries urine out of the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Urethra · cs_u_urethra_01"
+   "evidence": "science · product curator · Urethra · cs_u_urethra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultrasound_03",
    "text": "Ultrasound uses high frequency sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_03"
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upland_01",
    "text": "An upland is high ground",
    "standing": "projectable",
-   "evidence": "geography · product curator · Upland · cs_u_upland_01"
+   "evidence": "geography · product curator · Upland · cs_u_upland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_fraction_03",
    "text": "A unit fraction has one as numerator",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_03"
+   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uniform_02",
    "text": "A uniform is standard clothing",
    "standing": "projectable",
-   "evidence": "civics · product curator · Uniform · cs_u_uniform_02"
+   "evidence": "civics · product curator · Uniform · cs_u_uniform_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_union_03",
    "text": "A union joins sets without duplicates",
    "standing": "projectable",
-   "evidence": "math · product curator · Union · cs_u_union_03"
+   "evidence": "math · product curator · Union · cs_u_union_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_03",
    "text": "A unit is a standard of measurement",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit · cs_u_unit_03"
+   "evidence": "math · product curator · Unit · cs_u_unit_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbrella_03",
    "text": "An umbrella blocks rain",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbrella · cs_u_umbrella_03"
+   "evidence": "science · product curator · Umbrella · cs_u_umbrella_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_04",
    "text": "An ungulate is a hoofed mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_04"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_circle_03",
    "text": "Trigonometry uses the unit circle",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_03"
+   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_08",
    "text": "Uranium is a radioactive element",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_08"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urchin_04",
    "text": "A sea urchin has spines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Urchin · cs_u_urchin_04"
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_05",
    "text": "Deer are ungulates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_05"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utensil_01",
    "text": "A spoon is a utensil",
    "standing": "projectable",
-   "evidence": "history · product curator · Utensil · cs_u_utensil_01"
+   "evidence": "history · product curator · Utensil · cs_u_utensil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_union_04",
    "text": "Workers form a union",
    "standing": "projectable",
-   "evidence": "civics · product curator · Union · cs_u_union_04"
+   "evidence": "civics · product curator · Union · cs_u_union_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urine_01",
    "text": "Kidneys produce urine",
    "standing": "projectable",
-   "evidence": "science · product curator · Urine · cs_u_urine_01"
+   "evidence": "science · product curator · Urine · cs_u_urine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utah_05",
    "text": "Utah is a western state",
    "standing": "projectable",
-   "evidence": "geography · product curator · Utah · cs_u_utah_05"
+   "evidence": "geography · product curator · Utah · cs_u_utah_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_04",
    "text": "Meters are a unit of length",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit · cs_u_unit_04"
+   "evidence": "math · product curator · Unit · cs_u_unit_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbrella_04",
    "text": "An umbrella sheds rain",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbrella · cs_u_umbrella_04"
+   "evidence": "science · product curator · Umbrella · cs_u_umbrella_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urchin_05",
    "text": "Sea urchins graze on algae",
    "standing": "projectable",
-   "evidence": "nature · product curator · Urchin · cs_u_urchin_05"
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_ore_01",
    "text": "Miners extract uranium ore",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uranium ore · cs_u_uranium_ore_01"
+   "evidence": "geography · product curator · Uranium ore · cs_u_uranium_ore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_university_01",
    "text": "A university grants degrees",
    "standing": "projectable",
-   "evidence": "civics · product curator · University · cs_u_university_01"
+   "evidence": "civics · product curator · University · cs_u_university_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uniform_03",
    "text": "Students wear a school uniform",
    "standing": "projectable",
-   "evidence": "civics · product curator · Uniform · cs_u_uniform_03"
+   "evidence": "civics · product curator · Uniform · cs_u_uniform_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_03",
    "text": "The liver makes urea",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea · cs_u_urea_03"
+   "evidence": "science · product curator · Urea · cs_u_urea_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultrasound_04",
    "text": "Doctors use ultrasound imaging",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_04"
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_udder_02",
    "text": "Milk comes from an udder",
    "standing": "projectable",
-   "evidence": "nature · product curator · Udder · cs_u_udder_02"
+   "evidence": "nature · product curator · Udder · cs_u_udder_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruk_02",
    "text": "Uruk was an ancient city",
    "standing": "projectable",
-   "evidence": "history · product curator · Uruk · cs_u_uruk_02"
+   "evidence": "history · product curator · Uruk · cs_u_uruk_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_understory_03",
    "text": "Ferns grow in the understory",
    "standing": "projectable",
-   "evidence": "nature · product curator · Understory · cs_u_understory_03"
+   "evidence": "nature · product curator · Understory · cs_u_understory_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upper_house_02",
    "text": "Senators sit in an upper house",
    "standing": "projectable",
-   "evidence": "civics · product curator · Upper house · cs_u_upper_house_02"
+   "evidence": "civics · product curator · Upper house · cs_u_upper_house_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_cycle_02",
    "text": "The urea cycle clears ammonia",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_02"
+   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicycle_02",
    "text": "A rider balances on a unicycle",
    "standing": "projectable",
-   "evidence": "science · product curator · Unicycle · cs_u_unicycle_02"
+   "evidence": "science · product curator · Unicycle · cs_u_unicycle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unsaturated_fat_02",
    "text": "Olive oil is an unsaturated fat",
    "standing": "projectable",
-   "evidence": "science · product curator · Unsaturated fat · cs_u_unsaturated_fat_02"
+   "evidence": "science · product curator · Unsaturated fat · cs_u_unsaturated_fat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upland_sandpiper_02",
    "text": "An upland sandpiper nests in grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_02"
+   "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_understory_04",
    "text": "Ferns fill the understory",
    "standing": "projectable",
-   "evidence": "nature · product curator · Understory · cs_u_understory_04"
+   "evidence": "nature · product curator · Understory · cs_u_understory_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulna_02",
    "text": "The ulna meets the wrist",
    "standing": "projectable",
-   "evidence": "science · product curator · Ulna · cs_u_ulna_02"
+   "evidence": "science · product curator · Ulna · cs_u_ulna_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ursa_minor_03",
    "text": "Polaris sits in Ursa Minor",
    "standing": "projectable",
-   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_03"
+   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ureter_02",
    "text": "A ureter drains a kidney",
    "standing": "projectable",
-   "evidence": "science · product curator · Ureter · cs_u_ureter_02"
+   "evidence": "science · product curator · Ureter · cs_u_ureter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_05",
    "text": "Ultraviolet fades dyes",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_05"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ursa_major_03",
    "text": "Ursa Major holds seven bright stars",
    "standing": "projectable",
-   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_03"
+   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_udder_03",
    "text": "Milk fills a cow udder",
    "standing": "projectable",
-   "evidence": "nature · product curator · Udder · cs_u_udder_03"
+   "evidence": "nature · product curator · Udder · cs_u_udder_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umpire_02",
    "text": "An umpire calls strikes",
    "standing": "projectable",
-   "evidence": "civics · product curator · Umpire · cs_u_umpire_02"
+   "evidence": "civics · product curator · Umpire · cs_u_umpire_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uruk_03",
    "text": "Uruk built early walls",
    "standing": "projectable",
-   "evidence": "history · product curator · Uruk · cs_u_uruk_03"
+   "evidence": "history · product curator · Uruk · cs_u_uruk_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utah_06",
    "text": "Utah has red rock canyons",
    "standing": "projectable",
-   "evidence": "geography · product curator · Utah · cs_u_utah_06"
+   "evidence": "geography · product curator · Utah · cs_u_utah_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultima_thule_02",
    "text": "Ultima Thule is a distant rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultima Thule · cs_u_ultima_thule_02"
+   "evidence": "science · product curator · Ultima Thule · cs_u_ultima_thule_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uplift_02",
    "text": "Uplift raises mountain ranges",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uplift · cs_u_uplift_02"
+   "evidence": "geography · product curator · Uplift · cs_u_uplift_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_06",
    "text": "The sun emits ultraviolet",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_06"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbra_03",
    "text": "The umbra is full shadow",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbra · cs_u_umbra_03"
+   "evidence": "science · product curator · Umbra · cs_u_umbra_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_understory_05",
    "text": "Shade suits the understory",
    "standing": "projectable",
-   "evidence": "nature · product curator · Understory · cs_u_understory_05"
+   "evidence": "nature · product curator · Understory · cs_u_understory_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_06",
    "text": "Hooves mark an ungulate",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_06"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicellular_02",
    "text": "Amoebas are unicellular",
    "standing": "projectable",
-   "evidence": "nature · product curator · Unicellular · cs_u_unicellular_02"
+   "evidence": "nature · product curator · Unicellular · cs_u_unicellular_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unicycle_03",
    "text": "Riders balance a unicycle",
    "standing": "projectable",
-   "evidence": "history · product curator · Unicycle · cs_u_unicycle_03"
+   "evidence": "history · product curator · Unicycle · cs_u_unicycle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_09",
    "text": "Uranium fuels reactors",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_09"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uvula_01",
    "text": "Speech moves the uvula",
    "standing": "projectable",
-   "evidence": "science · product curator · Uvula · cs_u_uvula_01"
+   "evidence": "science · product curator · Uvula · cs_u_uvula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulna_03",
    "text": "Arms include an ulna",
    "standing": "projectable",
-   "evidence": "science · product curator · Ulna · cs_u_ulna_03"
+   "evidence": "science · product curator · Ulna · cs_u_ulna_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbra_04",
    "text": "Eclipses cast an umbra",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbra · cs_u_umbra_04"
+   "evidence": "science · product curator · Umbra · cs_u_umbra_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_universe_05",
    "text": "Stars fill the universe",
    "standing": "projectable",
-   "evidence": "science · product curator · Universe · cs_u_universe_05"
+   "evidence": "science · product curator · Universe · cs_u_universe_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uplift_03",
    "text": "Mountains rise by uplift",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uplift · cs_u_uplift_03"
+   "evidence": "geography · product curator · Uplift · cs_u_uplift_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uranium_10",
    "text": "Reactors burn uranium",
    "standing": "projectable",
-   "evidence": "science · product curator · Uranium · cs_u_uranium_10"
+   "evidence": "science · product curator · Uranium · cs_u_uranium_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urchin_06",
    "text": "Urchins graze kelp",
    "standing": "projectable",
-   "evidence": "nature · product curator · Urchin · cs_u_urchin_06"
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_cycle_03",
    "text": "Liver runs the urea cycle",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_03"
+   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uterus_02",
    "text": "Mammals grow in a uterus",
    "standing": "projectable",
-   "evidence": "science · product curator · Uterus · cs_u_uterus_02"
+   "evidence": "science · product curator · Uterus · cs_u_uterus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulna_04",
    "text": "The ulna lies beside the radius",
    "standing": "projectable",
-   "evidence": "science · product curator · Ulna · cs_u_ulna_04"
+   "evidence": "science · product curator · Ulna · cs_u_ulna_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_05",
    "text": "A unit measures quantity",
    "standing": "projectable",
-   "evidence": "math · product curator · Unit · cs_u_unit_05"
+   "evidence": "math · product curator · Unit · cs_u_unit_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upland_02",
    "text": "Upland soils drain well",
    "standing": "projectable",
-   "evidence": "geography · product curator · Upland · cs_u_upland_02"
+   "evidence": "geography · product curator · Upland · cs_u_upland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uracil_01",
    "text": "Uracil pairs in RNA",
    "standing": "projectable",
-   "evidence": "science · product curator · Uracil · cs_u_uracil_01"
+   "evidence": "science · product curator · Uracil · cs_u_uracil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uraninite_01",
    "text": "Uraninite holds uranium",
    "standing": "projectable",
-   "evidence": "science · product curator · Uraninite · cs_u_uraninite_01"
+   "evidence": "science · product curator · Uraninite · cs_u_uraninite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urine_02",
    "text": "Kidneys form urine",
    "standing": "projectable",
-   "evidence": "science · product curator · Urine · cs_u_urine_02"
+   "evidence": "science · product curator · Urine · cs_u_urine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utensil_02",
    "text": "A utensil serves food",
    "standing": "projectable",
-   "evidence": "history · product curator · Utensil · cs_u_utensil_02"
+   "evidence": "history · product curator · Utensil · cs_u_utensil_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uterus_03",
    "text": "A uterus shelters a fetus",
    "standing": "projectable",
-   "evidence": "science · product curator · Uterus · cs_u_uterus_03"
+   "evidence": "science · product curator · Uterus · cs_u_uterus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utility_01",
    "text": "A utility delivers power",
    "standing": "projectable",
-   "evidence": "civics · product curator · Utility · cs_u_utility_01"
+   "evidence": "civics · product curator · Utility · cs_u_utility_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uvea_01",
    "text": "The uvea nourishes the eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Uvea · cs_u_uvea_01"
+   "evidence": "science · product curator · Uvea · cs_u_uvea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ulna_05",
    "text": "The ulna braces the forearm",
    "standing": "projectable",
-   "evidence": "science · product curator · Ulna · cs_u_ulna_05"
+   "evidence": "science · product curator · Ulna · cs_u_ulna_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_07",
    "text": "Ultraviolet tans human skin",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_07"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbilical_01",
    "text": "An umbilical cord feeds a fetus",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbilical · cs_u_umbilical_01"
+   "evidence": "science · product curator · Umbilical · cs_u_umbilical_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_07",
    "text": "An ungulate walks on hooves",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_07"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultramarine_01",
    "text": "Ultramarine paints deep blue",
    "standing": "projectable",
-   "evidence": "history · product curator · Ultramarine · cs_u_ultramarine_01"
+   "evidence": "history · product curator · Ultramarine · cs_u_ultramarine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbra_05",
    "text": "An umbra darkens full eclipse",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbra · cs_u_umbra_05"
+   "evidence": "science · product curator · Umbra · cs_u_umbra_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urethra_02",
    "text": "The urethra empties the bladder",
    "standing": "projectable",
-   "evidence": "science · product curator · Urethra · cs_u_urethra_02"
+   "evidence": "science · product curator · Urethra · cs_u_urethra_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uric_acid_01",
    "text": "Birds excrete solid uric acid",
    "standing": "projectable",
-   "evidence": "nature · product curator · Uric acid · cs_u_uric_acid_01"
+   "evidence": "nature · product curator · Uric acid · cs_u_uric_acid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ustilago_01",
    "text": "Ustilago infects corn ears",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ustilago · cs_u_ustilago_01"
+   "evidence": "nature · product curator · Ustilago · cs_u_ustilago_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uvula_02",
    "text": "The uvula hangs in the throat",
    "standing": "projectable",
-   "evidence": "science · product curator · Uvula · cs_u_uvula_02"
+   "evidence": "science · product curator · Uvula · cs_u_uvula_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ultraviolet_08",
    "text": "Suns emit ultraviolet light",
    "standing": "projectable",
-   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_08"
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uluru_03",
    "text": "Sandstone forms red Uluru",
    "standing": "projectable",
-   "evidence": "geography · product curator · Uluru · cs_u_uluru_03"
+   "evidence": "geography · product curator · Uluru · cs_u_uluru_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upland_03",
    "text": "Uplands shed fast streams",
    "standing": "projectable",
-   "evidence": "geography · product curator · Upland · cs_u_upland_03"
+   "evidence": "geography · product curator · Upland · cs_u_upland_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urban_03",
    "text": "Transit links urban cores",
    "standing": "projectable",
-   "evidence": "civics · product curator · Urban · cs_u_urban_03"
+   "evidence": "civics · product curator · Urban · cs_u_urban_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_04",
    "text": "Kidneys clear blood urea",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea · cs_u_urea_04"
+   "evidence": "science · product curator · Urea · cs_u_urea_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uterus_04",
    "text": "The uterus holds a fetus",
    "standing": "projectable",
-   "evidence": "science · product curator · Uterus · cs_u_uterus_04"
+   "evidence": "science · product curator · Uterus · cs_u_uterus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_utility_02",
    "text": "Meters track utility use",
    "standing": "projectable",
-   "evidence": "civics · product curator · Utility · cs_u_utility_02"
+   "evidence": "civics · product curator · Utility · cs_u_utility_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uvula_03",
    "text": "Throats hold a soft uvula",
    "standing": "projectable",
-   "evidence": "science · product curator · Uvula · cs_u_uvula_03"
+   "evidence": "science · product curator · Uvula · cs_u_uvula_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_u_shaped_valley_01",
    "text": "Ice carves U-shaped valleys",
    "standing": "projectable",
-   "evidence": "geography · product curator · U-shaped valley · cs_u_u_shaped_valley_01"
+   "evidence": "geography · product curator · U-shaped valley · cs_u_u_shaped_valley_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_umbra_06",
    "text": "Moons cast eclipse umbras",
    "standing": "projectable",
-   "evidence": "science · product curator · Umbra · cs_u_umbra_06"
+   "evidence": "science · product curator · Umbra · cs_u_umbra_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_undertow_01",
    "text": "Undertow pulls beach swimmers",
    "standing": "projectable",
-   "evidence": "science · product curator · Undertow · cs_u_undertow_01"
+   "evidence": "science · product curator · Undertow · cs_u_undertow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_ungulate_08",
    "text": "Ungulates walk on hoof tips",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_08"
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_unit_cell_01",
    "text": "A unit cell repeats crystal form",
    "standing": "projectable",
-   "evidence": "science · product curator · Unit cell · cs_u_unit_cell_01"
+   "evidence": "science · product curator · Unit cell · cs_u_unit_cell_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_universal_joint_01",
    "text": "A joint flexes drive shafts",
    "standing": "projectable",
-   "evidence": "science · product curator · Universal joint · cs_u_universal_joint_01"
+   "evidence": "science · product curator · Universal joint · cs_u_universal_joint_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_upwelling_01",
    "text": "Upwelling lifts deep nutrients",
    "standing": "projectable",
-   "evidence": "science · product curator · Upwelling · cs_u_upwelling_01"
+   "evidence": "science · product curator · Upwelling · cs_u_upwelling_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urea_05",
    "text": "Urea clears blood nitrogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Urea · cs_u_urea_05"
+   "evidence": "science · product curator · Urea · cs_u_urea_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_urine_03",
    "text": "Kidneys filter blood urine",
    "standing": "projectable",
-   "evidence": "science · product curator · Urine · cs_u_urine_03"
+   "evidence": "science · product curator · Urine · cs_u_urine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_u_uvula_04",
    "text": "The uvula hangs soft palate",
    "standing": "projectable",
-   "evidence": "science · product curator · Uvula · cs_u_uvula_04"
+   "evidence": "science · product curator · Uvula · cs_u_uvula_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

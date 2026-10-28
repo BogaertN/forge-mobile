@@ -12,1465 +12,2685 @@
    "id": "cs_x_xenon_01",
    "text": "Xenon has the chemical symbol Xe",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_01"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_02",
    "text": "Xenon is a noble gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_02"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_03",
    "text": "Xenon has an atomic number of 54",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_03"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_04",
    "text": "Xenon is used in some high-intensity lamps",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_04"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_05",
    "text": "Xenon is colorless and odorless",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_05"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_01",
    "text": "X-rays are a form of electromagnetic radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_01"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_02",
    "text": "X-rays were discovered by Wilhelm Röntgen in 1895",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_02"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_03",
    "text": "X rays are shorter than ultraviolet waves",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_03"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_04",
    "text": "X-rays can pass through soft tissue",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_04"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_05",
    "text": "Bones show up clearly on X-ray images",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_05"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_astronomy_01",
    "text": "X-ray astronomy studies X-rays from objects in space",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray astronomy · cs_x_x_ray_astronomy_01"
+   "evidence": "science · product curator · X-ray astronomy · cs_x_x_ray_astronomy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_astronomy_02",
    "text": "The atmosphere blocks X rays from space",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray astronomy · cs_x_x_ray_astronomy_02"
+   "evidence": "science · product curator · X-ray astronomy · cs_x_x_ray_astronomy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_crystallography_01",
    "text": "X-ray crystallography reveals the arrangement of atoms in crystals",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_01"
+   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_01",
    "text": "The X chromosome is one of the two human sex chromosomes",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_01"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_02",
    "text": "Human females typically have two X chromosomes",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_02"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_03",
    "text": "Human males typically have one X chromosome and one Y chromosome",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_03"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_01",
    "text": "Xylem carries water in plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylem · cs_x_xylem_01"
+   "evidence": "science · product curator · Xylem · cs_x_xylem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_02",
    "text": "Xylem is a vascular tissue in plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylem · cs_x_xylem_02"
+   "evidence": "science · product curator · Xylem · cs_x_xylem_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_03",
    "text": "Wood is made of xylem",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylem · cs_x_xylem_03"
+   "evidence": "science · product curator · Xylem · cs_x_xylem_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylose_01",
    "text": "Xylose is a sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylose · cs_x_xylose_01"
+   "evidence": "science · product curator · Xylose · cs_x_xylose_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_01",
    "text": "Xylene is an aromatic hydrocarbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_01"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylitol_01",
    "text": "Xylitol is a sugar alcohol",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylitol · cs_x_xylitol_01"
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthophyll_01",
    "text": "Xanthophylls are yellow pigments found in leaves",
    "standing": "projectable",
-   "evidence": "science · product curator · Xanthophyll · cs_x_xanthophyll_01"
+   "evidence": "science · product curator · Xanthophyll · cs_x_xanthophyll_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerus_01",
    "text": "Xerus is a genus of squirrels",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xerus · cs_x_xerus_01"
+   "evidence": "nature · product curator · Xerus · cs_x_xerus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenopus_01",
    "text": "Xenopus is a genus of frogs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xenopus · cs_x_xenopus_01"
+   "evidence": "nature · product curator · Xenopus · cs_x_xenopus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xoloitzcuintle_01",
    "text": "The Xoloitzcuintle is a hairless dog breed from Mexico",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xoloitzcuintle · cs_x_xoloitzcuintle_01"
+   "evidence": "nature · product curator · Xoloitzcuintle · cs_x_xoloitzcuintle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xoloitzcuintle_02",
    "text": "The Xoloitzcuintle is the national dog of Mexico",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xoloitzcuintle · cs_x_xoloitzcuintle_02"
+   "evidence": "nature · product curator · Xoloitzcuintle · cs_x_xoloitzcuintle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xantus_s_hummingbird_01",
    "text": "Xantus's hummingbird lives in Baja California",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xantus's hummingbird · cs_x_xantus_s_hummingbird_01"
+   "evidence": "nature · product curator · Xantus's hummingbird · cs_x_xantus_s_hummingbird_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xi_an_01",
    "text": "Xi'an is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xi'an · cs_x_xi_an_01"
+   "evidence": "geography · product curator · Xi'an · cs_x_xi_an_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xi_an_02",
    "text": "Xi'an was the eastern starting point of the Silk Road",
    "standing": "projectable",
-   "evidence": "history · product curator · Xi'an · cs_x_xi_an_02"
+   "evidence": "history · product curator · Xi'an · cs_x_xi_an_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xi_an_03",
    "text": "The Terracotta Army was found near Xi'an",
    "standing": "projectable",
-   "evidence": "history · product curator · Xi'an · cs_x_xi_an_03"
+   "evidence": "history · product curator · Xi'an · cs_x_xi_an_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xi_an_04",
    "text": "Xi'an is the capital of Shaanxi Province",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xi'an · cs_x_xi_an_04"
+   "evidence": "geography · product curator · Xi'an · cs_x_xi_an_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xinjiang_01",
    "text": "Xinjiang is the largest provincial-level division of China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_01"
+   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xinjiang_02",
    "text": "Urumqi is the capital of Xinjiang",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_02"
+   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xiamen_01",
    "text": "Xiamen is a port city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_01"
+   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xingu_river_01",
    "text": "The Xingu is a tributary of the Amazon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xingu River · cs_x_xingu_river_01"
+   "evidence": "geography · product curator · Xingu River · cs_x_xingu_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xingu_river_02",
    "text": "The Xingu flows through Brazil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xingu River · cs_x_xingu_river_02"
+   "evidence": "geography · product curator · Xingu River · cs_x_xingu_river_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xochimilco_01",
    "text": "Xochimilco in Mexico City is known for its canals",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_01"
+   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xochimilco_02",
    "text": "Xochimilco is a UNESCO site",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_02"
+   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xai_xai_01",
    "text": "Xai-Xai is a city in Mozambique",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_01"
+   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xalapa_01",
    "text": "Xalapa is the capital of the Mexican state of Veracruz",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_01"
+   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthi_01",
    "text": "Xanthi is a city in Greece",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xanthi · cs_x_xanthi_01"
+   "evidence": "geography · product curator · Xanthi · cs_x_xanthi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerxes_i_01",
    "text": "Xerxes was a king of Persia",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_01"
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerxes_i_02",
    "text": "Xerxes invaded Greece",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_02"
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerxes_i_03",
    "text": "Xerxes was the son of Darius",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_03"
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenophon_01",
    "text": "Xenophon was a Greek historian",
    "standing": "projectable",
-   "evidence": "history · product curator · Xenophon · cs_x_xenophon_01"
+   "evidence": "history · product curator · Xenophon · cs_x_xenophon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenophon_02",
    "text": "Xenophon was a student of Socrates",
    "standing": "projectable",
-   "evidence": "history · product curator · Xenophon · cs_x_xenophon_02"
+   "evidence": "history · product curator · Xenophon · cs_x_xenophon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenophon_03",
    "text": "Xenophon wrote the Anabasis",
    "standing": "projectable",
-   "evidence": "history · product curator · Xenophon · cs_x_xenophon_03"
+   "evidence": "history · product curator · Xenophon · cs_x_xenophon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenophanes_01",
    "text": "Xenophanes was a Greek philosopher",
    "standing": "projectable",
-   "evidence": "history · product curator · Xenophanes · cs_x_xenophanes_01"
+   "evidence": "history · product curator · Xenophanes · cs_x_xenophanes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xuanzang_01",
    "text": "Xuanzang was a Chinese monk who traveled to India",
    "standing": "projectable",
-   "evidence": "history · product curator · Xuanzang · cs_x_xuanzang_01"
+   "evidence": "history · product curator · Xuanzang · cs_x_xuanzang_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xia_dynasty_01",
    "text": "The Xia is the earliest dynasty in Chinese tradition",
    "standing": "projectable",
-   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_01"
+   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xochiquetzal_01",
    "text": "Xochiquetzal was an Aztec goddess of flowers",
    "standing": "projectable",
-   "evidence": "history · product curator · Xochiquetzal · cs_x_xochiquetzal_01"
+   "evidence": "history · product curator · Xochiquetzal · cs_x_xochiquetzal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_02",
    "text": "Xhosa is an official language of South Africa",
    "standing": "projectable",
-   "evidence": "language · product curator · Xhosa · cs_x_xhosa_02"
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_03",
    "text": "The Xhosa language uses click consonants",
    "standing": "projectable",
-   "evidence": "language · product curator · Xhosa · cs_x_xhosa_03"
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_04",
    "text": "Nelson Mandela was a native Xhosa speaker",
    "standing": "projectable",
-   "evidence": "language · product curator · Xhosa · cs_x_xhosa_04"
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_01",
    "text": "X is the 24th letter of the English alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · X · cs_x_x_01"
+   "evidence": "language · product curator · X · cs_x_x_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_02",
    "text": "In Roman numerals, X represents 10",
    "standing": "projectable",
-   "evidence": "math · product curator · X · cs_x_x_02"
+   "evidence": "math · product curator · X · cs_x_x_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_axis_01",
    "text": "The x-axis is the horizontal axis of a coordinate plane",
    "standing": "projectable",
-   "evidence": "math · product curator · X-axis · cs_x_x_axis_01"
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_axis_02",
    "text": "The x-axis and y-axis meet at the origin",
    "standing": "projectable",
-   "evidence": "math · product curator · X-axis · cs_x_x_axis_02"
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_coordinate_01",
    "text": "The x-coordinate of a point gives its horizontal position",
    "standing": "projectable",
-   "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_01"
+   "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_intercept_01",
    "text": "A graph crosses the x axis at the x intercept",
    "standing": "projectable",
-   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_01"
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_01",
    "text": "The xylophone is a percussion instrument",
    "standing": "projectable",
-   "evidence": "general · product curator · Xylophone · cs_x_xylophone_01"
+   "evidence": "general · product curator · Xylophone · cs_x_xylophone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_02",
    "text": "A xylophone has wooden bars struck with mallets",
    "standing": "projectable",
-   "evidence": "general · product curator · Xylophone · cs_x_xylophone_02"
+   "evidence": "general · product curator · Xylophone · cs_x_xylophone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_03",
    "text": "The word xylophone comes from Greek",
    "standing": "projectable",
-   "evidence": "language · product curator · Xylophone · cs_x_xylophone_03"
+   "evidence": "language · product curator · Xylophone · cs_x_xylophone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xmas_01",
    "text": "Xmas is an abbreviation of Christmas",
    "standing": "projectable",
-   "evidence": "language · product curator · Xmas · cs_x_xmas_01"
+   "evidence": "language · product curator · Xmas · cs_x_xmas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerography_01",
    "text": "Xerography is a dry copying process",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerography · cs_x_xerography_01"
+   "evidence": "science · product curator · Xerography · cs_x_xerography_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerography_02",
    "text": "Xerography was invented by Chester Carlson",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerography · cs_x_xerography_02"
+   "evidence": "history · product curator · Xerography · cs_x_xerography_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xml_01",
    "text": "XML stands for Extensible Markup Language",
    "standing": "projectable",
-   "evidence": "general · product curator · XML · cs_x_xml_01"
+   "evidence": "general · product curator · XML · cs_x_xml_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xbox_01",
    "text": "Microsoft makes the Xbox",
    "standing": "projectable",
-   "evidence": "general · product curator · Xbox · cs_x_xbox_01"
+   "evidence": "general · product curator · Xbox · cs_x_xbox_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenophobia_01",
    "text": "Xenophobia is fear or dislike of foreigners",
    "standing": "projectable",
-   "evidence": "language · product curator · Xenophobia · cs_x_xenophobia_01"
+   "evidence": "language · product curator · Xenophobia · cs_x_xenophobia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeriscaping_01",
    "text": "Xeriscaping needs little water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xeriscaping · cs_x_xeriscaping_01"
+   "evidence": "nature · product curator · Xeriscaping · cs_x_xeriscaping_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_15_01",
    "text": "The X-15 was a rocket-powered research aircraft",
    "standing": "projectable",
-   "evidence": "history · product curator · X-15 · cs_x_x_15_01"
+   "evidence": "history · product curator · X-15 · cs_x_x_15_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xinhua_01",
    "text": "Xinhua is China's state news agency",
    "standing": "projectable",
-   "evidence": "general · product curator · Xinhua · cs_x_xinhua_01"
+   "evidence": "general · product curator · Xinhua · cs_x_xinhua_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_06",
    "text": "Xenon is a noble gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_06"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_06",
    "text": "X-rays were discovered by Wilhelm Röntgen",
    "standing": "projectable",
-   "evidence": "history · product curator · X-ray · cs_x_x_ray_06"
+   "evidence": "history · product curator · X-ray · cs_x_x_ray_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_07",
    "text": "X-rays are used to make images of bones",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_07"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_04",
    "text": "Xylem carries water in plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylem · cs_x_xylem_04"
+   "evidence": "science · product curator · Xylem · cs_x_xylem_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_04",
    "text": "A xylophone is a percussion instrument",
    "standing": "projectable",
-   "evidence": "culture · product curator · Xylophone · cs_x_xylophone_04"
+   "evidence": "culture · product curator · Xylophone · cs_x_xylophone_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xinjiang_03",
    "text": "Xinjiang is a region in northwest China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_03"
+   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerxes_i_04",
    "text": "Xerxes was a king of the Persian Empire",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_04"
+   "evidence": "history · product curator · Xerxes I · cs_x_xerxes_i_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_05",
    "text": "Xhosa is a language of South Africa",
    "standing": "projectable",
-   "evidence": "culture · product curator · Xhosa · cs_x_xhosa_05"
+   "evidence": "culture · product curator · Xhosa · cs_x_xhosa_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_07",
    "text": "Xenon is used in some lamps",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_07"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_08",
    "text": "Xenon is a colorless gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_08"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_coordinate_02",
    "text": "The x-coordinate gives horizontal position",
    "standing": "projectable",
-   "evidence": "science · product curator · X-coordinate · cs_x_x_coordinate_02"
+   "evidence": "science · product curator · X-coordinate · cs_x_x_coordinate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_04",
    "text": "The X chromosome is a sex chromosome",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_04"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylitol_02",
    "text": "Xylitol is a sugar alcohol used as a sweetener",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylitol · cs_x_xylitol_02"
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xia_dynasty_02",
    "text": "The Xia was the first dynasty of China",
    "standing": "projectable",
-   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_02"
+   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xiamen_02",
    "text": "Xiamen is a port city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_02"
+   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xi_an_05",
    "text": "Xi'an was an eastern end of the Silk Road",
    "standing": "projectable",
-   "evidence": "history · product curator · Xi'an · cs_x_xi_an_05"
+   "evidence": "history · product curator · Xi'an · cs_x_xi_an_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenophon_04",
    "text": "Xenophon was a Greek writer",
    "standing": "projectable",
-   "evidence": "history · product curator · Xenophon · cs_x_xenophon_04"
+   "evidence": "history · product curator · Xenophon · cs_x_xenophon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_05",
    "text": "The xylophone is played with mallets",
    "standing": "projectable",
-   "evidence": "culture · product curator · Xylophone · cs_x_xylophone_05"
+   "evidence": "culture · product curator · Xylophone · cs_x_xylophone_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xining_01",
    "text": "Xining is the capital of Qinghai",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xining · cs_x_xining_01"
+   "evidence": "geography · product curator · Xining · cs_x_xining_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xalapa_02",
    "text": "Xalapa is the capital of Veracruz",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_02"
+   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_06",
    "text": "A xylophone is a musical instrument",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylophone · cs_x_xylophone_06"
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xian_01",
    "text": "Xian is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xian · cs_x_xian_01"
+   "evidence": "geography · product curator · Xian · cs_x_xian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xiamen_03",
    "text": "Xiamen is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_03"
+   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xining_02",
    "text": "Xining is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xining · cs_x_xining_02"
+   "evidence": "geography · product curator · Xining · cs_x_xining_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xalapa_03",
    "text": "Xalapa is a city in Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_03"
+   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_09",
    "text": "Xenon is a gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_09"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerophthalmia_01",
    "text": "Xerophthalmia is a dryness of the eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerophthalmia · cs_x_xerophthalmia_01"
+   "evidence": "science · product curator · Xerophthalmia · cs_x_xerophthalmia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_tube_01",
    "text": "An X-ray tube produces X-rays",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray tube · cs_x_x_ray_tube_01"
+   "evidence": "science · product curator · X-ray tube · cs_x_x_ray_tube_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenotransplantation_01",
    "text": "Xenotransplantation is the transplant of tissue between species",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenotransplantation · cs_x_xenotransplantation_01"
+   "evidence": "science · product curator · Xenotransplantation · cs_x_xenotransplantation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanadu_01",
    "text": "Xanadu was the summer capital of Kublai Khan",
    "standing": "projectable",
-   "evidence": "history · product curator · Xanadu · cs_x_xanadu_01"
+   "evidence": "history · product curator · Xanadu · cs_x_xanadu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenarthra_01",
    "text": "Xenarthra is a group of mammals that includes sloths",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xenarthra · cs_x_xenarthra_01"
+   "evidence": "nature · product curator · Xenarthra · cs_x_xenarthra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_men_01",
    "text": "The X-Men are comic book characters",
    "standing": "projectable",
-   "evidence": "history · product curator · X-Men · cs_x_x_men_01"
+   "evidence": "history · product curator · X-Men · cs_x_x_men_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xuzhou_01",
    "text": "Xuzhou is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xuzhou · cs_x_xuzhou_01"
+   "evidence": "geography · product curator · Xuzhou · cs_x_xuzhou_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_gas_01",
    "text": "Xenon is a heavy gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon gas · cs_x_xenon_gas_01"
+   "evidence": "science · product curator · Xenon gas · cs_x_xenon_gas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_diffraction_01",
    "text": "X-ray diffraction reveals crystal structure",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray diffraction · cs_x_x_ray_diffraction_01"
+   "evidence": "science · product curator · X-ray diffraction · cs_x_x_ray_diffraction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_fluorescence_01",
    "text": "X-ray fluorescence identifies chemical elements",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray fluorescence · cs_x_x_ray_fluorescence_01"
+   "evidence": "science · product curator · X-ray fluorescence · cs_x_x_ray_fluorescence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_telescope_01",
    "text": "An X-ray telescope observes X-rays from space",
    "standing": "projectable",
-   "evidence": "science · product curator · X ray telescope · cs_x_x_ray_telescope_01"
+   "evidence": "science · product curator · X ray telescope · cs_x_x_ray_telescope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenobiology_01",
    "text": "Xenobiology studies life with unnatural chemistry",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenobiology · cs_x_xenobiology_01"
+   "evidence": "science · product curator · Xenobiology · cs_x_xenobiology_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerarch_succession_01",
    "text": "Xerarch succession begins on dry land",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerarch succession · cs_x_xerarch_succession_01"
+   "evidence": "science · product curator · Xerarch succession · cs_x_xerarch_succession_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_people_01",
    "text": "The Xhosa people live mainly in South Africa",
    "standing": "projectable",
-   "evidence": "history · product curator · Xhosa people · cs_x_xhosa_people_01"
+   "evidence": "history · product curator · Xhosa people · cs_x_xhosa_people_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_band_01",
    "text": "The X band is a range of microwave frequencies",
    "standing": "projectable",
-   "evidence": "science · product curator · X band · cs_x_x_band_01"
+   "evidence": "science · product curator · X band · cs_x_x_band_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_binary_01",
    "text": "An X-ray binary is a star system that emits X-rays",
    "standing": "projectable",
-   "evidence": "science · product curator · X ray binary · cs_x_x_ray_binary_01"
+   "evidence": "science · product curator · X ray binary · cs_x_x_ray_binary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_unit_01",
    "text": "The X unit is a former unit of length for X-rays",
    "standing": "projectable",
-   "evidence": "science · product curator · X unit · cs_x_x_unit_01"
+   "evidence": "science · product curator · X unit · cs_x_x_unit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenogamy_01",
    "text": "Xenogamy is cross pollination between plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenogamy · cs_x_xenogamy_01"
+   "evidence": "science · product curator · Xenogamy · cs_x_xenogamy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerox_process_01",
    "text": "The Xerox process is a form of xerography",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerox process · cs_x_xerox_process_01"
+   "evidence": "science · product curator · Xerox process · cs_x_xerox_process_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylaria_01",
    "text": "Xylaria is a genus of fungi",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_01"
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylography_01",
    "text": "Xylography is the art of wood engraving",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylography · cs_x_xylography_01"
+   "evidence": "history · product curator · Xylography · cs_x_xylography_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xingu_01",
    "text": "The Xingu is a river in Brazil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xingu · cs_x_xingu_01"
+   "evidence": "geography · product curator · Xingu · cs_x_xingu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_axis_03",
    "text": "The x-axis is the horizontal axis on a graph",
    "standing": "projectable",
-   "evidence": "math · product curator · X-axis · cs_x_x_axis_03"
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_coordinate_03",
    "text": "An x-coordinate is the horizontal position of a point",
    "standing": "projectable",
-   "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_03"
+   "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_height_01",
    "text": "X-height is the height of lowercase letters without ascenders",
    "standing": "projectable",
-   "evidence": "language · product curator · X-height · cs_x_x_height_01"
+   "evidence": "language · product curator · X-height · cs_x_x_height_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_binary_star_01",
    "text": "An x-ray binary star emits x-rays from a compact companion",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray binary star · cs_x_x_ray_binary_star_01"
+   "evidence": "science · product curator · X-ray binary star · cs_x_x_ray_binary_star_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_crystallography_03",
    "text": "X-ray crystallography finds atomic structure from diffraction patterns",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_03"
+   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_photon_01",
    "text": "An x-ray photon is a high-energy light particle",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray photon · cs_x_x_ray_photon_01"
+   "evidence": "science · product curator · X-ray photon · cs_x_x_ray_photon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthophyll_02",
    "text": "Xanthophyll is a yellow plant pigment",
    "standing": "projectable",
-   "evidence": "science · product curator · Xanthophyll · cs_x_xanthophyll_02"
+   "evidence": "science · product curator · Xanthophyll · cs_x_xanthophyll_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeriscaping_02",
    "text": "Xeriscaping uses drought-tolerant plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Xeriscaping · cs_x_xeriscaping_02"
+   "evidence": "science · product curator · Xeriscaping · cs_x_xeriscaping_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerxes_01",
    "text": "Xerxes led a Persian invasion of Greece",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerxes · cs_x_xerxes_01"
+   "evidence": "history · product curator · Xerxes · cs_x_xerxes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_language_01",
    "text": "Xhosa is spoken in South Africa",
    "standing": "projectable",
-   "evidence": "language · product curator · Xhosa language · cs_x_xhosa_language_01"
+   "evidence": "language · product curator · Xhosa language · cs_x_xhosa_language_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_tissue_01",
    "text": "Xylem tissue transports water in vascular plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylem tissue · cs_x_xylem_tissue_01"
+   "evidence": "science · product curator · Xylem tissue · cs_x_xylem_tissue_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_02",
    "text": "Xylene is an aromatic hydrocarbon solvent",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_02"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_07",
    "text": "A xylophone is a percussion instrument with wooden bars",
    "standing": "projectable",
-   "evidence": "language · product curator · Xylophone · cs_x_xylophone_07"
+   "evidence": "language · product curator · Xylophone · cs_x_xylophone_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylose_02",
    "text": "Xylose is a sugar from wood",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylose · cs_x_xylose_02"
+   "evidence": "science · product curator · Xylose · cs_x_xylose_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_05",
    "text": "An X chromosome is a sex chromosome",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_05"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_axis_04",
    "text": "Positive x values lie to the right on the x-axis",
    "standing": "projectable",
-   "evidence": "math · product curator · X-axis · cs_x_x_axis_04"
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_coordinate_04",
    "text": "The x-coordinate is the first number in an ordered pair",
    "standing": "projectable",
-   "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_04"
+   "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_height_02",
    "text": "X-height is the height of a lowercase letter",
    "standing": "projectable",
-   "evidence": "language · product curator · X-height · cs_x_x_height_02"
+   "evidence": "language · product curator · X-height · cs_x_x_height_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_intercept_03",
    "text": "Setting y to zero finds the x-intercept",
    "standing": "projectable",
-   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_03"
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_crystallography_04",
    "text": "X-ray crystallography reveals atomic structure",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_04"
+   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_diffraction_02",
    "text": "X-ray diffraction studies crystal structure",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray diffraction · cs_x_x_ray_diffraction_02"
+   "evidence": "science · product curator · X-ray diffraction · cs_x_x_ray_diffraction_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenophobia_02",
    "text": "Xenophobia is fear of strangers",
    "standing": "projectable",
-   "evidence": "language · product curator · Xenophobia · cs_x_xenophobia_02"
+   "evidence": "language · product curator · Xenophobia · cs_x_xenophobia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerxes_02",
    "text": "Xerxes ruled the Persian Empire",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerxes · cs_x_xerxes_02"
+   "evidence": "history · product curator · Xerxes · cs_x_xerxes_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xia_dynasty_03",
    "text": "The Xia dynasty precedes the Shang dynasty",
    "standing": "projectable",
-   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_03"
+   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xinjiang_04",
    "text": "Xinjiang borders Central Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_04"
+   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_05",
    "text": "Xylem transports water upward in plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylem · cs_x_xylem_05"
+   "evidence": "science · product curator · Xylem · cs_x_xylem_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_tissue_02",
    "text": "Xylem tissue moves water through a plant",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylem tissue · cs_x_xylem_tissue_02"
+   "evidence": "science · product curator · Xylem tissue · cs_x_xylem_tissue_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_intercept_04",
    "text": "An x-intercept is a root of a function graph",
    "standing": "projectable",
-   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_04"
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_08",
    "text": "An x-ray passes through soft tissue",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_08"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_03",
    "text": "Xylene dissolves grease",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_03"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_binary_02",
    "text": "A binary x-ray source contains a compact star",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray binary · cs_x_x_ray_binary_02"
+   "evidence": "science · product curator · X-ray binary · cs_x_x_ray_binary_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_height_03",
    "text": "Type designers compare x-height across fonts",
    "standing": "projectable",
-   "evidence": "language · product curator · X-height · cs_x_x_height_03"
+   "evidence": "language · product curator · X-height · cs_x_x_height_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_06",
    "text": "Xhosa orthography marks clicks with letters",
    "standing": "projectable",
-   "evidence": "language · product curator · Xhosa · cs_x_xhosa_06"
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_09",
    "text": "An x-ray image shows bones",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_09"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_tube_02",
    "text": "An x-ray tube emits radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray tube · cs_x_x_ray_tube_02"
+   "evidence": "science · product curator · X-ray tube · cs_x_x_ray_tube_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xai_xai_02",
    "text": "Xai-Xai lies on the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_02"
+   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_10",
    "text": "Xenon glows in electric lamps",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_10"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_07",
    "text": "Xhosa is a Bantu language",
    "standing": "projectable",
-   "evidence": "language · product curator · Xhosa · cs_x_xhosa_07"
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xingu_02",
    "text": "The Xingu joins the Amazon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xingu · cs_x_xingu_02"
+   "evidence": "geography · product curator · Xingu · cs_x_xingu_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_04",
    "text": "Xylene is an organic solvent",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_04"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_08",
    "text": "Musicians strike xylophone bars with mallets",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylophone · cs_x_xylophone_08"
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xhosa_08",
    "text": "Xhosa uses click sounds",
    "standing": "projectable",
-   "evidence": "language · product curator · Xhosa · cs_x_xhosa_08"
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_06",
    "text": "Water rises through xylem",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylem · cs_x_xylem_06"
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_07",
    "text": "Xylem carries water upward",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylem · cs_x_xylem_07"
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_11",
    "text": "Xenon fills bright lamps",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_11"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_05",
    "text": "Xylene is a solvent",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_05"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_10",
    "text": "An X-ray shows bone",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_10"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_09",
    "text": "Musicians play a xylophone",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylophone · cs_x_xylophone_09"
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xi_01",
    "text": "Xi names a Greek letter",
    "standing": "projectable",
-   "evidence": "language · product curator · Xi · cs_x_xi_01"
+   "evidence": "language · product curator · Xi · cs_x_xi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeric_01",
    "text": "Xeric plants need little water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xeric · cs_x_xeric_01"
+   "evidence": "nature · product curator · Xeric · cs_x_xeric_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylose_03",
    "text": "Xylose comes from wood",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylose · cs_x_xylose_03"
+   "evidence": "science · product curator · Xylose · cs_x_xylose_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerox_02",
    "text": "Xerox copies a page",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerox · cs_x_xerox_02"
+   "evidence": "history · product curator · Xerox · cs_x_xerox_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_08",
    "text": "Xylem moves water from roots",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylem · cs_x_xylem_08"
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_12",
    "text": "Xenon is denser than air",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_12"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_10",
    "text": "A xylophone has tuned bars",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylophone · cs_x_xylophone_10"
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_axis_05",
    "text": "Graphs plot x on the x-axis",
    "standing": "projectable",
-   "evidence": "math · product curator · X-axis · cs_x_x_axis_05"
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_intercept_05",
    "text": "A line meets the x-axis at an x-intercept",
    "standing": "projectable",
-   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_05"
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylitol_03",
    "text": "Xylitol sweetens gum",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylitol · cs_x_xylitol_03"
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerography_03",
    "text": "Xerography copies documents",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerography · cs_x_xerography_03"
+   "evidence": "history · product curator · Xerography · cs_x_xerography_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeriscaping_03",
    "text": "Xeriscaping saves water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xeriscaping · cs_x_xeriscaping_03"
+   "evidence": "geography · product curator · Xeriscaping · cs_x_xeriscaping_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_11",
    "text": "Doctors take an x-ray",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_11"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_axis_06",
    "text": "A graph has an x-axis",
    "standing": "projectable",
-   "evidence": "math · product curator · X-axis · cs_x_x_axis_06"
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthan_01",
    "text": "Xanthan thickens sauces",
    "standing": "projectable",
-   "evidence": "science · product curator · Xanthan · cs_x_xanthan_01"
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerosis_01",
    "text": "Cold air causes xerosis",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerosis · cs_x_xerosis_01"
+   "evidence": "science · product curator · Xerosis · cs_x_xerosis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerox_03",
    "text": "A Xerox makes a copy",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerox · cs_x_xerox_03"
+   "evidence": "history · product curator · Xerox · cs_x_xerox_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_intercept_06",
    "text": "Roots mark an x-intercept",
    "standing": "projectable",
-   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_06"
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_12",
    "text": "An x-ray reveals a fracture",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_12"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_13",
    "text": "Xenon has many isotopes",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_13"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_13",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeric_02",
    "text": "Xeric soils drain quickly",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xeric · cs_x_xeric_02"
+   "evidence": "nature · product curator · Xeric · cs_x_xeric_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerography_04",
    "text": "Toner sticks in xerography",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerography · cs_x_xerography_04"
+   "evidence": "science · product curator · Xerography · cs_x_xerography_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xochimilco_03",
    "text": "Boats float in Xochimilco",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_03"
+   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylaria_02",
    "text": "Xylaria grows on dead wood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_02"
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_09",
    "text": "Trees need living xylem",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylem · cs_x_xylem_09"
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylitol_04",
    "text": "Xylitol comes from birch",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylitol · cs_x_xylitol_04"
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_11",
    "text": "A xylophone sounds bright",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylophone · cs_x_xylophone_11"
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_band_02",
    "text": "Radar uses the X band",
    "standing": "projectable",
-   "evidence": "science · product curator · X band · cs_x_x_band_02"
+   "evidence": "science · product curator · X band · cs_x_x_band_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_13",
    "text": "Bones block X-rays",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_13"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_13",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xai_xai_03",
    "text": "Xai-Xai faces the ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_03"
+   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_14",
    "text": "Xenon glows under electric discharge",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_14"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_14",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenopus_03",
    "text": "Xenopus lays many eggs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xenopus · cs_x_xenopus_03"
+   "evidence": "nature · product curator · Xenopus · cs_x_xenopus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerography_05",
    "text": "Toner forms xerography images",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerography · cs_x_xerography_05"
+   "evidence": "science · product curator · Xerography · cs_x_xerography_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerosis_02",
    "text": "Dry skin shows xerosis",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerosis · cs_x_xerosis_02"
+   "evidence": "science · product curator · Xerosis · cs_x_xerosis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xingu_03",
    "text": "The Xingu drains a forest",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xingu · cs_x_xingu_03"
+   "evidence": "geography · product curator · Xingu · cs_x_xingu_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylaria_03",
    "text": "Xylaria blackens dead wood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_03"
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylophone_12",
    "text": "Mallets strike a xylophone",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylophone · cs_x_xylophone_12"
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_band_03",
    "text": "Satellites use the X band",
    "standing": "projectable",
-   "evidence": "science · product curator · X band · cs_x_x_band_03"
+   "evidence": "science · product curator · X band · cs_x_x_band_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_06",
    "text": "An X chromosome carries genes",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_06"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_axis_07",
    "text": "Plots place x on the x-axis",
    "standing": "projectable",
-   "evidence": "math · product curator · X-axis · cs_x_x_axis_07"
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_15",
    "text": "Xenon fills camera flashes",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_15"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_15",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerxes_03",
    "text": "Xerxes led Persian armies",
    "standing": "projectable",
-   "evidence": "history · product curator · Xerxes · cs_x_xerxes_03"
+   "evidence": "history · product curator · Xerxes · cs_x_xerxes_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xochimilco_04",
    "text": "Xochimilco holds floating gardens",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_04"
+   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xuanzang_02",
    "text": "Xuanzang traveled to India",
    "standing": "projectable",
-   "evidence": "history · product curator · Xuanzang · cs_x_xuanzang_02"
+   "evidence": "history · product curator · Xuanzang · cs_x_xuanzang_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylaria_04",
    "text": "Xylaria feeds on fallen logs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_04"
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_10",
    "text": "Xylem carries water up stems",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylem · cs_x_xylem_10"
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_06",
    "text": "Xylene dissolves greases",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_06"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthan_02",
    "text": "Xanthan thickens food gels",
    "standing": "projectable",
-   "evidence": "science · product curator · Xanthan · cs_x_xanthan_02"
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthine_01",
    "text": "Xanthine forms in cell metabolism",
    "standing": "projectable",
-   "evidence": "science · product curator · Xanthine · cs_x_xanthine_01"
+   "evidence": "science · product curator · Xanthine · cs_x_xanthine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeriscape_01",
    "text": "Xeriscape saves garden water",
    "standing": "projectable",
-   "evidence": "civics · product curator · Xeriscape · cs_x_xeriscape_01"
+   "evidence": "civics · product curator · Xeriscape · cs_x_xeriscape_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeroderma_01",
    "text": "Xeroderma dries sensitive skin",
    "standing": "projectable",
-   "evidence": "science · product curator · Xeroderma · cs_x_xeroderma_01"
+   "evidence": "science · product curator · Xeroderma · cs_x_xeroderma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xiangjiang_01",
    "text": "The Xiangjiang feeds the Yangtze",
    "standing": "projectable",
-   "evidence": "geography · product curator · Xiangjiang · cs_x_xiangjiang_01"
+   "evidence": "geography · product curator · Xiangjiang · cs_x_xiangjiang_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylan_01",
    "text": "Xylan stiffens plant walls",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylan · cs_x_xylan_01"
+   "evidence": "science · product curator · Xylan · cs_x_xylan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_07",
    "text": "Males inherit one X chromosome",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_07"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylitol_05",
    "text": "Xylitol sweetens without sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylitol · cs_x_xylitol_05"
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylography_02",
    "text": "Artists carve xylography blocks",
    "standing": "projectable",
-   "evidence": "history · product curator · Xylography · cs_x_xylography_02"
+   "evidence": "history · product curator · Xylography · cs_x_xylography_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylose_04",
    "text": "Xylose sugars plant fiber",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylose · cs_x_xylose_04"
+   "evidence": "science · product curator · Xylose · cs_x_xylose_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_chromosome_08",
    "text": "Females hold two X chromosomes",
    "standing": "projectable",
-   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_08"
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthan_03",
    "text": "Xanthan thickens salad dressing",
    "standing": "projectable",
-   "evidence": "science · product curator · Xanthan · cs_x_xanthan_03"
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_16",
    "text": "Xenon lights stadium lamps",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_16"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_16",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerography_06",
    "text": "Xerography copies dry prints",
    "standing": "projectable",
-   "evidence": "science · product curator · Xerography · cs_x_xerography_06"
+   "evidence": "science · product curator · Xerography · cs_x_xerography_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xiphias_02",
    "text": "Xiphias spears fish prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xiphias · cs_x_xiphias_02"
+   "evidence": "nature · product curator · Xiphias · cs_x_xiphias_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_11",
    "text": "Xylem lifts plant water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylem · cs_x_xylem_11"
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_07",
    "text": "Xylene dissolves paint resins",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_07"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylotomy_01",
    "text": "Xylotomy cuts wood samples",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylotomy · cs_x_xylotomy_01"
+   "evidence": "science · product curator · Xylotomy · cs_x_xylotomy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_crystallography_05",
    "text": "X-ray crystallography maps atoms",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_05"
+   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_x_ray_14",
    "text": "Luggage scanners use x-rays",
    "standing": "projectable",
-   "evidence": "science · product curator · X-ray · cs_x_x_ray_14"
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_14",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xanthan_04",
    "text": "Xanthan comes from bacteria",
    "standing": "projectable",
-   "evidence": "science · product curator · Xanthan · cs_x_xanthan_04"
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenogamy_02",
    "text": "Xenogamy mixes plant pollen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xenogamy · cs_x_xenogamy_02"
+   "evidence": "nature · product curator · Xenogamy · cs_x_xenogamy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenon_17",
    "text": "Xenon lights stadiums",
    "standing": "projectable",
-   "evidence": "science · product curator · Xenon · cs_x_xenon_17"
+   "evidence": "science · product curator · Xenon · cs_x_xenon_17",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xenops_01",
    "text": "Xenops probes bark insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xenops · cs_x_xenops_01"
+   "evidence": "nature · product curator · Xenops · cs_x_xenops_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xeric_03",
    "text": "Xeric soils hold little water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xeric · cs_x_xeric_03"
+   "evidence": "nature · product curator · Xeric · cs_x_xeric_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xerus_02",
    "text": "Xerus digs dry burrows",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xerus · cs_x_xerus_02"
+   "evidence": "nature · product curator · Xerus · cs_x_xerus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylem_12",
    "text": "Sap rises in xylem",
    "standing": "projectable",
-   "evidence": "nature · product curator · Xylem · cs_x_xylem_12"
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_x_xylene_08",
    "text": "Xylene thins oil paint",
    "standing": "projectable",
-   "evidence": "science · product curator · Xylene · cs_x_xylene_08"
+   "evidence": "science · product curator · Xylene · cs_x_xylene_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

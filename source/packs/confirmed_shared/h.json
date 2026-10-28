@@ -12,1525 +12,2795 @@
    "id": "cs_h_hungary_01",
    "text": "Budapest is the capital of Hungary",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hungary · cs_h_hungary_01"
+   "evidence": "geography · product curator · Hungary · cs_h_hungary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honduras_01",
    "text": "Tegucigalpa is the capital of Honduras",
    "standing": "projectable",
-   "evidence": "geography · product curator · Honduras · cs_h_honduras_01"
+   "evidence": "geography · product curator · Honduras · cs_h_honduras_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_haiti_01",
    "text": "Port-au-Prince is the capital of Haiti",
    "standing": "projectable",
-   "evidence": "geography · product curator · Haiti · cs_h_haiti_01"
+   "evidence": "geography · product curator · Haiti · cs_h_haiti_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_haiti_02",
    "text": "Haiti shares the island of Hispaniola with the Dominican Republic",
    "standing": "projectable",
-   "evidence": "geography · product curator · Haiti · cs_h_haiti_02"
+   "evidence": "geography · product curator · Haiti · cs_h_haiti_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helsinki_01",
    "text": "Helsinki is the capital of Finland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Helsinki · cs_h_helsinki_01"
+   "evidence": "geography · product curator · Helsinki · cs_h_helsinki_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hanoi_01",
    "text": "Hanoi is the capital of Vietnam",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hanoi · cs_h_hanoi_01"
+   "evidence": "geography · product curator · Hanoi · cs_h_hanoi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_havana_01",
    "text": "Havana is the capital of Cuba",
    "standing": "projectable",
-   "evidence": "geography · product curator · Havana · cs_h_havana_01"
+   "evidence": "geography · product curator · Havana · cs_h_havana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harare_01",
    "text": "Harare is the capital of Zimbabwe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Harare · cs_h_harare_01"
+   "evidence": "geography · product curator · Harare · cs_h_harare_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_himalayas_01",
    "text": "Mount Everest is in the Himalayas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_01"
+   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hawaii_01",
    "text": "Hawaii is a state made of islands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hawaii · cs_h_hawaii_01"
+   "evidence": "geography · product curator · Hawaii · cs_h_hawaii_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hawaii_02",
    "text": "Honolulu is the capital of Hawaii",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hawaii · cs_h_hawaii_02"
+   "evidence": "geography · product curator · Hawaii · cs_h_hawaii_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hawaii_03",
    "text": "Hawaii became a state in 1959",
    "standing": "projectable",
-   "evidence": "history · product curator · Hawaii · cs_h_hawaii_03"
+   "evidence": "history · product curator · Hawaii · cs_h_hawaii_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hudson_river_01",
    "text": "The Hudson flows through New York",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hudson River · cs_h_hudson_river_01"
+   "evidence": "geography · product curator · Hudson River · cs_h_hudson_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hudson_bay_01",
    "text": "Hudson Bay is in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_01"
+   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_huron_lake_01",
    "text": "Lake Huron is one of the Great Lakes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Huron, Lake · cs_h_huron_lake_01"
+   "evidence": "geography · product curator · Huron, Lake · cs_h_huron_lake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hong_kong_01",
    "text": "Hong Kong is a special administrative region of China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hong Kong · cs_h_hong_kong_01"
+   "evidence": "geography · product curator · Hong Kong · cs_h_hong_kong_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hokkaido_01",
    "text": "Hokkaido is the northernmost main island of Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hokkaido · cs_h_hokkaido_01"
+   "evidence": "geography · product curator · Hokkaido · cs_h_hokkaido_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honshu_01",
    "text": "Honshu is the largest island of Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Honshu · cs_h_honshu_01"
+   "evidence": "geography · product curator · Honshu · cs_h_honshu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horn_of_africa_01",
    "text": "Somalia is part of the Horn of Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Horn of Africa · cs_h_horn_of_africa_01"
+   "evidence": "geography · product curator · Horn of Africa · cs_h_horn_of_africa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harrisburg_01",
    "text": "Harrisburg is the capital of Pennsylvania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Harrisburg · cs_h_harrisburg_01"
+   "evidence": "geography · product curator · Harrisburg · cs_h_harrisburg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helena_01",
    "text": "Helena is the capital of Montana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Helena · cs_h_helena_01"
+   "evidence": "geography · product curator · Helena · cs_h_helena_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hartford_01",
    "text": "Hartford is the capital of Connecticut",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hartford · cs_h_hartford_01"
+   "evidence": "geography · product curator · Hartford · cs_h_hartford_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemisphere_01",
    "text": "The equator divides Earth into the Northern and Southern Hemispheres",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hemisphere · cs_h_hemisphere_01"
+   "evidence": "geography · product curator · Hemisphere · cs_h_hemisphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrogen_01",
    "text": "Hydrogen is the lightest element",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_01"
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrogen_02",
    "text": "Hydrogen has an atomic number of 1",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_02"
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrogen_03",
    "text": "Hydrogen is the commonest element in the universe",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_03"
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helium_01",
    "text": "The symbol for helium is He",
    "standing": "projectable",
-   "evidence": "science · product curator · Helium · cs_h_helium_01"
+   "evidence": "science · product curator · Helium · cs_h_helium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helium_02",
    "text": "Helium is a noble gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Helium · cs_h_helium_02"
+   "evidence": "science · product curator · Helium · cs_h_helium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helium_03",
    "text": "Helium has an atomic number of 2",
    "standing": "projectable",
-   "evidence": "science · product curator · Helium · cs_h_helium_03"
+   "evidence": "science · product curator · Helium · cs_h_helium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hafnium_01",
    "text": "Hafnium has the chemical symbol Hf",
    "standing": "projectable",
-   "evidence": "science · product curator · Hafnium · cs_h_hafnium_01"
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_holmium_01",
    "text": "Holmium has the chemical symbol Ho",
    "standing": "projectable",
-   "evidence": "science · product curator · Holmium · cs_h_holmium_01"
+   "evidence": "science · product curator · Holmium · cs_h_holmium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hassium_01",
    "text": "Hassium has the chemical symbol Hs",
    "standing": "projectable",
-   "evidence": "science · product curator · Hassium · cs_h_hassium_01"
+   "evidence": "science · product curator · Hassium · cs_h_hassium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hertz_01",
    "text": "The hertz is the unit of frequency",
    "standing": "projectable",
-   "evidence": "science · product curator · Hertz · cs_h_hertz_01"
+   "evidence": "science · product curator · Hertz · cs_h_hertz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heart_01",
    "text": "The human heart has four chambers",
    "standing": "projectable",
-   "evidence": "science · product curator · Heart · cs_h_heart_01"
+   "evidence": "science · product curator · Heart · cs_h_heart_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heart_02",
    "text": "The heart pumps blood through the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Heart · cs_h_heart_02"
+   "evidence": "science · product curator · Heart · cs_h_heart_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemoglobin_01",
    "text": "Hemoglobin carries oxygen in red blood cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_01"
+   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hubble_space_telescope_01",
    "text": "The Hubble Space Telescope was launched in 1990",
    "standing": "projectable",
-   "evidence": "science · product curator · Hubble Space Telescope · cs_h_hubble_space_telescope_01"
+   "evidence": "science · product curator · Hubble Space Telescope · cs_h_hubble_space_telescope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_herbivore_01",
    "text": "A herbivore eats plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Herbivore · cs_h_herbivore_01"
+   "evidence": "science · product curator · Herbivore · cs_h_herbivore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_humidity_01",
    "text": "Humidity is the amount of water vapor in the air",
    "standing": "projectable",
-   "evidence": "science · product curator · Humidity · cs_h_humidity_01"
+   "evidence": "science · product curator · Humidity · cs_h_humidity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hippopotamus_02",
    "text": "Hippopotamuses are semi-aquatic mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hippopotamus · cs_h_hippopotamus_02"
+   "evidence": "nature · product curator · Hippopotamus · cs_h_hippopotamus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horse_01",
    "text": "Horses are hoofed mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Horse · cs_h_horse_01"
+   "evidence": "nature · product curator · Horse · cs_h_horse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hummingbird_01",
    "text": "Hummingbirds can hover in flight",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_01"
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hummingbird_02",
    "text": "The bee hummingbird is the smallest living bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_02"
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hedgehog_01",
    "text": "Hedgehogs have spines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_01"
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hawk_01",
    "text": "Hawks are birds of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hawk · cs_h_hawk_01"
+   "evidence": "nature · product curator · Hawk · cs_h_hawk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heron_01",
    "text": "Herons wade in water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Heron · cs_h_heron_01"
+   "evidence": "nature · product curator · Heron · cs_h_heron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hyena_01",
    "text": "Hyenas live in Africa and Asia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hyena · cs_h_hyena_01"
+   "evidence": "nature · product curator · Hyena · cs_h_hyena_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honeybee_01",
    "text": "A honeybee colony has one queen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_01"
+   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hermit_crab_01",
    "text": "Hermit crabs live in empty shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hermit crab · cs_h_hermit_crab_01"
+   "evidence": "nature · product curator · Hermit crab · cs_h_hermit_crab_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hamster_01",
    "text": "Hamsters are rodents",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hamster · cs_h_hamster_01"
+   "evidence": "nature · product curator · Hamster · cs_h_hamster_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hare_01",
    "text": "Hares are related to rabbits",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hare · cs_h_hare_01"
+   "evidence": "nature · product curator · Hare · cs_h_hare_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_holly_01",
    "text": "Holly has red berries",
    "standing": "projectable",
-   "evidence": "nature · product curator · Holly · cs_h_holly_01"
+   "evidence": "nature · product curator · Holly · cs_h_holly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemlock_01",
    "text": "Hemlock trees are conifers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hemlock · cs_h_hemlock_01"
+   "evidence": "nature · product curator · Hemlock · cs_h_hemlock_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hannibal_01",
    "text": "Hannibal crossed the Alps with war elephants",
    "standing": "projectable",
-   "evidence": "history · product curator · Hannibal · cs_h_hannibal_01"
+   "evidence": "history · product curator · Hannibal · cs_h_hannibal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hammurabi_01",
    "text": "The Code of Hammurabi is a Babylonian law code",
    "standing": "projectable",
-   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_01"
+   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hastings_battle_of_01",
    "text": "The Battle of Hastings took place in 1066",
    "standing": "projectable",
-   "evidence": "history · product curator · Hastings, Battle of · cs_h_hastings_battle_of_01"
+   "evidence": "history · product curator · Hastings, Battle of · cs_h_hastings_battle_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_henry_viii_01",
    "text": "Henry VIII was king of England",
    "standing": "projectable",
-   "evidence": "history · product curator · Henry VIII · cs_h_henry_viii_01"
+   "evidence": "history · product curator · Henry VIII · cs_h_henry_viii_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_henry_viii_02",
    "text": "Henry VIII had six wives",
    "standing": "projectable",
-   "evidence": "history · product curator · Henry VIII · cs_h_henry_viii_02"
+   "evidence": "history · product curator · Henry VIII · cs_h_henry_viii_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hiroshima_01",
    "text": "An atomic bomb destroyed Hiroshima in 1945",
    "standing": "projectable",
-   "evidence": "history · product curator · Hiroshima · cs_h_hiroshima_01"
+   "evidence": "history · product curator · Hiroshima · cs_h_hiroshima_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_homer_01",
    "text": "Homer is credited with the Iliad and the Odyssey",
    "standing": "projectable",
-   "evidence": "history · product curator · Homer · cs_h_homer_01"
+   "evidence": "history · product curator · Homer · cs_h_homer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hippocrates_01",
    "text": "Hippocrates was a Greek physician",
    "standing": "projectable",
-   "evidence": "history · product curator · Hippocrates · cs_h_hippocrates_01"
+   "evidence": "history · product curator · Hippocrates · cs_h_hippocrates_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hundred_years_war_01",
    "text": "The Hundred Years' War was fought between England and France",
    "standing": "projectable",
-   "evidence": "history · product curator · Hundred Years' War · cs_h_hundred_years_war_01"
+   "evidence": "history · product curator · Hundred Years' War · cs_h_hundred_years_war_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hoover_dam_01",
    "text": "The Hoover Dam is on the Colorado",
    "standing": "projectable",
-   "evidence": "history · product curator · Hoover Dam · cs_h_hoover_dam_01"
+   "evidence": "history · product curator · Hoover Dam · cs_h_hoover_dam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hawking_stephen_01",
    "text": "Stephen Hawking was a British physicist",
    "standing": "projectable",
-   "evidence": "history · product curator · Hawking, Stephen · cs_h_hawking_stephen_01"
+   "evidence": "history · product curator · Hawking, Stephen · cs_h_hawking_stephen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hexagon_01",
    "text": "A hexagon has six sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Hexagon · cs_h_hexagon_01"
+   "evidence": "math · product curator · Hexagon · cs_h_hexagon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hypotenuse_01",
    "text": "The hypotenuse is the longest side of a right triangle",
    "standing": "projectable",
-   "evidence": "math · product curator · Hypotenuse · cs_h_hypotenuse_01"
+   "evidence": "math · product curator · Hypotenuse · cs_h_hypotenuse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hour_01",
    "text": "An hour has 60 minutes",
    "standing": "projectable",
-   "evidence": "math · product curator · Hour · cs_h_hour_01"
+   "evidence": "math · product curator · Hour · cs_h_hour_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hectare_01",
    "text": "A hectare is ten thousand square meters",
    "standing": "projectable",
-   "evidence": "math · product curator · Hectare · cs_h_hectare_01"
+   "evidence": "math · product curator · Hectare · cs_h_hectare_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_house_of_representatives_01",
    "text": "The American House of Representatives has 435 voting members",
    "standing": "projectable",
-   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_01"
+   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_house_of_commons_01",
    "text": "The House of Commons is the lower house of the UK Parliament",
    "standing": "projectable",
-   "evidence": "civics · product curator · House of Commons · cs_h_house_of_commons_01"
+   "evidence": "civics · product curator · House of Commons · cs_h_house_of_commons_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hindi_01",
    "text": "Hindi is written in the Devanagari script",
    "standing": "projectable",
-   "evidence": "language · product curator · Hindi · cs_h_hindi_01"
+   "evidence": "language · product curator · Hindi · cs_h_hindi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hebrew_01",
    "text": "Hebrew is written from right to left",
    "standing": "projectable",
-   "evidence": "language · product curator · Hebrew · cs_h_hebrew_01"
+   "evidence": "language · product curator · Hebrew · cs_h_hebrew_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hockey_01",
    "text": "An ice hockey team has six players on the ice at a time",
    "standing": "projectable",
-   "evidence": "general · product curator · Hockey · cs_h_hockey_01"
+   "evidence": "general · product curator · Hockey · cs_h_hockey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hail_01",
    "text": "Hail is made of balls of ice",
    "standing": "projectable",
-   "evidence": "science · product curator · Hail · cs_h_hail_01"
+   "evidence": "science · product curator · Hail · cs_h_hail_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrogen_04",
    "text": "Hydrogen is the lightest chemical element",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_04"
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_habitat_01",
    "text": "A habitat is the natural home of an organism",
    "standing": "projectable",
-   "evidence": "nature · product curator · Habitat · cs_h_habitat_01"
+   "evidence": "nature · product curator · Habitat · cs_h_habitat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hyena_02",
    "text": "Hyenas live in Africa and parts of Asia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hyena · cs_h_hyena_02"
+   "evidence": "nature · product curator · Hyena · cs_h_hyena_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hornet_01",
    "text": "Hornets are a type of wasp",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hornet · cs_h_hornet_01"
+   "evidence": "nature · product curator · Hornet · cs_h_hornet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heron_02",
    "text": "Herons are long-legged wading birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Heron · cs_h_heron_02"
+   "evidence": "nature · product curator · Heron · cs_h_heron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_habeas_corpus_01",
    "text": "Habeas corpus protects against unlawful detention",
    "standing": "projectable",
-   "evidence": "civics · product curator · Habeas corpus · cs_h_habeas_corpus_01"
+   "evidence": "civics · product curator · Habeas corpus · cs_h_habeas_corpus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hobart_01",
    "text": "Hobart is the capital of Tasmania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hobart · cs_h_hobart_01"
+   "evidence": "geography · product curator · Hobart · cs_h_hobart_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hamburg_01",
    "text": "Hamburg is a port city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hamburg · cs_h_hamburg_01"
+   "evidence": "geography · product curator · Hamburg · cs_h_hamburg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hispaniola_01",
    "text": "Haiti and the Dominican Republic share the island of Hispaniola",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hispaniola · cs_h_hispaniola_01"
+   "evidence": "geography · product curator · Hispaniola · cs_h_hispaniola_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hudson_bay_02",
    "text": "Hudson Bay is in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_02"
+   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_halibut_01",
    "text": "Halibut are large flatfish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Halibut · cs_h_halibut_01"
+   "evidence": "nature · product curator · Halibut · cs_h_halibut_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hazel_01",
    "text": "Hazel trees produce hazelnuts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hazel · cs_h_hazel_01"
+   "evidence": "nature · product curator · Hazel · cs_h_hazel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hibiscus_01",
    "text": "Hibiscus plants have large showy flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hibiscus · cs_h_hibiscus_01"
+   "evidence": "nature · product curator · Hibiscus · cs_h_hibiscus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horseshoe_crab_01",
    "text": "Horseshoe crabs are related to spiders",
    "standing": "projectable",
-   "evidence": "nature · product curator · Horseshoe crab · cs_h_horseshoe_crab_01"
+   "evidence": "nature · product curator · Horseshoe crab · cs_h_horseshoe_crab_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hyacinth_01",
    "text": "Hyacinths grow from bulbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hyacinth · cs_h_hyacinth_01"
+   "evidence": "nature · product curator · Hyacinth · cs_h_hyacinth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hungary_02",
    "text": "Hungary is a country in Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hungary · cs_h_hungary_02"
+   "evidence": "geography · product curator · Hungary · cs_h_hungary_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honduras_02",
    "text": "Honduras is a country in Central America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Honduras · cs_h_honduras_02"
+   "evidence": "geography · product curator · Honduras · cs_h_honduras_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_haiti_03",
    "text": "Haiti is a country in the Caribbean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Haiti · cs_h_haiti_03"
+   "evidence": "geography · product curator · Haiti · cs_h_haiti_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_himalayas_02",
    "text": "The Himalayas are a mountain range in Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_02"
+   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_himalayas_03",
    "text": "The Himalayas are the highest mountains on Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_03"
+   "evidence": "geography · product curator · Himalayas · cs_h_himalayas_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hamburg_02",
    "text": "Hamburg is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hamburg · cs_h_hamburg_02"
+   "evidence": "geography · product curator · Hamburg · cs_h_hamburg_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_houston_01",
    "text": "Houston is a city in Texas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Houston · cs_h_houston_01"
+   "evidence": "geography · product curator · Houston · cs_h_houston_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hiroshima_02",
    "text": "Hiroshima is a city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hiroshima · cs_h_hiroshima_02"
+   "evidence": "geography · product curator · Hiroshima · cs_h_hiroshima_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hawk_02",
    "text": "A hawk is a bird of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hawk · cs_h_hawk_02"
+   "evidence": "nature · product curator · Hawk · cs_h_hawk_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hedgehog_02",
    "text": "A hedgehog has spines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_02"
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horse_02",
    "text": "A horse is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Horse · cs_h_horse_02"
+   "evidence": "nature · product curator · Horse · cs_h_horse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hummingbird_03",
    "text": "A hummingbird can fly backward",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_03"
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hummingbird_04",
    "text": "Hummingbirds drink nectar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_04"
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hyena_03",
    "text": "Hyenas live in Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hyena · cs_h_hyena_03"
+   "evidence": "nature · product curator · Hyena · cs_h_hyena_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honey_01",
    "text": "Bees make honey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Honey · cs_h_honey_01"
+   "evidence": "nature · product curator · Honey · cs_h_honey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hour_02",
    "text": "An hour has sixty minutes",
    "standing": "projectable",
-   "evidence": "math · product curator · Hour · cs_h_hour_02"
+   "evidence": "math · product curator · Hour · cs_h_hour_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hour_03",
    "text": "A day has twenty four hours",
    "standing": "projectable",
-   "evidence": "math · product curator · Hour · cs_h_hour_03"
+   "evidence": "math · product curator · Hour · cs_h_hour_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hectare_02",
    "text": "A hectare is a unit of area",
    "standing": "projectable",
-   "evidence": "math · product curator · Hectare · cs_h_hectare_02"
+   "evidence": "math · product curator · Hectare · cs_h_hectare_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helium_04",
    "text": "Helium is lighter than air",
    "standing": "projectable",
-   "evidence": "science · product curator · Helium · cs_h_helium_04"
+   "evidence": "science · product curator · Helium · cs_h_helium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heat_01",
    "text": "Heat flows from hot objects to cold objects",
    "standing": "projectable",
-   "evidence": "science · product curator · Heat · cs_h_heat_01"
+   "evidence": "science · product curator · Heat · cs_h_heat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hail_02",
    "text": "Hail is made of ice",
    "standing": "projectable",
-   "evidence": "science · product curator · Hail · cs_h_hail_02"
+   "evidence": "science · product curator · Hail · cs_h_hail_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_homer_02",
    "text": "Homer wrote the Iliad",
    "standing": "projectable",
-   "evidence": "history · product curator · Homer · cs_h_homer_02"
+   "evidence": "history · product curator · Homer · cs_h_homer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_homer_03",
    "text": "Homer wrote the Odyssey",
    "standing": "projectable",
-   "evidence": "history · product curator · Homer · cs_h_homer_03"
+   "evidence": "history · product curator · Homer · cs_h_homer_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hammurabi_02",
    "text": "Hammurabi was a king of Babylon",
    "standing": "projectable",
-   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_02"
+   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hannibal_02",
    "text": "Hannibal was a general of Carthage",
    "standing": "projectable",
-   "evidence": "history · product curator · Hannibal · cs_h_hannibal_02"
+   "evidence": "history · product curator · Hannibal · cs_h_hannibal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hastings_01",
    "text": "The Battle of Hastings was in 1066",
    "standing": "projectable",
-   "evidence": "history · product curator · Hastings · cs_h_hastings_01"
+   "evidence": "history · product curator · Hastings · cs_h_hastings_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_house_of_representatives_02",
    "text": "The House of Representatives is part of Congress",
    "standing": "projectable",
-   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_02"
+   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_house_of_representatives_03",
    "text": "The House of Representatives has 435 members",
    "standing": "projectable",
-   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_03"
+   "evidence": "civics · product curator · House of Representatives · cs_h_house_of_representatives_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hebrew_02",
    "text": "Hebrew is the official language of Israel",
    "standing": "projectable",
-   "evidence": "language · product curator · Hebrew · cs_h_hebrew_02"
+   "evidence": "language · product curator · Hebrew · cs_h_hebrew_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hindi_02",
    "text": "Hindi is a language of India",
    "standing": "projectable",
-   "evidence": "language · product curator · Hindi · cs_h_hindi_02"
+   "evidence": "language · product curator · Hindi · cs_h_hindi_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_homonym_01",
    "text": "A homonym sounds like another word",
    "standing": "projectable",
-   "evidence": "language · product curator · Homonym · cs_h_homonym_01"
+   "evidence": "language · product curator · Homonym · cs_h_homonym_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hague_01",
    "text": "The Hague is a seat of international courts",
    "standing": "projectable",
-   "evidence": "civics · product curator · Hague · cs_h_hague_01"
+   "evidence": "civics · product curator · Hague · cs_h_hague_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_handel_01",
    "text": "George Handel composed the Messiah oratorio",
    "standing": "projectable",
-   "evidence": "history · product curator · Handel · cs_h_handel_01"
+   "evidence": "history · product curator · Handel · cs_h_handel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hangul_01",
    "text": "Hangul is the Korean alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Hangul · cs_h_hangul_01"
+   "evidence": "language · product curator · Hangul · cs_h_hangul_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hanseatic_league_01",
    "text": "The Hanseatic League was a medieval trading alliance",
    "standing": "projectable",
-   "evidence": "history · product curator · Hanseatic League · cs_h_hanseatic_league_01"
+   "evidence": "history · product curator · Hanseatic League · cs_h_hanseatic_league_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_haploid_01",
    "text": "A haploid cell has one set of chromosomes",
    "standing": "projectable",
-   "evidence": "science · product curator · Haploid · cs_h_haploid_01"
+   "evidence": "science · product curator · Haploid · cs_h_haploid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harold_01",
    "text": "Harold Godwinson died at the Battle of Hastings",
    "standing": "projectable",
-   "evidence": "history · product curator · Harold · cs_h_harold_01"
+   "evidence": "history · product curator · Harold · cs_h_harold_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harvest_01",
    "text": "A harvest is the gathering of ripe crops",
    "standing": "projectable",
-   "evidence": "nature · product curator · Harvest · cs_h_harvest_01"
+   "evidence": "nature · product curator · Harvest · cs_h_harvest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_headwaters_01",
    "text": "Headwaters are the source region of a river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Headwaters · cs_h_headwaters_01"
+   "evidence": "geography · product curator · Headwaters · cs_h_headwaters_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hearsay_01",
    "text": "Hearsay is secondhand testimony",
    "standing": "projectable",
-   "evidence": "civics · product curator · Hearsay · cs_h_hearsay_01"
+   "evidence": "civics · product curator · Hearsay · cs_h_hearsay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heat_capacity_01",
    "text": "Heat capacity measures energy needed to raise temperature",
    "standing": "projectable",
-   "evidence": "science · product curator · Heat capacity · cs_h_heat_capacity_01"
+   "evidence": "science · product curator · Heat capacity · cs_h_heat_capacity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hedge_01",
    "text": "A hedge is a row of shrubs forming a boundary",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hedge · cs_h_hedge_01"
+   "evidence": "nature · product curator · Hedge · cs_h_hedge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helix_01",
    "text": "A helix is a spiral curve",
    "standing": "projectable",
-   "evidence": "math · product curator · Helix · cs_h_helix_01"
+   "evidence": "math · product curator · Helix · cs_h_helix_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_house_of_lords_01",
    "text": "The House of Lords is the upper chamber of the British Parliament",
    "standing": "projectable",
-   "evidence": "civics · product curator · House of Lords · cs_h_house_of_lords_01"
+   "evidence": "civics · product curator · House of Lords · cs_h_house_of_lords_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_husbandry_01",
    "text": "Husbandry is the care of crops and livestock",
    "standing": "projectable",
-   "evidence": "nature · product curator · Husbandry · cs_h_husbandry_01"
+   "evidence": "nature · product curator · Husbandry · cs_h_husbandry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydra_01",
    "text": "A hydra is a small freshwater animal with tentacles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hydra · cs_h_hydra_01"
+   "evidence": "nature · product curator · Hydra · cs_h_hydra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hyperbole_01",
    "text": "Hyperbole is deliberate exaggeration",
    "standing": "projectable",
-   "evidence": "language · product curator · Hyperbole · cs_h_hyperbole_01"
+   "evidence": "language · product curator · Hyperbole · cs_h_hyperbole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hammurabi_03",
    "text": "Hammurabi issued an early code of laws",
    "standing": "projectable",
-   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_03"
+   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hannibal_03",
    "text": "Hannibal crossed the Alps with elephants",
    "standing": "projectable",
-   "evidence": "history · product curator · Hannibal · cs_h_hannibal_03"
+   "evidence": "history · product curator · Hannibal · cs_h_hannibal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hanseatic_league_02",
    "text": "The Hanseatic League was a medieval trade network",
    "standing": "projectable",
-   "evidence": "history · product curator · Hanseatic League · cs_h_hanseatic_league_02"
+   "evidence": "history · product curator · Hanseatic League · cs_h_hanseatic_league_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hebrew_03",
    "text": "Hebrew is a Semitic language",
    "standing": "projectable",
-   "evidence": "language · product curator · Hebrew · cs_h_hebrew_03"
+   "evidence": "language · product curator · Hebrew · cs_h_hebrew_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemoglobin_02",
    "text": "Hemoglobin carries oxygen in blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_02"
+   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hertz_02",
    "text": "A hertz is one cycle per second",
    "standing": "projectable",
-   "evidence": "science · product curator · Hertz · cs_h_hertz_02"
+   "evidence": "science · product curator · Hertz · cs_h_hertz_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hibernation_02",
    "text": "Hibernation is a long winter sleep",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hibernation · cs_h_hibernation_02"
+   "evidence": "nature · product curator · Hibernation · cs_h_hibernation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hudson_bay_03",
    "text": "Hudson Bay is a large inland sea in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_03"
+   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hummingbird_05",
    "text": "A hummingbird can hover in place",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_05"
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrogen_05",
    "text": "Hydrogen has one proton",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_05"
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hail_03",
    "text": "Hail is frozen rain",
    "standing": "projectable",
-   "evidence": "science · product curator · Hail · cs_h_hail_03"
+   "evidence": "science · product curator · Hail · cs_h_hail_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heat_02",
    "text": "Heat is a form of energy transfer",
    "standing": "projectable",
-   "evidence": "science · product curator · Heat · cs_h_heat_02"
+   "evidence": "science · product curator · Heat · cs_h_heat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hedgehog_03",
    "text": "A hedgehog is a small spiny mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_03"
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemisphere_02",
    "text": "A hemisphere is half of a sphere",
    "standing": "projectable",
-   "evidence": "math · product curator · Hemisphere · cs_h_hemisphere_02"
+   "evidence": "math · product curator · Hemisphere · cs_h_hemisphere_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hibiscus_02",
    "text": "A hibiscus is a flowering plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hibiscus · cs_h_hibiscus_02"
+   "evidence": "nature · product curator · Hibiscus · cs_h_hibiscus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_holly_02",
    "text": "Holly is an evergreen shrub",
    "standing": "projectable",
-   "evidence": "nature · product curator · Holly · cs_h_holly_02"
+   "evidence": "nature · product curator · Holly · cs_h_holly_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_homonym_02",
    "text": "A homonym shares spelling or sound",
    "standing": "projectable",
-   "evidence": "language · product curator · Homonym · cs_h_homonym_02"
+   "evidence": "language · product curator · Homonym · cs_h_homonym_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honeybee_02",
    "text": "A honeybee produces honey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_02"
+   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hypothesis_01",
    "text": "A hypothesis is a testable explanation",
    "standing": "projectable",
-   "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_01"
+   "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hafnium_02",
    "text": "Hafnium is a transition metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Hafnium · cs_h_hafnium_02"
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_halogen_01",
    "text": "A halogen is a reactive nonmetal",
    "standing": "projectable",
-   "evidence": "science · product curator · Halogen · cs_h_halogen_01"
+   "evidence": "science · product curator · Halogen · cs_h_halogen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hassium_02",
    "text": "Hassium is a synthetic element",
    "standing": "projectable",
-   "evidence": "science · product curator · Hassium · cs_h_hassium_02"
+   "evidence": "science · product curator · Hassium · cs_h_hassium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helix_02",
    "text": "A helix is a spiral shape",
    "standing": "projectable",
-   "evidence": "math · product curator · Helix · cs_h_helix_02"
+   "evidence": "math · product curator · Helix · cs_h_helix_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrometer_01",
    "text": "A hydrometer measures liquid density",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_01"
+   "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_herb_01",
    "text": "Basil is an herb",
    "standing": "projectable",
-   "evidence": "nature · product curator · Herb · cs_h_herb_01"
+   "evidence": "nature · product curator · Herb · cs_h_herb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_humus_01",
    "text": "Humus enriches soil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Humus · cs_h_humus_01"
+   "evidence": "geography · product curator · Humus · cs_h_humus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hammer_01",
    "text": "A hammer drives a nail",
    "standing": "projectable",
-   "evidence": "science · product curator · Hammer · cs_h_hammer_01"
+   "evidence": "science · product curator · Hammer · cs_h_hammer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_homonym_03",
    "text": "Bat and bat are homonyms",
    "standing": "projectable",
-   "evidence": "language · product curator · Homonym · cs_h_homonym_03"
+   "evidence": "language · product curator · Homonym · cs_h_homonym_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_half_01",
    "text": "One half is a unit fraction",
    "standing": "projectable",
-   "evidence": "math · product curator · Half · cs_h_half_01"
+   "evidence": "math · product curator · Half · cs_h_half_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hive_01",
    "text": "Bees live in a hive",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hive · cs_h_hive_01"
+   "evidence": "nature · product curator · Hive · cs_h_hive_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hail_04",
    "text": "Hail falls as ice pellets",
    "standing": "projectable",
-   "evidence": "geography · product curator · Hail · cs_h_hail_04"
+   "evidence": "geography · product curator · Hail · cs_h_hail_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harbor_01",
    "text": "Ships dock in a harbor",
    "standing": "projectable",
-   "evidence": "geography · product curator · Harbor · cs_h_harbor_01"
+   "evidence": "geography · product curator · Harbor · cs_h_harbor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honeycomb_01",
    "text": "Bees build a honeycomb",
    "standing": "projectable",
-   "evidence": "nature · product curator · Honeycomb · cs_h_honeycomb_01"
+   "evidence": "nature · product curator · Honeycomb · cs_h_honeycomb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hinge_01",
    "text": "A door swings on a hinge",
    "standing": "projectable",
-   "evidence": "science · product curator · Hinge · cs_h_hinge_01"
+   "evidence": "science · product curator · Hinge · cs_h_hinge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hypothesis_02",
    "text": "A scientist tests a hypothesis",
    "standing": "projectable",
-   "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_02"
+   "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hawk_03",
    "text": "A hawk hunts from the air",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hawk · cs_h_hawk_03"
+   "evidence": "nature · product curator · Hawk · cs_h_hawk_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hedgehog_04",
    "text": "A hedgehog rolls into a ball",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_04"
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hertz_03",
    "text": "Hertz measures frequency",
    "standing": "projectable",
-   "evidence": "science · product curator · Hertz · cs_h_hertz_03"
+   "evidence": "science · product curator · Hertz · cs_h_hertz_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hundred_02",
    "text": "Ten tens make a hundred",
    "standing": "projectable",
-   "evidence": "math · product curator · Hundred · cs_h_hundred_02"
+   "evidence": "math · product curator · Hundred · cs_h_hundred_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hamster_02",
    "text": "A hamster stores food in cheeks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hamster · cs_h_hamster_02"
+   "evidence": "nature · product curator · Hamster · cs_h_hamster_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_holmium_02",
    "text": "Holmium is a rare earth element",
    "standing": "projectable",
-   "evidence": "science · product curator · Holmium · cs_h_holmium_02"
+   "evidence": "science · product curator · Holmium · cs_h_holmium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harvest_02",
    "text": "Farmers gather a harvest",
    "standing": "projectable",
-   "evidence": "nature · product curator · Harvest · cs_h_harvest_02"
+   "evidence": "nature · product curator · Harvest · cs_h_harvest_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heron_03",
    "text": "A heron wades for fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Heron · cs_h_heron_03"
+   "evidence": "nature · product curator · Heron · cs_h_heron_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hafnium_03",
    "text": "Hafnium resists high heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Hafnium · cs_h_hafnium_03"
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hexagon_02",
    "text": "Bees build a hexagon cell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hexagon · cs_h_hexagon_02"
+   "evidence": "nature · product curator · Hexagon · cs_h_hexagon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_honeybee_03",
    "text": "A honeybee gathers pollen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_03"
+   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemlock_02",
    "text": "A hemlock is an evergreen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hemlock · cs_h_hemlock_02"
+   "evidence": "nature · product curator · Hemlock · cs_h_hemlock_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helix_03",
    "text": "DNA forms a double helix",
    "standing": "projectable",
-   "evidence": "science · product curator · Helix · cs_h_helix_03"
+   "evidence": "science · product curator · Helix · cs_h_helix_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hertz_04",
    "text": "Frequency uses the hertz",
    "standing": "projectable",
-   "evidence": "science · product curator · Hertz · cs_h_hertz_04"
+   "evidence": "science · product curator · Hertz · cs_h_hertz_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_halibut_02",
    "text": "A halibut is a flat fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Halibut · cs_h_halibut_02"
+   "evidence": "nature · product curator · Halibut · cs_h_halibut_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horse_03",
    "text": "A horse grazes on grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Horse · cs_h_horse_03"
+   "evidence": "nature · product curator · Horse · cs_h_horse_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hyacinth_02",
    "text": "A hyacinth blooms in spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hyacinth · cs_h_hyacinth_02"
+   "evidence": "nature · product curator · Hyacinth · cs_h_hyacinth_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hermit_crab_02",
    "text": "A hermit crab wears a shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hermit crab · cs_h_hermit_crab_02"
+   "evidence": "nature · product curator · Hermit crab · cs_h_hermit_crab_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heat_capacity_02",
    "text": "Water has high heat capacity",
    "standing": "projectable",
-   "evidence": "science · product curator · Heat capacity · cs_h_heat_capacity_02"
+   "evidence": "science · product curator · Heat capacity · cs_h_heat_capacity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_habitat_02",
    "text": "Pandas need bamboo habitat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Habitat · cs_h_habitat_02"
+   "evidence": "nature · product curator · Habitat · cs_h_habitat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hafnium_04",
    "text": "Hafnium resists corrosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Hafnium · cs_h_hafnium_04"
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hedgehog_05",
    "text": "Insects feed a hedgehog",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_05"
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helium_05",
    "text": "Helium fills party balloons",
    "standing": "projectable",
-   "evidence": "science · product curator · Helium · cs_h_helium_05"
+   "evidence": "science · product curator · Helium · cs_h_helium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemisphere_03",
    "text": "Seasons flip by hemisphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Hemisphere · cs_h_hemisphere_03"
+   "evidence": "science · product curator · Hemisphere · cs_h_hemisphere_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horizon_01",
    "text": "Sunsets meet the horizon",
    "standing": "projectable",
-   "evidence": "science · product curator · Horizon · cs_h_horizon_01"
+   "evidence": "science · product curator · Horizon · cs_h_horizon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_humidity_02",
    "text": "Deserts have low humidity",
    "standing": "projectable",
-   "evidence": "science · product curator · Humidity · cs_h_humidity_02"
+   "evidence": "science · product curator · Humidity · cs_h_humidity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hummingbird_06",
    "text": "Nectar feeds a hummingbird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_06"
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_haploid_02",
    "text": "Gametes are haploid cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Haploid · cs_h_haploid_02"
+   "evidence": "science · product curator · Haploid · cs_h_haploid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hardness_01",
    "text": "Diamond has high hardness",
    "standing": "projectable",
-   "evidence": "science · product curator · Hardness · cs_h_hardness_01"
+   "evidence": "science · product curator · Hardness · cs_h_hardness_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helium_06",
    "text": "Balloons hold helium",
    "standing": "projectable",
-   "evidence": "science · product curator · Helium · cs_h_helium_06"
+   "evidence": "science · product curator · Helium · cs_h_helium_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_herd_01",
    "text": "Elephants travel in a herd",
    "standing": "projectable",
-   "evidence": "nature · product curator · Herd · cs_h_herd_01"
+   "evidence": "nature · product curator · Herd · cs_h_herd_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_holly_03",
    "text": "Birds eat holly berries",
    "standing": "projectable",
-   "evidence": "nature · product curator · Holly · cs_h_holly_03"
+   "evidence": "nature · product curator · Holly · cs_h_holly_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hormone_01",
    "text": "Glands release hormones",
    "standing": "projectable",
-   "evidence": "science · product curator · Hormone · cs_h_hormone_01"
+   "evidence": "science · product curator · Hormone · cs_h_hormone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydra_02",
    "text": "A hydra grows new heads",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hydra · cs_h_hydra_02"
+   "evidence": "nature · product curator · Hydra · cs_h_hydra_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrology_01",
    "text": "Engineers study hydrology",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrology · cs_h_hydrology_01"
+   "evidence": "science · product curator · Hydrology · cs_h_hydrology_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_habitat_03",
    "text": "A habitat shelters wildlife",
    "standing": "projectable",
-   "evidence": "nature · product curator · Habitat · cs_h_habitat_03"
+   "evidence": "nature · product curator · Habitat · cs_h_habitat_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harbor_02",
    "text": "A harbor shelters ships",
    "standing": "projectable",
-   "evidence": "geography · product curator · Harbor · cs_h_harbor_02"
+   "evidence": "geography · product curator · Harbor · cs_h_harbor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hare_02",
    "text": "A hare runs across fields",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hare · cs_h_hare_02"
+   "evidence": "nature · product curator · Hare · cs_h_hare_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hedge_02",
    "text": "A hedge marks a field edge",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hedge · cs_h_hedge_02"
+   "evidence": "nature · product curator · Hedge · cs_h_hedge_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_helmet_01",
    "text": "A helmet protects the head",
    "standing": "projectable",
-   "evidence": "history · product curator · Helmet · cs_h_helmet_01"
+   "evidence": "history · product curator · Helmet · cs_h_helmet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hive_02",
    "text": "Bees fill a hive",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hive · cs_h_hive_02"
+   "evidence": "nature · product curator · Hive · cs_h_hive_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hormone_02",
    "text": "A hormone signals cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Hormone · cs_h_hormone_02"
+   "evidence": "science · product curator · Hormone · cs_h_hormone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horizon_02",
    "text": "The horizon meets the sky",
    "standing": "projectable",
-   "evidence": "science · product curator · Horizon · cs_h_horizon_02"
+   "evidence": "science · product curator · Horizon · cs_h_horizon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_host_01",
    "text": "A host feeds a parasite",
    "standing": "projectable",
-   "evidence": "science · product curator · Host · cs_h_host_01"
+   "evidence": "science · product curator · Host · cs_h_host_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrometer_02",
    "text": "A hydrometer gauges density",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_02"
+   "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hafnium_05",
    "text": "Hafnium hardens reactor rods",
    "standing": "projectable",
-   "evidence": "science · product curator · Hafnium · cs_h_hafnium_05"
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_halogen_02",
    "text": "Halogens form salt compounds",
    "standing": "projectable",
-   "evidence": "science · product curator · Halogen · cs_h_halogen_02"
+   "evidence": "science · product curator · Halogen · cs_h_halogen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hertz_05",
    "text": "A hertz counts one cycle",
    "standing": "projectable",
-   "evidence": "science · product curator · Hertz · cs_h_hertz_05"
+   "evidence": "science · product curator · Hertz · cs_h_hertz_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hornblende_01",
    "text": "Hornblende darkens granite",
    "standing": "projectable",
-   "evidence": "science · product curator · Hornblende · cs_h_hornblende_01"
+   "evidence": "science · product curator · Hornblende · cs_h_hornblende_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_humidity_03",
    "text": "Humidity measures air moisture",
    "standing": "projectable",
-   "evidence": "science · product curator · Humidity · cs_h_humidity_03"
+   "evidence": "science · product curator · Humidity · cs_h_humidity_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_humus_02",
    "text": "Humus darkens rich soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Humus · cs_h_humus_02"
+   "evidence": "nature · product curator · Humus · cs_h_humus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hybrid_01",
    "text": "A hybrid mixes two species",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_01"
+   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrocarbon_01",
    "text": "Oil holds long hydrocarbons",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrocarbon · cs_h_hydrocarbon_01"
+   "evidence": "science · product curator · Hydrocarbon · cs_h_hydrocarbon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hyperbola_01",
    "text": "A hyperbola opens two branches",
    "standing": "projectable",
-   "evidence": "math · product curator · Hyperbola · cs_h_hyperbola_01"
+   "evidence": "math · product curator · Hyperbola · cs_h_hyperbola_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hypoxia_01",
    "text": "Hypoxia starves tissue of oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Hypoxia · cs_h_hypoxia_01"
+   "evidence": "science · product curator · Hypoxia · cs_h_hypoxia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_halogen_03",
    "text": "Chlorine ranks a halogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Halogen · cs_h_halogen_03"
+   "evidence": "science · product curator · Halogen · cs_h_halogen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hammer_02",
    "text": "Hammers drive nail shafts",
    "standing": "projectable",
-   "evidence": "science · product curator · Hammer · cs_h_hammer_02"
+   "evidence": "science · product curator · Hammer · cs_h_hammer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_haploid_03",
    "text": "Gametes carry haploid sets",
    "standing": "projectable",
-   "evidence": "science · product curator · Haploid · cs_h_haploid_03"
+   "evidence": "science · product curator · Haploid · cs_h_haploid_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hemoglobin_03",
    "text": "Hemoglobin binds blood oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_03"
+   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hornet_02",
    "text": "Hornets build paper nests",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hornet · cs_h_hornet_02"
+   "evidence": "nature · product curator · Hornet · cs_h_hornet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_horse_04",
    "text": "Horses graze open pasture",
    "standing": "projectable",
-   "evidence": "nature · product curator · Horse · cs_h_horse_04"
+   "evidence": "nature · product curator · Horse · cs_h_horse_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hybrid_02",
    "text": "Breeders make hybrid crops",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_02"
+   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrogen_06",
    "text": "Stars burn hydrogen fuel",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_06"
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hadrons_01",
    "text": "Hadrons bind quark matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Hadrons · cs_h_hadrons_01"
+   "evidence": "science · product curator · Hadrons · cs_h_hadrons_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_half_life_01",
    "text": "Half-life ranks decay speed",
    "standing": "projectable",
-   "evidence": "science · product curator · Half-life · cs_h_half_life_01"
+   "evidence": "science · product curator · Half-life · cs_h_half_life_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_halite_01",
    "text": "Halite forms salt beds",
    "standing": "projectable",
-   "evidence": "science · product curator · Halite · cs_h_halite_01"
+   "evidence": "science · product curator · Halite · cs_h_halite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hardwood_01",
    "text": "Hardwood yields dense timber",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hardwood · cs_h_hardwood_01"
+   "evidence": "nature · product curator · Hardwood · cs_h_hardwood_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hertz_06",
    "text": "Hertz ranks wave frequency",
    "standing": "projectable",
-   "evidence": "science · product curator · Hertz · cs_h_hertz_06"
+   "evidence": "science · product curator · Hertz · cs_h_hertz_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_homeostasis_01",
    "text": "Homeostasis steadies body state",
    "standing": "projectable",
-   "evidence": "science · product curator · Homeostasis · cs_h_homeostasis_01"
+   "evidence": "science · product curator · Homeostasis · cs_h_homeostasis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hot_spot_01",
    "text": "A hot spot melts plate rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Hot spot · cs_h_hot_spot_01"
+   "evidence": "science · product curator · Hot spot · cs_h_hot_spot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hybrid_03",
    "text": "Hybrids mix parent traits",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_03"
+   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrogen_07",
    "text": "Hydrogen fuels fusion cores",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_07"
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hypha_01",
    "text": "Hyphae spread fungus networks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hypha · cs_h_hypha_01"
+   "evidence": "nature · product curator · Hypha · cs_h_hypha_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_heartwood_01",
    "text": "Heartwood stiffens tree trunks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Heartwood · cs_h_heartwood_01"
+   "evidence": "nature · product curator · Heartwood · cs_h_heartwood_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hibernation_03",
    "text": "Hibernation slows winter metabolism",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hibernation · cs_h_hibernation_03"
+   "evidence": "nature · product curator · Hibernation · cs_h_hibernation_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hornblende_02",
    "text": "Hornblende darkens igneous rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Hornblende · cs_h_hornblende_02"
+   "evidence": "science · product curator · Hornblende · cs_h_hornblende_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydrolysis_01",
    "text": "Hydrolysis splits water bonds",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydrolysis · cs_h_hydrolysis_01"
+   "evidence": "science · product curator · Hydrolysis · cs_h_hydrolysis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydroxide_01",
    "text": "Hydroxides raise solution pH",
    "standing": "projectable",
-   "evidence": "science · product curator · Hydroxide · cs_h_hydroxide_01"
+   "evidence": "science · product curator · Hydroxide · cs_h_hydroxide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_high_tide_01",
    "text": "High tide lifts coastal water",
    "standing": "projectable",
-   "evidence": "science · product curator · High tide · cs_h_high_tide_01"
+   "evidence": "science · product curator · High tide · cs_h_high_tide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hinge_joint_01",
    "text": "A hinge joint bends one plane",
    "standing": "projectable",
-   "evidence": "science · product curator · Hinge joint · cs_h_hinge_joint_01"
+   "evidence": "science · product curator · Hinge joint · cs_h_hinge_joint_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_harmonic_01",
    "text": "A harmonic rings wave overtones",
    "standing": "projectable",
-   "evidence": "science · product curator · Harmonic · cs_h_harmonic_01"
+   "evidence": "science · product curator · Harmonic · cs_h_harmonic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_haploid_04",
    "text": "Haploid cells hold one genome",
    "standing": "projectable",
-   "evidence": "science · product curator · Haploid · cs_h_haploid_04"
+   "evidence": "science · product curator · Haploid · cs_h_haploid_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_h_hydra_03",
    "text": "Hydras regenerate lost parts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Hydra · cs_h_hydra_03"
+   "evidence": "nature · product curator · Hydra · cs_h_hydra_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

@@ -12,1465 +12,2685 @@
    "id": "cs_v_venezuela_01",
    "text": "Angel Falls in Venezuela is the world's tallest uninterrupted waterfall",
    "standing": "projectable",
-   "evidence": "geography · product curator · Venezuela · cs_v_venezuela_01"
+   "evidence": "geography · product curator · Venezuela · cs_v_venezuela_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vatican_city_01",
    "text": "Vatican City is the smallest country in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_01"
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vienna_01",
    "text": "The Danube flows through Vienna",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vienna · cs_v_vienna_01"
+   "evidence": "geography · product curator · Vienna · cs_v_vienna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valletta_01",
    "text": "Valletta is the capital of Malta",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valletta · cs_v_valletta_01"
+   "evidence": "geography · product curator · Valletta · cs_v_valletta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vientiane_01",
    "text": "Vientiane is the capital of Laos",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vientiane · cs_v_vientiane_01"
+   "evidence": "geography · product curator · Vientiane · cs_v_vientiane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vaduz_01",
    "text": "Vaduz is the capital of Liechtenstein",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vaduz · cs_v_vaduz_01"
+   "evidence": "geography · product curator · Vaduz · cs_v_vaduz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_victoria_lake_01",
    "text": "Lake Victoria is a source of the White Nile",
    "standing": "projectable",
-   "evidence": "geography · product curator · Victoria, Lake · cs_v_victoria_lake_01"
+   "evidence": "geography · product curator · Victoria, Lake · cs_v_victoria_lake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_victoria_falls_01",
    "text": "Victoria Falls lies on the Zambezi",
    "standing": "projectable",
-   "evidence": "geography · product curator · Victoria Falls · cs_v_victoria_falls_01"
+   "evidence": "geography · product curator · Victoria Falls · cs_v_victoria_falls_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_victoria_falls_02",
    "text": "Victoria Falls is on the border of Zambia and Zimbabwe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Victoria Falls · cs_v_victoria_falls_02"
+   "evidence": "geography · product curator · Victoria Falls · cs_v_victoria_falls_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volga_01",
    "text": "The Volga is the longest river in Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Volga · cs_v_volga_01"
+   "evidence": "geography · product curator · Volga · cs_v_volga_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volga_02",
    "text": "The Volga flows into the Caspian Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Volga · cs_v_volga_02"
+   "evidence": "geography · product curator · Volga · cs_v_volga_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venice_01",
    "text": "Venice is built on islands in a lagoon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Venice · cs_v_venice_01"
+   "evidence": "geography · product curator · Venice · cs_v_venice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vesuvius_01",
    "text": "Vesuvius is a volcano near Naples",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vesuvius · cs_v_vesuvius_01"
+   "evidence": "geography · product curator · Vesuvius · cs_v_vesuvius_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vancouver_01",
    "text": "Vancouver is a city in British Columbia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vancouver · cs_v_vancouver_01"
+   "evidence": "geography · product curator · Vancouver · cs_v_vancouver_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vermont_01",
    "text": "Montpelier is the capital of Vermont",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vermont · cs_v_vermont_01"
+   "evidence": "geography · product curator · Vermont · cs_v_vermont_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_virginia_01",
    "text": "Richmond is the capital of Virginia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Virginia · cs_v_virginia_01"
+   "evidence": "geography · product curator · Virginia · cs_v_virginia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valley_01",
    "text": "A valley is low land between hills or mountains",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valley · cs_v_valley_01"
+   "evidence": "geography · product curator · Valley · cs_v_valley_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volcano_01",
    "text": "Magma erupts through a volcano",
    "standing": "projectable",
-   "evidence": "geography · product curator · Volcano · cs_v_volcano_01"
+   "evidence": "geography · product curator · Volcano · cs_v_volcano_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venus_01",
    "text": "Venus is the second planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Venus · cs_v_venus_01"
+   "evidence": "science · product curator · Venus · cs_v_venus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venus_02",
    "text": "Venus is the hottest planet in the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Venus · cs_v_venus_02"
+   "evidence": "science · product curator · Venus · cs_v_venus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venus_03",
    "text": "Venus rotates in the opposite direction to most planets",
    "standing": "projectable",
-   "evidence": "science · product curator · Venus · cs_v_venus_03"
+   "evidence": "science · product curator · Venus · cs_v_venus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venus_04",
    "text": "Venus has no moons",
    "standing": "projectable",
-   "evidence": "science · product curator · Venus · cs_v_venus_04"
+   "evidence": "science · product curator · Venus · cs_v_venus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanadium_01",
    "text": "Vanadium has the chemical symbol V",
    "standing": "projectable",
-   "evidence": "science · product curator · Vanadium · cs_v_vanadium_01"
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vacuum_01",
    "text": "A vacuum is space with no matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Vacuum · cs_v_vacuum_01"
+   "evidence": "science · product curator · Vacuum · cs_v_vacuum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_velocity_01",
    "text": "Velocity is speed in a given direction",
    "standing": "projectable",
-   "evidence": "science · product curator · Velocity · cs_v_velocity_01"
+   "evidence": "science · product curator · Velocity · cs_v_velocity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volt_01",
    "text": "The volt is the SI unit of electric potential",
    "standing": "projectable",
-   "evidence": "science · product curator · Volt · cs_v_volt_01"
+   "evidence": "science · product curator · Volt · cs_v_volt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voltage_01",
    "text": "Voltage equals current multiplied by resistance",
    "standing": "projectable",
-   "evidence": "science · product curator · Voltage · cs_v_voltage_01"
+   "evidence": "science · product curator · Voltage · cs_v_voltage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vapor_01",
    "text": "Water vapor is water in its gaseous state",
    "standing": "projectable",
-   "evidence": "science · product curator · Vapor · cs_v_vapor_01"
+   "evidence": "science · product curator · Vapor · cs_v_vapor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertebrate_01",
    "text": "Vertebrates have a backbone",
    "standing": "projectable",
-   "evidence": "science · product curator · Vertebrate · cs_v_vertebrate_01"
+   "evidence": "science · product curator · Vertebrate · cs_v_vertebrate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vein_01",
    "text": "Veins carry blood toward the heart",
    "standing": "projectable",
-   "evidence": "science · product curator · Vein · cs_v_vein_01"
+   "evidence": "science · product curator · Vein · cs_v_vein_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_virus_01",
    "text": "A virus can replicate only inside living cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Virus · cs_v_virus_01"
+   "evidence": "science · product curator · Virus · cs_v_virus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitamin_d_01",
    "text": "Sunlight helps the skin make vitamin D",
    "standing": "projectable",
-   "evidence": "science · product curator · Vitamin D · cs_v_vitamin_d_01"
+   "evidence": "science · product curator · Vitamin D · cs_v_vitamin_d_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voyager_1_01",
    "text": "Voyager was launched in 1977",
    "standing": "projectable",
-   "evidence": "science · product curator · Voyager 1 · cs_v_voyager_1_01"
+   "evidence": "science · product curator · Voyager 1 · cs_v_voyager_1_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voyager_1_02",
    "text": "Voyager is the farthest spacecraft from Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Voyager 1 · cs_v_voyager_1_02"
+   "evidence": "science · product curator · Voyager 1 · cs_v_voyager_1_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vulture_01",
    "text": "Vultures are scavengers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vulture · cs_v_vulture_01"
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viper_01",
    "text": "Vipers are venomous snakes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Viper · cs_v_viper_01"
+   "evidence": "nature · product curator · Viper · cs_v_viper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vampire_bat_01",
    "text": "Vampire bats feed on blood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_01"
+   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vole_01",
    "text": "Voles are small rodents",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vole · cs_v_vole_01"
+   "evidence": "nature · product curator · Vole · cs_v_vole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vicuna_01",
    "text": "The vicuna is related to the llama",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vicuña · cs_v_vicuna_01"
+   "evidence": "nature · product curator · Vicuña · cs_v_vicuna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_violet_01",
    "text": "Violets are flowering plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Violet · cs_v_violet_01"
+   "evidence": "nature · product curator · Violet · cs_v_violet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vine_01",
    "text": "A vine is a plant with climbing or trailing stems",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vine · cs_v_vine_01"
+   "evidence": "nature · product curator · Vine · cs_v_vine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanilla_01",
    "text": "Vanilla comes from the pods of an orchid",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_01"
+   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_victoria_queen_01",
    "text": "Queen Victoria was queen of the United Kingdom",
    "standing": "projectable",
-   "evidence": "history · product curator · Victoria, Queen · cs_v_victoria_queen_01"
+   "evidence": "history · product curator · Victoria, Queen · cs_v_victoria_queen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vikings_01",
    "text": "The Vikings came from Scandinavia",
    "standing": "projectable",
-   "evidence": "history · product curator · Vikings · cs_v_vikings_01"
+   "evidence": "history · product curator · Vikings · cs_v_vikings_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vikings_02",
    "text": "Leif Erikson reached North America around 1000",
    "standing": "projectable",
-   "evidence": "history · product curator · Vikings · cs_v_vikings_02"
+   "evidence": "history · product curator · Vikings · cs_v_vikings_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_van_gogh_vincent_01",
    "text": "Van Gogh painted The Starry Night",
    "standing": "projectable",
-   "evidence": "history · product curator · Van Gogh, Vincent · cs_v_van_gogh_vincent_01"
+   "evidence": "history · product curator · Van Gogh, Vincent · cs_v_van_gogh_vincent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_van_gogh_vincent_02",
    "text": "Van Gogh was a Dutch painter",
    "standing": "projectable",
-   "evidence": "history · product curator · Van Gogh, Vincent · cs_v_van_gogh_vincent_02"
+   "evidence": "history · product curator · Van Gogh, Vincent · cs_v_van_gogh_vincent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vespucci_amerigo_01",
    "text": "The Americas are named after Amerigo Vespucci",
    "standing": "projectable",
-   "evidence": "history · product curator · Vespucci, Amerigo · cs_v_vespucci_amerigo_01"
+   "evidence": "history · product curator · Vespucci, Amerigo · cs_v_vespucci_amerigo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_versailles_palace_of_01",
    "text": "The Palace of Versailles is near Paris",
    "standing": "projectable",
-   "evidence": "history · product curator · Versailles, Palace of · cs_v_versailles_palace_of_01"
+   "evidence": "history · product curator · Versailles, Palace of · cs_v_versailles_palace_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_versailles_treaty_of_01",
    "text": "The Treaty of Versailles was signed in 1919",
    "standing": "projectable",
-   "evidence": "history · product curator · Versailles, Treaty of · cs_v_versailles_treaty_of_01"
+   "evidence": "history · product curator · Versailles, Treaty of · cs_v_versailles_treaty_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vietnam_war_01",
    "text": "The Vietnam War ended in 1975",
    "standing": "projectable",
-   "evidence": "history · product curator · Vietnam War · cs_v_vietnam_war_01"
+   "evidence": "history · product curator · Vietnam War · cs_v_vietnam_war_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vivaldi_antonio_01",
    "text": "Antonio Vivaldi composed The Four Seasons",
    "standing": "projectable",
-   "evidence": "history · product curator · Vivaldi, Antonio · cs_v_vivaldi_antonio_01"
+   "evidence": "history · product curator · Vivaldi, Antonio · cs_v_vivaldi_antonio_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volta_alessandro_01",
    "text": "Volta invented an early battery",
    "standing": "projectable",
-   "evidence": "history · product curator · Volta, Alessandro · cs_v_volta_alessandro_01"
+   "evidence": "history · product curator · Volta, Alessandro · cs_v_volta_alessandro_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertex_01",
    "text": "A vertex is a corner",
    "standing": "projectable",
-   "evidence": "math · product curator · Vertex · cs_v_vertex_01"
+   "evidence": "math · product curator · Vertex · cs_v_vertex_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertex_02",
    "text": "A cube has eight vertices",
    "standing": "projectable",
-   "evidence": "math · product curator · Vertex · cs_v_vertex_02"
+   "evidence": "math · product curator · Vertex · cs_v_vertex_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_variable_01",
    "text": "A variable is a symbol that represents a number",
    "standing": "projectable",
-   "evidence": "math · product curator · Variable · cs_v_variable_01"
+   "evidence": "math · product curator · Variable · cs_v_variable_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vector_01",
    "text": "A vector has both magnitude and direction",
    "standing": "projectable",
-   "evidence": "math · product curator · Vector · cs_v_vector_01"
+   "evidence": "math · product curator · Vector · cs_v_vector_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venn_diagram_01",
    "text": "A Venn diagram uses overlapping circles to show relationships between sets",
    "standing": "projectable",
-   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_01"
+   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_veto_01",
    "text": "The American president can veto bills passed by Congress",
    "standing": "projectable",
-   "evidence": "civics · product curator · Veto · cs_v_veto_01"
+   "evidence": "civics · product curator · Veto · cs_v_veto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vice_president_01",
    "text": "The American vice president presides over the Senate",
    "standing": "projectable",
-   "evidence": "civics · product curator · Vice president · cs_v_vice_president_01"
+   "evidence": "civics · product curator · Vice president · cs_v_vice_president_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vote_01",
    "text": "American citizens can vote at 18",
    "standing": "projectable",
-   "evidence": "civics · product curator · Vote · cs_v_vote_01"
+   "evidence": "civics · product curator · Vote · cs_v_vote_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vowel_01",
    "text": "English has five vowel letters",
    "standing": "projectable",
-   "evidence": "language · product curator · Vowel · cs_v_vowel_01"
+   "evidence": "language · product curator · Vowel · cs_v_vowel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_verb_01",
    "text": "A verb expresses an action or state",
    "standing": "projectable",
-   "evidence": "language · product curator · Verb · cs_v_verb_01"
+   "evidence": "language · product curator · Verb · cs_v_verb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vietnamese_01",
    "text": "Vietnamese is written in the Latin alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Vietnamese · cs_v_vietnamese_01"
+   "evidence": "language · product curator · Vietnamese · cs_v_vietnamese_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_violin_01",
    "text": "The violin has four strings",
    "standing": "projectable",
-   "evidence": "general · product curator · Violin · cs_v_violin_01"
+   "evidence": "general · product curator · Violin · cs_v_violin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viola_01",
    "text": "The viola is larger than the violin",
    "standing": "projectable",
-   "evidence": "general · product curator · Viola · cs_v_viola_01"
+   "evidence": "general · product curator · Viola · cs_v_viola_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volleyball_01",
    "text": "A volleyball team has six players on the court",
    "standing": "projectable",
-   "evidence": "general · product curator · Volleyball · cs_v_volleyball_01"
+   "evidence": "general · product curator · Volleyball · cs_v_volleyball_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vatican_city_02",
    "text": "Vatican City is surrounded by Rome",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_02"
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venezuela_02",
    "text": "Venezuela is in South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Venezuela · cs_v_venezuela_02"
+   "evidence": "geography · product curator · Venezuela · cs_v_venezuela_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vietnam_01",
    "text": "Vietnam is in Southeast Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vietnam · cs_v_vietnam_01"
+   "evidence": "geography · product curator · Vietnam · cs_v_vietnam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_victoria_01",
    "text": "Victoria is the capital of British Columbia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Victoria · cs_v_victoria_01"
+   "evidence": "geography · product curator · Victoria · cs_v_victoria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venus_05",
    "text": "Venus is the brightest planet in Earth's night sky",
    "standing": "projectable",
-   "evidence": "science · product curator · Venus · cs_v_venus_05"
+   "evidence": "science · product curator · Venus · cs_v_venus_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volcano_02",
    "text": "Volcanoes can erupt lava, ash, and gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Volcano · cs_v_volcano_02"
+   "evidence": "science · product curator · Volcano · cs_v_volcano_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vulture_02",
    "text": "Vultures feed mainly on carrion",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vulture · cs_v_vulture_02"
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viper_02",
    "text": "Vipers are venomous snakes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Viper · cs_v_viper_02"
+   "evidence": "nature · product curator · Viper · cs_v_viper_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vikings_03",
    "text": "The Vikings came from Scandinavia",
    "standing": "projectable",
-   "evidence": "history · product curator · Vikings · cs_v_vikings_03"
+   "evidence": "history · product curator · Vikings · cs_v_vikings_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vote_02",
    "text": "Citizens over 18 can vote",
    "standing": "projectable",
-   "evidence": "civics · product curator · Vote · cs_v_vote_02"
+   "evidence": "civics · product curator · Vote · cs_v_vote_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vatican_city_03",
    "text": "Vatican City is the smallest country by area",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_03"
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vesuvius_02",
    "text": "Vesuvius is near Naples",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vesuvius · cs_v_vesuvius_02"
+   "evidence": "geography · product curator · Vesuvius · cs_v_vesuvius_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vesuvius_03",
    "text": "Vesuvius buried Pompeii",
    "standing": "projectable",
-   "evidence": "history · product curator · Vesuvius · cs_v_vesuvius_03"
+   "evidence": "history · product curator · Vesuvius · cs_v_vesuvius_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vein_02",
    "text": "Veins carry blood back to the heart",
    "standing": "projectable",
-   "evidence": "science · product curator · Vein · cs_v_vein_02"
+   "evidence": "science · product curator · Vein · cs_v_vein_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitamin_c_02",
    "text": "Citrus fruits are a source of vitamin C",
    "standing": "projectable",
-   "evidence": "science · product curator · Vitamin C · cs_v_vitamin_c_02"
+   "evidence": "science · product curator · Vitamin C · cs_v_vitamin_c_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volt_02",
    "text": "The volt is the unit of electric potential",
    "standing": "projectable",
-   "evidence": "science · product curator · Volt · cs_v_volt_02"
+   "evidence": "science · product curator · Volt · cs_v_volt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertex_03",
    "text": "Lines meet at a vertex",
    "standing": "projectable",
-   "evidence": "science · product curator · Vertex · cs_v_vertex_03"
+   "evidence": "science · product curator · Vertex · cs_v_vertex_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vine_02",
    "text": "Grapes grow on vines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vine · cs_v_vine_02"
+   "evidence": "nature · product curator · Vine · cs_v_vine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vulture_03",
    "text": "Vultures have keen eyesight",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vulture · cs_v_vulture_03"
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vermont_02",
    "text": "Vermont is in New England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vermont · cs_v_vermont_02"
+   "evidence": "geography · product curator · Vermont · cs_v_vermont_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_virginia_02",
    "text": "Virginia is one of the original thirteen states",
    "standing": "projectable",
-   "evidence": "history · product curator · Virginia · cs_v_virginia_02"
+   "evidence": "history · product curator · Virginia · cs_v_virginia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volcano_03",
    "text": "A dormant volcano is not erupting",
    "standing": "projectable",
-   "evidence": "science · product curator · Volcano · cs_v_volcano_03"
+   "evidence": "science · product curator · Volcano · cs_v_volcano_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vowel_02",
    "text": "E is a vowel",
    "standing": "projectable",
-   "evidence": "culture · product curator · Vowel · cs_v_vowel_02"
+   "evidence": "culture · product curator · Vowel · cs_v_vowel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_violin_02",
    "text": "The violin is a string instrument",
    "standing": "projectable",
-   "evidence": "culture · product curator · Violin · cs_v_violin_02"
+   "evidence": "culture · product curator · Violin · cs_v_violin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vatican_city_04",
    "text": "The pope lives in Vatican City",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_04"
+   "evidence": "geography · product curator · Vatican City · cs_v_vatican_city_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vegetable_01",
    "text": "Carrots are root vegetables",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_01"
+   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vietnam_02",
    "text": "Vietnam is a country in Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vietnam · cs_v_vietnam_02"
+   "evidence": "geography · product curator · Vietnam · cs_v_vietnam_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vulture_04",
    "text": "A vulture is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vulture · cs_v_vulture_04"
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valencia_01",
    "text": "Valencia is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valencia · cs_v_valencia_01"
+   "evidence": "geography · product curator · Valencia · cs_v_valencia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venice_02",
    "text": "Venice is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Venice · cs_v_venice_02"
+   "evidence": "geography · product curator · Venice · cs_v_venice_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vancouver_02",
    "text": "Vancouver is a city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vancouver · cs_v_vancouver_02"
+   "evidence": "geography · product curator · Vancouver · cs_v_vancouver_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_verona_01",
    "text": "Verona is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Verona · cs_v_verona_01"
+   "evidence": "geography · product curator · Verona · cs_v_verona_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vicenza_01",
    "text": "Vicenza is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vicenza · cs_v_vicenza_01"
+   "evidence": "geography · product curator · Vicenza · cs_v_vicenza_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valladolid_01",
    "text": "Valladolid is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valladolid · cs_v_valladolid_01"
+   "evidence": "geography · product curator · Valladolid · cs_v_valladolid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vigo_01",
    "text": "Vigo is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vigo · cs_v_vigo_01"
+   "evidence": "geography · product curator · Vigo · cs_v_vigo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_versailles_01",
    "text": "Versailles is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Versailles · cs_v_versailles_01"
+   "evidence": "geography · product curator · Versailles · cs_v_versailles_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vannes_01",
    "text": "Vannes is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vannes · cs_v_vannes_01"
+   "evidence": "geography · product curator · Vannes · cs_v_vannes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_varanasi_01",
    "text": "Varanasi is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Varanasi · cs_v_varanasi_01"
+   "evidence": "geography · product curator · Varanasi · cs_v_varanasi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vadodara_01",
    "text": "Vadodara is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vadodara · cs_v_vadodara_01"
+   "evidence": "geography · product curator · Vadodara · cs_v_vadodara_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vellore_01",
    "text": "Vellore is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vellore · cs_v_vellore_01"
+   "evidence": "geography · product curator · Vellore · cs_v_vellore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_victoria_02",
    "text": "Victoria is a city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Victoria · cs_v_victoria_02"
+   "evidence": "geography · product curator · Victoria · cs_v_victoria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_varna_01",
    "text": "Varna is a city in Bulgaria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Varna · cs_v_varna_01"
+   "evidence": "geography · product curator · Varna · cs_v_varna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitoria_01",
    "text": "Vitoria is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vitoria · cs_v_vitoria_01"
+   "evidence": "geography · product curator · Vitoria · cs_v_vitoria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vilnius_01",
    "text": "Vilnius is a city in Lithuania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Vilnius · cs_v_vilnius_01"
+   "evidence": "geography · product curator · Vilnius · cs_v_vilnius_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valparaiso_01",
    "text": "Valparaiso is a city in Chile",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valparaiso · cs_v_valparaiso_01"
+   "evidence": "geography · product curator · Valparaiso · cs_v_valparaiso_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vacuum_tube_01",
    "text": "A vacuum tube controls electric current",
    "standing": "projectable",
-   "evidence": "science · product curator · Vacuum tube · cs_v_vacuum_tube_01"
+   "evidence": "science · product curator · Vacuum tube · cs_v_vacuum_tube_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valley_glacier_01",
    "text": "A valley glacier flows down a mountain valley",
    "standing": "projectable",
-   "evidence": "science · product curator · Valley glacier · cs_v_valley_glacier_01"
+   "evidence": "science · product curator · Valley glacier · cs_v_valley_glacier_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valve_01",
    "text": "A valve controls the flow of a fluid",
    "standing": "projectable",
-   "evidence": "science · product curator · Valve · cs_v_valve_01"
+   "evidence": "science · product curator · Valve · cs_v_valve_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_variable_star_01",
    "text": "A variable star changes brightness",
    "standing": "projectable",
-   "evidence": "science · product curator · Variable star · cs_v_variable_star_01"
+   "evidence": "science · product curator · Variable star · cs_v_variable_star_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vascular_plant_01",
    "text": "A vascular plant has xylem and phloem",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vascular plant · cs_v_vascular_plant_01"
+   "evidence": "nature · product curator · Vascular plant · cs_v_vascular_plant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vector_quantity_01",
    "text": "A vector quantity has magnitude and direction",
    "standing": "projectable",
-   "evidence": "math · product curator · Vector quantity · cs_v_vector_quantity_01"
+   "evidence": "math · product curator · Vector quantity · cs_v_vector_quantity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_verb_tense_01",
    "text": "A verb tense shows time of an action",
    "standing": "projectable",
-   "evidence": "language · product curator · Verb tense · cs_v_verb_tense_01"
+   "evidence": "language · product curator · Verb tense · cs_v_verb_tense_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_violin_bow_01",
    "text": "A violin bow draws sound from the strings",
    "standing": "projectable",
-   "evidence": "history · product curator · Violin bow · cs_v_violin_bow_01"
+   "evidence": "history · product curator · Violin bow · cs_v_violin_bow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valence_electron_01",
    "text": "A valence electron is in the outer shell",
    "standing": "projectable",
-   "evidence": "science · product curator · Valence electron · cs_v_valence_electron_01"
+   "evidence": "science · product curator · Valence electron · cs_v_valence_electron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viscosity_01",
    "text": "Viscosity is resistance of a fluid to flow",
    "standing": "projectable",
-   "evidence": "science · product curator · Viscosity · cs_v_viscosity_01"
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vocal_cord_01",
    "text": "A vocal cord vibrates to produce sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Vocal cord · cs_v_vocal_cord_01"
+   "evidence": "science · product curator · Vocal cord · cs_v_vocal_cord_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valence_01",
    "text": "Valence is the combining capacity of an atom",
    "standing": "projectable",
-   "evidence": "science · product curator · Valence · cs_v_valence_01"
+   "evidence": "science · product curator · Valence · cs_v_valence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valley_02",
    "text": "A valley is a low area between hills or mountains",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valley · cs_v_valley_02"
+   "evidence": "geography · product curator · Valley · cs_v_valley_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanadium_02",
    "text": "Vanadium is a transition metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Vanadium · cs_v_vanadium_02"
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanilla_02",
    "text": "Vanilla comes from an orchid plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_02"
+   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vector_02",
    "text": "A vector has magnitude and direction",
    "standing": "projectable",
-   "evidence": "math · product curator · Vector · cs_v_vector_02"
+   "evidence": "math · product curator · Vector · cs_v_vector_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vein_03",
    "text": "A vein carries blood toward the heart",
    "standing": "projectable",
-   "evidence": "science · product curator · Vein · cs_v_vein_03"
+   "evidence": "science · product curator · Vein · cs_v_vein_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venn_diagram_02",
    "text": "A Venn diagram shows relationships among sets",
    "standing": "projectable",
-   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_02"
+   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertebra_02",
    "text": "A vertebra is a bone of the spine",
    "standing": "projectable",
-   "evidence": "science · product curator · Vertebra · cs_v_vertebra_02"
+   "evidence": "science · product curator · Vertebra · cs_v_vertebra_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertex_04",
    "text": "A vertex is a corner point of a polygon",
    "standing": "projectable",
-   "evidence": "math · product curator · Vertex · cs_v_vertex_04"
+   "evidence": "math · product curator · Vertex · cs_v_vertex_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vespucci_amerigo_02",
    "text": "Amerigo Vespucci explored the Americas",
    "standing": "projectable",
-   "evidence": "history · product curator · Vespucci, Amerigo · cs_v_vespucci_amerigo_02"
+   "evidence": "history · product curator · Vespucci, Amerigo · cs_v_vespucci_amerigo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viking_01",
    "text": "Vikings sailed from Scandinavia",
    "standing": "projectable",
-   "evidence": "history · product curator · Viking · cs_v_viking_01"
+   "evidence": "history · product curator · Viking · cs_v_viking_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vinegar_01",
    "text": "Vinegar is dilute acetic acid",
    "standing": "projectable",
-   "evidence": "science · product curator · Vinegar · cs_v_vinegar_01"
+   "evidence": "science · product curator · Vinegar · cs_v_vinegar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_virus_02",
    "text": "A virus needs a host cell to reproduce",
    "standing": "projectable",
-   "evidence": "science · product curator · Virus · cs_v_virus_02"
+   "evidence": "science · product curator · Virus · cs_v_virus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volt_03",
    "text": "A volt is the SI unit of electric potential",
    "standing": "projectable",
-   "evidence": "science · product curator · Volt · cs_v_volt_03"
+   "evidence": "science · product curator · Volt · cs_v_volt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valley_03",
    "text": "A valley is low land between hills",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valley · cs_v_valley_03"
+   "evidence": "geography · product curator · Valley · cs_v_valley_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valve_02",
    "text": "A heart valve controls blood flow",
    "standing": "projectable",
-   "evidence": "science · product curator · Valve · cs_v_valve_02"
+   "evidence": "science · product curator · Valve · cs_v_valve_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_variable_02",
    "text": "A variable stores a changing value",
    "standing": "projectable",
-   "evidence": "math · product curator · Variable · cs_v_variable_02"
+   "evidence": "math · product curator · Variable · cs_v_variable_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_velocity_02",
    "text": "Velocity includes speed and direction",
    "standing": "projectable",
-   "evidence": "science · product curator · Velocity · cs_v_velocity_02"
+   "evidence": "science · product curator · Velocity · cs_v_velocity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertebrate_02",
    "text": "A vertebrate has a backbone",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_02"
+   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vibration_01",
    "text": "Sound travels as a vibration",
    "standing": "projectable",
-   "evidence": "science · product curator · Vibration · cs_v_vibration_01"
+   "evidence": "science · product curator · Vibration · cs_v_vibration_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_violet_02",
    "text": "A violet is a small flowering plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Violet · cs_v_violet_02"
+   "evidence": "nature · product curator · Violet · cs_v_violet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitamin_01",
    "text": "A vitamin is needed in small amounts",
    "standing": "projectable",
-   "evidence": "science · product curator · Vitamin · cs_v_vitamin_01"
+   "evidence": "science · product curator · Vitamin · cs_v_vitamin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volcano_04",
    "text": "A volcano erupts lava and ash",
    "standing": "projectable",
-   "evidence": "geography · product curator · Volcano · cs_v_volcano_04"
+   "evidence": "geography · product curator · Volcano · cs_v_volcano_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vowel_03",
    "text": "A vowel is a speech sound",
    "standing": "projectable",
-   "evidence": "language · product curator · Vowel · cs_v_vowel_03"
+   "evidence": "language · product curator · Vowel · cs_v_vowel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vulture_05",
    "text": "A vulture feeds on dead animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vulture · cs_v_vulture_05"
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volume_02",
    "text": "Volume is the measure of space",
    "standing": "projectable",
-   "evidence": "math · product curator · Volume · cs_v_volume_02"
+   "evidence": "math · product curator · Volume · cs_v_volume_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_veto_02",
    "text": "A veto rejects a bill",
    "standing": "projectable",
-   "evidence": "civics · product curator · Veto · cs_v_veto_02"
+   "evidence": "civics · product curator · Veto · cs_v_veto_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volume_03",
    "text": "Volume measures three dimensional space",
    "standing": "projectable",
-   "evidence": "math · product curator · Volume · cs_v_volume_03"
+   "evidence": "math · product curator · Volume · cs_v_volume_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valley_04",
    "text": "A river flows through a valley",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valley · cs_v_valley_04"
+   "evidence": "geography · product curator · Valley · cs_v_valley_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_verb_02",
    "text": "Run is a verb",
    "standing": "projectable",
-   "evidence": "language · product curator · Verb · cs_v_verb_02"
+   "evidence": "language · product curator · Verb · cs_v_verb_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vice_president_02",
    "text": "A vice president is next in line after a president",
    "standing": "projectable",
-   "evidence": "civics · product curator · Vice president · cs_v_vice_president_02"
+   "evidence": "civics · product curator · Vice president · cs_v_vice_president_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vector_03",
    "text": "Force is a vector quantity",
    "standing": "projectable",
-   "evidence": "math · product curator · Vector · cs_v_vector_03"
+   "evidence": "math · product curator · Vector · cs_v_vector_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volcano_05",
    "text": "Ash clouds rise from an erupting volcano",
    "standing": "projectable",
-   "evidence": "geography · product curator · Volcano · cs_v_volcano_05"
+   "evidence": "geography · product curator · Volcano · cs_v_volcano_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vampire_bat_02",
    "text": "A vampire bat feeds on blood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_02"
+   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volume_04",
    "text": "A cube has volume",
    "standing": "projectable",
-   "evidence": "math · product curator · Volume · cs_v_volume_04"
+   "evidence": "math · product curator · Volume · cs_v_volume_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vapor_02",
    "text": "Steam is water vapor",
    "standing": "projectable",
-   "evidence": "science · product curator · Vapor · cs_v_vapor_02"
+   "evidence": "science · product curator · Vapor · cs_v_vapor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voice_01",
    "text": "Speech uses the voice",
    "standing": "projectable",
-   "evidence": "language · product curator · Voice · cs_v_voice_01"
+   "evidence": "language · product curator · Voice · cs_v_voice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vegetable_02",
    "text": "A carrot is a vegetable",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_02"
+   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valley_05",
    "text": "Erosion carves a valley",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valley · cs_v_valley_05"
+   "evidence": "geography · product curator · Valley · cs_v_valley_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_veto_03",
    "text": "A president can veto a bill",
    "standing": "projectable",
-   "evidence": "civics · product curator · Veto · cs_v_veto_03"
+   "evidence": "civics · product curator · Veto · cs_v_veto_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voyage_01",
    "text": "Explorers make a long voyage",
    "standing": "projectable",
-   "evidence": "history · product curator · Voyage · cs_v_voyage_01"
+   "evidence": "history · product curator · Voyage · cs_v_voyage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_void_01",
    "text": "A void is empty space",
    "standing": "projectable",
-   "evidence": "math · product curator · Void · cs_v_void_01"
+   "evidence": "math · product curator · Void · cs_v_void_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vine_03",
    "text": "A vine climbs a support",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vine · cs_v_vine_03"
+   "evidence": "nature · product curator · Vine · cs_v_vine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viscosity_02",
    "text": "Honey has high viscosity",
    "standing": "projectable",
-   "evidence": "science · product curator · Viscosity · cs_v_viscosity_02"
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vulture_06",
    "text": "A vulture feeds on carrion",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vulture · cs_v_vulture_06"
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vowel_04",
    "text": "Speech needs a vowel sound",
    "standing": "projectable",
-   "evidence": "language · product curator · Vowel · cs_v_vowel_04"
+   "evidence": "language · product curator · Vowel · cs_v_vowel_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanadium_03",
    "text": "Vanadium strengthens steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Vanadium · cs_v_vanadium_03"
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertebrate_03",
    "text": "A dog is a vertebrate",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_03"
+   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vole_02",
    "text": "A vole is a small rodent",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vole · cs_v_vole_02"
+   "evidence": "nature · product curator · Vole · cs_v_vole_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volt_04",
    "text": "A volt measures electric potential",
    "standing": "projectable",
-   "evidence": "science · product curator · Volt · cs_v_volt_04"
+   "evidence": "science · product curator · Volt · cs_v_volt_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_variable_03",
    "text": "Algebra uses a variable",
    "standing": "projectable",
-   "evidence": "math · product curator · Variable · cs_v_variable_03"
+   "evidence": "math · product curator · Variable · cs_v_variable_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vibration_02",
    "text": "Sound is a vibration in air",
    "standing": "projectable",
-   "evidence": "science · product curator · Vibration · cs_v_vibration_02"
+   "evidence": "science · product curator · Vibration · cs_v_vibration_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voltage_02",
    "text": "Voltage drives electric current",
    "standing": "projectable",
-   "evidence": "science · product curator · Voltage · cs_v_voltage_02"
+   "evidence": "science · product curator · Voltage · cs_v_voltage_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vascular_plant_02",
    "text": "A tree is a vascular plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vascular plant · cs_v_vascular_plant_02"
+   "evidence": "nature · product curator · Vascular plant · cs_v_vascular_plant_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viper_03",
    "text": "A viper is a venomous snake",
    "standing": "projectable",
-   "evidence": "nature · product curator · Viper · cs_v_viper_03"
+   "evidence": "nature · product curator · Viper · cs_v_viper_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venus_06",
    "text": "Venus is a rocky planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Venus · cs_v_venus_06"
+   "evidence": "science · product curator · Venus · cs_v_venus_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_visible_light_02",
    "text": "Humans see visible light",
    "standing": "projectable",
-   "evidence": "science · product curator · Visible light · cs_v_visible_light_02"
+   "evidence": "science · product curator · Visible light · cs_v_visible_light_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_violet_03",
    "text": "A violet blooms in spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Violet · cs_v_violet_03"
+   "evidence": "nature · product curator · Violet · cs_v_violet_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voltage_03",
    "text": "Batteries supply voltage",
    "standing": "projectable",
-   "evidence": "science · product curator · Voltage · cs_v_voltage_03"
+   "evidence": "science · product curator · Voltage · cs_v_voltage_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vocal_cord_02",
    "text": "Speech uses a vocal cord",
    "standing": "projectable",
-   "evidence": "science · product curator · Vocal cord · cs_v_vocal_cord_02"
+   "evidence": "science · product curator · Vocal cord · cs_v_vocal_cord_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vinegar_02",
    "text": "Fermentation makes vinegar",
    "standing": "projectable",
-   "evidence": "science · product curator · Vinegar · cs_v_vinegar_02"
+   "evidence": "science · product curator · Vinegar · cs_v_vinegar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volt_05",
    "text": "A volt measures voltage",
    "standing": "projectable",
-   "evidence": "science · product curator · Volt · cs_v_volt_05"
+   "evidence": "science · product curator · Volt · cs_v_volt_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valence_02",
    "text": "Carbon has valence four",
    "standing": "projectable",
-   "evidence": "science · product curator · Valence · cs_v_valence_02"
+   "evidence": "science · product curator · Valence · cs_v_valence_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vole_03",
    "text": "A vole tunnels in grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vole · cs_v_vole_03"
+   "evidence": "nature · product curator · Vole · cs_v_vole_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voyage_02",
    "text": "Explorers begin a voyage",
    "standing": "projectable",
-   "evidence": "history · product curator · Voyage · cs_v_voyage_02"
+   "evidence": "history · product curator · Voyage · cs_v_voyage_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_velocity_03",
    "text": "Velocity has direction",
    "standing": "projectable",
-   "evidence": "science · product curator · Velocity · cs_v_velocity_03"
+   "evidence": "science · product curator · Velocity · cs_v_velocity_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venn_diagram_03",
    "text": "Sets meet in a Venn diagram",
    "standing": "projectable",
-   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_03"
+   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vampire_bat_03",
    "text": "Nights favor a vampire bat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_03"
+   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertebrate_04",
    "text": "Bones mark a vertebrate",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_04"
+   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertebra_03",
    "text": "A spine has a vertebra",
    "standing": "projectable",
-   "evidence": "science · product curator · Vertebra · cs_v_vertebra_03"
+   "evidence": "science · product curator · Vertebra · cs_v_vertebra_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vibration_03",
    "text": "Strings make a vibration",
    "standing": "projectable",
-   "evidence": "science · product curator · Vibration · cs_v_vibration_03"
+   "evidence": "science · product curator · Vibration · cs_v_vibration_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitamin_02",
    "text": "Food supplies a vitamin",
    "standing": "projectable",
-   "evidence": "science · product curator · Vitamin · cs_v_vitamin_02"
+   "evidence": "science · product curator · Vitamin · cs_v_vitamin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volcano_06",
    "text": "Ash rises from a volcano",
    "standing": "projectable",
-   "evidence": "science · product curator · Volcano · cs_v_volcano_06"
+   "evidence": "science · product curator · Volcano · cs_v_volcano_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voltage_04",
    "text": "A battery supplies voltage",
    "standing": "projectable",
-   "evidence": "science · product curator · Voltage · cs_v_voltage_04"
+   "evidence": "science · product curator · Voltage · cs_v_voltage_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volt_06",
    "text": "Batteries measure a volt",
    "standing": "projectable",
-   "evidence": "science · product curator · Volt · cs_v_volt_06"
+   "evidence": "science · product curator · Volt · cs_v_volt_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valley_glacier_02",
    "text": "Ice fills a valley glacier",
    "standing": "projectable",
-   "evidence": "geography · product curator · Valley glacier · cs_v_valley_glacier_02"
+   "evidence": "geography · product curator · Valley glacier · cs_v_valley_glacier_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valve_03",
    "text": "The heart has four valves",
    "standing": "projectable",
-   "evidence": "science · product curator · Valve · cs_v_valve_03"
+   "evidence": "science · product curator · Valve · cs_v_valve_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vent_01",
    "text": "Lava exits a vent",
    "standing": "projectable",
-   "evidence": "science · product curator · Vent · cs_v_vent_01"
+   "evidence": "science · product curator · Vent · cs_v_vent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_virus_03",
    "text": "A virus invades cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Virus · cs_v_virus_03"
+   "evidence": "science · product curator · Virus · cs_v_virus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitamin_03",
    "text": "Vitamin C prevents scurvy",
    "standing": "projectable",
-   "evidence": "science · product curator · Vitamin · cs_v_vitamin_03"
+   "evidence": "science · product curator · Vitamin · cs_v_vitamin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitreous_01",
    "text": "Eyes hold vitreous humor",
    "standing": "projectable",
-   "evidence": "science · product curator · Vitreous · cs_v_vitreous_01"
+   "evidence": "science · product curator · Vitreous · cs_v_vitreous_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vole_04",
    "text": "Voles tunnel under grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vole · cs_v_vole_04"
+   "evidence": "nature · product curator · Vole · cs_v_vole_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vulture_07",
    "text": "Vultures clean carcasses",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vulture · cs_v_vulture_07"
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vaccine_01",
    "text": "A vaccine trains immune cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Vaccine · cs_v_vaccine_01"
+   "evidence": "science · product curator · Vaccine · cs_v_vaccine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vapor_03",
    "text": "Water vapor fills warm air",
    "standing": "projectable",
-   "evidence": "science · product curator · Vapor · cs_v_vapor_03"
+   "evidence": "science · product curator · Vapor · cs_v_vapor_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_varnish_01",
    "text": "Varnish seals wood",
    "standing": "projectable",
-   "evidence": "history · product curator · Varnish · cs_v_varnish_01"
+   "evidence": "history · product curator · Varnish · cs_v_varnish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vascular_01",
    "text": "Vascular plants move sap",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vascular · cs_v_vascular_01"
+   "evidence": "nature · product curator · Vascular · cs_v_vascular_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vegetable_03",
    "text": "A vegetable stores nutrients",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_03"
+   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_ventilation_01",
    "text": "Ventilation clears stale air",
    "standing": "projectable",
-   "evidence": "science · product curator · Ventilation · cs_v_ventilation_01"
+   "evidence": "science · product curator · Ventilation · cs_v_ventilation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_ventricle_01",
    "text": "A ventricle pumps blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Ventricle · cs_v_ventricle_01"
+   "evidence": "science · product curator · Ventricle · cs_v_ventricle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vestibule_01",
    "text": "The vestibule senses balance",
    "standing": "projectable",
-   "evidence": "science · product curator · Vestibule · cs_v_vestibule_01"
+   "evidence": "science · product curator · Vestibule · cs_v_vestibule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viscosity_03",
    "text": "Viscosity resists flow",
    "standing": "projectable",
-   "evidence": "science · product curator · Viscosity · cs_v_viscosity_03"
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_visor_01",
    "text": "A visor shades the eyes",
    "standing": "projectable",
-   "evidence": "history · product curator · Visor · cs_v_visor_01"
+   "evidence": "history · product curator · Visor · cs_v_visor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valence_03",
    "text": "Valence guides chemical bonds",
    "standing": "projectable",
-   "evidence": "science · product curator · Valence · cs_v_valence_03"
+   "evidence": "science · product curator · Valence · cs_v_valence_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_valve_04",
    "text": "A valve directs fluid flow",
    "standing": "projectable",
-   "evidence": "science · product curator · Valve · cs_v_valve_04"
+   "evidence": "science · product curator · Valve · cs_v_valve_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vacuole_01",
    "text": "A vacuole stores cell water",
    "standing": "projectable",
-   "evidence": "science · product curator · Vacuole · cs_v_vacuole_01"
+   "evidence": "science · product curator · Vacuole · cs_v_vacuole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanadium_04",
    "text": "Vanadium hardens steel alloys",
    "standing": "projectable",
-   "evidence": "science · product curator · Vanadium · cs_v_vanadium_04"
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vasopressin_01",
    "text": "Vasopressin saves body water",
    "standing": "projectable",
-   "evidence": "science · product curator · Vasopressin · cs_v_vasopressin_01"
+   "evidence": "science · product curator · Vasopressin · cs_v_vasopressin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_venule_01",
    "text": "A venule drains capillary beds",
    "standing": "projectable",
-   "evidence": "science · product curator · Venule · cs_v_venule_01"
+   "evidence": "science · product curator · Venule · cs_v_venule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertebra_04",
    "text": "A vertebra stacks into the spine",
    "standing": "projectable",
-   "evidence": "science · product curator · Vertebra · cs_v_vertebra_04"
+   "evidence": "science · product curator · Vertebra · cs_v_vertebra_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vesicle_01",
    "text": "A vesicle carries cell cargo",
    "standing": "projectable",
-   "evidence": "science · product curator · Vesicle · cs_v_vesicle_01"
+   "evidence": "science · product curator · Vesicle · cs_v_vesicle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_virus_04",
    "text": "A virus hijacks host cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Virus · cs_v_virus_04"
+   "evidence": "science · product curator · Virus · cs_v_virus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voltage_05",
    "text": "Voltage pushes electric charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Voltage · cs_v_voltage_05"
+   "evidence": "science · product curator · Voltage · cs_v_voltage_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vaccine_02",
    "text": "Vaccines train immune memory",
    "standing": "projectable",
-   "evidence": "science · product curator · Vaccine · cs_v_vaccine_02"
+   "evidence": "science · product curator · Vaccine · cs_v_vaccine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vacuole_02",
    "text": "Vacuoles store cell water",
    "standing": "projectable",
-   "evidence": "science · product curator · Vacuole · cs_v_vacuole_02"
+   "evidence": "science · product curator · Vacuole · cs_v_vacuole_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanadium_05",
    "text": "Steel holds vanadium metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Vanadium · cs_v_vanadium_05"
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanilla_03",
    "text": "Orchids yield vanilla pods",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_03"
+   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_variable_04",
    "text": "Equations hold a variable",
    "standing": "projectable",
-   "evidence": "math · product curator · Variable · cs_v_variable_04"
+   "evidence": "math · product curator · Variable · cs_v_variable_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vent_02",
    "text": "Vents release volcanic gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Vent · cs_v_vent_02"
+   "evidence": "science · product curator · Vent · cs_v_vent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vinegar_03",
    "text": "Acetic acid makes vinegar",
    "standing": "projectable",
-   "evidence": "science · product curator · Vinegar · cs_v_vinegar_03"
+   "evidence": "science · product curator · Vinegar · cs_v_vinegar_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viscosity_04",
    "text": "Oils show thick viscosity",
    "standing": "projectable",
-   "evidence": "science · product curator · Viscosity · cs_v_viscosity_04"
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vacuum_02",
    "text": "Pumps pull a vacuum",
    "standing": "projectable",
-   "evidence": "science · product curator · Vacuum · cs_v_vacuum_02"
+   "evidence": "science · product curator · Vacuum · cs_v_vacuum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vanadium_06",
    "text": "Catalysts use vanadium oxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Vanadium · cs_v_vanadium_06"
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vermiculite_01",
    "text": "Vermiculite holds soil water",
    "standing": "projectable",
-   "evidence": "science · product curator · Vermiculite · cs_v_vermiculite_01"
+   "evidence": "science · product curator · Vermiculite · cs_v_vermiculite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vertex_05",
    "text": "Angles sit at a vertex",
    "standing": "projectable",
-   "evidence": "math · product curator · Vertex · cs_v_vertex_05"
+   "evidence": "math · product curator · Vertex · cs_v_vertex_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vibrio_01",
    "text": "Vibrio thrives in warm seas",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vibrio · cs_v_vibrio_01"
+   "evidence": "nature · product curator · Vibrio · cs_v_vibrio_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_viscosity_05",
    "text": "Cold raises oil viscosity",
    "standing": "projectable",
-   "evidence": "science · product curator · Viscosity · cs_v_viscosity_05"
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vitamin_04",
    "text": "Citrus yields vitamin C",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vitamin · cs_v_vitamin_04"
+   "evidence": "nature · product curator · Vitamin · cs_v_vitamin_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_volcanism_01",
    "text": "Volcanism builds new crust",
    "standing": "projectable",
-   "evidence": "science · product curator · Volcanism · cs_v_volcanism_01"
+   "evidence": "science · product curator · Volcanism · cs_v_volcanism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_vole_05",
    "text": "Owls hunt a vole",
    "standing": "projectable",
-   "evidence": "nature · product curator · Vole · cs_v_vole_05"
+   "evidence": "nature · product curator · Vole · cs_v_vole_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_v_voltmeter_01",
    "text": "A voltmeter reads voltage",
    "standing": "projectable",
-   "evidence": "science · product curator · Voltmeter · cs_v_voltmeter_01"
+   "evidence": "science · product curator · Voltmeter · cs_v_voltmeter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

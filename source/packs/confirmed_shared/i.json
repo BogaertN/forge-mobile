@@ -12,1501 +12,2751 @@
    "id": "cs_i_indonesia_01",
    "text": "Jakarta is the capital of Indonesia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Indonesia · cs_i_indonesia_01"
+   "evidence": "geography · product curator · Indonesia · cs_i_indonesia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indonesia_02",
    "text": "Indonesia is the largest country made of islands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Indonesia · cs_i_indonesia_02"
+   "evidence": "geography · product curator · Indonesia · cs_i_indonesia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_italy_01",
    "text": "Rome is the capital of Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Italy · cs_i_italy_01"
+   "evidence": "geography · product curator · Italy · cs_i_italy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iceland_01",
    "text": "Reykjavík is the capital of Iceland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iceland · cs_i_iceland_01"
+   "evidence": "geography · product curator · Iceland · cs_i_iceland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iran_01",
    "text": "Tehran is the capital of Iran",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iran · cs_i_iran_01"
+   "evidence": "geography · product curator · Iran · cs_i_iran_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_israel_01",
    "text": "Israel borders the Mediterranean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Israel · cs_i_israel_01"
+   "evidence": "geography · product curator · Israel · cs_i_israel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indian_ocean_01",
    "text": "The Indian Ocean is the third largest ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Indian Ocean · cs_i_indian_ocean_01"
+   "evidence": "geography · product curator · Indian Ocean · cs_i_indian_ocean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_istanbul_01",
    "text": "Istanbul spans Europe and Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Istanbul · cs_i_istanbul_01"
+   "evidence": "geography · product curator · Istanbul · cs_i_istanbul_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_islamabad_01",
    "text": "Islamabad is the capital of Pakistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Islamabad · cs_i_islamabad_01"
+   "evidence": "geography · product curator · Islamabad · cs_i_islamabad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indus_river_01",
    "text": "The Indus flows through Pakistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Indus River · cs_i_indus_river_01"
+   "evidence": "geography · product curator · Indus River · cs_i_indus_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iberian_peninsula_01",
    "text": "Spain and Portugal are on the Iberian Peninsula",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iberian Peninsula · cs_i_iberian_peninsula_01"
+   "evidence": "geography · product curator · Iberian Peninsula · cs_i_iberian_peninsula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_illinois_01",
    "text": "Springfield is the capital of Illinois",
    "standing": "projectable",
-   "evidence": "geography · product curator · Illinois · cs_i_illinois_01"
+   "evidence": "geography · product curator · Illinois · cs_i_illinois_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indiana_01",
    "text": "Indianapolis is the capital of Indiana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Indiana · cs_i_indiana_01"
+   "evidence": "geography · product curator · Indiana · cs_i_indiana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iowa_01",
    "text": "Des Moines is the capital of Iowa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iowa · cs_i_iowa_01"
+   "evidence": "geography · product curator · Iowa · cs_i_iowa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isthmus_of_panama_01",
    "text": "The Isthmus of Panama connects North and South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Isthmus of Panama · cs_i_isthmus_of_panama_01"
+   "evidence": "geography · product curator · Isthmus of Panama · cs_i_isthmus_of_panama_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_island_01",
    "text": "An island is land surrounded by water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Island · cs_i_island_01"
+   "evidence": "geography · product curator · Island · cs_i_island_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_01",
    "text": "Iron has the chemical symbol Fe",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_01"
+   "evidence": "science · product curator · Iron · cs_i_iron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_02",
    "text": "Iron has an atomic number of 26",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_02"
+   "evidence": "science · product curator · Iron · cs_i_iron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iodine_01",
    "text": "The symbol for iodine is I",
    "standing": "projectable",
-   "evidence": "science · product curator · Iodine · cs_i_iodine_01"
+   "evidence": "science · product curator · Iodine · cs_i_iodine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iridium_01",
    "text": "Iridium has the chemical symbol Ir",
    "standing": "projectable",
-   "evidence": "science · product curator · Iridium · cs_i_iridium_01"
+   "evidence": "science · product curator · Iridium · cs_i_iridium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indium_01",
    "text": "Indium is a chemical element",
    "standing": "projectable",
-   "evidence": "science · product curator · Indium · cs_i_indium_01"
+   "evidence": "science · product curator · Indium · cs_i_indium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_io_01",
    "text": "Io is a moon of Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Io · cs_i_io_01"
+   "evidence": "science · product curator · Io · cs_i_io_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_io_02",
    "text": "Io is a volcanic moon of Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Io · cs_i_io_02"
+   "evidence": "science · product curator · Io · cs_i_io_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_01",
    "text": "Ice is less dense than liquid water",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice · cs_i_ice_01"
+   "evidence": "science · product curator · Ice · cs_i_ice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_02",
    "text": "Ice floats on liquid water",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice · cs_i_ice_02"
+   "evidence": "science · product curator · Ice · cs_i_ice_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isotope_01",
    "text": "Isotopes of an element have different numbers of neutrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Isotope · cs_i_isotope_01"
+   "evidence": "science · product curator · Isotope · cs_i_isotope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inertia_01",
    "text": "Inertia is an object's resistance to changes in motion",
    "standing": "projectable",
-   "evidence": "science · product curator · Inertia · cs_i_inertia_01"
+   "evidence": "science · product curator · Inertia · cs_i_inertia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infrared_01",
    "text": "Infrared waves are longer than visible light",
    "standing": "projectable",
-   "evidence": "science · product curator · Infrared · cs_i_infrared_01"
+   "evidence": "science · product curator · Infrared · cs_i_infrared_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insulin_01",
    "text": "Insulin is a hormone made by the pancreas",
    "standing": "projectable",
-   "evidence": "science · product curator · Insulin · cs_i_insulin_01"
+   "evidence": "science · product curator · Insulin · cs_i_insulin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ion_01",
    "text": "An ion is an atom or molecule with a net electric charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Ion · cs_i_ion_01"
+   "evidence": "science · product curator · Ion · cs_i_ion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_international_space_station_01",
    "text": "The International Space Station orbits Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · International Space Station · cs_i_international_space_station_01"
+   "evidence": "science · product curator · International Space Station · cs_i_international_space_station_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insect_01",
    "text": "Insects have six legs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Insect · cs_i_insect_01"
+   "evidence": "nature · product curator · Insect · cs_i_insect_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insect_02",
    "text": "An insect's body has three main parts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Insect · cs_i_insect_02"
+   "evidence": "nature · product curator · Insect · cs_i_insect_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_01",
    "text": "Iguanas are lizards",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_01"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ibis_01",
    "text": "The ibis is a wading bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ibis · cs_i_ibis_01"
+   "evidence": "nature · product curator · Ibis · cs_i_ibis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_invertebrate_01",
    "text": "Invertebrates are animals without a backbone",
    "standing": "projectable",
-   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_01"
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivy_01",
    "text": "Ivy is a climbing plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ivy · cs_i_ivy_01"
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iris_01",
    "text": "The iris is the colored part of the eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Iris · cs_i_iris_01"
+   "evidence": "science · product curator · Iris · cs_i_iris_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inca_empire_01",
    "text": "Cusco was the capital of the Inca Empire",
    "standing": "projectable",
-   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_01"
+   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inca_empire_02",
    "text": "Machu Picchu was built by the Inca",
    "standing": "projectable",
-   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_02"
+   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_industrial_revolution_01",
    "text": "The Industrial Revolution began in Great Britain",
    "standing": "projectable",
-   "evidence": "history · product curator · Industrial Revolution · cs_i_industrial_revolution_01"
+   "evidence": "history · product curator · Industrial Revolution · cs_i_industrial_revolution_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_age_01",
    "text": "The Iron Age followed the Bronze Age",
    "standing": "projectable",
-   "evidence": "history · product curator · Iron Age · cs_i_iron_age_01"
+   "evidence": "history · product curator · Iron Age · cs_i_iron_age_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isaac_newton_01",
    "text": "Isaac Newton formulated the laws of motion",
    "standing": "projectable",
-   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_01"
+   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isaac_newton_02",
    "text": "Isaac Newton described universal gravitation",
    "standing": "projectable",
-   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_02"
+   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iliad_01",
    "text": "The Iliad is a Greek epic poem",
    "standing": "projectable",
-   "evidence": "history · product curator · Iliad · cs_i_iliad_01"
+   "evidence": "history · product curator · Iliad · cs_i_iliad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indian_independence_01",
    "text": "India gained independence from Britain in 1947",
    "standing": "projectable",
-   "evidence": "history · product curator · Indian independence · cs_i_indian_independence_01"
+   "evidence": "history · product curator · Indian independence · cs_i_indian_independence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integer_01",
    "text": "Integers include negative whole numbers, zero, and positive whole numbers",
    "standing": "projectable",
-   "evidence": "math · product curator · Integer · cs_i_integer_01"
+   "evidence": "math · product curator · Integer · cs_i_integer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inch_01",
    "text": "One inch is 2.54 centimeters",
    "standing": "projectable",
-   "evidence": "math · product curator · Inch · cs_i_inch_01"
+   "evidence": "math · product curator · Inch · cs_i_inch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infinity_01",
    "text": "Infinity is not a real number",
    "standing": "projectable",
-   "evidence": "math · product curator · Infinity · cs_i_infinity_01"
+   "evidence": "math · product curator · Infinity · cs_i_infinity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_irrational_number_01",
    "text": "Pi is an irrational number",
    "standing": "projectable",
-   "evidence": "math · product curator · Irrational number · cs_i_irrational_number_01"
+   "evidence": "math · product curator · Irrational number · cs_i_irrational_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_irrational_number_02",
    "text": "The square root of 2 is irrational",
    "standing": "projectable",
-   "evidence": "math · product curator · Irrational number · cs_i_irrational_number_02"
+   "evidence": "math · product curator · Irrational number · cs_i_irrational_number_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_icosahedron_01",
    "text": "An icosahedron has 20 faces",
    "standing": "projectable",
-   "evidence": "math · product curator · Icosahedron · cs_i_icosahedron_01"
+   "evidence": "math · product curator · Icosahedron · cs_i_icosahedron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_italian_01",
    "text": "Italian is a Romance language",
    "standing": "projectable",
-   "evidence": "language · product curator · Italian · cs_i_italian_01"
+   "evidence": "language · product curator · Italian · cs_i_italian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_icelandic_01",
    "text": "Icelandic is a Germanic language",
    "standing": "projectable",
-   "evidence": "language · product curator · Icelandic · cs_i_icelandic_01"
+   "evidence": "language · product curator · Icelandic · cs_i_icelandic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iceland_02",
    "text": "Iceland lies on the Mid-Atlantic Ridge",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iceland · cs_i_iceland_02"
+   "evidence": "geography · product curator · Iceland · cs_i_iceland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ionian_sea_01",
    "text": "The Ionian Sea is part of the Mediterranean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ionian Sea · cs_i_ionian_sea_01"
+   "evidence": "geography · product curator · Ionian Sea · cs_i_ionian_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_irish_sea_01",
    "text": "The Irish Sea separates Ireland and Great Britain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Irish Sea · cs_i_irish_sea_01"
+   "evidence": "geography · product curator · Irish Sea · cs_i_irish_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_03",
    "text": "Steel is an alloy made mainly of iron",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_03"
+   "evidence": "science · product curator · Iron · cs_i_iron_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivory_01",
    "text": "Elephant tusks are made of ivory",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ivory · cs_i_ivory_01"
+   "evidence": "nature · product curator · Ivory · cs_i_ivory_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_age_01",
    "text": "During ice ages, large ice sheets covered parts of the continents",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice age · cs_i_ice_age_01"
+   "evidence": "science · product curator · Ice age · cs_i_ice_age_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_sheet_01",
    "text": "Antarctica is covered by an ice sheet",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ice sheet · cs_i_ice_sheet_01"
+   "evidence": "geography · product curator · Ice sheet · cs_i_ice_sheet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isaac_newton_03",
    "text": "Isaac Newton built a reflecting telescope",
    "standing": "projectable",
-   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_03"
+   "evidence": "history · product curator · Isaac Newton · cs_i_isaac_newton_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ibn_battuta_01",
    "text": "Ibn Battuta was a Moroccan traveler",
    "standing": "projectable",
-   "evidence": "history · product curator · Ibn Battuta · cs_i_ibn_battuta_01"
+   "evidence": "history · product curator · Ibn Battuta · cs_i_ibn_battuta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_imhotep_01",
    "text": "Imhotep was an Egyptian architect",
    "standing": "projectable",
-   "evidence": "history · product curator · Imhotep · cs_i_imhotep_01"
+   "evidence": "history · product curator · Imhotep · cs_i_imhotep_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ink_01",
    "text": "People write with ink",
    "standing": "projectable",
-   "evidence": "general · product curator · Ink · cs_i_ink_01"
+   "evidence": "general · product curator · Ink · cs_i_ink_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_island_02",
    "text": "Madagascar is an island near Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Island · cs_i_island_02"
+   "evidence": "geography · product curator · Island · cs_i_island_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ionosphere_01",
    "text": "The ionosphere is part of Earth's upper atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Ionosphere · cs_i_ionosphere_01"
+   "evidence": "science · product curator · Ionosphere · cs_i_ionosphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_invertebrate_02",
    "text": "Jellyfish are invertebrates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_02"
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_intestine_01",
    "text": "The small intestine absorbs most nutrients from food",
    "standing": "projectable",
-   "evidence": "science · product curator · Intestine · cs_i_intestine_01"
+   "evidence": "science · product curator · Intestine · cs_i_intestine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_irrawaddy_river_01",
    "text": "The Irrawaddy flows through Myanmar",
    "standing": "projectable",
-   "evidence": "geography · product curator · Irrawaddy River · cs_i_irrawaddy_river_01"
+   "evidence": "geography · product curator · Irrawaddy River · cs_i_irrawaddy_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_04",
    "text": "The chemical symbol for iron is Fe",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_04"
+   "evidence": "science · product curator · Iron · cs_i_iron_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivy_02",
    "text": "Ivy is a climbing evergreen plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ivy · cs_i_ivy_02"
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_impala_02",
    "text": "Impalas are antelopes found in Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Impala · cs_i_impala_02"
+   "evidence": "nature · product curator · Impala · cs_i_impala_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_industrial_revolution_02",
    "text": "The Industrial Revolution began in Britain",
    "standing": "projectable",
-   "evidence": "history · product curator · Industrial Revolution · cs_i_industrial_revolution_02"
+   "evidence": "history · product curator · Industrial Revolution · cs_i_industrial_revolution_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_israel_02",
    "text": "Israel is in the Middle East",
    "standing": "projectable",
-   "evidence": "geography · product curator · Israel · cs_i_israel_02"
+   "evidence": "geography · product curator · Israel · cs_i_israel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivory_coast_01",
    "text": "Ivory Coast is a country in West Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ivory Coast · cs_i_ivory_coast_01"
+   "evidence": "geography · product curator · Ivory Coast · cs_i_ivory_coast_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguazu_falls_01",
    "text": "Iguazu Falls is on the border of Argentina and Brazil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iguazu Falls · cs_i_iguazu_falls_01"
+   "evidence": "geography · product curator · Iguazu Falls · cs_i_iguazu_falls_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ireland_02",
    "text": "Ireland is an island in the North Atlantic Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ireland · cs_i_ireland_02"
+   "evidence": "geography · product curator · Ireland · cs_i_ireland_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iris_02",
    "text": "The iris controls the size of the pupil",
    "standing": "projectable",
-   "evidence": "science · product curator · Iris · cs_i_iris_02"
+   "evidence": "science · product curator · Iris · cs_i_iris_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_05",
    "text": "Iron is a metal attracted by magnets",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_05"
+   "evidence": "science · product curator · Iron · cs_i_iron_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ibex_01",
    "text": "Ibexes are wild mountain goats",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ibex · cs_i_ibex_01"
+   "evidence": "nature · product curator · Ibex · cs_i_ibex_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_02",
    "text": "Iguanas are lizards",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_02"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inchworm_01",
    "text": "Inchworms are caterpillars",
    "standing": "projectable",
-   "evidence": "nature · product curator · Inchworm · cs_i_inchworm_01"
+   "evidence": "nature · product curator · Inchworm · cs_i_inchworm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivy_03",
    "text": "Poison ivy causes an itchy rash",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ivy · cs_i_ivy_03"
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_incisor_01",
    "text": "Incisors cut food",
    "standing": "projectable",
-   "evidence": "science · product curator · Incisor · cs_i_incisor_01"
+   "evidence": "science · product curator · Incisor · cs_i_incisor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inclined_plane_01",
    "text": "An inclined plane is a simple machine",
    "standing": "projectable",
-   "evidence": "science · product curator · Inclined plane · cs_i_inclined_plane_01"
+   "evidence": "science · product curator · Inclined plane · cs_i_inclined_plane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_cap_01",
    "text": "Ice caps cover parts of Greenland and Antarctica",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ice cap · cs_i_ice_cap_01"
+   "evidence": "geography · product curator · Ice cap · cs_i_ice_cap_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_idaho_01",
    "text": "Idaho is in the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Idaho · cs_i_idaho_01"
+   "evidence": "geography · product curator · Idaho · cs_i_idaho_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iceland_03",
    "text": "Reykjavik is the capital of Iceland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iceland · cs_i_iceland_03"
+   "evidence": "geography · product curator · Iceland · cs_i_iceland_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iraq_01",
    "text": "Baghdad is the capital of Iraq",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iraq · cs_i_iraq_01"
+   "evidence": "geography · product curator · Iraq · cs_i_iraq_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_india_01",
    "text": "New Delhi is the capital of India",
    "standing": "projectable",
-   "evidence": "geography · product curator · India · cs_i_india_01"
+   "evidence": "geography · product curator · India · cs_i_india_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ireland_03",
    "text": "Dublin is the capital of Ireland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ireland · cs_i_ireland_03"
+   "evidence": "geography · product curator · Ireland · cs_i_ireland_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_israel_03",
    "text": "Israel is a country in the Middle East",
    "standing": "projectable",
-   "evidence": "geography · product curator · Israel · cs_i_israel_03"
+   "evidence": "geography · product curator · Israel · cs_i_israel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_03",
    "text": "An iguana is a reptile",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_03"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inch_02",
    "text": "An inch is a unit of length",
    "standing": "projectable",
-   "evidence": "math · product curator · Inch · cs_i_inch_02"
+   "evidence": "math · product curator · Inch · cs_i_inch_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_israel_04",
    "text": "Haifa is a city in Israel",
    "standing": "projectable",
-   "evidence": "geography · product curator · Israel · cs_i_israel_04"
+   "evidence": "geography · product curator · Israel · cs_i_israel_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_india_02",
    "text": "Mumbai is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · India · cs_i_india_02"
+   "evidence": "geography · product curator · India · cs_i_india_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_italy_03",
    "text": "Milan is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Italy · cs_i_italy_03"
+   "evidence": "geography · product curator · Italy · cs_i_italy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_istanbul_02",
    "text": "Istanbul is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Istanbul · cs_i_istanbul_02"
+   "evidence": "geography · product curator · Istanbul · cs_i_istanbul_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inverness_01",
    "text": "Inverness is a city in Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Inverness · cs_i_inverness_01"
+   "evidence": "geography · product curator · Inverness · cs_i_inverness_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_innsbruck_01",
    "text": "Innsbruck is a city in Austria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Innsbruck · cs_i_innsbruck_01"
+   "evidence": "geography · product curator · Innsbruck · cs_i_innsbruck_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_04",
    "text": "An iguana is a lizard",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_04"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ibis_02",
    "text": "An ibis is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ibis · cs_i_ibis_02"
+   "evidence": "nature · product curator · Ibis · cs_i_ibis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_06",
    "text": "Iron is a metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_06"
+   "evidence": "science · product curator · Iron · cs_i_iron_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iridium_02",
    "text": "Iridium is a metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Iridium · cs_i_iridium_02"
+   "evidence": "science · product curator · Iridium · cs_i_iridium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_izmir_01",
    "text": "Izmir is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Izmir · cs_i_izmir_01"
+   "evidence": "geography · product curator · Izmir · cs_i_izmir_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isfahan_01",
    "text": "Isfahan is a city in Iran",
    "standing": "projectable",
-   "evidence": "geography · product curator · Isfahan · cs_i_isfahan_01"
+   "evidence": "geography · product curator · Isfahan · cs_i_isfahan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_incheon_01",
    "text": "Incheon is a city in South Korea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Incheon · cs_i_incheon_01"
+   "evidence": "geography · product curator · Incheon · cs_i_incheon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ibiza_01",
    "text": "Ibiza is an island in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ibiza · cs_i_ibiza_01"
+   "evidence": "geography · product curator · Ibiza · cs_i_ibiza_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indore_01",
    "text": "Indore is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Indore · cs_i_indore_01"
+   "evidence": "geography · product curator · Indore · cs_i_indore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ipswich_01",
    "text": "Ipswich is a town in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Ipswich · cs_i_ipswich_01"
+   "evidence": "geography · product curator · Ipswich · cs_i_ipswich_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ichthyosaur_01",
    "text": "An ichthyosaur was a marine reptile",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ichthyosaur · cs_i_ichthyosaur_01"
+   "evidence": "nature · product curator · Ichthyosaur · cs_i_ichthyosaur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ideal_gas_01",
    "text": "An ideal gas obeys a simple equation of state",
    "standing": "projectable",
-   "evidence": "science · product curator · Ideal gas · cs_i_ideal_gas_01"
+   "evidence": "science · product curator · Ideal gas · cs_i_ideal_gas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_imaginary_number_01",
    "text": "An imaginary number involves the square root of negative one",
    "standing": "projectable",
-   "evidence": "math · product curator · Imaginary number · cs_i_imaginary_number_01"
+   "evidence": "math · product curator · Imaginary number · cs_i_imaginary_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_immune_system_01",
    "text": "The immune system defends the body against disease",
    "standing": "projectable",
-   "evidence": "science · product curator · Immune system · cs_i_immune_system_01"
+   "evidence": "science · product curator · Immune system · cs_i_immune_system_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_imperative_mood_01",
    "text": "The imperative mood gives a command",
    "standing": "projectable",
-   "evidence": "language · product curator · Imperative mood · cs_i_imperative_mood_01"
+   "evidence": "language · product curator · Imperative mood · cs_i_imperative_mood_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_incandescent_01",
    "text": "An incandescent bulb glows from a hot filament",
    "standing": "projectable",
-   "evidence": "science · product curator · Incandescent · cs_i_incandescent_01"
+   "evidence": "science · product curator · Incandescent · cs_i_incandescent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_incident_ray_01",
    "text": "An incident ray strikes a surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Incident ray · cs_i_incident_ray_01"
+   "evidence": "science · product curator · Incident ray · cs_i_incident_ray_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_index_fossil_01",
    "text": "An index fossil helps date rock layers",
    "standing": "projectable",
-   "evidence": "science · product curator · Index fossil · cs_i_index_fossil_01"
+   "evidence": "science · product curator · Index fossil · cs_i_index_fossil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indicator_01",
    "text": "An acid base indicator changes color",
    "standing": "projectable",
-   "evidence": "science · product curator · Indicator · cs_i_indicator_01"
+   "evidence": "science · product curator · Indicator · cs_i_indicator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indirect_object_01",
    "text": "An indirect object receives the direct object",
    "standing": "projectable",
-   "evidence": "language · product curator · Indirect object · cs_i_indirect_object_01"
+   "evidence": "language · product curator · Indirect object · cs_i_indirect_object_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iamb_01",
    "text": "An iamb is a metrical foot of two syllables",
    "standing": "projectable",
-   "evidence": "language · product curator · Iamb · cs_i_iamb_01"
+   "evidence": "language · product curator · Iamb · cs_i_iamb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_interphase_01",
    "text": "Interphase is a stage of the cell cycle",
    "standing": "projectable",
-   "evidence": "science · product curator · Interphase · cs_i_interphase_01"
+   "evidence": "science · product curator · Interphase · cs_i_interphase_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infrared_radiation_01",
    "text": "Infrared radiation is heat radiation",
    "standing": "projectable",
-   "evidence": "science · product curator · Infrared radiation · cs_i_infrared_radiation_01"
+   "evidence": "science · product curator · Infrared radiation · cs_i_infrared_radiation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ionic_bond_01",
    "text": "An ionic bond transfers electrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Ionic bond · cs_i_ionic_bond_01"
+   "evidence": "science · product curator · Ionic bond · cs_i_ionic_bond_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ibis_03",
    "text": "An ibis is a long billed wading bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ibis · cs_i_ibis_03"
+   "evidence": "nature · product curator · Ibis · cs_i_ibis_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_age_02",
    "text": "An ice age is a period of widespread glaciation",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice Age · cs_i_ice_age_02"
+   "evidence": "science · product curator · Ice Age · cs_i_ice_age_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_igneous_rock_02",
    "text": "Basalt is an igneous rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Igneous rock · cs_i_igneous_rock_02"
+   "evidence": "science · product curator · Igneous rock · cs_i_igneous_rock_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_impeachment_02",
    "text": "Impeachment charges a public official with wrongdoing",
    "standing": "projectable",
-   "evidence": "civics · product curator · Impeachment · cs_i_impeachment_02"
+   "evidence": "civics · product curator · Impeachment · cs_i_impeachment_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inca_empire_03",
    "text": "The Inca Empire was in South America",
    "standing": "projectable",
-   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_03"
+   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_incandescent_02",
    "text": "An incandescent bulb heats a filament",
    "standing": "projectable",
-   "evidence": "science · product curator · Incandescent · cs_i_incandescent_02"
+   "evidence": "science · product curator · Incandescent · cs_i_incandescent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integer_02",
    "text": "Negative three is an integer",
    "standing": "projectable",
-   "evidence": "math · product curator · Integer · cs_i_integer_02"
+   "evidence": "math · product curator · Integer · cs_i_integer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_interjection_01",
    "text": "An interjection expresses sudden feeling",
    "standing": "projectable",
-   "evidence": "language · product curator · Interjection · cs_i_interjection_01"
+   "evidence": "language · product curator · Interjection · cs_i_interjection_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_invertebrate_03",
    "text": "A worm is an invertebrate",
    "standing": "projectable",
-   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_03"
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iodine_02",
    "text": "Iodine is a halogen",
    "standing": "projectable",
-   "evidence": "science · product curator · Iodine · cs_i_iodine_02"
+   "evidence": "science · product curator · Iodine · cs_i_iodine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ion_02",
    "text": "An ion forms when an atom gains or loses electrons",
    "standing": "projectable",
-   "evidence": "science · product curator · Ion · cs_i_ion_02"
+   "evidence": "science · product curator · Ion · cs_i_ion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isotope_02",
    "text": "Carbon fourteen is an isotope of carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Isotope · cs_i_isotope_02"
+   "evidence": "science · product curator · Isotope · cs_i_isotope_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_03",
    "text": "Ice is solid water",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice · cs_i_ice_03"
+   "evidence": "science · product curator · Ice · cs_i_ice_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_05",
    "text": "An iguana is a large lizard",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_05"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_immune_system_02",
    "text": "The immune system fights disease",
    "standing": "projectable",
-   "evidence": "science · product curator · Immune system · cs_i_immune_system_02"
+   "evidence": "science · product curator · Immune system · cs_i_immune_system_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_impulse_01",
    "text": "An impulse is a change in momentum",
    "standing": "projectable",
-   "evidence": "science · product curator · Impulse · cs_i_impulse_01"
+   "evidence": "science · product curator · Impulse · cs_i_impulse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_index_01",
    "text": "An index lists topics in a book",
    "standing": "projectable",
-   "evidence": "language · product curator · Index · cs_i_index_01"
+   "evidence": "language · product curator · Index · cs_i_index_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inertia_02",
    "text": "Inertia resists a change in motion",
    "standing": "projectable",
-   "evidence": "science · product curator · Inertia · cs_i_inertia_02"
+   "evidence": "science · product curator · Inertia · cs_i_inertia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infinity_02",
    "text": "Infinity has no end",
    "standing": "projectable",
-   "evidence": "math · product curator · Infinity · cs_i_infinity_02"
+   "evidence": "math · product curator · Infinity · cs_i_infinity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insect_03",
    "text": "An insect has six legs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Insect · cs_i_insect_03"
+   "evidence": "nature · product curator · Insect · cs_i_insect_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integer_03",
    "text": "An integer is a whole number",
    "standing": "projectable",
-   "evidence": "math · product curator · Integer · cs_i_integer_03"
+   "evidence": "math · product curator · Integer · cs_i_integer_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infection_01",
    "text": "An infection is caused by germs",
    "standing": "projectable",
-   "evidence": "science · product curator · Infection · cs_i_infection_01"
+   "evidence": "science · product curator · Infection · cs_i_infection_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_interjection_02",
    "text": "An interjection expresses emotion",
    "standing": "projectable",
-   "evidence": "language · product curator · Interjection · cs_i_interjection_02"
+   "evidence": "language · product curator · Interjection · cs_i_interjection_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isthmus_01",
    "text": "An isthmus connects two larger land areas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_01"
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inch_03",
    "text": "Twelve inches make a foot",
    "standing": "projectable",
-   "evidence": "math · product curator · Inch · cs_i_inch_03"
+   "evidence": "math · product curator · Inch · cs_i_inch_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infinity_03",
    "text": "A ray extends to infinity",
    "standing": "projectable",
-   "evidence": "math · product curator · Infinity · cs_i_infinity_03"
+   "evidence": "math · product curator · Infinity · cs_i_infinity_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_island_03",
    "text": "Greenland is a large island",
    "standing": "projectable",
-   "evidence": "geography · product curator · Island · cs_i_island_03"
+   "evidence": "geography · product curator · Island · cs_i_island_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_incisor_02",
    "text": "An incisor cuts food",
    "standing": "projectable",
-   "evidence": "science · product curator · Incisor · cs_i_incisor_02"
+   "evidence": "science · product curator · Incisor · cs_i_incisor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_invertebrate_04",
    "text": "An invertebrate lacks a backbone",
    "standing": "projectable",
-   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_04"
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infection_02",
    "text": "An infection is caused by pathogens",
    "standing": "projectable",
-   "evidence": "science · product curator · Infection · cs_i_infection_02"
+   "evidence": "science · product curator · Infection · cs_i_infection_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivy_04",
    "text": "English ivy climbs walls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ivy · cs_i_ivy_04"
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inch_04",
    "text": "Twelve inches equal one foot",
    "standing": "projectable",
-   "evidence": "math · product curator · Inch · cs_i_inch_04"
+   "evidence": "math · product curator · Inch · cs_i_inch_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_incisor_03",
    "text": "Front teeth include an incisor",
    "standing": "projectable",
-   "evidence": "science · product curator · Incisor · cs_i_incisor_03"
+   "evidence": "science · product curator · Incisor · cs_i_incisor_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_07",
    "text": "Iron is a common metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_07"
+   "evidence": "science · product curator · Iron · cs_i_iron_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_island_04",
    "text": "Madagascar is a large island",
    "standing": "projectable",
-   "evidence": "geography · product curator · Island · cs_i_island_04"
+   "evidence": "geography · product curator · Island · cs_i_island_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isthmus_02",
    "text": "Panama is an isthmus",
    "standing": "projectable",
-   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_02"
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ink_02",
    "text": "Ink marks paper",
    "standing": "projectable",
-   "evidence": "language · product curator · Ink · cs_i_ink_02"
+   "evidence": "language · product curator · Ink · cs_i_ink_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inhale_01",
    "text": "Lungs inhale oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Inhale · cs_i_inhale_01"
+   "evidence": "science · product curator · Inhale · cs_i_inhale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_ore_01",
    "text": "Miners dig iron ore",
    "standing": "projectable",
-   "evidence": "geography · product curator · Iron ore · cs_i_iron_ore_01"
+   "evidence": "geography · product curator · Iron ore · cs_i_iron_ore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_06",
    "text": "An iguana basks in sun",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_06"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indigo_01",
    "text": "Indigo is a deep blue dye",
    "standing": "projectable",
-   "evidence": "history · product curator · Indigo · cs_i_indigo_01"
+   "evidence": "history · product curator · Indigo · cs_i_indigo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inlet_01",
    "text": "An inlet is a narrow bay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Inlet · cs_i_inlet_01"
+   "evidence": "geography · product curator · Inlet · cs_i_inlet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isthmus_03",
    "text": "An isthmus links two lands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_03"
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_igneous_01",
    "text": "Magma cools into igneous rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Igneous · cs_i_igneous_01"
+   "evidence": "science · product curator · Igneous · cs_i_igneous_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_illusion_01",
    "text": "An illusion tricks the eyes",
    "standing": "projectable",
-   "evidence": "science · product curator · Illusion · cs_i_illusion_01"
+   "evidence": "science · product curator · Illusion · cs_i_illusion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_impulse_02",
    "text": "An impulse is a sudden force",
    "standing": "projectable",
-   "evidence": "science · product curator · Impulse · cs_i_impulse_02"
+   "evidence": "science · product curator · Impulse · cs_i_impulse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infrared_02",
    "text": "Infrared light carries heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Infrared · cs_i_infrared_02"
+   "evidence": "science · product curator · Infrared · cs_i_infrared_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insulation_01",
    "text": "Insulation slows heat loss",
    "standing": "projectable",
-   "evidence": "science · product curator · Insulation · cs_i_insulation_01"
+   "evidence": "science · product curator · Insulation · cs_i_insulation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_08",
    "text": "Wet iron forms rust",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_08"
+   "evidence": "science · product curator · Iron · cs_i_iron_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_impulse_03",
    "text": "Impulse changes momentum",
    "standing": "projectable",
-   "evidence": "science · product curator · Impulse · cs_i_impulse_03"
+   "evidence": "science · product curator · Impulse · cs_i_impulse_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insulation_02",
    "text": "Wool provides insulation",
    "standing": "projectable",
-   "evidence": "science · product curator · Insulation · cs_i_insulation_02"
+   "evidence": "science · product curator · Insulation · cs_i_insulation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_09",
    "text": "Iron rusts in moist air",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_09"
+   "evidence": "science · product curator · Iron · cs_i_iron_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_07",
    "text": "Iguanas eat plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_07"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infrared_03",
    "text": "Remote controls use infrared",
    "standing": "projectable",
-   "evidence": "science · product curator · Infrared · cs_i_infrared_03"
+   "evidence": "science · product curator · Infrared · cs_i_infrared_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_04",
    "text": "Ice melts into water",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice · cs_i_ice_04"
+   "evidence": "science · product curator · Ice · cs_i_ice_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ion_03",
    "text": "An ion has an electric charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Ion · cs_i_ion_03"
+   "evidence": "science · product curator · Ion · cs_i_ion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insect_04",
    "text": "A beetle is an insect",
    "standing": "projectable",
-   "evidence": "nature · product curator · Insect · cs_i_insect_04"
+   "evidence": "nature · product curator · Insect · cs_i_insect_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ileum_01",
    "text": "The ileum absorbs nutrients",
    "standing": "projectable",
-   "evidence": "science · product curator · Ileum · cs_i_ileum_01"
+   "evidence": "science · product curator · Ileum · cs_i_ileum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_image_01",
    "text": "A mirror forms an image",
    "standing": "projectable",
-   "evidence": "science · product curator · Image · cs_i_image_01"
+   "evidence": "science · product curator · Image · cs_i_image_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indium_02",
    "text": "Indium coats touch screens",
    "standing": "projectable",
-   "evidence": "science · product curator · Indium · cs_i_indium_02"
+   "evidence": "science · product curator · Indium · cs_i_indium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ink_03",
    "text": "Writers dip a pen in ink",
    "standing": "projectable",
-   "evidence": "history · product curator · Ink · cs_i_ink_03"
+   "evidence": "history · product curator · Ink · cs_i_ink_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integer_04",
    "text": "An integer has no fraction",
    "standing": "projectable",
-   "evidence": "math · product curator · Integer · cs_i_integer_04"
+   "evidence": "math · product curator · Integer · cs_i_integer_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_intestine_02",
    "text": "The intestine digests food",
    "standing": "projectable",
-   "evidence": "science · product curator · Intestine · cs_i_intestine_02"
+   "evidence": "science · product curator · Intestine · cs_i_intestine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iridium_03",
    "text": "Iridium tips spark plugs",
    "standing": "projectable",
-   "evidence": "science · product curator · Iridium · cs_i_iridium_03"
+   "evidence": "science · product curator · Iridium · cs_i_iridium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iris_03",
    "text": "An iris blooms in spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iris · cs_i_iris_03"
+   "evidence": "nature · product curator · Iris · cs_i_iris_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isomer_01",
    "text": "An isomer shares a formula",
    "standing": "projectable",
-   "evidence": "science · product curator · Isomer · cs_i_isomer_01"
+   "evidence": "science · product curator · Isomer · cs_i_isomer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivory_02",
    "text": "Elephant tusks hold ivory",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ivory · cs_i_ivory_02"
+   "evidence": "nature · product curator · Ivory · cs_i_ivory_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_05",
    "text": "Ice reflects sunlight",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice · cs_i_ice_05"
+   "evidence": "science · product curator · Ice · cs_i_ice_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indicator_02",
    "text": "An indicator shows acidity",
    "standing": "projectable",
-   "evidence": "science · product curator · Indicator · cs_i_indicator_02"
+   "evidence": "science · product curator · Indicator · cs_i_indicator_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indicator_03",
    "text": "Litmus is an acid indicator",
    "standing": "projectable",
-   "evidence": "science · product curator · Indicator · cs_i_indicator_03"
+   "evidence": "science · product curator · Indicator · cs_i_indicator_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_induction_01",
    "text": "Induction heats metal without flame",
    "standing": "projectable",
-   "evidence": "science · product curator · Induction · cs_i_induction_01"
+   "evidence": "science · product curator · Induction · cs_i_induction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_instinct_01",
    "text": "Birds migrate by instinct",
    "standing": "projectable",
-   "evidence": "nature · product curator · Instinct · cs_i_instinct_01"
+   "evidence": "nature · product curator · Instinct · cs_i_instinct_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insulator_01",
    "text": "An insulator blocks heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Insulator · cs_i_insulator_01"
+   "evidence": "science · product curator · Insulator · cs_i_insulator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integral_01",
    "text": "Calculus finds an integral",
    "standing": "projectable",
-   "evidence": "math · product curator · Integral · cs_i_integral_01"
+   "evidence": "math · product curator · Integral · cs_i_integral_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_internal_energy_01",
    "text": "Heat raises internal energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Internal energy · cs_i_internal_energy_01"
+   "evidence": "science · product curator · Internal energy · cs_i_internal_energy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_intrusion_01",
    "text": "Magma forms an intrusion",
    "standing": "projectable",
-   "evidence": "geography · product curator · Intrusion · cs_i_intrusion_01"
+   "evidence": "geography · product curator · Intrusion · cs_i_intrusion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_ore_02",
    "text": "Furnaces smelt iron ore",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron ore · cs_i_iron_ore_02"
+   "evidence": "science · product curator · Iron ore · cs_i_iron_ore_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ice_06",
    "text": "Ice melts at zero Celsius",
    "standing": "projectable",
-   "evidence": "science · product curator · Ice · cs_i_ice_06"
+   "evidence": "science · product curator · Ice · cs_i_ice_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_impulse_04",
    "text": "A bat hits with an impulse",
    "standing": "projectable",
-   "evidence": "science · product curator · Impulse · cs_i_impulse_04"
+   "evidence": "science · product curator · Impulse · cs_i_impulse_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inertia_03",
    "text": "Inertia resists a push",
    "standing": "projectable",
-   "evidence": "science · product curator · Inertia · cs_i_inertia_03"
+   "evidence": "science · product curator · Inertia · cs_i_inertia_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_intersect_01",
    "text": "Two lines intersect at a point",
    "standing": "projectable",
-   "evidence": "math · product curator · Intersect · cs_i_intersect_01"
+   "evidence": "math · product curator · Intersect · cs_i_intersect_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inverse_01",
    "text": "An inverse undoes an operation",
    "standing": "projectable",
-   "evidence": "math · product curator · Inverse · cs_i_inverse_01"
+   "evidence": "math · product curator · Inverse · cs_i_inverse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_import_01",
    "text": "A country can import goods",
    "standing": "projectable",
-   "evidence": "civics · product curator · Import · cs_i_import_01"
+   "evidence": "civics · product curator · Import · cs_i_import_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iris_04",
    "text": "Iris flowers bloom purple",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iris · cs_i_iris_04"
+   "evidence": "nature · product curator · Iris · cs_i_iris_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_irrigation_01",
    "text": "Irrigation brings water to crops",
    "standing": "projectable",
-   "evidence": "science · product curator · Irrigation · cs_i_irrigation_01"
+   "evidence": "science · product curator · Irrigation · cs_i_irrigation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isotope_03",
    "text": "An isotope shares protons",
    "standing": "projectable",
-   "evidence": "science · product curator · Isotope · cs_i_isotope_03"
+   "evidence": "science · product curator · Isotope · cs_i_isotope_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ivory_03",
    "text": "Elephants have ivory tusks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Ivory · cs_i_ivory_03"
+   "evidence": "nature · product curator · Ivory · cs_i_ivory_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_igneous_02",
    "text": "Magma forms igneous rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Igneous · cs_i_igneous_02"
+   "evidence": "science · product curator · Igneous · cs_i_igneous_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ink_04",
    "text": "Carbon black forms ink",
    "standing": "projectable",
-   "evidence": "science · product curator · Ink · cs_i_ink_04"
+   "evidence": "science · product curator · Ink · cs_i_ink_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integer_05",
    "text": "An integer counts whole units",
    "standing": "projectable",
-   "evidence": "math · product curator · Integer · cs_i_integer_05"
+   "evidence": "math · product curator · Integer · cs_i_integer_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iodine_03",
    "text": "Iodine treats cut wounds",
    "standing": "projectable",
-   "evidence": "science · product curator · Iodine · cs_i_iodine_03"
+   "evidence": "science · product curator · Iodine · cs_i_iodine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iridium_04",
    "text": "Iridium marks impact layers",
    "standing": "projectable",
-   "evidence": "science · product curator · Iridium · cs_i_iridium_04"
+   "evidence": "science · product curator · Iridium · cs_i_iridium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iris_05",
    "text": "Colored muscle forms the iris",
    "standing": "projectable",
-   "evidence": "science · product curator · Iris · cs_i_iris_05"
+   "evidence": "science · product curator · Iris · cs_i_iris_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iron_10",
    "text": "Hemoglobin binds iron",
    "standing": "projectable",
-   "evidence": "science · product curator · Iron · cs_i_iron_10"
+   "evidence": "science · product curator · Iron · cs_i_iron_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isotope_04",
    "text": "Isotopes share proton count",
    "standing": "projectable",
-   "evidence": "science · product curator · Isotope · cs_i_isotope_04"
+   "evidence": "science · product curator · Isotope · cs_i_isotope_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ibuprofen_01",
    "text": "Ibuprofen dulls body pain",
    "standing": "projectable",
-   "evidence": "science · product curator · Ibuprofen · cs_i_ibuprofen_01"
+   "evidence": "science · product curator · Ibuprofen · cs_i_ibuprofen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_impulse_05",
    "text": "An impulse sparks a nerve",
    "standing": "projectable",
-   "evidence": "science · product curator · Impulse · cs_i_impulse_05"
+   "evidence": "science · product curator · Impulse · cs_i_impulse_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_induction_02",
    "text": "Induction heats metal pans",
    "standing": "projectable",
-   "evidence": "science · product curator · Induction · cs_i_induction_02"
+   "evidence": "science · product curator · Induction · cs_i_induction_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ingot_01",
    "text": "An ingot casts pure metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Ingot · cs_i_ingot_01"
+   "evidence": "science · product curator · Ingot · cs_i_ingot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inoculum_01",
    "text": "Inoculum starts a culture",
    "standing": "projectable",
-   "evidence": "science · product curator · Inoculum · cs_i_inoculum_01"
+   "evidence": "science · product curator · Inoculum · cs_i_inoculum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insect_05",
    "text": "Insects molt exoskeletons",
    "standing": "projectable",
-   "evidence": "nature · product curator · Insect · cs_i_insect_05"
+   "evidence": "nature · product curator · Insect · cs_i_insect_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integer_06",
    "text": "An integer skips fractions",
    "standing": "projectable",
-   "evidence": "math · product curator · Integer · cs_i_integer_06"
+   "evidence": "math · product curator · Integer · cs_i_integer_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iodine_04",
    "text": "Iodine treats thyroid needs",
    "standing": "projectable",
-   "evidence": "science · product curator · Iodine · cs_i_iodine_04"
+   "evidence": "science · product curator · Iodine · cs_i_iodine_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iridium_05",
    "text": "Iridium hardens pen tips",
    "standing": "projectable",
-   "evidence": "science · product curator · Iridium · cs_i_iridium_05"
+   "evidence": "science · product curator · Iridium · cs_i_iridium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isthmus_04",
    "text": "Isthmus joins two lands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_04"
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_image_02",
    "text": "Lenses form sharp images",
    "standing": "projectable",
-   "evidence": "science · product curator · Image · cs_i_image_02"
+   "evidence": "science · product curator · Image · cs_i_image_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inclined_plane_02",
    "text": "Ramps form inclined planes",
    "standing": "projectable",
-   "evidence": "science · product curator · Inclined plane · cs_i_inclined_plane_02"
+   "evidence": "science · product curator · Inclined plane · cs_i_inclined_plane_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inhale_02",
    "text": "Inhale fills lung volume",
    "standing": "projectable",
-   "evidence": "science · product curator · Inhale · cs_i_inhale_02"
+   "evidence": "science · product curator · Inhale · cs_i_inhale_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inhibitor_01",
    "text": "Inhibitors slow enzyme work",
    "standing": "projectable",
-   "evidence": "science · product curator · Inhibitor · cs_i_inhibitor_01"
+   "evidence": "science · product curator · Inhibitor · cs_i_inhibitor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ink_05",
    "text": "Ink stains paper fibers",
    "standing": "projectable",
-   "evidence": "science · product curator · Ink · cs_i_ink_05"
+   "evidence": "science · product curator · Ink · cs_i_ink_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_insulin_02",
    "text": "Insulin lowers blood sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Insulin · cs_i_insulin_02"
+   "evidence": "science · product curator · Insulin · cs_i_insulin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_integral_02",
    "text": "Integrals sum curved areas",
    "standing": "projectable",
-   "evidence": "math · product curator · Integral · cs_i_integral_02"
+   "evidence": "math · product curator · Integral · cs_i_integral_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_interphase_02",
    "text": "Interphase copies cell DNA",
    "standing": "projectable",
-   "evidence": "science · product curator · Interphase · cs_i_interphase_02"
+   "evidence": "science · product curator · Interphase · cs_i_interphase_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ion_04",
    "text": "Ions carry electric charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Ion · cs_i_ion_04"
+   "evidence": "science · product curator · Ion · cs_i_ion_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_isomer_02",
    "text": "Isomers share atom counts",
    "standing": "projectable",
-   "evidence": "science · product curator · Isomer · cs_i_isomer_02"
+   "evidence": "science · product curator · Isomer · cs_i_isomer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iguana_08",
    "text": "Iguanas bask on warm rocks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Iguana · cs_i_iguana_08"
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_immune_01",
    "text": "Immune cells fight germs",
    "standing": "projectable",
-   "evidence": "science · product curator · Immune · cs_i_immune_01"
+   "evidence": "science · product curator · Immune · cs_i_immune_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indicator_04",
    "text": "Indicators mark acid strength",
    "standing": "projectable",
-   "evidence": "science · product curator · Indicator · cs_i_indicator_04"
+   "evidence": "science · product curator · Indicator · cs_i_indicator_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indigo_02",
    "text": "Indigo dyes cloth blue",
    "standing": "projectable",
-   "evidence": "nature · product curator · Indigo · cs_i_indigo_02"
+   "evidence": "nature · product curator · Indigo · cs_i_indigo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_infrared_04",
    "text": "Infrared warms Earth nights",
    "standing": "projectable",
-   "evidence": "science · product curator · Infrared · cs_i_infrared_04"
+   "evidence": "science · product curator · Infrared · cs_i_infrared_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_ingot_02",
    "text": "Foundries cast metal ingots",
    "standing": "projectable",
-   "evidence": "science · product curator · Ingot · cs_i_ingot_02"
+   "evidence": "science · product curator · Ingot · cs_i_ingot_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_inlet_02",
    "text": "Inlets flood coastal bays",
    "standing": "projectable",
-   "evidence": "geography · product curator · Inlet · cs_i_inlet_02"
+   "evidence": "geography · product curator · Inlet · cs_i_inlet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_iris_06",
    "text": "The iris meters pupil light",
    "standing": "projectable",
-   "evidence": "science · product curator · Iris · cs_i_iris_06"
+   "evidence": "science · product curator · Iris · cs_i_iris_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_irrigation_02",
    "text": "Irrigation waters dry crops",
    "standing": "projectable",
-   "evidence": "nature · product curator · Irrigation · cs_i_irrigation_02"
+   "evidence": "nature · product curator · Irrigation · cs_i_irrigation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_i_indium_03",
    "text": "Indium softens solder alloys",
    "standing": "projectable",
-   "evidence": "science · product curator · Indium · cs_i_indium_03"
+   "evidence": "science · product curator · Indium · cs_i_indium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

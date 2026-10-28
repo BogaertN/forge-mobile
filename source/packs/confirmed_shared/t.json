@@ -12,1501 +12,2751 @@
    "id": "cs_t_tunisia_01",
    "text": "Tunis is the capital of Tunisia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tunisia · cs_t_tunisia_01"
+   "evidence": "geography · product curator · Tunisia · cs_t_tunisia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tanzania_01",
    "text": "Dodoma is the official capital of Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tanzania · cs_t_tanzania_01"
+   "evidence": "geography · product curator · Tanzania · cs_t_tanzania_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taiwan_01",
    "text": "Taipei is the largest city in Taiwan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Taiwan · cs_t_taiwan_01"
+   "evidence": "geography · product curator · Taiwan · cs_t_taiwan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tehran_01",
    "text": "Tehran is the capital of Iran",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tehran · cs_t_tehran_01"
+   "evidence": "geography · product curator · Tehran · cs_t_tehran_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tallinn_01",
    "text": "Tallinn is the capital of Estonia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tallinn · cs_t_tallinn_01"
+   "evidence": "geography · product curator · Tallinn · cs_t_tallinn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tbilisi_01",
    "text": "Tbilisi is the capital of Georgia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tbilisi · cs_t_tbilisi_01"
+   "evidence": "geography · product curator · Tbilisi · cs_t_tbilisi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tirana_01",
    "text": "Tirana is the capital of Albania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tirana · cs_t_tirana_01"
+   "evidence": "geography · product curator · Tirana · cs_t_tirana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tashkent_01",
    "text": "Tashkent is the capital of Uzbekistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tashkent · cs_t_tashkent_01"
+   "evidence": "geography · product curator · Tashkent · cs_t_tashkent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tegucigalpa_01",
    "text": "Tegucigalpa is the capital of Honduras",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tegucigalpa · cs_t_tegucigalpa_01"
+   "evidence": "geography · product curator · Tegucigalpa · cs_t_tegucigalpa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thimphu_01",
    "text": "Thimphu is the capital of Bhutan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Thimphu · cs_t_thimphu_01"
+   "evidence": "geography · product curator · Thimphu · cs_t_thimphu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tripoli_01",
    "text": "Tripoli is the capital of Libya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tripoli · cs_t_tripoli_01"
+   "evidence": "geography · product curator · Tripoli · cs_t_tripoli_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_texas_01",
    "text": "Austin is the capital of Texas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Texas · cs_t_texas_01"
+   "evidence": "geography · product curator · Texas · cs_t_texas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_texas_02",
    "text": "Texas is the second largest state",
    "standing": "projectable",
-   "evidence": "geography · product curator · Texas · cs_t_texas_02"
+   "evidence": "geography · product curator · Texas · cs_t_texas_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tennessee_01",
    "text": "Nashville is the capital of Tennessee",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tennessee · cs_t_tennessee_01"
+   "evidence": "geography · product curator · Tennessee · cs_t_tennessee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tallahassee_01",
    "text": "Tallahassee is the capital of Florida",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tallahassee · cs_t_tallahassee_01"
+   "evidence": "geography · product curator · Tallahassee · cs_t_tallahassee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_topeka_01",
    "text": "Topeka is the capital of Kansas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Topeka · cs_t_topeka_01"
+   "evidence": "geography · product curator · Topeka · cs_t_topeka_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trenton_01",
    "text": "Trenton is the capital of New Jersey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Trenton · cs_t_trenton_01"
+   "evidence": "geography · product curator · Trenton · cs_t_trenton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thames_01",
    "text": "The Thames flows through London",
    "standing": "projectable",
-   "evidence": "geography · product curator · Thames · cs_t_thames_01"
+   "evidence": "geography · product curator · Thames · cs_t_thames_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tigris_01",
    "text": "The Tigris flows through Iraq",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tigris · cs_t_tigris_01"
+   "evidence": "geography · product curator · Tigris · cs_t_tigris_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tibet_01",
    "text": "The Tibetan Plateau is the highest plateau in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tibet · cs_t_tibet_01"
+   "evidence": "geography · product curator · Tibet · cs_t_tibet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tasmania_01",
    "text": "Tasmania is an island state of Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tasmania · cs_t_tasmania_01"
+   "evidence": "geography · product curator · Tasmania · cs_t_tasmania_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_table_mountain_01",
    "text": "Table Mountain overlooks Cape Town",
    "standing": "projectable",
-   "evidence": "geography · product curator · Table Mountain · cs_t_table_mountain_01"
+   "evidence": "geography · product curator · Table Mountain · cs_t_table_mountain_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tundra_01",
    "text": "Tundra is cold and treeless",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tundra · cs_t_tundra_01"
+   "evidence": "geography · product curator · Tundra · cs_t_tundra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tsunami_01",
    "text": "An undersea earthquake can cause a tsunami",
    "standing": "projectable",
-   "evidence": "science · product curator · Tsunami · cs_t_tsunami_01"
+   "evidence": "science · product curator · Tsunami · cs_t_tsunami_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tornado_01",
    "text": "A tornado is a rotating column of air in contact with the ground",
    "standing": "projectable",
-   "evidence": "science · product curator · Tornado · cs_t_tornado_01"
+   "evidence": "science · product curator · Tornado · cs_t_tornado_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_titan_01",
    "text": "Titan has a thick atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Titan · cs_t_titan_01"
+   "evidence": "science · product curator · Titan · cs_t_titan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_triton_01",
    "text": "Triton orbits Neptune in the opposite direction of the planet's rotation",
    "standing": "projectable",
-   "evidence": "science · product curator · Triton · cs_t_triton_01"
+   "evidence": "science · product curator · Triton · cs_t_triton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_telescope_01",
    "text": "Telescopes collect light to view distant objects",
    "standing": "projectable",
-   "evidence": "science · product curator · Telescope · cs_t_telescope_01"
+   "evidence": "science · product curator · Telescope · cs_t_telescope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tin_01",
    "text": "Tin has the chemical symbol Sn",
    "standing": "projectable",
-   "evidence": "science · product curator · Tin · cs_t_tin_01"
+   "evidence": "science · product curator · Tin · cs_t_tin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_titanium_01",
    "text": "Titanium has the chemical symbol Ti",
    "standing": "projectable",
-   "evidence": "science · product curator · Titanium · cs_t_titanium_01"
+   "evidence": "science · product curator · Titanium · cs_t_titanium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tungsten_01",
    "text": "Tungsten has the chemical symbol W",
    "standing": "projectable",
-   "evidence": "science · product curator · Tungsten · cs_t_tungsten_01"
+   "evidence": "science · product curator · Tungsten · cs_t_tungsten_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tungsten_02",
    "text": "Tungsten has the highest melting point of any metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Tungsten · cs_t_tungsten_02"
+   "evidence": "science · product curator · Tungsten · cs_t_tungsten_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thallium_01",
    "text": "Thallium has the chemical symbol Tl",
    "standing": "projectable",
-   "evidence": "science · product curator · Thallium · cs_t_thallium_01"
+   "evidence": "science · product curator · Thallium · cs_t_thallium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thorium_01",
    "text": "Thorium has the chemical symbol Th",
    "standing": "projectable",
-   "evidence": "science · product curator · Thorium · cs_t_thorium_01"
+   "evidence": "science · product curator · Thorium · cs_t_thorium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tellurium_01",
    "text": "Tellurium has the chemical symbol Te",
    "standing": "projectable",
-   "evidence": "science · product curator · Tellurium · cs_t_tellurium_01"
+   "evidence": "science · product curator · Tellurium · cs_t_tellurium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_technetium_01",
    "text": "Technetium is the lightest element with no stable isotopes",
    "standing": "projectable",
-   "evidence": "science · product curator · Technetium · cs_t_technetium_01"
+   "evidence": "science · product curator · Technetium · cs_t_technetium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_temperature_01",
    "text": "Temperature measures heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Temperature · cs_t_temperature_01"
+   "evidence": "science · product curator · Temperature · cs_t_temperature_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tide_01",
    "text": "Tides are caused mainly by the Moon's gravity",
    "standing": "projectable",
-   "evidence": "science · product curator · Tide · cs_t_tide_01"
+   "evidence": "science · product curator · Tide · cs_t_tide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tooth_01",
    "text": "Tooth enamel is the hardest substance in the human body",
    "standing": "projectable",
-   "evidence": "science · product curator · Tooth · cs_t_tooth_01"
+   "evidence": "science · product curator · Tooth · cs_t_tooth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tiger_01",
    "text": "The tiger is the largest living cat species",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tiger · cs_t_tiger_01"
+   "evidence": "nature · product curator · Tiger · cs_t_tiger_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turtle_01",
    "text": "Turtles are reptiles with shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Turtle · cs_t_turtle_01"
+   "evidence": "nature · product curator · Turtle · cs_t_turtle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tortoise_01",
    "text": "Tortoises are land-dwelling turtles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_01"
+   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_termite_01",
    "text": "Termites eat wood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Termite · cs_t_termite_01"
+   "evidence": "nature · product curator · Termite · cs_t_termite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tadpole_01",
    "text": "A tadpole is the larval stage of a frog or toad",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_01"
+   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toad_01",
    "text": "Toads are amphibians",
    "standing": "projectable",
-   "evidence": "nature · product curator · Toad · cs_t_toad_01"
+   "evidence": "nature · product curator · Toad · cs_t_toad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tarantula_01",
    "text": "Tarantulas are large hairy spiders",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tarantula · cs_t_tarantula_01"
+   "evidence": "nature · product curator · Tarantula · cs_t_tarantula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trout_01",
    "text": "Trout are freshwater fish related to salmon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Trout · cs_t_trout_01"
+   "evidence": "nature · product curator · Trout · cs_t_trout_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tulip_01",
    "text": "Tulips grow from bulbs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tulip · cs_t_tulip_01"
+   "evidence": "nature · product curator · Tulip · cs_t_tulip_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tomato_01",
    "text": "The tomato is a fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tomato · cs_t_tomato_01"
+   "evidence": "nature · product curator · Tomato · cs_t_tomato_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tyrannosaurus_01",
    "text": "Tyrannosaurus was a meat eating dinosaur",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tyrannosaurus · cs_t_tyrannosaurus_01"
+   "evidence": "nature · product curator · Tyrannosaurus · cs_t_tyrannosaurus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_titanic_01",
    "text": "The Titanic sank in 1912",
    "standing": "projectable",
-   "evidence": "history · product curator · Titanic · cs_t_titanic_01"
+   "evidence": "history · product curator · Titanic · cs_t_titanic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tutankhamun_01",
    "text": "Tutankhamun's tomb was discovered in 1922",
    "standing": "projectable",
-   "evidence": "history · product curator · Tutankhamun · cs_t_tutankhamun_01"
+   "evidence": "history · product curator · Tutankhamun · cs_t_tutankhamun_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taj_mahal_01",
    "text": "The Taj Mahal is in Agra",
    "standing": "projectable",
-   "evidence": "history · product curator · Taj Mahal · cs_t_taj_mahal_01"
+   "evidence": "history · product curator · Taj Mahal · cs_t_taj_mahal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taj_mahal_02",
    "text": "The Taj Mahal was built by the Mughal emperor Shah Jahan",
    "standing": "projectable",
-   "evidence": "history · product curator · Taj Mahal · cs_t_taj_mahal_02"
+   "evidence": "history · product curator · Taj Mahal · cs_t_taj_mahal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tesla_nikola_01",
    "text": "Nikola Tesla worked on alternating current systems",
    "standing": "projectable",
-   "evidence": "history · product curator · Tesla, Nikola · cs_t_tesla_nikola_01"
+   "evidence": "history · product curator · Tesla, Nikola · cs_t_tesla_nikola_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_terracotta_army_01",
    "text": "The Terracotta Army is in China",
    "standing": "projectable",
-   "evidence": "history · product curator · Terracotta Army · cs_t_terracotta_army_01"
+   "evidence": "history · product curator · Terracotta Army · cs_t_terracotta_army_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thirteen_colonies_01",
    "text": "The United States began as thirteen colonies",
    "standing": "projectable",
-   "evidence": "history · product curator · Thirteen Colonies · cs_t_thirteen_colonies_01"
+   "evidence": "history · product curator · Thirteen Colonies · cs_t_thirteen_colonies_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trojan_war_01",
    "text": "The Trojan War is described in the Iliad",
    "standing": "projectable",
-   "evidence": "history · product curator · Trojan War · cs_t_trojan_war_01"
+   "evidence": "history · product curator · Trojan War · cs_t_trojan_war_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tower_of_london_01",
    "text": "The Tower of London houses the Crown Jewels",
    "standing": "projectable",
-   "evidence": "history · product curator · Tower of London · cs_t_tower_of_london_01"
+   "evidence": "history · product curator · Tower of London · cs_t_tower_of_london_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_triangle_01",
    "text": "The angles of a triangle add up to 180 degrees",
    "standing": "projectable",
-   "evidence": "math · product curator · Triangle · cs_t_triangle_01"
+   "evidence": "math · product curator · Triangle · cs_t_triangle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thousand_01",
    "text": "One thousand is ten to the third power",
    "standing": "projectable",
-   "evidence": "math · product curator · Thousand · cs_t_thousand_01"
+   "evidence": "math · product curator · Thousand · cs_t_thousand_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_ton_01",
    "text": "A metric ton is 1000 kilograms",
    "standing": "projectable",
-   "evidence": "math · product curator · Ton · cs_t_ton_01"
+   "evidence": "math · product curator · Ton · cs_t_ton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_treaty_01",
    "text": "A treaty is a formal agreement between countries",
    "standing": "projectable",
-   "evidence": "civics · product curator · Treaty · cs_t_treaty_01"
+   "evidence": "civics · product curator · Treaty · cs_t_treaty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_twenty_second_amendment_01",
    "text": "The Twenty-second Amendment limits a president to two elected terms",
    "standing": "projectable",
-   "evidence": "civics · product curator · Twenty-second Amendment · cs_t_twenty_second_amendment_01"
+   "evidence": "civics · product curator · Twenty-second Amendment · cs_t_twenty_second_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thai_01",
    "text": "Thai is the official language of Thailand",
    "standing": "projectable",
-   "evidence": "language · product curator · Thai · cs_t_thai_01"
+   "evidence": "language · product curator · Thai · cs_t_thai_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turkish_01",
    "text": "Turkish is written in the Latin alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Turkish · cs_t_turkish_01"
+   "evidence": "language · product curator · Turkish · cs_t_turkish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tuesday_01",
    "text": "Tuesday is the day after Monday",
    "standing": "projectable",
-   "evidence": "general · product curator · Tuesday · cs_t_tuesday_01"
+   "evidence": "general · product curator · Tuesday · cs_t_tuesday_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tennis_01",
    "text": "A tennis score of zero is called love",
    "standing": "projectable",
-   "evidence": "general · product curator · Tennis · cs_t_tennis_01"
+   "evidence": "general · product curator · Tennis · cs_t_tennis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trumpet_01",
    "text": "The trumpet is a brass instrument",
    "standing": "projectable",
-   "evidence": "general · product curator · Trumpet · cs_t_trumpet_01"
+   "evidence": "general · product curator · Trumpet · cs_t_trumpet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thermometer_01",
    "text": "A thermometer measures temperature",
    "standing": "projectable",
-   "evidence": "science · product curator · Thermometer · cs_t_thermometer_01"
+   "evidence": "science · product curator · Thermometer · cs_t_thermometer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toronto_01",
    "text": "Toronto is the largest city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Toronto · cs_t_toronto_01"
+   "evidence": "geography · product curator · Toronto · cs_t_toronto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_timbuktu_01",
    "text": "Timbuktu is a historic city in Mali",
    "standing": "projectable",
-   "evidence": "history · product curator · Timbuktu · cs_t_timbuktu_01"
+   "evidence": "history · product curator · Timbuktu · cs_t_timbuktu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turquoise_01",
    "text": "Turquoise is a blue-green mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Turquoise · cs_t_turquoise_01"
+   "evidence": "science · product curator · Turquoise · cs_t_turquoise_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tigris_02",
    "text": "The Tigris flows through Turkey, Syria, and Iraq",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tigris · cs_t_tigris_02"
+   "evidence": "geography · product curator · Tigris · cs_t_tigris_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thunder_01",
    "text": "Thunder is caused by lightning heating the air",
    "standing": "projectable",
-   "evidence": "science · product curator · Thunder · cs_t_thunder_01"
+   "evidence": "science · product curator · Thunder · cs_t_thunder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_telescope_02",
    "text": "Telescopes magnify distant objects",
    "standing": "projectable",
-   "evidence": "science · product curator · Telescope · cs_t_telescope_02"
+   "evidence": "science · product curator · Telescope · cs_t_telescope_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_termite_02",
    "text": "Termites live in colonies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Termite · cs_t_termite_02"
+   "evidence": "nature · product curator · Termite · cs_t_termite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_titanic_03",
    "text": "The Titanic sank in 1912",
    "standing": "projectable",
-   "evidence": "history · product curator · Titanic · cs_t_titanic_03"
+   "evidence": "history · product curator · Titanic · cs_t_titanic_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thirteen_colonies_02",
    "text": "Britain had thirteen colonies in America",
    "standing": "projectable",
-   "evidence": "history · product curator · Thirteen Colonies · cs_t_thirteen_colonies_02"
+   "evidence": "history · product curator · Thirteen Colonies · cs_t_thirteen_colonies_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_twenty_sixth_amendment_01",
    "text": "The Twenty-sixth Amendment set the American voting age at 18",
    "standing": "projectable",
-   "evidence": "civics · product curator · Twenty-sixth Amendment · cs_t_twenty_sixth_amendment_01"
+   "evidence": "civics · product curator · Twenty-sixth Amendment · cs_t_twenty_sixth_amendment_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tanganyika_lake_01",
    "text": "Lake Tanganyika is one of the deepest lakes in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tanganyika, Lake · cs_t_tanganyika_lake_01"
+   "evidence": "geography · product curator · Tanganyika, Lake · cs_t_tanganyika_lake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tornado_02",
    "text": "Tornadoes are rotating columns of air",
    "standing": "projectable",
-   "evidence": "science · product curator · Tornado · cs_t_tornado_02"
+   "evidence": "science · product curator · Tornado · cs_t_tornado_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tongue_01",
    "text": "The tongue helps with taste and speech",
    "standing": "projectable",
-   "evidence": "science · product curator · Tongue · cs_t_tongue_01"
+   "evidence": "science · product curator · Tongue · cs_t_tongue_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trout_02",
    "text": "Trout are freshwater fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Trout · cs_t_trout_02"
+   "evidence": "nature · product curator · Trout · cs_t_trout_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tapir_01",
    "text": "Tapirs have a short flexible snout",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tapir · cs_t_tapir_01"
+   "evidence": "nature · product curator · Tapir · cs_t_tapir_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tick_01",
    "text": "Ticks are arachnids",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tick · cs_t_tick_01"
+   "evidence": "nature · product curator · Tick · cs_t_tick_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tortoise_02",
    "text": "Tortoises live on land",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_02"
+   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thistle_01",
    "text": "Thistles are prickly flowering plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Thistle · cs_t_thistle_01"
+   "evidence": "nature · product curator · Thistle · cs_t_thistle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thanksgiving_01",
    "text": "Americans celebrate Thanksgiving in November",
    "standing": "projectable",
-   "evidence": "civics · product curator · Thanksgiving · cs_t_thanksgiving_01"
+   "evidence": "civics · product curator · Thanksgiving · cs_t_thanksgiving_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tower_of_london_02",
    "text": "The Tower of London is a castle on the River Thames",
    "standing": "projectable",
-   "evidence": "history · product curator · Tower of London · cs_t_tower_of_london_02"
+   "evidence": "history · product curator · Tower of London · cs_t_tower_of_london_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tsunami_02",
    "text": "A tsunami is a huge wave",
    "standing": "projectable",
-   "evidence": "science · product curator · Tsunami · cs_t_tsunami_02"
+   "evidence": "science · product curator · Tsunami · cs_t_tsunami_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_teak_01",
    "text": "Teak is a tropical hardwood tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Teak · cs_t_teak_01"
+   "evidence": "nature · product curator · Teak · cs_t_teak_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tuna_01",
    "text": "Tuna are fast-swimming ocean fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tuna · cs_t_tuna_01"
+   "evidence": "nature · product curator · Tuna · cs_t_tuna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_togo_01",
    "text": "Lome is the capital of Togo",
    "standing": "projectable",
-   "evidence": "geography · product curator · Togo · cs_t_togo_01"
+   "evidence": "geography · product curator · Togo · cs_t_togo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tiger_03",
    "text": "A tiger has stripes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tiger · cs_t_tiger_03"
+   "evidence": "nature · product curator · Tiger · cs_t_tiger_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_triangle_02",
    "text": "A triangle has three sides",
    "standing": "projectable",
-   "evidence": "math · product curator · Triangle · cs_t_triangle_02"
+   "evidence": "math · product curator · Triangle · cs_t_triangle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toledo_01",
    "text": "Toledo is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Toledo · cs_t_toledo_01"
+   "evidence": "geography · product curator · Toledo · cs_t_toledo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turin_01",
    "text": "Turin is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Turin · cs_t_turin_01"
+   "evidence": "geography · product curator · Turin · cs_t_turin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toulouse_01",
    "text": "Toulouse is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Toulouse · cs_t_toulouse_01"
+   "evidence": "geography · product curator · Toulouse · cs_t_toulouse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tours_01",
    "text": "Tours is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tours · cs_t_tours_01"
+   "evidence": "geography · product curator · Tours · cs_t_tours_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trier_01",
    "text": "Trier is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Trier · cs_t_trier_01"
+   "evidence": "geography · product curator · Trier · cs_t_trier_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tianjin_01",
    "text": "Tianjin is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tianjin · cs_t_tianjin_01"
+   "evidence": "geography · product curator · Tianjin · cs_t_tianjin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tampere_01",
    "text": "Tampere is a city in Finland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tampere · cs_t_tampere_01"
+   "evidence": "geography · product curator · Tampere · cs_t_tampere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tabriz_01",
    "text": "Tabriz is a city in Iran",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tabriz · cs_t_tabriz_01"
+   "evidence": "geography · product curator · Tabriz · cs_t_tabriz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tacoma_01",
    "text": "Tacoma is a city in Washington",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tacoma · cs_t_tacoma_01"
+   "evidence": "geography · product curator · Tacoma · cs_t_tacoma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tampa_01",
    "text": "Tampa is a city in Florida",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tampa · cs_t_tampa_01"
+   "evidence": "geography · product curator · Tampa · cs_t_tampa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tucson_01",
    "text": "Tucson is a city in Arizona",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tucson · cs_t_tucson_01"
+   "evidence": "geography · product curator · Tucson · cs_t_tucson_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tulsa_01",
    "text": "Tulsa is a city in Oklahoma",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tulsa · cs_t_tulsa_01"
+   "evidence": "geography · product curator · Tulsa · cs_t_tulsa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trenton_02",
    "text": "Trenton is a city in New Jersey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Trenton · cs_t_trenton_02"
+   "evidence": "geography · product curator · Trenton · cs_t_trenton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toronto_02",
    "text": "Toronto is a city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Toronto · cs_t_toronto_02"
+   "evidence": "geography · product curator · Toronto · cs_t_toronto_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taipei_01",
    "text": "Taipei is a city in Taiwan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Taipei · cs_t_taipei_01"
+   "evidence": "geography · product curator · Taipei · cs_t_taipei_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trieste_01",
    "text": "Trieste is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Trieste · cs_t_trieste_01"
+   "evidence": "geography · product curator · Trieste · cs_t_trieste_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taranto_01",
    "text": "Taranto is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Taranto · cs_t_taranto_01"
+   "evidence": "geography · product curator · Taranto · cs_t_taranto_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thessaloniki_01",
    "text": "Thessaloniki is a city in Greece",
    "standing": "projectable",
-   "evidence": "geography · product curator · Thessaloniki · cs_t_thessaloniki_01"
+   "evidence": "geography · product curator · Thessaloniki · cs_t_thessaloniki_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tangier_01",
    "text": "Tangier is a city in Morocco",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tangier · cs_t_tangier_01"
+   "evidence": "geography · product curator · Tangier · cs_t_tangier_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_truro_01",
    "text": "Truro is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Truro · cs_t_truro_01"
+   "evidence": "geography · product curator · Truro · cs_t_truro_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tempe_01",
    "text": "Tempe is a city in Arizona",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tempe · cs_t_tempe_01"
+   "evidence": "geography · product curator · Tempe · cs_t_tempe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tectonic_plate_01",
    "text": "A tectonic plate is a slab of rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Tectonic plate · cs_t_tectonic_plate_01"
+   "evidence": "science · product curator · Tectonic plate · cs_t_tectonic_plate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_twin_prime_01",
    "text": "A twin prime is a pair of primes that differ by two",
    "standing": "projectable",
-   "evidence": "math · product curator · Twin prime · cs_t_twin_prime_01"
+   "evidence": "math · product curator · Twin prime · cs_t_twin_prime_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_twilight_01",
    "text": "Twilight is light after sunset",
    "standing": "projectable",
-   "evidence": "science · product curator · Twilight · cs_t_twilight_01"
+   "evidence": "science · product curator · Twilight · cs_t_twilight_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turbine_01",
    "text": "A turbine converts fluid flow into rotation",
    "standing": "projectable",
-   "evidence": "science · product curator · Turbine · cs_t_turbine_01"
+   "evidence": "science · product curator · Turbine · cs_t_turbine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tuber_01",
    "text": "A tuber is a swollen underground stem",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tuber · cs_t_tuber_01"
+   "evidence": "nature · product curator · Tuber · cs_t_tuber_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_triassic_01",
    "text": "The Triassic period came before the Jurassic",
    "standing": "projectable",
-   "evidence": "history · product curator · Triassic · cs_t_triassic_01"
+   "evidence": "history · product curator · Triassic · cs_t_triassic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tremor_01",
    "text": "A tremor is a small earthquake",
    "standing": "projectable",
-   "evidence": "science · product curator · Tremor · cs_t_tremor_01"
+   "evidence": "science · product curator · Tremor · cs_t_tremor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_transparent_01",
    "text": "A transparent material lets light pass clearly",
    "standing": "projectable",
-   "evidence": "science · product curator · Transparent · cs_t_transparent_01"
+   "evidence": "science · product curator · Transparent · cs_t_transparent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_transistor_01",
    "text": "A transistor amplifies electric signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Transistor · cs_t_transistor_01"
+   "evidence": "science · product curator · Transistor · cs_t_transistor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trade_wind_01",
    "text": "A trade wind blows toward the equator",
    "standing": "projectable",
-   "evidence": "science · product curator · Trade wind · cs_t_trade_wind_01"
+   "evidence": "science · product curator · Trade wind · cs_t_trade_wind_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tourmaline_01",
    "text": "Tourmaline is a gemstone mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Tourmaline · cs_t_tourmaline_01"
+   "evidence": "science · product curator · Tourmaline · cs_t_tourmaline_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_torso_01",
    "text": "The torso is the main body without limbs",
    "standing": "projectable",
-   "evidence": "science · product curator · Torso · cs_t_torso_01"
+   "evidence": "science · product curator · Torso · cs_t_torso_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_torque_01",
    "text": "Torque is a twisting force",
    "standing": "projectable",
-   "evidence": "science · product curator · Torque · cs_t_torque_01"
+   "evidence": "science · product curator · Torque · cs_t_torque_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_topsoil_01",
    "text": "Topsoil is the upper layer of soil",
    "standing": "projectable",
-   "evidence": "science · product curator · Topsoil · cs_t_topsoil_01"
+   "evidence": "science · product curator · Topsoil · cs_t_topsoil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tasman_sea_01",
    "text": "The Tasman Sea lies between Australia and New Zealand",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tasman Sea · cs_t_tasman_sea_01"
+   "evidence": "geography · product curator · Tasman Sea · cs_t_tasman_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tropic_of_cancer_01",
    "text": "The Tropic of Cancer is a line of latitude",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tropic of Cancer · cs_t_tropic_of_cancer_01"
+   "evidence": "geography · product curator · Tropic of Cancer · cs_t_tropic_of_cancer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tropic_of_capricorn_01",
    "text": "The Tropic of Capricorn is a line of latitude",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tropic of Capricorn · cs_t_tropic_of_capricorn_01"
+   "evidence": "geography · product curator · Tropic of Capricorn · cs_t_tropic_of_capricorn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tributary_01",
    "text": "A tributary flows into a larger river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tributary · cs_t_tributary_01"
+   "evidence": "geography · product curator · Tributary · cs_t_tributary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tendon_01",
    "text": "A tendon connects muscle to bone",
    "standing": "projectable",
-   "evidence": "science · product curator · Tendon · cs_t_tendon_01"
+   "evidence": "science · product curator · Tendon · cs_t_tendon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_theorem_01",
    "text": "A theorem is a proven statement",
    "standing": "projectable",
-   "evidence": "math · product curator · Theorem · cs_t_theorem_01"
+   "evidence": "math · product curator · Theorem · cs_t_theorem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thermal_energy_01",
    "text": "Thermal energy is heat energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Thermal energy · cs_t_thermal_energy_01"
+   "evidence": "science · product curator · Thermal energy · cs_t_thermal_energy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tadpole_02",
    "text": "A tadpole is a larval frog",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_02"
+   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_talon_01",
    "text": "A talon is a claw of a bird of prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Talon · cs_t_talon_01"
+   "evidence": "nature · product curator · Talon · cs_t_talon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tensor_01",
    "text": "A tensor generalizes vectors",
    "standing": "projectable",
-   "evidence": "math · product curator · Tensor · cs_t_tensor_01"
+   "evidence": "math · product curator · Tensor · cs_t_tensor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_territory_01",
    "text": "A territory is a region under a government",
    "standing": "projectable",
-   "evidence": "civics · product curator · Territory · cs_t_territory_01"
+   "evidence": "civics · product curator · Territory · cs_t_territory_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tiger_04",
    "text": "A tiger is a striped big cat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tiger · cs_t_tiger_04"
+   "evidence": "nature · product curator · Tiger · cs_t_tiger_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tissue_01",
    "text": "A tissue is a group of similar cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Tissue · cs_t_tissue_01"
+   "evidence": "science · product curator · Tissue · cs_t_tissue_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tundra_02",
    "text": "Tundra has cold treeless land",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tundra · cs_t_tundra_02"
+   "evidence": "geography · product curator · Tundra · cs_t_tundra_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_teak_02",
    "text": "Teak is a durable hardwood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Teak · cs_t_teak_02"
+   "evidence": "nature · product curator · Teak · cs_t_teak_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thousand_02",
    "text": "A thousand is ten hundreds",
    "standing": "projectable",
-   "evidence": "math · product curator · Thousand · cs_t_thousand_02"
+   "evidence": "math · product curator · Thousand · cs_t_thousand_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thunder_02",
    "text": "Thunder is the sound of a lightning discharge",
    "standing": "projectable",
-   "evidence": "science · product curator · Thunder · cs_t_thunder_02"
+   "evidence": "science · product curator · Thunder · cs_t_thunder_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tin_02",
    "text": "Tin is a soft metallic element",
    "standing": "projectable",
-   "evidence": "science · product curator · Tin · cs_t_tin_02"
+   "evidence": "science · product curator · Tin · cs_t_tin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_titanium_02",
    "text": "Titanium is a strong light metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Titanium · cs_t_titanium_02"
+   "evidence": "science · product curator · Titanium · cs_t_titanium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_ton_02",
    "text": "A ton is a unit of mass",
    "standing": "projectable",
-   "evidence": "math · product curator · Ton · cs_t_ton_02"
+   "evidence": "math · product curator · Ton · cs_t_ton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tooth_02",
    "text": "A tooth breaks down food",
    "standing": "projectable",
-   "evidence": "science · product curator · Tooth · cs_t_tooth_02"
+   "evidence": "science · product curator · Tooth · cs_t_tooth_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tuber_02",
    "text": "A tuber stores food in a plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tuber · cs_t_tuber_02"
+   "evidence": "nature · product curator · Tuber · cs_t_tuber_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tuesday_02",
    "text": "Tuesday is a weekday",
    "standing": "projectable",
-   "evidence": "civics · product curator · Tuesday · cs_t_tuesday_02"
+   "evidence": "civics · product curator · Tuesday · cs_t_tuesday_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_twin_prime_02",
    "text": "Three and five are twin primes",
    "standing": "projectable",
-   "evidence": "math · product curator · Twin prime · cs_t_twin_prime_02"
+   "evidence": "math · product curator · Twin prime · cs_t_twin_prime_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tangent_01",
    "text": "A tangent touches a curve at one point",
    "standing": "projectable",
-   "evidence": "math · product curator · Tangent · cs_t_tangent_01"
+   "evidence": "math · product curator · Tangent · cs_t_tangent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tax_01",
    "text": "A tax raises public revenue",
    "standing": "projectable",
-   "evidence": "civics · product curator · Tax · cs_t_tax_01"
+   "evidence": "civics · product curator · Tax · cs_t_tax_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tornado_03",
    "text": "A tornado is a spinning column of air",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tornado · cs_t_tornado_03"
+   "evidence": "geography · product curator · Tornado · cs_t_tornado_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_torque_02",
    "text": "Torque is a turning force",
    "standing": "projectable",
-   "evidence": "science · product curator · Torque · cs_t_torque_02"
+   "evidence": "science · product curator · Torque · cs_t_torque_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tsunami_03",
    "text": "A tsunami is a large sea wave",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tsunami · cs_t_tsunami_03"
+   "evidence": "geography · product curator · Tsunami · cs_t_tsunami_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turbine_02",
    "text": "A turbine converts fluid motion into rotation",
    "standing": "projectable",
-   "evidence": "science · product curator · Turbine · cs_t_turbine_02"
+   "evidence": "science · product curator · Turbine · cs_t_turbine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_type_01",
    "text": "Printers set type",
    "standing": "projectable",
-   "evidence": "language · product curator · Type · cs_t_type_01"
+   "evidence": "language · product curator · Type · cs_t_type_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tissue_02",
    "text": "Muscle is a tissue",
    "standing": "projectable",
-   "evidence": "science · product curator · Tissue · cs_t_tissue_02"
+   "evidence": "science · product curator · Tissue · cs_t_tissue_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_torch_01",
    "text": "A torch gives light",
    "standing": "projectable",
-   "evidence": "history · product curator · Torch · cs_t_torch_01"
+   "evidence": "history · product curator · Torch · cs_t_torch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_talon_02",
    "text": "An eagle grips with talons",
    "standing": "projectable",
-   "evidence": "nature · product curator · Talon · cs_t_talon_02"
+   "evidence": "nature · product curator · Talon · cs_t_talon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thunder_03",
    "text": "Thunder follows lightning",
    "standing": "projectable",
-   "evidence": "science · product curator · Thunder · cs_t_thunder_03"
+   "evidence": "science · product curator · Thunder · cs_t_thunder_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tide_02",
    "text": "The moon pulls the tide",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tide · cs_t_tide_02"
+   "evidence": "geography · product curator · Tide · cs_t_tide_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_timber_01",
    "text": "Builders cut timber for frames",
    "standing": "projectable",
-   "evidence": "history · product curator · Timber · cs_t_timber_01"
+   "evidence": "history · product curator · Timber · cs_t_timber_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tributary_02",
    "text": "A tributary joins a larger river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tributary · cs_t_tributary_02"
+   "evidence": "geography · product curator · Tributary · cs_t_tributary_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trade_01",
    "text": "Nations trade goods",
    "standing": "projectable",
-   "evidence": "civics · product curator · Trade · cs_t_trade_01"
+   "evidence": "civics · product curator · Trade · cs_t_trade_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_torso_02",
    "text": "The torso is the trunk of the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Torso · cs_t_torso_02"
+   "evidence": "science · product curator · Torso · cs_t_torso_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_terrace_01",
    "text": "Farmers cut a terrace on a slope",
    "standing": "projectable",
-   "evidence": "geography · product curator · Terrace · cs_t_terrace_01"
+   "evidence": "geography · product curator · Terrace · cs_t_terrace_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_talon_03",
    "text": "An eagle has a sharp talon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Talon · cs_t_talon_03"
+   "evidence": "nature · product curator · Talon · cs_t_talon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tannin_01",
    "text": "Tea contains tannin",
    "standing": "projectable",
-   "evidence": "science · product curator · Tannin · cs_t_tannin_01"
+   "evidence": "science · product curator · Tannin · cs_t_tannin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tapestry_01",
    "text": "A tapestry is woven art",
    "standing": "projectable",
-   "evidence": "history · product curator · Tapestry · cs_t_tapestry_01"
+   "evidence": "history · product curator · Tapestry · cs_t_tapestry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tax_02",
    "text": "Citizens pay a tax",
    "standing": "projectable",
-   "evidence": "civics · product curator · Tax · cs_t_tax_02"
+   "evidence": "civics · product curator · Tax · cs_t_tax_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tannin_02",
    "text": "Oak bark has tannin",
    "standing": "projectable",
-   "evidence": "science · product curator · Tannin · cs_t_tannin_02"
+   "evidence": "science · product curator · Tannin · cs_t_tannin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tapestry_02",
    "text": "Weavers make a tapestry",
    "standing": "projectable",
-   "evidence": "history · product curator · Tapestry · cs_t_tapestry_02"
+   "evidence": "history · product curator · Tapestry · cs_t_tapestry_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_talon_04",
    "text": "Hawks grip prey with a talon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Talon · cs_t_talon_04"
+   "evidence": "nature · product curator · Talon · cs_t_talon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_telescope_03",
    "text": "A telescope magnifies distant objects",
    "standing": "projectable",
-   "evidence": "science · product curator · Telescope · cs_t_telescope_03"
+   "evidence": "science · product curator · Telescope · cs_t_telescope_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thermometer_02",
    "text": "Mercury expands in a thermometer",
    "standing": "projectable",
-   "evidence": "science · product curator · Thermometer · cs_t_thermometer_02"
+   "evidence": "science · product curator · Thermometer · cs_t_thermometer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tin_03",
    "text": "Bronze contains tin",
    "standing": "projectable",
-   "evidence": "science · product curator · Tin · cs_t_tin_03"
+   "evidence": "science · product curator · Tin · cs_t_tin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tadpole_03",
    "text": "A tadpole becomes a frog",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_03"
+   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tapir_02",
    "text": "A tapir has a short trunk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tapir · cs_t_tapir_02"
+   "evidence": "nature · product curator · Tapir · cs_t_tapir_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tear_01",
    "text": "A tear lubricates the eye",
    "standing": "projectable",
-   "evidence": "science · product curator · Tear · cs_t_tear_01"
+   "evidence": "science · product curator · Tear · cs_t_tear_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tentacle_01",
    "text": "An octopus has a tentacle",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tentacle · cs_t_tentacle_01"
+   "evidence": "nature · product curator · Tentacle · cs_t_tentacle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thallium_02",
    "text": "Thallium is a soft metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Thallium · cs_t_thallium_02"
+   "evidence": "science · product curator · Thallium · cs_t_thallium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_theory_01",
    "text": "A theory explains evidence",
    "standing": "projectable",
-   "evidence": "science · product curator · Theory · cs_t_theory_01"
+   "evidence": "science · product curator · Theory · cs_t_theory_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thigh_01",
    "text": "The thigh is the upper leg",
    "standing": "projectable",
-   "evidence": "science · product curator · Thigh · cs_t_thigh_01"
+   "evidence": "science · product curator · Thigh · cs_t_thigh_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_titanium_03",
    "text": "Titanium resists corrosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Titanium · cs_t_titanium_03"
+   "evidence": "science · product curator · Titanium · cs_t_titanium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_topaz_01",
    "text": "Topaz is a hard gemstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Topaz · cs_t_topaz_01"
+   "evidence": "science · product curator · Topaz · cs_t_topaz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turtle_02",
    "text": "A turtle has a bony shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Turtle · cs_t_turtle_02"
+   "evidence": "nature · product curator · Turtle · cs_t_turtle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tangent_02",
    "text": "A tangent touches a circle once",
    "standing": "projectable",
-   "evidence": "math · product curator · Tangent · cs_t_tangent_02"
+   "evidence": "math · product curator · Tangent · cs_t_tangent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tantalum_01",
    "text": "Tantalum resists acid",
    "standing": "projectable",
-   "evidence": "science · product curator · Tantalum · cs_t_tantalum_01"
+   "evidence": "science · product curator · Tantalum · cs_t_tantalum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thistle_02",
    "text": "A thistle has sharp spines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Thistle · cs_t_thistle_02"
+   "evidence": "nature · product curator · Thistle · cs_t_thistle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thyroid_01",
    "text": "The thyroid makes hormones",
    "standing": "projectable",
-   "evidence": "science · product curator · Thyroid · cs_t_thyroid_01"
+   "evidence": "science · product curator · Thyroid · cs_t_thyroid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tide_pool_01",
    "text": "A tide pool holds sea life",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tide pool · cs_t_tide_pool_01"
+   "evidence": "nature · product curator · Tide pool · cs_t_tide_pool_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_titanium_04",
    "text": "Titanium resists seawater",
    "standing": "projectable",
-   "evidence": "science · product curator · Titanium · cs_t_titanium_04"
+   "evidence": "science · product curator · Titanium · cs_t_titanium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tornado_04",
    "text": "A tornado spins violently",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tornado · cs_t_tornado_04"
+   "evidence": "geography · product curator · Tornado · cs_t_tornado_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tungsten_03",
    "text": "Light bulbs used tungsten",
    "standing": "projectable",
-   "evidence": "science · product curator · Tungsten · cs_t_tungsten_03"
+   "evidence": "science · product curator · Tungsten · cs_t_tungsten_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turbine_03",
    "text": "A turbine spins with steam",
    "standing": "projectable",
-   "evidence": "science · product curator · Turbine · cs_t_turbine_03"
+   "evidence": "science · product curator · Turbine · cs_t_turbine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tusk_01",
    "text": "An elephant grows a tusk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tusk · cs_t_tusk_01"
+   "evidence": "nature · product curator · Tusk · cs_t_tusk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taproot_01",
    "text": "A taproot grows straight down",
    "standing": "projectable",
-   "evidence": "nature · product curator · Taproot · cs_t_taproot_01"
+   "evidence": "nature · product curator · Taproot · cs_t_taproot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_termite_03",
    "text": "A termite eats wood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Termite · cs_t_termite_03"
+   "evidence": "nature · product curator · Termite · cs_t_termite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toluene_01",
    "text": "Toluene dissolves paints",
    "standing": "projectable",
-   "evidence": "science · product curator · Toluene · cs_t_toluene_01"
+   "evidence": "science · product curator · Toluene · cs_t_toluene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tongue_02",
    "text": "The tongue tastes food",
    "standing": "projectable",
-   "evidence": "science · product curator · Tongue · cs_t_tongue_02"
+   "evidence": "science · product curator · Tongue · cs_t_tongue_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_torque_03",
    "text": "Torque twists an object",
    "standing": "projectable",
-   "evidence": "science · product curator · Torque · cs_t_torque_03"
+   "evidence": "science · product curator · Torque · cs_t_torque_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toxin_01",
    "text": "A toxin harms living cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Toxin · cs_t_toxin_01"
+   "evidence": "science · product curator · Toxin · cs_t_toxin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_transformer_01",
    "text": "A transformer changes voltage",
    "standing": "projectable",
-   "evidence": "science · product curator · Transformer · cs_t_transformer_01"
+   "evidence": "science · product curator · Transformer · cs_t_transformer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trench_01",
    "text": "A trench marks a plate edge",
    "standing": "projectable",
-   "evidence": "geography · product curator · Trench · cs_t_trench_01"
+   "evidence": "geography · product curator · Trench · cs_t_trench_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trough_01",
    "text": "A trough holds low pressure",
    "standing": "projectable",
-   "evidence": "science · product curator · Trough · cs_t_trough_01"
+   "evidence": "science · product curator · Trough · cs_t_trough_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_twilight_02",
    "text": "Stars appear during twilight",
    "standing": "projectable",
-   "evidence": "science · product curator · Twilight · cs_t_twilight_02"
+   "evidence": "science · product curator · Twilight · cs_t_twilight_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tannin_03",
    "text": "Tea holds bitter tannin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tannin · cs_t_tannin_03"
+   "evidence": "nature · product curator · Tannin · cs_t_tannin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taproot_02",
    "text": "A carrot grows a taproot",
    "standing": "projectable",
-   "evidence": "nature · product curator · Taproot · cs_t_taproot_02"
+   "evidence": "nature · product curator · Taproot · cs_t_taproot_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thorium_02",
    "text": "Thorium fuels some reactors",
    "standing": "projectable",
-   "evidence": "science · product curator · Thorium · cs_t_thorium_02"
+   "evidence": "science · product curator · Thorium · cs_t_thorium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thyroid_02",
    "text": "The thyroid regulates metabolism",
    "standing": "projectable",
-   "evidence": "science · product curator · Thyroid · cs_t_thyroid_02"
+   "evidence": "science · product curator · Thyroid · cs_t_thyroid_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tide_03",
    "text": "Gravity raises the tide",
    "standing": "projectable",
-   "evidence": "science · product curator · Tide · cs_t_tide_03"
+   "evidence": "science · product curator · Tide · cs_t_tide_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tin_04",
    "text": "Solder mixes tin with lead",
    "standing": "projectable",
-   "evidence": "science · product curator · Tin · cs_t_tin_04"
+   "evidence": "science · product curator · Tin · cs_t_tin_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tongue_03",
    "text": "Taste buds cover the tongue",
    "standing": "projectable",
-   "evidence": "science · product curator · Tongue · cs_t_tongue_03"
+   "evidence": "science · product curator · Tongue · cs_t_tongue_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tremor_02",
    "text": "A tremor shakes the ground",
    "standing": "projectable",
-   "evidence": "science · product curator · Tremor · cs_t_tremor_02"
+   "evidence": "science · product curator · Tremor · cs_t_tremor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tannin_04",
    "text": "Tannin preserves leather",
    "standing": "projectable",
-   "evidence": "science · product curator · Tannin · cs_t_tannin_04"
+   "evidence": "science · product curator · Tannin · cs_t_tannin_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taproot_03",
    "text": "A taproot anchors a plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Taproot · cs_t_taproot_03"
+   "evidence": "nature · product curator · Taproot · cs_t_taproot_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tarmac_01",
    "text": "Tarmac hardens runway beds",
    "standing": "projectable",
-   "evidence": "science · product curator · Tarmac · cs_t_tarmac_01"
+   "evidence": "science · product curator · Tarmac · cs_t_tarmac_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thalamus_01",
    "text": "The thalamus relays senses",
    "standing": "projectable",
-   "evidence": "science · product curator · Thalamus · cs_t_thalamus_01"
+   "evidence": "science · product curator · Thalamus · cs_t_thalamus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thumb_01",
    "text": "The thumb opposes fingers",
    "standing": "projectable",
-   "evidence": "science · product curator · Thumb · cs_t_thumb_01"
+   "evidence": "science · product curator · Thumb · cs_t_thumb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tributary_03",
    "text": "A tributary feeds a river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tributary · cs_t_tributary_03"
+   "evidence": "geography · product curator · Tributary · cs_t_tributary_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thrombin_01",
    "text": "Thrombin starts blood clots",
    "standing": "projectable",
-   "evidence": "science · product curator · Thrombin · cs_t_thrombin_01"
+   "evidence": "science · product curator · Thrombin · cs_t_thrombin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tube_01",
    "text": "A tube carries fluid flow",
    "standing": "projectable",
-   "evidence": "science · product curator · Tube · cs_t_tube_01"
+   "evidence": "science · product curator · Tube · cs_t_tube_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_turnip_01",
    "text": "A turnip stores root food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Turnip · cs_t_turnip_01"
+   "evidence": "nature · product curator · Turnip · cs_t_turnip_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_twine_01",
    "text": "Twine binds package loads",
    "standing": "projectable",
-   "evidence": "science · product curator · Twine · cs_t_twine_01"
+   "evidence": "science · product curator · Twine · cs_t_twine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tadpole_04",
    "text": "Tadpoles grow into frogs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_04"
+   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_taste_01",
    "text": "Taste buds sense flavors",
    "standing": "projectable",
-   "evidence": "science · product curator · Taste · cs_t_taste_01"
+   "evidence": "science · product curator · Taste · cs_t_taste_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tea_02",
    "text": "Tea leaves steep hot water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tea · cs_t_tea_02"
+   "evidence": "nature · product curator · Tea · cs_t_tea_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tear_02",
    "text": "Tears wash dust from eyes",
    "standing": "projectable",
-   "evidence": "science · product curator · Tear · cs_t_tear_02"
+   "evidence": "science · product curator · Tear · cs_t_tear_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tendon_02",
    "text": "Tendons join muscle bone",
    "standing": "projectable",
-   "evidence": "science · product curator · Tendon · cs_t_tendon_02"
+   "evidence": "science · product curator · Tendon · cs_t_tendon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thermometer_03",
    "text": "A thermometer gauges heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Thermometer · cs_t_thermometer_03"
+   "evidence": "science · product curator · Thermometer · cs_t_thermometer_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tissue_03",
    "text": "Tissue joins similar cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Tissue · cs_t_tissue_03"
+   "evidence": "science · product curator · Tissue · cs_t_tissue_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tomato_02",
    "text": "Tomatoes ripen red fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tomato · cs_t_tomato_02"
+   "evidence": "nature · product curator · Tomato · cs_t_tomato_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_toxin_02",
    "text": "Toxins poison living cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Toxin · cs_t_toxin_02"
+   "evidence": "science · product curator · Toxin · cs_t_toxin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_trachea_01",
    "text": "Trachea rings hold airway",
    "standing": "projectable",
-   "evidence": "science · product curator · Trachea · cs_t_trachea_01"
+   "evidence": "science · product curator · Trachea · cs_t_trachea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_talon_05",
    "text": "Talons grip prey flesh",
    "standing": "projectable",
-   "evidence": "nature · product curator · Talon · cs_t_talon_05"
+   "evidence": "nature · product curator · Talon · cs_t_talon_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_teak_03",
    "text": "Teak resists ship rot",
    "standing": "projectable",
-   "evidence": "nature · product curator · Teak · cs_t_teak_03"
+   "evidence": "nature · product curator · Teak · cs_t_teak_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_telescope_04",
    "text": "A telescope gathers star light",
    "standing": "projectable",
-   "evidence": "science · product curator · Telescope · cs_t_telescope_04"
+   "evidence": "science · product curator · Telescope · cs_t_telescope_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tellurium_02",
    "text": "Tellurium alloys copper wire",
    "standing": "projectable",
-   "evidence": "science · product curator · Tellurium · cs_t_tellurium_02"
+   "evidence": "science · product curator · Tellurium · cs_t_tellurium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_thermostat_01",
    "text": "A thermostat meters heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Thermostat · cs_t_thermostat_01"
+   "evidence": "science · product curator · Thermostat · cs_t_thermostat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tibia_01",
    "text": "The tibia bears leg weight",
    "standing": "projectable",
-   "evidence": "science · product curator · Tibia · cs_t_tibia_01"
+   "evidence": "science · product curator · Tibia · cs_t_tibia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tortoise_03",
    "text": "A tortoise carries a shell",
    "standing": "projectable",
-   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_03"
+   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tractor_01",
    "text": "A tractor pulls farm loads",
    "standing": "projectable",
-   "evidence": "science · product curator · Tractor · cs_t_tractor_01"
+   "evidence": "science · product curator · Tractor · cs_t_tractor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tripod_01",
    "text": "A tripod steadies a camera",
    "standing": "projectable",
-   "evidence": "science · product curator · Tripod · cs_t_tripod_01"
+   "evidence": "science · product curator · Tripod · cs_t_tripod_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_t_tundra_03",
    "text": "Tundra thaws short summers",
    "standing": "projectable",
-   "evidence": "geography · product curator · Tundra · cs_t_tundra_03"
+   "evidence": "geography · product curator · Tundra · cs_t_tundra_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

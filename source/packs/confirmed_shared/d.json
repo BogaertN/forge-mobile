@@ -12,1519 +12,2784 @@
    "id": "cs_d_dominican_republic_01",
    "text": "Santo Domingo is the capital of the Dominican Republic",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dominican Republic · cs_d_dominican_republic_01"
+   "evidence": "geography · product curator · Dominican Republic · cs_d_dominican_republic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dublin_01",
    "text": "Dublin is the capital of Ireland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dublin · cs_d_dublin_01"
+   "evidence": "geography · product curator · Dublin · cs_d_dublin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_delhi_01",
    "text": "New Delhi is the capital of India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Delhi · cs_d_delhi_01"
+   "evidence": "geography · product curator · Delhi · cs_d_delhi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_damascus_01",
    "text": "Damascus is the capital of Syria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Damascus · cs_d_damascus_01"
+   "evidence": "geography · product curator · Damascus · cs_d_damascus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_doha_01",
    "text": "Doha is the capital of Qatar",
    "standing": "projectable",
-   "evidence": "geography · product curator · Doha · cs_d_doha_01"
+   "evidence": "geography · product curator · Doha · cs_d_doha_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dakar_01",
    "text": "Dakar is the capital of Senegal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dakar · cs_d_dakar_01"
+   "evidence": "geography · product curator · Dakar · cs_d_dakar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_danube_01",
    "text": "The Danube flows into the Black Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Danube · cs_d_danube_01"
+   "evidence": "geography · product curator · Danube · cs_d_danube_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_danube_02",
    "text": "The Danube is the second longest river in Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Danube · cs_d_danube_02"
+   "evidence": "geography · product curator · Danube · cs_d_danube_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dead_sea_01",
    "text": "The Dead Sea is the lowest place on land",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dead Sea · cs_d_dead_sea_01"
+   "evidence": "geography · product curator · Dead Sea · cs_d_dead_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dead_sea_02",
    "text": "The Dead Sea is extremely salty",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dead Sea · cs_d_dead_sea_02"
+   "evidence": "geography · product curator · Dead Sea · cs_d_dead_sea_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_delaware_02",
    "text": "Dover is the capital of Delaware",
    "standing": "projectable",
-   "evidence": "geography · product curator · Delaware · cs_d_delaware_02"
+   "evidence": "geography · product curator · Delaware · cs_d_delaware_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_des_moines_01",
    "text": "Des Moines is the capital of Iowa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Des Moines · cs_d_des_moines_01"
+   "evidence": "geography · product curator · Des Moines · cs_d_des_moines_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_desert_01",
    "text": "The Sahara is the largest hot desert",
    "standing": "projectable",
-   "evidence": "geography · product curator · Desert · cs_d_desert_01"
+   "evidence": "geography · product curator · Desert · cs_d_desert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_desert_02",
    "text": "A desert receives very little precipitation",
    "standing": "projectable",
-   "evidence": "geography · product curator · Desert · cs_d_desert_02"
+   "evidence": "geography · product curator · Desert · cs_d_desert_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_delta_01",
    "text": "A river deposits sediment at its delta",
    "standing": "projectable",
-   "evidence": "geography · product curator · Delta · cs_d_delta_01"
+   "evidence": "geography · product curator · Delta · cs_d_delta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dna_01",
    "text": "DNA carries genetic information",
    "standing": "projectable",
-   "evidence": "science · product curator · DNA · cs_d_dna_01"
+   "evidence": "science · product curator · DNA · cs_d_dna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dna_02",
    "text": "DNA has a double-helix structure",
    "standing": "projectable",
-   "evidence": "science · product curator · DNA · cs_d_dna_02"
+   "evidence": "science · product curator · DNA · cs_d_dna_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diamond_01",
    "text": "Diamond is made of carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Diamond · cs_d_diamond_01"
+   "evidence": "science · product curator · Diamond · cs_d_diamond_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diamond_02",
    "text": "Diamond is the hardest natural mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Diamond · cs_d_diamond_02"
+   "evidence": "science · product curator · Diamond · cs_d_diamond_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_density_01",
    "text": "Density is mass divided by volume",
    "standing": "projectable",
-   "evidence": "science · product curator · Density · cs_d_density_01"
+   "evidence": "science · product curator · Density · cs_d_density_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dwarf_planet_01",
    "text": "Pluto is classified as a dwarf planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Dwarf planet · cs_d_dwarf_planet_01"
+   "evidence": "science · product curator · Dwarf planet · cs_d_dwarf_planet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diffusion_01",
    "text": "Particles spread from high concentration to low concentration in diffusion",
    "standing": "projectable",
-   "evidence": "science · product curator · Diffusion · cs_d_diffusion_01"
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_digestion_01",
    "text": "Digestion breaks food into nutrients",
    "standing": "projectable",
-   "evidence": "science · product curator · Digestion · cs_d_digestion_01"
+   "evidence": "science · product curator · Digestion · cs_d_digestion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolphin_01",
    "text": "Dolphins are mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_01"
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolphin_02",
    "text": "Dolphins breathe air through a blowhole",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_02"
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dog_01",
    "text": "Dogs were domesticated from wolves",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dog · cs_d_dog_01"
+   "evidence": "nature · product curator · Dog · cs_d_dog_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duck_01",
    "text": "Ducks are waterfowl",
    "standing": "projectable",
-   "evidence": "nature · product curator · Duck · cs_d_duck_01"
+   "evidence": "nature · product curator · Duck · cs_d_duck_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dragonfly_01",
    "text": "Dragonflies are insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_01"
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dinosaur_01",
    "text": "Non-avian dinosaurs went extinct about 66 million years ago",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dinosaur · cs_d_dinosaur_01"
+   "evidence": "nature · product curator · Dinosaur · cs_d_dinosaur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dinosaur_02",
    "text": "Birds are descendants of dinosaurs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dinosaur · cs_d_dinosaur_02"
+   "evidence": "nature · product curator · Dinosaur · cs_d_dinosaur_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dodo_01",
    "text": "The dodo was a flightless bird from Mauritius",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dodo · cs_d_dodo_01"
+   "evidence": "nature · product curator · Dodo · cs_d_dodo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dodo_02",
    "text": "The dodo is extinct",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dodo · cs_d_dodo_02"
+   "evidence": "nature · product curator · Dodo · cs_d_dodo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_darwin_charles_01",
    "text": "Charles Darwin wrote On the Origin of Species",
    "standing": "projectable",
-   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_01"
+   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_darwin_charles_02",
    "text": "Darwin published On the Origin of Species in 1859",
    "standing": "projectable",
-   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_02"
+   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_d_day_01",
    "text": "The Allies landed in Normandy on 6 June 1944",
    "standing": "projectable",
-   "evidence": "history · product curator · D-Day · cs_d_d_day_01"
+   "evidence": "history · product curator · D-Day · cs_d_d_day_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_declaration_of_independence_01",
    "text": "Thomas Jefferson was the principal author of the Declaration of Independence",
    "standing": "projectable",
-   "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_01"
+   "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_da_vinci_leonardo_01",
    "text": "Leonardo painted the Mona Lisa",
    "standing": "projectable",
-   "evidence": "history · product curator · Da Vinci, Leonardo · cs_d_da_vinci_leonardo_01"
+   "evidence": "history · product curator · Da Vinci, Leonardo · cs_d_da_vinci_leonardo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dickens_charles_01",
    "text": "Charles Dickens wrote Oliver Twist",
    "standing": "projectable",
-   "evidence": "history · product curator · Dickens, Charles · cs_d_dickens_charles_01"
+   "evidence": "history · product curator · Dickens, Charles · cs_d_dickens_charles_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dante_alighieri_01",
    "text": "Dante Alighieri wrote the Divine Comedy",
    "standing": "projectable",
-   "evidence": "history · product curator · Dante Alighieri · cs_d_dante_alighieri_01"
+   "evidence": "history · product curator · Dante Alighieri · cs_d_dante_alighieri_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decimal_01",
    "text": "The decimal system is based on ten",
    "standing": "projectable",
-   "evidence": "math · product curator · Decimal · cs_d_decimal_01"
+   "evidence": "math · product curator · Decimal · cs_d_decimal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decade_01",
    "text": "A decade is ten years",
    "standing": "projectable",
-   "evidence": "math · product curator · Decade · cs_d_decade_01"
+   "evidence": "math · product curator · Decade · cs_d_decade_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_denominator_01",
    "text": "The denominator is the bottom number of a fraction",
    "standing": "projectable",
-   "evidence": "math · product curator · Denominator · cs_d_denominator_01"
+   "evidence": "math · product curator · Denominator · cs_d_denominator_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dozen_01",
    "text": "A dozen is twelve",
    "standing": "projectable",
-   "evidence": "math · product curator · Dozen · cs_d_dozen_01"
+   "evidence": "math · product curator · Dozen · cs_d_dozen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_division_01",
    "text": "Division by zero is undefined",
    "standing": "projectable",
-   "evidence": "math · product curator · Division · cs_d_division_01"
+   "evidence": "math · product curator · Division · cs_d_division_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_democracy_01",
    "text": "Citizens choose leaders by voting in a democracy",
    "standing": "projectable",
-   "evidence": "civics · product curator · Democracy · cs_d_democracy_01"
+   "evidence": "civics · product curator · Democracy · cs_d_democracy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dollar_01",
    "text": "The American dollar is the currency of the United States",
    "standing": "projectable",
-   "evidence": "civics · product curator · Dollar · cs_d_dollar_01"
+   "evidence": "civics · product curator · Dollar · cs_d_dollar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_djibouti_01",
    "text": "Djibouti is a country in the Horn of Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Djibouti · cs_d_djibouti_01"
+   "evidence": "geography · product curator · Djibouti · cs_d_djibouti_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dodoma_01",
    "text": "Dodoma is the capital of Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dodoma · cs_d_dodoma_01"
+   "evidence": "geography · product curator · Dodoma · cs_d_dodoma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dushanbe_01",
    "text": "Dushanbe is the capital of Tajikistan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dushanbe · cs_d_dushanbe_01"
+   "evidence": "geography · product curator · Dushanbe · cs_d_dushanbe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dili_01",
    "text": "Dili is the capital of East Timor",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dili · cs_d_dili_01"
+   "evidence": "geography · product curator · Dili · cs_d_dili_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_denmark_01",
    "text": "Greenland is an autonomous territory within the Kingdom of Denmark",
    "standing": "projectable",
-   "evidence": "geography · product curator · Denmark · cs_d_denmark_01"
+   "evidence": "geography · product curator · Denmark · cs_d_denmark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dominica_01",
    "text": "Dominica is an island country in the Caribbean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dominica · cs_d_dominica_01"
+   "evidence": "geography · product curator · Dominica · cs_d_dominica_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_death_valley_01",
    "text": "Death Valley is in California",
    "standing": "projectable",
-   "evidence": "geography · product curator · Death Valley · cs_d_death_valley_01"
+   "evidence": "geography · product curator · Death Valley · cs_d_death_valley_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_death_valley_02",
    "text": "Badwater Basin in Death Valley is the lowest point in North America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Death Valley · cs_d_death_valley_02"
+   "evidence": "geography · product curator · Death Valley · cs_d_death_valley_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_detroit_01",
    "text": "Detroit is in Michigan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Detroit · cs_d_detroit_01"
+   "evidence": "geography · product curator · Detroit · cs_d_detroit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dnieper_01",
    "text": "The Dnieper flows into the Black Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dnieper · cs_d_dnieper_01"
+   "evidence": "geography · product curator · Dnieper · cs_d_dnieper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drakensberg_01",
    "text": "The Drakensberg is a mountain range in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Drakensberg · cs_d_drakensberg_01"
+   "evidence": "geography · product curator · Drakensberg · cs_d_drakensberg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dune_01",
    "text": "A dune is a hill of sand formed by wind or water",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dune · cs_d_dune_01"
+   "evidence": "geography · product curator · Dune · cs_d_dune_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_deimos_01",
    "text": "Deimos is one of the two moons of Mars",
    "standing": "projectable",
-   "evidence": "science · product curator · Deimos · cs_d_deimos_01"
+   "evidence": "science · product curator · Deimos · cs_d_deimos_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_day_01",
    "text": "A day lasts about 24 hours",
    "standing": "projectable",
-   "evidence": "science · product curator · Day · cs_d_day_01"
+   "evidence": "science · product curator · Day · cs_d_day_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dew_01",
    "text": "Dew forms when water vapor condenses on cool surfaces",
    "standing": "projectable",
-   "evidence": "science · product curator · Dew · cs_d_dew_01"
+   "evidence": "science · product curator · Dew · cs_d_dew_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_deuterium_01",
    "text": "Deuterium is an isotope of hydrogen with one neutron",
    "standing": "projectable",
-   "evidence": "science · product curator · Deuterium · cs_d_deuterium_01"
+   "evidence": "science · product curator · Deuterium · cs_d_deuterium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dry_ice_01",
    "text": "Dry ice is solid carbon dioxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Dry ice · cs_d_dry_ice_01"
+   "evidence": "science · product curator · Dry ice · cs_d_dry_ice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dry_ice_02",
    "text": "Dry ice turns directly from solid to gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Dry ice · cs_d_dry_ice_02"
+   "evidence": "science · product curator · Dry ice · cs_d_dry_ice_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dysprosium_01",
    "text": "Dysprosium has the chemical symbol Dy",
    "standing": "projectable",
-   "evidence": "science · product curator · Dysprosium · cs_d_dysprosium_01"
+   "evidence": "science · product curator · Dysprosium · cs_d_dysprosium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_darmstadtium_01",
    "text": "Darmstadtium has the chemical symbol Ds",
    "standing": "projectable",
-   "evidence": "science · product curator · Darmstadtium · cs_d_darmstadtium_01"
+   "evidence": "science · product curator · Darmstadtium · cs_d_darmstadtium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_doppler_effect_01",
    "text": "The Doppler effect is the change in frequency of a wave due to motion of the source or observer",
    "standing": "projectable",
-   "evidence": "science · product curator · Doppler effect · cs_d_doppler_effect_01"
+   "evidence": "science · product curator · Doppler effect · cs_d_doppler_effect_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_donkey_01",
    "text": "The donkey belongs to the horse family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Donkey · cs_d_donkey_01"
+   "evidence": "nature · product curator · Donkey · cs_d_donkey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_daisy_01",
    "text": "Daisies are flowering plants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Daisy · cs_d_daisy_01"
+   "evidence": "nature · product curator · Daisy · cs_d_daisy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dandelion_01",
    "text": "Dandelion seeds are dispersed by wind",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_01"
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dove_01",
    "text": "Doves and pigeons belong to the same bird family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dove · cs_d_dove_01"
+   "evidence": "nature · product curator · Dove · cs_d_dove_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_descartes_rene_01",
    "text": "René Descartes wrote \"I think, therefore I am.\"",
    "standing": "projectable",
-   "evidence": "history · product curator · Descartes, René · cs_d_descartes_rene_01"
+   "evidence": "history · product curator · Descartes, René · cs_d_descartes_rene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_douglass_frederick_01",
    "text": "Frederick Douglass was an American abolitionist and writer",
    "standing": "projectable",
-   "evidence": "history · product curator · Douglass, Frederick · cs_d_douglass_frederick_01"
+   "evidence": "history · product curator · Douglass, Frederick · cs_d_douglass_frederick_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_domesday_book_01",
    "text": "The Domesday Book was a survey of England completed in 1086",
    "standing": "projectable",
-   "evidence": "history · product curator · Domesday Book · cs_d_domesday_book_01"
+   "evidence": "history · product curator · Domesday Book · cs_d_domesday_book_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_degree_01",
    "text": "A full rotation is 360 degrees",
    "standing": "projectable",
-   "evidence": "math · product curator · Degree · cs_d_degree_01"
+   "evidence": "math · product curator · Degree · cs_d_degree_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_digit_01",
    "text": "The decimal system uses ten digits",
    "standing": "projectable",
-   "evidence": "math · product curator · Digit · cs_d_digit_01"
+   "evidence": "math · product curator · Digit · cs_d_digit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dune_02",
    "text": "A dune is a hill of sand formed by wind",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dune · cs_d_dune_02"
+   "evidence": "geography · product curator · Dune · cs_d_dune_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dam_01",
    "text": "A dam holds back water to form a reservoir",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dam · cs_d_dam_01"
+   "evidence": "geography · product curator · Dam · cs_d_dam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drought_01",
    "text": "A drought is a long period with little rain",
    "standing": "projectable",
-   "evidence": "nature · product curator · Drought · cs_d_drought_01"
+   "evidence": "nature · product curator · Drought · cs_d_drought_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duck_02",
    "text": "Ducks have webbed feet",
    "standing": "projectable",
-   "evidence": "nature · product curator · Duck · cs_d_duck_02"
+   "evidence": "nature · product curator · Duck · cs_d_duck_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dormouse_01",
    "text": "The dormouse is a rodent",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dormouse · cs_d_dormouse_01"
+   "evidence": "nature · product curator · Dormouse · cs_d_dormouse_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diamond_03",
    "text": "Diamond is a form of carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Diamond · cs_d_diamond_03"
+   "evidence": "science · product curator · Diamond · cs_d_diamond_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dew_point_01",
    "text": "Dew forms when air cools to the dew point",
    "standing": "projectable",
-   "evidence": "science · product curator · Dew point · cs_d_dew_point_01"
+   "evidence": "science · product curator · Dew point · cs_d_dew_point_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dynamite_01",
    "text": "Dynamite was invented by Alfred Nobel",
    "standing": "projectable",
-   "evidence": "history · product curator · Dynamite · cs_d_dynamite_01"
+   "evidence": "history · product curator · Dynamite · cs_d_dynamite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dominica_02",
    "text": "Dominica is an island nation in the Caribbean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dominica · cs_d_dominica_02"
+   "evidence": "geography · product curator · Dominica · cs_d_dominica_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolomites_01",
    "text": "The Dolomites are mountains in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dolomites · cs_d_dolomites_01"
+   "evidence": "geography · product curator · Dolomites · cs_d_dolomites_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drizzle_01",
    "text": "Drizzle is light rain with very small drops",
    "standing": "projectable",
-   "evidence": "science · product curator · Drizzle · cs_d_drizzle_01"
+   "evidence": "science · product curator · Drizzle · cs_d_drizzle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dragonfly_02",
    "text": "Dragonflies have four wings",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_02"
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dung_beetle_01",
    "text": "Dung beetles feed on animal dung",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dung beetle · cs_d_dung_beetle_01"
+   "evidence": "nature · product curator · Dung beetle · cs_d_dung_beetle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_douglas_fir_01",
    "text": "The Douglas fir is a conifer of western North America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Douglas fir · cs_d_douglas_fir_01"
+   "evidence": "nature · product curator · Douglas fir · cs_d_douglas_fir_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dhaka_01",
    "text": "Dhaka is the capital of Bangladesh",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dhaka · cs_d_dhaka_01"
+   "evidence": "geography · product curator · Dhaka · cs_d_dhaka_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_denmark_02",
    "text": "Copenhagen is the capital of Denmark",
    "standing": "projectable",
-   "evidence": "geography · product curator · Denmark · cs_d_denmark_02"
+   "evidence": "geography · product curator · Denmark · cs_d_denmark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolphin_03",
    "text": "A dolphin is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_03"
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duck_03",
    "text": "A duck is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Duck · cs_d_duck_03"
+   "evidence": "nature · product curator · Duck · cs_d_duck_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dutch_01",
    "text": "Dutch is the official language of the Netherlands",
    "standing": "projectable",
-   "evidence": "language · product curator · Dutch · cs_d_dutch_01"
+   "evidence": "language · product curator · Dutch · cs_d_dutch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dresden_01",
    "text": "Dresden is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dresden · cs_d_dresden_01"
+   "evidence": "geography · product curator · Dresden · cs_d_dresden_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dortmund_01",
    "text": "Dortmund is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dortmund · cs_d_dortmund_01"
+   "evidence": "geography · product curator · Dortmund · cs_d_dortmund_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_durban_01",
    "text": "Durban is a city in South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Durban · cs_d_durban_01"
+   "evidence": "geography · product curator · Durban · cs_d_durban_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dhaka_02",
    "text": "Dhaka is a city in Bangladesh",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dhaka · cs_d_dhaka_02"
+   "evidence": "geography · product curator · Dhaka · cs_d_dhaka_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dalian_01",
    "text": "Dalian is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dalian · cs_d_dalian_01"
+   "evidence": "geography · product curator · Dalian · cs_d_dalian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dijon_01",
    "text": "Dijon is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dijon · cs_d_dijon_01"
+   "evidence": "geography · product curator · Dijon · cs_d_dijon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dundee_01",
    "text": "Dundee is a city in Scotland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dundee · cs_d_dundee_01"
+   "evidence": "geography · product curator · Dundee · cs_d_dundee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_derby_01",
    "text": "Derby is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Derby · cs_d_derby_01"
+   "evidence": "geography · product curator · Derby · cs_d_derby_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_durham_01",
    "text": "Durham is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Durham · cs_d_durham_01"
+   "evidence": "geography · product curator · Durham · cs_d_durham_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dover_01",
    "text": "Dover is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dover · cs_d_dover_01"
+   "evidence": "geography · product curator · Dover · cs_d_dover_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_davao_01",
    "text": "Davao is a city in the Philippines",
    "standing": "projectable",
-   "evidence": "geography · product curator · Davao · cs_d_davao_01"
+   "evidence": "geography · product curator · Davao · cs_d_davao_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_delft_01",
    "text": "Delft is a city in the Netherlands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Delft · cs_d_delft_01"
+   "evidence": "geography · product curator · Delft · cs_d_delft_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dubrovnik_01",
    "text": "Dubrovnik is a city in Croatia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dubrovnik · cs_d_dubrovnik_01"
+   "evidence": "geography · product curator · Dubrovnik · cs_d_dubrovnik_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_daegu_01",
    "text": "Daegu is a city in South Korea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Daegu · cs_d_daegu_01"
+   "evidence": "geography · product curator · Daegu · cs_d_daegu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dallas_01",
    "text": "Dallas is a city in Texas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dallas · cs_d_dallas_01"
+   "evidence": "geography · product curator · Dallas · cs_d_dallas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_denver_01",
    "text": "Denver is a city in Colorado",
    "standing": "projectable",
-   "evidence": "geography · product curator · Denver · cs_d_denver_01"
+   "evidence": "geography · product curator · Denver · cs_d_denver_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_detroit_02",
    "text": "Detroit is a city in Michigan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Detroit · cs_d_detroit_02"
+   "evidence": "geography · product curator · Detroit · cs_d_detroit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dayton_01",
    "text": "Dayton is a city in Ohio",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dayton · cs_d_dayton_01"
+   "evidence": "geography · product curator · Dayton · cs_d_dayton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duluth_01",
    "text": "Duluth is a city in Minnesota",
    "standing": "projectable",
-   "evidence": "geography · product curator · Duluth · cs_d_duluth_01"
+   "evidence": "geography · product curator · Duluth · cs_d_duluth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_darwin_01",
    "text": "Darwin is a city in Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Darwin · cs_d_darwin_01"
+   "evidence": "geography · product curator · Darwin · cs_d_darwin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dunedin_01",
    "text": "Dunedin is a city in New Zealand",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dunedin · cs_d_dunedin_01"
+   "evidence": "geography · product curator · Dunedin · cs_d_dunedin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dakar_02",
    "text": "Dakar is a city in Senegal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dakar · cs_d_dakar_02"
+   "evidence": "geography · product curator · Dakar · cs_d_dakar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dodoma_02",
    "text": "Dodoma is a city in Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dodoma · cs_d_dodoma_02"
+   "evidence": "geography · product curator · Dodoma · cs_d_dodoma_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duisburg_01",
    "text": "Duisburg is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Duisburg · cs_d_duisburg_01"
+   "evidence": "geography · product curator · Duisburg · cs_d_duisburg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dongguan_01",
    "text": "Dongguan is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dongguan · cs_d_dongguan_01"
+   "evidence": "geography · product curator · Dongguan · cs_d_dongguan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_daffodil_01",
    "text": "A daffodil is a spring flower with a trumpet cup",
    "standing": "projectable",
-   "evidence": "nature · product curator · Daffodil · cs_d_daffodil_01"
+   "evidence": "nature · product curator · Daffodil · cs_d_daffodil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_damselfly_01",
    "text": "A damselfly is a slender insect related to dragonflies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Damselfly · cs_d_damselfly_01"
+   "evidence": "nature · product curator · Damselfly · cs_d_damselfly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_daphne_01",
    "text": "Daphne is a flowering shrub",
    "standing": "projectable",
-   "evidence": "nature · product curator · Daphne · cs_d_daphne_01"
+   "evidence": "nature · product curator · Daphne · cs_d_daphne_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decimal_point_01",
    "text": "A decimal point separates whole and fractional parts",
    "standing": "projectable",
-   "evidence": "math · product curator · Decimal point · cs_d_decimal_point_01"
+   "evidence": "math · product curator · Decimal point · cs_d_decimal_point_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decree_01",
    "text": "A decree is an official order from a ruler",
    "standing": "projectable",
-   "evidence": "civics · product curator · Decree · cs_d_decree_01"
+   "evidence": "civics · product curator · Decree · cs_d_decree_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_demography_01",
    "text": "Demography is the study of populations",
    "standing": "projectable",
-   "evidence": "civics · product curator · Demography · cs_d_demography_01"
+   "evidence": "civics · product curator · Demography · cs_d_demography_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_detritus_01",
    "text": "Detritus is dead organic matter",
    "standing": "projectable",
-   "evidence": "nature · product curator · Detritus · cs_d_detritus_01"
+   "evidence": "nature · product curator · Detritus · cs_d_detritus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dialect_01",
    "text": "A dialect is a regional form of a language",
    "standing": "projectable",
-   "evidence": "language · product curator · Dialect · cs_d_dialect_01"
+   "evidence": "language · product curator · Dialect · cs_d_dialect_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_differential_01",
    "text": "A differential is the derivative of a function",
    "standing": "projectable",
-   "evidence": "math · product curator · Differential · cs_d_differential_01"
+   "evidence": "math · product curator · Differential · cs_d_differential_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dimension_01",
    "text": "A dimension is an independent direction in space",
    "standing": "projectable",
-   "evidence": "math · product curator · Dimension · cs_d_dimension_01"
+   "evidence": "math · product curator · Dimension · cs_d_dimension_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drainage_basin_01",
    "text": "A drainage basin collects water into one river system",
    "standing": "projectable",
-   "evidence": "geography · product curator · Drainage basin · cs_d_drainage_basin_01"
+   "evidence": "geography · product curator · Drainage basin · cs_d_drainage_basin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duchy_01",
    "text": "A duchy is a territory ruled by a duke",
    "standing": "projectable",
-   "evidence": "history · product curator · Duchy · cs_d_duchy_01"
+   "evidence": "history · product curator · Duchy · cs_d_duchy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_due_process_01",
    "text": "Due process is fair treatment under the law",
    "standing": "projectable",
-   "evidence": "civics · product curator · Due process · cs_d_due_process_01"
+   "evidence": "civics · product curator · Due process · cs_d_due_process_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dust_bowl_01",
    "text": "The Dust Bowl was a severe drought in the American plains",
    "standing": "projectable",
-   "evidence": "history · product curator · Dust Bowl · cs_d_dust_bowl_01"
+   "evidence": "history · product curator · Dust Bowl · cs_d_dust_bowl_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dutch_east_india_company_01",
    "text": "The Dutch East India Company traded in Asia",
    "standing": "projectable",
-   "evidence": "history · product curator · Dutch East India Company · cs_d_dutch_east_india_company_01"
+   "evidence": "history · product curator · Dutch East India Company · cs_d_dutch_east_india_company_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dynasty_01",
    "text": "A dynasty is a line of rulers from one family",
    "standing": "projectable",
-   "evidence": "history · product curator · Dynasty · cs_d_dynasty_01"
+   "evidence": "history · product curator · Dynasty · cs_d_dynasty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_d_day_02",
    "text": "D-Day was the Allied landing in Normandy",
    "standing": "projectable",
-   "evidence": "history · product curator · D-Day · cs_d_d_day_02"
+   "evidence": "history · product curator · D-Day · cs_d_d_day_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_darwin_charles_03",
    "text": "Charles Darwin proposed natural selection",
    "standing": "projectable",
-   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_03"
+   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_declaration_of_independence_02",
    "text": "The Declaration of Independence was adopted in 1776",
    "standing": "projectable",
-   "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_02"
+   "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_desert_03",
    "text": "A desert receives little rainfall",
    "standing": "projectable",
-   "evidence": "geography · product curator · Desert · cs_d_desert_03"
+   "evidence": "geography · product curator · Desert · cs_d_desert_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diffusion_02",
    "text": "Diffusion moves particles from high to low concentration",
    "standing": "projectable",
-   "evidence": "science · product curator · Diffusion · cs_d_diffusion_02"
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dna_03",
    "text": "DNA stores genetic information",
    "standing": "projectable",
-   "evidence": "science · product curator · DNA · cs_d_dna_03"
+   "evidence": "science · product curator · DNA · cs_d_dna_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_domesday_book_02",
    "text": "The Domesday Book recorded land in England",
    "standing": "projectable",
-   "evidence": "history · product curator · Domesday Book · cs_d_domesday_book_02"
+   "evidence": "history · product curator · Domesday Book · cs_d_domesday_book_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_doppler_effect_02",
    "text": "The Doppler effect changes observed frequency",
    "standing": "projectable",
-   "evidence": "science · product curator · Doppler effect · cs_d_doppler_effect_02"
+   "evidence": "science · product curator · Doppler effect · cs_d_doppler_effect_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dozen_02",
    "text": "A dozen equals twelve",
    "standing": "projectable",
-   "evidence": "math · product curator · Dozen · cs_d_dozen_02"
+   "evidence": "math · product curator · Dozen · cs_d_dozen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dragonfly_03",
    "text": "A dragonfly has two pairs of wings",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_03"
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drought_02",
    "text": "A drought is a long period of low rainfall",
    "standing": "projectable",
-   "evidence": "science · product curator · Drought · cs_d_drought_02"
+   "evidence": "science · product curator · Drought · cs_d_drought_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_due_process_02",
    "text": "Due process protects legal rights",
    "standing": "projectable",
-   "evidence": "civics · product curator · Due process · cs_d_due_process_02"
+   "evidence": "civics · product curator · Due process · cs_d_due_process_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_delta_02",
    "text": "A delta forms at a river mouth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Delta · cs_d_delta_02"
+   "evidence": "geography · product curator · Delta · cs_d_delta_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_democracy_02",
    "text": "Democracy elects leaders by vote",
    "standing": "projectable",
-   "evidence": "civics · product curator · Democracy · cs_d_democracy_02"
+   "evidence": "civics · product curator · Democracy · cs_d_democracy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dust_bowl_02",
    "text": "The Dust Bowl damaged farms in the nineteen thirties",
    "standing": "projectable",
-   "evidence": "history · product curator · Dust Bowl · cs_d_dust_bowl_02"
+   "evidence": "history · product curator · Dust Bowl · cs_d_dust_bowl_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dialect_02",
    "text": "Southern American English is a dialect",
    "standing": "projectable",
-   "evidence": "language · product curator · Dialect · cs_d_dialect_02"
+   "evidence": "language · product curator · Dialect · cs_d_dialect_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decimal_02",
    "text": "A decimal uses base ten",
    "standing": "projectable",
-   "evidence": "math · product curator · Decimal · cs_d_decimal_02"
+   "evidence": "math · product curator · Decimal · cs_d_decimal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decade_02",
    "text": "The nineteen twenties were a decade",
    "standing": "projectable",
-   "evidence": "history · product curator · Decade · cs_d_decade_02"
+   "evidence": "history · product curator · Decade · cs_d_decade_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decree_02",
    "text": "A royal decree has legal force",
    "standing": "projectable",
-   "evidence": "civics · product curator · Decree · cs_d_decree_02"
+   "evidence": "civics · product curator · Decree · cs_d_decree_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dictionary_01",
    "text": "A dictionary lists word meanings",
    "standing": "projectable",
-   "evidence": "language · product curator · Dictionary · cs_d_dictionary_01"
+   "evidence": "language · product curator · Dictionary · cs_d_dictionary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_digestion_02",
    "text": "Digestion breaks down food",
    "standing": "projectable",
-   "evidence": "science · product curator · Digestion · cs_d_digestion_02"
+   "evidence": "science · product curator · Digestion · cs_d_digestion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dinosaur_03",
    "text": "A dinosaur was a prehistoric reptile",
    "standing": "projectable",
-   "evidence": "history · product curator · Dinosaur · cs_d_dinosaur_03"
+   "evidence": "history · product curator · Dinosaur · cs_d_dinosaur_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_divisor_01",
    "text": "A divisor divides another number",
    "standing": "projectable",
-   "evidence": "math · product curator · Divisor · cs_d_divisor_01"
+   "evidence": "math · product curator · Divisor · cs_d_divisor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drought_03",
    "text": "A drought is a long dry period",
    "standing": "projectable",
-   "evidence": "geography · product curator · Drought · cs_d_drought_03"
+   "evidence": "geography · product curator · Drought · cs_d_drought_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duck_04",
    "text": "A duck is a water bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Duck · cs_d_duck_04"
+   "evidence": "nature · product curator · Duck · cs_d_duck_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dye_01",
    "text": "A dye colors fabric",
    "standing": "projectable",
-   "evidence": "science · product curator · Dye · cs_d_dye_01"
+   "evidence": "science · product curator · Dye · cs_d_dye_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dimension_02",
    "text": "Length is a dimension",
    "standing": "projectable",
-   "evidence": "math · product curator · Dimension · cs_d_dimension_02"
+   "evidence": "math · product curator · Dimension · cs_d_dimension_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dawn_01",
    "text": "Dawn is the start of day",
    "standing": "projectable",
-   "evidence": "science · product curator · Dawn · cs_d_dawn_01"
+   "evidence": "science · product curator · Dawn · cs_d_dawn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dam_02",
    "text": "A dam holds back a river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dam · cs_d_dam_02"
+   "evidence": "geography · product curator · Dam · cs_d_dam_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dandelion_02",
    "text": "A dandelion spreads seeds on wind",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_02"
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dew_02",
    "text": "Dew forms on cool grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dew · cs_d_dew_02"
+   "evidence": "nature · product curator · Dew · cs_d_dew_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diameter_02",
    "text": "A diameter crosses a circle",
    "standing": "projectable",
-   "evidence": "math · product curator · Diameter · cs_d_diameter_02"
+   "evidence": "math · product curator · Diameter · cs_d_diameter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diaphragm_01",
    "text": "The diaphragm helps breathing",
    "standing": "projectable",
-   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_01"
+   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_digit_02",
    "text": "A digit is a single numeral",
    "standing": "projectable",
-   "evidence": "math · product curator · Digit · cs_d_digit_02"
+   "evidence": "math · product curator · Digit · cs_d_digit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dome_01",
    "text": "A dome curves over a building",
    "standing": "projectable",
-   "evidence": "history · product curator · Dome · cs_d_dome_01"
+   "evidence": "history · product curator · Dome · cs_d_dome_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dragonfly_04",
    "text": "A dragonfly hunts flying insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_04"
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_density_02",
    "text": "Lead has high density",
    "standing": "projectable",
-   "evidence": "science · product curator · Density · cs_d_density_02"
+   "evidence": "science · product curator · Density · cs_d_density_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dividend_01",
    "text": "Division starts with a dividend",
    "standing": "projectable",
-   "evidence": "math · product curator · Dividend · cs_d_dividend_01"
+   "evidence": "math · product curator · Dividend · cs_d_dividend_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diatom_01",
    "text": "A diatom is a tiny alga",
    "standing": "projectable",
-   "evidence": "nature · product curator · Diatom · cs_d_diatom_01"
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dividend_02",
    "text": "A dividend is divided by a divisor",
    "standing": "projectable",
-   "evidence": "math · product curator · Dividend · cs_d_dividend_02"
+   "evidence": "math · product curator · Dividend · cs_d_dividend_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diatom_02",
    "text": "Diatoms make ocean oxygen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Diatom · cs_d_diatom_02"
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_delta_03",
    "text": "Sediment builds a delta",
    "standing": "projectable",
-   "evidence": "geography · product curator · Delta · cs_d_delta_03"
+   "evidence": "geography · product curator · Delta · cs_d_delta_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dew_03",
    "text": "Cold air forms dew",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dew · cs_d_dew_03"
+   "evidence": "nature · product curator · Dew · cs_d_dew_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dam_03",
    "text": "Engineers build a dam",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dam · cs_d_dam_03"
+   "evidence": "geography · product curator · Dam · cs_d_dam_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dawn_02",
    "text": "Birds sing at dawn",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dawn · cs_d_dawn_02"
+   "evidence": "nature · product curator · Dawn · cs_d_dawn_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diffusion_03",
    "text": "Ink spreads by diffusion",
    "standing": "projectable",
-   "evidence": "science · product curator · Diffusion · cs_d_diffusion_03"
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_divisor_02",
    "text": "A divisor splits a number",
    "standing": "projectable",
-   "evidence": "math · product curator · Divisor · cs_d_divisor_02"
+   "evidence": "math · product curator · Divisor · cs_d_divisor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dysprosium_02",
    "text": "Dysprosium is a rare earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Dysprosium · cs_d_dysprosium_02"
+   "evidence": "science · product curator · Dysprosium · cs_d_dysprosium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dew_point_02",
    "text": "Fog forms at the dew point",
    "standing": "projectable",
-   "evidence": "science · product curator · Dew point · cs_d_dew_point_02"
+   "evidence": "science · product curator · Dew point · cs_d_dew_point_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dragonfly_05",
    "text": "A dragonfly hunts midges",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_05"
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dung_beetle_02",
    "text": "A dung beetle rolls dung",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dung beetle · cs_d_dung_beetle_02"
+   "evidence": "nature · product curator · Dung beetle · cs_d_dung_beetle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dimension_03",
    "text": "A plane has two dimensions",
    "standing": "projectable",
-   "evidence": "math · product curator · Dimension · cs_d_dimension_03"
+   "evidence": "math · product curator · Dimension · cs_d_dimension_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drought_04",
    "text": "Crops fail in a drought",
    "standing": "projectable",
-   "evidence": "nature · product curator · Drought · cs_d_drought_04"
+   "evidence": "nature · product curator · Drought · cs_d_drought_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_daisy_02",
    "text": "A daisy opens at morning",
    "standing": "projectable",
-   "evidence": "nature · product curator · Daisy · cs_d_daisy_02"
+   "evidence": "nature · product curator · Daisy · cs_d_daisy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_deer_02",
    "text": "Deer browse young shoots",
    "standing": "projectable",
-   "evidence": "nature · product curator · Deer · cs_d_deer_02"
+   "evidence": "nature · product curator · Deer · cs_d_deer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diamond_04",
    "text": "Cutters polish a diamond",
    "standing": "projectable",
-   "evidence": "science · product curator · Diamond · cs_d_diamond_04"
+   "evidence": "science · product curator · Diamond · cs_d_diamond_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diatom_03",
    "text": "Oceans teem with diatoms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Diatom · cs_d_diatom_03"
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dragonfly_06",
    "text": "Nymphs become a dragonfly",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_06"
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drought_05",
    "text": "Lakes shrink in a drought",
    "standing": "projectable",
-   "evidence": "nature · product curator · Drought · cs_d_drought_05"
+   "evidence": "nature · product curator · Drought · cs_d_drought_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_duck_05",
    "text": "A duck oils its feathers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Duck · cs_d_duck_05"
+   "evidence": "nature · product curator · Duck · cs_d_duck_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dugong_01",
    "text": "A dugong grazes seagrass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dugong · cs_d_dugong_01"
+   "evidence": "nature · product curator · Dugong · cs_d_dugong_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dynamo_01",
    "text": "Bikes once used a dynamo",
    "standing": "projectable",
-   "evidence": "science · product curator · Dynamo · cs_d_dynamo_01"
+   "evidence": "science · product curator · Dynamo · cs_d_dynamo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_daffodil_02",
    "text": "A daffodil blooms in spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Daffodil · cs_d_daffodil_02"
+   "evidence": "nature · product curator · Daffodil · cs_d_daffodil_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_delta_04",
    "text": "Rivers build a delta",
    "standing": "projectable",
-   "evidence": "geography · product curator · Delta · cs_d_delta_04"
+   "evidence": "geography · product curator · Delta · cs_d_delta_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dendrite_01",
    "text": "Neurons grow dendrites",
    "standing": "projectable",
-   "evidence": "science · product curator · Dendrite · cs_d_dendrite_01"
+   "evidence": "science · product curator · Dendrite · cs_d_dendrite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diatom_04",
    "text": "Diatoms make glass shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Diatom · cs_d_diatom_04"
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dinosaur_04",
    "text": "Fossils reveal dinosaurs",
    "standing": "projectable",
-   "evidence": "science · product curator · Dinosaur · cs_d_dinosaur_04"
+   "evidence": "science · product curator · Dinosaur · cs_d_dinosaur_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diode_01",
    "text": "A diode directs current",
    "standing": "projectable",
-   "evidence": "science · product curator · Diode · cs_d_diode_01"
+   "evidence": "science · product curator · Diode · cs_d_diode_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolomite_01",
    "text": "Builders quarry dolomite",
    "standing": "projectable",
-   "evidence": "science · product curator · Dolomite · cs_d_dolomite_01"
+   "evidence": "science · product curator · Dolomite · cs_d_dolomite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dormouse_02",
    "text": "A dormouse sleeps winters",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dormouse · cs_d_dormouse_02"
+   "evidence": "nature · product curator · Dormouse · cs_d_dormouse_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dust_01",
    "text": "Dust settles from the air",
    "standing": "projectable",
-   "evidence": "science · product curator · Dust · cs_d_dust_01"
+   "evidence": "science · product curator · Dust · cs_d_dust_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dandelion_03",
    "text": "Wind lifts dandelion seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_03"
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_day_02",
    "text": "Earth turns once per day",
    "standing": "projectable",
-   "evidence": "science · product curator · Day · cs_d_day_02"
+   "evidence": "science · product curator · Day · cs_d_day_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_detergent_01",
    "text": "Detergent lifts grease",
    "standing": "projectable",
-   "evidence": "science · product curator · Detergent · cs_d_detergent_01"
+   "evidence": "science · product curator · Detergent · cs_d_detergent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diamond_05",
    "text": "Diamond is hard carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Diamond · cs_d_diamond_05"
+   "evidence": "science · product curator · Diamond · cs_d_diamond_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_digest_01",
    "text": "Stomach acids digest food",
    "standing": "projectable",
-   "evidence": "science · product curator · Digest · cs_d_digest_01"
+   "evidence": "science · product curator · Digest · cs_d_digest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolphin_04",
    "text": "A dolphin breathes air",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_04"
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dormant_01",
    "text": "Seeds stay dormant in cold",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dormant · cs_d_dormant_01"
+   "evidence": "nature · product curator · Dormant · cs_d_dormant_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drought_06",
    "text": "A drought dries soil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Drought · cs_d_drought_06"
+   "evidence": "geography · product curator · Drought · cs_d_drought_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dune_03",
    "text": "Wind builds a sand dune",
    "standing": "projectable",
-   "evidence": "geography · product curator · Dune · cs_d_dune_03"
+   "evidence": "geography · product curator · Dune · cs_d_dune_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dynamo_02",
    "text": "A dynamo makes current",
    "standing": "projectable",
-   "evidence": "science · product curator · Dynamo · cs_d_dynamo_02"
+   "evidence": "science · product curator · Dynamo · cs_d_dynamo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dermis_01",
    "text": "The dermis holds skin nerves",
    "standing": "projectable",
-   "evidence": "science · product curator · Dermis · cs_d_dermis_01"
+   "evidence": "science · product curator · Dermis · cs_d_dermis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_detritus_02",
    "text": "Detritus feeds bottom scavengers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Detritus · cs_d_detritus_02"
+   "evidence": "nature · product curator · Detritus · cs_d_detritus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_deuterium_02",
    "text": "Deuterium holds an extra neutron",
    "standing": "projectable",
-   "evidence": "science · product curator · Deuterium · cs_d_deuterium_02"
+   "evidence": "science · product curator · Deuterium · cs_d_deuterium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diabetes_01",
    "text": "Diabetes raises blood sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Diabetes · cs_d_diabetes_01"
+   "evidence": "science · product curator · Diabetes · cs_d_diabetes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dispersion_01",
    "text": "A prism causes light dispersion",
    "standing": "projectable",
-   "evidence": "science · product curator · Dispersion · cs_d_dispersion_01"
+   "evidence": "science · product curator · Dispersion · cs_d_dispersion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolomite_02",
    "text": "Dolomite holds magnesium carbonate",
    "standing": "projectable",
-   "evidence": "science · product curator · Dolomite · cs_d_dolomite_02"
+   "evidence": "science · product curator · Dolomite · cs_d_dolomite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dandelion_04",
    "text": "Dandelions spread by seed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_04"
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dendrite_02",
    "text": "Dendrites receive nerve signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Dendrite · cs_d_dendrite_02"
+   "evidence": "science · product curator · Dendrite · cs_d_dendrite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_density_03",
    "text": "Density ranks mass per volume",
    "standing": "projectable",
-   "evidence": "science · product curator · Density · cs_d_density_03"
+   "evidence": "science · product curator · Density · cs_d_density_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dermis_02",
    "text": "Collagen fills the dermis",
    "standing": "projectable",
-   "evidence": "science · product curator · Dermis · cs_d_dermis_02"
+   "evidence": "science · product curator · Dermis · cs_d_dermis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_detergent_02",
    "text": "Detergent lifts oily dirt",
    "standing": "projectable",
-   "evidence": "science · product curator · Detergent · cs_d_detergent_02"
+   "evidence": "science · product curator · Detergent · cs_d_detergent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diaphragm_02",
    "text": "Breath lifts the diaphragm",
    "standing": "projectable",
-   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_02"
+   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diatom_05",
    "text": "Diatoms build silica shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Diatom · cs_d_diatom_05"
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diode_02",
    "text": "A diode passes one-way current",
    "standing": "projectable",
-   "evidence": "science · product curator · Diode · cs_d_diode_02"
+   "evidence": "science · product curator · Diode · cs_d_diode_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_doppler_01",
    "text": "Police radar uses Doppler",
    "standing": "projectable",
-   "evidence": "science · product curator · Doppler · cs_d_doppler_01"
+   "evidence": "science · product curator · Doppler · cs_d_doppler_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dormant_02",
    "text": "Winter keeps buds dormant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dormant · cs_d_dormant_02"
+   "evidence": "nature · product curator · Dormant · cs_d_dormant_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_datum_01",
    "text": "A datum anchors map height",
    "standing": "projectable",
-   "evidence": "science · product curator · Datum · cs_d_datum_01"
+   "evidence": "science · product curator · Datum · cs_d_datum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_deimos_02",
    "text": "Deimos orbits planet Mars",
    "standing": "projectable",
-   "evidence": "science · product curator · Deimos · cs_d_deimos_02"
+   "evidence": "science · product curator · Deimos · cs_d_deimos_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dopamine_01",
    "text": "Dopamine rewards brain circuits",
    "standing": "projectable",
-   "evidence": "science · product curator · Dopamine · cs_d_dopamine_01"
+   "evidence": "science · product curator · Dopamine · cs_d_dopamine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drag_force_01",
    "text": "Drag slows moving objects",
    "standing": "projectable",
-   "evidence": "science · product curator · Drag force · cs_d_drag_force_01"
+   "evidence": "science · product curator · Drag force · cs_d_drag_force_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drainage_01",
    "text": "Drainage clears soil water",
    "standing": "projectable",
-   "evidence": "science · product curator · Drainage · cs_d_drainage_01"
+   "evidence": "science · product curator · Drainage · cs_d_drainage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_drought_07",
    "text": "Drought dries crop fields",
    "standing": "projectable",
-   "evidence": "nature · product curator · Drought · cs_d_drought_07"
+   "evidence": "nature · product curator · Drought · cs_d_drought_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_ductility_01",
    "text": "Ductility lets metal stretch",
    "standing": "projectable",
-   "evidence": "science · product curator · Ductility · cs_d_ductility_01"
+   "evidence": "science · product curator · Ductility · cs_d_ductility_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dune_grass_01",
    "text": "Dune grass roots hold sand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Dune grass · cs_d_dune_grass_01"
+   "evidence": "nature · product curator · Dune grass · cs_d_dune_grass_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dust_devil_01",
    "text": "Dust devils spin dry plains",
    "standing": "projectable",
-   "evidence": "science · product curator · Dust devil · cs_d_dust_devil_01"
+   "evidence": "science · product curator · Dust devil · cs_d_dust_devil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dyne_01",
    "text": "A dyne measures tiny force",
    "standing": "projectable",
-   "evidence": "science · product curator · Dyne · cs_d_dyne_01"
+   "evidence": "science · product curator · Dyne · cs_d_dyne_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_darcy_01",
    "text": "Darcy ranks porous flow",
    "standing": "projectable",
-   "evidence": "science · product curator · Darcy · cs_d_darcy_01"
+   "evidence": "science · product curator · Darcy · cs_d_darcy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_decomposer_01",
    "text": "Decomposers recycle dead matter",
    "standing": "projectable",
-   "evidence": "nature · product curator · Decomposer · cs_d_decomposer_01"
+   "evidence": "nature · product curator · Decomposer · cs_d_decomposer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dermis_03",
    "text": "The dermis cushions skin layers",
    "standing": "projectable",
-   "evidence": "science · product curator · Dermis · cs_d_dermis_03"
+   "evidence": "science · product curator · Dermis · cs_d_dermis_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_detritus_03",
    "text": "Detritus feeds stream bottoms",
    "standing": "projectable",
-   "evidence": "nature · product curator · Detritus · cs_d_detritus_03"
+   "evidence": "nature · product curator · Detritus · cs_d_detritus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_deuterium_03",
    "text": "Deuterium fuels fusion cores",
    "standing": "projectable",
-   "evidence": "science · product curator · Deuterium · cs_d_deuterium_03"
+   "evidence": "science · product curator · Deuterium · cs_d_deuterium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diaphragm_03",
    "text": "The diaphragm draws lung air",
    "standing": "projectable",
-   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_03"
+   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_diffusion_04",
    "text": "Diffusion spreads solute ions",
    "standing": "projectable",
-   "evidence": "science · product curator · Diffusion · cs_d_diffusion_04"
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dispersion_02",
    "text": "Prisms disperse white light",
    "standing": "projectable",
-   "evidence": "science · product curator · Dispersion · cs_d_dispersion_02"
+   "evidence": "science · product curator · Dispersion · cs_d_dispersion_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_dolomite_03",
    "text": "Dolomite buffers hard water",
    "standing": "projectable",
-   "evidence": "science · product curator · Dolomite · cs_d_dolomite_03"
+   "evidence": "science · product curator · Dolomite · cs_d_dolomite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_d_doppler_02",
    "text": "Doppler shifts moving sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Doppler · cs_d_doppler_02"
+   "evidence": "science · product curator · Doppler · cs_d_doppler_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

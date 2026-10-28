@@ -1,194 +1,215 @@
 {
-  "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
-  "provenance": "confirmed_shared",
-  "who_confirmed": "product_curator",
-  "version": "4.9.163",
-  "letters": [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z"
-  ],
-  "packs": {
-    "a": {
-      "path": "a.json",
-      "letter": "A",
-      "items": 250,
-      "curated_facts": 253
-    },
-    "b": {
-      "path": "b.json",
-      "letter": "B",
-      "items": 250,
-      "curated_facts": 256
-    },
-    "c": {
-      "path": "c.json",
-      "letter": "C",
-      "items": 252,
-      "curated_facts": 258
-    },
-    "d": {
-      "path": "d.json",
-      "letter": "D",
-      "items": 253,
-      "curated_facts": 265
-    },
-    "e": {
-      "path": "e.json",
-      "letter": "E",
-      "items": 254,
-      "curated_facts": 259
-    },
-    "f": {
-      "path": "f.json",
-      "letter": "F",
-      "items": 262,
-      "curated_facts": 271
-    },
-    "g": {
-      "path": "g.json",
-      "letter": "G",
-      "items": 254,
-      "curated_facts": 261
-    },
-    "h": {
-      "path": "h.json",
-      "letter": "H",
-      "items": 254,
-      "curated_facts": 265
-    },
-    "i": {
-      "path": "i.json",
-      "letter": "I",
-      "items": 250,
-      "curated_facts": 262
-    },
-    "j": {
-      "path": "j.json",
-      "letter": "J",
-      "items": 250,
-      "curated_facts": 261
-    },
-    "k": {
-      "path": "k.json",
-      "letter": "K",
-      "items": 250,
-      "curated_facts": 259
-    },
-    "l": {
-      "path": "l.json",
-      "letter": "L",
-      "items": 250,
-      "curated_facts": 259
-    },
-    "m": {
-      "path": "m.json",
-      "letter": "M",
-      "items": 254,
-      "curated_facts": 259
-    },
-    "n": {
-      "path": "n.json",
-      "letter": "N",
-      "items": 253,
-      "curated_facts": 260
-    },
-    "o": {
-      "path": "o.json",
-      "letter": "O",
-      "items": 250,
-      "curated_facts": 261
-    },
-    "p": {
-      "path": "p.json",
-      "letter": "P",
-      "items": 254,
-      "curated_facts": 262
-    },
-    "q": {
-      "path": "q.json",
-      "letter": "Q",
-      "items": 250,
-      "curated_facts": 269
-    },
-    "r": {
-      "path": "r.json",
-      "letter": "R",
-      "items": 244,
-      "curated_facts": 254
-    },
-    "s": {
-      "path": "s.json",
-      "letter": "S",
-      "items": 250,
-      "curated_facts": 254
-    },
-    "t": {
-      "path": "t.json",
-      "letter": "T",
-      "items": 250,
-      "curated_facts": 257
-    },
-    "u": {
-      "path": "u.json",
-      "letter": "U",
-      "items": 244,
-      "curated_facts": 256
-    },
-    "v": {
-      "path": "v.json",
-      "letter": "V",
-      "items": 244,
-      "curated_facts": 252
-    },
-    "w": {
-      "path": "w.json",
-      "letter": "W",
-      "items": 250,
-      "curated_facts": 255
-    },
-    "x": {
-      "path": "x.json",
-      "letter": "X",
-      "items": 244,
-      "curated_facts": 253
-    },
-    "y": {
-      "path": "y.json",
-      "letter": "Y",
-      "items": 252,
-      "curated_facts": 263
-    },
-    "z": {
-      "path": "z.json",
-      "letter": "Z",
-      "items": 250,
-      "curated_facts": 272
-    }
+ "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
+ "provenance": "confirmed_shared",
+ "who_confirmed": "product_curator",
+ "version": "4.9.168",
+ "letters": [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
+ ],
+ "packs": {
+  "a": {
+   "path": "a.json",
+   "letter": "A",
+   "items": 250,
+   "curated_facts": 253
   },
-  "total_items": 6518,
-  "total_curated": 6756
+  "b": {
+   "path": "b.json",
+   "letter": "B",
+   "items": 250,
+   "curated_facts": 256
+  },
+  "c": {
+   "path": "c.json",
+   "letter": "C",
+   "items": 252,
+   "curated_facts": 258
+  },
+  "d": {
+   "path": "d.json",
+   "letter": "D",
+   "items": 253,
+   "curated_facts": 265
+  },
+  "e": {
+   "path": "e.json",
+   "letter": "E",
+   "items": 254,
+   "curated_facts": 259
+  },
+  "f": {
+   "path": "f.json",
+   "letter": "F",
+   "items": 262,
+   "curated_facts": 271
+  },
+  "g": {
+   "path": "g.json",
+   "letter": "G",
+   "items": 254,
+   "curated_facts": 261
+  },
+  "h": {
+   "path": "h.json",
+   "letter": "H",
+   "items": 254,
+   "curated_facts": 265
+  },
+  "i": {
+   "path": "i.json",
+   "letter": "I",
+   "items": 250,
+   "curated_facts": 262
+  },
+  "j": {
+   "path": "j.json",
+   "letter": "J",
+   "items": 250,
+   "curated_facts": 261
+  },
+  "k": {
+   "path": "k.json",
+   "letter": "K",
+   "items": 250,
+   "curated_facts": 259
+  },
+  "l": {
+   "path": "l.json",
+   "letter": "L",
+   "items": 250,
+   "curated_facts": 259
+  },
+  "m": {
+   "path": "m.json",
+   "letter": "M",
+   "items": 254,
+   "curated_facts": 259
+  },
+  "n": {
+   "path": "n.json",
+   "letter": "N",
+   "items": 253,
+   "curated_facts": 260
+  },
+  "o": {
+   "path": "o.json",
+   "letter": "O",
+   "items": 250,
+   "curated_facts": 261
+  },
+  "p": {
+   "path": "p.json",
+   "letter": "P",
+   "items": 254,
+   "curated_facts": 262
+  },
+  "q": {
+   "path": "q.json",
+   "letter": "Q",
+   "items": 250,
+   "curated_facts": 269
+  },
+  "r": {
+   "path": "r.json",
+   "letter": "R",
+   "items": 244,
+   "curated_facts": 254
+  },
+  "s": {
+   "path": "s.json",
+   "letter": "S",
+   "items": 250,
+   "curated_facts": 254
+  },
+  "t": {
+   "path": "t.json",
+   "letter": "T",
+   "items": 250,
+   "curated_facts": 257
+  },
+  "u": {
+   "path": "u.json",
+   "letter": "U",
+   "items": 244,
+   "curated_facts": 256
+  },
+  "v": {
+   "path": "v.json",
+   "letter": "V",
+   "items": 244,
+   "curated_facts": 252
+  },
+  "w": {
+   "path": "w.json",
+   "letter": "W",
+   "items": 250,
+   "curated_facts": 255
+  },
+  "x": {
+   "path": "x.json",
+   "letter": "X",
+   "items": 244,
+   "curated_facts": 253
+  },
+  "y": {
+   "path": "y.json",
+   "letter": "Y",
+   "items": 252,
+   "curated_facts": 263
+  },
+  "z": {
+   "path": "z.json",
+   "letter": "Z",
+   "items": 250,
+   "curated_facts": 272
+  }
+ },
+ "total_items": 6518,
+ "total_curated": 6756,
+ "resonance_packets": {
+  "schema": "FORGE-RESONANCE-PACKET/v1",
+  "required": [
+   "Phi",
+   "eps",
+   "mu"
+  ],
+  "cite": "RPMC §1 RPM; Axiom 4; §3.4 Grace Integral; RSOC SFE {Φ,ε,μ}",
+  "attach": "on_admit_or_backfill",
+  "default_projectable": {
+   "Phi": 9,
+   "eps": 0,
+   "mu": 1
+  },
+  "default_held": {
+   "Phi": 5,
+   "eps": 0.5,
+   "mu": 0
+  },
+  "note": "Packets enable RPMC phase-align/combine; they are not answer text."
+ }
 }

@@ -12,1525 +12,2795 @@
    "id": "cs_m_mexico_01",
    "text": "Mexico City is the capital of Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mexico · cs_m_mexico_01"
+   "evidence": "geography · product curator · Mexico · cs_m_mexico_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_madagascar_01",
    "text": "Madagascar is the fourth largest island in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Madagascar · cs_m_madagascar_01"
+   "evidence": "geography · product curator · Madagascar · cs_m_madagascar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_madagascar_02",
    "text": "Antananarivo is the capital of Madagascar",
    "standing": "projectable",
-   "evidence": "geography · product curator · Madagascar · cs_m_madagascar_02"
+   "evidence": "geography · product curator · Madagascar · cs_m_madagascar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_morocco_01",
    "text": "Rabat is the capital of Morocco",
    "standing": "projectable",
-   "evidence": "geography · product curator · Morocco · cs_m_morocco_01"
+   "evidence": "geography · product curator · Morocco · cs_m_morocco_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mongolia_01",
    "text": "Ulaanbaatar is the capital of Mongolia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mongolia · cs_m_mongolia_01"
+   "evidence": "geography · product curator · Mongolia · cs_m_mongolia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mali_01",
    "text": "Bamako is the capital of Mali",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mali · cs_m_mali_01"
+   "evidence": "geography · product curator · Mali · cs_m_mali_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_malta_01",
    "text": "Valletta is the capital of Malta",
    "standing": "projectable",
-   "evidence": "geography · product curator · Malta · cs_m_malta_01"
+   "evidence": "geography · product curator · Malta · cs_m_malta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moscow_01",
    "text": "Moscow is the capital of Russia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Moscow · cs_m_moscow_01"
+   "evidence": "geography · product curator · Moscow · cs_m_moscow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_madrid_01",
    "text": "Madrid is the capital of Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Madrid · cs_m_madrid_01"
+   "evidence": "geography · product curator · Madrid · cs_m_madrid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_manila_01",
    "text": "Manila is the capital of the Philippines",
    "standing": "projectable",
-   "evidence": "geography · product curator · Manila · cs_m_manila_01"
+   "evidence": "geography · product curator · Manila · cs_m_manila_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_montevideo_01",
    "text": "Montevideo is the capital of Uruguay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Montevideo · cs_m_montevideo_01"
+   "evidence": "geography · product curator · Montevideo · cs_m_montevideo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monaco_01",
    "text": "Monaco is the second smallest country in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Monaco · cs_m_monaco_01"
+   "evidence": "geography · product curator · Monaco · cs_m_monaco_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maldives_01",
    "text": "The Maldives is an island country in the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Maldives · cs_m_maldives_01"
+   "evidence": "geography · product curator · Maldives · cs_m_maldives_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mediterranean_sea_01",
    "text": "The Mediterranean Sea lies between Europe, Africa, and Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mediterranean Sea · cs_m_mediterranean_sea_01"
+   "evidence": "geography · product curator · Mediterranean Sea · cs_m_mediterranean_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mississippi_river_01",
    "text": "The Mississippi flows into the Gulf of Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mississippi River · cs_m_mississippi_river_01"
+   "evidence": "geography · product curator · Mississippi River · cs_m_mississippi_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_missouri_river_01",
    "text": "The Missouri is the longest river in the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Missouri River · cs_m_missouri_river_01"
+   "evidence": "geography · product curator · Missouri River · cs_m_missouri_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mekong_01",
    "text": "The Mekong flows through Southeast Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mekong · cs_m_mekong_01"
+   "evidence": "geography · product curator · Mekong · cs_m_mekong_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mount_kilimanjaro_01",
    "text": "Mount Kilimanjaro is a dormant volcano",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mount Kilimanjaro · cs_m_mount_kilimanjaro_01"
+   "evidence": "geography · product curator · Mount Kilimanjaro · cs_m_mount_kilimanjaro_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mariana_trench_01",
    "text": "The Mariana Trench is the deepest known part of the ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mariana Trench · cs_m_mariana_trench_01"
+   "evidence": "geography · product curator · Mariana Trench · cs_m_mariana_trench_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mariana_trench_02",
    "text": "The Mariana Trench is in the Pacific Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mariana Trench · cs_m_mariana_trench_02"
+   "evidence": "geography · product curator · Mariana Trench · cs_m_mariana_trench_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mojave_desert_01",
    "text": "The Mojave Desert is in the southwestern United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mojave Desert · cs_m_mojave_desert_01"
+   "evidence": "geography · product curator · Mojave Desert · cs_m_mojave_desert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_michigan_lake_01",
    "text": "Lake Michigan lies entirely within the United States",
    "standing": "projectable",
-   "evidence": "geography · product curator · Michigan, Lake · cs_m_michigan_lake_01"
+   "evidence": "geography · product curator · Michigan, Lake · cs_m_michigan_lake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maine_01",
    "text": "Augusta is the capital of Maine",
    "standing": "projectable",
-   "evidence": "geography · product curator · Maine · cs_m_maine_01"
+   "evidence": "geography · product curator · Maine · cs_m_maine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_minnesota_01",
    "text": "Saint Paul is the capital of Minnesota",
    "standing": "projectable",
-   "evidence": "geography · product curator · Minnesota · cs_m_minnesota_01"
+   "evidence": "geography · product curator · Minnesota · cs_m_minnesota_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_madison_01",
    "text": "Madison is the capital of Wisconsin",
    "standing": "projectable",
-   "evidence": "geography · product curator · Madison · cs_m_madison_01"
+   "evidence": "geography · product curator · Madison · cs_m_madison_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mars_01",
    "text": "Mars is the fourth planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Mars · cs_m_mars_01"
+   "evidence": "science · product curator · Mars · cs_m_mars_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mars_02",
    "text": "Mars is called the Red Planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Mars · cs_m_mars_02"
+   "evidence": "science · product curator · Mars · cs_m_mars_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mars_03",
    "text": "Mars has two moons, Phobos and Deimos",
    "standing": "projectable",
-   "evidence": "science · product curator · Mars · cs_m_mars_03"
+   "evidence": "science · product curator · Mars · cs_m_mars_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mars_04",
    "text": "Olympus Mons on Mars is the tallest known volcano in the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Mars · cs_m_mars_04"
+   "evidence": "science · product curator · Mars · cs_m_mars_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mercury_planet_01",
    "text": "Mercury is the closest planet to the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Mercury (planet) · cs_m_mercury_planet_01"
+   "evidence": "science · product curator · Mercury (planet) · cs_m_mercury_planet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mercury_planet_02",
    "text": "Mercury is the smallest planet in the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Mercury (planet) · cs_m_mercury_planet_02"
+   "evidence": "science · product curator · Mercury (planet) · cs_m_mercury_planet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mercury_element_01",
    "text": "Mercury is a metal that is liquid at room temperature",
    "standing": "projectable",
-   "evidence": "science · product curator · Mercury (element) · cs_m_mercury_element_01"
+   "evidence": "science · product curator · Mercury (element) · cs_m_mercury_element_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mercury_element_02",
    "text": "Mercury has the chemical symbol Hg",
    "standing": "projectable",
-   "evidence": "science · product curator · Mercury (element) · cs_m_mercury_element_02"
+   "evidence": "science · product curator · Mercury (element) · cs_m_mercury_element_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moon_01",
    "text": "The Moon is Earth's only natural satellite",
    "standing": "projectable",
-   "evidence": "science · product curator · Moon · cs_m_moon_01"
+   "evidence": "science · product curator · Moon · cs_m_moon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moon_02",
    "text": "The Moon causes most ocean tides",
    "standing": "projectable",
-   "evidence": "science · product curator · Moon · cs_m_moon_02"
+   "evidence": "science · product curator · Moon · cs_m_moon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_milky_way_01",
    "text": "The Milky Way is a barred spiral galaxy",
    "standing": "projectable",
-   "evidence": "science · product curator · Milky Way · cs_m_milky_way_01"
+   "evidence": "science · product curator · Milky Way · cs_m_milky_way_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnesium_01",
    "text": "Magnesium has the chemical symbol Mg",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnesium · cs_m_magnesium_01"
+   "evidence": "science · product curator · Magnesium · cs_m_magnesium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_manganese_01",
    "text": "Manganese has the chemical symbol Mn",
    "standing": "projectable",
-   "evidence": "science · product curator · Manganese · cs_m_manganese_01"
+   "evidence": "science · product curator · Manganese · cs_m_manganese_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_molybdenum_01",
    "text": "Molybdenum has the chemical symbol Mo",
    "standing": "projectable",
-   "evidence": "science · product curator · Molybdenum · cs_m_molybdenum_01"
+   "evidence": "science · product curator · Molybdenum · cs_m_molybdenum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mendelevium_01",
    "text": "Mendelevium has the chemical symbol Md",
    "standing": "projectable",
-   "evidence": "science · product curator · Mendelevium · cs_m_mendelevium_01"
+   "evidence": "science · product curator · Mendelevium · cs_m_mendelevium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_molecule_01",
    "text": "A water molecule consists of two hydrogen atoms and one oxygen atom",
    "standing": "projectable",
-   "evidence": "science · product curator · Molecule · cs_m_molecule_01"
+   "evidence": "science · product curator · Molecule · cs_m_molecule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magma_01",
    "text": "Magma is molten rock beneath Earth's surface",
    "standing": "projectable",
-   "evidence": "science · product curator · Magma · cs_m_magma_01"
+   "evidence": "science · product curator · Magma · cs_m_magma_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mantle_01",
    "text": "The mantle lies between Earth's crust and core",
    "standing": "projectable",
-   "evidence": "science · product curator · Mantle · cs_m_mantle_01"
+   "evidence": "science · product curator · Mantle · cs_m_mantle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mass_01",
    "text": "Mass is measured in kilograms in the SI system",
    "standing": "projectable",
-   "evidence": "science · product curator · Mass · cs_m_mass_01"
+   "evidence": "science · product curator · Mass · cs_m_mass_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meteor_01",
    "text": "A meteor is the streak of light from a space rock burning in the atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Meteor · cs_m_meteor_01"
+   "evidence": "science · product curator · Meteor · cs_m_meteor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mammal_01",
    "text": "Mammals feed their young with milk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mammal · cs_m_mammal_01"
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mammal_02",
    "text": "Mammals have hair or fur",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mammal · cs_m_mammal_02"
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monkey_01",
    "text": "Monkeys are primates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Monkey · cs_m_monkey_01"
+   "evidence": "nature · product curator · Monkey · cs_m_monkey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mole_01",
    "text": "Moles are burrowing mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mole · cs_m_mole_01"
+   "evidence": "nature · product curator · Mole · cs_m_mole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mosquito_01",
    "text": "Mosquitoes are insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mosquito · cs_m_mosquito_01"
+   "evidence": "nature · product curator · Mosquito · cs_m_mosquito_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moth_01",
    "text": "Moths are closely related to butterflies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Moth · cs_m_moth_01"
+   "evidence": "nature · product curator · Moth · cs_m_moth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_manatee_01",
    "text": "Manatees are herbivorous marine mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Manatee · cs_m_manatee_01"
+   "evidence": "nature · product curator · Manatee · cs_m_manatee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meerkat_01",
    "text": "Meerkats live in Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_01"
+   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monarch_butterfly_01",
    "text": "Monarch butterflies migrate across North America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Monarch butterfly · cs_m_monarch_butterfly_01"
+   "evidence": "nature · product curator · Monarch butterfly · cs_m_monarch_butterfly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mushroom_01",
    "text": "A mushroom is the fruiting body of a fungus",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mushroom · cs_m_mushroom_01"
+   "evidence": "nature · product curator · Mushroom · cs_m_mushroom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maple_01",
    "text": "The maple leaf appears on the flag of Canada",
    "standing": "projectable",
-   "evidence": "nature · product curator · Maple · cs_m_maple_01"
+   "evidence": "nature · product curator · Maple · cs_m_maple_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mangrove_01",
    "text": "Mangroves grow in coastal saltwater",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mangrove · cs_m_mangrove_01"
+   "evidence": "nature · product curator · Mangrove · cs_m_mangrove_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marsupial_01",
    "text": "Marsupials carry their young in a pouch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_01"
+   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magna_carta_01",
    "text": "The Magna Carta was sealed in 1215",
    "standing": "projectable",
-   "evidence": "history · product curator · Magna Carta · cs_m_magna_carta_01"
+   "evidence": "history · product curator · Magna Carta · cs_m_magna_carta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marco_polo_01",
    "text": "Marco Polo was a Venetian traveler to China",
    "standing": "projectable",
-   "evidence": "history · product curator · Marco Polo · cs_m_marco_polo_01"
+   "evidence": "history · product curator · Marco Polo · cs_m_marco_polo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mayflower_01",
    "text": "The Mayflower carried the Pilgrims to North America in 1620",
    "standing": "projectable",
-   "evidence": "history · product curator · Mayflower · cs_m_mayflower_01"
+   "evidence": "history · product curator · Mayflower · cs_m_mayflower_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maya_civilization_01",
    "text": "The Maya civilization developed in Mesoamerica",
    "standing": "projectable",
-   "evidence": "history · product curator · Maya civilization · cs_m_maya_civilization_01"
+   "evidence": "history · product curator · Maya civilization · cs_m_maya_civilization_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mesopotamia_01",
    "text": "Mesopotamia lay between the Tigris and Euphrates rivers",
    "standing": "projectable",
-   "evidence": "history · product curator · Mesopotamia · cs_m_mesopotamia_01"
+   "evidence": "history · product curator · Mesopotamia · cs_m_mesopotamia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_michelangelo_01",
    "text": "Michelangelo painted the ceiling of the Sistine Chapel",
    "standing": "projectable",
-   "evidence": "history · product curator · Michelangelo · cs_m_michelangelo_01"
+   "evidence": "history · product curator · Michelangelo · cs_m_michelangelo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mozart_wolfgang_amadeus_01",
    "text": "Wolfgang Amadeus Mozart was an Austrian composer",
    "standing": "projectable",
-   "evidence": "history · product curator · Mozart, Wolfgang Amadeus · cs_m_mozart_wolfgang_amadeus_01"
+   "evidence": "history · product curator · Mozart, Wolfgang Amadeus · cs_m_mozart_wolfgang_amadeus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mandela_nelson_01",
    "text": "Nelson Mandela became president of South Africa in 1994",
    "standing": "projectable",
-   "evidence": "history · product curator · Mandela, Nelson · cs_m_mandela_nelson_01"
+   "evidence": "history · product curator · Mandela, Nelson · cs_m_mandela_nelson_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_machu_picchu_01",
    "text": "Machu Picchu is in Peru",
    "standing": "projectable",
-   "evidence": "history · product curator · Machu Picchu · cs_m_machu_picchu_01"
+   "evidence": "history · product curator · Machu Picchu · cs_m_machu_picchu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mendel_gregor_01",
    "text": "Gregor Mendel is known as the father of genetics",
    "standing": "projectable",
-   "evidence": "history · product curator · Mendel, Gregor · cs_m_mendel_gregor_01"
+   "evidence": "history · product curator · Mendel, Gregor · cs_m_mendel_gregor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mendeleev_dmitri_01",
    "text": "Dmitri Mendeleev created an early periodic table",
    "standing": "projectable",
-   "evidence": "history · product curator · Mendeleev, Dmitri · cs_m_mendeleev_dmitri_01"
+   "evidence": "history · product curator · Mendeleev, Dmitri · cs_m_mendeleev_dmitri_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meter_01",
    "text": "The meter is the SI base unit of length",
    "standing": "projectable",
-   "evidence": "math · product curator · Meter · cs_m_meter_01"
+   "evidence": "math · product curator · Meter · cs_m_meter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mile_01",
    "text": "A mile is 5280 feet",
    "standing": "projectable",
-   "evidence": "math · product curator · Mile · cs_m_mile_01"
+   "evidence": "math · product curator · Mile · cs_m_mile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_minute_01",
    "text": "A minute has 60 seconds",
    "standing": "projectable",
-   "evidence": "math · product curator · Minute · cs_m_minute_01"
+   "evidence": "math · product curator · Minute · cs_m_minute_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_millennium_01",
    "text": "A millennium is a thousand years",
    "standing": "projectable",
-   "evidence": "math · product curator · Millennium · cs_m_millennium_01"
+   "evidence": "math · product curator · Millennium · cs_m_millennium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_multiplication_01",
    "text": "Multiplication is commutative",
    "standing": "projectable",
-   "evidence": "math · product curator · Multiplication · cs_m_multiplication_01"
+   "evidence": "math · product curator · Multiplication · cs_m_multiplication_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_median_01",
    "text": "The median is the middle value in a set of numbers",
    "standing": "projectable",
-   "evidence": "math · product curator · Median · cs_m_median_01"
+   "evidence": "math · product curator · Median · cs_m_median_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mayor_01",
    "text": "A mayor is the head of a city government",
    "standing": "projectable",
-   "evidence": "civics · product curator · Mayor · cs_m_mayor_01"
+   "evidence": "civics · product curator · Mayor · cs_m_mayor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monarchy_01",
    "text": "A monarchy is headed by a king or queen",
    "standing": "projectable",
-   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_01"
+   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mandarin_01",
    "text": "Mandarin is an official language of China",
    "standing": "projectable",
-   "evidence": "language · product curator · Mandarin · cs_m_mandarin_01"
+   "evidence": "language · product curator · Mandarin · cs_m_mandarin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marathon_01",
    "text": "A marathon is 42.195 kilometers long",
    "standing": "projectable",
-   "evidence": "general · product curator · Marathon · cs_m_marathon_01"
+   "evidence": "general · product curator · Marathon · cs_m_marathon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mount_rushmore_01",
    "text": "Mount Rushmore is in South Dakota",
    "standing": "projectable",
-   "evidence": "history · product curator · Mount Rushmore · cs_m_mount_rushmore_01"
+   "evidence": "history · product curator · Mount Rushmore · cs_m_mount_rushmore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mount_rushmore_02",
    "text": "Mount Rushmore depicts four American presidents",
    "standing": "projectable",
-   "evidence": "history · product curator · Mount Rushmore · cs_m_mount_rushmore_02"
+   "evidence": "history · product curator · Mount Rushmore · cs_m_mount_rushmore_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moon_03",
    "text": "The Moon orbits Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Moon · cs_m_moon_03"
+   "evidence": "science · product curator · Moon · cs_m_moon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moon_04",
    "text": "The Moon has phases",
    "standing": "projectable",
-   "evidence": "science · product curator · Moon · cs_m_moon_04"
+   "evidence": "science · product curator · Moon · cs_m_moon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mercury_planet_03",
    "text": "Mercury is the planet closest to the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Mercury (planet) · cs_m_mercury_planet_03"
+   "evidence": "science · product curator · Mercury (planet) · cs_m_mercury_planet_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mole_02",
    "text": "Moles are small burrowing mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mole · cs_m_mole_02"
+   "evidence": "nature · product curator · Mole · cs_m_mole_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magpie_01",
    "text": "Magpies are birds in the crow family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Magpie · cs_m_magpie_01"
+   "evidence": "nature · product curator · Magpie · cs_m_magpie_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mayflower_02",
    "text": "The Mayflower arrived in North America in 1620",
    "standing": "projectable",
-   "evidence": "history · product curator · Mayflower · cs_m_mayflower_02"
+   "evidence": "history · product curator · Mayflower · cs_m_mayflower_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maputo_01",
    "text": "Maputo is the capital of Mozambique",
    "standing": "projectable",
-   "evidence": "geography · product curator · Maputo · cs_m_maputo_01"
+   "evidence": "geography · product curator · Maputo · cs_m_maputo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mars_05",
    "text": "Mars is called the Red Planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Mars · cs_m_mars_05"
+   "evidence": "science · product curator · Mars · cs_m_mars_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mackerel_01",
    "text": "Mackerel are fast-swimming ocean fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mackerel · cs_m_mackerel_01"
+   "evidence": "nature · product curator · Mackerel · cs_m_mackerel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mongoose_01",
    "text": "Mongooses are known for fighting snakes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mongoose · cs_m_mongoose_01"
+   "evidence": "nature · product curator · Mongoose · cs_m_mongoose_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moth_02",
    "text": "Moths are insects related to butterflies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Moth · cs_m_moth_02"
+   "evidence": "nature · product curator · Moth · cs_m_moth_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marigold_01",
    "text": "Marigolds have orange flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marigold · cs_m_marigold_01"
+   "evidence": "nature · product curator · Marigold · cs_m_marigold_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marmot_01",
    "text": "Marmots are large ground squirrels",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marmot · cs_m_marmot_01"
+   "evidence": "nature · product curator · Marmot · cs_m_marmot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meerkat_02",
    "text": "Meerkats live in groups",
    "standing": "projectable",
-   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_02"
+   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_munich_01",
    "text": "Munich is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Munich · cs_m_munich_01"
+   "evidence": "geography · product curator · Munich · cs_m_munich_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marseille_01",
    "text": "Marseille is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Marseille · cs_m_marseille_01"
+   "evidence": "geography · product curator · Marseille · cs_m_marseille_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_manchester_01",
    "text": "Manchester is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Manchester · cs_m_manchester_01"
+   "evidence": "geography · product curator · Manchester · cs_m_manchester_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mango_01",
    "text": "A mango is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Mango · cs_m_mango_01"
+   "evidence": "food · product curator · Mango · cs_m_mango_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mole_03",
    "text": "A mole is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mole · cs_m_mole_03"
+   "evidence": "nature · product curator · Mole · cs_m_mole_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magpie_02",
    "text": "A magpie is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Magpie · cs_m_magpie_02"
+   "evidence": "nature · product curator · Magpie · cs_m_magpie_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_malaga_01",
    "text": "Malaga is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Malaga · cs_m_malaga_01"
+   "evidence": "geography · product curator · Malaga · cs_m_malaga_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mombasa_01",
    "text": "Mombasa is a city in Kenya",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mombasa · cs_m_mombasa_01"
+   "evidence": "geography · product curator · Mombasa · cs_m_mombasa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_medellin_01",
    "text": "Medellin is a city in Colombia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Medellin · cs_m_medellin_01"
+   "evidence": "geography · product curator · Medellin · cs_m_medellin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_melon_01",
    "text": "A melon is a fruit",
    "standing": "projectable",
-   "evidence": "food · product curator · Melon · cs_m_melon_01"
+   "evidence": "food · product curator · Melon · cs_m_melon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marmot_02",
    "text": "A marmot is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marmot · cs_m_marmot_02"
+   "evidence": "nature · product curator · Marmot · cs_m_marmot_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mallard_01",
    "text": "A mallard is a duck",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mallard · cs_m_mallard_01"
+   "evidence": "nature · product curator · Mallard · cs_m_mallard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_macaw_01",
    "text": "A macaw is a large parrot",
    "standing": "projectable",
-   "evidence": "nature · product curator · Macaw · cs_m_macaw_01"
+   "evidence": "nature · product curator · Macaw · cs_m_macaw_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnitude_01",
    "text": "Magnitude measures the brightness of a star",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnitude · cs_m_magnitude_01"
+   "evidence": "science · product curator · Magnitude · cs_m_magnitude_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mammoth_cave_01",
    "text": "Mammoth Cave is the longest known cave system",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mammoth Cave · cs_m_mammoth_cave_01"
+   "evidence": "geography · product curator · Mammoth Cave · cs_m_mammoth_cave_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_manuscript_01",
    "text": "A manuscript is a handwritten document",
    "standing": "projectable",
-   "evidence": "language · product curator · Manuscript · cs_m_manuscript_01"
+   "evidence": "language · product curator · Manuscript · cs_m_manuscript_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marble_01",
    "text": "Marble is a metamorphic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Marble · cs_m_marble_01"
+   "evidence": "science · product curator · Marble · cs_m_marble_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marie_curie_01",
    "text": "Marie Curie won two Nobel Prizes",
    "standing": "projectable",
-   "evidence": "history · product curator · Marie Curie · cs_m_marie_curie_01"
+   "evidence": "history · product curator · Marie Curie · cs_m_marie_curie_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_matterhorn_01",
    "text": "The Matterhorn is a mountain in the Alps",
    "standing": "projectable",
-   "evidence": "geography · product curator · Matterhorn · cs_m_matterhorn_01"
+   "evidence": "geography · product curator · Matterhorn · cs_m_matterhorn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_metaphor_01",
    "text": "A metaphor is a figure of speech",
    "standing": "projectable",
-   "evidence": "language · product curator · Metaphor · cs_m_metaphor_01"
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mica_01",
    "text": "Mica is a mineral that splits into thin sheets",
    "standing": "projectable",
-   "evidence": "science · product curator · Mica · cs_m_mica_01"
+   "evidence": "science · product curator · Mica · cs_m_mica_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_midnight_sun_01",
    "text": "The midnight sun occurs in polar summer",
    "standing": "projectable",
-   "evidence": "science · product curator · Midnight sun · cs_m_midnight_sun_01"
+   "evidence": "science · product curator · Midnight sun · cs_m_midnight_sun_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_ming_dynasty_01",
    "text": "The Ming dynasty ruled China",
    "standing": "projectable",
-   "evidence": "history · product curator · Ming dynasty · cs_m_ming_dynasty_01"
+   "evidence": "history · product curator · Ming dynasty · cs_m_ming_dynasty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_minotaur_01",
    "text": "The Minotaur is a creature of Greek myth",
    "standing": "projectable",
-   "evidence": "language · product curator · Minotaur · cs_m_minotaur_01"
+   "evidence": "language · product curator · Minotaur · cs_m_minotaur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mollusk_01",
    "text": "A snail is a mollusk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mollusk · cs_m_mollusk_01"
+   "evidence": "nature · product curator · Mollusk · cs_m_mollusk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mount_everest_01",
    "text": "Mount Everest is the highest mountain on Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mount Everest · cs_m_mount_everest_01"
+   "evidence": "geography · product curator · Mount Everest · cs_m_mount_everest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mummy_01",
    "text": "A mummy is a preserved body",
    "standing": "projectable",
-   "evidence": "history · product curator · Mummy · cs_m_mummy_01"
+   "evidence": "history · product curator · Mummy · cs_m_mummy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mycelium_01",
    "text": "Mycelium is the root network of a fungus",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mycelium · cs_m_mycelium_01"
+   "evidence": "nature · product curator · Mycelium · cs_m_mycelium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mean_01",
    "text": "The mean is the average of a set of numbers",
    "standing": "projectable",
-   "evidence": "math · product curator · Mean · cs_m_mean_01"
+   "evidence": "math · product curator · Mean · cs_m_mean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magistrate_01",
    "text": "A magistrate is a judicial officer",
    "standing": "projectable",
-   "evidence": "civics · product curator · Magistrate · cs_m_magistrate_01"
+   "evidence": "civics · product curator · Magistrate · cs_m_magistrate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mauna_loa_01",
    "text": "Mauna Loa is a volcano in Hawaii",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mauna Loa · cs_m_mauna_loa_01"
+   "evidence": "geography · product curator · Mauna Loa · cs_m_mauna_loa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mosaic_01",
    "text": "A mosaic is a picture made of small tiles",
    "standing": "projectable",
-   "evidence": "history · product curator · Mosaic · cs_m_mosaic_01"
+   "evidence": "history · product curator · Mosaic · cs_m_mosaic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meteorite_01",
    "text": "A meteorite is a meteor that reaches the ground",
    "standing": "projectable",
-   "evidence": "science · product curator · Meteorite · cs_m_meteorite_01"
+   "evidence": "science · product curator · Meteorite · cs_m_meteorite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magellan_ferdinand_01",
    "text": "Ferdinand Magellan was a Portuguese explorer",
    "standing": "projectable",
-   "evidence": "history · product curator · Magellan, Ferdinand · cs_m_magellan_ferdinand_01"
+   "evidence": "history · product curator · Magellan, Ferdinand · cs_m_magellan_ferdinand_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mantis_01",
    "text": "A mantis is an insect",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mantis · cs_m_mantis_01"
+   "evidence": "nature · product curator · Mantis · cs_m_mantis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marlin_01",
    "text": "A marlin is a large fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marlin · cs_m_marlin_01"
+   "evidence": "nature · product curator · Marlin · cs_m_marlin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monet_claude_01",
    "text": "Claude Monet was a French painter",
    "standing": "projectable",
-   "evidence": "history · product curator · Monet, Claude · cs_m_monet_claude_01"
+   "evidence": "history · product curator · Monet, Claude · cs_m_monet_claude_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_milton_john_01",
    "text": "John Milton wrote Paradise Lost",
    "standing": "projectable",
-   "evidence": "history · product curator · Milton, John · cs_m_milton_john_01"
+   "evidence": "history · product curator · Milton, John · cs_m_milton_john_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_montreal_01",
    "text": "Montreal is a city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Montreal · cs_m_montreal_01"
+   "evidence": "geography · product curator · Montreal · cs_m_montreal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_melbourne_01",
    "text": "Melbourne is a city in Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Melbourne · cs_m_melbourne_01"
+   "evidence": "geography · product curator · Melbourne · cs_m_melbourne_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_minnow_01",
    "text": "A minnow is a small fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Minnow · cs_m_minnow_01"
+   "evidence": "nature · product curator · Minnow · cs_m_minnow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magna_carta_02",
    "text": "The Magna Carta limited royal power",
    "standing": "projectable",
-   "evidence": "history · product curator · Magna Carta · cs_m_magna_carta_02"
+   "evidence": "history · product curator · Magna Carta · cs_m_magna_carta_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mammal_03",
    "text": "A mammal feeds its young with milk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mammal · cs_m_mammal_03"
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mantle_02",
    "text": "The mantle lies between the crust and the core",
    "standing": "projectable",
-   "evidence": "science · product curator · Mantle · cs_m_mantle_02"
+   "evidence": "science · product curator · Mantle · cs_m_mantle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mediterranean_sea_02",
    "text": "The Mediterranean Sea lies between Europe and Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mediterranean Sea · cs_m_mediterranean_sea_02"
+   "evidence": "geography · product curator · Mediterranean Sea · cs_m_mediterranean_sea_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mitosis_01",
    "text": "Mitosis divides a cell nucleus",
    "standing": "projectable",
-   "evidence": "science · product curator · Mitosis · cs_m_mitosis_01"
+   "evidence": "science · product curator · Mitosis · cs_m_mitosis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monarchy_02",
    "text": "A monarchy is rule by a king or queen",
    "standing": "projectable",
-   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_02"
+   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moss_01",
    "text": "Moss is a small non flowering plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Moss · cs_m_moss_01"
+   "evidence": "nature · product curator · Moss · cs_m_moss_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnet_02",
    "text": "A magnet attracts iron",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnet · cs_m_magnet_02"
+   "evidence": "science · product curator · Magnet · cs_m_magnet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marrow_01",
    "text": "Bone marrow produces blood cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Marrow · cs_m_marrow_01"
+   "evidence": "science · product curator · Marrow · cs_m_marrow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mass_02",
    "text": "Mass is a measure of matter",
    "standing": "projectable",
-   "evidence": "science · product curator · Mass · cs_m_mass_02"
+   "evidence": "science · product curator · Mass · cs_m_mass_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meadow_01",
    "text": "A meadow is a grassy field",
    "standing": "projectable",
-   "evidence": "nature · product curator · Meadow · cs_m_meadow_01"
+   "evidence": "nature · product curator · Meadow · cs_m_meadow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_metaphor_02",
    "text": "A metaphor compares two things",
    "standing": "projectable",
-   "evidence": "language · product curator · Metaphor · cs_m_metaphor_02"
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meteor_02",
    "text": "A meteor burns in the atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Meteor · cs_m_meteor_02"
+   "evidence": "science · product curator · Meteor · cs_m_meteor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mile_02",
    "text": "A mile is a unit of distance",
    "standing": "projectable",
-   "evidence": "math · product curator · Mile · cs_m_mile_02"
+   "evidence": "math · product curator · Mile · cs_m_mile_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_minute_02",
    "text": "A minute is a unit of time",
    "standing": "projectable",
-   "evidence": "math · product curator · Minute · cs_m_minute_02"
+   "evidence": "math · product curator · Minute · cs_m_minute_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_molar_01",
    "text": "A molar grinds food",
    "standing": "projectable",
-   "evidence": "science · product curator · Molar · cs_m_molar_01"
+   "evidence": "science · product curator · Molar · cs_m_molar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_molecule_02",
    "text": "A molecule is a group of atoms",
    "standing": "projectable",
-   "evidence": "science · product curator · Molecule · cs_m_molecule_02"
+   "evidence": "science · product curator · Molecule · cs_m_molecule_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monarchy_03",
    "text": "A monarchy has a hereditary ruler",
    "standing": "projectable",
-   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_03"
+   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mucus_01",
    "text": "Mucus protects moist surfaces",
    "standing": "projectable",
-   "evidence": "science · product curator · Mucus · cs_m_mucus_01"
+   "evidence": "science · product curator · Mucus · cs_m_mucus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mule_01",
    "text": "A mule is a hybrid animal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mule · cs_m_mule_01"
+   "evidence": "nature · product curator · Mule · cs_m_mule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_multiplication_02",
    "text": "Multiplication finds a product",
    "standing": "projectable",
-   "evidence": "math · product curator · Multiplication · cs_m_multiplication_02"
+   "evidence": "math · product curator · Multiplication · cs_m_multiplication_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mist_01",
    "text": "Mist is thin fog",
    "standing": "projectable",
-   "evidence": "geography · product curator · Mist · cs_m_mist_01"
+   "evidence": "geography · product curator · Mist · cs_m_mist_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_monarchy_04",
    "text": "Kings rule a monarchy",
    "standing": "projectable",
-   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_04"
+   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mars_06",
    "text": "Mars is a rocky planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Mars · cs_m_mars_06"
+   "evidence": "science · product curator · Mars · cs_m_mars_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mean_02",
    "text": "The mean is an average",
    "standing": "projectable",
-   "evidence": "math · product curator · Mean · cs_m_mean_02"
+   "evidence": "math · product curator · Mean · cs_m_mean_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moss_02",
    "text": "Moss grows on damp rocks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Moss · cs_m_moss_02"
+   "evidence": "nature · product curator · Moss · cs_m_moss_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_museum_01",
    "text": "A museum displays artifacts",
    "standing": "projectable",
-   "evidence": "history · product curator · Museum · cs_m_museum_01"
+   "evidence": "history · product curator · Museum · cs_m_museum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_metaphor_03",
    "text": "Writers use metaphor for comparison",
    "standing": "projectable",
-   "evidence": "language · product curator · Metaphor · cs_m_metaphor_03"
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marsh_01",
    "text": "A marsh is a wetland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Marsh · cs_m_marsh_01"
+   "evidence": "geography · product curator · Marsh · cs_m_marsh_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mucus_02",
    "text": "The nose produces mucus",
    "standing": "projectable",
-   "evidence": "science · product curator · Mucus · cs_m_mucus_02"
+   "evidence": "science · product curator · Mucus · cs_m_mucus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mammal_04",
    "text": "A mammal nurses its young",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mammal · cs_m_mammal_04"
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_minute_03",
    "text": "Clocks mark each minute",
    "standing": "projectable",
-   "evidence": "math · product curator · Minute · cs_m_minute_03"
+   "evidence": "math · product curator · Minute · cs_m_minute_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_multiplication_03",
    "text": "Students practice multiplication",
    "standing": "projectable",
-   "evidence": "math · product curator · Multiplication · cs_m_multiplication_03"
+   "evidence": "math · product curator · Multiplication · cs_m_multiplication_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_momentum_01",
    "text": "A heavy fast object has momentum",
    "standing": "projectable",
-   "evidence": "science · product curator · Momentum · cs_m_momentum_01"
+   "evidence": "science · product curator · Momentum · cs_m_momentum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mackerel_02",
    "text": "A mackerel is a schooling fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mackerel · cs_m_mackerel_02"
+   "evidence": "nature · product curator · Mackerel · cs_m_mackerel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnesium_02",
    "text": "Magnesium is a light metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnesium · cs_m_magnesium_02"
+   "evidence": "science · product curator · Magnesium · cs_m_magnesium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mantis_02",
    "text": "A mantis hunts with front legs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mantis · cs_m_mantis_02"
+   "evidence": "nature · product curator · Mantis · cs_m_mantis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mayor_02",
    "text": "Voters elect a mayor",
    "standing": "projectable",
-   "evidence": "civics · product curator · Mayor · cs_m_mayor_02"
+   "evidence": "civics · product curator · Mayor · cs_m_mayor_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mosaic_02",
    "text": "Artists set tiles in a mosaic",
    "standing": "projectable",
-   "evidence": "history · product curator · Mosaic · cs_m_mosaic_02"
+   "evidence": "history · product curator · Mosaic · cs_m_mosaic_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_manatee_02",
    "text": "A manatee grazes on seagrass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Manatee · cs_m_manatee_02"
+   "evidence": "nature · product curator · Manatee · cs_m_manatee_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_manganese_02",
    "text": "Manganese hardens steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Manganese · cs_m_manganese_02"
+   "evidence": "science · product curator · Manganese · cs_m_manganese_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meerkat_03",
    "text": "A meerkat stands sentry",
    "standing": "projectable",
-   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_03"
+   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maple_02",
    "text": "Maple trees yield sweet sap",
    "standing": "projectable",
-   "evidence": "nature · product curator · Maple · cs_m_maple_02"
+   "evidence": "nature · product curator · Maple · cs_m_maple_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meadow_02",
    "text": "Wildflowers fill a meadow",
    "standing": "projectable",
-   "evidence": "nature · product curator · Meadow · cs_m_meadow_02"
+   "evidence": "nature · product curator · Meadow · cs_m_meadow_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_minnow_02",
    "text": "A minnow swims in schools",
    "standing": "projectable",
-   "evidence": "nature · product curator · Minnow · cs_m_minnow_02"
+   "evidence": "nature · product curator · Minnow · cs_m_minnow_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_melon_02",
    "text": "A melon holds sweet flesh",
    "standing": "projectable",
-   "evidence": "nature · product curator · Melon · cs_m_melon_02"
+   "evidence": "nature · product curator · Melon · cs_m_melon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magma_02",
    "text": "Magma rises from deep rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Magma · cs_m_magma_02"
+   "evidence": "science · product curator · Magma · cs_m_magma_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mantle_03",
    "text": "Earth has a rocky mantle",
    "standing": "projectable",
-   "evidence": "science · product curator · Mantle · cs_m_mantle_03"
+   "evidence": "science · product curator · Mantle · cs_m_mantle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnitude_02",
    "text": "Stars have magnitude ranks",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnitude · cs_m_magnitude_02"
+   "evidence": "science · product curator · Magnitude · cs_m_magnitude_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mallard_02",
    "text": "A mallard nests near water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mallard · cs_m_mallard_02"
+   "evidence": "nature · product curator · Mallard · cs_m_mallard_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marlin_02",
    "text": "A marlin has a long bill",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marlin · cs_m_marlin_02"
+   "evidence": "nature · product curator · Marlin · cs_m_marlin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mango_02",
    "text": "A mango ripens on a tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mango · cs_m_mango_02"
+   "evidence": "nature · product curator · Mango · cs_m_mango_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mushroom_02",
    "text": "A mushroom releases spores",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mushroom · cs_m_mushroom_02"
+   "evidence": "nature · product curator · Mushroom · cs_m_mushroom_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_metaphor_04",
    "text": "A metaphor compares ideas",
    "standing": "projectable",
-   "evidence": "language · product curator · Metaphor · cs_m_metaphor_04"
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mantis_03",
    "text": "Forelegs fold on a mantis",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mantis · cs_m_mantis_03"
+   "evidence": "nature · product curator · Mantis · cs_m_mantis_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maple_03",
    "text": "A maple yields syrup",
    "standing": "projectable",
-   "evidence": "nature · product curator · Maple · cs_m_maple_03"
+   "evidence": "nature · product curator · Maple · cs_m_maple_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marlin_03",
    "text": "A marlin leaps from waves",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marlin · cs_m_marlin_03"
+   "evidence": "nature · product curator · Marlin · cs_m_marlin_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marmot_03",
    "text": "A marmot whistles danger",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marmot · cs_m_marmot_03"
+   "evidence": "nature · product curator · Marmot · cs_m_marmot_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marrow_02",
    "text": "Blood cells form in marrow",
    "standing": "projectable",
-   "evidence": "science · product curator · Marrow · cs_m_marrow_02"
+   "evidence": "science · product curator · Marrow · cs_m_marrow_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marsupial_02",
    "text": "A pouch marks a marsupial",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_02"
+   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meteor_03",
    "text": "Night skies show a meteor",
    "standing": "projectable",
-   "evidence": "science · product curator · Meteor · cs_m_meteor_03"
+   "evidence": "science · product curator · Meteor · cs_m_meteor_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_molecule_03",
    "text": "Atoms join in a molecule",
    "standing": "projectable",
-   "evidence": "science · product curator · Molecule · cs_m_molecule_03"
+   "evidence": "science · product curator · Molecule · cs_m_molecule_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mammoth_01",
    "text": "Ice preserved mammoths",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mammoth · cs_m_mammoth_01"
+   "evidence": "nature · product curator · Mammoth · cs_m_mammoth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mandible_01",
    "text": "Jawbones form a mandible",
    "standing": "projectable",
-   "evidence": "science · product curator · Mandible · cs_m_mandible_01"
+   "evidence": "science · product curator · Mandible · cs_m_mandible_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mangrove_02",
    "text": "Roots prop a mangrove",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mangrove · cs_m_mangrove_02"
+   "evidence": "nature · product curator · Mangrove · cs_m_mangrove_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marigold_02",
    "text": "A marigold blooms in summer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marigold · cs_m_marigold_02"
+   "evidence": "nature · product curator · Marigold · cs_m_marigold_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mass_03",
    "text": "Mass resists acceleration",
    "standing": "projectable",
-   "evidence": "science · product curator · Mass · cs_m_mass_03"
+   "evidence": "science · product curator · Mass · cs_m_mass_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mercury_01",
    "text": "Thermometers held mercury",
    "standing": "projectable",
-   "evidence": "science · product curator · Mercury · cs_m_mercury_01"
+   "evidence": "science · product curator · Mercury · cs_m_mercury_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_metamorphic_01",
    "text": "Heat makes metamorphic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Metamorphic · cs_m_metamorphic_01"
+   "evidence": "science · product curator · Metamorphic · cs_m_metamorphic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mule_02",
    "text": "A mule carries heavy loads",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mule · cs_m_mule_02"
+   "evidence": "nature · product curator · Mule · cs_m_mule_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_machine_01",
    "text": "A machine multiplies force",
    "standing": "projectable",
-   "evidence": "science · product curator · Machine · cs_m_machine_01"
+   "evidence": "science · product curator · Machine · cs_m_machine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnesium_03",
    "text": "Magnesium burns bright white",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnesium · cs_m_magnesium_03"
+   "evidence": "science · product curator · Magnesium · cs_m_magnesium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mandible_02",
    "text": "The mandible forms the jaw",
    "standing": "projectable",
-   "evidence": "science · product curator · Mandible · cs_m_mandible_02"
+   "evidence": "science · product curator · Mandible · cs_m_mandible_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_maple_04",
    "text": "A maple yields sweet sap",
    "standing": "projectable",
-   "evidence": "nature · product curator · Maple · cs_m_maple_04"
+   "evidence": "nature · product curator · Maple · cs_m_maple_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marble_02",
    "text": "Marble forms from limestone",
    "standing": "projectable",
-   "evidence": "science · product curator · Marble · cs_m_marble_02"
+   "evidence": "science · product curator · Marble · cs_m_marble_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_methane_01",
    "text": "Methane burns as fuel",
    "standing": "projectable",
-   "evidence": "science · product curator · Methane · cs_m_methane_01"
+   "evidence": "science · product curator · Methane · cs_m_methane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mica_02",
    "text": "Mica splits into sheets",
    "standing": "projectable",
-   "evidence": "science · product curator · Mica · cs_m_mica_02"
+   "evidence": "science · product curator · Mica · cs_m_mica_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mist_02",
    "text": "Mist forms over cool water",
    "standing": "projectable",
-   "evidence": "science · product curator · Mist · cs_m_mist_02"
+   "evidence": "science · product curator · Mist · cs_m_mist_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mold_01",
    "text": "Mold grows on damp bread",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mold · cs_m_mold_01"
+   "evidence": "nature · product curator · Mold · cs_m_mold_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_moth_03",
    "text": "A moth flies toward light",
    "standing": "projectable",
-   "evidence": "nature · product curator · Moth · cs_m_moth_03"
+   "evidence": "nature · product curator · Moth · cs_m_moth_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnetite_01",
    "text": "Magnetite attracts iron filings",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnetite · cs_m_magnetite_01"
+   "evidence": "science · product curator · Magnetite · cs_m_magnetite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnitude_03",
    "text": "Magnitude ranks quake strength",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnitude · cs_m_magnitude_03"
+   "evidence": "science · product curator · Magnitude · cs_m_magnitude_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mammal_05",
    "text": "Mammals nurse live young",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mammal · cs_m_mammal_05"
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meiosis_01",
    "text": "Meiosis halves chromosome count",
    "standing": "projectable",
-   "evidence": "science · product curator · Meiosis · cs_m_meiosis_01"
+   "evidence": "science · product curator · Meiosis · cs_m_meiosis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_melanin_01",
    "text": "Melanin darkens skin pigment",
    "standing": "projectable",
-   "evidence": "science · product curator · Melanin · cs_m_melanin_01"
+   "evidence": "science · product curator · Melanin · cs_m_melanin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_membrane_01",
    "text": "A membrane wraps each cell",
    "standing": "projectable",
-   "evidence": "science · product curator · Membrane · cs_m_membrane_01"
+   "evidence": "science · product curator · Membrane · cs_m_membrane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mesosphere_01",
    "text": "Meteors burn in the mesosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Mesosphere · cs_m_mesosphere_01"
+   "evidence": "science · product curator · Mesosphere · cs_m_mesosphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_methane_02",
    "text": "Methane fuels natural gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Methane · cs_m_methane_02"
+   "evidence": "science · product curator · Methane · cs_m_methane_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mutation_01",
    "text": "A mutation alters a gene",
    "standing": "projectable",
-   "evidence": "science · product curator · Mutation · cs_m_mutation_01"
+   "evidence": "science · product curator · Mutation · cs_m_mutation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_myelin_01",
    "text": "Myelin coats nerve fibers",
    "standing": "projectable",
-   "evidence": "science · product curator · Myelin · cs_m_myelin_01"
+   "evidence": "science · product curator · Myelin · cs_m_myelin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magma_03",
    "text": "Volcanoes vent hot magma",
    "standing": "projectable",
-   "evidence": "science · product curator · Magma · cs_m_magma_03"
+   "evidence": "science · product curator · Magma · cs_m_magma_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnet_03",
    "text": "Magnets attract iron filings",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnet · cs_m_magnet_03"
+   "evidence": "science · product curator · Magnet · cs_m_magnet_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mantle_04",
    "text": "Earth wraps a rock mantle",
    "standing": "projectable",
-   "evidence": "science · product curator · Mantle · cs_m_mantle_04"
+   "evidence": "science · product curator · Mantle · cs_m_mantle_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marrow_03",
    "text": "Marrow makes blood cells",
    "standing": "projectable",
-   "evidence": "science · product curator · Marrow · cs_m_marrow_03"
+   "evidence": "science · product curator · Marrow · cs_m_marrow_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_melanin_02",
    "text": "Sun triggers melanin rise",
    "standing": "projectable",
-   "evidence": "science · product curator · Melanin · cs_m_melanin_02"
+   "evidence": "science · product curator · Melanin · cs_m_melanin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mercury_02",
    "text": "Mercury expands with heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Mercury · cs_m_mercury_02"
+   "evidence": "science · product curator · Mercury · cs_m_mercury_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mucus_03",
    "text": "Stomach mucus blocks acid",
    "standing": "projectable",
-   "evidence": "science · product curator · Mucus · cs_m_mucus_03"
+   "evidence": "science · product curator · Mucus · cs_m_mucus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mule_03",
    "text": "Mules haul mountain loads",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mule · cs_m_mule_03"
+   "evidence": "nature · product curator · Mule · cs_m_mule_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnetite_02",
    "text": "Magnetite holds magnetic domains",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnetite · cs_m_magnetite_02"
+   "evidence": "science · product curator · Magnetite · cs_m_magnetite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mandible_03",
    "text": "A mandible hinges the jaw",
    "standing": "projectable",
-   "evidence": "science · product curator · Mandible · cs_m_mandible_03"
+   "evidence": "science · product curator · Mandible · cs_m_mandible_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_medulla_01",
    "text": "The medulla steers breathing",
    "standing": "projectable",
-   "evidence": "science · product curator · Medulla · cs_m_medulla_01"
+   "evidence": "science · product curator · Medulla · cs_m_medulla_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meristem_01",
    "text": "Meristem grows new plant tissue",
    "standing": "projectable",
-   "evidence": "nature · product curator · Meristem · cs_m_meristem_01"
+   "evidence": "nature · product curator · Meristem · cs_m_meristem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_metabolism_01",
    "text": "Metabolism burns food energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Metabolism · cs_m_metabolism_01"
+   "evidence": "science · product curator · Metabolism · cs_m_metabolism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_microbe_01",
    "text": "Microbes digest soil waste",
    "standing": "projectable",
-   "evidence": "nature · product curator · Microbe · cs_m_microbe_01"
+   "evidence": "nature · product curator · Microbe · cs_m_microbe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mitosis_02",
    "text": "Mitosis copies cell nuclei",
    "standing": "projectable",
-   "evidence": "science · product curator · Mitosis · cs_m_mitosis_02"
+   "evidence": "science · product curator · Mitosis · cs_m_mitosis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_molecule_04",
    "text": "Atoms bind into molecules",
    "standing": "projectable",
-   "evidence": "science · product curator · Molecule · cs_m_molecule_04"
+   "evidence": "science · product curator · Molecule · cs_m_molecule_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mollusk_02",
    "text": "Mollusks grow hard shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mollusk · cs_m_mollusk_02"
+   "evidence": "nature · product curator · Mollusk · cs_m_mollusk_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mucus_04",
    "text": "Mucus traps airway dust",
    "standing": "projectable",
-   "evidence": "science · product curator · Mucus · cs_m_mucus_04"
+   "evidence": "science · product curator · Mucus · cs_m_mucus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_magnetite_03",
    "text": "Magnetite points compass needles",
    "standing": "projectable",
-   "evidence": "science · product curator · Magnetite · cs_m_magnetite_03"
+   "evidence": "science · product curator · Magnetite · cs_m_magnetite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_medulla_02",
    "text": "The medulla steers breath rate",
    "standing": "projectable",
-   "evidence": "science · product curator · Medulla · cs_m_medulla_02"
+   "evidence": "science · product curator · Medulla · cs_m_medulla_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_marsupial_03",
    "text": "Marsupials rear pouch young",
    "standing": "projectable",
-   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_03"
+   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_molybdenum_02",
    "text": "Molybdenum hardens steel alloys",
    "standing": "projectable",
-   "evidence": "science · product curator · Molybdenum · cs_m_molybdenum_02"
+   "evidence": "science · product curator · Molybdenum · cs_m_molybdenum_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mycelium_02",
    "text": "Mycelium spreads fungus networks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Mycelium · cs_m_mycelium_02"
+   "evidence": "nature · product curator · Mycelium · cs_m_mycelium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_myelin_02",
    "text": "Myelin speeds nerve signals",
    "standing": "projectable",
-   "evidence": "science · product curator · Myelin · cs_m_myelin_02"
+   "evidence": "science · product curator · Myelin · cs_m_myelin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_microwave_01",
    "text": "Microwaves heat water molecules",
    "standing": "projectable",
-   "evidence": "science · product curator · Microwave · cs_m_microwave_01"
+   "evidence": "science · product curator · Microwave · cs_m_microwave_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_malleable_01",
    "text": "Malleable metal flattens under blows",
    "standing": "projectable",
-   "evidence": "science · product curator · Malleable · cs_m_malleable_01"
+   "evidence": "science · product curator · Malleable · cs_m_malleable_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_mica_03",
    "text": "Mica flakes shiny sheets",
    "standing": "projectable",
-   "evidence": "science · product curator · Mica · cs_m_mica_03"
+   "evidence": "science · product curator · Mica · cs_m_mica_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_m_meteorite_02",
    "text": "A meteorite strikes ground rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Meteorite · cs_m_meteorite_02"
+   "evidence": "science · product curator · Meteorite · cs_m_meteorite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
