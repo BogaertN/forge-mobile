@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 208,
+ "curated_facts": 219,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1189,6 +1189,72 @@
    "text": "Desert gardens grow yucca",
    "standing": "projectable",
    "evidence": "nature · product curator · Yucca · cs_y_yucca_04"
+  },
+  {
+   "id": "cs_y_y_axis_03",
+   "text": "Graphs rise on the y-axis",
+   "standing": "projectable",
+   "evidence": "math · product curator · Y-axis · cs_y_y_axis_03"
+  },
+  {
+   "id": "cs_y_yangtze_03",
+   "text": "Barges travel the Yangtze",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_03"
+  },
+  {
+   "id": "cs_y_yarn_05",
+   "text": "Spinners twist yarn",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yarn · cs_y_yarn_05"
+  },
+  {
+   "id": "cs_y_yarrow_04",
+   "text": "Yarrow grows on roadsides",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_04"
+  },
+  {
+   "id": "cs_y_yawning_01",
+   "text": "Yawning stretches the jaw",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yawning · cs_y_yawning_01"
+  },
+  {
+   "id": "cs_y_yellowstone_03",
+   "text": "Geysers heat Yellowstone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_03"
+  },
+  {
+   "id": "cs_y_yew_06",
+   "text": "Carvers prefer yew wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yew · cs_y_yew_06"
+  },
+  {
+   "id": "cs_y_yiddish_06",
+   "text": "Yiddish mixes many tongues",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_06"
+  },
+  {
+   "id": "cs_y_yoga_04",
+   "text": "Yoga stretches muscles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yoga · cs_y_yoga_04"
+  },
+  {
+   "id": "cs_y_yttrium_08",
+   "text": "Screens use yttrium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_08"
+  },
+  {
+   "id": "cs_y_yucca_05",
+   "text": "Yucca blooms in deserts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_05"
   }
  ]
 }
