@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 231,
+ "curated_facts": 239,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1363,6 +1363,54 @@
    "text": "Myelin coats nerve fibers",
    "standing": "projectable",
    "evidence": "science · product curator · Myelin · cs_m_myelin_01"
+  },
+  {
+   "id": "cs_m_magma_03",
+   "text": "Volcanoes vent hot magma",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magma · cs_m_magma_03"
+  },
+  {
+   "id": "cs_m_magnet_03",
+   "text": "Magnets attract iron filings",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnet · cs_m_magnet_03"
+  },
+  {
+   "id": "cs_m_mantle_04",
+   "text": "Earth wraps a rock mantle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mantle · cs_m_mantle_04"
+  },
+  {
+   "id": "cs_m_marrow_03",
+   "text": "Marrow makes blood cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Marrow · cs_m_marrow_03"
+  },
+  {
+   "id": "cs_m_melanin_02",
+   "text": "Sun triggers melanin rise",
+   "standing": "projectable",
+   "evidence": "science · product curator · Melanin · cs_m_melanin_02"
+  },
+  {
+   "id": "cs_m_mercury_02",
+   "text": "Mercury expands with heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mercury · cs_m_mercury_02"
+  },
+  {
+   "id": "cs_m_mucus_03",
+   "text": "Stomach mucus blocks acid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mucus · cs_m_mucus_03"
+  },
+  {
+   "id": "cs_m_mule_03",
+   "text": "Mules haul mountain loads",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mule · cs_m_mule_03"
   }
  ]
 }

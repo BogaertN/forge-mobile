@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 236,
+ "curated_facts": 244,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1363,6 +1363,54 @@
    "text": "RNA carries gene messages",
    "standing": "projectable",
    "evidence": "science · product curator · RNA · cs_r_rna_04"
+  },
+  {
+   "id": "cs_r_radio_01",
+   "text": "Radio waves carry signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radio · cs_r_radio_01"
+  },
+  {
+   "id": "cs_r_radon_02",
+   "text": "Radon seeps from rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radon · cs_r_radon_02"
+  },
+  {
+   "id": "cs_r_reactor_03",
+   "text": "Reactors control fission heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reactor · cs_r_reactor_03"
+  },
+  {
+   "id": "cs_r_reduction_01",
+   "text": "Reduction gains electrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reduction · cs_r_reduction_01"
+  },
+  {
+   "id": "cs_r_resin_05",
+   "text": "Amber starts as tree resin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Resin · cs_r_resin_05"
+  },
+  {
+   "id": "cs_r_rib_03",
+   "text": "Breath lifts flexible ribs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rib · cs_r_rib_03"
+  },
+  {
+   "id": "cs_r_rice_02",
+   "text": "Rice feeds half humanity",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rice · cs_r_rice_02"
+  },
+  {
+   "id": "cs_r_rift_02",
+   "text": "A rift splits a continent",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rift · cs_r_rift_02"
   }
  ]
 }

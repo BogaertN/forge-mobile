@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 230,
+ "curated_facts": 240,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1345,6 +1345,66 @@
    "text": "Nylon stretches into strong fiber",
    "standing": "projectable",
    "evidence": "science · product curator · Nylon · cs_n_nylon_02"
+  },
+  {
+   "id": "cs_n_nacre_03",
+   "text": "Nacre builds pearl layers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nacre · cs_n_nacre_03"
+  },
+  {
+   "id": "cs_n_nebula_04",
+   "text": "Dust fills a glowing nebula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nebula · cs_n_nebula_04"
+  },
+  {
+   "id": "cs_n_nectar_05",
+   "text": "Bees collect flower nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_05"
+  },
+  {
+   "id": "cs_n_nephron_02",
+   "text": "Nephrons filter blood waste",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nephron · cs_n_nephron_02"
+  },
+  {
+   "id": "cs_n_neutron_03",
+   "text": "Neutrons bind atomic nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neutron · cs_n_neutron_03"
+  },
+  {
+   "id": "cs_n_nickel_07",
+   "text": "Nickel hardens steel alloys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nickel · cs_n_nickel_07"
+  },
+  {
+   "id": "cs_n_nitrogen_06",
+   "text": "Legumes fix air nitrogen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nitrogen · cs_n_nitrogen_06"
+  },
+  {
+   "id": "cs_n_noble_gas_02",
+   "text": "Helium ranks a noble gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Noble gas · cs_n_noble_gas_02"
+  },
+  {
+   "id": "cs_n_north_star_02",
+   "text": "The North Star marks north",
+   "standing": "projectable",
+   "evidence": "science · product curator · North Star · cs_n_north_star_02"
+  },
+  {
+   "id": "cs_n_nucleus_05",
+   "text": "Genes fill a cell nucleus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_05"
   }
  ]
 }
