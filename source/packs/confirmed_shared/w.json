@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 217,
+ "curated_facts": 225,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1279,6 +1279,54 @@
    "text": "Knitters make fabric from wool",
    "standing": "projectable",
    "evidence": "nature · product curator · Wool · cs_w_wool_02"
+  },
+  {
+   "id": "cs_w_watershed_03",
+   "text": "A watershed drains to one river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Watershed · cs_w_watershed_03"
+  },
+  {
+   "id": "cs_w_wave_04",
+   "text": "Energy travels in a wave",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wave · cs_w_wave_04"
+  },
+  {
+   "id": "cs_w_wax_02",
+   "text": "Bees build wax honeycombs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wax · cs_w_wax_02"
+  },
+  {
+   "id": "cs_w_weather_04",
+   "text": "Fronts change the weather",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weather · cs_w_weather_04"
+  },
+  {
+   "id": "cs_w_wedge_04",
+   "text": "A wedge splits wood grain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wedge · cs_w_wedge_04"
+  },
+  {
+   "id": "cs_w_wheat_05",
+   "text": "Wheat yields edible grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_05"
+  },
+  {
+   "id": "cs_w_white_dwarf_03",
+   "text": "A white dwarf cools slowly",
+   "standing": "projectable",
+   "evidence": "science · product curator · White dwarf · cs_w_white_dwarf_03"
+  },
+  {
+   "id": "cs_w_worm_02",
+   "text": "A worm aerates garden soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Worm · cs_w_worm_02"
   }
  ]
 }
