@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 193,
+ "curated_facts": 203,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1099,6 +1099,66 @@
    "text": "Ozone blocks ultraviolet light",
    "standing": "projectable",
    "evidence": "science · product curator · Ozone · cs_o_ozone_03"
+  },
+  {
+   "id": "cs_o_oleander_01",
+   "text": "Oleander is a toxic shrub",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oleander · cs_o_oleander_01"
+  },
+  {
+   "id": "cs_o_onyx_01",
+   "text": "Onyx is banded chalcedony",
+   "standing": "projectable",
+   "evidence": "science · product curator · Onyx · cs_o_onyx_01"
+  },
+  {
+   "id": "cs_o_operculum_01",
+   "text": "A fish has a gill operculum",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Operculum · cs_o_operculum_01"
+  },
+  {
+   "id": "cs_o_opinion_02",
+   "text": "A court writes an opinion",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Opinion · cs_o_opinion_02"
+  },
+  {
+   "id": "cs_o_opposition_01",
+   "text": "Mars reaches opposition",
+   "standing": "projectable",
+   "evidence": "science · product curator · Opposition · cs_o_opposition_01"
+  },
+  {
+   "id": "cs_o_orangutan_04",
+   "text": "An orangutan lives in trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orangutan · cs_o_orangutan_04"
+  },
+  {
+   "id": "cs_o_ordinal_01",
+   "text": "An ordinal ranks position",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ordinal · cs_o_ordinal_01"
+  },
+  {
+   "id": "cs_o_ornithology_01",
+   "text": "Ornithology studies birds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ornithology · cs_o_ornithology_01"
+  },
+  {
+   "id": "cs_o_oxidizer_01",
+   "text": "An oxidizer feeds a fire",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxidizer · cs_o_oxidizer_01"
+  },
+  {
+   "id": "cs_o_oyster_03",
+   "text": "An oyster makes a pearl",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_03"
   }
  ]
 }
