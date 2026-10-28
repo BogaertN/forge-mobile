@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 182,
+ "curated_facts": 188,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1063,6 +1063,42 @@
    "text": "A barracuda is a fast fish",
    "standing": "projectable",
    "evidence": "nature · product curator · Barracuda · cs_b_barracuda_02"
+  },
+  {
+   "id": "cs_b_baboon_02",
+   "text": "A baboon lives in a troop",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Baboon · cs_b_baboon_02"
+  },
+  {
+   "id": "cs_b_bark_02",
+   "text": "Trees have protective bark",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bark · cs_b_bark_02"
+  },
+  {
+   "id": "cs_b_bay_05",
+   "text": "A bay indents a coastline",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bay · cs_b_bay_05"
+  },
+  {
+   "id": "cs_b_bee_03",
+   "text": "A bee gathers nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bee · cs_b_bee_03"
+  },
+  {
+   "id": "cs_b_bernoulli_01",
+   "text": "Bernoulli explained fluid lift",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bernoulli · cs_b_bernoulli_01"
+  },
+  {
+   "id": "cs_b_botany_01",
+   "text": "Botany studies plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Botany · cs_b_botany_01"
   }
  ]
 }
