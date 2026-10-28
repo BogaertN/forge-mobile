@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 241,
+ "curated_facts": 251,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1411,6 +1411,66 @@
    "text": "Walls hold gypsum plaster",
    "standing": "projectable",
    "evidence": "science · product curator · Gypsum · cs_g_gypsum_06"
+  },
+  {
+   "id": "cs_g_gabbro_02",
+   "text": "Gabbro cools deep magma",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gabbro · cs_g_gabbro_02"
+  },
+  {
+   "id": "cs_g_garnet_01",
+   "text": "Garnet forms deep crust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Garnet · cs_g_garnet_01"
+  },
+  {
+   "id": "cs_g_glass_01",
+   "text": "Glass cools molten silica",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glass · cs_g_glass_01"
+  },
+  {
+   "id": "cs_g_glucose_07",
+   "text": "Glucose fuels cell energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glucose · cs_g_glucose_07"
+  },
+  {
+   "id": "cs_g_glycogen_03",
+   "text": "Glycogen stores muscle sugar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glycogen · cs_g_glycogen_03"
+  },
+  {
+   "id": "cs_g_glycolysis_01",
+   "text": "Glycolysis splits glucose chains",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glycolysis · cs_g_glycolysis_01"
+  },
+  {
+   "id": "cs_g_granule_01",
+   "text": "Granules store cell cargo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Granule · cs_g_granule_01"
+  },
+  {
+   "id": "cs_g_guard_cell_01",
+   "text": "Guard cells open leaf pores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Guard cell · cs_g_guard_cell_01"
+  },
+  {
+   "id": "cs_g_gum_resin_01",
+   "text": "Gum resin seals plant cuts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gum resin · cs_g_gum_resin_01"
+  },
+  {
+   "id": "cs_g_gust_01",
+   "text": "A gust lifts dust clouds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gust · cs_g_gust_01"
   }
  ]
 }

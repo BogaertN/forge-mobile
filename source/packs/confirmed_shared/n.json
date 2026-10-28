@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 240,
+ "curated_facts": 250,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1405,6 +1405,66 @@
    "text": "Genes fill a cell nucleus",
    "standing": "projectable",
    "evidence": "science · product curator · Nucleus · cs_n_nucleus_05"
+  },
+  {
+   "id": "cs_n_negative_feedback_01",
+   "text": "Feedback steadies body heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Negative feedback · cs_n_negative_feedback_01"
+  },
+  {
+   "id": "cs_n_nestling_01",
+   "text": "Nestlings beg parent food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nestling · cs_n_nestling_01"
+  },
+  {
+   "id": "cs_n_net_force_01",
+   "text": "Net force accelerates a mass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Net force · cs_n_net_force_01"
+  },
+  {
+   "id": "cs_n_neuromuscular_01",
+   "text": "Nerves fire muscle fibers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neuromuscular · cs_n_neuromuscular_01"
+  },
+  {
+   "id": "cs_n_neutrophil_01",
+   "text": "Neutrophils eat invading germs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neutrophil · cs_n_neutrophil_01"
+  },
+  {
+   "id": "cs_n_niche_02",
+   "text": "A niche fits species needs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Niche · cs_n_niche_02"
+  },
+  {
+   "id": "cs_n_nitrous_01",
+   "text": "Nitrous oxide dulls pain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrous · cs_n_nitrous_01"
+  },
+  {
+   "id": "cs_n_node_of_ranvier_01",
+   "text": "Nodes speed nerve impulses",
+   "standing": "projectable",
+   "evidence": "science · product curator · Node of Ranvier · cs_n_node_of_ranvier_01"
+  },
+  {
+   "id": "cs_n_nodule_01",
+   "text": "Root nodules fix air nitrogen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nodule · cs_n_nodule_01"
+  },
+  {
+   "id": "cs_n_nymph_stage_01",
+   "text": "A nymph molts soft skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nymph stage · cs_n_nymph_stage_01"
   }
  ]
 }
