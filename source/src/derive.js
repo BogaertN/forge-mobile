@@ -320,10 +320,12 @@ function Analyser(env) {
 const pr = p => ({ pr: p }), N = (n, o) => Object.assign({ n }, o || {}), U = a => ({ u: a }), UC = a => ({ uc: a }), Mn = t => ({ m: String(t) }), X = t => ({ x: String(t) }), Nm = (s, det) => (det ? { name: s, det } : { name: s });
 const C = (v, o) => Object.assign({ v, tense: 'pres', pol: 'pos' }, o || {}); const S = (c, o) => Object.assign({ c, force: 'decl' }, o || {}); const MS = (items, o) => Object.assign({ mth: items, force: 'decl' }, o || {});
 const I = pr('I'), YOU = pr('you'), uo = s => s && s.pron === 'kernel' ? pr('I') : s && (s.pron === 'user' || /^(?:i|me|myself)$/i.test(String(s.propn || s.name || s.head || s.n || ''))) ? YOU : s && s.pron3 && !s.boundOrig ? pr(s.pron3) : U(s); /* 4.9.79: a third-person pronoun is realized as a pronoun, so its case follows its position (about her, not "about she") */
-const told = cl => cl && cl.shared ? sharedStep(cl.shared) : S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
+/* 4.9.162: strip confirmed_shared tag before UC (Echo LC) */
+const stripCs = cl => { if (!cl || !cl.confirmed_shared) return cl; const o = Object.assign({}, cl); delete o.confirmed_shared; return o; };
+const told = cl => cl && cl.shared ? sharedStep(cl.shared) : cl && cl.confirmed_shared ? confirmedTold(cl) : S(C('tell', { karta: YOU, samp: I, comp: { that: UC(cl) }, tense: 'past' }));
 const starterTold = cl => S(C('state', { karta: N('pack', { det: 'the', adj: ['starter'] }), comp: { that: UC(cl) } }));
 const importTold = cl => S(C('state', { karta: N('pack', { det: 'the', adj: ['imported'] }), comp: { that: UC(cl) } }));
-const confirmedTold = cl => S(C('state', { karta: Mn('the shared knowledge base'), comp: { that: UC(cl) } }));
+const confirmedTold = cl => S(C('state', { karta: Mn('the shared knowledge base'), comp: { that: UC(stripCs(cl)) } }));
 /* a shared (GKS) premise in a proof chain is labelled by its source and class verb: primary/reviewed "states", secondary "reports", weak "claims" (4.9.43) */
 const sharedStep = sh => S(C(sh.cls === 'secondary' ? 'report' : sh.cls === 'weak_unverified' ? 'claim' : 'state', { karta: Mn(sh.source), karma: Mn(String(sh.text).replace(/[.]$/, '')) }));
 const coldStorage = () => N('storage', { adj: ['cold'] });
@@ -669,7 +671,10 @@ const PLANS = {
   neg_act: m => [S(C('ask', { karta: YOU, samp: I, comp: { inf: C(m.act, { karma: pr('that'), pol: 'neg' }) }, tense: 'past' })), S(C(m.act, { karta: I, karma: pr('it'), tense: 'past', pol: 'neg' }), { conj: 'so' })],
   confirm_replace: m => [S(C('tell', { karta: YOU, samp: I, comp: { that: UC(m.old) }, tense: 'past' }), { front: [{ adv: 'before' }] }), S(C('replace', { karta: I, karma: pr('it'), roles: { karana: N('fact', { det: 'the', adj: ['new'] }) }, mod: 'should' }), { force: 'ques' }), S(C('be', { karta: N('fact', { det: 'the', adj: ['new'] }), pred: { that: UC(m.clause) } })), yesNo()],
   kept: m => [S(C('remember', { karta: I, comp: { that: UC(m.clause) }, adv: ['still'] })), S(C('store', { karta: I, karma: N('statement', { det: 'the', adj: ['new'] }), tense: 'past', pol: 'neg' }))],
-  about: m => (m.items.length ? [S(C('tell', { karta: YOU, samp: I, karma: N('fact', { cnt: m.items.length, list: { kind: 'clause', items: m.items } }), roles: { visaya: U(m.subj) }, tense: 'past' }))] : [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'], pl: true }), roles: { visaya: U(m.subj) } }))]).concat(hiddenS(m.hidden)),
+  about: m => { /* 4.9.162 CS about provenance */ const fromCs = m.anchor_kind === 'confirmed_shared' || (m.items || []).length && (m.items || []).every(it => it && it.confirmed_shared);
+    const items = (m.items || []).map(stripCs);
+    if (items.length) return [fromCs ? S(C('state', { karta: Mn('the shared knowledge base'), karma: N('fact', { cnt: items.length, list: { kind: 'clause', items } }), roles: { visaya: U(m.subj) } })) : S(C('tell', { karta: YOU, samp: I, karma: N('fact', { cnt: items.length, list: { kind: 'clause', items } }), roles: { visaya: U(m.subj) }, tense: 'past' }))].concat(hiddenS(m.hidden));
+    return [S(C('have', { karta: I, karma: N('fact', { det: 'no', adj: ['stored'], pl: true }), roles: { visaya: U(m.subj) } }))].concat(hiddenS(m.hidden)); },
   when: m => m.items.map(x => S(C('tell', { karta: YOU, samp: I, comp: { that: UC(x.clause) }, tense: 'past' }), { front: [{ role: 'adhikarana', np: N('turn', { idx: Number(x.turn), app: { stamp: x.when } }) }] })),
   note_added: m => [S(C('add', { karta: I, karma: N('note', { det: 'a' }), tense: 'past' })), S(C('be', { karta: N('note', { idx: Number(m.n) }), pred: Mn(m.text) }))],
   notes: m => [m.items.length ? S(C('have', { karta: YOU, karma: N('note', { cnt: m.items.length, list: { kind: 'mention', items: m.items } }) })) : S(C('have', { karta: YOU, karma: N('note', { det: 'no', pl: true }) }))],
