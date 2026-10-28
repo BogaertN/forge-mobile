@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 191,
+ "curated_facts": 194,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1039,6 +1039,24 @@
    "text": "Four quarts equal one gallon",
    "standing": "projectable",
    "evidence": "math · product curator · Quart · cs_q_quart_05"
+  },
+  {
+   "id": "cs_q_quill_07",
+   "text": "A porcupine has a quill",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quill · cs_q_quill_07"
+  },
+  {
+   "id": "cs_q_quotient_rule_01",
+   "text": "Calculus uses the quotient rule",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quotient rule · cs_q_quotient_rule_01"
+  },
+  {
+   "id": "cs_q_quote_01",
+   "text": "Writers mark a quote with marks",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quote · cs_q_quote_01"
   }
  ]
 }
