@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 168,
+ "curated_facts": 183,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -949,6 +949,96 @@
    "text": "July follows June",
    "standing": "projectable",
    "evidence": "civics · product curator · July · cs_j_july_03"
+  },
+  {
+   "id": "cs_j_june_03",
+   "text": "Days are long in June",
+   "standing": "projectable",
+   "evidence": "civics · product curator · June · cs_j_june_03"
+  },
+  {
+   "id": "cs_j_joint_03",
+   "text": "A joint connects bones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joint · cs_j_joint_03"
+  },
+  {
+   "id": "cs_j_journal_03",
+   "text": "Writers keep a journal",
+   "standing": "projectable",
+   "evidence": "language · product curator · Journal · cs_j_journal_03"
+  },
+  {
+   "id": "cs_j_junction_01",
+   "text": "Roads meet at a junction",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Junction · cs_j_junction_01"
+  },
+  {
+   "id": "cs_j_jewel_01",
+   "text": "A jewel is a precious stone",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jewel · cs_j_jewel_01"
+  },
+  {
+   "id": "cs_j_juice_01",
+   "text": "Orange juice comes from fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juice · cs_j_juice_01"
+  },
+  {
+   "id": "cs_j_journalism_01",
+   "text": "Journalism reports news",
+   "standing": "projectable",
+   "evidence": "language · product curator · Journalism · cs_j_journalism_01"
+  },
+  {
+   "id": "cs_j_justice_04",
+   "text": "Justice is a civic ideal",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Justice · cs_j_justice_04"
+  },
+  {
+   "id": "cs_j_jet_02",
+   "text": "A jet engine thrusts a plane",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet · cs_j_jet_02"
+  },
+  {
+   "id": "cs_j_java_02",
+   "text": "Java is an Indonesian island",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Java · cs_j_java_02"
+  },
+  {
+   "id": "cs_j_jay_07",
+   "text": "Blue feathers mark many jays",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_07"
+  },
+  {
+   "id": "cs_j_jazz_06",
+   "text": "Jazz began in New Orleans",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jazz · cs_j_jazz_06"
+  },
+  {
+   "id": "cs_j_jaw_03",
+   "text": "Teeth sit in the jaw",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jaw · cs_j_jaw_03"
+  },
+  {
+   "id": "cs_j_jungle_04",
+   "text": "Thick plants fill a jungle",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jungle · cs_j_jungle_04"
+  },
+  {
+   "id": "cs_j_job_01",
+   "text": "Workers hold a job for pay",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Job · cs_j_job_01"
   }
  ]
 }

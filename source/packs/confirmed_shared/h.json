@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 171,
+ "curated_facts": 177,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -967,6 +967,42 @@
    "text": "A hydrometer measures liquid density",
    "standing": "projectable",
    "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_01"
+  },
+  {
+   "id": "cs_h_herb_01",
+   "text": "Basil is an herb",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Herb · cs_h_herb_01"
+  },
+  {
+   "id": "cs_h_humus_01",
+   "text": "Humus enriches soil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Humus · cs_h_humus_01"
+  },
+  {
+   "id": "cs_h_hammer_01",
+   "text": "A hammer drives a nail",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hammer · cs_h_hammer_01"
+  },
+  {
+   "id": "cs_h_homonym_03",
+   "text": "Bat and bat are homonyms",
+   "standing": "projectable",
+   "evidence": "language · product curator · Homonym · cs_h_homonym_03"
+  },
+  {
+   "id": "cs_h_half_01",
+   "text": "One half is a unit fraction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Half · cs_h_half_01"
+  },
+  {
+   "id": "cs_h_hive_01",
+   "text": "Bees live in a hive",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hive · cs_h_hive_01"
   }
  ]
 }
