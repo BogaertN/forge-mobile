@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 224,
+ "curated_facts": 234,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1303,6 +1303,66 @@
    "text": "A porcupine raises quills",
    "standing": "projectable",
    "evidence": "nature · product curator · Porcupine · cs_p_porcupine_04"
+  },
+  {
+   "id": "cs_p_parallax_01",
+   "text": "Parallax shifts nearby stars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Parallax · cs_p_parallax_01"
+  },
+  {
+   "id": "cs_p_patella_01",
+   "text": "The patella shields the knee",
+   "standing": "projectable",
+   "evidence": "science · product curator · Patella · cs_p_patella_01"
+  },
+  {
+   "id": "cs_p_peat_02",
+   "text": "Peat stores swamp carbon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peat · cs_p_peat_02"
+  },
+  {
+   "id": "cs_p_pericardium_01",
+   "text": "The pericardium wraps the heart",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pericardium · cs_p_pericardium_01"
+  },
+  {
+   "id": "cs_p_permafrost_02",
+   "text": "Permafrost locks frozen soil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Permafrost · cs_p_permafrost_02"
+  },
+  {
+   "id": "cs_p_phosphorus_03",
+   "text": "Phosphorus lights match heads",
+   "standing": "projectable",
+   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_03"
+  },
+  {
+   "id": "cs_p_piston_02",
+   "text": "A piston compresses engine gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Piston · cs_p_piston_02"
+  },
+  {
+   "id": "cs_p_pituitary_01",
+   "text": "The pituitary steers hormones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pituitary · cs_p_pituitary_01"
+  },
+  {
+   "id": "cs_p_placenta_01",
+   "text": "The placenta feeds a fetus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Placenta · cs_p_placenta_01"
+  },
+  {
+   "id": "cs_p_platelet_01",
+   "text": "Platelets start blood clots",
+   "standing": "projectable",
+   "evidence": "science · product curator · Platelet · cs_p_platelet_01"
   }
  ]
 }

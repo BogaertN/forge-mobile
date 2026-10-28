@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 224,
+ "curated_facts": 230,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1309,6 +1309,42 @@
    "text": "A nut stores seed food",
    "standing": "projectable",
    "evidence": "nature · product curator · Nut · cs_n_nut_03"
+  },
+  {
+   "id": "cs_n_neodymium_03",
+   "text": "Neodymium strengthens magnets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neodymium · cs_n_neodymium_03"
+  },
+  {
+   "id": "cs_n_neuron_06",
+   "text": "A neuron fires electric spikes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neuron · cs_n_neuron_06"
+  },
+  {
+   "id": "cs_n_neoprene_01",
+   "text": "Neoprene seals diving suits",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neoprene · cs_n_neoprene_01"
+  },
+  {
+   "id": "cs_n_nitrate_05",
+   "text": "Nitrate feeds plant roots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nitrate · cs_n_nitrate_05"
+  },
+  {
+   "id": "cs_n_notochord_01",
+   "text": "A notochord stiffens early embryos",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Notochord · cs_n_notochord_01"
+  },
+  {
+   "id": "cs_n_nylon_02",
+   "text": "Nylon stretches into strong fiber",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nylon · cs_n_nylon_02"
   }
  ]
 }
