@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 248,
+ "curated_facts": 258,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1459,6 +1459,66 @@
    "text": "Cyclones spin storm winds",
    "standing": "projectable",
    "evidence": "science · product curator · Cyclone · cs_c_cyclone_01"
+  },
+  {
+   "id": "cs_c_camphor_01",
+   "text": "Camphor repels closet moths",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Camphor · cs_c_camphor_01"
+  },
+  {
+   "id": "cs_c_carbide_01",
+   "text": "Carbide hardens cutting tips",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbide · cs_c_carbide_01"
+  },
+  {
+   "id": "cs_c_casein_01",
+   "text": "Casein thickens cheese curds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Casein · cs_c_casein_01"
+  },
+  {
+   "id": "cs_c_cation_01",
+   "text": "Cations carry positive charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cation · cs_c_cation_01"
+  },
+  {
+   "id": "cs_c_cementum_01",
+   "text": "Cementum anchors tooth roots",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cementum · cs_c_cementum_01"
+  },
+  {
+   "id": "cs_c_cerebellum_01",
+   "text": "The cerebellum steers balance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cerebellum · cs_c_cerebellum_01"
+  },
+  {
+   "id": "cs_c_cesium_01",
+   "text": "Cesium clocks mark exact time",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cesium · cs_c_cesium_01"
+  },
+  {
+   "id": "cs_c_chert_01",
+   "text": "Chert flakes sharp edges",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chert · cs_c_chert_01"
+  },
+  {
+   "id": "cs_c_cohesion_01",
+   "text": "Cohesion pulls water columns",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cohesion · cs_c_cohesion_01"
+  },
+  {
+   "id": "cs_c_cutin_01",
+   "text": "Cutin seals leaf surfaces",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cutin · cs_c_cutin_01"
   }
  ]
 }

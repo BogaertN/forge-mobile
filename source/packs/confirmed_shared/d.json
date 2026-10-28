@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 255,
+ "curated_facts": 265,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1465,6 +1465,66 @@
    "text": "A dyne measures tiny force",
    "standing": "projectable",
    "evidence": "science · product curator · Dyne · cs_d_dyne_01"
+  },
+  {
+   "id": "cs_d_darcy_01",
+   "text": "Darcy ranks porous flow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Darcy · cs_d_darcy_01"
+  },
+  {
+   "id": "cs_d_decomposer_01",
+   "text": "Decomposers recycle dead matter",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Decomposer · cs_d_decomposer_01"
+  },
+  {
+   "id": "cs_d_dermis_03",
+   "text": "The dermis cushions skin layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dermis · cs_d_dermis_03"
+  },
+  {
+   "id": "cs_d_detritus_03",
+   "text": "Detritus feeds stream bottoms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Detritus · cs_d_detritus_03"
+  },
+  {
+   "id": "cs_d_deuterium_03",
+   "text": "Deuterium fuels fusion cores",
+   "standing": "projectable",
+   "evidence": "science · product curator · Deuterium · cs_d_deuterium_03"
+  },
+  {
+   "id": "cs_d_diaphragm_03",
+   "text": "The diaphragm draws lung air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_03"
+  },
+  {
+   "id": "cs_d_diffusion_04",
+   "text": "Diffusion spreads solute ions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_04"
+  },
+  {
+   "id": "cs_d_dispersion_02",
+   "text": "Prisms disperse white light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dispersion · cs_d_dispersion_02"
+  },
+  {
+   "id": "cs_d_dolomite_03",
+   "text": "Dolomite buffers hard water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dolomite · cs_d_dolomite_03"
+  },
+  {
+   "id": "cs_d_doppler_02",
+   "text": "Doppler shifts moving sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Doppler · cs_d_doppler_02"
   }
  ]
 }
