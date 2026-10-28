@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 239,
+ "curated_facts": 249,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1387,6 +1387,66 @@
    "text": "Kudzu covers fence lines",
    "standing": "projectable",
    "evidence": "nature · product curator · Kudzu · cs_k_kudzu_01"
+  },
+  {
+   "id": "cs_k_kapok_02",
+   "text": "Kapok fills life jackets",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kapok · cs_k_kapok_02"
+  },
+  {
+   "id": "cs_k_kelvin_03",
+   "text": "Kelvin ranks absolute heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kelvin · cs_k_kelvin_03"
+  },
+  {
+   "id": "cs_k_keratin_06",
+   "text": "Keratin coats bird beaks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Keratin · cs_k_keratin_06"
+  },
+  {
+   "id": "cs_k_kernel_05",
+   "text": "A kernel sprouts new corn",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_05"
+  },
+  {
+   "id": "cs_k_kingfisher_09",
+   "text": "Kingfishers dive for fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_09"
+  },
+  {
+   "id": "cs_k_kiwifruit_02",
+   "text": "Kiwifruit stores vitamin C",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kiwifruit · cs_k_kiwifruit_02"
+  },
+  {
+   "id": "cs_k_knee_04",
+   "text": "Knees hinge the lower leg",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knee · cs_k_knee_04"
+  },
+  {
+   "id": "cs_k_kohlrabi_02",
+   "text": "Kohlrabi swells above soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kohlrabi · cs_k_kohlrabi_02"
+  },
+  {
+   "id": "cs_k_krypton_06",
+   "text": "Krypton fills some bulbs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Krypton · cs_k_krypton_06"
+  },
+  {
+   "id": "cs_k_kumquat_04",
+   "text": "Kumquats ripen sweet peels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_04"
   }
  ]
 }
