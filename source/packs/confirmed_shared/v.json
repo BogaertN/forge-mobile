@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 145,
+ "curated_facts": 157,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -829,6 +829,78 @@
    "text": "A volt is the SI unit of electric potential",
    "standing": "projectable",
    "evidence": "science · product curator · Volt · cs_v_volt_03"
+  },
+  {
+   "id": "cs_v_valley_03",
+   "text": "A valley is low land between hills",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valley · cs_v_valley_03"
+  },
+  {
+   "id": "cs_v_valve_02",
+   "text": "A heart valve controls blood flow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valve · cs_v_valve_02"
+  },
+  {
+   "id": "cs_v_variable_02",
+   "text": "A variable stores a changing value",
+   "standing": "projectable",
+   "evidence": "math · product curator · Variable · cs_v_variable_02"
+  },
+  {
+   "id": "cs_v_velocity_02",
+   "text": "Velocity includes speed and direction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Velocity · cs_v_velocity_02"
+  },
+  {
+   "id": "cs_v_vertebrate_02",
+   "text": "A vertebrate has a backbone",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_02"
+  },
+  {
+   "id": "cs_v_vibration_01",
+   "text": "Sound travels as a vibration",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vibration · cs_v_vibration_01"
+  },
+  {
+   "id": "cs_v_violet_02",
+   "text": "A violet is a small flowering plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Violet · cs_v_violet_02"
+  },
+  {
+   "id": "cs_v_vitamin_01",
+   "text": "A vitamin is needed in small amounts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vitamin · cs_v_vitamin_01"
+  },
+  {
+   "id": "cs_v_volcano_04",
+   "text": "A volcano erupts lava and ash",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Volcano · cs_v_volcano_04"
+  },
+  {
+   "id": "cs_v_vowel_03",
+   "text": "A vowel is a speech sound",
+   "standing": "projectable",
+   "evidence": "language · product curator · Vowel · cs_v_vowel_03"
+  },
+  {
+   "id": "cs_v_vulture_05",
+   "text": "A vulture feeds on dead animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vulture · cs_v_vulture_05"
+  },
+  {
+   "id": "cs_v_volume_02",
+   "text": "Volume is the measure of space",
+   "standing": "projectable",
+   "evidence": "math · product curator · Volume · cs_v_volume_02"
   }
  ]
 }

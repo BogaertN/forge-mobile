@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 149,
+ "curated_facts": 161,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -829,6 +829,78 @@
    "text": "Uplift raises crustal rocks",
    "standing": "projectable",
    "evidence": "science · product curator · Uplift · cs_u_uplift_01"
+  },
+  {
+   "id": "cs_u_ultraviolet_04",
+   "text": "Ultraviolet light has short waves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_04"
+  },
+  {
+   "id": "cs_u_umbilical_cord_01",
+   "text": "The umbilical cord connects a fetus to the placenta",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbilical cord · cs_u_umbilical_cord_01"
+  },
+  {
+   "id": "cs_u_unicellular_01",
+   "text": "A unicellular organism has one cell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Unicellular · cs_u_unicellular_01"
+  },
+  {
+   "id": "cs_u_union_02",
+   "text": "The union of sets combines their members",
+   "standing": "projectable",
+   "evidence": "math · product curator · Union · cs_u_union_02"
+  },
+  {
+   "id": "cs_u_uranium_07",
+   "text": "Uranium is a radioactive metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_07"
+  },
+  {
+   "id": "cs_u_urban_02",
+   "text": "An urban area has dense settlement",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Urban · cs_u_urban_02"
+  },
+  {
+   "id": "cs_u_urea_02",
+   "text": "Urea is a waste product in urine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urea · cs_u_urea_02"
+  },
+  {
+   "id": "cs_u_ureter_01",
+   "text": "A ureter carries urine from a kidney",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ureter · cs_u_ureter_01"
+  },
+  {
+   "id": "cs_u_urethra_01",
+   "text": "The urethra carries urine out of the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urethra · cs_u_urethra_01"
+  },
+  {
+   "id": "cs_u_ultrasound_03",
+   "text": "Ultrasound uses high frequency sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_03"
+  },
+  {
+   "id": "cs_u_upland_01",
+   "text": "An upland is high ground",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Upland · cs_u_upland_01"
+  },
+  {
+   "id": "cs_u_unit_fraction_03",
+   "text": "A unit fraction has one as numerator",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_03"
   }
  ]
 }
