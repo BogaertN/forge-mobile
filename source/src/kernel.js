@@ -737,6 +737,14 @@ function Kernel(opts) {
   const roleKey = c => { const o = {}; for (const [k, v] of Object.entries(c.roles || {})) o[k] = v && v.clause ? canon(G.material(v.clause)) : entKey(v); for (const a of c.adj || []) (o['adj:' + (a.prep || a.role)] = o['adj:' + (a.prep || a.role)] || []).push(a.np ? entKey(a.np) : a.time || a.adv); return o; };
   const restr = n => n && !n.conj && (n.rel || n.relObj) ? canon(G.material(n.rel || n.relObj)) : null; /* LL-RESTRICTOR-EXACT: a relative clause restricts its head ("eagles that can fly" ≠ "eagles that fly"); a question restrictor must equal the stored one — no inflation from a looser or different restrictor */
   const subjMatch = (qs, rs) => { if (!qs) return true; if (rs && restr(qs) !== null && restr(qs) !== restr(rs)) return false; /* a restricted fact never answers an unrestricted yes/no (see exact) */ const b = entKeys(rs); return entKeys(qs).every(k => b.includes(k)); };
+  /* 4.9.162 CS recall (surface/PP; write stays activeFacts) */
+  function subjSurface(n){if(!n)return'';if(n.propn)return String(n.propn).toLowerCase().replace(/^(the|a|an)\s+/,'').replace(/\s+/g,' ').trim();return(n.adjs||[]).map(a=>String(a).toLowerCase()).concat((n.head||[]).map(h=>String(h).toLowerCase())).join(' ').replace(/\s+/g,' ').trim()}
+  function peelNP(n){const o=[];let c=n;while(c){o.push(c);if(!(c.pp&&c.pp.np))break;const x=Object.assign({},c);delete x.pp;c=x}return o}
+  function aboutSubjMatch(qs,rs){if(!qs||!rs)return false;for(const a of peelNP(qs))for(const b of peelNP(rs)){const sa=subjSurface(a),sb=subjSurface(b);if(sa&&sb&&sa===sb)return true;try{if(npKey(a)===npKey(b))return true}catch(e){}}const rich=n=>!!(n.propn||(n.adjs&&n.adjs.length)||(n.pp&&n.pp.np));if(rich(qs)||rich(rs))return false;return subjMatch(qs,rs)}
+  function readFacts(){return activeFacts().concat(confirmedSharedFacts())}
+  function isCsRec(r){return!!(r&&((r.provenance&&r.provenance.source===PACK_CS)||String(r.id||'').indexOf('cs:')===0))}
+  function markCsClause(r){if(!r||!r.clause)return r&&r.clause;return isCsRec(r)?Object.assign({},r.clause,{confirmed_shared:true}):r.clause}
+  function matchesAbout(q,gap,r){return matches(q,gap,r,aboutSubjMatch)}
   let sideRules = []; let pendingRender = null; let stagedHyps = []; let phonePending = null; let phoneProposals = []; let meaPPending = null; let meaPProposals = []; let spcPending = null; let creativePending = null; let supposeOpen = null; let supposePending = null;
   /* M2 (4.9.59) TRUTH MAINTENANCE. Every derived item Forge keeps or carries across turns — an answer's conclusion (world proof, stored-fact
      inference, recall), a staged or approved hypothesis, an admitted rule — is a ledger item (justify.js) with every justification it ever had:
@@ -912,13 +920,22 @@ function Kernel(opts) {
      compares the kāraka-normal (active) form, the stored surface is never rewritten */
   function actv(c) { if (!c || c.coord || !c.verb || c.verb.voice !== 'passive' || !c.roles || !c.roles.karta || c.roles.karma) return c; const roles = Object.assign({}, c.roles); const ag = roles.karta; delete roles.karta; roles.karma = c.subj;
     const verb = Object.assign({}, c.verb); delete verb.voice; delete verb.form; return Object.assign({}, c, { subj: ag, roles, verb }); }
-  function matches(q, gap, r) { const c = actv(r.clause); q = actv(q); if (c.coord) return false; if (predOf(q) !== predOf(c)) return false; if (q.subj && c.subj && QCLASS(q.subj.quant) !== QCLASS(c.subj.quant)) return false; if (wantsSame(q) && scopeOf(c)) { sideRules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27 no hidden inference', note: '∃y∀x was preserved, not selected' }); return false; } if (gap !== 'subj' && !subjMatch(q.subj, c.subj)) return false;
+  function matches(q, gap, r, sm) { const subjOk = sm || subjMatch; const c = actv(r.clause); q = actv(q); if (c.coord) return false; if (predOf(q) !== predOf(c)) return false; if (q.subj && c.subj && QCLASS(q.subj.quant) !== QCLASS(c.subj.quant)) return false; if (wantsSame(q) && scopeOf(c)) { sideRules.push({ id: 'LL-QSCOPE-INVERSE-NOT-ENTAILED', doc: 'Doc3 scope; Doc6 §27 no hidden inference', note: '∃y∀x was preserved, not selected' }); return false; } if (gap !== 'subj' && !subjOk(q.subj, c.subj)) return false;
     const qk = roleKey(q), rk = roleKey(c); for (const [k, v] of Object.entries(qk)) { if (!(k in rk)) return false; if (canon(v) !== canon(rk[k]) && !(Array.isArray(v) && v.every(x => rk[k].includes(x)))) return false; }
     if (gap === 'subj' && q.pred && canon(G.material(q.pred)) !== canon(G.material(c.pred))) return false;
     if (gap && gap.startsWith('role:')) { const role = gap.slice(5); if (role === 'karma') return !!(c.roles && c.roles.karma); const timeNP = n => { const w = n && (n.propn ? String(n.propn).toLowerCase() : n.head ? n.head[n.head.length - 1] : null); return !!w && (G.TIMEW.has(w) || lex.lexnameOf(w) === 'noun.time'); }; /* KALA-PREDICATE (4.9.79): a copular pp whose noun is a time noun (WordNet noun.time) states the subject's time */
       return (c.adj || []).some(a => a.role === role) || (role === 'adhikarana' && c.pred && (c.pred.type === 'pp' || c.pred.type === 'adv') && !(c.pred.type === 'pp' && timeNP(c.pred.np))) || (role === 'kala' && c.pred && c.pred.type === 'pp' && timeNP(c.pred.np)); }
     if (gap === 'pred') return !!c.pred; return true; }
-  const factsAbout = key => activeFacts().filter(r => r.entities.some(e => e === key || e.startsWith(key + '/') || e.includes('+' + key) || e.includes(key + '+')));
+  const factsAbout = key => { const hit = r => r.entities && r.entities.some(e => e === key || e.startsWith(key + '/') || e.includes('+' + key) || e.includes(key + '+'));
+    return activeFacts().filter(hit).concat(confirmedSharedFacts().filter(hit)); };
+  /* 4.9.162: about-NP — memory (key|subj), CS by aboutSubjMatch only (no bare entKey). */
+  function factsAboutNP(np) { if (!np) return []; const key = entKey(np); const byKey = r => r.entities && r.entities.some(e => e === key || e.startsWith(key + '/') || e.includes('+' + key) || e.includes(key + '+'));
+    const bySubj = r => r.clause && r.clause.subj && aboutSubjMatch(np, r.clause.subj);
+    const mem = activeFacts().filter(r => bySubj(r) || byKey(r));
+    const cs = confirmedSharedFacts().filter(bySubj);
+    const seen = new Set(), texts = new Set(), out = [];
+    const push = r => { if (!r || seen.has(r.id)) return; const t = r.clause ? (typeof importText === 'function' ? importText(r) : '') : ''; if (t && texts.has(t)) return; seen.add(r.id); if (t) texts.add(t); out.push(r); };
+    for (const r of mem) push(r); for (const r of cs) push(r); return out; }
   /* self-query lexical classes (4.9.38): words, not phrases — the parse supplies the frame */
   const SELF_COGN = new Set(['know', 'remember', 'recall']), SELF_SAY = new Set(['tell', 'say', 'mention']), SELF_SHOW = new Set(['list', 'show', 'display', 'read', 'give']);
   const SELF_MEAN_V = new Set(['mean', 'define', 'explain']), SELF_MEAN_N = new Set(['meaning', 'definition']);
@@ -1699,8 +1716,8 @@ function Kernel(opts) {
     function metaQ(q, gap, wh) { if (!q || q.coord || !q.verb) return null; const L = q.verb.lemma, ro = q.roles || {}, isK = n => n && n.pron === 'kernel', isU = n => n && n.pron === 'user';
       const vis = (q.adj || []).find(a => a.role === 'vishaya' && a.np); const recN = n => n && !n.conj && n.head && n.head.length === 1 && SELF_REC[n.head[0]] && !n.propn ? SELF_REC[n.head[0]] : null;
       const about = np => { const rr = resolveRefs({ subj: np, verb: { lemma: 'be' } }, rules); if (rr.clarify) return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.ABOUT', act: 'question' });
-        const key = entKey(np); const fs = factsAbout(key); const v = fs.filter(r => !r.sensitive); rules.push({ id: 'MEM-QUERY-ENTITY', doc: 'Doc7; exact entity key (no similarity); frame read from the parse (Q-SELF-COGNITION)', note: key + ' → ' + fs.length }); ctx.clauseForDiscourse = { subj: np, verb: { lemma: 'be' } };
-        return res('SELECTED_MEANING', Object.assign({ kind: 'about', subj: np, items: v.map(r => r.clause) }, fs.length - v.length ? { hidden: fs.length - v.length } : {}), { frame: 'FR.ABOUT', act: 'question', evidenceRefs: v.map(r => r.id) }); };
+        const key = entKey(np); const fs = factsAboutNP(np); const v = fs.filter(r => !r.sensitive); const fromCs = v.length && v.every(isCsRec); rules.push({ id: fromCs ? 'CS-QUERY-ENTITY' : 'MEM-QUERY-ENTITY', doc: fromCs ? '4.9.162 CS about' : 'Doc7; exact entity key (no similarity); frame read from the parse (Q-SELF-COGNITION)', note: key + ' → ' + fs.length + (fromCs ? ' confirmed_shared' : '') }); ctx.clauseForDiscourse = { subj: np, verb: { lemma: 'be' } };
+        return res('SELECTED_MEANING', Object.assign({ kind: 'about', subj: np, items: v.map(markCsClause) }, fromCs ? { anchor_kind: 'confirmed_shared' } : {}, fs.length - v.length ? { hidden: fs.length - v.length } : {}), { frame: 'FR.ABOUT', act: 'question', evidenceRefs: v.map(r => r.id) }); };
       const list = what => { rules.push({ id: 'Q-SELF-LIST', doc: 'Doc7; record noun class (SELF_REC) read from the parse' }); if (what === 'notes') return res('SELECTED_MEANING', { kind: 'notes', items: notes().map(n => n.text) }, { frame: 'FR.NOTE.LIST', act: 'request' }); if (what === 'reminders') { rules.push({ id: 'G-REMINDER-LIST', doc: 'reminders store' }); return res('SELECTED_MEANING', { kind: 'reminders', items: store.load('reminders').filter(r => r.state === 'pending').map(r => r.text + ' — ' + (r.when || r.due)) }, { frame: 'FR.REMIND', act: 'question' }); }
         const fs = storedFacts(), v = fs.filter(r => !r.sensitive), m = { kind: 'facts', items: v.map(r => r.clause) }; if (fs.length - v.length) m.hidden = fs.length - v.length; return res('SELECTED_MEANING', m, { frame: 'FR.MEM.LIST', act: 'question' }); };
       /* Forge's own state, by noun class and frame (4.9.39; replaces the META phrase list): help / status / terms / time */
@@ -2043,7 +2060,7 @@ function Kernel(opts) {
           const has = (m, n) => { const a = words(m).map(lem), b = words(n).map(lem); return b.length && b.every(w => a.includes(w)); };
           const co = activeFacts().find(r => !r.sensitive && r.clause && !r.clause.coord && r.clause.subj && r.clause.subj.conj && r.clause.subj.op === 'and' && (r.clause.subj.conj || []).some(m => has(m, q.subj)) && (r.clause.subj.conj || []).some(m => has(m, k)) && !(r.clause.subj.conj || []).some(m => has(m, q.subj) && has(m, k)));
           if (co) { rules.push({ id: 'CAUSE-COOCCURRENCE', doc: 'Doc3 (no inference from co-occurrence to cause); M2 evidence', note: co.id }); return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj, clause: q, cooccur: co.clause }, { frame: 'FR.QUESTION', act: 'question', uncertainty: 'undetermined', evidenceRefs: [co.id] }); } } }
-      const facts = activeFacts().filter(r => !r.sensitive).concat(gksIndex().filter(e => e.clause && e.f.status === 'active').map(e => ({ id: e.f.id, kind: 'relation', status: 'active', clause: e.clause, shared: { source: e.f.source.citation, text: e.f.text, cls: e.f.source.class } }))); const byId = id => facts.find(r => r.id === id); /* 4.9.43: shared facts are premises with provenance */
+      const facts = activeFacts().filter(r => !r.sensitive).concat(confirmedSharedFacts().map(r => Object.assign({}, r, { shared_kb: true }))).concat(gksIndex().filter(e => e.clause && e.f.status === 'active').map(e => ({ id: e.f.id, kind: 'relation', status: 'active', clause: e.clause, shared: { source: e.f.source.citation, text: e.f.text, cls: e.f.source.class } }))); const byId = id => facts.find(r => r.id === id); /* 4.9.43/162: CS then GKS premises */
       const stepOf = r => (r.shared ? Object.assign({}, r.clause, { shared: r.shared }) : r.clause);
       for (const v of virtualFacts(facts)) { const c = v.clause; if (predOf(c) !== predOf(q) || !subjMatch(q.subj, c.subj) || !predEq(q, c)) continue; const qk = roleKey(q), rk = roleKey(c); if (Object.keys(qk).some(k => !(k in rk) || canon(qk[k]) !== canon(rk[k]))) continue;
         rules.push({ id: v.rule, doc: v.doc, note: v.from.length + ' stored fact(s)' }); const stepsC = v.from.map(byId).filter(Boolean);
@@ -2127,27 +2144,37 @@ function Kernel(opts) {
     }
     function answer(q, gap, qrule, prules) {
       rules.push({ id: qrule, doc: 'Doc5 §15 (question speech act); Doc3' }, ...prules.filter(Boolean).map(id => ({ id, doc: ruleDoc(id) })));
-      if (q.subj) { const rr = resolveRefs(q, rules, gap ? { answerable: qq => activeFacts().some(r => !r.sensitive && matches(qq, gap, r)) } : null); if (rr.clarify) { g.connectedness = 'referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); } }
+      if (q.subj) { const rr = resolveRefs(q, rules, gap ? { answerable: qq => readFacts().some(r => !r.sensitive && (matches(qq, gap, r) || matchesAbout(qq, gap, r))) } : null); if (rr.clarify) { g.connectedness = 'referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); } }
       if (q.subj) ctx.clauseForDiscourse = q;
       if (gap === 'subj' && q.verb && q.verb.lemma === 'cause' && q.verb.pol === 'pos' && !q.cond && q.roles && q.roles.karma && !q.roles.karma.conj) { const inv = invertCauses(q); if (inv) return inv; }
       let recs = activeFacts().filter(r => matches(q, gap, r));
-      if (!recs.length && gap) { const fs = activeFacts().filter(r => !r.sensitive); const vs = virtualFacts(fs).filter(v => matches(q, gap, { clause: v.clause })); if (vs.length) { rules.push({ id: vs[0].rule, doc: vs[0].doc, note: 'wh-recall through a one-step derivation' }); recs = vs.map(v => ({ id: v.from[0], clause: v.clause, entities: [] })); } }
+      if (!recs.length) recs = confirmedSharedFacts().filter(r => matchesAbout(q, gap, r));
+      if (!recs.length && gap) { const fs = readFacts().filter(r => !r.sensitive); const vs = virtualFacts(fs).filter(v => matches(q, gap, { clause: v.clause }) || matchesAbout(q, gap, { clause: v.clause })); if (vs.length) { rules.push({ id: vs[0].rule, doc: vs[0].doc, note: 'wh-recall through a one-step derivation' }); recs = vs.map(v => ({ id: v.from[0], clause: v.clause, entities: [] })); } }
       if (!recs.length && gap === 'pred' && q.subj) recs = activeFacts().filter(r => !r.clause.coord && r.clause.verb.lemma === 'be' && r.clause.pred && r.clause.pred.np && entKeys(r.clause.pred.np).includes(entKey(q.subj)));
+      if (!recs.length && gap === 'pred' && q.subj) recs = confirmedSharedFacts().filter(r => r.clause && !r.clause.coord && r.clause.verb && r.clause.verb.lemma === 'be' && r.clause.pred && r.clause.pred.np && aboutSubjMatch(q.subj, r.clause.pred.np));
+      /* 4.9.162 CS-RECALL-ABOUT */
+      if (!recs.length && gap === 'pred' && q.subj) { let about = factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord);
+        if (about.length) { const want = subjSurface(peelNP(q.subj).slice(-1)[0] || q.subj);
+          const exact = about.filter(r => subjSurface(peelNP(r.clause.subj).slice(-1)[0] || r.clause.subj) === want);
+          if (exact.length) about = exact; if (about.length > 3) about = about.slice(0, 3);
+          rules.push({ id: about.every(isCsRec) ? 'CS-RECALL-ABOUT' : 'MEM-RECALL-ABOUT', doc: '4.9.162 about-fallback', note: about.map(r => r.id).join(', ') }); recs = about; } }
       /* MEM-RECALL-TIME-ADJUNCT (4.9.82): "when is / does NP (V)" with no exact match recalls a fact about the same subject (and, for a lexical verb,
          the same verb) that carries a time: a kāla adjunct, or an adjunct / predicate phrase whose noun is of the WordNet time class
          ("moved to Thursday", "is in June") — the time is the answer, whatever the preposition */
       if (!recs.length && gap === 'role:kala' && q.subj) { const timeNP = n => !!n && (n.num !== undefined || lex.lexnameOf(String(n.propn || (n.head || []).slice(-1)[0] || '').toLowerCase()) === 'noun.time');
         const hasT = c => (c.adj || []).some(a => a.role === 'kala' || a.time || (a.np && timeNP(a.np))) || (c.pred && c.pred.type === 'pp' && timeNP(c.pred.np));
-        const tf = activeFacts().filter(r => !r.sensitive && r.clause && !r.clause.coord && subjMatch(q.subj, r.clause.subj) && (q.verb.lemma === 'be' || predOf(r.clause) === predOf(q)) && hasT(r.clause));
+        const tf = readFacts().filter(r => !r.sensitive && r.clause && !r.clause.coord && aboutSubjMatch(q.subj, r.clause.subj) && (q.verb.lemma === 'be' || predOf(r.clause) === predOf(q)) && hasT(r.clause));
         if (tf.length) { rules.push({ id: 'MEM-RECALL-TIME-ADJUNCT', doc: 'Doc7; Doc5 kāla (a time phrase answers "when")', note: tf.map(r => r.id).join(', ') }); recs = tf; } }
-      rules.push({ id: 'MEM-RECALL-STRUCTURAL', doc: 'Doc7; RPMC (exact structural match; RPM weight displayed, never decides)', note: (gap || 'yes/no') + ' → ' + recs.length + ' record(s)' });
+      const fromCs = recs.length && recs.every(isCsRec);
+      rules.push({ id: fromCs ? 'CS-RECALL-STRUCTURAL' : 'MEM-RECALL-STRUCTURAL', doc: fromCs ? '4.9.162 CS structural' : 'Doc7; RPMC (exact structural match; RPM weight displayed, never decides)', note: (gap || 'yes/no') + ' → ' + recs.length + ' record(s)' + (fromCs ? ' confirmed_shared' : '') });
       const sens = recs.filter(r => r.sensitive); if (sens.length || (!gap && activeFacts().some(r => r.sensitive && subjMatch(q.subj, r.clause.subj) && predOf(r.clause) === predOf(q)))) { rules.push({ id: 'LL-OUTPUT-BOUNDARY-PRIVATE', doc: 'Doc3 §20' }); return res('UNDERSTOOD_ACTION_BLOCKED', { kind: 'blocked', action: 'show ' + (q.subj ? G.npText(q.subj, 'kernel') : 'that record'), reason: 'SENSITIVE_RECORD' }, { frame: 'FR.QUESTION', act: 'question' }); }
       /* SELF-UNSETTLED (4.9.80): a wh-question about Forge itself that neither memory nor the self-model settles is answered about Forge: it says no
          stored fact answers it and states the true self-facts, never treating Forge as an unknown user entity */
       if (gap && !recs.length) { const su = selfUnsettled(q, rules); if (su) return su; }
-      if (gap) { if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj || { propn: 'that' } }, { frame: 'FR.QUESTION', act: 'question' }); return res('SELECTED_MEANING', { kind: 'recall', items: recs.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: recs.map(r => r.id) }); }
+      if (gap) { if (!recs.length) return res('SELECTED_MEANING', { kind: 'recall_none', subj: q.subj || { propn: 'that' } }, { frame: 'FR.QUESTION', act: 'question' }); return res('SELECTED_MEANING', { kind: 'recall', items: recs.map(markCsClause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: recs.map(r => r.id) }); }
       ctx.qVoice = q.verb && q.verb.voice === 'passive' && q.roles && q.roles.karta ? 'passive' : 'active';
-      const rel = activeFacts().filter(r => !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(actv(q).subj, actv(r.clause).subj));
+      let rel = activeFacts().filter(r => !r.clause.coord && predOf(r.clause) === predOf(q) && subjMatch(actv(q).subj, actv(r.clause).subj));
+      if (!rel.length) rel = confirmedSharedFacts().filter(r => r.clause && !r.clause.coord && predOf(r.clause) === predOf(q) && aboutSubjMatch(actv(q).subj, actv(r.clause).subj));
       if (!rel.length && lifecycle(q)) { const now = activeFacts().filter(r => !r.clause.coord && lifecycle(r.clause) && subjMatch(holder(q), holder(r.clause)));
         if (now.length) { const hist = store.load('cold_storage').filter(x => x.record && x.record.clause && lifecycle(x.record.clause) === lifecycle(q) && subjMatch(holder(q), holder(x.record.clause)));
           rules.push({ id: 'MEM-STATUS-LATEST', doc: 'Pāṇini paper L2736–2751; Doc3 §24', note: (hist.length ? lifecycle(q) + ' (history) → ' : '') + lifecycle(now[now.length - 1].clause) + ' (current)' });
@@ -2163,7 +2190,7 @@ function Kernel(opts) {
       if (exact.length && ans === 'no') { const inf = inferYN(q, exact[0].clause); if (inf) return inf; }
       if (!exact.length || ans === 'unconfirmed') { const inf = inferYN(q); if (inf) return inf; }
       rules.push({ id: exact.length ? 'LL-NEG-POLARITY-COMPARE' : 'NO-INFERENCE-ACROSS-VALUES', doc: exact.length ? 'Doc3 §15, §18' : 'Doc6 §27 (no hidden inference; no lawful inference rule reached the claim)' });
-      return res('SELECTED_MEANING', { kind: 'yesno', answer: ans, items: shown.map(r => r.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: shown.map(r => r.id) });
+      return res('SELECTED_MEANING', { kind: 'yesno', answer: ans, items: shown.map(markCsClause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: shown.map(r => r.id) });
     }
   }
 
@@ -2480,10 +2507,11 @@ function Kernel(opts) {
     cont.touch(); const routeOf = x => { const rt = CT.route(Object.assign({ sealed, restricted, quarantine: quarantined, kind: msm.meaning.kind, band: drift.band, would_write: !!sel.write, dream: sel.contain === 'dream', must_archive: perm.policy().mustArchive === 'on' }, x || {})); trace.containment = rt; trace.rules.push(...rt.rules.map(id => ({ id, doc: rt.cite }))); if (!rt.may_write_memory) msm.limits.may_write_memory = false; if ((rt.rules || []).includes('CR-MUST-ARCHIVE')) { const knd = msm.meaning && msm.meaning.kind; if (knd === 'dream_list' || knd === 'spc_list' || knd === 'containment_list') msm.meaning = Object.assign({}, msm.meaning, { must_archive: true }); else if (knd !== 'must_archive') { msm.meaning = { kind: 'must_archive', route: rt.route }; sel.write = null; msm.limits.may_write_memory = false; spcPending = null; } } return rt; };
     routeOf();
     /* 4.9.48 AUTHORITY DECISION AQ-1 (CONFLICTS.md "Question = read-only lookup request"): a factual information question about the world
-       (wh-initial, or a yes/no world question) that no stored, shared (GKS) or private fact answers falls through to research.web. Asking the
-       question IS the explicit request for a read-only public lookup (user decision, 2026-10-16); the lookup still needs the research switch on
-       and the vault unlocked (results are sealed there). Personal / self / command / greeting / tool turns never qualify: the decision is read
-       from the parse (first-token tag, person of the subject, memory entities), not from keywords. */
+       (wh-initial, or a yes/no world question) that no memory, hosted confirmed_shared (4.9.162), GKS or private fact answers falls
+       through to research.web (memory → CS → GKS → AQ-1). Asking the question IS the explicit request for a
+       read-only public lookup (user decision, 2026-10-16); the lookup still needs the research switch on and the vault unlocked (results are
+       sealed there). Personal / self / command / greeting / tool turns never qualify: the decision is read from the parse (first-token tag,
+       person of the subject, memory entities), not from keywords. */
     /* 4.9.51: a word outside the loaded lexicon is a user-coined term only when the user's own facts use it; otherwise it is public vocabulary (a lazily loaded tier, a rare term) and an undecided question about it goes to lookup */
     const coined = w => { const occ = (String(raw).toLowerCase().match(new RegExp('\\b' + String(w).toLowerCase().replace(/[^a-z0-9]/g, '').replace(/e?s$/, '') + '(?:e?s)?\\b', 'g')) || []).length; if (occ > 1) return true; /* the turn itself introduces the term (premises before the question) */ const st = String(w).toLowerCase().replace(/[^a-z0-9]/g, '').replace(/(?:e?s|ed|ing)$/, ''); if (st.length < 3) return false; const re = new RegExp('\\b' + st + '(?:e?s|ed|ing)?\\b', 'i'); return activeFacts().some(r => JSON.stringify(r).toLowerCase().includes('"' + st)) || store.load('trace').slice(-50).some(t => re.test(t.input || '')); };
     /* the user's facts or an earlier turn of this session introduced the term */

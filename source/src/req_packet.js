@@ -119,7 +119,7 @@
     write: 'write without key refuses; write with Nic key mutates session only',
     invent: 'invent compose prefer hosted shared knowledge; speech names it',
     az: 'hosted A-Z index and packs',
-    ver: 'version registry CONFLICTS NEXT_BUILD name 4.9.161'
+    ver: 'version registry CONFLICTS NEXT_BUILD name 4.9.162'
   };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
@@ -166,6 +166,10 @@
       { id: 'R4127-LETTER-A', statement: 'Hosted a.json is FORGE-CONFIRMED-PACK/v1; invent/compose prefer confirmed_shared.', falsify: 'Letter A missing, invent ignores confirmed_shared, says shared KB, or packs in single.', tests: [L('R4127.pack', 'r4127_suite.js', 'R4127', M.pack, 'POSITIVE'), L('R4127.invent', 'r4127_suite.js', 'R4127', M.invent, 'POSITIVE')] },
       { id: 'R4127-PROV', statement: 'Audit names confirmed_shared; no shared KB; budget unchanged.', falsify: 'Audit omits confirmed_shared, UI shared KB, budget rises, or scrapbook written.', tests: [L('R4127.audit', 'r4127_suite.js', 'R4127', M.audit, 'ADVERSARIAL'), L('R4127.ver', 'r4127_suite.js', 'R4127', M.ver, 'REGRESSION')] }
     ] },
+    { schema: SCHEMA, release: '4.9.162', requirements: [
+      { id: 'R4162-READ-CONNECT', statement: 'Ordinary factual WH/YN/about consult memory then hosted confirmed_shared then GKS before AQ-1; replies name Shared knowledge base.', falsify: 'With A+F pulled, First Amendment still routes to research.web, or CS hit skips Echo, or answer is a one-off special case.', tests: [L('R4162.fa', 'r4162_suite.js', 'R4162', 'First Amendment answers from hosted shared KB without research.web', 'POSITIVE'), L('R4162.yn', 'r4162_suite.js', 'R4162', 'yes/no from shared KB with shared provenance; memory wins over CS', 'POSITIVE')] },
+      { id: 'R4162-CS-BEFORE-AQ1', statement: 'Shared KB hit skips AUTH-AQ1; deliberate miss still AQ-1; phone/scrapbook stay empty.', falsify: 'Miss does not AQ-1, or hit writes phone confirmed_shared / scrapbook.', tests: [L('R4162.miss', 'r4162_suite.js', 'R4162', 'deliberate miss still falls through to AQ-1 research.web', 'ADVERSARIAL'), L('R4162.ver', 'r4162_suite.js', 'R4162', 'version registry CONFLICTS NEXT_BUILD name 4.9.162', 'REGRESSION')] }
+    ]},
     { schema: SCHEMA, release: '4.9.161', requirements: [
       { id: 'R4128-HOSTED', statement: 'Hosted A–Z shared knowledge pulls into session RAM for invent/compose. Phone DB is not the product brain. Scrapbook stays empty.', falsify: 'Pull writes thousands of facts into phone confirmed_shared or scrapbook, or invent ignores hosted anchors.', tests: [L('R4128.pull', 'r4128_suite.js', 'R4128', N.pull, 'POSITIVE'), L('R4128.invent', 'r4128_suite.js', 'R4128', N.invent, 'POSITIVE')] },
       { id: 'R4128-WRITE-KEY', statement: 'Write to shared knowledge refuses without Nic write key. Read/pull needs no key.', falsify: 'admitConfirmedShared or writeSharedKnowledge succeeds with only productCurator true, or pull requires a key.', tests: [L('R4128.write', 'r4128_suite.js', 'R4128', N.write, 'ADVERSARIAL')] },

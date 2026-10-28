@@ -152,8 +152,8 @@ def slim(m, s):
     for f in d.get('features', []):
         f.pop('source', None); f.pop('note', None); f.pop('wave', None)
         n = f.get('name') or ''
-        if len(n) > 7:
-            cut = n[:7]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 3 else cut
+        if len(n) > 5:
+            cut = n[:5]; sp = cut.rfind(' '); f['name'] = cut[:sp] if sp > 2 else cut
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):

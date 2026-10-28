@@ -1393,3 +1393,10 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (1) Hosted A–Z refresh. `packs/confirmed_shared/{a…z,index}.json` index 4.9.161; 6510 admitted / 6748 curated (R4128 floors ≥1890 / ≥2622 still hold). Product shared knowledge remains this hosted layer — not scrapbook, not starter, not a mass phone DB dump.
 - (2) Locks unchanged from 4.9.128–4.9.160: read for all; write-key; no phone-DB mass write; CREATE/COMPOSE/SIMULATE never auto-write; scrapbook empty.
 - Tests: `verify/r4128_suite.js` lead (softened for 4.9.161); HELDOUT untouched.
+
+## v4.9.162 — READ-path connect for hosted shared knowledge (Nic, 2026-10-28)
+- Design sources: Nic pt124u (“connect all the damn paths”); BRIEF_4.9.128_SHARED_KB_AZ; CONFLICTS 4.9.128–4.9.161. Echo stays exact LC. Soft Echo stays parked. No language model. Soft budget unchanged; packs stay hosted (index 4.9.161 counts kept — this ship is routing, not corpus thicken).
+- (1) READ-path connect. Ordinary factual WH / yes-no / about consult **memory → hosted confirmed_shared (session pull) → GKS → else AQ-1 / research.web**. Hosted facts already fed invent/compose; they now also answer recall before research. Surface-aware `aboutSubjMatch` (propn ↔ adj+head, PP peel) so “First Amendment” meets pack subjects without adj-blind `entKey` drowning. Provenance via `confirmedTold` / Shared knowledge base; Echo strips the derive-only tag.
+- (2) Locks unchanged: read for all; write-key; no phone-DB mass write; CREATE/COMPOSE/SIMULATE never auto-write; scrapbook empty; lookup never stores into shared KB.
+- Tests: `verify/r4162_suite.js` lead (First Amendment from shared KB; deliberate miss → AQ-1; YN + memory-wins); `r4128_suite.js` still in gate.
+- Soft single-file budget stays ≤1.920 MB / ≤570 kB gzip (Nic: size never blocks). Soft gzip leave under 570 kB may sit under the historical ~5 kB preference after the READ connect; hard gate unchanged.
