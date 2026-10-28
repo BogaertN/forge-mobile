@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 148,
+ "curated_facts": 157,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -829,6 +829,60 @@
    "text": "An oyster is a bivalve mollusk",
    "standing": "projectable",
    "evidence": "nature · product curator · Oyster · cs_o_oyster_02"
+  },
+  {
+   "id": "cs_o_oak_04",
+   "text": "An oak is a hardwood tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oak · cs_o_oak_04"
+  },
+  {
+   "id": "cs_o_ocean_03",
+   "text": "An ocean is a vast body of salt water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ocean · cs_o_ocean_03"
+  },
+  {
+   "id": "cs_o_oil_01",
+   "text": "Oil is a liquid fossil fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oil · cs_o_oil_01"
+  },
+  {
+   "id": "cs_o_olive_02",
+   "text": "An olive is a fruit of the olive tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Olive · cs_o_olive_02"
+  },
+  {
+   "id": "cs_o_onion_02",
+   "text": "An onion is a bulb vegetable",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Onion · cs_o_onion_02"
+  },
+  {
+   "id": "cs_o_opera_03",
+   "text": "An opera is a staged musical drama",
+   "standing": "projectable",
+   "evidence": "history · product curator · Opera · cs_o_opera_03"
+  },
+  {
+   "id": "cs_o_opinion_01",
+   "text": "An opinion is a personal belief",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Opinion · cs_o_opinion_01"
+  },
+  {
+   "id": "cs_o_optic_nerve_02",
+   "text": "The optic nerve carries signals from the eye",
+   "standing": "projectable",
+   "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_02"
+  },
+  {
+   "id": "cs_o_orbit_04",
+   "text": "An orbit is a path around a body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_04"
   }
  ]
 }

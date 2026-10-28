@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 156,
+ "curated_facts": 164,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -829,6 +829,54 @@
    "text": "Queensland is a state in Australia",
    "standing": "projectable",
    "evidence": "geography · product curator · Queensland · cs_q_queensland_04"
+  },
+  {
+   "id": "cs_q_quail_09",
+   "text": "A quail is a small ground bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_09"
+  },
+  {
+   "id": "cs_q_quartz_08",
+   "text": "Quartz is a hard mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_08"
+  },
+  {
+   "id": "cs_q_question_02",
+   "text": "A question seeks an answer",
+   "standing": "projectable",
+   "evidence": "language · product curator · Question · cs_q_question_02"
+  },
+  {
+   "id": "cs_q_question_mark_03",
+   "text": "A question mark ends an interrogative sentence",
+   "standing": "projectable",
+   "evidence": "language · product curator · Question mark · cs_q_question_mark_03"
+  },
+  {
+   "id": "cs_q_quill_05",
+   "text": "A quill is a hollow feather shaft",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quill · cs_q_quill_05"
+  },
+  {
+   "id": "cs_q_quartzite_03",
+   "text": "Quartzite is a metamorphic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_03"
+  },
+  {
+   "id": "cs_q_queue_01",
+   "text": "A queue is a waiting line",
+   "standing": "projectable",
+   "evidence": "math · product curator · Queue · cs_q_queue_01"
+  },
+  {
+   "id": "cs_q_quinine_01",
+   "text": "Quinine comes from cinchona bark",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quinine · cs_q_quinine_01"
   }
  ]
 }
