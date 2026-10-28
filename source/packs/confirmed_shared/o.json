@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 223,
+ "curated_facts": 231,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1279,6 +1279,54 @@
    "text": "An oyster filters water",
    "standing": "projectable",
    "evidence": "nature · product curator · Oyster · cs_o_oyster_04"
+  },
+  {
+   "id": "cs_o_oak_06",
+   "text": "Oak wood resists splitting",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oak · cs_o_oak_06"
+  },
+  {
+   "id": "cs_o_obsidian_03",
+   "text": "Obsidian fractures into blades",
+   "standing": "projectable",
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_03"
+  },
+  {
+   "id": "cs_o_oil_03",
+   "text": "Presses extract plant oil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oil · cs_o_oil_03"
+  },
+  {
+   "id": "cs_o_olive_04",
+   "text": "Olives yield cooking oil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Olive · cs_o_olive_04"
+  },
+  {
+   "id": "cs_o_opal_03",
+   "text": "Australia mines precious opal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Opal · cs_o_opal_03"
+  },
+  {
+   "id": "cs_o_oriole_03",
+   "text": "An oriole weaves a hanging nest",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oriole · cs_o_oriole_03"
+  },
+  {
+   "id": "cs_o_osmosis_05",
+   "text": "Salt drives water osmosis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_05"
+  },
+  {
+   "id": "cs_o_ozone_04",
+   "text": "Smog raises ground ozone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ozone · cs_o_ozone_04"
   }
  ]
 }

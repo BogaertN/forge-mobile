@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 221,
+ "curated_facts": 229,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1279,6 +1279,54 @@
    "text": "Lymph clears tissue waste",
    "standing": "projectable",
    "evidence": "science · product curator · Lymph · cs_l_lymph_02"
+  },
+  {
+   "id": "cs_l_lava_06",
+   "text": "Lava cools into hard rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lava · cs_l_lava_06"
+  },
+  {
+   "id": "cs_l_lens_03",
+   "text": "Glass curves into a lens",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lens · cs_l_lens_03"
+  },
+  {
+   "id": "cs_l_lithium_06",
+   "text": "Batteries use lithium ions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lithium · cs_l_lithium_06"
+  },
+  {
+   "id": "cs_l_loam_02",
+   "text": "Loam holds water for roots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Loam · cs_l_loam_02"
+  },
+  {
+   "id": "cs_l_lobster_02",
+   "text": "A lobster molts its shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lobster · cs_l_lobster_02"
+  },
+  {
+   "id": "cs_l_locust_02",
+   "text": "A locust swarms crop fields",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Locust · cs_l_locust_02"
+  },
+  {
+   "id": "cs_l_lumber_01",
+   "text": "Saws cut trees into lumber",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lumber · cs_l_lumber_01"
+  },
+  {
+   "id": "cs_l_lung_03",
+   "text": "A lung exchanges oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lung · cs_l_lung_03"
   }
  ]
 }
