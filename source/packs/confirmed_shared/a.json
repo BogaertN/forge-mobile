@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 167,
+ "curated_facts": 175,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -991,6 +991,54 @@
    "text": "April follows March",
    "standing": "projectable",
    "evidence": "civics · product curator · April · cs_a_april_02"
+  },
+  {
+   "id": "cs_a_amber_01",
+   "text": "Amber traps ancient insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Amber · cs_a_amber_01"
+  },
+  {
+   "id": "cs_a_aster_01",
+   "text": "An aster blooms in autumn",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Aster · cs_a_aster_01"
+  },
+  {
+   "id": "cs_a_axiom_02",
+   "text": "An axiom is a starting truth",
+   "standing": "projectable",
+   "evidence": "math · product curator · Axiom · cs_a_axiom_02"
+  },
+  {
+   "id": "cs_a_adobe_01",
+   "text": "Builders shape adobe bricks",
+   "standing": "projectable",
+   "evidence": "history · product curator · Adobe · cs_a_adobe_01"
+  },
+  {
+   "id": "cs_a_amendment_04",
+   "text": "Voters approve an amendment",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_04"
+  },
+  {
+   "id": "cs_a_adverb_01",
+   "text": "An adverb modifies a verb",
+   "standing": "projectable",
+   "evidence": "language · product curator · Adverb · cs_a_adverb_01"
+  },
+  {
+   "id": "cs_a_ash_01",
+   "text": "Ash falls from a volcano",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ash · cs_a_ash_01"
+  },
+  {
+   "id": "cs_a_axon_01",
+   "text": "A neuron sends signals along an axon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Axon · cs_a_axon_01"
   }
  ]
 }

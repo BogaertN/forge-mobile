@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 173,
+ "curated_facts": 182,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -991,6 +991,60 @@
    "text": "Water rises through xylem",
    "standing": "projectable",
    "evidence": "nature · product curator · Xylem · cs_x_xylem_06"
+  },
+  {
+   "id": "cs_x_xylem_07",
+   "text": "Xylem carries water upward",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_07"
+  },
+  {
+   "id": "cs_x_xenon_11",
+   "text": "Xenon fills bright lamps",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_11"
+  },
+  {
+   "id": "cs_x_xylene_05",
+   "text": "Xylene is a solvent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylene · cs_x_xylene_05"
+  },
+  {
+   "id": "cs_x_x_ray_10",
+   "text": "An X-ray shows bone",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_10"
+  },
+  {
+   "id": "cs_x_xylophone_09",
+   "text": "Musicians play a xylophone",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_09"
+  },
+  {
+   "id": "cs_x_xi_01",
+   "text": "Xi names a Greek letter",
+   "standing": "projectable",
+   "evidence": "language · product curator · Xi · cs_x_xi_01"
+  },
+  {
+   "id": "cs_x_xeric_01",
+   "text": "Xeric plants need little water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xeric · cs_x_xeric_01"
+  },
+  {
+   "id": "cs_x_xylose_03",
+   "text": "Xylose comes from wood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylose · cs_x_xylose_03"
+  },
+  {
+   "id": "cs_x_xerox_02",
+   "text": "Xerox copies a page",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerox · cs_x_xerox_02"
   }
  ]
 }

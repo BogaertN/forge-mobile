@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 183,
+ "curated_facts": 191,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -991,6 +991,54 @@
    "text": "A quota is a set limit",
    "standing": "projectable",
    "evidence": "civics · product curator · Quota · cs_q_quota_01"
+  },
+  {
+   "id": "cs_q_quay_01",
+   "text": "Ships dock at a quay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quay · cs_q_quay_01"
+  },
+  {
+   "id": "cs_q_quill_06",
+   "text": "A quill was a writing pen",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quill · cs_q_quill_06"
+  },
+  {
+   "id": "cs_q_quota_02",
+   "text": "A quota sets a limit",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quota · cs_q_quota_02"
+  },
+  {
+   "id": "cs_q_quotient_03",
+   "text": "Division yields a quotient",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quotient · cs_q_quotient_03"
+  },
+  {
+   "id": "cs_q_quarry_02",
+   "text": "Workers dig stone from a quarry",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_02"
+  },
+  {
+   "id": "cs_q_quantity_01",
+   "text": "A quantity has a number and a unit",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quantity · cs_q_quantity_01"
+  },
+  {
+   "id": "cs_q_quotation_01",
+   "text": "A quotation repeats exact words",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quotation · cs_q_quotation_01"
+  },
+  {
+   "id": "cs_q_quart_05",
+   "text": "Four quarts equal one gallon",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quart · cs_q_quart_05"
   }
  ]
 }

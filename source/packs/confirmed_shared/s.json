@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 168,
+ "curated_facts": 176,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -991,6 +991,54 @@
    "text": "A seed grows into a plant",
    "standing": "projectable",
    "evidence": "nature · product curator · Seed · cs_s_seed_01"
+  },
+  {
+   "id": "cs_s_saliva_01",
+   "text": "Saliva starts digestion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Saliva · cs_s_saliva_01"
+  },
+  {
+   "id": "cs_s_sandstone_01",
+   "text": "Sandstone is a layered rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sandstone · cs_s_sandstone_01"
+  },
+  {
+   "id": "cs_s_sonar_01",
+   "text": "Ships use sonar to find depth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sonar · cs_s_sonar_01"
+  },
+  {
+   "id": "cs_s_spore_01",
+   "text": "Ferns release spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spore · cs_s_spore_01"
+  },
+  {
+   "id": "cs_s_spruce_02",
+   "text": "A spruce is an evergreen tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spruce · cs_s_spruce_02"
+  },
+  {
+   "id": "cs_s_strait_01",
+   "text": "A strait joins two seas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Strait · cs_s_strait_01"
+  },
+  {
+   "id": "cs_s_synapse_02",
+   "text": "A synapse joins two neurons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Synapse · cs_s_synapse_02"
+  },
+  {
+   "id": "cs_s_senate_05",
+   "text": "The Senate debates laws",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Senate · cs_s_senate_05"
   }
  ]
 }

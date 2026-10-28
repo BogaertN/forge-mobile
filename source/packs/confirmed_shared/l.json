@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 173,
+ "curated_facts": 181,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -991,6 +991,54 @@
    "text": "A bank makes a loan",
    "standing": "projectable",
    "evidence": "civics · product curator · Loan · cs_l_loan_01"
+  },
+  {
+   "id": "cs_l_lake_03",
+   "text": "A lake holds fresh water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake · cs_l_lake_03"
+  },
+  {
+   "id": "cs_l_larynx_01",
+   "text": "The larynx holds vocal cords",
+   "standing": "projectable",
+   "evidence": "science · product curator · Larynx · cs_l_larynx_01"
+  },
+  {
+   "id": "cs_l_lichen_03",
+   "text": "Lichen grows on bare rock",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_03"
+  },
+  {
+   "id": "cs_l_llama_05",
+   "text": "A llama carries packs in mountains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Llama · cs_l_llama_05"
+  },
+  {
+   "id": "cs_l_loam_01",
+   "text": "Loam is rich garden soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Loam · cs_l_loam_01"
+  },
+  {
+   "id": "cs_l_loom_01",
+   "text": "Weavers work at a loom",
+   "standing": "projectable",
+   "evidence": "history · product curator · Loom · cs_l_loom_01"
+  },
+  {
+   "id": "cs_l_lobe_01",
+   "text": "The lung has lobes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lobe · cs_l_lobe_01"
+  },
+  {
+   "id": "cs_l_longitude_02",
+   "text": "Longitude measures east and west",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Longitude · cs_l_longitude_02"
   }
  ]
 }

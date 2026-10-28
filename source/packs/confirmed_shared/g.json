@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 173,
+ "curated_facts": 179,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1003,6 +1003,42 @@
    "text": "Gunpowder is an explosive mixture",
    "standing": "projectable",
    "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_02"
+  },
+  {
+   "id": "cs_g_grove_01",
+   "text": "Oaks grow in a grove",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Grove · cs_g_grove_01"
+  },
+  {
+   "id": "cs_g_gypsum_02",
+   "text": "Builders use gypsum in plaster",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_02"
+  },
+  {
+   "id": "cs_g_gauge_01",
+   "text": "A gauge measures pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gauge · cs_g_gauge_01"
+  },
+  {
+   "id": "cs_g_gazelle_02",
+   "text": "A gazelle runs on plains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_02"
+  },
+  {
+   "id": "cs_g_gear_03",
+   "text": "Gears change torque",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gear · cs_g_gear_03"
+  },
+  {
+   "id": "cs_g_gelatin_01",
+   "text": "Gelatin sets a dessert",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gelatin · cs_g_gelatin_01"
   }
  ]
 }

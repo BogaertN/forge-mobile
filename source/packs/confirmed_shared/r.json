@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 174,
+ "curated_facts": 183,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -991,6 +991,60 @@
    "text": "Trees produce resin",
    "standing": "projectable",
    "evidence": "nature · product curator · Resin · cs_r_resin_02"
+  },
+  {
+   "id": "cs_r_rabbit_04",
+   "text": "A rabbit digs a burrow",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rabbit · cs_r_rabbit_04"
+  },
+  {
+   "id": "cs_r_radius_05",
+   "text": "A radius reaches the circle edge",
+   "standing": "projectable",
+   "evidence": "math · product curator · Radius · cs_r_radius_05"
+  },
+  {
+   "id": "cs_r_retina_01",
+   "text": "The retina senses light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Retina · cs_r_retina_01"
+  },
+  {
+   "id": "cs_r_rift_01",
+   "text": "A rift valley splits land",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rift · cs_r_rift_01"
+  },
+  {
+   "id": "cs_r_rotor_01",
+   "text": "A helicopter rotor spins",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rotor · cs_r_rotor_01"
+  },
+  {
+   "id": "cs_r_rhyme_02",
+   "text": "Poems often use rhyme",
+   "standing": "projectable",
+   "evidence": "language · product curator · Rhyme · cs_r_rhyme_02"
+  },
+  {
+   "id": "cs_r_rain_gauge_01",
+   "text": "A rain gauge measures rainfall",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rain gauge · cs_r_rain_gauge_01"
+  },
+  {
+   "id": "cs_r_rhetoric_01",
+   "text": "Rhetoric is persuasive speech",
+   "standing": "projectable",
+   "evidence": "language · product curator · Rhetoric · cs_r_rhetoric_01"
+  },
+  {
+   "id": "cs_r_rim_01",
+   "text": "A crater has a raised rim",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rim · cs_r_rim_01"
   }
  ]
 }

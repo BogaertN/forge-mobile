@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 169,
+ "curated_facts": 179,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -991,6 +991,66 @@
    "text": "Oxygen is an element",
    "standing": "projectable",
    "evidence": "science · product curator · Element · cs_e_element_03"
+  },
+  {
+   "id": "cs_e_eclipse_04",
+   "text": "A lunar eclipse darkens the moon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_04"
+  },
+  {
+   "id": "cs_e_election_03",
+   "text": "Citizens vote in an election",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Election · cs_e_election_03"
+  },
+  {
+   "id": "cs_e_ellipse_04",
+   "text": "An ellipse has two foci",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_04"
+  },
+  {
+   "id": "cs_e_elm_02",
+   "text": "An elm is a shade tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elm · cs_e_elm_02"
+  },
+  {
+   "id": "cs_e_essay_01",
+   "text": "Students write an essay",
+   "standing": "projectable",
+   "evidence": "language · product curator · Essay · cs_e_essay_01"
+  },
+  {
+   "id": "cs_e_equinox_02",
+   "text": "Day and night are equal at an equinox",
+   "standing": "projectable",
+   "evidence": "science · product curator · Equinox · cs_e_equinox_02"
+  },
+  {
+   "id": "cs_e_elastic_01",
+   "text": "An elastic band stretches",
+   "standing": "projectable",
+   "evidence": "science · product curator · Elastic · cs_e_elastic_01"
+  },
+  {
+   "id": "cs_e_enamel_01",
+   "text": "Tooth enamel is very hard",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enamel · cs_e_enamel_01"
+  },
+  {
+   "id": "cs_e_epic_01",
+   "text": "An epic tells a long story",
+   "standing": "projectable",
+   "evidence": "language · product curator · Epic · cs_e_epic_01"
+  },
+  {
+   "id": "cs_e_estuary_01",
+   "text": "A river meets the sea at an estuary",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Estuary · cs_e_estuary_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 176,
+ "curated_facts": 184,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -991,6 +991,54 @@
    "text": "Dawn is the start of day",
    "standing": "projectable",
    "evidence": "science · product curator · Dawn · cs_d_dawn_01"
+  },
+  {
+   "id": "cs_d_dam_02",
+   "text": "A dam holds back a river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dam · cs_d_dam_02"
+  },
+  {
+   "id": "cs_d_dandelion_02",
+   "text": "A dandelion spreads seeds on wind",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_02"
+  },
+  {
+   "id": "cs_d_dew_02",
+   "text": "Dew forms on cool grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dew · cs_d_dew_02"
+  },
+  {
+   "id": "cs_d_diameter_02",
+   "text": "A diameter crosses a circle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Diameter · cs_d_diameter_02"
+  },
+  {
+   "id": "cs_d_diaphragm_01",
+   "text": "The diaphragm helps breathing",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_01"
+  },
+  {
+   "id": "cs_d_digit_02",
+   "text": "A digit is a single numeral",
+   "standing": "projectable",
+   "evidence": "math · product curator · Digit · cs_d_digit_02"
+  },
+  {
+   "id": "cs_d_dome_01",
+   "text": "A dome curves over a building",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dome · cs_d_dome_01"
+  },
+  {
+   "id": "cs_d_dragonfly_04",
+   "text": "A dragonfly hunts flying insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_04"
   }
  ]
 }

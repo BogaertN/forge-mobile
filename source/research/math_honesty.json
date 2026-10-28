@@ -1,6 +1,6 @@
 {
  "schema": "FORGE-MATH-HONESTY/v1",
- "release": "4.9.143",
+ "release": "4.9.144",
  "product_claim": false,
  "proven_cognition": false,
  "honesty": {
@@ -25,7 +25,7 @@
   "unchanged": true,
   "paper_0_4_0_8_adopted": false,
   "paper_0_50_0_78_0_80_adopted": false,
-  "cite": "Nic ruling 2026-10-14 (RMC §8.3 θ; RSOC 0.4–0.8 novelty band)",
+  "cite": "Nic ruling 2026-10-14 (RMC \u00a78.3 \u03b8; RSOC 0.4\u20130.8 novelty band)",
   "contract": "drift-table/nic-2026-10-14/v1",
   "honesty": "research-only",
   "manuscript": "SOURCE_NOT_VERIFIED"
@@ -59,7 +59,7 @@
     "id": "rsoc-n",
     "executed": false,
     "status": "SOURCE_NOT_VERIFIED",
-    "divisor": "max(1, ρ+1)",
+    "divisor": "max(1, \u03c1+1)",
     "where": "src/kmath.js header; src/ede.js comment",
     "note": "Noted and not used. This harness does not compute it and does not install it as a gate."
    }
@@ -137,7 +137,7 @@
    "uses_rho": false,
    "equivalent_to_addendum_rho": false,
    "recorded_edges": 5,
-   "note": "EDE stamps n = 3 on its own components. It does not call driftFunctional and it does not divide by ρ."
+   "note": "EDE stamps n = 3 on its own components. It does not call driftFunctional and it does not divide by \u03c1."
   },
   "static_n3": [
    {
@@ -161,7 +161,7 @@
  "phase_ablation": [
   {
    "phase": 1,
-   "symbol": "Φ₁",
+   "symbol": "\u03a6\u2081",
    "name": "Initiation",
    "dropped": true,
    "measured": false,
@@ -172,11 +172,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 2,
-   "symbol": "Φ₂",
+   "symbol": "\u03a6\u2082",
    "name": "Polarity",
    "dropped": true,
    "measured": false,
@@ -187,11 +187,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 3,
-   "symbol": "Φ₃",
+   "symbol": "\u03a6\u2083",
    "name": "Desire",
    "dropped": true,
    "measured": false,
@@ -202,11 +202,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 4,
-   "symbol": "Φ₄",
+   "symbol": "\u03a6\u2084",
    "name": "Friction",
    "dropped": true,
    "measured": false,
@@ -217,11 +217,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 5,
-   "symbol": "Φ₅",
+   "symbol": "\u03a6\u2085",
    "name": "Entropy",
    "dropped": true,
    "measured": false,
@@ -232,11 +232,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 6,
-   "symbol": "Φ₆",
+   "symbol": "\u03a6\u2086",
    "name": "Grace / Correction",
    "dropped": true,
    "measured": false,
@@ -247,11 +247,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 7,
-   "symbol": "Φ₇",
+   "symbol": "\u03a6\u2087",
    "name": "Naming",
    "dropped": true,
    "measured": false,
@@ -262,11 +262,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 8,
-   "symbol": "Φ₈",
+   "symbol": "\u03a6\u2088",
    "name": "Projection",
    "dropped": true,
    "measured": false,
@@ -277,11 +277,11 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   },
   {
    "phase": 9,
-   "symbol": "Φ₉",
+   "symbol": "\u03a6\u2089",
    "name": "Return",
    "dropped": true,
    "measured": false,
@@ -292,7 +292,7 @@
    "manuscript_equivalence": "SOURCE_NOT_VERIFIED",
    "honesty": "research-only",
    "proven_cognition": false,
-   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that Φ1–Φ9 is proven cognition."
+   "note": "Ablation is not executed. This stub does not drop the phase from the live kernel and does not claim that \u03a61\u2013\u03a69 is proven cognition."
   }
  ],
  "echo": {
