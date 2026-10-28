@@ -12,1513 +12,2773 @@
    "id": "cs_y_yemen_01",
    "text": "Sanaa is the capital of Yemen",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yemen · cs_y_yemen_01"
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yemen_02",
    "text": "Yemen is on the Arabian Peninsula",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yemen · cs_y_yemen_02"
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yaounde_01",
    "text": "Yaoundé is the capital of Cameroon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yaoundé · cs_y_yaounde_01"
+   "evidence": "geography · product curator · Yaoundé · cs_y_yaounde_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yamoussoukro_01",
    "text": "Yamoussoukro is the capital of Ivory Coast",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yamoussoukro · cs_y_yamoussoukro_01"
+   "evidence": "geography · product curator · Yamoussoukro · cs_y_yamoussoukro_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangon_01",
    "text": "Yangon is the largest city in Myanmar",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangon · cs_y_yangon_01"
+   "evidence": "geography · product curator · Yangon · cs_y_yangon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_river_01",
    "text": "The Yangtze is the longest river in Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_01"
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_river_02",
    "text": "The Yangtze flows into the East China Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_02"
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_river_03",
    "text": "The Three Gorges Dam is on the Yangtze",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_03"
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_river_01",
    "text": "The Yellow is the second longest river in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellow River · cs_y_yellow_river_01"
+   "evidence": "geography · product curator · Yellow River · cs_y_yellow_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_sea_01",
    "text": "The Yellow Sea lies between China and the Korean Peninsula",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_01"
+   "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_national_park_01",
    "text": "Yellowstone was the first national park",
    "standing": "projectable",
-   "evidence": "history · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_01"
+   "evidence": "history · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_national_park_02",
    "text": "Yellowstone was established in 1872",
    "standing": "projectable",
-   "evidence": "history · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_02"
+   "evidence": "history · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_national_park_03",
    "text": "Old Faithful is in Yellowstone National Park",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_03"
+   "evidence": "geography · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yosemite_national_park_01",
    "text": "Yosemite National Park is in California",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yosemite National Park · cs_y_yosemite_national_park_01"
+   "evidence": "geography · product curator · Yosemite National Park · cs_y_yosemite_national_park_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yosemite_national_park_02",
    "text": "El Capitan is a granite cliff in Yosemite",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yosemite National Park · cs_y_yosemite_national_park_02"
+   "evidence": "geography · product curator · Yosemite National Park · cs_y_yosemite_national_park_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yukon_01",
    "text": "Whitehorse is the capital of Yukon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yukon · cs_y_yukon_01"
+   "evidence": "geography · product curator · Yukon · cs_y_yukon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yukon_river_01",
    "text": "The Yukon flows into the Bering Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yukon River · cs_y_yukon_river_01"
+   "evidence": "geography · product curator · Yukon River · cs_y_yukon_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucatan_peninsula_01",
    "text": "The Yucatán Peninsula separates the Gulf of Mexico from the Caribbean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_01"
+   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yokohama_01",
    "text": "Yokohama is a port city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yokohama · cs_y_yokohama_01"
+   "evidence": "geography · product curator · Yokohama · cs_y_yokohama_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_york_01",
    "text": "York is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · York · cs_y_york_01"
+   "evidence": "geography · product curator · York · cs_y_york_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yorkshire_01",
    "text": "Yorkshire is a historic county of England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yorkshire · cs_y_yorkshire_01"
+   "evidence": "geography · product curator · Yorkshire · cs_y_yorkshire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_year_02",
    "text": "A common year has 365 days",
    "standing": "projectable",
-   "evidence": "math · product curator · Year · cs_y_year_02"
+   "evidence": "math · product curator · Year · cs_y_year_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_ytterbium_01",
    "text": "Ytterbium has the chemical symbol Yb",
    "standing": "projectable",
-   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_01"
+   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_01",
    "text": "Yttrium has the chemical symbol Y",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_01"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_02",
    "text": "Yttrium has an atomic number of 39",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_02"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_ytterby_01",
    "text": "Four chemical elements are named after the Swedish village of Ytterby",
    "standing": "projectable",
-   "evidence": "science · product curator · Ytterby · cs_y_ytterby_01"
+   "evidence": "science · product curator · Ytterby · cs_y_ytterby_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_y_chromosome_01",
    "text": "The Y chromosome is a human sex chromosome",
    "standing": "projectable",
-   "evidence": "science · product curator · Y chromosome · cs_y_y_chromosome_01"
+   "evidence": "science · product curator · Y chromosome · cs_y_y_chromosome_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_y_chromosome_02",
    "text": "The Y chromosome is smaller than the X chromosome",
    "standing": "projectable",
-   "evidence": "science · product curator · Y chromosome · cs_y_y_chromosome_02"
+   "evidence": "science · product curator · Y chromosome · cs_y_y_chromosome_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_01",
    "text": "Yeast is a fungus",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_01"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_02",
    "text": "Yeast makes bread dough rise",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_02"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_03",
    "text": "Yeast ferments sugar into alcohol and carbon dioxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_03"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_01",
    "text": "The yolk of an egg provides nutrients to a developing embryo",
    "standing": "projectable",
-   "evidence": "science · product curator · Yolk · cs_y_yolk_01"
+   "evidence": "science · product curator · Yolk · cs_y_yolk_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_dwarf_01",
    "text": "The Sun is a yellow dwarf star",
    "standing": "projectable",
-   "evidence": "science · product curator · Yellow dwarf · cs_y_yellow_dwarf_01"
+   "evidence": "science · product curator · Yellow dwarf · cs_y_yellow_dwarf_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_01",
    "text": "Yaks live in the Himalayas and the Tibetan Plateau",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_01"
+   "evidence": "nature · product curator · Yak · cs_y_yak_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_02",
    "text": "Yaks are long-haired bovines",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_02"
+   "evidence": "nature · product curator · Yak · cs_y_yak_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowjacket_01",
    "text": "Yellowjackets are wasps",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellowjacket · cs_y_yellowjacket_01"
+   "evidence": "nature · product curator · Yellowjacket · cs_y_yellowjacket_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_01",
    "text": "Yew trees are conifers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yew · cs_y_yew_01"
+   "evidence": "nature · product curator · Yew · cs_y_yew_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_01",
    "text": "Yucca plants grow in hot, dry regions of the Americas",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca · cs_y_yucca_01"
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yam_01",
    "text": "Yams are edible tubers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yam · cs_y_yam_01"
+   "evidence": "nature · product curator · Yam · cs_y_yam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_eyed_penguin_01",
    "text": "The yellow-eyed penguin is native to New Zealand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellow-eyed penguin · cs_y_yellow_eyed_penguin_01"
+   "evidence": "nature · product curator · Yellow-eyed penguin · cs_y_yellow_eyed_penguin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yorkshire_terrier_01",
    "text": "The Yorkshire Terrier is a small dog breed",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yorkshire Terrier · cs_y_yorkshire_terrier_01"
+   "evidence": "nature · product curator · Yorkshire Terrier · cs_y_yorkshire_terrier_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarrow_01",
    "text": "Yarrow is a flowering plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_01"
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yorktown_siege_of_01",
    "text": "The British surrendered at Yorktown in 1781",
    "standing": "projectable",
-   "evidence": "history · product curator · Yorktown, Siege of · cs_y_yorktown_siege_of_01"
+   "evidence": "history · product curator · Yorktown, Siege of · cs_y_yorktown_siege_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yalta_conference_01",
    "text": "The Yalta Conference took place in 1945",
    "standing": "projectable",
-   "evidence": "history · product curator · Yalta Conference · cs_y_yalta_conference_01"
+   "evidence": "history · product curator · Yalta Conference · cs_y_yalta_conference_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yuan_dynasty_01",
    "text": "The Yuan dynasty was founded by Kublai Khan",
    "standing": "projectable",
-   "evidence": "history · product curator · Yuan dynasty · cs_y_yuan_dynasty_01"
+   "evidence": "history · product curator · Yuan dynasty · cs_y_yuan_dynasty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yamato_01",
    "text": "Yamato is an ancient name for Japan",
    "standing": "projectable",
-   "evidence": "history · product curator · Yamato · cs_y_yamato_01"
+   "evidence": "history · product curator · Yamato · cs_y_yamato_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeltsin_boris_01",
    "text": "Boris Yeltsin was the first president of the Russian Federation",
    "standing": "projectable",
-   "evidence": "history · product curator · Yeltsin, Boris · cs_y_yeltsin_boris_01"
+   "evidence": "history · product curator · Yeltsin, Boris · cs_y_yeltsin_boris_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeats_w_b_01",
    "text": "W. B. Yeats was an Irish poet",
    "standing": "projectable",
-   "evidence": "history · product curator · Yeats, W. B. · cs_y_yeats_w_b_01"
+   "evidence": "history · product curator · Yeats, W. B. · cs_y_yeats_w_b_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeats_w_b_02",
    "text": "W. B. Yeats won the Nobel Prize in Literature in 1923",
    "standing": "projectable",
-   "evidence": "history · product curator · Yeats, W. B. · cs_y_yeats_w_b_02"
+   "evidence": "history · product curator · Yeats, W. B. · cs_y_yeats_w_b_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yom_kippur_01",
    "text": "Yom Kippur is the Day of Atonement in Judaism",
    "standing": "projectable",
-   "evidence": "history · product curator · Yom Kippur · cs_y_yom_kippur_01"
+   "evidence": "history · product curator · Yom Kippur · cs_y_yom_kippur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yard_01",
    "text": "A yard is three feet",
    "standing": "projectable",
-   "evidence": "math · product curator · Yard · cs_y_yard_01"
+   "evidence": "math · product curator · Yard · cs_y_yard_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yard_02",
    "text": "A yard is about 0.91 meters",
    "standing": "projectable",
-   "evidence": "math · product curator · Yard · cs_y_yard_02"
+   "evidence": "math · product curator · Yard · cs_y_yard_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_y_axis_01",
    "text": "The y-axis is the vertical axis of a coordinate plane",
    "standing": "projectable",
-   "evidence": "math · product curator · Y-axis · cs_y_y_axis_01"
+   "evidence": "math · product curator · Y-axis · cs_y_y_axis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_y_coordinate_01",
    "text": "The y-coordinate of a point gives its vertical position",
    "standing": "projectable",
-   "evidence": "math · product curator · Y-coordinate · cs_y_y_coordinate_01"
+   "evidence": "math · product curator · Y-coordinate · cs_y_y_coordinate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_year_03",
    "text": "A decade contains ten years",
    "standing": "projectable",
-   "evidence": "math · product curator · Year · cs_y_year_03"
+   "evidence": "math · product curator · Year · cs_y_year_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_y_01",
    "text": "Y is the 25th letter of the English alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Y · cs_y_y_01"
+   "evidence": "language · product curator · Y · cs_y_y_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yiddish_01",
    "text": "Yiddish is written in the Hebrew alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Yiddish · cs_y_yiddish_01"
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yiddish_02",
    "text": "Yiddish developed among Ashkenazi Jews",
    "standing": "projectable",
-   "evidence": "language · product curator · Yiddish · cs_y_yiddish_02"
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoruba_01",
    "text": "Yoruba is a language spoken in Nigeria",
    "standing": "projectable",
-   "evidence": "language · product curator · Yoruba · cs_y_yoruba_01"
+   "evidence": "language · product curator · Yoruba · cs_y_yoruba_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yuan_01",
    "text": "The yuan is the basic unit of China's currency",
    "standing": "projectable",
-   "evidence": "civics · product curator · Yuan · cs_y_yuan_01"
+   "evidence": "civics · product curator · Yuan · cs_y_yuan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoga_01",
    "text": "Yoga originated in India",
    "standing": "projectable",
-   "evidence": "general · product curator · Yoga · cs_y_yoga_01"
+   "evidence": "general · product curator · Yoga · cs_y_yoga_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yogurt_01",
    "text": "Yogurt is made from milk",
    "standing": "projectable",
-   "evidence": "general · product curator · Yogurt · cs_y_yogurt_01"
+   "evidence": "general · product curator · Yogurt · cs_y_yogurt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yacht_01",
    "text": "A yacht is a recreational boat",
    "standing": "projectable",
-   "evidence": "general · product curator · Yacht · cs_y_yacht_01"
+   "evidence": "general · product curator · Yacht · cs_y_yacht_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yodeling_01",
    "text": "Yodeling is associated with the Alps",
    "standing": "projectable",
-   "evidence": "general · product curator · Yodeling · cs_y_yodeling_01"
+   "evidence": "general · product curator · Yodeling · cs_y_yodeling_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_card_01",
    "text": "In soccer, a yellow card is a caution",
    "standing": "projectable",
-   "evidence": "general · product curator · Yellow card · cs_y_yellow_card_01"
+   "evidence": "general · product curator · Yellow card · cs_y_yellow_card_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarn_01",
    "text": "People knit with yarn",
    "standing": "projectable",
-   "evidence": "general · product curator · Yarn · cs_y_yarn_01"
+   "evidence": "general · product curator · Yarn · cs_y_yarn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yemen_03",
    "text": "Yemen borders Saudi Arabia and Oman",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yemen · cs_y_yemen_03"
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yokohama_02",
    "text": "Yokohama is the second-most populous city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yokohama · cs_y_yokohama_02"
+   "evidence": "geography · product curator · Yokohama · cs_y_yokohama_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucatan_peninsula_02",
    "text": "The Chicxulub crater lies beneath the Yucatán Peninsula",
    "standing": "projectable",
-   "evidence": "science · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_02"
+   "evidence": "science · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_river_04",
    "text": "The Yangtze flows through Shanghai",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_04"
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_national_park_04",
    "text": "Yellowstone sits on a large volcano",
    "standing": "projectable",
-   "evidence": "science · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_04"
+   "evidence": "science · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yosemite_national_park_03",
    "text": "Yosemite became a national park in 1890",
    "standing": "projectable",
-   "evidence": "history · product curator · Yosemite National Park · cs_y_yosemite_national_park_03"
+   "evidence": "history · product curator · Yosemite National Park · cs_y_yosemite_national_park_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yukon_02",
    "text": "Yukon is a territory of Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yukon · cs_y_yukon_02"
+   "evidence": "geography · product curator · Yukon · cs_y_yukon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yukon_03",
    "text": "The Klondike Gold Rush took place in Yukon",
    "standing": "projectable",
-   "evidence": "history · product curator · Yukon · cs_y_yukon_03"
+   "evidence": "history · product curator · Yukon · cs_y_yukon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yerevan_01",
    "text": "Mount Ararat is visible from Yerevan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yerevan · cs_y_yerevan_01"
+   "evidence": "geography · product curator · Yerevan · cs_y_yerevan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_03",
    "text": "Yak milk is used to make butter",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_03"
+   "evidence": "nature · product curator · Yak · cs_y_yak_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_02",
    "text": "Yew trees can live for a thousand years",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yew · cs_y_yew_02"
+   "evidence": "nature · product curator · Yew · cs_y_yew_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_river_05",
    "text": "The Yangtze is the longest river in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_05"
+   "evidence": "geography · product curator · Yangtze River · cs_y_yangtze_river_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_river_02",
    "text": "The Yellow is in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellow River · cs_y_yellow_river_02"
+   "evidence": "geography · product curator · Yellow River · cs_y_yellow_river_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yukon_04",
    "text": "The Yukon is a territory of Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yukon · cs_y_yukon_04"
+   "evidence": "geography · product curator · Yukon · cs_y_yukon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_04",
    "text": "Yaks live in the Himalayan region",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_04"
+   "evidence": "nature · product curator · Yak · cs_y_yak_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_03",
    "text": "The yew is an evergreen tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yew · cs_y_yew_03"
+   "evidence": "nature · product curator · Yew · cs_y_yew_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_year_04",
    "text": "A year has 365 days",
    "standing": "projectable",
-   "evidence": "science · product curator · Year · cs_y_year_04"
+   "evidence": "science · product curator · Year · cs_y_year_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yard_03",
    "text": "A yard equals three feet",
    "standing": "projectable",
-   "evidence": "science · product curator · Yard · cs_y_yard_03"
+   "evidence": "science · product curator · Yard · cs_y_yard_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yamoussoukro_02",
    "text": "Yamoussoukro is the capital of Ivory Coast",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yamoussoukro · cs_y_yamoussoukro_02"
+   "evidence": "geography · product curator · Yamoussoukro · cs_y_yamoussoukro_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_sea_02",
    "text": "The Yellow Sea lies between China and Korea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_02"
+   "evidence": "geography · product curator · Yellow Sea · cs_y_yellow_sea_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucatan_peninsula_03",
    "text": "The Yucatan Peninsula is in Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_03"
+   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucatan_peninsula_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_05",
    "text": "Yaks have long shaggy hair",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_05"
+   "evidence": "nature · product curator · Yak · cs_y_yak_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_04",
    "text": "Yeast is a fungus",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_04"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yerevan_02",
    "text": "Yerevan is the capital of Armenia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yerevan · cs_y_yerevan_02"
+   "evidence": "geography · product curator · Yerevan · cs_y_yerevan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yaounde_02",
    "text": "Yaounde is the capital of Cameroon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yaounde · cs_y_yaounde_02"
+   "evidence": "geography · product curator · Yaounde · cs_y_yaounde_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yemen_04",
    "text": "Yemen is a country in Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yemen · cs_y_yemen_04"
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yemen_05",
    "text": "Yemen borders Saudi Arabia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yemen · cs_y_yemen_05"
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_01",
    "text": "The Yangtze flows through China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_01"
+   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_06",
    "text": "A yak lives in the Himalayas",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_06"
+   "evidence": "nature · product curator · Yak · cs_y_yak_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_07",
    "text": "A yak has long hair",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_07"
+   "evidence": "nature · product curator · Yak · cs_y_yak_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_05",
    "text": "Yeast makes bread rise",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_05"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_year_05",
    "text": "A year has twelve months",
    "standing": "projectable",
-   "evidence": "math · product curator · Year · cs_y_year_05"
+   "evidence": "math · product curator · Year · cs_y_year_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yuan_02",
    "text": "The yuan is the currency of China",
    "standing": "projectable",
-   "evidence": "civics · product curator · Yuan · cs_y_yuan_02"
+   "evidence": "civics · product curator · Yuan · cs_y_yuan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yiddish_03",
    "text": "Yiddish is a Jewish language",
    "standing": "projectable",
-   "evidence": "language · product curator · Yiddish · cs_y_yiddish_03"
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_02",
    "text": "The Yangtze is a river in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_02"
+   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_01",
    "text": "Yellowstone is in Wyoming",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_01"
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_02",
    "text": "Yellowstone has geysers",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_02"
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yemen_06",
    "text": "Yemen borders Oman",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yemen · cs_y_yemen_06"
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_08",
    "text": "Yaks live in Tibet",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_08"
+   "evidence": "nature · product curator · Yak · cs_y_yak_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_06",
    "text": "Bakers use yeast",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_06"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_02",
    "text": "An egg has a yolk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk · cs_y_yolk_02"
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_03",
    "text": "A yolk is yellow",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk · cs_y_yolk_03"
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yard_04",
    "text": "A yard is a unit of length",
    "standing": "projectable",
-   "evidence": "math · product curator · Yard · cs_y_yard_04"
+   "evidence": "math · product curator · Yard · cs_y_yard_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_journalism_01",
    "text": "Yellow journalism uses sensational headlines",
    "standing": "projectable",
-   "evidence": "history · product curator · Yellow journalism · cs_y_yellow_journalism_01"
+   "evidence": "history · product curator · Yellow journalism · cs_y_yellow_journalism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yogurt_culture_01",
    "text": "Yogurt culture contains live bacteria",
    "standing": "projectable",
-   "evidence": "science · product curator · Yogurt culture · cs_y_yogurt_culture_01"
+   "evidence": "science · product curator · Yogurt culture · cs_y_yogurt_culture_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoke_01",
    "text": "A yoke joins two draft animals",
    "standing": "projectable",
-   "evidence": "language · product curator · Yoke · cs_y_yoke_01"
+   "evidence": "language · product curator · Yoke · cs_y_yoke_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yom_kippur_war_01",
    "text": "The Yom Kippur War began in 1973",
    "standing": "projectable",
-   "evidence": "history · product curator · Yom Kippur War · cs_y_yom_kippur_war_01"
+   "evidence": "history · product curator · Yom Kippur War · cs_y_yom_kippur_war_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoruba_people_01",
    "text": "The Yoruba people live mainly in Nigeria",
    "standing": "projectable",
-   "evidence": "history · product curator · Yoruba people · cs_y_yoruba_people_01"
+   "evidence": "history · product curator · Yoruba people · cs_y_yoruba_people_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yale_university_01",
    "text": "Yale University is in Connecticut",
    "standing": "projectable",
-   "evidence": "history · product curator · Yale University · cs_y_yale_university_01"
+   "evidence": "history · product curator · Yale University · cs_y_yale_university_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yamato_period_01",
    "text": "The Yamato period is an era of Japanese history",
    "standing": "projectable",
-   "evidence": "history · product curator · Yamato period · cs_y_yamato_period_01"
+   "evidence": "history · product curator · Yamato period · cs_y_yamato_period_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yerkes_observatory_01",
    "text": "Yerkes Observatory is in Wisconsin",
    "standing": "projectable",
-   "evidence": "science · product curator · Yerkes Observatory · cs_y_yerkes_observatory_01"
+   "evidence": "science · product curator · Yerkes Observatory · cs_y_yerkes_observatory_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yukon_gold_01",
    "text": "Yukon gold is a potato variety",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yukon gold · cs_y_yukon_gold_01"
+   "evidence": "nature · product curator · Yukon gold · cs_y_yukon_gold_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yule_01",
    "text": "Yule is a winter festival",
    "standing": "projectable",
-   "evidence": "history · product curator · Yule · cs_y_yule_01"
+   "evidence": "history · product curator · Yule · cs_y_yule_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yenisei_01",
    "text": "The Yenisei is a river in Siberia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yenisei · cs_y_yenisei_01"
+   "evidence": "geography · product curator · Yenisei · cs_y_yenisei_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yap_01",
    "text": "Yap is an island in Micronesia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yap · cs_y_yap_01"
+   "evidence": "geography · product curator · Yap · cs_y_yap_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowknife_01",
    "text": "Yellowknife is the capital of the Northwest Territories",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowknife · cs_y_yellowknife_01"
+   "evidence": "geography · product curator · Yellowknife · cs_y_yellowknife_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yagi_antenna_01",
    "text": "A Yagi antenna is a directional radio antenna",
    "standing": "projectable",
-   "evidence": "science · product curator · Yagi antenna · cs_y_yagi_antenna_01"
+   "evidence": "science · product curator · Yagi antenna · cs_y_yagi_antenna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yaw_01",
    "text": "Yaw is rotation about a vertical axis",
    "standing": "projectable",
-   "evidence": "science · product curator · Yaw · cs_y_yaw_01"
+   "evidence": "science · product curator · Yaw · cs_y_yaw_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_year_length_01",
    "text": "A tropical year is about 365.24 days",
    "standing": "projectable",
-   "evidence": "science · product curator · Year length · cs_y_year_length_01"
+   "evidence": "science · product curator · Year length · cs_y_year_length_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_bread_01",
    "text": "Yeast bread rises from carbon dioxide made by yeast",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yeast bread · cs_y_yeast_bread_01"
+   "evidence": "nature · product curator · Yeast bread · cs_y_yeast_bread_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yiddish_theater_01",
    "text": "Yiddish theater flourished in Eastern Europe and New York",
    "standing": "projectable",
-   "evidence": "history · product curator · Yiddish theater · cs_y_yiddish_theater_01"
+   "evidence": "history · product curator · Yiddish theater · cs_y_yiddish_theater_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yiddish_04",
    "text": "Yiddish is a Germanic language of Jewish communities",
    "standing": "projectable",
-   "evidence": "language · product curator · Yiddish · cs_y_yiddish_04"
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_01",
    "text": "Yield is the amount of product from a reaction",
    "standing": "projectable",
-   "evidence": "science · product curator · Yield · cs_y_yield_01"
+   "evidence": "science · product curator · Yield · cs_y_yield_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yocto_02",
    "text": "Yocto means ten to the power of negative twenty-four",
    "standing": "projectable",
-   "evidence": "math · product curator · Yocto · cs_y_yocto_02"
+   "evidence": "math · product curator · Yocto · cs_y_yocto_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_sac_01",
    "text": "A yolk sac feeds an embryo",
    "standing": "projectable",
-   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_01"
+   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yosemite_01",
    "text": "Yosemite is a national park in California",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yosemite · cs_y_yosemite_01"
+   "evidence": "geography · product curator · Yosemite · cs_y_yosemite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yotta_02",
    "text": "Yotta means ten to the power of twenty-four",
    "standing": "projectable",
-   "evidence": "math · product curator · Yotta · cs_y_yotta_02"
+   "evidence": "math · product curator · Yotta · cs_y_yotta_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yuan_shikai_01",
    "text": "Yuan Shikai was a Chinese military and political leader",
    "standing": "projectable",
-   "evidence": "history · product curator · Yuan Shikai · cs_y_yuan_shikai_01"
+   "evidence": "history · product curator · Yuan Shikai · cs_y_yuan_shikai_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucatan_channel_01",
    "text": "The Yucatan Channel links the Caribbean Sea to the Gulf of Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yucatan Channel · cs_y_yucatan_channel_01"
+   "evidence": "geography · product curator · Yucatan Channel · cs_y_yucatan_channel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yukon_gold_potato_01",
    "text": "A Yukon gold potato has yellow flesh",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yukon gold potato · cs_y_yukon_gold_potato_01"
+   "evidence": "nature · product curator · Yukon gold potato · cs_y_yukon_gold_potato_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_y_axis_02",
    "text": "The y-axis is the vertical axis on a graph",
    "standing": "projectable",
-   "evidence": "math · product curator · Y-axis · cs_y_y_axis_02"
+   "evidence": "math · product curator · Y-axis · cs_y_y_axis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_09",
    "text": "A yak is a long haired bovine",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_09"
+   "evidence": "nature · product curator · Yak · cs_y_yak_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yalta_conference_02",
    "text": "The Yalta Conference was held in 1945",
    "standing": "projectable",
-   "evidence": "history · product curator · Yalta Conference · cs_y_yalta_conference_02"
+   "evidence": "history · product curator · Yalta Conference · cs_y_yalta_conference_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_07",
    "text": "Yeast is used to make bread rise",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yeast · cs_y_yeast_07"
+   "evidence": "nature · product curator · Yeast · cs_y_yeast_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_national_park_05",
    "text": "Yellowstone National Park has geysers",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_05"
+   "evidence": "geography · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoga_02",
    "text": "Yoga is a system of physical and mental practice",
    "standing": "projectable",
-   "evidence": "history · product curator · Yoga · cs_y_yoga_02"
+   "evidence": "history · product curator · Yoga · cs_y_yoga_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_04",
    "text": "The yolk is the yellow part of an egg",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk · cs_y_yolk_04"
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_03",
    "text": "Yttrium is a transition metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_03"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yuan_dynasty_02",
    "text": "The Yuan dynasty ruled China",
    "standing": "projectable",
-   "evidence": "history · product curator · Yuan dynasty · cs_y_yuan_dynasty_02"
+   "evidence": "history · product curator · Yuan dynasty · cs_y_yuan_dynasty_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucat_n_peninsula_01",
    "text": "The Yucatan Peninsula lies between the Gulf of Mexico and the Caribbean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucat_n_peninsula_01"
+   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucat_n_peninsula_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_02",
    "text": "A yucca is a desert plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca · cs_y_yucca_02"
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yuri_gagarin_02",
    "text": "Yuri Gagarin was the first human in space",
    "standing": "projectable",
-   "evidence": "history · product curator · Yuri Gagarin · cs_y_yuri_gagarin_02"
+   "evidence": "history · product curator · Yuri Gagarin · cs_y_yuri_gagarin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yacht_02",
    "text": "A yacht is a pleasure boat",
    "standing": "projectable",
-   "evidence": "history · product curator · Yacht · cs_y_yacht_02"
+   "evidence": "history · product curator · Yacht · cs_y_yacht_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_year_06",
    "text": "A year is about three hundred sixty five days",
    "standing": "projectable",
-   "evidence": "math · product curator · Year · cs_y_year_06"
+   "evidence": "math · product curator · Year · cs_y_year_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yiddish_05",
    "text": "Yiddish borrowed words from Hebrew",
    "standing": "projectable",
-   "evidence": "language · product curator · Yiddish · cs_y_yiddish_05"
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoga_03",
    "text": "Yoga is a practice of postures and breath",
    "standing": "projectable",
-   "evidence": "history · product curator · Yoga · cs_y_yoga_03"
+   "evidence": "history · product curator · Yoga · cs_y_yoga_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yam_02",
    "text": "A yam is a starchy tuber",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yam · cs_y_yam_02"
+   "evidence": "nature · product curator · Yam · cs_y_yam_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_04",
    "text": "Yttrium is a chemical element",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_04"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarn_02",
    "text": "Knitters use yarn",
    "standing": "projectable",
-   "evidence": "history · product curator · Yarn · cs_y_yarn_02"
+   "evidence": "history · product curator · Yarn · cs_y_yarn_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarrow_02",
    "text": "Yarrow is a flowering herb",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_02"
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yawn_01",
    "text": "A yawn stretches the jaw",
    "standing": "projectable",
-   "evidence": "science · product curator · Yawn · cs_y_yawn_01"
+   "evidence": "science · product curator · Yawn · cs_y_yawn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_04",
    "text": "Archers once used yew wood",
    "standing": "projectable",
-   "evidence": "history · product curator · Yew · cs_y_yew_04"
+   "evidence": "history · product curator · Yew · cs_y_yew_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_05",
    "text": "Yttrium is a rare-earth metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_05"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucatan_01",
    "text": "The Yucatan is a peninsula",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yucatan · cs_y_yucatan_01"
+   "evidence": "geography · product curator · Yucatan · cs_y_yucatan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_03",
    "text": "A yucca grows in dry soil",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca · cs_y_yucca_03"
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_08",
    "text": "Yeast ferments sugar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yeast · cs_y_yeast_08"
+   "evidence": "nature · product curator · Yeast · cs_y_yeast_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_sac_02",
    "text": "An embryo has a yolk sac",
    "standing": "projectable",
-   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_02"
+   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_sign_01",
    "text": "Drivers slow at a yield sign",
    "standing": "projectable",
-   "evidence": "civics · product curator · Yield sign · cs_y_yield_sign_01"
+   "evidence": "civics · product curator · Yield sign · cs_y_yield_sign_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yawn_02",
    "text": "People often yawn at night",
    "standing": "projectable",
-   "evidence": "science · product curator · Yawn · cs_y_yawn_02"
+   "evidence": "science · product curator · Yawn · cs_y_yawn_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yogurt_02",
    "text": "Milk becomes yogurt",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yogurt · cs_y_yogurt_02"
+   "evidence": "nature · product curator · Yogurt · cs_y_yogurt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoke_02",
    "text": "A yoke links two oxen",
    "standing": "projectable",
-   "evidence": "history · product curator · Yoke · cs_y_yoke_02"
+   "evidence": "history · product curator · Yoke · cs_y_yoke_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarn_03",
    "text": "Knitters work with yarn",
    "standing": "projectable",
-   "evidence": "history · product curator · Yarn · cs_y_yarn_03"
+   "evidence": "history · product curator · Yarn · cs_y_yarn_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarrow_03",
    "text": "Yarrow grows in meadows",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_03"
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yard_05",
    "text": "Three feet equal one yard",
    "standing": "projectable",
-   "evidence": "math · product curator · Yard · cs_y_yard_05"
+   "evidence": "math · product curator · Yard · cs_y_yard_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_01",
    "text": "Yellow mixes with blue",
    "standing": "projectable",
-   "evidence": "science · product curator · Yellow · cs_y_yellow_01"
+   "evidence": "science · product curator · Yellow · cs_y_yellow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_02",
    "text": "Crops give a yield at harvest",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yield · cs_y_yield_02"
+   "evidence": "nature · product curator · Yield · cs_y_yield_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_10",
    "text": "A yak is a highland cattle",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_10"
+   "evidence": "nature · product curator · Yak · cs_y_yak_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_03",
    "text": "Farmers measure crop yield",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yield · cs_y_yield_03"
+   "evidence": "nature · product curator · Yield · cs_y_yield_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_05",
    "text": "A yolk feeds a growing chick",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk · cs_y_yolk_05"
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_11",
    "text": "Yaks live in cold mountains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_11"
+   "evidence": "nature · product curator · Yak · cs_y_yak_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_04",
    "text": "Good soil raises crop yield",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yield · cs_y_yield_04"
+   "evidence": "nature · product curator · Yield · cs_y_yield_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_06",
    "text": "Chickens have a yellow yolk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk · cs_y_yolk_06"
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarn_04",
    "text": "Weavers spin yarn",
    "standing": "projectable",
-   "evidence": "history · product curator · Yarn · cs_y_yarn_04"
+   "evidence": "history · product curator · Yarn · cs_y_yarn_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoke_03",
    "text": "Farmers fit a yoke on oxen",
    "standing": "projectable",
-   "evidence": "history · product curator · Yoke · cs_y_yoke_03"
+   "evidence": "history · product curator · Yoke · cs_y_yoke_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_sac_03",
    "text": "Embryos draw food from a yolk sac",
    "standing": "projectable",
-   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_03"
+   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_07",
    "text": "A chick grows from a yolk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk · cs_y_yolk_07"
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_year_07",
    "text": "Earth completes a year",
    "standing": "projectable",
-   "evidence": "science · product curator · Year · cs_y_year_07"
+   "evidence": "science · product curator · Year · cs_y_year_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_09",
    "text": "Yeast raises bread",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_09"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowcake_01",
    "text": "Yellowcake is uranium oxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Yellowcake · cs_y_yellowcake_01"
+   "evidence": "science · product curator · Yellowcake · cs_y_yellowcake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowwood_01",
    "text": "Yellowwood is a hard timber",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_01"
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_06",
    "text": "Yttrium strengthens alloys",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_06"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yagi_01",
    "text": "Radios use a Yagi antenna",
    "standing": "projectable",
-   "evidence": "science · product curator · Yagi · cs_y_yagi_01"
+   "evidence": "science · product curator · Yagi · cs_y_yagi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_12",
    "text": "Yaks graze high pastures",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_12"
+   "evidence": "nature · product curator · Yak · cs_y_yak_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_10",
    "text": "Yeast releases carbon dioxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Yeast · cs_y_yeast_10"
+   "evidence": "science · product curator · Yeast · cs_y_yeast_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowwood_02",
    "text": "Carpenters cut yellowwood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_02"
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yemen_07",
    "text": "Yemen borders the Red Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yemen · cs_y_yemen_07"
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_05",
    "text": "Yew needles stay green",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yew · cs_y_yew_05"
+   "evidence": "nature · product curator · Yew · cs_y_yew_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_05",
    "text": "Chemists calculate yield",
    "standing": "projectable",
-   "evidence": "science · product curator · Yield · cs_y_yield_05"
+   "evidence": "science · product curator · Yield · cs_y_yield_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_ytterbium_02",
    "text": "Ytterbium is a soft metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_02"
+   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_07",
    "text": "Yttrium glows in screens",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_07"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_04",
    "text": "Desert gardens grow yucca",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca · cs_y_yucca_04"
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_y_axis_03",
    "text": "Graphs rise on the y-axis",
    "standing": "projectable",
-   "evidence": "math · product curator · Y-axis · cs_y_y_axis_03"
+   "evidence": "math · product curator · Y-axis · cs_y_y_axis_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yangtze_03",
    "text": "Barges travel the Yangtze",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_03"
+   "evidence": "geography · product curator · Yangtze · cs_y_yangtze_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarn_05",
    "text": "Spinners twist yarn",
    "standing": "projectable",
-   "evidence": "history · product curator · Yarn · cs_y_yarn_05"
+   "evidence": "history · product curator · Yarn · cs_y_yarn_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarrow_04",
    "text": "Yarrow grows on roadsides",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_04"
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yawning_01",
    "text": "Yawning stretches the jaw",
    "standing": "projectable",
-   "evidence": "science · product curator · Yawning · cs_y_yawning_01"
+   "evidence": "science · product curator · Yawning · cs_y_yawning_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_03",
    "text": "Geysers heat Yellowstone",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_03"
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_06",
    "text": "Carvers prefer yew wood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yew · cs_y_yew_06"
+   "evidence": "nature · product curator · Yew · cs_y_yew_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yiddish_06",
    "text": "Yiddish mixes many tongues",
    "standing": "projectable",
-   "evidence": "language · product curator · Yiddish · cs_y_yiddish_06"
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoga_04",
    "text": "Yoga stretches muscles",
    "standing": "projectable",
-   "evidence": "science · product curator · Yoga · cs_y_yoga_04"
+   "evidence": "science · product curator · Yoga · cs_y_yoga_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_08",
    "text": "Screens use yttrium",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_08"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_05",
    "text": "Yucca blooms in deserts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca · cs_y_yucca_05"
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yak_13",
    "text": "A yak carries mountain loads",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yak · cs_y_yak_13"
+   "evidence": "nature · product curator · Yak · cs_y_yak_13",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yam_03",
    "text": "A yam stores root starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yam · cs_y_yam_03"
+   "evidence": "nature · product curator · Yam · cs_y_yam_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarn_06",
    "text": "Looms weave yarn into cloth",
    "standing": "projectable",
-   "evidence": "history · product curator · Yarn · cs_y_yarn_06"
+   "evidence": "history · product curator · Yarn · cs_y_yarn_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_07",
    "text": "Taxol comes from yew bark",
    "standing": "projectable",
-   "evidence": "science · product curator · Yew · cs_y_yew_07"
+   "evidence": "science · product curator · Yew · cs_y_yew_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yogurt_03",
    "text": "Cultures ferment milk into yogurt",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yogurt · cs_y_yogurt_03"
+   "evidence": "nature · product curator · Yogurt · cs_y_yogurt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yom_kippur_02",
    "text": "Jews observe Yom Kippur",
    "standing": "projectable",
-   "evidence": "history · product curator · Yom Kippur · cs_y_yom_kippur_02"
+   "evidence": "history · product curator · Yom Kippur · cs_y_yom_kippur_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yosemite_02",
    "text": "Granite cliffs rise in Yosemite",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yosemite · cs_y_yosemite_02"
+   "evidence": "geography · product curator · Yosemite · cs_y_yosemite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yttrium_09",
    "text": "Yttrium strengthens aluminum",
    "standing": "projectable",
-   "evidence": "science · product curator · Yttrium · cs_y_yttrium_09"
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucatan_02",
    "text": "Meteor struck the Yucatan",
    "standing": "projectable",
-   "evidence": "history · product curator · Yucatan · cs_y_yucatan_02"
+   "evidence": "history · product curator · Yucatan · cs_y_yucatan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_06",
    "text": "A yucca stores desert water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca · cs_y_yucca_06"
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_ytterbium_03",
    "text": "Ytterbium lasers cut metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_03"
+   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_04",
    "text": "Geysers fill Yellowstone",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_04"
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yenisei_02",
    "text": "The Yenisei drains Siberia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yenisei · cs_y_yenisei_02"
+   "evidence": "geography · product curator · Yenisei · cs_y_yenisei_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yew_08",
    "text": "Yew wood springs bow staves",
    "standing": "projectable",
-   "evidence": "history · product curator · Yew · cs_y_yew_08"
+   "evidence": "history · product curator · Yew · cs_y_yew_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yam_04",
    "text": "Yams store starchy tubers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yam · cs_y_yam_04"
+   "evidence": "nature · product curator · Yam · cs_y_yam_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarrow_05",
    "text": "Yarrow blooms dry meadows",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_05"
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yawn_03",
    "text": "A yawn opens the airway",
    "standing": "projectable",
-   "evidence": "science · product curator · Yawn · cs_y_yawn_03"
+   "evidence": "science · product curator · Yawn · cs_y_yawn_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_11",
    "text": "Yeast ferments bread dough",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yeast · cs_y_yeast_11"
+   "evidence": "nature · product curator · Yeast · cs_y_yeast_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowcake_02",
    "text": "Yellowcake feeds nuclear fuel",
    "standing": "projectable",
-   "evidence": "science · product curator · Yellowcake · cs_y_yellowcake_02"
+   "evidence": "science · product curator · Yellowcake · cs_y_yellowcake_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowstone_05",
    "text": "Geysers erupt in Yellowstone",
    "standing": "projectable",
-   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_05"
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowwood_03",
    "text": "Yellowwood resists timber rot",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_03"
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_06",
    "text": "Rain lifts crop yield",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yield · cs_y_yield_06"
+   "evidence": "nature · product curator · Yield · cs_y_yield_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_08",
    "text": "Yolk feeds growing embryos",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk · cs_y_yolk_08"
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_07",
    "text": "Yucca stores desert moisture",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca · cs_y_yucca_07"
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yam_bean_01",
    "text": "Yam beans store root starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yam bean · cs_y_yam_bean_01"
+   "evidence": "nature · product curator · Yam bean · cs_y_yam_bean_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_bud_01",
    "text": "Yeast buds copy new cells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yeast bud · cs_y_yeast_bud_01"
+   "evidence": "nature · product curator · Yeast bud · cs_y_yeast_bud_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_birch_01",
    "text": "Yellow birch sheds thin bark",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellow birch · cs_y_yellow_birch_01"
+   "evidence": "nature · product curator · Yellow birch · cs_y_yellow_birch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_marrow_01",
    "text": "Yellow marrow stores bone fat",
    "standing": "projectable",
-   "evidence": "science · product curator · Yellow marrow · cs_y_yellow_marrow_01"
+   "evidence": "science · product curator · Yellow marrow · cs_y_yellow_marrow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_pollen_01",
    "text": "Bees gather yellow pollen",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellow pollen · cs_y_yellow_pollen_01"
+   "evidence": "nature · product curator · Yellow pollen · cs_y_yellow_pollen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_strength_01",
    "text": "Yield strength marks metal bend",
    "standing": "projectable",
-   "evidence": "science · product curator · Yield strength · cs_y_yield_strength_01"
+   "evidence": "science · product curator · Yield strength · cs_y_yield_strength_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_membrane_01",
    "text": "A membrane seals egg yolk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk membrane · cs_y_yolk_membrane_01"
+   "evidence": "nature · product curator · Yolk membrane · cs_y_yolk_membrane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_sac_04",
    "text": "A yolk sac feeds early embryos",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk sac · cs_y_yolk_sac_04"
+   "evidence": "nature · product curator · Yolk sac · cs_y_yolk_sac_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yulan_01",
    "text": "Yulan blooms early spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yulan · cs_y_yulan_01"
+   "evidence": "nature · product curator · Yulan · cs_y_yulan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yuzu_01",
    "text": "Yuzu ripens tart citrus peels",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yuzu · cs_y_yuzu_01"
+   "evidence": "nature · product curator · Yuzu · cs_y_yuzu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellowwood_04",
    "text": "Yellowwood blooms spring canopies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_04"
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yarn_07",
    "text": "Yarn twists fiber strands",
    "standing": "projectable",
-   "evidence": "science · product curator · Yarn · cs_y_yarn_07"
+   "evidence": "science · product curator · Yarn · cs_y_yarn_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yoga_05",
    "text": "Yoga stretches muscle groups",
    "standing": "projectable",
-   "evidence": "science · product curator · Yoga · cs_y_yoga_05"
+   "evidence": "science · product curator · Yoga · cs_y_yoga_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yam_05",
    "text": "Yams store root starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yam · cs_y_yam_05"
+   "evidence": "nature · product curator · Yam · cs_y_yam_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yield_point_01",
    "text": "Metals bend past yield point",
    "standing": "projectable",
-   "evidence": "science · product curator · Yield point · cs_y_yield_point_01"
+   "evidence": "science · product curator · Yield point · cs_y_yield_point_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_pine_01",
    "text": "Yellow pine yields timber resin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yellow pine · cs_y_yellow_pine_01"
+   "evidence": "nature · product curator · Yellow pine · cs_y_yellow_pine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yolk_protein_01",
    "text": "Yolk protein feeds chick growth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yolk protein · cs_y_yolk_protein_01"
+   "evidence": "nature · product curator · Yolk protein · cs_y_yolk_protein_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yucca_root_01",
    "text": "Yucca roots store desert starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yucca root · cs_y_yucca_root_01"
+   "evidence": "nature · product curator · Yucca root · cs_y_yucca_root_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yellow_ochre_01",
    "text": "Ochre pigments cave walls",
    "standing": "projectable",
-   "evidence": "science · product curator · Yellow ochre · cs_y_yellow_ochre_01"
+   "evidence": "science · product curator · Yellow ochre · cs_y_yellow_ochre_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_y_yeast_cell_01",
    "text": "Yeast cells bud new copies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Yeast cell · cs_y_yeast_cell_01"
+   "evidence": "nature · product curator · Yeast cell · cs_y_yeast_cell_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

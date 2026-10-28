@@ -12,1501 +12,2751 @@
    "id": "cs_z_zambia_01",
    "text": "Zambia is a landlocked country",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_01"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zimbabwe_02",
    "text": "Great Zimbabwe is a ruined medieval city in Zimbabwe",
    "standing": "projectable",
-   "evidence": "history · product curator · Zimbabwe · cs_z_zimbabwe_02"
+   "evidence": "history · product curator · Zimbabwe · cs_z_zimbabwe_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zurich_01",
    "text": "Zurich is the largest city in Switzerland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zurich · cs_z_zurich_01"
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zanzibar_01",
    "text": "Zanzibar is part of Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_01"
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambezi_river_01",
    "text": "The Zambezi flows into the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambezi River · cs_z_zambezi_river_01"
+   "evidence": "geography · product curator · Zambezi River · cs_z_zambezi_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambezi_river_02",
    "text": "Victoria Falls is on the Zambezi",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambezi River · cs_z_zambezi_river_02"
+   "evidence": "geography · product curator · Zambezi River · cs_z_zambezi_river_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zagros_mountains_01",
    "text": "The Zagros Mountains are in Iran",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zagros Mountains · cs_z_zagros_mountains_01"
+   "evidence": "geography · product curator · Zagros Mountains · cs_z_zagros_mountains_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zion_national_park_01",
    "text": "Zion National Park is in Utah",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zion National Park · cs_z_zion_national_park_01"
+   "evidence": "geography · product curator · Zion National Park · cs_z_zion_national_park_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zealand_01",
    "text": "Zealand is the largest island of Denmark",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zealand · cs_z_zealand_01"
+   "evidence": "geography · product curator · Zealand · cs_z_zealand_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zealand_02",
    "text": "Copenhagen is on the island of Zealand",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zealand · cs_z_zealand_02"
+   "evidence": "geography · product curator · Zealand · cs_z_zealand_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zaragoza_01",
    "text": "Zaragoza is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zaragoza · cs_z_zaragoza_01"
+   "evidence": "geography · product curator · Zaragoza · cs_z_zaragoza_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zhengzhou_01",
    "text": "Zhengzhou is the capital of Henan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zhengzhou · cs_z_zhengzhou_01"
+   "evidence": "geography · product curator · Zhengzhou · cs_z_zhengzhou_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zanzibar_city_01",
    "text": "Stone Town is the old part of Zanzibar City",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zanzibar City · cs_z_zanzibar_city_01"
+   "evidence": "geography · product curator · Zanzibar City · cs_z_zanzibar_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_01",
    "text": "Zinc has the chemical symbol Zn",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_01"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_02",
    "text": "Zinc has an atomic number of 30",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_02"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_04",
    "text": "Brass contains zinc",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_04"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_01",
    "text": "Zirconium has the chemical symbol Zr",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_01"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_02",
    "text": "Zirconium has an atomic number of 40",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_02"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zircon_01",
    "text": "Zircon is a mineral containing zirconium",
    "standing": "projectable",
-   "evidence": "science · product curator · Zircon · cs_z_zircon_01"
+   "evidence": "science · product curator · Zircon · cs_z_zircon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zircon_02",
    "text": "Zircon crystals are among the oldest known minerals on Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Zircon · cs_z_zircon_02"
+   "evidence": "science · product curator · Zircon · cs_z_zircon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_01",
    "text": "The zodiac is a band of constellations along the ecliptic",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_01"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_02",
    "text": "The traditional zodiac has twelve signs",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_02"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zooplankton_01",
    "text": "Zooplankton are tiny animals drifting in water",
    "standing": "projectable",
-   "evidence": "science · product curator · Zooplankton · cs_z_zooplankton_01"
+   "evidence": "science · product curator · Zooplankton · cs_z_zooplankton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygote_01",
    "text": "A zygote forms when two gametes fuse",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygote · cs_z_zygote_01"
+   "evidence": "science · product curator · Zygote · cs_z_zygote_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoology_01",
    "text": "Zoology is the scientific study of animals",
    "standing": "projectable",
-   "evidence": "science · product curator · Zoology · cs_z_zoology_01"
+   "evidence": "science · product curator · Zoology · cs_z_zoology_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_01",
    "text": "Zebras are native to Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_01"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_02",
    "text": "Zebras have black and white stripes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_02"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_03",
    "text": "Zebras belong to the horse family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_03"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_04",
    "text": "Each zebra has a unique stripe pattern",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_04"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_finch_01",
    "text": "The zebra finch is native to Australia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_01"
+   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_mussel_01",
    "text": "Zebra mussels are freshwater mollusks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_01"
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_shark_01",
    "text": "The zebra shark lives in the Indo-Pacific",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra shark · cs_z_zebra_shark_01"
+   "evidence": "nature · product curator · Zebra shark · cs_z_zebra_shark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_01",
    "text": "Zinnias are flowering plants in the daisy family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_01"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zucchini_01",
    "text": "Zucchini is a summer squash",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_01"
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_02",
    "text": "Zinnias were grown on the International Space Station in 2016",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinnia · cs_z_zinnia_02"
+   "evidence": "science · product curator · Zinnia · cs_z_zinnia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_01",
    "text": "Zeus was the king of the gods in Greek mythology",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_01"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_02",
    "text": "The Statue of Zeus at Olympia was one of the Seven Wonders of the Ancient World",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_02"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zhou_dynasty_01",
    "text": "The Zhou dynasty was the longest-ruling dynasty in Chinese history",
    "standing": "projectable",
-   "evidence": "history · product curator · Zhou dynasty · cs_z_zhou_dynasty_01"
+   "evidence": "history · product curator · Zhou dynasty · cs_z_zhou_dynasty_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoroastrianism_01",
    "text": "Zoroastrianism began in Persia",
    "standing": "projectable",
-   "evidence": "history · product curator · Zoroastrianism · cs_z_zoroastrianism_01"
+   "evidence": "history · product curator · Zoroastrianism · cs_z_zoroastrianism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zulu_kingdom_01",
    "text": "Shaka was a king of the Zulu",
    "standing": "projectable",
-   "evidence": "history · product curator · Zulu Kingdom · cs_z_zulu_kingdom_01"
+   "evidence": "history · product curator · Zulu Kingdom · cs_z_zulu_kingdom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zulu_01",
    "text": "Zulu is an official language of South Africa",
    "standing": "projectable",
-   "evidence": "language · product curator · Zulu · cs_z_zulu_01"
+   "evidence": "language · product curator · Zulu · cs_z_zulu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zulu_02",
    "text": "Zulu is spoken in South Africa",
    "standing": "projectable",
-   "evidence": "language · product curator · Zulu · cs_z_zulu_02"
+   "evidence": "language · product curator · Zulu · cs_z_zulu_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeppelin_02",
    "text": "The Hindenburg burned in 1937",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeppelin · cs_z_zeppelin_02"
+   "evidence": "history · product curator · Zeppelin · cs_z_zeppelin_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zamenhof_l_l_01",
    "text": "L. L. Zamenhof created Esperanto",
    "standing": "projectable",
-   "evidence": "history · product curator · Zamenhof, L. L. · cs_z_zamenhof_l_l_01"
+   "evidence": "history · product curator · Zamenhof, L. L. · cs_z_zamenhof_l_l_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zapotec_01",
    "text": "The Zapotec civilization arose in Oaxaca",
    "standing": "projectable",
-   "evidence": "history · product curator · Zapotec · cs_z_zapotec_01"
+   "evidence": "history · product curator · Zapotec · cs_z_zapotec_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_01",
    "text": "Zero is not positive",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_01"
+   "evidence": "math · product curator · Zero · cs_z_zero_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_02",
    "text": "Any number multiplied by zero equals zero",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_02"
+   "evidence": "math · product curator · Zero · cs_z_zero_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_03",
    "text": "Zero is an even number",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_03"
+   "evidence": "math · product curator · Zero · cs_z_zero_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_04",
    "text": "Adding zero to a number leaves it unchanged",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_04"
+   "evidence": "math · product curator · Zero · cs_z_zero_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_z_axis_01",
    "text": "The z-axis is the third axis in a three-dimensional coordinate system",
    "standing": "projectable",
-   "evidence": "math · product curator · Z-axis · cs_z_z_axis_01"
+   "evidence": "math · product curator · Z-axis · cs_z_z_axis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zigzag_01",
    "text": "A zigzag is a line with sharp alternating turns",
    "standing": "projectable",
-   "evidence": "math · product curator · Zigzag · cs_z_zigzag_01"
+   "evidence": "math · product curator · Zigzag · cs_z_zigzag_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_z_01",
    "text": "Z is the 26th and last letter of the English alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Z · cs_z_z_01"
+   "evidence": "language · product curator · Z · cs_z_z_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoning_01",
    "text": "Zoning regulates the use of land",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zoning · cs_z_zoning_01"
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zither_01",
    "text": "A zither has strings",
    "standing": "projectable",
-   "evidence": "general · product curator · Zither · cs_z_zither_01"
+   "evidence": "general · product curator · Zither · cs_z_zither_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zipper_01",
    "text": "A zipper fastens two edges of fabric",
    "standing": "projectable",
-   "evidence": "general · product curator · Zipper · cs_z_zipper_01"
+   "evidence": "general · product curator · Zipper · cs_z_zipper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zamboni_01",
    "text": "A Zamboni resurfaces ice rinks",
    "standing": "projectable",
-   "evidence": "general · product curator · Zamboni · cs_z_zamboni_01"
+   "evidence": "general · product curator · Zamboni · cs_z_zamboni_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zumba_01",
    "text": "Zumba is a dance fitness program",
    "standing": "projectable",
-   "evidence": "general · product curator · Zumba · cs_z_zumba_01"
+   "evidence": "general · product curator · Zumba · cs_z_zumba_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zen_01",
    "text": "Zen is a school of Buddhism",
    "standing": "projectable",
-   "evidence": "history · product curator · Zen · cs_z_zen_01"
+   "evidence": "history · product curator · Zen · cs_z_zen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zen_02",
    "text": "Zen Buddhism developed in China as Chan",
    "standing": "projectable",
-   "evidence": "history · product curator · Zen · cs_z_zen_02"
+   "evidence": "history · product curator · Zen · cs_z_zen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambia_02",
    "text": "Zambia is named after the Zambezi",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_02"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zimbabwe_03",
    "text": "Zimbabwe is landlocked",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_03"
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zurich_02",
    "text": "Zurich lies on Lake Zurich",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zurich · cs_z_zurich_02"
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zagreb_01",
    "text": "Zagreb is the largest city in Croatia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zagreb · cs_z_zagreb_01"
+   "evidence": "geography · product curator · Zagreb · cs_z_zagreb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zanzibar_02",
    "text": "Zanzibar is known for spices such as cloves",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_02"
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_05",
    "text": "Zinc is a transition metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_05"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_05",
    "text": "Zebras live in herds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_05"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_03",
    "text": "Jupiter is the Roman counterpart of Zeus",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_03"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zanzibar_03",
    "text": "Zanzibar is part of Tanzania",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_03"
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_06",
    "text": "The chemical symbol for zinc is Zn",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_06"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zooplankton_02",
    "text": "Zooplankton are tiny animals that drift in water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_02"
+   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygote_02",
    "text": "A zygote forms when two gametes join",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygote · cs_z_zygote_02"
+   "evidence": "science · product curator · Zygote · cs_z_zygote_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zanzibar_04",
    "text": "Zanzibar is an island in the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_04"
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambia_03",
    "text": "Zambia is a landlocked country",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_03"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zimbabwe_04",
    "text": "Zimbabwe is a landlocked country",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_04"
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zurich_03",
    "text": "Zurich is in Switzerland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zurich · cs_z_zurich_03"
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_06",
    "text": "No two zebras have the same stripe pattern",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_06"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_07",
    "text": "Zebras are herbivores",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_07"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zucchini_02",
    "text": "Zucchini is a type of summer squash",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_02"
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_03",
    "text": "Zinnias are native to the Americas",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_03"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_07",
    "text": "Zinc is a metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_07"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoology_02",
    "text": "Zoology is the study of animals",
    "standing": "projectable",
-   "evidence": "science · product curator · Zoology · cs_z_zoology_02"
+   "evidence": "science · product curator · Zoology · cs_z_zoology_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_04",
    "text": "Zeus was associated with thunder and lightning",
    "standing": "projectable",
-   "evidence": "culture · product curator · Zeus · cs_z_zeus_04"
+   "evidence": "culture · product curator · Zeus · cs_z_zeus_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zulu_03",
    "text": "Zulu is a language of South Africa",
    "standing": "projectable",
-   "evidence": "culture · product curator · Zulu · cs_z_zulu_03"
+   "evidence": "culture · product curator · Zulu · cs_z_zulu_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zagreb_02",
    "text": "Zagreb is the capital of Croatia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zagreb · cs_z_zagreb_02"
+   "evidence": "geography · product curator · Zagreb · cs_z_zagreb_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambia_04",
    "text": "Lusaka is the capital of Zambia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_04"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zimbabwe_05",
    "text": "Harare is the capital of Zimbabwe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_05"
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_05",
    "text": "Zeus was the king of the Greek gods",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_05"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zurich_04",
    "text": "Zurich is a city in Switzerland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zurich · cs_z_zurich_04"
+   "evidence": "geography · product curator · Zurich · cs_z_zurich_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambia_05",
    "text": "Zambia is a country in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_05"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambia_06",
    "text": "Zambia borders Zimbabwe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_06"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zimbabwe_06",
    "text": "Zimbabwe is a country in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_06"
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zimbabwe_07",
    "text": "Zimbabwe borders South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_07"
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambezi_01",
    "text": "The Zambezi is a river in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambezi · cs_z_zambezi_01"
+   "evidence": "geography · product curator · Zambezi · cs_z_zambezi_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zanzibar_05",
    "text": "Zanzibar is an island",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_05"
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_08",
    "text": "A zebra has black and white stripes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_08"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_09",
    "text": "Zebras live in Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_09"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_10",
    "text": "A zebra is a herbivore",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_10"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_11",
    "text": "Zebras eat grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_11"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_08",
    "text": "The symbol for zinc is Zn",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_08"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_03",
    "text": "Zirconium is a metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_03"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zucchini_03",
    "text": "Zucchini is green",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_03"
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_06",
    "text": "Zeus was a god of the sky",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_06"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_03",
    "text": "The zodiac has twelve signs",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_03"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zipper_02",
    "text": "A zipper fastens clothes",
    "standing": "projectable",
-   "evidence": "history · product curator · Zipper · cs_z_zipper_02"
+   "evidence": "history · product curator · Zipper · cs_z_zipper_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_04",
    "text": "A zinnia is a flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_04"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_09",
    "text": "Zinc is used in batteries",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_09"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_12",
    "text": "A zebra is related to the horse",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_12"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_07",
    "text": "Zeus threw lightning",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_07"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_08",
    "text": "Jupiter was the Roman name for Zeus",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_08"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zanzibar_06",
    "text": "Zanzibar is in the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_06"
+   "evidence": "geography · product curator · Zanzibar · cs_z_zanzibar_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambia_07",
    "text": "Zambia has copper",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_07"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zucchini_04",
    "text": "Zucchini grows on a vine",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_04"
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoologist_01",
    "text": "A zoologist studies animals",
    "standing": "projectable",
-   "evidence": "science · product curator · Zoologist · cs_z_zoologist_01"
+   "evidence": "science · product curator · Zoologist · cs_z_zoologist_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zimbabwe_08",
    "text": "Zimbabwe has no coast",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_08"
+   "evidence": "geography · product curator · Zimbabwe · cs_z_zimbabwe_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zen_buddhism_01",
    "text": "Zen Buddhism emphasizes meditation",
    "standing": "projectable",
-   "evidence": "history · product curator · Zen Buddhism · cs_z_zen_buddhism_01"
+   "evidence": "history · product curator · Zen Buddhism · cs_z_zen_buddhism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_crossing_01",
    "text": "A zebra crossing is a marked pedestrian crosswalk",
    "standing": "projectable",
-   "evidence": "language · product curator · Zebra crossing · cs_z_zebra_crossing_01"
+   "evidence": "language · product curator · Zebra crossing · cs_z_zebra_crossing_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_gravity_01",
    "text": "Zero gravity is weightlessness",
    "standing": "projectable",
-   "evidence": "science · product curator · Zero gravity · cs_z_zero_gravity_01"
+   "evidence": "science · product curator · Zero gravity · cs_z_zero_gravity_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_oxide_01",
    "text": "Zinc oxide is a white compound",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_01"
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zymology_01",
    "text": "Zymology is the study of fermentation",
    "standing": "projectable",
-   "evidence": "science · product curator · Zymology · cs_z_zymology_01"
+   "evidence": "science · product curator · Zymology · cs_z_zymology_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoroaster_01",
    "text": "Zoroaster founded Zoroastrianism",
    "standing": "projectable",
-   "evidence": "history · product curator · Zoroaster · cs_z_zoroaster_01"
+   "evidence": "history · product curator · Zoroaster · cs_z_zoroaster_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeta_01",
    "text": "Zeta is a letter of the Greek alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Zeta · cs_z_zeta_01"
+   "evidence": "language · product curator · Zeta · cs_z_zeta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeolite_01",
    "text": "Zeolite is a porous mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Zeolite · cs_z_zeolite_01"
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zaire_01",
    "text": "Zaire was a former name of the Democratic Republic of the Congo",
    "standing": "projectable",
-   "evidence": "history · product curator · Zaire · cs_z_zaire_01"
+   "evidence": "history · product curator · Zaire · cs_z_zaire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygote_04",
    "text": "A zygote forms when egg and sperm join",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygote · cs_z_zygote_04"
+   "evidence": "science · product curator · Zygote · cs_z_zygote_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoning_02",
    "text": "Zoning controls land use in a city",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zoning · cs_z_zoning_02"
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_04",
    "text": "The zodiac is a belt of constellations",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_04"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zircon_03",
    "text": "Zircon is a mineral used in dating rocks",
    "standing": "projectable",
-   "evidence": "science · product curator · Zircon · cs_z_zircon_03"
+   "evidence": "science · product curator · Zircon · cs_z_zircon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_09",
    "text": "Zeus was the chief god in Greek myth",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_09"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_gravity_02",
    "text": "Zero gravity is free fall",
    "standing": "projectable",
-   "evidence": "science · product curator · Zero gravity · cs_z_zero_gravity_02"
+   "evidence": "science · product curator · Zero gravity · cs_z_zero_gravity_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_06",
    "text": "Zero is the additive identity",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_06"
+   "evidence": "math · product curator · Zero · cs_z_zero_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zenith_03",
    "text": "The zenith is straight above an observer",
    "standing": "projectable",
-   "evidence": "science · product curator · Zenith · cs_z_zenith_03"
+   "evidence": "science · product curator · Zenith · cs_z_zenith_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_mussel_02",
    "text": "A zebra mussel is an invasive freshwater mollusk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_02"
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_finch_02",
    "text": "A zebra finch is a small songbird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_02"
+   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_crossing_02",
    "text": "A zebra crossing marks a place to walk across a road",
    "standing": "projectable",
-   "evidence": "language · product curator · Zebra crossing · cs_z_zebra_crossing_02"
+   "evidence": "language · product curator · Zebra crossing · cs_z_zebra_crossing_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zooplankton_03",
    "text": "Zooplankton are tiny drifting animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_03"
+   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_05",
    "text": "A zinnia is a garden flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_05"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_z_axis_02",
    "text": "The z-axis is the third axis in three dimensional space",
    "standing": "projectable",
-   "evidence": "math · product curator · Z-axis · cs_z_z_axis_02"
+   "evidence": "math · product curator · Z-axis · cs_z_z_axis_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zagros_mountains_02",
    "text": "The Zagros Mountains are in western Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zagros Mountains · cs_z_zagros_mountains_02"
+   "evidence": "geography · product curator · Zagros Mountains · cs_z_zagros_mountains_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_07",
    "text": "Zero is the integer between negative one and one",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_07"
+   "evidence": "math · product curator · Zero · cs_z_zero_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_10",
    "text": "Zinc prevents rust on steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_10"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zip_code_03",
    "text": "A ZIP code helps sort mail",
    "standing": "projectable",
-   "evidence": "civics · product curator · ZIP code · cs_z_zip_code_03"
+   "evidence": "civics · product curator · ZIP code · cs_z_zip_code_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_04",
    "text": "Zirconium is a transition metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_04"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoning_03",
    "text": "Zoning regulates land use",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zoning · cs_z_zoning_03"
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeolite_02",
    "text": "Zeolites adsorb water molecules",
    "standing": "projectable",
-   "evidence": "science · product curator · Zeolite · cs_z_zeolite_02"
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_oxide_02",
    "text": "Zinc oxide blocks ultraviolet light",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_02"
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_05",
    "text": "Zirconium resists corrosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_05"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zone_01",
    "text": "A time zone shares the same civil time",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zone · cs_z_zone_01"
+   "evidence": "civics · product curator · Zone · cs_z_zone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoning_04",
    "text": "A zoning law controls building use",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zoning · cs_z_zoning_04"
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zooplankton_04",
    "text": "Zooplankton are animal plankton",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_04"
+   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zulu_04",
    "text": "Zulu is a Bantu language",
    "standing": "projectable",
-   "evidence": "language · product curator · Zulu · cs_z_zulu_04"
+   "evidence": "language · product curator · Zulu · cs_z_zulu_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zen_03",
    "text": "Zen emphasizes meditation practice",
    "standing": "projectable",
-   "evidence": "history · product curator · Zen · cs_z_zen_03"
+   "evidence": "history · product curator · Zen · cs_z_zen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_mussel_03",
    "text": "A zebra mussel invades freshwater",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_03"
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zaire_02",
    "text": "Zaire was a former name of Congo",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zaire · cs_z_zaire_02"
+   "evidence": "geography · product curator · Zaire · cs_z_zaire_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zambia_08",
    "text": "Zambia exports copper",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zambia · cs_z_zambia_08"
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeta_02",
    "text": "Zeta follows epsilon in the Greek alphabet",
    "standing": "projectable",
-   "evidence": "language · product curator · Zeta · cs_z_zeta_02"
+   "evidence": "language · product curator · Zeta · cs_z_zeta_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_05",
    "text": "Astrology uses twelve zodiac signs",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_05"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zhou_01",
    "text": "The Zhou ruled for centuries in China",
    "standing": "projectable",
-   "evidence": "history · product curator · Zhou · cs_z_zhou_01"
+   "evidence": "history · product curator · Zhou · cs_z_zhou_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeus_10",
    "text": "Zeus was a Greek god",
    "standing": "projectable",
-   "evidence": "history · product curator · Zeus · cs_z_zeus_10"
+   "evidence": "history · product curator · Zeus · cs_z_zeus_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_11",
    "text": "Zinc is a bluish metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_11"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zone_02",
    "text": "Climate zones circle the Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zone · cs_z_zone_02"
+   "evidence": "geography · product curator · Zone · cs_z_zone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_crossing_03",
    "text": "Pedestrians use a zebra crossing",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zebra crossing · cs_z_zebra_crossing_03"
+   "evidence": "civics · product curator · Zebra crossing · cs_z_zebra_crossing_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zulu_05",
    "text": "Speakers use Zulu in South Africa",
    "standing": "projectable",
-   "evidence": "language · product curator · Zulu · cs_z_zulu_05"
+   "evidence": "language · product curator · Zulu · cs_z_zulu_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zircon_04",
    "text": "Zircon is a durable mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Zircon · cs_z_zircon_04"
+   "evidence": "science · product curator · Zircon · cs_z_zircon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoning_05",
    "text": "Cities use zoning to plan land use",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zoning · cs_z_zoning_05"
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_oxide_03",
    "text": "Sunscreen contains zinc oxide",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_03"
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zenith_04",
    "text": "The sun reaches its zenith at noon",
    "standing": "projectable",
-   "evidence": "science · product curator · Zenith · cs_z_zenith_04"
+   "evidence": "science · product curator · Zenith · cs_z_zenith_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zigzag_02",
    "text": "A zigzag line turns sharply",
    "standing": "projectable",
-   "evidence": "math · product curator · Zigzag · cs_z_zigzag_02"
+   "evidence": "math · product curator · Zigzag · cs_z_zigzag_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_06",
    "text": "Zirconium resists heat and corrosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_06"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygote_05",
    "text": "Fertilization forms a zygote",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygote · cs_z_zygote_05"
+   "evidence": "science · product curator · Zygote · cs_z_zygote_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zealand_03",
    "text": "Zealand lies east of mainland Denmark",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zealand · cs_z_zealand_03"
+   "evidence": "geography · product curator · Zealand · cs_z_zealand_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zither_02",
    "text": "Musicians pluck a zither",
    "standing": "projectable",
-   "evidence": "history · product curator · Zither · cs_z_zither_02"
+   "evidence": "history · product curator · Zither · cs_z_zither_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_mussel_04",
    "text": "Zebra mussels clog water pipes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_04"
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_08",
    "text": "Adding zero leaves a number unchanged",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_08"
+   "evidence": "math · product curator · Zero · cs_z_zero_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoology_03",
    "text": "Zoology studies animals",
    "standing": "projectable",
-   "evidence": "science · product curator · Zoology · cs_z_zoology_03"
+   "evidence": "science · product curator · Zoology · cs_z_zoology_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_13",
    "text": "A zebra grazes on grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_13"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_13",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_07",
    "text": "Zirconium coats nuclear fuel",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_07"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeolite_03",
    "text": "Zeolite softens hard water",
    "standing": "projectable",
-   "evidence": "science · product curator · Zeolite · cs_z_zeolite_03"
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zenith_05",
    "text": "Stars pass the zenith",
    "standing": "projectable",
-   "evidence": "science · product curator · Zenith · cs_z_zenith_05"
+   "evidence": "science · product curator · Zenith · cs_z_zenith_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zone_03",
    "text": "Earth has climate zones",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zone · cs_z_zone_03"
+   "evidence": "geography · product curator · Zone · cs_z_zone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoning_06",
    "text": "Zoning guides city growth",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zoning · cs_z_zoning_06"
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygote_06",
    "text": "A zygote begins a new organism",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygote · cs_z_zygote_06"
+   "evidence": "science · product curator · Zygote · cs_z_zygote_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zircon_05",
    "text": "Geologists date zircon crystals",
    "standing": "projectable",
-   "evidence": "science · product curator · Zircon · cs_z_zircon_05"
+   "evidence": "science · product curator · Zircon · cs_z_zircon_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zaffre_01",
    "text": "Zaffre is a cobalt blue pigment",
    "standing": "projectable",
-   "evidence": "science · product curator · Zaffre · cs_z_zaffre_01"
+   "evidence": "science · product curator · Zaffre · cs_z_zaffre_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zest_01",
    "text": "Zest is citrus peel",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zest · cs_z_zest_01"
+   "evidence": "nature · product curator · Zest · cs_z_zest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_oxide_04",
    "text": "Zinc oxide blocks sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_04"
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zincite_01",
    "text": "Zincite is a zinc ore",
    "standing": "projectable",
-   "evidence": "science · product curator · Zincite · cs_z_zincite_01"
+   "evidence": "science · product curator · Zincite · cs_z_zincite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_12",
    "text": "Zinc coats steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_12"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_12",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_06",
    "text": "A zinnia has bright petals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_06"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconia_01",
    "text": "Zirconia is a hard ceramic",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconia · cs_z_zirconia_01"
+   "evidence": "science · product curator · Zirconia · cs_z_zirconia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoisite_01",
    "text": "Zoisite is a silicate mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Zoisite · cs_z_zoisite_01"
+   "evidence": "science · product curator · Zoisite · cs_z_zoisite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zymase_01",
    "text": "Zymase ferments sugar",
    "standing": "projectable",
-   "evidence": "science · product curator · Zymase · cs_z_zymase_01"
+   "evidence": "science · product curator · Zymase · cs_z_zymase_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zapotec_02",
    "text": "Zapotec built Monte Alban",
    "standing": "projectable",
-   "evidence": "history · product curator · Zapotec · cs_z_zapotec_02"
+   "evidence": "history · product curator · Zapotec · cs_z_zapotec_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zayin_01",
    "text": "Zayin is a Hebrew letter",
    "standing": "projectable",
-   "evidence": "language · product curator · Zayin · cs_z_zayin_01"
+   "evidence": "language · product curator · Zayin · cs_z_zayin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_13",
    "text": "Zinc strengthens brass",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_13"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_13",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_07",
    "text": "A zinnia blooms in summer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_07"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zipper_03",
    "text": "A zipper closes a jacket",
    "standing": "projectable",
-   "evidence": "history · product curator · Zipper · cs_z_zipper_03"
+   "evidence": "history · product curator · Zipper · cs_z_zipper_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zircon_06",
    "text": "Zircon dates ancient rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Zircon · cs_z_zircon_06"
+   "evidence": "science · product curator · Zircon · cs_z_zircon_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_06",
    "text": "Stars form zodiac patterns",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_06"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zonal_01",
    "text": "Zonal winds circle Earth",
    "standing": "projectable",
-   "evidence": "science · product curator · Zonal · cs_z_zonal_01"
+   "evidence": "science · product curator · Zonal · cs_z_zonal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zugunruhe_01",
    "text": "Zugunruhe drives migration",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zugunruhe · cs_z_zugunruhe_01"
+   "evidence": "nature · product curator · Zugunruhe · cs_z_zugunruhe_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygote_07",
    "text": "A zygote begins an embryo",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygote · cs_z_zygote_07"
+   "evidence": "science · product curator · Zygote · cs_z_zygote_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_14",
    "text": "Zebras graze open plains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_14"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_14",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeatin_01",
    "text": "Zeatin promotes plant growth",
    "standing": "projectable",
-   "evidence": "science · product curator · Zeatin · cs_z_zeatin_01"
+   "evidence": "science · product curator · Zeatin · cs_z_zeatin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeolite_04",
    "text": "Zeolite traps hard ions",
    "standing": "projectable",
-   "evidence": "science · product curator · Zeolite · cs_z_zeolite_04"
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_09",
    "text": "Zero holds a place value",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_09"
+   "evidence": "math · product curator · Zero · cs_z_zero_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zest_02",
    "text": "Citrus zest oils perfume",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zest · cs_z_zest_02"
+   "evidence": "nature · product curator · Zest · cs_z_zest_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_14",
    "text": "Zinc shields iron from air",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_14"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_14",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_08",
    "text": "Zinnias face bright sun",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_08"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zipper_04",
    "text": "Teeth mesh in a zipper",
    "standing": "projectable",
-   "evidence": "history · product curator · Zipper · cs_z_zipper_04"
+   "evidence": "history · product curator · Zipper · cs_z_zipper_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_07",
    "text": "The zodiac tracks seasons",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_07"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zonal_02",
    "text": "Zonal flow rings a planet",
    "standing": "projectable",
-   "evidence": "science · product curator · Zonal · cs_z_zonal_02"
+   "evidence": "science · product curator · Zonal · cs_z_zonal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_15",
    "text": "A zebra flees from lions",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra · cs_z_zebra_15"
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_15",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zenith_06",
    "text": "The sun reaches local zenith",
    "standing": "projectable",
-   "evidence": "science · product curator · Zenith · cs_z_zenith_06"
+   "evidence": "science · product curator · Zenith · cs_z_zenith_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zeolite_05",
    "text": "Filters pack zeolite beads",
    "standing": "projectable",
-   "evidence": "science · product curator · Zeolite · cs_z_zeolite_05"
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_10",
    "text": "Zero marks an empty count",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_10"
+   "evidence": "math · product curator · Zero · cs_z_zero_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zincite_02",
    "text": "Zincite forms red zinc ore",
    "standing": "projectable",
-   "evidence": "science · product curator · Zincite · cs_z_zincite_02"
+   "evidence": "science · product curator · Zincite · cs_z_zincite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_15",
    "text": "Batteries use zinc anodes",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_15"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_15",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiacal_01",
    "text": "Dust glows as zodiacal light",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiacal · cs_z_zodiacal_01"
+   "evidence": "science · product curator · Zodiacal · cs_z_zodiacal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zulu_06",
    "text": "Shaka led Zulu armies",
    "standing": "projectable",
-   "evidence": "history · product curator · Zulu · cs_z_zulu_06"
+   "evidence": "history · product curator · Zulu · cs_z_zulu_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygomatic_01",
    "text": "The zygomatic forms the cheek",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_01"
+   "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zenith_07",
    "text": "Zenith marks sky overhead",
    "standing": "projectable",
-   "evidence": "science · product curator · Zenith · cs_z_zenith_07"
+   "evidence": "science · product curator · Zenith · cs_z_zenith_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zest_03",
    "text": "Zest flavors baked goods",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zest · cs_z_zest_03"
+   "evidence": "nature · product curator · Zest · cs_z_zest_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zigzag_03",
    "text": "A zigzag shifts direction",
    "standing": "projectable",
-   "evidence": "math · product curator · Zigzag · cs_z_zigzag_03"
+   "evidence": "math · product curator · Zigzag · cs_z_zigzag_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinc_16",
    "text": "Zinc aids immune enzymes",
    "standing": "projectable",
-   "evidence": "science · product curator · Zinc · cs_z_zinc_16"
+   "evidence": "science · product curator · Zinc · cs_z_zinc_16",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zipper_05",
    "text": "A zipper joins cloth edges",
    "standing": "projectable",
-   "evidence": "science · product curator · Zipper · cs_z_zipper_05"
+   "evidence": "science · product curator · Zipper · cs_z_zipper_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zircon_07",
    "text": "Zircon survives erosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Zircon · cs_z_zircon_07"
+   "evidence": "science · product curator · Zircon · cs_z_zircon_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zodiac_08",
    "text": "Planets travel the zodiac",
    "standing": "projectable",
-   "evidence": "science · product curator · Zodiac · cs_z_zodiac_08"
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zone_04",
    "text": "Zones rank climate bands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Zone · cs_z_zone_04"
+   "evidence": "geography · product curator · Zone · cs_z_zone_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoonosis_01",
    "text": "A zoonosis crosses species",
    "standing": "projectable",
-   "evidence": "science · product curator · Zoonosis · cs_z_zoonosis_01"
+   "evidence": "science · product curator · Zoonosis · cs_z_zoonosis_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygote_08",
    "text": "Zygotes divide into embryos",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygote · cs_z_zygote_08"
+   "evidence": "science · product curator · Zygote · cs_z_zygote_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zaffre_02",
    "text": "Zaffre colors cobalt glass",
    "standing": "projectable",
-   "evidence": "science · product curator · Zaffre · cs_z_zaffre_02"
+   "evidence": "science · product curator · Zaffre · cs_z_zaffre_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zero_11",
    "text": "Zero marks empty quantity",
    "standing": "projectable",
-   "evidence": "math · product curator · Zero · cs_z_zero_11"
+   "evidence": "math · product curator · Zero · cs_z_zero_11",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zincite_03",
    "text": "Zincite yields zinc ore",
    "standing": "projectable",
-   "evidence": "science · product curator · Zincite · cs_z_zincite_03"
+   "evidence": "science · product curator · Zincite · cs_z_zincite_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zinnia_09",
    "text": "Zinnias bloom dry gardens",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_09"
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoisite_02",
    "text": "Zoisite forms green crystals",
    "standing": "projectable",
-   "evidence": "science · product curator · Zoisite · cs_z_zoisite_02"
+   "evidence": "science · product curator · Zoisite · cs_z_zoisite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zonal_03",
    "text": "Winds follow zonal paths",
    "standing": "projectable",
-   "evidence": "science · product curator · Zonal · cs_z_zonal_03"
+   "evidence": "science · product curator · Zonal · cs_z_zonal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_mussel_05",
    "text": "Zebra mussels filter lake water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_05"
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zoning_07",
    "text": "Zoning guides city land use",
    "standing": "projectable",
-   "evidence": "civics · product curator · Zoning · cs_z_zoning_07"
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zucchini_05",
    "text": "Zucchini grows summer fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_05"
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zygomatic_02",
    "text": "Zygomatic bones form cheeks",
    "standing": "projectable",
-   "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_02"
+   "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_finch_03",
    "text": "Zebra finches learn song notes",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_03"
+   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zebra_shark_02",
    "text": "Zebra sharks rest on sand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zebra shark · cs_z_zebra_shark_02"
+   "evidence": "nature · product curator · Zebra shark · cs_z_zebra_shark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zigzag_04",
    "text": "Lightning follows zigzag paths",
    "standing": "projectable",
-   "evidence": "science · product curator · Zigzag · cs_z_zigzag_04"
+   "evidence": "science · product curator · Zigzag · cs_z_zigzag_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconia_02",
    "text": "Zirconia hardens dental crowns",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconia · cs_z_zirconia_02"
+   "evidence": "science · product curator · Zirconia · cs_z_zirconia_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zirconium_08",
    "text": "Zirconium coats reactor tubes",
    "standing": "projectable",
-   "evidence": "science · product curator · Zirconium · cs_z_zirconium_08"
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zale_01",
    "text": "Zale moths feed on pine",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zale · cs_z_zale_01"
+   "evidence": "nature · product curator · Zale · cs_z_zale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zibeline_01",
    "text": "Zibeline softens fur coats",
    "standing": "projectable",
-   "evidence": "nature · product curator · Zibeline · cs_z_zibeline_01"
+   "evidence": "nature · product curator · Zibeline · cs_z_zibeline_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zenith_08",
    "text": "The sun hits its zenith",
    "standing": "projectable",
-   "evidence": "science · product curator · Zenith · cs_z_zenith_08"
+   "evidence": "science · product curator · Zenith · cs_z_zenith_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zipper_06",
    "text": "A zipper seals fabric edges",
    "standing": "projectable",
-   "evidence": "science · product curator · Zipper · cs_z_zipper_06"
+   "evidence": "science · product curator · Zipper · cs_z_zipper_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_z_zonal_04",
    "text": "Zonal winds circle the globe",
    "standing": "projectable",
-   "evidence": "science · product curator · Zonal · cs_z_zonal_04"
+   "evidence": "science · product curator · Zonal · cs_z_zonal_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
