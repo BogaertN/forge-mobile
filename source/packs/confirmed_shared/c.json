@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 103,
+ "curated_facts": 127,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -589,6 +589,150 @@
    "text": "A cylinder has two parallel circular bases",
    "standing": "projectable",
    "evidence": "science · product curator · Cylinder · cs_c_cylinder_01"
+  },
+  {
+   "id": "cs_c_cork_01",
+   "text": "Cork is a city in Ireland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cork · cs_c_cork_01"
+  },
+  {
+   "id": "cs_c_cardiff_01",
+   "text": "Cardiff is a city in Wales",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cardiff · cs_c_cardiff_01"
+  },
+  {
+   "id": "cs_c_coventry_01",
+   "text": "Coventry is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Coventry · cs_c_coventry_01"
+  },
+  {
+   "id": "cs_c_cambridge_01",
+   "text": "Cambridge is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cambridge · cs_c_cambridge_01"
+  },
+  {
+   "id": "cs_c_chester_01",
+   "text": "Chester is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chester · cs_c_chester_01"
+  },
+  {
+   "id": "cs_c_carlisle_01",
+   "text": "Carlisle is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Carlisle · cs_c_carlisle_01"
+  },
+  {
+   "id": "cs_c_cologne_01",
+   "text": "Cologne is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cologne · cs_c_cologne_01"
+  },
+  {
+   "id": "cs_c_chemnitz_01",
+   "text": "Chemnitz is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chemnitz · cs_c_chemnitz_01"
+  },
+  {
+   "id": "cs_c_cannes_01",
+   "text": "Cannes is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cannes · cs_c_cannes_01"
+  },
+  {
+   "id": "cs_c_calais_01",
+   "text": "Calais is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Calais · cs_c_calais_01"
+  },
+  {
+   "id": "cs_c_cadiz_01",
+   "text": "Cadiz is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cadiz · cs_c_cadiz_01"
+  },
+  {
+   "id": "cs_c_cordoba_01",
+   "text": "Cordoba is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cordoba · cs_c_cordoba_01"
+  },
+  {
+   "id": "cs_c_catania_01",
+   "text": "Catania is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Catania · cs_c_catania_01"
+  },
+  {
+   "id": "cs_c_como_01",
+   "text": "Como is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Como · cs_c_como_01"
+  },
+  {
+   "id": "cs_c_chengdu_01",
+   "text": "Chengdu is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chengdu · cs_c_chengdu_01"
+  },
+  {
+   "id": "cs_c_chennai_01",
+   "text": "Chennai is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chennai · cs_c_chennai_01"
+  },
+  {
+   "id": "cs_c_cebu_01",
+   "text": "Cebu is a city in the Philippines",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cebu · cs_c_cebu_01"
+  },
+  {
+   "id": "cs_c_calgary_01",
+   "text": "Calgary is a city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Calgary · cs_c_calgary_01"
+  },
+  {
+   "id": "cs_c_charlotte_01",
+   "text": "Charlotte is a city in North Carolina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Charlotte · cs_c_charlotte_01"
+  },
+  {
+   "id": "cs_c_chicago_02",
+   "text": "Chicago is a city in Illinois",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Chicago · cs_c_chicago_02"
+  },
+  {
+   "id": "cs_c_cleveland_01",
+   "text": "Cleveland is a city in Ohio",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cleveland · cs_c_cleveland_01"
+  },
+  {
+   "id": "cs_c_cincinnati_01",
+   "text": "Cincinnati is a city in Ohio",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cincinnati · cs_c_cincinnati_01"
+  },
+  {
+   "id": "cs_c_casablanca_01",
+   "text": "Casablanca is a city in Morocco",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Casablanca · cs_c_casablanca_01"
+  },
+  {
+   "id": "cs_c_cusco_01",
+   "text": "Cusco is a city in Peru",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Cusco · cs_c_cusco_01"
   }
  ]
 }

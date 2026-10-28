@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 106,
+ "curated_facts": 120,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -595,6 +595,90 @@
    "text": "Vancouver is a city in Canada",
    "standing": "projectable",
    "evidence": "geography · product curator · Vancouver · cs_v_vancouver_02"
+  },
+  {
+   "id": "cs_v_verona_01",
+   "text": "Verona is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Verona · cs_v_verona_01"
+  },
+  {
+   "id": "cs_v_vicenza_01",
+   "text": "Vicenza is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vicenza · cs_v_vicenza_01"
+  },
+  {
+   "id": "cs_v_valladolid_01",
+   "text": "Valladolid is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valladolid · cs_v_valladolid_01"
+  },
+  {
+   "id": "cs_v_vigo_01",
+   "text": "Vigo is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vigo · cs_v_vigo_01"
+  },
+  {
+   "id": "cs_v_versailles_01",
+   "text": "Versailles is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Versailles · cs_v_versailles_01"
+  },
+  {
+   "id": "cs_v_vannes_01",
+   "text": "Vannes is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vannes · cs_v_vannes_01"
+  },
+  {
+   "id": "cs_v_varanasi_01",
+   "text": "Varanasi is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Varanasi · cs_v_varanasi_01"
+  },
+  {
+   "id": "cs_v_vadodara_01",
+   "text": "Vadodara is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vadodara · cs_v_vadodara_01"
+  },
+  {
+   "id": "cs_v_vellore_01",
+   "text": "Vellore is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vellore · cs_v_vellore_01"
+  },
+  {
+   "id": "cs_v_victoria_02",
+   "text": "Victoria is a city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Victoria · cs_v_victoria_02"
+  },
+  {
+   "id": "cs_v_varna_01",
+   "text": "Varna is a city in Bulgaria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Varna · cs_v_varna_01"
+  },
+  {
+   "id": "cs_v_vitoria_01",
+   "text": "Vitoria is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vitoria · cs_v_vitoria_01"
+  },
+  {
+   "id": "cs_v_vilnius_01",
+   "text": "Vilnius is a city in Lithuania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vilnius · cs_v_vilnius_01"
+  },
+  {
+   "id": "cs_v_valparaiso_01",
+   "text": "Valparaiso is a city in Chile",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valparaiso · cs_v_valparaiso_01"
   }
  ]
 }

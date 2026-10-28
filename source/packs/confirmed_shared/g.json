@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 103,
+ "curated_facts": 124,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -583,6 +583,132 @@
    "text": "A gallon is a unit of volume",
    "standing": "projectable",
    "evidence": "math · product curator · Gallon · cs_g_gallon_02"
+  },
+  {
+   "id": "cs_g_glasgow_02",
+   "text": "Glasgow is a city in Scotland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Glasgow · cs_g_glasgow_02"
+  },
+  {
+   "id": "cs_g_galway_01",
+   "text": "Galway is a city in Ireland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Galway · cs_g_galway_01"
+  },
+  {
+   "id": "cs_g_genoa_01",
+   "text": "Genoa is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Genoa · cs_g_genoa_01"
+  },
+  {
+   "id": "cs_g_ghent_01",
+   "text": "Ghent is a city in Belgium",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ghent · cs_g_ghent_01"
+  },
+  {
+   "id": "cs_g_granada_01",
+   "text": "Granada is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Granada · cs_g_granada_01"
+  },
+  {
+   "id": "cs_g_grenoble_01",
+   "text": "Grenoble is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Grenoble · cs_g_grenoble_01"
+  },
+  {
+   "id": "cs_g_gdansk_01",
+   "text": "Gdansk is a city in Poland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gdansk · cs_g_gdansk_01"
+  },
+  {
+   "id": "cs_g_graz_01",
+   "text": "Graz is a city in Austria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Graz · cs_g_graz_01"
+  },
+  {
+   "id": "cs_g_guangzhou_01",
+   "text": "Guangzhou is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Guangzhou · cs_g_guangzhou_01"
+  },
+  {
+   "id": "cs_g_guilin_01",
+   "text": "Guilin is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Guilin · cs_g_guilin_01"
+  },
+  {
+   "id": "cs_g_gothenburg_01",
+   "text": "Gothenburg is a city in Sweden",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gothenburg · cs_g_gothenburg_01"
+  },
+  {
+   "id": "cs_g_guwahati_01",
+   "text": "Guwahati is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Guwahati · cs_g_guwahati_01"
+  },
+  {
+   "id": "cs_g_gaya_01",
+   "text": "Gaya is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gaya · cs_g_gaya_01"
+  },
+  {
+   "id": "cs_g_guadalajara_01",
+   "text": "Guadalajara is a city in Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Guadalajara · cs_g_guadalajara_01"
+  },
+  {
+   "id": "cs_g_galveston_01",
+   "text": "Galveston is a city in Texas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Galveston · cs_g_galveston_01"
+  },
+  {
+   "id": "cs_g_gary_01",
+   "text": "Gary is a city in Indiana",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gary · cs_g_gary_01"
+  },
+  {
+   "id": "cs_g_greenville_01",
+   "text": "Greenville is a city in South Carolina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Greenville · cs_g_greenville_01"
+  },
+  {
+   "id": "cs_g_gloucester_01",
+   "text": "Gloucester is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gloucester · cs_g_gloucester_01"
+  },
+  {
+   "id": "cs_g_groningen_01",
+   "text": "Groningen is a city in the Netherlands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Groningen · cs_g_groningen_01"
+  },
+  {
+   "id": "cs_g_gaziantep_01",
+   "text": "Gaziantep is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gaziantep · cs_g_gaziantep_01"
+  },
+  {
+   "id": "cs_g_gyeongju_01",
+   "text": "Gyeongju is a city in South Korea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gyeongju · cs_g_gyeongju_01"
   }
  ]
 }

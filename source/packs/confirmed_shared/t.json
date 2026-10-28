@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 103,
+ "curated_facts": 124,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -583,6 +583,132 @@
    "text": "A triangle has three sides",
    "standing": "projectable",
    "evidence": "math · product curator · Triangle · cs_t_triangle_02"
+  },
+  {
+   "id": "cs_t_toledo_01",
+   "text": "Toledo is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Toledo · cs_t_toledo_01"
+  },
+  {
+   "id": "cs_t_turin_01",
+   "text": "Turin is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Turin · cs_t_turin_01"
+  },
+  {
+   "id": "cs_t_toulouse_01",
+   "text": "Toulouse is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Toulouse · cs_t_toulouse_01"
+  },
+  {
+   "id": "cs_t_tours_01",
+   "text": "Tours is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tours · cs_t_tours_01"
+  },
+  {
+   "id": "cs_t_trier_01",
+   "text": "Trier is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Trier · cs_t_trier_01"
+  },
+  {
+   "id": "cs_t_tianjin_01",
+   "text": "Tianjin is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tianjin · cs_t_tianjin_01"
+  },
+  {
+   "id": "cs_t_tampere_01",
+   "text": "Tampere is a city in Finland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tampere · cs_t_tampere_01"
+  },
+  {
+   "id": "cs_t_tabriz_01",
+   "text": "Tabriz is a city in Iran",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tabriz · cs_t_tabriz_01"
+  },
+  {
+   "id": "cs_t_tacoma_01",
+   "text": "Tacoma is a city in Washington",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tacoma · cs_t_tacoma_01"
+  },
+  {
+   "id": "cs_t_tampa_01",
+   "text": "Tampa is a city in Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tampa · cs_t_tampa_01"
+  },
+  {
+   "id": "cs_t_tucson_01",
+   "text": "Tucson is a city in Arizona",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tucson · cs_t_tucson_01"
+  },
+  {
+   "id": "cs_t_tulsa_01",
+   "text": "Tulsa is a city in Oklahoma",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tulsa · cs_t_tulsa_01"
+  },
+  {
+   "id": "cs_t_trenton_02",
+   "text": "Trenton is a city in New Jersey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Trenton · cs_t_trenton_02"
+  },
+  {
+   "id": "cs_t_toronto_02",
+   "text": "Toronto is a city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Toronto · cs_t_toronto_02"
+  },
+  {
+   "id": "cs_t_taipei_01",
+   "text": "Taipei is a city in Taiwan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Taipei · cs_t_taipei_01"
+  },
+  {
+   "id": "cs_t_trieste_01",
+   "text": "Trieste is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Trieste · cs_t_trieste_01"
+  },
+  {
+   "id": "cs_t_taranto_01",
+   "text": "Taranto is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Taranto · cs_t_taranto_01"
+  },
+  {
+   "id": "cs_t_thessaloniki_01",
+   "text": "Thessaloniki is a city in Greece",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Thessaloniki · cs_t_thessaloniki_01"
+  },
+  {
+   "id": "cs_t_tangier_01",
+   "text": "Tangier is a city in Morocco",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tangier · cs_t_tangier_01"
+  },
+  {
+   "id": "cs_t_truro_01",
+   "text": "Truro is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Truro · cs_t_truro_01"
+  },
+  {
+   "id": "cs_t_tempe_01",
+   "text": "Tempe is a city in Arizona",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tempe · cs_t_tempe_01"
   }
  ]
 }
