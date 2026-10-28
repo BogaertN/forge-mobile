@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 149,
+ "curated_facts": 161,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -871,6 +871,78 @@
    "text": "A written constitution sets out the basic law",
    "standing": "projectable",
    "evidence": "civics · product curator · Written constitution · cs_w_written_constitution_02"
+  },
+  {
+   "id": "cs_w_walnut_02",
+   "text": "A walnut is a hard shelled nut",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Walnut · cs_w_walnut_02"
+  },
+  {
+   "id": "cs_w_warm_front_02",
+   "text": "Clouds often form along a warm front",
+   "standing": "projectable",
+   "evidence": "science · product curator · Warm front · cs_w_warm_front_02"
+  },
+  {
+   "id": "cs_w_water_vapor_02",
+   "text": "Water vapor condenses into clouds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water vapor · cs_w_water_vapor_02"
+  },
+  {
+   "id": "cs_w_wedge_02",
+   "text": "A wedge converts force into splitting force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wedge · cs_w_wedge_02"
+  },
+  {
+   "id": "cs_w_wednesday_02",
+   "text": "Wednesday is a weekday",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Wednesday · cs_w_wednesday_02"
+  },
+  {
+   "id": "cs_w_wheat_03",
+   "text": "Farmers grind wheat into flour",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_03"
+  },
+  {
+   "id": "cs_w_wheel_02",
+   "text": "A wheel reduces friction in transport",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wheel · cs_w_wheel_02"
+  },
+  {
+   "id": "cs_w_whip_02",
+   "text": "A whip is a long flexible cord",
+   "standing": "projectable",
+   "evidence": "history · product curator · Whip · cs_w_whip_02"
+  },
+  {
+   "id": "cs_w_wing_02",
+   "text": "A wing enables a bird to fly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wing · cs_w_wing_02"
+  },
+  {
+   "id": "cs_w_winter_02",
+   "text": "Winter is a cold season",
+   "standing": "projectable",
+   "evidence": "science · product curator · Winter · cs_w_winter_02"
+  },
+  {
+   "id": "cs_w_wire_02",
+   "text": "Copper wire conducts electricity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wire · cs_w_wire_02"
+  },
+  {
+   "id": "cs_w_wolf_04",
+   "text": "A wolf is a wild canine",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_04"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 154,
+ "curated_facts": 163,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -883,6 +883,60 @@
    "text": "Permafrost is permanently frozen ground",
    "standing": "projectable",
    "evidence": "geography · product curator · Permafrost · cs_p_permafrost_01"
+  },
+  {
+   "id": "cs_p_parliament_02",
+   "text": "A parliament is a legislative body",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Parliament · cs_p_parliament_02"
+  },
+  {
+   "id": "cs_p_pine_04",
+   "text": "A pine is an evergreen conifer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pine · cs_p_pine_04"
+  },
+  {
+   "id": "cs_p_planet_02",
+   "text": "A planet orbits a star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Planet · cs_p_planet_02"
+  },
+  {
+   "id": "cs_p_predator_01",
+   "text": "A predator hunts other animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Predator · cs_p_predator_01"
+  },
+  {
+   "id": "cs_p_president_02",
+   "text": "A president is a head of state",
+   "standing": "projectable",
+   "evidence": "civics · product curator · President · cs_p_president_02"
+  },
+  {
+   "id": "cs_p_prey_01",
+   "text": "Prey is an animal hunted by a predator",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Prey · cs_p_prey_01"
+  },
+  {
+   "id": "cs_p_protein_01",
+   "text": "A protein is a chain of amino acids",
+   "standing": "projectable",
+   "evidence": "science · product curator · Protein · cs_p_protein_01"
+  },
+  {
+   "id": "cs_p_pulley_02",
+   "text": "A pulley changes the direction of a force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pulley · cs_p_pulley_02"
+  },
+  {
+   "id": "cs_p_pyramid_01",
+   "text": "A pyramid has a polygonal base",
+   "standing": "projectable",
+   "evidence": "math · product curator · Pyramid · cs_p_pyramid_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 157,
+ "curated_facts": 166,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -883,6 +883,60 @@
    "text": "An orbit is a path around a body",
    "standing": "projectable",
    "evidence": "science · product curator · Orbit · cs_o_orbit_04"
+  },
+  {
+   "id": "cs_o_oath_01",
+   "text": "An oath is a solemn promise",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Oath · cs_o_oath_01"
+  },
+  {
+   "id": "cs_o_odd_number_03",
+   "text": "Seven is an odd number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Odd number · cs_o_odd_number_03"
+  },
+  {
+   "id": "cs_o_order_of_operations_02",
+   "text": "Order of operations sets calculation priority",
+   "standing": "projectable",
+   "evidence": "math · product curator · Order of operations · cs_o_order_of_operations_02"
+  },
+  {
+   "id": "cs_o_organelle_02",
+   "text": "Mitochondria are organelles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Organelle · cs_o_organelle_02"
+  },
+  {
+   "id": "cs_o_oriole_02",
+   "text": "An oriole is a colorful songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oriole · cs_o_oriole_02"
+  },
+  {
+   "id": "cs_o_osmosis_02",
+   "text": "Plant roots take water by osmosis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_02"
+  },
+  {
+   "id": "cs_o_ounce_02",
+   "text": "An ounce is a unit of mass",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ounce · cs_o_ounce_02"
+  },
+  {
+   "id": "cs_o_oxide_02",
+   "text": "Rust is an iron oxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxide · cs_o_oxide_02"
+  },
+  {
+   "id": "cs_o_oxygen_05",
+   "text": "Oxygen supports combustion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxygen · cs_o_oxygen_05"
   }
  ]
 }

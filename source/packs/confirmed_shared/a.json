@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 149,
+ "curated_facts": 158,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -883,6 +883,60 @@
    "text": "An atom is the basic unit of matter",
    "standing": "projectable",
    "evidence": "science · product curator · Atom · cs_a_atom_04"
+  },
+  {
+   "id": "cs_a_acid_02",
+   "text": "An acid donates a proton in water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Acid · cs_a_acid_02"
+  },
+  {
+   "id": "cs_a_addition_02",
+   "text": "Addition finds a sum",
+   "standing": "projectable",
+   "evidence": "math · product curator · Addition · cs_a_addition_02"
+  },
+  {
+   "id": "cs_a_amphibian_03",
+   "text": "An amphibian lives in water as a larva",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Amphibian · cs_a_amphibian_03"
+  },
+  {
+   "id": "cs_a_antibiotic_02",
+   "text": "An antibiotic fights bacterial infection",
+   "standing": "projectable",
+   "evidence": "science · product curator · Antibiotic · cs_a_antibiotic_02"
+  },
+  {
+   "id": "cs_a_area_02",
+   "text": "Area measures the size of a surface",
+   "standing": "projectable",
+   "evidence": "math · product curator · Area · cs_a_area_02"
+  },
+  {
+   "id": "cs_a_artery_02",
+   "text": "An artery carries blood from the heart",
+   "standing": "projectable",
+   "evidence": "science · product curator · Artery · cs_a_artery_02"
+  },
+  {
+   "id": "cs_a_atmosphere_03",
+   "text": "An atmosphere surrounds a planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_03"
+  },
+  {
+   "id": "cs_a_atom_05",
+   "text": "An atom is the smallest unit of an element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atom · cs_a_atom_05"
+  },
+  {
+   "id": "cs_a_acorn_02",
+   "text": "An acorn is the nut of an oak",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Acorn · cs_a_acorn_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 148,
+ "curated_facts": 162,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -865,6 +865,90 @@
    "text": "Moss is a small non flowering plant",
    "standing": "projectable",
    "evidence": "nature · product curator · Moss · cs_m_moss_01"
+  },
+  {
+   "id": "cs_m_magnet_02",
+   "text": "A magnet attracts iron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnet · cs_m_magnet_02"
+  },
+  {
+   "id": "cs_m_marrow_01",
+   "text": "Bone marrow produces blood cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Marrow · cs_m_marrow_01"
+  },
+  {
+   "id": "cs_m_mass_02",
+   "text": "Mass is a measure of matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mass · cs_m_mass_02"
+  },
+  {
+   "id": "cs_m_meadow_01",
+   "text": "A meadow is a grassy field",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Meadow · cs_m_meadow_01"
+  },
+  {
+   "id": "cs_m_metaphor_02",
+   "text": "A metaphor compares two things",
+   "standing": "projectable",
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_02"
+  },
+  {
+   "id": "cs_m_meteor_02",
+   "text": "A meteor burns in the atmosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Meteor · cs_m_meteor_02"
+  },
+  {
+   "id": "cs_m_mile_02",
+   "text": "A mile is a unit of distance",
+   "standing": "projectable",
+   "evidence": "math · product curator · Mile · cs_m_mile_02"
+  },
+  {
+   "id": "cs_m_minute_02",
+   "text": "A minute is a unit of time",
+   "standing": "projectable",
+   "evidence": "math · product curator · Minute · cs_m_minute_02"
+  },
+  {
+   "id": "cs_m_molar_01",
+   "text": "A molar grinds food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Molar · cs_m_molar_01"
+  },
+  {
+   "id": "cs_m_molecule_02",
+   "text": "A molecule is a group of atoms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Molecule · cs_m_molecule_02"
+  },
+  {
+   "id": "cs_m_monarchy_03",
+   "text": "A monarchy has a hereditary ruler",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_03"
+  },
+  {
+   "id": "cs_m_mucus_01",
+   "text": "Mucus protects moist surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mucus · cs_m_mucus_01"
+  },
+  {
+   "id": "cs_m_mule_01",
+   "text": "A mule is a hybrid animal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mule · cs_m_mule_01"
+  },
+  {
+   "id": "cs_m_multiplication_02",
+   "text": "Multiplication finds a product",
+   "standing": "projectable",
+   "evidence": "math · product curator · Multiplication · cs_m_multiplication_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 164,
+ "curated_facts": 174,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -877,6 +877,66 @@
    "text": "Quinine comes from cinchona bark",
    "standing": "projectable",
    "evidence": "science · product curator · Quinine · cs_q_quinine_01"
+  },
+  {
+   "id": "cs_q_quadratic_02",
+   "text": "A quadratic has a squared term",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadratic · cs_q_quadratic_02"
+  },
+  {
+   "id": "cs_q_quadrillion_02",
+   "text": "A quadrillion is a thousand trillion",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrillion · cs_q_quadrillion_02"
+  },
+  {
+   "id": "cs_q_quartet_02",
+   "text": "A string quartet has four players",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quartet · cs_q_quartet_02"
+  },
+  {
+   "id": "cs_q_quilt_04",
+   "text": "A quilt is a layered fabric covering",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_04"
+  },
+  {
+   "id": "cs_q_quilt_05",
+   "text": "A quilt keeps a sleeper warm",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_05"
+  },
+  {
+   "id": "cs_q_quince_04",
+   "text": "Cooks often stew quince fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quince · cs_q_quince_04"
+  },
+  {
+   "id": "cs_q_quintillion_02",
+   "text": "A quintillion is a thousand quadrillion",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quintillion · cs_q_quintillion_02"
+  },
+  {
+   "id": "cs_q_quotient_02",
+   "text": "Twelve divided by three has quotient four",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quotient · cs_q_quotient_02"
+  },
+  {
+   "id": "cs_q_question_03",
+   "text": "An interrogative sentence asks a question",
+   "standing": "projectable",
+   "evidence": "language · product curator · Question · cs_q_question_03"
+  },
+  {
+   "id": "cs_q_quarter_horse_02",
+   "text": "A quarter horse is a breed of horse",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quarter horse · cs_q_quarter_horse_02"
   }
  ]
 }

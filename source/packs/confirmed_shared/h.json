@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 157,
+ "curated_facts": 166,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -883,6 +883,60 @@
    "text": "Hydrogen has one proton",
    "standing": "projectable",
    "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_05"
+  },
+  {
+   "id": "cs_h_hail_03",
+   "text": "Hail is frozen rain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hail · cs_h_hail_03"
+  },
+  {
+   "id": "cs_h_heat_02",
+   "text": "Heat is a form of energy transfer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Heat · cs_h_heat_02"
+  },
+  {
+   "id": "cs_h_hedgehog_03",
+   "text": "A hedgehog is a small spiny mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_03"
+  },
+  {
+   "id": "cs_h_hemisphere_02",
+   "text": "A hemisphere is half of a sphere",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hemisphere · cs_h_hemisphere_02"
+  },
+  {
+   "id": "cs_h_hibiscus_02",
+   "text": "A hibiscus is a flowering plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hibiscus · cs_h_hibiscus_02"
+  },
+  {
+   "id": "cs_h_holly_02",
+   "text": "Holly is an evergreen shrub",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Holly · cs_h_holly_02"
+  },
+  {
+   "id": "cs_h_homonym_02",
+   "text": "A homonym shares spelling or sound",
+   "standing": "projectable",
+   "evidence": "language · product curator · Homonym · cs_h_homonym_02"
+  },
+  {
+   "id": "cs_h_honeybee_02",
+   "text": "A honeybee produces honey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_02"
+  },
+  {
+   "id": "cs_h_hypothesis_01",
+   "text": "A hypothesis is a testable explanation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_01"
   }
  ]
 }
