@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 218,
+ "curated_facts": 226,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1279,6 +1279,54 @@
    "text": "Gas forms a bubble in liquid",
    "standing": "projectable",
    "evidence": "science · product curator · Bubble · cs_b_bubble_01"
+  },
+  {
+   "id": "cs_b_beta_01",
+   "text": "Beta particles ionize air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Beta · cs_b_beta_01"
+  },
+  {
+   "id": "cs_b_birch_03",
+   "text": "Birch bark peels in sheets",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Birch · cs_b_birch_03"
+  },
+  {
+   "id": "cs_b_bitumen_01",
+   "text": "Roads use bitumen binder",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bitumen · cs_b_bitumen_01"
+  },
+  {
+   "id": "cs_b_blubber_01",
+   "text": "Whales store blubber fat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Blubber · cs_b_blubber_01"
+  },
+  {
+   "id": "cs_b_bolt_02",
+   "text": "A bolt clamps metal plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bolt · cs_b_bolt_02"
+  },
+  {
+   "id": "cs_b_bract_02",
+   "text": "A bract shelters a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bract · cs_b_bract_02"
+  },
+  {
+   "id": "cs_b_brake_01",
+   "text": "Friction stops a brake pad",
+   "standing": "projectable",
+   "evidence": "science · product curator · Brake · cs_b_brake_01"
+  },
+  {
+   "id": "cs_b_breeze_01",
+   "text": "A sea breeze cools coasts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Breeze · cs_b_breeze_01"
   }
  ]
 }

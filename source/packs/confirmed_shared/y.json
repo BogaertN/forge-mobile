@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 219,
+ "curated_facts": 229,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1255,6 +1255,66 @@
    "text": "Yucca blooms in deserts",
    "standing": "projectable",
    "evidence": "nature · product curator · Yucca · cs_y_yucca_05"
+  },
+  {
+   "id": "cs_y_yak_13",
+   "text": "A yak carries mountain loads",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_13"
+  },
+  {
+   "id": "cs_y_yam_03",
+   "text": "A yam stores root starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yam · cs_y_yam_03"
+  },
+  {
+   "id": "cs_y_yarn_06",
+   "text": "Looms weave yarn into cloth",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yarn · cs_y_yarn_06"
+  },
+  {
+   "id": "cs_y_yew_07",
+   "text": "Taxol comes from yew bark",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yew · cs_y_yew_07"
+  },
+  {
+   "id": "cs_y_yogurt_03",
+   "text": "Cultures ferment milk into yogurt",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yogurt · cs_y_yogurt_03"
+  },
+  {
+   "id": "cs_y_yom_kippur_02",
+   "text": "Jews observe Yom Kippur",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yom Kippur · cs_y_yom_kippur_02"
+  },
+  {
+   "id": "cs_y_yosemite_02",
+   "text": "Granite cliffs rise in Yosemite",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yosemite · cs_y_yosemite_02"
+  },
+  {
+   "id": "cs_y_yttrium_09",
+   "text": "Yttrium strengthens aluminum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_09"
+  },
+  {
+   "id": "cs_y_yucatan_02",
+   "text": "Meteor struck the Yucatan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yucatan · cs_y_yucatan_02"
+  },
+  {
+   "id": "cs_y_yucca_06",
+   "text": "A yucca stores desert water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_06"
   }
  ]
 }

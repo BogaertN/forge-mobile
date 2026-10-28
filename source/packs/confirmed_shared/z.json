@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 233,
+ "curated_facts": 242,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1273,6 +1273,60 @@
    "text": "Zonal flow rings a planet",
    "standing": "projectable",
    "evidence": "science · product curator · Zonal · cs_z_zonal_02"
+  },
+  {
+   "id": "cs_z_zebra_15",
+   "text": "A zebra flees from lions",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_15"
+  },
+  {
+   "id": "cs_z_zenith_06",
+   "text": "The sun reaches local zenith",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zenith · cs_z_zenith_06"
+  },
+  {
+   "id": "cs_z_zeolite_05",
+   "text": "Filters pack zeolite beads",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_05"
+  },
+  {
+   "id": "cs_z_zero_10",
+   "text": "Zero marks an empty count",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_10"
+  },
+  {
+   "id": "cs_z_zincite_02",
+   "text": "Zincite forms red zinc ore",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zincite · cs_z_zincite_02"
+  },
+  {
+   "id": "cs_z_zinc_15",
+   "text": "Batteries use zinc anodes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_15"
+  },
+  {
+   "id": "cs_z_zodiacal_01",
+   "text": "Dust glows as zodiacal light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiacal · cs_z_zodiacal_01"
+  },
+  {
+   "id": "cs_z_zulu_06",
+   "text": "Shaka led Zulu armies",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zulu · cs_z_zulu_06"
+  },
+  {
+   "id": "cs_z_zygomatic_01",
+   "text": "The zygomatic forms the cheek",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_01"
   }
  ]
 }

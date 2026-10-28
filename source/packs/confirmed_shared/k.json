@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 220,
+ "curated_facts": 229,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1273,6 +1273,60 @@
    "text": "A knuckle flexes the hand",
    "standing": "projectable",
    "evidence": "science · product curator · Knuckle · cs_k_knuckle_02"
+  },
+  {
+   "id": "cs_k_kelp_06",
+   "text": "Kelp absorbs ocean nutrients",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_06"
+  },
+  {
+   "id": "cs_k_keratin_04",
+   "text": "Feathers form from keratin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Keratin · cs_k_keratin_04"
+  },
+  {
+   "id": "cs_k_kettle_05",
+   "text": "Steam lifts a kettle lid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kettle · cs_k_kettle_05"
+  },
+  {
+   "id": "cs_k_kidney_05",
+   "text": "Kidneys balance body salt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kidney · cs_k_kidney_05"
+  },
+  {
+   "id": "cs_k_knife_02",
+   "text": "Steel hardens a knife edge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knife · cs_k_knife_02"
+  },
+  {
+   "id": "cs_k_knight_04",
+   "text": "A knight wore plate armor",
+   "standing": "projectable",
+   "evidence": "history · product curator · Knight · cs_k_knight_04"
+  },
+  {
+   "id": "cs_k_knot_04",
+   "text": "Fiber friction holds a knot",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knot · cs_k_knot_04"
+  },
+  {
+   "id": "cs_k_krypton_04",
+   "text": "Krypton fills fluorescent tubes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Krypton · cs_k_krypton_04"
+  },
+  {
+   "id": "cs_k_kyanite_02",
+   "text": "Kyanite forms blue blades",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kyanite · cs_k_kyanite_02"
   }
  ]
 }

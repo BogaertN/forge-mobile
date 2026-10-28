@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 216,
+ "curated_facts": 224,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1279,6 +1279,54 @@
    "text": "A succulent stores water",
    "standing": "projectable",
    "evidence": "nature · product curator · Succulent · cs_s_succulent_01"
+  },
+  {
+   "id": "cs_s_sandstone_02",
+   "text": "Sand packs into sandstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sandstone · cs_s_sandstone_02"
+  },
+  {
+   "id": "cs_s_sapphire_02",
+   "text": "A sapphire scratches glass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sapphire · cs_s_sapphire_02"
+  },
+  {
+   "id": "cs_s_sediment_03",
+   "text": "Rivers drop fine sediment",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sediment · cs_s_sediment_03"
+  },
+  {
+   "id": "cs_s_sequoia_03",
+   "text": "A sequoia grows massive trunks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sequoia · cs_s_sequoia_03"
+  },
+  {
+   "id": "cs_s_shale_01",
+   "text": "Shale splits into thin layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Shale · cs_s_shale_01"
+  },
+  {
+   "id": "cs_s_silk_01",
+   "text": "Silkworms spin silk cocoons",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Silk · cs_s_silk_01"
+  },
+  {
+   "id": "cs_s_sonar_02",
+   "text": "Ships use sonar to map depths",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sonar · cs_s_sonar_02"
+  },
+  {
+   "id": "cs_s_spectrum_01",
+   "text": "A prism spreads a spectrum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Spectrum · cs_s_spectrum_01"
   }
  ]
 }

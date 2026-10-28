@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 230,
+ "curated_facts": 239,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1273,6 +1273,60 @@
    "text": "Ink flowed from a quill",
    "standing": "projectable",
    "evidence": "history · product curator · Quill · cs_q_quill_09"
+  },
+  {
+   "id": "cs_q_quadrant_06",
+   "text": "Pilots read a compass quadrant",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quadrant · cs_q_quadrant_06"
+  },
+  {
+   "id": "cs_q_quail_13",
+   "text": "Farmers raise quail for eggs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_13"
+  },
+  {
+   "id": "cs_q_quark_09",
+   "text": "Quarks carry fractional charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_09"
+  },
+  {
+   "id": "cs_q_quartz_11",
+   "text": "Sand grains hold quartz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_11"
+  },
+  {
+   "id": "cs_q_quilt_09",
+   "text": "Stitchers layer a warm quilt",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_09"
+  },
+  {
+   "id": "cs_q_quinine_05",
+   "text": "Doctors dose quinine for malaria",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quinine · cs_q_quinine_05"
+  },
+  {
+   "id": "cs_q_quinoa_07",
+   "text": "Quinoa seeds pack protein",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_07"
+  },
+  {
+   "id": "cs_q_quiver_04",
+   "text": "Archers carry arrows in a quiver",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quiver · cs_q_quiver_04"
+  },
+  {
+   "id": "cs_q_quota_04",
+   "text": "A quota limits imports",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quota · cs_q_quota_04"
   }
  ]
 }

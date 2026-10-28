@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 214,
+ "curated_facts": 224,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1255,6 +1255,66 @@
    "text": "An impact forms a crater",
    "standing": "projectable",
    "evidence": "geography · product curator · Crater · cs_c_crater_01"
+  },
+  {
+   "id": "cs_c_cassava_01",
+   "text": "Cassava stores root starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cassava · cs_c_cassava_01"
+  },
+  {
+   "id": "cs_c_clot_01",
+   "text": "A clot seals a wound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Clot · cs_c_clot_01"
+  },
+  {
+   "id": "cs_c_cochlea_01",
+   "text": "The cochlea detects sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cochlea · cs_c_cochlea_01"
+  },
+  {
+   "id": "cs_c_coke_01",
+   "text": "Coke fuels blast furnaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Coke · cs_c_coke_01"
+  },
+  {
+   "id": "cs_c_collagen_01",
+   "text": "Collagen strengthens skin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Collagen · cs_c_collagen_01"
+  },
+  {
+   "id": "cs_c_colloid_01",
+   "text": "A colloid scatters light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Colloid · cs_c_colloid_01"
+  },
+  {
+   "id": "cs_c_cornea_01",
+   "text": "The cornea bends incoming light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cornea · cs_c_cornea_01"
+  },
+  {
+   "id": "cs_c_corn_01",
+   "text": "Corn yields edible kernels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Corn · cs_c_corn_01"
+  },
+  {
+   "id": "cs_c_coulomb_01",
+   "text": "A coulomb measures charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Coulomb · cs_c_coulomb_01"
+  },
+  {
+   "id": "cs_c_crystal_01",
+   "text": "A crystal grows flat faces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Crystal · cs_c_crystal_01"
   }
  ]
 }

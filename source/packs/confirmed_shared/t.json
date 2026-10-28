@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 219,
+ "curated_facts": 227,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1279,6 +1279,54 @@
    "text": "Stars appear during twilight",
    "standing": "projectable",
    "evidence": "science · product curator · Twilight · cs_t_twilight_02"
+  },
+  {
+   "id": "cs_t_tannin_03",
+   "text": "Tea holds bitter tannin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tannin · cs_t_tannin_03"
+  },
+  {
+   "id": "cs_t_taproot_02",
+   "text": "A carrot grows a taproot",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Taproot · cs_t_taproot_02"
+  },
+  {
+   "id": "cs_t_thorium_02",
+   "text": "Thorium fuels some reactors",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thorium · cs_t_thorium_02"
+  },
+  {
+   "id": "cs_t_thyroid_02",
+   "text": "The thyroid regulates metabolism",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thyroid · cs_t_thyroid_02"
+  },
+  {
+   "id": "cs_t_tide_03",
+   "text": "Gravity raises the tide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tide · cs_t_tide_03"
+  },
+  {
+   "id": "cs_t_tin_04",
+   "text": "Solder mixes tin with lead",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tin · cs_t_tin_04"
+  },
+  {
+   "id": "cs_t_tongue_03",
+   "text": "Taste buds cover the tongue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tongue · cs_t_tongue_03"
+  },
+  {
+   "id": "cs_t_tremor_02",
+   "text": "A tremor shakes the ground",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tremor · cs_t_tremor_02"
   }
  ]
 }

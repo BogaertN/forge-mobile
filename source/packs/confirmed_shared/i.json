@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 224,
+ "curated_facts": 232,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1279,6 +1279,54 @@
    "text": "Elephants have ivory tusks",
    "standing": "projectable",
    "evidence": "nature · product curator · Ivory · cs_i_ivory_03"
+  },
+  {
+   "id": "cs_i_igneous_02",
+   "text": "Magma forms igneous rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Igneous · cs_i_igneous_02"
+  },
+  {
+   "id": "cs_i_ink_04",
+   "text": "Carbon black forms ink",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ink · cs_i_ink_04"
+  },
+  {
+   "id": "cs_i_integer_05",
+   "text": "An integer counts whole units",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integer · cs_i_integer_05"
+  },
+  {
+   "id": "cs_i_iodine_03",
+   "text": "Iodine treats cut wounds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iodine · cs_i_iodine_03"
+  },
+  {
+   "id": "cs_i_iridium_04",
+   "text": "Iridium marks impact layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iridium · cs_i_iridium_04"
+  },
+  {
+   "id": "cs_i_iris_05",
+   "text": "Colored muscle forms the iris",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iris · cs_i_iris_05"
+  },
+  {
+   "id": "cs_i_iron_10",
+   "text": "Hemoglobin binds iron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_10"
+  },
+  {
+   "id": "cs_i_isotope_04",
+   "text": "Isotopes share proton count",
+   "standing": "projectable",
+   "evidence": "science · product curator · Isotope · cs_i_isotope_04"
   }
  ]
 }
