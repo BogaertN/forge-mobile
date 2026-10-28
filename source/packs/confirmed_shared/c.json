@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 204,
+ "curated_facts": 214,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1195,6 +1195,66 @@
    "text": "Magma rises through crust",
    "standing": "projectable",
    "evidence": "science · product curator · Crust · cs_c_crust_02"
+  },
+  {
+   "id": "cs_c_calcium_03",
+   "text": "Bones store calcium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Calcium · cs_c_calcium_03"
+  },
+  {
+   "id": "cs_c_cambium_01",
+   "text": "Cambium adds tree rings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cambium · cs_c_cambium_01"
+  },
+  {
+   "id": "cs_c_capillary_02",
+   "text": "Blood fills a capillary",
+   "standing": "projectable",
+   "evidence": "science · product curator · Capillary · cs_c_capillary_02"
+  },
+  {
+   "id": "cs_c_carapace_01",
+   "text": "Turtles wear a carapace",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Carapace · cs_c_carapace_01"
+  },
+  {
+   "id": "cs_c_carbon_07",
+   "text": "Carbon forms many compounds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon · cs_c_carbon_07"
+  },
+  {
+   "id": "cs_c_centimeter_02",
+   "text": "A ruler marks a centimeter",
+   "standing": "projectable",
+   "evidence": "math · product curator · Centimeter · cs_c_centimeter_02"
+  },
+  {
+   "id": "cs_c_chromosome_03",
+   "text": "A chromosome carries genes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chromosome · cs_c_chromosome_03"
+  },
+  {
+   "id": "cs_c_condensation_04",
+   "text": "Dew forms by condensation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Condensation · cs_c_condensation_04"
+  },
+  {
+   "id": "cs_c_cortex_01",
+   "text": "The cortex covers the brain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cortex · cs_c_cortex_01"
+  },
+  {
+   "id": "cs_c_crater_01",
+   "text": "An impact forms a crater",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Crater · cs_c_crater_01"
   }
  ]
 }
