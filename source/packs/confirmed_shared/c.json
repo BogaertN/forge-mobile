@@ -12,1513 +12,2773 @@
    "id": "cs_c_canada_01",
    "text": "Ottawa is the capital of Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Canada · cs_c_canada_01"
+   "evidence": "geography · product curator · Canada · cs_c_canada_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canada_02",
    "text": "Canada is the second largest country by total area",
    "standing": "projectable",
-   "evidence": "geography · product curator · Canada · cs_c_canada_02"
+   "evidence": "geography · product curator · Canada · cs_c_canada_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_china_01",
    "text": "China is a very populous country",
    "standing": "projectable",
-   "evidence": "geography · product curator · China · cs_c_china_01"
+   "evidence": "geography · product curator · China · cs_c_china_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chile_01",
    "text": "Santiago is the capital of Chile",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chile · cs_c_chile_01"
+   "evidence": "geography · product curator · Chile · cs_c_chile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_colombia_01",
    "text": "Colombia is in South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Colombia · cs_c_colombia_01"
+   "evidence": "geography · product curator · Colombia · cs_c_colombia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cuba_01",
    "text": "Havana is the capital of Cuba",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cuba · cs_c_cuba_01"
+   "evidence": "geography · product curator · Cuba · cs_c_cuba_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cuba_02",
    "text": "Cuba is an island country in the Caribbean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cuba · cs_c_cuba_02"
+   "evidence": "geography · product curator · Cuba · cs_c_cuba_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_croatia_01",
    "text": "Zagreb is the capital of Croatia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Croatia · cs_c_croatia_01"
+   "evidence": "geography · product curator · Croatia · cs_c_croatia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cambodia_01",
    "text": "Phnom Penh is the capital of Cambodia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cambodia · cs_c_cambodia_01"
+   "evidence": "geography · product curator · Cambodia · cs_c_cambodia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cairo_01",
    "text": "Cairo is the capital of Egypt",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cairo · cs_c_cairo_01"
+   "evidence": "geography · product curator · Cairo · cs_c_cairo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_copenhagen_01",
    "text": "Copenhagen is the capital of Denmark",
    "standing": "projectable",
-   "evidence": "geography · product curator · Copenhagen · cs_c_copenhagen_01"
+   "evidence": "geography · product curator · Copenhagen · cs_c_copenhagen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_caracas_01",
    "text": "Caracas is the capital of Venezuela",
    "standing": "projectable",
-   "evidence": "geography · product curator · Caracas · cs_c_caracas_01"
+   "evidence": "geography · product curator · Caracas · cs_c_caracas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_caspian_sea_01",
    "text": "The Caspian Sea is the largest inland body of water on Earth",
    "standing": "projectable",
-   "evidence": "geography · product curator · Caspian Sea · cs_c_caspian_sea_01"
+   "evidence": "geography · product curator · Caspian Sea · cs_c_caspian_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_caribbean_sea_01",
    "text": "The Caribbean Sea is part of the Atlantic Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Caribbean Sea · cs_c_caribbean_sea_01"
+   "evidence": "geography · product curator · Caribbean Sea · cs_c_caribbean_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_congo_river_01",
    "text": "The Congo is in Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Congo River · cs_c_congo_river_01"
+   "evidence": "geography · product curator · Congo River · cs_c_congo_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_colorado_river_01",
    "text": "The Colorado carved the Grand Canyon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Colorado River · cs_c_colorado_river_01"
+   "evidence": "geography · product curator · Colorado River · cs_c_colorado_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_california_01",
    "text": "California has the largest population of any state",
    "standing": "projectable",
-   "evidence": "geography · product curator · California · cs_c_california_01"
+   "evidence": "geography · product curator · California · cs_c_california_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_california_02",
    "text": "Sacramento is the capital of California",
    "standing": "projectable",
-   "evidence": "geography · product curator · California · cs_c_california_02"
+   "evidence": "geography · product curator · California · cs_c_california_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chicago_01",
    "text": "Chicago lies on Lake Michigan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chicago · cs_c_chicago_01"
+   "evidence": "geography · product curator · Chicago · cs_c_chicago_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_colorado_01",
    "text": "Denver is the capital of Colorado",
    "standing": "projectable",
-   "evidence": "geography · product curator · Colorado · cs_c_colorado_01"
+   "evidence": "geography · product curator · Colorado · cs_c_colorado_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_continent_01",
    "text": "The Earth has seven continents",
    "standing": "projectable",
-   "evidence": "geography · product curator · Continent · cs_c_continent_01"
+   "evidence": "geography · product curator · Continent · cs_c_continent_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_01",
    "text": "Carbon has the chemical symbol C",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon · cs_c_carbon_01"
+   "evidence": "science · product curator · Carbon · cs_c_carbon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_02",
    "text": "Diamond and graphite are both forms of carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon · cs_c_carbon_02"
+   "evidence": "science · product curator · Carbon · cs_c_carbon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_dioxide_01",
    "text": "Carbon dioxide has the chemical formula CO2",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon dioxide · cs_c_carbon_dioxide_01"
+   "evidence": "science · product curator · Carbon dioxide · cs_c_carbon_dioxide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_dioxide_02",
    "text": "Plants take in carbon dioxide during photosynthesis",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon dioxide · cs_c_carbon_dioxide_02"
+   "evidence": "science · product curator · Carbon dioxide · cs_c_carbon_dioxide_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calcium_01",
    "text": "Calcium has the chemical symbol Ca",
    "standing": "projectable",
-   "evidence": "science · product curator · Calcium · cs_c_calcium_01"
+   "evidence": "science · product curator · Calcium · cs_c_calcium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chlorine_01",
    "text": "Chlorine has the chemical symbol Cl",
    "standing": "projectable",
-   "evidence": "science · product curator · Chlorine · cs_c_chlorine_01"
+   "evidence": "science · product curator · Chlorine · cs_c_chlorine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_copper_01",
    "text": "Copper has the chemical symbol Cu",
    "standing": "projectable",
-   "evidence": "science · product curator · Copper · cs_c_copper_01"
+   "evidence": "science · product curator · Copper · cs_c_copper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_copper_02",
    "text": "Copper is a good conductor of electricity",
    "standing": "projectable",
-   "evidence": "science · product curator · Copper · cs_c_copper_02"
+   "evidence": "science · product curator · Copper · cs_c_copper_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cobalt_01",
    "text": "Cobalt has the chemical symbol Co",
    "standing": "projectable",
-   "evidence": "science · product curator · Cobalt · cs_c_cobalt_01"
+   "evidence": "science · product curator · Cobalt · cs_c_cobalt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_caesium_01",
    "text": "Caesium has the chemical symbol Cs",
    "standing": "projectable",
-   "evidence": "science · product curator · Caesium · cs_c_caesium_01"
+   "evidence": "science · product curator · Caesium · cs_c_caesium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cell_01",
    "text": "The cell is the basic unit of life",
    "standing": "projectable",
-   "evidence": "science · product curator · Cell · cs_c_cell_01"
+   "evidence": "science · product curator · Cell · cs_c_cell_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chlorophyll_01",
    "text": "Chlorophyll makes plants green",
    "standing": "projectable",
-   "evidence": "science · product curator · Chlorophyll · cs_c_chlorophyll_01"
+   "evidence": "science · product curator · Chlorophyll · cs_c_chlorophyll_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chromosome_01",
    "text": "Human body cells typically have 46 chromosomes",
    "standing": "projectable",
-   "evidence": "science · product curator · Chromosome · cs_c_chromosome_01"
+   "evidence": "science · product curator · Chromosome · cs_c_chromosome_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_comet_01",
    "text": "A comet is an icy body that can develop a tail near the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Comet · cs_c_comet_01"
+   "evidence": "science · product curator · Comet · cs_c_comet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_celsius_01",
    "text": "Water freezes at 0 degrees Celsius at sea-level pressure",
    "standing": "projectable",
-   "evidence": "science · product curator · Celsius · cs_c_celsius_01"
+   "evidence": "science · product curator · Celsius · cs_c_celsius_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_conductor_01",
    "text": "Metals are generally good conductors of heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Conductor · cs_c_conductor_01"
+   "evidence": "science · product curator · Conductor · cs_c_conductor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_condensation_01",
    "text": "Condensation is the change from gas to liquid",
    "standing": "projectable",
-   "evidence": "science · product curator · Condensation · cs_c_condensation_01"
+   "evidence": "science · product curator · Condensation · cs_c_condensation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crust_01",
    "text": "The crust is Earth's outermost solid layer",
    "standing": "projectable",
-   "evidence": "science · product curator · Crust · cs_c_crust_01"
+   "evidence": "science · product curator · Crust · cs_c_crust_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_core_01",
    "text": "The core of the Earth is mostly iron",
    "standing": "projectable",
-   "evidence": "science · product curator · Core · cs_c_core_01"
+   "evidence": "science · product curator · Core · cs_c_core_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_ceres_01",
    "text": "Ceres is a dwarf planet in the asteroid belt",
    "standing": "projectable",
-   "evidence": "science · product curator · Ceres · cs_c_ceres_01"
+   "evidence": "science · product curator · Ceres · cs_c_ceres_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_circle_02",
    "text": "A circle has 360 degrees",
    "standing": "projectable",
-   "evidence": "math · product curator · Circle · cs_c_circle_02"
+   "evidence": "math · product curator · Circle · cs_c_circle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cube_01",
    "text": "A cube has six faces",
    "standing": "projectable",
-   "evidence": "math · product curator · Cube · cs_c_cube_01"
+   "evidence": "math · product curator · Cube · cs_c_cube_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cube_02",
    "text": "A cube has twelve edges",
    "standing": "projectable",
-   "evidence": "math · product curator · Cube · cs_c_cube_02"
+   "evidence": "math · product curator · Cube · cs_c_cube_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_century_01",
    "text": "A century is 100 years",
    "standing": "projectable",
-   "evidence": "math · product curator · Century · cs_c_century_01"
+   "evidence": "math · product curator · Century · cs_c_century_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_celsius_02",
    "text": "Temperatures on the Celsius scale are measured in degrees Celsius",
    "standing": "projectable",
-   "evidence": "science · product curator · Celsius · cs_c_celsius_02"
+   "evidence": "science · product curator · Celsius · cs_c_celsius_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_camel_02",
    "text": "A Bactrian camel has two humps",
    "standing": "projectable",
-   "evidence": "nature · product curator · Camel · cs_c_camel_02"
+   "evidence": "nature · product curator · Camel · cs_c_camel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crocodile_01",
    "text": "Crocodiles are reptiles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Crocodile · cs_c_crocodile_01"
+   "evidence": "nature · product curator · Crocodile · cs_c_crocodile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cat_01",
    "text": "Domestic cats are carnivores",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cat · cs_c_cat_01"
+   "evidence": "nature · product curator · Cat · cs_c_cat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cow_01",
    "text": "Cows are ruminants",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cow · cs_c_cow_01"
+   "evidence": "nature · product curator · Cow · cs_c_cow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coral_01",
    "text": "Coral reefs are built by tiny animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Coral · cs_c_coral_01"
+   "evidence": "nature · product curator · Coral · cs_c_coral_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chameleon_01",
    "text": "Chameleons can change their skin color",
    "standing": "projectable",
-   "evidence": "nature · product curator · Chameleon · cs_c_chameleon_01"
+   "evidence": "nature · product curator · Chameleon · cs_c_chameleon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_caterpillar_01",
    "text": "A caterpillar is the larva of a butterfly or moth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Caterpillar · cs_c_caterpillar_01"
+   "evidence": "nature · product curator · Caterpillar · cs_c_caterpillar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cactus_01",
    "text": "Cacti are adapted to dry environments",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cactus · cs_c_cactus_01"
+   "evidence": "nature · product curator · Cactus · cs_c_cactus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_conifer_01",
    "text": "Pine trees are conifers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Conifer · cs_c_conifer_01"
+   "evidence": "nature · product curator · Conifer · cs_c_conifer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crab_01",
    "text": "Crabs are crustaceans",
    "standing": "projectable",
-   "evidence": "nature · product curator · Crab · cs_c_crab_01"
+   "evidence": "nature · product curator · Crab · cs_c_crab_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cephalopod_01",
    "text": "Octopuses are cephalopods",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cephalopod · cs_c_cephalopod_01"
+   "evidence": "nature · product curator · Cephalopod · cs_c_cephalopod_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_caesar_julius_01",
    "text": "Caesar was assassinated in Rome",
    "standing": "projectable",
-   "evidence": "history · product curator · Caesar, Julius · cs_c_caesar_julius_01"
+   "evidence": "history · product curator · Caesar, Julius · cs_c_caesar_julius_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_columbus_christopher_01",
    "text": "Christopher Columbus reached the Americas in 1492",
    "standing": "projectable",
-   "evidence": "history · product curator · Columbus, Christopher · cs_c_columbus_christopher_01"
+   "evidence": "history · product curator · Columbus, Christopher · cs_c_columbus_christopher_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_constantinople_01",
    "text": "Constantinople is the former name of Istanbul",
    "standing": "projectable",
-   "evidence": "history · product curator · Constantinople · cs_c_constantinople_01"
+   "evidence": "history · product curator · Constantinople · cs_c_constantinople_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cleopatra_01",
    "text": "Cleopatra was the last active ruler of Ptolemaic Egypt",
    "standing": "projectable",
-   "evidence": "history · product curator · Cleopatra · cs_c_cleopatra_01"
+   "evidence": "history · product curator · Cleopatra · cs_c_cleopatra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_curie_marie_01",
    "text": "Marie Curie won Nobel Prizes in both physics and chemistry",
    "standing": "projectable",
-   "evidence": "history · product curator · Curie, Marie · cs_c_curie_marie_01"
+   "evidence": "history · product curator · Curie, Marie · cs_c_curie_marie_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_copernicus_nicolaus_01",
    "text": "Nicolaus Copernicus proposed a Sun-centered model of the solar system",
    "standing": "projectable",
-   "evidence": "history · product curator · Copernicus, Nicolaus · cs_c_copernicus_nicolaus_01"
+   "evidence": "history · product curator · Copernicus, Nicolaus · cs_c_copernicus_nicolaus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_confucius_01",
    "text": "Confucius was a Chinese philosopher",
    "standing": "projectable",
-   "evidence": "history · product curator · Confucius · cs_c_confucius_01"
+   "evidence": "history · product curator · Confucius · cs_c_confucius_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_colosseum_01",
    "text": "The Colosseum is an ancient amphitheater in Rome",
    "standing": "projectable",
-   "evidence": "history · product curator · Colosseum · cs_c_colosseum_01"
+   "evidence": "history · product curator · Colosseum · cs_c_colosseum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_civil_war_american_01",
    "text": "The American Civil War lasted from 1861 to 1865",
    "standing": "projectable",
-   "evidence": "history · product curator · Civil War, American · cs_c_civil_war_american_01"
+   "evidence": "history · product curator · Civil War, American · cs_c_civil_war_american_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_charlemagne_01",
    "text": "Charlemagne was crowned emperor in 800",
    "standing": "projectable",
-   "evidence": "history · product curator · Charlemagne · cs_c_charlemagne_01"
+   "evidence": "history · product curator · Charlemagne · cs_c_charlemagne_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_constitution_us_01",
    "text": "The American Constitution was signed in 1787",
    "standing": "projectable",
-   "evidence": "civics · product curator · Constitution, US · cs_c_constitution_us_01"
+   "evidence": "civics · product curator · Constitution, US · cs_c_constitution_us_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_congress_us_01",
    "text": "The American Congress consists of the Senate and the House of Representatives",
    "standing": "projectable",
-   "evidence": "civics · product curator · Congress, US · cs_c_congress_us_01"
+   "evidence": "civics · product curator · Congress, US · cs_c_congress_us_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cabinet_01",
    "text": "A cabinet is a body of senior government officials",
    "standing": "projectable",
-   "evidence": "civics · product curator · Cabinet · cs_c_cabinet_01"
+   "evidence": "civics · product curator · Cabinet · cs_c_cabinet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_census_01",
    "text": "The American census happens every ten years",
    "standing": "projectable",
-   "evidence": "civics · product curator · Census · cs_c_census_01"
+   "evidence": "civics · product curator · Census · cs_c_census_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chinese_01",
    "text": "Mandarin has the largest number of native speakers",
    "standing": "projectable",
-   "evidence": "language · product curator · Chinese · cs_c_chinese_01"
+   "evidence": "language · product curator · Chinese · cs_c_chinese_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chess_01",
    "text": "A chess board has 64 squares",
    "standing": "projectable",
-   "evidence": "general · product curator · Chess · cs_c_chess_01"
+   "evidence": "general · product curator · Chess · cs_c_chess_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chess_02",
    "text": "Each chess player starts with 16 pieces",
    "standing": "projectable",
-   "evidence": "general · product curator · Chess · cs_c_chess_02"
+   "evidence": "general · product curator · Chess · cs_c_chess_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calendar_01",
    "text": "A common year in the Gregorian calendar has 365 days",
    "standing": "projectable",
-   "evidence": "general · product curator · Calendar · cs_c_calendar_01"
+   "evidence": "general · product curator · Calendar · cs_c_calendar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_compass_01",
    "text": "A magnetic compass needle points toward magnetic north",
    "standing": "projectable",
-   "evidence": "science · product curator · Compass · cs_c_compass_01"
+   "evidence": "science · product curator · Compass · cs_c_compass_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cape_town_01",
    "text": "Cape Town is a city in South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cape Town · cs_c_cape_town_01"
+   "evidence": "geography · product curator · Cape Town · cs_c_cape_town_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_concord_01",
    "text": "Concord is the capital of New Hampshire",
    "standing": "projectable",
-   "evidence": "geography · product curator · Concord · cs_c_concord_01"
+   "evidence": "geography · product curator · Concord · cs_c_concord_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_costa_rica_01",
    "text": "San José is the capital of Costa Rica",
    "standing": "projectable",
-   "evidence": "geography · product curator · Costa Rica · cs_c_costa_rica_01"
+   "evidence": "geography · product curator · Costa Rica · cs_c_costa_rica_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_copper_03",
    "text": "The chemical symbol for copper is Cu",
    "standing": "projectable",
-   "evidence": "science · product curator · Copper · cs_c_copper_03"
+   "evidence": "science · product curator · Copper · cs_c_copper_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coral_02",
    "text": "Coral reefs are made by small animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Coral · cs_c_coral_02"
+   "evidence": "nature · product curator · Coral · cs_c_coral_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_condor_01",
    "text": "The Andean condor is one of the largest flying birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Condor · cs_c_condor_01"
+   "evidence": "nature · product curator · Condor · cs_c_condor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coyote_01",
    "text": "Coyotes are members of the dog family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Coyote · cs_c_coyote_01"
+   "evidence": "nature · product curator · Coyote · cs_c_coyote_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chad_01",
    "text": "N'Djamena is the capital of Chad",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chad · cs_c_chad_01"
+   "evidence": "geography · product curator · Chad · cs_c_chad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cyprus_01",
    "text": "Cyprus is an island in the Mediterranean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cyprus · cs_c_cyprus_01"
+   "evidence": "geography · product curator · Cyprus · cs_c_cyprus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_colombo_01",
    "text": "Colombo is the largest city in Sri Lanka",
    "standing": "projectable",
-   "evidence": "geography · product curator · Colombo · cs_c_colombo_01"
+   "evidence": "geography · product curator · Colombo · cs_c_colombo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_conakry_01",
    "text": "Conakry is the capital of Guinea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Conakry · cs_c_conakry_01"
+   "evidence": "geography · product curator · Conakry · cs_c_conakry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_corsica_01",
    "text": "Corsica is a French island in the Mediterranean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Corsica · cs_c_corsica_01"
+   "evidence": "geography · product curator · Corsica · cs_c_corsica_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crete_01",
    "text": "Crete is the largest island of Greece",
    "standing": "projectable",
-   "evidence": "geography · product curator · Crete · cs_c_crete_01"
+   "evidence": "geography · product curator · Crete · cs_c_crete_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cardinal_01",
    "text": "The northern cardinal male has bright red plumage",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cardinal · cs_c_cardinal_01"
+   "evidence": "nature · product curator · Cardinal · cs_c_cardinal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clam_01",
    "text": "Clams are bivalve mollusks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Clam · cs_c_clam_01"
+   "evidence": "nature · product curator · Clam · cs_c_clam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cricket_01",
    "text": "Male crickets chirp with their wings",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cricket · cs_c_cricket_01"
+   "evidence": "nature · product curator · Cricket · cs_c_cricket_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crow_01",
    "text": "Crows are highly intelligent birds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Crow · cs_c_crow_01"
+   "evidence": "nature · product curator · Crow · cs_c_crow_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cedar_01",
    "text": "Cedars are coniferous trees",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cedar · cs_c_cedar_01"
+   "evidence": "nature · product curator · Cedar · cs_c_cedar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cumulus_cloud_01",
    "text": "Cumulus clouds are puffy clouds with flat bases",
    "standing": "projectable",
-   "evidence": "science · product curator · Cumulus cloud · cs_c_cumulus_cloud_01"
+   "evidence": "science · product curator · Cumulus cloud · cs_c_cumulus_cloud_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cube_03",
    "text": "A cube has six square faces",
    "standing": "projectable",
-   "evidence": "science · product curator · Cube · cs_c_cube_03"
+   "evidence": "science · product curator · Cube · cs_c_cube_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cylinder_01",
    "text": "A cylinder has two parallel circular bases",
    "standing": "projectable",
-   "evidence": "science · product curator · Cylinder · cs_c_cylinder_01"
+   "evidence": "science · product curator · Cylinder · cs_c_cylinder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cork_01",
    "text": "Cork is a city in Ireland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cork · cs_c_cork_01"
+   "evidence": "geography · product curator · Cork · cs_c_cork_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cardiff_01",
    "text": "Cardiff is a city in Wales",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cardiff · cs_c_cardiff_01"
+   "evidence": "geography · product curator · Cardiff · cs_c_cardiff_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coventry_01",
    "text": "Coventry is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Coventry · cs_c_coventry_01"
+   "evidence": "geography · product curator · Coventry · cs_c_coventry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cambridge_01",
    "text": "Cambridge is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cambridge · cs_c_cambridge_01"
+   "evidence": "geography · product curator · Cambridge · cs_c_cambridge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chester_01",
    "text": "Chester is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chester · cs_c_chester_01"
+   "evidence": "geography · product curator · Chester · cs_c_chester_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carlisle_01",
    "text": "Carlisle is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Carlisle · cs_c_carlisle_01"
+   "evidence": "geography · product curator · Carlisle · cs_c_carlisle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cologne_01",
    "text": "Cologne is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cologne · cs_c_cologne_01"
+   "evidence": "geography · product curator · Cologne · cs_c_cologne_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chemnitz_01",
    "text": "Chemnitz is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chemnitz · cs_c_chemnitz_01"
+   "evidence": "geography · product curator · Chemnitz · cs_c_chemnitz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cannes_01",
    "text": "Cannes is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cannes · cs_c_cannes_01"
+   "evidence": "geography · product curator · Cannes · cs_c_cannes_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calais_01",
    "text": "Calais is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Calais · cs_c_calais_01"
+   "evidence": "geography · product curator · Calais · cs_c_calais_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cadiz_01",
    "text": "Cadiz is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cadiz · cs_c_cadiz_01"
+   "evidence": "geography · product curator · Cadiz · cs_c_cadiz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cordoba_01",
    "text": "Cordoba is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cordoba · cs_c_cordoba_01"
+   "evidence": "geography · product curator · Cordoba · cs_c_cordoba_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_catania_01",
    "text": "Catania is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Catania · cs_c_catania_01"
+   "evidence": "geography · product curator · Catania · cs_c_catania_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_como_01",
    "text": "Como is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Como · cs_c_como_01"
+   "evidence": "geography · product curator · Como · cs_c_como_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chengdu_01",
    "text": "Chengdu is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chengdu · cs_c_chengdu_01"
+   "evidence": "geography · product curator · Chengdu · cs_c_chengdu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chennai_01",
    "text": "Chennai is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chennai · cs_c_chennai_01"
+   "evidence": "geography · product curator · Chennai · cs_c_chennai_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cebu_01",
    "text": "Cebu is a city in the Philippines",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cebu · cs_c_cebu_01"
+   "evidence": "geography · product curator · Cebu · cs_c_cebu_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calgary_01",
    "text": "Calgary is a city in Canada",
    "standing": "projectable",
-   "evidence": "geography · product curator · Calgary · cs_c_calgary_01"
+   "evidence": "geography · product curator · Calgary · cs_c_calgary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_charlotte_01",
    "text": "Charlotte is a city in North Carolina",
    "standing": "projectable",
-   "evidence": "geography · product curator · Charlotte · cs_c_charlotte_01"
+   "evidence": "geography · product curator · Charlotte · cs_c_charlotte_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chicago_02",
    "text": "Chicago is a city in Illinois",
    "standing": "projectable",
-   "evidence": "geography · product curator · Chicago · cs_c_chicago_02"
+   "evidence": "geography · product curator · Chicago · cs_c_chicago_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cleveland_01",
    "text": "Cleveland is a city in Ohio",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cleveland · cs_c_cleveland_01"
+   "evidence": "geography · product curator · Cleveland · cs_c_cleveland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cincinnati_01",
    "text": "Cincinnati is a city in Ohio",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cincinnati · cs_c_cincinnati_01"
+   "evidence": "geography · product curator · Cincinnati · cs_c_cincinnati_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_casablanca_01",
    "text": "Casablanca is a city in Morocco",
    "standing": "projectable",
-   "evidence": "geography · product curator · Casablanca · cs_c_casablanca_01"
+   "evidence": "geography · product curator · Casablanca · cs_c_casablanca_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cusco_01",
    "text": "Cusco is a city in Peru",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cusco · cs_c_cusco_01"
+   "evidence": "geography · product curator · Cusco · cs_c_cusco_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coral_reef_01",
    "text": "A coral reef is built by tiny animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Coral reef · cs_c_coral_reef_01"
+   "evidence": "nature · product curator · Coral reef · cs_c_coral_reef_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cabinet_minister_01",
    "text": "A cabinet minister heads a government department",
    "standing": "projectable",
-   "evidence": "civics · product curator · Cabinet minister · cs_c_cabinet_minister_01"
+   "evidence": "civics · product curator · Cabinet minister · cs_c_cabinet_minister_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calcite_01",
    "text": "Calcite is a common carbonate mineral",
    "standing": "projectable",
-   "evidence": "science · product curator · Calcite · cs_c_calcite_01"
+   "evidence": "science · product curator · Calcite · cs_c_calcite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calligraphy_01",
    "text": "Calligraphy is decorative handwriting",
    "standing": "projectable",
-   "evidence": "language · product curator · Calligraphy · cs_c_calligraphy_01"
+   "evidence": "language · product curator · Calligraphy · cs_c_calligraphy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_camouflage_01",
    "text": "Camouflage helps an animal blend into its surroundings",
    "standing": "projectable",
-   "evidence": "nature · product curator · Camouflage · cs_c_camouflage_01"
+   "evidence": "nature · product curator · Camouflage · cs_c_camouflage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canopy_01",
    "text": "A canopy is the upper layer of a forest",
    "standing": "projectable",
-   "evidence": "nature · product curator · Canopy · cs_c_canopy_01"
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carnivore_01",
    "text": "A carnivore eats animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_01"
+   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_case_law_01",
    "text": "Case law is law based on judicial decisions",
    "standing": "projectable",
-   "evidence": "civics · product curator · Case law · cs_c_case_law_01"
+   "evidence": "civics · product curator · Case law · cs_c_case_law_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_castle_01",
    "text": "A castle is a fortified residence",
    "standing": "projectable",
-   "evidence": "history · product curator · Castle · cs_c_castle_01"
+   "evidence": "history · product curator · Castle · cs_c_castle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cavalry_01",
    "text": "Cavalry are soldiers who fight on horseback",
    "standing": "projectable",
-   "evidence": "history · product curator · Cavalry · cs_c_cavalry_01"
+   "evidence": "history · product curator · Cavalry · cs_c_cavalry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_checks_and_balances_01",
    "text": "Checks and balances limit each branch of government",
    "standing": "projectable",
-   "evidence": "civics · product curator · Checks and balances · cs_c_checks_and_balances_01"
+   "evidence": "civics · product curator · Checks and balances · cs_c_checks_and_balances_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_circumference_01",
    "text": "Circumference is the distance around a circle",
    "standing": "projectable",
-   "evidence": "math · product curator · Circumference · cs_c_circumference_01"
+   "evidence": "math · product curator · Circumference · cs_c_circumference_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_city_state_01",
    "text": "A city-state is an independent city with its own government",
    "standing": "projectable",
-   "evidence": "history · product curator · City-state · cs_c_city_state_01"
+   "evidence": "history · product curator · City-state · cs_c_city_state_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clause_01",
    "text": "A clause is a group of words with a subject and verb",
    "standing": "projectable",
-   "evidence": "language · product curator · Clause · cs_c_clause_01"
+   "evidence": "language · product curator · Clause · cs_c_clause_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coefficient_01",
    "text": "A coefficient is a number multiplying a variable",
    "standing": "projectable",
-   "evidence": "math · product curator · Coefficient · cs_c_coefficient_01"
+   "evidence": "math · product curator · Coefficient · cs_c_coefficient_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_complex_number_01",
    "text": "A complex number has a real part and an imaginary part",
    "standing": "projectable",
-   "evidence": "math · product curator · Complex number · cs_c_complex_number_01"
+   "evidence": "math · product curator · Complex number · cs_c_complex_number_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_contour_line_01",
    "text": "A contour line joins points of equal elevation",
    "standing": "projectable",
-   "evidence": "geography · product curator · Contour line · cs_c_contour_line_01"
+   "evidence": "geography · product curator · Contour line · cs_c_contour_line_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calcium_02",
    "text": "Calcium strengthens bones",
    "standing": "projectable",
-   "evidence": "science · product curator · Calcium · cs_c_calcium_02"
+   "evidence": "science · product curator · Calcium · cs_c_calcium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_camel_03",
    "text": "A camel stores fat in its hump",
    "standing": "projectable",
-   "evidence": "nature · product curator · Camel · cs_c_camel_03"
+   "evidence": "nature · product curator · Camel · cs_c_camel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canal_01",
    "text": "A canal is a human made waterway",
    "standing": "projectable",
-   "evidence": "geography · product curator · Canal · cs_c_canal_01"
+   "evidence": "geography · product curator · Canal · cs_c_canal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canine_01",
    "text": "A canine tooth tears food",
    "standing": "projectable",
-   "evidence": "science · product curator · Canine · cs_c_canine_01"
+   "evidence": "science · product curator · Canine · cs_c_canine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canyon_01",
    "text": "A canyon is a deep valley",
    "standing": "projectable",
-   "evidence": "geography · product curator · Canyon · cs_c_canyon_01"
+   "evidence": "geography · product curator · Canyon · cs_c_canyon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_capillary_01",
    "text": "A capillary is a tiny blood vessel",
    "standing": "projectable",
-   "evidence": "science · product curator · Capillary · cs_c_capillary_01"
+   "evidence": "science · product curator · Capillary · cs_c_capillary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cloud_01",
    "text": "A cloud forms from water vapor",
    "standing": "projectable",
-   "evidence": "science · product curator · Cloud · cs_c_cloud_01"
+   "evidence": "science · product curator · Cloud · cs_c_cloud_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coast_01",
    "text": "A coast borders the sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Coast · cs_c_coast_01"
+   "evidence": "geography · product curator · Coast · cs_c_coast_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cactus_02",
    "text": "A cactus stores water in its stem",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cactus · cs_c_cactus_02"
+   "evidence": "nature · product curator · Cactus · cs_c_cactus_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chlorine_02",
    "text": "Chlorine is a halogen gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Chlorine · cs_c_chlorine_02"
+   "evidence": "science · product curator · Chlorine · cs_c_chlorine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chlorophyll_02",
    "text": "Chlorophyll absorbs light in plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Chlorophyll · cs_c_chlorophyll_02"
+   "evidence": "science · product curator · Chlorophyll · cs_c_chlorophyll_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chord_01",
    "text": "A chord joins two points on a circle",
    "standing": "projectable",
-   "evidence": "math · product curator · Chord · cs_c_chord_01"
+   "evidence": "math · product curator · Chord · cs_c_chord_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chromosome_02",
    "text": "A chromosome carries genetic information",
    "standing": "projectable",
-   "evidence": "science · product curator · Chromosome · cs_c_chromosome_02"
+   "evidence": "science · product curator · Chromosome · cs_c_chromosome_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_circuit_01",
    "text": "A circuit is a closed path for current",
    "standing": "projectable",
-   "evidence": "science · product curator · Circuit · cs_c_circuit_01"
+   "evidence": "science · product curator · Circuit · cs_c_circuit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_condensation_02",
    "text": "Condensation turns vapor into liquid",
    "standing": "projectable",
-   "evidence": "science · product curator · Condensation · cs_c_condensation_02"
+   "evidence": "science · product curator · Condensation · cs_c_condensation_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cone_01",
    "text": "A cone tapers from a base to a point",
    "standing": "projectable",
-   "evidence": "math · product curator · Cone · cs_c_cone_01"
+   "evidence": "math · product curator · Cone · cs_c_cone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_continent_02",
    "text": "A continent is a large landmass",
    "standing": "projectable",
-   "evidence": "geography · product curator · Continent · cs_c_continent_02"
+   "evidence": "geography · product curator · Continent · cs_c_continent_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carnivore_02",
    "text": "A carnivore eats meat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_02"
+   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_centimeter_01",
    "text": "A centimeter is a unit of length",
    "standing": "projectable",
-   "evidence": "math · product curator · Centimeter · cs_c_centimeter_01"
+   "evidence": "math · product curator · Centimeter · cs_c_centimeter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_citizen_01",
    "text": "A citizen has legal membership in a country",
    "standing": "projectable",
-   "evidence": "civics · product curator · Citizen · cs_c_citizen_01"
+   "evidence": "civics · product curator · Citizen · cs_c_citizen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clay_01",
    "text": "Clay is fine sediment",
    "standing": "projectable",
-   "evidence": "geography · product curator · Clay · cs_c_clay_01"
+   "evidence": "geography · product curator · Clay · cs_c_clay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cobalt_02",
    "text": "Cobalt is a hard metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Cobalt · cs_c_cobalt_02"
+   "evidence": "science · product curator · Cobalt · cs_c_cobalt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_comet_02",
    "text": "A comet orbits the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Comet · cs_c_comet_02"
+   "evidence": "science · product curator · Comet · cs_c_comet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cereal_01",
    "text": "Oats are a cereal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cereal · cs_c_cereal_01"
+   "evidence": "nature · product curator · Cereal · cs_c_cereal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crest_01",
    "text": "A wave has a crest",
    "standing": "projectable",
-   "evidence": "science · product curator · Crest · cs_c_crest_01"
+   "evidence": "science · product curator · Crest · cs_c_crest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clay_02",
    "text": "Potters shape clay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Clay · cs_c_clay_02"
+   "evidence": "geography · product curator · Clay · cs_c_clay_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canal_02",
    "text": "Barges travel on a canal",
    "standing": "projectable",
-   "evidence": "geography · product curator · Canal · cs_c_canal_02"
+   "evidence": "geography · product curator · Canal · cs_c_canal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canopy_02",
    "text": "Trees form a forest canopy",
    "standing": "projectable",
-   "evidence": "nature · product curator · Canopy · cs_c_canopy_02"
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cartilage_01",
    "text": "Cartilage cushions joints",
    "standing": "projectable",
-   "evidence": "science · product curator · Cartilage · cs_c_cartilage_01"
+   "evidence": "science · product curator · Cartilage · cs_c_cartilage_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chorus_01",
    "text": "A chorus sings together",
    "standing": "projectable",
-   "evidence": "language · product curator · Chorus · cs_c_chorus_01"
+   "evidence": "language · product curator · Chorus · cs_c_chorus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chromium_01",
    "text": "Chromium hardens steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Chromium · cs_c_chromium_01"
+   "evidence": "science · product curator · Chromium · cs_c_chromium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cocoon_01",
    "text": "A moth spins a cocoon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cocoon · cs_c_cocoon_01"
+   "evidence": "nature · product curator · Cocoon · cs_c_cocoon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_citizen_02",
    "text": "A citizen holds civic rights",
    "standing": "projectable",
-   "evidence": "civics · product curator · Citizen · cs_c_citizen_02"
+   "evidence": "civics · product curator · Citizen · cs_c_citizen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_citizen_03",
    "text": "Citizens vote in a republic",
    "standing": "projectable",
-   "evidence": "civics · product curator · Citizen · cs_c_citizen_03"
+   "evidence": "civics · product curator · Citizen · cs_c_citizen_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clause_02",
    "text": "A clause has a subject and verb",
    "standing": "projectable",
-   "evidence": "language · product curator · Clause · cs_c_clause_02"
+   "evidence": "language · product curator · Clause · cs_c_clause_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cliff_01",
    "text": "A cliff drops steeply",
    "standing": "projectable",
-   "evidence": "geography · product curator · Cliff · cs_c_cliff_01"
+   "evidence": "geography · product curator · Cliff · cs_c_cliff_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calendar_02",
    "text": "A calendar tracks days",
    "standing": "projectable",
-   "evidence": "civics · product curator · Calendar · cs_c_calendar_02"
+   "evidence": "civics · product curator · Calendar · cs_c_calendar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_03",
    "text": "Diamond is pure carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon · cs_c_carbon_03"
+   "evidence": "science · product curator · Carbon · cs_c_carbon_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canopy_03",
    "text": "Birds nest in the canopy",
    "standing": "projectable",
-   "evidence": "nature · product curator · Canopy · cs_c_canopy_03"
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cartilage_02",
    "text": "Ears contain cartilage",
    "standing": "projectable",
-   "evidence": "science · product curator · Cartilage · cs_c_cartilage_02"
+   "evidence": "science · product curator · Cartilage · cs_c_cartilage_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chromium_02",
    "text": "Chrome plating uses chromium",
    "standing": "projectable",
-   "evidence": "science · product curator · Chromium · cs_c_chromium_02"
+   "evidence": "science · product curator · Chromium · cs_c_chromium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clause_03",
    "text": "Clauses form complex sentences",
    "standing": "projectable",
-   "evidence": "language · product curator · Clause · cs_c_clause_03"
+   "evidence": "language · product curator · Clause · cs_c_clause_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_catalyst_01",
    "text": "A catalyst speeds a reaction",
    "standing": "projectable",
-   "evidence": "science · product curator · Catalyst · cs_c_catalyst_01"
+   "evidence": "science · product curator · Catalyst · cs_c_catalyst_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cell_02",
    "text": "A cell divides by mitosis",
    "standing": "projectable",
-   "evidence": "science · product curator · Cell · cs_c_cell_02"
+   "evidence": "science · product curator · Cell · cs_c_cell_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chameleon_02",
    "text": "A chameleon changes color",
    "standing": "projectable",
-   "evidence": "nature · product curator · Chameleon · cs_c_chameleon_02"
+   "evidence": "nature · product curator · Chameleon · cs_c_chameleon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cedar_02",
    "text": "A cedar has fragrant wood",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cedar · cs_c_cedar_02"
+   "evidence": "nature · product curator · Cedar · cs_c_cedar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_circuit_02",
    "text": "Current flows in a circuit",
    "standing": "projectable",
-   "evidence": "science · product curator · Circuit · cs_c_circuit_02"
+   "evidence": "science · product curator · Circuit · cs_c_circuit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crocodile_02",
    "text": "A crocodile waits in water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Crocodile · cs_c_crocodile_02"
+   "evidence": "nature · product curator · Crocodile · cs_c_crocodile_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_04",
    "text": "Life is based on carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon · cs_c_carbon_04"
+   "evidence": "science · product curator · Carbon · cs_c_carbon_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_condensation_03",
    "text": "Dew comes from condensation",
    "standing": "projectable",
-   "evidence": "science · product curator · Condensation · cs_c_condensation_03"
+   "evidence": "science · product curator · Condensation · cs_c_condensation_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calcite_02",
    "text": "Limestone holds calcite",
    "standing": "projectable",
-   "evidence": "science · product curator · Calcite · cs_c_calcite_02"
+   "evidence": "science · product curator · Calcite · cs_c_calcite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canopy_04",
    "text": "Rain hits the canopy first",
    "standing": "projectable",
-   "evidence": "nature · product curator · Canopy · cs_c_canopy_04"
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_05",
    "text": "Carbon forms long chains",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon · cs_c_carbon_05"
+   "evidence": "science · product curator · Carbon · cs_c_carbon_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_06",
    "text": "Diamonds are hard carbon",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon · cs_c_carbon_06"
+   "evidence": "science · product curator · Carbon · cs_c_carbon_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_catalyst_02",
    "text": "Enzymes act as a catalyst",
    "standing": "projectable",
-   "evidence": "science · product curator · Catalyst · cs_c_catalyst_02"
+   "evidence": "science · product curator · Catalyst · cs_c_catalyst_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_celsius_03",
    "text": "Scientists prefer Celsius",
    "standing": "projectable",
-   "evidence": "science · product curator · Celsius · cs_c_celsius_03"
+   "evidence": "science · product curator · Celsius · cs_c_celsius_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chlorine_03",
    "text": "Chlorine disinfects water",
    "standing": "projectable",
-   "evidence": "science · product curator · Chlorine · cs_c_chlorine_03"
+   "evidence": "science · product curator · Chlorine · cs_c_chlorine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_copper_04",
    "text": "Copper conducts heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Copper · cs_c_copper_04"
+   "evidence": "science · product curator · Copper · cs_c_copper_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cricket_02",
    "text": "A cricket chirps at night",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cricket · cs_c_cricket_02"
+   "evidence": "nature · product curator · Cricket · cs_c_cricket_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crust_02",
    "text": "Magma rises through crust",
    "standing": "projectable",
-   "evidence": "science · product curator · Crust · cs_c_crust_02"
+   "evidence": "science · product curator · Crust · cs_c_crust_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calcium_03",
    "text": "Bones store calcium",
    "standing": "projectable",
-   "evidence": "science · product curator · Calcium · cs_c_calcium_03"
+   "evidence": "science · product curator · Calcium · cs_c_calcium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cambium_01",
    "text": "Cambium adds tree rings",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cambium · cs_c_cambium_01"
+   "evidence": "nature · product curator · Cambium · cs_c_cambium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_capillary_02",
    "text": "Blood fills a capillary",
    "standing": "projectable",
-   "evidence": "science · product curator · Capillary · cs_c_capillary_02"
+   "evidence": "science · product curator · Capillary · cs_c_capillary_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carapace_01",
    "text": "Turtles wear a carapace",
    "standing": "projectable",
-   "evidence": "nature · product curator · Carapace · cs_c_carapace_01"
+   "evidence": "nature · product curator · Carapace · cs_c_carapace_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbon_07",
    "text": "Carbon forms many compounds",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbon · cs_c_carbon_07"
+   "evidence": "science · product curator · Carbon · cs_c_carbon_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_centimeter_02",
    "text": "A ruler marks a centimeter",
    "standing": "projectable",
-   "evidence": "math · product curator · Centimeter · cs_c_centimeter_02"
+   "evidence": "math · product curator · Centimeter · cs_c_centimeter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chromosome_03",
    "text": "A chromosome carries genes",
    "standing": "projectable",
-   "evidence": "science · product curator · Chromosome · cs_c_chromosome_03"
+   "evidence": "science · product curator · Chromosome · cs_c_chromosome_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_condensation_04",
    "text": "Dew forms by condensation",
    "standing": "projectable",
-   "evidence": "science · product curator · Condensation · cs_c_condensation_04"
+   "evidence": "science · product curator · Condensation · cs_c_condensation_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cortex_01",
    "text": "The cortex covers the brain",
    "standing": "projectable",
-   "evidence": "science · product curator · Cortex · cs_c_cortex_01"
+   "evidence": "science · product curator · Cortex · cs_c_cortex_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crater_01",
    "text": "An impact forms a crater",
    "standing": "projectable",
-   "evidence": "geography · product curator · Crater · cs_c_crater_01"
+   "evidence": "geography · product curator · Crater · cs_c_crater_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cassava_01",
    "text": "Cassava stores root starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cassava · cs_c_cassava_01"
+   "evidence": "nature · product curator · Cassava · cs_c_cassava_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clot_01",
    "text": "A clot seals a wound",
    "standing": "projectable",
-   "evidence": "science · product curator · Clot · cs_c_clot_01"
+   "evidence": "science · product curator · Clot · cs_c_clot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cochlea_01",
    "text": "The cochlea detects sound",
    "standing": "projectable",
-   "evidence": "science · product curator · Cochlea · cs_c_cochlea_01"
+   "evidence": "science · product curator · Cochlea · cs_c_cochlea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coke_01",
    "text": "Coke fuels blast furnaces",
    "standing": "projectable",
-   "evidence": "science · product curator · Coke · cs_c_coke_01"
+   "evidence": "science · product curator · Coke · cs_c_coke_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_collagen_01",
    "text": "Collagen strengthens skin",
    "standing": "projectable",
-   "evidence": "science · product curator · Collagen · cs_c_collagen_01"
+   "evidence": "science · product curator · Collagen · cs_c_collagen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_colloid_01",
    "text": "A colloid scatters light",
    "standing": "projectable",
-   "evidence": "science · product curator · Colloid · cs_c_colloid_01"
+   "evidence": "science · product curator · Colloid · cs_c_colloid_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cornea_01",
    "text": "The cornea bends incoming light",
    "standing": "projectable",
-   "evidence": "science · product curator · Cornea · cs_c_cornea_01"
+   "evidence": "science · product curator · Cornea · cs_c_cornea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_corn_01",
    "text": "Corn yields edible kernels",
    "standing": "projectable",
-   "evidence": "nature · product curator · Corn · cs_c_corn_01"
+   "evidence": "nature · product curator · Corn · cs_c_corn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_coulomb_01",
    "text": "A coulomb measures charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Coulomb · cs_c_coulomb_01"
+   "evidence": "science · product curator · Coulomb · cs_c_coulomb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crystal_01",
    "text": "A crystal grows flat faces",
    "standing": "projectable",
-   "evidence": "science · product curator · Crystal · cs_c_crystal_01"
+   "evidence": "science · product curator · Crystal · cs_c_crystal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cambium_02",
    "text": "Cambium grows new wood rings",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cambium · cs_c_cambium_02"
+   "evidence": "nature · product curator · Cambium · cs_c_cambium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carapace_02",
    "text": "A carapace shields a turtle",
    "standing": "projectable",
-   "evidence": "nature · product curator · Carapace · cs_c_carapace_02"
+   "evidence": "nature · product curator · Carapace · cs_c_carapace_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cardiac_01",
    "text": "Cardiac muscle never tires",
    "standing": "projectable",
-   "evidence": "science · product curator · Cardiac · cs_c_cardiac_01"
+   "evidence": "science · product curator · Cardiac · cs_c_cardiac_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_canopy_05",
    "text": "A canopy shades forest floor",
    "standing": "projectable",
-   "evidence": "nature · product curator · Canopy · cs_c_canopy_05"
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calcium_04",
    "text": "Calcium hardens bone tissue",
    "standing": "projectable",
-   "evidence": "science · product curator · Calcium · cs_c_calcium_04"
+   "evidence": "science · product curator · Calcium · cs_c_calcium_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carnivore_03",
    "text": "Carnivores hunt live prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_03"
+   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cartilage_03",
    "text": "Cartilage cushions joint ends",
    "standing": "projectable",
-   "evidence": "science · product curator · Cartilage · cs_c_cartilage_03"
+   "evidence": "science · product curator · Cartilage · cs_c_cartilage_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cellulose_01",
    "text": "Cellulose stiffens plant walls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cellulose · cs_c_cellulose_01"
+   "evidence": "nature · product curator · Cellulose · cs_c_cellulose_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_ceramic_01",
    "text": "Kilns harden ceramic ware",
    "standing": "projectable",
-   "evidence": "science · product curator · Ceramic · cs_c_ceramic_01"
+   "evidence": "science · product curator · Ceramic · cs_c_ceramic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chlorophyll_03",
    "text": "Chlorophyll traps sunlight",
    "standing": "projectable",
-   "evidence": "nature · product curator · Chlorophyll · cs_c_chlorophyll_03"
+   "evidence": "nature · product curator · Chlorophyll · cs_c_chlorophyll_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_clay_03",
    "text": "Clay hardens into ceramic",
    "standing": "projectable",
-   "evidence": "science · product curator · Clay · cs_c_clay_03"
+   "evidence": "science · product curator · Clay · cs_c_clay_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cocoon_02",
    "text": "Moths emerge from cocoons",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cocoon · cs_c_cocoon_02"
+   "evidence": "nature · product curator · Cocoon · cs_c_cocoon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_corn_02",
    "text": "Corn stores kernel starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Corn · cs_c_corn_02"
+   "evidence": "nature · product curator · Corn · cs_c_corn_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_crust_03",
    "text": "Lava cools into new crust",
    "standing": "projectable",
-   "evidence": "science · product curator · Crust · cs_c_crust_03"
+   "evidence": "science · product curator · Crust · cs_c_crust_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cadmium_01",
    "text": "Cadmium coats steel parts",
    "standing": "projectable",
-   "evidence": "science · product curator · Cadmium · cs_c_cadmium_01"
+   "evidence": "science · product curator · Cadmium · cs_c_cadmium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_calorie_01",
    "text": "A calorie ranks heat energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Calorie · cs_c_calorie_01"
+   "evidence": "science · product curator · Calorie · cs_c_calorie_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbonate_01",
    "text": "Carbonates buffer ocean water",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbonate · cs_c_carbonate_01"
+   "evidence": "science · product curator · Carbonate · cs_c_carbonate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carotene_01",
    "text": "Carotene colors carrot roots",
    "standing": "projectable",
-   "evidence": "nature · product curator · Carotene · cs_c_carotene_01"
+   "evidence": "nature · product curator · Carotene · cs_c_carotene_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chitin_01",
    "text": "Chitin hardens insect shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Chitin · cs_c_chitin_01"
+   "evidence": "nature · product curator · Chitin · cs_c_chitin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chromatin_01",
    "text": "Chromatin packs cell DNA",
    "standing": "projectable",
-   "evidence": "science · product curator · Chromatin · cs_c_chromatin_01"
+   "evidence": "science · product curator · Chromatin · cs_c_chromatin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_citrate_01",
    "text": "Citrate fuels cell cycles",
    "standing": "projectable",
-   "evidence": "science · product curator · Citrate · cs_c_citrate_01"
+   "evidence": "science · product curator · Citrate · cs_c_citrate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_convection_01",
    "text": "Convection lifts warm air",
    "standing": "projectable",
-   "evidence": "science · product curator · Convection · cs_c_convection_01"
+   "evidence": "science · product curator · Convection · cs_c_convection_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cuticle_01",
    "text": "A cuticle seals leaf water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cuticle · cs_c_cuticle_01"
+   "evidence": "nature · product curator · Cuticle · cs_c_cuticle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cyclone_01",
    "text": "Cyclones spin storm winds",
    "standing": "projectable",
-   "evidence": "science · product curator · Cyclone · cs_c_cyclone_01"
+   "evidence": "science · product curator · Cyclone · cs_c_cyclone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_camphor_01",
    "text": "Camphor repels closet moths",
    "standing": "projectable",
-   "evidence": "nature · product curator · Camphor · cs_c_camphor_01"
+   "evidence": "nature · product curator · Camphor · cs_c_camphor_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_carbide_01",
    "text": "Carbide hardens cutting tips",
    "standing": "projectable",
-   "evidence": "science · product curator · Carbide · cs_c_carbide_01"
+   "evidence": "science · product curator · Carbide · cs_c_carbide_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_casein_01",
    "text": "Casein thickens cheese curds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Casein · cs_c_casein_01"
+   "evidence": "nature · product curator · Casein · cs_c_casein_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cation_01",
    "text": "Cations carry positive charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Cation · cs_c_cation_01"
+   "evidence": "science · product curator · Cation · cs_c_cation_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cementum_01",
    "text": "Cementum anchors tooth roots",
    "standing": "projectable",
-   "evidence": "science · product curator · Cementum · cs_c_cementum_01"
+   "evidence": "science · product curator · Cementum · cs_c_cementum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cerebellum_01",
    "text": "The cerebellum steers balance",
    "standing": "projectable",
-   "evidence": "science · product curator · Cerebellum · cs_c_cerebellum_01"
+   "evidence": "science · product curator · Cerebellum · cs_c_cerebellum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cesium_01",
    "text": "Cesium clocks mark exact time",
    "standing": "projectable",
-   "evidence": "science · product curator · Cesium · cs_c_cesium_01"
+   "evidence": "science · product curator · Cesium · cs_c_cesium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_chert_01",
    "text": "Chert flakes sharp edges",
    "standing": "projectable",
-   "evidence": "science · product curator · Chert · cs_c_chert_01"
+   "evidence": "science · product curator · Chert · cs_c_chert_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cohesion_01",
    "text": "Cohesion pulls water columns",
    "standing": "projectable",
-   "evidence": "science · product curator · Cohesion · cs_c_cohesion_01"
+   "evidence": "science · product curator · Cohesion · cs_c_cohesion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_c_cutin_01",
    "text": "Cutin seals leaf surfaces",
    "standing": "projectable",
-   "evidence": "nature · product curator · Cutin · cs_c_cutin_01"
+   "evidence": "nature · product curator · Cutin · cs_c_cutin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }

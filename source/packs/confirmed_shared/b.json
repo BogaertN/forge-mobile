@@ -12,1501 +12,2751 @@
    "id": "cs_b_brazil_01",
    "text": "Brazil is the largest country in South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Brazil · cs_b_brazil_01"
+   "evidence": "geography · product curator · Brazil · cs_b_brazil_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brazil_02",
    "text": "Brasília is the capital of Brazil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Brazil · cs_b_brazil_02"
+   "evidence": "geography · product curator · Brazil · cs_b_brazil_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brazil_03",
    "text": "Portuguese is the official language of Brazil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Brazil · cs_b_brazil_03"
+   "evidence": "geography · product curator · Brazil · cs_b_brazil_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_belgium_01",
    "text": "Brussels is the capital of Belgium",
    "standing": "projectable",
-   "evidence": "geography · product curator · Belgium · cs_b_belgium_01"
+   "evidence": "geography · product curator · Belgium · cs_b_belgium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bulgaria_01",
    "text": "Sofia is the capital of Bulgaria",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bulgaria · cs_b_bulgaria_01"
+   "evidence": "geography · product curator · Bulgaria · cs_b_bulgaria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bangladesh_01",
    "text": "Dhaka is the capital of Bangladesh",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bangladesh · cs_b_bangladesh_01"
+   "evidence": "geography · product curator · Bangladesh · cs_b_bangladesh_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bhutan_01",
    "text": "Thimphu is the capital of Bhutan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bhutan · cs_b_bhutan_01"
+   "evidence": "geography · product curator · Bhutan · cs_b_bhutan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_botswana_01",
    "text": "Gaborone is the capital of Botswana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Botswana · cs_b_botswana_01"
+   "evidence": "geography · product curator · Botswana · cs_b_botswana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_belarus_01",
    "text": "Minsk is the capital of Belarus",
    "standing": "projectable",
-   "evidence": "geography · product curator · Belarus · cs_b_belarus_01"
+   "evidence": "geography · product curator · Belarus · cs_b_belarus_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_berlin_01",
    "text": "Berlin is the capital of Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Berlin · cs_b_berlin_01"
+   "evidence": "geography · product curator · Berlin · cs_b_berlin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beijing_01",
    "text": "Beijing is the capital of China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Beijing · cs_b_beijing_01"
+   "evidence": "geography · product curator · Beijing · cs_b_beijing_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bangkok_01",
    "text": "Bangkok is the capital of Thailand",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bangkok · cs_b_bangkok_01"
+   "evidence": "geography · product curator · Bangkok · cs_b_bangkok_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_budapest_01",
    "text": "Budapest is the capital of Hungary",
    "standing": "projectable",
-   "evidence": "geography · product curator · Budapest · cs_b_budapest_01"
+   "evidence": "geography · product curator · Budapest · cs_b_budapest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_budapest_02",
    "text": "The Danube flows through Budapest",
    "standing": "projectable",
-   "evidence": "geography · product curator · Budapest · cs_b_budapest_02"
+   "evidence": "geography · product curator · Budapest · cs_b_budapest_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bern_01",
    "text": "Bern is the federal city of Switzerland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bern · cs_b_bern_01"
+   "evidence": "geography · product curator · Bern · cs_b_bern_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bogota_01",
    "text": "Bogotá is the capital of Colombia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bogotá · cs_b_bogota_01"
+   "evidence": "geography · product curator · Bogotá · cs_b_bogota_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baghdad_01",
    "text": "Baghdad is the capital of Iraq",
    "standing": "projectable",
-   "evidence": "geography · product curator · Baghdad · cs_b_baghdad_01"
+   "evidence": "geography · product curator · Baghdad · cs_b_baghdad_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beirut_01",
    "text": "Beirut is the capital of Lebanon",
    "standing": "projectable",
-   "evidence": "geography · product curator · Beirut · cs_b_beirut_01"
+   "evidence": "geography · product curator · Beirut · cs_b_beirut_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baltic_sea_01",
    "text": "The Baltic Sea is in Europe",
    "standing": "projectable",
-   "evidence": "geography · product curator · Baltic Sea · cs_b_baltic_sea_01"
+   "evidence": "geography · product curator · Baltic Sea · cs_b_baltic_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_black_sea_01",
    "text": "The Black Sea lies between Europe and Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Black Sea · cs_b_black_sea_01"
+   "evidence": "geography · product curator · Black Sea · cs_b_black_sea_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bering_strait_01",
    "text": "The Bering Strait separates Asia and North America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bering Strait · cs_b_bering_strait_01"
+   "evidence": "geography · product curator · Bering Strait · cs_b_bering_strait_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_borneo_01",
    "text": "Borneo is the third largest island in the world",
    "standing": "projectable",
-   "evidence": "geography · product curator · Borneo · cs_b_borneo_01"
+   "evidence": "geography · product curator · Borneo · cs_b_borneo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bay_of_bengal_01",
    "text": "The Bay of Bengal is part of the Indian Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bay of Bengal · cs_b_bay_of_bengal_01"
+   "evidence": "geography · product curator · Bay of Bengal · cs_b_bay_of_bengal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boston_01",
    "text": "Boston is the capital of Massachusetts",
    "standing": "projectable",
-   "evidence": "geography · product curator · Boston · cs_b_boston_01"
+   "evidence": "geography · product curator · Boston · cs_b_boston_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baton_rouge_01",
    "text": "Baton Rouge is the capital of Louisiana",
    "standing": "projectable",
-   "evidence": "geography · product curator · Baton Rouge · cs_b_baton_rouge_01"
+   "evidence": "geography · product curator · Baton Rouge · cs_b_baton_rouge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boise_01",
    "text": "Boise is the capital of Idaho",
    "standing": "projectable",
-   "evidence": "geography · product curator · Boise · cs_b_boise_01"
+   "evidence": "geography · product curator · Boise · cs_b_boise_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bismarck_01",
    "text": "Bismarck is the capital of North Dakota",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bismarck · cs_b_bismarck_01"
+   "evidence": "geography · product curator · Bismarck · cs_b_bismarck_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_big_ben_01",
    "text": "Big Ben is the nickname of the great bell at the Palace of Westminster in London",
    "standing": "projectable",
-   "evidence": "geography · product curator · Big Ben · cs_b_big_ben_01"
+   "evidence": "geography · product curator · Big Ben · cs_b_big_ben_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boron_01",
    "text": "Boron has the chemical symbol B",
    "standing": "projectable",
-   "evidence": "science · product curator · Boron · cs_b_boron_01"
+   "evidence": "science · product curator · Boron · cs_b_boron_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beryllium_01",
    "text": "Beryllium is a chemical element",
    "standing": "projectable",
-   "evidence": "science · product curator · Beryllium · cs_b_beryllium_01"
+   "evidence": "science · product curator · Beryllium · cs_b_beryllium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bromine_01",
    "text": "Bromine is a liquid at room temperature",
    "standing": "projectable",
-   "evidence": "science · product curator · Bromine · cs_b_bromine_01"
+   "evidence": "science · product curator · Bromine · cs_b_bromine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bromine_02",
    "text": "Bromine has the chemical symbol Br",
    "standing": "projectable",
-   "evidence": "science · product curator · Bromine · cs_b_bromine_02"
+   "evidence": "science · product curator · Bromine · cs_b_bromine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barium_01",
    "text": "Barium has the chemical symbol Ba",
    "standing": "projectable",
-   "evidence": "science · product curator · Barium · cs_b_barium_01"
+   "evidence": "science · product curator · Barium · cs_b_barium_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bismuth_01",
    "text": "Bismuth has the chemical symbol Bi",
    "standing": "projectable",
-   "evidence": "science · product curator · Bismuth · cs_b_bismuth_01"
+   "evidence": "science · product curator · Bismuth · cs_b_bismuth_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_base_01",
    "text": "A base has a pH above 7",
    "standing": "projectable",
-   "evidence": "science · product curator · Base · cs_b_base_01"
+   "evidence": "science · product curator · Base · cs_b_base_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boiling_point_01",
    "text": "Water boils at 100 degrees Celsius",
    "standing": "projectable",
-   "evidence": "science · product curator · Boiling point · cs_b_boiling_point_01"
+   "evidence": "science · product curator · Boiling point · cs_b_boiling_point_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_black_hole_01",
    "text": "Light cannot escape a black hole",
    "standing": "projectable",
-   "evidence": "science · product curator · Black hole · cs_b_black_hole_01"
+   "evidence": "science · product curator · Black hole · cs_b_black_hole_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_big_bang_01",
    "text": "The universe began with the Big Bang",
    "standing": "projectable",
-   "evidence": "science · product curator · Big Bang · cs_b_big_bang_01"
+   "evidence": "science · product curator · Big Bang · cs_b_big_bang_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bacteria_01",
    "text": "Bacteria are tiny organisms",
    "standing": "projectable",
-   "evidence": "science · product curator · Bacteria · cs_b_bacteria_01"
+   "evidence": "science · product curator · Bacteria · cs_b_bacteria_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bacteria_02",
    "text": "Bacteria do not have a cell nucleus",
    "standing": "projectable",
-   "evidence": "science · product curator · Bacteria · cs_b_bacteria_02"
+   "evidence": "science · product curator · Bacteria · cs_b_bacteria_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brain_01",
    "text": "The brain is part of the central nervous system",
    "standing": "projectable",
-   "evidence": "science · product curator · Brain · cs_b_brain_01"
+   "evidence": "science · product curator · Brain · cs_b_brain_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bone_01",
    "text": "An adult human skeleton typically has 206 bones",
    "standing": "projectable",
-   "evidence": "science · product curator · Bone · cs_b_bone_01"
+   "evidence": "science · product curator · Bone · cs_b_bone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bone_02",
    "text": "The femur is the longest bone in the human body",
    "standing": "projectable",
-   "evidence": "science · product curator · Bone · cs_b_bone_02"
+   "evidence": "science · product curator · Bone · cs_b_bone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blood_01",
    "text": "Red blood cells carry oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Blood · cs_b_blood_01"
+   "evidence": "science · product curator · Blood · cs_b_blood_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_battery_01",
    "text": "A battery stores chemical energy",
    "standing": "projectable",
-   "evidence": "science · product curator · Battery · cs_b_battery_01"
+   "evidence": "science · product curator · Battery · cs_b_battery_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_binary_01",
    "text": "Binary numbers use only two digits",
    "standing": "projectable",
-   "evidence": "math · product curator · Binary · cs_b_binary_01"
+   "evidence": "math · product curator · Binary · cs_b_binary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bisector_01",
    "text": "A bisector divides something into two equal parts",
    "standing": "projectable",
-   "evidence": "math · product curator · Bisector · cs_b_bisector_01"
+   "evidence": "math · product curator · Bisector · cs_b_bisector_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_billion_01",
    "text": "One billion is a thousand million",
    "standing": "projectable",
-   "evidence": "math · product curator · Billion · cs_b_billion_01"
+   "evidence": "math · product curator · Billion · cs_b_billion_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bird_01",
    "text": "Birds are warm-blooded vertebrates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bird · cs_b_bird_01"
+   "evidence": "nature · product curator · Bird · cs_b_bird_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bird_02",
    "text": "Birds lay eggs",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bird · cs_b_bird_02"
+   "evidence": "nature · product curator · Bird · cs_b_bird_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bird_03",
    "text": "All birds have feathers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bird · cs_b_bird_03"
+   "evidence": "nature · product curator · Bird · cs_b_bird_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bat_01",
    "text": "Bats are mammals that can fly",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bat · cs_b_bat_01"
+   "evidence": "nature · product curator · Bat · cs_b_bat_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bee_01",
    "text": "Honeybees make honey from nectar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bee · cs_b_bee_01"
+   "evidence": "nature · product curator · Bee · cs_b_bee_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bee_02",
    "text": "Bees are insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bee · cs_b_bee_02"
+   "evidence": "nature · product curator · Bee · cs_b_bee_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_butterfly_01",
    "text": "Butterflies develop from caterpillars",
    "standing": "projectable",
-   "evidence": "nature · product curator · Butterfly · cs_b_butterfly_01"
+   "evidence": "nature · product curator · Butterfly · cs_b_butterfly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blue_whale_01",
    "text": "The blue whale is the largest animal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_01"
+   "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blue_whale_02",
    "text": "Blue whales are mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_02"
+   "evidence": "nature · product curator · Blue whale · cs_b_blue_whale_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bear_01",
    "text": "The polar bear lives in the Arctic",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bear · cs_b_bear_01"
+   "evidence": "nature · product curator · Bear · cs_b_bear_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beaver_01",
    "text": "Beavers build dams",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beaver · cs_b_beaver_01"
+   "evidence": "nature · product curator · Beaver · cs_b_beaver_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bamboo_01",
    "text": "Bamboo is a type of grass",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bamboo · cs_b_bamboo_01"
+   "evidence": "nature · product curator · Bamboo · cs_b_bamboo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bamboo_02",
    "text": "Pandas mostly eat bamboo",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bamboo · cs_b_bamboo_02"
+   "evidence": "nature · product curator · Bamboo · cs_b_bamboo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bald_eagle_01",
    "text": "The bald eagle is the national bird of the United States",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bald eagle · cs_b_bald_eagle_01"
+   "evidence": "nature · product curator · Bald eagle · cs_b_bald_eagle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beethoven_ludwig_van_01",
    "text": "Beethoven was a German composer",
    "standing": "projectable",
-   "evidence": "history · product curator · Beethoven, Ludwig van · cs_b_beethoven_ludwig_van_01"
+   "evidence": "history · product curator · Beethoven, Ludwig van · cs_b_beethoven_ludwig_van_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bach_johann_sebastian_01",
    "text": "Bach was a German composer",
    "standing": "projectable",
-   "evidence": "history · product curator · Bach, Johann Sebastian · cs_b_bach_johann_sebastian_01"
+   "evidence": "history · product curator · Bach, Johann Sebastian · cs_b_bach_johann_sebastian_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bell_alexander_graham_01",
    "text": "Alexander Graham Bell is credited with patenting the telephone in 1876",
    "standing": "projectable",
-   "evidence": "history · product curator · Bell, Alexander Graham · cs_b_bell_alexander_graham_01"
+   "evidence": "history · product curator · Bell, Alexander Graham · cs_b_bell_alexander_graham_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_berlin_wall_01",
    "text": "The Berlin Wall fell in 1989",
    "standing": "projectable",
-   "evidence": "history · product curator · Berlin Wall · cs_b_berlin_wall_01"
+   "evidence": "history · product curator · Berlin Wall · cs_b_berlin_wall_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_berlin_wall_02",
    "text": "The Berlin Wall was built in 1961",
    "standing": "projectable",
-   "evidence": "history · product curator · Berlin Wall · cs_b_berlin_wall_02"
+   "evidence": "history · product curator · Berlin Wall · cs_b_berlin_wall_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_byzantine_empire_01",
    "text": "Constantinople was the capital of the Byzantine Empire",
    "standing": "projectable",
-   "evidence": "history · product curator · Byzantine Empire · cs_b_byzantine_empire_01"
+   "evidence": "history · product curator · Byzantine Empire · cs_b_byzantine_empire_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_byzantine_empire_02",
    "text": "The Byzantine Empire ended with the fall of Constantinople in 1453",
    "standing": "projectable",
-   "evidence": "history · product curator · Byzantine Empire · cs_b_byzantine_empire_02"
+   "evidence": "history · product curator · Byzantine Empire · cs_b_byzantine_empire_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bastille_01",
    "text": "The Bastille fell in 1789",
    "standing": "projectable",
-   "evidence": "history · product curator · Bastille · cs_b_bastille_01"
+   "evidence": "history · product curator · Bastille · cs_b_bastille_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bronze_age_01",
    "text": "The Bronze Age came before the Iron Age",
    "standing": "projectable",
-   "evidence": "history · product curator · Bronze Age · cs_b_bronze_age_01"
+   "evidence": "history · product curator · Bronze Age · cs_b_bronze_age_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bronze_01",
    "text": "Bronze is an alloy of copper",
    "standing": "projectable",
-   "evidence": "science · product curator · Bronze · cs_b_bronze_01"
+   "evidence": "science · product curator · Bronze · cs_b_bronze_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brass_01",
    "text": "Brass is an alloy of copper and zinc",
    "standing": "projectable",
-   "evidence": "science · product curator · Brass · cs_b_brass_01"
+   "evidence": "science · product curator · Brass · cs_b_brass_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buddhism_01",
    "text": "Buddhism originated in India",
    "standing": "projectable",
-   "evidence": "history · product curator · Buddhism · cs_b_buddhism_01"
+   "evidence": "history · product curator · Buddhism · cs_b_buddhism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bill_of_rights_01",
    "text": "The Bill of Rights is the first ten amendments to the American Constitution",
    "standing": "projectable",
-   "evidence": "civics · product curator · Bill of Rights · cs_b_bill_of_rights_01"
+   "evidence": "civics · product curator · Bill of Rights · cs_b_bill_of_rights_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bill_of_rights_02",
    "text": "The American Bill of Rights was ratified in 1791",
    "standing": "projectable",
-   "evidence": "civics · product curator · Bill of Rights · cs_b_bill_of_rights_02"
+   "evidence": "civics · product curator · Bill of Rights · cs_b_bill_of_rights_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_ballot_01",
    "text": "A ballot records a vote",
    "standing": "projectable",
-   "evidence": "civics · product curator · Ballot · cs_b_ballot_01"
+   "evidence": "civics · product curator · Ballot · cs_b_ballot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bicycle_01",
    "text": "A standard bicycle has two wheels",
    "standing": "projectable",
-   "evidence": "general · product curator · Bicycle · cs_b_bicycle_01"
+   "evidence": "general · product curator · Bicycle · cs_b_bicycle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baseball_01",
    "text": "A baseball team fields nine players at a time",
    "standing": "projectable",
-   "evidence": "general · product curator · Baseball · cs_b_baseball_01"
+   "evidence": "general · product curator · Baseball · cs_b_baseball_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basketball_01",
    "text": "Basketball was invented by James Naismith in 1891",
    "standing": "projectable",
-   "evidence": "history · product curator · Basketball · cs_b_basketball_01"
+   "evidence": "history · product curator · Basketball · cs_b_basketball_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bolivia_01",
    "text": "Bolivia is a landlocked country in South America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bolivia · cs_b_bolivia_01"
+   "evidence": "geography · product curator · Bolivia · cs_b_bolivia_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barometer_01",
    "text": "A barometer measures atmospheric pressure",
    "standing": "projectable",
-   "evidence": "science · product curator · Barometer · cs_b_barometer_01"
+   "evidence": "science · product curator · Barometer · cs_b_barometer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_butterfly_02",
    "text": "Butterflies develop through complete metamorphosis",
    "standing": "projectable",
-   "evidence": "nature · product curator · Butterfly · cs_b_butterfly_02"
+   "evidence": "nature · product curator · Butterfly · cs_b_butterfly_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bison_01",
    "text": "The American bison is the national mammal of the United States",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bison · cs_b_bison_01"
+   "evidence": "nature · product curator · Bison · cs_b_bison_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buffalo_02",
    "text": "The African buffalo lives in sub-Saharan Africa",
    "standing": "projectable",
-   "evidence": "nature · product curator · Buffalo · cs_b_buffalo_02"
+   "evidence": "nature · product curator · Buffalo · cs_b_buffalo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boston_tea_party_01",
    "text": "The Boston Tea Party took place in 1773",
    "standing": "projectable",
-   "evidence": "history · product curator · Boston Tea Party · cs_b_boston_tea_party_01"
+   "evidence": "history · product curator · Boston Tea Party · cs_b_boston_tea_party_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bunker_hill_battle_of_01",
    "text": "The Battle of Bunker Hill was fought in 1775",
    "standing": "projectable",
-   "evidence": "history · product curator · Bunker Hill, Battle of · cs_b_bunker_hill_battle_of_01"
+   "evidence": "history · product curator · Bunker Hill, Battle of · cs_b_bunker_hill_battle_of_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bahamas_01",
    "text": "Nassau is the capital of the Bahamas",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bahamas · cs_b_bahamas_01"
+   "evidence": "geography · product curator · Bahamas · cs_b_bahamas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barbados_01",
    "text": "Barbados is an island in the Caribbean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Barbados · cs_b_barbados_01"
+   "evidence": "geography · product curator · Barbados · cs_b_barbados_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baku_01",
    "text": "Baku is the capital of Azerbaijan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Baku · cs_b_baku_01"
+   "evidence": "geography · product curator · Baku · cs_b_baku_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_belize_01",
    "text": "Belize is a country in Central America",
    "standing": "projectable",
-   "evidence": "geography · product curator · Belize · cs_b_belize_01"
+   "evidence": "geography · product curator · Belize · cs_b_belize_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_benin_01",
    "text": "Benin is a country in West Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Benin · cs_b_benin_01"
+   "evidence": "geography · product curator · Benin · cs_b_benin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_badger_01",
    "text": "Badgers are burrowing mammals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Badger · cs_b_badger_01"
+   "evidence": "nature · product curator · Badger · cs_b_badger_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barracuda_01",
    "text": "Barracudas are predatory ocean fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Barracuda · cs_b_barracuda_01"
+   "evidence": "nature · product curator · Barracuda · cs_b_barracuda_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beetle_01",
    "text": "Beetles are the largest order of insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beetle · cs_b_beetle_01"
+   "evidence": "nature · product curator · Beetle · cs_b_beetle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blackbird_01",
    "text": "The common blackbird is a species of thrush",
    "standing": "projectable",
-   "evidence": "nature · product curator · Blackbird · cs_b_blackbird_01"
+   "evidence": "nature · product curator · Blackbird · cs_b_blackbird_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buttercup_01",
    "text": "Buttercups usually have yellow flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Buttercup · cs_b_buttercup_01"
+   "evidence": "nature · product curator · Buttercup · cs_b_buttercup_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boiling_01",
    "text": "Boiling is the change from liquid to gas throughout a liquid",
    "standing": "projectable",
-   "evidence": "science · product curator · Boiling · cs_b_boiling_01"
+   "evidence": "science · product curator · Boiling · cs_b_boiling_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bremen_01",
    "text": "Bremen is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bremen · cs_b_bremen_01"
+   "evidence": "geography · product curator · Bremen · cs_b_bremen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bonn_01",
    "text": "Bonn is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bonn · cs_b_bonn_01"
+   "evidence": "geography · product curator · Bonn · cs_b_bonn_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bordeaux_01",
    "text": "Bordeaux is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bordeaux · cs_b_bordeaux_01"
+   "evidence": "geography · product curator · Bordeaux · cs_b_bordeaux_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brest_01",
    "text": "Brest is a city in France",
    "standing": "projectable",
-   "evidence": "geography · product curator · Brest · cs_b_brest_01"
+   "evidence": "geography · product curator · Brest · cs_b_brest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bruges_01",
    "text": "Bruges is a city in Belgium",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bruges · cs_b_bruges_01"
+   "evidence": "geography · product curator · Bruges · cs_b_bruges_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bilbao_01",
    "text": "Bilbao is a city in Spain",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bilbao · cs_b_bilbao_01"
+   "evidence": "geography · product curator · Bilbao · cs_b_bilbao_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bologna_01",
    "text": "Bologna is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bologna · cs_b_bologna_01"
+   "evidence": "geography · product curator · Bologna · cs_b_bologna_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bari_01",
    "text": "Bari is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bari · cs_b_bari_01"
+   "evidence": "geography · product curator · Bari · cs_b_bari_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bergamo_01",
    "text": "Bergamo is a city in Italy",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bergamo · cs_b_bergamo_01"
+   "evidence": "geography · product curator · Bergamo · cs_b_bergamo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bristol_01",
    "text": "Bristol is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bristol · cs_b_bristol_01"
+   "evidence": "geography · product curator · Bristol · cs_b_bristol_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brighton_01",
    "text": "Brighton is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Brighton · cs_b_brighton_01"
+   "evidence": "geography · product curator · Brighton · cs_b_brighton_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bath_01",
    "text": "Bath is a city in England",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bath · cs_b_bath_01"
+   "evidence": "geography · product curator · Bath · cs_b_bath_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_belfast_01",
    "text": "Belfast is a city in Northern Ireland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Belfast · cs_b_belfast_01"
+   "evidence": "geography · product curator · Belfast · cs_b_belfast_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_busan_01",
    "text": "Busan is a city in South Korea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Busan · cs_b_busan_01"
+   "evidence": "geography · product curator · Busan · cs_b_busan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bhopal_01",
    "text": "Bhopal is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bhopal · cs_b_bhopal_01"
+   "evidence": "geography · product curator · Bhopal · cs_b_bhopal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boston_02",
    "text": "Boston is a city in Massachusetts",
    "standing": "projectable",
-   "evidence": "geography · product curator · Boston · cs_b_boston_02"
+   "evidence": "geography · product curator · Boston · cs_b_boston_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buffalo_03",
    "text": "Buffalo is a city in New York",
    "standing": "projectable",
-   "evidence": "geography · product curator · Buffalo · cs_b_buffalo_03"
+   "evidence": "geography · product curator · Buffalo · cs_b_buffalo_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baltimore_01",
    "text": "Baltimore is a city in Maryland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Baltimore · cs_b_baltimore_01"
+   "evidence": "geography · product curator · Baltimore · cs_b_baltimore_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brisbane_01",
    "text": "Brisbane is a city in Australia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Brisbane · cs_b_brisbane_01"
+   "evidence": "geography · product curator · Brisbane · cs_b_brisbane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basra_01",
    "text": "Basra is a city in Iraq",
    "standing": "projectable",
-   "evidence": "geography · product curator · Basra · cs_b_basra_01"
+   "evidence": "geography · product curator · Basra · cs_b_basra_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bursa_01",
    "text": "Bursa is a city in Turkey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bursa · cs_b_bursa_01"
+   "evidence": "geography · product curator · Bursa · cs_b_bursa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brno_01",
    "text": "Brno is a city in the Czech Republic",
    "standing": "projectable",
-   "evidence": "geography · product curator · Brno · cs_b_brno_01"
+   "evidence": "geography · product curator · Brno · cs_b_brno_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basalt_01",
    "text": "Basalt is a volcanic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Basalt · cs_b_basalt_01"
+   "evidence": "science · product curator · Basalt · cs_b_basalt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_backbone_01",
    "text": "The backbone is the spine of a vertebrate",
    "standing": "projectable",
-   "evidence": "science · product curator · Backbone · cs_b_backbone_01"
+   "evidence": "science · product curator · Backbone · cs_b_backbone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_badlands_01",
    "text": "Badlands are dry eroded landscapes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Badlands · cs_b_badlands_01"
+   "evidence": "geography · product curator · Badlands · cs_b_badlands_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baleen_01",
    "text": "Baleen is a filter plate in the mouth of some whales",
    "standing": "projectable",
-   "evidence": "nature · product curator · Baleen · cs_b_baleen_01"
+   "evidence": "nature · product curator · Baleen · cs_b_baleen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_ballast_01",
    "text": "Ballast stabilizes a ship",
    "standing": "projectable",
-   "evidence": "science · product curator · Ballast · cs_b_ballast_01"
+   "evidence": "science · product curator · Ballast · cs_b_ballast_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_ballot_box_01",
    "text": "A ballot box holds cast votes",
    "standing": "projectable",
-   "evidence": "civics · product curator · Ballot box · cs_b_ballot_box_01"
+   "evidence": "civics · product curator · Ballot box · cs_b_ballot_box_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_banknote_01",
    "text": "A banknote is paper money",
    "standing": "projectable",
-   "evidence": "civics · product curator · Banknote · cs_b_banknote_01"
+   "evidence": "civics · product curator · Banknote · cs_b_banknote_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barter_01",
    "text": "Barter is trade without money",
    "standing": "projectable",
-   "evidence": "history · product curator · Barter · cs_b_barter_01"
+   "evidence": "history · product curator · Barter · cs_b_barter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basilica_01",
    "text": "A basilica is a large important church",
    "standing": "projectable",
-   "evidence": "history · product curator · Basilica · cs_b_basilica_01"
+   "evidence": "history · product curator · Basilica · cs_b_basilica_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bedrock_01",
    "text": "Bedrock is solid rock under soil",
    "standing": "projectable",
-   "evidence": "science · product curator · Bedrock · cs_b_bedrock_01"
+   "evidence": "science · product curator · Bedrock · cs_b_bedrock_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beech_01",
    "text": "A beech is a deciduous hardwood tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beech · cs_b_beech_01"
+   "evidence": "nature · product curator · Beech · cs_b_beech_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bell_curve_01",
    "text": "A bell curve is a normal distribution",
    "standing": "projectable",
-   "evidence": "math · product curator · Bell curve · cs_b_bell_curve_01"
+   "evidence": "math · product curator · Bell curve · cs_b_bell_curve_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bernoulli_principle_01",
    "text": "The Bernoulli principle relates fluid speed and pressure",
    "standing": "projectable",
-   "evidence": "science · product curator · Bernoulli principle · cs_b_bernoulli_principle_01"
+   "evidence": "science · product curator · Bernoulli principle · cs_b_bernoulli_principle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bicameralism_01",
    "text": "Bicameralism divides a legislature into two houses",
    "standing": "projectable",
-   "evidence": "civics · product curator · Bicameralism · cs_b_bicameralism_01"
+   "evidence": "civics · product curator · Bicameralism · cs_b_bicameralism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_binomial_01",
    "text": "A binomial has two terms",
    "standing": "projectable",
-   "evidence": "math · product curator · Binomial · cs_b_binomial_01"
+   "evidence": "math · product curator · Binomial · cs_b_binomial_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bird_of_prey_01",
    "text": "A bird of prey hunts other animals",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bird of prey · cs_b_bird_of_prey_01"
+   "evidence": "nature · product curator · Bird of prey · cs_b_bird_of_prey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boreal_forest_01",
    "text": "A boreal forest is a northern conifer forest",
    "standing": "projectable",
-   "evidence": "nature · product curator · Boreal forest · cs_b_boreal_forest_01"
+   "evidence": "nature · product curator · Boreal forest · cs_b_boreal_forest_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_badger_02",
    "text": "A badger digs burrows",
    "standing": "projectable",
-   "evidence": "nature · product curator · Badger · cs_b_badger_02"
+   "evidence": "nature · product curator · Badger · cs_b_badger_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basalt_02",
    "text": "Basalt is a dark volcanic rock",
    "standing": "projectable",
-   "evidence": "science · product curator · Basalt · cs_b_basalt_02"
+   "evidence": "science · product curator · Basalt · cs_b_basalt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basin_01",
    "text": "A river basin drains into a river",
    "standing": "projectable",
-   "evidence": "geography · product curator · Basin · cs_b_basin_01"
+   "evidence": "geography · product curator · Basin · cs_b_basin_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bay_01",
    "text": "A bay is a wide inlet of the sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bay · cs_b_bay_01"
+   "evidence": "geography · product curator · Bay · cs_b_bay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beak_01",
    "text": "A bird beak helps grasp food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beak · cs_b_beak_01"
+   "evidence": "nature · product curator · Beak · cs_b_beak_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beaver_02",
    "text": "A beaver builds dams",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beaver · cs_b_beaver_02"
+   "evidence": "nature · product curator · Beaver · cs_b_beaver_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bedrock_02",
    "text": "Bedrock lies under soil",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bedrock · cs_b_bedrock_02"
+   "evidence": "geography · product curator · Bedrock · cs_b_bedrock_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beetle_02",
    "text": "A beetle has hard wing covers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beetle · cs_b_beetle_02"
+   "evidence": "nature · product curator · Beetle · cs_b_beetle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beryllium_02",
    "text": "Beryllium is a light metal",
    "standing": "projectable",
-   "evidence": "science · product curator · Beryllium · cs_b_beryllium_02"
+   "evidence": "science · product curator · Beryllium · cs_b_beryllium_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_backbone_02",
    "text": "A backbone supports the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Backbone · cs_b_backbone_02"
+   "evidence": "science · product curator · Backbone · cs_b_backbone_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bacteria_03",
    "text": "Bacteria are microscopic organisms",
    "standing": "projectable",
-   "evidence": "science · product curator · Bacteria · cs_b_bacteria_03"
+   "evidence": "science · product curator · Bacteria · cs_b_bacteria_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_binary_02",
    "text": "A binary system uses two digits",
    "standing": "projectable",
-   "evidence": "math · product curator · Binary · cs_b_binary_02"
+   "evidence": "math · product curator · Binary · cs_b_binary_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_ballot_02",
    "text": "Citizens mark a ballot in an election",
    "standing": "projectable",
-   "evidence": "civics · product curator · Ballot · cs_b_ballot_02"
+   "evidence": "civics · product curator · Ballot · cs_b_ballot_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bay_02",
    "text": "Ships shelter in a bay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bay · cs_b_bay_02"
+   "evidence": "geography · product curator · Bay · cs_b_bay_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_braille_02",
    "text": "Blind readers use Braille",
    "standing": "projectable",
-   "evidence": "language · product curator · Braille · cs_b_braille_02"
+   "evidence": "language · product curator · Braille · cs_b_braille_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bronze_02",
    "text": "The Bronze Age used bronze tools",
    "standing": "projectable",
-   "evidence": "history · product curator · Bronze · cs_b_bronze_02"
+   "evidence": "history · product curator · Bronze · cs_b_bronze_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bisector_02",
    "text": "A bisector divides an angle in half",
    "standing": "projectable",
-   "evidence": "math · product curator · Bisector · cs_b_bisector_02"
+   "evidence": "math · product curator · Bisector · cs_b_bisector_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bedrock_03",
    "text": "Soil rests on bedrock",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bedrock · cs_b_bedrock_03"
+   "evidence": "geography · product curator · Bedrock · cs_b_bedrock_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_backbone_03",
    "text": "The backbone protects the spinal cord",
    "standing": "projectable",
-   "evidence": "science · product curator · Backbone · cs_b_backbone_03"
+   "evidence": "science · product curator · Backbone · cs_b_backbone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bay_03",
    "text": "A bay is a coastal inlet",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bay · cs_b_bay_03"
+   "evidence": "geography · product curator · Bay · cs_b_bay_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_biosphere_01",
    "text": "The biosphere is the zone of life on Earth",
    "standing": "projectable",
-   "evidence": "nature · product curator · Biosphere · cs_b_biosphere_01"
+   "evidence": "nature · product curator · Biosphere · cs_b_biosphere_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boron_02",
    "text": "Boron is a metalloid element",
    "standing": "projectable",
-   "evidence": "science · product curator · Boron · cs_b_boron_02"
+   "evidence": "science · product curator · Boron · cs_b_boron_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_braille_03",
    "text": "Braille is a writing system for blind readers",
    "standing": "projectable",
-   "evidence": "language · product curator · Braille · cs_b_braille_03"
+   "evidence": "language · product curator · Braille · cs_b_braille_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bay_04",
    "text": "Waves enter a bay",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bay · cs_b_bay_04"
+   "evidence": "geography · product curator · Bay · cs_b_bay_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bird_04",
    "text": "A bird has feathers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bird · cs_b_bird_04"
+   "evidence": "nature · product curator · Bird · cs_b_bird_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blood_02",
    "text": "Blood carries oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Blood · cs_b_blood_02"
+   "evidence": "science · product curator · Blood · cs_b_blood_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_ballot_03",
    "text": "Voters mark a ballot",
    "standing": "projectable",
-   "evidence": "civics · product curator · Ballot · cs_b_ballot_03"
+   "evidence": "civics · product curator · Ballot · cs_b_ballot_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bit_01",
    "text": "A bit is a binary digit",
    "standing": "projectable",
-   "evidence": "math · product curator · Bit · cs_b_bit_01"
+   "evidence": "math · product curator · Bit · cs_b_bit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_braille_04",
    "text": "Braille uses raised dots",
    "standing": "projectable",
-   "evidence": "language · product curator · Braille · cs_b_braille_04"
+   "evidence": "language · product curator · Braille · cs_b_braille_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bark_01",
    "text": "Tree bark protects the trunk",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bark · cs_b_bark_01"
+   "evidence": "nature · product curator · Bark · cs_b_bark_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barnacle_01",
    "text": "A barnacle clings to rocks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Barnacle · cs_b_barnacle_01"
+   "evidence": "nature · product curator · Barnacle · cs_b_barnacle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beacon_01",
    "text": "A beacon warns ships",
    "standing": "projectable",
-   "evidence": "geography · product curator · Beacon · cs_b_beacon_01"
+   "evidence": "geography · product curator · Beacon · cs_b_beacon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beaker_01",
    "text": "Chemists pour liquid into a beaker",
    "standing": "projectable",
-   "evidence": "science · product curator · Beaker · cs_b_beaker_01"
+   "evidence": "science · product curator · Beaker · cs_b_beaker_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bell_01",
    "text": "A bell rings at noon",
    "standing": "projectable",
-   "evidence": "history · product curator · Bell · cs_b_bell_01"
+   "evidence": "history · product curator · Bell · cs_b_bell_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_berry_01",
    "text": "A berry is a small fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Berry · cs_b_berry_01"
+   "evidence": "nature · product curator · Berry · cs_b_berry_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bicarbonate_01",
    "text": "Baking soda is sodium bicarbonate",
    "standing": "projectable",
-   "evidence": "science · product curator · Bicarbonate · cs_b_bicarbonate_01"
+   "evidence": "science · product curator · Bicarbonate · cs_b_bicarbonate_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baboon_01",
    "text": "A baboon is a large monkey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Baboon · cs_b_baboon_01"
+   "evidence": "nature · product curator · Baboon · cs_b_baboon_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_biosphere_02",
    "text": "Life fills the biosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Biosphere · cs_b_biosphere_02"
+   "evidence": "science · product curator · Biosphere · cs_b_biosphere_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barracuda_02",
    "text": "A barracuda is a fast fish",
    "standing": "projectable",
-   "evidence": "nature · product curator · Barracuda · cs_b_barracuda_02"
+   "evidence": "nature · product curator · Barracuda · cs_b_barracuda_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_baboon_02",
    "text": "A baboon lives in a troop",
    "standing": "projectable",
-   "evidence": "nature · product curator · Baboon · cs_b_baboon_02"
+   "evidence": "nature · product curator · Baboon · cs_b_baboon_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bark_02",
    "text": "Trees have protective bark",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bark · cs_b_bark_02"
+   "evidence": "nature · product curator · Bark · cs_b_bark_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bay_05",
    "text": "A bay indents a coastline",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bay · cs_b_bay_05"
+   "evidence": "geography · product curator · Bay · cs_b_bay_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bee_03",
    "text": "A bee gathers nectar",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bee · cs_b_bee_03"
+   "evidence": "nature · product curator · Bee · cs_b_bee_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bernoulli_01",
    "text": "Bernoulli explained fluid lift",
    "standing": "projectable",
-   "evidence": "science · product curator · Bernoulli · cs_b_bernoulli_01"
+   "evidence": "science · product curator · Bernoulli · cs_b_bernoulli_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_botany_01",
    "text": "Botany studies plants",
    "standing": "projectable",
-   "evidence": "science · product curator · Botany · cs_b_botany_01"
+   "evidence": "science · product curator · Botany · cs_b_botany_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_balance_01",
    "text": "A balance weighs objects",
    "standing": "projectable",
-   "evidence": "science · product curator · Balance · cs_b_balance_01"
+   "evidence": "science · product curator · Balance · cs_b_balance_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_banana_01",
    "text": "A banana grows in a bunch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Banana · cs_b_banana_01"
+   "evidence": "nature · product curator · Banana · cs_b_banana_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beryl_01",
    "text": "Aquamarine is a blue beryl",
    "standing": "projectable",
-   "evidence": "science · product curator · Beryl · cs_b_beryl_01"
+   "evidence": "science · product curator · Beryl · cs_b_beryl_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beryl_02",
    "text": "Emerald is a green beryl",
    "standing": "projectable",
-   "evidence": "science · product curator · Beryl · cs_b_beryl_02"
+   "evidence": "science · product curator · Beryl · cs_b_beryl_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bismuth_02",
    "text": "Bismuth melts at low heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Bismuth · cs_b_bismuth_02"
+   "evidence": "science · product curator · Bismuth · cs_b_bismuth_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blackbird_02",
    "text": "A blackbird sings at dawn",
    "standing": "projectable",
-   "evidence": "nature · product curator · Blackbird · cs_b_blackbird_02"
+   "evidence": "nature · product curator · Blackbird · cs_b_blackbird_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bolt_01",
    "text": "Lightning is a giant bolt",
    "standing": "projectable",
-   "evidence": "science · product curator · Bolt · cs_b_bolt_01"
+   "evidence": "science · product curator · Bolt · cs_b_bolt_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bract_01",
    "text": "A bract looks like a leaf",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bract · cs_b_bract_01"
+   "evidence": "nature · product curator · Bract · cs_b_bract_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bud_01",
    "text": "A bud opens into a flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bud · cs_b_bud_01"
+   "evidence": "nature · product curator · Bud · cs_b_bud_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bulb_01",
    "text": "A tulip grows from a bulb",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bulb · cs_b_bulb_01"
+   "evidence": "nature · product curator · Bulb · cs_b_bulb_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_biceps_01",
    "text": "The biceps bends the arm",
    "standing": "projectable",
-   "evidence": "science · product curator · Biceps · cs_b_biceps_01"
+   "evidence": "science · product curator · Biceps · cs_b_biceps_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_birch_02",
    "text": "A birch has peeling bark",
    "standing": "projectable",
-   "evidence": "nature · product curator · Birch · cs_b_birch_02"
+   "evidence": "nature · product curator · Birch · cs_b_birch_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bladder_01",
    "text": "The bladder stores urine",
    "standing": "projectable",
-   "evidence": "science · product curator · Bladder · cs_b_bladder_01"
+   "evidence": "science · product curator · Bladder · cs_b_bladder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boar_01",
    "text": "A wild boar roots for food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Boar · cs_b_boar_01"
+   "evidence": "nature · product curator · Boar · cs_b_boar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boom_01",
    "text": "A sonic boom follows a jet",
    "standing": "projectable",
-   "evidence": "science · product curator · Boom · cs_b_boom_01"
+   "evidence": "science · product curator · Boom · cs_b_boom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boron_03",
    "text": "Boron hardens steel",
    "standing": "projectable",
-   "evidence": "science · product curator · Boron · cs_b_boron_03"
+   "evidence": "science · product curator · Boron · cs_b_boron_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boulder_01",
    "text": "A glacier drops a boulder",
    "standing": "projectable",
-   "evidence": "geography · product curator · Boulder · cs_b_boulder_01"
+   "evidence": "geography · product curator · Boulder · cs_b_boulder_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_branch_01",
    "text": "A bird perches on a branch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Branch · cs_b_branch_01"
+   "evidence": "nature · product curator · Branch · cs_b_branch_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buffalo_04",
    "text": "A buffalo has curved horns",
    "standing": "projectable",
-   "evidence": "nature · product curator · Buffalo · cs_b_buffalo_04"
+   "evidence": "nature · product curator · Buffalo · cs_b_buffalo_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buffer_01",
    "text": "A buffer resists pH change",
    "standing": "projectable",
-   "evidence": "science · product curator · Buffer · cs_b_buffer_01"
+   "evidence": "science · product curator · Buffer · cs_b_buffer_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basalt_03",
    "text": "Basalt forms ocean crust",
    "standing": "projectable",
-   "evidence": "science · product curator · Basalt · cs_b_basalt_03"
+   "evidence": "science · product curator · Basalt · cs_b_basalt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beech_02",
    "text": "Beech trees drop nuts",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beech · cs_b_beech_02"
+   "evidence": "nature · product curator · Beech · cs_b_beech_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beaver_03",
    "text": "Beaver dams create wetlands",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beaver · cs_b_beaver_03"
+   "evidence": "nature · product curator · Beaver · cs_b_beaver_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bison_02",
    "text": "A bison grazes on plains",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bison · cs_b_bison_02"
+   "evidence": "nature · product curator · Bison · cs_b_bison_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blast_furnace_01",
    "text": "A blast furnace smelts iron",
    "standing": "projectable",
-   "evidence": "science · product curator · Blast furnace · cs_b_blast_furnace_01"
+   "evidence": "science · product curator · Blast furnace · cs_b_blast_furnace_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bluebird_01",
    "text": "A bluebird nests in a cavity",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bluebird · cs_b_bluebird_01"
+   "evidence": "nature · product curator · Bluebird · cs_b_bluebird_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bog_01",
    "text": "A bog holds acidic peat",
    "standing": "projectable",
-   "evidence": "geography · product curator · Bog · cs_b_bog_01"
+   "evidence": "geography · product curator · Bog · cs_b_bog_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_borax_01",
    "text": "Borax softens hard water",
    "standing": "projectable",
-   "evidence": "science · product curator · Borax · cs_b_borax_01"
+   "evidence": "science · product curator · Borax · cs_b_borax_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bronze_03",
    "text": "Bronze resists corrosion",
    "standing": "projectable",
-   "evidence": "science · product curator · Bronze · cs_b_bronze_03"
+   "evidence": "science · product curator · Bronze · cs_b_bronze_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bubble_01",
    "text": "Gas forms a bubble in liquid",
    "standing": "projectable",
-   "evidence": "science · product curator · Bubble · cs_b_bubble_01"
+   "evidence": "science · product curator · Bubble · cs_b_bubble_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beta_01",
    "text": "Beta particles ionize air",
    "standing": "projectable",
-   "evidence": "science · product curator · Beta · cs_b_beta_01"
+   "evidence": "science · product curator · Beta · cs_b_beta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_birch_03",
    "text": "Birch bark peels in sheets",
    "standing": "projectable",
-   "evidence": "nature · product curator · Birch · cs_b_birch_03"
+   "evidence": "nature · product curator · Birch · cs_b_birch_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bitumen_01",
    "text": "Roads use bitumen binder",
    "standing": "projectable",
-   "evidence": "science · product curator · Bitumen · cs_b_bitumen_01"
+   "evidence": "science · product curator · Bitumen · cs_b_bitumen_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_blubber_01",
    "text": "Whales store blubber fat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Blubber · cs_b_blubber_01"
+   "evidence": "nature · product curator · Blubber · cs_b_blubber_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bolt_02",
    "text": "A bolt clamps metal plates",
    "standing": "projectable",
-   "evidence": "science · product curator · Bolt · cs_b_bolt_02"
+   "evidence": "science · product curator · Bolt · cs_b_bolt_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bract_02",
    "text": "A bract shelters a flower",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bract · cs_b_bract_02"
+   "evidence": "nature · product curator · Bract · cs_b_bract_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brake_01",
    "text": "Friction stops a brake pad",
    "standing": "projectable",
-   "evidence": "science · product curator · Brake · cs_b_brake_01"
+   "evidence": "science · product curator · Brake · cs_b_brake_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_breeze_01",
    "text": "A sea breeze cools coasts",
    "standing": "projectable",
-   "evidence": "science · product curator · Breeze · cs_b_breeze_01"
+   "evidence": "science · product curator · Breeze · cs_b_breeze_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bark_03",
    "text": "Bark shields tree trunks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bark · cs_b_bark_03"
+   "evidence": "nature · product curator · Bark · cs_b_bark_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_barnacle_02",
    "text": "Barnacles cling to hulls",
    "standing": "projectable",
-   "evidence": "nature · product curator · Barnacle · cs_b_barnacle_02"
+   "evidence": "nature · product curator · Barnacle · cs_b_barnacle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beryllium_03",
    "text": "Beryllium stiffens alloys",
    "standing": "projectable",
-   "evidence": "science · product curator · Beryllium · cs_b_beryllium_03"
+   "evidence": "science · product curator · Beryllium · cs_b_beryllium_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bias_01",
    "text": "Bias tilts sample results",
    "standing": "projectable",
-   "evidence": "science · product curator · Bias · cs_b_bias_01"
+   "evidence": "science · product curator · Bias · cs_b_bias_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bile_01",
    "text": "Bile digests fatty foods",
    "standing": "projectable",
-   "evidence": "science · product curator · Bile · cs_b_bile_01"
+   "evidence": "science · product curator · Bile · cs_b_bile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bitumen_02",
    "text": "Bitumen seals road asphalt",
    "standing": "projectable",
-   "evidence": "science · product curator · Bitumen · cs_b_bitumen_02"
+   "evidence": "science · product curator · Bitumen · cs_b_bitumen_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bolt_03",
    "text": "A bolt joins steel plates",
    "standing": "projectable",
-   "evidence": "science · product curator · Bolt · cs_b_bolt_03"
+   "evidence": "science · product curator · Bolt · cs_b_bolt_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bract_03",
    "text": "Bracts protect flower buds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bract · cs_b_bract_03"
+   "evidence": "nature · product curator · Bract · cs_b_bract_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brainstem_01",
    "text": "Brainstem steers reflexes",
    "standing": "projectable",
-   "evidence": "science · product curator · Brainstem · cs_b_brainstem_01"
+   "evidence": "science · product curator · Brainstem · cs_b_brainstem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buffer_02",
    "text": "Buffers resist pH swings",
    "standing": "projectable",
-   "evidence": "science · product curator · Buffer · cs_b_buffer_02"
+   "evidence": "science · product curator · Buffer · cs_b_buffer_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_beak_02",
    "text": "A beak cracks hard seeds",
    "standing": "projectable",
-   "evidence": "nature · product curator · Beak · cs_b_beak_02"
+   "evidence": "nature · product curator · Beak · cs_b_beak_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bearing_01",
    "text": "Oil lubricates a bearing",
    "standing": "projectable",
-   "evidence": "science · product curator · Bearing · cs_b_bearing_01"
+   "evidence": "science · product curator · Bearing · cs_b_bearing_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_binary_03",
    "text": "Binary codes computer bits",
    "standing": "projectable",
-   "evidence": "math · product curator · Binary · cs_b_binary_03"
+   "evidence": "math · product curator · Binary · cs_b_binary_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_ballast_02",
    "text": "Ballast steadies ship keels",
    "standing": "projectable",
-   "evidence": "science · product curator · Ballast · cs_b_ballast_02"
+   "evidence": "science · product curator · Ballast · cs_b_ballast_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bond_01",
    "text": "Atoms share electron bonds",
    "standing": "projectable",
-   "evidence": "science · product curator · Bond · cs_b_bond_01"
+   "evidence": "science · product curator · Bond · cs_b_bond_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bone_03",
    "text": "Calcium strengthens bone",
    "standing": "projectable",
-   "evidence": "science · product curator · Bone · cs_b_bone_03"
+   "evidence": "science · product curator · Bone · cs_b_bone_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_brain_02",
    "text": "The brain steers the body",
    "standing": "projectable",
-   "evidence": "science · product curator · Brain · cs_b_brain_02"
+   "evidence": "science · product curator · Brain · cs_b_brain_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_breath_01",
    "text": "Breath carries lung oxygen",
    "standing": "projectable",
-   "evidence": "science · product curator · Breath · cs_b_breath_01"
+   "evidence": "science · product curator · Breath · cs_b_breath_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_breeze_02",
    "text": "Breezes cool coastal towns",
    "standing": "projectable",
-   "evidence": "science · product curator · Breeze · cs_b_breeze_02"
+   "evidence": "science · product curator · Breeze · cs_b_breeze_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bulb_02",
    "text": "Bulbs store winter starch",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bulb · cs_b_bulb_02"
+   "evidence": "nature · product curator · Bulb · cs_b_bulb_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_basalt_04",
    "text": "Basalt cools from lava flows",
    "standing": "projectable",
-   "evidence": "science · product curator · Basalt · cs_b_basalt_04"
+   "evidence": "science · product curator · Basalt · cs_b_basalt_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_battery_02",
    "text": "A battery stores charge",
    "standing": "projectable",
-   "evidence": "science · product curator · Battery · cs_b_battery_02"
+   "evidence": "science · product curator · Battery · cs_b_battery_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bedrock_04",
    "text": "Bedrock underlies soil layers",
    "standing": "projectable",
-   "evidence": "science · product curator · Bedrock · cs_b_bedrock_04"
+   "evidence": "science · product curator · Bedrock · cs_b_bedrock_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bicarbonate_02",
    "text": "Bicarbonate buffers blood pH",
    "standing": "projectable",
-   "evidence": "science · product curator · Bicarbonate · cs_b_bicarbonate_02"
+   "evidence": "science · product curator · Bicarbonate · cs_b_bicarbonate_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_biomass_01",
    "text": "Biomass stores plant carbon",
    "standing": "projectable",
-   "evidence": "nature · product curator · Biomass · cs_b_biomass_01"
+   "evidence": "nature · product curator · Biomass · cs_b_biomass_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bond_02",
    "text": "A chemical bond joins atoms",
    "standing": "projectable",
-   "evidence": "science · product curator · Bond · cs_b_bond_02"
+   "evidence": "science · product curator · Bond · cs_b_bond_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_boron_04",
    "text": "Boron hardens glassware",
    "standing": "projectable",
-   "evidence": "science · product curator · Boron · cs_b_boron_04"
+   "evidence": "science · product curator · Boron · cs_b_boron_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_bulb_03",
    "text": "A bulb stores plant food",
    "standing": "projectable",
-   "evidence": "nature · product curator · Bulb · cs_b_bulb_03"
+   "evidence": "nature · product curator · Bulb · cs_b_bulb_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_butane_01",
    "text": "Butane fuels camping stoves",
    "standing": "projectable",
-   "evidence": "science · product curator · Butane · cs_b_butane_01"
+   "evidence": "science · product curator · Butane · cs_b_butane_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_b_buttress_01",
    "text": "A buttress braces a wall",
    "standing": "projectable",
-   "evidence": "history · product curator · Buttress · cs_b_buttress_01"
+   "evidence": "history · product curator · Buttress · cs_b_buttress_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
