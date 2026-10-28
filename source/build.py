@@ -141,19 +141,20 @@ def tighten(src):
     return walk(src)
 def slim(m, s):
     # single-file only: the registry's provenance 'source' strings are not read by any UI (the site copy keeps them)
+    if m == 'src/req_packet.js':
+        # 4.9.167: auditCard uses id + test ids only; drop statement/falsify and long L() names so gzip leave ≥5 kB (Pages keeps full packet)
+        s = re.sub(r"statement:\s*'([^'\\]|\\.)*'", "statement:''", s)
+        s = re.sub(r"falsify:\s*'([^'\\]|\\.)*'", "falsify:''", s)
+        s = re.sub(r"L\(('(?:[^'\\]|\\.)*'),\s*('(?:[^'\\]|\\.)*'),\s*('(?:[^'\\]|\\.)*'),\s*'(?:[^'\\]|\\.)*',", r"L(\1, \2, \3, '',", s)
+        return s
     if m != 'src/features.js': return s
     a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
-    # 4.9.87: a long note is cut at a word boundary (the site copy keeps the full note); UTF-8 is written as is.
-    # 4.9.115 cut notes at 72 characters. 4.9.116 cuts at 40. 4.9.117 cuts at 16. 4.9.118 cuts at 4.
-    # 4.9.119 omits note and wave from kernel-app.html so the dream/SPC copy stays within 1.920 MB. The claim table still shows id, name, status, and proof. Math-honesty tables stay in source/research. The Pages site keeps the full registry.
-    # 4.9.125 hotfix: truncate long feature names at a word boundary (≤20) so CI zlib.gzipSync stays under 570 kB; proofs stay. Pages site keeps full names.
-    # 4.9.127 hotfix: one CSP script + name ≤12 for CI zlib.gzipSync headroom; proofs stay.
-    # 4.9.129 hotfix: name ≤7 so zlib.gzipSync leave stays ≥5 kB under 570 kB; proofs stay. Pages keeps full names.
-    # 4.9.164 hotfix: omit feature names in kernel-app.html so gzip leave stays ≥5 kB under 570 kB (CI Node 20 zlib ~+3.3 kB vs local). Claim table still has id, status, proof. Pages site keeps full names.
+    # 4.9.87–4.9.164: omit note/wave/name for kernel-app.html gzip; Pages keeps full registry.
+    # 4.9.167: also omit proof arrays (claim table keeps id/status; Pages keeps proofs) so leave ≥5 kB under 570 kB.
     for f in d.get('features', []):
         f.pop('source', None); f.pop('note', None); f.pop('wave', None)
-        f.pop('name', None)  # 4.9.164: omit empty name key (claim table keeps id/status/proof); Pages keeps full names
-    # 4.9.164: verify-only keys not shown in the claim table; Pages site keeps them
+        f.pop('name', None)
+        f.pop('proof', None)
     d.pop('generated', None); d.pop('gate', None)
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
