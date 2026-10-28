@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 209,
+ "curated_facts": 219,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1219,6 +1219,66 @@
    "text": "An elephant grows a tusk",
    "standing": "projectable",
    "evidence": "nature · product curator · Tusk · cs_t_tusk_01"
+  },
+  {
+   "id": "cs_t_taproot_01",
+   "text": "A taproot grows straight down",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Taproot · cs_t_taproot_01"
+  },
+  {
+   "id": "cs_t_termite_03",
+   "text": "A termite eats wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Termite · cs_t_termite_03"
+  },
+  {
+   "id": "cs_t_toluene_01",
+   "text": "Toluene dissolves paints",
+   "standing": "projectable",
+   "evidence": "science · product curator · Toluene · cs_t_toluene_01"
+  },
+  {
+   "id": "cs_t_tongue_02",
+   "text": "The tongue tastes food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tongue · cs_t_tongue_02"
+  },
+  {
+   "id": "cs_t_torque_03",
+   "text": "Torque twists an object",
+   "standing": "projectable",
+   "evidence": "science · product curator · Torque · cs_t_torque_03"
+  },
+  {
+   "id": "cs_t_toxin_01",
+   "text": "A toxin harms living cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Toxin · cs_t_toxin_01"
+  },
+  {
+   "id": "cs_t_transformer_01",
+   "text": "A transformer changes voltage",
+   "standing": "projectable",
+   "evidence": "science · product curator · Transformer · cs_t_transformer_01"
+  },
+  {
+   "id": "cs_t_trench_01",
+   "text": "A trench marks a plate edge",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Trench · cs_t_trench_01"
+  },
+  {
+   "id": "cs_t_trough_01",
+   "text": "A trough holds low pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Trough · cs_t_trough_01"
+  },
+  {
+   "id": "cs_t_twilight_02",
+   "text": "Stars appear during twilight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Twilight · cs_t_twilight_02"
   }
  ]
 }

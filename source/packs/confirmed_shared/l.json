@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 211,
+ "curated_facts": 221,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1219,6 +1219,66 @@
    "text": "A lyre is an ancient harp",
    "standing": "projectable",
    "evidence": "history · product curator · Lyre · cs_l_lyre_01"
+  },
+  {
+   "id": "cs_l_labyrinth_01",
+   "text": "A labyrinth twists paths",
+   "standing": "projectable",
+   "evidence": "history · product curator · Labyrinth · cs_l_labyrinth_01"
+  },
+  {
+   "id": "cs_l_lemur_03",
+   "text": "Lemurs live in Madagascar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lemur · cs_l_lemur_03"
+  },
+  {
+   "id": "cs_l_lily_02",
+   "text": "A lily grows from a bulb",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lily · cs_l_lily_02"
+  },
+  {
+   "id": "cs_l_liver_03",
+   "text": "The liver clears toxins",
+   "standing": "projectable",
+   "evidence": "science · product curator · Liver · cs_l_liver_03"
+  },
+  {
+   "id": "cs_l_lizard_02",
+   "text": "A lizard basks on stone",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lizard · cs_l_lizard_02"
+  },
+  {
+   "id": "cs_l_lizard_03",
+   "text": "A lizard sheds its skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lizard · cs_l_lizard_03"
+  },
+  {
+   "id": "cs_l_locomotive_01",
+   "text": "A locomotive pulls a train",
+   "standing": "projectable",
+   "evidence": "science · product curator · Locomotive · cs_l_locomotive_01"
+  },
+  {
+   "id": "cs_l_loop_01",
+   "text": "A loop closes a circuit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Loop · cs_l_loop_01"
+  },
+  {
+   "id": "cs_l_lunar_01",
+   "text": "A lunar tide pulls seas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lunar · cs_l_lunar_01"
+  },
+  {
+   "id": "cs_l_lymph_02",
+   "text": "Lymph clears tissue waste",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lymph · cs_l_lymph_02"
   }
  ]
 }

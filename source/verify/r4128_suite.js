@@ -1,4 +1,4 @@
-/* R4128 (4.9.128–4.9.151): hosted shared knowledge A–Z. Read for all (pull into session RAM).
+/* R4128 (4.9.128–4.9.152): hosted shared knowledge A–Z. Read for all (pull into session RAM).
  * Write needs Nic's write key. A–Z is NOT the on-phone DB product brain.
  * UI/Audit name shared knowledge base. Scrapbook stays empty. Soft budget unchanged. */
 const fs = require('fs');
@@ -140,9 +140,9 @@ T('Audit and UI name shared knowledge base; phone cache empty; budget', () => {
   expect(!phone || !(phone.facts || []).length, 'phone facts after pull');
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.151', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.152', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.151', ver);
+  expect(ver === '4.9.152', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
   const ids = ['R4128-HOSTED', 'R4128-WRITE-KEY', 'R4128-AZ'];
@@ -154,13 +154,13 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.151', () => {
   expect(/v4\.9\.12[89]|v4\.9\.13[0-9]|v4\.9\.14[0-9]|v4\.9\.15[01]/.test(conf) && /shared knowledge/i.test(conf) && /write key|WRITE-KEY/i.test(conf), 'CONFLICTS');
   expect(/hosted/i.test(conf) && /phone DB|on-phone|localStorage|IndexedDB/i.test(conf), 'hosted not phone');
   const next = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
-  expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[01]/.test(next), 'NEXT_BUILD');
+  expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[0-2]/.test(next), 'NEXT_BUILD');
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
-  expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[01]/.test(readme) && /shared knowledge/i.test(readme), 'README');
+  expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[0-2]/.test(readme) && /shared knowledge/i.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.151' && tgt.suites[0] === 'r4128_suite.js', JSON.stringify(tgt));
+  expect(tgt.release === '4.9.152' && tgt.suites[0] === 'r4128_suite.js', JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
-  expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[01]/.test(req) && /R4128/.test(req), 'req_packet');
+  expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[0-2]/.test(req) && /R4128/.test(req), 'req_packet');
   const briefPath = '/workspace/kernel-papers/oct25/BRIEF_4.9.128_SHARED_KB_AZ.md';
   if (fs.existsSync(briefPath)) {
     const brief = fs.readFileSync(briefPath, 'utf8');

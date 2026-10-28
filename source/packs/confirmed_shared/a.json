@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 205,
+ "curated_facts": 215,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1219,6 +1219,66 @@
    "text": "Azurite is a blue copper ore",
    "standing": "projectable",
    "evidence": "science · product curator · Azurite · cs_a_azurite_01"
+  },
+  {
+   "id": "cs_a_acid_rain_02",
+   "text": "Acid rain harms forests",
+   "standing": "projectable",
+   "evidence": "science · product curator · Acid rain · cs_a_acid_rain_02"
+  },
+  {
+   "id": "cs_a_agriculture_02",
+   "text": "Agriculture feeds cities",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Agriculture · cs_a_agriculture_02"
+  },
+  {
+   "id": "cs_a_aerobic_01",
+   "text": "An aerobic process uses oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aerobic · cs_a_aerobic_01"
+  },
+  {
+   "id": "cs_a_ampere_01",
+   "text": "Current uses the ampere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ampere · cs_a_ampere_01"
+  },
+  {
+   "id": "cs_a_anode_01",
+   "text": "Current leaves an anode",
+   "standing": "projectable",
+   "evidence": "science · product curator · Anode · cs_a_anode_01"
+  },
+  {
+   "id": "cs_a_anteater_02",
+   "text": "An anteater eats ants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Anteater · cs_a_anteater_02"
+  },
+  {
+   "id": "cs_a_aperture_01",
+   "text": "Light enters an aperture",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aperture · cs_a_aperture_01"
+  },
+  {
+   "id": "cs_a_aphid_01",
+   "text": "An aphid feeds on plant sap",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Aphid · cs_a_aphid_01"
+  },
+  {
+   "id": "cs_a_argon_03",
+   "text": "Argon shields weld arcs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Argon · cs_a_argon_03"
+  },
+  {
+   "id": "cs_a_ash_02",
+   "text": "Ash enriches forest soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ash · cs_a_ash_02"
   }
  ]
 }

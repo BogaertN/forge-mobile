@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 213,
+ "curated_facts": 223,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1219,6 +1219,66 @@
    "text": "Rock shows at an outcrop",
    "standing": "projectable",
    "evidence": "geography · product curator · Outcrop · cs_o_outcrop_01"
+  },
+  {
+   "id": "cs_o_oar_01",
+   "text": "An oar propels a boat",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oar · cs_o_oar_01"
+  },
+  {
+   "id": "cs_o_ohm_03",
+   "text": "Resistance is measured in ohms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ohm · cs_o_ohm_03"
+  },
+  {
+   "id": "cs_o_onion_05",
+   "text": "An onion grows as a bulb",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Onion · cs_o_onion_05"
+  },
+  {
+   "id": "cs_o_opal_02",
+   "text": "Opal shows play of color",
+   "standing": "projectable",
+   "evidence": "science · product curator · Opal · cs_o_opal_02"
+  },
+  {
+   "id": "cs_o_orbit_07",
+   "text": "Earth keeps a stable orbit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orbit · cs_o_orbit_07"
+  },
+  {
+   "id": "cs_o_otter_06",
+   "text": "An otter lives near water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Otter · cs_o_otter_06"
+  },
+  {
+   "id": "cs_o_oval_03",
+   "text": "An oval stretches a circle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Oval · cs_o_oval_03"
+  },
+  {
+   "id": "cs_o_owl_06",
+   "text": "Owls hunt mostly at night",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Owl · cs_o_owl_06"
+  },
+  {
+   "id": "cs_o_oxygen_06",
+   "text": "Plants release oxygen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oxygen · cs_o_oxygen_06"
+  },
+  {
+   "id": "cs_o_oyster_04",
+   "text": "An oyster filters water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_04"
   }
  ]
 }

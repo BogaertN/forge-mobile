@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 220,
+ "curated_facts": 230,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1213,6 +1213,66 @@
    "text": "An arrow rests in a quiver",
    "standing": "projectable",
    "evidence": "history · product curator · Quiver · cs_q_quiver_03"
+  },
+  {
+   "id": "cs_q_quail_12",
+   "text": "A quail bursts into flight",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_12"
+  },
+  {
+   "id": "cs_q_quark_08",
+   "text": "Quarks bind inside protons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_08"
+  },
+  {
+   "id": "cs_q_quart_07",
+   "text": "A quart holds four cups",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quart · cs_q_quart_07"
+  },
+  {
+   "id": "cs_q_quartet_04",
+   "text": "Four singers form a quartet",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quartet · cs_q_quartet_04"
+  },
+  {
+   "id": "cs_q_quenching_01",
+   "text": "Quenching hardens steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quenching · cs_q_quenching_01"
+  },
+  {
+   "id": "cs_q_quicksand_04",
+   "text": "Quicksand yields under weight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quicksand · cs_q_quicksand_04"
+  },
+  {
+   "id": "cs_q_quiet_01",
+   "text": "Carpets keep rooms quiet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quiet · cs_q_quiet_01"
+  },
+  {
+   "id": "cs_q_quilt_08",
+   "text": "A quilt traps warm air",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_08"
+  },
+  {
+   "id": "cs_q_quinine_04",
+   "text": "Cinchona bark yields quinine",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quinine · cs_q_quinine_04"
+  },
+  {
+   "id": "cs_q_quill_09",
+   "text": "Ink flowed from a quill",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quill · cs_q_quill_09"
   }
  ]
 }
