@@ -1,5 +1,5 @@
 {
-  "version": "4.9.162",
+  "version": "4.9.163",
   "features": [
     {
       "id": "A-01",
@@ -3432,13 +3432,14 @@
     {
       "id": "R4128-HOSTED",
       "name": "hosted shared KB",
-      "source": "CONFLICTS.md v4.9.162; BRIEF_4.9.128_SHARED_KB_AZ",
+      "source": "CONFLICTS.md v4.9.163; BRIEF_4.9.128_SHARED_KB_AZ",
       "wave": "W2",
       "claim": "Partial",
-      "note": "Hosted A–Z is the shared knowledge source of truth. pullHostedSharedPack loads session RAM. 4.9.162: also consulted for ordinary WH/YN recall before AQ-1. Phone confirmed_shared stays empty. Scrapbook stays empty.",
+      "note": "Hosted A–Z is the shared knowledge source of truth. pullHostedSharedPack loads session RAM. 4.9.162–4.9.163: ordinary WH/YN recall before AQ-1; civics substance + discourse continuity. Phone confirmed_shared stays empty. Scrapbook stays empty.",
       "proof": [
         "R4128",
-        "R4162"
+        "R4162",
+        "R4163"
       ]
     },
     {
@@ -3455,10 +3456,10 @@
     {
       "id": "R4128-AZ",
       "name": "A-Z corpus",
-      "source": "CONFLICTS.md v4.9.162; packs/confirmed_shared/index.json",
+      "source": "CONFLICTS.md v4.9.163; packs/confirmed_shared/index.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "Index 4.9.161 packs kept (6510 / 6748). 4.9.162 is routing connect, not corpus thicken. UI/speech: Shared knowledge base.",
+      "note": "Index 4.9.163 (6518 admitted / 6756 curated). 4.9.163 thickened First/Fifth civics packs. UI/speech: Shared knowledge base.",
       "proof": [
         "R4128"
       ]
@@ -3484,13 +3485,35 @@
       "proof": [
         "R4162"
       ]
+    },
+    {
+      "id": "R4163-CIVICS-WH",
+      "name": "civics WH substance from shared KB",
+      "source": "CONFLICTS.md v4.9.163; Nic pt125u",
+      "wave": "W2",
+      "claim": "Partial",
+      "note": "What-is composes be-presence with about-facts (CS-COMPOSE-PRESENCE-ABOUT). Rights WH (protect/give/…) uses CS-RECALL-RIGHTS-ABOUT. G-IRRN-SURFACE collapses people↔person when describe is identical. First/Fifth packs thickened. Not a Fifth-only special case.",
+      "proof": [
+        "R4163"
+      ]
+    },
+    {
+      "id": "R4163-DISCOURSE-CS",
+      "name": "CS discourse continuity",
+      "source": "CONFLICTS.md v4.9.163; Nic pt125u",
+      "wave": "W2",
+      "claim": "Partial",
+      "note": "After a CS answer, pronoun follow-ups (“what does it say that it gives”, “what rights does it give”) keep the prior CS entity via REF-RESOLVED-UNIQUE + rights about-fallback; do not start research.web on a hollow subject. Deliberate miss still AQ-1.",
+      "proof": [
+        "R4163"
+      ]
     }
   ],
-  "count": 318,
+  "count": 320,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 156,
+    "Partial": 158,
     "Missing": 9,
     "Out of scope / parked": 13
   }

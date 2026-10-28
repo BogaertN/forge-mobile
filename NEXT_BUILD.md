@@ -1,3 +1,14 @@
+# Next build order — after 4.9.163
+**Date:** 2026-10-28 (America/Chicago)
+**Baseline:** 4.9.163 civics WH substance + CS discourse continuity (IRRN collapse, compose presence+about, rights about-fallback; First/Fifth pack thicken; index 4.9.163)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; scrapbook shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.163:** ordinary civics “what is / what rights” and pronoun follow-ups on CS-backed topics answer from hosted shared KB with substance (not a thin Bill-of-Rights-only line, not a people/person clarify hold, not research.web on a hollow “Says”). Deliberate miss still AQ-1. Soft budget unchanged.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget; stuffing one amendment as a special-case answer patch.
+
+**Manual:** still paused.
+
 # Next build order — after 4.9.162
 **Date:** 2026-10-28 (America/Chicago)
 **Baseline:** 4.9.162 READ-path connect (hosted confirmed_shared before AQ-1; packs index still 4.9.161)
