@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 155,
+ "curated_facts": 161,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -895,6 +895,42 @@
    "text": "Nutmeg is grated as a spice",
    "standing": "projectable",
    "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_02"
+  },
+  {
+   "id": "cs_n_natural_number_03",
+   "text": "A natural number is a counting number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Natural number · cs_n_natural_number_03"
+  },
+  {
+   "id": "cs_n_north_pole_02",
+   "text": "The North Pole is the northernmost point on Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North Pole · cs_n_north_pole_02"
+  },
+  {
+   "id": "cs_n_noun_02",
+   "text": "A noun names a person place or thing",
+   "standing": "projectable",
+   "evidence": "language · product curator · Noun · cs_n_noun_02"
+  },
+  {
+   "id": "cs_n_november_03",
+   "text": "Thanksgiving falls in November in the United States",
+   "standing": "projectable",
+   "evidence": "civics · product curator · November · cs_n_november_03"
+  },
+  {
+   "id": "cs_n_nautilus_03",
+   "text": "A nautilus is a shelled cephalopod",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_03"
+  },
+  {
+   "id": "cs_n_neuron_03",
+   "text": "A neuron transmits nerve impulses",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neuron · cs_n_neuron_03"
   }
  ]
 }

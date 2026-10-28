@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 154,
+ "curated_facts": 162,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -895,6 +895,54 @@
    "text": "Bacteria are microscopic organisms",
    "standing": "projectable",
    "evidence": "science · product curator · Bacteria · cs_b_bacteria_03"
+  },
+  {
+   "id": "cs_b_binary_02",
+   "text": "A binary system uses two digits",
+   "standing": "projectable",
+   "evidence": "math · product curator · Binary · cs_b_binary_02"
+  },
+  {
+   "id": "cs_b_ballot_02",
+   "text": "Citizens mark a ballot in an election",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Ballot · cs_b_ballot_02"
+  },
+  {
+   "id": "cs_b_bay_02",
+   "text": "Ships shelter in a bay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bay · cs_b_bay_02"
+  },
+  {
+   "id": "cs_b_braille_02",
+   "text": "Blind readers use Braille",
+   "standing": "projectable",
+   "evidence": "language · product curator · Braille · cs_b_braille_02"
+  },
+  {
+   "id": "cs_b_bronze_02",
+   "text": "The Bronze Age used bronze tools",
+   "standing": "projectable",
+   "evidence": "history · product curator · Bronze · cs_b_bronze_02"
+  },
+  {
+   "id": "cs_b_bisector_02",
+   "text": "A bisector divides an angle in half",
+   "standing": "projectable",
+   "evidence": "math · product curator · Bisector · cs_b_bisector_02"
+  },
+  {
+   "id": "cs_b_bedrock_03",
+   "text": "Soil rests on bedrock",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bedrock · cs_b_bedrock_03"
+  },
+  {
+   "id": "cs_b_backbone_03",
+   "text": "The backbone protects the spinal cord",
+   "standing": "projectable",
+   "evidence": "science · product curator · Backbone · cs_b_backbone_03"
   }
  ]
 }

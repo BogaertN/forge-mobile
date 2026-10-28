@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 159,
+ "curated_facts": 167,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -895,6 +895,54 @@
    "text": "Yuri Gagarin was the first human in space",
    "standing": "projectable",
    "evidence": "history · product curator · Yuri Gagarin · cs_y_yuri_gagarin_02"
+  },
+  {
+   "id": "cs_y_yacht_02",
+   "text": "A yacht is a pleasure boat",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yacht · cs_y_yacht_02"
+  },
+  {
+   "id": "cs_y_year_06",
+   "text": "A year is about three hundred sixty five days",
+   "standing": "projectable",
+   "evidence": "math · product curator · Year · cs_y_year_06"
+  },
+  {
+   "id": "cs_y_yiddish_05",
+   "text": "Yiddish borrowed words from Hebrew",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_05"
+  },
+  {
+   "id": "cs_y_yoga_03",
+   "text": "Yoga is a practice of postures and breath",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yoga · cs_y_yoga_03"
+  },
+  {
+   "id": "cs_y_yam_02",
+   "text": "A yam is a starchy tuber",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yam · cs_y_yam_02"
+  },
+  {
+   "id": "cs_y_yttrium_04",
+   "text": "Yttrium is a chemical element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_04"
+  },
+  {
+   "id": "cs_y_yarn_02",
+   "text": "Knitters use yarn",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yarn · cs_y_yarn_02"
+  },
+  {
+   "id": "cs_y_yarrow_02",
+   "text": "Yarrow is a flowering herb",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_02"
   }
  ]
 }

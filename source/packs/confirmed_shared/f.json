@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 156,
+ "curated_facts": 166,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -889,6 +889,66 @@
    "text": "The fibula is a bone in the lower leg",
    "standing": "projectable",
    "evidence": "science · product curator · Fibula · cs_f_fibula_01"
+  },
+  {
+   "id": "cs_f_federalism_02",
+   "text": "Federalism divides power between levels of government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Federalism · cs_f_federalism_02"
+  },
+  {
+   "id": "cs_f_foot_04",
+   "text": "A foot is a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foot · cs_f_foot_04"
+  },
+  {
+   "id": "cs_f_fault_04",
+   "text": "Earthquakes often occur along a fault",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fault · cs_f_fault_04"
+  },
+  {
+   "id": "cs_f_flag_03",
+   "text": "A national flag represents a country",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Flag · cs_f_flag_03"
+  },
+  {
+   "id": "cs_f_function_02",
+   "text": "A function maps inputs to outputs",
+   "standing": "projectable",
+   "evidence": "math · product curator · Function · cs_f_function_02"
+  },
+  {
+   "id": "cs_f_fold_02",
+   "text": "Mountain belts often contain folds",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Fold · cs_f_fold_02"
+  },
+  {
+   "id": "cs_f_fig_02",
+   "text": "A fig is a soft fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fig · cs_f_fig_02"
+  },
+  {
+   "id": "cs_f_fraction_03",
+   "text": "Three fourths is a fraction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Fraction · cs_f_fraction_03"
+  },
+  {
+   "id": "cs_f_fir_02",
+   "text": "A fir is an evergreen tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_02"
+  },
+  {
+   "id": "cs_f_flatworm_02",
+   "text": "A flatworm is a simple animal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flatworm · cs_f_flatworm_02"
   }
  ]
 }

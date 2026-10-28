@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 154,
+ "curated_facts": 163,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -889,6 +889,60 @@
    "text": "A seed starts germination",
    "standing": "projectable",
    "evidence": "nature · product curator · Germination · cs_g_germination_01"
+  },
+  {
+   "id": "cs_g_gram_03",
+   "text": "A gram is a unit of mass",
+   "standing": "projectable",
+   "evidence": "math · product curator · Gram · cs_g_gram_03"
+  },
+  {
+   "id": "cs_g_geometry_02",
+   "text": "Euclid wrote about geometry",
+   "standing": "projectable",
+   "evidence": "history · product curator · Geometry · cs_g_geometry_02"
+  },
+  {
+   "id": "cs_g_gorge_02",
+   "text": "A river can carve a gorge",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gorge · cs_g_gorge_02"
+  },
+  {
+   "id": "cs_g_governor_02",
+   "text": "Voters elect a governor in many states",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Governor · cs_g_governor_02"
+  },
+  {
+   "id": "cs_g_gravel_02",
+   "text": "Rivers deposit gravel in channels",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gravel · cs_g_gravel_02"
+  },
+  {
+   "id": "cs_g_gear_02",
+   "text": "A gear transmits torque",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gear · cs_g_gear_02"
+  },
+  {
+   "id": "cs_g_gecko_02",
+   "text": "A gecko is a climbing lizard",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_02"
+  },
+  {
+   "id": "cs_g_gene_03",
+   "text": "A gene codes for a protein",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gene · cs_g_gene_03"
+  },
+  {
+   "id": "cs_g_germination_02",
+   "text": "Germination begins seed growth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Germination · cs_g_germination_02"
   }
  ]
 }

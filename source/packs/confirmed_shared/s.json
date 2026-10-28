@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 151,
+ "curated_facts": 160,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -889,6 +889,60 @@
    "text": "Subtraction finds a difference",
    "standing": "projectable",
    "evidence": "math · product curator · Subtraction · cs_s_subtraction_01"
+  },
+  {
+   "id": "cs_s_saturday_02",
+   "text": "Saturday is a weekend day",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Saturday · cs_s_saturday_02"
+  },
+  {
+   "id": "cs_s_sediment_02",
+   "text": "Sediment settles from water or air",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sediment · cs_s_sediment_02"
+  },
+  {
+   "id": "cs_s_sine_02",
+   "text": "Sine is a trigonometric ratio",
+   "standing": "projectable",
+   "evidence": "math · product curator · Sine · cs_s_sine_02"
+  },
+  {
+   "id": "cs_s_saxophone_03",
+   "text": "A saxophone has a single reed",
+   "standing": "projectable",
+   "evidence": "history · product curator · Saxophone · cs_s_saxophone_03"
+  },
+  {
+   "id": "cs_s_semicolon_03",
+   "text": "Writers use a semicolon between independent clauses",
+   "standing": "projectable",
+   "evidence": "language · product curator · Semicolon · cs_s_semicolon_03"
+  },
+  {
+   "id": "cs_s_senate_04",
+   "text": "A senate is a legislative chamber",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Senate · cs_s_senate_04"
+  },
+  {
+   "id": "cs_s_sphere_02",
+   "text": "A sphere is a round solid",
+   "standing": "projectable",
+   "evidence": "math · product curator · Sphere · cs_s_sphere_02"
+  },
+  {
+   "id": "cs_s_sentence_02",
+   "text": "Every complete sentence has a verb",
+   "standing": "projectable",
+   "evidence": "language · product curator · Sentence · cs_s_sentence_02"
+  },
+  {
+   "id": "cs_s_salmon_02",
+   "text": "A salmon is a migratory fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Salmon · cs_s_salmon_02"
   }
  ]
 }

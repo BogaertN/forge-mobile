@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 159,
+ "curated_facts": 168,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -889,6 +889,60 @@
    "text": "An infection is caused by germs",
    "standing": "projectable",
    "evidence": "science · product curator · Infection · cs_i_infection_01"
+  },
+  {
+   "id": "cs_i_interjection_02",
+   "text": "An interjection expresses emotion",
+   "standing": "projectable",
+   "evidence": "language · product curator · Interjection · cs_i_interjection_02"
+  },
+  {
+   "id": "cs_i_isthmus_01",
+   "text": "An isthmus connects two larger land areas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_01"
+  },
+  {
+   "id": "cs_i_inch_03",
+   "text": "Twelve inches make a foot",
+   "standing": "projectable",
+   "evidence": "math · product curator · Inch · cs_i_inch_03"
+  },
+  {
+   "id": "cs_i_infinity_03",
+   "text": "A ray extends to infinity",
+   "standing": "projectable",
+   "evidence": "math · product curator · Infinity · cs_i_infinity_03"
+  },
+  {
+   "id": "cs_i_island_03",
+   "text": "Greenland is a large island",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Island · cs_i_island_03"
+  },
+  {
+   "id": "cs_i_incisor_02",
+   "text": "An incisor cuts food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Incisor · cs_i_incisor_02"
+  },
+  {
+   "id": "cs_i_invertebrate_04",
+   "text": "An invertebrate lacks a backbone",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_04"
+  },
+  {
+   "id": "cs_i_infection_02",
+   "text": "An infection is caused by pathogens",
+   "standing": "projectable",
+   "evidence": "science · product curator · Infection · cs_i_infection_02"
+  },
+  {
+   "id": "cs_i_ivy_04",
+   "text": "English ivy climbs walls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ivy · cs_i_ivy_04"
   }
  ]
 }

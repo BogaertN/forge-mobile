@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 160,
+ "curated_facts": 167,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -895,6 +895,48 @@
    "text": "Due process protects legal rights",
    "standing": "projectable",
    "evidence": "civics · product curator · Due process · cs_d_due_process_02"
+  },
+  {
+   "id": "cs_d_delta_02",
+   "text": "A delta forms at a river mouth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Delta · cs_d_delta_02"
+  },
+  {
+   "id": "cs_d_democracy_02",
+   "text": "Democracy elects leaders by vote",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Democracy · cs_d_democracy_02"
+  },
+  {
+   "id": "cs_d_dust_bowl_02",
+   "text": "The Dust Bowl damaged farms in the nineteen thirties",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dust Bowl · cs_d_dust_bowl_02"
+  },
+  {
+   "id": "cs_d_dialect_02",
+   "text": "Southern American English is a dialect",
+   "standing": "projectable",
+   "evidence": "language · product curator · Dialect · cs_d_dialect_02"
+  },
+  {
+   "id": "cs_d_decimal_02",
+   "text": "A decimal uses base ten",
+   "standing": "projectable",
+   "evidence": "math · product curator · Decimal · cs_d_decimal_02"
+  },
+  {
+   "id": "cs_d_decade_02",
+   "text": "The nineteen twenties were a decade",
+   "standing": "projectable",
+   "evidence": "history · product curator · Decade · cs_d_decade_02"
+  },
+  {
+   "id": "cs_d_decree_02",
+   "text": "A royal decree has legal force",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Decree · cs_d_decree_02"
   }
  ]
 }

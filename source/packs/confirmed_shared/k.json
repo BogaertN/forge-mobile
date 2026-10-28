@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 156,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -889,6 +889,60 @@
    "text": "The knee is a joint in the leg",
    "standing": "projectable",
    "evidence": "science · product curator · Knee · cs_k_knee_01"
+  },
+  {
+   "id": "cs_k_karst_02",
+   "text": "Karst forms in soluble rock",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Karst · cs_k_karst_02"
+  },
+  {
+   "id": "cs_k_knot_02",
+   "text": "A knot is a unit of speed at sea",
+   "standing": "projectable",
+   "evidence": "math · product curator · Knot · cs_k_knot_02"
+  },
+  {
+   "id": "cs_k_knight_02",
+   "text": "A knight was a mounted warrior",
+   "standing": "projectable",
+   "evidence": "history · product curator · Knight · cs_k_knight_02"
+  },
+  {
+   "id": "cs_k_kerosene_02",
+   "text": "Kerosene is a liquid fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_02"
+  },
+  {
+   "id": "cs_k_kingfisher_06",
+   "text": "A kingfisher hunts fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_06"
+  },
+  {
+   "id": "cs_k_kettle_02",
+   "text": "A kettle heats water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kettle · cs_k_kettle_02"
+  },
+  {
+   "id": "cs_k_kale_03",
+   "text": "Kale is rich in vitamins",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kale · cs_k_kale_03"
+  },
+  {
+   "id": "cs_k_kite_03",
+   "text": "A kite is a light flying toy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kite · cs_k_kite_03"
+  },
+  {
+   "id": "cs_k_kumquat_02",
+   "text": "A kumquat has an edible rind",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_02"
   }
  ]
 }
