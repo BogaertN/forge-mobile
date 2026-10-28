@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 198,
+ "curated_facts": 206,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1147,6 +1147,54 @@
    "text": "Sets meet in a Venn diagram",
    "standing": "projectable",
    "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_03"
+  },
+  {
+   "id": "cs_v_vampire_bat_03",
+   "text": "Nights favor a vampire bat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_03"
+  },
+  {
+   "id": "cs_v_vertebrate_04",
+   "text": "Bones mark a vertebrate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_04"
+  },
+  {
+   "id": "cs_v_vertebra_03",
+   "text": "A spine has a vertebra",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vertebra · cs_v_vertebra_03"
+  },
+  {
+   "id": "cs_v_vibration_03",
+   "text": "Strings make a vibration",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vibration · cs_v_vibration_03"
+  },
+  {
+   "id": "cs_v_vitamin_02",
+   "text": "Food supplies a vitamin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vitamin · cs_v_vitamin_02"
+  },
+  {
+   "id": "cs_v_volcano_06",
+   "text": "Ash rises from a volcano",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volcano · cs_v_volcano_06"
+  },
+  {
+   "id": "cs_v_voltage_04",
+   "text": "A battery supplies voltage",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voltage · cs_v_voltage_04"
+  },
+  {
+   "id": "cs_v_volt_06",
+   "text": "Batteries measure a volt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volt · cs_v_volt_06"
   }
  ]
 }
