@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 121,
+ "curated_facts": 132,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -679,6 +679,72 @@
    "text": "Faisalabad is a city in Pakistan",
    "standing": "projectable",
    "evidence": "geography · product curator · Faisalabad · cs_f_faisalabad_01"
+  },
+  {
+   "id": "cs_f_factor_tree_01",
+   "text": "A factor tree shows prime factors",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor tree · cs_f_factor_tree_01"
+  },
+  {
+   "id": "cs_f_fahrenheit_scale_01",
+   "text": "The Fahrenheit scale sets water freezing at 32",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fahrenheit scale · cs_f_fahrenheit_scale_01"
+  },
+  {
+   "id": "cs_f_fall_equinox_01",
+   "text": "The fall equinox marks equal day and night",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fall equinox · cs_f_fall_equinox_01"
+  },
+  {
+   "id": "cs_f_faraday_cage_01",
+   "text": "A Faraday cage blocks electric fields",
+   "standing": "projectable",
+   "evidence": "science · product curator · Faraday cage · cs_f_faraday_cage_01"
+  },
+  {
+   "id": "cs_f_fauna_01",
+   "text": "Fauna means the animals of a region",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fauna · cs_f_fauna_01"
+  },
+  {
+   "id": "cs_f_fermentation_01",
+   "text": "Fermentation converts sugar without oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_01"
+  },
+  {
+   "id": "cs_f_fertile_crescent_01",
+   "text": "The Fertile Crescent was a cradle of agriculture",
+   "standing": "projectable",
+   "evidence": "history · product curator · Fertile Crescent · cs_f_fertile_crescent_01"
+  },
+  {
+   "id": "cs_f_feldspar_01",
+   "text": "Feldspar is a common rock forming mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_01"
+  },
+  {
+   "id": "cs_f_fifteenth_amendment_01",
+   "text": "The Fifteenth Amendment protects voting rights",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifteenth Amendment · cs_f_fifteenth_amendment_01"
+  },
+  {
+   "id": "cs_f_flatworm_01",
+   "text": "A flatworm is a simple invertebrate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flatworm · cs_f_flatworm_01"
+  },
+  {
+   "id": "cs_f_fourteenth_amendment_01",
+   "text": "The Fourteenth Amendment defines citizenship",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fourteenth Amendment · cs_f_fourteenth_amendment_01"
   }
  ]
 }
