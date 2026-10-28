@@ -2,7 +2,7 @@
  "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
  "provenance": "confirmed_shared",
  "who_confirmed": "product_curator",
- "version": "4.9.136",
+ "version": "4.9.137",
  "letters": [
   "a",
   "b",
@@ -65,8 +65,8 @@
   "f": {
    "path": "f.json",
    "letter": "F",
-   "items": 123,
-   "curated_facts": 132
+   "items": 137,
+   "curated_facts": 146
   },
   "g": {
    "path": "g.json",
@@ -83,8 +83,8 @@
   "i": {
    "path": "i.json",
    "letter": "I",
-   "items": 125,
-   "curated_facts": 137
+   "items": 137,
+   "curated_facts": 149
   },
   "j": {
    "path": "j.json",
@@ -95,14 +95,14 @@
   "k": {
    "path": "k.json",
    "letter": "K",
-   "items": 126,
-   "curated_facts": 135
+   "items": 137,
+   "curated_facts": 146
   },
   "l": {
    "path": "l.json",
    "letter": "L",
-   "items": 126,
-   "curated_facts": 135
+   "items": 137,
+   "curated_facts": 146
   },
   "m": {
    "path": "m.json",
@@ -119,14 +119,14 @@
   "o": {
    "path": "o.json",
    "letter": "O",
-   "items": 126,
-   "curated_facts": 137
+   "items": 137,
+   "curated_facts": 148
   },
   "p": {
    "path": "p.json",
    "letter": "P",
-   "items": 125,
-   "curated_facts": 133
+   "items": 137,
+   "curated_facts": 145
   },
   "q": {
    "path": "q.json",
@@ -143,8 +143,8 @@
   "s": {
    "path": "s.json",
    "letter": "S",
-   "items": 125,
-   "curated_facts": 129
+   "items": 137,
+   "curated_facts": 141
   },
   "t": {
    "path": "t.json",
@@ -155,14 +155,14 @@
   "u": {
    "path": "u.json",
    "letter": "U",
-   "items": 123,
-   "curated_facts": 135
+   "items": 137,
+   "curated_facts": 149
   },
   "v": {
    "path": "v.json",
    "letter": "V",
-   "items": 123,
-   "curated_facts": 131
+   "items": 137,
+   "curated_facts": 145
   },
   "w": {
    "path": "w.json",
@@ -189,6 +189,6 @@
    "curated_facts": 158
   }
  },
- "total_items": 3435,
- "total_curated": 3673
+ "total_items": 3546,
+ "total_curated": 3784
 }

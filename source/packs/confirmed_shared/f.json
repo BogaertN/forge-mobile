@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 132,
+ "curated_facts": 146,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -745,6 +745,90 @@
    "text": "The Fourteenth Amendment defines citizenship",
    "standing": "projectable",
    "evidence": "civics · product curator · Fourteenth Amendment · cs_f_fourteenth_amendment_01"
+  },
+  {
+   "id": "cs_f_facet_01",
+   "text": "A facet is a flat face on a gem",
+   "standing": "projectable",
+   "evidence": "science · product curator · Facet · cs_f_facet_01"
+  },
+  {
+   "id": "cs_f_fault_02",
+   "text": "An earthquake can occur along a fault",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_02"
+  },
+  {
+   "id": "cs_f_fermium_02",
+   "text": "Fermium is a synthetic element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermium · cs_f_fermium_02"
+  },
+  {
+   "id": "cs_f_fern_03",
+   "text": "A fern has fronds instead of flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_03"
+  },
+  {
+   "id": "cs_f_fifth_amendment_02",
+   "text": "The Fifth Amendment protects against self incrimination",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Fifth Amendment · cs_f_fifth_amendment_02"
+  },
+  {
+   "id": "cs_f_firefly_02",
+   "text": "A firefly produces light",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_02"
+  },
+  {
+   "id": "cs_f_first_amendment_02",
+   "text": "The First Amendment protects freedom of speech",
+   "standing": "projectable",
+   "evidence": "civics · product curator · First Amendment · cs_f_first_amendment_02"
+  },
+  {
+   "id": "cs_f_fish_03",
+   "text": "A fish breathes with gills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fish · cs_f_fish_03"
+  },
+  {
+   "id": "cs_f_flamingo_02",
+   "text": "A flamingo is a long legged wading bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flamingo · cs_f_flamingo_02"
+  },
+  {
+   "id": "cs_f_focus_01",
+   "text": "The focus of an earthquake is the point of rupture",
+   "standing": "projectable",
+   "evidence": "science · product curator · Focus · cs_f_focus_01"
+  },
+  {
+   "id": "cs_f_fold_01",
+   "text": "A fold bends layers of rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fold · cs_f_fold_01"
+  },
+  {
+   "id": "cs_f_fossil_02",
+   "text": "A fossil preserves ancient life",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fossil · cs_f_fossil_02"
+  },
+  {
+   "id": "cs_f_freezing_point_03",
+   "text": "The freezing point of water is zero Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_03"
+  },
+  {
+   "id": "cs_f_function_01",
+   "text": "A function maps each input to one output",
+   "standing": "projectable",
+   "evidence": "math · product curator · Function · cs_f_function_01"
   }
  ]
 }

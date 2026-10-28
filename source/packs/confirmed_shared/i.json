@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 137,
+ "curated_facts": 149,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -757,6 +757,78 @@
    "text": "An ionic bond transfers electrons",
    "standing": "projectable",
    "evidence": "science · product curator · Ionic bond · cs_i_ionic_bond_01"
+  },
+  {
+   "id": "cs_i_ibis_03",
+   "text": "An ibis is a long billed wading bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ibis · cs_i_ibis_03"
+  },
+  {
+   "id": "cs_i_ice_age_02",
+   "text": "An ice age is a period of widespread glaciation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice Age · cs_i_ice_age_02"
+  },
+  {
+   "id": "cs_i_igneous_rock_02",
+   "text": "Basalt is an igneous rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Igneous rock · cs_i_igneous_rock_02"
+  },
+  {
+   "id": "cs_i_impeachment_02",
+   "text": "Impeachment charges a public official with wrongdoing",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Impeachment · cs_i_impeachment_02"
+  },
+  {
+   "id": "cs_i_inca_empire_03",
+   "text": "The Inca Empire was in South America",
+   "standing": "projectable",
+   "evidence": "history · product curator · Inca Empire · cs_i_inca_empire_03"
+  },
+  {
+   "id": "cs_i_incandescent_02",
+   "text": "An incandescent bulb heats a filament",
+   "standing": "projectable",
+   "evidence": "science · product curator · Incandescent · cs_i_incandescent_02"
+  },
+  {
+   "id": "cs_i_integer_02",
+   "text": "Negative three is an integer",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integer · cs_i_integer_02"
+  },
+  {
+   "id": "cs_i_interjection_01",
+   "text": "An interjection expresses sudden feeling",
+   "standing": "projectable",
+   "evidence": "language · product curator · Interjection · cs_i_interjection_01"
+  },
+  {
+   "id": "cs_i_invertebrate_03",
+   "text": "A worm is an invertebrate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Invertebrate · cs_i_invertebrate_03"
+  },
+  {
+   "id": "cs_i_iodine_02",
+   "text": "Iodine is a halogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iodine · cs_i_iodine_02"
+  },
+  {
+   "id": "cs_i_ion_02",
+   "text": "An ion forms when an atom gains or loses electrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ion · cs_i_ion_02"
+  },
+  {
+   "id": "cs_i_isotope_02",
+   "text": "Carbon fourteen is an isotope of carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Isotope · cs_i_isotope_02"
   }
  ]
 }
