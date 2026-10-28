@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 190,
+ "curated_facts": 192,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1093,6 +1093,18 @@
    "text": "Xeriscaping saves water",
    "standing": "projectable",
    "evidence": "geography · product curator · Xeriscaping · cs_x_xeriscaping_03"
+  },
+  {
+   "id": "cs_x_x_ray_11",
+   "text": "Doctors take an x-ray",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_11"
+  },
+  {
+   "id": "cs_x_x_axis_06",
+   "text": "A graph has an x-axis",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_06"
   }
  ]
 }
