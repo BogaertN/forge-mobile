@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 253,
+ "curated_facts": 263,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1459,6 +1459,66 @@
    "text": "Yuzu ripens tart citrus peels",
    "standing": "projectable",
    "evidence": "nature · product curator · Yuzu · cs_y_yuzu_01"
+  },
+  {
+   "id": "cs_y_yellowwood_04",
+   "text": "Yellowwood blooms spring canopies",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_04"
+  },
+  {
+   "id": "cs_y_yarn_07",
+   "text": "Yarn twists fiber strands",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yarn · cs_y_yarn_07"
+  },
+  {
+   "id": "cs_y_yoga_05",
+   "text": "Yoga stretches muscle groups",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yoga · cs_y_yoga_05"
+  },
+  {
+   "id": "cs_y_yam_05",
+   "text": "Yams store root starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yam · cs_y_yam_05"
+  },
+  {
+   "id": "cs_y_yield_point_01",
+   "text": "Metals bend past yield point",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yield point · cs_y_yield_point_01"
+  },
+  {
+   "id": "cs_y_yellow_pine_01",
+   "text": "Yellow pine yields timber resin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellow pine · cs_y_yellow_pine_01"
+  },
+  {
+   "id": "cs_y_yolk_protein_01",
+   "text": "Yolk protein feeds chick growth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk protein · cs_y_yolk_protein_01"
+  },
+  {
+   "id": "cs_y_yucca_root_01",
+   "text": "Yucca roots store desert starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yucca root · cs_y_yucca_root_01"
+  },
+  {
+   "id": "cs_y_yellow_ochre_01",
+   "text": "Ochre pigments cave walls",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yellow ochre · cs_y_yellow_ochre_01"
+  },
+  {
+   "id": "cs_y_yeast_cell_01",
+   "text": "Yeast cells bud new copies",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yeast cell · cs_y_yeast_cell_01"
   }
  ]
 }
