@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 192,
+ "curated_facts": 195,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1093,6 +1093,24 @@
    "text": "Embryos draw food from a yolk sac",
    "standing": "projectable",
    "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_03"
+  },
+  {
+   "id": "cs_y_yolk_07",
+   "text": "A chick grows from a yolk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_07"
+  },
+  {
+   "id": "cs_y_year_07",
+   "text": "Earth completes a year",
+   "standing": "projectable",
+   "evidence": "science · product curator · Year · cs_y_year_07"
+  },
+  {
+   "id": "cs_y_yeast_09",
+   "text": "Yeast raises bread",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_09"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 193,
+ "curated_facts": 201,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1093,6 +1093,54 @@
    "text": "Birds sing at dawn",
    "standing": "projectable",
    "evidence": "nature · product curator · Dawn · cs_d_dawn_02"
+  },
+  {
+   "id": "cs_d_diffusion_03",
+   "text": "Ink spreads by diffusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_03"
+  },
+  {
+   "id": "cs_d_divisor_02",
+   "text": "A divisor splits a number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Divisor · cs_d_divisor_02"
+  },
+  {
+   "id": "cs_d_dysprosium_02",
+   "text": "Dysprosium is a rare earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dysprosium · cs_d_dysprosium_02"
+  },
+  {
+   "id": "cs_d_dew_point_02",
+   "text": "Fog forms at the dew point",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dew point · cs_d_dew_point_02"
+  },
+  {
+   "id": "cs_d_dragonfly_05",
+   "text": "A dragonfly hunts midges",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_05"
+  },
+  {
+   "id": "cs_d_dung_beetle_02",
+   "text": "A dung beetle rolls dung",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dung beetle · cs_d_dung_beetle_02"
+  },
+  {
+   "id": "cs_d_dimension_03",
+   "text": "A plane has two dimensions",
+   "standing": "projectable",
+   "evidence": "math · product curator · Dimension · cs_d_dimension_03"
+  },
+  {
+   "id": "cs_d_drought_04",
+   "text": "Crops fail in a drought",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Drought · cs_d_drought_04"
   }
  ]
 }

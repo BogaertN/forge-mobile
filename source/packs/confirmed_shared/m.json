@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 184,
+ "curated_facts": 195,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1081,6 +1081,72 @@
    "text": "Maple trees yield sweet sap",
    "standing": "projectable",
    "evidence": "nature · product curator · Maple · cs_m_maple_02"
+  },
+  {
+   "id": "cs_m_meadow_02",
+   "text": "Wildflowers fill a meadow",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Meadow · cs_m_meadow_02"
+  },
+  {
+   "id": "cs_m_minnow_02",
+   "text": "A minnow swims in schools",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Minnow · cs_m_minnow_02"
+  },
+  {
+   "id": "cs_m_melon_02",
+   "text": "A melon holds sweet flesh",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Melon · cs_m_melon_02"
+  },
+  {
+   "id": "cs_m_magma_02",
+   "text": "Magma rises from deep rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magma · cs_m_magma_02"
+  },
+  {
+   "id": "cs_m_mantle_03",
+   "text": "Earth has a rocky mantle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mantle · cs_m_mantle_03"
+  },
+  {
+   "id": "cs_m_magnitude_02",
+   "text": "Stars have magnitude ranks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnitude · cs_m_magnitude_02"
+  },
+  {
+   "id": "cs_m_mallard_02",
+   "text": "A mallard nests near water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mallard · cs_m_mallard_02"
+  },
+  {
+   "id": "cs_m_marlin_02",
+   "text": "A marlin has a long bill",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marlin · cs_m_marlin_02"
+  },
+  {
+   "id": "cs_m_mango_02",
+   "text": "A mango ripens on a tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mango · cs_m_mango_02"
+  },
+  {
+   "id": "cs_m_mushroom_02",
+   "text": "A mushroom releases spores",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mushroom · cs_m_mushroom_02"
+  },
+  {
+   "id": "cs_m_metaphor_04",
+   "text": "A metaphor compares ideas",
+   "standing": "projectable",
+   "evidence": "language · product curator · Metaphor · cs_m_metaphor_04"
   }
  ]
 }

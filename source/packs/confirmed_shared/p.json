@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 187,
+ "curated_facts": 198,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1081,6 +1081,72 @@
    "text": "A poppy has bright petals",
    "standing": "projectable",
    "evidence": "nature · product curator · Poppy · cs_p_poppy_02"
+  },
+  {
+   "id": "cs_p_photon_03",
+   "text": "Light travels as a photon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Photon · cs_p_photon_03"
+  },
+  {
+   "id": "cs_p_primate_02",
+   "text": "A chimpanzee is a primate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Primate · cs_p_primate_02"
+  },
+  {
+   "id": "cs_p_pheasant_02",
+   "text": "A pheasant nests in grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_02"
+  },
+  {
+   "id": "cs_p_pumpkin_02",
+   "text": "A pumpkin grows on a vine",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pumpkin · cs_p_pumpkin_02"
+  },
+  {
+   "id": "cs_p_petal_02",
+   "text": "A flower opens its petals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Petal · cs_p_petal_02"
+  },
+  {
+   "id": "cs_p_puffin_02",
+   "text": "A puffin nests on cliffs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Puffin · cs_p_puffin_02"
+  },
+  {
+   "id": "cs_p_pine_05",
+   "text": "A pine keeps its needles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pine · cs_p_pine_05"
+  },
+  {
+   "id": "cs_p_potato_02",
+   "text": "A potato grows underground",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Potato · cs_p_potato_02"
+  },
+  {
+   "id": "cs_p_perimeter_03",
+   "text": "A fence marks a perimeter",
+   "standing": "projectable",
+   "evidence": "math · product curator · Perimeter · cs_p_perimeter_03"
+  },
+  {
+   "id": "cs_p_piano_03",
+   "text": "A piano has keyed strings",
+   "standing": "projectable",
+   "evidence": "history · product curator · Piano · cs_p_piano_03"
+  },
+  {
+   "id": "cs_p_pyramid_03",
+   "text": "Egyptians built a pyramid",
+   "standing": "projectable",
+   "evidence": "history · product curator · Pyramid · cs_p_pyramid_03"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 187,
+ "curated_facts": 195,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1093,6 +1093,54 @@
    "text": "A catalyst speeds a reaction",
    "standing": "projectable",
    "evidence": "science · product curator · Catalyst · cs_c_catalyst_01"
+  },
+  {
+   "id": "cs_c_cell_02",
+   "text": "A cell divides by mitosis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cell · cs_c_cell_02"
+  },
+  {
+   "id": "cs_c_chameleon_02",
+   "text": "A chameleon changes color",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Chameleon · cs_c_chameleon_02"
+  },
+  {
+   "id": "cs_c_cedar_02",
+   "text": "A cedar has fragrant wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cedar · cs_c_cedar_02"
+  },
+  {
+   "id": "cs_c_circuit_02",
+   "text": "Current flows in a circuit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Circuit · cs_c_circuit_02"
+  },
+  {
+   "id": "cs_c_crocodile_02",
+   "text": "A crocodile waits in water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Crocodile · cs_c_crocodile_02"
+  },
+  {
+   "id": "cs_c_carbon_04",
+   "text": "Life is based on carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon · cs_c_carbon_04"
+  },
+  {
+   "id": "cs_c_condensation_03",
+   "text": "Dew comes from condensation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Condensation · cs_c_condensation_03"
+  },
+  {
+   "id": "cs_c_calcite_02",
+   "text": "Limestone holds calcite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Calcite · cs_c_calcite_02"
   }
  ]
 }

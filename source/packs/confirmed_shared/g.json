@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 188,
+ "curated_facts": 196,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1093,6 +1093,54 @@
    "text": "A bicycle uses gears",
    "standing": "projectable",
    "evidence": "science · product curator · Gear · cs_g_gear_04"
+  },
+  {
+   "id": "cs_g_growth_ring_02",
+   "text": "A tree adds a growth ring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Growth ring · cs_g_growth_ring_02"
+  },
+  {
+   "id": "cs_g_gallium_02",
+   "text": "Gallium melts in a warm hand",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gallium · cs_g_gallium_02"
+  },
+  {
+   "id": "cs_g_grassland_02",
+   "text": "Zebras graze a grassland",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Grassland · cs_g_grassland_02"
+  },
+  {
+   "id": "cs_g_goat_02",
+   "text": "A goat climbs rocky slopes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Goat · cs_g_goat_02"
+  },
+  {
+   "id": "cs_g_gadolinium_02",
+   "text": "Gadolinium is a rare earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gadolinium · cs_g_gadolinium_02"
+  },
+  {
+   "id": "cs_g_googol_02",
+   "text": "A googol is a huge number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Googol · cs_g_googol_02"
+  },
+  {
+   "id": "cs_g_greenhouse_02",
+   "text": "Gardeners use a greenhouse",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Greenhouse · cs_g_greenhouse_02"
+  },
+  {
+   "id": "cs_g_germination_03",
+   "text": "Seeds begin germination",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Germination · cs_g_germination_03"
   }
  ]
 }

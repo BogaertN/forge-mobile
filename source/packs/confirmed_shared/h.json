@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 190,
+ "curated_facts": 201,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1081,6 +1081,72 @@
    "text": "A heron wades for fish",
    "standing": "projectable",
    "evidence": "nature · product curator · Heron · cs_h_heron_03"
+  },
+  {
+   "id": "cs_h_hafnium_03",
+   "text": "Hafnium resists high heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_03"
+  },
+  {
+   "id": "cs_h_hexagon_02",
+   "text": "Bees build a hexagon cell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hexagon · cs_h_hexagon_02"
+  },
+  {
+   "id": "cs_h_honeybee_03",
+   "text": "A honeybee gathers pollen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Honeybee · cs_h_honeybee_03"
+  },
+  {
+   "id": "cs_h_hemlock_02",
+   "text": "A hemlock is an evergreen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hemlock · cs_h_hemlock_02"
+  },
+  {
+   "id": "cs_h_helix_03",
+   "text": "DNA forms a double helix",
+   "standing": "projectable",
+   "evidence": "science · product curator · Helix · cs_h_helix_03"
+  },
+  {
+   "id": "cs_h_hertz_04",
+   "text": "Frequency uses the hertz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hertz · cs_h_hertz_04"
+  },
+  {
+   "id": "cs_h_halibut_02",
+   "text": "A halibut is a flat fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Halibut · cs_h_halibut_02"
+  },
+  {
+   "id": "cs_h_horse_03",
+   "text": "A horse grazes on grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Horse · cs_h_horse_03"
+  },
+  {
+   "id": "cs_h_hyacinth_02",
+   "text": "A hyacinth blooms in spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hyacinth · cs_h_hyacinth_02"
+  },
+  {
+   "id": "cs_h_hermit_crab_02",
+   "text": "A hermit crab wears a shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hermit crab · cs_h_hermit_crab_02"
+  },
+  {
+   "id": "cs_h_heat_capacity_02",
+   "text": "Water has high heat capacity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Heat capacity · cs_h_heat_capacity_02"
   }
  ]
 }

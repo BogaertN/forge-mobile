@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 190,
+ "curated_facts": 202,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -1075,6 +1075,78 @@
    "text": "An upland sandpiper nests in grass",
    "standing": "projectable",
    "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_02"
+  },
+  {
+   "id": "cs_u_understory_04",
+   "text": "Ferns fill the understory",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Understory · cs_u_understory_04"
+  },
+  {
+   "id": "cs_u_ulna_02",
+   "text": "The ulna meets the wrist",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ulna · cs_u_ulna_02"
+  },
+  {
+   "id": "cs_u_ursa_minor_03",
+   "text": "Polaris sits in Ursa Minor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_03"
+  },
+  {
+   "id": "cs_u_ureter_02",
+   "text": "A ureter drains a kidney",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ureter · cs_u_ureter_02"
+  },
+  {
+   "id": "cs_u_ultraviolet_05",
+   "text": "Ultraviolet fades dyes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_05"
+  },
+  {
+   "id": "cs_u_ursa_major_03",
+   "text": "Ursa Major holds seven bright stars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_03"
+  },
+  {
+   "id": "cs_u_udder_03",
+   "text": "Milk fills a cow udder",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Udder · cs_u_udder_03"
+  },
+  {
+   "id": "cs_u_umpire_02",
+   "text": "An umpire calls strikes",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Umpire · cs_u_umpire_02"
+  },
+  {
+   "id": "cs_u_uruk_03",
+   "text": "Uruk built early walls",
+   "standing": "projectable",
+   "evidence": "history · product curator · Uruk · cs_u_uruk_03"
+  },
+  {
+   "id": "cs_u_utah_06",
+   "text": "Utah has red rock canyons",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Utah · cs_u_utah_06"
+  },
+  {
+   "id": "cs_u_ultima_thule_02",
+   "text": "Ultima Thule is a distant rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultima Thule · cs_u_ultima_thule_02"
+  },
+  {
+   "id": "cs_u_uplift_02",
+   "text": "Uplift raises mountain ranges",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uplift · cs_u_uplift_02"
   }
  ]
 }

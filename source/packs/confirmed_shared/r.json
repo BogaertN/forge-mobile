@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 191,
+ "curated_facts": 199,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1093,6 +1093,54 @@
    "text": "A prism causes refraction",
    "standing": "projectable",
    "evidence": "science · product curator · Refraction · cs_r_refraction_03"
+  },
+  {
+   "id": "cs_r_radio_wave_03",
+   "text": "Antennas send a radio wave",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radio wave · cs_r_radio_wave_03"
+  },
+  {
+   "id": "cs_r_radium_03",
+   "text": "Marie Curie found radium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radium · cs_r_radium_03"
+  },
+  {
+   "id": "cs_r_ruthenium_02",
+   "text": "Ruthenium hardens platinum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ruthenium · cs_r_ruthenium_02"
+  },
+  {
+   "id": "cs_r_rib_02",
+   "text": "A rib protects the lungs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rib · cs_r_rib_02"
+  },
+  {
+   "id": "cs_r_reindeer_04",
+   "text": "A reindeer grows antlers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reindeer · cs_r_reindeer_04"
+  },
+  {
+   "id": "cs_r_recycling_02",
+   "text": "Recycling saves resources",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Recycling · cs_r_recycling_02"
+  },
+  {
+   "id": "cs_r_refraction_04",
+   "text": "Water causes refraction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Refraction · cs_r_refraction_04"
+  },
+  {
+   "id": "cs_r_reed_02",
+   "text": "A reed grows in marshes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reed · cs_r_reed_02"
   }
  ]
 }

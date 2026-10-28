@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 188,
+ "curated_facts": 198,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1087,6 +1087,66 @@
    "text": "Humans see visible light",
    "standing": "projectable",
    "evidence": "science · product curator · Visible light · cs_v_visible_light_02"
+  },
+  {
+   "id": "cs_v_violet_03",
+   "text": "A violet blooms in spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Violet · cs_v_violet_03"
+  },
+  {
+   "id": "cs_v_voltage_03",
+   "text": "Batteries supply voltage",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voltage · cs_v_voltage_03"
+  },
+  {
+   "id": "cs_v_vocal_cord_02",
+   "text": "Speech uses a vocal cord",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vocal cord · cs_v_vocal_cord_02"
+  },
+  {
+   "id": "cs_v_vinegar_02",
+   "text": "Fermentation makes vinegar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vinegar · cs_v_vinegar_02"
+  },
+  {
+   "id": "cs_v_volt_05",
+   "text": "A volt measures voltage",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volt · cs_v_volt_05"
+  },
+  {
+   "id": "cs_v_valence_02",
+   "text": "Carbon has valence four",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valence · cs_v_valence_02"
+  },
+  {
+   "id": "cs_v_vole_03",
+   "text": "A vole tunnels in grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vole · cs_v_vole_03"
+  },
+  {
+   "id": "cs_v_voyage_02",
+   "text": "Explorers begin a voyage",
+   "standing": "projectable",
+   "evidence": "history · product curator · Voyage · cs_v_voyage_02"
+  },
+  {
+   "id": "cs_v_velocity_03",
+   "text": "Velocity has direction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Velocity · cs_v_velocity_03"
+  },
+  {
+   "id": "cs_v_venn_diagram_03",
+   "text": "Sets meet in a Venn diagram",
+   "standing": "projectable",
+   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_03"
   }
  ]
 }
