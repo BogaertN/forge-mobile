@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 128,
+ "curated_facts": 144,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -739,6 +739,102 @@
    "text": "A coral reef is built by tiny animals",
    "standing": "projectable",
    "evidence": "nature · product curator · Coral reef · cs_c_coral_reef_01"
+  },
+  {
+   "id": "cs_c_cabinet_minister_01",
+   "text": "A cabinet minister heads a government department",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Cabinet minister · cs_c_cabinet_minister_01"
+  },
+  {
+   "id": "cs_c_calcite_01",
+   "text": "Calcite is a common carbonate mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Calcite · cs_c_calcite_01"
+  },
+  {
+   "id": "cs_c_calligraphy_01",
+   "text": "Calligraphy is decorative handwriting",
+   "standing": "projectable",
+   "evidence": "language · product curator · Calligraphy · cs_c_calligraphy_01"
+  },
+  {
+   "id": "cs_c_camouflage_01",
+   "text": "Camouflage helps an animal blend into its surroundings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Camouflage · cs_c_camouflage_01"
+  },
+  {
+   "id": "cs_c_canopy_01",
+   "text": "A canopy is the upper layer of a forest",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_01"
+  },
+  {
+   "id": "cs_c_carnivore_01",
+   "text": "A carnivore eats animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_01"
+  },
+  {
+   "id": "cs_c_case_law_01",
+   "text": "Case law is law based on judicial decisions",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Case law · cs_c_case_law_01"
+  },
+  {
+   "id": "cs_c_castle_01",
+   "text": "A castle is a fortified residence",
+   "standing": "projectable",
+   "evidence": "history · product curator · Castle · cs_c_castle_01"
+  },
+  {
+   "id": "cs_c_cavalry_01",
+   "text": "Cavalry are soldiers who fight on horseback",
+   "standing": "projectable",
+   "evidence": "history · product curator · Cavalry · cs_c_cavalry_01"
+  },
+  {
+   "id": "cs_c_checks_and_balances_01",
+   "text": "Checks and balances limit each branch of government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Checks and balances · cs_c_checks_and_balances_01"
+  },
+  {
+   "id": "cs_c_circumference_01",
+   "text": "Circumference is the distance around a circle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Circumference · cs_c_circumference_01"
+  },
+  {
+   "id": "cs_c_city_state_01",
+   "text": "A city-state is an independent city with its own government",
+   "standing": "projectable",
+   "evidence": "history · product curator · City-state · cs_c_city_state_01"
+  },
+  {
+   "id": "cs_c_clause_01",
+   "text": "A clause is a group of words with a subject and verb",
+   "standing": "projectable",
+   "evidence": "language · product curator · Clause · cs_c_clause_01"
+  },
+  {
+   "id": "cs_c_coefficient_01",
+   "text": "A coefficient is a number multiplying a variable",
+   "standing": "projectable",
+   "evidence": "math · product curator · Coefficient · cs_c_coefficient_01"
+  },
+  {
+   "id": "cs_c_complex_number_01",
+   "text": "A complex number has a real part and an imaginary part",
+   "standing": "projectable",
+   "evidence": "math · product curator · Complex number · cs_c_complex_number_01"
+  },
+  {
+   "id": "cs_c_contour_line_01",
+   "text": "A contour line joins points of equal elevation",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Contour line · cs_c_contour_line_01"
   }
  ]
 }
