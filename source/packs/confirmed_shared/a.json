@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 185,
+ "curated_facts": 195,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1099,6 +1099,66 @@
    "text": "Bronze is an alloy",
    "standing": "projectable",
    "evidence": "science · product curator · Alloy · cs_a_alloy_01"
+  },
+  {
+   "id": "cs_a_alcohol_01",
+   "text": "Alcohol evaporates quickly",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alcohol · cs_a_alcohol_01"
+  },
+  {
+   "id": "cs_a_amethyst_01",
+   "text": "Amethyst is purple quartz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Amethyst · cs_a_amethyst_01"
+  },
+  {
+   "id": "cs_a_ammonia_02",
+   "text": "Ammonia has a sharp smell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ammonia · cs_a_ammonia_02"
+  },
+  {
+   "id": "cs_a_anemone_02",
+   "text": "A sea anemone stings prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Anemone · cs_a_anemone_02"
+  },
+  {
+   "id": "cs_a_annelid_01",
+   "text": "An earthworm is an annelid",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Annelid · cs_a_annelid_01"
+  },
+  {
+   "id": "cs_a_antler_01",
+   "text": "A deer sheds its antlers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Antler · cs_a_antler_01"
+  },
+  {
+   "id": "cs_a_ant_03",
+   "text": "An ant lives in a colony",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ant · cs_a_ant_03"
+  },
+  {
+   "id": "cs_a_atmosphere_04",
+   "text": "The atmosphere wraps Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_04"
+  },
+  {
+   "id": "cs_a_augite_01",
+   "text": "Augite is a dark mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Augite · cs_a_augite_01"
+  },
+  {
+   "id": "cs_a_auricle_01",
+   "text": "The auricle gathers sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Auricle · cs_a_auricle_01"
   }
  ]
 }
