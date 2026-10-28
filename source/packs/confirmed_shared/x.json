@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 171,
+ "curated_facts": 173,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -979,6 +979,18 @@
    "text": "Musicians strike xylophone bars with mallets",
    "standing": "projectable",
    "evidence": "history · product curator · Xylophone · cs_x_xylophone_08"
+  },
+  {
+   "id": "cs_x_xhosa_08",
+   "text": "Xhosa uses click sounds",
+   "standing": "projectable",
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_08"
+  },
+  {
+   "id": "cs_x_xylem_06",
+   "text": "Water rises through xylem",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_06"
   }
  ]
 }
