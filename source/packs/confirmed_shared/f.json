@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 189,
+ "curated_facts": 199,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1087,6 +1087,66 @@
    "text": "A frog begins as a tadpole",
    "standing": "projectable",
    "evidence": "nature · product curator · Frog · cs_f_frog_03"
+  },
+  {
+   "id": "cs_f_fluorine_04",
+   "text": "Fluorine reacts with metals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluorine · cs_f_fluorine_04"
+  },
+  {
+   "id": "cs_f_fermentation_03",
+   "text": "Yeast drives fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_03"
+  },
+  {
+   "id": "cs_f_flower_03",
+   "text": "A flower attracts insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flower · cs_f_flower_03"
+  },
+  {
+   "id": "cs_f_frequency_02",
+   "text": "Pitch rises with frequency",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frequency · cs_f_frequency_02"
+  },
+  {
+   "id": "cs_f_freezing_point_04",
+   "text": "Water has a freezing point",
+   "standing": "projectable",
+   "evidence": "science · product curator · Freezing point · cs_f_freezing_point_04"
+  },
+  {
+   "id": "cs_f_formula_02",
+   "text": "Chemists write a formula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Formula · cs_f_formula_02"
+  },
+  {
+   "id": "cs_f_fog_02",
+   "text": "Fog forms from cool air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fog · cs_f_fog_02"
+  },
+  {
+   "id": "cs_f_fir_03",
+   "text": "A fir keeps its needles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_03"
+  },
+  {
+   "id": "cs_f_fruit_bat_02",
+   "text": "A fruit bat eats ripe fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit bat · cs_f_fruit_bat_02"
+  },
+  {
+   "id": "cs_f_fragment_02",
+   "text": "A fragment lacks a subject",
+   "standing": "projectable",
+   "evidence": "language · product curator · Fragment · cs_f_fragment_02"
   }
  ]
 }
