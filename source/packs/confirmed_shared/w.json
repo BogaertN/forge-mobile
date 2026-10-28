@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 178,
+ "curated_facts": 181,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1045,6 +1045,24 @@
    "text": "Ships unload at a wharf",
    "standing": "projectable",
    "evidence": "geography · product curator · Wharf · cs_w_wharf_01"
+  },
+  {
+   "id": "cs_w_weasel_02",
+   "text": "A weasel is a slender hunter",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_02"
+  },
+  {
+   "id": "cs_w_wolf_05",
+   "text": "A wolf hunts in a pack",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wolf · cs_w_wolf_05"
+  },
+  {
+   "id": "cs_w_width_02",
+   "text": "Width measures side-to-side distance",
+   "standing": "projectable",
+   "evidence": "math · product curator · Width · cs_w_width_02"
   }
  ]
 }

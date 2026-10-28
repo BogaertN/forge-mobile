@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 177,
+ "curated_facts": 188,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1021,6 +1021,72 @@
    "text": "Speech needs a vowel sound",
    "standing": "projectable",
    "evidence": "language · product curator · Vowel · cs_v_vowel_04"
+  },
+  {
+   "id": "cs_v_vanadium_03",
+   "text": "Vanadium strengthens steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_03"
+  },
+  {
+   "id": "cs_v_vertebrate_03",
+   "text": "A dog is a vertebrate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vertebrate · cs_v_vertebrate_03"
+  },
+  {
+   "id": "cs_v_vole_02",
+   "text": "A vole is a small rodent",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vole · cs_v_vole_02"
+  },
+  {
+   "id": "cs_v_volt_04",
+   "text": "A volt measures electric potential",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volt · cs_v_volt_04"
+  },
+  {
+   "id": "cs_v_variable_03",
+   "text": "Algebra uses a variable",
+   "standing": "projectable",
+   "evidence": "math · product curator · Variable · cs_v_variable_03"
+  },
+  {
+   "id": "cs_v_vibration_02",
+   "text": "Sound is a vibration in air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vibration · cs_v_vibration_02"
+  },
+  {
+   "id": "cs_v_voltage_02",
+   "text": "Voltage drives electric current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voltage · cs_v_voltage_02"
+  },
+  {
+   "id": "cs_v_vascular_plant_02",
+   "text": "A tree is a vascular plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vascular plant · cs_v_vascular_plant_02"
+  },
+  {
+   "id": "cs_v_viper_03",
+   "text": "A viper is a venomous snake",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Viper · cs_v_viper_03"
+  },
+  {
+   "id": "cs_v_venus_06",
+   "text": "Venus is a rocky planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Venus · cs_v_venus_06"
+  },
+  {
+   "id": "cs_v_visible_light_02",
+   "text": "Humans see visible light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Visible light · cs_v_visible_light_02"
   }
  ]
 }
