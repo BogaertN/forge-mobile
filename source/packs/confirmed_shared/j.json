@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 222,
+ "curated_facts": 231,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1273,6 +1273,60 @@
    "text": "Jute softens in water",
    "standing": "projectable",
    "evidence": "nature · product curator · Jute · cs_j_jute_02"
+  },
+  {
+   "id": "cs_j_jasper_05",
+   "text": "Jasper polishes into gems",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jasper · cs_j_jasper_05"
+  },
+  {
+   "id": "cs_j_jaundice_02",
+   "text": "Bilirubin causes jaundice",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jaundice · cs_j_jaundice_02"
+  },
+  {
+   "id": "cs_j_java_04",
+   "text": "Java holds active volcanoes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Java · cs_j_java_04"
+  },
+  {
+   "id": "cs_j_jaw_04",
+   "text": "Muscles close the jaw",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jaw · cs_j_jaw_04"
+  },
+  {
+   "id": "cs_j_jeans_02",
+   "text": "Cotton forms denim jeans",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jeans · cs_j_jeans_02"
+  },
+  {
+   "id": "cs_j_jet_engine_02",
+   "text": "A jet engine expels hot gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet engine · cs_j_jet_engine_02"
+  },
+  {
+   "id": "cs_j_jet_stream_05",
+   "text": "Cold air feeds a jet stream",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_05"
+  },
+  {
+   "id": "cs_j_jugular_02",
+   "text": "Blood fills the jugular vein",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jugular · cs_j_jugular_02"
+  },
+  {
+   "id": "cs_j_juniper_08",
+   "text": "Birds eat juniper berries",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_08"
   }
  ]
 }
