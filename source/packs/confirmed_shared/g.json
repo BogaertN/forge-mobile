@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 163,
+ "curated_facts": 167,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -943,6 +943,30 @@
    "text": "Germination begins seed growth",
    "standing": "projectable",
    "evidence": "nature · product curator · Germination · cs_g_germination_02"
+  },
+  {
+   "id": "cs_g_galaxy_03",
+   "text": "A galaxy is a system of stars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_03"
+  },
+  {
+   "id": "cs_g_gamma_ray_03",
+   "text": "A gamma ray is high-energy radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_03"
+  },
+  {
+   "id": "cs_g_geometry_03",
+   "text": "Geometry studies shapes and space",
+   "standing": "projectable",
+   "evidence": "math · product curator · Geometry · cs_g_geometry_03"
+  },
+  {
+   "id": "cs_g_gill_01",
+   "text": "A gill extracts oxygen from water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gill · cs_g_gill_01"
   }
  ]
 }

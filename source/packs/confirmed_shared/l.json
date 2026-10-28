@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 170,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -943,6 +943,36 @@
    "text": "A ladybug is a beetle",
    "standing": "projectable",
    "evidence": "nature · product curator · Ladybug · cs_l_ladybug_02"
+  },
+  {
+   "id": "cs_l_ladybug_03",
+   "text": "A ladybug eats aphids",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_03"
+  },
+  {
+   "id": "cs_l_lava_04",
+   "text": "Hot lava flows from a volcano",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lava · cs_l_lava_04"
+  },
+  {
+   "id": "cs_l_lever_03",
+   "text": "A crowbar is a lever",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lever · cs_l_lever_03"
+  },
+  {
+   "id": "cs_l_light_year_03",
+   "text": "A light-year is a unit of distance",
+   "standing": "projectable",
+   "evidence": "math · product curator · Light-year · cs_l_light_year_03"
+  },
+  {
+   "id": "cs_l_lymph_01",
+   "text": "Lymph is a clear body fluid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lymph · cs_l_lymph_01"
   }
  ]
 }

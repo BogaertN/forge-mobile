@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 163,
+ "curated_facts": 168,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -937,6 +937,36 @@
    "text": "A pyramid has a polygonal base",
    "standing": "projectable",
    "evidence": "math · product curator · Pyramid · cs_p_pyramid_01"
+  },
+  {
+   "id": "cs_p_period_02",
+   "text": "A geologic period is a span of deep time",
+   "standing": "projectable",
+   "evidence": "history · product curator · Period · cs_p_period_02"
+  },
+  {
+   "id": "cs_p_photosynthesis_03",
+   "text": "Photosynthesis makes sugar in plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Photosynthesis · cs_p_photosynthesis_03"
+  },
+  {
+   "id": "cs_p_piston_01",
+   "text": "A piston moves inside a cylinder",
+   "standing": "projectable",
+   "evidence": "science · product curator · Piston · cs_p_piston_01"
+  },
+  {
+   "id": "cs_p_plateau_02",
+   "text": "A plateau is a flat elevated land",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Plateau · cs_p_plateau_02"
+  },
+  {
+   "id": "cs_p_prime_01",
+   "text": "A prime number has exactly two factors",
+   "standing": "projectable",
+   "evidence": "math · product curator · Prime · cs_p_prime_01"
   }
  ]
 }

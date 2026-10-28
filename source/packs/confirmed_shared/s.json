@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 160,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -943,6 +943,36 @@
    "text": "A salmon is a migratory fish",
    "standing": "projectable",
    "evidence": "nature · product curator · Salmon · cs_s_salmon_02"
+  },
+  {
+   "id": "cs_s_satellite_02",
+   "text": "A satellite orbits a planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Satellite · cs_s_satellite_02"
+  },
+  {
+   "id": "cs_s_scalar_01",
+   "text": "A scalar has magnitude only",
+   "standing": "projectable",
+   "evidence": "math · product curator · Scalar · cs_s_scalar_01"
+  },
+  {
+   "id": "cs_s_starch_01",
+   "text": "Starch stores energy in plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Starch · cs_s_starch_01"
+  },
+  {
+   "id": "cs_s_sulfur_02",
+   "text": "Sulfur is a yellow nonmetal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sulfur · cs_s_sulfur_02"
+  },
+  {
+   "id": "cs_s_symmetry_01",
+   "text": "A circle has rotational symmetry",
+   "standing": "projectable",
+   "evidence": "math · product curator · Symmetry · cs_s_symmetry_01"
   }
  ]
 }

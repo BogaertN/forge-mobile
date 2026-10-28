@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 161,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -943,6 +943,30 @@
    "text": "A wolf is a wild canine",
    "standing": "projectable",
    "evidence": "nature · product curator · Wolf · cs_w_wolf_04"
+  },
+  {
+   "id": "cs_w_watershed_02",
+   "text": "A watershed drains into a common outlet",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Watershed · cs_w_watershed_02"
+  },
+  {
+   "id": "cs_w_whale_03",
+   "text": "A whale is a marine mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whale · cs_w_whale_03"
+  },
+  {
+   "id": "cs_w_witness_01",
+   "text": "A witness gives testimony in court",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Witness · cs_w_witness_01"
+  },
+  {
+   "id": "cs_w_word_01",
+   "text": "A word is a unit of language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Word · cs_w_word_01"
   }
  ]
 }

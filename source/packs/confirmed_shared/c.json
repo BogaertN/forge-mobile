@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 161,
+ "curated_facts": 167,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -937,6 +937,42 @@
    "text": "A continent is a large landmass",
    "standing": "projectable",
    "evidence": "geography · product curator · Continent · cs_c_continent_02"
+  },
+  {
+   "id": "cs_c_carnivore_02",
+   "text": "A carnivore eats meat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_02"
+  },
+  {
+   "id": "cs_c_centimeter_01",
+   "text": "A centimeter is a unit of length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Centimeter · cs_c_centimeter_01"
+  },
+  {
+   "id": "cs_c_citizen_01",
+   "text": "A citizen has legal membership in a country",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Citizen · cs_c_citizen_01"
+  },
+  {
+   "id": "cs_c_clay_01",
+   "text": "Clay is fine sediment",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Clay · cs_c_clay_01"
+  },
+  {
+   "id": "cs_c_cobalt_02",
+   "text": "Cobalt is a hard metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cobalt · cs_c_cobalt_02"
+  },
+  {
+   "id": "cs_c_comet_02",
+   "text": "A comet orbits the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Comet · cs_c_comet_02"
   }
  ]
 }

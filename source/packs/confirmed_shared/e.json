@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 160,
+ "curated_facts": 166,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -937,6 +937,42 @@
    "text": "Denver has high elevation",
    "standing": "projectable",
    "evidence": "geography · product curator · Elevation · cs_e_elevation_02"
+  },
+  {
+   "id": "cs_e_egret_02",
+   "text": "An egret is a wading bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Egret · cs_e_egret_02"
+  },
+  {
+   "id": "cs_e_element_02",
+   "text": "An element is a pure substance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Element · cs_e_element_02"
+  },
+  {
+   "id": "cs_e_emerald_01",
+   "text": "An emerald is a green gemstone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Emerald · cs_e_emerald_01"
+  },
+  {
+   "id": "cs_e_enzyme_02",
+   "text": "An enzyme speeds a chemical reaction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_02"
+  },
+  {
+   "id": "cs_e_era_02",
+   "text": "An era is a long period of history",
+   "standing": "projectable",
+   "evidence": "history · product curator · Era · cs_e_era_02"
+  },
+  {
+   "id": "cs_e_etymology_03",
+   "text": "Etymology studies word origins",
+   "standing": "projectable",
+   "evidence": "language · product curator · Etymology · cs_e_etymology_03"
   }
  ]
 }

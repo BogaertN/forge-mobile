@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 162,
+ "curated_facts": 168,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -937,6 +937,42 @@
    "text": "Three and five are twin primes",
    "standing": "projectable",
    "evidence": "math · product curator · Twin prime · cs_t_twin_prime_02"
+  },
+  {
+   "id": "cs_t_tangent_01",
+   "text": "A tangent touches a curve at one point",
+   "standing": "projectable",
+   "evidence": "math · product curator · Tangent · cs_t_tangent_01"
+  },
+  {
+   "id": "cs_t_tax_01",
+   "text": "A tax raises public revenue",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Tax · cs_t_tax_01"
+  },
+  {
+   "id": "cs_t_tornado_03",
+   "text": "A tornado is a spinning column of air",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tornado · cs_t_tornado_03"
+  },
+  {
+   "id": "cs_t_torque_02",
+   "text": "Torque is a turning force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Torque · cs_t_torque_02"
+  },
+  {
+   "id": "cs_t_tsunami_03",
+   "text": "A tsunami is a large sea wave",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tsunami · cs_t_tsunami_03"
+  },
+  {
+   "id": "cs_t_turbine_02",
+   "text": "A turbine converts fluid motion into rotation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Turbine · cs_t_turbine_02"
   }
  ]
 }

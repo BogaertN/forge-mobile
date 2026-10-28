@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 171,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -937,6 +937,42 @@
    "text": "A root anchors a plant in soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Root · cs_r_root_03"
+  },
+  {
+   "id": "cs_r_reef_04",
+   "text": "A coral reef is a marine habitat",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reef · cs_r_reef_04"
+  },
+  {
+   "id": "cs_r_reflection_04",
+   "text": "A mirror produces a reflection",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflection · cs_r_reflection_04"
+  },
+  {
+   "id": "cs_r_republic_04",
+   "text": "A republic elects representatives",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Republic · cs_r_republic_04"
+  },
+  {
+   "id": "cs_r_rhyme_01",
+   "text": "A rhyme repeats similar sounds",
+   "standing": "projectable",
+   "evidence": "language · product curator · Rhyme · cs_r_rhyme_01"
+  },
+  {
+   "id": "cs_r_roman_numeral_01",
+   "text": "X is a Roman numeral for ten",
+   "standing": "projectable",
+   "evidence": "math · product curator · Roman numeral · cs_r_roman_numeral_01"
+  },
+  {
+   "id": "cs_r_rose_03",
+   "text": "A rose is a flowering shrub",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rose · cs_r_rose_03"
   }
  ]
 }

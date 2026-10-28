@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 158,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -937,6 +937,48 @@
    "text": "An acorn is the nut of an oak",
    "standing": "projectable",
    "evidence": "nature · product curator · Acorn · cs_a_acorn_02"
+  },
+  {
+   "id": "cs_a_adjective_01",
+   "text": "An adjective modifies a noun",
+   "standing": "projectable",
+   "evidence": "language · product curator · Adjective · cs_a_adjective_01"
+  },
+  {
+   "id": "cs_a_altitude_02",
+   "text": "Altitude is height above sea level",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Altitude · cs_a_altitude_02"
+  },
+  {
+   "id": "cs_a_anther_01",
+   "text": "An anther holds pollen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Anther · cs_a_anther_01"
+  },
+  {
+   "id": "cs_a_april_01",
+   "text": "April is the fourth month",
+   "standing": "projectable",
+   "evidence": "civics · product curator · April · cs_a_april_01"
+  },
+  {
+   "id": "cs_a_asteroid_01",
+   "text": "An asteroid orbits the Sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Asteroid · cs_a_asteroid_01"
+  },
+  {
+   "id": "cs_a_aurora_01",
+   "text": "An aurora lights the polar sky",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aurora · cs_a_aurora_01"
+  },
+  {
+   "id": "cs_a_axis_01",
+   "text": "An axis is a reference line",
+   "standing": "projectable",
+   "evidence": "math · product curator · Axis · cs_a_axis_01"
   }
  ]
 }

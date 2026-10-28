@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 163,
+ "curated_facts": 171,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -931,6 +931,54 @@
    "text": "Xhosa orthography marks clicks with letters",
    "standing": "projectable",
    "evidence": "language · product curator · Xhosa · cs_x_xhosa_06"
+  },
+  {
+   "id": "cs_x_x_ray_09",
+   "text": "An x-ray image shows bones",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_09"
+  },
+  {
+   "id": "cs_x_x_ray_tube_02",
+   "text": "An x-ray tube emits radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray tube · cs_x_x_ray_tube_02"
+  },
+  {
+   "id": "cs_x_xai_xai_02",
+   "text": "Xai-Xai lies on the Indian Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_02"
+  },
+  {
+   "id": "cs_x_xenon_10",
+   "text": "Xenon glows in electric lamps",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_10"
+  },
+  {
+   "id": "cs_x_xhosa_07",
+   "text": "Xhosa is a Bantu language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_07"
+  },
+  {
+   "id": "cs_x_xingu_02",
+   "text": "The Xingu joins the Amazon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xingu · cs_x_xingu_02"
+  },
+  {
+   "id": "cs_x_xylene_04",
+   "text": "Xylene is an organic solvent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylene · cs_x_xylene_04"
+  },
+  {
+   "id": "cs_x_xylophone_08",
+   "text": "Musicians strike xylophone bars with mallets",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_08"
   }
  ]
 }

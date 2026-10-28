@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 167,
+ "curated_facts": 173,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -937,6 +937,42 @@
    "text": "A royal decree has legal force",
    "standing": "projectable",
    "evidence": "civics · product curator · Decree · cs_d_decree_02"
+  },
+  {
+   "id": "cs_d_dictionary_01",
+   "text": "A dictionary lists word meanings",
+   "standing": "projectable",
+   "evidence": "language · product curator · Dictionary · cs_d_dictionary_01"
+  },
+  {
+   "id": "cs_d_digestion_02",
+   "text": "Digestion breaks down food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Digestion · cs_d_digestion_02"
+  },
+  {
+   "id": "cs_d_dinosaur_03",
+   "text": "A dinosaur was a prehistoric reptile",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dinosaur · cs_d_dinosaur_03"
+  },
+  {
+   "id": "cs_d_divisor_01",
+   "text": "A divisor divides another number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Divisor · cs_d_divisor_01"
+  },
+  {
+   "id": "cs_d_drought_03",
+   "text": "A drought is a long dry period",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Drought · cs_d_drought_03"
+  },
+  {
+   "id": "cs_d_duck_04",
+   "text": "A duck is a water bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Duck · cs_d_duck_04"
   }
  ]
 }

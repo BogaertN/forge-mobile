@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 162,
+ "curated_facts": 166,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -943,6 +943,30 @@
    "text": "The backbone protects the spinal cord",
    "standing": "projectable",
    "evidence": "science · product curator · Backbone · cs_b_backbone_03"
+  },
+  {
+   "id": "cs_b_bay_03",
+   "text": "A bay is a coastal inlet",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bay · cs_b_bay_03"
+  },
+  {
+   "id": "cs_b_biosphere_01",
+   "text": "The biosphere is the zone of life on Earth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Biosphere · cs_b_biosphere_01"
+  },
+  {
+   "id": "cs_b_boron_02",
+   "text": "Boron is a metalloid element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boron · cs_b_boron_02"
+  },
+  {
+   "id": "cs_b_braille_03",
+   "text": "Braille is a writing system for blind readers",
+   "standing": "projectable",
+   "evidence": "language · product curator · Braille · cs_b_braille_03"
   }
  ]
 }
