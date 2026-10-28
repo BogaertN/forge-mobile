@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 223,
+ "curated_facts": 233,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1327,6 +1327,66 @@
    "text": "Signals travel an axon",
    "standing": "projectable",
    "evidence": "science · product curator · Axon · cs_a_axon_02"
+  },
+  {
+   "id": "cs_a_alloy_03",
+   "text": "Alloys harden soft metals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alloy · cs_a_alloy_03"
+  },
+  {
+   "id": "cs_a_alkali_03",
+   "text": "Alkalis neutralize acids",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alkali · cs_a_alkali_03"
+  },
+  {
+   "id": "cs_a_amino_acid_01",
+   "text": "Amino acids build proteins",
+   "standing": "projectable",
+   "evidence": "science · product curator · Amino acid · cs_a_amino_acid_01"
+  },
+  {
+   "id": "cs_a_aorta_03",
+   "text": "Aorta carries heart blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aorta · cs_a_aorta_03"
+  },
+  {
+   "id": "cs_a_antigen_01",
+   "text": "Antigens trigger immunity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Antigen · cs_a_antigen_01"
+  },
+  {
+   "id": "cs_a_argon_05",
+   "text": "Argon fills light bulbs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Argon · cs_a_argon_05"
+  },
+  {
+   "id": "cs_a_atmosphere_05",
+   "text": "Atmosphere traps solar heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atmosphere · cs_a_atmosphere_05"
+  },
+  {
+   "id": "cs_a_atrium_02",
+   "text": "The atrium fills with blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atrium · cs_a_atrium_02"
+  },
+  {
+   "id": "cs_a_aurora_03",
+   "text": "Auroras light polar skies",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aurora · cs_a_aurora_03"
+  },
+  {
+   "id": "cs_a_axon_03",
+   "text": "Axons carry nerve signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Axon · cs_a_axon_03"
   }
  ]
 }

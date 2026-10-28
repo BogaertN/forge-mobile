@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 226,
+ "curated_facts": 236,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1327,6 +1327,66 @@
    "text": "A sea breeze cools coasts",
    "standing": "projectable",
    "evidence": "science · product curator · Breeze · cs_b_breeze_01"
+  },
+  {
+   "id": "cs_b_bark_03",
+   "text": "Bark shields tree trunks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bark · cs_b_bark_03"
+  },
+  {
+   "id": "cs_b_barnacle_02",
+   "text": "Barnacles cling to hulls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Barnacle · cs_b_barnacle_02"
+  },
+  {
+   "id": "cs_b_beryllium_03",
+   "text": "Beryllium stiffens alloys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Beryllium · cs_b_beryllium_03"
+  },
+  {
+   "id": "cs_b_bias_01",
+   "text": "Bias tilts sample results",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bias · cs_b_bias_01"
+  },
+  {
+   "id": "cs_b_bile_01",
+   "text": "Bile digests fatty foods",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bile · cs_b_bile_01"
+  },
+  {
+   "id": "cs_b_bitumen_02",
+   "text": "Bitumen seals road asphalt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bitumen · cs_b_bitumen_02"
+  },
+  {
+   "id": "cs_b_bolt_03",
+   "text": "A bolt joins steel plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bolt · cs_b_bolt_03"
+  },
+  {
+   "id": "cs_b_bract_03",
+   "text": "Bracts protect flower buds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bract · cs_b_bract_03"
+  },
+  {
+   "id": "cs_b_brainstem_01",
+   "text": "Brainstem steers reflexes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Brainstem · cs_b_brainstem_01"
+  },
+  {
+   "id": "cs_b_buffer_02",
+   "text": "Buffers resist pH swings",
+   "standing": "projectable",
+   "evidence": "science · product curator · Buffer · cs_b_buffer_02"
   }
  ]
 }
