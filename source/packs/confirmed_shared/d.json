@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 219,
+ "curated_facts": 229,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1249,6 +1249,66 @@
    "text": "Dust settles from the air",
    "standing": "projectable",
    "evidence": "science · product curator · Dust · cs_d_dust_01"
+  },
+  {
+   "id": "cs_d_dandelion_03",
+   "text": "Wind lifts dandelion seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_03"
+  },
+  {
+   "id": "cs_d_day_02",
+   "text": "Earth turns once per day",
+   "standing": "projectable",
+   "evidence": "science · product curator · Day · cs_d_day_02"
+  },
+  {
+   "id": "cs_d_detergent_01",
+   "text": "Detergent lifts grease",
+   "standing": "projectable",
+   "evidence": "science · product curator · Detergent · cs_d_detergent_01"
+  },
+  {
+   "id": "cs_d_diamond_05",
+   "text": "Diamond is hard carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diamond · cs_d_diamond_05"
+  },
+  {
+   "id": "cs_d_digest_01",
+   "text": "Stomach acids digest food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Digest · cs_d_digest_01"
+  },
+  {
+   "id": "cs_d_dolphin_04",
+   "text": "A dolphin breathes air",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dolphin · cs_d_dolphin_04"
+  },
+  {
+   "id": "cs_d_dormant_01",
+   "text": "Seeds stay dormant in cold",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dormant · cs_d_dormant_01"
+  },
+  {
+   "id": "cs_d_drought_06",
+   "text": "A drought dries soil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Drought · cs_d_drought_06"
+  },
+  {
+   "id": "cs_d_dune_03",
+   "text": "Wind builds a sand dune",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dune · cs_d_dune_03"
+  },
+  {
+   "id": "cs_d_dynamo_02",
+   "text": "A dynamo makes current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dynamo · cs_d_dynamo_02"
   }
  ]
 }

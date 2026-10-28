@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 215,
+ "curated_facts": 225,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1243,6 +1243,66 @@
    "text": "Frost forms on cold surfaces",
    "standing": "projectable",
    "evidence": "science · product curator · Frost · cs_f_frost_03"
+  },
+  {
+   "id": "cs_f_fabric_01",
+   "text": "Cotton forms soft fabric",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fabric · cs_f_fabric_01"
+  },
+  {
+   "id": "cs_f_fat_01",
+   "text": "Fat stores body energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fat · cs_f_fat_01"
+  },
+  {
+   "id": "cs_f_fault_05",
+   "text": "A fault shifts rock layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_05"
+  },
+  {
+   "id": "cs_f_feather_03",
+   "text": "A feather traps warm air",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Feather · cs_f_feather_03"
+  },
+  {
+   "id": "cs_f_feldspar_04",
+   "text": "Feldspar fills granite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_04"
+  },
+  {
+   "id": "cs_f_fern_05",
+   "text": "A fern unrolls new fronds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fern · cs_f_fern_05"
+  },
+  {
+   "id": "cs_f_fertilizer_01",
+   "text": "Fertilizer feeds crop soil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fertilizer · cs_f_fertilizer_01"
+  },
+  {
+   "id": "cs_f_flax_01",
+   "text": "Flax yields linen fiber",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Flax · cs_f_flax_01"
+  },
+  {
+   "id": "cs_f_fluoride_02",
+   "text": "Fluoride hardens tooth enamel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluoride · cs_f_fluoride_02"
+  },
+  {
+   "id": "cs_f_frost_04",
+   "text": "Frost coats cold grass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_04"
   }
  ]
 }
