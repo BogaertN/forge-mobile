@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 124,
+ "curated_facts": 125,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -709,6 +709,12 @@
    "text": "Tempe is a city in Arizona",
    "standing": "projectable",
    "evidence": "geography · product curator · Tempe · cs_t_tempe_01"
+  },
+  {
+   "id": "cs_t_tectonic_plate_01",
+   "text": "A tectonic plate is a slab of rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tectonic plate · cs_t_tectonic_plate_01"
   }
  ]
 }

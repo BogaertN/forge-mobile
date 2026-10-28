@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 102,
+ "curated_facts": 124,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -589,6 +589,138 @@
    "text": "A wolf is a mammal",
    "standing": "projectable",
    "evidence": "nature · product curator · Wolf · cs_w_wolf_03"
+  },
+  {
+   "id": "cs_w_walrus_tusk_01",
+   "text": "Walrus tusks are elongated canine teeth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Walrus tusk · cs_w_walrus_tusk_01"
+  },
+  {
+   "id": "cs_w_whooping_crane_01",
+   "text": "The whooping crane is the tallest bird in North America",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whooping crane · cs_w_whooping_crane_01"
+  },
+  {
+   "id": "cs_w_wolfram_01",
+   "text": "Wolfram is another name for tungsten",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wolfram · cs_w_wolfram_01"
+  },
+  {
+   "id": "cs_w_wildcat_01",
+   "text": "The wildcat is a small wild cat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wildcat · cs_w_wildcat_01"
+  },
+  {
+   "id": "cs_w_walt_whitman_01",
+   "text": "Walt Whitman wrote Leaves of Grass",
+   "standing": "projectable",
+   "evidence": "history · product curator · Walt Whitman · cs_w_walt_whitman_01"
+  },
+  {
+   "id": "cs_w_washington_martha_01",
+   "text": "Martha Washington was the first First Lady",
+   "standing": "projectable",
+   "evidence": "history · product curator · Washington, Martha · cs_w_washington_martha_01"
+  },
+  {
+   "id": "cs_w_wall_street_01",
+   "text": "Wall Street is in New York City",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wall Street · cs_w_wall_street_01"
+  },
+  {
+   "id": "cs_w_weathering_01",
+   "text": "Weathering breaks down rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weathering · cs_w_weathering_01"
+  },
+  {
+   "id": "cs_w_weekday_01",
+   "text": "A weekday is a day from Monday to Friday",
+   "standing": "projectable",
+   "evidence": "language · product curator · Weekday · cs_w_weekday_01"
+  },
+  {
+   "id": "cs_w_wright_frank_lloyd_01",
+   "text": "Frank Lloyd Wright was an American architect",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wright, Frank Lloyd · cs_w_wright_frank_lloyd_01"
+  },
+  {
+   "id": "cs_w_watercolor_01",
+   "text": "Watercolor is a painting medium",
+   "standing": "projectable",
+   "evidence": "history · product curator · Watercolor · cs_w_watercolor_01"
+  },
+  {
+   "id": "cs_w_whip_01",
+   "text": "A party whip enforces voting discipline in a legislature",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Whip · cs_w_whip_01"
+  },
+  {
+   "id": "cs_w_wren_christopher_01",
+   "text": "Christopher Wren was an English architect",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wren, Christopher · cs_w_wren_christopher_01"
+  },
+  {
+   "id": "cs_w_warbler_01",
+   "text": "A warbler is a small songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Warbler · cs_w_warbler_01"
+  },
+  {
+   "id": "cs_w_water_lily_01",
+   "text": "A water lily is a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Water lily · cs_w_water_lily_01"
+  },
+  {
+   "id": "cs_w_wolf_spider_01",
+   "text": "A wolf spider hunts on the ground",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wolf spider · cs_w_wolf_spider_01"
+  },
+  {
+   "id": "cs_w_wordsworth_william_01",
+   "text": "William Wordsworth was an English poet",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wordsworth, William · cs_w_wordsworth_william_01"
+  },
+  {
+   "id": "cs_w_washington_booker_t__01",
+   "text": "Booker T. Washington was an American educator",
+   "standing": "projectable",
+   "evidence": "history · product curator · Washington, Booker T. · cs_w_washington_booker_t__01"
+  },
+  {
+   "id": "cs_w_wilde_oscar_01",
+   "text": "Oscar Wilde was an Irish writer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wilde, Oscar · cs_w_wilde_oscar_01"
+  },
+  {
+   "id": "cs_w_weimar_republic_01",
+   "text": "The Weimar Republic was a German state",
+   "standing": "projectable",
+   "evidence": "history · product curator · Weimar Republic · cs_w_weimar_republic_01"
+  },
+  {
+   "id": "cs_w_winnipeg_01",
+   "text": "Winnipeg is a city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Winnipeg · cs_w_winnipeg_01"
+  },
+  {
+   "id": "cs_w_wuhan_01",
+   "text": "Wuhan is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wuhan · cs_w_wuhan_01"
   }
  ]
 }

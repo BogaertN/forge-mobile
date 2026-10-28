@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 126,
+ "curated_facts": 127,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -727,6 +727,12 @@
    "text": "Brno is a city in the Czech Republic",
    "standing": "projectable",
    "evidence": "geography · product curator · Brno · cs_b_brno_01"
+  },
+  {
+   "id": "cs_b_basalt_01",
+   "text": "Basalt is a volcanic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Basalt · cs_b_basalt_01"
   }
  ]
 }

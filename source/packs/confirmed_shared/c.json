@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 127,
+ "curated_facts": 128,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -733,6 +733,12 @@
    "text": "Cusco is a city in Peru",
    "standing": "projectable",
    "evidence": "geography · product curator · Cusco · cs_c_cusco_01"
+  },
+  {
+   "id": "cs_c_coral_reef_01",
+   "text": "A coral reef is built by tiny animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Coral reef · cs_c_coral_reef_01"
   }
  ]
 }

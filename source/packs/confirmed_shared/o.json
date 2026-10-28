@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 119,
+ "curated_facts": 120,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -655,6 +655,12 @@
    "text": "An oriole is a bird",
    "standing": "projectable",
    "evidence": "nature · product curator · Oriole · cs_o_oriole_01"
+  },
+  {
+   "id": "cs_o_oligarchy_01",
+   "text": "An oligarchy is a form of government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Oligarchy · cs_o_oligarchy_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 118,
+ "curated_facts": 119,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -661,6 +661,12 @@
    "text": "A lark is a bird",
    "standing": "projectable",
    "evidence": "nature · product curator · Lark · cs_l_lark_01"
+  },
+  {
+   "id": "cs_l_lumen_01",
+   "text": "The lumen is a unit of luminous flux",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lumen · cs_l_lumen_01"
   }
  ]
 }

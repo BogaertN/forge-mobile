@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 117,
+ "curated_facts": 130,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -643,6 +643,84 @@
    "text": "A jackal is a mammal",
    "standing": "projectable",
    "evidence": "nature · product curator · Jackal · cs_j_jackal_03"
+  },
+  {
+   "id": "cs_j_jasper_01",
+   "text": "Jasper is a form of quartz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jasper · cs_j_jasper_01"
+  },
+  {
+   "id": "cs_j_jim_crow_laws_01",
+   "text": "Jim Crow laws enforced racial segregation",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jim Crow laws · cs_j_jim_crow_laws_01"
+  },
+  {
+   "id": "cs_j_jousting_01",
+   "text": "Jousting was a medieval sport",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jousting · cs_j_jousting_01"
+  },
+  {
+   "id": "cs_j_jutland_01",
+   "text": "Jutland is a peninsula of Denmark",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jutland · cs_j_jutland_01"
+  },
+  {
+   "id": "cs_j_jarrah_01",
+   "text": "Jarrah is a eucalyptus of Australia",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jarrah · cs_j_jarrah_01"
+  },
+  {
+   "id": "cs_j_journal_01",
+   "text": "A journal is a diary",
+   "standing": "projectable",
+   "evidence": "language · product curator · Journal · cs_j_journal_01"
+  },
+  {
+   "id": "cs_j_judicial_review_01",
+   "text": "Courts use judicial review",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judicial review · cs_j_judicial_review_01"
+  },
+  {
+   "id": "cs_j_jacquard_loom_01",
+   "text": "The Jacquard loom is a weaving machine",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jacquard loom · cs_j_jacquard_loom_01"
+  },
+  {
+   "id": "cs_j_jordan_michael_01",
+   "text": "Michael Jordan was a basketball player",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jordan, Michael · cs_j_jordan_michael_01"
+  },
+  {
+   "id": "cs_j_joyce_james_01",
+   "text": "James Joyce was an Irish writer",
+   "standing": "projectable",
+   "evidence": "history · product curator · Joyce, James · cs_j_joyce_james_01"
+  },
+  {
+   "id": "cs_j_jung_carl_01",
+   "text": "Carl Jung was a Swiss psychiatrist",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jung, Carl · cs_j_jung_carl_01"
+  },
+  {
+   "id": "cs_j_juarez_01",
+   "text": "Juarez is a city in Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Juarez · cs_j_juarez_01"
+  },
+  {
+   "id": "cs_j_jupiter_s_great_red_spot_01",
+   "text": "The Great Red Spot is a storm on Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter's Great Red Spot · cs_j_jupiter_s_great_red_spot_01"
   }
  ]
 }
