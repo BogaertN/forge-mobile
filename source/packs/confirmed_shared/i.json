@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 252,
+ "curated_facts": 262,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1447,6 +1447,66 @@
    "text": "Isomers share atom counts",
    "standing": "projectable",
    "evidence": "science · product curator · Isomer · cs_i_isomer_02"
+  },
+  {
+   "id": "cs_i_iguana_08",
+   "text": "Iguanas bask on warm rocks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_08"
+  },
+  {
+   "id": "cs_i_immune_01",
+   "text": "Immune cells fight germs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Immune · cs_i_immune_01"
+  },
+  {
+   "id": "cs_i_indicator_04",
+   "text": "Indicators mark acid strength",
+   "standing": "projectable",
+   "evidence": "science · product curator · Indicator · cs_i_indicator_04"
+  },
+  {
+   "id": "cs_i_indigo_02",
+   "text": "Indigo dyes cloth blue",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Indigo · cs_i_indigo_02"
+  },
+  {
+   "id": "cs_i_infrared_04",
+   "text": "Infrared warms Earth nights",
+   "standing": "projectable",
+   "evidence": "science · product curator · Infrared · cs_i_infrared_04"
+  },
+  {
+   "id": "cs_i_ingot_02",
+   "text": "Foundries cast metal ingots",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ingot · cs_i_ingot_02"
+  },
+  {
+   "id": "cs_i_inlet_02",
+   "text": "Inlets flood coastal bays",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Inlet · cs_i_inlet_02"
+  },
+  {
+   "id": "cs_i_iris_06",
+   "text": "The iris meters pupil light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iris · cs_i_iris_06"
+  },
+  {
+   "id": "cs_i_irrigation_02",
+   "text": "Irrigation waters dry crops",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Irrigation · cs_i_irrigation_02"
+  },
+  {
+   "id": "cs_i_indium_03",
+   "text": "Indium softens solder alloys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Indium · cs_i_indium_03"
   }
  ]
 }
