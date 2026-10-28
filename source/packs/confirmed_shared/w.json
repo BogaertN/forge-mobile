@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 140,
+ "curated_facts": 149,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -817,6 +817,60 @@
    "text": "A waterfall is a stream that falls over a cliff",
    "standing": "projectable",
    "evidence": "geography · product curator · Waterfall · cs_w_waterfall_02"
+  },
+  {
+   "id": "cs_w_washington_george_04",
+   "text": "George Washington was the first U.S. president",
+   "standing": "projectable",
+   "evidence": "history · product curator · Washington, George · cs_w_washington_george_04"
+  },
+  {
+   "id": "cs_w_water_05",
+   "text": "Water freezes at zero Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water · cs_w_water_05"
+  },
+  {
+   "id": "cs_w_wetland_02",
+   "text": "Wetlands filter water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wetland · cs_w_wetland_02"
+  },
+  {
+   "id": "cs_w_whale_shark_03",
+   "text": "A whale shark is the largest fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whale shark · cs_w_whale_shark_03"
+  },
+  {
+   "id": "cs_w_white_house_04",
+   "text": "The White House is the home of the U.S. president",
+   "standing": "projectable",
+   "evidence": "civics · product curator · White House · cs_w_white_house_04"
+  },
+  {
+   "id": "cs_w_whole_number_03",
+   "text": "A whole number is a non negative integer",
+   "standing": "projectable",
+   "evidence": "math · product curator · Whole number · cs_w_whole_number_03"
+  },
+  {
+   "id": "cs_w_woodpecker_03",
+   "text": "A woodpecker pecks wood for insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_03"
+  },
+  {
+   "id": "cs_w_wright_brothers_03",
+   "text": "The Wright brothers flew the first powered airplane",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wright brothers · cs_w_wright_brothers_03"
+  },
+  {
+   "id": "cs_w_written_constitution_02",
+   "text": "A written constitution sets out the basic law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Written constitution · cs_w_written_constitution_02"
   }
  ]
 }

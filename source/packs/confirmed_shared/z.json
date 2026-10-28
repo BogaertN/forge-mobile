@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 158,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -823,6 +823,48 @@
    "text": "A zinnia is a garden flower",
    "standing": "projectable",
    "evidence": "nature · product curator · Zinnia · cs_z_zinnia_05"
+  },
+  {
+   "id": "cs_z_z_axis_02",
+   "text": "The z-axis is the third axis in three dimensional space",
+   "standing": "projectable",
+   "evidence": "math · product curator · Z-axis · cs_z_z_axis_02"
+  },
+  {
+   "id": "cs_z_zagros_mountains_02",
+   "text": "The Zagros Mountains are in western Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zagros Mountains · cs_z_zagros_mountains_02"
+  },
+  {
+   "id": "cs_z_zero_07",
+   "text": "Zero is the integer between negative one and one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_07"
+  },
+  {
+   "id": "cs_z_zinc_10",
+   "text": "Zinc prevents rust on steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_10"
+  },
+  {
+   "id": "cs_z_zip_code_03",
+   "text": "A ZIP code helps sort mail",
+   "standing": "projectable",
+   "evidence": "civics · product curator · ZIP code · cs_z_zip_code_03"
+  },
+  {
+   "id": "cs_z_zirconium_04",
+   "text": "Zirconium is a transition metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_04"
+  },
+  {
+   "id": "cs_z_zoning_03",
+   "text": "Zoning regulates land use",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_03"
   }
  ]
 }
