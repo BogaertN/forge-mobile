@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 224,
+ "curated_facts": 228,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1315,6 +1315,30 @@
    "text": "A crystal grows flat faces",
    "standing": "projectable",
    "evidence": "science · product curator · Crystal · cs_c_crystal_01"
+  },
+  {
+   "id": "cs_c_cambium_02",
+   "text": "Cambium grows new wood rings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cambium · cs_c_cambium_02"
+  },
+  {
+   "id": "cs_c_carapace_02",
+   "text": "A carapace shields a turtle",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Carapace · cs_c_carapace_02"
+  },
+  {
+   "id": "cs_c_cardiac_01",
+   "text": "Cardiac muscle never tires",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cardiac · cs_c_cardiac_01"
+  },
+  {
+   "id": "cs_c_canopy_05",
+   "text": "A canopy shades forest floor",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_05"
   }
  ]
 }

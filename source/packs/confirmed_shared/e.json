@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 221,
+ "curated_facts": 231,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1303,6 +1303,66 @@
    "text": "An eyebrow shields the eye",
    "standing": "projectable",
    "evidence": "science · product curator · Eyebrow · cs_e_eyebrow_01"
+  },
+  {
+   "id": "cs_e_earwax_01",
+   "text": "Earwax protects the ear canal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earwax · cs_e_earwax_01"
+  },
+  {
+   "id": "cs_e_ecliptic_01",
+   "text": "Earth orbits along the ecliptic",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ecliptic · cs_e_ecliptic_01"
+  },
+  {
+   "id": "cs_e_elastin_01",
+   "text": "Elastin stretches soft tissue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Elastin · cs_e_elastin_01"
+  },
+  {
+   "id": "cs_e_electrolyte_01",
+   "text": "Electrolytes carry body charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electrolyte · cs_e_electrolyte_01"
+  },
+  {
+   "id": "cs_e_endorphin_01",
+   "text": "Endorphins dull pain signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Endorphin · cs_e_endorphin_01"
+  },
+  {
+   "id": "cs_e_endosperm_01",
+   "text": "Endosperm feeds a young seed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Endosperm · cs_e_endosperm_01"
+  },
+  {
+   "id": "cs_e_epidermis_01",
+   "text": "Epidermis covers outer skin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Epidermis · cs_e_epidermis_01"
+  },
+  {
+   "id": "cs_e_erythrocyte_01",
+   "text": "Erythrocytes carry oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Erythrocyte · cs_e_erythrocyte_01"
+  },
+  {
+   "id": "cs_e_ethane_01",
+   "text": "Ethane burns as a fuel gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ethane · cs_e_ethane_01"
+  },
+  {
+   "id": "cs_e_excretion_01",
+   "text": "Kidneys clear waste by excretion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Excretion · cs_e_excretion_01"
   }
  ]
 }
