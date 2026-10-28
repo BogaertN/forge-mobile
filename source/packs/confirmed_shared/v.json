@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 157,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -901,6 +901,54 @@
    "text": "Volume is the measure of space",
    "standing": "projectable",
    "evidence": "math · product curator · Volume · cs_v_volume_02"
+  },
+  {
+   "id": "cs_v_veto_02",
+   "text": "A veto rejects a bill",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Veto · cs_v_veto_02"
+  },
+  {
+   "id": "cs_v_volume_03",
+   "text": "Volume measures three dimensional space",
+   "standing": "projectable",
+   "evidence": "math · product curator · Volume · cs_v_volume_03"
+  },
+  {
+   "id": "cs_v_valley_04",
+   "text": "A river flows through a valley",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valley · cs_v_valley_04"
+  },
+  {
+   "id": "cs_v_verb_02",
+   "text": "Run is a verb",
+   "standing": "projectable",
+   "evidence": "language · product curator · Verb · cs_v_verb_02"
+  },
+  {
+   "id": "cs_v_vice_president_02",
+   "text": "A vice president is next in line after a president",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Vice president · cs_v_vice_president_02"
+  },
+  {
+   "id": "cs_v_vector_03",
+   "text": "Force is a vector quantity",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vector · cs_v_vector_03"
+  },
+  {
+   "id": "cs_v_volcano_05",
+   "text": "Ash clouds rise from an erupting volcano",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Volcano · cs_v_volcano_05"
+  },
+  {
+   "id": "cs_v_vampire_bat_02",
+   "text": "A vampire bat feeds on blood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vampire bat · cs_v_vampire_bat_02"
   }
  ]
 }

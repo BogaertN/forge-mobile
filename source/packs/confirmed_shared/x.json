@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 157,
+ "curated_facts": 163,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -895,6 +895,42 @@
    "text": "Xylem tissue moves water through a plant",
    "standing": "projectable",
    "evidence": "science · product curator · Xylem tissue · cs_x_xylem_tissue_02"
+  },
+  {
+   "id": "cs_x_x_intercept_04",
+   "text": "An x-intercept is a root of a function graph",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_04"
+  },
+  {
+   "id": "cs_x_x_ray_08",
+   "text": "An x-ray passes through soft tissue",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_08"
+  },
+  {
+   "id": "cs_x_xylene_03",
+   "text": "Xylene dissolves grease",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylene · cs_x_xylene_03"
+  },
+  {
+   "id": "cs_x_x_ray_binary_02",
+   "text": "A binary x-ray source contains a compact star",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray binary · cs_x_x_ray_binary_02"
+  },
+  {
+   "id": "cs_x_x_height_03",
+   "text": "Type designers compare x-height across fonts",
+   "standing": "projectable",
+   "evidence": "language · product curator · X-height · cs_x_x_height_03"
+  },
+  {
+   "id": "cs_x_xhosa_06",
+   "text": "Xhosa orthography marks clicks with letters",
+   "standing": "projectable",
+   "evidence": "language · product curator · Xhosa · cs_x_xhosa_06"
   }
  ]
 }

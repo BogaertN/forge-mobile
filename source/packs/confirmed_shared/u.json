@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 161,
+ "curated_facts": 169,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -901,6 +901,54 @@
    "text": "A unit fraction has one as numerator",
    "standing": "projectable",
    "evidence": "math · product curator · Unit fraction · cs_u_unit_fraction_03"
+  },
+  {
+   "id": "cs_u_uniform_02",
+   "text": "A uniform is standard clothing",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Uniform · cs_u_uniform_02"
+  },
+  {
+   "id": "cs_u_union_03",
+   "text": "A union joins sets without duplicates",
+   "standing": "projectable",
+   "evidence": "math · product curator · Union · cs_u_union_03"
+  },
+  {
+   "id": "cs_u_unit_03",
+   "text": "A unit is a standard of measurement",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit · cs_u_unit_03"
+  },
+  {
+   "id": "cs_u_umbrella_03",
+   "text": "An umbrella blocks rain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbrella · cs_u_umbrella_03"
+  },
+  {
+   "id": "cs_u_ungulate_04",
+   "text": "An ungulate is a hoofed mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_04"
+  },
+  {
+   "id": "cs_u_unit_circle_03",
+   "text": "Trigonometry uses the unit circle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_03"
+  },
+  {
+   "id": "cs_u_uranium_08",
+   "text": "Uranium is a radioactive element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uranium · cs_u_uranium_08"
+  },
+  {
+   "id": "cs_u_urchin_04",
+   "text": "A sea urchin has spines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Urchin · cs_u_urchin_04"
   }
  ]
 }
