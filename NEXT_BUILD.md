@@ -1,3 +1,16 @@
+# Next build order — after 4.9.168 (shipped)
+
+**Baseline:** 4.9.168 hosted KB resonance packets `{Phi,eps,mu}` for RPMC phase-align/combine (Axiom 4; §1; §3.4). Attach-on-admit + packet-only backfill. RPMC priors carry sfe. Continuous fill PAUSED. Soft leave ≥5 kB under 570 kB.
+
+**Standing:** Grok Bot computer ONLY. No CloudAgent. Soft budget ≤1.920 MB / ≤570 kB gzip. No LLM. Pathway not patches. Continuous fill remains PAUSED.
+
+**Shipped 4.9.168:** Nic YES — every hosted CS combine participant needs minimal resonance packet. Packs + index backfilled; pull attaches defaults when omitted; gather/priors wire sfe. Not Roe/quartz/autism/laceration answer hacks. Soft budget unchanged.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget; stuffing one molecule/case as a special-case pack row; resuming continuous fill without Nic.
+
+**Manual:** still paused.
+
+
 # Next build order — after 4.9.167
 
 **Baseline:** 4.9.167 public research vault-optional + RPMC domain/archive ancestors for chemical/general factual miss (RPMC→RSOC→Panini Name without Identity Vault passphrase; continuous fill PAUSED; soft leave ≥5 kB under 570 kB)
