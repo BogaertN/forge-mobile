@@ -743,6 +743,8 @@ function Kernel(opts) {
   function aboutSubjMatch(qs,rs){if(!qs||!rs)return false;for(const a of peelNP(qs))for(const b of peelNP(rs)){const sa=subjSurface(a),sb=subjSurface(b);if(sa&&sb&&sa===sb)return true;try{if(npKey(a)===npKey(b))return true}catch(e){}}const rich=n=>!!(n.propn||(n.adjs&&n.adjs.length)||(n.pp&&n.pp.np));if(rich(qs)||rich(rs))return false;return subjMatch(qs,rs)}
   function readFacts(){return activeFacts().concat(confirmedSharedFacts())}
   function isCsRec(r){return!!(r&&((r.provenance&&r.provenance.source===PACK_CS)||String(r.id||'').indexOf('cs:')===0))}
+  /* 4.9.164: shared about-pick (exact surface first, then optional cap) for CS-RECALL-ABOUT / compose / rights */
+  function aboutPick(subj,list,cap){if(!list||!list.length)return[];const want=subjSurface(peelNP(subj).slice(-1)[0]||subj);const exact=list.filter(r=>subjSurface(peelNP(r.clause.subj).slice(-1)[0]||r.clause.subj)===want);const out=exact.length?exact:list;return(cap>0&&out.length>cap)?out.slice(0,cap):out}
   function markCsClause(r){if(!r||!r.clause)return r&&r.clause;return isCsRec(r)?Object.assign({},r.clause,{confirmed_shared:true}):r.clause}
   function matchesAbout(q,gap,r){return matches(q,gap,r,aboutSubjMatch)}
   let sideRules = []; let pendingRender = null; let stagedHyps = []; let phonePending = null; let phoneProposals = []; let meaPPending = null; let meaPProposals = []; let spcPending = null; let creativePending = null; let supposeOpen = null; let supposePending = null;
@@ -2042,12 +2044,12 @@ function Kernel(opts) {
             for (const x of sas) { const c = x.meaning.clauses && x.meaning.clauses[0]; if (!c) continue; const t = G.clauseText(Object.assign({}, c, { subj: { pron: 'user' } }), 'kernel'); if (!seenT.has(t) && one(c)) { seenT.add(t); full.push(clone(c)); } }
             /* Q-SELF-RESTATE-READINGS (4.9.50): each reading whose own restatement is unambiguous is restated in full (up to two); only when none is, the verb alone (shared by every reading) */
             const st = clone(m.clauses[0]); delete st.roles; st.adj = []; m.clauses = (full.length ? full.slice(0, 2) : one(st) ? [st] : []).concat(m.clauses.slice(1)); if (full.length) rules.push({ id: 'Q-SELF-RESTATE-READINGS', doc: 'Doc3 §40 (every reading answered alike; each unambiguous restatement kept)', note: full.length + ' of ' + sas.length }); delete m.restated; } rules.push({ id: 'Q-SELF-MODEL', doc: 'selfmodel.js; all ' + uniq.length + ' readings settle alike (' + sas[0].cls + ')', note: sas[0].rule }); return res('SELECTED_MEANING', m, { frame: 'FR.SELF.MODEL', act: 'question' }); }
-        /* G-IRRN-SURFACE (4.9.163): readings that describe identically and differ only by irregular plural lemma (people↔person) collapse to the surface-matching head */
+        /* G-IRRN-SURFACE (4.9.163): identical describe + IRRN plural lemma → surface head */
         { const ds = uniq.map(r => describe(r.node.clause));
           if (ds.every(d => d === ds[0])) {
             const irrHit = (c) => { let n = 0; const walk = o => { if (!o || typeof o !== 'object') return; if (Array.isArray(o)) return o.forEach(walk); if (Array.isArray(o.head) && Array.isArray(o.surface) && o.head.join(' ') !== o.surface.join(' ')) { const s = o.surface[o.surface.length - 1], h = o.head[o.head.length - 1]; if (G.IRRN && G.IRRN[s] === h) n++; } for (const v of Object.values(o)) walk(v); }; walk(c); return n; };
             uniq.sort((a, b) => irrHit(a.node.clause) - irrHit(b.node.clause));
-            rules.push({ id: 'G-IRRN-SURFACE', doc: '4.9.163; Doc3 §40 (IRRN surface collapse when describe is identical)', note: ds[0] });
+            rules.push({ id: 'G-IRRN-SURFACE', doc: '4.9.163 IRRN surface', note: ds[0] });
             uniq.splice(1);
           } }
         if (uniq.length > 1) { rules.push({ id: 'G-STRUCTURAL-AMBIGUITY-PRESERVED', doc: 'Doc3 §40; Doc6 §29' }); return res('AMBIGUITY_PRESERVED', { kind: 'clarify_readings', readings: readingsOf(uniq.slice(0, 4)) }, { frame: 'FR.QUESTION', act: 'question' }); } }
@@ -2161,29 +2163,21 @@ function Kernel(opts) {
       if (!recs.length && gap === 'pred' && q.subj) recs = activeFacts().filter(r => !r.clause.coord && r.clause.verb.lemma === 'be' && r.clause.pred && r.clause.pred.np && entKeys(r.clause.pred.np).includes(entKey(q.subj)));
       if (!recs.length && gap === 'pred' && q.subj) recs = confirmedSharedFacts().filter(r => r.clause && !r.clause.coord && r.clause.verb && r.clause.verb.lemma === 'be' && r.clause.pred && r.clause.pred.np && aboutSubjMatch(q.subj, r.clause.pred.np));
       /* 4.9.162 CS-RECALL-ABOUT */
-      if (!recs.length && gap === 'pred' && q.subj) { let about = factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord);
-        if (about.length) { const want = subjSurface(peelNP(q.subj).slice(-1)[0] || q.subj);
-          const exact = about.filter(r => subjSurface(peelNP(r.clause.subj).slice(-1)[0] || r.clause.subj) === want);
-          if (exact.length) about = exact; if (about.length > 3) about = about.slice(0, 3);
-          rules.push({ id: about.every(isCsRec) ? 'CS-RECALL-ABOUT' : 'MEM-RECALL-ABOUT', doc: '4.9.162 about-fallback', note: about.map(r => r.id).join(', ') }); recs = about; } }
-      /* 4.9.163 CS-COMPOSE-PRESENCE-ABOUT: a lone "what is NP" presence/be hit is thin when the shared KB also holds about-facts for NP — compose presence + rights/about */
+      if (!recs.length && gap === 'pred' && q.subj) { let about = aboutPick(q.subj, factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord), 3);
+        if (about.length) { rules.push({ id: about.every(isCsRec) ? 'CS-RECALL-ABOUT' : 'MEM-RECALL-ABOUT', doc: '4.9.162 about-fallback', note: about.map(r => r.id).join(', ') }); recs = about; } }
+      /* 4.9.163 CS-COMPOSE-PRESENCE-ABOUT: compose be-presence with about-facts */
       if (gap === 'pred' && q.subj && recs.length && recs.every(r => r.clause && r.clause.verb && r.clause.verb.lemma === 'be')) {
-        let rich = factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord && r.clause.verb && r.clause.verb.lemma !== 'be');
-        if (rich.length) { const want = subjSurface(peelNP(q.subj).slice(-1)[0] || q.subj);
-          const exact = rich.filter(r => subjSurface(peelNP(r.clause.subj).slice(-1)[0] || r.clause.subj) === want);
-          if (exact.length) rich = exact; const seen = new Set(recs.map(r => r.id)); const add = rich.filter(r => !seen.has(r.id));
+        let rich = aboutPick(q.subj, factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord && r.clause.verb && r.clause.verb.lemma !== 'be'));
+        if (rich.length) { const seen = new Set(recs.map(r => r.id)); const add = rich.filter(r => !seen.has(r.id));
           if (add.length) { const merged = recs.concat(add); recs = merged.length > 4 ? merged.slice(0, 4) : merged;
-            rules.push({ id: recs.every(isCsRec) ? 'CS-COMPOSE-PRESENCE-ABOUT' : 'MEM-COMPOSE-PRESENCE-ABOUT', doc: '4.9.163 compose be-presence with about-facts', note: recs.map(r => r.id).join(', ') }); } } }
-      /* 4.9.163 CS-RECALL-RIGHTS-ABOUT: rights WH (protect/give/…) or discourse "what does it say that it gives" — about-facts for the subject, before recall_none / AQ-1 */
+            rules.push({ id: recs.every(isCsRec) ? 'CS-COMPOSE-PRESENCE-ABOUT' : 'MEM-COMPOSE-PRESENCE-ABOUT', doc: '4.9.163 compose presence+about', note: recs.map(r => r.id).join(', ') }); } } }
+      /* 4.9.163 CS-RECALL-RIGHTS-ABOUT: rights WH / discourse about-fallback before AQ-1 */
       if (!recs.length && q.subj) {
         const RIGHTS_V = /^(protect|give|grant|guarantee|secure|forbid|bar|require|ensure)$/;
         const karma = q.roles && q.roles.karma; const inner = karma && karma.clause;
         const rightsAsk = (gap && q.verb && RIGHTS_V.test(q.verb.lemma)) || (!gap && q.verb && /^(say|tell)$/.test(q.verb.lemma) && inner && inner.verb && RIGHTS_V.test(inner.verb.lemma));
-        if (rightsAsk) { let about = factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord && r.clause.verb && RIGHTS_V.test(r.clause.verb.lemma));
-          if (about.length) { const want = subjSurface(peelNP(q.subj).slice(-1)[0] || q.subj);
-            const exact = about.filter(r => subjSurface(peelNP(r.clause.subj).slice(-1)[0] || r.clause.subj) === want);
-            if (exact.length) about = exact; if (about.length > 4) about = about.slice(0, 4);
-            rules.push({ id: about.every(isCsRec) ? 'CS-RECALL-RIGHTS-ABOUT' : 'MEM-RECALL-RIGHTS-ABOUT', doc: '4.9.163 rights/discourse about-fallback', note: about.map(r => r.id).join(', ') });
+        if (rightsAsk) { let about = aboutPick(q.subj, factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord && r.clause.verb && RIGHTS_V.test(r.clause.verb.lemma)), 4);
+          if (about.length) { rules.push({ id: about.every(isCsRec) ? 'CS-RECALL-RIGHTS-ABOUT' : 'MEM-RECALL-RIGHTS-ABOUT', doc: '4.9.163 rights about', note: about.map(r => r.id).join(', ') });
             if (!gap) gap = 'pred'; recs = about; } } }
       /* MEM-RECALL-TIME-ADJUNCT (4.9.82): "when is / does NP (V)" with no exact match recalls a fact about the same subject (and, for a lexical verb,
          the same verb) that carries a time: a kāla adjunct, or an adjunct / predicate phrase whose noun is of the WordNet time class
