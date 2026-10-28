@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 175,
+ "curated_facts": 184,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1027,6 +1027,60 @@
    "text": "A heavy fast object has momentum",
    "standing": "projectable",
    "evidence": "science · product curator · Momentum · cs_m_momentum_01"
+  },
+  {
+   "id": "cs_m_mackerel_02",
+   "text": "A mackerel is a schooling fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mackerel · cs_m_mackerel_02"
+  },
+  {
+   "id": "cs_m_magnesium_02",
+   "text": "Magnesium is a light metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnesium · cs_m_magnesium_02"
+  },
+  {
+   "id": "cs_m_mantis_02",
+   "text": "A mantis hunts with front legs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mantis · cs_m_mantis_02"
+  },
+  {
+   "id": "cs_m_mayor_02",
+   "text": "Voters elect a mayor",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Mayor · cs_m_mayor_02"
+  },
+  {
+   "id": "cs_m_mosaic_02",
+   "text": "Artists set tiles in a mosaic",
+   "standing": "projectable",
+   "evidence": "history · product curator · Mosaic · cs_m_mosaic_02"
+  },
+  {
+   "id": "cs_m_manatee_02",
+   "text": "A manatee grazes on seagrass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Manatee · cs_m_manatee_02"
+  },
+  {
+   "id": "cs_m_manganese_02",
+   "text": "Manganese hardens steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Manganese · cs_m_manganese_02"
+  },
+  {
+   "id": "cs_m_meerkat_03",
+   "text": "A meerkat stands sentry",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Meerkat · cs_m_meerkat_03"
+  },
+  {
+   "id": "cs_m_maple_02",
+   "text": "Maple trees yield sweet sap",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Maple · cs_m_maple_02"
   }
  ]
 }

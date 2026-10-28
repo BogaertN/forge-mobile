@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 178,
+ "curated_facts": 185,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1033,6 +1033,48 @@
    "text": "Plants absorb nitrate",
    "standing": "projectable",
    "evidence": "science · product curator · Nitrate · cs_n_nitrate_02"
+  },
+  {
+   "id": "cs_n_nacre_02",
+   "text": "Nacre lines a pearl oyster",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nacre · cs_n_nacre_02"
+  },
+  {
+   "id": "cs_n_neon_03",
+   "text": "Neon glows in glass tubes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neon · cs_n_neon_03"
+  },
+  {
+   "id": "cs_n_nobelium_02",
+   "text": "Nobelium is a synthetic element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nobelium · cs_n_nobelium_02"
+  },
+  {
+   "id": "cs_n_nightingale_04",
+   "text": "A nightingale sings at night",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_04"
+  },
+  {
+   "id": "cs_n_nuthatch_03",
+   "text": "A nuthatch climbs tree trunks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_03"
+  },
+  {
+   "id": "cs_n_nickel_04",
+   "text": "Nickel resists corrosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nickel · cs_n_nickel_04"
+  },
+  {
+   "id": "cs_n_niobium_02",
+   "text": "Niobium strengthens steel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Niobium · cs_n_niobium_02"
   }
  ]
 }

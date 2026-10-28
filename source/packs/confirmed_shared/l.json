@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 181,
+ "curated_facts": 185,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1039,6 +1039,30 @@
    "text": "Longitude measures east and west",
    "standing": "projectable",
    "evidence": "geography · product curator · Longitude · cs_l_longitude_02"
+  },
+  {
+   "id": "cs_l_lacquer_01",
+   "text": "Lacquer coats wood",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lacquer · cs_l_lacquer_01"
+  },
+  {
+   "id": "cs_l_lamp_01",
+   "text": "A lamp gives light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lamp · cs_l_lamp_01"
+  },
+  {
+   "id": "cs_l_larva_03",
+   "text": "A caterpillar is a larva",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Larva · cs_l_larva_03"
+  },
+  {
+   "id": "cs_l_law_01",
+   "text": "A law binds citizens",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Law · cs_l_law_01"
   }
  ]
 }
