@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 166,
+ "curated_facts": 172,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -937,6 +937,42 @@
    "text": "Oxygen supports combustion",
    "standing": "projectable",
    "evidence": "science · product curator · Oxygen · cs_o_oxygen_05"
+  },
+  {
+   "id": "cs_o_oath_of_office_02",
+   "text": "Officials swear an oath of office",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Oath of office · cs_o_oath_of_office_02"
+  },
+  {
+   "id": "cs_o_oboe_03",
+   "text": "An oboe uses a double reed",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oboe · cs_o_oboe_03"
+  },
+  {
+   "id": "cs_o_oil_02",
+   "text": "Oil floats on water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oil · cs_o_oil_02"
+  },
+  {
+   "id": "cs_o_okra_02",
+   "text": "Okra is a green seed pod vegetable",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Okra · cs_o_okra_02"
+  },
+  {
+   "id": "cs_o_ore_02",
+   "text": "Ore contains valuable metal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ore · cs_o_ore_02"
+  },
+  {
+   "id": "cs_o_orthography_01",
+   "text": "Orthography is a writing system",
+   "standing": "projectable",
+   "evidence": "language · product curator · Orthography · cs_o_orthography_01"
   }
  ]
 }

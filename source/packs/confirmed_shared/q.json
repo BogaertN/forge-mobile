@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 174,
+ "curated_facts": 180,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -937,6 +937,42 @@
    "text": "A quarter horse is a breed of horse",
    "standing": "projectable",
    "evidence": "nature · product curator · Quarter horse · cs_q_quarter_horse_02"
+  },
+  {
+   "id": "cs_q_quadrant_04",
+   "text": "A quadrant is a quarter of a plane",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_04"
+  },
+  {
+   "id": "cs_q_quark_06",
+   "text": "A quark is a fundamental particle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_06"
+  },
+  {
+   "id": "cs_q_quartet_03",
+   "text": "A quartet has four performers",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quartet · cs_q_quartet_03"
+  },
+  {
+   "id": "cs_q_quechua_02",
+   "text": "Quechua is an Andean language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quechua · cs_q_quechua_02"
+  },
+  {
+   "id": "cs_q_quilt_06",
+   "text": "A quilt is a layered bed covering",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_06"
+  },
+  {
+   "id": "cs_q_quince_05",
+   "text": "A quince is a tart fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quince · cs_q_quince_05"
   }
  ]
 }
