@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 198,
+ "curated_facts": 208,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1129,6 +1129,66 @@
    "text": "Yttrium strengthens alloys",
    "standing": "projectable",
    "evidence": "science · product curator · Yttrium · cs_y_yttrium_06"
+  },
+  {
+   "id": "cs_y_yagi_01",
+   "text": "Radios use a Yagi antenna",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yagi · cs_y_yagi_01"
+  },
+  {
+   "id": "cs_y_yak_12",
+   "text": "Yaks graze high pastures",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_12"
+  },
+  {
+   "id": "cs_y_yeast_10",
+   "text": "Yeast releases carbon dioxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yeast · cs_y_yeast_10"
+  },
+  {
+   "id": "cs_y_yellowwood_02",
+   "text": "Carpenters cut yellowwood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_02"
+  },
+  {
+   "id": "cs_y_yemen_07",
+   "text": "Yemen borders the Red Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yemen · cs_y_yemen_07"
+  },
+  {
+   "id": "cs_y_yew_05",
+   "text": "Yew needles stay green",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yew · cs_y_yew_05"
+  },
+  {
+   "id": "cs_y_yield_05",
+   "text": "Chemists calculate yield",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yield · cs_y_yield_05"
+  },
+  {
+   "id": "cs_y_ytterbium_02",
+   "text": "Ytterbium is a soft metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_02"
+  },
+  {
+   "id": "cs_y_yttrium_07",
+   "text": "Yttrium glows in screens",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_07"
+  },
+  {
+   "id": "cs_y_yucca_04",
+   "text": "Desert gardens grow yucca",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_04"
   }
  ]
 }

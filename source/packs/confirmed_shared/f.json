@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 199,
+ "curated_facts": 207,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1147,6 +1147,54 @@
    "text": "A fragment lacks a subject",
    "standing": "projectable",
    "evidence": "language · product curator · Fragment · cs_f_fragment_02"
+  },
+  {
+   "id": "cs_f_factor_04",
+   "text": "Six has a factor of three",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_04"
+  },
+  {
+   "id": "cs_f_fauna_02",
+   "text": "Islands hold unique fauna",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fauna · cs_f_fauna_02"
+  },
+  {
+   "id": "cs_f_fermentation_04",
+   "text": "Bread rises by fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_04"
+  },
+  {
+   "id": "cs_f_ferret_03",
+   "text": "Ferrets live in burrows",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ferret · cs_f_ferret_03"
+  },
+  {
+   "id": "cs_f_firefly_04",
+   "text": "Larvae become a firefly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_04"
+  },
+  {
+   "id": "cs_f_fission_02",
+   "text": "Nuclei split in fission",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_02"
+  },
+  {
+   "id": "cs_f_frost_02",
+   "text": "Cold nights leave frost",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_02"
+  },
+  {
+   "id": "cs_f_fusion_02",
+   "text": "Hydrogen joins in fusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fusion · cs_f_fusion_02"
   }
  ]
 }

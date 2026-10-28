@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 195,
+ "curated_facts": 203,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1147,6 +1147,54 @@
    "text": "A metaphor compares ideas",
    "standing": "projectable",
    "evidence": "language · product curator · Metaphor · cs_m_metaphor_04"
+  },
+  {
+   "id": "cs_m_mantis_03",
+   "text": "Forelegs fold on a mantis",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mantis · cs_m_mantis_03"
+  },
+  {
+   "id": "cs_m_maple_03",
+   "text": "A maple yields syrup",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Maple · cs_m_maple_03"
+  },
+  {
+   "id": "cs_m_marlin_03",
+   "text": "A marlin leaps from waves",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marlin · cs_m_marlin_03"
+  },
+  {
+   "id": "cs_m_marmot_03",
+   "text": "A marmot whistles danger",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marmot · cs_m_marmot_03"
+  },
+  {
+   "id": "cs_m_marrow_02",
+   "text": "Blood cells form in marrow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Marrow · cs_m_marrow_02"
+  },
+  {
+   "id": "cs_m_marsupial_02",
+   "text": "A pouch marks a marsupial",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_02"
+  },
+  {
+   "id": "cs_m_meteor_03",
+   "text": "Night skies show a meteor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Meteor · cs_m_meteor_03"
+  },
+  {
+   "id": "cs_m_molecule_03",
+   "text": "Atoms join in a molecule",
+   "standing": "projectable",
+   "evidence": "science · product curator · Molecule · cs_m_molecule_03"
   }
  ]
 }

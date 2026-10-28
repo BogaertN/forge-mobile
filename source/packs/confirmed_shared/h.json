@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 201,
+ "curated_facts": 209,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1147,6 +1147,54 @@
    "text": "Water has high heat capacity",
    "standing": "projectable",
    "evidence": "science · product curator · Heat capacity · cs_h_heat_capacity_02"
+  },
+  {
+   "id": "cs_h_habitat_02",
+   "text": "Pandas need bamboo habitat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Habitat · cs_h_habitat_02"
+  },
+  {
+   "id": "cs_h_hafnium_04",
+   "text": "Hafnium resists corrosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_04"
+  },
+  {
+   "id": "cs_h_hedgehog_05",
+   "text": "Insects feed a hedgehog",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_05"
+  },
+  {
+   "id": "cs_h_helium_05",
+   "text": "Helium fills party balloons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Helium · cs_h_helium_05"
+  },
+  {
+   "id": "cs_h_hemisphere_03",
+   "text": "Seasons flip by hemisphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hemisphere · cs_h_hemisphere_03"
+  },
+  {
+   "id": "cs_h_horizon_01",
+   "text": "Sunsets meet the horizon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Horizon · cs_h_horizon_01"
+  },
+  {
+   "id": "cs_h_humidity_02",
+   "text": "Deserts have low humidity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Humidity · cs_h_humidity_02"
+  },
+  {
+   "id": "cs_h_hummingbird_06",
+   "text": "Nectar feeds a hummingbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_06"
   }
  ]
 }

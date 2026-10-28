@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 198,
+ "curated_facts": 206,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1147,6 +1147,54 @@
    "text": "Egyptians built a pyramid",
    "standing": "projectable",
    "evidence": "history · product curator · Pyramid · cs_p_pyramid_03"
+  },
+  {
+   "id": "cs_p_pancreas_02",
+   "text": "Enzymes leave the pancreas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pancreas · cs_p_pancreas_02"
+  },
+  {
+   "id": "cs_p_pangaea_02",
+   "text": "Continents formed Pangaea",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pangaea · cs_p_pangaea_02"
+  },
+  {
+   "id": "cs_p_pangaea_03",
+   "text": "Pangaea broke into plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pangaea · cs_p_pangaea_03"
+  },
+  {
+   "id": "cs_p_peacock_04",
+   "text": "A peacock fans its train",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_04"
+  },
+  {
+   "id": "cs_p_peacock_05",
+   "text": "Feathers adorn a peacock",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_05"
+  },
+  {
+   "id": "cs_p_pelican_03",
+   "text": "Pouches fill on a pelican",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pelican · cs_p_pelican_03"
+  },
+  {
+   "id": "cs_p_pheasant_03",
+   "text": "A pheasant nests on ground",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_03"
+  },
+  {
+   "id": "cs_p_pupa_01",
+   "text": "A pupa rests before wings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pupa · cs_p_pupa_01"
   }
  ]
 }

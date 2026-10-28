@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 195,
+ "curated_facts": 205,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1123,6 +1123,66 @@
    "text": "A Xerox makes a copy",
    "standing": "projectable",
    "evidence": "history · product curator · Xerox · cs_x_xerox_03"
+  },
+  {
+   "id": "cs_x_x_intercept_06",
+   "text": "Roots mark an x-intercept",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_06"
+  },
+  {
+   "id": "cs_x_x_ray_12",
+   "text": "An x-ray reveals a fracture",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_12"
+  },
+  {
+   "id": "cs_x_xenon_13",
+   "text": "Xenon has many isotopes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_13"
+  },
+  {
+   "id": "cs_x_xeric_02",
+   "text": "Xeric soils drain quickly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xeric · cs_x_xeric_02"
+  },
+  {
+   "id": "cs_x_xerography_04",
+   "text": "Toner sticks in xerography",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerography · cs_x_xerography_04"
+  },
+  {
+   "id": "cs_x_xochimilco_03",
+   "text": "Boats float in Xochimilco",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xochimilco · cs_x_xochimilco_03"
+  },
+  {
+   "id": "cs_x_xylaria_02",
+   "text": "Xylaria grows on dead wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_02"
+  },
+  {
+   "id": "cs_x_xylem_09",
+   "text": "Trees need living xylem",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_09"
+  },
+  {
+   "id": "cs_x_xylitol_04",
+   "text": "Xylitol comes from birch",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_04"
+  },
+  {
+   "id": "cs_x_xylophone_11",
+   "text": "A xylophone sounds bright",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_11"
   }
  ]
 }

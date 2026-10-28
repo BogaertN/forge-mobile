@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 195,
+ "curated_facts": 204,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1141,6 +1141,60 @@
    "text": "Limestone holds calcite",
    "standing": "projectable",
    "evidence": "science · product curator · Calcite · cs_c_calcite_02"
+  },
+  {
+   "id": "cs_c_canopy_04",
+   "text": "Rain hits the canopy first",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_04"
+  },
+  {
+   "id": "cs_c_carbon_05",
+   "text": "Carbon forms long chains",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon · cs_c_carbon_05"
+  },
+  {
+   "id": "cs_c_carbon_06",
+   "text": "Diamonds are hard carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon · cs_c_carbon_06"
+  },
+  {
+   "id": "cs_c_catalyst_02",
+   "text": "Enzymes act as a catalyst",
+   "standing": "projectable",
+   "evidence": "science · product curator · Catalyst · cs_c_catalyst_02"
+  },
+  {
+   "id": "cs_c_celsius_03",
+   "text": "Scientists prefer Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Celsius · cs_c_celsius_03"
+  },
+  {
+   "id": "cs_c_chlorine_03",
+   "text": "Chlorine disinfects water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chlorine · cs_c_chlorine_03"
+  },
+  {
+   "id": "cs_c_copper_04",
+   "text": "Copper conducts heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Copper · cs_c_copper_04"
+  },
+  {
+   "id": "cs_c_cricket_02",
+   "text": "A cricket chirps at night",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cricket · cs_c_cricket_02"
+  },
+  {
+   "id": "cs_c_crust_02",
+   "text": "Magma rises through crust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Crust · cs_c_crust_02"
   }
  ]
 }
