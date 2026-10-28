@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 207,
+ "curated_facts": 215,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1195,6 +1195,54 @@
    "text": "Hydrogen joins in fusion",
    "standing": "projectable",
    "evidence": "science · product curator · Fusion · cs_f_fusion_02"
+  },
+  {
+   "id": "cs_f_feldspar_03",
+   "text": "Granite holds feldspar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Feldspar · cs_f_feldspar_03"
+  },
+  {
+   "id": "cs_f_finch_03",
+   "text": "Finches crack seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Finch · cs_f_finch_03"
+  },
+  {
+   "id": "cs_f_fir_04",
+   "text": "Firs keep winter needles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fir · cs_f_fir_04"
+  },
+  {
+   "id": "cs_f_flint_03",
+   "text": "Sparks fly from flint",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flint · cs_f_flint_03"
+  },
+  {
+   "id": "cs_f_fluoride_01",
+   "text": "Toothpaste adds fluoride",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fluoride · cs_f_fluoride_01"
+  },
+  {
+   "id": "cs_f_follicle_01",
+   "text": "Hair grows from a follicle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Follicle · cs_f_follicle_01"
+  },
+  {
+   "id": "cs_f_friction_04",
+   "text": "Friction produces heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_04"
+  },
+  {
+   "id": "cs_f_frost_03",
+   "text": "Frost forms on cold surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frost · cs_f_frost_03"
   }
  ]
 }
