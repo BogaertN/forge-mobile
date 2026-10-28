@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 135,
+ "curated_facts": 146,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -763,6 +763,72 @@
    "text": "Wassily Kandinsky was a Russian painter",
    "standing": "projectable",
    "evidence": "history · product curator · Kandinsky, Wassily · cs_k_kandinsky_wassily_01"
+  },
+  {
+   "id": "cs_k_k2_02",
+   "text": "K2 is the second highest mountain on Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · K2 · cs_k_k2_02"
+  },
+  {
+   "id": "cs_k_kale_02",
+   "text": "Kale is a leafy green vegetable",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kale · cs_k_kale_02"
+  },
+  {
+   "id": "cs_k_kaolin_02",
+   "text": "Kaolin is a fine white clay",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kaolin · cs_k_kaolin_02"
+  },
+  {
+   "id": "cs_k_karate_02",
+   "text": "Karate is a Japanese martial art",
+   "standing": "projectable",
+   "evidence": "history · product curator · Karate · cs_k_karate_02"
+  },
+  {
+   "id": "cs_k_kelvin_02",
+   "text": "Absolute zero is zero on the Kelvin scale",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kelvin · cs_k_kelvin_02"
+  },
+  {
+   "id": "cs_k_kepler_johannes_03",
+   "text": "Johannes Kepler described planetary orbits",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kepler, Johannes · cs_k_kepler_johannes_03"
+  },
+  {
+   "id": "cs_k_kilogram_03",
+   "text": "A kilogram is the SI unit of mass",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_03"
+  },
+  {
+   "id": "cs_k_kimberlite_01",
+   "text": "Kimberlite is a rock that can contain diamonds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_01"
+  },
+  {
+   "id": "cs_k_kingfisher_05",
+   "text": "A kingfisher catches fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_05"
+  },
+  {
+   "id": "cs_k_kiwi_04",
+   "text": "A kiwi is a flightless bird from New Zealand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_04"
+  },
+  {
+   "id": "cs_k_komodo_dragon_03",
+   "text": "A Komodo dragon is a large lizard",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_03"
   }
  ]
 }

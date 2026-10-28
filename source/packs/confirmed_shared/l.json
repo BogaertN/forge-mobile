@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 135,
+ "curated_facts": 146,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -763,6 +763,72 @@
    "text": "Litmus paper tests acidity",
    "standing": "projectable",
    "evidence": "science · product curator · Litmus · cs_l_litmus_01"
+  },
+  {
+   "id": "cs_l_lake_baikal_03",
+   "text": "Lake Baikal is the deepest lake on Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake Baikal · cs_l_lake_baikal_03"
+  },
+  {
+   "id": "cs_l_language_01",
+   "text": "Language is a system of communication",
+   "standing": "projectable",
+   "evidence": "language · product curator · Language · cs_l_language_01"
+  },
+  {
+   "id": "cs_l_larva_02",
+   "text": "A larva is an early stage of an insect",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Larva · cs_l_larva_02"
+  },
+  {
+   "id": "cs_l_laser_02",
+   "text": "Laser light is coherent",
+   "standing": "projectable",
+   "evidence": "science · product curator · Laser · cs_l_laser_02"
+  },
+  {
+   "id": "cs_l_latitude_02",
+   "text": "The equator has latitude zero",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Latitude · cs_l_latitude_02"
+  },
+  {
+   "id": "cs_l_legume_01",
+   "text": "A legume is a plant of the pea family",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Legume · cs_l_legume_01"
+  },
+  {
+   "id": "cs_l_lever_02",
+   "text": "A lever can multiply force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lever · cs_l_lever_02"
+  },
+  {
+   "id": "cs_l_lichen_02",
+   "text": "A lichen is a partnership of fungus and alga",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_02"
+  },
+  {
+   "id": "cs_l_line_01",
+   "text": "A line extends forever in two directions",
+   "standing": "projectable",
+   "evidence": "math · product curator · Line · cs_l_line_01"
+  },
+  {
+   "id": "cs_l_lithium_03",
+   "text": "Lithium is an alkali metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lithium · cs_l_lithium_03"
+  },
+  {
+   "id": "cs_l_lyric_poem_01",
+   "text": "A lyric poem expresses personal feeling",
+   "standing": "projectable",
+   "evidence": "language · product curator · Lyric poem · cs_l_lyric_poem_01"
   }
  ]
 }
