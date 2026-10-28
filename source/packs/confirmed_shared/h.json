@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 237,
+ "curated_facts": 245,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1363,6 +1363,54 @@
    "text": "Hypoxia starves tissue of oxygen",
    "standing": "projectable",
    "evidence": "science · product curator · Hypoxia · cs_h_hypoxia_01"
+  },
+  {
+   "id": "cs_h_halogen_03",
+   "text": "Chlorine ranks a halogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Halogen · cs_h_halogen_03"
+  },
+  {
+   "id": "cs_h_hammer_02",
+   "text": "Hammers drive nail shafts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hammer · cs_h_hammer_02"
+  },
+  {
+   "id": "cs_h_haploid_03",
+   "text": "Gametes carry haploid sets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Haploid · cs_h_haploid_03"
+  },
+  {
+   "id": "cs_h_hemoglobin_03",
+   "text": "Hemoglobin binds blood oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_03"
+  },
+  {
+   "id": "cs_h_hornet_02",
+   "text": "Hornets build paper nests",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hornet · cs_h_hornet_02"
+  },
+  {
+   "id": "cs_h_horse_04",
+   "text": "Horses graze open pasture",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Horse · cs_h_horse_04"
+  },
+  {
+   "id": "cs_h_hybrid_02",
+   "text": "Breeders make hybrid crops",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_02"
+  },
+  {
+   "id": "cs_h_hydrogen_06",
+   "text": "Stars burn hydrogen fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_06"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 233,
+ "curated_facts": 241,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1363,6 +1363,54 @@
    "text": "A gyroscope holds spin axis",
    "standing": "projectable",
    "evidence": "science · product curator · Gyroscope · cs_g_gyroscope_01"
+  },
+  {
+   "id": "cs_g_gas_03",
+   "text": "Heat expands a sealed gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gas · cs_g_gas_03"
+  },
+  {
+   "id": "cs_g_gear_06",
+   "text": "Gears transfer turning force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gear · cs_g_gear_06"
+  },
+  {
+   "id": "cs_g_gecko_06",
+   "text": "Geckos cling to smooth walls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_06"
+  },
+  {
+   "id": "cs_g_gene_04",
+   "text": "Mutations alter gene code",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gene · cs_g_gene_04"
+  },
+  {
+   "id": "cs_g_geyser_03",
+   "text": "Heat drives geyser eruptions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Geyser · cs_g_geyser_03"
+  },
+  {
+   "id": "cs_g_glucose_06",
+   "text": "Glucose fuels living cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glucose · cs_g_glucose_06"
+  },
+  {
+   "id": "cs_g_gold_04",
+   "text": "Gold resists chemical rust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gold · cs_g_gold_04"
+  },
+  {
+   "id": "cs_g_gypsum_06",
+   "text": "Walls hold gypsum plaster",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_06"
   }
  ]
 }
