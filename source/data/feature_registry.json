@@ -1,5 +1,5 @@
 {
-  "version": "4.9.160",
+  "version": "4.9.161",
   "features": [
     {
       "id": "A-01",
@@ -3413,7 +3413,7 @@
       "source": "CONFLICTS.md v4.9.138; packs/confirmed_shared/{a\u2026z,index}.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "4.9.160: hosted A-Z refresh (6628 curated; 6390 admitted). Prefer memory > hosted shared > import > starter. Soft Echo stays parked.",
+      "note": "4.9.161: hosted A-Z refresh (6748 curated; 6510 admitted). Prefer memory > hosted shared > import > starter. Soft Echo stays parked.",
       "proof": [
         "R4127"
       ]
@@ -3432,7 +3432,7 @@
     {
       "id": "R4128-HOSTED",
       "name": "hosted shared KB",
-      "source": "CONFLICTS.md v4.9.160; BRIEF_4.9.128_SHARED_KB_AZ",
+      "source": "CONFLICTS.md v4.9.161; BRIEF_4.9.128_SHARED_KB_AZ",
       "wave": "W2",
       "claim": "Partial",
       "note": "Hosted A\u2013Z is the shared knowledge source of truth. pullHostedSharedPack loads session RAM for invent/compose. Phone confirmed_shared stays empty. Scrapbook shared_knowledge stays empty.",
@@ -3454,10 +3454,10 @@
     {
       "id": "R4128-AZ",
       "name": "A-Z corpus",
-      "source": "CONFLICTS.md v4.9.160; packs/confirmed_shared/index.json",
+      "source": "CONFLICTS.md v4.9.161; packs/confirmed_shared/index.json",
       "wave": "W2",
       "claim": "Partial",
-      "note": "Index 4.9.160: 26 letters; 6390 items / 6628 curated (\u22651890/\u22652622). UI/speech: Shared knowledge base.",
+      "note": "Index 4.9.161: 26 letters; 6510 items / 6748 curated (\u22651890/\u22652622). UI/speech: Shared knowledge base.",
       "proof": [
         "R4128"
       ]

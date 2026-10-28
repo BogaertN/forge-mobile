@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 255,
+ "curated_facts": 265,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1471,6 +1471,66 @@
    "text": "Hyphae spread fungus networks",
    "standing": "projectable",
    "evidence": "nature · product curator · Hypha · cs_h_hypha_01"
+  },
+  {
+   "id": "cs_h_heartwood_01",
+   "text": "Heartwood stiffens tree trunks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Heartwood · cs_h_heartwood_01"
+  },
+  {
+   "id": "cs_h_hibernation_03",
+   "text": "Hibernation slows winter metabolism",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hibernation · cs_h_hibernation_03"
+  },
+  {
+   "id": "cs_h_hornblende_02",
+   "text": "Hornblende darkens igneous rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hornblende · cs_h_hornblende_02"
+  },
+  {
+   "id": "cs_h_hydrolysis_01",
+   "text": "Hydrolysis splits water bonds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrolysis · cs_h_hydrolysis_01"
+  },
+  {
+   "id": "cs_h_hydroxide_01",
+   "text": "Hydroxides raise solution pH",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydroxide · cs_h_hydroxide_01"
+  },
+  {
+   "id": "cs_h_high_tide_01",
+   "text": "High tide lifts coastal water",
+   "standing": "projectable",
+   "evidence": "science · product curator · High tide · cs_h_high_tide_01"
+  },
+  {
+   "id": "cs_h_hinge_joint_01",
+   "text": "A hinge joint bends one plane",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hinge joint · cs_h_hinge_joint_01"
+  },
+  {
+   "id": "cs_h_harmonic_01",
+   "text": "A harmonic rings wave overtones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Harmonic · cs_h_harmonic_01"
+  },
+  {
+   "id": "cs_h_haploid_04",
+   "text": "Haploid cells hold one genome",
+   "standing": "projectable",
+   "evidence": "science · product curator · Haploid · cs_h_haploid_04"
+  },
+  {
+   "id": "cs_h_hydra_03",
+   "text": "Hydras regenerate lost parts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hydra · cs_h_hydra_03"
   }
  ]
 }

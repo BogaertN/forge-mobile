@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 262,
+ "curated_facts": 272,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1447,6 +1447,66 @@
    "text": "Zygomatic bones form cheeks",
    "standing": "projectable",
    "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_02"
+  },
+  {
+   "id": "cs_z_zebra_finch_03",
+   "text": "Zebra finches learn song notes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_03"
+  },
+  {
+   "id": "cs_z_zebra_shark_02",
+   "text": "Zebra sharks rest on sand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra shark · cs_z_zebra_shark_02"
+  },
+  {
+   "id": "cs_z_zigzag_04",
+   "text": "Lightning follows zigzag paths",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zigzag · cs_z_zigzag_04"
+  },
+  {
+   "id": "cs_z_zirconia_02",
+   "text": "Zirconia hardens dental crowns",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconia · cs_z_zirconia_02"
+  },
+  {
+   "id": "cs_z_zirconium_08",
+   "text": "Zirconium coats reactor tubes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_08"
+  },
+  {
+   "id": "cs_z_zale_01",
+   "text": "Zale moths feed on pine",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zale · cs_z_zale_01"
+  },
+  {
+   "id": "cs_z_zibeline_01",
+   "text": "Zibeline softens fur coats",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zibeline · cs_z_zibeline_01"
+  },
+  {
+   "id": "cs_z_zenith_08",
+   "text": "The sun hits its zenith",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zenith · cs_z_zenith_08"
+  },
+  {
+   "id": "cs_z_zipper_06",
+   "text": "A zipper seals fabric edges",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zipper · cs_z_zipper_06"
+  },
+  {
+   "id": "cs_z_zonal_04",
+   "text": "Zonal winds circle the globe",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zonal · cs_z_zonal_04"
   }
  ]
 }
