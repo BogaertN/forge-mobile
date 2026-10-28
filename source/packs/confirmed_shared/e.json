@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 194,
+ "curated_facts": 203,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1141,6 +1141,60 @@
    "text": "An egret wades for fish",
    "standing": "projectable",
    "evidence": "nature · product curator · Egret · cs_e_egret_03"
+  },
+  {
+   "id": "cs_e_echo_04",
+   "text": "Mountains return an echo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Echo · cs_e_echo_04"
+  },
+  {
+   "id": "cs_e_eclipse_06",
+   "text": "The moon causes an eclipse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_06"
+  },
+  {
+   "id": "cs_e_efficiency_02",
+   "text": "Machines raise efficiency",
+   "standing": "projectable",
+   "evidence": "science · product curator · Efficiency · cs_e_efficiency_02"
+  },
+  {
+   "id": "cs_e_electrode_03",
+   "text": "Sensors use an electrode",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electrode · cs_e_electrode_03"
+  },
+  {
+   "id": "cs_e_electron_03",
+   "text": "An electron carries charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electron · cs_e_electron_03"
+  },
+  {
+   "id": "cs_e_elephant_04",
+   "text": "Elephants remember paths",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_04"
+  },
+  {
+   "id": "cs_e_enzyme_03",
+   "text": "An enzyme speeds digestion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_03"
+  },
+  {
+   "id": "cs_e_exoskeleton_01",
+   "text": "A crab has an exoskeleton",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_01"
+  },
+  {
+   "id": "cs_e_extinction_01",
+   "text": "Fossils record extinction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Extinction · cs_e_extinction_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 201,
+ "curated_facts": 210,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1141,6 +1141,60 @@
    "text": "Crops fail in a drought",
    "standing": "projectable",
    "evidence": "nature · product curator · Drought · cs_d_drought_04"
+  },
+  {
+   "id": "cs_d_daisy_02",
+   "text": "A daisy opens at morning",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Daisy · cs_d_daisy_02"
+  },
+  {
+   "id": "cs_d_deer_02",
+   "text": "Deer browse young shoots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Deer · cs_d_deer_02"
+  },
+  {
+   "id": "cs_d_diamond_04",
+   "text": "Cutters polish a diamond",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diamond · cs_d_diamond_04"
+  },
+  {
+   "id": "cs_d_diatom_03",
+   "text": "Oceans teem with diatoms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_03"
+  },
+  {
+   "id": "cs_d_dragonfly_06",
+   "text": "Nymphs become a dragonfly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_06"
+  },
+  {
+   "id": "cs_d_drought_05",
+   "text": "Lakes shrink in a drought",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Drought · cs_d_drought_05"
+  },
+  {
+   "id": "cs_d_duck_05",
+   "text": "A duck oils its feathers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Duck · cs_d_duck_05"
+  },
+  {
+   "id": "cs_d_dugong_01",
+   "text": "A dugong grazes seagrass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dugong · cs_d_dugong_01"
+  },
+  {
+   "id": "cs_d_dynamo_01",
+   "text": "Bikes once used a dynamo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dynamo · cs_d_dynamo_01"
   }
  ]
 }
