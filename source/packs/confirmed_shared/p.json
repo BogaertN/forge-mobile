@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 242,
+ "curated_facts": 252,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1411,6 +1411,66 @@
    "text": "Hydrogen holds one proton",
    "standing": "projectable",
    "evidence": "science · product curator · Proton · cs_p_proton_03"
+  },
+  {
+   "id": "cs_p_parasite_01",
+   "text": "A parasite feeds on hosts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Parasite · cs_p_parasite_01"
+  },
+  {
+   "id": "cs_p_pelvis_01",
+   "text": "The pelvis braces hip bones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pelvis · cs_p_pelvis_01"
+  },
+  {
+   "id": "cs_p_petiole_01",
+   "text": "A petiole joins leaf stems",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Petiole · cs_p_petiole_01"
+  },
+  {
+   "id": "cs_p_pigment_01",
+   "text": "Pigment colors plant tissue",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pigment · cs_p_pigment_01"
+  },
+  {
+   "id": "cs_p_polyp_01",
+   "text": "A polyp builds coral reefs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Polyp · cs_p_polyp_01"
+  },
+  {
+   "id": "cs_p_power_01",
+   "text": "Power ranks energy per time",
+   "standing": "projectable",
+   "evidence": "science · product curator · Power · cs_p_power_01"
+  },
+  {
+   "id": "cs_p_precipitation_03",
+   "text": "Clouds drop precipitation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Precipitation · cs_p_precipitation_03"
+  },
+  {
+   "id": "cs_p_predator_02",
+   "text": "Predators hunt live prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Predator · cs_p_predator_02"
+  },
+  {
+   "id": "cs_p_prism_02",
+   "text": "A prism splits white light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Prism · cs_p_prism_02"
+  },
+  {
+   "id": "cs_p_proton_04",
+   "text": "A proton packs nucleus charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Proton · cs_p_proton_04"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 246,
+ "curated_facts": 256,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -1411,6 +1411,66 @@
    "text": "Throats hold a soft uvula",
    "standing": "projectable",
    "evidence": "science · product curator · Uvula · cs_u_uvula_03"
+  },
+  {
+   "id": "cs_u_u_shaped_valley_01",
+   "text": "Ice carves U-shaped valleys",
+   "standing": "projectable",
+   "evidence": "geography · product curator · U-shaped valley · cs_u_u_shaped_valley_01"
+  },
+  {
+   "id": "cs_u_umbra_06",
+   "text": "Moons cast eclipse umbras",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbra · cs_u_umbra_06"
+  },
+  {
+   "id": "cs_u_undertow_01",
+   "text": "Undertow pulls beach swimmers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Undertow · cs_u_undertow_01"
+  },
+  {
+   "id": "cs_u_ungulate_08",
+   "text": "Ungulates walk on hoof tips",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_08"
+  },
+  {
+   "id": "cs_u_unit_cell_01",
+   "text": "A unit cell repeats crystal form",
+   "standing": "projectable",
+   "evidence": "science · product curator · Unit cell · cs_u_unit_cell_01"
+  },
+  {
+   "id": "cs_u_universal_joint_01",
+   "text": "A joint flexes drive shafts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Universal joint · cs_u_universal_joint_01"
+  },
+  {
+   "id": "cs_u_upwelling_01",
+   "text": "Upwelling lifts deep nutrients",
+   "standing": "projectable",
+   "evidence": "science · product curator · Upwelling · cs_u_upwelling_01"
+  },
+  {
+   "id": "cs_u_urea_05",
+   "text": "Urea clears blood nitrogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urea · cs_u_urea_05"
+  },
+  {
+   "id": "cs_u_urine_03",
+   "text": "Kidneys filter blood urine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urine · cs_u_urine_03"
+  },
+  {
+   "id": "cs_u_uvula_04",
+   "text": "The uvula hangs soft palate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uvula · cs_u_uvula_04"
   }
  ]
 }

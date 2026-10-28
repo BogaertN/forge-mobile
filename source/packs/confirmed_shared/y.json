@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 243,
+ "curated_facts": 253,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1399,6 +1399,66 @@
    "text": "Yucca stores desert moisture",
    "standing": "projectable",
    "evidence": "nature · product curator · Yucca · cs_y_yucca_07"
+  },
+  {
+   "id": "cs_y_yam_bean_01",
+   "text": "Yam beans store root starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yam bean · cs_y_yam_bean_01"
+  },
+  {
+   "id": "cs_y_yeast_bud_01",
+   "text": "Yeast buds copy new cells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yeast bud · cs_y_yeast_bud_01"
+  },
+  {
+   "id": "cs_y_yellow_birch_01",
+   "text": "Yellow birch sheds thin bark",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellow birch · cs_y_yellow_birch_01"
+  },
+  {
+   "id": "cs_y_yellow_marrow_01",
+   "text": "Yellow marrow stores bone fat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yellow marrow · cs_y_yellow_marrow_01"
+  },
+  {
+   "id": "cs_y_yellow_pollen_01",
+   "text": "Bees gather yellow pollen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellow pollen · cs_y_yellow_pollen_01"
+  },
+  {
+   "id": "cs_y_yield_strength_01",
+   "text": "Yield strength marks metal bend",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yield strength · cs_y_yield_strength_01"
+  },
+  {
+   "id": "cs_y_yolk_membrane_01",
+   "text": "A membrane seals egg yolk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk membrane · cs_y_yolk_membrane_01"
+  },
+  {
+   "id": "cs_y_yolk_sac_04",
+   "text": "A yolk sac feeds early embryos",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk sac · cs_y_yolk_sac_04"
+  },
+  {
+   "id": "cs_y_yulan_01",
+   "text": "Yulan blooms early spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yulan · cs_y_yulan_01"
+  },
+  {
+   "id": "cs_y_yuzu_01",
+   "text": "Yuzu ripens tart citrus peels",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yuzu · cs_y_yuzu_01"
   }
  ]
 }
