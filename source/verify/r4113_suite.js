@@ -73,10 +73,13 @@ T('a lookup stays evidence, a denied lookup is not a found source, and presence 
   expect(/verbatim span supports/.test(ok.doc7.why) && !/span:/.test(ok.doc7.why), ok.doc7.why);
   const card = TP.receiptCard(bad);
   expect(/data-doc7-research="evidence"/.test(card) && !/retrieved context|\bRAG\b|embedding|knowledge base/i.test(card), card.slice(0, 400));
-  const denied = mk().process('research photosynthesis');
-  const nd = cats(denied, 'denied');
-  expect(denied.trace.msm.meaning.kind === 'tool_denied' && nd.belief === 'authority' && !nd.present.evidence && nd.research === false, denied.reply + ' ' + JSON.stringify(nd));
-  expect(!/not a knowledge store/.test(nd.why), nd.why);
+  /* 4.9.167: research.web is vault-optional (network_read); locked still starts research as evidence, not tool_denied / passphrase */
+  const started = mk().process('research photosynthesis');
+  const nd = cats(started, 'started');
+  expect(started.trace.msm.meaning.kind === 'tool_started' && nd.belief === 'evidence' && nd.research === true && !nd.present.memory, started.reply + ' ' + JSON.stringify(nd));
+  expect(/lookup is starting/.test(nd.why) || /evidence/.test(nd.belief), nd.why);
+  const cap = mk().process('capture https://example.org/article');
+  expect(cap.trace.msm.meaning.kind === 'tool_denied' && /PERM-VAULT-LOCKED/.test(cap.reply || ''), cap.reply);
 });
 
 T('Audit, Memory, and the vault name the categories, and a real lookup does not fill a store', async () => {

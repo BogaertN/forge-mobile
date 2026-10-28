@@ -16,7 +16,7 @@
     T('lexicon.define', ['FR.DEFINE'], 'read', ['word'], ['gloss + provenance']),
     T('memory.query', ['FR.QUESTION', 'FR.WHEN', 'FR.ABOUT', 'FR.MEM.LIST', 'FR.MEM.COUNT', 'FR.NOTE.LIST', 'FR.NOTE.COUNT'], 'read', ['question frame'], ['matching facts with provenance']),
     T('infer.relation', ['FR.QUESTION'], 'read', ['relation question'], ['inference chain (transitive / is-a / family)']),
-    T('research.web', ['FR.TOOL.RESEARCH'], 'network_read+vault_write', ['topic'], ['≤3 exact excerpts + source receipts (sealed in vault)'], { source: 'crawler.js (port of research_acquisition.py)' }),
+    T('research.web', ['FR.TOOL.RESEARCH'], 'network_read', ['topic'], ['≤3 exact excerpts + source receipts (sealed when vault unlocked; else ephemeral on device)'], { source: 'crawler.js (port of research_acquisition.py)' }),
     T('capture.page', ['FR.TOOL.CAPTURE'], 'network_read+vault_write', ['public URL'], ['page excerpt + receipt (sealed in vault)']),
     T('github.read', ['FR.TOOL.GITHUB'], 'network_read', ['owner/repo'], ['top-level file list'], { token: 'read-only fine-grained token sealed in the vault (M1)' }),
     T('sim.preview', ['FR.TOOL.SIM'], 'compute', ['bodies, seed'], ['labelled preview + final state hash (replayable)'], { source: 'sim.js (M7; not a ProtoForge result)' }),
