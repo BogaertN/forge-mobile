@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 235,
+ "curated_facts": 245,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1387,6 +1387,66 @@
    "text": "An earthworm digests soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Worm · cs_w_worm_03"
+  },
+  {
+   "id": "cs_w_wasabi_02",
+   "text": "Wasabi burns sinus tissue",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wasabi · cs_w_wasabi_02"
+  },
+  {
+   "id": "cs_w_weather_05",
+   "text": "Weather fronts shift air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weather · cs_w_weather_05"
+  },
+  {
+   "id": "cs_w_weld_03",
+   "text": "Sparks fly from a weld arc",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weld · cs_w_weld_03"
+  },
+  {
+   "id": "cs_w_wheat_07",
+   "text": "Wheat yields bread flour",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_07"
+  },
+  {
+   "id": "cs_w_width_04",
+   "text": "Width spans side distance",
+   "standing": "projectable",
+   "evidence": "math · product curator · Width · cs_w_width_04"
+  },
+  {
+   "id": "cs_w_wildcat_02",
+   "text": "Wildcats stalk night prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wildcat · cs_w_wildcat_02"
+  },
+  {
+   "id": "cs_w_weasel_04",
+   "text": "Weasels hunt rodent prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_04"
+  },
+  {
+   "id": "cs_w_web_02",
+   "text": "A web traps flying insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Web · cs_w_web_02"
+  },
+  {
+   "id": "cs_w_waterfall_03",
+   "text": "Waterfalls erode rock lips",
+   "standing": "projectable",
+   "evidence": "science · product curator · Waterfall · cs_w_waterfall_03"
+  },
+  {
+   "id": "cs_w_wire_04",
+   "text": "Current flows through wire",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wire · cs_w_wire_04"
   }
  ]
 }

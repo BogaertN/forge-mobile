@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 252,
+ "curated_facts": 262,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1387,6 +1387,66 @@
    "text": "Zygotes divide into embryos",
    "standing": "projectable",
    "evidence": "science · product curator · Zygote · cs_z_zygote_08"
+  },
+  {
+   "id": "cs_z_zaffre_02",
+   "text": "Zaffre colors cobalt glass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zaffre · cs_z_zaffre_02"
+  },
+  {
+   "id": "cs_z_zero_11",
+   "text": "Zero marks empty quantity",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_11"
+  },
+  {
+   "id": "cs_z_zincite_03",
+   "text": "Zincite yields zinc ore",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zincite · cs_z_zincite_03"
+  },
+  {
+   "id": "cs_z_zinnia_09",
+   "text": "Zinnias bloom dry gardens",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_09"
+  },
+  {
+   "id": "cs_z_zoisite_02",
+   "text": "Zoisite forms green crystals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zoisite · cs_z_zoisite_02"
+  },
+  {
+   "id": "cs_z_zonal_03",
+   "text": "Winds follow zonal paths",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zonal · cs_z_zonal_03"
+  },
+  {
+   "id": "cs_z_zebra_mussel_05",
+   "text": "Zebra mussels filter lake water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_05"
+  },
+  {
+   "id": "cs_z_zoning_07",
+   "text": "Zoning guides city land use",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_07"
+  },
+  {
+   "id": "cs_z_zucchini_05",
+   "text": "Zucchini grows summer fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zucchini · cs_z_zucchini_05"
+  },
+  {
+   "id": "cs_z_zygomatic_02",
+   "text": "Zygomatic bones form cheeks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygomatic · cs_z_zygomatic_02"
   }
  ]
 }
