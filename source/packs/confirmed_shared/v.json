@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 234,
+ "curated_facts": 242,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1363,6 +1363,54 @@
    "text": "Voltage pushes electric charge",
    "standing": "projectable",
    "evidence": "science · product curator · Voltage · cs_v_voltage_05"
+  },
+  {
+   "id": "cs_v_vaccine_02",
+   "text": "Vaccines train immune memory",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vaccine · cs_v_vaccine_02"
+  },
+  {
+   "id": "cs_v_vacuole_02",
+   "text": "Vacuoles store cell water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vacuole · cs_v_vacuole_02"
+  },
+  {
+   "id": "cs_v_vanadium_05",
+   "text": "Steel holds vanadium metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_05"
+  },
+  {
+   "id": "cs_v_vanilla_03",
+   "text": "Orchids yield vanilla pods",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_03"
+  },
+  {
+   "id": "cs_v_variable_04",
+   "text": "Equations hold a variable",
+   "standing": "projectable",
+   "evidence": "math · product curator · Variable · cs_v_variable_04"
+  },
+  {
+   "id": "cs_v_vent_02",
+   "text": "Vents release volcanic gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vent · cs_v_vent_02"
+  },
+  {
+   "id": "cs_v_vinegar_03",
+   "text": "Acetic acid makes vinegar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vinegar · cs_v_vinegar_03"
+  },
+  {
+   "id": "cs_v_viscosity_04",
+   "text": "Oils show thick viscosity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_04"
   }
  ]
 }

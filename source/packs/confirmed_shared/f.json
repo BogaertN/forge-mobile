@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 235,
+ "curated_facts": 243,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1363,6 +1363,54 @@
    "text": "Fur insulates mammal skin",
    "standing": "projectable",
    "evidence": "nature · product curator · Fur · cs_f_fur_02"
+  },
+  {
+   "id": "cs_f_fermentation_05",
+   "text": "Yeast starts fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fermentation · cs_f_fermentation_05"
+  },
+  {
+   "id": "cs_f_fibrin_02",
+   "text": "Fibrin seals clotting wounds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibrin · cs_f_fibrin_02"
+  },
+  {
+   "id": "cs_f_fold_03",
+   "text": "Geologists map rock folds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fold · cs_f_fold_03"
+  },
+  {
+   "id": "cs_f_follicle_02",
+   "text": "Hair grows from follicles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Follicle · cs_f_follicle_02"
+  },
+  {
+   "id": "cs_f_friction_05",
+   "text": "Oil cuts machine friction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_05"
+  },
+  {
+   "id": "cs_f_fructose_02",
+   "text": "Honey packs rich fructose",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fructose · cs_f_fructose_02"
+  },
+  {
+   "id": "cs_f_fruit_02",
+   "text": "Seed spreads inside fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fruit · cs_f_fruit_02"
+  },
+  {
+   "id": "cs_f_fusion_03",
+   "text": "Fusion joins light nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fusion · cs_f_fusion_03"
   }
  ]
 }

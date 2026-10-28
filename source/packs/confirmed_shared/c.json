@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 228,
+ "curated_facts": 238,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1339,6 +1339,66 @@
    "text": "A canopy shades forest floor",
    "standing": "projectable",
    "evidence": "nature · product curator · Canopy · cs_c_canopy_05"
+  },
+  {
+   "id": "cs_c_calcium_04",
+   "text": "Calcium hardens bone tissue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Calcium · cs_c_calcium_04"
+  },
+  {
+   "id": "cs_c_carnivore_03",
+   "text": "Carnivores hunt live prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Carnivore · cs_c_carnivore_03"
+  },
+  {
+   "id": "cs_c_cartilage_03",
+   "text": "Cartilage cushions joint ends",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cartilage · cs_c_cartilage_03"
+  },
+  {
+   "id": "cs_c_cellulose_01",
+   "text": "Cellulose stiffens plant walls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cellulose · cs_c_cellulose_01"
+  },
+  {
+   "id": "cs_c_ceramic_01",
+   "text": "Kilns harden ceramic ware",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ceramic · cs_c_ceramic_01"
+  },
+  {
+   "id": "cs_c_chlorophyll_03",
+   "text": "Chlorophyll traps sunlight",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Chlorophyll · cs_c_chlorophyll_03"
+  },
+  {
+   "id": "cs_c_clay_03",
+   "text": "Clay hardens into ceramic",
+   "standing": "projectable",
+   "evidence": "science · product curator · Clay · cs_c_clay_03"
+  },
+  {
+   "id": "cs_c_cocoon_02",
+   "text": "Moths emerge from cocoons",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cocoon · cs_c_cocoon_02"
+  },
+  {
+   "id": "cs_c_corn_02",
+   "text": "Corn stores kernel starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Corn · cs_c_corn_02"
+  },
+  {
+   "id": "cs_c_crust_03",
+   "text": "Lava cools into new crust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Crust · cs_c_crust_03"
   }
  ]
 }

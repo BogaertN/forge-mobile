@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 234,
+ "curated_facts": 242,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1363,6 +1363,54 @@
    "text": "Platelets start blood clots",
    "standing": "projectable",
    "evidence": "science · product curator · Platelet · cs_p_platelet_01"
+  },
+  {
+   "id": "cs_p_pancreas_03",
+   "text": "The pancreas aids digestion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pancreas · cs_p_pancreas_03"
+  },
+  {
+   "id": "cs_p_pathogen_02",
+   "text": "Pathogens trigger immune fight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pathogen · cs_p_pathogen_02"
+  },
+  {
+   "id": "cs_p_peacock_06",
+   "text": "Peacocks fan bright trains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_06"
+  },
+  {
+   "id": "cs_p_pearl_02",
+   "text": "Nacre layers build pearls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pearl · cs_p_pearl_02"
+  },
+  {
+   "id": "cs_p_photon_05",
+   "text": "Photons carry light energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Photon · cs_p_photon_05"
+  },
+  {
+   "id": "cs_p_piston_03",
+   "text": "Engines drive piston rods",
+   "standing": "projectable",
+   "evidence": "science · product curator · Piston · cs_p_piston_03"
+  },
+  {
+   "id": "cs_p_prime_03",
+   "text": "Two ranks the first prime",
+   "standing": "projectable",
+   "evidence": "math · product curator · Prime · cs_p_prime_03"
+  },
+  {
+   "id": "cs_p_proton_03",
+   "text": "Hydrogen holds one proton",
+   "standing": "projectable",
+   "evidence": "science · product curator · Proton · cs_p_proton_03"
   }
  ]
 }

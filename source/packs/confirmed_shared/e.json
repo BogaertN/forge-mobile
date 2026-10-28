@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 231,
+ "curated_facts": 239,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1363,6 +1363,54 @@
    "text": "Kidneys clear waste by excretion",
    "standing": "projectable",
    "evidence": "science · product curator · Excretion · cs_e_excretion_01"
+  },
+  {
+   "id": "cs_e_eagle_04",
+   "text": "Eagles soar thermal drafts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_04"
+  },
+  {
+   "id": "cs_e_earthworm_04",
+   "text": "Earthworms digest soil scraps",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_04"
+  },
+  {
+   "id": "cs_e_echo_05",
+   "text": "Echoes bounce hard walls",
+   "standing": "projectable",
+   "evidence": "science · product curator · Echo · cs_e_echo_05"
+  },
+  {
+   "id": "cs_e_ecology_02",
+   "text": "Ecology maps living links",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ecology · cs_e_ecology_02"
+  },
+  {
+   "id": "cs_e_electrolyte_02",
+   "text": "Electrolytes carry ion current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electrolyte · cs_e_electrolyte_02"
+  },
+  {
+   "id": "cs_e_elephant_05",
+   "text": "Elephants dig water holes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_05"
+  },
+  {
+   "id": "cs_e_enamel_03",
+   "text": "Enamel covers tooth crowns",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enamel · cs_e_enamel_03"
+  },
+  {
+   "id": "cs_e_evolution_02",
+   "text": "Selection drives evolution",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Evolution · cs_e_evolution_02"
   }
  ]
 }
