@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 171,
+ "curated_facts": 178,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1003,6 +1003,48 @@
    "text": "Wingspan is the distance tip to tip",
    "standing": "projectable",
    "evidence": "math · product curator · Wingspan · cs_w_wingspan_01"
+  },
+  {
+   "id": "cs_w_willow_03",
+   "text": "A willow grows by water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Willow · cs_w_willow_03"
+  },
+  {
+   "id": "cs_w_wax_01",
+   "text": "Bees make wax",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wax · cs_w_wax_01"
+  },
+  {
+   "id": "cs_w_wedge_03",
+   "text": "A wedge splits logs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wedge · cs_w_wedge_03"
+  },
+  {
+   "id": "cs_w_watt_03",
+   "text": "A light bulb draws power in watts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Watt · cs_w_watt_03"
+  },
+  {
+   "id": "cs_w_web_01",
+   "text": "A spider spins a web",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Web · cs_w_web_01"
+  },
+  {
+   "id": "cs_w_weld_01",
+   "text": "Workers weld steel plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weld · cs_w_weld_01"
+  },
+  {
+   "id": "cs_w_wharf_01",
+   "text": "Ships unload at a wharf",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wharf · cs_w_wharf_01"
   }
  ]
 }

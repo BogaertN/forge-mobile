@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 171,
+ "curated_facts": 179,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -991,6 +991,54 @@
    "text": "A torch gives light",
    "standing": "projectable",
    "evidence": "history · product curator · Torch · cs_t_torch_01"
+  },
+  {
+   "id": "cs_t_talon_02",
+   "text": "An eagle grips with talons",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Talon · cs_t_talon_02"
+  },
+  {
+   "id": "cs_t_thunder_03",
+   "text": "Thunder follows lightning",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thunder · cs_t_thunder_03"
+  },
+  {
+   "id": "cs_t_tide_02",
+   "text": "The moon pulls the tide",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tide · cs_t_tide_02"
+  },
+  {
+   "id": "cs_t_timber_01",
+   "text": "Builders cut timber for frames",
+   "standing": "projectable",
+   "evidence": "history · product curator · Timber · cs_t_timber_01"
+  },
+  {
+   "id": "cs_t_tributary_02",
+   "text": "A tributary joins a larger river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tributary · cs_t_tributary_02"
+  },
+  {
+   "id": "cs_t_trade_01",
+   "text": "Nations trade goods",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Trade · cs_t_trade_01"
+  },
+  {
+   "id": "cs_t_torso_02",
+   "text": "The torso is the trunk of the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Torso · cs_t_torso_02"
+  },
+  {
+   "id": "cs_t_terrace_01",
+   "text": "Farmers cut a terrace on a slope",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Terrace · cs_t_terrace_01"
   }
  ]
 }
