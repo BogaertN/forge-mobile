@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 243,
+ "curated_facts": 253,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1447,6 +1447,66 @@
    "text": "Azimuth ranks compass bearing",
    "standing": "projectable",
    "evidence": "science · product curator · Azimuth · cs_a_azimuth_01"
+  },
+  {
+   "id": "cs_a_acetic_01",
+   "text": "Acetic acid sours vinegar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Acetic · cs_a_acetic_01"
+  },
+  {
+   "id": "cs_a_acetone_01",
+   "text": "Acetone dissolves nail polish",
+   "standing": "projectable",
+   "evidence": "science · product curator · Acetone · cs_a_acetone_01"
+  },
+  {
+   "id": "cs_a_actin_02",
+   "text": "Actin pulls muscle fibers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Actin · cs_a_actin_02"
+  },
+  {
+   "id": "cs_a_albumin_01",
+   "text": "Albumin carries blood solutes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Albumin · cs_a_albumin_01"
+  },
+  {
+   "id": "cs_a_alloy_04",
+   "text": "Metals mix into an alloy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alloy · cs_a_alloy_04"
+  },
+  {
+   "id": "cs_a_amylase_01",
+   "text": "Amylase digests starch chains",
+   "standing": "projectable",
+   "evidence": "science · product curator · Amylase · cs_a_amylase_01"
+  },
+  {
+   "id": "cs_a_angle_02",
+   "text": "An angle joins two rays",
+   "standing": "projectable",
+   "evidence": "math · product curator · Angle · cs_a_angle_02"
+  },
+  {
+   "id": "cs_a_anther_03",
+   "text": "Anthers release pollen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Anther · cs_a_anther_03"
+  },
+  {
+   "id": "cs_a_assimilation_01",
+   "text": "Plants assimilate carbon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Assimilation · cs_a_assimilation_01"
+  },
+  {
+   "id": "cs_a_azimuth_02",
+   "text": "Navigators measure azimuth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Azimuth · cs_a_azimuth_02"
   }
  ]
 }

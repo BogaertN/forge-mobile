@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 246,
+ "curated_facts": 256,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1447,6 +1447,66 @@
    "text": "Bulbs store winter starch",
    "standing": "projectable",
    "evidence": "nature · product curator · Bulb · cs_b_bulb_02"
+  },
+  {
+   "id": "cs_b_basalt_04",
+   "text": "Basalt cools from lava flows",
+   "standing": "projectable",
+   "evidence": "science · product curator · Basalt · cs_b_basalt_04"
+  },
+  {
+   "id": "cs_b_battery_02",
+   "text": "A battery stores charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Battery · cs_b_battery_02"
+  },
+  {
+   "id": "cs_b_bedrock_04",
+   "text": "Bedrock underlies soil layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bedrock · cs_b_bedrock_04"
+  },
+  {
+   "id": "cs_b_bicarbonate_02",
+   "text": "Bicarbonate buffers blood pH",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bicarbonate · cs_b_bicarbonate_02"
+  },
+  {
+   "id": "cs_b_biomass_01",
+   "text": "Biomass stores plant carbon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Biomass · cs_b_biomass_01"
+  },
+  {
+   "id": "cs_b_bond_02",
+   "text": "A chemical bond joins atoms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bond · cs_b_bond_02"
+  },
+  {
+   "id": "cs_b_boron_04",
+   "text": "Boron hardens glassware",
+   "standing": "projectable",
+   "evidence": "science · product curator · Boron · cs_b_boron_04"
+  },
+  {
+   "id": "cs_b_bulb_03",
+   "text": "A bulb stores plant food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bulb · cs_b_bulb_03"
+  },
+  {
+   "id": "cs_b_butane_01",
+   "text": "Butane fuels camping stoves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Butane · cs_b_butane_01"
+  },
+  {
+   "id": "cs_b_buttress_01",
+   "text": "A buttress braces a wall",
+   "standing": "projectable",
+   "evidence": "history · product curator · Buttress · cs_b_buttress_01"
   }
  ]
 }

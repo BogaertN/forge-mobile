@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 251,
+ "curated_facts": 261,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1447,6 +1447,66 @@
    "text": "Jerboas store desert fat",
    "standing": "projectable",
    "evidence": "nature · product curator · Jerboa · cs_j_jerboa_03"
+  },
+  {
+   "id": "cs_j_jacaranda_02",
+   "text": "Jacaranda blooms purple canopies",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jacaranda · cs_j_jacaranda_02"
+  },
+  {
+   "id": "cs_j_jackrabbit_03",
+   "text": "Jackrabbits bound open desert",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_03"
+  },
+  {
+   "id": "cs_j_jay_08",
+   "text": "Jays warn of nearby hawks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_08"
+  },
+  {
+   "id": "cs_j_jejunum_01",
+   "text": "The jejunum absorbs food sugars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jejunum · cs_j_jejunum_01"
+  },
+  {
+   "id": "cs_j_jerky_01",
+   "text": "Jerky dries lean meat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jerky · cs_j_jerky_01"
+  },
+  {
+   "id": "cs_j_jet_stream_07",
+   "text": "Jet streams steer storm tracks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_07"
+  },
+  {
+   "id": "cs_j_joint_06",
+   "text": "A joint seals pipe ends",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joint · cs_j_joint_06"
+  },
+  {
+   "id": "cs_j_judo_04",
+   "text": "Judo uses leverage throws",
+   "standing": "projectable",
+   "evidence": "history · product curator · Judo · cs_j_judo_04"
+  },
+  {
+   "id": "cs_j_jugular_03",
+   "text": "Jugulars drain brain blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jugular · cs_j_jugular_03"
+  },
+  {
+   "id": "cs_j_jungle_07",
+   "text": "Humidity fills a jungle",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_07"
   }
  ]
 }

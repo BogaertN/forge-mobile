@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 259,
+ "curated_facts": 269,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1447,6 +1447,66 @@
    "text": "A quantum packs energy",
    "standing": "projectable",
    "evidence": "science · product curator · Quantum · cs_q_quantum_04"
+  },
+  {
+   "id": "cs_q_quadrant_08",
+   "text": "Axes split a quadrant",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_08"
+  },
+  {
+   "id": "cs_q_quahog_03",
+   "text": "A quahog buries in sand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quahog · cs_q_quahog_03"
+  },
+  {
+   "id": "cs_q_quark_11",
+   "text": "Quarks form protons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_11"
+  },
+  {
+   "id": "cs_q_quarry_05",
+   "text": "Workers cut stone at a quarry",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quarry · cs_q_quarry_05"
+  },
+  {
+   "id": "cs_q_quartzite_04",
+   "text": "Quartzite hardens from sandstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_04"
+  },
+  {
+   "id": "cs_q_quaternary_02",
+   "text": "Quaternary ice carved valleys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quaternary · cs_q_quaternary_02"
+  },
+  {
+   "id": "cs_q_quill_11",
+   "text": "A quill writes with ink",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quill · cs_q_quill_11"
+  },
+  {
+   "id": "cs_q_quicksand_05",
+   "text": "Quicksand traps heavy objects",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quicksand · cs_q_quicksand_05"
+  },
+  {
+   "id": "cs_q_quince_07",
+   "text": "Cooks bake quince into jelly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quince · cs_q_quince_07"
+  },
+  {
+   "id": "cs_q_quinine_06",
+   "text": "Quinine bitter-tastes tonic water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quinine · cs_q_quinine_06"
   }
  ]
 }

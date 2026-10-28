@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 249,
+ "curated_facts": 259,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1447,6 +1447,66 @@
    "text": "Kumquats ripen sweet peels",
    "standing": "projectable",
    "evidence": "nature · product curator · Kumquat · cs_k_kumquat_04"
+  },
+  {
+   "id": "cs_k_kaolinite_02",
+   "text": "Kaolinite softens pottery clay",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kaolinite · cs_k_kaolinite_02"
+  },
+  {
+   "id": "cs_k_karst_04",
+   "text": "Karst drains limestone caves",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Karst · cs_k_karst_04"
+  },
+  {
+   "id": "cs_k_keel_02",
+   "text": "A keel steadies ship hulls",
+   "standing": "projectable",
+   "evidence": "science · product curator · Keel · cs_k_keel_02"
+  },
+  {
+   "id": "cs_k_kernel_06",
+   "text": "Corn kernels hold seed oil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_06"
+  },
+  {
+   "id": "cs_k_ketone_01",
+   "text": "Ketones fuel fasting brains",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ketone · cs_k_ketone_01"
+  },
+  {
+   "id": "cs_k_kidney_bean_01",
+   "text": "Kidney beans pack protein",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kidney bean · cs_k_kidney_bean_01"
+  },
+  {
+   "id": "cs_k_kiln_06",
+   "text": "A kiln fires clay pots",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kiln · cs_k_kiln_06"
+  },
+  {
+   "id": "cs_k_knee_05",
+   "text": "Knees cushion impact loads",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knee · cs_k_knee_05"
+  },
+  {
+   "id": "cs_k_knuckle_03",
+   "text": "Boxers wrap the knuckles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knuckle · cs_k_knuckle_03"
+  },
+  {
+   "id": "cs_k_kumquat_05",
+   "text": "Kumquats ripen citrus peel",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_05"
   }
  ]
 }

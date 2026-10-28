@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 243,
+ "curated_facts": 253,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1411,6 +1411,66 @@
    "text": "Xylotomy cuts wood samples",
    "standing": "projectable",
    "evidence": "science · product curator · Xylotomy · cs_x_xylotomy_01"
+  },
+  {
+   "id": "cs_x_x_ray_crystallography_05",
+   "text": "X-ray crystallography maps atoms",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_05"
+  },
+  {
+   "id": "cs_x_x_ray_14",
+   "text": "Luggage scanners use x-rays",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_14"
+  },
+  {
+   "id": "cs_x_xanthan_04",
+   "text": "Xanthan comes from bacteria",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_04"
+  },
+  {
+   "id": "cs_x_xenogamy_02",
+   "text": "Xenogamy mixes plant pollen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xenogamy · cs_x_xenogamy_02"
+  },
+  {
+   "id": "cs_x_xenon_17",
+   "text": "Xenon lights stadiums",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_17"
+  },
+  {
+   "id": "cs_x_xenops_01",
+   "text": "Xenops probes bark insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xenops · cs_x_xenops_01"
+  },
+  {
+   "id": "cs_x_xeric_03",
+   "text": "Xeric soils hold little water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xeric · cs_x_xeric_03"
+  },
+  {
+   "id": "cs_x_xerus_02",
+   "text": "Xerus digs dry burrows",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xerus · cs_x_xerus_02"
+  },
+  {
+   "id": "cs_x_xylem_12",
+   "text": "Sap rises in xylem",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_12"
+  },
+  {
+   "id": "cs_x_xylene_08",
+   "text": "Xylene thins oil paint",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylene · cs_x_xylene_08"
   }
  ]
 }
