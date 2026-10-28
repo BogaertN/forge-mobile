@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 105,
+ "curated_facts": 117,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -571,6 +571,78 @@
    "text": "Japanese is the official language of Japan",
    "standing": "projectable",
    "evidence": "language · product curator · Japanese · cs_j_japanese_03"
+  },
+  {
+   "id": "cs_j_japan_05",
+   "text": "Osaka is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Japan · cs_j_japan_05"
+  },
+  {
+   "id": "cs_j_jakarta_04",
+   "text": "Jakarta is a city in Indonesia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_04"
+  },
+  {
+   "id": "cs_j_jerusalem_03",
+   "text": "Jerusalem is a city in Israel",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jerusalem · cs_j_jerusalem_03"
+  },
+  {
+   "id": "cs_j_jeddah_02",
+   "text": "Jeddah is a city in Saudi Arabia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jeddah · cs_j_jeddah_02"
+  },
+  {
+   "id": "cs_j_johannesburg_02",
+   "text": "Johannesburg is a city in South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Johannesburg · cs_j_johannesburg_02"
+  },
+  {
+   "id": "cs_j_jellyfish_06",
+   "text": "A jellyfish is an animal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_06"
+  },
+  {
+   "id": "cs_j_juniper_03",
+   "text": "A juniper is a tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_03"
+  },
+  {
+   "id": "cs_j_jay_04",
+   "text": "A jay is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jay · cs_j_jay_04"
+  },
+  {
+   "id": "cs_j_jaipur_01",
+   "text": "Jaipur is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jaipur · cs_j_jaipur_01"
+  },
+  {
+   "id": "cs_j_jena_01",
+   "text": "Jena is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jena · cs_j_jena_01"
+  },
+  {
+   "id": "cs_j_jinan_01",
+   "text": "Jinan is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jinan · cs_j_jinan_01"
+  },
+  {
+   "id": "cs_j_jackal_03",
+   "text": "A jackal is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_03"
   }
  ]
 }

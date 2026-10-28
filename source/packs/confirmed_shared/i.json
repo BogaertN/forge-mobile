@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 107,
+ "curated_facts": 123,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -577,6 +577,102 @@
    "text": "An inch is a unit of length",
    "standing": "projectable",
    "evidence": "math · product curator · Inch · cs_i_inch_02"
+  },
+  {
+   "id": "cs_i_israel_04",
+   "text": "Haifa is a city in Israel",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Israel · cs_i_israel_04"
+  },
+  {
+   "id": "cs_i_india_02",
+   "text": "Mumbai is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · India · cs_i_india_02"
+  },
+  {
+   "id": "cs_i_italy_03",
+   "text": "Milan is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Italy · cs_i_italy_03"
+  },
+  {
+   "id": "cs_i_istanbul_02",
+   "text": "Istanbul is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Istanbul · cs_i_istanbul_02"
+  },
+  {
+   "id": "cs_i_inverness_01",
+   "text": "Inverness is a city in Scotland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Inverness · cs_i_inverness_01"
+  },
+  {
+   "id": "cs_i_innsbruck_01",
+   "text": "Innsbruck is a city in Austria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Innsbruck · cs_i_innsbruck_01"
+  },
+  {
+   "id": "cs_i_iguana_04",
+   "text": "An iguana is a lizard",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_04"
+  },
+  {
+   "id": "cs_i_ibis_02",
+   "text": "An ibis is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ibis · cs_i_ibis_02"
+  },
+  {
+   "id": "cs_i_iron_06",
+   "text": "Iron is a metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_06"
+  },
+  {
+   "id": "cs_i_iridium_02",
+   "text": "Iridium is a metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iridium · cs_i_iridium_02"
+  },
+  {
+   "id": "cs_i_izmir_01",
+   "text": "Izmir is a city in Turkey",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Izmir · cs_i_izmir_01"
+  },
+  {
+   "id": "cs_i_isfahan_01",
+   "text": "Isfahan is a city in Iran",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Isfahan · cs_i_isfahan_01"
+  },
+  {
+   "id": "cs_i_incheon_01",
+   "text": "Incheon is a city in South Korea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Incheon · cs_i_incheon_01"
+  },
+  {
+   "id": "cs_i_ibiza_01",
+   "text": "Ibiza is an island in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ibiza · cs_i_ibiza_01"
+  },
+  {
+   "id": "cs_i_indore_01",
+   "text": "Indore is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Indore · cs_i_indore_01"
+  },
+  {
+   "id": "cs_i_ipswich_01",
+   "text": "Ipswich is a town in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ipswich · cs_i_ipswich_01"
   }
  ]
 }
