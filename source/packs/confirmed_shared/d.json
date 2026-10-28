@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 245,
+ "curated_facts": 255,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1405,6 +1405,66 @@
    "text": "Winter keeps buds dormant",
    "standing": "projectable",
    "evidence": "nature · product curator · Dormant · cs_d_dormant_02"
+  },
+  {
+   "id": "cs_d_datum_01",
+   "text": "A datum anchors map height",
+   "standing": "projectable",
+   "evidence": "science · product curator · Datum · cs_d_datum_01"
+  },
+  {
+   "id": "cs_d_deimos_02",
+   "text": "Deimos orbits planet Mars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Deimos · cs_d_deimos_02"
+  },
+  {
+   "id": "cs_d_dopamine_01",
+   "text": "Dopamine rewards brain circuits",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dopamine · cs_d_dopamine_01"
+  },
+  {
+   "id": "cs_d_drag_force_01",
+   "text": "Drag slows moving objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Drag force · cs_d_drag_force_01"
+  },
+  {
+   "id": "cs_d_drainage_01",
+   "text": "Drainage clears soil water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Drainage · cs_d_drainage_01"
+  },
+  {
+   "id": "cs_d_drought_07",
+   "text": "Drought dries crop fields",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Drought · cs_d_drought_07"
+  },
+  {
+   "id": "cs_d_ductility_01",
+   "text": "Ductility lets metal stretch",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ductility · cs_d_ductility_01"
+  },
+  {
+   "id": "cs_d_dune_grass_01",
+   "text": "Dune grass roots hold sand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dune grass · cs_d_dune_grass_01"
+  },
+  {
+   "id": "cs_d_dust_devil_01",
+   "text": "Dust devils spin dry plains",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dust devil · cs_d_dust_devil_01"
+  },
+  {
+   "id": "cs_d_dyne_01",
+   "text": "A dyne measures tiny force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dyne · cs_d_dyne_01"
   }
  ]
 }

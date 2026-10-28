@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 239,
+ "curated_facts": 249,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1411,6 +1411,66 @@
    "text": "Selection drives evolution",
    "standing": "projectable",
    "evidence": "nature · product curator · Evolution · cs_e_evolution_02"
+  },
+  {
+   "id": "cs_e_earwax_02",
+   "text": "Earwax traps canal dust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earwax · cs_e_earwax_02"
+  },
+  {
+   "id": "cs_e_echolocation_02",
+   "text": "Bats map caves by echo",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Echolocation · cs_e_echolocation_02"
+  },
+  {
+   "id": "cs_e_edema_01",
+   "text": "Edema swells tissue fluid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Edema · cs_e_edema_01"
+  },
+  {
+   "id": "cs_e_enthalpy_01",
+   "text": "Enthalpy ranks heat content",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enthalpy · cs_e_enthalpy_01"
+  },
+  {
+   "id": "cs_e_entropy_01",
+   "text": "Entropy ranks disorder spread",
+   "standing": "projectable",
+   "evidence": "science · product curator · Entropy · cs_e_entropy_01"
+  },
+  {
+   "id": "cs_e_enzyme_05",
+   "text": "Enzymes speed body reactions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_05"
+  },
+  {
+   "id": "cs_e_epidermis_02",
+   "text": "Epidermis seals skin surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Epidermis · cs_e_epidermis_02"
+  },
+  {
+   "id": "cs_e_epiphyte_04",
+   "text": "Epiphytes grow on tree limbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_04"
+  },
+  {
+   "id": "cs_e_ethanol_01",
+   "text": "Ethanol fuels clean engines",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ethanol · cs_e_ethanol_01"
+  },
+  {
+   "id": "cs_e_extrusion_01",
+   "text": "Extrusion shapes hot metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Extrusion · cs_e_extrusion_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 238,
+ "curated_facts": 248,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1399,6 +1399,66 @@
    "text": "Lava cools into new crust",
    "standing": "projectable",
    "evidence": "science · product curator · Crust · cs_c_crust_03"
+  },
+  {
+   "id": "cs_c_cadmium_01",
+   "text": "Cadmium coats steel parts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cadmium · cs_c_cadmium_01"
+  },
+  {
+   "id": "cs_c_calorie_01",
+   "text": "A calorie ranks heat energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Calorie · cs_c_calorie_01"
+  },
+  {
+   "id": "cs_c_carbonate_01",
+   "text": "Carbonates buffer ocean water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbonate · cs_c_carbonate_01"
+  },
+  {
+   "id": "cs_c_carotene_01",
+   "text": "Carotene colors carrot roots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Carotene · cs_c_carotene_01"
+  },
+  {
+   "id": "cs_c_chitin_01",
+   "text": "Chitin hardens insect shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Chitin · cs_c_chitin_01"
+  },
+  {
+   "id": "cs_c_chromatin_01",
+   "text": "Chromatin packs cell DNA",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chromatin · cs_c_chromatin_01"
+  },
+  {
+   "id": "cs_c_citrate_01",
+   "text": "Citrate fuels cell cycles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Citrate · cs_c_citrate_01"
+  },
+  {
+   "id": "cs_c_convection_01",
+   "text": "Convection lifts warm air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Convection · cs_c_convection_01"
+  },
+  {
+   "id": "cs_c_cuticle_01",
+   "text": "A cuticle seals leaf water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cuticle · cs_c_cuticle_01"
+  },
+  {
+   "id": "cs_c_cyclone_01",
+   "text": "Cyclones spin storm winds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cyclone · cs_c_cyclone_01"
   }
  ]
 }

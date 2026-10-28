@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 243,
+ "curated_facts": 253,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1411,6 +1411,66 @@
    "text": "Fusion joins light nuclei",
    "standing": "projectable",
    "evidence": "science · product curator · Fusion · cs_f_fusion_03"
+  },
+  {
+   "id": "cs_f_fascia_01",
+   "text": "Fascia wraps muscle groups",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fascia · cs_f_fascia_01"
+  },
+  {
+   "id": "cs_f_firn_01",
+   "text": "Firn packs into glacier ice",
+   "standing": "projectable",
+   "evidence": "science · product curator · Firn · cs_f_firn_01"
+  },
+  {
+   "id": "cs_f_fission_04",
+   "text": "Fission splits heavy nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_04"
+  },
+  {
+   "id": "cs_f_flame_01",
+   "text": "A flame oxidizes fuel vapor",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flame · cs_f_flame_01"
+  },
+  {
+   "id": "cs_f_flexor_01",
+   "text": "Flexors bend joint angles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flexor · cs_f_flexor_01"
+  },
+  {
+   "id": "cs_f_flowstone_01",
+   "text": "Flowstone coats cave walls",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flowstone · cs_f_flowstone_01"
+  },
+  {
+   "id": "cs_f_flux_01",
+   "text": "Flux cleans solder joints",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flux · cs_f_flux_01"
+  },
+  {
+   "id": "cs_f_foci_01",
+   "text": "Foci mark ellipse centers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Foci · cs_f_foci_01"
+  },
+  {
+   "id": "cs_f_friction_06",
+   "text": "Friction slows sliding surfaces",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_06"
+  },
+  {
+   "id": "cs_f_furrow_01",
+   "text": "A furrow drains field water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Furrow · cs_f_furrow_01"
   }
  ]
 }
