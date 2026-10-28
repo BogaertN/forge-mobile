@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 238,
+ "curated_facts": 246,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -1363,6 +1363,54 @@
    "text": "The uvula hangs in the throat",
    "standing": "projectable",
    "evidence": "science · product curator · Uvula · cs_u_uvula_02"
+  },
+  {
+   "id": "cs_u_ultraviolet_08",
+   "text": "Suns emit ultraviolet light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_08"
+  },
+  {
+   "id": "cs_u_uluru_03",
+   "text": "Sandstone forms red Uluru",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Uluru · cs_u_uluru_03"
+  },
+  {
+   "id": "cs_u_upland_03",
+   "text": "Uplands shed fast streams",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Upland · cs_u_upland_03"
+  },
+  {
+   "id": "cs_u_urban_03",
+   "text": "Transit links urban cores",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Urban · cs_u_urban_03"
+  },
+  {
+   "id": "cs_u_urea_04",
+   "text": "Kidneys clear blood urea",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urea · cs_u_urea_04"
+  },
+  {
+   "id": "cs_u_uterus_04",
+   "text": "The uterus holds a fetus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uterus · cs_u_uterus_04"
+  },
+  {
+   "id": "cs_u_utility_02",
+   "text": "Meters track utility use",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Utility · cs_u_utility_02"
+  },
+  {
+   "id": "cs_u_uvula_03",
+   "text": "Throats hold a soft uvula",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uvula · cs_u_uvula_03"
   }
  ]
 }

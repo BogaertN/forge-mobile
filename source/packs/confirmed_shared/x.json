@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 235,
+ "curated_facts": 243,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1363,6 +1363,54 @@
    "text": "Xylose sugars plant fiber",
    "standing": "projectable",
    "evidence": "science · product curator · Xylose · cs_x_xylose_04"
+  },
+  {
+   "id": "cs_x_x_chromosome_08",
+   "text": "Females hold two X chromosomes",
+   "standing": "projectable",
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_08"
+  },
+  {
+   "id": "cs_x_xanthan_03",
+   "text": "Xanthan thickens salad dressing",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_03"
+  },
+  {
+   "id": "cs_x_xenon_16",
+   "text": "Xenon lights stadium lamps",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_16"
+  },
+  {
+   "id": "cs_x_xerography_06",
+   "text": "Xerography copies dry prints",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerography · cs_x_xerography_06"
+  },
+  {
+   "id": "cs_x_xiphias_02",
+   "text": "Xiphias spears fish prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xiphias · cs_x_xiphias_02"
+  },
+  {
+   "id": "cs_x_xylem_11",
+   "text": "Xylem lifts plant water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylem · cs_x_xylem_11"
+  },
+  {
+   "id": "cs_x_xylene_07",
+   "text": "Xylene dissolves paint resins",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylene · cs_x_xylene_07"
+  },
+  {
+   "id": "cs_x_xylotomy_01",
+   "text": "Xylotomy cuts wood samples",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylotomy · cs_x_xylotomy_01"
   }
  ]
 }

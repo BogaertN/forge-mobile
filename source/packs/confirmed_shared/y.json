@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 233,
+ "curated_facts": 243,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1339,6 +1339,66 @@
    "text": "Yew wood springs bow staves",
    "standing": "projectable",
    "evidence": "history · product curator · Yew · cs_y_yew_08"
+  },
+  {
+   "id": "cs_y_yam_04",
+   "text": "Yams store starchy tubers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yam · cs_y_yam_04"
+  },
+  {
+   "id": "cs_y_yarrow_05",
+   "text": "Yarrow blooms dry meadows",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_05"
+  },
+  {
+   "id": "cs_y_yawn_03",
+   "text": "A yawn opens the airway",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yawn · cs_y_yawn_03"
+  },
+  {
+   "id": "cs_y_yeast_11",
+   "text": "Yeast ferments bread dough",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yeast · cs_y_yeast_11"
+  },
+  {
+   "id": "cs_y_yellowcake_02",
+   "text": "Yellowcake feeds nuclear fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yellowcake · cs_y_yellowcake_02"
+  },
+  {
+   "id": "cs_y_yellowstone_05",
+   "text": "Geysers erupt in Yellowstone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_05"
+  },
+  {
+   "id": "cs_y_yellowwood_03",
+   "text": "Yellowwood resists timber rot",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yellowwood · cs_y_yellowwood_03"
+  },
+  {
+   "id": "cs_y_yield_06",
+   "text": "Rain lifts crop yield",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yield · cs_y_yield_06"
+  },
+  {
+   "id": "cs_y_yolk_08",
+   "text": "Yolk feeds growing embryos",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_08"
+  },
+  {
+   "id": "cs_y_yucca_07",
+   "text": "Yucca stores desert moisture",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_07"
   }
  ]
 }
