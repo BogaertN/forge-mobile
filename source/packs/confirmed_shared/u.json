@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 121,
+ "curated_facts": 135,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -661,6 +661,90 @@
    "text": "An umpire enforces the rules of a game",
    "standing": "projectable",
    "evidence": "language · product curator · Umpire · cs_u_umpire_01"
+  },
+  {
+   "id": "cs_u_u_turn_01",
+   "text": "A U-turn reverses the direction of travel",
+   "standing": "projectable",
+   "evidence": "language · product curator · U-turn · cs_u_u_turn_01"
+  },
+  {
+   "id": "cs_u_udder_01",
+   "text": "An udder produces milk in cattle",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Udder · cs_u_udder_01"
+  },
+  {
+   "id": "cs_u_ultima_thule_01",
+   "text": "Ultima Thule was a name for a far northern land",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ultima Thule · cs_u_ultima_thule_01"
+  },
+  {
+   "id": "cs_u_unit_circle_01",
+   "text": "A unit circle has a radius of one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit circle · cs_u_unit_circle_01"
+  },
+  {
+   "id": "cs_u_unit_square_01",
+   "text": "A unit square has sides of length one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Unit square · cs_u_unit_square_01"
+  },
+  {
+   "id": "cs_u_united_nations_charter_01",
+   "text": "The United Nations Charter was signed in 1945",
+   "standing": "projectable",
+   "evidence": "civics · product curator · United Nations Charter · cs_u_united_nations_charter_01"
+  },
+  {
+   "id": "cs_u_united_states_congress_01",
+   "text": "The United States Congress makes federal law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · United States Congress · cs_u_united_states_congress_01"
+  },
+  {
+   "id": "cs_u_universal_suffrage_01",
+   "text": "Universal suffrage gives voting rights to all adults",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Universal suffrage · cs_u_universal_suffrage_01"
+  },
+  {
+   "id": "cs_u_unsaturated_fat_01",
+   "text": "An unsaturated fat has one or more double bonds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Unsaturated fat · cs_u_unsaturated_fat_01"
+  },
+  {
+   "id": "cs_u_urea_cycle_01",
+   "text": "The urea cycle removes nitrogen from the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_01"
+  },
+  {
+   "id": "cs_u_ubangi_river_01",
+   "text": "The Ubangi is a tributary of the Congo",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ubangi River · cs_u_ubangi_river_01"
+  },
+  {
+   "id": "cs_u_ultraviolet_light_01",
+   "text": "Ultraviolet light is invisible to the human eye",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet light · cs_u_ultraviolet_light_01"
+  },
+  {
+   "id": "cs_u_ursa_major_01",
+   "text": "Ursa Major is a constellation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ursa Major · cs_u_ursa_major_01"
+  },
+  {
+   "id": "cs_u_ursa_minor_01",
+   "text": "Ursa Minor contains the North Star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ursa Minor · cs_u_ursa_minor_01"
   }
  ]
 }

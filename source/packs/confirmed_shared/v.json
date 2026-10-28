@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 120,
+ "curated_facts": 131,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -679,6 +679,72 @@
    "text": "Valparaiso is a city in Chile",
    "standing": "projectable",
    "evidence": "geography · product curator · Valparaiso · cs_v_valparaiso_01"
+  },
+  {
+   "id": "cs_v_vacuum_tube_01",
+   "text": "A vacuum tube controls electric current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vacuum tube · cs_v_vacuum_tube_01"
+  },
+  {
+   "id": "cs_v_valley_glacier_01",
+   "text": "A valley glacier flows down a mountain valley",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valley glacier · cs_v_valley_glacier_01"
+  },
+  {
+   "id": "cs_v_valve_01",
+   "text": "A valve controls the flow of a fluid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valve · cs_v_valve_01"
+  },
+  {
+   "id": "cs_v_variable_star_01",
+   "text": "A variable star changes brightness",
+   "standing": "projectable",
+   "evidence": "science · product curator · Variable star · cs_v_variable_star_01"
+  },
+  {
+   "id": "cs_v_vascular_plant_01",
+   "text": "A vascular plant has xylem and phloem",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vascular plant · cs_v_vascular_plant_01"
+  },
+  {
+   "id": "cs_v_vector_quantity_01",
+   "text": "A vector quantity has magnitude and direction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vector quantity · cs_v_vector_quantity_01"
+  },
+  {
+   "id": "cs_v_verb_tense_01",
+   "text": "A verb tense shows time of an action",
+   "standing": "projectable",
+   "evidence": "language · product curator · Verb tense · cs_v_verb_tense_01"
+  },
+  {
+   "id": "cs_v_violin_bow_01",
+   "text": "A violin bow draws sound from the strings",
+   "standing": "projectable",
+   "evidence": "history · product curator · Violin bow · cs_v_violin_bow_01"
+  },
+  {
+   "id": "cs_v_valence_electron_01",
+   "text": "A valence electron is in the outer shell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valence electron · cs_v_valence_electron_01"
+  },
+  {
+   "id": "cs_v_viscosity_01",
+   "text": "Viscosity is resistance of a fluid to flow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_01"
+  },
+  {
+   "id": "cs_v_vocal_cord_01",
+   "text": "A vocal cord vibrates to produce sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vocal cord · cs_v_vocal_cord_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 116,
+ "curated_facts": 130,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -649,6 +649,90 @@
    "text": "Xenon is a heavy gas",
    "standing": "projectable",
    "evidence": "science · product curator · Xenon gas · cs_x_xenon_gas_01"
+  },
+  {
+   "id": "cs_x_x_ray_diffraction_01",
+   "text": "X-ray diffraction reveals crystal structure",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray diffraction · cs_x_x_ray_diffraction_01"
+  },
+  {
+   "id": "cs_x_x_ray_fluorescence_01",
+   "text": "X-ray fluorescence identifies chemical elements",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray fluorescence · cs_x_x_ray_fluorescence_01"
+  },
+  {
+   "id": "cs_x_x_ray_telescope_01",
+   "text": "An X-ray telescope observes X-rays from space",
+   "standing": "projectable",
+   "evidence": "science · product curator · X ray telescope · cs_x_x_ray_telescope_01"
+  },
+  {
+   "id": "cs_x_xenobiology_01",
+   "text": "Xenobiology studies life with unnatural chemistry",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenobiology · cs_x_xenobiology_01"
+  },
+  {
+   "id": "cs_x_xerarch_succession_01",
+   "text": "Xerarch succession begins on dry land",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerarch succession · cs_x_xerarch_succession_01"
+  },
+  {
+   "id": "cs_x_xhosa_people_01",
+   "text": "The Xhosa people live mainly in South Africa",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xhosa people · cs_x_xhosa_people_01"
+  },
+  {
+   "id": "cs_x_x_band_01",
+   "text": "The X band is a range of microwave frequencies",
+   "standing": "projectable",
+   "evidence": "science · product curator · X band · cs_x_x_band_01"
+  },
+  {
+   "id": "cs_x_x_ray_binary_01",
+   "text": "An X-ray binary is a star system that emits X-rays",
+   "standing": "projectable",
+   "evidence": "science · product curator · X ray binary · cs_x_x_ray_binary_01"
+  },
+  {
+   "id": "cs_x_x_unit_01",
+   "text": "The X unit is a former unit of length for X-rays",
+   "standing": "projectable",
+   "evidence": "science · product curator · X unit · cs_x_x_unit_01"
+  },
+  {
+   "id": "cs_x_xenogamy_01",
+   "text": "Xenogamy is cross pollination between plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenogamy · cs_x_xenogamy_01"
+  },
+  {
+   "id": "cs_x_xerox_process_01",
+   "text": "The Xerox process is a form of xerography",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerox process · cs_x_xerox_process_01"
+  },
+  {
+   "id": "cs_x_xylaria_01",
+   "text": "Xylaria is a genus of fungi",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_01"
+  },
+  {
+   "id": "cs_x_xylography_01",
+   "text": "Xylography is the art of wood engraving",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylography · cs_x_xylography_01"
+  },
+  {
+   "id": "cs_x_xingu_01",
+   "text": "The Xingu is a river in Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xingu · cs_x_xingu_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 120,
+ "curated_facts": 133,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -661,6 +661,84 @@
    "text": "A yard is a unit of length",
    "standing": "projectable",
    "evidence": "math · product curator · Yard · cs_y_yard_04"
+  },
+  {
+   "id": "cs_y_yellow_journalism_01",
+   "text": "Yellow journalism uses sensational headlines",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yellow journalism · cs_y_yellow_journalism_01"
+  },
+  {
+   "id": "cs_y_yogurt_culture_01",
+   "text": "Yogurt culture contains live bacteria",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yogurt culture · cs_y_yogurt_culture_01"
+  },
+  {
+   "id": "cs_y_yoke_01",
+   "text": "A yoke joins two draft animals",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yoke · cs_y_yoke_01"
+  },
+  {
+   "id": "cs_y_yom_kippur_war_01",
+   "text": "The Yom Kippur War began in 1973",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yom Kippur War · cs_y_yom_kippur_war_01"
+  },
+  {
+   "id": "cs_y_yoruba_people_01",
+   "text": "The Yoruba people live mainly in Nigeria",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yoruba people · cs_y_yoruba_people_01"
+  },
+  {
+   "id": "cs_y_yale_university_01",
+   "text": "Yale University is in Connecticut",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yale University · cs_y_yale_university_01"
+  },
+  {
+   "id": "cs_y_yamato_period_01",
+   "text": "The Yamato period is an era of Japanese history",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yamato period · cs_y_yamato_period_01"
+  },
+  {
+   "id": "cs_y_yerkes_observatory_01",
+   "text": "Yerkes Observatory is in Wisconsin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yerkes Observatory · cs_y_yerkes_observatory_01"
+  },
+  {
+   "id": "cs_y_yukon_gold_01",
+   "text": "Yukon gold is a potato variety",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yukon gold · cs_y_yukon_gold_01"
+  },
+  {
+   "id": "cs_y_yule_01",
+   "text": "Yule is a winter festival",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yule · cs_y_yule_01"
+  },
+  {
+   "id": "cs_y_yenisei_01",
+   "text": "The Yenisei is a river in Siberia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yenisei · cs_y_yenisei_01"
+  },
+  {
+   "id": "cs_y_yap_01",
+   "text": "Yap is an island in Micronesia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yap · cs_y_yap_01"
+  },
+  {
+   "id": "cs_y_yellowknife_01",
+   "text": "Yellowknife is the capital of the Northwest Territories",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowknife · cs_y_yellowknife_01"
   }
  ]
 }
