@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 108,
+ "curated_facts": 116,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -601,6 +601,54 @@
    "text": "Xenon is a gas",
    "standing": "projectable",
    "evidence": "science · product curator · Xenon · cs_x_xenon_09"
+  },
+  {
+   "id": "cs_x_xerophthalmia_01",
+   "text": "Xerophthalmia is a dryness of the eye",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerophthalmia · cs_x_xerophthalmia_01"
+  },
+  {
+   "id": "cs_x_x_ray_tube_01",
+   "text": "An X-ray tube produces X-rays",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray tube · cs_x_x_ray_tube_01"
+  },
+  {
+   "id": "cs_x_xenotransplantation_01",
+   "text": "Xenotransplantation is the transplant of tissue between species",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenotransplantation · cs_x_xenotransplantation_01"
+  },
+  {
+   "id": "cs_x_xanadu_01",
+   "text": "Xanadu was the summer capital of Kublai Khan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xanadu · cs_x_xanadu_01"
+  },
+  {
+   "id": "cs_x_xenarthra_01",
+   "text": "Xenarthra is a group of mammals that includes sloths",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xenarthra · cs_x_xenarthra_01"
+  },
+  {
+   "id": "cs_x_x_men_01",
+   "text": "The X-Men are comic book characters",
+   "standing": "projectable",
+   "evidence": "history · product curator · X-Men · cs_x_x_men_01"
+  },
+  {
+   "id": "cs_x_xuzhou_01",
+   "text": "Xuzhou is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xuzhou · cs_x_xuzhou_01"
+  },
+  {
+   "id": "cs_x_xenon_gas_01",
+   "text": "Xenon is a heavy gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon gas · cs_x_xenon_gas_01"
   }
  ]
 }
