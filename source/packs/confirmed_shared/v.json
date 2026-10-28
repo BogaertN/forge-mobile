@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 103,
+ "curated_facts": 106,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -577,6 +577,24 @@
    "text": "A vulture is a bird",
    "standing": "projectable",
    "evidence": "nature · product curator · Vulture · cs_v_vulture_04"
+  },
+  {
+   "id": "cs_v_valencia_01",
+   "text": "Valencia is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valencia · cs_v_valencia_01"
+  },
+  {
+   "id": "cs_v_venice_02",
+   "text": "Venice is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Venice · cs_v_venice_02"
+  },
+  {
+   "id": "cs_v_vancouver_02",
+   "text": "Vancouver is a city in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Vancouver · cs_v_vancouver_02"
   }
  ]
 }

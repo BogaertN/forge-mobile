@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 105,
+ "curated_facts": 119,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -571,6 +571,90 @@
    "text": "An otter is a mammal",
    "standing": "projectable",
    "evidence": "nature · product curator · Otter · cs_o_otter_03"
+  },
+  {
+   "id": "cs_o_odessa_01",
+   "text": "Odessa is a city in Ukraine",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Odessa · cs_o_odessa_01"
+  },
+  {
+   "id": "cs_o_oxford_03",
+   "text": "Oxford is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oxford · cs_o_oxford_03"
+  },
+  {
+   "id": "cs_o_olympia_02",
+   "text": "Olympia is the capital of Washington",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Olympia · cs_o_olympia_02"
+  },
+  {
+   "id": "cs_o_orlando_01",
+   "text": "Orlando is a city in Florida",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Orlando · cs_o_orlando_01"
+  },
+  {
+   "id": "cs_o_ostrich_03",
+   "text": "An ostrich is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_03"
+  },
+  {
+   "id": "cs_o_oak_03",
+   "text": "An oak is a tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oak · cs_o_oak_03"
+  },
+  {
+   "id": "cs_o_orange_02",
+   "text": "An orange is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Orange · cs_o_orange_02"
+  },
+  {
+   "id": "cs_o_onion_01",
+   "text": "An onion is a vegetable",
+   "standing": "projectable",
+   "evidence": "food · product curator · Onion · cs_o_onion_01"
+  },
+  {
+   "id": "cs_o_oaxaca_01",
+   "text": "Oaxaca is a city in Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oaxaca · cs_o_oaxaca_01"
+  },
+  {
+   "id": "cs_o_omaha_01",
+   "text": "Omaha is a city in Nebraska",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Omaha · cs_o_omaha_01"
+  },
+  {
+   "id": "cs_o_oakland_01",
+   "text": "Oakland is a city in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Oakland · cs_o_oakland_01"
+  },
+  {
+   "id": "cs_o_orleans_01",
+   "text": "Orleans is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Orleans · cs_o_orleans_01"
+  },
+  {
+   "id": "cs_o_okra_01",
+   "text": "Okra is a vegetable",
+   "standing": "projectable",
+   "evidence": "food · product curator · Okra · cs_o_okra_01"
+  },
+  {
+   "id": "cs_o_oriole_01",
+   "text": "An oriole is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oriole · cs_o_oriole_01"
   }
  ]
 }
