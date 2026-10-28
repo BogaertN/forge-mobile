@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 148,
+ "curated_facts": 160,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -823,6 +823,78 @@
    "text": "A dynasty is a line of rulers from one family",
    "standing": "projectable",
    "evidence": "history · product curator · Dynasty · cs_d_dynasty_01"
+  },
+  {
+   "id": "cs_d_d_day_02",
+   "text": "D-Day was the Allied landing in Normandy",
+   "standing": "projectable",
+   "evidence": "history · product curator · D-Day · cs_d_d_day_02"
+  },
+  {
+   "id": "cs_d_darwin_charles_03",
+   "text": "Charles Darwin proposed natural selection",
+   "standing": "projectable",
+   "evidence": "history · product curator · Darwin, Charles · cs_d_darwin_charles_03"
+  },
+  {
+   "id": "cs_d_declaration_of_independence_02",
+   "text": "The Declaration of Independence was adopted in 1776",
+   "standing": "projectable",
+   "evidence": "history · product curator · Declaration of Independence · cs_d_declaration_of_independence_02"
+  },
+  {
+   "id": "cs_d_desert_03",
+   "text": "A desert receives little rainfall",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Desert · cs_d_desert_03"
+  },
+  {
+   "id": "cs_d_diffusion_02",
+   "text": "Diffusion moves particles from high to low concentration",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diffusion · cs_d_diffusion_02"
+  },
+  {
+   "id": "cs_d_dna_03",
+   "text": "DNA stores genetic information",
+   "standing": "projectable",
+   "evidence": "science · product curator · DNA · cs_d_dna_03"
+  },
+  {
+   "id": "cs_d_domesday_book_02",
+   "text": "The Domesday Book recorded land in England",
+   "standing": "projectable",
+   "evidence": "history · product curator · Domesday Book · cs_d_domesday_book_02"
+  },
+  {
+   "id": "cs_d_doppler_effect_02",
+   "text": "The Doppler effect changes observed frequency",
+   "standing": "projectable",
+   "evidence": "science · product curator · Doppler effect · cs_d_doppler_effect_02"
+  },
+  {
+   "id": "cs_d_dozen_02",
+   "text": "A dozen equals twelve",
+   "standing": "projectable",
+   "evidence": "math · product curator · Dozen · cs_d_dozen_02"
+  },
+  {
+   "id": "cs_d_dragonfly_03",
+   "text": "A dragonfly has two pairs of wings",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_03"
+  },
+  {
+   "id": "cs_d_drought_02",
+   "text": "A drought is a long period of low rainfall",
+   "standing": "projectable",
+   "evidence": "science · product curator · Drought · cs_d_drought_02"
+  },
+  {
+   "id": "cs_d_due_process_02",
+   "text": "Due process protects legal rights",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Due process · cs_d_due_process_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 147,
+ "curated_facts": 159,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -823,6 +823,78 @@
    "text": "A Yukon gold potato has yellow flesh",
    "standing": "projectable",
    "evidence": "nature · product curator · Yukon gold potato · cs_y_yukon_gold_potato_01"
+  },
+  {
+   "id": "cs_y_y_axis_02",
+   "text": "The y-axis is the vertical axis on a graph",
+   "standing": "projectable",
+   "evidence": "math · product curator · Y-axis · cs_y_y_axis_02"
+  },
+  {
+   "id": "cs_y_yak_09",
+   "text": "A yak is a long haired bovine",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_09"
+  },
+  {
+   "id": "cs_y_yalta_conference_02",
+   "text": "The Yalta Conference was held in 1945",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yalta Conference · cs_y_yalta_conference_02"
+  },
+  {
+   "id": "cs_y_yeast_07",
+   "text": "Yeast is used to make bread rise",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yeast · cs_y_yeast_07"
+  },
+  {
+   "id": "cs_y_yellowstone_national_park_05",
+   "text": "Yellowstone National Park has geysers",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowstone National Park · cs_y_yellowstone_national_park_05"
+  },
+  {
+   "id": "cs_y_yoga_02",
+   "text": "Yoga is a system of physical and mental practice",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yoga · cs_y_yoga_02"
+  },
+  {
+   "id": "cs_y_yolk_04",
+   "text": "The yolk is the yellow part of an egg",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_04"
+  },
+  {
+   "id": "cs_y_yttrium_03",
+   "text": "Yttrium is a transition metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yttrium · cs_y_yttrium_03"
+  },
+  {
+   "id": "cs_y_yuan_dynasty_02",
+   "text": "The Yuan dynasty ruled China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yuan dynasty · cs_y_yuan_dynasty_02"
+  },
+  {
+   "id": "cs_y_yucat_n_peninsula_01",
+   "text": "The Yucatan Peninsula lies between the Gulf of Mexico and the Caribbean Sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yucatán Peninsula · cs_y_yucat_n_peninsula_01"
+  },
+  {
+   "id": "cs_y_yucca_02",
+   "text": "A yucca is a desert plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yucca · cs_y_yucca_02"
+  },
+  {
+   "id": "cs_y_yuri_gagarin_02",
+   "text": "Yuri Gagarin was the first human in space",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yuri Gagarin · cs_y_yuri_gagarin_02"
   }
  ]
 }

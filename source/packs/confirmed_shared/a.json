@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 139,
+ "curated_facts": 149,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -823,6 +823,66 @@
    "text": "An axiom is a statement accepted without proof",
    "standing": "projectable",
    "evidence": "math · product curator · Axiom · cs_a_axiom_01"
+  },
+  {
+   "id": "cs_a_absolute_value_02",
+   "text": "Absolute value is never negative",
+   "standing": "projectable",
+   "evidence": "math · product curator · Absolute value · cs_a_absolute_value_02"
+  },
+  {
+   "id": "cs_a_absolute_zero_03",
+   "text": "Absolute zero is the lowest possible temperature",
+   "standing": "projectable",
+   "evidence": "science · product curator · Absolute zero · cs_a_absolute_zero_03"
+  },
+  {
+   "id": "cs_a_abstract_02",
+   "text": "An abstract summarizes a longer text",
+   "standing": "projectable",
+   "evidence": "language · product curator · Abstract · cs_a_abstract_02"
+  },
+  {
+   "id": "cs_a_acute_angle_02",
+   "text": "An acute angle is less than a right angle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Acute angle · cs_a_acute_angle_02"
+  },
+  {
+   "id": "cs_a_alphabet_02",
+   "text": "An alphabet is a set of letters",
+   "standing": "projectable",
+   "evidence": "language · product curator · Alphabet · cs_a_alphabet_02"
+  },
+  {
+   "id": "cs_a_alps_02",
+   "text": "The Alps are mountains in Europe",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Alps · cs_a_alps_02"
+  },
+  {
+   "id": "cs_a_amendment_03",
+   "text": "An amendment changes a constitution",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Amendment · cs_a_amendment_03"
+  },
+  {
+   "id": "cs_a_american_revolution_02",
+   "text": "The American Revolution created the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · American Revolution · cs_a_american_revolution_02"
+  },
+  {
+   "id": "cs_a_arithmetic_mean_02",
+   "text": "The arithmetic mean is an average",
+   "standing": "projectable",
+   "evidence": "math · product curator · Arithmetic mean · cs_a_arithmetic_mean_02"
+  },
+  {
+   "id": "cs_a_atom_04",
+   "text": "An atom is the basic unit of matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atom · cs_a_atom_04"
   }
  ]
 }

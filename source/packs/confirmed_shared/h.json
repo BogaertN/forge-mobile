@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 147,
+ "curated_facts": 157,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -823,6 +823,66 @@
    "text": "Hyperbole is deliberate exaggeration",
    "standing": "projectable",
    "evidence": "language · product curator · Hyperbole · cs_h_hyperbole_01"
+  },
+  {
+   "id": "cs_h_hammurabi_03",
+   "text": "Hammurabi issued an early code of laws",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hammurabi · cs_h_hammurabi_03"
+  },
+  {
+   "id": "cs_h_hannibal_03",
+   "text": "Hannibal crossed the Alps with elephants",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hannibal · cs_h_hannibal_03"
+  },
+  {
+   "id": "cs_h_hanseatic_league_02",
+   "text": "The Hanseatic League was a medieval trade network",
+   "standing": "projectable",
+   "evidence": "history · product curator · Hanseatic League · cs_h_hanseatic_league_02"
+  },
+  {
+   "id": "cs_h_hebrew_03",
+   "text": "Hebrew is a Semitic language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Hebrew · cs_h_hebrew_03"
+  },
+  {
+   "id": "cs_h_hemoglobin_02",
+   "text": "Hemoglobin carries oxygen in blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hemoglobin · cs_h_hemoglobin_02"
+  },
+  {
+   "id": "cs_h_hertz_02",
+   "text": "A hertz is one cycle per second",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hertz · cs_h_hertz_02"
+  },
+  {
+   "id": "cs_h_hibernation_02",
+   "text": "Hibernation is a long winter sleep",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hibernation · cs_h_hibernation_02"
+  },
+  {
+   "id": "cs_h_hudson_bay_03",
+   "text": "Hudson Bay is a large inland sea in Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hudson Bay · cs_h_hudson_bay_03"
+  },
+  {
+   "id": "cs_h_hummingbird_05",
+   "text": "A hummingbird can hover in place",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_05"
+  },
+  {
+   "id": "cs_h_hydrogen_05",
+   "text": "Hydrogen has one proton",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrogen · cs_h_hydrogen_05"
   }
  ]
 }

@@ -2,7 +2,7 @@
  "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
  "provenance": "confirmed_shared",
  "who_confirmed": "product_curator",
- "version": "4.9.137",
+ "version": "4.9.138",
  "letters": [
   "a",
   "b",
@@ -35,8 +35,8 @@
   "a": {
    "path": "a.json",
    "letter": "A",
-   "items": 136,
-   "curated_facts": 139
+   "items": 146,
+   "curated_facts": 149
   },
   "b": {
    "path": "b.json",
@@ -53,8 +53,8 @@
   "d": {
    "path": "d.json",
    "letter": "D",
-   "items": 136,
-   "curated_facts": 148
+   "items": 148,
+   "curated_facts": 160
   },
   "e": {
    "path": "e.json",
@@ -77,8 +77,8 @@
   "h": {
    "path": "h.json",
    "letter": "H",
-   "items": 136,
-   "curated_facts": 147
+   "items": 146,
+   "curated_facts": 157
   },
   "i": {
    "path": "i.json",
@@ -89,8 +89,8 @@
   "j": {
    "path": "j.json",
    "letter": "J",
-   "items": 135,
-   "curated_facts": 146
+   "items": 149,
+   "curated_facts": 160
   },
   "k": {
    "path": "k.json",
@@ -107,14 +107,14 @@
   "m": {
    "path": "m.json",
    "letter": "M",
-   "items": 136,
-   "curated_facts": 141
+   "items": 143,
+   "curated_facts": 148
   },
   "n": {
    "path": "n.json",
    "letter": "N",
-   "items": 133,
-   "curated_facts": 140
+   "items": 148,
+   "curated_facts": 155
   },
   "o": {
    "path": "o.json",
@@ -137,8 +137,8 @@
   "r": {
    "path": "r.json",
    "letter": "R",
-   "items": 135,
-   "curated_facts": 145
+   "items": 146,
+   "curated_facts": 156
   },
   "s": {
    "path": "s.json",
@@ -167,28 +167,28 @@
   "w": {
    "path": "w.json",
    "letter": "W",
-   "items": 135,
-   "curated_facts": 140
+   "items": 144,
+   "curated_facts": 149
   },
   "x": {
    "path": "x.json",
    "letter": "X",
-   "items": 135,
-   "curated_facts": 144
+   "items": 148,
+   "curated_facts": 157
   },
   "y": {
    "path": "y.json",
    "letter": "Y",
-   "items": 136,
-   "curated_facts": 147
+   "items": 148,
+   "curated_facts": 159
   },
   "z": {
    "path": "z.json",
    "letter": "Z",
-   "items": 136,
-   "curated_facts": 158
+   "items": 143,
+   "curated_facts": 165
   }
  },
- "total_items": 3546,
- "total_curated": 3784
+ "total_items": 3666,
+ "total_curated": 3904
 }

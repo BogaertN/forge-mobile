@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 140,
+ "curated_facts": 155,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -805,6 +805,96 @@
    "text": "Nylon is a synthetic polymer",
    "standing": "projectable",
    "evidence": "science · product curator · Nylon · cs_n_nylon_01"
+  },
+  {
+   "id": "cs_n_namib_desert_02",
+   "text": "The Namib Desert is one of the oldest deserts",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Namib Desert · cs_n_namib_desert_02"
+  },
+  {
+   "id": "cs_n_natural_number_02",
+   "text": "Zero is sometimes treated as a natural number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Natural number · cs_n_natural_number_02"
+  },
+  {
+   "id": "cs_n_navy_02",
+   "text": "A navy operates ships at sea",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Navy · cs_n_navy_02"
+  },
+  {
+   "id": "cs_n_negative_number_02",
+   "text": "The product of two negative numbers is positive",
+   "standing": "projectable",
+   "evidence": "math · product curator · Negative number · cs_n_negative_number_02"
+  },
+  {
+   "id": "cs_n_nettle_02",
+   "text": "A nettle has stinging hairs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nettle · cs_n_nettle_02"
+  },
+  {
+   "id": "cs_n_neuron_02",
+   "text": "A neuron transmits electrical signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neuron · cs_n_neuron_02"
+  },
+  {
+   "id": "cs_n_newt_03",
+   "text": "A newt can regenerate lost limbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Newt · cs_n_newt_03"
+  },
+  {
+   "id": "cs_n_newton_isaac_02",
+   "text": "Isaac Newton formulated the law of universal gravitation",
+   "standing": "projectable",
+   "evidence": "history · product curator · Newton, Isaac · cs_n_newton_isaac_02"
+  },
+  {
+   "id": "cs_n_nitrate_01",
+   "text": "A nitrate is a salt of nitric acid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_01"
+  },
+  {
+   "id": "cs_n_north_america_02",
+   "text": "Canada is in North America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North America · cs_n_north_america_02"
+  },
+  {
+   "id": "cs_n_noun_phrase_02",
+   "text": "A noun phrase can include adjectives",
+   "standing": "projectable",
+   "evidence": "language · product curator · Noun phrase · cs_n_noun_phrase_02"
+  },
+  {
+   "id": "cs_n_nucleus_02",
+   "text": "The nucleus of an atom contains protons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_02"
+  },
+  {
+   "id": "cs_n_null_hypothesis_02",
+   "text": "Scientists test a null hypothesis",
+   "standing": "projectable",
+   "evidence": "math · product curator · Null hypothesis · cs_n_null_hypothesis_02"
+  },
+  {
+   "id": "cs_n_number_line_02",
+   "text": "Integers appear on a number line",
+   "standing": "projectable",
+   "evidence": "math · product curator · Number line · cs_n_number_line_02"
+  },
+  {
+   "id": "cs_n_nutmeg_02",
+   "text": "Nutmeg is grated as a spice",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 144,
+ "curated_facts": 157,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -817,6 +817,84 @@
    "text": "Xylose is a sugar from wood",
    "standing": "projectable",
    "evidence": "science · product curator · Xylose · cs_x_xylose_02"
+  },
+  {
+   "id": "cs_x_x_chromosome_05",
+   "text": "An X chromosome is a sex chromosome",
+   "standing": "projectable",
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_05"
+  },
+  {
+   "id": "cs_x_x_axis_04",
+   "text": "Positive x values lie to the right on the x-axis",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-axis · cs_x_x_axis_04"
+  },
+  {
+   "id": "cs_x_x_coordinate_04",
+   "text": "The x-coordinate is the first number in an ordered pair",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-coordinate · cs_x_x_coordinate_04"
+  },
+  {
+   "id": "cs_x_x_height_02",
+   "text": "X-height is the height of a lowercase letter",
+   "standing": "projectable",
+   "evidence": "language · product curator · X-height · cs_x_x_height_02"
+  },
+  {
+   "id": "cs_x_x_intercept_03",
+   "text": "Setting y to zero finds the x-intercept",
+   "standing": "projectable",
+   "evidence": "math · product curator · X-intercept · cs_x_x_intercept_03"
+  },
+  {
+   "id": "cs_x_x_ray_crystallography_04",
+   "text": "X-ray crystallography reveals atomic structure",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray crystallography · cs_x_x_ray_crystallography_04"
+  },
+  {
+   "id": "cs_x_x_ray_diffraction_02",
+   "text": "X-ray diffraction studies crystal structure",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray diffraction · cs_x_x_ray_diffraction_02"
+  },
+  {
+   "id": "cs_x_xenophobia_02",
+   "text": "Xenophobia is fear of strangers",
+   "standing": "projectable",
+   "evidence": "language · product curator · Xenophobia · cs_x_xenophobia_02"
+  },
+  {
+   "id": "cs_x_xerxes_02",
+   "text": "Xerxes ruled the Persian Empire",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xerxes · cs_x_xerxes_02"
+  },
+  {
+   "id": "cs_x_xia_dynasty_03",
+   "text": "The Xia dynasty precedes the Shang dynasty",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xia dynasty · cs_x_xia_dynasty_03"
+  },
+  {
+   "id": "cs_x_xinjiang_04",
+   "text": "Xinjiang borders Central Asia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xinjiang · cs_x_xinjiang_04"
+  },
+  {
+   "id": "cs_x_xylem_05",
+   "text": "Xylem transports water upward in plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylem · cs_x_xylem_05"
+  },
+  {
+   "id": "cs_x_xylem_tissue_02",
+   "text": "Xylem tissue moves water through a plant",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylem tissue · cs_x_xylem_tissue_02"
   }
  ]
 }

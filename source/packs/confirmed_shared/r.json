@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 145,
+ "curated_facts": 156,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -817,6 +817,72 @@
    "text": "The Renaissance was a period of cultural rebirth in Europe",
    "standing": "projectable",
    "evidence": "history · product curator · Renaissance · cs_r_renaissance_02"
+  },
+  {
+   "id": "cs_r_radar_02",
+   "text": "Radar detects objects with radio waves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radar · cs_r_radar_02"
+  },
+  {
+   "id": "cs_r_rattlesnake_04",
+   "text": "A rattlesnake has a rattle on its tail",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Rattlesnake · cs_r_rattlesnake_04"
+  },
+  {
+   "id": "cs_r_reef_03",
+   "text": "A coral reef grows in warm shallow seas",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reef · cs_r_reef_03"
+  },
+  {
+   "id": "cs_r_representative_02",
+   "text": "A representative speaks for voters",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Representative · cs_r_representative_02"
+  },
+  {
+   "id": "cs_r_reptile_02",
+   "text": "A reptile has dry scaly skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reptile · cs_r_reptile_02"
+  },
+  {
+   "id": "cs_r_republic_03",
+   "text": "A republic elects its leaders",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Republic · cs_r_republic_03"
+  },
+  {
+   "id": "cs_r_ring_of_fire_02",
+   "text": "The Ring of Fire has many volcanoes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ring of Fire · cs_r_ring_of_fire_02"
+  },
+  {
+   "id": "cs_r_rna_02",
+   "text": "RNA helps make proteins",
+   "standing": "projectable",
+   "evidence": "science · product curator · RNA · cs_r_rna_02"
+  },
+  {
+   "id": "cs_r_rocky_mountains_03",
+   "text": "The Rocky Mountains run through North America",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rocky Mountains · cs_r_rocky_mountains_03"
+  },
+  {
+   "id": "cs_r_roman_empire_03",
+   "text": "The Roman Empire ruled the Mediterranean",
+   "standing": "projectable",
+   "evidence": "history · product curator · Roman Empire · cs_r_roman_empire_03"
+  },
+  {
+   "id": "cs_r_root_02",
+   "text": "A plant root absorbs water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Root · cs_r_root_02"
   }
  ]
 }
