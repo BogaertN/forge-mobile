@@ -1,3 +1,15 @@
+# Next build order — after 4.9.165
+**Date:** 2026-10-28 (America/Chicago)
+**Baseline:** 4.9.165 RPMC→RSOC→Panini (archives/sources → RPMC grace/phase candidates → AQ-1/research → RSOC → Panini NL; class-dump removed; First/Fifth exact unchanged; soft leave ≥5 kB under 570 kB)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; scrapbook shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.165:** factual WH miss gathers RPMC-gated related CS as candidates into AUTH-AQ1/research (`RSOC-COMPOSE-EVIDENCE`); zero canned; no class-dump answer; silence only for no-basis novelty. Soft budget unchanged (≤1.920 MB / ≤570 kB). Continuous fill remains PAUSED. No CloudAgent.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget; stuffing one amendment as a special-case answer patch; resuming continuous fill without Nic.
+
+**Manual:** still paused.
+
+
 # Next build order — after 4.9.164
 **Date:** 2026-10-28 (America/Chicago)
 **Baseline:** 4.9.164 soft-gzip leave reclaim (keeps 4.9.163 civics WH + CS discourse pathways; single-file empty names + ASI-safe newline join; soft leave ≥5 kB under 570 kB)

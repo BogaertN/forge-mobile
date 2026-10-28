@@ -1,6 +1,6 @@
 {
  "schema": "FORGE-MATH-HONESTY/v1",
- "release": "4.9.164",
+ "release": "4.9.165",
  "product_claim": false,
  "proven_cognition": false,
  "honesty": {
@@ -365,5 +365,21 @@
   "false_negative_rate": 0,
   "shared_kb_writes": 0,
   "note": "Rates are counts on this recorded set divided by the recorded positives or negatives. A zero here is not a manuscript calibration and not a claim of proven cognition."
+ },
+ "answer_path_grace": {
+  "status": "wired",
+  "honesty": "research-only",
+  "manuscript": "SOURCE_NOT_VERIFIED",
+  "product_claim": false,
+  "proven_cognition": false,
+  "note": "4.9.165: answer-path grace is no longer a stub for the RPMC→RSOC factual-miss gate. kernel.js rpmcAncestorCandidates calls kmath.graceOverAncestors (Axiom 4 phase-align + §3.4 graceIntegral; G_MIN=1e-4). Candidates feed AUTH-AQ1/research (RSOC-COMPOSE-EVIDENCE); not a class-dump answer. Does not claim Φ1–Φ9 is proven cognition; does not claim manuscript equivalence.",
+  "where": [
+   "src/kmath.js graceOverAncestors",
+   "src/kmath.js graceIntegral",
+   "src/kernel.js rpmcAncestorCandidates",
+   "src/forge.js rpmc_priors",
+   "verify/r4165_suite.js"
+  ],
+  "cite": "RPMC §3.4 Grace Integral; Axiom 4; Nic t129u–t132u"
  }
 }
