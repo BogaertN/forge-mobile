@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 187,
+ "curated_facts": 193,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1063,6 +1063,42 @@
    "text": "A jumping spider stalks prey",
    "standing": "projectable",
    "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_02"
+  },
+  {
+   "id": "cs_j_judge_04",
+   "text": "A judge wears a robe in court",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judge · cs_j_judge_04"
+  },
+  {
+   "id": "cs_j_juice_03",
+   "text": "Oranges give juice",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juice · cs_j_juice_03"
+  },
+  {
+   "id": "cs_j_jumping_spider_03",
+   "text": "Jumping spiders leap on insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_03"
+  },
+  {
+   "id": "cs_j_jellyfish_08",
+   "text": "A jellyfish drifts in currents",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_08"
+  },
+  {
+   "id": "cs_j_jet_stream_04",
+   "text": "Planes ride the jet stream",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_04"
+  },
+  {
+   "id": "cs_j_jerboa_02",
+   "text": "A jerboa hops on sand",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_02"
   }
  ]
 }

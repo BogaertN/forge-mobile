@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 187,
+ "curated_facts": 194,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1057,6 +1057,48 @@
    "text": "Impulse changes momentum",
    "standing": "projectable",
    "evidence": "science · product curator · Impulse · cs_i_impulse_03"
+  },
+  {
+   "id": "cs_i_insulation_02",
+   "text": "Wool provides insulation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Insulation · cs_i_insulation_02"
+  },
+  {
+   "id": "cs_i_iron_09",
+   "text": "Iron rusts in moist air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_09"
+  },
+  {
+   "id": "cs_i_iguana_07",
+   "text": "Iguanas eat plants",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_07"
+  },
+  {
+   "id": "cs_i_infrared_03",
+   "text": "Remote controls use infrared",
+   "standing": "projectable",
+   "evidence": "science · product curator · Infrared · cs_i_infrared_03"
+  },
+  {
+   "id": "cs_i_ice_04",
+   "text": "Ice melts into water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice · cs_i_ice_04"
+  },
+  {
+   "id": "cs_i_ion_03",
+   "text": "An ion has an electric charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ion · cs_i_ion_03"
+  },
+  {
+   "id": "cs_i_insect_04",
+   "text": "A beetle is an insect",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Insect · cs_i_insect_04"
   }
  ]
 }

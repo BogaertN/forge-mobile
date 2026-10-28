@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 182,
+ "curated_facts": 188,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1057,6 +1057,42 @@
    "text": "The liver stores glycogen",
    "standing": "projectable",
    "evidence": "science · product curator · Glycogen · cs_g_glycogen_01"
+  },
+  {
+   "id": "cs_g_gecko_04",
+   "text": "A gecko sheds its tail",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_04"
+  },
+  {
+   "id": "cs_g_gibbon_03",
+   "text": "Gibbons sing in forests",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_03"
+  },
+  {
+   "id": "cs_g_glycogen_02",
+   "text": "Muscles store glycogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glycogen · cs_g_glycogen_02"
+  },
+  {
+   "id": "cs_g_gravity_04",
+   "text": "Gravity keeps planets in orbit",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gravity · cs_g_gravity_04"
+  },
+  {
+   "id": "cs_g_gazelle_03",
+   "text": "Lions hunt gazelles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_03"
+  },
+  {
+   "id": "cs_g_gear_04",
+   "text": "A bicycle uses gears",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gear · cs_g_gear_04"
   }
  ]
 }

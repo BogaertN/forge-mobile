@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 178,
+ "curated_facts": 185,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1057,6 +1057,48 @@
    "text": "Poets use alliteration",
    "standing": "projectable",
    "evidence": "language · product curator · Alliteration · cs_a_alliteration_02"
+  },
+  {
+   "id": "cs_a_alliteration_03",
+   "text": "Alliteration repeats starting sounds",
+   "standing": "projectable",
+   "evidence": "language · product curator · Alliteration · cs_a_alliteration_03"
+  },
+  {
+   "id": "cs_a_asteroid_02",
+   "text": "An asteroid orbits between Mars and Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Asteroid · cs_a_asteroid_02"
+  },
+  {
+   "id": "cs_a_axis_02",
+   "text": "Earth spins on its axis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Axis · cs_a_axis_02"
+  },
+  {
+   "id": "cs_a_acre_01",
+   "text": "An acre measures land area",
+   "standing": "projectable",
+   "evidence": "math · product curator · Acre · cs_a_acre_01"
+  },
+  {
+   "id": "cs_a_aurora_02",
+   "text": "An aurora glows near the poles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Aurora · cs_a_aurora_02"
+  },
+  {
+   "id": "cs_a_arch_01",
+   "text": "An arch supports a bridge",
+   "standing": "projectable",
+   "evidence": "history · product curator · Arch · cs_a_arch_01"
+  },
+  {
+   "id": "cs_a_alloy_01",
+   "text": "Bronze is an alloy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alloy · cs_a_alloy_01"
   }
  ]
 }

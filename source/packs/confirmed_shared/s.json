@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 180,
+ "curated_facts": 186,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1063,6 +1063,42 @@
    "text": "Scarlet is a bright red",
    "standing": "projectable",
    "evidence": "language · product curator · Scarlet · cs_s_scarlet_01"
+  },
+  {
+   "id": "cs_s_sable_02",
+   "text": "Trappers prized sable fur",
+   "standing": "projectable",
+   "evidence": "history · product curator · Sable · cs_s_sable_02"
+  },
+  {
+   "id": "cs_s_salt_02",
+   "text": "Salt dissolves in water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Salt · cs_s_salt_02"
+  },
+  {
+   "id": "cs_s_scale_02",
+   "text": "A fish has a protective scale",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Scale · cs_s_scale_02"
+  },
+  {
+   "id": "cs_s_science_01",
+   "text": "Science tests ideas with evidence",
+   "standing": "projectable",
+   "evidence": "science · product curator · Science · cs_s_science_01"
+  },
+  {
+   "id": "cs_s_scorpion_03",
+   "text": "A scorpion has a stinging tail",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_03"
+  },
+  {
+   "id": "cs_s_shadow_01",
+   "text": "Light casts a shadow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Shadow · cs_s_shadow_01"
   }
  ]
 }

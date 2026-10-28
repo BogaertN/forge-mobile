@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 187,
+ "curated_facts": 193,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1057,6 +1057,42 @@
    "text": "A diatom is a tiny alga",
    "standing": "projectable",
    "evidence": "nature · product curator · Diatom · cs_d_diatom_01"
+  },
+  {
+   "id": "cs_d_dividend_02",
+   "text": "A dividend is divided by a divisor",
+   "standing": "projectable",
+   "evidence": "math · product curator · Dividend · cs_d_dividend_02"
+  },
+  {
+   "id": "cs_d_diatom_02",
+   "text": "Diatoms make ocean oxygen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_02"
+  },
+  {
+   "id": "cs_d_delta_03",
+   "text": "Sediment builds a delta",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Delta · cs_d_delta_03"
+  },
+  {
+   "id": "cs_d_dew_03",
+   "text": "Cold air forms dew",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dew · cs_d_dew_03"
+  },
+  {
+   "id": "cs_d_dam_03",
+   "text": "Engineers build a dam",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Dam · cs_d_dam_03"
+  },
+  {
+   "id": "cs_d_dawn_02",
+   "text": "Birds sing at dawn",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dawn · cs_d_dawn_02"
   }
  ]
 }

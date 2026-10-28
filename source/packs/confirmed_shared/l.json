@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 185,
+ "curated_facts": 191,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1063,6 +1063,42 @@
    "text": "A law binds citizens",
    "standing": "projectable",
    "evidence": "civics · product curator · Law · cs_l_law_01"
+  },
+  {
+   "id": "cs_l_lamp_02",
+   "text": "Oil lamps lit rooms",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lamp · cs_l_lamp_02"
+  },
+  {
+   "id": "cs_l_larva_04",
+   "text": "A larva becomes an adult insect",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Larva · cs_l_larva_04"
+  },
+  {
+   "id": "cs_l_law_02",
+   "text": "Parliament passes a law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Law · cs_l_law_02"
+  },
+  {
+   "id": "cs_l_lacquer_02",
+   "text": "Artisans brush lacquer on wood",
+   "standing": "projectable",
+   "evidence": "history · product curator · Lacquer · cs_l_lacquer_02"
+  },
+  {
+   "id": "cs_l_lava_05",
+   "text": "Hot lava hardens into rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lava · cs_l_lava_05"
+  },
+  {
+   "id": "cs_l_lithium_04",
+   "text": "Lithium is a soft metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lithium · cs_l_lithium_04"
   }
  ]
 }

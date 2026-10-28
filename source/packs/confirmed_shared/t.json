@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 183,
+ "curated_facts": 189,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1063,6 +1063,42 @@
    "text": "Citizens pay a tax",
    "standing": "projectable",
    "evidence": "civics · product curator · Tax · cs_t_tax_02"
+  },
+  {
+   "id": "cs_t_tannin_02",
+   "text": "Oak bark has tannin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tannin · cs_t_tannin_02"
+  },
+  {
+   "id": "cs_t_tapestry_02",
+   "text": "Weavers make a tapestry",
+   "standing": "projectable",
+   "evidence": "history · product curator · Tapestry · cs_t_tapestry_02"
+  },
+  {
+   "id": "cs_t_talon_04",
+   "text": "Hawks grip prey with a talon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Talon · cs_t_talon_04"
+  },
+  {
+   "id": "cs_t_telescope_03",
+   "text": "A telescope magnifies distant objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Telescope · cs_t_telescope_03"
+  },
+  {
+   "id": "cs_t_thermometer_02",
+   "text": "Mercury expands in a thermometer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thermometer · cs_t_thermometer_02"
+  },
+  {
+   "id": "cs_t_tin_03",
+   "text": "Bronze contains tin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tin · cs_t_tin_03"
   }
  ]
 }

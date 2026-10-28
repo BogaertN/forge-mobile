@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 180,
+ "curated_facts": 186,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1057,6 +1057,42 @@
    "text": "An earthworm aerates soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Earthworm · cs_e_earthworm_02"
+  },
+  {
+   "id": "cs_e_electron_02",
+   "text": "An electron orbits a nucleus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electron · cs_e_electron_02"
+  },
+  {
+   "id": "cs_e_eclipse_05",
+   "text": "A solar eclipse hides the sun",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_05"
+  },
+  {
+   "id": "cs_e_elm_03",
+   "text": "Elm trees shade streets",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elm · cs_e_elm_03"
+  },
+  {
+   "id": "cs_e_ellipse_05",
+   "text": "Planets follow an ellipse",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_05"
+  },
+  {
+   "id": "cs_e_equinox_03",
+   "text": "Spring begins at an equinox",
+   "standing": "projectable",
+   "evidence": "science · product curator · Equinox · cs_e_equinox_03"
+  },
+  {
+   "id": "cs_e_earthworm_03",
+   "text": "Earthworms enrich soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_03"
   }
  ]
 }

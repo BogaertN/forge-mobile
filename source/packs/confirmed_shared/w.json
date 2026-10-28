@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 181,
+ "curated_facts": 187,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1063,6 +1063,42 @@
    "text": "Width measures side-to-side distance",
    "standing": "projectable",
    "evidence": "math · product curator · Width · cs_w_width_02"
+  },
+  {
+   "id": "cs_w_weasel_03",
+   "text": "A weasel hunts small rodents",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Weasel · cs_w_weasel_03"
+  },
+  {
+   "id": "cs_w_width_03",
+   "text": "Width is a side-to-side measure",
+   "standing": "projectable",
+   "evidence": "math · product curator · Width · cs_w_width_03"
+  },
+  {
+   "id": "cs_w_wave_02",
+   "text": "Wind makes an ocean wave",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wave · cs_w_wave_02"
+  },
+  {
+   "id": "cs_w_weather_03",
+   "text": "Clouds signal weather change",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Weather · cs_w_weather_03"
+  },
+  {
+   "id": "cs_w_weight_02",
+   "text": "Gravity gives an object weight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weight · cs_w_weight_02"
+  },
+  {
+   "id": "cs_w_worm_01",
+   "text": "A worm tunnels through soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Worm · cs_w_worm_01"
   }
  ]
 }

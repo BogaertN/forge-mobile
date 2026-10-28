@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 187,
+ "curated_facts": 193,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1063,6 +1063,42 @@
    "text": "An ox pulls a plow",
    "standing": "projectable",
    "evidence": "history · product curator · Ox · cs_o_ox_02"
+  },
+  {
+   "id": "cs_o_osmosis_04",
+   "text": "Osmosis moves water through a membrane",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_04"
+  },
+  {
+   "id": "cs_o_olympus_02",
+   "text": "Olympus is a Greek mountain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Olympus · cs_o_olympus_02"
+  },
+  {
+   "id": "cs_o_oat_02",
+   "text": "Horses eat oats",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oat · cs_o_oat_02"
+  },
+  {
+   "id": "cs_o_oak_05",
+   "text": "An oak drops acorns",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oak · cs_o_oak_05"
+  },
+  {
+   "id": "cs_o_olivine_01",
+   "text": "Olivine is a green mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Olivine · cs_o_olivine_01"
+  },
+  {
+   "id": "cs_o_ozone_03",
+   "text": "Ozone blocks ultraviolet light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ozone · cs_o_ozone_03"
   }
  ]
 }

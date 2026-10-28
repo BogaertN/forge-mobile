@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 194,
+ "curated_facts": 201,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1057,6 +1057,48 @@
    "text": "Writers mark a quote with marks",
    "standing": "projectable",
    "evidence": "language · product curator · Quote · cs_q_quote_01"
+  },
+  {
+   "id": "cs_q_quill_08",
+   "text": "Writers dipped a quill in ink",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quill · cs_q_quill_08"
+  },
+  {
+   "id": "cs_q_quart_06",
+   "text": "Milk comes in a quart",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quart · cs_q_quart_06"
+  },
+  {
+   "id": "cs_q_quarry_03",
+   "text": "Marble comes from a quarry",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quarry · cs_q_quarry_03"
+  },
+  {
+   "id": "cs_q_queen_05",
+   "text": "A queen bee heads a hive",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Queen · cs_q_queen_05"
+  },
+  {
+   "id": "cs_q_quay_02",
+   "text": "Cargo loads at a quay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Quay · cs_q_quay_02"
+  },
+  {
+   "id": "cs_q_quota_03",
+   "text": "Fisheries set a catch quota",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quota · cs_q_quota_03"
+  },
+  {
+   "id": "cs_q_quantity_02",
+   "text": "Physics measures a quantity",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quantity · cs_q_quantity_02"
   }
  ]
 }

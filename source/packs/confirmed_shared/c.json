@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 181,
+ "curated_facts": 187,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1057,6 +1057,42 @@
    "text": "A calendar tracks days",
    "standing": "projectable",
    "evidence": "civics · product curator · Calendar · cs_c_calendar_02"
+  },
+  {
+   "id": "cs_c_carbon_03",
+   "text": "Diamond is pure carbon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Carbon · cs_c_carbon_03"
+  },
+  {
+   "id": "cs_c_canopy_03",
+   "text": "Birds nest in the canopy",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Canopy · cs_c_canopy_03"
+  },
+  {
+   "id": "cs_c_cartilage_02",
+   "text": "Ears contain cartilage",
+   "standing": "projectable",
+   "evidence": "science · product curator · Cartilage · cs_c_cartilage_02"
+  },
+  {
+   "id": "cs_c_chromium_02",
+   "text": "Chrome plating uses chromium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chromium · cs_c_chromium_02"
+  },
+  {
+   "id": "cs_c_clause_03",
+   "text": "Clauses form complex sentences",
+   "standing": "projectable",
+   "evidence": "language · product curator · Clause · cs_c_clause_03"
+  },
+  {
+   "id": "cs_c_catalyst_01",
+   "text": "A catalyst speeds a reaction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Catalyst · cs_c_catalyst_01"
   }
  ]
 }
