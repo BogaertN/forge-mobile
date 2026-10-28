@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 140,
+ "curated_facts": 158,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -715,6 +715,114 @@
    "text": "Zinc oxide is a white compound",
    "standing": "projectable",
    "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_01"
+  },
+  {
+   "id": "cs_z_zymology_01",
+   "text": "Zymology is the study of fermentation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zymology · cs_z_zymology_01"
+  },
+  {
+   "id": "cs_z_zoroaster_01",
+   "text": "Zoroaster founded Zoroastrianism",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zoroaster · cs_z_zoroaster_01"
+  },
+  {
+   "id": "cs_z_zeta_01",
+   "text": "Zeta is a letter of the Greek alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zeta · cs_z_zeta_01"
+  },
+  {
+   "id": "cs_z_zeolite_01",
+   "text": "Zeolite is a porous mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_01"
+  },
+  {
+   "id": "cs_z_zaire_01",
+   "text": "Zaire was a former name of the Democratic Republic of the Congo",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zaire · cs_z_zaire_01"
+  },
+  {
+   "id": "cs_z_zygote_04",
+   "text": "A zygote forms when egg and sperm join",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygote · cs_z_zygote_04"
+  },
+  {
+   "id": "cs_z_zoning_02",
+   "text": "Zoning controls land use in a city",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_02"
+  },
+  {
+   "id": "cs_z_zodiac_04",
+   "text": "The zodiac is a belt of constellations",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_04"
+  },
+  {
+   "id": "cs_z_zircon_03",
+   "text": "Zircon is a mineral used in dating rocks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zircon · cs_z_zircon_03"
+  },
+  {
+   "id": "cs_z_zeus_09",
+   "text": "Zeus was the chief god in Greek myth",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zeus · cs_z_zeus_09"
+  },
+  {
+   "id": "cs_z_zero_gravity_02",
+   "text": "Zero gravity is free fall",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zero gravity · cs_z_zero_gravity_02"
+  },
+  {
+   "id": "cs_z_zero_06",
+   "text": "Zero is the additive identity",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_06"
+  },
+  {
+   "id": "cs_z_zenith_03",
+   "text": "The zenith is straight above an observer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zenith · cs_z_zenith_03"
+  },
+  {
+   "id": "cs_z_zebra_mussel_02",
+   "text": "A zebra mussel is an invasive freshwater mollusk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_02"
+  },
+  {
+   "id": "cs_z_zebra_finch_02",
+   "text": "A zebra finch is a small songbird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra finch · cs_z_zebra_finch_02"
+  },
+  {
+   "id": "cs_z_zebra_crossing_02",
+   "text": "A zebra crossing marks a place to walk across a road",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zebra crossing · cs_z_zebra_crossing_02"
+  },
+  {
+   "id": "cs_z_zooplankton_03",
+   "text": "Zooplankton are tiny drifting animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_03"
+  },
+  {
+   "id": "cs_z_zinnia_05",
+   "text": "A zinnia is a garden flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_05"
   }
  ]
 }
