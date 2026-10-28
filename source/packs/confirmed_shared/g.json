@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 196,
+ "curated_facts": 205,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1141,6 +1141,60 @@
    "text": "Seeds begin germination",
    "standing": "projectable",
    "evidence": "nature · product curator · Germination · cs_g_germination_03"
+  },
+  {
+   "id": "cs_g_gazelle_04",
+   "text": "A gazelle outruns predators",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gazelle · cs_g_gazelle_04"
+  },
+  {
+   "id": "cs_g_gelatin_02",
+   "text": "Desserts set with gelatin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gelatin · cs_g_gelatin_02"
+  },
+  {
+   "id": "cs_g_germination_04",
+   "text": "Warmth starts germination",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Germination · cs_g_germination_04"
+  },
+  {
+   "id": "cs_g_glucose_03",
+   "text": "Plants make glucose",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glucose · cs_g_glucose_03"
+  },
+  {
+   "id": "cs_g_goat_03",
+   "text": "Goats chew tough shrubs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Goat · cs_g_goat_03"
+  },
+  {
+   "id": "cs_g_granite_02",
+   "text": "Granite forms from magma",
+   "standing": "projectable",
+   "evidence": "science · product curator · Granite · cs_g_granite_02"
+  },
+  {
+   "id": "cs_g_greenhouse_03",
+   "text": "Glass warms a greenhouse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_03"
+  },
+  {
+   "id": "cs_g_growth_ring_03",
+   "text": "A stump shows a growth ring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Growth ring · cs_g_growth_ring_03"
+  },
+  {
+   "id": "cs_g_gypsum_03",
+   "text": "Desert lakes leave gypsum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_03"
   }
  ]
 }
