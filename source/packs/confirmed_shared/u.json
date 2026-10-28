@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 120,
+ "curated_facts": 121,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -655,6 +655,12 @@
    "text": "The universe contains galaxies",
    "standing": "projectable",
    "evidence": "science · product curator · Universe · cs_u_universe_03"
+  },
+  {
+   "id": "cs_u_umpire_01",
+   "text": "An umpire enforces the rules of a game",
+   "standing": "projectable",
+   "evidence": "language · product curator · Umpire · cs_u_umpire_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 129,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -589,6 +589,174 @@
    "text": "Starlings often fly in large flocks",
    "standing": "projectable",
    "evidence": "nature · product curator · Starling · cs_s_starling_01"
+  },
+  {
+   "id": "cs_s_salamander_01",
+   "text": "A salamander is an amphibian",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_01"
+  },
+  {
+   "id": "cs_s_sanskrit_01",
+   "text": "Sanskrit is an ancient language of India",
+   "standing": "projectable",
+   "evidence": "language · product curator · Sanskrit · cs_s_sanskrit_01"
+  },
+  {
+   "id": "cs_s_sardinia_01",
+   "text": "Sardinia is an island of Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sardinia · cs_s_sardinia_01"
+  },
+  {
+   "id": "cs_s_satellite_01",
+   "text": "A satellite orbits a larger body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Satellite · cs_s_satellite_01"
+  },
+  {
+   "id": "cs_s_scorpion_01",
+   "text": "A scorpion is an arachnid",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_01"
+  },
+  {
+   "id": "cs_s_semicolon_01",
+   "text": "A semicolon is a punctuation mark",
+   "standing": "projectable",
+   "evidence": "language · product curator · Semicolon · cs_s_semicolon_01"
+  },
+  {
+   "id": "cs_s_sextant_01",
+   "text": "A sextant is a navigation instrument",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sextant · cs_s_sextant_01"
+  },
+  {
+   "id": "cs_s_shinto_01",
+   "text": "Shinto is a religion of Japan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Shinto · cs_s_shinto_01"
+  },
+  {
+   "id": "cs_s_sirius_01",
+   "text": "Sirius is the brightest star in the night sky",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sirius · cs_s_sirius_01"
+  },
+  {
+   "id": "cs_s_slate_01",
+   "text": "Slate is a metamorphic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Slate · cs_s_slate_01"
+  },
+  {
+   "id": "cs_s_solstice_01",
+   "text": "The summer solstice is the longest day of the year",
+   "standing": "projectable",
+   "evidence": "science · product curator · Solstice · cs_s_solstice_01"
+  },
+  {
+   "id": "cs_s_speaker_of_the_house_01",
+   "text": "The Speaker of the House presides over the House of Representatives",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Speaker of the House · cs_s_speaker_of_the_house_01"
+  },
+  {
+   "id": "cs_s_stalactite_01",
+   "text": "A stalactite hangs from the ceiling of a cave",
+   "standing": "projectable",
+   "evidence": "science · product curator · Stalactite · cs_s_stalactite_01"
+  },
+  {
+   "id": "cs_s_stratosphere_01",
+   "text": "The stratosphere contains the ozone layer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Stratosphere · cs_s_stratosphere_01"
+  },
+  {
+   "id": "cs_s_sumer_01",
+   "text": "Sumer was an ancient civilization in Mesopotamia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Sumer · cs_s_sumer_01"
+  },
+  {
+   "id": "cs_s_synonym_01",
+   "text": "A synonym is a word with a similar meaning",
+   "standing": "projectable",
+   "evidence": "language · product curator · Synonym · cs_s_synonym_01"
+  },
+  {
+   "id": "cs_s_sine_01",
+   "text": "Sine is a trigonometric function",
+   "standing": "projectable",
+   "evidence": "math · product curator · Sine · cs_s_sine_01"
+  },
+  {
+   "id": "cs_s_sitka_spruce_01",
+   "text": "The Sitka spruce is a conifer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sitka spruce · cs_s_sitka_spruce_01"
+  },
+  {
+   "id": "cs_s_sumatra_01",
+   "text": "Sumatra is an island of Indonesia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sumatra · cs_s_sumatra_01"
+  },
+  {
+   "id": "cs_s_stegosaurus_01",
+   "text": "Stegosaurus is an extinct dinosaur",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Stegosaurus · cs_s_stegosaurus_01"
+  },
+  {
+   "id": "cs_s_sapporo_01",
+   "text": "Sapporo is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sapporo · cs_s_sapporo_01"
+  },
+  {
+   "id": "cs_s_sahel_01",
+   "text": "The Sahel is a region in Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sahel · cs_s_sahel_01"
+  },
+  {
+   "id": "cs_s_spinach_01",
+   "text": "Spinach is a leafy vegetable",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spinach · cs_s_spinach_01"
+  },
+  {
+   "id": "cs_s_stork_chick_01",
+   "text": "A stork chick hatches from an egg",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Stork chick · cs_s_stork_chick_01"
+  },
+  {
+   "id": "cs_s_sonnet_01",
+   "text": "A sonnet is a poem with fourteen lines",
+   "standing": "projectable",
+   "evidence": "language · product curator · Sonnet · cs_s_sonnet_01"
+  },
+  {
+   "id": "cs_s_steam_engine_01",
+   "text": "A steam engine burns coal",
+   "standing": "projectable",
+   "evidence": "history · product curator · Steam engine · cs_s_steam_engine_01"
+  },
+  {
+   "id": "cs_s_saxophone_01",
+   "text": "A saxophone is a musical instrument",
+   "standing": "projectable",
+   "evidence": "history · product curator · Saxophone · cs_s_saxophone_01"
+  },
+  {
+   "id": "cs_s_sheriff_01",
+   "text": "A sheriff is a county officer",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Sheriff · cs_s_sheriff_01"
   }
  ]
 }
