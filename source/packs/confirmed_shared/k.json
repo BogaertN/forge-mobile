@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 104,
+ "curated_facts": 113,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -577,6 +577,60 @@
    "text": "A kilometer equals 1000 meters",
    "standing": "projectable",
    "evidence": "math · product curator · Kilometer · cs_k_kilometer_04"
+  },
+  {
+   "id": "cs_k_kyoto_03",
+   "text": "Kyoto is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kyoto · cs_k_kyoto_03"
+  },
+  {
+   "id": "cs_k_krakow_01",
+   "text": "Krakow is a city in Poland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Krakow · cs_k_krakow_01"
+  },
+  {
+   "id": "cs_k_kiwi_03",
+   "text": "A kiwi is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_03"
+  },
+  {
+   "id": "cs_k_kobe_01",
+   "text": "Kobe is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kobe · cs_k_kobe_01"
+  },
+  {
+   "id": "cs_k_kolkata_01",
+   "text": "Kolkata is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kolkata · cs_k_kolkata_01"
+  },
+  {
+   "id": "cs_k_kazan_01",
+   "text": "Kazan is a city in Russia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kazan · cs_k_kazan_01"
+  },
+  {
+   "id": "cs_k_karachi_01",
+   "text": "Karachi is a city in Pakistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Karachi · cs_k_karachi_01"
+  },
+  {
+   "id": "cs_k_kale_01",
+   "text": "Kale is a vegetable",
+   "standing": "projectable",
+   "evidence": "food · product curator · Kale · cs_k_kale_01"
+  },
+  {
+   "id": "cs_k_kingfisher_04",
+   "text": "A kingfisher is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_04"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 100,
+ "curated_facts": 112,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -577,6 +577,78 @@
    "text": "Meerkats live in groups",
    "standing": "projectable",
    "evidence": "nature · product curator · Meerkat · cs_m_meerkat_02"
+  },
+  {
+   "id": "cs_m_munich_01",
+   "text": "Munich is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Munich · cs_m_munich_01"
+  },
+  {
+   "id": "cs_m_marseille_01",
+   "text": "Marseille is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Marseille · cs_m_marseille_01"
+  },
+  {
+   "id": "cs_m_manchester_01",
+   "text": "Manchester is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Manchester · cs_m_manchester_01"
+  },
+  {
+   "id": "cs_m_mango_01",
+   "text": "A mango is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Mango · cs_m_mango_01"
+  },
+  {
+   "id": "cs_m_mole_03",
+   "text": "A mole is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mole · cs_m_mole_03"
+  },
+  {
+   "id": "cs_m_magpie_02",
+   "text": "A magpie is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Magpie · cs_m_magpie_02"
+  },
+  {
+   "id": "cs_m_malaga_01",
+   "text": "Malaga is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Malaga · cs_m_malaga_01"
+  },
+  {
+   "id": "cs_m_mombasa_01",
+   "text": "Mombasa is a city in Kenya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mombasa · cs_m_mombasa_01"
+  },
+  {
+   "id": "cs_m_medellin_01",
+   "text": "Medellin is a city in Colombia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Medellin · cs_m_medellin_01"
+  },
+  {
+   "id": "cs_m_melon_01",
+   "text": "A melon is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Melon · cs_m_melon_01"
+  },
+  {
+   "id": "cs_m_marmot_02",
+   "text": "A marmot is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marmot · cs_m_marmot_02"
+  },
+  {
+   "id": "cs_m_mallard_01",
+   "text": "A mallard is a duck",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mallard · cs_m_mallard_01"
   }
  ]
 }

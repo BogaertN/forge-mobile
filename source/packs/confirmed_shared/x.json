@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 103,
+ "curated_facts": 108,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -571,6 +571,36 @@
    "text": "A xylophone is a musical instrument",
    "standing": "projectable",
    "evidence": "history · product curator · Xylophone · cs_x_xylophone_06"
+  },
+  {
+   "id": "cs_x_xian_01",
+   "text": "Xian is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xian · cs_x_xian_01"
+  },
+  {
+   "id": "cs_x_xiamen_03",
+   "text": "Xiamen is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xiamen · cs_x_xiamen_03"
+  },
+  {
+   "id": "cs_x_xining_02",
+   "text": "Xining is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xining · cs_x_xining_02"
+  },
+  {
+   "id": "cs_x_xalapa_03",
+   "text": "Xalapa is a city in Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xalapa · cs_x_xalapa_03"
+  },
+  {
+   "id": "cs_x_xenon_09",
+   "text": "Xenon is a gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_09"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 133,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -565,6 +565,198 @@
    "text": "A penguin is a bird",
    "standing": "projectable",
    "evidence": "nature · product curator · Penguin · cs_p_penguin_03"
+  },
+  {
+   "id": "cs_p_paraguay_02",
+   "text": "Asuncion is the capital of Paraguay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Paraguay · cs_p_paraguay_02"
+  },
+  {
+   "id": "cs_p_pretoria_02",
+   "text": "Pretoria is a city in South Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pretoria · cs_p_pretoria_02"
+  },
+  {
+   "id": "cs_p_porto_01",
+   "text": "Porto is a city in Portugal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Porto · cs_p_porto_01"
+  },
+  {
+   "id": "cs_p_perth_01",
+   "text": "Perth is a city in Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Perth · cs_p_perth_01"
+  },
+  {
+   "id": "cs_p_pisa_01",
+   "text": "Pisa is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pisa · cs_p_pisa_01"
+  },
+  {
+   "id": "cs_p_pittsburgh_01",
+   "text": "Pittsburgh is a city in Pennsylvania",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pittsburgh · cs_p_pittsburgh_01"
+  },
+  {
+   "id": "cs_p_portland_01",
+   "text": "Portland is a city in Oregon",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Portland · cs_p_portland_01"
+  },
+  {
+   "id": "cs_p_palermo_01",
+   "text": "Palermo is a city in Sicily",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Palermo · cs_p_palermo_01"
+  },
+  {
+   "id": "cs_p_papua_new_guinea_01",
+   "text": "Port Moresby is the capital of Papua New Guinea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Papua New Guinea · cs_p_papua_new_guinea_01"
+  },
+  {
+   "id": "cs_p_parrot_02",
+   "text": "A parrot is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Parrot · cs_p_parrot_02"
+  },
+  {
+   "id": "cs_p_panda_03",
+   "text": "A panda is a bear",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Panda · cs_p_panda_03"
+  },
+  {
+   "id": "cs_p_python_03",
+   "text": "A python is a snake",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Python · cs_p_python_03"
+  },
+  {
+   "id": "cs_p_pelican_02",
+   "text": "A pelican is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pelican · cs_p_pelican_02"
+  },
+  {
+   "id": "cs_p_pine_03",
+   "text": "A pine is a tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pine · cs_p_pine_03"
+  },
+  {
+   "id": "cs_p_peach_01",
+   "text": "A peach is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Peach · cs_p_peach_01"
+  },
+  {
+   "id": "cs_p_pear_01",
+   "text": "A pear is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Pear · cs_p_pear_01"
+  },
+  {
+   "id": "cs_p_potato_01",
+   "text": "A potato is a vegetable",
+   "standing": "projectable",
+   "evidence": "food · product curator · Potato · cs_p_potato_01"
+  },
+  {
+   "id": "cs_p_plum_02",
+   "text": "A plum is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Plum · cs_p_plum_02"
+  },
+  {
+   "id": "cs_p_piano_02",
+   "text": "A piano is an instrument",
+   "standing": "projectable",
+   "evidence": "culture · product curator · Piano · cs_p_piano_02"
+  },
+  {
+   "id": "cs_p_platinum_02",
+   "text": "Platinum is a metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Platinum · cs_p_platinum_02"
+  },
+  {
+   "id": "cs_p_pluto_04",
+   "text": "Pluto is a dwarf planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pluto · cs_p_pluto_04"
+  },
+  {
+   "id": "cs_p_padua_01",
+   "text": "Padua is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Padua · cs_p_padua_01"
+  },
+  {
+   "id": "cs_p_poznan_01",
+   "text": "Poznan is a city in Poland",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Poznan · cs_p_poznan_01"
+  },
+  {
+   "id": "cs_p_puebla_01",
+   "text": "Puebla is a city in Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Puebla · cs_p_puebla_01"
+  },
+  {
+   "id": "cs_p_pune_01",
+   "text": "Pune is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Pune · cs_p_pune_01"
+  },
+  {
+   "id": "cs_p_plymouth_01",
+   "text": "Plymouth is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Plymouth · cs_p_plymouth_01"
+  },
+  {
+   "id": "cs_p_parma_01",
+   "text": "Parma is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Parma · cs_p_parma_01"
+  },
+  {
+   "id": "cs_p_pheasant_01",
+   "text": "A pheasant is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pheasant · cs_p_pheasant_01"
+  },
+  {
+   "id": "cs_p_peacock_03",
+   "text": "A peacock is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peacock · cs_p_peacock_03"
+  },
+  {
+   "id": "cs_p_pigeon_01",
+   "text": "A pigeon is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pigeon · cs_p_pigeon_01"
+  },
+  {
+   "id": "cs_p_pumpkin_01",
+   "text": "A pumpkin is a squash",
+   "standing": "projectable",
+   "evidence": "food · product curator · Pumpkin · cs_p_pumpkin_01"
+  },
+  {
+   "id": "cs_p_pea_01",
+   "text": "A pea is a vegetable",
+   "standing": "projectable",
+   "evidence": "food · product curator · Pea · cs_p_pea_01"
   }
  ]
 }
