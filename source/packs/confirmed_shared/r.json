@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 108,
+ "curated_facts": 129,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -595,6 +595,132 @@
    "text": "Russian is the official language of Russia",
    "standing": "projectable",
    "evidence": "language · product curator · Russian · cs_r_russian_02"
+  },
+  {
+   "id": "cs_r_rome_05",
+   "text": "Rome is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rome · cs_r_rome_05"
+  },
+  {
+   "id": "cs_r_ravenna_01",
+   "text": "Ravenna is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ravenna · cs_r_ravenna_01"
+  },
+  {
+   "id": "cs_r_rimini_01",
+   "text": "Rimini is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rimini · cs_r_rimini_01"
+  },
+  {
+   "id": "cs_r_reims_01",
+   "text": "Reims is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reims · cs_r_reims_01"
+  },
+  {
+   "id": "cs_r_rennes_01",
+   "text": "Rennes is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rennes · cs_r_rennes_01"
+  },
+  {
+   "id": "cs_r_rouen_01",
+   "text": "Rouen is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rouen · cs_r_rouen_01"
+  },
+  {
+   "id": "cs_r_regensburg_01",
+   "text": "Regensburg is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Regensburg · cs_r_regensburg_01"
+  },
+  {
+   "id": "cs_r_rostock_01",
+   "text": "Rostock is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rostock · cs_r_rostock_01"
+  },
+  {
+   "id": "cs_r_rotterdam_01",
+   "text": "Rotterdam is a city in the Netherlands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rotterdam · cs_r_rotterdam_01"
+  },
+  {
+   "id": "cs_r_rijeka_01",
+   "text": "Rijeka is a city in Croatia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rijeka · cs_r_rijeka_01"
+  },
+  {
+   "id": "cs_r_ronda_01",
+   "text": "Ronda is a city in Spain",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ronda · cs_r_ronda_01"
+  },
+  {
+   "id": "cs_r_raleigh_02",
+   "text": "Raleigh is a city in North Carolina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Raleigh · cs_r_raleigh_02"
+  },
+  {
+   "id": "cs_r_reno_01",
+   "text": "Reno is a city in Nevada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reno · cs_r_reno_01"
+  },
+  {
+   "id": "cs_r_richmond_02",
+   "text": "Richmond is a city in Virginia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Richmond · cs_r_richmond_02"
+  },
+  {
+   "id": "cs_r_rochester_01",
+   "text": "Rochester is a city in New York",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rochester · cs_r_rochester_01"
+  },
+  {
+   "id": "cs_r_reading_01",
+   "text": "Reading is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reading · cs_r_reading_01"
+  },
+  {
+   "id": "cs_r_ripon_01",
+   "text": "Ripon is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ripon · cs_r_ripon_01"
+  },
+  {
+   "id": "cs_r_rajkot_01",
+   "text": "Rajkot is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rajkot · cs_r_rajkot_01"
+  },
+  {
+   "id": "cs_r_ranchi_01",
+   "text": "Ranchi is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Ranchi · cs_r_ranchi_01"
+  },
+  {
+   "id": "cs_r_recife_01",
+   "text": "Recife is a city in Brazil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Recife · cs_r_recife_01"
+  },
+  {
+   "id": "cs_r_rosario_01",
+   "text": "Rosario is a city in Argentina",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rosario · cs_r_rosario_01"
   }
  ]
 }
