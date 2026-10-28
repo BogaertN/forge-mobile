@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 224,
+ "curated_facts": 234,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1303,6 +1303,66 @@
    "text": "A visor shades the eyes",
    "standing": "projectable",
    "evidence": "history · product curator · Visor · cs_v_visor_01"
+  },
+  {
+   "id": "cs_v_valence_03",
+   "text": "Valence guides chemical bonds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valence · cs_v_valence_03"
+  },
+  {
+   "id": "cs_v_valve_04",
+   "text": "A valve directs fluid flow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valve · cs_v_valve_04"
+  },
+  {
+   "id": "cs_v_vacuole_01",
+   "text": "A vacuole stores cell water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vacuole · cs_v_vacuole_01"
+  },
+  {
+   "id": "cs_v_vanadium_04",
+   "text": "Vanadium hardens steel alloys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_04"
+  },
+  {
+   "id": "cs_v_vasopressin_01",
+   "text": "Vasopressin saves body water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vasopressin · cs_v_vasopressin_01"
+  },
+  {
+   "id": "cs_v_venule_01",
+   "text": "A venule drains capillary beds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Venule · cs_v_venule_01"
+  },
+  {
+   "id": "cs_v_vertebra_04",
+   "text": "A vertebra stacks into the spine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vertebra · cs_v_vertebra_04"
+  },
+  {
+   "id": "cs_v_vesicle_01",
+   "text": "A vesicle carries cell cargo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vesicle · cs_v_vesicle_01"
+  },
+  {
+   "id": "cs_v_virus_04",
+   "text": "A virus hijacks host cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Virus · cs_v_virus_04"
+  },
+  {
+   "id": "cs_v_voltage_05",
+   "text": "Voltage pushes electric charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voltage · cs_v_voltage_05"
   }
  ]
 }

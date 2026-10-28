@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 226,
+ "curated_facts": 236,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1303,6 +1303,66 @@
    "text": "A rudder steers a ship",
    "standing": "projectable",
    "evidence": "history · product curator · Rudder · cs_r_rudder_01"
+  },
+  {
+   "id": "cs_r_radiation_02",
+   "text": "Radiation carries energy waves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radiation · cs_r_radiation_02"
+  },
+  {
+   "id": "cs_r_receptor_01",
+   "text": "A receptor binds signal molecules",
+   "standing": "projectable",
+   "evidence": "science · product curator · Receptor · cs_r_receptor_01"
+  },
+  {
+   "id": "cs_r_recycling_03",
+   "text": "Recycling reuses scrap metal",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Recycling · cs_r_recycling_03"
+  },
+  {
+   "id": "cs_r_redshift_01",
+   "text": "Redshift marks receding galaxies",
+   "standing": "projectable",
+   "evidence": "science · product curator · Redshift · cs_r_redshift_01"
+  },
+  {
+   "id": "cs_r_reflex_03",
+   "text": "A reflex skips conscious thought",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflex · cs_r_reflex_03"
+  },
+  {
+   "id": "cs_r_regolith_01",
+   "text": "Regolith covers lunar ground",
+   "standing": "projectable",
+   "evidence": "science · product curator · Regolith · cs_r_regolith_01"
+  },
+  {
+   "id": "cs_r_remora_03",
+   "text": "A remora rides a shark",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Remora · cs_r_remora_03"
+  },
+  {
+   "id": "cs_r_resin_04",
+   "text": "Trees leak sticky resin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Resin · cs_r_resin_04"
+  },
+  {
+   "id": "cs_r_richter_01",
+   "text": "Richter ranks earthquake size",
+   "standing": "projectable",
+   "evidence": "science · product curator · Richter · cs_r_richter_01"
+  },
+  {
+   "id": "cs_r_rna_04",
+   "text": "RNA carries gene messages",
+   "standing": "projectable",
+   "evidence": "science · product curator · RNA · cs_r_rna_04"
   }
  ]
 }

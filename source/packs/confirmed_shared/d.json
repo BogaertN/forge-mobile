@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 229,
+ "curated_facts": 235,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1309,6 +1309,42 @@
    "text": "A dynamo makes current",
    "standing": "projectable",
    "evidence": "science · product curator · Dynamo · cs_d_dynamo_02"
+  },
+  {
+   "id": "cs_d_dermis_01",
+   "text": "The dermis holds skin nerves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dermis · cs_d_dermis_01"
+  },
+  {
+   "id": "cs_d_detritus_02",
+   "text": "Detritus feeds bottom scavengers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Detritus · cs_d_detritus_02"
+  },
+  {
+   "id": "cs_d_deuterium_02",
+   "text": "Deuterium holds an extra neutron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Deuterium · cs_d_deuterium_02"
+  },
+  {
+   "id": "cs_d_diabetes_01",
+   "text": "Diabetes raises blood sugar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diabetes · cs_d_diabetes_01"
+  },
+  {
+   "id": "cs_d_dispersion_01",
+   "text": "A prism causes light dispersion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dispersion · cs_d_dispersion_01"
+  },
+  {
+   "id": "cs_d_dolomite_02",
+   "text": "Dolomite holds magnesium carbonate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dolomite · cs_d_dolomite_02"
   }
  ]
 }

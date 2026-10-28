@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 225,
+ "curated_facts": 235,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1303,6 +1303,66 @@
    "text": "Xylene dissolves greases",
    "standing": "projectable",
    "evidence": "science · product curator · Xylene · cs_x_xylene_06"
+  },
+  {
+   "id": "cs_x_xanthan_02",
+   "text": "Xanthan thickens food gels",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xanthan · cs_x_xanthan_02"
+  },
+  {
+   "id": "cs_x_xanthine_01",
+   "text": "Xanthine forms in cell metabolism",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xanthine · cs_x_xanthine_01"
+  },
+  {
+   "id": "cs_x_xeriscape_01",
+   "text": "Xeriscape saves garden water",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Xeriscape · cs_x_xeriscape_01"
+  },
+  {
+   "id": "cs_x_xeroderma_01",
+   "text": "Xeroderma dries sensitive skin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xeroderma · cs_x_xeroderma_01"
+  },
+  {
+   "id": "cs_x_xiangjiang_01",
+   "text": "The Xiangjiang feeds the Yangtze",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xiangjiang · cs_x_xiangjiang_01"
+  },
+  {
+   "id": "cs_x_xylan_01",
+   "text": "Xylan stiffens plant walls",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylan · cs_x_xylan_01"
+  },
+  {
+   "id": "cs_x_x_chromosome_07",
+   "text": "Males inherit one X chromosome",
+   "standing": "projectable",
+   "evidence": "science · product curator · X chromosome · cs_x_x_chromosome_07"
+  },
+  {
+   "id": "cs_x_xylitol_05",
+   "text": "Xylitol sweetens without sugar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylitol · cs_x_xylitol_05"
+  },
+  {
+   "id": "cs_x_xylography_02",
+   "text": "Artists carve xylography blocks",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylography · cs_x_xylography_02"
+  },
+  {
+   "id": "cs_x_xylose_04",
+   "text": "Xylose sugars plant fiber",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xylose · cs_x_xylose_04"
   }
  ]
 }

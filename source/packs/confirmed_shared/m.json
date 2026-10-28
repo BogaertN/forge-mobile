@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 221,
+ "curated_facts": 231,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1303,6 +1303,66 @@
    "text": "A moth flies toward light",
    "standing": "projectable",
    "evidence": "nature · product curator · Moth · cs_m_moth_03"
+  },
+  {
+   "id": "cs_m_magnetite_01",
+   "text": "Magnetite attracts iron filings",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnetite · cs_m_magnetite_01"
+  },
+  {
+   "id": "cs_m_magnitude_03",
+   "text": "Magnitude ranks quake strength",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnitude · cs_m_magnitude_03"
+  },
+  {
+   "id": "cs_m_mammal_05",
+   "text": "Mammals nurse live young",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_05"
+  },
+  {
+   "id": "cs_m_meiosis_01",
+   "text": "Meiosis halves chromosome count",
+   "standing": "projectable",
+   "evidence": "science · product curator · Meiosis · cs_m_meiosis_01"
+  },
+  {
+   "id": "cs_m_melanin_01",
+   "text": "Melanin darkens skin pigment",
+   "standing": "projectable",
+   "evidence": "science · product curator · Melanin · cs_m_melanin_01"
+  },
+  {
+   "id": "cs_m_membrane_01",
+   "text": "A membrane wraps each cell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Membrane · cs_m_membrane_01"
+  },
+  {
+   "id": "cs_m_mesosphere_01",
+   "text": "Meteors burn in the mesosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mesosphere · cs_m_mesosphere_01"
+  },
+  {
+   "id": "cs_m_methane_02",
+   "text": "Methane fuels natural gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Methane · cs_m_methane_02"
+  },
+  {
+   "id": "cs_m_mutation_01",
+   "text": "A mutation alters a gene",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mutation · cs_m_mutation_01"
+  },
+  {
+   "id": "cs_m_myelin_01",
+   "text": "Myelin coats nerve fibers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Myelin · cs_m_myelin_01"
   }
  ]
 }

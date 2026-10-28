@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 225,
+ "curated_facts": 235,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1303,6 +1303,66 @@
    "text": "Frost coats cold grass",
    "standing": "projectable",
    "evidence": "science · product curator · Frost · cs_f_frost_04"
+  },
+  {
+   "id": "cs_f_fault_06",
+   "text": "Rock slips along a fault",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fault · cs_f_fault_06"
+  },
+  {
+   "id": "cs_f_ferritin_01",
+   "text": "Ferritin stores body iron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ferritin · cs_f_ferritin_01"
+  },
+  {
+   "id": "cs_f_fibrin_01",
+   "text": "Fibrin seals a clotting wound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibrin · cs_f_fibrin_01"
+  },
+  {
+   "id": "cs_f_fibula_02",
+   "text": "The fibula braces the shin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fibula · cs_f_fibula_02"
+  },
+  {
+   "id": "cs_f_filament_01",
+   "text": "A filament glows in a bulb",
+   "standing": "projectable",
+   "evidence": "science · product curator · Filament · cs_f_filament_01"
+  },
+  {
+   "id": "cs_f_fission_03",
+   "text": "Uranium splits by fission",
+   "standing": "projectable",
+   "evidence": "science · product curator · Fission · cs_f_fission_03"
+  },
+  {
+   "id": "cs_f_flagellum_01",
+   "text": "A flagellum propels a cell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Flagellum · cs_f_flagellum_01"
+  },
+  {
+   "id": "cs_f_frequency_03",
+   "text": "Frequency counts wave cycles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Frequency · cs_f_frequency_03"
+  },
+  {
+   "id": "cs_f_fructose_01",
+   "text": "Fruits store sweet fructose",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fructose · cs_f_fructose_01"
+  },
+  {
+   "id": "cs_f_fur_02",
+   "text": "Fur insulates mammal skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fur · cs_f_fur_02"
   }
  ]
 }

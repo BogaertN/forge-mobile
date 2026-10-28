@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 228,
+ "curated_facts": 238,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -1303,6 +1303,66 @@
    "text": "The uvea nourishes the eye",
    "standing": "projectable",
    "evidence": "science · product curator · Uvea · cs_u_uvea_01"
+  },
+  {
+   "id": "cs_u_ulna_05",
+   "text": "The ulna braces the forearm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ulna · cs_u_ulna_05"
+  },
+  {
+   "id": "cs_u_ultraviolet_07",
+   "text": "Ultraviolet tans human skin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultraviolet · cs_u_ultraviolet_07"
+  },
+  {
+   "id": "cs_u_umbilical_01",
+   "text": "An umbilical cord feeds a fetus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbilical · cs_u_umbilical_01"
+  },
+  {
+   "id": "cs_u_ungulate_07",
+   "text": "An ungulate walks on hooves",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ungulate · cs_u_ungulate_07"
+  },
+  {
+   "id": "cs_u_ultramarine_01",
+   "text": "Ultramarine paints deep blue",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ultramarine · cs_u_ultramarine_01"
+  },
+  {
+   "id": "cs_u_umbra_05",
+   "text": "An umbra darkens full eclipse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Umbra · cs_u_umbra_05"
+  },
+  {
+   "id": "cs_u_urethra_02",
+   "text": "The urethra empties the bladder",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urethra · cs_u_urethra_02"
+  },
+  {
+   "id": "cs_u_uric_acid_01",
+   "text": "Birds excrete solid uric acid",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Uric acid · cs_u_uric_acid_01"
+  },
+  {
+   "id": "cs_u_ustilago_01",
+   "text": "Ustilago infects corn ears",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ustilago · cs_u_ustilago_01"
+  },
+  {
+   "id": "cs_u_uvula_02",
+   "text": "The uvula hangs in the throat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Uvula · cs_u_uvula_02"
   }
  ]
 }

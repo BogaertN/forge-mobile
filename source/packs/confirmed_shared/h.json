@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 227,
+ "curated_facts": 237,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1303,6 +1303,66 @@
    "text": "A hydrometer gauges density",
    "standing": "projectable",
    "evidence": "science · product curator · Hydrometer · cs_h_hydrometer_02"
+  },
+  {
+   "id": "cs_h_hafnium_05",
+   "text": "Hafnium hardens reactor rods",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hafnium · cs_h_hafnium_05"
+  },
+  {
+   "id": "cs_h_halogen_02",
+   "text": "Halogens form salt compounds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Halogen · cs_h_halogen_02"
+  },
+  {
+   "id": "cs_h_hertz_05",
+   "text": "A hertz counts one cycle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hertz · cs_h_hertz_05"
+  },
+  {
+   "id": "cs_h_hornblende_01",
+   "text": "Hornblende darkens granite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hornblende · cs_h_hornblende_01"
+  },
+  {
+   "id": "cs_h_humidity_03",
+   "text": "Humidity measures air moisture",
+   "standing": "projectable",
+   "evidence": "science · product curator · Humidity · cs_h_humidity_03"
+  },
+  {
+   "id": "cs_h_humus_02",
+   "text": "Humus darkens rich soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Humus · cs_h_humus_02"
+  },
+  {
+   "id": "cs_h_hybrid_01",
+   "text": "A hybrid mixes two species",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hybrid · cs_h_hybrid_01"
+  },
+  {
+   "id": "cs_h_hydrocarbon_01",
+   "text": "Oil holds long hydrocarbons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrocarbon · cs_h_hydrocarbon_01"
+  },
+  {
+   "id": "cs_h_hyperbola_01",
+   "text": "A hyperbola opens two branches",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hyperbola · cs_h_hyperbola_01"
+  },
+  {
+   "id": "cs_h_hypoxia_01",
+   "text": "Hypoxia starves tissue of oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hypoxia · cs_h_hypoxia_01"
   }
  ]
 }
