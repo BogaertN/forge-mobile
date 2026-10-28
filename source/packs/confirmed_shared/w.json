@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 225,
+ "curated_facts": 235,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1327,6 +1327,66 @@
    "text": "A worm aerates garden soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Worm · cs_w_worm_02"
+  },
+  {
+   "id": "cs_w_wasp_04",
+   "text": "A wasp builds paper nests",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wasp · cs_w_wasp_04"
+  },
+  {
+   "id": "cs_w_water_06",
+   "text": "Water dissolves many salts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Water · cs_w_water_06"
+  },
+  {
+   "id": "cs_w_wax_03",
+   "text": "Wax seals honeycomb cells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wax · cs_w_wax_03"
+  },
+  {
+   "id": "cs_w_weight_03",
+   "text": "Weight pulls toward Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weight · cs_w_weight_03"
+  },
+  {
+   "id": "cs_w_weld_02",
+   "text": "A weld joins metal seams",
+   "standing": "projectable",
+   "evidence": "science · product curator · Weld · cs_w_weld_02"
+  },
+  {
+   "id": "cs_w_wheat_06",
+   "text": "Wheat ripens golden grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_06"
+  },
+  {
+   "id": "cs_w_whey_02",
+   "text": "Whey separates from curds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whey · cs_w_whey_02"
+  },
+  {
+   "id": "cs_w_window_01",
+   "text": "A window admits daylight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Window · cs_w_window_01"
+  },
+  {
+   "id": "cs_w_wool_03",
+   "text": "Wool insulates sheep coats",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wool · cs_w_wool_03"
+  },
+  {
+   "id": "cs_w_worm_03",
+   "text": "An earthworm digests soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Worm · cs_w_worm_03"
   }
  ]
 }
