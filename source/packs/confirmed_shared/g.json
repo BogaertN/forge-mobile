@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 205,
+ "curated_facts": 213,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1195,6 +1195,54 @@
    "text": "Desert lakes leave gypsum",
    "standing": "projectable",
    "evidence": "science · product curator · Gypsum · cs_g_gypsum_03"
+  },
+  {
+   "id": "cs_g_gall_bladder_01",
+   "text": "The gall bladder stores bile",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gall bladder · cs_g_gall_bladder_01"
+  },
+  {
+   "id": "cs_g_gallium_03",
+   "text": "Gallium melts near room heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gallium · cs_g_gallium_03"
+  },
+  {
+   "id": "cs_g_gecko_05",
+   "text": "Geckos climb smooth walls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_05"
+  },
+  {
+   "id": "cs_g_generator_01",
+   "text": "Turbines spin a generator",
+   "standing": "projectable",
+   "evidence": "science · product curator · Generator · cs_g_generator_01"
+  },
+  {
+   "id": "cs_g_gland_01",
+   "text": "A gland secretes hormones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gland · cs_g_gland_01"
+  },
+  {
+   "id": "cs_g_glucose_04",
+   "text": "Blood carries glucose",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glucose · cs_g_glucose_04"
+  },
+  {
+   "id": "cs_g_goldfinch_01",
+   "text": "Goldfinches eat thistle",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Goldfinch · cs_g_goldfinch_01"
+  },
+  {
+   "id": "cs_g_graphite_02",
+   "text": "Pencils use graphite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Graphite · cs_g_graphite_02"
   }
  ]
 }

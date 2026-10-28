@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 203,
+ "curated_facts": 211,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1195,6 +1195,54 @@
    "text": "Atoms join in a molecule",
    "standing": "projectable",
    "evidence": "science · product curator · Molecule · cs_m_molecule_03"
+  },
+  {
+   "id": "cs_m_mammoth_01",
+   "text": "Ice preserved mammoths",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mammoth · cs_m_mammoth_01"
+  },
+  {
+   "id": "cs_m_mandible_01",
+   "text": "Jawbones form a mandible",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mandible · cs_m_mandible_01"
+  },
+  {
+   "id": "cs_m_mangrove_02",
+   "text": "Roots prop a mangrove",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mangrove · cs_m_mangrove_02"
+  },
+  {
+   "id": "cs_m_marigold_02",
+   "text": "A marigold blooms in summer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marigold · cs_m_marigold_02"
+  },
+  {
+   "id": "cs_m_mass_03",
+   "text": "Mass resists acceleration",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mass · cs_m_mass_03"
+  },
+  {
+   "id": "cs_m_mercury_01",
+   "text": "Thermometers held mercury",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mercury · cs_m_mercury_01"
+  },
+  {
+   "id": "cs_m_metamorphic_01",
+   "text": "Heat makes metamorphic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Metamorphic · cs_m_metamorphic_01"
+  },
+  {
+   "id": "cs_m_mule_02",
+   "text": "A mule carries heavy loads",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mule · cs_m_mule_02"
   }
  ]
 }

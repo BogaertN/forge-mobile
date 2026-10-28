@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 210,
+ "curated_facts": 219,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1195,6 +1195,60 @@
    "text": "Bikes once used a dynamo",
    "standing": "projectable",
    "evidence": "science · product curator · Dynamo · cs_d_dynamo_01"
+  },
+  {
+   "id": "cs_d_daffodil_02",
+   "text": "A daffodil blooms in spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Daffodil · cs_d_daffodil_02"
+  },
+  {
+   "id": "cs_d_delta_04",
+   "text": "Rivers build a delta",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Delta · cs_d_delta_04"
+  },
+  {
+   "id": "cs_d_dendrite_01",
+   "text": "Neurons grow dendrites",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dendrite · cs_d_dendrite_01"
+  },
+  {
+   "id": "cs_d_diatom_04",
+   "text": "Diatoms make glass shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_04"
+  },
+  {
+   "id": "cs_d_dinosaur_04",
+   "text": "Fossils reveal dinosaurs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dinosaur · cs_d_dinosaur_04"
+  },
+  {
+   "id": "cs_d_diode_01",
+   "text": "A diode directs current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diode · cs_d_diode_01"
+  },
+  {
+   "id": "cs_d_dolomite_01",
+   "text": "Builders quarry dolomite",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dolomite · cs_d_dolomite_01"
+  },
+  {
+   "id": "cs_d_dormouse_02",
+   "text": "A dormouse sleeps winters",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dormouse · cs_d_dormouse_02"
+  },
+  {
+   "id": "cs_d_dust_01",
+   "text": "Dust settles from the air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dust · cs_d_dust_01"
   }
  ]
 }

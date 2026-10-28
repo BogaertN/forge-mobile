@@ -6,7 +6,7 @@
  "letter": "X",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 205,
+ "curated_facts": 215,
  "items": [
   {
    "id": "cs_x_xenon_01",
@@ -1183,6 +1183,66 @@
    "text": "A xylophone sounds bright",
    "standing": "projectable",
    "evidence": "history · product curator · Xylophone · cs_x_xylophone_11"
+  },
+  {
+   "id": "cs_x_x_band_02",
+   "text": "Radar uses the X band",
+   "standing": "projectable",
+   "evidence": "science · product curator · X band · cs_x_x_band_02"
+  },
+  {
+   "id": "cs_x_x_ray_13",
+   "text": "Bones block X-rays",
+   "standing": "projectable",
+   "evidence": "science · product curator · X-ray · cs_x_x_ray_13"
+  },
+  {
+   "id": "cs_x_xai_xai_03",
+   "text": "Xai-Xai faces the ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xai-Xai · cs_x_xai_xai_03"
+  },
+  {
+   "id": "cs_x_xenon_14",
+   "text": "Xenon glows under electric discharge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xenon · cs_x_xenon_14"
+  },
+  {
+   "id": "cs_x_xenopus_03",
+   "text": "Xenopus lays many eggs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xenopus · cs_x_xenopus_03"
+  },
+  {
+   "id": "cs_x_xerography_05",
+   "text": "Toner forms xerography images",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerography · cs_x_xerography_05"
+  },
+  {
+   "id": "cs_x_xerosis_02",
+   "text": "Dry skin shows xerosis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Xerosis · cs_x_xerosis_02"
+  },
+  {
+   "id": "cs_x_xingu_03",
+   "text": "The Xingu drains a forest",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Xingu · cs_x_xingu_03"
+  },
+  {
+   "id": "cs_x_xylaria_03",
+   "text": "Xylaria blackens dead wood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Xylaria · cs_x_xylaria_03"
+  },
+  {
+   "id": "cs_x_xylophone_12",
+   "text": "Mallets strike a xylophone",
+   "standing": "projectable",
+   "evidence": "history · product curator · Xylophone · cs_x_xylophone_12"
   }
  ]
 }

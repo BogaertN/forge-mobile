@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 209,
+ "curated_facts": 217,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1195,6 +1195,54 @@
    "text": "Nectar feeds a hummingbird",
    "standing": "projectable",
    "evidence": "nature · product curator · Hummingbird · cs_h_hummingbird_06"
+  },
+  {
+   "id": "cs_h_haploid_02",
+   "text": "Gametes are haploid cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Haploid · cs_h_haploid_02"
+  },
+  {
+   "id": "cs_h_hardness_01",
+   "text": "Diamond has high hardness",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hardness · cs_h_hardness_01"
+  },
+  {
+   "id": "cs_h_helium_06",
+   "text": "Balloons hold helium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Helium · cs_h_helium_06"
+  },
+  {
+   "id": "cs_h_herd_01",
+   "text": "Elephants travel in a herd",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Herd · cs_h_herd_01"
+  },
+  {
+   "id": "cs_h_holly_03",
+   "text": "Birds eat holly berries",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Holly · cs_h_holly_03"
+  },
+  {
+   "id": "cs_h_hormone_01",
+   "text": "Glands release hormones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hormone · cs_h_hormone_01"
+  },
+  {
+   "id": "cs_h_hydra_02",
+   "text": "A hydra grows new heads",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hydra · cs_h_hydra_02"
+  },
+  {
+   "id": "cs_h_hydrology_01",
+   "text": "Engineers study hydrology",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hydrology · cs_h_hydrology_01"
   }
  ]
 }

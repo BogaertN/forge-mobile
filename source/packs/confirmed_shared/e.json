@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 203,
+ "curated_facts": 211,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1195,6 +1195,54 @@
    "text": "Fossils record extinction",
    "standing": "projectable",
    "evidence": "science · product curator · Extinction · cs_e_extinction_01"
+  },
+  {
+   "id": "cs_e_ecosystem_03",
+   "text": "Energy flows in an ecosystem",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ecosystem · cs_e_ecosystem_03"
+  },
+  {
+   "id": "cs_e_egret_04",
+   "text": "Egrets stalk shallow water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Egret · cs_e_egret_04"
+  },
+  {
+   "id": "cs_e_enzyme_04",
+   "text": "Enzymes cut proteins",
+   "standing": "projectable",
+   "evidence": "science · product curator · Enzyme · cs_e_enzyme_04"
+  },
+  {
+   "id": "cs_e_epiphyte_03",
+   "text": "Orchids live as epiphytes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_03"
+  },
+  {
+   "id": "cs_e_erosion_03",
+   "text": "Waves drive coastal erosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Erosion · cs_e_erosion_03"
+  },
+  {
+   "id": "cs_e_evaporation_04",
+   "text": "Heat causes evaporation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_04"
+  },
+  {
+   "id": "cs_e_exoskeleton_02",
+   "text": "Crabs wear an exoskeleton",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Exoskeleton · cs_e_exoskeleton_02"
+  },
+  {
+   "id": "cs_e_exponent_02",
+   "text": "An exponent marks powers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Exponent · cs_e_exponent_02"
   }
  ]
 }

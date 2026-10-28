@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 206,
+ "curated_facts": 214,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1195,6 +1195,54 @@
    "text": "A pupa rests before wings",
    "standing": "projectable",
    "evidence": "nature · product curator · Pupa · cs_p_pupa_01"
+  },
+  {
+   "id": "cs_p_pathogen_01",
+   "text": "A pathogen causes disease",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pathogen · cs_p_pathogen_01"
+  },
+  {
+   "id": "cs_p_pearl_01",
+   "text": "A pearl grows in a mollusk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pearl · cs_p_pearl_01"
+  },
+  {
+   "id": "cs_p_phloem_02",
+   "text": "Phloem carries plant sugars",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Phloem · cs_p_phloem_02"
+  },
+  {
+   "id": "cs_p_photon_04",
+   "text": "A photon carries energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Photon · cs_p_photon_04"
+  },
+  {
+   "id": "cs_p_pipe_01",
+   "text": "Water flows through a pipe",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pipe · cs_p_pipe_01"
+  },
+  {
+   "id": "cs_p_plate_01",
+   "text": "Earth has tectonic plates",
+   "standing": "projectable",
+   "evidence": "science · product curator · Plate · cs_p_plate_01"
+  },
+  {
+   "id": "cs_p_pollen_03",
+   "text": "Pollen fertilizes flowers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pollen · cs_p_pollen_03"
+  },
+  {
+   "id": "cs_p_protein_02",
+   "text": "Muscle is rich in protein",
+   "standing": "projectable",
+   "evidence": "science · product curator · Protein · cs_p_protein_02"
   }
  ]
 }

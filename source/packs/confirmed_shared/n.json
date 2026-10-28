@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 205,
+ "curated_facts": 214,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1195,6 +1195,60 @@
    "text": "A squirrel stores a nut",
    "standing": "projectable",
    "evidence": "nature · product curator · Nut · cs_n_nut_02"
+  },
+  {
+   "id": "cs_n_network_01",
+   "text": "A network links computers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Network · cs_n_network_01"
+  },
+  {
+   "id": "cs_n_neutron_02",
+   "text": "Atoms hold neutrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neutron · cs_n_neutron_02"
+  },
+  {
+   "id": "cs_n_nickel_06",
+   "text": "Coins once used nickel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nickel · cs_n_nickel_06"
+  },
+  {
+   "id": "cs_n_nightingale_05",
+   "text": "Nightingales sing at night",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_05"
+  },
+  {
+   "id": "cs_n_nitrogen_04",
+   "text": "Air holds nitrogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_04"
+  },
+  {
+   "id": "cs_n_north_pole_03",
+   "text": "Ice covers the North Pole",
+   "standing": "projectable",
+   "evidence": "geography · product curator · North Pole · cs_n_north_pole_03"
+  },
+  {
+   "id": "cs_n_nuclear_fusion_03",
+   "text": "The Sun uses nuclear fusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_03"
+  },
+  {
+   "id": "cs_n_nucleus_04",
+   "text": "DNA fills a cell nucleus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_04"
+  },
+  {
+   "id": "cs_n_nymph_01",
+   "text": "Insects hatch as nymphs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nymph · cs_n_nymph_01"
   }
  ]
 }

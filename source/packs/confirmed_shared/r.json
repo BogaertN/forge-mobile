@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 208,
+ "curated_facts": 216,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -1195,6 +1195,54 @@
    "text": "Grass feeds a rhinoceros",
    "standing": "projectable",
    "evidence": "nature · product curator · Rhinoceros · cs_r_rhinoceros_03"
+  },
+  {
+   "id": "cs_r_radiation_01",
+   "text": "Stars emit radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radiation · cs_r_radiation_01"
+  },
+  {
+   "id": "cs_r_reflex_02",
+   "text": "Nerves fire a reflex",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflex · cs_r_reflex_02"
+  },
+  {
+   "id": "cs_r_reservoir_01",
+   "text": "A reservoir stores water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reservoir · cs_r_reservoir_01"
+  },
+  {
+   "id": "cs_r_retina_02",
+   "text": "Eyes focus on a retina",
+   "standing": "projectable",
+   "evidence": "science · product curator · Retina · cs_r_retina_02"
+  },
+  {
+   "id": "cs_r_rhine_03",
+   "text": "Barges travel the Rhine",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rhine · cs_r_rhine_03"
+  },
+  {
+   "id": "cs_r_robot_01",
+   "text": "A robot follows a program",
+   "standing": "projectable",
+   "evidence": "science · product curator · Robot · cs_r_robot_01"
+  },
+  {
+   "id": "cs_r_root_04",
+   "text": "Carrots are edible roots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Root · cs_r_root_04"
+  },
+  {
+   "id": "cs_r_rust_03",
+   "text": "Iron forms rust in moist air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rust · cs_r_rust_03"
   }
  ]
 }
