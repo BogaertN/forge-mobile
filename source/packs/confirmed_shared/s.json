@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 196,
+ "curated_facts": 206,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1159,6 +1159,66 @@
    "text": "Stress is force over area",
    "standing": "projectable",
    "evidence": "science · product curator · Stress · cs_s_stress_01"
+  },
+  {
+   "id": "cs_s_sage_01",
+   "text": "Sage is an aromatic herb",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sage · cs_s_sage_01"
+  },
+  {
+   "id": "cs_s_salamander_03",
+   "text": "A salamander has moist skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_03"
+  },
+  {
+   "id": "cs_s_sap_02",
+   "text": "Trees push sap in spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sap · cs_s_sap_02"
+  },
+  {
+   "id": "cs_s_scheelite_01",
+   "text": "Scheelite is a tungsten ore",
+   "standing": "projectable",
+   "evidence": "science · product curator · Scheelite · cs_s_scheelite_01"
+  },
+  {
+   "id": "cs_s_schist_01",
+   "text": "Schist splits into sheets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Schist · cs_s_schist_01"
+  },
+  {
+   "id": "cs_s_screw_01",
+   "text": "A screw is a simple machine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Screw · cs_s_screw_01"
+  },
+  {
+   "id": "cs_s_seam_01",
+   "text": "Miners follow a coal seam",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Seam · cs_s_seam_01"
+  },
+  {
+   "id": "cs_s_silver_02",
+   "text": "Silver conducts heat well",
+   "standing": "projectable",
+   "evidence": "science · product curator · Silver · cs_s_silver_02"
+  },
+  {
+   "id": "cs_s_sinew_01",
+   "text": "Sinew ties bone to muscle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sinew · cs_s_sinew_01"
+  },
+  {
+   "id": "cs_s_steam_01",
+   "text": "Boiling water makes steam",
+   "standing": "projectable",
+   "evidence": "science · product curator · Steam · cs_s_steam_01"
   }
  ]
 }

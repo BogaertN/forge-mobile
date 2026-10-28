@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 197,
+ "curated_facts": 207,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1159,6 +1159,66 @@
    "text": "A woodpecker drills a tree",
    "standing": "projectable",
    "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_04"
+  },
+  {
+   "id": "cs_w_wagon_01",
+   "text": "A wagon rolls on wheels",
+   "standing": "projectable",
+   "evidence": "history · product curator · Wagon · cs_w_wagon_01"
+  },
+  {
+   "id": "cs_w_wake_01",
+   "text": "A wake trails a boat",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wake · cs_w_wake_01"
+  },
+  {
+   "id": "cs_w_warrant_01",
+   "text": "A warrant authorizes a search",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Warrant · cs_w_warrant_01"
+  },
+  {
+   "id": "cs_w_watt_04",
+   "text": "A bulb uses watts of power",
+   "standing": "projectable",
+   "evidence": "science · product curator · Watt · cs_w_watt_04"
+  },
+  {
+   "id": "cs_w_wave_03",
+   "text": "Ocean waves carry energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wave · cs_w_wave_03"
+  },
+  {
+   "id": "cs_w_whisker_01",
+   "text": "A cat senses with a whisker",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whisker · cs_w_whisker_01"
+  },
+  {
+   "id": "cs_w_will_01",
+   "text": "A will directs inheritance",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Will · cs_w_will_01"
+  },
+  {
+   "id": "cs_w_wilt_01",
+   "text": "Heat makes a plant wilt",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wilt · cs_w_wilt_01"
+  },
+  {
+   "id": "cs_w_wisteria_02",
+   "text": "Wisteria has hanging blooms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_02"
+  },
+  {
+   "id": "cs_w_wrist_02",
+   "text": "The wrist bends the hand",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wrist · cs_w_wrist_02"
   }
  ]
 }

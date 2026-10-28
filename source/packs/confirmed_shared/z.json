@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 213,
+ "curated_facts": 223,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1153,6 +1153,66 @@
    "text": "Zymase ferments sugar",
    "standing": "projectable",
    "evidence": "science · product curator · Zymase · cs_z_zymase_01"
+  },
+  {
+   "id": "cs_z_zapotec_02",
+   "text": "Zapotec built Monte Alban",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zapotec · cs_z_zapotec_02"
+  },
+  {
+   "id": "cs_z_zayin_01",
+   "text": "Zayin is a Hebrew letter",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zayin · cs_z_zayin_01"
+  },
+  {
+   "id": "cs_z_zinc_13",
+   "text": "Zinc strengthens brass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_13"
+  },
+  {
+   "id": "cs_z_zinnia_07",
+   "text": "A zinnia blooms in summer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_07"
+  },
+  {
+   "id": "cs_z_zipper_03",
+   "text": "A zipper closes a jacket",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zipper · cs_z_zipper_03"
+  },
+  {
+   "id": "cs_z_zircon_06",
+   "text": "Zircon dates ancient rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zircon · cs_z_zircon_06"
+  },
+  {
+   "id": "cs_z_zodiac_06",
+   "text": "Stars form zodiac patterns",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_06"
+  },
+  {
+   "id": "cs_z_zonal_01",
+   "text": "Zonal winds circle Earth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zonal · cs_z_zonal_01"
+  },
+  {
+   "id": "cs_z_zugunruhe_01",
+   "text": "Zugunruhe drives migration",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zugunruhe · cs_z_zugunruhe_01"
+  },
+  {
+   "id": "cs_z_zygote_07",
+   "text": "A zygote begins an embryo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zygote · cs_z_zygote_07"
   }
  ]
 }

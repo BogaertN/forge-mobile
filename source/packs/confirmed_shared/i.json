@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 204,
+ "curated_facts": 214,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1159,6 +1159,66 @@
    "text": "Elephant tusks hold ivory",
    "standing": "projectable",
    "evidence": "nature · product curator · Ivory · cs_i_ivory_02"
+  },
+  {
+   "id": "cs_i_ice_05",
+   "text": "Ice reflects sunlight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice · cs_i_ice_05"
+  },
+  {
+   "id": "cs_i_indicator_02",
+   "text": "An indicator shows acidity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Indicator · cs_i_indicator_02"
+  },
+  {
+   "id": "cs_i_indicator_03",
+   "text": "Litmus is an acid indicator",
+   "standing": "projectable",
+   "evidence": "science · product curator · Indicator · cs_i_indicator_03"
+  },
+  {
+   "id": "cs_i_induction_01",
+   "text": "Induction heats metal without flame",
+   "standing": "projectable",
+   "evidence": "science · product curator · Induction · cs_i_induction_01"
+  },
+  {
+   "id": "cs_i_instinct_01",
+   "text": "Birds migrate by instinct",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Instinct · cs_i_instinct_01"
+  },
+  {
+   "id": "cs_i_insulator_01",
+   "text": "An insulator blocks heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Insulator · cs_i_insulator_01"
+  },
+  {
+   "id": "cs_i_integral_01",
+   "text": "Calculus finds an integral",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integral · cs_i_integral_01"
+  },
+  {
+   "id": "cs_i_internal_energy_01",
+   "text": "Heat raises internal energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Internal energy · cs_i_internal_energy_01"
+  },
+  {
+   "id": "cs_i_intrusion_01",
+   "text": "Magma forms an intrusion",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Intrusion · cs_i_intrusion_01"
+  },
+  {
+   "id": "cs_i_iron_ore_02",
+   "text": "Furnaces smelt iron ore",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron ore · cs_i_iron_ore_02"
   }
  ]
 }

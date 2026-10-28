@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 200,
+ "curated_facts": 210,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1153,6 +1153,66 @@
    "text": "Kyanite is a blue mineral",
    "standing": "projectable",
    "evidence": "science · product curator · Kyanite · cs_k_kyanite_01"
+  },
+  {
+   "id": "cs_k_kamchatka_02",
+   "text": "Volcanoes line Kamchatka",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Kamchatka · cs_k_kamchatka_02"
+  },
+  {
+   "id": "cs_k_kapok_01",
+   "text": "Kapok fibers stuff cushions",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kapok · cs_k_kapok_01"
+  },
+  {
+   "id": "cs_k_kelp_05",
+   "text": "Divers harvest kelp",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_05"
+  },
+  {
+   "id": "cs_k_kettle_03",
+   "text": "Steam rises from a kettle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kettle · cs_k_kettle_03"
+  },
+  {
+   "id": "cs_k_kilogram_07",
+   "text": "Scales report a kilogram",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kilogram · cs_k_kilogram_07"
+  },
+  {
+   "id": "cs_k_kimberlite_02",
+   "text": "Kimberlite carries diamonds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_02"
+  },
+  {
+   "id": "cs_k_kinematics_01",
+   "text": "Kinematics describes motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kinematics · cs_k_kinematics_01"
+  },
+  {
+   "id": "cs_k_kingfisher_08",
+   "text": "Kingfishers nest in banks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_08"
+  },
+  {
+   "id": "cs_k_knossos_02",
+   "text": "Knossos was a Minoan palace",
+   "standing": "projectable",
+   "evidence": "history · product curator · Knossos · cs_k_knossos_02"
+  },
+  {
+   "id": "cs_k_komodo_01",
+   "text": "A Komodo dragon hunts deer",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Komodo · cs_k_komodo_01"
   }
  ]
 }

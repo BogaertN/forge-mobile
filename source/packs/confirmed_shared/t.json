@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 199,
+ "curated_facts": 209,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1159,6 +1159,66 @@
    "text": "A turtle has a bony shell",
    "standing": "projectable",
    "evidence": "nature · product curator · Turtle · cs_t_turtle_02"
+  },
+  {
+   "id": "cs_t_tangent_02",
+   "text": "A tangent touches a circle once",
+   "standing": "projectable",
+   "evidence": "math · product curator · Tangent · cs_t_tangent_02"
+  },
+  {
+   "id": "cs_t_tantalum_01",
+   "text": "Tantalum resists acid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tantalum · cs_t_tantalum_01"
+  },
+  {
+   "id": "cs_t_thistle_02",
+   "text": "A thistle has sharp spines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Thistle · cs_t_thistle_02"
+  },
+  {
+   "id": "cs_t_thyroid_01",
+   "text": "The thyroid makes hormones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thyroid · cs_t_thyroid_01"
+  },
+  {
+   "id": "cs_t_tide_pool_01",
+   "text": "A tide pool holds sea life",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tide pool · cs_t_tide_pool_01"
+  },
+  {
+   "id": "cs_t_titanium_04",
+   "text": "Titanium resists seawater",
+   "standing": "projectable",
+   "evidence": "science · product curator · Titanium · cs_t_titanium_04"
+  },
+  {
+   "id": "cs_t_tornado_04",
+   "text": "A tornado spins violently",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tornado · cs_t_tornado_04"
+  },
+  {
+   "id": "cs_t_tungsten_03",
+   "text": "Light bulbs used tungsten",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tungsten · cs_t_tungsten_03"
+  },
+  {
+   "id": "cs_t_turbine_03",
+   "text": "A turbine spins with steam",
+   "standing": "projectable",
+   "evidence": "science · product curator · Turbine · cs_t_turbine_03"
+  },
+  {
+   "id": "cs_t_tusk_01",
+   "text": "An elephant grows a tusk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tusk · cs_t_tusk_01"
   }
  ]
 }

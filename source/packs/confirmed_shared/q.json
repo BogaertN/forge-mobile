@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 210,
+ "curated_facts": 220,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1153,6 +1153,66 @@
    "text": "An archer carries arrows in a quiver",
    "standing": "projectable",
    "evidence": "history · product curator · Quiver · cs_q_quiver_02"
+  },
+  {
+   "id": "cs_q_quadrant_05",
+   "text": "A quadrant measures angles",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_05"
+  },
+  {
+   "id": "cs_q_quail_11",
+   "text": "Quails scratch for seeds",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_11"
+  },
+  {
+   "id": "cs_q_quantum_03",
+   "text": "Light arrives in a quantum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quantum · cs_q_quantum_03"
+  },
+  {
+   "id": "cs_q_quartz_10",
+   "text": "Sand often contains quartz",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartz · cs_q_quartz_10"
+  },
+  {
+   "id": "cs_q_quebracho_01",
+   "text": "Quebracho yields tannin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quebracho · cs_q_quebracho_01"
+  },
+  {
+   "id": "cs_q_queue_02",
+   "text": "A queue orders waiting items",
+   "standing": "projectable",
+   "evidence": "math · product curator · Queue · cs_q_queue_02"
+  },
+  {
+   "id": "cs_q_quicklime_02",
+   "text": "Quicklime heats with water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quicklime · cs_q_quicklime_02"
+  },
+  {
+   "id": "cs_q_quinine_03",
+   "text": "Doctors prescribe quinine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quinine · cs_q_quinine_03"
+  },
+  {
+   "id": "cs_q_quinoa_06",
+   "text": "Quinoa stores plant protein",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_06"
+  },
+  {
+   "id": "cs_q_quiver_03",
+   "text": "An arrow rests in a quiver",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quiver · cs_q_quiver_03"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 202,
+ "curated_facts": 212,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1153,6 +1153,66 @@
    "text": "A juvenile is a young animal",
    "standing": "projectable",
    "evidence": "nature · product curator · Juvenile · cs_j_juvenile_01"
+  },
+  {
+   "id": "cs_j_jadeite_01",
+   "text": "Jadeite is a hard pyroxene",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jadeite · cs_j_jadeite_01"
+  },
+  {
+   "id": "cs_j_jasmine_03",
+   "text": "Jasmine blooms in spring",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_03"
+  },
+  {
+   "id": "cs_j_java_03",
+   "text": "Java is a volcanic island",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Java · cs_j_java_03"
+  },
+  {
+   "id": "cs_j_jellyfish_09",
+   "text": "A jellyfish has tentacles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_09"
+  },
+  {
+   "id": "cs_j_jet_04",
+   "text": "Jet engines push air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet · cs_j_jet_04"
+  },
+  {
+   "id": "cs_j_journal_04",
+   "text": "Scientists write journals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Journal · cs_j_journal_04"
+  },
+  {
+   "id": "cs_j_juice_04",
+   "text": "Citrus juice tastes sour",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juice · cs_j_juice_04"
+  },
+  {
+   "id": "cs_j_junction_02",
+   "text": "Nerves meet at junctions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Junction · cs_j_junction_02"
+  },
+  {
+   "id": "cs_j_jungle_05",
+   "text": "A jungle shelters wildlife",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_05"
+  },
+  {
+   "id": "cs_j_juniper_06",
+   "text": "Juniper berries flavor gin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_06"
   }
  ]
 }
