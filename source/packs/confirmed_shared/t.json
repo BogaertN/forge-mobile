@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 237,
+ "curated_facts": 247,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1387,6 +1387,66 @@
    "text": "Twine binds package loads",
    "standing": "projectable",
    "evidence": "science · product curator · Twine · cs_t_twine_01"
+  },
+  {
+   "id": "cs_t_tadpole_04",
+   "text": "Tadpoles grow into frogs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_04"
+  },
+  {
+   "id": "cs_t_taste_01",
+   "text": "Taste buds sense flavors",
+   "standing": "projectable",
+   "evidence": "science · product curator · Taste · cs_t_taste_01"
+  },
+  {
+   "id": "cs_t_tea_02",
+   "text": "Tea leaves steep hot water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tea · cs_t_tea_02"
+  },
+  {
+   "id": "cs_t_tear_02",
+   "text": "Tears wash dust from eyes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tear · cs_t_tear_02"
+  },
+  {
+   "id": "cs_t_tendon_02",
+   "text": "Tendons join muscle bone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tendon · cs_t_tendon_02"
+  },
+  {
+   "id": "cs_t_thermometer_03",
+   "text": "A thermometer gauges heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thermometer · cs_t_thermometer_03"
+  },
+  {
+   "id": "cs_t_tissue_03",
+   "text": "Tissue joins similar cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tissue · cs_t_tissue_03"
+  },
+  {
+   "id": "cs_t_tomato_02",
+   "text": "Tomatoes ripen red fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tomato · cs_t_tomato_02"
+  },
+  {
+   "id": "cs_t_toxin_02",
+   "text": "Toxins poison living cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Toxin · cs_t_toxin_02"
+  },
+  {
+   "id": "cs_t_trachea_01",
+   "text": "Trachea rings hold airway",
+   "standing": "projectable",
+   "evidence": "science · product curator · Trachea · cs_t_trachea_01"
   }
  ]
 }

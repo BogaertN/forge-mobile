@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 241,
+ "curated_facts": 251,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1387,6 +1387,66 @@
    "text": "Oxygen fuels cell burning",
    "standing": "projectable",
    "evidence": "science · product curator · Oxygen · cs_o_oxygen_07"
+  },
+  {
+   "id": "cs_o_ocean_04",
+   "text": "Oceans store heat energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ocean · cs_o_ocean_04"
+  },
+  {
+   "id": "cs_o_okra_05",
+   "text": "Okra thickens stew broth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Okra · cs_o_okra_05"
+  },
+  {
+   "id": "cs_o_onyx_02",
+   "text": "Onyx shows banded layers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Onyx · cs_o_onyx_02"
+  },
+  {
+   "id": "cs_o_opossum_03",
+   "text": "Opossums carry pouch young",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Opossum · cs_o_opossum_03"
+  },
+  {
+   "id": "cs_o_optic_01",
+   "text": "Optic nerves carry sight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Optic · cs_o_optic_01"
+  },
+  {
+   "id": "cs_o_orion_04",
+   "text": "Orion marks winter skies",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orion · cs_o_orion_04"
+  },
+  {
+   "id": "cs_o_ossicle_01",
+   "text": "Ossicles carry ear sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ossicle · cs_o_ossicle_01"
+  },
+  {
+   "id": "cs_o_oxide_03",
+   "text": "Carbon dioxide traps heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxide · cs_o_oxide_03"
+  },
+  {
+   "id": "cs_o_oxidizer_02",
+   "text": "Oxidizers feed combustion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxidizer · cs_o_oxidizer_02"
+  },
+  {
+   "id": "cs_o_oxygen_08",
+   "text": "Gills extract water oxygen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oxygen · cs_o_oxygen_08"
   }
  ]
 }
