@@ -147,15 +147,23 @@ def slim(m, s):
         s = re.sub(r"falsify:\s*'([^'\\]|\\.)*'", "falsify:''", s)
         s = re.sub(r"L\(('(?:[^'\\]|\\.)*'),\s*('(?:[^'\\]|\\.)*'),\s*('(?:[^'\\]|\\.)*'),\s*'(?:[^'\\]|\\.)*',", r"L(\1, \2, \3, '',", s)
         return s
+    if m == 'src/release.js':
+        # 4.9.169: the operator panel prints sha256.slice(0, 16). The single file stores that prefix. Pages keeps the full hash.
+        a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
+        for f in d.get('files') or []:
+            hsh = f.get('sha256')
+            if isinstance(hsh, str) and len(hsh) > 16: f['sha256'] = hsh[:16]
+        return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
     if m != 'src/features.js': return s
     a = s.index('const d = ') + 10; b = s.rindex('; if (typeof module'); d = json.loads(s[a:b])
     # 4.9.87–4.9.164: omit note/wave/name for kernel-app.html gzip; Pages keeps full registry.
     # 4.9.167: also omit proof arrays (claim table keeps id/status; Pages keeps proofs) so leave ≥5 kB under 570 kB.
+    # 4.9.169: proofs are already omitted, so the suite pass map is unused here. Pages keeps suites.
     for f in d.get('features', []):
         f.pop('source', None); f.pop('note', None); f.pop('wave', None)
         f.pop('name', None)
         f.pop('proof', None)
-    d.pop('generated', None); d.pop('gate', None)
+    d.pop('generated', None); d.pop('gate', None); d.pop('suites', None)
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
@@ -192,7 +200,8 @@ for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
     bundle.append(js)
     h = h.replace('<script src="' + m + '"></script>', '', 1)
 # 4.9.127 gzip hotfix: one script tag → one CSP sha256 (74 high-entropy hashes were ~3 kB gzip). Modules stay IIFE-scoped; Pages multi-file site unchanged.
-bundle.insert(0, 'window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';window.KRMC_PY=' + json.dumps(SRC('data/py/coherence_math.py')).replace('</', '<\\/') + ';')
+# 4.9.169: do not embed coherence_math.py in the portable file (Pages still ships data/py/coherence_math.py; app_lab fetches it). Keeps gzip leave ≥5 kB under 570 kB.
+bundle.insert(0, 'window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).replace('</', '<\\/') + ';')
 joined = '\n'.join(bundle).replace('</script', '<\\/script')
 hi = h.index('</head>')
 h = h[:hi] + '<script>' + joined + '</script>' + h[hi:]
