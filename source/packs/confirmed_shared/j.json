@@ -12,1501 +12,2751 @@
    "id": "cs_j_japan_01",
    "text": "Tokyo is the capital of Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Japan · cs_j_japan_01"
+   "evidence": "geography · product curator · Japan · cs_j_japan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_japan_02",
    "text": "Japan is an island country in East Asia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Japan · cs_j_japan_02"
+   "evidence": "geography · product curator · Japan · cs_j_japan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jamaica_01",
    "text": "Kingston is the capital of Jamaica",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_01"
+   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jordan_01",
    "text": "Amman is the capital of Jordan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jordan · cs_j_jordan_01"
+   "evidence": "geography · product curator · Jordan · cs_j_jordan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jakarta_01",
    "text": "Jakarta is on the island of Java",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_01"
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_java_01",
    "text": "Java is an island of Indonesia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Java · cs_j_java_01"
+   "evidence": "geography · product curator · Java · cs_j_java_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jerusalem_01",
    "text": "Jerusalem is an ancient city in the Middle East",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jerusalem · cs_j_jerusalem_01"
+   "evidence": "geography · product curator · Jerusalem · cs_j_jerusalem_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_johannesburg_01",
    "text": "Johannesburg is the largest city in South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Johannesburg · cs_j_johannesburg_01"
+   "evidence": "geography · product curator · Johannesburg · cs_j_johannesburg_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juneau_01",
    "text": "Juneau is the capital of Alaska",
    "standing": "projectable",
-   "evidence": "geography · product curator · Juneau · cs_j_juneau_01"
+   "evidence": "geography · product curator · Juneau · cs_j_juneau_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackson_01",
    "text": "Jackson is the capital of Mississippi",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jackson · cs_j_jackson_01"
+   "evidence": "geography · product curator · Jackson · cs_j_jackson_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jefferson_city_01",
    "text": "Jefferson City is the capital of Missouri",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jefferson City · cs_j_jefferson_city_01"
+   "evidence": "geography · product curator · Jefferson City · cs_j_jefferson_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jordan_river_01",
    "text": "The Jordan flows into the Dead Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jordan River · cs_j_jordan_river_01"
+   "evidence": "geography · product curator · Jordan River · cs_j_jordan_river_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jungle_01",
    "text": "A jungle is land covered with dense vegetation",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jungle · cs_j_jungle_01"
+   "evidence": "geography · product curator · Jungle · cs_j_jungle_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jura_mountains_01",
    "text": "The Jura Mountains lie along the border of France and Switzerland",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jura Mountains · cs_j_jura_mountains_01"
+   "evidence": "geography · product curator · Jura Mountains · cs_j_jura_mountains_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_01",
    "text": "Jupiter is the largest planet in the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_01"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_02",
    "text": "Jupiter is the fifth planet from the Sun",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_02"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_03",
    "text": "Jupiter is a gas giant",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_03"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_04",
    "text": "The Great Red Spot is a giant storm on Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_04"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_05",
    "text": "Jupiter has the shortest day of any planet in the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_05"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_stream_01",
    "text": "A jet stream is a fast-flowing band of air high in the atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_01"
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_james_webb_space_telescope_01",
    "text": "The James Webb Space Telescope launched in 2021",
    "standing": "projectable",
-   "evidence": "science · product curator · James Webb Space Telescope · cs_j_james_webb_space_telescope_01"
+   "evidence": "science · product curator · James Webb Space Telescope · cs_j_james_webb_space_telescope_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_james_webb_space_telescope_02",
    "text": "The James Webb Space Telescope observes mainly in infrared",
    "standing": "projectable",
-   "evidence": "science · product curator · James Webb Space Telescope · cs_j_james_webb_space_telescope_02"
+   "evidence": "science · product curator · James Webb Space Telescope · cs_j_james_webb_space_telescope_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jellyfish_02",
    "text": "Jellyfish are invertebrates",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_02"
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaguar_02",
    "text": "Jaguars are native to the Americas",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jaguar · cs_j_jaguar_02"
+   "evidence": "nature · product curator · Jaguar · cs_j_jaguar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackal_01",
    "text": "Jackals belong to the dog family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jackal · cs_j_jackal_01"
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_01",
    "text": "Blue jays are native to North America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_01"
+   "evidence": "nature · product curator · Jay · cs_j_jay_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackrabbit_01",
    "text": "Jackrabbits are hares",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_01"
+   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasmine_01",
    "text": "Jasmine is a fragrant flowering plant",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_01"
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_01",
    "text": "Juniper is a coniferous shrub or tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_01"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jade_01",
    "text": "Jade is an ornamental stone",
    "standing": "projectable",
-   "evidence": "science · product curator · Jade · cs_j_jade_01"
+   "evidence": "science · product curator · Jade · cs_j_jade_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jefferson_thomas_01",
    "text": "Thomas Jefferson was the third president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_01"
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jefferson_thomas_02",
    "text": "Thomas Jefferson completed the Louisiana Purchase in 1803",
    "standing": "projectable",
-   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_02"
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joan_of_arc_01",
    "text": "Joan of Arc was a French military leader in the Hundred Years' War",
    "standing": "projectable",
-   "evidence": "history · product curator · Joan of Arc · cs_j_joan_of_arc_01"
+   "evidence": "history · product curator · Joan of Arc · cs_j_joan_of_arc_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_julius_caesar_01",
    "text": "Julius Caesar was a Roman general and statesman",
    "standing": "projectable",
-   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_01"
+   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_julius_caesar_02",
    "text": "The month of July is named after Julius Caesar",
    "standing": "projectable",
-   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_02"
+   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jamestown_01",
    "text": "Jamestown was an English settlement",
    "standing": "projectable",
-   "evidence": "history · product curator · Jamestown · cs_j_jamestown_01"
+   "evidence": "history · product curator · Jamestown · cs_j_jamestown_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jamestown_02",
    "text": "Jamestown was founded in 1607",
    "standing": "projectable",
-   "evidence": "history · product curator · Jamestown · cs_j_jamestown_02"
+   "evidence": "history · product curator · Jamestown · cs_j_jamestown_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_justinian_i_01",
    "text": "Justinian was a Byzantine emperor",
    "standing": "projectable",
-   "evidence": "history · product curator · Justinian I · cs_j_justinian_i_01"
+   "evidence": "history · product curator · Justinian I · cs_j_justinian_i_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jenner_edward_01",
    "text": "Edward Jenner developed the smallpox vaccine",
    "standing": "projectable",
-   "evidence": "history · product curator · Jenner, Edward · cs_j_jenner_edward_01"
+   "evidence": "history · product curator · Jenner, Edward · cs_j_jenner_edward_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackson_andrew_01",
    "text": "Andrew Jackson was the seventh president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Jackson, Andrew · cs_j_jackson_andrew_01"
+   "evidence": "history · product curator · Jackson, Andrew · cs_j_jackson_andrew_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_johnson_lyndon_b_01",
    "text": "Lyndon B. Johnson was the 36th president of the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Johnson, Lyndon B. · cs_j_johnson_lyndon_b_01"
+   "evidence": "history · product curator · Johnson, Lyndon B. · cs_j_johnson_lyndon_b_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jazz_01",
    "text": "Jazz originated in New Orleans",
    "standing": "projectable",
-   "evidence": "history · product curator · Jazz · cs_j_jazz_01"
+   "evidence": "history · product curator · Jazz · cs_j_jazz_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_january_01",
    "text": "January is the first month of the Gregorian calendar",
    "standing": "projectable",
-   "evidence": "general · product curator · January · cs_j_january_01"
+   "evidence": "general · product curator · January · cs_j_january_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_january_02",
    "text": "January has 31 days",
    "standing": "projectable",
-   "evidence": "general · product curator · January · cs_j_january_02"
+   "evidence": "general · product curator · January · cs_j_january_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_june_01",
    "text": "June has 30 days",
    "standing": "projectable",
-   "evidence": "general · product curator · June · cs_j_june_01"
+   "evidence": "general · product curator · June · cs_j_june_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_july_01",
    "text": "July has 31 days",
    "standing": "projectable",
-   "evidence": "general · product curator · July · cs_j_july_01"
+   "evidence": "general · product curator · July · cs_j_july_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judiciary_01",
    "text": "The American Supreme Court is the highest court in the federal judiciary",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judiciary · cs_j_judiciary_01"
+   "evidence": "civics · product curator · Judiciary · cs_j_judiciary_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jury_01",
    "text": "A jury decides questions of fact in a trial",
    "standing": "projectable",
-   "evidence": "civics · product curator · Jury · cs_j_jury_01"
+   "evidence": "civics · product curator · Jury · cs_j_jury_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_justice_01",
    "text": "Justices serve on the American Supreme Court",
    "standing": "projectable",
-   "evidence": "civics · product curator · Justice · cs_j_justice_01"
+   "evidence": "civics · product curator · Justice · cs_j_justice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_japanese_01",
    "text": "Japanese uses two syllabic scripts",
    "standing": "projectable",
-   "evidence": "language · product curator · Japanese · cs_j_japanese_01"
+   "evidence": "language · product curator · Japanese · cs_j_japanese_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_japanese_02",
    "text": "Japanese writing also uses Chinese characters",
    "standing": "projectable",
-   "evidence": "language · product curator · Japanese · cs_j_japanese_02"
+   "evidence": "language · product curator · Japanese · cs_j_japanese_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judo_01",
    "text": "Judo originated in Japan",
    "standing": "projectable",
-   "evidence": "general · product curator · Judo · cs_j_judo_01"
+   "evidence": "general · product curator · Judo · cs_j_judo_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_engine_01",
    "text": "A jet engine produces thrust by expelling gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet engine · cs_j_jet_engine_01"
+   "evidence": "science · product curator · Jet engine · cs_j_jet_engine_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_lag_01",
    "text": "Jet lag can occur after flying across several time zones",
    "standing": "projectable",
-   "evidence": "general · product curator · Jet lag · cs_j_jet_lag_01"
+   "evidence": "general · product curator · Jet lag · cs_j_jet_lag_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jurassic_01",
    "text": "The Jurassic period was part of the Mesozoic Era",
    "standing": "projectable",
-   "evidence": "science · product curator · Jurassic · cs_j_jurassic_01"
+   "evidence": "science · product curator · Jurassic · cs_j_jurassic_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jurassic_02",
    "text": "The Jurassic period came after the Triassic period",
    "standing": "projectable",
-   "evidence": "science · product curator · Jurassic · cs_j_jurassic_02"
+   "evidence": "science · product curator · Jurassic · cs_j_jurassic_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaw_01",
    "text": "The mandible is the lower jaw bone",
    "standing": "projectable",
-   "evidence": "science · product curator · Jaw · cs_j_jaw_01"
+   "evidence": "science · product curator · Jaw · cs_j_jaw_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joint_01",
    "text": "The knee is the largest joint in the human body",
    "standing": "projectable",
-   "evidence": "science · product curator · Joint · cs_j_joint_01"
+   "evidence": "science · product curator · Joint · cs_j_joint_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jakarta_02",
    "text": "Jakarta is the largest city in Indonesia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_02"
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jamaica_02",
    "text": "Jamaica is in the Caribbean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_02"
+   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_japan_03",
    "text": "Mount Fuji is in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Japan · cs_j_japan_03"
+   "evidence": "geography · product curator · Japan · cs_j_japan_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jersey_01",
    "text": "Jersey is one of the Channel Islands",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jersey · cs_j_jersey_01"
+   "evidence": "geography · product curator · Jersey · cs_j_jersey_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juba_01",
    "text": "Juba is the capital of South Sudan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Juba · cs_j_juba_01"
+   "evidence": "geography · product curator · Juba · cs_j_juba_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jordan_02",
    "text": "Jordan borders the Dead Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jordan · cs_j_jordan_02"
+   "evidence": "geography · product curator · Jordan · cs_j_jordan_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joshua_tree_01",
    "text": "The Joshua tree grows in the Mojave Desert",
    "standing": "projectable",
-   "evidence": "nature · product curator · Joshua tree · cs_j_joshua_tree_01"
+   "evidence": "nature · product curator · Joshua tree · cs_j_joshua_tree_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jumping_spider_01",
    "text": "Jumping spiders are arachnids",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_01"
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jerboa_01",
    "text": "Jerboas are desert rodents that hop",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_01"
+   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_01",
    "text": "Jet is a black gemstone formed from wood",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet · cs_j_jet_01"
+   "evidence": "science · product curator · Jet · cs_j_jet_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_06",
    "text": "Jupiter has faint rings",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_06"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jefferson_thomas_03",
    "text": "Thomas Jefferson founded the University of Virginia",
    "standing": "projectable",
-   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_03"
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juno_01",
    "text": "Juno is a NASA spacecraft that orbits Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Juno · cs_j_juno_01"
+   "evidence": "science · product curator · Juno · cs_j_juno_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_07",
    "text": "Jupiter has a giant storm",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_07"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackal_02",
    "text": "Jackals are members of the dog family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jackal · cs_j_jackal_02"
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_02",
    "text": "The blue jay is a bird of North America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_02"
+   "evidence": "nature · product curator · Jay · cs_j_jay_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasmine_02",
    "text": "Jasmine has fragrant flowers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_02"
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jefferson_thomas_04",
    "text": "Thomas Jefferson was the third American president",
    "standing": "projectable",
-   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_04"
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jefferson_thomas_05",
    "text": "Thomas Jefferson was the main author of the Declaration of Independence",
    "standing": "projectable",
-   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_05"
+   "evidence": "history · product curator · Jefferson, Thomas · cs_j_jefferson_thomas_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joan_of_arc_02",
    "text": "Joan of Arc was a French heroine of the Hundred Years' War",
    "standing": "projectable",
-   "evidence": "history · product curator · Joan of Arc · cs_j_joan_of_arc_02"
+   "evidence": "history · product curator · Joan of Arc · cs_j_joan_of_arc_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jamaica_03",
    "text": "Jamaica is an island in the Caribbean Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_03"
+   "evidence": "geography · product curator · Jamaica · cs_j_jamaica_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jersey_city_01",
    "text": "Jersey City is in New Jersey",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jersey City · cs_j_jersey_city_01"
+   "evidence": "geography · product curator · Jersey City · cs_j_jersey_city_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jacksonville_01",
    "text": "Jacksonville is a city in Florida",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jacksonville · cs_j_jacksonville_01"
+   "evidence": "geography · product curator · Jacksonville · cs_j_jacksonville_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jeddah_01",
    "text": "Jeddah is a port city in Saudi Arabia on the Red Sea",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jeddah · cs_j_jeddah_01"
+   "evidence": "geography · product curator · Jeddah · cs_j_jeddah_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_08",
    "text": "Jupiter's moon Ganymede is the largest moon in the solar system",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_08"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaw_02",
    "text": "Teeth are set in the jaw",
    "standing": "projectable",
-   "evidence": "science · product curator · Jaw · cs_j_jaw_02"
+   "evidence": "science · product curator · Jaw · cs_j_jaw_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackrabbit_02",
    "text": "Jackrabbits are hares of western North America",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_02"
+   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaguar_03",
    "text": "Jaguars are strong swimmers",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jaguar · cs_j_jaguar_03"
+   "evidence": "nature · product curator · Jaguar · cs_j_jaguar_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_02",
    "text": "Juniper is an evergreen conifer",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_02"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_03",
    "text": "Jays belong to the crow family",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_03"
+   "evidence": "nature · product curator · Jay · cs_j_jay_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judo_02",
    "text": "Judo is a martial art that originated in Japan",
    "standing": "projectable",
-   "evidence": "culture · product curator · Judo · cs_j_judo_02"
+   "evidence": "culture · product curator · Judo · cs_j_judo_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jazz_02",
    "text": "Jazz originated in the United States",
    "standing": "projectable",
-   "evidence": "culture · product curator · Jazz · cs_j_jazz_02"
+   "evidence": "culture · product curator · Jazz · cs_j_jazz_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jakarta_03",
    "text": "Jakarta is the capital of Indonesia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_03"
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jerusalem_02",
    "text": "Jerusalem is a holy city",
    "standing": "projectable",
-   "evidence": "history · product curator · Jerusalem · cs_j_jerusalem_02"
+   "evidence": "history · product curator · Jerusalem · cs_j_jerusalem_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jellyfish_05",
    "text": "A jellyfish lives in the ocean",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_05"
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_japanese_03",
    "text": "Japanese is the official language of Japan",
    "standing": "projectable",
-   "evidence": "language · product curator · Japanese · cs_j_japanese_03"
+   "evidence": "language · product curator · Japanese · cs_j_japanese_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_japan_05",
    "text": "Osaka is a city in Japan",
    "standing": "projectable",
-   "evidence": "geography · product curator · Japan · cs_j_japan_05"
+   "evidence": "geography · product curator · Japan · cs_j_japan_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jakarta_04",
    "text": "Jakarta is a city in Indonesia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_04"
+   "evidence": "geography · product curator · Jakarta · cs_j_jakarta_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jerusalem_03",
    "text": "Jerusalem is a city in Israel",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jerusalem · cs_j_jerusalem_03"
+   "evidence": "geography · product curator · Jerusalem · cs_j_jerusalem_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jeddah_02",
    "text": "Jeddah is a city in Saudi Arabia",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jeddah · cs_j_jeddah_02"
+   "evidence": "geography · product curator · Jeddah · cs_j_jeddah_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_johannesburg_02",
    "text": "Johannesburg is a city in South Africa",
    "standing": "projectable",
-   "evidence": "geography · product curator · Johannesburg · cs_j_johannesburg_02"
+   "evidence": "geography · product curator · Johannesburg · cs_j_johannesburg_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jellyfish_06",
    "text": "A jellyfish is an animal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_06"
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_03",
    "text": "A juniper is a tree",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_03"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_04",
    "text": "A jay is a bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_04"
+   "evidence": "nature · product curator · Jay · cs_j_jay_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaipur_01",
    "text": "Jaipur is a city in India",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jaipur · cs_j_jaipur_01"
+   "evidence": "geography · product curator · Jaipur · cs_j_jaipur_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jena_01",
    "text": "Jena is a city in Germany",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jena · cs_j_jena_01"
+   "evidence": "geography · product curator · Jena · cs_j_jena_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jinan_01",
    "text": "Jinan is a city in China",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jinan · cs_j_jinan_01"
+   "evidence": "geography · product curator · Jinan · cs_j_jinan_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackal_03",
    "text": "A jackal is a mammal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jackal · cs_j_jackal_03"
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasper_01",
    "text": "Jasper is a form of quartz",
    "standing": "projectable",
-   "evidence": "science · product curator · Jasper · cs_j_jasper_01"
+   "evidence": "science · product curator · Jasper · cs_j_jasper_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jim_crow_laws_01",
    "text": "Jim Crow laws enforced racial segregation",
    "standing": "projectable",
-   "evidence": "history · product curator · Jim Crow laws · cs_j_jim_crow_laws_01"
+   "evidence": "history · product curator · Jim Crow laws · cs_j_jim_crow_laws_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jousting_01",
    "text": "Jousting was a medieval sport",
    "standing": "projectable",
-   "evidence": "history · product curator · Jousting · cs_j_jousting_01"
+   "evidence": "history · product curator · Jousting · cs_j_jousting_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jutland_01",
    "text": "Jutland is a peninsula of Denmark",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jutland · cs_j_jutland_01"
+   "evidence": "geography · product curator · Jutland · cs_j_jutland_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jarrah_01",
    "text": "Jarrah is a eucalyptus of Australia",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jarrah · cs_j_jarrah_01"
+   "evidence": "nature · product curator · Jarrah · cs_j_jarrah_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_journal_01",
    "text": "A journal is a diary",
    "standing": "projectable",
-   "evidence": "language · product curator · Journal · cs_j_journal_01"
+   "evidence": "language · product curator · Journal · cs_j_journal_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judicial_review_01",
    "text": "Courts use judicial review",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judicial review · cs_j_judicial_review_01"
+   "evidence": "civics · product curator · Judicial review · cs_j_judicial_review_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jacquard_loom_01",
    "text": "The Jacquard loom is a weaving machine",
    "standing": "projectable",
-   "evidence": "history · product curator · Jacquard loom · cs_j_jacquard_loom_01"
+   "evidence": "history · product curator · Jacquard loom · cs_j_jacquard_loom_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jordan_michael_01",
    "text": "Michael Jordan was a basketball player",
    "standing": "projectable",
-   "evidence": "history · product curator · Jordan, Michael · cs_j_jordan_michael_01"
+   "evidence": "history · product curator · Jordan, Michael · cs_j_jordan_michael_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joyce_james_01",
    "text": "James Joyce was an Irish writer",
    "standing": "projectable",
-   "evidence": "history · product curator · Joyce, James · cs_j_joyce_james_01"
+   "evidence": "history · product curator · Joyce, James · cs_j_joyce_james_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jung_carl_01",
    "text": "Carl Jung was a Swiss psychiatrist",
    "standing": "projectable",
-   "evidence": "history · product curator · Jung, Carl · cs_j_jung_carl_01"
+   "evidence": "history · product curator · Jung, Carl · cs_j_jung_carl_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juarez_01",
    "text": "Juarez is a city in Mexico",
    "standing": "projectable",
-   "evidence": "geography · product curator · Juarez · cs_j_juarez_01"
+   "evidence": "geography · product curator · Juarez · cs_j_juarez_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_s_great_red_spot_01",
    "text": "The Great Red Spot is a storm on Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter's Great Red Spot · cs_j_jupiter_s_great_red_spot_01"
+   "evidence": "science · product curator · Jupiter's Great Red Spot · cs_j_jupiter_s_great_red_spot_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jute_01",
    "text": "Jute is a plant fiber used for rope",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jute · cs_j_jute_01"
+   "evidence": "nature · product curator · Jute · cs_j_jute_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judge_01",
    "text": "A judge decides cases in court",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judge · cs_j_judge_01"
+   "evidence": "civics · product curator · Judge · cs_j_judge_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jefferson_01",
    "text": "Thomas Jefferson wrote the Declaration of Independence",
    "standing": "projectable",
-   "evidence": "history · product curator · Jefferson · cs_j_jefferson_01"
+   "evidence": "history · product curator · Jefferson · cs_j_jefferson_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_justice_02",
    "text": "Justice is fair treatment under the law",
    "standing": "projectable",
-   "evidence": "civics · product curator · Justice · cs_j_justice_02"
+   "evidence": "civics · product curator · Justice · cs_j_justice_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jury_02",
    "text": "A jury decides facts in a trial",
    "standing": "projectable",
-   "evidence": "civics · product curator · Jury · cs_j_jury_02"
+   "evidence": "civics · product curator · Jury · cs_j_jury_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_04",
    "text": "A juniper is an evergreen shrub",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_04"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jungle_02",
    "text": "A jungle is a dense tropical forest",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jungle · cs_j_jungle_02"
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_july_02",
    "text": "July is the seventh month of the year",
    "standing": "projectable",
-   "evidence": "language · product curator · July · cs_j_july_02"
+   "evidence": "language · product curator · July · cs_j_july_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judo_03",
    "text": "Judo is a Japanese martial art",
    "standing": "projectable",
-   "evidence": "history · product curator · Judo · cs_j_judo_03"
+   "evidence": "history · product curator · Judo · cs_j_judo_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judiciary_02",
    "text": "The judiciary interprets the law",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judiciary · cs_j_judiciary_02"
+   "evidence": "civics · product curator · Judiciary · cs_j_judiciary_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackal_04",
    "text": "A jackal is a wild canine",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jackal · cs_j_jackal_04"
+   "evidence": "nature · product curator · Jackal · cs_j_jackal_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jade_02",
    "text": "Jade is a hard green stone",
    "standing": "projectable",
-   "evidence": "science · product curator · Jade · cs_j_jade_02"
+   "evidence": "science · product curator · Jade · cs_j_jade_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasper_02",
    "text": "Jasper is an opaque form of quartz",
    "standing": "projectable",
-   "evidence": "science · product curator · Jasper · cs_j_jasper_02"
+   "evidence": "science · product curator · Jasper · cs_j_jasper_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_05",
    "text": "A jay is a colorful bird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_05"
+   "evidence": "nature · product curator · Jay · cs_j_jay_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jazz_03",
    "text": "Jazz is a music style from the United States",
    "standing": "projectable",
-   "evidence": "history · product curator · Jazz · cs_j_jazz_03"
+   "evidence": "history · product curator · Jazz · cs_j_jazz_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_stream_02",
    "text": "The jet stream is a fast wind high in the atmosphere",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_02"
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jade_03",
    "text": "Jade is a hard ornamental stone",
    "standing": "projectable",
-   "evidence": "science · product curator · Jade · cs_j_jade_03"
+   "evidence": "science · product curator · Jade · cs_j_jade_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_january_03",
    "text": "January is the first month of the year",
    "standing": "projectable",
-   "evidence": "math · product curator · January · cs_j_january_03"
+   "evidence": "math · product curator · January · cs_j_january_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_japan_06",
    "text": "Japan lies in the Pacific Ocean",
    "standing": "projectable",
-   "evidence": "geography · product curator · Japan · cs_j_japan_06"
+   "evidence": "geography · product curator · Japan · cs_j_japan_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jazz_04",
    "text": "Jazz uses improvisation",
    "standing": "projectable",
-   "evidence": "history · product curator · Jazz · cs_j_jazz_04"
+   "evidence": "history · product curator · Jazz · cs_j_jazz_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jellyfish_07",
    "text": "A jellyfish has a soft gelatinous body",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_07"
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jenner_edward_02",
    "text": "Edward Jenner developed a smallpox vaccine",
    "standing": "projectable",
-   "evidence": "history · product curator · Jenner, Edward · cs_j_jenner_edward_02"
+   "evidence": "history · product curator · Jenner, Edward · cs_j_jenner_edward_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_stream_03",
    "text": "The jet stream steers weather systems",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_03"
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joint_02",
    "text": "A joint connects two bones",
    "standing": "projectable",
-   "evidence": "science · product curator · Joint · cs_j_joint_02"
+   "evidence": "science · product curator · Joint · cs_j_joint_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judge_02",
    "text": "A judge presides over a trial",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judge · cs_j_judge_02"
+   "evidence": "civics · product curator · Judge · cs_j_judge_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_julius_caesar_03",
    "text": "Julius Caesar was a Roman general",
    "standing": "projectable",
-   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_03"
+   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jungle_03",
    "text": "A jungle has dense tropical plants",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jungle · cs_j_jungle_03"
+   "evidence": "geography · product curator · Jungle · cs_j_jungle_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_05",
    "text": "A juniper produces berry like cones",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_05"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jury_03",
    "text": "A jury hears evidence in court",
    "standing": "projectable",
-   "evidence": "civics · product curator · Jury · cs_j_jury_03"
+   "evidence": "civics · product curator · Jury · cs_j_jury_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_justice_03",
    "text": "Justice is a goal of the legal system",
    "standing": "projectable",
-   "evidence": "civics · product curator · Justice · cs_j_justice_03"
+   "evidence": "civics · product curator · Justice · cs_j_justice_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jazz_05",
    "text": "Jazz is an American music form",
    "standing": "projectable",
-   "evidence": "history · product curator · Jazz · cs_j_jazz_05"
+   "evidence": "history · product curator · Jazz · cs_j_jazz_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_june_02",
    "text": "June is the sixth month",
    "standing": "projectable",
-   "evidence": "civics · product curator · June · cs_j_june_02"
+   "evidence": "civics · product curator · June · cs_j_june_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_journal_02",
    "text": "A journal is a written personal record",
    "standing": "projectable",
-   "evidence": "language · product curator · Journal · cs_j_journal_02"
+   "evidence": "language · product curator · Journal · cs_j_journal_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jury_04",
    "text": "A jury decides a verdict",
    "standing": "projectable",
-   "evidence": "civics · product curator · Jury · cs_j_jury_04"
+   "evidence": "civics · product curator · Jury · cs_j_jury_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jade_04",
    "text": "Jade is carved into ornaments",
    "standing": "projectable",
-   "evidence": "history · product curator · Jade · cs_j_jade_04"
+   "evidence": "history · product curator · Jade · cs_j_jade_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_06",
    "text": "A jay is a colorful songbird",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_06"
+   "evidence": "nature · product curator · Jay · cs_j_jay_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasper_03",
    "text": "Jasper is used as a gemstone",
    "standing": "projectable",
-   "evidence": "science · product curator · Jasper · cs_j_jasper_03"
+   "evidence": "science · product curator · Jasper · cs_j_jasper_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_july_03",
    "text": "July follows June",
    "standing": "projectable",
-   "evidence": "civics · product curator · July · cs_j_july_03"
+   "evidence": "civics · product curator · July · cs_j_july_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_june_03",
    "text": "Days are long in June",
    "standing": "projectable",
-   "evidence": "civics · product curator · June · cs_j_june_03"
+   "evidence": "civics · product curator · June · cs_j_june_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joint_03",
    "text": "A joint connects bones",
    "standing": "projectable",
-   "evidence": "science · product curator · Joint · cs_j_joint_03"
+   "evidence": "science · product curator · Joint · cs_j_joint_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_journal_03",
    "text": "Writers keep a journal",
    "standing": "projectable",
-   "evidence": "language · product curator · Journal · cs_j_journal_03"
+   "evidence": "language · product curator · Journal · cs_j_journal_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_junction_01",
    "text": "Roads meet at a junction",
    "standing": "projectable",
-   "evidence": "geography · product curator · Junction · cs_j_junction_01"
+   "evidence": "geography · product curator · Junction · cs_j_junction_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jewel_01",
    "text": "A jewel is a precious stone",
    "standing": "projectable",
-   "evidence": "history · product curator · Jewel · cs_j_jewel_01"
+   "evidence": "history · product curator · Jewel · cs_j_jewel_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juice_01",
    "text": "Orange juice comes from fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juice · cs_j_juice_01"
+   "evidence": "nature · product curator · Juice · cs_j_juice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_journalism_01",
    "text": "Journalism reports news",
    "standing": "projectable",
-   "evidence": "language · product curator · Journalism · cs_j_journalism_01"
+   "evidence": "language · product curator · Journalism · cs_j_journalism_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_justice_04",
    "text": "Justice is a civic ideal",
    "standing": "projectable",
-   "evidence": "civics · product curator · Justice · cs_j_justice_04"
+   "evidence": "civics · product curator · Justice · cs_j_justice_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_02",
    "text": "A jet engine thrusts a plane",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet · cs_j_jet_02"
+   "evidence": "science · product curator · Jet · cs_j_jet_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_java_02",
    "text": "Java is an Indonesian island",
    "standing": "projectable",
-   "evidence": "geography · product curator · Java · cs_j_java_02"
+   "evidence": "geography · product curator · Java · cs_j_java_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_07",
    "text": "Blue feathers mark many jays",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_07"
+   "evidence": "nature · product curator · Jay · cs_j_jay_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jazz_06",
    "text": "Jazz began in New Orleans",
    "standing": "projectable",
-   "evidence": "history · product curator · Jazz · cs_j_jazz_06"
+   "evidence": "history · product curator · Jazz · cs_j_jazz_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaw_03",
    "text": "Teeth sit in the jaw",
    "standing": "projectable",
-   "evidence": "science · product curator · Jaw · cs_j_jaw_03"
+   "evidence": "science · product curator · Jaw · cs_j_jaw_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jungle_04",
    "text": "Thick plants fill a jungle",
    "standing": "projectable",
-   "evidence": "geography · product curator · Jungle · cs_j_jungle_04"
+   "evidence": "geography · product curator · Jungle · cs_j_jungle_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_job_01",
    "text": "Workers hold a job for pay",
    "standing": "projectable",
-   "evidence": "civics · product curator · Job · cs_j_job_01"
+   "evidence": "civics · product curator · Job · cs_j_job_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judge_03",
    "text": "A judge interprets the law",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judge · cs_j_judge_03"
+   "evidence": "civics · product curator · Judge · cs_j_judge_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_justice_05",
    "text": "Courts seek justice",
    "standing": "projectable",
-   "evidence": "civics · product curator · Justice · cs_j_justice_05"
+   "evidence": "civics · product curator · Justice · cs_j_justice_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juice_02",
    "text": "Fruit yields juice",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juice · cs_j_juice_02"
+   "evidence": "nature · product curator · Juice · cs_j_juice_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jumping_spider_02",
    "text": "A jumping spider stalks prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_02"
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judge_04",
    "text": "A judge wears a robe in court",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judge · cs_j_judge_04"
+   "evidence": "civics · product curator · Judge · cs_j_judge_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juice_03",
    "text": "Oranges give juice",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juice · cs_j_juice_03"
+   "evidence": "nature · product curator · Juice · cs_j_juice_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jumping_spider_03",
    "text": "Jumping spiders leap on insects",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_03"
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jellyfish_08",
    "text": "A jellyfish drifts in currents",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_08"
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_stream_04",
    "text": "Planes ride the jet stream",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_04"
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jerboa_02",
    "text": "A jerboa hops on sand",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_02"
+   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaundice_01",
    "text": "Jaundice yellows the skin",
    "standing": "projectable",
-   "evidence": "science · product curator · Jaundice · cs_j_jaundice_01"
+   "evidence": "science · product curator · Jaundice · cs_j_jaundice_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jeans_01",
    "text": "Jeans use durable denim",
    "standing": "projectable",
-   "evidence": "history · product curator · Jeans · cs_j_jeans_01"
+   "evidence": "history · product curator · Jeans · cs_j_jeans_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jelly_01",
    "text": "Jelly sets with pectin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jelly · cs_j_jelly_01"
+   "evidence": "nature · product curator · Jelly · cs_j_jelly_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_03",
    "text": "A jet flies on turbines",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet · cs_j_jet_03"
+   "evidence": "science · product curator · Jet · cs_j_jet_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jewel_02",
    "text": "A jewel adorns a crown",
    "standing": "projectable",
-   "evidence": "history · product curator · Jewel · cs_j_jewel_02"
+   "evidence": "history · product curator · Jewel · cs_j_jewel_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joist_01",
    "text": "A joist supports a floor",
    "standing": "projectable",
-   "evidence": "science · product curator · Joist · cs_j_joist_01"
+   "evidence": "science · product curator · Joist · cs_j_joist_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jugular_01",
    "text": "The jugular drains the head",
    "standing": "projectable",
-   "evidence": "science · product curator · Jugular · cs_j_jugular_01"
+   "evidence": "science · product curator · Jugular · cs_j_jugular_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_09",
    "text": "Jupiter has many moons",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_09"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juvenile_01",
    "text": "A juvenile is a young animal",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juvenile · cs_j_juvenile_01"
+   "evidence": "nature · product curator · Juvenile · cs_j_juvenile_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jadeite_01",
    "text": "Jadeite is a hard pyroxene",
    "standing": "projectable",
-   "evidence": "science · product curator · Jadeite · cs_j_jadeite_01"
+   "evidence": "science · product curator · Jadeite · cs_j_jadeite_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasmine_03",
    "text": "Jasmine blooms in spring",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_03"
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_java_03",
    "text": "Java is a volcanic island",
    "standing": "projectable",
-   "evidence": "geography · product curator · Java · cs_j_java_03"
+   "evidence": "geography · product curator · Java · cs_j_java_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jellyfish_09",
    "text": "A jellyfish has tentacles",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_09"
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_09",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_04",
    "text": "Jet engines push air",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet · cs_j_jet_04"
+   "evidence": "science · product curator · Jet · cs_j_jet_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_journal_04",
    "text": "Scientists write journals",
    "standing": "projectable",
-   "evidence": "science · product curator · Journal · cs_j_journal_04"
+   "evidence": "science · product curator · Journal · cs_j_journal_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juice_04",
    "text": "Citrus juice tastes sour",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juice · cs_j_juice_04"
+   "evidence": "nature · product curator · Juice · cs_j_juice_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_junction_02",
    "text": "Nerves meet at junctions",
    "standing": "projectable",
-   "evidence": "science · product curator · Junction · cs_j_junction_02"
+   "evidence": "science · product curator · Junction · cs_j_junction_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jungle_05",
    "text": "A jungle shelters wildlife",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jungle · cs_j_jungle_05"
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_06",
    "text": "Juniper berries flavor gin",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_06"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jacket_01",
    "text": "A jacket traps body heat",
    "standing": "projectable",
-   "evidence": "science · product curator · Jacket · cs_j_jacket_01"
+   "evidence": "science · product curator · Jacket · cs_j_jacket_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jade_05",
    "text": "Jade resists scratching",
    "standing": "projectable",
-   "evidence": "science · product curator · Jade · cs_j_jade_05"
+   "evidence": "science · product curator · Jade · cs_j_jade_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jam_01",
    "text": "Fruit cooks into jam",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jam · cs_j_jam_01"
+   "evidence": "nature · product curator · Jam · cs_j_jam_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasmine_04",
    "text": "Jasmine oils perfume soap",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_04"
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasper_04",
    "text": "Jasper forms red stone",
    "standing": "projectable",
-   "evidence": "science · product curator · Jasper · cs_j_jasper_04"
+   "evidence": "science · product curator · Jasper · cs_j_jasper_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jewel_03",
    "text": "A jewel refracts light",
    "standing": "projectable",
-   "evidence": "science · product curator · Jewel · cs_j_jewel_03"
+   "evidence": "science · product curator · Jewel · cs_j_jewel_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joint_04",
    "text": "Cartilage cushions a joint",
    "standing": "projectable",
-   "evidence": "science · product curator · Joint · cs_j_joint_04"
+   "evidence": "science · product curator · Joint · cs_j_joint_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joist_02",
    "text": "A joist spans a room",
    "standing": "projectable",
-   "evidence": "history · product curator · Joist · cs_j_joist_02"
+   "evidence": "history · product curator · Joist · cs_j_joist_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_07",
    "text": "Juniper grows on hills",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_07"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jute_02",
    "text": "Jute softens in water",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jute · cs_j_jute_02"
+   "evidence": "nature · product curator · Jute · cs_j_jute_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jasper_05",
    "text": "Jasper polishes into gems",
    "standing": "projectable",
-   "evidence": "science · product curator · Jasper · cs_j_jasper_05"
+   "evidence": "science · product curator · Jasper · cs_j_jasper_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaundice_02",
    "text": "Bilirubin causes jaundice",
    "standing": "projectable",
-   "evidence": "science · product curator · Jaundice · cs_j_jaundice_02"
+   "evidence": "science · product curator · Jaundice · cs_j_jaundice_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_java_04",
    "text": "Java holds active volcanoes",
    "standing": "projectable",
-   "evidence": "geography · product curator · Java · cs_j_java_04"
+   "evidence": "geography · product curator · Java · cs_j_java_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaw_04",
    "text": "Muscles close the jaw",
    "standing": "projectable",
-   "evidence": "science · product curator · Jaw · cs_j_jaw_04"
+   "evidence": "science · product curator · Jaw · cs_j_jaw_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jeans_02",
    "text": "Cotton forms denim jeans",
    "standing": "projectable",
-   "evidence": "history · product curator · Jeans · cs_j_jeans_02"
+   "evidence": "history · product curator · Jeans · cs_j_jeans_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_engine_02",
    "text": "A jet engine expels hot gas",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet engine · cs_j_jet_engine_02"
+   "evidence": "science · product curator · Jet engine · cs_j_jet_engine_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_stream_05",
    "text": "Cold air feeds a jet stream",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_05"
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jugular_02",
    "text": "Blood fills the jugular vein",
    "standing": "projectable",
-   "evidence": "science · product curator · Jugular · cs_j_jugular_02"
+   "evidence": "science · product curator · Jugular · cs_j_jugular_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juniper_08",
    "text": "Birds eat juniper berries",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juniper · cs_j_juniper_08"
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jadeite_02",
    "text": "Jadeite forms tough gems",
    "standing": "projectable",
-   "evidence": "science · product curator · Jadeite · cs_j_jadeite_02"
+   "evidence": "science · product curator · Jadeite · cs_j_jadeite_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jam_02",
    "text": "Jam preserves cooked fruit",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jam · cs_j_jam_02"
+   "evidence": "nature · product curator · Jam · cs_j_jam_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jar_01",
    "text": "A jar seals stored food",
    "standing": "projectable",
-   "evidence": "science · product curator · Jar · cs_j_jar_01"
+   "evidence": "science · product curator · Jar · cs_j_jar_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jaundice_03",
    "text": "Jaundice yellows tissue",
    "standing": "projectable",
-   "evidence": "science · product curator · Jaundice · cs_j_jaundice_03"
+   "evidence": "science · product curator · Jaundice · cs_j_jaundice_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jawbone_01",
    "text": "Jawbones hinge the mouth",
    "standing": "projectable",
-   "evidence": "science · product curator · Jawbone · cs_j_jawbone_01"
+   "evidence": "science · product curator · Jawbone · cs_j_jawbone_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_stream_06",
    "text": "Jet streams steer weather",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_06"
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joint_05",
    "text": "Joints allow bone motion",
    "standing": "projectable",
-   "evidence": "science · product curator · Joint · cs_j_joint_05"
+   "evidence": "science · product curator · Joint · cs_j_joint_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juice_05",
    "text": "Juice ferments into wine",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juice · cs_j_juice_05"
+   "evidence": "nature · product curator · Juice · cs_j_juice_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judge_05",
    "text": "A judge applies statutes",
    "standing": "projectable",
-   "evidence": "civics · product curator · Judge · cs_j_judge_05"
+   "evidence": "civics · product curator · Judge · cs_j_judge_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jungle_06",
    "text": "Jungle canopies block sun",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jungle · cs_j_jungle_06"
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_05",
    "text": "Jets compress turbine air",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet · cs_j_jet_05"
+   "evidence": "science · product curator · Jet · cs_j_jet_05",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joist_03",
    "text": "Joists support floor boards",
    "standing": "projectable",
-   "evidence": "science · product curator · Joist · cs_j_joist_03"
+   "evidence": "science · product curator · Joist · cs_j_joist_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juice_06",
    "text": "Fruit juice holds vitamin C",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juice · cs_j_juice_06"
+   "evidence": "nature · product curator · Juice · cs_j_juice_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jumping_spider_04",
    "text": "Jumping spiders stalk prey",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_04"
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_junction_03",
    "text": "Junctions join nerve paths",
    "standing": "projectable",
-   "evidence": "science · product curator · Junction · cs_j_junction_03"
+   "evidence": "science · product curator · Junction · cs_j_junction_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juno_02",
    "text": "Juno orbits planet Jupiter",
    "standing": "projectable",
-   "evidence": "science · product curator · Juno · cs_j_juno_02"
+   "evidence": "science · product curator · Juno · cs_j_juno_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jupiter_10",
    "text": "Jupiter holds giant storms",
    "standing": "projectable",
-   "evidence": "science · product curator · Jupiter · cs_j_jupiter_10"
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_10",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_juvenile_02",
    "text": "Juveniles molt soft shells",
    "standing": "projectable",
-   "evidence": "nature · product curator · Juvenile · cs_j_juvenile_02"
+   "evidence": "nature · product curator · Juvenile · cs_j_juvenile_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jade_06",
    "text": "Jade takes a fine polish",
    "standing": "projectable",
-   "evidence": "science · product curator · Jade · cs_j_jade_06"
+   "evidence": "science · product curator · Jade · cs_j_jade_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jerboa_03",
    "text": "Jerboas store desert fat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_03"
+   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jacaranda_02",
    "text": "Jacaranda blooms purple canopies",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jacaranda · cs_j_jacaranda_02"
+   "evidence": "nature · product curator · Jacaranda · cs_j_jacaranda_02",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jackrabbit_03",
    "text": "Jackrabbits bound open desert",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_03"
+   "evidence": "nature · product curator · Jackrabbit · cs_j_jackrabbit_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jay_08",
    "text": "Jays warn of nearby hawks",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jay · cs_j_jay_08"
+   "evidence": "nature · product curator · Jay · cs_j_jay_08",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jejunum_01",
    "text": "The jejunum absorbs food sugars",
    "standing": "projectable",
-   "evidence": "science · product curator · Jejunum · cs_j_jejunum_01"
+   "evidence": "science · product curator · Jejunum · cs_j_jejunum_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jerky_01",
    "text": "Jerky dries lean meat",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jerky · cs_j_jerky_01"
+   "evidence": "nature · product curator · Jerky · cs_j_jerky_01",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jet_stream_07",
    "text": "Jet streams steer storm tracks",
    "standing": "projectable",
-   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_07"
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_joint_06",
    "text": "A joint seals pipe ends",
    "standing": "projectable",
-   "evidence": "science · product curator · Joint · cs_j_joint_06"
+   "evidence": "science · product curator · Joint · cs_j_joint_06",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_judo_04",
    "text": "Judo uses leverage throws",
    "standing": "projectable",
-   "evidence": "history · product curator · Judo · cs_j_judo_04"
+   "evidence": "history · product curator · Judo · cs_j_judo_04",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jugular_03",
    "text": "Jugulars drain brain blood",
    "standing": "projectable",
-   "evidence": "science · product curator · Jugular · cs_j_jugular_03"
+   "evidence": "science · product curator · Jugular · cs_j_jugular_03",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   },
   {
    "id": "cs_j_jungle_07",
    "text": "Humidity fills a jungle",
    "standing": "projectable",
-   "evidence": "nature · product curator · Jungle · cs_j_jungle_07"
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_07",
+   "sfe": {
+    "Phi": 9,
+    "eps": 0,
+    "mu": 1
+   }
   }
  ]
 }
