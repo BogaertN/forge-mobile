@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 223,
+ "curated_facts": 233,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1303,6 +1303,66 @@
    "text": "Gunpowder burns fast",
    "standing": "projectable",
    "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_03"
+  },
+  {
+   "id": "cs_g_gamma_ray_04",
+   "text": "Gamma rays pierce dense matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_04"
+  },
+  {
+   "id": "cs_g_gastric_01",
+   "text": "Gastric acid digests food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gastric · cs_g_gastric_01"
+  },
+  {
+   "id": "cs_g_genome_01",
+   "text": "A genome stores all genes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Genome · cs_g_genome_01"
+  },
+  {
+   "id": "cs_g_glacier_04",
+   "text": "A glacier scrapes bedrock",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Glacier · cs_g_glacier_04"
+  },
+  {
+   "id": "cs_g_glucose_05",
+   "text": "Cells burn glucose for fuel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glucose · cs_g_glucose_05"
+  },
+  {
+   "id": "cs_g_gluten_01",
+   "text": "Gluten binds wheat dough",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gluten · cs_g_gluten_01"
+  },
+  {
+   "id": "cs_g_golgi_01",
+   "text": "The Golgi packs cell proteins",
+   "standing": "projectable",
+   "evidence": "science · product curator · Golgi · cs_g_golgi_01"
+  },
+  {
+   "id": "cs_g_greenhouse_04",
+   "text": "Glass traps greenhouse heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Greenhouse · cs_g_greenhouse_04"
+  },
+  {
+   "id": "cs_g_gypsum_05",
+   "text": "Gypsum forms soft crystals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gypsum · cs_g_gypsum_05"
+  },
+  {
+   "id": "cs_g_gyroscope_01",
+   "text": "A gyroscope holds spin axis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gyroscope · cs_g_gyroscope_01"
   }
  ]
 }
