@@ -148,9 +148,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.127', () => {
   expect(/v4\.9\.127/.test(conf) && /confirmed_shared/.test(conf) && /letter A|letter-A|letter_a/i.test(conf), 'CONFLICTS');
   expect(/shared KB|shared-knowledge scrapbook|scrapbook/i.test(conf) && /empty|not started|stays empty/i.test(conf), 'scrapbook locked');
   const next = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
-  expect(/4\.9\.12[789]|4\.9\.13[01]/.test(next) && (/scrapbook|shared_knowledge|shared write|shared knowledge/i.test(next)), 'NEXT_BUILD scrapbook next');
+  expect(/4\.9\.12[789]|4\.9\.13[0-2]/.test(next) && (/scrapbook|shared_knowledge|shared write|shared knowledge/i.test(next)), 'NEXT_BUILD scrapbook next');
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
-  expect(/4\.9\.12[789]|4\.9\.13[01]/.test(readme) && /confirmed_shared|shared knowledge/i.test(readme), 'README');
+  expect(/4\.9\.12[789]|4\.9\.13[0-2]/.test(readme) && /confirmed_shared|shared knowledge/i.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
   const tp = String(tgt.release || '').split('.').map(Number);
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 128 && (tgt.suites[0] === 'r4128_suite.js' || tgt.suites[0] === 'r4127_suite.js'), JSON.stringify(tgt));
