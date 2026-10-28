@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 114,
+ "curated_facts": 140,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -649,6 +649,162 @@
    "text": "A nuthatch is a bird",
    "standing": "projectable",
    "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_02"
+  },
+  {
+   "id": "cs_n_national_park_01",
+   "text": "A national park protects land for public use",
+   "standing": "projectable",
+   "evidence": "civics · product curator · National park · cs_n_national_park_01"
+  },
+  {
+   "id": "cs_n_nautical_chart_01",
+   "text": "A nautical chart maps the sea",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nautical chart · cs_n_nautical_chart_01"
+  },
+  {
+   "id": "cs_n_neolithic_01",
+   "text": "The Neolithic period followed the Mesolithic",
+   "standing": "projectable",
+   "evidence": "history · product curator · Neolithic · cs_n_neolithic_01"
+  },
+  {
+   "id": "cs_n_nerve_01",
+   "text": "A nerve carries signals through the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nerve · cs_n_nerve_01"
+  },
+  {
+   "id": "cs_n_neutral_atom_01",
+   "text": "A neutral atom has equal protons and electrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neutral atom · cs_n_neutral_atom_01"
+  },
+  {
+   "id": "cs_n_nightshade_01",
+   "text": "The nightshade family includes tomatoes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nightshade · cs_n_nightshade_01"
+  },
+  {
+   "id": "cs_n_nineteenth_century_01",
+   "text": "The nineteenth century ran from 1801 to 1900",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nineteenth century · cs_n_nineteenth_century_01"
+  },
+  {
+   "id": "cs_n_nitrogen_cycle_01",
+   "text": "The nitrogen cycle moves nitrogen through ecosystems",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrogen cycle · cs_n_nitrogen_cycle_01"
+  },
+  {
+   "id": "cs_n_nixon_richard_01",
+   "text": "Richard Nixon was the 37th president of the United States",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nixon, Richard · cs_n_nixon_richard_01"
+  },
+  {
+   "id": "cs_n_nobel_prize_in_physics_01",
+   "text": "The Nobel Prize in Physics honors discoveries in physics",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nobel Prize in Physics · cs_n_nobel_prize_in_physics_01"
+  },
+  {
+   "id": "cs_n_nomadic_01",
+   "text": "A nomadic people move with the seasons",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nomadic · cs_n_nomadic_01"
+  },
+  {
+   "id": "cs_n_noun_phrase_01",
+   "text": "A noun phrase acts as a noun in a sentence",
+   "standing": "projectable",
+   "evidence": "language · product curator · Noun phrase · cs_n_noun_phrase_01"
+  },
+  {
+   "id": "cs_n_nubia_01",
+   "text": "Nubia was an ancient region along the Nile",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nubia · cs_n_nubia_01"
+  },
+  {
+   "id": "cs_n_nuclear_fission_01",
+   "text": "Nuclear fission splits an atomic nucleus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nuclear fission · cs_n_nuclear_fission_01"
+  },
+  {
+   "id": "cs_n_nuclear_fusion_01",
+   "text": "Nuclear fusion joins atomic nuclei",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_01"
+  },
+  {
+   "id": "cs_n_nuclear_reactor_01",
+   "text": "A nuclear reactor produces energy from fission",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nuclear reactor · cs_n_nuclear_reactor_01"
+  },
+  {
+   "id": "cs_n_null_hypothesis_01",
+   "text": "A null hypothesis assumes no effect",
+   "standing": "projectable",
+   "evidence": "math · product curator · Null hypothesis · cs_n_null_hypothesis_01"
+  },
+  {
+   "id": "cs_n_number_line_01",
+   "text": "A number line shows numbers in order",
+   "standing": "projectable",
+   "evidence": "math · product curator · Number line · cs_n_number_line_01"
+  },
+  {
+   "id": "cs_n_national_anthem_01",
+   "text": "A national anthem is the official song of a country",
+   "standing": "projectable",
+   "evidence": "civics · product curator · National anthem · cs_n_national_anthem_01"
+  },
+  {
+   "id": "cs_n_navy_01",
+   "text": "A navy is a branch of the armed forces",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Navy · cs_n_navy_01"
+  },
+  {
+   "id": "cs_n_new_brunswick_01",
+   "text": "New Brunswick is a province of Canada",
+   "standing": "projectable",
+   "evidence": "geography · product curator · New Brunswick · cs_n_new_brunswick_01"
+  },
+  {
+   "id": "cs_n_new_guinea_01",
+   "text": "New Guinea is the second largest island in the world",
+   "standing": "projectable",
+   "evidence": "geography · product curator · New Guinea · cs_n_new_guinea_01"
+  },
+  {
+   "id": "cs_n_noon_01",
+   "text": "Noon is twelve o'clock in the day",
+   "standing": "projectable",
+   "evidence": "language · product curator · Noon · cs_n_noon_01"
+  },
+  {
+   "id": "cs_n_nose_01",
+   "text": "The nose is an organ of smell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nose · cs_n_nose_01"
+  },
+  {
+   "id": "cs_n_nunavut_01",
+   "text": "Iqaluit is the capital of Nunavut",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nunavut · cs_n_nunavut_01"
+  },
+  {
+   "id": "cs_n_nylon_01",
+   "text": "Nylon is a synthetic polymer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nylon · cs_n_nylon_01"
   }
  ]
 }

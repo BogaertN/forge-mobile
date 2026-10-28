@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 120,
+ "curated_facts": 137,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -661,6 +661,108 @@
    "text": "An oligarchy is a form of government",
    "standing": "projectable",
    "evidence": "civics · product curator · Oligarchy · cs_o_oligarchy_01"
+  },
+  {
+   "id": "cs_o_oak_ridge_01",
+   "text": "Oak Ridge was a center of the Manhattan Project",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oak Ridge · cs_o_oak_ridge_01"
+  },
+  {
+   "id": "cs_o_oboe_reed_01",
+   "text": "An oboe reed vibrates to make sound",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oboe reed · cs_o_oboe_reed_01"
+  },
+  {
+   "id": "cs_o_occipital_bone_01",
+   "text": "The occipital bone forms the back of the skull",
+   "standing": "projectable",
+   "evidence": "science · product curator · Occipital bone · cs_o_occipital_bone_01"
+  },
+  {
+   "id": "cs_o_octave_01",
+   "text": "An octave spans eight notes",
+   "standing": "projectable",
+   "evidence": "math · product curator · Octave · cs_o_octave_01"
+  },
+  {
+   "id": "cs_o_oil_painting_01",
+   "text": "Oil painting uses pigments in oil",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oil painting · cs_o_oil_painting_01"
+  },
+  {
+   "id": "cs_o_olfactory_01",
+   "text": "The olfactory system detects smell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Olfactory · cs_o_olfactory_01"
+  },
+  {
+   "id": "cs_o_omaha_beach_01",
+   "text": "Omaha Beach was a landing site on D Day",
+   "standing": "projectable",
+   "evidence": "history · product curator · Omaha Beach · cs_o_omaha_beach_01"
+  },
+  {
+   "id": "cs_o_open_set_01",
+   "text": "An open set does not include its boundary",
+   "standing": "projectable",
+   "evidence": "math · product curator · Open set · cs_o_open_set_01"
+  },
+  {
+   "id": "cs_o_opposite_01",
+   "text": "Opposite angles of a parallelogram are equal",
+   "standing": "projectable",
+   "evidence": "math · product curator · Opposite · cs_o_opposite_01"
+  },
+  {
+   "id": "cs_o_optical_fiber_01",
+   "text": "An optical fiber carries light signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Optical fiber · cs_o_optical_fiber_01"
+  },
+  {
+   "id": "cs_o_orchestra_pit_01",
+   "text": "An orchestra pit holds musicians below the stage",
+   "standing": "projectable",
+   "evidence": "history · product curator · Orchestra pit · cs_o_orchestra_pit_01"
+  },
+  {
+   "id": "cs_o_order_of_operations_01",
+   "text": "The order of operations guides arithmetic",
+   "standing": "projectable",
+   "evidence": "math · product curator · Order of operations · cs_o_order_of_operations_01"
+  },
+  {
+   "id": "cs_o_ordinal_number_01",
+   "text": "An ordinal number shows position in a sequence",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ordinal number · cs_o_ordinal_number_01"
+  },
+  {
+   "id": "cs_o_organic_chemistry_01",
+   "text": "Organic chemistry studies carbon compounds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Organic chemistry · cs_o_organic_chemistry_01"
+  },
+  {
+   "id": "cs_o_oberon_01",
+   "text": "Oberon is a moon of Uranus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oberon · cs_o_oberon_01"
+  },
+  {
+   "id": "cs_o_optics_01",
+   "text": "Optics is the study of light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Optics · cs_o_optics_01"
+  },
+  {
+   "id": "cs_o_organelle_01",
+   "text": "An organelle is a structure inside a cell",
+   "standing": "projectable",
+   "evidence": "science · product curator · Organelle · cs_o_organelle_01"
   }
  ]
 }
