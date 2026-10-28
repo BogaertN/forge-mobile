@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 175,
+ "curated_facts": 183,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -991,6 +991,54 @@
    "text": "Drivers slow at a yield sign",
    "standing": "projectable",
    "evidence": "civics · product curator · Yield sign · cs_y_yield_sign_01"
+  },
+  {
+   "id": "cs_y_yawn_02",
+   "text": "People often yawn at night",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yawn · cs_y_yawn_02"
+  },
+  {
+   "id": "cs_y_yogurt_02",
+   "text": "Milk becomes yogurt",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yogurt · cs_y_yogurt_02"
+  },
+  {
+   "id": "cs_y_yoke_02",
+   "text": "A yoke links two oxen",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yoke · cs_y_yoke_02"
+  },
+  {
+   "id": "cs_y_yarn_03",
+   "text": "Knitters work with yarn",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yarn · cs_y_yarn_03"
+  },
+  {
+   "id": "cs_y_yarrow_03",
+   "text": "Yarrow grows in meadows",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yarrow · cs_y_yarrow_03"
+  },
+  {
+   "id": "cs_y_yard_05",
+   "text": "Three feet equal one yard",
+   "standing": "projectable",
+   "evidence": "math · product curator · Yard · cs_y_yard_05"
+  },
+  {
+   "id": "cs_y_yellow_01",
+   "text": "Yellow mixes with blue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yellow · cs_y_yellow_01"
+  },
+  {
+   "id": "cs_y_yield_02",
+   "text": "Crops give a yield at harvest",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yield · cs_y_yield_02"
   }
  ]
 }
