@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 183,
+ "curated_facts": 187,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1039,6 +1039,30 @@
    "text": "Workers hold a job for pay",
    "standing": "projectable",
    "evidence": "civics · product curator · Job · cs_j_job_01"
+  },
+  {
+   "id": "cs_j_judge_03",
+   "text": "A judge interprets the law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judge · cs_j_judge_03"
+  },
+  {
+   "id": "cs_j_justice_05",
+   "text": "Courts seek justice",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Justice · cs_j_justice_05"
+  },
+  {
+   "id": "cs_j_juice_02",
+   "text": "Fruit yields juice",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juice · cs_j_juice_02"
+  },
+  {
+   "id": "cs_j_jumping_spider_02",
+   "text": "A jumping spider stalks prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 182,
+ "curated_facts": 183,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1045,6 +1045,12 @@
    "text": "Typists use a keyboard",
    "standing": "projectable",
    "evidence": "history · product curator · Keyboard · cs_k_keyboard_02"
+  },
+  {
+   "id": "cs_k_key_02",
+   "text": "A key opens a lock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Key · cs_k_key_02"
   }
  ]
 }
