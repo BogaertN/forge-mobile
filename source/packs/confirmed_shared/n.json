@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 185,
+ "curated_facts": 197,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1075,6 +1075,78 @@
    "text": "Niobium strengthens steel",
    "standing": "projectable",
    "evidence": "science · product curator · Niobium · cs_n_niobium_02"
+  },
+  {
+   "id": "cs_n_nebula_02",
+   "text": "A nebula forms new stars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nebula · cs_n_nebula_02"
+  },
+  {
+   "id": "cs_n_nutmeg_03",
+   "text": "Nutmeg flavors baked goods",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nutmeg · cs_n_nutmeg_03"
+  },
+  {
+   "id": "cs_n_nickel_05",
+   "text": "Coins often contain nickel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nickel · cs_n_nickel_05"
+  },
+  {
+   "id": "cs_n_neon_04",
+   "text": "Neon lights glow red",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neon · cs_n_neon_04"
+  },
+  {
+   "id": "cs_n_nucleotide_02",
+   "text": "DNA contains nucleotides",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nucleotide · cs_n_nucleotide_02"
+  },
+  {
+   "id": "cs_n_nucleus_03",
+   "text": "A nucleus holds protons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nucleus · cs_n_nucleus_03"
+  },
+  {
+   "id": "cs_n_newt_04",
+   "text": "A newt lives near water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Newt · cs_n_newt_04"
+  },
+  {
+   "id": "cs_n_nubia_02",
+   "text": "Nubia lay south of Egypt",
+   "standing": "projectable",
+   "evidence": "history · product curator · Nubia · cs_n_nubia_02"
+  },
+  {
+   "id": "cs_n_nuclear_fusion_02",
+   "text": "Stars run on nuclear fusion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nuclear fusion · cs_n_nuclear_fusion_02"
+  },
+  {
+   "id": "cs_n_neuron_04",
+   "text": "A neuron sends signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neuron · cs_n_neuron_04"
+  },
+  {
+   "id": "cs_n_navy_04",
+   "text": "A navy guards the coast",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Navy · cs_n_navy_04"
+  },
+  {
+   "id": "cs_n_numerator_02",
+   "text": "A numerator sits above a bar",
+   "standing": "projectable",
+   "evidence": "math · product curator · Numerator · cs_n_numerator_02"
   }
  ]
 }
