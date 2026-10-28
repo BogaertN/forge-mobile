@@ -181,6 +181,20 @@ function rsocAdmit(xs, lawful, key) { const out = [], seen = new Set(); let f = 
   return { kept: out, ops: { '⟁': f, '⟁✗': x, '⧙': out.length === 1 ? 1 : 0, '⧧': out.length > 1 ? out.length : 0 } }; }
 /* RPM weight of one memory node, RPMC Full Protocol §1: ΦMₙ·exp(−εₙ). Display only — never used to choose meaning. */
 const rpmWeight = sfe => r4(sfe.mu * Math.exp(-sfe.eps));
+/* 4.9.165: Grace Integral over phase-aligned ancestors for answer-path resonate (RPMC §3.4 / Axiom 4).
+   Aligned = δ ≤ π/4 from Φ₁ (same tolerance as chiCorrect / RSOC ⟁). G_MIN > 0: G = 0 stays sealed (§2.5 silence). */
+const G_MIN = 1e-4;
+function phaseAlignedToOrigin(Phi) { return Number.isFinite(Phi) && Math.abs(Math.atan2(Math.sin(phaseAngle(Phi)), Math.cos(phaseAngle(Phi)))) <= Math.PI / 4 + 1e-12; }
+function graceOverAncestors(ancestors, epsMax = 0.8) {
+  const base = { cite: 'RPMC §3.4 Grace Integral; Axiom 4 phase-align; RSOC §3.2.1 kernel', G_min: G_MIN };
+  const A = (ancestors || []).filter(a => a && phaseAlignedToOrigin(a.Phi) && Number.isFinite(a.eps));
+  if (!A.length) return Object.assign(base, { G: 0, aligned: 0, ok: false, reason: 'no phase-aligned ancestor (G = 0 < G_min): sealed' });
+  let G = 0; for (const a of A) { const mu = Number.isFinite(a.mu) && a.mu > 0 ? a.mu : 1; G += graceIntegral([a.Phi], a.eps, mu, epsMax); }
+  G = r4(G);
+  if (!(G >= G_MIN)) return Object.assign(base, { G, aligned: A.length, ok: false, reason: 'G < G_min: sealed/silent' });
+  return Object.assign(base, { G, aligned: A.length, ok: true, ancestors: A, reason: 'grace over phase-aligned ancestors' });
+}
+
 /* Candidate coherence, RMC §5.7: Score(c) = αM + βP + γU + δN − λD */
 function score(c, w = { a: 1, b: 1, g: 1, d: 1, l: 1 }) {
   const s = w.a * c.M + w.b * c.P + w.g * c.U + w.d * c.N - w.l * c.D;
@@ -255,6 +269,6 @@ function turnGovernance(eps, transition) { const forbidden = isForbidden(transit
    reason.js (memory and world-state answers) and derive.js (research replies) read the same table through rsocSelect. */
 const RSOC_STANDING = Object.freeze({ supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } });
 const rsocStanding = ev => rsocSelect({ C: !!ev.C, K: !!ev.K, S: !!ev.S, R: !!ev.R }, Object.keys(RSOC_STANDING).map(id => ({ id, expect: RSOC_STANDING[id] })), 0);
-const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, score, computeExpr, phaseAngle, r4 };
+const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

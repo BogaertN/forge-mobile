@@ -745,6 +745,25 @@ function Kernel(opts) {
   function isCsRec(r){return!!(r&&((r.provenance&&r.provenance.source===PACK_CS)||String(r.id||'').indexOf('cs:')===0))}
   /* 4.9.164: shared about-pick (exact surface first, then optional cap) for CS-RECALL-ABOUT / compose / rights */
   function aboutPick(subj,list,cap){if(!list||!list.length)return[];const want=subjSurface(peelNP(subj).slice(-1)[0]||subj);const exact=list.filter(r=>subjSurface(peelNP(r.clause.subj).slice(-1)[0]||r.clause.subj)===want);const out=exact.length?exact:list;return(cap>0&&out.length>cap)?out.slice(0,cap):out}
+  /* 4.9.165: ordinal+class FIND helpers + RPMC grace/phase gate over ancestor CS (not class-heuristic dump; not Naming of exact ψ) */
+  const ORD_W=/^(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)-)?(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)|(?:tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|twentieth)|(?:\d+(?:st|nd|rd|th))$/;
+  function classHeadOf(n){if(!n)return null;const x=peelNP(n).slice(-1)[0]||n;if(x.propn){const p=subjSurface(x).split(/\s+/);return p.length>=2&&ORD_W.test(p[0])?{head:p.slice(1).join(' '),ord:p[0]}:null}const head=(x.head||[]).map(h=>String(h).toLowerCase()).join(' ');if(!head)return null;const ords=(x.adjs||[]).map(a=>String(a).toLowerCase()).filter(a=>ORD_W.test(a));return ords.length?{head,ord:ords[ords.length-1]}:null}
+  function bareClassSubj(n,head){if(!n||n.propn)return false;if((n.head||[]).map(x=>String(x).toLowerCase()).join(' ')!==head)return false;return!(n.adjs||[]).some(a=>ORD_W.test(String(a).toLowerCase()))}
+  function classSetNP(n,head){if(!n||n.propn)return false;if((n.head||[]).map(x=>String(x).toLowerCase()).join(' ')!==head)return false;return!!(n.plural||n.num!==undefined||(n.adjs||[]).some(a=>{const s=String(a).toLowerCase();return ORD_W.test(s)||/^(ten|eleven|twelve|dozen|\d+)$/.test(s)}))}
+  /* FIND only: related class/structure CS sharing head or set-membership; exact subject rows short-circuit.
+     4.9.165: these are RPMC candidate inputs into gather→RSOC→Panini — never a class-dump answer shortcut. */
+  function ancestorClassCandidates(np,opts){opts=opts||{};const cls=classHeadOf(np);if(!cls)return[];const pool=confirmedSharedFacts().filter(r=>!r.sensitive&&r.clause&&!r.clause.coord);const exact=pool.filter(r=>r.clause.subj&&aboutSubjMatch(np,r.clause.subj));if(exact.length)return exact;const struct=[],klass=[];for(const r of pool){const c=r.clause;let isS=false;if(c.pred&&c.pred.np&&classSetNP(c.pred.np,cls.head))isS=true;if(!isS&&c.roles)for(const v of Object.values(c.roles))if(v&&classSetNP(v,cls.head)){isS=true;break}if(isS)struct.push(r);else if(!opts.structureOnly){let isK=c.subj&&bareClassSubj(peelNP(c.subj).slice(-1)[0]||c.subj,cls.head);if(!isK&&c.roles)for(const v of Object.values(c.roles))if(v&&bareClassSubj(v,cls.head)){isK=true;break}if(isK)klass.push(r)}}const seen=new Set(),out=[];for(const r of struct.concat(klass)){if(!seen.has(r.id)){seen.add(r.id);out.push(r)}}return out}
+  /* sfe from record if present; else fail-closed defaults (Φ5 Entropy, hard ε, μ=0) so G→0 */
+  function ancestorSfe(r){const s=r&&r.sfe;if(s&&Number.isFinite(s.Phi)&&Number.isFinite(s.eps)&&Number.isFinite(s.mu))return{Phi:s.Phi,eps:s.eps,mu:s.mu>0?s.mu:1};return{Phi:5,eps:1,mu:0}}
+  /* Axiom 4 + §3.4: phase-align + grace over related CS; optional χ; rpmWeight ranks after gate.
+     Returns candidates for RSOC/research — does NOT emit them as the answer (zero canned / no class dump). */
+  function rpmcAncestorCandidates(np,opts){opts=opts||{};const cands=ancestorClassCandidates(np,opts);if(!cands.length)return{ok:false,recs:[],G:0,reason:'no ancestor candidates'};
+    const nodes=cands.map(r=>Object.assign({rec:r},ancestorSfe(r)));const gate=M.graceOverAncestors(nodes);if(!gate.ok)return{ok:false,recs:[],G:gate.G||0,reason:gate.reason||'no phase-aligned grace'};
+    let chi=null;const aligned=nodes.filter(n=>M.phaseAlignedToOrigin(n.Phi));const meanEps=aligned.reduce((s,n)=>s+n.eps,0)/(aligned.length||1);
+    if(meanEps>0.35&&meanEps<0.4){chi=M.chiCorrect({eps:meanEps,ancestors:nodes,applied:false});if(!chi.applied)return{ok:false,recs:[],G:gate.G,reason:'χ withheld ('+(chi.reason||'')+')',chi}}
+    const ranked=aligned.slice().sort((a,b)=>M.rpmWeight(b)-M.rpmWeight(a));
+    return{ok:true,recs:ranked.map(n=>n.rec),G:gate.G,aligned:gate.aligned,chi,reason:gate.reason}}
+  let rpmcPriors = null; /* per-turn: RPMC-gated CS ancestors handed to AQ-1/research as candidates */
   function markCsClause(r){if(!r||!r.clause)return r&&r.clause;return isCsRec(r)?Object.assign({},r.clause,{confirmed_shared:true}):r.clause}
   function matchesAbout(q,gap,r){return matches(q,gap,r,aboutSubjMatch)}
   let sideRules = []; let pendingRender = null; let stagedHyps = []; let phonePending = null; let phoneProposals = []; let meaPPending = null; let meaPProposals = []; let spcPending = null; let creativePending = null; let supposeOpen = null; let supposePending = null;
@@ -2152,7 +2171,7 @@ function Kernel(opts) {
       rules.push({ id: many ? 'CAUSAL-INVERSION-NONUNIQUE' : 'CAUSAL-INVERSION-CHAIN', doc: many ? 'stored cause links: more than one kartā reaches the effect, so none is selected' : 'stored cause links: one kartā reaches the effect; the chain is cited, not an intervention' });
       return res('SELECTED_MEANING', { kind: 'recall', items: order.map(e => e.clause) }, { frame: 'FR.QUESTION', act: 'question', evidenceRefs: order.map(e => e.id) });
     }
-    function answer(q, gap, qrule, prules) {
+    function answer(q, gap, qrule, prules) { rpmcPriors=null;
       rules.push({ id: qrule, doc: 'Doc5 §15 (question speech act); Doc3' }, ...prules.filter(Boolean).map(id => ({ id, doc: ruleDoc(id) })));
       if (q.subj) { const rr = resolveRefs(q, rules, gap ? { answerable: qq => readFacts().some(r => !r.sensitive && (matches(qq, gap, r) || matchesAbout(qq, gap, r))) } : null); if (rr.clarify) { g.connectedness = 'referent'; return res('CLARIFICATION_REQUIRED', { kind: 'clarify_referent', word: rr.clarify.word, options: rr.clarify.options }, { frame: 'FR.QUESTION', act: 'question' }); } }
       if (q.subj) ctx.clauseForDiscourse = q;
@@ -2179,6 +2198,15 @@ function Kernel(opts) {
         if (rightsAsk) { let about = aboutPick(q.subj, factsAboutNP(q.subj).filter(r => !r.sensitive && r.clause && !r.clause.coord && r.clause.verb && RIGHTS_V.test(r.clause.verb.lemma)), 4);
           if (about.length) { rules.push({ id: about.every(isCsRec) ? 'CS-RECALL-RIGHTS-ABOUT' : 'MEM-RECALL-RIGHTS-ABOUT', doc: '4.9.163 rights about', note: about.map(r => r.id).join(', ') });
             if (!gap) gap = 'pred'; recs = about; } } }
+      /* 4.9.165 RPMC candidate gather (Nic t132u): archives/sources → RPMC (phase/grace/χ) → RSOC → Panini.
+         Related hosted CS are phase-gated candidates for AQ-1/research — never a class-dump answer, never canned Naming. */
+      if (!recs.length && q.subj) { const RV=/^(protect|give|grant|guarantee|secure|forbid|bar|require|ensure)$/; const km=q.roles&&q.roles.karma,inn=km&&km.clause;
+        const rAsk=(gap&&q.verb&&RV.test(q.verb.lemma))||(!gap&&q.verb&&/^(say|tell)$/.test(q.verb.lemma)&&inn&&inn.verb&&RV.test(inn.verb.lemma));
+        if (gap==='pred'||rAsk) { const gate=rpmcAncestorCandidates(q.subj,{structureOnly:!!rAsk&&gap!=='pred'});
+          if (gate.ok&&gate.recs.length) { const about=aboutPick(q.subj,gate.recs,6);
+            rpmcPriors={G:gate.G,aligned:gate.aligned,chi:gate.chi||null,recs:about.map(r=>({id:r.id,text:r.text||(r.clause&&G.clauseText(r.clause,'kernel'))||'',provenance:'confirmed_shared'}))};
+            rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.165 RPMC Axiom 4 + §3.4 grace; candidates into AQ-1/RSOC — not answer dump', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r=>r.id).join(', ') }); }
+          else if (classHeadOf(q.subj)) rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.165 no phase-aligned CS ancestors; factual WH still falls to AQ-1/research (silence only for no-basis novelty)', note: (gate.reason||'none') + ' G=' + (gate.G||0) }); } }
       /* MEM-RECALL-TIME-ADJUNCT (4.9.82): "when is / does NP (V)" with no exact match recalls a fact about the same subject (and, for a lexical verb,
          the same verb) that carries a time: a kāla adjunct, or an adjunct / predicate phrase whose noun is of the WordNet time class
          ("moved to Thursday", "is in June") — the time is the answer, whatever the preposition */
@@ -2557,8 +2585,8 @@ function Kernel(opts) {
         if (pb) { trace.rules.push({ id: 'MEAP-PROBLEM-QUESTION', doc: 'MEA problem lane; WordNet lexical classes (' + pb.basis + ')', note: 'purpose infinitive' }); msm.meaning = openProblem(pb); msm.limits.may_write_memory = false; sel.frame = 'FR.MEA'; routeOf(); } }
       if (msm.meaning.kind !== 'mea_problem_opened' && gap && (whQ || ynQ) && !personal && perm.policy().research === 'on_request') { const vst = opts.vaultState ? opts.vaultState() : 'none';
         trace.rules.push({ id: 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST', doc: 'CONFLICTS.md v4.9.48 AQ-1; gap=' + gk });
-        if (vst === 'unlocked') { sel.toolRequest = { tool: 'research.web', input: raw.replace(/[?\s]+$/, ''), auto: true }; sel.frame = 'FR.TOOL.RESEARCH'; msm.meaning = Object.assign({ kind: 'tool_started', tool: 'research.web', target: dirObj || raw.replace(/[?\s]+$/, ''), noun: dirObj ? 'topic' : 'question' }, (np => np ? { np } : {})(subjectNP(raw))); msm.limits.may_write_memory = false; routeOf(); }
-        else msm.meaning = Object.assign({}, gm, { lookupHint: vst }); } }
+        if (vst === 'unlocked') { sel.toolRequest = Object.assign({ tool: 'research.web', input: raw.replace(/[?\s]+$/, ''), auto: true }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {}); sel.frame = 'FR.TOOL.RESEARCH'; msm.meaning = Object.assign({ kind: 'tool_started', tool: 'research.web', target: dirObj || raw.replace(/[?\s]+$/, ''), noun: dirObj ? 'topic' : 'question' }, (np => np ? { np } : {})(subjectNP(raw)), rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {}); msm.limits.may_write_memory = false; if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.165 RPMC priors → research/RSOC select → Panini NL', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length }); routeOf(); }
+        else { msm.meaning = Object.assign({}, gm, { lookupHint: vst }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {}); if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.165 RPMC priors staged for research when vault unlocks; not a canned answer', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length }); } } }
     if (msm.meaning && msm.meaning.kind === 'mea_problem_opened' && meaPending.has(msm.meaning.problem_id)) meaDraft.set(msm.meaning.problem_id, meaPending.get(msm.meaning.problem_id)); meaPending.clear(); /* MEAP-PROBLEM-DIRECTIVE: candidate readings have no side effect */
     { const tid = sel.toolRequest ? sel.toolRequest.tool : (msm.meaning.kind === 'tool_result' || msm.meaning.kind === 'tool_failed' ? msm.meaning.tool : bench.toolForKind(msm.meaning.kind));
       if (tid && !sealed && !restricted) { const vst = opts.vaultState ? opts.vaultState() : 'none'; const az = bench.authorize(tid, sel.frame, { explicit: true, vaultUnlocked: vst === 'unlocked' }); trace.tool = { tool: tid, frame: sel.frame, permission: az.decision.id, decision: az.decision.decision, rule: az.decision.rule, manifest_hash: az.manifest ? az.manifest.manifest_hash : null, authority: 'evidence_only' };
