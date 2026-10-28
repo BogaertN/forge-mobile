@@ -1422,3 +1422,9 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (4) Answer-path grace is **no longer a stub** for this gate (`math_honesty.json` `answer_path_grace.status=wired`). Soft budget unchanged.
 - Tests: `verify/r4165_suite.js` lead (RPMC candidates + AQ-1; no class dump; no canned Second string; First/Fifth exact; miss AQ-1); version/registry/NEXT_BUILD/README/targeted/req_packet assert 4.9.165; packs index remains 4.9.163.
 
+## v4.9.166 — QuotaExceeded-safe kernel.trace + AQ-1 RPMC gather (Nic, 2026-10-28)
+- Design sources: live Forge Mobile 4.9.165 red banner `QuotaExceededError` on `kernel.trace` setItem while Ask had `What is h2s?`; standing laws Grok Bot computer ONLY, no CloudAgent, no canned/memory/pack hacks per question, RPMC→RSOC→Panini for factual misses, continuous fill PAUSED, soft gzip leave ≥5 kB under 570 kB.
+- (1) Root cause: `MemoryStore.save` → `localStorage.setItem` with no quota handling; fat `kernel.trace` (even after `tr.slice(-200)`) throws uncaught → `app_lab.js` errBanner and can abort the turn.
+- (2) Pathway fix (not one-question): `MemoryStore.save` catches QuotaExceeded, evicts soft cats (`ui_errors`/`held_writes`/…), shrinks/compacts older traces, retries; soft cats / arrays return `{ok:false,rule:'STORE-QUOTA-SOFT'}` instead of throwing. `finish()` and forge.js trace writes try/catch so the answer path completes even if trace shrinks.
+- (3) Factual miss that world-model undetermined skips language-core `answer()` still runs RPMC gather at AUTH-AQ1 (`RPMC-ANCESTOR-NONE` / `CANDIDATES`) so chemical what-is (`What is h2s?`) logs the lawful pipeline — never a canned pack row, no H2S pack thicken.
+- Tests: `verify/r4166_suite.js` lead (quota sim never throws; h2s/hydrogen sulfide → RPMC + AQ-1, not canned); version/registry/NEXT_BUILD/README/targeted/req_packet assert 4.9.166; packs index remains 4.9.163.
