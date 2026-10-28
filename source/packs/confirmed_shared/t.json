@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 247,
+ "curated_facts": 257,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1447,6 +1447,66 @@
    "text": "Trachea rings hold airway",
    "standing": "projectable",
    "evidence": "science · product curator · Trachea · cs_t_trachea_01"
+  },
+  {
+   "id": "cs_t_talon_05",
+   "text": "Talons grip prey flesh",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Talon · cs_t_talon_05"
+  },
+  {
+   "id": "cs_t_teak_03",
+   "text": "Teak resists ship rot",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Teak · cs_t_teak_03"
+  },
+  {
+   "id": "cs_t_telescope_04",
+   "text": "A telescope gathers star light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Telescope · cs_t_telescope_04"
+  },
+  {
+   "id": "cs_t_tellurium_02",
+   "text": "Tellurium alloys copper wire",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tellurium · cs_t_tellurium_02"
+  },
+  {
+   "id": "cs_t_thermostat_01",
+   "text": "A thermostat meters heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thermostat · cs_t_thermostat_01"
+  },
+  {
+   "id": "cs_t_tibia_01",
+   "text": "The tibia bears leg weight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tibia · cs_t_tibia_01"
+  },
+  {
+   "id": "cs_t_tortoise_03",
+   "text": "A tortoise carries a shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tortoise · cs_t_tortoise_03"
+  },
+  {
+   "id": "cs_t_tractor_01",
+   "text": "A tractor pulls farm loads",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tractor · cs_t_tractor_01"
+  },
+  {
+   "id": "cs_t_tripod_01",
+   "text": "A tripod steadies a camera",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tripod · cs_t_tripod_01"
+  },
+  {
+   "id": "cs_t_tundra_03",
+   "text": "Tundra thaws short summers",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tundra · cs_t_tundra_03"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 242,
+ "curated_facts": 252,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1411,6 +1411,66 @@
    "text": "Oils show thick viscosity",
    "standing": "projectable",
    "evidence": "science · product curator · Viscosity · cs_v_viscosity_04"
+  },
+  {
+   "id": "cs_v_vacuum_02",
+   "text": "Pumps pull a vacuum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vacuum · cs_v_vacuum_02"
+  },
+  {
+   "id": "cs_v_vanadium_06",
+   "text": "Catalysts use vanadium oxide",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_06"
+  },
+  {
+   "id": "cs_v_vermiculite_01",
+   "text": "Vermiculite holds soil water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vermiculite · cs_v_vermiculite_01"
+  },
+  {
+   "id": "cs_v_vertex_05",
+   "text": "Angles sit at a vertex",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vertex · cs_v_vertex_05"
+  },
+  {
+   "id": "cs_v_vibrio_01",
+   "text": "Vibrio thrives in warm seas",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vibrio · cs_v_vibrio_01"
+  },
+  {
+   "id": "cs_v_viscosity_05",
+   "text": "Cold raises oil viscosity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_05"
+  },
+  {
+   "id": "cs_v_vitamin_04",
+   "text": "Citrus yields vitamin C",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vitamin · cs_v_vitamin_04"
+  },
+  {
+   "id": "cs_v_volcanism_01",
+   "text": "Volcanism builds new crust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volcanism · cs_v_volcanism_01"
+  },
+  {
+   "id": "cs_v_vole_05",
+   "text": "Owls hunt a vole",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vole · cs_v_vole_05"
+  },
+  {
+   "id": "cs_v_voltmeter_01",
+   "text": "A voltmeter reads voltage",
+   "standing": "projectable",
+   "evidence": "science · product curator · Voltmeter · cs_v_voltmeter_01"
   }
  ]
 }
