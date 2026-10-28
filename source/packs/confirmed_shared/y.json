@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 229,
+ "curated_facts": 233,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1315,6 +1315,30 @@
    "text": "A yucca stores desert water",
    "standing": "projectable",
    "evidence": "nature · product curator · Yucca · cs_y_yucca_06"
+  },
+  {
+   "id": "cs_y_ytterbium_03",
+   "text": "Ytterbium lasers cut metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ytterbium · cs_y_ytterbium_03"
+  },
+  {
+   "id": "cs_y_yellowstone_04",
+   "text": "Geysers fill Yellowstone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yellowstone · cs_y_yellowstone_04"
+  },
+  {
+   "id": "cs_y_yenisei_02",
+   "text": "The Yenisei drains Siberia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yenisei · cs_y_yenisei_02"
+  },
+  {
+   "id": "cs_y_yew_08",
+   "text": "Yew wood springs bow staves",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yew · cs_y_yew_08"
   }
  ]
 }
