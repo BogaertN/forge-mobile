@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 229,
+ "curated_facts": 239,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1327,6 +1327,66 @@
    "text": "Kyanite forms blue blades",
    "standing": "projectable",
    "evidence": "science · product curator · Kyanite · cs_k_kyanite_02"
+  },
+  {
+   "id": "cs_k_kelp_07",
+   "text": "Kelp anchors rocky reefs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_07"
+  },
+  {
+   "id": "cs_k_keratin_05",
+   "text": "Keratin strengthens hair",
+   "standing": "projectable",
+   "evidence": "science · product curator · Keratin · cs_k_keratin_05"
+  },
+  {
+   "id": "cs_k_kerosene_04",
+   "text": "Kerosene fuels lamp wicks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_04"
+  },
+  {
+   "id": "cs_k_kiln_05",
+   "text": "A kiln fires ceramic ware",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kiln · cs_k_kiln_05"
+  },
+  {
+   "id": "cs_k_kimberlite_03",
+   "text": "Kimberlite holds diamond",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kimberlite · cs_k_kimberlite_03"
+  },
+  {
+   "id": "cs_k_kinematics_02",
+   "text": "Kinematics tracks motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kinematics · cs_k_kinematics_02"
+  },
+  {
+   "id": "cs_k_kinetic_01",
+   "text": "Kinetic energy moves mass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kinetic · cs_k_kinetic_01"
+  },
+  {
+   "id": "cs_k_kohlrabi_01",
+   "text": "Kohlrabi stores stem food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kohlrabi · cs_k_kohlrabi_01"
+  },
+  {
+   "id": "cs_k_krypton_05",
+   "text": "Krypton resists reactions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Krypton · cs_k_krypton_05"
+  },
+  {
+   "id": "cs_k_kudzu_01",
+   "text": "Kudzu covers fence lines",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kudzu · cs_k_kudzu_01"
   }
  ]
 }

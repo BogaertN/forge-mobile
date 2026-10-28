@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 231,
+ "curated_facts": 241,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1327,6 +1327,66 @@
    "text": "Birds eat juniper berries",
    "standing": "projectable",
    "evidence": "nature · product curator · Juniper · cs_j_juniper_08"
+  },
+  {
+   "id": "cs_j_jadeite_02",
+   "text": "Jadeite forms tough gems",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jadeite · cs_j_jadeite_02"
+  },
+  {
+   "id": "cs_j_jam_02",
+   "text": "Jam preserves cooked fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jam · cs_j_jam_02"
+  },
+  {
+   "id": "cs_j_jar_01",
+   "text": "A jar seals stored food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jar · cs_j_jar_01"
+  },
+  {
+   "id": "cs_j_jaundice_03",
+   "text": "Jaundice yellows tissue",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jaundice · cs_j_jaundice_03"
+  },
+  {
+   "id": "cs_j_jawbone_01",
+   "text": "Jawbones hinge the mouth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jawbone · cs_j_jawbone_01"
+  },
+  {
+   "id": "cs_j_jet_stream_06",
+   "text": "Jet streams steer weather",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_06"
+  },
+  {
+   "id": "cs_j_joint_05",
+   "text": "Joints allow bone motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joint · cs_j_joint_05"
+  },
+  {
+   "id": "cs_j_juice_05",
+   "text": "Juice ferments into wine",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juice · cs_j_juice_05"
+  },
+  {
+   "id": "cs_j_judge_05",
+   "text": "A judge applies statutes",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judge · cs_j_judge_05"
+  },
+  {
+   "id": "cs_j_jungle_06",
+   "text": "Jungle canopies block sun",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jungle · cs_j_jungle_06"
   }
  ]
 }

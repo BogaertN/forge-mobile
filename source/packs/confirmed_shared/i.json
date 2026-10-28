@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 232,
+ "curated_facts": 242,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1327,6 +1327,66 @@
    "text": "Isotopes share proton count",
    "standing": "projectable",
    "evidence": "science · product curator · Isotope · cs_i_isotope_04"
+  },
+  {
+   "id": "cs_i_ibuprofen_01",
+   "text": "Ibuprofen dulls body pain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ibuprofen · cs_i_ibuprofen_01"
+  },
+  {
+   "id": "cs_i_impulse_05",
+   "text": "An impulse sparks a nerve",
+   "standing": "projectable",
+   "evidence": "science · product curator · Impulse · cs_i_impulse_05"
+  },
+  {
+   "id": "cs_i_induction_02",
+   "text": "Induction heats metal pans",
+   "standing": "projectable",
+   "evidence": "science · product curator · Induction · cs_i_induction_02"
+  },
+  {
+   "id": "cs_i_ingot_01",
+   "text": "An ingot casts pure metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ingot · cs_i_ingot_01"
+  },
+  {
+   "id": "cs_i_inoculum_01",
+   "text": "Inoculum starts a culture",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inoculum · cs_i_inoculum_01"
+  },
+  {
+   "id": "cs_i_insect_05",
+   "text": "Insects molt exoskeletons",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Insect · cs_i_insect_05"
+  },
+  {
+   "id": "cs_i_integer_06",
+   "text": "An integer skips fractions",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integer · cs_i_integer_06"
+  },
+  {
+   "id": "cs_i_iodine_04",
+   "text": "Iodine treats thyroid needs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iodine · cs_i_iodine_04"
+  },
+  {
+   "id": "cs_i_iridium_05",
+   "text": "Iridium hardens pen tips",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iridium · cs_i_iridium_05"
+  },
+  {
+   "id": "cs_i_isthmus_04",
+   "text": "Isthmus joins two lands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_04"
   }
  ]
 }

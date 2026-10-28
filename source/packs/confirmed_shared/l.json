@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 229,
+ "curated_facts": 239,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1327,6 +1327,66 @@
    "text": "A lung exchanges oxygen",
    "standing": "projectable",
    "evidence": "science · product curator · Lung · cs_l_lung_03"
+  },
+  {
+   "id": "cs_l_lacquer_03",
+   "text": "Lacquer seals wood grain",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lacquer · cs_l_lacquer_03"
+  },
+  {
+   "id": "cs_l_lactase_01",
+   "text": "Lactase digests milk sugar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lactase · cs_l_lactase_01"
+  },
+  {
+   "id": "cs_l_lactic_01",
+   "text": "Lactic acid burns muscles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lactic · cs_l_lactic_01"
+  },
+  {
+   "id": "cs_l_larynx_02",
+   "text": "Larynx vibrates for speech",
+   "standing": "projectable",
+   "evidence": "science · product curator · Larynx · cs_l_larynx_02"
+  },
+  {
+   "id": "cs_l_latex_02",
+   "text": "Latex seals rubber gloves",
+   "standing": "projectable",
+   "evidence": "science · product curator · Latex · cs_l_latex_02"
+  },
+  {
+   "id": "cs_l_leech_01",
+   "text": "A leech drinks host blood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leech · cs_l_leech_01"
+  },
+  {
+   "id": "cs_l_leyden_01",
+   "text": "A Leyden jar stores charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Leyden · cs_l_leyden_01"
+  },
+  {
+   "id": "cs_l_lignin_01",
+   "text": "Lignin stiffens wood cells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lignin · cs_l_lignin_01"
+  },
+  {
+   "id": "cs_l_leukocyte_01",
+   "text": "Leukocytes fight infection",
+   "standing": "projectable",
+   "evidence": "science · product curator · Leukocyte · cs_l_leukocyte_01"
+  },
+  {
+   "id": "cs_l_longitude_03",
+   "text": "Longitude ranks east west",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Longitude · cs_l_longitude_03"
   }
  ]
 }
