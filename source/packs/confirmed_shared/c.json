@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 152,
+ "curated_facts": 161,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -883,6 +883,60 @@
    "text": "A coast borders the sea",
    "standing": "projectable",
    "evidence": "geography · product curator · Coast · cs_c_coast_01"
+  },
+  {
+   "id": "cs_c_cactus_02",
+   "text": "A cactus stores water in its stem",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Cactus · cs_c_cactus_02"
+  },
+  {
+   "id": "cs_c_chlorine_02",
+   "text": "Chlorine is a halogen gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chlorine · cs_c_chlorine_02"
+  },
+  {
+   "id": "cs_c_chlorophyll_02",
+   "text": "Chlorophyll absorbs light in plants",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chlorophyll · cs_c_chlorophyll_02"
+  },
+  {
+   "id": "cs_c_chord_01",
+   "text": "A chord joins two points on a circle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Chord · cs_c_chord_01"
+  },
+  {
+   "id": "cs_c_chromosome_02",
+   "text": "A chromosome carries genetic information",
+   "standing": "projectable",
+   "evidence": "science · product curator · Chromosome · cs_c_chromosome_02"
+  },
+  {
+   "id": "cs_c_circuit_01",
+   "text": "A circuit is a closed path for current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Circuit · cs_c_circuit_01"
+  },
+  {
+   "id": "cs_c_condensation_02",
+   "text": "Condensation turns vapor into liquid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Condensation · cs_c_condensation_02"
+  },
+  {
+   "id": "cs_c_cone_01",
+   "text": "A cone tapers from a base to a point",
+   "standing": "projectable",
+   "evidence": "math · product curator · Cone · cs_c_cone_01"
+  },
+  {
+   "id": "cs_c_continent_02",
+   "text": "A continent is a large landmass",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Continent · cs_c_continent_02"
   }
  ]
 }
