@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 131,
+ "curated_facts": 145,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -745,6 +745,90 @@
    "text": "A vocal cord vibrates to produce sound",
    "standing": "projectable",
    "evidence": "science · product curator · Vocal cord · cs_v_vocal_cord_01"
+  },
+  {
+   "id": "cs_v_valence_01",
+   "text": "Valence is the combining capacity of an atom",
+   "standing": "projectable",
+   "evidence": "science · product curator · Valence · cs_v_valence_01"
+  },
+  {
+   "id": "cs_v_valley_02",
+   "text": "A valley is a low area between hills or mountains",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Valley · cs_v_valley_02"
+  },
+  {
+   "id": "cs_v_vanadium_02",
+   "text": "Vanadium is a transition metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vanadium · cs_v_vanadium_02"
+  },
+  {
+   "id": "cs_v_vanilla_02",
+   "text": "Vanilla comes from an orchid plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vanilla · cs_v_vanilla_02"
+  },
+  {
+   "id": "cs_v_vector_02",
+   "text": "A vector has magnitude and direction",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vector · cs_v_vector_02"
+  },
+  {
+   "id": "cs_v_vein_03",
+   "text": "A vein carries blood toward the heart",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vein · cs_v_vein_03"
+  },
+  {
+   "id": "cs_v_venn_diagram_02",
+   "text": "A Venn diagram shows relationships among sets",
+   "standing": "projectable",
+   "evidence": "math · product curator · Venn diagram · cs_v_venn_diagram_02"
+  },
+  {
+   "id": "cs_v_vertebra_02",
+   "text": "A vertebra is a bone of the spine",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vertebra · cs_v_vertebra_02"
+  },
+  {
+   "id": "cs_v_vertex_04",
+   "text": "A vertex is a corner point of a polygon",
+   "standing": "projectable",
+   "evidence": "math · product curator · Vertex · cs_v_vertex_04"
+  },
+  {
+   "id": "cs_v_vespucci_amerigo_02",
+   "text": "Amerigo Vespucci explored the Americas",
+   "standing": "projectable",
+   "evidence": "history · product curator · Vespucci, Amerigo · cs_v_vespucci_amerigo_02"
+  },
+  {
+   "id": "cs_v_viking_01",
+   "text": "Vikings sailed from Scandinavia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Viking · cs_v_viking_01"
+  },
+  {
+   "id": "cs_v_vinegar_01",
+   "text": "Vinegar is dilute acetic acid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vinegar · cs_v_vinegar_01"
+  },
+  {
+   "id": "cs_v_virus_02",
+   "text": "A virus needs a host cell to reproduce",
+   "standing": "projectable",
+   "evidence": "science · product curator · Virus · cs_v_virus_02"
+  },
+  {
+   "id": "cs_v_volt_03",
+   "text": "A volt is the SI unit of electric potential",
+   "standing": "projectable",
+   "evidence": "science · product curator · Volt · cs_v_volt_03"
   }
  ]
 }

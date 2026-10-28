@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 137,
+ "curated_facts": 148,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -763,6 +763,72 @@
    "text": "An organelle is a structure inside a cell",
    "standing": "projectable",
    "evidence": "science · product curator · Organelle · cs_o_organelle_01"
+  },
+  {
+   "id": "cs_o_oboe_02",
+   "text": "An oboe is a woodwind instrument",
+   "standing": "projectable",
+   "evidence": "history · product curator · Oboe · cs_o_oboe_02"
+  },
+  {
+   "id": "cs_o_obtuse_angle_02",
+   "text": "An obtuse angle is greater than ninety degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Obtuse angle · cs_o_obtuse_angle_02"
+  },
+  {
+   "id": "cs_o_octave_02",
+   "text": "An octave doubles the frequency of a note",
+   "standing": "projectable",
+   "evidence": "science · product curator · Octave · cs_o_octave_02"
+  },
+  {
+   "id": "cs_o_odd_number_02",
+   "text": "An odd number is not divisible by two",
+   "standing": "projectable",
+   "evidence": "math · product curator · Odd number · cs_o_odd_number_02"
+  },
+  {
+   "id": "cs_o_oligarchy_02",
+   "text": "An oligarchy is rule by a small group",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Oligarchy · cs_o_oligarchy_02"
+  },
+  {
+   "id": "cs_o_opera_02",
+   "text": "An opera is a drama set to music",
+   "standing": "projectable",
+   "evidence": "history · product curator · Opera · cs_o_opera_02"
+  },
+  {
+   "id": "cs_o_ore_01",
+   "text": "Ore is rock that contains a valuable mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ore · cs_o_ore_01"
+  },
+  {
+   "id": "cs_o_orion_03",
+   "text": "Orion contains the star Betelgeuse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Orion · cs_o_orion_03"
+  },
+  {
+   "id": "cs_o_ostrich_04",
+   "text": "An ostrich is a large flightless bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ostrich · cs_o_ostrich_04"
+  },
+  {
+   "id": "cs_o_oxide_01",
+   "text": "An oxide is a compound of oxygen and another element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oxide · cs_o_oxide_01"
+  },
+  {
+   "id": "cs_o_oyster_02",
+   "text": "An oyster is a bivalve mollusk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_02"
   }
  ]
 }

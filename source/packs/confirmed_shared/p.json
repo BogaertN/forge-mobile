@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 133,
+ "curated_facts": 145,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -757,6 +757,78 @@
    "text": "A pea is a vegetable",
    "standing": "projectable",
    "evidence": "food · product curator · Pea · cs_p_pea_01"
+  },
+  {
+   "id": "cs_p_parallelogram_02",
+   "text": "Opposite sides of a parallelogram are equal",
+   "standing": "projectable",
+   "evidence": "math · product curator · Parallelogram · cs_p_parallelogram_02"
+  },
+  {
+   "id": "cs_p_perimeter_01",
+   "text": "Perimeter is the distance around a figure",
+   "standing": "projectable",
+   "evidence": "math · product curator · Perimeter · cs_p_perimeter_01"
+  },
+  {
+   "id": "cs_p_petal_01",
+   "text": "A petal is a colorful part of a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Petal · cs_p_petal_01"
+  },
+  {
+   "id": "cs_p_phloem_01",
+   "text": "Phloem carries food in a plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Phloem · cs_p_phloem_01"
+  },
+  {
+   "id": "cs_p_pi_02",
+   "text": "Pi is the ratio of circumference to diameter",
+   "standing": "projectable",
+   "evidence": "math · product curator · Pi · cs_p_pi_02"
+  },
+  {
+   "id": "cs_p_pistil_01",
+   "text": "The pistil is the female part of a flower",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pistil · cs_p_pistil_01"
+  },
+  {
+   "id": "cs_p_plasma_01",
+   "text": "Plasma is ionized gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Plasma · cs_p_plasma_01"
+  },
+  {
+   "id": "cs_p_polygon_01",
+   "text": "A polygon is a closed plane figure",
+   "standing": "projectable",
+   "evidence": "math · product curator · Polygon · cs_p_polygon_01"
+  },
+  {
+   "id": "cs_p_polymer_01",
+   "text": "A polymer is a long chain of repeating units",
+   "standing": "projectable",
+   "evidence": "science · product curator · Polymer · cs_p_polymer_01"
+  },
+  {
+   "id": "cs_p_precipitation_01",
+   "text": "Precipitation falls from clouds as rain or snow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Precipitation · cs_p_precipitation_01"
+  },
+  {
+   "id": "cs_p_pronoun_01",
+   "text": "A pronoun replaces a noun",
+   "standing": "projectable",
+   "evidence": "language · product curator · Pronoun · cs_p_pronoun_01"
+  },
+  {
+   "id": "cs_p_proton_02",
+   "text": "A proton has a positive charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Proton · cs_p_proton_02"
   }
  ]
 }
