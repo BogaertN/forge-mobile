@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 183,
+ "curated_facts": 191,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1051,6 +1051,54 @@
    "text": "A key opens a lock",
    "standing": "projectable",
    "evidence": "science · product curator · Key · cs_k_key_02"
+  },
+  {
+   "id": "cs_k_kiln_03",
+   "text": "A kiln heats pottery",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kiln · cs_k_kiln_03"
+  },
+  {
+   "id": "cs_k_kernel_03",
+   "text": "Corn has a hard kernel",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_03"
+  },
+  {
+   "id": "cs_k_knee_03",
+   "text": "A knee is a hinge joint",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knee · cs_k_knee_03"
+  },
+  {
+   "id": "cs_k_kinetic_energy_04",
+   "text": "A moving ball has kinetic energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_04"
+  },
+  {
+   "id": "cs_k_kite_06",
+   "text": "A kite soars on wind",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kite · cs_k_kite_06"
+  },
+  {
+   "id": "cs_k_kudu_02",
+   "text": "A kudu is an African antelope",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kudu · cs_k_kudu_02"
+  },
+  {
+   "id": "cs_k_karst_03",
+   "text": "Karst forms from dissolved limestone",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Karst · cs_k_karst_03"
+  },
+  {
+   "id": "cs_k_keratin_03",
+   "text": "Nails contain keratin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Keratin · cs_k_keratin_03"
   }
  ]
 }
