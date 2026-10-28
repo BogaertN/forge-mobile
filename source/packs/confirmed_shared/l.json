@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 249,
+ "curated_facts": 259,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1447,6 +1447,66 @@
    "text": "Lymph nodes filter germs",
    "standing": "projectable",
    "evidence": "science · product curator · Lymph · cs_l_lymph_03"
+  },
+  {
+   "id": "cs_l_ladybug_04",
+   "text": "Ladybugs eat soft aphids",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ladybug · cs_l_ladybug_04"
+  },
+  {
+   "id": "cs_l_lagoon_04",
+   "text": "Lagoons hold calm seawater",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_04"
+  },
+  {
+   "id": "cs_l_lamprey_02",
+   "text": "Lampreys latch onto fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lamprey · cs_l_lamprey_02"
+  },
+  {
+   "id": "cs_l_legume_02",
+   "text": "Legumes fix soil nitrogen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Legume · cs_l_legume_02"
+  },
+  {
+   "id": "cs_l_leopard_06",
+   "text": "Leopards climb tree limbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_06"
+  },
+  {
+   "id": "cs_l_lightning_03",
+   "text": "Lightning heats air plasma",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lightning · cs_l_lightning_03"
+  },
+  {
+   "id": "cs_l_limestone_03",
+   "text": "Limestone forms from shells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Limestone · cs_l_limestone_03"
+  },
+  {
+   "id": "cs_l_loam_03",
+   "text": "Loam holds crop moisture",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Loam · cs_l_loam_03"
+  },
+  {
+   "id": "cs_l_lobster_03",
+   "text": "Lobsters molt hard shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lobster · cs_l_lobster_03"
+  },
+  {
+   "id": "cs_l_lymph_04",
+   "text": "Lymph returns tissue fluid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lymph · cs_l_lymph_04"
   }
  ]
 }

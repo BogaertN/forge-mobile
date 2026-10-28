@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 251,
+ "curated_facts": 261,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1447,6 +1447,66 @@
    "text": "Gills extract water oxygen",
    "standing": "projectable",
    "evidence": "nature · product curator · Oxygen · cs_o_oxygen_08"
+  },
+  {
+   "id": "cs_o_obsidian_04",
+   "text": "Obsidian fractures sharp edges",
+   "standing": "projectable",
+   "evidence": "science · product curator · Obsidian · cs_o_obsidian_04"
+  },
+  {
+   "id": "cs_o_octave_03",
+   "text": "An octave doubles pitch",
+   "standing": "projectable",
+   "evidence": "science · product curator · Octave · cs_o_octave_03"
+  },
+  {
+   "id": "cs_o_ohm_04",
+   "text": "Ohms rank electric resistance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ohm · cs_o_ohm_04"
+  },
+  {
+   "id": "cs_o_onion_06",
+   "text": "Onions store bulb layers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Onion · cs_o_onion_06"
+  },
+  {
+   "id": "cs_o_onyx_03",
+   "text": "Onyx bands colored stone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Onyx · cs_o_onyx_03"
+  },
+  {
+   "id": "cs_o_oocyte_01",
+   "text": "Oocytes mature into eggs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Oocyte · cs_o_oocyte_01"
+  },
+  {
+   "id": "cs_o_orange_03",
+   "text": "Oranges store citrus pulp",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Orange · cs_o_orange_03"
+  },
+  {
+   "id": "cs_o_organelle_04",
+   "text": "An organelle runs cell work",
+   "standing": "projectable",
+   "evidence": "science · product curator · Organelle · cs_o_organelle_04"
+  },
+  {
+   "id": "cs_o_owl_07",
+   "text": "An owl turns its head far",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Owl · cs_o_owl_07"
+  },
+  {
+   "id": "cs_o_oyster_05",
+   "text": "Oysters filter bay water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oyster · cs_o_oyster_05"
   }
  ]
 }

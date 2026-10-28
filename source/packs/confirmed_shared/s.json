@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 244,
+ "curated_facts": 254,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1447,6 +1447,66 @@
    "text": "Steel strengthens bridges",
    "standing": "projectable",
    "evidence": "science · product curator · Steel · cs_s_steel_03"
+  },
+  {
+   "id": "cs_s_saffron_02",
+   "text": "Saffron colors rice dishes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Saffron · cs_s_saffron_02"
+  },
+  {
+   "id": "cs_s_salamander_04",
+   "text": "Salamanders breathe through skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_04"
+  },
+  {
+   "id": "cs_s_sapphire_03",
+   "text": "Sapphire ranks hard gems",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sapphire · cs_s_sapphire_03"
+  },
+  {
+   "id": "cs_s_scalar_02",
+   "text": "Scalars rank magnitude alone",
+   "standing": "projectable",
+   "evidence": "math · product curator · Scalar · cs_s_scalar_02"
+  },
+  {
+   "id": "cs_s_scar_02",
+   "text": "Scar tissue seals wounds",
+   "standing": "projectable",
+   "evidence": "science · product curator · Scar · cs_s_scar_02"
+  },
+  {
+   "id": "cs_s_schist_02",
+   "text": "Schist splits along planes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Schist · cs_s_schist_02"
+  },
+  {
+   "id": "cs_s_seed_02",
+   "text": "A seed stores plant food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Seed · cs_s_seed_02"
+  },
+  {
+   "id": "cs_s_sphincter_01",
+   "text": "A sphincter seals a tube",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sphincter · cs_s_sphincter_01"
+  },
+  {
+   "id": "cs_s_spider_03",
+   "text": "A spider spins silk webs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spider · cs_s_spider_03"
+  },
+  {
+   "id": "cs_s_spruce_03",
+   "text": "Spruce wood builds violins",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spruce · cs_s_spruce_03"
   }
  ]
 }
