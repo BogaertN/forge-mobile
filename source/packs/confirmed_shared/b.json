@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 166,
+ "curated_facts": 172,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -967,6 +967,42 @@
    "text": "Braille is a writing system for blind readers",
    "standing": "projectable",
    "evidence": "language · product curator · Braille · cs_b_braille_03"
+  },
+  {
+   "id": "cs_b_bay_04",
+   "text": "Waves enter a bay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bay · cs_b_bay_04"
+  },
+  {
+   "id": "cs_b_bird_04",
+   "text": "A bird has feathers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bird · cs_b_bird_04"
+  },
+  {
+   "id": "cs_b_blood_02",
+   "text": "Blood carries oxygen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Blood · cs_b_blood_02"
+  },
+  {
+   "id": "cs_b_ballot_03",
+   "text": "Voters mark a ballot",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Ballot · cs_b_ballot_03"
+  },
+  {
+   "id": "cs_b_bit_01",
+   "text": "A bit is a binary digit",
+   "standing": "projectable",
+   "evidence": "math · product curator · Bit · cs_b_bit_01"
+  },
+  {
+   "id": "cs_b_braille_04",
+   "text": "Braille uses raised dots",
+   "standing": "projectable",
+   "evidence": "language · product curator · Braille · cs_b_braille_04"
   }
  ]
 }
