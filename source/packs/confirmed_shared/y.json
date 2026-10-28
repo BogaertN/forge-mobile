@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 183,
+ "curated_facts": 186,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -1039,6 +1039,24 @@
    "text": "Crops give a yield at harvest",
    "standing": "projectable",
    "evidence": "nature · product curator · Yield · cs_y_yield_02"
+  },
+  {
+   "id": "cs_y_yak_10",
+   "text": "A yak is a highland cattle",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yak · cs_y_yak_10"
+  },
+  {
+   "id": "cs_y_yield_03",
+   "text": "Farmers measure crop yield",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yield · cs_y_yield_03"
+  },
+  {
+   "id": "cs_y_yolk_05",
+   "text": "A yolk feeds a growing chick",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yolk · cs_y_yolk_05"
   }
  ]
 }
