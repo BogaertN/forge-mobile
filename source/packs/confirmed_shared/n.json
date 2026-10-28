@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 161,
+ "curated_facts": 170,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -931,6 +931,60 @@
    "text": "A neuron transmits nerve impulses",
    "standing": "projectable",
    "evidence": "science · product curator · Neuron · cs_n_neuron_03"
+  },
+  {
+   "id": "cs_n_nacre_01",
+   "text": "Nacre lines some mollusk shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nacre · cs_n_nacre_01"
+  },
+  {
+   "id": "cs_n_naples_02",
+   "text": "Naples is a port city",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Naples · cs_n_naples_02"
+  },
+  {
+   "id": "cs_n_navy_03",
+   "text": "A navy defends at sea",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Navy · cs_n_navy_03"
+  },
+  {
+   "id": "cs_n_netball_02",
+   "text": "Netball is a team sport",
+   "standing": "projectable",
+   "evidence": "history · product curator · Netball · cs_n_netball_02"
+  },
+  {
+   "id": "cs_n_nile_03",
+   "text": "Ships sail the Nile",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nile · cs_n_nile_03"
+  },
+  {
+   "id": "cs_n_nitrogen_03",
+   "text": "Nitrogen is a colorless gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrogen · cs_n_nitrogen_03"
+  },
+  {
+   "id": "cs_n_noon_02",
+   "text": "Noon is midday",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Noon · cs_n_noon_02"
+  },
+  {
+   "id": "cs_n_nucleotide_01",
+   "text": "A nucleotide builds DNA",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nucleotide · cs_n_nucleotide_01"
+  },
+  {
+   "id": "cs_n_number_line_03",
+   "text": "Students plot points on a number line",
+   "standing": "projectable",
+   "evidence": "math · product curator · Number line · cs_n_number_line_03"
   }
  ]
 }

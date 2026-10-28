@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 170,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -943,6 +943,36 @@
    "text": "A kumquat has an edible rind",
    "standing": "projectable",
    "evidence": "nature · product curator · Kumquat · cs_k_kumquat_02"
+  },
+  {
+   "id": "cs_k_keratin_02",
+   "text": "Hair contains keratin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Keratin · cs_k_keratin_02"
+  },
+  {
+   "id": "cs_k_kilogram_05",
+   "text": "One liter of water has a mass near one kilogram",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilogram · cs_k_kilogram_05"
+  },
+  {
+   "id": "cs_k_kingfisher_07",
+   "text": "Bright plumage marks a kingfisher",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kingfisher · cs_k_kingfisher_07"
+  },
+  {
+   "id": "cs_k_kite_04",
+   "text": "A kite flies on a string",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kite · cs_k_kite_04"
+  },
+  {
+   "id": "cs_k_kumquat_03",
+   "text": "A kumquat has edible skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kumquat · cs_k_kumquat_03"
   }
  ]
 }
