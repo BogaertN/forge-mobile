@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 153,
+ "curated_facts": 160,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -895,6 +895,48 @@
    "text": "Energy changes form",
    "standing": "projectable",
    "evidence": "science · product curator · Energy · cs_e_energy_02"
+  },
+  {
+   "id": "cs_e_edge_02",
+   "text": "An edge joins two vertices of a polygon",
+   "standing": "projectable",
+   "evidence": "math · product curator · Edge · cs_e_edge_02"
+  },
+  {
+   "id": "cs_e_election_02",
+   "text": "An election chooses public officials",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Election · cs_e_election_02"
+  },
+  {
+   "id": "cs_e_erosion_02",
+   "text": "Erosion wears away rock and soil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Erosion · cs_e_erosion_02"
+  },
+  {
+   "id": "cs_e_etymology_02",
+   "text": "Dictionaries include etymology notes",
+   "standing": "projectable",
+   "evidence": "language · product curator · Etymology · cs_e_etymology_02"
+  },
+  {
+   "id": "cs_e_ellipse_03",
+   "text": "An ellipse is a closed oval curve",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_03"
+  },
+  {
+   "id": "cs_e_embassy_02",
+   "text": "An embassy represents a country abroad",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Embassy · cs_e_embassy_02"
+  },
+  {
+   "id": "cs_e_elevation_02",
+   "text": "Denver has high elevation",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Elevation · cs_e_elevation_02"
   }
  ]
 }
