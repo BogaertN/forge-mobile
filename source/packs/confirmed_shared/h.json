@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 177,
+ "curated_facts": 182,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1003,6 +1003,36 @@
    "text": "Bees live in a hive",
    "standing": "projectable",
    "evidence": "nature · product curator · Hive · cs_h_hive_01"
+  },
+  {
+   "id": "cs_h_hail_04",
+   "text": "Hail falls as ice pellets",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Hail · cs_h_hail_04"
+  },
+  {
+   "id": "cs_h_harbor_01",
+   "text": "Ships dock in a harbor",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Harbor · cs_h_harbor_01"
+  },
+  {
+   "id": "cs_h_honeycomb_01",
+   "text": "Bees build a honeycomb",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Honeycomb · cs_h_honeycomb_01"
+  },
+  {
+   "id": "cs_h_hinge_01",
+   "text": "A door swings on a hinge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hinge · cs_h_hinge_01"
+  },
+  {
+   "id": "cs_h_hypothesis_02",
+   "text": "A scientist tests a hypothesis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_02"
   }
  ]
 }
