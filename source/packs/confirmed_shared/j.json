@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 241,
+ "curated_facts": 251,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1387,6 +1387,66 @@
    "text": "Jungle canopies block sun",
    "standing": "projectable",
    "evidence": "nature · product curator · Jungle · cs_j_jungle_06"
+  },
+  {
+   "id": "cs_j_jet_05",
+   "text": "Jets compress turbine air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet · cs_j_jet_05"
+  },
+  {
+   "id": "cs_j_joist_03",
+   "text": "Joists support floor boards",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joist · cs_j_joist_03"
+  },
+  {
+   "id": "cs_j_juice_06",
+   "text": "Fruit juice holds vitamin C",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juice · cs_j_juice_06"
+  },
+  {
+   "id": "cs_j_jumping_spider_04",
+   "text": "Jumping spiders stalk prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jumping spider · cs_j_jumping_spider_04"
+  },
+  {
+   "id": "cs_j_junction_03",
+   "text": "Junctions join nerve paths",
+   "standing": "projectable",
+   "evidence": "science · product curator · Junction · cs_j_junction_03"
+  },
+  {
+   "id": "cs_j_juno_02",
+   "text": "Juno orbits planet Jupiter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Juno · cs_j_juno_02"
+  },
+  {
+   "id": "cs_j_jupiter_10",
+   "text": "Jupiter holds giant storms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jupiter · cs_j_jupiter_10"
+  },
+  {
+   "id": "cs_j_juvenile_02",
+   "text": "Juveniles molt soft shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juvenile · cs_j_juvenile_02"
+  },
+  {
+   "id": "cs_j_jade_06",
+   "text": "Jade takes a fine polish",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jade · cs_j_jade_06"
+  },
+  {
+   "id": "cs_j_jerboa_03",
+   "text": "Jerboas store desert fat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jerboa · cs_j_jerboa_03"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 234,
+ "curated_facts": 244,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1387,6 +1387,66 @@
    "text": "Steel hardens with carbon",
    "standing": "projectable",
    "evidence": "science · product curator · Steel · cs_s_steel_02"
+  },
+  {
+   "id": "cs_s_shoulder_01",
+   "text": "Shoulders lift arm loads",
+   "standing": "projectable",
+   "evidence": "science · product curator · Shoulder · cs_s_shoulder_01"
+  },
+  {
+   "id": "cs_s_sleep_01",
+   "text": "Sleep restores body energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sleep · cs_s_sleep_01"
+  },
+  {
+   "id": "cs_s_slope_02",
+   "text": "Slope ranks rise over run",
+   "standing": "projectable",
+   "evidence": "math · product curator · Slope · cs_s_slope_02"
+  },
+  {
+   "id": "cs_s_snail_03",
+   "text": "Snails glide mucus trails",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Snail · cs_s_snail_03"
+  },
+  {
+   "id": "cs_s_snow_01",
+   "text": "Snow blankets cold ground",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Snow · cs_s_snow_01"
+  },
+  {
+   "id": "cs_s_solder_01",
+   "text": "Solder joins metal wires",
+   "standing": "projectable",
+   "evidence": "science · product curator · Solder · cs_s_solder_01"
+  },
+  {
+   "id": "cs_s_solstice_03",
+   "text": "Solstice marks longest day",
+   "standing": "projectable",
+   "evidence": "science · product curator · Solstice · cs_s_solstice_03"
+  },
+  {
+   "id": "cs_s_spice_01",
+   "text": "Spice flavors cooked food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spice · cs_s_spice_01"
+  },
+  {
+   "id": "cs_s_spore_02",
+   "text": "Spores spread fungal life",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Spore · cs_s_spore_02"
+  },
+  {
+   "id": "cs_s_steel_03",
+   "text": "Steel strengthens bridges",
+   "standing": "projectable",
+   "evidence": "science · product curator · Steel · cs_s_steel_03"
   }
  ]
 }

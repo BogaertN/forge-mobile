@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 249,
+ "curated_facts": 259,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -1387,6 +1387,66 @@
    "text": "A quota limits catch size",
    "standing": "projectable",
    "evidence": "civics · product curator · Quota · cs_q_quota_05"
+  },
+  {
+   "id": "cs_q_quahog_02",
+   "text": "Quahogs filter tidal mud",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quahog · cs_q_quahog_02"
+  },
+  {
+   "id": "cs_q_quantity_03",
+   "text": "Scales report a quantity",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quantity · cs_q_quantity_03"
+  },
+  {
+   "id": "cs_q_quark_10",
+   "text": "Quarks form proton cores",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_10"
+  },
+  {
+   "id": "cs_q_quagga_03",
+   "text": "Quaggas grazed African plains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quagga · cs_q_quagga_03"
+  },
+  {
+   "id": "cs_q_quay_03",
+   "text": "A quay docks cargo ships",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quay · cs_q_quay_03"
+  },
+  {
+   "id": "cs_q_quill_10",
+   "text": "Birds grow flight quills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quill · cs_q_quill_10"
+  },
+  {
+   "id": "cs_q_quince_06",
+   "text": "Quince ripens tart fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quince · cs_q_quince_06"
+  },
+  {
+   "id": "cs_q_quinoa_09",
+   "text": "Quinoa cooks like grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_09"
+  },
+  {
+   "id": "cs_q_quotient_04",
+   "text": "A quotient divides two numbers",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quotient · cs_q_quotient_04"
+  },
+  {
+   "id": "cs_q_quantum_04",
+   "text": "A quantum packs energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quantum · cs_q_quantum_04"
   }
  ]
 }

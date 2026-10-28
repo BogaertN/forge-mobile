@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 239,
+ "curated_facts": 249,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -1387,6 +1387,66 @@
    "text": "Longitude ranks east west",
    "standing": "projectable",
    "evidence": "geography · product curator · Longitude · cs_l_longitude_03"
+  },
+  {
+   "id": "cs_l_larch_02",
+   "text": "Larch sheds soft needles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Larch · cs_l_larch_02"
+  },
+  {
+   "id": "cs_l_lettuce_02",
+   "text": "Lettuce stores leaf water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lettuce · cs_l_lettuce_02"
+  },
+  {
+   "id": "cs_l_lichen_04",
+   "text": "Lichens grow on bare rock",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lichen · cs_l_lichen_04"
+  },
+  {
+   "id": "cs_l_ligament_02",
+   "text": "Ligaments join bone ends",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ligament · cs_l_ligament_02"
+  },
+  {
+   "id": "cs_l_lipase_01",
+   "text": "Lipase digests fat meals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lipase · cs_l_lipase_01"
+  },
+  {
+   "id": "cs_l_liquid_02",
+   "text": "A liquid fills its vessel",
+   "standing": "projectable",
+   "evidence": "science · product curator · Liquid · cs_l_liquid_02"
+  },
+  {
+   "id": "cs_l_litmus_03",
+   "text": "Litmus marks acid strength",
+   "standing": "projectable",
+   "evidence": "science · product curator · Litmus · cs_l_litmus_03"
+  },
+  {
+   "id": "cs_l_liver_04",
+   "text": "Liver stores body glycogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Liver · cs_l_liver_04"
+  },
+  {
+   "id": "cs_l_lobe_02",
+   "text": "Lung lobes fill with air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lobe · cs_l_lobe_02"
+  },
+  {
+   "id": "cs_l_lymph_03",
+   "text": "Lymph nodes filter germs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lymph · cs_l_lymph_03"
   }
  ]
 }

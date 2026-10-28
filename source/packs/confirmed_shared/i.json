@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 242,
+ "curated_facts": 252,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1387,6 +1387,66 @@
    "text": "Isthmus joins two lands",
    "standing": "projectable",
    "evidence": "geography · product curator · Isthmus · cs_i_isthmus_04"
+  },
+  {
+   "id": "cs_i_image_02",
+   "text": "Lenses form sharp images",
+   "standing": "projectable",
+   "evidence": "science · product curator · Image · cs_i_image_02"
+  },
+  {
+   "id": "cs_i_inclined_plane_02",
+   "text": "Ramps form inclined planes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inclined plane · cs_i_inclined_plane_02"
+  },
+  {
+   "id": "cs_i_inhale_02",
+   "text": "Inhale fills lung volume",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inhale · cs_i_inhale_02"
+  },
+  {
+   "id": "cs_i_inhibitor_01",
+   "text": "Inhibitors slow enzyme work",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inhibitor · cs_i_inhibitor_01"
+  },
+  {
+   "id": "cs_i_ink_05",
+   "text": "Ink stains paper fibers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ink · cs_i_ink_05"
+  },
+  {
+   "id": "cs_i_insulin_02",
+   "text": "Insulin lowers blood sugar",
+   "standing": "projectable",
+   "evidence": "science · product curator · Insulin · cs_i_insulin_02"
+  },
+  {
+   "id": "cs_i_integral_02",
+   "text": "Integrals sum curved areas",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integral · cs_i_integral_02"
+  },
+  {
+   "id": "cs_i_interphase_02",
+   "text": "Interphase copies cell DNA",
+   "standing": "projectable",
+   "evidence": "science · product curator · Interphase · cs_i_interphase_02"
+  },
+  {
+   "id": "cs_i_ion_04",
+   "text": "Ions carry electric charge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ion · cs_i_ion_04"
+  },
+  {
+   "id": "cs_i_isomer_02",
+   "text": "Isomers share atom counts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Isomer · cs_i_isomer_02"
   }
  ]
 }
