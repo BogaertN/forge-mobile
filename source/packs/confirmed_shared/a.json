@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 215,
+ "curated_facts": 223,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1279,6 +1279,54 @@
    "text": "Ash enriches forest soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Ash · cs_a_ash_02"
+  },
+  {
+   "id": "cs_a_alloy_02",
+   "text": "An alloy mixes metal atoms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alloy · cs_a_alloy_02"
+  },
+  {
+   "id": "cs_a_amber_02",
+   "text": "Insects trap in amber sap",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Amber · cs_a_amber_02"
+  },
+  {
+   "id": "cs_a_ampere_02",
+   "text": "An ampere measures current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ampere · cs_a_ampere_02"
+  },
+  {
+   "id": "cs_a_apex_01",
+   "text": "A pyramid rises to an apex",
+   "standing": "projectable",
+   "evidence": "math · product curator · Apex · cs_a_apex_01"
+  },
+  {
+   "id": "cs_a_apricot_01",
+   "text": "An apricot ripens on a tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Apricot · cs_a_apricot_01"
+  },
+  {
+   "id": "cs_a_argon_04",
+   "text": "Bulbs fill with argon gas",
+   "standing": "projectable",
+   "evidence": "science · product curator · Argon · cs_a_argon_04"
+  },
+  {
+   "id": "cs_a_atrium_01",
+   "text": "Blood fills a heart atrium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Atrium · cs_a_atrium_01"
+  },
+  {
+   "id": "cs_a_axon_02",
+   "text": "Signals travel an axon",
+   "standing": "projectable",
+   "evidence": "science · product curator · Axon · cs_a_axon_02"
   }
  ]
 }
