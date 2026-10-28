@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 186,
+ "curated_facts": 194,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1093,6 +1093,54 @@
    "text": "Earthworms enrich soil",
    "standing": "projectable",
    "evidence": "nature · product curator · Earthworm · cs_e_earthworm_03"
+  },
+  {
+   "id": "cs_e_evaporation_03",
+   "text": "Puddles dry by evaporation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Evaporation · cs_e_evaporation_03"
+  },
+  {
+   "id": "cs_e_echo_03",
+   "text": "A canyon returns an echo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Echo · cs_e_echo_03"
+  },
+  {
+   "id": "cs_e_electrode_02",
+   "text": "A battery has an electrode",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electrode · cs_e_electrode_02"
+  },
+  {
+   "id": "cs_e_epiphyte_02",
+   "text": "An orchid is an epiphyte",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_02"
+  },
+  {
+   "id": "cs_e_elephant_03",
+   "text": "An elephant uses a trunk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elephant · cs_e_elephant_03"
+  },
+  {
+   "id": "cs_e_elk_02",
+   "text": "An elk has large antlers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Elk · cs_e_elk_02"
+  },
+  {
+   "id": "cs_e_ear_canal_02",
+   "text": "Sound enters the ear canal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ear canal · cs_e_ear_canal_02"
+  },
+  {
+   "id": "cs_e_egret_03",
+   "text": "An egret wades for fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Egret · cs_e_egret_03"
   }
  ]
 }
