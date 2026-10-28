@@ -1,3 +1,14 @@
+# Next build order — after 4.9.162
+**Date:** 2026-10-28 (America/Chicago)
+**Baseline:** 4.9.162 READ-path connect (hosted confirmed_shared before AQ-1; packs index still 4.9.161)
+**Rule:** language leading + **one** reasoning step per release; pathway fixes not answer patches; live probe primary; no LLM; scrapbook shared KB stays empty; size never blocks; do not push from audit.
+
+**Shipped 4.9.162:** connected ordinary WH/YN/about recall to hosted shared knowledge (session pull) after memory and before GKS/AQ-1 — so civics/science what-is covered by A–Z packs answer from Shared knowledge base without starting research.web; deliberate miss still AQ-1. Phone DB / scrapbook stay empty; write-key unchanged. Soft budget unchanged.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget; stuffing First Amendment (or any one answer) as a special case.
+
+**Manual:** still paused.
+
 # Next build order — after 4.9.161
 **Date:** 2026-10-28 (America/Chicago)
 **Baseline:** 4.9.161 hosted shared knowledge A–Z refresh (read-for-all, write-key; not phone DB; shipped from 4.9.160)
