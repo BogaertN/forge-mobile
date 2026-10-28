@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 179,
+ "curated_facts": 182,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1045,6 +1045,24 @@
    "text": "Baking soda is sodium bicarbonate",
    "standing": "projectable",
    "evidence": "science · product curator · Bicarbonate · cs_b_bicarbonate_01"
+  },
+  {
+   "id": "cs_b_baboon_01",
+   "text": "A baboon is a large monkey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Baboon · cs_b_baboon_01"
+  },
+  {
+   "id": "cs_b_biosphere_02",
+   "text": "Life fills the biosphere",
+   "standing": "projectable",
+   "evidence": "science · product curator · Biosphere · cs_b_biosphere_02"
+  },
+  {
+   "id": "cs_b_barracuda_02",
+   "text": "A barracuda is a fast fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Barracuda · cs_b_barracuda_02"
   }
  ]
 }
