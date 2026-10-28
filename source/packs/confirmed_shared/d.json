@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 235,
+ "curated_facts": 245,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1345,6 +1345,66 @@
    "text": "Dolomite holds magnesium carbonate",
    "standing": "projectable",
    "evidence": "science · product curator · Dolomite · cs_d_dolomite_02"
+  },
+  {
+   "id": "cs_d_dandelion_04",
+   "text": "Dandelions spread by seed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dandelion · cs_d_dandelion_04"
+  },
+  {
+   "id": "cs_d_dendrite_02",
+   "text": "Dendrites receive nerve signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dendrite · cs_d_dendrite_02"
+  },
+  {
+   "id": "cs_d_density_03",
+   "text": "Density ranks mass per volume",
+   "standing": "projectable",
+   "evidence": "science · product curator · Density · cs_d_density_03"
+  },
+  {
+   "id": "cs_d_dermis_02",
+   "text": "Collagen fills the dermis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dermis · cs_d_dermis_02"
+  },
+  {
+   "id": "cs_d_detergent_02",
+   "text": "Detergent lifts oily dirt",
+   "standing": "projectable",
+   "evidence": "science · product curator · Detergent · cs_d_detergent_02"
+  },
+  {
+   "id": "cs_d_diaphragm_02",
+   "text": "Breath lifts the diaphragm",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diaphragm · cs_d_diaphragm_02"
+  },
+  {
+   "id": "cs_d_diatom_05",
+   "text": "Diatoms build silica shells",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_05"
+  },
+  {
+   "id": "cs_d_diode_02",
+   "text": "A diode passes one-way current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Diode · cs_d_diode_02"
+  },
+  {
+   "id": "cs_d_doppler_01",
+   "text": "Police radar uses Doppler",
+   "standing": "projectable",
+   "evidence": "science · product curator · Doppler · cs_d_doppler_01"
+  },
+  {
+   "id": "cs_d_dormant_02",
+   "text": "Winter keeps buds dormant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Dormant · cs_d_dormant_02"
   }
  ]
 }
