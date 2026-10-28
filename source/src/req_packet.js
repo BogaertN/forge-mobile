@@ -119,7 +119,7 @@
     write: 'write without key refuses; write with Nic key mutates session only',
     invent: 'invent compose prefer hosted shared knowledge; speech names it',
     az: 'hosted A-Z index and packs',
-    ver: 'version registry CONFLICTS NEXT_BUILD name 4.9.154'
+    ver: 'version registry CONFLICTS NEXT_BUILD name 4.9.155'
   };
   const L = (id, suite, cls, name, doc9_class) => ({ id, suite, cls, name, doc9_class });
   const PACKETS = [
@@ -166,10 +166,10 @@
       { id: 'R4127-LETTER-A', statement: 'Hosted a.json is FORGE-CONFIRMED-PACK/v1; invent/compose prefer confirmed_shared.', falsify: 'Letter A missing, invent ignores confirmed_shared, says shared KB, or packs in single.', tests: [L('R4127.pack', 'r4127_suite.js', 'R4127', M.pack, 'POSITIVE'), L('R4127.invent', 'r4127_suite.js', 'R4127', M.invent, 'POSITIVE')] },
       { id: 'R4127-PROV', statement: 'Audit names confirmed_shared; no shared KB; budget unchanged.', falsify: 'Audit omits confirmed_shared, UI shared KB, budget rises, or scrapbook written.', tests: [L('R4127.audit', 'r4127_suite.js', 'R4127', M.audit, 'ADVERSARIAL'), L('R4127.ver', 'r4127_suite.js', 'R4127', M.ver, 'REGRESSION')] }
     ] },
-    { schema: SCHEMA, release: '4.9.154', requirements: [
+    { schema: SCHEMA, release: '4.9.155', requirements: [
       { id: 'R4128-HOSTED', statement: 'Hosted A–Z shared knowledge pulls into session RAM for invent/compose. Phone DB is not the product brain. Scrapbook stays empty.', falsify: 'Pull writes thousands of facts into phone confirmed_shared or scrapbook, or invent ignores hosted anchors.', tests: [L('R4128.pull', 'r4128_suite.js', 'R4128', N.pull, 'POSITIVE'), L('R4128.invent', 'r4128_suite.js', 'R4128', N.invent, 'POSITIVE')] },
       { id: 'R4128-WRITE-KEY', statement: 'Write to shared knowledge refuses without Nic write key. Read/pull needs no key.', falsify: 'admitConfirmedShared or writeSharedKnowledge succeeds with only productCurator true, or pull requires a key.', tests: [L('R4128.write', 'r4128_suite.js', 'R4128', N.write, 'ADVERSARIAL')] },
-      { id: 'R4128-AZ', statement: 'Index 4.9.154 hosts all 26 letters with ≥1890 admitted items (5670 / 5908 curated); UI/Audit name Shared knowledge base.', falsify: 'Letters missing, count below floor, or UI still hides shared knowledge naming.', tests: [L('R4128.az', 'r4128_suite.js', 'R4128', N.az, 'POSITIVE'), L('R4128.ver', 'r4128_suite.js', 'R4128', N.ver, 'REGRESSION')] }
+      { id: 'R4128-AZ', statement: 'Index 4.9.155 hosts all 26 letters with ≥1890 admitted items (5790 / 6028 curated); UI/Audit name Shared knowledge base.', falsify: 'Letters missing, count below floor, or UI still hides shared knowledge naming.', tests: [L('R4128.az', 'r4128_suite.js', 'R4128', N.az, 'POSITIVE'), L('R4128.ver', 'r4128_suite.js', 'R4128', N.ver, 'REGRESSION')] }
     ] }
   ];
   const TEMPLATE = { schema: SCHEMA, release: '', requirements: [], decision: { law: 'GP-015', behavior_overrides_gate: false, both_required: true }, non_llm: { schema: RECEIPT, files: [], checks: [] }, named_outside_gate: [] };
