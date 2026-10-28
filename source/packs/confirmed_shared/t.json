@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 125,
+ "curated_facts": 145,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -715,6 +715,126 @@
    "text": "A tectonic plate is a slab of rock",
    "standing": "projectable",
    "evidence": "science · product curator · Tectonic plate · cs_t_tectonic_plate_01"
+  },
+  {
+   "id": "cs_t_twin_prime_01",
+   "text": "A twin prime is a pair of primes that differ by two",
+   "standing": "projectable",
+   "evidence": "math · product curator · Twin prime · cs_t_twin_prime_01"
+  },
+  {
+   "id": "cs_t_twilight_01",
+   "text": "Twilight is light after sunset",
+   "standing": "projectable",
+   "evidence": "science · product curator · Twilight · cs_t_twilight_01"
+  },
+  {
+   "id": "cs_t_turbine_01",
+   "text": "A turbine converts fluid flow into rotation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Turbine · cs_t_turbine_01"
+  },
+  {
+   "id": "cs_t_tuber_01",
+   "text": "A tuber is a swollen underground stem",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tuber · cs_t_tuber_01"
+  },
+  {
+   "id": "cs_t_triassic_01",
+   "text": "The Triassic period came before the Jurassic",
+   "standing": "projectable",
+   "evidence": "history · product curator · Triassic · cs_t_triassic_01"
+  },
+  {
+   "id": "cs_t_tremor_01",
+   "text": "A tremor is a small earthquake",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tremor · cs_t_tremor_01"
+  },
+  {
+   "id": "cs_t_transparent_01",
+   "text": "A transparent material lets light pass clearly",
+   "standing": "projectable",
+   "evidence": "science · product curator · Transparent · cs_t_transparent_01"
+  },
+  {
+   "id": "cs_t_transistor_01",
+   "text": "A transistor amplifies electric signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Transistor · cs_t_transistor_01"
+  },
+  {
+   "id": "cs_t_trade_wind_01",
+   "text": "A trade wind blows toward the equator",
+   "standing": "projectable",
+   "evidence": "science · product curator · Trade wind · cs_t_trade_wind_01"
+  },
+  {
+   "id": "cs_t_tourmaline_01",
+   "text": "Tourmaline is a gemstone mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tourmaline · cs_t_tourmaline_01"
+  },
+  {
+   "id": "cs_t_torso_01",
+   "text": "The torso is the main body without limbs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Torso · cs_t_torso_01"
+  },
+  {
+   "id": "cs_t_torque_01",
+   "text": "Torque is a twisting force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Torque · cs_t_torque_01"
+  },
+  {
+   "id": "cs_t_topsoil_01",
+   "text": "Topsoil is the upper layer of soil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Topsoil · cs_t_topsoil_01"
+  },
+  {
+   "id": "cs_t_tasman_sea_01",
+   "text": "The Tasman Sea lies between Australia and New Zealand",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tasman Sea · cs_t_tasman_sea_01"
+  },
+  {
+   "id": "cs_t_tropic_of_cancer_01",
+   "text": "The Tropic of Cancer is a line of latitude",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tropic of Cancer · cs_t_tropic_of_cancer_01"
+  },
+  {
+   "id": "cs_t_tropic_of_capricorn_01",
+   "text": "The Tropic of Capricorn is a line of latitude",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tropic of Capricorn · cs_t_tropic_of_capricorn_01"
+  },
+  {
+   "id": "cs_t_tributary_01",
+   "text": "A tributary flows into a larger river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tributary · cs_t_tributary_01"
+  },
+  {
+   "id": "cs_t_tendon_01",
+   "text": "A tendon connects muscle to bone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tendon · cs_t_tendon_01"
+  },
+  {
+   "id": "cs_t_theorem_01",
+   "text": "A theorem is a proven statement",
+   "standing": "projectable",
+   "evidence": "math · product curator · Theorem · cs_t_theorem_01"
+  },
+  {
+   "id": "cs_t_thermal_energy_01",
+   "text": "Thermal energy is heat energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thermal energy · cs_t_thermal_energy_01"
   }
  ]
 }

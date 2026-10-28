@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 129,
+ "curated_facts": 145,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -721,6 +721,102 @@
    "text": "Rosario is a city in Argentina",
    "standing": "projectable",
    "evidence": "geography · product curator · Rosario · cs_r_rosario_01"
+  },
+  {
+   "id": "cs_r_ruler_01",
+   "text": "A ruler measures length",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ruler · cs_r_ruler_01"
+  },
+  {
+   "id": "cs_r_rotation_01",
+   "text": "Rotation is a turn around an axis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rotation · cs_r_rotation_01"
+  },
+  {
+   "id": "cs_r_right_angle_01",
+   "text": "A right angle measures ninety degrees",
+   "standing": "projectable",
+   "evidence": "math · product curator · Right angle · cs_r_right_angle_01"
+  },
+  {
+   "id": "cs_r_rib_01",
+   "text": "A rib is a curved bone in the chest",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rib · cs_r_rib_01"
+  },
+  {
+   "id": "cs_r_revolution_01",
+   "text": "A revolution is a complete turn around an axis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Revolution · cs_r_revolution_01"
+  },
+  {
+   "id": "cs_r_resin_01",
+   "text": "Resin is a sticky plant secretion",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Resin · cs_r_resin_01"
+  },
+  {
+   "id": "cs_r_remora_01",
+   "text": "A remora is a fish that attaches to sharks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Remora · cs_r_remora_01"
+  },
+  {
+   "id": "cs_r_reed_01",
+   "text": "A reed is a tall grass that grows in wet places",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reed · cs_r_reed_01"
+  },
+  {
+   "id": "cs_r_recycling_01",
+   "text": "Recycling reuses materials",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Recycling · cs_r_recycling_01"
+  },
+  {
+   "id": "cs_r_ray_01",
+   "text": "A ray of light travels in a straight line",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ray · cs_r_ray_01"
+  },
+  {
+   "id": "cs_r_radar_01",
+   "text": "Radar uses radio waves to detect objects",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radar · cs_r_radar_01"
+  },
+  {
+   "id": "cs_r_radius_04",
+   "text": "A radius joins the center of a circle to its edge",
+   "standing": "projectable",
+   "evidence": "math · product curator · Radius · cs_r_radius_04"
+  },
+  {
+   "id": "cs_r_range_01",
+   "text": "A mountain range is a chain of mountains",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Range · cs_r_range_01"
+  },
+  {
+   "id": "cs_r_red_giant_02",
+   "text": "A red giant is a large cool star",
+   "standing": "projectable",
+   "evidence": "science · product curator · Red giant · cs_r_red_giant_02"
+  },
+  {
+   "id": "cs_r_reef_02",
+   "text": "A reef is a ridge of rock or coral near the surface of water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Reef · cs_r_reef_02"
+  },
+  {
+   "id": "cs_r_renaissance_02",
+   "text": "The Renaissance was a period of cultural rebirth in Europe",
+   "standing": "projectable",
+   "evidence": "history · product curator · Renaissance · cs_r_renaissance_02"
   }
  ]
 }

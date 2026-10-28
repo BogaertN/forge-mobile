@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 138,
+ "curated_facts": 156,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -721,6 +721,114 @@
    "text": "Quick means fast",
    "standing": "projectable",
    "evidence": "language · product curator · Quick · cs_q_quick_01"
+  },
+  {
+   "id": "cs_q_quadratic_01",
+   "text": "A quadratic equation has degree two",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadratic · cs_q_quadratic_01"
+  },
+  {
+   "id": "cs_q_qin_01",
+   "text": "The Qin dynasty unified China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Qin · cs_q_qin_01"
+  },
+  {
+   "id": "cs_q_quinoa_05",
+   "text": "Quinoa is a seed crop from the Andes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quinoa · cs_q_quinoa_05"
+  },
+  {
+   "id": "cs_q_quilt_03",
+   "text": "A quilt is a padded bed cover",
+   "standing": "projectable",
+   "evidence": "language · product curator · Quilt · cs_q_quilt_03"
+  },
+  {
+   "id": "cs_q_quill_04",
+   "text": "A quill is a feather used for writing",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quill · cs_q_quill_04"
+  },
+  {
+   "id": "cs_q_quicksand_02",
+   "text": "Quicksand is loose wet sand that yields under weight",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quicksand · cs_q_quicksand_02"
+  },
+  {
+   "id": "cs_q_quark_05",
+   "text": "A quark is a basic particle of matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_05"
+  },
+  {
+   "id": "cs_q_quadrant_03",
+   "text": "A quadrant is one fourth of a circle",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quadrant · cs_q_quadrant_03"
+  },
+  {
+   "id": "cs_q_quince_03",
+   "text": "A quince is a yellow fruit",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quince · cs_q_quince_03"
+  },
+  {
+   "id": "cs_q_quicksilver_02",
+   "text": "Quicksilver is another name for mercury",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quicksilver · cs_q_quicksilver_02"
+  },
+  {
+   "id": "cs_q_queen_bee_05",
+   "text": "A queen bee lays eggs in a hive",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Queen bee · cs_q_queen_bee_05"
+  },
+  {
+   "id": "cs_q_quartzite_02",
+   "text": "Quartzite is a metamorphic rock from sandstone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quartzite · cs_q_quartzite_02"
+  },
+  {
+   "id": "cs_q_quarter_04",
+   "text": "A quarter is one fourth of a whole",
+   "standing": "projectable",
+   "evidence": "math · product curator · Quarter · cs_q_quarter_04"
+  },
+  {
+   "id": "cs_q_quail_08",
+   "text": "A quail is a small game bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Quail · cs_q_quail_08"
+  },
+  {
+   "id": "cs_q_qatar_08",
+   "text": "Qatar is a country on the Persian Gulf",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Qatar · cs_q_qatar_08"
+  },
+  {
+   "id": "cs_q_question_01",
+   "text": "A question asks for information",
+   "standing": "projectable",
+   "evidence": "language · product curator · Question · cs_q_question_01"
+  },
+  {
+   "id": "cs_q_quantum_02",
+   "text": "A quantum is a discrete packet of energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quantum · cs_q_quantum_02"
+  },
+  {
+   "id": "cs_q_queensland_04",
+   "text": "Queensland is a state in Australia",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Queensland · cs_q_queensland_04"
   }
  ]
 }
