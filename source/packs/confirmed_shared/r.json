@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 156,
+ "curated_facts": 165,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -883,6 +883,60 @@
    "text": "A plant root absorbs water",
    "standing": "projectable",
    "evidence": "nature · product curator · Root · cs_r_root_02"
+  },
+  {
+   "id": "cs_r_radio_wave_02",
+   "text": "A radio wave is a form of electromagnetic radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Radio wave · cs_r_radio_wave_02"
+  },
+  {
+   "id": "cs_r_range_02",
+   "text": "A range is the difference between extremes",
+   "standing": "projectable",
+   "evidence": "math · product curator · Range · cs_r_range_02"
+  },
+  {
+   "id": "cs_r_reflection_03",
+   "text": "Reflection bounces light from a surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Reflection · cs_r_reflection_03"
+  },
+  {
+   "id": "cs_r_refraction_02",
+   "text": "Refraction bends light in a new medium",
+   "standing": "projectable",
+   "evidence": "science · product curator · Refraction · cs_r_refraction_02"
+  },
+  {
+   "id": "cs_r_reindeer_03",
+   "text": "A reindeer lives in Arctic regions",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Reindeer · cs_r_reindeer_03"
+  },
+  {
+   "id": "cs_r_river_01",
+   "text": "A river flows toward a larger body of water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · River · cs_r_river_01"
+  },
+  {
+   "id": "cs_r_rna_03",
+   "text": "RNA carries genetic instructions",
+   "standing": "projectable",
+   "evidence": "science · product curator · RNA · cs_r_rna_03"
+  },
+  {
+   "id": "cs_r_rock_01",
+   "text": "A rock is a solid mineral aggregate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Rock · cs_r_rock_01"
+  },
+  {
+   "id": "cs_r_root_03",
+   "text": "A root anchors a plant in soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Root · cs_r_root_03"
   }
  ]
 }

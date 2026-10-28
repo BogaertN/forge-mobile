@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 179,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -865,6 +865,90 @@
    "text": "Zoning regulates land use",
    "standing": "projectable",
    "evidence": "civics · product curator · Zoning · cs_z_zoning_03"
+  },
+  {
+   "id": "cs_z_zeolite_02",
+   "text": "Zeolites adsorb water molecules",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_02"
+  },
+  {
+   "id": "cs_z_zinc_oxide_02",
+   "text": "Zinc oxide blocks ultraviolet light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc oxide · cs_z_zinc_oxide_02"
+  },
+  {
+   "id": "cs_z_zirconium_05",
+   "text": "Zirconium resists corrosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zirconium · cs_z_zirconium_05"
+  },
+  {
+   "id": "cs_z_zone_01",
+   "text": "A time zone shares the same civil time",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zone · cs_z_zone_01"
+  },
+  {
+   "id": "cs_z_zoning_04",
+   "text": "A zoning law controls building use",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Zoning · cs_z_zoning_04"
+  },
+  {
+   "id": "cs_z_zooplankton_04",
+   "text": "Zooplankton are animal plankton",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zooplankton · cs_z_zooplankton_04"
+  },
+  {
+   "id": "cs_z_zulu_04",
+   "text": "Zulu is a Bantu language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zulu · cs_z_zulu_04"
+  },
+  {
+   "id": "cs_z_zen_03",
+   "text": "Zen emphasizes meditation practice",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zen · cs_z_zen_03"
+  },
+  {
+   "id": "cs_z_zebra_mussel_03",
+   "text": "A zebra mussel invades freshwater",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra mussel · cs_z_zebra_mussel_03"
+  },
+  {
+   "id": "cs_z_zaire_02",
+   "text": "Zaire was a former name of Congo",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zaire · cs_z_zaire_02"
+  },
+  {
+   "id": "cs_z_zambia_08",
+   "text": "Zambia exports copper",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Zambia · cs_z_zambia_08"
+  },
+  {
+   "id": "cs_z_zeta_02",
+   "text": "Zeta follows epsilon in the Greek alphabet",
+   "standing": "projectable",
+   "evidence": "language · product curator · Zeta · cs_z_zeta_02"
+  },
+  {
+   "id": "cs_z_zodiac_05",
+   "text": "Astrology uses twelve zodiac signs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_05"
+  },
+  {
+   "id": "cs_z_zhou_01",
+   "text": "The Zhou ruled for centuries in China",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zhou · cs_z_zhou_01"
   }
  ]
 }

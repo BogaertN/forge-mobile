@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 152,
+ "curated_facts": 162,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -877,6 +877,66 @@
    "text": "Tundra has cold treeless land",
    "standing": "projectable",
    "evidence": "geography · product curator · Tundra · cs_t_tundra_02"
+  },
+  {
+   "id": "cs_t_teak_02",
+   "text": "Teak is a durable hardwood",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Teak · cs_t_teak_02"
+  },
+  {
+   "id": "cs_t_thousand_02",
+   "text": "A thousand is ten hundreds",
+   "standing": "projectable",
+   "evidence": "math · product curator · Thousand · cs_t_thousand_02"
+  },
+  {
+   "id": "cs_t_thunder_02",
+   "text": "Thunder is the sound of a lightning discharge",
+   "standing": "projectable",
+   "evidence": "science · product curator · Thunder · cs_t_thunder_02"
+  },
+  {
+   "id": "cs_t_tin_02",
+   "text": "Tin is a soft metallic element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tin · cs_t_tin_02"
+  },
+  {
+   "id": "cs_t_titanium_02",
+   "text": "Titanium is a strong light metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Titanium · cs_t_titanium_02"
+  },
+  {
+   "id": "cs_t_ton_02",
+   "text": "A ton is a unit of mass",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ton · cs_t_ton_02"
+  },
+  {
+   "id": "cs_t_tooth_02",
+   "text": "A tooth breaks down food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tooth · cs_t_tooth_02"
+  },
+  {
+   "id": "cs_t_tuber_02",
+   "text": "A tuber stores food in a plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tuber · cs_t_tuber_02"
+  },
+  {
+   "id": "cs_t_tuesday_02",
+   "text": "Tuesday is a weekday",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Tuesday · cs_t_tuesday_02"
+  },
+  {
+   "id": "cs_t_twin_prime_02",
+   "text": "Three and five are twin primes",
+   "standing": "projectable",
+   "evidence": "math · product curator · Twin prime · cs_t_twin_prime_02"
   }
  ]
 }
