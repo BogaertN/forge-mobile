@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 143,
+ "curated_facts": 154,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -829,6 +829,72 @@
    "text": "A boreal forest is a northern conifer forest",
    "standing": "projectable",
    "evidence": "nature · product curator · Boreal forest · cs_b_boreal_forest_01"
+  },
+  {
+   "id": "cs_b_badger_02",
+   "text": "A badger digs burrows",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Badger · cs_b_badger_02"
+  },
+  {
+   "id": "cs_b_basalt_02",
+   "text": "Basalt is a dark volcanic rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Basalt · cs_b_basalt_02"
+  },
+  {
+   "id": "cs_b_basin_01",
+   "text": "A river basin drains into a river",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Basin · cs_b_basin_01"
+  },
+  {
+   "id": "cs_b_bay_01",
+   "text": "A bay is a wide inlet of the sea",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bay · cs_b_bay_01"
+  },
+  {
+   "id": "cs_b_beak_01",
+   "text": "A bird beak helps grasp food",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beak · cs_b_beak_01"
+  },
+  {
+   "id": "cs_b_beaver_02",
+   "text": "A beaver builds dams",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beaver · cs_b_beaver_02"
+  },
+  {
+   "id": "cs_b_bedrock_02",
+   "text": "Bedrock lies under soil",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bedrock · cs_b_bedrock_02"
+  },
+  {
+   "id": "cs_b_beetle_02",
+   "text": "A beetle has hard wing covers",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beetle · cs_b_beetle_02"
+  },
+  {
+   "id": "cs_b_beryllium_02",
+   "text": "Beryllium is a light metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Beryllium · cs_b_beryllium_02"
+  },
+  {
+   "id": "cs_b_backbone_02",
+   "text": "A backbone supports the body",
+   "standing": "projectable",
+   "evidence": "science · product curator · Backbone · cs_b_backbone_02"
+  },
+  {
+   "id": "cs_b_bacteria_03",
+   "text": "Bacteria are microscopic organisms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bacteria · cs_b_bacteria_03"
   }
  ]
 }

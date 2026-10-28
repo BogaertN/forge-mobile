@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 146,
+ "curated_facts": 156,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -829,6 +829,66 @@
    "text": "A Komodo dragon is a large lizard",
    "standing": "projectable",
    "evidence": "nature · product curator · Komodo dragon · cs_k_komodo_dragon_03"
+  },
+  {
+   "id": "cs_k_kangaroo_05",
+   "text": "A kangaroo carries its young in a pouch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kangaroo · cs_k_kangaroo_05"
+  },
+  {
+   "id": "cs_k_kaolin_03",
+   "text": "Kaolin is a clay mineral",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kaolin · cs_k_kaolin_03"
+  },
+  {
+   "id": "cs_k_kernel_01",
+   "text": "A seed kernel holds the embryo",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_01"
+  },
+  {
+   "id": "cs_k_kidney_04",
+   "text": "A kidney filters blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kidney · cs_k_kidney_04"
+  },
+  {
+   "id": "cs_k_kilogram_04",
+   "text": "A kilogram is a unit of mass",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kilogram · cs_k_kilogram_04"
+  },
+  {
+   "id": "cs_k_kilometer_05",
+   "text": "A kilometer equals one thousand meters",
+   "standing": "projectable",
+   "evidence": "math · product curator · Kilometer · cs_k_kilometer_05"
+  },
+  {
+   "id": "cs_k_kinetic_energy_02",
+   "text": "Kinetic energy is energy of motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_02"
+  },
+  {
+   "id": "cs_k_krill_04",
+   "text": "Krill are small ocean crustaceans",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Krill · cs_k_krill_04"
+  },
+  {
+   "id": "cs_k_kingdom_01",
+   "text": "A kingdom is a major group in classification",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kingdom · cs_k_kingdom_01"
+  },
+  {
+   "id": "cs_k_knee_01",
+   "text": "The knee is a joint in the leg",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knee · cs_k_knee_01"
   }
  ]
 }

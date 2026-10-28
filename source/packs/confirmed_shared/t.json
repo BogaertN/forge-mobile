@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 145,
+ "curated_facts": 152,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -835,6 +835,48 @@
    "text": "Thermal energy is heat energy",
    "standing": "projectable",
    "evidence": "science · product curator · Thermal energy · cs_t_thermal_energy_01"
+  },
+  {
+   "id": "cs_t_tadpole_02",
+   "text": "A tadpole is a larval frog",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tadpole · cs_t_tadpole_02"
+  },
+  {
+   "id": "cs_t_talon_01",
+   "text": "A talon is a claw of a bird of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Talon · cs_t_talon_01"
+  },
+  {
+   "id": "cs_t_tensor_01",
+   "text": "A tensor generalizes vectors",
+   "standing": "projectable",
+   "evidence": "math · product curator · Tensor · cs_t_tensor_01"
+  },
+  {
+   "id": "cs_t_territory_01",
+   "text": "A territory is a region under a government",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Territory · cs_t_territory_01"
+  },
+  {
+   "id": "cs_t_tiger_04",
+   "text": "A tiger is a striped big cat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Tiger · cs_t_tiger_04"
+  },
+  {
+   "id": "cs_t_tissue_01",
+   "text": "A tissue is a group of similar cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tissue · cs_t_tissue_01"
+  },
+  {
+   "id": "cs_t_tundra_02",
+   "text": "Tundra has cold treeless land",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Tundra · cs_t_tundra_02"
   }
  ]
 }

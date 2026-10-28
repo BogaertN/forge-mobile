@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 141,
+ "curated_facts": 151,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -829,6 +829,66 @@
    "text": "A synapse is a junction between nerve cells",
    "standing": "projectable",
    "evidence": "science · product curator · Synapse · cs_s_synapse_01"
+  },
+  {
+   "id": "cs_s_salamander_02",
+   "text": "A salamander regenerates lost limbs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Salamander · cs_s_salamander_02"
+  },
+  {
+   "id": "cs_s_sand_dollar_01",
+   "text": "A sand dollar is a flat echinoderm",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sand dollar · cs_s_sand_dollar_01"
+  },
+  {
+   "id": "cs_s_sap_01",
+   "text": "Sap carries nutrients through a plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sap · cs_s_sap_01"
+  },
+  {
+   "id": "cs_s_scale_01",
+   "text": "A fish scale protects the skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Scale · cs_s_scale_01"
+  },
+  {
+   "id": "cs_s_scorpion_02",
+   "text": "A scorpion has a venomous sting",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Scorpion · cs_s_scorpion_02"
+  },
+  {
+   "id": "cs_s_sea_otter_01",
+   "text": "A sea otter uses tools to open shellfish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sea otter · cs_s_sea_otter_01"
+  },
+  {
+   "id": "cs_s_sediment_01",
+   "text": "Sediment settles at the bottom of water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sediment · cs_s_sediment_01"
+  },
+  {
+   "id": "cs_s_senate_03",
+   "text": "The Senate is a chamber of a legislature",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Senate · cs_s_senate_03"
+  },
+  {
+   "id": "cs_s_senator_01",
+   "text": "A senator represents a state or region",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Senator · cs_s_senator_01"
+  },
+  {
+   "id": "cs_s_subtraction_01",
+   "text": "Subtraction finds a difference",
+   "standing": "projectable",
+   "evidence": "math · product curator · Subtraction · cs_s_subtraction_01"
   }
  ]
 }

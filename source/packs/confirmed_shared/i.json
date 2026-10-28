@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 149,
+ "curated_facts": 159,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -829,6 +829,66 @@
    "text": "Carbon fourteen is an isotope of carbon",
    "standing": "projectable",
    "evidence": "science · product curator · Isotope · cs_i_isotope_02"
+  },
+  {
+   "id": "cs_i_ice_03",
+   "text": "Ice is solid water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice · cs_i_ice_03"
+  },
+  {
+   "id": "cs_i_iguana_05",
+   "text": "An iguana is a large lizard",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_05"
+  },
+  {
+   "id": "cs_i_immune_system_02",
+   "text": "The immune system fights disease",
+   "standing": "projectable",
+   "evidence": "science · product curator · Immune system · cs_i_immune_system_02"
+  },
+  {
+   "id": "cs_i_impulse_01",
+   "text": "An impulse is a change in momentum",
+   "standing": "projectable",
+   "evidence": "science · product curator · Impulse · cs_i_impulse_01"
+  },
+  {
+   "id": "cs_i_index_01",
+   "text": "An index lists topics in a book",
+   "standing": "projectable",
+   "evidence": "language · product curator · Index · cs_i_index_01"
+  },
+  {
+   "id": "cs_i_inertia_02",
+   "text": "Inertia resists a change in motion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inertia · cs_i_inertia_02"
+  },
+  {
+   "id": "cs_i_infinity_02",
+   "text": "Infinity has no end",
+   "standing": "projectable",
+   "evidence": "math · product curator · Infinity · cs_i_infinity_02"
+  },
+  {
+   "id": "cs_i_insect_03",
+   "text": "An insect has six legs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Insect · cs_i_insect_03"
+  },
+  {
+   "id": "cs_i_integer_03",
+   "text": "An integer is a whole number",
+   "standing": "projectable",
+   "evidence": "math · product curator · Integer · cs_i_integer_03"
+  },
+  {
+   "id": "cs_i_infection_01",
+   "text": "An infection is caused by germs",
+   "standing": "projectable",
+   "evidence": "science · product curator · Infection · cs_i_infection_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 145,
+ "curated_facts": 154,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -829,6 +829,60 @@
    "text": "A proton has a positive charge",
    "standing": "projectable",
    "evidence": "science · product curator · Proton · cs_p_proton_02"
+  },
+  {
+   "id": "cs_p_pancreas_01",
+   "text": "The pancreas produces insulin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pancreas · cs_p_pancreas_01"
+  },
+  {
+   "id": "cs_p_panda_04",
+   "text": "A panda eats bamboo",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Panda · cs_p_panda_04"
+  },
+  {
+   "id": "cs_p_parallel_lines_01",
+   "text": "Parallel lines never meet",
+   "standing": "projectable",
+   "evidence": "math · product curator · Parallel lines · cs_p_parallel_lines_01"
+  },
+  {
+   "id": "cs_p_particle_01",
+   "text": "A particle is a tiny bit of matter",
+   "standing": "projectable",
+   "evidence": "science · product curator · Particle · cs_p_particle_01"
+  },
+  {
+   "id": "cs_p_penguin_04",
+   "text": "A penguin is a flightless bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_04"
+  },
+  {
+   "id": "cs_p_percent_02",
+   "text": "A percent is a part per hundred",
+   "standing": "projectable",
+   "evidence": "math · product curator · Percent · cs_p_percent_02"
+  },
+  {
+   "id": "cs_p_perimeter_02",
+   "text": "The perimeter is the distance around a shape",
+   "standing": "projectable",
+   "evidence": "math · product curator · Perimeter · cs_p_perimeter_02"
+  },
+  {
+   "id": "cs_p_period_01",
+   "text": "A period ends a declarative sentence",
+   "standing": "projectable",
+   "evidence": "language · product curator · Period · cs_p_period_01"
+  },
+  {
+   "id": "cs_p_permafrost_01",
+   "text": "Permafrost is permanently frozen ground",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Permafrost · cs_p_permafrost_01"
   }
  ]
 }

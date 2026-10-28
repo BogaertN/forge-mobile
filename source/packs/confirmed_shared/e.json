@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 142,
+ "curated_facts": 153,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -829,6 +829,72 @@
    "text": "Extirpation is local extinction of a species",
    "standing": "projectable",
    "evidence": "nature · product curator · Extirpation · cs_e_extirpation_01"
+  },
+  {
+   "id": "cs_e_eagle_03",
+   "text": "An eagle is a large bird of prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Eagle · cs_e_eagle_03"
+  },
+  {
+   "id": "cs_e_earthquake_02",
+   "text": "An earthquake shakes the ground",
+   "standing": "projectable",
+   "evidence": "science · product curator · Earthquake · cs_e_earthquake_02"
+  },
+  {
+   "id": "cs_e_echo_02",
+   "text": "An echo is a reflected sound",
+   "standing": "projectable",
+   "evidence": "science · product curator · Echo · cs_e_echo_02"
+  },
+  {
+   "id": "cs_e_ecology_01",
+   "text": "Ecology studies living things and their environment",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ecology · cs_e_ecology_01"
+  },
+  {
+   "id": "cs_e_ecosystem_02",
+   "text": "An ecosystem includes living and nonliving parts",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ecosystem · cs_e_ecosystem_02"
+  },
+  {
+   "id": "cs_e_eel_02",
+   "text": "An eel is a long slender fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Eel · cs_e_eel_02"
+  },
+  {
+   "id": "cs_e_ellipse_02",
+   "text": "An ellipse is a closed curved shape",
+   "standing": "projectable",
+   "evidence": "math · product curator · Ellipse · cs_e_ellipse_02"
+  },
+  {
+   "id": "cs_e_emperor_penguin_02",
+   "text": "An emperor penguin breeds in Antarctica",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Emperor penguin · cs_e_emperor_penguin_02"
+  },
+  {
+   "id": "cs_e_equator_03",
+   "text": "The equator is an imaginary line around Earth",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Equator · cs_e_equator_03"
+  },
+  {
+   "id": "cs_e_eclipse_03",
+   "text": "The Moon can block the Sun in an eclipse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eclipse · cs_e_eclipse_03"
+  },
+  {
+   "id": "cs_e_energy_02",
+   "text": "Energy changes form",
+   "standing": "projectable",
+   "evidence": "science · product curator · Energy · cs_e_energy_02"
   }
  ]
 }

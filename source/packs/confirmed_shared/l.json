@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 146,
+ "curated_facts": 157,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -829,6 +829,72 @@
    "text": "A lyric poem expresses personal feeling",
    "standing": "projectable",
    "evidence": "language · product curator · Lyric poem · cs_l_lyric_poem_01"
+  },
+  {
+   "id": "cs_l_lagoon_02",
+   "text": "A lagoon is a shallow coastal water body",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lagoon · cs_l_lagoon_02"
+  },
+  {
+   "id": "cs_l_lake_01",
+   "text": "A lake is a body of freshwater",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lake · cs_l_lake_01"
+  },
+  {
+   "id": "cs_l_laser_03",
+   "text": "A laser produces a focused beam of light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Laser · cs_l_laser_03"
+  },
+  {
+   "id": "cs_l_latitude_03",
+   "text": "Latitude measures distance from the equator",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Latitude · cs_l_latitude_03"
+  },
+  {
+   "id": "cs_l_lava_03",
+   "text": "Lava is molten rock on the surface",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lava · cs_l_lava_03"
+  },
+  {
+   "id": "cs_l_leaf_02",
+   "text": "A leaf makes food by photosynthesis",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leaf · cs_l_leaf_02"
+  },
+  {
+   "id": "cs_l_leopard_04",
+   "text": "A leopard is a spotted big cat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Leopard · cs_l_leopard_04"
+  },
+  {
+   "id": "cs_l_light_year_02",
+   "text": "A light year is a unit of distance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Light year · cs_l_light_year_02"
+  },
+  {
+   "id": "cs_l_line_02",
+   "text": "A line extends endlessly in two directions",
+   "standing": "projectable",
+   "evidence": "math · product curator · Line · cs_l_line_02"
+  },
+  {
+   "id": "cs_l_lens_02",
+   "text": "A lens bends light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Lens · cs_l_lens_02"
+  },
+  {
+   "id": "cs_l_lion_04",
+   "text": "A lion is a large cat",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lion · cs_l_lion_04"
   }
  ]
 }
