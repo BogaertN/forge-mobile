@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 214,
+ "curated_facts": 224,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1243,6 +1243,66 @@
    "text": "Muscle is rich in protein",
    "standing": "projectable",
    "evidence": "science · product curator · Protein · cs_p_protein_02"
+  },
+  {
+   "id": "cs_p_parachute_01",
+   "text": "A parachute slows a fall",
+   "standing": "projectable",
+   "evidence": "science · product curator · Parachute · cs_p_parachute_01"
+  },
+  {
+   "id": "cs_p_peak_01",
+   "text": "A peak rises above clouds",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Peak · cs_p_peak_01"
+  },
+  {
+   "id": "cs_p_petal_03",
+   "text": "A petal attracts insects",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Petal · cs_p_petal_03"
+  },
+  {
+   "id": "cs_p_phosphorus_02",
+   "text": "Phosphorus fertilizes soil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Phosphorus · cs_p_phosphorus_02"
+  },
+  {
+   "id": "cs_p_pigeon_02",
+   "text": "A pigeon nests on ledges",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pigeon · cs_p_pigeon_02"
+  },
+  {
+   "id": "cs_p_pistil_02",
+   "text": "A pistil receives pollen",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pistil · cs_p_pistil_02"
+  },
+  {
+   "id": "cs_p_plankton_03",
+   "text": "Plankton feeds ocean life",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Plankton · cs_p_plankton_03"
+  },
+  {
+   "id": "cs_p_platinum_03",
+   "text": "Platinum resists corrosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Platinum · cs_p_platinum_03"
+  },
+  {
+   "id": "cs_p_plover_01",
+   "text": "A plover nests on beaches",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Plover · cs_p_plover_01"
+  },
+  {
+   "id": "cs_p_porcupine_04",
+   "text": "A porcupine raises quills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_04"
   }
  ]
 }

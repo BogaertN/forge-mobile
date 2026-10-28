@@ -6,7 +6,7 @@
  "letter": "V",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 214,
+ "curated_facts": 224,
  "items": [
   {
    "id": "cs_v_venezuela_01",
@@ -1243,6 +1243,66 @@
    "text": "Vultures clean carcasses",
    "standing": "projectable",
    "evidence": "nature · product curator · Vulture · cs_v_vulture_07"
+  },
+  {
+   "id": "cs_v_vaccine_01",
+   "text": "A vaccine trains immune cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vaccine · cs_v_vaccine_01"
+  },
+  {
+   "id": "cs_v_vapor_03",
+   "text": "Water vapor fills warm air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vapor · cs_v_vapor_03"
+  },
+  {
+   "id": "cs_v_varnish_01",
+   "text": "Varnish seals wood",
+   "standing": "projectable",
+   "evidence": "history · product curator · Varnish · cs_v_varnish_01"
+  },
+  {
+   "id": "cs_v_vascular_01",
+   "text": "Vascular plants move sap",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vascular · cs_v_vascular_01"
+  },
+  {
+   "id": "cs_v_vegetable_03",
+   "text": "A vegetable stores nutrients",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Vegetable · cs_v_vegetable_03"
+  },
+  {
+   "id": "cs_v_ventilation_01",
+   "text": "Ventilation clears stale air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ventilation · cs_v_ventilation_01"
+  },
+  {
+   "id": "cs_v_ventricle_01",
+   "text": "A ventricle pumps blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ventricle · cs_v_ventricle_01"
+  },
+  {
+   "id": "cs_v_vestibule_01",
+   "text": "The vestibule senses balance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Vestibule · cs_v_vestibule_01"
+  },
+  {
+   "id": "cs_v_viscosity_03",
+   "text": "Viscosity resists flow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Viscosity · cs_v_viscosity_03"
+  },
+  {
+   "id": "cs_v_visor_01",
+   "text": "A visor shades the eyes",
+   "standing": "projectable",
+   "evidence": "history · product curator · Visor · cs_v_visor_01"
   }
  ]
 }
