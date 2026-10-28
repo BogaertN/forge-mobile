@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 252,
+ "curated_facts": 262,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1471,6 +1471,66 @@
    "text": "A proton packs nucleus charge",
    "standing": "projectable",
    "evidence": "science · product curator · Proton · cs_p_proton_04"
+  },
+  {
+   "id": "cs_p_parallax_02",
+   "text": "Parallax ranks star distance",
+   "standing": "projectable",
+   "evidence": "science · product curator · Parallax · cs_p_parallax_02"
+  },
+  {
+   "id": "cs_p_pectin_01",
+   "text": "Pectin gels fruit preserves",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pectin · cs_p_pectin_01"
+  },
+  {
+   "id": "cs_p_peptide_01",
+   "text": "A peptide links amino acids",
+   "standing": "projectable",
+   "evidence": "science · product curator · Peptide · cs_p_peptide_01"
+  },
+  {
+   "id": "cs_p_peduncle_01",
+   "text": "A peduncle holds flower stems",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Peduncle · cs_p_peduncle_01"
+  },
+  {
+   "id": "cs_p_phosphate_01",
+   "text": "Phosphates feed plant growth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Phosphate · cs_p_phosphate_01"
+  },
+  {
+   "id": "cs_p_pumice_01",
+   "text": "Pumice floats volcanic froth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pumice · cs_p_pumice_01"
+  },
+  {
+   "id": "cs_p_potential_01",
+   "text": "Potential ranks stored energy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Potential · cs_p_potential_01"
+  },
+  {
+   "id": "cs_p_pivot_01",
+   "text": "A door swings on a pivot",
+   "standing": "projectable",
+   "evidence": "science · product curator · Pivot · cs_p_pivot_01"
+  },
+  {
+   "id": "cs_p_polyp_02",
+   "text": "Polyps build coral reefs",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Polyp · cs_p_polyp_02"
+  },
+  {
+   "id": "cs_p_pupa_02",
+   "text": "A pupa remakes insect form",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Pupa · cs_p_pupa_02"
   }
  ]
 }

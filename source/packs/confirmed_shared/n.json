@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 250,
+ "curated_facts": 260,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -1465,6 +1465,66 @@
    "text": "A nymph molts soft skin",
    "standing": "projectable",
    "evidence": "nature · product curator · Nymph stage · cs_n_nymph_stage_01"
+  },
+  {
+   "id": "cs_n_naphtha_02",
+   "text": "Naphtha thins oil paint",
+   "standing": "projectable",
+   "evidence": "science · product curator · Naphtha · cs_n_naphtha_02"
+  },
+  {
+   "id": "cs_n_nautilus_06",
+   "text": "A nautilus jets seawater",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nautilus · cs_n_nautilus_06"
+  },
+  {
+   "id": "cs_n_niobium_03",
+   "text": "Niobium alloys jet engines",
+   "standing": "projectable",
+   "evidence": "science · product curator · Niobium · cs_n_niobium_03"
+  },
+  {
+   "id": "cs_n_nitrate_06",
+   "text": "Nitrates feed plant roots",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nitrate · cs_n_nitrate_06"
+  },
+  {
+   "id": "cs_n_nitrile_01",
+   "text": "Nitrile resists oil solvents",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrile · cs_n_nitrile_01"
+  },
+  {
+   "id": "cs_n_nylon_03",
+   "text": "Nylon strengthens rope fibers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nylon · cs_n_nylon_03"
+  },
+  {
+   "id": "cs_n_nonmetal_01",
+   "text": "A nonmetal gains electrons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nonmetal · cs_n_nonmetal_01"
+  },
+  {
+   "id": "cs_n_nozzle_01",
+   "text": "A nozzle directs fluid flow",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nozzle · cs_n_nozzle_01"
+  },
+  {
+   "id": "cs_n_nitric_01",
+   "text": "Nitric acid dissolves metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitric · cs_n_nitric_01"
+  },
+  {
+   "id": "cs_n_nasal_01",
+   "text": "The nasal cavity filters air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nasal · cs_n_nasal_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 249,
+ "curated_facts": 259,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -1471,6 +1471,66 @@
    "text": "Mucus traps airway dust",
    "standing": "projectable",
    "evidence": "science · product curator · Mucus · cs_m_mucus_04"
+  },
+  {
+   "id": "cs_m_magnetite_03",
+   "text": "Magnetite points compass needles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Magnetite · cs_m_magnetite_03"
+  },
+  {
+   "id": "cs_m_medulla_02",
+   "text": "The medulla steers breath rate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Medulla · cs_m_medulla_02"
+  },
+  {
+   "id": "cs_m_marsupial_03",
+   "text": "Marsupials rear pouch young",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Marsupial · cs_m_marsupial_03"
+  },
+  {
+   "id": "cs_m_molybdenum_02",
+   "text": "Molybdenum hardens steel alloys",
+   "standing": "projectable",
+   "evidence": "science · product curator · Molybdenum · cs_m_molybdenum_02"
+  },
+  {
+   "id": "cs_m_mycelium_02",
+   "text": "Mycelium spreads fungus networks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mycelium · cs_m_mycelium_02"
+  },
+  {
+   "id": "cs_m_myelin_02",
+   "text": "Myelin speeds nerve signals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Myelin · cs_m_myelin_02"
+  },
+  {
+   "id": "cs_m_microwave_01",
+   "text": "Microwaves heat water molecules",
+   "standing": "projectable",
+   "evidence": "science · product curator · Microwave · cs_m_microwave_01"
+  },
+  {
+   "id": "cs_m_malleable_01",
+   "text": "Malleable metal flattens under blows",
+   "standing": "projectable",
+   "evidence": "science · product curator · Malleable · cs_m_malleable_01"
+  },
+  {
+   "id": "cs_m_mica_03",
+   "text": "Mica flakes shiny sheets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mica · cs_m_mica_03"
+  },
+  {
+   "id": "cs_m_meteorite_02",
+   "text": "A meteorite strikes ground rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Meteorite · cs_m_meteorite_02"
   }
  ]
 }

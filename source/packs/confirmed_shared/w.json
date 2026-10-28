@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 245,
+ "curated_facts": 255,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1447,6 +1447,66 @@
    "text": "Current flows through wire",
    "standing": "projectable",
    "evidence": "science · product curator · Wire · cs_w_wire_04"
+  },
+  {
+   "id": "cs_w_wattage_01",
+   "text": "Wattage ranks power draw",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wattage · cs_w_wattage_01"
+  },
+  {
+   "id": "cs_w_warp_01",
+   "text": "Warp threads hold woven cloth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Warp · cs_w_warp_01"
+  },
+  {
+   "id": "cs_w_weevil_01",
+   "text": "A weevil eats stored grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Weevil · cs_w_weevil_01"
+  },
+  {
+   "id": "cs_w_wind_shear_01",
+   "text": "Wind shear breaks storm cells",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wind shear · cs_w_wind_shear_01"
+  },
+  {
+   "id": "cs_w_willow_05",
+   "text": "Willows root along stream banks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Willow · cs_w_willow_05"
+  },
+  {
+   "id": "cs_w_wisteria_03",
+   "text": "Wisteria climbs porch rails",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wisteria · cs_w_wisteria_03"
+  },
+  {
+   "id": "cs_w_wolfram_02",
+   "text": "Wolfram hardens steel tools",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wolfram · cs_w_wolfram_02"
+  },
+  {
+   "id": "cs_w_woodpecker_06",
+   "text": "Woodpeckers drill insect holes",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_06"
+  },
+  {
+   "id": "cs_w_wren_03",
+   "text": "Wrens nest in brush piles",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wren · cs_w_wren_03"
+  },
+  {
+   "id": "cs_w_wurtzite_01",
+   "text": "Wurtzite forms zinc crystals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wurtzite · cs_w_wurtzite_01"
   }
  ]
 }
