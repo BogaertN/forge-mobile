@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 173,
+ "curated_facts": 176,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -973,6 +973,24 @@
    "text": "A duck is a water bird",
    "standing": "projectable",
    "evidence": "nature · product curator · Duck · cs_d_duck_04"
+  },
+  {
+   "id": "cs_d_dye_01",
+   "text": "A dye colors fabric",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dye · cs_d_dye_01"
+  },
+  {
+   "id": "cs_d_dimension_02",
+   "text": "Length is a dimension",
+   "standing": "projectable",
+   "evidence": "math · product curator · Dimension · cs_d_dimension_02"
+  },
+  {
+   "id": "cs_d_dawn_01",
+   "text": "Dawn is the start of day",
+   "standing": "projectable",
+   "evidence": "science · product curator · Dawn · cs_d_dawn_01"
   }
  ]
 }

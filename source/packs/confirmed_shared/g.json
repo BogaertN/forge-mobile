@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 167,
+ "curated_facts": 173,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -967,6 +967,42 @@
    "text": "A gill extracts oxygen from water",
    "standing": "projectable",
    "evidence": "nature · product curator · Gill · cs_g_gill_01"
+  },
+  {
+   "id": "cs_g_galaxy_04",
+   "text": "Stars fill a galaxy",
+   "standing": "projectable",
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_04"
+  },
+  {
+   "id": "cs_g_grain_01",
+   "text": "Wheat is a grain crop",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Grain · cs_g_grain_01"
+  },
+  {
+   "id": "cs_g_gravel_03",
+   "text": "Gravel lines a riverbed",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Gravel · cs_g_gravel_03"
+  },
+  {
+   "id": "cs_g_geometry_04",
+   "text": "Students study geometry",
+   "standing": "projectable",
+   "evidence": "math · product curator · Geometry · cs_g_geometry_04"
+  },
+  {
+   "id": "cs_g_governor_03",
+   "text": "A governor leads a state",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Governor · cs_g_governor_03"
+  },
+  {
+   "id": "cs_g_gunpowder_02",
+   "text": "Gunpowder is an explosive mixture",
+   "standing": "projectable",
+   "evidence": "history · product curator · Gunpowder · cs_g_gunpowder_02"
   }
  ]
 }
