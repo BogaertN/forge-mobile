@@ -6,7 +6,7 @@
  "letter": "O",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 183,
+ "curated_facts": 187,
  "items": [
   {
    "id": "cs_o_oman_01",
@@ -1039,6 +1039,30 @@
    "text": "The optic nerve carries sight",
    "standing": "projectable",
    "evidence": "science · product curator · Optic nerve · cs_o_optic_nerve_03"
+  },
+  {
+   "id": "cs_o_oat_01",
+   "text": "Oats are a cereal grain",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Oat · cs_o_oat_01"
+  },
+  {
+   "id": "cs_o_olympus_01",
+   "text": "Mount Olympus is in Greece",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Olympus · cs_o_olympus_01"
+  },
+  {
+   "id": "cs_o_osmosis_03",
+   "text": "Water moves by osmosis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Osmosis · cs_o_osmosis_03"
+  },
+  {
+   "id": "cs_o_ox_02",
+   "text": "An ox pulls a plow",
+   "standing": "projectable",
+   "evidence": "history · product curator · Ox · cs_o_ox_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 179,
+ "curated_facts": 180,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -1051,6 +1051,12 @@
    "text": "A river meets the sea at an estuary",
    "standing": "projectable",
    "evidence": "geography · product curator · Estuary · cs_e_estuary_01"
+  },
+  {
+   "id": "cs_e_earthworm_02",
+   "text": "An earthworm aerates soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Earthworm · cs_e_earthworm_02"
   }
  ]
 }

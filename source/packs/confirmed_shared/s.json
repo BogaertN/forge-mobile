@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 176,
+ "curated_facts": 180,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1039,6 +1039,30 @@
    "text": "The Senate debates laws",
    "standing": "projectable",
    "evidence": "civics · product curator · Senate · cs_s_senate_05"
+  },
+  {
+   "id": "cs_s_sable_01",
+   "text": "A sable is a fur-bearing mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sable · cs_s_sable_01"
+  },
+  {
+   "id": "cs_s_sand_01",
+   "text": "Sand is weathered rock grains",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Sand · cs_s_sand_01"
+  },
+  {
+   "id": "cs_s_selenium_02",
+   "text": "Selenium is a trace element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Selenium · cs_s_selenium_02"
+  },
+  {
+   "id": "cs_s_scarlet_01",
+   "text": "Scarlet is a bright red",
+   "standing": "projectable",
+   "evidence": "language · product curator · Scarlet · cs_s_scarlet_01"
   }
  ]
 }

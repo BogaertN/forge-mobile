@@ -1274,3 +1274,11 @@ The tests in `verify/entity_suite.js` (EV-ENTITY, 6 cases) were committed first,
 - (1) Hosted A–Z refresh. `packs/confirmed_shared/{a…z,index}.json` index 4.9.144; 4470 admitted / 4708 curated (R4128 floors ≥1890 / ≥2622 still hold). Product shared knowledge remains this hosted layer — not scrapbook, not starter, not a mass phone DB dump.
 - (2) Locks unchanged from 4.9.128–4.9.143: read for all; write-key; no phone-DB mass write; CREATE/COMPOSE/SIMULATE never auto-write; scrapbook empty.
 - Tests: `verify/r4128_suite.js` lead (softened for 4.9.144); HELDOUT untouched.
+
+
+
+## v4.9.145 — hosted shared knowledge pack refresh (Nic, 2026-10-27)
+- Design sources: BRIEF_4.9.128_SHARED_KB_AZ; REBUILD_NOTE cs4145; curated drafts + rewrites (4820 curated). Echo stays exact. Soft Echo stays parked. No language model. Soft budget ≤1.920 MB / ≤570 kB gzip; packs stay hosted, not inside single-file gzip. Starter_pack / phone Remember stay user-owned.
+- (1) Hosted A–Z refresh. `packs/confirmed_shared/{a…z,index}.json` index 4.9.145; 4582 admitted / 4820 curated (R4128 floors ≥1890 / ≥2622 still hold). Product shared knowledge remains this hosted layer — not scrapbook, not starter, not a mass phone DB dump.
+- (2) Locks unchanged from 4.9.128–4.9.144: read for all; write-key; no phone-DB mass write; CREATE/COMPOSE/SIMULATE never auto-write; scrapbook empty.
+- Tests: `verify/r4128_suite.js` lead (softened for 4.9.145); HELDOUT untouched.

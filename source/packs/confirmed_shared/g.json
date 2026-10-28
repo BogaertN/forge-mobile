@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 179,
+ "curated_facts": 182,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -1039,6 +1039,24 @@
    "text": "Gelatin sets a dessert",
    "standing": "projectable",
    "evidence": "science · product curator · Gelatin · cs_g_gelatin_01"
+  },
+  {
+   "id": "cs_g_gecko_03",
+   "text": "A gecko climbs smooth walls",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gecko · cs_g_gecko_03"
+  },
+  {
+   "id": "cs_g_gibbon_02",
+   "text": "A gibbon swings through trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Gibbon · cs_g_gibbon_02"
+  },
+  {
+   "id": "cs_g_glycogen_01",
+   "text": "The liver stores glycogen",
+   "standing": "projectable",
+   "evidence": "science · product curator · Glycogen · cs_g_glycogen_01"
   }
  ]
 }

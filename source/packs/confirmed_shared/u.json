@@ -6,7 +6,7 @@
  "letter": "U",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 180,
+ "curated_facts": 190,
  "items": [
   {
    "id": "cs_u_united_states_01",
@@ -1015,6 +1015,66 @@
    "text": "Students wear a school uniform",
    "standing": "projectable",
    "evidence": "civics · product curator · Uniform · cs_u_uniform_03"
+  },
+  {
+   "id": "cs_u_urea_03",
+   "text": "The liver makes urea",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urea · cs_u_urea_03"
+  },
+  {
+   "id": "cs_u_ultrasound_04",
+   "text": "Doctors use ultrasound imaging",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ultrasound · cs_u_ultrasound_04"
+  },
+  {
+   "id": "cs_u_udder_02",
+   "text": "Milk comes from an udder",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Udder · cs_u_udder_02"
+  },
+  {
+   "id": "cs_u_uruk_02",
+   "text": "Uruk was an ancient city",
+   "standing": "projectable",
+   "evidence": "history · product curator · Uruk · cs_u_uruk_02"
+  },
+  {
+   "id": "cs_u_understory_03",
+   "text": "Ferns grow in the understory",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Understory · cs_u_understory_03"
+  },
+  {
+   "id": "cs_u_upper_house_02",
+   "text": "Senators sit in an upper house",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Upper house · cs_u_upper_house_02"
+  },
+  {
+   "id": "cs_u_urea_cycle_02",
+   "text": "The urea cycle clears ammonia",
+   "standing": "projectable",
+   "evidence": "science · product curator · Urea cycle · cs_u_urea_cycle_02"
+  },
+  {
+   "id": "cs_u_unicycle_02",
+   "text": "A rider balances on a unicycle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Unicycle · cs_u_unicycle_02"
+  },
+  {
+   "id": "cs_u_unsaturated_fat_02",
+   "text": "Olive oil is an unsaturated fat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Unsaturated fat · cs_u_unsaturated_fat_02"
+  },
+  {
+   "id": "cs_u_upland_sandpiper_02",
+   "text": "An upland sandpiper nests in grass",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Upland sandpiper · cs_u_upland_sandpiper_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 195,
+ "curated_facts": 196,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1045,6 +1045,12 @@
    "text": "Adding zero leaves a number unchanged",
    "standing": "projectable",
    "evidence": "math · product curator · Zero · cs_z_zero_08"
+  },
+  {
+   "id": "cs_z_zoology_03",
+   "text": "Zoology studies animals",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zoology · cs_z_zoology_03"
   }
  ]
 }

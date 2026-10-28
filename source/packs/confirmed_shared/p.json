@@ -6,7 +6,7 @@
  "letter": "P",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 179,
+ "curated_facts": 187,
  "items": [
   {
    "id": "cs_p_paris_01",
@@ -1033,6 +1033,54 @@
    "text": "Peas grow in a pod",
    "standing": "projectable",
    "evidence": "nature · product curator · Pod · cs_p_pod_01"
+  },
+  {
+   "id": "cs_p_parliament_03",
+   "text": "A parliament makes laws",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Parliament · cs_p_parliament_03"
+  },
+  {
+   "id": "cs_p_parrot_03",
+   "text": "A parrot can mimic speech",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Parrot · cs_p_parrot_03"
+  },
+  {
+   "id": "cs_p_penguin_05",
+   "text": "A penguin cannot fly",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Penguin · cs_p_penguin_05"
+  },
+  {
+   "id": "cs_p_porcupine_03",
+   "text": "A porcupine has sharp quills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Porcupine · cs_p_porcupine_03"
+  },
+  {
+   "id": "cs_p_potassium_02",
+   "text": "Potassium is an alkali metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Potassium · cs_p_potassium_02"
+  },
+  {
+   "id": "cs_p_polymer_02",
+   "text": "Plastic is a polymer",
+   "standing": "projectable",
+   "evidence": "science · product curator · Polymer · cs_p_polymer_02"
+  },
+  {
+   "id": "cs_p_plankton_02",
+   "text": "Whales eat plankton",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Plankton · cs_p_plankton_02"
+  },
+  {
+   "id": "cs_p_poppy_02",
+   "text": "A poppy has bright petals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Poppy · cs_p_poppy_02"
   }
  ]
 }

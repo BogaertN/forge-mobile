@@ -6,7 +6,7 @@
  "letter": "T",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 179,
+ "curated_facts": 183,
  "items": [
   {
    "id": "cs_t_tunisia_01",
@@ -1039,6 +1039,30 @@
    "text": "Farmers cut a terrace on a slope",
    "standing": "projectable",
    "evidence": "geography · product curator · Terrace · cs_t_terrace_01"
+  },
+  {
+   "id": "cs_t_talon_03",
+   "text": "An eagle has a sharp talon",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Talon · cs_t_talon_03"
+  },
+  {
+   "id": "cs_t_tannin_01",
+   "text": "Tea contains tannin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Tannin · cs_t_tannin_01"
+  },
+  {
+   "id": "cs_t_tapestry_01",
+   "text": "A tapestry is woven art",
+   "standing": "projectable",
+   "evidence": "history · product curator · Tapestry · cs_t_tapestry_01"
+  },
+  {
+   "id": "cs_t_tax_02",
+   "text": "Citizens pay a tax",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Tax · cs_t_tax_02"
   }
  ]
 }

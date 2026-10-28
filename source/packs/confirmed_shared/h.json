@@ -6,7 +6,7 @@
  "letter": "H",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 182,
+ "curated_facts": 190,
  "items": [
   {
    "id": "cs_h_hungary_01",
@@ -1033,6 +1033,54 @@
    "text": "A scientist tests a hypothesis",
    "standing": "projectable",
    "evidence": "science · product curator · Hypothesis · cs_h_hypothesis_02"
+  },
+  {
+   "id": "cs_h_hawk_03",
+   "text": "A hawk hunts from the air",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hawk · cs_h_hawk_03"
+  },
+  {
+   "id": "cs_h_hedgehog_04",
+   "text": "A hedgehog rolls into a ball",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hedgehog · cs_h_hedgehog_04"
+  },
+  {
+   "id": "cs_h_hertz_03",
+   "text": "Hertz measures frequency",
+   "standing": "projectable",
+   "evidence": "science · product curator · Hertz · cs_h_hertz_03"
+  },
+  {
+   "id": "cs_h_hundred_02",
+   "text": "Ten tens make a hundred",
+   "standing": "projectable",
+   "evidence": "math · product curator · Hundred · cs_h_hundred_02"
+  },
+  {
+   "id": "cs_h_hamster_02",
+   "text": "A hamster stores food in cheeks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Hamster · cs_h_hamster_02"
+  },
+  {
+   "id": "cs_h_holmium_02",
+   "text": "Holmium is a rare earth element",
+   "standing": "projectable",
+   "evidence": "science · product curator · Holmium · cs_h_holmium_02"
+  },
+  {
+   "id": "cs_h_harvest_02",
+   "text": "Farmers gather a harvest",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Harvest · cs_h_harvest_02"
+  },
+  {
+   "id": "cs_h_heron_03",
+   "text": "A heron wades for fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Heron · cs_h_heron_03"
   }
  ]
 }

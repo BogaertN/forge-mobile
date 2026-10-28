@@ -6,7 +6,7 @@
  "letter": "C",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 180,
+ "curated_facts": 181,
  "items": [
   {
    "id": "cs_c_canada_01",
@@ -1051,6 +1051,12 @@
    "text": "A cliff drops steeply",
    "standing": "projectable",
    "evidence": "geography · product curator · Cliff · cs_c_cliff_01"
+  },
+  {
+   "id": "cs_c_calendar_02",
+   "text": "A calendar tracks days",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Calendar · cs_c_calendar_02"
   }
  ]
 }

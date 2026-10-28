@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 175,
+ "curated_facts": 178,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -1039,6 +1039,24 @@
    "text": "A neuron sends signals along an axon",
    "standing": "projectable",
    "evidence": "science · product curator · Axon · cs_a_axon_01"
+  },
+  {
+   "id": "cs_a_anther_02",
+   "text": "Pollen forms in an anther",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Anther · cs_a_anther_02"
+  },
+  {
+   "id": "cs_a_alkali_02",
+   "text": "An alkali neutralizes acid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Alkali · cs_a_alkali_02"
+  },
+  {
+   "id": "cs_a_alliteration_02",
+   "text": "Poets use alliteration",
+   "standing": "projectable",
+   "evidence": "language · product curator · Alliteration · cs_a_alliteration_02"
   }
  ]
 }
