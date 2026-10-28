@@ -6,7 +6,7 @@
  "letter": "M",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 141,
+ "curated_facts": 148,
  "items": [
   {
    "id": "cs_m_mexico_01",
@@ -823,6 +823,48 @@
    "text": "A minnow is a small fish",
    "standing": "projectable",
    "evidence": "nature · product curator · Minnow · cs_m_minnow_01"
+  },
+  {
+   "id": "cs_m_magna_carta_02",
+   "text": "The Magna Carta limited royal power",
+   "standing": "projectable",
+   "evidence": "history · product curator · Magna Carta · cs_m_magna_carta_02"
+  },
+  {
+   "id": "cs_m_mammal_03",
+   "text": "A mammal feeds its young with milk",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Mammal · cs_m_mammal_03"
+  },
+  {
+   "id": "cs_m_mantle_02",
+   "text": "The mantle lies between the crust and the core",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mantle · cs_m_mantle_02"
+  },
+  {
+   "id": "cs_m_mediterranean_sea_02",
+   "text": "The Mediterranean Sea lies between Europe and Africa",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Mediterranean Sea · cs_m_mediterranean_sea_02"
+  },
+  {
+   "id": "cs_m_mitosis_01",
+   "text": "Mitosis divides a cell nucleus",
+   "standing": "projectable",
+   "evidence": "science · product curator · Mitosis · cs_m_mitosis_01"
+  },
+  {
+   "id": "cs_m_monarchy_02",
+   "text": "A monarchy is rule by a king or queen",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Monarchy · cs_m_monarchy_02"
+  },
+  {
+   "id": "cs_m_moss_01",
+   "text": "Moss is a small non flowering plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Moss · cs_m_moss_01"
   }
  ]
 }

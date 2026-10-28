@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 146,
+ "curated_facts": 160,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -817,6 +817,90 @@
    "text": "The jet stream is a fast wind high in the atmosphere",
    "standing": "projectable",
    "evidence": "science · product curator · Jet stream · cs_j_jet_stream_02"
+  },
+  {
+   "id": "cs_j_jade_03",
+   "text": "Jade is a hard ornamental stone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jade · cs_j_jade_03"
+  },
+  {
+   "id": "cs_j_january_03",
+   "text": "January is the first month of the year",
+   "standing": "projectable",
+   "evidence": "math · product curator · January · cs_j_january_03"
+  },
+  {
+   "id": "cs_j_japan_06",
+   "text": "Japan lies in the Pacific Ocean",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Japan · cs_j_japan_06"
+  },
+  {
+   "id": "cs_j_jazz_04",
+   "text": "Jazz uses improvisation",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jazz · cs_j_jazz_04"
+  },
+  {
+   "id": "cs_j_jellyfish_07",
+   "text": "A jellyfish has a soft gelatinous body",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jellyfish · cs_j_jellyfish_07"
+  },
+  {
+   "id": "cs_j_jenner_edward_02",
+   "text": "Edward Jenner developed a smallpox vaccine",
+   "standing": "projectable",
+   "evidence": "history · product curator · Jenner, Edward · cs_j_jenner_edward_02"
+  },
+  {
+   "id": "cs_j_jet_stream_03",
+   "text": "The jet stream steers weather systems",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jet stream · cs_j_jet_stream_03"
+  },
+  {
+   "id": "cs_j_joint_02",
+   "text": "A joint connects two bones",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joint · cs_j_joint_02"
+  },
+  {
+   "id": "cs_j_judge_02",
+   "text": "A judge presides over a trial",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Judge · cs_j_judge_02"
+  },
+  {
+   "id": "cs_j_julius_caesar_03",
+   "text": "Julius Caesar was a Roman general",
+   "standing": "projectable",
+   "evidence": "history · product curator · Julius Caesar · cs_j_julius_caesar_03"
+  },
+  {
+   "id": "cs_j_jungle_03",
+   "text": "A jungle has dense tropical plants",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Jungle · cs_j_jungle_03"
+  },
+  {
+   "id": "cs_j_juniper_05",
+   "text": "A juniper produces berry like cones",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_05"
+  },
+  {
+   "id": "cs_j_jury_03",
+   "text": "A jury hears evidence in court",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Jury · cs_j_jury_03"
+  },
+  {
+   "id": "cs_j_justice_03",
+   "text": "Justice is a goal of the legal system",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Justice · cs_j_justice_03"
   }
  ]
 }
