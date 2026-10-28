@@ -6,7 +6,7 @@
  "letter": "L",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 104,
+ "curated_facts": 118,
  "items": [
   {
    "id": "cs_l_london_01",
@@ -577,6 +577,90 @@
    "text": "A liter is a unit of volume",
    "standing": "projectable",
    "evidence": "math · product curator · Liter · cs_l_liter_02"
+  },
+  {
+   "id": "cs_l_lyon_01",
+   "text": "Lyon is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lyon · cs_l_lyon_01"
+  },
+  {
+   "id": "cs_l_leeds_01",
+   "text": "Leeds is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Leeds · cs_l_leeds_01"
+  },
+  {
+   "id": "cs_l_liverpool_01",
+   "text": "Liverpool is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Liverpool · cs_l_liverpool_01"
+  },
+  {
+   "id": "cs_l_lagos_02",
+   "text": "Lagos is a city in Nigeria",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lagos · cs_l_lagos_02"
+  },
+  {
+   "id": "cs_l_lemur_02",
+   "text": "A lemur is a primate",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lemur · cs_l_lemur_02"
+  },
+  {
+   "id": "cs_l_llama_04",
+   "text": "A llama is a mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Llama · cs_l_llama_04"
+  },
+  {
+   "id": "cs_l_lemon_01",
+   "text": "A lemon is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Lemon · cs_l_lemon_01"
+  },
+  {
+   "id": "cs_l_lettuce_01",
+   "text": "Lettuce is a vegetable",
+   "standing": "projectable",
+   "evidence": "food · product curator · Lettuce · cs_l_lettuce_01"
+  },
+  {
+   "id": "cs_l_lille_01",
+   "text": "Lille is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lille · cs_l_lille_01"
+  },
+  {
+   "id": "cs_l_leipzig_01",
+   "text": "Leipzig is a city in Germany",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Leipzig · cs_l_leipzig_01"
+  },
+  {
+   "id": "cs_l_lucknow_01",
+   "text": "Lucknow is a city in India",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lucknow · cs_l_lucknow_01"
+  },
+  {
+   "id": "cs_l_lahore_01",
+   "text": "Lahore is a city in Pakistan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Lahore · cs_l_lahore_01"
+  },
+  {
+   "id": "cs_l_lime_02",
+   "text": "A lime is a fruit",
+   "standing": "projectable",
+   "evidence": "food · product curator · Lime · cs_l_lime_02"
+  },
+  {
+   "id": "cs_l_lark_01",
+   "text": "A lark is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Lark · cs_l_lark_01"
   }
  ]
 }

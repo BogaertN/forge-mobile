@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 101,
+ "curated_facts": 114,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -571,6 +571,84 @@
    "text": "A newt is an amphibian",
    "standing": "projectable",
    "evidence": "nature · product curator · Newt · cs_n_newt_02"
+  },
+  {
+   "id": "cs_n_nepal_02",
+   "text": "Pokhara is a city in Nepal",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nepal · cs_n_nepal_02"
+  },
+  {
+   "id": "cs_n_norway_02",
+   "text": "Bergen is a city in Norway",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Norway · cs_n_norway_02"
+  },
+  {
+   "id": "cs_n_naples_01",
+   "text": "Naples is a city in Italy",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Naples · cs_n_naples_01"
+  },
+  {
+   "id": "cs_n_nice_01",
+   "text": "Nice is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nice · cs_n_nice_01"
+  },
+  {
+   "id": "cs_n_nagoya_01",
+   "text": "Nagoya is a city in Japan",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nagoya · cs_n_nagoya_01"
+  },
+  {
+   "id": "cs_n_nightingale_03",
+   "text": "A nightingale is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nightingale · cs_n_nightingale_03"
+  },
+  {
+   "id": "cs_n_nickel_03",
+   "text": "Nickel is a metal",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nickel · cs_n_nickel_03"
+  },
+  {
+   "id": "cs_n_neptune_07",
+   "text": "Neptune is a planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Neptune · cs_n_neptune_07"
+  },
+  {
+   "id": "cs_n_nantes_01",
+   "text": "Nantes is a city in France",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nantes · cs_n_nantes_01"
+  },
+  {
+   "id": "cs_n_nairobi_02",
+   "text": "Nairobi is a city in Kenya",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nairobi · cs_n_nairobi_02"
+  },
+  {
+   "id": "cs_n_nanjing_01",
+   "text": "Nanjing is a city in China",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Nanjing · cs_n_nanjing_01"
+  },
+  {
+   "id": "cs_n_newcastle_01",
+   "text": "Newcastle is a city in England",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Newcastle · cs_n_newcastle_01"
+  },
+  {
+   "id": "cs_n_nuthatch_02",
+   "text": "A nuthatch is a bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nuthatch · cs_n_nuthatch_02"
   }
  ]
 }
