@@ -1,4 +1,17 @@
-# Next build order — after 4.9.166
+# Next build order — after 4.9.167
+
+**Baseline:** 4.9.167 public research vault-optional + RPMC domain/archive ancestors for chemical/general factual miss (RPMC→RSOC→Panini Name without Identity Vault passphrase; continuous fill PAUSED; soft leave ≥5 kB under 570 kB)
+
+**Standing:** Grok Bot computer ONLY. No CloudAgent. Soft budget ≤1.920 MB / ≤570 kB gzip. No LLM. Pathway not patches. Continuous fill remains PAUSED.
+
+**Shipped 4.9.167:** CHEM-FORMULA case-insensitive + bare WH subject; `ancestorDomainCandidates` / archive priors when class FIND empty; AQ-1 research without lookupHint; `research.web` = network_read (seal optional); governance vault only on vault_write; forge ephemeral when locked. Soft budget unchanged. No H2S pack thicken.
+
+**Do not start:** a scrapbook shared_knowledge write; Soft Echo; marketplace/LLM skins; a deep IA rewrite; enlarging on-device starter; raising the 1.920 MB / 570 kB budget; stuffing one molecule as a special-case pack row; resuming continuous fill without Nic.
+
+**Manual:** still paused.
+
+
+# Next build order — after 4.9.166 (shipped)
 
 **Baseline:** 4.9.166 QuotaExceeded-safe `kernel.trace` persist + AQ-1 RPMC gather for world-gap factual misses (RPMC→RSOC→Panini; no canned; continuous fill PAUSED; soft leave ≥5 kB under 570 kB)
 
