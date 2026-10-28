@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 208,
+ "curated_facts": 218,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -1219,6 +1219,66 @@
    "text": "A buffer resists pH change",
    "standing": "projectable",
    "evidence": "science · product curator · Buffer · cs_b_buffer_01"
+  },
+  {
+   "id": "cs_b_basalt_03",
+   "text": "Basalt forms ocean crust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Basalt · cs_b_basalt_03"
+  },
+  {
+   "id": "cs_b_beech_02",
+   "text": "Beech trees drop nuts",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beech · cs_b_beech_02"
+  },
+  {
+   "id": "cs_b_beaver_03",
+   "text": "Beaver dams create wetlands",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beaver · cs_b_beaver_03"
+  },
+  {
+   "id": "cs_b_bison_02",
+   "text": "A bison grazes on plains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bison · cs_b_bison_02"
+  },
+  {
+   "id": "cs_b_blast_furnace_01",
+   "text": "A blast furnace smelts iron",
+   "standing": "projectable",
+   "evidence": "science · product curator · Blast furnace · cs_b_blast_furnace_01"
+  },
+  {
+   "id": "cs_b_bluebird_01",
+   "text": "A bluebird nests in a cavity",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bluebird · cs_b_bluebird_01"
+  },
+  {
+   "id": "cs_b_bog_01",
+   "text": "A bog holds acidic peat",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Bog · cs_b_bog_01"
+  },
+  {
+   "id": "cs_b_borax_01",
+   "text": "Borax softens hard water",
+   "standing": "projectable",
+   "evidence": "science · product curator · Borax · cs_b_borax_01"
+  },
+  {
+   "id": "cs_b_bronze_03",
+   "text": "Bronze resists corrosion",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bronze · cs_b_bronze_03"
+  },
+  {
+   "id": "cs_b_bubble_01",
+   "text": "Gas forms a bubble in liquid",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bubble · cs_b_bubble_01"
   }
  ]
 }

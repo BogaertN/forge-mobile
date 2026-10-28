@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 210,
+ "curated_facts": 220,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -1213,6 +1213,66 @@
    "text": "A Komodo dragon hunts deer",
    "standing": "projectable",
    "evidence": "nature · product curator · Komodo · cs_k_komodo_01"
+  },
+  {
+   "id": "cs_k_kale_04",
+   "text": "Kale stores vitamin K",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kale · cs_k_kale_04"
+  },
+  {
+   "id": "cs_k_khaki_01",
+   "text": "Khaki dyes cloth tan",
+   "standing": "projectable",
+   "evidence": "history · product curator · Khaki · cs_k_khaki_01"
+  },
+  {
+   "id": "cs_k_kernel_04",
+   "text": "A kernel holds starch",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kernel · cs_k_kernel_04"
+  },
+  {
+   "id": "cs_k_kerosene_03",
+   "text": "Kerosene fuels lamps",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kerosene · cs_k_kerosene_03"
+  },
+  {
+   "id": "cs_k_kettle_04",
+   "text": "A kettle whistles steam",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kettle · cs_k_kettle_04"
+  },
+  {
+   "id": "cs_k_kneecap_01",
+   "text": "The kneecap covers the knee joint",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kneecap · cs_k_kneecap_01"
+  },
+  {
+   "id": "cs_k_kiln_04",
+   "text": "Heat hardens clay in a kiln",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kiln · cs_k_kiln_04"
+  },
+  {
+   "id": "cs_k_kiwi_05",
+   "text": "A kiwi probes soft soil",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kiwi · cs_k_kiwi_05"
+  },
+  {
+   "id": "cs_k_knife_01",
+   "text": "A knife cuts with a blade",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knife · cs_k_knife_01"
+  },
+  {
+   "id": "cs_k_knuckle_02",
+   "text": "A knuckle flexes the hand",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knuckle · cs_k_knuckle_02"
   }
  ]
 }

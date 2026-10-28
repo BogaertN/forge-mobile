@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 206,
+ "curated_facts": 216,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -1219,6 +1219,66 @@
    "text": "Boiling water makes steam",
    "standing": "projectable",
    "evidence": "science · product curator · Steam · cs_s_steam_01"
+  },
+  {
+   "id": "cs_s_sap_03",
+   "text": "Sap flows in tree stems",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Sap · cs_s_sap_03"
+  },
+  {
+   "id": "cs_s_scar_01",
+   "text": "A scar marks healed skin",
+   "standing": "projectable",
+   "evidence": "science · product curator · Scar · cs_s_scar_01"
+  },
+  {
+   "id": "cs_s_seedling_01",
+   "text": "A seedling grows from a seed",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Seedling · cs_s_seedling_01"
+  },
+  {
+   "id": "cs_s_smoke_01",
+   "text": "Smoke rises from a fire",
+   "standing": "projectable",
+   "evidence": "science · product curator · Smoke · cs_s_smoke_01"
+  },
+  {
+   "id": "cs_s_snail_02",
+   "text": "A snail carries a shell",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Snail · cs_s_snail_02"
+  },
+  {
+   "id": "cs_s_solstice_02",
+   "text": "A solstice marks a season",
+   "standing": "projectable",
+   "evidence": "science · product curator · Solstice · cs_s_solstice_02"
+  },
+  {
+   "id": "cs_s_sound_02",
+   "text": "Sound travels as a wave",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sound · cs_s_sound_02"
+  },
+  {
+   "id": "cs_s_spleen_01",
+   "text": "The spleen filters blood",
+   "standing": "projectable",
+   "evidence": "science · product curator · Spleen · cs_s_spleen_01"
+  },
+  {
+   "id": "cs_s_stomach_02",
+   "text": "The stomach digests food",
+   "standing": "projectable",
+   "evidence": "science · product curator · Stomach · cs_s_stomach_02"
+  },
+  {
+   "id": "cs_s_succulent_01",
+   "text": "A succulent stores water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Succulent · cs_s_succulent_01"
   }
  ]
 }

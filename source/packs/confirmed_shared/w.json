@@ -6,7 +6,7 @@
  "letter": "W",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 207,
+ "curated_facts": 217,
  "items": [
   {
    "id": "cs_w_warsaw_01",
@@ -1219,6 +1219,66 @@
    "text": "The wrist bends the hand",
    "standing": "projectable",
    "evidence": "science · product curator · Wrist · cs_w_wrist_02"
+  },
+  {
+   "id": "cs_w_whale_04",
+   "text": "A whale breathes air",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Whale · cs_w_whale_04"
+  },
+  {
+   "id": "cs_w_wetland_04",
+   "text": "A wetland filters water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Wetland · cs_w_wetland_04"
+  },
+  {
+   "id": "cs_w_wheat_04",
+   "text": "Wheat fills grain heads",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wheat · cs_w_wheat_04"
+  },
+  {
+   "id": "cs_w_wheel_03",
+   "text": "A wheel rotates on an axle",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wheel · cs_w_wheel_03"
+  },
+  {
+   "id": "cs_w_wick_01",
+   "text": "A wick draws melted wax",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wick · cs_w_wick_01"
+  },
+  {
+   "id": "cs_w_willow_04",
+   "text": "A willow bends in wind",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Willow · cs_w_willow_04"
+  },
+  {
+   "id": "cs_w_wind_03",
+   "text": "Wind can power turbines",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wind · cs_w_wind_03"
+  },
+  {
+   "id": "cs_w_wire_03",
+   "text": "Copper wire carries current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Wire · cs_w_wire_03"
+  },
+  {
+   "id": "cs_w_woodpecker_05",
+   "text": "A woodpecker pecks holes in trees",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Woodpecker · cs_w_woodpecker_05"
+  },
+  {
+   "id": "cs_w_wool_02",
+   "text": "Knitters make fabric from wool",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Wool · cs_w_wool_02"
   }
  ]
 }

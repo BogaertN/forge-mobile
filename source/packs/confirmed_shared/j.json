@@ -6,7 +6,7 @@
  "letter": "J",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 212,
+ "curated_facts": 222,
  "items": [
   {
    "id": "cs_j_japan_01",
@@ -1213,6 +1213,66 @@
    "text": "Juniper berries flavor gin",
    "standing": "projectable",
    "evidence": "nature · product curator · Juniper · cs_j_juniper_06"
+  },
+  {
+   "id": "cs_j_jacket_01",
+   "text": "A jacket traps body heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jacket · cs_j_jacket_01"
+  },
+  {
+   "id": "cs_j_jade_05",
+   "text": "Jade resists scratching",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jade · cs_j_jade_05"
+  },
+  {
+   "id": "cs_j_jam_01",
+   "text": "Fruit cooks into jam",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jam · cs_j_jam_01"
+  },
+  {
+   "id": "cs_j_jasmine_04",
+   "text": "Jasmine oils perfume soap",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jasmine · cs_j_jasmine_04"
+  },
+  {
+   "id": "cs_j_jasper_04",
+   "text": "Jasper forms red stone",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jasper · cs_j_jasper_04"
+  },
+  {
+   "id": "cs_j_jewel_03",
+   "text": "A jewel refracts light",
+   "standing": "projectable",
+   "evidence": "science · product curator · Jewel · cs_j_jewel_03"
+  },
+  {
+   "id": "cs_j_joint_04",
+   "text": "Cartilage cushions a joint",
+   "standing": "projectable",
+   "evidence": "science · product curator · Joint · cs_j_joint_04"
+  },
+  {
+   "id": "cs_j_joist_02",
+   "text": "A joist spans a room",
+   "standing": "projectable",
+   "evidence": "history · product curator · Joist · cs_j_joist_02"
+  },
+  {
+   "id": "cs_j_juniper_07",
+   "text": "Juniper grows on hills",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Juniper · cs_j_juniper_07"
+  },
+  {
+   "id": "cs_j_jute_02",
+   "text": "Jute softens in water",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Jute · cs_j_jute_02"
   }
  ]
 }

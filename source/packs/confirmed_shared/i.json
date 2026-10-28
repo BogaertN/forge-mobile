@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 214,
+ "curated_facts": 224,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -1219,6 +1219,66 @@
    "text": "Furnaces smelt iron ore",
    "standing": "projectable",
    "evidence": "science · product curator · Iron ore · cs_i_iron_ore_02"
+  },
+  {
+   "id": "cs_i_ice_06",
+   "text": "Ice melts at zero Celsius",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ice · cs_i_ice_06"
+  },
+  {
+   "id": "cs_i_impulse_04",
+   "text": "A bat hits with an impulse",
+   "standing": "projectable",
+   "evidence": "science · product curator · Impulse · cs_i_impulse_04"
+  },
+  {
+   "id": "cs_i_inertia_03",
+   "text": "Inertia resists a push",
+   "standing": "projectable",
+   "evidence": "science · product curator · Inertia · cs_i_inertia_03"
+  },
+  {
+   "id": "cs_i_intersect_01",
+   "text": "Two lines intersect at a point",
+   "standing": "projectable",
+   "evidence": "math · product curator · Intersect · cs_i_intersect_01"
+  },
+  {
+   "id": "cs_i_inverse_01",
+   "text": "An inverse undoes an operation",
+   "standing": "projectable",
+   "evidence": "math · product curator · Inverse · cs_i_inverse_01"
+  },
+  {
+   "id": "cs_i_import_01",
+   "text": "A country can import goods",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Import · cs_i_import_01"
+  },
+  {
+   "id": "cs_i_iris_04",
+   "text": "Iris flowers bloom purple",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iris · cs_i_iris_04"
+  },
+  {
+   "id": "cs_i_irrigation_01",
+   "text": "Irrigation brings water to crops",
+   "standing": "projectable",
+   "evidence": "science · product curator · Irrigation · cs_i_irrigation_01"
+  },
+  {
+   "id": "cs_i_isotope_03",
+   "text": "An isotope shares protons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Isotope · cs_i_isotope_03"
+  },
+  {
+   "id": "cs_i_ivory_03",
+   "text": "Elephants have ivory tusks",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ivory · cs_i_ivory_03"
   }
  ]
 }

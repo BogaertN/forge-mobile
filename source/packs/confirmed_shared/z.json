@@ -6,7 +6,7 @@
  "letter": "Z",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 223,
+ "curated_facts": 233,
  "items": [
   {
    "id": "cs_z_zambia_01",
@@ -1213,6 +1213,66 @@
    "text": "A zygote begins an embryo",
    "standing": "projectable",
    "evidence": "science · product curator · Zygote · cs_z_zygote_07"
+  },
+  {
+   "id": "cs_z_zebra_14",
+   "text": "Zebras graze open plains",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zebra · cs_z_zebra_14"
+  },
+  {
+   "id": "cs_z_zeatin_01",
+   "text": "Zeatin promotes plant growth",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zeatin · cs_z_zeatin_01"
+  },
+  {
+   "id": "cs_z_zeolite_04",
+   "text": "Zeolite traps hard ions",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zeolite · cs_z_zeolite_04"
+  },
+  {
+   "id": "cs_z_zero_09",
+   "text": "Zero holds a place value",
+   "standing": "projectable",
+   "evidence": "math · product curator · Zero · cs_z_zero_09"
+  },
+  {
+   "id": "cs_z_zest_02",
+   "text": "Citrus zest oils perfume",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zest · cs_z_zest_02"
+  },
+  {
+   "id": "cs_z_zinc_14",
+   "text": "Zinc shields iron from air",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zinc · cs_z_zinc_14"
+  },
+  {
+   "id": "cs_z_zinnia_08",
+   "text": "Zinnias face bright sun",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Zinnia · cs_z_zinnia_08"
+  },
+  {
+   "id": "cs_z_zipper_04",
+   "text": "Teeth mesh in a zipper",
+   "standing": "projectable",
+   "evidence": "history · product curator · Zipper · cs_z_zipper_04"
+  },
+  {
+   "id": "cs_z_zodiac_07",
+   "text": "The zodiac tracks seasons",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zodiac · cs_z_zodiac_07"
+  },
+  {
+   "id": "cs_z_zonal_02",
+   "text": "Zonal flow rings a planet",
+   "standing": "projectable",
+   "evidence": "science · product curator · Zonal · cs_z_zonal_02"
   }
  ]
 }
