@@ -6,7 +6,7 @@
  "letter": "G",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 144,
+ "curated_facts": 154,
  "items": [
   {
    "id": "cs_g_germany_01",
@@ -829,6 +829,66 @@
    "text": "A gorge is a deep narrow valley",
    "standing": "projectable",
    "evidence": "geography · product curator · Gorge · cs_g_gorge_01"
+  },
+  {
+   "id": "cs_g_galaxy_02",
+   "text": "A galaxy contains billions of stars",
+   "standing": "projectable",
+   "evidence": "science · product curator · Galaxy · cs_g_galaxy_02"
+  },
+  {
+   "id": "cs_g_gallbladder_01",
+   "text": "The gallbladder stores bile",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gallbladder · cs_g_gallbladder_01"
+  },
+  {
+   "id": "cs_g_gamma_ray_02",
+   "text": "A gamma ray is high energy radiation",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gamma ray · cs_g_gamma_ray_02"
+  },
+  {
+   "id": "cs_g_gas_02",
+   "text": "A gas fills its container",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gas · cs_g_gas_02"
+  },
+  {
+   "id": "cs_g_gear_01",
+   "text": "A gear transmits mechanical power",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gear · cs_g_gear_01"
+  },
+  {
+   "id": "cs_g_gene_02",
+   "text": "A gene is a unit of heredity",
+   "standing": "projectable",
+   "evidence": "science · product curator · Gene · cs_g_gene_02"
+  },
+  {
+   "id": "cs_g_geyser_02",
+   "text": "A geyser erupts hot water",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Geyser · cs_g_geyser_02"
+  },
+  {
+   "id": "cs_g_glacier_02",
+   "text": "A glacier is a large mass of ice",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Glacier · cs_g_glacier_02"
+  },
+  {
+   "id": "cs_g_goose_02",
+   "text": "A goose is a water bird",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Goose · cs_g_goose_02"
+  },
+  {
+   "id": "cs_g_germination_01",
+   "text": "A seed starts germination",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Germination · cs_g_germination_01"
   }
  ]
 }
