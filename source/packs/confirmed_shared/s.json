@@ -6,7 +6,7 @@
  "letter": "S",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 165,
+ "curated_facts": 168,
  "items": [
   {
    "id": "cs_s_sweden_01",
@@ -973,6 +973,24 @@
    "text": "A circle has rotational symmetry",
    "standing": "projectable",
    "evidence": "math · product curator · Symmetry · cs_s_symmetry_01"
+  },
+  {
+   "id": "cs_s_sunset_01",
+   "text": "Sunset ends the day",
+   "standing": "projectable",
+   "evidence": "science · product curator · Sunset · cs_s_sunset_01"
+  },
+  {
+   "id": "cs_s_string_01",
+   "text": "A guitar has a string",
+   "standing": "projectable",
+   "evidence": "history · product curator · String · cs_s_string_01"
+  },
+  {
+   "id": "cs_s_seed_01",
+   "text": "A seed grows into a plant",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Seed · cs_s_seed_01"
   }
  ]
 }

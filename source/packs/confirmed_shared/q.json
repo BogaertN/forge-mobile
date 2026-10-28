@@ -6,7 +6,7 @@
  "letter": "Q",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 180,
+ "curated_facts": 183,
  "items": [
   {
    "id": "cs_q_qatar_01",
@@ -973,6 +973,24 @@
    "text": "A quince is a tart fruit",
    "standing": "projectable",
    "evidence": "nature · product curator · Quince · cs_q_quince_05"
+  },
+  {
+   "id": "cs_q_quilt_07",
+   "text": "Sewers stitch a quilt",
+   "standing": "projectable",
+   "evidence": "history · product curator · Quilt · cs_q_quilt_07"
+  },
+  {
+   "id": "cs_q_quark_07",
+   "text": "Protons contain quarks",
+   "standing": "projectable",
+   "evidence": "science · product curator · Quark · cs_q_quark_07"
+  },
+  {
+   "id": "cs_q_quota_01",
+   "text": "A quota is a set limit",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Quota · cs_q_quota_01"
   }
  ]
 }

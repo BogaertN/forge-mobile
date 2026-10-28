@@ -6,7 +6,7 @@
  "letter": "R",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 171,
+ "curated_facts": 174,
  "items": [
   {
    "id": "cs_r_russia_01",
@@ -973,6 +973,24 @@
    "text": "A rose is a flowering shrub",
    "standing": "projectable",
    "evidence": "nature · product curator · Rose · cs_r_rose_03"
+  },
+  {
+   "id": "cs_r_rock_02",
+   "text": "Granite is a rock",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Rock · cs_r_rock_02"
+  },
+  {
+   "id": "cs_r_reason_01",
+   "text": "Logic uses reason",
+   "standing": "projectable",
+   "evidence": "language · product curator · Reason · cs_r_reason_01"
+  },
+  {
+   "id": "cs_r_resin_02",
+   "text": "Trees produce resin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Resin · cs_r_resin_02"
   }
  ]
 }
