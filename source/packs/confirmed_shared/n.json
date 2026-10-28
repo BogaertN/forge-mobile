@@ -6,7 +6,7 @@
  "letter": "N",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 172,
+ "curated_facts": 178,
  "items": [
   {
    "id": "cs_n_nepal_01",
@@ -997,6 +997,42 @@
    "text": "A net catches fish",
    "standing": "projectable",
    "evidence": "science · product curator · Net · cs_n_net_01"
+  },
+  {
+   "id": "cs_n_nectar_03",
+   "text": "Bees gather nectar",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nectar · cs_n_nectar_03"
+  },
+  {
+   "id": "cs_n_nettle_03",
+   "text": "A nettle stings skin",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Nettle · cs_n_nettle_03"
+  },
+  {
+   "id": "cs_n_niche_01",
+   "text": "Each species has a niche",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Niche · cs_n_niche_01"
+  },
+  {
+   "id": "cs_n_nova_01",
+   "text": "A nova is a bright star outburst",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nova · cs_n_nova_01"
+  },
+  {
+   "id": "cs_n_natural_number_04",
+   "text": "Natural numbers start at one",
+   "standing": "projectable",
+   "evidence": "math · product curator · Natural number · cs_n_natural_number_04"
+  },
+  {
+   "id": "cs_n_nitrate_02",
+   "text": "Plants absorb nitrate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Nitrate · cs_n_nitrate_02"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "K",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 173,
+ "curated_facts": 182,
  "items": [
   {
    "id": "cs_k_kenya_01",
@@ -991,6 +991,60 @@
    "text": "A grain has a kernel",
    "standing": "projectable",
    "evidence": "nature · product curator · Kernel · cs_k_kernel_02"
+  },
+  {
+   "id": "cs_k_kelp_03",
+   "text": "Kelp forests shelter fish",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Kelp · cs_k_kelp_03"
+  },
+  {
+   "id": "cs_k_kiln_02",
+   "text": "Potters fire clay in a kiln",
+   "standing": "projectable",
+   "evidence": "history · product curator · Kiln · cs_k_kiln_02"
+  },
+  {
+   "id": "cs_k_kingdom_02",
+   "text": "Biology groups life into kingdoms",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kingdom · cs_k_kingdom_02"
+  },
+  {
+   "id": "cs_k_knuckle_01",
+   "text": "A knuckle bends a finger",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knuckle · cs_k_knuckle_01"
+  },
+  {
+   "id": "cs_k_krypton_03",
+   "text": "Krypton glows in tubes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Krypton · cs_k_krypton_03"
+  },
+  {
+   "id": "cs_k_kinetic_energy_03",
+   "text": "Kinetic energy grows with speed",
+   "standing": "projectable",
+   "evidence": "science · product curator · Kinetic energy · cs_k_kinetic_energy_03"
+  },
+  {
+   "id": "cs_k_knee_02",
+   "text": "The knee bends the leg",
+   "standing": "projectable",
+   "evidence": "science · product curator · Knee · cs_k_knee_02"
+  },
+  {
+   "id": "cs_k_key_01",
+   "text": "A map key explains symbols",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Key · cs_k_key_01"
+  },
+  {
+   "id": "cs_k_keyboard_02",
+   "text": "Typists use a keyboard",
+   "standing": "projectable",
+   "evidence": "history · product curator · Keyboard · cs_k_keyboard_02"
   }
  ]
 }

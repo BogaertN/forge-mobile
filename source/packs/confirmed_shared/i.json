@@ -6,7 +6,7 @@
  "letter": "I",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 176,
+ "curated_facts": 186,
  "items": [
   {
    "id": "cs_i_indonesia_01",
@@ -991,6 +991,66 @@
    "text": "Miners dig iron ore",
    "standing": "projectable",
    "evidence": "geography · product curator · Iron ore · cs_i_iron_ore_01"
+  },
+  {
+   "id": "cs_i_iguana_06",
+   "text": "An iguana basks in sun",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Iguana · cs_i_iguana_06"
+  },
+  {
+   "id": "cs_i_indigo_01",
+   "text": "Indigo is a deep blue dye",
+   "standing": "projectable",
+   "evidence": "history · product curator · Indigo · cs_i_indigo_01"
+  },
+  {
+   "id": "cs_i_inlet_01",
+   "text": "An inlet is a narrow bay",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Inlet · cs_i_inlet_01"
+  },
+  {
+   "id": "cs_i_isthmus_03",
+   "text": "An isthmus links two lands",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Isthmus · cs_i_isthmus_03"
+  },
+  {
+   "id": "cs_i_igneous_01",
+   "text": "Magma cools into igneous rock",
+   "standing": "projectable",
+   "evidence": "science · product curator · Igneous · cs_i_igneous_01"
+  },
+  {
+   "id": "cs_i_illusion_01",
+   "text": "An illusion tricks the eyes",
+   "standing": "projectable",
+   "evidence": "science · product curator · Illusion · cs_i_illusion_01"
+  },
+  {
+   "id": "cs_i_impulse_02",
+   "text": "An impulse is a sudden force",
+   "standing": "projectable",
+   "evidence": "science · product curator · Impulse · cs_i_impulse_02"
+  },
+  {
+   "id": "cs_i_infrared_02",
+   "text": "Infrared light carries heat",
+   "standing": "projectable",
+   "evidence": "science · product curator · Infrared · cs_i_infrared_02"
+  },
+  {
+   "id": "cs_i_insulation_01",
+   "text": "Insulation slows heat loss",
+   "standing": "projectable",
+   "evidence": "science · product curator · Insulation · cs_i_insulation_01"
+  },
+  {
+   "id": "cs_i_iron_08",
+   "text": "Wet iron forms rust",
+   "standing": "projectable",
+   "evidence": "science · product curator · Iron · cs_i_iron_08"
   }
  ]
 }
