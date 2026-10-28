@@ -2,6 +2,16 @@
 
 Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation Addendum, Sep 2026) > older docs**. Where forge2 says nothing, **forge code** comes before docs. Every row lists the sources and where the decision lives in the code.
 
+## v4.9.169 — idle dream worker, drift/χ lanes, grace recenter (2026-10-28 America/Chicago)
+
+**Conflict:** Nic approved an idle dream daemon that researches gaps until factual and routes by drift/χ into memory lanes, including a path toward hosted `confirmed_shared`. E-05 / Patch 266 / BRIEF 106–119 forbid the dream **quarantine** route from truth, stable memory, or projection. Stack 6 `sandbox_promoter` may push high-integrity dream entities toward mainline memory. Continuous fill is still paused. 4.9.168 packets are `{Phi,eps,mu}` (`FORGE-RESONANCE-PACKET/v1`). ProtoForge `run_dream_cycle` is not in this repo. ChristPing is not built.
+
+**Settlement:** Split the roles. `src/dream_idle.js` is a separate deterministic worker (no LLM, not `Kernel.process`, not in the phone bundle, no on-device dream KB). It enumerates AQ-1 misses, `RPMC-ANCESTOR-NONE`, and letter holes, then routes with `kmath.driftGovernance` only: ≤0.35 and integrity ≥ 0.85 stages a **promote-candidate** (not the quarantine route); ≤0.35 without that integrity stays provisional; 0.35–0.40 takes one `chiCorrect` pass; 0.40–0.80 is `dream_state_quarantine_candidate` and keeps researching (`truth_support_allowed`, `stable_memory_allowed`, and `projection_allowed` stay false); above 0.80 hard-rejects and `graceRecenter` (χ + grace integral) aborts that path and steers the next gap. A conflict at any projectable measurement stays quarantine. Hosted admit calls existing `writeSharedKnowledge` only when `admitEnabled` is set, a write key is present, the lane is promote-candidate, and a resonance packet is attached. Default is **off** (`DREAM-IDLE-ADMIT-PAUSED`). Quarantine admit returns `DREAM-QUARANTINE-NO-TRUTH` and does not write `confirmed_shared`. The integrity complement (ε = 1 − mean verified integrity) is a product skeleton meter when ε is omitted. It is not `driftFunctional` and it is not the write law.
+
+**Where:** `src/dream_idle.js`; proof `verify/r4169_suite.js`. Packs index stays 4.9.168. Continuous fill stays paused. The daemon is outside the phone bundle. The portable single file keeps gzip leave ≥5 kB under 570 kB by three display-only cuts (Pages unchanged): release hashes stored as the 16 characters the operator panel already shows, feature suite totals omitted because proofs are already omitted, and `coherence_math.py` not inlined (the lab button still fetches `data/py/coherence_math.py` on the site).
+
+---
+
 ## v4.9.168 — hosted KB resonance packets for RPMC (2026-10-28 America/Chicago)
 
 **Conflict:** Does every hosted `confirmed_shared` row need a resonance packet so RPMC can phase-align/combine? Packs historically carried only `id` / `standing` / `evidence` / `text`. RPMC gather used `ancestorSfe` but priors dropped `sfe`, and missing packets failed closed to sealed Φ5 — so combine could not lawfully project from uniform defaults either.

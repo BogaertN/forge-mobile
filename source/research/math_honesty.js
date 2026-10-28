@@ -199,6 +199,22 @@ function run() {
       note: '4.9.165: answer-path grace is no longer a stub for the RPMC→RSOC factual-miss gate. kernel.js rpmcAncestorCandidates calls kmath.graceOverAncestors (Axiom 4 phase-align + §3.4 graceIntegral; G_MIN=1e-4). Candidates feed AUTH-AQ1/research (RSOC-COMPOSE-EVIDENCE); not a class-dump answer. Does not claim Φ1–Φ9 is proven cognition; does not claim manuscript equivalence.',
       where: ['src/kmath.js graceOverAncestors', 'src/kmath.js graceIntegral', 'src/kernel.js rpmcAncestorCandidates', 'src/forge.js rpmc_priors', 'verify/r4165_suite.js'],
       cite: 'RPMC §3.4 Grace Integral; Axiom 4; Nic t129u–t132u'
+    },
+    idle_dream_router: {
+      status: 'wired',
+      honesty: 'research-only',
+      manuscript: 'SOURCE_NOT_VERIFIED',
+      product_claim: false,
+      proven_cognition: false,
+      christ_ping: false,
+      write_law_unchanged: true,
+      continuous_admit_default: false,
+      quarantine_writes_confirmed_shared: false,
+      integrity_high: 0.85,
+      integrity_meter: 'when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Product skeleton meter only. Not driftFunctional. Not the Mobile write law.',
+      note: '4.9.169 idle dream router reads kmath.driftGovernance (Nic ≤0.35 project, χ below 0.40, quarantine through 0.80, hard stop above). Grace recenter calls chiCorrect and graceOverAncestors and aborts the path above 0.80. ChristPing is not built. Quarantine does not write confirmed_shared. Continuous admit stays default-off.',
+      where: ['src/dream_idle.js', 'src/kmath.js driftGovernance', 'src/kmath.js chiCorrect', 'src/kmath.js graceOverAncestors', 'verify/r4169_suite.js'],
+      cite: 'Nic drift ruling 2026-10-14; RPMC §3 χ; §3.4 Grace Integral; E-05 quarantine honesty'
     }
   };
 }
@@ -234,6 +250,14 @@ function markdown(report) {
   lines.push('');
   if (report.answer_path_grace) {
     lines.push('status ' + report.answer_path_grace.status + '. ' + (report.answer_path_grace.note || ''));
+    lines.push('');
+  }
+  lines.push('## Idle dream router (4.9.169)');
+  lines.push('');
+  if (report.idle_dream_router) {
+    lines.push('status ' + report.idle_dream_router.status + '. ' + (report.idle_dream_router.note || ''));
+    lines.push('');
+    lines.push(report.idle_dream_router.integrity_meter || '');
     lines.push('');
   }
   lines.push('## Echo on recorded Language Core surfaces');

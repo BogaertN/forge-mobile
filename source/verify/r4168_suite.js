@@ -136,23 +136,23 @@ T('attach-on-admit when pack omits sfe: session fact still phase-aligns', () => 
   }
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.168', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.169', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.168', ver);
+  expect(ver === '4.9.169', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
-  expect(/v4\.9\.168/.test(conf), 'CONFLICTS tip');
+  expect(/v4\.9\.169/.test(conf), 'CONFLICTS tip');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
-  expect(/4\.9\.168/.test(nb), 'NEXT_BUILD tip');
+  expect(/4\.9\.169/.test(nb), 'NEXT_BUILD tip');
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
-  expect(/4\.9\.168/.test(readme), 'README tip');
+  expect(/4\.9\.169/.test(readme), 'README tip');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.168' && tgt.suites[0] === 'r4168_suite.js', JSON.stringify(tgt));
+  expect(tgt.release === '4.9.169' && (tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js'), JSON.stringify(tgt));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.168', 'registry ' + reg.version);
+  expect(reg.version === '4.9.169', 'registry ' + reg.version);
   expect(reg.features.some(f => f.id === 'R4168-RESONANCE-PACKETS'), 'R4168 feature');
   expect(reg.claims.Implemented === 112 && reg.claims.Partial >= 163, JSON.stringify(reg.claims));
   const mh = JSON.parse(fs.readFileSync(path.join(ROOT, 'research', 'math_honesty.json'), 'utf8'));
-  expect(mh.release === '4.9.168', 'math_honesty ' + mh.release);
+  expect(mh.release === '4.9.169', 'math_honesty ' + mh.release);
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
   expect(/forge-mobile-v__FORGE_VERSION__/.test(sw) || /forge-mobile-v4\.9\.168/.test(sw), 'sw cache placeholder');
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');

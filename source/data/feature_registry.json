@@ -1,5 +1,5 @@
 {
- "version": "4.9.168",
+ "version": "4.9.169",
  "features": [
   {
    "id": "A-01",
@@ -3562,13 +3562,24 @@
    "proof": [
     "R4168"
    ]
+  },
+  {
+   "id": "R4169-IDLE-DREAM",
+   "name": "Idle dream worker and drift lane router",
+   "source": "CONFLICTS.md v4.9.169; Nic idle dream lock 2026-10-28",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Separate deterministic dream_idle worker. Drift table routes promote-candidate, provisional, chi correction, quarantine keep-research, and hard reject plus grace recenter. Hosted admit is default-off and attaches FORGE-RESONANCE-PACKET/v1. Quarantine does not write confirmed_shared. No LLM. No phone dream KB. ChristPing is not built. Continuous fill stays paused.",
+   "proof": [
+    "R4169"
+   ]
   }
  ],
- "count": 325,
+ "count": 326,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 163,
+  "Partial": 164,
   "Missing": 9,
   "Out of scope / parked": 13
  }

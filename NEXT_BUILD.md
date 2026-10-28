@@ -1,3 +1,18 @@
+# Next build order — after 4.9.169 (shipped)
+
+**Baseline:** 4.9.169 idle dream/research worker (separate from Ask) + drift/χ lane router + grace recenter. Promote-candidates can admit to hosted `confirmed_shared` with `FORGE-RESONANCE-PACKET/v1` only when `admitEnabled` is on. Default off. Quarantine does not write `confirmed_shared`. No LLM. No on-device dream KB. Continuous fill stays PAUSED. Soft leave ≥5 kB under 570 kB.
+
+**Standing:** No LLM. Pathway not probe patches. Soft budget ≤1.920 MB / ≤570 kB gzip. Continuous fill remains PAUSED until Nic restarts it.
+
+**Shipped 4.9.169:** Gap enumerator (AQ-1 miss, RPMC-ANCESTOR-NONE, letter hole) and deterministic worker skeleton. Lanes: ≤0.35 high integrity → promote-candidate; low integrity → provisional; χ 0.35–0.40 one correction; 0.40–0.80 quarantine keep-research; >0.80 hard reject + grace recenter onto another path. Hosted admit pathway gated default-off. E-05 bans stay on quarantine.
+
+**Do not start:** Stack 6 nine engines; turning continuous admit on without Nic; probe-specific answer hacks; on-device dream KB dumps; a scrapbook `shared_knowledge` write; Soft Echo; raising the 1.920 MB / 570 kB budget.
+
+**Enable:** `require('./source/src/dream_idle.js')`, `createIdleDream({ admitEnabled: false })`, `tick({ answering: false })` only while Ask is idle. Set `admitEnabled` true plus the kernel write key to admit staged promote-candidates. See README.
+
+**Manual:** still paused.
+
+
 # Next build order — after 4.9.168 (shipped)
 
 **Baseline:** 4.9.168 hosted KB resonance packets `{Phi,eps,mu}` for RPMC phase-align/combine (Axiom 4; §1; §3.4). Attach-on-admit + packet-only backfill. RPMC priors carry sfe. Continuous fill PAUSED. Soft leave ≥5 kB under 570 kB.

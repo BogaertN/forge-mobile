@@ -36,6 +36,12 @@ Nine stubs. measured false. reconstruction. SOURCE_NOT_VERIFIED. No delta is rep
 
 status wired. 4.9.165: answer-path grace is no longer a stub for the RPMC→RSOC factual-miss gate. kernel.js rpmcAncestorCandidates calls kmath.graceOverAncestors (Axiom 4 phase-align + §3.4 graceIntegral; G_MIN=1e-4). Candidates feed AUTH-AQ1/research (RSOC-COMPOSE-EVIDENCE); not a class-dump answer. Does not claim Φ1–Φ9 is proven cognition; does not claim manuscript equivalence.
 
+## Idle dream router (4.9.169)
+
+status wired. 4.9.169 idle dream router reads kmath.driftGovernance (Nic ≤0.35 project, χ below 0.40, quarantine through 0.80, hard stop above). Grace recenter calls chiCorrect and graceOverAncestors and aborts the path above 0.80. ChristPing is not built. Quarantine does not write confirmed_shared. Continuous admit stays default-off.
+
+when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Product skeleton meter only. Not driftFunctional. Not the Mobile write law.
+
 ## Echo on recorded Language Core surfaces
 
 research-only. SOURCE_NOT_VERIFIED. Surfaces 6. False positive 0 (rate 0). False negative 0 (rate 0). Shared KB writes 0. These rates are not a calibrated cognition claim.
