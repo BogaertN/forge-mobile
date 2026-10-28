@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 184,
+ "curated_facts": 187,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -1039,6 +1039,24 @@
    "text": "A dragonfly hunts flying insects",
    "standing": "projectable",
    "evidence": "nature · product curator · Dragonfly · cs_d_dragonfly_04"
+  },
+  {
+   "id": "cs_d_density_02",
+   "text": "Lead has high density",
+   "standing": "projectable",
+   "evidence": "science · product curator · Density · cs_d_density_02"
+  },
+  {
+   "id": "cs_d_dividend_01",
+   "text": "Division starts with a dividend",
+   "standing": "projectable",
+   "evidence": "math · product curator · Dividend · cs_d_dividend_01"
+  },
+  {
+   "id": "cs_d_diatom_01",
+   "text": "A diatom is a tiny alga",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Diatom · cs_d_diatom_01"
   }
  ]
 }

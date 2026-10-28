@@ -6,7 +6,7 @@
  "letter": "F",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 179,
+ "curated_facts": 189,
  "items": [
   {
    "id": "cs_f_france_01",
@@ -1027,6 +1027,66 @@
    "text": "Cold air meets warm air at a front",
    "standing": "projectable",
    "evidence": "geography · product curator · Front · cs_f_front_01"
+  },
+  {
+   "id": "cs_f_facet_02",
+   "text": "A diamond has many facets",
+   "standing": "projectable",
+   "evidence": "science · product curator · Facet · cs_f_facet_02"
+  },
+  {
+   "id": "cs_f_factor_03",
+   "text": "Six is a factor of twelve",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor · cs_f_factor_03"
+  },
+  {
+   "id": "cs_f_falcon_03",
+   "text": "A falcon dives on prey",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Falcon · cs_f_falcon_03"
+  },
+  {
+   "id": "cs_f_flint_02",
+   "text": "People struck flint for sparks",
+   "standing": "projectable",
+   "evidence": "history · product curator · Flint · cs_f_flint_02"
+  },
+  {
+   "id": "cs_f_friction_03",
+   "text": "Friction slows a sliding object",
+   "standing": "projectable",
+   "evidence": "science · product curator · Friction · cs_f_friction_03"
+  },
+  {
+   "id": "cs_f_factor_tree_02",
+   "text": "Students draw a factor tree",
+   "standing": "projectable",
+   "evidence": "math · product curator · Factor tree · cs_f_factor_tree_02"
+  },
+  {
+   "id": "cs_f_ferret_02",
+   "text": "A ferret is a slender mammal",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Ferret · cs_f_ferret_02"
+  },
+  {
+   "id": "cs_f_firefly_03",
+   "text": "A firefly glows at night",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Firefly · cs_f_firefly_03"
+  },
+  {
+   "id": "cs_f_fox_03",
+   "text": "A fox hunts small animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Fox · cs_f_fox_03"
+  },
+  {
+   "id": "cs_f_frog_03",
+   "text": "A frog begins as a tadpole",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Frog · cs_f_frog_03"
   }
  ]
 }
