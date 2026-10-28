@@ -6,7 +6,7 @@
  "letter": "Y",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 133,
+ "curated_facts": 147,
  "items": [
   {
    "id": "cs_y_yemen_01",
@@ -739,6 +739,90 @@
    "text": "Yellowknife is the capital of the Northwest Territories",
    "standing": "projectable",
    "evidence": "geography · product curator · Yellowknife · cs_y_yellowknife_01"
+  },
+  {
+   "id": "cs_y_yagi_antenna_01",
+   "text": "A Yagi antenna is a directional radio antenna",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yagi antenna · cs_y_yagi_antenna_01"
+  },
+  {
+   "id": "cs_y_yaw_01",
+   "text": "Yaw is rotation about a vertical axis",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yaw · cs_y_yaw_01"
+  },
+  {
+   "id": "cs_y_year_length_01",
+   "text": "A tropical year is about 365.24 days",
+   "standing": "projectable",
+   "evidence": "science · product curator · Year length · cs_y_year_length_01"
+  },
+  {
+   "id": "cs_y_yeast_bread_01",
+   "text": "Yeast bread rises from carbon dioxide made by yeast",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yeast bread · cs_y_yeast_bread_01"
+  },
+  {
+   "id": "cs_y_yiddish_theater_01",
+   "text": "Yiddish theater flourished in Eastern Europe and New York",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yiddish theater · cs_y_yiddish_theater_01"
+  },
+  {
+   "id": "cs_y_yiddish_04",
+   "text": "Yiddish is a Germanic language of Jewish communities",
+   "standing": "projectable",
+   "evidence": "language · product curator · Yiddish · cs_y_yiddish_04"
+  },
+  {
+   "id": "cs_y_yield_01",
+   "text": "Yield is the amount of product from a reaction",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yield · cs_y_yield_01"
+  },
+  {
+   "id": "cs_y_yocto_02",
+   "text": "Yocto means ten to the power of negative twenty-four",
+   "standing": "projectable",
+   "evidence": "math · product curator · Yocto · cs_y_yocto_02"
+  },
+  {
+   "id": "cs_y_yolk_sac_01",
+   "text": "A yolk sac feeds an embryo",
+   "standing": "projectable",
+   "evidence": "science · product curator · Yolk sac · cs_y_yolk_sac_01"
+  },
+  {
+   "id": "cs_y_yosemite_01",
+   "text": "Yosemite is a national park in California",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yosemite · cs_y_yosemite_01"
+  },
+  {
+   "id": "cs_y_yotta_02",
+   "text": "Yotta means ten to the power of twenty-four",
+   "standing": "projectable",
+   "evidence": "math · product curator · Yotta · cs_y_yotta_02"
+  },
+  {
+   "id": "cs_y_yuan_shikai_01",
+   "text": "Yuan Shikai was a Chinese military and political leader",
+   "standing": "projectable",
+   "evidence": "history · product curator · Yuan Shikai · cs_y_yuan_shikai_01"
+  },
+  {
+   "id": "cs_y_yucatan_channel_01",
+   "text": "The Yucatan Channel links the Caribbean Sea to the Gulf of Mexico",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Yucatan Channel · cs_y_yucatan_channel_01"
+  },
+  {
+   "id": "cs_y_yukon_gold_potato_01",
+   "text": "A Yukon gold potato has yellow flesh",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Yukon gold potato · cs_y_yukon_gold_potato_01"
   }
  ]
 }

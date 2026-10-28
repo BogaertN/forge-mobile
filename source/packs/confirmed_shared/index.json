@@ -2,7 +2,7 @@
  "schema": "FORGE-CONFIRMED-SHARED-INDEX/v1",
  "provenance": "confirmed_shared",
  "who_confirmed": "product_curator",
- "version": "4.9.135",
+ "version": "4.9.136",
  "letters": [
   "a",
   "b",
@@ -35,32 +35,32 @@
   "a": {
    "path": "a.json",
    "letter": "A",
-   "items": 122,
-   "curated_facts": 125
+   "items": 136,
+   "curated_facts": 139
   },
   "b": {
    "path": "b.json",
    "letter": "B",
-   "items": 121,
-   "curated_facts": 127
+   "items": 137,
+   "curated_facts": 143
   },
   "c": {
    "path": "c.json",
    "letter": "C",
-   "items": 122,
-   "curated_facts": 128
+   "items": 138,
+   "curated_facts": 144
   },
   "d": {
    "path": "d.json",
    "letter": "D",
-   "items": 120,
-   "curated_facts": 132
+   "items": 136,
+   "curated_facts": 148
   },
   "e": {
    "path": "e.json",
    "letter": "E",
-   "items": 121,
-   "curated_facts": 126
+   "items": 137,
+   "curated_facts": 142
   },
   "f": {
    "path": "f.json",
@@ -77,8 +77,8 @@
   "h": {
    "path": "h.json",
    "letter": "H",
-   "items": 120,
-   "curated_facts": 131
+   "items": 136,
+   "curated_facts": 147
   },
   "i": {
    "path": "i.json",
@@ -173,14 +173,14 @@
   "x": {
    "path": "x.json",
    "letter": "X",
-   "items": 121,
-   "curated_facts": 130
+   "items": 135,
+   "curated_facts": 144
   },
   "y": {
    "path": "y.json",
    "letter": "Y",
-   "items": 122,
-   "curated_facts": 133
+   "items": 136,
+   "curated_facts": 147
   },
   "z": {
    "path": "z.json",
@@ -189,6 +189,6 @@
    "curated_facts": 158
   }
  },
- "total_items": 3313,
- "total_curated": 3551
+ "total_items": 3435,
+ "total_curated": 3673
 }

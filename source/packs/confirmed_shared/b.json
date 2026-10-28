@@ -6,7 +6,7 @@
  "letter": "B",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 127,
+ "curated_facts": 143,
  "items": [
   {
    "id": "cs_b_brazil_01",
@@ -733,6 +733,102 @@
    "text": "Basalt is a volcanic rock",
    "standing": "projectable",
    "evidence": "science · product curator · Basalt · cs_b_basalt_01"
+  },
+  {
+   "id": "cs_b_backbone_01",
+   "text": "The backbone is the spine of a vertebrate",
+   "standing": "projectable",
+   "evidence": "science · product curator · Backbone · cs_b_backbone_01"
+  },
+  {
+   "id": "cs_b_badlands_01",
+   "text": "Badlands are dry eroded landscapes",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Badlands · cs_b_badlands_01"
+  },
+  {
+   "id": "cs_b_baleen_01",
+   "text": "Baleen is a filter plate in the mouth of some whales",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Baleen · cs_b_baleen_01"
+  },
+  {
+   "id": "cs_b_ballast_01",
+   "text": "Ballast stabilizes a ship",
+   "standing": "projectable",
+   "evidence": "science · product curator · Ballast · cs_b_ballast_01"
+  },
+  {
+   "id": "cs_b_ballot_box_01",
+   "text": "A ballot box holds cast votes",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Ballot box · cs_b_ballot_box_01"
+  },
+  {
+   "id": "cs_b_banknote_01",
+   "text": "A banknote is paper money",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Banknote · cs_b_banknote_01"
+  },
+  {
+   "id": "cs_b_barter_01",
+   "text": "Barter is trade without money",
+   "standing": "projectable",
+   "evidence": "history · product curator · Barter · cs_b_barter_01"
+  },
+  {
+   "id": "cs_b_basilica_01",
+   "text": "A basilica is a large important church",
+   "standing": "projectable",
+   "evidence": "history · product curator · Basilica · cs_b_basilica_01"
+  },
+  {
+   "id": "cs_b_bedrock_01",
+   "text": "Bedrock is solid rock under soil",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bedrock · cs_b_bedrock_01"
+  },
+  {
+   "id": "cs_b_beech_01",
+   "text": "A beech is a deciduous hardwood tree",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Beech · cs_b_beech_01"
+  },
+  {
+   "id": "cs_b_bell_curve_01",
+   "text": "A bell curve is a normal distribution",
+   "standing": "projectable",
+   "evidence": "math · product curator · Bell curve · cs_b_bell_curve_01"
+  },
+  {
+   "id": "cs_b_bernoulli_principle_01",
+   "text": "The Bernoulli principle relates fluid speed and pressure",
+   "standing": "projectable",
+   "evidence": "science · product curator · Bernoulli principle · cs_b_bernoulli_principle_01"
+  },
+  {
+   "id": "cs_b_bicameralism_01",
+   "text": "Bicameralism divides a legislature into two houses",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Bicameralism · cs_b_bicameralism_01"
+  },
+  {
+   "id": "cs_b_binomial_01",
+   "text": "A binomial has two terms",
+   "standing": "projectable",
+   "evidence": "math · product curator · Binomial · cs_b_binomial_01"
+  },
+  {
+   "id": "cs_b_bird_of_prey_01",
+   "text": "A bird of prey hunts other animals",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Bird of prey · cs_b_bird_of_prey_01"
+  },
+  {
+   "id": "cs_b_boreal_forest_01",
+   "text": "A boreal forest is a northern conifer forest",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Boreal forest · cs_b_boreal_forest_01"
   }
  ]
 }

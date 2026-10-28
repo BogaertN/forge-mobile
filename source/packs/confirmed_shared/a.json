@@ -6,7 +6,7 @@
  "letter": "A",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 125,
+ "curated_facts": 139,
  "items": [
   {
    "id": "cs_a_africa_01",
@@ -739,6 +739,90 @@
    "text": "Arusha is a city in Tanzania",
    "standing": "projectable",
    "evidence": "geography · product curator · Arusha · cs_a_arusha_01"
+  },
+  {
+   "id": "cs_a_abbey_01",
+   "text": "An abbey is a monastery headed by an abbot",
+   "standing": "projectable",
+   "evidence": "history · product curator · Abbey · cs_a_abbey_01"
+  },
+  {
+   "id": "cs_a_absolute_value_01",
+   "text": "Absolute value is distance from zero on a number line",
+   "standing": "projectable",
+   "evidence": "math · product curator · Absolute value · cs_a_absolute_value_01"
+  },
+  {
+   "id": "cs_a_abstract_01",
+   "text": "An abstract summarizes a longer work",
+   "standing": "projectable",
+   "evidence": "language · product curator · Abstract · cs_a_abstract_01"
+  },
+  {
+   "id": "cs_a_acid_rain_01",
+   "text": "Acid rain has a low pH from air pollution",
+   "standing": "projectable",
+   "evidence": "science · product curator · Acid rain · cs_a_acid_rain_01"
+  },
+  {
+   "id": "cs_a_actin_01",
+   "text": "Actin is a protein in muscle fibers",
+   "standing": "projectable",
+   "evidence": "science · product curator · Actin · cs_a_actin_01"
+  },
+  {
+   "id": "cs_a_active_transport_01",
+   "text": "Active transport moves substances against a concentration gradient",
+   "standing": "projectable",
+   "evidence": "science · product curator · Active transport · cs_a_active_transport_01"
+  },
+  {
+   "id": "cs_a_aerial_root_01",
+   "text": "An aerial root grows above the ground",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Aerial root · cs_a_aerial_root_01"
+  },
+  {
+   "id": "cs_a_affidavit_01",
+   "text": "An affidavit is a sworn written statement",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Affidavit · cs_a_affidavit_01"
+  },
+  {
+   "id": "cs_a_agriculture_01",
+   "text": "Agriculture is the practice of farming",
+   "standing": "projectable",
+   "evidence": "history · product curator · Agriculture · cs_a_agriculture_01"
+  },
+  {
+   "id": "cs_a_algae_01",
+   "text": "Algae are simple photosynthetic organisms",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Algae · cs_a_algae_01"
+  },
+  {
+   "id": "cs_a_alliteration_01",
+   "text": "Alliteration repeats initial consonant sounds",
+   "standing": "projectable",
+   "evidence": "language · product curator · Alliteration · cs_a_alliteration_01"
+  },
+  {
+   "id": "cs_a_altitude_01",
+   "text": "Altitude is height above a reference level",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Altitude · cs_a_altitude_01"
+  },
+  {
+   "id": "cs_a_annual_ring_01",
+   "text": "An annual ring marks one year of tree growth",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Annual ring · cs_a_annual_ring_01"
+  },
+  {
+   "id": "cs_a_axiom_01",
+   "text": "An axiom is a statement accepted without proof",
+   "standing": "projectable",
+   "evidence": "math · product curator · Axiom · cs_a_axiom_01"
   }
  ]
 }

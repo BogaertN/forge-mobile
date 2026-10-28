@@ -6,7 +6,7 @@
  "letter": "D",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 132,
+ "curated_facts": 148,
  "items": [
   {
    "id": "cs_d_dominican_republic_01",
@@ -727,6 +727,102 @@
    "text": "Dongguan is a city in China",
    "standing": "projectable",
    "evidence": "geography · product curator · Dongguan · cs_d_dongguan_01"
+  },
+  {
+   "id": "cs_d_daffodil_01",
+   "text": "A daffodil is a spring flower with a trumpet cup",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Daffodil · cs_d_daffodil_01"
+  },
+  {
+   "id": "cs_d_damselfly_01",
+   "text": "A damselfly is a slender insect related to dragonflies",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Damselfly · cs_d_damselfly_01"
+  },
+  {
+   "id": "cs_d_daphne_01",
+   "text": "Daphne is a flowering shrub",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Daphne · cs_d_daphne_01"
+  },
+  {
+   "id": "cs_d_decimal_point_01",
+   "text": "A decimal point separates whole and fractional parts",
+   "standing": "projectable",
+   "evidence": "math · product curator · Decimal point · cs_d_decimal_point_01"
+  },
+  {
+   "id": "cs_d_decree_01",
+   "text": "A decree is an official order from a ruler",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Decree · cs_d_decree_01"
+  },
+  {
+   "id": "cs_d_demography_01",
+   "text": "Demography is the study of populations",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Demography · cs_d_demography_01"
+  },
+  {
+   "id": "cs_d_detritus_01",
+   "text": "Detritus is dead organic matter",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Detritus · cs_d_detritus_01"
+  },
+  {
+   "id": "cs_d_dialect_01",
+   "text": "A dialect is a regional form of a language",
+   "standing": "projectable",
+   "evidence": "language · product curator · Dialect · cs_d_dialect_01"
+  },
+  {
+   "id": "cs_d_differential_01",
+   "text": "A differential is the derivative of a function",
+   "standing": "projectable",
+   "evidence": "math · product curator · Differential · cs_d_differential_01"
+  },
+  {
+   "id": "cs_d_dimension_01",
+   "text": "A dimension is an independent direction in space",
+   "standing": "projectable",
+   "evidence": "math · product curator · Dimension · cs_d_dimension_01"
+  },
+  {
+   "id": "cs_d_drainage_basin_01",
+   "text": "A drainage basin collects water into one river system",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Drainage basin · cs_d_drainage_basin_01"
+  },
+  {
+   "id": "cs_d_duchy_01",
+   "text": "A duchy is a territory ruled by a duke",
+   "standing": "projectable",
+   "evidence": "history · product curator · Duchy · cs_d_duchy_01"
+  },
+  {
+   "id": "cs_d_due_process_01",
+   "text": "Due process is fair treatment under the law",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Due process · cs_d_due_process_01"
+  },
+  {
+   "id": "cs_d_dust_bowl_01",
+   "text": "The Dust Bowl was a severe drought in the American plains",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dust Bowl · cs_d_dust_bowl_01"
+  },
+  {
+   "id": "cs_d_dutch_east_india_company_01",
+   "text": "The Dutch East India Company traded in Asia",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dutch East India Company · cs_d_dutch_east_india_company_01"
+  },
+  {
+   "id": "cs_d_dynasty_01",
+   "text": "A dynasty is a line of rulers from one family",
+   "standing": "projectable",
+   "evidence": "history · product curator · Dynasty · cs_d_dynasty_01"
   }
  ]
 }

@@ -6,7 +6,7 @@
  "letter": "E",
  "who_confirmed": "product_curator",
  "shared_kb": false,
- "curated_facts": 126,
+ "curated_facts": 142,
  "items": [
   {
    "id": "cs_e_egypt_01",
@@ -733,6 +733,102 @@
    "text": "The empty set has no elements",
    "standing": "projectable",
    "evidence": "math · product curator · Empty set · cs_e_empty_set_01"
+  },
+  {
+   "id": "cs_e_eardrum_01",
+   "text": "The eardrum vibrates when sound hits it",
+   "standing": "projectable",
+   "evidence": "science · product curator · Eardrum · cs_e_eardrum_01"
+  },
+  {
+   "id": "cs_e_edict_01",
+   "text": "An edict is an official proclamation",
+   "standing": "projectable",
+   "evidence": "civics · product curator · Edict · cs_e_edict_01"
+  },
+  {
+   "id": "cs_e_editorial_01",
+   "text": "An editorial is an opinion article in a newspaper",
+   "standing": "projectable",
+   "evidence": "language · product curator · Editorial · cs_e_editorial_01"
+  },
+  {
+   "id": "cs_e_efficiency_01",
+   "text": "Efficiency is useful output divided by input",
+   "standing": "projectable",
+   "evidence": "science · product curator · Efficiency · cs_e_efficiency_01"
+  },
+  {
+   "id": "cs_e_electric_circuit_01",
+   "text": "An electric circuit is a closed path for current",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electric circuit · cs_e_electric_circuit_01"
+  },
+  {
+   "id": "cs_e_electric_field_01",
+   "text": "An electric field exerts force on charged particles",
+   "standing": "projectable",
+   "evidence": "science · product curator · Electric field · cs_e_electric_field_01"
+  },
+  {
+   "id": "cs_e_elevation_angle_01",
+   "text": "Elevation angle is the angle above the horizon",
+   "standing": "projectable",
+   "evidence": "math · product curator · Elevation angle · cs_e_elevation_angle_01"
+  },
+  {
+   "id": "cs_e_elevation_01",
+   "text": "Elevation is height above sea level",
+   "standing": "projectable",
+   "evidence": "geography · product curator · Elevation · cs_e_elevation_01"
+  },
+  {
+   "id": "cs_e_emperor_01",
+   "text": "An emperor rules an empire",
+   "standing": "projectable",
+   "evidence": "history · product curator · Emperor · cs_e_emperor_01"
+  },
+  {
+   "id": "cs_e_empire_01",
+   "text": "An empire is a group of territories under one ruler",
+   "standing": "projectable",
+   "evidence": "history · product curator · Empire · cs_e_empire_01"
+  },
+  {
+   "id": "cs_e_endemic_01",
+   "text": "An endemic species is native to a particular place",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Endemic · cs_e_endemic_01"
+  },
+  {
+   "id": "cs_e_enlightenment_01",
+   "text": "The Enlightenment emphasized reason and individual rights",
+   "standing": "projectable",
+   "evidence": "history · product curator · Enlightenment · cs_e_enlightenment_01"
+  },
+  {
+   "id": "cs_e_epiphyte_01",
+   "text": "An epiphyte grows on another plant for support",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Epiphyte · cs_e_epiphyte_01"
+  },
+  {
+   "id": "cs_e_era_01",
+   "text": "An era is a long division of geologic time",
+   "standing": "projectable",
+   "evidence": "history · product curator · Era · cs_e_era_01"
+  },
+  {
+   "id": "cs_e_etymology_01",
+   "text": "Etymology is the study of word origins",
+   "standing": "projectable",
+   "evidence": "language · product curator · Etymology · cs_e_etymology_01"
+  },
+  {
+   "id": "cs_e_extirpation_01",
+   "text": "Extirpation is local extinction of a species",
+   "standing": "projectable",
+   "evidence": "nature · product curator · Extirpation · cs_e_extirpation_01"
   }
  ]
 }
