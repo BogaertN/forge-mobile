@@ -1,7 +1,8 @@
-/* app_custody.js — 4.9.174 phone custody monitor.
+/* app_custody.js — 4.9.175 phone custody monitor.
  * One learning loop: Ask research → Athena measure → admit or quarantine → Gilligan cold → hosted KB → Ask recall.
  * The portable single file does not inline dream_idle.js. This screen does not publish letter packs.
- * The write key is granted here when Nic supplies it. It is not hardcoded. Packs stay gated. */
+ * The write key is granted here when Nic supplies it. It is not hardcoded. Packs stay gated.
+ * sessionStorage researchExcerpt: KPipeline.attachCustody holds the key and fetches before the tick. */
 (function (root) {
   if (typeof document === 'undefined' || !root.document) return;
   const $ = s => document.querySelector(s);
@@ -71,6 +72,7 @@
     if (open) open.onclick = () => { if (root.KUI && root.KUI.openTab) root.KUI.openTab('custody'); };
     if (!body) return;
     const alast = a.last || {};
+    const draft = document.activeElement && document.activeElement.id === 'custodyKeyIn' ? document.activeElement.value : '';
     body.innerHTML = '<div class="card"><div class="cardhead">Daemon custody <span class="pill ok">always on</span><span class="pill">no LLM</span></div>'
       + '<div class="small">Learning loop: research → measure → admit or quarantine → cold → hosted KB → Ask. Athena measures. Gilligan re-curates cold. Neo is Ask. Neo is not Neil. Ask pauses helpers, then they resume. Codex 3.24 idle text is yield etiquette only. The schedule is DREAM-ALWAYS-ON. Packs stay gated.</div>'
       + '<table>' + line('schedule', sched) + line('always_on', c.always_on) + line('idle_gated', c.idle_gated) + line('answering', c.answering) + line('fill', c.continuous_fill) + line('packs', c.phone_pack_publish) + line('queued', c.queued) + line('novel open', c.novel_open) + '</table></div>'
@@ -85,25 +87,30 @@
       + line('lawful admits', kb.admits)
       + line('phone db', kb.phone_db)
       + line('pack stuffed', kb.pack_stuffed)
-      + '</table><form id="custodyKey" class="row"><input id="custodyKeyIn" type="password" autocomplete="off" placeholder="write key"><button type="submit">Grant</button></form><div class="small">' + (c.write_key_held ? 'The write key is held. A promote-candidate writes the session hosted bank. The count is those writes plus anything already pulled.' : 'The write key is not held. Lawful admits stay at 0 until Nic grants it. This page does not contain the key.') + ' Phone and Pages letter packs stay gated.</div></div>';
+      + '</table><form id="custodyKey" class="row"><input id="custodyKeyIn" type="password" autocomplete="off" placeholder="write key"><button type="submit">Grant</button><button type="button" id="custodyKeyClear">Clear</button></form><div class="small">' + (c.write_key_held ? 'The write key is held. A promote-candidate writes the session hosted bank. The count is those writes plus anything already pulled.' : 'The write key is not held. Lawful admits stay at 0 until Nic grants it. This page does not contain the key.') + ' Phone and Pages letter packs stay gated.</div></div>';
     const form = $('#custodyKey');
-    if (form) form.onsubmit = ev => { ev.preventDefault(); const input = $('#custodyKeyIn'); const r = holdWriteKey(input ? input.value : ''); if (input) input.value = ''; const msg = r && r.ok ? 'write key held' : (r && (r.rule || 'refused')); const small = body.querySelector('.card:last-child .small'); if (small) small.textContent = msg; step(); };
+    if (form) form.onsubmit = ev => { ev.preventDefault(); const input = $('#custodyKeyIn'); const r = root.KCustody.holdWriteKey(input ? input.value : ''); if (input) input.value = ''; const msg = r && (r.held || r.ok) ? 'write key held' : (r && (r.rule || 'refused')); const small = body.querySelector('.card:last-child .small'); if (small) small.textContent = msg; root.KCustody.step(); };
+    const clear = $('#custodyKeyClear');
+    if (clear) clear.onclick = () => { if (root.KCustody.clearWriteKey) root.KCustody.clearWriteKey(); const input = $('#custodyKeyIn'); if (input) input.value = ''; root.KCustody.step(); };
+    const input = $('#custodyKeyIn');
+    if (input && draft) { input.value = draft; input.focus(); }
   }
   root.KCustody = { noteAsk: noteAsk, step: step, boot: boot, holdWriteKey: holdWriteKey };
-  root.renderCustody = function () { step(); };
+  root.renderCustody = function () { root.KCustody.step(); };
   const prev = root.afterSay;
   function noteResearch(r) {
     boot();
     const D = engine();
     if (!mesh || !D || !D.bridgeAskEvidence || !r) return;
     const bridged = D.bridgeAskEvidence(r);
-    if (bridged && bridged.ok && bridged.gap) mesh.enqueue([bridged.gap]);
+    if (bridged && bridged.ok && bridged.gap) { mesh.enqueue([bridged.gap]); if (mesh.prefer) mesh.prefer(bridged.gap.id); }
   }
   root.afterSay = function (r, el) {
     if (prev) prev(r, el);
     if (r && r.toolJob && typeof r.toolJob.then === 'function') r.toolJob.then(noteResearch);
     else noteResearch(r);
   };
-  function kick() { step(); if (!timer) timer = root.setInterval(step, 2000); }
+  if (root.KPipeline && root.KPipeline.attachCustody) root.KPipeline.attachCustody(root);
+  function kick() { root.KCustody.step(); if (!timer) timer = root.setInterval(() => root.KCustody.step(), 2000); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', kick); else kick();
 })(typeof self !== 'undefined' ? self : this);

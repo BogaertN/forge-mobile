@@ -36,9 +36,9 @@ Nine stubs. measured false. reconstruction. SOURCE_NOT_VERIFIED. No delta is rep
 
 status wired. 4.9.165: answer-path grace is no longer a stub for the RPMC→RSOC factual-miss gate. kernel.js rpmcAncestorCandidates calls kmath.graceOverAncestors (Axiom 4 phase-align + §3.4 graceIntegral; G_MIN=1e-4). Candidates feed AUTH-AQ1/research (RSOC-COMPOSE-EVIDENCE); not a class-dump answer. Does not claim Φ1–Φ9 is proven cognition; does not claim manuscript equivalence.
 
-## Idle dream router (4.9.174)
+## Idle dream router (4.9.175)
 
-status wired. 4.9.174 learning pipeline on the always-on mesh. Ask answers a how/method question from web excerpts. A measured research answer can be admitted into the hosted session KB when the write key is held, and a later Ask recalls it before AQ-1. Unmeasured quarantine stays Gilligan custody and does not write confirmed_shared. ChristPing is Gilligan-only. Phone pack publish stays gated. The portable single file does not inline the mesh. Explicit eps null is unmeasured. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only.
+status wired. 4.9.175 pipeline tools on the 4.9.174 learning loop. A session write-key grant admits a measured claim. research.web returns a Wikipedia excerpt and does not read the vault. Ask recalls that claim before AQ-1. Unmeasured quarantine stays Gilligan custody and does not write confirmed_shared. ChristPing is Gilligan-only. Phone pack publish stays gated. The portable single file does not inline the mesh or the pipeline tools. Explicit eps null is unmeasured. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only.
 
 when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.
 

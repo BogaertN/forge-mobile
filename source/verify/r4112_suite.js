@@ -110,7 +110,9 @@ T('Ask Forge and Audit show the Doc 6 state and the not-selected reasons, not a 
   const card = TP.receiptCard(packetOf(buy));
   const summary = summaryOf(card);
   expect(/data-doc6-state="action_blocked"/.test(card) && /meaning-understood-but-action-blocked/.test(summary), summary);
-  expect(/data-not-selected=/.test(card) && /data-route="world\.preflight"/.test(card) && /pattern does not apply/.test(card), card.slice(0, 500));
+  expect(!/pattern does not apply/.test(card) && !/data-route="world\.preflight"/.test(card), card.slice(0, 500));
+  const mathCard = TP.receiptCard(packetOf(mk().process('what is 2 + 3')));
+  expect(/data-route="language\.core"/.test(mathCard) && /not_evaluated/.test(mathCard), mathCard.slice(0, 500));
   expect(/<details[^>]*open/.test(card), 'reasons are not open');
   expect(!/<button[^>]*>[^<]*(ambiguity|unsupported|clarification|action)/i.test(card), 'a gate button menu');
   const duck = TP.receiptCard(packetOf(mk().process('I saw her duck')));

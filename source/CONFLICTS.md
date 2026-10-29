@@ -2,6 +2,22 @@
 
 Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation Addendum, Sep 2026) > older docs**. Where forge2 says nothing, **forge code** comes before docs. Every row lists the sources and where the decision lives in the code.
 
+## v4.9.175 — pipeline tools (2026-10-29 America/Chicago)
+
+**Conflict:** 4.9.174 connected Ask, Athena, Gilligan, and the hosted bank, but the phone still could not use the tools that make the loop run. Athena’s research callback only reread extracts already on the gap, so a how/method question with no excerpt stayed `DREAM-UNMEASURED` and never called `research.web`. A failed lookup became `NO_LAWFUL_CANDIDATE` with no encyclopedia fetch. The Custody key field was rebuilt on every refresh, so a grant did not stay held and lawful admits stayed at 0. The key must not be hardcoded. An open crawl and a model call stay refused. Letter packs stay gated. The Gilligan Codex, the Athena document list, Forge GitHub tools, and the stub sweep are later steps.
+
+**Settlement:** `pipeline_tools.js` is the access surface. `createWriteAccess` grants Nic’s key onto the kernel and the mesh together and can remember it in the browser session. A short key is refused and does not wipe a key already held. Clear drops it. `researchExcerpt` calls the existing Wikipedia fetch (`research.web` / crawler acquire). It does not read the Identity Vault. No fetch returns `RESEARCH-FETCH-UNAVAILABLE`. An http URL returns `RESEARCH-OPEN-CRAWL-REFUSED`. A sentence the kernel can parse, with a means cue, becomes curated extracts (`applyMeasured`). Custody fetches that excerpt for a queued question, prefers the gap, and the next tick admits when the key is held. Gilligan’s cold re-curate uses the same grant. Unparsed excerpts and crawl-shaped payloads are not admitted. `publishPacks` stays false. The portable single file does not inline `dream_idle.js` or `pipeline_tools.js`.
+
+Ask on a lawful factual question starts `research.web`. “What happens if you mix bleach and ammonia?” and “can I mix bleach and ammonia?” are effect questions: the fetched sentence that names both and says what the mix produces is the answer, including an appositive hazard class the grammar can restate (“chloramine is a toxic gas”). “How do you make mustard gas?” is not a procedure. When the fetched text names a chemical weapon, blister agent, or nerve agent, the reply states that class and does not speak a method. Tool egress on that turn is `research.web · external`. Kernel network stays none.
+
+The nine Answer patterns are not dead. `math.gp014` wins a sum. `capability.frame` wins “start over”. `language.core` still shows when a more specific route outranks it (`not_evaluated`). `world.preflight`, `turn.reentry`, `gks.quantity`, `world.proof`, `directive.frame`, `justify.followup`, and `world.dynamics` each have a real selector. A route that was evaluated and proposed nothing stays on the turn packet as `not_applicable` / “pattern does not apply”, and the receipt does not paint that row. Nic does not see a wall of checks that did not apply.
+
+**Where:** `src/pipeline_tools.js`, `src/dream_idle.js` `applyMeasured` / `prefer`, `src/app_custody.js`. Proof `verify/r4175_suite.js`.
+
+**Not this pull request:** (3) stubs already in the code; (4) Forge/Forge GitHub tools; (5) the Gilligan Codex, feature by feature; (6) the Athena document, which is a list, and every tool on that list.
+
+**Docs cited:** Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (ChristPing is Gilligan-only). Dream Drift `14fVCPgQ0UtRBnSclMfQ-3fazrdwKc-BrknfqYFolJ8g` (Codex 3.24 remains yield etiquette). Echo stays exact Language Core.
+
 ## v4.9.174 — one learning pipeline (2026-10-29 America/Chicago)
 
 **Conflict:** Ask, Athena, Gilligan, and the hosted bank were not feeding each other. Custody booted the mesh with no research callback and no write key, so letter holes and empty AQ-1 stubs quarantined as `DREAM-UNMEASURED`. `research.web` sealed evidence and, for “How do lightbulbs work?”, stopped at “No source described the method” / `NO_LAWFUL_CANDIDATE`. A closed compound (`lightbulbs`) did not name the open article (`light bulb`). The frame verb `work` was required in the source. A sentence-initial capital kept the generated clause as a name, so Echo dropped the restatement. Manner questions did not read hosted knowledge before AQ-1. Nic’s build order puts this pipeline first. The Gilligan Codex, the Athena tool list, and the wider tool sweep are later.

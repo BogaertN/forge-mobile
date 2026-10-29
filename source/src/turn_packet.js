@@ -285,7 +285,7 @@
     const label = gate && gate.label ? gate.label : '';
     const sub = label ? ' · ' + label : '';
     const detail = packet.failure && packet.failure.detail ? packet.failure.detail : '';
-    const ns = Array.isArray(packet.not_selected) ? packet.not_selected : [];
+    const ns = (Array.isArray(packet.not_selected) ? packet.not_selected : []).filter(c => c && c.status !== 'not_applicable');
     const open = (t === 'answer' && !ns.length && !gate) ? '' : ' open';
     const doc = gate && gate.state ? ' data-doc6-state="' + esc(gate.state) + '"' : '';
     const list = ns.length ? '<ul class="not-selected" data-not-selected="' + ns.length + '">' + ns.map(c => '<li data-route="' + esc(c.route) + '"><b>' + esc(c.route) + '</b> <span class="meta">' + esc(c.status) + '</span> — ' + esc(c.reason) + '</li>').join('') + '</ul>' : '';
