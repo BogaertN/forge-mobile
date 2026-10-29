@@ -87,7 +87,7 @@ T('Bill of Rights and bare amendment civics from packs; no phone dump', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.174', ver);
+  expect(ver === '4.9.175', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
   for (const id of ['R4162-READ-CONNECT', 'R4162-CS-BEFORE-AQ1', 'R4128-HOSTED']) {
@@ -101,7 +101,7 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.162/.test(readme) || /4\.9\.163/.test(readme) || /4\.9\.164/.test(readme) || /4\.9\.165/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.174' && (((((tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js' || tgt.suites[0] === 'r4163_suite.js' || tgt.suites.includes('r4162_suite.js')), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.175' && (((((tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js' || tgt.suites[0] === 'r4163_suite.js' || tgt.suites.includes('r4162_suite.js')), JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
   expect((/4\.9\.165/.test(req) || /4\.9\.164/.test(req) || /4\.9\.163/.test(req) || /4\.9\.162/.test(req)) && /R4162/.test(req), 'req_packet');
 });

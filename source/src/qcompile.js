@@ -109,7 +109,7 @@
       d = Math.round((e.drift + d) * 100) / 100; if (d < best.drift) best = { drift: d, via: e.via + (d === e.drift + DRIFT.derivation ? '+topic' : '+title-words'), form: e.form, basis: 'title-words' }; void tw; }
     return best; }
   /* RELATION DRIFT of a sentence: does it fill the asked relation (and name the subject / the predicate)? */
-  const CUE = { cause: /\b(because|due to|caus(?:e|es|ed|ing)|result(?:s|ing)? (?:of|from|in)|as a result|owing to|reason|so that|leads? to|responsible for|since)\b/i,
+  const CUE = { cause: /\b(because|due to|caus(?:e|es|ed|ing)|result(?:s|ing)? (?:of|from|in)|as a result|owing to|reason|so that|leads? to|responsible for|since|produces?|releases?)\b/i,
     /* a manner / means: the means cue after the predicate, or a process verb of formation */
     method: /\b(by (?:means of )?[a-z]+ing|(?:is|are|was|were) (?:formed|produced|created|made|generated|heated) (?:by|from|when|through|as|in)|form(?:s|ed)? (?:when|by|from|through|as)|process|mechanism|consists? of|made (?:of|from|by)|works? by|using|uses?|through (?:a|an|the)|via|occurs? when|develops? (?:when|from))\b/i,
     agent: /\b[A-Z][a-z]+(?:\s+[A-Z][a-z.]+)+\b/, time: /\b(1[0-9]{3}|20[0-9]{2}|[0-9]{1,4} (?:BC|BCE|AD|CE))\b/, place: /\b(in|at|near|located|between)\s+(?:the\s+)?[A-Z][a-z]+/,

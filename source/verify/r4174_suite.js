@@ -155,7 +155,7 @@ T('no LLM, always on, packs gated, and the portable file still leaves the mesh o
   expect(/curatedResearch/.test(ui) && /bridgeAskEvidence/.test(ui) && /holdWriteKey/.test(ui), 'loop wired');
   expect(!/setInterval|setTimeout|child_process|openai|anthropic|ollama|Math\.random/.test(dream), 'mesh has no timer or model');
   expect(/src\/dream_idle\.js/.test(build) && /continue/.test(build), 'single file skips the mesh');
-  const single = path.join(ROOT, '..', '_release', 'single', 'kernel-app-full.html');
+  const single = path.join(ROOT, '..', '_release', 'single', 'kernel-app.html');
   if (fs.existsSync(single)) {
     const gz = zlib.gzipSync(fs.readFileSync(single)).length;
     expect(gz <= 570000 - 5000, 'gzip leave ' + gz);
@@ -164,7 +164,7 @@ T('no LLM, always on, packs gated, and the portable file still leaves the mesh o
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.174', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.174', ver);
+  expect(ver === '4.9.175', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.174/.test(conf) && /learning pipeline/.test(conf) && /Gilligan Codex/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -172,10 +172,10 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.174', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.174/.test(readme) && /[Ll]earning pipeline/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.174' && tgt.suites[0] === 'r4174_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.175' && (tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.174' && reg.features.some(f => f.id === 'R4174-LEARNING-LOOP'), reg.version);
-  expect(reg.count === reg.features.length && reg.count === 331, 'count ' + reg.count);
+  expect(reg.version === '4.9.175' && reg.features.some(f => f.id === 'R4174-LEARNING-LOOP'), reg.version);
+  expect(reg.count === reg.features.length && reg.count === 332, 'count ' + reg.count);
 });
 
 (async () => {

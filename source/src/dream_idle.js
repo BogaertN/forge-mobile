@@ -70,7 +70,7 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.174', custody_monitor: true, learning_loop: true, psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.175', custody_monitor: true, learning_loop: true, pipeline_tools: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
@@ -1212,6 +1212,38 @@
       return { ok: wrote && refused.every(x => x.rule === 'DREAM-QUARANTINE-NO-TRUTH' || x.wrote_confirmed_shared === false), calls_llm: false, wrote_confirmed_shared: wrote, wrote_pack: wrotePack, admitted: admitted, refused: refused, packets: packets, phone_db: false, pack_publish_trigger: PACK_PUBLISH_TRIGGER };
     }
 
+    /* 4.9.175: a fetched encyclopedia excerpt becomes curated extracts on the live gap.
+       Crawl-shaped and model-shaped bodies stay refused. An unparsed excerpt does not invent a claim. */
+    function applyMeasured(id, body) {
+      const g = gaps.get(id);
+      if (!g) return refusal('DREAM-GAP-MISSING');
+      if (!body || typeof body !== 'object') return refusal('DREAM-UNMEASURED');
+      if (crawlShaped(body) || llmShaped(body) || body.calls_llm === true) return refusal(body.calls_llm === true || llmShaped(body) ? 'DREAM-LLM-REFUSED' : 'DREAM-OPEN-CRAWL-REFUSED');
+      const measured = body.measured && typeof body.measured === 'object' ? body.measured : body;
+      if (crawlShaped(measured) || llmShaped(measured) || measured.calls_llm === true) return refusal(measured.calls_llm === true || llmShaped(measured) ? 'DREAM-LLM-REFUSED' : 'DREAM-OPEN-CRAWL-REFUSED');
+      const merged = curatedResearch(Object.assign({}, g, measured, { calls_llm: false }));
+      const contracted = applyResearchContract(merged);
+      if (!contracted.ok) return refusal(contracted.rule || 'DREAM-RESEARCH-CONTRACT');
+      const extracts = (contracted.body.extracts || []).filter(acceptExtract);
+      const claim = String(contracted.body.claim || '').trim();
+      if (!claim || !extracts.length) return refusal('DREAM-UNMEASURED');
+      g.claim = claim;
+      g.extracts = extracts;
+      g.eps = contracted.body.eps;
+      g.integrity = contracted.body.integrity;
+      g.calls_llm = false;
+      return { ok: true, calls_llm: false, rule: 'PIPELINE-MEASURED', claim: claim, extracts: extracts.length };
+    }
+
+    function prefer(id) {
+      const i = queue.findIndex(g => g.id === id);
+      if (i < 0) return { ok: false, calls_llm: false, rule: 'DREAM-GAP-MISSING' };
+      if (i === 0) return { ok: true, calls_llm: false, rule: 'PIPELINE-PREFERRED' };
+      const row = queue.splice(i, 1)[0];
+      queue.unshift(row);
+      return { ok: true, calls_llm: false, rule: 'PIPELINE-PREFERRED' };
+    }
+
     function schedule(o) {
       o = o || {};
       if (o.answering === true) answering = true;
@@ -1226,7 +1258,7 @@
     }
 
     return {
-      schema: SCHEMA, boundary: boundary, enqueue: enqueue, tick: tick, run: run, schedule: schedule, custody: custody, admitRecord: admitRecord, admitStaged: admitStaged,
+      schema: SCHEMA, boundary: boundary, enqueue: enqueue, tick: tick, run: run, schedule: schedule, custody: custody, admitRecord: admitRecord, admitStaged: admitStaged, applyMeasured: applyMeasured, prefer: prefer,
       athena: athena, orchestrator: athena, daemons: () => DAEMONS.map(d => Object.assign({}, d)), helpers: () => athena.helpers(),
       spawnHelper: athena.spawnHelper, forkHelper: athena.forkHelper, retireHelper: athena.retireHelper, hibernateHelper: athena.hibernateHelper, resurrectHelper: athena.resurrectHelper,
       listActive: athena.listActive, maySpawn: athena.maySpawn, mayAdmit: athena.mayAdmit, ancestry: athena.ancestry, coldBank: athena.coldBank,

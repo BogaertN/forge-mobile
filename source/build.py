@@ -167,8 +167,9 @@ def slim(m, s):
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
-    if m == 'src/dream_idle.js':
-        # 4.9.173: the site custody screen loads this mesh. The portable single file does not inline it (gzip leave ≥5 kB under 570 kB).
+    if m == 'src/dream_idle.js' or m == 'src/pipeline_tools.js':
+        # 4.9.173 mesh and 4.9.175 pipeline tools load on the installed site.
+        # The portable single file does not inline it (gzip leave ≥5 kB under 570 kB).
         h = h.replace('<script src="' + m + '"></script>', '', 1)
         continue
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
@@ -209,7 +210,8 @@ bundle.insert(0, 'window.KPY_WORKER_SRC=' + json.dumps(SRC('src/py_worker.js')).
 joined = '\n'.join(bundle).replace('</script', '<\\/script')
 hi = h.index('</head>')
 h = h[:hi] + '<script>' + joined + '</script>' + h[hi:]
-ico = base64.b64encode(open(os.path.join(SITE, 'icons/icon-192.png'), 'rb').read()).decode()
+# 4.9.175: the installed site keeps icons/icon-192.png. The portable file uses a 1×1 favicon so gzip leave stays ≥5 kB under 570 kB.
+ico = base64.b64encode(bytes.fromhex('89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000a49444154789c63000100000500010d0a2db40000000049454e44ae426082')).decode()
 h = h.replace('<link rel="manifest" href="manifest.json">', '').replace('href="icons/icon-192.png"', 'href="data:image/png;base64,' + ico + '"')
 def with_csp(doc):
     hs = sorted({"'sha256-" + base64.b64encode(hashlib.sha256(m.encode()).digest()).decode() + "'" for m in re.findall(r'<script>(.*?)</script>', doc, re.S)})

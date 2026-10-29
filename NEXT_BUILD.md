@@ -1,3 +1,14 @@
+# Next build order — after 4.9.175 (pipeline tools)
+
+**Shipped here:** the tools the 4.9.174 learning loop calls. Custody grants a write key for the browser session. The key is not in source. While it is held, a measured promote admits into the session hosted bank and Gilligan’s cold re-curate uses that same grant. `researchExcerpt` fetches a Wikipedia-class excerpt for a how/method question. A missing fetch is `RESEARCH-FETCH-UNAVAILABLE`, not a vault answer and not `NO_LAWFUL_CANDIDATE`. An open URL is refused. A parseable method sentence can be admitted and a later Ask recalls it. Ask also fetches for a lawful hazard question: bleach mixed with ammonia is answered as chloramine, a toxic gas, and a make-question about mustard gas is a chemical-weapon warning, not a procedure. Receipts hide `not_applicable` patterns; the packet still records them. Packs stay gated. No LLM.
+
+**Do not start inside this pull request.** Nic locked the order:
+
+3. Stubs already in the code — implement them.
+4. Pull tools we used from Forge/Forge GitHub and build them in.
+5. Gilligan Codex — grab all features and build them.
+6. Athena document (a list, not Codex-style prose) — pull all tools from that list and build them in.
+
 # Next build order — after 4.9.174 (this pipeline)
 
 **Shipped here:** one learning pipeline. Ask answers a how/method question from web excerpts on that turn. Measured research can be admitted into the hosted session bank when the write key is held, and a later Ask recalls it before AQ-1. Unmeasured quarantine stays Gilligan custody. Packs stay gated. No LLM.
