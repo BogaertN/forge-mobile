@@ -181,7 +181,7 @@ T('explore ideas stays PROPOSE_EVIDENCE and a question about an idea stays READ'
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.120 and leave COMPOSE and Suppose unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 120, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' ' + reg.count);
@@ -207,7 +207,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.120 and leave COMPOSE a
   expect(/4\.9\.120/.test(readme) && /hypothesis/.test(readme) && /0\.35/.test(readme), 'README');
   expect(!/failing-first|bot instruction/i.test(readme), 'README product');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  const tp = String(targeted.release || '').split('.').map(Number);
+  const tp = String(targeted.release || '').split('.').map(part => parseInt(part, 10));
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 120 && targeted.suites.includes('r4120_suite.js') && targeted.suites.includes('r4119_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const RP = require(ROOT + '/src/req_packet.js');
   const slice = RP.packet('4.9.120');

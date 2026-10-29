@@ -235,7 +235,7 @@ T('a syllogism Suppose, a bare Suppose, and a dynamics what-if stay on their rou
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.122 and leave the next creative unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 122, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length && reg.count >= 298, reg.version + ' ' + reg.count);
@@ -264,7 +264,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.122 and leave the next 
   expect(/4\.9\.122/.test(readme) && /simulation|counterfactual/.test(readme) && /speculative/.test(readme) && /0\.35/.test(readme), 'README');
   expect(!/failing-first|bot instruction/i.test(readme), 'README product');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  const tp = String(targeted.release || '').split('.').map(Number);
+  const tp = String(targeted.release || '').split('.').map(part => parseInt(part, 10));
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 122 && targeted.suites.includes('r4122_suite.js') && targeted.suites.includes('r4121_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const RP = require(ROOT + '/src/req_packet.js');
   const slice = RP.packet('4.9.122');

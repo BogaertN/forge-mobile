@@ -193,7 +193,7 @@ T('product copy refuses hardware SPC and automatic ChristPing and keeps chi as t
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.119 and leave creative writing unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 119, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' ' + reg.count);
@@ -216,7 +216,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.119 and leave creative 
   const next = fs.readFileSync(ROOT + '/../NEXT_BUILD.md', 'utf8');
   expect(/4\.9\.119/.test(next) && /116–119|116-119/.test(next) && /creative writing/.test(next) && /not started|do not start/i.test(next), 'NEXT_BUILD');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  const tp = String(targeted.release || '').split('.').map(Number);
+  const tp = String(targeted.release || '').split('.').map(part => parseInt(part, 10));
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 119 && targeted.suites.includes('r4119_suite.js') && targeted.suites.includes('r4118_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const RP = require(ROOT + '/src/req_packet.js');
   const slice = RP.packet('4.9.119');

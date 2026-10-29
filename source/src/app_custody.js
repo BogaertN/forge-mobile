@@ -19,6 +19,7 @@
   function boot() {
     const D = engine();
     const forge = root.forge;
+    if (root.KNextLayer && root.KNextLayer.enabled('dream_idle') === false) return null;
     if (!D || !D.createIdleDream || !forge || mesh) return mesh;
     mesh = D.createIdleDream({ host: forge, publishPacks: false, research: function (gap) { return D.curatedResearch(gap); }, clock: () => new Date().toISOString() });
     return mesh;

@@ -97,7 +97,7 @@ T('the targeted gate writes the packet and the release check uses one decision',
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.117 and leave the later queue unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 117, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' ' + reg.count);
@@ -125,7 +125,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.117 and leave the later
   expect(/4\.9\.117/.test(readme) && /requirement packet/i.test(readme) && /does not override a failed gate/.test(readme), 'README');
   expect(!/failing-first|bot instruction/i.test(readme), 'README product');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  const tp = String(targeted.release || '').split('.').map(Number);
+  const tp = String(targeted.release || '').split('.').map(part => parseInt(part, 10));
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 117 && targeted.suites.includes('r4117_suite.js'), targeted.release);
   expect(!fs.existsSync(ROOT + '/src/creative.js'), 'creative writing started');
 });

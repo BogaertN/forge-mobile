@@ -133,7 +133,7 @@ T('Audit names confirmed_shared; packs not in single', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.127', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 128, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count >= 313, JSON.stringify({ v: reg.version, c: reg.count }));
@@ -152,7 +152,7 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.127', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.12[789]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[0123456789]|4\.9\.16[0-9]/.test(readme) && /confirmed_shared|shared knowledge/i.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  const tp = String(tgt.release || '').split('.').map(Number);
+  const tp = String(tgt.release || '').split('.').map(part => parseInt(part, 10));
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 128 && (((((((tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js' || tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js' || tgt.suites[0] === 'r4163_suite.js' || tgt.suites[0] === 'r4162_suite.js' || tgt.suites[0] === 'r4128_suite.js' || tgt.suites[0] === 'r4127_suite.js') && tgt.suites.includes('r4127_suite.js'), JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
   expect(/R4127/.test(req), 'req_packet');

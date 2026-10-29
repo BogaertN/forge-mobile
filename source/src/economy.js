@@ -54,7 +54,10 @@ const candidateDigest = c => sha256(canon({ candidate_id: c.candidate_id, item: 
 const VALIDATION_KEYS = ['type', 'schema', 'candidate_id', 'candidate_digest', 'manifest_sha256', 'result', 'evidence', 'difficulty', 'validated_at', 'policy_version', 'validator'];
 const validationBody = e => { const b = {}; for (const k of VALIDATION_KEYS) b[k] = e[k]; return b; };
 const signerIdOf = pub => 'sig-' + sha256(canon({ kty: pub.kty, crv: pub.crv, x: pub.x, y: pub.y })).slice(0, 16);
-function Economy(store, deps) { const { ledger } = deps; const now = () => (deps.clock ? deps.clock() : new Date().toISOString()); const signer = deps.signer || null;
+function economyEnabled() { const NL = root.KNextLayer; return !NL || !NL.enabled || NL.enabled('economy') !== false; }
+function Economy(store, deps) {
+  if (!economyEnabled()) return { enabled: false, next_layer: 'economy', provenance: 'contributor credit is switched off', credits: () => ({ enabled: false, items: [] }), preview: () => ({ enabled: false }), publishLedger: async () => ({ ok: false, rule: 'ECONOMY-NEXT-LAYER-OFF' }) };
+  const { ledger } = deps; const now = () => (deps.clock ? deps.clock() : new Date().toISOString()); const signer = deps.signer || null;
   const rnd = n => { const a = new Uint8Array(n); (root.crypto || globalThis.crypto).getRandomValues(a); return Array.from(a, b => b.toString(16).padStart(2, '0')).join(''); };
   const events = () => store.load('economy_events'); const uevents = () => store.load('usage_events');
   function appendEvent(body, kind) { const l = events(); const e = Object.assign({ device: ledger.device(), seq: l.length + 1, prev: l.length ? l[l.length - 1].hash : 'genesis', at: now() }, body); e.hash = evHash(e); l.push(e); store.save('economy_events', l); ledger.append(kind, e.hash); return e; }

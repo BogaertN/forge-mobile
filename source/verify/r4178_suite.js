@@ -149,7 +149,7 @@ T('goal, token, biometric, phase skip, and a bare sigil stay refused', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.178', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.182', ver);
+  expect(ver === '4.9.182b', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.178/.test(conf) && /Gilligan Codex/.test(conf) && /Athena document/.test(conf) && /ChristPing/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -157,9 +157,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.178', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.178/.test(readme) && /Gilligan Codex/.test(readme) && /Pattern Reflection/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.182' && (((tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') && tgt.suites.includes('r4177_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.182b' && (((tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') && tgt.suites.includes('r4177_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.182' && reg.features.some(f => f.id === 'R4178-GILLIGAN-CODEX'), reg.version);
+  expect(reg.version === '4.9.182b' && reg.features.some(f => f.id === 'R4178-GILLIGAN-CODEX'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 335, 'count ' + reg.count);
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.178/.test(req) && /R4178-GILLIGAN-CODEX/.test(req), 'req packet');

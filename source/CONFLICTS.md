@@ -1,3 +1,11 @@
+## v4.9.182b — dry runs (2026-10-29 America/Chicago)
+
+**Conflict:** The foundations core had not yet been run live in the browser against the same Python package. Echo was not yet defined as closeness to the original question. dream_idle and economy are next-layer features and were not marked as switches.
+
+**Where:** `rmc_core.py` records a 16-stage card and a Jaccard echo of the selected candidate against the question. `src/next_layer.js` switches `dream_idle` and `economy`, default on. Ask still answers. The table is `docs/DRYRUN_182.md`.
+
+**Resolution:** Browser Pyodide and python3 run the same core. Stages 14–16 stay skipped because the dry-run orchestrator does not render, echo-validate, or write memory. Self-facts and the world-model contract are Nic's, rebuilt from his docs in 184, not in this release. The page CSP allows `wasm-unsafe-eval` so Pyodide can compile. The non-model scan treats `.wasm` as the model-file token, so that CSP keyword is not a model. No removals. No LLM. Packs stay gated. Money stays disabled.
+
 # CONFLICTS.md — how each conflict was settled
 
 ## v4.9.182 — rmc_engine_v1 foundations (2026-10-29 America/Chicago)

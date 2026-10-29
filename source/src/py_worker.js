@@ -4,14 +4,16 @@
 let py = null;
 async function sha384b64(buf) { const d = await crypto.subtle.digest('SHA-384', buf); let s = ''; for (const b of new Uint8Array(d)) s += String.fromCharCode(b); return btoa(s); }
 async function init(o) {
-  if (py) return { ok: true, cached: true };
-  const res = await fetch(o.base + 'pyodide.js', { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'force-cache' }); if (!res.ok) throw new Error('pyodide_http_' + res.status);
-  const buf = await res.arrayBuffer(); const got = 'sha384-' + await sha384b64(buf); if (got !== o.sri) throw new Error('pyodide_integrity_mismatch');
-  importScripts(URL.createObjectURL(new Blob([buf], { type: 'text/javascript' })));
-  py = await self.loadPyodide({ indexURL: o.base }); await py.loadPackage(['sympy']);
+  if (!py) {
+    const res = await fetch(o.base + 'pyodide.js', { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'force-cache' }); if (!res.ok) throw new Error('pyodide_http_' + res.status);
+    const buf = await res.arrayBuffer(); const got = 'sha384-' + await sha384b64(buf); if (got !== o.sri) throw new Error('pyodide_integrity_mismatch');
+    importScripts(URL.createObjectURL(new Blob([buf], { type: 'text/javascript' })));
+    py = await self.loadPyodide({ indexURL: o.base });
+  }
+  if (o.sympy !== false && !py._forgeSympy) { await py.loadPackage(['sympy']); py._forgeSympy = true; }
   let pint = false; if (o.pint) { try { await py.loadPackage('micropip'); await py.runPythonAsync('import micropip\nawait micropip.install("pint")'); pint = true; } catch (e) { pint = false; } }
   if (o.rmc) { py.FS.mkdirTree('/forge'); py.FS.writeFile('/forge/coherence_math.py', o.rmc); py.runPython('import sys\nsys.path.insert(0, "/forge")'); }
-  return { ok: true, version: py.version, pint }; }
+  return { ok: true, version: py.version, pint, sympy: !!py._forgeSympy }; }
 const CHECK = `
 import json, sympy as sp
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
@@ -41,7 +43,7 @@ def run(m):
 async function check(m) { py.globals.set('mjson', JSON.stringify(m)); py.runPython(CHECK); const r = py.runPython('run(json.loads(mjson))'); return r === undefined ? null : r; }
 async function rmcThresholds(src) { if (src) { py.FS.mkdirTree('/forge'); py.FS.writeFile('/forge/coherence_math.py', src); py.runPython('import sys, importlib\nsys.path.insert(0, "/forge") if "/forge" not in sys.path else None\nif "coherence_math" in sys.modules: importlib.reload(sys.modules["coherence_math"])'); } const r = py.runPython('import json, coherence_math\njson.dumps(coherence_math.gate_thresholds())'); return JSON.parse(r); }
 async function mountEngine(o) {
-  if (py.FS.analyzePath('/engine/rmc_engine_v1/mobile_ask.py').exists) return;
+  if (py.FS.analyzePath('/engine/rmc_engine_v1/rmc_core.py').exists) return;
   const res = await fetch(o.bundleUrl, { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'force-cache' }); if (!res.ok) throw new Error('rmc_bundle_http_' + res.status);
   const buf = await res.arrayBuffer(); const got = 'sha384-' + await sha384b64(buf); if (got !== o.bundleSri) throw new Error('rmc_bundle_integrity_mismatch');
   const pack = JSON.parse(new TextDecoder().decode(buf));

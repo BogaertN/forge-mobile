@@ -133,7 +133,7 @@ T('Audit and the starter view name starter_pack and creative paths do not store 
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.124 and leave import and a shared write unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 124, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length && reg.count >= 304, reg.version + ' ' + reg.count);
@@ -163,7 +163,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.124 and leave import an
   expect(/4\.9\.124/.test(readme) && /starter_pack/.test(readme) && /4\.9\.123/.test(readme), 'README');
   expect(!/failing-first|bot instruction/i.test(readme), 'README product');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  const tpRel = String(targeted.release || '').split('.').map(Number);
+  const tpRel = String(targeted.release || '').split('.').map(part => parseInt(part, 10));
   expect(tpRel[0] === 4 && tpRel[1] === 9 && tpRel[2] >= 124 && targeted.suites.includes('r4124_suite.js') && targeted.suites.includes('r4123_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const tp = fs.readFileSync(ROOT + '/src/turn_packet.js', 'utf8');
   expect(/PACKET_VERSION = '4\.9\.111'/.test(tp), 'packet_version');
