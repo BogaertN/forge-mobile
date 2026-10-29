@@ -1,5 +1,17 @@
 # CONFLICTS.md — how each conflict was settled
 
+## v4.9.181 — ask-key recall and lead-sentence parse (2026-10-29 America/Chicago)
+
+**Conflict:** Four admitted rows did not come back on the same question. “What is the largest planet?” stored Jupiter. Bleach mixed with ammonia stored “Chloramine is a toxic gas.” “And what about Mars?” is a follow-up. “How is paper made?” stored a method sentence the re-ask did not match. Recall-after-admit was 7/11. Fetched sentences that are correct still failed the grammar round-trip: DNA, Ada Lovelace, a gravity paper, and long “by which” sentences from sources that are not a Wikipedia lead. The portable gzip leave was about 4,492 bytes under 570 kB, short of the 5 kB soft line. Drift, chi, and the no-LLM law stay. Packs stay gated. ChristPing stays Gilligan-only.
+
+**Settlement:** An admitted row keeps the keys of the question that produced it: the question subject, the answer subject, an alias, a method-of key, and follow-up context. The same question or a reword that shares one of those keys recalls the row before AQ-1. A fetched sentence is cleaned, the lead sentence is preferred, clauses are split, and a subject-predicate core is kept only when `reparseClause` and `renderClause` round-trip and every content word is already in the source. Athena still admits only at drift at or under 0.35. Above 0.80 recenters and does not write. The grammar is not bypassed. The installed site still loads sonify. The portable single file does not inline it, which restores gzip leave to at least 5 kB under 570 kB. No feature on the installed site is removed.
+
+**Where:** `src/claim_parse.js` `sentenceCandidates`, `admitText`, `topicKeys`, `matchAsk`. `src/dream_idle.js` stores the question on the admit. `src/kernel.js` `CS-RECALL-ASK-KEY`. `build.py` leaves `sonify.js` out of the portable file. Proof `verify/r4181_suite.js`. Wiring `docs/WIRING_181.md`. Live set `docs/LIVE_TEST_181.md`.
+
+**Soft gzip:** Node `zlib.gzipSync` on `kernel-app.html` is 564,086 bytes. Leave under 570 kB is 5,914 bytes. The installed site still loads `sonify.js`.
+
+**Docs cited:** Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (ChristPing is Gilligan-only). Nic drift ruling: project and write at or under 0.35; χ 0.35–0.40; quarantine 0.40–0.80; hard stop above 0.80.
+
 ## v4.9.180 — Athena document, admit parse, chloramine, ProtoForge (2026-10-29 America/Chicago)
 
 **Conflict:** The Athena investor guide (`1cAGNfVakKlS-mGFb59BAnalJRomDc-w7Vf3Ys1nU6nI`) is a list of eighty-four titles. Most of them are payments, tokens, or a language model. Seventeen can run as deterministic tools. A correct `research.web` sentence that the grammar cannot read as one clause never reached the hosted bank, so the next Ask could not recall it. The live 4.9.179 bleach answer led with nitrogen trichloride. “What is protoforge?” fetched and found no encyclopedia article. Packs stay gated. Payments stay disabled. No LLM.

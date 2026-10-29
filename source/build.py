@@ -167,9 +167,9 @@ def slim(m, s):
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
-    if m == 'src/dream_idle.js' or m == 'src/pipeline_tools.js' or m == 'src/forge_tools.js' or m == 'src/gilligan_codex.js' or m == 'src/claim_parse.js' or m == 'src/athena_doc.js':
-        # 4.9.173 mesh, 4.9.175 pipeline tools, 4.9.177 Forge tools, 4.9.178 Gilligan Codex, and 4.9.180 claim parse plus Athena doc load on the installed site.
-        # The portable single file does not inline it (gzip leave ≥5 kB under 570 kB).
+    if m == 'src/dream_idle.js' or m == 'src/pipeline_tools.js' or m == 'src/forge_tools.js' or m == 'src/gilligan_codex.js' or m == 'src/claim_parse.js' or m == 'src/athena_doc.js' or m == 'src/sonify.js':
+        # 4.9.173 mesh, 4.9.175 pipeline tools, 4.9.177 Forge tools, 4.9.178 Gilligan Codex, 4.9.180 claim parse plus Athena doc, and 4.9.181 sonify load on the installed site.
+        # The portable single file does not inline it (gzip leave ≥5 kB under 570 kB). Sonify stays a script on the site.
         h = h.replace('<script src="' + m + '"></script>', '', 1)
         continue
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)

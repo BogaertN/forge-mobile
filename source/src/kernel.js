@@ -612,7 +612,8 @@ function Kernel(opts) {
       let clause = null; try { clause = reparseClause(raw); } catch (e) { clause = null; }
       if (!clause || clause.coord || !clause.verb) { skipped.push('unparsed'); continue; }
       const sfe = normalizeResonancePacket(it.sfe || it.resonance || null, standing);
-      rows.push({ standing, evidence, clause, id: it.id && String(it.id).indexOf('cs:') === 0 ? String(it.id) : csId(raw), hold: !!HOLD_ST[standing], sfe, packet_attached: !(it.sfe || it.resonance) });
+      const askKeys = Array.isArray(it.ask_keys) ? it.ask_keys.filter(x => typeof x === 'string' && x.length > 1 && x.length < 80).slice(0, 12) : [];
+      rows.push({ standing, evidence, clause, id: it.id && String(it.id).indexOf('cs:') === 0 ? String(it.id) : csId(raw), hold: !!HOLD_ST[standing], sfe, packet_attached: !(it.sfe || it.resonance), ask_keys: askKeys });
     }
     if (!rows.length) return { ok: false, reason: skipped.includes('unparsed') ? 'unparsed' : 'empty' };
     return { ok: true, rows, meta: { letter: data.letter || null, pack_id: data.pack_id || null, who_confirmed: data.who_confirmed || null, provenance: data.provenance || PACK_CS } };
@@ -623,7 +624,7 @@ function Kernel(opts) {
     if (j.meta) { if (j.meta.letter) hostedSharedKb.letter = j.meta.letter; if (j.meta.pack_id) hostedSharedKb.pack_id = j.meta.pack_id; if (j.meta.who_confirmed) hostedSharedKb.who_confirmed = j.meta.who_confirmed; }
     const admitted = [], held = [];
     for (const row of j.rows) {
-      const fact = csFact(row.id, row.clause, row.evidence, row.hold ? row.standing : (row.standing === 'projectable' ? 'projectable' : 'confirmed'), row.sfe), textOut = importText(fact);
+      const fact = csFact(row.id, row.clause, row.evidence, row.hold ? row.standing : (row.standing === 'projectable' ? 'projectable' : 'confirmed'), row.sfe); if (row.ask_keys && row.ask_keys.length) fact.ask_keys = row.ask_keys.slice(); const textOut = importText(fact);
       const fi = hostedSharedKb.facts.findIndex(f => f.id === row.id || normImport(importText(f)) === normImport(textOut));
       const hi = hostedSharedKb.held.findIndex(f => f.id === row.id);
       if (row.hold) {
@@ -2679,7 +2680,6 @@ function Kernel(opts) {
               trace.rules.push({ id: 'RPMC-ANCESTOR-CANDIDATES', doc: '4.9.168 RPMC before AQ-1; candidates → research/RSOC', note: 'G=' + gate.G + ' n=' + about.length + ' ' + about.map(r => r.id).join(', ') }); }
             else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.168 no ancestors at AQ-1; WH → research', note: (gate.reason || 'none') + ' G=' + (gate.G || 0) }); }
           else trace.rules.push({ id: 'RPMC-ANCESTOR-NONE', doc: '4.9.168 AQ-1 no subject NP for RPMC', note: 'no-subj' }); }
-        trace.rules.push({ id: 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST', doc: 'AQ-1 lookup; gap=' + gk });
         /* 4.9.167: public what-is / domain / what|who|where|when → research.web vault-optional (ephemeral when locked). Other gaps (how-state, …) keep lookupHint when locked so structural WH frames are not overwritten. Vault passphrase only for vault_write. */
         let publicResearch = vst === 'unlocked';
         try { const lp0 = lookupPlan(raw); publicResearch = publicResearch || !!(lp0 && ((lp0.domains && lp0.domains.length) || lp0.atype === 'description' || lp0.formula)); } catch (e) { /* plan optional */ }
@@ -2687,6 +2687,7 @@ function Kernel(opts) {
         /* 4.9.179: a public how-state question with no stored fact is research.web. Q-WH-HOW-ADJ never fired. The vault lock does not replace the answer. */
         const pfMod = isNode ? require('./claim_parse.js') : root.KClaimParse;
         const pfLocal = pfMod && pfMod.localDefine ? pfMod.localDefine(raw) : null;
+        const keyed = !pfLocal && pfMod && pfMod.matchAsk ? pfMod.matchAsk(raw, confirmedSharedFacts()) : [];
         if (pfLocal) {
           trace.rules.push(pfLocal.rule);
           msm.meaning = pfLocal.meaning;
@@ -2694,7 +2695,16 @@ function Kernel(opts) {
           sel.toolRequest = null;
           msm.limits.may_write_memory = false;
           routeOf();
+        } else if (keyed.length) {
+          trace.rules.push({ id: 'CS-RECALL-ASK-KEY', doc: '4.9.181 an admitted row is indexed by the question, the answer subject, an alias, a method, or a follow-up', note: keyed.map(r => r.id).join(', ') });
+          msm.meaning = { kind: 'recall', items: keyed.slice(0, 3).map(markCsClause), anchor_kind: 'confirmed_shared' };
+          sel.evidenceRefs = keyed.map(r => r.id);
+          sel.frame = 'FR.QUESTION';
+          sel.toolRequest = null;
+          msm.limits.may_write_memory = false;
+          routeOf();
         } else if (publicResearch) {
+          trace.rules.push({ id: 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST', doc: 'AQ-1 lookup; gap=' + gk });
           sel.toolRequest = Object.assign({ tool: 'research.web', input: raw.replace(/[?\s]+$/, ''), auto: true }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {});
           sel.frame = 'FR.TOOL.RESEARCH';
           msm.meaning = Object.assign({ kind: 'tool_started', tool: 'research.web', target: dirObj || raw.replace(/[?\s]+$/, ''), noun: dirObj ? 'topic' : 'question', local: vst !== 'unlocked' }, gm.subj ? { subj: gm.subj } : {}, (np => np && !genericYou ? { np } : {})(subjectNP(raw)), rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {});
@@ -2702,6 +2712,7 @@ function Kernel(opts) {
           if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.168 RPMC priors+sfe → research/RSOC select → Panini NL', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length });
           routeOf();
         } else {
+          trace.rules.push({ id: 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST', doc: 'AQ-1 lookup; gap=' + gk });
           msm.meaning = Object.assign({}, gm, { lookupHint: vst }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {});
           if (rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length) trace.rules.push({ id: 'RSOC-COMPOSE-EVIDENCE', doc: '4.9.168 RPMC priors+sfe staged; structural gap keeps frame when vault locked', note: 'G=' + rpmcPriors.G + ' priors=' + rpmcPriors.recs.length });
         } } }

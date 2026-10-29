@@ -59,7 +59,7 @@
         $('#pyMsg').innerHTML = 'forge <code>coherence_math.gate_thresholds()</code>: ε warning ' + esc(th.theta_epsilon_warning) + ', ε collapse ' + esc(th.theta_epsilon_collapse) + ', echo ≥ ' + esc(th.theta_echo_min) + ' · Addendum cross-check 0.50 / 0.78 / 0.80 is not the live write law (drift-table nic-2026-10-14/v1). ROC/CFBC/RSOC numerical equivalence is SOURCE_NOT_VERIFIED (I.1).'; } catch (e) { $('#pyMsg').textContent = 'cross-check unavailable: ' + e.message; } }; }
   /* audible trace: a button on each derived reply */
   const prevAfter = window.afterSay; window.afterSay = function (r, el) { if (prevAfter) prevAfter(r, el); if (!r.trace || !r.trace.turn || r.trace.bridge || !r.reply) return;
-    el.insertAdjacentHTML('beforeend', '<button class="hear" aria-label="hear this trace">🔊 hear trace</button>'); el.querySelector('.hear').onclick = ev => { const sc = KSonify.score(r.trace, r.reply); const v = KSonify.validate(sc, r.trace);
+    el.insertAdjacentHTML('beforeend', '<button class="hear" aria-label="hear this trace">🔊 hear trace</button>'); el.querySelector('.hear').onclick = ev => { if (typeof KSonify === 'undefined' || !KSonify) return; const sc = KSonify.score(r.trace, r.reply); const v = KSonify.validate(sc, r.trace);
       const c = document.createElement('canvas'); c.width = 320; c.height = 120; c.setAttribute('role', 'img'); c.setAttribute('aria-label', 'sonification of the trace, posture ' + sc.posture); ev.target.replaceWith(c); KSonify.draw(c, sc);
       c.insertAdjacentHTML('afterend', '<div class="meta">' + sc.events.length + ' sound events, each tied to a trace rule · posture ' + esc(sc.posture) + ' · gate ' + (v.ok ? 'passed' : 'FAILED (not played)') + '</div>'); if (v.ok) KSonify.play(sc); }; };
   /* N6 (2026-10-11): voice input via the OS/browser speech recognizer only — no bundled neural speech model. The text is shown
@@ -86,7 +86,7 @@
       el.insertAdjacentHTML('beforeend', '<div class="artifact"><div class="meta">' + esc(a.form) + (a.scope ? ' · ' + esc(a.scope.status) + ': ' + esc(a.scope.label) : '') + ' · echo ' + (a.echo.pass ? 'passed' : 'FAILED') + ' — ' + esc(a.echo.mode || '') + '</div>' + body + '</div>');
       const c = el.querySelector('.artifact canvas'); if (c) KRender.drawField(c, a.params);
       const sp = el.querySelector('.spk'); if (sp) sp.onclick = () => { if (!('speechSynthesis' in window)) return; speechSynthesis.cancel(); for (const u of a.units) { const x = new SpeechSynthesisUtterance(u.text); x.pitch = u.contour === 'rise' ? 1.2 : u.contour === 'level-low' ? 0.8 : 1; speechSynthesis.speak(x); } };
-      const tn = el.querySelector('.tn'); if (tn) tn.onclick = () => KSonify.play(a.trace_audio);
+      const tn = el.querySelector('.tn'); if (tn) tn.onclick = () => { if (typeof KSonify !== 'undefined' && KSonify) KSonify.play(a.trace_audio); };
       const rc = el.querySelector('.runc'); if (rc) rc.onclick = () => { const o = forge.runCode(a, true); el.querySelector('.runout').textContent = o.ok ? JSON.stringify(o.outputs) : o.rule; };
       const cc = el.querySelector('.copyc'); if (cc) cc.onclick = () => navigator.clipboard && navigator.clipboard.writeText(a.content); return; }
     el.insertAdjacentHTML('beforeend', '<select class="rform" aria-label="render this answer as"><option value="">render as…</option>' + Object.keys(FORM_REQ).map(f => '<option value="' + f + '">' + f + '</option>').join('') + '</select>');

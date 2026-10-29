@@ -1,3 +1,9 @@
+# Next build order — after 4.9.181 (ask-key recall)
+
+**Shipped here:** admitted rows are indexed by the question that produced them, so the same question or a reword recalls Jupiter, chloramine, Mars, and a paper method before AQ-1. A lead sentence that the grammar cannot read whole is simplified and split until a subject-predicate core round-trips. Drift at or under 0.35 still admits. Above 0.80 still recenters. The grammar is not bypassed. Sonify stays on the installed site and is left out of the portable file so gzip leave is at least 5 kB under 570 kB. Packs stay gated. No LLM.
+
+**Do not start inside this pull request.** The learning loop is unchanged apart from those two paths.
+
 # Next build order — after 4.9.180 (Athena document)
 
 **Shipped here:** the seventeen buildable rows from the Athena investor-guide list, on the learning loop. A fetched sentence that the grammar cannot read whole is cleaned, split, and normalized to a subject-predicate core, then Athena admits it when drift is at or under 0.35. The next Ask recalls it. Bleach mixed with ammonia is spoken as chloramine gas. ProtoForge answers from a local definition. Sixty-seven rows stay skipped. Packs stay gated. No LLM.
