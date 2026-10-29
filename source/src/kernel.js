@@ -664,9 +664,31 @@ function Kernel(opts) {
     }
     return writeSharedKnowledge(text, opts);
   }
+  /* 4.9.176: the 4.9.127 admit of a held row, on the session bank. 4.9.128 left this as a refusal that ignored a key already held.
+     A tap moves a contested held row into admitted facts. Quarantine stays held. The phone DB and letter packs are not written. */
   function admitConfirmedSharedItem(id, userTap) {
-    if (userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP' };
-    return { ok: false, rule: SHARED_KB_WRITE_RULE, view: sharedKnowledgeView() };
+    if (userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP', view: sharedKnowledgeView(), phone_db: false, wrote_pack: false };
+    if (!sharedKbWriteKeyHeld) return { ok: false, rule: SHARED_KB_WRITE_RULE, view: sharedKnowledgeView(), phone_db: false, wrote_pack: false };
+    const held = hostedSharedKb.held || [];
+    const i = held.findIndex(f => f && f.id === id);
+    if (i < 0) return { ok: false, rule: 'CONFIRMED-SHARED-MISSING', view: sharedKnowledgeView(), phone_db: false, wrote_pack: false };
+    const row = held[i];
+    const standing = String(row.standing || '').toLowerCase();
+    if (standing === 'quarantine' || row.lane === 'quarantine' || row.route === 'dream_state_quarantine_candidate') return { ok: false, rule: 'DREAM-QUARANTINE-NO-TRUTH', view: sharedKnowledgeView(), phone_db: false, wrote_pack: false };
+    let clause = row.clause;
+    if (!clause && row.text) { try { clause = reparseClause(row.text); } catch (e) { clause = null; } }
+    if (!clause || clause.coord || !clause.verb) return { ok: false, rule: 'CONFIRMED-SHARED-UNPARSED', view: sharedKnowledgeView(), phone_db: false, wrote_pack: false };
+    held.splice(i, 1);
+    const fact = csFact(row.id, clause, row.evidence || '', 'confirmed', row.sfe);
+    hostedSharedKb.facts = hostedSharedKb.facts || [];
+    const fi = hostedSharedKb.facts.findIndex(f => f.id === fact.id);
+    if (fi >= 0) hostedSharedKb.facts[fi] = fact; else hostedSharedKb.facts.push(fact);
+    const textOut = importText(fact);
+    const receipt = importReceipt('admit', null, [textOut], []);
+    receipt.hosted = true; receipt.phone_db = false; receipt.shared_kb = false; receipt.wrote_pack = false;
+    hostedSharedKb.receipts = (hostedSharedKb.receipts || []).concat([receipt]).slice(-40);
+    wipePhoneConfirmedShared();
+    return { ok: true, receipt, view: sharedKnowledgeView(), phone_db: false, wrote_pack: false };
   }
   function clearConfirmedShared() {
     hostedSharedKb = { schema: IMPORT_SCHEMA, provenance: PACK_CS, facts: [], held: [], receipts: [], hosted: true, phone_db: false };

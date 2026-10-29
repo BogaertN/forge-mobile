@@ -1,5 +1,5 @@
 {
- "version": "4.9.175",
+ "version": "4.9.176",
  "features": [
   {
    "id": "A-01",
@@ -3639,13 +3639,24 @@
    "proof": [
     "R4175"
    ]
+  },
+  {
+   "id": "R4176-HELD-ADMIT",
+   "name": "Held shared-knowledge admit",
+   "source": "CONFLICTS.md v4.9.176; kernel.js admitConfirmedSharedItem restored from the 4.9.128 refusal",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "A tap admits a contested held row into the session hosted bank when the write key is already held. A quarantine row stays held. Phone DB and letter packs are not written. Ask recalls the admitted sentence. No LLM. Forge GitHub tools, the Gilligan Codex, and the Athena document list are later.",
+   "proof": [
+    "R4176"
+   ]
   }
  ],
- "count": 332,
+ "count": 333,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 170,
+  "Partial": 171,
   "Missing": 9,
   "Out of scope / parked": 13
  }

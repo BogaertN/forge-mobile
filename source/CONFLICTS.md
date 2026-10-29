@@ -2,6 +2,20 @@
 
 Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation Addendum, Sep 2026) > older docs**. Where forge2 says nothing, **forge code** comes before docs. Every row lists the sources and where the decision lives in the code.
 
+## v4.9.176 — held shared-knowledge admit (2026-10-29 America/Chicago)
+
+**Conflict:** `admitConfirmedSharedItem` admitted a held confirmed-shared row in 4.9.127. 4.9.128 moved the bank into session RAM and replaced that function with a refusal that always returns `SHARED-KB-WRITE-KEY-REQUIRED`, even after Custody has granted the write key. The Memory screen still offers Admit on a held row. Quarantine must not become `confirmed_shared`. A UI click must not publish letter packs or write the phone DB. Nic’s step 3 is the stubs already in the code. Forge GitHub tools, the Gilligan Codex, and the Athena document list stay later. Phase-ablation rows stay unmeasured. The domain catalog priors stay candidates, not canned Naming.
+
+**Settlement:** A tap admits a contested held row into the session hosted bank when the write key is already held. The key is not passed through the button and is not stored in source. No tap returns `PERM-NEEDS-USER-TAP`. No held key returns `SHARED-KB-WRITE-KEY-REQUIRED`. A missing id returns `CONFIRMED-SHARED-MISSING`. A quarantine standing, lane, or route returns `DREAM-QUARANTINE-NO-TRUTH` and the row stays held. The admitted row keeps its resonance packet. `wipePhoneConfirmedShared` runs so the phone store stays empty. The function does not write `packs/confirmed_shared`. Ask recalls the admitted sentence before AQ-1. `publishPacks` stays false. No LLM.
+
+**Where:** `src/kernel.js` `admitConfirmedSharedItem`. Proof `verify/r4176_suite.js`.
+
+**Left in the tree, not this implementation:** `research/math_honesty.js` `phaseAblation` stays `status: 'stub'` (r4118). `kernel.js` `_stub` / `ARCH_DOMAIN_PRIORS` stay catalog candidates for the RPMC gate (r4167), not definitions. `governance.js` `SWITCHES` values with `built: false` stay listed and unimplemented (w12). `dream_idle.js` `letter_fill` and `ancestor_probe` still measure what they are given; an empty letter hole stays `DREAM-UNMEASURED`. `operator.js` `gilligan` stays Pattern Reflection.
+
+**Not this pull request:** (4) Forge/Forge GitHub tools; (5) the Gilligan Codex, feature by feature; (6) the Athena document, which is a list, and every tool on that list.
+
+**Docs cited:** Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (cold custody; quarantine is not truth). RPMC Blueprint §14 `1L_f5I2InqyMiGKX7ERs0et9jY9-gzpVgvqmZ-VAl46E` (collapse to cold, not delete). Capability E-05 (quarantine is not confirmed_shared).
+
 ## v4.9.175 — pipeline tools (2026-10-29 America/Chicago)
 
 **Conflict:** 4.9.174 connected Ask, Athena, Gilligan, and the hosted bank, but the phone still could not use the tools that make the loop run. Athena’s research callback only reread extracts already on the gap, so a how/method question with no excerpt stayed `DREAM-UNMEASURED` and never called `research.web`. A failed lookup became `NO_LAWFUL_CANDIDATE` with no encyclopedia fetch. The Custody key field was rebuilt on every refresh, so a grant did not stay held and lawful admits stayed at 0. The key must not be hardcoded. An open crawl and a model call stay refused. Letter packs stay gated. The Gilligan Codex, the Athena document list, Forge GitHub tools, and the stub sweep are later steps.
