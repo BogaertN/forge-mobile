@@ -518,6 +518,7 @@ function researchPlan(m) { const st = researchStanding(m).selected, lead = docNP
   return verdictS(m).concat(g ? (emb ? [reportS(gd, UC(emb))] : [Object.assign(clauseSentence(g.clause), { cap: true }), S(C('be', { karta: N('source', { det: 'the' }), pred: gd }))]) : m.answer ? [S(C('support', { karta: lead, karma: pr('it') }))] : [(r => S(C(r[0], { karta: lead, karma: r[1] })))(relOf(m, ['give', 'answer']))] /* the passage that states it is sealed in the vault; the reply names the source and the relation it gives, never quotes it */,
     embH ? [reportS(gd, UC(embH))] : [],
     m.conflict && m.excerpt2 && !g ? [S(C('disagree', { karta: docNP(m.source2, m.archive2, m.cls2) })), S(C('outrank', { karta: N('source', { det: 'the', adj: ['first'] }), karma: pr('it') }))] : [],
+    m.secondary_name ? [S(C('name', { karta: N('source', { det: 'the' }), karma: Mn(m.secondary_name) }))] : [],
     linkS(g ? g.source_url : m.source_url), g && g.other ? [S(C('have', { karta: N('article', { det: 'the', adj: ['other'], app: Mn(g.other + ' (Wikipedia)') }), karma: N('name', { det: 'the', adj: ['same'] }) }))] : [], tail); }
 const RATE = /^research_http_(429|503)$|rate/i;
 /* M4 (4.9.65) dynamics answers (dynamics.js decides; this only voices): a rate computation as an equation over the stated quantities with its

@@ -5884,5 +5884,605 @@
     "reason": "Shell and file mutation are unsafe on the phone."
    }
   ]
+ },
+ "athena_doc": {
+  "release": "4.9.180",
+  "doc": "1cAGNfVakKlS-mGFb59BAnalJRomDc-w7Vf3Ys1nU6nI",
+  "url": "https://docs.google.com/document/d/1cAGNfVakKlS-mGFb59BAnalJRomDc-w7Vf3Ys1nU6nI/edit",
+  "counts": {
+   "built": 17,
+   "skipped": 67,
+   "total": 84
+  },
+  "items": [
+   {
+    "ref": "1.1",
+    "name": "Overview of Athena AI",
+    "status": "skipped",
+    "reason": "intro/descriptive, no tool",
+    "caller": null
+   },
+   {
+    "ref": "1.2",
+    "name": "Athena’s Purpose on the AI.Web Investor Site",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "1.3",
+    "name": "How Athena AI Empowers Investors",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "1.4",
+    "name": "AI-Driven Conversational Assistance",
+    "status": "skipped",
+    "reason": "requires LLM/generative AI",
+    "caller": null
+   },
+   {
+    "ref": "1.5",
+    "name": "Athena AI vs. Traditional Chatbots",
+    "status": "skipped",
+    "reason": "intro/descriptive, no tool",
+    "caller": null
+   },
+   {
+    "ref": "1.6",
+    "name": "How Athena Adapts to Investor Queries",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "1.7",
+    "name": "AI-Powered Learning & Real-Time Updates",
+    "status": "skipped",
+    "reason": "requires LLM/generative AI",
+    "caller": null
+   },
+   {
+    "ref": "1.8",
+    "name": "Understanding Athena’s Role in AI.Web’s Ecosystem",
+    "status": "built",
+    "reason": null,
+    "caller": "roleMap — dream_idle custody and pass"
+   },
+   {
+    "ref": "1.9",
+    "name": "AI-Driven Business Intelligence & Market Analysis",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "1.10",
+    "name": "Web3, AI-Generated Insights & AI-Web Hosting",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.1",
+    "name": "Accessing Athena AI on the Investor Dashboard",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.2",
+    "name": "How to Interact with Athena",
+    "status": "built",
+    "reason": null,
+    "caller": "interact — bridgeAskEvidence"
+   },
+   {
+    "ref": "2.3",
+    "name": "AI-Powered Personalized Investor Assistance",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.4",
+    "name": "Navigating Athena’s Dashboard Interface",
+    "status": "built",
+    "reason": null,
+    "caller": "dashboard — dream_idle custody"
+   },
+   {
+    "ref": "2.5",
+    "name": "Understanding Investor Tier-Based Access",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.6",
+    "name": "Using Athena for AI-Powered Investment Research",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.7",
+    "name": "AI-Generated Reports & Market Trends",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.8",
+    "name": "AI-Powered Personalized Investor Suggestions",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.9",
+    "name": "Managing Your Investor Preferences with Athena",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "2.10",
+    "name": "AI-Generated Security & Privacy for Investor Chats",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.1",
+    "name": "How Athena Adapts Based on Your Investment Tier",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.2",
+    "name": "Free Tier ($0 Investment)",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.3",
+    "name": "AI Supporter ($1 - $500 Investment)",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.4",
+    "name": "AI Enthusiast ($500 - $1,000 Investment)",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.5",
+    "name": "Community Supporter ($1,000 - $9,999 Investment)",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.6",
+    "name": "Early Backer ($10,000 - $49,999 Investment)",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.7",
+    "name": "Strategic Partner ($50,000 - $99,999 Investment)",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "3.8",
+    "name": "Visionary Investor ($100,000+ Investment)",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "4.1",
+    "name": "AI-Powered Award System Overview",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "4.2",
+    "name": "How Athena Tracks Investor Contributions & AI-Generated Insights",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "4.3",
+    "name": "Web3 Tokenized Award Prizes & Staking Incentives",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "4.4",
+    "name": "AI-Web Quarterly Award Categories",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "4.4.1",
+    "name": "Best AI-Generated Website",
+    "status": "skipped",
+    "reason": "award/prize program (money/tokens disabled) + generative AI",
+    "caller": null
+   },
+   {
+    "ref": "4.4.2",
+    "name": "Best AI-Generated Article",
+    "status": "skipped",
+    "reason": "award/prize program + generative AI",
+    "caller": null
+   },
+   {
+    "ref": "4.4.3",
+    "name": "Best AI-Generated Art Piece",
+    "status": "skipped",
+    "reason": "award + graphics/generative media",
+    "caller": null
+   },
+   {
+    "ref": "4.4.4",
+    "name": "Best AI-Generated Video or Short Film",
+    "status": "skipped",
+    "reason": "award + video/generative media",
+    "caller": null
+   },
+   {
+    "ref": "4.4.5",
+    "name": "Best AI-Generated Music or Sound Design",
+    "status": "skipped",
+    "reason": "award + audio/generative media",
+    "caller": null
+   },
+   {
+    "ref": "4.4.6",
+    "name": "Best AI-Powered Business Innovation",
+    "status": "skipped",
+    "reason": "award/Web3 business — money disabled",
+    "caller": null
+   },
+   {
+    "ref": "4.4.7",
+    "name": "AI-Web Community MVP Award",
+    "status": "skipped",
+    "reason": "award tied to investors/prizes — money disabled",
+    "caller": null
+   },
+   {
+    "ref": "4.4.8",
+    "name": "Athena’s Wildcard Award",
+    "status": "skipped",
+    "reason": "award/prize program — money disabled",
+    "caller": null
+   },
+   {
+    "ref": "5.1",
+    "name": "How Athena AI Knowledge Nodes Work",
+    "status": "built",
+    "reason": null,
+    "caller": "node — onAdmit"
+   },
+   {
+    "ref": "5.2",
+    "name": "Private Investor Knowledge Nodes (User-Specific)",
+    "status": "built",
+    "reason": null,
+    "caller": "node private — onAdmit local store"
+   },
+   {
+    "ref": "5.3",
+    "name": "Community AI Knowledge Nodes (Shared User Intelligence)",
+    "status": "built",
+    "reason": null,
+    "caller": "node community — onAdmit, publishPacks false"
+   },
+   {
+    "ref": "5.4",
+    "name": "Global AI Knowledge Nodes (Athena’s Verified AI-Generated Intelligence)",
+    "status": "built",
+    "reason": null,
+    "caller": "node global — onAdmit, drift <= 0.35"
+   },
+   {
+    "ref": "5.5",
+    "name": "Investor Warnings & User-Controlled Information Sharing",
+    "status": "built",
+    "reason": null,
+    "caller": "setShare — onAdmit"
+   },
+   {
+    "ref": "5.6",
+    "name": "AI-Generated Investor Data Encryption & Cybersecurity",
+    "status": "built",
+    "reason": null,
+    "caller": "sealChat — onAdmit, WebCrypto, no network"
+   },
+   {
+    "ref": "5.7",
+    "name": "Athena’s Real-Time AI Knowledge Updates on AI-Web Financial Growth",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "5.8",
+    "name": "How Athena AI Knowledge Nodes Function Like Advanced Cookies",
+    "status": "built",
+    "reason": null,
+    "caller": "persist — onAdmit store.save"
+   },
+   {
+    "ref": "5.9",
+    "name": "Web3 Integration for AI-Generated Investment Insights",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.1",
+    "name": "AI-Powered Web3 Investment Ecosystem Mapping",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.2",
+    "name": "AI-Generated AI/Web IPO & Public Market Intelligence",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.3",
+    "name": "AI-Powered Smart Voting Assistant for Decentralized Governance",
+    "status": "skipped",
+    "reason": "requires LLM/generative AI",
+    "caller": null
+   },
+   {
+    "ref": "6.4",
+    "name": "AI-Based AI/Web Competitor Disruption Tracking",
+    "status": "skipped",
+    "reason": "requires LLM/generative AI",
+    "caller": null
+   },
+   {
+    "ref": "6.5",
+    "name": "AI-Powered Investment Growth Simulations & Risk Modeling",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.6",
+    "name": "AI-Driven Decentralized Investor Knowledge Base",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.7",
+    "name": "AI-Powered Portfolio Diversification & Risk Assessment",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.8",
+    "name": "AI-Generated Private Investor Conferences & AI-Powered Networking",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.9",
+    "name": "AI-Powered Autonomous Investor Reports with Multi-Format Options",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "6.10",
+    "name": "AI-Powered Augmented Reality (AR) AI-Web Investment Visualization",
+    "status": "skipped",
+    "reason": "graphics/media runtime or generative media",
+    "caller": null
+   },
+   {
+    "ref": "7.1",
+    "name": "AI-Generated Real-Time Market Forecasting",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "7.2",
+    "name": "AI-Powered Predictive Investor Queries",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "7.3",
+    "name": "AI-Based Sentiment Analysis for Investment Behavior",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "7.4",
+    "name": "AI-Generated Conversational AI Flow Optimization",
+    "status": "built",
+    "reason": null,
+    "caller": "tune — interact"
+   },
+   {
+    "ref": "7.5",
+    "name": "AI-Powered Adaptive Learning for Investor Needs",
+    "status": "built",
+    "reason": null,
+    "caller": "adapt — onAdmit"
+   },
+   {
+    "ref": "7.6",
+    "name": "AI-Based Real-Time AI/Web Competitor Financial Reports",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "7.7",
+    "name": "AI-Generated Investor Voting & AI-Powered Web3 Governance Assistance",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "7.8",
+    "name": "AI-Powered Personalized Portfolio Insights",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "7.9",
+    "name": "AI-Based AI-Web Business Expansion Recommendations",
+    "status": "skipped",
+    "reason": "requires LLM/generative AI",
+    "caller": null
+   },
+   {
+    "ref": "7.10",
+    "name": "AI-Generated AI/Web Revenue Stream Optimization",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "8.1",
+    "name": "AI-Based Data Encryption for Investor Chats",
+    "status": "built",
+    "reason": null,
+    "caller": "sealChat — onAdmit"
+   },
+   {
+    "ref": "8.2",
+    "name": "AI-Powered Secure Data Storage for Investment Insights",
+    "status": "built",
+    "reason": null,
+    "caller": "secure store — sealChat"
+   },
+   {
+    "ref": "8.3",
+    "name": "AI-Generated Web3-Based Investor ID Verification",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "8.4",
+    "name": "AI-Powered AI-Web Account Security & Authentication",
+    "status": "built",
+    "reason": null,
+    "caller": "setPasscode / unlock — local hash"
+   },
+   {
+    "ref": "8.5",
+    "name": "AI-Based Smart Contract Security for AI-Web Tokenized Investments",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "8.6",
+    "name": "AI-Powered AI/Web Account Fraud Protection",
+    "status": "skipped",
+    "reason": "requires LLM/generative AI",
+    "caller": null
+   },
+   {
+    "ref": "8.7",
+    "name": "AI-Based Web3 Identity Protection for Investors",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "8.8",
+    "name": "AI-Powered Investment Risk Management Alerts",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "8.9",
+    "name": "AI-Generated AI-Web Investor Fraud Prevention Measures",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "8.10",
+    "name": "AI-Powered AI-Web Cybersecurity Defense System",
+    "status": "built",
+    "reason": null,
+    "caller": "defend — onAdmit, drift and chi"
+   },
+   {
+    "ref": "9.1",
+    "name": "Persistent investor memory and evolving knowledge nodes",
+    "status": "built",
+    "reason": null,
+    "caller": "evolve — onAdmit"
+   },
+   {
+    "ref": "9.2",
+    "name": "AI-powered Web3 tokenized investment growth simulations",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "9.3",
+    "name": "Investor governance voting and AI-powered decentralized decision-making",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "9.4",
+    "name": "AI-generated investment coaching for both beginners and advanced investors",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   },
+   {
+    "ref": "9.5",
+    "name": "Live AI-generated investor networking, exclusive AI-powered investor strategy sessions",
+    "status": "skipped",
+    "reason": "money/investment/token/Web3 — payments disabled",
+    "caller": null
+   }
+  ]
  }
 }

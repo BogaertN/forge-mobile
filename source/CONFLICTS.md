@@ -1,5 +1,17 @@
 # CONFLICTS.md — how each conflict was settled
 
+## v4.9.180 — Athena document, admit parse, chloramine, ProtoForge (2026-10-29 America/Chicago)
+
+**Conflict:** The Athena investor guide (`1cAGNfVakKlS-mGFb59BAnalJRomDc-w7Vf3Ys1nU6nI`) is a list of eighty-four titles. Most of them are payments, tokens, or a language model. Seventeen can run as deterministic tools. A correct `research.web` sentence that the grammar cannot read as one clause never reached the hosted bank, so the next Ask could not recall it. The live 4.9.179 bleach answer led with nitrogen trichloride. “What is protoforge?” fetched and found no encyclopedia article. Packs stay gated. Payments stay disabled. No LLM.
+
+**Settlement:** `athena_doc.js` builds the seventeen rows and records the sixty-seven skips. Community nodes stay local while `publishPacks` is false. Global nodes require drift at or under 0.35. WebCrypto seals chat text on the device. A passcode is a local hash. `claim_parse.js` cleans HTML, splits sentences, and keeps the fullest subject-predicate core whose words are already in the source. Athena admits that core when the drift and chi gates pass. The next Ask recalls it. Bleach mixed with ammonia is spoken as chloramine gas. Nitrogen trichloride or hydrazine may be named after that sentence. No mix procedure is spoken. ProtoForge answers from the sourced local definition. Commands that run ProtoForge stay internal.
+
+**Where:** `src/athena_doc.js`, `src/claim_parse.js`, `src/dream_idle.js`, `src/kernel.js` `PF-LOCAL-DEF`, `src/forge.js` chloramine headline. Proof `verify/r4180_suite.js`. Inventory `data/forge_tool_inventory.json` key `athena_doc`. Wiring `docs/WIRING_180.md`. Live set `docs/LIVE_TEST_180.md`.
+
+**Soft gzip:** the portable single file for 4.9.179 measured 4,862 bytes under 570 kB. This release measures about 4,494 bytes under 570 kB. The 5 kB soft line was already missed on 179. Nic can trim an older inlined module or accept the miss. The hard cap of 570 kB holds.
+
+**Docs cited:** Athena AI User Guide `1cAGNfVakKlS-mGFb59BAnalJRomDc-w7Vf3Ys1nU6nI`. ProtoForge Codex Volume I `1YwpDYZT1ike_L30GjKPVXgG4dRnHVo_dy4RY9jsl3js` and Volume II `1Iy-r4Og7912xgJAeDlMhC7sfiTjUYrvJ`. Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (ChristPing is Gilligan-only).
+
 ## v4.9.179 — Forge2 contracts and the learning-loop wiring (2026-10-29 America/Chicago)
 
 **Conflict:** `BogaertN/forge2` 404’d in 4.9.177 and is readable now at `262a95e`. It is a contract kernel, not a second agent. `forge_spine.js` already held canonical JSON, identity, input events, candidates, request contracts, a context subset, capability requirements, request states, and successor laws. `validateSuccessor` and `decodeInputEvent` were never called. A public how-state question with no stored fact stopped at “Unlock the vault” because a dead rule id `Q-WH-HOW-ADJ` and `Q-WH-HOW-STATE` suppressed research.web while the vault was locked. Any sentence containing “protoforge” was a blocked command, so “What is protoforge?” never reached language.core. An empty `META` route table still sat on the capability frame. The Athena document list is the next release.

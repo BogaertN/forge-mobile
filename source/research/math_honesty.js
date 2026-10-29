@@ -220,7 +220,7 @@ function run() {
       os_process_pool: false,
       integrity_high: 0.85,
       integrity_meter: 'when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.',
-      note: '4.9.179 Forge2 seals run on the 4.9.178 learning loop. A measured Ask is admitted and later recalled. ChristPing stays Gilligan-only and is not deferred. Drift at or under 0.35 may promote. Above 0.80 is a hard stop. Token payouts and biometric sensors stay refused. Phone pack publish stays gated. The portable single file does not inline the mesh, the pipeline tools, the Forge tools, or the Codex. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only. Pattern Reflection is not the Codex.',
+      note: '4.9.180 Athena document tools and claim parse sit on the 4.9.179 learning loop. A fetched sentence that round-trips is admitted and later recalled. ChristPing stays Gilligan-only and is not deferred. Drift at or under 0.35 may promote. Above 0.80 is a hard stop. Token payouts and biometric sensors stay refused. Phone pack publish stays gated. The portable single file does not inline the mesh, the pipeline tools, the Forge tools, the Codex, or the Athena document. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only. Pattern Reflection is not the Codex.',
       where: ['src/gilligan_codex.js', 'src/dream_idle.js', 'src/app_custody.js', 'src/kmath.js driftGovernance', 'src/kmath.js chiCorrect', 'src/kmath.js graceOverAncestors', 'verify/r4178_suite.js', 'verify/r4172_suite.js'],
       cite: 'Nic drift ruling 2026-10-14; RPMC §3 χ; §3.4 Grace Integral; E-05 quarantine honesty'
     }
@@ -260,7 +260,7 @@ function markdown(report) {
     lines.push('status ' + report.answer_path_grace.status + '. ' + (report.answer_path_grace.note || ''));
     lines.push('');
   }
-  lines.push('## Idle dream router (4.9.179)');
+  lines.push('## Idle dream router (4.9.180)');
   lines.push('');
   if (report.idle_dream_router) {
     lines.push('status ' + report.idle_dream_router.status + '. ' + (report.idle_dream_router.note || ''));

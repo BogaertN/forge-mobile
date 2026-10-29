@@ -1,3 +1,9 @@
+# Next build order — after 4.9.180 (Athena document)
+
+**Shipped here:** the seventeen buildable rows from the Athena investor-guide list, on the learning loop. A fetched sentence that the grammar cannot read whole is cleaned, split, and normalized to a subject-predicate core, then Athena admits it when drift is at or under 0.35. The next Ask recalls it. Bleach mixed with ammonia is spoken as chloramine gas. ProtoForge answers from a local definition. Sixty-seven rows stay skipped. Packs stay gated. No LLM.
+
+**Do not start inside this pull request.** Nic locked the order. This was step 6.
+
 # Next build order — after 4.9.179 (Forge2 wiring)
 
 **Shipped here:** the Forge2 modules that fit the no-LLM learning loop. Establishment status and frozen values are new. The other contracts were already in the spine and are now called on Ask, Athena admit, and Gilligan re-curate. A public how-question stays on language.core and research.web. A model candidate and an unrestricted network effect stay refused. Packs stay gated. No LLM.
