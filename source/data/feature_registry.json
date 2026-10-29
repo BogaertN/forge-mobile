@@ -1,5 +1,5 @@
 {
- "version": "4.9.177",
+ "version": "4.9.178",
  "features": [
   {
    "id": "A-01",
@@ -3661,13 +3661,24 @@
    "proof": [
     "R4177"
    ]
+  },
+  {
+   "id": "R4178-GILLIGAN-CODEX",
+   "name": "Gilligan System Codex on the learning loop",
+   "source": "CONFLICTS.md v4.9.178; THE GILLIGAN SYSTEM CODEX 1hbLsNhrEeeomonxkHAUjEkw4tXsHllcnuUzx8Mv8hOM",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Codex engines boot ψ₁, validate echo, categorize drift, rehearse unresolved loops, and admit only inside the existing gates. ChristPing stays Gilligan-only and is not deferred. A measured Ask is recalled later from the hosted bank. Token payouts and biometric sensors are refused. Pattern Reflection is not this Codex. Packs stay gated. No LLM. The Athena document list is later.",
+   "proof": [
+    "R4178"
+   ]
   }
  ],
- "count": 334,
+ "count": 335,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 172,
+  "Partial": 173,
   "Missing": 9,
   "Out of scope / parked": 13
  }
