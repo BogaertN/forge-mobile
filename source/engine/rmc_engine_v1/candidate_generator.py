@@ -17,6 +17,7 @@ from __future__ import annotations
 import datetime as _dt
 import hashlib
 import json
+import re
 from typing import Any
 
 ENGINE_VERSION = "rmc_candidate_generator_v2_patch262J1R_preflight_C13"
@@ -38,6 +39,10 @@ def _sha(obj: Any) -> str:
 
 def _stable_id(prefix: str, obj: Any, n: int = 18) -> str:
     return f"{prefix}_{_sha(obj)[:n]}"
+
+
+def _tokens(value: Any) -> set[str]:
+    return {tok for tok in re.findall(r"[a-z0-9]+", str(value or "").lower()) if len(tok) > 2}
 
 
 def _clamp(value: Any, low: float = 0.0, high: float = 1.0) -> float:
@@ -403,10 +408,23 @@ def generate_candidates(trace_spine: dict[str, Any], *, max_candidates: int = 8)
                 allowed=True,
             ))
         if memory_support.get("memory_support_present"):
+            question = str(input_event.get("raw_input_preview") or "")
+            q_terms = {w for w in _tokens(question) if w not in {"the", "and", "for", "what", "how", "why", "who", "when", "where"}}
+            best_text = ""
+            best_hits = -1
+            for node in nodes[:8]:
+                snippet = str(node.get("content_summary") or node.get("content") or "").strip()
+                if not snippet:
+                    continue
+                hits = len(q_terms & _tokens(snippet)) if q_terms else 0
+                if hits > best_hits or (hits == best_hits and len(snippet) > len(best_text)):
+                    best_hits = hits
+                    best_text = snippet
+            anchored = best_text or "Use the active memory set as ancestry support for the next meaning state while preserving source, phase, confidence, and drift relation."
             candidates.append(_candidate(
                 "ct_memory", trace_id,
                 "Memory-Anchored Candidate",
-                "Use the active memory set as ancestry support for the next meaning state while preserving source, phase, confidence, and drift relation.",
+                anchored[:1600],
                 primary if primary in PHASES else "Φ6", phase_path or [primary], "memory_anchored_candidate",
                 min(0.9, 0.44 + memory_support.get("average_retrieval_weight", 0.0) * 0.5), 0.24, eps, memory_support,
                 ["requires_memory_link_audit", "source_ancestry_preserved", "trace_first"],

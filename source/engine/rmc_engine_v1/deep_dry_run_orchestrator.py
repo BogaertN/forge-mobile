@@ -166,6 +166,25 @@ def _f(value: Any, default: float = 0.0) -> float:
         return float(default)
 
 
+def _number(value: Any, default: float = 0.0) -> float:
+    """Read a scalar. Drift reports store epsilon_s as an object."""
+    if isinstance(value, dict):
+        for key in ("epsilon_s", "value", "score"):
+            if key in value:
+                return _number(value.get(key), default)
+        return default
+    return _f(value, default)
+
+
+def _flag(value: Any) -> bool:
+    """A circuit-breaker object counts only when its triggered flag is set."""
+    if isinstance(value, dict):
+        if "triggered" in value:
+            return bool(value.get("triggered"))
+        return False
+    return bool(value)
+
+
 def _b(value: Any) -> bool:
     if isinstance(value, bool):
         return value
@@ -334,22 +353,35 @@ def _merge_routing_packet(
     phase_state = _as_dict(symbolic.get("Φ_t"))
     D_t = _as_dict(symbolic.get("D_t"))
     normalized = _as_dict(_as_dict(pf2_preview.get("preview")).get("normalized_result"))
-    eps_values = [
-        selected.get("epsilon_s"),
-        D_t.get("epsilon_s"),
-        structural_drift.get("epsilon_s"),
-        normalized.get("epsilon_s"),
-    ]
-    eps = max(_f(v, 0.0) for v in eps_values if v is not None) if any(v is not None for v in eps_values) else 0.0
+    measured_eps = _as_dict(selected.get("measured_evolutionary_drift")).get("epsilon_s")
+    if measured_eps is not None:
+        eps = _number(measured_eps, 0.0)
+    else:
+        structural_eps = structural_drift.get("epsilon_s")
+        eps = _number(structural_eps if structural_eps is not None else D_t.get("epsilon_s"), 0.0)
     circuit = bool(
-        selected.get("circuit_breaker")
-        or D_t.get("circuit_breaker")
-        or structural_drift.get("circuit_breaker")
-        or normalized.get("circuit_breaker_open")
-        or normalized.get("circuit_breaker")
+        _flag(selected.get("circuit_breaker"))
+        or _flag(_as_dict(selected.get("measured_evolutionary_drift")).get("circuit_breaker"))
+        or _flag(D_t.get("circuit_breaker"))
+        or _flag(structural_drift.get("circuit_breaker"))
+        or _flag(normalized.get("circuit_breaker_open"))
+        or _flag(normalized.get("circuit_breaker"))
     )
     phase_path = _as_list(selected.get("phase_path")) or _as_list(selected.get("phase_path_hypothesis")) or _as_list(phase_state.get("phase_path_hypothesis"))
-    coherence_score = _f(selected.get("coherence_score") or selected.get("score") or selected.get("selected_coherence_score"), 0.0)
+    component = _f(_as_dict(selected.get("score_components")).get("coherence_score"), 0.0)
+    top = _f(selected.get("coherence_score") or selected.get("score") or selected.get("selected_coherence_score"), 0.0)
+    coherence_score = component if component > 0 else top
+    overextended = bool(selected.get("overextended") or selected.get("candidate_overextended"))
+    # 0.35 chi/quarantine and 0.80 hard stop are the mobile law. The router's 0.72 is reference only.
+    if circuit or eps > 0.80:
+        gate_route = "spc_cold_storage_required"
+        must_archive = True
+    elif overextended or eps > 0.35:
+        gate_route = ""
+        must_archive = False
+    else:
+        gate_route = "active_stack_dry_run_candidate"
+        must_archive = False
     packet = {
         **selected,
         "candidate_id": selected.get("candidate_id") or selected.get("id") or "patch271_candidate",
@@ -360,12 +392,17 @@ def _merge_routing_packet(
         "phase_state": phase_state,
         "drift_report": structural_drift,
         "protoforge2_drift_preview": normalized,
+        "overextended": overextended,
+        "candidate_overextended": overextended,
         "math_terms": {
             **_as_dict(selected.get("math_terms")),
             "circuit_breaker": circuit,
+            "chi_required": bool(eps > 0.35 and eps <= 0.80),
             "ghost_loop_pressure": _f(_as_dict(selected.get("math_terms")).get("ghost_loop_pressure"), 0.0),
         },
         "cold_storage_gate": {
+            "route": gate_route,
+            "must_archive": must_archive,
             "cold_storage_pressure": round(max(0.0, eps - 0.5), 4),
             "ghost_loop_pressure": _f(_as_dict(selected.get("cold_storage_gate")).get("ghost_loop_pressure"), 0.0),
         },
@@ -449,12 +486,198 @@ def _eligibility_checks(route_result: dict[str, Any], manifest_attempted: bool =
     }
 
 
+_MEANING_STOP = {
+    "the", "and", "for", "with", "from", "that", "this", "what", "which", "when",
+    "where", "who", "whom", "why", "how", "are", "was", "were", "you", "your",
+    "does", "did", "can", "could", "into", "about", "have", "has", "not", "but",
+}
+
+
+def _meaning_tokens(text: str) -> set[str]:
+    import re
+    return {w for w in re.findall(r"[a-z0-9]+", str(text or "").lower()) if len(w) > 2 and w not in _MEANING_STOP}
+
+
+def _meaning_coverage(question: str, text: str) -> float:
+    left = _meaning_tokens(question)
+    right = _meaning_tokens(text)
+    if not left:
+        return 0.0
+    return len(left & right) / len(left)
+
+
+def _recalled_nodes(trace_spine: dict[str, Any]) -> list[dict[str, Any]]:
+    recall = _as_dict(_as_dict(trace_spine.get("memory_recall")).get("memory_state"))
+    nodes = recall.get("active_memory_nodes")
+    return [n for n in nodes if isinstance(n, dict)] if isinstance(nodes, list) else []
+
+
+def _admitted_claim(question: str, trace_spine: dict[str, Any]) -> dict[str, Any]:
+    """Pick a verified recalled sentence that carries the question's meaning.
+
+    Quarantined research (low confidence, prior drift at or above 0.40) is not a claim.
+    It stays evidence until the admit gate passes on a later write.
+    """
+    best: dict[str, Any] = {}
+    best_score = 0.0
+    for node in _recalled_nodes(trace_spine):
+        prior = _number(node.get("prior_drift_score"), 0.0)
+        confidence = str(node.get("confidence") or "")
+        if prior >= 0.40 or confidence == "low":
+            continue
+        text = str(node.get("content_summary") or node.get("content") or "").strip()
+        score = _meaning_coverage(question, text)
+        if score > best_score:
+            best_score = score
+            best = {"text": text, "score": round(score, 6), "memory_id": node.get("memory_id"), "source": node.get("source")}
+    return best
+
+
+def _live_manifest(claim: str, phase_path: list[Any], epsilon: float, memory_id: str | None) -> dict[str, Any]:
+    mu = {
+        "claim": claim[:1600],
+        "phase_path": phase_path or ["Φ1"],
+        "operator_path": ["memory_recall", "coherence_scorer", "containment_router"],
+        "memory_links": [{"memory_id": memory_id or "recalled", "role": "admitted_evidence"}],
+        "confidence": 0.90,
+        "novelty": 0.20,
+        "drift_status": {
+            "status": "bounded",
+            "post_epsilon_s": round(float(epsilon), 6),
+            "pre_epsilon_s": round(float(epsilon), 6),
+            "semantic_distance": 0.20,
+            "memory_fit": 0.80,
+            "source_confidence": 0.80,
+        },
+        "projection_status": {"status": "not_projected"},
+        "output_targets": [{"target": "text"}],
+        "forbidden_claims": [],
+    }
+    return {
+        "manifest_compilation_allowed": True,
+        "manifest_packet": {
+            "manifest_symbol": "μ_t",
+            "manifest_id": "live_mu_" + _sha({"claim": claim[:240]}),
+            "μ_t": mu,
+        },
+    }
+
+
+def _claim_for_renderer(question: str, trace_spine: dict[str, Any], reasoning: dict[str, Any]) -> dict[str, Any]:
+    """Admitted memory is the claim until the reasoning seam is applied.
+
+    4.9.184 sets applied and derived_text. The renderer then speaks that text.
+    """
+    if reasoning.get("applied") is True:
+        text = str(reasoning.get("derived_text") or "").strip()
+        if text:
+            return {"text": text, "score": 1.0, "memory_id": "reasoning_seam", "source": "reasoning_seam"}
+    return _admitted_claim(question, trace_spine)
+
+
+def _run_late_stages(
+    question: str,
+    route_result: dict[str, Any],
+    trace_spine: dict[str, Any],
+    epsilon: float,
+    phase_path: list[Any],
+    reasoning: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Renderer, Echo, and memory writer. Sealed routes are executed as blocked, not skipped."""
+    stages: list[dict[str, Any]] = []
+    artifacts: dict[str, Any] = {}
+    reasoning = reasoning if isinstance(reasoning, dict) else {}
+    sealed = bool(route_result.get("is_sealed"))
+    render_allowed = bool(route_result.get("echo_validation_allowed")) and not sealed
+    claim = _claim_for_renderer(question, trace_spine, reasoning)
+    render_report: dict[str, Any] = {}
+    if not render_allowed:
+        stages.append(_stage_ok(
+            "output_renderer_eligibility_check",
+            {"executed": True, "rendering_allowed": False, "blocked": True, "reason": "sealed_or_unlawful_route_blocks_renderer", "route": route_result.get("route")},
+            executed=True,
+            reason="sealed_or_unlawful_route_blocks_renderer",
+        ))
+    elif not claim.get("text"):
+        stages.append(_stage_ok(
+            "output_renderer_eligibility_check",
+            {"executed": True, "rendering_allowed": False, "blocked": True, "reason": "no_admitted_memory_covers_the_question"},
+            executed=True,
+            reason="no_admitted_memory_covers_the_question",
+        ))
+    else:
+        try:
+            from rmc_engine_v1.output_renderer import render_output
+            manifest = _live_manifest(str(claim["text"]), phase_path, epsilon, claim.get("memory_id"))
+            render_report = _as_dict(render_output(manifest, audience_profile="operator", style_mode="standard", render_mode="text"))
+            artifacts["output_renderer"] = render_report
+            rendered = render_report.get("R_t") or _as_dict(render_report.get("render_packet")).get("R_t")
+            stages.append(_stage_ok(
+                "output_renderer_eligibility_check",
+                render_report,
+                executed=True,
+                rendered=bool(rendered),
+                calls_llm=False,
+            ))
+        except Exception as exc:
+            stages.append(_stage_error("output_renderer_eligibility_check", exc))
+    echo_report: dict[str, Any] = {}
+    rendered_text = str(render_report.get("R_t") or _as_dict(render_report.get("render_packet")).get("R_t") or "")
+    if not render_report or not rendered_text:
+        stages.append(_stage_ok(
+            "echo_validation_eligibility_check",
+            {"executed": True, "echo_validation_passed": False, "reason": "no_rendered_answer"},
+            executed=True,
+            reason="no_rendered_answer",
+        ))
+    else:
+        try:
+            from rmc_engine_v1.echo_validator import validate_echo
+            echo_report = _as_dict(validate_echo(render_report))
+            artifacts["echo_validator"] = echo_report
+            stages.append(_stage_ok(
+                "echo_validation_eligibility_check",
+                echo_report,
+                executed=True,
+                echo_validation_passed=bool(echo_report.get("echo_validation_passed")),
+                calls_llm=False,
+            ))
+        except Exception as exc:
+            stages.append(_stage_error("echo_validation_eligibility_check", exc))
+    write_allowed = bool(route_result.get("memory_write_allowed")) and not sealed and bool(echo_report.get("echo_validation_passed"))
+    if not write_allowed:
+        stages.append(_stage_ok(
+            "memory_write_eligibility_check",
+            {"executed": True, "memory_write_committed": False, "reason": "echo_or_route_blocks_memory_write"},
+            executed=True,
+            reason="echo_or_route_blocks_memory_write",
+        ))
+    else:
+        try:
+            from rmc_engine_v1.memory_writer import plan_memory_write
+            plan = _as_dict(plan_memory_write(echo_report))
+            artifacts["memory_writer"] = plan
+            stages.append(_stage_ok(
+                "memory_write_eligibility_check",
+                plan,
+                executed=True,
+                memory_write_committed=False,
+                calls_llm=False,
+            ))
+        except Exception as exc:
+            stages.append(_stage_error("memory_write_eligibility_check", exc))
+    artifacts["admitted_claim"] = claim
+    artifacts["rendered_answer"] = rendered_text
+    return stages, artifacts
+
+
 def run_deep_dry_run(
     source_text: str | None = None,
     source_metadata: dict[str, Any] | None = None,
     *,
     root: str | None = None,
     use_protoforge2_preview: bool = True,
+    execute_late_stages: bool = False,
 ) -> dict[str, Any]:
     """Run a read-only full-stack dry-run using installed RMC modules.
 
@@ -484,7 +707,7 @@ def run_deep_dry_run(
     trace_spine: dict[str, Any] = {}
     try:
         from rmc_engine_v1.memory_recaller import build_trace_spine
-        trace_value = build_trace_spine(source_text, source_metadata, root=root, limit=8)
+        trace_value = build_trace_spine(source_text, source_metadata, root=root, limit=48)
         trace_spine = _as_dict(trace_value)
         artifacts["trace_spine"] = trace_spine
         stages.append(_stage_ok("memory_recall_trace_spine", trace_spine))
@@ -641,9 +864,31 @@ def run_deep_dry_run(
     eligibility = _eligibility_checks(route_result)
     artifacts["eligibility"] = eligibility
     stages.append(_stage_ok("manifest_eligibility_check", eligibility, executed=False))
-    stages.append(_stage_skip("output_renderer_eligibility_check", "renderer_not_executed_in_patch271_dry_run", output_renderer_allowed=False))
-    stages.append(_stage_skip("echo_validation_eligibility_check", "echo_not_executed_in_patch271_dry_run", echo_validation_allowed=eligibility.get("echo_validation_allowed")))
-    stages.append(_stage_skip("memory_write_eligibility_check", "memory_write_not_executed_in_patch271_dry_run", memory_write_allowed=eligibility.get("memory_write_allowed")))
+    from rmc_engine_v1.reasoning_seam import run_reasoning_seam
+    recall_state = _as_dict(_as_dict(trace_spine.get("memory_recall")).get("memory_state"))
+    recalled = int(recall_state.get("active_memory_count") or 0)
+    reasoning = run_reasoning_seam(source_text, {"active": recalled, "active_memory_count": recalled})
+    artifacts["reasoning_seam"] = {k: v for k, v in reasoning.items() if k != "memory"}
+    if execute_late_stages:
+        phase_path = _as_list(routing_packet.get("phase_path"))
+        late_stages, late_artifacts = _run_late_stages(
+            source_text,
+            route_result,
+            trace_spine,
+            _number(routing_packet.get("epsilon_s"), 0.0),
+            phase_path,
+            reasoning,
+        )
+        stages.extend(late_stages)
+        artifacts.update(late_artifacts)
+        eligibility = dict(eligibility)
+        eligibility["output_renderer_executed"] = bool(late_artifacts.get("rendered_answer"))
+        eligibility["late_stages_executed"] = True
+        artifacts["eligibility"] = eligibility
+    else:
+        stages.append(_stage_skip("output_renderer_eligibility_check", "renderer_not_executed_in_patch271_dry_run", output_renderer_allowed=False))
+        stages.append(_stage_skip("echo_validation_eligibility_check", "echo_not_executed_in_patch271_dry_run", echo_validation_allowed=eligibility.get("echo_validation_allowed")))
+        stages.append(_stage_skip("memory_write_eligibility_check", "memory_write_not_executed_in_patch271_dry_run", memory_write_allowed=eligibility.get("memory_write_allowed")))
 
     violations = _detect_forbidden_effect_violations(stages, artifacts, route_result, eligibility)
     completed = not violations and bool(route_result)

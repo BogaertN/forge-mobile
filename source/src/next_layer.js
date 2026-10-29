@@ -1,10 +1,10 @@
-/* Next-layer switches. Both stay in the shell. Default on, so today's tests and screens keep working.
+/* Next-layer switches. Both stay in the shell. Default off.
  * dream_idle explores novel ideas from cold storage.
  * economy credits each KB contributor so a false entry can be traced to whoever added it.
- * Neither switch is the Ask reply. */
+ * Neither switch is the Ask reply. Money stays disabled. */
 (function (root) {
 'use strict';
-const SWITCHES = { dream_idle: true, economy: true };
+const SWITCHES = { dream_idle: false, economy: false };
 function enabled(name) { return SWITCHES[name] !== false; }
 function set(name, on) { if (Object.prototype.hasOwnProperty.call(SWITCHES, name)) SWITCHES[name] = on !== false; return enabled(name); }
 const ABOUT = {

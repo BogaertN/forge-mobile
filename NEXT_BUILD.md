@@ -1,3 +1,9 @@
+# Next build order — after 4.9.183 (RMC is Ask)
+
+**Shipped here:** Ask calls `rmc_engine_v1.rmc_core.run` with stages 14–16 on. `dry_run` still skips those stages. Echo scores the rendered answer against the question's meaning at 0.85. Web excerpts stay quarantined until admit. C_min stays 0.87. The 60-question set moves off `spc_cold_storage_required` and stays held because C stays under 0.87. `dream_idle` and `economy` default off. The old JS reply functions remain and are not called from Ask. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** Deleting the bypassed JS answer path is a later phase. 4.9.184 replaces `rmc_engine_v1.reasoning_seam.run_reasoning_seam` with world-model Derive and an EchoForge debate on the language core. That function is the slot between recall and the renderer. This release leaves it unapplied.
+
 # Next build order — after 4.9.182 (rmc foundations)
 
 **Shipped here:** foundations only. `rmc_engine_v1.rmc_core` runs `run_deep_dry_run`, feeds receipts and KB into the memory recaller, records thresholds, and returns a trace. A world-model seam between recall and the admit gate does not apply. The Pyodide worker can mount the engine bundle. The existing Ask path is unchanged. No LLM. Packs stay gated.

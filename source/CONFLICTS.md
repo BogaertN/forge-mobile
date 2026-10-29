@@ -1,3 +1,11 @@
+## v4.9.183 — RMC is the Ask path (2026-10-29 America/Chicago)
+
+**Conflict:** The dry run recorded a trace beside the JS reply. Stages 14–16 were skipped. Echo scored a placeholder, so it was 0.0. `dream_idle` and `economy` defaulted on. Recall of three generic rows left every question on `spc_cold_storage_required`.
+
+**Where:** `rmc_core.run` with `live: true` runs the renderer, Echo, and the memory-writer plan. Ask in `src/app.js` shows that result. `dry_run` keeps the skip. Echo coverage uses `echo_min` 0.85. `src/next_layer.js` defaults both switches off. Admitted seed text is `data/ask_183_memory.json`. The wiring is `docs/WIRING_183.md`. The table is `docs/LIVE_TEST_183.md`.
+
+**Resolution:** The engine is the answer path. A rendered answer is shown only when drift, C_min 0.87, and Echo all pass. On this set C tops out at 0.836, so the screen says Held and shows the trace. Web text stays quarantined. ChristPing is not started from Ask. The JS reply functions in `forge.js`, `kernel.js`, `derive.js`, and `claim_parse.js` are bypassed and not deleted. `reasoning_seam.run_reasoning_seam` sits between recall and the renderer, applied false. 4.9.184 replaces that function with world-model Derive and an EchoForge debate on the language core. No LLM. Packs stay gated. Money stays disabled.
+
 ## v4.9.182b — dry runs (2026-10-29 America/Chicago)
 
 **Conflict:** The foundations core had not yet been run live in the browser against the same Python package. Echo was not yet defined as closeness to the original question. dream_idle and economy are next-layer features and were not marked as switches.

@@ -85,57 +85,79 @@ function traceHTML(r) { const t = r.trace, f = r.forge || {}; const rows = o => 
   if (f.msm) h += '<details><summary>reconstructed Doc 2 / MSM-v1</summary><pre>' + esc(JSON.stringify(f.msm, null, 1)) + '</pre></details>';
   return h + '</div>'; }
 let lastResult = null; const stats = { routed: 0, held: 0, refused: 0, approval: 0 };
-function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
+/* Ask no longer speaks from forge.process. That JS answer path is still in the tree
+ * (forge.js process, kernel realization, derive.js research realizer, claim_parse matchAsk).
+ * Deletion is a later phase. This screen shows the engine reply or an honest hold. */
+async function askMemory() {
+  const memory = { receipts: [], phone: [], hosted: [], research: [] };
+  try {
+    if (!window.ASK_183_MEMORY) {
+      const res = await fetch('data/ask_183_memory.json', { credentials: 'omit' });
+      window.ASK_183_MEMORY = res.ok ? await res.json() : { receipts: [], phone: [], hosted: [] };
+    }
+    const seed = window.ASK_183_MEMORY || {};
+    memory.receipts = (seed.receipts || []).slice();
+    memory.phone = (seed.phone || []).slice();
+    memory.hosted = (seed.hosted || []).slice();
+  } catch (e) { /* a missing seed leaves the phone stores */ }
+  try {
+    const view = forge.sharedKnowledgeView && forge.sharedKnowledgeView();
+    memory.hosted = memory.hosted.concat(((view && view.admitted) || []).slice(-12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400) })));
+    const phone = forge.store.load('confirmed_shared');
+    memory.phone = memory.phone.concat(((phone && phone.facts) || []).slice(0, 12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400) })));
+    memory.receipts = memory.receipts.concat((forge.store.load('receipts') || []).slice(-8).map(row => ({ id: row.receipt_id, text: String(row.input || '').slice(0, 240) })));
+  } catch (e) { /* stores can be empty on first open */ }
+  return memory;
+}
+async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
-  let r; try { r = forge.process(text); } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
-  lastResult = r; if (r.sealing) r.sealing.then(() => { if ($('#vault').classList.contains('on')) renderVault(); }); const kd = resultKind(r); stats[{ deterministic_route: 'routed', deterministic_hold: 'held', refused_or_question: 'refused', approval_required: 'approval', proposal_plan: 'routed' }[kd]]++;
-  const body = r.blocked ? '⛔ Output blocked. ' + esc(r.block_reason) : esc(r.reply);
-  const pkt = r.turn_packet || (r.trace && r.trace.turn_packet);
-  const gate = pkt && pkt.gate;
-  const gateTag = gate && gate.state ? '<span class="tag doc6" data-doc6-state="' + esc(gate.state) + '">' + esc(gate.label) + '</span>' : '';
-  const gst = String((gate && gate.state) || (r.outcome && r.outcome.class) || '').toLowerCase();
-  const next = (/unsupported|clarification-required|ambiguity|action_blocked|refuse|blocked/.test(gst) || r.blocked)
-    ? '<div class="next-step" data-next-step>rephrase · Ideas · Audit · Remember</div>' : '';
-  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.blocked ? ' blocked' : '') + '"><span class="kind ' + kd + '">' + kd + '</span>' + (r.trace.drift ? '<span class="tag">ε_s ' + r.trace.drift.eps_s + ' ' + esc(r.trace.drift.band) + '</span>' : '') + '<span class="tag">Echo ' + (r.trace.echo ? (r.trace.echo.pass ? '✓' : '✗') : '—') + '</span>' + gateTag + (r.forge && r.forge.gates ? '<span class="tag">' + esc(r.forge.gates.eligibility) + '</span>' : '') + '<div>' + body + '</div>' + next + (pkt && window.KTurnPacket ? KTurnPacket.receiptCard(pkt) : '') + '<div class="flags">' + AB(r.forge) + '</div><details><summary>Trace</summary>' + traceHTML(r) + '</details></div>');
-  { const px = r.trace && (r.trace.rules || []).find(x => x.id === 'PROOF-EXPORT'), b = px && forge.proofExports && forge.proofExports().slice(-1)[0]; /* 4.9.44: the chat export is downloadable (same Blob pattern as the Export button) */
-    if (b && b.sha256 && b.sha256.indexOf(px.note) === 0) { const u = (t, ty) => URL.createObjectURL(new Blob([t], { type: ty })), n = 'forge-proof-' + b.sha256.slice(0, 12);
-      log.lastElementChild.insertAdjacentHTML('beforeend', '<div class="small"><a download="' + n + '.json" href="' + u(JSON.stringify(b, null, 1), 'application/json') + '">Download proof (JSON)</a> · <a download="' + n + '.html" href="' + u(KKnow.proofHTML(b), 'text/html') + '">Download report (HTML)</a></div>'); } }
-  log.lastElementChild.scrollIntoView({ block: 'end' }); if (window.afterSay) window.afterSay(r, log.lastElementChild); showRmcDry(text); refreshChrome(); return r; }
-function showRmcDry(text) {
+  let row;
+  try {
+    const memory = await askMemory();
+    if (window.KPipeline && KPipeline.researchExcerpt) {
+      try {
+        const hit = await KPipeline.researchExcerpt(text, { fetch: window.fetch ? window.fetch.bind(window) : null });
+        if (hit && hit.excerpt) memory.research.push({ id: 'web-' + memory.research.length, text: String(hit.excerpt).slice(0, 500), quarantined: true });
+      } catch (e) { /* a missing fetch stays quarantined-empty; it is not an answer */ }
+    }
+    if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
+    else row = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
+  } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
+  lastResult = row;
+  const admitted = !!(row && row.product_reply && row.reply);
+  const kd = admitted ? 'deterministic_route' : 'deterministic_hold';
+  stats[admitted ? 'routed' : 'held']++;
+  const echo = row && row.echo || {};
+  const admit = row && row.admit && row.admit.disposition;
+  const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + '.';
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span><div data-ask-body>' + body + '</div><div class="flags">no LLM · packs gated · money disabled</div></div>');
+  log.lastElementChild.scrollIntoView({ block: 'end' });
+  renderRmc(text, row);
+  refreshChrome();
+  return row; }
+function renderRmc(text, row) {
   const host = $('#rmcLive'), body = $('#rmcLiveBody');
-  if (!host || !body || !window.KRMCCore || !KRMCCore.run) return;
+  if (!host || !body) return;
   host.hidden = false;
-  host.setAttribute('data-ready', '0');
-  body.textContent = 'RMC dry-run loading…';
-  let memory = { receipts: [], phone: [], hosted: [] };
-  if (window.RMC_DRY_MEMORY) memory = window.RMC_DRY_MEMORY;
-  else try {
-    const view = forge.sharedKnowledgeView && forge.sharedKnowledgeView();
-    memory.hosted = ((view && view.admitted) || []).slice(-12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 240) }));
-    const phone = forge.store.load('confirmed_shared');
-    memory.phone = ((phone && phone.facts) || []).slice(0, 12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 240) }));
-    memory.receipts = (forge.store.load('receipts') || []).slice(-8).map(row => ({ id: row.receipt_id, text: String(row.input || '').slice(0, 240) }));
-  } catch (e) { memory = { receipts: [], phone: [], hosted: [] }; }
-  KRMCCore.run({ question: text, memory: memory }).then(row => {
-    window.RMC_DRY_LAST = row;
-    window.RMC_DRY_LOG = window.RMC_DRY_LOG || [];
-    window.RMC_DRY_LOG.push({ question: text, row: row });
-    const stages = (row && row.stages) || [];
-    const pills = stages.map(s => '<span class="tag" data-stage="' + esc(s.stage_id) + '" data-status="' + esc(s.status) + '">' + s.n + ' ' + esc(s.status) + '</span>').join(' ');
-    const late = ((row && row.late_stages) || []).map(s => esc(s.n + ' ' + s.stage_id + ' ' + s.status + (s.reason ? ' · ' + s.reason : ''))).join('<br>');
-    const echo = row && row.echo || {};
-    const phase = row && row.trace && row.trace.phase || {};
-    body.innerHTML = '<div data-rmc-question>' + esc(text) + '</div>'
-      + '<div class="meta" data-rmc-summary>route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(row && row.admit && row.admit.disposition) + ' · recall ' + esc(row && row.active_memory_count) + '</div>'
-      + '<div data-rmc-stages>' + pills + '</div>'
-      + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
-      + '<div class="meta" data-rmc-late>' + late + '</div>'
-      + '<div class="meta">This trace is not the Ask reply. Stages 14–16 stay skipped in the dry run.</div>';
-    host.setAttribute('data-ready', '1');
-  }).catch(err => { body.textContent = 'RMC dry-run failed: ' + err.message; host.setAttribute('data-ready', 'error'); });
+  const stages = (row && row.stages) || [];
+  const pills = stages.map(s => '<span class="tag" data-stage="' + esc(s.stage_id) + '" data-status="' + esc(s.status) + '">' + s.n + ' ' + esc(s.status) + '</span>').join(' ');
+  const late = ((row && row.late_stages) || []).map(s => esc(s.n + ' ' + s.stage_id + ' ' + s.status + (s.reason ? ' · ' + s.reason : ''))).join('<br>');
+  const echo = row && row.echo || {};
+  const phase = row && row.trace && row.trace.phase || {};
+  body.innerHTML = '<div data-rmc-question>' + esc(text) + '</div>'
+    + '<div class="meta" data-rmc-summary>route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(row && row.admit && row.admit.disposition) + ' · recall ' + esc(row && row.active_memory_count) + '</div>'
+    + '<div data-rmc-stages>' + pills + '</div>'
+    + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
+    + '<div class="meta" data-rmc-late>' + late + '</div>'
+    + '<div class="meta">' + (row && row.product_reply ? 'Admitted answer from the RMC renderer.' : 'Held. This card is the trace. Stages 14–16 ran.') + '</div>';
+  host.setAttribute('data-ready', '1');
+  window.RMC_DRY_LAST = row;
+  window.RMC_DRY_LOG = window.RMC_DRY_LOG || [];
+  window.RMC_DRY_LOG.push({ question: text, row: row });
 }
 window.say = say;
+window.renderRmc = renderRmc;
 $('#f').onsubmit = e => { e.preventDefault(); const v = $('#q').value.trim(); if (v) { say(v); $('#q').value = ''; } };
 { const ask = $('#f') && $('#f').parentElement; if (ask && !$('#exportTurnBtn')) { const bar = document.createElement('div'); bar.className = 'bar'; bar.innerHTML = '<button type="button" id="exportTurnBtn" data-export-turn>Export turn packet</button>'; ask.appendChild(bar); } }
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-export-turn]'); if (!b || !forge.exportTurnPacket) return; const raw = b.getAttribute('data-export-turn'); const card = b.closest('[data-receipt-type]');
@@ -144,7 +166,8 @@ $('#q').onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefa
 function refreshChrome() { const m = forge.meta(); const facts = forge.memory().filter(r => r.kind !== 'note').length; const rs = forge.receipts();
   $('#statusBadges').innerHTML = [['Status', lexState.core === 'ok' ? 'ONLINE' : 'LOADING'], ['Trust', 'no LLM · deterministic'], ['Commands', 'all turns via kernel · legacy LLM refused ' + KSpine.LEGACY_LLM.length], ['Next', m.pending ? 'answer the pending question' : 'ask anything']].map(([k, v]) => '<span class="sb"><b>' + k + '</b> ' + esc(v) + '</span>').join('');
   $('#authBoundary').innerHTML = AB(lastResult && lastResult.forge) + '<div class="small" style="width:100%">Understanding is not authorization. Memory writes only on "remember…" or a confirmed "yes".</div>';
-  $('#railState').innerHTML = esc('turns ' + (m.turn || 0) + ' · facts ' + facts + ' · receipts ' + rs.length) + '<br>' + esc('routed ' + stats.routed + ' · held ' + stats.held + ' · approval ' + stats.approval + ' · refused ' + stats.refused) + '<br>' + esc('drift ' + (m.last ? m.last.eps_s + ' ' + m.last.band : '—') + ' · χ ' + (m.chi || 0)); }
+  const driftShown = lastResult && lastResult.drift != null ? lastResult.drift : (m.last ? m.last.eps_s + ' ' + m.last.band : '—');
+  $('#railState').innerHTML = esc('turns ' + (m.turn || 0) + ' · facts ' + facts + ' · receipts ' + rs.length) + '<br>' + esc('routed ' + stats.routed + ' · held ' + stats.held + ' · approval ' + stats.approval + ' · refused ' + stats.refused) + '<br>' + esc('drift ' + driftShown + ' · χ ' + (m.chi || 0)); }
 function renderVault() { const mem = forge.memory().filter(r => r.kind !== 'note'); const me = mem.filter(r => !r.clause.coord && r.subjKey && /^(user|user:|name:)/.test(String(r.subjKey)) || (r.entities || []).some(k => /^user/.test(k)));
   const st = forge.vault.status(); $('#vaultState').textContent = st === 'none' ? 'no passphrase' : st; $('#vaultGo').textContent = st === 'none' ? 'Create vault' : 'Unlock'; renderVaultReset(st); const entries = forge.vault.entries().filter(e => (e.kind || 'secret') === 'secret');
   $('#vaultList').innerHTML = '<h3>About you (' + me.filter(r => !r.sensitive).length + ')</h3>' + (me.filter(r => !r.sensitive).map(r => '<div class="rec">' + esc(KKernel.renderClause(r.clause)) + '<div class="meta">' + esc(r.id + ' · turn ' + r.provenance.turn) + '</div></div>').join('') || '<div class="meta">nothing yet — try “remember that my name is …”</div>') +
