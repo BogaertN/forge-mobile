@@ -1,3 +1,11 @@
+# Next build order — after 4.9.173 (shipped)
+
+**Baseline:** 4.9.173 custody monitor on the 4.9.172 always-on mesh. The phone Custody tab reads live Athena research/admit and Gilligan cold/novel status plus hosted KB counts. Ask pauses helpers, then they resume. Phone letter packs stay gated. The portable single file does not inline `dream_idle.js`. No LLM. Soft leave ≥5 kB under 570 kB.
+
+**Shipped 4.9.173:** Custody screen and Ask strip. Web home-screen icon (192/512). `verify/r4173_suite.js`. Tools marketplace is not in this ship (hook comment on Tool Bench only).
+
+**Do not start:** a tools marketplace; an access/write-key UI; an OS process pool; a model call; stuffing phone letter packs from the monitor; a phone dream KB.
+
 # Next build order — after 4.9.172 (shipped)
 
 **Baseline:** 4.9.172 always-on workers on the 4.9.171 mesh. Athena researches continuously and writes a lawful promote into the hosted session KB with no UI click. Gilligan re-curates cold storage. ChristPing is Gilligan-only (`GRACE-RECENTER` on drift above 0.80, noisy claim not admitted). Ask pauses helpers, then they resume. Quarantine does not write `confirmed_shared` and does not spend the spawn window. Phone pack publish stays gated. No LLM. Soft leave ≥5 kB under 570 kB.

@@ -167,6 +167,10 @@ def slim(m, s):
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
+    if m == 'src/dream_idle.js':
+        # 4.9.173: the site custody screen loads this mesh. The portable single file does not inline it (gzip leave ≥5 kB under 570 kB).
+        h = h.replace('<script src="' + m + '"></script>', '', 1)
+        continue
     # documentation-only block comments that occupy whole lines are dropped from the single-file build (sources and the site keep them)
     # ... and so are one-line ' /* note */' comments (space-delimited, quote-balanced prefix only; a line with an odd quote count keeps its comment)
     js = re.sub(r'(?m)^[ \t]*/\*(?:[^*]|\*(?!/))*\*/[ \t]*\n', '', slim(m, SRC(m)))  # the block may not run past its own '*/' (4.9.87: a note that opened a line and closed mid-line swallowed code up to the next line-final '*/')
