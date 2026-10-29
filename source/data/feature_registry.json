@@ -1,5 +1,5 @@
 {
- "version": "4.9.179",
+ "version": "4.9.180",
  "features": [
   {
    "id": "A-01",
@@ -3683,13 +3683,24 @@
    "proof": [
     "R4179"
    ]
+  },
+  {
+   "id": "R4180-ATHENA-DOC",
+   "name": "Athena document tools, admit parse, and the ProtoForge definition",
+   "source": "CONFLICTS.md v4.9.180; Athena AI User Guide 1cAGNfVakKlS-mGFb59BAnalJRomDc-w7Vf3Ys1nU6nI; ProtoForge Codex Vol I and Vol II",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Seventeen Athena-guide tools run on the learning loop. Sixty-seven rows stay skipped. A fetched sentence is cleaned, split, and normalized to a subject-predicate core before Athena admits it. Drift at or under 0.35 may promote. Above 0.80 is a hard stop. Community nodes do not publish packs. Bleach mixed with ammonia is spoken as chloramine gas. ProtoForge answers from a local definition. No LLM.",
+   "proof": [
+    "R4180"
+   ]
   }
  ],
- "count": 336,
+ "count": 337,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 174,
+  "Partial": 175,
   "Missing": 9,
   "Out of scope / parked": 13
  }

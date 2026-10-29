@@ -2685,7 +2685,16 @@ function Kernel(opts) {
         try { const lp0 = lookupPlan(raw); publicResearch = publicResearch || !!(lp0 && ((lp0.domains && lp0.domains.length) || lp0.atype === 'description' || lp0.formula)); } catch (e) { /* plan optional */ }
         if (!publicResearch) publicResearch = /^(what|who|where|when)\b/i.test(String(raw).trim()) || /^(how\s+(do|does|did|can|could|would|should|to|is|are|was|were))\b/i.test(String(raw).trim());
         /* 4.9.179: a public how-state question with no stored fact is research.web. Q-WH-HOW-ADJ never fired. The vault lock does not replace the answer. */
-        if (publicResearch) {
+        const pfMod = isNode ? require('./claim_parse.js') : root.KClaimParse;
+        const pfLocal = pfMod && pfMod.localDefine ? pfMod.localDefine(raw) : null;
+        if (pfLocal) {
+          trace.rules.push(pfLocal.rule);
+          msm.meaning = pfLocal.meaning;
+          sel.frame = 'FR.DEFINE';
+          sel.toolRequest = null;
+          msm.limits.may_write_memory = false;
+          routeOf();
+        } else if (publicResearch) {
           sel.toolRequest = Object.assign({ tool: 'research.web', input: raw.replace(/[?\s]+$/, ''), auto: true }, rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {});
           sel.frame = 'FR.TOOL.RESEARCH';
           msm.meaning = Object.assign({ kind: 'tool_started', tool: 'research.web', target: dirObj || raw.replace(/[?\s]+$/, ''), noun: dirObj ? 'topic' : 'question', local: vst !== 'unlocked' }, gm.subj ? { subj: gm.subj } : {}, (np => np && !genericYou ? { np } : {})(subjectNP(raw)), rpmcPriors && rpmcPriors.recs && rpmcPriors.recs.length ? { rpmc_priors: rpmcPriors } : {});

@@ -20,6 +20,8 @@
   const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
   const Codex = isNode ? require('./gilligan_codex.js') : root.KGilliganCodex;
   const Spine = isNode ? require('./forge_spine.js') : root.KSpine;
+  const ClaimParse = isNode ? require('./claim_parse.js') : root.KClaimParse;
+  const AthenaDoc = isNode ? require('./athena_doc.js') : root.KAthenaDoc;
   const SCHEMA = 'FORGE-IDLE-DREAM/v1';
   const PACKET_SCHEMA = 'FORGE-RESONANCE-PACKET/v1';
   const CITE = 'RPMC §1 RPM; Axiom 4; §3.4 Grace Integral; RSOC SFE {Φ,ε,μ}';
@@ -52,7 +54,8 @@
     rmc_10_8: '1COtSEuXYxfgfomzDBu99jrnaHoLWuIM79WVUy-glq54',
     harmonic_viii: '1eLLPI6U95TrmSXBsQhl2Jk2JBdu1lRgsHJfEE8H9hCE',
     coherence: '1q5JcF-v1M2plJ500UcKxRHRM1fRbt1RCzc-AXjuoReE',
-    gilligan_codex: '1hbLsNhrEeeomonxkHAUjEkw4tXsHllcnuUzx8Mv8hOM'
+    gilligan_codex: '1hbLsNhrEeeomonxkHAUjEkw4tXsHllcnuUzx8Mv8hOM',
+    athena_doc: '1cAGNfVakKlS-mGFb59BAnalJRomDc-w7Vf3Ys1nU6nI'
   });
   const CHRIST_RULES = Object.freeze(['CHRIST-PING', 'CHRIST-PING-REDIRECT', 'CHRIST-PING-GILLIGAN-ONLY', 'CHRIST-PING-NOT-HARD', 'GRACE-RECENTER']);
   const norm = t => String(t || '').toLowerCase().replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
@@ -72,7 +75,7 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.179', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, gilligan_codex: true, forge2: true, psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.180', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, gilligan_codex: true, forge2: true, athena_doc: true, claim_parse: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
@@ -324,10 +327,14 @@
     raw = raw || {};
     const meaning = raw.meaning || (raw.trace && raw.trace.msm && raw.trace.msm.meaning) || raw;
     if (crawlShaped(raw) || crawlShaped(meaning)) return { ok: false, rule: (raw.calls_llm === true || meaning.calls_llm === true || llmShaped(raw) || llmShaped(meaning)) ? 'DREAM-LLM-REFUSED' : 'DREAM-OPEN-CRAWL-REFUSED', gap: null, calls_llm: false };
-    if (meaning.kind === 'tool_failed' || meaning.kind === 'tool_started' || meaning.nofit === true) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
-    const claim = String((meaning.generated && meaning.generated.text) || meaning.claim || meaning.excerpt || '').trim().replace(/[.]+$/, '');
+    if (meaning.kind === 'tool_failed' || meaning.kind === 'tool_started' || meaning.nofit === true || meaning.unsupported === true) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
+    const intake = meaning.assimilation && meaning.assimilation.intake;
+    if (intake === 'contested' || intake === 'hard_stop') return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
+    let claim = String((meaning.generated && meaning.generated.text) || meaning.claim || meaning.excerpt || '').trim().replace(/[.]+$/, '');
+    if (ClaimParse && ClaimParse.cleanHtml) claim = ClaimParse.cleanHtml(claim).replace(/[.]+$/, '');
     if (!claim) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
-    let eps = meaning.generated && Number.isFinite(Number(meaning.generated.drift)) ? Number(meaning.generated.drift) : (Number.isFinite(Number(raw.eps)) ? Number(raw.eps) : null);
+    const chosen = raw.trace && raw.trace.research && raw.trace.research.chosen;
+    let eps = meaning.generated && Number.isFinite(Number(meaning.generated.drift)) ? Number(meaning.generated.drift) : (Number.isFinite(Number(raw.eps)) ? Number(raw.eps) : (chosen && Number.isFinite(Number(chosen.drift)) ? Number(chosen.drift) : (meaning.assimilation && Number.isFinite(Number(meaning.assimilation.drift)) ? Number(meaning.assimilation.drift) : null)));
     if (eps != null) eps = KM.r4(Math.max(0, eps));
     const integrity = eps != null ? KM.r4(Math.min(1, Math.max(0, 1 - eps))) : (Number.isFinite(Number(raw.integrity)) ? KM.r4(Number(raw.integrity)) : null);
     if (integrity == null) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
@@ -932,6 +939,7 @@
     let answering = false;
     const gaps = new Map();
     const codex = Codex && Codex.createCodex ? Codex.createCodex({ clock: now }) : null;
+    const athenaDoc = AthenaDoc && AthenaDoc.create ? AthenaDoc.create({ store: (opts.host && opts.host.store) || null, publishPacks: opts.publishPacks === true, clock: now }) : null;
     const athena = createAthena({
       clock: now, answering: () => answering, budget: opts.budget,
       onReintegrate: row => {
@@ -1086,6 +1094,7 @@
         gilligan: { role: 'gilligan', duty: 'cold_revisit_re_curate', runs: 'always_on', cold_recurate: pulse.cold_recurate, cold_keep: pulse.cold_keep, cold_quiet: pulse.cold_quiet, novel_ticks: pulse.novel, novel_open: novelOpen, christ_pings: pulse.christ, admits: pulse.gilligan_admits, last: pulse.last_cold },
         kb: { count: kbN, delta: delta, admits: pulse.athena_admits + pulse.gilligan_admits, hosted: true, phone_db: false, pack_stuffed: pulse.packs > 0 },
         codex: codex ? codex.dashboard() : null,
+        athena_doc: athenaDoc ? athenaDoc.view() : null,
         last_step: pulse.last_step
       };
     }
@@ -1108,6 +1117,7 @@
         return { ok: true, ran: false, schema: SCHEMA, rule: 'DREAM-HELPER-OWNS-GAP', calls_llm: false };
       }
       const gap = queue.shift();
+      if (athenaDoc && gap && gap.question) athenaDoc.interact(gap.question);
       const raw = researchGap(gap);
       const routed = routeMeasurement(raw);
       let codexTrace = null;
@@ -1119,7 +1129,7 @@
         });
         if (codexTrace && codexTrace.resurrection && codexTrace.resurrection.gap) enqueue([codexTrace.resurrection.gap]);
       }
-      const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false, codex: codexTrace ? codexTrace.public : null }, routed);
+      const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false, codex: codexTrace ? codexTrace.public : null, athena_doc: athenaDoc ? athenaDoc.pass({ eps: routed.eps, claim: routed.claim }) : null }, routed);
       try { rec.forge2 = loopSeal(routed.claim || gap.question || gap.id, now()); }
       catch (e) { rec.forge2 = { ok: false, rule: 'FORGE2-SEAL-FAILED', detail: String(e && e.message || e).slice(0, 180), calls_llm: false }; }
       if (routed.lane === 'hard_reject') {
@@ -1213,8 +1223,14 @@
       if (!host || typeof host.writeSharedKnowledge !== 'function') return refusal('DREAM-IDLE-NO-HOST', { packet: pkt });
       const key = o.writeKey || o.write_key || '';
       if (!key) return refusal('SHARED-KB-WRITE-KEY-REQUIRED', { packet: pkt });
-      const claim = String(rec.claim || '').trim();
+      let claim = String(rec.claim || '').trim();
       if (!claim) return refusal('DREAM-IDLE-NO-CLAIM', { packet: pkt });
+      if (ClaimParse && host && typeof host.reparseClause === 'function' && typeof host.renderClause === 'function') {
+        const parsed = ClaimParse.admitText(claim, t => { try { return host.reparseClause(t); } catch (e) { return null; } }, c => { try { return host.renderClause(c); } catch (e) { return ''; } });
+        if (!parsed || !parsed.text) return refusal('unparsed', { packet: pkt });
+        claim = String(parsed.text).replace(/\.+$/, '').trim();
+        rec.claim = claim;
+      }
       const pub = packPublishPlan(opts, o);
       const letter = claimLetter(claim);
       if (pub.enabled) {
@@ -1251,6 +1267,7 @@
       }
       rec.status = 'admitted';
       rec.truth_support_allowed = true;
+      if (athenaDoc && athenaDoc.noteAdmit) rec.athena_doc = athenaDoc.noteAdmit(Object.assign({}, rec, { claim: claim, eps: pkt && pkt.sfe ? pkt.sfe.eps : rec.eps, packet: pkt }));
       return {
         ok: true, calls_llm: false, wrote_confirmed_shared: true, wrote_pack: published.wrote_pack === true,
         shared_kb: true, phone_db: false, rule: 'DREAM-IDLE-ADMITTED', packet: pkt, sfe: row.sfe, id: row.id,
@@ -1347,7 +1364,7 @@
         const g = gaps.get(id);
         return g ? Object.assign({}, g, { integrations: (g.integrations || []).map(x => Object.assign({}, x)) }) : null;
       },
-      codex: codex
+      codex: codex, athenaDoc: athenaDoc
     };
   }
 

@@ -1,6 +1,6 @@
 {
  "schema": "FORGE-MATH-HONESTY/v1",
- "release": "4.9.179",
+ "release": "4.9.180",
  "product_claim": false,
  "proven_cognition": false,
  "honesty": {
@@ -402,7 +402,7 @@
   "os_process_pool": false,
   "integrity_high": 0.85,
   "integrity_meter": "when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.",
-  "note": "4.9.179 Forge2 seals run on the 4.9.178 learning loop. A measured Ask is admitted and later recalled. ChristPing stays Gilligan-only and is not deferred. Drift at or under 0.35 may promote. Above 0.80 is a hard stop. Token payouts and biometric sensors stay refused. Phone pack publish stays gated. The portable single file does not inline the mesh, the pipeline tools, the Forge tools, or the Codex. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only. Pattern Reflection is not the Codex.",
+  "note": "4.9.180 Athena document tools and claim parse sit on the 4.9.179 learning loop. A fetched sentence that round-trips is admitted and later recalled. ChristPing stays Gilligan-only and is not deferred. Drift at or under 0.35 may promote. Above 0.80 is a hard stop. Token payouts and biometric sensors stay refused. Phone pack publish stays gated. The portable single file does not inline the mesh, the pipeline tools, the Forge tools, the Codex, or the Athena document. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only. Pattern Reflection is not the Codex.",
   "where": [
    "src/gilligan_codex.js",
    "src/dream_idle.js",
