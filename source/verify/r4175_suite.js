@@ -180,7 +180,8 @@ T('phone access holds the key in the session, packs stay gated, and the portable
   if (fs.existsSync(single)) {
     const gz = zlib.gzipSync(fs.readFileSync(single)).length;
     expect(gz <= 570000 - 5000, 'gzip leave ' + (570000 - gz));
-    expect(!/pipeline_tools/.test(fs.readFileSync(single, 'utf8')) && !/dream_idle/.test(fs.readFileSync(single, 'utf8')), 'portable file');
+    const packed = fs.readFileSync(single, 'utf8');
+    expect(!/FORGE-PIPELINE-TOOLS/.test(packed) && !/FORGE-IDLE-DREAM/.test(packed), 'portable file does not inline the tools');
   }
 });
 
