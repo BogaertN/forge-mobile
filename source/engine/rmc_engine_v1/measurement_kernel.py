@@ -627,23 +627,34 @@ def memory_relation(candidate: dict[str, Any], nodes: list[dict[str, Any]], cand
 
 
 def infer_task_type(candidate: dict[str, Any], trace_or_report: dict[str, Any] | None = None) -> str:
-    text = " ".join([
+    """Classify from the candidate's own words.
+
+    A trace dump contains engine filenames and the word "patch". Scanning it
+    labeled every ordinary question as a coding patch and shrank the novelty
+    budget. An empty candidate still falls back to the trace text.
+    """
+    own = " ".join([
         str(candidate.get("candidate_kind") or ""),
         str(candidate.get("title") or ""),
         str(candidate.get("candidate") or ""),
-        stringify(trace_or_report or {}, limit=1000),
-    ]).lower()
-    if any(term in text for term in ("patch", "code", "module", "compile", "verifier")):
+    ]).strip()
+    text = own.lower() if own else stringify(trace_or_report or {}, limit=1000).lower()
+    words = set(re.findall(r"[a-z0-9]+", text))
+
+    def hit(*terms: str) -> bool:
+        return any(term in words for term in terms)
+
+    if hit("patch", "code", "module", "compile", "compiler", "verifier"):
         return "coding_patch"
-    if any(term in text for term in ("correction", "correct", "drift", "repair", "coherence return")):
+    if hit("correction", "correct", "drift", "repair"):
         return "correction_workflow"
-    if any(term in text for term in ("definition", "define", "naming", "name")):
+    if hit("definition", "define", "naming", "name"):
         return "formal_definition"
-    if any(term in text for term in ("public", "scientific", "proof", "claim")):
+    if hit("public", "scientific", "proof", "claim"):
         return "public_scientific_claim"
-    if any(term in text for term in ("brainstorm", "creative", "dream")):
+    if hit("brainstorm", "creative", "dream"):
         return "creative_brainstorm"
-    if any(term in text for term in ("architecture", "system", "compiler", "engine")):
+    if hit("architecture", "system", "compiler", "engine"):
         return "architecture_design"
     return "default"
 

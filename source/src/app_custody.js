@@ -59,9 +59,12 @@
     const strip = $('#custodyStrip');
     const body = $('#custodyBody');
     if (!c) {
-      const msg = 'Always-on workers. This portable file does not inline the mesh. The installed site binds this monitor to dream_idle.js. Letter packs stay gated.';
+      const off = root.KNextLayer && root.KNextLayer.enabled && root.KNextLayer.enabled('dream_idle') === false;
+      const msg = off
+        ? 'dream_idle is switched off. The mesh is not running. Packs stay gated. Money stays disabled.'
+        : 'Always-on workers. This portable file does not inline the mesh. The installed site binds this monitor to dream_idle.js. Letter packs stay gated.';
       if (strip) strip.innerHTML = '<b>Custody</b> ' + esc(msg);
-      if (body) body.innerHTML = '<div class="card"><div class="cardhead">Custody <span class="pill ok">always on</span></div><div class="small">' + esc(msg) + '</div></div>';
+      if (body) body.innerHTML = '<div class="card"><div class="cardhead">Custody <span class="pill' + (off ? '' : ' ok') + '">' + (off ? 'switched off' : 'always on') + '</span></div><div class="small">' + esc(msg) + '</div></div>';
       return;
     }
     const a = c.athena || {}, g = c.gilligan || {}, kb = c.kb || {};

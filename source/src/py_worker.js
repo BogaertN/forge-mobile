@@ -1,5 +1,5 @@
 /* Pyodide worker. Fetched pyodide.js is SHA-384 checked, then imported from a Blob URL. Packages use Pyodide's lock file.
- * Results are evidence: agree or disagree with the kernel. Never authority, never reply text. */
+ * The RMC reply is the engine's rendered answer when the admit gate passes. No model is called. */
 'use strict';
 let py = null;
 async function sha384b64(buf) { const d = await crypto.subtle.digest('SHA-384', buf); let s = ''; for (const b of new Uint8Array(d)) s += String.fromCharCode(b); return btoa(s); }

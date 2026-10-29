@@ -1,8 +1,10 @@
-"""Forge Mobile foundations core.
+"""Forge Mobile RMC core.
 
-This module runs Nic's deep_dry_run_orchestrator and returns a trace.
-It does not replace the phone's Ask reply. A world-model seam sits between
-memory recall and the admit gate and does not transform memory.
+The live Ask path calls run() with live=true. That runs all 16 stages and,
+when the admit gate and Echo both pass, returns the rendered answer.
+dry_run=true keeps stages 14–16 skipped for tests. reasoning_seam sits
+between memory recall and the renderer. 4.9.184 replaces that function.
+No model is called.
 """
 from __future__ import annotations
 
@@ -15,6 +17,7 @@ from typing import Any
 
 from rmc_engine_v1.deep_dry_run_orchestrator import run_deep_dry_run
 from rmc_engine_v1.mobile_config import THRESHOLDS, snapshot
+from rmc_engine_v1.reasoning_seam import run_reasoning_seam
 
 
 def _f(value: Any, default: float = 0.0) -> float:
@@ -25,27 +28,8 @@ def _f(value: Any, default: float = 0.0) -> float:
 
 
 def world_model_seam(memory: dict[str, Any], question: str) -> dict[str, Any]:
-    """Reserved layer between memory recall and the admit gate.
-
-    Today it returns the recalled memory unchanged. A later world model
-    replaces this function. It must not write KB rows and it must not call a model.
-    """
-    count = int(memory.get("active_memory_count") or memory.get("active") or 0)
-    return {
-        "layer": "world_model",
-        "status": "seam",
-        "applied": False,
-        "question_sha256_16": __import__("hashlib").sha256(question.encode("utf-8", errors="replace")).hexdigest()[:16],
-        "input_memory_count": count,
-        "output_memory_count": count,
-        "memory": memory,
-        "calls_llm": False,
-        "writes_memory": False,
-        "later_184": {
-            "self_facts": "Self-facts live in the world model and are evolvable. Self-extension is a core function. Not implemented in 4.9.182b.",
-            "contract": "The world model contract is Nic's design. It is rebuilt from his own docs in 184. This seam is not that contract.",
-        },
-    }
+    """The reasoning slot. run_reasoning_seam is the function 4.9.184 replaces."""
+    return run_reasoning_seam(question, memory)
 
 
 _STOP = {
@@ -59,27 +43,39 @@ def _tokens(text: str) -> set[str]:
     return {w for w in re.findall(r"[a-z0-9]+", str(text or "").lower()) if len(w) > 2 and w not in _STOP}
 
 
-def echo_against_question(question: str, output_text: str) -> dict[str, Any]:
-    """Echo ≥ 0.85 compares output meaning with the original question's idea.
+def echo_against_question(question: str, output_text: str, *, rendered: bool = False) -> dict[str, Any]:
+    """Echo ≥ 0.85.
 
-    Method: Jaccard overlap of content tokens. The dry-run renderer is still
-    skipped, so the output meaning is the selected candidate text.
+    Live path: coverage of the original question's meaning tokens by the
+    rendered answer. A longer truthful sentence is not punished for extra words.
+    Dry run: Jaccard of the selected candidate meaning against the question,
+    which stays 0 while stages 14–16 are skipped.
     """
     left = _tokens(question)
     right = _tokens(output_text)
-    if not left and not right:
-        score = 1.0
-    elif not left or not right:
-        score = 0.0
+    if rendered:
+        if not left:
+            score = 0.0
+        else:
+            score = len(left & right) / len(left)
+        method = "question_meaning_coverage"
+        compares = "rendered_answer_to_original_question_meaning"
     else:
-        score = len(left & right) / len(left | right)
+        if not left and not right:
+            score = 1.0
+        elif not left or not right:
+            score = 0.0
+        else:
+            score = len(left & right) / len(left | right)
+        method = "jaccard_content_tokens"
+        compares = "selected_candidate_meaning_to_original_question"
     score = round(score, 6)
     return {
         "score": score,
         "min": THRESHOLDS["echo_min"],
         "pass": score >= float(THRESHOLDS["echo_min"]),
-        "method": "jaccard_content_tokens",
-        "compares": "selected_candidate_meaning_to_original_question",
+        "method": method,
+        "compares": compares,
         "output_text": str(output_text or "")[:400],
     }
 
@@ -131,7 +127,7 @@ def _stage_rows(stages: list[Any]) -> list[dict[str, Any]]:
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     rows: list[dict[str, Any]] = []
-    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted")):
+    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("research_quarantine", "research")):
         for row in memory.get(key) or []:
             if isinstance(row, dict) and str(row.get("text") or row.get("content") or "").strip():
                 item = dict(row)
@@ -173,8 +169,8 @@ def _phase_ok(path: list[Any]) -> bool:
     return all(b == a + 1 or b == 1 for a, b in zip(nums, nums[1:]))
 
 
-def admit_gate(measured: dict[str, Any]) -> dict[str, Any]:
-    """Record the gate. Foundations do not project this decision into Ask."""
+def admit_gate(measured: dict[str, Any], *, apply_to_ask: bool = False) -> dict[str, Any]:
+    """C_min stays 0.87. The live path applies this decision. The dry run records it."""
     gap = measured["sigma_res"]
     drift_flag = measured["epsilon_s"] > float(THRESHOLDS["drift_quarantine"]) or measured["circuit_breaker"]
     hard = measured["epsilon_s"] > float(THRESHOLDS["hard_stop"])
@@ -191,7 +187,7 @@ def admit_gate(measured: dict[str, Any]) -> dict[str, Any]:
         disposition = "held"
     return {
         "disposition": disposition,
-        "applied_to_ask": False,
+        "applied_to_ask": bool(apply_to_ask and disposition == "admit"),
         "phase_ok": phase_ok,
         "resonance_gap": round(gap, 6),
         "resonance_gap_ok": gap_ok,
@@ -254,7 +250,13 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="rmc-core-") as tmp:
         root = Path(tmp)
         fed = _write_receipts(root, rows)
-        report = run_deep_dry_run(question, {"source": "forge-mobile-foundations", "retrieval_backend": "filesystem"}, root=str(root))
+        live = bool(payload.get("live")) and not bool(payload.get("dry_run"))
+        report = run_deep_dry_run(
+            question,
+            {"source": "forge-mobile-ask" if live else "forge-mobile-foundations", "retrieval_backend": "filesystem"},
+            root=str(root),
+            execute_late_stages=live,
+        )
         measured = _measured(report)
         memory = {
             "fed": fed,
@@ -262,8 +264,12 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "sources": measured.get("recall_sources") or {},
             "nodes": measured["memory_nodes"],
         }
-        world = world_model_seam(memory, question)
-        gate = admit_gate(measured)
+        artifacts = report.get("artifacts") if isinstance(report.get("artifacts"), dict) else {}
+        recorded = artifacts.get("reasoning_seam") if isinstance(artifacts.get("reasoning_seam"), dict) else None
+        world = recorded if recorded and recorded.get("status") == "seam" else world_model_seam(memory, question)
+        rendered = str(artifacts.get("rendered_answer") or "")
+        echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
+        gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))
         stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
         stage_rows = _stage_rows(stages)
         late = []
@@ -276,12 +282,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                     "skipped": row["status"] == "SKIPPED",
                     "reason": row["reason"],
                 })
-        echo = echo_against_question(question, _candidate_text(report))
         chain = [s.get("stage_id") for s in stages]
+        spoken = bool(gate.get("applied_to_ask") and rendered)
+        reply = rendered if spoken else None
+        kind = "rendered_answer" if spoken else ("held_trace" if live else "foundation_trace")
         trace = {
             "input": question,
             "memory": memory,
-            "world_model": {k: world[k] for k in ("layer", "status", "applied", "input_memory_count", "output_memory_count", "calls_llm", "writes_memory", "later_184")},
+            "world_model": {k: world[k] for k in ("layer", "slot", "status", "applied", "sits_after", "sits_before", "input_memory_count", "output_memory_count", "calls_llm", "writes_memory", "derived_text", "next_184", "later_184") if k in world},
             "admit": gate,
             "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"]},
             "operator_chain": chain,
@@ -290,21 +298,27 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"]},
             "echo": echo,
             "output": {
-                "kind": "foundation_trace",
-                "product_reply": False,
+                "kind": kind,
+                "product_reply": spoken,
+                "reply": reply,
                 "route": measured["route"],
                 "status": report.get("status"),
                 "admit_disposition": gate["disposition"],
                 "echo_score": echo["score"],
+                "live": live,
             },
         }
         return {
             "ok": True,
             "foundations": True,
+            "live": live,
             "engine": "rmc_engine_v1",
             "entry": "deep_dry_run_orchestrator.run_deep_dry_run",
             "module": "rmc_engine_v1.rmc_core",
-            "product_reply": False,
+            "product_reply": spoken,
+            "reply": reply,
+            "claim": str((artifacts.get("admitted_claim") or {}).get("text") or "")[:500],
+            "held": bool(live and not spoken),
             "calls_llm": False,
             "model_invoked": False,
             "route": measured["route"],

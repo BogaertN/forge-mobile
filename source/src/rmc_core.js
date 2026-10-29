@@ -1,6 +1,6 @@
-/* Foundations core. Calls rmc_engine_v1.rmc_core. Does not replace an Ask reply.
+/* Ask path. Calls rmc_engine_v1.rmc_core. live:true runs all 16 stages.
  * Browser: Pyodide worker first, then POST /api/rmc/deep-dry-run.
- * The world-model seam is inside the Python core, between recall and the admit gate. */
+ * The reply, when one is admitted, is the engine's rendered answer. No model. */
 (function (root) {
 'use strict';
 const RMC = typeof module !== 'undefined' && module.exports ? require('./rmc_client.js') : root.KRMC;
