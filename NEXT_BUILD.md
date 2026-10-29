@@ -1,3 +1,12 @@
+# Next build order — after 4.9.177 (Forge tools)
+
+**Shipped here:** the Forge tools that fit the no-LLM learning loop. Phase parse is the Forge phase parser. Hosted recall ranks admitted rows with Forge’s scorer and Athena reuses a parseable method sentence without a fetch. Search and read stay on `hosted://bank`. Device paths, shell, patch writes, payments, vector search, and a model call stay refused. Packs stay gated. No LLM.
+
+**Do not start inside this pull request.** Nic locked the order:
+
+5. Gilligan Codex — grab all features and build them.
+6. Athena document (a list, not Codex-style prose) — pull all tools from that list and build them in.
+
 # Next build order — after 4.9.176 (held admit)
 
 **Shipped here:** the stub `admitConfirmedSharedItem`. A tap admits a contested held row into the session hosted bank when the write key is already held. A quarantine row stays held. Phone DB and letter packs stay empty. Ask recalls the admitted sentence. No LLM.

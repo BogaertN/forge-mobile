@@ -1,5 +1,5 @@
 {
- "version": "4.9.176",
+ "version": "4.9.177",
  "features": [
   {
    "id": "A-01",
@@ -3650,13 +3650,24 @@
    "proof": [
     "R4176"
    ]
+  },
+  {
+   "id": "R4177-FORGE-TOOLS",
+   "name": "Forge tools on the learning loop",
+   "source": "CONFLICTS.md v4.9.177; BogaertN/forge agents/forge/tools.py; rmc_engine_v1/phase_parser.py; rmc_engine_v1/memory_recaller.py; rmc_engine_v1/frozen_legacy_boundary.py",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Phase parse and hosted-bank recall are the Forge tools that fit Ask, Athena, Gilligan, and the hosted KB. Search and read stay on hosted://bank. The live knowledge-base tool is the Slice 0B boundary block. Shell, patch writes, payments, vector search, and model calls stay refused. Packs stay gated. No LLM. The Gilligan Codex and the Athena document list are later.",
+   "proof": [
+    "R4177"
+   ]
   }
  ],
- "count": 333,
+ "count": 334,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 171,
+  "Partial": 172,
   "Missing": 9,
   "Out of scope / parked": 13
  }

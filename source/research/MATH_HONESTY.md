@@ -36,9 +36,9 @@ Nine stubs. measured false. reconstruction. SOURCE_NOT_VERIFIED. No delta is rep
 
 status wired. 4.9.165: answer-path grace is no longer a stub for the RPMC→RSOC factual-miss gate. kernel.js rpmcAncestorCandidates calls kmath.graceOverAncestors (Axiom 4 phase-align + §3.4 graceIntegral; G_MIN=1e-4). Candidates feed AUTH-AQ1/research (RSOC-COMPOSE-EVIDENCE); not a class-dump answer. Does not claim Φ1–Φ9 is proven cognition; does not claim manuscript equivalence.
 
-## Idle dream router (4.9.176)
+## Idle dream router (4.9.177)
 
-status wired. 4.9.176 held admit on the 4.9.175 pipeline tools. A tap admits a contested held row when the write key is already held. Quarantine stays held and does not write confirmed_shared. A session write-key grant still admits a measured claim. research.web returns a Wikipedia excerpt and does not read the vault. Ask recalls an admitted claim before AQ-1. ChristPing is Gilligan-only. Phone pack publish stays gated. The portable single file does not inline the mesh or the pipeline tools. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only.
+status wired. 4.9.177 Forge phase parse and hosted recall on the 4.9.176 held admit. A hosted method sentence is reused without a fetch. Search and read stay on the session bank. Shell, payments, vector search, and a model call stay refused. A tap still admits a contested held row when the write key is already held. Quarantine stays held and does not write confirmed_shared. ChristPing is Gilligan-only. Phone pack publish stays gated. The portable single file does not inline the mesh, the pipeline tools, or the Forge tools. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only.
 
 when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.
 
