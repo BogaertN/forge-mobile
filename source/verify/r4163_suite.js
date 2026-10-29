@@ -97,7 +97,7 @@ T('First Amendment rights still from shared KB; deliberate miss still AQ-1', () 
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.173', ver);
+  expect(ver === '4.9.174', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
   for (const id of ['R4164-GZIP-LEAVE', 'R4163-CIVICS-WH', 'R4163-DISCOURSE-CS', 'R4162-READ-CONNECT', 'R4128-HOSTED']) {
@@ -112,7 +112,7 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.164/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.173' && ((((tgt.suites[0] === 'r4173_suite.js' || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js' || tgt.suites[0] === 'r4163_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.174' && (((((tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js' || tgt.suites[0] === 'r4163_suite.js'), JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
   expect(/4\.9\.164/.test(req) && /R4163/.test(req) && /R4165/.test(req) && /R4164/.test(req), 'req_packet');
   const idx = JSON.parse(fs.readFileSync(ROOT + '/packs/confirmed_shared/index.json', 'utf8'));

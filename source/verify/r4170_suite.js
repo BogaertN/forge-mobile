@@ -153,7 +153,7 @@ T('promote admit persists the letter pack and quarantine does not', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.173', ver);
+  expect(ver === '4.9.174', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.170/.test(conf) && /Athena/.test(conf) && /Gilligan/.test(conf) && /Neo/.test(conf) && /4\.9\.171/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -161,14 +161,14 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.170/.test(readme) && /pack_append/.test(readme) && /answering/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.173' && ((tgt.suites[0] === 'r4173_suite.js' || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') && tgt.suites.includes('r4170_suite.js') && tgt.suites.includes('r4169_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.174' && (((tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') && tgt.suites.includes('r4170_suite.js') && tgt.suites.includes('r4169_suite.js'), JSON.stringify(tgt));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.173', reg.version);
+  expect(reg.version === '4.9.174', reg.version);
   expect(reg.features.some(f => f.id === 'R4170-IDLE-ADMIT'), 'feature');
   expect(reg.count === reg.features.length, 'count');
   expect(reg.claims.Implemented === 112 && reg.claims.Partial >= 165, JSON.stringify(reg.claims));
   const mh = JSON.parse(fs.readFileSync(path.join(ROOT, 'research', 'math_honesty.json'), 'utf8'));
-  expect(mh.release === '4.9.173' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === true && mh.idle_dream_router.continuous_admit_default === true && mh.idle_dream_router.always_on === true, 'math_honesty');
+  expect(mh.release === '4.9.174' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === true && mh.idle_dream_router.continuous_admit_default === true && mh.idle_dream_router.always_on === true, 'math_honesty');
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.170/.test(req) && /R4170-IDLE-ADMIT/.test(req), 'req_packet');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
