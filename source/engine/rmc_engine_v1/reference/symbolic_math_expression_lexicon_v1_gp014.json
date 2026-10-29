@@ -1,0 +1,179 @@
+{
+  "authority_class": "BOUNDED_VERSIONED_EXPRESSION_LEXICON_NOT_CORPUS",
+  "build_id": "LANG-EXPR-001-GP-014-RMC-OPERATOR-GUIDED-GENERATIVE-LANGUAGE-REALIZER",
+  "forbidden_claim_fragments": [
+    "proven scientifically",
+    "empirically confirmed",
+    "proves that reality",
+    "law of nature"
+  ],
+  "operation_families": {
+    "differentiation": {
+      "noun_anchor": "derivative",
+      "templates": [
+        {
+          "id": "differentiate_action",
+          "text": "Differentiating {expression}{variable_clause} gives the derivative {answer}."
+        },
+        {
+          "id": "differentiate_subject",
+          "text": "The derivative of {expression}{variable_clause} is {answer}."
+        },
+        {
+          "id": "differentiate_context",
+          "text": "With respect to {variable}, {expression} has derivative {answer}."
+        }
+      ]
+    },
+    "expansion": {
+      "noun_anchor": "expanded form",
+      "templates": [
+        {
+          "id": "expansion_action",
+          "text": "Expanding {expression} gives the expanded form {answer}."
+        },
+        {
+          "id": "expansion_subject",
+          "text": "The expanded form of {expression} is {answer}."
+        },
+        {
+          "id": "expansion_context",
+          "text": "For {expression}, the expanded form is {answer}."
+        }
+      ]
+    },
+    "factoring": {
+      "noun_anchor": "factored form",
+      "templates": [
+        {
+          "id": "factoring_action",
+          "text": "Factoring {expression} gives the factored form {answer}."
+        },
+        {
+          "id": "factoring_subject",
+          "text": "The factored form of {expression} is {answer}."
+        },
+        {
+          "id": "factoring_context",
+          "text": "For {expression}, the factored form is {answer}."
+        }
+      ]
+    },
+    "integration": {
+      "noun_anchor": "indefinite integral",
+      "templates": [
+        {
+          "id": "integrate_action",
+          "text": "Integrating {expression}{variable_clause} gives the indefinite integral {answer}."
+        },
+        {
+          "id": "integrate_subject",
+          "text": "The indefinite integral of {expression}{variable_clause} is {answer}."
+        },
+        {
+          "id": "integrate_context",
+          "text": "With respect to {variable}, {expression} has indefinite integral {answer}."
+        }
+      ]
+    },
+    "limits": {
+      "noun_anchor": "limit",
+      "templates": [
+        {
+          "id": "limit_subject",
+          "text": "The limit of {expression} is {answer}."
+        },
+        {
+          "id": "limit_action",
+          "text": "Taking the limit of {expression} gives the limit {answer}."
+        },
+        {
+          "id": "limit_context",
+          "text": "For {expression}, the limit is {answer}."
+        }
+      ]
+    },
+    "simplification": {
+      "noun_anchor": "simplified form",
+      "templates": [
+        {
+          "id": "simplification_subject",
+          "text": "The simplified form of {expression} is {answer}."
+        },
+        {
+          "id": "simplification_action",
+          "text": "Simplifying {expression} gives the simplified form {answer}."
+        },
+        {
+          "id": "simplification_context",
+          "text": "For {expression}, the simplified form is {answer}."
+        }
+      ]
+    },
+    "trigonometric_expansion": {
+      "noun_anchor": "trigonometric expanded form",
+      "templates": [
+        {
+          "id": "trig_expand_action",
+          "text": "Applying trigonometric expansion to {expression} gives the trigonometric expanded form {answer}."
+        },
+        {
+          "id": "trig_expand_subject",
+          "text": "The trigonometric expanded form of {expression} is {answer}."
+        },
+        {
+          "id": "trig_expand_context",
+          "text": "For {expression}, the trigonometric expanded form is {answer}."
+        }
+      ]
+    },
+    "trigonometric_simplification": {
+      "noun_anchor": "trigonometric simplified form",
+      "templates": [
+        {
+          "id": "trig_simplify_action",
+          "text": "Applying trigonometric simplification to {expression} gives the trigonometric simplified form {answer}."
+        },
+        {
+          "id": "trig_simplify_subject",
+          "text": "The trigonometric simplified form of {expression} is {answer}."
+        },
+        {
+          "id": "trig_simplify_context",
+          "text": "For {expression}, the trigonometric simplified form is {answer}."
+        }
+      ]
+    }
+  },
+  "operator_roles": [
+    {
+      "authority": "reference_binding_only",
+      "glyph": "⧙",
+      "render_role": "lock_required_meaning_atoms"
+    },
+    {
+      "authority": "reference_binding_only",
+      "glyph": "⟁",
+      "render_role": "merge_locked_atoms_into_clause_tree"
+    },
+    {
+      "authority": "reference_binding_only",
+      "glyph": "ΔΦ",
+      "render_role": "measure_clause_transition_order"
+    },
+    {
+      "authority": "reference_binding_only",
+      "glyph": "⧧",
+      "render_role": "sever_candidates_that_lose_meaning_or_overclaim"
+    },
+    {
+      "authority": "reference_binding_only",
+      "glyph": "⧀",
+      "render_role": "discharge_rejected_candidates_without_delivery"
+    }
+  ],
+  "purpose": "Finite lexical means and hierarchical surface constructions for already sealed verified mathematical meaning.",
+  "schema_version": "aiweb_symbolic_math_expression_lexicon_v1_gp014",
+  "scope_sentence": "This is a formal symbolic result within the installed computation scope, not an empirical-world claim.",
+  "selection_authority": "SCORES_COMPUTED_FROM_RENDERED_CANDIDATE_AND_LOCKED_MANIFEST_MEANING_NOT_PREAWARDED_IN_LEXICON"
+}

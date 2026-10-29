@@ -1,3 +1,9 @@
+# Next build order — after 4.9.182 (rmc foundations)
+
+**Shipped here:** foundations only. `rmc_engine_v1.rmc_core` runs `run_deep_dry_run`, feeds receipts and KB into the memory recaller, records thresholds, and returns a trace. A world-model seam between recall and the admit gate does not apply. The Pyodide worker can mount the engine bundle. The existing Ask path is unchanged. No LLM. Packs stay gated.
+
+**Do not start inside this pull request.** Removals of the JS answer stand-ins, and language-core replacements for model-shaped functions, wait for the build plan. Money stays disabled.
+
 # Next build order — after 4.9.181 (ask-key recall)
 
 **Shipped here:** admitted rows are indexed by the question that produced them, so the same question or a reword recalls Jupiter, chloramine, Mars, and a paper method before AQ-1. A lead sentence that the grammar cannot read whole is simplified and split until a subject-predicate core round-trips. Drift at or under 0.35 still admits. Above 0.80 still recenters. The grammar is not bypassed. Sonify stays on the installed site and is left out of the portable file so gzip leave is at least 5 kB under 570 kB. Packs stay gated. No LLM.

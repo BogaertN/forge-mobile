@@ -40,6 +40,24 @@ def run(m):
 `;
 async function check(m) { py.globals.set('mjson', JSON.stringify(m)); py.runPython(CHECK); const r = py.runPython('run(json.loads(mjson))'); return r === undefined ? null : r; }
 async function rmcThresholds(src) { if (src) { py.FS.mkdirTree('/forge'); py.FS.writeFile('/forge/coherence_math.py', src); py.runPython('import sys, importlib\nsys.path.insert(0, "/forge") if "/forge" not in sys.path else None\nif "coherence_math" in sys.modules: importlib.reload(sys.modules["coherence_math"])'); } const r = py.runPython('import json, coherence_math\njson.dumps(coherence_math.gate_thresholds())'); return JSON.parse(r); }
+async function mountEngine(o) {
+  if (py.FS.analyzePath('/engine/rmc_engine_v1/mobile_ask.py').exists) return;
+  const res = await fetch(o.bundleUrl, { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'force-cache' }); if (!res.ok) throw new Error('rmc_bundle_http_' + res.status);
+  const buf = await res.arrayBuffer(); const got = 'sha384-' + await sha384b64(buf); if (got !== o.bundleSri) throw new Error('rmc_bundle_integrity_mismatch');
+  const pack = JSON.parse(new TextDecoder().decode(buf));
+  py.FS.mkdirTree('/engine');
+  for (const [rel, src] of Object.entries(pack.files || {})) {
+    const parts = ('/engine/' + rel).split('/'); const file = parts.pop(); py.FS.mkdirTree(parts.join('/')); py.FS.writeFile(parts.concat(file).join('/'), src);
+  }
+  py.runPython('import sys\nsys.path.insert(0, "/engine") if "/engine" not in sys.path else None');
+}
+async function rmcAsk(arg) {
+  if (!py) await init({ base: arg.base, sri: arg.sri, pint: false, rmc: null });
+  await mountEngine(arg);
+  py.globals.set('payload_json', JSON.stringify(arg.payload || {}));
+  const raw = py.runPython('import json\nfrom rmc_engine_v1.rmc_core import run\njson.dumps(run(json.loads(payload_json)), default=str)');
+  const out = JSON.parse(raw); out.path = 'pyodide'; out.calls_llm = false; return out;
+}
 self.onmessage = async e => { const { id, cmd, arg } = e.data || {}; try {
-    let out; if (cmd === 'init') out = await init(arg); else if (cmd === 'check') out = { agree: await check(arg) }; else if (cmd === 'rmc') out = await rmcThresholds(arg); else throw new Error('unknown_cmd');
+    let out; if (cmd === 'init') out = await init(arg); else if (cmd === 'check') out = { agree: await check(arg) }; else if (cmd === 'rmc') out = await rmcThresholds(arg); else if (cmd === 'rmcAsk') out = await rmcAsk(arg); else throw new Error('unknown_cmd');
     self.postMessage({ id, ok: true, out }); } catch (err) { self.postMessage({ id, ok: false, error: String(err && err.message || err).slice(0, 200) }); } };

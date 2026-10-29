@@ -1,0 +1,56 @@
+{
+  "Φ1": {
+    "motion_behavior": "Low-frequency inward/outward heartbeat pulse.",
+    "drift_behavior": "Contracts, loses inner glow, becomes shadow orb.",
+    "glyph": "⊙",
+    "color": "#A10E1A"
+  },
+  "Φ2": {
+    "motion_behavior": "Oscillating push/pull, left-right flicker.",
+    "drift_behavior": "Desyncs, snaps out of alignment, flickers or vibrates.",
+    "glyph": "∥",
+    "color": "#E94E1B"
+  },
+  "Φ3": {
+    "motion_behavior": "Curved acceleration arc with lift and flame shimmer.",
+    "drift_behavior": "Spiral unwinds, breaks symmetry, overdesire feedback.",
+    "glyph": "↻",
+    "color": "#FF9A16"
+  },
+  "Φ4": {
+    "motion_behavior": "Pulse-hold and snap; angular tension stretch.",
+    "drift_behavior": "Cracks appear; edges distort; may shatter into crystal web.",
+    "glyph": "◊",
+    "color": "#FFDD1A"
+  },
+  "Φ5": {
+    "motion_behavior": "Ripple decay, downward drift, entropy scatter.",
+    "drift_behavior": "Breaks into noise field or static burst.",
+    "glyph": "◌̸",
+    "color": "#6BB66F"
+  },
+  "Φ6": {
+    "motion_behavior": "Gentle inhale-exhale mirror shimmer.",
+    "drift_behavior": "Freezes over; inner glow extinguished; frost ripple.",
+    "glyph": "()",
+    "color": "#39C2C9"
+  },
+  "Φ7": {
+    "motion_behavior": "Base-to-apex vector surge; outward voice ripple.",
+    "drift_behavior": "Tip bends; echo folds back; voice becomes noise or silence.",
+    "glyph": "△",
+    "color": "#2C64C7"
+  },
+  "Φ8": {
+    "motion_behavior": "Rapid burst, spike flash, electric arcs.",
+    "drift_behavior": "Erratic spikes, overbright burn, static collapse.",
+    "glyph": "✴",
+    "color": "#7E3FE1"
+  },
+  "Φ9": {
+    "motion_behavior": "Smooth recursive loop with inward pull and lift.",
+    "drift_behavior": "Feedback collapse; loop rupture; fragmentation into cold storage.",
+    "glyph": "∞",
+    "color": "#FFFFFF"
+  }
+}

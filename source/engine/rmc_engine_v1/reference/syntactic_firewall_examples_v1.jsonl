@@ -1,0 +1,90 @@
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_001", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_002", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_003", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_004", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_005", "input": "archive unresolved loop"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_006", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_007", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_008", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_009", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_010", "input": "archive unresolved loop"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_011", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_012", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_013", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_014", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_015", "input": "archive unresolved loop"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_016", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_017", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_018", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_019", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_020", "input": "archive unresolved loop"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_021", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_022", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_023", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_024", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_025", "input": "archive unresolved loop"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_026", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_027", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_028", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_029", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_030", "input": "archive unresolved loop"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_031", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_032", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_033", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_034", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_035", "input": "archive unresolved loop"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_036", "input": "validate before projection"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_037", "input": "correct the drift before output"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_038", "input": "name before deployment"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_039", "input": "hold projection until validation passes"}
+{"expected_severity": "none", "expected_syntactic_drift": false, "family": "valid_language", "id": "syn_valid_040", "input": "archive unresolved loop"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_001", "input": "asdkjashd 8293u4 23!!!! $$$$ {{ {{ malformed ))))"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_002", "input": "{{{{{{{{{{{{{{{{{{ broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_003", "input": ")))))))))))))))) broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_004", "input": "$$$$$$$$$$$$$$$$$$$$$$$$"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_005", "input": "exec(open(\"x\").read())"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_006", "input": "subprocess.run([\"rm\",\"-rf\",\"/\"])"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_007", "input": "eval(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_008", "input": "rm -rf /"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_009", "input": "open(\"/tmp/x\",\"w\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_010", "input": "__import__(\"os\").system(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_011", "input": "asdkjashd 8293u4 23!!!! $$$$ {{ {{ malformed ))))"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_012", "input": "{{{{{{{{{{{{{{{{{{ broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_013", "input": ")))))))))))))))) broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_014", "input": "$$$$$$$$$$$$$$$$$$$$$$$$"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_015", "input": "exec(open(\"x\").read())"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_016", "input": "subprocess.run([\"rm\",\"-rf\",\"/\"])"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_017", "input": "eval(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_018", "input": "rm -rf /"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_019", "input": "open(\"/tmp/x\",\"w\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_020", "input": "__import__(\"os\").system(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_021", "input": "asdkjashd 8293u4 23!!!! $$$$ {{ {{ malformed ))))"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_022", "input": "{{{{{{{{{{{{{{{{{{ broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_023", "input": ")))))))))))))))) broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_024", "input": "$$$$$$$$$$$$$$$$$$$$$$$$"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_025", "input": "exec(open(\"x\").read())"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_026", "input": "subprocess.run([\"rm\",\"-rf\",\"/\"])"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_027", "input": "eval(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_028", "input": "rm -rf /"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_029", "input": "open(\"/tmp/x\",\"w\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_030", "input": "__import__(\"os\").system(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_031", "input": "asdkjashd 8293u4 23!!!! $$$$ {{ {{ malformed ))))"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_032", "input": "{{{{{{{{{{{{{{{{{{ broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_033", "input": ")))))))))))))))) broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_034", "input": "$$$$$$$$$$$$$$$$$$$$$$$$"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_035", "input": "exec(open(\"x\").read())"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_036", "input": "subprocess.run([\"rm\",\"-rf\",\"/\"])"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_037", "input": "eval(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_038", "input": "rm -rf /"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_039", "input": "open(\"/tmp/x\",\"w\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_040", "input": "__import__(\"os\").system(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_041", "input": "asdkjashd 8293u4 23!!!! $$$$ {{ {{ malformed ))))"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_042", "input": "{{{{{{{{{{{{{{{{{{ broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_043", "input": ")))))))))))))))) broken"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_044", "input": "$$$$$$$$$$$$$$$$$$$$$$$$"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_045", "input": "exec(open(\"x\").read())"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_046", "input": "subprocess.run([\"rm\",\"-rf\",\"/\"])"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_047", "input": "eval(\"bad\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_048", "input": "rm -rf /"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_049", "input": "open(\"/tmp/x\",\"w\")"}
+{"expected_severity": "high", "expected_syntactic_drift": true, "family": "syntactic_bad", "id": "syn_bad_050", "input": "__import__(\"os\").system(\"bad\")"}
