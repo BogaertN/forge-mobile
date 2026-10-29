@@ -159,14 +159,14 @@ T('hard drift, a locked passcode, and pack publish stay refused', () => {
   const locked = doc.node('private', 'A private node', 0.1, null);
   expect(locked.ok === false && locked.rule === 'PASSCODE-LOCKED', JSON.stringify(locked));
   expect(doc.unlock('nope').ok === false && doc.unlock('1234').unlocked === true, 'unlock');
-  expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().athena_doc === true && D.boundary().mesh === '4.9.184', JSON.stringify(D.boundary().mesh));
+  expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().athena_doc === true && D.boundary().mesh === '4.9.185', JSON.stringify(D.boundary().mesh));
   const neo = D.christPing({ initiator: 'neo', eps: 0.91 });
   expect(neo.rule === 'CHRIST-PING-GILLIGAN-ONLY', JSON.stringify(neo));
 });
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.180', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.184', ver);
+  expect(ver === '4.9.185', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.180/.test(conf) && /Athena document/.test(conf) && /chloramine/.test(conf) && /ProtoForge/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -174,9 +174,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.180', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.180/.test(readme) && /WIRING_180/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.184' && (tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') && tgt.suites.includes('r4179_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.185' && (tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') && tgt.suites.includes('r4179_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.184' && reg.features.some(f => f.id === 'R4180-ATHENA-DOC'), reg.version);
+  expect(reg.version === '4.9.185' && reg.features.some(f => f.id === 'R4180-ATHENA-DOC'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 337, 'count ' + reg.count);
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.180/.test(req) && /R4180-ATHENA-DOC/.test(req), 'req packet');

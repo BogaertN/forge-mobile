@@ -173,6 +173,9 @@ def _node_from_receipt(path: Path, root: Path, data: dict[str, Any]) -> dict[str
         },
         "prior_drift_score": 0.0 if data.get("verification_ok") is not False else 0.45,
         "memory_role": "source_provenance_receipt",
+        "content": str(data.get("text") or data.get("content") or "")[:1200],
+        "sfe": data.get("sfe") if isinstance(data.get("sfe"), dict) else None,
+        "quarantined": data.get("quarantined") is True or data.get("verification_ok") is False,
     }
 
 
@@ -536,9 +539,16 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
     inventory["candidate_nodes_collected"] = len(nodes)
     inventory["fallback_performed"] = False
 
-    ranked = [_score_node(node, source_text, phase_report) for node in nodes]
-    ranked.sort(key=lambda n: (n.get("retrieval_weight", 0), len(n.get("retrieval_evidence", []))), reverse=True)
-    active = ranked[: max(1, min(int(limit or 12), 50))]
+    resonance_report = None
+    if str(source_metadata.get("recall") or "") == "resonance":
+        from rmc_engine_v1.resonance_recall import rank_memory
+        resonance_report = rank_memory(source_text, nodes, phase_report)
+        active = list(resonance_report.get("active") or [])[: max(1, min(int(limit or 12), 50))]
+        ranked = active
+    else:
+        ranked = [_score_node(node, source_text, phase_report) for node in nodes]
+        ranked.sort(key=lambda n: (n.get("retrieval_weight", 0), len(n.get("retrieval_evidence", []))), reverse=True)
+        active = ranked[: max(1, min(int(limit or 12), 50))]
     role_counts: dict[str, int] = {}
     source_counts: dict[str, int] = {}
     phase_counts: dict[str, int] = {}
@@ -575,6 +585,9 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
             "active_source_kind_counts": source_counts,
             "active_memory_role_counts": role_counts,
             "active_phase_counts": phase_counts,
+            "recall_method": "resonance" if resonance_report else "legacy_overlap",
+            "resonance": {k: resonance_report.get(k) for k in ("method", "uses_token_overlap", "calls_llm", "question_phi", "asked", "how", "rsoc", "quarantine", "cite")} if resonance_report else None,
+            "admitted_for_observe": (resonance_report or {}).get("admitted_for_observe") if resonance_report else None,
         },
         "legacy_retrieval_request": retrieval_decision,
         "context_library_status": _context_library_status(root_path),

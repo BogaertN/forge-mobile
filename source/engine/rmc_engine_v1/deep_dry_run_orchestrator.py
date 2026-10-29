@@ -871,8 +871,10 @@ def run_deep_dry_run(
     from rmc_engine_v1.reasoning_seam import run_reasoning_seam
     recall_state = _as_dict(_as_dict(trace_spine.get("memory_recall")).get("memory_state"))
     recalled = int(recall_state.get("active_memory_count") or 0)
+    observe_rows = recall_state.get("admitted_for_observe")
+    observe_source = observe_rows if isinstance(observe_rows, list) else _recalled_nodes(trace_spine)
     nodes = []
-    for node in _recalled_nodes(trace_spine):
+    for node in observe_source:
         nodes.append({
             "id": node.get("memory_id"),
             "text": node.get("content_summary") or node.get("content") or "",

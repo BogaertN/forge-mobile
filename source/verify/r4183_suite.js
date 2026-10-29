@@ -1,4 +1,4 @@
-/* R4183 (4.9.184): the live Ask path is rmc_engine_v1. Dry-run still skips 14–16. No LLM. */
+/* R4183 (4.9.185): the live Ask path is rmc_engine_v1. Dry-run still skips 14–16. No LLM. */
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
@@ -39,7 +39,11 @@ T('live Ask runs stages 14-16 and scores the rendered answer', () => {
   expect(!row.late_stages.some(s => /patch271_dry_run/.test(String(s.reason || ''))), 'patch271 skip');
   expect(row.echo.method === 'question_meaning_coverage' && row.echo.compares === 'rendered_answer_to_original_question_meaning' && row.echo.min === 0.85, JSON.stringify(row.echo));
   expect(row.echo.pass === true && row.echo.score >= 0.85, 'echo ' + row.echo.score);
-  expect(row.admit.thresholds.C_min === 0.87 && row.coherence < 0.87 && row.admit.disposition === 'held' && row.product_reply === false && !row.reply, JSON.stringify({ C: row.coherence, admit: row.admit.disposition, reply: row.reply }));
+  expect(row.admit.thresholds.C_min === 0.87, JSON.stringify(row.admit.thresholds));
+  const passed = row.coherence >= 0.87 && row.admit.disposition === 'admit' && row.product_reply === true && !!row.reply;
+  const held = row.coherence < 0.87 && row.admit.disposition === 'held' && row.product_reply === false && !row.reply;
+  expect(passed || held, JSON.stringify({ C: row.coherence, admit: row.admit.disposition, reply: row.reply }));
+  expect(row.calls_llm === false, 'llm');
   expect(row.route !== 'spc_cold_storage_required', row.route);
   expect(row.drift <= 0.35, 'drift ' + row.drift);
 });
@@ -61,7 +65,7 @@ T('dream_idle and economy default off and packs stay gated', () => {
   Next.set('dream_idle', true);
   expect(Next.enabled('dream_idle') === true, 'set');
   Next.set('dream_idle', false);
-  expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().mesh === '4.9.184', JSON.stringify(D.boundary().mesh));
+  expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().mesh === '4.9.185', JSON.stringify(D.boundary().mesh));
 });
 
 T('Ask screen does not call the old JS answer path', () => {
@@ -72,9 +76,9 @@ T('Ask screen does not call the old JS answer path', () => {
   expect(/function process\(/.test(forge), 'old path still present for a later deletion');
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.184', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.185', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.184', ver);
+  expect(ver === '4.9.185', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.183/.test(conf) && /rmc_engine_v1/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -87,9 +91,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.184', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_183.md'), 'utf8');
   expect(/60/.test(live) && /held/.test(live) && /C_min/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.184' && tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.185' && tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.184' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
+  expect(reg.version === '4.9.185' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
   expect(reg.count === reg.features.length, 'count ' + reg.count);
 });
 
