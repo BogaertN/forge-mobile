@@ -139,6 +139,15 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     window.FORGE_ADMITTED = window.FORGE_ADMITTED || [];
     const body = row.memory_write.hosted_kb;
     if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
+    if (window.KSb && KSb.insertAdmitted) {
+      try {
+        const live = await KSb.insertAdmitted(body);
+        row.memory_write.supabase = live;
+        body.supabase = live;
+      } catch (e) {
+        row.memory_write.supabase = { attempted: true, written: false, verified: false, rule: 'KB-WRITER-UNVERIFIED', error: String(e && e.message || e), calls_llm: false };
+      }
+    }
     try {
       const receipts = forge.store.load('receipts') || [];
       receipts.push({ receipt_id: 'rmc-' + receipts.length, input: body.text, packet: body.packet, provenance: body.provenance, contributor: body.contributor });
@@ -186,6 +195,7 @@ function renderRmc(text, row) {
     + '<div class="meta" data-stage-derive>Derive ' + esc(derived.status) + ' · ' + esc(derived.reason) + ' · claims ' + esc((derived.claims || []).length) + ' · how ' + esc(survivor.how) + '</div>'
     + '<div class="meta" data-stage-debate>EchoForge debate ' + esc((debate.order || ['proponent', 'opponent']).join(' then ')) + ' · frame ' + esc(debate.frame) + ' · survived ' + esc(debate.survived) + ' · challenger ' + esc((opponent.objections || []).map(o => o.code).join(', ')) + '</div>'
     + '<div class="meta" data-derived-provenance>provenance ' + esc(prov || 'none') + ' · drift ' + esc(eps) + ' ' + esc(survivor.drift && survivor.drift.disposition) + ' · chi ' + esc(chi.status) + ' · ChristPing ' + (wm.christping_initiated ? 'started' : 'not started') + '</div>'
+    + '<div class="meta" data-derived-hops>' + esc(((survivor.hops || []).map(h => (h.n || '') + ' ' + (h.text || '') + ' · ' + ((h.provenance || []).join(',')) + ' · ε ' + (h.drift && h.drift.epsilon_s))).join(' | ')) + '</div>'
     + '<div class="meta" data-derived-text>' + esc(wm.derived_text || '') + '</div>'
     + '<div class="meta" data-memory-write>memory writer ' + (write.committed ? 'committed' : 'not committed') + ' · packet ' + esc(packet.schema || 'none') + ' · Φ ' + esc(packet.Phi) + ' · ε ' + esc(packet.eps) + ' · μ ' + esc(packet.mu) + ' · contributor ' + esc(write.provenance && write.provenance.contributor) + ' · supabase ' + esc(write.supabase && write.supabase.rule) + '</div>'
     + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'

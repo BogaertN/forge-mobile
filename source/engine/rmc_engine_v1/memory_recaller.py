@@ -176,6 +176,8 @@ def _node_from_receipt(path: Path, root: Path, data: dict[str, Any]) -> dict[str
         "content": str(data.get("text") or data.get("content") or "")[:1200],
         "sfe": data.get("sfe") if isinstance(data.get("sfe"), dict) else None,
         "quarantined": data.get("quarantined") is True or data.get("verification_ok") is False,
+        "anchor_placed": data.get("anchor_placed") is True,
+        "anchor_ancestor_text": str(data.get("anchor_ancestor_text") or ""),
     }
 
 

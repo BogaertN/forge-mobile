@@ -190,6 +190,9 @@ def clean_text(node: dict[str, Any]) -> str:
     content = str(node.get("content") or "").strip()
     if content and not content.startswith("content:"):
         return content
+    text = str(node.get("text") or "").strip()
+    if text and not text.startswith("content:"):
+        return text
     summary = str(node.get("content_summary") or "")
     marker = "text: "
     if marker in summary:
@@ -235,6 +238,16 @@ def _hop_nodes(direct: list[dict[str, Any]], pool: list[dict[str, Any]]) -> list
             hops.append(node)
     return hops
 
+
+
+def _anchor_key(node: dict[str, Any]) -> tuple:
+    """An admitted seed outranks a resonance-placed excerpt of any length.
+
+    The longest seed still wins among seeds, so a shorter restatement does not
+    replace it. A placed excerpt is the lock only when no seed locked.
+    """
+    seeded = 0 if node.get("anchor_placed") else 1
+    return (seeded, len(clean_text(node)), str(node.get("memory_id") or ""))
 
 
 def _rsoc(locks):
@@ -360,7 +373,7 @@ def rank_memory(question, nodes, phase_report=None):
         # admitted row through admitted_for_observe.
         # Length then id. Grace is recorded, not used as a sort key, so Pyodide
         # and CPython pick the same anchor.
-        role_locks.sort(key=lambda row: (len(clean_text(row[0])), str(row[0].get("memory_id") or "")), reverse=True)
+        role_locks.sort(key=lambda row: _anchor_key(row[0]), reverse=True)
         chosen = [role_locks[0][0]]
         how = "frame_role"
         rsoc = _rsoc([row[0] for row in role_locks])
@@ -369,7 +382,7 @@ def rank_memory(question, nodes, phase_report=None):
         detail = {row[0].get("memory_id"): {"hit": row[1], "grace": row[2], "concepts": row[3]} for row in role_locks}
         hops = _hop_nodes(chosen, admitted)
     elif concept_hits:
-        concept_hits.sort(key=lambda row: (len(clean_text(row[0])), str(row[0].get("memory_id") or "")), reverse=True)
+        concept_hits.sort(key=lambda row: _anchor_key(row[0]), reverse=True)
         chosen = [concept_hits[0][0]]
         how = "concept_lexicon"
         rsoc = _rsoc([row[0] for row in concept_hits])
@@ -391,6 +404,19 @@ def rank_memory(question, nodes, phase_report=None):
             continue
         seen.add(id(node))
         text = clean_text(node)
+        if node.get("anchor_placed"):
+            ancestor = str(node.get("anchor_ancestor_text") or "").strip()
+            if ancestor and ancestor not in text:
+                text = (text + " " + ancestor).strip()
+        elif role_locks:
+            # A placed excerpt that locked the same role stays with the seed.
+            # The seed remains the anchor. The scorer also sees the connection.
+            for other, _hit, _grace_row, _shared in role_locks:
+                if other is node or not other.get("anchor_placed"):
+                    continue
+                bit = clean_text(other)
+                if bit and bit not in text:
+                    text = (text + " " + bit).strip()
         info = detail.get(node.get("memory_id")) or {}
         grace = info.get("grace") or _grace(node.get("packet") or {}, question_phi)
         hop = node not in chosen

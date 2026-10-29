@@ -60,7 +60,25 @@ function Client(o) { o = o || {};
     const r = await call('/functions/v1/register-device', { method: 'POST', headers: H(tok), body: JSON.stringify(proof) });
     if (!r.ok || !r.body || !r.body.ok) return { ok: false, rule: (r.body && r.body.rule) || 'SB-REGISTER-FAILED', status: r.status };
     ls.setItem(DKEY, JSON.stringify({ uid: st.uid, signer_id: r.body.signer_id, at: new Date(nowSec() * 1000).toISOString() })); return { ok: true, signer_id: r.body.signer_id }; }
-  return { config: cfg, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice }; }
+  /* The memory writer. Anon has no execute grant. The function rejects an unadmitted row.
+   * written is true only when the returned row reads back as admitted with the same packet. */
+  async function insertAdmitted(row) {
+    const tok = await token();
+    if (!tok) return { ok: false, attempted: true, written: false, verified: false, rule: 'KB-WRITER-NO-SESSION', calls_llm: false };
+    const sfe = row && row.sfe || {}; const prov = row && row.provenance || {}; const contributor = String((prov && prov.contributor) || (row && row.contributor) || '').trim();
+    const text = String(row && row.text || '');
+    if (!contributor || sfe.Phi == null || sfe.eps == null || sfe.mu == null) return { ok: false, attempted: true, written: false, verified: false, rule: 'KB-WRITER-PROVENANCE-REQUIRED', calls_llm: false };
+    const payload = { text: text, schema: 'FORGE-RESONANCE-PACKET/v1', sfe: { Phi: sfe.Phi, eps: sfe.eps, mu: sfe.mu }, provenance: prov, contributor: contributor, state: 'admitted' };
+    const digest = (root.KSha && KSha.sha256) ? KSha.sha256(JSON.stringify(payload)) : '';
+    if (!/^[0-9a-f]{64}$/.test(digest)) return { ok: false, attempted: true, written: false, verified: false, rule: 'KB-WRITER-HASH', calls_llm: false };
+    const body = { p_kind: 'fact', p_payload: payload, p_proof: { source: 'rmc_core.admit_gate' }, p_sources: [], p_content_sha256: digest, p_signature: digest, p_consent: { contributor: contributor }, p_provenance: prov, p_contributor: contributor };
+    const ins = await call('/rest/v1/rpc/memory_writer_insert', { method: 'POST', headers: Object.assign(H(tok), { prefer: 'return=representation' }), body: JSON.stringify(body) });
+    const back = ins.body && !Array.isArray(ins.body) ? ins.body : null;
+    const packet = back && back.payload && back.payload.sfe;
+    const verified = !!(ins.ok && back && back.state === 'admitted' && back.verified !== false && packet && packet.Phi === sfe.Phi && packet.eps === sfe.eps && packet.mu === sfe.mu && back.payload.contributor === contributor && back.payload.text === text && back.payload.provenance);
+    return { ok: verified, attempted: true, written: verified && back.inserted !== false, verified: verified, id: back && back.id, rule: verified ? (back.inserted === false ? 'KB-WRITER-ALREADY-PRESENT' : 'KB-WRITER-VERIFIED') : 'KB-WRITER-READBACK-FAILED', status: ins.status, calls_llm: false };
+  }
+  return { config: cfg, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice, insertAdmitted }; }
 const api = { Client, CONFIG, SKEY, DKEY, PW_MIN };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else { root.KSbSync = api; root.KSb = Client(); }
 })(typeof self !== 'undefined' ? self : this);
