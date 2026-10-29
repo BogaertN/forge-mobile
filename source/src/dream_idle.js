@@ -18,6 +18,7 @@
   const isNode = typeof module !== 'undefined' && module.exports;
   const KM = isNode ? require('./kmath.js') : root.KMath;
   const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
+  const Codex = isNode ? require('./gilligan_codex.js') : root.KGilliganCodex;
   const SCHEMA = 'FORGE-IDLE-DREAM/v1';
   const PACKET_SCHEMA = 'FORGE-RESONANCE-PACKET/v1';
   const CITE = 'RPMC §1 RPM; Axiom 4; §3.4 Grace Integral; RSOC SFE {Φ,ε,μ}';
@@ -63,14 +64,14 @@
       phone_pack_publish: 'gated', pages_pack_ship: 'gated', ui_click_required: false, automatic_curation: true,
       gap_research: 'continuous', cold_revisit: 'continuous', continuous_curation: 'automatic',
       schedule_law: 'DREAM-ALWAYS-ON', christ_rules: CHRIST_RULES.slice(),
-      gilligan_codex_ported: false, pattern_reflection_is_gilligan: false, open_crawl: false,
+      gilligan_codex_ported: true, pattern_reflection_is_gilligan: false, open_crawl: false,
       research: 'allow-listed-or-curated', os_process_pool: false, spawn_pool: 'in_process_mesh',
       roles: { neo: 'ask_surface', gilligan: 'gap_fill_within_drift', athena: 'strict_curate_admit' },
       daemons: DAEMONS.map(d => d.role), helper_tasks: HELPER_TASKS.slice(),
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.177', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.178', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, gilligan_codex: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
@@ -171,8 +172,10 @@
      Phone ritual UI (tone, HUD, biometrics) is not this path. */
   function christPing(raw) {
     raw = raw || {};
+    const heard = Codex && Codex.christListen ? Codex.christListen(raw) : null;
+    if (heard && heard.ok === false) return refusal(heard.rule || 'CHRIST-PING-GILLIGAN-ONLY', { christ_ping: false, christ_pain: false, initiator: heard.initiator || 'gilligan', role: 'gilligan', deferred: false, christ_listener: 'armed' });
     const who = raw.initiator || raw.spawned_by || 'gilligan';
-    if (who !== 'gilligan') return refusal('CHRIST-PING-GILLIGAN-ONLY', { christ_ping: false, christ_pain: false, initiator: String(who), role: 'gilligan' });
+    if (who !== 'gilligan') return refusal('CHRIST-PING-GILLIGAN-ONLY', { christ_ping: false, christ_pain: false, initiator: String(who), role: 'gilligan', deferred: false });
     if (raw.calls_llm === true || llmShaped(raw)) return refusal('DREAM-LLM-REFUSED', { christ_ping: false, christ_pain: false, initiator: 'gilligan', role: 'gilligan' });
     const eps = Number(raw.eps);
     const hard = Number.isFinite(eps) && eps > KM.DRIFT_RULING.explore_max;
@@ -328,7 +331,9 @@
     const integrity = eps != null ? KM.r4(Math.min(1, Math.max(0, 1 - eps))) : (Number.isFinite(Number(raw.integrity)) ? KM.r4(Number(raw.integrity)) : null);
     if (integrity == null) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
     const question = String(raw.question || raw.input || (raw.trace && raw.trace.input) || '').replace(/[?\s]+$/, '').trim() || null;
-    return { ok: true, calls_llm: false, gap: { id: 'gap:aq1:' + sha256(norm(claim)).slice(0, 12), kind: 'aq1_miss', question: question, claim: claim, eps: eps, integrity: integrity, extracts: [{ text: claim, verified: true, integrity: integrity, source: 'curated', curated: true, allow_listed: true }], calls_llm: false } };
+    const gap = { id: 'gap:aq1:' + sha256(norm(claim)).slice(0, 12), kind: 'aq1_miss', question: question, claim: claim, eps: eps, integrity: integrity, extracts: [{ text: claim, verified: true, integrity: integrity, source: 'curated', curated: true, allow_listed: true }], calls_llm: false };
+    if (Codex && Codex.annotate) gap.codex = Codex.annotate(gap);
+    return { ok: true, calls_llm: false, gap: gap };
   }
 
   function packetOf(spec) {
@@ -880,6 +885,7 @@
     let admitEnabled = opts.admitEnabled !== false;
     let answering = false;
     const gaps = new Map();
+    const codex = Codex && Codex.createCodex ? Codex.createCodex({ clock: now }) : null;
     const athena = createAthena({
       clock: now, answering: () => answering, budget: opts.budget,
       onReintegrate: row => {
@@ -1031,6 +1037,7 @@
         athena: { role: 'athena', duty: 'continuous_research_and_admit', runs: 'always_on', research_ticks: pulse.research, admits: pulse.athena_admits, staged: pulse.staged, quarantine: pulse.quarantine, hard_reject: pulse.hard, last: pulse.last_athena },
         gilligan: { role: 'gilligan', duty: 'cold_revisit_re_curate', runs: 'always_on', cold_recurate: pulse.cold_recurate, cold_keep: pulse.cold_keep, cold_quiet: pulse.cold_quiet, novel_ticks: pulse.novel, novel_open: novelOpen, christ_pings: pulse.christ, admits: pulse.gilligan_admits, last: pulse.last_cold },
         kb: { count: kbN, delta: delta, admits: pulse.athena_admits + pulse.gilligan_admits, hosted: true, phone_db: false, pack_stuffed: pulse.packs > 0 },
+        codex: codex ? codex.dashboard() : null,
         last_step: pulse.last_step
       };
     }
@@ -1055,7 +1062,16 @@
       const gap = queue.shift();
       const raw = researchGap(gap);
       const routed = routeMeasurement(raw);
-      const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false }, routed);
+      let codexTrace = null;
+      if (codex) {
+        codexTrace = codex.pass({
+          id: gap.id, kind: gap.kind, question: gap.question, claim: routed.claim, eps: routed.eps,
+          integrity: routed.integrity, lane: routed.lane, ancestors: gap.ancestors, role: 'gilligan',
+          calls_llm: false, output: routed.lane === 'promote_candidate', resurrected: gap.resurrected === true
+        });
+        if (codexTrace && codexTrace.resurrection && codexTrace.resurrection.gap) enqueue([codexTrace.resurrection.gap]);
+      }
+      const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false, codex: codexTrace ? codexTrace.public : null }, routed);
       if (routed.lane === 'hard_reject') {
         const ping = christPing({ initiator: 'gilligan', eps: routed.eps, ancestors: gap.ancestors, gap_id: gap.id, kind: gap.kind });
         noteChrist(ping);
@@ -1130,6 +1146,10 @@
       if (!gate.ok) {
         if (gate.rule === 'DREAM-QUARANTINE-NO-TRUTH' || gate.rule === 'DREAM-HARD-REJECT-NO-TRUTH') athena.noteCustody(rec, gate.rule);
         return gate;
+      }
+      if (codex) {
+        const coded = codex.authorizeWrite(rec);
+        if (!coded.ok) return refusal(coded.rule || 'CODEX-WRITE-REFUSED', { role: 'athena', section: coded.section || null });
       }
       const admitId = rec && (rec.gap_id || rec.id) || null;
       const held = athena.beginAdmit(admitId);
@@ -1276,7 +1296,8 @@
       gapRecord(id) {
         const g = gaps.get(id);
         return g ? Object.assign({}, g, { integrations: (g.integrations || []).map(x => Object.assign({}, x)) }) : null;
-      }
+      },
+      codex: codex
     };
   }
 

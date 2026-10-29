@@ -1,3 +1,11 @@
+# Next build order — after 4.9.178 (Gilligan Codex)
+
+**Shipped here:** every buildable feature in THE GILLIGAN SYSTEM CODEX, on the Ask → Athena → Gilligan → hosted KB → Ask loop. ChristPing stays armed and Gilligan-only. Drift at or under 0.35 may promote. Above 0.80 is a hard stop. Token payouts and biometric sensors stay refused. Pattern Reflection is not the Codex. Packs stay gated. No LLM.
+
+**Do not start inside this pull request.** Nic locked the order:
+
+6. Athena document (a list, not Codex-style prose) — pull all tools from that list and build them in.
+
 # Next build order — after 4.9.177 (Forge tools)
 
 **Shipped here:** the Forge tools that fit the no-LLM learning loop. Phase parse is the Forge phase parser. Hosted recall ranks admitted rows with Forge’s scorer and Athena reuses a parseable method sentence without a fetch. Search and read stay on `hosted://bank`. Device paths, shell, patch writes, payments, vector search, and a model call stay refused. Packs stay gated. No LLM.

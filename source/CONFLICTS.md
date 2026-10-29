@@ -1,5 +1,17 @@
 # CONFLICTS.md — how each conflict was settled
 
+## v4.9.178 — Gilligan Codex on the learning loop (2026-10-29 America/Chicago)
+
+**Conflict:** Nic’s step 5 is every feature in THE GILLIGAN SYSTEM CODEX (`1hbLsNhrEeeomonxkHAUjEkw4tXsHllcnuUzx8Mv8hOM`), built into the Ask → Athena → Gilligan → hosted KB → Ask loop. The Codex still says `dream_state_engine` runs on idle, and an older map taught that schedule. Nic locked the daemons always on. ChristPing / χ is Gilligan-only, first-class, and must not be deferred. Drift at or under 0.35 may promote. Quarantine holds the middle. Above 0.80 is a hard stop. `awh_token_runtime` pays wallets. Chapter 11 reads EKG, EEG, and breath hardware. Pattern Reflection is a different note and is not this Codex. The Athena document list is step 6. There is no LLM. Packs stay gated. The phone gzip leave stays at least 5 kB under 570 kB.
+
+**Settlement:** `gilligan_codex.js` is the Codex runtime. Boot writes the ψ₁ init, holds the phase anchor until echo, and matches the SPC seed. Each engine in the Codex list either decides a real gate on that loop or is refused with a reason. A measured Ask is annotated, Athena admits it only after the Codex write gate, Gilligan rehearses unresolved loops into a dream log that does not write, and a later Ask recalls the hosted sentence. The ChristPing listener is armed at boot. Only Gilligan initiates. Drift above 0.80 still recenters onto another path and does not admit the noisy claim. Token payouts, biometric sensors, a fluid substrate, a phase skip, and a sigil-free override are refused. A Nic sigil cannot turn quarantine into truth and cannot publish a letter pack. Pattern Reflection is not counted. `publishPacks` stays false. The portable single file does not inline this module. No LLM.
+
+**Where:** `src/gilligan_codex.js`, wired from `src/dream_idle.js` (`pass` on each tick, `authorizeWrite` before a hosted admit, `christListen` before ChristPing) and from `bridgeAskEvidence`. Proof `verify/r4178_suite.js`.
+
+**Not this pull request:** (6) the Athena document, which is a list, and every tool on that list.
+
+**Docs cited:** THE GILLIGAN SYSTEM CODEX `1hbLsNhrEeeomonxkHAUjEkw4tXsHllcnuUzx8Mv8hOM`. Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (ChristPing is Gilligan-only). Dream Drift `14fVCPgQ0UtRBnSclMfQ-3fazrdwKc-BrknfqYFolJ8g` (Codex 3.24 remains yield etiquette).
+
 ## v4.9.177 — Forge tools on the learning loop (2026-10-29 America/Chicago)
 
 **Conflict:** Nic’s step 4 is the tools Forge used, brought into Forge Mobile as working code. `BogaertN/forge` `agents/forge/tools.py` dispatches read tools plus shell, patch, and diagnostic tools. `rmc_engine_v1/phase_parser.py` and `memory_recaller.py` are deterministic and do not call a model. The live `agents/forge/knowledge_base.py` (6fcc28b) is a Slice 0B boundary block; the older copy (2b6ab0f) embeds with a local model and a vector store. `rmc_tools.py` previews import `~/aiweb/runtime_wrappers`, which is not in the repo. `BogaertN/echo-forge` `tools.py` is an open web search and fact-check client for an LLM debate app. `BogaertN/forge2` returns 404. The phone write law, the hosted bank, and the no-network rule for user-built tools stay. Packs stay gated. The Gilligan Codex and the Athena document list are later steps.
