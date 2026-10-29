@@ -1,5 +1,5 @@
 {
- "version": "4.9.178",
+ "version": "4.9.179",
  "features": [
   {
    "id": "A-01",
@@ -3672,13 +3672,24 @@
    "proof": [
     "R4178"
    ]
+  },
+  {
+   "id": "R4179-FORGE2-WIRING",
+   "name": "Forge2 contracts and language.core wiring",
+   "source": "CONFLICTS.md v4.9.179; BogaertN/forge2 @262a95eb",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Forge2 establishment and frozen values are ported onto the existing spine. The learning loop seals each measured claim: input event, rule candidates, request contract, context, a read-only capability, and a successor receipt. A model origin and a network effect are refused. A public how-question and a question that names ProtoForge stay on language.core and research.web. Athena admits. Gilligan re-curates. Ask recalls. Packs stay gated. No LLM. The Athena document list is later.",
+   "proof": [
+    "R4179"
+   ]
   }
  ],
- "count": 335,
+ "count": 336,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 173,
+  "Partial": 174,
   "Missing": 9,
   "Out of scope / parked": 13
  }

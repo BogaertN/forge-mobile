@@ -1,5 +1,17 @@
 # CONFLICTS.md — how each conflict was settled
 
+## v4.9.179 — Forge2 contracts and the learning-loop wiring (2026-10-29 America/Chicago)
+
+**Conflict:** `BogaertN/forge2` 404’d in 4.9.177 and is readable now at `262a95e`. It is a contract kernel, not a second agent. `forge_spine.js` already held canonical JSON, identity, input events, candidates, request contracts, a context subset, capability requirements, request states, and successor laws. `validateSuccessor` and `decodeInputEvent` were never called. A public how-state question with no stored fact stopped at “Unlock the vault” because a dead rule id `Q-WH-HOW-ADJ` and `Q-WH-HOW-STATE` suppressed research.web while the vault was locked. Any sentence containing “protoforge” was a blocked command, so “What is protoforge?” never reached language.core. An empty `META` route table still sat on the capability frame. The Athena document list is the next release.
+
+**Settlement:** Establishment status and frozen canonical values are ported onto the spine. SHA-256 stays `sha256.js`. Each Athena tick and each Gilligan re-curate seals the claim: decode the input event, freeze the body, refuse a model candidate, refuse a network effect, and record a candidate-to-accepted successor. A public how-question with no stored fact starts research.web. A wh-question that names ProtoForge stays on language.core. ProtoForge commands stay internal. `publishPacks` stays false. No LLM.
+
+**Where:** `src/forge_spine.js`, `src/dream_idle.js` `loopSeal`, `src/kernel.js` language.core path. Proof `verify/r4179_suite.js`. Inventory `data/forge_tool_inventory.json` `forge2`. Wiring `docs/WIRING_179.md`.
+
+**Not this pull request:** the Athena document, which is a list, and every tool on that list.
+
+**Docs cited:** Forge2 `262a95eb73be0d03f935a5b1a662d77522eaa342`. Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (ChristPing is Gilligan-only).
+
 ## v4.9.178 — Gilligan Codex on the learning loop (2026-10-29 America/Chicago)
 
 **Conflict:** Nic’s step 5 is every feature in THE GILLIGAN SYSTEM CODEX (`1hbLsNhrEeeomonxkHAUjEkw4tXsHllcnuUzx8Mv8hOM`), built into the Ask → Athena → Gilligan → hosted KB → Ask loop. The Codex still says `dream_state_engine` runs on idle, and an older map taught that schedule. Nic locked the daemons always on. ChristPing / χ is Gilligan-only, first-class, and must not be deferred. Drift at or under 0.35 may promote. Quarantine holds the middle. Above 0.80 is a hard stop. `awh_token_runtime` pays wallets. Chapter 11 reads EKG, EEG, and breath hardware. Pattern Reflection is a different note and is not this Codex. The Athena document list is step 6. There is no LLM. Packs stay gated. The phone gzip leave stays at least 5 kB under 570 kB.

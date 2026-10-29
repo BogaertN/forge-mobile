@@ -29,6 +29,47 @@
   const canonicalJson = v => JSON.stringify(sortKeys(canonicalize(v)));
   const canonicalSha256 = v => sha256(canonicalJson(v));
   function stableIdentifier(ns, v) { ns = String(ns).normalize('NFC'); if (!NS_RE.test(ns)) throw new CanonicalizationError('invalid_namespace', 'Namespace must begin with a lowercase ASCII letter and contain only lowercase letters, digits, dots, underscores, or hyphens.'); return ns + ':sha256:' + canonicalSha256(v); }
+  /* forge2 frozen_value.py — deeply immutable canonical values. The phone reuses canonical.py above. */
+  function freezeCanonical(value) {
+    const go = x => {
+      if (x === null || typeof x !== 'object') return x;
+      if (Array.isArray(x)) { const o = { __forge2_frozen: 'list', items: x.map(go) }; Object.freeze(o.items); return Object.freeze(o); }
+      const keys = Object.keys(x);
+      const o = { __forge2_frozen: 'map', keys: keys.slice(), vals: keys.map(k => go(x[k])) };
+      Object.freeze(o.keys); Object.freeze(o.vals); return Object.freeze(o);
+    };
+    return go(sortKeys(canonicalize(value)));
+  }
+  function isFrozenCanonical(v) {
+    if (v === null || typeof v === 'boolean' || typeof v === 'string') return true;
+    if (typeof v === 'number') return Number.isInteger(v) && Math.abs(v) <= MAX_SAFE;
+    return !!(v && (v.__forge2_frozen === 'list' || v.__forge2_frozen === 'map'));
+  }
+  function thawCanonical(v) {
+    if (v === null || typeof v !== 'object') return v;
+    if (v.__forge2_frozen === 'list') return v.items.map(thawCanonical);
+    if (v.__forge2_frozen === 'map') { const o = {}; v.keys.forEach((k, i) => { o[k] = thawCanonical(v.vals[i]); }); return o; }
+    throw new CanonicalizationError('not_frozen', 'Value is not a frozen canonical value.');
+  }
+  /* forge2 establishment.py — status only. The desktop package claims no product capability. */
+  function establishmentStatus() {
+    return {
+      schema_version: 'aiweb_forge2_establishment_status_v4',
+      build_id: 'FORGE2-PHASE0-BUILD-000C-C-B3',
+      forge2_version: '0.0.0',
+      phase: 'PHASE_1_CONTRACTS_ON_PHONE',
+      acceptance_status: 'PASS',
+      next_phase: 'PHASE_1_IMMUTABLE_CORE_CONTRACTS_AND_STATE_IDENTITIES',
+      repository_independent: true,
+      forge1_runtime_dependency: false,
+      product_capability_claimed: false,
+      remote_repository: 'BogaertN/forge2',
+      remote_url: 'https://github.com/BogaertN/forge2',
+      head: '262a95eb73be0d03f935a5b1a662d77522eaa342',
+      calls_llm: false,
+      phone_port: 'src/forge_spine.js'
+    };
+  }
   /* UTC datetime: isoformat(timespec="microseconds") with Z */
   function utc(d) { const x = d instanceof Date ? d : new Date(d); if (isNaN(x)) throw new CanonicalizationError('invalid_datetime', 'invalid datetime'); return x.toISOString().replace(/\.(\d{3})Z$/, '.$1000Z'); }
 
@@ -89,7 +130,7 @@
   function featureEvidence({ pointer = '/raw_input', start = null, end = null, observed }, ie) { if (!/^\/[A-Za-z0-9_\/-]*$/.test(pointer)) throw new ContractValidationError('invalid_pointer', 'json_pointer', pointer);
     if (start !== null) { const t = ie.body.raw_input; if (!(Number.isInteger(start) && Number.isInteger(end) && 0 <= start && start <= end && end <= t.length) || t.slice(start, end) !== observed) throw new ContractValidationError('feature_evidence_span_mismatch', 'span', 'observed text does not equal the exact half-open span'); }
     const body = { json_pointer: pointer, observed_value: observed, span: start === null ? null : { end, start } }; return Object.assign({ evidence_id: stableIdentifier('aiweb.feature-evidence', body) }, body); }
-  function candidate({ dimension, label, origin = 'rule', producer, confidence_bps, evidence }) { if (!DIMENSIONS.includes(dimension)) throw new ContractValidationError('invalid_dimension', 'dimension', dimension); if (!['rule', 'model'].includes(origin)) throw new ContractValidationError('invalid_origin', 'origin', origin);
+  function candidate({ dimension, label, origin = 'rule', producer, confidence_bps, evidence }) { if (!DIMENSIONS.includes(dimension)) throw new ContractValidationError('invalid_dimension', 'dimension', dimension); if (origin === 'model') throw new ContractValidationError('model_origin_refused', 'origin', 'a model candidate is refused; deterministic rules only'); if (origin !== 'rule') throw new ContractValidationError('invalid_origin', 'origin', origin);
     if (!Number.isInteger(confidence_bps) || confidence_bps < 0 || confidence_bps > 10000) throw new ContractValidationError('invalid_confidence', 'confidence_bps', 'integer basis points 0..10000 (floats are forbidden)'); if (!evidence || !evidence.length) throw new ContractValidationError('evidence_required', 'evidence', 'every candidate needs FeatureEvidence');
     const body = { confidence_bps, dimension, evidence: evidence.map(e => e.evidence_id), label, origin, producer }; return Object.assign({ candidate_id: stableIdentifier('aiweb.classification-candidate', body) }, body); }
   function createCandidateSet(ie, cands, { uncertainty = [], clarification_recommended = false, clarification_reasons = [] }, created_at) {
@@ -118,7 +159,9 @@
     return { metadata: createContractMetadata({ contract_type: 'ContextManifest', body, created_at, authority_status: 'none' }), body }; }
   /* ===== forge2 capability_requirement.py (provider-neutral) ===== */
   const FORBIDDEN_PROVIDER_FIELDS = ['provider', 'package', 'tool', 'executable', 'command', 'endpoint', 'adapter', 'provider_version', 'ranking'];
+  const DENY_EFFECT = { execute: 1, network: 1, install: 1, release: 1, delete: 1, payment: 1, wallet: 1 };
   function createCapabilityRequirement(rc, cm, req, created_at) { for (const f of FORBIDDEN_PROVIDER_FIELDS) if (f in req) throw new ContractValidationError('provider_identity_forbidden', f, 'CapabilityRequirement is provider-neutral');
+    if (DENY_EFFECT[String(req.side_effect_class || '').toLowerCase()]) throw new ContractValidationError('effect_refused', 'side_effect_class', 'unrestricted ' + req.side_effect_class + ' is refused on the phone');
     const body = { acceptance_criteria: req.acceptance_criteria, context_manifest: toReference(cm.metadata), request_contract: toReference(rc.metadata), required_behavior: req.required_behavior, required_properties: req.required_properties || [], side_effect_class: req.side_effect_class, statement_refs: req.statement_refs, uncertainty_codes: rc.body.uncertainty_codes };
     return { metadata: createContractMetadata({ contract_type: 'CapabilityRequirement', body, created_at, authority_status: 'none' }), body }; }
 
@@ -239,7 +282,7 @@
     for (const [c, f, ks] of REFS) each(c, (r, p) => { const v = r[f]; if (Array.isArray(v)) v.forEach((x, j) => ref(x, p + '.' + f + '[' + j + ']', ks)); else if (v != null) ref(v, p + '.' + f, ks); });
     each('semantic_transition_traces', (t, p) => { for (const [rf, sf] of [['from_record_ref', 'from_state'], ['to_record_ref', 'to_state']]) { const x = idx[t[rf]]; if (x && x.lifecycle_state && t[sf] !== x.lifecycle_state) iss(p + '.' + sf, 'lifecycle_state_mismatch', x.lifecycle_state); } });
     return out(); }
-  const api = { canonicalize, canonicalJson, canonicalSha256, stableIdentifier, utc, CanonicalizationError, ContractValidationError, LIFECYCLE, AUTHORITY, EFFECTS, createContractMetadata, verifyContractMetadata, toReference, validateSuccessor,
+  const api = { canonicalize, canonicalJson, canonicalSha256, stableIdentifier, utc, freezeCanonical, thawCanonical, isFrozenCanonical, establishmentStatus, CanonicalizationError, ContractValidationError, LIFECYCLE, AUTHORITY, EFFECTS, createContractMetadata, verifyContractMetadata, toReference, validateSuccessor,
     REQUEST_STATES, stateIdentity, stateRegistryId, TRANSITION_POLICY_DEFINED, createInputEvent, decodeInputEvent, DIMENSIONS, featureEvidence, candidate, createCandidateSet, createRequestContract, createContextManifest, createCapabilityRequirement, CONTEXT_CATEGORIES,
     evaluateExpectancy, evaluateCongruity, evaluateConnectedness, evaluateRecoverablePurpose, composeGates, determineEligibility, DISPOSITIONS, gateId,
     MSM_IDS, PRESERVATION, NON_SELECTION, validateManifest, meaScore, WEIGHTS, EVIDENCE_TIERS, GP014, gp014Check, LEGACY_LLM, legacyCommand, LLM_REFUSAL };

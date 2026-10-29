@@ -19,6 +19,7 @@
   const KM = isNode ? require('./kmath.js') : root.KMath;
   const sha256 = isNode ? require('./sha256.js').sha256 : root.KSha.sha256;
   const Codex = isNode ? require('./gilligan_codex.js') : root.KGilliganCodex;
+  const Spine = isNode ? require('./forge_spine.js') : root.KSpine;
   const SCHEMA = 'FORGE-IDLE-DREAM/v1';
   const PACKET_SCHEMA = 'FORGE-RESONANCE-PACKET/v1';
   const CITE = 'RPMC §1 RPM; Axiom 4; §3.4 Grace Integral; RSOC SFE {Φ,ε,μ}';
@@ -71,7 +72,7 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.178', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, gilligan_codex: true, psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.179', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, gilligan_codex: true, forge2: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
@@ -877,6 +878,51 @@
     };
   }
 
+  /* Forge2 contracts on the learning loop. Spine already holds canonical, identity, and successor.
+     This call is what makes decode, freeze, the model refusal, the network refusal, and validateSuccessor run. */
+  function loopSeal(text, at) {
+    const raw = String(text || '').slice(0, 400);
+    const ie = Spine.createInputEvent({ raw_input: raw, conversation_context: [], identity_context: {}, session_metadata: { channel: 'learning-loop' } }, at);
+    const decoded = Spine.decodeInputEvent({ metadata: ie.metadata, body: ie.body });
+    const frozen = Spine.freezeCanonical({ claim: raw, channel: 'learning-loop' });
+    const body = Spine.thawCanonical(frozen);
+    const ev = Spine.featureEvidence({ pointer: '/raw_input', start: 0, end: raw.length, observed: raw }, ie);
+    let model_refused = false;
+    try { Spine.candidate({ dimension: 'request_kind', label: 'question', origin: 'model', producer: 'athena', confidence_bps: 10000, evidence: [ev] }); }
+    catch (e) { model_refused = true; }
+    const cands = [
+      Spine.candidate({ dimension: 'request_kind', label: 'question', origin: 'rule', producer: 'athena', confidence_bps: 10000, evidence: [ev] }),
+      Spine.candidate({ dimension: 'expected_result', label: 'hosted_recall', origin: 'rule', producer: 'athena', confidence_bps: 10000, evidence: [ev] }),
+      Spine.candidate({ dimension: 'side_effect_class', label: 'none', origin: 'rule', producer: 'gilligan', confidence_bps: 10000, evidence: [ev] })
+    ];
+    const set = Spine.createCandidateSet(ie, cands, { uncertainty: [], clarification_recommended: false, clarification_reasons: [] }, at);
+    const sel = cands.map(c => ({ candidate_id: c.candidate_id, basis_codes: ['deterministic_rule_derivation'] }));
+    const rc = Spine.createRequestContract(ie, set, sel, [
+      { kind: 'goal', code: 'goal.question', text: 'answer from the learning loop', evidence: [ev.evidence_id] },
+      { kind: 'desired_result', code: 'result.hosted_recall', text: 'recall the admitted sentence', evidence: [ev.evidence_id] },
+      { kind: 'constraint', code: 'constraint.no_llm', text: 'no model and no unrestricted network', evidence: [ev.evidence_id] }
+    ], 'athena/rule@learning-loop', at);
+    const cm = Spine.createContextManifest(rc, 'admit', [{ category: 'memory_candidate', ref: 'hosted://bank', reason: 'memory is evidence, not truth' }], [], { max_items: 8, max_canonical_bytes: 4096 }, at);
+    let network_refused = false;
+    try { Spine.createCapabilityRequirement(rc, cm, { required_behavior: 'open network', acceptance_criteria: ['never'], side_effect_class: 'network', statement_refs: rc.body.statements.map(s => s.statement_id) }, at); }
+    catch (e) { network_refused = true; }
+    const cap = Spine.createCapabilityRequirement(rc, cm, { required_behavior: 'read the hosted bank', acceptance_criteria: ['drift_at_or_under_0.35', 'echo_exact'], side_effect_class: 'read', statement_refs: rc.body.statements.map(s => s.statement_id) }, at);
+    const pred = Spine.createContractMetadata({ contract_type: 'LearningClaim', body: body, created_at: at, lifecycle_state: 'candidate', authority_status: 'none', declared_effects: [{ kind: 'read', target: 'hosted://bank', description: null }] });
+    const later = new Date(new Date(pred.created_at).getTime() + 1000).toISOString();
+    const succ = Spine.createContractMetadata({ contract_type: 'LearningClaim', body: body, created_at: later, lifecycle_state: 'accepted', authority_status: 'none', parent: Spine.toReference(pred), declared_effects: [{ kind: 'read', target: 'hosted://bank', description: null }] });
+    const receipt = Spine.validateSuccessor(pred, succ, later);
+    const est = Spine.establishmentStatus();
+    return {
+      ok: decoded.body.raw_input === raw && Spine.isFrozenCanonical(frozen) && Spine.verifyContractMetadata(pred, body) === true,
+      calls_llm: false, model_refused: model_refused, network_refused: network_refused,
+      input_event: ie.metadata.contract_id, request_contract: rc.metadata.contract_id,
+      context: cm.metadata.contract_id, capability: cap.metadata.contract_id,
+      successor: receipt.receipt_id, successor_kind: receipt.successor_kind,
+      establishment: est.remote_repository, product_capability_claimed: est.product_capability_claimed,
+      forge1_runtime_dependency: est.forge1_runtime_dependency, head: est.head
+    };
+  }
+
   function createIdleDream(opts) {
     opts = opts || {};
     const now = () => (opts.clock ? opts.clock() : '1970-01-01T00:00:00Z');
@@ -974,10 +1020,12 @@
       }
       const staged = Object.assign({}, measured, { gap_id: (row.body && row.body.gap_id) || row.id, id: (row.body && row.body.gap_id) || row.id, status: 'staged', evidence: 'dream-idle · cold re-curate · ' + row.id });
       const fill = fillBackend(staged, o);
+      let forge2 = null;
+      try { forge2 = loopSeal(measured.claim, now()); } catch (e) { forge2 = { ok: false, rule: 'FORGE2-SEAL-FAILED', detail: String(e && e.message || e).slice(0, 180), calls_llm: false }; }
       return {
         ok: true, ran: true, role: 'gilligan', rule: 'GILLIGAN-COLD-RECURATE', cold_id: row.id, lane: 'promote_candidate',
         calls_llm: false, wrote_confirmed_shared: fill.wrote_confirmed_shared === true, wrote_pack: fill.wrote_pack === true,
-        shared_kb: fill.wrote_confirmed_shared === true, phone_db: false, backend_fill: { ok: fill.ok === true, rule: fill.rule, wrote_confirmed_shared: fill.wrote_confirmed_shared === true, wrote_pack: fill.wrote_pack === true, phone_db: false }
+        shared_kb: fill.wrote_confirmed_shared === true, phone_db: false, forge2: forge2, backend_fill: { ok: fill.ok === true, rule: fill.rule, wrote_confirmed_shared: fill.wrote_confirmed_shared === true, wrote_pack: fill.wrote_pack === true, phone_db: false }
       };
     }
 
@@ -1072,6 +1120,8 @@
         if (codexTrace && codexTrace.resurrection && codexTrace.resurrection.gap) enqueue([codexTrace.resurrection.gap]);
       }
       const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false, codex: codexTrace ? codexTrace.public : null }, routed);
+      try { rec.forge2 = loopSeal(routed.claim || gap.question || gap.id, now()); }
+      catch (e) { rec.forge2 = { ok: false, rule: 'FORGE2-SEAL-FAILED', detail: String(e && e.message || e).slice(0, 180), calls_llm: false }; }
       if (routed.lane === 'hard_reject') {
         const ping = christPing({ initiator: 'gilligan', eps: routed.eps, ancestors: gap.ancestors, gap_id: gap.id, kind: gap.kind });
         noteChrist(ping);
