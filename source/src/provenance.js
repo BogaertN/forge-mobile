@@ -97,9 +97,10 @@ function keyContent(plan, claim) { const p = plan || {}; const relation0 = relat
   const value = claim && claim.kind === 'value' && claim.answer ? uniq(words(claim.answer)) : [];
   const entities = uniq(words(p.subject || p.question || [].concat(p.object ? [p.object] : [], p.entity ? [p.entity] : [], p.args || []).join(' ')).filter( /* 4.9.78: the parse's subject noun phrase when it has one (a participle predicate is not an entity word) */w => !FUNCTION_WORDS.has(w) && !relation.some(r => same(r, w)) && !value.some(v => same(v, w)) && !(at && at.dropped.includes(w))));
   const polarity = claim && claim.kind === 'verdict' && /^(yes|no)$/i.test(claim.answer) ? ((String(claim.answer).toLowerCase() === 'no') !== !!p.neg ? 'negative' : 'positive') : null;
-  return { value, entities, relation, polarity, needs_value: VALUE_TYPES.has(p.atype) && !value.length }; }
+  const method_frame = p.atype === 'method' && /^(work|function|operate)$/.test(String(p.pred || p.asked || ''));
+  return { value, entities, relation, polarity, method_frame, needs_value: VALUE_TYPES.has(p.atype) && !value.length }; }
 /* any key shape (keyContent's, or { value: '1989', entities: [['berlin', 'wall']], relation: [...] }) → the normal form */
-const normKey = k => { k = k || {}; return { value: Array.isArray(k.value) ? k.value.map(String) : k.value ? words(k.value) : [], entities: uniq(flat(k.entities)), relation: (k.relation || []).map(r => String(r).toLowerCase()), polarity: k.polarity || null, needs_value: !!k.needs_value }; };
+const normKey = k => { k = k || {}; return { value: Array.isArray(k.value) ? k.value.map(String) : k.value ? words(k.value) : [], entities: uniq(flat(k.entities)), relation: (k.relation || []).map(r => String(r).toLowerCase()), polarity: k.polarity || null, method_frame: !!k.method_frame, needs_value: !!k.needs_value }; };
 /* 4.9.95 DERIVATION: a relation word is stated by its nominalisation ("eruption" states erupt: the stem plus a nominal suffix); an entity is named by
    its PERTAINYM (WordNet adj.pert, read from the lexicon the kernel registers: "volcanic" relating to volcanoes) */
 const nominalOf = (x, r) => r.length >= 4 && x !== r && x.startsWith(r.replace(/e$/, '').slice(0, Math.max(4, r.length - 2))) && /(tion|sion|ment|ance|ence|al|ure)$/.test(x);
@@ -107,8 +108,10 @@ const nominalOf = (x, r) => r.length >= 4 && x !== r && x.startsWith(r.replace(/
 const pertainym = (x, e) => { if (!LEXH || !LEXH.pertainym || x === e) return false; try { return !!LEXH.pertainym(x, e); } catch (err) { return false; } };
 const relHas = (ws, r) => ws.some(x => same(x, r) || synonym(x, r) || nominalOf(x, r));
 const hasKey = k => !k.needs_value && !!(k.value.length || k.entities.length || k.relation.length);
-function covers(span, k0) { const k = normKey(k0); if (!hasKey(k)) return false; const ws = words(span); const has = w => ws.some((x, i) => same(x, w) || (pertainym(x, w) && !!ws[i + 1] && k.relation.some(r => same(ws[i + 1], r) || nominalOf(ws[i + 1], r)))); /* 4.9.95: a pertainym names the entity only as the argument of the stated relation's nominalisation ("volcanic eruption"), not of another head ("volcanic fields") */
-  if (!k.value.every(w => ws.includes(w))) return false; if (!k.entities.every(has)) return false; if (k.relation.length && !k.relation.some(r => relHas(ws, r))) return false;
+function closedNamed(ws, w) { if (ws.some(x => same(x, w))) return true; const target = stem(w); if (target.length < 6) return false; const parts = ws.map(stem).filter(x => x.length >= 3 && x !== target); for (let i = 0; i < parts.length; i++) for (let j = 0; j < parts.length; j++) if (i !== j && parts[i] + parts[j] === target) return true; return false; }
+const MEANS = /\bby\s+[a-z]+ing\b|\bworks?\s+by\b|\busing\b|\bvia\b|\bthrough\s+(?:a|an|the)\b/i;
+function covers(span, k0) { const k = normKey(k0); if (!hasKey(k)) return false; const ws = words(span); const has = w => closedNamed(ws, w) || ws.some((x, i) => same(x, w) || (pertainym(x, w) && !!ws[i + 1] && k.relation.some(r => same(ws[i + 1], r) || nominalOf(ws[i + 1], r)))); /* 4.9.95 pertainym; 4.9.174 a closed compound is named when its two parts are in the span ("lightbulbs" ← light + bulb) */
+  if (!k.value.every(w => ws.includes(w))) return false; if (!k.entities.every(has)) return false; if (k.relation.length && !k.relation.some(r => relHas(ws, r)) && !(k.method_frame && MEANS.test(span))) return false;
   if (k.polarity && NEG.test(span) !== (k.polarity === 'negative')) return false; return true; }
 /* sentences as [start, end) offsets: a break after . ! ? followed by space and a capital / digit / quote, or at a newline */
 function sentences(ex) { const s = String(ex || ''), out = []; const re = /[.!?]["”’)]?(?=\s+[A-Z0-9“"(])|\n+/g; let a = 0, m;
@@ -166,7 +169,8 @@ const names0 = (q, h) => q.length > 0 && h.length > 0 && q.every(w => h.some(x =
 /* ALT-NAME-INITIALISM (4.9.79): an initialism names the run of words it abbreviates: "u s tax code" / "us tax code" names "united states tax code"
    (single letters of a dotted initialism are rejoined; a run of 2–4 question words may stand as its initials) */
 const rejoin = h => { const o = []; for (let i = 0; i < h.length; i++) { if (h[i].length === 1 && /[a-z]/.test(h[i]) && h[i + 1] && h[i + 1].length === 1) { let j = i, s = ''; while (j < h.length && h[j].length === 1 && /[a-z]/.test(h[j])) s += h[j++]; o.push(s); i = j - 1; } else o.push(h[i]); } return o; };
-const names = (q, h) => { if (names0(q, h)) return true; const hc = rejoin(h); if (names0(q, hc)) return true; for (let a = 0; a < q.length; a++) for (let b = a + 2; b <= Math.min(q.length, a + 4); b++) { const v = q.slice(0, a).concat([q.slice(a, b).map(w => w[0]).join('')], q.slice(b)); if (hc.includes(v[a]) && names0(v, hc)) return true; } return false; };
+const closedTitle = (q, h) => { if (q.length !== 1 || h.length < 2) return false; const target = stem(q[0]); const parts = h.map(stem); for (let i = 0; i < parts.length; i++) for (let j = i + 1; j < parts.length; j++) if (parts[i].length >= 3 && parts[j].length >= 3 && parts[i] + parts[j] === target && stem(h[h.length - 1]) === parts[j]) return true; return false; };
+const names = (q, h) => { if (names0(q, h)) return true; const hc = rejoin(h); if (names0(q, hc)) return true; if (closedTitle(q, h) || closedTitle(q, hc)) return true; for (let a = 0; a < q.length; a++) for (let b = a + 2; b <= Math.min(q.length, a + 4); b++) { const v = q.slice(0, a).concat([q.slice(a, b).map(w => w[0]).join('')], q.slice(b)); if (hc.includes(v[a]) && names0(v, hc)) return true; } return false; };
 /* the answer entity a names this head: every answer word is in the head (ordinals exact) and the head nouns agree, or the answer is the
    head's leading run of two or more words (an extracted "alexander graham" for the head "alexander graham bell") */
 const namesAnswer = (a, h) => a.length > 0 && h.length > 0 && a.every(w => h.some(x => same(x, w))) && (same(h[h.length - 1], a[a.length - 1]) || (a.length >= 2 && a.every((w, i) => same(h[i], w))));

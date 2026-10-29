@@ -2,6 +2,18 @@
 
 Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation Addendum, Sep 2026) > older docs**. Where forge2 says nothing, **forge code** comes before docs. Every row lists the sources and where the decision lives in the code.
 
+## v4.9.174 — one learning pipeline (2026-10-29 America/Chicago)
+
+**Conflict:** Ask, Athena, Gilligan, and the hosted bank were not feeding each other. Custody booted the mesh with no research callback and no write key, so letter holes and empty AQ-1 stubs quarantined as `DREAM-UNMEASURED`. `research.web` sealed evidence and, for “How do lightbulbs work?”, stopped at “No source described the method” / `NO_LAWFUL_CANDIDATE`. A closed compound (`lightbulbs`) did not name the open article (`light bulb`). The frame verb `work` was required in the source. A sentence-initial capital kept the generated clause as a name, so Echo dropped the restatement. Manner questions did not read hosted knowledge before AQ-1. Nic’s build order puts this pipeline first. The Gilligan Codex, the Athena tool list, and the wider tool sweep are later.
+
+**Settlement:** Ask still answers from the web on this turn. A how/method question whose verb is `work`, `function`, or `operate` treats that verb as the karaṇa frame. A means cue in a source inside the drift band is the method. A closed compound the lexicon does not know matches the open title. The restatement uses the grammar’s own reparse so Echo can say it. Evidence is still not memory. `bridgeAskEvidence` turns a measured research answer into an Athena gap with a curated extract. Crawl-shaped and model-shaped payloads stay refused. `curatedResearch` does not invent a letter fact. A write key granted on Custody (not hardcoded) lets Athena and Gilligan `writeSharedKnowledge`. Until it is held, Custody says so and admits stay at 0. After a parseable admit, a later how-question recalls hosted knowledge (`CS-RECALL-MANNER`) before AQ-1. Unmeasured quarantine is cold custody (`GILLIGAN-COLD-KEEP`). ChristPing stays Gilligan-only. `publishPacks` stays false.
+
+**Where:** `src/qcompile.js`, `src/crawler.js`, `src/provenance.js`, `src/forge.js`, `src/kernel.js`, `src/dream_idle.js`, `src/app_custody.js`. Proof `verify/r4174_suite.js`.
+
+**Next, after this pipeline is merged, in this order:** (2) tools the pipeline needs; (3) stubs already in the code; (4) tools used from Forge/Forge GitHub; (5) the Gilligan Codex, feature by feature; (6) the Athena document, which is a list, and every tool on that list. Not this pull request.
+
+**Docs cited:** Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (ChristPing is Gilligan-only). Dream Drift `14fVCPgQ0UtRBnSclMfQ-3fazrdwKc-BrknfqYFolJ8g` (Codex 3.24 remains yield etiquette). Echo stays exact Language Core.
+
 ## v4.9.173 — phone custody monitor and web icon (2026-10-28 America/Chicago)
 
 **Conflict:** Nic wants to see Athena and Gilligan working on the phone: Athena pulling facts into the hosted KB and curating them, Gilligan on cold storage and novel gaps. That has to be the live always-on mesh (`boundary`, `schedule`, ticks, research, admit, cold re-curate, KB counts), not a painted animation. Codex 3.24 / Dream Drift `14fVCPgQ0UtRBnSclMfQ-3fazrdwKc-BrknfqYFolJ8g` still says dream work starts on idle. 4.9.169–4.9.172 kept `dream_idle.js` out of `index.html` so the phone could not show the mesh, and the status screen still said Gilligan was not built and ChristPing was not built. The home-screen icon was the old mark. The portable single file must stay at least 5 kB under 570 kB gzip. Phone and Pages letter packs stay gated. The tools marketplace is not this ship. No LLM.

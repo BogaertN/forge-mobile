@@ -2,7 +2,9 @@
 
 Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-**Version 4.9.173**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). Registry 330. Publish-gate tests for this line of releases stay at zero failed. Service-worker cache `forge-mobile-v4.9.173`.
+**Version 4.9.174**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). Registry 331. Publish-gate tests for this line of releases stay at zero failed. Service-worker cache `forge-mobile-v4.9.174`.
+
+**Learning pipeline (4.9.174).** Ask answers a how/method question from retrieved excerpts on that turn. “How do lightbulbs work?” is spoken from the article when a Wikipedia-class source states the means. That evidence is not memory. A measured research answer can be bridged into Athena. When Nic grants the write key on Custody, a parseable promote writes the session hosted bank, and a later question recalls it before AQ-1. Unmeasured quarantine stays with Gilligan. Letter packs stay gated. The Gilligan Codex and the Athena tool list are next, after this pipeline is merged.
 
 ## What this build does
 

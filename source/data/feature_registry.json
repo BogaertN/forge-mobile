@@ -1,5 +1,5 @@
 {
- "version": "4.9.173",
+ "version": "4.9.174",
  "features": [
   {
    "id": "A-01",
@@ -3617,13 +3617,24 @@
    "proof": [
     "R4173"
    ]
+  },
+  {
+   "id": "R4174-LEARNING-LOOP",
+   "name": "Connected learning pipeline",
+   "source": "CONFLICTS.md v4.9.174; Nic lock: Ask, Athena, Gilligan, and hosted KB feed each other",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Ask answers a how/method question from retrieved excerpts. Measured research bridges into Athena. A granted write key admits into the session hosted bank. Ask recalls that fact before AQ-1. Unmeasured quarantine stays Gilligan custody. Packs stay gated. No LLM. Steps 2-6 (pipeline tools, stubs, Forge tools, Gilligan Codex, Athena list) wait until this pipeline is merged.",
+   "proof": [
+    "R4174"
+   ]
   }
  ],
- "count": 330,
+ "count": 331,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 168,
+  "Partial": 169,
   "Missing": 9,
   "Out of scope / parked": 13
  }
