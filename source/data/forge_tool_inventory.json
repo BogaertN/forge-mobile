@@ -5752,5 +5752,137 @@
   "search_knowledge_base",
   "search_text",
   "write_proposed_patch"
- ]
+ ],
+ "forge2": {
+  "release": "4.9.179",
+  "head": "262a95eb73be0d03f935a5b1a662d77522eaa342",
+  "searched": "https://github.com/BogaertN/forge2 (main @ 262a95e, readable; 4.9.177 recorded 404)",
+  "counts": {
+   "ported": 2,
+   "present": 10,
+   "skipped": 8
+  },
+  "modules": [
+   {
+    "name": "establishment",
+    "path": "src/forge2/establishment.py",
+    "status": "ported",
+    "reason": "Phone status in forge_spine.js establishmentStatus. Desktop product_capability_claimed stays false. Called from the learning-loop seal."
+   },
+   {
+    "name": "canonical",
+    "path": "src/forge2/contracts/canonical.py",
+    "status": "already present",
+    "reason": "forge_spine.js canonicalize, canonical JSON, and stable ids. SHA-256 is sha256.js. No second hasher."
+   },
+   {
+    "name": "codec",
+    "path": "src/forge2/contracts/codec.py",
+    "status": "already present",
+    "reason": "decodeInputEvent plus verifyContractMetadata. The learning-loop seal decodes every input event."
+   },
+   {
+    "name": "frozen_value",
+    "path": "src/forge2/contracts/frozen_value.py",
+    "status": "ported",
+    "reason": "freezeCanonical, thawCanonical, and isFrozenCanonical. The seal freezes the claim body before the successor hash."
+   },
+   {
+    "name": "identity",
+    "path": "src/forge2/contracts/identity.py",
+    "status": "already present",
+    "reason": "Contract metadata, lifecycle, and authority live in forge_spine.js and on every Ask spine."
+   },
+   {
+    "name": "input_event",
+    "path": "src/forge2/contracts/input_event.py",
+    "status": "already present",
+    "reason": "createInputEvent runs in forge.js buildSpine and again in dream_idle loopSeal."
+   },
+   {
+    "name": "classification_candidate",
+    "path": "src/forge2/contracts/classification_candidate.py",
+    "status": "already present",
+    "reason": "Rule candidates run on Ask and on the seal. Origin model is refused."
+   },
+   {
+    "name": "request_contract",
+    "path": "src/forge2/contracts/request_contract.py",
+    "status": "already present",
+    "reason": "createRequestContract runs in buildSpine and in loopSeal."
+   },
+   {
+    "name": "context_manifest",
+    "path": "src/forge2/contracts/context_manifest.py",
+    "status": "already present",
+    "reason": "Phone subset: admitted memory is not truth. Repository snapshots and git fields are not the learning loop."
+   },
+   {
+    "name": "capability_requirement",
+    "path": "src/forge2/contracts/capability_requirement.py",
+    "status": "already present",
+    "reason": "Provider fields stay forbidden. Network, execute, install, release, delete, and payment side effects are refused."
+   },
+   {
+    "name": "request_state",
+    "path": "src/forge2/contracts/request_state.py",
+    "status": "already present",
+    "reason": "stateIdentity and the registry run from buildSpine. transitions.js walks the same 25 states."
+   },
+   {
+    "name": "successor",
+    "path": "src/forge2/contracts/successor.py",
+    "status": "already present",
+    "reason": "validateSuccessor was unused. loopSeal now records a candidate-to-accepted receipt on Athena admit and Gilligan re-curate."
+   },
+   {
+    "name": "__main__",
+    "path": "src/forge2/__main__.py",
+    "status": "skipped",
+    "reason": "CLI status print. The phone calls establishmentStatus. No second process."
+   },
+   {
+    "name": "tests",
+    "path": "tests/",
+    "status": "skipped",
+    "reason": "Python contract tests. The phone proof is verify/r4179_suite.js."
+   },
+   {
+    "name": "verify_scripts",
+    "path": "scripts/",
+    "status": "skipped",
+    "reason": "Phase receipts and CI checkers. Not the learning loop."
+   },
+   {
+    "name": "receipts_manifests",
+    "path": "receipts/ and manifests/",
+    "status": "skipped",
+    "reason": "Ops evidence. Not a tool the loop calls."
+   },
+   {
+    "name": "ci_hooks",
+    "path": ".github/workflows/ci.yml and .githooks/pre-push",
+    "status": "skipped",
+    "reason": "Repository operations. Not shipped on the phone."
+   },
+   {
+    "name": "ml_boundary",
+    "path": "docs/policies/NO_LLM_AND_ML_BOUNDARY.md",
+    "status": "skipped",
+    "reason": "The no-LLM rule is already law. The permitted model families are refused."
+   },
+   {
+    "name": "contribution_economy",
+    "path": "docs/architecture/SYSTEM_BOUNDARY.md Contribution Economy",
+    "status": "skipped",
+    "reason": "Money and payments stay disabled."
+   },
+   {
+    "name": "terminal_mutation",
+    "path": "docs/architecture/SYSTEM_BOUNDARY.md terminal and project mutation",
+    "status": "skipped",
+    "reason": "Shell and file mutation are unsafe on the phone."
+   }
+  ]
+ }
 }

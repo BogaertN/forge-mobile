@@ -215,6 +215,8 @@
           /* 4.9.83: each subject expansion of drift ≤ band that keeps the subject's identity (number, numeral word) is a direct title too; the
              encyclopedia's redirects resolve it ("fifteenth amendment" → its article) */
           if (qEnt) for (const f of QC.titleForms(QCq)) { if (f === qEnt) continue; for (const t of [f.charAt(0).toUpperCase() + f.slice(1), f.replace(/\b[a-z]/g, c => c.toUpperCase())]) if (!direct.includes(t)) direct.push(t); }
+          /* 4.9.179: "mix bleach and ammonia" names two substances. Each is a title, so the article that states the effect can be read. */
+          if (QCq && QCq.roles && QCq.roles.asked === 'cause' && QCq.roles.predicate === 'mix' && qEnt) { for (const w of qEnt.split(' ')) { if (w.length < 3) continue; const t = w.charAt(0).toUpperCase() + w.slice(1); if (!direct.includes(t)) direct.push(t); } }
           /* the on-topic sentence for a description question: the sentence stating the description of its lead subject, else the article's
              definitional sentence (its grammatical subject names the question subject, an alternate name or the article itself) that carries
              every subject word; verbatim from the page, else the crawler's own choice */
@@ -293,9 +295,23 @@
             if (opts && evAll.length && QC.rankOptions) { rtrace.option_ranking = QC.rankOptions(opts, evAll, QCq); if (rtrace.option_ranking.hold && !(acq.evidence || []).length && !(arcEv || []).length) meaning = { kind: 'tool_failed', tool: q.tool, reason: 'ABOVE_DRIFT_BAND', limitation: 'ABOVE_DRIFT_BAND', rejected: opts.length, best_drift: Math.min.apply(null, rtrace.option_ranking.options.map(o => o.drift)), band: QC.BAND, option_ranking: rtrace.option_ranking }; } }
           if (subjectRejected.length && !arcEv.length && !acq.evidence.length) { /* 4.9.175: a what-happens question keeps a sentence that names every subject noun and states the effect, even when the article title is only one of those nouns. */
             const subj = QCq && QCq.roles && QCq.roles.asked === 'cause' ? String(QCq.roles.subject || '').split(/\s+/).filter(w => w.length > 2) : [];
-            const blob = subjectRejected.map(e => String(e._text || e.excerpt || e.intro || '')).join('\n');
-            const sent = subj.length ? blob.split(/\n+|(?<=[.!?])\s+/).map(s => s.replace(/\s+/g, ' ').trim()).find(s => s.length >= 40 && s.length <= 340 && subj.every(w => s.toLowerCase().includes(w)) && /\b(produces?|releases?|caus(?:e|es|ed|ing))\b/i.test(s)) : null;
-            const lead = sent && (subjectRejected.find(e => String(e._text || e.excerpt || '').indexOf(sent.slice(0, 40)) >= 0) || subjectRejected[0]);
+            const effectSent = blob => subj.length ? String(blob || '').split(/\n+|(?<=[.!?])\s+/).map(s => s.replace(/\s+/g, ' ').trim().replace(/,\s+which\b.*$/i, '').replace(/[.]+$/, '').trim()).find(s => s.length >= 40 && s.length <= 340 && subj.every(w => s.toLowerCase().includes(w)) && /\b(produces?|releases?|caus(?:e|es|ed|ing))\b/i.test(s)) : null;
+            let blob = subjectRejected.map(e => String(e._text || e.excerpt || e.intro || '')).join('\n');
+            let sent = effectSent(blob);
+            let lead = sent && (subjectRejected.find(e => String(e._text || e.excerpt || '').indexOf(sent.slice(0, 40)) >= 0) || subjectRejected[0]);
+            if (!sent && QCq && QCq.roles && QCq.roles.asked === 'cause' && QCq.roles.predicate === 'mix' && subj.length >= 2 && crawler && crawler.get) {
+              const pages = [];
+              for (const w of subj.slice(0, 2)) {
+                try {
+                  const u = 'https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=1&redirects=1&format=json&origin=*&titles=' + encodeURIComponent(w.charAt(0).toUpperCase() + w.slice(1));
+                  const r = await crawler.get(u, 'application/json');
+                  const pg = Object.values(((JSON.parse(r.text).query || {}).pages) || {})[0] || {};
+                  if (pg.extract) pages.push({ title: pg.title || w, text: String(pg.extract) });
+                } catch (e) { /* the lead stays the only text */ }
+              }
+              sent = effectSent(pages.map(p => p.text).join('\n'));
+              if (sent) { const hit = pages.find(p => p.text.indexOf(sent.slice(0, 40)) >= 0) || pages[0]; lead = { title: hit.title, excerpt: sent, _text: hit.text }; }
+            }
             if (sent && lead) { meaning = { kind: 'research_answer', excerpt: sent, source: clean(lead.title || 'source').slice(0, 80), archive: 'Wikipedia', cls: 'encyclopedia, a secondary source', items: ['Wikipedia: ' + clean(lead.title || '').slice(0, 70)], sealed: vaultOpen }; lead.excerpt = sent; acq.evidence.push(lead); }
             else meaning = { kind: 'tool_failed', tool: q.tool, reason: 'ABOVE_DRIFT_BAND', limitation: 'ABOVE_DRIFT_BAND', rejected: subjectRejected.length, best_drift: Math.min.apply(null, subjectRejected.map(e => (e.drift == null ? 1 : e.drift))), band: QC.BAND }; }
           /* M3 EVIDENCE ENGINE (4.9.62, evidence.js): every assessed excerpt becomes an evidence object { claim, source, rank class, excerpt hash,
@@ -346,8 +362,8 @@
               if (meaning && meaning.kind === 'research_answer' && rtrace && rtrace._Q && rtrace._Q.roles && rtrace._Q.roles.asked === 'cause' && !meaning.hazard) {
                 const subj = String(rtrace._Q.roles.subject || '').split(/\s+/).filter(w => w.length > 2);
                 const blob = [].concat(acq.evidence || [], arcEv || []).map(e => String(e && (e._text || e.excerpt) || '')).join('\n');
-                const sent = blob.split(/\n+|(?<=[.!?])\s+/).map(s => s.replace(/\s+/g, ' ').trim()).find(s => s.length >= 40 && s.length <= 340 && subj.length && subj.every(w => s.toLowerCase().includes(w)) && /\b(produces?|releases?|caus(?:e|es|ed|ing))\b/i.test(s));
-                if (sent) { meaning.excerpt = sent; meaning.nofit = false; meaning.unsupported = false; delete meaning.unsupported_claim; if (meaning.provenance && Array.isArray(meaning.provenance.sources)) meaning.provenance.sources.forEach(s => { if (s) { s.excerpt = sent; s.span = sent; s.supported = true; } }); }
+                const sent = blob.split(/\n+|(?<=[.!?])\s+/).map(s => s.replace(/\s+/g, ' ').trim().replace(/,\s+which\b.*$/i, '').replace(/[.]+$/, '').trim()).find(s => s.length >= 40 && s.length <= 340 && subj.length && subj.every(w => s.toLowerCase().includes(w)) && /\b(produces?|releases?|caus(?:e|es|ed|ing))\b/i.test(s));
+                if (sent) { meaning.excerpt = sent; meaning.nofit = false; meaning.unsupported = false; delete meaning.unsupported_claim; if (meaning.provenance) meaning.provenance.lead_supported = true; if (meaning.support && meaning.support.level === 'none') meaning.support.level = 'single'; if (meaning.provenance && Array.isArray(meaning.provenance.sources)) meaning.provenance.sources.forEach(s => { if (s) { s.excerpt = sent; s.span = sent; s.supported = true; } }); }
               }
               /* 4.9.83 GENERATED ANSWER (Nic 2026-10-21 4:58 PM): the proved sentence is read into its roles, re-voiced by the answer rules and realized
                  by the grammar's own clause realizer; Echo reads it back (same claim, no added word) and the full reply must pass the turn's Echo; the

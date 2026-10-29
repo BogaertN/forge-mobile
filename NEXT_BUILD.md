@@ -1,3 +1,11 @@
+# Next build order — after 4.9.179 (Forge2 wiring)
+
+**Shipped here:** the Forge2 modules that fit the no-LLM learning loop. Establishment status and frozen values are new. The other contracts were already in the spine and are now called on Ask, Athena admit, and Gilligan re-curate. A public how-question stays on language.core and research.web. A model candidate and an unrestricted network effect stay refused. Packs stay gated. No LLM.
+
+**Do not start inside this pull request.** Nic locked the order:
+
+6. Athena document (a list, not Codex-style prose) — pull all tools from that list and build them in.
+
 # Next build order — after 4.9.178 (Gilligan Codex)
 
 **Shipped here:** every buildable feature in THE GILLIGAN SYSTEM CODEX, on the Ask → Athena → Gilligan → hosted KB → Ask loop. ChristPing stays armed and Gilligan-only. Drift at or under 0.35 may promote. Above 0.80 is a hard stop. Token payouts and biometric sensors stay refused. Pattern Reflection is not the Codex. Packs stay gated. No LLM.
