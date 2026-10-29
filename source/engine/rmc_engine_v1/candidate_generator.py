@@ -408,19 +408,32 @@ def generate_candidates(trace_spine: dict[str, Any], *, max_candidates: int = 8)
                 allowed=True,
             ))
         if memory_support.get("memory_support_present"):
-            question = str(input_event.get("raw_input_preview") or "")
-            q_terms = {w for w in _tokens(question) if w not in {"the", "and", "for", "what", "how", "why", "who", "when", "where"}}
-            best_text = ""
-            best_hits = -1
-            for node in nodes[:8]:
-                snippet = str(node.get("content_summary") or node.get("content") or "").strip()
-                if not snippet:
-                    continue
-                hits = len(q_terms & _tokens(snippet)) if q_terms else 0
-                if hits > best_hits or (hits == best_hits and len(snippet) > len(best_text)):
-                    best_hits = hits
-                    best_text = snippet
-            anchored = best_text or "Use the active memory set as ancestry support for the next meaning state while preserving source, phase, confidence, and drift relation."
+            resonant = []
+            for node in nodes[:12]:
+                evidence = node.get("retrieval_evidence") or []
+                if any(isinstance(e, dict) and e.get("type") == "phase_align" for e in evidence):
+                    resonant.append(node)
+            if resonant:
+                # The anchor is the phase-aligned row. Its text is the candidate
+                # meaning, so the unchanged similarity term compares like with like.
+                best = max(resonant, key=lambda n: (float(n.get("retrieval_weight") or 0), str(n.get("memory_id") or "")))
+                anchored = str(best.get("content") or best.get("content_summary") or "").strip()
+                rationale = anchored or "Memory is present and phase-aligned."
+            else:
+                question = str(input_event.get("raw_input_preview") or "")
+                q_terms = {w for w in _tokens(question) if w not in {"the", "and", "for", "what", "how", "why", "who", "when", "where"}}
+                best_text = ""
+                best_hits = -1
+                for node in nodes[:8]:
+                    snippet = str(node.get("content_summary") or node.get("content") or "").strip()
+                    if not snippet:
+                        continue
+                    hits = len(q_terms & _tokens(snippet)) if q_terms else 0
+                    if hits > best_hits or (hits == best_hits and len(snippet) > len(best_text)):
+                        best_hits = hits
+                        best_text = snippet
+                anchored = best_text or "Use the active memory set as ancestry support for the next meaning state while preserving source, phase, confidence, and drift relation."
+                rationale = "Memory is present and phase-related; the candidate keeps ancestry attached instead of relying on surface language."
             candidates.append(_candidate(
                 "ct_memory", trace_id,
                 "Memory-Anchored Candidate",
@@ -428,7 +441,7 @@ def generate_candidates(trace_spine: dict[str, Any], *, max_candidates: int = 8)
                 primary if primary in PHASES else "Φ6", phase_path or [primary], "memory_anchored_candidate",
                 min(0.9, 0.44 + memory_support.get("average_retrieval_weight", 0.0) * 0.5), 0.24, eps, memory_support,
                 ["requires_memory_link_audit", "source_ancestry_preserved", "trace_first"],
-                "Memory is present and phase-related; the candidate keeps ancestry attached instead of relying on surface language.",
+                rationale[:1600],
                 allowed=True,
             ))
         if has_phi7 or "naming" in str(input_event.get("raw_input_preview", "")).lower():

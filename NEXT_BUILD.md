@@ -1,3 +1,9 @@
+# Next build order — after 4.9.185 (resonance recall)
+
+**Shipped here:** Ask recalls by phase-align of a `FORGE-RESONANCE-PACKET/v1` packet and by the Doc 4/5 frame or concept, not by token overlap. The coherence formula and C_min 0.87 are unchanged. Thirteen of the 60 questions admit because memory_fit rose. The memory writer stores those sentences with provenance and contributor credit. A quarantined excerpt with no phase-aligned ancestor is not written. Supabase contributor insert stays revoked. ChristPing is not started. The wiring is `docs/WIRING_185.md`. The tables are `docs/LIVE_TEST_185.md`. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** Simulate (spec §6, contract §13). Deleting the bypassed JS answer path. Lowering C_min. A model call. Re-enabling the Supabase contribution insert.
+
 # Next build order — after 4.9.184 (Observe and Derive)
 
 **Shipped here:** `run_reasoning_seam` is world-model Observe and Derive, then the EchoForge debate on the Doc 4/5 frames. Simulate is deferred. Self-facts live in the turn world and can be superseded. Each derived claim has provenance, a replayed proof, drift, and chi. ChristPing is not started. C_min stays 0.87. The coherence formula is unchanged. On the 60-question set C still tops out at 0.835833, so Ask stays held. The wiring is `docs/WIRING_184.md`. The table is `docs/LIVE_TEST_184.md`. No LLM. Packs stay gated. Money stays disabled.

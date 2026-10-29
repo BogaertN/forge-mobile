@@ -149,7 +149,8 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]]) -> int:
             "filename": str(row.get("source") or "memory"),
             "verification_ok": row.get("source") != "research_quarantine",
             "rpmc_phase_tags": row.get("phase_tags") or ["Φ1"],
-            "quarantined": row.get("source") == "research_quarantine",
+            "quarantined": row.get("source") == "research_quarantine" or row.get("quarantined") is True,
+            "sfe": row.get("sfe") if isinstance(row.get("sfe"), dict) else None,
         }
         (dest / f"m{i:04d}.json").write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
         count += 1
@@ -258,7 +259,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         live = bool(payload.get("live")) and not bool(payload.get("dry_run"))
         report = run_deep_dry_run(
             question,
-            {"source": "forge-mobile-ask" if live else "forge-mobile-foundations", "retrieval_backend": "filesystem"},
+            {"source": "forge-mobile-ask" if live else "forge-mobile-foundations", "retrieval_backend": "filesystem", "recall": "resonance"},
             root=str(root),
             execute_late_stages=live,
         )
@@ -272,7 +273,10 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         artifacts = report.get("artifacts") if isinstance(report.get("artifacts"), dict) else {}
         recorded = artifacts.get("reasoning_seam") if isinstance(artifacts.get("reasoning_seam"), dict) else None
         world = recorded if recorded and recorded.get("layer") == "world_model" else world_model_seam(memory, question)
-        rendered = str(artifacts.get("rendered_answer") or "")
+        rendered_full = str(artifacts.get("rendered_answer") or "")
+        derived = str((world.get("derived_text") or "")).strip()
+        # The renderer ran on the surviving derived sentence. Speak that sentence.
+        rendered = derived if (live and rendered_full and derived) else rendered_full
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
         gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))
         stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
@@ -290,6 +294,48 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         chain = [s.get("stage_id") for s in stages]
         spoken = bool(gate.get("applied_to_ask") and rendered)
         reply = rendered if spoken else None
+        recall_state = (((artifacts.get("trace_spine") or {}).get("memory_recall") or {}).get("memory_state") or {})
+        resonance = recall_state.get("resonance") if isinstance(recall_state, dict) else None
+        research_rows = [r for r in rows if r.get("source") == "research_quarantine"]
+        ancestors = recall_state.get("active_memory_nodes") if isinstance(recall_state, dict) else []
+        from rmc_engine_v1.resonance_recall import curate_quarantine, PACKET_SCHEMA, CITE as RESONANCE_CITE
+        curation = [curate_quarantine(question, row, ancestors if isinstance(ancestors, list) else []) for row in research_rows]
+        memory_write = None
+        if spoken:
+            eps = measured["epsilon_s"]
+            sfe = {"Phi": 9, "eps": round(eps, 6), "mu": 1}
+            packet = {
+                "schema": PACKET_SCHEMA, "Phi": 9, "eps": sfe["eps"], "mu": 1, "sfe": sfe,
+                "cite": RESONANCE_CITE, "placed_by": "athena", "standing": "projectable",
+            }
+            survivor = ((world.get("derive") or {}).get("survivor") or {})
+            provenance = {
+                "question": question,
+                "premises": survivor.get("provenance") or [],
+                "frame": ((survivor.get("debate") or {}).get("frame")),
+                "source": "rmc_core.admit_gate",
+                "contributor": "athena",
+                "credit": "Athena placed the packet after resonance recall and the admit gate. Premise ids are the recalled rows.",
+            }
+            row_body = {"id": "admit-" + question[:24], "text": reply, "sfe": sfe, "packet": packet, "provenance": provenance, "contributor": "athena"}
+            memory_write = {
+                "committed": True,
+                "calls_llm": False,
+                "text": reply,
+                "packet": packet,
+                "provenance": provenance,
+                "phone_kb": row_body,
+                "hosted_kb": row_body,
+                "rmc_receipt": row_body,
+                "supabase": {
+                    "attempted": True,
+                    "written": False,
+                    "rule": "KB-CONTRIB-INSERT-REVOKED",
+                    "cite": "supabase/migrations/20261021000100_revoke_contrib_insert.sql",
+                    "hosted_session": True,
+                },
+                "gilligan": {"christping_initiated": False, "reason": "Ask does not start ChristPing. Only Gilligan initiates it, and only above a hard stop."},
+            }
         kind = "rendered_answer" if spoken else ("held_trace" if live else "foundation_trace")
         trace = {
             "input": question,
@@ -308,6 +354,9 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "late_stages": late,
             "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"]},
             "echo": echo,
+            "resonance": resonance,
+            "quarantine_curation": curation,
+            "memory_write": memory_write,
             "output": {
                 "kind": kind,
                 "product_reply": spoken,
@@ -341,6 +390,9 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "world_model": trace["world_model"],
             "admit": gate,
             "echo": echo,
+            "resonance": resonance,
+            "quarantine_curation": curation,
+            "memory_write": memory_write,
             "stages": stage_rows,
             "late_stages": late,
             "recall_sources": measured.get("recall_sources") or {},

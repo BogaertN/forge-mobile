@@ -107,6 +107,10 @@ async function askMemory() {
     memory.phone = memory.phone.concat(((phone && phone.facts) || []).slice(0, 12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400) })));
     memory.receipts = memory.receipts.concat((forge.store.load('receipts') || []).slice(-8).map(row => ({ id: row.receipt_id, text: String(row.input || '').slice(0, 240) })));
   } catch (e) { /* stores can be empty on first open */ }
+  const admitted = window.FORGE_ADMITTED || [];
+  for (const row of admitted) {
+    if (row && row.text) memory.hosted.push({ id: row.id, text: String(row.text).slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor });
+  }
   return memory;
 }
 function doc6Tag(gate) {
@@ -131,6 +135,16 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     else row = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   lastResult = row;
+  if (row && row.memory_write && row.memory_write.committed && row.memory_write.hosted_kb) {
+    window.FORGE_ADMITTED = window.FORGE_ADMITTED || [];
+    const body = row.memory_write.hosted_kb;
+    if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
+    try {
+      const receipts = forge.store.load('receipts') || [];
+      receipts.push({ receipt_id: 'rmc-' + receipts.length, input: body.text, packet: body.packet, provenance: body.provenance, contributor: body.contributor });
+      forge.store.save('receipts', receipts.slice(-40));
+    } catch (e) { /* the trace still carries the receipt */ }
+  }
   const admitted = !!(row && row.product_reply && row.reply);
   const kd = admitted ? 'deterministic_route' : 'deterministic_hold';
   stats[admitted ? 'routed' : 'held']++;
@@ -159,14 +173,21 @@ function renderRmc(text, row) {
   const prov = (survivor.provenance || []).join(', ');
   const eps = survivor.drift && survivor.drift.epsilon_s;
   const chi = survivor.chi || (survivor.drift && survivor.drift.chi) || {};
+  const res = row && row.resonance || {};
+  const rsoc = res.rsoc || {};
+  const asked = res.asked || {};
+  const write = row && row.memory_write || {};
+  const packet = write.packet || {};
   body.innerHTML = '<div data-rmc-question>' + esc(text) + '</div>'
     + '<div class="meta" data-rmc-summary>route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(row && row.admit && row.admit.disposition) + ' · recall ' + esc(row && row.active_memory_count) + '</div>'
     + '<div data-rmc-stages>' + pills + '</div>'
+    + '<div class="meta" data-stage-recall>Recall resonance · ' + esc(res.how || 'none') + ' · question Φ' + esc(res.question_phi) + ' · frame ' + esc(asked.frame) + ' · role ' + esc(asked.role) + ' ' + esc(asked.filler) + ' · RSOC ' + esc(rsoc.status) + ' · locked ' + esc(rsoc.locked) + '</div>'
     + '<div class="meta" data-stage-observe>Observe · admitted ' + esc(wm.observe && wm.observe.admitted) + ' · quarantined ' + esc(wm.observe && wm.observe.quarantined) + ' · superseded ' + esc(wm.observe && wm.observe.superseded) + ' · root ' + esc(wm.world_root) + '</div>'
     + '<div class="meta" data-stage-derive>Derive ' + esc(derived.status) + ' · ' + esc(derived.reason) + ' · claims ' + esc((derived.claims || []).length) + ' · how ' + esc(survivor.how) + '</div>'
     + '<div class="meta" data-stage-debate>EchoForge debate ' + esc((debate.order || ['proponent', 'opponent']).join(' then ')) + ' · frame ' + esc(debate.frame) + ' · survived ' + esc(debate.survived) + ' · challenger ' + esc((opponent.objections || []).map(o => o.code).join(', ')) + '</div>'
     + '<div class="meta" data-derived-provenance>provenance ' + esc(prov || 'none') + ' · drift ' + esc(eps) + ' ' + esc(survivor.drift && survivor.drift.disposition) + ' · chi ' + esc(chi.status) + ' · ChristPing ' + (wm.christping_initiated ? 'started' : 'not started') + '</div>'
     + '<div class="meta" data-derived-text>' + esc(wm.derived_text || '') + '</div>'
+    + '<div class="meta" data-memory-write>memory writer ' + (write.committed ? 'committed' : 'not committed') + ' · packet ' + esc(packet.schema || 'none') + ' · Φ ' + esc(packet.Phi) + ' · ε ' + esc(packet.eps) + ' · μ ' + esc(packet.mu) + ' · contributor ' + esc(write.provenance && write.provenance.contributor) + ' · supabase ' + esc(write.supabase && write.supabase.rule) + '</div>'
     + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
     + '<div class="meta" data-rmc-late>' + late + '</div>'
     + '<div class="meta">' + (row && row.product_reply ? 'Admitted answer from the RMC renderer.' : 'Held. This card is the trace. Stages 14–16 ran. Observe, Derive, and the debate ran in the engine.') + '</div>';

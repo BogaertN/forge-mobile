@@ -1,3 +1,11 @@
+## v4.9.185 — resonance recall and an honest KB fill (2026-10-29 America/Chicago)
+
+**Conflict:** On the 60-question set, C topped out at 0.835833 because memory_fit was about 0.676. The recaller ranked receipts by token overlap, so the sentence that answered the question was diluted by the other receipts. Lowering C_min, Echo, or the coherence weights would have been a fake pass. Hand-writing new answers into the seed would have been the same kind of fake. A bank with nothing admitted cannot recall a match, and a quarantined excerpt is not a premise.
+
+**Where:** `rmc_engine_v1/resonance_recall.py`. Ask still calls `rmc_core.run`. The scorer's formula is `measurement_kernel.coherence_components`, unchanged. The wiring is `docs/WIRING_185.md`. The two tables are `docs/LIVE_TEST_185.md`.
+
+**Resolution:** Recall is phase-align of a `FORGE-RESONANCE-PACKET/v1` packet (`dream_idle.js` `resonancePacket`; `kmath.js` `phaseAngle`, δ ≤ π/4) plus the Doc 5 frame (`language_core_debate.py` `FR.BE.COP`) or a Doc 4 concept (`source/src/lexicon.js`). It does not use token overlap. Quarantine stays evidence. `curate_quarantine` refuses a row with no phase-aligned ancestor (`DREAM-QUARANTINE-NO-TRUTH`, the same rule as `athenaGate`). Where an already admitted sentence does lock, memory_fit rises and the unchanged formula can reach 0.87. Thirteen questions admit. The memory writer then stores that derived sentence in the phone list, the hosted session, and an RMC receipt, with the packet, provenance, and contributor `athena`. Supabase `kb.contributions` insert stays revoked. The second pass recalls those rows and does not admit the questions that had no lock. C_min stays 0.87. Echo stays 0.85. ChristPing is not started. No LLM. Packs stay gated. Money stays disabled.
+
 ## v4.9.184 — world-model Derive on the Ask path (2026-10-29 America/Chicago)
 
 **Conflict:** `reasoning_seam.run_reasoning_seam` sat between recall and the renderer and returned the memory unchanged. Nic's contract says Observe and Derive belong in the core, and the EchoForge round is proponent then opponent with no model.

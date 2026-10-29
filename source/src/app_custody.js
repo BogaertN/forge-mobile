@@ -64,7 +64,11 @@
         ? 'dream_idle is switched off. The mesh is not running. Packs stay gated. Money stays disabled.'
         : 'Always-on workers. This portable file does not inline the mesh. The installed site binds this monitor to dream_idle.js. Letter packs stay gated.';
       if (strip) strip.innerHTML = '<b>Custody</b> ' + esc(msg);
-      if (body) body.innerHTML = '<div class="card"><div class="cardhead">Custody <span class="pill' + (off ? '' : ' ok') + '">' + (off ? 'switched off' : 'always on') + '</span></div><div class="small">' + esc(msg) + '</div></div>';
+      const admitted = (root.FORGE_ADMITTED || []);
+      const kb = admitted.length
+        ? '<div class="card" data-kb-fill><div class="cardhead">KB fill <span class="pill ok">' + admitted.length + ' admitted</span></div>' + admitted.slice(-8).map(r => '<div class="rec"><div>' + esc(r.text) + '</div><div class="meta">phone KB · hosted session · RMC receipt · ' + esc(r.contributor || 'athena') + ' · Φ' + esc(r.sfe && r.sfe.Phi) + ' ε' + esc(r.sfe && r.sfe.eps) + ' μ' + esc(r.sfe && r.sfe.mu) + ' · supabase KB-CONTRIB-INSERT-REVOKED</div></div>').join('') + '</div>'
+        : '';
+      if (body) body.innerHTML = '<div class="card"><div class="cardhead">Custody <span class="pill' + (off ? '' : ' ok') + '">' + (off ? 'switched off' : 'always on') + '</span></div><div class="small">' + esc(msg) + '</div></div>' + kb;
       return;
     }
     const a = c.athena || {}, g = c.gilligan || {}, kb = c.kb || {};
