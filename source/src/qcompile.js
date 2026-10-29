@@ -42,7 +42,8 @@
     const predPos = !predicate ? null : ps.includes('v') && (lp.asked || qw.some(w => w !== predicate && verbForms(predicate).concat(irregular(lex, predicate)).includes(w)) || /^(do|does|did)$/.test(qw[1] || '')) ? 'v' : ps.includes('a') || ps.includes('s') ? 'a' : ps[0] || null;
     const roles = { subject: subj || null, predicate: asked2 === 'function' ? null : predicate, predicate_pos: asked2 === 'function' ? null : predPos, asked: asked2, modifiers: Object.assign({}, lp.juris ? { jurisdiction: lp.juris } : {}) };
     const exps = []; const add = (role, form, drift, via) => { form = String(form).trim(); if (!form || exps.some(e => e.role === role && e.form === form)) return; exps.push({ role, form, drift: Math.round(drift * 100) / 100, via, used: drift <= BAND }); };
-    if (sw.length) { add('subject', sw.join(' '), DRIFT.surface, 'surface'); const head = sw[sw.length - 1], pre = sw.slice(0, -1);
+      if (sw.length === 1) for (const phrase of closedCompounds(lex, sw[0])) add('subject', phrase, DRIFT.morph, 'closed-compound');
+      if (sw.length) { add('subject', sw.join(' '), DRIFT.surface, 'surface'); const head = sw[sw.length - 1], pre = sw.slice(0, -1);
       for (const h of otherNumber(head)) add('subject', pre.concat([h]).join(' '), DRIFT.morph, 'morphology');
       sw.forEach((w, i) => { for (const n of numeralForms(w)) add('subject', sw.slice(0, i).concat([n], sw.slice(i + 1)).join(' '), DRIFT.numeral, 'numeral'); });
       const key = sw.length > 1 && firstSynset(lex, sw.join('_'), 'n') ? sw.join('_') : head; const sid = firstSynset(lex, key, 'n');
@@ -57,7 +58,25 @@
     const Q = { schema: 'FORGE-QUERY-COMPILED/v1', band: BAND, roles, expansions: exps, qwords: words(q), text: q.replace(/[?!.]+\s*$/, '').trim() }; Object.defineProperty(Q, 'lex', { value: lex, enumerable: false }); return Q; }
   const used = (Q, role) => Q.expansions.filter(e => e.role === role && e.used);
   /* the forms worth trying as direct titles (surface, morphology, numeral words; never a hypernym) */
-  const titleForms = Q => used(Q, 'subject').filter(e => /^(surface|morphology|numeral)$/.test(e.via)).map(e => e.form);
+  const titleForms = Q => used(Q, 'subject').filter(e => /^(surface|morphology|numeral|closed-compound)$/.test(e.via)).map(e => e.form);
+  /* A closed compound the lexicon does not know ("lightbulbs") is the open compound of two known words ("light bulb").
+     Morphology only. A word that is already a noun is not split. */
+  function nounish(lex, w) { if (!lex || typeof lex.hasPos !== 'function' || !w) return false; try { return lex.hasPos(w, 'n') || lex.hasPos(w, 'a'); } catch (e) { return false; } }
+  function closedCompounds(lex, token) {
+    if (!token || /\s/.test(token) || !lex || typeof lex.hasPos !== 'function') return [];
+    const forms = [token].concat(otherNumber(token));
+    try { if (forms.some(w => lex.hasPos(w, 'n'))) return []; } catch (e) { return []; }
+    const out = [];
+    for (const w of forms) for (let i = 3; i <= w.length - 3; i++) {
+      const a = w.slice(0, i), rights = [w.slice(i)].concat(otherNumber(w.slice(i)));
+      if (!nounish(lex, a)) continue;
+      const right = rights.find(x => nounish(lex, x));
+      if (!right) continue;
+      const phrase = a + ' ' + right;
+      if (!out.includes(phrase)) out.push(phrase);
+    }
+    return out;
+  }
   /* SUBJECT DRIFT of a source: the lowest-drift subject expansion naming its title, an alternate name (redirect / alias) or its lead subject */
   function subjectDrift(Q, src) { if (!Q.roles.subject) return { drift: 0, via: 'none', form: null };
     let best = null; for (const e of used(Q, 'subject')) { const m = PV.subjectMatch(e.form, src); if (!m.ok || m.basis === 'none') continue; let d = e.drift + (m.basis === 'alias' ? DRIFT.redirect : m.basis === 'description' ? DRIFT.description : 0);
@@ -92,7 +111,7 @@
   /* RELATION DRIFT of a sentence: does it fill the asked relation (and name the subject / the predicate)? */
   const CUE = { cause: /\b(because|due to|caus(?:e|es|ed|ing)|result(?:s|ing)? (?:of|from|in)|as a result|owing to|reason|so that|leads? to|responsible for|since)\b/i,
     /* a manner / means: the means cue after the predicate, or a process verb of formation */
-    method: /\b(form(?:s|ed)? (?:when|by|from|through|as)|(?:is|are|was|were) (?:formed|produced|created|made|generated) (?:by|from|when|through|as|in)|process|mechanism|consists? of|made (?:of|from|by)|works? by|occurs? when|develops? (?:when|from))\b/i,
+    method: /\b(by (?:means of )?[a-z]+ing|(?:is|are|was|were) (?:formed|produced|created|made|generated|heated) (?:by|from|when|through|as|in)|form(?:s|ed)? (?:when|by|from|through|as)|process|mechanism|consists? of|made (?:of|from|by)|works? by|using|uses?|through (?:a|an|the)|via|occurs? when|develops? (?:when|from))\b/i,
     agent: /\b[A-Z][a-z]+(?:\s+[A-Z][a-z.]+)+\b/, time: /\b(1[0-9]{3}|20[0-9]{2}|[0-9]{1,4} (?:BC|BCE|AD|CE))\b/, place: /\b(in|at|near|located|between)\s+(?:the\s+)?[A-Z][a-z]+/,
     quantity: /\d/, function: /\b(functions?|role|serves?|acts? as|works? as|responsible for|used (?:for|to)|helps?|purpose)\b/i };
   /* RELATION DRIFT of a sentence (RSOC: the distance between the compiled question and the claim the sentence makes), summed over the
@@ -125,12 +144,15 @@
     const pertK = !karma && pe.length && (() => { const w = words(s); for (let i = 0; i + 1 < w.length; i++) if (pe.some(p => p.form === w[i + 1]) && forms.some(f => words(f).length === 1 && pertains(Q, w[i], words(f)[0]))) return true; return false; })();
     const subjR = !Q.roles.subject ? 0 : led || karma || pertK ? 0 : !body && /^(It|They|This)\b/.test(s) ? 0.05 : /* 4.9.95: past the lead a pronoun stands for its local antecedent, not the article's subject */ named ? 0.15 : 0.3;
     const predHit = pe.filter(e => ws0m.some(w => w === e.form || PV.covers(w, { entities: [e.form] }))).map(e => e.drift);
-    const predR = !Q.roles.predicate || /^(description|function)$/.test(Q.roles.asked) ? 0 : predHit.length ? Math.min(...predHit) : 0.3;
+    let predR = !Q.roles.predicate || /^(description|function)$/.test(Q.roles.asked) ? 0 : predHit.length ? Math.min(...predHit) : 0.3;
     const a = Q.roles.asked; let askR;
     if (a === 'verdict') askR = 0; else if (a === 'description') askR = defn && led ? 0 : 0.3;
     else if (a === 'function') { const act = forms.some(f => new RegExp('(?:^|[,;:]\\s*|\\b(?:the|a|an)\\s+)' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s+(?:\\w+ly\\s+)?(?!is\\b|was\\b|are\\b|were\\b|has\\b|had\\b)(\\w+s)\\b', 'i').test(s)); askR = act || CUE.function.test(s) ? 0 : defn ? 0.2 : 0.3; }
     else { const means = a === 'method' && pe.some(e => new RegExp('\\b' + e.form + '\\s+(?:by|through|using|via|when|because|as)\\b', 'i').test(s)); askR = means || (CUE[a] && CUE[a].test(s)) ? 0 : defn ? 0.2 : 0.3; }
     if (predR >= 0.3 && askR < 0.3) askR = 0.3; /* 4.9.86: a relation marker of another predicate ("low oxygen due to …" for "why is the ocean salty") fills nothing */
+    /* 4.9.174: "how does X work/function/operate" — the verb is the karaṇa frame, not a root the source must repeat.
+       A content verb (glide, form, erupt) still has to be stated. The means cue, or a definition that carries one, fills the gap. */
+    if (a === 'method' && /^(work|function|operate)$/.test(String(Q.roles.predicate || '')) && (CUE.method.test(s) || defn)) { predR = 0; if (CUE.method.test(s)) askR = 0; else askR = Math.min(askR, 0.2); }
     const rd = Math.round(Math.min(1, subjR + predR + askR) * 100) / 100; return parts ? { rd, ask: predR + askR } : rd; }
   /* CLAIM DRIFT: a sentence of any fetched source that itself carries the subject, the predicate and the asked relation answers the question
      whatever the article's title (the claim is measured, not the title): DRIFT.claim + its relation drift, unhalved */
@@ -187,7 +209,7 @@
     /* a lead adjunct has no finite auxiliary and no finite lexical verb: "Granite contains quartz," is the clause itself */
     /* every lead adjunct is left out ("For the example …, in broad daylight, the sky is …"): the first comma phrase, then further ones that open with an adjunct word */
     const LEADW = /^(?:for|in|on|at|during|after|before|with|without|from|by|as|under|over|near|since|unlike|like|except|despite|according|apart|following|when|while|although|though|if|because|however|thus|therefore|also|moreover|typically|generally|usually|today|currently|historically)\b/i; const noLead = x => { let y = x, n = 0; for (let m; n < 3 && (m = /^([^,]{1,70}),\s+(.+)$/.exec(y)) && m[2].split(' ').length >= 3 && (n === 0 ? !(/^(?:[A-Z][\w'’.-]*\s?)+$/.test(m[1]) && /^[A-Z]/.test(m[2])) && !/\b(?:is|are|was|were|has|have|had|can|could|will|would|may|might|must)\b/i.test(m[1]) && !hasFiniteLexical(m[1]) : LEADW.test(m[1])); n++) y = m[2]; return n ? y : null; };
-    const cut = x => { const m = /^(.+?)(?:,\s+(?:which|who|whom|where|while|although|though|and|but|or|as|so|with|making|including|leading|resulting)\b|;\s|\s[–—]\s|:\s|\s(?:when|whereas|unless)\s)/i.exec(x); return m ? m[1] : null; };
+    const cut = x => { const m = /^(.+?)(?:,\s+(?:which|who|whom|where|while|although|though|and|but|or|as|so|with|making|including|leading|resulting)\b|;\s|\s[–—]\s|:\s|\s(?:when|whereas|unless|until)\s)/i.exec(x); return m ? m[1] : null; };
     const listTail = /, [a-z][\w'’-]*(?: [a-z][\w'’-]*){0,4}(?:,| and | or )/i; /* 4.9.97: a list tail is one nominal, not a place to cut the claim */
     for (const x of [s0, noLead(s0)]) { if (!x) continue; add(x); let y = x; for (let i = 0; i < 3; i++) { const c = cut(y); if (!c || c === y) break; add(c); y = c; } const k = y.indexOf(', '); if (k > 0 && /^, [a-z]/.test(y.slice(k)) && !listTail.test(y.slice(k))) add(y.slice(0, k)); /* never inside a list of names */ /* last resort: the first clause up to its first comma */ }
     return out; }

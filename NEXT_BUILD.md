@@ -1,3 +1,15 @@
+# Next build order — after 4.9.174 (this pipeline)
+
+**Shipped here:** one learning pipeline. Ask answers a how/method question from web excerpts on that turn. Measured research can be admitted into the hosted session bank when the write key is held, and a later Ask recalls it before AQ-1. Unmeasured quarantine stays Gilligan custody. Packs stay gated. No LLM.
+
+**Do not start inside this pull request.** Nic locked the order after merge:
+
+2. Tools the pipeline needs.
+3. Stubs already in the code — implement them.
+4. Pull tools we used from Forge/Forge GitHub and build them in.
+5. Gilligan Codex — grab all features and build them.
+6. Athena document (a list, not Codex-style prose) — pull all tools from that list and build them in.
+
 # Next build order — after 4.9.173 (shipped)
 
 **Baseline:** 4.9.173 custody monitor on the 4.9.172 always-on mesh. The phone Custody tab reads live Athena research/admit and Gilligan cold/novel status plus hosted KB counts. Ask pauses helpers, then they resume. Phone letter packs stay gated. The portable single file does not inline `dream_idle.js`. No LLM. Soft leave ≥5 kB under 570 kB.

@@ -70,7 +70,7 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.173', custody_monitor: true, psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.174', custody_monitor: true, learning_loop: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
@@ -284,6 +284,51 @@
     if (raw.eps === null) body.eps = null;
     if (Array.isArray(raw.extracts)) body.extracts = raw.extracts.filter(acceptExtract);
     return { ok: true, rule: null, body: body };
+  }
+
+  function crawlShaped(raw) {
+    if (!raw || typeof raw !== 'object') return false;
+    if (raw.calls_llm === true || raw.open_crawl === true || raw.crawl === true || raw.research_web === true || llmShaped(raw)) return true;
+    const ex = raw.extracts;
+    return Array.isArray(ex) && ex.length > 0 && ex.every(e => e && (e.open_crawl === true || e.crawl === true || e.calls_llm === true || e.research_web === true || /crawl|research\.web/i.test(String(e.source || e.source_id || e.source_class || ''))));
+  }
+
+  /* Phone research callback. Allow-listed extracts already on the gap pass through.
+     Measured excerpts become curated extracts. A crawl-shaped or model-shaped payload is returned unchanged so the contract still refuses it.
+     A letter hole with no measured excerpt stays unmeasured. Nothing here is invented. */
+  function curatedResearch(gap) {
+    gap = gap || {};
+    if (crawlShaped(gap)) return gap;
+    if ((gap.extracts || []).some(acceptExtract)) return Object.assign({}, gap, { calls_llm: false });
+    const rows = Array.isArray(gap.excerpts) ? gap.excerpts : [];
+    if (rows.some(crawlShaped)) return gap;
+    const built = [];
+    for (const row of rows) {
+      const text = String((row && (row.text || row.excerpt)) || '').trim();
+      const integrity = Number(row && row.integrity);
+      if (!text || !Number.isFinite(integrity)) continue;
+      built.push({ text: text, verified: true, integrity: KM.r4(Math.min(1, Math.max(0, integrity))), source: 'curated', curated: true, allow_listed: true });
+    }
+    if (!built.length) return Object.assign({}, gap, { calls_llm: false });
+    const integrity = KM.r4(built.reduce((a, e) => a + Number(e.integrity), 0) / built.length);
+    const eps = gap.eps === null ? null : (Number.isFinite(Number(gap.eps)) ? KM.r4(Number(gap.eps)) : null);
+    return Object.assign({}, gap, { claim: gap.claim || built[0].text, extracts: built, integrity: integrity, eps: eps, calls_llm: false });
+  }
+
+  /* Ask research_answer → an Athena gap that carries the measured claim. Crawl and model shapes stay refused. No drift means unmeasured. */
+  function bridgeAskEvidence(raw) {
+    raw = raw || {};
+    const meaning = raw.meaning || (raw.trace && raw.trace.msm && raw.trace.msm.meaning) || raw;
+    if (crawlShaped(raw) || crawlShaped(meaning)) return { ok: false, rule: (raw.calls_llm === true || meaning.calls_llm === true || llmShaped(raw) || llmShaped(meaning)) ? 'DREAM-LLM-REFUSED' : 'DREAM-OPEN-CRAWL-REFUSED', gap: null, calls_llm: false };
+    if (meaning.kind === 'tool_failed' || meaning.kind === 'tool_started' || meaning.nofit === true) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
+    const claim = String((meaning.generated && meaning.generated.text) || meaning.claim || meaning.excerpt || '').trim().replace(/[.]+$/, '');
+    if (!claim) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
+    let eps = meaning.generated && Number.isFinite(Number(meaning.generated.drift)) ? Number(meaning.generated.drift) : (Number.isFinite(Number(raw.eps)) ? Number(raw.eps) : null);
+    if (eps != null) eps = KM.r4(Math.max(0, eps));
+    const integrity = eps != null ? KM.r4(Math.min(1, Math.max(0, 1 - eps))) : (Number.isFinite(Number(raw.integrity)) ? KM.r4(Number(raw.integrity)) : null);
+    if (integrity == null) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
+    const question = String(raw.question || raw.input || (raw.trace && raw.trace.input) || '').replace(/[?\s]+$/, '').trim() || null;
+    return { ok: true, calls_llm: false, gap: { id: 'gap:aq1:' + sha256(norm(claim)).slice(0, 12), kind: 'aq1_miss', question: question, claim: claim, eps: eps, integrity: integrity, extracts: [{ text: claim, verified: true, integrity: integrity, source: 'curated', curated: true, allow_listed: true }], calls_llm: false } };
   }
 
   function packetOf(spec) {
@@ -831,6 +876,7 @@
     opts = opts || {};
     const now = () => (opts.clock ? opts.clock() : '1970-01-01T00:00:00Z');
     const research = typeof opts.research === 'function' ? opts.research : null;
+    let writeKey = String(opts.writeKey || opts.write_key || '');
     let admitEnabled = opts.admitEnabled !== false;
     let answering = false;
     const gaps = new Map();
@@ -889,7 +935,7 @@
     function hostReady(o) {
       o = o || {};
       const host = o.host || opts.host;
-      const key = o.writeKey || o.write_key || opts.writeKey || opts.write_key || '';
+      const key = o.writeKey || o.write_key || writeKey || '';
       return !!(admitEnabled && host && typeof host.writeSharedKnowledge === 'function' && key && o.autoFill !== false && opts.autoFill !== false);
     }
 
@@ -897,7 +943,7 @@
       o = o || {};
       if (!hostReady(o)) return { ok: false, ran: false, rule: 'DREAM-BACKEND-FILL-IDLE', wrote_confirmed_shared: false, wrote_pack: false, calls_llm: false, phone_db: false };
       const packs = o.publishPacks === true || opts.publishPacks === true;
-      return admitRecord(staged, { host: o.host || opts.host, writeKey: o.writeKey || o.write_key || opts.writeKey || opts.write_key, publishPacks: packs, packDir: o.packDir || opts.packDir, answering: false });
+      return admitRecord(staged, { host: o.host || opts.host, writeKey: o.writeKey || o.write_key || writeKey, publishPacks: packs, packDir: o.packDir || opts.packDir, answering: false });
     }
 
     function coldKept(row) {
@@ -978,6 +1024,7 @@
         schema: 'FORGE-CUSTODY-MONITOR/v1', calls_llm: false, always_on: true, idle_gated: false, ui_click_required: false,
         schedule_law: b.schedule_law, phone_pack_publish: b.phone_pack_publish, pages_pack_ship: b.pages_pack_ship,
         publish_packs: opts.publishPacks === true, continuous_fill: b.continuous_fill, automatic_curation: true,
+        write_key_held: writeKey.length >= 12, learning_loop: 'research → measure → admit/quarantine → cold → KB → Ask',
         researcher: 'athena', cold_curator: 'gilligan', ask: 'neo', neo_is_neil: false, answering: answering,
         daemons: DAEMONS.map(d => ({ role: d.role, duty: d.duty, runs: d.runs })),
         queued: queue.length, novel_open: novelOpen, cold_rows: athena.coldBank().length, christ_pings: pulse.christ,
@@ -1040,7 +1087,7 @@
       } else {
         gap.attempts = (gap.attempts || 0) + 1;
         gap.status = routed.lane;
-        if (routed.lane === 'quarantine') quarantine.push(Object.assign({}, rec, { status: 'quarantined' }));
+        if (routed.lane === 'quarantine') { quarantine.push(Object.assign({}, rec, { status: 'quarantined' })); if (gap.attempts === 1) athena.noteCustody(rec, routed.rule || 'DREAM-UNMEASURED'); }
         if (gap.attempts < (opts.maxAttempts || MAX_ATTEMPTS)) queue.push(gap);
         rec.next_id = queue.length ? queue[0].id : null;
       }
@@ -1186,6 +1233,8 @@
       setAdmitEnabled(v) { admitEnabled = v === true; return { ok: true, admitEnabled: admitEnabled, calls_llm: false }; },
       admitEnabled: () => admitEnabled,
       setAnswering(v) { answering = v === true; athena.noteAsk(answering); return { ok: true, answering: answering, calls_llm: false }; },
+      setWriteKey(k) { writeKey = String(k == null ? '' : k); return { ok: writeKey.length >= 12, held: writeKey.length >= 12, calls_llm: false, publish_packs: opts.publishPacks === true }; },
+      writeKeyHeld: () => writeKey.length >= 12,
       promoteCandidates: () => promote.map(p => Object.assign({}, p)),
       quarantine: () => quarantine.map(q => Object.assign({}, q)),
       aborted: () => aborted.map(a => Object.assign({}, a)),
@@ -1199,6 +1248,6 @@
     };
   }
 
-  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, CHRIST_RULES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, christPing, resonancePacket, athenaGate, applyResearchContract, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
+  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, CHRIST_RULES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, christPing, resonancePacket, athenaGate, applyResearchContract, curatedResearch, bridgeAskEvidence, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
   if (isNode) module.exports = api; else root.KDreamIdle = api;
 })(typeof self !== 'undefined' ? self : this);

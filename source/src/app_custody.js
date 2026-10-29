@@ -1,19 +1,25 @@
-/* app_custody.js — 4.9.173 phone custody monitor.
- * Binds to the live KDreamIdle mesh (boundary, schedule, ticks, research, admit, cold re-curate, KB count).
+/* app_custody.js — 4.9.174 phone custody monitor.
+ * One learning loop: Ask research → Athena measure → admit or quarantine → Gilligan cold → hosted KB → Ask recall.
  * The portable single file does not inline dream_idle.js. This screen does not publish letter packs.
- * Tools marketplace is not this ship. Nic builds tools and access after it. Hook: Tool Bench tab id echoforge. */
+ * The write key is granted here when Nic supplies it. It is not hardcoded. Packs stay gated. */
 (function (root) {
   if (typeof document === 'undefined' || !root.document) return;
   const $ = s => document.querySelector(s);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   let mesh = null, asking = false, lastSchedule = null, timer = null;
   function engine() { return root.KDreamIdle || null; }
+  function holdWriteKey(key) {
+    boot();
+    const forge = root.forge;
+    const auth = forge && forge.setSharedKbWriteKey ? forge.setSharedKbWriteKey(key) : { ok: false, rule: 'DREAM-IDLE-NO-HOST' };
+    if (!auth || auth.ok === false) return auth || { ok: false, rule: 'SHARED-KB-WRITE-KEY-REQUIRED' };
+    return mesh && mesh.setWriteKey ? mesh.setWriteKey(key) : { ok: false, rule: 'DREAM-IDLE-NO-HOST' };
+  }
   function boot() {
     const D = engine();
     const forge = root.forge;
     if (!D || !D.createIdleDream || !forge || mesh) return mesh;
-    /* Write key stays off this page. A later access tool may pass writeKey. publishPacks stays false. */
-    mesh = D.createIdleDream({ host: forge, publishPacks: false, clock: () => new Date().toISOString() });
+    mesh = D.createIdleDream({ host: forge, publishPacks: false, research: function (gap) { return D.curatedResearch(gap); }, clock: () => new Date().toISOString() });
     return mesh;
   }
   function noteAsk(on) { asking = on === true; if (mesh && mesh.setAnswering) mesh.setAnswering(asking); }
@@ -66,28 +72,37 @@
     if (!body) return;
     const alast = a.last || {};
     body.innerHTML = '<div class="card"><div class="cardhead">Daemon custody <span class="pill ok">always on</span><span class="pill">no LLM</span></div>'
-      + '<div class="small">Athena researches and curates. Gilligan stays on cold storage and novel gaps. Neo is Ask. Neo is not Neil. Ask pauses helpers, then they resume. Codex 3.24 idle text is yield etiquette only. The schedule is DREAM-ALWAYS-ON. Opening this screen does not publish letter packs and does not require a KB click.</div>'
+      + '<div class="small">Learning loop: research → measure → admit or quarantine → cold → hosted KB → Ask. Athena measures. Gilligan re-curates cold. Neo is Ask. Neo is not Neil. Ask pauses helpers, then they resume. Codex 3.24 idle text is yield etiquette only. The schedule is DREAM-ALWAYS-ON. Packs stay gated.</div>'
       + '<table>' + line('schedule', sched) + line('always_on', c.always_on) + line('idle_gated', c.idle_gated) + line('answering', c.answering) + line('fill', c.continuous_fill) + line('packs', c.phone_pack_publish) + line('queued', c.queued) + line('novel open', c.novel_open) + '</table></div>'
       + '<div class="daemon-grid">'
       + card('Athena', 'athena', [['duty', a.duty], ['runs', a.runs], ['research ticks', a.research_ticks], ['admits', a.admits], ['staged', a.staged], ['quarantine', a.quarantine], ['last', ruleOf(a.last) + (alast.gap_id ? ' · ' + alast.gap_id : '') + (alast.lane ? ' · ' + alast.lane : '')]])
       + card('Gilligan', 'gilligan', [['duty', g.duty], ['runs', g.runs], ['cold re-curate', g.cold_recurate], ['cold keep', g.cold_keep], ['cold checks', g.cold_quiet], ['novel ticks', g.novel_ticks], ['novel open', g.novel_open], ['ChristPing', g.christ_pings], ['last', ruleOf(g.last)]])
       + '</div>'
       + '<div class="card"><div class="cardhead">Hosted KB</div><table>'
+      + line('loop', 'research → measure → admit/quarantine → cold → KB → Ask')
+      + line('write key', c.write_key_held ? 'held' : 'not held')
       + line('session count', (kb.count == null ? '—' : kb.count) + delta)
       + line('lawful admits', kb.admits)
       + line('phone db', kb.phone_db)
       + line('pack stuffed', kb.pack_stuffed)
-      + '</table><div class="small">The count is the session hosted bank. Athena writes it when this session holds the write key. This monitor does not carry that key. Phone and Pages letter packs stay gated.</div></div>';
+      + '</table><form id="custodyKey" class="row"><input id="custodyKeyIn" type="password" autocomplete="off" placeholder="write key"><button type="submit">Grant</button></form><div class="small">' + (c.write_key_held ? 'The write key is held. A promote-candidate writes the session hosted bank. The count is those writes plus anything already pulled.' : 'The write key is not held. Lawful admits stay at 0 until Nic grants it. This page does not contain the key.') + ' Phone and Pages letter packs stay gated.</div></div>';
+    const form = $('#custodyKey');
+    if (form) form.onsubmit = ev => { ev.preventDefault(); const input = $('#custodyKeyIn'); const r = holdWriteKey(input ? input.value : ''); if (input) input.value = ''; const msg = r && r.ok ? 'write key held' : (r && (r.rule || 'refused')); const small = body.querySelector('.card:last-child .small'); if (small) small.textContent = msg; step(); };
   }
-  root.KCustody = { noteAsk: noteAsk, step: step, boot: boot };
+  root.KCustody = { noteAsk: noteAsk, step: step, boot: boot, holdWriteKey: holdWriteKey };
   root.renderCustody = function () { step(); };
   const prev = root.afterSay;
+  function noteResearch(r) {
+    boot();
+    const D = engine();
+    if (!mesh || !D || !D.bridgeAskEvidence || !r) return;
+    const bridged = D.bridgeAskEvidence(r);
+    if (bridged && bridged.ok && bridged.gap) mesh.enqueue([bridged.gap]);
+  }
   root.afterSay = function (r, el) {
     if (prev) prev(r, el);
-    if (!mesh || !r || !r.trace) return;
-    const rules = r.trace.rules || [];
-    if (!rules.some(x => x && /AQ1|AQ-1|AUTH-AQ1/.test(String(x.id || '')))) return;
-    mesh.enqueue([{ id: 'gap:aq1:' + String(r.trace.turn == null ? rules.length : r.trace.turn), kind: 'aq1_miss', claim: null, extracts: [], calls_llm: false }]);
+    if (r && r.toolJob && typeof r.toolJob.then === 'function') r.toolJob.then(noteResearch);
+    else noteResearch(r);
   };
   function kick() { step(); if (!timer) timer = root.setInterval(step, 2000); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', kick); else kick();
