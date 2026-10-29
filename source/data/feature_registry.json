@@ -1,5 +1,5 @@
 {
- "version": "4.9.180",
+  "version": "4.9.181",
  "features": [
   {
    "id": "A-01",
@@ -3694,13 +3694,24 @@
    "proof": [
     "R4180"
    ]
+  },
+  {
+   "id": "R4181-ASK-KEYS",
+   "name": "Ask-key recall and lead-sentence admit parse",
+   "source": "CONFLICTS.md v4.9.181; docs/LIVE_TEST_180.md recall misses",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "An admitted row is indexed by the question subject, the answer subject, aliases, a method-of key, and follow-up context. The same or reworded question recalls it before AQ-1. A lead sentence is simplified and split until a subject-predicate core round-trips. Drift at or under 0.35 still admits. Above 0.80 still recenters. The grammar is not bypassed. Sonify stays on the installed site and is left out of the portable file so gzip leave is at least 5 kB under 570 kB. No LLM.",
+   "proof": [
+    "R4181"
+   ]
   }
  ],
- "count": 337,
+ "count": 338,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 175,
+  "Partial": 176,
   "Missing": 9,
   "Out of scope / parked": 13
  }

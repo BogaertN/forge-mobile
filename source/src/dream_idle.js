@@ -75,7 +75,7 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.180', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, gilligan_codex: true, forge2: true, athena_doc: true, claim_parse: true, psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.181', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, gilligan_codex: true, forge2: true, athena_doc: true, claim_parse: true, ask_keys: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
@@ -338,7 +338,9 @@
     if (eps != null) eps = KM.r4(Math.max(0, eps));
     const integrity = eps != null ? KM.r4(Math.min(1, Math.max(0, 1 - eps))) : (Number.isFinite(Number(raw.integrity)) ? KM.r4(Number(raw.integrity)) : null);
     if (integrity == null) return { ok: false, rule: 'DREAM-UNMEASURED', gap: null, calls_llm: false };
-    const question = String(raw.question || raw.input || (raw.trace && raw.trace.input) || '').replace(/[?\s]+$/, '').trim() || null;
+    const qCand = [raw.question, meaning.question, raw.input, raw.trace && raw.trace.input];
+    let question = null;
+    for (const c of qCand) { const s = String(c || '').replace(/[?\s]+$/, '').trim(); if (s && !/^\[tool\b/i.test(s)) { question = s; break; } }
     const gap = { id: 'gap:aq1:' + sha256(norm(claim)).slice(0, 12), kind: 'aq1_miss', question: question, claim: claim, eps: eps, integrity: integrity, extracts: [{ text: claim, verified: true, integrity: integrity, source: 'curated', curated: true, allow_listed: true }], calls_llm: false };
     if (Codex && Codex.annotate) gap.codex = Codex.annotate(gap);
     return { ok: true, calls_llm: false, gap: gap };
@@ -1130,6 +1132,7 @@
         if (codexTrace && codexTrace.resurrection && codexTrace.resurrection.gap) enqueue([codexTrace.resurrection.gap]);
       }
       const rec = Object.assign({ ok: true, ran: true, gap_id: gap.id, kind: gap.kind, at: now(), always_on: true, idle_gated: false, researcher: 'athena', cold_curator: 'gilligan', cold: cold, calls_llm: false, codex: codexTrace ? codexTrace.public : null, athena_doc: athenaDoc ? athenaDoc.pass({ eps: routed.eps, claim: routed.claim }) : null }, routed);
+      rec.question = gap.question || rec.question || null;
       try { rec.forge2 = loopSeal(routed.claim || gap.question || gap.id, now()); }
       catch (e) { rec.forge2 = { ok: false, rule: 'FORGE2-SEAL-FAILED', detail: String(e && e.message || e).slice(0, 180), calls_llm: false }; }
       if (routed.lane === 'hard_reject') {
@@ -1237,10 +1240,11 @@
         if (!pub.dir) return refusal('DREAM-PACK-DIR-REQUIRED', { packet: pkt });
         if (!letter) return refusal('DREAM-PACK-LETTER', { packet: pkt });
       }
+      const askKeys = ClaimParse && ClaimParse.topicKeys ? ClaimParse.topicKeys(rec.question, claim) : [];
       const pack = {
         schema: 'FORGE-CONFIRMED-PACK/v1', format: 'FORGE-CONFIRMED-PACK/v1', provenance: 'confirmed_shared',
         letter: letter ? letter.toUpperCase() : 'T', pack_id: 'dream_idle_promote', who_confirmed: 'product_curator', shared_kb: false, phone_db: false,
-        items: [{ id: 'cs:dream-' + sha256(norm(claim)).slice(0, 12), text: claim, standing: 'projectable', evidence: rec.evidence || evidenceOf(null), sfe: { Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu }, resonance: { schema: PACKET_SCHEMA, Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu } }]
+        items: [{ id: 'cs:dream-' + sha256(norm(claim)).slice(0, 12), text: claim, standing: 'projectable', evidence: rec.evidence || evidenceOf(null), ask_keys: askKeys, sfe: { Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu }, resonance: { schema: PACKET_SCHEMA, Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu } }]
       };
       const res = host.writeSharedKnowledge(JSON.stringify(pack), { writeKey: key });
       if (!res || res.ok !== true) return refusal((res && (res.rule || res.reason)) || 'DREAM-IDLE-ADMIT-FAILED', { packet: pkt, response_ok: false });

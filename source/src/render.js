@@ -7,7 +7,7 @@
 (function (root) {
 'use strict';
 const isNode = typeof module !== 'undefined' && module.exports;
-const D = isNode ? require('./derive.js') : root.KDerive; const CA = isNode ? require('./calculus.js') : root.KCalc; const SON = isNode ? require('./sonify.js') : root.KSonify; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
+const D = isNode ? require('./derive.js') : root.KDerive; const CA = isNode ? require('./calculus.js') : root.KCalc; const SON = (isNode ? require('./sonify.js') : root.KSonify) || { score: function () { return { posture: 'uncertain', events: [] }; }, validate: function () { return { ok: false, reason: 'sonify is on the installed site' }; }, play: function () {}, draw: function () {} }; const { sha256 } = isNode ? require('./sha256.js') : root.KSha;
 const canon = o => (Array.isArray(o) ? '[' + o.map(canon).join(',') + ']' : o && typeof o === 'object' ? '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}' : JSON.stringify(o));
 const FORMS = ['text', 'speech', 'json', 'code.js', 'code.py', 'glyph', 'field', 'tone', 'dashboard', 'memory', 'api'];
 const cls = tr => { const c = tr.outcome && tr.outcome.category || ''; return /BLOCKED|INCONGRUENT|REJECT/.test(c) ? 'blocked' : /CLARIF|AMBIG/.test(c) ? 'open' : tr.msm && tr.msm.meaning && /superseded|correct|merged/.test(tr.msm.meaning.kind) ? 'correction' : 'closed'; };
