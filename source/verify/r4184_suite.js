@@ -20,8 +20,9 @@ T('copula chain carries provenance, drift, and chi, and does not lower C_min', (
   const survivor = seam.derive && seam.derive.survivor;
   expect(row.calls_llm === false && row.model_invoked === false && seam.calls_llm === false, 'llm');
   expect(seam.applied === true && seam.status === 'world_model_v1' && seam.writes_memory === false, JSON.stringify({ applied: seam.applied, status: seam.status }));
-  expect(seam.derived_text === 'Quartz is a solid substance.', seam.derived_text);
+  expect(seam.derived_text.indexOf('Quartz is a solid substance.') >= 0 && seam.derived_text.indexOf('Quartz is a mineral.') >= 0 && seam.derived_text.indexOf('A mineral is a solid substance.') >= 0, seam.derived_text);
   expect(survivor && survivor.how === 'WM-COPULA-CHAIN' && survivor.provenance.length === 2, JSON.stringify(survivor && survivor.provenance));
+  expect(survivor.hops && survivor.hops.length >= 3 && survivor.hops.every(h => h.provenance && h.provenance.length && h.drift && typeof h.drift.epsilon_s === 'number'), JSON.stringify(survivor.hops));
   expect(survivor.checker_ok === true && survivor.debate.survived === true && survivor.debate.frame === 'FR.BE.COP', JSON.stringify(survivor.debate));
   expect(survivor.drift && survivor.drift.disposition === 'clean' && survivor.drift.epsilon_s <= 0.35, JSON.stringify(survivor.drift && survivor.drift.disposition));
   expect(survivor.drift.epsilon_s > 0, 'drift was not measured');
@@ -118,7 +119,7 @@ T('Ask shows the engine reply only', () => {
 
 T('version registry names 4.9.185', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.185', ver);
+  expect(ver === '4.9.186', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.184/.test(conf) && /Observe/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -130,9 +131,9 @@ T('version registry names 4.9.185', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_184.md'), 'utf8');
   expect(/60/.test(live) && /C_min/.test(live) && /0\.87/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.185' && tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.186' && tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.185' && reg.features.some(f => f.id === 'R4184-WORLD-MODEL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.186' && reg.features.some(f => f.id === 'R4184-WORLD-MODEL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
 });
 

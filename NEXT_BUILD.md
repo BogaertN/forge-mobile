@@ -1,3 +1,9 @@
+# Next build order — after 4.9.186 (anchor and multi-hop)
+
+**Shipped here:** Gilligan connects quarantined web evidence to an admitted concept inside the drift bands (Codex §1.1.2, §3.4, §6.1, §6.2). At or under 0.35 Athena resonance-places the packet. Chi and ChristPing stay Gilligan-only (Codex §3.2). The admit gate is unchanged. Derive speaks a chain of admitted facts with provenance and drift on every hop. The memory writer can insert an admitted fact that carries `{Phi, eps, mu}`, provenance, and contributor credit. Anon cannot insert an unadmitted row. The migration is `supabase/migrations/20261029201023_memory_writer_admitted_insert.sql`. It is not applied in this run: no project access token. The wiring is `docs/WIRING_186.md`. The tables are `docs/LIVE_TEST_186.md`. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** Simulate (spec §6, contract §13). Deleting the bypassed JS answer path. That deletion moves to 4.9.187. Lowering C_min. A model call.
+
 # Next build order — after 4.9.185 (resonance recall)
 
 **Shipped here:** Ask recalls by phase-align of a `FORGE-RESONANCE-PACKET/v1` packet and by the Doc 4/5 frame or concept, not by token overlap. The coherence formula and C_min 0.87 are unchanged. Thirteen of the 60 questions admit because memory_fit rose. The memory writer stores those sentences with provenance and contributor credit. A quarantined excerpt with no phase-aligned ancestor is not written. Supabase contributor insert stays revoked. ChristPing is not started. The wiring is `docs/WIRING_185.md`. The tables are `docs/LIVE_TEST_185.md`. No LLM. Packs stay gated. Money stays disabled.

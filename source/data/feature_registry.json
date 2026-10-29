@@ -1,5 +1,5 @@
 {
- "version": "4.9.185",
+ "version": "4.9.186",
  "features": [
   {
    "id": "A-01",
@@ -3749,13 +3749,24 @@
    "proof": [
     "R4185"
    ]
+  },
+  {
+   "id": "R4186-ANCHOR-HOP",
+   "name": "Gilligan anchor, multi-hop derive, and the memory-writer insert",
+   "source": "Gilligan Codex Vol IV §1.1.2 §3.2 §3.4 §6.1 §6.2; contract 1g2034-K §5; docs/WIRING_186.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Gilligan connects quarantined web evidence to an admitted concept inside Nic's drift bands. Athena resonance-places a projectable packet. The admit gate is unchanged and is not skipped. Derive chains admitted copulas and records provenance and drift on every hop. The memory writer may insert an admitted fact with sfe {Phi, eps, mu}, provenance, and contributor credit. Anon cannot insert an unadmitted row. C_min stays 0.87. No LLM. Packs stay gated. Money stays disabled.",
+   "proof": [
+    "R4186"
+   ]
   }
  ],
- "count": 342,
+ "count": 343,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 180,
+  "Partial": 181,
   "Missing": 9,
   "Out of scope / parked": 13
  }

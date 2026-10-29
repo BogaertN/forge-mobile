@@ -1,0 +1,411 @@
+{
+ "note": "Quarantined research.web excerpts for the 4.9.186 passes. Not admitted. Not a seed.",
+ "rows": [
+  {
+   "question": "What is quartz?",
+   "title": "Quartz",
+   "url": "https://en.wikipedia.org/wiki/Quartz",
+   "text": "Quartz is a hard mineral composed of silica (silicon dioxide). Its atoms are linked in a continuous framework of SiO4 silicon–oxygen tetrahedra, with each oxygen atom being shared between two tetrahedra, giving an overall chemical formula of SiO2. Therefore, quartz is classified structurally as a framework silicate mineral and compositionally as an oxide mineral. Quartz is the second most common mineral or mineral group in Earth's lithosphere, comprising about 12% by mass.\nQuartz exists in two f",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is photosynthesis?",
+   "title": "Photosynthesis",
+   "url": "https://en.wikipedia.org/wiki/Photosynthesis",
+   "text": "Photosynthesis is a system of biological processes by which photopigment-bearing autotrophic organisms, such as most plants, algae and cyanobacteria, convert light energy—typically from sunlight—into the chemical energy necessary to fuel their metabolism. The term photosynthesis usually refers to oxygenic photosynthesis, a process that releases oxygen as a byproduct of water splitting. Photosynthetic organisms store the converted chemical energy within the bonds of intracellular organic compound",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "Why is the sky blue?",
+   "title": "Diffuse sky radiation",
+   "url": "https://en.wikipedia.org/wiki/Diffuse_sky_radiation",
+   "text": "Diffuse sky radiation, is solar radiation reaching the Earth's surface after having been scattered from the direct solar beam by molecules or particulates in the atmosphere. It is also called sky radiation,  the determinative process for changing the colors of the sky. It is normally measured on a horizontal surface, thus frequently termed diffuse horizontal irradiance (DHI), often in the unit of watts per square meter (W/m2). Approximately 23% of direct incident radiation of total sunlight is r",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is DNA?",
+   "title": "DNA",
+   "url": "https://en.wikipedia.org/wiki/DNA",
+   "text": "Deoxyribonucleic acid (; DNA) is a polymer composed of two polynucleotide chains that coil around each other to form a double helix. The polymer carries genetic instructions for the development, functioning, growth and reproduction of all known organisms and many viruses. DNA and ribonucleic acid (RNA) are nucleic acids. Alongside proteins, lipids and complex carbohydrates (polysaccharides), nucleic acids are one of the four major types of macromolecules that are essential for all known forms of",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is gravity?",
+   "title": "Gravity",
+   "url": "https://en.wikipedia.org/wiki/Gravity",
+   "text": "In physics, gravity (from Latin  gravitas 'weight'), also known as gravitation or a gravitational interaction, is a fundamental interaction, which may be described as the force that draws material objects towards each other.\nThe gravitational attraction between clouds of primordial hydrogen and clumps of dark matter in the early universe caused the hydrogen gas to coalesce, eventually condensing and fusing to form stars. At larger scales this resulted in galaxies and clusters, so gravity is a pr",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "How hot is the sun?",
+   "title": "PSR B1257+12 C",
+   "url": "https://en.wikipedia.org/wiki/PSR_B1257+12_C",
+   "text": "PSR B1257+12 C, alternatively designated PSR B1257+12 d and also named Phobetor, is a super-Earth exoplanet orbiting the pulsar Lich approximately 2,315 light-years (710 parsecs; 22 quadrillion kilometres) away from Earth in the constellation of Virgo. It was one of the first planets ever discovered outside the Solar System, the other being Poltergeist. It was discovered using the pulsar timing method, where the regular pulses of a pulsar are measured to determine if there is a planet causing va",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "How do lightbulbs work?",
+   "title": "Lightbulb joke",
+   "url": "https://en.wikipedia.org/wiki/Lightbulb_joke",
+   "text": "A lightbulb joke is a joke cycle that asks how many people of a certain group are needed to change, replace, or screw in a light bulb. Generally, the punch line answer highlights a stereotype of the target group. There are numerous versions of the lightbulb joke satirizing a wide range of cultures, beliefs, and occupations.\nEarly versions of the joke, popular in the late 1960s and the 1970s, were used to insult the intelligence of people, especially Poles (\"Polish jokes\"). Such jokes generally t",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "How does a compass work?",
+   "title": "History of the compass",
+   "url": "https://en.wikipedia.org/wiki/History_of_the_compass",
+   "text": "The compass is a magnetometer used for navigation and orientation that shows direction in regard to the geographic cardinal points. The structure of a compass consists of the compass rose, which displays the four main directions on it: East (E), South (S), West (W) and North (N). The angle increases in the clockwise position. North corresponds to 0°, east is 90°, south is 180° and west is 270°.\nThe history of the compass started more than 2,000 years ago during the Han dynasty (202 BC – 220 AD).",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "How is glass made?",
+   "title": "Glass",
+   "url": "https://en.wikipedia.org/wiki/Glass",
+   "text": "Glass (UK: , US: ) is an amorphous (non-crystalline) solid. Because it is often transparent and chemically inert, glass has found widespread practical, technological, and decorative use in window panes, tableware, and optics. Some common objects made of glass are named after the material, e.g., a \"glass\" for drinking, \"glasses\" for vision correction, and a \"magnifying glass\".\nGlass is most often formed by rapid cooling (quenching) of the molten form. Some glasses such as volcanic glass are natur",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "Who was Ada Lovelace?",
+   "title": "Ada Lovelace",
+   "url": "https://en.wikipedia.org/wiki/Ada_Lovelace",
+   "text": "Augusta Ada King, Countess of Lovelace (née Byron; 10 December 1815 – 27 November 1852), also known as Ada Lovelace, was an English mathematician and writer chiefly known for work on Charles Babbage's proposed mechanical general-purpose computer, the analytical engine. She was the first to recognise the machine had applications beyond pure calculation. Lovelace is often considered the first computer programmer.\nLovelace was the only legitimate child of poet Lord Byron and reformer Anne Isabella ",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "When did the French Revolution begin?",
+   "title": "French Revolution of 1848",
+   "url": "https://en.wikipedia.org/wiki/French_Revolution_of_1848",
+   "text": "The French Revolution of 1848 (French: Révolution française de 1848), also known as the February Revolution (Révolution de février), was a period of civil unrest in France, in February 1848, that led to the collapse of the July Monarchy and the foundation of the French Second Republic. It sparked the wave of revolutions of 1848.\nThe revolution took place in Paris, and was preceded by the French government's crackdown on the campagne des banquets. Starting on 22 February as a large-scale protest ",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "Who painted the Mona Lisa?",
+   "title": "Mona Lisa",
+   "url": "https://en.wikipedia.org/wiki/Mona_Lisa",
+   "text": "The Mona Lisa is a half-length portrait painting by the Italian artist Leonardo da Vinci. Considered an archetypal masterpiece of the Italian Renaissance, it has been described as \"the best known, the most visited, the most written about, the most sung about, [and] the most parodied work of art in the world\". The painting's novel qualities include the subject's enigmatic expression, the monumentality of the composition, the subtle modelling of forms, and the atmospheric illusionism.\nThe painting",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the capital of Japan?",
+   "title": "Capital punishment in Japan",
+   "url": "https://en.wikipedia.org/wiki/Capital_punishment_in_Japan",
+   "text": "Capital punishment is a legal penalty in Japan. The Penal Code of Japan and several laws list 14 capital crimes, though in practice it is applied only for aggravated murder. Executions are carried out by long drop hanging, and take place at one of the seven execution chambers located in major cities across the country. The only crime punishable by a mandatory death sentence is instigation of foreign aggression.\nDeath sentences are usually passed in cases of multiple murders, although there have ",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the largest planet?",
+   "title": "Earth",
+   "url": "https://en.wikipedia.org/wiki/Earth",
+   "text": "Earth is the third planet from the Sun and the only astronomical object known to harbor life. This is made possible by Earth being an ocean world, the only one in the Solar System sustaining liquid surface water. Almost all of Earth's water is contained in its ocean, which covers 70.8% of Earth's crust. The remaining 29.2% of Earth's crust is dry land, which is predominantly located within Earth's land hemisphere in the form of continental landmasses. Most of Earth's land is at least somewhat hu",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is 17 times 23?",
+   "title": "WhatsApp",
+   "url": "https://en.wikipedia.org/wiki/WhatsApp",
+   "text": "WhatsApp Messenger, commonly known simply as WhatsApp, is an American social media, instant messaging (IM), and Voice over IP (VoIP) service accessible via desktop and mobile app. Owned by Meta Platforms, the service allows users to send text messages, voice messages, and video messages, make voice and video calls, and share images, documents, user locations, and other content. The service requires a cellular mobile telephone number to register. WhatsApp was launched in May 2009. In January 2018",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the square root of 144?",
+   "title": "Cadillacs and Dinosaurs (role-playing game)",
+   "url": "https://en.wikipedia.org/wiki/Cadillacs_and_Dinosaurs_(role-playing_game)",
+   "text": "Cadillacs and Dinosaurs: The Roleplaying Game is a near-future post-apocalyptic role-playing game published by Game Designers' Workshop in 1990 that is based on the underground comic book Xenozoic Tales.",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the boiling point of water?",
+   "title": "Boiling Point (2021 film)",
+   "url": "https://en.wikipedia.org/wiki/Boiling_Point_(2021_film)",
+   "text": "Boiling Point is a 2021 British drama film directed by Philip Barantini and written by Barantini and James Cummings, based on a 2019 short film of the same name. It stars Stephen Graham, Vinette Robinson, Ray Panthaki, and Hannah Walters. It is a one-shot film set in a restaurant kitchen. \nThe film premiered at the 55th Karlovy Vary International Film Festival on 23 August 2021, and in cinemas in the United Kingdom on 7 January 2022, met with critical acclaim. At the 75th British Academy Film Aw",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the speed of light?",
+   "title": "Speed of light",
+   "url": "https://en.wikipedia.org/wiki/Speed_of_light",
+   "text": "The speed of light is the speed of electromagnetic waves. Light travels at slower speed inside materials like glass or water; its highest speed is in a vacuum. The speed of light in vacuum is a universal physical constant denoted c (in ISO and IEC standards \n  \n    \n      \n        \n          c\n          \n            0\n          \n        \n      \n    \n    {\\displaystyle c_{0}}\n  \n),  exactly equal to 299792458 m⋅s−1. It is exact because, by international agreement, a metre is defined as the length",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What happens if you mix bleach and ammonia?",
+   "title": "Connections (British TV series)",
+   "url": "https://en.wikipedia.org/wiki/Connections_(British_TV_series)",
+   "text": "Connections is a science education television series created, written, and presented by British science historian James Burke. The series was produced and directed by Mick Jackson of the BBC Science and Features Department and first aired in 1978 (UK) and 1979 (US). It took an interdisciplinary approach to the history of science and invention, and demonstrated how various discoveries, scientific achievements, and historical world events were built from one another successively in an interconnect",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What happened in the news today?",
+   "title": "Everything That Happens Will Happen Today",
+   "url": "https://en.wikipedia.org/wiki/Everything_That_Happens_Will_Happen_Today",
+   "text": "Everything That Happens Will Happen Today is the second collaborative album by David Byrne and Brian Eno, released on August 18, 2008, by Todo Mundo. It explores themes of humanity versus technology and optimism in spite of bleak circumstance through the blending of electronic and gospel music. Critical reception was largely positive and the album received awards for both the musical content as well as the packaging and technical production.\nThis album is the first joint effort between the two m",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "How are you?",
+   "title": "How Are You",
+   "url": "https://en.wikipedia.org/wiki/How_Are_You",
+   "text": "\"How Are You\" is the seventh track on the album, Think Visual, released by the Kinks in 1986. It was written by Ray Davies.",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "Help",
+   "title": "Help",
+   "url": "https://en.wikipedia.org/wiki/Help",
+   "text": "Help or The Help may refer to:\n\nHelping behavior\n\n",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "Tell me about it",
+   "title": "Tell Me About It",
+   "url": "https://en.wikipedia.org/wiki/Tell_Me_About_It",
+   "text": "\"Tell Me About It\" is a song written by Bill LaBounty and Pat McLaughlin, and recorded by American country music artist Tanya Tucker and singer-songwriter Delbert McClinton as a duet.  It was released in April 1993 as the third single from Tucker's album Can't Run from Yourself.  The song reached #4 on the Billboard Hot Country Singles & Tracks chart.\n\n",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What gas does photosynthesis release?",
+   "text": "",
+   "title": "Photosynthesis",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is protoforge?",
+   "text": "",
+   "title": ""
+  },
+  {
+   "question": "And what about Mars?",
+   "title": "Romy Mars",
+   "url": "https://en.wikipedia.org/wiki/Romy_Mars",
+   "text": "Romy Madison Croquet (born November 28, 2006), better known by her professional name Romy Mars, is an American entertainer. A member of the Coppola family, she is a daughter of filmmaker Sofia Coppola and musician Thomas Mars.\n\n",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is helium?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is a magnet?",
+   "title": "Neodymium magnet",
+   "url": "https://en.wikipedia.org/wiki/Neodymium_magnet",
+   "text": "A neodymium magnet (also known as NdFeB, NIB or Neo magnet) is a permanent magnet made from an alloy of neodymium, iron, and boron that forms the Nd2Fe14B tetragonal crystalline structure.  They are the most widely used type of rare-earth magnet.\nDeveloped independently in 1984 by General Motors and  Sumitomo Special Metals, neodymium magnets are the strongest type of permanent magnet available commercially.   They have replaced other types of magnets in many applications in modern products that",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is an atom?",
+   "title": "Atom",
+   "url": "https://en.wikipedia.org/wiki/Atom",
+   "text": "Atoms are the basic particles of the chemical elements and the fundamental building blocks of matter. An atom consists of a nucleus of protons and generally neutrons, surrounded by an electromagnetically bound swarm of electrons. The chemical elements are distinguished from each other by the number of protons that are in their atoms. For example, any atom that contains 11 protons is sodium, and any atom that contains 29 protons is copper. Atoms with the same number of protons but a different num",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is lightning?",
+   "title": "Lightning",
+   "url": "https://en.wikipedia.org/wiki/Lightning",
+   "text": "Lightning is a natural phenomenon consisting of electrostatic discharges occurring through the atmosphere between two electrically charged regions. One or both regions are within the atmosphere, with the second region sometimes occurring on the ground. Following the lightning, the regions become partially or wholly electrically neutralized.\nLightning involves a near-instantaneous release of energy on a scale averaging between 200 megajoules and 7 gigajoules. The air around the lightning flash ra",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the Moon?",
+   "title": "Moon",
+   "url": "https://en.wikipedia.org/wiki/Moon",
+   "text": "The Moon is the only natural satellite of Earth. It orbits Earth in an elliptical path, at a distance  that varies over the year, averaging around 378,000 kilometers (235,000 mi). It completes an orbit (lunar month) in relation to Earth and the Sun (synodically) every 29.5 days. The Moon and Earth are bound by gravitational attraction, which is stronger on the sides facing each other. The resulting tidal forces are the main driver of Earth's tides, and have pulled the Moon to always face Earth w",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "How does a battery work?",
+   "title": "Battery charger",
+   "url": "https://en.wikipedia.org/wiki/Battery_charger",
+   "text": "A battery charger, recharger, or simply charger, is a device that stores energy in an electric battery by running current through it. The charging protocol—how much voltage and current, for how long and what to do when charging is complete—depends on the size and type of the battery being charged. Some battery types have high tolerance for overcharging after the battery has been fully charged and can be recharged by connection to a constant voltage source or a constant current source, depending ",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "Why do leaves change color?",
+   "title": "Abscission",
+   "url": "https://en.wikipedia.org/wiki/Abscission",
+   "text": "Abscission (from Latin  ab- 'away' and  scindere 'to cut') is the shedding of various parts of an organism, such as a plant dropping a leaf, fruit, flower, or seed. In zoology, abscission is the intentional shedding of a body part, such as the shedding of a claw, husk, or the autotomy of a tail to evade a predator. In mycology, it is the liberation of a fungal spore. In cell biology, abscission refers to the separation of two daughter cells at the completion of cytokinesis.",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "Who was Marie Curie?",
+   "text": "",
+   "title": "Ève Curie",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "Who wrote Hamlet?",
+   "text": "",
+   "title": "Hamlet",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "When was the telephone invented?",
+   "title": "History of the telephone",
+   "url": "https://en.wikipedia.org/wiki/History_of_the_telephone",
+   "text": "This history of the telephone chronicles the development of the electrical telephone, and includes a brief overview of its predecessors. The first telephone patent was granted to Alexander Graham Bell in 1876.\n\n",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the capital of Canada?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is the longest river?",
+   "title": "List of river systems by length",
+   "url": "https://en.wikipedia.org/wiki/List_of_river_systems_by_length",
+   "text": "This is a list of the longest rivers on the Earth. It includes river systems over 1,000 kilometres (620 mi) in length.",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is Mount Everest?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is 19 times 21?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is 144 divided by 12?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "How many meters are in a kilometer?",
+   "title": "Kilometre",
+   "url": "https://en.wikipedia.org/wiki/Kilometre",
+   "text": "The kilometre (SI symbol: km;  or ), spelt kilometer in American English, is a unit of length in the International System of Units (SI), equal to one thousand metres (kilo- being the SI prefix for 1000). It is the preferred measurement unit to express distances between geographical places on land in most of the world; notable exceptions are the United States, the United Kingdom, and Liberia where the statute mile is used.",
+   "quarantined": true,
+   "admitted": false
+  },
+  {
+   "question": "What is the freezing point of water?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What happens if you mix bleach and vinegar?",
+   "text": "",
+   "title": "Enema",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "How does a refrigerator work?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "How is paper made?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is Forge Mobile?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What can you do?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "Hello",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is Saturn?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is rust?",
+   "text": "",
+   "title": "Rust (programming language)",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is oxygen?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is a volcano?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "Why is the ocean salty?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "Who was Cleopatra?",
+   "text": "",
+   "title": "Cleopatra",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "When did World War II end?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is the capital of Australia?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is the Nile?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "Blargh floople zig?",
+   "text": "",
+   "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "question": "What is 100 divided by 4?",
+   "text": "",
+   "title": "Deus Ex: Mankind Divided",
+   "error": "HTTP Error 429: Too Many Requests"
+  }
+ ]
+}

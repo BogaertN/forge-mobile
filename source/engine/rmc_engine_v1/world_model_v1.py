@@ -573,6 +573,103 @@ def _drift_for(text: str, premises: list[dict[str, Any]], phase_path: list[Any])
     }
 
 
+def _original_premises(chosen: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Facts the hop rests on. A derived row expands to the facts that made it."""
+    out: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    def add(fact: dict[str, Any]) -> None:
+        if fact.get("source") == "derive" and fact.get("source_facts"):
+            for src in fact.get("source_facts") or []:
+                if isinstance(src, dict):
+                    add(src)
+            return
+        fid = str(fact.get("id") or "")
+        if fid in seen:
+            return
+        seen.add(fid)
+        out.append(fact)
+
+    for fact in chosen:
+        add(fact)
+    return out
+
+
+def _hop_row(text: str, provenance: list[Any], drift: dict[str, Any], n: int) -> dict[str, Any]:
+    chi = drift.get("chi") if isinstance(drift.get("chi"), dict) else {}
+    return {
+        "n": n,
+        "text": text,
+        "provenance": list(provenance),
+        "drift": {"epsilon_s": drift.get("epsilon_s"), "disposition": drift.get("disposition")},
+        "chi": {
+            "status": chi.get("status"),
+            "christping_initiated": False,
+            "christping_owner": "gilligan_only",
+        },
+    }
+
+
+def _attach_speech(claims: list[dict[str, Any]], topical: list[dict[str, Any]], world: dict[str, Any], phase_path: list[Any]) -> None:
+    """Speak the chain, not only the last copula. Each extra sentence is debated first."""
+    # The report picks the survivor. Speech is attached to every survivor so
+    # that winner still carries the chain.
+    for claim in [c for c in claims if c.get("debate", {}).get("survived")]:
+        parts: list[str] = []
+
+        def add(text: str) -> None:
+            sentence = str(text or "").strip()
+            if sentence and sentence not in parts and len(parts) < 4:
+                parts.append(sentence)
+
+        for hop in claim.get("hops") or []:
+            add(str(hop.get("text") or ""))
+        if not parts:
+            add(str(claim.get("text") or ""))
+        roles: set[str] = set()
+        atom = claim.get("atom") or {}
+        if atom.get("predicate") == "is":
+            roles = {_norm(a) for a in (atom.get("args") or []) if _norm(a)}
+        sources: set[str] = set()
+        for premise in claim.get("premises") or []:
+            if not isinstance(premise, dict):
+                continue
+            if premise.get("id"):
+                sources.add(str(premise.get("id")))
+            for pid in premise.get("provenance") or []:
+                sources.add(str(pid))
+        extras = []
+        for fact in topical:
+            if fact.get("self_fact") or fact.get("quarantined"):
+                continue
+            if str(fact.get("text") or "") in parts:
+                continue
+            prov = {str(pid) for pid in (fact.get("provenance") or [])}
+            share_src = bool(prov & sources) or str(fact.get("id") or "") in sources
+            fat = fact.get("atom") or {}
+            share_role = False
+            if fat.get("predicate") == "is" and roles:
+                share_role = any(_norm(a) in roles for a in (fat.get("args") or []))
+            if share_src or share_role:
+                extras.append(fact)
+        extras.sort(key=lambda f: str(f.get("id") or ""))
+        for fact in extras:
+            if len(parts) >= 4:
+                break
+            proof = _direct_proof(world, fact)
+            checked = check_proof(world, proof)
+            sib = _finish_claim(
+                world, fact["text"], fact["atom"], [fact], proof, checked, "supported_only", "direct", phase_path,
+            )
+            if sib.get("debate", {}).get("survived") and (sib.get("drift") or {}).get("disposition") == "clean":
+                add(fact["text"])
+                hop = (sib.get("hops") or [{}])[0]
+                hop = dict(hop)
+                hop["n"] = len(claim.get("hops") or []) + 1
+                claim.setdefault("hops", []).append(hop)
+        claim["spoken"] = " ".join(parts)
+
+
 def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = None) -> dict[str, Any]:
     """Spec §1.4 Derive. Contract §5 four-valued result. Contract §6 steps 6–8."""
     facts = _active(world)
@@ -600,27 +697,74 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
             break
 
     # Copula chain. Contract §5 multi-hop. One rule, bounded rounds.
-    hops = _match_body(COPULA_RULE["body"], topical)
+    # Each round may use a conclusion from the round before it. Provenance
+    # stays the original admitted facts. Drift is recorded on every hop.
+    pool = list(topical)
+    proof_facts = list(world.get("facts") or [])
+    seen: set[tuple[str, str, str]] = set()
+    for fact in pool:
+        atom = fact.get("atom") or {}
+        args = atom.get("args") or []
+        if atom.get("predicate") == "is" and len(args) >= 2:
+            seen.add((_norm(args[0]), _norm(args[1]), str(atom.get("polarity") or "pos")))
     rounds = 0
-    for sub, chosen in hops:
+    while rounds < LIMITS["MAX_ROUNDS"] and len(claims) < 12:
         rounds += 1
-        if rounds > LIMITS["MAX_ROUNDS"] or len(claims) >= 12:
-            incomplete = True
+        hops = _match_body(COPULA_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        added = 0
+        for sub, chosen in hops:
+            if len(claims) >= 12:
+                incomplete = True
+                break
+            conclusion = _atom("is", [
+                chosen[0]["atom"]["args"][0],
+                chosen[1]["atom"]["args"][1],
+            ], "pos")
+            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), "pos")
+            if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                continue
+            text = _render_atom(conclusion)
+            if _coverage(question, text) <= 0:
+                continue
+            proof_world = dict(world)
+            proof_world["facts"] = proof_facts
+            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion)
+            checked = check_proof(proof_world, proof)
+            premises = _original_premises(chosen)
+            claim = _finish_claim(
+                world, text, conclusion, premises, proof, checked, "supported_only", "WM-COPULA-CHAIN", phase_path or [],
+            )
+            hop_rows: list[dict[str, Any]] = []
+            for fact in chosen:
+                prior = fact.get("hop_trace") if isinstance(fact.get("hop_trace"), list) else None
+                if prior:
+                    hop_rows.extend(prior)
+                    continue
+                measured = _drift_for(fact["text"], [fact], phase_path or [])
+                hop_rows.append(_hop_row(
+                    fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, len(hop_rows) + 1,
+                ))
+            hop_rows.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hop_rows) + 1))
+            for i, hop in enumerate(hop_rows, start=1):
+                hop["n"] = i
+            claim["hops"] = hop_rows
+            claims.append(claim)
+            if claim.get("debate", {}).get("survived") is not True:
+                continue
+            seen.add(key)
+            fid = "hop-" + _digest(text)[:12]
+            row = _fact_row(
+                fid, {"text": text, "atom": conclusion, "parsed": True},
+                source="derive", provenance=[p.get("id") for p in premises], quarantined=False,
+                cite="contract 1g2034-K §5 bounded multi-hop forward derivation",
+            )
+            row["source_facts"] = premises
+            row["hop_trace"] = hop_rows
+            pool.append(row)
+            proof_facts = proof_facts + [row]
+            added += 1
+        if added == 0:
             break
-        conclusion = _bind(COPULA_RULE["head"], sub)
-        # Keep the surface spans from the premises so the sentence is their words.
-        conclusion = _atom("is", [
-            (chosen[0]["atom"]["args"][0]),
-            (chosen[1]["atom"]["args"][1]),
-        ], "pos")
-        text = _render_atom(conclusion)
-        if _coverage(question, text) <= 0:
-            continue
-        proof = _chain_proof(world, chosen[0], chosen[1], sub, conclusion)
-        checked = check_proof(world, proof)
-        claims.append(_finish_claim(
-            world, text, conclusion, chosen, proof, checked, "supported_only", "WM-COPULA-CHAIN", phase_path or [],
-        ))
 
     # Both polarities. Contract §5. A positive and a negative for the same normalized atom conflict.
     for claim in claims:
@@ -647,6 +791,7 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         status = "undetermined"
     else:
         status = "undetermined"
+    _attach_speech(claims, topical, world, phase_path or [])
     return _derive_report(world, question, status, "closure" if not incomplete else "MAX_ROUNDS", claims, incomplete)
 
 
@@ -666,6 +811,17 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
         "drift": drift,
         "chi": drift.get("chi"),
     }
+    claim["hops"] = [{
+        "n": 1,
+        "text": text,
+        "provenance": [p.get("id") for p in premises],
+        "drift": {"epsilon_s": drift.get("epsilon_s"), "disposition": drift.get("disposition")},
+        "chi": {
+            "status": (drift.get("chi") or {}).get("status"),
+            "christping_initiated": False,
+            "christping_owner": "gilligan_only",
+        },
+    }]
     claim["debate"] = run_debate(claim, content_tokens=content_tokens)
     return claim
 
@@ -692,7 +848,7 @@ def _derive_report(world, question, status, reason, claims, incomplete) -> dict[
         "writes_durable_memory": False,
         "claims": public_claims,
         "survivor": _public_claim(chosen) if chosen else None,
-        "derived_text": (chosen or {}).get("text") or "",
+        "derived_text": (chosen or {}).get("spoken") or (chosen or {}).get("text") or "",
         "proofs": {((c.get("proof") or {}).get("proof_id") or "none"): {"steps": (c.get("proof") or {}).get("steps"), "ok": c.get("checker_ok")} for c in claims[:8]},
     }
 
@@ -712,6 +868,8 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "checker_reason": claim.get("checker_reason"),
         "drift": claim.get("drift"),
         "chi": claim.get("chi"),
+        "hops": claim.get("hops") or [],
+        "spoken": claim.get("spoken") or claim.get("text"),
         "debate": {
             "survived": debate.get("survived"),
             "frame": (debate.get("frame") or {}).get("id"),

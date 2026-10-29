@@ -66,7 +66,7 @@
       if (strip) strip.innerHTML = '<b>Custody</b> ' + esc(msg);
       const admitted = (root.FORGE_ADMITTED || []);
       const kb = admitted.length
-        ? '<div class="card" data-kb-fill><div class="cardhead">KB fill <span class="pill ok">' + admitted.length + ' admitted</span></div>' + admitted.slice(-8).map(r => '<div class="rec"><div>' + esc(r.text) + '</div><div class="meta">phone KB · hosted session · RMC receipt · ' + esc(r.contributor || 'athena') + ' · Φ' + esc(r.sfe && r.sfe.Phi) + ' ε' + esc(r.sfe && r.sfe.eps) + ' μ' + esc(r.sfe && r.sfe.mu) + ' · supabase KB-CONTRIB-INSERT-REVOKED</div></div>').join('') + '</div>'
+        ? '<div class="card" data-kb-fill><div class="cardhead">KB fill <span class="pill ok">' + admitted.length + ' admitted</span></div>' + admitted.slice(-8).map(r => '<div class="rec" data-kb-row><div>' + esc(r.text) + '</div><div class="meta">phone KB · hosted session · RMC receipt · contributor ' + esc(r.contributor || (r.provenance && r.provenance.contributor) || 'athena') + ' · provenance ' + esc(r.provenance && (r.provenance.question || (r.provenance.premises || []).join(','))) + ' · Φ' + esc(r.sfe && r.sfe.Phi) + ' ε' + esc(r.sfe && r.sfe.eps) + ' μ' + esc(r.sfe && r.sfe.mu) + ' · supabase ' + esc((r.supabase && r.supabase.rule) || 'KB-WRITER-CREDENTIALS-PENDING') + (r.supabase && r.supabase.id ? ' · id ' + esc(r.supabase.id) : '') + '</div></div>').join('') + '</div>'
         : '';
       if (body) body.innerHTML = '<div class="card"><div class="cardhead">Custody <span class="pill' + (off ? '' : ' ok') + '">' + (off ? 'switched off' : 'always on') + '</span></div><div class="small">' + esc(msg) + '</div></div>' + kb;
       return;

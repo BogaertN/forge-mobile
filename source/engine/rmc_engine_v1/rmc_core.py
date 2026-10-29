@@ -151,6 +151,10 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]]) -> int:
             "rpmc_phase_tags": row.get("phase_tags") or ["Φ1"],
             "quarantined": row.get("source") == "research_quarantine" or row.get("quarantined") is True,
             "sfe": row.get("sfe") if isinstance(row.get("sfe"), dict) else None,
+            "anchor_placed": row.get("anchor_placed") is True,
+            "anchor_ancestor_text": row.get("anchor_ancestor_text") or "",
+            "provenance": row.get("provenance") if isinstance(row.get("provenance"), dict) else None,
+            "contributor": row.get("contributor"),
         }
         (dest / f"m{i:04d}.json").write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
         count += 1
@@ -253,6 +257,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     if not question:
         return {"ok": False, "engine": "rmc_engine_v1", "error": "empty_question", "calls_llm": False, "product_reply": False}
     rows = _rows(payload)
+    research_rows = [r for r in rows if r.get("source") == "research_quarantine"]
+    admitted_rows = [r for r in rows if r.get("source") != "research_quarantine"]
+    from rmc_engine_v1.gilligan_anchor import connect_quarantine
+    anchors = [connect_quarantine(question, row, admitted_rows) for row in research_rows]
+    for link in anchors:
+        placed = link.get("placed") if isinstance(link, dict) else None
+        if link.get("gate_eligible") and isinstance(placed, dict) and placed.get("text"):
+            rows.append(placed)
     with tempfile.TemporaryDirectory(prefix="rmc-core-") as tmp:
         root = Path(tmp)
         fed = _write_receipts(root, rows)
@@ -296,10 +308,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         reply = rendered if spoken else None
         recall_state = (((artifacts.get("trace_spine") or {}).get("memory_recall") or {}).get("memory_state") or {})
         resonance = recall_state.get("resonance") if isinstance(recall_state, dict) else None
-        research_rows = [r for r in rows if r.get("source") == "research_quarantine"]
-        ancestors = recall_state.get("active_memory_nodes") if isinstance(recall_state, dict) else []
-        from rmc_engine_v1.resonance_recall import curate_quarantine, PACKET_SCHEMA, CITE as RESONANCE_CITE
-        curation = [curate_quarantine(question, row, ancestors if isinstance(ancestors, list) else []) for row in research_rows]
+        from rmc_engine_v1.resonance_recall import PACKET_SCHEMA, CITE as RESONANCE_CITE
+        from rmc_engine_v1.memory_writer_hosted import commit_hosted
+        curation = []
+        for link in anchors:
+            curation.append({k: link.get(k) for k in (
+                "ok", "rule", "writes", "gate_eligible", "band", "packet", "drift", "chi", "link", "role",
+                "ancestor", "christping_initiated", "christping_owner", "ask_initiated", "calls_llm", "cite", "reason",
+            )})
         memory_write = None
         if spoken:
             eps = measured["epsilon_s"]
@@ -327,13 +343,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "phone_kb": row_body,
                 "hosted_kb": row_body,
                 "rmc_receipt": row_body,
-                "supabase": {
-                    "attempted": True,
-                    "written": False,
-                    "rule": "KB-CONTRIB-INSERT-REVOKED",
-                    "cite": "supabase/migrations/20261021000100_revoke_contrib_insert.sql",
-                    "hosted_session": True,
-                },
+                "supabase": commit_hosted(row_body, transport=payload.get("hosted_transport")),
                 "gilligan": {"christping_initiated": False, "reason": "Ask does not start ChristPing. Only Gilligan initiates it, and only above a hard stop."},
             }
         kind = "rendered_answer" if spoken else ("held_trace" if live else "foundation_trace")
