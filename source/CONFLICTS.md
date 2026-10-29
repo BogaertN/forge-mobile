@@ -1,3 +1,11 @@
+## v4.9.187 — trusted anchors, low-trust Wikipedia, stand-ins removed (2026-10-29 America/Chicago)
+
+**Conflict:** Held questions had no phase-aligned anchor, so a second pass could not grow. The bypassed JS answer path was still in the tree. Wikipedia excerpts were being placed as premises. The live memory-writer grant on schema `app` was not in the repo. The database cannot see that the admit gate ran.
+
+**Where:** `rmc_engine_v1/source_trust.py`, `gilligan_anchor.py`, `resonance_recall.py`, `rmc_core.py`, `data/anchors_187.json`, `src/claim_parse.js`, `src/kernel.js`, `src/app.js`. The wiring is `docs/WIRING_187.md`. The tables are `docs/LIVE_TEST_187.md`.
+
+**Resolution:** Ask output comes from `rmc_core.run`. `matchAsk`, the ask-key recall branch, and the chloramine headline are removed. The language-core realization, `admitText` ingestion, and the ProtoForge local definition stay. Encyclopedia anchors are an anchor tier with `FORGE-RESONANCE-PACKET/v1`, concept placement, license, source URL, revision, and contributor `encyclopedia:<source>`. OpenStax 2e (CC BY-NC-SA) was skipped. CC BY 4.0 OpenStax editions and US public-domain pages were used. Wikipedia and the other Wikimedia hosts are low trust: they may point at a trusted anchor and cannot be a premise. A Wikipedia-only excerpt does not admit. The admit gate is unchanged (C_min 0.87, Echo 0.85, drift at or under 0.35, hard stop above 0.80). The coherence formula is unchanged. `authenticated` is granted usage on schema `app` and execute on `app.memory_writer_insert`. Anchors are `kb.anchors`, read-only to clients. A server-verifiable admit receipt is proposed in `docs/ADMIT_RECEIPT_187.md` and not shipped. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled.
+
 ## v4.9.186 — Gilligan anchor, multi-hop derive, memory-writer insert (2026-10-29 America/Chicago)
 
 **Conflict:** The second pass of the 60 admitted nothing new. `curate_quarantine` refused quarantined web evidence that had no phase-aligned admitted ancestor (`DREAM-QUARANTINE-NO-TRUTH`). Answers that did admit were one copula sentence ("The sun is hot."). Supabase `kb.contributions` insert was still revoked, so the memory writer could not record an admitted fact on the hosted project.

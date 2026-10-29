@@ -91,7 +91,7 @@ T('new modules do not call a model', () => {
 
 T('version registry names 4.9.185', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.186', ver);
+  expect(ver === '4.9.187', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.185/.test(conf) && /resonance/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -103,9 +103,9 @@ T('version registry names 4.9.185', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_185.md'), 'utf8');
   expect(/60/.test(live) && /cold/.test(live) && /after fill/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.186' && tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.187' && tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.186' && reg.features.some(f => f.id === 'R4185-RESONANCE-RECALL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.187' && reg.features.some(f => f.id === 'R4185-RESONANCE-RECALL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
 });
 
 (async () => {

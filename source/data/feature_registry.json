@@ -1,5 +1,5 @@
 {
- "version": "4.9.186",
+ "version": "4.9.187",
  "features": [
   {
    "id": "A-01",
@@ -3751,6 +3751,17 @@
    ]
   },
   {
+   "id": "R4187-ANCHOR-TIER",
+   "name": "Trusted encyclopedia anchors and low-trust web excerpts",
+   "source": "docs/WIRING_187.md; OpenStax CC BY 4.0; US government public domain",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Ask speaks only from rmc_core. Wikipedia is low trust and cannot be a premise. A trusted anchor carries a resonance packet, a license, and contributor encyclopedia:<source>. The admit gate is unchanged. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4187"
+   ]
+  },
+  {
    "id": "R4186-ANCHOR-HOP",
    "name": "Gilligan anchor, multi-hop derive, and the memory-writer insert",
    "source": "Gilligan Codex Vol IV §1.1.2 §3.2 §3.4 §6.1 §6.2; contract 1g2034-K §5; docs/WIRING_186.md",
@@ -3762,11 +3773,11 @@
    ]
   }
  ],
- "count": 343,
+ "count": 344,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 181,
+  "Partial": 182,
   "Missing": 9,
   "Out of scope / parked": 13
  }

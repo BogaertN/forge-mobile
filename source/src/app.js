@@ -85,9 +85,16 @@ function traceHTML(r) { const t = r.trace, f = r.forge || {}; const rows = o => 
   if (f.msm) h += '<details><summary>reconstructed Doc 2 / MSM-v1</summary><pre>' + esc(JSON.stringify(f.msm, null, 1)) + '</pre></details>';
   return h + '</div>'; }
 let lastResult = null; const stats = { routed: 0, held: 0, refused: 0, approval: 0 };
-/* Ask no longer speaks from forge.process. That JS answer path is still in the tree
- * (forge.js process, kernel realization, derive.js research realizer, claim_parse matchAsk).
- * Deletion is a later phase. This screen shows the engine reply or an honest hold. */
+/* Ask speaks only from rmc_engine_v1.rmc_core. forge.process remains the language-core
+ * turn function for memory, vault, and the grammar. It is not this screen's answer. */
+async function askAnchors() {
+  if (window.ASK_187_ANCHORS) return window.ASK_187_ANCHORS;
+  try {
+    const res = await fetch('data/anchors_187.json', { credentials: 'omit' });
+    window.ASK_187_ANCHORS = res.ok ? await res.json() : { anchors: [] };
+  } catch (e) { window.ASK_187_ANCHORS = { anchors: [] }; }
+  return window.ASK_187_ANCHORS;
+}
 async function askMemory() {
   const memory = { receipts: [], phone: [], hosted: [], research: [] };
   try {
@@ -107,6 +114,13 @@ async function askMemory() {
     memory.phone = memory.phone.concat(((phone && phone.facts) || []).slice(0, 12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400) })));
     memory.receipts = memory.receipts.concat((forge.store.load('receipts') || []).slice(-8).map(row => ({ id: row.receipt_id, text: String(row.input || '').slice(0, 240) })));
   } catch (e) { /* stores can be empty on first open */ }
+  try {
+    const pack = await askAnchors();
+    memory.anchors = (pack.anchors || []).map(row => ({
+      id: row.id, text: row.text, sfe: row.sfe, packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted',
+      provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision
+    }));
+  } catch (e) { memory.anchors = []; }
   const admitted = window.FORGE_ADMITTED || [];
   for (const row of admitted) {
     if (row && row.text) memory.hosted.push({ id: row.id, text: String(row.text).slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor });
@@ -128,7 +142,10 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     if (window.KPipeline && KPipeline.researchExcerpt) {
       try {
         const hit = await KPipeline.researchExcerpt(text, { fetch: window.fetch ? window.fetch.bind(window) : null });
-        if (hit && hit.excerpt) memory.research.push({ id: 'web-' + memory.research.length, text: String(hit.excerpt).slice(0, 500), quarantined: true });
+        if (hit && hit.excerpt) {
+          const url = String(hit.url || '');
+          memory.research.push({ id: 'web-' + memory.research.length, text: String(hit.excerpt).slice(0, 500), url: url || 'https://en.wikipedia.org/', source: 'wikipedia', trust: 'low', quarantined: true, premise: false });
+        }
       } catch (e) { /* a missing fetch stays quarantined-empty; it is not an answer */ }
     }
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
@@ -165,6 +182,16 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   renderRmc(text, row);
   refreshChrome();
   return row; }
+function anchorSample(row) {
+  const pack = window.ASK_187_ANCHORS || { anchors: [] };
+  const anchors = pack.anchors || [];
+  const q = String((row && row.trace && row.trace.input) || '').toLowerCase();
+  const hit = anchors.find(a => a && a.concept && q.indexOf(String(a.concept).toLowerCase()) >= 0) || anchors.find(a => a && a.packet) || anchors[0];
+  if (!hit) return 'No trusted anchor is loaded.';
+  const p = hit.packet || {};
+  const prov = hit.provenance || {};
+  return 'anchor ' + esc(hit.id) + ' · state anchor · trust trusted · Φ ' + esc(p.Phi) + ' · ε ' + esc(p.eps) + ' · μ ' + esc(p.mu) + ' · license ' + esc(hit.license) + ' · revision ' + esc(hit.revision) + ' · ' + esc(hit.contributor) + ' · ' + esc(prov.source_url || hit.source_url) + ' · ' + esc(String(hit.text || '').slice(0, 180));
+}
 function renderRmc(text, row) {
   const host = $('#rmcLive'), body = $('#rmcLiveBody');
   if (!host || !body) return;
@@ -198,6 +225,8 @@ function renderRmc(text, row) {
     + '<div class="meta" data-derived-hops>' + esc(((survivor.hops || []).map(h => (h.n || '') + ' ' + (h.text || '') + ' · ' + ((h.provenance || []).join(',')) + ' · ε ' + (h.drift && h.drift.epsilon_s))).join(' | ')) + '</div>'
     + '<div class="meta" data-derived-text>' + esc(wm.derived_text || '') + '</div>'
     + '<div class="meta" data-memory-write>memory writer ' + (write.committed ? 'committed' : 'not committed') + ' · packet ' + esc(packet.schema || 'none') + ' · Φ ' + esc(packet.Phi) + ' · ε ' + esc(packet.eps) + ' · μ ' + esc(packet.mu) + ' · contributor ' + esc(write.provenance && write.provenance.contributor) + ' · supabase ' + esc(write.supabase && write.supabase.rule) + '</div>'
+    + '<div class="meta" data-source-trust>trust ' + esc(row && row.trust && row.trust.rule) + ' · low-trust ' + esc(row && row.trust && row.trust.low_trust) + ' · rests on ' + esc(row && row.trust && row.trust.rests_on) + ' · points ' + esc(((row && row.trust && row.trust.points_at) || []).join(', ')) + '</div>'
+    + '<div class="meta" data-anchor-sample>' + anchorSample(row) + '</div>'
     + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
     + '<div class="meta" data-rmc-late>' + late + '</div>'
     + '<div class="meta">' + (row && row.product_reply ? 'Admitted answer from the RMC renderer.' : 'Held. This card is the trace. Stages 14–16 ran. Observe, Derive, and the debate ran in the engine.') + '</div>';

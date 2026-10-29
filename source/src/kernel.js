@@ -2687,19 +2687,10 @@ function Kernel(opts) {
         /* 4.9.179: a public how-state question with no stored fact is research.web. Q-WH-HOW-ADJ never fired. The vault lock does not replace the answer. */
         const pfMod = isNode ? require('./claim_parse.js') : root.KClaimParse;
         const pfLocal = pfMod && pfMod.localDefine ? pfMod.localDefine(raw) : null;
-        const keyed = !pfLocal && pfMod && pfMod.matchAsk ? pfMod.matchAsk(raw, confirmedSharedFacts()) : [];
         if (pfLocal) {
           trace.rules.push(pfLocal.rule);
           msm.meaning = pfLocal.meaning;
           sel.frame = 'FR.DEFINE';
-          sel.toolRequest = null;
-          msm.limits.may_write_memory = false;
-          routeOf();
-        } else if (keyed.length) {
-          trace.rules.push({ id: 'CS-RECALL-ASK-KEY', doc: '4.9.181 an admitted row is indexed by the question, the answer subject, an alias, a method, or a follow-up', note: keyed.map(r => r.id).join(', ') });
-          msm.meaning = { kind: 'recall', items: keyed.slice(0, 3).map(markCsClause), anchor_kind: 'confirmed_shared' };
-          sel.evidenceRefs = keyed.map(r => r.id);
-          sel.frame = 'FR.QUESTION';
           sel.toolRequest = null;
           msm.limits.may_write_memory = false;
           routeOf();

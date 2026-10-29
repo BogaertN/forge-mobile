@@ -127,7 +127,7 @@ def _stage_rows(stages: list[Any]) -> list[dict[str, Any]]:
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     rows: list[dict[str, Any]] = []
-    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("research_quarantine", "research")):
+    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("anchor", "anchors"), ("research_quarantine", "research")):
         for row in memory.get(key) or []:
             if isinstance(row, dict) and str(row.get("text") or row.get("content") or "").strip():
                 item = dict(row)
@@ -155,6 +155,11 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]]) -> int:
             "anchor_ancestor_text": row.get("anchor_ancestor_text") or "",
             "provenance": row.get("provenance") if isinstance(row.get("provenance"), dict) else None,
             "contributor": row.get("contributor"),
+            "trust": row.get("trust"),
+            "tier": row.get("tier") or row.get("state"),
+            "license": row.get("license"),
+            "source_url": row.get("source_url") or row.get("url"),
+            "revision": row.get("revision"),
         }
         (dest / f"m{i:04d}.json").write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
         count += 1
@@ -251,6 +256,39 @@ def _measured(report: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _norm_sentence(text: str) -> str:
+    return " ".join(str(text or "").lower().split())
+
+
+def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict[str, Any]]) -> dict[str, Any]:
+    """Whether a spoken reply rests on a trusted anchor. A low-trust excerpt alone cannot."""
+    from rmc_engine_v1.source_trust import trust_tier
+    low_rows = [r for r in rows if trust_tier(r) == "low"]
+    trusted_rows = [r for r in rows if r.get("source") != "research_quarantine" and trust_tier(r) != "low"]
+    points = []
+    for link in links or []:
+        if isinstance(link, dict) and link.get("trust") == "low" and link.get("points_at"):
+            points.append(link.get("points_at"))
+    reply_n = _norm_sentence(reply)
+    rests_on = None
+    if reply_n:
+        for row in trusted_rows:
+            text = _norm_sentence(row.get("text") or row.get("content"))
+            if text and (text in reply_n or reply_n in text):
+                rests_on = row.get("id") or row.get("memory_id")
+                break
+    blocks = bool(reply_n and low_rows and not rests_on)
+    return {
+        "low_trust": bool(low_rows),
+        "trusted_anchor": bool(trusted_rows),
+        "rests_on": rests_on,
+        "points_at": points,
+        "blocks_admit": blocks,
+        "rule": "LOW-TRUST-NO-PREMISE" if blocks else ("LOW-TRUST-POINTS-ANCHOR" if points else "TRUST-CLEAR"),
+        "tiers": [{"id": r.get("id"), "trust": trust_tier(r), "source": r.get("source")} for r in rows[:16]],
+    }
+
+
 def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     payload = dict(payload or {})
     question = str(payload.get("question") or payload.get("text") or "").strip()
@@ -287,8 +325,8 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         world = recorded if recorded and recorded.get("layer") == "world_model" else world_model_seam(memory, question)
         rendered_full = str(artifacts.get("rendered_answer") or "")
         derived = str((world.get("derived_text") or "")).strip()
-        # The renderer ran on the surviving derived sentence. Speak that sentence.
-        rendered = derived if (live and rendered_full and derived) else rendered_full
+        # Live speech is the derived sentence. The renderer draft is a trace, not an answer.
+        rendered = derived if live else rendered_full
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
         gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))
         stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
@@ -306,6 +344,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         chain = [s.get("stage_id") for s in stages]
         spoken = bool(gate.get("applied_to_ask") and rendered)
         reply = rendered if spoken else None
+        trust_trace = _trust_trace(reply, rows, anchors)
+        if spoken and trust_trace.get("blocks_admit"):
+            spoken = False
+            reply = None
+            gate = dict(gate)
+            gate["applied_to_ask"] = False
+            gate["disposition"] = "held"
+            gate["low_trust_block"] = trust_trace["rule"]
         recall_state = (((artifacts.get("trace_spine") or {}).get("memory_recall") or {}).get("memory_state") or {})
         resonance = recall_state.get("resonance") if isinstance(recall_state, dict) else None
         from rmc_engine_v1.resonance_recall import PACKET_SCHEMA, CITE as RESONANCE_CITE
@@ -315,6 +361,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             curation.append({k: link.get(k) for k in (
                 "ok", "rule", "writes", "gate_eligible", "band", "packet", "drift", "chi", "link", "role",
                 "ancestor", "christping_initiated", "christping_owner", "ask_initiated", "calls_llm", "cite", "reason",
+                "trust", "premise", "points_at", "admit_rests_on",
             )})
         memory_write = None
         if spoken:
@@ -332,6 +379,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "source": "rmc_core.admit_gate",
                 "contributor": "athena",
                 "credit": "Athena placed the packet after resonance recall and the admit gate. Premise ids are the recalled rows.",
+                "trust": trust_trace,
             }
             row_body = {"id": "admit-" + question[:24], "text": reply, "sfe": sfe, "packet": packet, "provenance": provenance, "contributor": "athena"}
             memory_write = {
@@ -366,6 +414,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "echo": echo,
             "resonance": resonance,
             "quarantine_curation": curation,
+            "trust": trust_trace,
             "memory_write": memory_write,
             "output": {
                 "kind": kind,
@@ -402,6 +451,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "echo": echo,
             "resonance": resonance,
             "quarantine_curation": curation,
+            "trust": trust_trace,
             "memory_write": memory_write,
             "stages": stage_rows,
             "late_stages": late,

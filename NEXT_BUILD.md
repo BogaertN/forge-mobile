@@ -1,3 +1,9 @@
+# Next build order — after 4.9.187 (trusted anchors)
+
+**Shipped here:** Ask speaks only from `rmc_core`. The ask-key shortcut and the chloramine headline are removed. Trusted anchors (OpenStax CC BY 4.0 and US public-domain pages) carry a resonance packet, a license, and `encyclopedia:<source>`. Wikipedia is low trust and cannot be a premise. The admit gate and the coherence formula are unchanged. The `app.memory_writer_insert` grant is in the repo. Anchors are `kb.anchors`, not an admitted contribution. The wiring is `docs/WIRING_187.md`. The tables are `docs/LIVE_TEST_187.md`. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** Simulate (spec §6, contract §13). Lowering C_min. A model call. Shipping an admit receipt that trusts a client-supplied C.
+
 # Next build order — after 4.9.186 (anchor and multi-hop)
 
 **Shipped here:** Gilligan connects quarantined web evidence to an admitted concept inside the drift bands (Codex §1.1.2, §3.4, §6.1, §6.2). At or under 0.35 Athena resonance-places the packet. Chi and ChristPing stay Gilligan-only (Codex §3.2). The admit gate is unchanged. Derive speaks a chain of admitted facts with provenance and drift on every hop. The memory writer can insert an admitted fact that carries `{Phi, eps, mu}`, provenance, and contributor credit. Anon cannot insert an unadmitted row. The migration is `supabase/migrations/20261029201023_memory_writer_admitted_insert.sql`. It is not applied in this run: no project access token. The wiring is `docs/WIRING_186.md`. The tables are `docs/LIVE_TEST_186.md`. No LLM. Packs stay gated. Money stays disabled.

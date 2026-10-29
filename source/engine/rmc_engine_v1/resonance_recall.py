@@ -48,7 +48,18 @@ def _lexicon() -> dict[str, Any]:
     global _LEXICON
     if _LEXICON is None:
         path = Path(__file__).with_name("concept_lexicon.json")
-        _LEXICON = json.loads(path.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
+        extra_path = Path(__file__).with_name("anchor_concepts.json")
+        if extra_path.exists():
+            extra = json.loads(extra_path.read_text(encoding="utf-8"))
+            surfaces = dict(data.get("surfaces") or {})
+            categories = dict(data.get("categories") or {})
+            for word, cid in (extra.get("concepts") or {}).items():
+                surfaces.setdefault(str(word).lower(), str(cid))
+                categories.setdefault(str(cid), "anchor")
+            data["surfaces"] = surfaces
+            data["categories"] = categories
+        _LEXICON = data
     return _LEXICON
 
 
@@ -201,6 +212,8 @@ def clean_text(node: dict[str, Any]) -> str:
 
 
 def _quarantined(node: dict[str, Any]) -> bool:
+    if str(node.get("trust") or "").lower() == "low":
+        return True
     if node.get("quarantined") is True:
         return True
     if str(node.get("confidence") or "") == "low":
@@ -241,13 +254,14 @@ def _hop_nodes(direct: list[dict[str, Any]], pool: list[dict[str, Any]]) -> list
 
 
 def _anchor_key(node: dict[str, Any]) -> tuple:
-    """An admitted seed outranks a resonance-placed excerpt of any length.
+    """An admitted seed outranks a resonance-placed excerpt and an encyclopedia anchor.
 
-    The longest seed still wins among seeds, so a shorter restatement does not
-    replace it. A placed excerpt is the lock only when no seed locked.
+    The longest seed still wins among seeds. An encyclopedia anchor is the lock
+    when no seed locked. A placed excerpt is the lock only when neither did.
     """
     seeded = 0 if node.get("anchor_placed") else 1
-    return (seeded, len(clean_text(node)), str(node.get("memory_id") or ""))
+    encyclopedia = 0 if str(node.get("tier") or node.get("state") or "") == "anchor" else 1
+    return (seeded, encyclopedia, len(clean_text(node)), str(node.get("memory_id") or ""))
 
 
 def _rsoc(locks):
@@ -413,6 +427,8 @@ def rank_memory(question, nodes, phase_report=None):
             # The seed remains the anchor. The scorer also sees the connection.
             for other, _hit, _grace_row, _shared in role_locks:
                 if other is node or not other.get("anchor_placed"):
+                    continue
+                if str(other.get("trust") or "").lower() == "low":
                     continue
                 bit = clean_text(other)
                 if bit and bit not in text:

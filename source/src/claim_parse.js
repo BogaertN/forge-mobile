@@ -142,10 +142,6 @@
       const pred = m[2].replace(/\s+(and|or|which|that|with|of)$/i, '').trim();
       if (pred.split(/\s+/).length >= 1) out.push(name + ' is a ' + pred);
     }
-    if (/\bmonochloramine\b/i.test(s) && /\btoxic\b/i.test(s) && /\bgas\b/i.test(s)) out.push('Chloramine is a toxic gas');
-    else if (/\bchloramines?\b/i.test(s) && /\btoxic\b/i.test(s) && /\bgas\b/i.test(s)) out.push('Chloramine is a toxic gas');
-    else if (/\b(?:mono)?chloramines?\b/i.test(s) && /\bgas\b/i.test(s)) out.push('Chloramine is a gas');
-    else if (/\b(?:mono)?chloramines?\b/i.test(s) && /\btoxic\b/i.test(s)) out.push('Chloramine is toxic');
     return out;
   }
 
@@ -243,58 +239,11 @@
     }
     return keys.slice(0, 12);
   }
-  function matchAsk(question, facts) {
-    const want = topicKeys(question, '');
-    if (!want.length || !facts) return [];
-    const set = {};
-    want.forEach(k => { set[k] = true; });
-    const hits = [];
-    for (const f of facts) {
-      const keys = f && f.ask_keys;
-      if (!keys || !keys.length) continue;
-      if (keys.some(k => set[k])) hits.push(f);
-      if (hits.length >= 3) break;
-    }
-    return hits;
-  }
-
   const PROTOFORGE = "ProtoForge is Nic's full local recursive symbolic runtime (Codex Vol I: core loop & memory; Vol II: symbolic operators, phase logic and a symbolic control-panel dashboard), a separate desktop app from Forge Mobile that needs a PyBullet physics backend.";
   function localDefine(raw) {
     if (!/^(?:what|who)\s+(?:is|are)\s+(?:a\s+|the\s+)?proto-?forge\b/i.test(String(raw || '').replace(/[?]+$/, '').trim())) return null;
     return { rule: { id: 'PF-LOCAL-DEF', doc: 'ProtoForge local definition. Codex Volume I and Volume II. Separate desktop app. PyBullet backend.' }, meaning: { kind: 'define', term: 'ProtoForge', gloss: PROTOFORGE, source: 'Codex Volume I and Volume II' } };
   }
-  function hazardHeadline(blob) {
-    const low = String(blob || '').toLowerCase();
-    if (!/chloramine|monochloramine/.test(low)) return null;
-    const line = /\btoxic\b/.test(low) && /\bgas\b/.test(low) ? 'Chloramine is a toxic gas' : /\bgas\b/.test(low) ? 'Chloramine is a gas' : /\btoxic\b/.test(low) ? 'Chloramine is toxic' : null;
-    if (!line) return null;
-    const named = [];
-    if (/nitrogen trichloride/.test(low)) named.push('nitrogen trichloride');
-    if (/\bhydrazine\b/.test(low)) named.push('hydrazine');
-    return { line: line, secondary: named.length ? named.join(' and ') : null };
-  }
-  function applyMixHazard(meaning, roles, blob, hooks) {
-    if (!meaning || meaning.hazard || !roles || roles.asked !== 'cause' || roles.predicate !== 'mix') return meaning;
-    const sub = String(roles.subject || '');
-    if (!/\bbleach\b/i.test(sub) || !/\bammonia\b/i.test(sub)) return meaning;
-    const hz = hazardHeadline(blob);
-    if (!hz || !hooks) return meaning;
-    let clause = null;
-    try { clause = hooks.reparse(hz.line); } catch (e) { clause = null; }
-    if (!clause || !clause.verb || clause.coord) return meaning;
-    const trial = Object.assign({}, meaning, { excerpt: hz.line, nofit: false, unsupported: false, secondary_name: hz.secondary || undefined, generated: { clause: clause, text: hz.line, source: meaning.source || 'Bleach', archive: meaning.archive || 'Wikipedia', rule: 'HAZARD-CHLORAMINE', drift: 0.12 } });
-    delete trial.unsupported_claim; delete trial.answer; delete trial.check;
-    const pass = (m) => { try { return !!hooks.echo(hooks.realize(m).text, m); } catch (e) { return false; } };
-    if (!pass(trial) && trial.secondary_name) delete trial.secondary_name;
-    if (!pass(trial)) return meaning;
-    meaning.excerpt = hz.line; meaning.nofit = false; meaning.unsupported = false;
-    delete meaning.unsupported_claim; delete meaning.answer; delete meaning.check;
-    meaning.generated = trial.generated;
-    if (trial.secondary_name) meaning.secondary_name = trial.secondary_name; else delete meaning.secondary_name;
-    if (meaning.provenance) { meaning.provenance.lead_supported = true; if (Array.isArray(meaning.provenance.sources)) meaning.provenance.sources.forEach(s => { if (s) { s.excerpt = hz.line; s.span = hz.line; s.supported = true; } }); }
-    if (meaning.support && meaning.support.level === 'none') meaning.support.level = 'single';
-    return meaning;
-  }
-  const api = { PROTOFORGE: PROTOFORGE, localDefine: localDefine, hazardHeadline: hazardHeadline, applyMixHazard: applyMixHazard, cleanHtml: cleanHtml, splitSentences: splitSentences, shrink: shrink, sentenceCandidates: sentenceCandidates, appositives: appositives, admitText: admitText, wordsIn: wordsIn, topicKeys: topicKeys, matchAsk: matchAsk };
+  const api = { PROTOFORGE: PROTOFORGE, localDefine: localDefine, cleanHtml: cleanHtml, splitSentences: splitSentences, shrink: shrink, sentenceCandidates: sentenceCandidates, appositives: appositives, admitText: admitText, wordsIn: wordsIn, topicKeys: topicKeys };
   if (isNode) module.exports = api; else root.KClaimParse = api;
 })(typeof self !== 'undefined' ? self : this);
