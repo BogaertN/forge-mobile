@@ -1,0 +1,188 @@
+{
+  "schema_version": "letter_phase_map_v1",
+  "authority": "weak_letter_signal",
+  "letters": {
+    "A": {
+      "phase": "Φ1",
+      "symbolic_fn": "INITIATE",
+      "charge": 1,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "B": {
+      "phase": "Φ2",
+      "symbolic_fn": "BALANCE",
+      "charge": 1,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "C": {
+      "phase": "Φ3",
+      "symbolic_fn": "CLIMB",
+      "charge": 1,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "D": {
+      "phase": "Φ4",
+      "symbolic_fn": "DEFLECT",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "E": {
+      "phase": "Φ5",
+      "symbolic_fn": "EMPTY",
+      "charge": -1,
+      "drift_flag": true,
+      "authority": "weak_letter_signal"
+    },
+    "F": {
+      "phase": "Φ3",
+      "symbolic_fn": "FLARE",
+      "charge": 1,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "G": {
+      "phase": "Φ6",
+      "symbolic_fn": "GRACE",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "H": {
+      "phase": "Φ7",
+      "symbolic_fn": "HORIZON",
+      "charge": 2,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "I": {
+      "phase": "Φ1",
+      "symbolic_fn": "I_AM",
+      "charge": 1,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "J": {
+      "phase": "Φ9",
+      "symbolic_fn": "JUMP",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "K": {
+      "phase": "Φ4",
+      "symbolic_fn": "KINK",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "L": {
+      "phase": "Φ6",
+      "symbolic_fn": "LOOP",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "M": {
+      "phase": "Φ5",
+      "symbolic_fn": "MUTATE",
+      "charge": -2,
+      "drift_flag": true,
+      "authority": "weak_letter_signal"
+    },
+    "N": {
+      "phase": "Φ7",
+      "symbolic_fn": "NAME",
+      "charge": 2,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "O": {
+      "phase": "Φ9",
+      "symbolic_fn": "OMEGA",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "P": {
+      "phase": "Φ8",
+      "symbolic_fn": "PROJECT",
+      "charge": 2,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "Q": {
+      "phase": "Φ6",
+      "symbolic_fn": "QUELL",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "R": {
+      "phase": "Φ2",
+      "symbolic_fn": "RETURN",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "S": {
+      "phase": "Φ3",
+      "symbolic_fn": "SPARK",
+      "charge": 1,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "T": {
+      "phase": "Φ4",
+      "symbolic_fn": "TENSION",
+      "charge": -1,
+      "drift_flag": true,
+      "authority": "weak_letter_signal"
+    },
+    "U": {
+      "phase": "Φ5",
+      "symbolic_fn": "UNFOLD",
+      "charge": -1,
+      "drift_flag": true,
+      "authority": "weak_letter_signal"
+    },
+    "V": {
+      "phase": "Φ7",
+      "symbolic_fn": "VECTOR",
+      "charge": 2,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "W": {
+      "phase": "Φ8",
+      "symbolic_fn": "WAVE",
+      "charge": 1,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "X": {
+      "phase": "Φ2",
+      "symbolic_fn": "CROSS",
+      "charge": 0,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    },
+    "Y": {
+      "phase": "Φ5",
+      "symbolic_fn": "YIELD",
+      "charge": -2,
+      "drift_flag": true,
+      "authority": "weak_letter_signal"
+    },
+    "Z": {
+      "phase": "Φ9",
+      "symbolic_fn": "ZENITH",
+      "charge": 3,
+      "drift_flag": false,
+      "authority": "weak_letter_signal"
+    }
+  }
+}

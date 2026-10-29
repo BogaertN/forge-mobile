@@ -1,5 +1,13 @@
 # CONFLICTS.md — how each conflict was settled
 
+## v4.9.182 — rmc_engine_v1 foundations (2026-10-29 America/Chicago)
+
+**Conflict:** Nic's `rmc_engine_v1` was not in the phone, but the existing Ask path is still the product reply. A full replacement, including removal of the JS stand-ins, waits for the build plan.
+
+**Where:** `source/engine/rmc_engine_v1` is the canonical package. `rmc_core.run` calls `run_deep_dry_run`. `src/rmc_core.js` is the phone entry and does not change `forge.js`. `src/py_worker.js` mounts the engine bundle after a SHA-384 check. `tools/rmc_http.py` serves `/api/rmc/deep-dry-run` with the same core. The report is `docs/ENGINE_182.md`.
+
+**Resolution:** Foundations only. Receipts and the phone and hosted KB are written into the memory recaller's receipt directory. Thresholds are config: C_min 0.87, echo 0.85, quarantine 0.35, hard stop 0.80. The router's 0.72 and 0.78 are reference only. The admit decision is recorded and is not applied to Ask. The world-model seam between recall and that gate returns the same memory and writes nothing. No LLM. Packs stay gated. Money stays disabled.
+
 ## v4.9.181 — ask-key recall and lead-sentence parse (2026-10-29 America/Chicago)
 
 **Conflict:** Four admitted rows did not come back on the same question. “What is the largest planet?” stored Jupiter. Bleach mixed with ammonia stored “Chloramine is a toxic gas.” “And what about Mars?” is a follow-up. “How is paper made?” stored a method sentence the re-ask did not match. Recall-after-admit was 7/11. Fetched sentences that are correct still failed the grammar round-trip: DNA, Ada Lovelace, a gravity paper, and long “by which” sentences from sources that are not a Wikipedia lead. The portable gzip leave was about 4,492 bytes under 570 kB, short of the 5 kB soft line. Drift, chi, and the no-LLM law stay. Packs stay gated. ChristPing stays Gilligan-only.

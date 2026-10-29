@@ -1,5 +1,5 @@
 {
-  "version": "4.9.181",
+ "version": "4.9.182",
  "features": [
   {
    "id": "A-01",
@@ -3705,13 +3705,24 @@
    "proof": [
     "R4181"
    ]
+  },
+  {
+   "id": "R4182-RMC-ENGINE",
+   "name": "rmc_engine_v1 foundations core",
+   "source": "CONFLICTS.md v4.9.182; BogaertN/forge rmc_engine_v1 deep_dry_run_orchestrator",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Foundations. A new core runs run_deep_dry_run and returns a trace. Receipts and the phone and hosted KB feed the memory recaller. Thresholds are config. A world-model seam between recall and the admit gate does not change memory and does not answer Ask. No LLM. Packs stay gated. Money stays disabled.",
+   "proof": [
+    "R4182"
+   ]
   }
  ],
- "count": 338,
+ "count": 339,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 176,
+  "Partial": 177,
   "Missing": 9,
   "Out of scope / parked": 13
  }
