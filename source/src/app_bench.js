@@ -1,5 +1,6 @@
 /* app_bench.js — UI chrome for the Tool Bench, vault captures + consent ledger, and W4 operator pieces.
- * Labels here are fixed UI vocabulary (D5: replies_only); every chat reply still comes from the derivation. */
+ * Labels here are fixed UI vocabulary (D5: replies_only); every chat reply still comes from the derivation.
+ * 4.9.173: tools marketplace is not this ship. Nic builds tools and access after the custody monitor. Hook stays this tab (id echoforge). Do not mount a marketplace here. */
 (function () {
   const { $, $$, esc, fmt, openTab } = window.KUI; const forge = window.forge; const say = t => window.say(t);
   const H = (t, b) => '<div class="card"><div class="cardhead">' + t + '</div>' + b + '</div>';

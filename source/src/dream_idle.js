@@ -1,4 +1,4 @@
-/* dream_idle.js — 4.9.172 always-on workers on the 4.9.171 mesh. No OS process pool. No timer. No LLM.
+/* dream_idle.js — 4.9.173 always-on workers on the 4.9.172 mesh. No OS process pool. No timer. No LLM.
  * Nic lock: Gilligan, Athena, Neo, and helpers are continuous workers. Ask pauses helpers while answering, then they resume.
  * Manual hibernate stays hibernated. Codex 3.24 idle-trigger is yield etiquette only. It is not the schedule.
  * Athena always researches the gap queue and admits/curates/places resonance automatically. No UI click path.
@@ -12,7 +12,8 @@
  * Doc law: Gilligan Core 1HSjAk6UY (ChristPing / χ(t), only Gilligan initiates); Gilligan Codex 1hbLsNhrE;
  * RPMC Blueprint §14 1L_f5I2In; RPMC protocol 1G-Yj323fee; Dream Drift 14fVCPgQ0; Orchestration 1O5Txx2rL;
  * RMC §10.8 1COtSEuXY; Coherence Engine 1q5JcF-v1. Bands are kmath.DRIFT_RULING only.
- * Explicit eps:null is unmeasured. No on-device dream KB. This file is not on the ask path and is not in the phone bundle. */
+ * Explicit eps:null is unmeasured. No on-device dream KB. This file is not on the Ask path (kernel.js).
+ * The site custody screen loads it. The portable single file does not inline it (gzip leave). No timer in this file. */
 (function (root) {
   const isNode = typeof module !== 'undefined' && module.exports;
   const KM = isNode ? require('./kmath.js') : root.KMath;
@@ -69,7 +70,7 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.172', psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.173', custody_monitor: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,
@@ -934,7 +935,60 @@
       if (christLog.length > 80) christLog.splice(0, christLog.length - 80);
     }
 
-    function tick(o) {
+    const pulse = { research: 0, athena_admits: 0, gilligan_admits: 0, staged: 0, quarantine: 0, hard: 0, cold_recurate: 0, cold_keep: 0, cold_quiet: 0, novel: 0, christ: 0, packs: 0, last_step: null, last_athena: null, last_cold: null };
+    let kbSeen = null;
+    function summarize(rec) {
+      return { rule: rec.rule || null, lane: rec.lane || null, gap_id: rec.gap_id || null, kind: rec.kind || null, role: rec.role || rec.researcher || null, ran: rec.ran === true, wrote_confirmed_shared: rec.wrote_confirmed_shared === true, always_on: true, idle_gated: false };
+    }
+    function noteStep(rec) {
+      if (!rec) return;
+      const cold = rec.role === 'gilligan' ? rec : (rec.cold && rec.cold.role === 'gilligan' ? rec.cold : null);
+      if (cold) {
+        pulse.last_cold = summarize(cold);
+        if (cold.rule === 'GILLIGAN-COLD-RECURATE') pulse.cold_recurate++;
+        else if (cold.rule === 'GILLIGAN-COLD-KEEP') pulse.cold_keep++;
+        else if (cold.rule === 'GILLIGAN-COLD-QUIET') pulse.cold_quiet++;
+        if (cold.wrote_confirmed_shared === true) pulse.gilligan_admits++;
+        if (cold.wrote_pack === true) pulse.packs++;
+      }
+      if (rec.christ_ping === true) pulse.christ++;
+      if (rec.role === 'gilligan') { pulse.last_step = summarize(rec); return; }
+      pulse.last_step = summarize(rec);
+      if (rec.researcher === 'athena') pulse.last_athena = pulse.last_step;
+      if (rec.ran === true && rec.researcher === 'athena') {
+        pulse.research++;
+        if (rec.wrote_confirmed_shared === true) pulse.athena_admits++;
+        else if (rec.lane === 'promote_candidate') pulse.staged++;
+        else if (rec.lane === 'quarantine') pulse.quarantine++;
+        else if (rec.lane === 'hard_reject') pulse.hard++;
+        if (rec.kind === 'letter_hole' || rec.kind === 'rpmc_ancestor_none' || rec.kind === 'aq1_miss') pulse.novel++;
+        if (rec.wrote_pack === true || (rec.backend_fill && rec.backend_fill.wrote_pack === true)) pulse.packs++;
+      }
+    }
+    /* Read-only snapshot of this mesh. Does not tick. The phone timer lives in app_custody.js. */
+    function custody(o) {
+      o = o || {};
+      const b = boundary();
+      const kb = o.kb_count == null || o.kb_count === '' ? null : Number(o.kb_count);
+      const kbN = Number.isFinite(kb) ? kb : null;
+      if (kbSeen == null && kbN != null) kbSeen = kbN;
+      const delta = kbN != null && kbSeen != null ? kbN - kbSeen : null;
+      const novelOpen = queue.filter(g => g.kind === 'letter_hole' || g.kind === 'rpmc_ancestor_none' || g.kind === 'aq1_miss').length;
+      return {
+        schema: 'FORGE-CUSTODY-MONITOR/v1', calls_llm: false, always_on: true, idle_gated: false, ui_click_required: false,
+        schedule_law: b.schedule_law, phone_pack_publish: b.phone_pack_publish, pages_pack_ship: b.pages_pack_ship,
+        publish_packs: opts.publishPacks === true, continuous_fill: b.continuous_fill, automatic_curation: true,
+        researcher: 'athena', cold_curator: 'gilligan', ask: 'neo', neo_is_neil: false, answering: answering,
+        daemons: DAEMONS.map(d => ({ role: d.role, duty: d.duty, runs: d.runs })),
+        queued: queue.length, novel_open: novelOpen, cold_rows: athena.coldBank().length, christ_pings: pulse.christ,
+        athena: { role: 'athena', duty: 'continuous_research_and_admit', runs: 'always_on', research_ticks: pulse.research, admits: pulse.athena_admits, staged: pulse.staged, quarantine: pulse.quarantine, hard_reject: pulse.hard, last: pulse.last_athena },
+        gilligan: { role: 'gilligan', duty: 'cold_revisit_re_curate', runs: 'always_on', cold_recurate: pulse.cold_recurate, cold_keep: pulse.cold_keep, cold_quiet: pulse.cold_quiet, novel_ticks: pulse.novel, novel_open: novelOpen, christ_pings: pulse.christ, admits: pulse.gilligan_admits, last: pulse.last_cold },
+        kb: { count: kbN, delta: delta, admits: pulse.athena_admits + pulse.gilligan_admits, hosted: true, phone_db: false, pack_stuffed: pulse.packs > 0 },
+        last_step: pulse.last_step
+      };
+    }
+    function tick(o) { const rec = stepTick(o); noteStep(rec); return rec; }
+    function stepTick(o) {
       o = o || {};
       const busy = o.answering === true || answering;
       athena.noteAsk(busy);
@@ -1125,7 +1179,7 @@
     }
 
     return {
-      schema: SCHEMA, boundary: boundary, enqueue: enqueue, tick: tick, run: run, schedule: schedule, admitRecord: admitRecord, admitStaged: admitStaged,
+      schema: SCHEMA, boundary: boundary, enqueue: enqueue, tick: tick, run: run, schedule: schedule, custody: custody, admitRecord: admitRecord, admitStaged: admitStaged,
       athena: athena, orchestrator: athena, daemons: () => DAEMONS.map(d => Object.assign({}, d)), helpers: () => athena.helpers(),
       spawnHelper: athena.spawnHelper, forkHelper: athena.forkHelper, retireHelper: athena.retireHelper, hibernateHelper: athena.hibernateHelper, resurrectHelper: athena.resurrectHelper,
       listActive: athena.listActive, maySpawn: athena.maySpawn, mayAdmit: athena.mayAdmit, ancestry: athena.ancestry, coldBank: athena.coldBank,

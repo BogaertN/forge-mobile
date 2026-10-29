@@ -1,5 +1,5 @@
 {
- "version": "4.9.172",
+ "version": "4.9.173",
  "features": [
   {
    "id": "A-01",
@@ -3606,13 +3606,24 @@
    "proof": [
     "R4172"
    ]
+  },
+  {
+   "id": "R4173-CUSTODY",
+   "name": "Phone custody monitor for always-on workers",
+   "source": "CONFLICTS.md v4.9.173; Gilligan Agent Core 1HSjAk6UY; Dream Drift 14fVCPgQ0 (Codex 3.24 is yield etiquette only)",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Custody screen binds to the live always-on mesh: boundary, schedule, Athena research and admit, Gilligan cold re-curate and novel gaps, hosted KB count. No KB click. Phone letter packs stay gated. The write key is not in the client. The portable single file does not inline the mesh. No LLM.",
+   "proof": [
+    "R4173"
+   ]
   }
  ],
- "count": 329,
+ "count": 330,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 167,
+  "Partial": 168,
   "Missing": 9,
   "Out of scope / parked": 13
  }
