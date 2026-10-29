@@ -35,6 +35,7 @@ from rmc_engine_v1.resonance_recall import (
     clean_text,
     place_packet,
 )
+from rmc_engine_v1.source_trust import is_low_trust, trust_tier
 from rmc_engine_v1.world_model_v1 import _drift_for, _sentences
 
 # kmath.js DRIFT_RULING.explore_min. The top of the chi band. Not an admit threshold.
@@ -84,7 +85,7 @@ def _ancestor_packet(row: dict[str, Any]) -> dict[str, Any]:
 def _best(sentence: str, admitted: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]] | None:
     best = None
     for anc in admitted or []:
-        if not isinstance(anc, dict) or _quarantined(anc):
+        if not isinstance(anc, dict) or _quarantined(anc) or is_low_trust(anc):
             continue
         link = _resonate(sentence, clean_text(anc))
         if not link:
@@ -136,8 +137,15 @@ def _base(row: dict[str, Any], *, rule: str, ok: bool, band: str | None, drift: 
 
 
 def connect_quarantine(question: str, row: dict[str, Any], admitted: list[dict[str, Any]]) -> dict[str, Any]:
-    """Connect one quarantined excerpt. Does not write. Does not admit."""
+    """Connect one quarantined excerpt. Does not write. Does not admit.
+
+    A low-trust excerpt (Wikipedia and the other Wikimedia hosts) may point
+    at a trusted anchor. It is never placed as a premise. The admit decision
+    rests on the trusted anchor.
+    """
     row = row if isinstance(row, dict) else {}
+    tier = trust_tier(row)
+    low = tier == "low"
     text = clean_text(row)
     sentences = [s.strip() for s in _sentences(text) if str(s).strip()] or ([text] if text else [])
     found = None
@@ -150,11 +158,21 @@ def connect_quarantine(question: str, row: dict[str, Any], admitted: list[dict[s
         if found is None or eps < found[0]:
             found = (eps, sentence, anc, link, drift)
     if found is None:
-        return _base(
-            row, rule="DREAM-QUARANTINE-NO-TRUTH", ok=False, band=None, drift=None, link=None, ancestor=None,
-            christping=False,
-            reason="no phase-aligned admitted ancestor, or the frame did not lock; quarantine stays evidence",
+        rule = "LOW-TRUST-NO-PREMISE" if low else "DREAM-QUARANTINE-NO-TRUTH"
+        reason = (
+            "a low-trust excerpt has no trusted anchor to point at. It is not a premise."
+            if low else
+            "no phase-aligned admitted ancestor, or the frame did not lock; quarantine stays evidence"
         )
+        out = _base(
+            row, rule=rule, ok=False, band=None, drift=None, link=None, ancestor=None,
+            christping=False, reason=reason,
+        )
+        out["trust"] = tier
+        out["premise"] = False
+        out["points_at"] = None
+        out["admit_rests_on"] = None
+        return out
     eps, sentence, anc, link, drift = found
     band = band_for(eps)
     if band == "hard_stop":
@@ -163,19 +181,48 @@ def connect_quarantine(question: str, row: dict[str, Any], admitted: list[dict[s
             christping=True,
             reason="drift above 0.80. Gilligan records ChristPing. The excerpt is not placed and is not admitted.",
         )
+        out["trust"] = tier
+        out["premise"] = False
+        out["points_at"] = anc.get("id") or anc.get("memory_id")
+        out["admit_rests_on"] = None
         return out
     if band == "chi":
-        return _base(
+        out = _base(
             row, rule="GILLIGAN-CHI", ok=False, band=band, drift=drift, link=link, ancestor=anc,
             christping=False,
             reason="drift is in the chi band. Gilligan holds the correction. Athena does not place it. Ask does not start ChristPing.",
         )
+        out["trust"] = tier
+        out["premise"] = False
+        out["points_at"] = anc.get("id") or anc.get("memory_id")
+        out["admit_rests_on"] = None
+        return out
     if band == "quarantine":
-        return _base(
+        out = _base(
             row, rule="DREAM-QUARANTINE-KEEP", ok=False, band=band, drift=drift, link=link, ancestor=anc,
             christping=False,
             reason="drift is in quarantine. Gilligan keeps it. It is not a premise.",
         )
+        out["trust"] = tier
+        out["premise"] = False
+        out["points_at"] = anc.get("id") or anc.get("memory_id")
+        out["admit_rests_on"] = None
+        return out
+    if low:
+        anc_id = anc.get("id") or anc.get("memory_id")
+        out = _base(
+            row, rule="LOW-TRUST-POINTS-ANCHOR", ok=True, band=band, drift=drift, link=link, ancestor=anc,
+            christping=False,
+            reason="The low-trust excerpt phase-aligns with a trusted anchor. It points at that anchor. It is not a premise. The admit decision rests on the anchor.",
+        )
+        out["trust"] = "low"
+        out["premise"] = False
+        out["points_at"] = anc_id
+        out["admit_rests_on"] = anc_id
+        out["placed"] = None
+        out["gate_eligible"] = False
+        out["writes"] = False
+        return out
     placed_sfe = {"Phi": 9, "eps": round(eps, 6), "mu": 1.0}
     packet = place_packet({"sfe": placed_sfe}, quarantined=False)
     anc_id = anc.get("id") or anc.get("memory_id")
@@ -198,6 +245,7 @@ def connect_quarantine(question: str, row: dict[str, Any], admitted: list[dict[s
             "epsilon_s": round(eps, 6),
         },
         "contributor": "athena",
+        "trust": tier,
     }
     out = _base(
         row, rule="ATHENA-RESONANCE-PLACE", ok=True, band=band, drift=drift, link=link, ancestor=anc,
@@ -208,4 +256,8 @@ def connect_quarantine(question: str, row: dict[str, Any], admitted: list[dict[s
     out["placed"] = placed
     out["gate_eligible"] = True
     out["writes"] = False
+    out["trust"] = tier
+    out["premise"] = True
+    out["points_at"] = anc_id
+    out["admit_rests_on"] = anc_id
     return out

@@ -104,7 +104,9 @@
     return {
       ok: true, schema: SCHEMA, rule: measured ? 'RESEARCH-EXCERPT' : 'RESEARCH-UNPARSED', calls_llm: false, vault_only: false, open_crawl: false,
       tool: 'research.web', excerpt: row.text, claim: measured ? measured.claim : null, title: row.title, url: row.url,
-      parsed: row.parsed === true, measured: measured
+      parsed: row.parsed === true, measured: measured,
+      trust: /wikipedia|wikimedia|wikidata|dbpedia|wikisource|conceptnet/i.test(String(row.url || '') + ' ' + String(row.title || '')) ? 'low' : 'unknown',
+      premise: false
     };
   }
 

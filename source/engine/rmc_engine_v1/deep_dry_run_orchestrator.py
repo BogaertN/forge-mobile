@@ -873,15 +873,26 @@ def run_deep_dry_run(
     recalled = int(recall_state.get("active_memory_count") or 0)
     observe_rows = recall_state.get("admitted_for_observe")
     observe_source = observe_rows if isinstance(observe_rows, list) else _recalled_nodes(trace_spine)
+    active_ids = {
+        n.get("memory_id") for n in (recall_state.get("active_memory_nodes") or [])
+        if isinstance(n, dict)
+    }
     nodes = []
     for node in observe_source:
+        low = str(node.get("confidence") or "") == "low" or _number(node.get("prior_drift_score"), 0.0) >= 0.40
+        # An encyclopedia anchor is a premise only when resonance locked it.
+        # A low-trust excerpt is never a premise.
+        anchor_idle = str(node.get("tier") or node.get("state") or "") == "anchor" and node.get("memory_id") not in active_ids
+        low_trust = str(node.get("trust") or "").lower() == "low"
         nodes.append({
             "id": node.get("memory_id"),
             "text": node.get("content_summary") or node.get("content") or "",
             "source": node.get("source") or node.get("source_kind"),
             "confidence": node.get("confidence"),
             "prior_drift_score": node.get("prior_drift_score"),
-            "quarantined": str(node.get("confidence") or "") == "low" or _number(node.get("prior_drift_score"), 0.0) >= 0.40,
+            "tier": node.get("tier"),
+            "trust": node.get("trust"),
+            "quarantined": low or anchor_idle or low_trust or node.get("quarantined") is True,
         })
     reasoning = run_reasoning_seam(source_text, {
         "active": recalled,

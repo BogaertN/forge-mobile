@@ -1,0 +1,1634 @@
+{
+ "schema": "FORGE-ANCHOR-SET/v1",
+ "release": "4.9.187",
+ "note": "Trusted anchors. Not admitted. Not spoken unless the unchanged admit gate passes. Wikipedia is not in this file. OpenStax 2e is CC BY-NC-SA and was skipped. Sentence splits happened at ingestion.",
+ "skipped_licenses": [
+  "CC BY-NC-SA 4.0 OpenStax 2e editions"
+ ],
+ "count": 32,
+ "skipped": [
+  {
+   "question": "What is Saturn?",
+   "error": "no sentence"
+  },
+  {
+   "question": "What gas does photosynthesis release?",
+   "error": "duplicate"
+  },
+  {
+   "question": "Why do leaves change color?",
+   "error": "no sentence"
+  },
+  {
+   "question": "What is quartz?",
+   "error": "no sentence"
+  },
+  {
+   "question": "How do lightbulbs work?",
+   "error": "no sentence"
+  },
+  {
+   "question": "What is a volcano?",
+   "error": "HTTP Error 404: Not Found"
+  },
+  {
+   "question": "What is the boiling point of water?",
+   "error": "HTTP Error 404: Not Found"
+  },
+  {
+   "question": "What is the longest river?",
+   "error": "duplicate"
+  },
+  {
+   "question": "What is Mount Everest?",
+   "error": "HTTP Error 404: Not Found"
+  },
+  {
+   "question": "What happens if you mix bleach and ammonia?",
+   "error": "HTTP Error 403: Forbidden"
+  },
+  {
+   "question": "What happens if you mix bleach and vinegar?",
+   "error": "HTTP Error 403: Forbidden"
+  },
+  {
+   "question": "How does a refrigerator work?",
+   "error": "no sentence"
+  }
+ ],
+ "concepts": {
+  "gravity": "A.GRAVITY",
+  "magnet": "A.MAGNET",
+  "sun": "A.SUN",
+  "moon": "A.MOON",
+  "mars": "A.MARS",
+  "jupiter": "A.JUPITER",
+  "photosynthesis": "A.PHOTOSYNTHESIS",
+  "dna": "A.DNA",
+  "atom": "A.ATOM",
+  "helium": "A.HELIUM",
+  "oxygen": "A.OXYGEN",
+  "rust": "A.RUST",
+  "glass": "A.GLASS",
+  "lightning": "A.LIGHTNING",
+  "sky": "A.SKY",
+  "compass": "A.COMPASS",
+  "battery": "A.BATTERY",
+  "ocean": "A.OCEAN",
+  "light": "A.LIGHT",
+  "speed": "A.LIGHT",
+  "freezing": "A.FREEZING",
+  "water": "A.WATER",
+  "kilometer": "A.KILOMETER",
+  "meters": "A.KILOMETER",
+  "japan": "A.JAPAN",
+  "capital": "A.JAPAN",
+  "canada": "A.CANADA",
+  "australia": "A.AUSTRALIA",
+  "nile": "A.NILE",
+  "paper": "A.PAPER",
+  "heart": "A.HEART",
+  "cell": "A.CELL",
+  "earth": "A.EARTH",
+  "electricity": "A.ELECTRICITY",
+  "temperature": "A.TEMPERATURE"
+ },
+ "anchors": [
+  {
+   "id": "enc-openstax-gravity",
+   "text": "This video demonstrates calculations involving Newton’s universal law of gravitation.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.GRAVITY"
+   ],
+   "concept": "gravity",
+   "question": "What is gravity?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/7-2-newtons-law-of-universal-gravitation-and-einsteins-theory-of-general-relativity",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/7-2-newtons-law-of-universal-gravitation-and-einsteins-theory-of-general-relativity",
+   "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-magnet",
+   "text": "This simulation presents you with a bar magnet and a small compass.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.MAGNET"
+   ],
+   "concept": "magnet",
+   "question": "What is a magnet?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/20-1-magnetic-fields-field-lines-and-force",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/20-1-magnetic-fields-field-lines-and-force",
+   "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-sun",
+   "text": "The hole produces a fuzzy but adequate image of the eclipsed Sun.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.SUN"
+   ],
+   "concept": "sun",
+   "question": "How hot is the sun?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/astronomy/pages/4-7-eclipses-of-the-sun-and-moon",
+    "revision": "faae451",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/astronomy",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/astronomy/pages/4-7-eclipses-of-the-sun-and-moon",
+   "revision": "faae451",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-moon",
+   "text": "The Moon, on the other hand, moves completely around Earth in that time.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.MOON"
+   ],
+   "concept": "moon",
+   "question": "What is the Moon?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/astronomy/pages/4-5-phases-and-motions-of-the-moon",
+    "revision": "faae451",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/astronomy",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/astronomy/pages/4-5-phases-and-motions-of-the-moon",
+   "revision": "faae451",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-mars",
+   "text": "Mars is more interesting to most people than Venus because it is more hospitable.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.MARS"
+   ],
+   "concept": "mars",
+   "question": "And what about Mars?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/astronomy/pages/10-4-the-geology-of-mars",
+    "revision": "faae451",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/astronomy",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/astronomy/pages/10-4-the-geology-of-mars",
+   "revision": "faae451",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-jupiter",
+   "text": "Io is about the same distance from Jupiter as our Moon is from Earth.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.JUPITER"
+   ],
+   "concept": "jupiter",
+   "question": "What is the largest planet?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/astronomy/pages/12-2-the-galilean-moons-of-jupiter",
+    "revision": "faae451",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/astronomy",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/astronomy/pages/12-2-the-galilean-moons-of-jupiter",
+   "revision": "faae451",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-photosynthesis",
+   "text": "Photosynthesis is essential to all life on earth; both plants and animals depend on it.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.PHOTOSYNTHESIS"
+   ],
+   "concept": "photosynthesis",
+   "question": "What is photosynthesis?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/biology/pages/8-1-overview-of-photosynthesis",
+    "revision": "e989ec3",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/biology",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/biology/pages/8-1-overview-of-photosynthesis",
+   "revision": "e989ec3",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-dna",
+   "text": "The DNA has a net negative charge and moves from the negative electrode toward the positive electrode.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.DNA"
+   ],
+   "concept": "dna",
+   "question": "What is DNA?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/biology/pages/14-2-dna-structure-and-sequencing",
+    "revision": "e989ec3",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/biology",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/biology/pages/14-2-dna-structure-and-sequencing",
+   "revision": "e989ec3",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-atom",
+   "text": "For example, if an element such as copper consists of only one kind of atom, then it cannot be broken down into simpler substances, that is, into substances composed of fewer types of atoms.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.ATOM"
+   ],
+   "concept": "atom",
+   "question": "What is an atom?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/2-1-early-ideas-in-atomic-theory",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/2-1-early-ideas-in-atomic-theory",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-helium",
+   "text": "Only a few elements, such as the gases helium, neon, and argon, consist of a collection of individual atoms that move about independently of one another.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.HELIUM"
+   ],
+   "concept": "helium",
+   "question": "What is helium?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/1-2-phases-and-classification-of-matter",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/1-2-phases-and-classification-of-matter",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-oxygen",
+   "text": "Oxygen is essential in combustion processes such as the burning of fuels.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.OXYGEN"
+   ],
+   "concept": "oxygen",
+   "question": "What is oxygen?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/18-9-occurrence-preparation-and-compounds-of-oxygen",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/18-9-occurrence-preparation-and-compounds-of-oxygen",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-rust",
+   "text": "Corrosion is usually defined as the degradation of metals due to an electrochemical process.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.RUST"
+   ],
+   "concept": "rust",
+   "question": "What is rust?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/17-6-corrosion",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/17-6-corrosion",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-glass",
+   "text": "If an ordinary glass of water were enlarged to the size of the earth, the water molecules inside it would be about the size of golf balls.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.GLASS"
+   ],
+   "concept": "glass",
+   "question": "How is glass made?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/1-2-phases-and-classification-of-matter",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/1-2-phases-and-classification-of-matter",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-lightning",
+   "text": "You can also create mini lightning bolts by moving a neutral conductor toward the globe.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.LIGHTNING"
+   ],
+   "concept": "lightning",
+   "question": "What is lightning?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/18-1-electrical-charges-conservation-of-charge-and-transfer-of-charge",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/18-1-electrical-charges-conservation-of-charge-and-transfer-of-charge",
+   "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-sky",
+   "text": "As Earth turns, the whole sky seems to pivot about the north celestial pole.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 4,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.SKY"
+   ],
+   "concept": "sky",
+   "question": "Why is the sky blue?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/astronomy/pages/2-1-the-sky-above",
+    "revision": "faae451",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/astronomy",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/astronomy/pages/2-1-the-sky-above",
+   "revision": "faae451",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-compass",
+   "text": "A compass placed at that point would essentially spin freely if we ignore Earth’s magnetic field.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.COMPASS"
+   ],
+   "concept": "compass",
+   "question": "How does a compass work?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/20-1-magnetic-fields-field-lines-and-force",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/20-1-magnetic-fields-field-lines-and-force",
+   "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-battery",
+   "text": "The battery relies upon lithium ions and a variety of other materials, including iron, cobalt, copper, polyethylene oxide, and polyacrylonitrile.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.BATTERY"
+   ],
+   "concept": "battery",
+   "question": "How does a battery work?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/1-2-phases-and-classification-of-matter",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/1-2-phases-and-classification-of-matter",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-noaa-ocean",
+   "text": "The concentration of salt in seawater (salinity) varies with temperature, evaporation, and precipitation .",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 4,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.OCEAN"
+   ],
+   "concept": "ocean",
+   "question": "Why is the ocean salty?",
+   "provenance": {
+    "source": "noaa",
+    "source_url": "https://oceanservice.noaa.gov/facts/whysalty.html",
+    "revision": "unversioned",
+    "license": "public-domain",
+    "license_url": "https://www.weather.gov/disclaimer",
+    "terms": "https://www.noaa.gov/disclaimer",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:noaa"
+   },
+   "contributor": "encyclopedia:noaa",
+   "license": "public-domain",
+   "license_url": "https://www.weather.gov/disclaimer",
+   "source_url": "https://oceanservice.noaa.gov/facts/whysalty.html",
+   "revision": "unversioned",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-light",
+   "text": "As an example, for water waves, v w is the speed of a surface wave; for sound, v w is the speed of sound; and for visible light, v w is the speed of light.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.LIGHT"
+   ],
+   "concept": "light",
+   "question": "What is the speed of light?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/13-2-wave-properties-speed-amplitude-frequency-and-period",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/13-2-wave-properties-speed-amplitude-frequency-and-period",
+   "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-freezing",
+   "text": "The description of water as comprised of two hydrogen atoms and one oxygen atom, and the explanation of freezing and boiling in terms of attractions between these molecules, is within the microscopic arena.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.FREEZING"
+   ],
+   "concept": "freezing",
+   "question": "What is the freezing point of water?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/1-1-chemistry-in-context",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/1-1-chemistry-in-context",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-kilometer",
+   "text": "There are 100 centimeters in a meter, 1000 meters in a kilometer, and so on.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.KILOMETER"
+   ],
+   "concept": "kilometer",
+   "question": "How many meters are in a kilometer?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/1-3-the-language-of-physics-physical-quantities-and-units",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/1-3-the-language-of-physics-physical-quantities-and-units",
+   "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-cia-world-factbook-japan",
+   "text": "Tokyo is the capital of Japan.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.JAPAN"
+   ],
+   "concept": "japan",
+   "question": "What is the capital of Japan?",
+   "provenance": {
+    "source": "cia-world-factbook",
+    "source_url": "https://www.cia.gov/the-world-factbook/countries/ja/",
+    "revision": "f3b92809a622c86a0425efafc7307e046f0a74d8b92be73a035235c3108a0039",
+    "license": "public-domain",
+    "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "terms": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "historical": false,
+    "ingestion_note": "Ingestion rendered Government.Capital.name with the country name. Both values are Factbook fields.",
+    "contributor": "encyclopedia:cia-world-factbook"
+   },
+   "contributor": "encyclopedia:cia-world-factbook",
+   "license": "public-domain",
+   "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+   "source_url": "https://www.cia.gov/the-world-factbook/countries/ja/",
+   "revision": "f3b92809a622c86a0425efafc7307e046f0a74d8b92be73a035235c3108a0039",
+   "historical": false
+  },
+  {
+   "id": "enc-cia-world-factbook-canada",
+   "text": "Ottawa is the capital of Canada.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.CANADA"
+   ],
+   "concept": "canada",
+   "question": "What is the capital of Canada?",
+   "provenance": {
+    "source": "cia-world-factbook",
+    "source_url": "https://www.cia.gov/the-world-factbook/countries/ca/",
+    "revision": "bef2d9385d2bc2dbbcdd0daf21581e48557dfaa4ac36b6fdf23327e2dfd7174f",
+    "license": "public-domain",
+    "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "terms": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "historical": false,
+    "ingestion_note": "Ingestion rendered Government.Capital.name with the country name. Both values are Factbook fields.",
+    "contributor": "encyclopedia:cia-world-factbook"
+   },
+   "contributor": "encyclopedia:cia-world-factbook",
+   "license": "public-domain",
+   "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+   "source_url": "https://www.cia.gov/the-world-factbook/countries/ca/",
+   "revision": "bef2d9385d2bc2dbbcdd0daf21581e48557dfaa4ac36b6fdf23327e2dfd7174f",
+   "historical": false
+  },
+  {
+   "id": "enc-cia-world-factbook-australia",
+   "text": "Canberra is the capital of Australia.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.AUSTRALIA"
+   ],
+   "concept": "australia",
+   "question": "What is the capital of Australia?",
+   "provenance": {
+    "source": "cia-world-factbook",
+    "source_url": "https://www.cia.gov/the-world-factbook/countries/as/",
+    "revision": "c20d2b781930c0ce12433cb184a0bbd7d5665f80af1cf113251205ec9c81d5e8",
+    "license": "public-domain",
+    "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "terms": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "historical": false,
+    "ingestion_note": "Ingestion rendered Government.Capital.name with the country name. Both values are Factbook fields.",
+    "contributor": "encyclopedia:cia-world-factbook"
+   },
+   "contributor": "encyclopedia:cia-world-factbook",
+   "license": "public-domain",
+   "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+   "source_url": "https://www.cia.gov/the-world-factbook/countries/as/",
+   "revision": "c20d2b781930c0ce12433cb184a0bbd7d5665f80af1cf113251205ec9c81d5e8",
+   "historical": false
+  },
+  {
+   "id": "enc-cia-world-factbook-nile",
+   "text": "A rapidly growing population (the largest in the Arab world), limited arable land, and dependence on the Nile all continue to overtax resources and stress society.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.NILE"
+   ],
+   "concept": "nile",
+   "question": "What is the Nile?",
+   "provenance": {
+    "source": "cia-world-factbook",
+    "source_url": "https://www.cia.gov/the-world-factbook/countries/eg/",
+    "revision": "d31a11bcd7ec7efde4ee104161aec42980852aeadd07e3f539cd38136e51f786",
+    "license": "public-domain",
+    "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "terms": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+    "historical": false,
+    "ingestion_note": "Introduction.Background sentence containing the Factbook's own wording.",
+    "contributor": "encyclopedia:cia-world-factbook"
+   },
+   "contributor": "encyclopedia:cia-world-factbook",
+   "license": "public-domain",
+   "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+   "source_url": "https://www.cia.gov/the-world-factbook/countries/eg/",
+   "revision": "d31a11bcd7ec7efde4ee104161aec42980852aeadd07e3f539cd38136e51f786",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-paper",
+   "text": "Kilimanjaro, at 19,565 ft the highest mountain in Africa, to kilometers (c) the area of an 8.5 × 11-inch sheet of paper in cm 2 (d) the displacement volume of an automobile engine, 161 in.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.PAPER"
+   ],
+   "concept": "paper",
+   "question": "How is paper made?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/1-exercises",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/1-exercises",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-heart",
+   "text": "Heart: Coronary Artery Disease Coronary artery disease is the leading cause of death worldwide.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.HEART"
+   ],
+   "concept": "heart",
+   "question": "What is the heart?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/anatomy-and-physiology/pages/19-1-heart-anatomy",
+    "revision": "ccce780",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/anatomy-and-physiology",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/anatomy-and-physiology/pages/19-1-heart-anatomy",
+   "revision": "ccce780",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-cell",
+   "text": "For another perspective on cell size, try the HowBig interactive at underline this site end underline .",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.CELL"
+   ],
+   "concept": "cell",
+   "question": "What is a cell?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/biology/pages/4-1-studying-cells",
+    "revision": "e989ec3",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/biology",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/biology/pages/4-1-studying-cells",
+   "revision": "e989ec3",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-earth",
+   "text": "Let’s begin by fixing our position on the surface of planet Earth .",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.EARTH"
+   ],
+   "concept": "earth",
+   "question": "What is Earth?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/astronomy/pages/4-1-earth-and-sky",
+    "revision": "faae451",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/astronomy",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/astronomy/pages/4-1-earth-and-sky",
+   "revision": "faae451",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-water",
+   "text": "A helpful way to understand the three domains is via the essential and ubiquitous substance of water.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.WATER"
+   ],
+   "concept": "water",
+   "question": "What is water?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/chemistry/pages/1-1-chemistry-in-context",
+    "revision": "741a7af",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/details/books/chemistry",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/chemistry/pages/1-1-chemistry-in-context",
+   "revision": "741a7af",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-electricity",
+   "text": "Electric charge comes in two varieties, which we call positive and negative.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.ELECTRICITY"
+   ],
+   "concept": "electricity",
+   "question": "What is electricity?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/18-1-electrical-charges-conservation-of-charge-and-transfer-of-charge",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/18-1-electrical-charges-conservation-of-charge-and-transfer-of-charge",
+   "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-openstax-temperature",
+   "text": "Temperature is literally defined as what we measure on a thermometer.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.TEMPERATURE"
+   ],
+   "concept": "temperature",
+   "question": "What is temperature?",
+   "provenance": {
+    "source": "openstax",
+    "source_url": "https://openstax.org/books/physics/pages/11-1-temperature-and-thermal-energy",
+    "revision": "dfdfd7a",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "terms": "https://openstax.org/books/physics/pages/1-introduction",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:openstax"
+   },
+   "contributor": "encyclopedia:openstax",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "source_url": "https://openstax.org/books/physics/pages/11-1-temperature-and-thermal-energy",
+   "revision": "dfdfd7a",
+   "historical": false
+  }
+ ]
+}
