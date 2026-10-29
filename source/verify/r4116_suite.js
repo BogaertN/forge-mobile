@@ -133,7 +133,7 @@ T('the trace and the receipt show the concept and frame ids', () => {
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.116 and leave creative writing unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 116, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length, reg.version + ' ' + reg.count);
@@ -158,7 +158,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.116 and leave creative 
   expect(/4\.9\.116/.test(readme) && /4\.9\.115/.test(readme) && /Pattern Reflection/.test(readme) && /Verify packet/.test(readme), 'README');
   expect(/misplaced|bandaged|preheated/.test(readme) && !/failing-first|bot instruction/i.test(readme), 'README product');
   const targeted = fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8');
-  const tg = JSON.parse(targeted), tp = String(tg.release || '').split('.').map(Number);
+  const tg = JSON.parse(targeted), tp = String(tg.release || '').split('.').map(part => parseInt(part, 10));
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 116 && (tg.suites || []).includes('r4116_suite.js'), 'targeted');
   expect(!fs.existsSync(ROOT + '/src/creative.js'), 'creative writing started');
   const L = require(ROOT + '/src/lexicon.js');

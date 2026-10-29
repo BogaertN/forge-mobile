@@ -160,7 +160,7 @@ T('Ask still answers a how-method question from a Wikipedia-class source', async
 
 T('phone access holds the key in the session, packs stay gated, and the portable file skips the tools', () => {
   const b = D.boundary();
-  expect(b.calls_llm === false && b.always_on === true && b.idle_gated === false && b.phone_pack_publish === 'gated' && b.mesh === '4.9.182' && b.pipeline_tools === true, JSON.stringify({ mesh: b.mesh, tools: b.pipeline_tools }));
+  expect(b.calls_llm === false && b.always_on === true && b.idle_gated === false && b.phone_pack_publish === 'gated' && b.mesh === '4.9.182b' && b.pipeline_tools === true, JSON.stringify({ mesh: b.mesh, tools: b.pipeline_tools }));
   const tools = fs.readFileSync(path.join(ROOT, 'src', 'pipeline_tools.js'), 'utf8');
   const ui = fs.readFileSync(path.join(ROOT, 'src', 'app_custody.js'), 'utf8');
   const dream = fs.readFileSync(path.join(ROOT, 'src', 'dream_idle.js'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
@@ -233,7 +233,7 @@ T('bleach and ammonia is answered from web evidence and mustard gas is a warning
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.175', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.182', ver);
+  expect(ver === '4.9.182b', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.175/.test(conf) && /pipeline tools/.test(conf) && /Gilligan Codex/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -241,9 +241,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.175', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.175/.test(readme) && /[Ww]rite key/.test(readme) && /research/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.182' && ((((tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js') && tgt.suites.includes('r4174_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.182b' && ((((tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js') && tgt.suites.includes('r4174_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.182' && reg.features.some(f => f.id === 'R4175-PIPELINE-TOOLS'), reg.version);
+  expect(reg.version === '4.9.182b' && reg.features.some(f => f.id === 'R4175-PIPELINE-TOOLS'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 334, 'count ' + reg.count);
 });
 

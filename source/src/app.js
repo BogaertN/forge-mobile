@@ -101,7 +101,40 @@ function say(text) { if (lexState.core === 'loading') { queue.push(text); return
   { const px = r.trace && (r.trace.rules || []).find(x => x.id === 'PROOF-EXPORT'), b = px && forge.proofExports && forge.proofExports().slice(-1)[0]; /* 4.9.44: the chat export is downloadable (same Blob pattern as the Export button) */
     if (b && b.sha256 && b.sha256.indexOf(px.note) === 0) { const u = (t, ty) => URL.createObjectURL(new Blob([t], { type: ty })), n = 'forge-proof-' + b.sha256.slice(0, 12);
       log.lastElementChild.insertAdjacentHTML('beforeend', '<div class="small"><a download="' + n + '.json" href="' + u(JSON.stringify(b, null, 1), 'application/json') + '">Download proof (JSON)</a> · <a download="' + n + '.html" href="' + u(KKnow.proofHTML(b), 'text/html') + '">Download report (HTML)</a></div>'); } }
-  log.lastElementChild.scrollIntoView({ block: 'end' }); if (window.afterSay) window.afterSay(r, log.lastElementChild); refreshChrome(); return r; }
+  log.lastElementChild.scrollIntoView({ block: 'end' }); if (window.afterSay) window.afterSay(r, log.lastElementChild); showRmcDry(text); refreshChrome(); return r; }
+function showRmcDry(text) {
+  const host = $('#rmcLive'), body = $('#rmcLiveBody');
+  if (!host || !body || !window.KRMCCore || !KRMCCore.run) return;
+  host.hidden = false;
+  host.setAttribute('data-ready', '0');
+  body.textContent = 'RMC dry-run loading…';
+  let memory = { receipts: [], phone: [], hosted: [] };
+  if (window.RMC_DRY_MEMORY) memory = window.RMC_DRY_MEMORY;
+  else try {
+    const view = forge.sharedKnowledgeView && forge.sharedKnowledgeView();
+    memory.hosted = ((view && view.admitted) || []).slice(-12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 240) }));
+    const phone = forge.store.load('confirmed_shared');
+    memory.phone = ((phone && phone.facts) || []).slice(0, 12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 240) }));
+    memory.receipts = (forge.store.load('receipts') || []).slice(-8).map(row => ({ id: row.receipt_id, text: String(row.input || '').slice(0, 240) }));
+  } catch (e) { memory = { receipts: [], phone: [], hosted: [] }; }
+  KRMCCore.run({ question: text, memory: memory }).then(row => {
+    window.RMC_DRY_LAST = row;
+    window.RMC_DRY_LOG = window.RMC_DRY_LOG || [];
+    window.RMC_DRY_LOG.push({ question: text, row: row });
+    const stages = (row && row.stages) || [];
+    const pills = stages.map(s => '<span class="tag" data-stage="' + esc(s.stage_id) + '" data-status="' + esc(s.status) + '">' + s.n + ' ' + esc(s.status) + '</span>').join(' ');
+    const late = ((row && row.late_stages) || []).map(s => esc(s.n + ' ' + s.stage_id + ' ' + s.status + (s.reason ? ' · ' + s.reason : ''))).join('<br>');
+    const echo = row && row.echo || {};
+    const phase = row && row.trace && row.trace.phase || {};
+    body.innerHTML = '<div data-rmc-question>' + esc(text) + '</div>'
+      + '<div class="meta" data-rmc-summary>route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(row && row.admit && row.admit.disposition) + ' · recall ' + esc(row && row.active_memory_count) + '</div>'
+      + '<div data-rmc-stages>' + pills + '</div>'
+      + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
+      + '<div class="meta" data-rmc-late>' + late + '</div>'
+      + '<div class="meta">This trace is not the Ask reply. Stages 14–16 stay skipped in the dry run.</div>';
+    host.setAttribute('data-ready', '1');
+  }).catch(err => { body.textContent = 'RMC dry-run failed: ' + err.message; host.setAttribute('data-ready', 'error'); });
+}
 window.say = say;
 $('#f').onsubmit = e => { e.preventDefault(); const v = $('#q').value.trim(); if (v) { say(v); $('#q').value = ''; } };
 { const ask = $('#f') && $('#f').parentElement; if (ask && !$('#exportTurnBtn')) { const bar = document.createElement('div'); bar.className = 'bar'; bar.innerHTML = '<button type="button" id="exportTurnBtn" data-export-turn>Export turn packet</button>'; ask.appendChild(bar); } }

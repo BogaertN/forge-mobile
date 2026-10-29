@@ -7,6 +7,7 @@ memory recall and the admit gate and does not transform memory.
 from __future__ import annotations
 
 import json
+import re
 import sys
 import tempfile
 from pathlib import Path
@@ -29,7 +30,7 @@ def world_model_seam(memory: dict[str, Any], question: str) -> dict[str, Any]:
     Today it returns the recalled memory unchanged. A later world model
     replaces this function. It must not write KB rows and it must not call a model.
     """
-    count = int(memory.get("active_memory_count") or 0)
+    count = int(memory.get("active_memory_count") or memory.get("active") or 0)
     return {
         "layer": "world_model",
         "status": "seam",
@@ -40,7 +41,91 @@ def world_model_seam(memory: dict[str, Any], question: str) -> dict[str, Any]:
         "memory": memory,
         "calls_llm": False,
         "writes_memory": False,
+        "later_184": {
+            "self_facts": "Self-facts live in the world model and are evolvable. Self-extension is a core function. Not implemented in 4.9.182b.",
+            "contract": "The world model contract is Nic's design. It is rebuilt from his own docs in 184. This seam is not that contract.",
+        },
     }
+
+
+_STOP = {
+    "the", "and", "for", "with", "from", "that", "this", "what", "which", "when",
+    "where", "who", "whom", "why", "how", "are", "was", "were", "you", "your",
+    "does", "did", "can", "could", "into", "about", "have", "has", "not", "but",
+}
+
+
+def _tokens(text: str) -> set[str]:
+    return {w for w in re.findall(r"[a-z0-9]+", str(text or "").lower()) if len(w) > 2 and w not in _STOP}
+
+
+def echo_against_question(question: str, output_text: str) -> dict[str, Any]:
+    """Echo ≥ 0.85 compares output meaning with the original question's idea.
+
+    Method: Jaccard overlap of content tokens. The dry-run renderer is still
+    skipped, so the output meaning is the selected candidate text.
+    """
+    left = _tokens(question)
+    right = _tokens(output_text)
+    if not left and not right:
+        score = 1.0
+    elif not left or not right:
+        score = 0.0
+    else:
+        score = len(left & right) / len(left | right)
+    score = round(score, 6)
+    return {
+        "score": score,
+        "min": THRESHOLDS["echo_min"],
+        "pass": score >= float(THRESHOLDS["echo_min"]),
+        "method": "jaccard_content_tokens",
+        "compares": "selected_candidate_meaning_to_original_question",
+        "output_text": str(output_text or "")[:400],
+    }
+
+
+def _candidate_text(report: dict[str, Any]) -> str:
+    artifacts = report.get("artifacts") if isinstance(report.get("artifacts"), dict) else {}
+    coherence = artifacts.get("coherence_report") if isinstance(artifacts.get("coherence_report"), dict) else {}
+    selected = coherence.get("selected_scored_candidate_preview") if isinstance(coherence.get("selected_scored_candidate_preview"), dict) else {}
+    want = str(selected.get("candidate_id") or "")
+    pools = []
+    cand_report = artifacts.get("candidate_report") if isinstance(artifacts.get("candidate_report"), dict) else {}
+    if isinstance(cand_report.get("candidate_set"), list):
+        pools.extend(cand_report["candidate_set"])
+    if isinstance(selected.get("candidate"), str):
+        pools.insert(0, selected)
+    best = ""
+    for row in pools:
+        if not isinstance(row, dict):
+            continue
+        if want and row.get("candidate_id") not in (None, "", want):
+            continue
+        text = str(row.get("candidate") or row.get("title") or "")
+        if len(text) > len(best):
+            best = text
+    return best or str(selected.get("title") or "")
+
+
+_LATE = (
+    "output_renderer_eligibility_check",
+    "echo_validation_eligibility_check",
+    "memory_write_eligibility_check",
+)
+
+
+def _stage_rows(stages: list[Any]) -> list[dict[str, Any]]:
+    rows = []
+    for i, stage in enumerate(stages):
+        if not isinstance(stage, dict):
+            continue
+        rows.append({
+            "n": i + 1,
+            "stage_id": stage.get("stage_id"),
+            "status": stage.get("status"),
+            "reason": stage.get("reason"),
+        })
+    return rows
 
 
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
@@ -151,6 +236,7 @@ def _measured(report: dict[str, Any]) -> dict[str, Any]:
         "coherence_top_level": round(top, 6),
         "circuit_breaker": circuit,
         "active_memory_count": int(recall.get("active_memory_count") or 0),
+        "recall_sources": (recall.get("active_source_kind_counts") or {}),
         "memory_nodes": [
             {"id": n.get("memory_id"), "source": n.get("source_kind"), "weight": n.get("retrieval_weight")}
             for n in (recall.get("active_memory_nodes") or [])[:8]
@@ -173,26 +259,43 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         memory = {
             "fed": fed,
             "active": measured["active_memory_count"],
+            "sources": measured.get("recall_sources") or {},
             "nodes": measured["memory_nodes"],
         }
         world = world_model_seam(memory, question)
         gate = admit_gate(measured)
-        stages = report.get("stages") or []
-        chain = [s.get("stage_id") for s in stages if isinstance(s, dict)]
+        stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
+        stage_rows = _stage_rows(stages)
+        late = []
+        for row in stage_rows:
+            if row["stage_id"] in _LATE:
+                late.append({
+                    "n": row["n"],
+                    "stage_id": row["stage_id"],
+                    "status": row["status"],
+                    "skipped": row["status"] == "SKIPPED",
+                    "reason": row["reason"],
+                })
+        echo = echo_against_question(question, _candidate_text(report))
+        chain = [s.get("stage_id") for s in stages]
         trace = {
             "input": question,
             "memory": memory,
-            "world_model": {k: world[k] for k in ("layer", "status", "applied", "input_memory_count", "output_memory_count", "calls_llm", "writes_memory")},
+            "world_model": {k: world[k] for k in ("layer", "status", "applied", "input_memory_count", "output_memory_count", "calls_llm", "writes_memory", "later_184")},
             "admit": gate,
             "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"]},
             "operator_chain": chain,
+            "stages": stage_rows,
+            "late_stages": late,
             "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"]},
+            "echo": echo,
             "output": {
                 "kind": "foundation_trace",
                 "product_reply": False,
                 "route": measured["route"],
                 "status": report.get("status"),
                 "admit_disposition": gate["disposition"],
+                "echo_score": echo["score"],
             },
         }
         return {
@@ -211,7 +314,11 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "memory_fed": fed,
             "world_model": trace["world_model"],
             "admit": gate,
-            "ok_stages": [s.get("stage_id") for s in stages if isinstance(s, dict) and s.get("status") == "OK"],
+            "echo": echo,
+            "stages": stage_rows,
+            "late_stages": late,
+            "recall_sources": measured.get("recall_sources") or {},
+            "ok_stages": [s.get("stage_id") for s in stages if s.get("status") == "OK"],
             "stage_count": len(stages),
             "trace": trace,
             "status": report.get("status"),

@@ -116,7 +116,7 @@ T('the single-file budget stays within 1.920 MB raw and 570 kB gzip', () => {
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA rewrite and a shared write unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  const parts = ver.split('.').map(Number);
+  const parts = ver.split('.').map(part => parseInt(part, 10));
   expect(parts[0] === 4 && parts[1] === 9 && parts[2] >= 126, ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver && reg.count === reg.features.length && reg.count >= 310, reg.version + ' ' + reg.count);
@@ -150,7 +150,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA
   expect(!/failing-first|bot instruction/i.test(readme), 'README product');
   expect(!/shared KB/i.test(readme.slice(0, 1200)), 'README names a shared KB');
   const targeted = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  const tpRel = String(targeted.release || '').split('.').map(Number);
+  const tpRel = String(targeted.release || '').split('.').map(part => parseInt(part, 10));
   expect(tpRel[0] === 4 && tpRel[1] === 9 && tpRel[2] >= 126 && targeted.suites.includes('r4126_suite.js') && targeted.suites.includes('r4125_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const tp = fs.readFileSync(ROOT + '/src/turn_packet.js', 'utf8');
   expect(/PACKET_VERSION = '4\.9\.111'/.test(tp), 'packet_version');
