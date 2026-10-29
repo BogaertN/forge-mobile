@@ -56,14 +56,39 @@
     };
   }
 
-  /* Bounded encyclopedia fetch. fetch is required. A vault object is ignored.
-     An http(s) URL is an open crawl and is refused. The excerpt is candidate evidence, not memory. */
+  /* Hosted bank first. Forge recall ranks admitted rows. A parseable method sentence is the excerpt.
+     It does not fetch. A miss falls through to the encyclopedia tool. */
+  function recallFromBank(query, opts) {
+    const rows = opts.bank;
+    if (!rows || !rows.length) return null;
+    const FT = isNode ? require('./forge_tools.js') : root.KForgeTools;
+    if (!FT || typeof FT.recallHosted !== 'function') return null;
+    const rec = FT.recallHosted(query, rows);
+    if (!rec || rec.status !== 'OK') return null;
+    const top = rec.memory_state && rec.memory_state.active_memory_nodes && rec.memory_state.active_memory_nodes[0];
+    if (!top) return null;
+    const overlap = (top.retrieval_evidence || []).some(e => e.type === 'semantic_overlap');
+    if (!overlap) return null;
+    const text = String(top.content_summary || '').trim().replace(/[.]+$/, '');
+    if (!text || !parses(opts.reparse, text) || !METHOD.test(text)) return null;
+    const measured = measuredOf({ text: text, method: true });
+    return {
+      ok: true, schema: SCHEMA, rule: 'RESEARCH-EXCERPT', calls_llm: false, vault_only: false, open_crawl: false, network: false,
+      tool: 'recall_memory', excerpt: text, claim: measured.claim, title: top.source || '', url: top.source_path || '',
+      parsed: true, measured: measured
+    };
+  }
+
+  /* Bounded encyclopedia fetch. fetch is required when the hosted bank has no parseable method hit.
+     A vault object is ignored. An http(s) URL is an open crawl and is refused. The excerpt is candidate evidence, not memory. */
   async function researchExcerpt(query, opts) {
     opts = opts || {};
     const q = String(query || '').trim();
     if (!q) return fail('RESEARCH-NO-QUERY');
     if (/^https?:\/\//i.test(q) || opts.open_crawl === true) return fail('RESEARCH-OPEN-CRAWL-REFUSED');
     if (opts.calls_llm === true) return fail('DREAM-LLM-REFUSED');
+    const banked = recallFromBank(q, opts);
+    if (banked) return banked;
     const doFetch = opts.fetch === undefined ? (typeof fetch !== 'undefined' ? fetch : null) : opts.fetch;
     if (typeof doFetch !== 'function' || !CR || typeof CR.Crawler !== 'function' || typeof CR.acquire !== 'function') return fail('RESEARCH-FETCH-UNAVAILABLE');
     let acq = null;
@@ -158,10 +183,12 @@
       if (!row) return Promise.resolve(null);
       tried.add(row.id);
       const forge = root.forge;
+      const view = forge && forge.sharedKnowledgeView ? forge.sharedKnowledgeView() : null;
       inflight = PT.researchExcerpt(row.question, {
         fetch: root.fetch ? root.fetch.bind(root) : null,
         path: forge && forge.fetchPath ? () => forge.fetchPath() : null,
-        reparse: forge && forge.reparseClause ? t => forge.reparseClause(t) : null
+        reparse: forge && forge.reparseClause ? t => forge.reparseClause(t) : null,
+        bank: (view && view.admitted) || []
       }).then(hit => {
         inflight = null;
         if (hit && hit.ok && hit.measured && mesh.applyMeasured && mesh.applyMeasured(row.id, hit).ok && mesh.prefer) mesh.prefer(row.id);

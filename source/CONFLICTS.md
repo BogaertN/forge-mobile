@@ -1,5 +1,17 @@
 # CONFLICTS.md — how each conflict was settled
 
+## v4.9.177 — Forge tools on the learning loop (2026-10-29 America/Chicago)
+
+**Conflict:** Nic’s step 4 is the tools Forge used, brought into Forge Mobile as working code. `BogaertN/forge` `agents/forge/tools.py` dispatches read tools plus shell, patch, and diagnostic tools. `rmc_engine_v1/phase_parser.py` and `memory_recaller.py` are deterministic and do not call a model. The live `agents/forge/knowledge_base.py` (6fcc28b) is a Slice 0B boundary block; the older copy (2b6ab0f) embeds with a local model and a vector store. `rmc_tools.py` previews import `~/aiweb/runtime_wrappers`, which is not in the repo. `BogaertN/echo-forge` `tools.py` is an open web search and fact-check client for an LLM debate app. `BogaertN/forge2` returns 404. The phone write law, the hosted bank, and the no-network rule for user-built tools stay. Packs stay gated. The Gilligan Codex and the Athena document list are later steps.
+
+**Settlement:** `forge_tools.js` ports phase parse, the `recall_memory` scorer, and the Level 0.5 list/read/search onto the session bank `hosted://bank`. `recallHosted` ranks admitted rows. `researchExcerpt` uses that hit when the top row overlaps the question and the sentence parses as a method, and it does not fetch. A device root, a vector-control request, a shell command, a patch write, a payment name, and the embedding search are refused. The embedding search returns the live Slice 0B block, not a nearest-neighbor result. Drift, echo, and quarantine stay on the kernel already shipped. `publishPacks` stays false. The portable single file does not inline this module. No LLM.
+
+**Where:** `src/forge_tools.js`, `src/pipeline_tools.js` `recallFromBank`. Proof `verify/r4177_suite.js`. Inventory `data/forge_tool_inventory.json`.
+
+**Not this pull request:** (5) the Gilligan Codex, feature by feature; (6) the Athena document, which is a list, and every tool on that list.
+
+**Docs cited:** Gilligan Agent Core `1HSjAk6UYKnqpT6LZo_30DjAAA9eWKoaWdpXrKk9LMnE` (cold custody). BogaertN/forge `rmc_engine_v1/phase_parser.py`, `rmc_engine_v1/memory_recaller.py`, `rmc_engine_v1/frozen_legacy_boundary.py`, `agents/forge/tools.py`, `agents/forge/knowledge_base.py`.
+
 Precedence (user's rule): **forge2 code > newest dated doc (RMC Implementation Addendum, Sep 2026) > older docs**. Where forge2 says nothing, **forge code** comes before docs. Every row lists the sources and where the decision lives in the code.
 
 ## v4.9.176 — held shared-knowledge admit (2026-10-29 America/Chicago)

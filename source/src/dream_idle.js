@@ -70,7 +70,7 @@
       lifecycle: ['spawn', 'run', 'hibernate', 'retire', 'resurrect'],
       priority: PRIORITY.slice(),
       spawn_budget: { max_helpers: SPAWN_BUDGET.max_helpers, max_per_parent: SPAWN_BUDGET.max_per_parent, max_spawn_per_idle_window: SPAWN_BUDGET.max_spawn_per_idle_window },
-      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.176', custody_monitor: true, learning_loop: true, pipeline_tools: true, psi1: PSI1,
+      cold_bank: true, packet_bound: true, single_admit: true, mesh: '4.9.177', custody_monitor: true, learning_loop: true, pipeline_tools: true, forge_tools: true, psi1: PSI1,
       drift_table: 'kmath.DRIFT_RULING', integrity_high: INTEGRITY_HIGH, idle_drift_below: 0.4,
       docs: Object.assign({}, DOC_CITES),
       pack_publish_trigger: PACK_PUBLISH_TRIGGER,

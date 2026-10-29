@@ -167,8 +167,8 @@ def slim(m, s):
     return s[:a] + json.dumps(d, separators=(',', ':'), ensure_ascii=False) + s[b:]
 bundle = []
 for m in re.findall(r'<script src="(src/[a-z0-9_-]+\.js)"></script>', h):
-    if m == 'src/dream_idle.js' or m == 'src/pipeline_tools.js':
-        # 4.9.173 mesh and 4.9.175 pipeline tools load on the installed site.
+    if m == 'src/dream_idle.js' or m == 'src/pipeline_tools.js' or m == 'src/forge_tools.js':
+        # 4.9.173 mesh, 4.9.175 pipeline tools, and 4.9.177 Forge tools load on the installed site.
         # The portable single file does not inline it (gzip leave ≥5 kB under 570 kB).
         h = h.replace('<script src="' + m + '"></script>', '', 1)
         continue

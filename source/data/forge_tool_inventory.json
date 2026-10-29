@@ -1,0 +1,5756 @@
+{
+ "schema": "FORGE-TOOL-INVENTORY/v1",
+ "release": "4.9.177",
+ "searched": [
+  "https://github.com/BogaertN/forge (main, config/tool_registry.json, agents/forge/tools.py, agents/forge/knowledge_base.py at 6fcc28b and 2b6ab0f, agents/forge/rmc_tools.py, rmc_engine_v1)",
+  "https://github.com/BogaertN/echo-forge tools.py",
+  "https://github.com/BogaertN/forge2 (404)",
+  "BogaertN public repos: ai-web-site, Ai.web, Ai.Web-Full-Library-, aiweb, echo-forge, forge, forge-mobile, harmonic-conductor-studio, identity-vault, self-hosted-identity-vault, tesla-simulation-max"
+ ],
+ "registry_skip_counts": {
+  "skipped | executes a command; unsafe on the phone": 18,
+  "skipped | needs an LLM or an embedding model": 105,
+  "skipped | operator registry command; not a no-LLM learning-pipeline tool": 503,
+  "skipped | writes project files; not the learning pipeline": 144
+ },
+ "tools": [
+  {
+   "name": "list_allowed_folders",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "ported",
+   "reason": "Level 0.5 folder list. On the phone the only approved root is hosted://bank."
+  },
+  {
+   "name": "list_files",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "ported",
+   "reason": "Depth-capped listing of the session bank. Device paths are refused."
+  },
+  {
+   "name": "read_file",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "ported",
+   "reason": "Line-range read of a session-bank row. Device paths are refused."
+  },
+  {
+   "name": "search_text",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "ported",
+   "reason": "Substring search inside the session bank. Open URLs are refused."
+  },
+  {
+   "name": "search_knowledge_base",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/knowledge_base.py",
+   "status": "ported",
+   "reason": "Live source 6fcc28b is the Slice 0B boundary block. The 2b6ab0f embed search is skipped because it needs a local model and a vector store."
+  },
+  {
+   "name": "propose_command",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "skipped",
+   "reason": "proposes a shell command; unsafe on the phone and not the learning pipeline"
+  },
+  {
+   "name": "analyze_command_output",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "skipped",
+   "reason": "stores pasted terminal output; not the learning pipeline"
+  },
+  {
+   "name": "run_safe_command",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "skipped",
+   "reason": "executes host diagnostics, including a local model process; unsafe"
+  },
+  {
+   "name": "write_proposed_patch",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/tools.py",
+   "status": "skipped",
+   "reason": "writes a patch file; not the learning pipeline"
+  },
+  {
+   "name": "rmc_phase_parse_preview",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/phase_parser.py",
+   "status": "ported",
+   "reason": "The rmc_tools.py wrapper imports ~/aiweb/runtime_wrappers, which is not in the repo. The engine it calls is phase_parser.py and is ported."
+  },
+  {
+   "name": "rmc_drift_check_preview",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/rmc_tools.py",
+   "status": "skipped",
+   "reason": "wrapper imports ~/aiweb/runtime_wrappers, which is not in the repo. Mobile drift stays the existing write law."
+  },
+  {
+   "name": "rmc_echo_validate_preview",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/rmc_tools.py",
+   "status": "skipped",
+   "reason": "wrapper imports ~/aiweb/runtime_wrappers, which is not in the repo. Echo already runs in the kernel."
+  },
+  {
+   "name": "rmc_pipeline_preview",
+   "source_repo": "BogaertN/forge",
+   "path": "agents/forge/rmc_tools.py",
+   "status": "skipped",
+   "reason": "wrapper imports a runtime that is not in the repo. The full desktop pipeline is not this step."
+  },
+  {
+   "name": "parse_phase",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/phase_parser.py",
+   "status": "ported",
+   "reason": "Pure phase parser. No I/O and no model. Used by hosted recall."
+  },
+  {
+   "name": "recall_memory",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/memory_recaller.py",
+   "status": "ported",
+   "reason": "Token, phase, ancestry, and drift score over admitted hosted rows. A device root is refused."
+  },
+  {
+   "name": "classify_retrieval_request",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/frozen_legacy_boundary.py",
+   "status": "ported",
+   "reason": "Filesystem alias only. Vector controls and other backends are refused."
+  },
+  {
+   "name": "classify_llm_request",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/frozen_legacy_boundary.py",
+   "status": "ported",
+   "reason": "A model request is refused. Deterministic rendering only."
+  },
+  {
+   "name": "research.web",
+   "source_repo": "BogaertN/forge",
+   "path": "source/src/crawler.js",
+   "status": "already present",
+   "reason": "Forge Mobile already runs the bounded encyclopedia fetch. research_acquisition.py is not in the live rmc_engine_v1 listing."
+  },
+  {
+   "name": "coherence_math.gate_thresholds",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/coherence_math.py",
+   "status": "already present",
+   "reason": "Reference only in drift_export.js. The phone write law stays 0.35/0.40/0.80."
+  },
+  {
+   "name": "active_loop_state",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/active_loop_state.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "candidate_generator",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/candidate_generator.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "chi_correction_gate",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/chi_correction_gate.py",
+   "status": "already present",
+   "reason": "ChristPing and chi correction already run in kmath and dream_idle. Gilligan-only."
+  },
+  {
+   "name": "chroma_connector",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/chroma_connector.py",
+   "status": "skipped",
+   "reason": "vector store; needs a model path and is refused"
+  },
+  {
+   "name": "coherence_math",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/coherence_math.py",
+   "status": "already present",
+   "reason": "Reference thresholds only. Not the phone write law."
+  },
+  {
+   "name": "containment_router",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/containment_router.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "correction_naming_engine",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/correction_naming_engine.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "dataset_growth",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/dataset_growth.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "deep_dry_run_orchestrator",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/deep_dry_run_orchestrator.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "deep_pipeline_preflight",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/deep_pipeline_preflight.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "dream_state_quarantine",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/dream_state_quarantine.py",
+   "status": "already present",
+   "reason": "Quarantine custody already runs in dream_idle."
+  },
+  {
+   "name": "drift_archive",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/drift_archive.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "drift_engine",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/drift_engine.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "echo_validator",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/echo_validator.py",
+   "status": "already present",
+   "reason": "Exact Echo already runs in the kernel."
+  },
+  {
+   "name": "evolutionary_drift_explorer",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/evolutionary_drift_explorer.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "frozen_legacy_boundary",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/frozen_legacy_boundary.py",
+   "status": "ported",
+   "reason": "Ported as the retrieval and model refusals."
+  },
+  {
+   "name": "ghost_loop_containment",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/ghost_loop_containment.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "glyph_renderer",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/glyph_renderer.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "lexicon_audit",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/lexicon_audit.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "llm_renderer",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/llm_renderer.py",
+   "status": "skipped",
+   "reason": "needs an LLM"
+  },
+  {
+   "name": "manifest_compiler",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/manifest_compiler.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "measurement_kernel",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/measurement_kernel.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "memory_recaller",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/memory_recaller.py",
+   "status": "ported",
+   "reason": "Ported as recall_memory over the hosted bank."
+  },
+  {
+   "name": "memory_writer",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/memory_writer.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "output_renderer",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/output_renderer.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "phase_codex",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/phase_codex.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "phase_parser",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/phase_parser.py",
+   "status": "ported",
+   "reason": "Ported as parse_phase."
+  },
+  {
+   "name": "promotion_path",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/promotion_path.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "protoforge2_drift_connector",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/protoforge2_drift_connector.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "resonance_lexicon",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/resonance_lexicon.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "resurrection_engine",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/resurrection_engine.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "rmc_pipeline",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/rmc_pipeline.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "spc_cold_storage",
+   "source_repo": "BogaertN/forge",
+   "path": "rmc_engine_v1/spc_cold_storage.py",
+   "status": "skipped",
+   "reason": "Desktop engine. The learning loop already has the no-LLM kernel for this stage. Replacing it would start the Gilligan Codex or fight the phone write law."
+  },
+  {
+   "name": "duckduckgo",
+   "source_repo": "BogaertN/echo-forge",
+   "path": "tools.py",
+   "status": "skipped",
+   "reason": "open web search for an LLM debate app; unrestricted network. Mobile already has bounded research.web."
+  },
+  {
+   "name": "fact_check",
+   "source_repo": "BogaertN/echo-forge",
+   "path": "tools.py",
+   "status": "skipped",
+   "reason": "external fact-check client on the LLM debate app; not the no-LLM kernel"
+  },
+  {
+   "name": "web_search_factcheck",
+   "source_repo": "BogaertN/echo-forge",
+   "path": "tools.py",
+   "status": "skipped",
+   "reason": "open network fact-check; unrestricted network"
+  },
+  {
+   "name": "computation",
+   "source_repo": "BogaertN/echo-forge",
+   "path": "tools.py",
+   "status": "skipped",
+   "reason": "already present as math.evaluate; echo-forge ties computation to a paid tool config and payments stay disabled"
+  },
+  {
+   "name": "forge2",
+   "source_repo": "BogaertN/forge2",
+   "path": "",
+   "status": "skipped",
+   "reason": "GitHub API returned 404 on 2026-10-29. Nothing from that repo was ported."
+  },
+  {
+   "name": "apply_patch",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "canonical_related_files",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_relationship_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_relationship_map",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_risk_neighbors",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_inventory",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_run_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_run_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_run_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_run_safe",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "canonical_test_run_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "canonical_test_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "cmd_list_all_python_files_in_the_current_sc",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "cmd_read_and_extract_text_from_a_pdf_file",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "cmd_use_rich",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "code_related_files",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "code_relationship_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "code_relationship_map",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "code_relationship_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "code_risk_neighbors",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_approved_lockfile_candidate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_approved_lockfile_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_approved_lockfile_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_approved_lockfile_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_approved_lockfile_validate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_brief",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_brief_core",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_brief_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_brief_holds",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_brief_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_canonical_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_canonical_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_canonical_review",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_canonical_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_core",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_draft",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_exact",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_holds",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_decision_summary",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_disposition_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_disposition_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_disposition_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_disposition_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_evidence_batch_bind_ready",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_evidence_batch_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_evidence_bind",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_evidence_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_evidence_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_evidence_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_final_lockfile_apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_final_lockfile_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_final_lockfile_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_final_lockfile_proposal",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_final_lockfile_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_final_lockfile_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_lockfile_draft",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_lockfile_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_lockfile_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_lockfile_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_lockfile_validate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_readiness_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_readiness_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_readiness_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_readiness_risks",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_readiness_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_approval_approve",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_approval_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_approval_defer",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_approval_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_approval_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_approval_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_approval_reject",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_approval_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_approval_approve",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_approval_defer",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_approval_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_approval_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_approval_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_approval_reject",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_approval_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_approve_core",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_commit_apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_commit_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_commit_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_commit_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_commit_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_commit_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_defer_holds",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_batch_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_batch_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_commit_apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_commit_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_commit_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_commit_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_commit_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_commit_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_completion_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_cycle_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_cycle_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_cycle_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_cycle_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_cycle_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_evidence_batch_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_evidence_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_evidence_commit_apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_evidence_commit_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_evidence_commit_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_evidence_commit_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_evidence_commit_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_evidence_commit_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_evidence_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_evidence_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_evidence_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_ledger_init",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_ledger_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_mark",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_progress_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_progress_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_progress_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_progress_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_progress_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_queue_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_queue_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_queue_mark_approved",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_queue_mark_deferred",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_queue_mark_rejected",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_queue_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_queue_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_queue_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_source_audit",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_source_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_source_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_source_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_source_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_source_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_triage_approve",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_triage_defer",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_triage_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_triage_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_triage_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_triage_reject",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_triage_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_workflow_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "engine_review_workflow_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_workflow_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_review_workflow_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_review_workflow_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "engine_source_law_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_source_law_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_source_law_map",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_source_law_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "engine_source_law_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-agent-activate-athena-dry-run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-agent-activate-athena-dry-run-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-agent-activate-athena-manual",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-agent-activate-athena-manual-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-agent-activate-neo-manual",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-agent-activate-neo-manual-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-agent-verify-athena-activation",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-agent-verify-athena-activation-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-agent-verify-neo-activation",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-agent-verify-neo-activation-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-athena-governed-handshake",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-athena-governed-handshake-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-athena-governed-handshake-verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-athena-governed-handshake-verify-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-gilligan-governed-handshake-verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-gilligan-governed-handshake-verify-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-master-status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-master-status-export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-master-status-policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-master-status-show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-neo-governed-handshake",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-neo-governed-handshake-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-rmc-athena-test-receipt-verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-rmc-athena-test-receipt-verify-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-rmc-athena-test-receipt-write",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-rmc-athena-test-receipt-write-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-rmc-gilligan-test-receipt-verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-rmc-gilligan-test-receipt-verify-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-rmc-gilligan-test-receipt-write",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-rmc-gilligan-test-receipt-write-report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-preflight-check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-preflight-export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-runtime-live-preflight-gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-preflight-next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-preflight-policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-preflight-show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-token-entry-export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-runtime-live-token-entry-gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-token-entry-next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-token-entry-plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-token-entry-policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-runtime-live-token-entry-show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-self-sandbox-apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge-self-sandbox-clean",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-self-sandbox-export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-self-sandbox-plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-self-sandbox-policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge-self-sandbox-show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activate_gilligan_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_agent_activate_gilligan_dry_run_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activate_manual",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_agent_activate_manual_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activate_neo_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_agent_activate_neo_dry_run_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activation_command_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_agent_activation_command_plan_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activation_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_agent_activation_plan_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activation_preflight",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activation_preflight_all",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_agent_activation_preflight_all_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_activation_preflight_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_agent_verify_gilligan_activation",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_agent_verify_gilligan_activation_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_aiweb_runtime_readiness_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_aiweb_runtime_readiness_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_aiweb_runtime_readiness_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_aiweb_runtime_readiness_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_aiweb_runtime_readiness_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_aiweb_runtime_readiness_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_audit_repair",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_bootstrap_handshake_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_bootstrap_handshake_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_bootstrap_handshake_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_bootstrap_handshake_verify_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_current",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_deferred",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_gate_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_build_gate_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_gate_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_gate_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_gate_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_gate_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_phase_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_sequence",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_sequence_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_build_sequence_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_capabilities",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_command_approve_proposal",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_command_implement",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_command_implement_install",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_command_implement_review",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_command_implement_write",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_command_install",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_command_install_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_command_install_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_command_list_active",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_command_list_proposals",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_command_propose",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_command_regen_proposal",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_command_show_proposal",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_command_template",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_roadmap_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_roadmap_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_roadmap_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_roadmap_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_roadmap_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_roadmap_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_v2_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_v2_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_v2_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_v2_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_v2_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_dashboard_v2_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_deferred_engine_queue_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_deferred_engine_queue_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_deferred_engine_queue_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_deferred_engine_queue_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_deferred_engine_queue_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_deferred_engine_queue_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_gilligan_governed_handshake",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_gilligan_governed_handshake_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_live_eligibility_v2_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_live_eligibility_v2_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_live_eligibility_v2_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_live_eligibility_v2_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_live_eligibility_v2_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_live_eligibility_v2_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_llm_patch_v2_draft",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_llm_patch_v2_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_llm_patch_v2_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_llm_patch_v2_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_llm_patch_v2_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_llm_patch_v2_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "forge_mode_enforcement_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_enforcement_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_enforcement_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_enforcement_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_enforcement_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_registry_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_mode_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_orchestrate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_protoforge_result_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_protoforge_simulation_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_protoforge_simulation_run_approved",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_protoforge_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_restart",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_rmc_namespace_scaffold_apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_rmc_namespace_scaffold_apply_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_rmc_namespace_scaffold_preview",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_rmc_namespace_scaffold_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_roadmap_append",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_roadmap_mark",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_roadmap_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_roadmap_sync",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_candidate_file_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_plan_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_plan_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_plan_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_plan_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_plan_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_plan_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_verify_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_verify_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_verify_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_build_sandbox_verify_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_draft_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_draft_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_draft_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_draft_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_draft_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_draft_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_dependency_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_dependency_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_dependency_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_dependency_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_dependency_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_dependency_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_rollback_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_rollback_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_rollback_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_rollback_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_rollback_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_rollback_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_sandbox_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_sandbox_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_sandbox_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_sandbox_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_sandbox_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_sandbox_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_scope_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_scope_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_scope_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_scope_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_scope_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_scope_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_select",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_validation_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_validation_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_validation_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_validation_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_validation_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_dry_plan_validation_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_queue_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_queue_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_queue_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_queue_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_queue_review",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_queue_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_preflight_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_preflight_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_preflight_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_preflight_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_preflight_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_preflight_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_create_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_create_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_create_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_create_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_create_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_create_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_sandbox_stage_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_static_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_candidate_static_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_static_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_static_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_static_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_candidate_static_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_apply_hold_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_apply_hold_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_apply_hold_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_apply_hold_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_apply_hold_review",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_apply_hold_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_capture_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_capture_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_capture_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_capture_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_capture_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_capture_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_approval_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_approval_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_approval_token",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_backup_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_backup_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_backup_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_backup_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_backup_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_backup_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_decision_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_decision_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_decision_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_decision_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_decision_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_decision_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_execution_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_execution_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_execution_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_execution_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_execution_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_execution_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_explicit_approval_capture",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_explicit_approval_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_explicit_approval_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_explicit_approval_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_explicit_approval_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_explicit_approval_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_final_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_final_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_final_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_final_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_final_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_final_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_hold_continuation_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_hold_continuation_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_hold_continuation_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_hold_continuation_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_hold_continuation_return",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_live_hold_continuation_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_token_validate_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_runtime_live_token_validate_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_runtime_live_token_validate_gates",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_token_validate_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_token_validate_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_live_token_validate_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_module_map_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_module_map_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_runtime_module_map_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_module_map_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_module_map_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_runtime_module_map_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_scan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_self_snapshot_create",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_snapshot_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_snapshot_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_snapshot_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_snapshot_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_suggest",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_update_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_update_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_update_propose",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_self_update_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_self_update_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_session_diff",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_shadow_restore_diff",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_shadow_restore_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_shadow_restore_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_shadow_restore_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_shadow_restore_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_shadow_restore_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_create_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_create_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_create_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_create_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_create_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_create_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_plan_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_plan_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_snapshot_plan_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_plan_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_plan_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_snapshot_plan_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_source_authority_hardening_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_source_authority_hardening_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_source_authority_hardening_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_source_authority_hardening_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_source_authority_hardening_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_source_authority_hardening_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_status_api_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_status_api_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_status_api_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_status_api_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_tool_info",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_tool_install",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_tool_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_tool_search",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_tool_wrap",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_tool_wrap_install",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "forge_tool_wrap_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_ui_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "forge_ui_start",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_ui_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_ui_stop",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "forge_what_can_i_do",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic-revision-export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic-revision-llm",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic-revision-plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic-revision-policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic-revision-show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_candidate_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_candidate_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "generic_repair_candidate_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_repair_candidate_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_repair_candidate_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "generic_repair_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_llm",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_repair_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_review_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_review_llm",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_review_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_review_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_review_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_sandbox_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_repair_sandbox_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_sandbox_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_sandbox_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_sandbox_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_repair_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_candidate_build",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_candidate_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_revision_candidate_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_candidate_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_candidate_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_loop_candidate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_loop_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_loop_llm",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_loop_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_loop_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_sandbox_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_revision_sandbox_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_revision_sandbox_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_sandbox_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_revision_sandbox_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_sandbox_dependency_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_sandbox_dependency_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_sandbox_dependency_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "generic_sandbox_dependency_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "generic_sandbox_dependency_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "import_probe_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "import_probe_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "import_probe_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "import_probe_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "import_probe_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "llm_engine_review_batch_next",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_batch_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_batch_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_batch_run_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_batch_run_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_batch_run_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_batch_run_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_draft",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_gateway_init",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_gateway_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_model_test",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_provider",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_engine_review_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_live_draft",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_live_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_live_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_live_probe",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_live_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_correction",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_init",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_log_turn",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_search",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_session",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_memory_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_patch_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_patch_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_patch_propose",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_patch_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_patch_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_plan_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_plan_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_plan_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_plan_template",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_plan_validate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_tool_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_tool_init",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_tool_list",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_tool_mode",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_tool_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_tool_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "llm_tool_request",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "patch_apply_gate_matrix",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_apply_gate_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_apply_gate_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_impact_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_impact_map",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_live_readiness",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_live_readiness_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_live_readiness_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_live_readiness_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_live_readiness_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_risk_score",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_runtime_role_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_sandbox_apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_sandbox_clean",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_sandbox_gate_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_sandbox_gate_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_sandbox_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_sandbox_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_sandbox_smoke_apply",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_sandbox_smoke_clean",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_sandbox_smoke_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_sandbox_smoke_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_source_trace",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_test_bind",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "patch_test_binding_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_test_gate_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_test_gate_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_test_relevance_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_test_relevance_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "patch_test_relevance_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "run_tests",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "show_diff",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_archive_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_create",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_create_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_create_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_create_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_create_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_diff",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_diff_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_diff_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_diff_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_diff_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_approval_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_approval_gate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_approval_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_approval_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_approval_token",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_backup_copy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_backup_copy_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_backup_copy_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_backup_copy_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_backup_copy_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_backup_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_backup_gate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_backup_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_backup_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_backup_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_execute",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_execute_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_execute_gate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_execute_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "snapshot_live_execute_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_preflight",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_preflight_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_preflight_gate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_preflight_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_preflight_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_proposal",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_proposal_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_proposal_gate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_proposal_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_proposal_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_restore_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_restore_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_live_restore_gate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_restore_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_live_restore_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_manifest_dry_run",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_manifest_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_manifest_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_manifest_validate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_readiness_blockers",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_readiness_check",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_readiness_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_readiness_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_readiness_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_copy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_copy_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_shadow_copy_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_copy_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_copy_verify",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_inspect",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_shadow_inspect_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "snapshot_shadow_inspect_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_inspect_readiness",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_inspect_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_plan",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_shadow_validate",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "snapshot_verify_index",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "source_law_chunk_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "source_law_chunk_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "source_law_chunk_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "source_law_chunk_probe",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "source_law_chunk_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "source_law_review_audit",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "needs an LLM or an embedding model"
+  },
+  {
+   "name": "source_law_review_export",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "writes project files; not the learning pipeline"
+  },
+  {
+   "name": "source_law_review_gaps",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "source_law_review_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "source_law_review_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "source_law_review_status",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "test_inventory",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "test_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "test_readiness",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "test_run_history",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "test_run_policy",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "test_run_report",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  },
+  {
+   "name": "test_run_safe",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "test_run_smoke",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "executes a command; unsafe on the phone"
+  },
+  {
+   "name": "test_show",
+   "source_repo": "BogaertN/forge",
+   "path": "config/tool_registry.json",
+   "status": "skipped",
+   "reason": "operator registry command; not a no-LLM learning-pipeline tool"
+  }
+ ],
+ "registry_entries": 770,
+ "registry_rows_folded_into_earlier_rows": [
+  "analyze_command_output",
+  "list_allowed_folders",
+  "list_files",
+  "propose_command",
+  "read_file",
+  "run_safe_command",
+  "search_knowledge_base",
+  "search_text",
+  "write_proposed_patch"
+ ]
+}

@@ -220,7 +220,7 @@ function run() {
       os_process_pool: false,
       integrity_high: 0.85,
       integrity_meter: 'when eps is omitted and a verified extract is present, eps = 1 - mean(integrity). Explicit eps null stays unmeasured and is not Number(null)===0. Product skeleton meter only. Not driftFunctional. Not the Mobile write law.',
-      note: '4.9.176 held admit on the 4.9.175 pipeline tools. A tap admits a contested held row when the write key is already held. Quarantine stays held and does not write confirmed_shared. A session write-key grant still admits a measured claim. research.web returns a Wikipedia excerpt and does not read the vault. Ask recalls an admitted claim before AQ-1. ChristPing is Gilligan-only. Phone pack publish stays gated. The portable single file does not inline the mesh or the pipeline tools. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only.',
+      note: '4.9.177 Forge phase parse and hosted recall on the 4.9.176 held admit. A hosted method sentence is reused without a fetch. Search and read stay on the session bank. Shell, payments, vector search, and a model call stay refused. A tap still admits a contested held row when the write key is already held. Quarantine stays held and does not write confirmed_shared. ChristPing is Gilligan-only. Phone pack publish stays gated. The portable single file does not inline the mesh, the pipeline tools, or the Forge tools. Explicit eps null is unmeasured. Phase ablation stays stub. No LLM. No OS process pool. Write law unchanged. Codex 3.24 idle text is yield etiquette only.',
       where: ['src/dream_idle.js', 'src/app_custody.js', 'src/kmath.js driftGovernance', 'src/kmath.js chiCorrect', 'src/kmath.js graceOverAncestors', 'verify/r4173_suite.js', 'verify/r4172_suite.js'],
       cite: 'Nic drift ruling 2026-10-14; RPMC §3 χ; §3.4 Grace Integral; E-05 quarantine honesty'
     }
@@ -260,7 +260,7 @@ function markdown(report) {
     lines.push('status ' + report.answer_path_grace.status + '. ' + (report.answer_path_grace.note || ''));
     lines.push('');
   }
-  lines.push('## Idle dream router (4.9.176)');
+  lines.push('## Idle dream router (4.9.177)');
   lines.push('');
   if (report.idle_dream_router) {
     lines.push('status ' + report.idle_dream_router.status + '. ' + (report.idle_dream_router.note || ''));

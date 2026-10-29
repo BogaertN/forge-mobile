@@ -2,7 +2,9 @@
 
 Forge Mobile is an installable progressive web app: a deterministic language kernel with no language model. A question is compiled into symbolic meaning, checked against memory and a symbolic world, rendered as one sentence, and checked again by parsing that sentence with the same grammar. A lookup returns cited evidence. A lasting memory write requires an explicit request.
 
-**Version 4.9.176**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). Registry 333. Publish-gate tests for this line of releases stay at zero failed. Service-worker cache `forge-mobile-v4.9.176`.
+**Version 4.9.177**, the contents of [`source/VERSION`](source/VERSION). The live app is [https://bogaertn.github.io/forge-mobile/](https://bogaertn.github.io/forge-mobile/). The published build record is [`build-info.json`](https://bogaertn.github.io/forge-mobile/build-info.json). Registry 334. Publish-gate tests for this line of releases stay at zero failed. Service-worker cache `forge-mobile-v4.9.177`.
+
+**Forge tools (4.9.177).** Phase parse and hosted recall are built from BogaertN/forge. Athena reuses a parseable method sentence already in the hosted bank and does not fetch it again. Search and read stay on that session bank. A device path, a shell command, a patch write, a payment, a vector search, and a model call are refused. Letter packs stay gated. The portable single file leaves these tools out. The Gilligan Codex and the Athena document list are not this release.
 
 **Held admit (4.9.176).** The Memory screen Admit button calls `admitConfirmedSharedItem`. That function had refused every row since 4.9.128. A tap now admits a contested held sentence into the session hosted bank when the write key is already held. A quarantine row stays held. The phone database and the letter packs are not written. A later Ask recalls the admitted sentence. No language model. Forge GitHub tools, the Gilligan Codex, and the Athena document list are not this release.
 
