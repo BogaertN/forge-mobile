@@ -1,3 +1,9 @@
+# Next build order — after 4.9.184 (Observe and Derive)
+
+**Shipped here:** `run_reasoning_seam` is world-model Observe and Derive, then the EchoForge debate on the Doc 4/5 frames. Simulate is deferred. Self-facts live in the turn world and can be superseded. Each derived claim has provenance, a replayed proof, drift, and chi. ChristPing is not started. C_min stays 0.87. The coherence formula is unchanged. On the 60-question set C still tops out at 0.835833, so Ask stays held. The wiring is `docs/WIRING_184.md`. The table is `docs/LIVE_TEST_184.md`. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** Simulate (spec §6, contract §13). Deleting the bypassed JS answer path. Lowering C_min. A model call.
+
 # Next build order — after 4.9.183 (RMC is Ask)
 
 **Shipped here:** Ask calls `rmc_engine_v1.rmc_core.run` with stages 14–16 on. `dry_run` still skips those stages. Echo scores the rendered answer against the question's meaning at 0.85. Web excerpts stay quarantined until admit. C_min stays 0.87. The 60-question set moves off `spc_cold_storage_required` and stays held because C stays under 0.87. `dream_idle` and `economy` default off. The old JS reply functions remain and are not called from Ask. No LLM. Packs stay gated. Money stays disabled.

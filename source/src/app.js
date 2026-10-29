@@ -109,6 +109,12 @@ async function askMemory() {
   } catch (e) { /* stores can be empty on first open */ }
   return memory;
 }
+function doc6Tag(gate) {
+  const gateTag = gate && gate.state ? '<span class="tag doc6" data-doc6-state="' + esc(gate.state) + '">' + esc(gate.label) + '</span>' : '';
+  const gst = String((gate && gate.state) || '').toLowerCase();
+  const next = /unsupported|clarification-required|ambiguity|action_blocked|refuse|blocked/.test(gst);
+  return gateTag + (next ? '<div class="next-step" data-next-step>Rephrase, or open Memory, Ideas, or Audit.</div>' : '');
+}
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
@@ -131,7 +137,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const echo = row && row.echo || {};
   const admit = row && row.admit && row.admit.disposition;
   const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + '.';
-  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span><div data-ask-body>' + body + '</div><div class="flags">no LLM · packs gated · money disabled</div></div>');
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span><div data-ask-body data-answer-source="' + (admitted ? 'rmc_engine_v1.output_renderer' : 'hold') + '">' + body + '</div>' + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled</div></div>');
   log.lastElementChild.scrollIntoView({ block: 'end' });
   renderRmc(text, row);
   refreshChrome();
@@ -145,12 +151,25 @@ function renderRmc(text, row) {
   const late = ((row && row.late_stages) || []).map(s => esc(s.n + ' ' + s.stage_id + ' ' + s.status + (s.reason ? ' · ' + s.reason : ''))).join('<br>');
   const echo = row && row.echo || {};
   const phase = row && row.trace && row.trace.phase || {};
+  const wm = row && row.world_model || {};
+  const derived = wm.derive || {};
+  const survivor = derived.survivor || {};
+  const debate = wm.debate || survivor.debate || {};
+  const opponent = debate.opponent || {};
+  const prov = (survivor.provenance || []).join(', ');
+  const eps = survivor.drift && survivor.drift.epsilon_s;
+  const chi = survivor.chi || (survivor.drift && survivor.drift.chi) || {};
   body.innerHTML = '<div data-rmc-question>' + esc(text) + '</div>'
     + '<div class="meta" data-rmc-summary>route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(row && row.admit && row.admit.disposition) + ' · recall ' + esc(row && row.active_memory_count) + '</div>'
     + '<div data-rmc-stages>' + pills + '</div>'
+    + '<div class="meta" data-stage-observe>Observe · admitted ' + esc(wm.observe && wm.observe.admitted) + ' · quarantined ' + esc(wm.observe && wm.observe.quarantined) + ' · superseded ' + esc(wm.observe && wm.observe.superseded) + ' · root ' + esc(wm.world_root) + '</div>'
+    + '<div class="meta" data-stage-derive>Derive ' + esc(derived.status) + ' · ' + esc(derived.reason) + ' · claims ' + esc((derived.claims || []).length) + ' · how ' + esc(survivor.how) + '</div>'
+    + '<div class="meta" data-stage-debate>EchoForge debate ' + esc((debate.order || ['proponent', 'opponent']).join(' then ')) + ' · frame ' + esc(debate.frame) + ' · survived ' + esc(debate.survived) + ' · challenger ' + esc((opponent.objections || []).map(o => o.code).join(', ')) + '</div>'
+    + '<div class="meta" data-derived-provenance>provenance ' + esc(prov || 'none') + ' · drift ' + esc(eps) + ' ' + esc(survivor.drift && survivor.drift.disposition) + ' · chi ' + esc(chi.status) + ' · ChristPing ' + (wm.christping_initiated ? 'started' : 'not started') + '</div>'
+    + '<div class="meta" data-derived-text>' + esc(wm.derived_text || '') + '</div>'
     + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
     + '<div class="meta" data-rmc-late>' + late + '</div>'
-    + '<div class="meta">' + (row && row.product_reply ? 'Admitted answer from the RMC renderer.' : 'Held. This card is the trace. Stages 14–16 ran.') + '</div>';
+    + '<div class="meta">' + (row && row.product_reply ? 'Admitted answer from the RMC renderer.' : 'Held. This card is the trace. Stages 14–16 ran. Observe, Derive, and the debate ran in the engine.') + '</div>';
   host.setAttribute('data-ready', '1');
   window.RMC_DRY_LAST = row;
   window.RMC_DRY_LOG = window.RMC_DRY_LOG || [];

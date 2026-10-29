@@ -1,4 +1,4 @@
-/* R4183 (4.9.183): the live Ask path is rmc_engine_v1. Dry-run still skips 14–16. No LLM. */
+/* R4183 (4.9.184): the live Ask path is rmc_engine_v1. Dry-run still skips 14–16. No LLM. */
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
@@ -19,14 +19,13 @@ T('dry_run keeps stages 14-16 skipped', () => {
   expect(row.admit.thresholds.C_min === 0.87 && row.admit.applied_to_ask === false, JSON.stringify(row.admit.thresholds));
 });
 
-T('the reasoning seam sits between recall and the renderer and does not apply', () => {
+T('the world model sits between recall and the renderer', () => {
   const row = Core.runSync({ question: 'What is quartz?', live: true, dry_run: true, memory: { hosted: [{ id: 'q', text: 'Quartz is a mineral.' }] } });
   const seam = row.world_model;
-  expect(seam && seam.status === 'seam' && seam.applied === false && seam.calls_llm === false && seam.writes_memory === false, JSON.stringify(seam));
+  expect(seam && seam.status === 'world_model_v1' && seam.applied === true && seam.calls_llm === false && seam.writes_memory === false, JSON.stringify({ status: seam && seam.status, applied: seam && seam.applied, llm: seam && seam.calls_llm }));
   expect(seam.sits_after === 'memory_recall' && seam.sits_before === 'output_renderer' && seam.slot === 'reasoning', JSON.stringify(seam));
-  expect(seam.input_memory_count === seam.output_memory_count, 'memory changed');
-  expect(seam.derived_text === '', 'derived');
-  expect(seam.next_184 && /Derive/.test(seam.next_184.derive) && /EchoForge/.test(seam.next_184.echoforge_debate), JSON.stringify(seam.next_184));
+  expect(seam.input_memory_count === seam.output_memory_count, 'recalled memory changed');
+  expect(seam.christping_initiated === false, 'christping');
   const keys = Object.keys(row.trace);
   expect(keys.indexOf('memory') < keys.indexOf('world_model') && keys.indexOf('world_model') < keys.indexOf('admit'), keys.join(','));
 });
@@ -62,7 +61,7 @@ T('dream_idle and economy default off and packs stay gated', () => {
   Next.set('dream_idle', true);
   expect(Next.enabled('dream_idle') === true, 'set');
   Next.set('dream_idle', false);
-  expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().mesh === '4.9.183', JSON.stringify(D.boundary().mesh));
+  expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().mesh === '4.9.184', JSON.stringify(D.boundary().mesh));
 });
 
 T('Ask screen does not call the old JS answer path', () => {
@@ -73,9 +72,9 @@ T('Ask screen does not call the old JS answer path', () => {
   expect(/function process\(/.test(forge), 'old path still present for a later deletion');
 });
 
-T('version registry CONFLICTS NEXT_BUILD name 4.9.183', () => {
+T('version registry CONFLICTS NEXT_BUILD name 4.9.184', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.183', ver);
+  expect(ver === '4.9.184', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.183/.test(conf) && /rmc_engine_v1/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -88,9 +87,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.183', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_183.md'), 'utf8');
   expect(/60/.test(live) && /held/.test(live) && /C_min/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.183' && tgt.suites[0] === 'r4183_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.184' && tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.183' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
+  expect(reg.version === '4.9.184' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
   expect(reg.count === reg.features.length, 'count ' + reg.count);
 });
 

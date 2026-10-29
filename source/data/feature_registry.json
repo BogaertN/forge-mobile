@@ -1,5 +1,5 @@
 {
- "version": "4.9.183",
+ "version": "4.9.184",
  "features": [
   {
    "id": "A-01",
@@ -3727,13 +3727,24 @@
    "proof": [
     "R4183"
    ]
+  },
+  {
+   "id": "R4184-WORLD-MODEL",
+   "name": "World model Observe, Derive, and EchoForge debate",
+   "source": "contract 1g2034-K; spec 1vBx_Q9K §1.4; docs/WIRING_184.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Observe and Derive run inside rmc_core between recall and the renderer. The EchoForge round is proponent then opponent on the Doc 4/5 frames, with no model. Each derived claim has provenance, a replayed proof, drift, and chi. ChristPing stays Gilligan-only. Simulate is deferred. C_min stays 0.87 and the coherence formula is unchanged. On the 60-question set C still tops out at 0.835833, so Ask stays held. Packs stay gated. Money stays disabled.",
+   "proof": [
+    "R4184"
+   ]
   }
  ],
- "count": 340,
+ "count": 341,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 178,
+  "Partial": 179,
   "Missing": 9,
   "Out of scope / parked": 13
  }

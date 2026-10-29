@@ -1,3 +1,11 @@
+## v4.9.184 — world-model Derive on the Ask path (2026-10-29 America/Chicago)
+
+**Conflict:** `reasoning_seam.run_reasoning_seam` sat between recall and the renderer and returned the memory unchanged. Nic's contract says Observe and Derive belong in the core, and the EchoForge round is proponent then opponent with no model.
+
+**Where:** `rmc_engine_v1/world_model_v1.py` and `language_core_debate.py`. The seam calls them. The renderer speaks `derived_text` only when the debate survives. A conflict renders neither side. The wiring is `docs/WIRING_184.md`. The table is `docs/LIVE_TEST_184.md`.
+
+**Resolution:** Observe builds a TurnWorld/v1 from admitted receipts. Quarantined research is recorded and is not a premise. Self-facts are the contract's own sentences and can be superseded; the parent root stays; nothing is written to durable memory. Derive is direct support or one copula hop. Each claim carries provenance, a replayed proof, drift from the existing measurement kernel, and χ(t) from `evaluate_chi_t`. ChristPing is not started. The debate uses the Doc 4/5 frames. C_min stays 0.87. The scorer's formula is unchanged, and on this set C still tops out at 0.835833, so every question stays held. No LLM. Packs stay gated. Money stays disabled.
+
 ## v4.9.183 — RMC is the Ask path (2026-10-29 America/Chicago)
 
 **Conflict:** The dry run recorded a trace beside the JS reply. Stages 14–16 were skipped. Echo scored a placeholder, so it was 0.0. `dream_idle` and `economy` defaulted on. Recall of three generic rows left every question on `spc_cold_storage_required`.

@@ -572,6 +572,9 @@ def _claim_for_renderer(question: str, trace_spine: dict[str, Any], reasoning: d
         text = str(reasoning.get("derived_text") or "").strip()
         if text:
             return {"text": text, "score": 1.0, "memory_id": "reasoning_seam", "source": "reasoning_seam"}
+        # Contract §5: a conflict is not a chosen side. Do not fall through to one premise.
+        if str((reasoning.get("derive") or {}).get("status") or "") == "conflicted":
+            return {}
     return _admitted_claim(question, trace_spine)
 
 
@@ -599,11 +602,12 @@ def _run_late_stages(
             reason="sealed_or_unlawful_route_blocks_renderer",
         ))
     elif not claim.get("text"):
+        blocked_reason = "conflicted_derivation_not_rendered" if str((reasoning.get("derive") or {}).get("status") or "") == "conflicted" else "no_admitted_memory_covers_the_question"
         stages.append(_stage_ok(
             "output_renderer_eligibility_check",
-            {"executed": True, "rendering_allowed": False, "blocked": True, "reason": "no_admitted_memory_covers_the_question"},
+            {"executed": True, "rendering_allowed": False, "blocked": True, "reason": blocked_reason},
             executed=True,
-            reason="no_admitted_memory_covers_the_question",
+            reason=blocked_reason,
         ))
     else:
         try:
@@ -867,7 +871,22 @@ def run_deep_dry_run(
     from rmc_engine_v1.reasoning_seam import run_reasoning_seam
     recall_state = _as_dict(_as_dict(trace_spine.get("memory_recall")).get("memory_state"))
     recalled = int(recall_state.get("active_memory_count") or 0)
-    reasoning = run_reasoning_seam(source_text, {"active": recalled, "active_memory_count": recalled})
+    nodes = []
+    for node in _recalled_nodes(trace_spine):
+        nodes.append({
+            "id": node.get("memory_id"),
+            "text": node.get("content_summary") or node.get("content") or "",
+            "source": node.get("source") or node.get("source_kind"),
+            "confidence": node.get("confidence"),
+            "prior_drift_score": node.get("prior_drift_score"),
+            "quarantined": str(node.get("confidence") or "") == "low" or _number(node.get("prior_drift_score"), 0.0) >= 0.40,
+        })
+    reasoning = run_reasoning_seam(source_text, {
+        "active": recalled,
+        "active_memory_count": recalled,
+        "phase_path": _as_list(routing_packet.get("phase_path")),
+        "nodes": nodes,
+    })
     artifacts["reasoning_seam"] = {k: v for k, v in reasoning.items() if k != "memory"}
     if execute_late_stages:
         phase_path = _as_list(routing_packet.get("phase_path"))

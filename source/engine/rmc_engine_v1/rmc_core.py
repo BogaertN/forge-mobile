@@ -2,9 +2,9 @@
 
 The live Ask path calls run() with live=true. That runs all 16 stages and,
 when the admit gate and Echo both pass, returns the rendered answer.
-dry_run=true keeps stages 14–16 skipped for tests. reasoning_seam sits
-between memory recall and the renderer. 4.9.184 replaces that function.
-No model is called.
+dry_run=true keeps stages 14–16 skipped for tests. reasoning_seam is
+world-model Observe and Derive, then the EchoForge debate, between recall
+and the renderer. No model is called. C_min stays 0.87.
 """
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ def _f(value: Any, default: float = 0.0) -> float:
 
 
 def world_model_seam(memory: dict[str, Any], question: str) -> dict[str, Any]:
-    """The reasoning slot. run_reasoning_seam is the function 4.9.184 replaces."""
+    """Observe, Derive, and the language-core debate. The seam function."""
     return run_reasoning_seam(question, memory)
 
 
@@ -231,6 +231,11 @@ def _measured(report: dict[str, Any]) -> dict[str, Any]:
         "coherence_component": round(component, 6),
         "coherence_top_level": round(top, 6),
         "circuit_breaker": circuit,
+        "score_components": {k: components.get(k) for k in (
+            "memory_fit", "phase_validity", "drift_containment", "source_confidence",
+            "utility_fit", "bounded_novelty_score", "operator_legality",
+            "conflict_penalty", "projection_gate_penalty", "coherence_score", "formula",
+        )} if components else {},
         "active_memory_count": int(recall.get("active_memory_count") or 0),
         "recall_sources": (recall.get("active_source_kind_counts") or {}),
         "memory_nodes": [
@@ -266,7 +271,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         }
         artifacts = report.get("artifacts") if isinstance(report.get("artifacts"), dict) else {}
         recorded = artifacts.get("reasoning_seam") if isinstance(artifacts.get("reasoning_seam"), dict) else None
-        world = recorded if recorded and recorded.get("status") == "seam" else world_model_seam(memory, question)
+        world = recorded if recorded and recorded.get("layer") == "world_model" else world_model_seam(memory, question)
         rendered = str(artifacts.get("rendered_answer") or "")
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
         gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))
@@ -289,7 +294,13 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         trace = {
             "input": question,
             "memory": memory,
-            "world_model": {k: world[k] for k in ("layer", "slot", "status", "applied", "sits_after", "sits_before", "input_memory_count", "output_memory_count", "calls_llm", "writes_memory", "derived_text", "next_184", "later_184") if k in world},
+            "world_model": {k: world[k] for k in (
+                "layer", "slot", "status", "schema", "applied", "sits_after", "sits_before",
+                "input_memory_count", "output_memory_count", "calls_llm", "writes_memory",
+                "writes_durable_memory", "christping_initiated", "model_invoked",
+                "derived_text", "world_root", "parent_root", "world", "observe", "self_facts",
+                "derive", "debate", "proofs", "checker", "simulate", "limits", "effects", "cites",
+            ) if k in world},
             "admit": gate,
             "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"]},
             "operator_chain": chain,
@@ -324,6 +335,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "route": measured["route"],
             "drift": measured["epsilon_s"],
             "coherence": measured["coherence"],
+            "coherence_components": measured.get("score_components") or {},
             "active_memory_count": measured["active_memory_count"],
             "memory_fed": fed,
             "world_model": trace["world_model"],
