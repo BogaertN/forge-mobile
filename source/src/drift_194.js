@@ -347,6 +347,11 @@
     if (op === 'class') return codexClass(row);
     return replayBreaker(row.samples || []);
   }
+  function showNum(n) {
+    if (typeof n !== 'number' || !Number.isFinite(n)) return String(n);
+    const rounded = Math.round(n * 1e6) / 1e6;
+    return String(rounded);
+  }
   function monitorLines(mode) {
     if (mode === 'predict') {
       const row = analyze([0.1, 0.2, 0.3, 0.4, 0.5, 0.6], { pattern: 'linear_degradation', window: 3, critical: 0.8 });
@@ -354,10 +359,10 @@
       return {
         attrs: { mode: 'predict', status: row.prediction.intervention_type, detail: String(row.prediction.steps_to_critical) },
         lines: [
-          'Linear example 0.1 to 0.6. Moving average of the last 3 is ' + row.moving_average + '.',
-          'Trend ' + row.trend + ' ' + row.direction + '. Confidence ' + row.trend_confidence + '.',
-          'Steps to 0.8: ' + row.prediction.steps_to_critical + '. ' + row.prediction.intervention_type + '. Multiplier ' + row.prediction.required_compute_multiplier + '. Confidence ' + row.prediction.confidence + '.',
-          'Override reduction on 0.8 to 0.2 is ' + effect.rows[0].reduction + '. Mean ' + effect.mean + '. This does not admit.',
+          'Linear example 0.1 to 0.6. Moving average of the last 3 is ' + showNum(row.moving_average) + '.',
+          'Trend ' + showNum(row.trend) + ' ' + row.direction + '. Confidence ' + showNum(row.trend_confidence) + '.',
+          'Steps to 0.8: ' + showNum(row.prediction.steps_to_critical) + '. ' + row.prediction.intervention_type + '. Multiplier ' + showNum(row.prediction.required_compute_multiplier) + '. Confidence ' + showNum(row.prediction.confidence) + '.',
+          'Override reduction on 0.8 to 0.2 is ' + showNum(effect.rows[0].reduction) + '. Mean ' + showNum(effect.mean) + '. This does not admit.',
           'RSOC ' + row.rsoc.band + '. Genesis band ' + row.gn_band.band + '. Writes off. No LLM.'
         ]
       };

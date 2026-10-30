@@ -1,3 +1,11 @@
+## v4.9.194 — breaker window and drift analyzer (2026-10-30 America/Chicago)
+
+**Conflict:** The protoforge breaker counts `failure_count > max_failures`, which waits for a fourth failure. Decision 6 and the build test open on three failures inside 0.7 seconds. RSOC bands start at 0.40. The Codex names a 0.9 halt, a 0.6 class, and a resurrect band below 0.4. Those cuts are looser or stricter than the write law.
+
+**Where:** `src/drift_194.js`, `rmc_engine_v1/drift_194.py`, the Ask breaker card. The wiring is `docs/WIRING_194.md`. The tables are `docs/LIVE_TEST_194.md`.
+
+**Resolution:** The window opens at three failures inside 0.7 seconds and stays closed at two. It calls `driftCircuitBreaker` and does not copy 0.35 or 0.8. A hard stop above 0.8 and Φ5→Φ8 still open on one sample. Recovery past 60 seconds is half-open. Retry waits are 60, 120, and 240 seconds. RSOC, Genesis, archive, and resurrect bands are log-only. A write still needs drift at or under 0.35. The 0.9 halt is not applied. The hard stop stays 0.8. A loop older than 120 seconds rolls back to cold archive and does not write. Class 4 is not restored. Class 3, entropy above 0.6, is an internal route. C_min stays 0.87. Echo stays 0.85. The coherence formula is unchanged. Cold admits stay 48. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled. ChristPing stays Gilligan-only.
+
 ## v4.9.193 — drift v4.3 core (2026-10-30 America/Chicago)
 
 **Conflict:** drift.py v4.3, RSOC, the Genesis Node spec, and the Gilligan Codex do not use one d_score, one ε_s denominator, or one χ consecutive count. The Genesis spec allows a skip from phase 5 to phase 8. The Codex names a 0.9 failsafe. Unified Algebra and Phase 1.8 add step, cascade, charge, mask, and restore rules that are not admit gates.
