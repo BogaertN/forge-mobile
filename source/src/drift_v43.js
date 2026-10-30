@@ -444,6 +444,93 @@
     epsilonCascade: epsilonCascade, singularityWarn: singularityWarn, chargeStep: chargeStep, driftMask: driftMask,
     restoreFromChi: restoreFromChi, nest: nest, contentHash: contentHash, MASK_SIM: MASK_SIM, CHI_WINDOW_MS: CHI_WINDOW_MS
   };
+  function monitorLines(mode) {
+    if (mode === 'steps') {
+      const two = phaseEngine([{ phi: 2, phi_exp: 3, prev: 2 }, { phi: 3, phi_exp: 4, prev: 3 }]);
+      const three = phaseEngine([{ phi: 2, phi_exp: 3, prev: 2 }, { phi: 3, phi_exp: 4, prev: 3 }, { phi: 4, phi_exp: 3, prev: 4 }]);
+      return {
+        title: 'Phase engine',
+        attrs: { disposition: three.chi ? 'CHI' : 'OK', eps: '', dscore: '0', mode: 'steps' },
+        lines: [
+          'Phase names: ' + [1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (n) { return KM.CANONICAL_PHASE_NAMES[n]; }).join(' · '),
+          '2 consecutive drifts · χ ' + (two.chi ? 'fires' : 'does not fire') + ' · count ' + two.consecutive,
+          '3 consecutive drifts · χ ' + (three.chi ? 'fires' : 'does not fire') + ' · triggers ' + three.chi_triggers.join(', '),
+          'Entropy ' + three.entropy + ' · acc ' + three.drift_acc + ' · predicted ' + three.predicted,
+          'Warn 1.0 · critical 2.5 · entropy 0.8 · consecutive χ at 3. Coherence under 0.3 is internal only.',
+          'Genesis skip from phase 5 to phase 8 is not ported. No LLM. This card does not write.'
+        ]
+      };
+    }
+    if (mode === 'mask') {
+      const row = score({
+        payload: { core_state: { text: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' }, auxiliary: { q: 'hello-world-more-text' }, metadata: { id: 7 } },
+        psi1_trace: { totally: 'different', list: [1, 2, 3, 4] },
+        prev_phase: 1, recursion_n: 1, latency_ms: 2000, size_hist: [10, 20, 30], prev_D: 0.2, nu: -0.5,
+        signatures: [{ v: 1 }], echo_confirmed: true, restore_drift: 0.29, phase_sequence: [9, 1, 2], chi_window_ms: 3000,
+        charge: 0.4
+      });
+      const masked = score({ payload: { v: 1 }, prev_phase: 1, signatures: [{ v: 1 }] });
+      return {
+        title: 'Mask, charge, restore',
+        attrs: { disposition: row.singularity.warn ? 'SINGULARITY' : row.disposition, eps: String(row.eps_s), dscore: String(row.d_score), mode: 'mask' },
+        lines: [
+          'Drift mask similarity ' + masked.drift_mask.similarity + ' · warn ' + masked.drift_mask.warn + ' · χ check ' + masked.drift_mask.chi_check + ' · threshold 0.70',
+          'Singularity D ' + row.D + ' · ΔD ' + row.singularity.delta_D + ' · ν ' + row.singularity.nu + ' · warn ' + row.singularity.warn,
+          'Charge ' + row.charge.charge + ' → ' + row.charge.charge_next + ' · lawful step +0.1 · skip −0.3 · clamp [0,1]',
+          'Cascade ε ' + row.cascade.epsilon + ' → ' + row.cascade.epsilon_next + ' · α ' + row.cascade.alpha_status + ' · β ' + row.cascade.beta_status,
+          'Bands ' + row.bands.epsilon.band + ' / ' + row.bands.composite.band + ' · logged only · admit gate ' + row.bands.epsilon.admit_gate,
+          'Codex 0.9 failsafe ' + row.laws.codex_failsafe_0_9 + ' · hard stop ' + row.laws.hard_stop + ' · write max ' + row.laws.write_max + ' · above write law ' + row.laws.above_write_law,
+          'Restore ' + (row.restore.allowed ? 'allowed' : 'refused') + ' · echo ' + row.restore.echo_confirmed + ' · drift<0.3 ' + row.restore.drift_ok + ' · sequence ' + row.restore.sequence_ok + ' · window ' + row.restore.window_ms + ' ms',
+          'Step flag ' + row.step_flag + ' (log only). Writes ' + row.writes + '. No LLM.'
+        ]
+      };
+    }
+    const row = score({ payload: nest(7), prev_phase: 5, recursion_n: 1, phase_hist: [0], stamps_ms: [0, 5, 10] });
+    const calm = score({ payload: { v: 1 }, prev_phase: 1, recursion_n: 1 });
+    return {
+      title: '5→8 worst case',
+      attrs: { disposition: row.disposition, eps: String(row.eps_s), dscore: String(row.d_score), mode: 'worst' },
+      lines: [
+        'Disposition ' + row.disposition + ' · d_score ' + row.d_score + ' · ε_s ' + row.eps_s + ' (31/18 at recursion 1)',
+        'Φ_act ' + row.phi_act + ' ' + row.phi_act_name + ' · Φ_exp ' + row.phi_exp + ' ' + row.phi_exp_name + ' · δΦ ' + row.delta_phi + ' · σ_res ' + row.sigma_res,
+        'θ_w at L=0 is ' + calm.theta_w + ' · this trace L_local ' + row.L_local + ' · θ_w ' + row.theta_w + ' · hard ceiling ' + row.hard_ceiling,
+        'Acceleration ' + row.acceleration + ' · ' + row.velocity.guarantee + ' · EMA α ' + row.ema_alpha + ' · WARN_PREDICTIVE ' + row.warn_predictive + ' · steps ' + row.predicted_steps,
+        'Step flag ' + row.step_flag + ' is log only. Categorical hard fire stays the 5→8 d_score.',
+        'Paths flagged 5→8: ' + Object.keys(row.paths).join(', '),
+        'Phase names: ' + row.phase_names.join(' · '),
+        'χ_t ' + row.chi_t + ' · residue ' + row.residue + ' · ' + (row.convergent ? 'convergent → ' + row.phase_after_name : 'oscillating'),
+        'C_min ' + row.laws.C_min + ' · write max ' + row.laws.write_max + ' · hard stop ' + row.laws.hard_stop + ' · Echo ' + row.laws.echo_min + ' · writes ' + row.writes + ' · no LLM'
+      ]
+    };
+  }
+  function paintMonitor(mode) {
+    if (typeof document === 'undefined') return;
+    const card = document.getElementById('driftMonitor');
+    const body = document.getElementById('driftMonitorBody');
+    if (!card || !body) return;
+    const view = monitorLines(mode || 'worst');
+    card.setAttribute('data-drift-disposition', view.attrs.disposition);
+    card.setAttribute('data-drift-eps', view.attrs.eps);
+    card.setAttribute('data-drift-dscore', view.attrs.dscore);
+    card.setAttribute('data-drift-mode', view.attrs.mode);
+    body.textContent = view.lines.join('\n');
+  }
+  function bootMonitor() {
+    if (typeof document === 'undefined' || !document.getElementById('driftMonitor')) return;
+    paintMonitor('worst');
+    const buttons = document.querySelectorAll('[data-drift-run]');
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function (ev) {
+        paintMonitor(ev.currentTarget.getAttribute('data-drift-run'));
+      });
+    }
+  }
+  api.paintMonitor = paintMonitor;
+  api.monitorLines = monitorLines;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.DriftV43 = api;
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootMonitor);
+    else bootMonitor();
+  }
 })(typeof self !== 'undefined' ? self : this);
