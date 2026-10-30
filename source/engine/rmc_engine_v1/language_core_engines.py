@@ -286,6 +286,12 @@ def rmc_renderer_200_stage(question: str | None = None) -> dict[str, Any]:
     return stage(question)
 
 
+def gilin_crp_201_stage(question: str | None = None) -> dict[str, Any]:
+    """Ask-trace summary of the 4.9.201 GILIN/CRP protocol. It does not persist or admit."""
+    from rmc_engine_v1.gilin_crp_201 import stage
+    return stage(question)
+
+
 def drift_v43_stage(phi: int | None, prev: Any, hist: list[Any]) -> dict[str, Any]:
     """Ask-trace summary of the v4.3 score. It does not change the admit ε_s."""
     from rmc_engine_v1.drift_v43 import score
@@ -342,6 +348,7 @@ def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]]
         "growth_198": growth_198_stage(question),
         "geometry_199": geometry_199_stage(question),
         "rmc_renderer_200": rmc_renderer_200_stage(question),
+        "gilin_crp_201": gilin_crp_201_stage(question),
         "calls_llm": False,
         "c_min": C_MIN,
         "write_law_unchanged": True,

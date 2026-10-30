@@ -1,5 +1,5 @@
 name: Test
-# 4.9.200: run the RMC renderer suite three times, then the targeted suite. This does not publish Pages.
+# 4.9.201: run the GILIN / CRP suite three times, then the targeted suite. This does not publish Pages.
 on:
   pull_request:
   push:
@@ -23,6 +23,11 @@ jobs:
           python-version: '3.12'
       - name: Prepare the clone
         run: sh source/tools/prepare_clone.sh
+      - name: GILIN / CRP suite, three passes
+        run: |
+          node source/verify/r4201_suite.js
+          node source/verify/r4201_suite.js
+          node source/verify/r4201_suite.js
       - name: RMC renderer suite, three passes
         run: |
           node source/verify/r4200_suite.js
