@@ -885,6 +885,9 @@ def run_deep_dry_run(
         structural_drift = _as_dict(drift_value) or structural_drift
         artifacts["structural_drift"] = structural_drift
         stages.append(_stage_ok("structural_drift_engine", structural_drift))
+        from rmc_engine_v1.lexicon_resonance import apply_lexicon_phase
+        phase_report = apply_lexicon_phase(phase_report, source_text)
+        artifacts["phase_report"] = phase_report
     except Exception as exc:
         if structural_drift:
             stages.append(_stage_ok("structural_drift_engine", structural_drift, note="drift_report_from_trace_spine"))

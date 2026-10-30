@@ -158,25 +158,48 @@ def _concept_ids(text: str) -> set[str]:
     return found
 
 
-def place_packet(row: dict[str, Any], *, quarantined: bool) -> dict[str, Any]:
-    """Athena resonance placement. dream_idle.js resonancePacket."""
+def _numeric_or_unspecified(value: Any, default: float) -> Any:
+    if value == "unspecified":
+        return "unspecified"
+    try:
+        return round(float(value), 6)
+    except (TypeError, ValueError):
+        return default
+
+
+def place_packet(row: dict[str, Any], *, quarantined: bool, question: str | None = None) -> dict[str, Any]:
+    """Athena resonance placement. The concept packet replaces a hand-set phase."""
+    from rmc_engine_v1.lexicon_resonance import concept_in_text, replaces_keyword_phase
+
+    placed = None
+    if not quarantined:
+        asked = replaces_keyword_phase(question or "")
+        text = clean_text(row) if row else ""
+        if asked and concept_in_text(asked["concept"], text):
+            placed = asked["packet"]
     given = row.get("sfe") if isinstance(row.get("sfe"), dict) else None
-    if given and _phase_index(given.get("Phi")) is not None:
+    if placed and placed.get("Phi"):
+        phi = int(placed["Phi"])
+        eps = placed.get("eps")
+        mu = placed.get("mu")
+        if eps != "unspecified":
+            eps = _numeric_or_unspecified(eps, 0.0)
+        if mu != "unspecified":
+            mu = _numeric_or_unspecified(mu, 1.0)
+        basis = placed
+    elif given and _phase_index(given.get("Phi")) is not None:
         phi = _phase_index(given.get("Phi"))
-        try:
-            eps = float(given.get("eps"))
-        except (TypeError, ValueError):
-            eps = 0.5 if quarantined else 0.0
-        try:
-            mu = float(given.get("mu"))
-        except (TypeError, ValueError):
-            mu = 0.0 if quarantined else 1.0
+        eps = _numeric_or_unspecified(given.get("eps"), 0.5 if quarantined else 0.0)
+        mu = _numeric_or_unspecified(given.get("mu"), 0.0 if quarantined else 1.0)
+        basis = None
     elif quarantined:
         phi, eps, mu = 5, 0.5, 0.0
+        basis = None
     else:
         phi, eps, mu = 9, 0.0, 1.0
-    sfe = {"Phi": int(phi), "eps": round(float(eps), 6), "mu": round(float(mu), 6)}
-    return {
+        basis = None
+    sfe = {"Phi": int(phi), "eps": eps if eps == "unspecified" else round(float(eps), 6), "mu": mu if mu == "unspecified" else round(float(mu), 6)}
+    out = {
         "schema": PACKET_SCHEMA,
         "Phi": sfe["Phi"],
         "eps": sfe["eps"],
@@ -186,6 +209,15 @@ def place_packet(row: dict[str, Any], *, quarantined: bool) -> dict[str, Any]:
         "placed_by": "athena",
         "standing": "quarantine" if quarantined else "projectable",
     }
+    if basis:
+        out["glyph"] = basis.get("glyph")
+        out["concept"] = basis.get("concept")
+        out["authority"] = basis.get("authority")
+        out["seed"] = basis.get("cite")
+        out["eps_status"] = basis.get("eps_status")
+        out["mu_status"] = basis.get("mu_status")
+        out["phi_basis"] = "lexicon_resonance"
+    return out
 
 
 def _question_phi(phase_report: dict[str, Any] | None) -> int:
@@ -194,6 +226,9 @@ def _question_phi(phase_report: dict[str, Any] | None) -> int:
         state = phase_report.get("phase_state") if isinstance(phase_report.get("phase_state"), dict) else phase_report
     if not isinstance(state, dict):
         return 1
+    placed = state.get("lexicon_placement") if isinstance(state.get("lexicon_placement"), dict) else None
+    if placed and _phase_index(placed.get("Phi")):
+        return int(placed["Phi"])
     return _phase_index(state.get("phase_primary")) or 1
 
 
@@ -285,21 +320,33 @@ def _rsoc(locks):
     return {"calculus": "RSOC/v1", "selected": None, "locked": 0, "status": "sealed", "cite": "RPMC section 3.4 G = 0 stays sealed"}
 
 
+def _as_measure(value: Any, unspecified_default: str = "unspecified") -> Any:
+    if value == "unspecified":
+        return "unspecified"
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return unspecified_default
+
+
 def _grace(packet, question_phi):
     phi = _phase_index(packet.get("Phi"))
-    try:
-        eps = float(packet.get("eps"))
-    except (TypeError, ValueError):
-        eps = 1.0
-    try:
-        mu = float(packet.get("mu"))
-    except (TypeError, ValueError):
-        mu = 0.0
+    eps = _as_measure(packet.get("eps"))
+    mu = _as_measure(packet.get("mu"))
     delta = _circular_delta(question_phi, phi) if phi is not None else math.tau
-    aligned = phase_aligned(question_phi, phi) and mu > 0 and eps <= 0.35
-    # rpm weight: kmath.rpmWeight = mu * exp(-eps). Grace uses cos^2 of the delta.
-    weight = mu * math.exp(-max(0.0, eps)) if aligned else 0.0
-    grace = weight * (math.cos(delta) ** 2) if aligned else 0.0
+    # Unspecified ε/μ are not invented and do not fail a phase match.
+    # A stated number still has to sit in the projectable band.
+    eps_ok = eps == "unspecified" or (isinstance(eps, (int, float)) and eps <= 0.35)
+    mu_ok = mu == "unspecified" or (isinstance(mu, (int, float)) and mu > 0)
+    aligned = phase_aligned(question_phi, phi) and eps_ok and mu_ok
+    # rpm weight: kmath.rpmWeight = μ·exp(−ε). Unspecified charge does not invent μ.
+    if not aligned:
+        weight, grace = 0.0, 0.0
+    elif eps == "unspecified" or mu == "unspecified":
+        weight, grace = 1.0, math.cos(delta) ** 2
+    else:
+        weight = mu * math.exp(-max(0.0, eps))
+        grace = weight * (math.cos(delta) ** 2)
     return {
         "aligned": aligned,
         "delta": round(delta, 6),
@@ -356,7 +403,7 @@ def rank_memory(question, nodes, phase_report=None):
         if not isinstance(node, dict):
             continue
         text = clean_text(node)
-        packet = place_packet(node, quarantined=_quarantined(node))
+        packet = place_packet(node, quarantined=_quarantined(node), question=question)
         node["packet"] = packet
         node["sfe"] = packet["sfe"]
         if text:

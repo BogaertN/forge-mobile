@@ -559,7 +559,9 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
 
     resonance_report = None
     if str(source_metadata.get("recall") or "") == "resonance":
+        from rmc_engine_v1.lexicon_resonance import apply_lexicon_phase
         from rmc_engine_v1.resonance_recall import rank_memory
+        phase_report = apply_lexicon_phase(phase_report, source_text)
         resonance_report = rank_memory(source_text, nodes, phase_report)
         active = list(resonance_report.get("active") or [])[: max(1, min(int(limit or 12), 50))]
         ranked = active
@@ -620,7 +622,10 @@ def build_trace_spine(source_text: str, source_metadata: dict[str, Any] | None =
     input_event = build_input_event(source_text, source_metadata)
     phase_report = parse_phase(source_text, source_metadata)
     resonance_report = analyze_resonance(source_text, source_metadata)
+    # Drift stays on the parser report. Placement for recall and candidates is the concept packet.
     drift_report = analyze_drift(phase_report)
+    from rmc_engine_v1.lexicon_resonance import apply_lexicon_phase
+    phase_report = apply_lexicon_phase(phase_report, source_text)
     memory_report = recall_memory(source_text, source_metadata, root=root, limit=limit)
 
     if memory_report.get("status") != "OK":
