@@ -256,6 +256,12 @@ def dpa_195_stage(epsilon_s: Any) -> dict[str, Any]:
     return stage(epsilon_s)
 
 
+def tiers_196_stage(epsilon_s: Any) -> dict[str, Any]:
+    """Ask-trace summary of the 4.9.196 ladder. It does not change the admit ε_s."""
+    from rmc_engine_v1.tiers_196 import stage
+    return stage(epsilon_s)
+
+
 def drift_v43_stage(phi: int | None, prev: Any, hist: list[Any]) -> dict[str, Any]:
     """Ask-trace summary of the v4.3 score. It does not change the admit ε_s."""
     from rmc_engine_v1.drift_v43 import score
@@ -307,6 +313,7 @@ def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]]
         "drift_v43": drift_v43_stage(phi, prev, hist),
         "drift_194": drift_194_stage(epsilon_s),
         "dpa_195": dpa_195_stage(epsilon_s),
+        "tiers_196": tiers_196_stage(epsilon_s),
         "calls_llm": False,
         "c_min": C_MIN,
         "write_law_unchanged": True,

@@ -107,6 +107,24 @@ T('a dead path seals once at deep and drift 0.35 does not', () => {
   same(deep, py({ op: 'monitor', mode: 'deep' }), 'monitor-deep');
 });
 
+T('the Ask card shows the clock, the seven gates, and the deep seal', () => {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const app = fs.readFileSync(path.join(ROOT, 'src', 'app.js'), 'utf8');
+  expect(/data-tiers196/.test(html) && /src="src\/tiers_196.js"/.test(html) && /src="src\/genesis_collapse.js"/.test(html) && /src="src\/phase_coherent_gates.js"/.test(html), 'card');
+  expect(sw.indexOf('./src/tiers_196.js') >= 0 && sw.indexOf('./src/genesis_collapse.js') >= 0, 'worker');
+  expect(/data-tiers-196/.test(app), 'ask trace');
+  const eng = cp.spawnSync('python3', ['-c', 'import json; from rmc_engine_v1.language_core_engines import run_engines; print(json.dumps(run_engines(0.2, 4)["tiers_196"]))'], {
+    cwd: path.join(ROOT, 'engine'),
+    env: Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') }),
+    encoding: 'utf8',
+  });
+  if (eng.status) throw new Error(String(eng.stderr || eng.stdout).slice(0, 500));
+  const traced = JSON.parse(eng.stdout);
+  const stage = py({ op: 'stage', epsilon_s: 0.2 });
+  expect(traced.tier === 'hot' && traced.half_tier === 'warm' && traced.admit_gate === false && traced.calls_llm === false && traced.deep_rule === stage.deep_rule, JSON.stringify(traced));
+});
+
 T('the module calls the 191 and 195 functions and does not start a dream', () => {
   const js = fs.readFileSync(path.join(ROOT, 'src', 'tiers_196.js'), 'utf8');
   const pySrc = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'tiers_196.py'), 'utf8');
