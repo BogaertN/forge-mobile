@@ -80,6 +80,16 @@ T('Ask stand-ins that produced answers are gone; the language core stays', () =>
   expect(!/chloramine/i.test(claim), 'headline');
 });
 
+T('receipt order does not flip the derived sentence', () => {
+  const out = py(`
+import runpy
+runpy.run_path('tools/check_determinism_188.py', run_name='__main__')
+`);
+  const row = JSON.parse(out.trim().split('\n').pop());
+  expect(row.ok === true && row.files.same === true && row.ids.same === true && row.ids.leaked === false, JSON.stringify(row.files) + ' ' + JSON.stringify(row.ids));
+  expect(row.held.stable === true, JSON.stringify(row.held.rows.map(r => ({ q: r.question, same: r.same, a: r.first, b: r.second }))));
+});
+
 T('version registry names 4.9.187 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
   expect(ver === '4.9.187', ver);

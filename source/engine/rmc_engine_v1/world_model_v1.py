@@ -652,7 +652,7 @@ def _attach_speech(claims: list[dict[str, Any]], topical: list[dict[str, Any]], 
                 share_role = any(_norm(a) in roles for a in (fat.get("args") or []))
             if share_src or share_role:
                 extras.append(fact)
-        extras.sort(key=lambda f: str(f.get("id") or ""))
+        extras.sort(key=lambda f: (str(f.get("text") or ""), str(f.get("id") or "")))
         for fact in extras:
             if len(parts) >= 4:
                 break
@@ -684,7 +684,7 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         return _derive_report(world, question, "incomplete", "MAX_INPUT_CHARS", claims, True)
 
     # Direct support. Contract acceptance C: a stored fact that answers the query.
-    ranked = sorted(topical, key=lambda f: (-_coverage(question, f["text"]), str(f["id"])))
+    ranked = sorted(topical, key=lambda f: (-_coverage(question, f["text"]), str(f.get("text") or ""), str(f["id"])))
     for fact in ranked[:8]:
         if _coverage(question, fact["text"]) <= 0:
             continue
@@ -832,7 +832,8 @@ def _derive_report(world, question, status, reason, claims, incomplete) -> dict[
         -_coverage(question, c.get("text") or ""),
         -len(c.get("provenance") or []),
         float((c.get("drift") or {}).get("epsilon_s") or 0.0),
-        str(c.get("proof_id")),
+        str(c.get("text") or ""),
+        str(c.get("proof_id") or ""),
     ))
     chosen = survivors[0] if survivors else None
     public_claims = [_public_claim(c) for c in claims[:12]]
