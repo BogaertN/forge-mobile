@@ -149,6 +149,36 @@ T('phase-step flag, entropy cascade, singularity, charge, mask, bands, and resto
   same(restored, py({ op: 'restore', echo_confirmed: true, drift: 0.29, phase_sequence: [9, 1, 2], chi_window_ms: 3000 }), 'restore');
 });
 
+T('cold admits stay 48 of 60 and the version registry names 4.9.193', () => {
+  const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_193_results.json'), 'utf8'));
+  const prior = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_191_results.json'), 'utf8'));
+  expect(live.stable === true && live.calls_llm === false, JSON.stringify({ stable: live.stable, llm: live.calls_llm }));
+  for (const p of live.passes) expect(p.admitted === 48 && p.held === 12, p.name + ' ' + p.admitted);
+  const now = new Set(live.passes[0].rows.filter(r => r.admitted).map(r => r.question));
+  const then = new Set(prior.passes[0].rows.filter(r => r.admitted).map(r => r.question));
+  expect(now.size === 48 && [...now].every(q => then.has(q)), 'admit set moved');
+  const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_193_pyodide.json'), 'utf8'));
+  expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
+  const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
+  expect(ver === '4.9.193', ver);
+  const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
+  expect(/v4\.9\.193/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
+  const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
+  expect(/4\.9\.193/.test(nb) && /WIRING_193/.test(nb), 'NEXT_BUILD');
+  const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
+  expect(/4\.9\.193/.test(readme) && /WIRING_193/.test(readme), 'README');
+  const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_193.md'), 'utf8');
+  expect(/0\.87/.test(doc) && /No model is called/.test(doc) && /not ported/.test(doc), 'WIRING');
+  const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
+  expect(tgt.release === '4.9.193' && tgt.suites[0] === 'r4193_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
+  expect(reg.version === '4.9.193' && reg.features.some(f => f.id === 'R4193-DRIFT-V43') && reg.count === reg.features.length && reg.claims.Implemented === 112, reg.version + ' ' + reg.count);
+  const monitor = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  expect(/data-drift-monitor/.test(monitor) && /src="src\/drift_v43.js"/.test(monitor), 'monitor');
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  expect(sw.indexOf('./src/drift_v43.js') >= 0, 'sw');
+});
+
 T('the module does not call a model and the switches default off', () => {
   const js = fs.readFileSync(path.join(ROOT, 'src', 'drift_v43.js'), 'utf8');
   const pySrc = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'drift_v43.py'), 'utf8');

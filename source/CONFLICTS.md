@@ -1,3 +1,11 @@
+## v4.9.193 — drift v4.3 core (2026-10-30 America/Chicago)
+
+**Conflict:** drift.py v4.3, RSOC, the Genesis Node spec, and the Gilligan Codex do not use one d_score, one ε_s denominator, or one χ consecutive count. The Genesis spec allows a skip from phase 5 to phase 8. The Codex names a 0.9 failsafe. Unified Algebra and Phase 1.8 add step, cascade, charge, mask, and restore rules that are not admit gates.
+
+**Where:** `src/drift_v43.js`, `rmc_engine_v1/drift_v43.py`, `language_core_engines.py`, the Ask drift monitor. The wiring is `docs/WIRING_193.md`. The tables are `docs/LIVE_TEST_193.md`.
+
+**Resolution:** d_score stays the categorical 5→8 flag from the 4.9.191 detector. It is not the RSOC Jaccard term. ε_s uses max(1, recursion_n) and is not clipped. θ_w, curvature, phase velocity, and the breaker are reused. The Genesis skip from phase 5 to phase 8 is not ported. 4→8 is flagged and does not set d_score. Consecutive χ is 3. Phase names stay Initiation, Polarity, Desire, Friction, Entropy, Grace, Naming, Power, Recursion. The Phase 1.8 and Unified Algebra rows are log-only. Bands 0.3 and 0.6 do not admit. The 0.9 failsafe is not applied. The hard stop stays 0.8. Nothing writes above 0.35. C_min stays 0.87. Echo stays 0.85. The coherence formula is unchanged. Cold admits stay 48. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled. ChristPing stays Gilligan-only.
+
 ## v4.9.191 — Phase Glyph Codex and lexicon placement (2026-10-30 America/Chicago)
 
 **Conflict:** 4.9.190 admitted 58 by storing three why-facts at Φ4 by hand. The phase roles in `kmath.js` were a reconstruction. Historical answers were described as spoken from the hosted bank without a source URL. ProtoForge drift taxonomy and the Gilligan correction stage were not a trace on Ask.
