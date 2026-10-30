@@ -16,6 +16,7 @@ from rmc_engine_v1.drift_v43 import C_MIN, ECHO_MIN, PHASE_NAMES, WRITE_MAX
 from rmc_engine_v1.language_core_engines import FORBIDDEN_STEPS, HARD_STOP
 from rmc_engine_v1.manifest_compiler import _phase6_before_naming, _phase6_before_projection
 from rmc_engine_v1.dpa_195 import sha256
+from rmc_engine_v1.research_hooks import memory_term_m, spc_lambda
 
 TAU = math.tau
 STORAGE_KEY = "kernel.geometry_199"
@@ -410,13 +411,23 @@ def archive_op(row):
     }
 
 
+def _resolved_lambda(given):
+    if given is not None and given != "":
+        return True, num(given, 0)
+    hooked = spc_lambda()
+    if hooked is not None and hooked != "":
+        return True, num(hooked, 0)
+    return False, 0.0
+
+
 def memory_op(row):
     src = copy_state(row)
     step = 0.5 * src["H"] * src["H"] - 0.02 * src["mu"]
     src["mu"] = max(0, src["mu"] + step)
+    hooked = spc_lambda()
     return {
         "op": "memory", "glyph": "memory", "ok": True, "code_step": r4(step), "sfe": public_state(src),
-        "M": None, "lambda_unspecified": True,
+        "M": memory_term_m(), "lambda_unspecified": hooked is None or hooked == "",
         "cite": "RSOC memory is the only source of new mu. Code step is 0.5 H^2 - 0.02 mu (READ192). UA M = exp(-lambda t) integral A.C dt has no lambda, so M is unparameterized.",
         "ua": ua("memory", "M = exp(-lambda t) integral A.C dt"),
         "admit_gate": False,
@@ -425,8 +436,7 @@ def memory_op(row):
 
 def spc_op(row, lam):
     src = copy_state(row)
-    given = lam is not None and lam != ""
-    value = num(lam, 0) if given else 0
+    given, value = _resolved_lambda(lam)
     src["mu"] = src["mu"] - value * src["Delta"] * src["Delta"]
     return {
         "op": "spc", "glyph": "spc", "ok": True, "parameterized": given,
@@ -456,8 +466,8 @@ def axes_of(samples, series, dt, lam):
         step = num(sample.get("dt"), 1)
         integral += num(sample.get("A"), 0) * num(sample.get("C"), 0) * step
         t += step
-    given = lam is not None and lam != ""
-    value = num(lam, 0) if given else None
+    given, resolved = _resolved_lambda(lam)
+    value = resolved if given else None
     eps = list(series or [])
     gap = num(dt, 1) or 1
     vc = None

@@ -13,6 +13,7 @@ const FILES = [
   'rmc_engine_v1/dpa_195.py',
   'rmc_engine_v1/measurement_kernel.py',
   'rmc_engine_v1/manifest_compiler.py',
+  'rmc_engine_v1/research_hooks.py',
   'rmc_engine_v1/geometry_199.py',
 ];
 const cases = [

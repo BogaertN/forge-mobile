@@ -8,6 +8,7 @@
   const V43 = (typeof module !== 'undefined' && module.exports) ? require('./drift_v43.js') : root.DriftV43;
   const Dpa = (typeof module !== 'undefined' && module.exports) ? require('./dpa_195.js') : root.Dpa195;
   const SHA = (typeof module !== 'undefined' && module.exports) ? require('./sha256.js') : root.KSha;
+  const Hooks = (typeof module !== 'undefined' && module.exports) ? require('./research_hooks.js') : root.ResearchHooks;
   const LAW = V43.score({ payload: { v: 1 }, prev_phase: 1, recursion_n: 1 }).laws;
   const C_MIN = LAW.C_min;
   const ECHO_MIN = LAW.echo_min;
@@ -357,13 +358,25 @@
     };
   }
 
+  function hookM() {
+    return Hooks && Hooks.memoryTermM ? Hooks.memoryTermM() : null;
+  }
+
+  function resolvedLambda(given) {
+    if (!(given === undefined || given === null || given === '')) return { given: true, value: num(given, 0) };
+    const hooked = Hooks && Hooks.spcLambda ? Hooks.spcLambda() : null;
+    if (!(hooked === undefined || hooked === null || hooked === '')) return { given: true, value: num(hooked, 0) };
+    return { given: false, value: 0 };
+  }
+
   function memoryOp(row) {
     const src = copyState(row);
     const step = 0.5 * src.H * src.H - 0.02 * src.mu;
     src.mu = Math.max(0, src.mu + step);
+    const hooked = Hooks && Hooks.spcLambda ? Hooks.spcLambda() : null;
     return {
       op: 'memory', glyph: 'memory', ok: true, code_step: r4(step), sfe: publicState(src),
-      M: null, lambda_unspecified: true,
+      M: hookM(), lambda_unspecified: hooked === undefined || hooked === null || hooked === '',
       cite: 'RSOC memory is the only source of new mu. Code step is 0.5 H^2 - 0.02 mu (READ192). UA M = exp(-lambda t) integral A.C dt has no lambda, so M is unparameterized.',
       ua: ua('memory', 'M = exp(-lambda t) integral A.C dt'),
       admit_gate: false
@@ -372,11 +385,10 @@
 
   function spcOp(row, lambda) {
     const src = copyState(row);
-    const given = !(lambda === undefined || lambda === null || lambda === '');
-    const lam = given ? num(lambda, 0) : 0;
-    src.mu = src.mu - lam * src.Delta * src.Delta;
+    const resolved = resolvedLambda(lambda);
+    src.mu = src.mu - resolved.value * src.Delta * src.Delta;
     return {
-      op: 'spc', glyph: 'spc', ok: true, parameterized: given, lambda: given ? r4(lam) : null,
+      op: 'spc', glyph: 'spc', ok: true, parameterized: resolved.given, lambda: resolved.given ? r4(resolved.value) : null,
       sfe: publicState(src),
       cite: 'UA SPC mu(t+1) = mu - lambda Delta^2. Lambda is unspecified, so the default step is 0 and is log-only.',
       ua: ua('spc', 'mu(t+1) = mu - lambda Delta^2'),
@@ -404,8 +416,8 @@
       integral += num(sample.A, 0) * num(sample.C, 0) * step;
       t += step;
     });
-    const given = !(lambda === undefined || lambda === null || lambda === '');
-    const lam = given ? num(lambda, 0) : null;
+    const resolved = resolvedLambda(lambda);
+    const lam = resolved.given ? resolved.value : null;
     const eps = series || [];
     const gap = num(dt, 1) || 1;
     let vc = null;
