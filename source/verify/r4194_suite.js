@@ -139,6 +139,35 @@ T('RSOC, Genesis, archive, and resurrect bands stay internal', () => {
   same(at, py({ op: 'gn_band', epsilon_s: 0.8 }), 'at8');
 });
 
+T('prediction matches the thermodynamic examples, with the moving average and the trend', () => {
+  const linear = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
+  const row = B.analyze(linear, { pattern: 'linear_degradation', window: 3, critical: 0.8 });
+  expect(row.moving_average === 0.5 && row.direction === 'increasing' && Math.abs(row.trend - 0.1) < 1e-12, JSON.stringify(row));
+  expect(row.trend_confidence === 1 && row.prediction.intervention_type === 'EMERGENCY_CORRECTION' && row.prediction.required_compute_multiplier === 1.8, JSON.stringify(row.prediction));
+  expect(Math.abs(row.prediction.steps_to_critical - 2) < 1e-9 && row.prediction.confidence === 0.98, JSON.stringify(row.prediction));
+  expect(row.gn_band.admit_gate === false && row.rsoc.band === 'warning' && row.calls_llm === false, 'bands on the trace');
+  const PF = require(ROOT + '/src/protoforge.js');
+  const direct = PF.predict(linear, 'linear_degradation', 0.8);
+  expect(row.prediction.steps_to_critical === direct.steps_to_critical && row.trend === PF.trend(linear).trend, 'calls protoforge');
+  const examples = [
+    { series: [0.1, 0.2, 0.4], pattern: 'exponential_explosion', steps: 1, mult: 2.5, kind: 'EMERGENCY_DAMPING', confidence: 0.99 },
+    { series: [0.1, 0.2, 0.4, 0.8, 1.6, 3.2], pattern: 'exponential_explosion', steps: 0, mult: 2.5, kind: 'EMERGENCY_DAMPING', confidence: 1 },
+    { series: [0.3, 0.7, 0.2, 0.8, 0.1, 0.9, 0.15, 0.85], pattern: 'high_frequency_oscillation', steps: 0, mult: 1.5, kind: 'SPECTRAL_DAMPING', confidence: 1 },
+    { series: [0.2, 0.2, 0.2, 1, 1, 1], pattern: 'step_change_catastrophic', steps: 0, mult: 1.8, kind: 'EMERGENCY_CORRECTION', confidence: 1 },
+  ];
+  for (const ex of examples) {
+    const got = B.analyze(ex.series, { pattern: ex.pattern, critical: 0.8 });
+    expect(got.prediction.intervention_type === ex.kind && got.prediction.required_compute_multiplier === ex.mult && got.prediction.confidence === ex.confidence, JSON.stringify(got.prediction));
+    expect(Math.abs(got.prediction.steps_to_critical - ex.steps) < 1e-9, JSON.stringify(got.prediction));
+    same(got, py({ op: 'analyze', series: ex.series, pattern: ex.pattern, critical: 0.8, window: 5 }), ex.kind);
+  }
+  same(row, py({ op: 'analyze', series: linear, pattern: 'linear_degradation', window: 3, critical: 0.8 }), 'linear');
+  const effect = B.overrideEffectiveness([{ before: 0.8, after: 0.2 }, { before: 0.5, after: 0.5 }, { before: 0.4, after: 0.6 }]);
+  expect(Math.abs(effect.rows[0].reduction - 0.75) < 1e-12 && effect.rows[1].reduction === 0 && Math.abs(effect.rows[2].reduction + 0.5) < 1e-12, JSON.stringify(effect.rows));
+  expect(effect.rate === 1 / 3 && Math.abs(effect.mean - (0.75 - 0.5) / 3) < 1e-12 && effect.admit_gate === false && effect.writes === false, JSON.stringify(effect));
+  same(effect, py({ op: 'override', pairs: [{ before: 0.8, after: 0.2 }, { before: 0.5, after: 0.5 }, { before: 0.4, after: 0.6 }] }), 'override');
+});
+
 const rows = [];
 let failed = 0;
 for (const t of tests) {

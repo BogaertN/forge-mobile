@@ -206,6 +206,75 @@
       cite: 'Decision 5. Archive above 0.8 and resurrect below 0.4 are internal. A write still needs 0.35 or under.'
     };
   }
+  function protoforge() {
+    return (typeof module !== 'undefined' && module.exports) ? require('./protoforge.js') : root.KProtoForge;
+  }
+  function seriesOf(values) {
+    return (values || []).map(Number).filter(function (n) { return Number.isFinite(n); });
+  }
+  function movingAverage(values, window) {
+    const xs = seriesOf(values);
+    const w = window == null ? 5 : Math.max(1, Math.trunc(Number(window)) || 1);
+    const tail = xs.slice(-w);
+    return {
+      window: w, count: tail.length,
+      value: tail.length ? tail.reduce(function (a, b) { return a + b; }, 0) / tail.length : null,
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false
+    };
+  }
+  function cleanSteps(steps) {
+    return Number.isFinite(steps) ? steps : null;
+  }
+  function analyze(values, opts) {
+    const PF = protoforge();
+    const row = opts || {};
+    const xs = seriesOf(values);
+    const ma = movingAverage(xs, row.window == null ? 5 : row.window);
+    const tr = PF.trend(xs);
+    const classified = PF.classify(xs);
+    const pattern = row.pattern || classified.pattern;
+    const critical = row.critical == null ? 0.8 : Number(row.critical);
+    const pred = PF.predict(xs, pattern, critical);
+    const last = xs.length ? xs[xs.length - 1] : null;
+    return {
+      n: xs.length,
+      moving_average: ma.value,
+      moving_average_window: ma.window,
+      trend: tr.trend,
+      trend_confidence: tr.confidence,
+      direction: tr.direction,
+      pattern: pattern,
+      classified: classified.pattern,
+      prediction: {
+        steps_to_critical: cleanSteps(pred.steps_to_critical),
+        required_compute_multiplier: pred.required_compute_multiplier,
+        intervention_type: pred.intervention_type,
+        confidence: pred.confidence
+      },
+      gn_band: gnBand(last),
+      rsoc: rsocBand(last),
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false,
+      cite: 'ProtoForge thermodynamic_drift.py prediction, called from protoforge.js. GN DriftAnalyzer l.6104. The prediction critical line is the hard stop 0.8.'
+    };
+  }
+  function overrideEffectiveness(pairs) {
+    const rows = [];
+    for (const pair of pairs || []) {
+      const before = finite(pair.before);
+      const after = finite(pair.after);
+      let reduction = null;
+      if (before !== null && after !== null) reduction = before === 0 ? (after === 0 ? 1 : 0) : (before - after) / before;
+      rows.push({ before: before, after: after, reduction: reduction, effective: reduction !== null && reduction > 0 });
+    }
+    const scored = rows.filter(function (r) { return r.reduction !== null; });
+    const mean = scored.length ? scored.reduce(function (a, r) { return a + r.reduction; }, 0) / scored.length : null;
+    const rate = rows.length ? rows.filter(function (r) { return r.effective; }).length / rows.length : null;
+    return {
+      rows: rows, mean: mean, rate: rate, count: rows.length,
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false,
+      cite: 'GN DriftAnalyzer override effectiveness, p148. Reduction is (before − after) / before. It does not admit.'
+    };
+  }
   function run(payload) {
     const row = payload || {};
     const op = row.op || 'replay';
@@ -215,12 +284,15 @@
     if (op === 'cap_k') return capK(row.k, row.epsilon_s);
     if (op === 'gn_band') return gnBand(row.epsilon_s);
     if (op === 'storage') return storageBand(row.epsilon_s);
+    if (op === 'analyze') return analyze(row.series, row);
+    if (op === 'override') return overrideEffectiveness(row.pairs);
     return replayBreaker(row.samples || []);
   }
   const api = {
     CITE: CITE, WINDOW_S: WINDOW_S, MAX_FAILURES: MAX_FAILURES, RECOVERY_S: RECOVERY_S, RETRY_MAX: RETRY_MAX,
     freshBreaker: freshBreaker, observeBreaker: observeBreaker, replayBreaker: replayBreaker,
-    retryBackoff: retryBackoff, rsocBand: rsocBand, capK: capK, gnBand: gnBand, storageBand: storageBand, run: run
+    retryBackoff: retryBackoff, rsocBand: rsocBand, capK: capK, gnBand: gnBand, storageBand: storageBand,
+    movingAverage: movingAverage, analyze: analyze, overrideEffectiveness: overrideEffectiveness, run: run
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Drift194 = api;

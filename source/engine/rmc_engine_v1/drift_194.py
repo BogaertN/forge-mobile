@@ -294,6 +294,196 @@ def storage_band(epsilon: Any) -> dict[str, Any]:
     }
 
 
+PATTERNS = (
+    ("linear_degradation", (0.1, 0.2, 0.3, 0.4, 0.5, 0.6)),
+    ("exponential_explosion", (0.1, 0.2, 0.4, 0.8, 1.6, 3.2)),
+    ("high_frequency_oscillation", (0.3, 0.7, 0.2, 0.8, 0.1, 0.9)),
+    ("step_change_catastrophic", (0.2, 0.2, 0.2, 1.0, 1.0, 1.0)),
+)
+
+
+def _series(values: list[Any] | None) -> list[float]:
+    out = []
+    for item in values or []:
+        number = _finite(item)
+        if number is not None:
+            out.append(number)
+    return out
+
+
+def moving_average(values: list[Any] | None, window: Any = 5) -> dict[str, Any]:
+    xs = _series(values)
+    try:
+        w = int(window)
+    except (TypeError, ValueError):
+        w = 5
+    w = max(1, w)
+    tail = xs[-w:]
+    return {
+        "window": w,
+        "count": len(tail),
+        "value": None if not tail else sum(tail) / len(tail),
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+    }
+
+
+def _dtw(left: list[float], right: list[float]) -> float:
+    n, m = len(left), len(right)
+    if not n or not m:
+        return float("inf")
+    grid = [[float("inf")] * m for _ in range(n)]
+    grid[0][0] = abs(left[0] - right[0])
+    for i in range(1, n):
+        grid[i][0] = grid[i - 1][0] + abs(left[i] - right[0])
+    for j in range(1, m):
+        grid[0][j] = grid[0][j - 1] + abs(left[0] - right[j])
+    for i in range(1, n):
+        for j in range(1, m):
+            grid[i][j] = abs(left[i] - right[j]) + min(grid[i - 1][j], grid[i][j - 1], grid[i - 1][j - 1])
+    return grid[n - 1][m - 1] / max(n, m)
+
+
+def _classify(series: list[float]) -> dict[str, Any]:
+    if len(series) < 3:
+        return {"pattern": "benign", "distance": None}
+    high, low = max(series), min(series)
+    norm = series if high <= low else [(item - low) / (high - low) for item in series]
+    best, distance = "benign", float("inf")
+    for name, signature in PATTERNS:
+        rec = norm[-len(signature):] if len(norm) >= len(signature) else norm
+        gap = _dtw(rec, list(signature))
+        if gap < distance:
+            distance = gap
+            best = name
+    if distance > 0.5:
+        return {"pattern": "benign", "distance": distance}
+    return {"pattern": best, "distance": distance}
+
+
+def _trend(series: list[float]) -> dict[str, Any]:
+    n = len(series)
+    if n < 5:
+        return {"trend": 0.0, "confidence": 0.0, "direction": "stable"}
+    xm = (n - 1) / 2
+    ym = sum(series) / n
+    nu = 0.0
+    de = 0.0
+    for x, y in enumerate(series):
+        nu += (x - xm) * (y - ym)
+        de += (x - xm) ** 2
+    slope = nu / de if de else 0.0
+    sr = 0.0
+    st = 0.0
+    for x, y in enumerate(series):
+        predicted = slope * x + (ym - slope * xm)
+        sr += (y - predicted) ** 2
+        st += (y - ym) ** 2
+    r2 = 1 - sr / st if st > 0 else 0.0
+    direction = "stable" if abs(slope) < 1e-6 else ("increasing" if slope > 0 else "decreasing")
+    return {"trend": slope, "confidence": max(0.0, r2), "direction": direction}
+
+
+def _predict(series: list[float], pattern: str, critical: float) -> dict[str, Any]:
+    if len(series) < 3:
+        return {"steps_to_critical": None, "required_compute_multiplier": 1, "intervention_type": "MONITORING", "confidence": 0}
+    current = series[-1]
+    if current >= critical:
+        steps = 0.0
+    elif pattern == "linear_degradation":
+        slope = series[-1] - series[-2]
+        steps = float("inf") if slope <= 0 else (critical - current) / slope
+    elif pattern == "exponential_explosion":
+        prev = series[-2]
+        growth = current / prev if prev > 0 else 0.0
+        steps = float("inf") if growth <= 1 or current <= 0 else __import__("math").log(critical / current) / __import__("math").log(growth)
+    else:
+        if len(series) >= 6:
+            recent = sum(series[-3:]) / 3 - sum(series[-6:-3]) / 3
+        else:
+            recent = 0.0
+        steps = float("inf") if recent <= 0 else (critical - current) / recent
+    if steps < 5:
+        if pattern == "exponential_explosion":
+            mult, kind = 2.5, "EMERGENCY_DAMPING"
+        elif pattern == "high_frequency_oscillation":
+            mult, kind = 1.5, "SPECTRAL_DAMPING"
+        else:
+            mult, kind = 1.8, "EMERGENCY_CORRECTION"
+    elif steps < 20:
+        mult, kind = 1.2, "PROACTIVE_CORRECTION"
+    else:
+        mult, kind = 1.0, "MONITORING"
+    finite_steps = None if steps == float("inf") else max(0.0, steps)
+    bounded = steps if steps != float("inf") else 100.0
+    confidence = min(1.0, max(0.1, 1 - min(bounded, 100.0) / 100)) if len(series) >= 3 else 0.1
+    if len(series) < 3:
+        confidence = 0
+    return {
+        "steps_to_critical": finite_steps,
+        "required_compute_multiplier": mult,
+        "intervention_type": kind,
+        "confidence": confidence,
+    }
+
+
+def analyze(values: list[Any] | None, opts: dict[str, Any] | None = None) -> dict[str, Any]:
+    row = opts or {}
+    xs = _series(values)
+    window = 5 if row.get("window") is None else row.get("window")
+    ma = moving_average(xs, window)
+    tr = _trend(xs)
+    classified = _classify(xs)
+    pattern = row.get("pattern") or classified["pattern"]
+    critical = 0.8 if row.get("critical") is None else float(row.get("critical"))
+    last = xs[-1] if xs else None
+    return {
+        "n": len(xs),
+        "moving_average": ma["value"],
+        "moving_average_window": ma["window"],
+        "trend": tr["trend"],
+        "trend_confidence": tr["confidence"],
+        "direction": tr["direction"],
+        "pattern": pattern,
+        "classified": classified["pattern"],
+        "prediction": _predict(xs, pattern, critical),
+        "gn_band": gn_band(last),
+        "rsoc": rsoc_band(last),
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+        "cite": "ProtoForge thermodynamic_drift.py prediction, called from protoforge.js. GN DriftAnalyzer l.6104. The prediction critical line is the hard stop 0.8.",
+    }
+
+
+def override_effectiveness(pairs: list[dict[str, Any]] | None) -> dict[str, Any]:
+    rows = []
+    for pair in pairs or []:
+        before = _finite(pair.get("before"))
+        after = _finite(pair.get("after"))
+        reduction = None
+        if before is not None and after is not None:
+            reduction = (1.0 if after == 0 else 0.0) if before == 0 else (before - after) / before
+        rows.append({"before": before, "after": after, "reduction": reduction, "effective": reduction is not None and reduction > 0})
+    scored = [item["reduction"] for item in rows if item["reduction"] is not None]
+    mean = None if not scored else sum(scored) / len(scored)
+    rate = None if not rows else len([item for item in rows if item["effective"]]) / len(rows)
+    return {
+        "rows": rows,
+        "mean": mean,
+        "rate": rate,
+        "count": len(rows),
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+        "cite": "GN DriftAnalyzer override effectiveness, p148. Reduction is (before − after) / before. It does not admit.",
+    }
+
+
 def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     row = payload or {}
     op = row.get("op") or "replay"
@@ -309,6 +499,10 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         return gn_band(row.get("epsilon_s"))
     if op == "storage":
         return storage_band(row.get("epsilon_s"))
+    if op == "analyze":
+        return analyze(row.get("series"), row)
+    if op == "override":
+        return override_effectiveness(row.get("pairs"))
     return replay_breaker(row.get("samples") or [])
 
 
