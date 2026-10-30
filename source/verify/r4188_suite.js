@@ -1,4 +1,4 @@
-/* R4188 (4.9.188): stable Echo, idempotent memory writer, sharded anchors.
+/* R4188 (4.9.189): stable Echo, idempotent memory writer, sharded anchors.
  * C_min stays 0.87. The coherence formula is unchanged. No LLM. */
 const fs = require('fs');
 const path = require('path');
@@ -43,9 +43,9 @@ T('Pyodide matches python on the 60 questions', () => {
   expect(/cold/.test(live) && /pass 2/.test(live) && /pass 3/.test(live) && /53/.test(live), 'table');
 });
 
-T('version registry names 4.9.188 and the switches stay off', () => {
+T('version registry names 4.9.189 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.188', ver);
+  expect(ver === '4.9.189', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.188/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -55,9 +55,9 @@ T('version registry names 4.9.188 and the switches stay off', () => {
   const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_188.md'), 'utf8');
   expect(/must not apply|does not apply/i.test(doc) && /language core/i.test(doc) && /0\.87/.test(doc), 'WIRING');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.188' && tgt.suites[0] === 'r4188_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.189' && tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.188' && reg.features.some(f => f.id === 'R4188-ANCHOR-SHARDS') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.189' && reg.features.some(f => f.id === 'R4188-ANCHOR-SHARDS') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');

@@ -1,3 +1,11 @@
+## v4.9.189 — language-core functions replace the model calls (2026-10-30 America/Chicago)
+
+**Conflict:** Nic's KEEP-AS-FUNCTION paths still called a model: Proto `handle_chat` called `query_local_llm` (`ollama run mistral`), the co-pilot's `model_inference_server` hosted Grok-1, and Recursive Agent Orchestration spawned that runtime. EchoForge debate was already a language-core function. Held how-questions such as glass and paper had a derived sentence and C under 0.87.
+
+**Where:** `rmc_engine_v1/language_core_proto_chat.py`, `language_core_grok_infer.py`, `language_core_orchestration.py`, `deep_dry_run_orchestrator.py`, `rmc_core.py`, `src/app.js`. The wiring is `docs/WIRING_189.md`. The tables and the no-anchor list are `docs/LIVE_TEST_189.md`.
+
+**Resolution:** Each function runs on the language core. The model call is not ported. `handle_chat` names the speech act from the Doc 5 frame and a `{Phi, eps, mu}` packet. The inference step picks the next phase-aligned trusted fact by a copula or a Doc 4 concept the question asked. Orchestration is Spawn, Run, Hibernate, Retire, one in-process reasoner, no OS process. A low-trust hop is not resurrected. ChristPing stays Gilligan-only. A hop is offered to the scorer only when Echo is at least 0.85, drift is at or under 0.35, and the unchanged formula is at least 0.87. Cold admits 32, up from 16, and the three passes agree. Twenty held questions still have no anchor to connect. C_min stays 0.87. Echo stays 0.85. Drift quarantine stays 0.35. Hard stop stays above 0.80. The coherence formula is unchanged. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled.
+
 ## v4.9.188 — stable Echo, idempotent memory writer, sharded anchors (2026-10-30 America/Chicago)
 
 **Conflict:** Echo on three held questions (the sky, helium, the telephone) moved between passes while C stayed put. Storing an admitted sentence that was already in the bank dropped a longer derived chain on the next pass. The trusted anchor file was 32 sentences. A 60-question Pyodide pass had not been run.
