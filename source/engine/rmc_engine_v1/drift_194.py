@@ -194,6 +194,106 @@ def retry_backoff(attempt: Any) -> dict[str, Any]:
     }
 
 
+def _finite(value: Any) -> float | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if number != number:
+        return None
+    return number
+
+
+def rsoc_band(epsilon: Any) -> dict[str, Any]:
+    n = _finite(epsilon)
+    name = "unmeasured"
+    k_cap = None
+    defer_merge = False
+    if n is not None:
+        if n < 0.40:
+            name = "stable"
+        elif n < 0.80:
+            name = "warning"
+            k_cap = 1.3
+            defer_merge = n > 0.70
+        else:
+            name = "critical"
+    return {
+        "band": name,
+        "epsilon_s": n,
+        "k_cap": k_cap,
+        "defer_merge": defer_merge,
+        "thresholds": [0.40, 0.70, 0.80],
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+        "cite": "RSOC §4.1.1 l.2003. Below 0.40 is stable. 0.40 to 0.80 warns, caps k at 1.3, and defers a merge above 0.70 for one cycle. At or above 0.80 is critical. Internal. A write still needs 0.35 or under.",
+    }
+
+
+def cap_k(k: Any, epsilon: Any) -> dict[str, Any]:
+    band = rsoc_band(epsilon)
+    requested = _finite(k)
+    applied = None if requested is None else (requested if band["k_cap"] is None else min(requested, band["k_cap"]))
+    return {
+        "requested": requested,
+        "applied": applied,
+        "capped": requested is not None and applied != requested,
+        "band": band["band"],
+        "defer_merge": band["defer_merge"],
+        "k_cap": band["k_cap"],
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+    }
+
+
+def gn_band(epsilon: Any) -> dict[str, Any]:
+    n = _finite(epsilon)
+    name = "unmeasured"
+    if n is not None:
+        if n < 0.3:
+            name = "below_0.3"
+        elif n < 0.5:
+            name = "0.3_to_0.5"
+        elif n < 0.7:
+            name = "0.5_to_0.7"
+        elif n < 0.9:
+            name = "0.7_to_0.9"
+        else:
+            name = "at_or_above_0.9"
+    return {
+        "band": name,
+        "epsilon_s": n,
+        "thresholds": [0.3, 0.5, 0.7, 0.9],
+        "doc_halt": 0.9,
+        "halt_threshold": 0.8,
+        "halt_applied": n is not None and n > 0.8,
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+        "cite": "gnspec DriftAnalyzer l.6104–6107. Bands 0.3, 0.5, 0.7, and 0.9 are internal. The 0.9 halt is replaced by 0.8.",
+    }
+
+
+def storage_band(epsilon: Any) -> dict[str, Any]:
+    n = _finite(epsilon)
+    return {
+        "epsilon_s": n,
+        "archive": n is not None and n > 0.8,
+        "resurrect_band": n is not None and n < 0.4,
+        "write_allowed": n is not None and n <= 0.35,
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+        "cite": "Decision 5. Archive above 0.8 and resurrect below 0.4 are internal. A write still needs 0.35 or under.",
+    }
+
+
 def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     row = payload or {}
     op = row.get("op") or "replay"
@@ -201,6 +301,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         return retry_backoff(row.get("attempt"))
     if op == "observe":
         return observe_breaker(row.get("state"), row.get("event"), row.get("prior"))
+    if op == "rsoc":
+        return rsoc_band(row.get("epsilon_s"))
+    if op == "cap_k":
+        return cap_k(row.get("k"), row.get("epsilon_s"))
+    if op == "gn_band":
+        return gn_band(row.get("epsilon_s"))
+    if op == "storage":
+        return storage_band(row.get("epsilon_s"))
     return replay_breaker(row.get("samples") or [])
 
 

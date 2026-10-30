@@ -145,17 +145,82 @@
       cite: 'Waking the Web. Retries ≤ 3. Backoff 60s·2^(r−1).'
     };
   }
+  function finite(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : null;
+  }
+  function rsocBand(epsilon) {
+    const n = finite(epsilon);
+    let name = 'unmeasured';
+    let kCap = null;
+    let deferMerge = false;
+    if (n !== null) {
+      if (n < 0.40) name = 'stable';
+      else if (n < 0.80) {
+        name = 'warning';
+        kCap = 1.3;
+        deferMerge = n > 0.70;
+      } else name = 'critical';
+    }
+    return {
+      band: name, epsilon_s: n, k_cap: kCap, defer_merge: deferMerge, thresholds: [0.40, 0.70, 0.80],
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false,
+      cite: 'RSOC §4.1.1 l.2003. Below 0.40 is stable. 0.40 to 0.80 warns, caps k at 1.3, and defers a merge above 0.70 for one cycle. At or above 0.80 is critical. Internal. A write still needs 0.35 or under.'
+    };
+  }
+  function capK(k, epsilon) {
+    const band = rsocBand(epsilon);
+    const requested = finite(k);
+    const applied = requested === null ? null : (band.k_cap == null ? requested : Math.min(requested, band.k_cap));
+    return {
+      requested: requested, applied: applied, capped: requested !== null && applied !== requested,
+      band: band.band, defer_merge: band.defer_merge, k_cap: band.k_cap,
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false
+    };
+  }
+  function gnBand(epsilon) {
+    const n = finite(epsilon);
+    let name = 'unmeasured';
+    if (n !== null) {
+      if (n < 0.3) name = 'below_0.3';
+      else if (n < 0.5) name = '0.3_to_0.5';
+      else if (n < 0.7) name = '0.5_to_0.7';
+      else if (n < 0.9) name = '0.7_to_0.9';
+      else name = 'at_or_above_0.9';
+    }
+    return {
+      band: name, epsilon_s: n, thresholds: [0.3, 0.5, 0.7, 0.9],
+      doc_halt: 0.9, halt_threshold: 0.8, halt_applied: n !== null && n > 0.8,
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false,
+      cite: 'gnspec DriftAnalyzer l.6104–6107. Bands 0.3, 0.5, 0.7, and 0.9 are internal. The 0.9 halt is replaced by 0.8.'
+    };
+  }
+  function storageBand(epsilon) {
+    const n = finite(epsilon);
+    return {
+      epsilon_s: n,
+      archive: n !== null && n > 0.8,
+      resurrect_band: n !== null && n < 0.4,
+      write_allowed: n !== null && n <= 0.35,
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false,
+      cite: 'Decision 5. Archive above 0.8 and resurrect below 0.4 are internal. A write still needs 0.35 or under.'
+    };
+  }
   function run(payload) {
     const row = payload || {};
     const op = row.op || 'replay';
     if (op === 'retry') return retryBackoff(row.attempt);
     if (op === 'observe') return observeBreaker(row.state, row.event, row.prior);
+    if (op === 'rsoc') return rsocBand(row.epsilon_s);
+    if (op === 'cap_k') return capK(row.k, row.epsilon_s);
+    if (op === 'gn_band') return gnBand(row.epsilon_s);
+    if (op === 'storage') return storageBand(row.epsilon_s);
     return replayBreaker(row.samples || []);
   }
   const api = {
     CITE: CITE, WINDOW_S: WINDOW_S, MAX_FAILURES: MAX_FAILURES, RECOVERY_S: RECOVERY_S, RETRY_MAX: RETRY_MAX,
     freshBreaker: freshBreaker, observeBreaker: observeBreaker, replayBreaker: replayBreaker,
-    retryBackoff: retryBackoff, run: run
+    retryBackoff: retryBackoff, rsocBand: rsocBand, capK: capK, gnBand: gnBand, storageBand: storageBand, run: run
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Drift194 = api;

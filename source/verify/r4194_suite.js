@@ -104,6 +104,41 @@ T('retry backoff is 60, 120, 240 and the fourth retry is exhausted', () => {
   same(four, py({ op: 'retry', attempt: 4 }), 'r4');
 });
 
+T('RSOC, Genesis, archive, and resurrect bands stay internal', () => {
+  const stable = B.rsocBand(0.2);
+  const warn = B.rsocBand(0.5);
+  const defer = B.rsocBand(0.75);
+  const edge = B.rsocBand(0.70);
+  const critical = B.rsocBand(0.8);
+  const capped = B.capK(2, 0.5);
+  const under = B.capK(1.2, 0.5);
+  const calm = B.capK(2, 0.2);
+  expect(stable.band === 'stable' && stable.k_cap === null && stable.defer_merge === false && stable.admit_gate === false, JSON.stringify(stable));
+  expect(warn.band === 'warning' && warn.k_cap === 1.3 && warn.defer_merge === false, JSON.stringify(warn));
+  expect(defer.defer_merge === true && edge.defer_merge === false && edge.band === 'warning', JSON.stringify(edge));
+  expect(critical.band === 'critical' && critical.defer_merge === false, JSON.stringify(critical));
+  expect(capped.applied === 1.3 && capped.capped === true && under.applied === 1.2 && under.capped === false && calm.applied === 2 && calm.capped === false, JSON.stringify(capped));
+  const low = B.gnBand(0.2);
+  const mid = B.gnBand(0.5);
+  const high = B.gnBand(0.85);
+  const top = B.gnBand(0.91);
+  const at = B.gnBand(0.8);
+  expect(low.band === 'below_0.3' && mid.band === '0.5_to_0.7' && high.band === '0.7_to_0.9' && top.band === 'at_or_above_0.9', JSON.stringify({ low: low.band, mid: mid.band, high: high.band, top: top.band }));
+  expect(high.halt_applied === true && high.doc_halt === 0.9 && at.halt_applied === false && top.halt_threshold === 0.8 && high.admit_gate === false, JSON.stringify(high));
+  const held = B.storageBand(0.36);
+  const write = B.storageBand(0.35);
+  const archived = B.storageBand(0.81);
+  const resurrect = B.storageBand(0.39);
+  expect(held.write_allowed === false && held.resurrect_band === true && held.archive === false && held.writes === false && held.admit_gate === false, JSON.stringify(held));
+  expect(write.write_allowed === true && write.writes === false, JSON.stringify(write));
+  expect(archived.archive === true && archived.write_allowed === false && resurrect.resurrect_band === true && resurrect.write_allowed === false, JSON.stringify(archived));
+  same(defer, py({ op: 'rsoc', epsilon_s: 0.75 }), 'rsoc');
+  same(capped, py({ op: 'cap_k', k: 2, epsilon_s: 0.5 }), 'cap');
+  same(high, py({ op: 'gn_band', epsilon_s: 0.85 }), 'gn');
+  same(held, py({ op: 'storage', epsilon_s: 0.36 }), 'storage');
+  same(at, py({ op: 'gn_band', epsilon_s: 0.8 }), 'at8');
+});
+
 const rows = [];
 let failed = 0;
 for (const t of tests) {
