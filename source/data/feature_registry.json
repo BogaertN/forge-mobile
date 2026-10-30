@@ -1,5 +1,5 @@
 {
-  "version": "4.9.197",
+  "version": "4.9.198",
  "features": [
   {
    "id": "A-01",
@@ -3870,13 +3870,24 @@
    "proof": [
     "R4197"
    ]
+  },
+  {
+   "id": "R4198-LEXICON-GROWTH",
+   "name": "Lexicon Growth Engine",
+   "source": "HarperScript l.616; SLB l.646; SRL l.806; RSOC Phase 1 l.2719/2960; Codex memory stack 3.15 a l.2736; Codex naming_engine 3.21 a l.3313–3341; Codex drift-mask Ch.4 a l.4001–4006; docs/WIRING_198.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "An unknown word gets a 4.9.197 packet. Birth ε is 0 and birth μ is 1.0, tagged proposal v1. Promotion needs C≥0.87, Echo≥0.85, and drift<0.3. A name seals at Φ≥7 with drift<0.2 through the 4.9.195 archive. Drift above 0.35 is quarantine. Φ5→Φ8 never promotes. Mask ≥0.70 denies. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4198"
+   ]
   }
  ],
- "count": 353,
+ "count": 354,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 191,
+  "Partial": 192,
   "Missing": 9,
   "Out of scope / parked": 13
  }
