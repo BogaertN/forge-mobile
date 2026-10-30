@@ -8,20 +8,81 @@
  *   RMC §5.7 Score(c)=αM+βP+γU+δN−λD (α=β=γ=δ=λ=1 in the RMC worked example)
  *   RMC §6.7 θ_echo_text = 0.85, θ_echo_memory = 0.97
  * Conflicts (documented, newest preferred): RSOC uses bands 0.40/0.80 and n=max(1,ρ+1);
- * RSOC phase names (Echo, Fracture, Grace@5, Naming@6 …) differ from RPMC/RMC; we use RPMC/RMC. */
+ * RSOC phase names (Echo, Fracture, Grace@5, Naming@6 …) differ from RPMC/RMC.
+ * 4.9.191: the FBSC Phase Glyph Codex v2.5 is the authority for phase name, glyph,
+ * code id, band, drift flag, and state. The former reconstruction roles are kept
+ * on each row as former_name / former_role. See PHASE_RECONCILIATION. */
 (function (root) {
 const TWO_PI = 2 * Math.PI;
-const PHASES = {
-  1: { sym: 'Φ₁', name: 'Initiation', role: 'input received; ψ_id fixed' },
-  2: { sym: 'Φ₂', name: 'Polarity', role: 'negation / contrast / scope operators detected' },
-  3: { sym: 'Φ₃', name: 'Desire', role: 'purpose and speech act recovered' },
-  4: { sym: 'Φ₄', name: 'Friction', role: 'Verbal Cognition Gates + constraints' },
-  5: { sym: 'Φ₅', name: 'Entropy', role: 'drift ε_s measured; only lawful collapse point' },
-  6: { sym: 'Φ₆', name: 'Grace / Correction', role: 'χ(t) test; correction routing' },
-  7: { sym: 'Φ₇', name: 'Naming', role: 'manifest compiled + ψ_id assigned' },
-  8: { sym: 'Φ₈', name: 'Projection', role: 'render to controlled English' },
-  9: { sym: 'Φ₉', name: 'Return', role: 'Echo Ê round-trip; memory write; loop closure' },
+const SUB = ['', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
+/* Roles this file used before the codex was the authority. Each change is listed. */
+const FORMER_PHASES = {
+  1: { name: 'Initiation', role: 'input received; ψ_id fixed' },
+  2: { name: 'Polarity', role: 'negation / contrast / scope operators detected' },
+  3: { name: 'Desire', role: 'purpose and speech act recovered' },
+  4: { name: 'Friction', role: 'Verbal Cognition Gates + constraints' },
+  5: { name: 'Entropy', role: 'drift ε_s measured; only lawful collapse point' },
+  6: { name: 'Grace / Correction', role: 'χ(t) test; correction routing' },
+  7: { name: 'Naming', role: 'manifest compiled + ψ_id assigned' },
+  8: { name: 'Projection', role: 'render to controlled English' },
+  9: { name: 'Return', role: 'Echo Ê round-trip; memory write; loop closure' },
 };
+const Codex = (typeof require === 'function') ? require('./phase_codex.js') : (root.PhaseCodex || null);
+const PHASES = {};
+const PHASE_RECONCILIATION = [];
+for (let n = 1; n <= 9; n++) {
+  const id = 'Φ' + n;
+  const row = Codex ? Codex.profile(id) : {};
+  const former = FORMER_PHASES[n];
+  const name = row.phase_name || former.name;
+  const role = row.symbolic_function || former.role;
+  PHASES[n] = {
+    sym: 'Φ' + SUB[n], name, role, former_name: former.name, former_role: former.role,
+    glyph: row.glyph || '', code_id: row.code_identifier || '',
+    band: row.harmonic_frequency || 'unspecified',
+    drift_flag: Codex ? Codex.driftFlag(id) : 'unspecified',
+    state: row.state_signature || '', gate_role: row.gate_role || '',
+    hex: row.hex || '', hook: row.function_hook || '',
+    cite: 'FBSC Phase Glyph Codex v2.5; source/engine/rmc_engine_v1/reference/phase_codex_v2_5.json'
+  };
+  if (name !== former.name || role !== former.role) {
+    PHASE_RECONCILIATION.push({
+      phase: n, id,
+      former_name: former.name, name,
+      former_role: former.role, role,
+      glyph: PHASES[n].glyph, code_id: PHASES[n].code_id,
+      band: PHASES[n].band, drift_flag: PHASES[n].drift_flag, state: PHASES[n].state,
+      authority: 'FBSC Phase Glyph Codex v2.5'
+    });
+  }
+}
+/* What RPMC §1.4, the Glyph Codex, and Unified Algebra actually state.
+ * A geometric Φ→angle formula is not in those three. phaseAngle below stays
+ * the RSOC §2.2 reconstruction already in this file. It is not newly claimed. */
+const PAPER_CONSTANTS = Object.freeze({
+  phi_to_angle: Object.freeze({
+    status: 'unspecified',
+    asked: ['RPMC Full Protocol §1.4 1G-Yj323fee', 'FBSC Phase Glyph Codex v2.5 1xZWOfEFgY', 'Unified Algebra 1RoAxjzV9rbx'],
+    found: 'RPMC §1.4 defines Φ₁ as min nonzero resonance, and §1.5 says Φ₁ ≡ Φ₁₀ ≡ Φ₀ modulo 9. Unified Algebra defines Φ₁ = min(∂R/∂t) and Φ₂ = R(t₁) − R(t₀). None of the three states θ = 2π(n−1)/9.',
+    kept: 'phaseAngle stays ((n-1)/9)·2π, cited as RSOC §2.2, status reconstruction'
+  }),
+  epsilon_lawful: Object.freeze({
+    value: 0,
+    status: 'stated',
+    cite: 'RPMC Full Protocol 1G-Yj323fee: εₙ = 0 for a lawful phase-locked transition, and εₙ > 0 for drift, projection, or echo loss. ε_max is described as configured, not given as a number in §1.4.'
+  }),
+  mu: Object.freeze({
+    value: 'unspecified',
+    status: 'unspecified',
+    cite: 'RPMC writes ΦMₙ inside RPM(x,t) = Σ ΦMₙ·exp(−εₙ) + χ(t)·Θ. No numeric μ is stated in §1.4, the Glyph Codex, or the Unified Algebra sections read.'
+  }),
+  integrity_example: Object.freeze({
+    codex_octave_lift: 1,
+    cite: 'FBSC Phase Glyph Codex v2.5 octave lift: loop.integrity_score >= 1.00. The 0.85 figure is the existing promote example in dream_idle.js, not this codex sentence.',
+    C_min: 0.87,
+    C_min_note: 'C_min stays 0.87. The 85% example is not the admit gate.'
+  })
+});
 const FORBIDDEN = [[5, 8], [4, 8]]; // RMC Addendum §4 (Φ5→Φ8); RSOC Axiom 2 (4→8 "Luciferian ascent")
 /* K1 (4.9.66): THE one drift threshold table. Every path (turn governance, containment, learned objects, MEA, EDE, hypotheses) reads it,
    through driftBand() / driftGovernance(). Nic's ruling (2026-10-14, reaffirmed 2026-10-18):
@@ -269,6 +330,6 @@ function turnGovernance(eps, transition) { const forbidden = isForbidden(transit
    reason.js (memory and world-state answers) and derive.js (research replies) read the same table through rsocSelect. */
 const RSOC_STANDING = Object.freeze({ supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } });
 const rsocStanding = ev => rsocSelect({ C: !!ev.C, K: !!ev.K, S: !!ev.S, R: !!ev.R }, Object.keys(RSOC_STANDING).map(id => ({ id, expect: RSOC_STANDING[id] })), 0);
-const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, r4 };
+const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, PHASE_RECONCILIATION, PAPER_CONSTANTS, FORMER_PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, r4 };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);
