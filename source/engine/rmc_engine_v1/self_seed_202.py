@@ -185,6 +185,146 @@ def grace_of(loop: int, phi: int | None) -> float:
     return round(math.cos(circular_delta(loop, phi)) ** 2, 6)
 
 
+ROMAN = {"i": "1", "ii": "2", "iii": "3", "iv": "4", "v": "5", "vi": "6", "vii": "7", "viii": "8", "ix": "9"}
+WORD_ORD = {"first": "1", "second": "2", "third": "3", "fourth": "4", "fifth": "5"}
+WH_WORDS = {"who", "whom", "whose", "what", "when", "where", "why", "how", "which"}
+_ARTICLES = ("the ", "a ", "an ")
+
+
+def _norm(text: str) -> str:
+    return " ".join(re.findall(r"[a-z0-9]+", str(text or "").lower()))
+
+
+def _words(text: str) -> list[str]:
+    return re.findall(r"[a-z0-9]+", str(text or "").lower())
+
+
+def question_slot(question: str) -> str:
+    """The interrogative names the slot. This is the wh-word, not a new parser."""
+    words = _words(question)
+    head = words[0] if words else ""
+    toks = set(echo_tokens(question))
+    if "happens" in toks or "mix" in toks:
+        return "effect"
+    if head in {"who", "whom"}:
+        return "identity"
+    if head == "when":
+        return "time"
+    if head in {"what", "which"}:
+        return "identity"
+    return "stated"
+
+
+def entity_tokens(question: str, slot: str) -> list[str]:
+    roles = set(load_config().get("time_roles") or [])
+    stop = {
+        "the", "and", "for", "with", "from", "that", "this", "was", "were", "are",
+        "you", "your", "did", "does", "can", "could", "into", "about", "have", "has", "not", "but",
+    }
+    out: list[str] = []
+    for word in _words(question):
+        keep_short = word in ROMAN or word in WORD_ORD or re.fullmatch(r"\d{1,2}", word or "") is not None
+        if word in WH_WORDS or word in stop:
+            continue
+        if len(word) <= 2 and not keep_short:
+            continue
+        out.append(word)
+    if slot == "time" and out and out[-1] in roles:
+        out = out[:-1]
+    return out
+
+
+def _numeral(word: str) -> str | None:
+    if word in ROMAN:
+        return ROMAN[word]
+    if word in WORD_ORD:
+        return WORD_ORD[word]
+    if re.fullmatch(r"\d{1,2}", word or ""):
+        return str(int(word))
+    return None
+
+
+def numerals_bind(entity: list[str], sentence: str) -> bool:
+    """A question ordinal must be the sentence ordinal. World War II is not World War I."""
+    wanted = [value for value in (_numeral(word) for word in entity) if value]
+    found = [value for value in (_numeral(word) for word in _words(sentence)) if value]
+    if not wanted:
+        return True
+    if any(value not in found for value in wanted):
+        return False
+    return all(value in wanted for value in found)
+
+
+def _copula(sentence: str) -> tuple[str, str, str] | None:
+    plain = re.sub(r"\s+", " ", str(sentence or "")).strip(" .\"'")
+    for verb in ("was not", "is not", "were not", "was", "were", "is"):
+        match = re.match(r"^(.+?) " + re.escape(verb) + r" (.+)$", plain, flags=re.IGNORECASE)
+        if match and match.group(1).strip() and match.group(2).strip():
+            return match.group(1).strip(), verb.split()[0].lower(), match.group(2).strip()
+    return None
+
+
+def subject_binds(subject: str, entity: list[str]) -> bool:
+    ent = _norm(" ".join(entity))
+    sub = _norm(subject)
+    if not ent or not sub:
+        return False
+    low = subject.lower()
+    if "'s" in low or "’s" in low:
+        return False
+    for art in _ARTICLES:
+        if sub.startswith(art):
+            sub = sub[len(art):]
+    return sub == ent or sub.startswith(ent + " ")
+
+
+def _years(sentence: str) -> list[str]:
+    return re.findall(r"\b(?:1[5-9]\d{2}|20\d{2})\b", sentence)
+
+
+def is_catalog_url(url: str) -> bool:
+    low = str(url or "").lower()
+    return any(mark in low for mark in (load_config().get("catalog_url_marks") or []))
+
+
+def is_caption(sentence: str) -> bool:
+    low = sentence.lower()
+    return any(mark in low for mark in (load_config().get("caption_marks") or []))
+
+
+def claim_of(question: str, sentence: str) -> dict[str, Any] | None:
+    """The slot value. Two sources corroborate only when this string matches."""
+    slot = question_slot(question)
+    entity = entity_tokens(question, slot)
+    ent = _norm(" ".join(entity))
+    if not ent:
+        return None
+    if not numerals_bind(entity, sentence):
+        return {"ok": False, "rule": "BIND", "slot": slot}
+    if slot == "identity":
+        parts = _copula(sentence)
+        if not parts or not subject_binds(parts[0], entity):
+            return {"ok": False, "rule": "SHAPE", "slot": slot}
+        karma = _norm(parts[2])
+        if not karma:
+            return {"ok": False, "rule": "SHAPE", "slot": slot}
+        return {"ok": True, "rule": "SHAPE-FIT", "slot": slot, "claim": "identity|" + ent + "|" + karma}
+    if slot == "time":
+        years = _years(sentence)
+        before = _norm(sentence.split(years[0], 1)[0]) if len(years) == 1 else ""
+        if len(years) != 1 or ent not in before:
+            return {"ok": False, "rule": "SHAPE", "slot": slot}
+        return {"ok": True, "rule": "SHAPE-FIT", "slot": slot, "claim": "time|" + ent + "|" + years[0]}
+    if slot == "effect":
+        if any(word not in _words(sentence) for word in entity if _numeral(word) is None and len(word) > 2):
+            return {"ok": False, "rule": "SHAPE", "slot": slot}
+        marks = sorted(mark for mark in (load_config().get("effect_marks") or []) if mark in sentence.lower())
+        if not marks:
+            return {"ok": False, "rule": "SHAPE", "slot": slot}
+        return {"ok": True, "rule": "SHAPE-FIT", "slot": slot, "claim": "effect|" + ent + "|" + ",".join(marks)}
+    return {"ok": False, "rule": "SHAPE", "slot": slot}
+
+
 def safety_of(question: str, sentence: str) -> dict[str, Any]:
     cfg = load_config()
     toks = echo_tokens(question)
@@ -262,9 +402,15 @@ def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> di
         if not src:
             skipped.append({"url": url, "rule": "NOT-ALLOWLISTED"})
             continue
+        if is_catalog_url(url):
+            skipped.append({"url": url, "rule": "CATALOG"})
+            continue
         digest = str(doc.get("sha256") or sha256_text(text))
         fetched = str(doc.get("fetched_at") or "")
         for sentence in split_sentences(text):
+            if is_caption(sentence):
+                skipped.append({"url": url, "rule": "CATALOG", "text": sentence[:180]})
+                continue
             placed = sentence_placement(sentence)
             phi = placed.get("phi")
             if isinstance(phi, int) and luciferian_d_score(loop, phi) == 1.0:
@@ -276,6 +422,10 @@ def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> di
             safe = safety_of(question, sentence)
             if not safe["ok"]:
                 skipped.append({"url": url, "rule": safe["rule"], "text": sentence[:180]})
+                continue
+            fit = claim_of(question, sentence)
+            if not fit or not fit.get("ok"):
+                skipped.append({"url": url, "rule": (fit or {}).get("rule") or "SHAPE", "text": sentence[:180]})
                 continue
             echo = echo_against_question(question, sentence, rendered=True)
             kept.append({
@@ -295,22 +445,19 @@ def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> di
                 "sha256": digest,
                 "fetched_at": fetched,
                 "safety": safe["rule"],
+                "slot": fit["slot"],
+                "claim": fit["claim"],
+                "page_class": "reference",
             })
     return {"kept": kept, "skipped": skipped[:24], "pointers": pointers[:12]}
 
 
-def _clusters(rows: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
-    clusters: list[list[dict[str, Any]]] = []
+def _claim_groups(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    """Agreement is the same slot value, not a shared token or a shared phase."""
+    groups: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
-        placed = False
-        for cluster in clusters:
-            if all(phase_aligned(row["phi"], other["phi"]) for other in cluster):
-                cluster.append(row)
-                placed = True
-                break
-        if not placed:
-            clusters.append([row])
-    return clusters
+        groups.setdefault(str(row.get("claim") or ""), []).append(row)
+    return groups
 
 
 def _anchor_from(question: str, row: dict[str, Any], loop: int, support: list[dict[str, Any]]) -> dict[str, Any]:
@@ -327,6 +474,8 @@ def _anchor_from(question: str, row: dict[str, Any], loop: int, support: list[di
         "asking_question": question,
         "tier": row["tier"],
         "independent_hosts": hosts,
+        "slot": row.get("slot"),
+        "claim": row.get("claim"),
         "lexicon_concept": row["concept"],
         "lexicon_phi": row["phi"],
         "question_loop": loop,
@@ -406,24 +555,30 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         return dict(base, rule="SEED-BACKOFF", gap=True, backoff=blocked, quarantined=True)
     documents = [row for row in (payload.get("documents") or []) if isinstance(row, dict)]
     found = _candidates(question, documents, loop)
-    passing = [row for row in found["kept"] if row["echo_pass"]]
-    clusters = _clusters(passing)
+    passing = [row for row in found["kept"] if row["echo_pass"] and row.get("claim")]
+    groups = _claim_groups(passing)
     trace = {
         "kept": len(found["kept"]),
         "echo_pass": len(passing),
-        "clusters": len(clusters),
+        "clusters": len(groups),
         "pointers": found["pointers"],
         "skipped": found["skipped"],
         "phases": sorted({row["phi"] for row in found["kept"]}),
     }
-    if len(clusters) > 1:
+    if len(groups) > 1:
         failure = _remember_failure(question, now, "SEED-DISAGREEMENT")
         return dict(base, rule="SEED-DISAGREEMENT", gap=True, quarantined=True, trace=trace, backoff=failure, route="correction_queue")
-    if not clusters:
+    if not groups:
         reason = "SEED-NO-SOURCE"
         rules = {row.get("rule") for row in found["skipped"]}
         if found["kept"] and not passing:
             reason = "SEED-ECHO"
+        elif "BIND" in rules and not found["kept"]:
+            reason = "SEED-BIND"
+        elif "SHAPE" in rules and not found["kept"]:
+            reason = "SEED-SHAPE"
+        elif "CATALOG" in rules and not found["kept"]:
+            reason = "SEED-CATALOG"
         elif "FORBIDDEN-5-8" in rules and not found["kept"]:
             reason = "SEED-FORBIDDEN"
         elif "PHASE" in rules and not found["kept"]:
@@ -432,12 +587,11 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             reason = "SEED-SAFETY"
         failure = _remember_failure(question, now, reason)
         return dict(base, rule=reason, gap=True, quarantined=True, trace=trace, backoff=failure)
-    cluster = clusters[0]
+    claim, cluster = next(iter(groups.items()))
     hosts = {row["host"] for row in cluster}
-    tier1 = [row for row in cluster if row["tier"] == 1]
-    if not tier1 and len(hosts) < 2:
+    if len(hosts) < 2:
         failure = _remember_failure(question, now, "SEED-CORROBORATION")
-        return dict(base, rule="SEED-CORROBORATION", gap=True, quarantined=True, trace=trace, backoff=failure, hosts=sorted(hosts))
+        return dict(base, rule="SEED-CORROBORATION", gap=True, quarantined=True, trace=trace, backoff=failure, hosts=sorted(hosts), claim=claim)
     cluster.sort(key=lambda row: (row["tier"], row["trust"], -row["grace"], row["url"], row["text"]))
     chosen = cluster[0]
     if chosen["echo"] < ECHO_MIN:
@@ -455,8 +609,9 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         hosts=sorted(hosts),
         tier=chosen["tier"],
         echo=chosen["echo"],
+        claim=claim,
         route="anchor",
-        corroborated=len(hosts) >= 2 or chosen["tier"] == 1,
+        corroborated=len(hosts) >= 2,
     )
 
 

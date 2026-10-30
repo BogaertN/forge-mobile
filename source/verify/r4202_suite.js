@@ -45,7 +45,22 @@ function body(extra) {
 }
 const CLEO = body({
   question: 'Who was Cleopatra?',
-  documents: [{ url: 'https://www.loc.gov/item/event-417245/', text: 'Elizabeth Taylor stars as Cleopatra, the cunning queen of Egypt who seduces the rulers of Rome.', fetched_at: '2026-10-30T00:00:00+00:00' }]
+  documents: [{ url: 'http://www.loc.gov/item/2004675107/', text: 'DeMille\'s Cleopatra" showing headshots of stars Claudette Colbert, Warren William, and Henry Wilcoxon.', fetched_at: '2026-10-30T00:00:00+00:00' }]
+});
+const WW2 = body({
+  question: 'When did World War II end?',
+  documents: [{ url: 'http://lccn.loc.gov/2003542976', text: 'First World War.com The war to end all wars.' }]
+});
+const WW2_BIND = body({
+  question: 'When did World War II end?',
+  documents: [{ url: 'https://blogs.loc.gov/law/x', text: 'The war to end all wars ended in 1918 across the recorded continent.' }, { url: 'https://www.gutenberg.org/ebooks/9', text: 'The war to end all wars ended in 1918 across the recorded continent.' }]
+});
+const AGREE = body({
+  question: 'Who was Cleopatra?',
+  documents: [
+    { url: 'https://www.gutenberg.org/ebooks/1', text: 'Cleopatra was a queen of Egypt in the ancient world.' },
+    { url: 'https://openstax.org/books/x', text: 'Cleopatra was a queen of Egypt in the ancient world.' }
+  ]
 });
 const ADA = body({
   question: 'Who was Ada Lovelace?',
@@ -56,10 +71,10 @@ const WIKI = body({
   documents: [{ url: 'https://en.wikipedia.org/wiki/Cleopatra', text: 'Cleopatra was a queen of Egypt. See https://www.loc.gov/item/x', role: 'pointer' }]
 });
 const DIS = body({
-  question: 'What is recorded?',
+  question: 'Who was Cleopatra?',
   documents: [
-    { url: 'https://www.gutenberg.org/ebooks/1', text: 'The atom is recorded as a unit of matter in the laboratory notes.' },
-    { url: 'https://openstax.org/books/astronomy/pages/1', text: 'The moon is recorded as a body that orbits in the sky.' }
+    { url: 'https://www.gutenberg.org/ebooks/1', text: 'Cleopatra was a queen of Egypt in the ancient world.' },
+    { url: 'https://openstax.org/books/x', text: 'Cleopatra was a poet of Rome in the recorded histories.' }
   ]
 });
 const SAFETY = body({
@@ -72,25 +87,30 @@ const SAFETY = body({
 const FORBID = body({
   question: 'Who painted the Mona Lisa?',
   loop_phi: 5,
-  documents: [{ url: 'https://www.loc.gov/item/mona', text: 'The Mona Lisa hangs in a gallery far from the street.' }]
+  documents: [{ url: 'https://blogs.loc.gov/mona', text: 'The Mona Lisa hangs in a gallery far from the street.' }]
 });
 
 T('the decision matches Python and Wikipedia cannot be the anchor', () => {
-  for (const payload of [CLEO, ADA, WIKI, DIS, SAFETY, FORBID, body({ question: 'Who wrote Hamlet?', gap: false, anchors_connected: 1, documents: [] })]) {
+  for (const payload of [CLEO, WW2, WW2_BIND, AGREE, ADA, WIKI, DIS, SAFETY, FORBID, body({ question: 'Who wrote Hamlet?', gap: false, anchors_connected: 1, documents: [] })]) {
     same(S.evaluate(payload), py(payload), payload.question);
   }
   const cleo = S.evaluate(CLEO);
+  const ww2 = S.evaluate(WW2);
+  const bind = S.evaluate(WW2_BIND);
+  const agree = S.evaluate(AGREE);
   const ada = S.evaluate(ADA);
   const wiki = S.evaluate(WIKI);
   const dis = S.evaluate(DIS);
   const safety = S.evaluate(SAFETY);
   const forbid = S.evaluate(FORBID);
-  expect(cleo.rule === 'SEED-CANDIDATE' && cleo.anchor && cleo.anchor.trust === 'trusted' && cleo.echo === 1 && cleo.wikipedia_anchor === false && cleo.admit_gate === false && cleo.calls_llm === false, cleo.rule);
-  expect(cleo.anchor.source_url.indexOf('wikipedia') < 0 && cleo.anchor.license === 'public-domain', cleo.anchor.source_url);
+  expect(cleo.rule === 'SEED-CATALOG' && cleo.anchor === null && cleo.wikipedia_anchor === false && cleo.admit_gate === false && cleo.calls_llm === false, cleo.rule);
+  expect(ww2.rule === 'SEED-CATALOG' && ww2.anchor === null, ww2.rule);
+  expect(bind.rule === 'SEED-BIND' && bind.anchor === null, bind.rule);
+  expect(agree.rule === 'SEED-CANDIDATE' && agree.anchor && agree.claim.indexOf('identity|cleopatra|') === 0 && agree.corroborated === true && agree.hosts.length === 2 && agree.c_min === 0.87, agree.rule);
   expect(ada.rule === 'SEED-PHASE' && ada.anchor === null && ada.quarantined === true, ada.rule);
   expect(wiki.rule === 'SEED-NO-SOURCE' && wiki.anchor === null && wiki.trace.pointers[0] === 'https://www.loc.gov/item/x', wiki.rule);
   expect(dis.rule === 'SEED-DISAGREEMENT' && dis.route === 'correction_queue' && dis.anchor === null, dis.rule);
-  expect(safety.rule === 'SEED-CANDIDATE' && /Never mix ammonia/.test(safety.anchor.text) && safety.trace.skipped.some(row => row.rule === 'SAFETY-RECIPE'), safety.anchor.text);
+  expect(safety.rule === 'SEED-CORROBORATION' && safety.anchor === null && safety.trace.skipped.some(row => row.rule === 'SAFETY-RECIPE'), safety.rule);
   expect(forbid.rule === 'SEED-FORBIDDEN' && forbid.anchor === null, forbid.rule);
   expect(cleo.c_min === 0.87 && cleo.echo_min === 0.85 && cleo.write_max === 0.35 && cleo.hard_stop === 0.8 && cleo.resonance_not_parsing === true && cleo.money === false && cleo.dream_idle === false && cleo.economy === false && cleo.packs_gated === true, 'laws');
 });
@@ -148,8 +168,9 @@ T('recorded fixtures re-ask two of the held rows and leave nonsense and Hamlet h
   for (const pass of live.passes) expect(pass.admitted === live.after_admitted && pass.rows.length === 12, pass.pass + ' ' + pass.admitted);
   const rows = live.passes[0].rows;
   const by = Object.fromEntries(rows.map(row => [row.question, row]));
-  expect(by['Who was Cleopatra?'].after_admitted === true && by['Who was Cleopatra?'].echo === 1 && by['Who was Cleopatra?'].license === 'public-domain', by['Who was Cleopatra?'].rule);
-  expect(by['When did World War II end?'].after_admitted === true && String(by['When did World War II end?'].source_url).indexOf('wikipedia') < 0, by['When did World War II end?'].source_url);
+  expect(by['Who was Cleopatra?'].after_admitted === false && by['Who was Cleopatra?'].anchor_text == null, by['Who was Cleopatra?'].rule);
+  expect(by['When did World War II end?'].after_admitted === false && by['When did World War II end?'].anchor_text == null, by['When did World War II end?'].rule);
+  expect(live.after_admitted === 0, 'false admits stayed held ' + live.after_admitted);
   expect(by['Blargh floople zig?'].rule === 'SEED-NO-SOURCE' && by['Blargh floople zig?'].after_admitted === false, by['Blargh floople zig?'].rule);
   expect(by['Who wrote Hamlet?'].rule === 'SEED-NOT-A-GAP' && by['Who wrote Hamlet?'].before.echo === 0.5 && by['Who wrote Hamlet?'].after_admitted === false, 'hamlet');
   expect(by['What happened in the news today?'].before.echo === 0 && by['What happened in the news today?'].after_admitted === false, 'news');

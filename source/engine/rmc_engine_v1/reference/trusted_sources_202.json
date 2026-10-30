@@ -24,5 +24,9 @@
   ],
   "pointer_hosts": ["wikipedia.org", "wikimedia.org", "wikidata.org", "wikisource.org"],
   "procedure_marks": ["tablespoon", "teaspoon", "tbsp", "tsp", "cup of", "add one", "add 1", "heat the", "stir the", "mix well", "step 1", "grams of", "ml of"],
-  "safety_marks": ["do not", "don't", "never ", "toxic", "poison", "harmful", "dangerous", "warning", "avoid", "fatal", "injur", "hazard", "gas"]
+  "safety_marks": ["do not", "don't", "never ", "toxic", "poison", "harmful", "dangerous", "warning", "avoid", "fatal", "injur", "hazard", "gas"],
+  "catalog_url_marks": ["/item/", "lccn.loc.gov", "/jukebox"],
+  "caption_marks": ["poster", "headshot", "motion picture", "1 print", "1 album", "copyright description", "jukebox", "matrix/take"],
+  "effect_marks": ["toxic", "poison", "gas", "injur", "produces", "causes", "fatal", "harmful", "dangerous"],
+  "time_roles": ["begin", "end", "invented", "start", "started", "happen", "happened"]
 }

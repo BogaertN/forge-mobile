@@ -223,6 +223,110 @@
     return Number(prev) === 5 && Number(act) === 8 ? 1 : 0;
   }
 
+  const ROMAN = { i: '1', ii: '2', iii: '3', iv: '4', v: '5', vi: '6', vii: '7', viii: '8', ix: '9' };
+  const WORD_ORD = { first: '1', second: '2', third: '3', fourth: '4', fifth: '5' };
+  const WH_WORDS = { who: 1, whom: 1, whose: 1, what: 1, when: 1, where: 1, why: 1, how: 1, which: 1 };
+  const ENTITY_STOP = { the: 1, and: 1, for: 1, with: 1, from: 1, that: 1, this: 1, was: 1, were: 1, are: 1, you: 1, your: 1, did: 1, does: 1, can: 1, could: 1, into: 1, about: 1, have: 1, has: 1, not: 1, but: 1 };
+
+  function norm(text) {
+    return (String(text || '').toLowerCase().match(/[a-z0-9]+/g) || []).join(' ');
+  }
+  function words(text) {
+    return String(text || '').toLowerCase().match(/[a-z0-9]+/g) || [];
+  }
+  function questionSlot(question) {
+    const list = words(question);
+    const head = list[0] || '';
+    const toks = echoTokens(question);
+    if (toks.indexOf('happens') >= 0 || toks.indexOf('mix') >= 0) return 'effect';
+    if (head === 'who' || head === 'whom') return 'identity';
+    if (head === 'when') return 'time';
+    if (head === 'what' || head === 'which') return 'identity';
+    return 'stated';
+  }
+  function entityTokens(question, slot) {
+    const roles = ((config() || {}).time_roles) || [];
+    const out = [];
+    words(question).forEach(word => {
+      const keepShort = !!ROMAN[word] || !!WORD_ORD[word] || /^\d{1,2}$/.test(word);
+      if (WH_WORDS[word] || ENTITY_STOP[word]) return;
+      if (word.length <= 2 && !keepShort) return;
+      out.push(word);
+    });
+    if (slot === 'time' && out.length && roles.indexOf(out[out.length - 1]) >= 0) out.pop();
+    return out;
+  }
+  function numeral(word) {
+    if (ROMAN[word]) return ROMAN[word];
+    if (WORD_ORD[word]) return WORD_ORD[word];
+    if (/^\d{1,2}$/.test(word || '')) return String(Number(word));
+    return null;
+  }
+  function numeralsBind(entity, sentence) {
+    const wanted = entity.map(numeral).filter(Boolean);
+    const found = words(sentence).map(numeral).filter(Boolean);
+    if (!wanted.length) return true;
+    if (wanted.some(value => found.indexOf(value) < 0)) return false;
+    return found.every(value => wanted.indexOf(value) >= 0);
+  }
+  function copula(sentence) {
+    const plain = String(sentence || '').replace(/\s+/g, ' ').replace(/^[\s."']+|[\s."']+$/g, '');
+    const verbs = ['was not', 'is not', 'were not', 'was', 'were', 'is'];
+    for (let i = 0; i < verbs.length; i++) {
+      const match = new RegExp('^(.+?) ' + verbs[i] + ' (.+)$', 'i').exec(plain);
+      if (match && match[1].trim() && match[2].trim()) return [match[1].trim(), verbs[i].split(' ')[0].toLowerCase(), match[2].trim()];
+    }
+    return null;
+  }
+  function subjectBinds(subject, entity) {
+    const ent = norm(entity.join(' '));
+    let sub = norm(subject);
+    if (!ent || !sub) return false;
+    const low = String(subject || '').toLowerCase();
+    if (low.indexOf("'s") >= 0 || low.indexOf('’s') >= 0) return false;
+    ['the ', 'a ', 'an '].forEach(art => { if (sub.indexOf(art) === 0) sub = sub.slice(art.length); });
+    return sub === ent || sub.indexOf(ent + ' ') === 0;
+  }
+  function yearsOf(sentence) {
+    return String(sentence || '').match(/\b(?:1[5-9]\d{2}|20\d{2})\b/g) || [];
+  }
+  function catalogUrl(url) {
+    const low = String(url || '').toLowerCase();
+    return (((config() || {}).catalog_url_marks) || []).some(mark => low.indexOf(mark) >= 0);
+  }
+  function captionText(sentence) {
+    const low = sentence.toLowerCase();
+    return (((config() || {}).caption_marks) || []).some(mark => low.indexOf(mark) >= 0);
+  }
+  function claimOf(question, sentence) {
+    const slot = questionSlot(question);
+    const entity = entityTokens(question, slot);
+    const ent = norm(entity.join(' '));
+    if (!ent) return null;
+    if (!numeralsBind(entity, sentence)) return { ok: false, rule: 'BIND', slot: slot };
+    if (slot === 'identity') {
+      const parts = copula(sentence);
+      if (!parts || !subjectBinds(parts[0], entity)) return { ok: false, rule: 'SHAPE', slot: slot };
+      const karma = norm(parts[2]);
+      if (!karma) return { ok: false, rule: 'SHAPE', slot: slot };
+      return { ok: true, rule: 'SHAPE-FIT', slot: slot, claim: 'identity|' + ent + '|' + karma };
+    }
+    if (slot === 'time') {
+      const years = yearsOf(sentence);
+      const before = years.length === 1 ? norm(String(sentence).split(years[0])[0]) : '';
+      if (years.length !== 1 || before.indexOf(ent) < 0) return { ok: false, rule: 'SHAPE', slot: slot };
+      return { ok: true, rule: 'SHAPE-FIT', slot: slot, claim: 'time|' + ent + '|' + years[0] };
+    }
+    if (slot === 'effect') {
+      const present = words(sentence);
+      if (entity.some(word => !numeral(word) && word.length > 2 && present.indexOf(word) < 0)) return { ok: false, rule: 'SHAPE', slot: slot };
+      const marks = (((config() || {}).effect_marks) || []).filter(mark => sentence.toLowerCase().indexOf(mark) >= 0).sort();
+      if (!marks.length) return { ok: false, rule: 'SHAPE', slot: slot };
+      return { ok: true, rule: 'SHAPE-FIT', slot: slot, claim: 'effect|' + ent + '|' + marks.join(',') };
+    }
+    return { ok: false, rule: 'SHAPE', slot: slot };
+  }
+
   function safetyOf(question, sentence) {
     const cfg = config() || {};
     const toks = echoTokens(question);
@@ -265,6 +369,8 @@
       asking_question: question,
       tier: row.tier,
       independent_hosts: hosts,
+      slot: row.slot,
+      claim: row.claim,
       lexicon_concept: row.concept,
       lexicon_phi: row.phi,
       question_loop: loop,
@@ -362,9 +468,17 @@
         skipped.push({ url: url, rule: 'NOT-ALLOWLISTED' });
         return;
       }
+      if (catalogUrl(url)) {
+        skipped.push({ url: url, rule: 'CATALOG' });
+        return;
+      }
       const digest = doc.sha256 || sha256(text);
       const fetched = String(doc.fetched_at || '');
       splitSentences(text).forEach(sentence => {
+        if (captionText(sentence)) {
+          skipped.push({ url: url, rule: 'CATALOG', text: sentence.slice(0, 180) });
+          return;
+        }
         const placed = placement(sentence);
         const phi = placed.phi;
         if (typeof phi === 'number' && dScore(loop, phi) === 1) {
@@ -380,46 +494,60 @@
           skipped.push({ url: url, rule: safe.rule, text: sentence.slice(0, 180) });
           return;
         }
+        const fit = claimOf(question, sentence);
+        if (!fit || !fit.ok) {
+          skipped.push({ url: url, rule: (fit && fit.rule) || 'SHAPE', text: sentence.slice(0, 180) });
+          return;
+        }
         const echo = echoScore(question, sentence);
         kept.push({
           text: sentence, url: url, host: String(src.host), tier: Number(src.tier), trust: Number(src.trust),
           license: src.license, license_url: src.license_url, phi: phi, concept: placed.concept,
           grace: round6(Math.cos(circularDelta(loop, phi)) ** 2), delta: round6(circularDelta(loop, phi)),
-          echo: echo, echo_pass: echo >= ECHO_MIN, sha256: digest, fetched_at: fetched, safety: safe.rule
+          echo: echo, echo_pass: echo >= ECHO_MIN, sha256: digest, fetched_at: fetched, safety: safe.rule,
+          slot: fit.slot, claim: fit.claim, page_class: 'reference'
         });
       });
     });
-    const passing = kept.filter(row => row.echo_pass);
-    const clusters = clustersOf(passing);
+    const passing = kept.filter(row => row.echo_pass && row.claim);
+    const groups = {};
+    passing.forEach(row => {
+      const claim = String(row.claim || '');
+      groups[claim] = groups[claim] || [];
+      groups[claim].push(row);
+    });
     const phases = Array.from(new Set(kept.map(row => row.phi))).sort((a, b) => a - b);
-    const trace = { kept: kept.length, echo_pass: passing.length, clusters: clusters.length, pointers: pointers.slice(0, 12), skipped: skipped.slice(0, 24), phases: phases };
+    const trace = { kept: kept.length, echo_pass: passing.length, clusters: Object.keys(groups).length, pointers: pointers.slice(0, 12), skipped: skipped.slice(0, 24), phases: phases };
     function fail(rule, extra) {
       const failure = remember(question, now, rule);
       return Object.assign({}, base, extra || {}, { rule: rule, gap: true, quarantined: true, trace: trace, backoff: failure, route: 'correction_queue' });
     }
-    if (clusters.length > 1) return fail('SEED-DISAGREEMENT');
-    if (!clusters.length) {
+    const claims = Object.keys(groups);
+    if (claims.length > 1) return fail('SEED-DISAGREEMENT');
+    if (!claims.length) {
       const rules = {};
       skipped.forEach(row => { rules[row.rule] = 1; });
       let reason = 'SEED-NO-SOURCE';
       if (kept.length && !passing.length) reason = 'SEED-ECHO';
+      else if (rules.BIND && !kept.length) reason = 'SEED-BIND';
+      else if (rules.SHAPE && !kept.length) reason = 'SEED-SHAPE';
+      else if (rules.CATALOG && !kept.length) reason = 'SEED-CATALOG';
       else if (rules['FORBIDDEN-5-8'] && !kept.length) reason = 'SEED-FORBIDDEN';
       else if (rules.PHASE && !kept.length) reason = 'SEED-PHASE';
       else if (rules['SAFETY-RECIPE'] && !kept.length) reason = 'SEED-SAFETY';
       return fail(reason);
     }
-    const cluster = clusters[0];
+    const cluster = groups[claims[0]];
     const hosts = Array.from(new Set(cluster.map(row => row.host))).sort();
-    const tier1 = cluster.filter(row => row.tier === 1);
-    if (!tier1.length && hosts.length < 2) return Object.assign(fail('SEED-CORROBORATION'), { hosts: hosts });
+    if (hosts.length < 2) return Object.assign(fail('SEED-CORROBORATION'), { hosts: hosts, claim: claims[0] });
     cluster.sort((a, b) => a.tier - b.tier || a.trust - b.trust || b.grace - a.grace || (a.url < b.url ? -1 : a.url > b.url ? 1 : (a.text < b.text ? -1 : a.text > b.text ? 1 : 0)));
     const chosen = cluster[0];
     if (chosen.echo < ECHO_MIN) return fail('SEED-ECHO');
     delete BACKOFF[key];
     return Object.assign({}, base, {
       rule: 'SEED-CANDIDATE', gap: true, quarantined: false, anchor: anchorFrom(question, chosen, loop, cluster),
-      trace: trace, hosts: hosts, tier: chosen.tier, echo: chosen.echo, route: 'anchor',
-      corroborated: hosts.length >= 2 || chosen.tier === 1
+      trace: trace, hosts: hosts, tier: chosen.tier, echo: chosen.echo, claim: claims[0], route: 'anchor',
+      corroborated: hosts.length >= 2
     });
   }
 
@@ -450,9 +578,9 @@
     } else if (mode === 'nonsense') {
       payload = { question: 'Blargh floople zig?', gap: true, now: 1000, loop_phi: 1, reset: true, documents: docs('Blargh floople zig?', []) };
     } else if (mode === 'quarantine') {
-      payload = { question: 'What is recorded?', gap: true, now: 1000, loop_phi: 1, reset: true, documents: [
-        { url: 'https://www.gutenberg.org/ebooks/1', text: 'The atom is recorded as a unit of matter in the laboratory notes.' },
-        { url: 'https://openstax.org/books/astronomy/pages/1', text: 'The moon is recorded as a body that orbits in the sky.' }
+      payload = { question: 'Who was Cleopatra?', gap: true, now: 1000, loop_phi: 1, reset: true, documents: [
+        { url: 'https://www.gutenberg.org/ebooks/1', text: 'Cleopatra was a queen of Egypt in the ancient world.' },
+        { url: 'https://openstax.org/books/x', text: 'Cleopatra was a poet of Rome in the recorded histories.' }
       ] };
     } else if (mode === 'safety') {
       payload = { question: 'Can you mix bleach?', gap: true, now: 1000, loop_phi: 1, reset: true, documents: [
