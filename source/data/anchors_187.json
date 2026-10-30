@@ -1,11 +1,11 @@
 {
  "schema": "FORGE-ANCHOR-SET/v1",
- "release": "4.9.187",
+ "release": "4.9.190",
  "note": "Trusted anchors. Not admitted. Not spoken unless the unchanged admit gate passes. Wikipedia is not in this file. OpenStax 2e is CC BY-NC-SA and was skipped. Sentence splits happened at ingestion.",
  "skipped_licenses": [
   "CC BY-NC-SA 4.0 OpenStax 2e editions"
  ],
- "count": 32,
+ "count": 40,
  "skipped": [
   {
    "question": "What is Saturn?",
@@ -1628,6 +1628,384 @@
    "license_url": "https://creativecommons.org/licenses/by/4.0/",
    "source_url": "https://openstax.org/books/physics/pages/11-1-temperature-and-thermal-energy",
    "revision": "dfdfd7a",
+   "historical": false
+  },
+  {
+   "id": "enc-nasa-sky-blue",
+   "text": "The sky appears blue because of this scattering behavior.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 4,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.SKY"
+   ],
+   "concept": "sky",
+   "provenance": {
+    "source": "nasa",
+    "source_url": "https://science.nasa.gov/ems/03_behaviors/",
+    "revision": "2010",
+    "license": "public-domain",
+    "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "terms": "https://www.usa.gov/government-works",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:nasa"
+   },
+   "contributor": "encyclopedia:nasa",
+   "license": "public-domain",
+   "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+   "source_url": "https://science.nasa.gov/ems/03_behaviors/",
+   "revision": "2010",
+   "historical": false
+  },
+  {
+   "id": "enc-nasa-sky-eyes",
+   "text": "Even though violet is scattered more than blue, the sky looks blue to us because our eyes are more sensitive to blue light.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 4,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.SKY"
+   ],
+   "concept": "sky",
+   "provenance": {
+    "source": "nasa",
+    "source_url": "https://science.nasa.gov/ems/03_behaviors/",
+    "revision": "2010",
+    "license": "public-domain",
+    "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "terms": "https://www.usa.gov/government-works",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:nasa"
+   },
+   "contributor": "encyclopedia:nasa",
+   "license": "public-domain",
+   "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+   "source_url": "https://science.nasa.gov/ems/03_behaviors/",
+   "revision": "2010",
+   "historical": false
+  },
+  {
+   "id": "enc-nasa-jupiter",
+   "text": "Jupiter is the fifth planet from the Sun, and the largest in the solar system, by far — more than twice as massive as the other planets combined.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.LARGEST",
+    "A.JUPITER"
+   ],
+   "concept": "largest",
+   "provenance": {
+    "source": "nasa",
+    "source_url": "https://science.nasa.gov/jupiter/",
+    "revision": "unversioned",
+    "license": "public-domain",
+    "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "terms": "https://www.usa.gov/government-works",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:nasa"
+   },
+   "contributor": "encyclopedia:nasa",
+   "license": "public-domain",
+   "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+   "source_url": "https://science.nasa.gov/jupiter/",
+   "revision": "unversioned",
+   "historical": false
+  },
+  {
+   "id": "enc-nasa-jupiter-oldest",
+   "text": "Jupiter is the largest and oldest planet in our solar system.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.LARGEST",
+    "A.JUPITER"
+   ],
+   "concept": "largest",
+   "provenance": {
+    "source": "nasa",
+    "source_url": "https://science.nasa.gov/jupiter/",
+    "revision": "unversioned",
+    "license": "public-domain",
+    "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "terms": "https://www.usa.gov/government-works",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:nasa"
+   },
+   "contributor": "encyclopedia:nasa",
+   "license": "public-domain",
+   "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+   "source_url": "https://science.nasa.gov/jupiter/",
+   "revision": "unversioned",
+   "historical": false
+  },
+  {
+   "id": "enc-noaa-ocean-salty",
+   "text": "One of the most well known qualities of the ocean is that it is salty.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 4,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.OCEAN"
+   ],
+   "concept": "ocean",
+   "provenance": {
+    "source": "noaa",
+    "source_url": "https://www.noaa.gov/jetstream/ocean/sea-water",
+    "revision": "unversioned",
+    "license": "public-domain",
+    "license_url": "https://www.weather.gov/disclaimer",
+    "terms": "https://www.noaa.gov/disclaimer",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:noaa"
+   },
+   "contributor": "encyclopedia:noaa",
+   "license": "public-domain",
+   "license_url": "https://www.weather.gov/disclaimer",
+   "source_url": "https://www.noaa.gov/jetstream/ocean/sea-water",
+   "revision": "unversioned",
+   "historical": false
+  },
+  {
+   "id": "enc-noaa-ocean-sources",
+   "text": "Salt in the ocean comes from two sources: runoff from the land and openings in the seafloor.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 4,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.OCEAN"
+   ],
+   "concept": "ocean",
+   "provenance": {
+    "source": "noaa",
+    "source_url": "https://oceanservice.noaa.gov/facts/whysalty.html",
+    "revision": "unversioned",
+    "license": "public-domain",
+    "license_url": "https://www.weather.gov/disclaimer",
+    "terms": "https://www.noaa.gov/disclaimer",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:noaa"
+   },
+   "contributor": "encyclopedia:noaa",
+   "license": "public-domain",
+   "license_url": "https://www.weather.gov/disclaimer",
+   "source_url": "https://oceanservice.noaa.gov/facts/whysalty.html",
+   "revision": "unversioned",
+   "historical": false
+  },
+  {
+   "id": "enc-nps-leaves",
+   "text": "As temperatures cool and days get shorter, leaves on deciduous trees stop producing new chlorophyll, and the familiar green color breaks down to reveal the other pigments that have been masked all season.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 4,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 4,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.LEAVES"
+   ],
+   "concept": "leaves",
+   "provenance": {
+    "source": "nps",
+    "source_url": "https://www.nps.gov/yose/learn/nature/fall-color.htm",
+    "revision": "2015-03-01",
+    "license": "public-domain",
+    "license_url": "https://www.nps.gov/aboutus/disclaimer.htm",
+    "terms": "https://www.usa.gov/government-works",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:nps"
+   },
+   "contributor": "encyclopedia:nps",
+   "license": "public-domain",
+   "license_url": "https://www.nps.gov/aboutus/disclaimer.htm",
+   "source_url": "https://www.nps.gov/yose/learn/nature/fall-color.htm",
+   "revision": "2015-03-01",
+   "historical": false
+  },
+  {
+   "id": "enc-gutenberg-hamlet",
+   "text": "THE TRAGEDY OF HAMLET, PRINCE OF DENMARK by William Shakespeare.",
+   "tier": "anchor",
+   "state": "anchor",
+   "trust": "trusted",
+   "sfe": {
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0
+   },
+   "packet": {
+    "schema": "FORGE-RESONANCE-PACKET/v1",
+    "Phi": 1,
+    "eps": 0.0,
+    "mu": 1.0,
+    "sfe": {
+     "Phi": 1,
+     "eps": 0.0,
+     "mu": 1.0
+    },
+    "placed_by": "athena",
+    "standing": "anchor",
+    "phi_basis": "phase_parser.parse_phase on the question, at ingestion"
+   },
+   "concepts": [
+    "A.HAMLET"
+   ],
+   "concept": "hamlet",
+   "provenance": {
+    "source": "project-gutenberg",
+    "source_url": "https://www.gutenberg.org/ebooks/1524",
+    "revision": "1524",
+    "license": "public-domain",
+    "license_url": "https://www.gutenberg.org/policy/license.html",
+    "terms": "https://www.gutenberg.org/policy/license.html",
+    "historical": false,
+    "ingestion_note": "Sentence cut at ingestion. Recall does not segment text.",
+    "contributor": "encyclopedia:project-gutenberg"
+   },
+   "contributor": "encyclopedia:project-gutenberg",
+   "license": "public-domain",
+   "license_url": "https://www.gutenberg.org/policy/license.html",
+   "source_url": "https://www.gutenberg.org/ebooks/1524",
+   "revision": "1524",
    "historical": false
   }
  ]

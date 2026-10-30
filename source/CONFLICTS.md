@@ -1,3 +1,11 @@
+## v4.9.190 — anchor growth for held questions (2026-10-30 America/Chicago)
+
+**Conflict:** 4.9.189 admitted 32 of 60. Fourteen questions had no phase-aligned anchor. Others had an anchor and still sat under C 0.87: the sky at 0.803883, the capitals near 0.825, oxygen and the Nile just under 0.87, Mars, and the news question where Echo failed. Conversational turns and nonsense were scored as knowledge gaps.
+
+**Where:** `measurement_kernel.py`, `rmc_core.py`, `resonance_recall.py`, `language_core_grok_infer.py`, `language_core_proto_chat.py`, `language_core_orchestration.py`, `world_model_v1.py`, `anchor_concepts.json`, `ask_183_memory.json`, shard `g190`. The wiring is `docs/WIRING_190.md`. The tables are `docs/LIVE_TEST_190.md`.
+
+**Resolution:** The scorer compares the candidate sentence. Kind labels are not meaning. The coherence weights are unchanged. Why-facts that answer the sky, the leaves, and the ocean are placed at Φ4, and the receipt tag follows `sfe.Phi`. A shared time word is not a subject, so the news question does not lock the Moon; Echo still fails and the question stays held. "capital" is not Japan's concept. A frame-role lock outranks a coverage tie, so oxygen is not answered with a photosynthesis sentence. `handle_chat` names greeting, request, self, and refusal from the Doc 5 frame and the Doc 4 concept. Self-facts live in the world model. Nonsense is refused. Eight sourced anchors (NASA, NOAA, National Park Service, Project Gutenberg) are in the shard and in an additive migration that is not applied. Cold admits 58. The three passes agree. C_min stays 0.87. Echo stays 0.85. Drift quarantine stays 0.35. Hard stop stays above 0.80. The coherence formula is unchanged. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled.
+
 ## v4.9.189 — language-core functions replace the model calls (2026-10-30 America/Chicago)
 
 **Conflict:** Nic's KEEP-AS-FUNCTION paths still called a model: Proto `handle_chat` called `query_local_llm` (`ollama run mistral`), the co-pilot's `model_inference_server` hosted Grok-1, and Recursive Agent Orchestration spawned that runtime. EchoForge debate was already a language-core function. Held how-questions such as glass and paper had a derived sentence and C under 0.87.

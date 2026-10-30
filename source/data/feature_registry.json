@@ -1,5 +1,5 @@
 {
- "version": "4.9.189",
+ "version": "4.9.190",
  "features": [
   {
    "id": "A-01",
@@ -3793,13 +3793,24 @@
    "proof": [
     "R4189"
    ]
+  },
+  {
+   "id": "R4190-ANCHOR-GROWTH",
+   "name": "Anchor growth and speech acts for held questions",
+   "source": "docs/WIRING_190.md; PROTO system overview handle_chat; lexicon.js I.HELLO and A.HELP",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "The scorer compares the candidate sentence, not its kind label. Why-facts use the phase stored on the packet. A time word is not a subject. Chat acts answer from world-model self-facts. Nonsense is refused. Cold admits 58. News stays held. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4190"
+   ]
   }
  ],
- "count": 346,
+ "count": 347,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 184,
+  "Partial": 185,
   "Missing": 9,
   "Out of scope / parked": 13
  }

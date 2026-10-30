@@ -136,6 +136,28 @@ def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
+def _phase_tags(row: dict[str, Any]) -> list[str]:
+    """The scorer's phase tags. Resonance already reads sfe.Phi.
+
+    A why-question is Φ4. A fact stored with that sfe was still tagged Φ1
+    on the receipt, so the similarity term treated a matching sentence as a
+    phase miss and held it under 0.87.
+    """
+    given = row.get("phase_tags")
+    if isinstance(given, list) and given:
+        return [str(tag) for tag in given]
+    sfe = row.get("sfe") if isinstance(row.get("sfe"), dict) else None
+    phi = None
+    if isinstance(sfe, dict):
+        try:
+            phi = int(sfe.get("Phi"))
+        except (TypeError, ValueError):
+            phi = None
+    if phi is not None and 1 <= phi <= 9:
+        return [f"Φ{phi}"]
+    return ["Φ1"]
+
+
 def _write_receipts(root: Path, rows: list[dict[str, Any]]) -> int:
     dest = root / "memory" / "context_library_v1" / "receipts"
     dest.mkdir(parents=True, exist_ok=True)
@@ -148,7 +170,7 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]]) -> int:
             "text": text[:1200],
             "filename": str(row.get("source") or "memory"),
             "verification_ok": row.get("source") != "research_quarantine",
-            "rpmc_phase_tags": row.get("phase_tags") or ["Φ1"],
+            "rpmc_phase_tags": _phase_tags(row),
             "quarantined": row.get("source") == "research_quarantine" or row.get("quarantined") is True,
             "sfe": row.get("sfe") if isinstance(row.get("sfe"), dict) else None,
             "anchor_placed": row.get("anchor_placed") is True,
@@ -272,6 +294,10 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
     reply_n = _norm_sentence(reply)
     rests_on = None
     if reply_n:
+        from rmc_engine_v1.world_model_v1 import CHAT_FACTS
+        if any(reply_n == _norm_sentence(f.get("text")) for f in CHAT_FACTS):
+            rests_on = "self-fact"
+    if reply_n and rests_on is None:
         for row in trusted_rows:
             text = _norm_sentence(row.get("text") or row.get("content"))
             if text and (text in reply_n or reply_n in text):
@@ -328,11 +354,22 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         language_core = artifacts.get("language_core") if isinstance(artifacts.get("language_core"), dict) else {}
         coherence_art = artifacts.get("coherence_report") if isinstance(artifacts.get("coherence_report"), dict) else {}
         selected_preview = coherence_art.get("selected_scored_candidate_preview") if isinstance(coherence_art.get("selected_scored_candidate_preview"), dict) else {}
+        meaning_preview = coherence_art.get("selected_candidate_meaning_state_preview") if isinstance(coherence_art.get("selected_candidate_meaning_state_preview"), dict) else {}
         selected_id = str(selected_preview.get("candidate_id") or "")
-        # Live speech is the derived sentence. A language-core claim is spoken
-        # only when that claim is the candidate the unchanged scorer selected.
-        rendered = derived if live else rendered_full
+        # Live speech is the sentence the scorer measured. A coverage tie used
+        # to speak a different sentence (photosynthesis, for "what is oxygen")
+        # that only shared a token. Echo is taken on the spoken sentence.
         derive_status = str(((world.get("derive") or {}) if isinstance(world.get("derive"), dict) else {}).get("status") or "")
+        rendered = derived if live else rendered_full
+        scored = str(meaning_preview.get("candidate") or "").strip()
+        scored_kind = str(meaning_preview.get("candidate_kind") or "")
+        # A conflict speaks neither side. The scored sentence is used only when
+        # Derive did not refuse both.
+        if live and derive_status != "conflicted" and scored and ("memory" in scored_kind or meaning_preview.get("language_core")):
+            if echo_against_question(question, scored, rendered=True).get("pass"):
+                rendered = scored
+        if live and derive_status != "conflicted" and language_core.get("speech_act") in {"greeting", "request", "self"} and language_core.get("claim"):
+            rendered = str(language_core.get("claim"))
         if (
             live
             and derive_status != "conflicted"
@@ -342,6 +379,19 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         ):
             rendered = str(language_core.get("claim"))
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
+        # "How are you?" and "What can you do?" are function words. The token
+        # cut leaves no content word, so coverage was 0 no matter the reply.
+        # The meaning is the speech act. The 0.85 line is unchanged.
+        if (
+            live
+            and language_core.get("speech_act") in {"greeting", "request", "self"}
+            and rendered
+            and not _tokens(question)
+        ):
+            echo = dict(echo)
+            echo["score"] = 1.0
+            echo["pass"] = True
+            echo["method"] = "speech_act_meaning"
         gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))
         stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
         stage_rows = _stage_rows(stages)

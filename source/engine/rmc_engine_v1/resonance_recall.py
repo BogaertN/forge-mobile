@@ -396,7 +396,13 @@ def rank_memory(question, nodes, phase_report=None):
         detail = {row[0].get("memory_id"): {"hit": row[1], "grace": row[2], "concepts": row[3]} for row in role_locks}
         hops = _hop_nodes(chosen, admitted)
     elif concept_hits:
-        concept_hits.sort(key=lambda row: _anchor_key(row[0]), reverse=True)
+        # A shared color or time word is not the subject. Prefer the fact
+        # that shares an anchor concept the question actually named.
+        def _concept_key(row):
+            shared = row[1]
+            specific = sum(1 for cid in shared if str(cid).startswith("A."))
+            return (specific,) + _anchor_key(row[0])
+        concept_hits.sort(key=_concept_key, reverse=True)
         chosen = [concept_hits[0][0]]
         how = "concept_lexicon"
         rsoc = _rsoc([row[0] for row in concept_hits])

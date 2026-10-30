@@ -21,7 +21,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from rmc_engine_v1.resonance_recall import WH, _frame_roles, _question_phi, asked_filler, place_packet
+from rmc_engine_v1.resonance_recall import WH, _concept_ids, _frame_roles, _lexicon, _question_phi, asked_filler, place_packet
 
 CITE = (
     "Drive 1jqKxPpoEBW5cigcpHvYj0OU_ir_9cV5fdCGZ_cVgXbQ "
@@ -30,10 +30,16 @@ CITE = (
 )
 
 
-def handle_chat(user_input: str, *, phase_report: dict[str, Any] | None = None) -> dict[str, Any]:
-    """The Proto chat entry. The model call is the language core."""
-    roles = _frame_roles(user_input)
-    asked = asked_filler(user_input)
+def _speech_act(user_input: str, roles: dict[str, Any] | None) -> tuple[str, str]:
+    """Name the act from the Doc 5 frame and the Doc 4 concept.
+
+    A greeting, a help request, and a self question are not knowledge lookups.
+    A turn whose content words are all outside the lexicon is a refusal.
+    This does not match keywords with a regular expression.
+    """
+    from rmc_engine_v1.language_core_debate import uninterpreted_symbols
+    from rmc_engine_v1.world_model_v1 import _STOP
+
     speech = "stated"
     head = ""
     filled = (roles or {}).get("filled") or {}
@@ -42,6 +48,30 @@ def handle_chat(user_input: str, *, phase_report: dict[str, Any] | None = None) 
     if parts and parts[0] in WH:
         speech = parts[0]
         head = parts[0]
+    concepts = _concept_ids(user_input)
+    known = set(_STOP)
+    known.update((_lexicon().get("surfaces") or {}).keys())
+    symbols = uninterpreted_symbols(user_input, known_surfaces=known)
+    words = [w.strip(".,;:!?\"'()[]").lower() for w in str(user_input or "").split()]
+    words = [w for w in words if w]
+    has_function = any(w in _STOP or len(w) <= 2 for w in words)
+    if concepts & {"I.HELLO", "I.BYE", "I.THANKS"}:
+        return "greeting", head
+    if "A.HELP" in concepts or "A.TELL" in concepts:
+        return "request", head
+    if symbols and not concepts and not has_function:
+        return "refusal", head
+    content = [w for w in words if len(w) > 2 and w not in _STOP]
+    if not content and speech == "stated":
+        return "self", head
+    return speech, head
+
+
+def handle_chat(user_input: str, *, phase_report: dict[str, Any] | None = None) -> dict[str, Any]:
+    """The Proto chat entry. The model call is the language core."""
+    roles = _frame_roles(user_input)
+    asked = asked_filler(user_input)
+    speech, head = _speech_act(user_input, roles)
     phi = _question_phi(phase_report)
     packet = place_packet({"sfe": {"Phi": phi, "eps": 0.0, "mu": 1.0}}, quarantined=False)
     return {

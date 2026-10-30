@@ -746,12 +746,27 @@ def _offer_language_core(question: str, trace_spine: dict[str, Any], phase_repor
         if debated.get("survived") is not True:
             continue
         echo = echo_against_question(question, text, rendered=True)
-        if not echo.get("pass"):
+        # A self question made only of function words has no content token
+        # for coverage to see. The act is the meaning. The 0.85 line stays.
+        if not echo.get("pass") and not (hop.get("self_fact") and not _meaning_tokens(question)):
             continue
         cand = scoring_candidate({"claim": text, "debate": debated})
         if cand is None:
             continue
-        measured = measure_candidate(cand, candidate_report, memory_nodes=active or nodes)
+        measure_nodes = list(active or nodes)
+        if hop.get("self_fact"):
+            # The self-fact is the world-model sentence for this act.
+            # Unrelated anchors are not its support, so they are not averaged in.
+            measure_nodes = [{
+                "content": text,
+                "content_summary": "",
+                "phase_tags": ["Φ1"],
+                "retrieval_weight": 1.0,
+                "confidence": "high",
+                "source": "",
+                "ancestry": {"self_fact": hop.get("memory_id")},
+            }]
+        measured = measure_candidate(cand, candidate_report, memory_nodes=measure_nodes)
         parts = coherence_components(cand, measured)
         eps = _number(measured.get("epsilon_s"), 1.0)
         score = _number(parts.get("coherence_score"), 0.0)

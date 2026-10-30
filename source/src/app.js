@@ -243,7 +243,19 @@ function anchorSample(row) {
   const pack = window.ASK_187_ANCHORS || { anchors: [] };
   const anchors = pack.anchors || [];
   const q = String((row && row.trace && row.trace.input) || '').toLowerCase();
-  const hit = anchors.find(a => a && a.concept && q.indexOf(String(a.concept).toLowerCase()) >= 0) || anchors.find(a => a && a.packet) || anchors[0];
+  const reply = String((row && row.reply) || '').toLowerCase();
+  const words = reply.split(/[^a-z0-9]+/).filter(w => w.length > 3);
+  function score(a) {
+    if (!a) return 0;
+    const concept = String(a.concept || '').toLowerCase();
+    if (!concept || q.indexOf(concept) < 0) return 0;
+    const text = String(a.text || '').toLowerCase();
+    let s = 10;
+    for (const w of words) if (text.indexOf(w) >= 0) s += 1;
+    return s;
+  }
+  const ranked = anchors.filter(a => score(a) > 0).sort((a, b) => score(b) - score(a) || String(a.id).localeCompare(String(b.id)));
+  const hit = ranked[0] || anchors.find(a => a && a.packet) || anchors[0];
   if (!hit) return 'No trusted anchor is loaded.';
   const p = hit.packet || {};
   const prov = hit.provenance || {};
