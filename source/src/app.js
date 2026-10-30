@@ -271,7 +271,9 @@ function engineStage(row) {
   const rec = eng.gilligan_re_curation || {};
   if (!eng.drift_taxonomy && !os.rule) return '';
   const streak = br.consecutive_failures == null ? '' : ' · consecutive ' + esc(br.consecutive_failures) + '/' + esc(br.consecutive_limit);
-  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>';
+  const v43 = eng.drift_v43 || {};
+  const v43line = v43.disposition ? '<div class="meta" data-drift-v43>drift v4.3 · ' + esc(v43.disposition) + ' · Φ_act ' + esc(v43.phi_act) + ' ' + esc(v43.phi_act_name) + ' · d_score ' + esc(v43.d_score) + ' · ε_s ' + esc(v43.eps_s) + ' · θ_w ' + esc(v43.theta_w) + ' · step ' + esc(v43.step_flag) + ' · hard fire ' + (v43.categorical_hard_fire ? 'yes' : 'no') + ' · writes off · no LLM</div>' : '';
+  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line;
 }
 function renderLexiconPackets() {
   const host = $('#lexiconPacketBody');

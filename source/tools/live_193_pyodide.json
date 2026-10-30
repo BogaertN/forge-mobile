@@ -1,0 +1,50 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 8,
+ "matched": 8,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "worst",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "calm",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "axiom",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "singularity",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "engine3",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "engine2",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "cascade",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "restore",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48
+}

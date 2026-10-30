@@ -1,5 +1,5 @@
 {
- "version": "4.9.191",
+ "version": "4.9.193",
  "features": [
   {
    "id": "A-01",
@@ -3815,13 +3815,24 @@
    "proof": [
     "R4191"
    ]
+  },
+  {
+   "id": "R4193-DRIFT-V43",
+   "name": "Drift v4.3 core on the 4.9.191 detector",
+   "source": "drift.py v4.3; EOD l.161; Resonant Mind l.123; gnspec phase engine; Gilligan System Codex Vol IV Phase 1.8; Unified Algebra Vol I; docs/WIRING_193.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "ε_s is unclipped. d_score is 1 only for 5→8. θ_w, curvature, and the breaker are reused. Genesis 5→8 skips are not ported. 4→8 is an extra flag. Phase 1.8 and Unified Algebra rows are log-only. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4193"
+   ]
   }
  ],
- "count": 348,
+ "count": 349,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 186,
+  "Partial": 187,
   "Missing": 9,
   "Out of scope / parked": 13
  }

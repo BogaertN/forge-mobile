@@ -244,6 +244,34 @@ def protoforge2_stage(epsilon_s: Any, history: list[Any] | None = None) -> dict[
     }
 
 
+def drift_v43_stage(phi: int | None, prev: Any, hist: list[Any]) -> dict[str, Any]:
+    """Ask-trace summary of the v4.3 score. It does not change the admit ε_s."""
+    from rmc_engine_v1.drift_v43 import score
+    payload = {"core_state": {"phi": int(phi) if isinstance(phi, int) else 0}, "auxiliary": {}, "metadata": {"source": "ask-trace"}}
+    row = score({
+        "payload": payload,
+        "prev_phase": prev if prev is not None else phi,
+        "recursion_n": max(1, len(hist) or 1),
+        "phase_hist": [],
+        "latency_ms": 0,
+        "stamps_ms": [],
+    })
+    return {
+        "ok": True,
+        "disposition": row["disposition"],
+        "eps_s": row["eps_s"],
+        "d_score": row["d_score"],
+        "theta_w": row["theta_w"],
+        "phi_act": row["phi_act"],
+        "phi_act_name": row["phi_act_name"],
+        "categorical_hard_fire": row["categorical_hard_fire"],
+        "step_flag": row["step_flag"],
+        "calls_llm": False,
+        "writes": False,
+        "cite": row["cite"],
+    }
+
+
 def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]] | None = None, phase_hist: list[Any] | None = None, history: list[Any] | None = None) -> dict[str, Any]:
     from rmc_engine_v1.chi_hardening import chi_adaptive, entropy_epsilon, internal_phase_coherence, phase_velocity
     hist = list(phase_hist or [])
@@ -264,6 +292,7 @@ def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]]
         "phase_velocity": phase_velocity([]),
         "internal_phase_coherence": internal_phase_coherence(None),
         "theta_w": hardening["theta_w"],
+        "drift_v43": drift_v43_stage(phi, prev, hist),
         "calls_llm": False,
         "c_min": C_MIN,
         "write_law_unchanged": True,
