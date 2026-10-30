@@ -1,0 +1,32 @@
+{
+  "schema": "FORGE-TRUSTED-SOURCES/v1",
+  "wikipedia_is_anchor": false,
+  "wikipedia_role": "pointer",
+  "note": "Ranked allowlist. Tier 1 is one government or public-domain authority. Tier 2 needs a second independent host. Wikipedia is never an anchor.",
+  "sources": [
+    {"host": "loc.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.usa.gov/government-works", "kind": "government"},
+    {"host": "congress.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.usa.gov/government-works", "kind": "government"},
+    {"host": "noaa.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.noaa.gov/disclaimer", "kind": "government"},
+    {"host": "weather.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.weather.gov/disclaimer", "kind": "government"},
+    {"host": "cdc.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.cdc.gov/other/agencymaterials.html", "kind": "government"},
+    {"host": "nih.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.nih.gov/web-policies-notices", "kind": "government"},
+    {"host": "nlm.nih.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.nlm.nih.gov/copyright.html", "kind": "government"},
+    {"host": "medlineplus.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://medlineplus.gov/about/using/usingcontent/", "kind": "government"},
+    {"host": "nasa.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/", "kind": "government"},
+    {"host": "usgs.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits", "kind": "government"},
+    {"host": "nist.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.nist.gov/disclaimer", "kind": "government"},
+    {"host": "cia.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/", "kind": "government"},
+    {"host": "si.edu", "tier": 1, "trust": 2, "license": "public-domain", "license_url": "https://www.si.edu/termsofuse", "kind": "government"},
+    {"host": "archives.gov", "tier": 1, "trust": 2, "license": "public-domain", "license_url": "https://www.archives.gov/global-pages/privacy.html", "kind": "government"},
+    {"host": "gutenberg.org", "tier": 2, "trust": 3, "license": "public-domain", "license_url": "https://www.gutenberg.org/policy/license.html", "kind": "public-domain"},
+    {"host": "openstax.org", "tier": 2, "trust": 4, "license": "CC BY 4.0", "license_url": "https://creativecommons.org/licenses/by/4.0/", "kind": "cc-by"},
+    {"host": "britannica.com", "tier": 2, "trust": 5, "license": "britannica-free-page", "license_url": "https://corporate.britannica.com/termsofuse.html", "kind": "free-page"}
+  ],
+  "pointer_hosts": ["wikipedia.org", "wikimedia.org", "wikidata.org", "wikisource.org"],
+  "procedure_marks": ["tablespoon", "teaspoon", "tbsp", "tsp", "cup of", "add one", "add 1", "heat the", "stir the", "mix well", "step 1", "grams of", "ml of"],
+  "safety_marks": ["do not", "don't", "never ", "toxic", "poison", "harmful", "dangerous", "warning", "avoid", "fatal", "injur", "hazard", "gas"],
+  "catalog_url_marks": ["/item/", "lccn.loc.gov", "/jukebox"],
+  "caption_marks": ["poster", "headshot", "motion picture", "1 print", "1 album", "copyright description", "jukebox", "matrix/take"],
+  "effect_marks": ["toxic", "poison", "gas", "injur", "produces", "causes", "fatal", "harmful", "dangerous"],
+  "time_roles": ["begin", "end", "invented", "start", "started", "happen", "happened"]
+}

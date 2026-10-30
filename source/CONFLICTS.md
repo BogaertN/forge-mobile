@@ -1,3 +1,9 @@
+## v4.9.202 — Self-seeding anchors (2026-10-30 America/Chicago)
+
+**Conflict:** Nic rejects hand-seeded anchors. The twelve held questions have no premise. Fetching a trusted sentence can still fail Echo, because Echo is coverage of the question's tokens and the formula is unchanged. A name whose lexicon phase sits outside π/4 of the question loop is not kept. Wikipedia is the easy page and is not allowed to be the anchor.
+
+**Resolution:** A no-premise hold is queued with the asking question. The allowlist is config. Tier 1 can stand alone. Tier 2 needs a second host. Wikipedia is a pointer. Sentences are placed by the lexicon and kept inside π/4 of the question loop. Recipes are dropped. Disagreement is quarantined. Echo stays 0.85 against the question. Φ5→Φ8 is forbidden. The re-ask is the unchanged `rmc_core` gate. A failure backs off. Of the twelve held questions, two re-asks admitted and ten stayed held. The spoken sentences are the ones the gate kept. C_min stays 0.87. The coherence formula is unchanged. No LLM. Packs stay gated. Money stays disabled. `dream_idle` and `economy` stay off. ChristPing stays Gilligan-only. The migration is in the repo and flagged, not applied.
+
 ## v4.9.201 — GILIN / CRP (2026-10-30 America/Chicago)
 
 **Conflict:** The build map numbered GILIN/CRP 4.9.200. The RMC renderer already shipped as 4.9.200, so this protocol is 4.9.201. GN Doc2 keeps CRP 0.78, a warn at 0.40, and C* 0.82. Those figures sit under C_min 0.87 and, for 0.40, at the edge of the write law. The Doc2 file is not in this tree. Babel 0.78, the RSOC warning band 0.40, and the RSOC 7→8 gate 0.82 are the same class of internal number. Codex heartbeat 144 Hz is not ChristPing.
