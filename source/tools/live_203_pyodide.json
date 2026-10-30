@@ -1,0 +1,35 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 5,
+ "matched": 5,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "agree",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "coref",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "stale",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "wiki",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "nonsense",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "c_min": 0.87
+}

@@ -1,5 +1,5 @@
 {
- "version": "4.9.202",
+ "version": "4.9.203",
  "features": [
   {
    "id": "A-01",
@@ -3925,13 +3925,24 @@
    "proof": [
     "R4202"
    ]
+  },
+  {
+   "id": "R4203-REFERENCE-PROSE",
+   "name": "Reference-prose self-seeding",
+   "source": "docs/WIRING_203.md; trusted_sources_203.json; public-domain and government prose",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Discovery searches allowlisted catalogs and government endpoints from the question entity. Reference prose is split into sentences. The 4.9.202 slot, subject, and claim checks stay. Coreference binds only inside the entity's own entry. Two independent hosts corroborate or the row is quarantined. A period-dated source is flagged when time matters. Hazard answers are government safety facts. What can you do? is its own capability sentence. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4203"
+   ]
   }
  ],
- "count": 358,
+ "count": 359,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 196,
+  "Partial": 197,
   "Missing": 9,
   "Out of scope / parked": 13
  }

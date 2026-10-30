@@ -128,6 +128,12 @@ CHAT_FACTS = [
         "act": "help",
     },
     {
+        "id": "self:capability",
+        "text": "Forge answers from admitted facts and does not call a model.",
+        "cite": "source/src/lexicon.js F.CAN Doc3 §18; contract 1g2034-K §2",
+        "act": "capability",
+    },
+    {
         "id": "self:tell",
         "text": "Tell needs a topic already in the turn, and this turn has none.",
         "cite": "contract 1g2034-K §7; an anaphor with no antecedent is not a knowledge lookup",
@@ -842,21 +848,13 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
 
 def _chat_derived(question: str) -> str:
     """The self-fact for a chat act, so the first pass and the fill pass record the same sentence."""
-    from rmc_engine_v1.language_core_proto_chat import handle_chat
+    from rmc_engine_v1.language_core_proto_chat import chat_fact_act, handle_chat
     from rmc_engine_v1.resonance_recall import _concept_ids
     chat = handle_chat(question)
     act = chat.get("speech_act")
-    if act not in {"greeting", "request", "self"}:
+    key = chat_fact_act(str(act or ""), _concept_ids(question))
+    if not key:
         return ""
-    concepts = _concept_ids(question)
-    if act == "greeting":
-        key = "greeting"
-    elif act == "request" and "A.TELL" in concepts:
-        key = "tell"
-    elif act == "request":
-        key = "help"
-    else:
-        key = "self"
     fact = next((row for row in CHAT_FACTS if row.get("act") == key), None)
     return str((fact or {}).get("text") or "")
 

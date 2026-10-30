@@ -23,6 +23,11 @@ jobs:
           python-version: '3.12'
       - name: Prepare the clone
         run: sh source/tools/prepare_clone.sh
+      - name: Reference prose self-seed suite, three passes
+        run: |
+          node source/verify/r4203_suite.js
+          node source/verify/r4203_suite.js
+          node source/verify/r4203_suite.js
       - name: Self-seeding anchors suite, three passes
         run: |
           node source/verify/r4202_suite.js

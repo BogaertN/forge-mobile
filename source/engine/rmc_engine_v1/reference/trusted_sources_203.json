@@ -1,0 +1,58 @@
+{
+  "schema": "FORGE-TRUSTED-SOURCES/v203",
+  "extends": "trusted_sources_202.json",
+  "wikipedia_is_anchor": false,
+  "wikipedia_role": "pointer",
+  "note": "Reference prose, ranked by trust. Public domain, CC BY, or government works. Wikipedia is a pointer. A modern copyrighted encyclopedia page is not an anchor. Checks from 4.9.202 are not relaxed.",
+  "sources": [
+    {"host": "epa.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.epa.gov/web-policies-and-procedures/epa-disclaimers", "kind": "government-safety", "prose": true},
+    {"host": "hrsa.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.hrsa.gov/about/disclaimer", "kind": "government-safety", "prose": true},
+    {"host": "state.gov", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.state.gov/disclaimer/", "kind": "government-history", "prose": true},
+    {"host": "army.mil", "tier": 1, "trust": 1, "license": "public-domain", "license_url": "https://www.army.mil/disclaimer.html", "kind": "government-history", "prose": true},
+    {"host": "cdc.gov", "kind": "government-safety", "prose": true},
+    {"host": "nih.gov", "kind": "government-safety", "prose": true},
+    {"host": "nlm.nih.gov", "kind": "government-safety", "prose": true},
+    {"host": "medlineplus.gov", "kind": "government-safety", "prose": true},
+    {"host": "loc.gov", "kind": "government", "prose": true},
+    {"host": "congress.gov", "kind": "government", "prose": true},
+    {"host": "si.edu", "kind": "government", "prose": true},
+    {"host": "archives.gov", "kind": "government-history", "prose": true},
+    {"host": "gutenberg.org", "kind": "public-domain", "prose": true},
+    {"host": "openstax.org", "kind": "cc-by", "prose": true},
+    {"host": "britannica.com", "anchor": false, "prose": false, "note": "Modern Britannica pages are not public-domain. The 1911 edition is read from Project Gutenberg."},
+    {"host": "ncbi.nlm.nih.gov", "anchor": false, "prose": false, "note": "PubMed and PMC articles are not government safety pages and are not public-domain anchors."}
+  ],
+  "safety_hosts": ["cdc.gov", "nih.gov", "nlm.nih.gov", "medlineplus.gov", "epa.gov", "hrsa.gov"],
+  "narrative_url_marks": ["today-in-history", "/research-guides/", "guides.loc.gov", "/exhibits/", "blogs.loc.gov", "history.state.gov"],
+  "present_marks": ["today", "news", "current", "now", "nowadays", "currently"],
+  "pronouns": ["he", "she", "they", "it", "this"],
+  "collection_marks": ["encyclopaedia", "encyclopedia", "dictionary", "biographical", "chambers"],
+  "period_marks": [
+    {"mark": "encyclopaedia britannica", "year": 1911},
+    {"mark": "encyclopedia britannica", "year": 1911},
+    {"mark": "11th edition", "year": 1911},
+    {"mark": "chambers's encyclopaedia", "year": 1901},
+    {"mark": "chambers's encyclopedia", "year": 1901}
+  ],
+  "role_forms": {
+    "begin": ["begin", "began", "begun", "beginning"],
+    "end": ["end", "ended", "ending"],
+    "invented": ["invent", "invented", "invention"],
+    "start": ["start", "started", "starting"],
+    "started": ["start", "started", "starting"],
+    "happen": ["happen", "happened", "happens"],
+    "happened": ["happen", "happened", "happens"]
+  },
+  "discovery": [
+    {"id": "gutenberg-opds", "host": "gutenberg.org", "kind": "opds", "url": "https://www.gutenberg.org/ebooks/search.opds/?query={query}"},
+    {"id": "loc-search", "host": "loc.gov", "kind": "loc-json", "url": "https://www.loc.gov/search/?q={query}&fo=json&c=6"},
+    {"id": "medline", "host": "medlineplus.gov", "kind": "nlm-xml", "url": "https://wsearch.nlm.nih.gov/ws/query?db=healthTopics&retmax=4&term={query}"},
+    {"id": "history-state", "host": "state.gov", "kind": "html", "url": "https://history.state.gov/search?q={query}"},
+    {"id": "archives", "host": "archives.gov", "kind": "html", "url": "https://www.archives.gov/research/search?q={query}"},
+    {"id": "army", "host": "army.mil", "kind": "html", "url": "https://www.army.mil/search/?search_api_fulltext={query}"},
+    {"id": "smithsonian", "host": "si.edu", "kind": "html", "url": "https://www.si.edu/search/all?edan_q={query}"},
+    {"id": "epa", "host": "epa.gov", "kind": "html", "url": "https://search.epa.gov/epasearch/?querytext={query}&typeofsearch=epa"},
+    {"id": "openstax", "host": "openstax.org", "kind": "html", "url": "https://openstax.org/search?q={query}"},
+    {"id": "wikipedia-pointer", "host": "wikipedia.org", "kind": "pointer", "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srlimit=1&srsearch={query}"}
+  ]
+}

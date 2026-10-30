@@ -1,0 +1,21 @@
+{
+ "schema": "FORGE-CHAT-ACT/v203",
+ "acts": [
+  {
+   "question": "How are you?",
+   "reply": "Forge does not store a feeling. World Model owns world state and inference.",
+   "admitted": true,
+   "speech_act": "self",
+   "C": 0.903662,
+   "echo": 1.0
+  },
+  {
+   "question": "What can you do?",
+   "reply": "Forge answers from admitted facts and does not call a model.",
+   "admitted": true,
+   "speech_act": "capability",
+   "C": 0.903516,
+   "echo": 1.0
+  }
+ ]
+}
