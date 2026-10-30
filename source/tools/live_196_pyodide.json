@@ -1,0 +1,61 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 10,
+ "matched": 10,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "clock",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "gates",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "deep",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "calm",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "hot",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "edge",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "over",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "tier",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "monitor",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "resurrect",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48,
+ "c_min": 0.87
+}

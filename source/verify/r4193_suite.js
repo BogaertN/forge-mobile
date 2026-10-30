@@ -160,7 +160,7 @@ T('cold admits stay 48 of 60 and the version registry names 4.9.194', () => {
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_193_pyodide.json'), 'utf8'));
   expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.195', ver);
+  expect(ver === '4.9.196', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.193/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -170,9 +170,9 @@ T('cold admits stay 48 of 60 and the version registry names 4.9.194', () => {
   const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_193.md'), 'utf8');
   expect(/0\.87/.test(doc) && /No model is called/.test(doc) && /not ported/.test(doc), 'WIRING');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.195' && (tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.196' && (tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.195' && reg.features.some(f => f.id === 'R4193-DRIFT-V43') && reg.count === reg.features.length && reg.claims.Implemented === 112, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.196' && reg.features.some(f => f.id === 'R4193-DRIFT-V43') && reg.count === reg.features.length && reg.claims.Implemented === 112, reg.version + ' ' + reg.count);
   const monitor = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   expect(/data-drift-monitor/.test(monitor) && /src="src\/drift_v43.js"/.test(monitor), 'monitor');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');

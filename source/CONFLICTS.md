@@ -1,3 +1,11 @@
+## v4.9.196 — storage tiers (2026-10-30 America/Chicago)
+
+**Conflict:** PMA §6 names Hot, Warm (SPC), Cold, and Deep ghost. The Codex names an SPC write above 0.5, a cold archive below entropy 0.6, and a resurrect cut below 0.3. Patch 266 kept Cold and Deep off the resurrection path. The 168-hour charge and the seven gates were already functions and were not the ladder.
+
+**Where:** `src/tiers_196.js`, `rmc_engine_v1/tiers_196.py`, the Ask storage card. The charge, the gates, and the archive are called. The wiring is `docs/WIRING_196.md`. The tables are `docs/LIVE_TEST_196.md`.
+
+**Resolution:** A simulated clock moves one charge from Hot to Warm (SPC) to Cold to Deep ghost. The half-life stays 168 hours. Active stays above 0.1. Collection stays below 0.05. Warm and Cold resurrect only when all seven gates pass. Deep ghost does not re-enter. A rewind, an erase, and a second place of the same id are rejected. Drift 0.35 is not a dead path. Drift 0.36 seals once through the archive at deep, and a second seal is rejected. Φ5→Φ8 is still forbidden. Drift 0.55 stays Hot. The Codex 0.5, 0.6, and 0.3 cuts are log-only. A write still needs drift at or under 0.35. The hard stop stays above 0.8. C_min stays 0.87. Echo stays 0.85. The coherence formula is unchanged. Cold admits stay 48. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled. ChristPing stays Gilligan-only. No Supabase migration is added.
+
 ## v4.9.195 — write-once dead path archive and sealed records (2026-10-30 America/Chicago)
 
 **Conflict:** The drift archive in the kernel store can be saved over. A ledger fork was recorded and left open. Codex 3.3 names an SPC write above 0.5 and a SHA-256 seal of ψ, phase, time, the Codex hash, and entropy. RSOC says never erase. The 0.5 cut is looser than the write law.
