@@ -569,6 +569,27 @@ def codex_class(row: dict[str, Any] | None = None) -> dict[str, Any]:
     }
 
 
+def stage(epsilon_s: Any) -> dict[str, Any]:
+    """Ask-trace summary. It does not change the admit gate."""
+    band = rsoc_band(epsilon_s)
+    gn = gn_band(epsilon_s)
+    store = storage_band(epsilon_s)
+    safe = failsafe({"drift": epsilon_s, "loop_age_s": 0})
+    klass = codex_class({"entropy": epsilon_s})
+    return {
+        "rsoc": band["band"],
+        "gn": gn["band"],
+        "archive": store["archive"],
+        "write_allowed": store["write_allowed"],
+        "failsafe": safe["action"],
+        "halt": safe["halt"],
+        "class": klass["class"],
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+    }
+
+
 def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     row = payload or {}
     op = row.get("op") or "replay"
@@ -592,6 +613,8 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         return failsafe(row)
     if op == "class":
         return codex_class(row)
+    if op == "stage":
+        return stage(row.get("epsilon_s"))
     return replay_breaker(row.get("samples") or [])
 
 

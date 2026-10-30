@@ -211,6 +211,22 @@ T('Codex drift classes route internally and class 4 is not restored', () => {
   same(ghost, py({ op: 'class', feedback_complete: false, psi_trace_valid: true, entropy: 0.4 }), 'class2');
 });
 
+T('the Ask card shows the window, the prediction, and the failsafe', () => {
+  const windowed = B.monitorLines('window');
+  const predict = B.monitorLines('predict');
+  const safe = B.monitorLines('failsafe');
+  expect(windowed.attrs.status === 'open' && windowed.attrs.detail === 'circuit_tripped' && /Two failures inside 0\.7 s stay closed/.test(windowed.lines[0]), windowed.lines[0]);
+  expect(predict.attrs.status === 'EMERGENCY_CORRECTION' && /Steps to 0\.8: 2/.test(predict.lines[2]), predict.lines[2]);
+  expect(safe.attrs.status === 'rollback' && /Class 4 blocked, restored false/.test(safe.lines[3]), safe.lines.join(' | '));
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  expect(/data-drift194/.test(html) && /src="src\/drift_194.js"/.test(html) && sw.indexOf('./src/drift_194.js') >= 0, 'card');
+  const stage = py({ op: 'stage', epsilon_s: 0.2 });
+  expect(stage.rsoc === 'stable' && stage.failsafe === 'continue' && stage.halt === false && stage.class === 0 && stage.admit_gate === false && stage.writes === false && stage.calls_llm === false, JSON.stringify(stage));
+  const hot = py({ op: 'stage', epsilon_s: 0.85 });
+  expect(hot.halt === true && hot.archive === true && hot.write_allowed === false && hot.class === 3 && hot.admit_gate === false, JSON.stringify(hot));
+});
+
 const rows = [];
 let failed = 0;
 for (const t of tests) {

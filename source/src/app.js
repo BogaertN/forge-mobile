@@ -273,7 +273,9 @@ function engineStage(row) {
   const streak = br.consecutive_failures == null ? '' : ' · consecutive ' + esc(br.consecutive_failures) + '/' + esc(br.consecutive_limit);
   const v43 = eng.drift_v43 || {};
   const v43line = v43.disposition ? '<div class="meta" data-drift-v43>drift v4.3 · ' + esc(v43.disposition) + ' · Φ_act ' + esc(v43.phi_act) + ' ' + esc(v43.phi_act_name) + ' · d_score ' + esc(v43.d_score) + ' · ε_s ' + esc(v43.eps_s) + ' · θ_w ' + esc(v43.theta_w) + ' · step ' + esc(v43.step_flag) + ' · hard fire ' + (v43.categorical_hard_fire ? 'yes' : 'no') + ' · writes off · no LLM</div>' : '';
-  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line;
+  const d194 = eng.drift_194 || {};
+  const d194line = d194.rsoc ? '<div class="meta" data-drift-194>breaker 4.9.194 · RSOC ' + esc(d194.rsoc) + ' · Genesis ' + esc(d194.gn) + ' · class ' + esc(d194.class) + ' · failsafe ' + esc(d194.failsafe) + ' · archive ' + (d194.archive ? 'yes' : 'no') + ' · write ' + (d194.write_allowed ? 'allowed by the 0.35 law' : 'held') + ' · admit gate off · no LLM</div>' : '';
+  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line;
 }
 function renderLexiconPackets() {
   const host = $('#lexiconPacketBody');

@@ -347,13 +347,87 @@
     if (op === 'class') return codexClass(row);
     return replayBreaker(row.samples || []);
   }
+  function monitorLines(mode) {
+    if (mode === 'predict') {
+      const row = analyze([0.1, 0.2, 0.3, 0.4, 0.5, 0.6], { pattern: 'linear_degradation', window: 3, critical: 0.8 });
+      const effect = overrideEffectiveness([{ before: 0.8, after: 0.2 }, { before: 0.5, after: 0.5 }, { before: 0.4, after: 0.6 }]);
+      return {
+        attrs: { mode: 'predict', status: row.prediction.intervention_type, detail: String(row.prediction.steps_to_critical) },
+        lines: [
+          'Linear example 0.1 to 0.6. Moving average of the last 3 is ' + row.moving_average + '.',
+          'Trend ' + row.trend + ' ' + row.direction + '. Confidence ' + row.trend_confidence + '.',
+          'Steps to 0.8: ' + row.prediction.steps_to_critical + '. ' + row.prediction.intervention_type + '. Multiplier ' + row.prediction.required_compute_multiplier + '. Confidence ' + row.prediction.confidence + '.',
+          'Override reduction on 0.8 to 0.2 is ' + effect.rows[0].reduction + '. Mean ' + effect.mean + '. This does not admit.',
+          'RSOC ' + row.rsoc.band + '. Genesis band ' + row.gn_band.band + '. Writes off. No LLM.'
+        ]
+      };
+    }
+    if (mode === 'failsafe') {
+      const young = failsafe({ loop_age_s: 120, drift: 0.2, echo_confirmed: true });
+      const old = failsafe({ loop_age_s: 121, drift: 0.2, echo_confirmed: true });
+      const held = failsafe({ loop_age_s: 10, drift: 0.8 });
+      const halt = failsafe({ loop_age_s: 10, drift: 0.85 });
+      const noise = codexClass({ skipped_return: true, entropy: 0.2, feedback_complete: true, psi_trace_valid: true });
+      const ghost = codexClass({ feedback_complete: false, psi_trace_valid: true, entropy: 0.4 });
+      const cold = codexClass({ entropy: 0.68, psi_trace_valid: false });
+      const fatal = codexClass({ synthetic: true, entropy: 0.1, lineage_revalidated: true });
+      return {
+        attrs: { mode: 'failsafe', status: old.action, detail: 'class-' + fatal.class },
+        lines: [
+          'Loop age 120 s stays ' + young.action + '. Loop age 121 s ' + old.action + ' to ' + old.route + '.',
+          'Drift 0.8 stays ' + held.action + '. Drift 0.85 ' + halt.action + '. Codex 0.9 halt is replaced by ' + halt.halt_threshold + '.',
+          'Class 1 ' + noise.name + ' ' + noise.route + ', not archived. Class 2 ' + ghost.route + '.',
+          'Class 3 ' + cold.route + ', restored ' + cold.restored + '. Class 4 ' + fatal.route + ', restored ' + fatal.restored + ', reentry ' + fatal.may_reenter + '.',
+          'ChristPing stays Gilligan-only. These routes do not admit. Write max ' + fatal.write_max + '. No LLM.'
+        ]
+      };
+    }
+    const two = replayBreaker([{ t: 0, epsilon_s: 0.36 }, { t: 0.2, epsilon_s: 0.36 }]);
+    const three = replayBreaker([{ t: 0, epsilon_s: 0.36 }, { t: 0.2, epsilon_s: 0.36 }, { t: 0.4, epsilon_s: 0.36 }]);
+    const waits = [retryBackoff(1), retryBackoff(2), retryBackoff(3), retryBackoff(4)];
+    return {
+      attrs: { mode: 'window', status: three.status, detail: three.verdict },
+      lines: [
+        'Two failures inside 0.7 s stay ' + two.status + '. Count ' + two.failure_count + '.',
+        'Three failures inside 0.7 s: ' + three.verdict + '. Status ' + three.status + '. Count ' + three.failure_count + '.',
+        'Retry waits ' + waits.map(function (r) { return r.delay_s == null ? 'exhausted' : r.delay_s + ' s'; }).join(', ') + '.',
+        'A hard stop above 0.8 and Φ5 to Φ8 still open through the 4.9.191 breaker.',
+        'This card does not write. C_min 0.87. No LLM.'
+      ]
+    };
+  }
+  function paintMonitor(mode) {
+    if (typeof document === 'undefined') return;
+    const card = document.getElementById('drift194');
+    const body = document.getElementById('drift194Body');
+    if (!card || !body) return;
+    const view = monitorLines(mode || 'window');
+    card.setAttribute('data-drift194-mode', view.attrs.mode);
+    card.setAttribute('data-drift194-status', view.attrs.status);
+    card.setAttribute('data-drift194-detail', view.attrs.detail);
+    body.textContent = view.lines.join('\n');
+  }
+  function bootMonitor() {
+    if (typeof document === 'undefined' || !document.getElementById('drift194')) return;
+    paintMonitor('window');
+    const buttons = document.querySelectorAll('[data-drift194-run]');
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function (ev) {
+        paintMonitor(ev.currentTarget.getAttribute('data-drift194-run'));
+      });
+    }
+  }
   const api = {
     CITE: CITE, WINDOW_S: WINDOW_S, MAX_FAILURES: MAX_FAILURES, RECOVERY_S: RECOVERY_S, RETRY_MAX: RETRY_MAX,
     freshBreaker: freshBreaker, observeBreaker: observeBreaker, replayBreaker: replayBreaker,
     retryBackoff: retryBackoff, rsocBand: rsocBand, capK: capK, gnBand: gnBand, storageBand: storageBand,
     movingAverage: movingAverage, analyze: analyze, overrideEffectiveness: overrideEffectiveness,
-    failsafe: failsafe, codexClass: codexClass, run: run
+    failsafe: failsafe, codexClass: codexClass, monitorLines: monitorLines, paintMonitor: paintMonitor, run: run
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Drift194 = api;
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootMonitor);
+    else bootMonitor();
+  }
 })(typeof self !== 'undefined' ? self : this);
