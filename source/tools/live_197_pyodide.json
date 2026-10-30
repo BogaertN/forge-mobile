@@ -1,0 +1,61 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 10,
+ "matched": 10,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "examples",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "harper",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "remember",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "sky",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "summary",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "stage",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "seeds-monitor",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "harper-monitor",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "drift-monitor",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "glyph",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48,
+ "c_min": 0.87
+}

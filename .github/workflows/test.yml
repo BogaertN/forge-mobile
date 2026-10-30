@@ -1,5 +1,5 @@
 name: Test
-# 4.9.196: run the storage-tier suite three times, then the targeted suite. This does not publish Pages.
+# 4.9.197: run the lexicon suite three times, then the targeted suite. This does not publish Pages.
 on:
   pull_request:
   push:
@@ -23,11 +23,13 @@ jobs:
           python-version: '3.12'
       - name: Prepare the clone
         run: sh source/tools/prepare_clone.sh
-      - name: Storage tier suite, three passes
+      - name: Phase Parsing Engine lexicon suite, three passes
         run: |
-          node source/verify/r4196_suite.js
-          node source/verify/r4196_suite.js
-          node source/verify/r4196_suite.js
+          node source/verify/r4197_suite.js
+          node source/verify/r4197_suite.js
+          node source/verify/r4197_suite.js
+      - name: Storage tier suite
+        run: node source/verify/r4196_suite.js
       - name: Dead path archive suite
         run: node source/verify/r4195_suite.js
       - name: Breaker and analyzer suite

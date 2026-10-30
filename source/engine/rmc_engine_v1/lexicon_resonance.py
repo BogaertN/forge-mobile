@@ -179,6 +179,7 @@ def _load() -> dict[str, Any]:
         "letters": letters,
         "letter_authority": letter_authority,
         "phases": phases,
+        "flags": flags if isinstance(flags, dict) else {},
         "surfaces": surfaces,
         "categories": categories,
         "by_concept": by_concept,
@@ -384,3 +385,90 @@ def proposal_v1_count() -> int:
 
 def letter_map_authority() -> dict[str, Any]:
     return dict(_load()["letter_authority"])
+
+
+def seed_rows() -> dict[str, dict]:
+    """The 425-word seed file. Read-only. 4.9.197 calls this and does not copy it."""
+    return _load()["words"]
+
+
+def letter_rows() -> dict[str, dict]:
+    """PPE KPI letters. Read-only. The Phase Parsing Engine map, not HarperScript."""
+    return _load()["letters"]
+
+
+def phase_profile(phi: int | None) -> dict[str, Any]:
+    if not isinstance(phi, int):
+        return {}
+    row = _load()["phases"].get("Φ" + str(phi))
+    return dict(row) if isinstance(row, dict) else {}
+
+
+def angle_degrees(index: int) -> int:
+    """Nic 4.9.191 and Decision 2: θ = (Φ−1)·40°."""
+    return (int(index) - 1) * 40
+
+
+def place_word(word: str) -> dict[str, Any]:
+    """One word. Same placement as resonance_lexicon.js placeWord.
+
+    A seed phase string is a medium signal. A list phase is not a single
+    phase, so the letter resultant places it. Letters stay a weak signal.
+    """
+    data = _load()
+    key = str(word or "").lower()
+    seed = data["words"].get(key)
+    letters = data["letters"]
+    charged = proposal_charge(seed if isinstance(seed, dict) else None)
+    indexes: list[int] = []
+    cite: list[str] = []
+    authority = "unspecified"
+    eps: Any = "unspecified"
+    mu: Any = "unspecified"
+    proposal = "not_tagged"
+    phase = seed.get("phase") if isinstance(seed, dict) else None
+    if isinstance(phase, str) and len(phase) == 2 and phase[1] in "123456789":
+        indexes = [int(phase[1])]
+        cite = [key]
+        authority = "medium_word_signal"
+        eps = 0
+    else:
+        for ch in key.upper():
+            spec = letters.get(ch) if isinstance(letters, dict) else None
+            if not isinstance(spec, dict):
+                continue
+            mark = str(spec.get("phase") or "")
+            if len(mark) == 2 and mark[1] in "123456789":
+                indexes.append(int(mark[1]))
+                cite.append(ch + ":" + mark)
+        authority = "weak_letter_signal" if indexes else "unspecified"
+    if charged and charged["status"] == "stated":
+        eps, mu = charged["eps"], charged["mu"]
+        proposal = "stated_proposal_v1"
+    elif charged:
+        proposal = charged["status"]
+    phi, how = resultant(indexes)
+    profile = data["phases"].get("Φ" + str(phi), {}) if phi else {}
+    if not isinstance(profile, dict):
+        profile = {}
+    flag = data["flags"].get("Φ" + str(phi)) if phi else None
+    auth = data["letter_authority"]
+    return {
+        "word": key,
+        "Phi": phi,
+        "how": how,
+        "glyph": profile.get("glyph") or "",
+        "code_id": profile.get("code_identifier") or "",
+        "name": profile.get("phase_name") or "",
+        "eps": eps,
+        "mu": mu,
+        "proposal_v1": proposal,
+        "authority": authority,
+        "map_authority": auth.get("map_authority"),
+        "not_map_authority": auth.get("not_map_authority"),
+        "angle": "θ=(Φ−1)·40°",
+        "cite": cite,
+        "drift_flag": flag if flag else "unspecified",
+        "seed_phase": phase if isinstance(phase, list) else None,
+        "calls_llm": False,
+    }

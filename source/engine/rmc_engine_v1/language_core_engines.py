@@ -262,6 +262,12 @@ def tiers_196_stage(epsilon_s: Any) -> dict[str, Any]:
     return stage(epsilon_s)
 
 
+def ppe_197_stage(question: str | None = None) -> dict[str, Any]:
+    """Ask-trace summary of the 4.9.197 lexicon. It does not change the admit ε_s."""
+    from rmc_engine_v1.ppe_lexicon_197 import stage
+    return stage(question)
+
+
 def drift_v43_stage(phi: int | None, prev: Any, hist: list[Any]) -> dict[str, Any]:
     """Ask-trace summary of the v4.3 score. It does not change the admit ε_s."""
     from rmc_engine_v1.drift_v43 import score
@@ -290,7 +296,7 @@ def drift_v43_stage(phi: int | None, prev: Any, hist: list[Any]) -> dict[str, An
     }
 
 
-def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]] | None = None, phase_hist: list[Any] | None = None, history: list[Any] | None = None) -> dict[str, Any]:
+def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]] | None = None, phase_hist: list[Any] | None = None, history: list[Any] | None = None, question: str | None = None) -> dict[str, Any]:
     from rmc_engine_v1.chi_hardening import chi_adaptive, entropy_epsilon, internal_phase_coherence, phase_velocity
     hist = list(phase_hist or [])
     if phi and not hist:
@@ -314,6 +320,7 @@ def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]]
         "drift_194": drift_194_stage(epsilon_s),
         "dpa_195": dpa_195_stage(epsilon_s),
         "tiers_196": tiers_196_stage(epsilon_s),
+        "ppe_197": ppe_197_stage(question),
         "calls_llm": False,
         "c_min": C_MIN,
         "write_law_unchanged": True,

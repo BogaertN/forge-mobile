@@ -496,6 +496,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             measured.get("epsilon_s"),
             int(shown["packet"]["Phi"]) if shown and shown.get("packet") and shown["packet"].get("Phi") else None,
             [r for r in (payload.get("memory") or {}).get("hosted") or [] if isinstance(r, dict) and r.get("unsourced")],
+            question=question,
         )
         kind = "rendered_answer" if spoken else ("held_trace" if live else "foundation_trace")
         trace = {

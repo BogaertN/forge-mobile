@@ -1,3 +1,11 @@
+## v4.9.197 — Phase Parsing Engine lexicon (2026-10-30 America/Chicago)
+
+**Conflict:** The KPI table gives M charge −2. The JSON example in the same HarperScript document gives −1, and the worked word "transform" sums to +3 only if M is −1. The visual manifest later in that document assigns different phases, including M as Φ5→Φ8. Decision 3 ε/μ is not in the documents. The PCM example prints +8, and the printed terms do not add to +8. WLM prints a stability rating 3.2 with no formula, and an example role that is not in the role table. DDS reactions name ChristPing. UA gives no word ε or μ.
+
+**Where:** `src/ppe_lexicon_197.js`, `rmc_engine_v1/ppe_lexicon_197.py`, the Ask lexicon card. The 425 seeds, the KPI table, the angle, the glyph, and the charge meter are called. The wiring is `docs/WIRING_197.md`. The tables are `docs/LIVE_TEST_197.md`.
+
+**Resolution:** The Phase Parsing Engine KPI table places the letter. M charge is −2. The flag is `KPI-M-CHARGE`. HarperScript stays historical and does not place a letter. ε and μ on the 425 seeds are proposal v1. Birth state is ε=0 and μ=1.0. remember is a Drift Carrier. The 3.2 rating and the +8 PCM sum are not used. A Φ5→Φ8 letter walk is flagged and does not admit. ChristPing stays Gilligan-only and is not started here. The letter map does not recall and does not admit. A write still needs drift at or under 0.35. The hard stop stays above 0.8. C_min stays 0.87. Echo stays 0.85. The coherence formula is unchanged. Cold admits stay 48. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled. No Supabase migration is added.
+
 ## v4.9.196 — storage tiers (2026-10-30 America/Chicago)
 
 **Conflict:** PMA §6 names Hot, Warm (SPC), Cold, and Deep ghost. The Codex names an SPC write above 0.5, a cold archive below entropy 0.6, and a resurrect cut below 0.3. Patch 266 kept Cold and Deep off the resurrection path. The 168-hour charge and the seven gates were already functions and were not the ladder.
