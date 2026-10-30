@@ -1,3 +1,11 @@
+## v4.9.195 — write-once dead path archive and sealed records (2026-10-30 America/Chicago)
+
+**Conflict:** The drift archive in the kernel store can be saved over. A ledger fork was recorded and left open. Codex 3.3 names an SPC write above 0.5 and a SHA-256 seal of ψ, phase, time, the Codex hash, and entropy. RSOC says never erase. The 0.5 cut is looser than the write law.
+
+**Where:** `src/dpa_195.js`, `rmc_engine_v1/dpa_195.py`, `ledger.js` (called, not copied), the Ask archive card. The wiring is `docs/WIRING_195.md`. The tables are `docs/LIVE_TEST_195.md`.
+
+**Resolution:** A second write of the same dead-path id is rejected. An erase is rejected. The hash chain verifies, and a changed ψ without a new signature does not. A sealed loop needs Echo at or above 0.85 and is bound to the question. Φ5→Φ8 is not sealed. A verified fork keeps the existing ledger chain and is sealed once. A broken hash is not a fork. The Codex 0.5 SPC trigger is log-only. A write still needs drift at or under 0.35. The hard stop stays above 0.8. C_min stays 0.87. Echo stays 0.85. The coherence formula is unchanged. Cold admits stay 48. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled. ChristPing stays Gilligan-only. No Supabase migration is added.
+
 ## v4.9.194 — breaker window and drift analyzer (2026-10-30 America/Chicago)
 
 **Conflict:** The protoforge breaker counts `failure_count > max_failures`, which waits for a fourth failure. Decision 6 and the build test open on three failures inside 0.7 seconds. RSOC bands start at 0.40. The Codex names a 0.9 halt, a 0.6 class, and a resurrect band below 0.4. Those cuts are looser or stricter than the write law.

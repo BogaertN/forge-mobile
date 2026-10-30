@@ -158,6 +158,42 @@ T('the stage does not admit and the module does not call a model', () => {
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
 });
 
+T('cold admits stay 48 of 60 and the release is 4.9.195', () => {
+  const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_195_results.json'), 'utf8'));
+  const prior = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_194_results.json'), 'utf8'));
+  expect(live.stable === true && live.calls_llm === false, JSON.stringify({ stable: live.stable, llm: live.calls_llm }));
+  for (const p of live.passes) {
+    expect(p.admitted === 48 && p.held === 12, p.name + ' ' + p.admitted);
+    expect(p.rows.every(r => r.dpa_admit_gate === false && r.dpa_calls_llm === false), p.name + ' admit gate');
+  }
+  const now = new Set(live.passes[0].rows.filter(r => r.admitted).map(r => r.question));
+  const then = new Set(prior.passes[0].rows.filter(r => r.admitted).map(r => r.question));
+  expect(now.size === 48 && [...now].every(q => then.has(q)) && [...then].every(q => now.has(q)), 'admit set moved');
+  const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_195_pyodide.json'), 'utf8'));
+  expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
+  const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
+  expect(ver === '4.9.195', ver);
+  const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
+  expect(/v4\.9\.195/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
+  const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
+  expect(/4\.9\.195/.test(nb) && /WIRING_195/.test(nb), 'NEXT_BUILD');
+  const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
+  expect(/4\.9\.195/.test(readme) && /WIRING_195/.test(readme), 'README');
+  const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_195.md'), 'utf8');
+  expect(/0\.87/.test(doc) && /No model is called/.test(doc) && /DPA-REWRITE-REJECTED/.test(doc), 'WIRING');
+  const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
+  expect(reg.version === '4.9.195' && reg.features.some(f => f.id === 'R4195-DEAD-PATH-ARCHIVE') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 189, reg.version + ' ' + reg.count);
+  const Next = require(ROOT + '/src/next_layer.js');
+  expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, 'defaults');
+  Next.set('dream_idle', true);
+  Next.set('economy', true);
+  expect(Next.enabled('dream_idle') === true && Next.enabled('economy') === true, 'test-only enable');
+  Next.set('dream_idle', false);
+  Next.set('economy', false);
+  const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
+  expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
+});
+
 const rows = [];
 let failed = 0;
 for (const t of tests) {
