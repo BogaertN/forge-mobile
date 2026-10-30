@@ -83,7 +83,7 @@ T('charge is conserved and RSOC numbers win', () => {
   expect(blocked.naming_blocked === true && blocked.pass === false, 'membrane blocks naming');
   expect(passed.pass === true && passed.export_blocked === false && passed.before_naming === true && passed.before_export === true, 'membrane passes 6-7-8');
   const axes = ran.log[8];
-  expect(axes.M.lambda_unspecified === true && axes.M.value === null && axes.M.integral === 1, JSON.stringify(axes.M));
+  expect(axes.M.lambda_unspecified === false && axes.M.value === 0.9959 && axes.M.integral === 1, JSON.stringify(axes.M));
   expect(axes.V_c.value === 0.4 && axes.V_c.seeding_internal === true && axes.V_c.admit_gate === false, JSON.stringify(axes.V_c));
   expect(ran.log[9].order.join(' ') === 'chi advance merge discharge memory', ran.log[9].order.join(' '));
 });
@@ -118,9 +118,9 @@ T('operators, the echo trace, and the unparameterized steps match', () => {
   const dis = ran.log[2];
   expect(dis.sfe.Delta === 0 && dis.sfe.nu === 0 && dis.sfe.eps === 0.027 && dis.sfe.mu === 2 && dis.ua.form.indexOf('mu to 0') >= 0, JSON.stringify(dis.sfe));
   const mem = ran.log[3];
-  expect(mem.M === null && mem.lambda_unspecified === true && mem.code_step === 0.46, mem.code_step);
+  expect(mem.M === null && mem.lambda_unspecified === false && mem.mu_birth === 1 && mem.mu_min === 0.1 && mem.mu_max === 10 && mem.code_step === 0.46 && Math.abs(mem.lambda - Math.LN2 / 168) < 1e-12, mem.code_step);
   const spc = ran.log[4];
-  expect(spc.parameterized === false && spc.lambda === null && spc.cite.indexOf('unspecified') >= 0, spc.cite);
+  expect(spc.parameterized === true && spc.subtractive === false && spc.leak === 'amplify' && spc.sfe.mu === mem.sfe.mu && Math.abs(spc.lambda - Math.LN2 / 168) < 1e-12 && spc.cite.indexOf('amplify') >= 0, spc.cite);
   const rates = ran.log[6];
   expect(rates.dmu_dt === null && rates.kappa_unspecified === true && rates.de_dt === 0.149, JSON.stringify(rates));
   const reject = ran.log[9];

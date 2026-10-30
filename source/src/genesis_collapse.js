@@ -16,7 +16,10 @@
       entropy: entropy * 0.3, consecutive_drift: 0, writes: false, cite: CITE
     };
   }
-  function spcCharge(c0, tHours) { return Number(c0) * Math.exp(-LAMBDA * Number(tHours)); }
+  function spcCharge(c0, tHours, identity) {
+    const H = (typeof module !== 'undefined' && module.exports) ? require('./research_hooks.js') : root.ResearchHooks;
+    return H.chargeDecay(c0, tHours, !!identity);
+  }
   function spcAccess(accessTotal) {
     const total = Number.isFinite(Number(accessTotal)) ? Number(accessTotal) : 0;
     return { added: Math.round(Math.min(0.2, total + 0.01) * 1e6) / 1e6, step: 0.01, cap: 0.2 };

@@ -34,7 +34,13 @@ A Φ5→Φ8 step returns no output. A Φ4→Φ8 step is flagged and does not har
 
 ## Hooks
 
-M and `spc_lambda` live in `research_hooks`. Both stay null. Setting a value there is the one place geometry and the renderer read. An explicit caller value still wins over the default.
+M and SPC λ live in `research_hooks`. Nic approved the values on 2026-10-30. The citations are the Resonant Symbolic Operator Calculus Google Doc, December 2025, and the Genesis Node spec at gnspec lines 6743–6820 and 7510.
+
+μ birth is 1.0. The living range is 0.1 to 10. Phase 8 discharge sets μ to 0 after Echo is computed from the pre-zero μ: E = μ·e^(−1.8ε)·cos(Φ), with ε′ = 0.3ε. Other phases keep μ on discharge.
+
+Drift loss is the amplify step μ′ = k·μ·e^(−2.2|Δ|), with k in [1, 2]. That replaces the subtractive λΔ² leak. Merge is μ′ = μ1+μ2+0.12·cos²δ and calls `kmath.merge` with that 0.12. Lock is μ′ = μ1+μ2. Fracture splits μ−0.08. The charge ledger keeps μ′+μ_folded equal to the original within η = 0.003.
+
+SPC decay is C(t) = C0·e^(−λt), with λ = ln2 / half-life. The default half-life is 168 hours. An identity SPC uses 720 hours. Each access adds 0.05, capped at 1.0. The access bonus is min(0.01·count, 0.2), from the existing Genesis access step. Active stays above 0.1. `genesis_collapse.spcCharge` calls this decay.
 
 ## Screen
 

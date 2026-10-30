@@ -167,10 +167,20 @@
   }
 
   function hookReport() {
-    const m = Hooks.memoryTermM();
-    const lam = Hooks.spcLambda();
-    const set = !(m === undefined || m === null || m === '') || !(lam === undefined || lam === null || lam === '');
-    return { config: 'research_hooks', M: m, spc_lambda: lam, parameterized: set };
+    const cfg = Hooks.RESEARCH_HOOKS;
+    return {
+      config: 'research_hooks',
+      M: Hooks.memoryTermM(),
+      mu_min: cfg.mu_min,
+      mu_max: cfg.mu_max,
+      mu_birth: cfg.mu_birth,
+      spc_lambda: Hooks.spcLambda(),
+      half_life_hours: cfg.half_life_hours,
+      identity_half_life_hours: cfg.identity_half_life_hours,
+      drift_loss: cfg.drift_loss,
+      parameterized: true,
+      cite: Hooks.CITE
+    };
   }
 
   function render(body) {
@@ -271,7 +281,12 @@
       echo_pass: passed.echo.pass,
       output_withheld_on_echo_fail: failed.output === '',
       M: Hooks.memoryTermM(),
+      mu_min: Hooks.RESEARCH_HOOKS.mu_min,
+      mu_max: Hooks.RESEARCH_HOOKS.mu_max,
       spc_lambda: Hooks.spcLambda(),
+      half_life_hours: Hooks.RESEARCH_HOOKS.half_life_hours,
+      identity_half_life_hours: Hooks.RESEARCH_HOOKS.identity_half_life_hours,
+      drift_loss: Hooks.RESEARCH_HOOKS.drift_loss,
       cite: CITE
     }, flags());
   }

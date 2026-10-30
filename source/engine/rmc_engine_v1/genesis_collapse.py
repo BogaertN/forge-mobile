@@ -51,9 +51,11 @@ def chi_collapse(state: dict[str, Any] | None) -> dict[str, Any]:
     }
 
 
-def spc_charge(c0: float, t_hours: float) -> float:
-    """C = C0 · e^(−λt). Half-life is 168 hours."""
-    return float(c0) * math.exp(-LAMBDA * float(t_hours))
+def spc_charge(c0: float, t_hours: float, identity: bool = False) -> float:
+    """C = C0 · e^(−λt). λ = ln2 / half-life. Default half-life is the hooks value, 168 hours."""
+    from rmc_engine_v1.research_hooks import charge_decay
+
+    return charge_decay(c0, t_hours, identity)
 
 
 def spc_access(access_total: float) -> dict[str, Any]:

@@ -6,6 +6,8 @@ const path = require('path');
 const cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const R = require(ROOT + '/src/rmc_renderer_200.js');
+const G = require(ROOT + '/src/geometry_199.js');
+const H = require(ROOT + '/src/research_hooks.js');
 const tests = [];
 const T = (name, fn) => tests.push({ name, fn });
 const expect = (c, why) => { if (!c) throw new Error(why || 'expectation failed'); };
@@ -56,7 +58,7 @@ T('a passing echo is closed and a failing echo returns no output', () => {
   expect(passed.decode.pass === true && passed.network === false && passed.calls_llm === false && passed.admit_gate === false && passed.persisted === false, 'decode');
   expect(passed.c_min === 0.87 && passed.echo_min === 0.85 && passed.write_max === 0.35 && passed.hard_stop === 0.8, 'laws');
   expect(passed.money === false && passed.dream_idle === false && passed.economy === false && passed.packs_gated === true && passed.wikipedia_anchor === false && passed.christping_started === false && passed.resonance_not_parsing === true, 'switches');
-  expect(passed.hooks.M === null && passed.hooks.spc_lambda === null && passed.hooks.parameterized === false && passed.hooks.config === 'research_hooks', JSON.stringify(passed.hooks));
+  expect(passed.hooks.M === 1 && passed.hooks.mu_min === 0.1 && passed.hooks.mu_max === 10 && passed.hooks.mu_birth === 1 && passed.hooks.half_life_hours === 168 && passed.hooks.identity_half_life_hours === 720 && passed.hooks.drift_loss === 'amplify' && passed.hooks.parameterized === true && Math.abs(passed.hooks.spc_lambda - Math.LN2 / 168) < 1e-12 && /Dec 2025/.test(passed.hooks.cite) && /l\.6743-6820/.test(passed.hooks.cite), JSON.stringify(passed.hooks));
 });
 
 T('tone, the loop anchor, drift, and 5 to 8 follow the laws', () => {
@@ -93,6 +95,54 @@ T('tone, the loop anchor, drift, and 5 to 8 follow the laws', () => {
   expect(loud.tone.intermediate_bounds === 'unspecified' && silent.tone.reason === 'charge-0-to-0.3', silent.tone.reason);
 });
 
+T('approved mu and SPC values match the cited formulas', () => {
+  const lam = Math.LN2 / 168;
+  expect(Math.abs(H.spcLambda() - lam) < 1e-15 && Math.abs(H.spcLambda(720) - Math.LN2 / 720) < 1e-15, 'lambda');
+  expect(Math.abs(H.chargeDecay(1, 168, false) - 0.5) < 1e-12, String(H.chargeDecay(1, 168, false)));
+  expect(Math.abs(H.chargeDecay(1, 720, true) - 0.5) < 1e-12, String(H.chargeDecay(1, 720, true)));
+  const born = H.memoryTerm(1, 0, false);
+  expect(born.mu_birth === 1 && born.mu_min === 0.1 && born.mu_max === 10 && born.value === 1, JSON.stringify(born));
+  const aged = H.memoryTerm(1, 1, false);
+  expect(Math.abs(aged.value - Math.exp(-lam)) < 1e-12, String(aged.value));
+  const few = H.accessReport(3);
+  const many = H.accessReport(30);
+  const edge = H.accessReport(2);
+  expect(Math.abs(few.lift - 0.15) < 1e-12 && Math.abs(few.bonus - 0.03) < 1e-12 && few.active === true, JSON.stringify(few));
+  expect(many.lift === 1 && Math.abs(many.bonus - 0.2) < 1e-12, JSON.stringify(many));
+  expect(edge.lift === 0.1 && edge.active === false && edge.active_above === 0.1, JSON.stringify(edge));
+  const phase8Body = {
+    op: 'script',
+    steps: [
+      { op: 'birth', id: 'p', Phi: 8, mu: 1, eps: 0.2, chi: 0, Delta: 0, nu: 0 },
+      { op: 'discharge', id: 'p' }
+    ]
+  };
+  const phase8 = G.run(phase8Body);
+  const phase8Py = cp.spawnSync('python3', ['-m', 'rmc_engine_v1.geometry_199'], {
+    input: JSON.stringify(phase8Body),
+    cwd: path.join(ROOT, 'engine'),
+    env: Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') }),
+    encoding: 'utf8',
+  });
+  if (phase8Py.status) throw new Error(String(phase8Py.stderr || phase8Py.stdout).slice(0, 500));
+  same(phase8, JSON.parse(phase8Py.stdout), 'phase8');
+  const dropped = phase8.log[1];
+  expect(dropped.phase8 === true && dropped.sfe.mu === 0 && dropped.sfe.eps === 0.06 && phase8.charge.conserved === true && phase8.charge.eta_limit === 0.003, JSON.stringify(dropped.sfe));
+  const loss = G.run({
+    op: 'script',
+    steps: [
+      { op: 'birth', id: 'p', Phi: 1, mu: 1, eps: 0, chi: 0, Delta: 1, nu: 0 },
+      { op: 'amplify', id: 'p', k: 2 },
+      { op: 'spc', id: 'p', lambda: null, t_hours: 168 }
+    ]
+  });
+  const amp = loss.log[1];
+  const held = loss.log[2];
+  expect(Math.abs(amp.sfe.mu - 2 * Math.exp(-2.2)) < 1e-4, String(amp.sfe.mu));
+  expect(held.subtractive === false && held.sfe.mu === amp.sfe.mu && Math.abs(held.C - amp.sfe.mu * Math.exp(-Math.LN2)) < 1e-4, JSON.stringify({ mu: held.sfe.mu, C: held.C }));
+  expect(/Dec 2025/.test(H.CITE) && /l\.7510/.test(H.CITE), H.CITE);
+});
+
 T('the Ask card and trace do not admit or call a model', () => {
   for (const mode of ['pass', 'echo', 'tone', 'anchor', 'hooks']) {
     const lines = R.monitorLines(mode);
@@ -112,7 +162,7 @@ T('the Ask card and trace do not admit or call a model', () => {
   expect(!/openai|ollama|anthropic|fetch\(|llm_renderer|urllib|requests/.test(js) && !/openai|ollama|anthropic|urllib|requests|socket/.test(pySrc), 'no model');
   const staged = R.stage();
   same(staged, py({ op: 'stage' }), 'stage');
-  expect(staged.persisted === false && staged.admit_gate === false && staged.calls_llm === false && staged.network === false && staged.failing_echo_output === '' && staged.failing_echo_closed === false && staged.response_closed === true && staged.M === null && staged.spc_lambda === null && staged.renderer_build === '4.9.200', JSON.stringify(staged));
+  expect(staged.persisted === false && staged.admit_gate === false && staged.calls_llm === false && staged.network === false && staged.failing_echo_output === '' && staged.failing_echo_closed === false && staged.response_closed === true && staged.M === 1 && staged.mu_min === 0.1 && staged.mu_max === 10 && staged.half_life_hours === 168 && staged.drift_loss === 'amplify' && Math.abs(staged.spc_lambda - Math.LN2 / 168) < 1e-12 && staged.renderer_build === '4.9.200', JSON.stringify(staged));
   const eng = cp.spawnSync('python3', ['-c', 'import json; from rmc_engine_v1.language_core_engines import run_engines; print(json.dumps(run_engines(0.2, 4, None, None, None, "why is the sky blue")["rmc_renderer_200"]))'], {
     cwd: path.join(ROOT, 'engine'),
     env: Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') }),
@@ -120,7 +170,7 @@ T('the Ask card and trace do not admit or call a model', () => {
   });
   if (eng.status) throw new Error(String(eng.stderr || eng.stdout).slice(0, 500));
   const traced = JSON.parse(eng.stdout);
-  expect(traced.persisted === false && traced.admit_gate === false && traced.calls_llm === false && traced.network === false && traced.failing_echo_output === '' && traced.renderer_build === '4.9.200' && traced.M === null && traced.spc_lambda === null, JSON.stringify(traced));
+  expect(traced.persisted === false && traced.admit_gate === false && traced.calls_llm === false && traced.network === false && traced.failing_echo_output === '' && traced.renderer_build === '4.9.200' && traced.M === 1 && traced.mu_min === 0.1 && traced.mu_max === 10 && Math.abs(traced.spc_lambda - Math.LN2 / 168) < 1e-12, JSON.stringify(traced));
 });
 
 T('cold admits stay 48 of 60 and the release is 4.9.200', () => {
@@ -129,7 +179,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.200', () => {
   expect(live.stable === true && live.calls_llm === false, JSON.stringify({ stable: live.stable, llm: live.calls_llm }));
   for (const p of live.passes) {
     expect(p.admitted === 48 && p.held === 12, p.name + ' ' + p.admitted);
-    expect(p.rows.every(r => r.renderer_admit_gate === false && r.renderer_calls_llm === false && r.renderer_network === false && r.renderer_dream_idle === false && r.renderer_persisted === false && r.renderer_failing_echo_output === '' && r.renderer_failing_echo_closed === false && r.renderer_wikipedia_anchor === false && r.renderer_money === false && r.renderer_economy === false && r.renderer_M === null && r.renderer_spc_lambda === null && r.renderer_build === '4.9.200' && r.geometry_build === '4.9.199'), p.name + ' renderer');
+    expect(p.rows.every(r => r.renderer_admit_gate === false && r.renderer_calls_llm === false && r.renderer_network === false && r.renderer_dream_idle === false && r.renderer_persisted === false && r.renderer_failing_echo_output === '' && r.renderer_failing_echo_closed === false && r.renderer_wikipedia_anchor === false && r.renderer_money === false && r.renderer_economy === false && r.renderer_M === 1 && Math.abs(r.renderer_spc_lambda - Math.LN2 / 168) < 1e-12 && r.renderer_build === '4.9.200' && r.geometry_build === '4.9.199'), p.name + ' renderer');
   }
   const now = new Set(live.passes[0].rows.filter(r => r.admitted).map(r => r.question));
   const then = new Set(prior.passes[0].rows.filter(r => r.admitted).map(r => r.question));

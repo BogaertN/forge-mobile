@@ -18,7 +18,7 @@ from rmc_engine_v1.echo_question import _STOP, echo_against_question
 from rmc_engine_v1.geometry_199 import angle_of, cdist, r4, run as geometry_run
 from rmc_engine_v1.language_core_engines import FORBIDDEN_STEPS, HARD_STOP
 from rmc_engine_v1.ppe_lexicon_197 import word as ppe_word
-from rmc_engine_v1.research_hooks import memory_term_m, spc_lambda
+from rmc_engine_v1.research_hooks import RESEARCH_HOOKS, memory_term_m, spc_lambda
 
 STORAGE_KEY = "kernel.rmc_renderer_200"
 CITE = (
@@ -189,10 +189,19 @@ def preservation(score: float, q_phi: Any, a_phi: Any) -> dict[str, Any]:
 
 
 def hook_report() -> dict[str, Any]:
-    m = memory_term_m()
-    lam = spc_lambda()
-    set_ = not (m is None or m == "") or not (lam is None or lam == "")
-    return {"config": "research_hooks", "M": m, "spc_lambda": lam, "parameterized": set_}
+    return {
+        "config": "research_hooks",
+        "M": memory_term_m(),
+        "mu_min": RESEARCH_HOOKS["mu_min"],
+        "mu_max": RESEARCH_HOOKS["mu_max"],
+        "mu_birth": RESEARCH_HOOKS["mu_birth"],
+        "spc_lambda": spc_lambda(),
+        "half_life_hours": RESEARCH_HOOKS["half_life_hours"],
+        "identity_half_life_hours": RESEARCH_HOOKS["identity_half_life_hours"],
+        "drift_loss": RESEARCH_HOOKS["drift_loss"],
+        "parameterized": True,
+        "cite": RESEARCH_HOOKS["cite"],
+    }
 
 
 def render(body: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -309,7 +318,12 @@ def stage(question: str | None = None) -> dict[str, Any]:
         "echo_pass": passed["echo"]["pass"],
         "output_withheld_on_echo_fail": failed["output"] == "",
         "M": memory_term_m(),
+        "mu_min": RESEARCH_HOOKS["mu_min"],
+        "mu_max": RESEARCH_HOOKS["mu_max"],
         "spc_lambda": spc_lambda(),
+        "half_life_hours": RESEARCH_HOOKS["half_life_hours"],
+        "identity_half_life_hours": RESEARCH_HOOKS["identity_half_life_hours"],
+        "drift_loss": RESEARCH_HOOKS["drift_loss"],
         "cite": CITE,
     }
     out.update(flags())
