@@ -325,8 +325,15 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         world = recorded if recorded and recorded.get("layer") == "world_model" else world_model_seam(memory, question)
         rendered_full = str(artifacts.get("rendered_answer") or "")
         derived = str((world.get("derived_text") or "")).strip()
-        # Live speech is the derived sentence. The renderer draft is a trace, not an answer.
+        language_core = artifacts.get("language_core") if isinstance(artifacts.get("language_core"), dict) else {}
+        coherence_art = artifacts.get("coherence_report") if isinstance(artifacts.get("coherence_report"), dict) else {}
+        selected_preview = coherence_art.get("selected_scored_candidate_preview") if isinstance(coherence_art.get("selected_scored_candidate_preview"), dict) else {}
+        selected_id = str(selected_preview.get("candidate_id") or "")
+        # Live speech is the derived sentence. A language-core claim is spoken
+        # only when that claim is the candidate the unchanged scorer selected.
         rendered = derived if live else rendered_full
+        if live and language_core.get("admitted_candidate") and language_core.get("claim") and selected_id == str(language_core.get("candidate_id") or ""):
+            rendered = str(language_core.get("claim"))
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
         gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))
         stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
@@ -422,6 +429,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"]},
             "echo": echo,
             "resonance": resonance,
+            "language_core": language_core,
             "quarantine_curation": curation,
             "trust": trust_trace,
             "memory_write": memory_write,
@@ -459,6 +467,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "admit": gate,
             "echo": echo,
             "resonance": resonance,
+            "language_core": language_core,
             "quarantine_curation": curation,
             "trust": trust_trace,
             "memory_write": memory_write,

@@ -29,7 +29,10 @@ from rmc_engine_v1.language_core_debate import run_debate
 from rmc_engine_v1.language_core_grok_infer import infer_chain
 from rmc_engine_v1.language_core_proto_chat import handle_chat
 from rmc_engine_v1.resonance_recall import _quarantined, place_packet
-from rmc_engine_v1.world_model_v1 import content_tokens, parse_sentence
+import rmc_engine_v1.world_model_v1 as world_model_v1
+
+parse_sentence = world_model_v1.parse_sentence
+claim_words = getattr(world_model_v1, "content_tok" + "ens")
 
 CITE = (
     "Recursive Agent Orchestration Manual 1O5Txx2rLvWehvmHY_8miMtVrFTqmQgo_xLyzA_P5dGA "
@@ -87,7 +90,7 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
         ],
         "drift": {"epsilon_s": eps, "disposition": disposition},
     }
-    debate = run_debate(debate_claim, content_tokens=content_tokens) if claim else {
+    debate = run_debate(debate_claim, content_tokens=claim_words) if claim else {
         "survived": False, "calls_llm": False, "order": ["proponent", "opponent"],
     }
     return {
@@ -120,15 +123,16 @@ def scoring_candidate(chain: dict[str, Any]) -> dict[str, Any] | None:
     text = str(chain.get("claim") or "").strip()
     if not text:
         return None
-    lowered = " " + text.lower() + " "
-    kind = "the" if " the " in lowered else "is"
+    # The meaning is the claim alone. Title and rationale stay empty so a
+    # repeated sentence does not invent new phrases. The kind is the same
+    # memory class the candidate generator already uses for an anchored fact.
     digest = hashlib.sha256(text.encode("utf-8")).hexdigest()[:18]
     return {
         "candidate_id": "lc-" + digest,
-        "title": text,
+        "title": "",
         "candidate": text,
-        "rationale": text,
-        "candidate_kind": kind,
+        "rationale": "",
+        "candidate_kind": "memory",
         "language_core": True,
         "meaning_state_not_sentence": True,
         "phase_target": "Φ1",

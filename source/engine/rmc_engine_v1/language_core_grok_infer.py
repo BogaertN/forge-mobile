@@ -103,8 +103,10 @@ def infer_step(current: dict[str, Any] | None, pool: list[dict[str, Any]], quest
     if current is not None:
         cur_concepts = _concept_ids(clean_text(current))
         for node in ranked:
-            shared = q_concepts & _concept_ids(clean_text(node)) & (cur_concepts or q_concepts)
-            if shared:
+            nxt = _concept_ids(clean_text(node))
+            shared = q_concepts & nxt & (cur_concepts or q_concepts)
+            # A fact that names a concept the question did not ask is not the next state.
+            if shared and not (nxt - q_concepts):
                 return node
         return None
     for node in ranked:

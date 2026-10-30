@@ -675,6 +675,145 @@ def _run_late_stages(
     return stages, artifacts
 
 
+def _offer_language_core(question: str, trace_spine: dict[str, Any], phase_report: dict[str, Any], candidate_report: dict[str, Any], stages: list[dict[str, Any]], artifacts: dict[str, Any]) -> None:
+    """Run the language-core functions and offer a candidate when the unchanged gate would pass."""
+    from rmc_engine_v1.language_core_orchestration import orchestrate, scoring_candidate
+    from rmc_engine_v1.measurement_kernel import coherence_components, measure_candidate
+    from rmc_engine_v1.mobile_config import THRESHOLDS
+    from rmc_engine_v1.rmc_core import echo_against_question
+
+    recall = _as_dict(_as_dict(trace_spine.get("memory_recall")).get("memory_state"))
+    active = recall.get("active_memory_nodes") if isinstance(recall.get("active_memory_nodes"), list) else []
+    observed = recall.get("admitted_for_observe") if isinstance(recall.get("admitted_for_observe"), list) else []
+    # The chain may walk every trusted fact. The scorer's memory_fit is the
+    # active phase-aligned set, which is the same set the other candidates use.
+    nodes = observed or active
+    chain = orchestrate(question, nodes, phase_report if isinstance(phase_report, dict) else None)
+    public = {
+        "function": chain.get("function"),
+        "module": chain.get("module"),
+        "cite": chain.get("cite"),
+        "calls_llm": False,
+        "model_invoked": False,
+        "os_process": False,
+        "christping_initiated": False,
+        "christping_owner": "gilligan_only",
+        "speech_act": chain.get("speech_act"),
+        "chat": chain.get("chat"),
+        "inference": chain.get("inference"),
+        "lifecycle": chain.get("lifecycle"),
+        "hops": chain.get("hops"),
+        "claim": chain.get("claim"),
+        "anchors_connected": chain.get("anchors_connected"),
+        "gap": chain.get("gap"),
+        "debate": chain.get("debate"),
+        "admitted_candidate": False,
+        "candidate_id": None,
+    }
+    from rmc_engine_v1.language_core_debate import run_debate
+    from rmc_engine_v1.world_model_v1 import content_tokens, parse_sentence
+
+    best = None
+    best_score = -1.0
+    best_measured = None
+    best_parts = None
+    best_echo = None
+    for hop in chain.get("hops") or []:
+        if not isinstance(hop, dict):
+            continue
+        text = str(hop.get("text") or "").strip()
+        if not text:
+            continue
+        try:
+            eps_hop = float(hop.get("eps") or 0.0)
+        except (TypeError, ValueError):
+            eps_hop = 0.0
+        disposition = "clean" if eps_hop <= float(THRESHOLDS["drift_quarantine"]) else "quarantine"
+        parsed = parse_sentence(text)
+        atom = (parsed or {}).get("atom") or {"predicate": "stated", "args": [text], "polarity": "pos"}
+        debated = run_debate({
+            "text": text,
+            "atom": atom,
+            "status": "supported_only",
+            "checker_ok": disposition == "clean",
+            "checker_reason": "the claim is the trusted fact",
+            "premises": [
+                {"id": h.get("memory_id"), "text": h.get("text"), "quarantined": False}
+                for h in (chain.get("hops") or []) if isinstance(h, dict)
+            ],
+            "drift": {"epsilon_s": eps_hop, "disposition": disposition},
+        }, content_tokens=content_tokens)
+        if debated.get("survived") is not True:
+            continue
+        echo = echo_against_question(question, text, rendered=True)
+        if not echo.get("pass"):
+            continue
+        cand = scoring_candidate({"claim": text, "debate": debated})
+        if cand is None:
+            continue
+        measured = measure_candidate(cand, candidate_report, memory_nodes=active or nodes)
+        parts = coherence_components(cand, measured)
+        eps = _number(measured.get("epsilon_s"), 1.0)
+        score = _number(parts.get("coherence_score"), 0.0)
+        public["premeasure"] = {
+            "C": score,
+            "epsilon_s": eps,
+            "memory_fit": parts.get("memory_fit"),
+            "utility_fit": parts.get("utility_fit"),
+            "bounded": bool(measured.get("bounded_evolutionary_drift")),
+            "circuit_breaker": bool(measured.get("circuit_breaker")),
+            "formula": parts.get("formula"),
+        }
+        public["echo_precheck"] = {"score": echo.get("score"), "pass": True, "min": echo.get("min")}
+        if not (
+            measured.get("bounded_evolutionary_drift")
+            and not measured.get("circuit_breaker")
+            and score >= float(THRESHOLDS["C_min"])
+            and eps <= float(THRESHOLDS["drift_quarantine"])
+            and score > best_score
+        ):
+            continue
+        best = cand
+        best_score = score
+        best_measured = measured
+        best_parts = parts
+        best_echo = echo
+    if best is not None and best_measured is not None and best_parts is not None:
+        # The stored trace drops the sentence body. Keep the measurement
+        # taken against the live active nodes. The formula is unchanged.
+        best["measurement_kernel"] = best_measured
+        rowset = candidate_report.get("candidate_set")
+        if not isinstance(rowset, list):
+            rowset = []
+            candidate_report["candidate_set"] = rowset
+        rowset.append(best)
+        public["claim"] = best.get("candidate")
+        public["candidate_id"] = best.get("candidate_id")
+        public["admitted_candidate"] = True
+        public["debate"] = {"survived": True, "calls_llm": False, "order": ["proponent", "opponent"]}
+        public["premeasure"] = {
+            "C": best_score,
+            "epsilon_s": best_measured.get("epsilon_s"),
+            "memory_fit": best_parts.get("memory_fit"),
+            "utility_fit": best_parts.get("utility_fit"),
+            "bounded": True,
+            "circuit_breaker": False,
+            "formula": best_parts.get("formula"),
+        }
+        public["echo_precheck"] = {"score": (best_echo or {}).get("score"), "pass": True, "min": (best_echo or {}).get("min")}
+    artifacts["language_core"] = public
+    stages.append(_stage_ok("language_core_orchestration", {
+        "function": public.get("function"),
+        "speech_act": public.get("speech_act"),
+        "anchors_connected": public.get("anchors_connected"),
+        "gap": public.get("gap"),
+        "admitted_candidate": public.get("admitted_candidate"),
+        "calls_llm": False,
+        "model_invoked": False,
+        "cite": public.get("cite"),
+    }))
+
+
 def run_deep_dry_run(
     source_text: str | None = None,
     source_metadata: dict[str, Any] | None = None,
@@ -782,6 +921,8 @@ def run_deep_dry_run(
         }
         artifacts["candidate_report"] = candidate_report
         stages.append(_stage_error("candidate_generator", exc, fallback_used=True))
+
+    _offer_language_core(source_text, trace_spine, phase_report, candidate_report, stages, artifacts)
 
     evolution_report: dict[str, Any] = {}
     try:
