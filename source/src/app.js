@@ -261,6 +261,25 @@ function anchorSample(row) {
   const prov = hit.provenance || {};
   return 'anchor ' + esc(hit.id) + ' · state anchor · trust trusted · Φ ' + esc(p.Phi) + ' · ε ' + esc(p.eps) + ' · μ ' + esc(p.mu) + ' · license ' + esc(hit.license) + ' · revision ' + esc(hit.revision) + ' · ' + esc(hit.contributor) + ' · ' + esc(prov.source_url || hit.source_url) + ' · ' + esc(String(hit.text || '').slice(0, 180));
 }
+function engineStage(row) {
+  const eng = (row && row.engines) || (row && row.trace && row.trace.engines) || {};
+  const os = eng.protoforge_os_layer || {};
+  const br = eng.drift_circuit_breaker || {};
+  const tax = eng.drift_taxonomy || {};
+  const cor = eng.gilligan_drift_correction || {};
+  const rec = eng.gilligan_re_curation || {};
+  if (!eng.drift_taxonomy && !os.rule) return '';
+  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + esc(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + '</div>';
+}
+function renderLexiconPackets() {
+  const host = $('#lexiconPacketBody');
+  if (!host || !window.ResonanceLexicon) return;
+  const words = ['sky', 'leaves', 'ocean', 'friction'];
+  host.innerHTML = words.map(word => {
+    const pkt = ResonanceLexicon.placeWord(word);
+    return '<div class="meta" data-lexicon-row="' + esc(word) + '">' + esc(pkt.glyph) + ' Φ' + esc(pkt.Phi) + ' · ' + esc(word) + ' · ε ' + esc(pkt.eps) + ' · μ ' + esc(pkt.mu) + ' · ' + esc(pkt.authority) + ' · seed ' + esc((pkt.cite || []).slice(0, 4).join(', ')) + '</div>';
+  }).join('') + '<div class="meta">' + esc(ResonanceLexicon.wordCount()) + ' seed words. Numeric μ is unspecified. C_min stays 0.87.</div>';
+}
 function renderRmc(text, row) {
   const host = $('#rmcLive'), body = $('#rmcLiveBody');
   if (!host || !body) return;
@@ -297,7 +316,8 @@ function renderRmc(text, row) {
     + '<div class="meta" data-memory-write>memory writer ' + (write.committed ? 'committed' : 'not committed') + ' · packet ' + esc(packet.schema || 'none') + ' · Φ ' + esc(packet.Phi) + ' · ε ' + esc(packet.eps) + ' · μ ' + esc(packet.mu) + ' · contributor ' + esc(write.provenance && write.provenance.contributor) + ' · supabase ' + esc(write.supabase && write.supabase.rule) + '</div>'
     + '<div class="meta" data-source-trust>trust ' + esc(row && row.trust && row.trust.rule) + ' · low-trust ' + esc(row && row.trust && row.trust.low_trust) + ' · rests on ' + esc(row && row.trust && row.trust.rests_on) + ' · points ' + esc(((row && row.trust && row.trust.points_at) || []).join(', ')) + '</div>'
     + '<div class="meta" data-anchor-sample>' + anchorSample(row) + '</div>'
-    + '<div class="meta">phase ' + esc(phase.primary) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
+    + '<div class="meta" data-phase-glyph>phase ' + esc(phase.primary) + ' ' + esc(phase.glyph || '') + ' · concept ' + esc(phase.concept) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
+    + engineStage(row)
     + '<div class="meta" data-rmc-late>' + late + '</div>'
     + '<div class="meta">' + (row && row.product_reply ? 'Admitted answer from the RMC renderer.' : 'Held. This card is the trace. Stages 14–16 ran. Observe, Derive, and the debate ran in the engine.') + '</div>';
   host.setAttribute('data-ready', '1');
@@ -487,6 +507,7 @@ function policyHTML() { const sw = forge.perm.switches, pol = forge.perm.policy(
 document.addEventListener('change', e => { const k = e.target && e.target.dataset && e.target.dataset.pol; if (!k) return; const d = forge.perm.setPolicy(k, e.target.value, true); if (d.decision !== 'allow') alert('Not changed: ' + d.rule); renderStatus(); });
 function applyClaims() { const g = guard(); $$('[data-claim]').forEach(el => { const c = g.claim(el.dataset.claim); el.title = c.id + ' · ' + c.status + (c.proofs.length ? ' · proofs ' + c.proofs.map(p => p.suite + ' ' + p.pass + '/' + p.total).join(', ') : ''); if (el.classList.contains('ok') && !(c.proven && c.status === 'Implemented')) { el.classList.remove('ok'); el.classList.add('warn'); el.textContent = 'unproven'; } }); }
 applyClaims();
+renderLexiconPackets();
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { /* 4.9.48 update-on-reload: sw.js bypasses the HTTP cache, a newer worker activates at once (skipWaiting + clients.claim) and the page reloads once onto it; a build-info version check triggers the update */
   const hadCtl = !!navigator.serviceWorker.controller; let reloaded = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadCtl && !reloaded) { reloaded = true; location.reload(); } });

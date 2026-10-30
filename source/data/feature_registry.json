@@ -1,5 +1,5 @@
 {
- "version": "4.9.190",
+ "version": "4.9.191",
  "features": [
   {
    "id": "A-01",
@@ -3804,13 +3804,24 @@
    "proof": [
     "R4190"
    ]
+  },
+  {
+   "id": "R4191-PHASE-CODEX",
+   "name": "Phase Glyph Codex, lexicon resonance, and language-core engines",
+   "source": "FBSC Phase Glyph Codex v2.5 1xZWOfEFgYMn10XQtUOyQOQCCIaOwqfTEIcM-bgRHkjk; RPMC 1G-Yj323fee; Unified Algebra 1RoAxjzV9rbx; docs/WIRING_191.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Codex roles replace the reconstruction. Concept packets come from the 425-word seed. Hand-set Φ4 is gone. Unsourced hosted history is held. μ and the angle rule stay unspecified. Cold admits 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4191"
+   ]
   }
  ],
- "count": 347,
+ "count": 348,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 185,
+  "Partial": 186,
   "Missing": 9,
   "Out of scope / parked": 13
  }

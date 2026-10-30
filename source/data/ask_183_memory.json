@@ -148,7 +148,10 @@
     },
     {
       "id": "ho-hamlet",
-      "text": "William Shakespeare wrote Hamlet."
+      "text": "William Shakespeare wrote Hamlet.",
+      "unsourced": true,
+      "premise": false,
+      "hold": "UNSOURCED-NO-PROVENANCE"
     },
     {
       "id": "ho-phone",

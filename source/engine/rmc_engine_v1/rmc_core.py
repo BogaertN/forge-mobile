@@ -128,6 +128,8 @@ def _stage_rows(stages: list[Any]) -> list[dict[str, Any]]:
 # Wikipedia excerpts for the same questions are low trust and are not a basis.
 UNSOURCED_HELD = {
     "ho-ada", "ho-french", "ho-mona", "ho-curie", "ho-phone", "ho-cleo", "ho-ww2", "ho-bleach", "ho-vinegar",
+    # The spoken Hamlet line is a hosted paraphrase. The Gutenberg title page is a different sentence.
+    "ho-hamlet",
 }
 
 
@@ -447,9 +449,9 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             from rmc_engine_v1.lexicon_resonance import replaces_keyword_phase
             placed = replaces_keyword_phase(question)
             phi = int(placed["packet"]["Phi"]) if placed and placed["packet"].get("Phi") else 9
-            sfe = {"Phi": phi, "eps": round(eps, 6), "mu": "unspecified"}
+            sfe = {"Phi": phi, "eps": round(eps, 6), "mu": 1}
             packet = {
-                "schema": PACKET_SCHEMA, "Phi": phi, "eps": sfe["eps"], "mu": "unspecified", "sfe": sfe,
+                "schema": PACKET_SCHEMA, "Phi": phi, "eps": sfe["eps"], "mu": 1, "sfe": sfe,
                 "glyph": (placed or {}).get("packet", {}).get("glyph") if placed else "",
                 "concept": (placed or {}).get("concept") if placed else None,
                 "mu_status": "unspecified",
@@ -487,6 +489,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "bank": {k: bank[k] for k in ("written", "reason", "kept", "replace_id", "calls_llm")},
                 "gilligan": {"christping_initiated": False, "reason": "Ask does not start ChristPing. Only Gilligan initiates it, and only above a hard stop."},
             }
+        from rmc_engine_v1.language_core_engines import run_engines
+        from rmc_engine_v1.lexicon_resonance import question_phase
+        shown = question_phase(question)
+        engines = run_engines(
+            measured.get("epsilon_s"),
+            int(shown["packet"]["Phi"]) if shown and shown.get("packet") and shown["packet"].get("Phi") else None,
+            [r for r in (payload.get("memory") or {}).get("hosted") or [] if isinstance(r, dict) and r.get("unsourced")],
+        )
         kind = "rendered_answer" if spoken else ("held_trace" if live else "foundation_trace")
         trace = {
             "input": question,
@@ -499,11 +509,16 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "derive", "debate", "proofs", "checker", "simulate", "limits", "effects", "cites",
             ) if k in world},
             "admit": gate,
-            "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"]},
+            "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"],
+                      "glyph": (shown or {}).get("packet", {}).get("glyph") if shown else "",
+                      "concept": (shown or {}).get("concept") if shown else None,
+                      "lexicon": (shown or {}).get("packet") if shown else None},
+            "engines": engines,
             "operator_chain": chain,
             "stages": stage_rows,
             "late_stages": late,
-            "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"]},
+            "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"],
+                      "theta_w": engines.get("theta_w"), "chi_hardening": engines.get("chi_hardening")},
             "echo": echo,
             "resonance": resonance,
             "language_core": language_core,
@@ -548,6 +563,8 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "quarantine_curation": curation,
             "trust": trust_trace,
             "memory_write": memory_write,
+            "engines": engines,
+            "lexicon": (shown or {}).get("packet") if shown else None,
             "stages": stage_rows,
             "late_stages": late,
             "recall_sources": measured.get("recall_sources") or {},

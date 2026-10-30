@@ -27,10 +27,10 @@ Nine stubs. measured false. reconstruction. SOURCE_NOT_VERIFIED. No delta is rep
 - Φ₃ Desire: stub, measured false
 - Φ₄ Friction: stub, measured false
 - Φ₅ Entropy: stub, measured false
-- Φ₆ Grace / Correction: stub, measured false
+- Φ₆ Grace: stub, measured false
 - Φ₇ Naming: stub, measured false
-- Φ₈ Projection: stub, measured false
-- Φ₉ Return: stub, measured false
+- Φ₈ Power: stub, measured false
+- Φ₉ Recursion: stub, measured false
 
 ## Answer-path grace (4.9.165)
 

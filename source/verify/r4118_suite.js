@@ -53,7 +53,7 @@ T('phase ablation stubs stay unmeasured reconstructions', () => {
   const report = H.run();
   const stubs = report.phase_ablation || [];
   expect(stubs.length === 9, 'stubs ' + stubs.length);
-  expect(KM.PHASES[1].name === 'Initiation Pulse' && KM.PHASES[1].glyph === '⊙' && KM.PHASES[9].name === 'Recursive Evolution' && KM.PHASES[8].name === 'Power', 'codex phases');
+  expect(KM.PHASES[1].name === 'Initiation' && KM.PHASES[1].glyph === '⊙' && KM.PHASES[9].name === 'Recursion' && KM.PHASES[8].name === 'Power', 'canonical phase names');
   expect(KM.PHASE_RECONCILIATION.length === 9 && KM.PHASE_RECONCILIATION.every(row => row.authority.indexOf('Codex') >= 0), 'each role change is listed');
   expect(KM.PAPER_CONSTANTS.phi_to_angle.status === 'unspecified' && KM.PAPER_CONSTANTS.mu.value === 'unspecified' && KM.PAPER_CONSTANTS.integrity_example.C_min === 0.87, 'unstated constants stay unspecified');
   for (let i = 0; i < stubs.length; i++) {

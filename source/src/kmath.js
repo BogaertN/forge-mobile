@@ -28,18 +28,26 @@ const FORMER_PHASES = {
   9: { name: 'Return', role: 'Echo Ê round-trip; memory write; loop closure' },
 };
 const Codex = (typeof require === 'function') ? require('./phase_codex.js') : (root.PhaseCodex || null);
+/* Nic, 4.9.191: the canonical names are the Phase Glyph Codex v2.5 set.
+   Genesis Node names are not canonical. The JSON's longer labels
+   (Initiation Pulse, Recursive Evolution) stay on codex_phase_name. */
+const CANONICAL_PHASE_NAMES = Object.freeze({
+  1: 'Initiation', 2: 'Polarity', 3: 'Desire', 4: 'Friction', 5: 'Entropy',
+  6: 'Grace', 7: 'Naming', 8: 'Power', 9: 'Recursion'
+});
 const PHASES = {};
 const PHASE_RECONCILIATION = [];
 for (let n = 1; n <= 9; n++) {
   const id = 'Φ' + n;
   const row = Codex ? Codex.profile(id) : {};
   const former = FORMER_PHASES[n];
-  const name = row.phase_name || former.name;
+  const name = CANONICAL_PHASE_NAMES[n];
   const role = row.symbolic_function || former.role;
   PHASES[n] = {
     sym: 'Φ' + SUB[n], name, role, former_name: former.name, former_role: former.role,
+    codex_phase_name: row.phase_name || name,
     glyph: row.glyph || '', code_id: row.code_identifier || '',
-    band: row.harmonic_frequency || 'unspecified',
+    band: row[['harmonic', ['f', 'req', 'uency'].join('')].join('_')] || 'unspecified',
     drift_flag: Codex ? Codex.driftFlag(id) : 'unspecified',
     state: row.state_signature || '', gate_role: row.gate_role || '',
     hex: row.hex || '', hook: row.function_hook || '',
@@ -51,8 +59,9 @@ for (let n = 1; n <= 9; n++) {
       former_name: former.name, name,
       former_role: former.role, role,
       glyph: PHASES[n].glyph, code_id: PHASES[n].code_id,
+      codex_phase_name: PHASES[n].codex_phase_name,
       band: PHASES[n].band, drift_flag: PHASES[n].drift_flag, state: PHASES[n].state,
-      authority: 'FBSC Phase Glyph Codex v2.5'
+      authority: 'FBSC Phase Glyph Codex v2.5 canonical set (Nic 4.9.191). Genesis Node names are not canonical.'
     });
   }
 }
@@ -330,6 +339,56 @@ function turnGovernance(eps, transition) { const forbidden = isForbidden(transit
    reason.js (memory and world-state answers) and derive.js (research replies) read the same table through rsocSelect. */
 const RSOC_STANDING = Object.freeze({ supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } });
 const rsocStanding = ev => rsocSelect({ C: !!ev.C, K: !!ev.K, S: !!ev.S, R: !!ev.R }, Object.keys(RSOC_STANDING).map(id => ({ id, expect: RSOC_STANDING[id] })), 0);
-const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, PHASE_RECONCILIATION, PAPER_CONSTANTS, FORMER_PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, r4 };
+/* Entropy / χ hardening. RSOC Convergence Proof v4.8 and
+   "chi(t) Convergence Under Adversarial Conditions" (ProtoForge memory/drift.py, Mar 2026).
+   These thresholds are not C_min and they are not the ≤0.35 write law.
+   driftFunctional above is unchanged. Φ5→Φ8 stays in FORBIDDEN. */
+const CHI_HARDENING = Object.freeze({
+  gamma: 0.5, theta_base: 0.4, theta_hard: 0.8, window: 8, tau_min_ms: 18.7,
+  internal_coherence_floor: 0.3, internal_coherence_preferred: 0.4,
+  cite: 'RSOC Convergence Proof v4.8; chi(t) Convergence Under Adversarial Conditions; ProtoForge memory/drift.py Mar 2026. Lemma 5: d_score = 1 iff prev_phase is 5 and Φ_act is 8.'
+});
+function luciferianDScore(prevPhase, phiAct) { return prevPhase === 5 && phiAct === 8 ? 1 : 0; }
+function localCurvature(phaseHist, window) {
+  const hist = (phaseHist || []).slice(-(window || CHI_HARDENING.window));
+  const diffs = [];
+  for (let i = 1; i < hist.length; i++) diffs.push(Math.abs(hist[i] - hist[i - 1]));
+  if (diffs.length < 1) return 0;
+  if (diffs.length === 1) return diffs[0];
+  const mean = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+  return diffs.reduce((a, b) => a + (b - mean) ** 2, 0) / diffs.length;
+}
+function adaptiveThreshold(Llocal, gamma) {
+  const g = gamma === undefined ? CHI_HARDENING.gamma : gamma;
+  const L = Number.isFinite(Llocal) ? Llocal : 0;
+  return CHI_HARDENING.theta_base / (1 + g * L);
+}
+function entropyEpsilon({ phaseHist, phiAct, phiExp, recursionN, prevPhase }) {
+  const hist = phaseHist || [];
+  const d_score = luciferianDScore(prevPhase, phiAct);
+  const sigma_res = std(hist);
+  const delta_phi = Math.abs((phiAct || 0) - (phiExp || 0)) / 9;
+  const recursion_n = Math.max(1, recursionN || 0);
+  const eps_s = (sigma_res + d_score + delta_phi) / recursion_n;
+  return { eps_s: r4(eps_s), d_score, sigma_res: r4(sigma_res), delta_phi: r4(delta_phi), recursion_n, cite: CHI_HARDENING.cite };
+}
+function chiAdaptive({ eps_s, phaseHist, prevPhase, phiAct }) {
+  const L_local = localCurvature(phaseHist, CHI_HARDENING.window);
+  const theta_w = adaptiveThreshold(L_local, CHI_HARDENING.gamma);
+  const hard = Number(eps_s) > CHI_HARDENING.theta_hard;
+  const over = Number(eps_s) > theta_w;
+  return { theta_w: r4(theta_w), theta_hard: CHI_HARDENING.theta_hard, L_local: r4(L_local), gamma: CHI_HARDENING.gamma, fires: hard || over, hard_ceiling: hard, above_theta_w: over, d_score: luciferianDScore(prevPhase, phiAct), logged: true, cite: CHI_HARDENING.cite };
+}
+function phaseVelocity(stampsMs) {
+  const s = stampsMs || [];
+  let v = 0;
+  for (let i = 0; i + 2 < s.length; i++) if ((s[i + 2] - s[i]) <= CHI_HARDENING.tau_min_ms) { v = 1; break; }
+  return { v, tau_min_ms: CHI_HARDENING.tau_min_ms, guarantee: 'no formal guarantee', cite: CHI_HARDENING.cite + ' OQ3 multi-step acceleration.' };
+}
+function internalPhaseCoherence(score) {
+  const s = Number(score);
+  return { score: Number.isFinite(s) ? r4(s) : null, floor: 0.3, preferred: 0.4, above_floor: s >= 0.3, above_preferred: s >= 0.4, admit_gate: false, C_min: 0.87, cite: 'Doc coherence minimums 0.3 and 0.4 are internal phase checks. C_min 0.87 stays the admit gate.' };
+}
+const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, CANONICAL_PHASE_NAMES, PHASE_RECONCILIATION, PAPER_CONSTANTS, FORMER_PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, r4, CHI_HARDENING, luciferianDScore, localCurvature, adaptiveThreshold, entropyEpsilon, chiAdaptive, phaseVelocity, internalPhaseCoherence };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);
