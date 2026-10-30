@@ -1,0 +1,60 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 10,
+ "matched": 10,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "rewrite",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "tamper",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "seal",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "fork",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "calm",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "over",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "hard",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "skip",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "stage",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "erase",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48
+}

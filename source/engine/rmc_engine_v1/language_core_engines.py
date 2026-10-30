@@ -250,6 +250,12 @@ def drift_194_stage(epsilon_s: Any) -> dict[str, Any]:
     return stage(epsilon_s)
 
 
+def dpa_195_stage(epsilon_s: Any) -> dict[str, Any]:
+    """Ask-trace summary of the 4.9.195 archive. It does not change the admit ε_s."""
+    from rmc_engine_v1.dpa_195 import stage
+    return stage(epsilon_s)
+
+
 def drift_v43_stage(phi: int | None, prev: Any, hist: list[Any]) -> dict[str, Any]:
     """Ask-trace summary of the v4.3 score. It does not change the admit ε_s."""
     from rmc_engine_v1.drift_v43 import score
@@ -300,6 +306,7 @@ def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]]
         "theta_w": hardening["theta_w"],
         "drift_v43": drift_v43_stage(phi, prev, hist),
         "drift_194": drift_194_stage(epsilon_s),
+        "dpa_195": dpa_195_stage(epsilon_s),
         "calls_llm": False,
         "c_min": C_MIN,
         "write_law_unchanged": True,

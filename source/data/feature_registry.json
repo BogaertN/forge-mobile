@@ -1,5 +1,5 @@
 {
- "version": "4.9.194",
+  "version": "4.9.195",
  "features": [
   {
    "id": "A-01",
@@ -3817,6 +3817,17 @@
    ]
   },
   {
+   "id": "R4195-DEAD-PATH-ARCHIVE",
+   "name": "Write-once dead path archive and sealed records",
+   "source": "GN Doc 1 dead path archive; Gilligan Codex 3.3 a.c l.1611–1624; Codex 3.17; GenNode Docs 11–12; RSOC grace before archival; docs/WIRING_195.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "A rewrite is rejected. An erase is rejected. The SHA-256 chain verifies. A sealed loop needs Echo at or above 0.85. A verified fork keeps the existing ledger chain and is sealed once. The 0.5 SPC cut is log-only. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4195"
+   ]
+  },
+  {
    "id": "R4194-BREAKER-ANALYZER",
    "name": "Breaker window, drift analyzer, and failsafe",
    "source": "Decision 6; protoforge DriftCircuitBreaker; Waking the Web retry; RSOC §4.1.1 l.2003; gnspec DriftAnalyzer l.6104; Gilligan Codex 3.18 and Ch.6.1; docs/WIRING_194.md",
@@ -3839,11 +3850,11 @@
    ]
   }
  ],
- "count": 350,
+ "count": 351,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 188,
+  "Partial": 189,
   "Missing": 9,
   "Out of scope / parked": 13
  }
