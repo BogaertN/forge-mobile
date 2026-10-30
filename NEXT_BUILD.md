@@ -1,3 +1,9 @@
+# Next build order — after 4.9.190 (anchor growth)
+
+**Shipped here:** The scorer compares the candidate sentence, not its kind label. Why-facts use the phase on their packet, and the receipt tag follows that phase. A time word is not a subject, so "the news today" no longer locks a Moon sentence. Chat acts (Hello, How are you?, Help, Tell me about it, What can you do?) answer from world-model self-facts. Nonsense is refused. Cold admits 58, up from 32. News stays held. Eight sourced anchors (NASA, NOAA, NPS, Project Gutenberg) are in shard `g190` and in an additive `kb.anchors` migration that is not applied. The wiring is `docs/WIRING_190.md`. The tables are `docs/LIVE_TEST_190.md`. C_min stays 0.87. The coherence formula is unchanged. Wikipedia stays low trust. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** A model call. Simulate (spec §6, contract §13). Lowering C_min. Using Wikipedia as an anchor. Applying the anchor migration. Inventing today's news.
+
 # Next build order — after 4.9.189 (language-core functions)
 
 **Shipped here:** Proto `handle_chat`, the Grok-1 inference step, and Recursive Agent Orchestration run as language-core functions. The model calls are not ported. EchoForge debate was already there. A trusted hop is offered to the scorer only when the unchanged admit gate would pass. Cold admits 32, up from 16 on 4.9.188. Twenty held questions still have no phase-aligned anchor. The wiring is `docs/WIRING_189.md`. The tables and that list are `docs/LIVE_TEST_189.md`. C_min stays 0.87. The coherence formula is unchanged. Wikipedia stays low trust. No LLM. Packs stay gated. Money stays disabled.

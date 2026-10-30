@@ -570,7 +570,15 @@ def source_confidence(nodes: list[dict[str, Any]]) -> float:
 
 
 def memory_relation(candidate: dict[str, Any], nodes: list[dict[str, Any]], candidate_phase_path: list[str] | None = None) -> dict[str, Any]:
-    text = " | ".join(str(candidate.get(k) or "") for k in ("candidate", "title", "rationale", "candidate_kind"))
+    # The compared text is the candidate meaning. Title, rationale, and
+    # candidate_kind are labels. Joining them into a short fact ("Tokyo is
+    # the capital of Japan") added the token "memory" and held C under 0.87.
+    # The coherence weights below are unchanged.
+    meaning = str(candidate.get("candidate") or "").strip()
+    if meaning:
+        text = meaning
+    else:
+        text = " | ".join(str(candidate.get(k) or "") for k in ("title", "rationale", "candidate_kind"))
     c_path = phase_path(candidate_phase_path or candidate.get("phase_path") or [candidate.get("phase_target")])
     sims = []
     node_summaries = []

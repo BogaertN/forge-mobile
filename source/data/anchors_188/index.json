@@ -1,8 +1,8 @@
 {
  "schema": "FORGE-ANCHOR-INDEX/v1",
- "release": "4.9.188",
+ "release": "4.9.190",
  "note": "Lazy-loaded by a concept phrase placed at ingestion. Not inlined into the portable file. Wikipedia is not a source. OpenStax CC BY-NC-SA was not used. The starter set remains data/anchors_187.json.",
- "count": 3093,
+ "count": 3101,
  "skipped_licenses": [
   "CC BY-NC-SA 4.0 OpenStax 2e editions"
  ],
@@ -1239,6 +1239,33 @@
   ],
   "zimbabwe": [
    "zi"
+  ],
+  "sky": [
+   "g190"
+  ],
+  "blue": [
+   "g190"
+  ],
+  "ocean": [
+   "g190"
+  ],
+  "salty": [
+   "g190"
+  ],
+  "leaves": [
+   "g190"
+  ],
+  "jupiter": [
+   "g190"
+  ],
+  "largest": [
+   "g190"
+  ],
+  "hamlet": [
+   "g190"
+  ],
+  "shakespeare": [
+   "g190"
   ]
  },
  "shards": {
@@ -3004,6 +3031,18 @@
    "count": 20,
    "concepts": [
     "A.ZIMBABWE"
+   ]
+  },
+  "g190": {
+   "file": "shards/g190.json",
+   "count": 8,
+   "concepts": [
+    "A.SKY",
+    "A.OCEAN",
+    "A.LEAVES",
+    "A.LARGEST",
+    "A.JUPITER",
+    "A.HAMLET"
    ]
   }
  }

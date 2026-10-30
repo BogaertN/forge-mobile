@@ -63,7 +63,58 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
     lifecycle = [
         {"op": "spawn", "agent": "reasoner", "parent": "rmc", "os_process": False, "calls_llm": False},
     ]
-    inferred = infer_chain(question, pool, phi)
+    act = chat.get("speech_act")
+    if act == "refusal":
+        inferred = {
+            "function": "model_inference_server",
+            "cite": CITE,
+            "calls_llm": False,
+            "model_invoked": False,
+            "grok_1_called": False,
+            "sampling": False,
+            "halt": "uninterpreted",
+            "hops": [],
+            "max_steps": 0,
+        }
+    elif act in {"greeting", "request", "self"}:
+        from rmc_engine_v1.resonance_recall import _concept_ids
+        from rmc_engine_v1.world_model_v1 import CHAT_FACTS
+        concepts = _concept_ids(question)
+        if act == "greeting":
+            key = "greeting"
+        elif act == "request" and "A.TELL" in concepts:
+            key = "tell"
+        elif act == "request":
+            key = "help"
+        else:
+            key = "self"
+        fact = next((row for row in CHAT_FACTS if row.get("act") == key), None)
+        text = str((fact or {}).get("text") or "")
+        inferred = {
+            "function": "model_inference_server",
+            "cite": CITE,
+            "calls_llm": False,
+            "model_invoked": False,
+            "grok_1_called": False,
+            "sampling": False,
+            "halt": "self_fact" if text else "no_self_fact",
+            "hops": [{
+                "n": 1,
+                "memory_id": (fact or {}).get("id"),
+                "text": text,
+                "grace": 1.0,
+                "phi": phi,
+                "eps": 0.0,
+                "mu": 1.0,
+                "trust": "trusted",
+                "premise": True,
+                "self_fact": True,
+                "calls_llm": False,
+            }] if text else [],
+            "max_steps": 1,
+        }
+    else:
+        inferred = infer_chain(question, pool, phi)
     lifecycle.append({"op": "run", "steps": len(inferred.get("hops") or []), "calls_llm": False})
     lifecycle.append({"op": "hibernate", "reason": inferred.get("halt"), "calls_llm": False})
     lifecycle.append({"op": "retire", "resurrected": False, "calls_llm": False})

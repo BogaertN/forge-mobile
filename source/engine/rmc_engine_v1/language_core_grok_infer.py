@@ -32,6 +32,10 @@ from rmc_engine_v1.resonance_recall import (
     clean_text,
 )
 
+# A time word is not a subject. "today" shares N.TIMEW with any sentence
+# that says "time", which is how "the news today" locked a Moon sentence.
+_NOT_A_LOCK = frozenset({"N.TIMEW", "N.WEEKDAY", "N.MONTH"})
+
 CITE = (
     "Drive 1lVaKETZLqiKDD2TBtRXwngnbXKyYpWJ_Mcp0DPwAJck "
     "Symbolic Developer Co-Pilot, model_inference_server / Grok-1; "
@@ -87,10 +91,14 @@ def _copula_karta(node: dict[str, Any]) -> str:
     return _norm_role(str((roles.get("filled") or {}).get("karta") or ""))
 
 
+def _lock_concepts(text: str) -> set[str]:
+    return {cid for cid in _concept_ids(text) if cid not in _NOT_A_LOCK}
+
+
 def infer_step(current: dict[str, Any] | None, pool: list[dict[str, Any]], question: str, question_phi: int, seen: set[int]) -> dict[str, Any] | None:
     """One forward step. The Grok-1 sample is this selection. No model."""
     wanted = _copula_karma(current) if current else ""
-    q_concepts = _concept_ids(question)
+    q_concepts = _lock_concepts(question)
     ranked = [n for n in pool if id(n) not in seen and _usable(n, question_phi)]
     ranked.sort(key=lambda n: _sort_key(n, question_phi))
     for node in ranked:
@@ -101,16 +109,20 @@ def infer_step(current: dict[str, Any] | None, pool: list[dict[str, Any]], quest
         if locked:
             return locked[0]
     if current is not None:
-        cur_concepts = _concept_ids(clean_text(current))
+        cur_concepts = _lock_concepts(clean_text(current))
         for node in ranked:
-            nxt = _concept_ids(clean_text(node))
+            nxt = _lock_concepts(clean_text(node))
             shared = q_concepts & nxt & (cur_concepts or q_concepts)
             # A fact that names a concept the question did not ask is not the next state.
             if shared and not (nxt - q_concepts):
                 return node
         return None
+    # An anchor concept the question named outranks a shared color or time word.
+    ranked.sort(key=lambda n: (
+        -sum(1 for cid in (q_concepts & _lock_concepts(clean_text(n))) if str(cid).startswith("A.")),
+    ) + _sort_key(n, question_phi))
     for node in ranked:
-        if q_concepts & _concept_ids(clean_text(node)):
+        if q_concepts & _lock_concepts(clean_text(node)):
             return node
     return None
 

@@ -106,6 +106,35 @@ SELF_FACTS = [
     },
 ]
 
+# Chat replies are world-model sentences. They are not seeded into TurnWorld:
+# the fact budget is already full, and a greeting is not a premise for other questions.
+CHAT_FACTS = [
+    {
+        "id": "self:greeting",
+        "text": "Hello.",
+        "cite": "source/src/lexicon.js I.HELLO Doc5 §15",
+        "act": "greeting",
+    },
+    {
+        "id": "self:state",
+        "text": "Forge does not store a feeling. World Model owns world state and inference.",
+        "cite": "contract 1g2034-K §2; a self question is not a stored feeling",
+        "act": "self",
+    },
+    {
+        "id": "self:help",
+        "text": "Help asks what Forge can do. Forge answers from admitted facts and does not call a model.",
+        "cite": "source/src/lexicon.js A.HELP",
+        "act": "help",
+    },
+    {
+        "id": "self:tell",
+        "text": "Tell needs a topic already in the turn, and this turn has none.",
+        "cite": "contract 1g2034-K §7; an anaphor with no antecedent is not a knowledge lookup",
+        "act": "tell",
+    },
+]
+
 # Contract §5: one range-restricted copula rule. Head variables occur in the body.
 COPULA_RULE = {
     "id": "WM-COPULA-CHAIN",
@@ -468,6 +497,15 @@ def _coverage(question: str, text: str) -> float:
     return len(left & right) / len(left)
 
 
+def _role_lock(question: str, text: str) -> int:
+    """1 when the fact fills the role the question asked. Coverage ties do not outrank it."""
+    from rmc_engine_v1.resonance_recall import _role_hit, asked_filler
+    asked = asked_filler(question)
+    if not asked:
+        return 0
+    return 1 if _role_hit(asked.get("filler") or "", text) else 0
+
+
 def _render_atom(atom: dict[str, Any]) -> str:
     """Contract I1 and §9. The template expresses this atom. It does not pick another."""
     args = [str(a) for a in atom.get("args") or []]
@@ -688,7 +726,7 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         return _derive_report(world, question, "incomplete", "MAX_INPUT_CHARS", claims, True)
 
     # Direct support. Contract acceptance C: a stored fact that answers the query.
-    ranked = sorted(topical, key=lambda f: (-_coverage(question, f["text"]), str(f.get("text") or ""), str(f["id"])))
+    ranked = sorted(topical, key=lambda f: (-_role_lock(question, f["text"]), -_coverage(question, f["text"]), str(f.get("text") or ""), str(f["id"])))
     for fact in ranked[:8]:
         if _coverage(question, fact["text"]) <= 0:
             continue
@@ -796,7 +834,31 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     else:
         status = "undetermined"
     _attach_speech(claims, topical, world, phase_path or [])
-    return _derive_report(world, question, status, "closure" if not incomplete else "MAX_ROUNDS", claims, incomplete)
+    report = _derive_report(world, question, status, "closure" if not incomplete else "MAX_ROUNDS", claims, incomplete)
+    if not report.get("derived_text"):
+        report["derived_text"] = _chat_derived(question)
+    return report
+
+
+def _chat_derived(question: str) -> str:
+    """The self-fact for a chat act, so the first pass and the fill pass record the same sentence."""
+    from rmc_engine_v1.language_core_proto_chat import handle_chat
+    from rmc_engine_v1.resonance_recall import _concept_ids
+    chat = handle_chat(question)
+    act = chat.get("speech_act")
+    if act not in {"greeting", "request", "self"}:
+        return ""
+    concepts = _concept_ids(question)
+    if act == "greeting":
+        key = "greeting"
+    elif act == "request" and "A.TELL" in concepts:
+        key = "tell"
+    elif act == "request":
+        key = "help"
+    else:
+        key = "self"
+    fact = next((row for row in CHAT_FACTS if row.get("act") == key), None)
+    return str((fact or {}).get("text") or "")
 
 
 def _finish_claim(world, text, atom, premises, proof, checked, status, how, phase_path) -> dict[str, Any]:
@@ -833,6 +895,7 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
 def _derive_report(world, question, status, reason, claims, incomplete) -> dict[str, Any]:
     survivors = [c for c in claims if c.get("debate", {}).get("survived")]
     survivors.sort(key=lambda c: (
+        -_role_lock(question, c.get("text") or ""),
         -_coverage(question, c.get("text") or ""),
         -len(c.get("provenance") or []),
         float((c.get("drift") or {}).get("epsilon_s") or 0.0),
