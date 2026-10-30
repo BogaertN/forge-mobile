@@ -1,5 +1,5 @@
 {
- "version": "4.9.193",
+ "version": "4.9.194",
  "features": [
   {
    "id": "A-01",
@@ -3817,6 +3817,17 @@
    ]
   },
   {
+   "id": "R4194-BREAKER-ANALYZER",
+   "name": "Breaker window, drift analyzer, and failsafe",
+   "source": "Decision 6; protoforge DriftCircuitBreaker; Waking the Web retry; RSOC §4.1.1 l.2003; gnspec DriftAnalyzer l.6104; Gilligan Codex 3.18 and Ch.6.1; docs/WIRING_194.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Three failures inside 0.7 s open the window. Two do not. Recovery past 60 s is half-open. Retry waits are 60, 120, and 240 seconds. The analyzer calls the existing prediction. Bands, classes, and the 120 s rollback are internal. The 0.9 halt is 0.8. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4194"
+   ]
+  },
+  {
    "id": "R4193-DRIFT-V43",
    "name": "Drift v4.3 core on the 4.9.191 detector",
    "source": "drift.py v4.3; EOD l.161; Resonant Mind l.123; gnspec phase engine; Gilligan System Codex Vol IV Phase 1.8; Unified Algebra Vol I; docs/WIRING_193.md",
@@ -3828,11 +3839,11 @@
    ]
   }
  ],
- "count": 349,
+ "count": 350,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 187,
+  "Partial": 188,
   "Missing": 9,
   "Out of scope / parked": 13
  }

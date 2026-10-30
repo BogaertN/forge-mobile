@@ -1,0 +1,65 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 11,
+ "matched": 11,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "three",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "two",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "retry",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "linear",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "exp",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "failsafe",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "halt",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "class4",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "class3",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "rsoc",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "storage",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48
+}
