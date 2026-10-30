@@ -51,3 +51,4 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .daemon-grid{display:grid;grid-template-columns:1fr;gap:0}.daemon-card.athena{border-color:#1a6a88}.daemon-card.gilligan{border-color:#6a3a88}
 @media(min-width:720px){.daemon-grid{grid-template-columns:1fr 1fr;gap:8px}}
 .mono,.tr,pre,textarea,input,select,button,.meta,.small,.tag,.kind,.badge,.buildnote{font-family:var(--mono)}
+.glyph{font-family:"DejaVu Sans","Noto Sans Symbols2","Noto Sans Symbols","Noto Sans",sans-serif;color:var(--fg)}

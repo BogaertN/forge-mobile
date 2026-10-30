@@ -1,6 +1,6 @@
 {
  "schema": "FORGE-MATH-HONESTY/v1",
- "release": "4.9.190",
+ "release": "4.9.191",
  "product_claim": false,
  "proven_cognition": false,
  "honesty": {
@@ -237,7 +237,7 @@
   {
    "phase": 6,
    "symbol": "Φ₆",
-   "name": "Grace / Correction",
+   "name": "Grace",
    "dropped": true,
    "measured": false,
    "delta_eps": null,
@@ -267,7 +267,7 @@
   {
    "phase": 8,
    "symbol": "Φ₈",
-   "name": "Projection",
+   "name": "Power",
    "dropped": true,
    "measured": false,
    "delta_eps": null,
@@ -282,7 +282,7 @@
   {
    "phase": 9,
    "symbol": "Φ₉",
-   "name": "Return",
+   "name": "Recursion",
    "dropped": true,
    "measured": false,
    "delta_eps": null,

@@ -1,6 +1,10 @@
 {
   "schema_version": "letter_phase_map_v1",
-  "authority": "weak_letter_signal",
+  "map_authority": "Phase Parsing Engine",
+  "not_map_authority": "HarperScript",
+  "authority": "Phase Parsing Engine",
+  "signal": "weak_letter_signal",
+  "cite": "Phase Parsing Engine v0.1 Keystroke Phase Interpreter primary map (PPE-KPI), recorded in Drive 1b0CvMbpUR1sktlCuxObHdIfEfNTymp2vWiixRmpGpbo. Nic 4.9.191: this letter-to-phase map is the Phase Parsing Engine, not the HarperScript visual manifest later in that document. Each letter stays a weak signal.",
   "letters": {
     "A": {
       "phase": "Φ1",

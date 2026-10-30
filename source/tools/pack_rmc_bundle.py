@@ -20,7 +20,7 @@ def main() -> None:
     for path in ENGINE.rglob("*"):
         if not path.is_file() or "__pycache__" in path.parts:
             continue
-        if path.suffix not in {".py", ".json"}:
+        if path.suffix not in {".py", ".json", ".jsonl"}:
             continue
         rel = str(path.relative_to(ENGINE.parent))
         files[rel] = path.read_text(encoding="utf-8")

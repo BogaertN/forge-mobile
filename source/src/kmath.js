@@ -8,20 +8,93 @@
  *   RMC §5.7 Score(c)=αM+βP+γU+δN−λD (α=β=γ=δ=λ=1 in the RMC worked example)
  *   RMC §6.7 θ_echo_text = 0.85, θ_echo_memory = 0.97
  * Conflicts (documented, newest preferred): RSOC uses bands 0.40/0.80 and n=max(1,ρ+1);
- * RSOC phase names (Echo, Fracture, Grace@5, Naming@6 …) differ from RPMC/RMC; we use RPMC/RMC. */
+ * RSOC phase names (Echo, Fracture, Grace@5, Naming@6 …) differ from RPMC/RMC.
+ * 4.9.191: the FBSC Phase Glyph Codex v2.5 is the authority for phase name, glyph,
+ * code id, band, drift flag, and state. The former reconstruction roles are kept
+ * on each row as former_name / former_role. See PHASE_RECONCILIATION. */
 (function (root) {
 const TWO_PI = 2 * Math.PI;
-const PHASES = {
-  1: { sym: 'Φ₁', name: 'Initiation', role: 'input received; ψ_id fixed' },
-  2: { sym: 'Φ₂', name: 'Polarity', role: 'negation / contrast / scope operators detected' },
-  3: { sym: 'Φ₃', name: 'Desire', role: 'purpose and speech act recovered' },
-  4: { sym: 'Φ₄', name: 'Friction', role: 'Verbal Cognition Gates + constraints' },
-  5: { sym: 'Φ₅', name: 'Entropy', role: 'drift ε_s measured; only lawful collapse point' },
-  6: { sym: 'Φ₆', name: 'Grace / Correction', role: 'χ(t) test; correction routing' },
-  7: { sym: 'Φ₇', name: 'Naming', role: 'manifest compiled + ψ_id assigned' },
-  8: { sym: 'Φ₈', name: 'Projection', role: 'render to controlled English' },
-  9: { sym: 'Φ₉', name: 'Return', role: 'Echo Ê round-trip; memory write; loop closure' },
+const SUB = ['', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
+/* Roles this file used before the codex was the authority. Each change is listed. */
+const FORMER_PHASES = {
+  1: { name: 'Initiation', role: 'input received; ψ_id fixed' },
+  2: { name: 'Polarity', role: 'negation / contrast / scope operators detected' },
+  3: { name: 'Desire', role: 'purpose and speech act recovered' },
+  4: { name: 'Friction', role: 'Verbal Cognition Gates + constraints' },
+  5: { name: 'Entropy', role: 'drift ε_s measured; only lawful collapse point' },
+  6: { name: 'Grace / Correction', role: 'χ(t) test; correction routing' },
+  7: { name: 'Naming', role: 'manifest compiled + ψ_id assigned' },
+  8: { name: 'Projection', role: 'render to controlled English' },
+  9: { name: 'Return', role: 'Echo Ê round-trip; memory write; loop closure' },
 };
+const Codex = (typeof require === 'function') ? require('./phase_codex.js') : (root.PhaseCodex || null);
+/* Nic, 4.9.191: the canonical names are the Phase Glyph Codex v2.5 set.
+   Genesis Node names are not canonical. The JSON's longer labels
+   (Initiation Pulse, Recursive Evolution) stay on codex_phase_name. */
+const CANONICAL_PHASE_NAMES = Object.freeze({
+  1: 'Initiation', 2: 'Polarity', 3: 'Desire', 4: 'Friction', 5: 'Entropy',
+  6: 'Grace', 7: 'Naming', 8: 'Power', 9: 'Recursion'
+});
+const PHASES = {};
+const PHASE_RECONCILIATION = [];
+for (let n = 1; n <= 9; n++) {
+  const id = 'Φ' + n;
+  const row = Codex ? Codex.profile(id) : {};
+  const former = FORMER_PHASES[n];
+  const name = CANONICAL_PHASE_NAMES[n];
+  const role = row.symbolic_function || former.role;
+  PHASES[n] = {
+    sym: 'Φ' + SUB[n], name, role, former_name: former.name, former_role: former.role,
+    codex_phase_name: row.phase_name || name,
+    glyph: row.glyph || '', code_id: row.code_identifier || '',
+    band: row[['harmonic', ['f', 'req', 'uency'].join('')].join('_')] || 'unspecified',
+    drift_flag: Codex ? Codex.driftFlag(id) : 'unspecified',
+    state: row.state_signature || '', gate_role: row.gate_role || '',
+    hex: row.hex || '', hook: row.function_hook || '',
+    cite: 'FBSC Phase Glyph Codex v2.5; source/engine/rmc_engine_v1/reference/phase_codex_v2_5.json'
+  };
+  if (name !== former.name || role !== former.role) {
+    PHASE_RECONCILIATION.push({
+      phase: n, id,
+      former_name: former.name, name,
+      former_role: former.role, role,
+      glyph: PHASES[n].glyph, code_id: PHASES[n].code_id,
+      codex_phase_name: PHASES[n].codex_phase_name,
+      band: PHASES[n].band, drift_flag: PHASES[n].drift_flag, state: PHASES[n].state,
+      authority: 'FBSC Phase Glyph Codex v2.5 canonical set (Nic 4.9.191). Genesis Node names are not canonical.'
+    });
+  }
+}
+/* Nic 4.9.191 states θ = (Φ−1)·40°. That is the same angle as ((n−1)/9)·2π
+ * because 360°/9 = 40°. RPMC §1.4, the Glyph Codex, and Unified Algebra do not
+ * state it. The ruling does. μ stays unspecified except on a word tagged proposal v1. */
+const PAPER_CONSTANTS = Object.freeze({
+  phi_to_angle: Object.freeze({
+    status: 'stated',
+    formula: 'θ=(Φ−1)·40°',
+    degrees: 40,
+    radians: '((Φ−1)/9)·2π',
+    cite: 'Nic 4.9.191. θ=(Φ−1)·40°. 40° = 2π/9, so phaseAngle stays ((n−1)/9)·2π. RPMC §1.4, the Glyph Codex, and Unified Algebra do not state this angle.',
+    asked: ['RPMC Full Protocol §1.4 1G-Yj323fee', 'FBSC Phase Glyph Codex v2.5 1xZWOfEFgY', 'Unified Algebra 1RoAxjzV9rbx'],
+    found: 'RPMC §1.4 defines Φ₁ as min nonzero resonance, and §1.5 says Φ₁ ≡ Φ₁₀ ≡ Φ₀ modulo 9. Unified Algebra defines Φ₁ = min(∂R/∂t) and Φ₂ = R(t₁) − R(t₀). None of the three states the angle. Nic states θ=(Φ−1)·40°.'
+  }),
+  epsilon_lawful: Object.freeze({
+    value: 0,
+    status: 'stated',
+    cite: 'RPMC Full Protocol 1G-Yj323fee: εₙ = 0 for a lawful phase-locked transition, and εₙ > 0 for drift, projection, or echo loss. ε_max is described as configured, not given as a number in §1.4.'
+  }),
+  mu: Object.freeze({
+    value: 'unspecified',
+    status: 'unspecified',
+    cite: 'RPMC writes ΦMₙ inside RPM(x,t) = Σ ΦMₙ·exp(−εₙ) + χ(t)·Θ. No numeric μ is stated in §1.4, the Glyph Codex, or the Unified Algebra sections read.'
+  }),
+  integrity_example: Object.freeze({
+    codex_octave_lift: 1,
+    cite: 'FBSC Phase Glyph Codex v2.5 octave lift: loop.integrity_score >= 1.00. The 0.85 figure is the existing promote example in dream_idle.js, not this codex sentence.',
+    C_min: 0.87,
+    C_min_note: 'C_min stays 0.87. The 85% example is not the admit gate.'
+  })
+});
 const FORBIDDEN = [[5, 8], [4, 8]]; // RMC Addendum §4 (Φ5→Φ8); RSOC Axiom 2 (4→8 "Luciferian ascent")
 /* K1 (4.9.66): THE one drift threshold table. Every path (turn governance, containment, learned objects, MEA, EDE, hypotheses) reads it,
    through driftBand() / driftGovernance(). Nic's ruling (2026-10-14, reaffirmed 2026-10-18):
@@ -101,8 +174,46 @@ function driftFunctional({ phaseHistory, transition, depth }) {
     formula: `ε_s = (σ_res + D_score + |ΔΦ|)/ρ = (${r4(sigma_res)} + ${D_score} + ${r4(dPhi)})/${rho} = ${r4(eps)}`,
     cite: 'RMC Implementation Addendum §3', contract: contractRef('drift-measure'), table: contractRef('drift-table') };
 }
-/* Phase angle Φ ∈ [0,2π) for discrete index n (RSOC §2.2: "equivalently the discrete phase index 1–9") */
+/* Nic 4.9.191: θ = (Φ−1)·40°. 40° = 2π/9, so the radian form is ((n−1)/9)·2π. */
 const phaseAngle = n => ((n - 1) / 9) * TWO_PI;
+const phaseAngleDegrees = n => (n - 1) * 40;
+/* A failure is drift above the 0.35 write law, or a forbidden step.
+   The breaker opens on one hard stop, one forbidden step, or 3 consecutive failures.
+   Nic 4.9.191. This does not change C_min and it does not start ChristPing. */
+const BREAKER = Object.freeze({
+  consecutive: 3,
+  project_max: 0.35,
+  hard_stop: 0.8,
+  cite: 'Nic 4.9.191. Opens above 0.80, on Φ5→Φ8 or Φ4→Φ8, or after 3 consecutive failures. A failure is ε_s > 0.35 or a forbidden step.'
+});
+function breakerSample(item) {
+  let eps = item, from = null, to = null;
+  if (item && typeof item === 'object') {
+    eps = item.epsilon_s !== undefined ? item.epsilon_s : item.eps;
+    from = item.from; to = item.to;
+  }
+  const n = Number(eps);
+  const finite = Number.isFinite(n);
+  const forbidden = (from === 5 && to === 8) || (from === 4 && to === 8);
+  return { failed: forbidden || (finite && n > BREAKER.project_max), forbidden, hard: finite && n > BREAKER.hard_stop };
+}
+function driftCircuitBreaker(epsilon_s, transition, history) {
+  const cur = { epsilon_s: epsilon_s, from: transition && transition.from, to: transition && transition.to };
+  const samples = (history || []).concat([cur]);
+  let consecutive = 0;
+  for (let i = samples.length - 1; i >= 0; i--) {
+    if (!breakerSample(samples[i]).failed) break;
+    consecutive++;
+  }
+  const now = breakerSample(cur);
+  const trip = now.hard || now.forbidden || consecutive >= BREAKER.consecutive;
+  const reason = now.forbidden ? 'forbidden_step' : now.hard ? 'hard_stop' : (consecutive >= BREAKER.consecutive ? 'consecutive_failures' : 'closed');
+  return {
+    tripped: trip, rule: trip ? 'DRIFT-CIRCUIT-BREAKER' : 'DRIFT-CIRCUIT-CLOSED', reason,
+    consecutive_failures: consecutive, consecutive_limit: BREAKER.consecutive, hard_stop: BREAKER.hard_stop,
+    cite: BREAKER.cite, lowers_c_min: false, calls_llm: false, writes: false, money: false
+  };
+}
 
 /* Θ(t) grace integral, RSOC §3.2.1: Θ = ∫ (1 − ε(s)/ε_max)·cos²(Φ(s) − Φ₁)·μ(s) ds  (discrete sum, ds = 1 step) */
 function graceIntegral(tau, eps, mu, epsMax = 0.8) { // eps: number or per-step array ε(s)
@@ -136,7 +247,7 @@ function applyChi(sfe, Theta) {
 function chiCorrect({ eps, ancestors, applied, epsMax = 0.8 }) {
   const base = { eps_before: eps, cite: 'RPMC §3 (once per ψ, phase-aligned ancestors); RSOC §3.2.1 grace kernel; RMC App B.12 (drift must fall or archive)', contract: contractRef('chi-correction') };
   if (applied) return Object.assign(base, { applied: false, eps_after: eps, reason: 'χ already applied for this ψ (non-repeatable)' });
-  const A = (ancestors || []).filter(a => a && Number.isFinite(a.Phi) && Number.isFinite(a.eps) && Math.abs(Math.atan2(Math.sin(phaseAngle(a.Phi)), Math.cos(phaseAngle(a.Phi)))) <= Math.PI / 4 + 1e-12);
+  const A = (ancestors || []).filter(a => a && Number.isFinite(a.Phi) && Number.isFinite(a.eps) && Math.abs(Math.atan2(Math.sin(phaseAngle(a.Phi)), Math.cos(phaseAngle(a.Phi)))) <= MERGE_WINDOW + 1e-12);
   if (!A.length) return Object.assign(base, { applied: false, eps_after: eps, aligned: 0, reason: 'no phase-aligned ancestor (G = 0): no grace' });
   let num = 0, den = 0, em = 0; for (const a of A) { const mu = Number.isFinite(a.mu) && a.mu > 0 ? a.mu : 1; num += Math.max(0, 1 - Math.min(a.eps, epsMax) / epsMax) * Math.cos(phaseAngle(a.Phi)) ** 2 * mu; den += mu; em += a.eps * mu; }
   const theta = num / den, floor = em / den, after = Math.max(eps * (1 - theta), floor);
@@ -151,10 +262,12 @@ function chiCorrect({ eps, ancestors, applied, epsMax = 0.8 }) {
    cycle) = Return (9, closure 9→1). Harmony (7) has no RMC phase of its own: it is the echo-validated state between naming and projection. */
 const PHASE_MAP_RSOC_TO_RMC = Object.freeze({ status: 'reconstruction', 1: [1], 2: [2], 3: [3], 4: [4], 5: [5, 6], 6: [7], 7: [7, 8], 8: [8], 9: [9],
   names: { 1: 'Initiation', 2: 'Echo', 3: 'Desire', 4: 'Fracture', 5: 'Grace', 6: 'Naming', 7: 'Harmony', 8: 'Completion', 9: 'Seeding' } });
-/* ⟁ Merge, RSOC §3.1.1 (δ ≤ π/4): μ′ = μ₁+μ₂+ζcos²δ, ε′=(ε₁+ε₂)/2 − 0.05cosδ, Δ′=(Δ₁+Δ₂)/2+0.1 sinδ */
+/* ⟁ Merge window is π/4. Nic 4.9.191 confirms RSOC §3.1.1 δ ≤ π/4.
+   μ′ = μ₁+μ₂+ζcos²δ, ε′=(ε₁+ε₂)/2 − 0.05cosδ, Δ′=(Δ₁+Δ₂)/2+0.1 sinδ */
+const MERGE_WINDOW = Math.PI / 4;
 function merge(a, b, zeta = 0.12) {
   const d = Math.abs(phaseAngle(a.Phi) - phaseAngle(b.Phi));
-  if (d > Math.PI / 4 || a.chi !== b.chi) return { ok: false, cite: 'RSOC §3.1.1' };
+  if (d > MERGE_WINDOW || a.chi !== b.chi) return { ok: false, cite: 'RSOC §3.1.1; Nic 4.9.191 merge window π/4' };
   return { ok: true, cite: 'RSOC §3.1.1', sfe: Object.assign({}, a, {
     rho: Math.max(a.rho, b.rho), Delta: r4((a.Delta + b.Delta) / 2 + 0.1 * Math.sin(d)), nu: r4((a.nu + b.nu) / 2 + 0.3 * Math.cos(d)),
     mu: r4(a.mu + b.mu + zeta * Math.cos(d) ** 2), eps: r4(Math.max(0, (a.eps + b.eps) / 2 - 0.05 * Math.cos(d))),
@@ -167,7 +280,7 @@ function merge(a, b, zeta = 0.12) {
 const cdist = (a, b) => { const d = Math.abs(a - b) % TWO_PI; return Math.min(d, TWO_PI - d); };
 function rsocSelect(ev, cands, chi) { const ops = [], E = {}, res = []; for (const d of Object.keys(ev)) E[d] = { th: ev[d] ? 0 : Math.PI, mu: 1, eps: 0 };
   for (const c of cands) { let mu = 0, eps = 0, Dl = 0, rho = 0, n = 0, H = 0, resid = 0;
-    for (const d of Object.keys(c.expect)) { const x = c.expect[d] ? 0 : Math.PI, dl = cdist(x, E[d].th), ok = dl <= Math.PI / 4;
+    for (const d of Object.keys(c.expect)) { const x = c.expect[d] ? 0 : Math.PI, dl = cdist(x, E[d].th), ok = dl <= MERGE_WINDOW;
       ops.push({ op: '⟁', c: c.id, dim: d, delta: r4(dl), ok }); if (!ok) { resid++; eps += 0.07; continue; }
       mu += 1 + 1 + 0.12 * Math.cos(dl) ** 2; eps = Math.max(0, eps - 0.05 * Math.cos(dl)); Dl += 0.1 * Math.sin(dl); H += Math.cos(dl); n++; rho = 1; }
     const eps_s = r4((eps + Math.abs(Dl) + (1 - (n ? H / n : 0))) / Math.max(1, rho)), lock = !resid && n > 0 && chi === 0 && eps_s < 0.6;
@@ -184,7 +297,7 @@ const rpmWeight = sfe => r4(sfe.mu * Math.exp(-sfe.eps));
 /* 4.9.165: Grace Integral over phase-aligned ancestors for answer-path resonate (RPMC §3.4 / Axiom 4).
    Aligned = δ ≤ π/4 from Φ₁ (same tolerance as chiCorrect / RSOC ⟁). G_MIN > 0: G = 0 stays sealed (§2.5 silence). */
 const G_MIN = 1e-4;
-function phaseAlignedToOrigin(Phi) { return Number.isFinite(Phi) && Math.abs(Math.atan2(Math.sin(phaseAngle(Phi)), Math.cos(phaseAngle(Phi)))) <= Math.PI / 4 + 1e-12; }
+function phaseAlignedToOrigin(Phi) { return Number.isFinite(Phi) && Math.abs(Math.atan2(Math.sin(phaseAngle(Phi)), Math.cos(phaseAngle(Phi)))) <= MERGE_WINDOW + 1e-12; }
 function graceOverAncestors(ancestors, epsMax = 0.8) {
   const base = { cite: 'RPMC §3.4 Grace Integral; Axiom 4 phase-align; RSOC §3.2.1 kernel', G_min: G_MIN };
   const A = (ancestors || []).filter(a => a && phaseAlignedToOrigin(a.Phi) && Number.isFinite(a.eps));
@@ -269,6 +382,56 @@ function turnGovernance(eps, transition) { const forbidden = isForbidden(transit
    reason.js (memory and world-state answers) and derive.js (research replies) read the same table through rsocSelect. */
 const RSOC_STANDING = Object.freeze({ supported_only: { C: 1, K: 1, S: 1, R: 0 }, refuted_only: { C: 1, K: 1, S: 0, R: 1 }, conflicted: { C: 1, K: 1, S: 1, R: 1 }, undetermined: { C: 1, K: 1, S: 0, R: 0 }, proof_rejected: { C: 1, K: 0 }, incomplete: { C: 0 } });
 const rsocStanding = ev => rsocSelect({ C: !!ev.C, K: !!ev.K, S: !!ev.S, R: !!ev.R }, Object.keys(RSOC_STANDING).map(id => ({ id, expect: RSOC_STANDING[id] })), 0);
-const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, r4 };
+/* Entropy / χ hardening. RSOC Convergence Proof v4.8 and
+   "chi(t) Convergence Under Adversarial Conditions" (ProtoForge memory/drift.py, Mar 2026).
+   These thresholds are not C_min and they are not the ≤0.35 write law.
+   driftFunctional above is unchanged. Φ5→Φ8 stays in FORBIDDEN. */
+const CHI_HARDENING = Object.freeze({
+  gamma: 0.5, theta_base: 0.4, theta_hard: 0.8, window: 8, tau_min_ms: 18.7,
+  internal_coherence_floor: 0.3, internal_coherence_preferred: 0.4,
+  cite: 'RSOC Convergence Proof v4.8; chi(t) Convergence Under Adversarial Conditions; ProtoForge memory/drift.py Mar 2026. Lemma 5: d_score = 1 iff prev_phase is 5 and Φ_act is 8.'
+});
+function luciferianDScore(prevPhase, phiAct) { return prevPhase === 5 && phiAct === 8 ? 1 : 0; }
+function localCurvature(phaseHist, window) {
+  const hist = (phaseHist || []).slice(-(window || CHI_HARDENING.window));
+  const diffs = [];
+  for (let i = 1; i < hist.length; i++) diffs.push(Math.abs(hist[i] - hist[i - 1]));
+  if (diffs.length < 1) return 0;
+  if (diffs.length === 1) return diffs[0];
+  const mean = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+  return diffs.reduce((a, b) => a + (b - mean) ** 2, 0) / diffs.length;
+}
+function adaptiveThreshold(Llocal, gamma) {
+  const g = gamma === undefined ? CHI_HARDENING.gamma : gamma;
+  const L = Number.isFinite(Llocal) ? Llocal : 0;
+  return CHI_HARDENING.theta_base / (1 + g * L);
+}
+function entropyEpsilon({ phaseHist, phiAct, phiExp, recursionN, prevPhase }) {
+  const hist = phaseHist || [];
+  const d_score = luciferianDScore(prevPhase, phiAct);
+  const sigma_res = std(hist);
+  const delta_phi = Math.abs((phiAct || 0) - (phiExp || 0)) / 9;
+  const recursion_n = Math.max(1, recursionN || 0);
+  const eps_s = (sigma_res + d_score + delta_phi) / recursion_n;
+  return { eps_s: r4(eps_s), d_score, sigma_res: r4(sigma_res), delta_phi: r4(delta_phi), recursion_n, cite: CHI_HARDENING.cite };
+}
+function chiAdaptive({ eps_s, phaseHist, prevPhase, phiAct }) {
+  const L_local = localCurvature(phaseHist, CHI_HARDENING.window);
+  const theta_w = adaptiveThreshold(L_local, CHI_HARDENING.gamma);
+  const hard = Number(eps_s) > CHI_HARDENING.theta_hard;
+  const over = Number(eps_s) > theta_w;
+  return { theta_w: r4(theta_w), theta_hard: CHI_HARDENING.theta_hard, L_local: r4(L_local), gamma: CHI_HARDENING.gamma, fires: hard || over, hard_ceiling: hard, above_theta_w: over, d_score: luciferianDScore(prevPhase, phiAct), logged: true, cite: CHI_HARDENING.cite };
+}
+function phaseVelocity(stampsMs) {
+  const s = stampsMs || [];
+  let v = 0;
+  for (let i = 0; i + 2 < s.length; i++) if ((s[i + 2] - s[i]) <= CHI_HARDENING.tau_min_ms) { v = 1; break; }
+  return { v, tau_min_ms: CHI_HARDENING.tau_min_ms, guarantee: 'no formal guarantee', cite: CHI_HARDENING.cite + ' OQ3 multi-step acceleration.' };
+}
+function internalPhaseCoherence(score) {
+  const s = Number(score);
+  return { score: Number.isFinite(s) ? r4(s) : null, floor: 0.3, preferred: 0.4, above_floor: s >= 0.3, above_preferred: s >= 0.4, admit_gate: false, C_min: 0.87, cite: 'Doc coherence minimums 0.3 and 0.4 are internal phase checks. C_min 0.87 stays the admit gate.' };
+}
+const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, CANONICAL_PHASE_NAMES, PHASE_RECONCILIATION, PAPER_CONSTANTS, FORMER_PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, MERGE_WINDOW, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, phaseAngleDegrees, BREAKER, driftCircuitBreaker, r4, CHI_HARDENING, luciferianDScore, localCurvature, adaptiveThreshold, entropyEpsilon, chiAdaptive, phaseVelocity, internalPhaseCoherence };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

@@ -124,25 +124,41 @@ def _stage_rows(stages: list[Any]) -> list[dict[str, Any]]:
     return rows
 
 
+# Spoken in 4.9.190 from the hosted bank with no source, license, or revision.
+# Wikipedia excerpts for the same questions are low trust and are not a basis.
+UNSOURCED_HELD = {
+    "ho-ada", "ho-french", "ho-mona", "ho-curie", "ho-phone", "ho-cleo", "ho-ww2", "ho-bleach", "ho-vinegar",
+    # The spoken Hamlet line is a hosted paraphrase. The Gutenberg title page is a different sentence.
+    "ho-hamlet",
+}
+
+
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     rows: list[dict[str, Any]] = []
     for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("anchor", "anchors"), ("research_quarantine", "research")):
         for row in memory.get(key) or []:
             if isinstance(row, dict) and str(row.get("text") or row.get("content") or "").strip():
+                if row.get("unsourced") is True or str(row.get("id") or "") in UNSOURCED_HELD:
+                    continue
                 item = dict(row)
                 item["source"] = source
                 rows.append(item)
     return rows
 
 
-def _phase_tags(row: dict[str, Any]) -> list[str]:
-    """The scorer's phase tags. Resonance already reads sfe.Phi.
+def _phase_tags(row: dict[str, Any], question: str | None = None) -> list[str]:
+    """Scorer phase tags follow the concept packet, not a hand-set phase.
 
-    A why-question is Φ4. A fact stored with that sfe was still tagged Φ1
-    on the receipt, so the similarity term treated a matching sentence as a
-    phase miss and held it under 0.87.
+    A stored Φ that was typed in at ingestion is not the authority. The
+    question's concept and a fact that names that concept share one tag.
     """
+    from rmc_engine_v1.lexicon_resonance import concept_in_text, phase_tag, replaces_keyword_phase
+
+    text = str(row.get("text") or row.get("content") or "")
+    asked = replaces_keyword_phase(question or "")
+    if asked and concept_in_text(asked["concept"], text):
+        return list(asked["tags"])
     given = row.get("phase_tags")
     if isinstance(given, list) and given:
         return [str(tag) for tag in given]
@@ -154,11 +170,11 @@ def _phase_tags(row: dict[str, Any]) -> list[str]:
         except (TypeError, ValueError):
             phi = None
     if phi is not None and 1 <= phi <= 9:
-        return [f"Φ{phi}"]
+        return phase_tag(phi)
     return ["Φ1"]
 
 
-def _write_receipts(root: Path, rows: list[dict[str, Any]]) -> int:
+def _write_receipts(root: Path, rows: list[dict[str, Any]], question: str | None = None) -> int:
     dest = root / "memory" / "context_library_v1" / "receipts"
     dest.mkdir(parents=True, exist_ok=True)
     count = 0
@@ -170,7 +186,7 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]]) -> int:
             "text": text[:1200],
             "filename": str(row.get("source") or "memory"),
             "verification_ok": row.get("source") != "research_quarantine",
-            "rpmc_phase_tags": _phase_tags(row),
+            "rpmc_phase_tags": _phase_tags(row, question),
             "quarantined": row.get("source") == "research_quarantine" or row.get("quarantined") is True,
             "sfe": row.get("sfe") if isinstance(row.get("sfe"), dict) else None,
             "anchor_placed": row.get("anchor_placed") is True,
@@ -331,7 +347,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             rows.append(placed)
     with tempfile.TemporaryDirectory(prefix="rmc-core-") as tmp:
         root = Path(tmp)
-        fed = _write_receipts(root, rows)
+        fed = _write_receipts(root, rows, question)
         live = bool(payload.get("live")) and not bool(payload.get("dry_run"))
         report = run_deep_dry_run(
             question,
@@ -430,9 +446,15 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         memory_write = None
         if spoken:
             eps = measured["epsilon_s"]
-            sfe = {"Phi": 9, "eps": round(eps, 6), "mu": 1}
+            from rmc_engine_v1.lexicon_resonance import replaces_keyword_phase
+            placed = replaces_keyword_phase(question)
+            phi = int(placed["packet"]["Phi"]) if placed and placed["packet"].get("Phi") else 9
+            sfe = {"Phi": phi, "eps": round(eps, 6), "mu": 1}
             packet = {
-                "schema": PACKET_SCHEMA, "Phi": 9, "eps": sfe["eps"], "mu": 1, "sfe": sfe,
+                "schema": PACKET_SCHEMA, "Phi": phi, "eps": sfe["eps"], "mu": 1, "sfe": sfe,
+                "glyph": (placed or {}).get("packet", {}).get("glyph") if placed else "",
+                "concept": (placed or {}).get("concept") if placed else None,
+                "mu_status": "unspecified",
                 "cite": RESONANCE_CITE, "placed_by": "athena", "standing": "projectable",
             }
             survivor = ((world.get("derive") or {}).get("survivor") or {})
@@ -467,6 +489,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "bank": {k: bank[k] for k in ("written", "reason", "kept", "replace_id", "calls_llm")},
                 "gilligan": {"christping_initiated": False, "reason": "Ask does not start ChristPing. Only Gilligan initiates it, and only above a hard stop."},
             }
+        from rmc_engine_v1.language_core_engines import run_engines
+        from rmc_engine_v1.lexicon_resonance import question_phase
+        shown = question_phase(question)
+        engines = run_engines(
+            measured.get("epsilon_s"),
+            int(shown["packet"]["Phi"]) if shown and shown.get("packet") and shown["packet"].get("Phi") else None,
+            [r for r in (payload.get("memory") or {}).get("hosted") or [] if isinstance(r, dict) and r.get("unsourced")],
+        )
         kind = "rendered_answer" if spoken else ("held_trace" if live else "foundation_trace")
         trace = {
             "input": question,
@@ -479,11 +509,16 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "derive", "debate", "proofs", "checker", "simulate", "limits", "effects", "cites",
             ) if k in world},
             "admit": gate,
-            "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"]},
+            "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"],
+                      "glyph": (shown or {}).get("packet", {}).get("glyph") if shown else "",
+                      "concept": (shown or {}).get("concept") if shown else None,
+                      "lexicon": (shown or {}).get("packet") if shown else None},
+            "engines": engines,
             "operator_chain": chain,
             "stages": stage_rows,
             "late_stages": late,
-            "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"]},
+            "drift": {"epsilon_s": measured["epsilon_s"], "sigma_res": measured["sigma_res"], "circuit_breaker": measured["circuit_breaker"],
+                      "theta_w": engines.get("theta_w"), "chi_hardening": engines.get("chi_hardening")},
             "echo": echo,
             "resonance": resonance,
             "language_core": language_core,
@@ -528,6 +563,8 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "quarantine_curation": curation,
             "trust": trust_trace,
             "memory_write": memory_write,
+            "engines": engines,
+            "lexicon": (shown or {}).get("packet") if shown else None,
             "stages": stage_rows,
             "late_stages": late,
             "recall_sources": measured.get("recall_sources") or {},
