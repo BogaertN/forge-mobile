@@ -88,7 +88,16 @@ def _iter_json_files(path: Path, pattern: str = "*.json", recursive: bool = Fals
     try:
         files = list(path.rglob(pattern) if recursive else path.glob(pattern))
         files = [p for p in files if p.is_file()]
-        files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+        # Name order is the write order (m0000, m0001, …). mtime ties on a
+        # fast writer, and a reverse mtime walk reads research before the
+        # trusted rows. The absolute path is not part of the key.
+        def _file_key(p: Path) -> tuple[str, str]:
+            try:
+                rel = str(p.resolve().relative_to(path.resolve()))
+            except Exception:
+                rel = p.name
+            return (p.name, rel)
+        files.sort(key=_file_key)
         return files[:limit]
     except Exception:
         return []
@@ -158,7 +167,7 @@ def _node_from_receipt(path: Path, root: Path, data: dict[str, Any]) -> dict[str
     corpus_id = str(data.get("corpus_id") or "")
     phase_tags = _coerce_phase_list(data.get("rpmc_phase_tags") or data.get("phase_tags") or data.get("phase"))
     return {
-        "memory_id": _stable_id("mem_receipt", str(path) + receipt_id),
+        "memory_id": _stable_id("mem_receipt", receipt_id + "\n" + str(data.get("text") or data.get("content") or "")),
         "source_kind": "ingestion_receipt",
         "source_path": _relative(path, root),
         "content_summary": text[:700],
@@ -191,7 +200,7 @@ def _node_from_receipt(path: Path, root: Path, data: dict[str, Any]) -> dict[str
 def _node_from_manifest(path: Path, root: Path, data: dict[str, Any]) -> dict[str, Any]:
     text = _extract_node_text(data, fallback=path.name)
     return {
-        "memory_id": _stable_id("mem_manifest", str(path) + path.stem),
+        "memory_id": _stable_id("mem_manifest", path.name + "\n" + str(data.get("collection") or "") + "\n" + text[:200]),
         "source_kind": "collection_manifest",
         "source_path": _relative(path, root),
         "content_summary": text[:700],
@@ -246,7 +255,7 @@ def _nodes_from_symbolic_map(path: Path, root: Path, data: Any, limit: int = 40)
         if entry.get("drift_terms") or entry.get("collapse_terms"):
             drift_score = 0.25
         nodes.append({
-            "memory_id": _stable_id("mem_symbolic", str(path) + str(entry.get("chunk_id") or text[:80])),
+            "memory_id": _stable_id("mem_symbolic", path.name + "\n" + str(entry.get("chunk_id") or "") + "\n" + text[:200]),
             "source_kind": "symbolic_map_entry",
             "source_path": _relative(path, root),
             "chunk_id": entry.get("chunk_id") or entry.get("id") or "",
@@ -289,7 +298,7 @@ def _node_from_growth(path: Path, root: Path, data: dict[str, Any]) -> dict[str,
     elif "dataset_receipts" in parts:
         kind = "dataset_capture_receipt"
     return {
-        "memory_id": _stable_id("mem_growth", str(path) + str(data.get("candidate_id") or data.get("observation_id") or path.stem)),
+        "memory_id": _stable_id("mem_growth", path.name + "\n" + str(data.get("candidate_id") or data.get("observation_id") or "") + "\n" + text[:200]),
         "source_kind": kind,
         "source_path": _relative(path, root),
         "content_summary": text[:850],

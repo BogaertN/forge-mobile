@@ -1084,3 +1084,80 @@ def commit_memory_write(
             "explanation": "C8 committed an approved echo-validated RMC memory record inside the approved memory root.",
         },
     }
+
+
+def _bank_norm(text: str) -> str:
+    return " ".join(str(text or "").lower().split()).strip(" .")
+
+
+def _contains_sentence(longer: str, shorter: str) -> bool:
+    """True when shorter is a whole sentence inside longer, not a prefix of a word."""
+    if not shorter or len(longer) <= len(shorter):
+        return False
+    start = 0
+    while True:
+        i = longer.find(shorter, start)
+        if i < 0:
+            return False
+        end = i + len(shorter)
+        before_ok = i == 0 or longer[i - 1] in " ."
+        after_ok = end == len(longer) or longer[end] in " ."
+        if before_ok and after_ok:
+            return True
+        start = i + 1
+
+
+def _bank_rows(memory: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
+    found: list[tuple[str, dict[str, Any]]] = []
+    for key in ("receipts", "phone", "hosted", "anchors"):
+        rows = memory.get(key) or []
+        if not isinstance(rows, list):
+            continue
+        for row in rows:
+            if isinstance(row, dict):
+                found.append((key, row))
+    return found
+
+
+def bank_admitted(memory: dict[str, Any] | None, row: dict[str, Any] | None) -> dict[str, Any]:
+    """Idempotent session-bank decision. Does not write files and does not call a model.
+
+    Storing a sentence that is already banked, or a shorter sentence already
+    contained in a longer derived row, is a no-write. A shorter sentence for
+    the same question keeps the longer derived text. A longer sentence for
+    the same question replaces that shorter row.
+    """
+    memory = memory if isinstance(memory, dict) else {}
+    row = row if isinstance(row, dict) else {}
+    text = str(row.get("text") or row.get("content") or "").strip()
+    norm = _bank_norm(text)
+    if not norm:
+        return {"written": False, "reason": "empty", "kept": None, "replace_id": None, "calls_llm": False}
+    prov = row.get("provenance") if isinstance(row.get("provenance"), dict) else {}
+    question = str(prov.get("question") or "")
+    for _key, existing in _bank_rows(memory):
+        en = _bank_norm(existing.get("text") or existing.get("content") or "")
+        if not en:
+            continue
+        if en == norm or _contains_sentence(en, norm):
+            return {"written": False, "reason": "already-banked", "kept": existing.get("id"), "replace_id": None, "calls_llm": False}
+        ep = existing.get("provenance") if isinstance(existing.get("provenance"), dict) else {}
+        if question and str(ep.get("question") or "") == question and len(en) >= len(norm):
+            return {"written": False, "reason": "question-keeps-derived", "kept": existing.get("id"), "replace_id": None, "calls_llm": False}
+    replace_id = None
+    if question:
+        for _key, existing in _bank_rows(memory):
+            ep = existing.get("provenance") if isinstance(existing.get("provenance"), dict) else {}
+            if str(ep.get("question") or "") != question:
+                continue
+            en = _bank_norm(existing.get("text") or existing.get("content") or "")
+            if en and len(norm) > len(en):
+                replace_id = existing.get("id")
+                break
+    return {
+        "written": True,
+        "reason": "extended-derived" if replace_id else "banked",
+        "kept": None,
+        "replace_id": replace_id,
+        "calls_llm": False,
+    }

@@ -80,9 +80,66 @@ T('Ask stand-ins that produced answers are gone; the language core stays', () =>
   expect(!/chloramine/i.test(claim), 'headline');
 });
 
+T('receipt order does not flip the derived sentence', () => {
+  const out = py(`
+import runpy
+runpy.run_path('tools/check_determinism_188.py', run_name='__main__')
+`);
+  const row = JSON.parse(out.trim().split('\n').pop());
+  expect(row.ok === true && row.files.same === true && row.ids.same === true && row.ids.leaked === false, JSON.stringify(row.files) + ' ' + JSON.stringify(row.ids));
+  expect(row.held.stable === true, JSON.stringify(row.held.rows.map(r => ({ q: r.question, same: r.same, a: r.first, b: r.second }))));
+});
+
+T('the memory writer keeps derived text when the sentence is already banked', () => {
+  const out = py(`
+import runpy
+runpy.run_path('tools/check_bank_188.py', run_name='__main__')
+`);
+  const row = JSON.parse(out.trim().split('\n').pop());
+  expect(row.ok === true, JSON.stringify({ writer: row.writer, chain: row.chain, second: row.second }));
+});
+
+T('anchor shards are public-domain or CC BY, lazy, and not a parse', () => {
+  const store = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'anchor_store.py'), 'utf8');
+  expect(!/import re\b/.test(store) && !/re\.(findall|search|match|sub|split)/.test(store), 'anchor_store regex');
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'anchors_188', 'index.json'), 'utf8'));
+  expect(index.count >= 2000 && index.shards && index.surfaces, 'count ' + index.count);
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const ship = fs.readFileSync(path.join(ROOT, 'tools', 'shipset.js'), 'utf8');
+  expect(!sw.includes('anchors_188/') && !ship.includes('anchors_188/'), 'shards are not precached');
+  let largest = 0;
+  const bad = [];
+  for (const meta of Object.values(index.shards)) {
+    const file = path.join(ROOT, 'data', 'anchors_188', meta.file);
+    const raw = fs.readFileSync(file);
+    largest = Math.max(largest, zlib.gzipSync(raw).length);
+    const pack = JSON.parse(raw.toString('utf8'));
+    for (const row of pack.anchors) {
+      const blob = (row.text + ' ' + row.source_url + ' ' + row.contributor + ' ' + row.license).toLowerCase();
+      if (/wikipedia|wikimedia|wikidata|dbpedia|wikisource|by-nc/.test(blob)) bad.push(row.id);
+      if (row.license !== 'public-domain' && row.license !== 'CC BY 4.0') bad.push('lic ' + row.id);
+      if (!row.packet || row.packet.schema !== 'FORGE-RESONANCE-PACKET/v1' || !(row.sfe && row.sfe.mu > 0)) bad.push('pkt ' + row.id);
+    }
+  }
+  expect(!bad.length, bad.slice(0, 4).join(','));
+  expect(largest < 80000, 'shard gzip ' + largest);
+  const sql = fs.readFileSync(path.join(ROOT, '..', 'supabase', 'migrations', '20261030143000_seed_kb_anchors.sql'), 'utf8');
+  expect(/do not apply/i.test(sql) && /insert into kb\.anchors/.test(sql), 'seed migration');
+  const out = py(`
+import json
+from rmc_engine_v1.anchor_store import select_anchors, clear_cache
+clear_cache()
+japan = select_anchors("What is the capital of Japan?")
+helium = select_anchors("What is helium?")
+print(json.dumps({"n": len(japan), "tokyo": japan[0]["text"] if japan else "", "helium": len(helium)}))
+`);
+  const row = JSON.parse(out.trim().split('\n').pop());
+  expect(row.n >= 1 && row.n <= 16 && row.tokyo.indexOf('Tokyo is the capital of Japan') === 0 && row.helium === 0, JSON.stringify(row));
+});
+
 T('version registry names 4.9.187 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.187', ver);
+  expect(ver === '4.9.188', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.187/.test(conf) && /C_min stays 0\.87/.test(conf) && /Wikipedia/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -94,9 +151,9 @@ T('version registry names 4.9.187 and the switches stay off', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_187.md'), 'utf8');
   expect(/60/.test(live) && /cold/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.187' && tgt.suites[0] === 'r4187_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.188' && tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js', JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.187' && reg.features.some(f => f.id === 'R4187-ANCHOR-TIER') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.188' && reg.features.some(f => f.id === 'R4187-ANCHOR-TIER') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
