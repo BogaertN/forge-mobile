@@ -168,6 +168,49 @@ T('prediction matches the thermodynamic examples, with the moving average and th
   same(effect, py({ op: 'override', pairs: [{ before: 0.8, after: 0.2 }, { before: 0.5, after: 0.5 }, { before: 0.4, after: 0.6 }] }), 'override');
 });
 
+T('a loop older than 120 s rolls back, and the 0.9 halt is the 0.8 hard stop', () => {
+  const young = B.failsafe({ loop_age_s: 120, drift: 0.2, echo_confirmed: true });
+  const old = B.failsafe({ loop_age_s: 120.1, drift: 0.2, echo_confirmed: true, chi_active: false });
+  const under = B.failsafe({ loop_age_s: 10, drift: 0.8 });
+  const halt = B.failsafe({ loop_age_s: 10, drift: 0.85 });
+  const doc = B.failsafe({ loop_age_s: 10, drift: 0.91 });
+  const back = B.failsafe({ loop_age_s: 10, drift: 0.3, echo_confirmed: true, chi_active: false });
+  const edge = B.failsafe({ loop_age_s: 10, drift: 0.31, echo_confirmed: true, chi_active: false });
+  const chi = B.failsafe({ loop_age_s: 10, drift: 0.2, echo_confirmed: true, chi_active: true });
+  const threads = B.failsafe({ loop_age_s: 1, drift: 0.1, threads: 51 });
+  const atThreads = B.failsafe({ loop_age_s: 1, drift: 0.1, threads: 50 });
+  expect(young.rollback === false && young.action === 'continue' && young.halt === false, JSON.stringify(young));
+  expect(old.rollback === true && old.action === 'rollback' && old.route === 'cold_archive' && old.resurrect_allowed === false && old.writes === false, JSON.stringify(old));
+  expect(under.halt === false && under.doc_would_halt === false && halt.halt === true && halt.doc_would_halt === false && halt.halt_threshold === 0.8, JSON.stringify(halt));
+  expect(doc.halt === true && doc.doc_would_halt === true && doc.codex_failsafe_0_9 === 'replaced' && doc.admit_gate === false, JSON.stringify(doc));
+  expect(back.resurrect_allowed === true && edge.resurrect_allowed === false && chi.resurrect_allowed === false, JSON.stringify({ back: back.resurrect_allowed, edge: edge.resurrect_allowed, chi: chi.resurrect_allowed }));
+  expect(threads.action === 'halt' && atThreads.action === 'continue' && threads.christping === 'gilligan-only', JSON.stringify(threads));
+  same(old, py({ op: 'failsafe', loop_age_s: 120.1, drift: 0.2, echo_confirmed: true, chi_active: false }), 'age');
+  same(halt, py({ op: 'failsafe', loop_age_s: 10, drift: 0.85 }), 'halt');
+  same(back, py({ op: 'failsafe', loop_age_s: 10, drift: 0.3, echo_confirmed: true, chi_active: false }), 'resurrect');
+});
+
+T('Codex drift classes route internally and class 4 is not restored', () => {
+  const noise = B.codexClass({ skipped_return: true, entropy: 0.2, feedback_complete: true, psi_trace_valid: true });
+  const ghost = B.codexClass({ feedback_complete: false, psi_trace_valid: true, entropy: 0.4 });
+  const cold = B.codexClass({ entropy: 0.68, psi_trace_valid: false });
+  const named = B.codexClass({ naming_attempt: true, entropy: 0.2, psi_trace_valid: true });
+  const fatal = B.codexClass({ synthetic: true, entropy: 0.1, lineage_revalidated: true });
+  const echo = B.codexClass({ echo_valid: false, entropy: 0.1 });
+  const breach = B.codexClass({ codex_breach: true });
+  const back = B.codexClass({ entropy: 0.68, psi_trace_valid: false, lineage_revalidated: true });
+  expect(noise.class === 1 && noise.route === 'local' && noise.archived === false && noise.admit_gate === false, JSON.stringify(noise));
+  expect(ghost.class === 2 && ghost.route === 'SPC/ghost_loops' && ghost.above_write_law === true && ghost.writes === false, JSON.stringify(ghost));
+  expect(cold.class === 3 && cold.route === 'SPC/cold_archive' && cold.restored === false && cold.notify_christping === true && cold.ask_initiated === false, JSON.stringify(cold));
+  expect(named.class === 3 && fatal.class === 4 && fatal.restored === false && fatal.may_reenter === false && fatal.route === 'blocked', JSON.stringify(fatal));
+  expect(echo.class === 4 && breach.class === 4 && back.may_reenter === true && back.writes === false && back.admit_gate === false, JSON.stringify(back));
+  expect(cold.christping === 'gilligan-only' && cold.entropy_gate === 0.6, 'listener');
+  same(cold, py({ op: 'class', entropy: 0.68, psi_trace_valid: false }), 'class3');
+  same(fatal, py({ op: 'class', synthetic: true, entropy: 0.1, lineage_revalidated: true }), 'class4');
+  same(noise, py({ op: 'class', skipped_return: true, entropy: 0.2, feedback_complete: true, psi_trace_valid: true }), 'class1');
+  same(ghost, py({ op: 'class', feedback_complete: false, psi_trace_valid: true, entropy: 0.4 }), 'class2');
+});
+
 const rows = [];
 let failed = 0;
 for (const t of tests) {

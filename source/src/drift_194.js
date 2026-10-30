@@ -201,7 +201,7 @@
       epsilon_s: n,
       archive: n !== null && n > 0.8,
       resurrect_band: n !== null && n < 0.4,
-      write_allowed: n !== null && n <= 0.35,
+      write_allowed: n !== null && n <= KM.DRIFT_RULING.project_max,
       logged_only: true, admit_gate: false, writes: false, calls_llm: false,
       cite: 'Decision 5. Archive above 0.8 and resurrect below 0.4 are internal. A write still needs 0.35 or under.'
     };
@@ -275,6 +275,63 @@
       cite: 'GN DriftAnalyzer override effectiveness, p148. Reduction is (before − after) / before. It does not admit.'
     };
   }
+  function failsafe(row) {
+    row = row || {};
+    const age = finite(row.loop_age_s);
+    const drift = finite(row.drift != null ? row.drift : row.epsilon_s);
+    const threads = finite(row.threads);
+    const rollback = age !== null && age > 120;
+    const threadOverload = threads !== null && threads > 50;
+    const outputLoop = row.output_loop === true;
+    const docHalt = drift !== null && drift > 0.9;
+    const halt = drift !== null && drift > 0.8;
+    const echo = row.echo_confirmed === true;
+    const chi = row.chi_active === true;
+    const resurrect = drift !== null && drift <= 0.3 && echo && !chi && !halt && !rollback;
+    let action = 'continue';
+    if (rollback) action = 'rollback';
+    else if (halt || threadOverload || outputLoop) action = 'halt';
+    return {
+      action: action, rollback: rollback, halt: halt, thread_overload: threadOverload, output_loop: outputLoop,
+      loop_age_s: age, drift: drift, age_limit_s: 120, halt_threshold: 0.8, doc_halt_threshold: 0.9,
+      doc_would_halt: docHalt, codex_failsafe_0_9: 'replaced',
+      route: rollback ? 'cold_archive' : (action === 'halt' ? 'halt' : 'open'),
+      memory_writes_prevented: halt || rollback, resurrect_allowed: resurrect,
+      echo_confirmed: echo, chi_active: chi,
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false, money: false,
+      christping: 'gilligan-only',
+      cite: 'Gilligan Codex 3.18. A phase loop older than 120 s rolls back to cold archive. A drift halt above 0.9 is replaced by the hard stop 0.8. Resurrection needs drift at or under 0.3, a confirmed echo, and χ inactive.'
+    };
+  }
+  function codexClass(row) {
+    row = row || {};
+    const entropy = finite(row.entropy);
+    const fatal = row.synthetic === true || row.codex_breach === true || row.echo_valid === false;
+    const psiBreak = row.psi_trace_valid === false;
+    const naming = row.naming_attempt === true;
+    const spike = entropy !== null && entropy > 0.6;
+    const ghost = row.feedback_complete === false && !psiBreak;
+    const noise = row.skipped_return === true || row.temporary_mismatch === true;
+    const lineage = row.lineage_revalidated === true;
+    let klass = 0;
+    let name = 'none';
+    let route = 'none';
+    let chiLock = false;
+    let archived = false;
+    if (fatal) { klass = 4; name = 'fatal'; route = 'blocked'; chiLock = true; }
+    else if (spike || psiBreak || naming) { klass = 3; name = 'cold_archive'; route = 'SPC/cold_archive'; chiLock = true; archived = true; }
+    else if (ghost) { klass = 2; name = 'ghostable'; route = 'SPC/ghost_loops'; archived = true; }
+    else if (noise) { klass = 1; name = 'noise'; route = 'local'; }
+    return {
+      class: klass, name: name, route: route, restored: false,
+      may_reenter: (klass === 2 || klass === 3) && lineage, chi_lock: chiLock, archived: archived,
+      notify_christping: klass === 3 || klass === 4, christping: 'gilligan-only', ask_initiated: false,
+      entropy: entropy, entropy_gate: 0.6,
+      logged_only: true, admit_gate: false, writes: false, calls_llm: false, money: false,
+      write_max: KM.DRIFT_RULING.project_max, above_write_law: entropy !== null && entropy > KM.DRIFT_RULING.project_max,
+      cite: 'Gilligan Codex Ch.6.1. Class 1 stays local. Class 2 goes to ghost loops. Class 3 is entropy above 0.6, a ψ break, or a naming attempt, and goes to cold archive. Class 4 is fatal and is not restored. The 0.6 cut does not admit.'
+    };
+  }
   function run(payload) {
     const row = payload || {};
     const op = row.op || 'replay';
@@ -286,13 +343,16 @@
     if (op === 'storage') return storageBand(row.epsilon_s);
     if (op === 'analyze') return analyze(row.series, row);
     if (op === 'override') return overrideEffectiveness(row.pairs);
+    if (op === 'failsafe') return failsafe(row);
+    if (op === 'class') return codexClass(row);
     return replayBreaker(row.samples || []);
   }
   const api = {
     CITE: CITE, WINDOW_S: WINDOW_S, MAX_FAILURES: MAX_FAILURES, RECOVERY_S: RECOVERY_S, RETRY_MAX: RETRY_MAX,
     freshBreaker: freshBreaker, observeBreaker: observeBreaker, replayBreaker: replayBreaker,
     retryBackoff: retryBackoff, rsocBand: rsocBand, capK: capK, gnBand: gnBand, storageBand: storageBand,
-    movingAverage: movingAverage, analyze: analyze, overrideEffectiveness: overrideEffectiveness, run: run
+    movingAverage: movingAverage, analyze: analyze, overrideEffectiveness: overrideEffectiveness,
+    failsafe: failsafe, codexClass: codexClass, run: run
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Drift194 = api;

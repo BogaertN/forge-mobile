@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from rmc_engine_v1.language_core_engines import drift_circuit_breaker
+from rmc_engine_v1.language_core_engines import PROJECT_MAX, drift_circuit_breaker
 
 WINDOW_S = 0.7
 MAX_FAILURES = 3
@@ -285,7 +285,7 @@ def storage_band(epsilon: Any) -> dict[str, Any]:
         "epsilon_s": n,
         "archive": n is not None and n > 0.8,
         "resurrect_band": n is not None and n < 0.4,
-        "write_allowed": n is not None and n <= 0.35,
+        "write_allowed": n is not None and n <= PROJECT_MAX,
         "logged_only": True,
         "admit_gate": False,
         "writes": False,
@@ -484,6 +484,91 @@ def override_effectiveness(pairs: list[dict[str, Any]] | None) -> dict[str, Any]
     }
 
 
+def failsafe(row: dict[str, Any] | None = None) -> dict[str, Any]:
+    src = row or {}
+    age = _finite(src.get("loop_age_s"))
+    drift = _finite(src.get("drift") if src.get("drift") is not None else src.get("epsilon_s"))
+    threads = _finite(src.get("threads"))
+    rollback = age is not None and age > 120
+    thread_overload = threads is not None and threads > 50
+    output_loop = src.get("output_loop") is True
+    doc_halt = drift is not None and drift > 0.9
+    halt = drift is not None and drift > 0.8
+    echo = src.get("echo_confirmed") is True
+    chi = src.get("chi_active") is True
+    resurrect = drift is not None and drift <= 0.3 and echo and not chi and not halt and not rollback
+    action = "rollback" if rollback else ("halt" if halt or thread_overload or output_loop else "continue")
+    return {
+        "action": action,
+        "rollback": rollback,
+        "halt": halt,
+        "thread_overload": thread_overload,
+        "output_loop": output_loop,
+        "loop_age_s": age,
+        "drift": drift,
+        "age_limit_s": 120,
+        "halt_threshold": 0.8,
+        "doc_halt_threshold": 0.9,
+        "doc_would_halt": doc_halt,
+        "codex_failsafe_0_9": "replaced",
+        "route": "cold_archive" if rollback else ("halt" if action == "halt" else "open"),
+        "memory_writes_prevented": halt or rollback,
+        "resurrect_allowed": resurrect,
+        "echo_confirmed": echo,
+        "chi_active": chi,
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+        "money": False,
+        "christping": "gilligan-only",
+        "cite": "Gilligan Codex 3.18. A phase loop older than 120 s rolls back to cold archive. A drift halt above 0.9 is replaced by the hard stop 0.8. Resurrection needs drift at or under 0.3, a confirmed echo, and χ inactive.",
+    }
+
+
+def codex_class(row: dict[str, Any] | None = None) -> dict[str, Any]:
+    src = row or {}
+    entropy = _finite(src.get("entropy"))
+    fatal = src.get("synthetic") is True or src.get("codex_breach") is True or src.get("echo_valid") is False
+    psi_break = src.get("psi_trace_valid") is False
+    naming = src.get("naming_attempt") is True
+    spike = entropy is not None and entropy > 0.6
+    ghost = src.get("feedback_complete") is False and not psi_break
+    noise = src.get("skipped_return") is True or src.get("temporary_mismatch") is True
+    lineage = src.get("lineage_revalidated") is True
+    klass, name, route, chi_lock, archived = 0, "none", "none", False, False
+    if fatal:
+        klass, name, route, chi_lock = 4, "fatal", "blocked", True
+    elif spike or psi_break or naming:
+        klass, name, route, chi_lock, archived = 3, "cold_archive", "SPC/cold_archive", True, True
+    elif ghost:
+        klass, name, route, archived = 2, "ghostable", "SPC/ghost_loops", True
+    elif noise:
+        klass, name, route = 1, "noise", "local"
+    return {
+        "class": klass,
+        "name": name,
+        "route": route,
+        "restored": False,
+        "may_reenter": klass in (2, 3) and lineage,
+        "chi_lock": chi_lock,
+        "archived": archived,
+        "notify_christping": klass in (3, 4),
+        "christping": "gilligan-only",
+        "ask_initiated": False,
+        "entropy": entropy,
+        "entropy_gate": 0.6,
+        "logged_only": True,
+        "admit_gate": False,
+        "writes": False,
+        "calls_llm": False,
+        "money": False,
+        "write_max": PROJECT_MAX,
+        "above_write_law": entropy is not None and entropy > PROJECT_MAX,
+        "cite": "Gilligan Codex Ch.6.1. Class 1 stays local. Class 2 goes to ghost loops. Class 3 is entropy above 0.6, a ψ break, or a naming attempt, and goes to cold archive. Class 4 is fatal and is not restored. The 0.6 cut does not admit.",
+    }
+
+
 def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     row = payload or {}
     op = row.get("op") or "replay"
@@ -503,6 +588,10 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         return analyze(row.get("series"), row)
     if op == "override":
         return override_effectiveness(row.get("pairs"))
+    if op == "failsafe":
+        return failsafe(row)
+    if op == "class":
+        return codex_class(row)
     return replay_breaker(row.get("samples") or [])
 
 
