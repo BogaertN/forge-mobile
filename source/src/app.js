@@ -279,7 +279,10 @@ function engineStage(row) {
   const dpaline = dpa.rewrite_rule ? '<div class="meta" data-dpa-195>dead path 4.9.195 · eligible ' + (dpa.eligible ? 'yes' : 'no') + ' · rewrite ' + esc(dpa.rewrite_rule) + ' · erase ' + esc(dpa.erase_rule) + ' · fork ' + esc(dpa.fork_rule) + ' · SPC 0.5 ' + (dpa.spc_above_0_5 ? 'logged' : 'quiet') + ' · admit gate off · no LLM</div>' : '';
   const tier = eng.tiers_196 || {};
   const tierline = tier.tier ? '<div class="meta" data-tiers-196>tiers 4.9.196 · ' + esc(tier.tier) + ' → ' + esc(tier.half_tier) + ' at ' + esc(tier.half_life_hours) + ' h · dead ' + (tier.dead ? 'yes' : 'no') + ' · deep ' + esc(tier.deep_rule) + ' · SPC 0.5 ' + (tier.spc_above_0_5 ? 'logged' : 'quiet') + ' · admit gate off · no LLM</div>' : '';
-  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line + dpaline + tierline;
+  const ppe = eng.ppe_197 || {};
+  const shown = (ppe.words || []).map(w => (w.glyph || '') + ' Φ' + w.Phi + ' ' + (w.phase_name || '') + ' ' + (w.word || '') + ' ε ' + w.eps + ' μ ' + w.mu).join(' · ');
+  const ppeline = ppe.provenance ? '<div class="meta" data-ppe-197>lexicon 4.9.197 · ' + esc(ppe.map_authority) + ' · ' + esc(ppe.provenance) + ' · birth ε ' + esc(ppe.eps0) + ' μ ' + esc(ppe.mu_init) + ' · M ' + esc(ppe.m_charge) + ' flag ' + esc(ppe.m_flag) + ' · ' + esc(shown) + ' · admit gate off · no LLM</div>' : '';
+  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line + dpaline + tierline + ppeline;
 }
 function renderLexiconPackets() {
   const host = $('#lexiconPacketBody');

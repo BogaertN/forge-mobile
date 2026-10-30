@@ -167,7 +167,14 @@
     return n;
   }
 
-  const api = { load, tokens, placeWord, wordLoops, proposalCharge, proposalV1Count, letterAuthority: () => { load(); return letterAuthority; }, wordCount: () => { load(); return Object.keys(words).length; } };
+  function seedRows() { load(); return words; }
+  function letterRows() { load(); return letters; }
+  const api = {
+    load, tokens, placeWord, wordLoops, proposalCharge, proposalV1Count,
+    letterAuthority: () => { load(); return letterAuthority; },
+    wordCount: () => { load(); return Object.keys(words).length; },
+    seedRows, letterRows
+  };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.ResonanceLexicon = api;
 })(typeof self !== 'undefined' ? self : this);

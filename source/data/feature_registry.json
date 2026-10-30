@@ -1,5 +1,5 @@
 {
-  "version": "4.9.196",
+  "version": "4.9.197",
  "features": [
   {
    "id": "A-01",
@@ -3859,13 +3859,24 @@
    "proof": [
     "R4193"
    ]
+  },
+  {
+   "id": "R4197-PPE-LEXICON",
+   "name": "Phase Parsing Engine lexicon",
+   "source": "PPE KPI english_to_freq; HarperScript WLM l.990–996 and KPI table l.881–906; READ192 §2.8 and §3; RSOC Phase 1 l.2719/2960; Codex glyph lookup a l.3991–3999; Codex charge meter a l.2079–2081; docs/WIRING_197.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "The KPI letter map places 425 seeds. θ=(Φ−1)·40°. ε and μ are proposal v1. Birth state is ε=0 and μ=1.0. M charge is −2, flagged against the example −1. HarperScript does not place a letter. The glyph and the charge meter are called. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4197"
+   ]
   }
  ],
- "count": 352,
+ "count": 353,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 190,
+  "Partial": 191,
   "Missing": 9,
   "Out of scope / parked": 13
  }
