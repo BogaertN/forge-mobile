@@ -118,6 +118,29 @@ T('a verified fork keeps the existing chain and a second one is already resolved
   same(D.monitorLines('fork'), py({ op: 'monitor', mode: 'fork' }), 'monitor-fork');
 });
 
+T('the Ask card shows the rewrite, the chain, and the fork', () => {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const app = fs.readFileSync(path.join(ROOT, 'src', 'app.js'), 'utf8');
+  expect(/data-dpa195/.test(html) && /src="src\/dpa_195.js"/.test(html) && sw.indexOf('./src/dpa_195.js') >= 0, 'card');
+  expect(/data-dpa-195/.test(app), 'ask trace');
+  const rewrite = D.monitorLines('rewrite');
+  const chain = D.monitorLines('chain');
+  const fork = D.monitorLines('fork');
+  expect(rewrite.attrs.status === 'DPA-REWRITE-REJECTED' && /not a dead path/.test(rewrite.lines[2]), rewrite.lines.join(' | '));
+  expect(chain.attrs.status === 'verified' && chain.attrs.detail === 'DPA-SIGNATURE-MISMATCH' && /Recursion/.test(chain.lines[2]), chain.lines.join(' | '));
+  expect(fork.attrs.status === 'LEDGER-FORK-RESOLVED' && /seq 2/.test(fork.lines[1]), fork.lines.join(' | '));
+  const stage = py({ op: 'stage', epsilon_s: 0.2 });
+  const eng = cp.spawnSync('python3', ['-c', 'import json; from rmc_engine_v1.language_core_engines import run_engines; print(json.dumps(run_engines(0.2, 4)["dpa_195"]))'], {
+    cwd: path.join(ROOT, 'engine'),
+    env: Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') }),
+    encoding: 'utf8',
+  });
+  if (eng.status) throw new Error(String(eng.stderr || eng.stdout).slice(0, 500));
+  const traced = JSON.parse(eng.stdout);
+  expect(traced.eligible === false && traced.admit_gate === false && traced.calls_llm === false && traced.rewrite_rule === stage.rewrite_rule, JSON.stringify(traced));
+});
+
 T('the stage does not admit and the module does not call a model', () => {
   const calm = D.stage(0.2);
   const hot = D.stage(0.85);
