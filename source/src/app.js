@@ -95,7 +95,55 @@ async function askAnchors() {
   } catch (e) { window.ASK_187_ANCHORS = { anchors: [] }; }
   return window.ASK_187_ANCHORS;
 }
-async function askMemory() {
+function anchorWords(text) {
+  let cur = '';
+  const raw = String(text || '').toLowerCase();
+  for (const ch of raw) cur += ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) ? ch : ' ';
+  return cur.split(' ').filter(Boolean).join(' ');
+}
+async function askAnchorShards(question) {
+  if (!window.ASK_188_INDEX) {
+    try {
+      const res = await fetch('data/anchors_188/index.json', { credentials: 'omit' });
+      window.ASK_188_INDEX = res.ok ? await res.json() : { surfaces: {}, shards: {} };
+    } catch (e) { window.ASK_188_INDEX = { surfaces: {}, shards: {} }; }
+  }
+  const index = window.ASK_188_INDEX || { surfaces: {}, shards: {} };
+  const blob = ' ' + anchorWords(question) + ' ';
+  const surfaces = index.surfaces || {};
+  const names = [];
+  const phrases = Object.keys(surfaces).sort((a, b) => b.length - a.length);
+  for (const phrase of phrases) {
+    if (blob.indexOf(' ' + phrase + ' ') < 0) continue;
+    for (const name of surfaces[phrase] || []) {
+      if (names.indexOf(name) < 0) names.push(name);
+    }
+    if (names.length >= 2) break;
+  }
+  window.ASK_188_SHARDS = window.ASK_188_SHARDS || {};
+  const rows = [];
+  const seen = {};
+  for (const name of names.slice(0, 2)) {
+    if (!window.ASK_188_SHARDS[name]) {
+      const meta = (index.shards || {})[name] || {};
+      try {
+        const res = await fetch('data/anchors_188/' + meta.file, { credentials: 'omit' });
+        window.ASK_188_SHARDS[name] = res.ok ? await res.json() : { anchors: [] };
+      } catch (e) { window.ASK_188_SHARDS[name] = { anchors: [] }; }
+    }
+    for (const row of (window.ASK_188_SHARDS[name].anchors || [])) {
+      if (!row || !row.text || seen[row.text]) continue;
+      seen[row.text] = true;
+      rows.push(row);
+    }
+  }
+  rows.sort((a, b) => String(a.id || '').localeCompare(String(b.id || '')));
+  return rows.slice(0, 16).map(row => ({
+    id: row.id, text: row.text, sfe: row.sfe, packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted',
+    provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision
+  }));
+}
+async function askMemory(question) {
   const memory = { receipts: [], phone: [], hosted: [], research: [] };
   try {
     if (!window.ASK_183_MEMORY) {
@@ -121,6 +169,10 @@ async function askMemory() {
       provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision
     }));
   } catch (e) { memory.anchors = []; }
+  try {
+    const extra = await askAnchorShards(question);
+    memory.anchors = (memory.anchors || []).concat(extra);
+  } catch (e) { /* a missing shard leaves the starter anchors */ }
   const admitted = window.FORGE_ADMITTED || [];
   for (const row of admitted) {
     if (row && row.text) memory.hosted.push({ id: row.id, text: String(row.text).slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor });
@@ -138,7 +190,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
   let row;
   try {
-    const memory = await askMemory();
+    const memory = await askMemory(text);
     if (window.KPipeline && KPipeline.researchExcerpt) {
       try {
         const hit = await KPipeline.researchExcerpt(text, { fetch: window.fetch ? window.fetch.bind(window) : null });

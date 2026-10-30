@@ -1,0 +1,3010 @@
+{
+ "schema": "FORGE-ANCHOR-INDEX/v1",
+ "release": "4.9.188",
+ "note": "Lazy-loaded by a concept phrase placed at ingestion. Not inlined into the portable file. Wikipedia is not a source. OpenStax CC BY-NC-SA was not used. The starter set remains data/anchors_187.json.",
+ "count": 3093,
+ "skipped_licenses": [
+  "CC BY-NC-SA 4.0 OpenStax 2e editions"
+ ],
+ "surfaces": {
+  "abuja": [
+   "ni"
+  ],
+  "accra": [
+   "gh"
+  ],
+  "adamstown": [
+   "pc"
+  ],
+  "afghanistan": [
+   "af"
+  ],
+  "akrotiri": [
+   "ax"
+  ],
+  "albania": [
+   "al"
+  ],
+  "algeria": [
+   "ag"
+  ],
+  "algiers": [
+   "ag"
+  ],
+  "alofi": [
+   "ne"
+  ],
+  "american samoa": [
+   "aq"
+  ],
+  "amman": [
+   "jo"
+  ],
+  "amsterdam": [
+   "nl"
+  ],
+  "andorra": [
+   "an"
+  ],
+  "angola": [
+   "ao"
+  ],
+  "anguilla": [
+   "av"
+  ],
+  "ankara": [
+   "tu"
+  ],
+  "antananarivo": [
+   "ma"
+  ],
+  "antarctica": [
+   "ay"
+  ],
+  "antigua and barbuda": [
+   "ac"
+  ],
+  "apia": [
+   "ws"
+  ],
+  "argentina": [
+   "ar"
+  ],
+  "armenia": [
+   "am"
+  ],
+  "aruba": [
+   "aa"
+  ],
+  "ashmore and cartier islands": [
+   "at"
+  ],
+  "asmara": [
+   "er"
+  ],
+  "astana": [
+   "kz"
+  ],
+  "asunción": [
+   "pa"
+  ],
+  "athens": [
+   "gr"
+  ],
+  "australia": [
+   "as"
+  ],
+  "austria": [
+   "au"
+  ],
+  "avarua": [
+   "cw"
+  ],
+  "azerbaijan": [
+   "aj"
+  ],
+  "baghdad": [
+   "iz"
+  ],
+  "bahrain": [
+   "ba"
+  ],
+  "baker island, howland island, jarvis island, johnston atoll, kingman reef, midway islands, palmyra atoll": [
+   "um"
+  ],
+  "bamako": [
+   "ml"
+  ],
+  "bangkok": [
+   "th"
+  ],
+  "bangladesh": [
+   "bg"
+  ],
+  "banjul": [
+   "ga"
+  ],
+  "barbados": [
+   "bb"
+  ],
+  "basseterre": [
+   "sc"
+  ],
+  "beijing": [
+   "ch"
+  ],
+  "beirut": [
+   "le"
+  ],
+  "belarus": [
+   "bo"
+  ],
+  "belgium": [
+   "be"
+  ],
+  "belize": [
+   "bh"
+  ],
+  "belmopan": [
+   "bh"
+  ],
+  "benin": [
+   "bn"
+  ],
+  "berlin": [
+   "gm"
+  ],
+  "bermuda": [
+   "bd"
+  ],
+  "bern": [
+   "sz"
+  ],
+  "bhutan": [
+   "bt"
+  ],
+  "bishkek": [
+   "kg"
+  ],
+  "bissau": [
+   "pu"
+  ],
+  "bogotá": [
+   "co"
+  ],
+  "bolivia": [
+   "bl"
+  ],
+  "bosnia and herzegovina": [
+   "bk"
+  ],
+  "botswana": [
+   "bc"
+  ],
+  "bouvet island": [
+   "bv"
+  ],
+  "brasília": [
+   "br"
+  ],
+  "bratislava": [
+   "lo"
+  ],
+  "brazil": [
+   "br"
+  ],
+  "brazzaville": [
+   "cf"
+  ],
+  "bridgetown": [
+   "bb"
+  ],
+  "british virgin islands": [
+   "vi"
+  ],
+  "brunei": [
+   "bx"
+  ],
+  "brussels": [
+   "be"
+  ],
+  "bucharest": [
+   "ro"
+  ],
+  "budapest": [
+   "hu"
+  ],
+  "bulgaria": [
+   "bu"
+  ],
+  "burkina faso": [
+   "uv"
+  ],
+  "burma": [
+   "bm"
+  ],
+  "burundi": [
+   "by"
+  ],
+  "cabo verde": [
+   "cv"
+  ],
+  "cairo": [
+   "eg"
+  ],
+  "cambodia": [
+   "cb"
+  ],
+  "cameroon": [
+   "cm"
+  ],
+  "canada": [
+   "ca"
+  ],
+  "canberra": [
+   "as"
+  ],
+  "caracas": [
+   "ve"
+  ],
+  "castries": [
+   "st"
+  ],
+  "cayman islands": [
+   "cj"
+  ],
+  "chad": [
+   "cd"
+  ],
+  "chile": [
+   "ci"
+  ],
+  "china": [
+   "ch"
+  ],
+  "christmas island": [
+   "kt"
+  ],
+  "clipperton island": [
+   "ip"
+  ],
+  "cocos (keeling) islands": [
+   "ck"
+  ],
+  "colombia": [
+   "co"
+  ],
+  "comoros": [
+   "cn"
+  ],
+  "conakry": [
+   "gv"
+  ],
+  "congo (brazzaville)": [
+   "cf"
+  ],
+  "cook islands": [
+   "cw"
+  ],
+  "copenhagen": [
+   "da"
+  ],
+  "coral sea islands": [
+   "cr"
+  ],
+  "costa rica": [
+   "cs"
+  ],
+  "croatia": [
+   "hr"
+  ],
+  "cuba": [
+   "cu"
+  ],
+  "curacao": [
+   "uc"
+  ],
+  "cyprus": [
+   "cy"
+  ],
+  "czechia": [
+   "ez"
+  ],
+  "côte d'ivoire": [
+   "iv"
+  ],
+  "dakar": [
+   "sg"
+  ],
+  "damascus": [
+   "sy"
+  ],
+  "denmark": [
+   "da"
+  ],
+  "dhaka": [
+   "bg"
+  ],
+  "dhekelia": [
+   "dx"
+  ],
+  "dili": [
+   "tt"
+  ],
+  "djibouti": [
+   "dj"
+  ],
+  "dna": [
+   "gov-nih-medlineplus"
+  ],
+  "dodoma": [
+   "tz"
+  ],
+  "doha": [
+   "qa"
+  ],
+  "dominica": [
+   "do"
+  ],
+  "douglas": [
+   "im"
+  ],
+  "drc": [
+   "cg"
+  ],
+  "dublin": [
+   "ei"
+  ],
+  "dushanbe": [
+   "ti"
+  ],
+  "ecuador": [
+   "ec"
+  ],
+  "egypt": [
+   "eg"
+  ],
+  "el salvador": [
+   "es"
+  ],
+  "equatorial guinea": [
+   "ek"
+  ],
+  "eritrea": [
+   "er"
+  ],
+  "estonia": [
+   "en"
+  ],
+  "eswatini": [
+   "wz"
+  ],
+  "ethiopia": [
+   "et"
+  ],
+  "falkland islands (islas malvinas)": [
+   "fk"
+  ],
+  "faroe islands": [
+   "fo"
+  ],
+  "fiji": [
+   "fj"
+  ],
+  "finland": [
+   "fi"
+  ],
+  "france": [
+   "fr"
+  ],
+  "freetown": [
+   "sl"
+  ],
+  "french polynesia": [
+   "fp"
+  ],
+  "french southern and antarctic lands": [
+   "fs"
+  ],
+  "funafuti": [
+   "tv"
+  ],
+  "gabon": [
+   "gb"
+  ],
+  "gaborone": [
+   "bc"
+  ],
+  "gaza, gaza strip": [
+   "gz"
+  ],
+  "georgetown": [
+   "gy"
+  ],
+  "georgia": [
+   "gg"
+  ],
+  "germany": [
+   "gm"
+  ],
+  "ghana": [
+   "gh"
+  ],
+  "gibraltar": [
+   "gi"
+  ],
+  "greece": [
+   "gr"
+  ],
+  "greenland": [
+   "gl"
+  ],
+  "grenada": [
+   "gj"
+  ],
+  "guam": [
+   "gq"
+  ],
+  "guatemala": [
+   "gt"
+  ],
+  "guernsey": [
+   "gk"
+  ],
+  "guinea": [
+   "gv"
+  ],
+  "guinea-bissau": [
+   "pu"
+  ],
+  "gustavia": [
+   "tb"
+  ],
+  "guyana": [
+   "gy"
+  ],
+  "haiti": [
+   "ha"
+  ],
+  "hamilton": [
+   "bd"
+  ],
+  "harare": [
+   "zi"
+  ],
+  "havana": [
+   "cu"
+  ],
+  "heard island and mcdonald islands": [
+   "hm"
+  ],
+  "helsinki": [
+   "fi"
+  ],
+  "holy see (vatican city)": [
+   "vt"
+  ],
+  "honduras": [
+   "ho"
+  ],
+  "hong kong": [
+   "hk"
+  ],
+  "honiara": [
+   "bp"
+  ],
+  "hungary": [
+   "hu"
+  ],
+  "iceland": [
+   "ic"
+  ],
+  "india": [
+   "in"
+  ],
+  "indonesia": [
+   "id"
+  ],
+  "iran": [
+   "ir"
+  ],
+  "iraq": [
+   "iz"
+  ],
+  "ireland": [
+   "ei"
+  ],
+  "islamabad": [
+   "pk"
+  ],
+  "isle of man": [
+   "im"
+  ],
+  "israel": [
+   "is"
+  ],
+  "italy": [
+   "it"
+  ],
+  "jakarta": [
+   "id"
+  ],
+  "jamaica": [
+   "jm"
+  ],
+  "jan mayen": [
+   "jn"
+  ],
+  "japan": [
+   "ja"
+  ],
+  "jersey": [
+   "je"
+  ],
+  "jerusalem": [
+   "is"
+  ],
+  "jordan": [
+   "jo"
+  ],
+  "juba": [
+   "od"
+  ],
+  "kabul": [
+   "af"
+  ],
+  "kampala": [
+   "ug"
+  ],
+  "kathmandu": [
+   "np"
+  ],
+  "kazakhstan": [
+   "kz"
+  ],
+  "kenya": [
+   "ke"
+  ],
+  "khartoum": [
+   "su"
+  ],
+  "kigali": [
+   "rw"
+  ],
+  "kingston": [
+   "nf"
+  ],
+  "kingstown": [
+   "vc"
+  ],
+  "kinshasa": [
+   "cg"
+  ],
+  "kiribati": [
+   "kr"
+  ],
+  "kosovo": [
+   "kv"
+  ],
+  "kuwait": [
+   "ku"
+  ],
+  "kyrgyzstan": [
+   "kg"
+  ],
+  "laos": [
+   "la"
+  ],
+  "latvia": [
+   "lg"
+  ],
+  "lebanon": [
+   "le"
+  ],
+  "lesotho": [
+   "lt"
+  ],
+  "liberia": [
+   "li"
+  ],
+  "libreville": [
+   "gb"
+  ],
+  "libya": [
+   "ly"
+  ],
+  "liechtenstein": [
+   "ls"
+  ],
+  "lightning": [
+   "gov-nws"
+  ],
+  "lilongwe": [
+   "mi"
+  ],
+  "lima": [
+   "pe"
+  ],
+  "lisbon": [
+   "po"
+  ],
+  "lithuania": [
+   "lh"
+  ],
+  "ljubljana": [
+   "si"
+  ],
+  "lome": [
+   "to"
+  ],
+  "london": [
+   "uk"
+  ],
+  "longyearbyen": [
+   "sv"
+  ],
+  "luanda": [
+   "ao"
+  ],
+  "lusaka": [
+   "za"
+  ],
+  "luxembourg": [
+   "lu"
+  ],
+  "macau": [
+   "mc"
+  ],
+  "madagascar": [
+   "ma"
+  ],
+  "madrid": [
+   "sp"
+  ],
+  "majuro": [
+   "rm"
+  ],
+  "malawi": [
+   "mi"
+  ],
+  "malaysia": [
+   "my"
+  ],
+  "maldives": [
+   "mv"
+  ],
+  "mali": [
+   "ml"
+  ],
+  "malta": [
+   "mt"
+  ],
+  "malé": [
+   "mv"
+  ],
+  "managua": [
+   "nu"
+  ],
+  "manama": [
+   "ba"
+  ],
+  "manila": [
+   "rp"
+  ],
+  "maputo": [
+   "mz"
+  ],
+  "marigot": [
+   "rn"
+  ],
+  "marshall islands": [
+   "rm"
+  ],
+  "maseru": [
+   "lt"
+  ],
+  "mauritania": [
+   "mr"
+  ],
+  "mauritius": [
+   "mp"
+  ],
+  "mexico": [
+   "mx"
+  ],
+  "minsk": [
+   "bo"
+  ],
+  "mogadishu": [
+   "so"
+  ],
+  "moldova": [
+   "md"
+  ],
+  "monaco": [
+   "mn"
+  ],
+  "mongolia": [
+   "mg"
+  ],
+  "monrovia": [
+   "li"
+  ],
+  "montenegro": [
+   "mj"
+  ],
+  "montevideo": [
+   "uy"
+  ],
+  "montserrat": [
+   "mh"
+  ],
+  "morocco": [
+   "mo"
+  ],
+  "moroni": [
+   "cn"
+  ],
+  "moscow": [
+   "rs"
+  ],
+  "mozambique": [
+   "mz"
+  ],
+  "muscat": [
+   "mu"
+  ],
+  "n'djamena": [
+   "cd"
+  ],
+  "nairobi": [
+   "ke"
+  ],
+  "namibia": [
+   "wa"
+  ],
+  "nassau": [
+   "bf"
+  ],
+  "nauru": [
+   "nr"
+  ],
+  "navassa island": [
+   "bq"
+  ],
+  "nepal": [
+   "np"
+  ],
+  "netherlands": [
+   "nl"
+  ],
+  "new caledonia": [
+   "nc"
+  ],
+  "new zealand": [
+   "nz"
+  ],
+  "ngerulmud": [
+   "ps"
+  ],
+  "niamey": [
+   "ng"
+  ],
+  "nicaragua": [
+   "nu"
+  ],
+  "niger": [
+   "ng"
+  ],
+  "nigeria": [
+   "ni"
+  ],
+  "niue": [
+   "ne"
+  ],
+  "norfolk island": [
+   "nf"
+  ],
+  "north korea": [
+   "kn"
+  ],
+  "north macedonia": [
+   "mk"
+  ],
+  "northern mariana islands": [
+   "cq"
+  ],
+  "norway": [
+   "no"
+  ],
+  "nouakchott": [
+   "mr"
+  ],
+  "noumea": [
+   "nc"
+  ],
+  "nuku'alofa": [
+   "tn"
+  ],
+  "nuuk": [
+   "gl"
+  ],
+  "oman": [
+   "mu"
+  ],
+  "oranjestad": [
+   "aa"
+  ],
+  "oslo": [
+   "no"
+  ],
+  "ottawa": [
+   "ca"
+  ],
+  "ouagadougou": [
+   "uv"
+  ],
+  "pakistan": [
+   "pk"
+  ],
+  "palau": [
+   "ps"
+  ],
+  "panama": [
+   "pm"
+  ],
+  "papua new guinea": [
+   "pp"
+  ],
+  "paracel islands": [
+   "pf"
+  ],
+  "paraguay": [
+   "pa"
+  ],
+  "paramaribo": [
+   "ns"
+  ],
+  "paris": [
+   "fr"
+  ],
+  "peru": [
+   "pe"
+  ],
+  "philippines": [
+   "rp"
+  ],
+  "philipsburg": [
+   "nn"
+  ],
+  "pitcairn islands": [
+   "pc"
+  ],
+  "plymouth": [
+   "mh"
+  ],
+  "podgorica": [
+   "mj"
+  ],
+  "poland": [
+   "pl"
+  ],
+  "port-au-prince": [
+   "ha"
+  ],
+  "portugal": [
+   "po"
+  ],
+  "prague": [
+   "ez"
+  ],
+  "praia": [
+   "cv"
+  ],
+  "puerto rico": [
+   "rq"
+  ],
+  "pyongyang": [
+   "kn"
+  ],
+  "qatar": [
+   "qa"
+  ],
+  "quito": [
+   "ec"
+  ],
+  "rabat": [
+   "mo"
+  ],
+  "reykjavik": [
+   "ic"
+  ],
+  "riga": [
+   "lg"
+  ],
+  "riyadh": [
+   "sa"
+  ],
+  "romania": [
+   "ro"
+  ],
+  "rome": [
+   "it"
+  ],
+  "roseau": [
+   "do"
+  ],
+  "russia": [
+   "rs"
+  ],
+  "rwanda": [
+   "rw"
+  ],
+  "saint barthelemy": [
+   "tb"
+  ],
+  "saint kitts and nevis": [
+   "sc"
+  ],
+  "saint lucia": [
+   "st"
+  ],
+  "saint martin": [
+   "rn"
+  ],
+  "saint pierre and miquelon": [
+   "sb"
+  ],
+  "saint vincent and the grenadines": [
+   "vc"
+  ],
+  "saint-pierre": [
+   "sb"
+  ],
+  "saipan": [
+   "cq"
+  ],
+  "samoa": [
+   "ws"
+  ],
+  "san marino": [
+   "sm"
+  ],
+  "sanaa": [
+   "ym"
+  ],
+  "sao tome and principe": [
+   "tp"
+  ],
+  "sarajevo": [
+   "bk"
+  ],
+  "saudi arabia": [
+   "sa"
+  ],
+  "senegal": [
+   "sg"
+  ],
+  "seoul": [
+   "ks"
+  ],
+  "serbia": [
+   "ri"
+  ],
+  "seychelles": [
+   "se"
+  ],
+  "sierra leone": [
+   "sl"
+  ],
+  "singapore": [
+   "sn"
+  ],
+  "sint maarten": [
+   "nn"
+  ],
+  "skopje": [
+   "mk"
+  ],
+  "slovakia": [
+   "lo"
+  ],
+  "slovenia": [
+   "si"
+  ],
+  "sofia": [
+   "bu"
+  ],
+  "solomon islands": [
+   "bp"
+  ],
+  "somalia": [
+   "so"
+  ],
+  "south africa": [
+   "sf"
+  ],
+  "south georgia and south sandwich islands": [
+   "sx"
+  ],
+  "south korea": [
+   "ks"
+  ],
+  "south sudan": [
+   "od"
+  ],
+  "spain": [
+   "sp"
+  ],
+  "spratly islands": [
+   "pg"
+  ],
+  "sri lanka": [
+   "ce"
+  ],
+  "stanley": [
+   "fk"
+  ],
+  "stockholm": [
+   "sw"
+  ],
+  "sudan": [
+   "su"
+  ],
+  "sun": [
+   "gov-nasa"
+  ],
+  "suriname": [
+   "ns"
+  ],
+  "svalbard (sometimes referred to as spitsbergen, the largest island in the archipelago)": [
+   "sv"
+  ],
+  "sweden": [
+   "sw"
+  ],
+  "switzerland": [
+   "sz"
+  ],
+  "syria": [
+   "sy"
+  ],
+  "taipei": [
+   "tw"
+  ],
+  "taiwan": [
+   "tw"
+  ],
+  "tajikistan": [
+   "ti"
+  ],
+  "tallinn": [
+   "en"
+  ],
+  "tanzania": [
+   "tz"
+  ],
+  "tarawa": [
+   "kr"
+  ],
+  "tbilisi": [
+   "gg"
+  ],
+  "tegucigalpa": [
+   "ho"
+  ],
+  "tehran": [
+   "ir"
+  ],
+  "thailand": [
+   "th"
+  ],
+  "the bahamas": [
+   "bf"
+  ],
+  "the dominican": [
+   "dr"
+  ],
+  "the gambia": [
+   "ga"
+  ],
+  "thimphu": [
+   "bt"
+  ],
+  "timor-leste": [
+   "tt"
+  ],
+  "togo": [
+   "to"
+  ],
+  "tokelau": [
+   "tl"
+  ],
+  "tokyo": [
+   "ja"
+  ],
+  "tonga": [
+   "tn"
+  ],
+  "torshavn": [
+   "fo"
+  ],
+  "trinidad and tobago": [
+   "td"
+  ],
+  "tunis": [
+   "ts"
+  ],
+  "tunisia": [
+   "ts"
+  ],
+  "turkey": [
+   "tu"
+  ],
+  "turkmenistan": [
+   "tx"
+  ],
+  "turks and caicos islands": [
+   "tk"
+  ],
+  "tuvalu": [
+   "tv"
+  ],
+  "uganda": [
+   "ug"
+  ],
+  "ukraine": [
+   "up"
+  ],
+  "ulaanbaatar": [
+   "mg"
+  ],
+  "united kingdom": [
+   "uk"
+  ],
+  "united states": [
+   "us"
+  ],
+  "uruguay": [
+   "uy"
+  ],
+  "uzbekistan": [
+   "uz"
+  ],
+  "vaduz": [
+   "ls"
+  ],
+  "valletta": [
+   "mt"
+  ],
+  "vanuatu": [
+   "nh"
+  ],
+  "venezuela": [
+   "ve"
+  ],
+  "victoria": [
+   "se"
+  ],
+  "vienna": [
+   "au"
+  ],
+  "vietnam": [
+   "vm"
+  ],
+  "vilnius": [
+   "lh"
+  ],
+  "virgin islands": [
+   "vq"
+  ],
+  "wake island": [
+   "wq"
+  ],
+  "wallis and futuna": [
+   "wf"
+  ],
+  "warsaw": [
+   "pl"
+  ],
+  "wellington": [
+   "nz"
+  ],
+  "west bank": [
+   "we"
+  ],
+  "western sahara": [
+   "wi"
+  ],
+  "willemstad": [
+   "uc"
+  ],
+  "windhoek": [
+   "wa"
+  ],
+  "yaounde": [
+   "cm"
+  ],
+  "yemen": [
+   "ym"
+  ],
+  "yerevan": [
+   "am"
+  ],
+  "zagreb": [
+   "hr"
+  ],
+  "zambia": [
+   "za"
+  ],
+  "zimbabwe": [
+   "zi"
+  ]
+ },
+ "shards": {
+  "aa": {
+   "file": "shards/aa.json",
+   "count": 7,
+   "concepts": [
+    "A.ARUBA"
+   ]
+  },
+  "ac": {
+   "file": "shards/ac.json",
+   "count": 7,
+   "concepts": [
+    "A.ANTIGUAANDBARBUDA"
+   ]
+  },
+  "af": {
+   "file": "shards/af.json",
+   "count": 16,
+   "concepts": [
+    "A.AFGHANISTAN"
+   ]
+  },
+  "ag": {
+   "file": "shards/ag.json",
+   "count": 16,
+   "concepts": [
+    "A.ALGERIA"
+   ]
+  },
+  "aj": {
+   "file": "shards/aj.json",
+   "count": 12,
+   "concepts": [
+    "A.AZERBAIJAN"
+   ]
+  },
+  "al": {
+   "file": "shards/al.json",
+   "count": 8,
+   "concepts": [
+    "A.ALBANIA"
+   ]
+  },
+  "am": {
+   "file": "shards/am.json",
+   "count": 19,
+   "concepts": [
+    "A.ARMENIA"
+   ]
+  },
+  "an": {
+   "file": "shards/an.json",
+   "count": 9,
+   "concepts": [
+    "A.ANDORRA"
+   ]
+  },
+  "ao": {
+   "file": "shards/ao.json",
+   "count": 19,
+   "concepts": [
+    "A.ANGOLA"
+   ]
+  },
+  "aq": {
+   "file": "shards/aq.json",
+   "count": 16,
+   "concepts": [
+    "A.AMERICANSAMOA"
+   ]
+  },
+  "ar": {
+   "file": "shards/ar.json",
+   "count": 12,
+   "concepts": [
+    "A.ARGENTINA"
+   ]
+  },
+  "as": {
+   "file": "shards/as.json",
+   "count": 19,
+   "concepts": [
+    "A.AUSTRALIA"
+   ]
+  },
+  "at": {
+   "file": "shards/at.json",
+   "count": 13,
+   "concepts": [
+    "A.ASHMOREANDCARTIERISLANDS"
+   ]
+  },
+  "au": {
+   "file": "shards/au.json",
+   "count": 5,
+   "concepts": [
+    "A.AUSTRIA"
+   ]
+  },
+  "av": {
+   "file": "shards/av.json",
+   "count": 5,
+   "concepts": [
+    "A.ANGUILLA"
+   ]
+  },
+  "ax": {
+   "file": "shards/ax.json",
+   "count": 3,
+   "concepts": [
+    "A.AKROTIRI"
+   ]
+  },
+  "ay": {
+   "file": "shards/ay.json",
+   "count": 8,
+   "concepts": [
+    "A.ANTARCTICA"
+   ]
+  },
+  "ba": {
+   "file": "shards/ba.json",
+   "count": 12,
+   "concepts": [
+    "A.BAHRAIN"
+   ]
+  },
+  "bb": {
+   "file": "shards/bb.json",
+   "count": 8,
+   "concepts": [
+    "A.BARBADOS"
+   ]
+  },
+  "bc": {
+   "file": "shards/bc.json",
+   "count": 9,
+   "concepts": [
+    "A.BOTSWANA"
+   ]
+  },
+  "bd": {
+   "file": "shards/bd.json",
+   "count": 6,
+   "concepts": [
+    "A.BERMUDA"
+   ]
+  },
+  "be": {
+   "file": "shards/be.json",
+   "count": 5,
+   "concepts": [
+    "A.BELGIUM"
+   ]
+  },
+  "bf": {
+   "file": "shards/bf.json",
+   "count": 7,
+   "concepts": [
+    "A.THEBAHAMAS"
+   ]
+  },
+  "bg": {
+   "file": "shards/bg.json",
+   "count": 15,
+   "concepts": [
+    "A.BANGLADESH"
+   ]
+  },
+  "bh": {
+   "file": "shards/bh.json",
+   "count": 5,
+   "concepts": [
+    "A.BELIZE"
+   ]
+  },
+  "bk": {
+   "file": "shards/bk.json",
+   "count": 13,
+   "concepts": [
+    "A.BOSNIAANDHERZEGOVINA"
+   ]
+  },
+  "bl": {
+   "file": "shards/bl.json",
+   "count": 9,
+   "concepts": [
+    "A.BOLIVIA"
+   ]
+  },
+  "bm": {
+   "file": "shards/bm.json",
+   "count": 18,
+   "concepts": [
+    "A.BURMA"
+   ]
+  },
+  "bn": {
+   "file": "shards/bn.json",
+   "count": 9,
+   "concepts": [
+    "A.BENIN"
+   ]
+  },
+  "bo": {
+   "file": "shards/bo.json",
+   "count": 11,
+   "concepts": [
+    "A.BELARUS"
+   ]
+  },
+  "bp": {
+   "file": "shards/bp.json",
+   "count": 18,
+   "concepts": [
+    "A.SOLOMONISLANDS"
+   ]
+  },
+  "bq": {
+   "file": "shards/bq.json",
+   "count": 3,
+   "concepts": [
+    "A.NAVASSAISLAND"
+   ]
+  },
+  "br": {
+   "file": "shards/br.json",
+   "count": 15,
+   "concepts": [
+    "A.BRAZIL"
+   ]
+  },
+  "bt": {
+   "file": "shards/bt.json",
+   "count": 14,
+   "concepts": [
+    "A.BHUTAN"
+   ]
+  },
+  "bu": {
+   "file": "shards/bu.json",
+   "count": 7,
+   "concepts": [
+    "A.BULGARIA"
+   ]
+  },
+  "bv": {
+   "file": "shards/bv.json",
+   "count": 9,
+   "concepts": [
+    "A.BOUVETISLAND"
+   ]
+  },
+  "bx": {
+   "file": "shards/bx.json",
+   "count": 6,
+   "concepts": [
+    "A.BRUNEI"
+   ]
+  },
+  "by": {
+   "file": "shards/by.json",
+   "count": 18,
+   "concepts": [
+    "A.BURUNDI"
+   ]
+  },
+  "ca": {
+   "file": "shards/ca.json",
+   "count": 6,
+   "concepts": [
+    "A.CANADA"
+   ]
+  },
+  "cb": {
+   "file": "shards/cb.json",
+   "count": 17,
+   "concepts": [
+    "A.CAMBODIA"
+   ]
+  },
+  "cd": {
+   "file": "shards/cd.json",
+   "count": 21,
+   "concepts": [
+    "A.CHAD"
+   ]
+  },
+  "ce": {
+   "file": "shards/ce.json",
+   "count": 16,
+   "concepts": [
+    "A.SRILANKA"
+   ]
+  },
+  "cf": {
+   "file": "shards/cf.json",
+   "count": 9,
+   "concepts": [
+    "A.CONGOBRAZZAVILLE"
+   ]
+  },
+  "cg": {
+   "file": "shards/cg.json",
+   "count": 24,
+   "concepts": [
+    "A.DRC"
+   ]
+  },
+  "ch": {
+   "file": "shards/ch.json",
+   "count": 19,
+   "concepts": [
+    "A.CHINA"
+   ]
+  },
+  "ci": {
+   "file": "shards/ci.json",
+   "count": 10,
+   "concepts": [
+    "A.CHILE"
+   ]
+  },
+  "cj": {
+   "file": "shards/cj.json",
+   "count": 5,
+   "concepts": [
+    "A.CAYMANISLANDS"
+   ]
+  },
+  "ck": {
+   "file": "shards/ck.json",
+   "count": 10,
+   "concepts": [
+    "A.COCOSKEELINGISLANDS"
+   ]
+  },
+  "cm": {
+   "file": "shards/cm.json",
+   "count": 9,
+   "concepts": [
+    "A.CAMEROON"
+   ]
+  },
+  "cn": {
+   "file": "shards/cn.json",
+   "count": 14,
+   "concepts": [
+    "A.COMOROS"
+   ]
+  },
+  "co": {
+   "file": "shards/co.json",
+   "count": 6,
+   "concepts": [
+    "A.COLOMBIA"
+   ]
+  },
+  "cq": {
+   "file": "shards/cq.json",
+   "count": 15,
+   "concepts": [
+    "A.NORTHERNMARIANAISLANDS"
+   ]
+  },
+  "cr": {
+   "file": "shards/cr.json",
+   "count": 5,
+   "concepts": [
+    "A.CORALSEAISLANDS"
+   ]
+  },
+  "cs": {
+   "file": "shards/cs.json",
+   "count": 13,
+   "concepts": [
+    "A.COSTARICA"
+   ]
+  },
+  "cu": {
+   "file": "shards/cu.json",
+   "count": 18,
+   "concepts": [
+    "A.CUBA"
+   ]
+  },
+  "cv": {
+   "file": "shards/cv.json",
+   "count": 13,
+   "concepts": [
+    "A.CABOVERDE"
+   ]
+  },
+  "cw": {
+   "file": "shards/cw.json",
+   "count": 12,
+   "concepts": [
+    "A.COOKISLANDS"
+   ]
+  },
+  "cy": {
+   "file": "shards/cy.json",
+   "count": 10,
+   "concepts": [
+    "A.CYPRUS"
+   ]
+  },
+  "da": {
+   "file": "shards/da.json",
+   "count": 4,
+   "concepts": [
+    "A.DENMARK"
+   ]
+  },
+  "dj": {
+   "file": "shards/dj.json",
+   "count": 16,
+   "concepts": [
+    "A.DJIBOUTI"
+   ]
+  },
+  "do": {
+   "file": "shards/do.json",
+   "count": 8,
+   "concepts": [
+    "A.DOMINICA"
+   ]
+  },
+  "dr": {
+   "file": "shards/dr.json",
+   "count": 11,
+   "concepts": [
+    "A.THEDOMINICAN"
+   ]
+  },
+  "dx": {
+   "file": "shards/dx.json",
+   "count": 3,
+   "concepts": [
+    "A.DHEKELIA"
+   ]
+  },
+  "ec": {
+   "file": "shards/ec.json",
+   "count": 7,
+   "concepts": [
+    "A.ECUADOR"
+   ]
+  },
+  "eg": {
+   "file": "shards/eg.json",
+   "count": 18,
+   "concepts": [
+    "A.EGYPT"
+   ]
+  },
+  "ei": {
+   "file": "shards/ei.json",
+   "count": 18,
+   "concepts": [
+    "A.IRELAND"
+   ]
+  },
+  "ek": {
+   "file": "shards/ek.json",
+   "count": 16,
+   "concepts": [
+    "A.EQUATORIALGUINEA"
+   ]
+  },
+  "en": {
+   "file": "shards/en.json",
+   "count": 5,
+   "concepts": [
+    "A.ESTONIA"
+   ]
+  },
+  "er": {
+   "file": "shards/er.json",
+   "count": 16,
+   "concepts": [
+    "A.ERITREA"
+   ]
+  },
+  "es": {
+   "file": "shards/es.json",
+   "count": 4,
+   "concepts": [
+    "A.ELSALVADOR"
+   ]
+  },
+  "et": {
+   "file": "shards/et.json",
+   "count": 20,
+   "concepts": [
+    "A.ETHIOPIA"
+   ]
+  },
+  "ez": {
+   "file": "shards/ez.json",
+   "count": 8,
+   "concepts": [
+    "A.CZECHIA"
+   ]
+  },
+  "fi": {
+   "file": "shards/fi.json",
+   "count": 7,
+   "concepts": [
+    "A.FINLAND"
+   ]
+  },
+  "fj": {
+   "file": "shards/fj.json",
+   "count": 15,
+   "concepts": [
+    "A.FIJI"
+   ]
+  },
+  "fk": {
+   "file": "shards/fk.json",
+   "count": 7,
+   "concepts": [
+    "A.FALKLANDISLANDSISLASMALV"
+   ]
+  },
+  "fo": {
+   "file": "shards/fo.json",
+   "count": 4,
+   "concepts": [
+    "A.FAROEISLANDS"
+   ]
+  },
+  "fp": {
+   "file": "shards/fp.json",
+   "count": 19,
+   "concepts": [
+    "A.FRENCHPOLYNESIA"
+   ]
+  },
+  "fr": {
+   "file": "shards/fr.json",
+   "count": 7,
+   "concepts": [
+    "A.FRANCE"
+   ]
+  },
+  "fs": {
+   "file": "shards/fs.json",
+   "count": 21,
+   "concepts": [
+    "A.FRENCHSOUTHERNANDANTARCT"
+   ]
+  },
+  "ga": {
+   "file": "shards/ga.json",
+   "count": 12,
+   "concepts": [
+    "A.THEGAMBIA"
+   ]
+  },
+  "gb": {
+   "file": "shards/gb.json",
+   "count": 22,
+   "concepts": [
+    "A.GABON"
+   ]
+  },
+  "gg": {
+   "file": "shards/gg.json",
+   "count": 19,
+   "concepts": [
+    "A.GEORGIA"
+   ]
+  },
+  "gh": {
+   "file": "shards/gh.json",
+   "count": 16,
+   "concepts": [
+    "A.GHANA"
+   ]
+  },
+  "gi": {
+   "file": "shards/gi.json",
+   "count": 10,
+   "concepts": [
+    "A.GIBRALTAR"
+   ]
+  },
+  "gj": {
+   "file": "shards/gj.json",
+   "count": 11,
+   "concepts": [
+    "A.GRENADA"
+   ]
+  },
+  "gk": {
+   "file": "shards/gk.json",
+   "count": 6,
+   "concepts": [
+    "A.GUERNSEY"
+   ]
+  },
+  "gl": {
+   "file": "shards/gl.json",
+   "count": 9,
+   "concepts": [
+    "A.GREENLAND"
+   ]
+  },
+  "gm": {
+   "file": "shards/gm.json",
+   "count": 8,
+   "concepts": [
+    "A.GERMANY"
+   ]
+  },
+  "gov-nasa": {
+   "file": "shards/gov-nasa.json",
+   "count": 4,
+   "concepts": [
+    "A.SUN"
+   ]
+  },
+  "gov-nih-medlineplus": {
+   "file": "shards/gov-nih-medlineplus.json",
+   "count": 4,
+   "concepts": [
+    "A.DNA"
+   ]
+  },
+  "gov-nws": {
+   "file": "shards/gov-nws.json",
+   "count": 4,
+   "concepts": [
+    "A.LIGHTNING"
+   ]
+  },
+  "gq": {
+   "file": "shards/gq.json",
+   "count": 15,
+   "concepts": [
+    "A.GUAM"
+   ]
+  },
+  "gr": {
+   "file": "shards/gr.json",
+   "count": 12,
+   "concepts": [
+    "A.GREECE"
+   ]
+  },
+  "gt": {
+   "file": "shards/gt.json",
+   "count": 4,
+   "concepts": [
+    "A.GUATEMALA"
+   ]
+  },
+  "gv": {
+   "file": "shards/gv.json",
+   "count": 16,
+   "concepts": [
+    "A.GUINEA"
+   ]
+  },
+  "gy": {
+   "file": "shards/gy.json",
+   "count": 12,
+   "concepts": [
+    "A.GUYANA"
+   ]
+  },
+  "gz": {
+   "file": "shards/gz.json",
+   "count": 24,
+   "concepts": [
+    "A.GAZAGAZASTRIP"
+   ]
+  },
+  "ha": {
+   "file": "shards/ha.json",
+   "count": 22,
+   "concepts": [
+    "A.HAITI"
+   ]
+  },
+  "hk": {
+   "file": "shards/hk.json",
+   "count": 11,
+   "concepts": [
+    "A.HONGKONG"
+   ]
+  },
+  "hm": {
+   "file": "shards/hm.json",
+   "count": 7,
+   "concepts": [
+    "A.HEARDISLANDANDMCDONALDIS"
+   ]
+  },
+  "ho": {
+   "file": "shards/ho.json",
+   "count": 6,
+   "concepts": [
+    "A.HONDURAS"
+   ]
+  },
+  "hr": {
+   "file": "shards/hr.json",
+   "count": 6,
+   "concepts": [
+    "A.CROATIA"
+   ]
+  },
+  "hu": {
+   "file": "shards/hu.json",
+   "count": 3,
+   "concepts": [
+    "A.HUNGARY"
+   ]
+  },
+  "ic": {
+   "file": "shards/ic.json",
+   "count": 10,
+   "concepts": [
+    "A.ICELAND"
+   ]
+  },
+  "id": {
+   "file": "shards/id.json",
+   "count": 17,
+   "concepts": [
+    "A.INDONESIA"
+   ]
+  },
+  "im": {
+   "file": "shards/im.json",
+   "count": 6,
+   "concepts": [
+    "A.ISLEOFMAN"
+   ]
+  },
+  "in": {
+   "file": "shards/in.json",
+   "count": 16,
+   "concepts": [
+    "A.INDIA"
+   ]
+  },
+  "ip": {
+   "file": "shards/ip.json",
+   "count": 3,
+   "concepts": [
+    "A.CLIPPERTONISLAND"
+   ]
+  },
+  "ir": {
+   "file": "shards/ir.json",
+   "count": 21,
+   "concepts": [
+    "A.IRAN"
+   ]
+  },
+  "is": {
+   "file": "shards/is.json",
+   "count": 23,
+   "concepts": [
+    "A.ISRAEL"
+   ]
+  },
+  "it": {
+   "file": "shards/it.json",
+   "count": 8,
+   "concepts": [
+    "A.ITALY"
+   ]
+  },
+  "iv": {
+   "file": "shards/iv.json",
+   "count": 18,
+   "concepts": [
+    "A.CTEDIVOIRE"
+   ]
+  },
+  "iz": {
+   "file": "shards/iz.json",
+   "count": 16,
+   "concepts": [
+    "A.IRAQ"
+   ]
+  },
+  "ja": {
+   "file": "shards/ja.json",
+   "count": 14,
+   "concepts": [
+    "A.JAPAN"
+   ]
+  },
+  "je": {
+   "file": "shards/je.json",
+   "count": 4,
+   "concepts": [
+    "A.JERSEY"
+   ]
+  },
+  "jm": {
+   "file": "shards/jm.json",
+   "count": 10,
+   "concepts": [
+    "A.JAMAICA"
+   ]
+  },
+  "jn": {
+   "file": "shards/jn.json",
+   "count": 3,
+   "concepts": [
+    "A.JANMAYEN"
+   ]
+  },
+  "jo": {
+   "file": "shards/jo.json",
+   "count": 14,
+   "concepts": [
+    "A.JORDAN"
+   ]
+  },
+  "ke": {
+   "file": "shards/ke.json",
+   "count": 19,
+   "concepts": [
+    "A.KENYA"
+   ]
+  },
+  "kg": {
+   "file": "shards/kg.json",
+   "count": 13,
+   "concepts": [
+    "A.KYRGYZSTAN"
+   ]
+  },
+  "kn": {
+   "file": "shards/kn.json",
+   "count": 26,
+   "concepts": [
+    "A.NORTHKOREA"
+   ]
+  },
+  "kr": {
+   "file": "shards/kr.json",
+   "count": 16,
+   "concepts": [
+    "A.KIRIBATI"
+   ]
+  },
+  "ks": {
+   "file": "shards/ks.json",
+   "count": 19,
+   "concepts": [
+    "A.SOUTHKOREA"
+   ]
+  },
+  "kt": {
+   "file": "shards/kt.json",
+   "count": 13,
+   "concepts": [
+    "A.CHRISTMASISLAND"
+   ]
+  },
+  "ku": {
+   "file": "shards/ku.json",
+   "count": 14,
+   "concepts": [
+    "A.KUWAIT"
+   ]
+  },
+  "kv": {
+   "file": "shards/kv.json",
+   "count": 15,
+   "concepts": [
+    "A.KOSOVO"
+   ]
+  },
+  "kz": {
+   "file": "shards/kz.json",
+   "count": 9,
+   "concepts": [
+    "A.KAZAKHSTAN"
+   ]
+  },
+  "la": {
+   "file": "shards/la.json",
+   "count": 13,
+   "concepts": [
+    "A.LAOS"
+   ]
+  },
+  "le": {
+   "file": "shards/le.json",
+   "count": 13,
+   "concepts": [
+    "A.LEBANON"
+   ]
+  },
+  "lg": {
+   "file": "shards/lg.json",
+   "count": 7,
+   "concepts": [
+    "A.LATVIA"
+   ]
+  },
+  "lh": {
+   "file": "shards/lh.json",
+   "count": 10,
+   "concepts": [
+    "A.LITHUANIA"
+   ]
+  },
+  "li": {
+   "file": "shards/li.json",
+   "count": 18,
+   "concepts": [
+    "A.LIBERIA"
+   ]
+  },
+  "lo": {
+   "file": "shards/lo.json",
+   "count": 8,
+   "concepts": [
+    "A.SLOVAKIA"
+   ]
+  },
+  "ls": {
+   "file": "shards/ls.json",
+   "count": 8,
+   "concepts": [
+    "A.LIECHTENSTEIN"
+   ]
+  },
+  "lt": {
+   "file": "shards/lt.json",
+   "count": 13,
+   "concepts": [
+    "A.LESOTHO"
+   ]
+  },
+  "lu": {
+   "file": "shards/lu.json",
+   "count": 6,
+   "concepts": [
+    "A.LUXEMBOURG"
+   ]
+  },
+  "ly": {
+   "file": "shards/ly.json",
+   "count": 21,
+   "concepts": [
+    "A.LIBYA"
+   ]
+  },
+  "ma": {
+   "file": "shards/ma.json",
+   "count": 15,
+   "concepts": [
+    "A.MADAGASCAR"
+   ]
+  },
+  "mc": {
+   "file": "shards/mc.json",
+   "count": 7,
+   "concepts": [
+    "A.MACAU"
+   ]
+  },
+  "md": {
+   "file": "shards/md.json",
+   "count": 8,
+   "concepts": [
+    "A.MOLDOVA"
+   ]
+  },
+  "mg": {
+   "file": "shards/mg.json",
+   "count": 18,
+   "concepts": [
+    "A.MONGOLIA"
+   ]
+  },
+  "mh": {
+   "file": "shards/mh.json",
+   "count": 6,
+   "concepts": [
+    "A.MONTSERRAT"
+   ]
+  },
+  "mi": {
+   "file": "shards/mi.json",
+   "count": 19,
+   "concepts": [
+    "A.MALAWI"
+   ]
+  },
+  "mj": {
+   "file": "shards/mj.json",
+   "count": 9,
+   "concepts": [
+    "A.MONTENEGRO"
+   ]
+  },
+  "mk": {
+   "file": "shards/mk.json",
+   "count": 10,
+   "concepts": [
+    "A.NORTHMACEDONIA"
+   ]
+  },
+  "ml": {
+   "file": "shards/ml.json",
+   "count": 31,
+   "concepts": [
+    "A.MALI"
+   ]
+  },
+  "mn": {
+   "file": "shards/mn.json",
+   "count": 5,
+   "concepts": [
+    "A.MONACO"
+   ]
+  },
+  "mo": {
+   "file": "shards/mo.json",
+   "count": 15,
+   "concepts": [
+    "A.MOROCCO"
+   ]
+  },
+  "mp": {
+   "file": "shards/mp.json",
+   "count": 17,
+   "concepts": [
+    "A.MAURITIUS"
+   ]
+  },
+  "mr": {
+   "file": "shards/mr.json",
+   "count": 15,
+   "concepts": [
+    "A.MAURITANIA"
+   ]
+  },
+  "mt": {
+   "file": "shards/mt.json",
+   "count": 7,
+   "concepts": [
+    "A.MALTA"
+   ]
+  },
+  "mu": {
+   "file": "shards/mu.json",
+   "count": 12,
+   "concepts": [
+    "A.OMAN"
+   ]
+  },
+  "mv": {
+   "file": "shards/mv.json",
+   "count": 15,
+   "concepts": [
+    "A.MALDIVES"
+   ]
+  },
+  "mx": {
+   "file": "shards/mx.json",
+   "count": 11,
+   "concepts": [
+    "A.MEXICO"
+   ]
+  },
+  "my": {
+   "file": "shards/my.json",
+   "count": 13,
+   "concepts": [
+    "A.MALAYSIA"
+   ]
+  },
+  "mz": {
+   "file": "shards/mz.json",
+   "count": 11,
+   "concepts": [
+    "A.MOZAMBIQUE"
+   ]
+  },
+  "nc": {
+   "file": "shards/nc.json",
+   "count": 21,
+   "concepts": [
+    "A.NEWCALEDONIA"
+   ]
+  },
+  "ne": {
+   "file": "shards/ne.json",
+   "count": 10,
+   "concepts": [
+    "A.NIUE"
+   ]
+  },
+  "nf": {
+   "file": "shards/nf.json",
+   "count": 12,
+   "concepts": [
+    "A.NORFOLKISLAND"
+   ]
+  },
+  "ng": {
+   "file": "shards/ng.json",
+   "count": 20,
+   "concepts": [
+    "A.NIGER"
+   ]
+  },
+  "nh": {
+   "file": "shards/nh.json",
+   "count": 19,
+   "concepts": [
+    "A.VANUATU"
+   ]
+  },
+  "ni": {
+   "file": "shards/ni.json",
+   "count": 18,
+   "concepts": [
+    "A.NIGERIA"
+   ]
+  },
+  "nl": {
+   "file": "shards/nl.json",
+   "count": 10,
+   "concepts": [
+    "A.NETHERLANDS"
+   ]
+  },
+  "nn": {
+   "file": "shards/nn.json",
+   "count": 11,
+   "concepts": [
+    "A.SINTMAARTEN"
+   ]
+  },
+  "no": {
+   "file": "shards/no.json",
+   "count": 11,
+   "concepts": [
+    "A.NORWAY"
+   ]
+  },
+  "np": {
+   "file": "shards/np.json",
+   "count": 20,
+   "concepts": [
+    "A.NEPAL"
+   ]
+  },
+  "nr": {
+   "file": "shards/nr.json",
+   "count": 19,
+   "concepts": [
+    "A.NAURU"
+   ]
+  },
+  "ns": {
+   "file": "shards/ns.json",
+   "count": 8,
+   "concepts": [
+    "A.SURINAME"
+   ]
+  },
+  "nu": {
+   "file": "shards/nu.json",
+   "count": 12,
+   "concepts": [
+    "A.NICARAGUA"
+   ]
+  },
+  "nz": {
+   "file": "shards/nz.json",
+   "count": 20,
+   "concepts": [
+    "A.NEWZEALAND"
+   ]
+  },
+  "od": {
+   "file": "shards/od.json",
+   "count": 19,
+   "concepts": [
+    "A.SOUTHSUDAN"
+   ]
+  },
+  "pa": {
+   "file": "shards/pa.json",
+   "count": 8,
+   "concepts": [
+    "A.PARAGUAY"
+   ]
+  },
+  "pc": {
+   "file": "shards/pc.json",
+   "count": 12,
+   "concepts": [
+    "A.PITCAIRNISLANDS"
+   ]
+  },
+  "pe": {
+   "file": "shards/pe.json",
+   "count": 18,
+   "concepts": [
+    "A.PERU"
+   ]
+  },
+  "pf": {
+   "file": "shards/pf.json",
+   "count": 4,
+   "concepts": [
+    "A.PARACELISLANDS"
+   ]
+  },
+  "pg": {
+   "file": "shards/pg.json",
+   "count": 4,
+   "concepts": [
+    "A.SPRATLYISLANDS"
+   ]
+  },
+  "pk": {
+   "file": "shards/pk.json",
+   "count": 10,
+   "concepts": [
+    "A.PAKISTAN"
+   ]
+  },
+  "pl": {
+   "file": "shards/pl.json",
+   "count": 8,
+   "concepts": [
+    "A.POLAND"
+   ]
+  },
+  "pm": {
+   "file": "shards/pm.json",
+   "count": 10,
+   "concepts": [
+    "A.PANAMA"
+   ]
+  },
+  "po": {
+   "file": "shards/po.json",
+   "count": 6,
+   "concepts": [
+    "A.PORTUGAL"
+   ]
+  },
+  "pp": {
+   "file": "shards/pp.json",
+   "count": 19,
+   "concepts": [
+    "A.PAPUANEWGUINEA"
+   ]
+  },
+  "ps": {
+   "file": "shards/ps.json",
+   "count": 17,
+   "concepts": [
+    "A.PALAU"
+   ]
+  },
+  "pu": {
+   "file": "shards/pu.json",
+   "count": 18,
+   "concepts": [
+    "A.GUINEABISSAU"
+   ]
+  },
+  "qa": {
+   "file": "shards/qa.json",
+   "count": 12,
+   "concepts": [
+    "A.QATAR"
+   ]
+  },
+  "ri": {
+   "file": "shards/ri.json",
+   "count": 12,
+   "concepts": [
+    "A.SERBIA"
+   ]
+  },
+  "rm": {
+   "file": "shards/rm.json",
+   "count": 10,
+   "concepts": [
+    "A.MARSHALLISLANDS"
+   ]
+  },
+  "rn": {
+   "file": "shards/rn.json",
+   "count": 7,
+   "concepts": [
+    "A.SAINTMARTIN"
+   ]
+  },
+  "ro": {
+   "file": "shards/ro.json",
+   "count": 10,
+   "concepts": [
+    "A.ROMANIA"
+   ]
+  },
+  "rp": {
+   "file": "shards/rp.json",
+   "count": 16,
+   "concepts": [
+    "A.PHILIPPINES"
+   ]
+  },
+  "rq": {
+   "file": "shards/rq.json",
+   "count": 8,
+   "concepts": [
+    "A.PUERTORICO"
+   ]
+  },
+  "rs": {
+   "file": "shards/rs.json",
+   "count": 19,
+   "concepts": [
+    "A.RUSSIA"
+   ]
+  },
+  "rw": {
+   "file": "shards/rw.json",
+   "count": 21,
+   "concepts": [
+    "A.RWANDA"
+   ]
+  },
+  "sa": {
+   "file": "shards/sa.json",
+   "count": 23,
+   "concepts": [
+    "A.SAUDIARABIA"
+   ]
+  },
+  "sb": {
+   "file": "shards/sb.json",
+   "count": 3,
+   "concepts": [
+    "A.SAINTPIERREANDMIQUELON"
+   ]
+  },
+  "sc": {
+   "file": "shards/sc.json",
+   "count": 9,
+   "concepts": [
+    "A.SAINTKITTSANDNEVIS"
+   ]
+  },
+  "se": {
+   "file": "shards/se.json",
+   "count": 10,
+   "concepts": [
+    "A.SEYCHELLES"
+   ]
+  },
+  "sf": {
+   "file": "shards/sf.json",
+   "count": 14,
+   "concepts": [
+    "A.SOUTHAFRICA"
+   ]
+  },
+  "sg": {
+   "file": "shards/sg.json",
+   "count": 19,
+   "concepts": [
+    "A.SENEGAL"
+   ]
+  },
+  "si": {
+   "file": "shards/si.json",
+   "count": 6,
+   "concepts": [
+    "A.SLOVENIA"
+   ]
+  },
+  "sl": {
+   "file": "shards/sl.json",
+   "count": 16,
+   "concepts": [
+    "A.SIERRALEONE"
+   ]
+  },
+  "sm": {
+   "file": "shards/sm.json",
+   "count": 5,
+   "concepts": [
+    "A.SANMARINO"
+   ]
+  },
+  "sn": {
+   "file": "shards/sn.json",
+   "count": 7,
+   "concepts": [
+    "A.SINGAPORE"
+   ]
+  },
+  "so": {
+   "file": "shards/so.json",
+   "count": 17,
+   "concepts": [
+    "A.SOMALIA"
+   ]
+  },
+  "sp": {
+   "file": "shards/sp.json",
+   "count": 7,
+   "concepts": [
+    "A.SPAIN"
+   ]
+  },
+  "st": {
+   "file": "shards/st.json",
+   "count": 4,
+   "concepts": [
+    "A.SAINTLUCIA"
+   ]
+  },
+  "su": {
+   "file": "shards/su.json",
+   "count": 18,
+   "concepts": [
+    "A.SUDAN"
+   ]
+  },
+  "sv": {
+   "file": "shards/sv.json",
+   "count": 6,
+   "concepts": [
+    "A.SVALBARDSOMETIMESREFERRE"
+   ]
+  },
+  "sw": {
+   "file": "shards/sw.json",
+   "count": 5,
+   "concepts": [
+    "A.SWEDEN"
+   ]
+  },
+  "sx": {
+   "file": "shards/sx.json",
+   "count": 7,
+   "concepts": [
+    "A.SOUTHGEORGIAANDSOUTHSAND"
+   ]
+  },
+  "sy": {
+   "file": "shards/sy.json",
+   "count": 30,
+   "concepts": [
+    "A.SYRIA"
+   ]
+  },
+  "sz": {
+   "file": "shards/sz.json",
+   "count": 9,
+   "concepts": [
+    "A.SWITZERLAND"
+   ]
+  },
+  "tb": {
+   "file": "shards/tb.json",
+   "count": 8,
+   "concepts": [
+    "A.SAINTBARTHELEMY"
+   ]
+  },
+  "td": {
+   "file": "shards/td.json",
+   "count": 7,
+   "concepts": [
+    "A.TRINIDADANDTOBAGO"
+   ]
+  },
+  "th": {
+   "file": "shards/th.json",
+   "count": 20,
+   "concepts": [
+    "A.THAILAND"
+   ]
+  },
+  "ti": {
+   "file": "shards/ti.json",
+   "count": 17,
+   "concepts": [
+    "A.TAJIKISTAN"
+   ]
+  },
+  "tk": {
+   "file": "shards/tk.json",
+   "count": 6,
+   "concepts": [
+    "A.TURKSANDCAICOSISLANDS"
+   ]
+  },
+  "tl": {
+   "file": "shards/tl.json",
+   "count": 11,
+   "concepts": [
+    "A.TOKELAU"
+   ]
+  },
+  "tn": {
+   "file": "shards/tn.json",
+   "count": 17,
+   "concepts": [
+    "A.TONGA"
+   ]
+  },
+  "to": {
+   "file": "shards/to.json",
+   "count": 14,
+   "concepts": [
+    "A.TOGO"
+   ]
+  },
+  "tp": {
+   "file": "shards/tp.json",
+   "count": 8,
+   "concepts": [
+    "A.SAOTOMEANDPRINCIPE"
+   ]
+  },
+  "ts": {
+   "file": "shards/ts.json",
+   "count": 17,
+   "concepts": [
+    "A.TUNISIA"
+   ]
+  },
+  "tt": {
+   "file": "shards/tt.json",
+   "count": 19,
+   "concepts": [
+    "A.TIMORLESTE"
+   ]
+  },
+  "tu": {
+   "file": "shards/tu.json",
+   "count": 6,
+   "concepts": [
+    "A.TURKEY"
+   ]
+  },
+  "tv": {
+   "file": "shards/tv.json",
+   "count": 10,
+   "concepts": [
+    "A.TUVALU"
+   ]
+  },
+  "tw": {
+   "file": "shards/tw.json",
+   "count": 12,
+   "concepts": [
+    "A.TAIWAN"
+   ]
+  },
+  "tx": {
+   "file": "shards/tx.json",
+   "count": 12,
+   "concepts": [
+    "A.TURKMENISTAN"
+   ]
+  },
+  "tz": {
+   "file": "shards/tz.json",
+   "count": 19,
+   "concepts": [
+    "A.TANZANIA"
+   ]
+  },
+  "uc": {
+   "file": "shards/uc.json",
+   "count": 6,
+   "concepts": [
+    "A.CURACAO"
+   ]
+  },
+  "ug": {
+   "file": "shards/ug.json",
+   "count": 16,
+   "concepts": [
+    "A.UGANDA"
+   ]
+  },
+  "uk": {
+   "file": "shards/uk.json",
+   "count": 12,
+   "concepts": [
+    "A.UNITEDKINGDOM"
+   ]
+  },
+  "um": {
+   "file": "shards/um.json",
+   "count": 29,
+   "concepts": [
+    "A.BAKERISLANDHOWLANDISLAND"
+   ]
+  },
+  "up": {
+   "file": "shards/up.json",
+   "count": 27,
+   "concepts": [
+    "A.UKRAINE"
+   ]
+  },
+  "us": {
+   "file": "shards/us.json",
+   "count": 6,
+   "concepts": [
+    "A.UNITEDSTATES"
+   ]
+  },
+  "uv": {
+   "file": "shards/uv.json",
+   "count": 17,
+   "concepts": [
+    "A.BURKINAFASO"
+   ]
+  },
+  "uy": {
+   "file": "shards/uy.json",
+   "count": 10,
+   "concepts": [
+    "A.URUGUAY"
+   ]
+  },
+  "uz": {
+   "file": "shards/uz.json",
+   "count": 9,
+   "concepts": [
+    "A.UZBEKISTAN"
+   ]
+  },
+  "vc": {
+   "file": "shards/vc.json",
+   "count": 10,
+   "concepts": [
+    "A.SAINTVINCENTANDTHEGRENAD"
+   ]
+  },
+  "ve": {
+   "file": "shards/ve.json",
+   "count": 18,
+   "concepts": [
+    "A.VENEZUELA"
+   ]
+  },
+  "vi": {
+   "file": "shards/vi.json",
+   "count": 5,
+   "concepts": [
+    "A.BRITISHVIRGINISLANDS"
+   ]
+  },
+  "vm": {
+   "file": "shards/vm.json",
+   "count": 20,
+   "concepts": [
+    "A.VIETNAM"
+   ]
+  },
+  "vq": {
+   "file": "shards/vq.json",
+   "count": 6,
+   "concepts": [
+    "A.VIRGINISLANDS"
+   ]
+  },
+  "vt": {
+   "file": "shards/vt.json",
+   "count": 6,
+   "concepts": [
+    "A.HOLYSEEVATICANCITY"
+   ]
+  },
+  "wa": {
+   "file": "shards/wa.json",
+   "count": 8,
+   "concepts": [
+    "A.NAMIBIA"
+   ]
+  },
+  "we": {
+   "file": "shards/we.json",
+   "count": 12,
+   "concepts": [
+    "A.WESTBANK"
+   ]
+  },
+  "wf": {
+   "file": "shards/wf.json",
+   "count": 15,
+   "concepts": [
+    "A.WALLISANDFUTUNA"
+   ]
+  },
+  "wi": {
+   "file": "shards/wi.json",
+   "count": 9,
+   "concepts": [
+    "A.WESTERNSAHARA"
+   ]
+  },
+  "wq": {
+   "file": "shards/wq.json",
+   "count": 11,
+   "concepts": [
+    "A.WAKEISLAND"
+   ]
+  },
+  "ws": {
+   "file": "shards/ws.json",
+   "count": 16,
+   "concepts": [
+    "A.SAMOA"
+   ]
+  },
+  "wz": {
+   "file": "shards/wz.json",
+   "count": 11,
+   "concepts": [
+    "A.ESWATINI"
+   ]
+  },
+  "ym": {
+   "file": "shards/ym.json",
+   "count": 30,
+   "concepts": [
+    "A.YEMEN"
+   ]
+  },
+  "za": {
+   "file": "shards/za.json",
+   "count": 19,
+   "concepts": [
+    "A.ZAMBIA"
+   ]
+  },
+  "zi": {
+   "file": "shards/zi.json",
+   "count": 20,
+   "concepts": [
+    "A.ZIMBABWE"
+   ]
+  }
+ }
+}
