@@ -202,6 +202,26 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     }
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
+    const lang = row && row.language_core;
+    const heldGap = !!(row && !row.product_reply && lang && lang.gap && !lang.anchors_connected);
+    const pack = window.SELF_SEED_FIXTURES;
+    if (heldGap && window.SelfSeed && pack && pack.questions && pack.questions[text]) {
+      const decision = SelfSeed.evaluate({
+        question: text,
+        gap: true,
+        anchors_connected: 0,
+        documents: (pack.questions[text].documents || []).filter(doc => doc && doc.role !== 'error'),
+        now: Date.now() / 1000,
+        loop_phi: (row.resonance && row.resonance.question_phi) || 1
+      });
+      row.self_seed = { rule: decision.rule, url: decision.anchor && decision.anchor.source_url, echo: decision.echo, hosts: decision.hosts || [] };
+      if (decision.anchor) {
+        memory.anchors = (memory.anchors || []).concat([decision.anchor]);
+        const again = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
+        again.self_seed = { rule: again.product_reply ? 'SEED-REASK-ADMITTED' : 'SEED-REASK', first: decision.rule, url: decision.anchor.source_url, echo: decision.echo, hosts: decision.hosts || [] };
+        row = again;
+      }
+    }
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   lastResult = row;
   if (row && row.memory_write && row.memory_write.committed && row.memory_write.hosted_kb) {
@@ -291,7 +311,9 @@ function engineStage(row) {
   const rendline = rend.renderer_build ? '<div class="meta" data-renderer-200>renderer 4.9.200 · closed ' + (rend.response_closed ? 'yes' : 'no') + ' · echo fail [' + esc(rend.failing_echo_output || '') + '] · loop bound ' + (rend.loop_bound ? 'yes' : 'no') + ' · M ' + esc(rend.M) + ' · lambda ' + esc(rend.spc_lambda) + ' · persisted ' + (rend.persisted ? 'yes' : 'no') + ' · admit gate off · no LLM</div>' : '';
   const gilin = eng.gilin_crp_201 || {};
   const gilinline = gilin.gilin_build ? '<div class="meta" data-gilin-201>gilin 4.9.201 · coordinated ' + (gilin.coordinated ? 'yes' : 'no') + ' · CRP admits ' + (gilin.crp_admits ? 'yes' : 'no') + ' · C* admits ' + (gilin.c_star_admits ? 'yes' : 'no') + ' · warn admits ' + (gilin.warn_admits ? 'yes' : 'no') + ' · law witness ' + (gilin.law_witness ? 'yes' : 'no') + ' · admit gate off · no LLM</div>' : '';
-  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line + dpaline + tierline + ppeline + growthline + geomline + rendline + gilinline;
+  const seed = row && row.self_seed;
+  const seedline = seed ? '<div class="meta" data-self-seed-202>self-seed 4.9.202 · ' + esc(seed.rule) + ' · hosts ' + esc((seed.hosts || []).join(', ')) + ' · ' + esc(seed.url || '') + ' · Wikipedia is not an anchor · no LLM</div>' : '';
+  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line + dpaline + tierline + ppeline + growthline + geomline + rendline + gilinline + seedline;
 }
 function renderLexiconPackets() {
   const host = $('#lexiconPacketBody');

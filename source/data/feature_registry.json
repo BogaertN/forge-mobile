@@ -1,5 +1,5 @@
 {
- "version": "4.9.201",
+ "version": "4.9.202",
  "features": [
   {
    "id": "A-01",
@@ -3914,13 +3914,24 @@
    "proof": [
     "R4201"
    ]
+  },
+  {
+   "id": "R4202-SELF-SEED",
+   "name": "Self-seeding anchors for questions held with no premise",
+   "source": "docs/WIRING_202.md; trusted_sources_202.json; Ask to Athena to Gilligan to kb.anchors",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "A question held for no premise is queued with the asking question as provenance. Allowlisted sources are fetched. Wikipedia is only a pointer. Sentences are kept when a lexicon packet phase-aligns with the question loop inside pi/4. One tier-1 source or two independent hosts corroborate. Echo stays 0.85 against the question. Drift stays at or under 0.35. Phi5 to Phi8 is forbidden. A recipe is not an anchor. A failure backs off. The re-ask is the unchanged admit gate. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4202"
+   ]
   }
  ],
- "count": 357,
+ "count": 358,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 195,
+  "Partial": 196,
   "Missing": 9,
   "Out of scope / parked": 13
  }
