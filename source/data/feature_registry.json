@@ -1,5 +1,5 @@
 {
-  "version": "4.9.195",
+  "version": "4.9.196",
  "features": [
   {
    "id": "A-01",
@@ -3817,6 +3817,17 @@
    ]
   },
   {
+   "id": "R4196-STORAGE-TIERS",
+   "name": "Storage tiers Hot, Warm, Cold, and Deep ghost",
+   "source": "PMA §6; genesis_collapse 168 h half-life; phase_coherent_gates seven-gate resurrection; dpa_195 write-once archive; Gilligan Codex 3.3, 3.6, 3.7, 3.15 log-only; docs/WIRING_196.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "A simulated clock moves Hot to Warm (SPC) to Cold to Deep ghost. Resurrection passes only when all seven gates pass. Deep ghost does not re-enter. A dead path seals once. Drift 0.35 is not a dead path. Codex 0.5, 0.6, and 0.3 are log-only. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4196"
+   ]
+  },
+  {
    "id": "R4195-DEAD-PATH-ARCHIVE",
    "name": "Write-once dead path archive and sealed records",
    "source": "GN Doc 1 dead path archive; Gilligan Codex 3.3 a.c l.1611–1624; Codex 3.17; GenNode Docs 11–12; RSOC grace before archival; docs/WIRING_195.md",
@@ -3850,11 +3861,11 @@
    ]
   }
  ],
- "count": 351,
+ "count": 352,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 189,
+  "Partial": 190,
   "Missing": 9,
   "Out of scope / parked": 13
  }

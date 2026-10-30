@@ -1,6 +1,6 @@
 /* R4196 (4.9.196): storage tiers. PMA §6.
  * Decay calls the 4.9.191 SPC charge. Resurrection calls the seven gates.
- * A deep ghost seals once through the 4.9.195 archive. C_min stays 0.87. No LLM. */
+ * A deep ghost seals once through the 4.9.196 archive. C_min stays 0.87. No LLM. */
 const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
@@ -146,6 +146,37 @@ T('the module calls the 191 and 195 functions and does not start a dream', () =>
   same(row, py({ op: 'stage', epsilon_s: 0.2 }), 'stage-calm');
   same(hot, py({ op: 'stage', epsilon_s: 0.85 }), 'stage-hot');
   same(Tiers.tierAt(1, 600), py({ op: 'tier', c0: 1, hours: 600 }), 'tier-600');
+});
+
+T('cold admits stay 48 of 60 and the release is 4.9.196', () => {
+  const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_196_results.json'), 'utf8'));
+  const prior = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_195_results.json'), 'utf8'));
+  expect(live.stable === true && live.calls_llm === false, JSON.stringify({ stable: live.stable, llm: live.calls_llm }));
+  for (const p of live.passes) {
+    expect(p.admitted === 48 && p.held === 12, p.name + ' ' + p.admitted);
+    expect(p.rows.every(r => r.tiers_admit_gate === false && r.tiers_calls_llm === false && r.tiers_dream_idle === false && r.tier === 'hot' && r.half_tier === 'warm'), p.name + ' tier');
+  }
+  const now = new Set(live.passes[0].rows.filter(r => r.admitted).map(r => r.question));
+  const then = new Set(prior.passes[0].rows.filter(r => r.admitted).map(r => r.question));
+  expect(now.size === 48 && [...now].every(q => then.has(q)) && [...then].every(q => now.has(q)), 'admit set moved');
+  const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_196_pyodide.json'), 'utf8'));
+  expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
+  const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
+  expect(ver === '4.9.196', ver);
+  const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
+  expect(/v4\.9\.196/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
+  const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
+  expect(/4\.9\.196/.test(nb) && /WIRING_196/.test(nb), 'NEXT_BUILD');
+  const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
+  expect(/4\.9\.196/.test(readme) && /WIRING_196/.test(readme), 'README');
+  const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_196.md'), 'utf8');
+  expect(/0\.87/.test(doc) && /No model is called/.test(doc) && /TIER-DEEP-NO-REENTRY/.test(doc), 'WIRING');
+  const table = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_196.md'), 'utf8');
+  expect(/48 of 60/.test(table) && /No model is called/.test(table), 'LIVE_TEST');
+  const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
+  expect(reg.version === '4.9.196' && reg.features.some(f => f.id === 'R4196-STORAGE-TIERS') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 190, reg.version + ' ' + reg.count);
+  const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
+  expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
 });
 
 const rows = [];
