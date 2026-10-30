@@ -1,0 +1,51 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 8,
+ "matched": 8,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "summary",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "open",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "closure",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "charge",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "membrane",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "operators",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "stage",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "script",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48,
+ "c_min": 0.87
+}

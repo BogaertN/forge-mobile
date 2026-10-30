@@ -174,7 +174,7 @@ T('idle tick skips while answering; letter holes invent no fact; no LLM', () => 
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.198', ver);
+  expect(ver === '4.9.199', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.170/.test(conf) && /DREAM-QUARANTINE-NO-TRUTH|quarantine/.test(conf) && /admit/.test(conf), 'CONFLICTS tip');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -182,14 +182,14 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.170/.test(readme) && /dream_idle/.test(readme) && /admitEnabled/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.198' && ((((((((tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.199' && ((((((((tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js'), JSON.stringify(tgt));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.198', 'registry ' + reg.version);
+  expect(reg.version === '4.9.199', 'registry ' + reg.version);
   expect(reg.features.some(f => f.id === 'R4169-IDLE-DREAM'), 'feature');
   expect(reg.count === reg.features.length, 'count');
   expect(reg.claims.Implemented === 112 && reg.claims.Partial >= 164, JSON.stringify(reg.claims));
   const mh = JSON.parse(fs.readFileSync(path.join(ROOT, 'research', 'math_honesty.json'), 'utf8'));
-  expect(mh.release === '4.9.198' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === true && mh.idle_dream_router.write_law_unchanged === true, 'math_honesty');
+  expect(mh.release === '4.9.199' && mh.idle_dream_router && mh.idle_dream_router.christ_ping === true && mh.idle_dream_router.write_law_unchanged === true, 'math_honesty');
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.169/.test(req) && /R4169-IDLE-DREAM/.test(req), 'req_packet');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');

@@ -160,7 +160,7 @@ T('the 60-question table admits 48 and keeps the unsourced rows held', () => {
 
 T('version registry names 4.9.191 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.198', ver);
+  expect(ver === '4.9.199', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.191/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -170,9 +170,9 @@ T('version registry names 4.9.191 and the switches stay off', () => {
   const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_191.md'), 'utf8');
   expect(/0\.87/.test(doc) && /unspecified/.test(doc) && /No model is called/.test(doc), 'WIRING');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.198' && ((tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.199' && ((tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.198' && reg.features.some(f => f.id === 'R4191-PHASE-CODEX') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.199' && reg.features.some(f => f.id === 'R4191-PHASE-CODEX') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
