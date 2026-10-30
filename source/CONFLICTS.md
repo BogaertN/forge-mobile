@@ -1,3 +1,11 @@
+## v4.9.201 — GILIN / CRP (2026-10-30 America/Chicago)
+
+**Conflict:** The build map numbered GILIN/CRP 4.9.200. The RMC renderer already shipped as 4.9.200, so this protocol is 4.9.201. GN Doc2 keeps CRP 0.78, a warn at 0.40, and C* 0.82. Those figures sit under C_min 0.87 and, for 0.40, at the edge of the write law. The Doc2 file is not in this tree. Babel 0.78, the RSOC warning band 0.40, and the RSOC 7→8 gate 0.82 are the same class of internal number. Codex heartbeat 144 Hz is not ChristPing.
+
+**Where:** `src/gilin_crp_201.js`, `rmc_engine_v1/gilin_crp_201.py`, the Ask GILIN card. The drift laws, the 5→8 detector, the geometry merge, the renderer Echo, the lexicon packet, and `research_hooks` are called. The wiring is `docs/WIRING_201.md`. The tables are `docs/LIVE_TEST_201.md`. The held rows are `docs/HELD_AUDIT_201.md`.
+
+**Resolution:** CRP 0.78, warn 0.40, and C* 0.82 are log-only. A C of 0.82 does not witness the law. A drift of 0.40 warns and does not write. The law witness needs C at or above 0.87, drift at or under 0.35, and Echo at or above 0.85 against the question. The witness does not admit and does not persist. Φ5→Φ8 hard-fires. Φ4→Φ8 is flagged. Heartbeat coordination is the geometry merge inside π/4 and does not call the network. 144 Hz is a log. ChristPing stays Gilligan-only and is not started. M and SPC λ stay the approved hooks. A write still needs drift at or under 0.35. The hard stop stays above 0.8. C_min stays 0.87. Echo stays 0.85. The coherence formula is unchanged. Cold admits stay 48. The same 12 stay held. Wikipedia stays low trust. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled. No Supabase migration is added. The migration files already in the repo are not applied.
+
 ## v4.9.200 — RMC renderer (2026-10-30 America/Chicago)
 
 **Conflict:** The build map numbered the RMC renderer 4.9.199. That section is 4.9.200 because geometry gates took 4.9.199. Codex tone nulls a reply when drift is above 0.6, which is looser than the write law. The charge bands between 0.3 and 0.91 are not numbered. Echo Preservation E = R·ψ(t−τ) is a second echo form. The withdrawn model renderer is not a path. M and the SPC λ step still have no research values.

@@ -1,0 +1,56 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 9,
+ "matched": 9,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "summary",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "heartbeat",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "crp",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "warn",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "cstar",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "law",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "skip",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "stage",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "script",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48,
+ "c_min": 0.87
+}

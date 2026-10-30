@@ -1,5 +1,5 @@
 {
- "version": "4.9.200",
+ "version": "4.9.201",
  "features": [
   {
    "id": "A-01",
@@ -1371,7 +1371,7 @@
    "source": "Capability Register (Drive 1tS_VLjZ…/1FaALlnv…, 2026-07-25) §J; register state \"Documented only\"",
    "wave": "—",
    "claim": "Out of scope / parked",
-   "note": "Post-1.0",
+   "note": "Post-1.0 network heartbeat stays parked. 4.9.201 ships the retuned internal CRP checks as R4201 and does not open the network.",
    "proof": []
   },
   {
@@ -3903,13 +3903,24 @@
    "proof": [
     "R4200"
    ]
+  },
+  {
+   "id": "R4201-GILIN-CRP",
+   "name": "GILIN / CRP protocol",
+   "source": "GN Doc2 retuned in the build map section labelled 4.9.200, shipped as 4.9.201; CRP 0.78, warn 0.40, C* 0.82 internal; admission C_min 0.87 and drift <= 0.35; docs/WIRING_201.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Heartbeat coordinates two nodes inside pi/4 by calling the geometry merge. CRP 0.78, warn 0.40, and C* 0.82 are log-only and do not admit. The law witness needs C>=0.87, drift<=0.35, and Echo>=0.85. Phi5 to Phi8 hard-fires. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4201"
+   ]
   }
  ],
- "count": 356,
+ "count": 357,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 194,
+  "Partial": 195,
   "Missing": 9,
   "Out of scope / parked": 13
  }
