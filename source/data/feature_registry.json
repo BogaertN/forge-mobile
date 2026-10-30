@@ -1,5 +1,5 @@
 {
-  "version": "4.9.199",
+ "version": "4.9.200",
  "features": [
   {
    "id": "A-01",
@@ -3892,13 +3892,24 @@
    "proof": [
     "R4199"
    ]
+  },
+  {
+   "id": "R4200-RMC-RENDERER",
+   "name": "RMC template renderer",
+   "source": "RMC algorithm 5; rmc peer review; Waking the Web l275; Codex 3.5 a l.1810-1828; Codex tone 3.9 a l.2164-2168; docs/WIRING_200.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Sentence plan, template, decode, then Echo at or above 0.85 against the question. A failing Echo returns no output. The answer is bound to the question loop. Tone chooses the template. M and spc_lambda stay null. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4200"
+   ]
   }
  ],
- "count": 355,
+ "count": 356,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 193,
+  "Partial": 194,
   "Missing": 9,
   "Out of scope / parked": 13
  }

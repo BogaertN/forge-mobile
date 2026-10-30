@@ -9,13 +9,13 @@ and the renderer. No model is called. C_min stays 0.87.
 from __future__ import annotations
 
 import json
-import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
 
 from rmc_engine_v1.deep_dry_run_orchestrator import run_deep_dry_run
+from rmc_engine_v1.echo_question import _tokens, echo_against_question
 from rmc_engine_v1.mobile_config import THRESHOLDS, snapshot
 from rmc_engine_v1.reasoning_seam import run_reasoning_seam
 
@@ -30,54 +30,6 @@ def _f(value: Any, default: float = 0.0) -> float:
 def world_model_seam(memory: dict[str, Any], question: str) -> dict[str, Any]:
     """Observe, Derive, and the language-core debate. The seam function."""
     return run_reasoning_seam(question, memory)
-
-
-_STOP = {
-    "the", "and", "for", "with", "from", "that", "this", "what", "which", "when",
-    "where", "who", "whom", "why", "how", "are", "was", "were", "you", "your",
-    "does", "did", "can", "could", "into", "about", "have", "has", "not", "but",
-}
-
-
-def _tokens(text: str) -> set[str]:
-    return {w for w in re.findall(r"[a-z0-9]+", str(text or "").lower()) if len(w) > 2 and w not in _STOP}
-
-
-def echo_against_question(question: str, output_text: str, *, rendered: bool = False) -> dict[str, Any]:
-    """Echo ≥ 0.85.
-
-    Live path: coverage of the original question's meaning tokens by the
-    rendered answer. A longer truthful sentence is not punished for extra words.
-    Dry run: Jaccard of the selected candidate meaning against the question,
-    which stays 0 while stages 14–16 are skipped.
-    """
-    left = _tokens(question)
-    right = _tokens(output_text)
-    if rendered:
-        if not left:
-            score = 0.0
-        else:
-            score = len(left & right) / len(left)
-        method = "question_meaning_coverage"
-        compares = "rendered_answer_to_original_question_meaning"
-    else:
-        if not left and not right:
-            score = 1.0
-        elif not left or not right:
-            score = 0.0
-        else:
-            score = len(left & right) / len(left | right)
-        method = "jaccard_content_tokens"
-        compares = "selected_candidate_meaning_to_original_question"
-    score = round(score, 6)
-    return {
-        "score": score,
-        "min": THRESHOLDS["echo_min"],
-        "pass": score >= float(THRESHOLDS["echo_min"]),
-        "method": method,
-        "compares": compares,
-        "output_text": str(output_text or "")[:400],
-    }
 
 
 def _candidate_text(report: dict[str, Any]) -> str:
