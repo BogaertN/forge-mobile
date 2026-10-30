@@ -172,7 +172,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.196', () => {
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_195_pyodide.json'), 'utf8'));
   expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.198', ver);
+  expect(ver === '4.9.199', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.195/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -182,7 +182,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.196', () => {
   const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_195.md'), 'utf8');
   expect(/0\.87/.test(doc) && /No model is called/.test(doc) && /DPA-REWRITE-REJECTED/.test(doc), 'WIRING');
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.198' && reg.features.some(f => f.id === 'R4195-DEAD-PATH-ARCHIVE') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 192, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.199' && reg.features.some(f => f.id === 'R4195-DEAD-PATH-ARCHIVE') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 193, reg.version + ' ' + reg.count);
   const Next = require(ROOT + '/src/next_layer.js');
   expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, 'defaults');
   Next.set('dream_idle', true);

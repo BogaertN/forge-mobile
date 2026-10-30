@@ -1,5 +1,5 @@
 {
-  "version": "4.9.198",
+  "version": "4.9.199",
  "features": [
   {
    "id": "A-01",
@@ -3881,13 +3881,24 @@
    "proof": [
     "R4198"
    ]
+  },
+  {
+   "id": "R4199-GEOMETRY-GATES",
+   "name": "Geometry gates",
+   "source": "RSOC operators l.1190-1390; Waking the Web l278; Geometry of Mind phase 6 membrane; UA Vol I b l.4322-4389; READ192; READ_NEW_PDFS section B; docs/WIRING_199.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Phase 6 is before naming and export. A seal needs closure 2 pi n. The charge ledger balances. RSOC operator numbers win. UA forms are recorded and not applied. An open loop is not sealed. Cold admits stay 48. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4199"
+   ]
   }
  ],
- "count": 354,
+ "count": 355,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 192,
+  "Partial": 193,
   "Missing": 9,
   "Out of scope / parked": 13
  }

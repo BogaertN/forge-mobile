@@ -1,3 +1,9 @@
+# Next build order — after 4.9.199 (Geometry gates)
+
+**Shipped here:** Phase 6 membrane before naming or export. Phase closure is total angle 2πn. An open loop is not sealed. M and V_c are axes. The RSOC operators run with the documented numbers. Unified Algebra forms are recorded and RSOC numbers win. UA memory M and the SPC λ step stay unparameterized. The charge ledger balances. Cold admits stay 48 of 60. C_min stays 0.87. The coherence formula is unchanged. The wiring is `docs/WIRING_199.md`. The tables are `docs/LIVE_TEST_199.md`. No LLM. Packs stay gated. Money stays disabled. `dream_idle` and `economy` stay off. ChristPing stays Gilligan-only. No Supabase migration is added.
+
+**Do not start inside this pull request.** The RMC renderer that was numbered 4.9.199. It is now 4.9.200. A model call. Keyword admission. Lowering C_min. Using Wikipedia as an anchor. Applying a hosted migration.
+
 # Next build order — after 4.9.198 (Lexicon Growth Engine)
 
 **Shipped here:** An unknown word gets a resonance packet from the 4.9.197 letter map. θ=(Φ−1)·40°. Birth ε is 0 and birth μ is 1.0, tagged proposal v1. The word enters a local provisional tier. The content id is SHA-256. The same input does not add a second use. A reload keeps the tier. Promotion needs C ≥ 0.87 and Echo ≥ 0.85 across uses, against the original question, and drift < 0.3. A name seals only at Φ ≥ 7, echo confirmed, and drift < 0.2, through the 4.9.195 archive. Drift above 0.35 is χ quarantine. A Φ5→Φ8 letter walk is flagged and never promoted. Drift-mask similarity ≥ 0.70 denies the word. Recall of a promoted word is phase alignment inside π/4. Cold admits stay 48 of 60. C_min stays 0.87. The coherence formula is unchanged. The wiring is `docs/WIRING_198.md`. The tables are `docs/LIVE_TEST_198.md`. No LLM. Packs stay gated. Money stays disabled. `dream_idle` and `economy` stay off. ChristPing stays Gilligan-only. No Supabase migration is added.
