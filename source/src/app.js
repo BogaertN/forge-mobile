@@ -204,9 +204,10 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     else row = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
     const lang = row && row.language_core;
     const heldGap = !!(row && !row.product_reply && lang && lang.gap && !lang.anchors_connected);
-    const pack = window.SELF_SEED_FIXTURES;
-    if (heldGap && window.SelfSeed && pack && pack.questions && pack.questions[text]) {
-      const decision = SelfSeed.evaluate({
+    const pack = window.SELF_SEED_FIXTURES_203 || window.SELF_SEED_FIXTURES;
+    const Seeder = window.SelfSeed203 || window.SelfSeed;
+    if (heldGap && Seeder && pack && pack.questions && pack.questions[text]) {
+      const decision = Seeder.evaluate({
         question: text,
         gap: true,
         anchors_connected: 0,
@@ -312,7 +313,7 @@ function engineStage(row) {
   const gilin = eng.gilin_crp_201 || {};
   const gilinline = gilin.gilin_build ? '<div class="meta" data-gilin-201>gilin 4.9.201 · coordinated ' + (gilin.coordinated ? 'yes' : 'no') + ' · CRP admits ' + (gilin.crp_admits ? 'yes' : 'no') + ' · C* admits ' + (gilin.c_star_admits ? 'yes' : 'no') + ' · warn admits ' + (gilin.warn_admits ? 'yes' : 'no') + ' · law witness ' + (gilin.law_witness ? 'yes' : 'no') + ' · admit gate off · no LLM</div>' : '';
   const seed = row && row.self_seed;
-  const seedline = seed ? '<div class="meta" data-self-seed-202>self-seed 4.9.202 · ' + esc(seed.rule) + ' · hosts ' + esc((seed.hosts || []).join(', ')) + ' · ' + esc(seed.url || '') + ' · Wikipedia is not an anchor · no LLM</div>' : '';
+  const seedline = seed ? '<div class="meta" data-self-seed-203>self-seed 4.9.203 · ' + esc(seed.rule) + ' · hosts ' + esc((seed.hosts || []).join(', ')) + ' · ' + esc(seed.url || '') + ' · Wikipedia is not an anchor · no LLM</div>' : '';
   return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line + dpaline + tierline + ppeline + growthline + geomline + rendline + gilinline + seedline;
 }
 function renderLexiconPackets() {

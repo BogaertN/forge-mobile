@@ -1,3 +1,9 @@
+## v4.9.203 — Reference prose (2026-10-30 America/Chicago)
+
+**Conflict:** The 4.9.202 seeder is safe and admits none of the ten no-premise held questions, because the fetch returns catalog records. Real reference prose is in public-domain books and government narrative pages. A 1911 encyclopedia can be stale. A pronoun in an entry is not the entity's name. "What can you do?" was speaking the feeling sentence.
+
+**Resolution:** Discovery searches allowlisted catalogs and government endpoints with the question's entity. No question has a canned URL. The fetched prose is split into sentences. Slot, subject, claim, Echo, drift, C_min, and Φ5→Φ8 stay the 4.9.202 checks. Coreference applies only in the entity's own entry. Two independent hosts still corroborate, or the row is quarantined. A period-dated source is flagged when time matters; identity and historical dates are not. Hazard answers are safety facts from government safety pages. "What can you do?" is the capability act. Its sentence is not the feeling sentence. C_min stays 0.87. The coherence formula is unchanged. No LLM. Packs stay gated. Money stays disabled. `dream_idle` and `economy` stay off. ChristPing stays Gilligan-only. The migration is in the repo and flagged, not applied.
+
 ## v4.9.202 — Self-seeding anchors (2026-10-30 America/Chicago)
 
 **Conflict:** Nic rejects hand-seeded anchors. The twelve held questions have no premise. Fetching a trusted sentence can still fail Echo, because Echo is coverage of the question's tokens and the formula is unchanged. A name whose lexicon phase sits outside π/4 of the question loop is not kept. Wikipedia is the easy page and is not allowed to be the anchor.

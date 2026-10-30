@@ -336,7 +336,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         if live and derive_status != "conflicted" and scored and ("memory" in scored_kind or meaning_preview.get("language_core")):
             if echo_against_question(question, scored, rendered=True).get("pass"):
                 rendered = scored
-        if live and derive_status != "conflicted" and language_core.get("speech_act") in {"greeting", "request", "self"} and language_core.get("claim"):
+        if live and derive_status != "conflicted" and language_core.get("speech_act") in {"greeting", "request", "self", "capability"} and language_core.get("claim"):
             rendered = str(language_core.get("claim"))
         if (
             live
@@ -349,10 +349,11 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
         # "How are you?" and "What can you do?" are function words. The token
         # cut leaves no content word, so coverage was 0 no matter the reply.
-        # The meaning is the speech act. The 0.85 line is unchanged.
+        # The meaning is the speech act. They are different acts. The 0.85
+        # line is unchanged.
         if (
             live
-            and language_core.get("speech_act") in {"greeting", "request", "self"}
+            and language_core.get("speech_act") in {"greeting", "request", "self", "capability"}
             and rendered
             and not _tokens(question)
         ):
