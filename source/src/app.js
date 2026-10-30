@@ -282,7 +282,10 @@ function engineStage(row) {
   const ppe = eng.ppe_197 || {};
   const shown = (ppe.words || []).map(w => (w.glyph || '') + ' Φ' + w.Phi + ' ' + (w.phase_name || '') + ' ' + (w.word || '') + ' ε ' + w.eps + ' μ ' + w.mu).join(' · ');
   const ppeline = ppe.provenance ? '<div class="meta" data-ppe-197>lexicon 4.9.197 · ' + esc(ppe.map_authority) + ' · ' + esc(ppe.provenance) + ' · birth ε ' + esc(ppe.eps0) + ' μ ' + esc(ppe.mu_init) + ' · M ' + esc(ppe.m_charge) + ' flag ' + esc(ppe.m_flag) + ' · ' + esc(shown) + ' · admit gate off · no LLM</div>' : '';
-  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line + dpaline + tierline + ppeline;
+  const growth = eng.growth_198 || {};
+  const grown = (growth.novel || []).map(w => (w.glyph || '') + ' Φ' + w.Phi + ' ' + (w.phase_name || '') + ' ' + (w.word || '') + ' ε ' + w.eps + ' μ ' + w.mu).join(' · ');
+  const growthline = growth.provenance ? '<div class="meta" data-growth-198>lexicon growth 4.9.198 · ' + esc(growth.provenance) + ' · novel ' + esc((growth.novel || []).length) + ' · ' + esc(grown) + ' · persisted ' + (growth.persisted ? 'yes' : 'no') + ' · admit gate off · no LLM</div>' : '';
+  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>' + v43line + d194line + dpaline + tierline + ppeline + growthline;
 }
 function renderLexiconPackets() {
   const host = $('#lexiconPacketBody');

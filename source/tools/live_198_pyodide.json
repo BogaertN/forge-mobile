@@ -1,0 +1,51 @@
+{
+ "pyodide": "0.27.7",
+ "cases": 8,
+ "matched": 8,
+ "max_abs_gap": 0,
+ "rows": [
+  {
+   "name": "summary",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "packets",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "promote",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "quarantine",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "recall",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "restart",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "stage",
+   "gap": 0,
+   "matched": true
+  },
+  {
+   "name": "script",
+   "gap": 0,
+   "matched": true
+  }
+ ],
+ "calls_llm": false,
+ "admits_unchanged": 48,
+ "c_min": 0.87
+}
