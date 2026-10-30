@@ -5,9 +5,10 @@ when one of its surfaces is a seed word (medium signal). A concept with no
 seed word is placed by the letter-pulse resultant (weak signal). Letter
 placement does not claim the lawful εₙ = 0 lock.
 
-Numeric μ is unspecified. The geometric Φ→angle rule is unspecified by
-RPMC §1.4, the Glyph Codex, and Unified Algebra. The index used here is
-the existing RSOC reconstruction ((n-1)/9)·2π, marked as such.
+The letter-to-phase map is the Phase Parsing Engine v0.1 Keystroke Phase
+Interpreter. It is not the HarperScript visual manifest. Nic 4.9.191 states
+θ = (Φ−1)·40°, which is ((n−1)/9)·2π. Numeric μ stays unspecified unless the
+word row is tagged "proposal v1" and carries both numbers.
 """
 from __future__ import annotations
 
@@ -24,12 +25,12 @@ DOC_ALGEBRA = "1RoAxjzV9rbxMxbE2Wu-R728O0J3J4W3s6J4lKlkbqzQ"
 
 PAPER_CONSTANTS = {
     "phi_to_angle": {
-        "status": "unspecified",
+        "status": "stated",
+        "formula": "θ=(Φ−1)·40°",
+        "degrees": 40,
         "cite": (
-            "RPMC §1.4 defines Φ₁ as the minimum nonzero resonance and §1.5 "
-            "closes the stack modulo 9. Unified Algebra defines Φ₁ = min(∂R/∂t) "
-            "and Φ₂ = R(t₁) − R(t₀). The Glyph Codex gives glyphs and bands, not an angle. "
-            "θ = 2π(n−1)/9 stays the RSOC §2.2 reconstruction."
+            "Nic 4.9.191. θ=(Φ−1)·40°. 40° = 2π/9, so the radian form is "
+            "((n−1)/9)·2π. RPMC §1.4, the Glyph Codex, and Unified Algebra do not state this angle."
         ),
     },
     "epsilon_lawful": {
@@ -94,8 +95,30 @@ def tokens(text: str) -> list[str]:
 
 
 def _angle(index: int) -> float:
-    """RSOC §2.2 reconstruction. Not stated by RPMC §1.4, the Codex, or Unified Algebra."""
+    """Nic 4.9.191: θ = (Φ−1)·40° = ((n−1)/9)·2π."""
     return ((index - 1) / 9.0) * math.tau
+
+
+PROPOSAL_TAG = "proposal v1"
+
+
+def proposal_charge(row: dict | None) -> dict[str, Any] | None:
+    """ε and μ from a word row apply only when that row is tagged proposal v1.
+
+    A tag without both numbers stays unspecified. Untagged rows return None
+    and keep the lawful εₙ = 0 lock or the letter-placement unspecified ε.
+    """
+    if not isinstance(row, dict):
+        return None
+    blob = " ".join(str(row.get(key) or "") for key in ("tag", "status", "family", "notes", "authority"))
+    if PROPOSAL_TAG not in blob:
+        return None
+    eps = row.get("eps", row.get("epsilon"))
+    mu = row.get("mu")
+    numeric = isinstance(eps, (int, float)) and not isinstance(eps, bool) and isinstance(mu, (int, float)) and not isinstance(mu, bool)
+    if numeric:
+        return {"tagged": True, "eps": eps, "mu": mu, "status": "stated"}
+    return {"tagged": True, "eps": "unspecified", "mu": "unspecified", "status": "tagged_without_numbers"}
 
 
 def resultant(indexes: list[int]) -> tuple[int | None, str]:
@@ -127,7 +150,14 @@ def _load() -> dict[str, Any]:
         word = str(row.get("word") or "").lower()
         if word:
             words[word] = row
-    letters = (_read_json(REFERENCE / "letter_phase_map_v1.json", {}).get("letters") or {})
+    letter_file = _read_json(REFERENCE / "letter_phase_map_v1.json", {})
+    letters = letter_file.get("letters") or {}
+    letter_authority = {
+        "map_authority": letter_file.get("map_authority") or "Phase Parsing Engine",
+        "not_map_authority": letter_file.get("not_map_authority") or "HarperScript",
+        "cite": letter_file.get("cite") or "",
+        "signal": "weak_letter_signal",
+    }
     codex = _read_json(REFERENCE / "phase_codex_v2_5.json", {})
     phases = codex.get("phases") if isinstance(codex.get("phases"), dict) else {}
     flags = _read_json(REFERENCE / "phase_drift_flags_v2_5.json", {})
@@ -143,10 +173,11 @@ def _load() -> dict[str, Any]:
         by_concept.setdefault(cid, []).append(word)
     packets = {}
     for cid, surfs in by_concept.items():
-        packets[cid] = _place(cid, surfs, words, letters, phases, flags, categories.get(cid, ""))
+        packets[cid] = _place(cid, surfs, words, letters, phases, flags, categories.get(cid, ""), letter_authority)
     _CACHE = {
         "words": words,
         "letters": letters,
+        "letter_authority": letter_authority,
         "phases": phases,
         "surfaces": surfaces,
         "categories": categories,
@@ -156,13 +187,20 @@ def _load() -> dict[str, Any]:
     return _CACHE
 
 
-def _place(cid, surfaces, words, letters, phases, flags, category) -> dict[str, Any]:
+def _place(cid, surfaces, words, letters, phases, flags, category, letter_authority) -> dict[str, Any]:
     hits = []
+    charges = []
     for surface in surfaces:
         row = words.get(surface)
         if not row:
             continue
-        phase = str(row.get("phase") or "")
+        charged = proposal_charge(row)
+        if charged and charged["status"] == "stated":
+            charges.append(charged)
+        phase = row.get("phase")
+        if isinstance(phase, list):
+            continue
+        phase = str(phase or "")
         if len(phase) == 2 and phase[1] in "123456789":
             hits.append({"word": surface, "phase": int(phase[1]), "operator": row.get("operator")})
     if hits:
@@ -186,6 +224,11 @@ def _place(cid, surfaces, words, letters, phases, flags, category) -> dict[str, 
         authority = "weak_letter_signal" if phi else "unspecified"
         eps, eps_status = "unspecified", "unspecified"
         cite = cited
+    mu, mu_status = "unspecified", "unspecified"
+    proposal_status = "not_tagged"
+    if charges:
+        eps, mu = charges[0]["eps"], charges[0]["mu"]
+        eps_status = mu_status = proposal_status = "stated_proposal_v1"
     profile = phases.get("Φ" + str(phi), {}) if phi else {}
     flag = flags.get("Φ" + str(phi)) if phi else None
     return {
@@ -200,12 +243,16 @@ def _place(cid, surfaces, words, letters, phases, flags, category) -> dict[str, 
         "drift_flag": flag if flag else "unspecified",
         "eps": eps,
         "eps_status": eps_status,
-        "mu": "unspecified",
-        "mu_status": "unspecified",
+        "mu": mu,
+        "mu_status": mu_status,
+        "proposal_v1": proposal_status,
         "authority": authority,
+        "map_authority": letter_authority.get("map_authority"),
+        "not_map_authority": letter_authority.get("not_map_authority"),
         "how": how,
         "cite": cite,
-        "angle_status": "unspecified",
+        "angle_status": "stated",
+        "angle": "θ=(Φ−1)·40°",
         "calls_llm": False,
     }
 
@@ -329,3 +376,11 @@ def apply_lexicon_phase(report: dict[str, Any] | None, text: str) -> dict[str, A
 
 def word_count() -> int:
     return len(_load()["words"])
+
+
+def proposal_v1_count() -> int:
+    return sum(1 for row in _load()["words"].values() if proposal_charge(row))
+
+
+def letter_map_authority() -> dict[str, Any]:
+    return dict(_load()["letter_authority"])

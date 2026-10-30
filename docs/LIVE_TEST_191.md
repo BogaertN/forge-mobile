@@ -4,6 +4,8 @@ The same 60 questions ran through `rmc_engine_v1.rmc_core.run` with `live: true`
 
 Cold admits 48. 4.9.190 admitted 58. The drop is the hosted sentences that had no source. Sky, leaves, and the ocean still admit. Their phases come from the lexicon: sky Φ4 ◊, leaves Φ5, ocean Φ1. The hand-set Φ4 on those three rows is gone. The three passes agree.
 
+Nic's later rulings do not change that table. The letter map is the Phase Parsing Engine, not HarperScript. θ=(Φ−1)·40°. The merge window is π/4. The breaker opens after 3 consecutive failures, and a clean answer stays closed. No seed word is tagged proposal v1, so those packets do not gain a numeric μ. Money stays disabled.
+
 ## Growth
 
 | pass | admitted | held | Echo pass | route `active_stack_candidate` | route `correction_queue` | C min | C max |

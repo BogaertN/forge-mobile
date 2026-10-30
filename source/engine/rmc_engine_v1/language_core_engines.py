@@ -16,6 +16,8 @@ PROJECT_MAX = 0.35
 CHI_MAX = 0.40
 HARD_STOP = 0.80
 C_MIN = 0.87
+CONSECUTIVE_FAILURES = 3
+FORBIDDEN_STEPS = {(5, 8), (4, 8)}
 
 # Names the phase parser lists as required. A numeric rule is filled only
 # when a document states it. The others stay unspecified.
@@ -88,21 +90,62 @@ def drift_taxonomy(epsilon_s: Any, transition: dict[str, Any] | None = None) -> 
     }
 
 
-def drift_circuit_breaker(epsilon_s: Any, transition: dict[str, Any] | None = None) -> dict[str, Any]:
+def _sample(item: Any) -> tuple[float | None, dict[str, Any] | None]:
+    if isinstance(item, dict):
+        return _eps(item.get("epsilon_s", item.get("eps"))), item
+    return _eps(item), None
+
+
+def _failed(epsilon_s: Any, transition: dict[str, Any] | None) -> tuple[bool, bool, bool]:
     eps = _eps(epsilon_s)
     forbidden = False
     if isinstance(transition, dict):
-        forbidden = (transition.get("from"), transition.get("to")) in {(5, 8), (4, 8)}
-    trip = forbidden or (eps is not None and eps > HARD_STOP)
+        forbidden = (transition.get("from"), transition.get("to")) in FORBIDDEN_STEPS
+    hard = eps is not None and eps > HARD_STOP
+    failed = forbidden or (eps is not None and eps > PROJECT_MAX)
+    return failed, forbidden, hard
+
+
+def drift_circuit_breaker(epsilon_s: Any, transition: dict[str, Any] | None = None, history: list[Any] | None = None) -> dict[str, Any]:
+    """Open on a hard stop, a forbidden step, or 3 consecutive failures.
+
+    A failure is ε_s above 0.35 or a forbidden Φ5→Φ8 / Φ4→Φ8 step.
+    Nic 4.9.191. One mild failure stays closed. C_min is not lowered.
+    ChristPing is not started. Money stays disabled.
+    """
+    samples: list[Any] = list(history or [])
+    samples.append({"epsilon_s": epsilon_s, "from": (transition or {}).get("from"), "to": (transition or {}).get("to")})
+    consecutive = 0
+    for item in reversed(samples):
+        eps, row = _sample(item)
+        step = row if isinstance(row, dict) and ("from" in row or "to" in row) else None
+        failed, _forbidden, _hard = _failed(eps, step)
+        if not failed:
+            break
+        consecutive += 1
+    failed, forbidden, hard = _failed(epsilon_s, transition)
+    trip = hard or forbidden or consecutive >= CONSECUTIVE_FAILURES
+    if forbidden:
+        reason = "forbidden_step"
+    elif hard:
+        reason = "hard_stop"
+    elif consecutive >= CONSECUTIVE_FAILURES:
+        reason = "consecutive_failures"
+    else:
+        reason = "closed"
     return {
         "tripped": trip,
         "rule": "DRIFT-CIRCUIT-BREAKER" if trip else "DRIFT-CIRCUIT-CLOSED",
+        "reason": reason,
+        "consecutive_failures": consecutive,
+        "consecutive_limit": CONSECUTIVE_FAILURES,
         "hard_stop": HARD_STOP,
         "forbidden_steps": ["Φ5→Φ8", "Φ4→Φ8"],
-        "cite": "Nic drift ruling; RMC Algorithm 3; codex phase_8 requires phase_6 and phase_7",
+        "cite": "Nic 4.9.191. Opens above 0.80, on Φ5→Φ8 or Φ4→Φ8, or after 3 consecutive failures. A failure is ε_s > 0.35 or a forbidden step.",
         "lowers_c_min": False,
         "calls_llm": False,
         "writes": False,
+        "money": False,
     }
 
 
@@ -185,9 +228,9 @@ def protoforge_os_layer(phi: int | None) -> dict[str, Any]:
     }
 
 
-def protoforge2_stage(epsilon_s: Any) -> dict[str, Any]:
+def protoforge2_stage(epsilon_s: Any, history: list[Any] | None = None) -> dict[str, Any]:
     tax = drift_taxonomy(epsilon_s)
-    breaker = drift_circuit_breaker(epsilon_s)
+    breaker = drift_circuit_breaker(epsilon_s, history=history)
     return {
         "rule": "PROTOFORGE2-DRIFT-CONNECTOR",
         "adapter_mode": "FALLBACK",
@@ -201,7 +244,7 @@ def protoforge2_stage(epsilon_s: Any) -> dict[str, Any]:
     }
 
 
-def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]] | None = None, phase_hist: list[Any] | None = None) -> dict[str, Any]:
+def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]] | None = None, phase_hist: list[Any] | None = None, history: list[Any] | None = None) -> dict[str, Any]:
     from rmc_engine_v1.chi_hardening import chi_adaptive, entropy_epsilon, internal_phase_coherence, phase_velocity
     hist = list(phase_hist or [])
     if phi and not hist:
@@ -211,8 +254,8 @@ def run_engines(epsilon_s: Any, phi: int | None, held_rows: list[dict[str, Any]]
     entropy = entropy_epsilon(hist, phi, phi, len(hist), prev)
     return {
         "drift_taxonomy": drift_taxonomy(epsilon_s),
-        "drift_circuit_breaker": drift_circuit_breaker(epsilon_s),
-        "protoforge2_drift_connector": protoforge2_stage(epsilon_s),
+        "drift_circuit_breaker": drift_circuit_breaker(epsilon_s, history=history),
+        "protoforge2_drift_connector": protoforge2_stage(epsilon_s, history),
         "gilligan_drift_correction": gilligan_drift_correction(epsilon_s, initiator="gilligan"),
         "gilligan_re_curation": gilligan_re_curation(held_rows),
         "protoforge_os_layer": protoforge_os_layer(phi),

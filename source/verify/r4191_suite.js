@@ -35,7 +35,14 @@ T('the codex loads nine phases and kmath records each role change', () => {
   expect(KM.localCurvature([1]) === 0 && KM.localCurvature([1, 3]) === 2, 'curvature');
   expect(KM.PHASE_RECONCILIATION.length === 9, String(KM.PHASE_RECONCILIATION.length));
   expect(KM.PHASES[1].drift_flag === 'unspecified' && KM.PHASES[4].drift_flag === 'PRESSURE_CRACK', KM.PHASES[4].drift_flag);
-  expect(KM.PAPER_CONSTANTS.phi_to_angle.status === 'unspecified' && KM.PAPER_CONSTANTS.mu.value === 'unspecified', 'constants');
+  expect(KM.PAPER_CONSTANTS.phi_to_angle.status === 'stated' && KM.PAPER_CONSTANTS.phi_to_angle.degrees === 40 && KM.PAPER_CONSTANTS.mu.value === 'unspecified', 'constants');
+  expect(KM.MERGE_WINDOW === Math.PI / 4 && Math.abs(KM.phaseAngle(4) - (3 * 40 * Math.PI / 180)) < 1e-12 && KM.phaseAngleDegrees(1) === 0 && KM.phaseAngleDegrees(9) === 320, 'angle');
+  const two = KM.driftCircuitBreaker(0.36, null, [0.36]);
+  const three = KM.driftCircuitBreaker(0.36, null, [0.36, 0.36]);
+  const hard = KM.driftCircuitBreaker(0.9);
+  const skip = KM.driftCircuitBreaker(0.1, { from: 5, to: 8 });
+  expect(two.tripped === false && two.consecutive_failures === 2 && three.tripped === true && three.reason === 'consecutive_failures' && three.consecutive_limit === 3, JSON.stringify({ two, three }));
+  expect(hard.tripped === true && hard.reason === 'hard_stop' && skip.tripped === true && skip.reason === 'forbidden_step' && three.money === false, JSON.stringify({ hard, skip }));
   expect(KM.PAPER_CONSTANTS.integrity_example.C_min === 0.87, 'C_min');
 });
 
@@ -48,15 +55,17 @@ T('the seed lexicon is 425 words and placement does not use a regular expression
   const sky = Lex.placeWord('sky');
   const leaves = Lex.placeWord('leaves');
   const ocean = Lex.placeWord('ocean');
-  expect(sky.Phi === 4 && sky.glyph === '◊' && sky.eps === 'unspecified' && sky.mu === 'unspecified', JSON.stringify(sky));
+  expect(sky.Phi === 4 && sky.glyph === '◊' && sky.eps === 'unspecified' && sky.mu === 'unspecified' && sky.map_authority === 'Phase Parsing Engine' && sky.not_map_authority === 'HarperScript', JSON.stringify(sky));
+  expect(Lex.proposalV1Count() === 0 && Lex.proposalCharge({ tag: 'proposal v1', eps: 0.2, mu: 0.5 }).status === 'stated' && Lex.proposalCharge({ notes: 'proposal v1' }).status === 'tagged_without_numbers' && Lex.proposalCharge({ word: 'sky' }) === null, 'proposal v1');
   expect(leaves.Phi === 5 && ocean.Phi === 1 && ocean.glyph === '⊙', JSON.stringify({ leaves: leaves.Phi, ocean: ocean.Phi }));
   const out = py(`
 import json
-from rmc_engine_v1.lexicon_resonance import packet, word_count
-print(json.dumps({"n": word_count(), "sky": packet("A.SKY")["Phi"], "leaves": packet("A.LEAVES")["Phi"], "ocean": packet("A.OCEAN")["Phi"]}))
+from rmc_engine_v1.lexicon_resonance import letter_map_authority, packet, proposal_charge, proposal_v1_count, word_count
+sky = packet("A.SKY")
+print(json.dumps({"n": word_count(), "sky": sky["Phi"], "leaves": packet("A.LEAVES")["Phi"], "ocean": packet("A.OCEAN")["Phi"], "map": letter_map_authority()["map_authority"], "not_map": letter_map_authority()["not_map_authority"], "angle": sky["angle_status"], "tagged": proposal_v1_count(), "sample": proposal_charge({"tag": "proposal v1", "eps": 0.2, "mu": 0.5})["mu"], "bare": proposal_charge({"notes": "proposal v1"})["status"]}))
 `);
   const row = JSON.parse(out.trim().split('\n').pop());
-  expect(row.n === 425 && row.sky === 4 && row.leaves === 5 && row.ocean === 1, JSON.stringify(row));
+  expect(row.n === 425 && row.sky === 4 && row.leaves === 5 && row.ocean === 1 && row.map === 'Phase Parsing Engine' && row.not_map === 'HarperScript' && row.angle === 'stated' && row.tagged === 0 && row.sample === 0.5 && row.bare === 'tagged_without_numbers', JSON.stringify(row));
 });
 
 T('unsourced hosted history is not a premise and the why-facts are not hand-set', () => {
@@ -111,12 +120,25 @@ print(json.dumps({
   "os": row["protoforge_os_layer"]["os_process"],
   "shell": row["protoforge_os_layer"]["shell"],
   "unspecified": row["drift_taxonomy"]["unspecified"],
-  "breaker": row["drift_circuit_breaker"]["tripped"]
+  "breaker": row["drift_circuit_breaker"]["tripped"],
+  "limit": row["drift_circuit_breaker"]["consecutive_limit"],
+  "money": row["protoforge_os_layer"]["money"]
 }))
 `);
   const row = JSON.parse(out.trim().split('\n').pop());
   expect(row.llm === false && row.c === 0.87 && row.mode === 'FALLBACK' && row.promoted === 0, JSON.stringify(row));
-  expect(row.os === false && row.shell === false && row.breaker === false, JSON.stringify(row));
+  expect(row.os === false && row.shell === false && row.breaker === false && row.limit === 3 && row.money === false, JSON.stringify(row));
+  const breaker = py(`
+import json
+from rmc_engine_v1.language_core_engines import drift_circuit_breaker
+two = drift_circuit_breaker(0.36, history=[0.36])
+three = drift_circuit_breaker(0.36, history=[0.36, 0.36])
+hard = drift_circuit_breaker(0.9)
+skip = drift_circuit_breaker(0.1, {"from": 5, "to": 8})
+print(json.dumps({"two": two["tripped"], "n2": two["consecutive_failures"], "three": three["tripped"], "why": three["reason"], "hard": hard["reason"], "skip": skip["reason"], "money": three["money"]}))
+`);
+  const gate = JSON.parse(breaker.trim().split('\n').pop());
+  expect(gate.two === false && gate.n2 === 2 && gate.three === true && gate.why === 'consecutive_failures' && gate.hard === 'hard_stop' && gate.skip === 'forbidden_step' && gate.money === false, JSON.stringify(gate));
   expect(row.unspecified.indexOf('syntactic') >= 0 && row.unspecified.indexOf('evolutionary') >= 0, JSON.stringify(row.unspecified));
 });
 

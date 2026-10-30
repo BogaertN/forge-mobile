@@ -270,7 +270,8 @@ function engineStage(row) {
   const cor = eng.gilligan_drift_correction || {};
   const rec = eng.gilligan_re_curation || {};
   if (!eng.drift_taxonomy && !os.rule) return '';
-  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + '</div>';
+  const streak = br.consecutive_failures == null ? '' : ' · consecutive ' + esc(br.consecutive_failures) + '/' + esc(br.consecutive_limit);
+  return '<div class="meta" data-engine-stage>ProtoForge / Gilligan · ' + esc(os.rule) + ' · state ' + esc(os.state) + ' · glyph ' + glyphSpan(os.glyph) + ' · hook ' + esc(os.hook) + ' · breaker ' + esc(br.rule) + streak + ' · taxonomy ' + esc((tax.active || []).join(', ') || tax.band) + ' · Gilligan ' + esc(cor.rule) + ' · re-curation promoted ' + esc(rec.promoted) + ' · packs ' + (rec.packs_written ? 'written' : 'gated') + ' · money disabled</div>';
 }
 function renderLexiconPackets() {
   const host = $('#lexiconPacketBody');
@@ -278,8 +279,13 @@ function renderLexiconPackets() {
   const words = ['sky', 'leaves', 'ocean', 'friction'];
   host.innerHTML = words.map(word => {
     const pkt = ResonanceLexicon.placeWord(word);
-    return '<div class="meta" data-lexicon-row="' + esc(word) + '">' + glyphSpan(pkt.glyph) + ' ' + glyphSpan('Φ' + pkt.Phi) + ' · ' + esc(word) + ' · ε ' + esc(pkt.eps) + ' · μ ' + esc(pkt.mu) + ' · ' + esc(pkt.authority) + ' · seed ' + esc((pkt.cite || []).slice(0, 4).join(', ')) + '</div>';
-  }).join('') + '<div class="meta">' + esc(ResonanceLexicon.wordCount()) + ' seed words. Numeric μ is unspecified. C_min stays 0.87.</div>';
+    return '<div class="meta" data-lexicon-row="' + esc(word) + '">' + glyphSpan(pkt.glyph) + ' ' + glyphSpan('Φ' + pkt.Phi) + ' · ' + esc(word) + ' · ε ' + esc(pkt.eps) + ' · μ ' + esc(pkt.mu) + ' · ' + esc(pkt.authority) + ' · map ' + esc(pkt.map_authority) + ' · seed ' + esc((pkt.cite || []).slice(0, 4).join(', ')) + '</div>';
+  }).join('');
+  const angle = (window.KMath && KMath.PAPER_CONSTANTS && KMath.PAPER_CONSTANTS.phi_to_angle) || {};
+  const opened = window.KMath && KMath.driftCircuitBreaker ? KMath.driftCircuitBreaker(0.36, null, [0.36, 0.36]) : null;
+  const held = window.KMath && KMath.driftCircuitBreaker ? KMath.driftCircuitBreaker(0.36, null, [0.36]) : null;
+  host.innerHTML += '<div class="meta" data-lexicon-authority>' + esc(ResonanceLexicon.wordCount()) + ' seed words. Letter map: ' + esc((ResonanceLexicon.letterAuthority() || {}).map_authority) + ', not ' + esc((ResonanceLexicon.letterAuthority() || {}).not_map_authority) + '. θ ' + esc(angle.formula || '') + '. Merge window π/4. Proposal-v1 words with ε/μ: ' + esc(ResonanceLexicon.proposalV1Count()) + '. μ otherwise unspecified. C_min 0.87. Money disabled.</div>'
+    + '<div class="meta" data-breaker-check>breaker check · two failures stay ' + esc(held && held.rule) + ' · three ε 0.36 failures ' + esc(opened && opened.rule) + ' · consecutive ' + esc(opened && opened.consecutive_failures) + '/' + esc(opened && opened.consecutive_limit) + '</div>';
 }
 function renderRmc(text, row) {
   const host = $('#rmcLive'), body = $('#rmcLiveBody');

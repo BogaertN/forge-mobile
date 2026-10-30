@@ -14,7 +14,7 @@ How a row is found
 
 How a row is ranked
   FORGE-RESONANCE-PACKET/v1 sfe {Phi, eps, mu}.
-  source/src/kmath.js phaseAngle and the δ ≤ π/4 tolerance (RSOC §3.1.1 ⟁).
+  source/src/kmath.js phaseAngle, θ=(Φ−1)·40°, and the δ ≤ π/4 merge window (RSOC §3.1.1 ⟁; Nic 4.9.191).
   RPMC §3.4 grace and Axiom 4. rpm weight is μ·exp(−ε).
   source/src/dream_idle.js resonancePacket: projectable Φ9/ε0/μ1,
   quarantine Φ5/ε0.5/μ0. Athena places the packet. Quarantine is not a premise.
@@ -40,6 +40,7 @@ CITE = (
     "source/src/lexicon.js Doc 4; language_core_debate.py FR.BE.COP"
 )
 WH = {"what", "who", "whom", "whose", "why", "how", "when", "where", "which"}
+# Nic 4.9.191 confirms the merge window: δ ≤ π/4 (RSOC §3.1.1 ⟁).
 PI_OVER_4 = math.pi / 4
 _LEXICON: dict[str, Any] | None = None
 
@@ -78,7 +79,7 @@ def _phase_index(value: Any) -> int | None:
 
 
 def _phase_angle(index: int) -> float:
-    """kmath.js phaseAngle: ((n - 1) / 9) * 2π."""
+    """Nic 4.9.191: θ = (Φ−1)·40° = ((n−1)/9)·2π."""
     return ((index - 1) / 9.0) * math.tau
 
 

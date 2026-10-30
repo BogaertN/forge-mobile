@@ -24,7 +24,7 @@ Ask calls `rmc_engine_v1.rmc_core.run` with `live: true`. That is the only spoke
 
 ## Lexicon resonance
 
-`source/src/resonance_lexicon.js` loads `word_loop_seed_lexicon_v1.jsonl` (425 words) and the letter map. Tokens are letter runs. There is no regular expression and no phrase-keyword scan. A seed word is a medium signal and, when it is the placement, ε is 0 because RPMC states εₙ = 0 for a lawful phase-locked transition. A concept with no seed word uses the letter-pulse resultant. That is a weak signal, so ε stays `unspecified`. μ stays `unspecified` in every packet. The geometric Φ→angle rule is `unspecified`.
+`source/src/resonance_lexicon.js` loads `word_loop_seed_lexicon_v1.jsonl` (425 words) and the letter map. Tokens are letter runs. There is no regular expression and no phrase-keyword scan. A seed word is a medium signal and, when it is the placement, ε is 0 because RPMC states εₙ = 0 for a lawful phase-locked transition. A concept with no seed word uses the letter-pulse resultant. That is a weak signal, so ε stays `unspecified`. The letter-to-phase map is the Phase Parsing Engine v0.1 Keystroke Phase Interpreter. It is not the HarperScript visual manifest. Nic states θ=(Φ−1)·40°. The merge window stays π/4. A word tagged `proposal v1` takes the numeric ε and μ on that row. The 425-word seed has no such tag, so μ stays `unspecified` on every current packet.
 
 `lexicon_resonance.py` is the same placement on the Ask path. A why-question whose parser phase is the keyword Φ4 takes the concept packet instead. The fact that names that concept gets the same tag. Other questions keep the parser phase, so a stored Φ1 fact still matches.
 
@@ -42,7 +42,7 @@ Sky and leaves still admit at the 4.9.190 C values. The ocean admits at C 0.8908
 
 | constant | status | where |
 |---|---|---|
-| Φ→angle | unspecified | RPMC §1.4 defines Φ₁ as min nonzero resonance. §1.5 closes the stack modulo 9. Unified Algebra (`1RoAxjzV9rbx`) defines Φ₁ = min(∂R/∂t) and Φ₂ = R(t₁) − R(t₀). The Glyph Codex gives glyphs and bands. None states θ = 2π(n−1)/9. `phaseAngle` stays the RSOC §2.2 reconstruction. |
+| Φ→angle | stated, θ=(Φ−1)·40° | Nic 4.9.191. 40° = 2π/9, so `phaseAngle` stays ((n−1)/9)·2π. RPMC §1.4, the Glyph Codex, and Unified Algebra do not state the angle. The ruling does. |
 | εₙ for a lawful phase lock | 0, stated | RPMC `1G-Yj323fee`: εₙ = 0 for a lawful phase-locked transition, and εₙ > 0 for drift, projection, or echo loss. ε_max is described as configured, not numbered in §1.4. |
 | μ | unspecified | RPM writes ΦMₙ. No numeric μ in the three documents. |
 | integrity example | codex octave lift is `loop.integrity_score >= 1.00` | The 0.85 figure is the existing promote example in `dream_idle.js`. It is not C_min. C_min stays 0.87. |
@@ -54,7 +54,7 @@ Sky and leaves still admit at the 4.9.190 C values. The ocean admits at C 0.8908
 | stage | what it does |
 |---|---|
 | DriftTaxonomy | Names catastrophic, resonant, and structural from Nic's bands. Syntactic, semantic, recursive, and evolutionary stay `unspecified`. |
-| DriftCircuitBreaker | Trips above 0.80 or on Φ5→Φ8 / Φ4→Φ8. |
+| DriftCircuitBreaker | Trips above 0.80, on Φ5→Φ8 / Φ4→Φ8, or after 3 consecutive failures. A failure is ε_s > 0.35 or a forbidden step. Two failures stay closed. |
 | protoforge2_drift_connector | `adapter_mode` stays `FALLBACK`. The external DriftMonitor writes a log and is not imported. The in-framework taxonomy is the stage that runs. |
 | Gilligan drift correction | Chi band only, initiator Gilligan. Above 0.80 records ChristPing recenter and does not admit. Ask does not start it. |
 | Gilligan re-curation | Counts unsourced held rows. Promoted 0. Packs stay gated. |
@@ -86,4 +86,4 @@ C_min stays 0.87 for admits. The document floors 0.3 and 0.4 are `internalPhaseC
 
 ## What is unfinished
 
-Numeric μ is unspecified. The Φ→angle formula is unspecified. Four taxonomy rows are unspecified. The external ProtoForge DriftMonitor is not on the phone. Cold admits are 48, not 60. News and nonsense stay held. The anchor migration is not applied.
+Numeric μ is unspecified on the current lexicon because no word is tagged `proposal v1` with both numbers. θ=(Φ−1)·40° is stated. The merge window is π/4. Four taxonomy rows are unspecified. The external ProtoForge DriftMonitor is not on the phone. Cold admits are 48, not 60. News and nonsense stay held. The anchor migration is not applied. Pyodide was not run.
