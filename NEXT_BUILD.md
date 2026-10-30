@@ -1,3 +1,9 @@
+# Next build order — after 4.9.188 (stable Echo, sharded anchors)
+
+**Shipped here:** Echo on held questions no longer depends on receipt mtime or the temp-directory path. The memory writer is idempotent: an already-banked sentence is a no-write and does not drop a longer derived row. The anchor tier grew to several thousand public-domain sentences with resonance packets, sharded by the concept placed at ingestion. The starter OpenStax CC BY 4.0 set stays. Wikipedia stays low trust and is not a premise. Pyodide matches python on the 60 questions. C_min stays 0.87. The coherence formula is unchanged. The `kb.anchors` seed is in the repo and is not applied in this run. The wiring is `docs/WIRING_188.md`. The tables are `docs/LIVE_TEST_188.md`. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** Language-core functions that would call a model. Simulate (spec §6, contract §13). Lowering C_min. Shipping an admit receipt that trusts a client-supplied C.
+
 # Next build order — after 4.9.187 (trusted anchors)
 
 **Shipped here:** Ask speaks only from `rmc_core`. The ask-key shortcut and the chloramine headline are removed. Trusted anchors (OpenStax CC BY 4.0 and US public-domain pages) carry a resonance packet, a license, and `encyclopedia:<source>`. Wikipedia is low trust and cannot be a premise. The admit gate and the coherence formula are unchanged. The `app.memory_writer_insert` grant is in the repo. Anchors are `kb.anchors`, not an admitted contribution. The wiring is `docs/WIRING_187.md`. The tables are `docs/LIVE_TEST_187.md`. No LLM. Packs stay gated. Money stays disabled.

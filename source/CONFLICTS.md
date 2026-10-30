@@ -1,3 +1,11 @@
+## v4.9.188 — stable Echo, idempotent memory writer, sharded anchors (2026-10-30 America/Chicago)
+
+**Conflict:** Echo on three held questions (the sky, helium, the telephone) moved between passes while C stayed put. Storing an admitted sentence that was already in the bank dropped a longer derived chain on the next pass. The trusted anchor file was 32 sentences. A 60-question Pyodide pass had not been run.
+
+**Where:** `rmc_engine_v1/memory_recaller.py`, `world_model_v1.py`, `memory_writer.py`, `rmc_core.py`, `anchor_store.py`, `src/app.js`, `data/anchors_188/`. The wiring is `docs/WIRING_188.md`. The tables are `docs/LIVE_TEST_188.md`.
+
+**Resolution:** Receipt files are read in write order. Memory ids are content ids. Derive breaks a coverage tie on the sentence text. The memory writer treats an exact or contained sentence as a no-write, and a shorter row for the same question keeps the longer derived text. Observe skips a second copy. Anchors are 3093 public-domain sentences (CIA World Factbook, NASA, NWS, NIH MedlinePlus) with `FORGE-RESONANCE-PACKET/v1`, sharded by the concept phrase placed at ingestion. The OpenStax CC BY 4.0 starter stays. CC BY-NC-SA was not used. Wikipedia is not an anchor and stays low trust. Ask still speaks only from `rmc_core.run`. `matchAsk`, the ask-key shortcut, and the chloramine headline stay removed. The language core stays. Pyodide matches python on all 60 questions. C_min stays 0.87. Echo stays 0.85. Drift quarantine stays 0.35. Hard stop stays above 0.80. The coherence formula is unchanged. The `kb.anchors` seed migration is not applied. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled.
+
 ## v4.9.187 — trusted anchors, low-trust Wikipedia, stand-ins removed (2026-10-29 America/Chicago)
 
 **Conflict:** Held questions had no phase-aligned anchor, so a second pass could not grow. The bypassed JS answer path was still in the tree. Wikipedia excerpts were being placed as premises. The live memory-writer grant on schema `app` was not in the repo. The database cannot see that the admit gate ran.

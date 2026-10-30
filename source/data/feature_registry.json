@@ -1,5 +1,5 @@
 {
- "version": "4.9.187",
+ "version": "4.9.188",
  "features": [
   {
    "id": "A-01",
@@ -3771,13 +3771,24 @@
    "proof": [
     "R4186"
    ]
+  },
+  {
+   "id": "R4188-ANCHOR-SHARDS",
+   "name": "Stable Echo, idempotent memory writer, and sharded anchors",
+   "source": "docs/WIRING_188.md; CIA World Factbook; NASA; NWS; NIH MedlinePlus; OpenStax CC BY 4.0",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Receipt order and memory ids are content order, so Echo on a held question does not flip between passes. The memory writer does not store a sentence that is already banked and does not drop a longer derived row. Anchors are several thousand public-domain sentences with a resonance packet, loaded by the concept placed at ingestion. Wikipedia stays low trust. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4188"
+   ]
   }
  ],
- "count": 344,
+ "count": 345,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 182,
+  "Partial": 183,
   "Missing": 9,
   "Out of scope / parked": 13
  }
