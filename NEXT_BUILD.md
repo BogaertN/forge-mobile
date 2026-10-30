@@ -1,3 +1,9 @@
+# Next build order — after 4.9.189 (language-core functions)
+
+**Shipped here:** Proto `handle_chat`, the Grok-1 inference step, and Recursive Agent Orchestration run as language-core functions. The model calls are not ported. EchoForge debate was already there. A trusted hop is offered to the scorer only when the unchanged admit gate would pass. Cold admits 32, up from 16 on 4.9.188. Twenty held questions still have no phase-aligned anchor. The wiring is `docs/WIRING_189.md`. The tables and that list are `docs/LIVE_TEST_189.md`. C_min stays 0.87. The coherence formula is unchanged. Wikipedia stays low trust. No LLM. Packs stay gated. Money stays disabled.
+
+**Do not start inside this pull request.** A model call. Simulate (spec §6, contract §13). Lowering C_min. Using Wikipedia as an anchor. Shipping an admit receipt that trusts a client-supplied C.
+
 # Next build order — after 4.9.188 (stable Echo, sharded anchors)
 
 **Shipped here:** Echo on held questions no longer depends on receipt mtime or the temp-directory path. The memory writer is idempotent: an already-banked sentence is a no-write and does not drop a longer derived row. The anchor tier grew to several thousand public-domain sentences with resonance packets, sharded by the concept placed at ingestion. The starter OpenStax CC BY 4.0 set stays. Wikipedia stays low trust and is not a premise. Pyodide matches python on the 60 questions. C_min stays 0.87. The coherence formula is unchanged. The `kb.anchors` seed is in the repo and is not applied in this run. The wiring is `docs/WIRING_188.md`. The tables are `docs/LIVE_TEST_188.md`. No LLM. Packs stay gated. Money stays disabled.

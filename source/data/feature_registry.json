@@ -1,5 +1,5 @@
 {
- "version": "4.9.188",
+ "version": "4.9.189",
  "features": [
   {
    "id": "A-01",
@@ -3782,13 +3782,24 @@
    "proof": [
     "R4188"
    ]
+  },
+  {
+   "id": "R4189-LANGUAGE-CORE",
+   "name": "Language-core functions replace the model calls",
+   "source": "PROTO system overview 1jqKxPpoEBW5cigcpHvYj0OU_ir_9cV5fdCGZ_cVgXbQ; Grok co-pilot 1lVaKETZLqiKDD2TBtRXwngnbXKyYpWJ_Mcp0DPwAJck; Recursive Agent Orchestration 1O5Txx2rLvWehvmHY_8miMtVrFTqmQgo_xLyzA_P5dGA; docs/WIRING_189.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "handle_chat, the Grok-1 inference step, and Recursive Agent Orchestration run on the language core. The model calls are not ported. EchoForge debate was already present. A hop is offered only when Echo, drift, and C_min already pass. Cold admits 32. Twenty held questions have no anchor. C_min stays 0.87. No LLM. Packs stay gated. Money stays disabled.",
+   "proof": [
+    "R4189"
+   ]
   }
  ],
- "count": 345,
+ "count": 346,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 183,
+  "Partial": 184,
   "Missing": 9,
   "Out of scope / parked": 13
  }

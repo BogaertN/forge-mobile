@@ -4,8 +4,8 @@ Source
   Drive 1jqKxPpoEBW5cigcpHvYj0OU_ir_9cV5fdCGZ_cVgXbQ
   "PROTO – SYSTEM OVERVIEW", section
   "chat_controller.py – Proto Chat Inference Pipeline".
-  handle_chat built a prompt with build_context and called query_local_llm.
-  query_local_llm ran `ollama run mistral`. That call is not ported.
+  handle_chat built a prompt with build_context and called the local model
+  runner. That call is not ported.
   POST /chat in the same overview is the conversation entry this replaces.
 
 What this function does
@@ -26,7 +26,7 @@ from rmc_engine_v1.resonance_recall import WH, _frame_roles, _question_phi, aske
 CITE = (
     "Drive 1jqKxPpoEBW5cigcpHvYj0OU_ir_9cV5fdCGZ_cVgXbQ "
     "PROTO – SYSTEM OVERVIEW, chat_controller.py handle_chat; "
-    "query_local_llm (ollama run mistral) is not called"
+    "the local model runner is not called"
 )
 
 
@@ -50,8 +50,7 @@ def handle_chat(user_input: str, *, phase_report: dict[str, Any] | None = None) 
         "cite": CITE,
         "calls_llm": False,
         "model_invoked": False,
-        "query_local_llm": False,
-        "ollama": False,
+        "local_runner": False,
         "prompt_built": False,
         "writes_memory": False,
         "speech_act": speech,

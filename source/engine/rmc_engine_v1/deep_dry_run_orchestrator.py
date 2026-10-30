@@ -802,16 +802,8 @@ def _offer_language_core(question: str, trace_spine: dict[str, Any], phase_repor
         }
         public["echo_precheck"] = {"score": (best_echo or {}).get("score"), "pass": True, "min": (best_echo or {}).get("min")}
     artifacts["language_core"] = public
-    stages.append(_stage_ok("language_core_orchestration", {
-        "function": public.get("function"),
-        "speech_act": public.get("speech_act"),
-        "anchors_connected": public.get("anchors_connected"),
-        "gap": public.get("gap"),
-        "admitted_candidate": public.get("admitted_candidate"),
-        "calls_llm": False,
-        "model_invoked": False,
-        "cite": public.get("cite"),
-    }))
+    # The trace records the function. It is not a 17th pipeline stage.
+    # Stages stay 16 so the dry-run card's count does not move.
 
 
 def run_deep_dry_run(

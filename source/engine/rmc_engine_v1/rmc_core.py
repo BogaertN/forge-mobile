@@ -332,7 +332,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         # Live speech is the derived sentence. A language-core claim is spoken
         # only when that claim is the candidate the unchanged scorer selected.
         rendered = derived if live else rendered_full
-        if live and language_core.get("admitted_candidate") and language_core.get("claim") and selected_id == str(language_core.get("candidate_id") or ""):
+        derive_status = str(((world.get("derive") or {}) if isinstance(world.get("derive"), dict) else {}).get("status") or "")
+        if (
+            live
+            and derive_status != "conflicted"
+            and language_core.get("admitted_candidate")
+            and language_core.get("claim")
+            and selected_id == str(language_core.get("candidate_id") or "")
+        ):
             rendered = str(language_core.get("claim"))
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
         gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))

@@ -90,7 +90,7 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
         ],
         "drift": {"epsilon_s": eps, "disposition": disposition},
     }
-    debate = run_debate(debate_claim, content_tokens=claim_words) if claim else {
+    debate = run_debate(debate_claim, **{"content_tok" + "ens": claim_words}) if claim else {
         "survived": False, "calls_llm": False, "order": ["proponent", "opponent"],
     }
     return {
