@@ -83,7 +83,7 @@ T('charge is conserved and RSOC numbers win', () => {
   expect(blocked.naming_blocked === true && blocked.pass === false, 'membrane blocks naming');
   expect(passed.pass === true && passed.export_blocked === false && passed.before_naming === true && passed.before_export === true, 'membrane passes 6-7-8');
   const axes = ran.log[8];
-  expect(axes.M.lambda_unspecified === true && axes.M.value === null && axes.M.integral === 1, JSON.stringify(axes.M));
+  expect(axes.M.lambda_unspecified === false && axes.M.value === 0.9959 && axes.M.integral === 1, JSON.stringify(axes.M));
   expect(axes.V_c.value === 0.4 && axes.V_c.seeding_internal === true && axes.V_c.admit_gate === false, JSON.stringify(axes.V_c));
   expect(ran.log[9].order.join(' ') === 'chi advance merge discharge memory', ran.log[9].order.join(' '));
 });
@@ -118,9 +118,9 @@ T('operators, the echo trace, and the unparameterized steps match', () => {
   const dis = ran.log[2];
   expect(dis.sfe.Delta === 0 && dis.sfe.nu === 0 && dis.sfe.eps === 0.027 && dis.sfe.mu === 2 && dis.ua.form.indexOf('mu to 0') >= 0, JSON.stringify(dis.sfe));
   const mem = ran.log[3];
-  expect(mem.M === null && mem.lambda_unspecified === true && mem.code_step === 0.46, mem.code_step);
+  expect(mem.M === null && mem.lambda_unspecified === false && mem.mu_birth === 1 && mem.mu_min === 0.1 && mem.mu_max === 10 && mem.code_step === 0.46 && Math.abs(mem.lambda - Math.LN2 / 168) < 1e-12, mem.code_step);
   const spc = ran.log[4];
-  expect(spc.parameterized === false && spc.lambda === null && spc.cite.indexOf('unspecified') >= 0, spc.cite);
+  expect(spc.parameterized === true && spc.subtractive === false && spc.leak === 'amplify' && spc.sfe.mu === mem.sfe.mu && Math.abs(spc.lambda - Math.LN2 / 168) < 1e-12 && spc.cite.indexOf('amplify') >= 0, spc.cite);
   const rates = ran.log[6];
   expect(rates.dmu_dt === null && rates.kappa_unspecified === true && rates.de_dt === 0.149, JSON.stringify(rates));
   const reject = ran.log[9];
@@ -178,7 +178,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.199', () => {
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_199_pyodide.json'), 'utf8'));
   expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false && pyodide.admits_unchanged === 48, JSON.stringify(pyodide));
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.199', ver);
+  expect(ver === '4.9.200', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.199/.test(conf) && /C_min stays 0\.87/.test(conf) && /RSOC numbers win/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -190,7 +190,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.199', () => {
   const table = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_199.md'), 'utf8');
   expect(/48 of 60/.test(table) && /No model is called/.test(table), 'LIVE_TEST');
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.199' && reg.features.some(f => f.id === 'R4199-GEOMETRY-GATES') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 193, reg.version + ' ' + reg.count + ' ' + reg.claims.Partial);
+  expect(reg.version === '4.9.200' && reg.features.some(f => f.id === 'R4199-GEOMETRY-GATES') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 194, reg.version + ' ' + reg.count + ' ' + reg.claims.Partial);
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
   const migrations = fs.readdirSync(path.join(ROOT, '..', 'supabase', 'migrations'));

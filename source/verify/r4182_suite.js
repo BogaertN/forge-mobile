@@ -57,7 +57,7 @@ T('the world model sits between recall and the admit gate and does not write mem
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.182', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.199', ver);
+  expect(ver === '4.9.200', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.182/.test(conf) && /foundations/i.test(conf) && /rmc_engine_v1/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -69,9 +69,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.182', () => {
   const dry = fs.readFileSync(path.join(ROOT, '..', 'docs', 'DRYRUN_182.md'), 'utf8');
   expect(/Pyodide/.test(dry) && /browser/.test(dry) && /python/.test(dry) && /stage/.test(dry), 'DRYRUN_182');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.199' && ((tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.200' && ((tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.199' && reg.features.some(f => f.id === 'R4182-RMC-ENGINE'), reg.version);
+  expect(reg.version === '4.9.200' && reg.features.some(f => f.id === 'R4182-RMC-ENGINE'), reg.version);
   expect(reg.count === reg.features.length, 'count ' + reg.count);
   expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().ask_keys === true && D.boundary().mesh === '4.9.187', JSON.stringify(D.boundary()));
   const worker = fs.readFileSync(path.join(ROOT, 'src', 'py_worker.js'), 'utf8');

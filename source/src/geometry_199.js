@@ -8,6 +8,7 @@
   const V43 = (typeof module !== 'undefined' && module.exports) ? require('./drift_v43.js') : root.DriftV43;
   const Dpa = (typeof module !== 'undefined' && module.exports) ? require('./dpa_195.js') : root.Dpa195;
   const SHA = (typeof module !== 'undefined' && module.exports) ? require('./sha256.js') : root.KSha;
+  const Hooks = (typeof module !== 'undefined' && module.exports) ? require('./research_hooks.js') : root.ResearchHooks;
   const LAW = V43.score({ payload: { v: 1 }, prev_phase: 1, recursion_n: 1 }).laws;
   const C_MIN = LAW.C_min;
   const ECHO_MIN = LAW.echo_min;
@@ -197,7 +198,8 @@
     const span = delta / TAU * 9;
     const stand = KM.merge(
       Object.assign(copyState(a), { Phi: 1, tau: a.tau || [], chi: a.chi ? 1 : 0 }),
-      Object.assign(copyState(b), { Phi: 1 + span, tau: b.tau || [], chi: b.chi ? 1 : 0 })
+      Object.assign(copyState(b), { Phi: 1 + span, tau: b.tau || [], chi: b.chi ? 1 : 0 }),
+      Hooks.RESEARCH_HOOKS.merge_mu_bonus
     );
     const straight = Math.abs(Math.abs(a.Phi - b.Phi) * TAU / 9 - delta) < 1e-8;
     const phi = straight ? (Number(a.Phi) + Number(b.Phi)) / 2 : (1 + (Math.atan2(Math.sin(th1) + Math.sin(th2), Math.cos(th1) + Math.cos(th2)) + TAU) % TAU / TAU * 9);
@@ -219,7 +221,7 @@
 
   function severOp(row) {
     const src = copyState(row);
-    const pool = src.mu - 0.08;
+    const pool = src.mu - Hooks.RESEARCH_HOOKS.sever_mu_loss;
     const leftMu = pool / 2;
     const rightMu = pool - leftMu;
     const left = copyState(src);
@@ -237,7 +239,7 @@
     return {
       op: 'sever', glyph: 'sever', ok: true, reason: 'lawful',
       left: publicState(left), right: publicState(right),
-      residue: r4(0.08), split: 'equal',
+      residue: r4(Hooks.RESEARCH_HOOKS.sever_mu_loss), split: 'equal',
       cite: 'RSOC sever l.1190-1390. Delta +0.15, nu = -abs(nu), mu split loses 0.08, eps +0.12. FFT power is not in the phone modules, so the split is equal.',
       ua: ua('sever', 'lambda empty, nu - beta, eps + gamma'),
       admit_gate: false
@@ -256,7 +258,7 @@
       };
     }
     const gap = Math.abs(src.Delta);
-    src.mu = factor * src.mu * Math.exp(-2.2 * gap);
+    src.mu = factor * src.mu * Math.exp(-Hooks.RESEARCH_HOOKS.amplify_decay * gap);
     src.Delta = src.Delta + 0.18 * (factor - 1) * (1 + gap);
     src.nu = src.nu + 0.4 * (factor - 1) * Math.cos(angleOf(src.Phi) - angleOf(src.Phi0));
     src.eps = Math.max(0, src.eps + 0.09 * (factor - 1) * (factor - 1));
@@ -270,13 +272,18 @@
 
   function dischargeOp(row) {
     const src = copyState(row);
+    const phase8 = Math.round(Number(src.Phi)) === 8;
     src.Delta = 0;
     src.nu = 0;
-    src.eps = Math.max(0, src.eps * 0.3);
-    const echo = src.mu * Math.exp(-1.8 * src.eps) * Math.cos(angleOf(src.Phi));
+    src.eps = Math.max(0, src.eps * Hooks.RESEARCH_HOOKS.discharge_eps_factor);
+    const echo = src.mu * Math.exp(-Hooks.RESEARCH_HOOKS.discharge_echo_decay * src.eps) * Math.cos(angleOf(src.Phi));
+    if (phase8) src.mu = Hooks.RESEARCH_HOOKS.phase8_mu;
     return {
       op: 'discharge', glyph: 'discharge', ok: true, sfe: publicState(src), E: r4(echo),
-      cite: 'RSOC discharge. Dynamic Delta and nu go to 0. eps times 0.3. E = mu exp(-1.8 eps) cos Phi. UA mu to 0 is not applied.',
+      phase8: phase8,
+      cite: phase8
+        ? 'Phase 8 discharge. mu goes to 0. eps times 0.3. E = mu exp(-1.8 eps) cos Phi, using mu from before the zero. Resonant Symbolic Operator Calculus Google Doc, Dec 2025. Genesis Node spec gnspec l.6743-6820, l.7510.'
+        : 'RSOC discharge. Dynamic Delta and nu go to 0. eps times 0.3. E = mu exp(-1.8 eps) cos Phi. Phase 8 is the step that sets mu to 0.',
       ua: ua('discharge', 'mu to 0; residue psi exp(-lambda t) chi'),
       admit_gate: false
     };
@@ -357,29 +364,41 @@
     };
   }
 
+  function resolvedLambda(given) {
+    if (!(given === undefined || given === null || given === '')) return { given: true, value: num(given, 0) };
+    const hooked = Hooks && Hooks.spcLambda ? Hooks.spcLambda() : null;
+    if (!(hooked === undefined || hooked === null || hooked === '')) return { given: true, value: num(hooked, 0) };
+    return { given: false, value: 0 };
+  }
+
   function memoryOp(row) {
     const src = copyState(row);
     const step = 0.5 * src.H * src.H - 0.02 * src.mu;
     src.mu = Math.max(0, src.mu + step);
+    const term = Hooks.memoryTerm(null, null, false);
     return {
       op: 'memory', glyph: 'memory', ok: true, code_step: r4(step), sfe: publicState(src),
-      M: null, lambda_unspecified: true,
-      cite: 'RSOC memory is the only source of new mu. Code step is 0.5 H^2 - 0.02 mu (READ192). UA M = exp(-lambda t) integral A.C dt has no lambda, so M is unparameterized.',
+      M: term.value, lambda: term.lambda, lambda_unspecified: false,
+      mu_birth: term.mu_birth, mu_min: term.mu_min, mu_max: term.mu_max,
+      cite: 'RSOC memory is the only source of new mu. Code step is 0.5 H^2 - 0.02 mu (READ192). M = exp(-lambda t) integral A.C dt. lambda = ln2/half_life. Resonant Symbolic Operator Calculus Google Doc, Dec 2025. Genesis Node spec gnspec l.6743-6820, l.7510.',
       ua: ua('memory', 'M = exp(-lambda t) integral A.C dt'),
       admit_gate: false
     };
   }
 
-  function spcOp(row, lambda) {
+  function spcOp(row, lambda, tHours, identity) {
     const src = copyState(row);
-    const given = !(lambda === undefined || lambda === null || lambda === '');
-    const lam = given ? num(lambda, 0) : 0;
-    src.mu = src.mu - lam * src.Delta * src.Delta;
+    const caller = !(lambda === undefined || lambda === null || lambda === '');
+    const half = identity ? Hooks.RESEARCH_HOOKS.identity_half_life_hours : Hooks.RESEARCH_HOOKS.half_life_hours;
+    const lam = caller ? num(lambda, 0) : Hooks.spcLambda(half);
+    const t = (tHours === undefined || tHours === null || tHours === '') ? 0 : num(tHours, 0);
+    const decayed = src.mu * Math.exp(-lam * t);
     return {
-      op: 'spc', glyph: 'spc', ok: true, parameterized: given, lambda: given ? r4(lam) : null,
+      op: 'spc', glyph: 'spc', ok: true, parameterized: true, lambda: lam,
+      subtractive: false, leak: 'amplify', half_life_hours: half, t_hours: t, C: r4(decayed),
       sfe: publicState(src),
-      cite: 'UA SPC mu(t+1) = mu - lambda Delta^2. Lambda is unspecified, so the default step is 0 and is log-only.',
-      ua: ua('spc', 'mu(t+1) = mu - lambda Delta^2'),
+      cite: 'SPC decay C(t) = C0 exp(-lambda t), lambda = ln2/half_life. The subtractive lambda Delta^2 leak is replaced by amplify drift loss mu = k mu exp(-2.2 |Delta|). Resonant Symbolic Operator Calculus Google Doc, Dec 2025. Genesis Node spec gnspec l.6743-6820, l.7510.',
+      ua: ua('spc', 'mu(t+1) = mu - lambda Delta^2 is not applied'),
       admit_gate: false
     };
   }
@@ -404,8 +423,8 @@
       integral += num(sample.A, 0) * num(sample.C, 0) * step;
       t += step;
     });
-    const given = !(lambda === undefined || lambda === null || lambda === '');
-    const lam = given ? num(lambda, 0) : null;
+    const resolved = resolvedLambda(lambda);
+    const lam = resolved.given ? resolved.value : null;
     const eps = series || [];
     const gap = num(dt, 1) || 1;
     let vc = null;
@@ -472,7 +491,7 @@
       initial: r4(books.initial), created: r4(books.created), residue: r4(books.residue),
       live: r4(books.live), conserved: gap < 1e-9,
       phase9_gap: r4(phase9), phase9_within_0_003: phase9 <= 0.003 + 1e-12,
-      eta_limit: 0.003, ua_exact: false,
+      eta_limit: Hooks.RESEARCH_HOOKS.eta, ua_exact: false,
       cite: 'Charge ledger. Live mu plus residue equals initial plus created. RSOC eta about 0.3 percent and phase 9 |delta mu| <= 0.003 (l.2876, l.3031). UA exact sum of operator mu is recorded and does not replace the RSOC band.'
     };
   }
@@ -598,7 +617,7 @@
         advance: function () { return advanceOp(states[step.id], step.eps_s); },
         archive: function () { return archiveOp(states[step.id]); },
         memory: function () { return memoryOp(states[step.id]); },
-        spc: function () { return spcOp(states[step.id], step.lambda); }
+        spc: function () { return spcOp(states[step.id], step.lambda, step.t_hours, step.identity); }
       };
       if (unary[op]) {
         const before = liveSum(states);

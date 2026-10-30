@@ -16,6 +16,7 @@ from rmc_engine_v1.drift_v43 import C_MIN, ECHO_MIN, PHASE_NAMES, WRITE_MAX
 from rmc_engine_v1.language_core_engines import FORBIDDEN_STEPS, HARD_STOP
 from rmc_engine_v1.manifest_compiler import _phase6_before_naming, _phase6_before_projection
 from rmc_engine_v1.dpa_195 import sha256
+from rmc_engine_v1.research_hooks import RESEARCH_HOOKS, memory_term, spc_lambda
 
 TAU = math.tau
 STORAGE_KEY = "kernel.geometry_199"
@@ -244,7 +245,7 @@ def merge_op(a, b):
     sfe["rho"] = max(a["rho"], b["rho"])
     sfe["Delta"] = (a["Delta"] + b["Delta"]) / 2 + 0.1 * math.sin(delta)
     sfe["nu"] = (a["nu"] + b["nu"]) / 2 + 0.3 * math.cos(delta)
-    sfe["mu"] = a["mu"] + b["mu"] + 0.12 * (math.cos(delta) ** 2)
+    sfe["mu"] = a["mu"] + b["mu"] + float(RESEARCH_HOOKS["merge_mu_bonus"]) * (math.cos(delta) ** 2)
     sfe["eps"] = max(0, (a["eps"] + b["eps"]) / 2 - 0.05 * math.cos(delta))
     sfe["chi"] = 1 if (int(a["chi"]) | int(b["chi"])) else 0
     sfe["id"] = sha256(str(a["id"]) + "|" + str(b["id"]))
@@ -259,7 +260,7 @@ def merge_op(a, b):
 
 def sever_op(row):
     src = copy_state(row)
-    pool = src["mu"] - 0.08
+    pool = src["mu"] - float(RESEARCH_HOOKS["sever_mu_loss"])
     left_mu = pool / 2
     right_mu = pool - left_mu
     left = copy_state(src)
@@ -274,7 +275,7 @@ def sever_op(row):
     return {
         "op": "sever", "glyph": "sever", "ok": True, "reason": "lawful",
         "left": public_state(left), "right": public_state(right),
-        "residue": r4(0.08), "split": "equal",
+        "residue": r4(RESEARCH_HOOKS["sever_mu_loss"]), "split": "equal",
         "cite": "RSOC sever l.1190-1390. Delta +0.15, nu = -abs(nu), mu split loses 0.08, eps +0.12. FFT power is not in the phone modules, so the split is equal.",
         "ua": ua("sever", "lambda empty, nu - beta, eps + gamma"),
         "admit_gate": False,
@@ -292,7 +293,7 @@ def amplify_op(row, k):
             "admit_gate": False,
         }
     gap = abs(src["Delta"])
-    src["mu"] = factor * src["mu"] * math.exp(-2.2 * gap)
+    src["mu"] = factor * src["mu"] * math.exp(-float(RESEARCH_HOOKS["amplify_decay"]) * gap)
     src["Delta"] = src["Delta"] + 0.18 * (factor - 1) * (1 + gap)
     src["nu"] = src["nu"] + 0.4 * (factor - 1) * math.cos(angle_of(src["Phi"]) - angle_of(src["Phi0"]))
     src["eps"] = max(0, src["eps"] + 0.09 * (factor - 1) * (factor - 1))
@@ -306,13 +307,21 @@ def amplify_op(row, k):
 
 def discharge_op(row):
     src = copy_state(row)
+    phase8 = js_round(src["Phi"]) == 8
     src["Delta"] = 0
     src["nu"] = 0
-    src["eps"] = max(0, src["eps"] * 0.3)
-    echo = src["mu"] * math.exp(-1.8 * src["eps"]) * math.cos(angle_of(src["Phi"]))
+    src["eps"] = max(0, src["eps"] * float(RESEARCH_HOOKS["discharge_eps_factor"]))
+    echo = src["mu"] * math.exp(-float(RESEARCH_HOOKS["discharge_echo_decay"]) * src["eps"]) * math.cos(angle_of(src["Phi"]))
+    if phase8:
+        src["mu"] = float(RESEARCH_HOOKS["phase8_mu"])
     return {
         "op": "discharge", "glyph": "discharge", "ok": True, "sfe": public_state(src), "E": r4(echo),
-        "cite": "RSOC discharge. Dynamic Delta and nu go to 0. eps times 0.3. E = mu exp(-1.8 eps) cos Phi. UA mu to 0 is not applied.",
+        "phase8": phase8,
+        "cite": (
+            "Phase 8 discharge. mu goes to 0. eps times 0.3. E = mu exp(-1.8 eps) cos Phi, using mu from before the zero. Resonant Symbolic Operator Calculus Google Doc, Dec 2025. Genesis Node spec gnspec l.6743-6820, l.7510."
+            if phase8 else
+            "RSOC discharge. Dynamic Delta and nu go to 0. eps times 0.3. E = mu exp(-1.8 eps) cos Phi. Phase 8 is the step that sets mu to 0."
+        ),
         "ua": ua("discharge", "mu to 0; residue psi exp(-lambda t) chi"),
         "admit_gate": False,
     }
@@ -410,29 +419,43 @@ def archive_op(row):
     }
 
 
+def _resolved_lambda(given):
+    if given is not None and given != "":
+        return True, num(given, 0)
+    hooked = spc_lambda()
+    if hooked is not None and hooked != "":
+        return True, num(hooked, 0)
+    return False, 0.0
+
+
 def memory_op(row):
     src = copy_state(row)
     step = 0.5 * src["H"] * src["H"] - 0.02 * src["mu"]
     src["mu"] = max(0, src["mu"] + step)
+    term = memory_term(None, None, False)
     return {
         "op": "memory", "glyph": "memory", "ok": True, "code_step": r4(step), "sfe": public_state(src),
-        "M": None, "lambda_unspecified": True,
-        "cite": "RSOC memory is the only source of new mu. Code step is 0.5 H^2 - 0.02 mu (READ192). UA M = exp(-lambda t) integral A.C dt has no lambda, so M is unparameterized.",
+        "M": term["value"], "lambda": term["lambda"], "lambda_unspecified": False,
+        "mu_birth": term["mu_birth"], "mu_min": term["mu_min"], "mu_max": term["mu_max"],
+        "cite": "RSOC memory is the only source of new mu. Code step is 0.5 H^2 - 0.02 mu (READ192). M = exp(-lambda t) integral A.C dt. lambda = ln2/half_life. Resonant Symbolic Operator Calculus Google Doc, Dec 2025. Genesis Node spec gnspec l.6743-6820, l.7510.",
         "ua": ua("memory", "M = exp(-lambda t) integral A.C dt"),
         "admit_gate": False,
     }
 
 
-def spc_op(row, lam):
+def spc_op(row, lam, t_hours=None, identity=False):
     src = copy_state(row)
-    given = lam is not None and lam != ""
-    value = num(lam, 0) if given else 0
-    src["mu"] = src["mu"] - value * src["Delta"] * src["Delta"]
+    caller = lam is not None and lam != ""
+    half = float(RESEARCH_HOOKS["identity_half_life_hours"] if identity else RESEARCH_HOOKS["half_life_hours"])
+    value = num(lam, 0) if caller else spc_lambda(half)
+    t = 0.0 if t_hours is None or t_hours == "" else num(t_hours, 0)
+    decayed = src["mu"] * math.exp(-value * t)
     return {
-        "op": "spc", "glyph": "spc", "ok": True, "parameterized": given,
-        "lambda": r4(value) if given else None, "sfe": public_state(src),
-        "cite": "UA SPC mu(t+1) = mu - lambda Delta^2. Lambda is unspecified, so the default step is 0 and is log-only.",
-        "ua": ua("spc", "mu(t+1) = mu - lambda Delta^2"),
+        "op": "spc", "glyph": "spc", "ok": True, "parameterized": True, "lambda": value,
+        "subtractive": False, "leak": "amplify", "half_life_hours": half, "t_hours": t, "C": r4(decayed),
+        "sfe": public_state(src),
+        "cite": "SPC decay C(t) = C0 exp(-lambda t), lambda = ln2/half_life. The subtractive lambda Delta^2 leak is replaced by amplify drift loss mu = k mu exp(-2.2 |Delta|). Resonant Symbolic Operator Calculus Google Doc, Dec 2025. Genesis Node spec gnspec l.6743-6820, l.7510.",
+        "ua": ua("spc", "mu(t+1) = mu - lambda Delta^2 is not applied"),
         "admit_gate": False,
     }
 
@@ -456,8 +479,8 @@ def axes_of(samples, series, dt, lam):
         step = num(sample.get("dt"), 1)
         integral += num(sample.get("A"), 0) * num(sample.get("C"), 0) * step
         t += step
-    given = lam is not None and lam != ""
-    value = num(lam, 0) if given else None
+    given, resolved = _resolved_lambda(lam)
+    value = resolved if given else None
     eps = list(series or [])
     gap = num(dt, 1) or 1
     vc = None
@@ -521,7 +544,7 @@ def charge_report(books):
         "conserved": gap < 1e-9,
         "phase9_gap": r4(phase9),
         "phase9_within_0_003": phase9 <= 0.003 + 1e-12,
-        "eta_limit": 0.003,
+        "eta_limit": RESEARCH_HOOKS["eta"],
         "ua_exact": False,
         "cite": "Charge ledger. Live mu plus residue equals initial plus created. RSOC eta about 0.3 percent and phase 9 |delta mu| <= 0.003 (l.2876, l.3031). UA exact sum of operator mu is recorded and does not replace the RSOC band.",
     }
@@ -648,7 +671,7 @@ def script(steps):
             "advance": lambda: advance_op(states[step["id"]], step.get("eps_s")),
             "archive": lambda: archive_op(states[step["id"]]),
             "memory": lambda: memory_op(states[step["id"]]),
-            "spc": lambda: spc_op(states[step["id"]], step.get("lambda")),
+            "spc": lambda: spc_op(states[step["id"]], step.get("lambda"), step.get("t_hours"), bool(step.get("identity"))),
         }
         if op in unary:
             before = live_sum(states)
