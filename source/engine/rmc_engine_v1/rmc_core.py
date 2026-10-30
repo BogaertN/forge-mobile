@@ -382,6 +382,14 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "trust": trust_trace,
             }
             row_body = {"id": "admit-" + question[:24], "text": reply, "sfe": sfe, "packet": packet, "provenance": provenance, "contributor": "athena"}
+            from rmc_engine_v1.memory_writer import bank_admitted
+            session = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
+            bank = bank_admitted(session, row_body)
+            hosted_result = (
+                {"attempted": False, "written": False, "verified": False, "rule": "KB-WRITER-ALREADY-BANKED", "calls_llm": False}
+                if not bank["written"]
+                else commit_hosted(row_body, transport=payload.get("hosted_transport"))
+            )
             memory_write = {
                 "committed": True,
                 "calls_llm": False,
@@ -391,7 +399,8 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "phone_kb": row_body,
                 "hosted_kb": row_body,
                 "rmc_receipt": row_body,
-                "supabase": commit_hosted(row_body, transport=payload.get("hosted_transport")),
+                "supabase": hosted_result,
+                "bank": {k: bank[k] for k in ("written", "reason", "kept", "replace_id", "calls_llm")},
                 "gilligan": {"christping_initiated": False, "reason": "Ask does not start ChristPing. Only Gilligan initiates it, and only above a hard stop."},
             }
         kind = "rendered_answer" if spoken else ("held_trace" if live else "foundation_trace")

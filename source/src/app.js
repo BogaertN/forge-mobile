@@ -153,9 +153,13 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   lastResult = row;
   if (row && row.memory_write && row.memory_write.committed && row.memory_write.hosted_kb) {
+    const bank = row.memory_write.bank;
+    const write = !bank || bank.written !== false;
     window.FORGE_ADMITTED = window.FORGE_ADMITTED || [];
     const body = row.memory_write.hosted_kb;
-    if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
+    if (write) {
+      if (bank && bank.replace_id) window.FORGE_ADMITTED = window.FORGE_ADMITTED.filter(x => x && x.id !== bank.replace_id);
+      if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
     if (window.KSb && KSb.insertAdmitted) {
       try {
         const live = await KSb.insertAdmitted(body);
@@ -170,6 +174,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       receipts.push({ receipt_id: 'rmc-' + receipts.length, input: body.text, packet: body.packet, provenance: body.provenance, contributor: body.contributor });
       forge.store.save('receipts', receipts.slice(-40));
     } catch (e) { /* the trace still carries the receipt */ }
+    }
   }
   const admitted = !!(row && row.product_reply && row.reply);
   const kd = admitted ? 'deterministic_route' : 'deterministic_hold';

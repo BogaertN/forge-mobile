@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from rmc_engine_v1.memory_writer import bank_admitted
 from rmc_engine_v1.rmc_core import run
 from rmc_engine_v1.source_trust import trust_tier
 
@@ -99,18 +100,30 @@ def main() -> None:
             if item["admitted"]:
                 admitted += 1
                 text = item["reply"]
-                already = {str(row.get("text") or "") for row in (memory.get("hosted") or [])}
-                already.update(str(row.get("text") or "") for row in anchors)
-                if text and text not in seen and text not in already:
-                    seen.add(text)
-                    extra.append({
+                if text:
+                    row_body = {
                         "id": "admit-" + str(len(extra)),
                         "text": text,
                         "sfe": {"Phi": 9, "eps": item["drift"], "mu": 1},
                         "provenance": {"question": question, "contributor": "athena"},
                         "contributor": "athena",
                         "trust": "trusted",
-                    })
+                    }
+                    session = {
+                        "receipts": memory.get("receipts") or [],
+                        "phone": memory.get("phone") or [],
+                        "hosted": list(memory.get("hosted") or []) + extra,
+                        "anchors": anchors,
+                    }
+                    bank = bank_admitted(session, row_body)
+                    item["bank"] = bank["reason"]
+                    if bank["written"] and text not in seen:
+                        seen.add(text)
+                        if bank.get("replace_id"):
+                            extra = [row for row in extra if row.get("id") != bank["replace_id"]]
+                        extra.append(row_body)
+                    else:
+                        item["bank"] = bank["reason"]
         passes.append({
             "pass": n,
             "name": "cold" if n == 0 else "pass " + str(n + 1),

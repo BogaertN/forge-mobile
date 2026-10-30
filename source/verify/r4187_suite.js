@@ -90,6 +90,15 @@ runpy.run_path('tools/check_determinism_188.py', run_name='__main__')
   expect(row.held.stable === true, JSON.stringify(row.held.rows.map(r => ({ q: r.question, same: r.same, a: r.first, b: r.second }))));
 });
 
+T('the memory writer keeps derived text when the sentence is already banked', () => {
+  const out = py(`
+import runpy
+runpy.run_path('tools/check_bank_188.py', run_name='__main__')
+`);
+  const row = JSON.parse(out.trim().split('\n').pop());
+  expect(row.ok === true, JSON.stringify({ writer: row.writer, chain: row.chain, second: row.second }));
+});
+
 T('version registry names 4.9.187 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
   expect(ver === '4.9.187', ver);

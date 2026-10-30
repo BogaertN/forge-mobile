@@ -260,6 +260,10 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]]) -> tuple[dict[s
             parsed = parse_sentence(sentence)
             if not parsed:
                 continue
+            norm_text = _norm(parsed["text"])
+            if any(_norm(str(f.get("text") or "")) == norm_text and f.get("status") != "superseded" for f in facts):
+                revisions.append({"op": "idempotent", "reason": "already-banked", "source": eid})
+                continue
             fid = eid + ":" + _digest(parsed["text"])[:10]
             if any(f.get("id") == fid for f in facts):
                 continue
