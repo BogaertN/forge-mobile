@@ -64,7 +64,7 @@ def observe_keeps_chain() -> dict:
 
 
 def second_store_keeps_text() -> dict:
-    seed = json.loads((ROOT / "data" / "ask_183_memory.json").read_text(encoding="utf-8"))
+    seed = {"receipts": [], "phone": [], "hosted": [], "research": []}  # 4.9.207: the ask_183 test answers are deleted
     anchors = json.loads((ROOT / "data" / "anchors_187.json").read_text(encoding="utf-8"))["anchors"]
     question = "What is photosynthesis?"
     memory = json.loads(json.dumps(seed))

@@ -58,7 +58,7 @@ def stable_ids() -> dict:
 
 
 def held_runs() -> dict:
-    seed = json.loads((ROOT / "data" / "ask_183_memory.json").read_text(encoding="utf-8"))
+    seed = {"receipts": [], "phone": [], "hosted": [], "research": []}  # 4.9.207: the ask_183 test answers are deleted
     anchors = json.loads((ROOT / "data" / "anchors_187.json").read_text(encoding="utf-8"))["anchors"]
     research = {row.get("question"): row for row in json.loads((ROOT / "data" / "ask_186_research.json").read_text(encoding="utf-8"))["rows"]}
     anchor_rows = [{

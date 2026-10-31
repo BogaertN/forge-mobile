@@ -33,6 +33,11 @@ jobs:
           node source/verify/r4206_suite.js
           node source/verify/r4206_suite.js
           node source/verify/r4206_suite.js
+      - name: Test answers deleted suite (4.9.207), three passes
+        run: |
+          node source/verify/r4207_suite.js
+          node source/verify/r4207_suite.js
+          node source/verify/r4207_suite.js
       - name: Frequency tuning suite, three passes
         run: |
           node source/verify/r4204_suite.js

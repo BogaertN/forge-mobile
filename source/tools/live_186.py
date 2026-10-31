@@ -10,7 +10,7 @@ from rmc_engine_v1.rmc_core import run
 
 ROOT = Path(__file__).resolve().parents[1]
 QUESTIONS = json.loads((ROOT / "tools" / "dryrun_182_questions.json").read_text(encoding="utf-8"))["questions"]
-SEED = json.loads((ROOT / "data" / "ask_183_memory.json").read_text(encoding="utf-8"))
+SEED = {"receipts": [], "phone": [], "hosted": [], "research": []}  # 4.9.207: the ask_183 test answers are deleted
 CACHE = ROOT / "data" / "ask_186_research.json"
 UA = "ForgeMobile/4.9.186 (quarantined research excerpt; not an admitted fact)"
 

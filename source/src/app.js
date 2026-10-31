@@ -142,16 +142,7 @@ async function askAnchorShards(question) {
 }
 async function askMemory(question) {
   const memory = { receipts: [], phone: [], hosted: [], research: [] };
-  try {
-    if (!window.ASK_183_MEMORY) {
-      const res = await fetch('data/ask_183_memory.json', { credentials: 'omit' });
-      window.ASK_183_MEMORY = res.ok ? await res.json() : { receipts: [], phone: [], hosted: [] };
-    }
-    const seed = window.ASK_183_MEMORY || {};
-    memory.receipts = (seed.receipts || []).slice();
-    memory.phone = (seed.phone || []).slice();
-    memory.hosted = (seed.hosted || []).slice();
-  } catch (e) { /* a missing seed leaves the phone stores */ }
+  /* 4.9.207 (Nic decision (a)): the hand-written ask_183 test answers are deleted; Ask starts from the phone's own stores. */
   try {
     const view = forge.sharedKnowledgeView && forge.sharedKnowledgeView();
     memory.hosted = memory.hosted.concat(((view && view.admitted) || []).slice(-12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400) })));

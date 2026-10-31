@@ -69,18 +69,12 @@ print(json.dumps({"n": word_count(), "sky": sky["Phi"], "leaves": packet("A.LEAV
 });
 
 T('unsourced hosted history is not a premise and the why-facts are not hand-set', () => {
-  const mem = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'ask_183_memory.json'), 'utf8'));
-  const ids = ['ho-ada', 'ho-french', 'ho-mona', 'ho-curie', 'ho-phone', 'ho-cleo', 'ho-ww2', 'ho-bleach', 'ho-vinegar', 'ho-hamlet'];
-  for (const id of ids) {
-    const row = mem.hosted.find(r => r.id === id);
-    expect(row && row.unsourced === true && row.premise === false, id);
-  }
-  for (const id of ['ho-sky', 'ho-leaves', 'ho-ocean']) {
-    const row = mem.hosted.find(r => r.id === id);
-    expect(row && !row.sfe, id + ' still hand-set');
-  }
+  /* 4.9.207 (Nic decision (a)): the hand-written ask_183 rows (ho-*) are deleted, so no hosted test answer exists to hold.
+   * The engine still drops any row flagged unsourced (checked with run_engines below), and Ask no longer fetches the file. */
+  expect(!fs.existsSync(path.join(ROOT, 'data', 'ask_183_memory.json')), 'test answers deleted');
+  expect(!/ask_183_memory/.test(fs.readFileSync(path.join(ROOT, 'src', 'app.js'), 'utf8')), 'Ask does not fetch them');
   const src = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'rmc_core.py'), 'utf8');
-  expect(/UNSOURCED_HELD/.test(src) && /ho-ada/.test(src), 'hold set');
+  expect(/row\.get\("unsourced"\) is True/.test(src), 'unsourced rows are not premises');
 });
 
 T('seven resurrection gates and the genesis collapse do not admit', () => {
@@ -160,7 +154,7 @@ T('the 60-question table admits 48 and keeps the unsourced rows held', () => {
 
 T('version registry names 4.9.191 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.206', ver);
+  expect(ver === '4.9.207', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.191/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -170,9 +164,9 @@ T('version registry names 4.9.191 and the switches stay off', () => {
   const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_191.md'), 'utf8');
   expect(/0\.87/.test(doc) && /unspecified/.test(doc) && /No model is called/.test(doc), 'WIRING');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.206' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.207' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.206' && reg.features.some(f => f.id === 'R4191-PHASE-CODEX') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.207' && reg.features.some(f => f.id === 'R4191-PHASE-CODEX') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');

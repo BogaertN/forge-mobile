@@ -1,5 +1,5 @@
 {
- "version": "4.9.206",
+ "version": "4.9.207",
  "features": [
   {
    "id": "A-01",
@@ -3969,13 +3969,24 @@
    "proof": [
     "verify/r4206_suite.js"
    ]
+  },
+  {
+   "id": "R4207-TEST-ANSWERS-DELETED",
+   "name": "ask_183 test answers deleted; honest cold 60 recorded",
+   "source": "Nic decision (a) 2026-10-31; data/cold_207_results.json; tools/cold_207.py",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "The 52 hand-written ho-* rows are deleted from the repo, Ask and every tool. Honest cold 60: 20 admitted, 40 held, 0 false admits (was 48 with the deleted answers). Nothing tuned.",
+   "proof": [
+    "verify/r4207_suite.js"
+   ]
   }
  ],
- "count": 362,
+ "count": 363,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 200,
+  "Partial": 201,
   "Missing": 9,
   "Out of scope / parked": 13
  }

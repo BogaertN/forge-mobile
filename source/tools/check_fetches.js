@@ -6,7 +6,7 @@
  * Usage: node tools/check_fetches.js [siteDir]  (default ../_release/site). Exit 1 and a list on any missing URL.
  * EXEMPT lists runtime paths that are known to 404 and handled by the caller; each entry names the release that removes it. */
 const fs = require('fs'), path = require('path');
-const EXEMPT = { 'data/ask_183_memory.json': 'step 3 (4.9.207) removes the fetch of the test-answer rows' };
+const EXEMPT = {};
 const ASSET = /^(?:\.\/)?((?:data|engine|reference|packs|docs|src|vendor|icons)\/[A-Za-z0-9_\-./]+\.(?:json|jsonl|js|py|gz|png|txt|wasm|whl|zip))$/;
 const PREFIX = /fetch\(\s*['"`]((?:data|engine|packs|docs)\/[A-Za-z0-9_\-./]*\/)['"`]\s*\+/g;
 function check(site) {
