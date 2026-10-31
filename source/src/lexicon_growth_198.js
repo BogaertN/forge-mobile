@@ -7,6 +7,7 @@
  * No LLM. */
 (function (root) {
   const Lex = (typeof module !== 'undefined' && module.exports) ? require('./resonance_lexicon.js') : root.ResonanceLexicon;
+  const Freq = (typeof module !== 'undefined' && module.exports) ? require('./frequency_203.js') : root.Frequency203;
   const Ppe = (typeof module !== 'undefined' && module.exports) ? require('./ppe_lexicon_197.js') : root.Ppe197;
   const V43 = (typeof module !== 'undefined' && module.exports) ? require('./drift_v43.js') : root.DriftV43;
   const KM = (typeof module !== 'undefined' && module.exports) ? require('./kmath.js') : root.KMath;
@@ -68,7 +69,7 @@
 
   function birthPacket(token) {
     const row = Ppe.word(token);
-    return {
+    const packet = {
       word: row.word, Phi: row.Phi, phase_name: row.phase_name, glyph: row.glyph || '',
       angle: row.Phi ? ANGLE : 'unspecified', angle_degrees: row.angle_degrees,
       eps: 0, mu: 1, provenance: PROVENANCE, eps0: 0, mu_init: 1,
@@ -76,6 +77,7 @@
       forbidden_5_to_8: !!row.forbidden_5_to_8, letter_phases: row.letter_phases.slice(),
       schema: 'FORGE-RESONANCE-PACKET/v1'
     };
+    return Freq.migratePacket(packet);
   }
 
   function chainOk(store) {
@@ -109,7 +111,8 @@
       schema: packet.schema, Phi: packet.Phi, eps: packet.eps, mu: packet.mu, glyph: packet.glyph,
       angle: packet.angle, angle_degrees: packet.angle_degrees, phase_name: packet.phase_name,
       provenance: packet.provenance, eps0: packet.eps0, mu_init: packet.mu_init,
-      eps_proposal: packet.eps_proposal, mu_proposal: packet.mu_proposal, how: packet.how, authority: packet.authority
+      eps_proposal: packet.eps_proposal, mu_proposal: packet.mu_proposal, how: packet.how, authority: packet.authority,
+      frequency: packet.frequency
     };
     return {
       word: entry.word, tier: entry.tier, known: false, usable: entry.tier === 'promoted', source: 'growth',

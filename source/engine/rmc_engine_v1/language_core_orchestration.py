@@ -76,18 +76,12 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
             "hops": [],
             "max_steps": 0,
         }
-    elif act in {"greeting", "request", "self"}:
+    elif act in {"greeting", "request", "self", "capability"}:
+        from rmc_engine_v1.language_core_proto_chat import chat_fact_act
         from rmc_engine_v1.resonance_recall import _concept_ids
         from rmc_engine_v1.world_model_v1 import CHAT_FACTS
         concepts = _concept_ids(question)
-        if act == "greeting":
-            key = "greeting"
-        elif act == "request" and "A.TELL" in concepts:
-            key = "tell"
-        elif act == "request":
-            key = "help"
-        else:
-            key = "self"
+        key = chat_fact_act(str(act or ""), concepts)
         fact = next((row for row in CHAT_FACTS if row.get("act") == key), None)
         text = str((fact or {}).get("text") or "")
         inferred = {

@@ -1,5 +1,5 @@
 {
- "version": "4.9.202",
+ "version": "4.9.203",
  "features": [
   {
    "id": "A-01",
@@ -3925,13 +3925,24 @@
    "proof": [
     "R4202"
    ]
+  },
+  {
+   "id": "R4203-PHASE-FREQUENCY",
+   "name": "Phase and frequency signatures",
+   "source": "Appendix A 144 Hz; FBSC Vol II resonance continuity; RSOC operators; docs/WIRING_203.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "A word packet keeps its master phase and adds a continuous frequency signature. The 144 Hz slot holds theta=(Phi-1)*40 degrees. Other components are decimal hertz in the 144/n bands plus 432 and 1296. The letter-phasor formula is proposal v1, awaiting Nic. Words resonate only when the master phase is inside pi/4, frequencies match within epsilon 0.02, and phase agreement is at least 0.87. RSOC merge, lock, fracture, amplify, and discharge run per component. A +120 degree jump on any carrier is refused. Frequency rewrites need phase 6. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4203"
+   ]
   }
  ],
- "count": 358,
+ "count": 359,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 196,
+  "Partial": 197,
   "Missing": 9,
   "Out of scope / parked": 13
  }

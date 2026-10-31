@@ -29,6 +29,28 @@ CITE = (
     "the local model runner is not called"
 )
 
+# Doc 3 §18 function words. They are not content concepts. "can" names a
+# capability question. "How are you?" has no capability modal, so it stays
+# a self question about state.
+_FUNCTION = {"can": "F.CAN", "could": "F.CAN"}
+CHAT_ACTS = {"greeting", "request", "self", "capability"}
+
+
+def chat_fact_act(speech: str, concepts: set[str] | None = None) -> str:
+    """The world-model sentence for a chat act. Empty when the act is not one."""
+    concepts = concepts or set()
+    if speech == "greeting":
+        return "greeting"
+    if speech == "capability":
+        return "capability"
+    if speech == "request" and "A.TELL" in concepts:
+        return "tell"
+    if speech == "request":
+        return "help"
+    if speech == "self":
+        return "self"
+    return ""
+
 
 def _speech_act(user_input: str, roles: dict[str, Any] | None) -> tuple[str, str]:
     """Name the act from the Doc 5 frame and the Doc 4 concept.
@@ -62,6 +84,10 @@ def _speech_act(user_input: str, roles: dict[str, Any] | None) -> tuple[str, str
     if symbols and not concepts and not has_function:
         return "refusal", head
     content = [w for w in words if len(w) > 2 and w not in _STOP]
+    functions = {_FUNCTION[w] for w in words if w in _FUNCTION}
+    # A capability modal with no content word is not a feeling question.
+    if "F.CAN" in functions and not content:
+        return "capability", head
     if not content and speech == "stated":
         return "self", head
     return speech, head
