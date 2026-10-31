@@ -1,5 +1,5 @@
 name: Test
-# 4.9.203: run the phase and frequency suite three times, then the prior suites. This does not publish Pages.
+# 4.9.204: run the frequency-tuning suite three times, then the prior suites. This does not publish Pages.
 on:
   pull_request:
   push:
@@ -23,6 +23,11 @@ jobs:
           python-version: '3.12'
       - name: Prepare the clone
         run: sh source/tools/prepare_clone.sh
+      - name: Frequency tuning suite, three passes
+        run: |
+          node source/verify/r4204_suite.js
+          node source/verify/r4204_suite.js
+          node source/verify/r4204_suite.js
       - name: Phase and frequency suite, three passes
         run: |
           node source/verify/r4203_suite.js

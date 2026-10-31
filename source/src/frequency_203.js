@@ -726,7 +726,8 @@
     flags: flags, load: load, wordSignature: wordSignature, letterSignature: letterSignature,
     resonate: resonate, mergeOp: mergeOp, lockOp: lockOp, fractureOp: fractureOp,
     amplifyOp: amplifyOp, dischargeOp: dischargeOp, banOp: banOp, migratePacket: migratePacket,
-    run: run, paint: paint, boot: boot, EPSILON: EPSILON, BANDS: BANDS, CITE: CITE
+    run: run, paint: paint, boot: boot, EPSILON: EPSILON, BANDS: BANDS, CITE: CITE,
+    lettersOf: lettersOf, nearestBand: nearestBand, voronoiHalf: voronoiHalf, q: q
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.Frequency203 = api;
