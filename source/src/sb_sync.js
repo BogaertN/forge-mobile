@@ -92,7 +92,19 @@ function Client(o) { o = o || {};
     if (!verified) return no((ins.body && ins.body.rule) || 'KB-WRITER-READBACK-FAILED', { status: ins.status, pending: !ins.ok && ins.status !== 403 });
     return { ok: true, attempted: true, written: back.inserted !== false, verified: true, pending: false, id: back.id, signer_id: back.signer_id || proof.signer, rule: back.inserted === false ? 'KB-WRITER-ALREADY-PRESENT' : 'KB-WRITER-VERIFIED', status: ins.status, calls_llm: false };
   }
-  return { config: cfg, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice, insertAdmitted }; }
+  /* 4.9.206 trusted anchors (Nic decision (b)): read-only, anonymous, from the kb.anchors view. The phone keeps an IndexedDB copy
+   * (anchor_cache.js) so Ask works offline; this module only fetches. digest() is cheap; rows() pages the whole table. */
+  async function anchorsDigest() { try { const r = await call('/rest/v1/rpc/kb_anchors_digest', { method: 'POST', headers: H(), body: '{}' });
+      return r.ok && r.body && typeof r.body.digest === 'string' ? { ok: true, count: Number(r.body.count), digest: r.body.digest } : { ok: false, status: r.status }; } catch (e) { return { ok: false, offline: true }; } }
+  async function anchorRows(o) { o = o || {}; const size = Math.min(1000, Math.max(50, o.pageSize || 1000)); const out = [];
+    const cols = 'id,text,state,trust,packet,concepts,provenance,contributor,license,source_url,revision';
+    try { for (let off = 0; off < 50000; off += size) {
+        const r = await call('/rest/v1/kb_anchors?select=' + cols + '&order=id.asc&limit=' + size + '&offset=' + off, { headers: H() });
+        if (!r.ok || !Array.isArray(r.body)) return { ok: false, status: r.status, rows: [] };
+        for (const x of r.body) out.push(x); if (r.body.length < size) break; }
+    } catch (e) { return { ok: false, offline: true, rows: [] }; }
+    return { ok: true, rows: out }; }
+  return { config: cfg, anchorsDigest, anchorRows, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice, insertAdmitted }; }
 const api = { Client, CONFIG, SKEY, DKEY, PW_MIN, canon };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else { root.KSbSync = api; root.KSb = Client(); }
 })(typeof self !== 'undefined' ? self : this);

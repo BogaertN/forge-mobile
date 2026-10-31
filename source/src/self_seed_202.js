@@ -606,7 +606,7 @@
     const card = document.getElementById('selfseed202');
     const host = document.getElementById('selfseed202Body');
     if (!card || !host) return;
-    const ran = monitorLines(mode || 'cleopatra', root.SELF_SEED_FIXTURES || null);
+    const ran = monitorLines(mode || 'cleopatra', root.SELF_SEED_DEMO || null);
     card.setAttribute('data-selfseed202-mode', ran.mode);
     card.setAttribute('data-selfseed202-rule', ran.row.rule);
     host.textContent = ran.lines.join('\n');
@@ -630,7 +630,8 @@
       fetch('data/self_seed_202_demo.json').then(r => r.ok ? r.json() : { questions: {} }).catch(() => ({ questions: {} }))
     ]).then(rows => {
       install(rows[0], rows[1]);
-      root.SELF_SEED_FIXTURES = rows[2];
+      /* 4.9.206: the recorded documents are demo data for this card only. Ask never replays them as research. */
+      root.SELF_SEED_DEMO = rows[2];
       paint();
     }).catch(() => paint());
   }

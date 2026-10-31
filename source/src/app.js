@@ -120,18 +120,15 @@ async function askAnchorShards(question) {
     }
     if (names.length >= 2) break;
   }
-  window.ASK_188_SHARDS = window.ASK_188_SHARDS || {};
+  /* 4.9.206: the anchors live in Supabase (kb.anchors). The shipped index picks the concepts; the rows come from the
+   * IndexedDB copy (anchor_cache.js), refreshed from Supabase when online. Offline with no copy: the starter anchors only. */
+  const concepts = [];
+  for (const name of names.slice(0, 2)) for (const c of (((index.shards || {})[name] || {}).concepts || [])) if (concepts.indexOf(c) < 0) concepts.push(c);
   const rows = [];
   const seen = {};
-  for (const name of names.slice(0, 2)) {
-    if (!window.ASK_188_SHARDS[name]) {
-      const meta = (index.shards || {})[name] || {};
-      try {
-        const res = await fetch('data/anchors_188/' + meta.file, { credentials: 'omit' });
-        window.ASK_188_SHARDS[name] = res.ok ? await res.json() : { anchors: [] };
-      } catch (e) { window.ASK_188_SHARDS[name] = { anchors: [] }; }
-    }
-    for (const row of (window.ASK_188_SHARDS[name].anchors || [])) {
+  if (concepts.length && window.KAnchorCache) {
+    try { await KAnchorCache.ensure(); } catch (e) { /* offline: the cached copy stays */ }
+    for (const row of await KAnchorCache.byConcepts(concepts)) {
       if (!row || !row.text || seen[row.text]) continue;
       seen[row.text] = true;
       rows.push(row);
@@ -139,7 +136,7 @@ async function askAnchorShards(question) {
   }
   rows.sort((a, b) => String(a.id || '').localeCompare(String(b.id || '')));
   return rows.slice(0, 16).map(row => ({
-    id: row.id, text: row.text, sfe: row.sfe, packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted',
+    id: row.id, text: row.text, sfe: row.sfe || (row.packet && (row.packet.sfe || { Phi: row.packet.Phi, eps: row.packet.eps, mu: row.packet.mu })), packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted',
     provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision
   }));
 }
@@ -202,26 +199,8 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     }
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
-    const lang = row && row.language_core;
-    const heldGap = !!(row && !row.product_reply && lang && lang.gap && !lang.anchors_connected);
-    const pack = window.SELF_SEED_FIXTURES;
-    if (heldGap && window.SelfSeed && pack && pack.questions && pack.questions[text]) {
-      const decision = SelfSeed.evaluate({
-        question: text,
-        gap: true,
-        anchors_connected: 0,
-        documents: (pack.questions[text].documents || []).filter(doc => doc && doc.role !== 'error'),
-        now: Date.now() / 1000,
-        loop_phi: (row.resonance && row.resonance.question_phi) || 1
-      });
-      row.self_seed = { rule: decision.rule, url: decision.anchor && decision.anchor.source_url, echo: decision.echo, hosts: decision.hosts || [] };
-      if (decision.anchor) {
-        memory.anchors = (memory.anchors || []).concat([decision.anchor]);
-        const again = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
-        again.self_seed = { rule: again.product_reply ? 'SEED-REASK-ADMITTED' : 'SEED-REASK', first: decision.rule, url: decision.anchor.source_url, echo: decision.echo, hosts: decision.hosts || [] };
-        row = again;
-      }
-    }
+    /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo
+     * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   lastResult = row;
   if (row && row.memory_write && row.memory_write.committed && row.memory_write.hosted_kb) {
@@ -566,4 +545,6 @@ let deferred; window.addEventListener('beforeinstallprompt', e => { e.preventDef
 $('#installBtn').onclick = () => { if (deferred) { deferred.prompt(); deferred = null; $('#installBtn').hidden = true; } };
 window.KUI = { $, $$, esc, fmt, openTab };
 refreshChrome();
+/* 4.9.206: fill or refresh the offline anchor copy from Supabase shortly after boot (no-op offline; never blocks the UI) */
+if (window.KAnchorCache) setTimeout(() => { KAnchorCache.ensure().catch(() => {}); }, 4000);
 })();

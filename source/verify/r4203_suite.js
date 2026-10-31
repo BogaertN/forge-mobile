@@ -113,7 +113,7 @@ T('RSOC operators match Python, phase 6 gates rewrites, and +120 is refused', ()
 
 T('the migration is flagged, the proof is honest, and the capability sentence is not the feeling sentence', () => {
   const sql = fs.readFileSync(path.join(ROOT, '..', 'supabase', 'migrations', '20261030235900_frequency_signatures_203.sql'), 'utf8');
-  expect(/FLAG: not applied/.test(sql) && /applied: false/.test(sql) && !/insert into/i.test(sql), 'migration');
+  expect(/APPLIED to project/.test(sql) && /applied: true/.test(sql) && !/insert into/i.test(sql), 'migration');
   const proof = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'frequency_203_proof.json'), 'utf8'));
   expect(proof.epsilon === 0.02 && proof.calls_llm === false && proof.lexicon.after < proof.lexicon.before, JSON.stringify(proof.lexicon));
   expect(proof.lexicon.neighbor_after < proof.lexicon.neighbor_pairs, 'neighbors');
@@ -130,7 +130,7 @@ T('the migration is flagged, the proof is honest, and the capability sentence is
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   expect(/data-freq203/.test(html) && /src="src\/frequency_203.js"/.test(html) && /144 Hz/.test(html), 'card');
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.205', ver);
+  expect(ver === '4.9.206', ver);
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_203_pyodide.json'), 'utf8'));
   expect(pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false && pyodide.lexicon_scan_ms > 0, JSON.stringify(pyodide));
 });

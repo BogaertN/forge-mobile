@@ -1,7 +1,7 @@
 -- 4.9.204 tuned frequency offsets.
--- FLAG: not applied.
--- applied: false
--- Nic applies migrations. This file stays in the repo only.
+-- APPLIED to project hqcvywujrygbnaowgwln on 2026-10-31 as migration frequency_tuning_204 (4.9.206, Nic's step 2: review and apply the pending migrations). Body unchanged.
+-- applied: true
+-- Nic asked for it to be applied (2026-10-31); it was applied through the Supabase migration tool.
 -- The glyph master phase is not a column this migration writes.
 -- Offsets are proposal v1, with the admit id that caused each pull.
 

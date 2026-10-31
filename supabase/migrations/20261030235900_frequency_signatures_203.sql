@@ -1,7 +1,7 @@
 -- 4.9.203 frequency signatures on lexicon packets.
--- FLAG: not applied.
--- applied: false
--- Nic applies migrations. This file stays in the repo only.
+-- APPLIED to project hqcvywujrygbnaowgwln on 2026-10-31 as migration frequency_signatures_203 (4.9.206, Nic's step 2: review and apply the pending migrations). Body unchanged.
+-- applied: true
+-- Nic asked for it to be applied (2026-10-31); it was applied through the Supabase migration tool.
 -- It does not rewrite a phase. The existing Phi, eps, and mu stay the master.
 -- The frequency column is the proposal-v1 signature, computed in the repo,
 -- not by a hosted job.

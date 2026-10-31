@@ -492,7 +492,7 @@
     }
     const ran = script([obs('create hnv', 'what is hnv', '2026-10-30T18:00:00Z', 0.9, 0.9, 0.1)]);
     const word = ran.words.filter(function (row) { return row.word === 'hnv'; })[0];
-    const known = ran.log[0].known[0];
+    const known = (ran.log[0] && ran.log[0].known && ran.log[0].known[0]) || { word: 'create (seed lexicon not loaded)' };
     return {
       persist: false, store: ran.store,
       attrs: { mode: 'packets', status: word.tier, detail: word.phase_name },

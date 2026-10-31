@@ -34,7 +34,8 @@ for d in (SITE, SINGLE):
     os.makedirs(d)
 def put(rel, data):
     p = os.path.join(SITE, rel); os.makedirs(os.path.dirname(p), exist_ok=True); open(p, 'wb').write(data if isinstance(data, bytes) else data.encode())
-for f in SHIP: put(f, open(f, 'rb').read())
+SRC = json.loads(subprocess.run(['node', 'tools/shipset.js', 'sources'], capture_output=True, text=True, check=True).stdout)  # 4.9.206: site path -> tree path
+for f in SHIP: put(f, open(SRC.get(f, f), 'rb').read())
 reg = json.load(open('data/feature_registry.json'))
 if reg.get('version') != VERSION: die('feature registry version %s != %s' % (reg.get('version'), VERSION))
 put('sw.js', open('sw.js').read().replace('__FORGE_VERSION__', VERSION))

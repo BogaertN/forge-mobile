@@ -1,5 +1,5 @@
 {
- "version": "4.9.205",
+ "version": "4.9.206",
  "features": [
   {
    "id": "A-01",
@@ -3958,13 +3958,24 @@
    "proof": [
     "R4205"
    ]
+  },
+  {
+   "id": "R4206-ANCHORS-SUPABASE",
+   "name": "Trusted anchors from Supabase, cached offline; every fetched or precached URL exists",
+   "source": "Nic decision (b) 2026-10-31; src/anchor_cache.js; tools/check_fetches.js; supabase/migrations/20261031230000_anchors_read_206.sql",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Anchors are read anonymously from the read-only kb_anchors view, kept in IndexedDB (digest refresh, old copy kept offline or on a partial fetch, starter anchors as last fallback). tools/check_fetches.js is a release gate; verify_live checks runtime fetches and the Supabase anchors read.",
+   "proof": [
+    "verify/r4206_suite.js"
+   ]
   }
  ],
- "count": 361,
+ "count": 362,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 199,
+  "Partial": 200,
   "Missing": 9,
   "Out of scope / parked": 13
  }

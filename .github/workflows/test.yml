@@ -28,6 +28,11 @@ jobs:
           node source/verify/r4205_suite.js
           node source/verify/r4205_suite.js
           node source/verify/r4205_suite.js
+      - name: Anchors from Supabase and fetch check suite (4.9.206), three passes
+        run: |
+          node source/verify/r4206_suite.js
+          node source/verify/r4206_suite.js
+          node source/verify/r4206_suite.js
       - name: Frequency tuning suite, three passes
         run: |
           node source/verify/r4204_suite.js

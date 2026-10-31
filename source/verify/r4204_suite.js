@@ -151,11 +151,11 @@ T('the card, the migration, and the suite run are in place', () => {
   expect(/data-freq204/.test(html) && /src="src\/frequency_204.js"/.test(html) && /144 Hz glyph master/.test(html), 'card');
   expect(/data-freq203/.test(html), '203 card stays');
   const sql = fs.readFileSync(path.join(ROOT, '..', 'supabase', 'migrations', '20261031090000_frequency_tuning_204.sql'), 'utf8');
-  expect(/FLAG: not applied/.test(sql) && /applied: false/.test(sql) && !/insert into/i.test(sql), 'migration');
+  expect(/APPLIED to project/.test(sql) && /applied: true/.test(sql) && !/insert into/i.test(sql), 'migration');
   const ci = fs.readFileSync(path.join(ROOT, '..', '.github', 'workflows', 'test.yml'), 'utf8');
   expect((ci.match(/r4204_suite\.js/g) || []).length >= 3, 'suite x3');
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.205', ver);
+  expect(ver === '4.9.206', ver);
   const cfg = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'frequency_204_config.py'), 'utf8');
   expect(/awaiting Nic/.test(cfg) && /ZETA = 0.12/.test(cfg) && /BETA = 2.2/.test(cfg) && /Not FHRR/.test(cfg), 'config');
 });
