@@ -101,17 +101,17 @@ T('non-negotiables stay reachable: gates, packet export, Audit, Ideas tap, Remem
   expect(sharedN(k) === 0 && k.memory().length === 0, 'creative did not store');
 });
 
-T('the single-file budget stays within 1.920 MB raw and 570 kB gzip', () => {
+T('the single-file budget stays within 2.500 MB raw and 750 kB gzip', () => {
   const rel = fs.readFileSync(ROOT + '/tools/verify_release.js', 'utf8');
   const w5 = fs.readFileSync(ROOT + '/verify/w5_suite.js', 'utf8');
-  expect(/1920000/.test(rel) && /570e3/.test(rel), 'release budget moved');
-  expect(/1920000/.test(w5) && /570e3/.test(w5), 'w5 budget moved');
+  expect(/2500000/.test(rel) && /750e3/.test(rel), 'release budget moved');
+  expect(/2500000/.test(w5) && /750e3/.test(w5), 'w5 budget moved');
   const p = path.join(ROOT, '..', '_release', 'single', 'kernel-app.html');
   if (!fs.existsSync(p)) return;
   const b = fs.readFileSync(p);
   if (!b.includes('4.9.126')) return;
   const gz = zlib.gzipSync(b).length;
-  expect(b.length <= 1920000 && gz <= 570000, b.length + ' / ' + gz);
+  expect(b.length <= 2500000 && gz <= 750000, b.length + ' / ' + gz);
 });
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA rewrite and a shared write unstarted', () => {

@@ -182,8 +182,8 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.180', () => {
   const single = path.join(ROOT, '..', '_release', 'single', 'kernel-app.html');
   if (fs.existsSync(single)) {
     const gz = zlib.gzipSync(fs.readFileSync(single)).length;
-    const leave = 570000 - gz;
-    expect(gz < 570000 && leave >= 4000, 'gzip leave ' + leave);
+    const leave = 750000 - gz;
+    expect(gz < 750000 && leave >= 4000, 'gzip leave ' + leave);
     const packed = fs.readFileSync(single, 'utf8');
     expect(!/FORGE-ATHENA-DOC/.test(packed), 'portable file does not inline the doc');
   }

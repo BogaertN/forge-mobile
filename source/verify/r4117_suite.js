@@ -58,6 +58,11 @@ T('the authority-path receipt is the Doc 9 non-model scan', () => {
   expect(rec.checks.length === rec.files.length * 11, rec.checks.length + '/' + rec.files.length);
   const planted = N.scanSource('src/kernel.js', 'const x = openai');
   expect(planted.some(c => c.ok === false && /openai/.test(c.detail)), 'planted token was accepted');
+  // 4.9.204 deploy repair: the hertz-sense lift is narrow. Statistics in the core and any other shell "frequency" still fail.
+  const stat = (f, src) => N.scanSource(f, src).some(c => c.ok === false && /statistics as authority/.test(c.name));
+  expect(stat('src/kernel.js', 'const n = wordFreq[w]') && stat('src/kernel.js', 'const f = "frequency_203"') && stat('src/grammar.js', 'rank by frequency'), 'core frequency was accepted');
+  expect(stat('index.html', '<div>word frequency table</div>') && stat('sw.js', "const F = ['./src/frequency_205.js']") && stat('index.html', '<p>bigram</p>'), 'shell frequency was accepted');
+  expect(!stat('sw.js', "const F = ['./src/frequency_203.js', './data/frequency_204_proof.json']"), 'hertz module path rejected');
   const run = fs.readFileSync(ROOT + '/verify/run.js', 'utf8');
   expect(/nonllm\.js/.test(run) && !/openai\|anthropic/.test(run), 'scan list forked');
 });

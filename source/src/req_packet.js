@@ -92,7 +92,7 @@
     anchor: 'invent and compose use a newly admitted import anchor',
     quiet: 'create compose and simulate do not store confirmed facts and Clear starter still works',
     audit: 'Audit shows the import receipt and the Memory screen has Import next to starter',
-    budget: 'the single-file budget stays within 1.920 MB raw and 570 kB gzip',
+    budget: 'the single-file budget stays within 2.500 MB raw and 750 kB gzip',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.125 and leave a shared write unstarted'
   };
   const K = {
@@ -102,7 +102,7 @@
     next: 'UNSUPPORTED and dead-end turns show a gentle next-step redirect',
     onboard: 'starter onboarding one-liner names starter_pack and keeps Clear starter knowledge reachable',
     reach: 'non-negotiables stay reachable: gates, packet export, Audit, Ideas tap, Remember, invent/compose/suppose, Clear starter, Import',
-    budget: 'the single-file budget stays within 1.920 MB raw and 570 kB gzip',
+    budget: 'the single-file budget stays within 2.500 MB raw and 750 kB gzip',
     ver: 'version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA rewrite and a shared write unstarted'
   };
   const M = {

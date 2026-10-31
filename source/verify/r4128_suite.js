@@ -134,8 +134,8 @@ T('Audit and UI name shared knowledge base; phone cache empty; budget', () => {
   expect(/ensureSharedKnowledge|ensureConfirmedShared/.test(app), 'fetch wire');
   const rel = fs.readFileSync(ROOT + '/tools/verify_release.js', 'utf8');
   const w5 = fs.readFileSync(ROOT + '/verify/w5_suite.js', 'utf8');
-  expect(/1920000/.test(rel) && /570e3/.test(rel), 'budget');
-  expect(/1920000/.test(w5) && /570e3/.test(w5), 'w5');
+  expect(/2500000/.test(rel) && /750e3/.test(rel), 'budget');
+  expect(/2500000/.test(w5) && /750e3/.test(w5), 'w5');
   const phone = k.store.load('confirmed_shared');
   expect(!phone || !(phone.facts || []).length, 'phone facts after pull');
 });

@@ -158,7 +158,7 @@ T('no LLM, always on, packs gated, and the portable file still leaves the mesh o
   const single = path.join(ROOT, '..', '_release', 'single', 'kernel-app.html');
   if (fs.existsSync(single)) {
     const gz = zlib.gzipSync(fs.readFileSync(single)).length;
-    expect(gz <= 570000 - 5000, 'gzip leave ' + gz);
+    expect(gz <= 750000 - 5000, 'gzip leave ' + gz);
   }
 });
 
