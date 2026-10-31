@@ -15,6 +15,7 @@ from typing import Any
 from rmc_engine_v1.dpa_195 import append_dead_path, empty_archive, seal_loop, sha256, verify_archive
 from rmc_engine_v1.drift_v43 import C_MIN, ECHO_MIN, MASK_SIM, WRITE_MAX, drift_mask
 from rmc_engine_v1.language_core_engines import HARD_STOP
+from rmc_engine_v1.frequency_203 import migrate_packet
 from rmc_engine_v1.lexicon_resonance import angle_degrees, seed_rows, tokens, word_count
 from rmc_engine_v1.ppe_lexicon_197 import word as ppe_word
 
@@ -106,7 +107,7 @@ def aligned(a: Any, b: Any) -> bool:
 def birth_packet(token: str) -> dict[str, Any]:
     row = ppe_word(token)
     phi = row.get("Phi")
-    return {
+    packet = {
         "word": row["word"],
         "Phi": phi,
         "phase_name": row["phase_name"],
@@ -126,6 +127,7 @@ def birth_packet(token: str) -> dict[str, Any]:
         "letter_phases": list(row.get("letter_phases") or []),
         "schema": "FORGE-RESONANCE-PACKET/v1",
     }
+    return migrate_packet(packet)
 
 
 def chain_ok(store: dict[str, Any]) -> bool:
@@ -178,6 +180,7 @@ def view(entry: dict[str, Any], store: dict[str, Any]) -> dict[str, Any]:
         "mu_proposal": packet["mu_proposal"],
         "how": packet["how"],
         "authority": packet["authority"],
+        "frequency": packet.get("frequency"),
     }
     return {
         "word": entry["word"],

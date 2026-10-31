@@ -1,3 +1,11 @@
+## v4.9.203 — Phase and frequency (2026-10-30 America/Chicago)
+
+**Conflict:** Appendix A fixes 144 Hz, 432 Hz, and 1296 Hz, with channels at 0°, 120°, and 240°. FBSC Vol II says resonance continues when |rᵢ − rⱼ| ≤ ε and does not give ε or a per-word signature. The integer-carrier sketch would drive random collisions near zero. A continuous decimal signature does not, at nine components. Draft PR #132 had a reference-prose seeder and a capability sentence. Nic is redesigning the seeder. "What can you do?" was speaking the feeling sentence.
+
+**Where:** `rmc_engine_v1/frequency_203_config.py`, `rmc_engine_v1/frequency_203.py`, `src/frequency_203.js`, the Ask frequency card. The 4.9.197 letter map, the 4.9.191 phase, and `research_hooks` are called. The wiring is `docs/WIRING_203.md`. The tables are `docs/LIVE_TEST_203.md`.
+
+**Resolution:** The formula is tagged proposal v1 and is waiting on Nic. ε = 0.02 on hz/marker. The 144 Hz slot keeps θ=(Φ−1)·40°. RSOC numbers are used per component. FHRR is not used. Phase 6 gates a frequency rewrite. +120° on any carrier is refused, and so is Φ5→Φ8. On 419 seeds the phase-only pair count falls from 29,061 to 591. sun, hot, warm, and sunny resonate. light does not, because it is not on the N.WEATHER packet. Synthetic sets drop about fifty-fold and still leave millions of expected pairs at 100k words. That limit is reported. Cold admits stay 48. The same 12 stay held. False admits stay 0. "What can you do?" speaks its own sentence. The reference-prose seeder from draft PR #132 is not in this build. A write still needs drift at or under 0.35. The hard stop stays above 0.8. C_min stays 0.87. Echo stays 0.85. The coherence formula is unchanged. Wikipedia stays off the anchor path. No LLM. `dream_idle` and `economy` stay off. Packs stay gated. Money stays disabled. ChristPing stays Gilligan-only and is not started. The migration is in the repo and flagged, not applied.
+
 ## v4.9.202 — Self-seeding anchors (2026-10-30 America/Chicago)
 
 **Conflict:** Nic rejects hand-seeded anchors. The twelve held questions have no premise. Fetching a trusted sentence can still fail Echo, because Echo is coverage of the question's tokens and the formula is unchanged. A name whose lexicon phase sits outside π/4 of the question loop is not kept. Wikipedia is the easy page and is not allowed to be the anchor.
