@@ -59,6 +59,10 @@ Deno.serve(async (req) => {
     if (rows[0].revoked_at) return reply(req, 409, { ok: false, rule: "REG-KEY-REVOKED" });
     return reply(req, 200, { ok: true, signer_id: sid, already: true });
   }
+  // 4.9.205: only an account linked to the owner may store a device key (the database trigger enforces the same rule)
+  const lk = await fetch(URL_ + "/rest/v1/account_links?select=revoked_at&user_id=eq." + uid, { headers: h });
+  const links = lk.ok ? await lk.json() : [];
+  if (!links.length || links[0].revoked_at) return reply(req, 403, { ok: false, rule: "REG-ACCOUNT-NOT-LINKED" });
   const ins = await fetch(URL_ + "/rest/v1/device_keys", { method: "POST", headers: { ...h, prefer: "return=minimal" },
     body: JSON.stringify({ signer_id: sid, owner: uid, pub_jwk: jwk }) });
   if (!ins.ok) return reply(req, 500, { ok: false, rule: "REG-INSERT-FAILED" });

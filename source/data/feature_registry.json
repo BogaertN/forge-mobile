@@ -1,5 +1,5 @@
 {
- "version": "4.9.204",
+ "version": "4.9.205",
  "features": [
   {
    "id": "A-01",
@@ -3947,13 +3947,24 @@
    "proof": [
     "R4203"
    ]
+  },
+  {
+   "id": "R4205-WRITER-LOCKDOWN",
+   "name": "Supabase writer lockdown: linked writer role plus verified device signature",
+   "source": "Nic decision (d) 2026-10-31; supabase/migrations/20261031220000_writer_lockdown_205.sql; supabase/functions/memory-writer",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "A memory-table write needs a signed-in account holding the writer role, a live link to the owner account, and an ECDSA P-256 device signature verified in the memory-writer Edge Function over a fixed body that binds the account, device, nonce, time and the SHA-256 of the write arguments. The old length-only client RPC is closed. Unlinked accounts cannot write blobs, cursors or device keys. Drift admission stays eps <= 0.35. No LLM.",
+   "proof": [
+    "R4205"
+   ]
   }
  ],
- "count": 360,
+ "count": 361,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 198,
+  "Partial": 199,
   "Missing": 9,
   "Out of scope / parked": 13
  }

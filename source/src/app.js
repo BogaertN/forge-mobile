@@ -234,7 +234,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
     if (window.KSb && KSb.insertAdmitted) {
       try {
-        const live = await KSb.insertAdmitted(body);
+        const live = await KSb.insertAdmitted(body, (uid, sha, nonce) => forge.signer && forge.signer.writerProof ? forge.signer.writerProof(uid, sha, nonce) : null);
         row.memory_write.supabase = live;
         body.supabase = live;
       } catch (e) {

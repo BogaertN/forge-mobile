@@ -23,6 +23,11 @@ jobs:
           python-version: '3.12'
       - name: Prepare the clone
         run: sh source/tools/prepare_clone.sh
+      - name: Writer lockdown suite (4.9.205), three passes
+        run: |
+          node source/verify/r4205_suite.js
+          node source/verify/r4205_suite.js
+          node source/verify/r4205_suite.js
       - name: Frequency tuning suite, three passes
         run: |
           node source/verify/r4204_suite.js

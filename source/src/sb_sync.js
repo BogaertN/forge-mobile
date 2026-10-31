@@ -12,6 +12,7 @@ const CONFIG = Object.freeze({
 });
 const SKEY = 'forge_sb_session', DKEY = 'forge_sb_device';
 const PW_MIN = 8;
+const canon = o => (Array.isArray(o) ? '[' + o.map(canon).join(',') + ']' : o && typeof o === 'object' ? '{' + Object.keys(o).sort().filter(k => o[k] !== undefined).map(k => JSON.stringify(k) + ':' + canon(o[k])).join(',') + '}' : JSON.stringify(o));
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
 function Client(o) { o = o || {};
   const cfg = Object.assign({}, CONFIG, o.config || {});
@@ -60,25 +61,38 @@ function Client(o) { o = o || {};
     const r = await call('/functions/v1/register-device', { method: 'POST', headers: H(tok), body: JSON.stringify(proof) });
     if (!r.ok || !r.body || !r.body.ok) return { ok: false, rule: (r.body && r.body.rule) || 'SB-REGISTER-FAILED', status: r.status };
     ls.setItem(DKEY, JSON.stringify({ uid: st.uid, signer_id: r.body.signer_id, at: new Date(nowSec() * 1000).toISOString() })); return { ok: true, signer_id: r.body.signer_id }; }
-  /* The memory writer. Anon has no execute grant. The function rejects an unadmitted row.
-   * written is true only when the returned row reads back as admitted with the same packet. */
-  async function insertAdmitted(row) {
+  /* The memory writer (4.9.205). The client RPC is closed. A write goes to the memory-writer Edge Function, which verifies the
+   * session, that the account is linked to the owner with the writer role, that this device's registered key signed the fixed
+   * proof body, and that the body binds the SHA-256 of these exact arguments. sign(uid, content_sha256, nonce) must return
+   * {body, sig, signer} (forge.signer.writerProof). With no session, no registered device or a locked vault the row is NOT
+   * sent: it stays local and pending. written is true only when the returned row reads back as admitted with the same packet. */
+  async function insertAdmitted(row, sign) {
+    const no = (rule, extra) => Object.assign({ ok: false, attempted: true, written: false, verified: false, pending: true, rule, calls_llm: false }, extra || {});
     const tok = await token();
-    if (!tok) return { ok: false, attempted: true, written: false, verified: false, rule: 'KB-WRITER-NO-SESSION', calls_llm: false };
+    if (!tok) return no('KB-WRITER-NO-SESSION');
     const sfe = row && row.sfe || {}; const prov = row && row.provenance || {}; const contributor = String((prov && prov.contributor) || (row && row.contributor) || '').trim();
     const text = String(row && row.text || '');
-    if (!contributor || sfe.Phi == null || sfe.eps == null || sfe.mu == null) return { ok: false, attempted: true, written: false, verified: false, rule: 'KB-WRITER-PROVENANCE-REQUIRED', calls_llm: false };
+    if (!contributor || sfe.Phi == null || sfe.eps == null || sfe.mu == null) return no('KB-WRITER-PROVENANCE-REQUIRED', { pending: false });
+    const st = status();
+    if (!st.uid) return no('KB-WRITER-NO-SESSION');
+    if (!st.device) return no('KB-WRITER-DEVICE-NOT-REGISTERED');
+    if (typeof sign !== 'function') return no('KB-WRITER-UNSIGNED');
     const payload = { text: text, schema: 'FORGE-RESONANCE-PACKET/v1', sfe: { Phi: sfe.Phi, eps: sfe.eps, mu: sfe.mu }, provenance: prov, contributor: contributor, state: 'admitted' };
-    const digest = (root.KSha && KSha.sha256) ? KSha.sha256(JSON.stringify(payload)) : '';
-    if (!/^[0-9a-f]{64}$/.test(digest)) return { ok: false, attempted: true, written: false, verified: false, rule: 'KB-WRITER-HASH', calls_llm: false };
-    const body = { p_kind: 'fact', p_payload: payload, p_proof: { source: 'rmc_core.admit_gate' }, p_sources: [], p_content_sha256: digest, p_signature: digest, p_consent: { contributor: contributor }, p_provenance: prov, p_contributor: contributor };
-    const ins = await call('/rest/v1/rpc/memory_writer_insert', { method: 'POST', headers: Object.assign(H(tok), { prefer: 'return=representation' }), body: JSON.stringify(body) });
-    const back = ins.body && !Array.isArray(ins.body) ? ins.body : null;
+    const args = { p_kind: 'fact', p_payload: payload, p_proof: { source: row && row.proof_source || 'rmc_core.admit_gate' }, p_sources: [], p_consent: { contributor: contributor }, p_provenance: prov, p_contributor: contributor };
+    const H256 = (typeof module !== 'undefined' && module.exports) ? require('./sha256.js') : root.KSha;
+    const digest = (H256 && H256.sha256) ? H256.sha256(canon(args)) : '';
+    if (!/^[0-9a-f]{64}$/.test(digest)) return no('KB-WRITER-HASH', { pending: false });
+    let proof = null; try { proof = await sign(st.uid, digest, rnd(16)); } catch (e) { proof = null; }
+    if (!proof || !proof.body || !proof.sig) return no('KB-WRITER-DEVICE-LOCKED');
+    if (proof.signer !== st.device) return no('KB-WRITER-DEVICE-NOT-REGISTERED');
+    const ins = await call('/functions/v1/memory-writer', { method: 'POST', headers: H(tok), body: JSON.stringify({ args: args, proof: { body: proof.body, sig: proof.sig } }) });
+    const back = ins.body && ins.body.ok && ins.body.row && !Array.isArray(ins.body.row) ? ins.body.row : null;
     const packet = back && back.payload && back.payload.sfe;
     const verified = !!(ins.ok && back && back.state === 'admitted' && back.verified !== false && packet && packet.Phi === sfe.Phi && packet.eps === sfe.eps && packet.mu === sfe.mu && back.payload.contributor === contributor && back.payload.text === text && back.payload.provenance);
-    return { ok: verified, attempted: true, written: verified && back.inserted !== false, verified: verified, id: back && back.id, rule: verified ? (back.inserted === false ? 'KB-WRITER-ALREADY-PRESENT' : 'KB-WRITER-VERIFIED') : 'KB-WRITER-READBACK-FAILED', status: ins.status, calls_llm: false };
+    if (!verified) return no((ins.body && ins.body.rule) || 'KB-WRITER-READBACK-FAILED', { status: ins.status, pending: !ins.ok && ins.status !== 403 });
+    return { ok: true, attempted: true, written: back.inserted !== false, verified: true, pending: false, id: back.id, signer_id: back.signer_id || proof.signer, rule: back.inserted === false ? 'KB-WRITER-ALREADY-PRESENT' : 'KB-WRITER-VERIFIED', status: ins.status, calls_llm: false };
   }
   return { config: cfg, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice, insertAdmitted }; }
-const api = { Client, CONFIG, SKEY, DKEY, PW_MIN };
+const api = { Client, CONFIG, SKEY, DKEY, PW_MIN, canon };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else { root.KSbSync = api; root.KSb = Client(); }
 })(typeof self !== 'undefined' ? self : this);
