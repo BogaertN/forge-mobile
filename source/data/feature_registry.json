@@ -1,5 +1,5 @@
 {
- "version": "4.9.203",
+ "version": "4.9.204",
  "features": [
   {
    "id": "A-01",
@@ -3927,6 +3927,17 @@
    ]
   },
   {
+   "id": "R4204-FREQUENCY-TUNING",
+   "name": "Resonance tuning of frequency offsets",
+   "source": "RSOC merge bonus 0.12 cos^2 delta and amplify decay e^(-2.2|Delta|); SPC half-life 168 h; docs/FREQUENCY_204.md",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Spelling fixes the starting decimals. Co-admitted words attract and conflict pairs repel. A spacing spring keeps the field off one hertz. Only frequency offsets move. The 144 Hz glyph master does not. Phase 6 gates every write. Drift above 0.35 is capped or quarantined and 0.8 is a hard stop. C_min stays 0.87. No LLM.",
+   "proof": [
+    "R4204"
+   ]
+  },
+  {
    "id": "R4203-PHASE-FREQUENCY",
    "name": "Phase and frequency signatures",
    "source": "Appendix A 144 Hz; FBSC Vol II resonance continuity; RSOC operators; docs/WIRING_203.md",
@@ -3938,11 +3949,11 @@
    ]
   }
  ],
- "count": 359,
+ "count": 360,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 197,
+  "Partial": 198,
   "Missing": 9,
   "Out of scope / parked": 13
  }

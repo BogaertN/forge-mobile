@@ -130,7 +130,7 @@ T('the migration is flagged, the proof is honest, and the capability sentence is
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   expect(/data-freq203/.test(html) && /src="src\/frequency_203.js"/.test(html) && /144 Hz/.test(html), 'card');
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.203', ver);
+  expect(ver === '4.9.204', ver);
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_203_pyodide.json'), 'utf8'));
   expect(pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false && pyodide.lexicon_scan_ms > 0, JSON.stringify(pyodide));
 });
