@@ -26,7 +26,7 @@ T('no shipped file carries a hand-written ho-* answer row', () => {
   expect(!hits.length, hits.join(', '));
 });
 T('the honest cold 60 is recorded: 20 admitted, 40 held, 0 false admits, no LLM, the old 48 named as using the deleted answers', () => {
-  expect(COLD.release === '4.9.207' && COLD.ask_183_seed === 'deleted' && COLD.of === 60 && COLD.rows.length === 60, 'shape');
+  expect(/^4\.9\.207$/.test(COLD.release) && COLD.ask_183_seed === 'deleted' && COLD.of === 60 && COLD.rows.length === 60, 'shape');
   expect(COLD.admitted === 20 && COLD.held === 40 && COLD.false_admits === 0 && COLD.calls_llm === false, JSON.stringify({ a: COLD.admitted, h: COLD.held }));
   expect(COLD.previous_claim.admitted === 48 && /deleted/.test(COLD.previous_claim.note), 'previous claim named');
   expect(COLD.rows.filter(r => r.admitted).every(r => r.reply && r.calls_llm === false && !(r.trust === 'wikipedia' && r.premise)), 'admits');

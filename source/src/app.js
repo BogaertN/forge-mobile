@@ -140,6 +140,15 @@ async function askAnchorShards(question) {
     provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision
   }));
 }
+/* 4.9.208: the curators look up with the same trusted anchors Ask uses (starter set + Supabase anchors by concept), nothing else */
+window.KAskAnchors = async function (question) {
+  const out = [], seen = {};
+  const pack = await askAnchors();
+  const starter = (pack.anchors || []).map(row => ({ id: row.id, text: row.text, sfe: row.sfe, packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted', provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision }));
+  let extra = []; try { extra = await askAnchorShards(question); } catch (e) { extra = []; }
+  for (const row of starter.concat(extra)) if (row && row.id && !seen[row.id]) { seen[row.id] = true; out.push(row); }
+  return out;
+};
 async function askMemory(question) {
   const memory = { receipts: [], phone: [], hosted: [], research: [] };
   /* 4.9.207 (Nic decision (a)): the hand-written ask_183 test answers are deleted; Ask starts from the phone's own stores. */
@@ -194,6 +203,8 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   lastResult = row;
+  /* 4.9.208: a held question becomes a curation gap for Athena (no write happens here) */
+  if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(text, row); } catch (e) { /* the curators are optional */ } }
   if (row && row.memory_write && row.memory_write.committed && row.memory_write.hosted_kb) {
     const bank = row.memory_write.bank;
     const write = !bank || bank.written !== false;

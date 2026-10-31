@@ -17,6 +17,7 @@
     return mesh && mesh.setWriteKey ? mesh.setWriteKey(key) : { ok: false, rule: 'DREAM-IDLE-NO-HOST' };
   }
   function boot() {
+    if (root.KCurators) return null; /* 4.9.208: Athena and Gilligan run as curators (app_curators.js); the old mesh is not booted */
     const D = engine();
     const forge = root.forge;
     if (root.KNextLayer && root.KNextLayer.enabled('dream_idle') === false) return null;
@@ -24,7 +25,7 @@
     mesh = D.createIdleDream({ host: forge, publishPacks: false, research: function (gap) { return D.curatedResearch(gap); }, clock: () => new Date().toISOString() });
     return mesh;
   }
-  function noteAsk(on) { asking = on === true; if (mesh && mesh.setAnswering) mesh.setAnswering(asking); }
+  function noteAsk(on) { if (root.KCurators) root.KCurators.setAnswering(on === true); asking = on === true; if (mesh && mesh.setAnswering) mesh.setAnswering(asking); }
   function seed() {
     const D = engine();
     const forge = root.forge;
@@ -44,6 +45,7 @@
     return v && Number.isFinite(Number(v.count)) ? Number(v.count) : ((v && v.admitted) || []).length;
   }
   function step() {
+    if (root.KCurators) return root.KCurators.step();
     boot();
     if (!mesh) { paint(null); return; }
     seed();
@@ -118,7 +120,7 @@
     if (r && r.toolJob && typeof r.toolJob.then === 'function') r.toolJob.then(noteResearch);
     else noteResearch(r);
   };
-  if (root.KPipeline && root.KPipeline.attachCustody) root.KPipeline.attachCustody(root);
+  if (!root.KCurators && root.KPipeline && root.KPipeline.attachCustody) root.KPipeline.attachCustody(root); /* 4.9.208: no Wikipedia enrichment under the curators */
   function kick() { root.KCustody.step(); if (!timer) timer = root.setInterval(() => root.KCustody.step(), 2000); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', kick); else kick();
 })(typeof self !== 'undefined' ? self : this);

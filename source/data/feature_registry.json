@@ -1,5 +1,5 @@
 {
- "version": "4.9.207",
+ "version": "4.9.208",
  "features": [
   {
    "id": "A-01",
@@ -3980,13 +3980,24 @@
    "proof": [
     "verify/r4207_suite.js"
    ]
+  },
+  {
+   "id": "R4208-CURATORS",
+   "name": "Athena and Gilligan on as curators of held Ask questions",
+   "source": "Nic decision (f) 2026-10-31; src/curators_208.js; src/app_curators.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "dream_idle on. Gaps are held Ask questions. Lookup by resonance through rmc_core with trusted anchors only (no Wikipedia). Admit needs the engine gate plus an Echo re-parse. Gilligan guards premises and bands. Writes only through the locked-down signed writer; otherwise pending on the phone.",
+   "proof": [
+    "verify/r4208_suite.js"
+   ]
   }
  ],
- "count": 363,
+ "count": 364,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 201,
+  "Partial": 202,
   "Missing": 9,
   "Out of scope / parked": 13
  }

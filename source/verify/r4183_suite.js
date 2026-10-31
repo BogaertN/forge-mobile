@@ -59,12 +59,12 @@ T('quarantined web evidence is not spoken before admit', () => {
   expect(row.late_stages[0].reason === 'no_admitted_memory_covers_the_question' || row.admit.disposition !== 'admit', JSON.stringify(row.late_stages[0]));
 });
 
-T('dream_idle and economy default off and packs stay gated', () => {
-  expect(Next.SWITCHES.dream_idle === false && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
-  expect(Next.enabled('dream_idle') === false && Next.enabled('economy') === false, 'enabled');
+T('dream_idle defaults on (4.9.208 curators), economy off, and packs stay gated', () => {
+  expect(Next.SWITCHES.dream_idle === true && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
+  expect(Next.enabled('dream_idle') === true && Next.enabled('economy') === false, 'enabled');
   Next.set('dream_idle', true);
   expect(Next.enabled('dream_idle') === true, 'set');
-  Next.set('dream_idle', false);
+  Next.set('dream_idle', true); /* 4.9.208 default: dream_idle on */
   expect(D.boundary().phone_pack_publish === 'gated' && D.boundary().mesh === '4.9.187', JSON.stringify(D.boundary().mesh));
 });
 
@@ -78,7 +78,7 @@ T('Ask screen does not call the old JS answer path', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.185', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.207', ver);
+  expect(ver === '4.9.208', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.183/.test(conf) && /rmc_engine_v1/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -91,9 +91,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.185', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_183.md'), 'utf8');
   expect(/60/.test(live) && /held/.test(live) && /C_min/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.207' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.208' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.207' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
+  expect(reg.version === '4.9.208' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
   expect(reg.count === reg.features.length, 'count ' + reg.count);
 });
 

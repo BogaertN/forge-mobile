@@ -200,7 +200,7 @@ T('the Ask card and trace do not admit or call a model', () => {
   const staged = G.stage('why is the sky blue');
   expect(staged.dream_idle === false && staged.economy === false && staged.persisted === false && staged.admit_gate === false && staged.keyword_admit === false && staged.provenance === 'proposal v1', JSON.stringify(staged));
   expect(staged.novel.some(row => row.word === 'sky' && row.Phi === 4 && row.eps === 0 && row.mu === 1 && row.phase_name === 'Friction'), JSON.stringify(staged.novel));
-  Next.set('dream_idle', false);
+  Next.set('dream_idle', true); /* 4.9.208 default: dream_idle on */
   Next.set('economy', false);
   same(staged, py({ op: 'stage', question: 'why is the sky blue' }), 'stage');
   const eng = cp.spawnSync('python3', ['-c', 'import json; from rmc_engine_v1.language_core_engines import run_engines; print(json.dumps(run_engines(0.2, 4, None, None, None, "why is the sky blue")["growth_198"]))'], {
@@ -230,7 +230,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.198', () => {
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_198_pyodide.json'), 'utf8'));
   expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.207', ver);
+  expect(ver === '4.9.208', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.198/.test(conf) && /C_min stays 0\.87/.test(conf) && /4\.9\.199/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -242,7 +242,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.198', () => {
   const table = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_198.md'), 'utf8');
   expect(/48 of 60/.test(table) && /No model is called/.test(table), 'LIVE_TEST');
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.207' && reg.features.some(f => f.id === 'R4198-LEXICON-GROWTH') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 201, reg.version + ' ' + reg.count + ' ' + reg.claims.Partial);
+  expect(reg.version === '4.9.208' && reg.features.some(f => f.id === 'R4198-LEXICON-GROWTH') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 202, reg.version + ' ' + reg.count + ' ' + reg.claims.Partial);
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
   const migrations = fs.readdirSync(path.join(ROOT, '..', 'supabase', 'migrations'));
