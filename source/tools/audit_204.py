@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 from rmc_engine_v1.anchor_store import clear_cache
@@ -9,6 +10,11 @@ from tools.live_188 import QUESTIONS, SEED, anchor_pool, research_rows, starter_
 from tools.live_201 import one
 
 ROOT = Path(__file__).resolve().parents[1]
+# 4.9.216: the cold 60 runs with the pinned math wheels importable (_mathlibs/, pip --require-hashes from
+# engine/requirements-math.txt), which is the phone's state once its first math question has loaded them.
+_MATHLIBS = ROOT / "_mathlibs"
+if _MATHLIBS.is_dir() and str(_MATHLIBS) not in sys.path:
+    sys.path.insert(0, str(_MATHLIBS))
 HELD = [
     "Who was Ada Lovelace?",
     "When did the French Revolution begin?",

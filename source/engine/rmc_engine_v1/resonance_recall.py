@@ -568,6 +568,17 @@ def rank_memory(question, nodes, phase_report=None):
         elif shared:
             concept_hits.append((node, shared, grace))
 
+    # 4.9.216 computed tier: the engine's computation receipt for this exact question is the premise of a math
+    # question. It locks before the frame-role and concept locks; it still has to phase-align, and the gate and the
+    # recomputing Echo still decide. A receipt for another question does not lock.
+    computed_locks = []
+    if admitted:
+        from rmc_engine_v1.computed_math import question_key
+        qk = question_key(question or "")
+        for node in admitted:
+            prov = node.get("provenance") if isinstance(node.get("provenance"), dict) else {}
+            if str(node.get("tier") or "").lower() == "computed" and prov.get("question_key") == qk and isinstance(prov.get("receipt"), dict):
+                computed_locks.append(node)
     # 4.9.209: an unsourced role lock does not outrank a trusted concept anchor.
     # Before this, any frame-role lock won over every concept hit, so twelve
     # unsourced shared rows ("Zenith marks sky overhead.") beat the NASA anchor.
@@ -575,7 +586,13 @@ def rank_memory(question, nodes, phase_report=None):
     best_concept = max((_trusted(r[0]) for r in concept_hits), default=-1)
     if role_locks and best_concept > best_role:
         role_locks = []
-    if role_locks:
+    if computed_locks:
+        chosen = [sorted(computed_locks, key=lambda n: str(n.get("memory_id") or ""))[0]]
+        how = "computation_receipt"
+        rsoc = _rsoc(chosen)
+        detail = {chosen[0].get("memory_id"): {"grace": _grace(chosen[0].get("packet") or {}, question_phi), "concepts": ["computed"]}}
+        hops = []
+    elif role_locks:
         # Several frame locks stay open in the RSOC record. The scorer sees
         # one anchor, the longest phase-aligned lock, so a shorter restatement
         # written later does not dilute memory_fit. Observe still receives every

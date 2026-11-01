@@ -84,7 +84,7 @@ T('the cold 60 for 4.9.210 is recorded (not tuned)', () => {
   expect(fs.existsSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_210.md')), 'report');
 });
 T('version registry names 4.9.210', () => {
-  expect(read('VERSION').trim() === '4.9.215', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.216', 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4210-') >= 0, 'registry');
 });
 

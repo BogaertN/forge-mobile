@@ -1,0 +1,103 @@
+{
+ "schema": "FORGE-LIBS/v1",
+ "release": "4.9.216",
+ "bucket": "forge-libs",
+ "project": "hqcvywujrygbnaowgwln",
+ "access": "public read; no public write (no storage.objects policies; uploads only with the service key, never in the client)",
+ "pyodide": "0.27.7",
+ "python": "3.12",
+ "cache": "forge-libs-v1",
+ "groups": {
+  "sympy": [
+   "mpmath",
+   "sympy"
+  ],
+  "pint": [
+   "typing_extensions",
+   "platformdirs",
+   "flexcache",
+   "flexparser",
+   "pint"
+  ]
+ },
+ "wheels": [
+  {
+   "name": "typing_extensions",
+   "version": "4.12.2",
+   "file": "typing_extensions-4.12.2-py3-none-any.whl",
+   "url": "https://hqcvywujrygbnaowgwln.supabase.co/storage/v1/object/public/forge-libs/typing_extensions-4.12.2-py3-none-any.whl",
+   "bytes": 37438,
+   "sha256": "04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d",
+   "integrity": "sha256-BOXKA1Hg8/hcaFOVQHLfZZ0NE/rDJNAHIxa2fXeUcA0=",
+   "license": "PSF-2.0",
+   "pypi": "https://pypi.org/project/typing_extensions/4.12.2/"
+  },
+  {
+   "name": "platformdirs",
+   "version": "4.3.6",
+   "file": "platformdirs-4.3.6-py3-none-any.whl",
+   "url": "https://hqcvywujrygbnaowgwln.supabase.co/storage/v1/object/public/forge-libs/platformdirs-4.3.6-py3-none-any.whl",
+   "bytes": 18439,
+   "sha256": "73e575e1408ab8103900836b97580d5307456908a03e92031bab39e4554cc3fb",
+   "integrity": "sha256-c+V14UCKuBA5AINrl1gNUwdFaQigPpIDG6s55FVMw/s=",
+   "license": "MIT",
+   "pypi": "https://pypi.org/project/platformdirs/4.3.6/"
+  },
+  {
+   "name": "flexcache",
+   "version": "0.3",
+   "file": "flexcache-0.3-py3-none-any.whl",
+   "url": "https://hqcvywujrygbnaowgwln.supabase.co/storage/v1/object/public/forge-libs/flexcache-0.3-py3-none-any.whl",
+   "bytes": 13263,
+   "sha256": "d43c9fea82336af6e0115e308d9d33a185390b8346a017564611f1466dcd2e32",
+   "integrity": "sha256-1Dyf6oIzavbgEV4wjZ0zoYU5C4NGoBdWRhHxRm3NLjI=",
+   "license": "BSD-3-Clause",
+   "pypi": "https://pypi.org/project/flexcache/0.3/"
+  },
+  {
+   "name": "flexparser",
+   "version": "0.4",
+   "file": "flexparser-0.4-py3-none-any.whl",
+   "url": "https://hqcvywujrygbnaowgwln.supabase.co/storage/v1/object/public/forge-libs/flexparser-0.4-py3-none-any.whl",
+   "bytes": 27625,
+   "sha256": "3738b456192dcb3e15620f324c447721023c0293f6af9955b481e91d00179846",
+   "integrity": "sha256-Nzi0Vhktyz4VYg8yTER3IQI8ApP2r5lVtIHpHQAXmEY=",
+   "license": "BSD-3-Clause",
+   "pypi": "https://pypi.org/project/flexparser/0.4/"
+  },
+  {
+   "name": "pint",
+   "version": "0.24.4",
+   "file": "Pint-0.24.4-py3-none-any.whl",
+   "url": "https://hqcvywujrygbnaowgwln.supabase.co/storage/v1/object/public/forge-libs/Pint-0.24.4-py3-none-any.whl",
+   "bytes": 302029,
+   "sha256": "aa54926c8772159fcf65f82cc0d34de6768c151b32ad1deb0331291c38fe7659",
+   "integrity": "sha256-qlSSbIdyFZ/PZfgswNNN5naMFRsyrR3rAzEpHDj+dlk=",
+   "license": "BSD-3-Clause",
+   "pypi": "https://pypi.org/project/pint/0.24.4/"
+  },
+  {
+   "name": "mpmath",
+   "version": "1.3.0",
+   "file": "mpmath-1.3.0-py3-none-any.whl",
+   "url": "https://hqcvywujrygbnaowgwln.supabase.co/storage/v1/object/public/forge-libs/mpmath-1.3.0-py3-none-any.whl",
+   "bytes": 536198,
+   "sha256": "a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c",
+   "integrity": "sha256-oLK5/oC7zYGmZH/xMQhzjPtILUgdgmzA4C9bNeXIjSw=",
+   "license": "BSD-3-Clause",
+   "pypi": "https://pypi.org/project/mpmath/1.3.0/"
+  },
+  {
+   "name": "sympy",
+   "version": "1.13.3",
+   "file": "sympy-1.13.3-py3-none-any.whl",
+   "url": "https://hqcvywujrygbnaowgwln.supabase.co/storage/v1/object/public/forge-libs/sympy-1.13.3-py3-none-any.whl",
+   "bytes": 6189483,
+   "sha256": "54612cf55a62755ee71824ce692986f23c88ffa77207b30c1368eda4a7060f73",
+   "integrity": "sha256-VGEs9VpidV7nGCTOaSmG8jyI/6dyB7MME2jtpKcGD3M=",
+   "license": "BSD-3-Clause",
+   "pypi": "https://pypi.org/project/sympy/1.13.3/"
+  }
+ ],
+ "note": "Pure-Python wheels (py3-none-any). SHA-256 equals PyPI's published digest for each file. The phone fetches a wheel only when a math question needs it, verifies SHA-256 before it is unpacked, and keeps it in the Cache API for offline use."
+}

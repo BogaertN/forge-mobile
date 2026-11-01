@@ -409,6 +409,14 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     if not question:
         return {"ok": False, "engine": "rmc_engine_v1", "error": "empty_question", "calls_llm": False, "product_reply": False}
     rows = _rows(payload)
+    # 4.9.216 computed tier: only the engine's own computation receipt for this question is a computed premise.
+    # A row that merely claims tier "computed" from the phone's memory is not.
+    rows = [r for r in rows if str(r.get("tier") or "").lower() != "computed" and not r.get("computed")]
+    computed = payload.get("_computed") if isinstance(payload.get("_computed"), dict) else None
+    if computed and computed.get("status") == "ok" and isinstance(computed.get("row"), dict):
+        crow = dict(computed["row"])
+        crow["source"] = "computation"
+        rows.append(crow)
     research_rows = [r for r in rows if r.get("source") == "research_quarantine"]
     admitted_rows = [r for r in rows if r.get("source") != "research_quarantine"]
     from rmc_engine_v1.gilligan_anchor import connect_quarantine
@@ -481,6 +489,15 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             echo["score"] = 1.0
             echo["pass"] = True
             echo["method"] = "speech_act_meaning"
+        if computed is not None and live and derive_status != "conflicted" and scored and ("memory" in scored_kind or meaning_preview.get("language_core")):
+            # 4.9.216: for a math question the scored sentence is checked by the recomputing Echo below, not by
+            # word coverage (a sentence like "15% of 80 is 12." has no content words for coverage to read).
+            rendered = scored
+        if computed is not None:
+            # 4.9.216: a math question's Echo re-parses the spoken sentence with the math grammar and recomputes it;
+            # the sentence must state the asked quantity and its value. Unparsed or uncomputed math always fails.
+            from rmc_engine_v1.computed_math import echo as computed_echo
+            echo = computed_echo(question, rendered if live else _candidate_text(report), computed)
         gate = admit_gate(
             measured, apply_to_ask=bool(live and echo.get("pass") and rendered),
             history=payload.get("drift_history"), stamps_ms=payload.get("phase_stamps_ms"),
@@ -656,7 +673,18 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "stage_count": len(stages),
             "trace": trace,
             "status": report.get("status"),
+            "computed": _computed_public(computed),
         }
+
+
+def _computed_public(computed: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not computed:
+        return None
+    keep = ("status", "kind", "rule", "reason", "clarify", "options", "unit", "sentence", "receipt", "understood", "needs_libs")
+    out = {k: computed[k] for k in keep if k in computed}
+    out["tier"] = "computed"
+    out["calls_llm"] = False
+    return out
 
 
 def _fallback_eligible(result: dict[str, Any]) -> bool:
@@ -787,9 +815,28 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     the same gate again, so every number on a fallback answer is measured, not
     carried over. A hard stop and a conflict do not fall back. Deterministic.
     """
-    payload = preselect_pools(dict(payload or {}))
+    payload = dict(payload or {})
+    payload.pop("_computed", None)  # only the engine sets this
+    from rmc_engine_v1 import computed_math
+    question = str(payload.get("question") or payload.get("text") or "").strip()
+    understood = computed_math.understand(question) if question else None
+    if understood is not None:
+        computed = computed_math.compute(question, understood)
+        payload["_computed"] = computed
+    payload = preselect_pools(payload)
     pre = payload.pop("_preselect", None)
     first = _with_preselect(_run_once(payload), pre)
+    computed = payload.get("_computed")
+    if computed is not None and computed.get("status") != "ok":
+        # 4.9.216: unparsed, ambiguous, undefined or not-yet-loaded math holds with its reason. No other row may
+        # answer a math question, so there is no fallback. needs_libs tells the phone which pinned wheels to load
+        # (data/forge_libs.json) before it asks again; nothing is guessed meanwhile.
+        if computed.get("status") == "needs_libs":
+            first["needs_libs"] = computed.get("needs_libs")
+        first["fallback"] = {"rule": "ENGINE-CANDIDATE-NO-FALLBACK-COMPUTED", "max": FALLBACK_MAX, "tried": [], "spoken_after": None, "calls_llm": False}
+        if isinstance(first.get("trace"), dict):
+            first["trace"]["fallback"] = first["fallback"]
+        return first
     if not _fallback_eligible(first):
         return first
     tried = []

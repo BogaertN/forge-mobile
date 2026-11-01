@@ -1,4 +1,4 @@
-/* Pyodide worker. Fetched pyodide.js is SHA-384 checked, then imported from a Blob URL. Packages use Pyodide's lock file.
+/* Pyodide worker. Fetched pyodide.js is SHA-384 checked, then imported from a Blob URL. SymPy and Pint are the pinned forge-libs wheels (4.9.216).
  * The RMC reply is the engine's rendered answer when the admit gate passes. No model is called. */
 'use strict';
 let py = null;
@@ -10,8 +10,8 @@ async function init(o) {
     importScripts(URL.createObjectURL(new Blob([buf], { type: 'text/javascript' })));
     py = await self.loadPyodide({ indexURL: o.base });
   }
-  if (o.sympy !== false && !py._forgeSympy) { await py.loadPackage(['sympy']); py._forgeSympy = true; }
-  let pint = false; if (o.pint) { try { await py.loadPackage('micropip'); await py.runPythonAsync('import micropip\nawait micropip.install("pint")'); pint = true; } catch (e) { pint = false; } }
+  if (o.sympy !== false && !py._forgeSympy) { await installLibs(['sympy'], o.libs); py._forgeSympy = true; }
+  let pint = false; if (o.pint) { try { await installLibs(['pint'], o.libs); pint = true; } catch (e) { pint = false; } }
   if (o.rmc) { py.FS.mkdirTree('/forge'); py.FS.writeFile('/forge/coherence_math.py', o.rmc); py.runPython('import sys\nsys.path.insert(0, "/forge")'); }
   return { ok: true, version: py.version, pint, sympy: !!py._forgeSympy }; }
 const CHECK = `
@@ -42,6 +42,36 @@ def run(m):
 `;
 async function check(m) { py.globals.set('mjson', JSON.stringify(m)); py.runPython(CHECK); const r = py.runPython('run(json.loads(mjson))'); return r === undefined ? null : r; }
 async function rmcThresholds(src) { if (src) { py.FS.mkdirTree('/forge'); py.FS.writeFile('/forge/coherence_math.py', src); py.runPython('import sys, importlib\nsys.path.insert(0, "/forge") if "/forge" not in sys.path else None\nif "coherence_math" in sys.modules: importlib.reload(sys.modules["coherence_math"])'); } const r = py.runPython('import json, coherence_math\njson.dumps(coherence_math.gate_thresholds())'); return JSON.parse(r); }
+/* 4.9.216: the math libraries. Each wheel is fetched from the pinned forge-libs URL (public read, no credentials), checked
+ * against the SHA-256 shipped in FORGE_LIBS (fetch integrity and a second digest here) before anything is unpacked, and kept
+ * in the Cache API so math works offline after first use. A mismatch is never installed and its cache entry is removed. */
+const libsDone = new Set();
+async function sha256hex(buf) { const d = new Uint8Array(await crypto.subtle.digest('SHA-256', buf)); let s = ''; for (const b of d) s += b.toString(16).padStart(2, '0'); return s; }
+async function wheelBytes(w, cacheName) {
+  let cache = null; try { cache = await caches.open(cacheName); } catch (e) { cache = null; }
+  let res = cache ? await cache.match(w.url) : null; let from = 'cache';
+  if (!res) { from = 'network'; res = await fetch(w.url, { credentials: 'omit', referrerPolicy: 'no-referrer', integrity: w.integrity, cache: 'no-store' }); if (!res.ok) throw new Error('forge_libs_http_' + res.status + '_' + w.name); }
+  const buf = await res.arrayBuffer();
+  if (await sha256hex(buf) !== w.sha256) { if (cache) { try { await cache.delete(w.url); } catch (e) {} } throw new Error('forge_libs_sha256_mismatch_' + w.name); }
+  if (from === 'network' && cache) { try { await cache.put(w.url, new Response(buf.slice(0), { headers: { 'content-type': 'application/zip' } })); } catch (e) {} }
+  return { buf, from };
+}
+async function installLibs(groups, libs) {
+  if (!libs || !Array.isArray(libs.wheels) || !libs.groups) throw new Error('forge_libs_manifest_missing');
+  const names = []; for (const g of groups || []) for (const n of (libs.groups[g] || [])) if (!names.includes(n)) names.push(n);
+  const log = [];
+  for (const name of names) {
+    if (libsDone.has(name)) continue;
+    const w = libs.wheels.find(x => x.name === name); if (!w) throw new Error('forge_libs_not_pinned_' + name);
+    const { buf, from } = await wheelBytes(w, libs.cache || 'forge-libs-v1');
+    py.FS.mkdirTree('/tmp/forge_libs'); py.FS.writeFile('/tmp/forge_libs/' + w.file, new Uint8Array(buf));
+    py.globals.set('forge_whl', '/tmp/forge_libs/' + w.file);
+    py.runPython('import zipfile, sysconfig\nwith zipfile.ZipFile(forge_whl) as z: z.extractall(sysconfig.get_paths()["purelib"])');
+    libsDone.add(name); log.push({ name: w.name, version: w.version, sha256: w.sha256, verified: true, from });
+  }
+  py.runPython('import importlib\nimportlib.invalidate_caches()');
+  return log;
+}
 async function mountEngine(o) {
   if (py.FS.analyzePath('/engine/rmc_engine_v1/rmc_core.py').exists) return;
   const res = await fetch(o.bundleUrl, { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'force-cache' }); if (!res.ok) throw new Error('rmc_bundle_http_' + res.status);
@@ -54,11 +84,20 @@ async function mountEngine(o) {
   py.runPython('import sys\nsys.path.insert(0, "/engine") if "/engine" not in sys.path else None');
 }
 async function rmcAsk(arg) {
-  if (!py) await init({ base: arg.base, sri: arg.sri, pint: false, rmc: null });
+  if (!py) await init({ base: arg.base, sri: arg.sri, pint: false, sympy: false, rmc: null, libs: arg.libs });
   await mountEngine(arg);
   py.globals.set('payload_json', JSON.stringify(arg.payload || {}));
-  const raw = py.runPython('import json\nfrom rmc_engine_v1.rmc_core import run\njson.dumps(run(json.loads(payload_json)), default=str)');
-  const out = JSON.parse(raw); out.path = 'pyodide'; out.calls_llm = false; return out;
+  const runOnce = () => JSON.parse(py.runPython('import json\nfrom rmc_engine_v1.rmc_core import run\njson.dumps(run(json.loads(payload_json)), default=str)'));
+  let out = runOnce();
+  if (Array.isArray(out.needs_libs) && out.needs_libs.length) {
+    /* The engine understood a math question and asked for its libraries. Load the pinned wheels, then ask again. */
+    let libs;
+    try { libs = { rule: 'FORGE-LIBS-PINNED-SHA256', groups: out.needs_libs, installed: await installLibs(out.needs_libs, arg.libs) }; }
+    catch (e) { libs = { rule: 'FORGE-LIBS-PINNED-SHA256', groups: out.needs_libs, error: String(e && e.message || e).slice(0, 200) }; }
+    if (!libs.error) out = runOnce();
+    out.libs = libs;
+  }
+  out.path = 'pyodide'; out.calls_llm = false; return out;
 }
 self.onmessage = async e => { const { id, cmd, arg } = e.data || {}; try {
     let out; if (cmd === 'init') out = await init(arg); else if (cmd === 'check') out = { agree: await check(arg) }; else if (cmd === 'rmc') out = await rmcThresholds(arg); else if (cmd === 'rmcAsk') out = await rmcAsk(arg); else throw new Error('unknown_cmd');

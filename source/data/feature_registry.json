@@ -1,5 +1,5 @@
 {
- "version": "4.9.215",
+ "version": "4.9.216",
  "features": [
   {
    "id": "A-01",
@@ -4068,13 +4068,24 @@
    "proof": [
     "verify/r4215_suite.js"
    ]
+  },
+  {
+   "id": "R4216-COMPUTED-MATH",
+   "name": "Computed trust tier: math questions parsed by the engine's grammar, computed with SymPy (Pint for units) from pinned forge-libs wheels, admitted through the gate with a computation receipt and a recomputing Echo",
+   "source": "Nic request 2026-11-01 5:24 AM CT (4.9.216); engine/rmc_engine_v1/computed_math.py, rmc_core.py, resonance_recall.py, src/py_worker.js, src/pycheck.js, src/app.js, sw.js, data/forge_libs.json, engine/requirements-math.txt, supabase/migrations/20261101120000_forge_libs_bucket_216.sql, tools/check_216.py",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Grammar (no eval): number words and digits, plus/minus/times/divided by/over/of, percent of and what percent, powers (to the power of, squared, cubed, ^), square and cube roots, parentheses, solve for one unknown (linear and polynomial, real roots), unit conversion with an explicit unit table; gallon, quart, pint, cup, fluid ounce, ounce, ton, calorie, year, month and bare degree are refused with a clarify question. Guards: exponent 4096, 4000 digits; division by zero held. The engine writes a FORGE-COMPUTATION-RECEIPT/v1 row (tier computed, seeded false) that only it can create; a phone row claiming the tier is dropped. Recall locks on the receipt for this question (computation_receipt); Echo re-parses the spoken sentence and recomputes it. Before the wheels load the engine holds with needs_libs; the worker fetches the pinned wheels, checks SHA-256 (fetch integrity plus a second digest) before unpacking, caches them in forge-libs-v1, and asks again. The seven wheels are in the forge-libs bucket, and verify_live checks their public SHA-256. Partial: the server-side fallback endpoint (POST /api/rmc/deep-dry-run) runs without the math libraries and holds math, and the grammar does not read an article as one (\"a kilometer\").",
+   "proof": [
+    "verify/r4216_suite.js"
+   ]
   }
  ],
- "count": 371,
+ "count": 372,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 175,
+  "Partial": 176,
   "Missing": 9,
   "Out of scope / parked": 47
  }
