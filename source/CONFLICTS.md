@@ -13,6 +13,7 @@
 - **Superseded:** the 4.9.215 R4215 dry-run example "17 times 23 is held" still holds in the gate, where the libraries are not importable by the dry-run check (`needs_libs`). On a phone with the wheels loaded, it is now computed.
 - **Cold 60 (recorded, not tuned):** 27 admitted / 33 held, 0 false admits (4.9.215: 22 / 38), run with the wheels importable. The five changes are all arithmetic: 17×23, √144, 19×21, 144÷12 and 100÷4. "How many meters are in a kilometer?" is still held because the grammar has no article-as-one ("a kilometer"); it was left alone, not tuned.
 - **Registry:** R4216-COMPUTED-MATH (Partial: the server-side fallback endpoint has no math libraries, and the grammar has no article-as-one). Pinned Partial 175 → 176.
+- **CI fix:** in the first push (2a5a60d) the new pip step was unquoted, and `:all: ` made both workflow files invalid YAML, so neither Test nor Deploy Pages ran. The step is now quoted, and every workflow file parses.
 
 ## v4.9.215 — Release C4: the old JS answer path is deleted; the Dry-Run tab runs the Python engine (Nic approved 2026-11-01 4:16 AM, option B 4:21 AM America/Chicago)
 
