@@ -1,5 +1,5 @@
 {
- "version": "4.9.211",
+ "version": "4.9.212",
  "features": [
   {
    "id": "A-01",
@@ -4024,13 +4024,24 @@
    "proof": [
     "verify/r4211_suite.js"
    ]
+  },
+  {
+   "id": "R4212-STORE-AUDIT-MODULES",
+   "name": "Release C1: the phone store and the receipt/audit chain moved off the old kernel files (same API, no behaviour change)",
+   "source": "Nic plan Release C, stage C1 (2026-10-31); src/kstore.js, src/kaudit.js, src/kernel.js, src/forge.js; tools/c_parity.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "MemoryStore, the categories, canon and the layered TX/case store are in kstore.js; the receipt chain and verifyAudit are in kaudit.js; the vault (privacy.js) and permissions (governance.js) were already modules. Parity transcript equals the 4.9.211 record. Partial: the old answer path stays until C4 (Nic approval required).",
+   "proof": [
+    "verify/r4212_suite.js"
+   ]
   }
  ],
- "count": 367,
+ "count": 368,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 205,
+  "Partial": 206,
   "Missing": 9,
   "Out of scope / parked": 13
  }
