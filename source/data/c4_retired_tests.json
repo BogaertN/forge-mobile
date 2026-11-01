@@ -1422,5 +1422,50 @@
    "suite_retired": false,
    "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
   }
- ]
+ ],
+ "emitted_rows": [
+  {
+   "suite": "r4168_suite.js",
+   "name": "grace path",
+   "emitted_by": "normalizeResonance: pack Phi5 sealed; Phi9 projectable combines (grace)",
+   "why": "a pathway row that the retired test pushed from inside its Kernel.process run; it goes with that test"
+  },
+  {
+   "suite": "r4168_suite.js",
+   "name": "quartz pathway",
+   "emitted_by": "RPMC gather uses CS packets: quartz miss path carries sfe priors (not canned Naming)",
+   "why": "a pathway row that the retired test pushed from inside its Kernel.process run; it goes with that test"
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "h2s pathway",
+   "emitted_by": "What is h2s? locked vault: RPMC-ANCESTOR-CANDIDATES → RSOC-COMPOSE → research; no AUTH vault passphrase",
+   "why": "a pathway row that the retired test pushed from inside its Kernel.process run; it goes with that test"
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "photosynthesis",
+   "emitted_by": "non-civics factual miss (What is photosynthesis?): RPMC candidates or AQ-1 research; no vault gate",
+   "why": "a pathway row that the retired test pushed from inside its Kernel.process run; it goes with that test"
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "forge h2s named",
+   "emitted_by": "forge locked: chemical what-is Names from mock archives without passphrase",
+   "why": "a pathway row that the retired test pushed from inside its Kernel.process run; it goes with that test"
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "forge cos named",
+   "emitted_by": "forge locked: second non-civics factual (carbon dioxide formula ask when miss) Names without vault",
+   "why": "a pathway row that the retired test pushed from inside its Kernel.process run; it goes with that test"
+  },
+  {
+   "suite": "r4166_suite.js",
+   "name": "h2s pathway",
+   "emitted_by": "What is h2s?: exact CS miss → RPMC-ANCESTOR / AUTH-AQ1 research — not canned pack",
+   "why": "a pathway row that the retired test pushed from inside its Kernel.process run; it goes with that test"
+  }
+ ],
+ "note": "count is retired tests; emitted_rows are the extra result rows those tests pushed (7), so the gate has 242 fewer rows from retirement."
 }
