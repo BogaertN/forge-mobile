@@ -1,5 +1,5 @@
 {
- "version": "4.9.212",
+ "version": "4.9.213",
  "features": [
   {
    "id": "A-01",
@@ -4035,13 +4035,24 @@
    "proof": [
     "verify/r4212_suite.js"
    ]
+  },
+  {
+   "id": "R4213-MEA-PACK-MODULES",
+   "name": "Release C2: the MEA panels and the starter/import/shared-knowledge views moved off kernel.js (same API, no behaviour change)",
+   "source": "Nic plan Release C, stage C2 (2026-10-31); src/kmea_panels.js, src/kpacks.js, src/kernel.js; tools/c_parity.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "MeaPanels(ctx) holds manifest proposals, the MEA-P problem lane, MEA-K manifests and meta; Packs(ctx) holds the starter pack, confirmed-pack import and the confirmed_shared views. Moved verbatim; parity transcript equals the 4.9.211 record. Partial: the old answer path stays until C4 (Nic approval required).",
+   "proof": [
+    "verify/r4213_suite.js"
+   ]
   }
  ],
- "count": 368,
+ "count": 369,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 206,
+  "Partial": 207,
   "Missing": 9,
   "Out of scope / parked": 13
  }

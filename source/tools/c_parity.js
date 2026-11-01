@@ -42,8 +42,9 @@ function run() {
   out.meaCandidates = h(safe(() => f.meaCandidates())); out.meaCandidatesK = h(safe(() => f.meaCandidatesK())); out.meaMetaK = h(safe(() => f.meaMetaK()));
   out.meaArchiveK = h(safe(() => f.meaArchiveK())); out.meaRequeueK = h(safe(() => f.meaRequeueK(5)));
   const probs = safe(() => f.meaProblems()); out.meaProblems = h(probs);
-  const p0 = Array.isArray(probs) && probs[0] && (probs[0].id || probs[0].pid); out.meaDetail = h(p0 ? safe(() => f.meaDetail(p0)) : null); out.meaCycle = h(p0 ? safe(() => f.meaCycle(p0)) : null);
-  out.meaRequeue = h(safe(() => f.meaRequeue(5)));
+  const p0 = Array.isArray(probs) && probs[0] && (probs[0].problem_id || probs[0].id); out.meaDetail = h(p0 ? safe(() => f.meaDetail(p0)) : null); out.meaCycle = h(p0 ? safe(() => f.meaCycle(p0)) : null);
+  out.meaSupply = h(p0 ? safe(() => f.meaSupply(p0, 'u0', 'x')) : null); out.meaHandoff = h(p0 ? safe(() => f.meaHandoffOf(p0)) : null); out.meaCommit = h(p0 ? safe(() => f.meaCommit(p0, 'none', false)) : null);
+  out.meaRequeue = h(safe(() => f.meaRequeue(5))); out.adopt = h(safe(() => f.adoptManifest('none', false))); out.adoptK = h(safe(() => f.adoptManifestK('none', false)));
   // derive / reparse (Pāṇini parse) and the KKernel helpers
   const S = ['my car is red', 'Anna lives in Paris', 'the dog chased the cat', 'a robin is a bird', 'if it rains then the grass is wet', 'I bought a car yesterday'];
   out.derive = S.map(s => h(safe(() => f.derive(s)))); out.deriveSource = S.map(s => h(safe(() => f.deriveSource(s))));
