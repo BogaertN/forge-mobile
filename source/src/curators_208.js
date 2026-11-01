@@ -48,7 +48,9 @@ function Curators(o) {
     return { ok: true, rule: 'CURATE-GAP-QUEUED' };
   }
   async function measure(question, anchors) {
-    const memory = { receipts: [], phone: [], hosted: [], research: [], anchors: anchors };
+    /* 4.9.210: cached anchors (pool: true) go to the engine pool; the engine selects them by packet concepts */
+    const pool = anchors.filter(a => a && a.pool === true);
+    const memory = { receipts: [], phone: [], hosted: [], research: [], anchors: anchors.filter(a => !(a && a.pool === true)), pools: pool.length ? [{ name: 'anchors', into: 'anchors', rows: pool }] : [] };
     const row = await o.run({ question, live: true, dry_run: false, memory });
     const eps = row && typeof row.drift === 'number' ? row.drift : null;
     return { row, eps, C: row && row.coherence, echo: row && row.echo || {}, lane: laneOf(eps, KM) };

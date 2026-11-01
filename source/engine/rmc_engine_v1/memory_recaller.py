@@ -185,6 +185,7 @@ def _node_from_receipt(path: Path, root: Path, data: dict[str, Any]) -> dict[str
         "anchor_ancestor_text": str(data.get("anchor_ancestor_text") or ""),
         "trust": data.get("trust"),
         "tier": data.get("tier"),
+        "concepts": data.get("concepts") if isinstance(data.get("concepts"), list) else None,
         "license": data.get("license"),
         "source_url": data.get("source_url"),
         "revision": data.get("revision"),

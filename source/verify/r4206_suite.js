@@ -79,7 +79,8 @@ T('sb_sync reads anchors anonymously, pages the view, and never sends a session 
 });
 T('Ask reads anchors through the cache, never fetches shard files, and never replays recorded self-seed documents', () => {
   const app = read('src/app.js');
-  expect(/KAnchorCache\.byConcepts\(concepts\)/.test(app) && /KAnchorCache\.ensure\(\)/.test(app) && !/anchors_188\/shards/.test(app) && !/'data\/anchors_188\/' \+/.test(app), 'cache path');
+  /* 4.9.210: the cached anchors go to the engine pool (KAnchorCache.all), selected there by packet concepts */
+  expect(/KAnchorCache\.all\(\)/.test(app) && /KAnchorCache\.ensure\(\)/.test(app) && !/anchors_188\/shards/.test(app) && !/'data\/anchors_188\/' \+/.test(app), 'cache path');
   expect(!/SELF_SEED_FIXTURES/.test(app) && !/SEED-REASK/.test(app), 'no fixture replay in Ask');
   const seed = read('src/self_seed_202.js'); expect(/root\.SELF_SEED_DEMO = rows\[2\]/.test(seed) && !/SELF_SEED_FIXTURES/.test(seed), 'demo global');
   expect(!/supabase\.co/.test(read('src/anchor_cache.js')) && /root\.KSb/.test(read('src/anchor_cache.js')), 'backend only through KSb');

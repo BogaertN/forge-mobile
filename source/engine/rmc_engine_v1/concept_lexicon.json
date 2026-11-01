@@ -431,5 +431,23 @@
   "provenance": "T.PROVENANCE",
   "evidence": "T.EVIDENCE",
   "trace": "T.TRACE"
+ },
+ "values": {
+  "N.COLOR": {
+   "concepts": [
+    "N.RED"
+   ],
+   "note": "a colour word is a value of colour"
+  },
+  "N.AGE": {
+   "category": "number",
+   "digits": true,
+   "note": "a number is a value of age"
+  },
+  "N.NUMBERW": {
+   "category": "number",
+   "digits": true,
+   "note": "a number is a value of a number"
+  }
  }
 }

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from rmc_engine_v1.anchor_store import clear_cache
-from tools.live_188 import QUESTIONS, SEED, research_rows, shard_rows, starter_rows
+from tools.live_188 import QUESTIONS, SEED, anchor_pool, research_rows, starter_rows
 from tools.live_201 import one
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,10 +29,13 @@ def run_cold() -> dict:
     clear_cache()
     research = research_rows()
     starter = starter_rows()
+    pool = anchor_pool()
     rows = []
     for topic, question in QUESTIONS:
         memory = json.loads(json.dumps(SEED))
-        memory["anchors"] = starter + shard_rows(question)
+        # 4.9.210: anchors reach the engine as a pool; rmc_core.preselect_pools picks by packet concepts
+        memory["anchors"] = list(starter)
+        memory["pools"] = [{"name": "anchors", "into": "anchors", "rows": pool}]
         web = research.get(question) or {}
         if web.get("text"):
             memory["research"] = [{

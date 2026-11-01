@@ -179,6 +179,105 @@ def _concept_ids(text: str) -> set[str]:
     return found
 
 
+# 4.9.210 (Release A2): word sense and compound names, structurally.
+_NAME_GLUE = {"and", "of", "the", "de", "da", "del", "la", "le", "von", "van", "bin", "al"}
+_DETERMINERS = {"the", "a", "an", "this", "that", "these", "those", "in", "on", "at", "of", "for", "by", "to", "from", "with"}
+
+
+def _name_words(text: str) -> list[str]:
+    out, buf = [], []
+    for ch in str(text or ""):
+        if ch.isalnum() or ch in "-'":
+            buf.append(ch)
+        else:
+            if buf:
+                out.append("".join(buf).strip("-'"))
+            buf = []
+            if ch in ".!?;:,()[]\"":
+                out.append("|")
+    if buf:
+        out.append("".join(buf).strip("-'"))
+    return [t for t in out if t]
+
+
+def _capital(tok: str) -> bool:
+    return bool(tok) and tok[0].isupper() and tok.lower() not in _DETERMINERS
+
+
+def compound_names(text: str) -> list[list[str]]:
+    """Proper-name compounds in running text: two or more adjacent capitalised words
+    ("MOON Jae-in", "Burkina Faso", "Mona Lisa", "National Assembly"), allowing name glue
+    ("Bosnia and Herzegovina"). A word inside such a name does not name a general concept
+    on its own ("MOON" in "MOON Jae-in" is not the Moon). Sentence-initial determiners
+    ("The Moon") are not name parts."""
+    toks = _name_words(text)
+    names, cur, glue = [], [], []
+    for tok in toks + ["|"]:
+        if tok != "|" and _capital(tok):
+            if cur and glue:
+                cur.extend(glue)
+            cur.append(tok)
+            glue = []
+        elif tok != "|" and cur and tok.lower() in _NAME_GLUE and not glue:
+            glue = [tok]
+        else:
+            if len([t for t in cur if _capital(t)]) >= 2:
+                names.append(cur)
+            cur, glue = [], []
+    return names
+
+
+def compound_id(words: list[str]) -> str:
+    return "A." + "".join(ch for ch in "".join(words).upper() if ch.isalnum())
+
+
+def row_concepts(node: dict[str, Any], text: str | None = None) -> set[str]:
+    """A row's packet concepts. An anchor's own curated concepts (its class) come first;
+    words are read only outside proper-name compounds, and a compound adds its own id."""
+    own: set[str] = set()
+    for key in ("concepts",):
+        if isinstance(node.get(key), list):
+            own |= {str(c) for c in node[key] if c}
+    for key in ("concept",):
+        if isinstance(node.get(key), str) and node[key]:
+            own.add(node[key])
+    packet = node.get("packet") if isinstance(node.get("packet"), dict) else {}
+    if isinstance(packet.get("concept"), str) and packet.get("concept"):
+        own.add(packet["concept"])
+    body = clean_text(node) if text is None else text
+    names = compound_names(body)
+    inside = {t.lower() for name in names for t in name}
+    words = " ".join(t for t in _name_words(body) if t != "|" and t.lower() not in inside)
+    return own | _concept_ids(words) | _anchor_concepts(words) | {compound_id(n) for n in names}
+
+
+def question_concepts(question: str, known: set[str] | None = None) -> set[str]:
+    """The question's packet concepts. Longest compound first: a span whose compound id
+    is a known concept ("burkina faso" -> A.BURKINAFASO) is one name, and its words do not
+    also count alone. Then single words: the concept lexicon, the anchor concepts, and
+    A.<WORD> when that is a known concept."""
+    known = known or set()
+    toks = [t.lower() for t in _name_words(question) if t != "|"]
+    used = [False] * len(toks)
+    found: set[str] = set()
+    for size in range(min(8, len(toks)), 1, -1):
+        for i in range(0, len(toks) - size + 1):
+            if any(used[i:i + size]):
+                continue
+            cid = compound_id(toks[i:i + size])
+            if cid in known:
+                found.add(cid)
+                for j in range(i, i + size):
+                    used[j] = True
+    rest = " ".join(t for t, u in zip(toks, used) if not u)
+    found |= _concept_ids(rest) | _anchor_concepts(rest)
+    for tok in rest.split():
+        cid = compound_id([tok])
+        if cid in known:
+            found.add(cid)
+    return found
+
+
 def _numeric_or_unspecified(value: Any, default: float) -> Any:
     if value == "unspecified":
         return "unspecified"
@@ -432,7 +531,11 @@ def rank_memory(question, nodes, phase_report=None):
     """Return resonant nodes. Quarantine is recorded and not returned as active."""
     question_phi = _question_phi(phase_report)
     asked = asked_filler(question)
-    q_concepts = _concept_ids(question)
+    known = set()
+    for node in nodes or []:
+        if isinstance(node, dict) and isinstance(node.get("concepts"), list):
+            known |= {str(c) for c in node["concepts"] if c}
+    q_concepts = question_concepts(question, known)
     admitted = []
     quarantined = []
     role_locks = []
@@ -459,7 +562,7 @@ def rank_memory(question, nodes, phase_report=None):
             continue
         admitted.append(node)
         hit = _role_hit(asked["filler"], text) if asked else None
-        shared = sorted(q_concepts & _concept_ids(text))
+        shared = sorted(q_concepts & row_concepts(node, text))
         if hit:
             role_locks.append((node, hit, grace, shared))
         elif shared:

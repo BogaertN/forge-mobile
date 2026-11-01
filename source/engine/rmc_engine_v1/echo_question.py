@@ -22,6 +22,73 @@ def _tokens(text: str) -> set[str]:
     return {w for w in re.findall(r"[a-z0-9]+", str(text or "").lower()) if len(w) > 2 and w not in _STOP}
 
 
+_WH_SLOT = {"what", "which", "whose"}
+# A why-question asks for a cause. These are the cause relations a sentence states
+# (Panini hetu / apadana readings of English): "because", "due to", "comes from", ...
+_CAUSE = {"because", "since", "due", "cause", "causes", "caused", "causing", "result", "results", "resulting",
+          "reason", "reasons", "therefore", "thus", "hence", "leads", "lead", "owing", "comes", "come", "came",
+          "originates", "stems", "produces", "produced", "makes", "made", "so"}
+
+
+def _lex() -> dict[str, Any]:
+    global _LEX
+    if _LEX is None:
+        from pathlib import Path
+        import json
+        _LEX = json.loads(Path(__file__).with_name("concept_lexicon.json").read_text(encoding="utf-8"))
+    return _LEX
+
+
+_LEX: dict[str, Any] | None = None
+
+
+def _words(text: str) -> list[str]:
+    return re.findall(r"[a-z0-9]+", str(text or "").lower())
+
+
+def _asked_slot(question: str) -> tuple[str, dict[str, Any]] | None:
+    """WH-attribute frame: "what colour is my car" asks for a value of colour.
+    Returns the slot word and its value rule when the lexicon names one."""
+    words = _words(question)
+    lex = _lex()
+    for i, w in enumerate(words[:-1]):
+        if w in _WH_SLOT:
+            cid = (lex.get("surfaces") or {}).get(words[i + 1])
+            rule = (lex.get("values") or {}).get(cid or "")
+            if rule:
+                return words[i + 1], rule
+    return None
+
+
+def _fills_slot(rule: dict[str, Any], answer: str) -> bool:
+    lex = _lex()
+    surfaces, cats = lex.get("surfaces") or {}, lex.get("categories") or {}
+    for w in _words(answer):
+        cid = surfaces.get(w)
+        if cid and cid in (rule.get("concepts") or []):
+            return True
+        if cid and rule.get("category") and cats.get(cid) == rule.get("category"):
+            return True
+        if rule.get("digits") and w.isdigit():
+            return True
+    return False
+
+
+def _stem_cover(word: str, right: set[str]) -> bool:
+    """A derived adjective is covered by its base noun: salty / salt, rainy / rain.
+    Only the adjective -y on a base that is itself in the answer; nothing else."""
+    return len(word) > 4 and word.endswith("y") and word[:-1] in right
+
+
+def asks_cause(question: str) -> bool:
+    words = _words(question)
+    return bool(words) and words[0] == "why"
+
+
+def states_cause(answer: str) -> bool:
+    return any(w in _CAUSE for w in _words(answer))
+
+
 def echo_against_question(question: str, output_text: str, *, rendered: bool = False) -> dict[str, Any]:
     """Echo ≥ 0.85.
 
@@ -32,11 +99,24 @@ def echo_against_question(question: str, output_text: str, *, rendered: bool = F
     """
     left = _tokens(question)
     right = _tokens(output_text)
+    relation = None
     if rendered:
+        # 4.9.210 (Release A2): the Echo re-parse reads the question's frame, not only its words.
+        # A WH-attribute slot ("what colour") is covered by a value of that attribute ("red"); a
+        # derived adjective is covered by its base noun ("salty" by "salt"); a why-question must be
+        # answered by a sentence that states a cause, or Echo fails whatever the coverage.
+        slot = _asked_slot(question)
+        covered = {w for w in left if w in right or _stem_cover(w, right)}
+        if slot and slot[0] in left and slot[0] not in covered and _fills_slot(slot[1], output_text):
+            covered.add(slot[0])
         if not left:
             score = 0.0
         else:
-            score = len(left & right) / len(left)
+            score = len(covered) / len(left)
+        if asks_cause(question):
+            relation = {"asked": "cause", "stated": states_cause(output_text)}
+            if not relation["stated"]:
+                score = min(score, 0.5)
         method = "question_meaning_coverage"
         compares = "rendered_answer_to_original_question_meaning"
     else:
@@ -56,4 +136,5 @@ def echo_against_question(question: str, output_text: str, *, rendered: bool = F
         "method": method,
         "compares": compares,
         "output_text": str(output_text or "")[:400],
+        **({"relation": relation} if relation else {}),
     }

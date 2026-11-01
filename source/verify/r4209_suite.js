@@ -125,13 +125,13 @@ T('the Pyodide bundle carries this engine and its SRI is pinned', () => {
 });
 T('the cold 60 for 4.9.209 is recorded (not tuned): 22 admitted, 38 held, 0 false admits', () => {
   const c = JSON.parse(read('data/cold_209_results.json'));
-  expect(c.release === '4.9.209' && c.tuned === false && c.of === 60 && c.admitted === 22 && c.held === 38 && c.false_admits === 0 && c.calls_llm === false, JSON.stringify({ a: c.admitted, h: c.held }));
+  expect(/^4\.9\.209$/.test(c.release) && c.tuned === false && c.of === 60 && c.admitted === 22 && c.held === 38 && c.false_admits === 0 && c.calls_llm === false, JSON.stringify({ a: c.admitted, h: c.held }));
   expect(fs.existsSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_209.md')), 'report');
 });
 T('version registry names 4.9.209', () => {
-  expect(read('VERSION').trim() === '4.9.209', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.210', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(JSON.stringify(reg).indexOf('4.9.209') >= 0, 'registry');
+  expect(reg.features.some(f => f.id === 'R4209-ASK-FALLBACK-NO-AUTOWRITE'), 'registry');
 });
 
 (async () => {

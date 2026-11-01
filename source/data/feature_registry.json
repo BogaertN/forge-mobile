@@ -1,5 +1,5 @@
 {
- "version": "4.9.209",
+ "version": "4.9.210",
  "features": [
   {
    "id": "A-01",
@@ -4002,13 +4002,24 @@
    "proof": [
     "verify/r4209_suite.js"
    ]
+  },
+  {
+   "id": "R4210-ANCHOR-RESONANCE-SOURCED-SHARED",
+   "name": "Anchors selected by engine resonance; unsourced shared rows quarantined; Echo reads the question frame",
+   "source": "Nic decisions (Release A2) 2026-10-31; engine/rmc_engine_v1/resonance_recall.py; rmc_core.py; echo_question.py; concept_lexicon.json; src/app.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Every cached anchor goes to the engine pool; preselect matches the anchor's own curated concepts against the question's (compound names first; words inside proper-name compounds do not name a general concept). Product-curator rows with no source are quarantined. Echo: WH-attribute slot filled by a value, -y adjective covered by its base, why needs a stated cause. Cold 60: 22/60, 0 false admits, not tuned.",
+   "proof": [
+    "verify/r4210_suite.js"
+   ]
   }
  ],
- "count": 365,
+ "count": 366,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 203,
+  "Partial": 204,
   "Missing": 9,
   "Out of scope / parked": 13
  }

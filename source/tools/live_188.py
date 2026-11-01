@@ -50,6 +50,22 @@ def starter_rows() -> list[dict]:
     return rows
 
 
+def anchor_pool() -> list[dict]:
+    """4.9.210: every trusted anchor (the shard files mirror kb.anchors), as the phone's
+    IndexedDB copy sends them to the engine pool. The engine selects by packet concepts."""
+    import glob
+    rows = []
+    for path in sorted(glob.glob(str(ROOT / "data" / "anchors_188" / "shards" / "*.json"))):
+        for row in json.loads(Path(path).read_text(encoding="utf-8"))["anchors"]:
+            # the same slim shape app.js askAnchorPool sends (id, text, sfe, concepts, trust, contributor, source_url)
+            rows.append({
+                "id": row["id"], "text": row["text"], "sfe": row.get("sfe") or (row.get("packet") or {}).get("sfe"),
+                "concepts": row.get("concepts"), "tier": "anchor", "state": "anchor", "trust": "trusted",
+                "contributor": row.get("contributor"), "source_url": row.get("source_url"),
+            })
+    return rows
+
+
 def shard_rows(question: str) -> list[dict]:
     rows = []
     for row in select_anchors(question):

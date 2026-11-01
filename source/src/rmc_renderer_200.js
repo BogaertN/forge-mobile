@@ -78,18 +78,34 @@
     return out;
   }
 
+  /* 4.9.210: the same frame-aware Echo as engine/rmc_engine_v1/echo_question.py (parity in r4200/r4210).
+   * VALUE_SLOTS is generated from concept_lexicon.json "values" (r4210 checks it matches). */
+  const VALUE_SLOTS = {"color": {"fill": ["black", "blue", "brown", "gold", "gray", "green", "grey", "orange", "pink", "purple", "red", "silver", "white", "yellow"], "digits": false}, "colour": {"fill": ["black", "blue", "brown", "gold", "gray", "green", "grey", "orange", "pink", "purple", "red", "silver", "white", "yellow"], "digits": false}, "colors": {"fill": ["black", "blue", "brown", "gold", "gray", "green", "grey", "orange", "pink", "purple", "red", "silver", "white", "yellow"], "digits": false}, "age": {"fill": ["eight", "eleven", "five", "four", "hundred", "nine", "one", "seven", "six", "ten", "thousand", "three", "twelve", "twenty", "two", "zero"], "digits": true}, "old": {"fill": ["eight", "eleven", "five", "four", "hundred", "nine", "one", "seven", "six", "ten", "thousand", "three", "twelve", "twenty", "two", "zero"], "digits": true}, "years": {"fill": ["eight", "eleven", "five", "four", "hundred", "nine", "one", "seven", "six", "ten", "thousand", "three", "twelve", "twenty", "two", "zero"], "digits": true}, "number": {"fill": ["eight", "eleven", "five", "four", "hundred", "nine", "one", "seven", "six", "ten", "thousand", "three", "twelve", "twenty", "two", "zero"], "digits": true}, "numbers": {"fill": ["eight", "eleven", "five", "four", "hundred", "nine", "one", "seven", "six", "ten", "thousand", "three", "twelve", "twenty", "two", "zero"], "digits": true}, "phone": {"fill": ["eight", "eleven", "five", "four", "hundred", "nine", "one", "seven", "six", "ten", "thousand", "three", "twelve", "twenty", "two", "zero"], "digits": true}, "code": {"fill": ["eight", "eleven", "five", "four", "hundred", "nine", "one", "seven", "six", "ten", "thousand", "three", "twelve", "twenty", "two", "zero"], "digits": true}};
+  const WH_SLOT = { what: 1, which: 1, whose: 1 };
+  const CAUSE = { because: 1, since: 1, due: 1, cause: 1, causes: 1, caused: 1, causing: 1, result: 1, results: 1, resulting: 1, reason: 1, reasons: 1, therefore: 1, thus: 1, hence: 1, leads: 1, lead: 1, owing: 1, comes: 1, come: 1, came: 1, originates: 1, stems: 1, produces: 1, produced: 1, makes: 1, made: 1, so: 1 };
+  function allWords(text) { return String(text || '').toLowerCase().match(/[a-z0-9]+/g) || []; }
   function echoOf(question, outputText) {
     const left = contentWords(question);
     const right = {};
     contentWords(outputText).forEach(function (w) { right[w] = true; });
+    const qw = allWords(question), aw = allWords(outputText);
+    let slot = null;
+    for (let i = 0; i < qw.length - 1; i++) if (WH_SLOT[qw[i]] && VALUE_SLOTS[qw[i + 1]]) { slot = qw[i + 1]; break; }
+    const covered = {};
+    left.forEach(function (w) { if (right[w] || (w.length > 4 && w.charAt(w.length - 1) === 'y' && right[w.slice(0, -1)])) covered[w] = true; });
+    if (slot && left.indexOf(slot) >= 0 && !covered[slot]) {
+      const rule = VALUE_SLOTS[slot];
+      if (aw.some(function (w) { return rule.fill.indexOf(w) >= 0 || (rule.digits && /^[0-9]+$/.test(w)); })) covered[slot] = true;
+    }
     let score = 0;
-    if (left.length) {
-      let hit = 0;
-      left.forEach(function (w) { if (right[w]) hit += 1; });
-      score = hit / left.length;
+    if (left.length) score = Object.keys(covered).length / left.length;
+    let relation = null;
+    if (qw[0] === 'why') {
+      relation = { asked: 'cause', stated: aw.some(function (w) { return CAUSE[w] === 1; }) };
+      if (!relation.stated) score = Math.min(score, 0.5);
     }
     score = round6(score);
-    return {
+    const out = {
       score: score,
       min: LAW.echo_min,
       pass: score >= LAW.echo_min,
@@ -97,6 +113,8 @@
       compares: 'rendered_answer_to_original_question_meaning',
       output_text: String(outputText || '').slice(0, 400)
     };
+    if (relation) out.relation = relation;
+    return out;
   }
 
   function packet(word) {

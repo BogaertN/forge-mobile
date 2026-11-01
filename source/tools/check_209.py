@@ -45,7 +45,7 @@ def main() -> None:
     out["sky_pool"] = dict(brief(pr), preselect=pr.get("preselect"))
     out["planet"] = brief(run({"question": "What is the largest planet?", "live": True, "memory": mem_for("What is the largest planet?")}))
     # a failing candidate with nothing behind it: held, the record says why, every try is listed
-    out["alone"] = brief(run({"question": "What color is my car?", "live": True, "memory": {"phone": [{"id": "rem-1", "text": "My car is red."}], "hosted": [], "receipts": [], "anchors": [], "research": []}}))
+    out["alone"] = brief(run({"question": "Why is my car red?", "live": True, "memory": {"phone": [{"id": "rem-1", "text": "My car is red."}], "hosted": [], "receipts": [], "anchors": [], "research": []}}))
     out["mine"] = brief(run({"question": "Is my car red?", "live": True, "memory": {"phone": [{"id": "rem-1", "text": "My car is red."}], "hosted": [], "receipts": [], "anchors": [], "research": []}}))
     # the fallback never drops research rows and never runs on a hard stop or a conflict
     out["eligible"] = {

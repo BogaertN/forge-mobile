@@ -95,49 +95,20 @@ async function askAnchors() {
   } catch (e) { window.ASK_187_ANCHORS = { anchors: [] }; }
   return window.ASK_187_ANCHORS;
 }
-function anchorWords(text) {
-  let cur = '';
-  const raw = String(text || '').toLowerCase();
-  for (const ch of raw) cur += ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) ? ch : ' ';
-  return cur.split(' ').filter(Boolean).join(' ');
-}
-async function askAnchorShards(question) {
-  if (!window.ASK_188_INDEX) {
-    try {
-      const res = await fetch('data/anchors_188/index.json', { credentials: 'omit' });
-      window.ASK_188_INDEX = res.ok ? await res.json() : { surfaces: {}, shards: {} };
-    } catch (e) { window.ASK_188_INDEX = { surfaces: {}, shards: {} }; }
-  }
-  const index = window.ASK_188_INDEX || { surfaces: {}, shards: {} };
-  const blob = ' ' + anchorWords(question) + ' ';
-  const surfaces = index.surfaces || {};
-  const names = [];
-  const phrases = Object.keys(surfaces).sort((a, b) => b.length - a.length);
-  for (const phrase of phrases) {
-    if (blob.indexOf(' ' + phrase + ' ') < 0) continue;
-    for (const name of surfaces[phrase] || []) {
-      if (names.indexOf(name) < 0) names.push(name);
-    }
-    if (names.length >= 2) break;
-  }
-  /* 4.9.206: the anchors live in Supabase (kb.anchors). The shipped index picks the concepts; the rows come from the
-   * IndexedDB copy (anchor_cache.js), refreshed from Supabase when online. Offline with no copy: the starter anchors only. */
-  const concepts = [];
-  for (const name of names.slice(0, 2)) for (const c of (((index.shards || {})[name] || {}).concepts || [])) if (concepts.indexOf(c) < 0) concepts.push(c);
-  const rows = [];
-  const seen = {};
-  if (concepts.length && window.KAnchorCache) {
-    try { await KAnchorCache.ensure(); } catch (e) { /* offline: the cached copy stays */ }
-    for (const row of await KAnchorCache.byConcepts(concepts)) {
-      if (!row || !row.text || seen[row.text]) continue;
-      seen[row.text] = true;
-      rows.push(row);
-    }
-  }
-  rows.sort((a, b) => String(a.id || '').localeCompare(String(b.id || '')));
-  return rows.slice(0, 16).map(row => ({
-    id: row.id, text: row.text, sfe: row.sfe || (row.packet && (row.packet.sfe || { Phi: row.packet.Phi, eps: row.packet.eps, mu: row.packet.mu })), packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted',
-    provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision
+/* 4.9.210 (Release A2): the phone no longer picks anchors with the shipped word-to-concept index file.
+ * Every cached trusted anchor (IndexedDB copy of kb.anchors) goes to the engine as a pool; rmc_core.preselect_pools keeps the
+ * anchors whose own curated packet concepts meet the question's (compound names first), and the engine ranks them by phase
+ * resonance. Offline with no copy: the starter anchors only. */
+async function askAnchorPool() {
+  if (!window.KAnchorCache) return [];
+  try { await KAnchorCache.ensure(); } catch (e) { /* offline: the cached copy stays */ }
+  let rows = [];
+  try { rows = await KAnchorCache.all(); } catch (e) { rows = []; }
+  return rows.filter(row => row && row.id && row.text).map(row => ({
+    /* slim rows (the pool is every cached anchor); the full row stays in the cache and the curators' guard reads it by id */
+    id: row.id, text: String(row.text).slice(0, 600), sfe: row.sfe || (row.packet && (row.packet.sfe || { Phi: row.packet.Phi, eps: row.packet.eps, mu: row.packet.mu })),
+    concepts: Array.isArray(row.concepts) ? row.concepts : (row.concept ? [row.concept] : []), tier: 'anchor', state: 'anchor', trust: 'trusted',
+    contributor: row.contributor, source_url: row.source_url, pool: true
   }));
 }
 /* 4.9.208: the curators look up with the same trusted anchors Ask uses (starter set + Supabase anchors by concept), nothing else */
@@ -145,7 +116,7 @@ window.KAskAnchors = async function (question) {
   const out = [], seen = {};
   const pack = await askAnchors();
   const starter = (pack.anchors || []).map(row => ({ id: row.id, text: row.text, sfe: row.sfe, packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted', provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision }));
-  let extra = []; try { extra = await askAnchorShards(question); } catch (e) { extra = []; }
+  let extra = []; try { extra = await askAnchorPool(); } catch (e) { extra = []; }
   for (const row of starter.concat(extra)) if (row && row.id && !seen[row.id]) { seen[row.id] = true; out.push(row); }
   return out;
 };
@@ -183,9 +154,10 @@ async function askMemory(question) {
     }));
   } catch (e) { memory.anchors = []; }
   try {
-    const extra = await askAnchorShards(question);
-    memory.anchors = (memory.anchors || []).concat(extra);
-  } catch (e) { /* a missing shard leaves the starter anchors */ }
+    const have = new Set((memory.anchors || []).map(r => r.id));
+    const pool = (await askAnchorPool()).filter(r => !have.has(r.id));
+    if (pool.length) memory.pools.unshift({ name: 'anchors', into: 'anchors', rows: pool });
+  } catch (e) { /* no cached copy: the starter anchors only */ }
   return memory;
 }
 function doc6Tag(gate) {

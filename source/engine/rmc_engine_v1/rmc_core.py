@@ -97,8 +97,32 @@ def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
                     continue
                 item = dict(row)
                 item["source"] = source
+                if source != "research_quarantine" and not shared_sourced(item):
+                    # 4.9.210 (Release A2, Nic decision 2): a shared row with no source is not a
+                    # premise. It is kept as quarantined evidence; a held question becomes a gap
+                    # Athena sources from trusted anchors.
+                    item["quarantined"] = True
+                    item["unsourced_shared"] = True
                 rows.append(item)
     return rows
+
+
+def shared_sourced(row: dict[str, Any]) -> bool:
+    """True unless the row is a shared-knowledge row with no source.
+
+    Shared rows (tier confirmed_shared: the product-curator packs, the phone's
+    confirmed-shared facts, curated contributions) need a source URL or a trust
+    trace that rests on a trusted anchor. Other rows (anchors, the user's own
+    remembered statements) are unaffected.
+    """
+    tier = str(row.get("tier") or row.get("state") or "").lower()
+    if tier != "confirmed_shared":
+        return True
+    if str(row.get("source_url") or row.get("url") or "").startswith(("http://", "https://")):
+        return True
+    prov = row.get("provenance") if isinstance(row.get("provenance"), dict) else {}
+    trust = prov.get("trust") if isinstance(prov.get("trust"), dict) else {}
+    return bool(str(trust.get("rests_on") or "").strip()) and trust.get("blocks_admit") is not True
 
 
 def _phase_tags(row: dict[str, Any], question: str | None = None) -> list[str]:
@@ -149,6 +173,7 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]], question: str | None
             "contributor": row.get("contributor"),
             "trust": row.get("trust"),
             "tier": row.get("tier") or row.get("state"),
+            "concepts": [str(c) for c in row.get("concepts")] if isinstance(row.get("concepts"), list) else None,
             "license": row.get("license"),
             "source_url": row.get("source_url") or row.get("url"),
             "revision": row.get("revision"),
@@ -579,7 +604,7 @@ def _without(payload: dict[str, Any], hits: list[tuple[str, int]]) -> dict[str, 
     return out
 
 
-POOL_CAPS = {"confirmed_shared": 12, "kb_contributions": 16}
+POOL_CAPS = {"anchors": 16, "confirmed_shared": 12, "kb_contributions": 16}
 
 
 def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
@@ -592,29 +617,39 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
     No token-overlap score and no substring match; phase alignment, the resonance rank,
     the gate and Echo then run on the kept rows exactly as on every other row.
     """
-    from rmc_engine_v1.resonance_recall import _anchor_concepts, _concept_ids, _trusted
+    from rmc_engine_v1.resonance_recall import question_concepts, row_concepts, _trusted
 
     memory = dict(payload.get("memory") or {})
     pools = memory.pop("pools", None)
     if not isinstance(pools, list) or not pools:
         return payload
     question = str(payload.get("question") or "")
-    # The question's packet concepts: the concept lexicon (as rank_memory reads it) plus the
-    # anchor concept a word names when the general lexicon gives that word another concept.
-    asked = _concept_ids(question) | _anchor_concepts(question)
+    known: set[str] = set()
+    for pool in pools:
+        for r in (pool.get("rows") if isinstance(pool, dict) else None) or []:
+            if isinstance(r, dict) and isinstance(r.get("concepts"), list):
+                known |= {str(c) for c in r["concepts"] if c}
+    # The question's packet concepts (compound names first, then words), read against the
+    # concepts the pools actually carry. A row's concepts are its own curated packet
+    # concepts plus words outside proper-name compounds (row_concepts).
+    asked = question_concepts(question, known)
     seen_ids = {str(r.get("id") or "") for key in ("anchors", "hosted", "phone") for r in (memory.get(key) or []) if isinstance(r, dict)}
     record = []
     for pool in pools:
         if not isinstance(pool, dict):
             continue
         name = str(pool.get("name") or "")
-        into = pool.get("into") if pool.get("into") in ("hosted", "phone") else "hosted"
+        into = pool.get("into") if pool.get("into") in ("hosted", "phone", "anchors") else "hosted"
         cap = int(POOL_CAPS.get(name, 12))
         rows = [r for r in (pool.get("rows") or []) if isinstance(r, dict) and str(r.get("text") or "").strip() and str(r.get("id") or "") not in seen_ids]
         hits = []
         for row in rows:
-            own = {str(c) for c in (row.get("concepts") or []) if c} if isinstance(row.get("concepts"), list) else set()
-            met = asked & (own | _concept_ids(str(row.get("text") or "")))
+            if into == "anchors" and isinstance(row.get("concepts"), list) and row.get("concepts"):
+                # an anchor is matched by its own curated concepts (its class), not by stray words
+                rc = {str(c) for c in row["concepts"] if c}
+            else:
+                rc = row_concepts(row, str(row.get("text") or ""))
+            met = asked & rc
             if met:
                 specific = sum(1 for c in met if c.startswith("A."))
                 hits.append(((_trusted(row), specific), str(row.get("id") or ""), row, sorted(met)))
