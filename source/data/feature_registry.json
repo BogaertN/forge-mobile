@@ -1,5 +1,5 @@
 {
- "version": "4.9.216",
+ "version": "4.9.217",
  "features": [
   {
    "id": "A-01",
@@ -4079,13 +4079,24 @@
    "proof": [
     "verify/r4216_suite.js"
    ]
+  },
+  {
+   "id": "R4217-RELATION-LOOKUP-ECHO",
+   "name": "Lookup ranks anchors that define the asked subject; Echo re-parses the answer for the asked relation about the asked subject; decimal phase kept on the 40° dial",
+   "source": "Nic request 2026-11-01 7:08 AM CT (4.9.217); engine/rmc_engine_v1/relation_echo.py, resonance_recall.py, rmc_core.py, echo_question.py, src/relation_echo.js, src/rmc_renderer_200.js, src/app.js, tools/check_217.py",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Definition rank (kartṛ of FR.BE.COP with a noun-phrase or naming predicate, an appositive, or for identity questions the asked phrase on a side of the copula) sits right after trust in rank_memory and preselect_pools. Echo's relation re-parse (definition, identify, attribute, cause, quantity, location, time, agent, manner) is the primary check; coverage stays the secondary number; 0.85 / 0.97 unchanged; math and remembered-fact Echo unchanged. Partial: the reader is a closed set of English frames (no full Pāṇini parse in the engine); unclassified questions keep the coverage rule; continuous question-phase tuning is proposed for 4.9.218. DRIFT-SPEC/v1 D3 resolved: Ask candidate ε stays /3 (canonical).",
+   "proof": [
+    "verify/r4217_suite.js"
+   ]
   }
  ],
- "count": 372,
+ "count": 373,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 176,
+  "Partial": 177,
   "Missing": 9,
   "Out of scope / parked": 47
  }

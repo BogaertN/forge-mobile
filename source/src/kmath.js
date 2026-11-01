@@ -121,7 +121,9 @@ const BANDS = DRIFT_TABLE; /* back-compat export name */
    θ_admit = min(0.35, 0.4/(1+γL)) (θ_w can only tighten admission). A rising ε over TREND_K consecutive transitions routes to correct
    even when clean. ε is not clipped. C(ε) = 1 − ε is the −λD drift term (λ = 0.18, the kernel's drift_containment weight); it is a
    governance score, not the C_min 0.87 coherence score. Superseded and NOT gates: Athena's Membrane-A ε < 0.78, the router's 0.72/0.78,
-   the GILIN CRP 0.78 χ recovery (defective, not adopted) and the σ_res ≤ 0.35 admit gate (no paper basis, A4). */
+   the GILIN CRP 0.78 χ recovery (defective, not adopted) and the σ_res ≤ 0.35 admit gate (no paper basis, A4).
+   4.9.217 (DRIFT-SPEC/v1 D3 resolved, Nic 2026-11-01): DENOMINATOR max1_depth is this write-trace ε only; the Ask candidate ε stays
+   (σ_res + D_score + |ΔΦ|)/3, canonical — the nine-phase cycle on the 144 base runs by threes (RMC §6.3 n = 3; FBSC 3×3). */
 const DRIFT_POLICY = Object.freeze({
   schema: 'FORGE-DRIFT-POLICY/v1', profile: 'nic-2026-10-14/v2',
   METRIC_ID: 'eps_s/rsoc-v4.8+circ/v1', DENOMINATOR: 'max1_depth', PHASE_SCHEME_ID: 'phase-scheme/rmc/v1',

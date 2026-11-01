@@ -44,6 +44,16 @@ def main() -> None:
     pr = run({"question": "Why is the sky blue?", "live": True, "memory": pmem})
     out["sky_pool"] = dict(brief(pr), preselect=pr.get("preselect"))
     out["planet"] = brief(run({"question": "What is the largest planet?", "live": True, "memory": mem_for("What is the largest planet?")}))
+    # 4.9.217: the lookup now ranks the anchor that realises the asked identity (Jupiter is the largest planet) first, so
+    # the planet question no longer needs the fallback. The fallback is exercised by a cause question instead: a longer
+    # trusted sentence that names the sky's colour without a cause ranks first, fails Echo, and the next-ranked cause
+    # sentence is measured and admitted. The extra row is a test fixture (a copy of the NASA anchor's provenance).
+    fmem = mem_for("Why is the sky blue?")
+    base = next(a for a in fmem["anchors"] if a.get("id") == "enc-nasa-sky-eyes")
+    fixture = dict(base)
+    fixture.update(id="enc-test-sky-mention", text="On a clear day the sky is blue over the open ocean, over the high desert plains and over the snowy mountains of the far north.")
+    fmem["anchors"].append(fixture)
+    out["fallback_cause"] = brief(run({"question": "Why is the sky blue?", "live": True, "memory": fmem}))
     # a failing candidate with nothing behind it: held, the record says why, every try is listed
     out["alone"] = brief(run({"question": "Why is my car red?", "live": True, "memory": {"phone": [{"id": "rem-1", "text": "My car is red."}], "hosted": [], "receipts": [], "anchors": [], "research": []}}))
     out["mine"] = brief(run({"question": "Is my car red?", "live": True, "memory": {"phone": [{"id": "rem-1", "text": "My car is red."}], "hosted": [], "receipts": [], "anchors": [], "research": []}}))

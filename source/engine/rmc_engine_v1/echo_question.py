@@ -1,6 +1,7 @@
 """Echo of an answer against the original question.
 
-The live rule is coverage of the question's meaning tokens by the answer.
+4.9.217: the live rule is a re-parse. The answer must realise the asked relation about the asked
+subject (relation_echo.py). Coverage of the question's meaning tokens is the secondary number.
 A longer truthful sentence is not punished for extra words.
 The 4.9.200 renderer calls this function. It does not keep a second copy.
 """
@@ -116,6 +117,23 @@ def echo_against_question(question: str, output_text: str, *, rendered: bool = F
         if asks_cause(question):
             relation = {"asked": "cause", "stated": states_cause(output_text)}
             if not relation["stated"]:
+                score = min(score, 0.5)
+        # 4.9.217: the relation re-parse is the primary check. The answer is re-read (relation_echo: the engine's
+        # FR.BE.COP parse and the Panini karaka readings) and must realise the asked relation (definition, identity,
+        # attribute, cause, quantity, place, time, agent, manner) about the asked subject. A sentence that only
+        # mentions the subject fails whatever its word coverage. Coverage stays the secondary number, so a
+        # realised relation still needs the same coverage as before (0.85 to speak, 0.97 to write).
+        from rmc_engine_v1.relation_echo import realises
+        reparse = realises(question, output_text)
+        if reparse.get("realised") is not None:
+            relation = dict(relation or {}, asked=reparse["asked"], subject=reparse.get("subject"),
+                            realised=bool(reparse["realised"]), method="relation_reparse")
+            for key in ("define_rank", "frame", "role", "kind"):
+                if reparse.get(key) is not None:
+                    relation[key] = reparse[key]
+            if reparse["asked"] == "cause":
+                relation["stated"] = bool(reparse.get("stated", relation.get("stated")))
+            if not reparse["realised"]:
                 score = min(score, 0.5)
         method = "question_meaning_coverage"
         compares = "rendered_answer_to_original_question_meaning"

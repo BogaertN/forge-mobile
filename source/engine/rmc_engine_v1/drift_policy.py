@@ -6,6 +6,15 @@ Ordered checks: forbidden (any eps, any depth) -> hard_stop eps >= 0.80 -> accel
 then re-measure; the drift must fall) -> clean eps <= theta_admit, with
 theta_admit = min(0.35, 0.4 / (1 + gamma * L)). A rising eps over TREND_K transitions
 routes to correct. eps is not clipped. C(eps) = 1 - eps is the -lambda*D drift term.
+
+Two normalisers, two metrics (DRIFT-SPEC/v1 D3, resolved 4.9.217, Nic 2026-11-01):
+  * this module is the WRITE-TRACE eps = (sigma + d + dphi) / rho, rho = max(1, recursion depth)
+    (RSOC v4.8 Eq. 5; Addendum 2026-09-21; DENOMINATOR "max1_depth");
+  * the Ask CANDIDATE eps (drift_engine.py, coherence_math.py, eps_s/rmc-candidate/v1) is
+    (sigma_res + D_score + |dPhi|) / 3 and stays /3. The 3 is canonical: the nine-phase cycle on
+    the 144 base runs by threes (144 = 9*16 = 3*48, three octaves of three phases, one triad step
+    = 3/9) and the functional averages three components (RMC 6.3, n = 3). It is never switched
+    to depth. Rationale and citations: CONFLICTS.md 4.9.217.
 """
 from __future__ import annotations
 

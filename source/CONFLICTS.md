@@ -1,3 +1,27 @@
+## v4.9.217 — Lookup ranks definitions; Echo re-parses the asked relation; /3 is canonical (Nic request 2026-11-01 7:08 AM America/Chicago)
+
+**Conflict:** "What is the Moon?" was admitted on a sentence that only mentions the Moon ("The Moon, on the other hand, moves completely around Earth"). "What is DNA?" spoke "Most DNA is located …" when a definition was in the store. Echo passed both because it counted only words. DRIFT-SPEC/v1 D3 gave N = max(1, depth) as if it applied to every ε, while the Ask candidate ε divides by 3.
+
+**Where:** `engine/rmc_engine_v1/relation_echo.py` (new), `resonance_recall.py`, `rmc_core.py` (preselect_pools), `echo_question.py`, `src/relation_echo.js` (new; the renderer card's copy), `src/rmc_renderer_200.js`, `src/app.js`, `index.html`, `sw.js`, `tools/check_217.py`, `verify/r4217_suite.js`; comments only in `drift_policy.py`, `mobile_config.py`, `drift_engine.py`, `src/kmath.js`.
+
+**Resolution:**
+- **Lookup:** a row that DEFINES the asked subject ranks right after trust, in rank_memory and in preselect_pools.
+  - Rank 2: the subject is the kartṛ of FR.BE.COP with a noun-phrase or naming predicate, or an appositive. For an identity question, the asked phrase sits on a side of the copula.
+  - Rank 1: a copular attribution.
+  - Rank 0: a mention.
+  - The rule is general: there is no question list and no token overlap.
+- **Echo:** the answer is re-parsed with the engine's copular parse and the Pāṇinian kāraka readings. It must realise the asked relation (definition, identify, attribute, cause, quantity, location, time, agent, manner) about the asked subject, or the score is capped at 0.5.
+  - Coverage stays the secondary number. 0.85 to speak and 0.97 to write are unchanged.
+  - The math Echo (computed_quantity_reparse) and the remembered-fact Echo ("My car is red.") are unchanged.
+  - The card shows the relation, plus the Pāṇini wording module's re-parse of the admitted sentence as evidence only.
+- **/3 is canonical** for the Ask candidate ε = (σ_res + D_score + ∣ΔΦ∣)/3. Nic 2026-11-01: the nine-phase cycle on the 144 base runs by threes (144 = 9×16 = 3×48; three octaves of three phases; one triad step = 3/9; ω₀/3ω₀/9ω₀). RMC §6.3 sets n = 3 for the three components. max(1, depth) is the write-trace normaliser only (RSOC v4.8 Eq. 5; Addendum). No value changed.
+- **Decimal phase:** resonance_recall keeps a real Φ on the 40° dial (RSOC Axiom 2) instead of flooring it. Integer packets read as before. Continuous question tuning is proposed as 4.9.218.
+- **Tests kept, assertions updated** (names unchanged):
+  - R4209: the fallback is now exercised by a cause question, because the planet question is answered first-ranked; the rank regex includes `_defines`.
+  - R4210: the Moon pick is checked on the re-parsed sentence, which is now held.
+  - R4215: the c4_retired_tests.json mention is looked up in the 4.9.215 entry, not at a fixed offset.
+- **Cold 60** is recorded, not tuned: 21/60, 0 false admits. It was 27/60. DNA now gives the definition, and helium, magnet, atom, lightning, Moon and Nile are held because their anchors only mention the subject.
+
 ## v4.9.216 — Computed trust tier: SymPy and Pint from the forge-libs Storage bucket (Nic request 2026-11-01 5:24 AM America/Chicago)
 
 **Conflict:** Ask could not answer arithmetic. Math questions were held unless a seed row happened to carry the answer, and seed answers are not allowed. The Python cross-check loaded SymPy from the Pyodide CDN lock and Pint from PyPI through micropip, neither pinned by the app.

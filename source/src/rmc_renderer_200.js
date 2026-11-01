@@ -10,6 +10,7 @@
   const G = (typeof module !== 'undefined' && module.exports) ? require('./geometry_199.js') : root.Geometry199;
   const SHA = (typeof module !== 'undefined' && module.exports) ? require('./sha256.js') : root.KSha;
   const Hooks = (typeof module !== 'undefined' && module.exports) ? require('./research_hooks.js') : root.ResearchHooks;
+  const RE = (typeof module !== 'undefined' && module.exports) ? require('./relation_echo.js') : root.KRelationEcho;
   const LAW = V43.score({ payload: { v: 1 }, prev_phase: 1, recursion_n: 1 }).laws;
   const STORAGE_KEY = 'kernel.rmc_renderer_200';
   const CITE = 'RMC algorithm 5. Sentence plan, template render, decode, then Echo at or above 0.85 against the original question. Echo Preservation E = R*psi(t-tau) is Waking the Web l275 and is an internal sub-check. Codex 3.5 binds the answer to the question loop and withholds output until response_closed (a l.1810-1828). Tone bands choose the template (a l.2164-2168). The coverage rule is echo_question. The 0.6 tone cut is log-only. No model.';
@@ -103,6 +104,18 @@
     if (qw[0] === 'why') {
       relation = { asked: 'cause', stated: aw.some(function (w) { return CAUSE[w] === 1; }) };
       if (!relation.stated) score = Math.min(score, 0.5);
+    }
+    /* 4.9.217: the relation re-parse (src/relation_echo.js, the copy of relation_echo.py) is the primary check, as in
+     * echo_question.py: the answer must realise the asked relation about the asked subject; coverage stays secondary. */
+    if (RE) {
+      const slotOf = function (q) { const w = allWords(q); for (let i = 0; i < w.length - 1; i++) if (WH_SLOT[w[i]] && VALUE_SLOTS[w[i + 1]]) { const rule = VALUE_SLOTS[w[i + 1]]; return { word: w[i + 1], fills: function (t) { return allWords(t).some(function (x) { return rule.fill.indexOf(x) >= 0 || (rule.digits && /^[0-9]+$/.test(x)); }); } }; } return null; };
+      const rp = RE.realises(question, outputText, { slot: slotOf, statesCause: function (t) { return allWords(t).some(function (w) { return CAUSE[w] === 1; }); } });
+      if (rp.realised !== null) {
+        relation = Object.assign({}, relation || {}, { asked: rp.asked, subject: rp.subject, realised: !!rp.realised, method: 'relation_reparse' });
+        ['define_rank', 'frame', 'role', 'kind'].forEach(function (k) { if (rp[k] !== undefined && rp[k] !== null) relation[k] = rp[k]; });
+        if (rp.asked === 'cause') relation.stated = !!(rp.stated !== undefined ? rp.stated : relation.stated);
+        if (!rp.realised) score = Math.min(score, 0.5);
+      }
     }
     score = round6(score);
     const out = {

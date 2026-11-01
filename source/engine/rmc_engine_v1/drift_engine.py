@@ -771,6 +771,8 @@ def analyze_drift(phase_report: dict) -> dict:
     sigma_res, sigma_detail = _compute_trace_instability(phase_report)
     d_score = _compute_d_score(events)
     delta_phi, delta_violations = _compute_transition_legality(f)
+    # /3 is canonical (Nic 2026-11-01, DRIFT-SPEC/v1 D3 resolved in 4.9.217): the nine-phase cycle on the 144 base
+    # runs by threes and the functional averages three components (RMC 6.3). The depth normaliser is the write-trace's.
     epsilon_s = round((sigma_res + d_score + delta_phi) / 3.0, 4)
     eps = EpsilonComponents(sigma_res=sigma_res, D_score=d_score, delta_phi=delta_phi, epsilon_s=epsilon_s)
 

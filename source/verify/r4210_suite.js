@@ -20,7 +20,11 @@ const app = read('src/app.js');
 
 T('"What is the Moon?" picks a celestial Moon anchor, never the MOON Jae-in sentence', () => {
   const m = chk().moon;
-  expect(m.product_reply && /^The Moon/.test(m.reply) && !/Jae-in|PARK/.test(m.reply) && m.q_concepts.join() === 'A.MOON', JSON.stringify(m).slice(0, 400));
+  /* 4.9.217: the lookup still picks the celestial Moon anchor (the sentence Echo re-parsed); the anchor only mentions the Moon (it is not
+   * a definition), so the relation re-parse holds it */
+  const said = (m.echo && m.echo.output_text) || '';
+  expect(/^The Moon/.test(said) && !/Jae-in|PARK/.test(said) && m.q_concepts.join() === 'A.MOON', JSON.stringify(m).slice(0, 400));
+  expect(!m.product_reply && m.echo.relation && m.echo.relation.asked === 'definition' && m.echo.relation.realised === false, JSON.stringify(m.echo).slice(0, 400));
   expect(chk().moon_jae_in.indexOf('A.MOON') < 0 && chk().moon_jae_in.indexOf('A.MOONJAEIN') >= 0, JSON.stringify(chk().moon_jae_in));
   expect(chk().moon_plain.indexOf('A.MOON') >= 0, 'a plain "The Moon" still names the Moon');
 });
@@ -84,7 +88,7 @@ T('the cold 60 for 4.9.210 is recorded (not tuned)', () => {
   expect(fs.existsSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_210.md')), 'report');
 });
 T('version registry names 4.9.210', () => {
-  expect(read('VERSION').trim() === '4.9.216', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.217', 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4210-') >= 0, 'registry');
 });
 

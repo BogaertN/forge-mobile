@@ -25,8 +25,12 @@ T('the 4.9.208 live failure is fixed: with the 12 unsourced Z rows present, "Why
   expect(r.reply === chk().sky.reply, 'same answer with and without the unrelated rows');
 });
 T('candidate fallback: the top candidate failed Echo, the next-ranked one was measured and admitted, and the record lists the try', () => {
-  const r = chk().planet; const f = r.fallback;
-  expect(r.product_reply && /^Jupiter is the fifth planet/.test(r.reply) && r.echo >= 0.85, JSON.stringify(r).slice(0, 400));
+  /* 4.9.217: the planet question is answered by its first-ranked anchor now (the lookup ranks the anchor that realises the asked
+   * identity first); the fallback is exercised by tools/check_209.py fallback_cause (a cause-less sky sentence ranked first). */
+  const p = chk().planet;
+  expect(p.product_reply && /^Jupiter is the fifth planet/.test(p.reply) && p.echo >= 0.85, JSON.stringify(p).slice(0, 400));
+  const r = chk().fallback_cause; const f = r.fallback;
+  expect(r.product_reply && r.reply === chk().sky.reply && r.echo >= 0.85, JSON.stringify(r).slice(0, 400));
   expect(f && f.rule === 'ENGINE-CANDIDATE-FALLBACK' && f.max === 3 && f.calls_llm === false && f.spoken_after === f.tried.length && f.tried.length >= 1 && f.tried.length <= 3, JSON.stringify(f));
   expect(f.tried.every(t => t.candidate && t.echo < 0.85 && t.excluded.length && t.excluded.every(id => !/^web-/.test(id))), JSON.stringify(f.tried));
 });
@@ -40,7 +44,9 @@ T('fallback bounds: held when nothing is left, never on a hard stop, a conflict,
 T('every Ask lookup ranks by phase resonance: trust, then grace (phase alignment), then concepts; no token overlap', () => {
   const rr = read('engine/rmc_engine_v1/resonance_recall.py');
   expect(/def _trusted\(/.test(rr) && /def _resonance\(/.test(rr), 'keys');
-  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _resonance\(row\[2\]\)\)/.test(rr) && /return \(_trusted\(row\[0\]\), _resonance\(row\[2\]\), specific\)/.test(rr), 'grace ranks right after trust');
+  /* 4.9.217: whether the anchor defines the asked subject (_defines, relation_echo.define_rank) sits between trust and grace; grace still
+   * ranks before concepts, length and id, and nothing else moved */
+  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)\)/.test(rr) && /return \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\), specific\)/.test(rr), 'grace ranks right after trust and the definition rank');
   expect(/"uses_token_overlap": False/.test(rr), 'record');
   const mr = read('engine/rmc_engine_v1/memory_recaller.py');
   expect(!/def _score_node|legacy_overlap|semantic_overlap|def _tokens/.test(mr) && /resonance_report = rank_memory\(source_text, nodes, phase_report\)/.test(mr), 'the token-overlap recall branch is gone');
@@ -129,7 +135,7 @@ T('the cold 60 for 4.9.209 is recorded (not tuned): 22 admitted, 38 held, 0 fals
   expect(fs.existsSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_209.md')), 'report');
 });
 T('version registry names 4.9.209', () => {
-  expect(read('VERSION').trim() === '4.9.216', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.217', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
   expect(reg.features.some(f => f.id === 'R4209-ASK-FALLBACK-NO-AUTOWRITE'), 'registry');
 });

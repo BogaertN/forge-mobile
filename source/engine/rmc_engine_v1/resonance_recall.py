@@ -78,17 +78,38 @@ def _phase_index(value: Any) -> int | None:
     return None
 
 
-def _phase_angle(index: int) -> float:
-    """Nic 4.9.191: θ = (Φ−1)·40° = ((n−1)/9)·2π."""
+def _phase_value(value: Any) -> float | int | None:
+    """4.9.217: the phase as the real number it is (RSOC Axiom 2: "Φ is a real number in [0, 2π), but lawful
+    progression is constrained to the discrete 1–9 cycle"; ⟁ merge Φ′ = (Φ₁+Φ₂)/2). A decimal phase such as 4.5
+    sits between Φ4 and Φ5 on the dial and is kept, not floored to 4. Each phase is one 40° band (2π/9; 144/9 = 16 Hz).
+    Integers stay integers, so every packet placed today (all integer Φ) reads exactly as before."""
+    if isinstance(value, bool) or value is None:
+        return None
+    if isinstance(value, int):
+        return value if 1 <= value <= 9 else None
+    if isinstance(value, float):
+        if not math.isfinite(value) or not (1.0 <= value < 10.0):
+            return None
+        return int(value) if value.is_integer() else round(value, 4)
+    text = str(value).strip().lstrip("Φ")
+    try:
+        number = float(text)
+    except ValueError:
+        return None
+    return _phase_value(int(number) if number.is_integer() else number)
+
+
+def _phase_angle(index: float) -> float:
+    """Nic 4.9.191: θ = (Φ−1)·40° = ((n−1)/9)·2π. 4.9.217: continuous in Φ (a decimal phase tunes inside its band)."""
     return ((index - 1) / 9.0) * math.tau
 
 
-def _circular_delta(a: int, b: int) -> float:
+def _circular_delta(a: float, b: float) -> float:
     d = abs(_phase_angle(a) - _phase_angle(b)) % math.tau
     return min(d, math.tau - d)
 
 
-def phase_aligned(a: int | None, b: int | None) -> bool:
+def phase_aligned(a: float | None, b: float | None) -> bool:
     if a is None or b is None:
         return False
     return _circular_delta(a, b) <= PI_OVER_4 + 1e-12
@@ -307,8 +328,8 @@ def place_packet(row: dict[str, Any], *, quarantined: bool, question: str | None
         if mu != "unspecified":
             mu = _numeric_or_unspecified(mu, 1.0)
         basis = placed
-    elif given and _phase_index(given.get("Phi")) is not None:
-        phi = _phase_index(given.get("Phi"))
+    elif given and _phase_value(given.get("Phi")) is not None:
+        phi = _phase_value(given.get("Phi"))
         eps = _numeric_or_unspecified(given.get("eps"), 0.5 if quarantined else 0.0)
         mu = _numeric_or_unspecified(given.get("mu"), 0.0 if quarantined else 1.0)
         basis = None
@@ -318,7 +339,7 @@ def place_packet(row: dict[str, Any], *, quarantined: bool, question: str | None
     else:
         phi, eps, mu = 9, 0.0, 1.0
         basis = None
-    sfe = {"Phi": int(phi), "eps": eps if eps == "unspecified" else round(float(eps), 6), "mu": mu if mu == "unspecified" else round(float(mu), 6)}
+    sfe = {"Phi": phi if isinstance(phi, float) else int(phi), "eps": eps if eps == "unspecified" else round(float(eps), 6), "mu": mu if mu == "unspecified" else round(float(mu), 6)}
     out = {
         "schema": PACKET_SCHEMA,
         "Phi": sfe["Phi"],
@@ -467,7 +488,7 @@ def _as_measure(value: Any, unspecified_default: str = "unspecified") -> Any:
 
 
 def _grace(packet, question_phi):
-    phi = _phase_index(packet.get("Phi"))
+    phi = _phase_value(packet.get("Phi"))
     eps = _as_measure(packet.get("eps"))
     mu = _as_measure(packet.get("mu"))
     delta = _circular_delta(question_phi, phi) if phi is not None else math.tau
@@ -582,6 +603,20 @@ def rank_memory(question, nodes, phase_report=None):
     # 4.9.209: an unsourced role lock does not outrank a trusted concept anchor.
     # Before this, any frame-role lock won over every concept hit, so twelve
     # unsourced shared rows ("Zenith marks sky overhead.") beat the NASA anchor.
+    # 4.9.217: an anchor that DEFINES the asked subject (the subject is the karta of FR.BE.COP with a noun-phrase or
+    # naming predicate, or fills a side of the copula for an identity question) ranks above one that merely mentions
+    # it; a copular attribution ranks between them. Read by relation_echo, the same re-parse Echo uses. Right after
+    # trust; general, never a list of questions. For other relations every row reads 0, so nothing else moves.
+    from rmc_engine_v1.relation_echo import asked as _asked_relation, define_rank as _define_rank
+    ask_rel = _asked_relation(question or "")
+    define_cache: dict[int, int] = {}
+
+    def _defines(node: dict[str, Any]) -> int:
+        key = id(node)
+        if key not in define_cache:
+            define_cache[key] = int(_define_rank(ask_rel, clean_text(node)).get("rank") or 0) if ask_rel.get("relation") in {"definition", "identify"} else 0
+        return define_cache[key]
+
     best_role = max((_trusted(r[0]) for r in role_locks), default=-1)
     best_concept = max((_trusted(r[0]) for r in concept_hits), default=-1)
     if role_locks and best_concept > best_role:
@@ -601,13 +636,13 @@ def rank_memory(question, nodes, phase_report=None):
         # and CPython pick the same anchor.
         # 4.9.209: phase resonance (grace = rpm weight x cos^2 of the phase gap, rounded so
         # CPython and Pyodide agree) ranks right after trust; length and id only break ties.
-        role_locks.sort(key=lambda row: (_trusted(row[0]), _resonance(row[2])) + _anchor_key(row[0]), reverse=True)
+        role_locks.sort(key=lambda row: (_trusted(row[0]), _defines(row[0]), _resonance(row[2])) + _anchor_key(row[0]), reverse=True)
         chosen = [role_locks[0][0]]
         how = "frame_role"
         rsoc = _rsoc([row[0] for row in role_locks])
         if rsoc.get("status") == "held_open":
             rsoc["anchor"] = chosen[0].get("memory_id")
-        detail = {row[0].get("memory_id"): {"hit": row[1], "grace": row[2], "concepts": row[3]} for row in role_locks}
+        detail = {row[0].get("memory_id"): {"hit": row[1], "grace": row[2], "concepts": row[3], "defines": _defines(row[0])} for row in role_locks}
         hops = _hop_nodes(chosen, admitted)
     elif concept_hits:
         # A shared color or time word is not the subject. Prefer the fact
@@ -615,14 +650,14 @@ def rank_memory(question, nodes, phase_report=None):
         def _concept_key(row):
             shared = row[1]
             specific = sum(1 for cid in shared if str(cid).startswith("A."))
-            return (_trusted(row[0]), _resonance(row[2]), specific) + _anchor_key(row[0])
+            return (_trusted(row[0]), _defines(row[0]), _resonance(row[2]), specific) + _anchor_key(row[0])
         concept_hits.sort(key=_concept_key, reverse=True)
         chosen = [concept_hits[0][0]]
         how = "concept_lexicon"
         rsoc = _rsoc([row[0] for row in concept_hits])
         if rsoc.get("status") == "held_open":
             rsoc["anchor"] = chosen[0].get("memory_id")
-        detail = {row[0].get("memory_id"): {"concepts": row[1], "grace": row[2]} for row in concept_hits}
+        detail = {row[0].get("memory_id"): {"concepts": row[1], "grace": row[2], "defines": _defines(row[0])} for row in concept_hits}
         hops = []
     else:
         chosen = []
@@ -676,6 +711,7 @@ def rank_memory(question, nodes, phase_report=None):
             "frame_role": 1.0 if info.get("hit") else 0.0,
             "concept": 1.0 if info.get("concepts") else 0.0,
             "copula_hop": 1.0 if hop else 0.0,
+            "defines": float(info.get("defines") or 0),
         }
         out["retrieval_evidence"] = [{
             "type": "phase_align",
@@ -696,6 +732,7 @@ def rank_memory(question, nodes, phase_report=None):
         "calls_llm": False,
         "question_phi": question_phi,
         "asked": asked,
+        "asked_relation": {"relation": ask_rel.get("relation"), "subject": " ".join(ask_rel.get("subject") or [])},
         "how": how,
         "rsoc": rsoc,
         "active": active,

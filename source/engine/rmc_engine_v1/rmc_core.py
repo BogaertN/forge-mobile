@@ -746,7 +746,8 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
     memory.pools = [{"name", "into", "rows"}]. A row is a candidate when its resonance
     packet concepts (its own packet concepts plus the concept lexicon the packets are
     placed from, the same lookup rank_memory uses) meet the question's concepts. Order:
-    trust, then the number of specific (A.*) concepts met, then id. Capped per pool.
+    trust, then (4.9.217) whether the row defines the asked subject, then the number of
+    specific (A.*) concepts met, then id. Capped per pool.
     No token-overlap score and no substring match; phase alignment, the resonance rank,
     the gate and Echo then run on the kept rows exactly as on every other row.
     """
@@ -766,6 +767,11 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
     # concepts the pools actually carry. A row's concepts are its own curated packet
     # concepts plus words outside proper-name compounds (row_concepts).
     asked = question_concepts(question, known)
+    # 4.9.217: within a trust level, a row that defines the asked subject is kept before one that only mentions it
+    # (relation_echo.define_rank, the same re-parse rank_memory and Echo use), so the cap never drops the definition.
+    from rmc_engine_v1.relation_echo import asked as _asked_relation, define_rank as _define_rank
+    ask_rel = _asked_relation(question)
+    reads_definition = ask_rel.get("relation") in {"definition", "identify"}
     seen_ids = {str(r.get("id") or "") for key in ("anchors", "hosted", "phone") for r in (memory.get(key) or []) if isinstance(r, dict)}
     record = []
     for pool in pools:
@@ -785,8 +791,9 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
             met = asked & rc
             if met:
                 specific = sum(1 for c in met if c.startswith("A."))
-                hits.append(((_trusted(row), specific), str(row.get("id") or ""), row, sorted(met)))
-        hits.sort(key=lambda h: (-h[0][0], -h[0][1], h[1]))
+                defines = int(_define_rank(ask_rel, str(row.get("text") or "")).get("rank") or 0) if reads_definition else 0
+                hits.append(((_trusted(row), specific, defines), str(row.get("id") or ""), row, sorted(met)))
+        hits.sort(key=lambda h: (-h[0][0], -h[0][2], -h[0][1], h[1]))
         kept = hits[:cap]
         seen_ids.update(h[1] for h in kept)
         memory[into] = list(memory.get(into) or []) + [h[2] for h in kept]

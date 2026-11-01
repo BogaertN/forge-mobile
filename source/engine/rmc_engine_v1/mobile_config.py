@@ -31,6 +31,9 @@ THRESHOLDS: dict[str, Any] = {
     "resonance_epsilon_role": "reference_only",
 }
 
+# DENOMINATOR "max1_depth" is the write-trace normaliser only (drift_policy.drift_measure). The Ask candidate
+# eps keeps (sigma_res + D_score + |dPhi|) / 3: canonical per Nic 2026-11-01 (the nine-phase / 144 triad scale;
+# RMC 6.3 n = 3). DRIFT-SPEC/v1 D3, resolved in 4.9.217.
 DRIFT_POLICY: dict[str, Any] = {
     "schema": "FORGE-DRIFT-POLICY/v1",
     "profile": "nic-2026-10-14/v2",

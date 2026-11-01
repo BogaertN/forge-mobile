@@ -84,7 +84,7 @@ T('retired tests and requirement links are recorded with a reason; no retired te
   const linked = new Set(); for (const p of RP.PACKETS) for (const q of p.requirements) for (const t of q.tests) linked.add(t.suite + '|' + t.name);
   expect(R.tests.every(t => !linked.has(t.suite + '|' + t.name)), 'a retired test is still linked');
   expect(RP.RETIRED_LINKS.length > 0 && RP.RETIRED_LINKS.every(l => l.why) && RP.linksMissing(ROOT).length === 0, 'links');
-  expect(/4\.9\.215/.test(read('CONFLICTS.md').slice(0, 4000)) && /c4_retired_tests\.json/.test(read('CONFLICTS.md').slice(0, 8000)), 'CONFLICTS');
+  { const conf = read('CONFLICTS.md'), at = conf.indexOf('## v4.9.215'); expect(at >= 0 && /c4_retired_tests\.json/.test(conf.slice(at, at + 8000)), 'CONFLICTS'); } /* 4.9.217: found in the 4.9.215 entry, wherever later entries put it */
 });
 T('features whose proof was retired are parked with the reason, not claimed', () => {
   const reg = JSON.parse(read('data/feature_registry.json')); const by = {}; for (const f of reg.features) by[f.id] = f;
