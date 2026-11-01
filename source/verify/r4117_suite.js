@@ -13,17 +13,20 @@ const expect = (c, why) => { if (!c) throw new Error(why || 'expectation failed'
 T('the 4.9.116 packet maps each requirement id to tests in that suite', () => {
   const RP = require(ROOT + '/src/req_packet.js');
   expect(RP.SCHEMA === 'FORGE-REQ-PACKET/v1', RP.SCHEMA);
+  /* 4.9.215 (C4): both 4.9.116 requirements were retired with the old JS answer path (every behaviour link drove Kernel.process),
+   * so the 4.9.116 slice now maps its ids to RETIRED_REQUIREMENTS with a reason; every live slice still maps each id to tests in its suite. */
   const slice = RP.packet('4.9.116');
-  expect(slice && slice.requirements.map(r => r.id).join(',') === 'R4116-LEXICON,R4116-FRAMES', JSON.stringify(slice && slice.requirements.map(r => r.id)));
-  const n = slice.requirements.reduce((a, r) => a + r.tests.length, 0);
-  expect(n >= 4, 'linked tests ' + n);
-  for (const r of slice.requirements) {
-    expect(r.falsify && r.statement, r.id);
-    for (const t of r.tests) {
-      expect(t.id && t.suite === 'r4116_suite.js' && t.cls === 'R4116' && t.name && RP.DOC9_CLASSES.includes(t.doc9_class), JSON.stringify(t));
-      expect(fs.readFileSync(ROOT + '/verify/r4116_suite.js', 'utf8').includes(t.name), t.name);
+  const gone = (RP.RETIRED_REQUIREMENTS || []).filter(r => r.release === '4.9.116').map(r => r.id).join(',');
+  expect(slice === null && gone === 'R4116-LEXICON,R4116-FRAMES' && RP.RETIRED_REQUIREMENTS.every(r => r.why), 'retired 4.9.116 ' + gone);
+  let n = 0;
+  for (const p of RP.PACKETS) for (const r of p.requirements) {
+    expect(r.falsify && r.statement && r.tests.length > 0, r.id);
+    for (const t of r.tests) { n++;
+      expect(t.id && t.suite && t.cls && t.name && RP.DOC9_CLASSES.includes(t.doc9_class), JSON.stringify(t));
+      expect(fs.readFileSync(ROOT + '/verify/' + t.suite, 'utf8').includes(t.name), t.name);
     }
   }
+  expect(n >= 4, 'linked tests ' + n);
   expect(RP.linksMissing(ROOT).length === 0, RP.linksMissing(ROOT).join(' '));
   expect(RP.TEMPLATE.schema === RP.SCHEMA && RP.TEMPLATE.release === '' && RP.TEMPLATE.requirements.length === 0 && RP.TEMPLATE.decision.behavior_overrides_gate === false, 'template');
   expect(RP.TEMPLATE !== slice && RP.packet('4.9.117') && RP.packet('4.9.117').release === '4.9.117', 'slices');

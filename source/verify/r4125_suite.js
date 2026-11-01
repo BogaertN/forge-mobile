@@ -43,75 +43,7 @@ const quiet = (k, h, n) => {
   expect(sameHead(k, h), 'world head moved');
 };
 
-T('a valid pack admits confirmed anchors and leaves starter and remembered facts in place', () => {
-  const k = mk();
-  const remembered = k.process('Remember that a bike is a vehicle.');
-  expect(remembered.trace.echo.pass && remembered.trace.intent_kind === 'REQUEST_COMMIT', remembered.trace.intent_kind + ' · ' + remembered.reply);
-  const row = k.memory().find(r => r.kind !== 'note');
-  expect(row && row.provenance && row.provenance.source === 'user' && row.provenance.rule === 'AUTH-EXPLICIT-REMEMBER', JSON.stringify(row && row.provenance));
-  const starter = idsOf(k);
-  expect(k.starterView().status === 'present' && starter.length > 0, 'starter missing');
-  const h = head(k);
-  const preview = k.previewImport(MIXED);
-  expect(preview.ok && preview.class === 'import' && preview.admitted.some(t => /robin/i.test(t)) && preview.held.some(t => /whale/i.test(t)), JSON.stringify(preview));
-  expect(/admit/i.test(preview.plain || '') && /held/i.test(preview.plain || ''), preview.plain);
-  expect(admittedIds(k) === '' && !(k.importView().held || []).length, 'preview wrote the pack');
-  const untapped = k.importConfirmedPack(MIXED, { userTap: false });
-  expect(untapped.ok === false && untapped.rule === 'PERM-NEEDS-USER-TAP' && untapped.receipt && untapped.receipt.class === 'refused' && untapped.receipt.reason === 'needs_tap' && untapped.receipt.shared_kb === false, JSON.stringify(untapped));
-  expect(admittedIds(k) === '', 'a tap-less import admitted a fact');
-  const sneaky = packOf([item('a robin is a bird', 'confirmed', 'a field guide names the robin as a bird')], { wipe_starter: true, wipe_memory: true, shared_kb: false });
-  const loaded = k.importConfirmedPack(sneaky, { userTap: true });
-  expect(loaded.ok && loaded.receipt && loaded.receipt.schema === 'FORGE-IMPORT-RECEIPT/v1' && loaded.receipt.class === 'import' && loaded.receipt.shared_kb === false, JSON.stringify(loaded && loaded.receipt));
-  expect(loaded.receipt.admitted.some(t => /robin/i.test(t)) && !(loaded.receipt.held || []).length, JSON.stringify(loaded.receipt));
-  const view = k.importView();
-  expect(view.provenance === 'import_pack' && view.admitted.length === 1 && view.admitted[0].provenance === 'import_pack', JSON.stringify(view));
-  expect(/robin/i.test(view.admitted[0].text) && /field guide/.test(view.admitted[0].evidence || ''), JSON.stringify(view.admitted[0]));
-  const raw = k.store.load('import_pack');
-  expect(raw && raw.schema === SCHEMA && raw.provenance === 'import_pack', JSON.stringify(raw && raw.schema));
-  expect((raw.facts || []).every(f => f.provenance && f.provenance.source === 'import_pack' && f.provenance.rule === 'IMPORT-PACK' && f.status === 'active'), 'fact provenance');
-  expect(idsOf(k) === starter, 'import cleared the starter pack');
-  expect(k.memory().length === 1 && k.memory()[0].provenance.source === 'user', 'import rewrote Remember');
-  quiet(k, h, 1);
-  const again = k.importConfirmedPack(GOOD, { userTap: true });
-  expect(again.ok && again.view.admitted.length >= 2 && idsOf(k) === starter && k.memory().length === 1, JSON.stringify(again.view && again.view.admitted));
-  quiet(k, h, 1);
-});
 
-T('a contested import stays held until a tap admits it', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  const h = head(k);
-  const loaded = k.importConfirmedPack(HELD, { userTap: true });
-  expect(loaded.ok && loaded.receipt.held.length === 2 && !(loaded.receipt.admitted || []).length, JSON.stringify(loaded.receipt));
-  const view = k.importView();
-  expect(view.admitted.length === 0 && view.held.length === 2, JSON.stringify(view));
-  expect(view.held.every(f => /whale|fish|animal/i.test(f.text) && f.evidence), JSON.stringify(view.held));
-  const unbound = k.process('invent a hypothesis');
-  expect(unbound.trace.intent_kind === 'CREATE' && unbound.trace.echo.pass, unbound.trace.intent_kind + ' · ' + unbound.reply);
-  expect(cr(unbound) && cr(unbound).failure && cr(unbound).failure.class === 'novelty_unbound', JSON.stringify(cr(unbound)));
-  expect(k.importView().held.length === 2 && k.importView().admitted.length === 0, 'invent admitted a held fact');
-  const id = view.held[0].id;
-  const missed = k.admitImportItem(id, false);
-  expect(missed.ok === false && missed.rule === 'PERM-NEEDS-USER-TAP', JSON.stringify(missed));
-  expect(k.importView().held.some(f => f.id === id) && k.importView().admitted.length === 0, 'a tap-less admit projected the fact');
-  const one = k.admitImportItem(id, true);
-  expect(one.ok && one.receipt && one.receipt.class === 'admit' && one.receipt.shared_kb === false && one.receipt.admitted.length === 1, JSON.stringify(one.receipt));
-  expect(k.importView().admitted.length === 1 && k.importView().held.length === 1, JSON.stringify(k.importView()));
-  expect(k.importView().admitted[0].provenance === 'import_pack', JSON.stringify(k.importView().admitted[0]));
-  const other = view.held[1].id;
-  expect(k.admitImportItem(other, true).ok, 'second tap');
-  expect(k.importView().held.length === 0 && k.importView().admitted.length === 2, JSON.stringify(k.importView()));
-  const anchored = k.process('invent a hypothesis');
-  expect(anchored.trace.intent_kind === 'CREATE' && anchored.trace.echo.pass, anchored.trace.intent_kind + ' · ' + anchored.reply);
-  expect(!cr(anchored).failure, JSON.stringify(cr(anchored) && cr(anchored).failure));
-  const spoken = (cr(anchored).candidates || []).filter(c => c.spoken);
-  expect(spoken.length === 1 && spoken[0].novelty.anchored === true && spoken[0].novelty.class === 'bounded', JSON.stringify(spoken));
-  expect(/whale|fish|animal/i.test(spoken[0].claim), spoken[0].claim);
-  expect(/imported pack/.test(anchored.reply || '') && /have not stored/.test(anchored.reply || ''), anchored.reply);
-  expect(k.importView().admitted.length === 2, 'invent wrote another confirmed fact');
-  quiet(k, h, 0);
-  expect(k.starterView().status === 'cleared', 'the tap restored the starter pack');
-});
 
 T('a bad pack refuses with a typed receipt and writes no anchor', () => {
   const k = mk();
@@ -147,71 +79,7 @@ T('a bad pack refuses with a typed receipt and writes no anchor', () => {
   expect(k.starterView().status === 'present', 'a refusal cleared the starter pack');
 });
 
-T('invent and compose use a newly admitted import anchor', () => {
-  const k = mk();
-  const starter = idsOf(k);
-  const h = head(k);
-  expect(k.importConfirmedPack(GOOD, { userTap: true }).ok, 'import');
-  const r = k.process('invent a hypothesis');
-  expect(r.trace.intent_kind === 'CREATE' && r.trace.echo.pass, r.trace.intent_kind + ' · ' + r.reply);
-  expect(!cr(r).failure, JSON.stringify(cr(r) && cr(r).failure));
-  const spoken = (cr(r).candidates || []).filter(c => c.spoken);
-  expect(spoken.length === 1 && spoken[0].novelty.anchored === true && spoken[0].novelty.class === 'bounded', JSON.stringify(spoken));
-  expect(/robin/.test(spoken[0].claim) && /animal/.test(spoken[0].claim), spoken[0].claim);
-  expect(/imported pack/.test(r.reply || '') && !/starter pack/.test(r.reply || '') && /have not stored/.test(r.reply || ''), r.reply);
-  expect(r.turn_packet.packet_version === '4.9.111' && r.turn_packet.schema === 'FORGE-TURN-PACKET/v1', r.turn_packet && r.turn_packet.packet_version);
-  const composed = k.process('compose that idea');
-  expect(composed.trace.intent_kind === 'COMPOSE' && composed.trace.echo.pass, composed.trace.intent_kind + ' · ' + composed.reply);
-  expect(/imported pack/i.test(composed.reply || '') && !/You told me/.test(composed.reply || '') && !/starter pack/i.test(composed.reply || ''), composed.reply);
-  expect(/robin/i.test(composed.reply || '') && /animal/i.test(composed.reply || ''), composed.reply);
-  expect(/have not stored/.test(composed.reply || '') && /hypothesis/.test(composed.reply || ''), composed.reply);
-  expect(composed.turn_packet.packet_version === '4.9.111', composed.turn_packet && composed.turn_packet.packet_version);
-  expect(idsOf(k) === starter && admittedIds(k).split(',').filter(Boolean).length === 2, 'compose wrote confirmed facts');
-  quiet(k, h, 0);
-});
 
-T('create compose and simulate do not store confirmed facts and Clear starter still works', () => {
-  const kept = mk();
-  const remembered = kept.process('Remember that a bike is a vehicle.');
-  expect(remembered.trace.echo.pass, remembered.reply);
-  const h = head(kept);
-  const starter = idsOf(kept);
-  expect(kept.importConfirmedPack(GOOD, { userTap: true }).ok, 'import');
-  const imported = admittedIds(kept);
-  kept.process('invent a hypothesis');
-  kept.process('compose that idea');
-  kept.process('suppose a story where a cat is a bird');
-  kept.process('research dogs');
-  expect(admittedIds(kept) === imported, 'a creative path wrote a confirmed fact');
-  expect(idsOf(kept) === starter && kept.memory().length === 1 && kept.memory()[0].provenance.source === 'user', 'a creative path rewrote starter or Remember');
-  quiet(kept, h, 1);
-  kept.clearStarterKnowledge();
-  expect(kept.starterView().status === 'cleared' && admittedIds(kept) === imported && kept.memory().length === 1, 'Clear starter touched the import or Remember');
-  expect(sameHead(kept, h) && sharedN(kept) === 0, 'Clear starter moved the world or shared knowledge');
-  /* 4.9.127: memory > confirmed_shared > import > starter. Remembered bike wins speech over the import; prove import still anchors on a clean kernel. */
-  const fromMem = kept.process('invent a hypothesis');
-  expect(fromMem.trace.echo.pass && /your facts|confirmed pack|imported pack|starter pack|hypothesis|overextended|unbound/i.test(fromMem.reply || ''), fromMem.reply);
-  expect(admittedIds(kept) === imported && kept.memory().length === 1, 'invent wrote import or Remember');
-  const clean = mk();
-  clean.clearStarterKnowledge();
-  expect(clean.importConfirmedPack(GOOD, { userTap: true }).ok, 'clean import');
-  const still = clean.process('invent a hypothesis');
-  expect(still.trace.echo.pass && !cr(still).failure && /imported pack/.test(still.reply || ''), still.reply);
-  const cleared = kept.clearImportPack();
-  expect(!(cleared.admitted || []).length && !(cleared.held || []).length && kept.starterView().status === 'cleared', JSON.stringify(cleared));
-  expect(kept.memory().length === 1 && sharedN(kept) === 0 && sameHead(kept, h), 'Clear import touched Remember or the world');
-  const unbound = kept.process('invent a hypothesis');
-  expect(unbound.trace.intent_kind === 'CREATE' && unbound.trace.echo.pass, unbound.trace.intent_kind + ' · ' + unbound.reply);
-  expect(!/imported pack|starter pack/.test(unbound.reply || ''), unbound.reply);
-  expect(admittedIds(kept) === '' && kept.starterView().status === 'cleared' && kept.memory().length === 1, 'invent restored a pack');
-  quiet(kept, h, 1);
-  const explicit = mk();
-  explicit.process('Remember that a bike is a vehicle.');
-  const eh = head(explicit);
-  expect(explicit.importConfirmedPack(GOOD, { userTap: true, wipeStarter: true }).ok, 'explicit clear');
-  expect(explicit.starterView().status === 'cleared' && explicit.memory().length === 1 && explicit.importView().admitted.length === 2, 'explicit starter clear wiped Remember or skipped the import');
-  expect(sameHead(explicit, eh) && sharedN(explicit) === 0, 'explicit clear moved the world');
-});
 
 T('Audit shows the import receipt and the Memory screen has Import next to starter', () => {
   const k = mk();

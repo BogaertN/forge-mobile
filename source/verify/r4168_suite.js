@@ -63,82 +63,12 @@ T('pull preserves pack sfe; missing pack packet attaches default on admit', () =
   expect(h && h.sfe && h.sfe.Phi === 5 && h.sfe.eps === 0.5 && h.sfe.mu === 0, 'attach default held ' + JSON.stringify(h && h.sfe));
 });
 
-T('normalizeResonance: pack Phi5 sealed; Phi9 projectable combines (grace)', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  const heldPack = {
-    schema: 'FORGE-CONFIRMED-PACK/v1', format: 'FORGE-CONFIRMED-PACK/v1', provenance: 'confirmed_shared',
-    letter: 'T', pack_id: 'grace_pkt', who_confirmed: 'product_curator', shared_kb: false,
-    items: [
-      { id: 'cs:grace-a', text: 'Grace alpha is a mineral', standing: 'projectable', evidence: 'science · test · Grace · a', sfe: { Phi: 9, eps: 0, mu: 1 } },
-      { id: 'cs:grace-b', text: 'Grace beta is a mineral', standing: 'projectable', evidence: 'science · test · Grace · b', sfe: { Phi: 9, eps: 0, mu: 1 } }
-    ]
-  };
-  expect(k.pullHostedSharedPack(JSON.stringify(heldPack)).ok, 'pull grace');
-  const r = k.process('What is grace alpha?');
-  const ids = ruleIds(r);
-  expect(hasRule(r, 'CS-RECALL-STRUCTURAL') || hasRule(r, 'CS-RECALL-ABOUT') || hasRule(r, 'RPMC-ANCESTOR-CANDIDATES') || hasRule(r, 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST') || hasRule(r, 'RPMC-ANCESTOR-NONE'), 'pathway ' + ids.join(','));
-  const m = r.trace && r.trace.msm && r.trace.msm.meaning;
-  const priors = (m && m.rpmc_priors) || (r.trace && r.trace.tool_request && r.trace.tool_request.rpmc_priors);
-  if (priors && priors.recs) {
-    for (const pr of priors.recs) {
-      expect(pr.sfe && Number.isFinite(pr.sfe.Phi), 'prior sfe ' + JSON.stringify(pr));
-    }
-  }
-  rows.push({ cls: 'R4168-LOG', name: 'grace path', ok: true, why: ids.filter(id => /^(RPMC-|RSOC-|CS-|AUTH-AQ1)/.test(id)).join(',') });
-});
 
-T('RPMC gather uses CS packets: quartz miss path carries sfe priors (not canned Naming)', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  for (const L of ['c', 'm', 'q', 's']) {
-    try { expect(k.pullHostedSharedPack(letter(L)).ok, 'pull ' + L); } catch (e) { /* optional */ }
-  }
-  const r = k.process('What is a quartz crystal?');
-  const ids = ruleIds(r);
-  expect(!/^Quartz is\b/i.test((r.reply || '').trim()) || hasRule(r, 'CS-RECALL-STRUCTURAL') || hasRule(r, 'CS-RECALL-ABOUT'), 'no invented canned if not CS-exact');
-  expect(!hasRule(r, 'CS-COMPOSE-CLASS-ABOUT'), 'no unlawful class-compose');
-  const m = r.trace && r.trace.msm && r.trace.msm.meaning;
-  const priors = (m && m.rpmc_priors) || (r.trace && r.trace.tool_request && r.trace.tool_request.rpmc_priors);
-  if (priors && priors.recs && priors.recs.length) {
-    for (const pr of priors.recs) {
-      expect(pr.sfe && Number.isFinite(pr.sfe.Phi) && Number.isFinite(pr.sfe.eps) && Number.isFinite(pr.sfe.mu), 'prior sfe ' + JSON.stringify(pr));
-    }
-    expect(hasRule(r, 'RSOC-COMPOSE-EVIDENCE') || hasRule(r, 'RPMC-ANCESTOR-CANDIDATES'), 'compose with sfe priors');
-  } else {
-    expect(hasRule(r, 'RPMC-ANCESTOR-NONE') || hasRule(r, 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST') || hasRule(r, 'CS-RECALL-STRUCTURAL') || hasRule(r, 'CS-RECALL-ABOUT') || (m && m.kind), 'lawful miss/hit ' + ids.join(','));
-  }
-  rows.push({ cls: 'R4168-LOG', name: 'quartz pathway', ok: true, why: 'reply=' + String(r.reply || '').slice(0, 120) + ' | ' + ids.filter(id => /^(RPMC-|RSOC-|CS-|AUTH-AQ1|SUBJECT)/.test(id)).join(',') });
-});
 
-T('attach-on-admit when pack omits sfe: session fact still phase-aligns', () => {
-  const bare = {
-    schema: 'FORGE-CONFIRMED-PACK/v1', format: 'FORGE-CONFIRMED-PACK/v1', provenance: 'confirmed_shared',
-    letter: 'T', pack_id: 'bare_pkt', who_confirmed: 'product_curator', shared_kb: false,
-    items: [
-      { id: 'cs:bare-autism', text: 'Autism is a neurodevelopmental condition', standing: 'projectable', evidence: 'science · test · Autism · bare' },
-      { id: 'cs:bare-spectrum', text: 'Spectrum is a range of related conditions', standing: 'projectable', evidence: 'science · test · Spectrum · bare' }
-    ]
-  };
-  const k = mk();
-  expect(k.pullHostedSharedPack(JSON.stringify(bare)).ok, 'pull bare');
-  const view = k.sharedKnowledgeView();
-  for (const row of view.admitted || []) {
-    expect(row.sfe && row.sfe.Phi === 9 && row.sfe.mu === 1, 'attached ' + row.id + ' ' + JSON.stringify(row.sfe));
-  }
-  const r = k.process('What is autism?');
-  const ids = ruleIds(r);
-  expect(hasRule(r, 'CS-RECALL-STRUCTURAL') || hasRule(r, 'CS-RECALL-ABOUT') || hasRule(r, 'RPMC-ANCESTOR-CANDIDATES') || hasRule(r, 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST'), 'pathway ' + ids.join(','));
-  const m = r.trace && r.trace.msm && r.trace.msm.meaning;
-  const priors = (m && m.rpmc_priors) || (r.trace && r.trace.tool_request && r.trace.tool_request.rpmc_priors);
-  if (priors && priors.recs) {
-    for (const pr of priors.recs) expect(pr.sfe && Number.isFinite(pr.sfe.Phi), 'bare prior sfe');
-  }
-});
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.170/.test(conf), 'CONFLICTS tip');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -146,13 +76,13 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.170/.test(readme), 'README tip');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.214' && ((((((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.215' && ((((((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js'), JSON.stringify(tgt));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.214', 'registry ' + reg.version);
+  expect(reg.version === '4.9.215', 'registry ' + reg.version);
   expect(reg.features.some(f => f.id === 'R4168-RESONANCE-PACKETS'), 'R4168 feature');
   expect(reg.claims.Implemented === 112 && reg.claims.Partial >= 163, JSON.stringify(reg.claims));
   const mh = JSON.parse(fs.readFileSync(path.join(ROOT, 'research', 'math_honesty.json'), 'utf8'));
-  expect(mh.release === '4.9.214', 'math_honesty ' + mh.release);
+  expect(mh.release === '4.9.215', 'math_honesty ' + mh.release);
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
   expect(/forge-mobile-v__FORGE_VERSION__/.test(sw) || /forge-mobile-v4\.9\.168/.test(sw), 'sw cache placeholder');
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');

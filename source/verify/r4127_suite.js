@@ -59,60 +59,8 @@ T('curator admit confirmed_shared without tap', () => {
   quiet(k, h, 0);
 });
 
-T('invent compose prefer confirmed_shared', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  const h = head(k);
-  expect(k.pullHostedSharedPack(letterA()).ok, 'pull');
-  const r = k.process('invent a hypothesis');
-  expect(r.trace.intent_kind === 'CREATE' && r.trace.echo.pass, r.trace.intent_kind + ' · ' + r.reply);
-  expect(!cr(r).failure, JSON.stringify(cr(r) && cr(r).failure));
-  const spoken = (cr(r).candidates || []).filter(c => c.spoken);
-  expect(spoken.length === 1 && spoken[0].novelty.anchored === true && spoken[0].novelty.class === 'bounded', JSON.stringify(spoken));
-  expect(/(confirmed pack|shared knowledge base)/.test(r.reply || '') && !/starter pack/.test(r.reply || '') && !/imported pack/.test(r.reply || ''), r.reply);
-  expect(/have not stored/.test(r.reply || ''), r.reply);
-  quiet(k, h, 0);
-});
 
-T('memory wins over confirmed_shared; scrapbook empty', () => {
-  const k = mk();
-  /* invent needs a short is-a chain; a lone bike/vehicle edge yields no spoken candidate */
-  expect(k.process('Remember that a spaniel is a dog.').trace.echo.pass, 'remember spaniel');
-  expect(k.process('Remember that a dog is an animal.').trace.echo.pass, 'remember dog');
-  expect(k.pullHostedSharedPack(letterA()).ok, 'pull');
-  const h = head(k);
-  const r = k.process('invent a hypothesis');
-  expect(r.trace.intent_kind === 'CREATE' && r.trace.echo.pass, r.reply);
-  expect(!cr(r).failure, JSON.stringify(cr(r)));
-  expect(/your facts/.test(r.reply || '') && !/confirmed pack/.test(r.reply || '') && !/starter pack/.test(r.reply || ''), r.reply);
-  expect(k.memory().length === 2 && k.memory().every(m => m.provenance.source === 'user'), 'memory');
-  expect(k.confirmedSharedView().admitted.length >= 40, 'hosted present');
-  quiet(k, h, 2);
-  const packImport = JSON.stringify({ schema: SCHEMA, items: [{ text: 'a robin is a bird', standing: 'confirmed', evidence: 'a field guide' }] });
-  expect(k.importConfirmedPack(packImport, { userTap: true }).ok, 'import still works');
-  expect(k.importView().admitted.length >= 1 && k.confirmedSharedView().admitted.length >= 40, 'layers coexist');
-  expect(sharedN(k) === 0, 'scrapbook');
-});
 
-T('CREATE COMPOSE SIMULATE no auto-write confirmed_shared', () => {
-  const k = mk();
-  const h = head(k);
-  expect(k.pullHostedSharedPack(letterA()).ok, 'pull');
-  const before = k.confirmedSharedView().admitted.length;
-  for (const phrase of ['invent a hypothesis', 'compose that idea', 'suppose a dog flies']) {
-    const r = k.process(phrase);
-    expect(r.trace.echo.pass || r.outcome, phrase + ' ' + (r.reply || ''));
-    expect(k.confirmedSharedView().admitted.length === before, phrase + ' grew confirmed');
-    expect(sharedN(k) === 0 && k.memory().length === 0, phrase + ' wrote scrapbook or memory');
-  }
-  expect(typeof k.clearConfirmedShared === 'function', 'clear api');
-  const cleared = k.clearConfirmedShared();
-  expect(cleared.admitted.length === 0 && cleared.provenance === 'confirmed_shared', JSON.stringify(cleared));
-  expect(sharedN(k) === 0 && sameHead(k, h), 'clear wrote scrapbook or head');
-  const unbound = k.process('invent a hypothesis');
-  expect(unbound.trace.intent_kind === 'CREATE', unbound.trace.intent_kind);
-  /* starter was still present unless cleared — clear only confirmed */
-});
 
 T('Audit names confirmed_shared; packs not in single', () => {
   const k = mk();

@@ -48,42 +48,7 @@ const RENDER = { echoforge: () => window.renderBench && window.renderBench(), cu
 function openTab(t) { $$('#tabs button').forEach(x => { x.classList.toggle('on', x.dataset.tab === t); x.setAttribute('aria-selected', x.dataset.tab === t ? 'true' : 'false'); }); $$('.tab').forEach(x => x.classList.toggle('on', x.id === t)); if (RENDER[t]) RENDER[t](); refreshChrome(); window.scrollTo(0, 0); }
 window.openTab = openTab; window.openRecovery = () => { openTab('echoforge'); const el = document.getElementById('recovery'); if (el && el.scrollIntoView) el.scrollIntoView(); }; $$('#tabs button').forEach(b => b.onclick = () => openTab(b.dataset.tab));
 $('#railBtn').onclick = () => { $('#rail').hidden = false; refreshChrome(); }; $('#railClose').onclick = () => { $('#rail').hidden = true; };
-function resultKind(r) { const c = r.outcome ? r.outcome.class : ''; const k = r.trace && r.trace.msm && r.trace.msm.meaning ? r.trace.msm.meaning.kind : '';
-  if (r.forge && r.forge.bridge && /plan/.test(r.forge.bridge.route)) return 'proposal_plan'; if (/^confirm_/.test(k) || c === 'understood-but-blocked') return 'approval_required'; if (c === 'clarify' || c === 'ambiguous') return 'deterministic_hold'; if (c === 'refuse' || c === 'reject' || r.blocked) return 'refused_or_question'; return 'deterministic_route'; }
 const AB = (f, authorityLabels = KProv.boundaryLabels) => authorityLabels(f && f.authority_boundary).map(l => '<span class="flag ' + (/: yes$| · external$/.test(l) ? 'on' : 'off') + '">' + esc(l) + '</span>').join(''); window.AB = AB; /* 4.9.74: kernel network + tool egress labels, never one network flag */
-function traceHTML(r) { const t = r.trace, f = r.forge || {}; const rows = o => '<table>' + Object.entries(o || {}).map(([k, v]) => '<tr><td>' + esc(k) + '</td><td>' + esc(typeof v === 'object' ? JSON.stringify(v) : v) + '</td></tr>').join('') + '</table>';
-  let h = '<div class="tr">';
-  if (t.world_model) { const wm = t.world_model, world = wm.world || {}, proofList = Object.entries(wm.proofs || {}).filter(x => x[1]);
-    h += '<h4>TurnWorld — ' + esc(wm.status) + '</h4><div class="meta"><b>world_root</b> ' + esc(wm.world_root || 'none') + '<br><b>RMC manifest</b> ' + esc(wm.rmc_manifest_id || 'none') + '</div>';
-    if (wm.interpretation) h += '<details><summary>Interpreted propositions</summary><pre>' + esc(JSON.stringify(wm.interpretation, null, 1)) + '</pre></details>';
-    h += '<details><summary>World facts (' + (world.facts || []).length + ') and rules (' + (world.rules || []).length + ')</summary><pre>' + esc(JSON.stringify({ query: world.query || null, entities: world.entities || [], facts: world.facts || [], rules: world.rules || [] }, null, 1)) + '</pre></details>';
-    if (wm.derivation) h += '<h4>World derivation</h4>' + rows(wm.derivation);
-    if (proofList.length) h += '<details><summary>Proof steps</summary>' + proofList.map(([side, proof]) => '<h4>' + esc(side) + ' proof · ' + esc(proof.proof_id) + '</h4><pre>' + esc(JSON.stringify(proof.steps || [], null, 1)) + '</pre>').join('') + '</details>';
-    h += '<h4>Independent checker verdict</h4>' + rows(wm.checker || {});
-    if (wm.rmc) h += '<details><summary>RMC candidates and rejections</summary><pre>' + esc(JSON.stringify({ selected: wm.rmc.selected, candidates: (wm.rmc.candidates || []).map(c => ({ id: c.id, status: c.status, eligible: c.eligible, gates: c.gates })) }, null, 1)) + '</pre></details>';
-    h += '<h4>World limits</h4>' + rows(wm.limits || {}) + '<h4>Zero-authority effects</h4>' + rows(wm.effects || { network_calls: 0, tool_executions: 0, governed_memory_reads: 0, knowledge_writes: 0, world_writes: 0 });
-  }
-  if (f.request_states) h += '<h4>forge2 request states (transition policy undefined in forge2; recorded only)</h4>' + esc(f.request_states.map(s => s.state).join(' → '));
-  if (t.derivation) { const d = t.derivation; h += '<h4>Derivation (meaning “' + esc(d.plan) + '” → ' + d.rule_count + ' sūtra applications, ' + d.distinct_rules + ' distinct)</h4><div class="meta">phase trail ' + esc(String(d.phase_trail || '')) + (d.forbidden_transition ? ' · ⚠ forbidden ' + esc(JSON.stringify(d.forbidden_transition)) : ' · no Φ4→Φ8 / Φ5→Φ8') + '</div><ol class="small">' + d.rules.map(x => '<li><b>' + esc(x.id) + '</b> ' + esc(x.phase) + ' ' + esc(x.rule) + (x.note ? ' — <i>' + esc(x.note) + '</i>' : '') + (x.blocked ? ' [blocks ' + esc(x.blocked.join(', ')) + ']' : '') + '</li>').join('') + '</ol>'; }
-  if (t.input !== undefined && forge.debug) { const dbg = forge.debug(t); h += '<h4>Failure debugger (I-10) — ' + (dbg.first_failure ? 'first failure: <b class="bad">' + esc(dbg.first_failure) + '</b>' : '<span class="ok">no failing stage</span>') + '</h4><ol class="small">' + dbg.stages.map(x => '<li>' + (x.ok === true ? '✅' : x.ok === false ? '❌' : '·') + ' <b>' + esc(x.stage) + '</b> <span class="meta">' + esc(JSON.stringify(x.detail)).slice(0, 400) + '</span></li>').join('') + '</ol>'; }
-  if (t.containment) h += '<h4>Containment route (forge containment_router.py)</h4>' + esc(t.containment.route + ' · ' + t.containment.rules.join(', ') + (t.containment_applied && t.containment_applied.records.length ? ' · records ' + t.containment_applied.records.map(r => r.store + ':' + r.readback).join(', ') : '') + (t.containment_applied && t.containment_applied.collapse ? ' · collapse ' + t.containment_applied.collapse : ''));
-  if (t.permission) h += '<h4>Permission service</h4>' + esc(t.permission.action + ' → ' + t.permission.decision + ' (' + t.permission.rule + ') · ' + t.permission.id);
-  if (t.readback && t.readback.length) h += '<h4>Read-back receipts (G-04)</h4>' + t.readback.map(x => esc(x.store + ' ' + x.id + ' → ' + x.readback + (x.readback_hash ? ' · ' + x.readback_hash.slice(0, 16) : ''))).join('<br>') + (t.rollback ? '<br><b class="bad">rolled back</b> ' + esc(JSON.stringify(t.rollback)) : '');
-  if (t.phases) h += '<h4>RMC phases Φ1–Φ9</h4>' + t.phases.map(p => esc(p.sym + ' ' + p.name + ': ' + p.note)).join('<br>');
-  if (t.rules) h += '<h4>Rules fired</h4>' + t.rules.map(x => esc(x.id + '  [' + x.doc + ']' + (x.note ? ' — ' + x.note : ''))).join('<br>');
-  if (f.gates) h += '<h4>Verbal Cognition Gates (forge evaluators) → ' + esc(f.gates.eligibility) + '</h4>' + ['expectancy', 'congruity', 'connectedness', 'recoverable_purpose'].map(g => esc(g + ': ' + f.gates[g].overall_state)).join('<br>') + '<br>' + esc('composition: ' + f.gates.composition.composition_status + ' · dispositions ' + f.gates.composition.dispositions.join(', '));
-  if (t.drift && t.drift.formula) h += '<h4>Drift (RMC Implementation Addendum §3)</h4>' + esc(t.drift.formula) + ' · band <b>' + esc(t.drift.band) + '</b>' + (t.drift.contract ? ' · ' + esc(t.drift.contract.id + ' ' + t.drift.contract.version) : '');
-  if (t.math_contracts && t.math_contracts.length) h += '<h4>Math contracts</h4>' + t.math_contracts.map(c => esc(c.id + ' ' + c.version)).join(' · ') + (t.phase_scheme_id ? '<br>' + esc(t.phase_scheme_id) : '');
-  if (t.chi) h += '<h4>χ(t) / Ĉ</h4>' + esc(t.chi.Theta_formula) + '<br>' + esc(t.chi.result);
-  if (t.sense) h += '<h4>Sense</h4>' + esc(t.sense.status + ' · ' + (t.sense.candidates || []).join(' | '));
-  if (t.lexicon) h += '<h4>Lexicon / frames</h4>' + esc(((t.lexicon.concepts || []).map(c => c.id).concat((t.lexicon.frames || []).map(f => f.id)).join(' · ') || 'none') + ' · ' + (t.lexicon.law || ''));
-  if (t.echo) h += '<h4>Echo (structural MSM round-trip) — ' + (t.echo.pass ? 'PASS' : 'FAIL') + '</h4>' + rows(t.echo.components);
-  if (f.gp014) h += '<h4>GP-014 operator check over the derivation</h4>' + esc(f.gp014.selected ? '⧙ locked atoms kept: ' + Object.values(f.gp014.locked_atoms).filter(Boolean).join(' · ') : '⧧ severed') + '<br><span class="meta">' + esc(f.gp014.rule + ' · severed ' + f.gp014.severed.length + ' · discharged ' + f.gp014.discharged.length) + '</span>';
-  if (f.mea) h += '<h4>MEA fixed-point score (display only)</h4>' + esc(f.mea.mode + ' · S = ' + f.mea.signed_score_decimal_text + ' · ' + f.mea.equation);
-  if (t.memory && t.memory.length) h += '<h4>Memory writer (Doc 7)</h4>' + esc(JSON.stringify(t.memory));
-  if (f.receipt) h += '<h4>Receipt</h4>' + esc(f.receipt.receipt_id);
-  if (f.msm) h += '<details><summary>reconstructed Doc 2 / MSM-v1</summary><pre>' + esc(JSON.stringify(f.msm, null, 1)) + '</pre></details>';
-  return h + '</div>'; }
 let lastResult = null; const stats = { routed: 0, held: 0, refused: 0, approval: 0 };
 /* Ask speaks only from rmc_engine_v1.rmc_core. forge.process remains the language-core
  * turn function for memory, vault, and the grammar. It is not this screen's answer. */
@@ -505,21 +470,33 @@ function containmentHTML() { const c = forge.containment.list(), cold = forge.co
     card('Resurrection (7 gates) — software cold storage', '<div class="small">Software tier. Hardware SPC is not claimed. ChristPing is Gilligan-only on the always-on mesh, not this 7-gate screen. χ is the correction function only. A proposal stores nothing.</div>' + (cold.slice(-20).reverse().map(x => { const proposed = (forge.resurrectionProposals ? forge.resurrectionProposals() : []).some(p => p.id === x.id && p.status === 'proposed'); return '<div class="rec"><div class="meta">' + esc(x.id + ' · tier ' + forge.containment.tierOf(x, forge.perm.policy()) + ' · attempts ' + (x.resurrection_attempts || 0) + (x.status ? ' · ' + x.status : '')) + '</div><button data-gates="' + esc(x.id) + '">Check gates</button>' + (x.record ? '<button data-res="' + esc(x.id) + '">Resurrect</button>' : '') + (proposed ? '<button data-rscommit="' + esc(x.id) + '">Commit</button>' : '') + '<div class="small" id="gate-' + esc(x.id) + '"></div></div>'; }).join('') || '<div class="meta">empty</div>')); }
 $('#refreshMem').onclick = renderMem;
 $('#exportBtn').onclick = () => { const o = forge.exportJSON(true); if (!o) return; const blob = new Blob([JSON.stringify(o, null, 1)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'forge-mobile-export.json'; a.click(); };
-function dryRun(text) { const snap = {}; for (const c of ['memory', 'evidence', 'cold_storage', 'lexicon_user', 'language_examples', 'meta', 'trace', 'receipts']) snap[c] = JSON.parse(JSON.stringify(forge.store.load(c)));
-  const memB = {}; const st = KKernel.MemoryStore({ get: k => memB[k], set: (k, v) => { memB[k] = v; } }); for (const c in snap) st.save(c, snap[c]);
-  const dk = KForge.ForgeKernel({ store: st, lexicon: lexData.core || null, lexiconExt: lexData.ext || null }); const r = dk.process(text); const f = r.forge || {}; const t = r.trace;
-  const sec = (title, body) => '<div class="card"><div class="cardhead">' + title + '</div>' + body + '</div>';
-  const stages = (f.request_states || []).map((s, i) => (i + 1) + '. ' + s.state).concat((t.phases || []).map(p => p.sym + ' ' + p.name));
-  return sec('Scenario Result Proof', '<span class="kind ' + resultKind(r) + '">' + resultKind(r) + '</span> ' + esc(r.reply || ('⛔ ' + r.block_reason))) +
-    sec('Deep pipeline stage trace (' + stages.length + ' stages)', '<div class="small">' + esc(stages.join(' · ')) + '</div>') +
-    sec('Input event artifact (forge2 InputEvent v1)', '<pre>' + esc(JSON.stringify(f.input_event, null, 1)) + '</pre>') +
-    sec('Canonical Route Proof (ClassificationCandidateSet → RequestContract)', '<pre>' + esc(JSON.stringify({ candidate_set: f.candidate_set && { id: f.candidate_set.metadata.contract_id, clarification_recommended: f.candidate_set.body.clarification_recommended, candidates: f.candidate_set.body.candidates.map(c => c.dimension + '=' + c.label + ' (' + c.confidence_bps + ' bps, ' + c.origin + ')') }, request_contract: f.request_contract ? { id: f.request_contract.metadata.contract_id, selections: f.request_contract.body.selections.map(s => s.dimension + '=' + s.label), statements: f.request_contract.body.statements.map(s => s.kind + ': ' + s.text) } : 'not created (clarification hold — forge2 REQUEST_CONTRACT_V1)', context_manifest: f.context_manifest && f.context_manifest.body, capability_requirement: f.capability_requirement && f.capability_requirement.body.required_behavior }, null, 1)) + '</pre>') +
-    sec('Verbal Cognition Gates + composition + eligibility', '<pre>' + esc(JSON.stringify(f.gates && { expectancy: f.gates.expectancy.overall_state, congruity: f.gates.congruity.overall_state, connectedness: f.gates.connectedness.overall_state, recoverable_purpose: f.gates.recoverable_purpose.overall_state, composition: f.gates.composition, eligibility: f.gates.eligibility }, null, 1)) + '</pre>') +
-    sec('Final Route / Forbidden-Effect Proof', '<div class="flags">' + AB(f) + '</div><div class="small">dry-run: memory writes went to an isolated copy and were discarded · drift ' + esc(t.drift ? t.drift.formula + ' → ' + t.drift.band : '—') + '</div>') +
-    sec('Drift preview / Resurrection preview', '<div class="small">' + esc(t.chi ? t.chi.result : 'χ(t) not required; no Ĉ sealing and nothing to resurrect') + '</div>') +
-    sec('reconstructed Doc 2 / MSM-v1', '<pre>' + esc(JSON.stringify(f.msm, null, 1)) + '</pre>') +
-    sec('Full deep dry-run JSON', '<details><summary>show</summary><pre>' + esc(JSON.stringify({ trace: t, forge: f }, null, 1)) + '</pre></details>'); }
-$('#drForm').onsubmit = e => { e.preventDefault(); const v = $('#drIn').value.trim(); if (v) $('#drOut').innerHTML = dryRun(v); }; $('#drReset').onclick = () => { $('#drIn').value = ''; $('#drOut').innerHTML = ''; };
+/* 4.9.215 (Release C4, Nic option B): the Dry-Run tab runs the Python engine (rmc_core through the same rmc_client/Pyodide path as
+ * Ask) with dry_run: true. The engine measures stages 1–13 and skips 14–16 (output renderer, Echo validation of the spoken answer,
+ * memory write), so nothing is spoken and nothing is written. This function reads the same memory Ask reads (askMemory) and writes
+ * nothing: no forge store, no remember, no curation gap, no KB. The old JS pipeline (forge.process) it used to call is deleted. */
+let dryRunBusy = false;
+async function dryRun(text) {
+  const sec = (title, body, attr) => '<div class="card"' + (attr || '') + '><div class="cardhead">' + title + '</div>' + body + '</div>';
+  if (!window.KRMCCore || !KRMCCore.run) return sec('Dry-run unavailable', '<div class="small">The engine (rmc_client) is not loaded.</div>', ' data-dryrun="unavailable"');
+  const memory = await askMemory(text);
+  const row = await KRMCCore.run({ question: text, live: true, dry_run: true, memory: memory });
+  if (!row || row.ok === false && !row.stages) return sec('Dry-run failed', '<div class="small">' + esc((row && (row.error || row.status)) || 'no result') + '</div>', ' data-dryrun="error"');
+  const admit = row.admit || {}, echo = row.echo || {}, disp = admit.disposition || 'held';
+  const stages = (row.stages || []).map(s => '<div class="meta" data-dr-stage="' + esc(s.n) + '" data-status="' + esc(s.status) + '">' + esc(s.n + '. ' + s.stage_id + ' · ' + s.status + (s.reason ? ' · ' + s.reason : '')) + '</div>').join('');
+  const cand = echo.output_text || row.claim || '';
+  const th = admit.thresholds || {}, yn = b => (b === true ? 'yes' : b === false ? 'no' : '—');
+  return sec('Dry-run result · admit gate: ' + esc(disp), '<div data-dr-summary class="small">ε_s ' + esc(row.drift) + ' · C ' + esc(row.coherence) + ' (C_min ' + esc(th.C_min) + ', ' + (admit.coherence_ok ? 'pass' : 'fail') + ')'
+      + ' · phase ' + (admit.phase_ok ? 'ok' : 'not ok') + ' · drift region ' + esc(admit.drift_region || '—') + (admit.drift_reason ? ' (' + esc(admit.drift_reason) + ')' : '')
+      + ' · hard stop ' + yn(admit.hard_stop) + ' · route ' + esc(row.route) + ' · status ' + esc(row.status) + '</div>'
+      + '<div class="small" data-dr-echo>Echo (dry-run, on the unrendered candidate; method ' + esc(echo.method || '—') + '): ' + esc(echo.score) + ' / min ' + esc(echo.min) + ' · ' + (echo.pass ? 'pass' : 'fail') + '</div>'
+      + '<div class="small" data-dr-candidate>Candidate (not spoken): ' + (cand ? esc(cand) : '— none') + '</div>'
+      + '<div class="small">Stages 14–16 (output renderer, Echo validation of the spoken answer, memory write) are skipped in a dry run, so nothing is spoken, remembered or written. Ask runs all 16. No web research is fetched here.</div>', ' data-dryrun="' + esc(disp) + '"')
+    + sec('Engine stage trace (' + (row.stages || []).length + ' stages)', stages || '<div class="meta">no stages</div>')
+    + sec('Full dry-run JSON', '<details><summary>show</summary><pre>' + esc(JSON.stringify(row, null, 1)) + '</pre></details>');
+}
+$('#drForm').onsubmit = async e => { e.preventDefault(); const v = $('#drIn').value.trim(); if (!v || dryRunBusy) return; dryRunBusy = true; $('#drOut').innerHTML = '<div class="meta">running the engine (dry-run)…</div>';
+  try { $('#drOut').innerHTML = await dryRun(v); } catch (err) { $('#drOut').innerHTML = '<div class="card blocked"><div class="small">Dry-run failed: ' + esc(String(err && err.message || err)) + '</div></div>'; } finally { dryRunBusy = false; } };
+$('#drReset').onclick = () => { $('#drIn').value = ''; $('#drOut').innerHTML = ''; };
 window.dryRun = dryRun;
 function renderLex() { const f = ($('#lexFilter').value || '').toLowerCase(); const all = forge.lexicon.all();
   const list = all.filter(c => !f || c.id.toLowerCase().includes(f) || c.surfaces.join(' ').includes(f) || c.senses[0].gloss.toLowerCase().includes(f)).slice(0, 80);
@@ -541,7 +518,11 @@ function renderAudit() { const rs = forge.receipts(); const v = forge.verifyAudi
   const chain = rs.slice(-60).reverse().map(r => '<div class="card" data-doc7-cat="trace_receipt"><div class="small"><b>turn ' + esc(r.turn) + '</b> · ' + esc(fmt(r.at)) + ' · ' + esc(r.eligibility) + ' · ' + esc(r.echo) + ' · Trace/receipt · presence ≠ truth</div><div class="meta">' + esc(r.receipt_id) + '<br>input ' + esc(r.input_event) + '<br>msm ' + esc(r.msm_manifest) + (r.request_contract ? '<br>contract ' + esc(r.request_contract) : '') + '<br>prev ' + esc(r.previous_receipt || '—') + '</div></div>').join('');
   const panel = KTurnPacket.categoryPanel((() => { const load = c => forge.store.load(c); const v = forge.sharedKnowledgeView ? forge.sharedKnowledgeView() : { count: 0 }; load.host_shared_count = v.count || ((v.admitted || []).length); return load; })());
   const reqCard = window.KReqPacket ? KReqPacket.auditCard() : '';
-  $('#auditList').innerHTML = reqCard + panel + (cards || '') + (chain || '<div class="meta">no receipts yet</div>'); }
+  /* 4.9.215 (C4): turn packets and turn receipts were written only by the old JS answer path (deleted). Ask writes neither (4.9.209);
+   * older rows already on this phone stay listed and the chain stays verifiable. The empty states say so; nothing is invented. */
+  const noPackets = '<div class="meta" data-audit-empty="turn_packets">No turn packets. They were written by the old JS answer path, which was removed in 4.9.215. Ask records the engine\'s own stage trace on each answer (and the Dry-Run tab shows it); it does not write turn packets.</div>';
+  const noReceipts = '<div class="meta" data-audit-empty="receipts">No turn receipts. The old JS answer path that wrote one receipt per turn was removed in 4.9.215, and Ask writes no receipts (4.9.209). Receipts already on this phone stay listed and verifiable.</div>';
+  $('#auditList').innerHTML = reqCard + panel + (cards || noPackets) + (chain || noReceipts); }
 $('#verifyAudit').onclick = () => { renderAudit(); openTab('audit'); }; $('#refreshAudit').onclick = renderAudit;
 $('#pktVerify').onsubmit = e => { e.preventDefault(); let p; try { p = JSON.parse($('#pktIn').value); } catch (err) { $('#pktOut').textContent = 'That is not JSON.'; return; } const v = KTurnPacket.verify(p, { echo: (t, m, vk) => forge.kernel.echo(t, m, vk) }); $('#pktOut').innerHTML = '<b>' + (v.ok ? 'verified' : 'not verified') + '</b><br>' + v.checks.map(c => esc(c.id + ' ' + c.mode + ' ' + (c.ok == null ? 'recorded' : c.ok ? 'ok' : 'fail') + (c.detail ? ' — ' + c.detail : ''))).join('<br>'); };
 function renderStatus() { setTimeout(() => window.renderOperator && window.renderOperator(), 0); const st = forge.lexicon.stats(), m = forge.meta(); const T = BUILD.tests || {};

@@ -1,5 +1,5 @@
 {
- "version": "4.9.214",
+ "version": "4.9.215",
  "features": [
   {
    "id": "A-01",
@@ -2664,8 +2664,8 @@
    "name": "How-copula coverage and cause-inversion stub",
    "source": "NEXT_BUILD 4.9.99; AIWEB architecture vision §3.5 (cause/effect stub only)",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.99: a how-question keeps the noun phrase as the subject. A following participle is the means (Q-WH-HOW-PASSIVE); a following predicate adjective is the how-state predicate. How are you, when-passive, and how-does stay on their own rules. An intervention stays a what-if. A deductive yes/no stays the forward cause chain. What-causes walks stored positive cause links backward: one upstream kartā is cited as the chain (CAUSAL-INVERSION-CHAIN); more than one is cited in full and none is selected (CAUSAL-INVERSION-NONUNIQUE). Nothing is written to memory or the shared KB. A rate measurement that disagrees clears DYN-LEVEL as the asserted mechanism (DYN-MECHANISM-DOWNGRADE) and still reports the equation, the measurement, the conflict, and that the prediction was not replaced.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.99: a how-question keeps the noun phrase as the subject. A following participle is the means (Q-WH-HOW-PASSIVE); a following predicate adjective is the how-state predicate. How are you, when-passive, and how-does stay on their own rules. An intervention stays a what-if. A deductive yes/no stays the forward cause chain. What-causes walks stored positive cause links backward: one upstream kartā is cited as the chain (CAUSAL-INVERSION-CHAIN); more than one is cited in full and none is selected (CAUSAL-INVERSION-NONUNIQUE). Nothing is written to memory or the shared KB. A rate measurement that disagrees clears DYN-LEVEL as the asserted mechanism (DYN-MECHANISM-DOWNGRADE) and still reports the equation, the measurement, the conflict, and that the prediction was not replaced. Retired 4.9.215 (Release C4, Nic approved): every test in its proof suite (verify/r499_suite.js) drove the old JS answer path (Kernel.process), which is deleted; the suite is retired and Ask runs the Python engine. Parked, not claimed.",
    "proof": [
     "R499"
    ]
@@ -2675,8 +2675,8 @@
    "name": "Conservation of a stated stock",
    "source": "NEXT_BUILD 4.9.100; AIWEB architecture vision §3.4 (quantities, units, conservation)",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.100: a stated stock plus a finite inflow or outflow (an amount, not a rate) is the existing level equation with no time. Same unit: exact sum or difference (DYN-CONSERVATION). A factor already in the volume table (milliliter, qualified US gallon) is applied and stated. An unqualified gallon mixed with another volume unit stays ambiguous. A second dimension, or a unit the table does not define, is the existing no-conversion diagnostic: no number. A missing start asks for the start. Crossing empty or a stated capacity keeps the exact difference and names the bound. Nothing is written to memory or the shared KB. No LLM, embedding, RAG, or learned classifier.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.100: a stated stock plus a finite inflow or outflow (an amount, not a rate) is the existing level equation with no time. Same unit: exact sum or difference (DYN-CONSERVATION). A factor already in the volume table (milliliter, qualified US gallon) is applied and stated. An unqualified gallon mixed with another volume unit stays ambiguous. A second dimension, or a unit the table does not define, is the existing no-conversion diagnostic: no number. A missing start asks for the start. Crossing empty or a stated capacity keeps the exact difference and names the bound. Nothing is written to memory or the shared KB. No LLM, embedding, RAG, or learned classifier. Retired 4.9.215 (Release C4, Nic approved): every test in its proof suite (verify/r4100_suite.js) drove the old JS answer path (Kernel.process), which is deleted; the suite is retired and Ask runs the Python engine. Parked, not claimed.",
    "proof": [
     "R4100"
    ]
@@ -2686,8 +2686,8 @@
    "name": "Counterfactual branch over observed history",
    "source": "NEXT_BUILD 4.9.101; AIWEB architecture vision §3.6 (counterfactual branches isolated from observed history)",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.101: a Suppose / what-if branch reuses buildWorlds. An active stored or working fact that shares an entity with the turn, and that the world grammar already reads as one atom, is the committed base; the supposition stays the overlay (WM-OBSERVED-BASE). A prefix the proof never cites is dropped. A supposition does not retract an observed fact and writes nothing to memory, world_state, or the shared KB. No second branch store. No new grammar. No LLM, embedding, RAG, or learned classifier.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.101: a Suppose / what-if branch reuses buildWorlds. An active stored or working fact that shares an entity with the turn, and that the world grammar already reads as one atom, is the committed base; the supposition stays the overlay (WM-OBSERVED-BASE). A prefix the proof never cites is dropped. A supposition does not retract an observed fact and writes nothing to memory, world_state, or the shared KB. No second branch store. No new grammar. No LLM, embedding, RAG, or learned classifier. Retired 4.9.215 (Release C4, Nic approved): every test in its proof suite (verify/r4101_suite.js) drove the old JS answer path (Kernel.process), which is deleted; the suite is retired and Ask runs the Python engine. Parked, not claimed.",
    "proof": [
     "R4101"
    ]
@@ -2697,8 +2697,8 @@
    "name": "MEA-on-phone learning",
    "source": "NEXT_BUILD 4.9.102; AIWEB architecture vision §3.7 (revisable rule induction; proposals never auto-act)",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.102: “show the proposals” and “explain the proposals” induce rules from stored facts with the existing evolve.js operators. Promotable hypotheses are spoken. Nothing is written to memory, world_state, drift_archive, admitted_rules, or the shared KB, and a proposal does not answer a question. A user tap admits one rule only when that show passed Echo, the recomputed drift may project (ε_s ≤ 0.35), the replay contradicts nothing, and admissionCheck accepts a replayed proof. Withdrawal is the existing withdrawRule. No shared-KB seed. No LLM, embedding, RAG, or learned classifier.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.102: “show the proposals” and “explain the proposals” induce rules from stored facts with the existing evolve.js operators. Promotable hypotheses are spoken. Nothing is written to memory, world_state, drift_archive, admitted_rules, or the shared KB, and a proposal does not answer a question. A user tap admits one rule only when that show passed Echo, the recomputed drift may project (ε_s ≤ 0.35), the replay contradicts nothing, and admissionCheck accepts a replayed proof. Withdrawal is the existing withdrawRule. No shared-KB seed. No LLM, embedding, RAG, or learned classifier. Retired 4.9.215 (Release C4, Nic approved): every test in its proof suite (verify/r4102_suite.js) drove the old JS answer path (Kernel.process), which is deleted; the suite is retired and Ask runs the Python engine. Parked, not claimed.",
    "proof": [
     "R4102"
    ]
@@ -2708,8 +2708,8 @@
    "name": "Typed bidirectional intents",
    "source": "NEXT_BUILD 4.9.103; AIWEB architecture vision §3.8 (full bidirectional language-to-world execution)",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.103: every finished turn carries one intent_kind from READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED. The name is taken from the route that already ran. A Suppose branch, a bare Suppose, and a dynamics what-if are SIMULATE. Show/explain proposals and explore ideas are PROPOSE_EVIDENCE. Remember is REQUEST_COMMIT. An Echo failure, a derivation failure, or a forbidden derivation trail is LANGUAGE_UNEXPRESSIBLE: the reply stays empty and nothing is stored. No new grammar. No LLM, embedding, RAG, or learned classifier. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.103: every finished turn carries one intent_kind from READ, DERIVE, EXPLAIN, SIMULATE, PROPOSE_EVIDENCE, REQUEST_COMMIT, CLARIFY, UNSUPPORTED. The name is taken from the route that already ran. A Suppose branch, a bare Suppose, and a dynamics what-if are SIMULATE. Show/explain proposals and explore ideas are PROPOSE_EVIDENCE. Remember is REQUEST_COMMIT. An Echo failure, a derivation failure, or a forbidden derivation trail is LANGUAGE_UNEXPRESSIBLE: the reply stays empty and nothing is stored. No new grammar. No LLM, embedding, RAG, or learned classifier. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): every test in its proof suite (verify/r4103_suite.js) drove the old JS answer path (Kernel.process), which is deleted; the suite is retired and Ask runs the Python engine. Parked, not claimed.",
    "proof": [
     "R4103"
    ]
@@ -2730,8 +2730,8 @@
    "name": "Persistent versioned world head",
    "source": "NEXT_BUILD 4.9.105; WMS §3.7 WorldSnapshot, §4.6 atomic commit, Slice I6 (audit gap #3)",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.105: a selectable WorldSnapshot (forge-world-state/v1) with world_id, version_id, parent_versions, content hash, and commit receipt. version_id is not the MemoryStore generation. The head is published only after a staged readback. A failed stage (WV-STAGE-ABORTED) does not select a head and does not save the new projection. The same store reloads the same version_id and hash. A Suppose branch and a conservation step do not move the head. Forgetting a premise withdraws one dependent into the next head. trace.world_version names the head. No bitemporal index. No LLM. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.105: a selectable WorldSnapshot (forge-world-state/v1) with world_id, version_id, parent_versions, content hash, and commit receipt. version_id is not the MemoryStore generation. The head is published only after a staged readback. A failed stage (WV-STAGE-ABORTED) does not select a head and does not save the new projection. The same store reloads the same version_id and hash. A Suppose branch and a conservation step do not move the head. Forgetting a premise withdraws one dependent into the next head. trace.world_version names the head. No bitemporal index. No LLM. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): every test in its proof suite (verify/r4105_suite.js) drove the old JS answer path (Kernel.process), which is deleted; the suite is retired and Ask runs the Python engine. Parked, not claimed.",
    "proof": [
     "R4105"
    ]
@@ -2741,8 +2741,8 @@
    "name": "Dream quarantine and SPC cold storage inspect",
    "source": "NEXT_BUILD 4.9.106; KERNEL_COMPONENTS §9 R-CONT-1/2/3 (audit gap #4)",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.106: show quarantine, show cold storage, and show containment list one live route, a tier or quarantined status, and a short label. A bare Suppose stays dream_state_quarantine_candidate and is not merged into memory or the world head. Forget still says moved to cold storage, keeps correction_queue, and the sealed row remains inspectable as spc_cold_storage_required. tierOf speaks WARM, COLD, or DEEP. resurrect and bring back on a WARM row are a proposal (PROPOSE_EVIDENCE) and do not write memory, the world head, or the shared KB. COLD is refused. kernel.resurrect(id, true) is unchanged. No seventh route. No Christ function. No LLM. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.106: show quarantine, show cold storage, and show containment list one live route, a tier or quarantined status, and a short label. A bare Suppose stays dream_state_quarantine_candidate and is not merged into memory or the world head. Forget still says moved to cold storage, keeps correction_queue, and the sealed row remains inspectable as spc_cold_storage_required. tierOf speaks WARM, COLD, or DEEP. resurrect and bring back on a WARM row are a proposal (PROPOSE_EVIDENCE) and do not write memory, the world head, or the shared KB. COLD is refused. kernel.resurrect(id, true) is unchanged. No seventh route. No Christ function. No LLM. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): every test in its proof suite (verify/r4106_suite.js) drove the old JS answer path (Kernel.process), which is deleted; the suite is retired and Ask runs the Python engine. Parked, not claimed.",
    "proof": [
     "R4106"
    ]
@@ -2862,8 +2862,8 @@
    "name": "Directives of meaning from roles",
    "source": "CONFLICTS.md v4.9.90",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.90: already shipped. LL-DIRECTIVE-MEANING reads define/explain of one nominal as the copular question. A tool failure is a clause from its roles. Registered in 4.9.110. No new behavior.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.90: already shipped. LL-DIRECTIVE-MEANING reads define/explain of one nominal as the copular question. A tool failure is a clause from its roles. Registered in 4.9.110. No new behavior. Retired 4.9.215 (Release C4, Nic approved): the LL-DIRECTIVE-MEANING rewrite lived only in the old JS answer path (Kernel.process), which is deleted; Ask runs the Python engine.",
    "proof": [
     "R4110"
    ]
@@ -2896,7 +2896,7 @@
    "source": "CONFLICTS.md v4.9.93",
    "wave": "W3",
    "claim": "Partial",
-   "note": "4.9.93: already shipped. BARE-REASON, MATH-FRAME, and WHAT-IF read structure. A stored name stays a name at the start of a sentence. Registered in 4.9.110. No new behavior.",
+   "note": "4.9.93: already shipped. BARE-REASON, MATH-FRAME, and WHAT-IF read structure. A stored name stays a name at the start of a sentence. Registered in 4.9.110. No new behavior. 4.9.215 (Release C4): BARE-REASON lived only in the deleted old JS answer path and is retired with it; MATH-FRAME and WHAT-IF stay in the kernel.",
    "proof": [
     "R4110"
    ]
@@ -2961,8 +2961,8 @@
    "name": "Doc 6 gate states on Ask Forge and Audit",
    "source": "CONFLICTS.md v4.9.112",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.112: ambiguity / clarification-required, clarification-required, unsupported, and meaning-understood-but-action-blocked (action_blocked) are visible labels. They use the intent the turn already carries and the 4.9.111 gate_refusal subtypes. A spoken clarification stays an answer. The label is not a menu.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.112: ambiguity / clarification-required, clarification-required, unsupported, and meaning-understood-but-action-blocked (action_blocked) are visible labels. They use the intent the turn already carries and the 4.9.111 gate_refusal subtypes. A spoken clarification stays an answer. The label is not a menu. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4112"
    ]
@@ -2972,8 +2972,8 @@
    "name": "Not-selected candidates on the turn packet",
    "source": "CONFLICTS.md v4.9.112",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.112: FORGE-TURN-PACKET/v1 lists every route except the winner. Each row keeps the rejection reason already recorded, including a route whose pattern does not apply. Ask Forge and Audit show the list when it is present.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.112: FORGE-TURN-PACKET/v1 lists every route except the winner. Each row keeps the rejection reason already recorded, including a route whose pattern does not apply. Ask Forge and Audit show the list when it is present. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4112"
    ]
@@ -2983,8 +2983,8 @@
    "name": "Doc 7 categories on Audit and custody surfaces",
    "source": "CONFLICTS.md v4.9.113",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.113: Audit / Receipts, RMC Memory, and the Identity Vault keep Language corpus, Evidence, Memory, Trace/receipt, and Authority records apart. Each label says presence ≠ truth. No new store.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.113: Audit / Receipts, RMC Memory, and the Identity Vault keep Language corpus, Evidence, Memory, Trace/receipt, and Authority records apart. Each label says presence ≠ truth. No new store. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4113"
    ]
@@ -2994,8 +2994,8 @@
    "name": "Why we believe this, with research kept as evidence",
    "source": "CONFLICTS.md v4.9.113",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.113: a turn receipt says why we believe it, from the record that already supports it. A lookup stays evidence. A source can be present and unsupported. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.113: a turn receipt says why we believe it, from the record that already supports it. A lookup stays evidence. A source can be present and unsupported. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4113"
    ]
@@ -3005,8 +3005,8 @@
    "name": "MSM-v1 preservation class and lifecycle law",
    "source": "CONFLICTS.md v4.9.114",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.114: reconstructed Doc 2 / MSM-v1. The Drive file was not recovered. The 13th preservation class action_proposal_simulation_and_observation is stamped on action, simulation, and observation records. Live transitions follow forge slice 35C. Illegal edges are rejected. 35D canonical bytes round-trip. This is not the forge2 draft/candidate contract table.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.114: reconstructed Doc 2 / MSM-v1. The Drive file was not recovered. The 13th preservation class action_proposal_simulation_and_observation is stamped on action, simulation, and observation records. Live transitions follow forge slice 35C. Illegal edges are rejected. 35D canonical bytes round-trip. This is not the forge2 draft/candidate contract table. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4114"
    ]
@@ -3016,8 +3016,8 @@
    "name": "MSM custody is separate from μ_t, evidence, memory, and Echo",
    "source": "CONFLICTS.md v4.9.114",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.114: trace.msm cites reconstructed Doc 2 / MSM-v1 record ids. MSM does not select, execute, write memory, or approve Echo. μ_t, evidence, memory, and Echo stay outside the manifest. A receipt is not written into MSM. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.114: trace.msm cites reconstructed Doc 2 / MSM-v1 record ids. MSM does not select, execute, write memory, or approve Echo. μ_t, evidence, memory, and Echo stay outside the manifest. A receipt is not written into MSM. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4114"
    ]
@@ -3049,8 +3049,8 @@
    "name": "Controlled concepts for pathways the loaded lexicon could not say",
    "source": "CONFLICTS.md v4.9.116",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.116: five Doc 4 concepts (misplace, bandage, preheat, unplug, marinate) unlock ordinary pathways. A word is not a concept, a concept is not evidence, and evidence is not permission. Creative writing not started. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.116: five Doc 4 concepts (misplace, bandage, preheat, unplug, marinate) unlock ordinary pathways. A word is not a concept, a concept is not evidence, and evidence is not permission. Creative writing not started. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4116"
    ]
@@ -3060,8 +3060,8 @@
    "name": "Predicate-role frames that do not execute, write, or approve Echo",
    "source": "CONFLICTS.md v4.9.116",
    "wave": "W3",
-   "claim": "Partial",
-   "note": "4.9.116: seven Doc 5 frames, including smell-of. Frame recognition is not execute, not a memory write, and not Echo approval. Creative writing not started. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.116: seven Doc 5 frames, including smell-of. Frame recognition is not execute, not a memory write, and not Echo approval. Creative writing not started. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4116"
    ]
@@ -3203,8 +3203,8 @@
    "name": "COMPOSE intent",
    "source": "CONFLICTS.md v4.9.121",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.121: compose that idea, write it out, and explain it as a short paragraph are COMPOSE. They are not CREATE, EXPLORE, or READ. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.121: compose that idea, write it out, and explain it as a short paragraph are COMPOSE. They are not CREATE, EXPLORE, or READ. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4121"
    ]
@@ -3214,8 +3214,8 @@
    "name": "Multi-sentence Language Core paragraph",
    "source": "CONFLICTS.md v4.9.121",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.121: a paragraph is several Language Core sentences and exact-Echoes. It is not Soft Echo and not a discovery claim. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.121: a paragraph is several Language Core sentences and exact-Echoes. It is not Soft Echo and not a discovery claim. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4121"
    ]
@@ -3225,8 +3225,8 @@
    "name": "Compose keeps claim status and writes nothing",
    "source": "CONFLICTS.md v4.9.121",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.121: the source claim status stays visible. A paragraph does not write memory, the world head, or the shared KB. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.121: the source claim status stays visible. A paragraph does not write memory, the world head, or the shared KB. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4121"
    ]
@@ -3236,8 +3236,8 @@
    "name": "Suppose story branches stay off the world head",
    "source": "CONFLICTS.md v4.9.122",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.122: suppose a story, open a simulation, and what if a story are SIMULATE. The branch is not a stored fact and does not write memory, the world head, or the shared KB. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.122: suppose a story, open a simulation, and what if a story are SIMULATE. The branch is not a stored fact and does not write memory, the world head, or the shared KB. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4122"
    ]
@@ -3247,8 +3247,8 @@
    "name": "A story branch is named a counterfactual simulation",
    "source": "CONFLICTS.md v4.9.122",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.122: the reply names the branch a simulation and a counterfactual. The claim status stays speculative_branch. It is not a verified claim. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.122: the reply names the branch a simulation and a counterfactual. The claim status stays speculative_branch. It is not a verified claim. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4122"
    ]
@@ -3258,8 +3258,8 @@
    "name": "Parking a story branch uses dream quarantine",
    "source": "CONFLICTS.md v4.9.122",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.122: park or end keeps the branch in dream quarantine. A world-write is world_write. An unbound discovery is novelty_unbound. A commit with no branch is commit_without_proposal. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.122: park or end keeps the branch in dream quarantine. A world-write is world_write. An unbound discovery is novelty_unbound. A commit with no branch is commit_without_proposal. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4122"
    ]
@@ -3269,8 +3269,8 @@
    "name": "COMPOSE expands a staged idea into several sentences",
    "source": "CONFLICTS.md v4.9.123",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.123: compose that idea, write it out, and explain it as a short paragraph develop the idea in several Language Core sentences. A custody restatement is not the paragraph. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.123: compose that idea, write it out, and explain it as a short paragraph develop the idea in several Language Core sentences. A custody restatement is not the paragraph. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4123"
    ]
@@ -3280,8 +3280,8 @@
    "name": "Expansion uses licensed anchors, roles, and lexicon glosses",
    "source": "CONFLICTS.md v4.9.123",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.123: roles, relations, memory anchors, and a WordNet gloss already in the lexicon are the only elaboration. Echo stays an exact Language Core reparse. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.123: roles, relations, memory anchors, and a WordNet gloss already in the lexicon are the only elaboration. Echo stays an exact Language Core reparse. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4123"
    ]
@@ -3291,8 +3291,8 @@
    "name": "Compose expansion writes nothing",
    "source": "CONFLICTS.md v4.9.123",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.123: claim status stays hypothesis or speculative_branch. Quarantine stays non-projectable. Refusals stay commit_without_proposal, novelty_unbound, drift_hard, and language_unexpressible. Nothing is written to memory, the world head, or the shared KB. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.123: claim status stays hypothesis or speculative_branch. Quarantine stays non-projectable. Refusals stay commit_without_proposal, novelty_unbound, drift_hard, and language_unexpressible. Nothing is written to memory, the world head, or the shared KB. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4123"
    ]
@@ -3302,8 +3302,8 @@
    "name": "On-device starter pack anchors invent and compose",
    "source": "CONFLICTS.md v4.9.124",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.124: a small starter pack is confirmed on first open. CREATE and COMPOSE use it when memory has no relational anchors. Provenance is starter_pack. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.124: a small starter pack is confirmed on first open. CREATE and COMPOSE use it when memory has no relational anchors. Provenance is starter_pack. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4124"
    ]
@@ -3313,8 +3313,8 @@
    "name": "Clear starter knowledge removes the on-device pack",
    "source": "CONFLICTS.md v4.9.124",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.124: one Memory control, Clear starter knowledge, clears the pack. It does not write memory or shared knowledge. A cleared pack is not reinstalled. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.124: one Memory control, Clear starter knowledge, clears the pack. It does not write memory or shared knowledge. A cleared pack is not reinstalled. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4124"
    ]
@@ -3324,8 +3324,8 @@
    "name": "Starter provenance is starter_pack and creative paths do not store",
    "source": "CONFLICTS.md v4.9.124",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.124: Audit names starter_pack. Remember stays person-authored. CREATE, COMPOSE, SIMULATE, and research do not write confirmed facts. Shared KB stays empty.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.124: Audit names starter_pack. Remember stays person-authored. CREATE, COMPOSE, SIMULATE, and research do not write confirmed facts. Shared KB stays empty. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4124"
    ]
@@ -3469,8 +3469,8 @@
    "name": "shared KB READ path",
    "source": "CONFLICTS.md v4.9.162; Nic pt124u",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "Ordinary factual WH/YN/about consult memory then hosted confirmed_shared (session pull) then GKS before AQ-1. Surface-aware aboutSubjMatch (propn↔adj+head, PP peel). Provenance confirmedTold / Shared knowledge base. Not a First Amendment one-off.",
+   "claim": "Out of scope / parked",
+   "note": "Ordinary factual WH/YN/about consult memory then hosted confirmed_shared (session pull) then GKS before AQ-1. Surface-aware aboutSubjMatch (propn↔adj+head, PP peel). Provenance confirmedTold / Shared knowledge base. Not a First Amendment one-off. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4162"
    ]
@@ -3480,8 +3480,8 @@
    "name": "CS before research.web",
    "source": "CONFLICTS.md v4.9.162",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "When pulled confirmed_shared answers, AUTH-AQ1 / research.web do not start. Deliberate miss still AQ-1. Lookup never writes shared KB / scrapbook / phone confirmed_shared.",
+   "claim": "Out of scope / parked",
+   "note": "When pulled confirmed_shared answers, AUTH-AQ1 / research.web do not start. Deliberate miss still AQ-1. Lookup never writes shared KB / scrapbook / phone confirmed_shared. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4162"
    ]
@@ -3491,8 +3491,8 @@
    "name": "civics WH substance from shared KB",
    "source": "CONFLICTS.md v4.9.164; Nic pt125u",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "What-is composes be-presence with about-facts (CS-COMPOSE-PRESENCE-ABOUT). Rights WH (protect/give/…) uses CS-RECALL-RIGHTS-ABOUT. G-IRRN-SURFACE collapses people↔person when describe is identical. First/Fifth packs thickened. Not a Fifth-only special case. 4.9.164 keeps pathways; soft leave reclaim only.",
+   "claim": "Out of scope / parked",
+   "note": "What-is composes be-presence with about-facts (CS-COMPOSE-PRESENCE-ABOUT). Rights WH (protect/give/…) uses CS-RECALL-RIGHTS-ABOUT. G-IRRN-SURFACE collapses people↔person when describe is identical. First/Fifth packs thickened. Not a Fifth-only special case. 4.9.164 keeps pathways; soft leave reclaim only. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4163"
    ]
@@ -3502,8 +3502,8 @@
    "name": "CS discourse continuity",
    "source": "CONFLICTS.md v4.9.164; Nic pt125u",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "After a CS answer, pronoun follow-ups (“what does it say that it gives”, “what rights does it give”) keep the prior CS entity via REF-RESOLVED-UNIQUE + rights about-fallback; do not start research.web on a hollow subject. Deliberate miss still AQ-1. 4.9.164 keeps pathway.",
+   "claim": "Out of scope / parked",
+   "note": "After a CS answer, pronoun follow-ups (“what does it say that it gives”, “what rights does it give”) keep the prior CS entity via REF-RESOLVED-UNIQUE + rights about-fallback; do not start research.web on a hollow subject. Deliberate miss still AQ-1. 4.9.164 keeps pathway. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4163"
    ]
@@ -3524,8 +3524,8 @@
    "name": "soft gzip leave reclaim",
    "source": "CONFLICTS.md v4.9.164; Nic soft leave ≥5 kB under 570 kB",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "4.9.164: single-file omit feature names + ASI-safe newline join (+ )]{/=/{[ and else/try…{[) + drop generated/gate restore soft leave after 4.9.163 CI zlib overage. Budget unchanged. Pathways and packs unchanged. Pages keeps full source.",
+   "claim": "Out of scope / parked",
+   "note": "4.9.164: single-file omit feature names + ASI-safe newline join (+ )]{/=/{[ and else/try…{[) + drop generated/gate restore soft leave after 4.9.163 CI zlib overage. Budget unchanged. Pathways and packs unchanged. Pages keeps full source. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4163"
    ]
@@ -3678,8 +3678,8 @@
    "name": "Forge2 contracts and language.core wiring",
    "source": "CONFLICTS.md v4.9.179; BogaertN/forge2 @262a95eb",
    "wave": "W2",
-   "claim": "Partial",
-   "note": "Forge2 establishment and frozen values are ported onto the existing spine. The learning loop seals each measured claim: input event, rule candidates, request contract, context, a read-only capability, and a successor receipt. A model origin and a network effect are refused. A public how-question and a question that names ProtoForge stay on language.core and research.web. Athena admits. Gilligan re-curates. Ask recalls. Packs stay gated. No LLM. The Athena document list is later.",
+   "claim": "Out of scope / parked",
+   "note": "Forge2 establishment and frozen values are ported onto the existing spine. The learning loop seals each measured claim: input event, rule candidates, request contract, context, a read-only capability, and a successor receipt. A model origin and a network effect are refused. A public how-question and a question that names ProtoForge stay on language.core and research.web. Athena admits. Gilligan re-curates. Ask recalls. Packs stay gated. No LLM. The Athena document list is later. Retired 4.9.215 (Release C4, Nic approved): its behaviour tests drove the old JS answer path (Kernel.process), which is deleted; only a version/registry check is left in its suite, which does not prove the behaviour. Parked, not claimed.",
    "proof": [
     "R4179"
    ]
@@ -4057,14 +4057,25 @@
    "proof": [
     "verify/r4214_suite.js"
    ]
+  },
+  {
+   "id": "R4215-C4-OLD-PATH-DELETED",
+   "name": "Release C4: the old JS answer path is deleted (Kernel/ForgeKernel process, recallHosted, recallFromBank); the Dry-Run tab runs the Python engine with dry_run: true",
+   "source": "Nic plan Release C, stage C4 (approved 2026-11-01 4:16 AM CT, option B 4:21 AM CT); src/kernel.js, src/forge.js, src/forge_tools.js, src/pipeline_tools.js, src/app.js, index.html, src/req_packet.js, data/c4_retired_tests.json, tools/c_parity.js, tools/check_215.py",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Deleted by reachability (owners reachable only from #api:process, roots = every other kernel API key plus constructor statements): 179 kernel owners plus pruned unused bindings; kernel.js 557,049 to about 147,000 characters. forge.js process wrapper deleted; recall_memory / rmc_memory_recall refuse FORGE-TOOL-RETIRED; researchExcerpt always fetches. Dry-Run: KRMCCore.run({question, live: true, dry_run: true, memory: askMemory(text)}), renders the engine's 16-stage trace, epsilon_s, C, Echo (dry-run method on the unrendered candidate), and the admit-gate decision; writes nothing. Audit turn packets and receipts show an honest empty state. Retired: 235 tests (7 whole suites r499, r4100-r4103, r4105, r4106), 94 requirement links and 13 requirements (R4162-READ-CONNECT and R4163-CIVICS-WH, whose every test drove the old path, and 11 left with only a version check), each with its reason in data/c4_retired_tests.json and src/req_packet.js RETIRED_LINKS; 34 features whose proof was retired are parked (R490-DIR, R499-LANG, R4100-QTY, R4101-CF, R4102-MEA, R4103-INT, R4105-WV, R4106-DSPC and 26 whose suites keep only a version check). c_parity trimmed to APIs that still exist, re-recorded from the 4.9.211 source, byte-identical. Partial: the Dry-Run tab skips stages 14-16 (the engine's dry run does not render or re-parse the spoken answer), and the Audit receipt panels stay empty because Ask writes no receipts.",
+   "proof": [
+    "verify/r4215_suite.js"
+   ]
   }
  ],
- "count": 370,
+ "count": 371,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 208,
+  "Partial": 175,
   "Missing": 9,
-  "Out of scope / parked": 13
+  "Out of scope / parked": 47
  }
 }

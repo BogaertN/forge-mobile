@@ -1,252 +1,18 @@
 {
- "turns": [
-  {
-   "t": "hello",
-   "reply": "I recognised “hello” as a greeting. Please ask a question.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "interjection",
-   "trace": "f57ecda945befc73c6118e14ecf4a9d6e6849e6ecd250abe99d373b850a6e766"
-  },
-  {
-   "t": "remember that my car is red",
-   "reply": "I noted that your car is red.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "stored",
-   "trace": "0b1c05d49614c27b136e10d29f0d155369a052483ff36659a07157054079dd5d"
-  },
-  {
-   "t": "what color is my car?",
-   "reply": "You told me that your car is red.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "recall",
-   "trace": "cf820a2660d6fa7e4bcd0ad550b04a4d3d1189745a2356bd851c49c090ed66aa"
-  },
-  {
-   "t": "is my car red?",
-   "reply": "Yes. You told me that your car is red.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "yesno",
-   "trace": "81cf16732a0409c6a2f83768ad656bb4cd3f5238c894a4738062bc178952f87f"
-  },
-  {
-   "t": "remember that my sister lives in Paris",
-   "reply": "I noted that your sister lives in Paris.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "stored",
-   "trace": "48924664e8d68f1f85029d4cb02b875a3c6099387e2e61b867d6194aa9991f4e"
-  },
-  {
-   "t": "where does my sister live?",
-   "reply": "You told me that your sister lives in Paris.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "recall",
-   "trace": "b8fddaec8ff127b2dadd3fba09ad603216b822f6ca2190de79ae7d3420e16fee"
-  },
-  {
-   "t": "note: buy milk",
-   "reply": "I added a note. Note 1 is “buy milk”.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "note_added",
-   "trace": "f0ac0628cc2cef22a3c3d3a44b29ca6282e7cf20e7912198564f61c66588bb0d"
-  },
-  {
-   "t": "a robin is a bird",
-   "reply": "You stated that a robin is a bird. I have not stored it. I will use it in this conversation. Say “remember that …” to keep it.",
-   "blocked": false,
-   "outcome": "understood-but-blocked",
-   "kind": "assert_ack",
-   "trace": "f3da818312cde68e2e614eb981bd201af5a203823ffe9d8d5f2d1981cb546e23"
-  },
-  {
-   "t": "is a robin an animal?",
-   "reply": "Yes, I infer that a robin is an animal. In WordNet, robin ⊑ thrush ⊑ oscine ⊑ passerine ⊑ bird ⊑ vertebrate ⊑ chordate ⊑ animal.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "inferred",
-   "trace": "a0cb3b331e6928f18107ccb5015ca0741dda38fa2a5025286908bf1c44840c5d"
-  },
-  {
-   "t": "what is 17 times 23?",
-   "reply": "17 × 23 = 391.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "math",
-   "trace": "8328f2a1638e6647e38ffabf37b80fb49f6e6582efbf1c1f05b1452a59d9bedd"
-  },
-  {
-   "t": "forget that my car is red",
-   "reply": "You asked me to forget 1 fact: (1) your car is red. Should I move it to cold storage? Please answer “yes” or “no”.",
-   "blocked": false,
-   "outcome": "clarify",
-   "kind": "confirm_forget",
-   "trace": "ee8bf10255745cb41e3b72b7b9b76d739439b5986dff77b9e0e77deb88682266"
-  },
-  {
-   "t": "what color is my car?",
-   "reply": "You told me that your car is red.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "recall",
-   "trace": "a9971855681f14229c8a24f152aa1a8963e320e6999b792895c42a6f2294a4b9"
-  },
-  {
-   "t": "help",
-   "reply": "I can do 8 things: (1) remember facts; (2) answer from memory; (3) keep notes; (4) define words; (5) solve equations; (6) factor polynomials; (7) convert units; (8) forget facts after confirmation. For example, say “remember that my sister lives in Paris”, “where does my sister live?”, “note: buy milk”, “what is 12 * (3 + 4)?”, “solve x^2 - 5x + 6 = 0”, “define bank”, or “is my dog an animal?”.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "help",
-   "trace": "3a8cd7f6eb92ff9941a67411cddecb7bf2db0b3f2f56d95ac40145d820305cd2"
-  },
-  {
-   "t": "what do you know about me?",
-   "reply": "You told me 2 facts about you: (1) your car is red; (2) your sister lives in Paris.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "about",
-   "trace": "ba60eb794a75705d568c149cf9307101d6911b9dde460e9931b49a2f5cfffd5f"
-  },
-  {
-   "t": "my password is hunter2",
-   "reply": "I did not keep the value of your password. Say “remember that …” to seal it.",
-   "blocked": false,
-   "outcome": "understood-but-blocked",
-   "kind": "secret_dropped",
-   "trace": "6341289f5eaa9e603413fbf514075b17cdf136a4a4e6c261b5eb1cf66dcbd788"
-  },
-  {
-   "t": "if it rains then the grass is wet",
-   "reply": "You stated that if it rains, the grass is wet. I have not stored it. I will use it in this conversation. Say “remember that …” to keep it.",
-   "blocked": false,
-   "outcome": "understood-but-blocked",
-   "kind": "assert_ack",
-   "trace": "b97da4c20661038d13df4cebdd3efc02cd3d588bac8fe0a395517f8230776fe9"
-  },
-  {
-   "t": "it rains",
-   "reply": "You stated that it rains. I have not stored it. I will use it in this conversation. Say “remember that …” to keep it.",
-   "blocked": false,
-   "outcome": "understood-but-blocked",
-   "kind": "assert_ack",
-   "trace": "37e54908d1e4e4a3c0bc4ccbca7c0ac688f730425c3b89edd6e057bb607375b4"
-  },
-  {
-   "t": "is the grass wet?",
-   "reply": "Yes, I infer that the grass is wet. You told me that if it rains, the grass is wet. You told me that it rains.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "inferred",
-   "trace": "8b615ccf2c964d697bf6c69aae48f3f23c3ebb0a26f32a9de89c09d1d62a5799"
-  },
-  {
-   "t": "who are you?",
-   "reply": "I am a computer program. I am not a person. I derive sentences by fixed rules. I compute the operators of the RSOC calculus.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "self_answer",
-   "trace": "7cf0f8b9ac434196b81a1d93781708d70a4481a73bc12e38514c1fe28953cef5"
-  },
-  {
-   "t": "what can you do?",
-   "reply": "I can do 8 things: (1) remember facts; (2) answer from memory; (3) keep notes; (4) define words; (5) solve equations; (6) factor polynomials; (7) convert units; (8) forget facts after confirmation. For example, say “remember that my sister lives in Paris”, “where does my sister live?”, “note: buy milk”, “what is 12 * (3 + 4)?”, “solve x^2 - 5x + 6 = 0”, “define bank”, or “is my dog an animal?”.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "help",
-   "trace": "d8de6e760250bb181b365bea94d637a90efbcaf91917e4c9ad1043e995c6ee06"
-  },
-  {
-   "t": "I saw the man with the telescope",
-   "reply": "I find 2 readings: (1) “subject: you, verb: saw, karma: the man, karana: with the telescope, tense: present”; (2) “subject: you, verb: see, karma: the man, karana: with the telescope, tense: past”. Which reading do you mean?",
-   "blocked": false,
-   "outcome": "ambiguous",
-   "kind": "clarify_readings",
-   "trace": "1f8727f2fadd83ca4605b07daee3551388a05ad817d82cfbc0e2cc2bae9233a5"
-  },
-  {
-   "t": "1",
-   "reply": "You mentioned that you saw the man with the telescope. I have not stored it. I will use it in this conversation. Say “remember that …” to keep it.",
-   "blocked": false,
-   "outcome": "understood-but-blocked",
-   "kind": "assert_ack",
-   "trace": "eafd1728f609a9920da0f139ab247e569d6cb93eaf299b85b422b2fd7959c72a"
-  },
-  {
-   "t": "remember that the bank is near the river",
-   "reply": "I noted that the bank is near the river.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "stored",
-   "trace": "68f0fa42879be1b8d5daa91c1c232b8f111b5752d99b26b4b1ab3f336727060e"
-  },
-  {
-   "t": "where is the bank?",
-   "reply": "You told me that the bank is near the river.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "recall",
-   "trace": "e3a05c5d437d9c1d0f674676d8e9e7e687cad15ba6f9ecb090a046cb7ef9d30b"
-  },
-  {
-   "t": "the old man the boats",
-   "reply": "I recognised “the old man” as the subject. But I could not attach “the boats”. Please tell me the role of “the boats”. I found no verb. Please tell me the verb.",
-   "blocked": false,
-   "outcome": "clarify",
-   "kind": "no_frame",
-   "trace": "a35fa110e314ef366f225f77ac073f92c9f714acfb530754c2801dae99211a57"
-  },
-  {
-   "t": "remember that Anna bought a new car",
-   "reply": "I noted that Anna bought a new car.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "stored",
-   "trace": "45b2492cd164331b3922a7d1ed17a65197e97206fc84fe5c635856b284e81906"
-  },
-  {
-   "t": "what did Anna buy?",
-   "reply": "You told me that Anna bought a new car.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "recall",
-   "trace": "3460ffa3098e8a4328513087a5aaa3f1a089e5d507e8fea672aceb67dd96f2dc"
-  },
-  {
-   "t": "remember that my dog chased a cat",
-   "reply": "I noted that your dog chased a cat.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "stored",
-   "trace": "57c6d76491f4b3d3c6bdf8c081a609341c11df5ec2c29d224b5633269d6658d4"
-  },
-  {
-   "t": "who chased the cat?",
-   "reply": "You told me that your dog chased a cat.",
-   "blocked": false,
-   "outcome": "selected",
-   "kind": "recall",
-   "trace": "5f2abceb94374c30a46600bac8e8a7d47abf0f5384de88e55701dd8801f9f861"
-  },
-  {
-   "t": "2",
-   "reply": "I recognised “2” as the subject. But I found no verb. Please tell me the verb.",
-   "blocked": false,
-   "outcome": "clarify",
-   "kind": "no_frame",
-   "trace": "984e6f758f4320e01c187e8695b4a8a4ab53c4ce02076ecabf86047a187cee08"
-  }
- ],
- "receipts": "637e9552cc9c237c868f4ca68559317804d71dcbc374845001ef27a593c5c01b",
+ "receipts": "fd121045ec7b3cbfef2cd68528ed7abfa445ec808db51b79d337be9c1b2bd0e0",
  "audit": {
   "ok": true,
-  "count": 30,
+  "count": 5,
   "broken_at": [],
-  "head": "aiweb.forge-mobile.receipt:sha256:d2dffaec0882cff3b73c40a4055c4fb904fbb72f80b007230f31e4cb718fe868"
+  "head": "aiweb.forge-mobile.receipt:sha256:b0b678c3435212da9b91fe1ebe4bf7737348ce4468e1755e389c229e3f7309a4"
+ },
+ "audit_tampered": {
+  "ok": false,
+  "count": 5,
+  "broken_at": [
+   2
+  ],
+  "head": "aiweb.forge-mobile.receipt:sha256:b0b678c3435212da9b91fe1ebe4bf7737348ce4468e1755e389c229e3f7309a4"
  },
  "generation": 0,
  "categories": "9bf43b473cf5015e3253014b47850842222747336dcb5a38e163e1a3bc49542c",
@@ -268,7 +34,7 @@
   "from": 1
  },
  "generationAfter": 0,
- "keys": "d36ee5d4bfa44755b46fc3ebec18355a363afd8f57eb3e8a75fd7449a56b230c",
+ "keys": "43088ca483cae19d92efdf15da782f9159fc2797daf7de3e9c39efc1b36e1dec",
  "starter": "8ac71c4687f3aaa997faf5e68f3f38f9394dccf301fdd57c1abb15ba064585f9",
  "preview": "201d63b9fbfa70c48a44450989d8790b7bdd81aa080e7e2b799f530178698823",
  "preview_bad": "3c636693dd749e6627cd18503a4c81d57465dd9adce191aa064035b4f5eb7ebf",
@@ -281,7 +47,6 @@
  "shared": "1af14f8fa6181c6f3b1824282e78aeeff11c6f7565ec11e5706bc64ecc2fc94a",
  "confirmedShared": "1af14f8fa6181c6f3b1824282e78aeeff11c6f7565ec11e5706bc64ecc2fc94a",
  "writeKey": "f43846add42513099f19bb2dd83821de456146ffe18bb26977f0ac91500274a8",
- "after_pack": "Yes, I infer that a robin is an animal. In WordNet, robin ⊑ thrush ⊑ oscine ⊑ passerine ⊑ bird ⊑ vertebrate ⊑ chordate ⊑ animal.",
  "clearImport": "b2a58855f5c28e5d87c54ac443c1a38c84a003b2b9fa9d5009950b7135d0981c",
  "clearShared": "fdff9f6efe6531c0c5682d6ca8d43c8c0c7a551d0768f80cd82b3c739afe791c",
  "clearStarter": "ca22dee7f4fe4197759f170855a3963496e02727da90c99c537972b919c7df5e",
@@ -301,7 +66,7 @@
  "adoptK": "53847714ba1d20c3f55ecee8836bedc564586c87cc591e300f1817225085e33f",
  "derive": [
   "47b9253624ecb80a5a4a3b1a68c5db5050dc42204f9a7cd5d11e6cad29a89763",
-  "12f79ea88619377ca059e78864769910493680deadfdd565de341c07d016407f",
+  "e785b1b5ce24b07dc45a63af89bcf8716b4912986f8d8395c5922ae8c7a5b494",
   "86267e2e2daacf9cd2ea830e7a09529f38bdd542a280ecdc22136bd2f4a46043",
   "ede39b0100aa8f7a3625110375f133929684b6297094394518d12c32620def32",
   "c290c5e5fad2c2a46398b5a36ac1e6f07238e4e7929ffc08dc765678dce90bf4",
@@ -309,7 +74,7 @@
  ],
  "deriveSource": [
   "47b9253624ecb80a5a4a3b1a68c5db5050dc42204f9a7cd5d11e6cad29a89763",
-  "12f79ea88619377ca059e78864769910493680deadfdd565de341c07d016407f",
+  "e785b1b5ce24b07dc45a63af89bcf8716b4912986f8d8395c5922ae8c7a5b494",
   "86267e2e2daacf9cd2ea830e7a09529f38bdd542a280ecdc22136bd2f4a46043",
   "ede39b0100aa8f7a3625110375f133929684b6297094394518d12c32620def32",
   "c290c5e5fad2c2a46398b5a36ac1e6f07238e4e7929ffc08dc765678dce90bf4",
@@ -325,7 +90,7 @@
  ],
  "reparseSource": [
   "d640b2d7c2762102d92ae4b468ca9e31b74a599702bfb2d98e25fbbb33cc70b9",
-  "6ae87c2a985119f71d4efc456f5f4e6f9dc69a14de14d18056cd6990d4304f94",
+  "ff86e41af8c01ee8a3214cf0dbaca852fce27ea8725bbcaea9dd5a54cdb34bc3",
   "cc026adb5f2bc481a89ed25146f1574c01e9b7f6b6b5752917e9c0ce927d6648",
   "60126f5800ba38be287f068567988ffe21a5726c3fdbf72855e3c857f7fcc4ed",
   "2d514c8ff5a65ab354ba6c3a48fe467c48bf8f412b3419a2996949d2d2fd7dee",
@@ -358,12 +123,7 @@
  "store_final": {
   "kernel.__gen": "98089e6d36f78e9766c9ea34d5acb3611f3a92cd81c5eb102095d924ffc7d08b",
   "kernel.__gen_prev": "ea07bbc0f0f6b86b674e2858555efdc2f6a871cd7e942791d18c471f263c67b7",
-  "kernel.attribution_ledger": null,
-  "kernel.cold_storage": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.confirmed_shared": "cae98437b4ca9064b617c98cc2e5dbdb6f94929ab84c46e64d492d815097f797",
-  "kernel.containment_receipts": null,
-  "kernel.device": null,
-  "kernel.evidence": "a18082eb302225495e736acca674ba7eddc148dc2ce3ba774a13b103fc5fb7a9",
   "kernel.g1.admission_queue": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.admitted_manifests": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.admitted_manifests_k": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
@@ -393,33 +153,33 @@
   "kernel.g1.economy_quarantine": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.economy_seen": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.ede_calibration": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.evidence": "a18082eb302225495e736acca674ba7eddc148dc2ce3ba774a13b103fc5fb7a9",
+  "kernel.g1.evidence": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.export_packages": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.feedback": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.fetch_path": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.gks_facts": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.gks_pinned": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.held_writes": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.hypotheses": "8be5bf9bbfcd85ad63888705db58489d87ab1fcc8073f656bfc8e02d5dd18f3c",
+  "kernel.g1.hypotheses": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.import_pack": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.jobs": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.justifications": "7a03b1a820fe6c4a43e8e7fb02d4e5049ccf2bb9dd4d68281ce0f774fdab0ff3",
+  "kernel.g1.justifications": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.language_examples": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.ledger_conflicts": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.lexicon_user": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.loops": "94a8c21738a3aa617499ed013c4fdaf969b565ce19f094f6814bb35445e60e21",
+  "kernel.g1.loops": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.mea_archive": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.mea_candidates": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.mea_problems": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.mea_receipts": null,
   "kernel.g1.mea_seals": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.memory": "96dd178a2a8980b647266605ad5bf977a94b085e329986cb14109fb26055cfe7",
+  "kernel.g1.memory": "2601f230381c195986c3f403335d509d394de0984dfa537f487053a856a37078",
   "kernel.g1.meta": null,
   "kernel.g1.migrations": "0e567da7797896b38f8336e0b84093007b3855e42f713360496f1f852b084ec4",
   "kernel.g1.node_jobs": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.node_pairing": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.offers": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.permissions": "5013751590360fa4df55cc601bd62d3b52ca9b397d9c82f28396b3894305b1d8",
+  "kernel.g1.permissions": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.pf_agents": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.pf_drift_log": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.pf_echo": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
@@ -428,7 +188,7 @@
   "kernel.g1.promotions": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.proof_exports": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.receipts": null,
-  "kernel.g1.rejected_meanings": "0ab0942d1750f7fbae5d002109cef4b480ef7d42653c9693ff76633c215ce876",
+  "kernel.g1.rejected_meanings": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.reminders": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.request_policy_gaps": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.request_receipts": null,
@@ -445,7 +205,7 @@
   "kernel.g1.symbol_index": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.sync_log": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.synced_items": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.tool_invocations": "a550eb0b092e00ec07a20c3a32b43afbbdcf7fb03e25921a9a90923840776136",
+  "kernel.g1.tool_invocations": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.trace": null,
   "kernel.g1.ui_errors": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.usage_counts": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
@@ -455,25 +215,15 @@
   "kernel.g1.web_evidence": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.g1.withdrawal_receipts": null,
   "kernel.g1.workbench_events": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
-  "kernel.g1.world_head": "106aaa9347bd97baad263441eb8cbfc619a9c3a5c820a12a99fc5e66a4c969fe",
-  "kernel.g1.world_head_stage": "106aaa9347bd97baad263441eb8cbfc619a9c3a5c820a12a99fc5e66a4c969fe",
-  "kernel.g1.world_state": "21a59544c7bc8cb6dfc474520978a844947dae854bbaec5a5e32f56972c2efd7",
-  "kernel.hypotheses": "8be5bf9bbfcd85ad63888705db58489d87ab1fcc8073f656bfc8e02d5dd18f3c",
+  "kernel.g1.world_head": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
+  "kernel.g1.world_head_stage": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
+  "kernel.g1.world_state": "b3283bf184bb082f364b8537776bc6b15fce2ff9f9acb3fb11ae87da394bfd4b",
   "kernel.import_pack": "65dbe5f5278fc6e15eee896b6aa06633bfed2512504ba481b13dbf2e64e04079",
-  "kernel.justifications": "7a03b1a820fe6c4a43e8e7fb02d4e5049ccf2bb9dd4d68281ce0f774fdab0ff3",
-  "kernel.loops": "94a8c21738a3aa617499ed013c4fdaf969b565ce19f094f6814bb35445e60e21",
-  "kernel.memory": "96dd178a2a8980b647266605ad5bf977a94b085e329986cb14109fb26055cfe7",
-  "kernel.meta": null,
+  "kernel.memory": "2601f230381c195986c3f403335d509d394de0984dfa537f487053a856a37078",
   "kernel.migrations": "0e567da7797896b38f8336e0b84093007b3855e42f713360496f1f852b084ec4",
-  "kernel.permissions": "d922c073f9422ffef32e33959877d7b2a0228fbe02a59c11287ac0f8a37d6e50",
+  "kernel.permissions": "3ba5b174a0e3d0070a692b55b0c59fe2783d664a98e73234204fc33769c84dc9",
   "kernel.receipts": null,
-  "kernel.rejected_meanings": "0ab0942d1750f7fbae5d002109cef4b480ef7d42653c9693ff76633c215ce876",
-  "kernel.starter_pack": "7847050454505750efa63fc2b79b2350a9b5abacea5ee65d9f11c4777a491a6f",
-  "kernel.tool_invocations": "63e9dfa8e2c42421e6fa817fc6c5bd4ad94c8357195d349286d07b9c320aa298",
-  "kernel.trace": null,
-  "kernel.world_head": "106aaa9347bd97baad263441eb8cbfc619a9c3a5c820a12a99fc5e66a4c969fe",
-  "kernel.world_head_stage": "106aaa9347bd97baad263441eb8cbfc619a9c3a5c820a12a99fc5e66a4c969fe",
-  "kernel.world_state": "21a59544c7bc8cb6dfc474520978a844947dae854bbaec5a5e32f56972c2efd7"
+  "kernel.starter_pack": "7847050454505750efa63fc2b79b2350a9b5abacea5ee65d9f11c4777a491a6f"
  },
  "api": {
   "kkernel": [

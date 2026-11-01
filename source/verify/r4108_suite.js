@@ -56,65 +56,6 @@ T('a later cycle carries parked debt instead of repeating the one-shot', () => {
   expect(cells.every(c => c.applied === false && c.authority === 'proposal' && c.schema === 'MEAMutableCell/v1' && c.eps <= 0.35 && c.proposed !== c.base), JSON.stringify(cells));
   expect(MEAP.OPERATORS.llm_generate && MEAP.OPERATORS.llm_generate.executable === false, 'llm_generate is executable');
 });
-T('propose after the tap continues the same problem and does not apply a grammar cell', () => {
-  const k = mk();
-  const g0 = gram();
-  const r = k.process('propose problem physics');
-  expect(r.reply === SHOWN, r.reply);
-  expect(r.trace.intent_kind === 'PROPOSE_EVIDENCE' && r.trace.echo && r.trace.echo.pass, r.reply);
-  const head = k.worldHead().version_id;
-  const cy = k.meaCycle(PID);
-  const no = k.meaCommit(PID, cy.cycle.resolution.candidate_id, false);
-  expect(!no.ok && no.rule === 'PERM-NEEDS-USER-TAP', JSON.stringify(no));
-  const yes = k.meaCommit(PID, cy.cycle.resolution.candidate_id, true);
-  expect(yes.ok && yes.manifest.problem_id === PID && yes.manifest.goal === GOAL && yes.manifest.cycle === 1, JSON.stringify(yes).slice(0, 240));
-  const stored = k.store.load('mea_problems').filter(m => m.problem_id === PID);
-  expect(stored.length === 1 && stored[0].hash === yes.manifest.hash, 'the parent manifest was not the stored head');
-  const nProb = (k.store.load('mea_problems') || []).length, nArc = k.meaArchive().length;
-  expect(nArc === 4, 'archive before the second propose: ' + nArc);
-  const mem = JSON.stringify(k.memory());
-  const r2 = k.process('propose problem physics');
-  expect(r2.reply === CONTINUED, r2.reply);
-  expect(r2.trace.intent_kind === 'PROPOSE_EVIDENCE' && ids(r2).includes('MEAP-PROPOSE'), (r2.trace.intent_kind || '') + ' ' + ids(r2).join(','));
-  expect(r2.trace.echo && r2.trace.echo.pass, (r2.trace.echo && r2.trace.echo.reason) || r2.reply);
-  expect(!/I archived /.test(r2.reply || '') && !/1\.6/.test(r2.reply || '') && !/verified/.test(r2.reply || ''), r2.reply);
-  const mp = r2.trace.mea_p;
-  expect(mp && mp.problem_id === PID && mp.parent_hash === yes.manifest.hash && mp.cycle === 2 && mp.used_prior === true, JSON.stringify(mp && { parent: mp.parent_hash, cycle: mp.cycle, used: mp.used_prior }));
-  expect(mp.unknown_vector.some(u => u.id === 'u1' && !u.resolved) && mp.unknown_vector.some(u => u.id === 'u2' && !u.resolved), JSON.stringify(mp.unknown_vector));
-  expect((mp.carried || []).filter(c => c.carried_from === 'archive').length === 4, JSON.stringify(mp.carried));
-  expect((mp.speak || []).every(s => s.eps <= 0.35) && !(mp.speak || []).some(s => /16th harmonic|1\.6/.test(s.claim)), JSON.stringify(mp.speak));
-  expect(Array.isArray(mp.mutable) && mp.mutable.some(c => c.fam === 'frame') && mp.mutable.some(c => c.fam === 'parser'), JSON.stringify(mp.mutable));
-  expect(mp.mutable.every(c => c.applied === false && c.authority === 'proposal' && c.eps <= 0.35), JSON.stringify(mp.mutable));
-  const meaning = r2.trace.msm.meaning;
-  expect(meaning.kind === 'mea_p_continued' && meaning.problem_id === PID && meaning.goal === GOAL && !meaning.schema && !meaning.known_facts, JSON.stringify(Object.keys(meaning)));
-  expect(k.meaArchive().length === nArc, 'the second propose archived again: ' + k.meaArchive().length);
-  expect((k.store.load('mea_problems') || []).length === nProb, 'the second propose stored a manifest');
-  expect(JSON.stringify(k.memory()) === mem, 'the second propose wrote memory');
-  expect(k.worldHead().version_id === head && k.worldHead().committed === false, 'the world head moved');
-  expect((k.store.load('admitted_manifests_k') || []).length === 0, 'a grammar manifest was adopted');
-  expect(gram() === g0, 'a frame or parser cell was applied');
-  const again = k.meaCommit(PID, 'meac:nope', true);
-  expect(!again.ok && (k.store.load('mea_problems') || []).length === nProb, JSON.stringify(again));
-  const shown = k.process('show problem physics');
-  expect(/hypothesis/.test(shown.reply || '') && !/no result/.test(shown.reply || ''), shown.reply);
-  quiet(k);
-});
-T('guard: the no-tap second propose is still the 4.9.104 proposal', () => {
-  const k = mk();
-  const first = k.process('propose problem physics');
-  expect(first.reply === SHOWN, first.reply);
-  const again = k.process('propose the problem physics');
-  expect(/substrate \(fundamental\) frequency/.test(again.reply || '') && /I have not stored the problem/.test(again.reply || '') && !/I archived /.test(again.reply || ''), again.reply);
-  expect(k.meaArchive().length === 4 && (k.store.load('mea_problems') || []).length === 0, 'the no-tap path committed or duplicated the archive');
-  expect(again.trace.intent_kind === 'PROPOSE_EVIDENCE', again.trace.intent_kind);
-  quiet(k);
-});
-T('guard: a remember is still REQUEST_COMMIT', () => {
-  const k = mk();
-  const r = k.process('remember that my car is red');
-  expect(r.trace.intent_kind === 'REQUEST_COMMIT' && r.reply === 'I noted that your car is red.', (r.trace.intent_kind || '') + ' ' + r.reply);
-  expect(sharedN(k) === 0, 'shared KB written');
-});
 
 (async () => {
   let failed = 0;

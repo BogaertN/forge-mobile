@@ -83,41 +83,7 @@ T('write without key refuses; write with Nic key mutates session only', () => {
   quiet(k, h, 0);
 });
 
-T('invent compose prefer hosted shared knowledge; speech names it', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  const h = head(k);
-  expect(k.pullHostedSharedPack(letterA()).ok, 'pull');
-  const r = k.process('invent a hypothesis');
-  expect(r.trace.intent_kind === 'CREATE' && r.trace.echo.pass, r.trace.intent_kind + ' · ' + r.reply);
-  expect(!cr(r).failure, JSON.stringify(cr(r) && cr(r).failure));
-  const spoken = (cr(r).candidates || []).filter(c => c.spoken);
-  expect(spoken.length === 1 && spoken[0].novelty.anchored === true && spoken[0].novelty.class === 'bounded', JSON.stringify(spoken));
-  expect(/shared knowledge base/.test(r.reply || '') && !/starter pack/.test(r.reply || '') && !/imported pack/.test(r.reply || ''), r.reply);
-  expect(/have not stored/.test(r.reply || ''), r.reply);
-  const composed = k.process('compose that idea');
-  expect(composed.trace.echo.pass || composed.outcome, composed.reply);
-  expect(sharedN(k) === 0 && k.memory().length === 0, 'creative wrote');
-  quiet(k, h, 0);
-});
 
-T('user memory wins; scrapbook empty; CREATE never auto-writes', () => {
-  const k = mk();
-  expect(k.process('Remember that a spaniel is a dog.').trace.echo.pass, 'remember spaniel');
-  expect(k.process('Remember that a dog is an animal.').trace.echo.pass, 'remember dog');
-  expect(k.pullHostedSharedPack(letterA()).ok, 'pull');
-  const h = head(k);
-  const before = k.sharedKnowledgeView().admitted.length;
-  const r = k.process('invent a hypothesis');
-  expect(r.trace.intent_kind === 'CREATE' && r.trace.echo.pass, r.reply);
-  expect(/your facts/.test(r.reply || '') && !/shared knowledge base/.test(r.reply || ''), r.reply);
-  for (const phrase of ['invent a hypothesis', 'compose that idea', 'suppose a dog flies']) {
-    k.process(phrase);
-    expect(k.sharedKnowledgeView().admitted.length === before, phrase + ' grew hosted');
-    expect(sharedN(k) === 0, phrase + ' scrapbook');
-  }
-  quiet(k, h, 2);
-});
 
 T('Audit and UI name shared knowledge base; phone cache empty; budget', () => {
   const k = mk();
@@ -142,7 +108,7 @@ T('Audit and UI name shared knowledge base; phone cache empty; budget', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
   const ids = ['R4128-HOSTED', 'R4128-WRITE-KEY', 'R4128-AZ'];
@@ -158,7 +124,7 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[0-9]|4\.9\.16[0-9]/.test(readme) && /shared knowledge/i.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.214' && (((((((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js' || tgt.suites[0] === 'r4163_suite.js' || tgt.suites[0] === 'r4162_suite.js') && tgt.suites.includes('r4128_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.215' && (((((((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js' || tgt.suites[0] === 'r4165_suite.js' || tgt.suites[0] === 'r4163_suite.js' || tgt.suites[0] === 'r4162_suite.js') && tgt.suites.includes('r4128_suite.js'), JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
   expect(/4\.9\.12[89]|4\.9\.13[0-9]|4\.9\.14[0-9]|4\.9\.15[0-9]|4\.9\.16[0-9]/.test(req) && /R4128/.test(req), 'req_packet');
   const briefPath = '/workspace/kernel-papers/oct25/BRIEF_4.9.128_SHARED_KB_AZ.md';

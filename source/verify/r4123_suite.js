@@ -65,159 +65,11 @@ const explore = () => {
   return k;
 };
 
-T('a projectable idea expands beyond the claim into roles, anchors, and a lexicon gloss', () => {
-  const k = plant();
-  const h = head(k);
-  const before = k.creativeProposals();
-  expect(before.length === 1 && before[0].status === 'proposed' && before[0].claim_status === 'hypothesis', JSON.stringify(before));
-  const id = before[0].id;
-  const claim = before[0].claim;
-  const r = tag(k, k.process('compose that idea'));
-  expect(r.trace.intent_kind === 'COMPOSE', r.trace.intent_kind + ' · ' + r.reply);
-  expect(r.msm.meaning.kind === 'compose_narrative', r.msm.meaning && r.msm.meaning.kind);
-  echoOk(r);
-  expect(dev(r.reply).length >= 5, 'development ' + dev(r.reply).length + ' · ' + r.reply);
-  expect(/A spaniel is an animal\./.test(r.reply || ''), r.reply);
-  expect(/You told me that a spaniel is a dog\./.test(r.reply || ''), r.reply);
-  expect(/You told me that a dog is an animal\./.test(r.reply || ''), r.reply);
-  expect(/The subject holds the role “spaniel”\./.test(r.reply || ''), r.reply);
-  expect(/The relation holds the role “is a”\./.test(r.reply || ''), r.reply);
-  expect(/The predicate holds the role “animal”\./.test(r.reply || ''), r.reply);
-  expect(/The frame holds the role “is a”\./.test(r.reply || ''), r.reply);
-  expect(/gun dogs/.test(r.reply || '') && /silky coat/.test(r.reply || ''), r.reply);
-  expect(r.reply.includes(claim) && claim === 'spaniel is a animal', claim + ' · ' + r.reply);
-  expect(/hypothesis/.test(r.reply || '') && /have not stored/.test(r.reply || ''), r.reply);
-  expect(/shared/.test(r.reply || '') && /world/.test(r.reply || ''), r.reply);
-  expect(!/verified_claim|derived_claim|resolved_manifest|named_concept|I noted that/.test(r.reply || ''), r.reply);
-  expect(!/soft echo|word-overlap measure/.test(String(r.trace.echo.mode).replace('no word-overlap measure', '')), r.trace.echo.mode);
-  expect(!cr(r).failure && cr(r).intent === 'COMPOSE' && cr(r).source === 'idea', JSON.stringify(cr(r)));
-  expect((cr(r).candidates || []).some(c => c.spoken && c.id === id && c.claim_status === 'hypothesis'), JSON.stringify(cr(r)));
-  expect(r.turn_packet.schema === 'FORGE-TURN-PACKET/v1' && r.turn_packet.packet_version === '4.9.111' && r.turn_packet.receipt_type === 'answer', r.turn_packet && r.turn_packet.receipt_type);
-  expect(k.creativeProposals().every(p => p.id !== id || p.status === 'proposed'), 'compose committed');
-  quietStores(k, h, 2);
-  const yes = k.commitIdea(id, true);
-  expect(yes && yes.ok === true && yes.wrote_memory === false && yes.wrote_world === false && yes.wrote_shared === false, JSON.stringify(yes));
-  quietStores(k, h, 2, 'the tap wrote memory');
-});
 
-T('compose phrases still route to COMPOSE and each one expands the same idea', () => {
-  const k = plant();
-  const h = head(k);
-  for (const phrase of ['compose that idea', 'write it out', 'explain it as a short paragraph', 'write the idea out', 'explain the idea as a short paragraph']) {
-    const r = tag(k, k.process(phrase));
-    expect(r.trace.intent_kind === 'COMPOSE', phrase + ' → ' + r.trace.intent_kind + ' · ' + r.reply);
-    echoOk(r);
-    expect(/A spaniel is an animal\./.test(r.reply || '') && dev(r.reply).length >= 5, phrase + ' · ' + r.reply);
-    expect(/have not stored/.test(r.reply || '') && /hypothesis/.test(r.reply || ''), phrase + ' · ' + r.reply);
-    quietStores(k, h, 2);
-  }
-});
 
-T('a quarantine idea expands and stays non-projectable', () => {
-  const k = explore();
-  const h = head(k);
-  const q = k.creativeProposals().find(p => p.drift && p.drift.band === 'explore' && p.status === 'proposed');
-  expect(q && q.claim_status === 'speculative_branch', JSON.stringify(k.creativeProposals()));
-  const r = tag(k, k.process('write it out'));
-  expect(r.trace.intent_kind === 'COMPOSE', r.trace.intent_kind + ' · ' + r.reply);
-  echoOk(r);
-  expect(dev(r.reply).length >= 5, 'development ' + dev(r.reply).length + ' · ' + r.reply);
-  expect(/You told me that Rex is a dog\./.test(r.reply || ''), r.reply);
-  expect(/You told me that Fido is a dog\./.test(r.reply || ''), r.reply);
-  expect(/The subject holds the role “fido”\./.test(r.reply || ''), r.reply);
-  expect(/The relation holds the role “shares is a with”\./.test(r.reply || ''), r.reply);
-  expect(/The predicate holds the role “rex”\./.test(r.reply || ''), r.reply);
-  expect(/genus Canis/.test(r.reply || ''), r.reply);
-  expect(r.reply.includes(q.claim) && /speculative_branch/.test(r.reply || '') && /have not stored/.test(r.reply || ''), r.reply);
-  expect(!cr(r).failure && cr(r).source === 'idea', JSON.stringify(cr(r)));
-  expect(k.creativeProposals().every(p => p.status === 'proposed'), JSON.stringify(k.creativeProposals()));
-  const tap = k.commitIdea(q.id, true);
-  expect(tap && tap.ok === false && tap.rule === 'CREATIVE-DRIFT-NOT-PROJECTABLE', JSON.stringify(tap));
-  quietStores(k, h, 4);
-});
 
-T('compose refusals stay commit_without_proposal, novelty_unbound, drift_hard, and language_unexpressible', () => {
-  for (const phrase of ['compose that idea', 'write it out', 'explain it as a short paragraph']) {
-    const k = mk();
-    const h = head(k);
-    const r = tag(k, k.process(phrase));
-    expect(r.trace.intent_kind === 'COMPOSE', phrase + ' → ' + r.trace.intent_kind);
-    echoOk(r);
-    expect(cr(r) && cr(r).failure && cr(r).failure.class === 'commit_without_proposal', phrase + ' ' + JSON.stringify(cr(r)));
-    expect(/holds the role/.test(r.reply || '') === false, phrase + ' expanded · ' + r.reply);
-    expect(!(k.creativeProposals() || []).length, phrase);
-    quietStores(k, h, 0);
-  }
-  const k = plant();
-  const h = head(k);
-  const rowsP = k.store.load('creative_proposals');
-  const claim = rowsP[0].claim;
-  rowsP[0].novelty = { N: null, class: 'unbound', anchored: false };
-  rowsP[0].claim_status = 'verified_claim';
-  k.store.save('creative_proposals', rowsP);
-  const unbound = tag(k, k.process('compose that idea'));
-  expect(unbound.trace.intent_kind === 'COMPOSE' && unbound.msm.meaning.kind === 'compose_refusal', unbound.reply);
-  echoOk(unbound);
-  expect(cr(unbound).failure.class === 'novelty_unbound', JSON.stringify(cr(unbound)));
-  expect(!unbound.reply.includes(claim) && /holds the role/.test(unbound.reply || '') === false, unbound.reply);
-  quietStores(k, h, 2);
-  const hardRows = k.store.load('creative_proposals');
-  hardRows[0].novelty = { N: 0.5, class: 'bounded', anchored: true };
-  hardRows[0].claim_status = 'hypothesis';
-  hardRows[0].drift = { eps_s: 0.91, band: 'reject' };
-  k.store.save('creative_proposals', hardRows);
-  const hard = tag(k, k.process('write it out'));
-  echoOk(hard);
-  expect(cr(hard).failure.class === 'drift_hard' && !hard.reply.includes(claim), hard.reply);
-  expect(/holds the role/.test(hard.reply || '') === false, hard.reply);
-  quietStores(k, h, 2);
-  const bare = plant();
-  const bh = head(bare);
-  const empty = bare.store.load('creative_proposals');
-  empty[0].claim = '';
-  bare.store.save('creative_proposals', empty);
-  const spoken = tag(bare, bare.process('explain it as a short paragraph'));
-  echoOk(spoken);
-  expect(cr(spoken).failure.class === 'language_unexpressible', JSON.stringify(cr(spoken)));
-  expect(/holds the role/.test(spoken.reply || '') === false, spoken.reply);
-  quietStores(bare, bh, 2);
-});
 
-T('compose that meaning expands the selected clause and does not store', () => {
-  const k = mk();
-  const noted = k.process('Remember that a spaniel is a dog.');
-  expect(noted.trace.echo.pass && /I noted that a spaniel is a dog/.test(noted.reply || ''), noted.reply);
-  const h = head(k);
-  const r = tag(k, k.process('compose that meaning'));
-  expect(r.trace.intent_kind === 'COMPOSE' && r.msm.meaning.kind === 'compose_narrative', r.trace.intent_kind + ' · ' + r.reply);
-  echoOk(r);
-  expect(sents(r.reply).some(s => /^A spaniel is a dog\.$/.test(s)), r.reply);
-  expect(/The subject holds the role “spaniel”\./.test(r.reply || ''), r.reply);
-  expect(/gun dogs/.test(r.reply || ''), r.reply);
-  expect(/I noted that a spaniel is a dog/.test(r.reply || '') && /meaning/.test(r.reply || ''), r.reply);
-  expect(/have not stored/.test(r.reply || '') && /shared/.test(r.reply || '') && /world/.test(r.reply || ''), r.reply);
-  expect(/You told me that a spaniel is a dog/.test(r.reply || '') === false, r.reply);
-  expect(!(k.creativeProposals() || []).length, JSON.stringify(k.creativeProposals()));
-  quietStores(k, h, 1);
-});
 
-T('an Echo miss blocks the expansion and stores nothing', () => {
-  const k = mk({ renderFault: (text, msm) => (msm.meaning && msm.meaning.kind === 'compose_narrative' ? String(text).replace(/paragraph/g, 'story') : text) });
-  expect(k.process('Remember that a spaniel is a dog.').trace.echo.pass, 'remember');
-  expect(k.process('Remember that a dog is an animal.').trace.echo.pass, 'remember');
-  expect(k.process('invent a hypothesis').trace.intent_kind === 'CREATE', 'invent');
-  const h = head(k);
-  const n = k.memory().length;
-  const blocked = k.process('compose that idea');
-  expect(blocked.reply == null && blocked.trace.blocked === true, blocked.reply);
-  expect(blocked.trace.intent_kind === 'COMPOSE', blocked.trace.intent_kind);
-  expect(blocked.trace.language === 'LANGUAGE_UNEXPRESSIBLE', blocked.trace.language || blocked.trace.block_reason);
-  expect(blocked.trace.echo && blocked.trace.echo.pass === false, JSON.stringify(blocked.trace.echo));
-  expect(/soft echo|word-overlap/.test(String(blocked.trace.echo.mode || '')) === false || /no word-overlap measure/.test(blocked.trace.echo.mode || ''), blocked.trace.echo.mode);
-  expect(blocked.turn_packet.receipt_type === 'echo_fail' && blocked.turn_packet.packet_version === '4.9.111', blocked.turn_packet && blocked.turn_packet.receipt_type);
-  expect(k.creativeProposals().every(p => p.status === 'proposed'), JSON.stringify(k.creativeProposals()));
-  quietStores(k, h, n);
-});
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.123 and leave the confirmed-facts design unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
@@ -227,7 +79,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.123 and leave the confi
   expect(reg.version === ver && reg.count === reg.features.length && reg.count >= 301, reg.version + ' ' + reg.count);
   for (const id of ['R4123-EXPAND', 'R4123-GROUND', 'R4123-QUIET']) {
     const f = reg.features.find(x => x.id === id);
-    expect(f && f.claim === 'Partial' && (f.proof || []).includes('R4123') && /4\.9\.123/.test(f.note), id);
+    expect(f && (f.claim === 'Partial' || (f.claim === 'Out of scope / parked' && /Retired 4\.9\.215/.test(f.note)) /* 4.9.215 C4: parked when its proof was retired */) && (f.proof || []).includes('R4123') && /4\.9\.123/.test(f.note), id);
     expect(f && /Shared KB stays empty/.test(f.note) && !/proven cognition/.test(f.note), id + ' ' + (f && f.note));
   }
   const a11 = reg.features.find(x => x.id === 'A-11');
@@ -253,7 +105,8 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.123 and leave the confi
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 123 && targeted.suites.includes('r4123_suite.js') && targeted.suites.includes('r4122_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const RP = require(ROOT + '/src/req_packet.js');
   const slice = RP.packet('4.9.123');
-  expect(slice && slice.requirements.some(r => r.id === 'R4123-COMPOSE'), JSON.stringify(slice && slice.requirements.map(r => r.id)));
+  /* 4.9.215 (C4): the requirement is retired with the old JS answer path (only this version check was left), recorded with its reason. */
+  expect((slice && slice.requirements.some(r => r.id === 'R4123-COMPOSE')) || (RP.RETIRED_REQUIREMENTS || []).some(r => r.id === 'R4123-COMPOSE' && r.release === '4.9.123' && r.why), JSON.stringify(slice && slice.requirements.map(r => r.id)));
   expect(RP.linksMissing(ROOT).length === 0, RP.linksMissing(ROOT).join(' '));
   expect(!fs.existsSync(ROOT + '/src/compose.js'), 'compose.js');
   expect(!fs.existsSync(ROOT + '/src/confirmed_facts.js'), 'confirmed-facts design started');

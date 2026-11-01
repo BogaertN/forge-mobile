@@ -44,11 +44,5 @@ when eps is omitted and a verified extract is present, eps = 1 - mean(integrity)
 
 ## Echo on recorded Language Core surfaces
 
-research-only. SOURCE_NOT_VERIFIED. Surfaces 6. False positive 0 (rate 0). False negative 0 (rate 0). Shared KB writes 0. These rates are not a calibrated cognition claim.
+research-only. Retired in 4.9.215: the surfaces measured the old JS kernel Echo (Kernel.process), deleted with the old answer path. The live Echo is the Python engine stage 15; it is not measured by this research tool.
 
-- LC-HELLO: expected true, actual true. verify/run.js CALIBRATION everyday utterance
-- LC-ARITH: expected true, actual true. verify/run.js POSITIVE arithmetic
-- LC-REMEMBER: expected true, actual true. verify/run.js POSITIVE remember/recall
-- LC-HELP: expected true, actual true. verify/run.js CALIBRATION everyday utterance
-- LC-REMEMBER-FAULT: expected false, actual false. verify/run.js ADVERSARIAL renderer fault (dropped word)
-- LC-ARITH-FAULT: expected false, actual false. verify/run.js ADVERSARIAL renderer fault (wrong math value), on the recorded 3 + 4 surface

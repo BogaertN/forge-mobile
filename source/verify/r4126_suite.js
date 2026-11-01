@@ -56,18 +56,6 @@ T('Ask shows invent and compose discoverability one-liners without hiding them b
   expect(/suppose a story|Suppose/.test(surf), 'suppose still named');
 });
 
-T('UNSUPPORTED and dead-end turns show a gentle next-step redirect', () => {
-  const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8');
-  expect(/data-next-step/.test(app) && /next-step/.test(app), 'next-step markup');
-  expect(/unsupported|clarification-required|action_blocked/.test(app), 'gate states covered');
-  expect(/rephrase|Remember|Ideas|Audit/.test(app), 'suggested next acts');
-  const k = mk();
-  const r = k.process('asdf qwerty zxcv');
-  expect(r.outcome && (r.outcome.class === 'clarify' || r.outcome.class === 'refuse'), r.outcome && r.outcome.class);
-  const gate = r.turn_packet && r.turn_packet.gate;
-  expect(gate && (gate.state === 'clarification-required' || gate.state === 'unsupported' || gate.state === 'ambiguity'), JSON.stringify(gate));
-  expect(/rephrase|admit|Context Library/i.test(r.reply || ''), r.reply);
-});
 
 T('starter onboarding one-liner names starter_pack and keeps Clear starter knowledge reachable', () => {
   const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8');
@@ -84,22 +72,6 @@ T('starter onboarding one-liner names starter_pack and keeps Clear starter knowl
   expect(k.starterView().status === 'cleared' && sharedN(k) === 0 && sameHead(k, h), 'clear still works');
 });
 
-T('non-negotiables stay reachable: gates, packet export, Audit, Ideas tap, Remember, invent/compose/suppose, Clear starter, Import', () => {
-  const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8');
-  const html = fs.readFileSync(ROOT + '/index.html', 'utf8');
-  expect(/data-export-turn|exportTurnBtn/.test(app) && /Export turn packet/.test(app), 'packet export');
-  expect(/data-tab="audit"/.test(html) && /renderAudit/.test(app) && /Verify packet/.test(html), 'audit');
-  expect(/data-ideacommit/.test(app) && /Commit idea record/.test(app), 'ideas tap');
-  expect(/remember that/.test(app) && /Remember/.test(app), 'remember');
-  expect(/invent a hypothesis/.test(app + html) && /compose that idea/.test(app + html) && /suppose/i.test(app + html), 'creative path');
-  expect(/Clear starter knowledge/.test(app) && /id="clearStarter"/.test(app), 'clear starter');
-  expect(/data-import-pack/.test(app) && /Import confirmed facts/.test(app) && /id="importGo"/.test(app), 'import');
-  expect(/receiptCard|data-doc6-state|gate/.test(app), 'gates/receipts');
-  const k = mk();
-  const invent = k.process('invent a hypothesis');
-  expect(invent.trace.intent_kind === 'CREATE' && invent.turn_packet && invent.turn_packet.creative, invent.trace.intent_kind);
-  expect(sharedN(k) === 0 && k.memory().length === 0, 'creative did not store');
-});
 
 T('the single-file budget stays within 2.500 MB raw and 750 kB gzip', () => {
   const rel = fs.readFileSync(ROOT + '/tools/verify_release.js', 'utf8');

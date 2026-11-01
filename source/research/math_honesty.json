@@ -1,6 +1,6 @@
 {
  "schema": "FORGE-MATH-HONESTY/v1",
- "release": "4.9.214",
+ "release": "4.9.215",
  "product_claim": false,
  "proven_cognition": false,
  "honesty": {
@@ -299,72 +299,11 @@
   "honesty": "research-only",
   "manuscript": "SOURCE_NOT_VERIFIED",
   "product_claim": false,
+  "status": "retired_4.9.215",
   "fixture": "research/lc_surfaces.json",
   "surfaces": 6,
-  "rows": [
-   {
-    "id": "LC-HELLO",
-    "utterance": "hello",
-    "expected_pass": true,
-    "actual_pass": true,
-    "recorded_in": "verify/run.js CALIBRATION everyday utterance",
-    "fault": null
-   },
-   {
-    "id": "LC-ARITH",
-    "utterance": "what is 3 + 4",
-    "expected_pass": true,
-    "actual_pass": true,
-    "recorded_in": "verify/run.js POSITIVE arithmetic",
-    "fault": null
-   },
-   {
-    "id": "LC-REMEMBER",
-    "utterance": "remember that my car is red",
-    "expected_pass": true,
-    "actual_pass": true,
-    "recorded_in": "verify/run.js POSITIVE remember/recall",
-    "fault": null
-   },
-   {
-    "id": "LC-HELP",
-    "utterance": "help",
-    "expected_pass": true,
-    "actual_pass": true,
-    "recorded_in": "verify/run.js CALIBRATION everyday utterance",
-    "fault": null
-   },
-   {
-    "id": "LC-REMEMBER-FAULT",
-    "utterance": "remember that my car is red",
-    "expected_pass": false,
-    "actual_pass": false,
-    "recorded_in": "verify/run.js ADVERSARIAL renderer fault (dropped word)",
-    "fault": {
-     "from": "noted",
-     "to": "denied"
-    }
-   },
-   {
-    "id": "LC-ARITH-FAULT",
-    "utterance": "what is 3 + 4",
-    "expected_pass": false,
-    "actual_pass": false,
-    "recorded_in": "verify/run.js ADVERSARIAL renderer fault (wrong math value), on the recorded 3 + 4 surface",
-    "fault": {
-     "from": "= 7",
-     "to": "= 8"
-    }
-   }
-  ],
-  "true_positive": 4,
-  "true_negative": 2,
-  "false_positive": 0,
-  "false_negative": 0,
-  "false_positive_rate": 0,
-  "false_negative_rate": 0,
-  "shared_kb_writes": 0,
-  "note": "Rates are counts on this recorded set divided by the recorded positives or negatives. A zero here is not a manuscript calibration and not a claim of proven cognition."
+  "rows": [],
+  "note": "Retired in 4.9.215: the surfaces measured the old JS kernel Echo (Kernel.process), deleted with the old answer path. The live Echo is the Python engine stage 15; it is not measured by this research tool."
  },
  "answer_path_grace": {
   "status": "wired",

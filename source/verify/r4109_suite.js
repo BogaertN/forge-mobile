@@ -56,28 +56,6 @@ T('the registry cites each operator, and an equivalence claim is refused', () =>
   const plain = M.equivalenceClaim('the write law is 0.35');
   expect(plain && plain.ok === true && plain.status === 'not_an_equivalence_claim' && plain.equivalent === false, JSON.stringify(plain));
 });
-T('a turn cites the operator versions that ran', () => {
-  const k = mk();
-  const r = k.process('hello');
-  expect(r.trace && r.trace.drift && r.trace.drift.contract && r.trace.drift.contract.id === 'drift-measure' && r.trace.drift.contract.version === 'addendum-3/v1', JSON.stringify(r.trace && r.trace.drift && r.trace.drift.contract));
-  expect(r.trace.rsoc && r.trace.rsoc.calculus === 'RSOC/v1' && r.trace.rsoc.contract && r.trace.rsoc.contract.id === 'rsoc-select' && r.trace.rsoc.contract.version === 'RSOC/v1', JSON.stringify(r.trace.rsoc && r.trace.rsoc.contract));
-  expect(has(r.trace.math_contracts, 'drift-measure', 'addendum-3/v1') && has(r.trace.math_contracts, 'drift-table', 'nic-2026-10-14/v1') && has(r.trace.math_contracts, 'rsoc-select', 'RSOC/v1') && has(r.trace.math_contracts, 'phase-scheme', 'rmc-rpmc/v1'), JSON.stringify(r.trace.math_contracts));
-  expect(r.trace.phase_scheme_id === 'phase-scheme/rmc-rpmc/v1', String(r.trace.phase_scheme_id));
-  expect(!/Christ function/i.test(JSON.stringify({ c: r.trace.math_contracts, d: r.trace.drift.contract, s: r.trace.rsoc.contract })), 'Christ function on the trace');
-  expect(sharedN(k) === 0, 'shared KB written');
-  const k2 = mk({ testDrift: () => 0.36 });
-  const r2 = k2.process('hello');
-  expect(r2.trace.drift.band === 'correct' && r2.trace.drift.governance && r2.trace.drift.governance.needs_correction === true && r2.trace.drift.governance.may_write_memory === false, JSON.stringify(r2.trace.drift.governance));
-  expect(r2.trace.correction && r2.trace.correction.contract && r2.trace.correction.contract.id === 'chi-correction' && r2.trace.correction.contract.version === 'R-CHI-1/v1', JSON.stringify(r2.trace.correction && r2.trace.correction.contract));
-  expect(has(r2.trace.math_contracts, 'chi-correction', 'R-CHI-1/v1'), JSON.stringify(r2.trace.math_contracts));
-  expect(sharedN(k2) === 0, 'shared KB written on correction');
-  const k3 = mk({ testDrift: () => 0.9 });
-  const r3 = k3.process('hello');
-  expect(r3.trace.drift.governance && r3.trace.drift.governance.blocked === true && r3.trace.drift.governance.band === 'hard_stop', JSON.stringify(r3.trace.drift.governance));
-  expect(r3.trace.chi && r3.trace.chi.contract && r3.trace.chi.contract.id === 'chi-invoke' && r3.trace.chi.contract.version === 'R-CHI-1/invoke/v1', JSON.stringify(r3.trace.chi && r3.trace.chi.contract));
-  expect(has(r3.trace.math_contracts, 'chi-invoke', 'R-CHI-1/invoke/v1'), JSON.stringify(r3.trace.math_contracts));
-  expect(sharedN(k3) === 0, 'shared KB written on hard stop');
-});
 T('the math note does not present Addendum bands or an equivalence as the write law', () => {
   const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8');
   const at = app.indexOf("$('#mathDoc')");
@@ -95,17 +73,6 @@ T('the math note does not present Addendum bands or an equivalence as the write 
   const cf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
   const sec = cf.slice(cf.lastIndexOf('## v4.9.109'));
   expect(/I\.1/.test(sec) && /SOURCE_NOT_VERIFIED/.test(sec) && /0\.35/.test(sec) && /R-CHI-1\/v1/.test(sec), 'CONFLICTS I.1 section missing');
-});
-T('guards: the 144 Hz propose, a remember, and the 0.35 write law', () => {
-  const k = mk();
-  const p = k.process('propose problem physics');
-  expect(p.reply === SHOWN, p.reply);
-  expect(p.trace.intent_kind === 'PROPOSE_EVIDENCE', p.trace.intent_kind);
-  const r = k.process('remember that my car is red');
-  expect(r.trace.intent_kind === 'REQUEST_COMMIT' && r.reply === 'I noted that your car is red.', (r.trace.intent_kind || '') + ' ' + r.reply);
-  expect(sharedN(k) === 0, 'shared KB written');
-  expect(M.DRIFT_RULING.project_max === 0.35, 'project_max moved');
-  expect(!/Christ function/i.test(fs.readFileSync(ROOT + '/src/kmath.js', 'utf8')), 'Christ function in kmath');
 });
 
 (async () => {

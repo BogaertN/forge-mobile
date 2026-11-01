@@ -31,7 +31,11 @@ T('the layered store keeps sandbox writes in the overlay until commit, and names
 T('receipts and the audit chain live in kaudit.js; forge.receipts and forge.verifyAudit keep their API', () => {
   const KA = require(ROOT + '/src/kaudit.js'), K = require(ROOT + '/src/kernel.js'), F = require(ROOT + '/src/forge.js');
   expect(typeof KA.ReceiptLog === 'function' && !/function verifyAudit\(\) \{/.test(read('src/forge.js')), 'moved');
-  const st = K.MemoryStore(); const f = F.ForgeKernel({ store: st, clock: () => '2026-10-31T20:00:00Z' }); f.process('hello'); f.process('remember that my car is red');
+  /* 4.9.215 (C4): forge.process is deleted, so the chain is seeded (built the way kaudit builds it) instead of written by two turns. */
+  const SP = require(ROOT + '/src/forge_spine.js'); const st = K.MemoryStore(); const f = F.ForgeKernel({ store: st, clock: () => '2026-10-31T20:00:00Z' }); let prev = null; const chain = [];
+  for (let i = 1; i <= 2; i++) { const body = { at: '2026-10-31T20:0' + i + ':00Z', echo: 'pass', eligibility: 'eligible', input_event: 'ie:' + i, msm_manifest: 'msm:' + i, output_sha256: null, previous_receipt: prev, request_contract: null, states: ['received'], turn: i };
+    const r = Object.assign({ receipt_id: SP.stableIdentifier('aiweb.forge-mobile.receipt', body) }, body); chain.push(r); prev = r.receipt_id; }
+  st.save('receipts', chain);
   const a = f.verifyAudit(); expect(a.ok === true && a.count === 2 && f.receipts().length === 2, JSON.stringify(a));
   const rs = st.load('receipts'); rs[0].turn = 99; st.save('receipts', rs); const b = f.verifyAudit(); expect(b.ok === false && b.broken_at.indexOf(0) >= 0, 'tamper ' + JSON.stringify(b));
 });

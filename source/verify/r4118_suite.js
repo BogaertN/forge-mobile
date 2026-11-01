@@ -65,43 +65,6 @@ T('phase ablation stubs stay unmeasured reconstructions', () => {
   expect(report.proven_cognition === false, 'proven cognition');
 });
 
-T('echo false rates on recorded surfaces stay research-only', () => {
-  const H = loadHarness();
-  const fixture = JSON.parse(fs.readFileSync(ROOT + '/research/lc_surfaces.json', 'utf8'));
-  expect(fixture.schema === 'FORGE-LC-SURFACE-RECORD/v1', fixture.schema);
-  expect(fixture.honesty && fixture.honesty.manuscript === 'SOURCE_NOT_VERIFIED' && fixture.honesty.research_only === true, JSON.stringify(fixture.honesty));
-  expect(fixture.surfaces.some(s => s.expected_pass === true) && fixture.surfaces.some(s => s.expected_pass === false), 'both classes');
-  const report = H.run();
-  const echo = report.echo;
-  expect(echo && echo.honesty === 'research-only' && echo.manuscript === 'SOURCE_NOT_VERIFIED' && echo.product_claim === false, JSON.stringify(echo && { honesty: echo.honesty, manuscript: echo.manuscript, product_claim: echo.product_claim }));
-  expect(echo.surfaces === fixture.surfaces.length && echo.rows.length === fixture.surfaces.length, echo.surfaces + '/' + fixture.surfaces.length);
-  let tp = 0, tn = 0, fp = 0, fn = 0;
-  for (const row of echo.rows) {
-    const src = fixture.surfaces.find(s => s.id === row.id);
-    expect(src && row.expected_pass === src.expected_pass && row.recorded_in === src.recorded_in, row.id);
-    expect(row.actual_pass === row.expected_pass, row.id + ' ' + row.actual_pass);
-    if (row.expected_pass && row.actual_pass) tp++;
-    else if (row.expected_pass && !row.actual_pass) fn++;
-    else if (!row.expected_pass && row.actual_pass) fp++;
-    else tn++;
-  }
-  const pos = tp + fn, neg = tn + fp;
-  expect(echo.false_positive === fp && echo.false_negative === fn && echo.true_positive === tp && echo.true_negative === tn, JSON.stringify(echo));
-  expect(echo.false_positive_rate === (neg ? fp / neg : null) && echo.false_negative_rate === (pos ? fn / pos : null), 'rates');
-  expect(echo.false_positive === 0 && echo.false_negative === 0 && pos > 0 && neg > 0, JSON.stringify({ tp, tn, fp, fn }));
-  expect(echo.shared_kb_writes === 0, 'shared KB');
-  const LEX = require(ROOT + '/data/lexicon.json');
-  const EXT = require(ROOT + '/data/lexicon-ext.json');
-  const KMOD = require(ROOT + '/src/kernel.js');
-  const posRow = fixture.surfaces.find(s => s.id === 'LC-REMEMBER');
-  const negRow = fixture.surfaces.find(s => s.id === 'LC-REMEMBER-FAULT');
-  const fresh = KMOD.Kernel({ clock: () => '2026-10-27T15:00:00Z', lexicon: LEX, lexiconExt: EXT });
-  const faulted = KMOD.Kernel({ clock: () => '2026-10-27T15:00:00Z', lexicon: LEX, lexiconExt: EXT, renderFault: t => String(t).split(negRow.fault.from).join(negRow.fault.to) });
-  expect(fresh.process(posRow.utterance).trace.echo.pass === true, 'recorded pass');
-  const denied = faulted.process(negRow.utterance);
-  expect(denied.trace.echo.pass === false && denied.blocked === true && faulted.memory().length === 0, 'recorded fault');
-  expect((fresh.store.load('shared_knowledge') || []).length === 0, 'fresh shared');
-});
 
 T('mobile drift gates stay Nic 0.35 and are not the paper bands', () => {
   expect(KM.DRIFT_RULING.project_max === 0.35 && KM.DRIFT_RULING.explore_min === 0.4 && KM.DRIFT_RULING.explore_max === 0.8, JSON.stringify(KM.DRIFT_RULING));

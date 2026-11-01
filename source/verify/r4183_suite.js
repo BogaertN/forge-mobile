@@ -73,12 +73,13 @@ T('Ask screen does not call the old JS answer path', () => {
   expect(/live:\s*true/.test(app) && /product_reply/.test(app) && /Held\. No answer was admitted/.test(app), 'ask wiring');
   expect(!/r = forge\.process\(/.test(app), 'forge.process still produces the Ask sentence');
   const forge = fs.readFileSync(path.join(ROOT, 'src', 'forge.js'), 'utf8');
-  expect(/function process\(/.test(forge), 'old path still present for a later deletion');
+  /* 4.9.215 (C4, Nic approved): the old path is deleted, not just unused. */
+  expect(!/function process\(/.test(forge) && !/\bprocess,/.test(forge.slice(forge.indexOf('const F = Object.assign'), forge.indexOf('const F = Object.assign') + 400)), 'old path forge.process still present');
 });
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.185', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.183/.test(conf) && /rmc_engine_v1/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -91,9 +92,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.185', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_183.md'), 'utf8');
   expect(/60/.test(live) && /held/.test(live) && /C_min/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.214' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.215' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.214' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
+  expect(reg.version === '4.9.215' && reg.features.some(f => f.id === 'R4183-RMC-ASK'), reg.version);
   expect(reg.count === reg.features.length, 'count ' + reg.count);
 });
 

@@ -39,145 +39,10 @@ T('novelty without anchors is unbound and not a discovery claim', () => {
   expect(hard.failure && hard.failure.class === 'drift_hard' && hard.candidates.every(c => c.spoken === false) && hard.candidates[0].drift.band === 'reject', JSON.stringify(hard));
 });
 
-T('an unanchored invent is CREATE and refuses an unbound novelty', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  const h = head(k);
-  const r = k.process('invent a hypothesis');
-  expect(r.trace.intent_kind === 'CREATE', (r.trace.intent_kind || 'missing') + ' · ' + r.reply);
-  expect(r.trace.intent_kind !== 'READ' && r.trace.intent_kind !== 'UNSUPPORTED', r.trace.intent_kind);
-  expect(r.trace.echo && r.trace.echo.pass, (r.trace.echo && r.trace.echo.reason) || r.reply);
-  expect(cr(r) && cr(r).failure && cr(r).failure.class === 'novelty_unbound', JSON.stringify(cr(r)));
-  expect(cr(r).candidates.some(c => c.novelty && c.novelty.class === 'unbound' && c.novelty.N == null), JSON.stringify(cr(r)));
-  expect(!cr(r).candidates.some(c => DISCOVERY.includes(c.claim_status)), JSON.stringify(cr(r)));
-  expect(/have not stored/.test(r.reply || '') && /unbound/.test(r.reply || ''), r.reply);
-  expect(r.turn_packet.schema === 'FORGE-TURN-PACKET/v1' && r.turn_packet.packet_version === '4.9.111' && r.turn_packet.receipt_type === 'gate_refusal', r.turn_packet && r.turn_packet.receipt_type);
-  quietStores(k, h, 0);
-  const comeK = mk(); comeK.clearStarterKnowledge();
-  const come = comeK.process('come up with an idea');
-  expect(come.trace.intent_kind === 'CREATE' && come.trace.echo.pass && cr(come).failure.class === 'novelty_unbound', come.trace.intent_kind + ' · ' + come.reply);
-  const madeK = mk(); madeK.clearStarterKnowledge();
-  const made = madeK.process('create an idea');
-  expect(made.trace.intent_kind === 'CREATE' && cr(made).failure.class === 'novelty_unbound', made.trace.intent_kind + ' · ' + made.reply);
-});
 
-T('a projectable hypothesis is CREATE and a tap commits the idea record only', () => {
-  const k = mk();
-  expect(k.process('Remember that a spaniel is a dog.').trace.echo.pass, 'remember');
-  expect(k.process('Remember that a dog is an animal.').trace.echo.pass, 'remember');
-  const h = head(k);
-  const r = k.process('invent a hypothesis');
-  expect(r.trace.intent_kind === 'CREATE' && r.trace.echo.pass, (r.trace.intent_kind || '') + ' · ' + r.reply);
-  expect(!cr(r).failure, JSON.stringify(cr(r) && cr(r).failure));
-  const spoken = (cr(r).candidates || []).filter(c => c.spoken);
-  expect(spoken.length === 1, JSON.stringify(cr(r)));
-  const c = spoken[0];
-  expect(c.claim_status === 'hypothesis' && c.novelty.anchored === true && c.novelty.class === 'bounded', JSON.stringify(c));
-  expect(typeof c.novelty.N === 'number' && c.novelty.N >= 0.15 && c.novelty.N <= 0.75, JSON.stringify(c.novelty));
-  expect(typeof c.drift.eps_s === 'number' && c.drift.eps_s <= 0.35 && c.drift.band === 'projectable', JSON.stringify(c.drift));
-  expect(/spaniel/.test(c.claim) && /animal/.test(c.claim), c.claim);
-  expect(/have not stored/.test(r.reply || '') && /hypothesis/.test(r.reply || ''), r.reply);
-  expect(!/verified_claim|derived_claim|I noted that/.test(r.reply || ''), r.reply);
-  expect(r.turn_packet.receipt_type === 'answer' && r.turn_packet.packet_version === '4.9.111', r.turn_packet.receipt_type);
-  const staged = k.creativeProposals();
-  expect(staged.length === 1 && staged[0].id === c.id && staged[0].status === 'proposed', JSON.stringify(staged));
-  quietStores(k, h, 2);
-  const phrase = k.process('seal the idea');
-  expect(phrase.trace.intent_kind === 'CREATE' && phrase.trace.echo.pass && /have not stored/.test(phrase.reply || ''), phrase.reply);
-  expect(k.creativeProposals().every(p => p.status === 'proposed'), JSON.stringify(k.creativeProposals()));
-  quietStores(k, h, 2);
-  const missing = k.commitIdea(null, true);
-  expect(missing && missing.ok === false && missing.rule === 'CREATIVE-PROPOSAL-REQUIRED', JSON.stringify(missing));
-  const noTap = k.commitIdea(c.id, false);
-  expect(noTap && noTap.ok === false && noTap.rule === 'PERM-NEEDS-USER-TAP', JSON.stringify(noTap));
-  expect(k.creativeProposals()[0].status === 'proposed', 'a false tap committed');
-  quietStores(k, h, 2);
-  const yes = k.commitIdea(c.id, true);
-  expect(yes && yes.ok === true && yes.status === 'committed', JSON.stringify(yes));
-  expect(k.creativeProposals().some(p => p.id === c.id && p.status === 'committed'), JSON.stringify(k.creativeProposals()));
-  quietStores(k, h, 2, 'the tap wrote memory');
-  const twice = k.commitIdea(c.id, true);
-  expect(twice && twice.ok === false && k.memory().length === 2, JSON.stringify(twice));
-});
 
-T('explore alternatives speaks a quarantine idea and a tap does not store it', () => {
-  const k = mk();
-  k.process('Remember that Rex is a dog.');
-  k.process('Remember that Fido is a dog.');
-  k.process('Remember that a terrier is a hound.');
-  k.process('Remember that a hound is a hunter.');
-  const mem = k.memory();
-  for (const row of mem) {
-    if (!row.sfe) continue;
-    const ent = (row.entities || []).join(' ');
-    if (/rex|fido/.test(ent)) row.sfe.Phi = 3;
-    else if (/terrier/.test(ent)) row.sfe.Phi = 4;
-    else if (/hound/.test(ent) && /hunter/.test(ent)) row.sfe.Phi = 5;
-  }
-  k.store.save('memory', mem);
-  const h = head(k);
-  const r = k.process('explore alternatives');
-  expect(r.trace.intent_kind === 'EXPLORE', (r.trace.intent_kind || 'missing') + ' · ' + r.reply);
-  expect(r.trace.intent_kind !== 'READ' && r.trace.intent_kind !== 'PROPOSE_EVIDENCE', r.trace.intent_kind);
-  expect(r.trace.echo && r.trace.echo.pass, (r.trace.echo && r.trace.echo.reason) || r.reply);
-  expect(!cr(r).failure, JSON.stringify(cr(r) && cr(r).failure));
-  const spoken = (cr(r).candidates || []).filter(c => c.spoken);
-  expect(spoken.some(c => c.drift.band === 'explore' && c.drift.eps_s >= 0.40 && c.drift.eps_s <= 0.80 && c.novelty.N != null && (c.claim_status === 'speculative_branch' || c.claim_status === 'hypothesis')), JSON.stringify(spoken));
-  expect(/speculative_branch|hypothesis/.test(r.reply || '') && /have not stored/.test(r.reply || ''), r.reply);
-  const held = (cr(r).candidates || []).filter(c => !c.spoken);
-  expect(held.some(c => c.reason && /correction/.test(c.reason)), JSON.stringify(cr(r).candidates));
-  expect(r.turn_packet.schema === 'FORGE-TURN-PACKET/v1' && r.turn_packet.echo.pass === true, JSON.stringify(r.turn_packet && r.turn_packet.echo));
-  const q = k.creativeProposals().find(p => p.drift && p.drift.band === 'explore' && p.status === 'proposed');
-  expect(q, JSON.stringify(k.creativeProposals()));
-  const tap = k.commitIdea(q.id, true);
-  expect(tap && tap.ok === false && tap.rule === 'CREATIVE-DRIFT-NOT-PROJECTABLE', JSON.stringify(tap));
-  expect(k.creativeProposals().every(p => p.status !== 'committed'), JSON.stringify(k.creativeProposals()));
-  quietStores(k, h, 4);
-});
 
-T('a hard drift seal is refused and a seal without a proposal is refused', () => {
-  const bare = mk();
-  const bh = head(bare);
-  const none = bare.process('seal the idea');
-  expect(none.trace.intent_kind === 'CREATE' && none.trace.echo.pass, none.trace.intent_kind + ' · ' + none.reply);
-  expect(cr(none) && cr(none).failure && cr(none).failure.class === 'commit_without_proposal', JSON.stringify(cr(none)));
-  expect(/have not stored/.test(none.reply || '') && /commit_without_proposal/.test(none.reply || ''), none.reply);
-  expect(none.turn_packet.receipt_type === 'gate_refusal' && none.turn_packet.failure && none.turn_packet.failure.class === 'gate_refusal', JSON.stringify(none.turn_packet && none.turn_packet.failure));
-  expect(!(bare.store.load('creative_proposals') || []).length, 'a missing proposal was stored');
-  quietStores(bare, bh, 0);
-  const k = mk();
-  k.process('Remember that a spaniel is a dog.');
-  k.process('Remember that a dog is an animal.');
-  const made = k.process('invent a hypothesis');
-  expect(made.trace.intent_kind === 'CREATE' && made.trace.echo.pass, made.reply);
-  const h = head(k);
-  const rows = k.store.load('creative_proposals');
-  expect(rows.length === 1, JSON.stringify(rows));
-  rows[0].drift = { eps_s: 0.9, band: 'reject' };
-  k.store.save('creative_proposals', rows);
-  const hard = k.process('seal the idea');
-  expect(hard.trace.intent_kind === 'CREATE' && hard.trace.echo.pass, hard.trace.intent_kind + ' · ' + hard.reply);
-  expect(cr(hard) && cr(hard).failure && cr(hard).failure.class === 'drift_hard', JSON.stringify(cr(hard)));
-  expect(/have not stored/.test(hard.reply || '') && /hard_stop/.test(hard.reply || ''), hard.reply);
-  expect(k.creativeProposals()[0].status === 'proposed', JSON.stringify(k.creativeProposals()));
-  const api = k.commitIdea(rows[0].id, true);
-  expect(api && api.ok === false && api.rule === 'CREATIVE-DRIFT-HARD', JSON.stringify(api));
-  quietStores(k, h, 2);
-});
 
-T('explore ideas stays PROPOSE_EVIDENCE and a question about an idea stays READ', () => {
-  const k = mk();
-  const ideas = k.process('explore ideas');
-  expect(ideas.trace.intent_kind === 'PROPOSE_EVIDENCE' && ideas.trace.echo.pass, ideas.trace.intent_kind + ' · ' + ideas.reply);
-  expect(/explored /.test(ideas.reply || '') && !cr(ideas), ideas.reply);
-  const show = k.process('show the proposals');
-  expect(show.trace.intent_kind === 'PROPOSE_EVIDENCE' && show.trace.echo.pass, show.trace.intent_kind + ' · ' + show.reply);
-  const q = k.process('What is an idea?');
-  expect(q.trace.intent_kind === 'READ' && q.trace.echo.pass, q.trace.intent_kind + ' · ' + q.reply);
-  const phys = k.process('propose problem physics');
-  expect(phys.trace.intent_kind === 'PROPOSE_EVIDENCE' && phys.trace.echo.pass && /144 Hz is a substrate/.test(phys.reply || ''), phys.reply);
-  expect(sharedN(k) === 0, 'shared KB');
-});
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.120 and leave COMPOSE and Suppose unstarted', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
@@ -211,7 +76,8 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.120 and leave COMPOSE a
   expect(tp[0] === 4 && tp[1] === 9 && tp[2] >= 120 && targeted.suites.includes('r4120_suite.js') && targeted.suites.includes('r4119_suite.js'), targeted.release + ' ' + targeted.suites[0]);
   const RP = require(ROOT + '/src/req_packet.js');
   const slice = RP.packet('4.9.120');
-  expect(slice && slice.requirements.some(r => r.id === 'R4120-IDEA'), JSON.stringify(slice && slice.requirements.map(r => r.id)));
+  /* 4.9.215 (C4): the requirement is retired with the old JS answer path (only this version check was left), recorded with its reason. */
+  expect((slice && slice.requirements.some(r => r.id === 'R4120-IDEA')) || (RP.RETIRED_REQUIREMENTS || []).some(r => r.id === 'R4120-IDEA' && r.release === '4.9.120' && r.why), JSON.stringify(slice && slice.requirements.map(r => r.id)));
   expect(RP.linksMissing(ROOT).length === 0, RP.linksMissing(ROOT).join(' '));
   expect(!fs.existsSync(ROOT + '/src/creative.js'), 'creative.js');
   expect(!fs.existsSync(ROOT + '/src/compose.js'), 'COMPOSE started');

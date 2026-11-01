@@ -47,150 +47,13 @@ T('the packet schema names the five failure receipt types', () => {
   expect(JSON.stringify(TP.GATE_SUBTYPES) === JSON.stringify(['ambiguity', 'unsupported', 'action_blocked']), JSON.stringify(TP.GATE_SUBTYPES));
 });
 
-T('a spoken remember exports one answer packet and the same packet opens again', () => {
-  const k = mk();
-  const r = k.process('remember that my car is red');
-  const p = packetOf(r);
-  shape(p, 'remember');
-  expect(r.reply === 'I noted that your car is red.' && r.trace.intent_kind === 'REQUEST_COMMIT', r.reply);
-  expect(p.receipt_type === 'answer' && p.spoken === true && p.failure == null && p.intent === 'REQUEST_COMMIT', JSON.stringify({ t: p.receipt_type, s: p.spoken, f: p.failure, i: p.intent }));
-  expect(p.echo.pass === true && p.memory.attempted === true && p.memory.blocked === false && p.memory.ops.length > 0, JSON.stringify(p.memory) + ' ' + JSON.stringify(p.echo));
-  expect(p.world.attempted === true && p.world.blocked === false && p.world.version_id, JSON.stringify(p.world));
-  expect(p.manifest.msm_v1_id && p.drift.eps_s === 0 && p.drift.band === 'clean' && p.containment.route === 'active_stack_candidate', JSON.stringify({ m: p.manifest, d: p.drift, c: p.containment }));
-  expect(typeof k.exportTurnPacket === 'function', 'exportTurnPacket missing');
-  const again = k.exportTurnPacket(r.trace.turn);
-  expect(again && again.turn_id === p.turn_id && again.receipt_type === 'answer', JSON.stringify(again && { id: again.turn_id, t: again.receipt_type }));
-  const opened = TP.openReceipt(again);
-  expect(opened && opened.schema === TP.ANSWER_SCHEMA && opened.receipt_type === 'answer' && opened.packet.turn_id === p.turn_id, JSON.stringify(opened && opened.schema));
-  expect(sharedN(k) === 0, 'shared KB written');
-});
 
-T('an Echo failure is an echo_fail receipt and stores nothing', () => {
-  const k = mk({ renderFault: t => t.replace('noted', 'denied') });
-  const r = k.process('remember that my car is red');
-  const p = packetOf(r);
-  shape(p, 'echo');
-  expect(r.reply == null && r.trace.language === 'LANGUAGE_UNEXPRESSIBLE', (r.trace.language || 'missing') + ' ' + r.reply);
-  expect(p.receipt_type === 'echo_fail' && p.failure.class === 'echo_fail' && p.failure.subtype == null && p.spoken === false, JSON.stringify(p.failure));
-  expect(p.echo.pass === false && p.echo.signature_notes, JSON.stringify(p.echo));
-  expect(p.memory.attempted === true && p.memory.blocked === true && p.memory.ops.length === 0, JSON.stringify(p.memory));
-  expect(k.memory().length === 0, 'echo fail stored a fact');
-  const card = TP.receiptCard(p);
-  expect(/data-receipt-type="echo_fail"/.test(card) && /<details[^>]*open/.test(card) && card.includes(p.turn_id), card.slice(0, 240));
-  expect(sharedN(k) === 0, 'shared KB written');
-});
 
-T('a derivation failure is language_unexpressible, not an echo failure', () => {
-  const D = require(ROOT + '/src/derive.js');
-  const orig = D.realizeMeaning;
-  D.realizeMeaning = () => null;
-  try {
-    const k = mk();
-    const r = k.process('hello');
-    const p = packetOf(r);
-    shape(p, 'derive');
-    expect(r.reply == null && r.trace.language === 'LANGUAGE_UNEXPRESSIBLE', (r.trace.language || 'missing') + ' ' + r.reply);
-    expect(p.receipt_type === 'language_unexpressible' && p.failure.class === 'language_unexpressible' && p.spoken === false, JSON.stringify(p.failure));
-    expect(p.echo.pass !== true, 'a derivation failure was marked echo pass');
-    expect(k.memory().length === 0, 'derivation failure stored a fact');
-  } finally { D.realizeMeaning = orig; }
-});
 
-T('quarantine and a χ re-route are different receipt types', () => {
-  const q = mk({ testDrift: () => 0.5 }).process('hello');
-  const qp = packetOf(q);
-  shape(qp, 'quarantine');
-  expect(q.reply == null && qp.receipt_type === 'quarantine' && qp.spoken === false && qp.failure.class === 'quarantine', JSON.stringify(qp.failure) + ' ' + q.reply);
-  expect(qp.containment.route === 'drift_archive_only' && qp.drift.band === 'elevated' && qp.drift.eps_s === 0.5, JSON.stringify({ c: qp.containment, d: qp.drift }));
-  const held = mk({ testDrift: () => 0.36 }).process('hello');
-  const hp = packetOf(held);
-  shape(hp, 'held correction');
-  expect(held.reply == null && hp.receipt_type === 'quarantine' && hp.drift.correction && hp.drift.correction.applied === false, JSON.stringify(hp.drift && hp.drift.correction));
-  const chi = mk({ testDrift: () => 0.9 }).process('hello');
-  const cp = packetOf(chi);
-  shape(cp, 'chi');
-  expect(chi.reply && /bypass/.test(chi.reply) && chi.trace.echo && chi.trace.echo.pass, chi.reply);
-  expect(cp.receipt_type === 'chi_reroute' && cp.failure.class === 'chi_reroute' && cp.spoken === true, JSON.stringify(cp.failure));
-  expect(cp.drift.band === 'hard_stop' && cp.drift.eps_s === 0.9 && cp.containment.route === 'correction_queue', JSON.stringify({ d: cp.drift, c: cp.containment }));
-  expect((chi.trace.rules || []).some(x => x.id === 'CHI-GRACE-REROUTE'), 'grace re-route did not run');
-});
 
-T('gate refusals keep their spoken sentence and a subtype', () => {
-  const buy = mk().process('buy milk');
-  const bp = packetOf(buy);
-  shape(bp, 'buy');
-  expect(/not authorized/.test(buy.reply) && buy.trace.echo && buy.trace.echo.pass, buy.reply);
-  expect(bp.receipt_type === 'gate_refusal' && bp.failure.class === 'gate_refusal' && bp.failure.subtype === 'action_blocked' && bp.spoken === true, JSON.stringify(bp.failure));
-  const duck = mk().process('I saw her duck');
-  const dp = packetOf(duck);
-  shape(dp, 'duck');
-  expect(duck.reply && duck.trace.outcome.category === 'AMBIGUITY_PRESERVED', duck.reply);
-  expect(dp.receipt_type === 'gate_refusal' && dp.failure.subtype === 'ambiguity' && dp.spoken === true, JSON.stringify(dp.failure));
-  const bad = mk().process('export the proof');
-  const up = packetOf(bad);
-  shape(up, 'unsupported');
-  expect(bad.reply === 'That expression is malformed.' && bad.trace.outcome.category === 'REFUSAL_RELEVANT', bad.reply);
-  expect(up.receipt_type === 'gate_refusal' && up.failure.subtype === 'unsupported', JSON.stringify(up.failure));
-  const dropped = (up.not_selected || []).find(c => c.route === 'language.core');
-  expect(dropped && dropped.reason, JSON.stringify(up.not_selected));
-  const math = mk().process('what is 2 + 3');
-  const mp = packetOf(math);
-  shape(mp, 'math');
-  expect(math.reply === '2 + 3 = 5.' && mp.receipt_type === 'answer', math.reply + ' ' + (mp && mp.receipt_type));
-  const skip = (mp.not_selected || []).find(c => c.route === 'language.core');
-  expect(skip && skip.reason, JSON.stringify(mp.not_selected));
-});
 
-T('one command exports an earlier turn, success or failure', () => {
-  const k = mk();
-  const none = k.process('export the turn packet');
-  const np = packetOf(none);
-  shape(np, 'missing export');
-  expect(none.reply && none.trace.echo && none.trace.echo.pass && np.receipt_type === 'gate_refusal', none.reply + ' ' + (np && np.receipt_type));
-  expect(!none.exported_packet, 'an empty kernel exported a packet');
-  const remembered = k.process('remember that my car is red');
-  const ex = k.process('export the turn packet');
-  expect(ex.reply && ex.trace.echo && ex.trace.echo.pass && !ex.trace.blocked, ex.reply || ex.block_reason);
-  expect(ex.exported_packet && ex.exported_packet.turn_id === packetOf(remembered).turn_id && ex.exported_packet.receipt_type === 'answer', JSON.stringify(ex.exported_packet && { id: ex.exported_packet.turn_id, t: ex.exported_packet.receipt_type }));
-  const byN = k.process('export the packet for turn ' + remembered.trace.turn);
-  expect(byN.exported_packet && byN.exported_packet.turn === remembered.trace.turn && byN.trace.echo && byN.trace.echo.pass, byN.reply || byN.block_reason);
-  const echoK = mk({ renderFault: t => /noted/.test(t) ? t.replace('noted', 'denied') : t });
-  const failed = echoK.process('remember that my car is red');
-  const exF = echoK.process('export the turn packet');
-  expect(exF.trace.echo && exF.trace.echo.pass && exF.exported_packet && exF.exported_packet.receipt_type === 'echo_fail' && exF.exported_packet.turn_id === packetOf(failed).turn_id, JSON.stringify(exF.exported_packet && { t: exF.exported_packet.receipt_type, id: exF.exported_packet.turn_id, reply: exF.reply }));
-  expect(sharedN(k) === 0 && sharedN(echoK) === 0, 'shared KB written');
-});
 
-T('the forge spine id is on the packet, and a secret never is', () => {
-  const f = FK.ForgeKernel({ clock: CLOCK, lexicon: LEX, lexiconExt: EXT, store: KMOD.MemoryStore() });
-  const r = f.process('remember that my car is red');
-  const p = packetOf(r);
-  shape(p, 'forge');
-  expect(r.forge && r.forge.msm && r.forge.msm.manifest_id && p.manifest.forge_manifest_id === r.forge.msm.manifest_id, JSON.stringify(p.manifest));
-  expect(r.forge.receipt && p.audit_receipt_id === r.forge.receipt.receipt_id, p.audit_receipt_id);
-  const list = f.turnPackets();
-  expect(list.length === 1 && list[0].turn_id === p.turn_id, 'turnPackets ' + list.length);
-  const pin = f.process('remember that my pin is 1234');
-  expect(!/1234/.test(JSON.stringify(packetOf(pin))), 'pin leaked into the packet');
-  expect(f.verifyAudit().ok, 'receipt chain broke');
-  expect(sharedN(f) === 0, 'shared KB written');
-});
 
-T('Ask Forge and Audit open a receipt and export the same packet', () => {
-  needMod();
-  const html = fs.readFileSync(ROOT + '/index.html', 'utf8');
-  const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8');
-  const iPacket = html.indexOf('src/turn_packet.js');
-  const iKernel = html.indexOf('src/kernel.js');
-  expect(iPacket > 0 && iPacket < iKernel, 'turn_packet.js is not loaded before the kernel');
-  expect(/data-export-turn/.test(app) && /Export turn packet/.test(app), 'Ask Forge has no export control');
-  expect(/receiptCard/.test(app) && /data-receipt-type/.test(app), 'Audit does not open a typed receipt');
-  expect(/turnPackets\(/.test(app) && /exportTurnPacket\(/.test(app), 'the surfaces do not call the packet pathway');
-  const k = mk({ renderFault: t => t.replace('noted', 'denied') });
-  const r = k.process('remember that my car is red');
-  const card = TP.receiptCard(packetOf(r));
-  expect(/Echo failed/.test(card) && /echo_fail/.test(card) && /data-export-turn/.test(card), card.slice(0, 300));
-});
 
 T('version, registry, and CONFLICTS name this release and not the later queue', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
@@ -220,15 +83,6 @@ T('version, registry, and CONFLICTS name this release and not the later queue', 
   expect(M.DRIFT_RULING.project_max === 0.35 && M.DRIFT_RULING.explore_min === 0.4 && M.DRIFT_RULING.explore_max === 0.8, 'drift law moved');
 });
 
-T('a spoken dream stays an answer packet on the dream route', () => {
-  const r = mk().process('Suppose the car is red.');
-  const p = packetOf(r);
-  shape(p, 'dream');
-  expect(/dream quarantine/.test(r.reply) && r.trace.echo && r.trace.echo.pass, r.reply);
-  expect(p.receipt_type === 'answer' && p.failure == null && p.containment.route === 'dream_state_quarantine_candidate' && p.intent === 'SIMULATE', JSON.stringify({ t: p.receipt_type, c: p.containment, i: p.intent }));
-  expect(p.memory.blocked === true || p.memory.attempted === false, JSON.stringify(p.memory));
-  expect(sharedN(mk()) === 0 || sharedN({ store: { load: () => [] } }) === 0, 'shared');
-});
 
 (async () => {
   let failed = 0;

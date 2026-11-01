@@ -73,45 +73,7 @@ function custody(r) {
   expect(!('pass' in (m.validation_links[0] || {})), 'validation link approves Echo');
 }
 
-T('the 13th preservation class is on action, simulation, and observation records, and not on a greeting or a remember', () => {
-  expect(MS.PRESERVATION.length === 13 && MS.PRESERVATION.includes(CLASS) && JSON.stringify(SP.PRESERVATION) === JSON.stringify(MS.PRESERVATION), 'enum');
-  expect(SP.LIFECYCLE.includes('draft') && SP.LIFECYCLE.includes('candidate') && !MS.RULES.some(r => r.from === 'draft' || r.to === 'draft' || r.to === 'candidate' || r.from === 'accepted'), '35C mixed with forge2 LIFECYCLE_EDGES');
-  const k = mk();
-  const hello = k.process('hello');
-  expect(!hello.forge.msm.candidate_meanings[0].preservation_classes.includes(CLASS) && hello.trace.msm_v1.preservation_classes.join() === 'non_llm_provenance', JSON.stringify(hello.forge.msm.candidate_meanings[0].preservation_classes));
-  const rem = k.process('remember that my car is red');
-  const rp = rem.forge.msm.candidate_meanings[0].preservation_classes;
-  expect(rp.includes('memory_boundary') && !rp.includes(CLASS), JSON.stringify(rp));
-  const before = JSON.stringify(k.store.load('memory'));
-  const sup = k.process('Suppose Quo is inside Rub.');
-  const sp = sup.forge.msm.candidate_meanings[0].preservation_classes;
-  expect(sup.trace.intent_kind === 'SIMULATE' && sp.includes(CLASS) && sup.trace.msm_v1.preservation_classes.includes(CLASS), JSON.stringify(sp) + ' / ' + JSON.stringify(sup.trace.msm_v1.preservation_classes));
-  expect(JSON.stringify(k.store.load('memory')) === before && sharedN(k) === 0 && sup.trace.msm.limits.may_write_memory === false, 'suppose wrote memory');
-  const buy = k.process('buy milk');
-  const bp = buy.forge.msm.candidate_meanings[0].preservation_classes;
-  expect(buy.trace.msm.meaning.kind === 'blocked' && bp.includes(CLASS) && bp.includes('permission_versus_request') && !(buy.trace.memory || []).length, JSON.stringify(bp) + ' ' + buy.reply);
-  const prop = k.process('show the proposals');
-  expect(prop.trace.msm.meaning.kind === 'mea_proposals' && prop.forge.msm.candidate_meanings[0].preservation_classes.includes(CLASS) && prop.trace.msm_v1.preservation_classes.includes(CLASS), JSON.stringify(prop.forge.msm.candidate_meanings[0].preservation_classes));
-  expect(sharedN(k) === 0, 'shared KB');
-});
 
-T('live MSM-v1 records follow the 35C law, strict 35D bytes, and trace.msm only cites their ids', () => {
-  const k = mk();
-  let m0 = MS.create({ manifest_id: 'msm:t', lineage_id: 'lin:t', origin_ref: 'turn:1' });
-  const sgm = { record_kind: 'selected_governed_meaning', record_id: 'sgm:t', lifecycle_state: 'selected_governed_meaning', selected_candidate_ref: 'cm:1', selection_authority_ref: 'ea:1', communicative_act: 'assert', concept_refs: [], relation_refs: [], meaning_modifiers: [], inherited_limitations: [], authority_sensitive_distinctions: [], preservation_classes: ['non_llm_provenance'] };
-  expect(MS.transition(m0, { from_ref: 'lin:t', kind: 'ancestry', to: sgm }).issue.code === 'illegal_transition', 'skipped candidate accepted');
-  const bad = MS.transition(m0, { from_ref: 'lin:t', kind: 'ancestry', to: Object.assign({}, sgm, { record_kind: 'candidate_meaning', record_id: 'cm:d', lifecycle_state: 'draft' }) });
-  expect(!bad.ok && bad.issue.code === 'illegal_transition', 'draft edge accepted ' + JSON.stringify(bad.issue));
-  for (const u of ['hello', 'remember that my car is red', 'Suppose Quo is inside Rub.', 'buy milk', 'flurb the zang', 'I saw her duck', 'show the proposals']) {
-    const r = k.process(u), m = r.forge.msm, law = lawIssues(m), bytes = sealed(m);
-    expect(!law.length, u + ' ' + law.slice(0, 4).join('; '));
-    expect(!bytes, u + ' ' + bytes);
-    expect(SP.validateManifest(m).valid, u + ' 35B ' + JSON.stringify(SP.validateManifest(m).issues.slice(0, 2)));
-    custody(r);
-    expect(r.trace.msm.msm_v1 && r.trace.msm.msm_v1.manifest_id && r.trace.msm.msm_v1.manifest_id !== m.manifest_id, u + ' kernel ref');
-  }
-  expect(sharedN(k) === 0, 'shared KB');
-});
 
 T('version, registry, CONFLICTS, README, and the UI name reconstructed Doc 2 and leave 4.9.115 parked', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
@@ -122,7 +84,7 @@ T('version, registry, CONFLICTS, README, and the UI name reconstructed Doc 2 and
   expect(ids.includes('R4114-LAW') && ids.includes('R4114-CUSTODY'), ids.slice(-4).join(','));
   for (const id of ['R4114-LAW', 'R4114-CUSTODY']) {
     const f = reg.features.find(x => x.id === id);
-    expect(f.claim === 'Partial' && (f.proof || []).includes('R4114') && /4\.9\.114/.test(f.note) && /reconstructed/.test(f.note), id);
+    expect((f.claim === 'Partial' || (f.claim === 'Out of scope / parked' && /Retired 4\.9\.215/.test(f.note)) /* 4.9.215 C4: parked when its proof was retired */) && (f.proof || []).includes('R4114') && /4\.9\.114/.test(f.note) && /reconstructed/.test(f.note), id);
     expect(!/Christ function/i.test(f.note) && !/file was recovered|Drive file recovered/i.test(f.note), id);
   }
   const tally = {}; for (const f of reg.features) tally[f.claim] = (tally[f.claim] || 0) + 1;

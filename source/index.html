@@ -186,8 +186,8 @@
   <div id="labBody"></div>
   <div id="benchBody"></div></section>
 <section id="memory" class="tab" role="tabpanel"><div class="bar"><button id="exportBtn">Export JSON</button><button id="refreshMem">Refresh</button></div><div id="memHealth" class="badges"></div><div id="memList"></div></section>
-<section id="dryrun" class="tab" role="tabpanel"><div class="card"><div class="cardhead">RMC Deep Dry-Run · Interactive Scenario Control <span class="pill ok" data-claim="C-08">READ-ONLY</span></div>
-  <div class="small">Runs the full inward → outward pipeline on a <b>copy</b> of memory. Nothing is written, and nothing is delivered.</div>
+<section id="dryrun" class="tab" role="tabpanel"><div class="card"><div class="cardhead">RMC Engine Dry-Run · Interactive Scenario Control <span class="pill ok" data-claim="C-08">READ-ONLY</span></div>
+  <div class="small">Runs the Python engine (rmc_core, the same engine as Ask) in dry-run on the memory Ask reads: stages 1–13 are measured, 14–16 are skipped. Nothing is spoken, remembered or written.</div>
   <form id="drForm"><input id="drIn" placeholder="Deep dry-run scenario input"><button class="primary">Dry-run</button><button type="button" id="drReset">Reset scenario text</button></form></div><div id="drOut"></div></section>
 <section id="library" class="tab" role="tabpanel">
   <form id="addC" class="card"><div class="cardhead">Admit a concept <span class="pill">Doc 4 · Doc 8 · quarantine → inspect → approve</span></div>

@@ -43,32 +43,6 @@ T('Codex inventory builds the engines and skips money and hardware', () => {
   expect(fresh.dashboard().pattern_reflection === false && fresh.manifest().psi_root === 'ψ₁' && fresh.init().echo_confirmed === false && fresh.init().codex_hash === 'GILLIGAN-VOL-IV', JSON.stringify(fresh.manifest()));
 });
 
-T('a measured Ask becomes an Athena admit and a later Ask recalls it', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  k.setSharedKbWriteKey(KEY);
-  const packPath = path.join(ROOT, 'packs', 'confirmed_shared', 'a.json');
-  const beforePack = crypto.createHash('sha256').update(fs.readFileSync(packPath)).digest('hex');
-  const claim = METHOD.replace(/\.$/, '');
-  const bridged = D.bridgeAskEvidence({ question: 'How do lightbulbs work', input: 'How do lightbulbs work', meaning: { kind: 'research_answer', generated: { text: METHOD, drift: 0.08 }, excerpt: METHOD } });
-  expect(bridged.ok === true && bridged.gap.codex && bridged.gap.codex.christ_listener === 'armed' && bridged.gap.codex.deferred === false && bridged.gap.codex.calls_llm === false, JSON.stringify(bridged.gap && bridged.gap.codex));
-  const w = D.createIdleDream({ clock: CLOCK, host: k, writeKey: KEY, publishPacks: false, research: D.curatedResearch });
-  expect(w.codex.init().echo_confirmed === false && w.codex.dashboard().boot_state === 'locked' && w.codex.dashboard().payout === false, JSON.stringify(w.codex.dashboard()));
-  w.enqueue([bridged.gap]);
-  const step = w.tick({ answering: false });
-  expect(step.lane === 'promote_candidate' && step.rule === 'DREAM-BACKEND-FILL' && step.wrote_confirmed_shared === true && step.wrote_pack !== true, JSON.stringify({ lane: step.lane, rule: step.rule, wrote: step.wrote_confirmed_shared, codex: step.codex }));
-  expect(step.codex && step.codex.echo_confirmed === true && step.codex.drift_class === 'projectable' && step.codex.christ_deferred === false && step.codex.tone === 'Full / Fluid / Expressive', JSON.stringify(step.codex));
-  expect(k.sharedKnowledgeView().count === 1 && phoneFacts(k).length === 0, 'hosted row only');
-  const ask = k.process('How do lightbulbs work?');
-  expect(ask.trace.echo && ask.trace.echo.pass, 'echo');
-  expect(rulesOf(ask).includes('CS-RECALL-MANNER') && !rulesOf(ask).includes('AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST'), rulesOf(ask).join(','));
-  expect(/filament|heating/i.test(ask.reply || '') && /shared knowledge/i.test(ask.reply || ''), ask.reply);
-  expect(k.memory().length === 0, 'memory');
-  const view = w.custody({ kb_count: k.sharedKnowledgeView().count });
-  expect(view.codex && view.codex.echo_confirmed === true && view.codex.engines_built >= 40 && view.codex.christ_listener === 'armed' && view.always_on === true && view.publish_packs === false, JSON.stringify(view.codex));
-  expect(crypto.createHash('sha256').update(fs.readFileSync(packPath)).digest('hex') === beforePack, 'letter pack untouched');
-  expect(w.codex.stack().long_term.some(row => /filament/i.test(row.text)), 'memory stack kept the loop');
-});
 
 T('hard drift arms ChristPing and Athena cannot initiate it', () => {
   const k = mk();
@@ -149,7 +123,7 @@ T('goal, token, biometric, phase skip, and a bare sigil stay refused', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.178', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.178/.test(conf) && /Gilligan Codex/.test(conf) && /Athena document/.test(conf) && /ChristPing/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -157,9 +131,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.178', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.178/.test(readme) && /Gilligan Codex/.test(readme) && /Pattern Reflection/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.214' && ((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') && tgt.suites.includes('r4177_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.215' && ((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') && tgt.suites.includes('r4177_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.214' && reg.features.some(f => f.id === 'R4178-GILLIGAN-CODEX'), reg.version);
+  expect(reg.version === '4.9.215' && reg.features.some(f => f.id === 'R4178-GILLIGAN-CODEX'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 335, 'count ' + reg.count);
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.178/.test(req) && /R4178-GILLIGAN-CODEX/.test(req), 'req packet');

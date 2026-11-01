@@ -133,46 +133,19 @@ function phaseAblation() {
 }
 
 function echoSection() {
+  /* 4.9.215 (Release C4, Nic approved): these recorded surfaces measured the old JS kernel's Echo through Kernel.process, which is deleted
+   * with the old answer path. The live Echo is the Python engine's stage 15 (question-meaning coverage). No rates are reported for a path
+   * that no longer exists; nothing is re-measured or invented here. */
   const fixture = JSON.parse(fs.readFileSync(path.join(__dirname, 'lc_surfaces.json'), 'utf8'));
-  let shared = 0;
-  const rows = fixture.surfaces.map(s => {
-    const opts = { clock: CLOCK, lexicon: LEX, lexiconExt: EXT, store: memStore() };
-    if (s.fault && s.fault.from) opts.renderFault = t => String(t).split(s.fault.from).join(s.fault.to);
-    const k = KMOD.Kernel(opts);
-    const r = k.process(s.utterance);
-    shared += (k.store.load('shared_knowledge') || []).length;
-    return {
-      id: s.id,
-      utterance: s.utterance,
-      expected_pass: s.expected_pass,
-      actual_pass: !!(r.trace.echo && r.trace.echo.pass),
-      recorded_in: s.recorded_in,
-      fault: s.fault || null
-    };
-  });
-  let tp = 0, tn = 0, fp = 0, fn = 0;
-  for (const row of rows) {
-    if (row.expected_pass && row.actual_pass) tp++;
-    else if (row.expected_pass && !row.actual_pass) fn++;
-    else if (!row.expected_pass && row.actual_pass) fp++;
-    else tn++;
-  }
-  const pos = tp + fn, neg = tn + fp;
   return {
     honesty: 'research-only',
     manuscript: 'SOURCE_NOT_VERIFIED',
     product_claim: false,
+    status: 'retired_4.9.215',
     fixture: 'research/lc_surfaces.json',
-    surfaces: rows.length,
-    rows: rows,
-    true_positive: tp,
-    true_negative: tn,
-    false_positive: fp,
-    false_negative: fn,
-    false_positive_rate: neg ? fp / neg : null,
-    false_negative_rate: pos ? fn / pos : null,
-    shared_kb_writes: shared,
-    note: 'Rates are counts on this recorded set divided by the recorded positives or negatives. A zero here is not a manuscript calibration and not a claim of proven cognition.'
+    surfaces: fixture.surfaces.length,
+    rows: [],
+    note: 'Retired in 4.9.215: the surfaces measured the old JS kernel Echo (Kernel.process), deleted with the old answer path. The live Echo is the Python engine stage 15; it is not measured by this research tool.'
   };
 }
 
@@ -271,7 +244,8 @@ function markdown(report) {
   lines.push('## Echo on recorded Language Core surfaces');
   lines.push('');
   const e = report.echo;
-  lines.push('research-only. SOURCE_NOT_VERIFIED. Surfaces ' + e.surfaces + '. False positive ' + e.false_positive + ' (rate ' + e.false_positive_rate + '). False negative ' + e.false_negative + ' (rate ' + e.false_negative_rate + '). Shared KB writes ' + e.shared_kb_writes + '. These rates are not a calibrated cognition claim.');
+  if (e.status === 'retired_4.9.215') lines.push('research-only. ' + e.note);
+  else lines.push('research-only. SOURCE_NOT_VERIFIED. Surfaces ' + e.surfaces + '. False positive ' + e.false_positive + ' (rate ' + e.false_positive_rate + '). False negative ' + e.false_negative + ' (rate ' + e.false_negative_rate + '). Shared KB writes ' + e.shared_kb_writes + '. These rates are not a calibrated cognition claim.');
   lines.push('');
   for (const row of e.rows) lines.push('- ' + row.id + ': expected ' + row.expected_pass + ', actual ' + row.actual_pass + '. ' + row.recorded_in);
   lines.push('');

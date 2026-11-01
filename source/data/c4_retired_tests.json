@@ -1,0 +1,1426 @@
+{
+ "schema": "FORGE-C4-RETIRED-TESTS/v1",
+ "release": "4.9.215",
+ "retired_suites": [
+  "r4106_suite.js",
+  "r4105_suite.js",
+  "r4103_suite.js",
+  "r4102_suite.js",
+  "r4101_suite.js",
+  "r4100_suite.js",
+  "r499_suite.js"
+ ],
+ "count": 235,
+ "tests": [
+  {
+   "suite": "r4106_suite.js",
+   "name": "an empty inspect names nothing and stores nothing",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4106_suite.js",
+   "name": "a bare suppose is dream quarantine and the list names that route",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4106_suite.js",
+   "name": "forget moves a fact to cold storage and a later list still finds it",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4106_suite.js",
+   "name": "resurrect and bring back propose a WARM row and do not write",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4106_suite.js",
+   "name": "a COLD forgotten row is listed as COLD and is not returned",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4106_suite.js",
+   "name": "guards: physics propose, a suppose branch, and no Christ function",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4105_suite.js",
+   "name": "a remember commits a world head that is not the storage generation",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4105_suite.js",
+   "name": "the head survives a new kernel on the same store",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4105_suite.js",
+   "name": "a failed stage does not publish a head or report success",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4105_suite.js",
+   "name": "a branch and a conservation step leave the committed head in place",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4105_suite.js",
+   "name": "forgetting a premise withdraws a dependent and commits the next head",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4105_suite.js",
+   "name": "guard: propose problem physics and a refused remember stay on their paths",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "a stored question is READ",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "remember is REQUEST_COMMIT",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "a checked proof and a cause chain are DERIVE",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "why, how, a definition, and a backward cause are EXPLAIN",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "a branch, a bare Suppose, and a dynamics what-if are SIMULATE",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "proposals and explore ideas are PROPOSE_EVIDENCE and do not act",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "an ambiguity and an unresolved word are CLARIFY",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "an unregistered action is UNSUPPORTED",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "an Echo failure is LANGUAGE_UNEXPRESSIBLE and stores nothing",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "guard: show the problems still lists the shipped problems",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4103_suite.js",
+   "name": "guard: a proposal is still not a stored rule before any tap",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "show the proposals lists induced rules and does not act",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "explain the proposals is the same surface",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "no stored evidence yields no hypothesis and stores nothing",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "a tap without confirmation does not admit",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "a confirming tap admits only a projectable rule with no regression, and withdrawal takes it back",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "a conflicted proposal is shown as not adoptable",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "a later contradicting fact blocks the tap",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "guard: show the problems still lists the shipped problems",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "guard: an intervention what-if stays dynamics",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4102_suite.js",
+   "name": "guard: explore ideas still induces through GELC and is not the proposal frame",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "stored inside-chain is the committed base of a later Suppose",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "stored comparative is the committed base of a later Suppose",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "a contradicting Suppose does not retract the observed fact",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "two stored links and one supposition answer the longer chain",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "a working statement is observed history for this conversation only",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "an unrelated stored fact is not a premise of the branch",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "guard: a same-turn Suppose with no observed fact stays a branch and writes nothing",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "guard: a bare Suppose stays in dream quarantine",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4101_suite.js",
+   "name": "guard: an intervention what-if stays dynamics",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "conservation: removing a stated amount of the same unit",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "conservation: adding a stated amount of the same unit",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "conservation: two stated outflows add before they leave the stock",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "conservation: a count noun of one unit",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "conservation: crossing empty keeps the difference and names the bound",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "conservation: passing a stated capacity names the capacity",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "dimension: mass against volume is not converted",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "dimension: a same-dimension factor the stock table does not define is not invented",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "dimension: an unqualified gallon against liters is not assumed",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "defined factor: milliliters use the existing volume table and the factor is stated",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "defined factor: a qualified US gallon uses the existing volume table",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "conservation: a missing start asks for the start and gives no number",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "guard: a per-minute removal stays the rate equation",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "guard: a stated sum of two stocks stays the closed quantity rules",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "guard: kilograms to liters stays a dimension refusal",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4100_suite.js",
+   "name": "guard: two holdings are not added by the stock equation",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "how-passive: bricks made in a kiln names the means",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "how-passive: steel made from iron keeps steel as the subject",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "how-state: the desert hot is a frame about the desert",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "guard: how are you stays the self answer",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "guard: when were the bricks made stays the time question",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "guard: how does a compass work stays a manner question",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "deduction: does frost cause leaks stays an inference",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "intervention: what happens if stays a what-if",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "guard: two direct causes of cracks are both listed",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "inversion: two upstream causes of leaks are both cited",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "inversion: one cause chain is cited and not called non-unique",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "mechanism: a disagreeing measurement downgrades the level equation",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r499_suite.js",
+   "name": "guard: an association is not an intervention effect",
+   "suite_retired": true,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4181_suite.js",
+   "name": "the four 4.9.180 recall misses are indexed and recalled before AQ-1",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4180_suite.js",
+   "name": "what is protoforge answers the local definition and a command stays internal",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4180_suite.js",
+   "name": "an HTML sentence and a which-clause admit and the next Ask recalls them",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4180_suite.js",
+   "name": "bleach and ammonia headlines chloramine gas and does not give a procedure",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4179_suite.js",
+   "name": "language.core answers a public how-question and a protoforge question",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4179_suite.js",
+   "name": "a real question runs Ask, research.web, Athena, Gilligan, the hosted bank, and recall",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4178_suite.js",
+   "name": "a measured Ask becomes an Athena admit and a later Ask recalls it",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4177_suite.js",
+   "name": "hosted recall ranks the filament sentence and refuses a device path and a vector backend",
+   "suite_retired": false,
+   "why": "tested forge_tools.recallHosted, the word-overlap hosted recall deleted in 4.9.215 (recall is the Python engine resonance recall; recall_memory now refuses FORGE-TOOL-RETIRED). The device-path and vector-backend refusals are re-proven in r4215_suite.js."
+  },
+  {
+   "suite": "r4177_suite.js",
+   "name": "a hosted method sentence answers the pipeline without a fetch",
+   "suite_retired": false,
+   "why": "tested pipeline_tools.recallFromBank, the hosted-bank word-overlap shortcut deleted in 4.9.215; researchExcerpt now always needs the fetch (re-proven in r4215_suite.js)."
+  },
+  {
+   "suite": "r4176_suite.js",
+   "name": "a granted key admits the contested row and Ask recalls it before research",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4176_suite.js",
+   "name": "a quarantine held row stays held and does not become shared knowledge",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4175_suite.js",
+   "name": "a fetched method sentence admits under the granted key and Ask recalls it",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4175_suite.js",
+   "name": "Ask still answers a how-method question from a Wikipedia-class source",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4175_suite.js",
+   "name": "a buy-milk receipt hides patterns that do not apply and a math turn still names its route",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4175_suite.js",
+   "name": "bleach and ammonia is answered from web evidence and mustard gas is a warning not a procedure",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4174_suite.js",
+   "name": "after a lawful admit Ask recalls the taught method from hosted knowledge",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4174_suite.js",
+   "name": "a how-method question with a Wikipedia-class source is a research answer, not a gate refusal",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4168_suite.js",
+   "name": "normalizeResonance: pack Phi5 sealed; Phi9 projectable combines (grace)",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4168_suite.js",
+   "name": "RPMC gather uses CS packets: quartz miss path carries sfe priors (not canned Naming)",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4168_suite.js",
+   "name": "attach-on-admit when pack omits sfe: session fact still phase-aligns",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "What is h2s? locked vault: RPMC-ANCESTOR-CANDIDATES → RSOC-COMPOSE → research; no AUTH vault passphrase",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "What is hydrogen sulfide?: same RPMC candidates + research; no vault passphrase",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "non-civics factual miss (What is photosynthesis?): RPMC candidates or AQ-1 research; no vault gate",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "forge locked: chemical what-is Names from mock archives without passphrase",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "forge locked: second non-civics factual (carbon dioxide formula ask when miss) Names without vault",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4167_suite.js",
+   "name": "Second Amendment what-is: RPMC candidates → research compose (math path, not canned); locked still no vault gate",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4166_suite.js",
+   "name": "process under full-storage backend: reply completes; no uncaught QuotaExceeded",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4166_suite.js",
+   "name": "What is h2s?: exact CS miss → RPMC-ANCESTOR / AUTH-AQ1 research — not canned pack",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4166_suite.js",
+   "name": "What is hydrogen sulfide?: same lawful miss path; no subject pack thicken",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4165_suite.js",
+   "name": "Second Amendment what-is: RPMC candidates → AQ-1 (not class dump, not canned Naming)",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4165_suite.js",
+   "name": "Third and Fourth Amendment what-is also RPMC→AQ-1; no subject pack thicken",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4165_suite.js",
+   "name": "First and Fifth what-is stay richer exact/compose when subject rows exist",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4165_suite.js",
+   "name": "Second rights WH stages RPMC priors into AQ-1; deliberate miss AQ-1 without false CS answer; class dump absent",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4163_suite.js",
+   "name": "Fifth Amendment what-is from shared KB with Bill of Rights and rights substance",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4163_suite.js",
+   "name": "Fifth Amendment rights WH answers without people/person clarify hold",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4163_suite.js",
+   "name": "Fifth Amendment discourse follow-up keeps CS entity; no research.web on Says",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4163_suite.js",
+   "name": "First Amendment rights still from shared KB; deliberate miss still AQ-1",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4162_suite.js",
+   "name": "First Amendment answers from hosted shared KB without research.web",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4162_suite.js",
+   "name": "deliberate miss still falls through to AQ-1 research.web",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4162_suite.js",
+   "name": "yes/no from shared KB with shared provenance; memory wins over CS",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4162_suite.js",
+   "name": "Bill of Rights and bare amendment civics from packs; no phone dump",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4128_suite.js",
+   "name": "invent compose prefer hosted shared knowledge; speech names it",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4128_suite.js",
+   "name": "user memory wins; scrapbook empty; CREATE never auto-writes",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4127_suite.js",
+   "name": "invent compose prefer confirmed_shared",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4127_suite.js",
+   "name": "memory wins over confirmed_shared; scrapbook empty",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4127_suite.js",
+   "name": "CREATE COMPOSE SIMULATE no auto-write confirmed_shared",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4126_suite.js",
+   "name": "UNSUPPORTED and dead-end turns show a gentle next-step redirect",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4126_suite.js",
+   "name": "non-negotiables stay reachable: gates, packet export, Audit, Ideas tap, Remember, invent/compose/suppose, Clear starter, Import",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4125_suite.js",
+   "name": "a valid pack admits confirmed anchors and leaves starter and remembered facts in place",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4125_suite.js",
+   "name": "a contested import stays held until a tap admits it",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4125_suite.js",
+   "name": "invent and compose use a newly admitted import anchor",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4125_suite.js",
+   "name": "create compose and simulate do not store confirmed facts and Clear starter still works",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4124_suite.js",
+   "name": "a cleared starter leaves invent unbound and an installed starter anchors invent",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4124_suite.js",
+   "name": "compose uses starter anchors and names starter pack provenance",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4124_suite.js",
+   "name": "Clear starter knowledge restores unbound invent and does not write memory or shared knowledge",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4124_suite.js",
+   "name": "Audit and the starter view name starter_pack and creative paths do not store confirmed facts",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4123_suite.js",
+   "name": "a projectable idea expands beyond the claim into roles, anchors, and a lexicon gloss",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4123_suite.js",
+   "name": "compose phrases still route to COMPOSE and each one expands the same idea",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4123_suite.js",
+   "name": "a quarantine idea expands and stays non-projectable",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4123_suite.js",
+   "name": "compose refusals stay commit_without_proposal, novelty_unbound, drift_hard, and language_unexpressible",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4123_suite.js",
+   "name": "compose that meaning expands the selected clause and does not store",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4123_suite.js",
+   "name": "an Echo miss blocks the expansion and stores nothing",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "a suppose story opens an isolated simulation and does not write the world",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "continuing the branch keeps the same simulation and the claim stays speculative",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "parking or ending the branch uses dream quarantine and does not write the world",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "a world-write attempt is refused and the world head stays",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "an unbound novelty spoken as a discovery is refused",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "commit the branch with no simulation is commit_without_proposal",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "an Echo miss blocks the simulation and stores nothing",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4122_suite.js",
+   "name": "a syllogism Suppose, a bare Suppose, and a dynamics what-if stay on their routes",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4121_suite.js",
+   "name": "compose that idea with no proposal is COMPOSE and refuses commit_without_proposal",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4121_suite.js",
+   "name": "a projectable idea composes to a multi-sentence paragraph that exact-Echoes and a tap still commits the record only",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4121_suite.js",
+   "name": "a quarantine idea stays a speculative branch when written out and a tap still refuses it",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4121_suite.js",
+   "name": "an unbound novelty spoken as a discovery is refused",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4121_suite.js",
+   "name": "an empty claim is language_unexpressible and an Echo miss blocks the paragraph",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4121_suite.js",
+   "name": "compose that meaning narrates the selected MSM and does not open an idea record",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4121_suite.js",
+   "name": "CREATE, EXPLORE, READ, PROPOSE_EVIDENCE, and SIMULATE stay on their own intents",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4120_suite.js",
+   "name": "an unanchored invent is CREATE and refuses an unbound novelty",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4120_suite.js",
+   "name": "a projectable hypothesis is CREATE and a tap commits the idea record only",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4120_suite.js",
+   "name": "explore alternatives speaks a quarantine idea and a tap does not store it",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4120_suite.js",
+   "name": "a hard drift seal is refused and a seal without a proposal is refused",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4120_suite.js",
+   "name": "explore ideas stays PROPOSE_EVIDENCE and a question about an idea stays READ",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4119_suite.js",
+   "name": "a memory resurrect is a proposal and does not write memory, the world head, or the shared KB",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4119_suite.js",
+   "name": "a separate commit tap is the only resurrection store",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4119_suite.js",
+   "name": "a resurrection phrase stages a proposal and still does not write",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4119_suite.js",
+   "name": "a must_archive turn names the route on inspect and writes nothing",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4119_suite.js",
+   "name": "dream, phrase, and quarantine turns do not silently write past echo",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4118_suite.js",
+   "name": "echo false rates on recorded surfaces stay research-only",
+   "suite_retired": false,
+   "why": "measured the old JS kernel Echo through Kernel.process (deleted); the math-honesty echo section now reports itself retired with no rates."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "misplaced keys, bandaged wound, preheated oven, unplugged kettle, and marinated tofu are acknowledged",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "the room smells of bread uses the of-frame and adds no smell concept",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "bandage the wound is understood and blocked, with the frame and no write",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "a bandage noun is not the verb concept",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "remember, who, and did answer from the bandaged-wound fact",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "a recognized preheat frame does not approve a changed Echo",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "defrost, reheat, and recycle stay on their existing stems",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4116_suite.js",
+   "name": "the trace and the receipt show the concept and frame ids",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4115_suite.js",
+   "name": "an exported packet and a failure receipt verify offline, and a forged echo claim fails",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4114_suite.js",
+   "name": "the 13th preservation class is on action, simulation, and observation records, and not on a greeting or a remember",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4114_suite.js",
+   "name": "live MSM-v1 records follow the 35C law, strict 35D bytes, and trace.msm only cites their ids",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4113_suite.js",
+   "name": "a remember, a recall, a gloss, a calculation, and a blocked action are five different categories",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4113_suite.js",
+   "name": "a lookup stays evidence, a denied lookup is not a found source, and presence is not support",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4113_suite.js",
+   "name": "Audit, Memory, and the vault name the categories, and a real lookup does not fill a store",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4113_suite.js",
+   "name": "a greeting, a dream, and an Echo failure do not become a stored belief",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4112_suite.js",
+   "name": "Doc 6 names an ambiguity, an unsupported turn, and an action that was understood but blocked",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4112_suite.js",
+   "name": "a spoken answer, a greeting, a dream, an Echo failure, and a quarantine are not painted as Doc 6 gates",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4112_suite.js",
+   "name": "every route that was not selected is on the packet with its recorded reason",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4112_suite.js",
+   "name": "Ask Forge and Audit show the Doc 6 state and the not-selected reasons, not a menu",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "a spoken remember exports one answer packet and the same packet opens again",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "an Echo failure is an echo_fail receipt and stores nothing",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "a derivation failure is language_unexpressible, not an echo failure",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "quarantine and a χ re-route are different receipt types",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "gate refusals keep their spoken sentence and a subtype",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "one command exports an earlier turn, success or failure",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "the forge spine id is on the packet, and a secret never is",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "Ask Forge and Audit open a receipt and export the same packet",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4111_suite.js",
+   "name": "a spoken dream stays an answer packet on the dream route",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4110_suite.js",
+   "name": "guards: physics, remember, the 0.35 write law, and an empty shared KB",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4109_suite.js",
+   "name": "a turn cites the operator versions that ran",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4109_suite.js",
+   "name": "guards: the 144 Hz propose, a remember, and the 0.35 write law",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4108_suite.js",
+   "name": "propose after the tap continues the same problem and does not apply a grammar cell",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4108_suite.js",
+   "name": "guard: the no-tap second propose is still the 4.9.104 proposal",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4108_suite.js",
+   "name": "guard: a remember is still REQUEST_COMMIT",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4107_suite.js",
+   "name": "a projectable research answer is a candidate until remember",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4107_suite.js",
+   "name": "a contested research claim is held, inspectable, and stored only by a tap",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4107_suite.js",
+   "name": "guards: physics, dream quarantine, remember, and no Christ function",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4104_suite.js",
+   "name": "propose problem physics speaks the bounded hypothesis and parks the rest",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4104_suite.js",
+   "name": "an unknown problem proposes nothing and archives nothing",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4104_suite.js",
+   "name": "show problem and show the proposals stay on their own paths",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4104_suite.js",
+   "name": "a tap is still required; the propose does not commit",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r4104_suite.js",
+   "name": "guard: a remember is still REQUEST_COMMIT and the reply is unchanged",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "reference: bare that resolves to the one singular antecedent",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "reference: where-question keeps the one answerable this",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "reference: two answerable demonstratives still ask",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "reference: that-complement and that-relative stay clauses",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "order: an earlier year is before a later year, and nothing is stored for it",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "order: a later year is not before an earlier year",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "order: the same year does not invent an order",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r498_suite.js",
+   "name": "interval: from-year to-year answers how long and is a world span",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r497_suite.js",
+   "name": "intake: a projectable research reply is offered, never stored",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "r497_suite.js",
+   "name": "intake: a contested research claim is held for a tap and still not stored",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "6a: \"square root of 4536\" returns √4536 ≈ 67.349833 with its full trace (derivation rules, phases, Echo, MSM, receipt); no tool, no egress",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "6b: \"What is the first amendment?\" cites only the matching article; the Twenty-first Amendment and the audit article are rejected (SUBJECT_MISMATCH), never cited",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "6b + 5: the first-amendment answer claims no agreement from ranked counts: \"K agree, M disagree, N unusable\" over origins (one Wikimedia origin)",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "6c: a question with no curated coverage (every curated archive silent) shows open_fallback provenance in the meaning and the reply",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "4: when every source mismatches the subject, nothing is answered: the typed limitation SUBJECT_MISMATCH is the reply; no excerpt is quoted",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "5: the reply never says \"N independent ranked sources\" with N above the agreeing origins; support.n equals agreement.agree on every evidence answer",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "6d: across a session (chat, math, research start + result, feed start + result), no displayed label is \"network: no\" on a turn whose tool performed egress",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "answer entity end to end: \"who invented the telephone?\" cites the Bell article with its verbatim span (telephone + Bell) and never an unrelated Bell article",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "unsupported claim: when no source has a verbatim span stating the answer, the reply states \"Unsupported: <claim> (no verbatim span in any source)\" and never presents it as the answer",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "subject_suite.js",
+   "name": "unsupported claim: with one supporting source the answer stands and the unsupported citation stays visible, marked unsupported, outside the agreement count",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "entity_suite.js",
+   "name": "entity (2) end to end: \"What is the first amendment?\" answers with the verbatim definitional sentence of the First Amendment article (not \"related passages\"); the mismatched articles stay set aside",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "evhonest_suite.js",
+   "name": "EGRESS: the turn that starts research.web labels \"kernel network: none\" and \"tool egress: research.web · external\"; no \"network\" flag remains",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "evhonest_suite.js",
+   "name": "EGRESS: on every turn with a tool fetch (start turn and evidence turn, success or failure) no label reads as \"nothing left the device\"",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "evhonest_suite.js",
+   "name": "EGRESS: each Tool Bench manifest maps to its locus (network effect → external, else on-device); a turn with no tool says \"tool egress: none\"",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "evhonest_suite.js",
+   "name": "TIERS: every source of a mixed evidence answer has a tier, the summary counts are right, and the reply shows the tier beside each source plus the summary line",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "evhonest_suite.js",
+   "name": "TIERS: a fallback-only answer shows the fallback visibly (summary flag, reply text, rendered card)",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "evhonest_suite.js",
+   "name": "ENTAIL: a cited source whose excerpt has no span with the key content is marked unsupported in the output; a supporting span is verbatim",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "evhonest_suite.js",
+   "name": "ENTAIL: deterministic (same input → same report); provenance.js is pure; spans and reports never enter memory, facts or the persisted trace",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "honesty_suite.js",
+   "name": "a research.web turn (started turn and result turn) reads \"kernel network: none\" + \"tool egress: research.web · external\"; no label reads as \"nothing left the device\"",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "honesty_suite.js",
+   "name": "every network tool (feed.read, capture.page) is \"external\" on both its turns; an on-device tool says \"on-device\"; a plain turn says \"tool egress: none\"",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "honesty_suite.js",
+   "name": "end to end: a Wikipedia-only answer shows the fallback visibly (tier beside the source, summary line, \"fallback only\"); every source in the meaning has a tier",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "honesty_suite.js",
+   "name": "end to end: a cited passage that does not state the answer is marked unsupported; a supported answer carries its verbatim span",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "honesty_suite.js",
+   "name": "unsupported evidence never counts toward support; the lookup answer is still never stored as a fact (evidence sealed in the vault only)",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  },
+  {
+   "suite": "archives_suite.js",
+   "name": "end to end: a made-of question about a compound is answered from the curated chemistry archive, verbatim, with its tier and its source URL; nothing is stored as a fact and no kb table is reached",
+   "suite_retired": false,
+   "why": "drove the old JS answer path (Kernel.process / ForgeKernel.process), deleted in 4.9.215 (Release C4, Nic approved); Ask runs the Python engine (rmc_core), which has its own suites."
+  }
+ ]
+}

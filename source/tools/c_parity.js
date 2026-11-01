@@ -1,9 +1,9 @@
 /* c_parity.js (4.9.212, Release C1–C3): behaviour parity for the kernel.js extraction.
- * A fixed transcript runs through the old language-core kernel (ForgeKernel → Kernel) with a fixed clock and an in-memory
- * store, and exercises every API that moved: the store (generations, layered TX/case store), receipts and the audit chain,
+ * With a fixed clock and an in-memory store it exercises every API that moved (4.9.215: forge.process and its transcript are
+ * deleted with the old JS answer path, so only APIs that still exist are called): the store (generations, layered TX/case store), receipts and the audit chain,
  * the starter / import / shared-knowledge views, the MEA panels, and derive / reparse. The output is canonical JSON with
  * hashes, so the same behaviour gives the same bytes (the random device id and the ledger keyed by it are not compared). usage: node tools/c_parity.js [SRC_DIR] > out.json
- * The recorded 4.9.211 output (before any move) is data/c_parity_211.json; verify/r4212_suite.js compares against it. No LLM. */
+ * The recorded 4.9.211 output (before any move; re-recorded in 4.9.215 from the 4.9.211 source with this trimmed tool) is data/c_parity_211.json; verify/r4212_suite.js compares against it. No LLM. */
 const path = require('path'), fs = require('fs'), crypto = require('crypto');
 const ROOT = path.join(__dirname, '..');
 const SRC = path.resolve(process.argv[2] || path.join(ROOT, 'src'));
@@ -17,12 +17,15 @@ function run() {
   const mem = {}; const backend = { get: k => (Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null), set: (k, v) => { mem[k] = String(v); }, del: k => { delete mem[k]; }, keys: () => Object.keys(mem) };
   const st = KMOD.MemoryStore(backend);
   const f = FK.ForgeKernel({ store: st, lexicon: LEX, lexiconExt: EXT, clock: CLOCK });
-  const T = ['hello', 'remember that my car is red', 'what color is my car?', 'is my car red?', 'remember that my sister lives in Paris', 'where does my sister live?',
-    'note: buy milk', 'a robin is a bird', 'is a robin an animal?', 'what is 17 times 23?', 'forget that my car is red', 'what color is my car?', 'help', 'what do you know about me?',
-    'my password is hunter2', 'if it rains then the grass is wet', 'it rains', 'is the grass wet?', 'who are you?', 'what can you do?',
-    'I saw the man with the telescope', '1', 'remember that the bank is near the river', 'where is the bank?', 'the old man the boats', 'remember that Anna bought a new car', 'what did Anna buy?', 'remember that my dog chased a cat', 'who chased the cat?', '2'];
-  out.turns = T.map(t => { const r = safe(() => f.process(t)); return { t, reply: r && r.reply, blocked: r && r.blocked, outcome: r && r.outcome && r.outcome.class, kind: r && r.trace && r.trace.msm && r.trace.msm.meaning && r.trace.msm.meaning.kind, trace: h(r && r.trace && Object.assign({}, r.trace, { timing: undefined })) }; });
+  /* 4.9.215 (C4): forge.process (the old JS answer path) is deleted, so the transcript is gone. The store, receipts and MEA/pack
+   * checks below run on a seeded store instead; the receipt chain is built with forge_spine.stableIdentifier exactly as kaudit does. */
+  const SP = require(path.join(SRC, 'forge_spine.js')); const rs = []; let prev = null;
+  for (let i = 1; i <= 5; i++) { const body = { at: '2026-10-31T20:0' + i + ':00Z', echo: 'pass', eligibility: 'eligible', input_event: 'ie:' + i, msm_manifest: 'msm:' + i, output_sha256: null, previous_receipt: prev, request_contract: null, states: ['received', 'answered'], turn: i };
+    const rec = Object.assign({ receipt_id: SP.stableIdentifier('aiweb.forge-mobile.receipt', body) }, body); rs.push(rec); prev = rec.receipt_id; }
+  st.save('receipts', rs);
+  st.save('memory', [{ id: 'm1', kind: 'note', status: 'active', text: 'buy milk', created: '2026-10-31T20:00:00Z' }]);
   out.receipts = h(f.receipts()); out.audit = f.verifyAudit();
+  { const bad = st.load('receipts'); bad[2].turn = 99; st.save('receipts', bad); out.audit_tampered = f.verifyAudit(); st.save('receipts', rs); }
   // store
   out.generation = st.generation(); out.categories = h(st.categories); out.allStores = h(st.allStores);
   const sg = st.stageGeneration({ memory: st.load('memory') }); out.stage = { from: sg.from, to: sg.to, bad: sg.bad, n: sg.names.length };
@@ -37,7 +40,6 @@ function run() {
   const pack = fs.readFileSync(ROOT + '/packs/confirmed_shared/a.json', 'utf8');
   out.cs_untapped = h(f.admitConfirmedShared(pack, { userTap: false, productCurator: false })); out.cs_pull = h(f.pullHostedSharedPack(pack));
   out.shared = h(f.sharedKnowledgeView()); out.confirmedShared = h(f.confirmedSharedView()); out.writeKey = h(f.setSharedKbWriteKey('short'));
-  out.after_pack = safe(() => f.process('is a robin an animal?').reply);
   out.clearImport = h(f.clearImportPack()); out.clearShared = h(f.clearConfirmedShared()); out.clearStarter = h(f.clearStarterKnowledge());
   // MEA panels
   out.meaCandidates = h(safe(() => f.meaCandidates())); out.meaCandidatesK = h(safe(() => f.meaCandidatesK())); out.meaMetaK = h(safe(() => f.meaMetaK()));

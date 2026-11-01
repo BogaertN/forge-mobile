@@ -17,7 +17,8 @@ T('derive and reparse live in panini_wording.js next to grammar.js; the kernel n
   for (const n of ['reparseClause', 'reparseClause0', 'economy', 'givenCompound', 'canonPred', 'canonNPs']) {
     expect(new RegExp('function ' + n + '\\(').test(mod), 'module defines ' + n); expect(!new RegExp('function ' + n + '\\(').test(src), 'kernel still defines ' + n); }
   expect(/G\.Parser\(content\(toks\)/.test(mod) && /\.Wording\(\{/.test(src) && typeof require(ROOT + '/src/panini_wording.js').Wording === 'function', 'wiring');
-  expect(!/\blet (rsIn|heldNow)\b/.test(src) && /resetTurnState\(\)/.test(src), 'per-turn derivation state moved with derive');
+  /* 4.9.215 (C4): the kernel's only resetTurnState() call was in the deleted old answer path; the state itself stays in the module. */
+  expect(!/\blet (rsIn|heldNow)\b/.test(src) && /function resetTurnState\(/.test(mod), 'per-turn derivation state moved with derive');
 });
 T('the kernel API for derive and reparse is unchanged', () => {
   const K = require(ROOT + '/src/kernel.js'); const LEX = require(ROOT + '/data/lexicon.json'), EXT = require(ROOT + '/data/lexicon-ext.json');
@@ -36,7 +37,8 @@ T('no behaviour change: the parity transcript equals the 4.9.211 record byte for
   const now = cp.execFileSync(process.execPath, [path.join(ROOT, 'tools', 'c_parity.js')], { encoding: 'utf8', maxBuffer: 1 << 26 });
   const rec = read('data/c_parity_211.json');
   if (now !== rec) { const a = JSON.parse(now), b = JSON.parse(rec); throw new Error('differs: ' + Object.keys(b).filter(k => JSON.stringify(a[k]) !== JSON.stringify(b[k])).join(',')); }
-  expect(JSON.parse(rec).turns.some(t => t.kind === 'clarify_readings'), 'the record includes a clarification turn');
+  /* 4.9.215 (C4): the transcript (and its clarification turn) went with forge.process; derive and reparse are still compared. */
+  expect(Array.isArray(JSON.parse(rec).derive) && JSON.parse(rec).reparse.length === 6, 'the record compares derive and reparse');
 });
 T('the cold 60 for 4.9.214 is recorded (not tuned)', () => {
   const c = JSON.parse(read('data/cold_214_results.json'));

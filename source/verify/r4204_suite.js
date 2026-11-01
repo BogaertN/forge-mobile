@@ -155,7 +155,7 @@ T('the card, the migration, and the suite run are in place', () => {
   const ci = fs.readFileSync(path.join(ROOT, '..', '.github', 'workflows', 'test.yml'), 'utf8');
   expect((ci.match(/r4204_suite\.js/g) || []).length >= 3, 'suite x3');
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const cfg = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'frequency_204_config.py'), 'utf8');
   expect(/awaiting Nic/.test(cfg) && /ZETA = 0.12/.test(cfg) && /BETA = 2.2/.test(cfg) && /Not FHRR/.test(cfg), 'config');
 });

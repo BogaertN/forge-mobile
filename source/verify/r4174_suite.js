@@ -77,47 +77,7 @@ T('Ask research evidence becomes an Athena gap with curated extracts and a crawl
   expect(bare.claim == null && !(bare.extracts || []).length, 'letter hole stays empty');
 });
 
-T('after a lawful admit Ask recalls the taught method from hosted knowledge', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  k.setSharedKbWriteKey(KEY);
-  const w = D.createIdleDream({ clock: CLOCK, host: k, writeKey: KEY, publishPacks: false, research: D.curatedResearch });
-  const bridged = D.bridgeAskEvidence({ question: 'How do lightbulbs work', input: 'How do lightbulbs work', meaning: { kind: 'research_answer', generated: { text: METHOD, drift: 0.08 }, excerpt: METHOD } });
-  w.enqueue([bridged.gap]);
-  const step = w.tick({ answering: false });
-  expect(step.lane === 'promote_candidate' && step.wrote_confirmed_shared === true && step.rule === 'DREAM-BACKEND-FILL', JSON.stringify({ lane: step.lane, rule: step.rule, wrote: step.wrote_confirmed_shared }));
-  expect(k.sharedKnowledgeView().count === 1 && phoneFacts(k).length === 0, 'one hosted row');
-  const ask = k.process('How do lightbulbs work?');
-  expect(ask.trace.echo && ask.trace.echo.pass, 'echo ' + (ask.trace.echo && ask.trace.echo.reason));
-  expect(rulesOf(ask).includes('CS-RECALL-MANNER'), rulesOf(ask).join(','));
-  expect(!rulesOf(ask).includes('AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST'), 'no second research');
-  expect(ask.trace.msm.meaning.kind === 'recall' && /filament|heating/i.test(ask.reply || '') && /shared knowledge/i.test(ask.reply || ''), ask.reply);
-  expect(k.memory().length === 0, 'memory');
-});
 
-T('a how-method question with a Wikipedia-class source is a research answer, not a gate refusal', async () => {
-  const pages = {
-    'Light bulb': { title: 'Light bulb', extract: 'A light bulb is an electric lamp that produces light from electricity.\nIncandescent bulbs produce light by heating a filament until it glows.', description: 'electric lamp' },
-    'Incandescent light bulb': { title: 'Incandescent light bulb', extract: 'An incandescent light bulb is an electric light with a wire filament heated until it glows.\nThe filament is heated by passing an electric current through it until the metal glows.', description: 'electric lamp' }
-  };
-  const st = {};
-  const store = KMOD.MemoryStore({ get: k => st[k], set: (k, v) => { st[k] = v; } });
-  const f = FK.ForgeKernel({ clock: CLOCK, lexicon: LEX, lexiconExt: EXT, store, vaultIterations: 1000, fetch: wiki(pages) });
-  await f.vault.setup('correct horse');
-  await f.vault.unlock('correct horse');
-  f.clearStarterKnowledge();
-  const started = f.process('How do lightbulbs work?');
-  expect(started.trace.msm.meaning.kind === 'tool_started' && started.trace.msm.meaning.tool === 'research.web', started.reply);
-  const t = await started.toolJob;
-  const m = t.trace.msm.meaning;
-  expect(m.kind === 'research_answer' && t.trace.outcome.category !== 'NO_LAWFUL_CANDIDATE', JSON.stringify({ kind: m.kind, cat: t.trace.outcome.category, reply: t.reply }));
-  expect(t.trace.echo && t.trace.echo.pass, t.trace.echo && t.trace.echo.reason);
-  expect(/heating a filament|heated by passing/i.test(t.reply || ''), t.reply);
-  expect(!/No source described the method/i.test(t.reply || ''), t.reply);
-  expect(f.memory().length === 0 && t.trace.msm.limits.may_write_memory === false, 'evidence is not memory');
-  const bridged = D.bridgeAskEvidence(t);
-  expect(bridged.ok === true && bridged.gap.extracts[0].source === 'curated' && /filament/i.test(bridged.gap.claim), JSON.stringify(bridged));
-});
 
 T('unmeasured quarantine stays Gilligan custody and a promoteable cold row uses the write key', () => {
   const k = mk();
@@ -164,7 +124,7 @@ T('no LLM, always on, packs gated, and the portable file still leaves the mesh o
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.174', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.174/.test(conf) && /learning pipeline/.test(conf) && /Gilligan Codex/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -172,9 +132,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.174', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.174/.test(readme) && /[Ll]earning pipeline/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.214' && (((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.215' && (((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.214' && reg.features.some(f => f.id === 'R4174-LEARNING-LOOP'), reg.version);
+  expect(reg.version === '4.9.215' && reg.features.some(f => f.id === 'R4174-LEARNING-LOOP'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 334, 'count ' + reg.count);
 });
 

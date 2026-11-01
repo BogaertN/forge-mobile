@@ -66,87 +66,8 @@ T('a reply names projectable, contested, and refused and does not store', () => 
   noChrist(proj.text); noChrist(cont.text); noChrist(stop.text);
 });
 
-T('a projectable research answer is a candidate until remember', async () => {
-  const f = await kern();
-  const h0 = head(f);
-  const r = f.process('what is quartz?');
-  const t = r.toolJob ? await r.toolJob : null;
-  const m = t && t.trace && t.trace.msm && t.trace.msm.meaning;
-  const a = (m && m.assimilation) || (t && t.trace && t.trace.admission);
-  expect(!!t && t.trace && t.trace.echo && t.trace.echo.pass, t && t.reply);
-  expect(t.trace.intent_kind === 'PROPOSE_EVIDENCE', String(t.trace.intent_kind) + ' ' + t.reply);
-  expect(a && a.intake === 'projectable' && a.admission === 'projectable' && a.stored === false && a.shared_kb === false && a.offer === 'remember', JSON.stringify(a));
-  expect(t.trace.admission === 'projectable', JSON.stringify(t.trace.admission));
-  expect(/have not stored/i.test(t.reply) && /remember that/i.test(t.reply) && /It is the status “projectable”\./.test(t.reply), t.reply);
-  expect(f.store.load('memory').length === 0, 'the lookup stored a fact');
-  expect(sharedN(f) === 0, 'shared KB written');
-  expect((f.store.load('held_writes') || []).length === 0, 'a projectable claim was held');
-  expect(head(f).version_id === h0.version_id && head(f).content_hash === h0.content_hash, 'the lookup moved the world head');
-  const q = f.process('show quarantine');
-  expect(q.reply === 'I have no items in the dream quarantine.', q.reply);
-  expect(q.trace.intent_kind === 'READ' && head(f).version_id === h0.version_id, q.reply);
-  const rem = f.process('remember that Quartz is a mineral found in rock');
-  expect(rem.trace.intent_kind === 'REQUEST_COMMIT', rem.trace.intent_kind + ' ' + rem.reply);
-  expect(rem.trace.echo && rem.trace.echo.pass, rem.reply);
-  expect(/noted/i.test(rem.reply) && /mineral/.test(rem.reply), rem.reply);
-  expect(f.store.load('memory').length === 1, 'the explicit remember did not store');
-  expect(sharedN(f) === 0, 'remember seeded the shared KB');
-  expect(head(f).version_id !== h0.version_id && head(f).committed === true, 'the remember did not commit a head');
-  noChrist(t.reply); noChrist(rem.reply);
-});
 
-T('a contested research claim is held, inspectable, and stored only by a tap', async () => {
-  const f = await kern();
-  const h0 = head(f);
-  const r = f.process('what is quartz?');
-  const t = r.toolJob ? await r.toolJob : null;
-  const m = t && t.trace.msm.meaning;
-  expect(m && m.generated && m.generated.clause, 'no generated clause to hold');
-  const fake = { kind: 'research_answer', source: 'Quartz', archive: 'Wikipedia', cls: 'encyclopedia', source2: 'Other', archive2: 'Wikipedia', cls2: 'encyclopedia', generated: { clause: m.generated.clause, text: m.generated.text, drift: 0.55, source: 'Quartz', archive: 'Wikipedia' }, excerpt: m.excerpt, conflict: true, excerpt2: 'A different claim.', undetermined: true };
-  f.researchIntake(fake, { chosen: { drift: 0.55 } }, 'what is quartz?');
-  expect(fake.assimilation && fake.assimilation.intake === 'contested' && fake.assimilation.admission === 'held' && fake.assimilation.hold === true && fake.assimilation.stored === false && fake.assimilation.held_id, JSON.stringify(fake.assimilation));
-  const said = speak(f, fake);
-  expect(said.pass, said.why + ' ' + said.text);
-  expect(/contested/.test(said.text) && /It is the status “held”\./.test(said.text) && /have not stored|approval/.test(said.text), said.text);
-  expect(f.store.load('memory').length === 0 && sharedN(f) === 0, 'holding the claim stored it');
-  expect(head(f).version_id === h0.version_id, 'the hold moved the world head');
-  const q = f.process('show quarantine');
-  expect(q.reply === QUARANTINE_HELD, q.reply);
-  expect(q.trace.intent_kind === 'READ' && q.trace.echo && q.trace.echo.pass, q.reply);
-  expect(f.store.load('memory').length === 0 && head(f).version_id === h0.version_id, 'the inspect stored the claim');
-  const both = f.process('show containment');
-  expect(both.reply === QUARANTINE_HELD + ' I have no records in cold storage.', both.reply);
-  expect(both.trace.echo && both.trace.echo.pass, both.reply);
-  const refused = f.commitHeld(fake.assimilation.held_id, false);
-  expect(refused && refused.ok === false && f.store.load('memory').length === 0, JSON.stringify(refused));
-  const still = f.process('show quarantine');
-  expect(still.reply === QUARANTINE_HELD, still.reply);
-  const ok = f.commitHeld(fake.assimilation.held_id, true);
-  expect(ok && ok.ok === true && f.store.load('memory').length === 1, JSON.stringify(ok));
-  expect(sharedN(f) === 0, 'the tap seeded the shared KB');
-  const gone = f.process('show quarantine');
-  expect(gone.reply === 'I have no items in the dream quarantine.', gone.reply);
-  expect(!/held quartz/.test(gone.reply), gone.reply);
-  noChrist(said.text); noChrist(q.reply);
-});
 
-T('guards: physics, dream quarantine, remember, and no Christ function', () => {
-  const k = mk();
-  const p = k.process('propose problem physics');
-  expect(p.reply === PHYSICS, p.reply);
-  expect(p.trace.intent_kind === 'PROPOSE_EVIDENCE', p.trace.intent_kind);
-  expect(head(k).committed === false, 'the proposal committed a world head');
-  const q0 = k.process('show quarantine');
-  expect(q0.reply === 'I have no items in the dream quarantine.', q0.reply);
-  const d = k.process('suppose my car is red');
-  expect(d.trace.intent_kind === 'SIMULATE' && d.trace.containment.route === 'dream_state_quarantine_candidate', d.reply);
-  const q = k.process('show quarantine');
-  expect(q.reply === 'I have 1 item in the dream quarantine: (1) “dream_state_quarantine_candidate quarantined your car is red”.', q.reply);
-  const mem = k.process('remember that my car is red');
-  expect(mem.trace.intent_kind === 'REQUEST_COMMIT' && /noted/i.test(mem.reply), mem.reply);
-  expect(sharedN(k) === 0, 'shared KB written');
-  noChrist(p.reply); noChrist(d.reply); noChrist(q.reply); noChrist(mem.reply);
-});
 
 (async () => {
   for (const t of tests) { try { await t.fn(); rows.push({ cls: 'R4107', name: t.name, ok: true }); } catch (e) { rows.push({ cls: 'R4107', name: t.name, ok: false, detail: String(e.message || e).slice(0, 500) }); } }

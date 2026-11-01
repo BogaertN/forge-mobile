@@ -64,61 +64,8 @@ T('MemoryStore.save: huge trace under QuotaExceeded never throws; shrinks / soft
   expect(Array.isArray(store.load('trace')), 'load after soft');
 });
 
-T('process under full-storage backend: reply completes; no uncaught QuotaExceeded', () => {
-  const be = quotaBackend(120 * 1024);
-  const store = mkStore(be);
-  /* pre-seed a large but fitting soft payload so the next turn's fat trace hits quota */
-  store.save('trace', Array.from({ length: 30 }, (_, i) => ({ turn: i, input: 'seed ' + i, fat: 'S'.repeat(2500), rules: [{ id: 'SEED', doc: 'd'.repeat(300) }], turn_packet: { x: 't'.repeat(2000) } })));
-  const k = mk(store);
-  k.clearStarterKnowledge();
-  let threw = null; let r = null;
-  try { r = k.process('What is 2 plus 2?'); } catch (e) { threw = e; }
-  expect(!threw, 'process must not throw: ' + (threw && (threw.name + ' ' + threw.message)));
-  expect(r && typeof r.reply === 'string' && r.reply.length > 0, 'reply present: ' + JSON.stringify(r && r.reply));
-  expect(!(threw && /QuotaExceeded/i.test(String(threw && threw.name))), 'no QuotaExceeded escape');
-  /* force an even tighter limit and another turn */
-  const be2 = quotaBackend(40 * 1024);
-  const store2 = mkStore(be2);
-  store2.save('ui_errors', Array.from({ length: 20 }, (_, i) => ({ at: CLOCK(), msg: 'm'.repeat(800) })));
-  const k2 = mk(store2);
-  k2.clearStarterKnowledge();
-  threw = null; r = null;
-  try { r = k2.process('What is h2s?'); } catch (e) { threw = e; }
-  expect(!threw, 'h2s process under tight quota: ' + (threw && threw.message));
-  expect(r && r.reply, 'h2s reply under tight quota');
-});
 
-T('What is h2s?: exact CS miss → RPMC-ANCESTOR / AUTH-AQ1 research — not canned pack', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  for (const L of ['a', 'b', 'c', 'f', 'h', 's']) expect(k.pullHostedSharedPack(letter(L)).ok, 'pull ' + L);
-  const r = k.process('What is h2s?');
-  const ids = ruleIds(r);
-  /* pathway law: RPMC gather attempt (NONE or CANDIDATES / compose) + AQ-1 lookup — never a canned H2S pack identity */
-  expect(hasRule(r, 'RPMC-ANCESTOR-NONE') || hasRule(r, 'RPMC-ANCESTOR-CANDIDATES') || hasRule(r, 'RSOC-COMPOSE-EVIDENCE'), 'RPMC path ' + ids.join(','));
-  expect(hasRule(r, 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST'), 'AQ-1 research ' + ids.join(','));
-  expect(!hasRule(r, 'CS-COMPOSE-CLASS-ABOUT') && !hasRule(r, 'CS-RESONATE-ANCESTOR') && !hasRule(r, 'CS-RECALL-ABOUT'), 'no CS dump/canned ' + ids.join(','));
-  expect(!/^Hydrogen sulfide is\b/i.test((r.reply || '').trim()), 'no canned H2S lead: ' + r.reply);
-  expect(!/\b(rotten eggs|toxic gas|H₂S)\b/i.test(r.reply || ''), 'no invented H2S substance: ' + r.reply);
-  /* log pathway rule ids for the ship report */
-  const pathway = ids.filter(id => /^(RPMC-|RSOC-|AUTH-AQ1|WM-|CR-)/.test(id));
-  expect(pathway.length >= 2, 'pathway logged ' + pathway.join(','));
-  rows.push({ cls: 'R4166-LOG', name: 'h2s pathway', ok: true, why: 'reply=' + String(r.reply || '').slice(0, 160) + ' | rules=' + pathway.join(',') });
-  expect(phoneEmpty(k) && sharedN(k) === 0 && k.memory().length === 0, 'layers quiet');
-});
 
-T('What is hydrogen sulfide?: same lawful miss path; no subject pack thicken', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  for (const L of ['a', 'h', 's']) expect(k.pullHostedSharedPack(letter(L)).ok, 'pull ' + L);
-  const r = k.process('What is hydrogen sulfide?');
-  const ids = ruleIds(r);
-  expect(hasRule(r, 'AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST'), 'AQ-1 ' + ids.join(','));
-  expect(hasRule(r, 'RPMC-ANCESTOR-NONE') || hasRule(r, 'RPMC-ANCESTOR-CANDIDATES') || hasRule(r, 'RSOC-COMPOSE-EVIDENCE'), 'RPMC ' + ids.join(','));
-  expect(!/^Hydrogen sulfide is\b/i.test((r.reply || '').trim()), 'no canned');
-  expect(!hasRule(r, 'CS-RECALL-ABOUT') && !hasRule(r, 'CS-COMPOSE-CLASS-ABOUT'), 'no pack answer');
-  expect(phoneEmpty(k) && sharedN(k) === 0, 'no dump');
-});
 
 T('store laws: save returns soft rule under impossible quota; Soft cats never rethrow', () => {
   const be = quotaBackend(200);
@@ -134,12 +81,12 @@ T('store laws: save returns soft rule under impossible quota; Soft cats never re
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const reg = JSON.parse(fs.readFileSync(ROOT + '/data/feature_registry.json', 'utf8'));
   expect(reg.version === ver, reg.version);
   for (const id of ['R4166-TRACE-QUOTA', 'R4165-RESONATE-ANCESTOR', 'R4164-GZIP-LEAVE', 'R4163-CIVICS-WH', 'R4128-HOSTED']) {
     const f = reg.features.find(x => x.id === id);
-    expect(f && (f.claim === 'Partial' || f.claim === 'Implemented'), id + ' ' + JSON.stringify(f));
+    expect(f && ((f.claim === 'Partial' || (f.claim === 'Out of scope / parked' && /Retired 4\.9\.215/.test(f.note)) /* 4.9.215 C4: parked when its proof was retired */) || f.claim === 'Implemented'), id + ' ' + JSON.stringify(f));
   }
   const conf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
   expect(/v4\.9\.168/.test(conf) && /v4\.9\.166/.test(conf) && /QuotaExceeded|STORE-QUOTA-SOFT|kernel\.trace/i.test(conf), 'CONFLICTS');
@@ -149,11 +96,11 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.171', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.168/.test(readme) || /4\.9\.166/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(ROOT + '/verify/targeted.json', 'utf8'));
-  expect(tgt.release === '4.9.214' && (((((((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js'), JSON.stringify(tgt));
+  expect(tgt.release === '4.9.215' && (((((((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js' || tgt.suites[0] === 'r4175_suite.js' || tgt.suites[0] === 'r4174_suite.js' || tgt.suites[0] === 'r4173_suite.js') || tgt.suites[0] === 'r4172_suite.js') || tgt.suites[0] === 'r4171_suite.js') || tgt.suites[0] === 'r4170_suite.js' || tgt.suites[0] === 'r4169_suite.js' || tgt.suites[0] === 'r4168_suite.js' || tgt.suites[0] === 'r4167_suite.js') || tgt.suites[0] === 'r4166_suite.js'), JSON.stringify(tgt));
   const req = fs.readFileSync(ROOT + '/src/req_packet.js', 'utf8');
   expect(/4\.9\.16[67]/.test(req) && /R4166/.test(req), 'req_packet');
   const mh = JSON.parse(fs.readFileSync(ROOT + '/research/math_honesty.json', 'utf8'));
-  expect(mh.release === '4.9.214', 'math_honesty ' + mh.release);
+  expect(mh.release === '4.9.215', 'math_honesty ' + mh.release);
   const src = fs.readFileSync(ROOT + '/src/kernel.js', 'utf8') + fs.readFileSync(ROOT + '/src/kstore.js', 'utf8'); /* 4.9.212 C1: the store moved to kstore.js */
   expect(/STORE-QUOTA-SOFT|isQuota|compactTrace/.test(src), 'kernel has quota-safe save');
   const idx = JSON.parse(fs.readFileSync(ROOT + '/packs/confirmed_shared/index.json', 'utf8'));

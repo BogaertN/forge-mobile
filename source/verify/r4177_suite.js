@@ -36,21 +36,6 @@ T('phase parse matches Forge and the word or inside before is not a polarity hit
   expect(FT.parsePhase('How does a bulb produce light', {}, CLOCK).calls_llm === false, 'phase calls a model');
 });
 
-T('hosted recall ranks the filament sentence and refuses a device path and a vector backend', () => {
-  const rec = FT.recallHosted('How does a bulb produce light', ROWS);
-  expect(rec.status === 'OK' && rec.calls_llm === false && rec.network === false && rec.device_filesystem === false, JSON.stringify({ status: rec.status, net: rec.network }));
-  const nodes = rec.memory_state.active_memory_nodes;
-  expect(nodes[0].memory_id === 'cs:bulb' && nodes[0].retrieval_weight === 0.492 && nodes[1].memory_id === 'cs:dog' && nodes[1].retrieval_weight === 0.42, JSON.stringify(nodes.map(n => [n.memory_id, n.retrieval_weight])));
-  const overlap = (nodes[0].retrieval_evidence || []).find(e => e.type === 'semantic_overlap');
-  expect(overlap && overlap.tokens.indexOf('bulb') !== -1 && overlap.tokens.indexOf('light') !== -1, JSON.stringify(overlap));
-  expect((nodes[1].retrieval_evidence || []).every(e => e.type !== 'semantic_overlap'), 'dog overlapped');
-  const disk = FT.recallMemory('bulb', { retrieval_backend: 'filesystem' }, { root: '/home/nic/forge', nodes: FT.nodesFromHosted(ROWS) });
-  expect(disk.ok === false && disk.rule === 'FORGE-DEVICE-PATH-REFUSED' && disk.memory_state.active_memory_count === 0, JSON.stringify(disk));
-  const vector = FT.recallMemory('bulb', { retrieval_backend: 'filesystem', chroma_collection: 'forge_kb' }, { nodes: FT.nodesFromHosted(ROWS) });
-  expect(vector.status === 'BLOCKED' && vector.reason_code === 'FROZEN_LEGACY_VECTOR_CONTROL_PROHIBITED' && vector.calls_llm === false, JSON.stringify(vector));
-  const model = FT.classifyLlm({ enabled: true, model: 'local' });
-  expect(model.status === 'BLOCKED' && model.calls_llm === false && model.reason_code === 'FROZEN_LEGACY_LLM_REQUEST_PROHIBITED', JSON.stringify(model));
-});
 
 T('session search stays on the hosted bank and shell, patch, payment, and vector search are refused', () => {
   const tools = FT.sessionTools(ROWS);
@@ -85,29 +70,10 @@ T('session search stays on the hosted bank and shell, patch, payment, and vector
   expect(/PERM-MARKETPLACE-TRANSFER-NOT-BUILT/.test(gov) && /no network/.test(built) && user && user.network === false, 'user tool or payment');
 });
 
-T('a hosted method sentence answers the pipeline without a fetch', async () => {
-  const k = mk();
-  let fetched = 0;
-  const hit = await PT.researchExcerpt('How does a bulb produce light?', {
-    bank: ROWS,
-    reparse: t => k.reparseClause(t),
-    fetch: () => { fetched += 1; throw new Error('fetch'); }
-  });
-  expect(hit.ok === true && hit.tool === 'recall_memory' && hit.network === false && hit.calls_llm === false && /filament/.test(hit.excerpt || '') && fetched === 0, JSON.stringify({ tool: hit.tool, net: hit.network, excerpt: hit.excerpt, fetched: fetched }));
-  expect(hit.measured && hit.measured.calls_llm === false && hit.measured.claim && /filament/.test(hit.measured.claim), JSON.stringify(hit.measured));
-  const miss = await PT.researchExcerpt('How does a bulb produce light?', {
-    bank: [ROWS[1]],
-    reparse: t => k.reparseClause(t),
-    fetch: () => { fetched += 1; return Promise.reject(new Error('down')); }
-  });
-  expect(miss.tool !== 'recall_memory' && fetched === 1 && miss.calls_llm === false, JSON.stringify({ rule: miss.rule, tool: miss.tool, fetched: fetched }));
-  const open = await PT.researchExcerpt('https://example.com/crawl', { bank: ROWS, fetch: () => { fetched += 1; } });
-  expect(open.ok === false && open.rule === 'RESEARCH-OPEN-CRAWL-REFUSED' && fetched === 1, JSON.stringify(open));
-});
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.177', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.177/.test(conf) && /recall_memory/.test(conf) && /Gilligan Codex/.test(conf) && /Athena document/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -115,9 +81,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.177', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.177/.test(readme) && /hosted/.test(readme) && /recall/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.214' && ((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' && tgt.suites.includes('r4176_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.215' && ((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' && tgt.suites.includes('r4176_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.214' && reg.features.some(f => f.id === 'R4177-FORGE-TOOLS'), reg.version);
+  expect(reg.version === '4.9.215' && reg.features.some(f => f.id === 'R4177-FORGE-TOOLS'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 334, 'count ' + reg.count);
   const inv = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'forge_tool_inventory.json'), 'utf8'));
   expect(inv.release === '4.9.177' && inv.tools.length > 700, 'inventory ' + inv.tools.length);

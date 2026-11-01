@@ -22,92 +22,8 @@ const quiet = (k, h, why) => { expect(!k.memory().length && sharedN(k) === 0 && 
 const forgotten = k => { k.process('remember that my car is red'); k.process('forget that my car is red'); k.process('yes'); return k.cold().slice(-1)[0].id; };
 const PROPOSE = 'I derived a hypothesis “your car is red” from cold storage. I have not stored it. I can only seal it after your confirmation. It is the status “spc_cold_storage_required WARM”.';
 
-T('a memory resurrect is a proposal and does not write memory, the world head, or the shared KB', () => {
-  const k = mk();
-  const id = forgotten(k);
-  const h = head(k);
-  const attempts = k.cold().find(c => c.id === id).resurrection_attempts || 0;
-  const r = k.resurrect(id, true);
-  expect(r.ok === true && r.proposed === true && r.rule === 'RS-PROPOSAL', JSON.stringify(r));
-  expect(!r.readback && !r.record, 'the proposal returned a store receipt');
-  quiet(k, h, 'resurrect wrote ' + JSON.stringify({ mem: k.memory().length, shared: sharedN(k), head: head(k).version_id }));
-  expect((k.cold().find(c => c.id === id).resurrection_attempts || 0) === attempts, 'the proposal spent an attempt');
-  const staged = typeof k.resurrectionProposals === 'function' ? k.resurrectionProposals() : [];
-  expect(staged.some(p => p.id === id && p.status === 'proposed'), JSON.stringify(staged));
-  const cold = mk();
-  cold.perm.setPolicy('forgottenTier', 'COLD', true);
-  const cid = forgotten(cold);
-  const ch = head(cold);
-  const refused = cold.resurrect(cid, true);
-  expect(!refused.ok && refused.proposed !== true && !cold.memory().length && sameHead(cold, ch), JSON.stringify(refused));
-});
 
-T('a separate commit tap is the only resurrection store', () => {
-  const bare = mk();
-  const bid = forgotten(bare);
-  const bh = head(bare);
-  const denied = bare.commitResurrection(bid, true);
-  expect(!denied.ok && denied.rule === 'RS-PROPOSAL-REQUIRED', JSON.stringify(denied));
-  quiet(bare, bh, 'a commit without a proposal wrote');
-  expect((bare.cold().find(c => c.id === bid).resurrection_attempts || 0) === 1, 'a refused commit did not count');
-  const k = mk();
-  const id = forgotten(k);
-  expect(k.resurrect(id, true).proposed === true, 'no proposal');
-  const noTap = k.commitResurrection(id, false);
-  expect(!noTap.ok && noTap.rule === 'PERM-NEEDS-USER-TAP' && !k.memory().length, JSON.stringify(noTap));
-  expect(k.cold().find(c => c.id === id).resurrection_attempts === 1, 'a false tap did not count');
-  const yes = k.commitResurrection(id, true);
-  expect(yes.ok && yes.readback && yes.readback.readback === 'match', JSON.stringify(yes));
-  expect(k.memory().length === 1 && k.memory()[0].resurrected && /ψ′/.test(k.memory()[0].resurrected.note), 'not stored');
-  expect(/red/.test(k.process('what is my car?').reply), 'recall');
-  expect(sharedN(k) === 0, 'shared KB');
-  const twice = k.commitResurrection(id, true);
-  expect(!twice.ok && k.memory().length === 1, JSON.stringify(twice));
-  const clash = mk();
-  clash.process('remember that my car is red');
-  clash.process('remember that my car is blue');
-  clash.process('yes');
-  const old = clash.cold().slice(-1)[0].id;
-  expect(clash.resurrect(old, true).proposed === true, 'conflict row did not propose');
-  const blocked = clash.commitResurrection(old, true);
-  expect(!blocked.ok && blocked.rule === 'RS-CONFLICTS-ACTIVE-FACT' && clash.memory().length === 1, JSON.stringify(blocked));
-  const drift = mk();
-  const did = forgotten(drift);
-  expect(drift.resurrect(did, true).proposed === true);
-  const cs = drift.store.load('cold_storage');
-  cs.find(c => c.id === did).record.sfe.eps = 0.5;
-  drift.store.save('cold_storage', cs);
-  const held = drift.commitResurrection(did, true);
-  expect(!held.ok && held.rule === 'RS-DRIFT-NOT-PROJECTABLE' && !drift.memory().length && sharedN(drift) === 0, JSON.stringify(held));
-  const limit = mk();
-  const lid = forgotten(limit);
-  for (let i = 0; i < 5; i++) expect(!limit.commitResurrection(lid, false).ok);
-  expect(limit.resurrectPreview(lid).decision === 'deep_archive_seal' && !limit.memory().length, 'five false taps did not seal');
-});
 
-T('a resurrection phrase stages a proposal and still does not write', () => {
-  const k = mk();
-  k.process('remember that my car is red');
-  k.process('forget that my car is red');
-  k.process('yes');
-  const id = k.cold()[0].id;
-  const h = head(k);
-  const attempts = k.cold()[0].resurrection_attempts || 0;
-  const a = k.process('resurrect that my car is red');
-  expect(a.reply === PROPOSE, a.reply);
-  expect(a.trace.intent_kind === 'PROPOSE_EVIDENCE', a.trace.intent_kind);
-  expect(a.trace.echo && a.trace.echo.pass && a.trace.language !== 'LANGUAGE_UNEXPRESSIBLE', a.reply);
-  expect(a.trace.containment && a.trace.containment.may_write_memory === false, JSON.stringify(a.trace.containment));
-  expect(!(a.trace.memory || []).length, 'the phrase wrote on the trace');
-  quiet(k, h, 'the phrase wrote');
-  expect((k.cold()[0].resurrection_attempts || 0) === attempts, 'the phrase spent an attempt');
-  const staged = k.resurrectionProposals();
-  expect(staged.some(p => p.id === id && p.status === 'proposed'), JSON.stringify(staged));
-  const back = k.process('bring back that my car is red');
-  expect(back.trace.intent_kind === 'PROPOSE_EVIDENCE' && back.trace.echo.pass && /have not stored it/.test(back.reply) && !k.memory().length && sameHead(k, h), back.reply);
-  const stored = k.commitResurrection(id, true);
-  expect(stored.ok && k.memory().length === 1 && sharedN(k) === 0, JSON.stringify(stored));
-});
 
 T('must_archive is a containment route input after ghost and before dream', () => {
   const R = CT.route;
@@ -124,59 +40,7 @@ T('must_archive is a containment route input after ghost and before dream', () =
   expect(KM.DRIFT_RULING.project_max === 0.35 && KM.DRIFT_RULING.explore_min === 0.4 && KM.DRIFT_RULING.explore_max === 0.8, JSON.stringify(KM.DRIFT_RULING));
 });
 
-T('a must_archive turn names the route on inspect and writes nothing', () => {
-  const off = mk();
-  expect(off.perm.policy().mustArchive === 'off', JSON.stringify(off.perm.policy().mustArchive));
-  expect(off.process('show quarantine').reply === 'I have no items in the dream quarantine.', 'empty quarantine changed');
-  expect(off.process('show cold storage').reply === 'I have no records in cold storage.', 'empty cold storage changed');
-  const k = mk();
-  expect(k.perm.setPolicy('mustArchive', 'on', true).decision === 'allow', 'switch');
-  expect(k.perm.policy().mustArchive === 'on');
-  const h = head(k);
-  const r = k.process('remember that my car is red');
-  expect(r.trace.containment.route === 'spc_cold_storage_required' && r.trace.containment.rules.includes('CR-MUST-ARCHIVE'), JSON.stringify(r.trace.containment));
-  expect(r.trace.intent_kind === 'PROPOSE_EVIDENCE', r.trace.intent_kind + ' ' + r.reply);
-  expect(r.trace.echo && r.trace.echo.pass, r.reply);
-  expect(/must_archive/.test(r.reply), r.reply);
-  expect(!(r.trace.memory || []).length, 'remember wrote on the trace');
-  quiet(k, h, 'must_archive remember wrote');
-  const q = k.process('show quarantine');
-  expect(/^I have no items in the dream quarantine\./.test(q.reply) && /must_archive/.test(q.reply), q.reply);
-  expect(q.trace.echo && q.trace.echo.pass && q.trace.containment.rules.includes('CR-MUST-ARCHIVE'), q.reply);
-  expect(q.trace.containment.route === 'spc_cold_storage_required', q.trace.containment && q.trace.containment.route);
-  quiet(k, h, 'inspect wrote');
-  const d = k.process('suppose my car is red');
-  expect(d.trace.containment.route === 'spc_cold_storage_required' && d.trace.containment.rules.includes('CR-MUST-ARCHIVE'), JSON.stringify(d.trace.containment));
-  expect(d.trace.echo && d.trace.echo.pass && /must_archive/.test(d.reply), d.reply);
-  expect(k.containment.list().dream.length === 0, 'must_archive still opened a dream row');
-  quiet(k, h, 'must_archive dream wrote');
-  const fault = mk({ renderFault: t => t.replace(/noted|stored/g, 'denied') });
-  fault.perm.setPolicy('mustArchive', 'on', true);
-  const g = fault.process('remember that my car is red');
-  expect(g.blocked && g.trace.containment.route === 'ghost_loop_containment_required' && !g.trace.containment.rules.includes('CR-MUST-ARCHIVE'), JSON.stringify(g.trace.containment));
-  expect(!fault.memory().length && sharedN(fault) === 0, 'ghost wrote');
-});
 
-T('dream, phrase, and quarantine turns do not silently write past echo', () => {
-  const k = mk();
-  k.process('remember that my car is blue');
-  const h = head(k);
-  const world = JSON.stringify(k.worldState());
-  const d = k.process('suppose my car is red');
-  expect(d.trace.containment.route === 'dream_state_quarantine_candidate' && d.trace.echo.pass, d.reply);
-  expect(k.memory().length === 1 && sameHead(k, h) && JSON.stringify(k.worldState()) === world && sharedN(k) === 0, 'dream wrote');
-  k.process('forget that my car is blue');
-  k.process('yes');
-  const after = head(k);
-  const phrase = k.process('resurrect that my car is blue');
-  expect(phrase.trace.intent_kind === 'PROPOSE_EVIDENCE' && phrase.trace.echo.pass && !k.memory().length && sameHead(k, after) && sharedN(k) === 0, phrase.reply);
-  const id = k.cold().slice(-1)[0].id;
-  const api = k.resurrect(id, true);
-  expect(api.proposed === true && !k.memory().length && sameHead(k, after) && sharedN(k) === 0, JSON.stringify(api));
-  const list = k.process('show quarantine');
-  expect(list.trace.echo.pass && !k.memory().length && sameHead(k, after) && sharedN(k) === 0, list.reply);
-  expect(!/Christ function/i.test([d.reply, phrase.reply, list.reply].join(' ')), 'christ');
-});
 
 T('product copy refuses hardware SPC and automatic ChristPing and keeps chi as the correction function', () => {
   const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8');

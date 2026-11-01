@@ -151,36 +151,6 @@ function wiki(pages) { const f = u => { u = String(u); const ok = (ct, b) => Pro
 const QUARTZ = { Quartz: 'Quartz is a mineral found in rock.' };
 async function kern(pages) { const f = FK.ForgeKernel({ clock, lexicon: LEX, store: mkStore(), vaultIterations: 1000, fetch: wiki(pages) }); await f.vault.setup('correct horse'); await f.vault.unlock('correct horse'); return f; }
 
-T('intake: a projectable research reply is offered, never stored', async () => {
-  const f = await kern(QUARTZ); const r = f.process('what is quartz?'); const t = r.toolJob ? await r.toolJob : null;
-  const m = t && t.trace && t.trace.msm && t.trace.msm.meaning;
-  const a = (m && m.assimilation) || (t && t.trace && t.trace.research && t.trace.research.assimilation);
-  expect(!!a, 'no assimilation on the research trace: ' + (t && t.reply));
-  expect(a.intake === 'projectable' && a.stored === false && a.shared_kb === false && a.offer === 'remember', JSON.stringify(a));
-  expect(t.trace.echo && t.trace.echo.pass, 'echo blocked the reply: ' + (t && t.reply) + ' ' + JSON.stringify(t && t.trace && t.trace.echo));
-  expect(/have not stored/i.test(t.reply || '') && /remember that/i.test(t.reply || ''), t && t.reply);
-  expect(f.store.load('memory').length === 0, 'live lookup stored a fact');
-  expect((f.store.load('shared_knowledge') || []).length === 0, 'shared KB written');
-  expect((f.store.load('held_writes') || []).length === 0, 'projectable claim was held');
-});
-T('intake: a contested research claim is held for a tap and still not stored', async () => {
-  const f = await kern(QUARTZ); const r = f.process('what is quartz?'); const t = r.toolJob ? await r.toolJob : null;
-  const m = t && t.trace.msm.meaning; expect(m && m.generated && m.generated.clause, 'no generated clause to hold');
-  expect(typeof f.researchIntake === 'function', 'researchIntake missing');
-  const fake = { kind: 'research_answer', generated: { clause: m.generated.clause, text: m.generated.text, drift: 0.55 }, excerpt: m.excerpt, conflict: true, excerpt2: 'A different claim.', undetermined: true };
-  f.researchIntake(fake, { chosen: { drift: 0.55 } }, 'what is quartz?');
-  expect(fake.assimilation && fake.assimilation.intake === 'contested' && fake.assimilation.hold === true && fake.assimilation.stored === false, JSON.stringify(fake.assimilation));
-  expect(fake.assimilation.held_id, 'contested claim was not held');
-  expect(f.store.load('memory').length === 0, 'held claim was stored');
-  expect((f.store.load('shared_knowledge') || []).length === 0, 'shared KB written');
-  const refused = f.commitHeld(fake.assimilation.held_id, false);
-  expect(refused && refused.ok === false, JSON.stringify(refused));
-  expect(f.store.load('memory').length === 0, 'tap-less commit stored it');
-  const ok = f.commitHeld(fake.assimilation.held_id, true);
-  expect(ok && ok.ok === true, JSON.stringify(ok));
-  expect(f.store.load('memory').length === 1, 'user tap did not store');
-  expect((f.store.load('shared_knowledge') || []).length === 0, 'shared KB written on tap');
-});
 
 (async () => {
   let failed = 0;

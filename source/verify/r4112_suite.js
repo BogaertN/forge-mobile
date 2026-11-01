@@ -42,93 +42,9 @@ function routesComplete(r, why) {
   }
 }
 
-T('Doc 6 names an ambiguity, an unsupported turn, and an action that was understood but blocked', () => {
-  needMod();
-  expect(TP.SCHEMA === 'FORGE-TURN-PACKET/v1' && TP.PACKET_VERSION === '4.9.111', 'schema moved ' + (TP && TP.PACKET_VERSION));
-  expect(JSON.stringify(TP.GATE_SUBTYPES) === JSON.stringify(['ambiguity', 'unsupported', 'action_blocked']), JSON.stringify(TP && TP.GATE_SUBTYPES));
-  const buy = mk().process('buy milk');
-  const bp = packetOf(buy);
-  expect(/not authorized/.test(buy.reply) && buy.trace.intent_kind === 'UNSUPPORTED' && bp.receipt_type === 'gate_refusal' && bp.failure.subtype === 'action_blocked', buy.reply + ' ' + JSON.stringify(bp.failure));
-  expect(bp.gate && bp.gate.state === 'action_blocked' && bp.gate.label === 'meaning-understood-but-action-blocked' && bp.gate.intent === 'UNSUPPORTED' && bp.gate.subtype === 'action_blocked', JSON.stringify(bp.gate));
-  const duck = mk().process('I saw her duck');
-  const dp = packetOf(duck);
-  expect(duck.trace.intent_kind === 'CLARIFY' && duck.trace.outcome.category === 'AMBIGUITY_PRESERVED' && dp.failure.subtype === 'ambiguity', duck.reply);
-  expect(dp.gate && dp.gate.state === 'ambiguity' && dp.gate.label === 'ambiguity / clarification-required' && dp.gate.intent === 'CLARIFY' && dp.gate.subtype === 'ambiguity', JSON.stringify(dp.gate));
-  const bad = mk().process('export the proof');
-  const up = packetOf(bad);
-  expect(bad.reply === 'That expression is malformed.' && bad.trace.intent_kind === 'UNSUPPORTED' && up.failure.subtype === 'unsupported', bad.reply + ' ' + (bad.trace.intent_kind || ''));
-  expect(up.gate && up.gate.state === 'unsupported' && up.gate.label === 'unsupported' && up.gate.intent === 'UNSUPPORTED' && up.gate.subtype === 'unsupported', JSON.stringify(up.gate));
-  const it = mk().process('what is it?');
-  const ip = packetOf(it);
-  expect(it.reply && it.trace.intent_kind === 'CLARIFY' && it.trace.outcome.category === 'CLARIFICATION_REQUIRED' && ip.receipt_type === 'answer' && ip.failure == null, it.reply + ' ' + (ip && ip.receipt_type));
-  expect(ip.gate && ip.gate.state === 'clarification-required' && ip.gate.label === 'clarification-required' && ip.gate.intent === 'CLARIFY' && ip.gate.subtype == null, JSON.stringify(ip.gate));
-  const pin = mk().process('my pin is 1234');
-  const pp = packetOf(pin);
-  expect(pin.trace.intent_kind === 'REQUEST_COMMIT' && pp.failure.subtype === 'action_blocked', pin.reply + ' ' + pin.trace.intent_kind);
-  expect(pp.gate && pp.gate.state === 'action_blocked' && pp.gate.label === 'meaning-understood-but-action-blocked' && pp.gate.intent === 'REQUEST_COMMIT', JSON.stringify(pp.gate));
-  expect(!/1234/.test(JSON.stringify(pp)), 'pin leaked');
-  expect(sharedN(mk()) === 0, 'shared KB written');
-});
 
-T('a spoken answer, a greeting, a dream, an Echo failure, and a quarantine are not painted as Doc 6 gates', () => {
-  const remembered = mk().process('remember that my car is red');
-  expect(remembered.reply === 'I noted that your car is red.' && packetOf(remembered).receipt_type === 'answer' && packetOf(remembered).gate == null, JSON.stringify(packetOf(remembered).gate));
-  const hello = mk().process('hello');
-  expect(hello.trace.intent_kind === 'CLARIFY' && packetOf(hello).gate == null && packetOf(hello).receipt_type === 'answer', JSON.stringify(packetOf(hello).gate) + ' ' + hello.trace.intent_kind);
-  const dream = mk().process('Suppose the car is red.');
-  expect(/dream quarantine/.test(dream.reply) && packetOf(dream).receipt_type === 'answer' && packetOf(dream).gate == null && packetOf(dream).containment.route === 'dream_state_quarantine_candidate', dream.reply);
-  const echo = mk({ renderFault: t => t.replace('noted', 'denied') }).process('remember that my car is red');
-  expect(echo.reply == null && packetOf(echo).receipt_type === 'echo_fail' && packetOf(echo).gate == null, JSON.stringify(packetOf(echo).gate));
-  const q = mk({ testDrift: () => 0.5 }).process('hello');
-  expect(q.reply == null && packetOf(q).receipt_type === 'quarantine' && packetOf(q).gate == null, JSON.stringify(packetOf(q).gate));
-  const chi = mk({ testDrift: () => 0.9 }).process('hello');
-  expect(chi.reply && packetOf(chi).receipt_type === 'chi_reroute' && packetOf(chi).gate == null, JSON.stringify(packetOf(chi).gate) + ' ' + chi.reply);
-  expect(M.DRIFT_RULING.project_max === 0.35 && M.DRIFT_RULING.explore_min === 0.4 && M.DRIFT_RULING.explore_max === 0.8, 'drift law moved');
-});
 
-T('every route that was not selected is on the packet with its recorded reason', () => {
-  const buy = mk().process('buy milk');
-  routesComplete(buy, 'buy');
-  const pre = packetOf(buy).not_selected.find(c => c.route === 'world.preflight');
-  expect(pre && pre.status === 'not_applicable' && pre.reason === 'pattern does not apply', JSON.stringify(pre));
-  expect(!packetOf(buy).not_selected.some(c => c.route === buy.trace.selection.winner), 'winner included');
-  const math = mk().process('what is 2 + 3');
-  routesComplete(math, 'math');
-  expect(math.reply === '2 + 3 = 5.' && packetOf(math).receipt_type === 'answer' && packetOf(math).gate == null, math.reply);
-  const skip = packetOf(math).not_selected.find(c => c.route === 'language.core');
-  expect(skip && skip.status === 'not_evaluated' && /not evaluated: outranked by specific route math\.gp014/.test(skip.reason), JSON.stringify(skip));
-  const it = mk().process('what is it?');
-  routesComplete(it, 'it');
-  const lc = packetOf(it).not_selected.find(c => c.route === 'language.core');
-  expect(lc && lc.status === 'not_selected' && /outranked by directive\.frame/.test(lc.reason), JSON.stringify(lc));
-  expect(sharedN(mk()) === 0, 'shared KB written');
-});
 
-T('Ask Forge and Audit show the Doc 6 state and the not-selected reasons, not a menu', () => {
-  needMod();
-  const buy = mk().process('buy milk');
-  const card = TP.receiptCard(packetOf(buy));
-  const summary = summaryOf(card);
-  expect(/data-doc6-state="action_blocked"/.test(card) && /meaning-understood-but-action-blocked/.test(summary), summary);
-  expect(!/pattern does not apply/.test(card) && !/data-route="world\.preflight"/.test(card), card.slice(0, 500));
-  const mathCard = TP.receiptCard(packetOf(mk().process('what is 2 + 3')));
-  expect(/data-route="language\.core"/.test(mathCard) && /not_evaluated/.test(mathCard), mathCard.slice(0, 500));
-  expect(/<details[^>]*open/.test(card), 'reasons are not open');
-  expect(!/<button[^>]*>[^<]*(ambiguity|unsupported|clarification|action)/i.test(card), 'a gate button menu');
-  const duck = TP.receiptCard(packetOf(mk().process('I saw her duck')));
-  expect(/data-doc6-state="ambiguity"/.test(duck) && /ambiguity \/ clarification-required/.test(summaryOf(duck)), summaryOf(duck));
-  const it = TP.receiptCard(packetOf(mk().process('what is it?')));
-  expect(/data-receipt-type="answer"/.test(it) && /data-doc6-state="clarification-required"/.test(it) && /clarification-required/.test(summaryOf(it)), summaryOf(it));
-  const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8');
-  expect(/data-doc6-state/.test(app) && /gate\.state/.test(app) && /gate\.label/.test(app), 'conversation does not render the packet gate');
-  expect(/<span class="tag doc6"/.test(app), 'the conversation state is not a typed label');
-  expect(!/<button[^>]*data-doc6/.test(app), 'conversation offers a gate menu');
-  expect(/receiptCard\(/.test(app) && /turnPackets\(/.test(app), 'Audit does not use the receipt');
-  const html = fs.readFileSync(ROOT + '/index.html', 'utf8');
-  expect(html.indexOf('src/turn_packet.js') > 0 && html.indexOf('src/turn_packet.js') < html.indexOf('src/kernel.js'), 'script order');
-  const src = fs.readFileSync(ROOT + '/src/turn_packet.js', 'utf8');
-  expect(!/\b(llm|embedding|openai|classifier)\b/i.test(src), 'model path in turn_packet.js');
-});
 
 T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.112 and leave the later queue parked', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
@@ -139,7 +55,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.112 and leave the later
   expect(ids.includes('R4112-GATE') && ids.includes('R4112-CANDIDATES'), ids.slice(-4).join(','));
   for (const id of ['R4112-GATE', 'R4112-CANDIDATES']) {
     const f = reg.features.find(x => x.id === id);
-    expect(f.claim === 'Partial' && (f.proof || []).includes('R4112') && /4\.9\.112/.test(f.note), id + ' ' + JSON.stringify(f && f.proof));
+    expect((f.claim === 'Partial' || (f.claim === 'Out of scope / parked' && /Retired 4\.9\.215/.test(f.note)) /* 4.9.215 C4: parked when its proof was retired */) && (f.proof || []).includes('R4112') && /4\.9\.112/.test(f.note), id + ' ' + JSON.stringify(f && f.proof));
     expect(!/Christ function/i.test(f.note), id);
   }
   const tally = {}; for (const f of reg.features) tally[f.claim] = (tally[f.claim] || 0) + 1;

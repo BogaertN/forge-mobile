@@ -23,10 +23,10 @@ const SHIPPED = [
   ['R487-ROLE', '4.9.87', 'src/derive.js', 'function researchPlan'],
   ['R488-TOOL', '4.9.88', 'src/kernel.js', 'WH-DET COPULAR (4.9.88)'],
   ['R489-GRAM', '4.9.89', 'src/grammar.js', 'NP-PASSIVE-PARTICIPLE-POSTMOD'],
-  ['R490-DIR', '4.9.90', 'src/kernel.js', 'LL-DIRECTIVE-MEANING'],
+  ['R490-DIR', '4.9.90', null, 'LL-DIRECTIVE-MEANING'] /* 4.9.215 C4: retired with the deleted old answer path */,
   ['R491-NAME', '4.9.91', 'src/panini_wording.js', 'OPEN-NOMINAL (4.9.91)'] /* 4.9.214 C3: moved with derive */,
   ['R492-PROP', '4.9.92', 'src/grammar.js', 'TAG-PROPN-LEXICON'],
-  ['R493-STRUCT', '4.9.93', 'src/kernel.js', 'BARE-REASON (4.9.92'],
+  ['R493-STRUCT', '4.9.93', 'src/kernel.js', 'MATH-FRAME (4.9.92'] /* 4.9.215 C4: BARE-REASON went with the old answer path; MATH-FRAME stays */,
   ['R494-RSOC', '4.9.94', 'src/kmath.js', 'RSOC_STANDING'],
   ['R495-LEFT', '4.9.95', 'src/provenance.js', '4.9.95: a pertainym'],
   ['R496-WHOSE', '4.9.96', 'src/grammar.js', 'G-REL-WHOSE']
@@ -41,8 +41,12 @@ T('the fourteen shipped compiler releases are registered, and nothing else in th
   expect(gap.length === ids.length && ids.every((id, i) => gap[i] === id), JSON.stringify(gap));
   for (const [id, ver, file, marker] of SHIPPED) {
     const f = by[id];
+    if (file === null) { /* retired: parked with the reason, and the marker is gone from every live source file */
+      expect(f.claim === 'Out of scope / parked' && (f.proof || []).includes('R4110') && String(f.note).includes(ver) && String(f.note).includes('Retired 4.9.215'), id + ' ' + f.claim);
+      expect(fs.readdirSync(ROOT + '/src').filter(n => /\.js$/.test(n)).every(n => !src('src/' + n).includes(marker)), id + ' retired marker still in src');
+    } else {
     expect(f.claim === 'Partial' && (f.proof || []).includes('R4110') && String(f.note).includes(ver), id + ' ' + f.claim + ' ' + JSON.stringify(f.proof));
-    expect(src(file).includes(marker), id + ' live marker missing in ' + file);
+    expect(src(file).includes(marker), id + ' live marker missing in ' + file); }
     expect(!/Christ function/i.test(f.note), id);
   }
   expect(r.count === r.features.length, 'count ' + r.count + ' len ' + r.features.length);
@@ -64,17 +68,6 @@ T('CONFLICTS and L-08 name the operative Mobile authority', () => {
   expect(l08 && l08.claim === 'Partial' && /stale for Forge Mobile/.test(l08.note) && /Parked post-1\.0/.test(l08.source), JSON.stringify(l08 && { claim: l08.claim, note: l08.note }));
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();
   expect(reg().version === ver, reg().version + ' vs ' + ver);
-});
-T('guards: physics, remember, the 0.35 write law, and an empty shared KB', () => {
-  const k = mk();
-  const p = k.process('propose problem physics');
-  expect(p.reply === SHOWN && p.trace.intent_kind === 'PROPOSE_EVIDENCE', p.reply);
-  const r = k.process('remember that my car is red');
-  expect(r.trace.intent_kind === 'REQUEST_COMMIT' && r.reply === 'I noted that your car is red.', (r.trace.intent_kind || '') + ' ' + r.reply);
-  expect(sharedN(k) === 0, 'shared KB written');
-  expect(M.DRIFT_RULING.project_max === 0.35 && M.DRIFT_RULING.explore_min === 0.4 && M.DRIFT_RULING.explore_max === 0.8, 'drift law moved');
-  expect(M.equivalenceClaim('ROC ≡ CFBC ≡ RSOC').status === 'SOURCE_NOT_VERIFIED', 'I.1 moved');
-  expect(!/Christ function/i.test(src('src/kmath.js')), 'Christ function in kmath');
 });
 
 (async () => {

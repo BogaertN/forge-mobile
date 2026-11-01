@@ -51,57 +51,6 @@ T('product copy keeps Pattern Reflection, Tool Bench, the Foundation layer, and 
   expect(/Tool Bench/.test(name('J-04')) && /not EchoForge/.test(name('J-04')), name('J-04'));
 });
 
-T('an exported packet and a failure receipt verify offline, and a forged echo claim fails', () => {
-  needMod();
-  const k = mk();
-  const hello = k.process('hello');
-  const p = copy(packetOf(hello));
-  expect(p.schema === 'FORGE-TURN-PACKET/v1' && p.packet_version === '4.9.111', 'schema moved');
-  expect(p.integrity && p.integrity.alg === 'SHA-256' && /^[0-9a-f]{64}$/.test(p.integrity.hash), JSON.stringify(p.integrity));
-  expect(p.replay && p.replay.output && p.replay.meaning, 'replay fields missing');
-  k.store.save('trace', []); k.store.save('memory', []); k.store.save('receipts', []);
-  const v = TP.verify(p, hook(k));
-  expect(v && v.schema === 'FORGE-PACKET-VERIFY/v1' && v.trusted_ui === false && v.ok === true, JSON.stringify(v && { ok: v.ok, checks: v.checks }));
-  expect(check(v, 'integrity').mode === 'reexecuted' && check(v, 'integrity').ok === true, 'integrity');
-  expect(check(v, 'echo').mode === 'reexecuted' && check(v, 'echo').ok === true, JSON.stringify(check(v, 'echo')));
-  expect(p.selected.route && check(v, 'selection').mode === 'reexecuted' && check(v, 'selection').ok === true, JSON.stringify(check(v, 'selection')));
-  for (const id of RECORDED) expect(check(v, id) && check(v, id).mode === 'recorded-only', id + ' ' + JSON.stringify(check(v, id)));
-  expect(sharedN(k) === 0, 'shared KB');
-  const flipped = copy(p); flipped.echo.pass = !flipped.echo.pass; TP.seal(flipped);
-  const lie = TP.verify(flipped, hook(k));
-  expect(lie.ok === false && check(lie, 'integrity').ok === true && check(lie, 'echo').mode === 'reexecuted' && check(lie, 'echo').ok === false, JSON.stringify(lie.checks));
-  const dirty = copy(p); dirty.input = String(dirty.input || '') + ' x';
-  const bad = TP.verify(dirty, hook(k));
-  expect(bad.ok === false && check(bad, 'integrity').ok === false, 'tampered body still hashed');
-  const bare = TP.verify(p, {});
-  expect(bare.ok === false && check(bare, 'echo').mode === 'recorded-only', 'echo claim accepted with no reparse');
-  const failK = mk({ renderFault: t => t.replace('noted', 'denied') });
-  const denied = failK.process('remember that my car is red');
-  const fp = copy(packetOf(denied));
-  expect(fp.receipt_type === 'echo_fail' && fp.echo.pass === false && fp.replay && fp.replay.output, JSON.stringify({ t: fp.receipt_type, e: fp.echo, out: fp.replay && fp.replay.output }));
-  failK.store.save('trace', []); failK.store.save('memory', []);
-  const fv = TP.verify(TP.openReceipt(fp), hook(failK));
-  expect(fv.ok === true && check(fv, 'echo').mode === 'reexecuted' && check(fv, 'echo').ok === true && check(fv, 'integrity').ok === true, JSON.stringify(fv.checks));
-  const buy = mk().process('buy milk');
-  const bp = copy(packetOf(buy));
-  expect(bp.receipt_type === 'gate_refusal' && bp.failure && bp.failure.subtype === 'action_blocked', JSON.stringify(bp.failure));
-  const bv = TP.verify(bp, hook(mk()));
-  expect(bv.ok === true && check(bv, 'echo').mode === 'reexecuted', JSON.stringify(bv.checks && bv.checks.slice(0, 3)));
-  const file = path.join(os.tmpdir(), 'forge-r4115-packet.json');
-  fs.writeFileSync(file, JSON.stringify(p));
-  const cli = path.join(ROOT, 'tools', 'verify_packet.js');
-  expect(fs.existsSync(cli), 'CLI missing');
-  const okRun = cp.spawnSync('node', [cli, file], { encoding: 'utf8' });
-  expect(okRun.status === 0, String(okRun.stderr || okRun.stdout).slice(0, 400));
-  const oj = JSON.parse(okRun.stdout);
-  expect(oj.ok === true && oj.trusted_ui === false && (oj.checks || []).some(c => c.id === 'echo' && c.mode === 'reexecuted'), okRun.stdout.slice(0, 400));
-  const badFile = path.join(os.tmpdir(), 'forge-r4115-bad.json');
-  fs.writeFileSync(badFile, JSON.stringify(dirty));
-  const badRun = cp.spawnSync('node', [cli, badFile], { encoding: 'utf8' });
-  expect(badRun.status === 1, 'tampered packet verified');
-  const src = fs.readFileSync(ROOT + '/src/turn_packet.js', 'utf8') + fs.readFileSync(cli, 'utf8');
-  expect(!/\b(llm|embedding|openai|classifier)\b/i.test(src), 'model path');
-});
 
 T('version, registry, CONFLICTS, and the in-app control close the locked queue', () => {
   const ver = fs.readFileSync(ROOT + '/VERSION', 'utf8').trim();

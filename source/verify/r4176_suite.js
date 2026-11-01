@@ -51,42 +51,11 @@ T('a tap without a held write key leaves the contested row held', () => {
   expect(k.admitConfirmedSharedItem('cs:missing', true).rule === 'SHARED-KB-WRITE-KEY-REQUIRED', 'missing id still needs the key');
 });
 
-T('a granted key admits the contested row and Ask recalls it before research', () => {
-  const k = loaded();
-  expect(k.setSharedKbWriteKey(KEY).ok === true, 'grant');
-  const admitted = k.admitConfirmedSharedItem('cs:held-bulb', true);
-  expect(admitted.ok === true && admitted.wrote_pack === false && admitted.phone_db === false && admitted.receipt && admitted.receipt.shared_kb === false, JSON.stringify({ ok: admitted.ok, rule: admitted.rule, wrote: admitted.wrote_pack, phone: admitted.phone_db }));
-  const view = admitted.view || k.sharedKnowledgeView();
-  expect(view.admitted.length === 1 && /heating a filament/i.test(view.admitted[0].text || '') && view.held.length === 1 && view.held[0].id === 'cs:quar-dog', JSON.stringify(view));
-  expect(view.admitted[0].sfe && view.admitted[0].sfe.Phi === 9 && view.admitted[0].sfe.mu === 1, JSON.stringify(view.admitted[0].sfe));
-  expect(phoneFacts(k).length === 0 && (k.store.load('shared_knowledge') || []).length === 0 && k.memory().length === 0, 'stores');
-  const again = k.admitConfirmedSharedItem('cs:held-bulb', true);
-  expect(again.ok === false && again.rule === 'CONFIRMED-SHARED-MISSING', JSON.stringify(again));
-  const ask = k.process('How do lightbulbs work?');
-  expect(ask.trace.echo && ask.trace.echo.pass, 'echo ' + (ask.trace.echo && ask.trace.echo.reason));
-  expect(rulesOf(ask).includes('CS-RECALL-MANNER'), rulesOf(ask).join(','));
-  expect(!rulesOf(ask).includes('AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST'), 'no research');
-  expect(/filament|heating/i.test(ask.reply || '') && /shared knowledge/i.test(ask.reply || ''), ask.reply);
-  k.clearSharedKbWriteKey();
-  expect(k.admitConfirmedSharedItem('cs:quar-dog', true).rule === 'SHARED-KB-WRITE-KEY-REQUIRED', 'cleared key');
-});
 
-T('a quarantine held row stays held and does not become shared knowledge', () => {
-  const k = loaded();
-  k.setSharedKbWriteKey(KEY);
-  const refused = k.admitConfirmedSharedItem('cs:quar-dog', true);
-  expect(refused.ok === false && refused.rule === 'DREAM-QUARANTINE-NO-TRUTH' && refused.wrote_pack === false && refused.phone_db === false, JSON.stringify(refused));
-  const view = k.sharedKnowledgeView();
-  expect(view.admitted.length === 0 && view.held.some(h => h.id === 'cs:quar-dog'), JSON.stringify(view));
-  expect(phoneFacts(k).length === 0 && k.memory().length === 0, 'quiet');
-  const ask = k.process('Is a dog an animal?');
-  expect(!/shared knowledge/i.test(ask.reply || '') || (ask.trace.msm.meaning && ask.trace.msm.meaning.kind !== 'recall'), ask.reply);
-  expect(!(k.sharedKnowledgeView().admitted || []).some(r => /dog is an animal/i.test(r.text || '')), 'quarantine not admitted');
-});
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.176', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.176/.test(conf) && /admitConfirmedSharedItem/.test(conf) && /Gilligan Codex/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -94,9 +63,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.176', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.176/.test(readme) && /held/.test(readme) && /write key/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.214' && (((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js') && tgt.suites.includes('r4175_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.215' && (((((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') || tgt.suites[0] === 'r4179_suite.js') || tgt.suites[0] === 'r4178_suite.js') || tgt.suites[0] === 'r4177_suite.js' || tgt.suites[0] === 'r4176_suite.js') && tgt.suites.includes('r4175_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.214' && reg.features.some(f => f.id === 'R4176-HELD-ADMIT'), reg.version);
+  expect(reg.version === '4.9.215' && reg.features.some(f => f.id === 'R4176-HELD-ADMIT'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 334, 'count ' + reg.count);
   const src = fs.readFileSync(path.join(ROOT, 'src', 'kernel.js'), 'utf8') + fs.readFileSync(path.join(ROOT, 'src', 'kpacks.js'), 'utf8'); /* 4.9.213 C2: the shared-knowledge views moved to kpacks.js */
   expect(/function admitConfirmedSharedItem/.test(src) && /DREAM-QUARANTINE-NO-TRUTH/.test(src) && /CONFIRMED-SHARED-MISSING/.test(src), 'kernel');

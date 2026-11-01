@@ -431,9 +431,6 @@
     };
   }
 
-  function recallHosted(query, rows, opts) {
-    return recallMemory(query, { retrieval_backend: 'filesystem' }, Object.assign({}, opts || {}, { nodes: nodesFromHosted(rows) }));
-  }
 
   function searchKnowledgeBase() {
     return {
@@ -551,7 +548,7 @@
       if (name === 'read_file') return readFile(args.path, args.start_line, args.end_line);
       if (name === 'search_text') return searchText(args.query, args.path || BANK, args.case_sensitive === true);
       if (name === 'search_knowledge_base') return searchKnowledgeBase();
-      if (name === 'recall_memory' || name === 'rmc_memory_recall') return recallHosted(args.query || args.text || args.source_text || '', rows, { limit: args.n_results || args.limit });
+      if (name === 'recall_memory' || name === 'rmc_memory_recall') return refuse('FORGE-TOOL-RETIRED'); /* 4.9.215 C4: the word-overlap hosted recall is deleted; recall is the Python engine's resonance recall */
       if (name === 'rmc_phase_parse_preview' || name === 'parse_phase') {
         const parsed = parsePhase(args.text || args.source_text || '', args.context || {});
         return { ok: true, data: parsed, calls_llm: false, network: false, writes_files: false, executes_shell: false };
@@ -571,7 +568,7 @@
   const api = {
     SCHEMA: SCHEMA, BANK: BANK, PHASES: PHASES, calls_llm: false, network: false, device_filesystem: false,
     parsePhase: parsePhase, phaseCatalog: phaseCatalog, classifyLlm: classifyLlm, classifyRetrieval: classifyRetrieval,
-    scoreNode: scoreNode, nodesFromHosted: nodesFromHosted, recallMemory: recallMemory, recallHosted: recallHosted,
+    scoreNode: scoreNode, nodesFromHosted: nodesFromHosted, recallMemory: recallMemory,
     searchKnowledgeBase: searchKnowledgeBase, sessionTools: sessionTools
   };
   if (isNode) module.exports = api; else root.KForgeTools = api;

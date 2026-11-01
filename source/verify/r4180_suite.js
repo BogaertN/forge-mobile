@@ -42,75 +42,8 @@ function wiki(pages) {
   };
 }
 
-T('what is protoforge answers the local definition and a command stays internal', () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  const named = k.process('What is protoforge?');
-  expect(named.trace.selection.winner === 'language.core', named.reply);
-  expect(named.trace.msm.meaning.kind === 'define', named.reply);
-  expect(/ProtoForge is Nic's full local recursive symbolic runtime/.test(named.reply || ''), named.reply);
-  expect(/PyBullet/.test(named.reply || '') && /Forge Mobile/.test(named.reply || ''), named.reply);
-  expect(named.trace.msm.meaning.tool !== 'research.web', named.reply);
-  expect(rulesOf(named).includes('PF-LOCAL-DEF'), rulesOf(named).join(','));
-  const cmd = k.process('analyze drift');
-  expect(cmd.trace.msm.meaning.reason === 'PF_INTERNAL', cmd.reply);
-  const run = k.process('run protoforge');
-  expect(run.trace.msm.meaning.reason === 'PF_INTERNAL', run.reply);
-});
 
-T('an HTML sentence and a which-clause admit and the next Ask recalls them', async () => {
-  const k = mk();
-  k.clearStarterKnowledge();
-  k.setSharedKbWriteKey(KEY);
-  const html = '<p>Quartz <b>is</b> a hard crystalline mineral.</p>';
-  const which = 'Jupiter is the largest planet, which orbits the Sun.';
-  const quartz = CP.admitText(html, t => k.reparseClause(t), c => k.renderClause(c));
-  const jup = CP.admitText(which, t => k.reparseClause(t), c => k.renderClause(c));
-  expect(quartz && /quartz/i.test(quartz.text) && /mineral/i.test(quartz.text) && !/[<>]/.test(quartz.text), JSON.stringify(quartz && quartz.text));
-  expect(jup && /jupiter/i.test(jup.text) && /planet/i.test(jup.text) && !/which/i.test(jup.text), JSON.stringify(jup && jup.text));
-  const w = D.createIdleDream({ clock: CLOCK, host: k, writeKey: KEY, publishPacks: false, research: D.curatedResearch });
-  const packPath = path.join(ROOT, 'packs', 'confirmed_shared', 'q.json');
-  const before = crypto.createHash('sha256').update(fs.readFileSync(packPath)).digest('hex');
-  for (const hit of [quartz, jup]) {
-    const bridged = D.bridgeAskEvidence({ meaning: { kind: 'research_answer', excerpt: hit.source, generated: { text: hit.source, drift: 0.12 }, assimilation: { intake: 'projectable', drift: 0.12 } }, question: 'What is ' + hit.text.split(' ')[0] + '?' });
-    expect(bridged.ok === true, JSON.stringify(bridged));
-    w.enqueue([bridged.gap]);
-    const step = w.tick({ answering: false });
-    expect(step.wrote_confirmed_shared === true && step.wrote_pack !== true, JSON.stringify({ rule: step.rule, wrote: step.wrote_confirmed_shared, why: step.backend_fill }));
-  }
-  expect(k.sharedKnowledgeView().count >= 2 && phoneFacts(k).length === 0, 'hosted rows');
-  const again = k.process('What is quartz?');
-  expect(/mineral/i.test(again.reply || '') && !rulesOf(again).includes('AUTH-AQ1-QUESTION-IS-LOOKUP-REQUEST'), again.reply + ' ' + rulesOf(again).join(','));
-  const planet = k.process('What is the largest planet?');
-  expect(/jupiter/i.test(planet.reply || ''), planet.reply);
-  expect(crypto.createHash('sha256').update(fs.readFileSync(packPath)).digest('hex') === before, 'pack untouched');
-  const beforeCount = k.sharedKnowledgeView().count;
-  w.enqueue([{ id: 'gap:junk', kind: 'aq1_miss', claim: '@@@', eps: 0.1, integrity: 0.95, extracts: [{ text: '@@@', verified: true, integrity: 0.95, source: 'allow-listed' }], calls_llm: false }]);
-  const junk = w.tick({ answering: false });
-  expect(junk.wrote_confirmed_shared !== true && k.sharedKnowledgeView().count === beforeCount, JSON.stringify(junk.backend_fill || junk.rule));
-});
 
-T('bleach and ammonia headlines chloramine gas and does not give a procedure', async () => {
-  expect(typeof CP.hazardHeadline !== 'function' && typeof CP.applyMixHazard !== 'function', 'headline removed');
-  const pages = {
-    Bleach: { title: 'Bleach', hit: dec => /bleach|ammonia|mix/i.test(dec), extract: 'Bleach is a chemical product used to remove color.\nMixing bleach and ammonia produces chloramine, a toxic gas that can injure the lungs. Mixing bleach with ammonia similarly produces nitrogen trichloride. Add one cup of bleach. Heat the mixture.', description: 'chemical product' },
-    Ammonia: { title: 'Ammonia', hit: dec => /bleach|ammonia|mix/i.test(dec), extract: 'Ammonia is a compound of nitrogen and hydrogen.\nMixing bleach and ammonia produces chloramine, a toxic gas that can injure the lungs. Hydrazine is a compound named beside that reaction.', description: 'chemical compound' }
-  };
-  const st = {};
-  const store = KMOD.MemoryStore({ get: k => st[k], set: (k, v) => { st[k] = v; } });
-  const f = FK.ForgeKernel({ clock: CLOCK, lexicon: LEX, lexiconExt: EXT, store, vaultIterations: 1000, fetch: wiki(pages) });
-  await f.vault.setup('correct horse');
-  await f.vault.unlock('correct horse');
-  f.clearStarterKnowledge();
-  f.setSharedKbWriteKey(KEY);
-  const started = f.process('What happens if you mix bleach and ammonia?');
-  const t = await started.toolJob;
-  const reply = t.reply || '';
-  expect(!/\b(add one cup|heat the mixture|tablespoon)\b/i.test(reply), reply);
-  expect(!rulesOf(f.process('What is Chloramine?')).includes('CS-RECALL-ASK-KEY'), 'ask-key shortcut removed');
-  const wikiOnly = Core.runSync({ question: 'What happens if you mix bleach and ammonia?', live: true, memory: { research: [{ id: 'wiki', text: 'Mixing bleach and ammonia produces chloramine, a toxic gas that can injure the lungs.', url: 'https://en.wikipedia.org/wiki/Chloramine', source: 'wikipedia', trust: 'low', quarantined: true }] } });
-  expect(wikiOnly.product_reply === false && !wikiOnly.reply, JSON.stringify({ reply: wikiOnly.reply, rule: (wikiOnly.quarantine_curation || [])[0] }));
-});
 
 T('seventeen Athena tools are wired and sixty-seven stays are skipped', async () => {
   const c = A.counts();
@@ -159,7 +92,7 @@ T('hard drift, a locked passcode, and pack publish stay refused', () => {
 
 T('version registry CONFLICTS NEXT_BUILD name 4.9.180', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.214', ver);
+  expect(ver === '4.9.215', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.180/.test(conf) && /Athena document/.test(conf) && /chloramine/.test(conf) && /ProtoForge/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -167,9 +100,9 @@ T('version registry CONFLICTS NEXT_BUILD name 4.9.180', () => {
   const readme = fs.readFileSync(path.join(ROOT, '..', 'README.md'), 'utf8');
   expect(/4\.9\.180/.test(readme) && /WIRING_180/.test(readme), 'README');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.214' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') && tgt.suites.includes('r4179_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.215' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js' || tgt.suites[0] === 'r4183_suite.js' || tgt.suites[0] === 'r4182_suite.js' || tgt.suites[0] === 'r4181_suite.js' || tgt.suites[0] === 'r4180_suite.js') && tgt.suites.includes('r4179_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.214' && reg.features.some(f => f.id === 'R4180-ATHENA-DOC'), reg.version);
+  expect(reg.version === '4.9.215' && reg.features.some(f => f.id === 'R4180-ATHENA-DOC'), reg.version);
   expect(reg.count === reg.features.length && reg.count >= 337, 'count ' + reg.count);
   const req = fs.readFileSync(path.join(ROOT, 'src', 'req_packet.js'), 'utf8');
   expect(/4\.9\.180/.test(req) && /R4180-ATHENA-DOC/.test(req), 'req packet');

@@ -33,20 +33,6 @@ const memo = {}; const ask = async (pages, q) => { const k = q + '|' + Object.ke
 const MIXED_Q = 'can ibuprofen cause stomach bleeding?', FALLBACK_Q = 'what is ibuprofen?';
 
 /* ---------------- 1. EGRESS ---------------- */
-T('EGRESS: the turn that starts research.web labels "kernel network: none" and "tool egress: research.web · external"; no "network" flag remains', async () => { const { r } = await ask(PAGES, MIXED_Q);
-  expect(r.trace.tool_request && r.trace.tool_request.tool === 'research.web', 'fixture did not start research.web');
-  const ab = r.forge.authority_boundary; expect(!('network' in ab), 'the single network flag is still there: ' + JSON.stringify(ab));
-  expect(ab.kernel_network === 'none' && ab.tool_egress === 'research.web · external', JSON.stringify(ab));
-  const L = needPV().boundaryLabels(ab); expect(L.includes('kernel network: none') && L.includes('tool egress: research.web · external'), L.join(' | ')); });
-T('EGRESS: on every turn with a tool fetch (start turn and evidence turn, success or failure) no label reads as "nothing left the device"', async () => {
-  const { r, t } = await ask(PAGES, MIXED_Q); const f2 = await unlocked({ 'x.example': { throw: true } }); const r2 = f2.process('read the feed https://x.example/rss'); const t2 = await r2.toolJob;
-  for (const [nm, x] of [['start', r], ['evidence', t], ['feed start', r2], ['feed failed', t2]]) { const ab = x.forge.authority_boundary, L = needPV().boundaryLabels(ab);
-    expect(/^[a-z.]+ · external$/.test(ab.tool_egress || ''), nm + ': ' + JSON.stringify(ab)); expect(L.some(l => /^tool egress: [a-z.]+ · external$/.test(l)), nm + ': ' + L.join(' | '));
-    for (const l of L) expect(!NOTHING_LEFT.test(l), nm + ' label reads as nothing left the device: ' + l); } });
-T('EGRESS: each Tool Bench manifest maps to its locus (network effect → external, else on-device); a turn with no tool says "tool egress: none"', async () => { const P = needPV();
-  for (const m of TB.MANIFESTS) expect(P.egressOf(m) === (m.network ? 'external' : 'on-device'), m.id + ' → ' + P.egressOf(m));
-  const f = FK.ForgeKernel({ clock, lexicon: LEX, store: mkStore() }); for (const u of ['hello', 'remember that my car is red', 'what is 2 + 3']) { const ab = f.process(u).forge.authority_boundary, L = P.boundaryLabels(ab);
-    expect(ab.kernel_network === 'none' && ab.tool_egress === 'none', u + ' ' + JSON.stringify(ab)); expect(L.includes('tool egress: none') && L.includes('kernel network: none'), L.join(' | ')); } });
 T('EGRESS: the app renders the boundary from KProv.boundaryLabels (chat flags, status rail, evidence turn); the old network flag key is gone', () => {
   const app = fs.readFileSync(ROOT + '/src/app.js', 'utf8'), bench = fs.readFileSync(ROOT + '/src/app_bench.js', 'utf8'), html = fs.readFileSync(ROOT + '/index.html', 'utf8'), sw = fs.readFileSync(ROOT + '/sw.js', 'utf8');
   const ab = (/const AB = [^\n]*/.exec(app) || [''])[0]; expect(/KProv\.boundaryLabels/.test(ab) && !/'network'/.test(ab), 'AB still renders the network flag: ' + ab.slice(0, 200));
@@ -59,26 +45,13 @@ T('TIERS: rank classes map to the three tiers (primary → curated_archive, peer
   const want = { primary_authority: 'curated_archive', peer_reviewed: 'peer_reviewed_index', structured_reference: 'open_fallback', encyclopedia: 'open_fallback', blog: 'open_fallback', undefined: 'open_fallback' };
   for (const [c, t] of Object.entries(want)) expect(P.tierOf(c === 'undefined' ? undefined : c) === t, c + ' → ' + P.tierOf(c));
   for (const a of AR.ARCHIVES) expect(P.TIERS.includes(P.tierOf(a.cls)), a.id); });
-T('TIERS: every source of a mixed evidence answer has a tier, the summary counts are right, and the reply shows the tier beside each source plus the summary line', async () => { const { t } = await ask(PAGES, MIXED_Q);
-  const m = t.trace.msm.meaning, pv = m.provenance; expect(m.kind === 'research_answer' && pv && pv.sources && pv.sources.length === 2, JSON.stringify(m).slice(0, 400));
-  for (const s of pv.sources) expect(needPV().TIERS.includes(s.tier), JSON.stringify(s));
-  const cnt = k => pv.sources.filter(s => s.tier === k).length; expect(pv.summary.curated_archive === cnt('curated_archive') && pv.summary.peer_reviewed_index === cnt('peer_reviewed_index') && pv.summary.open_fallback === cnt('open_fallback') && pv.summary.total === pv.sources.length, JSON.stringify(pv.summary));
-  expect(pv.summary.peer_reviewed_index === 1 && pv.summary.open_fallback === 1 && pv.summary.text === 'sources: 1 peer-reviewed, 1 open fallback' && pv.summary.fallback_only === false, JSON.stringify(pv.summary));
-  expect(/the Wikipedia article “Ibuprofen”/i.test(t.reply), 'short shape: ' + t.reply); expect(t.trace.echo.pass, 'Echo failed'); }); /* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
+/* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
 T('TIERS: summary text counts only non-zero tiers in fixed order (curated, peer-reviewed, open fallback)', () => { const P = needPV();
   expect(P.summaryText({ curated_archive: 3, peer_reviewed_index: 0, open_fallback: 2 }) === 'sources: 3 curated, 2 open fallback', P.summaryText({ curated_archive: 3, peer_reviewed_index: 0, open_fallback: 2 }));
   expect(P.summaryText({ curated_archive: 1, peer_reviewed_index: 2, open_fallback: 0 }) === 'sources: 1 curated, 2 peer-reviewed', 'mixed'); });
-T('TIERS: a fallback-only answer shows the fallback visibly (summary flag, reply text, rendered card)', async () => { const { t } = await ask(WIKI_ONLY, FALLBACK_Q);
-  const pv = t.trace.msm.meaning.provenance; expect(pv && pv.summary.fallback_only === true && pv.summary.open_fallback === pv.sources.length && pv.sources.length >= 1, JSON.stringify(pv));
-  expect(/open fallback only/.test(pv.summary.text), 'fallback not in the provenance: ' + JSON.stringify(pv.summary)); /* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
-  const h = needPV().reportHTML(pv, s => String(s)); expect(/class="[^"]*fallback/.test(h) && /open fallback only/.test(h) && /open fallback/.test(h), h.slice(0, 300)); expect(t.trace.echo.pass, 'Echo failed'); });
 
 /* ---------------- 3. ENTAILMENT ---------------- */
-T('ENTAIL: a cited source whose excerpt has no span with the key content is marked unsupported in the output; a supporting span is verbatim', async () => { const { t } = await ask(PAGES, MIXED_Q);
-  const pv = t.trace.msm.meaning.provenance, oa = pv.sources.find(s => s.archive === 'openalex'), wk = pv.sources.find(s => s.archive === 'wikipedia');
-  expect(oa && oa.supported === false && oa.span === null && oa.reason, 'OpenAlex (no relation word "cause") counted as support: ' + JSON.stringify(oa));
-  expect(wk && wk.supported === true && WIKI_EX.includes(wk.span) && /cause/.test(wk.span) && /stomach bleeding/.test(wk.span), JSON.stringify(wk));
-  expect(!/OpenAlex/.test(t.reply), 'an unsupported citation is cited in the reply: ' + t.reply); }); /* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
+/* 4.9.86 (Nic 6:47 PM): every research reply has the short shape; tiers, summary and support marks are in the provenance (checked above) */
 T('ENTAIL: citation presence is not support: an excerpt naming the entities but not the extracted value is unsupported; one stating it gets a verbatim span', () => { const P = needPV();
   const plan = { question: 'when did the berlin wall fall', atype: 'date', asked: 'fall', askedForms: ['fell', 'fallen', 'fall'], object: 'berlin wall', args: ['berlin', 'wall', 'fall'], key: ['berlin', 'wall', 'fall'] };
   const src = [{ archive: 'wikipedia', name: 'Wikipedia', cls: 'encyclopedia', title: 'Berlin Wall', excerpt: 'In 2009 Berlin celebrated twenty years since the wall came down.' }, { archive: 'wikidata', name: 'Wikidata', cls: 'structured_reference', title: 'Berlin Wall', excerpt: 'The Berlin Wall was a guarded border. The Berlin Wall fell on 9 November 1989, after weeks of unrest.' }];
@@ -98,12 +71,5 @@ T('ENTAIL: a verdict span must carry the answer polarity (a "No" answer needs a 
   const ex = 'Aspirin is not safe for children under 16. Aspirin is safe for most adults at low doses.';
   const no = P.report([{ archive: 'fda', name: 'FDA', cls: 'primary_authority', title: 'Aspirin', excerpt: ex }], plan, { kind: 'verdict', answer: 'no' }), yes = P.report([{ archive: 'fda', name: 'FDA', cls: 'primary_authority', title: 'Aspirin', excerpt: ex }], plan, { kind: 'verdict', answer: 'yes' });
   expect(no.sources[0].span === 'Aspirin is not safe for children under 16.', JSON.stringify(no.sources[0])); expect(yes.sources[0].span === 'Aspirin is safe for most adults at low doses.', JSON.stringify(yes.sources[0])); });
-T('ENTAIL: deterministic (same input → same report); provenance.js is pure; spans and reports never enter memory, facts or the persisted trace', async () => { const P = needPV();
-  const src = fs.readFileSync(ROOT + '/src/provenance.js', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, ''); expect(!/require\(|fetch|localStorage|store\.|remember|supabase|sb_sync/i.test(src), 'provenance.js reaches outside');
-  const plan = { question: 'can ibuprofen cause stomach bleeding', atype: 'verdict', pred: 'cause', predForms: ['cause', 'caused', 'causes'], args: ['stomach'] }, S = [{ archive: 'wikipedia', name: 'Wikipedia', cls: 'encyclopedia', title: 'Ibuprofen', excerpt: WIKI_EX }];
-  expect(JSON.stringify(P.report(S, plan, null)) === JSON.stringify(P.report(S, plan, null)), 'not deterministic');
-  const { f, t } = await ask(PAGES, MIXED_Q); const span = t.trace.msm.meaning.provenance.sources.find(s => s.supported).span; expect(f.memory().length === 0, 'a lookup answer was stored as a fact');
-  const persisted = JSON.stringify(f._store._raw.trace || '') + JSON.stringify(f._store._raw.memory || '') + JSON.stringify(f._store._raw.web_evidence || ''); expect(!persisted.includes(span), 'a span left the vault into the persisted store');
-  const tr = f._store.load('trace').slice(-1)[0]; expect(tr.msm.meaning.provenance && tr.msm.meaning.provenance.text === 'sources: 1 peer-reviewed, 1 open fallback' && tr.msm.meaning.provenance.unsupported === 1, 'persisted trace lacks the provenance counts: ' + JSON.stringify(tr.msm.meaning)); });
 
 (async () => { for (const t of tests) { let ok = false, why = ''; try { const v = await t.fn(); ok = v === undefined || v === true; } catch (e) { why = e.message; } rows.push({ cls: 'EV-HONEST', name: t.name, ok, why }); } process.stdout.write(JSON.stringify(rows)); })();
