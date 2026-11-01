@@ -6,6 +6,8 @@ declare
   v_body jsonb; v_res jsonb; v_sig text := repeat('A', 86) || '==';
   v_sha text := repeat('ab', 32); v_nonce text := repeat('c', 32);
   v_payload jsonb := '{"text":"WRITER LOCKDOWN TEST ROW (rolled back)","sfe":{"Phi":1,"eps":0.1,"mu":1},"provenance":{"test":"205"},"contributor":"test","state":"admitted"}';
+  -- 4.9.211: a lasting write also carries the drift proof (supabase/tests/drift_writer_211_test.sql tests its refusals)
+  v_proof jsonb := '{"drift_input":{"hist":[5,6,7,8],"prev":8,"act":9,"depth":1,"scheme":"phase-scheme/rmc/v1"},"drift":{"eps":0.119133,"metric_id":"eps_s/rsoc-v4.8+circ/v1"},"echo":1,"echo_classes":{"ok":true,"classes":{"negation":{"answer":false,"source":false,"ok":true},"certainty":{"answer":false,"source":false,"ok":true},"condition":{"answer":false,"source":false,"ok":true}}},"coherence":0.89}';
   ok boolean;
 begin
   select user_id into v_owner from public.app_roles where role = 'owner';
@@ -59,9 +61,9 @@ begin
   begin perform public.memory_writer_insert_signed(v_owner, v_signer, v_nonce, v_now, v_body, 'fact', jsonb_set(v_payload, '{sfe,eps}', '0.36'), '{}', '[]', v_sha, v_sig, '{}', '{"q":1}', 't'); ok := false;
   exception when insufficient_privilege then ok := (sqlerrm like '%KB-WRITER-PACKET-REQUIRED%'); end; r := r || jsonb_build_object('eps_over_035_refused', ok);
   -- (the nonce above was consumed inside a rolled-back sub-block, so it is still fresh here)
-  v_res := public.memory_writer_insert_signed(v_owner, v_signer, v_nonce, v_now, v_body, 'fact', v_payload, '{}', '[]', v_sha, v_sig, '{}', '{"q":1}', 't');
+  v_res := public.memory_writer_insert_signed(v_owner, v_signer, v_nonce, v_now, v_body, 'fact', v_payload, v_proof, '[]', v_sha, v_sig, '{}', '{"q":1}', 't');
   r := r || jsonb_build_object('linked_signed_insert_ok', (v_res ->> 'inserted') = 'true' and (v_res ->> 'state') = 'admitted' and (v_res ->> 'signer_id') = v_signer);
-  begin perform public.memory_writer_insert_signed(v_owner, v_signer, v_nonce, v_now, v_body, 'fact', v_payload, '{}', '[]', v_sha, v_sig, '{}', '{"q":1}', 't'); ok := false;
+  begin perform public.memory_writer_insert_signed(v_owner, v_signer, v_nonce, v_now, v_body, 'fact', v_payload, v_proof, '[]', v_sha, v_sig, '{}', '{"q":1}', 't'); ok := false;
   exception when insufficient_privilege then ok := (sqlerrm like '%KB-WRITER-REPLAY%'); end; r := r || jsonb_build_object('replay_refused', ok);
   perform set_config('role', 'postgres', true);
   raise exception 'WRITER_LOCKDOWN_RESULTS %', r;

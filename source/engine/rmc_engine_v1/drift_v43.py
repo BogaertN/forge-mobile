@@ -571,7 +571,7 @@ def score(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     local = local_curvature(hist, WINDOW)
     theta_w = adaptive_threshold(local, GAMMA)
     velocity = phase_velocity(row.get("stamps_ms"))
-    hard_ceiling = eps > THETA_HARD
+    hard_ceiling = eps >= THETA_HARD
     above = eps > theta_w
     if d_score == 1.0:
         disposition = "HARD_FIRE"

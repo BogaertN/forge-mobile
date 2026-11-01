@@ -5,7 +5,7 @@
  * Gilligan always revisits the cold bank and re-curates. Quarantine cold never becomes confirmed_shared.
  * Backend fill: a lawful promote (drift ≤0.35, integrity ≥0.85, packet) writes the hosted session KB.
  * Phone letter-pack publish stays gated (publishPacks true). Pages still ships packs only via publish.sh on main.
- * ChristPing is first-class. Only Gilligan initiates it. Hard drift (>0.80) runs χ grace recenter, aborts that claim,
+ * ChristPing is first-class. Only Gilligan initiates it. Hard drift (≥0.80) runs χ grace recenter, aborts that claim,
  * and opens a different research path. The noisy claim is not admitted.
  * Neo is the Ask surface. Neo does not spawn. Neo is not Neil. This file does not run Ask.
  * Lifecycle is Spawn → Run → Hibernate → Retire → Resurrect. Quarantine custody does not spend the spawn window.
@@ -182,7 +182,7 @@
     if (who !== 'gilligan') return refusal('CHRIST-PING-GILLIGAN-ONLY', { christ_ping: false, christ_pain: false, initiator: String(who), role: 'gilligan', deferred: false });
     if (raw.calls_llm === true || llmShaped(raw)) return refusal('DREAM-LLM-REFUSED', { christ_ping: false, christ_pain: false, initiator: 'gilligan', role: 'gilligan' });
     const eps = Number(raw.eps);
-    const hard = Number.isFinite(eps) && eps > KM.DRIFT_RULING.explore_max;
+    const hard = Number.isFinite(eps) && eps >= KM.DRIFT_RULING.explore_max;
     const explicit = raw.request === true || raw.explicit === true;
     if (!hard && !explicit) return refusal('CHRIST-PING-NOT-HARD', { christ_ping: false, christ_pain: false, initiator: 'gilligan', role: 'gilligan', eps: Number.isFinite(eps) ? KM.r4(eps) : null });
     const ancestors = Array.isArray(raw.ancestors) ? raw.ancestors : [];
@@ -365,7 +365,7 @@
   function driftStatus(eps) {
     if (eps == null || !Number.isFinite(Number(eps))) return 'unmeasured';
     const n = Number(eps);
-    if (n > KM.DRIFT_RULING.explore_max) return 'hard_reject';
+    if (n >= KM.DRIFT_RULING.explore_max) return 'hard_reject';
     if (n >= KM.DRIFT_RULING.explore_min) return 'quarantine';
     if (n > KM.DRIFT_RULING.project_max) return 'chi';
     return 'projectable';
@@ -674,7 +674,7 @@
       if (HELPER_TASKS.indexOf(s.task) < 0) return refusal('ATHENA-TASK-UNDECLARED', { role: 'athena', task: s.task == null ? null : String(s.task) });
       if (CURATOR_TASKS.indexOf(s.task) < 0) {
         if (s.chi_active) return refusal('ATHENA-SPAWN-CHI', { role: 'athena' });
-        if (s.eps != null && Number.isFinite(Number(s.eps)) && Number(s.eps) > KM.DRIFT_RULING.explore_max) return refusal('ATHENA-SPAWN-HARD-REJECT', { role: 'athena' });
+        if (s.eps != null && Number.isFinite(Number(s.eps)) && Number(s.eps) >= KM.DRIFT_RULING.explore_max) return refusal('ATHENA-SPAWN-HARD-REJECT', { role: 'athena' });
         /* Codex 3.24: dream rehearsal starts only while drift is under 0.4. Quarantine-band work stays in custody. */
         if (s.eps != null && Number.isFinite(Number(s.eps)) && Number(s.eps) >= KM.DRIFT_RULING.explore_min) return refusal('ATHENA-SPAWN-DRIFT', { role: 'athena' });
       }
@@ -760,7 +760,7 @@
       }
       result.calls_llm = false;
       remember(ag, result);
-      if (result.eps != null && Number(result.eps) > KM.DRIFT_RULING.explore_max) ag.isolated = true;
+      if (result.eps != null && Number(result.eps) >= KM.DRIFT_RULING.explore_max) ag.isolated = true;
       logPhase('run', ag, { rule: result.rule || null, ok: result.ok === true });
       if (ag.gap_id) reintegrate(ag, result);
       if (payload.child) {

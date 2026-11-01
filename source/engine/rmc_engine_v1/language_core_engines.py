@@ -24,7 +24,7 @@ FORBIDDEN_STEPS = {(5, 8), (4, 8)}
 TAXONOMY = (
     {
         "name": "catastrophic",
-        "when": "epsilon_s > 0.80",
+        "when": "epsilon_s >= 0.80",
         "status": "stated",
         "cite": "Nic drift ruling 2026-10-14; hard stop above 0.80",
     },
@@ -36,7 +36,7 @@ TAXONOMY = (
     },
     {
         "name": "structural",
-        "when": "0.40 <= epsilon_s <= 0.80 or a forbidden phase step",
+        "when": "0.40 <= epsilon_s < 0.80 or a forbidden phase step",
         "status": "stated",
         "cite": "Nic drift ruling quarantine; RMC Addendum forbidden Φ5→Φ8 and Φ4→Φ8",
     },
@@ -66,9 +66,9 @@ def drift_taxonomy(epsilon_s: Any, transition: dict[str, Any] | None = None) -> 
     active = []
     if eps is None:
         band = "unmeasured"
-    elif eps > HARD_STOP or forbidden:
-        band = "hard_stop" if eps is not None and eps > HARD_STOP else "forbidden"
-        active.append("catastrophic" if eps is not None and eps > HARD_STOP else "structural")
+    elif eps >= HARD_STOP or forbidden:
+        band = "hard_stop" if eps is not None and eps >= HARD_STOP else "forbidden"
+        active.append("catastrophic" if eps is not None and eps >= HARD_STOP else "structural")
     elif eps > PROJECT_MAX and eps < CHI_MAX:
         band = "correct"
         active.append("resonant")
@@ -101,7 +101,7 @@ def _failed(epsilon_s: Any, transition: dict[str, Any] | None) -> tuple[bool, bo
     forbidden = False
     if isinstance(transition, dict):
         forbidden = (transition.get("from"), transition.get("to")) in FORBIDDEN_STEPS
-    hard = eps is not None and eps > HARD_STOP
+    hard = eps is not None and eps >= HARD_STOP
     failed = forbidden or (eps is not None and eps > PROJECT_MAX)
     return failed, forbidden, hard
 
@@ -156,7 +156,7 @@ def gilligan_drift_correction(epsilon_s: Any, *, initiator: str = "gilligan") ->
         return {"applied": False, "rule": "CHRISTPING-GILLIGAN-ONLY", "initiator": who, "calls_llm": False, "writes": False}
     if eps is None:
         return {"applied": False, "rule": "DRIFT-UNMEASURED", "initiator": "gilligan", "calls_llm": False, "writes": False}
-    if eps > HARD_STOP:
+    if eps >= HARD_STOP:
         return {
             "applied": False,
             "rule": "CHRISTPING-RECENTER",

@@ -181,7 +181,7 @@
   function evaluate(store, entry) {
     if (entry.tier === 'quarantine' || entry.tier === 'denied') return;
     const stats = statsOf(entry);
-    const hard = entry.uses.some(function (use) { return use.drift > HARD_STOP; });
+    const hard = entry.uses.some(function (use) { return use.drift >= HARD_STOP; });
     if (stats.driftMax > WRITE_MAX) {
       entry.tier = 'quarantine';
       entry.chi = true;

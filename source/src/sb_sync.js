@@ -77,8 +77,15 @@ function Client(o) { o = o || {};
     if (!st.uid) return no('KB-WRITER-NO-SESSION');
     if (!st.device) return no('KB-WRITER-DEVICE-NOT-REGISTERED');
     if (typeof sign !== 'function') return no('KB-WRITER-UNSIGNED');
+    /* 4.9.211 (DRIFT-SPEC/v1, Release B): the write carries the engine's write gate. The server recomputes the trace ε from
+     * drift_input (app.drift_eps) and rejects KB-WRITER-EPS-MISMATCH / FORBIDDEN / DRIFT / HARD-STOP / UNNAMED / ECHO / COHERENCE. */
+    const wg = row && row.write_gate;
+    if (!wg || !wg.drift_input || !wg.drift) return no('KB-WRITER-DRIFT-INPUT-REQUIRED', { pending: false });
+    if (wg.ok !== true) return no('KB-WRITER-GATE-' + String((wg.failed || ['FAILED'])[0]).toUpperCase().replace(/[^A-Z]+/g, '-'), { pending: false });
     const payload = { text: text, schema: 'FORGE-RESONANCE-PACKET/v1', sfe: { Phi: sfe.Phi, eps: sfe.eps, mu: sfe.mu }, provenance: prov, contributor: contributor, state: 'admitted' };
-    const args = { p_kind: 'fact', p_payload: payload, p_proof: { source: row && row.proof_source || 'rmc_core.admit_gate' }, p_sources: [], p_consent: { contributor: contributor }, p_provenance: prov, p_contributor: contributor };
+    const proofIn = { source: row && row.proof_source || 'rmc_core.admit_gate', drift_input: wg.drift_input, drift: { eps: wg.drift.eps, metric_id: wg.drift.metric_id },
+      echo: wg.echo, echo_classes: wg.echo_classes, coherence: wg.coherence, drift_status: wg.drift_status, phase_scheme_id: wg.phase_scheme_id };
+    const args = { p_kind: 'fact', p_payload: payload, p_proof: proofIn, p_sources: [], p_consent: { contributor: contributor }, p_provenance: prov, p_contributor: contributor };
     const H256 = (typeof module !== 'undefined' && module.exports) ? require('./sha256.js') : root.KSha;
     const digest = (H256 && H256.sha256) ? H256.sha256(canon(args)) : '';
     if (!/^[0-9a-f]{64}$/.test(digest)) return no('KB-WRITER-HASH', { pending: false });

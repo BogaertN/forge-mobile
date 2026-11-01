@@ -13,7 +13,8 @@
  * Writes: an admitted row goes to Supabase only through the locked-down writer (KSb.insertAdmitted: signed-in linked
  *   account, writer role, verified device signature). Otherwise the row stays on this phone as PENDING. A pending row is
  *   not fed to Ask as memory.
- * Bands: KMath.driftGovernance (unchanged). No LLM. No embeddings. */
+ * Bands: KMath.classifyDrift (4.9.211 DRIFT-SPEC/v1: ε ≥ 0.80 is hard, inclusive; one χ-correct pass whose re-measure must fall;
+ *   the gap's ε trajectory feeds the trend rule; a broken receipt hash chain halts the curators). No LLM. No embeddings. */
 (function (root) {
 'use strict';
 const KEY = 'forge.curation.v1', SCHEMA = 'FORGE-CURATION/v1';
@@ -21,11 +22,14 @@ const MAX_QUEUE = 60, MAX_ATTEMPTS = 3;
 const QWORD = /^(what|who|whom|whose|why|how|when|where|which|is|are|was|were|do|does|did|can|could|should|would|will)\b/i;
 function norm(q) { return String(q || '').replace(/\s+/g, ' ').trim(); }
 function gapKey(q) { return norm(q).toLowerCase().replace(/[?.!\s]+$/, ''); }
-function laneOf(eps, KM) {
+/* 4.9.211: lanes come from the ONE ordered drift classifier (KMath.classifyDrift, DRIFT-SPEC/v1): forbidden and ε ≥ 0.80 (inclusive)
+ * are hard (kept cold), acceleration and θ_admit < ε < 0.40 are the χ-correct lane, 0.40 ≤ ε < 0.80 is quarantine, ε ≤ θ_admit is clean. */
+const REGION_LANE = { clean: 'clean', correct: 'correct', acceleration: 'correct', explore: 'quarantine', hard_stop: 'hard', forbidden: 'hard', unmeasured: 'unmeasured' };
+function laneOf(eps, KM, region) {
+  if (region && REGION_LANE[region]) return REGION_LANE[region];
   if (typeof eps !== 'number' || !isFinite(eps)) return 'unmeasured';
-  const g = KM && KM.driftGovernance ? KM.driftGovernance(eps) : null;
-  const band = g ? g.band : (eps <= 0.35 ? 'projectable' : eps < 0.40 ? 'correct' : eps <= 0.80 ? 'explore' : 'reject');
-  return band === 'projectable' ? 'clean' : band === 'correct' ? 'correct' : band === 'explore' ? 'quarantine' : 'hard';
+  const r = KM && KM.classifyDrift ? KM.classifyDrift({ eps }).region : (eps <= 0.35 ? 'clean' : eps < 0.40 ? 'correct' : eps < 0.80 ? 'explore' : 'hard_stop');
+  return REGION_LANE[r] || 'hard';
 }
 function Curators(o) {
   o = o || {};
@@ -33,7 +37,7 @@ function Curators(o) {
   const KM = o.kmath || root.KMath || null;
   const load = () => { try { const s = o.store ? o.store.get(KEY) : null; return s && s.schema === SCHEMA ? s : null; } catch (e) { return null; } };
   let st = load() || { schema: SCHEMA, queue: [], admitted: [], pending: [], quarantine: [], cold: [], log: [], digest: null };
-  let busy = false, answering = false;
+  let busy = false, answering = false, halted = null;
   const save = () => { try { if (o.store) o.store.set(KEY, st); } catch (e) { /* storage full: keep this session */ } };
   const log = (who, rule, extra) => { st.log.push(Object.assign({ at: now(), who, rule }, extra || {})); if (st.log.length > 60) st.log = st.log.slice(-60); };
   const known = k => st.queue.concat(st.admitted, st.pending, st.quarantine, st.cold).some(g => g.key === k);
@@ -47,13 +51,14 @@ function Curators(o) {
     log('athena', 'CURATE-GAP-QUEUED', { question: q }); save();
     return { ok: true, rule: 'CURATE-GAP-QUEUED' };
   }
-  async function measure(question, anchors) {
+  async function measure(question, anchors, extra) {
     /* 4.9.210: cached anchors (pool: true) go to the engine pool; the engine selects them by packet concepts */
     const pool = anchors.filter(a => a && a.pool === true);
     const memory = { receipts: [], phone: [], hosted: [], research: [], anchors: anchors.filter(a => !(a && a.pool === true)), pools: pool.length ? [{ name: 'anchors', into: 'anchors', rows: pool }] : [] };
-    const row = await o.run({ question, live: true, dry_run: false, memory });
+    const row = await o.run(Object.assign({ question, live: true, dry_run: false, memory }, extra || {}));
     const eps = row && typeof row.drift === 'number' ? row.drift : null;
-    return { row, eps, C: row && row.coherence, echo: row && row.echo || {}, lane: laneOf(eps, KM) };
+    const region = row && row.admit && row.admit.drift_region;
+    return { row, eps, C: row && row.coherence, echo: row && row.echo || {}, lane: laneOf(eps, KM, region), region: region || null };
   }
   /* Echo re-parse: the candidate alone must re-derive itself for the same question, Echo passing; and the grammar must round-trip it */
   async function echoReparse(question, reply, anchor) {
@@ -69,7 +74,7 @@ function Curators(o) {
   function guard(m, anchors) {
     const t = (m.row && m.row.trust) || {};
     const byId = new Map(anchors.map(a => [a.id, a]));
-    if (typeof m.eps !== 'number' || m.eps > 0.35) return { ok: false, rule: 'GILLIGAN-DRIFT-NOT-CLEAN' };
+    if (typeof m.eps !== 'number' || m.lane !== 'clean') return { ok: false, rule: 'GILLIGAN-DRIFT-NOT-CLEAN' };
     if (!(m.C >= 0.87) || !(m.echo && m.echo.pass === true && m.echo.score >= 0.85)) return { ok: false, rule: 'GILLIGAN-GATE-NOT-MET' };
     const rest = t.rests_on, anchor = rest ? byId.get(rest) : null;
     if (t.low_trust !== false || t.blocks_admit !== false || t.trusted_anchor !== true || !anchor || anchor.trust !== 'trusted') return { ok: false, rule: 'GILLIGAN-UNTRUSTED-PREMISE', ids: [rest || null] };
@@ -80,12 +85,22 @@ function Curators(o) {
   async function curate(gap) {
     gap.attempts += 1; gap.last_at = now();
     const anchors = (await o.anchorsFor(gap.question)) || [];
-    let m = await measure(gap.question, anchors);
-    let chi = false;
-    if (m.lane === 'correct') { chi = true; log('gilligan', 'GILLIGAN-REMEASURE-ONCE', { question: gap.question, eps: m.eps }); if (o.refreshAnchors) { try { await o.refreshAnchors(); } catch (e) { /* offline */ } } m = await measure(gap.question, (await o.anchorsFor(gap.question)) || anchors); }
-    const base = { key: gap.key, question: gap.question, eps: m.eps, C: m.C, echo: m.echo && m.echo.score, lane: m.lane, chi_pass: chi, at: now(), calls_llm: false };
-    if (m.lane === 'hard') return { to: 'cold', rec: Object.assign(base, { rule: 'ATHENA-HARD-REJECT' }) };
-    if (m.lane === 'quarantine' || m.lane === 'correct') return { to: 'quarantine', rec: Object.assign(base, { rule: m.lane === 'correct' ? 'GILLIGAN-STILL-CORRECT-BAND' : 'ATHENA-QUARANTINE', digest: st.digest }) };
+    /* 4.9.211: the gap's own ε trajectory feeds the trend rule (ε rising over 3 transitions → correct) */
+    const hist = Array.isArray(gap.eps_hist) ? gap.eps_hist.slice(-8) : [];
+    let m = await measure(gap.question, anchors, { drift_history: hist });
+    let chi = false, fell = null;
+    if (m.lane === 'correct') {
+      /* ONE χ-correct pass per ψ per turn (DRIFT-SPEC D6a), then re-measure: the drift must FALL or the gap stays in quarantine */
+      chi = true; const before = m.eps; log('gilligan', 'GILLIGAN-REMEASURE-ONCE', { question: gap.question, eps: m.eps });
+      if (o.refreshAnchors) { try { await o.refreshAnchors(); } catch (e) { /* offline */ } }
+      m = await measure(gap.question, (await o.anchorsFor(gap.question)) || anchors, { chi_passes: 1 });
+      fell = typeof m.eps === 'number' && typeof before === 'number' && m.eps < before;
+      if (!fell && m.lane === 'clean') m = Object.assign({}, m, { lane: 'correct', region: 'correct' });
+    }
+    if (typeof m.eps === 'number') gap.eps_hist = hist.concat([m.eps]).slice(-8);
+    const base = { key: gap.key, question: gap.question, eps: m.eps, C: m.C, echo: m.echo && m.echo.score, lane: m.lane, region: m.region, chi_pass: chi, chi_fell: fell, at: now(), calls_llm: false };
+    if (m.lane === 'hard') return { to: 'cold', rec: Object.assign(base, { rule: m.region === 'forbidden' ? 'ATHENA-FORBIDDEN-REJECT' : 'ATHENA-HARD-REJECT' }) };
+    if (m.lane === 'quarantine' || m.lane === 'correct') return { to: 'quarantine', rec: Object.assign(base, { rule: m.lane === 'correct' ? (chi && fell === false ? 'GILLIGAN-CHI-DID-NOT-FALL' : 'GILLIGAN-STILL-CORRECT-BAND') : 'ATHENA-QUARANTINE', digest: st.digest }) };
     if (!m.row || !m.row.product_reply || !m.row.reply) return { to: gap.attempts >= MAX_ATTEMPTS ? 'cold' : 'queue', rec: Object.assign(base, { rule: anchors.length ? 'ATHENA-NO-ADMIT' : 'ATHENA-NO-TRUSTED-ANCHOR', reply: null }) };
     const g = guard(m, anchors);
     if (!g.ok) return { to: 'quarantine', rec: Object.assign(base, { rule: g.rule, ids: g.ids || [] }) };
@@ -95,12 +110,17 @@ function Curators(o) {
     const mw = m.row.memory_write || {}; const prop = mw.proposal || mw.hosted_kb;
     const body = prop ? Object.assign({}, prop, { provenance: Object.assign({}, prop.provenance || {}, { curated_by: 'athena+gilligan' }) }) : null;
     const rec = Object.assign(base, { reply: m.row.reply, premises: g.premises, echo_reparse: echo, contributor: 'athena', curated_by: 'athena+gilligan' });
+    /* 4.9.211: the lasting write needs the engine's write gate (Φ6 then Φ7, Echo ≥ 0.97 + classes, C ≥ 0.87, clean at θ_admit) */
+    if (mw.write_gate && mw.write_gate.ok !== true) return { to: 'quarantine', rec: Object.assign(rec, { rule: 'GILLIGAN-WRITE-GATE', failed: mw.write_gate.failed || [] }) };
     if (!body || !o.insert) return { to: 'pending', rec: Object.assign(rec, { rule: 'CURATE-PENDING-NO-WRITER' }) };
     const w = await o.insert(body);
+    /* a broken receipt hash chain halts the curators and quarantines the row (DRIFT-SPEC: a chain break halts and quarantines) */
+    if (w && w.rule === 'KB-WRITER-CHAIN-BREAK') { halted = { rule: w.rule, at: now() }; return { to: 'quarantine', rec: Object.assign(rec, { rule: 'GILLIGAN-CHAIN-BREAK-HALT' }) }; }
     if (w && w.ok) return { to: 'admitted', rec: Object.assign(rec, { rule: 'CURATE-WRITTEN', supabase: { id: w.id || null, rule: w.rule || null } }) };
     return { to: 'pending', rec: Object.assign(rec, { rule: (w && w.rule) || 'CURATE-PENDING', body }) };
   }
   async function tick(t) {
+    if (halted) return { ok: false, rule: 'CURATE-HALTED-CHAIN-BREAK', since: halted.at };
     if (busy || answering || !o.run || !o.anchorsFor) return { ok: false, rule: busy ? 'CURATE-BUSY' : answering ? 'CURATE-ASK-ANSWERING' : 'CURATE-NO-ENGINE' };
     busy = true;
     try {

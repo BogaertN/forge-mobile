@@ -574,7 +574,7 @@ def seal_op(archive, spec):
         base["rule"] = "GEOM-MEMBRANE"
         return base
     if not (drift <= WRITE_MAX):
-        base["rule"] = "GEOM-HARD-STOP" if drift > HARD_STOP else "GEOM-DRIFT"
+        base["rule"] = "GEOM-HARD-STOP" if drift >= HARD_STOP else "GEOM-DRIFT"
         return base
     if not (echo >= ECHO_MIN):
         base["rule"] = "GEOM-ECHO"

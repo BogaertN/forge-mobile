@@ -66,7 +66,7 @@ T('a hard stop and a forbidden step open on one sample by calling the 4.9.191 br
   expect(hard.verdict === 'hard_stop' && hard.status === 'open' && hard.steps[0].legacy_reason === 'hard_stop', JSON.stringify(hard));
   expect(skip.verdict === 'forbidden_step' && skip.status === 'open', JSON.stringify(skip));
   expect(mild.opened === false && mild.failure_count === 1, JSON.stringify(mild));
-  expect(atHard.opened === false && atHard.verdict === 'closed' && atHard.failure_count === 1, JSON.stringify(atHard));
+  expect(atHard.opened === true && atHard.verdict === 'hard_stop' && atHard.failure_count === 1 /* 4.9.211: the hard stop is inclusive (ε ≥ 0.80) */, JSON.stringify(atHard));
   expect(atWrite.opened === false && atWrite.failure_count === 0, JSON.stringify(atWrite));
   expect(KM.driftCircuitBreaker(0.36, null, [0.36]).tripped === false && KM.driftCircuitBreaker(0.36, null, [0.36, 0.36]).tripped === true, '191 breaker unchanged');
   const src = fs.readFileSync(path.join(ROOT, 'src', 'drift_194.js'), 'utf8');
@@ -124,7 +124,7 @@ T('RSOC, Genesis, archive, and resurrect bands stay internal', () => {
   const top = B.gnBand(0.91);
   const at = B.gnBand(0.8);
   expect(low.band === 'below_0.3' && mid.band === '0.5_to_0.7' && high.band === '0.7_to_0.9' && top.band === 'at_or_above_0.9', JSON.stringify({ low: low.band, mid: mid.band, high: high.band, top: top.band }));
-  expect(high.halt_applied === true && high.doc_halt === 0.9 && at.halt_applied === false && top.halt_threshold === 0.8 && high.admit_gate === false, JSON.stringify(high));
+  expect(high.halt_applied === true && high.doc_halt === 0.9 && at.halt_applied === true /* 4.9.211 inclusive */ && top.halt_threshold === 0.8 && high.admit_gate === false, JSON.stringify(high));
   const held = B.storageBand(0.36);
   const write = B.storageBand(0.35);
   const archived = B.storageBand(0.81);
@@ -181,7 +181,7 @@ T('a loop older than 120 s rolls back, and the 0.9 halt is the 0.8 hard stop', (
   const atThreads = B.failsafe({ loop_age_s: 1, drift: 0.1, threads: 50 });
   expect(young.rollback === false && young.action === 'continue' && young.halt === false, JSON.stringify(young));
   expect(old.rollback === true && old.action === 'rollback' && old.route === 'cold_archive' && old.resurrect_allowed === false && old.writes === false, JSON.stringify(old));
-  expect(under.halt === false && under.doc_would_halt === false && halt.halt === true && halt.doc_would_halt === false && halt.halt_threshold === 0.8, JSON.stringify(halt));
+  expect(under.halt === true /* 4.9.211: 0.80 halts (inclusive) */ && under.doc_would_halt === false && halt.halt === true && halt.doc_would_halt === false && halt.halt_threshold === 0.8, JSON.stringify(halt));
   expect(doc.halt === true && doc.doc_would_halt === true && doc.codex_failsafe_0_9 === 'replaced' && doc.admit_gate === false, JSON.stringify(doc));
   expect(back.resurrect_allowed === true && edge.resurrect_allowed === false && chi.resurrect_allowed === false, JSON.stringify({ back: back.resurrect_allowed, edge: edge.resurrect_allowed, chi: chi.resurrect_allowed }));
   expect(threads.action === 'halt' && atThreads.action === 'continue' && threads.christping === 'gilligan-only', JSON.stringify(threads));
@@ -238,7 +238,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.194', () => {
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_194_pyodide.json'), 'utf8'));
   expect(pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.210', ver);
+  expect(ver === '4.9.211', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.194/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -248,7 +248,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.194', () => {
   const doc = fs.readFileSync(path.join(ROOT, '..', 'docs', 'WIRING_194.md'), 'utf8');
   expect(/0\.87/.test(doc) && /No model is called/.test(doc) && /0\.7/.test(doc), 'WIRING');
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.210' && reg.features.some(f => f.id === 'R4194-BREAKER-ANALYZER') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 204, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.211' && reg.features.some(f => f.id === 'R4194-BREAKER-ANALYZER') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 205, reg.version + ' ' + reg.count);
   const Next = require(ROOT + '/src/next_layer.js');
   expect(Next.SWITCHES.dream_idle === true && Next.SWITCHES.economy === false, 'defaults');
   Next.set('dream_idle', true);

@@ -61,7 +61,7 @@ T('no trusted anchor means no admit; Wikipedia-sourced rows are never a premise'
 });
 T('Gilligan bands come from KMath.driftGovernance (unchanged): clean, one re-measure, quarantine, hard', () => {
   const c = make().c;
-  expect(c.laneOf(0.2) === 'clean' && c.laneOf(0.35) === 'clean' && c.laneOf(0.37) === 'correct' && c.laneOf(0.5) === 'quarantine' && c.laneOf(0.8) === 'quarantine' && c.laneOf(0.95) === 'hard' && c.laneOf(null) === 'unmeasured', 'lanes');
+  expect(c.laneOf(0.2) === 'clean' && c.laneOf(0.35) === 'clean' && c.laneOf(0.37) === 'correct' && c.laneOf(0.5) === 'quarantine' && c.laneOf(0.79) === 'quarantine' && c.laneOf(0.8) === 'hard' /* 4.9.211: the hard stop is inclusive */ && c.laneOf(0.95) === 'hard' && c.laneOf(null) === 'unmeasured', 'lanes');
   expect(KM.DRIFT_RULING.project_max === 0.35 && KM.DRIFT_RULING.explore_min === 0.4 && KM.DRIFT_RULING.explore_max === 0.8, 'bands untouched');
 });
 T('the quarantine reopens once when the anchor set changes, not before', async () => {

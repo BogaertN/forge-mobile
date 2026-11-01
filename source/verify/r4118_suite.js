@@ -108,7 +108,7 @@ T('mobile drift gates stay Nic 0.35 and are not the paper bands', () => {
   const at = eps => KM.turnGovernance(eps);
   expect(at(0.35).may_write_memory === true && at(0.35).may_project === true && at(0.35).route === 'project', JSON.stringify(at(0.35)));
   expect(at(0.36).needs_correction === true && at(0.36).may_write_memory === false && at(0.36).route === 'correct', JSON.stringify(at(0.36)));
-  expect(at(0.40).route === 'quarantine' && at(0.40).may_write_memory === false && at(0.80).route === 'quarantine', JSON.stringify(at(0.40)));
+  expect(at(0.40).route === 'quarantine' && at(0.40).may_write_memory === false && at(0.79).route === 'quarantine' && at(0.80).route === 'hard_stop' /* 4.9.211 inclusive */, JSON.stringify(at(0.40)));
   expect(at(0.81).route === 'hard_stop' && at(0.81).may_write_memory === false, JSON.stringify(at(0.81)));
   const H = loadHarness();
   const law = H.run().mobile_write_law;

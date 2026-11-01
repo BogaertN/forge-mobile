@@ -373,7 +373,7 @@ def _merge_routing_packet(
     coherence_score = component if component > 0 else top
     overextended = bool(selected.get("overextended") or selected.get("candidate_overextended"))
     # 0.35 chi/quarantine and 0.80 hard stop are the mobile law. The router's 0.72 is reference only.
-    if circuit or eps > 0.80:
+    if circuit or eps >= 0.80:
         gate_route = "spc_cold_storage_required"
         must_archive = True
     elif overextended or eps > 0.35:
@@ -397,7 +397,7 @@ def _merge_routing_packet(
         "math_terms": {
             **_as_dict(selected.get("math_terms")),
             "circuit_breaker": circuit,
-            "chi_required": bool(eps > 0.35 and eps <= 0.80),
+            "chi_required": bool(eps > 0.35 and eps < 0.80),
             "ghost_loop_pressure": _f(_as_dict(selected.get("math_terms")).get("ghost_loop_pressure"), 0.0),
         },
         "cold_storage_gate": {

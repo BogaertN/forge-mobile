@@ -122,7 +122,7 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
             eps = float(hops[0]["eps"])
         except (TypeError, ValueError):
             eps = 0.0
-    disposition = "clean" if eps <= 0.35 else ("hard_stop" if eps > 0.80 else "quarantine")
+    disposition = "clean" if eps <= 0.35 else ("hard_stop" if eps >= 0.80 else "quarantine")
     debate_claim = {
         "text": claim,
         "atom": atom,

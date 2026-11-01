@@ -199,7 +199,7 @@
     function defend(eps) {
       const n = Number(eps);
       if (!Number.isFinite(n)) return { ref: '8.10', route: 'unmeasured', write_global: false, calls_llm: false };
-      if (n > HARD) return { ref: '8.10', route: 'hard_stop', write_global: false, calls_llm: false };
+      if (n >= HARD) return { ref: '8.10', route: 'hard_stop', write_global: false, calls_llm: false };
       if (n > PROJECT_MAX) return { ref: '8.10', route: n <= 0.40 ? 'chi' : 'quarantine', write_global: false, calls_llm: false };
       return { ref: '8.10', route: 'project', write_global: true, calls_llm: false };
     }

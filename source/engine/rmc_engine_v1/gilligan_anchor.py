@@ -9,8 +9,8 @@ Nic's table (kmath.js DRIFT_RULING, Gilligan Codex §6.1):
 
   <= 0.35   projectable. Athena may resonance-place. The admit gate is later.
   > 0.35 and < 0.40   chi. Gilligan only. Not placed. ChristPing is not started.
-  >= 0.40 and <= 0.80 quarantine. Kept. Not a premise.
-  > 0.80    hard stop. ChristPing is recorded here and only here. Ask does not start it.
+  >= 0.40 and < 0.80  quarantine. Kept. Not a premise.
+  >= 0.80   hard stop (inclusive, 4.9.211). ChristPing is recorded here and only here. Ask does not start it.
 
 Citations
   Gilligan Codex Vol IV §1.1.2 phase anchor lock, §3.2 ChristPing, §3.4 drift
@@ -50,7 +50,7 @@ CITE = (
 def band_for(epsilon: float) -> str:
     """Nic's drift table. The admit gate is not this function."""
     eps = float(epsilon)
-    if eps > float(THRESHOLDS["hard_stop"]):
+    if eps >= float(THRESHOLDS["hard_stop"]):
         return "hard_stop"
     if eps >= CHI_BAND_MAX:
         return "quarantine"

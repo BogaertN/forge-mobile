@@ -513,7 +513,7 @@
     if (!closed.closed) return Object.assign(base, { rule: 'GEOM-OPEN' });
     if (walk.blocked) return Object.assign(base, { rule: walk.forbidden_5_to_8 ? 'GEOM-5-TO-8' : 'GEOM-4-TO-8' });
     if (!gate.pass) return Object.assign(base, { rule: 'GEOM-MEMBRANE' });
-    if (!(drift <= WRITE_MAX)) return Object.assign(base, { rule: drift > HARD_STOP ? 'GEOM-HARD-STOP' : 'GEOM-DRIFT' });
+    if (!(drift <= WRITE_MAX)) return Object.assign(base, { rule: drift >= HARD_STOP ? 'GEOM-HARD-STOP' : 'GEOM-DRIFT' });
     if (!(echo >= ECHO_MIN)) return Object.assign(base, { rule: 'GEOM-ECHO' });
     const phase = path[path.length - 1];
     const sealed = Dpa.sealLoop(archive, {

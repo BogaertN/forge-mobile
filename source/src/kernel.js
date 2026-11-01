@@ -1509,7 +1509,7 @@ function Kernel(opts) {
       if (!row) return creativeTurn('CREATE', { intent: 'CREATE', failure: { class: 'commit_without_proposal', detail: 'no proposal' }, candidates: [], speak: [] });
       const eps = row.drift && typeof row.drift.eps_s === 'number' ? row.drift.eps_s : null; const band = M.driftGovernance(eps).band;
       if (row.novelty && row.novelty.class === 'unbound') return creativeTurn('CREATE', { intent: 'CREATE', failure: { class: 'novelty_unbound', detail: 'novelty without a memory anchor' }, candidates: [{ id: row.id, claim: row.claim, claim_status: 'rejected', novelty: row.novelty, drift: row.drift, spoken: false, reason: 'novelty unbound' }], speak: [] });
-      if (band === 'reject' || (typeof eps === 'number' && eps > 0.80)) return creativeTurn('CREATE', { intent: 'CREATE', failure: { class: 'drift_hard', detail: 'drift above 0.80' }, candidates: [{ id: row.id, claim: row.claim, claim_status: 'rejected', novelty: row.novelty, drift: { eps_s: eps, band: 'reject' }, spoken: false, reason: 'hard stop: ε_s above 0.80' }], speak: [] });
+      if (band === 'reject' || (typeof eps === 'number' && eps >= 0.80)) return creativeTurn('CREATE', { intent: 'CREATE', failure: { class: 'drift_hard', detail: 'drift above 0.80' }, candidates: [{ id: row.id, claim: row.claim, claim_status: 'rejected', novelty: row.novelty, drift: { eps_s: eps, band: 'reject' }, spoken: false, reason: 'hard stop: ε_s above 0.80' }], speak: [] });
       creativePending = null; const pack = { intent: 'CREATE', failure: null, candidates: [{ id: row.id, claim: row.claim, claim_status: row.claim_status, novelty: row.novelty, drift: { eps_s: eps, band }, spoken: true, reason: null }] };
       rules.push({ id: 'CREATIVE-COMMIT-PHRASE', doc: '4.9.120 a seal phrase repeats the proposal; the tap is the only commit', note: row.id });
       return res('SELECTED_MEANING', { kind: 'creative_idea', creative_intent: 'CREATE', items: [row.claim], status: row.claim_status || 'hypothesis', creative: pack }, { frame: 'FR.TOOL.EDE', act: 'question' }); }
@@ -1574,7 +1574,7 @@ function Kernel(opts) {
       const cand = (spoken, reason, status) => [{ id, claim: claim || row.claim || '', claim_status: status, novelty, drift, spoken, reason }];
       if (!claim) return composeRefuse(source, { class: 'language_unexpressible', detail: 'no claim text' }, cand(false, 'no claim text', 'rejected'));
       if (novelty.class === 'unbound' || novelty.anchored === false || (discovery.includes(row.claim_status) && novelty.class !== 'bounded')) return composeRefuse(source, { class: 'novelty_unbound', detail: 'unbound novelty is not a discovery' }, cand(false, 'novelty unbound', 'rejected'));
-      if (band === 'reject' || (typeof eps === 'number' && eps > 0.80)) return composeRefuse(source, { class: 'drift_hard', detail: 'drift above 0.80' }, cand(false, 'hard stop: ε_s above 0.80', 'rejected'));
+      if (band === 'reject' || (typeof eps === 'number' && eps >= 0.80)) return composeRefuse(source, { class: 'drift_hard', detail: 'drift above 0.80' }, cand(false, 'hard stop: ε_s above 0.80', 'rejected'));
       const status = row.claim_status || 'hypothesis'; const pack = { intent: 'COMPOSE', source, failure: null, candidates: cand(true, null, status), msm_id: row.msm_id || null };
       const meaning = { kind: 'compose_narrative', creative_intent: 'COMPOSE', source, items: [claim], status, creative: pack }; const expand = composeExpand(claim, row.clause || null); if (expand) meaning.expand = expand;
       rules.push({ id: 'COMPOSE-NARRATE', doc: '4.9.123 COMPOSE: the paragraph develops the admitted meaning and does not store', note: source + ' · ' + status });
@@ -2727,7 +2727,7 @@ function Kernel(opts) {
         msm.meaning = { kind: 'write_held', sensitive: !!ctx.privacy }; msm.limits.may_write_memory = false; sel.write = null; curSecrets = []; meta.pending = null; }
       else if (d.decision !== 'allow') { msm.limits.may_write_memory = false; sel.write = null; } }
     if (sealed) { const cold = store.load('cold_storage'); cold.push({ id: psi_id, sealed_at: at, reason: 'hard stop ε_s=' + drift.eps_s, msm, sfe, input, tier: bypass ? 'DEEP' : 'WARM', breach: !!bypass, resurrection_attempts: 0 }); store.save('cold_storage', cold); meta.pending = null;
-      trace.rsoc.ops.push('Ĉ'); Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = (gov.forbidden ? 'Forbidden phase transition ' + trace.drift.attempted_transition + ' (blocked at any ε_s; ε_s = ' + drift.eps_s + ')' : 'Hard stop: ε_s = ' + drift.eps_s + ' > 0.80') + ' and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
+      trace.rsoc.ops.push('Ĉ'); Ph(7, 'naming withheld (sealed)'); trace.blocked = true; trace.block_reason = (gov.forbidden ? 'Forbidden phase transition ' + trace.drift.attempted_transition + ' (blocked at any ε_s; ε_s = ' + drift.eps_s + ')' : 'Hard stop: ε_s = ' + drift.eps_s + ' ≥ 0.80') + ' and χ(t) unavailable → Ĉ archival.'; return finish(trace, 6, null, msm, sfe); }
     if (quarantined) { meta.pending = null; trace.blocked = true; trace.block_reason = 'Quarantine: ε_s = ' + (corrected ? corrected.eps_after + ' after the χ correction step' + (corrected.applied ? '' : ' (χ not applied: ' + corrected.reason + ')') : drift.eps_s) + ' is above the projection limit 0.35 — held in the drift archive; not projected and not written (drift ruling).';
       Ph(7, 'naming withheld (quarantine)'); return finish(trace, 6, null, msm, sfe); }
     if (sel.working) { /* 4.9.66: a working fact is conversation state, so it is admitted only inside the drift gate (projectable band, not sealed or restricted) */
@@ -2920,7 +2920,7 @@ function Kernel(opts) {
     if (userTap !== true) return { ok: false, rule: 'PERM-NEEDS-USER-TAP' };
     if (!row.novelty || row.novelty.class === 'unbound' || row.novelty.anchored === false) return { ok: false, rule: 'CREATIVE-NOVELTY-UNBOUND' };
     const eps = row.drift && typeof row.drift.eps_s === 'number' ? row.drift.eps_s : null; const band = M.driftGovernance(eps).band;
-    if (band === 'reject' || (typeof eps === 'number' && eps > 0.80)) return { ok: false, rule: 'CREATIVE-DRIFT-HARD' };
+    if (band === 'reject' || (typeof eps === 'number' && eps >= 0.80)) return { ok: false, rule: 'CREATIVE-DRIFT-HARD' };
     if (band !== 'projectable' || !(typeof eps === 'number' && eps <= 0.35) || row.novelty.class !== 'bounded') return { ok: false, rule: 'CREATIVE-DRIFT-NOT-PROJECTABLE' };
     const d = perm.authorize('hypothesis.write', { userTap: true, subject: id }); if (d.decision !== 'allow') return { ok: false, rule: d.rule };
     row.status = 'committed'; row.committed_at = now(); row.receipt = d.id || null; store.save('creative_proposals', rows);

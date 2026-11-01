@@ -93,7 +93,7 @@ def chi_adaptive(eps_s: float, phase_hist, prev_phase=None, phi_act=None, gamma:
         eps = float(eps_s)
     except (TypeError, ValueError):
         eps = 0.0
-    hard = eps > THETA_HARD
+    hard = eps >= THETA_HARD
     over = eps > theta_w
     return {
         "theta_w": round(theta_w, 6),

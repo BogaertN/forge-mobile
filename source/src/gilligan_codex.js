@@ -104,7 +104,7 @@
   function driftClass(eps) {
     if (eps == null || !Number.isFinite(Number(eps))) return 'unmeasured';
     const n = Number(eps);
-    if (n > HARD_STOP) return 'hard_stop';
+    if (n >= HARD_STOP) return 'hard_stop';
     if (n > SPC_MIRROR) return 'spc_mirror';
     if (n >= KM.DRIFT_RULING.explore_min) return 'quarantine';
     if (n > PROJECT_MAX) return 'chi_caution';
@@ -403,7 +403,7 @@
       if (bioShaped(rec)) return { ok: false, rule: 'CODEX-BIOMETRIC-ABSENT', calls_llm: false, section: '11.1' };
       const eps = Number(rec.eps);
       if (!Number.isFinite(eps) || eps > PROJECT_MAX) return { ok: false, rule: 'CODEX-DRIFT-NOT-PROJECTABLE', calls_llm: false, section: '6.1' };
-      if (eps > HARD_STOP || state.failsafe_open === true && eps > HARD_STOP) return { ok: false, rule: 'CODEX-HARD-STOP', calls_llm: false, section: '3.18' };
+      if (eps >= HARD_STOP || state.failsafe_open === true && eps >= HARD_STOP) return { ok: false, rule: 'CODEX-HARD-STOP', calls_llm: false, section: '3.18' };
       if (rec.integrity != null && !(Number(rec.integrity) >= INTEGRITY_HIGH)) return { ok: false, rule: 'CODEX-INTEGRITY', calls_llm: false, section: '3.8' };
       if (rec.goal || rec.synthetic === true) {
         const sealed = rec.seal && state.names.has(rec.seal);

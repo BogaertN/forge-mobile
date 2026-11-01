@@ -736,7 +736,7 @@ def measure_candidate(candidate: dict[str, Any], trace_or_report: dict[str, Any]
         and (bool(nodes) or "hypothesis" in str(candidate.get("candidate_kind") or "").lower())
     )
     circuit = bool(
-        eps > 0.80
+        eps >= 0.80
         or any(w.get("severity") == "critical" for w in p_metrics.get("phase_warnings", []))
         or "catastrophic" in taxonomy
     )

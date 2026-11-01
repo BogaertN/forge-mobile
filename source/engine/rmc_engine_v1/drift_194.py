@@ -270,7 +270,7 @@ def gn_band(epsilon: Any) -> dict[str, Any]:
         "thresholds": [0.3, 0.5, 0.7, 0.9],
         "doc_halt": 0.9,
         "halt_threshold": 0.8,
-        "halt_applied": n is not None and n > 0.8,
+        "halt_applied": n is not None and n >= 0.8,
         "logged_only": True,
         "admit_gate": False,
         "writes": False,
@@ -283,7 +283,7 @@ def storage_band(epsilon: Any) -> dict[str, Any]:
     n = _finite(epsilon)
     return {
         "epsilon_s": n,
-        "archive": n is not None and n > 0.8,
+        "archive": n is not None and n >= 0.8,
         "resurrect_band": n is not None and n < 0.4,
         "write_allowed": n is not None and n <= PROJECT_MAX,
         "logged_only": True,
@@ -493,7 +493,7 @@ def failsafe(row: dict[str, Any] | None = None) -> dict[str, Any]:
     thread_overload = threads is not None and threads > 50
     output_loop = src.get("output_loop") is True
     doc_halt = drift is not None and drift > 0.9
-    halt = drift is not None and drift > 0.8
+    halt = drift is not None and drift >= 0.8
     echo = src.get("echo_confirmed") is True
     chi = src.get("chi_active") is True
     resurrect = drift is not None and drift <= 0.3 and echo and not chi and not halt and not rollback

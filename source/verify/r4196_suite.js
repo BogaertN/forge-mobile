@@ -92,7 +92,7 @@ T('a dead path seals once at deep and drift 0.35 does not', () => {
   expect(row.skip_early_tier === 'hot' && row.skip_dead === true && row.skip_tier === 'deep_ghost' && row.skip_rule === 'DPA-APPENDED', JSON.stringify(row));
   expect(row.skip_phase === 'Power' && row.skip_n === 1, JSON.stringify(row));
   expect(row.erase_rule === 'DPA-ERASE-REJECTED' && row.tier_erase === 'TIER-ERASE-REJECTED' && row.kept === 1, JSON.stringify(row));
-  expect(row.dead_35 === false && row.dead_36 === true && row.dead_80 === true && row.hard_stop_80 === false && row.hard_stop_81 === true, JSON.stringify(row));
+  expect(row.dead_35 === false && row.dead_36 === true && row.dead_80 === true && row.hard_stop_80 === true /* 4.9.211 inclusive */ && row.hard_stop_81 === true, JSON.stringify(row));
   expect(row.spc_51 === true && row.admit_gate === false && row.calls_llm === false && row.c_min === 0.87, 'spc log');
   expect(Dpa.classify(0.36).dead === true && Dpa.classify(0.35).dead === false, 'calls the archive classifier');
   same(row, py({ op: 'deep' }), 'deep');
@@ -162,7 +162,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.196', () => {
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_196_pyodide.json'), 'utf8'));
   expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.210', ver);
+  expect(ver === '4.9.211', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.196/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -174,7 +174,7 @@ T('cold admits stay 48 of 60 and the release is 4.9.196', () => {
   const table = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_196.md'), 'utf8');
   expect(/48 of 60/.test(table) && /No model is called/.test(table), 'LIVE_TEST');
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.210' && reg.features.some(f => f.id === 'R4196-STORAGE-TIERS') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 204, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.211' && reg.features.some(f => f.id === 'R4196-STORAGE-TIERS') && reg.count === reg.features.length && reg.claims.Implemented === 112 && reg.claims.Partial === 205, reg.version + ' ' + reg.count);
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
 });

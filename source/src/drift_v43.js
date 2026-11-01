@@ -367,7 +367,7 @@
     const local = KM.localCurvature(hist, KM.CHI_HARDENING.window);
     const thetaW = KM.adaptiveThreshold(local, KM.CHI_HARDENING.gamma);
     const velocity = KM.phaseVelocity(row.stamps_ms || []);
-    const hardCeiling = eps > KM.CHI_HARDENING.theta_hard;
+    const hardCeiling = eps >= KM.CHI_HARDENING.theta_hard;
     const above = eps > thetaW;
     const disposition = dScore === 1 ? 'HARD_FIRE' : hardCeiling ? 'HARD_CEILING' : above ? 'WARN' : 'OK';
     const emaPrev = maybe(row.ema) === null ? 0 : maybe(row.ema);

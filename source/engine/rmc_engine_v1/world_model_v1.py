@@ -580,7 +580,7 @@ def _drift_for(text: str, premises: list[dict[str, Any]], phase_path: list[Any])
     )
     components = coherence_components(candidate, measured)
     eps = float(measured.get("epsilon_s") or 0.0)
-    if eps > float(THRESHOLDS["hard_stop"]):
+    if eps >= float(THRESHOLDS["hard_stop"]):
         disposition = "hard_stop"
     elif eps > float(THRESHOLDS["drift_quarantine"]):
         disposition = "chi_quarantine"

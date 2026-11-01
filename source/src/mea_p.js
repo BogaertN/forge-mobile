@@ -218,7 +218,7 @@ function cycle(M0, opts) { const M = M0, o = Object.assign({ budget: DEFAULT_BUD
     c.blocked_on = hit && hit.blocked_on.length ? hit.blocked_on.slice() : ['claim:on_manifest'];
     if (c.route === 'eligible') { c.route = 'carried'; c.reason = hit ? 'parked debt from a prior cycle' : 'already claimed on this manifest'; }
   }
-  if (pool.some(c => c.terms.eps > KM.DRIFT_RULING.explore_max * MICRO /* 4.9.87: the drift table's hard stop */)) stop = { rule: 'MEA-DRIFT-EXCURSION', note: 'a candidate exceeded the 0.80 hard stop' };
+  if (pool.some(c => c.terms.eps >= KM.DRIFT_RULING.explore_max * MICRO /* 4.9.87: the drift table's hard stop */)) stop = { rule: 'MEA-DRIFT-EXCURSION', note: 'a candidate exceeded the 0.80 hard stop' };
   /* slates: the options of each choice unknown compete; derived claims do not compete with each other */
   const slates = {}; for (const u of M.unknowns.filter(x => x.kind === 'choice')) { const cs = pool.filter(c => c.op === 'hypothesize' && c.unknown === u.id && c.route === 'eligible'); const r = rank(cs);
     const fav = r.length >= 2 && r[1].decided_by && r[1].decided_by !== 'id' && r[0].pareto ? r[0].id : r.length === 1 ? r[0].id : null; slates[u.id] = { ranking: r, favoured: fav }; for (const x of r) { const c = pool.find(y => y.candidate_id === x.id); c.rank = x.rank; c.pareto = x.pareto; c.favoured = x.id === fav; } }
@@ -336,7 +336,7 @@ function creativeScreen(edeOut, opts) {
     if (klass === 'unbound' || DISCOVERY_STATUS[claim_status] && klass === 'unbound') claim_status = 'rejected';
     let spoken = false, reason = null;
     if (!anchored || klass === 'unbound') reason = 'novelty unbound';
-    else if (band === 'reject' || (typeof eps === 'number' && eps > 0.80)) reason = 'hard stop: ε_s above 0.80';
+    else if (band === 'reject' || (typeof eps === 'number' && eps >= 0.80)) reason = 'hard stop: ε_s at or above 0.80';
     else if (contradiction) reason = 'contradiction probe';
     else if (phaseGated) reason = 'phase gated';
     else if (band === 'correct') reason = 'correction band: χ only';

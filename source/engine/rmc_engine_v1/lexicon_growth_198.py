@@ -302,7 +302,7 @@ def evaluate(store: dict[str, Any], entry: dict[str, Any]) -> None:
     if entry["tier"] in ("quarantine", "denied"):
         return
     stats = stats_of(entry)
-    hard = any(use["drift"] > HARD_STOP for use in entry["uses"])
+    hard = any(use["drift"] >= HARD_STOP for use in entry["uses"])
     if stats["driftMax"] > WRITE_MAX:
         entry["tier"] = "quarantine"
         entry["chi"] = True

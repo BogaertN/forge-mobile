@@ -1,4 +1,4 @@
-// memory-writer core (plain ES module; network and clock are injected so verify/r4205_suite.js runs this exact file in Node).
+// memory-writer core (4.9.211: + the drift law) (plain ES module; network and clock are injected so verify/r4205_suite.js runs this exact file in Node).
 export const PURPOSE = "forge-memory-writer/v1";
 const ALLOWED_ORIGINS = new Set(["https://bogaertn.github.io"]);
 const MAX_BODY = 40000;
@@ -22,6 +22,45 @@ const reply = (req, status, body) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...cors(req) } });
 
 const ARG_KEYS = ["p_consent", "p_contributor", "p_kind", "p_payload", "p_proof", "p_provenance", "p_sources"];
+
+// 4.9.211 DRIFT-SPEC/v1: the same trace-epsilon recompute as kmath.driftMeasure / drift_policy.drift_measure /
+// SQL app.drift_eps (circular sigma over hist, D = 1 iff (prev, act) in S, dphi = |act - (prev % 9 + 1)| / 9,
+// eps = (sigma + D + dphi) / max(1, depth); not clipped). The SQL writer re-checks everything; this is the early refusal.
+export const DRIFT = Object.freeze({ METRIC_ID: "eps_s/rsoc-v4.8+circ/v1", SCHEME: "phase-scheme/rmc/v1", ADMIT_MAX: 0.35, HARD_MIN: 0.80,
+  ECHO_MEMORY_MIN: 0.97, C_MIN: 0.87, S: [[5, 8], [4, 8]], CLASSES: ["negation", "certainty", "condition"] });
+const isInt9 = (n) => Number.isInteger(n) && n >= 1 && n <= 9;
+const nextPhase = (n) => (n % 9) + 1;
+const backward = (a, b) => b !== a && b !== nextPhase(a) && ((a - b + 9) % 9) < ((b - a + 9) % 9);
+export function driftEps(hist, prev, act, depth) {
+  let c = 0, s = 0;
+  for (const p of hist) { const th = ((p - 1) / 9) * 2 * Math.PI; c += Math.cos(th); s += Math.sin(th); }
+  const sigma = hist.length < 2 ? 0 : Math.sqrt(Math.max(0, 2 * (1 - Math.min(1, Math.sqrt(c * c + s * s) / hist.length)))) / (2 * Math.PI);
+  const d = DRIFT.S.some(([a, b]) => a === prev && b === act) ? 1 : 0;
+  const dphi = Math.abs(act - ((prev % 9) + 1)) / 9;
+  const eps = (sigma + d + dphi) / Math.max(1, Math.floor(depth));
+  return { eps: Math.round(eps * 1e6) / 1e6, sigma, d, dphi };
+}
+/** the drift / Echo / naming law for a lasting write; returns a KB-WRITER-* rule or null */
+export function driftRefusal(proof) {
+  const di = proof && proof.drift_input;
+  if (!di || typeof di !== "object" || !Array.isArray(di.hist) || !di.hist.every(isInt9) || !isInt9(di.prev) || !isInt9(di.act)
+      || !Number.isInteger(di.depth) || di.depth < 1 || di.depth > 9 || di.scheme !== DRIFT.SCHEME || di.hist.length > 32
+      || (di.hist.length && di.hist[di.hist.length - 1] !== di.prev)) return "KB-WRITER-DRIFT-INPUT-REQUIRED";
+  const claimed = proof.drift && Number(proof.drift.eps);
+  const m = driftEps(di.hist, di.prev, di.act, di.depth);
+  if (!Number.isFinite(claimed) || Math.abs(m.eps - claimed) > 1e-6) return "KB-WRITER-EPS-MISMATCH";
+  const path = di.hist.concat([di.act]);
+  for (let i = 1; i < path.length; i++) if (path[i] !== path[i - 1] && (DRIFT.S.some(([a, b]) => a === path[i - 1] && b === path[i]) || backward(path[i - 1], path[i]))) return "KB-WRITER-FORBIDDEN";
+  if (m.eps >= DRIFT.HARD_MIN) return "KB-WRITER-HARD-STOP";
+  if (m.eps > DRIFT.ADMIT_MAX) return "KB-WRITER-DRIFT";
+  const i6 = path.indexOf(6), i7 = path.indexOf(7), firstOut = path.findIndex((p) => p === 8 || p === 9);
+  if (!(i6 >= 0 && i7 > i6 && firstOut > i7)) return "KB-WRITER-UNNAMED";
+  const cls = proof.echo_classes && proof.echo_classes.classes;
+  if (!(Number(proof.echo) >= DRIFT.ECHO_MEMORY_MIN) || !proof.echo_classes || proof.echo_classes.ok !== true || !cls
+      || !DRIFT.CLASSES.every((k) => cls[k] && cls[k].ok === true)) return "KB-WRITER-ECHO";
+  if (!(Number(proof.coherence) >= DRIFT.C_MIN)) return "KB-WRITER-COHERENCE";
+  return null;
+}
 
 /** d: { url, service, anon, fetch(url, init), now() } */
 export async function handle(req, d) {
@@ -68,7 +107,10 @@ export async function handle(req, d) {
   try { const k = await crypto.subtle.importKey("jwk", jwk, { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"]);
         good = await crypto.subtle.verify({ name: "ECDSA", hash: "SHA-256" }, k, unb64(sig), new TextEncoder().encode(canon(body))); } catch { good = false; }
   if (!good) return reply(req, 400, { ok: false, rule: "KB-WRITER-BAD-SIGNATURE" });
-  // 7. signed insert (service role only); the database re-checks link, device, nonce, freshness and the packet
+  // 7. the drift law (4.9.211): recompute the trace epsilon and refuse early; the SQL writer checks the same again
+  const dr = driftRefusal(args.p_proof);
+  if (dr) return reply(req, 403, { ok: false, rule: dr });
+  // 8. signed insert (service role only); the database re-checks link, device, nonce, freshness, the packet and the drift law
   const rpc = await d.fetch(d.url + "/rest/v1/rpc/memory_writer_insert_signed", { method: "POST", headers: h, body: JSON.stringify({
     p_uid: uid, p_signer_id: body.signer, p_nonce: body.nonce, p_ts: body.ts, p_signed_body: body,
     p_kind: args.p_kind, p_payload: args.p_payload, p_proof: args.p_proof, p_sources: args.p_sources,

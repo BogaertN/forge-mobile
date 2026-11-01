@@ -56,6 +56,7 @@ import hashlib  as _hl
 import json     as _json
 import math     as _math
 from typing import Any
+from rmc_engine_v1.drift_policy import theta_admit
 
 try:
     from rmc_engine_v1.measurement_kernel import clamp, stable_hash, stable_id
@@ -228,7 +229,7 @@ def evaluate_chi_t(
 
     # ── Determine if χ(t) is needed ──────────────────────────────────────────
     chi_needed = (
-        eps >= THRESHOLDS["intervention"]
+        eps > theta_admit(0)  # 4.9.211: θ_admit = min(0.35, θ_w), strict (ε = 0.35 is clean)
         or chi_required_flag
         or correction_attempt_number > 1
     )
@@ -379,7 +380,7 @@ def evaluate_chi_t(
 
     if success:
         reason_codes.append("chi_t_correction_reduced_epsilon")
-        route = "correction_queue" if eps_after >= THRESHOLDS["intervention"] else "active_stack_candidate"
+        route = "correction_queue" if eps_after > theta_admit(0) else "active_stack_candidate"
         status = "CORRECTION_SUCCESS"
     else:
         reason_codes.append("chi_t_correction_insufficient_epsilon_unchanged")

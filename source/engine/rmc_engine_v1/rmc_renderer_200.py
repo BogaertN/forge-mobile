@@ -245,7 +245,7 @@ def render(body: dict[str, Any] | None = None) -> dict[str, Any]:
         rule = "WIKIPEDIA-NOT-ANCHOR"
     elif stepped["d_score"] == 1:
         rule = "RENDER-5-TO-8"
-    elif drift > HARD_STOP:
+    elif drift >= HARD_STOP:
         rule = "RENDER-HARD-STOP"
     elif not echo["pass"]:
         rule = "RENDER-ECHO"

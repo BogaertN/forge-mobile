@@ -1,5 +1,5 @@
 {
- "version": "4.9.210",
+ "version": "4.9.211",
  "features": [
   {
    "id": "A-01",
@@ -4013,13 +4013,24 @@
    "proof": [
     "verify/r4210_suite.js"
    ]
+  },
+  {
+   "id": "R4211-DRIFT-SPEC-V1",
+   "name": "DRIFT-SPEC/v1: one drift policy, ordered checks, inclusive hard stop, memory write gate, server-side epsilon recompute",
+   "source": "DRIFT-SPEC/v1 resolved (2026-10-31), Nic plan Release B; src/kmath.js DRIFT_POLICY; engine/rmc_engine_v1/drift_policy.py, mobile_config.py, rmc_core.py; supabase/migrations/20261101010000_drift_policy_211.sql; supabase/functions/memory-writer",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Ordered checks forbidden > hard_stop (>= 0.80) > acceleration > explore > correct > clean at theta_admit; trend k=3; sigma_res and 0.78 gates dropped; write gate Phi6 then Phi7, Echo >= 0.97 + classes, C >= 0.87; app.drift_eps recomputes the write-trace epsilon and the writer refuses KB-WRITER-* codes. Partial: the candidate epsilon keeps the RMC n=3 normaliser (open question for Nic); acceleration is measured only where timed phase events exist. Cold 60: 22/60, 0 false admits, not tuned.",
+   "proof": [
+    "verify/r4211_suite.js"
+   ]
   }
  ],
- "count": 366,
+ "count": 367,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 204,
+  "Partial": 205,
   "Missing": 9,
   "Out of scope / parked": 13
  }

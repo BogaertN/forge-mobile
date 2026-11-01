@@ -250,7 +250,7 @@ def evaluate(body: dict[str, Any] | None = None) -> dict[str, Any]:
     echo = rendered["echo"]
     coherence = num(row.get("C"), None)
     wiki = "wikipedia" in source.lower()
-    hard = drift > float(laws["hard_stop"])
+    hard = drift >= float(laws["hard_stop"])
     geometry = coordinate(left, right)
     coordinated = bool(geometry["ok"] and stepped["d_score"] == 0 and not hard and not wiki)
     crp = coherence is not None and coherence >= CRP_INTERNAL

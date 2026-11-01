@@ -100,8 +100,9 @@ const FORBIDDEN = [[5, 8], [4, 8]]; // RMC Addendum §4 (Φ5→Φ8); RSOC Axiom 
    through driftBand() / driftGovernance(). Nic's ruling (2026-10-14, reaffirmed 2026-10-18):
      ε_s ≤ 0.35        → 'clean'     / projectable : may be projected or approved; the only band in which memory may be written
      0.35 < ε_s < 0.40 → 'correct'   / correct     : needs correction (the χ correction step); never written this turn
-     0.40 ≤ ε_s ≤ 0.80 → 'elevated'  / explore     : quarantine-only exploration (drift archive); never written, never projected
-     ε_s > 0.80        → 'hard_stop' / reject      : hard stop (Ĉ archival unless χ lawfully fires)
+     0.40 ≤ ε_s < 0.80 → 'elevated'  / explore     : quarantine-only exploration (drift archive); never written, never projected
+     ε_s ≥ 0.80        → 'hard_stop' / reject      : hard stop (Ĉ archival unless χ lawfully fires). 4.9.211 DRIFT-SPEC/v1 D5: the hard
+                                                      ceiling is INCLUSIVE (the Addendum's "at or above 0.80"); it was '> 0.80' before.
    'turn' is the name the turn trace carries, 'gov' the name learned objects carry; same rows, same edges.
    A forbidden phase transition (FORBIDDEN) is a SEPARATE yes/no gate — it blocks at any ε_s (see forbiddenTransition()).
    0.72 (forge coherence_math) is a reference value only (drift_export.js); it is not a gate. */
@@ -109,10 +110,115 @@ const DRIFT_RULING = Object.freeze({ project_max: 0.35, explore_min: 0.4, explor
 const DRIFT_TABLE = Object.freeze([
   Object.freeze({ turn: 'clean', gov: 'projectable', test: e => e <= DRIFT_RULING.project_max, may_project: true, may_write_memory: true, quarantine: false }),
   Object.freeze({ turn: 'correct', gov: 'correct', test: e => e < DRIFT_RULING.explore_min, may_project: false, may_write_memory: false, quarantine: true, correction: true }),
-  Object.freeze({ turn: 'elevated', gov: 'explore', test: e => e <= DRIFT_RULING.explore_max, may_project: false, may_write_memory: false, quarantine: true, explore: true }),
+  Object.freeze({ turn: 'elevated', gov: 'explore', test: e => e < DRIFT_RULING.explore_max, may_project: false, may_write_memory: false, quarantine: true, explore: true }),
   Object.freeze({ turn: 'hard_stop', gov: 'reject', test: () => true, may_project: false, may_write_memory: false, quarantine: true, hard_stop: true })]);
 const driftRow = eps => DRIFT_TABLE.find(r => r.test(eps));
 const BANDS = DRIFT_TABLE; /* back-compat export name */
+/* 4.9.211 DRIFT-SPEC/v1 (resolved, most-recent-document rule; Nic plan Release B). THE one constants module. engine/rmc_engine_v1/
+   drift_policy.py (via mobile_config.DRIFT_POLICY) and the SQL app.drift_policy() / app.drift_eps() mirror it; r4211 checks the parity.
+   Ordered checks (half-open regions): 0 forbidden (any ε, any depth) → 1 hard_stop ε ≥ 0.80 → 2 acceleration (v(t)=1) → 3 explore
+   0.40 ≤ ε < 0.80 → 4 correct θ_admit < ε < 0.40 (ONE χ-correct pass, then re-measure; the drift must fall) → 5 clean ε ≤ θ_admit,
+   θ_admit = min(0.35, 0.4/(1+γL)) (θ_w can only tighten admission). A rising ε over TREND_K consecutive transitions routes to correct
+   even when clean. ε is not clipped. C(ε) = 1 − ε is the −λD drift term (λ = 0.18, the kernel's drift_containment weight); it is a
+   governance score, not the C_min 0.87 coherence score. Superseded and NOT gates: Athena's Membrane-A ε < 0.78, the router's 0.72/0.78,
+   the GILIN CRP 0.78 χ recovery (defective, not adopted) and the σ_res ≤ 0.35 admit gate (no paper basis, A4). */
+const DRIFT_POLICY = Object.freeze({
+  schema: 'FORGE-DRIFT-POLICY/v1', profile: 'nic-2026-10-14/v2',
+  METRIC_ID: 'eps_s/rsoc-v4.8+circ/v1', DENOMINATOR: 'max1_depth', PHASE_SCHEME_ID: 'phase-scheme/rmc/v1',
+  ADMIT_MAX: 0.35, EXPLORE_MIN: 0.40, HARD_MIN: 0.80, HARD_INCLUSIVE: true,
+  THETA_W_BASE: 0.40, GAMMA: 0.5, ECHO_MIN: 0.85, ECHO_MEMORY_MIN: 0.97, C_MIN: 0.87, LAMBDA_DRIFT: 0.18,
+  CHI_CORRECT_PASSES: 1, CHI_GRACE_PER_LOOP: 1, CHRISTPING_SETTLE_MS: 3330,
+  BREAKER_FAILS: 3, BREAKER_RECOVER_S: 60, RESURRECTION_LIMIT: 5, TREND_K: 3, ACCEL_NV: 3, ACCEL_TAU_MS: 18.7,
+  FORBIDDEN: Object.freeze({ rmc: Object.freeze([Object.freeze([5, 8]), Object.freeze([4, 8])]), backward: true }),
+  CHECK_ORDER: Object.freeze(['forbidden', 'hard_stop', 'acceleration', 'explore', 'correct', 'clean']),
+  ECHO_CLASSES: Object.freeze(['negation', 'certainty', 'condition']),
+  reference_only: Object.freeze({ athena_membrane_a: 0.78, router_circuit: 0.72, router_babel: 0.78, gilin_crp: 0.78, sigma_res_gate: 0.35 }),
+  cite: 'DRIFT-SPEC/v1 resolved (2026-10-31): D1 RMC scheme, D3 N = max(1, depth), D5 hard ≥ 0.80 first, D6a pass limits, D7 set S + v(t), D8 Echo re-parse, D9 C = 1 − ε, D10 θ_admit, D11 trend k = 3, D12 Φ6+Φ7 before a memory write, D13 circular σ'
+});
+const policyForbidden = (from, to) => DRIFT_POLICY.FORBIDDEN.rmc.some(([a, b]) => a === from && b === to);
+const policyBackward = (from, to) => Number.isInteger(from) && Number.isInteger(to) && isBackward({ from, to });
+/* ε_s = (σ_res + D + |ΔΦ|)/max(1, depth); σ_res circular over phaseHistory; D = 1 iff (prev, act) ∈ S; |ΔΦ| = |act − (prev % 9 + 1)|/9 */
+function driftMeasure({ phaseHistory, transition, depth }) {
+  const hist = (phaseHistory || []).map(Number).filter(Number.isInteger);
+  const prev = transition ? Number(transition.from) : null, act = transition ? Number(transition.to) : null;
+  const has = Number.isInteger(prev) && Number.isInteger(act);
+  const sigma = circStd(hist);
+  const d = has && policyForbidden(prev, act) ? 1 : 0;
+  const dphi = has ? Math.abs(act - ((prev % 9) + 1)) / 9 : 0;
+  const rho = Math.max(1, Math.floor(Number(depth) || 0));
+  const raw = (sigma + d + dphi) / rho;
+  return { eps: Math.round(raw * 1e6) / 1e6, eps_raw: raw, sigma_res: Math.round(sigma * 1e6) / 1e6, d_score: d, dphi: Math.round(dphi * 1e6) / 1e6, rho,
+    forbidden: d === 1 || (has && policyBackward(prev, act)), backward: has && policyBackward(prev, act), metric_id: DRIFT_POLICY.METRIC_ID, phase_scheme_id: DRIFT_POLICY.PHASE_SCHEME_ID, clipped: false };
+}
+/* L = local curvature of the phase history (RSOC v4.8 Eq. 10): the variance of the consecutive phase steps over the last 8 phases,
+   each step measured on the circle (Φ9 is adjacent to Φ1, ruling 2), so the lawful 9→1 closure is a step of 1, not 8.
+   A missing history is L = 0 (θ_admit = 0.35). */
+function policyCurvature(path) { const h = (path || []).map(Number).filter(Number.isInteger).slice(-8), d = [];
+  for (let i = 1; i < h.length; i++) { const a = Math.abs(h[i] - h[i - 1]) % 9; d.push(Math.min(a, 9 - a)); }
+  if (!d.length) return 0; if (d.length === 1) return d[0]; const m = d.reduce((x, y) => x + y, 0) / d.length; return d.reduce((x, y) => x + (y - m) ** 2, 0) / d.length; }
+function thetaAdmit(L) { const l = Number.isFinite(L) && L > 0 ? L : 0; return Math.min(DRIFT_POLICY.ADMIT_MAX, DRIFT_POLICY.THETA_W_BASE / (1 + DRIFT_POLICY.GAMMA * l)); }
+const coherence = eps => Math.min(1, Math.max(0, 1 - Number(eps)));
+/* ε rising over TREND_K consecutive transitions (TREND_K + 1 values, each strictly higher) */
+function trendRising(history) { const h = (history || []).map(Number).filter(Number.isFinite); const k = DRIFT_POLICY.TREND_K;
+  if (h.length < k + 1) return false; const t = h.slice(-(k + 1)); for (let i = 1; i < t.length; i++) if (!(t[i] > t[i - 1])) return false; return true; }
+/* v(t) = 1 when ACCEL_NV sequential phase steps land inside ACCEL_TAU_MS (stamps in ms); no stamps = not measured */
+function accelerationFlag(stampsMs) { const s = (stampsMs || []).map(Number).filter(Number.isFinite); const n = DRIFT_POLICY.ACCEL_NV;
+  if (s.length < n) return { v: 0, measured: s.length > 0 }; for (let i = 0; i + n - 1 < s.length; i++) if (s[i + n - 1] - s[i] < DRIFT_POLICY.ACCEL_TAU_MS) return { v: 1, measured: true }; return { v: 0, measured: true }; }
+/* m: { eps, transition?, path?, forbidden?, stamps_ms?, history?, L? } → { region, reason, check_order, theta_admit, trend, acceleration } */
+function classifyDrift(m, ctx) {
+  m = m || {}; ctx = ctx || {};
+  const eps = Number(m.eps), L = Number.isFinite(m.L) ? m.L : (Array.isArray(m.path) ? policyCurvature(m.path) : 0);
+  const theta = thetaAdmit(L), base = { theta_admit: Math.round(theta * 1e6) / 1e6, L: Math.round(L * 1e6) / 1e6, metric_id: m.metric_id || DRIFT_POLICY.METRIC_ID, profile: DRIFT_POLICY.profile, check_order: DRIFT_POLICY.CHECK_ORDER };
+  const path = Array.isArray(m.path) ? m.path.map(Number).filter(Number.isInteger) : [];
+  let forb = m.forbidden === true; const steps = [];
+  if (m.transition) steps.push([Number(m.transition.from), Number(m.transition.to)]);
+  for (let i = 1; i < path.length; i++) if (path[i] !== path[i - 1]) steps.push([path[i - 1], path[i]]);
+  const hit = steps.find(([a, b]) => policyForbidden(a, b) || policyBackward(a, b));
+  if (hit) forb = true;
+  const accel = accelerationFlag(m.stamps_ms), trend = trendRising(m.history);
+  const out = (region, reason) => Object.assign(base, { region, reason, trend, acceleration: accel.v === 1, acceleration_measured: accel.measured, eps: Number.isFinite(eps) ? eps : null });
+  if (forb) return out('forbidden', hit ? 'forbidden transition Φ' + hit[0] + '→Φ' + hit[1] + ' (blocks at any ε and any depth)' : 'forbidden transition (blocks at any ε)');
+  if (!Number.isFinite(eps) || eps < 0) return out('unmeasured', 'ε not measured: nothing projects');
+  if (eps >= DRIFT_POLICY.HARD_MIN) return out('hard_stop', 'ε ≥ 0.80 (inclusive hard ceiling, checked first)');
+  if (accel.v === 1) return out('acceleration', 'v(t) = 1: ' + DRIFT_POLICY.ACCEL_NV + ' steps inside ' + DRIFT_POLICY.ACCEL_TAU_MS + ' ms → correct');
+  if (eps >= DRIFT_POLICY.EXPLORE_MIN) return out('explore', '0.40 ≤ ε < 0.80: quarantine and explore only');
+  if (eps > theta) return out('correct', 'θ_admit < ε < 0.40: one χ-correct pass, then re-measure (the drift must fall)');
+  if (trend) return out('correct', 'ε rose over ' + DRIFT_POLICY.TREND_K + ' consecutive transitions → correct (trend rule)');
+  return out('clean', 'ε ≤ θ_admit');
+}
+/* χ-grace eligibility (WM §8.7): only at a hard stop, Ê(τ) = 1, χ flag 0 for this loop, |ΔΦ_avg| ≤ π/3. Eligibility never authorises a write. */
+function evaluateChiEligibility(sfe, obs, echoTrace, loop) {
+  sfe = sfe || {}; obs = obs || {}; loop = loop || {}; const failed = [];
+  if (!(Number(sfe.eps) >= DRIFT_POLICY.HARD_MIN)) failed.push('not_hard_stop');
+  if (echoTrace !== true) failed.push('echo_trace');
+  if ((loop.chi_grace_used || 0) >= DRIFT_POLICY.CHI_GRACE_PER_LOOP) failed.push('chi_grace_used_this_loop');
+  if (!(Number(obs.dphi_avg) <= Math.PI / 3)) failed.push('dphi_avg');
+  if (loop.owner !== 'gilligan') failed.push('gilligan_only');
+  return { eligible: !failed.length, failed_guards: failed, authorises_write: false, settle_ms: DRIFT_POLICY.CHRISTPING_SETTLE_MS };
+}
+/* the categorical Echo preservation classes (D8; LC Doc 9: similarity alone is not enough) */
+const ECHO_CLASS_RX = Object.freeze({
+  negation: /\b(?:not|no|never|none|nobody|nothing|neither|nor|cannot|without)\b|n't\b/i,
+  certainty: /\b(?:may|might|could|possibly|perhaps|probably|likely|unlikely|uncertain|approximately|roughly|reportedly|allegedly)\b/i,
+  condition: /\b(?:if|unless|provided|whenever|otherwise)\b/i
+});
+function echoClasses(answer, source) { const a = String(answer || ''), s = String(source || ''); const out = {}; let ok = true;
+  for (const k of DRIFT_POLICY.ECHO_CLASSES) { const x = ECHO_CLASS_RX[k].test(a), y = ECHO_CLASS_RX[k].test(s); out[k] = { answer: x, source: y, ok: x === y }; if (x !== y) ok = false; }
+  return { ok, classes: out }; }
+/* every gate a lasting memory write needs (D12 + D8 + C_MIN): clean at θ_admit, Φ6 correction then Φ7 naming before the write, Echo ≥ 0.97
+   plus the categorical classes, C ≥ 0.87. */
+function admitDecision(w) {
+  w = w || {}; const failed = [];
+  const hist = (w.hist || []).map(Number), i6 = hist.indexOf(6), i7 = hist.indexOf(7);
+  const m = driftMeasure({ phaseHistory: hist, transition: { from: w.prev, to: w.act }, depth: w.depth });
+  const cls = classifyDrift({ eps: m.eps, path: hist, forbidden: m.forbidden });
+  if (cls.region !== 'clean') failed.push('drift:' + cls.region);
+  if (!(i6 >= 0 && i7 > i6)) failed.push('unnamed');
+  if (!(Number(w.echo) >= DRIFT_POLICY.ECHO_MEMORY_MIN)) failed.push('echo');
+  if (!(w.echo_classes && w.echo_classes.ok === true)) failed.push('echo_classes');
+  if (!(Number(w.coherence) >= DRIFT_POLICY.C_MIN)) failed.push('coherence');
+  return { ok: !failed.length, failed, drift: m, region: cls.region, theta_admit: cls.theta_admit, coherence_drift: Math.round(coherence(m.eps) * 1e6) / 1e6 };
+}
 /* 4.9.109: the operators this file runs, each with a stable id and version. Two χ entries stay distinct.
    The phase scheme is a reconstruction, not a numerical identity of RSOC with RMC.
    I.1: a ROC/CFBC/RSOC numerical equivalence is refused. Originals are unresolved. No ROC or CFBC formula is invented here. */
@@ -184,7 +290,7 @@ const BREAKER = Object.freeze({
   consecutive: 3,
   project_max: 0.35,
   hard_stop: 0.8,
-  cite: 'Nic 4.9.191. Opens above 0.80, on Φ5→Φ8 or Φ4→Φ8, or after 3 consecutive failures. A failure is ε_s > 0.35 or a forbidden step.'
+  cite: 'Nic 4.9.191 (4.9.211: inclusive). Opens at or above 0.80, on Φ5→Φ8 or Φ4→Φ8, or after 3 consecutive failures. A failure is ε_s > 0.35 or a forbidden step.'
 });
 function breakerSample(item) {
   let eps = item, from = null, to = null;
@@ -195,7 +301,7 @@ function breakerSample(item) {
   const n = Number(eps);
   const finite = Number.isFinite(n);
   const forbidden = (from === 5 && to === 8) || (from === 4 && to === 8);
-  return { failed: forbidden || (finite && n > BREAKER.project_max), forbidden, hard: finite && n > BREAKER.hard_stop };
+  return { failed: forbidden || (finite && n > BREAKER.project_max), forbidden, hard: finite && n >= BREAKER.hard_stop };
 }
 function driftCircuitBreaker(epsilon_s, transition, history) {
   const cur = { epsilon_s: epsilon_s, from: transition && transition.from, to: transition && transition.to };
@@ -223,7 +329,7 @@ function graceIntegral(tau, eps, mu, epsMax = 0.8) { // eps: number or per-step 
 }
 /* χ(t) invocation conditions, RSOC §3.2 (all four required) */
 function chiConditions({ eps_s, echoTrace, chiFlag, dPhiAvg, forbidden }) {
-  const c = { 'ε_s > 0.80 (hard stop) or forbidden transition': !!driftRow(eps_s).hard_stop || !!forbidden, 'Ê(τ) = 1': !!echoTrace, 'χ flag = 0': chiFlag === 0, '|ΔΦ_avg| ≤ π/3': dPhiAvg <= Math.PI / 3 };
+  const c = { 'ε_s ≥ 0.80 (hard stop) or forbidden transition': !!driftRow(eps_s).hard_stop || !!forbidden, 'Ê(τ) = 1': !!echoTrace, 'χ flag = 0': chiFlag === 0, '|ΔΦ_avg| ≤ π/3': dPhiAvg <= Math.PI / 3 };
   return { fire: Object.values(c).every(Boolean), conditions: c, cite: 'RSOC §3.2; RMC Addendum §4', contract: contractRef('chi-invoke') };
 }
 /* χ(t) update, RSOC §3.2.1 / §4.2.2: Δ←0, ν←1.4, ε←ε(1−Θ̂), μ←μ+0.9Θ, χ←1 (the RSOC route at a hard stop; restricted meaning only).
@@ -418,7 +524,7 @@ function entropyEpsilon({ phaseHist, phiAct, phiExp, recursionN, prevPhase }) {
 function chiAdaptive({ eps_s, phaseHist, prevPhase, phiAct }) {
   const L_local = localCurvature(phaseHist, CHI_HARDENING.window);
   const theta_w = adaptiveThreshold(L_local, CHI_HARDENING.gamma);
-  const hard = Number(eps_s) > CHI_HARDENING.theta_hard;
+  const hard = Number(eps_s) >= CHI_HARDENING.theta_hard;
   const over = Number(eps_s) > theta_w;
   return { theta_w: r4(theta_w), theta_hard: CHI_HARDENING.theta_hard, L_local: r4(L_local), gamma: CHI_HARDENING.gamma, fires: hard || over, hard_ceiling: hard, above_theta_w: over, d_score: luciferianDScore(prevPhase, phiAct), logged: true, cite: CHI_HARDENING.cite };
 }
@@ -432,6 +538,6 @@ function internalPhaseCoherence(score) {
   const s = Number(score);
   return { score: Number.isFinite(s) ? r4(s) : null, floor: 0.3, preferred: 0.4, above_floor: s >= 0.3, above_preferred: s >= 0.4, admit_gate: false, C_min: 0.87, cite: 'Doc coherence minimums 0.3 and 0.4 are internal phase checks. C_min 0.87 stays the admit gate.' };
 }
-const api = { RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, CANONICAL_PHASE_NAMES, PHASE_RECONCILIATION, PAPER_CONSTANTS, FORMER_PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, MERGE_WINDOW, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, phaseAngleDegrees, BREAKER, driftCircuitBreaker, r4, std, CHI_HARDENING, luciferianDScore, localCurvature, adaptiveThreshold, entropyEpsilon, chiAdaptive, phaseVelocity, internalPhaseCoherence };
+const api = { DRIFT_POLICY, driftMeasure, policyCurvature, thetaAdmit, coherence, trendRising, accelerationFlag, classifyDrift, evaluateChiEligibility, echoClasses, ECHO_CLASS_RX, admitDecision, RSOC_STANDING, rsocStanding, GATE_PHASES, phaseLaw, chiCorrect, circStd, phaseStep, phaseNext, phasePrev, isBackward, PHASE_MAP_RSOC_TO_RMC, MATH_CONTRACTS, contract, equivalenceClaim, DRIFT_RULING, DRIFT_TABLE, driftRow, driftGovernance, turnGovernance, isForbidden, Q, PHASES, CANONICAL_PHASE_NAMES, PHASE_RECONCILIATION, PAPER_CONSTANTS, FORMER_PHASES, FORBIDDEN, BANDS, driftFunctional, graceIntegral, chiConditions, applyChi, merge, MERGE_WINDOW, rsocSelect, rsocAdmit, cdist, rpmWeight, G_MIN, phaseAlignedToOrigin, graceOverAncestors, score, computeExpr, phaseAngle, phaseAngleDegrees, BREAKER, driftCircuitBreaker, r4, std, CHI_HARDENING, luciferianDScore, localCurvature, adaptiveThreshold, entropyEpsilon, chiAdaptive, phaseVelocity, internalPhaseCoherence };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KMath = api;
 })(this);

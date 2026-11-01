@@ -8,6 +8,7 @@ and the renderer. No model is called. C_min stays 0.87.
 """
 from __future__ import annotations
 
+import re
 import json
 import sys
 import tempfile
@@ -196,19 +197,102 @@ def _phase_ok(path: list[Any]) -> bool:
     return all(b == a + 1 or b == 1 for a, b in zip(nums, nums[1:]))
 
 
-def admit_gate(measured: dict[str, Any], *, apply_to_ask: bool = False) -> dict[str, Any]:
-    """C_min stays 0.87. The live path applies this decision. The dry run records it."""
-    gap = measured["sigma_res"]
-    drift_flag = measured["epsilon_s"] > float(THRESHOLDS["drift_quarantine"]) or measured["circuit_breaker"]
-    hard = measured["epsilon_s"] > float(THRESHOLDS["hard_stop"])
+_SENT = re.compile(r"(?<=[.!?])\s+")
+
+
+def _source_sentence(reply: str, rows: list[dict[str, Any]]) -> tuple[str, str]:
+    """The premise sentence the reply was drawn from (exact containment), else ("", "question")."""
+    want = re.sub(r"\s+", " ", str(reply or "")).strip().rstrip(".!?").lower()
+    if not want:
+        return "", "question"
+    for row in rows:
+        if row.get("quarantined") is True:
+            continue
+        text = re.sub(r"\s+", " ", str(row.get("text") or row.get("content") or ""))
+        if want not in text.lower():
+            continue
+        for sent in _SENT.split(text):
+            if want in sent.lower():
+                return sent, "premise:" + str(row.get("id") or row.get("source") or "row")
+        return text, "premise:" + str(row.get("id") or row.get("source") or "row")
+    return "", "question"
+
+
+def write_gate(question: str, reply: str, measured: dict[str, Any], gate: dict[str, Any], echo: dict[str, Any], packet: dict[str, Any], rows: list[dict[str, Any]], chi_passes: int = 0) -> dict[str, Any]:
+    """4.9.211 the lasting-memory write gate (DRIFT-SPEC D12 + D8 + C_min).
+
+    The write trace is the RMC stages the row actually passed (scheme phase-scheme/rmc/v1):
+    Φ5 drift measured -> Φ6 correction (the ordered drift checks returned clean, or one
+    χ-correct pass made it clean) -> Φ7 naming (the reply names at least one lexicon
+    concept or proper-name compound, resonance_recall.row_concepts) -> Φ8 projection (the reply was rendered and spoken) -> the write is the Φ9
+    return. A stage that did not happen is not in the trace, so the gate fails (no
+    correction, no naming; no naming, no projection). The server recomputes the trace
+    epsilon with app.drift_eps() from drift_input. The candidate epsilon (the engine
+    measurement) stays in sfe.eps; the server bounds it (<= 0.35) but cannot recompute it.
+    """
+    from rmc_engine_v1.drift_policy import admit_decision, echo_classes
+
+    from rmc_engine_v1.resonance_recall import row_concepts
+
+    named = sorted(row_concepts({"text": reply, "packet": packet})) if reply else []
+    hist = []
+    if isinstance(measured.get("epsilon_s"), (int, float)):
+        hist.append(5)
+        if gate.get("drift_region") == "clean":
+            hist.append(6)
+            if named:
+                hist.append(7)
+                if reply:
+                    hist.append(8)
+    source, source_kind = _source_sentence(reply, rows)
+    classes = echo_classes(reply, source if source else question)
+    prev = hist[-1] if hist else 1
+    drift_input = {"hist": hist, "prev": prev, "act": 9, "depth": 1 + int(chi_passes), "scheme": "phase-scheme/rmc/v1"}
+    decision = admit_decision({
+        "hist": hist, "prev": prev, "act": 9, "depth": drift_input["depth"],
+        "echo": echo.get("score"), "echo_classes": classes, "coherence": measured.get("coherence"),
+    })
+    status = "stable" if decision["ok"] and not chi_passes else ("corrected" if decision["ok"] else "blocked")
+    return {
+        "ok": decision["ok"], "failed": decision["failed"], "rule": "MEMORY-WRITE-GATE",
+        "drift_input": drift_input,
+        "drift": {"eps": decision["drift"]["eps"], "metric_id": decision["drift"]["metric_id"], "region": decision["region"],
+                  "theta_admit": decision["theta_admit"], "coherence_drift": decision["coherence_drift"]},
+        "echo": echo.get("score"), "echo_min": 0.97, "echo_classes": classes, "echo_source": source_kind,
+        "coherence": measured.get("coherence"), "candidate_eps": measured.get("epsilon_s"),
+        "named": named[:12], "drift_status": status, "phase_scheme_id": "phase-scheme/rmc/v1", "calls_llm": False,
+    }
+
+
+def admit_gate(measured: dict[str, Any], *, apply_to_ask: bool = False, history: list[Any] | None = None, stamps_ms: list[Any] | None = None) -> dict[str, Any]:
+    """4.9.211 DRIFT-SPEC/v1: the ordered drift checks (drift_policy.classify_drift), then C_min 0.87.
+
+    forbidden (any eps) -> hard_stop eps >= 0.80 (inclusive) -> acceleration -> explore (quarantine)
+    -> correct (one chi-correct pass by Gilligan, then re-measure; Ask holds) -> clean. The breaker
+    and the trend rule route to correct. The sigma_res <= 0.35 gate is dropped (no paper basis, A4);
+    sigma_res is still measured and reported. The live path applies this decision. The dry run records it.
+    """
+    from rmc_engine_v1.drift_policy import classify_drift
+    path = measured.get("phase_path") or []
+    drift = classify_drift({
+        "eps": measured["epsilon_s"], "path": path if isinstance(path, list) else [path],
+        # the trend rule reads the epsilon trajectory of this psi, ending with the current measurement
+        "history": (list(history) + [measured["epsilon_s"]]) if isinstance(history, list) and history else None,
+        "stamps_ms": stamps_ms, "metric_id": "eps_s/rmc-candidate/v1",
+    })
+    region = drift["region"]
     phase_ok = bool(measured["phase_ok"])
-    gap_ok = gap <= float(THRESHOLDS["resonance_epsilon"])
     coherence_ok = measured["coherence"] >= float(THRESHOLDS["C_min"])
-    if hard:
+    breaker = bool(measured["circuit_breaker"])
+    if region == "forbidden":
+        disposition = "forbidden"
+    elif region == "hard_stop":
         disposition = "hard_stop"
-    elif drift_flag or not gap_ok:
+    elif region in ("explore", "unmeasured"):
         disposition = "quarantine"
-    elif phase_ok and gap_ok and not drift_flag and coherence_ok:
+    elif region in ("correct", "acceleration") or breaker:
+        disposition = "correct"
+    elif phase_ok and coherence_ok:
         disposition = "admit"
     else:
         disposition = "held"
@@ -216,12 +300,21 @@ def admit_gate(measured: dict[str, Any], *, apply_to_ask: bool = False) -> dict[
         "disposition": disposition,
         "applied_to_ask": bool(apply_to_ask and disposition == "admit"),
         "phase_ok": phase_ok,
-        "resonance_gap": round(gap, 6),
-        "resonance_gap_ok": gap_ok,
-        "drift_flag": drift_flag,
+        "drift_region": region,
+        "drift_reason": drift["reason"],
+        "theta_admit": drift["theta_admit"],
+        "check_order": drift["check_order"],
+        "trend": drift["trend"],
+        "acceleration": drift["acceleration"],
+        "acceleration_measured": drift["acceleration_measured"],
+        "drift_flag": region != "clean" or breaker,
+        "circuit_breaker": breaker,
+        "sigma_res": round(float(measured.get("sigma_res") or 0.0), 6),
+        "sigma_res_gate": "dropped (no paper basis, DRIFT-SPEC A4); reported only",
         "coherence_ok": coherence_ok,
-        "hard_stop": hard,
+        "hard_stop": region == "hard_stop",
         "discarded": False,
+        "policy": "FORGE-DRIFT-POLICY/v1 nic-2026-10-14/v2",
         "thresholds": snapshot({
             "epsilon_s": measured["epsilon_s"],
             "coherence": measured["coherence"],
@@ -388,7 +481,10 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             echo["score"] = 1.0
             echo["pass"] = True
             echo["method"] = "speech_act_meaning"
-        gate = admit_gate(measured, apply_to_ask=bool(live and echo.get("pass") and rendered))
+        gate = admit_gate(
+            measured, apply_to_ask=bool(live and echo.get("pass") and rendered),
+            history=payload.get("drift_history"), stamps_ms=payload.get("phase_stamps_ms"),
+        )
         stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
         stage_rows = _stage_rows(stages)
         late = []
@@ -447,14 +543,23 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "trust": trust_trace,
             }
             row_body = {"id": "admit-" + question[:24], "text": reply, "sfe": sfe, "packet": packet, "provenance": provenance, "contributor": "athena"}
+            try:
+                chi_passes = max(0, min(1, int(payload.get("chi_passes") or 0)))  # CHI_CORRECT_PASSES = 1
+            except (TypeError, ValueError):
+                chi_passes = 0
+            wg = write_gate(question, reply, measured, gate, echo, packet, rows, chi_passes)
+            row_body["write_gate"] = wg
             # 4.9.209 (Nic plan, Release A item 2): an admitted answer does NOT write lasting or
             # shared memory. The engine returns the row as a proposal. Only an explicit user
             # request ("remember …" or the Remember tap) writes it; Athena's curation writes go
             # through the locked writer. Nothing is banked here and nothing is sent.
             memory_write = {
                 "committed": False,
-                "proposed": True,
-                "rule": "ASK-NO-AUTO-WRITE",
+                # 4.9.211 (DRIFT-SPEC D12 + D8): a lasting write needs the write gate: clean at theta_admit,
+                # Φ6 correction then Φ7 naming, Echo >= 0.97 plus the categorical classes, C >= 0.87.
+                "proposed": bool(wg["ok"]),
+                "write_gate": wg,
+                "rule": "ASK-NO-AUTO-WRITE" if wg["ok"] else "MEMORY-WRITE-GATE-" + str(wg["failed"][0]).upper().replace(":", "-").replace("_", "-"),
                 "requires": "an explicit user request: 'remember …' or the Remember tap",
                 "calls_llm": False,
                 "text": reply,

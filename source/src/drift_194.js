@@ -190,7 +190,7 @@
     }
     return {
       band: name, epsilon_s: n, thresholds: [0.3, 0.5, 0.7, 0.9],
-      doc_halt: 0.9, halt_threshold: 0.8, halt_applied: n !== null && n > 0.8,
+      doc_halt: 0.9, halt_threshold: 0.8, halt_applied: n !== null && n >= 0.8,
       logged_only: true, admit_gate: false, writes: false, calls_llm: false,
       cite: 'gnspec DriftAnalyzer l.6104–6107. Bands 0.3, 0.5, 0.7, and 0.9 are internal. The 0.9 halt is replaced by 0.8.'
     };
@@ -199,7 +199,7 @@
     const n = finite(epsilon);
     return {
       epsilon_s: n,
-      archive: n !== null && n > 0.8,
+      archive: n !== null && n >= 0.8,
       resurrect_band: n !== null && n < 0.4,
       write_allowed: n !== null && n <= KM.DRIFT_RULING.project_max,
       logged_only: true, admit_gate: false, writes: false, calls_llm: false,
@@ -284,7 +284,7 @@
     const threadOverload = threads !== null && threads > 50;
     const outputLoop = row.output_loop === true;
     const docHalt = drift !== null && drift > 0.9;
-    const halt = drift !== null && drift > 0.8;
+    const halt = drift !== null && drift >= 0.8;
     const echo = row.echo_confirmed === true;
     const chi = row.chi_active === true;
     const resurrect = drift !== null && drift <= 0.3 && echo && !chi && !halt && !rollback;

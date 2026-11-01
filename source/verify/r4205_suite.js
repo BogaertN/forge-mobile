@@ -20,7 +20,10 @@ const mkStore = () => { const st = {}; return KMOD.MemoryStore({ get: k => st[k]
 const FF = () => { tick = 0; return FK.ForgeKernel({ clock, lexicon: LEX, store: mkStore(), vaultIterations: 1000 }); };
 const mkLS = () => { const m = {}; return { getItem: k => (k in m ? m[k] : null), setItem: (k, v) => { m[k] = String(v); }, removeItem: k => { delete m[k]; }, _m: m }; };
 async function unlockedForge() { const f = FF(); await f.vault.setup('pw pw pw'); await f.vault.unlock('pw pw pw'); return f; }
-const ROW = { text: 'Jupiter is the largest planet in the solar system.', sfe: { Phi: 7, eps: 0.12, mu: 1 }, provenance: { question: 'What is the largest planet?', contributor: 'athena', premises: ['a1'] } };
+/* 4.9.211: a lasting write carries the engine's write gate (DRIFT-SPEC/v1); r4211 tests the drift refusals */
+const CLS = { ok: true, classes: { negation: { answer: false, source: false, ok: true }, certainty: { answer: false, source: false, ok: true }, condition: { answer: false, source: false, ok: true } } };
+const ROW = { text: 'Jupiter is the largest planet in the solar system.', sfe: { Phi: 7, eps: 0.12, mu: 1 }, provenance: { question: 'What is the largest planet?', contributor: 'athena', premises: ['a1'] },
+  write_gate: { ok: true, failed: [], drift_input: { hist: [5, 6, 7, 8], prev: 8, act: 9, depth: 1, scheme: 'phase-scheme/rmc/v1' }, drift: { eps: 0.119133, metric_id: 'eps_s/rsoc-v4.8+circ/v1' }, echo: 1, echo_classes: CLS, coherence: 0.89, drift_status: 'stable', phase_scheme_id: 'phase-scheme/rmc/v1' } };
 const migration = () => fs.readFileSync(path.join(REPO, 'supabase', 'migrations', '20261031220000_writer_lockdown_205.sql'), 'utf8');
 
 /* a fake Supabase: auth, the tables the Edge Function reads, and the signed RPC */
@@ -129,7 +132,7 @@ T('the app passes the device signer, and no client code calls the closed RPC', (
   const sb = fs.readFileSync(ROOT + '/src/sb_sync.js', 'utf8'); expect(!/rpc\/memory_writer_insert/.test(sb) && /functions\/v1\/memory-writer/.test(sb), 'sb_sync');
 });
 T('version, registry, CONFLICTS and the drift law', () => {
-  const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim(); expect(ver === '4.9.210', ver);
+  const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim(); expect(ver === '4.9.211', ver);
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
   expect(reg.version === ver && reg.features.some(f => f.id === 'R4205-WRITER-LOCKDOWN') && reg.count === reg.features.length, reg.version);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8'); expect(/## v4\.9\.205/.test(conf) && /writer/i.test(conf), 'CONFLICTS');

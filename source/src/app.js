@@ -171,7 +171,11 @@ function doc6Tag(gate) {
  * otherwise it stays here, pending. Nothing else in Ask writes. */
 let lastAdmitted = null;
 async function rememberAnswer(row, how) {
-  const prop = row && row.memory_write && row.memory_write.proposed && row.memory_write.proposal;
+  const mw = row && row.memory_write;
+  /* 4.9.211 (DRIFT-SPEC D12 + D8): a lasting write needs the engine's write gate: clean at θ_admit, Φ6 correction then Φ7 naming,
+   * Echo ≥ 0.97 plus the categorical classes (negation, certainty, condition), C ≥ 0.87. A failed gate keeps nothing. */
+  if (mw && row.product_reply && mw.write_gate && mw.write_gate.ok !== true) return { ok: false, rule: mw.rule || 'MEMORY-WRITE-GATE', gate: mw.write_gate };
+  const prop = mw && mw.proposed && mw.proposal;
   if (!prop || !row.product_reply) return { ok: false, rule: 'REMEMBER-NOTHING-ADMITTED' };
   const body = JSON.parse(JSON.stringify(prop));
   body.provenance = Object.assign({}, body.provenance || {}, { requested_by: 'user', request: how === 'tap' ? 'remember_tap' : 'remember_command' });
@@ -210,7 +214,9 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
   if (REMEMBER_LAST.test(text)) {
     const r = lastAdmitted ? await rememberAnswer(lastAdmitted, 'command') : { ok: false, rule: 'REMEMBER-NOTHING-ADMITTED' };
-    const msg = r.ok ? 'Remembered on this phone: ' + esc(r.text) + ' · shared KB ' + esc(r.supabase && (r.supabase.ok ? r.supabase.rule : (r.supabase.rule + (r.supabase.pending ? ' (kept here, pending)' : '')))) : 'Nothing to remember yet: no admitted answer in this conversation.';
+    const msg = r.ok ? 'Remembered on this phone: ' + esc(r.text) + ' · shared KB ' + esc(r.supabase && (r.supabase.ok ? r.supabase.rule : (r.supabase.rule + (r.supabase.pending ? ' (kept here, pending)' : ''))))
+      : r.gate ? 'Not remembered: the memory write gate failed (' + esc((r.gate.failed || []).join(', ')) + ') · ' + esc(r.rule) + '. Nothing was kept.'
+      : 'Nothing to remember yet: no admitted answer in this conversation.';
     log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + msg + '</div><div class="flags">explicit request · no LLM</div></div>');
     log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
   }
@@ -249,8 +255,8 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   stats[admitted ? 'routed' : 'held']++;
   const echo = row && row.echo || {};
   const admit = row && row.admit && row.admit.disposition;
-  const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + '.';
-  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span><div data-ask-body data-answer-source="' + (admitted ? 'rmc_engine_v1.output_renderer' : 'hold') + '">' + body + '</div>' + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
+  const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + (row && row.admit && row.admit.drift_region ? ' · drift region ' + esc(row.admit.drift_region) : '') + '.';
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? 'rmc_engine_v1.output_renderer' : 'hold') + '">' + body + '</div>' + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
   if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });
   renderRmc(text, row);
