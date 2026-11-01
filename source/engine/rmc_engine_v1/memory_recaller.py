@@ -103,10 +103,6 @@ def _iter_json_files(path: Path, pattern: str = "*.json", recursive: bool = Fals
         return []
 
 
-def _tokens(text: str) -> set[str]:
-    return {t.lower() for t in re.findall(r"[A-Za-z0-9_χΦφ]+", str(text or "")) if len(t) >= 2}
-
-
 def _coerce_phase_list(value: Any) -> list[str]:
     phases: list[str] = []
     if isinstance(value, str):
@@ -359,70 +355,6 @@ def _collect_candidate_nodes(root: Path, limit_per_source: int = 160) -> tuple[l
     }
 
 
-def _score_node(node: dict[str, Any], input_text: str, phase_report: dict[str, Any]) -> dict[str, Any]:
-    text = str(node.get("content_summary") or "")
-    input_tokens = _tokens(input_text)
-    node_tokens = _tokens(text + " " + str(node.get("source") or "") + " " + str(node.get("memory_role") or ""))
-    overlap = sorted(input_tokens & node_tokens)
-    semantic = min(1.0, len(overlap) / max(4, len(input_tokens) or 1))
-
-    phase_state = _phase_state(phase_report)
-    primary = str(phase_state.get("phase_primary") or "")
-    secondary = [str(p) for p in phase_state.get("phase_secondary") or []]
-    node_phases = node.get("phase_tags") or []
-    phase_hits = [p for p in node_phases if p == primary or p in secondary]
-    phase_relevance = 0.0
-    if phase_hits:
-        phase_relevance = 0.35 + 0.12 * min(3, len(phase_hits))
-    elif node_phases and primary:
-        phase_relevance = 0.12
-
-    ancestry = node.get("ancestry") or {}
-    ancestry_score = 0.18 if any(v not in (None, "", [], {}) for v in ancestry.values()) else 0.0
-
-    lower = (input_text + " " + text).lower()
-    drift_terms = ("drift", "bypass", "collapse", "unstable", "correction", "χ", "christ", "circuit", "projection")
-    drift_relation = 0.0
-    if any(term in lower for term in drift_terms):
-        drift_relation = 0.22
-    try:
-        drift_relation += min(0.18, float(node.get("prior_drift_score") or 0.0) * 0.2)
-    except Exception:
-        pass
-
-    active_loop = 0.0
-    if node.get("source_kind") in ("dataset_review_queue_item", "dataset_candidate_example"):
-        active_loop = 0.20
-    if node.get("source_kind") in ("ingestion_receipt", "symbolic_map_entry"):
-        active_loop += 0.08
-
-    retrieval_weight = round(min(1.0, semantic * 0.44 + phase_relevance + ancestry_score + drift_relation + active_loop), 4)
-    evidence = []
-    if overlap:
-        evidence.append({"type": "semantic_overlap", "tokens": overlap[:12]})
-    if phase_hits:
-        evidence.append({"type": "phase_relevance", "phase_hits": phase_hits})
-    if ancestry_score:
-        evidence.append({"type": "ancestry_present"})
-    if drift_relation:
-        evidence.append({"type": "drift_relation", "score": round(drift_relation, 3)})
-    if active_loop:
-        evidence.append({"type": "active_loop_relation", "score": round(active_loop, 3)})
-    out = dict(node)
-    out.update({
-        "retrieval_weight": retrieval_weight,
-        "retrieval_dimensions": {
-            "semantic_relevance": round(semantic, 4),
-            "phase_relevance": round(phase_relevance, 4),
-            "ancestry_match": round(ancestry_score, 4),
-            "drift_relation": round(drift_relation, 4),
-            "active_loop_relation": round(active_loop, 4),
-        },
-        "retrieval_evidence": evidence,
-    })
-    return out
-
-
 def _context_library_status(root: Path) -> dict[str, Any]:
     context_root = root / "memory" / "context_library_v1"
     dataset_root = root / "memory" / "rmc_dataset_v1"
@@ -535,7 +467,7 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
                 "M_t_present": False,
                 "candidate_nodes_collected": 0,
                 "active_memory_count": 0,
-                "retrieval_dimensions": ["semantic_relevance", "phase_relevance", "ancestry", "drift_relation", "active_loop_relation"],
+                "retrieval_dimensions": ["phase_align", "frame_role", "concept", "copula_hop"],
                 "retrieval_backend_requested": requested_backend,
                 "retrieval_backend_effective": "none",
                 "active_memory_nodes": [],
@@ -557,18 +489,13 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
     inventory["candidate_nodes_collected"] = len(nodes)
     inventory["fallback_performed"] = False
 
-    resonance_report = None
-    if str(source_metadata.get("recall") or "") == "resonance":
-        from rmc_engine_v1.lexicon_resonance import apply_lexicon_phase
-        from rmc_engine_v1.resonance_recall import rank_memory
-        phase_report = apply_lexicon_phase(phase_report, source_text)
-        resonance_report = rank_memory(source_text, nodes, phase_report)
-        active = list(resonance_report.get("active") or [])[: max(1, min(int(limit or 12), 50))]
-        ranked = active
-    else:
-        ranked = [_score_node(node, source_text, phase_report) for node in nodes]
-        ranked.sort(key=lambda n: (n.get("retrieval_weight", 0), len(n.get("retrieval_evidence", []))), reverse=True)
-        active = ranked[: max(1, min(int(limit or 12), 50))]
+    # 4.9.209 (Nic: everything looks up through phase resonance): the token-overlap ranking
+    # branch is removed. Every caller gets resonance recall.
+    from rmc_engine_v1.lexicon_resonance import apply_lexicon_phase
+    from rmc_engine_v1.resonance_recall import rank_memory
+    phase_report = apply_lexicon_phase(phase_report, source_text)
+    resonance_report = rank_memory(source_text, nodes, phase_report)
+    active = list(resonance_report.get("active") or [])[: max(1, min(int(limit or 12), 50))]
     role_counts: dict[str, int] = {}
     source_counts: dict[str, int] = {}
     phase_counts: dict[str, int] = {}
@@ -597,7 +524,7 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
             "M_t_present": True,
             "candidate_nodes_collected": inventory.get("candidate_nodes_collected", 0),
             "active_memory_count": len(active),
-            "retrieval_dimensions": ["semantic_relevance", "phase_relevance", "ancestry", "drift_relation", "active_loop_relation"],
+            "retrieval_dimensions": ["phase_align", "frame_role", "concept", "copula_hop"],
             "retrieval_backend_requested": inventory.get("retrieval_backend_requested"),
             "retrieval_backend_effective": "filesystem",
             "active_memory_nodes": active,
@@ -605,7 +532,7 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
             "active_source_kind_counts": source_counts,
             "active_memory_role_counts": role_counts,
             "active_phase_counts": phase_counts,
-            "recall_method": "resonance" if resonance_report else "legacy_overlap",
+            "recall_method": "resonance",
             "resonance": {k: resonance_report.get(k) for k in ("method", "uses_token_overlap", "calls_llm", "question_phi", "asked", "how", "rsoc", "quarantine", "cite")} if resonance_report else None,
             "admitted_for_observe": (resonance_report or {}).get("admitted_for_observe") if resonance_report else None,
         },

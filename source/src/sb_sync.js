@@ -104,7 +104,18 @@ function Client(o) { o = o || {};
         for (const x of r.body) out.push(x); if (r.body.length < size) break; }
     } catch (e) { return { ok: false, offline: true, rows: [] }; }
     return { ok: true, rows: out }; }
-  return { config: cfg, anchorsDigest, anchorRows, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice, insertAdmitted }; }
+  /* 4.9.209 curated shared facts (Nic plan, Release A item 3): read-only, anonymous, the ADMITTED kb.contributions facts only
+   * (public.kb_contributions_admitted / _digest). contrib_cache.js keeps the IndexedDB copy; this module only fetches. */
+  async function contributionsDigest() { try { const r = await call('/rest/v1/rpc/kb_contributions_digest', { method: 'POST', headers: H(), body: '{}' });
+      return r.ok && r.body && typeof r.body.digest === 'string' ? { ok: true, count: Number(r.body.count), digest: r.body.digest } : { ok: false, status: r.status }; } catch (e) { return { ok: false, offline: true }; } }
+  async function contributionRows() { const out = [];
+    try { for (let off = 0; off < 20000; off += 1000) {
+        const r = await call('/rest/v1/rpc/kb_contributions_admitted', { method: 'POST', headers: H(), body: JSON.stringify({ p_limit: 1000, p_offset: off }) });
+        if (!r.ok || !Array.isArray(r.body)) return { ok: false, status: r.status, rows: [] };
+        for (const x of r.body) out.push(x); if (r.body.length < 1000) break; }
+    } catch (e) { return { ok: false, offline: true, rows: [] }; }
+    return { ok: true, rows: out }; }
+  return { config: cfg, anchorsDigest, anchorRows, contributionsDigest, contributionRows, signIn, resetPassword, updatePassword, markDeviceRedo, handleCallback, token, status, signOut, registerDevice, insertAdmitted }; }
 const api = { Client, CONFIG, SKEY, DKEY, PW_MIN, canon };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else { root.KSbSync = api; root.KSb = Client(); }
 })(typeof self !== 'undefined' ? self : this);

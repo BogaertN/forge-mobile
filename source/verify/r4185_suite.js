@@ -51,13 +51,12 @@ T('an admitted answer carries a resonance packet, provenance, and contributor cr
   expect(row.coherence_components.formula.indexOf('0.24*memory_fit') === 0, row.coherence_components.formula);
   expect(row.product_reply === true && row.reply && row.coherence >= 0.87, JSON.stringify({ c: row.coherence, reply: row.reply, mf: row.coherence_components.memory_fit }));
   const w = row.memory_write;
-  expect(w && w.committed === true && w.calls_llm === false, 'write');
+  /* 4.9.209 (Release A item 2): Ask proposes the write; it does not commit it. Only "remember" or the Remember tap writes. */
+  expect(w && w.committed === false && w.proposed === true && w.rule === 'ASK-NO-AUTO-WRITE' && w.calls_llm === false, 'write');
   expect(w.packet.schema === 'FORGE-RESONANCE-PACKET/v1' && Number.isInteger(w.packet.sfe.Phi) && w.packet.sfe.Phi >= 1 && w.packet.sfe.Phi <= 9 && w.packet.sfe.mu === 1, JSON.stringify(w.packet));
   expect(w.provenance.contributor === 'athena' && w.provenance.question === 'What is photosynthesis?', JSON.stringify(w.provenance));
-  expect(w.phone_kb.text === row.reply && w.hosted_kb.text === row.reply && w.rmc_receipt.text === row.reply, 'stores');
-  const banked = w.bank && w.bank.written === false;
-  expect(w.supabase.written === false && w.supabase.verified === false, JSON.stringify(w.supabase));
-  expect(w.supabase.rule === (banked ? 'KB-WRITER-ALREADY-BANKED' : 'KB-WRITER-CREDENTIALS-PENDING'), JSON.stringify(w.supabase));
+  expect(w.proposal.text === row.reply && !w.phone_kb && !w.hosted_kb && !w.rmc_receipt, 'proposal only');
+  expect(w.supabase.attempted === false && w.supabase.written === false && w.supabase.verified === false && w.supabase.rule === 'ASK-NO-AUTO-WRITE', JSON.stringify(w.supabase));
   expect(w.gilligan.christping_initiated === false, 'christping');
   expect(row.resonance && row.resonance.method === 'resonance' && row.resonance.uses_token_overlap === false, JSON.stringify(row.resonance && row.resonance.how));
 });
@@ -93,7 +92,7 @@ T('new modules do not call a model', () => {
 
 T('version registry names 4.9.185', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.208', ver);
+  expect(ver === '4.9.209', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.185/.test(conf) && /resonance/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -105,9 +104,9 @@ T('version registry names 4.9.185', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_185.md'), 'utf8');
   expect(/60/.test(live) && /cold/.test(live) && /after fill/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.208' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.209' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.208' && reg.features.some(f => f.id === 'R4185-RESONANCE-RECALL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.209' && reg.features.some(f => f.id === 'R4185-RESONANCE-RECALL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
 });
 
 (async () => {

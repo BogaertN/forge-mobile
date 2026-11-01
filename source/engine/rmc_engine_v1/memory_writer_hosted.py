@@ -1,81 +1,116 @@
-"""Hosted kb.contributions insert for an admitted fact.
+"""Hosted kb.contributions write for an admitted fact (4.9.209: the Edge Function path).
 
-The memory writer calls public.memory_writer_insert. It reports written only
-when the readback is the same admitted fact: state admitted, sfe {Phi, eps, mu},
-provenance, and contributor credit.
+Since 4.9.205 the only write path is the `memory-writer` Edge Function. The old
+client RPC public.memory_writer_insert is revoked and always refuses
+(KB-WRITER-SIGNED-PATH-REQUIRED). This module now builds exactly the request
+the Edge Function accepts:
 
-No project credentials in this process means the insert was not sent.
-written stays false. That is not a success.
+    POST {SUPABASE_URL}/functions/v1/memory-writer
+    {"args": {p_consent, p_contributor, p_kind, p_payload, p_proof, p_provenance, p_sources},
+     "proof": {"body": {purpose, uid, signer, nonce, ts, content_sha256}, "sig": <ECDSA P-256>}}
 
-Anon cannot use this path. The migration grants execute to authenticated only,
-and the function rejects a missing user and any row that is not an admitted fact.
+content_sha256 is the SHA-256 of canon(args), the same canonical JSON as
+supabase/functions/memory-writer/writer.js and src/sb_sync.js. The proof body
+must be signed by a device key registered to a linked writer account. This
+process holds no device key, so a caller must pass sign(uid, content_sha256,
+nonce) -> {"body": ..., "sig": ...}. With no session, no uid or no signer the
+row is NOT sent and written stays false. That is not a success.
+
+Ask never calls this (4.9.209: admitted answers are proposals; only an explicit
+user request writes). No model is called.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
-from typing import Any
+import secrets
+from typing import Any, Callable
 from urllib import request as urlrequest
 from urllib.error import HTTPError, URLError
 
-MIGRATION = "supabase/migrations/20261029201023_memory_writer_admitted_insert.sql"
-PENDING = (
-    "Apply supabase/migrations/20261029201023_memory_writer_admitted_insert.sql "
-    "to project hqcvywujrygbnaowgwln. This process has no SUPABASE_URL and no "
-    "SUPABASE_ACCESS_TOKEN, so the insert was not sent and is not reported as written."
-)
+FUNCTION = "supabase/functions/memory-writer/writer.js"
+ARG_KEYS = ("p_consent", "p_contributor", "p_kind", "p_payload", "p_proof", "p_provenance", "p_sources")
+PURPOSE = "forge-memory-writer/v1"
 
 
 def _sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def payload_for(row: dict[str, Any]) -> dict[str, Any]:
+def _num(value: float) -> str:
+    """A number as JavaScript's JSON.stringify writes it."""
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, int):
+        return str(value)
+    if not math.isfinite(value):
+        return "null"
+    if value == int(value) and abs(value) < 1e21:
+        return str(int(value))
+    text = repr(value)
+    if "e" in text:
+        mant, exp = text.split("e")
+        sign = "-" if exp.startswith("-") else "+"
+        text = mant + "e" + sign + exp.lstrip("+-").lstrip("0")
+    return text
+
+
+def canon(value: Any) -> str:
+    """Canonical JSON: sorted keys, no spaces, JS number form (writer.js canon)."""
+    if isinstance(value, dict):
+        keys = sorted(value)
+        return "{" + ",".join(json.dumps(k, ensure_ascii=False) + ":" + canon(value[k]) for k in keys) + "}"
+    if isinstance(value, (list, tuple)):
+        return "[" + ",".join(canon(v) for v in value) + "]"
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return _num(value)
+    return json.dumps(value, ensure_ascii=False)
+
+
+def args_for(row: dict[str, Any]) -> dict[str, Any]:
+    """The seven write arguments, the same shape src/sb_sync.js insertAdmitted sends."""
     sfe = row.get("sfe") if isinstance(row.get("sfe"), dict) else {}
     provenance = row.get("provenance") if isinstance(row.get("provenance"), dict) else {}
     contributor = str((provenance or {}).get("contributor") or row.get("contributor") or "").strip()
-    text = str(row.get("text") or "")
-    body = {
-        "text": text,
+    payload = {
+        "text": str(row.get("text") or ""),
         "schema": "FORGE-RESONANCE-PACKET/v1",
         "sfe": {"Phi": sfe.get("Phi"), "eps": sfe.get("eps"), "mu": sfe.get("mu")},
         "provenance": provenance,
         "contributor": contributor,
         "state": "admitted",
     }
-    digest = _sha(json.dumps(body, sort_keys=True, ensure_ascii=False))
     return {
         "p_kind": "fact",
-        "p_payload": body,
-        "p_proof": {"source": "rmc_core.admit_gate", "text_sha256": _sha(text)},
+        "p_payload": payload,
+        "p_proof": {"source": str(row.get("proof_source") or "rmc_core.admit_gate")},
         "p_sources": [],
-        "p_content_sha256": digest,
-        "p_signature": digest,
-        "p_consent": {"contributor": contributor, "credit": provenance.get("credit") or contributor},
+        "p_consent": {"contributor": contributor},
         "p_provenance": provenance,
         "p_contributor": contributor,
     }
 
 
-def _matches(sent: dict[str, Any], readback: dict[str, Any]) -> bool:
-    if not isinstance(readback, dict):
-        return False
-    if str(readback.get("state") or "") != "admitted":
+def payload_for(row: dict[str, Any]) -> dict[str, Any]:
+    """Kept name: the write arguments plus their content hash (what the device signs)."""
+    args = args_for(row)
+    return {"args": args, "content_sha256": _sha(canon(args))}
+
+
+def _matches(args: dict[str, Any], readback: dict[str, Any]) -> bool:
+    if not isinstance(readback, dict) or str(readback.get("state") or "") != "admitted":
         return False
     payload = readback.get("payload") if isinstance(readback.get("payload"), dict) else {}
-    want = sent.get("p_payload") if isinstance(sent.get("p_payload"), dict) else {}
+    want = args.get("p_payload") or {}
     sfe = payload.get("sfe") if isinstance(payload.get("sfe"), dict) else {}
-    need = want.get("sfe") if isinstance(want.get("sfe"), dict) else {}
+    need = want.get("sfe") or {}
     if sfe.get("Phi") != need.get("Phi") or sfe.get("eps") != need.get("eps") or sfe.get("mu") != need.get("mu"):
         return False
     if not isinstance(payload.get("provenance"), dict) or not payload.get("provenance"):
         return False
-    if str(payload.get("contributor") or "") != str(want.get("contributor") or ""):
-        return False
-    if str(payload.get("text") or "") != str(want.get("text") or ""):
-        return False
-    return True
+    return str(payload.get("contributor") or "") == str(want.get("contributor") or "") and str(payload.get("text") or "") == str(want.get("text") or "")
 
 
 def _env_transport():
@@ -86,17 +121,12 @@ def _env_transport():
         return None
 
     def transport(call: dict[str, Any]) -> dict[str, Any]:
-        if call.get("op") != "insert":
+        if call.get("op") != "write":
             return {"ok": False, "rule": "KB-WRITER-INSERT-FAILED"}
         req = urlrequest.Request(
-            url + "/rest/v1/rpc/memory_writer_insert",
-            data=json.dumps(call.get("row") or {}).encode("utf-8"),
-            headers={
-                "apikey": anon,
-                "authorization": "Bearer " + token,
-                "content-type": "application/json",
-                "accept": "application/json",
-            },
+            url + "/functions/v1/memory-writer",
+            data=json.dumps(call.get("body") or {}, ensure_ascii=False).encode("utf-8"),
+            headers={"apikey": anon, "authorization": "Bearer " + token, "content-type": "application/json", "accept": "application/json"},
             method="POST",
         )
         try:
@@ -104,39 +134,51 @@ def _env_transport():
                 body = json.loads(resp.read().decode("utf-8") or "null")
         except HTTPError as exc:
             detail = exc.read().decode("utf-8", errors="replace")[:240]
-            return {"ok": False, "rule": "KB-WRITER-INSERT-FAILED", "error": detail, "status": exc.code}
+            rule = "KB-WRITER-REFUSED"
+            try:
+                rule = str(json.loads(detail).get("rule") or rule)
+            except (ValueError, AttributeError):
+                pass
+            return {"ok": False, "rule": rule, "error": detail, "status": exc.code}
         except URLError as exc:
             return {"ok": False, "rule": "KB-WRITER-INSERT-FAILED", "error": str(exc.reason)[:240]}
-        return {"ok": isinstance(body, dict), "row": body if isinstance(body, dict) else {}, "inserted": True}
+        ok = isinstance(body, dict) and body.get("ok") is True and isinstance(body.get("row"), dict)
+        return {"ok": ok, "row": body.get("row") if ok else {}, "rule": None if ok else (body or {}).get("rule")}
     return transport
 
 
-def commit_hosted(row: dict[str, Any] | None, transport=None) -> dict[str, Any]:
-    """Verify the hosted insert. written is true only when readback matches."""
-    sent = payload_for(row or {})
-    base = {
-        "attempted": True,
-        "written": False,
-        "verified": False,
-        "calls_llm": False,
-        "cite": MIGRATION,
-        "hosted_session": True,
-        "contributor": sent.get("p_contributor"),
-    }
-    if not sent.get("p_contributor") or not isinstance((sent.get("p_payload") or {}).get("sfe"), dict):
+def commit_hosted(row: dict[str, Any] | None, transport=None, sign: Callable[[str, str, str], Any] | None = None, uid: str | None = None) -> dict[str, Any]:
+    """Send one admitted row through the memory-writer Edge Function. written only when the readback matches."""
+    built = payload_for(row or {})
+    args, digest = built["args"], built["content_sha256"]
+    base = {"attempted": True, "written": False, "verified": False, "calls_llm": False, "cite": FUNCTION,
+            "path": "edge:memory-writer", "contributor": args.get("p_contributor"), "content_sha256": digest}
+    sfe = (args.get("p_payload") or {}).get("sfe") or {}
+    if not args.get("p_contributor") or any(sfe.get(k) is None for k in ("Phi", "eps", "mu")):
         base["rule"] = "KB-WRITER-PROVENANCE-REQUIRED"
         return base
     if transport is None:
         transport = _env_transport()
     if transport is None:
-        base["rule"] = "KB-WRITER-CREDENTIALS-PENDING"
-        base["pending"] = PENDING
+        base.update(rule="KB-WRITER-NO-SESSION", pending=True)
+        return base
+    uid = uid or os.environ.get("SUPABASE_USER_ID") or ""
+    if not uid or sign is None:
+        base.update(rule="KB-WRITER-UNSIGNED", pending=True)
+        return base
+    nonce = secrets.token_hex(16)
+    try:
+        proof = sign(uid, digest, nonce)
+    except Exception as exc:  # a signer failure is not a write
+        base.update(rule="KB-WRITER-DEVICE-LOCKED", error=str(exc)[:240], pending=True)
+        return base
+    if not isinstance(proof, dict) or not proof.get("body") or not proof.get("sig"):
+        base.update(rule="KB-WRITER-DEVICE-LOCKED", pending=True)
         return base
     try:
-        result = transport({"op": "insert", "row": sent})
+        result = transport({"op": "write", "body": {"args": args, "proof": {"body": proof["body"], "sig": proof["sig"]}}})
     except Exception as exc:
-        base["rule"] = "KB-WRITER-INSERT-FAILED"
-        base["error"] = str(exc)[:240]
+        base.update(rule="KB-WRITER-INSERT-FAILED", error=str(exc)[:240])
         return base
     if not isinstance(result, dict) or result.get("ok") is not True:
         base["rule"] = str((result or {}).get("rule") or "KB-WRITER-INSERT-FAILED")
@@ -144,25 +186,10 @@ def commit_hosted(row: dict[str, Any] | None, transport=None) -> dict[str, Any]:
             base["error"] = str(result.get("error"))[:240]
         return base
     readback = result.get("row") if isinstance(result.get("row"), dict) else {}
-    if result.get("needs_select") and readback.get("id"):
-        try:
-            selected = transport({"op": "select", "id": readback.get("id"), "expect": sent})
-        except Exception as exc:
-            base["rule"] = "KB-WRITER-READBACK-FAILED"
-            base["error"] = str(exc)[:240]
-            return base
-        if isinstance(selected, dict) and isinstance(selected.get("row"), dict):
-            readback = selected["row"]
-    if not _matches(sent, readback):
-        base["rule"] = "KB-WRITER-READBACK-FAILED"
-        base["id"] = readback.get("id")
+    if not _matches(args, readback):
+        base.update(rule="KB-WRITER-READBACK-FAILED", id=readback.get("id"))
         return base
-    inserted = result.get("inserted", readback.get("inserted", True))
-    base["verified"] = True
-    base["written"] = bool(inserted) and str(readback.get("state") or "") == "admitted"
-    base["id"] = readback.get("id")
-    base["rule"] = "KB-WRITER-VERIFIED" if base["written"] else "KB-WRITER-ALREADY-PRESENT"
-    if base["rule"] == "KB-WRITER-ALREADY-PRESENT":
-        base["written"] = False
-        base["verified"] = True
+    inserted = readback.get("inserted", True) is not False
+    base.update(verified=True, written=inserted, id=readback.get("id"),
+                rule="KB-WRITER-VERIFIED" if inserted else "KB-WRITER-ALREADY-PRESENT")
     return base

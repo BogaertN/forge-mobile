@@ -106,30 +106,38 @@ T('multi-hop derive records provenance and drift on every hop', () => {
   expect(row.admit.thresholds.C_min === 0.87 && row.echo.min === 0.85, 'thresholds');
 });
 
+/* 4.9.209: through the memory-writer Edge Function, signed */
 T('the memory writer reports a hosted insert only after readback', () => {
   const out = py(`
 import json
-from rmc_engine_v1.memory_writer_hosted import commit_hosted
+from rmc_engine_v1.memory_writer_hosted import commit_hosted, ARG_KEYS
 row = {"text":"Helium is a light noble gas.","sfe":{"Phi":9,"eps":0.14,"mu":1},"provenance":{"question":"What is helium?","contributor":"athena","premises":["h"]},"contributor":"athena"}
 pending = commit_hosted(row)
+seen = {}
+def sign(uid, sha, nonce):
+    return {"body": {"purpose": "forge-memory-writer/v1", "uid": uid, "signer": "sig-0123456789abcdef", "nonce": nonce, "ts": 1, "content_sha256": sha}, "sig": "A" * 86 + "=="}
+unsigned = commit_hosted(row, transport=lambda call: {"ok": True})
 def ok_transport(call):
-    sent = call["row"]["p_payload"]
-    return {"ok": True, "inserted": True, "row": {"id":"row-1","state":"admitted","inserted":True,"verified":True,"payload":sent}}
-good = commit_hosted(row, transport=ok_transport)
+    seen["keys"] = sorted(call["body"]["args"].keys()); seen["op"] = call["op"]
+    sent = call["body"]["args"]["p_payload"]
+    return {"ok": True, "row": {"id":"row-1","state":"admitted","inserted":True,"verified":True,"payload":sent}}
+good = commit_hosted(row, transport=ok_transport, sign=sign, uid="00000000-0000-0000-0000-000000000001")
 def bad_transport(call):
-    return {"ok": True, "inserted": True, "row": {"id":"row-2","state":"quarantined","payload":{"text":"no","state":"quarantined"}}}
-bad = commit_hosted(row, transport=bad_transport)
-print(json.dumps({"pending": pending["rule"], "pw": pending["written"], "pv": pending["verified"], "good": good["rule"], "gw": good["written"], "gv": good["verified"], "gid": good.get("id"), "bad": bad["rule"], "bw": bad["written"], "bv": bad["verified"]}))
+    return {"ok": True, "row": {"id":"row-2","state":"quarantined","payload":{"text":"no","state":"quarantined"}}}
+bad = commit_hosted(row, transport=bad_transport, sign=sign, uid="00000000-0000-0000-0000-000000000001")
+print(json.dumps({"pending": pending["rule"], "pw": pending["written"], "pv": pending["verified"], "unsigned": unsigned["rule"], "good": good["rule"], "gw": good["written"], "gv": good["verified"], "gid": good.get("id"), "bad": bad["rule"], "bw": bad["written"], "bv": bad["verified"], "keys": seen.get("keys"), "want": sorted(ARG_KEYS), "op": seen.get("op"), "path": good.get("path")}))
 `);
   const row = JSON.parse(out.trim().split('\n').pop());
-  expect(row.pending === 'KB-WRITER-CREDENTIALS-PENDING' && row.pw === false && row.pv === false, JSON.stringify(row));
-  expect(row.good === 'KB-WRITER-VERIFIED' && row.gw === true && row.gv === true && row.gid === 'row-1', JSON.stringify(row));
+  expect(row.pending === 'KB-WRITER-NO-SESSION' && row.pw === false && row.pv === false, JSON.stringify(row));
+  expect(row.unsigned === 'KB-WRITER-UNSIGNED', JSON.stringify(row));
+  expect(row.good === 'KB-WRITER-VERIFIED' && row.gw === true && row.gv === true && row.gid === 'row-1' && row.path === 'edge:memory-writer', JSON.stringify(row));
+  expect(JSON.stringify(row.keys) === JSON.stringify(row.want) && row.op === 'write', 'the Edge Function argument set');
   expect(row.bad === 'KB-WRITER-READBACK-FAILED' && row.bw === false && row.bv === false, JSON.stringify(row));
 });
 
 T('version registry names 4.9.186 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.208', ver);
+  expect(ver === '4.9.209', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.186/.test(conf) && /Gilligan/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -141,9 +149,9 @@ T('version registry names 4.9.186 and the switches stay off', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_186.md'), 'utf8');
   expect(/60/.test(live) && /cold/.test(live) && /pass/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.208' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.209' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.208' && reg.features.some(f => f.id === 'R4186-ANCHOR-HOP') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.209' && reg.features.some(f => f.id === 'R4186-ANCHOR-HOP') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === true && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');

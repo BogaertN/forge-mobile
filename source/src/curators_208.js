@@ -89,7 +89,9 @@ function Curators(o) {
     if (!g.ok) return { to: 'quarantine', rec: Object.assign(base, { rule: g.rule, ids: g.ids || [] }) };
     const echo = await echoReparse(gap.question, m.row.reply, pickAnchor(m.row, anchors));
     if (!echo.ok) return { to: 'quarantine', rec: Object.assign(base, { rule: 'ATHENA-ECHO-REPARSE-FAILED', reply: m.row.reply, echo_reparse: echo }) };
-    const body = m.row.memory_write && m.row.memory_write.hosted_kb ? Object.assign({}, m.row.memory_write.hosted_kb) : null;
+    /* 4.9.209: Ask returns the admitted row as a proposal (no auto-write); Athena's curation write takes it through the locked writer */
+    const mw = m.row.memory_write || {}; const prop = mw.proposal || mw.hosted_kb;
+    const body = prop ? Object.assign({}, prop, { provenance: Object.assign({}, prop.provenance || {}, { curated_by: 'athena+gilligan' }) }) : null;
     const rec = Object.assign(base, { reply: m.row.reply, premises: g.premises, echo_reparse: echo, contributor: 'athena', curated_by: 'athena+gilligan' });
     if (!body || !o.insert) return { to: 'pending', rec: Object.assign(rec, { rule: 'CURATE-PENDING-NO-WRITER' }) };
     const w = await o.insert(body);

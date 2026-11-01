@@ -1,5 +1,5 @@
 {
- "version": "4.9.208",
+ "version": "4.9.209",
  "features": [
   {
    "id": "A-01",
@@ -3991,13 +3991,24 @@
    "proof": [
     "verify/r4208_suite.js"
    ]
+  },
+  {
+   "id": "R4209-ASK-FALLBACK-NO-AUTOWRITE",
+   "name": "Ask candidate fallback, trust-first recall, no auto-write, curated contributions read back",
+   "source": "Nic plan Release A 2026-10-31; engine/rmc_engine_v1/rmc_core.py; resonance_recall.py; memory_writer_hosted.py; src/contrib_cache.js; supabase/migrations/20261101000000_contributions_read_209.sql",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Bounded candidate fallback (<=3, each re-measured; never on hard stop or conflict). Trusted anchors outrank unsourced rows; shared rows picked by surface phrase. Ask only proposes; writes happen on 'remember' or the Remember tap. Admitted kb.contributions read back read-only and cached. Python writer on the Edge Function path. Cold 60: 22/60, 0 false admits, not tuned.",
+   "proof": [
+    "verify/r4209_suite.js"
+   ]
   }
  ],
- "count": 364,
+ "count": 365,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 202,
+  "Partial": 203,
   "Missing": 9,
   "Out of scope / parked": 13
  }

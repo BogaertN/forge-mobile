@@ -148,6 +148,26 @@ def _role_hit(filler: str, text: str) -> dict[str, Any] | None:
     return None
 
 
+def _anchor_concepts(text: str) -> set[str]:
+    """Anchor concepts named by the words of text (anchor_concepts.json), even where the
+    general concept lexicon gives the word another concept ("sun": N.WEATHER and A.SUN)."""
+    path = Path(__file__).with_name("anchor_concepts.json")
+    if not path.exists():
+        return set()
+    global _ANCHOR_WORDS
+    if _ANCHOR_WORDS is None:
+        _ANCHOR_WORDS = {str(k).lower(): str(v) for k, v in (json.loads(path.read_text(encoding="utf-8")).get("concepts") or {}).items()}
+    found: set[str] = set()
+    for raw in str(text or "").lower().split():
+        cid = _ANCHOR_WORDS.get(raw.strip(".,;:!?\"'()[]"))
+        if cid:
+            found.add(cid)
+    return found
+
+
+_ANCHOR_WORDS: dict[str, str] | None = None
+
+
 def _concept_ids(text: str) -> set[str]:
     surfaces = (_lexicon().get("surfaces") or {})
     found: set[str] = set()
@@ -300,6 +320,23 @@ def _anchor_key(node: dict[str, Any]) -> tuple:
     return (seeded, encyclopedia, len(clean_text(node)), str(node.get("memory_id") or ""))
 
 
+def _resonance(grace: dict[str, Any] | None) -> int:
+    """Phase-resonance strength as an integer key (grace x 10^4), the same number the
+    retrieval record shows as phase_align. An integer so both runtimes sort alike."""
+    return int(round(float((grace or {}).get("grace") or 0.0) * 10000))
+
+
+def _trusted(node: dict[str, Any]) -> int:
+    """4.9.209: a trusted anchor outranks an unsourced row (Nic plan, Release A item 1).
+
+    Trust is read with the same source_trust rule the trust trace uses. It only
+    orders candidates; it never admits one. The gate, Echo and the trust trace
+    still decide.
+    """
+    from rmc_engine_v1.source_trust import trust_tier
+    return 1 if trust_tier(node) == "trusted" else 0
+
+
 def _rsoc(locks):
     """One lock is selected. Several stay open. Zero is sealed."""
     if len(locks) == 1:
@@ -428,6 +465,13 @@ def rank_memory(question, nodes, phase_report=None):
         elif shared:
             concept_hits.append((node, shared, grace))
 
+    # 4.9.209: an unsourced role lock does not outrank a trusted concept anchor.
+    # Before this, any frame-role lock won over every concept hit, so twelve
+    # unsourced shared rows ("Zenith marks sky overhead.") beat the NASA anchor.
+    best_role = max((_trusted(r[0]) for r in role_locks), default=-1)
+    best_concept = max((_trusted(r[0]) for r in concept_hits), default=-1)
+    if role_locks and best_concept > best_role:
+        role_locks = []
     if role_locks:
         # Several frame locks stay open in the RSOC record. The scorer sees
         # one anchor, the longest phase-aligned lock, so a shorter restatement
@@ -435,7 +479,9 @@ def rank_memory(question, nodes, phase_report=None):
         # admitted row through admitted_for_observe.
         # Length then id. Grace is recorded, not used as a sort key, so Pyodide
         # and CPython pick the same anchor.
-        role_locks.sort(key=lambda row: _anchor_key(row[0]), reverse=True)
+        # 4.9.209: phase resonance (grace = rpm weight x cos^2 of the phase gap, rounded so
+        # CPython and Pyodide agree) ranks right after trust; length and id only break ties.
+        role_locks.sort(key=lambda row: (_trusted(row[0]), _resonance(row[2])) + _anchor_key(row[0]), reverse=True)
         chosen = [role_locks[0][0]]
         how = "frame_role"
         rsoc = _rsoc([row[0] for row in role_locks])
@@ -449,7 +495,7 @@ def rank_memory(question, nodes, phase_report=None):
         def _concept_key(row):
             shared = row[1]
             specific = sum(1 for cid in shared if str(cid).startswith("A."))
-            return (specific,) + _anchor_key(row[0])
+            return (_trusted(row[0]), _resonance(row[2]), specific) + _anchor_key(row[0])
         concept_hits.sort(key=_concept_key, reverse=True)
         chosen = [concept_hits[0][0]]
         how = "concept_lexicon"

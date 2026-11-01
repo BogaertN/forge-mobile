@@ -149,16 +149,32 @@ window.KAskAnchors = async function (question) {
   for (const row of starter.concat(extra)) if (row && row.id && !seen[row.id]) { seen[row.id] = true; out.push(row); }
   return out;
 };
+const REMEMBERED = 'forge.remembered.v1';
+function rememberedRows() { try { const v = JSON.parse(localStorage.getItem(REMEMBERED) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
 async function askMemory(question) {
-  const memory = { receipts: [], phone: [], hosted: [], research: [] };
-  /* 4.9.207 (Nic decision (a)): the hand-written ask_183 test answers are deleted; Ask starts from the phone's own stores. */
+  const memory = { receipts: [], phone: [], hosted: [], research: [], pools: [] };
+  /* 4.9.207 (Nic decision (a)): the hand-written ask_183 test answers are deleted; Ask starts from the phone's own stores.
+   * 4.9.209 (Release A): the phone does no lookup of its own here. The large pools (the curated shared packs and the admitted
+   * kb.contributions) go to the engine whole; rmc_core.preselect_pools picks candidates by resonance-packet concepts and then
+   * ranks them by phase resonance with everything else (before: the last 12 pack rows, then briefly a phrase match). Ask no
+   * longer writes receipts, so the receipt store is not fed back; what the user asked to remember is. */
   try {
     const view = forge.sharedKnowledgeView && forge.sharedKnowledgeView();
-    memory.hosted = memory.hosted.concat(((view && view.admitted) || []).slice(-12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400) })));
     const phone = forge.store.load('confirmed_shared');
-    memory.phone = memory.phone.concat(((phone && phone.facts) || []).slice(0, 12).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400) })));
-    memory.receipts = memory.receipts.concat((forge.store.load('receipts') || []).slice(-8).map(row => ({ id: row.receipt_id, text: String(row.input || '').slice(0, 240) })));
+    const shared = ((view && view.admitted) || []).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), tier: 'confirmed_shared', contributor: 'product_curator' }))
+      .concat(((phone && phone.facts) || []).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), tier: 'confirmed_shared' })));
+    memory.pools.push({ name: 'confirmed_shared', into: 'hosted', rows: shared.filter(r => r.id && r.text) });
+    /* everything the user asked to remember (newest 64) goes in; the engine's resonance ranking picks */
+    memory.phone = memory.phone.concat(rememberedRows().filter(r => r && r.text).slice(-64).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor })));
   } catch (e) { /* stores can be empty on first open */ }
+  /* 4.9.209 (Release A item 3): curated shared facts (admitted kb.contributions), read-only, cached on the phone */
+  if (window.KContribCache) {
+    try { await KContribCache.ensure(); } catch (e) { /* offline: the cached copy stays */ }
+    try {
+      const cur = await KContribCache.all();
+      memory.pools.push({ name: 'kb_contributions', into: 'hosted', rows: cur.map(row => ({ id: 'kb:' + row.id, text: String(row.text).slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor, tier: 'confirmed_shared', state: 'admitted' })) });
+    } catch (e) { /* the cache is optional */ }
+  }
   try {
     const pack = await askAnchors();
     memory.anchors = (pack.anchors || []).map(row => ({
@@ -170,10 +186,6 @@ async function askMemory(question) {
     const extra = await askAnchorShards(question);
     memory.anchors = (memory.anchors || []).concat(extra);
   } catch (e) { /* a missing shard leaves the starter anchors */ }
-  const admitted = window.FORGE_ADMITTED || [];
-  for (const row of admitted) {
-    if (row && row.text) memory.hosted.push({ id: row.id, text: String(row.text).slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor });
-  }
   return memory;
 }
 function doc6Tag(gate) {
@@ -182,8 +194,59 @@ function doc6Tag(gate) {
   const next = /unsupported|clarification-required|ambiguity|action_blocked|refuse|blocked/.test(gst);
   return gateTag + (next ? '<div class="next-step" data-next-step>Rephrase, or open Memory, Ideas, or Audit.</div>' : '');
 }
+/* 4.9.209: the explicit write. The engine's proposal for an admitted answer is kept on this phone (lasting memory) and sent to
+ * the shared KB only through the locked-down writer (signed-in linked account, writer role, verified device signature);
+ * otherwise it stays here, pending. Nothing else in Ask writes. */
+let lastAdmitted = null;
+async function rememberAnswer(row, how) {
+  const prop = row && row.memory_write && row.memory_write.proposed && row.memory_write.proposal;
+  if (!prop || !row.product_reply) return { ok: false, rule: 'REMEMBER-NOTHING-ADMITTED' };
+  const body = JSON.parse(JSON.stringify(prop));
+  body.provenance = Object.assign({}, body.provenance || {}, { requested_by: 'user', request: how === 'tap' ? 'remember_tap' : 'remember_command' });
+  const kept = rememberedRows();
+  if (!kept.some(x => x && x.text === body.text)) { kept.push(Object.assign({}, body, { remembered_at: new Date().toISOString() })); try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* storage full */ } }
+  window.FORGE_ADMITTED = window.FORGE_ADMITTED || [];
+  if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
+  let shared = { ok: false, pending: true, rule: 'KB-WRITER-UNAVAILABLE' };
+  if (window.KSb && KSb.insertAdmitted) {
+    try { shared = await KSb.insertAdmitted(body, (uid, sha, nonce) => forge.signer && forge.signer.writerProof ? forge.signer.writerProof(uid, sha, nonce) : null); }
+    catch (e) { shared = { ok: false, attempted: true, written: false, verified: false, rule: 'KB-WRITER-UNVERIFIED', error: String(e && e.message || e), calls_llm: false }; }
+  }
+  body.supabase = shared; row.memory_write.supabase = shared; row.memory_write.committed = true; row.memory_write.rule = 'REMEMBER-BY-USER-REQUEST';
+  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: body.text, supabase: shared };
+}
+/* 4.9.209: "remember (that) <statement>" keeps the user's own statement on this phone (never the shared KB: it is personal and
+ * unsourced). Questions are not statements; secrets go to the vault, not plain memory. Ask then reads it back as phone memory
+ * and the engine decides (a later contradicting statement makes the derive conflicted, so Ask holds and shows both). */
+const REMEMBER_STATEMENT = /^\s*(?:please\s+)?remember\s+(?:that\s+)?(\S.*?)\s*[.!]?\s*$/i;
+async function rememberStatement(text) {
+  const m = String(text).match(REMEMBER_STATEMENT);
+  const said = m ? m[1].trim() : '';
+  if (!said) return { ok: false, rule: 'REMEMBER-EMPTY', message: 'Remember what? Say "remember that …" with a statement.' };
+  if (/\?$/.test(said) || /^(?:what|who|whom|whose|which|when|where|why|how|is|are|was|were|do|does|did|can|could|will|would|should)\b/i.test(said)) return { ok: false, rule: 'REMEMBER-NOT-A-STATEMENT', message: 'That is a question, not a statement. Ask it, then say "remember this" to keep an admitted answer.' };
+  if (window.KPrivacy && KPrivacy.redact && KPrivacy.redact(said).secrets.length) return { ok: false, rule: 'PRIV-SECRET-NOT-KEPT', message: 'That looks like a secret (a password, key or card). It is not kept in plain memory; use the vault.' };
+  const sentence = said.charAt(0).toUpperCase() + said.slice(1) + (/[.!]$/.test(said) ? '' : '.');
+  const kept = rememberedRows();
+  if (kept.some(x => x && String(x.text).toLowerCase() === sentence.toLowerCase())) return { ok: true, rule: 'REMEMBER-ALREADY-KEPT', text: sentence, message: 'Already remembered on this phone: ' + sentence };
+  const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
+  kept.push({ id, text: sentence, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) }, remembered_at: new Date().toISOString() });
+  try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { return { ok: false, rule: 'REMEMBER-STORAGE-FULL', message: 'Phone storage is full; nothing was kept.' }; }
+  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, message: 'Remembered on this phone: ' + sentence };
+}
+const REMEMBER_LAST = /^\s*remember\s*(this|that|it|the answer|that answer)?\s*[.!]?\s*$/i;
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
+  if (REMEMBER_LAST.test(text)) {
+    const r = lastAdmitted ? await rememberAnswer(lastAdmitted, 'command') : { ok: false, rule: 'REMEMBER-NOTHING-ADMITTED' };
+    const msg = r.ok ? 'Remembered on this phone: ' + esc(r.text) + ' · shared KB ' + esc(r.supabase && (r.supabase.ok ? r.supabase.rule : (r.supabase.rule + (r.supabase.pending ? ' (kept here, pending)' : '')))) : 'Nothing to remember yet: no admitted answer in this conversation.';
+    log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + msg + '</div><div class="flags">explicit request · no LLM</div></div>');
+    log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
+  }
+  if (REMEMBER_STATEMENT.test(text)) {
+    const r = await rememberStatement(text);
+    log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '" data-remember-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message) + '</div><div class="flags">explicit request · kept on this phone only · no LLM</div></div>');
+    log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
+  }
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
   let row;
   try {
@@ -205,37 +268,18 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   lastResult = row;
   /* 4.9.208: a held question becomes a curation gap for Athena (no write happens here) */
   if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(text, row); } catch (e) { /* the curators are optional */ } }
-  if (row && row.memory_write && row.memory_write.committed && row.memory_write.hosted_kb) {
-    const bank = row.memory_write.bank;
-    const write = !bank || bank.written !== false;
-    window.FORGE_ADMITTED = window.FORGE_ADMITTED || [];
-    const body = row.memory_write.hosted_kb;
-    if (write) {
-      if (bank && bank.replace_id) window.FORGE_ADMITTED = window.FORGE_ADMITTED.filter(x => x && x.id !== bank.replace_id);
-      if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
-    if (window.KSb && KSb.insertAdmitted) {
-      try {
-        const live = await KSb.insertAdmitted(body, (uid, sha, nonce) => forge.signer && forge.signer.writerProof ? forge.signer.writerProof(uid, sha, nonce) : null);
-        row.memory_write.supabase = live;
-        body.supabase = live;
-      } catch (e) {
-        row.memory_write.supabase = { attempted: true, written: false, verified: false, rule: 'KB-WRITER-UNVERIFIED', error: String(e && e.message || e), calls_llm: false };
-      }
-    }
-    try {
-      const receipts = forge.store.load('receipts') || [];
-      receipts.push({ receipt_id: 'rmc-' + receipts.length, input: body.text, packet: body.packet, provenance: body.provenance, contributor: body.contributor });
-      forge.store.save('receipts', receipts.slice(-40));
-    } catch (e) { /* the trace still carries the receipt */ }
-    }
-  }
+  /* 4.9.209 (Nic plan, Release A item 2): an admitted answer writes nothing. No session RAM, no receipt store, no Supabase.
+   * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
   const admitted = !!(row && row.product_reply && row.reply);
+  if (admitted) lastAdmitted = row;
+  const rememberBtn = admitted && row.memory_write && row.memory_write.proposed ? '<button type="button" class="small" data-ask-remember>Remember</button>' : '';
   const kd = admitted ? 'deterministic_route' : 'deterministic_hold';
   stats[admitted ? 'routed' : 'held']++;
   const echo = row && row.echo || {};
   const admit = row && row.admit && row.admit.disposition;
   const body = admitted ? esc(row.reply) : 'Held. No answer was admitted. route ' + esc(row && row.route) + ' · drift ' + esc(row && row.drift) + ' · C ' + esc(row && row.coherence) + ' · echo ' + esc(echo.score) + ' ' + (echo.pass ? 'pass' : 'fail') + ' · admit ' + esc(admit) + '.';
-  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span><div data-ask-body data-answer-source="' + (admitted ? 'rmc_engine_v1.output_renderer' : 'hold') + '">' + body + '</div>' + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled</div></div>');
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span><div data-ask-body data-answer-source="' + (admitted ? 'rmc_engine_v1.output_renderer' : 'hold') + '">' + body + '</div>' + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
+  if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });
   renderRmc(text, row);
   refreshChrome();
@@ -343,7 +387,7 @@ function renderRmc(text, row) {
     + '<div class="meta" data-derived-provenance>provenance ' + esc(prov || 'none') + ' · drift ' + esc(eps) + ' ' + esc(survivor.drift && survivor.drift.disposition) + ' · chi ' + esc(chi.status) + ' · ChristPing ' + (wm.christping_initiated ? 'started' : 'not started') + '</div>'
     + '<div class="meta" data-derived-hops>' + esc(((survivor.hops || []).map(h => (h.n || '') + ' ' + (h.text || '') + ' · ' + ((h.provenance || []).join(',')) + ' · ε ' + (h.drift && h.drift.epsilon_s))).join(' | ')) + '</div>'
     + '<div class="meta" data-derived-text>' + esc(wm.derived_text || '') + '</div>'
-    + '<div class="meta" data-memory-write>memory writer ' + (write.committed ? 'committed' : 'not committed') + ' · packet ' + esc(packet.schema || 'none') + ' · Φ ' + esc(packet.Phi) + ' · ε ' + esc(packet.eps) + ' · μ ' + esc(packet.mu) + ' · contributor ' + esc(write.provenance && write.provenance.contributor) + ' · supabase ' + esc(write.supabase && write.supabase.rule) + '</div>'
+    + '<div class="meta" data-memory-write>memory writer ' + (write.committed ? 'committed by your request' : write.proposed ? 'proposal only, not stored (say "remember" or tap Remember)' : 'not committed') + ' · packet ' + esc(packet.schema || 'none') + ' · Φ ' + esc(packet.Phi) + ' · ε ' + esc(packet.eps) + ' · μ ' + esc(packet.mu) + ' · contributor ' + esc(write.provenance && write.provenance.contributor) + ' · supabase ' + esc(write.supabase && write.supabase.rule) + '</div>'
     + '<div class="meta" data-source-trust>trust ' + esc(row && row.trust && row.trust.rule) + ' · low-trust ' + esc(row && row.trust && row.trust.low_trust) + ' · rests on ' + esc(row && row.trust && row.trust.rests_on) + ' · points ' + esc(((row && row.trust && row.trust.points_at) || []).join(', ')) + '</div>'
     + '<div class="meta" data-anchor-sample>' + anchorSample(row) + '</div>'
     + '<div class="meta" data-phase-glyph>phase ' + glyphSpan(phase.primary) + ' ' + glyphSpan(phase.glyph || '') + ' · concept ' + esc(phase.concept) + ' · echo method ' + esc(echo.method) + ' · ' + esc(echo.compares) + '</div>'
@@ -549,4 +593,7 @@ window.KUI = { $, $$, esc, fmt, openTab };
 refreshChrome();
 /* 4.9.206: fill or refresh the offline anchor copy from Supabase shortly after boot (no-op offline; never blocks the UI) */
 if (window.KAnchorCache) setTimeout(() => { KAnchorCache.ensure().catch(() => {}); }, 4000);
+/* 4.9.209: the curated shared facts too (read-only) */
+if (window.KContribCache) setTimeout(() => { KContribCache.ensure().catch(() => {}); }, 5000);
+window.KAskRemember = rememberAnswer;
 })();

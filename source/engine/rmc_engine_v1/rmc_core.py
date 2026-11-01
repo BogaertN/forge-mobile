@@ -16,6 +16,7 @@ from typing import Any
 
 from rmc_engine_v1.deep_dry_run_orchestrator import run_deep_dry_run
 from rmc_engine_v1.echo_question import _tokens, echo_against_question
+from rmc_engine_v1.memory_writer import bank_admitted
 from rmc_engine_v1.mobile_config import THRESHOLDS, snapshot
 from rmc_engine_v1.reasoning_seam import run_reasoning_seam
 
@@ -76,13 +77,14 @@ def _stage_rows(stages: list[Any]) -> list[dict[str, Any]]:
     return rows
 
 
-# Spoken in 4.9.190 from the hosted bank with no source, license, or revision.
-# Wikipedia excerpts for the same questions are low trust and are not a basis.
-UNSOURCED_HELD = {
-    "ho-ada", "ho-french", "ho-mona", "ho-curie", "ho-phone", "ho-cleo", "ho-ww2", "ho-bleach", "ho-vinegar",
-    # The spoken Hamlet line is a hosted paraphrase. The Gutenberg title page is a different sentence.
-    "ho-hamlet",
-}
+# 4.9.209: the UNSOURCED_HELD list of ho-* ids is removed. Those hand-written
+# rows were deleted in 4.9.207 and the list matched nothing. A row marked
+# unsourced is still never a premise.
+
+# Bounded, deterministic candidate fallback (Nic plan, Release A item 1): when the
+# top candidate fails Echo or the gate, at most this many next-ranked candidates
+# are tried, each measured from scratch by the same engine and gate.
+FALLBACK_MAX = 3
 
 
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
@@ -91,7 +93,7 @@ def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("anchor", "anchors"), ("research_quarantine", "research")):
         for row in memory.get(key) or []:
             if isinstance(row, dict) and str(row.get("text") or row.get("content") or "").strip():
-                if row.get("unsourced") is True or str(row.get("id") or "") in UNSOURCED_HELD:
+                if row.get("unsourced") is True:
                     continue
                 item = dict(row)
                 item["source"] = source
@@ -283,7 +285,7 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
     }
 
 
-def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
+def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     payload = dict(payload or {})
     question = str(payload.get("question") or payload.get("text") or "").strip()
     if not question:
@@ -388,7 +390,6 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         recall_state = (((artifacts.get("trace_spine") or {}).get("memory_recall") or {}).get("memory_state") or {})
         resonance = recall_state.get("resonance") if isinstance(recall_state, dict) else None
         from rmc_engine_v1.resonance_recall import PACKET_SCHEMA, CITE as RESONANCE_CITE
-        from rmc_engine_v1.memory_writer_hosted import commit_hosted
         curation = []
         for link in anchors:
             curation.append({k: link.get(k) for k in (
@@ -421,25 +422,24 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "trust": trust_trace,
             }
             row_body = {"id": "admit-" + question[:24], "text": reply, "sfe": sfe, "packet": packet, "provenance": provenance, "contributor": "athena"}
-            from rmc_engine_v1.memory_writer import bank_admitted
-            session = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
-            bank = bank_admitted(session, row_body)
-            hosted_result = (
-                {"attempted": False, "written": False, "verified": False, "rule": "KB-WRITER-ALREADY-BANKED", "calls_llm": False}
-                if not bank["written"]
-                else commit_hosted(row_body, transport=payload.get("hosted_transport"))
-            )
+            # 4.9.209 (Nic plan, Release A item 2): an admitted answer does NOT write lasting or
+            # shared memory. The engine returns the row as a proposal. Only an explicit user
+            # request ("remember …" or the Remember tap) writes it; Athena's curation writes go
+            # through the locked writer. Nothing is banked here and nothing is sent.
             memory_write = {
-                "committed": True,
+                "committed": False,
+                "proposed": True,
+                "rule": "ASK-NO-AUTO-WRITE",
+                "requires": "an explicit user request: 'remember …' or the Remember tap",
                 "calls_llm": False,
                 "text": reply,
                 "packet": packet,
                 "provenance": provenance,
-                "phone_kb": row_body,
-                "hosted_kb": row_body,
-                "rmc_receipt": row_body,
-                "supabase": hosted_result,
-                "bank": {k: bank[k] for k in ("written", "reason", "kept", "replace_id", "calls_llm")},
+                "proposal": row_body,
+                # Decision only (pure, nothing is stored): would a "remember" add anything new, or is
+                # the sentence already in memory? The Remember step uses it to avoid duplicates.
+                "bank": bank_admitted(payload.get("memory") or {}, row_body),
+                "supabase": {"attempted": False, "written": False, "verified": False, "rule": "ASK-NO-AUTO-WRITE", "calls_llm": False},
                 "gilligan": {"christping_initiated": False, "reason": "Ask does not start ChristPing. Only Gilligan initiates it, and only above a hard stop."},
             }
         from rmc_engine_v1.language_core_engines import run_engines
@@ -527,6 +527,156 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "trace": trace,
             "status": report.get("status"),
         }
+
+
+def _fallback_eligible(result: dict[str, Any]) -> bool:
+    if not result.get("live") or result.get("product_reply"):
+        return False
+    admit = result.get("admit") or {}
+    if admit.get("hard_stop") or admit.get("disposition") == "hard_stop":
+        return False
+    derive = ((result.get("world_model") or {}).get("derive") or {})
+    if str(derive.get("status") or "") == "conflicted":
+        # A conflict speaks neither side. Dropping one side would hide it.
+        return False
+    return True
+
+
+def _failed_candidate(result: dict[str, Any]) -> str:
+    echo = result.get("echo") or {}
+    for text in (echo.get("output_text"), (result.get("world_model") or {}).get("derived_text")):
+        if str(text or "").strip():
+            return str(text).strip()
+    return ""
+
+
+def _rows_for(payload: dict[str, Any], candidate: str) -> list[tuple[str, int]]:
+    """Memory rows (not quarantined research) whose sentence is the failed candidate."""
+    want = _norm_sentence(candidate).rstrip(".")
+    memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
+    hits = []
+    if not want:
+        return hits
+    for key in ("receipts", "phone", "hosted", "anchors"):
+        for i, row in enumerate(memory.get(key) or []):
+            if not isinstance(row, dict):
+                continue
+            text = _norm_sentence(row.get("text") or row.get("content")).rstrip(".")
+            if text and (text == want or text in want or want in text):
+                hits.append((key, i))
+    return hits
+
+
+def _without(payload: dict[str, Any], hits: list[tuple[str, int]]) -> dict[str, Any]:
+    out = dict(payload)
+    memory = dict(payload.get("memory") or {})
+    drop: dict[str, set[int]] = {}
+    for key, i in hits:
+        drop.setdefault(key, set()).add(i)
+    for key, idx in drop.items():
+        memory[key] = [row for j, row in enumerate(memory.get(key) or []) if j not in idx]
+    out["memory"] = memory
+    return out
+
+
+POOL_CAPS = {"confirmed_shared": 12, "kb_contributions": 16}
+
+
+def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
+    """4.9.209: candidate selection for the large phone pools happens here, in the engine.
+
+    memory.pools = [{"name", "into", "rows"}]. A row is a candidate when its resonance
+    packet concepts (its own packet concepts plus the concept lexicon the packets are
+    placed from, the same lookup rank_memory uses) meet the question's concepts. Order:
+    trust, then the number of specific (A.*) concepts met, then id. Capped per pool.
+    No token-overlap score and no substring match; phase alignment, the resonance rank,
+    the gate and Echo then run on the kept rows exactly as on every other row.
+    """
+    from rmc_engine_v1.resonance_recall import _anchor_concepts, _concept_ids, _trusted
+
+    memory = dict(payload.get("memory") or {})
+    pools = memory.pop("pools", None)
+    if not isinstance(pools, list) or not pools:
+        return payload
+    question = str(payload.get("question") or "")
+    # The question's packet concepts: the concept lexicon (as rank_memory reads it) plus the
+    # anchor concept a word names when the general lexicon gives that word another concept.
+    asked = _concept_ids(question) | _anchor_concepts(question)
+    seen_ids = {str(r.get("id") or "") for key in ("anchors", "hosted", "phone") for r in (memory.get(key) or []) if isinstance(r, dict)}
+    record = []
+    for pool in pools:
+        if not isinstance(pool, dict):
+            continue
+        name = str(pool.get("name") or "")
+        into = pool.get("into") if pool.get("into") in ("hosted", "phone") else "hosted"
+        cap = int(POOL_CAPS.get(name, 12))
+        rows = [r for r in (pool.get("rows") or []) if isinstance(r, dict) and str(r.get("text") or "").strip() and str(r.get("id") or "") not in seen_ids]
+        hits = []
+        for row in rows:
+            own = {str(c) for c in (row.get("concepts") or []) if c} if isinstance(row.get("concepts"), list) else set()
+            met = asked & (own | _concept_ids(str(row.get("text") or "")))
+            if met:
+                specific = sum(1 for c in met if c.startswith("A."))
+                hits.append(((_trusted(row), specific), str(row.get("id") or ""), row, sorted(met)))
+        hits.sort(key=lambda h: (-h[0][0], -h[0][1], h[1]))
+        kept = hits[:cap]
+        seen_ids.update(h[1] for h in kept)
+        memory[into] = list(memory.get(into) or []) + [h[2] for h in kept]
+        record.append({"name": name, "into": into, "pool": len(rows), "kept": [h[1] for h in kept],
+                       "concepts": {h[1]: h[3] for h in kept}, "cap": cap})
+    out = dict(payload)
+    out["memory"] = memory
+    out["_preselect"] = {"rule": "ENGINE-POOL-PRESELECT", "method": "resonance_packet_concepts", "question_concepts": sorted(asked),
+                         "uses_token_overlap": False, "calls_llm": False, "pools": record}
+    return out
+
+
+def _with_preselect(result: dict[str, Any], pre: dict[str, Any] | None) -> dict[str, Any]:
+    if pre:
+        result["preselect"] = pre
+        if isinstance(result.get("trace"), dict):
+            result["trace"]["preselect"] = pre
+    return result
+
+
+def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
+    """One Ask turn. When the top candidate fails Echo or the gate, the next-ranked
+    candidates are tried (at most FALLBACK_MAX, in rank order) before holding.
+
+    Each try removes the failed candidate's own row and runs the same engine and
+    the same gate again, so every number on a fallback answer is measured, not
+    carried over. A hard stop and a conflict do not fall back. Deterministic.
+    """
+    payload = preselect_pools(dict(payload or {}))
+    pre = payload.pop("_preselect", None)
+    first = _with_preselect(_run_once(payload), pre)
+    if not _fallback_eligible(first):
+        return first
+    tried = []
+    current, cur_payload = first, payload
+    for _ in range(FALLBACK_MAX):
+        candidate = _failed_candidate(current)
+        hits = _rows_for(cur_payload, candidate)
+        if not hits:
+            break
+        tried.append({
+            "candidate": candidate,
+            "echo": (current.get("echo") or {}).get("score"),
+            "disposition": (current.get("admit") or {}).get("disposition"),
+            "excluded": sorted({str(((cur_payload.get("memory") or {}).get(k) or [])[i].get("id") or "") for k, i in hits}),
+        })
+        cur_payload = _without(cur_payload, hits)
+        nxt = _with_preselect(_run_once(cur_payload), pre)
+        if nxt.get("product_reply"):
+            nxt["fallback"] = {"rule": "ENGINE-CANDIDATE-FALLBACK", "max": FALLBACK_MAX, "tried": tried, "spoken_after": len(tried), "calls_llm": False}
+            nxt["trace"]["fallback"] = nxt["fallback"]
+            return nxt
+        if not _fallback_eligible(nxt):
+            break
+        current = nxt
+    first["fallback"] = {"rule": "ENGINE-CANDIDATE-FALLBACK-EXHAUSTED" if tried else "ENGINE-CANDIDATE-NO-NEXT", "max": FALLBACK_MAX, "tried": tried, "spoken_after": None, "calls_llm": False}
+    first["trace"]["fallback"] = first["fallback"]
+    return first
 
 
 def main() -> int:

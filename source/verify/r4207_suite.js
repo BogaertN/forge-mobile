@@ -31,11 +31,15 @@ T('the honest cold 60 is recorded: 20 admitted, 40 held, 0 false admits, no LLM,
   expect(COLD.previous_claim.admitted === 48 && /deleted/.test(COLD.previous_claim.note), 'previous claim named');
   expect(COLD.rows.filter(r => r.admitted).every(r => r.reply && r.calls_llm === false && !(r.trust === 'wikipedia' && r.premise)), 'admits');
 });
-T('the recorded cold 60 is reproduced exactly by a fresh run (deterministic, nothing hand-edited)', () => {
+/* 4.9.209: each engine release records its own cold 60 (tools/cold60.py). The 4.9.207 record above stays as history; the
+ * newest record must be reproduced exactly by a fresh run. */
+const LATEST = fs.readdirSync(path.join(ROOT, 'data')).filter(f => /^cold_\d+_results\.json$/.test(f)).sort((a, b) => parseInt(a.slice(5), 10) - parseInt(b.slice(5), 10)).pop();
+T('the newest recorded cold 60 is reproduced exactly by a fresh run (deterministic, nothing hand-edited)', () => {
+  const COLD = JSON.parse(read('data/' + LATEST));
   const code = 'import json,sys; sys.path.insert(0,"engine"); sys.path.insert(0,"."); from tools.audit_204 import run_cold; o=run_cold(); print(json.dumps([[r["question"], bool(r["admitted"]), r.get("reply")] for r in o["rows"]]))';
   const out = JSON.parse(cp.execFileSync(process.env.PYTHON || 'python3', ['-c', code], { cwd: ROOT, encoding: 'utf8', maxBuffer: 1 << 26 }));
   const rec = COLD.rows.map(r => [r.question, !!r.admitted, r.reply === undefined ? null : r.reply]);
-  expect(JSON.stringify(out) === JSON.stringify(rec), 'fresh run differs from data/cold_207_results.json');
+  expect(JSON.stringify(out) === JSON.stringify(rec), 'fresh run differs from data/' + LATEST);
 });
 T('the drift bands and admission thresholds are unchanged', () => {
   const cfg = read('engine/rmc_engine_v1/mobile_config.py'); expect(/0\.35/.test(cfg) && /0\.8/.test(cfg), 'bands');
