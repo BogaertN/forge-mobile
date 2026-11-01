@@ -24,7 +24,7 @@ const SHIPPED = [
   ['R488-TOOL', '4.9.88', 'src/kernel.js', 'WH-DET COPULAR (4.9.88)'],
   ['R489-GRAM', '4.9.89', 'src/grammar.js', 'NP-PASSIVE-PARTICIPLE-POSTMOD'],
   ['R490-DIR', '4.9.90', 'src/kernel.js', 'LL-DIRECTIVE-MEANING'],
-  ['R491-NAME', '4.9.91', 'src/kernel.js', 'OPEN-NOMINAL (4.9.91)'],
+  ['R491-NAME', '4.9.91', 'src/panini_wording.js', 'OPEN-NOMINAL (4.9.91)'] /* 4.9.214 C3: moved with derive */,
   ['R492-PROP', '4.9.92', 'src/grammar.js', 'TAG-PROPN-LEXICON'],
   ['R493-STRUCT', '4.9.93', 'src/kernel.js', 'BARE-REASON (4.9.92'],
   ['R494-RSOC', '4.9.94', 'src/kmath.js', 'RSOC_STANDING'],

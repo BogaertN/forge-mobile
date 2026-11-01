@@ -19,7 +19,8 @@ function run() {
   const f = FK.ForgeKernel({ store: st, lexicon: LEX, lexiconExt: EXT, clock: CLOCK });
   const T = ['hello', 'remember that my car is red', 'what color is my car?', 'is my car red?', 'remember that my sister lives in Paris', 'where does my sister live?',
     'note: buy milk', 'a robin is a bird', 'is a robin an animal?', 'what is 17 times 23?', 'forget that my car is red', 'what color is my car?', 'help', 'what do you know about me?',
-    'my password is hunter2', 'if it rains then the grass is wet', 'it rains', 'is the grass wet?', 'who are you?', 'what can you do?'];
+    'my password is hunter2', 'if it rains then the grass is wet', 'it rains', 'is the grass wet?', 'who are you?', 'what can you do?',
+    'I saw the man with the telescope', '1', 'remember that the bank is near the river', 'where is the bank?', 'the old man the boats', 'remember that Anna bought a new car', 'what did Anna buy?', 'remember that my dog chased a cat', 'who chased the cat?', '2'];
   out.turns = T.map(t => { const r = safe(() => f.process(t)); return { t, reply: r && r.reply, blocked: r && r.blocked, outcome: r && r.outcome && r.outcome.class, kind: r && r.trace && r.trace.msm && r.trace.msm.meaning && r.trace.msm.meaning.kind, trace: h(r && r.trace && Object.assign({}, r.trace, { timing: undefined })) }; });
   out.receipts = h(f.receipts()); out.audit = f.verifyAudit();
   // store

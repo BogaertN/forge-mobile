@@ -1,5 +1,5 @@
 {
- "version": "4.9.213",
+ "version": "4.9.214",
  "features": [
   {
    "id": "A-01",
@@ -4046,13 +4046,24 @@
    "proof": [
     "verify/r4213_suite.js"
    ]
+  },
+  {
+   "id": "R4214-PANINI-WORDING-MODULE",
+   "name": "Release C3: derive and reparse moved off kernel.js into the Pāṇini wording module next to grammar.js (same API, no behaviour change)",
+   "source": "Nic plan Release C, stage C3 (2026-10-31); src/panini_wording.js, src/grammar.js, src/kernel.js; tools/c_parity.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Wording(ctx) holds the kāraka sentence parse over grammar.js, canonical forms, kāraka validity, economy/given compounds, the person swap, held-reading ancestry and reparseClause, plus the per-turn derivation state. Moved verbatim; parity transcript (with a clarification turn) equals the 4.9.211 record. Partial: the old answer path stays until C4 (Nic approval required).",
+   "proof": [
+    "verify/r4214_suite.js"
+   ]
   }
  ],
- "count": 369,
+ "count": 370,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 207,
+  "Partial": 208,
   "Missing": 9,
   "Out of scope / parked": 13
  }
