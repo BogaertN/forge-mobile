@@ -90,6 +90,11 @@ jobs:
           node source/verify/r4217_suite.js
           node source/verify/r4217_suite.js
           node source/verify/r4217_suite.js
+      - name: r4218 suite, three passes
+        run: |
+          node source/verify/r4218_suite.js
+          node source/verify/r4218_suite.js
+          node source/verify/r4218_suite.js
       - name: Frequency tuning suite, three passes
         run: |
           node source/verify/r4204_suite.js

@@ -47,6 +47,11 @@ PROPOSAL v1, awaiting Nic:
   A wider gate (0.08) let random short words share coarse bands. 0.02 is the
   gate this build measures.
 
+4.9.218, Nic-approved 2026-11-01 (pt125u "Build that"): EPSILON = 0.02, OFFSET_CAP = 0.40 and
+NUDGE_SPAN = 0.45 are approved unchanged, and the per-word decimals tune the question inside its band
+(question_tuning.py, DRIFT-SPEC/v1 D14). The values below are those constants; they are not restated
+elsewhere. The other proposal items (RSOC operator coefficients, the 4.9.204 field) are not changed.
+
 RSOC operators, per component, use the approved research_hooks values.
 They are not FHRR bind or unbind. Merge rewrites frequencies only while the
 master phase is 6. A +120° step on any carrier in one tick is refused, and
@@ -79,6 +84,7 @@ MASTER_WINDOW = math.pi / 4
 EPSILON = 0.02
 OFFSET_CAP = 0.40
 NUDGE_SPAN = 0.45
+CONSTANTS_APPROVED = "Nic, pt125u, 2026-11-01 (4.9.218)"
 MIN_LETTERS = 2
 JUMP_DEG = 120.0
 JUMP_TOL_DEG = 0.5

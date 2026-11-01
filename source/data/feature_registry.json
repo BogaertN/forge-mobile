@@ -1,5 +1,5 @@
 {
- "version": "4.9.217",
+ "version": "4.9.218",
  "features": [
   {
    "id": "A-01",
@@ -4090,13 +4090,24 @@
    "proof": [
     "verify/r4217_suite.js"
    ]
+  },
+  {
+   "id": "R4218-QUESTION-TUNING",
+   "name": "Continuous question tuning on the 9/144 dial: the integer phase is the band, the question's words tune the decimal inside it",
+   "source": "Nic approval 2026-11-01 8:06 AM CT (pt125u, 4.9.218); engine/rmc_engine_v1/question_tuning.py, resonance_recall.py, memory_recaller.py, drift_policy.py, frequency_203_config.py, src/app.js, tools/check_218.py, tools/parity_218_pyodide.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Band = the integer phase the engine reads (lexicon placement, else the parser's top phase). Decimal = amplitude-weighted mean place r of the question words' 4.9.203 components in their Appendix A marker cells, |r| <= 0.40, nudge <= 0.45*eps, eps = 0.02 (constants unchanged, Nic-approved; DRIFT-SPEC/v1 D14); offset = r * 1/2 band (<= +/-0.20 phase, +/-8 deg). rank_memory's pi/4 window and grace read the continuous gap. Pyodide and CPython agree (tools/parity_218_pyodide.js). Partial: anchors are still placed at integer phases (Athena placement does not tune a decimal yet), so on today's store the tuning moves grace and delta but no admit; cold 60 unchanged 21/60.",
+   "proof": [
+    "verify/r4218_suite.js"
+   ]
   }
  ],
- "count": 373,
+ "count": 374,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 177,
+  "Partial": 178,
   "Missing": 9,
   "Out of scope / parked": 47
  }

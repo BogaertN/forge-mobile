@@ -135,7 +135,7 @@ T('the cold 60 for 4.9.209 is recorded (not tuned): 22 admitted, 38 held, 0 fals
   expect(fs.existsSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_209.md')), 'report');
 });
 T('version registry names 4.9.209', () => {
-  expect(read('VERSION').trim() === '4.9.217', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.218', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
   expect(reg.features.some(f => f.id === 'R4209-ASK-FALLBACK-NO-AUTOWRITE'), 'registry');
 });

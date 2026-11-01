@@ -1,3 +1,18 @@
+## v4.9.218 — Continuous question tuning on the 9 / 144 dial; frequency constants approved (Nic approval 2026-11-01 8:06 AM America/Chicago, pt125u "Build that")
+
+**Conflict:** through 4.9.217 the question read one integer phase, so its tuning was coarse: every packet in the same band got the same gap and grace, while RSOC Axiom 2 treats Φ as a real number. The 4.9.203 / 4.9.204 frequency constants (ε 0.02 on hz/marker, offset cap 0.40, nudge span 0.45) were marked "proposal v1, awaiting Nic".
+
+**Where:** `engine/rmc_engine_v1/question_tuning.py` (new), `resonance_recall.py` (rank_memory), `memory_recaller.py` (record), `drift_policy.py` (QUESTION_TUNING, D14 note), `frequency_203_config.py` (approval note), `src/app.js` (Recall line), `src/rmc_client.js` (bundle SRI), `tools/check_218.py`, `tools/parity_218_pyodide.js`, `verify/r4218_suite.js`.
+
+**Resolution:**
+- **Band:** the integer phase the engine already reads (the asked concept's lexicon placement, else the parser's top phase). One band is 40° (2π/9; 144/9 = 16 Hz). The band never changes.
+- **Decimal:** the question's content words each carry their 4.9.203 signature. The tuning is the amplitude-weighted mean place r of those components inside their Appendix A marker cells (|r| ≤ 0.40, a surface nudge ≤ 0.45·ε, ε = 0.02), placed on the dial as offset = r · ½ band. So |offset| ≤ 0.20 phase (±8°). Φ1 − δ is written Φ9.x (the same point on the circle).
+- **Lookup:** rank_memory's π/4 window and grace = rpm · cos²δ read the continuous gap between the tuned question and each packet. The record carries question_band, question_phi (tuned) and question_tuning.
+- **Constants approved unchanged:** ε 0.02, offset cap 0.40, nudge 0.45 (Nic, pt125u). Recorded in drift_policy.QUESTION_TUNING, frequency_203_config.CONSTANTS_APPROVED and DRIFT-SPEC/v1 D14. They do not enter either ε. The other 4.9.203 / 4.9.204 proposal items (RSOC operator coefficients, the 4.9.204 field) are not changed.
+- **General:** a pure function of the question's letters and its band; no question list. CPython and Pyodide (shipped bundle) agree exactly.
+- **Kept:** Ask's candidate ε /3; the 4.9.217 decimal packet phase; definition-first rank; relation Echo; 0.85 / 0.97; the math, remembered-fact and Dry-Run paths (Dry-Run output identical to 4.9.217 on 63 questions).
+- **Effect today:** every stored packet is an integer phase (Φ1, Φ4, Φ5, Φ9) and the offset stays inside the band, so no lock changed: the cold 60 is recorded, not tuned, 21/60, 0 false admits, every row identical to 4.9.217. The tuning starts to separate anchors when packets carry decimal phases (a fixture shows the nearest station winning on grace where an integer question preferred the band centre).
+
 ## v4.9.217 — Lookup ranks definitions; Echo re-parses the asked relation; /3 is canonical (Nic request 2026-11-01 7:08 AM America/Chicago)
 
 **Conflict:** "What is the Moon?" was admitted on a sentence that only mentions the Moon ("The Moon, on the other hand, moves completely around Earth"). "What is DNA?" spoke "Most DNA is located …" when a definition was in the store. Echo passed both because it counted only words. DRIFT-SPEC/v1 D3 gave N = max(1, depth) as if it applied to every ε, while the Ask candidate ε divides by 3.

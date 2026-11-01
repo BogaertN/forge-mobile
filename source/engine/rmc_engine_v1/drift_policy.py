@@ -15,6 +15,13 @@ Two normalisers, two metrics (DRIFT-SPEC/v1 D3, resolved 4.9.217, Nic 2026-11-01
     the 144 base runs by threes (144 = 9*16 = 3*48, three octaves of three phases, one triad step
     = 3/9) and the functional averages three components (RMC 6.3, n = 3). It is never switched
     to depth. Rationale and citations: CONFLICTS.md 4.9.217.
+
+Question tuning (DRIFT-SPEC/v1 D14, 4.9.218, Nic-approved 2026-11-01, pt125u "Build that"):
+  the frequency constants from the 4.9.203 / 4.9.204 proposal are approved unchanged and tune the
+  question continuously inside its band on the 9 / 144 dial (question_tuning.py):
+  epsilon = 0.02 on hz / marker, offset cap = 0.40 of the marker's Voronoi half-width, nudge span = 0.45
+  (a surface nudge is at most 0.45 * epsilon of the marker). The dial offset is mean r * 1/2 band, so at
+  most +/-0.20 phase (+/-8 degrees); the band never changes. They do not enter either eps above.
 """
 from __future__ import annotations
 
@@ -23,6 +30,18 @@ import re
 from typing import Any
 
 from rmc_engine_v1.mobile_config import DRIFT_POLICY
+from rmc_engine_v1.frequency_203_config import EPSILON as _TUNE_EPSILON, NUDGE_SPAN as _TUNE_NUDGE, OFFSET_CAP as _TUNE_CAP
+
+# DRIFT-SPEC/v1 D14 (4.9.218): Nic-approved question-tuning constants, read from the one config, not restated.
+QUESTION_TUNING = {
+    "epsilon": _TUNE_EPSILON,
+    "offset_cap": _TUNE_CAP,
+    "nudge_span": _TUNE_NUDGE,
+    "status": "approved",
+    "approved": "Nic, pt125u, 2026-11-01",
+    "release": "4.9.218",
+    "used_by": "question_tuning.tune -> resonance_recall.rank_memory",
+}
 
 P = DRIFT_POLICY
 WINDOW = 8

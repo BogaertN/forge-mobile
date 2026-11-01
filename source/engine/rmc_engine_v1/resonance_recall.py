@@ -550,7 +550,13 @@ def curate_quarantine(question, row, ancestors):
 
 def rank_memory(question, nodes, phase_report=None):
     """Return resonant nodes. Quarantine is recorded and not returned as active."""
-    question_phi = _question_phi(phase_report)
+    # 4.9.218 (Nic-approved, pt125u): the integer phase picks the band; the question's own words tune the decimal
+    # inside it (question_tuning.tune: ε 0.02, offset cap 0.40, nudge 0.45 from frequency_203_config). The π/4 window
+    # and grace = rpm·cos²δ read the continuous gap. |offset| ≤ 0.20 phase, so the band never changes.
+    from rmc_engine_v1.question_tuning import tune as _tune_question
+    question_band = _question_phi(phase_report)
+    tuning = _tune_question(question or "", question_band)
+    question_phi = tuning["Phi"]
     asked = asked_filler(question)
     known = set()
     for node in nodes or []:
@@ -717,6 +723,7 @@ def rank_memory(question, nodes, phase_report=None):
             "type": "phase_align",
             "phi": grace.get("phi"),
             "question_phi": question_phi,
+            "question_band": question_band,
             "delta": grace.get("delta"),
             "grace": grace.get("grace"),
             "frame": (info.get("hit") or {}).get("frame"),
@@ -731,6 +738,8 @@ def rank_memory(question, nodes, phase_report=None):
         "uses_token_overlap": False,
         "calls_llm": False,
         "question_phi": question_phi,
+        "question_band": question_band,
+        "question_tuning": tuning,
         "asked": asked,
         "asked_relation": {"relation": ask_rel.get("relation"), "subject": " ".join(ask_rel.get("subject") or [])},
         "how": how,
