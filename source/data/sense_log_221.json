@@ -1,0 +1,791 @@
+{
+ "schema": "FORGE-SENSE-LOG/v1",
+ "release": "4.9.221",
+ "mode": "advisory",
+ "answers_changed": 0,
+ "table": {
+  "concepts": 385,
+  "with_sense": 250,
+  "review": 29,
+  "surfaces": 838,
+  "senses": 355
+ },
+ "pack_lemmas": 9935,
+ "anchors": {
+  "anchors": 3101,
+  "own_concepts_all_pinned_with_sense": 2690,
+  "own_concepts_some_without_sense": 411,
+  "with_pinned_word": 2419,
+  "with_resolved_word": 535,
+  "with_would_ask_word": 3046,
+  "words_pinned": 4787,
+  "words_pinned_with_sense": 3684,
+  "words_resolved": 614,
+  "words_would_ask": 12120
+ },
+ "questions": {
+  "questions": 60,
+  "with_pinned_meaning": 41,
+  "with_resolved_word": 0,
+  "with_would_ask_word": 16,
+  "no_sense_word_at_all": 8
+ },
+ "top_would_ask_words_in_anchors": [
+  [
+   "capital",
+   267
+  ],
+  [
+   "islands",
+   243
+  ],
+  [
+   "century",
+   221
+  ],
+  [
+   "government",
+   218
+  ],
+  [
+   "first",
+   209
+  ],
+  [
+   "independence",
+   202
+  ],
+  [
+   "island",
+   196
+  ],
+  [
+   "elections",
+   159
+  ],
+  [
+   "world",
+   152
+  ],
+  [
+   "power",
+   124
+  ],
+  [
+   "control",
+   105
+  ],
+  [
+   "election",
+   104
+  ],
+  [
+   "french",
+   103
+  ],
+  [
+   "minister",
+   95
+  ],
+  [
+   "territory",
+   94
+  ],
+  [
+   "rule",
+   91
+  ],
+  [
+   "forces",
+   89
+  ],
+  [
+   "prime",
+   89
+  ],
+  [
+   "party",
+   85
+  ],
+  [
+   "centuries",
+   84
+  ],
+  [
+   "economy",
+   82
+  ],
+  [
+   "state",
+   79
+  ],
+  [
+   "kingdom",
+   78
+  ],
+  [
+   "part",
+   78
+  ],
+  [
+   "population",
+   73
+  ]
+ ],
+ "per_question": [
+  {
+   "question": "What is quartz?",
+   "admitted": false,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is photosynthesis?",
+   "admitted": true,
+   "pinned": [
+    "photosynthesis"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Why is the sky blue?",
+   "admitted": true,
+   "pinned": [
+    "sky",
+    "blue"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is DNA?",
+   "admitted": true,
+   "pinned": [
+    "dna"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is gravity?",
+   "admitted": false,
+   "pinned": [
+    "gravity"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How hot is the sun?",
+   "admitted": false,
+   "pinned": [
+    "hot",
+    "sun"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How do lightbulbs work?",
+   "admitted": false,
+   "pinned": [
+    "work"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How does a compass work?",
+   "admitted": false,
+   "pinned": [
+    "compass",
+    "work"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How is glass made?",
+   "admitted": false,
+   "pinned": [
+    "glass"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Who was Ada Lovelace?",
+   "admitted": false,
+   "pinned": [
+    "lovelace"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "When did the French Revolution begin?",
+   "admitted": false,
+   "pinned": [
+    "revolution"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "french",
+     3,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "Who painted the Mona Lisa?",
+   "admitted": false,
+   "pinned": [
+    "mona"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is the capital of Japan?",
+   "admitted": true,
+   "pinned": [
+    "japan"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "capital",
+     8,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is the largest planet?",
+   "admitted": true,
+   "pinned": [
+    "largest"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "planet",
+     3,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is 17 times 23?",
+   "admitted": true,
+   "pinned": [
+    "times"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is the square root of 144?",
+   "admitted": true,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": [
+    [
+     "square",
+     8,
+     null
+    ],
+    [
+     "root",
+     8,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is the boiling point of water?",
+   "admitted": false,
+   "pinned": [
+    "water"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "boiling",
+     2,
+     null
+    ],
+    [
+     "point",
+     26,
+     "09419340-n"
+    ]
+   ]
+  },
+  {
+   "question": "What is the speed of light?",
+   "admitted": true,
+   "pinned": [
+    "speed",
+    "light"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What happens if you mix bleach and ammonia?",
+   "admitted": false,
+   "pinned": [
+    "ammonia"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "mix",
+     3,
+     null
+    ],
+    [
+     "bleach",
+     3,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What happened in the news today?",
+   "admitted": false,
+   "pinned": [
+    "news",
+    "today"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How are you?",
+   "admitted": true,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Help",
+   "admitted": true,
+   "pinned": [
+    "help"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Tell me about it",
+   "admitted": true,
+   "pinned": [
+    "tell"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What gas does photosynthesis release?",
+   "admitted": false,
+   "pinned": [
+    "photosynthesis"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "gas",
+     6,
+     null
+    ],
+    [
+     "release",
+     12,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is protoforge?",
+   "admitted": false,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "And what about Mars?",
+   "admitted": true,
+   "pinned": [
+    "mars"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is helium?",
+   "admitted": false,
+   "pinned": [
+    "helium"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is a magnet?",
+   "admitted": false,
+   "pinned": [
+    "magnet"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is an atom?",
+   "admitted": false,
+   "pinned": [
+    "atom"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is lightning?",
+   "admitted": false,
+   "pinned": [
+    "lightning"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is the Moon?",
+   "admitted": false,
+   "pinned": [
+    "moon"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How does a battery work?",
+   "admitted": false,
+   "pinned": [
+    "battery",
+    "work"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Why do leaves change color?",
+   "admitted": false,
+   "pinned": [
+    "leaves",
+    "color"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "change",
+     10,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "Who was Marie Curie?",
+   "admitted": false,
+   "pinned": [
+    "curie"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Who wrote Hamlet?",
+   "admitted": false,
+   "pinned": [
+    "hamlet"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "When was the telephone invented?",
+   "admitted": false,
+   "pinned": [
+    "telephone"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is the capital of Canada?",
+   "admitted": true,
+   "pinned": [
+    "canada"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "capital",
+     8,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is the longest river?",
+   "admitted": false,
+   "pinned": [
+    "longest"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is Mount Everest?",
+   "admitted": false,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": [
+    [
+     "mount",
+     5,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is 19 times 21?",
+   "admitted": true,
+   "pinned": [
+    "times"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is 144 divided by 12?",
+   "admitted": true,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How many meters are in a kilometer?",
+   "admitted": false,
+   "pinned": [
+    "meters",
+    "kilometer"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is the freezing point of water?",
+   "admitted": false,
+   "pinned": [
+    "freezing",
+    "water"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "point",
+     26,
+     "09419340-n"
+    ]
+   ]
+  },
+  {
+   "question": "What happens if you mix bleach and vinegar?",
+   "admitted": false,
+   "pinned": [
+    "vinegar"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "mix",
+     3,
+     null
+    ],
+    [
+     "bleach",
+     3,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "How does a refrigerator work?",
+   "admitted": false,
+   "pinned": [
+    "work"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "How is paper made?",
+   "admitted": false,
+   "pinned": [
+    "paper"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is Forge Mobile?",
+   "admitted": false,
+   "pinned": [
+    "forge"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "mobile",
+     3,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What can you do?",
+   "admitted": true,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Hello",
+   "admitted": true,
+   "pinned": [
+    "hello"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is Saturn?",
+   "admitted": false,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": [
+    [
+     "saturn",
+     2,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is rust?",
+   "admitted": false,
+   "pinned": [
+    "rust"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is oxygen?",
+   "admitted": true,
+   "pinned": [
+    "oxygen"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is a volcano?",
+   "admitted": false,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Why is the ocean salty?",
+   "admitted": true,
+   "pinned": [
+    "ocean",
+    "salty"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Who was Cleopatra?",
+   "admitted": false,
+   "pinned": [
+    "cleopatra"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "When did World War II end?",
+   "admitted": false,
+   "pinned": [
+    "war"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "world",
+     8,
+     null
+    ],
+    [
+     "end",
+     14,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is the capital of Australia?",
+   "admitted": true,
+   "pinned": [
+    "australia"
+   ],
+   "resolved": [],
+   "would_ask": [
+    [
+     "capital",
+     8,
+     null
+    ]
+   ]
+  },
+  {
+   "question": "What is the Nile?",
+   "admitted": false,
+   "pinned": [
+    "nile"
+   ],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "Blargh floople zig?",
+   "admitted": false,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  },
+  {
+   "question": "What is 100 divided by 4?",
+   "admitted": true,
+   "pinned": [],
+   "resolved": [],
+   "would_ask": []
+  }
+ ]
+}

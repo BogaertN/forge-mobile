@@ -74,13 +74,27 @@
     return host;
   }
 
+  function urlPath(url) {
+    let raw = String(url || '').trim();
+    if (raw.indexOf('://') < 0) raw = 'https://' + raw;
+    const rest = raw.split('://').slice(1).join('://');
+    const i = rest.indexOf('/');
+    const path = i >= 0 ? '/' + rest.slice(i + 1) : '/';
+    return path.split('?')[0].split('#')[0];
+  }
+
   function sourceFor(url) {
     const host = hostOf(url);
     if (!host) return null;
     const rows = (config() && config().sources) || [];
     for (let i = 0; i < rows.length; i++) {
       const mark = String(rows[i].host || '');
-      if (host === mark || host.slice(-mark.length - 1) === '.' + mark) return rows[i];
+      if (host === mark || host.slice(-mark.length - 1) === '.' + mark) {
+        /* 4.9.221: a host trusted only for some paths (OpenStax CC BY editions; the CC BY-NC-SA books are not trusted) */
+        const allow = rows[i].paths_allow;
+        if (allow && allow.length && !allow.some(p => urlPath(url).indexOf(p) === 0)) return null;
+        return rows[i];
+      }
     }
     return null;
   }
@@ -653,7 +667,7 @@
     return evaluate(row);
   }
 
-  const api = { run: run, evaluate: evaluate, install: install, resetBackoff: resetBackoff, bootMonitor: bootMonitor, phaseAligned: phaseAligned, placement: placement };
+  const api = { run: run, evaluate: evaluate, install: install, resetBackoff: resetBackoff, bootMonitor: bootMonitor, phaseAligned: phaseAligned, placement: placement, sourceFor: sourceFor };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.SelfSeed = api;
   if (typeof document !== 'undefined') {

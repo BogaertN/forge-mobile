@@ -1,5 +1,5 @@
 {
- "version": "4.9.220",
+ "version": "4.9.221",
  "features": [
   {
    "id": "A-01",
@@ -4123,13 +4123,24 @@
    "proof": [
     "verify/r4220_suite.js"
    ]
+  },
+  {
+   "id": "R4221-SENSE-IDS",
+   "name": "Meaning ids, advisory only: curated concept -> OEWN 2025 plus sense table (pinned), homograph pack lazy-loaded from the SHA-pinned forge-ref bucket, shadow sense trace logged in memory; trusted list fixed (Britannica off, OpenStax CC BY editions only); Athena dry-run gap computed",
+   "source": "Nic 2026-11-04 (t136u, 4.9.221); data/concept_senses.json, src/senses.js, tools/sense_trace.py, tools/build_senses_221.py, tools/sense_log_221.py, tools/parity_221_senses.js, engine/rmc_engine_v1/reference/trusted_sources_202.json, engine/rmc_engine_v1/self_seed_202.py, src/self_seed_202.js, tools/athena_dryrun_220.py, supabase/migrations/20261104150000_forge_ref_bucket_221.sql",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Advisory: no gate, recall or answer reads a sense; cold 60 identical to 4.9.220. No kb.anchors schema change (no sense_id).",
+   "proof": [
+    "verify/r4221_suite.js"
+   ]
   }
  ],
- "count": 376,
+ "count": 377,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 180,
+  "Partial": 181,
   "Missing": 9,
   "Out of scope / parked": 47
  }

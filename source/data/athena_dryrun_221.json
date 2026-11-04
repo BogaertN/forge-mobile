@@ -1,0 +1,264 @@
+[
+ {
+  "question": "What is the Moon?",
+  "rule": "SEED-CATALOG",
+  "gap": true,
+  "loop_phi": 1,
+  "docs": [
+   [
+    "source",
+    "http://www.loc.gov/item/what-is-a-blue-moon-is-it-ever-really-blue/"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/2021668966/"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/2021669012/"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/2021668968/"
+   ],
+   [
+    "pointer",
+    "https://en.wikipedia.org/wiki/Moon"
+   ]
+  ],
+  "skipped": [
+   "CATALOG",
+   "CATALOG",
+   "CATALOG",
+   "CATALOG",
+   "WIKIPEDIA-POINTER"
+  ],
+  "kept": [],
+  "refused_placed": [],
+  "anchor": null,
+  "writes": false,
+  "calls_llm": false
+ },
+ {
+  "question": "What is Burkina Faso?",
+  "rule": "ALREADY-ANCHORED",
+  "gap": false,
+  "anchored": {
+   "A.BURKINAFASO": "enc-cia-uv-0"
+  },
+  "docs": [],
+  "kept": [],
+  "refused_placed": [],
+  "anchor": null,
+  "writes": false,
+  "calls_llm": false
+ },
+ {
+  "question": "What is the capital of Burkina Faso?",
+  "rule": "ALREADY-ANCHORED",
+  "gap": false,
+  "anchored": {
+   "A.BURKINAFASO": "enc-cia-uv-0"
+  },
+  "docs": [],
+  "kept": [],
+  "refused_placed": [],
+  "anchor": null,
+  "writes": false,
+  "calls_llm": false
+ },
+ {
+  "question": "What is gravity?",
+  "rule": "SEED-SHAPE",
+  "gap": true,
+  "loop_phi": 1,
+  "docs": [
+   [
+    "source",
+    "http://lccn.loc.gov/92025717"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/2025164537/"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/2011655811/"
+   ],
+   [
+    "source",
+    "http://lccn.loc.gov/2005618432"
+   ],
+   [
+    "pointer",
+    "https://en.wikipedia.org/wiki/Gravity"
+   ],
+   [
+    "source",
+    "https://apod.nasa.gov/apod/ap141215.html"
+   ],
+   [
+    "source",
+    "https://www.nasa.gov/content/goddard/hubble-hubble-seeing-double/#.YpZyvYOZrRl"
+   ]
+  ],
+  "skipped": [
+   "CATALOG",
+   "CATALOG",
+   "CATALOG",
+   "CATALOG",
+   "WIKIPEDIA-POINTER",
+   "SHAPE",
+   "PHASE",
+   "SHAPE",
+   "PHASE",
+   "SHAPE",
+   "SHAPE",
+   "SHAPE",
+   "SHAPE",
+   "SHAPE",
+   "PHASE",
+   "PHASE",
+   "PHASE",
+   "PHASE",
+   "SHAPE",
+   "PHASE"
+  ],
+  "kept": [],
+  "refused_placed": [
+   {
+    "text": "Today's APOD Archive Submissions Index Search Calendar RSS Education About Discuss APOD Astronomy Picture of the Day Discover the cosmos!",
+    "url": "https://apod.nasa.gov/apod/ap141215.html",
+    "refused": "SHAPE",
+    "phase_int": 9,
+    "concept": "T.COLD",
+    "Phi": 9.5175,
+    "band": "144 Hz carrier",
+    "hz": 152.4518
+   },
+   {
+    "text": "The Potsdam Gravity Potato Explanation: Why do some places on Earth have higher gravity than others?",
+    "url": "https://apod.nasa.gov/apod/ap141215.html",
+    "refused": "SHAPE",
+    "phase_int": 1,
+    "concept": "A.GRAVITY",
+    "Phi": 1.5891,
+    "band": "Theta",
+    "hz": 6.3564
+   },
+   {
+    "text": "Since a center for studying these data is in Potsdam , Germany , and since the result makes the Earth look somewhat like a potato, the resulting geoid has been referred to as the P",
+    "url": "https://apod.nasa.gov/apod/ap141215.html",
+    "refused": "SHAPE",
+    "phase_int": 2,
+    "concept": "A.GERMANY",
+    "Phi": 2.4588,
+    "band": "Low alpha",
+    "hz": 8.9175
+   },
+   {
+    "text": "High areas on this map , colored red, indicate areas where gravity is slightly stronger than usual, while in blue areas gravity is slightly weaker.",
+    "url": "https://apod.nasa.gov/apod/ap141215.html",
+    "refused": "SHAPE",
+    "phase_int": 1,
+    "concept": "A.GRAVITY",
+    "Phi": 1.56,
+    "band": "Theta",
+    "hz": 6.24
+   },
+   {
+    "text": "Many bumps and valleys on the Potsdam Gravity Potato can be attributed to surface features, such as the North Mid-Atlantic Ridge and the Himalayan Mountains , but others cannot, an",
+    "url": "https://apod.nasa.gov/apod/ap141215.html",
+    "refused": "SHAPE",
+    "phase_int": 1,
+    "concept": "A.GRAVITY",
+    "Phi": 1.5596,
+    "band": "Theta",
+    "hz": 6.2383
+   },
+   {
+    "text": "Maps like this also help calibrate changes in the Earth's surface including variable ocean currents and the melting of glaciers .",
+    "url": "https://apod.nasa.gov/apod/ap141215.html",
+    "refused": "SHAPE",
+    "phase_int": 1,
+    "concept": "A.OCEAN",
+    "Phi": 1.5672,
+    "band": "Theta",
+    "hz": 6.2689
+   },
+   {
+    "text": "The above map was made in 2005, but more recent and more sensitive gravity map s of Earth were produced in 2011 .",
+    "url": "https://apod.nasa.gov/apod/ap141215.html",
+    "refused": "SHAPE",
+    "phase_int": 1,
+    "concept": "A.GRAVITY",
+    "Phi": 1.555,
+    "band": "Theta",
+    "hz": 6.22
+   },
+   {
+    "text": "NASA Hubble Mission Team Goddard Space Flight Center Jan 23, 2014 Article In this new Hubble image two objects are clearly visible, shining brightly.",
+    "url": "https://www.nasa.gov/content/goddard/hubble-hubble-seeing-double/#.YpZyvYOZrRl",
+    "refused": "SHAPE",
+    "phase_int": 2,
+    "concept": "N.SIZE",
+    "Phi": 2.5324,
+    "band": "Low alpha",
+    "hz": 9.0647
+   },
+   {
+    "text": "The reason they are so similar is not some bizarre coincidence; they are in fact the same object.",
+    "url": "https://www.nasa.gov/content/goddard/hubble-hubble-seeing-double/#.YpZyvYOZrRl",
+    "refused": "SHAPE",
+    "phase_int": 9,
+    "concept": "N.MEMORY",
+    "Phi": 9.4889,
+    "band": "144 Hz carrier",
+    "hz": 148.4444
+   }
+  ],
+  "anchor": null,
+  "writes": false,
+  "calls_llm": false
+ },
+ {
+  "question": "What is Mercury?",
+  "rule": "SEED-CATALOG",
+  "gap": true,
+  "loop_phi": 1,
+  "docs": [
+   [
+    "source",
+    "http://www.loc.gov/item/91481883/"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/2025162560/"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/lcwaN0022450/"
+   ],
+   [
+    "source",
+    "http://www.loc.gov/item/lcwaN0046442/"
+   ],
+   [
+    "pointer",
+    "https://en.wikipedia.org/wiki/Mercury"
+   ]
+  ],
+  "skipped": [
+   "CATALOG",
+   "CATALOG",
+   "CATALOG",
+   "CATALOG",
+   "WIKIPEDIA-POINTER"
+  ],
+  "kept": [],
+  "refused_placed": [],
+  "anchor": null,
+  "writes": false,
+  "calls_llm": false
+ }
+]

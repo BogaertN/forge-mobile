@@ -1,3 +1,19 @@
+## v4.9.221 — Meaning ids, advisory only: every concept pinned to one OEWN sense; the homograph pack lazy-loaded; trusted list fixed (Nic 2026-11-04, t136u "That sounds right")
+
+**Conflict:** concepts were keyed only by lower-cased spelling, so one spelling with several meanings (Mercury the planet, the metal, the god) had one concept; the trusted list labelled all of OpenStax "CC BY 4.0" (80 of 129 books are CC BY-NC-SA) and trusted Britannica; Athena's dry-run forced every question to be a gap, so it re-researched subjects already anchored (Burkina Faso, enc-cia-uv-0).
+
+**Where:** `data/concept_senses.json` (new, curated; built by `tools/build_senses_221.py` from Open English WordNet 2025 plus, CC BY 4.0), `src/senses.js` (new, KSenses shadow trace; FORGE_REF pin), `tools/sense_trace.py` (Python mirror), `tools/parity_221_senses.js`, `tools/sense_log_221.py`, `src/app.js` (one call after the card renders), `index.html`, `sw.js`, `tools/shipset.js`, `engine/rmc_engine_v1/reference/trusted_sources_202.json`, `engine/rmc_engine_v1/self_seed_202.py` + `src/self_seed_202.js` (paths_allow), `tools/athena_dryrun_220.py`, `supabase/migrations/20261104150000_forge_ref_bucket_221.sql` (record of the forge-ref bucket).
+
+**Resolution:**
+- **Pinned:** each existing concept keeps the meaning it has today (OEWN sense id, ILI, Wikidata QID as a link only); pinning never changes phase or band. 385 concepts, 250 with a sense; 29 flagged for review; Hamlet (the play) has no OEWN sense and none is guessed.
+- **Pack:** 9,935 single-word noun homographs (two or more WordNet categories), 1.09 MB gz, in the public forge-ref bucket, content-addressed and SHA-256 pinned; loaded after the first Ask, checked before use, kept in the Cache API.
+- **Trace:** pinned → plain → capitalisation (one proper sense) → lower case (one common category) → would_ask. Lesk overlap is logged as a hint and never decides. In memory only; no gate, recall or answer reads it. JS = Python on 3,166 texts.
+- **Trusted list:** Britannica removed; OpenStax trusted only on the 37 CC BY editions (paths_allow), label fixed; Python and JS agree.
+- **Dry-run:** the gap is computed from the anchors already held; an anchored subject is ALREADY-ANCHORED and not fetched.
+- **Cold 60:** 21/60, 0 false admits, every row identical to 4.9.220. No kb.anchors schema change (no sense_id).
+
+**Open (Nic):** the 29 review rows (e.g. A.GLASS = the drinking glass its anchor uses; A.REVOLUTION, A.HELP chosen without anchor text); 44 CIA place concepts whose truncated ids have no OEWN entry; whether Moon/gravity (anchored in the shipped starter set but not in kb.anchors) count as gaps.
+
 ## v4.9.220 — Athena places each fact she writes: decimal phase from content, band from phase (Nic 2026-11-04, t132u "Ship it and do that")
 
 **Conflict:** through 4.9.219 Athena stamped every projectable promote Φ9 (the gate's standing phase) and self-seed anchors carried only the integer lexicon phase, so stored facts had no band and no decimal; the band existed only at read time.

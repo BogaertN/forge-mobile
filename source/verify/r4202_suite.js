@@ -59,7 +59,7 @@ const AGREE = body({
   question: 'Who was Cleopatra?',
   documents: [
     { url: 'https://www.gutenberg.org/ebooks/1', text: 'Cleopatra was a queen of Egypt in the ancient world.' },
-    { url: 'https://openstax.org/books/x', text: 'Cleopatra was a queen of Egypt in the ancient world.' }
+    { url: 'https://openstax.org/books/astronomy/pages/x', text: 'Cleopatra was a queen of Egypt in the ancient world.' }
   ]
 });
 const ADA = body({
@@ -74,7 +74,7 @@ const DIS = body({
   question: 'Who was Cleopatra?',
   documents: [
     { url: 'https://www.gutenberg.org/ebooks/1', text: 'Cleopatra was a queen of Egypt in the ancient world.' },
-    { url: 'https://openstax.org/books/x', text: 'Cleopatra was a poet of Rome in the recorded histories.' }
+    { url: 'https://openstax.org/books/astronomy/pages/x', text: 'Cleopatra was a poet of Rome in the recorded histories.' }
   ]
 });
 const SAFETY = body({
@@ -180,7 +180,7 @@ T('recorded fixtures re-ask two of the held rows and leave nonsense and Hamlet h
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_202_pyodide.json'), 'utf8'));
   expect(pyodide.pyodide === '0.27.7' && pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false, JSON.stringify(pyodide));
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.220', ver);
+  expect(ver === '4.9.221', ver);
   const sql = fs.readFileSync(path.join(ROOT, '..', 'supabase', 'migrations', '20261030223000_self_seed_anchors_202.sql'), 'utf8');
   expect(/APPLIED to project/.test(sql) && /applied: true/.test(sql) && /self-seed:%/.test(sql) && !/insert into kb\.anchors/i.test(sql), 'migration');
   const ci = fs.readFileSync(path.join(ROOT, '..', '.github', 'workflows', 'test.yml'), 'utf8');

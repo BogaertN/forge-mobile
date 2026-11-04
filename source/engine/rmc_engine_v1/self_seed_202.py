@@ -97,8 +97,21 @@ def source_for(url: str) -> dict[str, Any] | None:
     for row in load_config().get("sources") or []:
         mark = str(row.get("host") or "")
         if host == mark or host.endswith("." + mark):
+            # 4.9.221: a host trusted only for some paths (OpenStax CC BY editions; the CC BY-NC-SA books are not trusted)
+            allow = row.get("paths_allow")
+            if allow and not any(_url_path(url).startswith(p) for p in allow):
+                return None
             return dict(row)
     return None
+
+
+def _url_path(url: str) -> str:
+    raw = str(url or "").strip()
+    if "://" not in raw:
+        raw = "https://" + raw
+    rest = raw.split("://", 1)[1]
+    path = "/" + rest.split("/", 1)[1] if "/" in rest else "/"
+    return path.split("?", 1)[0].split("#", 1)[0]
 
 
 def is_pointer_host(url: str) -> bool:

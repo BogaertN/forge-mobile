@@ -237,6 +237,8 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });
   renderRmc(text, row);
+  /* 4.9.221 shadow sense trace (advisory, logged in memory only; never awaited, never read by any gate, changes no answer) */
+  if (window.KSenses && KSenses.note) { try { KSenses.note(text); } catch (e) { /* the trace is optional */ } }
   refreshChrome();
   return row; }
 function anchorSample(row) {
