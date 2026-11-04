@@ -1,3 +1,19 @@
+## v4.9.219 — Named frequency bands on the 144/n ladder; the 4.9.218 ± offset retired (Nic choice 2026-11-04, option 4c "Combine them: Codex named bands with edges on the 144 Hz divisions")
+
+**Conflict:** 4.9.218 tuned the question with a ± offset around an integer phase, but bands had no names or edges, and the corpus gives two band sets (FBSC Glyph Codex v2.5 named bands; the 144/n division ladder) that overlap and disagree at the edges.
+
+**Where:** `engine/rmc_engine_v1/drift_policy.py` (BAND_TABLE, BAND_TABLE_META, D15 note), `band_tuning.py` (new), `resonance_recall.py` (place_packet band; rank_memory band key), `memory_recaller.py`, `src/app.js`, `verify/r4219_suite.js`, `verify/r4218_suite.js` (test 3 body now asserts the supersession; names kept), `tools/check_219.py`, `tools/parity_219_pyodide.js`.
+
+**Resolution:**
+- **Bands:** Φ1 Theta 4–8 (6) · Φ2 Low alpha 8–10 (9) · Φ3 Alpha-beta 10–14 (12) · Φ4 Mid beta 14–20 (18) · Φ5 High beta 20–30 (24) · Φ6 Theta-alpha blend 6–9 (8, Codex Grace blend kept) · Φ7 Low gamma 30–40 (36) · Φ8 High gamma 40–80 (48) · Φ9 144 Hz carrier 80–220 (144). Centres are 144/n divisors; no overlaps except Φ6.
+- **Band from phase only.** The item's words tune a symbolic Hz inside it (ε 0.02, cap 0.40, nudge 0.45, unchanged).
+- **Harmonics:** same band 1.0; ×3 0.3; ×9 0.1 through a shared 144/n marker. A sort key after resonance only; never admits.
+- **Label:** Hz are symbolic (FBSC), not measured.
+- **Storage:** Athena stores the band on each packet. Live kb_anchors backfill is drafted (additive, reversible columns) and NOT applied pending Nic's review of the dry-run: 3101 anchors, 0 move band.
+- **Cold-60 (recorded, not tuned):** 21/60, 0 false admits, 0 rows changed vs 4.9.218.
+
+**Open:** Φ6 shares markers 6/8/9 with Φ1/Φ2 but scores "none" with them; the self-seed packet (Python and JS, kept in parity) does not carry the band yet; Athena's place_packet adds it at runtime.
+
 ## v4.9.218 — Continuous question tuning on the 9 / 144 dial; frequency constants approved (Nic approval 2026-11-01 8:06 AM America/Chicago, pt125u "Build that")
 
 **Conflict:** through 4.9.217 the question read one integer phase, so its tuning was coarse: every packet in the same band got the same gap and grace, while RSOC Axiom 2 treats Φ as a real number. The 4.9.203 / 4.9.204 frequency constants (ε 0.02 on hz/marker, offset cap 0.40, nudge span 0.45) were marked "proposal v1, awaiting Nic".

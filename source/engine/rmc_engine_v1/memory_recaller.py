@@ -534,7 +534,7 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
             "active_memory_role_counts": role_counts,
             "active_phase_counts": phase_counts,
             "recall_method": "resonance",
-            "resonance": {k: resonance_report.get(k) for k in ("method", "uses_token_overlap", "calls_llm", "question_phi", "question_band", "question_tuning", "asked", "how", "rsoc", "quarantine", "cite")} if resonance_report else None,
+            "resonance": {k: resonance_report.get(k) for k in ("method", "uses_token_overlap", "calls_llm", "question_phi", "question_band", "question_band_name", "question_tuning", "asked", "how", "rsoc", "quarantine", "cite")} if resonance_report else None,
             "admitted_for_observe": (resonance_report or {}).get("admitted_for_observe") if resonance_report else None,
         },
         "legacy_retrieval_request": retrieval_decision,

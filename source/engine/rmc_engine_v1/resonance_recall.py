@@ -350,6 +350,10 @@ def place_packet(row: dict[str, Any], *, quarantined: bool, question: str | None
         "placed_by": "athena",
         "standing": "quarantine" if quarantined else "projectable",
     }
+    # 4.9.219 (DRIFT-SPEC/v1 D15): Athena assigns the band from the phase alone and tunes the row's symbolic Hz
+    # inside it (band_tuning.tune). A stored band (backfill columns) is read, never trusted over the phase.
+    from rmc_engine_v1.band_tuning import tune as _band_tune
+    out["band"] = _band_tune(clean_text(row) if row else "", sfe["Phi"])
     if basis:
         out["glyph"] = basis.get("glyph")
         out["concept"] = basis.get("concept")
@@ -550,13 +554,17 @@ def curate_quarantine(question, row, ancestors):
 
 def rank_memory(question, nodes, phase_report=None):
     """Return resonant nodes. Quarantine is recorded and not returned as active."""
-    # 4.9.218 (Nic-approved, pt125u): the integer phase picks the band; the question's own words tune the decimal
-    # inside it (question_tuning.tune: ε 0.02, offset cap 0.40, nudge 0.45 from frequency_203_config). The π/4 window
-    # and grace = rpm·cos²δ read the continuous gap. |offset| ≤ 0.20 phase, so the band never changes.
-    from rmc_engine_v1.question_tuning import tune as _tune_question
+    # 4.9.219 (DRIFT-SPEC/v1 D15, Nic 2026-11-04): the 4.9.218 +/- phase offset is retired. The question's phase
+    # picks its named band (drift_policy.BAND_TABLE) and its words tune a symbolic Hz inside that band
+    # (band_tuning.tune: eps 0.02, cap 0.40, nudge 0.45). The pi/4 window and grace read the integer phase again.
+    # Band relation (same 1.0 / x3 0.3 / x9 0.1) is a ranking key after phase resonance; it never admits.
+    from rmc_engine_v1.band_tuning import band_key as _band_key, relation as _band_relation, tune as _band_tune
     question_band = _question_phi(phase_report)
-    tuning = _tune_question(question or "", question_band)
-    question_phi = tuning["Phi"]
+    tuning = _band_tune(question or "", question_band)
+    question_phi = question_band
+
+    def _band(node: dict[str, Any]) -> dict[str, Any]:
+        return _band_relation(question_band, ((node.get("packet") or {}).get("Phi")))
     asked = asked_filler(question)
     known = set()
     for node in nodes or []:
@@ -642,7 +650,7 @@ def rank_memory(question, nodes, phase_report=None):
         # and CPython pick the same anchor.
         # 4.9.209: phase resonance (grace = rpm weight x cos^2 of the phase gap, rounded so
         # CPython and Pyodide agree) ranks right after trust; length and id only break ties.
-        role_locks.sort(key=lambda row: (_trusted(row[0]), _defines(row[0]), _resonance(row[2])) + _anchor_key(row[0]), reverse=True)
+        role_locks.sort(key=lambda row: (_trusted(row[0]), _defines(row[0]), _resonance(row[2]), _band_key(_band(row[0])["weight"])) + _anchor_key(row[0]), reverse=True)
         chosen = [role_locks[0][0]]
         how = "frame_role"
         rsoc = _rsoc([row[0] for row in role_locks])
@@ -656,7 +664,7 @@ def rank_memory(question, nodes, phase_report=None):
         def _concept_key(row):
             shared = row[1]
             specific = sum(1 for cid in shared if str(cid).startswith("A."))
-            return (_trusted(row[0]), _defines(row[0]), _resonance(row[2]), specific) + _anchor_key(row[0])
+            return (_trusted(row[0]), _defines(row[0]), _resonance(row[2]), _band_key(_band(row[0])["weight"]), specific) + _anchor_key(row[0])
         concept_hits.sort(key=_concept_key, reverse=True)
         chosen = [concept_hits[0][0]]
         how = "concept_lexicon"
@@ -724,6 +732,8 @@ def rank_memory(question, nodes, phase_report=None):
             "phi": grace.get("phi"),
             "question_phi": question_phi,
             "question_band": question_band,
+            "band": (node.get("packet") or {}).get("band"),
+            "band_relation": _band(node),
             "delta": grace.get("delta"),
             "grace": grace.get("grace"),
             "frame": (info.get("hit") or {}).get("frame"),
@@ -740,6 +750,7 @@ def rank_memory(question, nodes, phase_report=None):
         "question_phi": question_phi,
         "question_band": question_band,
         "question_tuning": tuning,
+        "question_band_name": tuning["band"],
         "asked": asked,
         "asked_relation": {"relation": ask_rel.get("relation"), "subject": " ".join(ask_rel.get("subject") or [])},
         "how": how,

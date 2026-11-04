@@ -1,5 +1,5 @@
 {
- "version": "4.9.218",
+ "version": "4.9.219",
  "features": [
   {
    "id": "A-01",
@@ -4101,13 +4101,24 @@
    "proof": [
     "verify/r4218_suite.js"
    ]
+  },
+  {
+   "id": "R4219-BAND-TUNING",
+   "name": "Named frequency bands on the 144/n ladder (Codex v2.5 names; phase picks the band; symbolic Hz inside it; harmonic 0.3/0.1 ranks only)",
+   "source": "Nic choice 2026-11-04 option 4c (4.9.219); engine/rmc_engine_v1/band_tuning.py, drift_policy.py, resonance_recall.py, memory_recaller.py, src/app.js, tools/check_219.py, tools/parity_219_pyodide.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Replaces the 4.9.218 ± phase offset. Hz symbolic, not measured.",
+   "proof": [
+    "verify/r4219_suite.js"
+   ]
   }
  ],
- "count": 374,
+ "count": 375,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 178,
+  "Partial": 179,
   "Missing": 9,
   "Out of scope / parked": 47
  }

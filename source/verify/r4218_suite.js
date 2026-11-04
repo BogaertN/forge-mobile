@@ -37,25 +37,22 @@ T('the 4.9.203 / 4.9.204 constants are unchanged and recorded as Nic-approved (d
   expect(/from rmc_engine_v1\.frequency_203_config import EPSILON, NUDGE_SPAN, OFFSET_CAP/.test(qt) && !/^\s*[A-Za-z_]+\s*=\s*0\.(02|40?|45)\b/m.test(qt), 'constants imported, not restated');
   expect(!/What is|Why is|capital|Moon|Burkina/.test(qt.replace(/"""[\s\S]*?"""/g, '')), 'no question list in the code');
   expect(/D14/.test(read('engine/rmc_engine_v1/drift_policy.py')) && /QUESTION_TUNING = \{/.test(read('engine/rmc_engine_v1/drift_policy.py')), 'drift_policy');
-  const conf = read('CONFLICTS.md'); expect(conf.indexOf('## v4.9.218') === 0 && /ε 0\.02/.test(conf.slice(0, 5000)) && /0\.40/.test(conf.slice(0, 5000)) && /0\.45/.test(conf.slice(0, 5000)) && /pt125u/.test(conf.slice(0, 5000)), 'CONFLICTS entry at the top');
+  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.218'); const e = conf.slice(i, i + 5000); /* 4.9.219: later entries sit above; the 4.9.218 entry stays among the newest two */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 1 && /ε 0\.02/.test(e) && /0\.40/.test(e) && /0\.45/.test(e) && /pt125u/.test(e), 'CONFLICTS entry at the top');
 });
 T('rank_memory reads the tuned phase: the station nearest the question wins on grace, and the π/4 window reads the continuous gap', () => {
+  // 4.9.219 (DRIFT-SPEC/v1 D15, Nic 2026-11-04) retired the ± phase offset in rank_memory: the question reads its integer
+  // phase again and tunes a symbolic Hz inside its named band. question_tuning.tune itself is kept and still tested above.
   const r = chk().recall;
-  expect(r.question_band === 1 && r.question_phi === r.tuning.Phi && r.question_phi !== 1 && r.tuning.words.join(' ') === 'burkina faso', JSON.stringify(r).slice(0, 300));
-  expect(r.active[0] === 't-near' && r.evidence['t-near'].question_band === 1 && r.evidence['t-near'].question_phi === r.question_phi, 'nearest station locks');
-  const g = r.grace, ig = r.integer_grace;
-  expect(g['t-near'].grace === 1 && g['t-centre'].grace < 1 && g['t-centre'].aligned && !g['t-far'].aligned, JSON.stringify(g));
-  expect(Math.abs(g['t-centre'].delta - Math.abs(r.tuning.offset) * 2 * Math.PI / 9) < 1e-5, 'δ = offset · 40°');
-  expect(ig['t-centre'].grace === 1 && ig['t-near'].grace < 1, 'an integer question would have preferred the band centre: the tuning is what moved it');
+  expect(r.question_band === 1 && r.question_phi === 1 && r.tuning.schema === 'FORGE-BAND-TUNING/v1' && r.tuning.phase === 1, JSON.stringify(r).slice(0, 300));
   const rr = read('engine/rmc_engine_v1/resonance_recall.py');
-  expect(/question_band = _question_phi\(phase_report\)/.test(rr) && /tuning = _tune_question\(question or "", question_band\)/.test(rr) && /question_phi = tuning\["Phi"\]/.test(rr), 'wired');
+  expect(/question_band = _question_phi\(phase_report\)/.test(rr) && /tuning = _band_tune\(question or "", question_band\)/.test(rr) && /question_phi = question_band/.test(rr), 'superseded by band tuning');
   expect(/"question_tuning", "asked"/.test(read('engine/rmc_engine_v1/memory_recaller.py')) && /res\.question_tuning/.test(read('src/app.js')), 'recorded on the card');
 });
 T('what stays: Ask ε /3, decimal packet phase, definition-first rank, relation Echo; the math, remembered-fact and Dry-Run paths work', () => {
   const c = chk();
   expect(/epsilon_s = round\(\(sigma_res \+ d_score \+ delta_phi\) \/ 3\.0, 4\)/.test(read('engine/rmc_engine_v1/drift_engine.py')), '/3');
   const rr = read('engine/rmc_engine_v1/resonance_recall.py');
-  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)\)/.test(rr) && /def _phase_value/.test(rr), 'rank and decimal phase');
+  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)/.test(rr) && /def _phase_value/.test(rr), 'rank and decimal phase');
   expect(c.dna.product_reply && /^DNA, or deoxyribonucleic acid/.test(c.dna.reply) && c.dna.relation.realised === true, 'definition first');
   expect(!c.moon.product_reply && c.moon.relation.realised === false, 'relation Echo holds a mention');
   expect(c.sky.product_reply && c.sky.relation.asked === 'cause', 'cause');

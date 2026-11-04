@@ -1,0 +1,44 @@
+{
+ "anchors": 3101,
+ "phase_missing": 0,
+ "band_change_vs_218_phase": 0,
+ "runtime_vs_stored_mismatch": 0,
+ "by_band": {
+  "Φ1 Theta": 3095,
+  "Φ4 Mid beta": 2,
+  "Φ5 High beta": 2,
+  "Φ6 Theta-alpha blend": 2
+ },
+ "tuning_source": {
+  "in_band": 3099,
+  "all_components": 2
+ },
+ "hz": {
+  "Φ1": {
+   "min": 5.792,
+   "median": 6.3308,
+   "max": 6.68,
+   "distinct": 1171
+  },
+  "Φ4": {
+   "min": 17.9533,
+   "median": 18.00665,
+   "max": 18.06,
+   "distinct": 2
+  },
+  "Φ5": {
+   "min": 24.3572,
+   "median": 24.391399999999997,
+   "max": 24.4256,
+   "distinct": 2
+  },
+  "Φ6": {
+   "min": 8.13,
+   "median": 8.13165,
+   "max": 8.1333,
+   "distinct": 2
+  }
+ },
+ "sha256_rows": "3c945fe592e08236aba8ef83088a69e7aef5892f3f5061fabe8383f052b64f4c",
+ "writes": false
+}

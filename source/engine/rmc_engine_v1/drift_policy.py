@@ -22,6 +22,15 @@ Question tuning (DRIFT-SPEC/v1 D14, 4.9.218, Nic-approved 2026-11-01, pt125u "Bu
   epsilon = 0.02 on hz / marker, offset cap = 0.40 of the marker's Voronoi half-width, nudge span = 0.45
   (a surface nudge is at most 0.45 * epsilon of the marker). The dial offset is mean r * 1/2 band, so at
   most +/-0.20 phase (+/-8 degrees); the band never changes. They do not enter either eps above.
+  4.9.219: the +/- phase offset is retired; the same three constants now tune to a real Hz inside a
+  named band (band_tuning.py, BAND_TABLE below).
+
+Frequency bands (DRIFT-SPEC/v1 D15, 4.9.219, Nic's choice 2026-11-04 "Combine them: Codex named bands with
+  edges on the 144 Hz divisions", option 4c of forge-frequency-bands.md): every phase has its FBSC Glyph
+  Codex v2.5 named band, edges on the 144/n ladder, no overlaps except Phi6 Grace which keeps the Codex
+  6-9 Hz theta-alpha blend; Phi9 is the 144 Hz carrier band. The band comes from the phase only. Same band
+  scores 1.0; bands related by x3 / x9 through a 144/n marker score 0.3 / 0.1 (PCI Appendix A M1 ratios)
+  and only rank, never admit. All Hz are SYMBOLIC (FBSC), not measured (RMC 09.5).
 """
 from __future__ import annotations
 
@@ -41,6 +50,28 @@ QUESTION_TUNING = {
     "approved": "Nic, pt125u, 2026-11-01",
     "release": "4.9.218",
     "used_by": "question_tuning.tune -> resonance_recall.rank_memory",
+}
+
+# DRIFT-SPEC/v1 D15 (4.9.219). Phase -> named band. Hz are symbolic, not measured. [low, high) except where closed.
+BAND_TABLE = {
+    1: {"name": "Theta", "phase_name": "Initiation", "low": 4.0, "high": 8.0, "centre": 6.0, "closed": False},
+    2: {"name": "Low alpha", "phase_name": "Polarity", "low": 8.0, "high": 10.0, "centre": 9.0, "closed": False},
+    3: {"name": "Alpha-beta", "phase_name": "Desire", "low": 10.0, "high": 14.0, "centre": 12.0, "closed": False},
+    4: {"name": "Mid beta", "phase_name": "Friction", "low": 14.0, "high": 20.0, "centre": 18.0, "closed": False},
+    5: {"name": "High beta", "phase_name": "Entropy", "low": 20.0, "high": 30.0, "centre": 24.0, "closed": False},
+    6: {"name": "Theta-alpha blend", "phase_name": "Grace", "low": 6.0, "high": 9.0, "centre": 8.0, "closed": True},
+    7: {"name": "Low gamma", "phase_name": "Naming", "low": 30.0, "high": 40.0, "centre": 36.0, "closed": False},
+    8: {"name": "High gamma", "phase_name": "Power", "low": 40.0, "high": 80.0, "centre": 48.0, "closed": False},
+    9: {"name": "144 Hz carrier", "phase_name": "Recursive Evolution", "low": 80.0, "high": 220.0, "centre": 144.0, "closed": True},
+}
+BAND_TABLE_META = {
+    "schema": "FORGE-BAND-TABLE/v1",
+    "release": "4.9.219",
+    "chosen": "Nic, 2026-11-04, option 4c (Codex v2.5 names on the 144/n ladder; Phi6 6-9 Hz blend; Phi9 = 144 Hz carrier)",
+    "frequency_status": "symbolic (FBSC), not measured",
+    "harmonic_weights": {"same": 1.0, "x3": 0.3, "x9": 0.1, "none": 0.0},
+    "harmonic_admits": False,
+    "source": "FBSC Phase Glyph Codex v2.5 (2025-04-05); beyond_40hz (2026-04-11) 144/n ladder; PCI Appendix A M1 (2026-03-05)",
 }
 
 P = DRIFT_POLICY
