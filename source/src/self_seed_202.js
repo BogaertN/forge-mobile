@@ -20,6 +20,10 @@
   let TABLE = null;
   let CONFIG = null;
 
+  function BandTuning() {
+    return (typeof module !== 'undefined' && module.exports) ? require('./band_tuning.js') : root.KBandTuning;
+  }
+
   function round6(n) {
     return Math.round(n * 1e6) / 1e6;
   }
@@ -165,6 +169,8 @@
     lexTokens(text).forEach(tok => {
       const row = words[tok];
       if (!row) return;
+      // 4.9.220: like lexicon_resonance._function in Python, function words and interjections (F., I.) never place a sentence.
+      if (/^(F|I)\./.test(String(row.concept || ''))) return;
       const anchor = String(row.concept || '').indexOf('A.') === 0 ? 0 : 1;
       const key = [anchor, -tok.length, row.concept];
       if (!best || key[0] < best.key[0] || (key[0] === best.key[0] && key[1] < best.key[1]) || (key[0] === best.key[0] && key[1] === best.key[1] && String(key[2]) < String(best.key[2]))) {
@@ -393,7 +399,10 @@
         placed_by: 'athena',
         standing: 'anchor',
         phi_basis: 'lexicon packet phase-aligned with the question loop',
-        concept: row.concept
+        concept: row.concept,
+        // 4.9.220 (D15): band and decimal phase stored with the fact; sfe.Phi stays the integer the gate used.
+        band: BandTuning().tune(row.text, sfe.Phi),
+        placement: BandTuning().place(row.text, sfe.Phi, { placed_by: 'lexicon', concept: row.concept })
       },
       tier: 'anchor',
       state: 'anchor',

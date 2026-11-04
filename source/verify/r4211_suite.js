@@ -163,7 +163,7 @@ T('the Pyodide bundle carries drift_policy.py and the new gate; its SRI is pinne
   expect(read('src/rmc_client.js').indexOf(sri) >= 0, 'SRI ' + sri);
 });
 T('version registry names 4.9.211', () => {
-  expect(/^4\.9\.21[1-9]$/.test(read('VERSION').trim()), 'VERSION');
+  expect(/^4\.9\.(21[1-9]|2[2-9]\d)$/.test(read('VERSION').trim()), 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4211-') >= 0, 'registry');
 });
 

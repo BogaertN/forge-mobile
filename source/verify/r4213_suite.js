@@ -47,7 +47,7 @@ T('the cold 60 for 4.9.213 is recorded (not tuned)', () => {
   expect(/^4\.9\.213$/.test(c.release) && c.tuned === false && c.of === 60 && c.false_admits === 0 && c.calls_llm === false && c.admitted + c.held === 60, JSON.stringify({ a: c.admitted, h: c.held }));
 });
 T('version registry names 4.9.213', () => {
-  expect(/^4\.9\.21[3-9]$/.test(read('VERSION').trim()), 'VERSION');
+  expect(/^4\.9\.(21[3-9]|2[2-9]\d)$/.test(read('VERSION').trim()), 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4213-') >= 0, 'registry');
 });
 (async () => {

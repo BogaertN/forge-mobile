@@ -22,6 +22,11 @@
   const Spine = isNode ? require('./forge_spine.js') : root.KSpine;
   const ClaimParse = isNode ? require('./claim_parse.js') : root.KClaimParse;
   const AthenaDoc = isNode ? require('./athena_doc.js') : root.KAthenaDoc;
+  /* 4.9.220 (DRIFT-SPEC/v1 D15): Athena places each fact she writes. Phase from content (SelfSeed.placement: lexicon
+   * concept, else letter resultant), band from that phase (band_tuning), decimal = where its symbolic Hz sits in the band.
+   * The gate packet (sfe) is unchanged: Φ9 standing for a projectable promote, as before. */
+  const BandTuning = () => isNode ? require('./band_tuning.js') : root.KBandTuning;
+  const SeedPlace = () => isNode ? require('./self_seed_202.js') : root.SelfSeed;
   const SCHEMA = 'FORGE-IDLE-DREAM/v1';
   const PACKET_SCHEMA = 'FORGE-RESONANCE-PACKET/v1';
   const CITE = 'RPMC §1 RPM; Axiom 4; §3.4 Grace Integral; RSOC SFE {Φ,ε,μ}';
@@ -430,13 +435,23 @@
     return { enabled: true, dir: o.packDir || opts.packDir || defaultPackDir() };
   }
 
+  function factPlacement(claim) {
+    const B = BandTuning(), S = SeedPlace();
+    if (!B || !S || typeof S.placement !== 'function') return null;
+    const where = S.placement(claim) || {};
+    const phi = parseInt(where.phi, 10);
+    if (!(phi >= 1 && phi <= 9)) return null;
+    return B.place(claim, phi, { placed_by: where.concept ? 'lexicon' : 'letters', concept: where.concept || null });
+  }
+
   function hostedItem(claim, rec, pkt) {
     return {
       id: 'cs:dream-' + sha256(norm(claim)).slice(0, 12),
       text: claim,
       standing: 'projectable',
       evidence: rec.evidence || evidenceOf(null),
-      sfe: { Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu }
+      sfe: { Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu },
+      placement: factPlacement(claim)
     };
   }
 
@@ -1244,7 +1259,7 @@
       const pack = {
         schema: 'FORGE-CONFIRMED-PACK/v1', format: 'FORGE-CONFIRMED-PACK/v1', provenance: 'confirmed_shared',
         letter: letter ? letter.toUpperCase() : 'T', pack_id: 'dream_idle_promote', who_confirmed: 'product_curator', shared_kb: false, phone_db: false,
-        items: [{ id: 'cs:dream-' + sha256(norm(claim)).slice(0, 12), text: claim, standing: 'projectable', evidence: rec.evidence || evidenceOf(null), ask_keys: askKeys, sfe: { Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu }, resonance: { schema: PACKET_SCHEMA, Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu } }]
+        items: [{ id: 'cs:dream-' + sha256(norm(claim)).slice(0, 12), text: claim, standing: 'projectable', evidence: rec.evidence || evidenceOf(null), ask_keys: askKeys, placement: factPlacement(claim), sfe: { Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu }, resonance: { schema: PACKET_SCHEMA, Phi: pkt.sfe.Phi, eps: pkt.sfe.eps, mu: pkt.sfe.mu } }]
       };
       const res = host.writeSharedKnowledge(JSON.stringify(pack), { writeKey: key });
       if (!res || res.ok !== true) return refusal((res && (res.rule || res.reason)) || 'DREAM-IDLE-ADMIT-FAILED', { packet: pkt, response_ok: false });
@@ -1372,6 +1387,6 @@
     };
   }
 
-  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, CHRIST_RULES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, christPing, resonancePacket, athenaGate, applyResearchContract, curatedResearch, bridgeAskEvidence, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
+  const api = { SCHEMA, PACKET_SCHEMA, COLD_SCHEMA, HELPER_SCHEMA, CITE, INTEGRITY_HIGH, LETTERS, PACK_PUBLISH_TRIGGER, DAEMONS, HELPER_TASKS, CURATOR_TASKS, RESEARCH_TASKS, SPAWN_BUDGET, PRIORITY, PSI1, DOC_CITES, CHRIST_RULES, boundary, enumerateGaps, measure, routeMeasurement, graceRecenter, christPing, resonancePacket, factPlacement, athenaGate, applyResearchContract, curatedResearch, bridgeAskEvidence, createAthena, createIdleOrchestrator: createAthena, createIdleDream };
   if (isNode) module.exports = api; else root.KDreamIdle = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -109,6 +109,23 @@ def tune(text: str, phi: Any) -> dict[str, Any]:
     }
 
 
+PLACE_SCHEMA = "FORGE-FACT-PLACEMENT/v1"
+
+
+def place(text: str, phi: Any, basis: dict[str, Any] | None = None) -> dict[str, Any]:
+    """4.9.220: a fact's decimal phase. The integer is its content placement (lexicon concept, else letter resultant);
+    the decimal is where its tuned Hz sits inside that band: Phi = band + (hz - low) / (high - low). The decimal stays
+    inside its own band's sector, so band_of(Phi) gives the band back. Symbolic, not measured."""
+    t = tune(text, phi)
+    row = BAND_TABLE[t["phase"]]
+    value = round(t["phase"] + (t["hz"] - row["low"]) / (row["high"] - row["low"]), PLACES)
+    if value >= t["phase"] + 1:
+        value = round(t["phase"] + 0.9999, PLACES)
+    if value < t["phase"]:
+        value = float(t["phase"])
+    return {"schema": PLACE_SCHEMA, "Phi": value, "phase": t["phase"], "band": t, "basis": basis, "label": LABEL, "calls_llm": False}
+
+
 def relation(a: Any, b: Any) -> dict[str, Any]:
     """Cross-band relation between two phases: same / x3 / x9 / none, with its ranking weight."""
     pa, pb = band_of(a), band_of(b)

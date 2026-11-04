@@ -31,6 +31,13 @@ function Packs(ctx) {
     if (HOLD_ST[st]) return { Phi: 5, eps: 0.5, mu: 0 }; /* fail-closed: not phase-aligned to origin */
     return { Phi: 9, eps: 0, mu: 1 }; /* committed Return — may combine */
   }
+  /* 4.9.220: a fact's placement (decimal phase + band) is kept only when it is self-consistent: Φ inside its band's sector. */
+  function lawfulPlacement(p) {
+    if (!p || typeof p !== 'object' || p.schema !== 'FORGE-FACT-PLACEMENT/v1') return null;
+    const Phi = Number(p.Phi), ph = Number(p.phase), b = p.band || {};
+    if (!Number.isFinite(Phi) || !Number.isInteger(ph) || ph < 1 || ph > 9 || Math.trunc(Phi) !== ph || b.phase !== ph || !Number.isFinite(Number(b.hz))) return null;
+    return { schema: p.schema, Phi: Phi, phase: ph, band: { schema: b.schema, phase: ph, band: b.band, low: b.low, high: b.high, centre: b.centre, hz: Number(b.hz), r: b.r, source: b.source, label: b.label }, basis: p.basis || null, label: p.label || null };
+  }
   function normalizeResonancePacket(raw, standing) {
     const s = raw && typeof raw === 'object' ? (raw.sfe && typeof raw.sfe === 'object' ? raw.sfe : raw.resonance && typeof raw.resonance === 'object' ? raw.resonance : raw) : null;
     if (s && Number.isFinite(Number(s.Phi)) && Number.isFinite(Number(s.eps)) && Number.isFinite(Number(s.mu)))
@@ -143,7 +150,7 @@ function Packs(ctx) {
       if (!clause || clause.coord || !clause.verb) { skipped.push('unparsed'); continue; }
       const sfe = normalizeResonancePacket(it.sfe || it.resonance || null, standing);
       const askKeys = Array.isArray(it.ask_keys) ? it.ask_keys.filter(x => typeof x === 'string' && x.length > 1 && x.length < 80).slice(0, 12) : [];
-      rows.push({ standing, evidence, clause, id: it.id && String(it.id).indexOf('cs:') === 0 ? String(it.id) : csId(raw), hold: !!HOLD_ST[standing], sfe, packet_attached: !(it.sfe || it.resonance), ask_keys: askKeys });
+      rows.push({ standing, evidence, clause, id: it.id && String(it.id).indexOf('cs:') === 0 ? String(it.id) : csId(raw), hold: !!HOLD_ST[standing], sfe, packet_attached: !(it.sfe || it.resonance), ask_keys: askKeys, placement: lawfulPlacement(it.placement) });
     }
     if (!rows.length) return { ok: false, reason: skipped.includes('unparsed') ? 'unparsed' : 'empty' };
     return { ok: true, rows, meta: { letter: data.letter || null, pack_id: data.pack_id || null, who_confirmed: data.who_confirmed || null, provenance: data.provenance || PACK_CS } };
@@ -154,7 +161,7 @@ function Packs(ctx) {
     if (j.meta) { if (j.meta.letter) hostedSharedKb.letter = j.meta.letter; if (j.meta.pack_id) hostedSharedKb.pack_id = j.meta.pack_id; if (j.meta.who_confirmed) hostedSharedKb.who_confirmed = j.meta.who_confirmed; }
     const admitted = [], held = [];
     for (const row of j.rows) {
-      const fact = csFact(row.id, row.clause, row.evidence, row.hold ? row.standing : (row.standing === 'projectable' ? 'projectable' : 'confirmed'), row.sfe); if (row.ask_keys && row.ask_keys.length) fact.ask_keys = row.ask_keys.slice(); const textOut = importText(fact);
+      const fact = csFact(row.id, row.clause, row.evidence, row.hold ? row.standing : (row.standing === 'projectable' ? 'projectable' : 'confirmed'), row.sfe); if (row.ask_keys && row.ask_keys.length) fact.ask_keys = row.ask_keys.slice(); if (row.placement) fact.placement = row.placement; const textOut = importText(fact);
       const fi = hostedSharedKb.facts.findIndex(f => f.id === row.id || normImport(importText(f)) === normImport(textOut));
       const hi = hostedSharedKb.held.findIndex(f => f.id === row.id);
       if (row.hold) {
@@ -227,7 +234,7 @@ function Packs(ctx) {
     return sharedKnowledgeView();
   }
   function clearHostedSharedKnowledge() { return clearConfirmedShared(); }
-  return { ensureStarter, starterView, clearStarterKnowledge, previewImport, importConfirmedPack, admitImportItem, clearImportPack, importView, confirmedSharedView, sharedKnowledgeView, pullHostedSharedPack, writeSharedKnowledge, setSharedKbWriteKey, clearSharedKbWriteKey, admitConfirmedShared, admitConfirmedSharedItem, clearConfirmedShared, clearHostedSharedKnowledge, confirmedSharedFacts, PACK_CS, importText, importFacts, starterFacts }; }
+  return { lawfulPlacement, ensureStarter, starterView, clearStarterKnowledge, previewImport, importConfirmedPack, admitImportItem, clearImportPack, importView, confirmedSharedView, sharedKnowledgeView, pullHostedSharedPack, writeSharedKnowledge, setSharedKbWriteKey, clearSharedKbWriteKey, admitConfirmedShared, admitConfirmedSharedItem, clearConfirmedShared, clearHostedSharedKnowledge, confirmedSharedFacts, PACK_CS, importText, importFacts, starterFacts }; }
 const api = { Packs };
 if (isNode) module.exports = api; else root.KPacks = api;
 })(this);

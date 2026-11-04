@@ -38,6 +38,9 @@ _BACKOFF: dict[str, dict[str, Any]] = {}
 _CONFIG: dict[str, Any] | None = None
 
 
+from rmc_engine_v1.band_tuning import place as _band_place, tune as _band_tune
+
+
 def reset_backoff() -> None:
     _BACKOFF.clear()
 
@@ -499,6 +502,10 @@ def _anchor_from(question: str, row: dict[str, Any], loop: int, support: list[di
             "standing": "anchor",
             "phi_basis": "lexicon packet phase-aligned with the question loop",
             "concept": row["concept"],
+            # 4.9.220 (DRIFT-SPEC/v1 D15): Athena stores the fact's band and decimal phase when she writes it.
+            # sfe.Phi stays the integer lexicon placement the pi/4 gate used; placement.Phi is the decimal inside it.
+            "band": _band_tune(row["text"], sfe["Phi"]),
+            "placement": _band_place(row["text"], sfe["Phi"], {"placed_by": "lexicon", "concept": row["concept"]}),
         },
         "tier": "anchor",
         "state": "anchor",

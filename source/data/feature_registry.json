@@ -1,5 +1,5 @@
 {
- "version": "4.9.219",
+ "version": "4.9.220",
  "features": [
   {
    "id": "A-01",
@@ -4112,13 +4112,24 @@
    "proof": [
     "verify/r4219_suite.js"
    ]
+  },
+  {
+   "id": "R4220-ATHENA-PLACEMENT",
+   "name": "Athena stores each fact's decimal phase and band when she writes it (content placement; band_tuning.place; JS port for self-seed and dream_idle)",
+   "source": "Nic 2026-11-04 (t132u, 4.9.220); engine/rmc_engine_v1/band_tuning.py, self_seed_202.py, src/band_tuning.js, src/self_seed_202.js, src/dream_idle.js, src/kpacks.js, tools/check_220.py, tools/athena_dryrun_220.py, tools/parity_220_pyodide.js",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Gates unchanged; sfe.Phi gate phase unchanged; placement is stored alongside. Not bulk-filled.",
+   "proof": [
+    "verify/r4220_suite.js"
+   ]
   }
  ],
- "count": 375,
+ "count": 376,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 179,
+  "Partial": 180,
   "Missing": 9,
   "Out of scope / parked": 47
  }

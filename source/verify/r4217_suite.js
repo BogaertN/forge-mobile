@@ -86,14 +86,14 @@ T('DRIFT-SPEC/v1 D3 resolved: the Ask candidate ε stays /3 (canonical, nine-pha
   expect(/epsilon_s = round\(\(sigma_res \+ d_score \+ delta_phi\) \/ 3\.0, 4\)/.test(read('engine/rmc_engine_v1/drift_engine.py')), 'candidate /3 unchanged');
   const dp = read('engine/rmc_engine_v1/drift_policy.py'); expect(/WRITE-TRACE eps/.test(dp) && /stays \/3/.test(dp) && /nine-phase/.test(dp), 'drift_policy docstring');
   expect(/"DENOMINATOR": "max1_depth"/.test(read('engine/rmc_engine_v1/mobile_config.py')) && /write-trace normaliser only/.test(read('engine/rmc_engine_v1/mobile_config.py')), 'mobile_config note');
-  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.217'); const e = conf.slice(i, i + 6000); /* 4.9.219: later entries sit above; the 4.9.217 entry stays among the newest three */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 2 && /\/3 is canonical/.test(e) && /nine-phase/.test(e), 'CONFLICTS entry at the top');
+  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.217'); const e = conf.slice(i, i + 6000); /* 4.9.219: later entries sit above; the 4.9.217 entry stays among the newest three */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 3 && /\/3 is canonical/.test(e) && /nine-phase/.test(e), 'CONFLICTS entry at the top');
 });
 T('the cold 60 for 4.9.217 is recorded (not tuned) with zero false admits', () => {
   const c = JSON.parse(read('data/cold_217_results.json'));
   expect(/^4\.9\.217$/.test(c.release) && c.tuned === false && c.of === 60 && c.false_admits === 0 && c.calls_llm === false && c.admitted + c.held === 60, JSON.stringify({ a: c.admitted, h: c.held, f: c.false_admits }));
 });
 T('version registry names 4.9.217', () => {
-  expect(/^4\.9\.21[7-9]$/.test(read('VERSION').trim()), 'VERSION');
+  expect(/^4\.9\.(21[7-9]|2[2-9]\d)$/.test(read('VERSION').trim()), 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4217-') >= 0, 'registry');
 });
 (async () => {

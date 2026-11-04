@@ -1,3 +1,19 @@
+## v4.9.220 — Athena places each fact she writes: decimal phase from content, band from phase (Nic 2026-11-04, t132u "Ship it and do that")
+
+**Conflict:** through 4.9.219 Athena stamped every projectable promote Φ9 (the gate's standing phase) and self-seed anchors carried only the integer lexicon phase, so stored facts had no band and no decimal; the band existed only at read time.
+
+**Where:** `engine/rmc_engine_v1/band_tuning.py` (place), `self_seed_202.py` (anchor packet band + placement), `src/band_tuning.js` (new JS port, Python-round exact), `src/self_seed_202.js`, `src/dream_idle.js` (factPlacement on the promote and hosted item), `src/kpacks.js` (lawfulPlacement), `index.html`, `sw.js`, `tools/check_220.py`, `tools/athena_dryrun_220.py`, `tools/parity_220_pyodide.js`, `verify/r4220_suite.js`; `verify/r4217_suite.js`/`r4218_suite.js` (CONFLICTS position bodies; names kept).
+
+**Resolution:**
+- **Integer phase:** the fact's content placement already used by the self-seed gate (lexicon concept packet, else letter resultant). No per-question table.
+- **Band:** from that phase alone (D15 table).
+- **Decimal:** Φ = band + (hz − low)/(high − low), the fact's symbolic Hz position in its band; band_of(Φ) returns the band.
+- **Stored alongside, gates untouched:** packet.band and packet.placement; sfe.Phi (gate phase) unchanged; ε_s ≤ 0.35, Echo 0.97 memory writes, server ε recompute, Ask ε /3 all unchanged.
+- **Parity:** JS = CPython on all 3101 live anchor texts (0 mismatches); Pyodide = CPython.
+- **No bulk fill, no live write.** Dry-run on real gaps (Moon, Burkina Faso, its capital, gravity, Mercury): no admissible source found (LOC catalog records only, Wikipedia pointer only, NASA APOD sentences fail shape), so nothing would be written.
+
+**Open (Nic):** decimal convention (sector-start Φ = band + fraction, typical Φ1 fact ≈ 1.5, 20° from an integer Φ1 question) vs sector-centre; whether stored sfe.Phi should become the content phase instead of Φ9 standing (affects grace-ancestor alignment).
+
 ## v4.9.219 — Named frequency bands on the 144/n ladder; the 4.9.218 ± offset retired (Nic choice 2026-11-04, option 4c "Combine them: Codex named bands with edges on the 144 Hz divisions")
 
 **Conflict:** 4.9.218 tuned the question with a ± offset around an integer phase, but bands had no names or edges, and the corpus gives two band sets (FBSC Glyph Codex v2.5 named bands; the 144/n division ladder) that overlap and disagree at the edges.
