@@ -1,0 +1,150 @@
+{
+"basic": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈbeɪsɪk"
+}
+],
+"sense": [
+{
+"antonym": [
+"incidental%3:00:00::"
+],
+"id": "basic%3:00:00::",
+"synset": "01861659-a"
+},
+{
+"id": "basic%5:00:00:standard:01",
+"synset": "02302973-s"
+},
+{
+"id": "basic%5:00:02:first:00",
+"synset": "01015350-s"
+},
+{
+"id": "basic%5:00:00:alkaline:00",
+"synset": "00026281-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈbeɪsɪk"
+}
+],
+"sense": [
+{
+"id": "basic%1:06:00::",
+"synset": "02803952-n"
+}
+]
+}
+},
+"binary compound": {
+"n": {
+"sense": [
+{
+"id": "binary_compound%1:27:00::",
+"synset": "14643012-n"
+}
+]
+}
+},
+"body": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈbɒdi",
+"variety": "GB"
+},
+{
+"value": "ˈbɑdi",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"bodily%5:00:00:corporeal:00",
+"bodily%3:01:01::"
+],
+"id": "body%1:08:00::",
+"synset": "05223633-n"
+},
+{
+"id": "body%1:14:00::",
+"synset": "07981699-n"
+},
+{
+"derivation": [
+"body%2:42:00::"
+],
+"id": "body%1:08:02::",
+"synset": "05225115-n"
+},
+{
+"id": "body%1:17:00::",
+"synset": "09247818-n"
+},
+{
+"id": "body%1:08:01::",
+"synset": "05557463-n"
+},
+{
+"id": "body%1:14:02::",
+"synset": "08453298-n"
+},
+{
+"id": "body%1:07:00::",
+"synset": "04941723-n"
+},
+{
+"id": "body%1:10:00::",
+"synset": "06406344-n"
+},
+{
+"id": "body%1:07:01::",
+"synset": "05031782-n"
+},
+{
+"id": "body%1:06:01::",
+"synset": "04268616-n"
+},
+{
+"id": "body%1:06:00::",
+"synset": "02865226-n"
+}
+]
+},
+"v": {
+"form": [
+"bodied"
+],
+"pronunciation": [
+{
+"value": "ˈbɒdi",
+"variety": "GB"
+},
+{
+"value": "ˈbɑdi",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"body%1:08:02::"
+],
+"id": "body%2:42:00::",
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "02704786-v"
+}
+]
+}
+}
+}

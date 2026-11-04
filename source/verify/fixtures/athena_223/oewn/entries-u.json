@@ -1,0 +1,63 @@
+{
+"unit": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈjuː.nɪt"
+}
+],
+"sense": [
+{
+"derivation": [
+"unitize%2:41:00::",
+"unitize%2:30:00::"
+],
+"id": "unit%1:23:00::",
+"synset": "13604927-n"
+},
+{
+"derivation": [
+"unitize%2:41:00::",
+"unitize%2:30:00::"
+],
+"id": "unit%1:24:00::",
+"synset": "13832535-n"
+},
+{
+"derivation": [
+"unitize%2:30:00::"
+],
+"id": "unit%1:14:00::",
+"synset": "08206589-n"
+},
+{
+"derivation": [
+"unify%2:30:00::",
+"unitize%2:30:00::"
+],
+"id": "unit%1:09:00::",
+"synset": "05878479-n"
+},
+{
+"derivation": [
+"unitize%2:41:00::",
+"unitize%2:35:00::",
+"unitize%2:30:00::"
+],
+"id": "unit%1:17:00::",
+"synset": "09488589-n"
+},
+{
+"derivation": [
+"unify%2:35:00::",
+"unify%2:30:00::",
+"unitize%2:35:00::",
+"unitize%2:30:00::"
+],
+"id": "unit%1:03:00::",
+"synset": "00003553-n"
+}
+]
+}
+}
+}

@@ -222,10 +222,57 @@
     const out = [];
     for (let i = 0; i < parts.length; i++) {
       const sentence = parts[i].trim();
-      if (sentence.length >= 35 && sentence.length <= 420) out.push(sentence);
+      if ((sentence.length >= 35 && sentence.length <= 420) || (sentence.length >= 12 && sentence.length < 35 && shortComplete(sentence))) out.push(sentence);
       if (out.length >= 40) break;
     }
     return out;
+  }
+
+  // 4.9.223: a short gloss sentence is let through when complete (capital or digit first, a copula, a full stop).
+  function shortComplete(sentence) {
+    return /^[A-Z0-9"']/.test(sentence) && /[.!?]$/.test(sentence) && /\b(is|are|was|were)\b/i.test(sentence);
+  }
+
+  const UNIT_TOKEN = /^([A-Za-z\u00b5\u03bc\u03a9\u00b0]{1,4})(-?\d+)?$/;
+
+  // 4.9.223 numeric slot (mirror of value_canon): string arithmetic only, Hz is s^-1, m/s is m s^-1.
+  function valueCanon(predicate) {
+    let t = String(predicate || '').replace(/\u2212/g, '-').replace(/\u2013/g, '-').replace(/\u00d7/g, 'x');
+    t = t.replace(/\(exact\)/g, ' ').trim().replace(/\.+$/, '').trim();
+    const m = t.match(/^(-?\d[\d ,]*(?:\.[\d ]*\d)?)\s*(?:x\s*10\s*\^?\s*(-?\s*\d+))?\s*([\s\S]*)$/);
+    if (!m) return null;
+    let mant = m[1].replace(/[ ,]/g, '');
+    const sign = mant.charAt(0) === '-' ? '-' : '';
+    mant = mant.replace(/^-+/, '');
+    const dot = mant.indexOf('.');
+    const whole = dot >= 0 ? mant.slice(0, dot) : mant;
+    const frac = dot >= 0 ? mant.slice(dot + 1) : '';
+    const all = whole + frac;
+    let digits = all.replace(/^0+/, '');
+    if (!digits) return null;
+    const lead = all.length - digits.length;
+    const exp = whole.length - 1 - lead + parseInt(String(m[2] || '0').replace(/ /g, ''), 10);
+    digits = digits.replace(/0+$/, '') || '0';
+    const number = sign + digits.charAt(0) + (digits.length > 1 ? '.' + digits.slice(1) : '') + 'e' + String(exp);
+    const unit = m[3].replace(/\^/g, '').replace(/\s+/g, ' ').trim();
+    const powers = {};
+    const parts = unit ? unit.split('/') : [];
+    if (parts.length > 2) return null;
+    for (let side = 0; side < parts.length; side++) {
+      const toks = parts[side].split(' ').filter(Boolean);
+      for (let i = 0; i < toks.length; i++) {
+        const u = toks[i].match(UNIT_TOKEN);
+        if (!u) return null;
+        let sym = u[1];
+        let pw = parseInt(u[2] || '1', 10);
+        if (side === 1) pw = -pw;
+        if (sym === 'Hz') { sym = 's'; pw = -pw; }
+        powers[sym] = (powers[sym] || 0) + pw;
+      }
+    }
+    if (unit.split(' ').filter(Boolean).length > 4) return null;
+    const shown = Object.keys(powers).sort().filter(k => powers[k]).map(k => powers[k] === 1 ? k : k + '^' + powers[k]).join(' ');
+    return number + (shown ? ' ' + shown : '');
   }
 
   function extractUrls(text) {
@@ -336,6 +383,8 @@
       if (!parts || !subjectBinds(parts[0], entity)) return { ok: false, rule: 'SHAPE', slot: slot };
       const karma = norm(parts[2]);
       if (!karma) return { ok: false, rule: 'SHAPE', slot: slot };
+      const value = /^-?\d/.test(String(parts[2]).trim()) ? valueCanon(parts[2]) : null;
+      if (value) return { ok: true, rule: 'SHAPE-FIT', slot: 'value', claim: 'value|' + ent + '|' + value };
       return { ok: true, rule: 'SHAPE-FIT', slot: slot, claim: 'identity|' + ent + '|' + karma };
     }
     if (slot === 'time') {
@@ -382,10 +431,42 @@
     return clusters;
   }
 
+  // 4.9.223 agreement on meaning (mirror of _meaning_groups in self_seed_202.py).
+  function meaningGroups(passing, meaning) {
+    const sense = meaning ? meaning.subject_sense : null;
+    const isDef = row => !!sense && String(row.claim || '').indexOf('identity|') === 0;
+    const defs = passing.filter(isDef);
+    const rest = passing.filter(row => !isDef(row));
+    const groups = {};
+    rest.forEach(row => { const c = String(row.claim || ''); groups[c] = groups[c] || []; groups[c].push(row); });
+    const pairs = {};
+    ((meaning && meaning.compatible) || []).forEach(p => { if (p && p[0] && p[1]) pairs[String(p[0]) + '\u0000' + String(p[1])] = 1; });
+    const on = Array.from(new Set(defs.filter(r => (r.meaning || {}).on_chain).map(r => String((r.meaning || {}).category)))).sort();
+    const agree = [];
+    const contra = [];
+    const unplaced = [];
+    defs.forEach(r => {
+      const m = r.meaning || {};
+      const cat = String(m.category || '');
+      if (m.sense && m.sense !== sense) contra.push(r);
+      else if (m.sense === sense || m.on_chain || m.under_chain || on.some(c => pairs[cat + '\u0000' + c])) agree.push(r);
+      else if (m.other_meaning) contra.push(r);
+      else unplaced.push(r);
+    });
+    if (agree.length) {
+      const cats = Array.from(new Set(agree.map(r => String((r.meaning || {}).category)))).sort().join(',');
+      const ent = String(agree[0].claim).split('|')[1];
+      groups['meaning|' + ent + '|' + String(sense) + '|' + cats] = agree;
+    }
+    return { groups: groups, contra: contra, agree: agree, unplaced: unplaced };
+  }
+
+  function slotOfClaim(claim) { return String(claim).split('|')[0]; }
+
   function anchorFrom(question, row, loop, support) {
     const digest = sha256(question + '\n' + row.text).slice(0, 18);
     const sfe = { Phi: row.phi, eps: 0, mu: 1 };
-    const hosts = Array.from(new Set(support.map(item => item.host))).sort();
+    const hosts = Array.from(new Set(support.filter(item => item.counts !== false).map(item => item.host))).sort();
     const provenance = {
       source: row.host,
       source_url: row.url,
@@ -399,6 +480,9 @@
       slot: row.slot,
       claim: row.claim,
       lexicon_concept: row.concept,
+      origin: row.origin === undefined ? null : row.origin,
+      archived_from: row.archived_from === undefined ? null : row.archived_from,
+      meaning: row.meaning || null,
       lexicon_phi: row.phi,
       question_loop: loop,
       delta: row.delta,
@@ -452,9 +536,18 @@
     if (payload.reset === true) resetBackoff();
     const question = String(payload.question || '').trim();
     const now = Number(payload.now || 0);
-    const loop = payload.loop_phi === undefined || payload.loop_phi === null || payload.loop_phi === '' ? 1 : Number(payload.loop_phi);
+    const meaning = payload.meaning && typeof payload.meaning === 'object' && !Array.isArray(payload.meaning) ? payload.meaning : null;
+    const explicit = !(payload.loop_phi === undefined || payload.loop_phi === null || payload.loop_phi === '');
+    let loop = !explicit ? 1 : Number(payload.loop_phi);
+    let loopFrom = 'question';
+    const sphi = meaning ? meaning.subject_phi : null;
+    if (!explicit && typeof sphi === 'number' && Number.isInteger(sphi) && sphi >= 1 && sphi <= 9 && questionSlot(question) === 'identity') {
+      // 4.9.223: a definitional question takes its phase from the subject's meaning
+      loop = sphi;
+      loopFrom = 'subject meaning';
+    }
     const base = {
-      ok: true, build: '4.9.202', question: question, loop_phi: loop, calls_llm: false, network: false,
+      ok: true, build: '4.9.202', question: question, loop_phi: loop, loop_from: loopFrom, calls_llm: false, network: false,
       money: false, dream_idle: false, economy: false, packs_gated: true, christping: 'gilligan-only',
       christping_started: false, wikipedia_anchor: false, resonance_not_parsing: true,
       coherence_formula_unchanged: true, c_min: C_MIN, echo_min: ECHO_MIN, write_max: WRITE_MAX,
@@ -532,7 +625,11 @@
         const echo = echoScore(question, sentence);
         kept.push({
           text: sentence, url: url, host: String(src.host), tier: Number(src.tier), trust: Number(src.trust),
-          license: src.license, license_url: src.license_url, phi: phi, concept: placed.concept,
+          license: String(doc.license || src.license), license_url: String(doc.license_url || src.license_url),
+          origin: doc.origin === undefined ? null : doc.origin, archived_from: doc.archived_from === undefined ? null : doc.archived_from,
+          counts: src.agreement_counts !== false,
+          meaning: doc.meaning && typeof doc.meaning === 'object' && !Array.isArray(doc.meaning) ? doc.meaning : null,
+          phi: phi, concept: placed.concept,
           grace: round6(Math.cos(circularDelta(loop, phi)) ** 2), delta: round6(circularDelta(loop, phi)),
           echo: echo, echo_pass: echo >= ECHO_MIN, sha256: digest, fetched_at: fetched, safety: safe.rule,
           slot: fit.slot, claim: fit.claim, page_class: 'reference'
@@ -540,25 +637,32 @@
       });
     });
     const passing = kept.filter(row => row.echo_pass && row.claim);
-    const groups = {};
-    passing.forEach(row => {
-      const claim = String(row.claim || '');
-      groups[claim] = groups[claim] || [];
-      groups[claim].push(row);
-    });
+    const agreed = meaningGroups(passing, meaning);
+    const groups = agreed.groups;
     const phases = Array.from(new Set(kept.map(row => row.phi))).sort((a, b) => a - b);
     const trace = { kept: kept.length, echo_pass: passing.length, clusters: Object.keys(groups).length, pointers: pointers.slice(0, 12), skipped: skipped.slice(0, 24), phases: phases };
+    if (meaning) {
+      trace.meaning = {
+        subject_sense: meaning.subject_sense === undefined ? null : meaning.subject_sense,
+        agree: Array.from(new Set(agreed.agree.map(row => row.host))).sort(),
+        contradict: agreed.contra.map(row => ({ host: row.host, category: (row.meaning || {}).category === undefined ? null : (row.meaning || {}).category })),
+        unplaced: agreed.unplaced.map(row => ({ host: row.host, category: (row.meaning || {}).category === undefined ? null : (row.meaning || {}).category }))
+      };
+    }
     function fail(rule, extra) {
       const failure = remember(question, now, rule);
       return Object.assign({}, base, extra || {}, { rule: rule, gap: true, quarantined: true, trace: trace, backoff: failure, route: 'correction_queue' });
     }
     const claims = Object.keys(groups);
-    if (claims.length > 1) return fail('SEED-DISAGREEMENT');
+    const bySlot = {};
+    claims.forEach(c => { const k = slotOfClaim(c); bySlot[k] = bySlot[k] || []; bySlot[k].push(c); });
+    if (agreed.contra.length || Object.keys(bySlot).some(k => bySlot[k].length > 1)) return fail('SEED-DISAGREEMENT');
     if (!claims.length) {
       const rules = {};
       skipped.forEach(row => { rules[row.rule] = 1; });
       let reason = 'SEED-NO-SOURCE';
-      if (kept.length && !passing.length) reason = 'SEED-ECHO';
+      if (agreed.unplaced.length) reason = 'SEED-UNPLACED';
+      else if (kept.length && !passing.length) reason = 'SEED-ECHO';
       else if (rules.BIND && !kept.length) reason = 'SEED-BIND';
       else if (rules.SHAPE && !kept.length) reason = 'SEED-SHAPE';
       else if (rules.CATALOG && !kept.length) reason = 'SEED-CATALOG';
@@ -567,16 +671,25 @@
       else if (rules['SAFETY-RECIPE'] && !kept.length) reason = 'SEED-SAFETY';
       return fail(reason);
     }
-    const cluster = groups[claims[0]];
-    const hosts = Array.from(new Set(cluster.map(row => row.host))).sort();
-    if (hosts.length < 2) return Object.assign(fail('SEED-CORROBORATION'), { hosts: hosts, claim: claims[0] });
+    const SLOT_ORDER = ['meaning', 'identity', 'value', 'time', 'effect'];
+    const rank = c => { const i = SLOT_ORDER.indexOf(slotOfClaim(c)); return i < 0 ? 9 : i; };
+    const order = claims.slice().sort((a, b) => rank(a) - rank(b) || (a < b ? -1 : a > b ? 1 : 0));
+    const countingHosts = c => Array.from(new Set(groups[c].filter(row => row.counts !== false).map(row => row.host))).sort();
+    let claim = order[0];
+    let hosts = [];
+    for (let i = 0; i < order.length; i++) {
+      const h = countingHosts(order[i]);
+      if (h.length >= 2) { claim = order[i]; hosts = h; break; }
+    }
+    const cluster = groups[claim];
+    if (hosts.length < 2) return Object.assign(fail('SEED-CORROBORATION'), { hosts: countingHosts(claim), claim: claim });
     cluster.sort((a, b) => a.tier - b.tier || a.trust - b.trust || b.grace - a.grace || (a.url < b.url ? -1 : a.url > b.url ? 1 : (a.text < b.text ? -1 : a.text > b.text ? 1 : 0)));
     const chosen = cluster[0];
     if (chosen.echo < ECHO_MIN) return fail('SEED-ECHO');
     delete BACKOFF[key];
     return Object.assign({}, base, {
       rule: 'SEED-CANDIDATE', gap: true, quarantined: false, anchor: anchorFrom(question, chosen, loop, cluster),
-      trace: trace, hosts: hosts, tier: chosen.tier, echo: chosen.echo, claim: claims[0], route: 'anchor',
+      trace: trace, hosts: hosts, tier: chosen.tier, echo: chosen.echo, claim: claim, route: 'anchor',
       corroborated: hosts.length >= 2
     });
   }
@@ -674,7 +787,7 @@
     return evaluate(row);
   }
 
-  const api = { run: run, evaluate: evaluate, install: install, resetBackoff: resetBackoff, bootMonitor: bootMonitor, phaseAligned: phaseAligned, placement: placement, sourceFor: sourceFor };
+  const api = { run: run, evaluate: evaluate, install: install, resetBackoff: resetBackoff, bootMonitor: bootMonitor, phaseAligned: phaseAligned, placement: placement, sourceFor: sourceFor, valueCanon: valueCanon, splitSentences: splitSentences };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.SelfSeed = api;
   if (typeof document !== 'undefined') {

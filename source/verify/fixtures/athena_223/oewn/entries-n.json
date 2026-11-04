@@ -1,0 +1,155 @@
+{
+"natural": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈnætʃəɹəl",
+"variety": "GB"
+},
+{
+"value": "ˈnætʃəɹəl",
+"variety": "US"
+}
+],
+"sense": [
+{
+"antonym": [
+"unnatural%3:00:00::"
+],
+"id": "natural%3:00:01::",
+"synset": "01574358-a"
+},
+{
+"antonym": [
+"artificial%3:00:00::"
+],
+"derivation": [
+"naturalness%1:07:01::"
+],
+"id": "natural%3:00:02::",
+"synset": "01575285-a"
+},
+{
+"antonym": [
+"supernatural%3:00:00::"
+],
+"derivation": [
+"naturalness%1:07:00::"
+],
+"id": "natural%3:00:03::",
+"synset": "01578429-a"
+},
+{
+"id": "natural%5:00:00:normal:01",
+"synset": "01599632-s"
+},
+{
+"antonym": [
+"sharp%3:00:03::",
+"flat%3:00:00::"
+],
+"id": "natural%3:00:04::",
+"synset": "01582180-a"
+},
+{
+"id": "natural%3:00:00::",
+"synset": "01408930-a"
+},
+{
+"id": "natural%5:00:00:spontaneous:00",
+"synset": "02290719-s"
+},
+{
+"id": "natural%5:00:00:unprocessed:00",
+"synset": "01959465-s"
+},
+{
+"id": "natural%5:00:00:intelligent:00",
+"synset": "01338661-s"
+},
+{
+"derivation": [
+"naturalness%1:07:00::"
+],
+"id": "natural%5:00:00:unaffected:01",
+"synset": "00075202-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈnætʃəɹəl",
+"variety": "GB"
+},
+{
+"value": "ˈnætʃəɹəl",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "natural%1:18:00::",
+"synset": "10366123-n"
+},
+{
+"id": "natural%1:10:00::",
+"synset": "06880268-n"
+},
+{
+"id": "natural%1:04:00::",
+"synset": "01248497-n"
+}
+]
+}
+},
+"naturally": {
+"r": {
+"pronunciation": [
+{
+"value": "ˈnætʃ(ə)ɹəli"
+}
+],
+"sense": [
+{
+"antonym": [
+"unnaturally%4:02:03::"
+],
+"id": "naturally%4:02:00::",
+"synset": "00039019-r"
+},
+{
+"antonym": [
+"artificially%4:02:00::"
+],
+"id": "naturally%4:02:01::",
+"pertainym": [
+"natural%3:00:02::"
+],
+"synset": "00141437-r"
+},
+{
+"id": "naturally%4:02:03::",
+"synset": "00507808-r"
+},
+{
+"antonym": [
+"unnaturally%4:02:02::"
+],
+"id": "naturally%4:02:02::",
+"synset": "00490971-r"
+}
+]
+}
+},
+"noble gas": {
+"n": {
+"sense": [
+{
+"id": "noble_gas%1:27:00::",
+"synset": "14648547-n"
+}
+]
+}
+}
+}

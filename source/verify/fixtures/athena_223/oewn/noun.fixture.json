@@ -1,0 +1,4361 @@
+{
+"00001740-n": {
+"definition": [
+"that which is perceived or known or inferred to have its own distinct existence (living or nonliving)"
+],
+"ili": "i35545",
+"members": [
+"entity"
+],
+"partOfSpeech": "n"
+},
+"00001930-n": {
+"definition": [
+"an entity that has physical existence"
+],
+"hypernym": [
+"00001740-n"
+],
+"ili": "i35546",
+"members": [
+"physical entity"
+],
+"partOfSpeech": "n"
+},
+"00002137-n": {
+"definition": [
+"a general concept formed by extracting common features from specific examples"
+],
+"hypernym": [
+"00001740-n"
+],
+"ili": "i35547",
+"members": [
+"abstraction",
+"abstract entity"
+],
+"partOfSpeech": "n"
+},
+"00002452-n": {
+"definition": [
+"a separate and self-contained entity"
+],
+"hypernym": [
+"00001930-n"
+],
+"ili": "i35548",
+"members": [
+"thing"
+],
+"partOfSpeech": "n"
+},
+"00002684-n": {
+"definition": [
+"a tangible and visible entity; an entity that can cast a shadow"
+],
+"hypernym": [
+"00001930-n"
+],
+"ili": "i35549",
+"members": [
+"object",
+"physical object"
+],
+"partOfSpeech": "n"
+},
+"00003553-n": {
+"definition": [
+"an assemblage of parts that is regarded as a single entity"
+],
+"hypernym": [
+"00002684-n"
+],
+"ili": "i35550",
+"members": [
+"whole",
+"unit"
+],
+"partOfSpeech": "n"
+},
+"00007347-n": {
+"definition": [
+"any entity that produces an effect or is responsible for events or results"
+],
+"hypernym": [
+"00001930-n"
+],
+"ili": "i35561",
+"members": [
+"causal agent",
+"cause",
+"causal agency"
+],
+"partOfSpeech": "n"
+},
+"00019308-n": {
+"definition": [
+"an object occurring naturally; not made by man"
+],
+"hypernym": [
+"00003553-n"
+],
+"ili": "i35566",
+"members": [
+"natural object"
+],
+"partOfSpeech": "n"
+},
+"00019793-n": {
+"definition": [
+"the real physical matter of which a person or thing consists"
+],
+"hypernym": [
+"00021007-n",
+"13831419-n"
+],
+"ili": "i35567",
+"members": [
+"substance"
+],
+"partOfSpeech": "n"
+},
+"00020270-n": {
+"definition": [
+"a particular kind or species of matter with uniform properties"
+],
+"hypernym": [
+"00021007-n"
+],
+"ili": "i35568",
+"members": [
+"substance"
+],
+"partOfSpeech": "n"
+},
+"00021007-n": {
+"definition": [
+"that which has mass and occupies space"
+],
+"hypernym": [
+"00001930-n"
+],
+"ili": "i35569",
+"members": [
+"matter"
+],
+"partOfSpeech": "n"
+},
+"00021445-n": {
+"definition": [
+"any substance that can be metabolized by an animal to give energy and build tissue"
+],
+"hypernym": [
+"00020270-n"
+],
+"ili": "i35570",
+"members": [
+"food",
+"nutrient"
+],
+"partOfSpeech": "n"
+},
+"00021914-n": {
+"definition": [
+"any substance (such as a chemical element or inorganic compound) that can be taken in by a green plant and used in organic synthesis"
+],
+"hypernym": [
+"00020270-n"
+],
+"ili": "i35571",
+"members": [
+"nutrient"
+],
+"partOfSpeech": "n"
+},
+"00022119-n": {
+"definition": [
+"a man-made object taken as a whole"
+],
+"hypernym": [
+"00003553-n"
+],
+"ili": "i35572",
+"members": [
+"artifact",
+"artefact"
+],
+"partOfSpeech": "n"
+},
+"00023280-n": {
+"definition": [
+"a feature of the mental life of a living organism"
+],
+"hypernym": [
+"00002137-n"
+],
+"ili": "i35574",
+"members": [
+"psychological feature"
+],
+"partOfSpeech": "n"
+},
+"00023451-n": {
+"definition": [
+"the psychological result of perception and learning and reasoning"
+],
+"hypernym": [
+"00023280-n"
+],
+"ili": "i35575",
+"members": [
+"cognition",
+"knowledge",
+"noesis"
+],
+"partOfSpeech": "n"
+},
+"00024444-n": {
+"definition": [
+"an abstraction belonging to or characteristic of an entity"
+],
+"hypernym": [
+"00002137-n"
+],
+"ili": "i35577",
+"members": [
+"attribute"
+],
+"partOfSpeech": "n"
+},
+"00024900-n": {
+"definition": [
+"the way something is with respect to its main attributes"
+],
+"hypernym": [
+"00024444-n"
+],
+"ili": "i35578",
+"members": [
+"state"
+],
+"partOfSpeech": "n"
+},
+"00026390-n": {
+"definition": [
+"the experiencing of affective and emotional states"
+],
+"hypernym": [
+"00024900-n"
+],
+"ili": "i35579",
+"members": [
+"feeling"
+],
+"partOfSpeech": "n"
+},
+"00027365-n": {
+"definition": [
+"a point or extent in space; a point or extent in space"
+],
+"hypernym": [
+"00002684-n"
+],
+"ili": "i35580",
+"members": [
+"location"
+],
+"partOfSpeech": "n"
+},
+"00028005-n": {
+"definition": [
+"the spatial arrangement of something as distinct from its substance"
+],
+"hypernym": [
+"00024444-n"
+],
+"ili": "i35581",
+"members": [
+"shape",
+"form"
+],
+"partOfSpeech": "n"
+},
+"00029677-n": {
+"definition": [
+"something that happens at a given place and time"
+],
+"hypernym": [
+"00002137-n"
+],
+"ili": "i35586",
+"members": [
+"event"
+],
+"partOfSpeech": "n"
+},
+"00029976-n": {
+"definition": [
+"a sustained phenomenon or one marked by gradual changes through a series of states"
+],
+"hypernym": [
+"00001930-n"
+],
+"ili": "i35587",
+"members": [
+"process",
+"physical process"
+],
+"partOfSpeech": "n"
+},
+"00030657-n": {
+"definition": [
+"something that people do or cause to happen"
+],
+"hypernym": [
+"00029677-n"
+],
+"ili": "i35588",
+"members": [
+"act",
+"deed",
+"human action",
+"human activity"
+],
+"partOfSpeech": "n"
+},
+"00031563-n": {
+"definition": [
+"any number of entities (members) considered as a unit"
+],
+"hypernym": [
+"00002137-n"
+],
+"ili": "i35589",
+"members": [
+"group",
+"grouping"
+],
+"partOfSpeech": "n"
+},
+"00032220-n": {
+"definition": [
+"an abstraction belonging to or characteristic of two entities or parts together"
+],
+"hypernym": [
+"00002137-n"
+],
+"ili": "i35590",
+"members": [
+"relation"
+],
+"partOfSpeech": "n"
+},
+"00032912-n": {
+"definition": [
+"anything owned or possessed"
+],
+"hypernym": [
+"00032220-n"
+],
+"ili": "i35591",
+"members": [
+"possession"
+],
+"partOfSpeech": "n"
+},
+"00033319-n": {
+"definition": [
+"something that is communicated by or to or between people or groups"
+],
+"hypernym": [
+"00002137-n"
+],
+"ili": "i35593",
+"members": [
+"communication"
+],
+"partOfSpeech": "n"
+},
+"00033914-n": {
+"definition": [
+"how much there is or how many there are of something that you can quantify"
+],
+"hypernym": [
+"00002137-n"
+],
+"ili": "i35594",
+"members": [
+"measure",
+"quantity",
+"amount"
+],
+"partOfSpeech": "n"
+},
+"00034512-n": {
+"definition": [
+"any state or process known through the senses rather than by intuition or reasoning"
+],
+"hypernym": [
+"00029976-n"
+],
+"ili": "i35595",
+"members": [
+"phenomenon"
+],
+"partOfSpeech": "n"
+},
+"00038116-n": {
+"definition": [
+"something done (usually as opposed to something said)"
+],
+"hypernym": [
+"00030657-n"
+],
+"ili": "i35610",
+"members": [
+"action"
+],
+"partOfSpeech": "n"
+},
+"00067036-n": {
+"definition": [
+"an act that does not achieve its intended goal"
+],
+"hypernym": [
+"00030657-n"
+],
+"ili": "i35755",
+"members": [
+"nonaccomplishment",
+"nonachievement"
+],
+"partOfSpeech": "n"
+},
+"00067456-n": {
+"definition": [
+"an act that fails"
+],
+"hypernym": [
+"00067036-n"
+],
+"ili": "i35757",
+"members": [
+"failure"
+],
+"partOfSpeech": "n"
+},
+"00130347-n": {
+"definition": [
+"(baseball) a failure by a batter or runner to reach a base safely in baseball"
+],
+"hypernym": [
+"00067456-n"
+],
+"ili": "i36089",
+"members": [
+"out"
+],
+"partOfSpeech": "n"
+},
+"00130563-n": {
+"definition": [
+"a putout of a base runner who is required to run; the putout is accomplished by holding the ball while touching the base to which the runner must advance before the runner reaches that base"
+],
+"hypernym": [
+"00130913-n"
+],
+"ili": "i36090",
+"members": [
+"force out",
+"force-out",
+"force play",
+"force"
+],
+"partOfSpeech": "n"
+},
+"00130913-n": {
+"definition": [
+"an out resulting from a fielding play (not a strikeout)"
+],
+"hypernym": [
+"00130347-n"
+],
+"ili": "i36091",
+"members": [
+"putout"
+],
+"partOfSpeech": "n",
+"wikidata": "Q1046690"
+},
+"00191991-n": {
+"definition": [
+"the action of changing something"
+],
+"hypernym": [
+"00038116-n"
+],
+"ili": "i36418",
+"members": [
+"change"
+],
+"partOfSpeech": "n"
+},
+"00280679-n": {
+"definition": [
+"the act of changing location from one place to another"
+],
+"hypernym": [
+"00191991-n"
+],
+"ili": "i36869",
+"members": [
+"motion",
+"movement",
+"move"
+],
+"partOfSpeech": "n"
+},
+"00330986-n": {
+"definition": [
+"changing location rapidly"
+],
+"hypernym": [
+"00280679-n"
+],
+"ili": "i37151",
+"members": [
+"speed",
+"speeding",
+"hurrying"
+],
+"partOfSpeech": "n"
+},
+"00408356-n": {
+"definition": [
+"any specific behavior"
+],
+"hypernym": [
+"00030657-n"
+],
+"ili": "i37550",
+"members": [
+"activity"
+],
+"partOfSpeech": "n"
+},
+"00427931-n": {
+"definition": [
+"an activity that diverts or amuses or stimulates"
+],
+"hypernym": [
+"00408356-n"
+],
+"ili": "i37650",
+"members": [
+"diversion",
+"recreation"
+],
+"partOfSpeech": "n"
+},
+"00430033-n": {
+"definition": [
+"an activity that is diverting and that holds the attention"
+],
+"hypernym": [
+"00427931-n"
+],
+"ili": "i37655",
+"members": [
+"entertainment",
+"amusement"
+],
+"partOfSpeech": "n"
+},
+"00431125-n": {
+"definition": [
+"the act of playing for stakes in the hope of winning (including the payment of a price for a chance to win a prize)"
+],
+"hypernym": [
+"00427931-n",
+"00748327-n"
+],
+"ili": "i37660",
+"members": [
+"gambling",
+"gaming",
+"play"
+],
+"partOfSpeech": "n"
+},
+"00521313-n": {
+"definition": [
+"an act or social event involving a public performance or entertainment"
+],
+"hypernym": [
+"00430033-n"
+],
+"ili": "i38123",
+"members": [
+"show"
+],
+"partOfSpeech": "n"
+},
+"00734044-n": {
+"definition": [
+"activity that transgresses moral or civil law"
+],
+"hypernym": [
+"00408356-n"
+],
+"ili": "i39285",
+"members": [
+"wrongdoing",
+"wrongful conduct",
+"misconduct",
+"actus reus"
+],
+"partOfSpeech": "n"
+},
+"00746303-n": {
+"definition": [
+"the act of transgressing; the violation of a law or a duty or moral principle"
+],
+"hypernym": [
+"00734044-n"
+],
+"ili": "i39351",
+"members": [
+"transgression",
+"evildoing"
+],
+"partOfSpeech": "n"
+},
+"00748327-n": {
+"definition": [
+"a specific form of evildoing"
+],
+"hypernym": [
+"00746303-n"
+],
+"ili": "i39362",
+"members": [
+"vice"
+],
+"partOfSpeech": "n"
+},
+"00966680-n": {
+"definition": [
+"violent action that is hostile and usually unprovoked"
+],
+"hypernym": [
+"00038116-n"
+],
+"ili": "i40455",
+"members": [
+"aggression",
+"hostility"
+],
+"partOfSpeech": "n"
+},
+"00967515-n": {
+"definition": [
+"an act of aggression (as one against a person who resists)"
+],
+"hypernym": [
+"00966680-n"
+],
+"ili": "i40459",
+"members": [
+"violence",
+"force"
+],
+"partOfSpeech": "n"
+},
+"01248165-n": {
+"definition": [
+"casting an object in order to determine an outcome randomly"
+],
+"hypernym": [
+"00431125-n"
+],
+"ili": "i41921",
+"members": [
+"throw"
+],
+"partOfSpeech": "n"
+},
+"01248360-n": {
+"definition": [
+"the act of throwing dice"
+],
+"hypernym": [
+"01248165-n"
+],
+"ili": "i41922",
+"members": [
+"cast",
+"roll"
+],
+"partOfSpeech": "n"
+},
+"01248497-n": {
+"definition": [
+"(craps) a first roll of 7 or 11 that immediately wins the stake"
+],
+"hypernym": [
+"01248360-n"
+],
+"ili": "i41923",
+"members": [
+"natural"
+],
+"partOfSpeech": "n"
+},
+"02673313-n": {
+"definition": [
+"a pedal that controls the throttle valve"
+],
+"hypernym": [
+"03909502-n"
+],
+"ili": "i49784",
+"members": [
+"accelerator",
+"accelerator pedal",
+"gas pedal",
+"gas",
+"throttle",
+"gun"
+],
+"partOfSpeech": "n"
+},
+"02707012-n": {
+"definition": [
+"a central nervous system stimulant that increases energy and decreases appetite; used to treat narcolepsy and some forms of depression"
+],
+"hypernym": [
+"04327264-n",
+"03253661-n"
+],
+"ili": "i49975",
+"members": [
+"amphetamine",
+"pep pill",
+"upper",
+"speed"
+],
+"partOfSpeech": "n"
+},
+"02738693-n": {
+"definition": [
+"a part of a structure having some specific characteristic or function"
+],
+"hypernym": [
+"04348764-n"
+],
+"ili": "i50136",
+"members": [
+"area"
+],
+"partOfSpeech": "n"
+},
+"02791712-n": {
+"definition": [
+"a rigid piece of metal or wood; usually used as a fastening or obstruction or weapon"
+],
+"hypernym": [
+"03569147-n"
+],
+"ili": "i50447",
+"members": [
+"bar"
+],
+"partOfSpeech": "n"
+},
+"02803952-n": {
+"definition": [
+"(usually in the plural) a necessary commodity for which demand is constant"
+],
+"hypernym": [
+"03080712-n"
+],
+"ili": "i50515",
+"members": [
+"basic",
+"staple"
+],
+"partOfSpeech": "n"
+},
+"02865226-n": {
+"definition": [
+"the external structure of a vehicle"
+],
+"hypernym": [
+"04348764-n"
+],
+"ili": "i50906",
+"members": [
+"body"
+],
+"partOfSpeech": "n"
+},
+"03007334-n": {
+"definition": [
+"a natural or artificial enclosed space"
+],
+"hypernym": [
+"03290823-n"
+],
+"ili": "i51758",
+"members": [
+"chamber"
+],
+"partOfSpeech": "n"
+},
+"03080712-n": {
+"definition": [
+"a raw material that is sold in large quantities, usually to other businesses for manufacturing or production purposes"
+],
+"hypernym": [
+"00022119-n"
+],
+"ili": "i52206",
+"members": [
+"commodity",
+"trade good",
+"good"
+],
+"partOfSpeech": "n"
+},
+"03085025-n": {
+"definition": [
+"an artifact that is one of the individual parts of which a composite entity is made up; especially a part that can be separated from or attached to a system"
+],
+"hypernym": [
+"03898588-n"
+],
+"ili": "i52228",
+"members": [
+"component",
+"constituent",
+"element"
+],
+"partOfSpeech": "n"
+},
+"03085863-n": {
+"definition": [
+"an enclosure of residences and other building (especially in the Orient)"
+],
+"hypernym": [
+"03290823-n"
+],
+"ili": "i52230",
+"members": [
+"compound"
+],
+"partOfSpeech": "n"
+},
+"03095830-n": {
+"definition": [
+"an instrumentality that connects"
+],
+"hypernym": [
+"03580409-n"
+],
+"ili": "i52280",
+"members": [
+"connection",
+"connexion",
+"connector",
+"connecter",
+"connective"
+],
+"partOfSpeech": "n"
+},
+"03252323-n": {
+"definition": [
+"a substance that is used as a medicine or narcotic"
+],
+"hypernym": [
+"14802595-n"
+],
+"ili": "i53204",
+"members": [
+"drug"
+],
+"partOfSpeech": "n"
+},
+"03253661-n": {
+"definition": [
+"a drug that is taken for nonmedicinal reasons (usually for mind-altering effects); drug abuse can lead to physical and mental damage and (with some substances) dependence and addiction"
+],
+"hypernym": [
+"03252323-n"
+],
+"ili": "i53207",
+"members": [
+"drug of abuse",
+"street drug"
+],
+"partOfSpeech": "n"
+},
+"03290823-n": {
+"definition": [
+"a structure consisting of an area that has been enclosed for some purpose"
+],
+"hypernym": [
+"02738693-n"
+],
+"ili": "i53413",
+"members": [
+"enclosure"
+],
+"partOfSpeech": "n"
+},
+"03298959-n": {
+"definition": [
+"an instrumentality needed for an undertaking or to perform a service"
+],
+"hypernym": [
+"03580409-n"
+],
+"ili": "i53457",
+"members": [
+"equipment"
+],
+"partOfSpeech": "n"
+},
+"03319968-n": {
+"definition": [
+"a building or place that provides a particular service or is used for a particular industry"
+],
+"hypernym": [
+"00022119-n"
+],
+"ili": "i53558",
+"members": [
+"facility",
+"installation"
+],
+"partOfSpeech": "n"
+},
+"03467679-n": {
+"definition": [
+"a connection between an electrical device and a large conducting body, such as the earth (which is taken to be at zero voltage)"
+],
+"hypernym": [
+"03095830-n"
+],
+"ili": "i54464",
+"members": [
+"ground",
+"earth"
+],
+"partOfSpeech": "n"
+},
+"03569147-n": {
+"definition": [
+"instrumentation (a piece of equipment or tool) used to effect an end"
+],
+"hypernym": [
+"03580409-n"
+],
+"ili": "i55068",
+"members": [
+"implement"
+],
+"partOfSpeech": "n"
+},
+"03580409-n": {
+"definition": [
+"an artifact (that is instrumental in accomplishing some end) for accomplishing some end"
+],
+"hypernym": [
+"00022119-n"
+],
+"ili": "i55130",
+"members": [
+"instrumentality",
+"instrumentation",
+"means"
+],
+"partOfSpeech": "n"
+},
+"03664618-n": {
+"definition": [
+"a rigid bar pivoted about a fulcrum"
+],
+"hypernym": [
+"02791712-n"
+],
+"ili": "i55642",
+"members": [
+"lever"
+],
+"partOfSpeech": "n"
+},
+"03898588-n": {
+"definition": [
+"something less than the whole of a human artifact"
+],
+"hypernym": [
+"00002684-n"
+],
+"ili": "i57017",
+"members": [
+"part",
+"portion"
+],
+"partOfSpeech": "n"
+},
+"03909502-n": {
+"definition": [
+"a lever that is operated with the foot"
+],
+"hypernym": [
+"03664618-n"
+],
+"ili": "i57081",
+"members": [
+"pedal",
+"treadle",
+"foot pedal",
+"foot lever"
+],
+"partOfSpeech": "n"
+},
+"04087566-n": {
+"definition": [
+"a hollow chamber whose dimensions allow the resonant oscillation of electromagnetic or acoustic waves"
+],
+"hypernym": [
+"03007334-n"
+],
+"ili": "i58111",
+"members": [
+"resonator",
+"cavity resonator",
+"resonating chamber"
+],
+"partOfSpeech": "n"
+},
+"04144527-n": {
+"definition": [
+"man-made equipment that orbits around the earth or the moon"
+],
+"hypernym": [
+"03298959-n"
+],
+"ili": "i58463",
+"members": [
+"satellite",
+"artificial satellite",
+"orbiter"
+],
+"partOfSpeech": "n"
+},
+"04268616-n": {
+"definition": [
+"a resonating chamber in a musical instrument (as the body of a violin)"
+],
+"hypernym": [
+"04087566-n"
+],
+"ili": "i59214",
+"members": [
+"soundbox",
+"body"
+],
+"partOfSpeech": "n"
+},
+"04327264-n": {
+"definition": [
+"a drug that temporarily quickens some vital process"
+],
+"hypernym": [
+"03252323-n"
+],
+"ili": "i59586",
+"members": [
+"stimulant",
+"stimulant drug",
+"excitant"
+],
+"partOfSpeech": "n"
+},
+"04348764-n": {
+"definition": [
+"a thing constructed; a complex entity constructed of many parts"
+],
+"hypernym": [
+"00022119-n"
+],
+"ili": "i59707",
+"members": [
+"structure",
+"construction"
+],
+"partOfSpeech": "n"
+},
+"04569944-n": {
+"definition": [
+"a facility that provides a source of water"
+],
+"hypernym": [
+"03319968-n"
+],
+"ili": "i61023",
+"members": [
+"water system",
+"water supply",
+"water"
+],
+"partOfSpeech": "n"
+},
+"04623416-n": {
+"definition": [
+"a distinguishing feature of your personal nature"
+],
+"hypernym": [
+"00024444-n"
+],
+"ili": "i61343",
+"members": [
+"trait"
+],
+"partOfSpeech": "n"
+},
+"04653905-n": {
+"definition": [
+"the trait of being serious"
+],
+"hypernym": [
+"04623416-n"
+],
+"ili": "i61488",
+"members": [
+"seriousness",
+"earnestness",
+"serious-mindedness",
+"sincerity"
+],
+"partOfSpeech": "n"
+},
+"04654835-n": {
+"definition": [
+"a manner that is serious and solemn"
+],
+"hypernym": [
+"04653905-n"
+],
+"ili": "i61491",
+"members": [
+"graveness",
+"gravity",
+"sobriety",
+"soberness",
+"somberness",
+"sombreness"
+],
+"partOfSpeech": "n"
+},
+"04695595-n": {
+"definition": [
+"the quality of arousing interest; being attractive or something that attracts"
+],
+"hypernym": [
+"04731092-n"
+],
+"ili": "i61690",
+"members": [
+"attraction",
+"attractiveness"
+],
+"partOfSpeech": "n"
+},
+"04731092-n": {
+"definition": [
+"an essential and distinguishing attribute of something or someone"
+],
+"hypernym": [
+"00024444-n"
+],
+"ili": "i61871",
+"members": [
+"quality"
+],
+"partOfSpeech": "n"
+},
+"04816489-n": {
+"definition": [
+"lawfulness by virtue of conformity to a legal statute"
+],
+"hypernym": [
+"04817036-n"
+],
+"ili": "i62277",
+"members": [
+"legality"
+],
+"partOfSpeech": "n"
+},
+"04816705-n": {
+"definition": [
+"the quality of having legal force or effectiveness"
+],
+"hypernym": [
+"04816489-n"
+],
+"ili": "i62278",
+"members": [
+"validity",
+"validness"
+],
+"partOfSpeech": "n"
+},
+"04816894-n": {
+"definition": [
+"(of a law) having legal validity"
+],
+"hypernym": [
+"04816705-n"
+],
+"ili": "i62279",
+"members": [
+"effect",
+"force"
+],
+"partOfSpeech": "n"
+},
+"04817036-n": {
+"definition": [
+"the quality of conforming to law"
+],
+"hypernym": [
+"04731092-n"
+],
+"ili": "i62280",
+"members": [
+"lawfulness"
+],
+"partOfSpeech": "n"
+},
+"04923519-n": {
+"definition": [
+"a basic or essential property shared by all members of a class"
+],
+"hypernym": [
+"00024444-n"
+],
+"ili": "i62823",
+"members": [
+"property"
+],
+"partOfSpeech": "n"
+},
+"04941723-n": {
+"definition": [
+"the property of holding together and retaining its shape"
+],
+"hypernym": [
+"04923519-n"
+],
+"ili": "i62912",
+"members": [
+"consistency",
+"consistence",
+"substance",
+"body"
+],
+"partOfSpeech": "n"
+},
+"05016354-n": {
+"definition": [
+"any property used to characterize matter and energy and their interactions"
+],
+"hypernym": [
+"04923519-n"
+],
+"ili": "i63327",
+"members": [
+"physical property"
+],
+"partOfSpeech": "n"
+},
+"05018974-n": {
+"definition": [
+"the degree of hotness or coldness of a body or environment (corresponding to its molecular activity)"
+],
+"hypernym": [
+"13597072-n",
+"05016354-n"
+],
+"ili": "i63340",
+"members": [
+"temperature"
+],
+"partOfSpeech": "n"
+},
+"05021492-n": {
+"definition": [
+"temperature measured by a mercury thermometer"
+],
+"hypernym": [
+"05018974-n"
+],
+"ili": "i63351",
+"members": [
+"mercury"
+],
+"partOfSpeech": "n"
+},
+"05031420-n": {
+"definition": [
+"the property of a body that causes it to have weight in a gravitational field"
+],
+"hypernym": [
+"13597072-n",
+"05016354-n"
+],
+"ili": "i63403",
+"members": [
+"mass"
+],
+"partOfSpeech": "n"
+},
+"05031782-n": {
+"definition": [
+"the main mass of a thing"
+],
+"hypernym": [
+"05031420-n"
+],
+"ili": "i63404",
+"members": [
+"body"
+],
+"partOfSpeech": "n"
+},
+"05042508-n": {
+"definition": [
+"physical energy or intensity"
+],
+"hypernym": [
+"05043549-n"
+],
+"ili": "i63463",
+"members": [
+"force",
+"forcefulness",
+"strength"
+],
+"partOfSpeech": "n"
+},
+"05043549-n": {
+"definition": [
+"high level or degree; the property of being intense"
+],
+"hypernym": [
+"05101152-n"
+],
+"ili": "i63468",
+"members": [
+"intensity",
+"intensiveness"
+],
+"partOfSpeech": "n"
+},
+"05051679-n": {
+"definition": [
+"a property relating to time"
+],
+"hypernym": [
+"04923519-n"
+],
+"ili": "i63511",
+"members": [
+"temporal property"
+],
+"partOfSpeech": "n"
+},
+"05065291-n": {
+"definition": [
+"a rate (usually rapid) at which something happens"
+],
+"hypernym": [
+"05065731-n"
+],
+"ili": "i63581",
+"members": [
+"speed",
+"swiftness",
+"fastness"
+],
+"partOfSpeech": "n"
+},
+"05065731-n": {
+"definition": [
+"the relative speed of progress or change"
+],
+"hypernym": [
+"05051679-n"
+],
+"ili": "i63582",
+"members": [
+"pace",
+"rate"
+],
+"partOfSpeech": "n"
+},
+"05101152-n": {
+"definition": [
+"a position on a scale of intensity or amount or quality"
+],
+"hypernym": [
+"04923519-n"
+],
+"ili": "i63762",
+"members": [
+"degree",
+"grade",
+"level"
+],
+"partOfSpeech": "n"
+},
+"05198072-n": {
+"definition": [
+"possession of controlling influence"
+],
+"hypernym": [
+"04731092-n"
+],
+"ili": "i64253",
+"members": [
+"power",
+"powerfulness"
+],
+"partOfSpeech": "n"
+},
+"05201419-n": {
+"definition": [
+"a power to affect persons or events especially power based on prestige etc"
+],
+"hypernym": [
+"05198072-n"
+],
+"ili": "i64266",
+"members": [
+"influence"
+],
+"partOfSpeech": "n"
+},
+"05201846-n": {
+"definition": [
+"a powerful effect or influence"
+],
+"hypernym": [
+"05201419-n"
+],
+"ili": "i64268",
+"members": [
+"force"
+],
+"partOfSpeech": "n"
+},
+"05223633-n": {
+"definition": [
+"the entire physical structure of an organism (an animal, plant, or human being)"
+],
+"hypernym": [
+"00019308-n"
+],
+"ili": "i64381",
+"members": [
+"body",
+"organic structure"
+],
+"partOfSpeech": "n"
+},
+"05225115-n": {
+"definition": [
+"a natural object consisting of a dead animal or person"
+],
+"hypernym": [
+"00019308-n"
+],
+"ili": "i64385",
+"members": [
+"body",
+"dead body"
+],
+"partOfSpeech": "n"
+},
+"05227735-n": {
+"definition": [
+"any part of an organism such as an organ or extremity"
+],
+"hypernym": [
+"09408804-n"
+],
+"ili": "i64399",
+"members": [
+"body part"
+],
+"partOfSpeech": "n"
+},
+"05271349-n": {
+"definition": [
+"the substance of the body"
+],
+"hypernym": [
+"00019793-n"
+],
+"ili": "i64626",
+"members": [
+"body substance"
+],
+"partOfSpeech": "n"
+},
+"05404811-n": {
+"definition": [
+"the liquid parts of the body"
+],
+"hypernym": [
+"05271349-n"
+],
+"ili": "i65337",
+"members": [
+"liquid body substance",
+"bodily fluid",
+"body fluid",
+"humor",
+"humour"
+],
+"partOfSpeech": "n",
+"wikidata": "Q1058795"
+},
+"05412071-n": {
+"definition": [
+"a functionally specialized substance (especially one that is not a waste) released from a gland or cell"
+],
+"hypernym": [
+"05404811-n"
+],
+"ili": "i65374",
+"members": [
+"secretion"
+],
+"partOfSpeech": "n"
+},
+"05414462-n": {
+"definition": [
+"the secretion of an endocrine gland that is transmitted by the blood to the tissue on which it has a specific effect"
+],
+"hypernym": [
+"05412071-n"
+],
+"ili": "i65385",
+"members": [
+"hormone",
+"endocrine",
+"internal secretion"
+],
+"partOfSpeech": "n"
+},
+"05417989-n": {
+"definition": [
+"hormone secreted by the isles of Langerhans in the pancreas; regulates storage of glycogen in the liver and accelerates oxidation of sugar in cells"
+],
+"hypernym": [
+"05414462-n",
+"14938452-n"
+],
+"ili": "i65398",
+"members": [
+"insulin"
+],
+"partOfSpeech": "n"
+},
+"05557463-n": {
+"definition": [
+"the body excluding the head and neck and limbs"
+],
+"hypernym": [
+"05227735-n"
+],
+"ili": "i66083",
+"members": [
+"torso",
+"trunk",
+"body"
+],
+"partOfSpeech": "n"
+},
+"05677778-n": {
+"definition": [
+"the state of a person's cognitive processes"
+],
+"hypernym": [
+"14396987-n"
+],
+"ili": "i66713",
+"members": [
+"cognitive state",
+"state of mind"
+],
+"partOfSpeech": "n"
+},
+"05678554-n": {
+"definition": [
+"something that interests you because it is important or affects you"
+],
+"hypernym": [
+"05690773-n"
+],
+"ili": "i66717",
+"members": [
+"concern"
+],
+"partOfSpeech": "n"
+},
+"05678816-n": {
+"definition": [
+"the concerns of this life as distinguished from heaven and the afterlife"
+],
+"hypernym": [
+"05678554-n"
+],
+"ili": "i66718",
+"members": [
+"worldly concern",
+"earthly concern",
+"world",
+"earth"
+],
+"partOfSpeech": "n"
+},
+"05690411-n": {
+"definition": [
+"a state in which you want to learn more about something"
+],
+"hypernym": [
+"05677778-n"
+],
+"ili": "i66780",
+"members": [
+"curiosity",
+"wonder"
+],
+"partOfSpeech": "n"
+},
+"05690773-n": {
+"definition": [
+"a sense of concern with and curiosity about someone or something"
+],
+"hypernym": [
+"05690411-n"
+],
+"ili": "i66782",
+"members": [
+"interest",
+"involvement"
+],
+"partOfSpeech": "n"
+},
+"05709328-n": {
+"definition": [
+"(psychology) the performance of some composite cognitive activity; an operation that affects mental contents"
+],
+"hypernym": [
+"00023451-n"
+],
+"ili": "i66873",
+"members": [
+"process",
+"cognitive process",
+"mental process",
+"operation",
+"cognitive operation"
+],
+"partOfSpeech": "n",
+"wikidata": [
+"Q781413",
+"Q2200417"
+]
+},
+"05778661-n": {
+"definition": [
+"cognitive processes that presuppose the availability of knowledge and put it to use"
+],
+"hypernym": [
+"05709328-n"
+],
+"ili": "i67219",
+"members": [
+"higher cognitive process"
+],
+"partOfSpeech": "n"
+},
+"05778923-n": {
+"definition": [
+"the process of using your mind to consider something carefully"
+],
+"hypernym": [
+"05778661-n"
+],
+"ili": "i67220",
+"members": [
+"thinking",
+"thought",
+"thought process",
+"cerebration",
+"intellection",
+"mentation"
+],
+"partOfSpeech": "n"
+},
+"05780353-n": {
+"definition": [
+"thinking that is coherent and logical"
+],
+"hypernym": [
+"05778923-n"
+],
+"ili": "i67226",
+"members": [
+"reasoning",
+"logical thinking",
+"abstract thought"
+],
+"partOfSpeech": "n",
+"wikidata": "Q1156402"
+},
+"05782126-n": {
+"definition": [
+"reasoning from the general to the particular (or from cause to effect)"
+],
+"hypernym": [
+"05780353-n"
+],
+"ili": "i67233",
+"members": [
+"deduction",
+"deductive reasoning",
+"synthesis"
+],
+"partOfSpeech": "n"
+},
+"05791945-n": {
+"definition": [
+"the combination of ideas into a complex whole"
+],
+"hypernym": [
+"05780353-n"
+],
+"ili": "i67284",
+"members": [
+"synthesis",
+"synthetic thinking"
+],
+"partOfSpeech": "n"
+},
+"05817200-n": {
+"definition": [
+"the sum or range of what has been perceived, discovered, or learned"
+],
+"hypernym": [
+"00023451-n"
+],
+"ili": "i67409",
+"members": [
+"content",
+"cognitive content",
+"mental object"
+],
+"partOfSpeech": "n"
+},
+"05842164-n": {
+"definition": [
+"the content of cognition; the main thing you are thinking about"
+],
+"hypernym": [
+"05817200-n"
+],
+"ili": "i67535",
+"members": [
+"idea",
+"thought"
+],
+"partOfSpeech": "n"
+},
+"05844071-n": {
+"definition": [
+"an abstract or general idea inferred or derived from specific instances"
+],
+"hypernym": [
+"05842164-n"
+],
+"ili": "i67543",
+"members": [
+"concept",
+"conception",
+"construct"
+],
+"partOfSpeech": "n"
+},
+"05857567-n": {
+"definition": [
+"a construct whereby objects or individuals can be distinguished"
+],
+"hypernym": [
+"05844071-n"
+],
+"ili": "i67611",
+"members": [
+"property",
+"attribute",
+"dimension"
+],
+"partOfSpeech": "n"
+},
+"05858316-n": {
+"definition": [
+"a prominent attribute or aspect of something"
+],
+"hypernym": [
+"05857567-n"
+],
+"ili": "i67614",
+"members": [
+"feature",
+"characteristic"
+],
+"partOfSpeech": "n"
+},
+"05859350-n": {
+"definition": [
+"a characteristic that provides pleasure and attracts"
+],
+"hypernym": [
+"05858316-n"
+],
+"ili": "i67618",
+"members": [
+"attraction",
+"attractor",
+"attracter",
+"attractive feature",
+"magnet"
+],
+"partOfSpeech": "n"
+},
+"05863690-n": {
+"definition": [
+"the concept that something has a magnitude and can be represented in mathematical expressions by a constant or a variable"
+],
+"hypernym": [
+"05844071-n"
+],
+"ili": "i67640",
+"members": [
+"quantity"
+],
+"partOfSpeech": "n"
+},
+"05867520-n": {
+"definition": [
+"a quantity that does not vary"
+],
+"hypernym": [
+"05863690-n"
+],
+"ili": "i67660",
+"members": [
+"constant",
+"constant quantity",
+"invariable"
+],
+"partOfSpeech": "n"
+},
+"05876035-n": {
+"definition": [
+"one of the portions into which something is regarded as divided and which together constitute a whole"
+],
+"hypernym": [
+"05844071-n"
+],
+"ili": "i67711",
+"members": [
+"part",
+"section",
+"division"
+],
+"partOfSpeech": "n"
+},
+"05877576-n": {
+"definition": [
+"an abstract part of something"
+],
+"hypernym": [
+"05876035-n"
+],
+"ili": "i67716",
+"members": [
+"component",
+"constituent",
+"element",
+"factor",
+"ingredient"
+],
+"partOfSpeech": "n"
+},
+"05878206-n": {
+"definition": [
+"all of something including all its component elements or parts"
+],
+"hypernym": [
+"05844071-n"
+],
+"ili": "i67718",
+"members": [
+"whole"
+],
+"partOfSpeech": "n"
+},
+"05878479-n": {
+"definition": [
+"a single undivided whole"
+],
+"hypernym": [
+"05878206-n"
+],
+"ili": "i67719",
+"members": [
+"unit"
+],
+"partOfSpeech": "n"
+},
+"05878802-n": {
+"definition": [
+"a whole formed by a union of two or more elements or parts"
+],
+"hypernym": [
+"05878206-n"
+],
+"ili": "i67721",
+"members": [
+"compound"
+],
+"partOfSpeech": "n"
+},
+"05928460-n": {
+"definition": [
+"the idea that is intended"
+],
+"hypernym": [
+"05842164-n"
+],
+"ili": "i67944",
+"members": [
+"meaning",
+"substance"
+],
+"partOfSpeech": "n"
+},
+"05929717-n": {
+"definition": [
+"the choicest or most essential or most vital part of some idea or experience"
+],
+"hypernym": [
+"05817200-n"
+],
+"ili": "i67950",
+"members": [
+"kernel",
+"substance",
+"core",
+"center",
+"centre",
+"essence",
+"gist",
+"heart",
+"heart and soul",
+"inwardness",
+"marrow",
+"meat",
+"nub",
+"pith",
+"sum",
+"nitty-gritty"
+],
+"partOfSpeech": "n"
+},
+"05950141-n": {
+"definition": [
+"any cognitive content held as true"
+],
+"hypernym": [
+"05817200-n"
+],
+"ili": "i68061",
+"members": [
+"belief"
+],
+"partOfSpeech": "n"
+},
+"06294878-n": {
+"definition": [
+"one of the natural units into which linguistic messages can be analyzed"
+],
+"hypernym": [
+"13831419-n"
+],
+"ili": "i69533",
+"members": [
+"language unit",
+"linguistic unit"
+],
+"partOfSpeech": "n"
+},
+"06297048-n": {
+"definition": [
+"a unit of language that native speakers can identify"
+],
+"hypernym": [
+"06294878-n"
+],
+"ili": "i69544",
+"members": [
+"word"
+],
+"partOfSpeech": "n"
+},
+"06300831-n": {
+"definition": [
+"(linguistics) a word that is derived from another word"
+],
+"hypernym": [
+"06297048-n"
+],
+"ili": "i69555",
+"members": [
+"derivative"
+],
+"partOfSpeech": "n"
+},
+"06360590-n": {
+"definition": [
+"communication by means of written symbols (either printed or handwritten)"
+],
+"hypernym": [
+"00033319-n"
+],
+"ili": "i69848",
+"members": [
+"written communication",
+"written language",
+"black and white"
+],
+"partOfSpeech": "n"
+},
+"06371284-n": {
+"definition": [
+"letters or symbols that are written or imprinted on a surface to represent the sounds or words of a language"
+],
+"hypernym": [
+"06360590-n"
+],
+"ili": "i69901",
+"members": [
+"writing"
+],
+"partOfSpeech": "n"
+},
+"06406344-n": {
+"definition": [
+"the central message of a communication"
+],
+"hypernym": [
+"06611268-n"
+],
+"ili": "i70091",
+"members": [
+"body"
+],
+"partOfSpeech": "n"
+},
+"06611268-n": {
+"definition": [
+"content communicating a message; what something is about"
+],
+"hypernym": [
+"00033319-n"
+],
+"ili": "i71140",
+"members": [
+"message",
+"content",
+"subject matter",
+"substance"
+],
+"partOfSpeech": "n"
+},
+"06627914-n": {
+"definition": [
+"an entertainment that is offered to the public"
+],
+"hypernym": [
+"00521313-n"
+],
+"ili": "i71231",
+"members": [
+"attraction"
+],
+"partOfSpeech": "n"
+},
+"06821351-n": {
+"definition": [
+"a technical system of symbols used to represent special things"
+],
+"hypernym": [
+"06371284-n"
+],
+"ili": "i72271",
+"members": [
+"notation",
+"notational system"
+],
+"partOfSpeech": "n"
+},
+"06827728-n": {
+"definition": [
+"(music) notation used by musicians"
+],
+"hypernym": [
+"06821351-n"
+],
+"ili": "i72307",
+"members": [
+"musical notation"
+],
+"partOfSpeech": "n"
+},
+"06880268-n": {
+"definition": [
+"a notation cancelling a previous sharp or flat"
+],
+"hypernym": [
+"06827728-n"
+],
+"ili": "i72571",
+"members": [
+"natural",
+"cancel"
+],
+"partOfSpeech": "n"
+},
+"07125755-n": {
+"definition": [
+"(phonetics) an individual sound unit of speech without concern as to whether or not it is a phoneme of some language"
+],
+"hypernym": [
+"06294878-n"
+],
+"ili": "i74027",
+"members": [
+"phone",
+"speech sound",
+"sound"
+],
+"partOfSpeech": "n"
+},
+"07129729-n": {
+"definition": [
+"a speech sound that is not a vowel"
+],
+"hypernym": [
+"07125755-n"
+],
+"ili": "i74051",
+"members": [
+"consonant"
+],
+"partOfSpeech": "n"
+},
+"07134351-n": {
+"definition": [
+"a frictionless continuant that is not a nasal consonant (especially ‘l’ and ‘r’)"
+],
+"hypernym": [
+"07129729-n"
+],
+"ili": "i74076",
+"members": [
+"liquid"
+],
+"partOfSpeech": "n"
+},
+"07527386-n": {
+"definition": [
+"a solemn and dignified feeling"
+],
+"hypernym": [
+"00026390-n"
+],
+"ili": "i76229",
+"members": [
+"gravity",
+"solemnity"
+],
+"partOfSpeech": "n"
+},
+"07951744-n": {
+"definition": [
+"a liquid necessary for the life of most animals and plants"
+],
+"hypernym": [
+"14964524-n",
+"00021445-n",
+"00021914-n"
+],
+"ili": "i79021",
+"members": [
+"water"
+],
+"partOfSpeech": "n"
+},
+"07967506-n": {
+"definition": [
+"people sharing some social relation"
+],
+"hypernym": [
+"00031563-n"
+],
+"ili": "i79103",
+"members": [
+"social group"
+],
+"partOfSpeech": "n",
+"wikidata": "Q874405"
+},
+"07981699-n": {
+"definition": [
+"a group of persons associated by some common tie or occupation and regarded as an entity"
+],
+"hypernym": [
+"07967506-n"
+],
+"ili": "i79178",
+"members": [
+"body"
+],
+"partOfSpeech": "n"
+},
+"08024893-n": {
+"definition": [
+"a group of people who work together"
+],
+"hypernym": [
+"07967506-n"
+],
+"ili": "i79383",
+"members": [
+"organization",
+"organisation"
+],
+"partOfSpeech": "n"
+},
+"08206589-n": {
+"definition": [
+"an organization regarded as part of a larger social group"
+],
+"hypernym": [
+"08024893-n"
+],
+"ili": "i80188",
+"members": [
+"unit",
+"social unit"
+],
+"partOfSpeech": "n"
+},
+"08215338-n": {
+"definition": [
+"a unit that is part of some military service"
+],
+"hypernym": [
+"08206589-n"
+],
+"ili": "i80224",
+"members": [
+"military unit",
+"military force",
+"military group",
+"force"
+],
+"partOfSpeech": "n",
+"wikidata": "Q176799"
+},
+"08224784-n": {
+"definition": [
+"a group of people having the power of effective action"
+],
+"hypernym": [
+"07967506-n"
+],
+"ili": "i80233",
+"members": [
+"force"
+],
+"partOfSpeech": "n"
+},
+"08224937-n": {
+"definition": [
+"group of people willing to obey orders"
+],
+"hypernym": [
+"08024893-n"
+],
+"ili": "i80234",
+"members": [
+"force",
+"personnel"
+],
+"partOfSpeech": "n"
+},
+"08452398-n": {
+"definition": [
+"a group of independent but interrelated elements comprising a unified whole"
+],
+"hypernym": [
+"00031563-n"
+],
+"ili": "i81450",
+"members": [
+"system",
+"scheme"
+],
+"partOfSpeech": "n"
+},
+"08453298-n": {
+"definition": [
+"a collection of particulars considered as a system"
+],
+"hypernym": [
+"08452398-n"
+],
+"ili": "i81454",
+"members": [
+"body"
+],
+"partOfSpeech": "n"
+},
+"08514304-n": {
+"definition": [
+"a particular geographical region of indefinite boundary (usually serving some special purpose or distinguished by its people or culture or geography)"
+],
+"hypernym": [
+"08648560-n"
+],
+"ili": "i81710",
+"members": [
+"area",
+"country"
+],
+"partOfSpeech": "n"
+},
+"08579604-n": {
+"definition": [
+"the abode of mortals (as contrasted with Heaven or Hell)"
+],
+"hypernym": [
+"00027365-n"
+],
+"ili": "i81981",
+"members": [
+"earth",
+"Earth"
+],
+"partOfSpeech": "n"
+},
+"08584764-n": {
+"definition": [
+"the area in which something exists or lives"
+],
+"hypernym": [
+"08591861-n"
+],
+"ili": "i82005",
+"members": [
+"environment",
+"environs",
+"surroundings",
+"surround"
+],
+"partOfSpeech": "n"
+},
+"08586108-n": {
+"definition": [
+"the most favorable environment for a plant or animal"
+],
+"hypernym": [
+"08584764-n"
+],
+"ili": "i82011",
+"members": [
+"element"
+],
+"partOfSpeech": "n"
+},
+"08591861-n": {
+"definition": [
+"a demarcated area of the Earth"
+],
+"hypernym": [
+"08648560-n"
+],
+"ili": "i82045",
+"members": [
+"geographical area",
+"geographic area",
+"geographical region",
+"geographic region"
+],
+"partOfSpeech": "n",
+"wikidata": "Q82794"
+},
+"08648560-n": {
+"definition": [
+"a large indefinite location on the surface of the Earth"
+],
+"hypernym": [
+"00027365-n"
+],
+"ili": "i82339",
+"members": [
+"region"
+],
+"partOfSpeech": "n"
+},
+"08649998-n": {
+"definition": [
+"a clear or unobstructed space or expanse of land or water"
+],
+"hypernym": [
+"08514304-n"
+],
+"ili": "i82345",
+"members": [
+"open",
+"clear"
+],
+"partOfSpeech": "n"
+},
+"09247818-n": {
+"definition": [
+"an individual 3-dimensional object that has mass and that is distinguishable from other objects"
+],
+"hypernym": [
+"00019308-n"
+],
+"ili": "i85103",
+"members": [
+"body"
+],
+"partOfSpeech": "n"
+},
+"09248053-n": {
+"definition": [
+"the part of the earth's surface covered with water (such as a river or lake or ocean)"
+],
+"hypernym": [
+"00002452-n"
+],
+"ili": "i85104",
+"members": [
+"body of water",
+"water"
+],
+"partOfSpeech": "n"
+},
+"09262646-n": {
+"definition": [
+"natural objects visible in the sky"
+],
+"hypernym": [
+"00019308-n"
+],
+"ili": "i85184",
+"members": [
+"celestial body",
+"heavenly body"
+],
+"partOfSpeech": "n"
+},
+"09293800-n": {
+"definition": [
+"the 3rd planet from the sun; the planet we live on"
+],
+"ili": "i85350",
+"instance_hypernym": [
+"09479499-n"
+],
+"members": [
+"Earth",
+"earth",
+"world",
+"globe"
+],
+"partOfSpeech": "n",
+"wikidata": "Q2"
+},
+"09335905-n": {
+"definition": [
+"any of the planets whose orbit lies inside the earth's orbit"
+],
+"hypernym": [
+"09416900-n"
+],
+"ili": "i85577",
+"members": [
+"inferior planet"
+],
+"partOfSpeech": "n"
+},
+"09357302-n": {
+"definition": [
+"the solid part of the earth's surface"
+],
+"hypernym": [
+"00002684-n"
+],
+"ili": "i85674",
+"members": [
+"land",
+"dry land",
+"earth",
+"ground",
+"solid ground",
+"terra firma"
+],
+"partOfSpeech": "n"
+},
+"09374305-n": {
+"definition": [
+"the smallest planet and the nearest to the sun"
+],
+"ili": "i85769",
+"instance_hypernym": [
+"09479499-n",
+"09335905-n"
+],
+"members": [
+"Mercury"
+],
+"partOfSpeech": "n",
+"wikidata": "Q308"
+},
+"09381123-n": {
+"definition": [
+"any natural satellite of a planet"
+],
+"hypernym": [
+"09447148-n"
+],
+"ili": "i85805",
+"members": [
+"moon"
+],
+"partOfSpeech": "n"
+},
+"09381255-n": {
+"definition": [
+"the natural satellite of the Earth"
+],
+"ili": "i85806",
+"instance_hypernym": [
+"09447148-n"
+],
+"members": [
+"Moon",
+"moon"
+],
+"partOfSpeech": "n",
+"wikidata": "Q405"
+},
+"09381447-n": {
+"definition": [
+"any object resembling a moon"
+],
+"hypernym": [
+"00002684-n"
+],
+"ili": "i85807",
+"members": [
+"moon"
+],
+"partOfSpeech": "n"
+},
+"09408804-n": {
+"definition": [
+"a portion of a natural object"
+],
+"hypernym": [
+"00002452-n"
+],
+"ili": "i85946",
+"members": [
+"part",
+"piece"
+],
+"partOfSpeech": "n"
+},
+"09416900-n": {
+"definition": [
+"(astronomy) any of the nine large celestial bodies in the solar system that revolve around the sun and shine by reflected light; Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, and Pluto in order of their proximity to the sun; viewed from the constellation Hercules, all the planets rotate around the sun in a counterclockwise direction"
+],
+"hypernym": [
+"09262646-n"
+],
+"ili": "i85986",
+"members": [
+"planet",
+"major planet"
+],
+"partOfSpeech": "n"
+},
+"09417539-n": {
+"definition": [
+"any celestial body (other than comets or satellites) that revolves around a star"
+],
+"hypernym": [
+"09262646-n"
+],
+"ili": "i85987",
+"members": [
+"planet"
+],
+"partOfSpeech": "n"
+},
+"09447148-n": {
+"definition": [
+"any celestial body orbiting around a planet or star"
+],
+"hypernym": [
+"09262646-n"
+],
+"ili": "i86129",
+"members": [
+"satellite"
+],
+"partOfSpeech": "n"
+},
+"09467004-n": {
+"definition": [
+"(astronomy) a celestial body of hot gases that radiates energy derived from thermonuclear reactions in the interior"
+],
+"hypernym": [
+"09262646-n"
+],
+"ili": "i86239",
+"members": [
+"star"
+],
+"partOfSpeech": "n"
+},
+"09473312-n": {
+"definition": [
+"the star that is the source of light and heat for the planets in the solar system"
+],
+"ili": "i86272",
+"instance_hypernym": [
+"09467004-n"
+],
+"members": [
+"sun",
+"Sun"
+],
+"partOfSpeech": "n",
+"wikidata": "Q525"
+},
+"09473603-n": {
+"definition": [
+"any star around which a planetary system revolves"
+],
+"hypernym": [
+"09467004-n"
+],
+"ili": "i86273",
+"members": [
+"sun"
+],
+"partOfSpeech": "n"
+},
+"09479499-n": {
+"definition": [
+"a planet having a compact rocky surface like the Earth's; the four innermost planets in the solar system"
+],
+"hypernym": [
+"09416900-n"
+],
+"ili": "i86307",
+"members": [
+"terrestrial planet"
+],
+"partOfSpeech": "n",
+"wikidata": "Q128207"
+},
+"09488589-n": {
+"definition": [
+"a single undivided natural thing occurring in the composition of something else"
+],
+"hypernym": [
+"00002452-n"
+],
+"ili": "i86364",
+"members": [
+"unit",
+"building block"
+],
+"partOfSpeech": "n"
+},
+"09527267-n": {
+"definition": [
+"an incorporeal being believed to have powers to affect the course of human events"
+],
+"hypernym": [
+"05950141-n"
+],
+"ili": "i86564",
+"members": [
+"spiritual being",
+"supernatural being"
+],
+"partOfSpeech": "n"
+},
+"09528550-n": {
+"definition": [
+"any supernatural being worshipped as controlling some part of the world or some aspect of life or who is the personification of a force"
+],
+"hypernym": [
+"09527267-n"
+],
+"ili": "i86570",
+"members": [
+"deity",
+"divinity",
+"god",
+"immortal"
+],
+"partOfSpeech": "n"
+},
+"09575810-n": {
+"definition": [
+"a deity worshipped by the ancient Romans"
+],
+"hypernym": [
+"09528550-n"
+],
+"ili": "i86859",
+"members": [
+"Roman deity"
+],
+"partOfSpeech": "n"
+},
+"09585833-n": {
+"definition": [
+"(Roman mythology) messenger of Jupiter and god of commerce; counterpart of Greek Hermes"
+],
+"ili": "i86912",
+"instance_hypernym": [
+"09575810-n"
+],
+"members": [
+"Mercury"
+],
+"partOfSpeech": "n",
+"wikidata": "Q1150"
+},
+"09639952-n": {
+"definition": [
+"a person who tries to please or amuse"
+],
+"hypernym": [
+"09786620-n"
+],
+"ili": "i87200",
+"members": [
+"entertainer"
+],
+"partOfSpeech": "n"
+},
+"09646208-n": {
+"definition": [
+"a person who rules or guides or inspires others"
+],
+"hypernym": [
+"09786620-n"
+],
+"ili": "i87225",
+"members": [
+"leader"
+],
+"partOfSpeech": "n",
+"wikidata": "Q1251441"
+},
+"09651570-n": {
+"definition": [
+"a person who manifests devotion to a deity"
+],
+"hypernym": [
+"09786620-n"
+],
+"ili": "i87244",
+"members": [
+"religious person"
+],
+"partOfSpeech": "n"
+},
+"09782244-n": {
+"definition": [
+"a person with a record of successes"
+],
+"hypernym": [
+"09786620-n"
+],
+"ili": "i88057",
+"members": [
+"achiever",
+"winner",
+"success",
+"succeeder"
+],
+"partOfSpeech": "n"
+},
+"09786620-n": {
+"definition": [
+"a person who acts and gets things done"
+],
+"hypernym": [
+"00007347-n"
+],
+"ili": "i88069",
+"members": [
+"actor",
+"doer",
+"worker"
+],
+"partOfSpeech": "n"
+},
+"10052401-n": {
+"definition": [
+"an entertainer who attracts large audiences"
+],
+"hypernym": [
+"09639952-n"
+],
+"ili": "i89616",
+"members": [
+"drawing card",
+"draw",
+"attraction",
+"attractor",
+"attracter"
+],
+"partOfSpeech": "n"
+},
+"10119144-n": {
+"definition": [
+"a person who accepts the leadership of another"
+],
+"hypernym": [
+"09786620-n"
+],
+"ili": "i90017",
+"members": [
+"follower"
+],
+"partOfSpeech": "n"
+},
+"10220400-n": {
+"definition": [
+"a person whose actions and opinions strongly influence the course of events"
+],
+"hypernym": [
+"09786620-n"
+],
+"ili": "i90669",
+"members": [
+"important person",
+"influential person",
+"personage"
+],
+"partOfSpeech": "n"
+},
+"10366123-n": {
+"definition": [
+"someone regarded as certain to succeed"
+],
+"hypernym": [
+"09782244-n"
+],
+"ili": "i91547",
+"members": [
+"natural"
+],
+"partOfSpeech": "n"
+},
+"10480990-n": {
+"definition": [
+"one possessing or exercising power or influence or authority"
+],
+"hypernym": [
+"00007347-n"
+],
+"ili": "i92181",
+"members": [
+"power",
+"force"
+],
+"partOfSpeech": "n"
+},
+"10539087-n": {
+"definition": [
+"leader of a religious order"
+],
+"hypernym": [
+"09651570-n",
+"09646208-n"
+],
+"ili": "i92519",
+"members": [
+"religious leader"
+],
+"partOfSpeech": "n"
+},
+"10572067-n": {
+"definition": [
+"a person who follows or serves another"
+],
+"hypernym": [
+"10119144-n"
+],
+"ili": "i92717",
+"members": [
+"satellite",
+"planet"
+],
+"partOfSpeech": "n"
+},
+"10694335-n": {
+"definition": [
+"a person considered as a source of warmth or energy or glory etc"
+],
+"hypernym": [
+"10220400-n"
+],
+"ili": "i93434",
+"members": [
+"sun"
+],
+"partOfSpeech": "n"
+},
+"11209044-n": {
+"definition": [
+"United States religious leader (born in Korea) who founded the Unification Church in 1954; was found guilty of conspiracy to evade taxes (born in 1920)"
+],
+"ili": "i96304",
+"instance_hypernym": [
+"10539087-n"
+],
+"members": [
+"Moon",
+"Sun Myung Moon"
+],
+"partOfSpeech": "n",
+"wikidata": "Q296734"
+},
+"11428673-n": {
+"definition": [
+"all phenomena that are not artificial"
+],
+"hypernym": [
+"00034512-n"
+],
+"ili": "i97550",
+"members": [
+"natural phenomenon"
+],
+"partOfSpeech": "n",
+"wikidata": "Q1322005"
+},
+"11429173-n": {
+"definition": [
+"any natural phenomenon involving chemistry (as changes to atoms or molecules)"
+],
+"hypernym": [
+"11428673-n"
+],
+"ili": "i97553",
+"members": [
+"chemical phenomenon"
+],
+"partOfSpeech": "n"
+},
+"11439518-n": {
+"definition": [
+"a natural phenomenon involving the physical properties of matter and energy"
+],
+"hypernym": [
+"11428673-n"
+],
+"ili": "i97597",
+"members": [
+"physical phenomenon"
+],
+"partOfSpeech": "n"
+},
+"11441515-n": {
+"definition": [
+"electromagnetic radiation that can produce photochemical reactions"
+],
+"hypernym": [
+"11471253-n"
+],
+"ili": "i97603",
+"members": [
+"actinic radiation",
+"actinic ray"
+],
+"partOfSpeech": "n"
+},
+"11446644-n": {
+"definition": [
+"the force by which one object attracts another"
+],
+"hypernym": [
+"11479041-n"
+],
+"ili": "i97630",
+"members": [
+"attraction",
+"attractive force"
+],
+"partOfSpeech": "n"
+},
+"11471253-n": {
+"definition": [
+"radiation consisting of waves of energy associated with electric and magnetic fields resulting from the acceleration of an electric charge"
+],
+"hypernym": [
+"11519684-n"
+],
+"ili": "i97766",
+"members": [
+"electromagnetic radiation",
+"electromagnetic wave",
+"nonparticulate radiation"
+],
+"partOfSpeech": "n"
+},
+"11472635-n": {
+"definition": [
+"(physics) a thermodynamic quantity equivalent to the capacity of a physical system to do work; the units of energy are joules or ergs"
+],
+"hypernym": [
+"11439518-n"
+],
+"ili": "i97771",
+"members": [
+"energy",
+"free energy"
+],
+"partOfSpeech": "n"
+},
+"11479041-n": {
+"definition": [
+"(physics) the influence that produces a change in a physical quantity"
+],
+"hypernym": [
+"11439518-n"
+],
+"ili": "i97803",
+"members": [
+"force"
+],
+"partOfSpeech": "n"
+},
+"11484542-n": {
+"definition": [
+"(physics) the force of attraction between all masses in the universe; especially the attraction of the earth's mass for bodies near its surface"
+],
+"hypernym": [
+"11446644-n"
+],
+"ili": "i97834",
+"members": [
+"gravity",
+"gravitation",
+"gravitational attraction",
+"gravitational force"
+],
+"partOfSpeech": "n"
+},
+"11494354-n": {
+"definition": [
+"(physics) electromagnetic radiation that can produce a visual sensation"
+],
+"hypernym": [
+"11441515-n"
+],
+"ili": "i97892",
+"members": [
+"light",
+"visible light",
+"visible radiation"
+],
+"partOfSpeech": "n"
+},
+"11505375-n": {
+"definition": [
+"the light of the Moon"
+],
+"hypernym": [
+"11494354-n"
+],
+"ili": "i97948",
+"members": [
+"moonlight",
+"moonshine",
+"Moon"
+],
+"partOfSpeech": "n"
+},
+"11505767-n": {
+"definition": [
+"the rays of the sun"
+],
+"hypernym": [
+"11494354-n"
+],
+"ili": "i97951",
+"members": [
+"sunlight",
+"sunshine",
+"sun"
+],
+"partOfSpeech": "n"
+},
+"11519684-n": {
+"definition": [
+"energy that is radiated or transmitted in the form of rays or waves or particles"
+],
+"hypernym": [
+"11472635-n"
+],
+"ili": "i98023",
+"members": [
+"radiation"
+],
+"partOfSpeech": "n"
+},
+"13350663-n": {
+"definition": [
+"anything of material value or usefulness that is owned by a person or company"
+],
+"hypernym": [
+"00032912-n"
+],
+"ili": "i106754",
+"members": [
+"assets"
+],
+"partOfSpeech": "n"
+},
+"13374622-n": {
+"definition": [
+"wealth in the form of money or property owned by a person or business and human resources of economic value"
+],
+"hypernym": [
+"13350663-n"
+],
+"ili": "i106880",
+"members": [
+"capital"
+],
+"partOfSpeech": "n"
+},
+"13374873-n": {
+"definition": [
+"considerable capital (wealth or income)"
+],
+"hypernym": [
+"13374622-n"
+],
+"ili": "i106881",
+"members": [
+"means",
+"substance"
+],
+"partOfSpeech": "n"
+},
+"13467563-n": {
+"definition": [
+"(chemistry) any process determined by the atomic and molecular composition and structure of the substances involved"
+],
+"hypernym": [
+"13540166-n"
+],
+"ili": "i107409",
+"members": [
+"chemical process",
+"chemical change",
+"chemical action"
+],
+"partOfSpeech": "n"
+},
+"13540166-n": {
+"definition": [
+"a process existing in or produced by nature (rather than by the intent of human beings)"
+],
+"hypernym": [
+"00029976-n"
+],
+"ili": "i107768",
+"members": [
+"natural process",
+"natural action",
+"action",
+"activity"
+],
+"partOfSpeech": "n"
+},
+"13558632-n": {
+"definition": [
+"synthesis of compounds with the aid of radiant energy (especially in plants)"
+],
+"hypernym": [
+"13467563-n"
+],
+"ili": "i107847",
+"members": [
+"photosynthesis"
+],
+"partOfSpeech": "n"
+},
+"13586582-n": {
+"definition": [
+"the process of producing a chemical compound (usually by the union of simpler chemical compounds)"
+],
+"hypernym": [
+"13467563-n"
+],
+"ili": "i107996",
+"members": [
+"synthesis"
+],
+"partOfSpeech": "n"
+},
+"13597072-n": {
+"definition": [
+"one of the four quantities that are the basis of systems of measurement"
+],
+"hypernym": [
+"00033914-n"
+],
+"ili": "i108052",
+"members": [
+"fundamental quantity",
+"fundamental measure"
+],
+"partOfSpeech": "n"
+},
+"13597304-n": {
+"definition": [
+"a specific measure of amount"
+],
+"hypernym": [
+"00033914-n"
+],
+"ili": "i108053",
+"members": [
+"definite quantity"
+],
+"partOfSpeech": "n"
+},
+"13603216-n": {
+"definition": [
+"a concept of quantity involving zero and units"
+],
+"hypernym": [
+"13597304-n"
+],
+"ili": "i108079",
+"members": [
+"number"
+],
+"partOfSpeech": "n"
+},
+"13604927-n": {
+"definition": [
+"any division of quantity accepted as a standard of measurement or exchange"
+],
+"hypernym": [
+"13597304-n"
+],
+"ili": "i108085",
+"members": [
+"unit of measurement",
+"unit"
+],
+"partOfSpeech": "n"
+},
+"13606632-n": {
+"definition": [
+"a number representing a quantity assumed to have a fixed value in a specified mathematical context"
+],
+"hypernym": [
+"13603216-n"
+],
+"ili": "i108091",
+"members": [
+"constant"
+],
+"partOfSpeech": "n"
+},
+"13612326-n": {
+"definition": [
+"the constant of proportionality relating the energy of a photon to its frequency; approximately 6.626 x 10^-34 joule-second"
+],
+"hypernym": [
+"13614837-n"
+],
+"ili": "i108117",
+"members": [
+"Planck's constant",
+"h"
+],
+"partOfSpeech": "n"
+},
+"13614422-n": {
+"definition": [
+"any of the numbers (or symbols) that form a product when multiplied together"
+],
+"hypernym": [
+"13603216-n"
+],
+"ili": "i108129",
+"members": [
+"factor"
+],
+"partOfSpeech": "n"
+},
+"13614837-n": {
+"definition": [
+"the constant value of the ratio of two proportional quantities x and y; usually written y = kx, where k is the factor of proportionality"
+],
+"hypernym": [
+"13614422-n",
+"13606632-n"
+],
+"ili": "i108131",
+"members": [
+"factor of proportionality",
+"constant of proportionality"
+],
+"partOfSpeech": "n"
+},
+"13831419-n": {
+"definition": [
+"something determined in relation to something that includes it"
+],
+"hypernym": [
+"00032220-n"
+],
+"ili": "i109475",
+"members": [
+"part",
+"portion",
+"component part",
+"component",
+"constituent"
+],
+"partOfSpeech": "n"
+},
+"13832535-n": {
+"definition": [
+"an individual or group or structure or other entity regarded as a structural or functional constituent of a whole"
+],
+"hypernym": [
+"13831419-n"
+],
+"ili": "i109479",
+"members": [
+"unit"
+],
+"partOfSpeech": "n"
+},
+"13837364-n": {
+"definition": [
+"a relation between magnitudes"
+],
+"hypernym": [
+"00032220-n"
+],
+"ili": "i109504",
+"members": [
+"magnitude relation",
+"quantitative relation"
+],
+"partOfSpeech": "n"
+},
+"13841419-n": {
+"definition": [
+"the relative magnitudes of two quantities (usually expressed as a quotient)"
+],
+"hypernym": [
+"13837364-n"
+],
+"ili": "i109525",
+"members": [
+"ratio"
+],
+"partOfSpeech": "n"
+},
+"13843620-n": {
+"definition": [
+"the ratio of the focal length to the diameter of a (camera) lens system"
+],
+"hypernym": [
+"13841419-n"
+],
+"ili": "i109535",
+"members": [
+"focal ratio",
+"f number",
+"stop number",
+"speed"
+],
+"partOfSpeech": "n"
+},
+"13886392-n": {
+"definition": [
+"a length (straight or curved) without breadth or thickness; the trace of a moving point"
+],
+"hypernym": [
+"00028005-n"
+],
+"ili": "i109781",
+"members": [
+"line"
+],
+"partOfSpeech": "n"
+},
+"13892630-n": {
+"definition": [
+"a line traced by a point traveling in a constant direction; a line of zero curvature"
+],
+"hypernym": [
+"13886392-n"
+],
+"ili": "i109815",
+"members": [
+"straight line"
+],
+"partOfSpeech": "n"
+},
+"13900047-n": {
+"definition": [
+"a straight line that generates a cylinder or cone"
+],
+"hypernym": [
+"13892630-n"
+],
+"ili": "i109853",
+"members": [
+"element"
+],
+"partOfSpeech": "n"
+},
+"13943868-n": {
+"definition": [
+"a state at a particular time"
+],
+"hypernym": [
+"00024900-n"
+],
+"ili": "i110109",
+"members": [
+"condition",
+"status"
+],
+"partOfSpeech": "n"
+},
+"13950416-n": {
+"definition": [
+"the general state of things; the combination of circumstances at a given time"
+],
+"hypernym": [
+"00024900-n"
+],
+"ili": "i110136",
+"members": [
+"situation",
+"state of affairs"
+],
+"partOfSpeech": "n"
+},
+"13957498-n": {
+"definition": [
+"the situation in which you are happiest and most effective"
+],
+"hypernym": [
+"13950416-n"
+],
+"ili": "i110169",
+"members": [
+"element"
+],
+"partOfSpeech": "n"
+},
+"14013112-n": {
+"definition": [
+"a state or condition of being innocent of a specific crime or offense"
+],
+"hypernym": [
+"13943868-n"
+],
+"ili": "i110451",
+"members": [
+"innocence"
+],
+"partOfSpeech": "n"
+},
+"14013987-n": {
+"definition": [
+"the state of being free of suspicion"
+],
+"hypernym": [
+"14013112-n"
+],
+"ili": "i110455",
+"members": [
+"clear"
+],
+"partOfSpeech": "n"
+},
+"14057659-n": {
+"definition": [
+"the condition or state of the body or bodily functions"
+],
+"hypernym": [
+"13943868-n"
+],
+"ili": "i110684",
+"members": [
+"physical condition",
+"physiological state",
+"physiological condition"
+],
+"partOfSpeech": "n"
+},
+"14059177-n": {
+"definition": [
+"a state of excessive gas in the alimentary canal"
+],
+"hypernym": [
+"14057659-n"
+],
+"ili": "i110687",
+"members": [
+"flatulence",
+"flatulency",
+"gas"
+],
+"partOfSpeech": "n"
+},
+"14396987-n": {
+"definition": [
+"(psychology) a mental condition in which the qualities of a state are relatively constant even though the state itself may be dynamic"
+],
+"hypernym": [
+"13943868-n"
+],
+"ili": "i112538",
+"members": [
+"psychological state",
+"psychological condition",
+"mental state",
+"mental condition"
+],
+"partOfSpeech": "n"
+},
+"14503199-n": {
+"definition": [
+"(chemistry) the three traditional states of matter are solids (fixed shape and volume) and liquids (fixed volume and shaped by the container) and gases (filling the container)"
+],
+"hypernym": [
+"11429173-n"
+],
+"ili": "i113097",
+"members": [
+"state of matter",
+"state"
+],
+"partOfSpeech": "n",
+"wikidata": "Q11430"
+},
+"14504004-n": {
+"definition": [
+"the state in which a substance exhibits a characteristic readiness to flow with little or no tendency to disperse and relatively high incompressibility"
+],
+"hypernym": [
+"14503199-n"
+],
+"ili": "i113099",
+"members": [
+"liquid",
+"liquidness",
+"liquidity",
+"liquid state"
+],
+"partOfSpeech": "n"
+},
+"14504664-n": {
+"definition": [
+"the state of matter distinguished from the solid and liquid states by: relatively low density and viscosity; relatively great expansion and contraction with changes in pressure and temperature; the ability to diffuse readily; and the spontaneous tendency to become distributed uniformly throughout any container"
+],
+"hypernym": [
+"14503199-n"
+],
+"ili": "i113101",
+"members": [
+"gas",
+"gaseous state"
+],
+"partOfSpeech": "n"
+},
+"14604577-n": {
+"definition": [
+"material of a particular kind or constitution"
+],
+"hypernym": [
+"00001930-n"
+],
+"ili": "i113649",
+"members": [
+"substance"
+],
+"partOfSpeech": "n"
+},
+"14604877-n": {
+"definition": [
+"the tangible substance that goes into the makeup of a physical object"
+],
+"hypernym": [
+"00019793-n"
+],
+"ili": "i113651",
+"members": [
+"material",
+"stuff"
+],
+"partOfSpeech": "n"
+},
+"14610438-n": {
+"definition": [
+"(chemistry) a substance consisting of two or more substances mixed together (not in fixed proportions and not with chemical bonding)"
+],
+"hypernym": [
+"00019793-n"
+],
+"ili": "i113677",
+"members": [
+"mixture"
+],
+"partOfSpeech": "n"
+},
+"14610949-n": {
+"definition": [
+"a mixture containing two or more metallic elements or metallic and nonmetallic elements usually fused together or dissolving into each other when molten"
+],
+"hypernym": [
+"14610438-n"
+],
+"ili": "i113678",
+"members": [
+"alloy",
+"metal"
+],
+"partOfSpeech": "n"
+},
+"14643012-n": {
+"definition": [
+"chemical compound composed of only two elements"
+],
+"hypernym": [
+"14842408-n"
+],
+"ili": "i113854",
+"members": [
+"binary compound"
+],
+"partOfSpeech": "n",
+"wikidata": "Q66392"
+},
+"14647071-n": {
+"definition": [
+"any of the more than 100 known substances (of which 92 occur naturally) that cannot be separated into simpler substances and that singly or in combination constitute all matter"
+],
+"hypernym": [
+"00019793-n"
+],
+"ili": "i113874",
+"members": [
+"chemical element",
+"element"
+],
+"partOfSpeech": "n"
+},
+"14648547-n": {
+"definition": [
+"any of the chemically inert gaseous elements of the helium group in the periodic table"
+],
+"hypernym": [
+"14647071-n",
+"14901736-n"
+],
+"ili": "i113877",
+"members": [
+"noble gas",
+"inert gas",
+"argonon"
+],
+"partOfSpeech": "n"
+},
+"14649636-n": {
+"definition": [
+"any of several chemical elements that are usually shiny solids that conduct heat or electricity and can be formed into sheets etc."
+],
+"hypernym": [
+"14647071-n"
+],
+"ili": "i113883",
+"members": [
+"metallic element",
+"metal"
+],
+"partOfSpeech": "n"
+},
+"14664099-n": {
+"definition": [
+"a very light colorless element that is one of the six inert gasses; the most difficult gas to liquefy; occurs in economically extractable amounts in certain natural gases (as those found in Texas and Kansas)"
+],
+"hypernym": [
+"14648547-n"
+],
+"ili": "i113944",
+"members": [
+"helium",
+"He",
+"atomic number 2"
+],
+"partOfSpeech": "n"
+},
+"14669524-n": {
+"definition": [
+"a heavy silvery toxic univalent and bivalent metallic element; the only metal that is liquid at ordinary temperatures"
+],
+"hypernym": [
+"14649636-n"
+],
+"ili": "i113966",
+"members": [
+"mercury",
+"quicksilver",
+"hydrargyrum",
+"Hg",
+"atomic number 80"
+],
+"partOfSpeech": "n"
+},
+"14672278-n": {
+"definition": [
+"a nonmetallic bivalent element that is normally a colorless odorless tasteless nonflammable diatomic gas; constitutes 21 percent of the atmosphere by volume; the most abundant element in the earth's crust"
+],
+"hypernym": [
+"14647071-n",
+"14901736-n"
+],
+"ili": "i113978",
+"members": [
+"oxygen",
+"O",
+"atomic number 8"
+],
+"partOfSpeech": "n"
+},
+"14686753-n": {
+"definition": [
+"solid homogeneous inorganic substances occurring in nature having a definite chemical composition"
+],
+"hypernym": [
+"14604877-n"
+],
+"ili": "i114036",
+"members": [
+"mineral"
+],
+"partOfSpeech": "n"
+},
+"14710513-n": {
+"definition": [
+"fuel consisting of the remains of organisms preserved in rocks in the earth's crust with high carbon and hydrogen content"
+],
+"hypernym": [
+"14899228-n"
+],
+"ili": "i114160",
+"members": [
+"fossil fuel"
+],
+"partOfSpeech": "n"
+},
+"14711074-n": {
+"definition": [
+"a volatile flammable mixture of hydrocarbons (hexane and heptane and octane etc.) derived from petroleum; used mainly as a fuel in internal-combustion engines"
+],
+"hypernym": [
+"14899228-n",
+"14935208-n"
+],
+"ili": "i114163",
+"members": [
+"gasoline",
+"gasolene",
+"gas",
+"petrol"
+],
+"partOfSpeech": "n"
+},
+"14717894-n": {
+"definition": [
+"a hard glossy mineral consisting of silicon dioxide in crystal form; present in most rocks (especially sandstone and granite); yellow sand is quartz with iron oxide impurities"
+],
+"hypernym": [
+"14686753-n"
+],
+"ili": "i114203",
+"members": [
+"quartz"
+],
+"partOfSpeech": "n"
+},
+"14751849-n": {
+"definition": [
+"any compound of carbon and another element or a radical"
+],
+"hypernym": [
+"14842408-n"
+],
+"ili": "i114398",
+"members": [
+"organic compound"
+],
+"partOfSpeech": "n"
+},
+"14767761-n": {
+"definition": [
+"a pungent gas compounded of nitrogen and hydrogen (NH3)"
+],
+"hypernym": [
+"14643012-n"
+],
+"ili": "i114472",
+"members": [
+"ammonia"
+],
+"partOfSpeech": "n"
+},
+"14768019-n": {
+"definition": [
+"a water solution of ammonia"
+],
+"hypernym": [
+"14964524-n"
+],
+"ili": "i114474",
+"members": [
+"ammonia water",
+"ammonia",
+"ammonium hydroxide"
+],
+"partOfSpeech": "n"
+},
+"14802595-n": {
+"definition": [
+"a substance that exerts some force or effect"
+],
+"hypernym": [
+"00007347-n",
+"00020270-n"
+],
+"ili": "i114683",
+"members": [
+"agent"
+],
+"partOfSpeech": "n"
+},
+"14831008-n": {
+"definition": [
+"material produced by or used in a reaction involving changes in atoms or molecules"
+],
+"hypernym": [
+"14604877-n"
+],
+"ili": "i114850",
+"members": [
+"chemical",
+"chemical substance"
+],
+"partOfSpeech": "n"
+},
+"14842408-n": {
+"definition": [
+"(chemistry) a substance formed by chemical union of two or more elements or ingredients in definite proportion by weight"
+],
+"hypernym": [
+"14831008-n"
+],
+"ili": "i114921",
+"members": [
+"compound",
+"chemical compound"
+],
+"partOfSpeech": "n",
+"wikidata": "Q11173"
+},
+"14864925-n": {
+"definition": [
+"one of four substances thought in ancient and medieval cosmology to constitute the physical universe"
+],
+"hypernym": [
+"00019793-n"
+],
+"ili": "i115043",
+"members": [
+"element"
+],
+"partOfSpeech": "n"
+},
+"14867162-n": {
+"definition": [
+"the loose soft material that makes up a large part of the land surface"
+],
+"hypernym": [
+"14604877-n"
+],
+"ili": "i115055",
+"members": [
+"earth",
+"ground"
+],
+"partOfSpeech": "n"
+},
+"14868584-n": {
+"definition": [
+"once thought to be one of four elements composing the universe (Empedocles), associated with the humour black bile"
+],
+"hypernym": [
+"14864925-n"
+],
+"ili": "i115064",
+"members": [
+"earth"
+],
+"partOfSpeech": "n"
+},
+"14869913-n": {
+"definition": [
+"binary compound that occurs at room temperature as a clear colorless odorless tasteless liquid; freezes into ice below 0 degrees centigrade and boils above 100 degrees centigrade; widely used as a solvent"
+],
+"hypernym": [
+"14643012-n",
+"14964238-n"
+],
+"ili": "i115069",
+"members": [
+"water",
+"H2O"
+],
+"partOfSpeech": "n"
+},
+"14871527-n": {
+"definition": [
+"once thought to be one of four elements composing the universe (Empedocles), associated with the humour phlegm"
+],
+"hypernym": [
+"14864925-n"
+],
+"ili": "i115075",
+"members": [
+"water"
+],
+"partOfSpeech": "n"
+},
+"14878134-n": {
+"definition": [
+"waste matter (as urine or sweat but especially feces) discharged from the body"
+],
+"hypernym": [
+"14880414-n"
+],
+"ili": "i115114",
+"members": [
+"body waste",
+"excretion",
+"excreta",
+"excrement",
+"excretory product"
+],
+"partOfSpeech": "n"
+},
+"14879875-n": {
+"definition": [
+"liquid excretory product"
+],
+"hypernym": [
+"14878134-n"
+],
+"ili": "i115125",
+"members": [
+"urine",
+"piss",
+"pee",
+"piddle",
+"weewee",
+"water"
+],
+"partOfSpeech": "n",
+"wikidata": "Q40924"
+},
+"14880414-n": {
+"definition": [
+"any materials unused and rejected as worthless or unwanted"
+],
+"hypernym": [
+"14604877-n"
+],
+"ili": "i115128",
+"members": [
+"waste",
+"waste material",
+"waste matter",
+"waste product"
+],
+"partOfSpeech": "n"
+},
+"14899228-n": {
+"definition": [
+"a substance that can be consumed to produce energy"
+],
+"hypernym": [
+"00020270-n"
+],
+"ili": "i115239",
+"members": [
+"fuel"
+],
+"partOfSpeech": "n"
+},
+"14901736-n": {
+"definition": [
+"a fluid in the gaseous state having neither independent shape nor volume and being able to expand indefinitely"
+],
+"hypernym": [
+"14963583-n"
+],
+"ili": "i115253",
+"members": [
+"gas"
+],
+"partOfSpeech": "n"
+},
+"14903756-n": {
+"definition": [
+"magma of any composition that cooled very rapidly"
+],
+"hypernym": [
+"14905454-n"
+],
+"ili": "i115262",
+"members": [
+"natural glass"
+],
+"partOfSpeech": "n"
+},
+"14903901-n": {
+"definition": [
+"colorless glass made of almost pure silica"
+],
+"hypernym": [
+"14903756-n"
+],
+"ili": "i115263",
+"members": [
+"quartz glass",
+"quartz",
+"vitreous silica",
+"lechatelierite",
+"crystal"
+],
+"partOfSpeech": "n"
+},
+"14905454-n": {
+"definition": [
+"a brittle transparent solid with irregular atomic structure"
+],
+"hypernym": [
+"15071467-n"
+],
+"ili": "i115274",
+"members": [
+"glass"
+],
+"partOfSpeech": "n"
+},
+"14934899-n": {
+"definition": [
+"any binary compound formed by the union of hydrogen and other elements"
+],
+"hypernym": [
+"14643012-n"
+],
+"ili": "i115447",
+"members": [
+"hydride"
+],
+"partOfSpeech": "n",
+"wikidata": "Q106520"
+},
+"14935208-n": {
+"definition": [
+"an organic compound containing only carbon and hydrogen"
+],
+"hypernym": [
+"14751849-n"
+],
+"ili": "i115449",
+"members": [
+"hydrocarbon"
+],
+"partOfSpeech": "n"
+},
+"14938452-n": {
+"definition": [
+"any of various agents that decrease the level of glucose in the blood and are used in the treatment of diabetes mellitus"
+],
+"hypernym": [
+"14802595-n"
+],
+"ili": "i115469",
+"members": [
+"hypoglycemic agent",
+"hypoglycaemic agent"
+],
+"partOfSpeech": "n"
+},
+"14943662-n": {
+"definition": [
+"any compound that does not contain carbon"
+],
+"hypernym": [
+"14842408-n"
+],
+"ili": "i115503",
+"members": [
+"inorganic compound"
+],
+"partOfSpeech": "n",
+"wikidata": "Q190065"
+},
+"14963583-n": {
+"definition": [
+"continuous amorphous matter that tends to flow and to conform to the outline of its container: a liquid or a gas"
+],
+"hypernym": [
+"00021007-n"
+],
+"ili": "i115629",
+"members": [
+"fluid"
+],
+"partOfSpeech": "n"
+},
+"14964038-n": {
+"definition": [
+"a substance that is fluid at room temperature and pressure"
+],
+"hypernym": [
+"00019793-n"
+],
+"ili": "i115632",
+"members": [
+"fluid"
+],
+"partOfSpeech": "n"
+},
+"14964238-n": {
+"definition": [
+"fluid matter having no fixed shape but a fixed volume"
+],
+"hypernym": [
+"14963583-n"
+],
+"ili": "i115633",
+"members": [
+"liquid"
+],
+"partOfSpeech": "n"
+},
+"14964524-n": {
+"definition": [
+"a substance that is liquid at room temperature and pressure"
+],
+"hypernym": [
+"14964038-n"
+],
+"ili": "i115634",
+"members": [
+"liquid"
+],
+"partOfSpeech": "n"
+},
+"14984229-n": {
+"definition": [
+"a fossil fuel in the gaseous state; used for cooking and heating homes"
+],
+"hypernym": [
+"14710513-n"
+],
+"ili": "i115754",
+"members": [
+"natural gas",
+"gas"
+],
+"partOfSpeech": "n"
+},
+"15071467-n": {
+"definition": [
+"matter that is solid at room temperature and pressure"
+],
+"hypernym": [
+"00021007-n"
+],
+"ili": "i116244",
+"members": [
+"solid"
+],
+"partOfSpeech": "n"
+},
+"15179734-n": {
+"definition": [
+"a unit for measuring time periods"
+],
+"hypernym": [
+"00033914-n"
+],
+"ili": "i116857",
+"members": [
+"time unit",
+"unit of time"
+],
+"partOfSpeech": "n"
+},
+"15231092-n": {
+"definition": [
+"a time unit of approximately 30 days"
+],
+"hypernym": [
+"15179734-n"
+],
+"ili": "i117131",
+"members": [
+"month"
+],
+"partOfSpeech": "n",
+"wikidata": "Q5151"
+},
+"15232668-n": {
+"definition": [
+"the period between successive new moons (29.531 days)"
+],
+"hypernym": [
+"15231092-n"
+],
+"ili": "i117140",
+"members": [
+"lunar month",
+"moon",
+"lunation",
+"synodic month"
+],
+"partOfSpeech": "n"
+},
+"15307914-n": {
+"definition": [
+"distance travelled per unit time"
+],
+"hypernym": [
+"15311467-n"
+],
+"ili": "i117563",
+"members": [
+"speed",
+"velocity"
+],
+"partOfSpeech": "n"
+},
+"15309503-n": {
+"definition": [
+"the speed at which light travels in a vacuum; the constancy and universality of the speed of light is recognized by defining it to be exactly 299,792,458 meters per second"
+],
+"hypernym": [
+"15307914-n",
+"13606632-n"
+],
+"ili": "i117574",
+"members": [
+"speed of light",
+"light speed",
+"c"
+],
+"partOfSpeech": "n"
+},
+"15311467-n": {
+"definition": [
+"a magnitude or frequency relative to a time unit"
+],
+"hypernym": [
+"13837364-n"
+],
+"ili": "i117586",
+"members": [
+"rate"
+],
+"partOfSpeech": "n"
+},
+"92460746-n": {
+"definition": [
+"a word (as anthropology, kilocycle, builder) consisting of any of various combinations of words, combining forms, or affixes."
+],
+"hypernym": [
+"06300831-n"
+],
+"members": [
+"compound word",
+"compound"
+],
+"partOfSpeech": "n"
+}
+}

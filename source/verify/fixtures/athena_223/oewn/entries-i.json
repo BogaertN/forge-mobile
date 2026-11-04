@@ -1,0 +1,32 @@
+{
+"inorganic compound": {
+"n": {
+"sense": [
+{
+"id": "inorganic_compound%1:27:00::",
+"synset": "14943662-n"
+}
+]
+}
+},
+"insulin": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈɪnsjʊlin",
+"variety": "GB"
+},
+{
+"value": "ˈɪnsəlɪn",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "insulin%1:08:00::",
+"synset": "05417989-n"
+}
+]
+}
+}
+}

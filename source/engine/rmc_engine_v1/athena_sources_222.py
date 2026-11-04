@@ -222,7 +222,7 @@ def _nssdc_rows(page: str) -> dict[str, tuple[str, str]]:
         if len(cells) >= 2 and cells[0]:
             m = re.match(r"^(.*?)\s*\((.*)\)\s*$", cells[0])
             name, unit = (m.group(1), m.group(2)) if m else (cells[0], "")
-            out[name.strip()] = (cells[1], unit)
+            out.setdefault(name.strip(), (cells[1], unit))  # 4.9.223: the planet's own table comes first; a later moon table (Phobos) never overwrites it
     return out
 
 

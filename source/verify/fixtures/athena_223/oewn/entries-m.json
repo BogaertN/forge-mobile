@@ -1,0 +1,265 @@
+{
+"Mercury": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈməː.kjʊ.ɹi",
+"variety": "GB"
+},
+{
+"value": "ˈmɝkjəɹi",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"mercurial%3:01:01::"
+],
+"id": "mercury%1:18:00::",
+"synset": "09585833-n"
+},
+{
+"id": "mercury%1:17:00::",
+"synset": "09374305-n"
+}
+]
+}
+},
+"Moon": {
+"n": {
+"pronunciation": [
+{
+"value": "muːn",
+"variety": "GB"
+},
+{
+"value": "mun",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "moon%1:17:01::",
+"synset": "09381255-n"
+},
+{
+"derivation": [
+"moony%3:00:02::"
+],
+"id": "moon%1:19:00::",
+"synset": "11505375-n"
+},
+{
+"id": "moon%1:18:00::",
+"synset": "11209044-n"
+}
+]
+}
+},
+"mercury": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈməː.kjʊ.ɹi",
+"variety": "GB"
+},
+{
+"value": "ˈmɝkjəɹi",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"mercurial%3:01:00::",
+"mercuric%3:01:00::",
+"mercurous%3:01:00::"
+],
+"id": "mercury%1:27:00::",
+"synset": "14669524-n"
+},
+{
+"id": "mercury%1:07:00::",
+"synset": "05021492-n"
+}
+]
+}
+},
+"metal": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈmɛtəl"
+}
+],
+"sense": [
+{
+"adjposition": "a",
+"id": "metal%3:00:00::",
+"synset": "01531539-a"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈmɛtəl"
+}
+],
+"sense": [
+{
+"derivation": [
+"metallic%3:00:00::",
+"metal%2:35:00::"
+],
+"id": "metal%1:27:00::",
+"synset": "14649636-n"
+},
+{
+"derivation": [
+"metallic%3:00:00::",
+"metal%2:35:00::"
+],
+"id": "metal%1:27:01::",
+"synset": "14610949-n"
+}
+]
+},
+"v": {
+"form": [
+"metalled",
+"metalling"
+],
+"pronunciation": [
+{
+"value": "ˈmɛtəl"
+}
+],
+"sense": [
+{
+"derivation": [
+"metal%1:27:01::",
+"metal%1:27:00::"
+],
+"id": "metal%2:35:00::",
+"material": [
+"metal%1:27:01::",
+"metal%1:27:00::"
+],
+"subcat": [
+"vtai"
+],
+"synset": "01606224-v",
+"uses": [
+"metal%1:27:01::",
+"metal%1:27:00::"
+]
+}
+]
+}
+},
+"metallic element": {
+"n": {
+"sense": [
+{
+"id": "metallic_element%1:27:00::",
+"synset": "14649636-n"
+}
+]
+}
+},
+"minimally": {
+"r": {
+"sense": [
+{
+"antonym": [
+"maximally%4:02:00::"
+],
+"id": "minimally%4:02:00::",
+"pertainym": [
+"minimal%3:00:00::"
+],
+"synset": "00398433-r"
+}
+]
+}
+},
+"moon": {
+"n": {
+"pronunciation": [
+{
+"value": "muːn",
+"variety": "GB"
+},
+{
+"value": "mun",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "moon%1:17:03::",
+"synset": "09381255-n"
+},
+{
+"derivation": [
+"moon%2:39:00::"
+],
+"id": "moon%1:17:02::",
+"synset": "09381447-n"
+},
+{
+"id": "moon%1:28:00::",
+"synset": "15232668-n"
+},
+{
+"id": "moon%1:17:00::",
+"synset": "09381123-n"
+}
+]
+},
+"v": {
+"pronunciation": [
+{
+"value": "muːn",
+"variety": "GB"
+},
+{
+"value": "mun",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "moon%2:41:01::",
+"sent": [
+"Sam and Sue moon over the results of the experiment"
+],
+"subcat": [
+"via"
+],
+"synset": "02423305-v"
+},
+{
+"id": "moon%2:41:00::",
+"subcat": [
+"via"
+],
+"synset": "02423008-v"
+},
+{
+"derivation": [
+"moon%1:17:02::"
+],
+"id": "moon%2:39:00::",
+"subcat": [
+"vtaa",
+"vtai"
+],
+"synset": "02146313-v"
+}
+]
+}
+}
+}

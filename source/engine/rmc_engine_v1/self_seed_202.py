@@ -176,11 +176,60 @@ def split_sentences(text: str) -> list[str]:
     out: list[str] = []
     for part in re.split(r"(?<=[.!?])\s+", plain):
         sentence = part.strip()
-        if 35 <= len(sentence) <= 420:
+        if 35 <= len(sentence) <= 420 or (12 <= len(sentence) < 35 and short_complete(sentence)):
             out.append(sentence)
         if len(out) >= 40:
             break
     return out
+
+
+def short_complete(sentence: str) -> bool:
+    """4.9.223: a short gloss sentence ("Gravity is a force.") is let through when it is complete: a capital or digit
+    first, a copula inside, and a full stop at the end."""
+    return re.match(r"^[A-Z0-9\"']", sentence) is not None and sentence[-1:] in ".!?" and re.search(r"\b(is|are|was|were)\b", sentence, re.IGNORECASE) is not None
+
+
+_UNIT_TOKEN = re.compile(r"^([A-Za-z\u00b5\u03bc\u03a9\u00b0]{1,4})(-?\d+)?$")
+
+
+def value_canon(predicate: str) -> str | None:
+    """4.9.223 numeric slot: '6.626 070 15 x 10^-34 J Hz^-1 (exact)' -> '6.62607015e-34 J s'. String arithmetic only
+    (no float), so two sources agree only on the same digits and the same unit (Hz is s^-1; m/s is m s^-1)."""
+    t = str(predicate or "").replace("\u2212", "-").replace("\u2013", "-").replace("\u00d7", "x")
+    t = re.sub(r"\(exact\)", " ", t).strip().rstrip(".").strip()
+    m = re.match(r"^(-?\d[\d ,]*(?:\.[\d ]*\d)?)\s*(?:x\s*10\s*\^?\s*(-?\s*\d+))?\s*(.*)$", t)
+    if not m:
+        return None
+    mant = m.group(1).replace(" ", "").replace(",", "")
+    sign = "-" if mant.startswith("-") else ""
+    mant = mant.lstrip("-")
+    whole, _, frac = mant.partition(".")
+    digits = (whole + frac).lstrip("0")
+    if not digits:
+        return None
+    lead = len(whole + frac) - len((whole + frac).lstrip("0"))
+    exp = len(whole) - 1 - lead + int((m.group(2) or "0").replace(" ", ""))
+    digits = digits.rstrip("0") or "0"
+    number = sign + digits[0] + ("." + digits[1:] if len(digits) > 1 else "") + "e" + str(exp)
+    unit = re.sub(r"\s+", " ", m.group(3).replace("^", "")).strip()
+    powers: dict[str, int] = {}
+    parts = unit.split("/") if unit else []
+    if len(parts) > 2:
+        return None
+    for side, chunk in enumerate(parts):
+        for tok in chunk.split():
+            u = _UNIT_TOKEN.match(tok)
+            if not u:
+                return None
+            sym, pw = u.group(1), int(u.group(2) or "1")
+            pw = -pw if side == 1 else pw
+            if sym == "Hz":
+                sym, pw = "s", -pw
+            powers[sym] = powers.get(sym, 0) + pw
+    if len(unit.split()) > 4:
+        return None
+    shown = " ".join((k if v == 1 else k + "^" + str(v)) for k, v in sorted(powers.items()) if v)
+    return number + (" " + shown if shown else "")
 
 
 def extract_urls(text: str) -> list[str]:
@@ -337,6 +386,9 @@ def claim_of(question: str, sentence: str) -> dict[str, Any] | None:
         karma = _norm(parts[2])
         if not karma:
             return {"ok": False, "rule": "SHAPE", "slot": slot}
+        value = value_canon(parts[2]) if re.match(r"^-?\d", parts[2].strip()) else None
+        if value:  # 4.9.223: a number is its own slot, compared as a canonical value and unit
+            return {"ok": True, "rule": "SHAPE-FIT", "slot": "value", "claim": "value|" + ent + "|" + value}
         return {"ok": True, "rule": "SHAPE-FIT", "slot": slot, "claim": "identity|" + ent + "|" + karma}
     if slot == "time":
         years = _years(sentence)
@@ -463,8 +515,12 @@ def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> di
                 "host": str(src["host"]),
                 "tier": int(src["tier"]),
                 "trust": int(src["trust"]),
-                "license": src["license"],
-                "license_url": src["license_url"],
+                "license": str(doc.get("license") or src["license"]),
+                "license_url": str(doc.get("license_url") or src["license_url"]),
+                "origin": doc.get("origin"),
+                "archived_from": doc.get("archived_from"),
+                "counts": src.get("agreement_counts") is not False,
+                "meaning": doc.get("meaning") if isinstance(doc.get("meaning"), dict) else None,
                 "phi": phi,
                 "concept": placed.get("concept"),
                 "grace": grace_of(loop, phi),
@@ -489,10 +545,47 @@ def _claim_groups(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]
     return groups
 
 
+def _meaning_groups(passing: list[dict[str, Any]], meaning: dict[str, Any] | None) -> dict[str, Any]:
+    """4.9.223 agreement. Definitions (identity claims about a subject with a resolved meaning) agree on MEANING: the
+    category is on the subject sense's hypernym chain, is more specific than the subject's genus (under_chain), or is a
+    synonym / more specific category of an on-chain one.
+    A row naming another sense, or whose category belongs to another meaning of the word, is a contradiction. A category
+    WordNet does not know is unplaced. Every other claim (values, names, years) still agrees on its exact slot value."""
+    sense = (meaning or {}).get("subject_sense")
+    defs = [r for r in passing if sense and str(r.get("claim") or "").startswith("identity|")]
+    rest = [r for r in passing if not (sense and str(r.get("claim") or "").startswith("identity|"))]
+    groups = _claim_groups(rest)
+    pairs = {(str(a), str(b)) for a, b in ((meaning or {}).get("compatible") or []) if a and b}
+    on = sorted({str((r.get("meaning") or {}).get("category")) for r in defs if (r.get("meaning") or {}).get("on_chain")})
+    agree: list[dict[str, Any]] = []
+    contra: list[dict[str, Any]] = []
+    unplaced: list[dict[str, Any]] = []
+    for r in defs:
+        m = r.get("meaning") or {}
+        cat = str(m.get("category") or "")
+        if m.get("sense") and m.get("sense") != sense:
+            contra.append(r)
+        elif m.get("sense") == sense or m.get("on_chain") or m.get("under_chain") or any((cat, c) in pairs for c in on):
+            agree.append(r)
+        elif m.get("other_meaning"):
+            contra.append(r)
+        else:
+            unplaced.append(r)
+    if agree:
+        cats = ",".join(sorted({str((r.get("meaning") or {}).get("category")) for r in agree}))
+        ent = str(agree[0]["claim"]).split("|")[1]
+        groups["meaning|" + ent + "|" + str(sense) + "|" + cats] = agree
+    return {"groups": groups, "contra": contra, "agree": agree, "unplaced": unplaced}
+
+
+def _slot_of_claim(claim: str) -> str:
+    return claim.split("|", 1)[0]
+
+
 def _anchor_from(question: str, row: dict[str, Any], loop: int, support: list[dict[str, Any]]) -> dict[str, Any]:
     digest = sha256_text(question + "\n" + row["text"])[:18]
     sfe = {"Phi": int(row["phi"]), "eps": 0.0, "mu": 1.0}
-    hosts = sorted({item["host"] for item in support})
+    hosts = sorted({item["host"] for item in support if item.get("counts", True)})
     provenance = {
         "source": row["host"],
         "source_url": row["url"],
@@ -506,6 +599,9 @@ def _anchor_from(question: str, row: dict[str, Any], loop: int, support: list[di
         "slot": row.get("slot"),
         "claim": row.get("claim"),
         "lexicon_concept": row["concept"],
+        "origin": row.get("origin"),
+        "archived_from": row.get("archived_from"),
+        "meaning": row.get("meaning"),
         "lexicon_phi": row["phi"],
         "question_loop": loop,
         "delta": row["delta"],
@@ -552,12 +648,20 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         reset_backoff()
     question = str(payload.get("question") or "").strip()
     now = float(payload.get("now") or 0)
+    meaning = payload.get("meaning") if isinstance(payload.get("meaning"), dict) else None
     loop = loop_phi(question, payload.get("loop_phi"))
+    loop_from = "question"
+    explicit = payload.get("loop_phi") is not None and str(payload.get("loop_phi")) != ""
+    sphi = (meaning or {}).get("subject_phi")
+    if not explicit and isinstance(sphi, int) and not isinstance(sphi, bool) and 1 <= sphi <= 9 and question_slot(question) == "identity":
+        # 4.9.223: a definitional question takes its phase from the subject's meaning, not from the wh-question
+        loop, loop_from = sphi, "subject meaning"
     base = {
         "ok": True,
         "build": "4.9.202",
         "question": question,
         "loop_phi": loop,
+        "loop_from": loop_from,
         "calls_llm": False,
         "network": False,
         "money": False,
@@ -589,7 +693,8 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     documents = [row for row in (payload.get("documents") or []) if isinstance(row, dict)]
     found = _candidates(question, documents, loop)
     passing = [row for row in found["kept"] if row["echo_pass"] and row.get("claim")]
-    groups = _claim_groups(passing)
+    agreed = _meaning_groups(passing, meaning)
+    groups = agreed["groups"]
     trace = {
         "kept": len(found["kept"]),
         "echo_pass": len(passing),
@@ -598,13 +703,25 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         "skipped": found["skipped"],
         "phases": sorted({row["phi"] for row in found["kept"]}),
     }
-    if len(groups) > 1:
+    if meaning is not None:
+        trace["meaning"] = {
+            "subject_sense": meaning.get("subject_sense"),
+            "agree": sorted({row["host"] for row in agreed["agree"]}),
+            "contradict": [{"host": row["host"], "category": (row.get("meaning") or {}).get("category")} for row in agreed["contra"]],
+            "unplaced": [{"host": row["host"], "category": (row.get("meaning") or {}).get("category")} for row in agreed["unplaced"]],
+        }
+    by_slot: dict[str, list[str]] = {}
+    for claim in groups:
+        by_slot.setdefault(_slot_of_claim(claim), []).append(claim)
+    if agreed["contra"] or any(len(claims) > 1 for claims in by_slot.values()):
         failure = _remember_failure(question, now, "SEED-DISAGREEMENT")
         return dict(base, rule="SEED-DISAGREEMENT", gap=True, quarantined=True, trace=trace, backoff=failure, route="correction_queue")
     if not groups:
         reason = "SEED-NO-SOURCE"
         rules = {row.get("rule") for row in found["skipped"]}
-        if found["kept"] and not passing:
+        if agreed["unplaced"]:
+            reason = "SEED-UNPLACED"
+        elif found["kept"] and not passing:
             reason = "SEED-ECHO"
         elif "BIND" in rules and not found["kept"]:
             reason = "SEED-BIND"
@@ -620,9 +737,16 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             reason = "SEED-SAFETY"
         failure = _remember_failure(question, now, reason)
         return dict(base, rule=reason, gap=True, quarantined=True, trace=trace, backoff=failure)
-    claim, cluster = next(iter(groups.items()))
-    hosts = {row["host"] for row in cluster}
+    # one claim per slot: a definition (meaning) is preferred to a value; a slot needs two counting publishers
+    order = sorted(groups, key=lambda c: (["meaning", "identity", "value", "time", "effect"].index(_slot_of_claim(c)) if _slot_of_claim(c) in ("meaning", "identity", "value", "time", "effect") else 9, c))
+    claim, cluster, hosts = order[0], groups[order[0]], set()
+    for c in order:
+        h = {row["host"] for row in groups[c] if row.get("counts", True)}
+        if len(h) >= 2:
+            claim, cluster, hosts = c, groups[c], h
+            break
     if len(hosts) < 2:
+        hosts = {row["host"] for row in cluster if row.get("counts", True)}
         failure = _remember_failure(question, now, "SEED-CORROBORATION")
         return dict(base, rule="SEED-CORROBORATION", gap=True, quarantined=True, trace=trace, backoff=failure, hosts=sorted(hosts), claim=claim)
     cluster.sort(key=lambda row: (row["tier"], row["trust"], -row["grace"], row["url"], row["text"]))

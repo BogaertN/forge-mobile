@@ -1,0 +1,108 @@
+{
+"alkaline": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈæl.kəl.aɪn",
+"variety": "GB"
+},
+{
+"value": "ˈæl.kə.laɪn",
+"variety": "US"
+}
+],
+"sense": [
+{
+"antonym": [
+"amphoteric%3:00:00::",
+"acidic%3:00:00::"
+],
+"derivation": [
+"alkalinity%1:07:00::"
+],
+"id": "alkaline%3:00:00::",
+"synset": "00025841-a"
+}
+]
+}
+},
+"ammonia": {
+"n": {
+"pronunciation": [
+{
+"value": "əˈmoʊn.jə",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"ammoniate%2:30:00::"
+],
+"id": "ammonia%1:27:01::",
+"synset": "14768019-n"
+},
+{
+"derivation": [
+"ammoniate%2:30:00::"
+],
+"id": "ammonia%1:27:00::",
+"synset": "14767761-n"
+}
+]
+}
+},
+"attraction": {
+"n": {
+"pronunciation": [
+{
+"value": "əˈtɹækʃən",
+"variety": "US"
+}
+],
+"sense": [
+{
+"antonym": [
+"repulsion%1:19:00::"
+],
+"derivation": [
+"attract%2:35:01::"
+],
+"id": "attraction%1:19:00::",
+"synset": "11446644-n"
+},
+{
+"derivation": [
+"attract%2:37:00::",
+"attract%2:35:00::"
+],
+"id": "attraction%1:10:00::",
+"synset": "06627914-n"
+},
+{
+"derivation": [
+"attract%2:37:00::",
+"attract%2:35:00::"
+],
+"id": "attraction%1:07:00::",
+"synset": "04695595-n"
+},
+{
+"derivation": [
+"attract%2:37:00::",
+"attract%2:35:00::"
+],
+"id": "attraction%1:09:00::",
+"synset": "05859350-n"
+},
+{
+"derivation": [
+"attract%2:35:00::"
+],
+"id": "attraction%1:18:00::",
+"synset": "10052401-n"
+}
+]
+}
+}
+}

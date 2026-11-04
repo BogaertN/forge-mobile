@@ -1,0 +1,28 @@
+{
+"tasteless": {
+"a": {
+"sense": [
+{
+"antonym": [
+"tasty%3:00:00::"
+],
+"derivation": [
+"tastelessness%1:07:02::"
+],
+"id": "tasteless%3:00:01::",
+"synset": "02408123-a"
+},
+{
+"antonym": [
+"tasteful%3:00:02::"
+],
+"derivation": [
+"tastelessness%1:07:01::"
+],
+"id": "tasteless%3:00:02::",
+"synset": "02401968-a"
+}
+]
+}
+}
+}

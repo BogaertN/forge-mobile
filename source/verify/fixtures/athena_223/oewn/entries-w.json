@@ -1,0 +1,103 @@
+{
+"water": {
+"n": {
+"sense": [
+{
+"derivation": [
+"watery%5:00:02:wet:01",
+"watery%5:00:00:liquid:00",
+"water%2:40:00::",
+"water%2:30:00::"
+],
+"id": "water%1:27:00::",
+"synset": "14869913-n"
+},
+{
+"id": "water%1:17:00::",
+"synset": "09248053-n"
+},
+{
+"id": "water%1:27:02::",
+"synset": "14871527-n"
+},
+{
+"id": "water%1:06:00::",
+"synset": "04569944-n"
+},
+{
+"id": "water%1:27:01::",
+"synset": "14879875-n"
+},
+{
+"id": "water%1:13:00::",
+"synset": "07951744-n"
+}
+]
+},
+"v": {
+"sense": [
+{
+"agent": [
+"waterer%1:18:01::"
+],
+"derivation": [
+"water%1:27:00::",
+"waterer%1:18:01::",
+"watering%1:04:00::"
+],
+"id": "water%2:30:00::",
+"material": [
+"water%1:27:00::"
+],
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "00228662-v",
+"uses": [
+"water%1:27:00::"
+]
+},
+{
+"agent": [
+"waterer%1:18:01::",
+"waterer%1:18:00::"
+],
+"derivation": [
+"water%1:27:00::",
+"waterer%1:18:01::",
+"waterer%1:18:00::"
+],
+"id": "water%2:40:00::",
+"material": [
+"water%1:27:00::"
+],
+"subcat": [
+"vtai"
+],
+"synset": "02362872-v",
+"uses": [
+"water%1:27:00::"
+]
+},
+{
+"id": "water%2:29:00::",
+"subcat": [
+"vii"
+],
+"synset": "00069341-v"
+},
+{
+"derivation": [
+"watering%1:22:00::"
+],
+"id": "water%2:30:04::",
+"subcat": [
+"vii"
+],
+"synset": "00453053-v"
+}
+]
+}
+}
+}

@@ -1,5 +1,5 @@
 {
- "version": "4.9.222",
+ "version": "4.9.223",
  "features": [
   {
    "id": "A-01",
@@ -4145,13 +4145,24 @@
    "proof": [
     "verify/r4222_suite.js"
    ]
+  },
+  {
+   "id": "R4223-ATHENA-MEANING",
+   "name": "Athena agrees on meaning, not spelling: question phase from the subject's meaning; two independent publishers must agree on the subject's sense and a compatible WordNet category (on the hypernym chain, more specific than the genus, or a synonym); another meaning of the word is a contradiction; unknown categories unplaced; GeoNames never counted; numeric value slot (NIST CODATA = BIPM defining constants); short complete glosses; document licence (PubChem NCI Thesaurus, CC BY 4.0); CIA World Factbook read from its last edition (2026-01-22, pinned public-domain mirror); ask surfacing with candidate meanings",
+   "source": "Nic 2026-11-04 (pt138u, 4.9.223); engine/rmc_engine_v1/meaning_223.py, engine/rmc_engine_v1/athena_sources_223.py, engine/rmc_engine_v1/reference/athena_sources_223.json, engine/rmc_engine_v1/self_seed_202.py, src/self_seed_202.js, tools/athena_dryrun_223.py, tools/athena_sources_live_223.py, tools/test_athena_223.py, tools/meaning_cases_223.py, tools/parity_223_pyodide.js, verify/fixtures/athena_223",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Dry-run only: nothing is written to kb.anchors. Without a meaning payload (the app passes none) every decision is the 4.9.222 one. Writing needs Echo >= 0.97 on the chosen row, provenance and attribution on the stored row, and the Athena runner (not built). Cold 60 identical to 4.9.222.",
+   "proof": [
+    "verify/r4223_suite.js"
+   ]
   }
  ],
- "count": 378,
+ "count": 379,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 182,
+  "Partial": 183,
   "Missing": 9,
   "Out of scope / parked": 47
  }

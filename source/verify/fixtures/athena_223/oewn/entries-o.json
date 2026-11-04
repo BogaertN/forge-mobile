@@ -1,0 +1,103 @@
+{
+"odorless": {
+"a": {
+"pronunciation": [
+{
+"value": "əʊdələs"
+}
+],
+"sense": [
+{
+"antonym": [
+"odorous%3:00:00::"
+],
+"id": "odorless%3:00:00::",
+"synset": "01061474-a"
+}
+]
+}
+},
+"only": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈəʊn.li",
+"variety": "GB"
+},
+{
+"value": "ˈoʊn.li",
+"variety": "US"
+}
+],
+"sense": [
+{
+"adjposition": "a",
+"id": "only%5:00:00:single:05",
+"synset": "02222405-s"
+},
+{
+"id": "only%5:00:00:exclusive:00",
+"synset": "01868647-s"
+}
+]
+},
+"r": {
+"pronunciation": [
+{
+"value": "ˈəʊn.li",
+"variety": "GB"
+},
+{
+"value": "ˈoʊn.li",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "only%4:02:02::",
+"synset": "00005103-r"
+},
+{
+"id": "only%4:02:01::",
+"synset": "00009062-r"
+},
+{
+"id": "only%4:02:00::",
+"synset": "00011221-r"
+},
+{
+"id": "only%4:02:04::",
+"synset": "00011376-r"
+},
+{
+"id": "only%4:02:06::",
+"synset": "00028715-r"
+},
+{
+"id": "only%4:02:05::",
+"synset": "00011473-r"
+}
+]
+}
+},
+"oxygen": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈɒksɪdʒən"
+}
+],
+"sense": [
+{
+"derivation": [
+"oxygenate%2:30:00::",
+"oxygenize%2:30:01::",
+"oxygenize%2:30:00::"
+],
+"id": "oxygen%1:27:00::",
+"synset": "14672278-n"
+}
+]
+}
+}
+}

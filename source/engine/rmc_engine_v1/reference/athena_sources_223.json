@@ -1,0 +1,173 @@
+{
+  "schema": "FORGE-ATHENA-SOURCES/v1",
+  "build": "4.9.223",
+  "rule": "One fetcher per Tier-A publisher. Each picks the defining sentence first (relation_echo.define_rank); a gloss or a structured record is rendered deterministically as 'Label is definition.' with the verbatim text kept. A source is used only when its flag is on. 4.9.223: two independent publishers must agree on the same MEANING (the subject's sense) and a compatible category (WordNet synonyms and hypernyms), or on the same canonical value and unit; GeoNames is shown but never counted. This release writes nothing (dry-run only).",
+  "sources": [
+    {
+      "id": "nasa_science",
+      "publisher": "NASA",
+      "host": "science.nasa.gov",
+      "kind": "prose",
+      "license": "public-domain",
+      "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "enabled": true,
+      "note": "facts pages; the first sentence that defines the subject is kept"
+    },
+    {
+      "id": "nasa_nssdc",
+      "publisher": "NASA",
+      "host": "nssdc.gsfc.nasa.gov",
+      "kind": "structured",
+      "license": "public-domain",
+      "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "enabled": true,
+      "note": "planetary fact sheets: numbers only, so it answers 'what is the mass of X', never 'what is X'"
+    },
+    {
+      "id": "nasa_spaceplace",
+      "publisher": "NASA",
+      "host": "spaceplace.nasa.gov",
+      "kind": "prose",
+      "license": "public-domain",
+      "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "enabled": true,
+      "note": "same publisher as science.nasa.gov: never a second independent source for it"
+    },
+    {
+      "id": "nlm_mesh",
+      "publisher": "NLM",
+      "host": "id.nlm.nih.gov",
+      "kind": "gloss",
+      "license": "public-domain",
+      "license_url": "https://www.nlm.nih.gov/databases/download/terms_and_conditions_mesh.html",
+      "enabled": true,
+      "note": "scope note of the preferred concept only; an entry term from a narrower concept is not the same meaning"
+    },
+    {
+      "id": "cia_factbook",
+      "publisher": "CIA",
+      "host": "cia.gov",
+      "kind": "structured",
+      "license": "public-domain",
+      "license_url": "https://www.cia.gov/the-world-factbook/about/copyright-and-contributors/",
+      "enabled": true,
+      "status": "FROZEN",
+      "note": "The CIA ended The World Factbook on 2026-02-04. 4.9.223 (Nic, pt138u) reads the last edition before the shutdown: the factbook/factbook.json public-domain mirror (CC0) pinned at commit 783ed27 ('auto-update week 4', 2026-01-22, the last data commit before 2026-02-04). The document URL is the original cia.gov page; the mirror file is kept as archived_from. Capital only.",
+      "mirror": "https://github.com/factbook/factbook.json",
+      "mirror_commit": "783ed27f7a1116663c10e7b39d162d0c4500505d",
+      "mirror_license": "CC0 1.0",
+      "as_of": "2026-01-22"
+    },
+    {
+      "id": "worldbank",
+      "publisher": "World Bank",
+      "host": "api.worldbank.org",
+      "kind": "structured",
+      "license": "CC BY 4.0",
+      "license_url": "https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets",
+      "enabled": true,
+      "note": "country API: capital city"
+    },
+    {
+      "id": "geonames",
+      "publisher": "GeoNames",
+      "host": "download.geonames.org",
+      "kind": "structured",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "enabled": true,
+      "note": "countryInfo.txt dump (no account): capital; 4.9.223 (Nic, pt138u): tier 2, shown but never counted as one of the two agreeing publishers",
+      "agreement_counts": false
+    },
+    {
+      "id": "nist_codata",
+      "publisher": "NIST",
+      "host": "physics.nist.gov",
+      "kind": "structured",
+      "license": "public-domain",
+      "license_url": "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications",
+      "enabled": true,
+      "note": "CODATA 2022 complete listing (allascii.txt)"
+    },
+    {
+      "id": "bipm_si",
+      "publisher": "BIPM",
+      "host": "www.bipm.org",
+      "kind": "prose",
+      "license": "CC BY 4.0",
+      "license_url": "https://www.bipm.org/en/publications/si-brochure",
+      "enabled": true,
+      "note": "the seven SI base-unit definition pages (SI Brochure text, CC BY 4.0)"
+    },
+    {
+      "id": "bipm_constants",
+      "publisher": "BIPM",
+      "host": "www.bipm.org",
+      "kind": "structured",
+      "license": "CC BY 4.0",
+      "license_url": "https://www.bipm.org/en/publications/si-brochure",
+      "enabled": true,
+      "note": "4.9.223: the seven SI defining constants table (exact values); same publisher as the base-unit pages, independent of NIST CODATA"
+    },
+    {
+      "id": "pubchem",
+      "publisher": "NLM",
+      "host": "pubchem.ncbi.nlm.nih.gov",
+      "kind": "structured",
+      "license": "public-domain",
+      "license_url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+      "enabled": true,
+      "note": "periodic table for elements; compound descriptions (PUG-View 'Record Description') only from public-domain origins (LiverTox, HSDB) and, from 4.9.223 (Nic, pt138u), the NCI Thesaurus (NCIt), which is CC BY 4.0 and carries its own attribution on the document. Same publisher group as MeSH (NIH): never a second independent source for it."
+    },
+    {
+      "id": "chebi",
+      "publisher": "EMBL-EBI",
+      "host": "www.ebi.ac.uk",
+      "kind": "gloss",
+      "license": "CC BY 4.0",
+      "license_url": "https://www.ebi.ac.uk/chebi/aboutChebiForward.do",
+      "enabled": true,
+      "note": "ChEBI definition through the EBI Ontology Lookup Service (exact label)"
+    },
+    {
+      "id": "iupac_goldbook",
+      "publisher": "IUPAC",
+      "host": "goldbook.iupac.org",
+      "kind": "gloss",
+      "license": "CC BY-SA 4.0 (per term)",
+      "license_url": "https://goldbook.iupac.org/",
+      "enabled": false,
+      "status": "BLOCKED",
+      "note": "goldbook.iupac.org answers 403 (Cloudflare challenge) to a scripted fetch, page and /json alike. Disabled. Share-alike rows also need Nic's decision (D7) before any could be stored."
+    },
+    {
+      "id": "oewn",
+      "publisher": "Open English WordNet",
+      "host": "en-word.net",
+      "kind": "gloss",
+      "license": "CC BY 4.0",
+      "license_url": "https://github.com/globalwordnet/english-wordnet/blob/main/LICENSE.md",
+      "enabled": true,
+      "note": "gloss of the subject's meaning: the pinned sense, else the only noun meaning of the asked phrase (longest multiword lemma first); two or more meanings and no pin -> ask"
+    },
+    {
+      "id": "wikidata",
+      "publisher": "Wikidata",
+      "host": "www.wikidata.org",
+      "kind": "crosscheck",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "enabled": true,
+      "role": "crosscheck",
+      "note": "link and cross-check only: QID and description; never a source document, never counted as a publisher"
+    }
+  ],
+  "attribution": {
+    "nci_thesaurus": "Definition from the NCI Thesaurus (NCIt), National Cancer Institute, CC BY 4.0, via PubChem.",
+    "oewn": "Open English WordNet 2025, CC BY 4.0.",
+    "bipm": "BIPM, The International System of Units (SI Brochure), CC BY 4.0.",
+    "chebi": "ChEBI, EMBL-EBI, CC BY 4.0.",
+    "worldbank": "World Bank, CC BY 4.0.",
+    "geonames": "GeoNames, CC BY 4.0."
+  }
+}

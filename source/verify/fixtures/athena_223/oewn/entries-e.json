@@ -1,0 +1,171 @@
+{
+"Earth": {
+"n": {
+"pronunciation": [
+{
+"value": "ɜːθ",
+"variety": "GB"
+},
+{
+"value": "ɝθ",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"earthling%1:18:00::"
+],
+"id": "earth%1:17:00::",
+"synset": "09293800-n"
+},
+{
+"derivation": [
+"earthly%3:00:00::"
+],
+"id": "earth%1:15:00::",
+"synset": "08579604-n"
+}
+]
+}
+},
+"earth": {
+"n": {
+"pronunciation": [
+{
+"value": "ɜːθ",
+"variety": "GB"
+},
+{
+"value": "ɝθ",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"earthling%1:18:00::"
+],
+"id": "earth%1:17:02::",
+"synset": "09293800-n"
+},
+{
+"derivation": [
+"earthy%3:01:00::",
+"earth%2:35:00::",
+"earth%2:39:00::"
+],
+"id": "earth%1:27:00::",
+"synset": "14867162-n"
+},
+{
+"derivation": [
+"earth%2:35:00::"
+],
+"exemplifies": [
+"british_english%1:10:01::"
+],
+"id": "earth%1:17:01::",
+"synset": "09357302-n"
+},
+{
+"derivation": [
+"earthly%3:00:00::"
+],
+"id": "earth%1:15:01::",
+"synset": "08579604-n"
+},
+{
+"id": "earth%1:27:01::",
+"synset": "14868584-n"
+},
+{
+"id": "earth%1:09:00::",
+"synset": "05678816-n"
+},
+{
+"id": "earth%1:06:00::",
+"synset": "03467679-n"
+}
+]
+},
+"v": {
+"pronunciation": [
+{
+"value": "ɜːθ",
+"variety": "GB"
+},
+{
+"value": "ɝθ",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"earth%1:27:00::"
+],
+"id": "earth%2:39:00::",
+"subcat": [
+"vii"
+],
+"synset": "02151420-v"
+},
+{
+"derivation": [
+"earth%1:27:00::",
+"earth%1:17:01::",
+"earthing%1:04:00::"
+],
+"id": "earth%2:35:00::",
+"subcat": [
+"vtai"
+],
+"synset": "01295330-v"
+}
+]
+}
+},
+"element": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈɛlɪmənt"
+}
+],
+"sense": [
+{
+"id": "element%1:09:00::",
+"synset": "05877576-n"
+},
+{
+"derivation": [
+"elementary%5:00:00:basic:00"
+],
+"id": "element%1:06:00::",
+"synset": "03085025-n"
+},
+{
+"id": "element%1:27:00::",
+"synset": "14647071-n"
+},
+{
+"id": "element%1:15:00::",
+"synset": "08586108-n"
+},
+{
+"id": "element%1:27:01::",
+"synset": "14864925-n"
+},
+{
+"id": "element%1:26:00::",
+"synset": "13957498-n"
+},
+{
+"id": "element%1:25:00::",
+"synset": "13900047-n"
+}
+]
+}
+}
+}

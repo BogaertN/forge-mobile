@@ -1,0 +1,93 @@
+{
+"liquid": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈlɪkwɪd"
+}
+],
+"sense": [
+{
+"antonym": [
+"gaseous%3:00:00::",
+"solid%3:00:01::"
+],
+"derivation": [
+"liquidness%1:26:00::",
+"liquidity%1:26:00::",
+"liquidity%1:07:00::"
+],
+"id": "liquid%3:00:00::",
+"synset": "02269142-a"
+},
+{
+"derivation": [
+"liquidness%1:26:00::",
+"liquidity%1:26:00::"
+],
+"id": "liquid%5:00:00:tearful:00",
+"synset": "02482846-s"
+},
+{
+"id": "liquid%5:00:00:clear:02",
+"synset": "00434168-s"
+},
+{
+"derivation": [
+"liquidness%1:26:00::"
+],
+"id": "liquid%3:00:04::",
+"synset": "01509670-a"
+},
+{
+"id": "liquid%5:00:00:musical:01",
+"synset": "01508720-s"
+},
+{
+"id": "liquid%5:00:00:graceful:00",
+"synset": "01143332-s"
+},
+{
+"derivation": [
+"liquidity%1:07:01::"
+],
+"id": "liquid%5:00:00:disposable:02",
+"synset": "00781576-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈlɪkwɪd"
+}
+],
+"sense": [
+{
+"id": "liquid%1:27:04::",
+"synset": "14964524-n"
+},
+{
+"derivation": [
+"liquify%2:30:01::",
+"liquify%2:30:00::"
+],
+"id": "liquid%1:26:00::",
+"synset": "14504004-n"
+},
+{
+"derivation": [
+"liquify%2:30:01::",
+"liquify%2:30:00::"
+],
+"id": "liquid%1:27:00::",
+"synset": "14964238-n"
+},
+{
+"id": "liquid%1:10:00::",
+"synset": "07134351-n"
+}
+]
+}
+}
+}

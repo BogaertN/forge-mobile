@@ -1,0 +1,315 @@
+{
+"fluid": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈfluːɪd"
+}
+],
+"sense": [
+{
+"derivation": [
+"fluidness%1:07:01::"
+],
+"id": "fluid%5:00:00:changeable:00",
+"synset": "00346411-s"
+},
+{
+"derivation": [
+"fluid%1:27:02::",
+"fluid%1:27:00::",
+"fluidness%1:07:00::",
+"fluidity%1:07:00::"
+],
+"id": "fluid%5:00:00:liquid:00",
+"synset": "02269502-s"
+},
+{
+"id": "fluid%5:00:00:graceful:00",
+"synset": "01143332-s"
+},
+{
+"id": "fluid%5:00:00:disposable:02",
+"synset": "00781576-s"
+},
+{
+"id": "fluid%5:00:02:changeable:00",
+"synset": "00346611-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈfluːɪd"
+}
+],
+"sense": [
+{
+"derivation": [
+"fluid%5:00:00:liquid:00"
+],
+"id": "fluid%1:27:02::",
+"synset": "14964038-n"
+},
+{
+"derivation": [
+"fluid%5:00:00:liquid:00"
+],
+"id": "fluid%1:27:00::",
+"synset": "14963583-n"
+}
+]
+}
+},
+"force": {
+"n": {
+"sense": [
+{
+"derivation": [
+"force%2:35:05::",
+"force%2:32:00::",
+"force%2:36:00::",
+"force%2:41:00::"
+],
+"id": "force%1:07:01::",
+"synset": "05201846-n"
+},
+{
+"derivation": [
+"force%2:35:05::",
+"force%2:38:00::"
+],
+"id": "force%1:19:00::",
+"synset": "11479041-n"
+},
+{
+"id": "force%1:07:00::",
+"synset": "05042508-n"
+},
+{
+"id": "force%1:14:00::",
+"synset": "08224937-n"
+},
+{
+"id": "force%1:14:01::",
+"synset": "08215338-n"
+},
+{
+"derivation": [
+"force%2:35:03::"
+],
+"id": "force%1:04:01::",
+"synset": "00967515-n"
+},
+{
+"derivation": [
+"force%2:35:05::",
+"force%2:32:00::",
+"force%2:41:00::"
+],
+"id": "force%1:18:00::",
+"synset": "10480990-n"
+},
+{
+"id": "force%1:14:02::",
+"synset": "08224784-n"
+},
+{
+"id": "force%1:07:02::",
+"synset": "04816894-n"
+},
+{
+"id": "force%1:04:00::",
+"synset": "00130563-n"
+}
+]
+},
+"v": {
+"sense": [
+{
+"by_means_of": [
+"force%1:07:01::",
+"force%1:18:00::"
+],
+"derivation": [
+"force%1:07:01::",
+"force%1:18:00::"
+],
+"id": "force%2:41:00::",
+"sent": [
+"They force him to write the letter"
+],
+"subcat": [
+"vtaa-into-ger",
+"vtaa-to-inf"
+],
+"synset": "02510211-v"
+},
+{
+"by_means_of": [
+"force%1:07:01::"
+],
+"derivation": [
+"force%1:07:01::"
+],
+"id": "force%2:36:00::",
+"sent": [
+"They force him to write the letter"
+],
+"subcat": [
+"vtaa-to-inf"
+],
+"synset": "01653967-v"
+},
+{
+"also": [
+"force_out%2:38:00::",
+"force_out%2:38:01::"
+],
+"by_means_of": [
+"force%1:19:00::"
+],
+"derivation": [
+"forcible%5:00:00:forceful:00",
+"force%1:19:00::"
+],
+"id": "force%2:38:00::",
+"subcat": [
+"via",
+"via-pp",
+"vii",
+"vii-pp",
+"vtaa-pp",
+"vtai-pp"
+],
+"synset": "01875972-v"
+},
+{
+"by_means_of": [
+"force%1:07:01::",
+"force%1:18:00::"
+],
+"derivation": [
+"force%1:07:01::",
+"force%1:18:00::"
+],
+"id": "force%2:32:00::",
+"subcat": [
+"vtaa-into-ger",
+"vtaa-to-inf",
+"vtai-on"
+],
+"synset": "00749422-v"
+},
+{
+"id": "force%2:35:00::",
+"subcat": [
+"vtaa-pp",
+"vtai-pp"
+],
+"synset": "01530059-v"
+},
+{
+"id": "force%2:35:02::",
+"subcat": [
+"vtai-pp"
+],
+"synset": "01519166-v"
+},
+{
+"also": [
+"force_out%2:35:00::",
+"force_out%2:35:01::",
+"force_out%2:35:02::",
+"force_back%2:35:00::"
+],
+"by_means_of": [
+"force%1:07:01::",
+"force%1:19:00::",
+"force%1:18:00::"
+],
+"derivation": [
+"force%1:07:01::",
+"force%1:19:00::",
+"force%1:18:00::"
+],
+"id": "force%2:35:05::",
+"subcat": [
+"vtai"
+],
+"synset": "01353131-v"
+},
+{
+"derivation": [
+"force%1:04:01::"
+],
+"event": [
+"force%1:04:01::"
+],
+"id": "force%2:35:03::",
+"subcat": [
+"vtai"
+],
+"synset": "01589521-v"
+}
+]
+}
+},
+"functional": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈfʌŋk(t)ʃənəl"
+}
+],
+"sense": [
+{
+"antonym": [
+"nonfunctional%3:00:00::"
+],
+"derivation": [
+"functionality%1:07:00::"
+],
+"id": "functional%3:00:00::",
+"synset": "01094001-a"
+},
+{
+"antonym": [
+"organic%3:00:00::"
+],
+"id": "functional%3:00:02::",
+"synset": "01096682-a"
+},
+{
+"id": "functional%3:01:01::",
+"pertainym": [
+"function%1:07:00::"
+],
+"synset": "02987805-a"
+},
+{
+"derivation": [
+"functionality%1:07:00::"
+],
+"id": "functional%5:00:00:serviceable:00",
+"synset": "02131634-s"
+},
+{
+"derivation": [
+"functionality%1:07:00::"
+],
+"id": "functional%5:00:00:practical:00",
+"synset": "01840741-s"
+},
+{
+"derivation": [
+"functionality%1:07:00::"
+],
+"id": "functional%5:00:00:functioning:00",
+"synset": "01095421-s"
+}
+]
+}
+}
+}

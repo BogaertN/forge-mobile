@@ -1,0 +1,710 @@
+{
+"celestial body": {
+"n": {
+"sense": [
+{
+"id": "celestial_body%1:17:00::",
+"synset": "09262646-n"
+}
+]
+}
+},
+"chemical element": {
+"n": {
+"sense": [
+{
+"id": "chemical_element%1:27:00::",
+"synset": "14647071-n"
+}
+]
+}
+},
+"clear": {
+"a": {
+"pronunciation": [
+{
+"value": "klɪə(ɹ)",
+"variety": "GB"
+},
+{
+"value": "klɪɹ",
+"variety": "US"
+}
+],
+"sense": [
+{
+"antonym": [
+"unclear%3:00:00::"
+],
+"derivation": [
+"clarity%1:07:01::",
+"clearness%1:07:01::"
+],
+"id": "clear%3:00:00::",
+"synset": "00429900-a"
+},
+{
+"derivation": [
+"clearness%1:07:01::"
+],
+"id": "clear%5:00:00:clearheaded:00",
+"synset": "00436905-s"
+},
+{
+"derivation": [
+"clear%1:15:00::",
+"clarity%1:07:00::"
+],
+"id": "clear%5:00:00:unobstructed:00",
+"synset": "01626686-s"
+},
+{
+"antonym": [
+"opaque%3:00:00::"
+],
+"derivation": [
+"clarity%1:07:00::",
+"clearness%1:07:02::"
+],
+"id": "clear%3:00:02::",
+"synset": "00433163-a"
+},
+{
+"adjposition": "p",
+"id": "clear%5:00:02:free:00",
+"synset": "01066627-s"
+},
+{
+"id": "clear%5:00:00:untroubled:00",
+"synset": "02468895-s"
+},
+{
+"derivation": [
+"clarity%1:07:00::",
+"clearness%1:07:02::"
+],
+"id": "clear%5:00:01:pure:02",
+"synset": "01912661-s"
+},
+{
+"id": "clear%5:00:00:unencumbered:00",
+"synset": "00872561-s"
+},
+{
+"derivation": [
+"clearness%1:07:01::"
+],
+"id": "clear%5:00:00:distinct:00",
+"synset": "00783570-s"
+},
+{
+"derivation": [
+"clarity%1:07:01::",
+"clearness%1:07:01::"
+],
+"id": "clear%3:00:04::",
+"synset": "00701368-a"
+},
+{
+"antonym": [
+"cloudy%3:00:00::"
+],
+"derivation": [
+"clarity%1:07:00::",
+"clearness%1:07:02::"
+],
+"id": "clear%3:00:03::",
+"synset": "00462768-a"
+},
+{
+"id": "clear%5:00:00:unqualified:02",
+"synset": "01920489-s"
+},
+{
+"derivation": [
+"clearness%1:07:02::"
+],
+"id": "clear%5:00:00:perfect:00",
+"synset": "01754557-s"
+},
+{
+"id": "clear%5:00:00:net:00",
+"synset": "01587006-s"
+},
+{
+"derivation": [
+"clarity%1:07:01::",
+"clearness%1:07:01::"
+],
+"id": "clear%5:00:00:legible:00",
+"synset": "01408073-s"
+},
+{
+"derivation": [
+"clear%1:26:00::",
+"clearness%1:07:01::"
+],
+"id": "clear%5:00:00:innocent:00",
+"synset": "01323136-s"
+},
+{
+"derivation": [
+"clearness%1:07:01::"
+],
+"id": "clear%5:00:00:discerning:00",
+"synset": "00775175-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "klɪə(ɹ)",
+"variety": "GB"
+},
+{
+"value": "klɪɹ",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"clear%5:00:00:innocent:00",
+"clear%2:32:00::"
+],
+"id": "clear%1:26:00::",
+"synset": "14013987-n"
+},
+{
+"derivation": [
+"clear%5:00:00:unobstructed:00",
+"clear%2:30:09::",
+"clear%2:30:02::",
+"clear%2:30:01::"
+],
+"id": "clear%1:15:00::",
+"synset": "08649998-n"
+}
+]
+},
+"r": {
+"pronunciation": [
+{
+"value": "klɪə(ɹ)",
+"variety": "GB"
+},
+{
+"value": "klɪɹ",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "clear%4:02:03::",
+"synset": "00287169-r"
+},
+{
+"id": "clear%4:02:01::",
+"synset": "00287002-r"
+}
+]
+},
+"v": {
+"pronunciation": [
+{
+"value": "klɪə(ɹ)",
+"variety": "GB"
+},
+{
+"value": "klɪɹ",
+"variety": "US"
+}
+],
+"sense": [
+{
+"also": [
+"clear_off%2:30:00::",
+"clear_away%2:30:00::"
+],
+"derivation": [
+"clear%1:15:00::"
+],
+"id": "clear%2:30:02::",
+"location": [
+"clear%1:15:00::"
+],
+"sent": [
+"They clear the path of the snow"
+],
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "00181809-v"
+},
+{
+"derivation": [
+"clear%1:15:00::",
+"clearing%1:15:00::"
+],
+"id": "clear%2:30:09::",
+"location": [
+"clear%1:15:00::"
+],
+"subcat": [
+"vtai"
+],
+"synset": "00195961-v"
+},
+{
+"id": "clear%2:43:00::",
+"subcat": [
+"nonreferential",
+"vii"
+],
+"synset": "02777127-v"
+},
+{
+"derivation": [
+"clearance%1:04:00::"
+],
+"id": "clear%2:32:01::",
+"subcat": [
+"vtaa-to-inf",
+"vtai"
+],
+"synset": "00804987-v",
+"uses": [
+"clearance%1:04:00::"
+]
+},
+{
+"derivation": [
+"clear%1:15:00::",
+"clearing%1:15:00::"
+],
+"id": "clear%2:30:01::",
+"location": [
+"clear%1:15:00::"
+],
+"sent": [
+"They clear the snow from the path"
+],
+"subcat": [
+"vtai"
+],
+"synset": "00195686-v"
+},
+{
+"id": "clear%2:41:01::",
+"subcat": [
+"via",
+"vii",
+"vtia",
+"vtii"
+],
+"synset": "02529017-v"
+},
+{
+"antonym": [
+"bounce%2:40:00::"
+],
+"id": "clear%2:40:07::",
+"subcat": [
+"vii"
+],
+"synset": "02294039-v"
+},
+{
+"id": "clear%2:39:05::",
+"subcat": [
+"vii"
+],
+"synset": "02161274-v"
+},
+{
+"derivation": [
+"clearance%1:07:00::"
+],
+"event": [
+"clearance%1:07:00::"
+],
+"id": "clear%2:38:00::",
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "02085425-v"
+},
+{
+"id": "clear%2:31:00::",
+"subcat": [
+"vtai"
+],
+"synset": "00622730-v"
+},
+{
+"id": "clear%2:41:00::",
+"subcat": [
+"vtai"
+],
+"synset": "02427509-v"
+},
+{
+"derivation": [
+"clearing%1:04:01::"
+],
+"id": "clear%2:40:12::",
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "02355436-v"
+},
+{
+"id": "clear%2:40:03::",
+"subcat": [
+"vtii"
+],
+"synset": "02296509-v"
+},
+{
+"id": "clear%2:40:04::",
+"subcat": [
+"vtai"
+],
+"synset": "02296219-v"
+},
+{
+"id": "clear%2:40:00::",
+"sent": [
+"They clear the money"
+],
+"subcat": [
+"vtai"
+],
+"synset": "02294200-v"
+},
+{
+"id": "clear%2:40:09::",
+"subcat": [
+"vtai"
+],
+"synset": "02213191-v"
+},
+{
+"id": "clear%2:38:01::",
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "02057414-v"
+},
+{
+"derivation": [
+"clear%1:26:00::",
+"clearing%1:04:00::"
+],
+"id": "clear%2:32:00::",
+"sent": [
+"They want to clear the prisoners"
+],
+"state": [
+"clear%1:26:00::"
+],
+"subcat": [
+"vtaa",
+"vtaa-of"
+],
+"synset": "00905999-v"
+},
+{
+"id": "clear%2:32:09::",
+"subcat": [
+"vtai"
+],
+"synset": "00763499-v"
+},
+{
+"derivation": [
+"clearing%1:04:01::"
+],
+"id": "clear%2:30:03::",
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "00550297-v"
+},
+{
+"id": "clear%2:30:12::",
+"subcat": [
+"vtai"
+],
+"synset": "00451818-v"
+},
+{
+"id": "clear%2:30:11::",
+"subcat": [
+"vtaa"
+],
+"synset": "00451646-v"
+},
+{
+"id": "clear%2:30:10::",
+"subcat": [
+"vtai"
+],
+"synset": "00451520-v"
+},
+{
+"id": "clear%2:30:08::",
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "00178349-v"
+}
+]
+}
+},
+"colorless": {
+"a": {
+"sense": [
+{
+"antonym": [
+"colorful%3:00:03::"
+],
+"id": "colorless%3:00:03::",
+"synset": "00409108-a"
+},
+{
+"antonym": [
+"colorful%3:00:00::"
+],
+"derivation": [
+"colorlessness%1:07:00::"
+],
+"id": "colorless%3:00:02::",
+"synset": "00405279-a"
+}
+]
+}
+},
+"compound": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈkɒmpaʊnd",
+"variety": "GB"
+},
+{
+"value": "ˈkɑmpaʊnd",
+"variety": "US"
+},
+{
+"value": "kəmˈpaʊnd"
+}
+],
+"sense": [
+{
+"antonym": [
+"simple%3:00:01::"
+],
+"id": "compound%3:00:00::",
+"synset": "02178581-a"
+},
+{
+"derivation": [
+"compound%1:09:00::"
+],
+"id": "compound%5:00:00:complex:00",
+"synset": "02185492-s"
+},
+{
+"id": "compound%5:00:02:complex:00",
+"synset": "02184957-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈkɒmpaʊnd",
+"variety": "GB"
+},
+{
+"value": "ˈkɑmpaʊnd",
+"variety": "US"
+},
+{
+"value": "kəmˈpaʊnd"
+}
+],
+"sense": [
+{
+"derivation": [
+"compound%5:00:00:complex:00",
+"compound%2:36:00::",
+"compound%2:35:00::",
+"compound%2:30:00::"
+],
+"id": "compound%1:09:00::",
+"synset": "05878802-n"
+},
+{
+"derivation": [
+"compound%2:36:00::"
+],
+"id": "compound%1:27:00::",
+"synset": "14842408-n"
+},
+{
+"id": "compound%1:06:00::",
+"synset": "03085863-n"
+},
+{
+"id": "compound%1:10:01::",
+"synset": "92460746-n"
+}
+]
+},
+"v": {
+"pronunciation": [
+{
+"value": "ˈkɒmpaʊnd",
+"variety": "GB"
+},
+{
+"value": "ˈkɑmpaʊnd",
+"variety": "US"
+},
+{
+"value": "kəmˈpaʊnd"
+}
+],
+"sense": [
+{
+"id": "compound%2:30:01::",
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "00227591-v"
+},
+{
+"derivation": [
+"compound%1:09:00::",
+"compounding%1:04:00::"
+],
+"id": "compound%2:30:00::",
+"result": [
+"compound%1:09:00::"
+],
+"subcat": [
+"vtai",
+"vtii"
+],
+"synset": "00193830-v"
+},
+{
+"id": "compound%2:40:00::",
+"subcat": [
+"vtai"
+],
+"synset": "02270726-v"
+},
+{
+"derivation": [
+"compound%1:27:00::",
+"compound%1:09:00::",
+"compounding%1:04:00::"
+],
+"id": "compound%2:36:00::",
+"result": [
+"compound%1:27:00::",
+"compound%1:09:00::"
+],
+"subcat": [
+"vtai"
+],
+"synset": "01661511-v"
+},
+{
+"derivation": [
+"compound%1:09:00::",
+"compounding%1:04:00::"
+],
+"id": "compound%2:35:00::",
+"result": [
+"compound%1:09:00::"
+],
+"subcat": [
+"vtai"
+],
+"synset": "01463957-v"
+}
+]
+}
+},
+"constant": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈkɒnstənt",
+"variety": "GB"
+},
+{
+"value": "ˈkɑnstənt",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"constancy%1:07:00::"
+],
+"id": "constant%5:00:00:invariable:00",
+"synset": "02516074-s"
+},
+{
+"antonym": [
+"inconstant%3:00:00::"
+],
+"derivation": [
+"constancy%1:07:02::"
+],
+"id": "constant%3:00:00::",
+"synset": "00585590-a"
+},
+{
+"id": "constant%5:00:00:continuous:01",
+"synset": "00597981-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈkɒnstənt",
+"variety": "GB"
+},
+{
+"value": "ˈkɑnstənt",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "constant%1:09:00::",
+"synset": "05867520-n"
+},
+{
+"id": "constant%1:23:00::",
+"synset": "13606632-n"
+}
+]
+}
+}
+}

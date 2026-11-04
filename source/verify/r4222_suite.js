@@ -95,7 +95,8 @@ T('self-seed decision on fetched documents: JS equals Python; two publishers cor
   const js = payloads.map(p => S.evaluate(p)), py = pyEval(payloads);
   const key = r => JSON.stringify([r.rule, r.hosts || null, r.claim || null, r.anchor ? r.anchor.text : null, (r.trace || {}).kept, (r.trace || {}).echo_pass]);
   js.forEach((r, i) => expect(key(r) === key(py[i]), i + ' ' + key(r) + ' vs ' + key(py[i])));
-  expect(js[0].rule === 'SEED-CANDIDATE' && JSON.stringify(js[0].hosts) === '["geonames.org","worldbank.org"]', key(js[0]));
+  /* 4.9.223 (Nic, pt138u): GeoNames is tier 2 and never one of the two agreeing publishers, so World Bank + GeoNames alone is one publisher */
+  expect(js[0].rule === 'SEED-CORROBORATION' && JSON.stringify(js[0].hosts) === '["worldbank.org"]', key(js[0]));
   expect(js[1].rule === 'SEED-PHASE', 'at the question loop the phase gate still refuses: ' + js[1].rule);
   expect(js[2].rule === 'SEED-CORROBORATION', 'one publisher: ' + js[2].rule);
 });
@@ -137,9 +138,9 @@ T('the cold 60 for 4.9.222 is recorded (not tuned) and identical to 4.9.221', ()
   expect(JSON.stringify(c.rows) === JSON.stringify(p.rows), 'every row identical to 4.9.221');
 });
 T('version registry names 4.9.222', () => {
-  expect(read('VERSION').trim() === '4.9.222', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.223', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.222' && reg.features.some(f => f.id === 'R4222-ATHENA-TIER-A') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.223' && reg.features.some(f => f.id === 'R4222-ATHENA-TIER-A') && reg.count === reg.features.length, 'registry');
 });
 (async () => {
   const rows = []; let failed = 0;

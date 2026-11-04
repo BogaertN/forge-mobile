@@ -1,0 +1,90 @@
+{
+"Planck's constant": {
+"n": {
+"sense": [
+{
+"id": "planck's_constant%1:23:00::",
+"synset": "13612326-n"
+}
+]
+}
+},
+"photosynthesis": {
+"n": {
+"pronunciation": [
+{
+"value": "ˌfəʊ.təʊ.ˈsɪn.θə.sɪs",
+"variety": "GB"
+},
+{
+"value": "ˌfoʊ.toʊ.ˈsɪn.θə.sɪs",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"photosynthetic%3:01:00::"
+],
+"id": "photosynthesis%1:22:00::",
+"synset": "13558632-n"
+}
+]
+}
+},
+"planet": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈplænɪt"
+}
+],
+"sense": [
+{
+"derivation": [
+"planetary%3:01:00::",
+"planetal%3:01:00::"
+],
+"id": "planet%1:17:00::",
+"synset": "09416900-n"
+},
+{
+"id": "planet%1:18:00::",
+"synset": "10572067-n"
+},
+{
+"derivation": [
+"planetal%3:01:00::"
+],
+"id": "planet%1:17:01::",
+"synset": "09417539-n"
+}
+]
+}
+},
+"pungent": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈpʌndʒənt"
+}
+],
+"sense": [
+{
+"derivation": [
+"pungency%1:07:00::"
+],
+"id": "pungent%5:00:00:tasty:00",
+"synset": "02407331-s"
+},
+{
+"derivation": [
+"pungency%1:10:00::"
+],
+"id": "pungent%5:00:00:sarcastic:00",
+"synset": "02086443-s"
+}
+]
+}
+}
+}

@@ -205,8 +205,12 @@ def two_independent_publishers_corroborate_one_does_not():
     wb = one("worldbank", "What is the capital of Burkina Faso?")[1]
     gn = one("geonames", "What is the capital of Burkina Faso?")[1]
     res = ss.evaluate({"question": "What is the capital of Burkina Faso?", "documents": [wb, gn], "gap": True, "reset": True, "loop_phi": 6})
-    expect(res["rule"] == "SEED-CANDIDATE" and res["hosts"] == ["geonames.org", "worldbank.org"], json.dumps({k: res.get(k) for k in ("rule", "hosts", "claim")}))
-    expect(res["anchor"]["provenance"]["independent_hosts"] == ["geonames.org", "worldbank.org"], "provenance hosts")
+    # 4.9.223 (Nic, pt138u): GeoNames is tier 2 and never one of the two agreeing publishers
+    expect(res["rule"] == "SEED-CORROBORATION" and res["hosts"] == ["worldbank.org"], json.dumps({k: res.get(k) for k in ("rule", "hosts", "claim")}))
+    cia = dict(wb, url="https://www.cia.gov/the-world-factbook/countries/burkina-faso/")
+    res = ss.evaluate({"question": "What is the capital of Burkina Faso?", "documents": [wb, gn, cia], "gap": True, "reset": True, "loop_phi": 6})
+    expect(res["rule"] == "SEED-CANDIDATE" and res["hosts"] == ["cia.gov", "worldbank.org"], json.dumps({k: res.get(k) for k in ("rule", "hosts", "claim")}))
+    expect(res["anchor"]["provenance"]["independent_hosts"] == ["cia.gov", "worldbank.org"], "provenance hosts")
     ns = one("nasa_science", "What is the Moon?")[1]
     sp = dict(ns, url="https://spaceplace.nasa.gov/all-about-the-moon/en/")
     res2 = ss.evaluate({"question": "What is the Moon?", "documents": [ns, sp], "gap": True, "reset": True, "loop_phi": 9})

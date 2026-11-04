@@ -1,0 +1,95 @@
+{
+"heavenly": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈhɛvənli"
+}
+],
+"sense": [
+{
+"derivation": [
+"heaven%1:09:00::"
+],
+"id": "heavenly%3:01:00::",
+"pertainym": [
+"heaven%1:09:00::"
+],
+"synset": "02695708-a"
+},
+{
+"id": "heavenly%3:01:01::",
+"pertainym": [
+"sky%1:17:00::"
+],
+"synset": "02695890-a"
+},
+{
+"antonym": [
+"earthly%3:00:00::"
+],
+"id": "heavenly%3:00:00::",
+"synset": "01182518-a"
+}
+]
+}
+},
+"heavenly body": {
+"n": {
+"sense": [
+{
+"id": "heavenly_body%1:17:00::",
+"synset": "09262646-n"
+}
+]
+}
+},
+"helium": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈhiːli.əm"
+}
+],
+"sense": [
+{
+"id": "helium%1:27:00::",
+"synset": "14664099-n"
+}
+]
+}
+},
+"hormone": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈhɔːməʊn",
+"variety": "GB"
+},
+{
+"value": "ˈhɔːɹmoʊn",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"hormonal%3:01:00::"
+],
+"id": "hormone%1:08:00::",
+"synset": "05414462-n"
+}
+]
+}
+},
+"hydride": {
+"n": {
+"sense": [
+{
+"id": "hydride%1:27:00::",
+"synset": "14934899-n"
+}
+]
+}
+}
+}
