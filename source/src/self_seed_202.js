@@ -264,15 +264,19 @@
     if (head === 'what' || head === 'which') return 'identity';
     return 'stated';
   }
-  function entityTokens(question, slot) {
-    const roles = ((config() || {}).time_roles) || [];
+  function contentWords(text) {
     const out = [];
-    words(question).forEach(word => {
+    words(text).forEach(word => {
       const keepShort = !!ROMAN[word] || !!WORD_ORD[word] || /^\d{1,2}$/.test(word);
       if (WH_WORDS[word] || ENTITY_STOP[word]) return;
       if (word.length <= 2 && !keepShort) return;
       out.push(word);
     });
+    return out;
+  }
+  function entityTokens(question, slot) {
+    const roles = ((config() || {}).time_roles) || [];
+    const out = contentWords(question);
     if (slot === 'time' && out.length && roles.indexOf(out[out.length - 1]) >= 0) out.pop();
     return out;
   }
@@ -305,7 +309,10 @@
     const low = String(subject || '').toLowerCase();
     if (low.indexOf("'s") >= 0 || low.indexOf('’s') >= 0) return false;
     ['the ', 'a ', 'an '].forEach(art => { if (sub.indexOf(art) === 0) sub = sub.slice(art.length); });
-    return sub === ent || sub.indexOf(ent + ' ') === 0;
+    if (sub === ent || sub.indexOf(ent + ' ') === 0) return true;
+    /* 4.9.222: compared on the same content words as the question entity (Python subject_binds) */
+    const cw = contentWords(subject).join(' ');
+    return !!cw && (cw === ent || cw.indexOf(ent + ' ') === 0);
   }
   function yearsOf(sentence) {
     return String(sentence || '').match(/\b(?:1[5-9]\d{2}|20\d{2})\b/g) || [];

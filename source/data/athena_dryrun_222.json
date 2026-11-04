@@ -1,0 +1,2392 @@
+{
+ "schema": "FORGE-ATHENA-DRYRUN/222",
+ "anchors_rows": 3101,
+ "anchors_source": "/workspace/kb_anchors_222.json",
+ "writes": false,
+ "results": [
+  {
+   "question": "What is the Moon?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-CORROBORATION",
+   "hosts": [
+    "nasa.gov"
+   ],
+   "verdict": "REFUSE SEED-CORROBORATION",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "FETCHED",
+     "url": "https://science.nasa.gov/moon/facts/",
+     "sentence": "The Moon is Earth's only natural satellite.",
+     "verbatim": null,
+     "how": {
+      "define_rank": 2,
+      "index": 2
+     },
+     "phase_int": 9,
+     "concept": "A.MOON",
+     "loop_phi": 1,
+     "Phi": 9.4734,
+     "band": "144 Hz carrier",
+     "hz": 146.2733,
+     "echo": 1.0,
+     "claim": "identity|moon|earth s only natural satellite",
+     "host": "nasa.gov",
+     "row_rule": "KEPT",
+     "genus_advisory": "satellite"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "FETCHED",
+     "url": "https://spaceplace.nasa.gov/all-about-the-moon/en/",
+     "sentence": "The Moon is Earth’s only natural satellite and one that we can easily see most nights.",
+     "verbatim": null,
+     "how": {
+      "define_rank": 2,
+      "index": 10
+     },
+     "phase_int": 3,
+     "concept": "A.EARTH",
+     "loop_phi": 1,
+     "Phi": 3.5233,
+     "band": "Alpha-beta",
+     "hz": 12.0933,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "satellite"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D016081.html",
+     "sentence": "Moon is the natural satellite of the planet Earth.",
+     "verbatim": "The natural satellite of the planet Earth. It includes the lunar cycles or phases, the lunar month, lunar landscapes, geography, and soil.",
+     "how": {
+      "descriptor": "D016081",
+      "descriptor_label": "Moon",
+      "term": "T047757",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 3,
+     "concept": "A.EARTH",
+     "loop_phi": 1,
+     "Phi": 3.4167,
+     "band": "Alpha-beta",
+     "hz": 11.6667,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "satellite"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-09381255-n",
+     "sentence": "Moon is the natural satellite of the Earth.",
+     "verbatim": "the natural satellite of the Earth",
+     "how": {
+      "sense": "pinned",
+      "synset": "09381255-n",
+      "ili": "i85806",
+      "qid": "Q405",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 3,
+     "concept": "A.EARTH",
+     "loop_phi": 1,
+     "Phi": 3.4167,
+     "band": "Alpha-beta",
+     "hz": 11.6667,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "satellite"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": "Q405",
+      "label": "Moon",
+      "description": "Earth's only natural satellite",
+      "via": "OEWN sense link",
+      "label_matches": true,
+      "url": "https://www.wikidata.org/wiki/Q405",
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {
+    "satellite": [
+     "nasa.gov"
+    ]
+   },
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "satellite": [
+     "NASA",
+     "NLM",
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is gravity?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-DISAGREEMENT",
+   "hosts": null,
+   "verdict": "REFUSE SEED-DISAGREEMENT",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "FETCHED",
+     "url": "https://spaceplace.nasa.gov/what-is-gravity/en/",
+     "sentence": "Gravity is the force by which a planet or other body draws objects toward its center.",
+     "verbatim": null,
+     "how": {
+      "define_rank": 2,
+      "index": 2
+     },
+     "phase_int": 1,
+     "concept": "A.GRAVITY",
+     "loop_phi": 1,
+     "Phi": 1.572,
+     "band": "Theta",
+     "hz": 6.288,
+     "echo": 1.0,
+     "claim": "identity|gravity|the force by which a planet or other body draws objects toward its center",
+     "host": "nasa.gov",
+     "row_rule": "KEPT",
+     "genus_advisory": "force"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-11484542-n",
+     "sentence": "Gravity is the force of attraction between all masses in the universe.",
+     "verbatim": "(physics) the force of attraction between all masses in the universe; especially the attraction of the earth's mass for bodies near its surface",
+     "how": {
+      "sense": "pinned",
+      "synset": "11484542-n",
+      "ili": "i97834",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 1,
+     "concept": "A.GRAVITY",
+     "loop_phi": 1,
+     "Phi": 1.5413,
+     "band": "Theta",
+     "hz": 6.165,
+     "echo": 1.0,
+     "claim": "identity|gravity|the force of attraction between all masses in the universe",
+     "host": "en-word.net",
+     "row_rule": "KEPT",
+     "genus_advisory": "force"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 6,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {
+    "force": [
+     "en-word.net",
+     "nasa.gov"
+    ]
+   },
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "force": [
+     "NASA",
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is Mercury?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 0,
+    "would_ask": 1,
+    "plain": 0
+   },
+   "would_ask": [
+    "mercury"
+   ],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "ASK (more than one meaning: mercury, oewn)",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "FETCHED",
+     "url": "https://science.nasa.gov/mercury/facts/",
+     "sentence": "Mercury is the smallest planet in our solar system and nearest to the Sun.",
+     "verbatim": null,
+     "how": {
+      "define_rank": 2,
+      "index": 0
+     },
+     "phase_int": 7,
+     "concept": "N.WEATHER",
+     "loop_phi": 1,
+     "Phi": 7.4911,
+     "band": "Low gamma",
+     "hz": 34.911,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "planet"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "FETCHED",
+     "url": "https://spaceplace.nasa.gov/all-about-mercury/en/",
+     "sentence": "Mercury is the smallest planet in our solar system.",
+     "verbatim": null,
+     "how": {
+      "define_rank": 2,
+      "index": 7
+     },
+     "phase_int": 5,
+     "concept": null,
+     "loop_phi": 1,
+     "Phi": 5.3766,
+     "band": "High beta",
+     "hz": 23.7663,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "planet"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D008628.html",
+     "sentence": "Mercury is a silver metallic element that exists as a liquid at room temperature.",
+     "verbatim": "A silver metallic element that exists as a liquid at room temperature. It has the atomic symbol Hg (from hydrargyrum, liquid silver), atomic number 80, and atomic weight 200.59. Mercury is used in many industrial applications and its salts have been employed therapeutically as purgatives, antisyphilitics, disinfectants, and astringents. It can be absorbed through the skin and mucous membranes which leads to MERCURY POISONING. Because of its toxicity, the clinical use of mercury and mercurials is diminishing.",
+     "how": {
+      "descriptor": "D008628",
+      "descriptor_label": "Mercury",
+      "term": "T025687",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.TEMPERATURE",
+     "loop_phi": 1,
+     "Phi": 5.3606,
+     "band": "High beta",
+     "hz": 23.6057,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "element"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "FETCHED",
+     "url": "https://pubchem.ncbi.nlm.nih.gov/element/80",
+     "sentence": "Mercury is a chemical element with symbol Hg and atomic number 80.",
+     "verbatim": "{\"AtomicNumber\": \"80\", \"Symbol\": \"Hg\", \"Name\": \"Mercury\", \"GroupBlock\": \"Transition metal\", \"StandardState\": \"Liquid\"}",
+     "how": {
+      "record": "periodic table"
+     },
+     "phase_int": 4,
+     "concept": "N.NUMBERW",
+     "loop_phi": 1,
+     "Phi": 4.6213,
+     "band": "Mid beta",
+     "hz": 17.728,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "element"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "AMBIGUOUS",
+     "senses": [
+      "09585833-n",
+      "09374305-n"
+     ]
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 6,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "planet": [
+     "NASA"
+    ],
+    "element": [
+     "NLM"
+    ]
+   }
+  },
+  {
+   "question": "What is Saturn?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 0,
+    "would_ask": 1,
+    "plain": 0
+   },
+   "would_ask": [
+    "saturn"
+   ],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "ASK (more than one meaning: saturn, oewn)",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "FETCHED",
+     "url": "https://science.nasa.gov/saturn/facts/",
+     "sentence": "Saturn is the sixth planet from the Sun, and the second-largest planet in our solar system.",
+     "verbatim": null,
+     "how": {
+      "define_rank": 2,
+      "index": 0
+     },
+     "phase_int": 7,
+     "concept": "N.WEATHER",
+     "loop_phi": 1,
+     "Phi": 7.5426,
+     "band": "Low gamma",
+     "hz": 35.4262,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "planet"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D018539.html",
+     "sentence": "Saturn is the sixth planet in order from the sun.",
+     "verbatim": "The sixth planet in order from the sun. It is one of the five outer planets of the solar system. Its twelve natural satellites include Phoebe and Titan.",
+     "how": {
+      "descriptor": "D018539",
+      "descriptor_label": "Saturn",
+      "term": "T055190",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 7,
+     "concept": "N.WEATHER",
+     "loop_phi": 1,
+     "Phi": 7.6182,
+     "band": "Low gamma",
+     "hz": 36.1822,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "planet"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "AMBIGUOUS",
+     "senses": [
+      "09447520-n",
+      "09581517-n"
+     ]
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 3,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "planet": [
+     "NASA",
+     "NLM"
+    ]
+   }
+  },
+  {
+   "question": "What is the mass of the Moon?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 1,
+    "plain": 0
+   },
+   "would_ask": [
+    "mass"
+   ],
+   "evaluate_rule": "SEED-CORROBORATION",
+   "hosts": [
+    "nasa.gov"
+   ],
+   "verdict": "ASK (more than one meaning: mass)",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "FETCHED",
+     "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+     "sentence": "The mass of the Moon is 0.07346 × 10^24 kg.",
+     "verbatim": "Mass (kg): 0.07346",
+     "how": {
+      "record": "Mass"
+     },
+     "phase_int": 9,
+     "concept": "A.MOON",
+     "loop_phi": 1,
+     "Phi": 9.4605,
+     "band": "144 Hz carrier",
+     "hz": 144.47,
+     "echo": 1.0,
+     "claim": "identity|mass moon|0 07346 10 24 kg",
+     "host": "nasa.gov",
+     "row_rule": "KEPT",
+     "genus_advisory": null
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 0,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {}
+  },
+  {
+   "question": "What is quartz?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 1
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-NO-SOURCE",
+   "hosts": null,
+   "verdict": "ASK (more than one meaning: oewn)",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "AMBIGUOUS",
+     "senses": [
+      "14903901-n",
+      "14717894-n"
+     ]
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 5,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {}
+  },
+  {
+   "question": "What is ammonia?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-DISAGREEMENT",
+   "hosts": null,
+   "verdict": "REFUSE SEED-DISAGREEMENT",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D000641.html",
+     "sentence": "Ammonia is a colorless alkaline gas.",
+     "verbatim": "A colorless alkaline gas. It is formed in the body during decomposition of organic materials during a large number of metabolically important reactions. Note that the aqueous form of ammonia is referred to as AMMONIUM HYDROXIDE.",
+     "how": {
+      "descriptor": "D000641",
+      "descriptor_label": "Ammonia",
+      "term": "T001930",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 1,
+     "concept": "A.AMMONIA",
+     "loop_phi": 1,
+     "Phi": 1.5743,
+     "band": "Theta",
+     "hz": 6.2971,
+     "echo": 1.0,
+     "claim": "identity|ammonia|a colorless alkaline gas",
+     "host": "nih.gov",
+     "row_rule": "KEPT",
+     "genus_advisory": "gas"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "FETCHED",
+     "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16134",
+     "sentence": "Ammonia is an azane that consists of a single nitrogen atom covelently bonded to three hydrogen atoms.",
+     "verbatim": "An azane that consists of a single nitrogen atom covelently bonded to three hydrogen atoms.",
+     "how": {
+      "chebi": "CHEBI:16134",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 1,
+     "concept": "A.AMMONIA",
+     "loop_phi": 1,
+     "Phi": 1.54,
+     "band": "Theta",
+     "hz": 6.16,
+     "echo": 1.0,
+     "claim": "identity|ammonia|an azane that consists of a single nitrogen atom covelently bonded to three hydrogen atoms",
+     "host": "ebi.ac.uk",
+     "row_rule": "KEPT",
+     "genus_advisory": "azane"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-14767761-n",
+     "sentence": "Ammonia is a pungent gas compounded of nitrogen and hydrogen (NH3).",
+     "verbatim": "a pungent gas compounded of nitrogen and hydrogen (NH3)",
+     "how": {
+      "sense": "pinned",
+      "synset": "14767761-n",
+      "ili": "i114472",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 1,
+     "concept": "A.AMMONIA",
+     "loop_phi": 1,
+     "Phi": 1.564,
+     "band": "Theta",
+     "hz": 6.256,
+     "echo": 1.0,
+     "claim": "identity|ammonia|a pungent gas compounded of nitrogen and hydrogen nh3",
+     "host": "en-word.net",
+     "row_rule": "KEPT",
+     "genus_advisory": "gas"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": "Q25385701",
+      "label": "pnictogen hydride",
+      "description": "any binary compound of hydrogen with a pnictogen",
+      "via": "OEWN sense link",
+      "label_matches": false,
+      "url": "https://www.wikidata.org/wiki/Q25385701",
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {
+    "gas": [
+     "en-word.net",
+     "nih.gov"
+    ],
+    "azane": [
+     "ebi.ac.uk"
+    ]
+   },
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "gas": [
+     "NLM",
+     "Open English WordNet"
+    ],
+    "azane": [
+     "EMBL-EBI"
+    ]
+   }
+  },
+  {
+   "question": "What is oxygen?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "REFUSE SEED-PHASE",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D010100.html",
+     "sentence": "Oxygen is an element with atomic symbol O, atomic number 8, and atomic weight [15.99903; 15.99977].",
+     "verbatim": "An element with atomic symbol O, atomic number 8, and atomic weight [15.99903; 15.99977]. It is the most abundant element on earth and essential for respiration.",
+     "how": {
+      "descriptor": "D010100",
+      "descriptor_label": "Oxygen",
+      "term": "T029880",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.OXYGEN",
+     "loop_phi": 1,
+     "Phi": 5.3831,
+     "band": "High beta",
+     "hz": 23.8308,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "element"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "FETCHED",
+     "url": "https://pubchem.ncbi.nlm.nih.gov/element/8",
+     "sentence": "Oxygen is a chemical element with symbol O and atomic number 8.",
+     "verbatim": "{\"AtomicNumber\": \"8\", \"Symbol\": \"O\", \"Name\": \"Oxygen\", \"GroupBlock\": \"Nonmetal\", \"StandardState\": \"Gas\"}",
+     "how": {
+      "record": "periodic table"
+     },
+     "phase_int": 5,
+     "concept": "A.OXYGEN",
+     "loop_phi": 1,
+     "Phi": 5.3858,
+     "band": "High beta",
+     "hz": 23.8578,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "element"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-14672278-n",
+     "sentence": "Oxygen is a nonmetallic bivalent element that is normally a colorless odorless tasteless nonflammable diatomic gas.",
+     "verbatim": "a nonmetallic bivalent element that is normally a colorless odorless tasteless nonflammable diatomic gas; constitutes 21 percent of the atmosphere by volume; the most abundant element in the earth's crust",
+     "how": {
+      "sense": "pinned",
+      "synset": "14672278-n",
+      "ili": "i113978",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.OXYGEN",
+     "loop_phi": 1,
+     "Phi": 5.4332,
+     "band": "High beta",
+     "hz": 24.3319,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "element"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": "Q629",
+      "label": "oxygen",
+      "description": "chemical element with symbol O and atomic number 8",
+      "via": "OEWN sense link",
+      "label_matches": true,
+      "url": "https://www.wikidata.org/wiki/Q629",
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "element": [
+     "NLM",
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is helium?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "REFUSE SEED-PHASE",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D006371.html",
+     "sentence": "Helium is a noble gas with the atomic symbol He, atomic number 2, and atomic weight 4.003.",
+     "verbatim": "A noble gas with the atomic symbol He, atomic number 2, and atomic weight 4.003. It is a colorless, odorless, tasteless gas that is not combustible and does not support combustion. It was first detected in the sun and is now obtained from natural gas. Medically it is used as a diluent for other gases, being especially useful with oxygen in the treatment of certain cases of respiratory obstruction, and as a vehicle for general anesthetics.",
+     "how": {
+      "descriptor": "D006371",
+      "descriptor_label": "Helium",
+      "term": "T019282",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.HELIUM",
+     "loop_phi": 1,
+     "Phi": 5.4033,
+     "band": "High beta",
+     "hz": 24.0333,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "gas"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "FETCHED",
+     "url": "https://pubchem.ncbi.nlm.nih.gov/element/2",
+     "sentence": "Helium is a chemical element with symbol He and atomic number 2.",
+     "verbatim": "{\"AtomicNumber\": \"2\", \"Symbol\": \"He\", \"Name\": \"Helium\", \"GroupBlock\": \"Noble gas\", \"StandardState\": \"Gas\"}",
+     "how": {
+      "record": "periodic table"
+     },
+     "phase_int": 5,
+     "concept": "A.HELIUM",
+     "loop_phi": 1,
+     "Phi": 5.3837,
+     "band": "High beta",
+     "hz": 23.8368,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "element"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-14664099-n",
+     "sentence": "Helium is a very light colorless element that is one of the six inert gasses.",
+     "verbatim": "a very light colorless element that is one of the six inert gasses; the most difficult gas to liquefy; occurs in economically extractable amounts in certain natural gases (as those found in Texas and Kansas)",
+     "how": {
+      "sense": "pinned",
+      "synset": "14664099-n",
+      "ili": "i113944",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.HELIUM",
+     "loop_phi": 1,
+     "Phi": 5.4203,
+     "band": "High beta",
+     "hz": 24.2034,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "element"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": "Q560",
+      "label": "helium",
+      "description": "chemical element with symbol He and atomic number 2; rare gas; noble gas",
+      "via": "OEWN sense link",
+      "label_matches": true,
+      "url": "https://www.wikidata.org/wiki/Q560",
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "gas": [
+     "NLM"
+    ],
+    "element": [
+     "NLM",
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is insulin?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 1
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-SHAPE",
+   "hosts": null,
+   "verdict": "REFUSE SEED-SHAPE",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D007328.html",
+     "sentence": "Insulin is a 51-amino acid pancreatic hormone that plays a major role in the regulation of glucose metabolism, directly by suppressing endogenous glucose production (GLYCOGENOLYSIS; GLUCONEOGENESIS) and indirectly by suppressing GLUCAGON secretion and LIPOLYSIS. Native insulin is a globular protein comprised of a zinc-coordinated hexamer.",
+     "verbatim": "A 51-amino acid pancreatic hormone that plays a major role in the regulation of glucose metabolism, directly by suppressing endogenous glucose production (GLYCOGENOLYSIS; GLUCONEOGENESIS) and indirectly by suppressing GLUCAGON secretion and LIPOLYSIS. Native insulin is a globular protein comprised of a zinc-coordinated hexamer. Each insulin monomer containing two chains, A (21 residues) and B (30 residues), linked by two disulfide bonds. Insulin is used as a drug to control insulin-dependent diabetes mellitus (DIABETES MELLITUS, TYPE 1).",
+     "how": {
+      "descriptor": "D007328",
+      "descriptor_label": "Insulin",
+      "term": "T021939",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": null,
+     "loop_phi": 1,
+     "Phi": 5.4614,
+     "band": "High beta",
+     "hz": 24.6139,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "hormone"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "FETCHED",
+     "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:145810",
+     "sentence": "Insulin is a peptide hormone which consists of two polypeptide chains, A- and B- chains which are linked together by disulfide bonds.",
+     "verbatim": "A peptide hormone which consists of two polypeptide chains, A- and B- chains which are linked together by disulfide bonds. The amino acid sequence of insulin varies across species and certain segments of the molecule are highly conserved. In most species, the A chain consists of 21 amino acids and the B chain consists of 30 amino acids. In mammals, insulin is synthesised in the pancreas within the β cells whereas in certain species of fish, the insulin-producing tissue is uniquely located in separate structures called Brockmann bodies.",
+     "how": {
+      "chebi": "CHEBI:145810",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 8,
+     "concept": "NUM.TWO",
+     "loop_phi": 1,
+     "Phi": 8.3652,
+     "band": "High gamma",
+     "hz": 54.608,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "hormone"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-05417989-n",
+     "sentence": "Insulin is hormone secreted by the isles of Langerhans in the pancreas.",
+     "verbatim": "hormone secreted by the isles of Langerhans in the pancreas; regulates storage of glycogen in the liver and accelerates oxidation of sugar in cells",
+     "how": {
+      "sense": "only noun meaning",
+      "synset": "05417989-n",
+      "ili": "i65398",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": null,
+     "loop_phi": 1,
+     "Phi": 5.4888,
+     "band": "High beta",
+     "hz": 24.8882,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "hormone"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 2,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "hormone": [
+     "EMBL-EBI",
+     "NLM",
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is photosynthesis?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "REFUSE SEED-PHASE",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D010788.html",
+     "sentence": "Photosynthesis is the synthesis by organisms of organic chemical compounds, especially carbohydrates, from carbon dioxide using energy obtained from light rather than from the oxidation of chemical compounds.",
+     "verbatim": "The synthesis by organisms of organic chemical compounds, especially carbohydrates, from carbon dioxide using energy obtained from light rather than from the oxidation of chemical compounds. Photosynthesis comprises two separate processes: the light reactions and the dark reactions. In higher plants; GREEN ALGAE; and CYANOBACTERIA; NADPH and ATP formed by the light reactions drive the dark reactions which result in the fixation of carbon dioxide. (from Oxford Dictionary of Biochemistry and Molecular Biology, 2001)",
+     "how": {
+      "descriptor": "D010788",
+      "descriptor_label": "Photosynthesis",
+      "term": "T031854",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.PHOTOSYNTHESIS",
+     "loop_phi": 1,
+     "Phi": 5.4816,
+     "band": "High beta",
+     "hz": 24.8155,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "synthesis"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-13558632-n",
+     "sentence": "Photosynthesis is synthesis of compounds with the aid of radiant energy (especially in plants).",
+     "verbatim": "synthesis of compounds with the aid of radiant energy (especially in plants)",
+     "how": {
+      "sense": "pinned",
+      "synset": "13558632-n",
+      "ili": "i107847",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.PHOTOSYNTHESIS",
+     "loop_phi": 1,
+     "Phi": 5.4811,
+     "band": "High beta",
+     "hz": 24.8106,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "synthesis"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": "Q11982",
+      "label": "photosynthesis",
+      "description": "biological process to convert light into chemical energy",
+      "via": "OEWN sense link",
+      "label_matches": true,
+      "url": "https://www.wikidata.org/wiki/Q11982",
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "synthesis": [
+     "NLM",
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is caffeine?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 1
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-CORROBORATION",
+   "hosts": [
+    "nih.gov"
+   ],
+   "verdict": "REFUSE SEED-CORROBORATION",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "FETCHED",
+     "url": "https://id.nlm.nih.gov/mesh/D002110.html",
+     "sentence": "Caffeine is a methylxanthine naturally occurring in some beverages and also used as a pharmacological agent.",
+     "verbatim": "A methylxanthine naturally occurring in some beverages and also used as a pharmacological agent. Caffeine's most notable pharmacological effect is as a central nervous system stimulant, increasing alertness and producing agitation. It also relaxes SMOOTH MUSCLE, stimulates CARDIAC MUSCLE, stimulates DIURESIS, and appears to be useful in the treatment of some types of headache. Several cellular actions of caffeine have been observed, but it is not entirely clear how each contributes to its pharmacological profile. Among the most important are inhibition of cyclic nucleotide PHOSPHODIESTERASES, antagonism of ADENOSINE RECEPTORS, and modulation of intracellular calcium handling.",
+     "how": {
+      "descriptor": "D002110",
+      "descriptor_label": "Caffeine",
+      "term": "T005985",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 1,
+     "concept": null,
+     "loop_phi": 1,
+     "Phi": 1.5864,
+     "band": "Theta",
+     "hz": 6.3457,
+     "echo": 1.0,
+     "claim": "identity|caffeine|a methylxanthine naturally occurring in some beverages and also used as a pharmacological agent",
+     "host": "nih.gov",
+     "row_rule": "KEPT",
+     "genus_advisory": "methylxanthine"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "FETCHED",
+     "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27732",
+     "sentence": "Caffeine is a trimethylxanthine in which the three methyl groups are located at positions 1, 3, and 7.",
+     "verbatim": "A trimethylxanthine in which the three methyl groups are located at positions 1, 3, and 7. A purine alkaloid that occurs naturally in tea and coffee.",
+     "how": {
+      "chebi": "CHEBI:27732",
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "NUM.THREE",
+     "loop_phi": 1,
+     "Phi": 5.4491,
+     "band": "High beta",
+     "hz": 24.4912,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "trimethylxanthine"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-14785301-n",
+     "sentence": "Caffeine is a bitter alkaloid found in coffee and tea that is responsible for their stimulating effects.",
+     "verbatim": "a bitter alkaloid found in coffee and tea that is responsible for their stimulating effects",
+     "how": {
+      "sense": "only noun meaning",
+      "synset": "14785301-n",
+      "ili": "i114561",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 4,
+     "concept": "N.FOOD",
+     "loop_phi": 1,
+     "Phi": 4.6188,
+     "band": "Mid beta",
+     "hz": 17.7129,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "alkaloid"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 7,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {
+    "methylxanthine": [
+     "nih.gov"
+    ]
+   },
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "methylxanthine": [
+     "NLM"
+    ],
+    "trimethylxanthine": [
+     "EMBL-EBI"
+    ],
+    "alkaloid": [
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is a kilogram?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 1
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-CORROBORATION",
+   "hosts": [
+    "bipm.org"
+   ],
+   "verdict": "REFUSE SEED-CORROBORATION",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "FETCHED",
+     "url": "https://www.bipm.org/en/si-base-units/kilogram",
+     "sentence": "The kilogram is the SI unit of mass.",
+     "verbatim": "The kilogram, symbol kg, is the SI unit of mass.",
+     "how": {
+      "render": "drop the symbol apposition",
+      "symbol": "kg"
+     },
+     "phase_int": 1,
+     "concept": null,
+     "loop_phi": 1,
+     "Phi": 1.566,
+     "band": "Theta",
+     "hz": 6.264,
+     "echo": 1.0,
+     "claim": "identity|kilogram|the si unit of mass",
+     "host": "bipm.org",
+     "row_rule": "KEPT",
+     "genus_advisory": "unit"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-13746692-n",
+     "sentence": "Kilogram is one thousand grams.",
+     "verbatim": "one thousand grams; the basic unit of mass adopted under the Systeme International d'Unites",
+     "how": {
+      "sense": "only noun meaning",
+      "synset": "13746692-n",
+      "ili": "i108982",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "NUM.THOUSAND",
+     "loop_phi": 1,
+     "Phi": 5.463,
+     "band": "High beta",
+     "hz": 24.6305,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "NO-SENTENCE",
+     "genus_advisory": "grams"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 1,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {
+    "unit": [
+     "bipm.org"
+    ]
+   },
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "unit": [
+     "BIPM"
+    ],
+    "grams": [
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is the kelvin?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 1,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "REFUSE SEED-PHASE",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "FETCHED",
+     "url": "https://www.bipm.org/en/si-base-units/kelvin",
+     "sentence": "The kelvin is the SI unit of thermodynamic temperature.",
+     "verbatim": "The kelvin, symbol K, is the SI unit of thermodynamic temperature.",
+     "how": {
+      "render": "drop the symbol apposition",
+      "symbol": "K"
+     },
+     "phase_int": 5,
+     "concept": "A.TEMPERATURE",
+     "loop_phi": 1,
+     "Phi": 5.3951,
+     "band": "High beta",
+     "hz": 23.9508,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "unit"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-13736861-n",
+     "sentence": "Kelvin is the basic unit of thermodynamic temperature adopted under the Systeme International d'Unites.",
+     "verbatim": "the basic unit of thermodynamic temperature adopted under the Systeme International d'Unites",
+     "how": {
+      "sense": "only noun meaning",
+      "synset": "13736861-n",
+      "ili": "i108921",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 5,
+     "concept": "A.TEMPERATURE",
+     "loop_phi": 1,
+     "Phi": 5.4176,
+     "band": "High beta",
+     "hz": 24.176,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "unit"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 4,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "unit": [
+     "BIPM",
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is the speed of light?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 2,
+    "pinned_with_sense": 2,
+    "resolved": 0,
+    "would_ask": 0,
+    "plain": 0
+   },
+   "would_ask": [],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "REFUSE SEED-PHASE",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "FETCHED",
+     "url": "https://physics.nist.gov/cuu/Constants/Table/allascii.txt#speed%20of%20light%20in%20vacuum",
+     "sentence": "The speed of light in vacuum is 299792458 m s^-1 (exact).",
+     "verbatim": "speed of light in vacuum | 299 792 458 | (exact) | m s^-1",
+     "how": {
+      "record": "speed of light in vacuum",
+      "edition": "CODATA 2022"
+     },
+     "phase_int": 6,
+     "concept": "A.LIGHT",
+     "loop_phi": 1,
+     "Phi": 6.6,
+     "band": "Theta-alpha blend",
+     "hz": 7.8,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": null
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "FETCHED",
+     "url": "https://en-word.net/id/oewn-15309503-n",
+     "sentence": "Speed of light is the speed at which light travels in a vacuum.",
+     "verbatim": "the speed at which light travels in a vacuum; the constancy and universality of the speed of light is recognized by defining it to be exactly 299,792,458 meters per second",
+     "how": {
+      "sense": "only noun meaning",
+      "synset": "15309503-n",
+      "ili": "i117574",
+      "qid": null,
+      "render": "GLOSS-FIT"
+     },
+     "phase_int": 6,
+     "concept": "A.LIGHT",
+     "loop_phi": 1,
+     "Phi": 6.6133,
+     "band": "Theta-alpha blend",
+     "hz": 7.84,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "speed"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 5,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "speed": [
+     "Open English WordNet"
+    ]
+   }
+  },
+  {
+   "question": "What is the Planck constant?",
+   "gap": true,
+   "anchored": [],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 0,
+    "pinned_with_sense": 0,
+    "resolved": 0,
+    "would_ask": 1,
+    "plain": 1
+   },
+   "would_ask": [
+    "constant"
+   ],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "ASK (more than one meaning: constant)",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "geonames",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nist_codata",
+     "status": "FETCHED",
+     "url": "https://physics.nist.gov/cuu/Constants/Table/allascii.txt#Planck%20constant",
+     "sentence": "The Planck constant is 6.62607015 × 10^-34 J Hz^-1 (exact).",
+     "verbatim": "Planck constant | 6.626 070 15 e-34 | (exact) | J Hz^-1",
+     "how": {
+      "record": "Planck constant",
+      "edition": "CODATA 2022"
+     },
+     "phase_int": 3,
+     "concept": null,
+     "loop_phi": 1,
+     "Phi": 3.5942,
+     "band": "Alpha-beta",
+     "hz": 12.3767,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": null
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 2,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {}
+  },
+  {
+   "question": "What is the capital of Burkina Faso?",
+   "gap": false,
+   "anchored": [
+    "A.BURKINAFASO"
+   ],
+   "loop_phi": 1,
+   "sense_trace": {
+    "pinned": 1,
+    "pinned_with_sense": 1,
+    "resolved": 0,
+    "would_ask": 1,
+    "plain": 0
+   },
+   "would_ask": [
+    "capital"
+   ],
+   "evaluate_rule": "SEED-PHASE",
+   "hosts": null,
+   "verdict": "PINNED (already anchored: A.BURKINAFASO; not a gap, nothing considered)",
+   "sources": [
+    {
+     "source": "nasa_science",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_nssdc",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nasa_spaceplace",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "nlm_mesh",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "cia_factbook",
+     "status": "SUNSET"
+    },
+    {
+     "source": "worldbank",
+     "status": "FETCHED",
+     "url": "https://api.worldbank.org/v2/country/BFA?format=json",
+     "sentence": "The capital of Burkina Faso is Ouagadougou.",
+     "verbatim": "{\"id\": \"BFA\", \"name\": \"Burkina Faso\", \"capitalCity\": \"Ouagadougou\"}",
+     "how": {
+      "record": "BFA"
+     },
+     "phase_int": 6,
+     "concept": "A.BURKINAFASO",
+     "loop_phi": 1,
+     "Phi": 6.6667,
+     "band": "Theta-alpha blend",
+     "hz": 8.0,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "ouagadougou"
+    },
+    {
+     "source": "geonames",
+     "status": "FETCHED",
+     "url": "https://download.geonames.org/export/dump/countryInfo.txt#BF",
+     "sentence": "The capital of Burkina Faso is Ouagadougou.",
+     "verbatim": "BF\tBFA\t854\tUV\tBurkina Faso\tOuagadougou\t274200\t24074580\tAF",
+     "how": {
+      "record": "BF"
+     },
+     "phase_int": 6,
+     "concept": "A.BURKINAFASO",
+     "loop_phi": 1,
+     "Phi": 6.6667,
+     "band": "Theta-alpha blend",
+     "hz": 8.0,
+     "echo": null,
+     "claim": null,
+     "host": null,
+     "row_rule": "PHASE",
+     "genus_advisory": "ouagadougou"
+    },
+    {
+     "source": "nist_codata",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "bipm_si",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "pubchem",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "chebi",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "iupac_goldbook",
+     "status": "BLOCKED"
+    },
+    {
+     "source": "oewn",
+     "status": "NO-ENTRY"
+    },
+    {
+     "source": "wikidata",
+     "status": "CROSSCHECK",
+     "crosscheck": {
+      "role": "crosscheck",
+      "source_id": "wikidata",
+      "qid": null,
+      "via": "label search (not resolved)",
+      "exact_label_items": 0,
+      "counts_as_publisher": false
+     }
+    }
+   ],
+   "genus_agreement_advisory": {},
+   "writes": false,
+   "calls_llm": false,
+   "genus_publishers_any_phase_advisory": {
+    "ouagadougou": [
+     "GeoNames",
+     "World Bank"
+    ]
+   }
+  }
+ ]
+}

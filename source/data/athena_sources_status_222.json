@@ -1,0 +1,292 @@
+{
+ "schema": "FORGE-ATHENA-SOURCES-LIVE/222",
+ "checked_at": "2026-11-04T20:52:45+00:00",
+ "sources": {
+  "nasa_science": {
+   "publisher": "NASA",
+   "license": "public-domain",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "nasa.gov",
+    "tier": 1,
+    "license": "public-domain"
+   },
+   "probe": "What is the Moon?",
+   "sentence": "The Moon is Earth's only natural satellite.",
+   "url": "https://science.nasa.gov/moon/facts/",
+   "crosscheck": null,
+   "ms": [
+    333,
+    501,
+    448
+   ],
+   "errors": []
+  },
+  "nasa_nssdc": {
+   "publisher": "NASA",
+   "license": "public-domain",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "nasa.gov",
+    "tier": 1,
+    "license": "public-domain"
+   },
+   "probe": "What is the mass of the Moon?",
+   "sentence": "The mass of the Moon is 0.07346 × 10^24 kg.",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+   "crosscheck": null,
+   "ms": [
+    439,
+    560,
+    617
+   ],
+   "errors": []
+  },
+  "nasa_spaceplace": {
+   "publisher": "NASA",
+   "license": "public-domain",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "nasa.gov",
+    "tier": 1,
+    "license": "public-domain"
+   },
+   "probe": "What is gravity?",
+   "sentence": "Gravity is the force by which a planet or other body draws objects toward its center.",
+   "url": "https://spaceplace.nasa.gov/what-is-gravity/en/",
+   "crosscheck": null,
+   "ms": [
+    1539,
+    1775,
+    1428
+   ],
+   "errors": []
+  },
+  "nlm_mesh": {
+   "publisher": "NLM",
+   "license": "public-domain",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "nih.gov",
+    "tier": 1,
+    "license": "public-domain"
+   },
+   "probe": "What is ammonia?",
+   "sentence": "Ammonia is a colorless alkaline gas.",
+   "url": "https://id.nlm.nih.gov/mesh/D000641.html",
+   "crosscheck": null,
+   "ms": [
+    895,
+    784,
+    873
+   ],
+   "errors": []
+  },
+  "cia_factbook": {
+   "publisher": "CIA",
+   "license": "public-domain",
+   "enabled": false,
+   "status": "SUNSET",
+   "reason": "The CIA ended The World Factbook on 2026-02-04; every cia.gov/the-world-factbook page now redirects to a farewell notice. Disabled. Anchors already stored from it stay pinned.",
+   "probe": "What is the capital of Burkina Faso?"
+  },
+  "worldbank": {
+   "publisher": "World Bank",
+   "license": "CC BY 4.0",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "worldbank.org",
+    "tier": 1,
+    "license": "CC BY 4.0"
+   },
+   "probe": "What is the capital of Burkina Faso?",
+   "sentence": "The capital of Burkina Faso is Ouagadougou.",
+   "url": "https://api.worldbank.org/v2/country/BFA?format=json",
+   "crosscheck": null,
+   "ms": [
+    94,
+    146,
+    97
+   ],
+   "errors": []
+  },
+  "geonames": {
+   "publisher": "GeoNames",
+   "license": "CC BY 4.0",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "geonames.org",
+    "tier": 2,
+    "license": "CC BY 4.0"
+   },
+   "probe": "What is the capital of Burkina Faso?",
+   "sentence": "The capital of Burkina Faso is Ouagadougou.",
+   "url": "https://download.geonames.org/export/dump/countryInfo.txt#BF",
+   "crosscheck": null,
+   "ms": [
+    704,
+    845,
+    763
+   ],
+   "errors": []
+  },
+  "nist_codata": {
+   "publisher": "NIST",
+   "license": "public-domain",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "nist.gov",
+    "tier": 1,
+    "license": "public-domain"
+   },
+   "probe": "What is the speed of light?",
+   "sentence": "The speed of light in vacuum is 299792458 m s^-1 (exact).",
+   "url": "https://physics.nist.gov/cuu/Constants/Table/allascii.txt#speed%20of%20light%20in%20vacuum",
+   "crosscheck": null,
+   "ms": [
+    164,
+    190,
+    155
+   ],
+   "errors": []
+  },
+  "bipm_si": {
+   "publisher": "BIPM",
+   "license": "CC BY 4.0",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "bipm.org",
+    "tier": 1,
+    "license": "CC BY 4.0"
+   },
+   "probe": "What is a kilogram?",
+   "sentence": "The kilogram is the SI unit of mass.",
+   "url": "https://www.bipm.org/en/si-base-units/kilogram",
+   "crosscheck": null,
+   "ms": [
+    23247,
+    906,
+    926
+   ],
+   "errors": []
+  },
+  "pubchem": {
+   "publisher": "NLM",
+   "license": "public-domain",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "nih.gov",
+    "tier": 1,
+    "license": "public-domain"
+   },
+   "probe": "What is oxygen?",
+   "sentence": "Oxygen is a chemical element with symbol O and atomic number 8.",
+   "url": "https://pubchem.ncbi.nlm.nih.gov/element/8",
+   "crosscheck": null,
+   "ms": [
+    392,
+    398,
+    319
+   ],
+   "errors": []
+  },
+  "chebi": {
+   "publisher": "EMBL-EBI",
+   "license": "CC BY 4.0",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "ebi.ac.uk",
+    "tier": 1,
+    "license": "CC BY 4.0"
+   },
+   "probe": "What is ammonia?",
+   "sentence": "Ammonia is an azane that consists of a single nitrogen atom covelently bonded to three hydrogen atoms.",
+   "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16134",
+   "crosscheck": null,
+   "ms": [
+    909,
+    1080,
+    944
+   ],
+   "errors": []
+  },
+  "iupac_goldbook": {
+   "publisher": "IUPAC",
+   "license": "CC BY-SA 4.0 (per term)",
+   "enabled": false,
+   "status": "BLOCKED",
+   "reason": "goldbook.iupac.org answers 403 (Cloudflare challenge) to a scripted fetch, page and /json alike. Disabled. Share-alike rows also need Nic's decision (D7) before any could be stored.",
+   "probe": "What is a mole?"
+  },
+  "oewn": {
+   "publisher": "Open English WordNet",
+   "license": "CC BY 4.0",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": {
+    "host": "en-word.net",
+    "tier": 2,
+    "license": "CC BY 4.0"
+   },
+   "probe": "What is gravity?",
+   "sentence": "Gravity is the force of attraction between all masses in the universe.",
+   "url": "https://en-word.net/id/oewn-11484542-n",
+   "crosscheck": null,
+   "ms": [
+    249,
+    0,
+    0
+   ],
+   "errors": []
+  },
+  "wikidata": {
+   "publisher": "Wikidata",
+   "license": "CC0 1.0",
+   "enabled": true,
+   "status": "OK",
+   "stable_3_of_3": true,
+   "allowlist_row": null,
+   "probe": "What is oxygen?",
+   "sentence": null,
+   "url": null,
+   "crosscheck": {
+    "role": "crosscheck",
+    "source_id": "wikidata",
+    "qid": "Q629",
+    "label": "oxygen",
+    "description": "chemical element with symbol O and atomic number 8",
+    "via": "OEWN sense link",
+    "label_matches": true,
+    "url": "https://www.wikidata.org/wiki/Q629",
+    "counts_as_publisher": false
+   },
+   "ms": [
+    178,
+    191,
+    246
+   ],
+   "errors": []
+  }
+ }
+}

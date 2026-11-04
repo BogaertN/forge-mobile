@@ -1,3 +1,19 @@
+## v4.9.222 — Athena fetchers for every Tier-A trusted source, in one release; dry-run only (Nic 2026-11-04, t137u "add the trusted sources that you named before right now")
+
+**Conflict:** Athena could only search the Library of Congress and follow Wikipedia's external links, so a definition question (the Moon, gravity) found no trusted definitional sentence; the Tier-A sources named in the sources report had no fetchers and most of their hosts were not on the allowlist; a "the capital of X" or "the speed of light" sentence could never bind its subject because "of" and "in" were compared literally.
+
+**Where:** `engine/rmc_engine_v1/athena_sources_222.py` (new), `engine/rmc_engine_v1/reference/athena_sources_222.json` (new, per-source flags), `engine/rmc_engine_v1/reference/trusted_sources_202.json` (+bipm.org, worldbank.org, ebi.ac.uk, iupac.org, geonames.org, en-word.net), `engine/rmc_engine_v1/self_seed_202.py` + `src/self_seed_202.js` (subject compared on content words), `tools/athena_dryrun_222.py`, `tools/athena_sources_live_222.py`, `tools/test_athena_sources_222.py`, `verify/fixtures/athena_222/`, `data/athena_sources_status_222.json`, `data/athena_dryrun_222.json`, `src/rmc_client.js` (bundle SRI).
+
+**Resolution:**
+- **Fetchers (box-side, never in the app):** NASA science.nasa.gov, NSSDC fact sheets and Space Place (one publisher); NLM MeSH scope notes (preferred concept only); World Bank country API; GeoNames countryInfo; NIST CODATA 2022; BIPM SI base-unit pages (SI Brochure text, CC BY 4.0); PubChem periodic table (+ public-domain-origin descriptions only); ChEBI via EBI OLS; Open English WordNet 2025 plus glosses of the pinned sense. Wikidata is a link and cross-check only (QID from the OEWN sense; never a document, never a publisher).
+- **Defining sentence first:** prose pages keep only the best `define_rank` sentence; glosses and records are rendered "Label is definition." with the verbatim text kept; a tautology ("Quartz is Quartz (SiO2).") is dropped.
+- **Disabled, reported:** CIA World Factbook (the CIA ended it on 2026-02-04; every page redirects to a farewell notice) and IUPAC Gold Book (403 to a scripted fetch; share-alike needs D7).
+- **Rules unchanged:** allowlist, phase, shape, Echo, two independent publishers (two NASA hosts are one), ask when ambiguous (Mercury, Saturn, quartz), existing concepts pinned. The only decision change is content-word subject binding, the same in Python and JS.
+- **Dry-run:** 17 questions on the live sources against a read-only kb.anchors export (3,101 rows): 0 would admit; Moon and gravity are gaps. Nothing written.
+- **Cold 60:** 21/60, 0 false admits, every row identical to 4.9.221.
+
+**Open (Nic):** whether Athena may write (see the release report: the phase gate at the question loop and exact-string agreement block nearly every definition); a frozen Factbook mirror or not; IUPAC per-term permission and share-alike rows (D7).
+
 ## v4.9.221 — Meaning ids, advisory only: every concept pinned to one OEWN sense; the homograph pack lazy-loaded; trusted list fixed (Nic 2026-11-04, t136u "That sounds right")
 
 **Conflict:** concepts were keyed only by lower-cased spelling, so one spelling with several meanings (Mercury the planet, the metal, the god) had one concept; the trusted list labelled all of OpenStax "CC BY 4.0" (80 of 129 books are CC BY-NC-SA) and trusted Britannica; Athena's dry-run forced every question to be a gap, so it re-researched subjects already anchored (Burkina Faso, enc-cia-uv-0).

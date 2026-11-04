@@ -105,6 +105,11 @@ jobs:
           node source/verify/r4220_suite.js
           node source/verify/r4220_suite.js
           node source/verify/r4220_suite.js
+      - name: r4222 suite, three passes
+        run: |
+          node source/verify/r4222_suite.js
+          node source/verify/r4222_suite.js
+          node source/verify/r4222_suite.js
       - name: r4221 suite, three passes
         run: |
           node source/verify/r4221_suite.js

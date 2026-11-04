@@ -231,20 +231,27 @@ def question_slot(question: str) -> str:
     return "stated"
 
 
-def entity_tokens(question: str, slot: str) -> list[str]:
-    roles = set(load_config().get("time_roles") or [])
-    stop = {
-        "the", "and", "for", "with", "from", "that", "this", "was", "were", "are",
-        "you", "your", "did", "does", "can", "could", "into", "about", "have", "has", "not", "but",
-    }
+_ENTITY_STOP = {
+    "the", "and", "for", "with", "from", "that", "this", "was", "were", "are",
+    "you", "your", "did", "does", "can", "could", "into", "about", "have", "has", "not", "but",
+}
+
+
+def _content_words(text: str) -> list[str]:
     out: list[str] = []
-    for word in _words(question):
+    for word in _words(text):
         keep_short = word in ROMAN or word in WORD_ORD or re.fullmatch(r"\d{1,2}", word or "") is not None
-        if word in WH_WORDS or word in stop:
+        if word in WH_WORDS or word in _ENTITY_STOP:
             continue
         if len(word) <= 2 and not keep_short:
             continue
         out.append(word)
+    return out
+
+
+def entity_tokens(question: str, slot: str) -> list[str]:
+    roles = set(load_config().get("time_roles") or [])
+    out = _content_words(question)
     if slot == "time" and out and out[-1] in roles:
         out = out[:-1]
     return out
@@ -291,7 +298,13 @@ def subject_binds(subject: str, entity: list[str]) -> bool:
     for art in _ARTICLES:
         if sub.startswith(art):
             sub = sub[len(art):]
-    return sub == ent or sub.startswith(ent + " ")
+    if sub == ent or sub.startswith(ent + " "):
+        return True
+    # 4.9.222: the subject is compared on the same content words as the question entity, so "The capital of Burkina
+    # Faso" binds "capital burkina faso" and "The speed of light in vacuum" binds "speed light" (short words and
+    # stop words are dropped on both sides; the order and the head must still match).
+    words = " ".join(_content_words(subject))
+    return bool(words) and (words == ent or words.startswith(ent + " "))
 
 
 def _years(sentence: str) -> list[str]:

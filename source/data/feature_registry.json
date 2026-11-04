@@ -1,5 +1,5 @@
 {
- "version": "4.9.221",
+ "version": "4.9.222",
  "features": [
   {
    "id": "A-01",
@@ -4134,13 +4134,24 @@
    "proof": [
     "verify/r4221_suite.js"
    ]
+  },
+  {
+   "id": "R4222-ATHENA-TIER-A",
+   "name": "Athena fetchers for every Tier-A trusted source (NASA science/NSSDC/Space Place, NLM MeSH, World Bank, GeoNames, NIST CODATA, BIPM SI, PubChem, ChEBI, Open English WordNet glosses; Wikidata cross-check only), defining sentence first, per-source flags; CIA Factbook (sunset) and IUPAC Gold Book (403) disabled",
+   "source": "Nic 2026-11-04 (t137u, 4.9.222); engine/rmc_engine_v1/athena_sources_222.py, engine/rmc_engine_v1/reference/athena_sources_222.json, engine/rmc_engine_v1/reference/trusted_sources_202.json, engine/rmc_engine_v1/self_seed_202.py, src/self_seed_202.js, tools/athena_dryrun_222.py, tools/athena_sources_live_222.py, tools/test_athena_sources_222.py, verify/fixtures/athena_222",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Dry-run only: nothing is written to kb.anchors. The admission rules are unchanged (allowlist, phase, shape, Echo, two independent publishers); the subject is compared on content words. Cold 60 identical to 4.9.221.",
+   "proof": [
+    "verify/r4222_suite.js"
+   ]
   }
  ],
- "count": 377,
+ "count": 378,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 181,
+  "Partial": 182,
   "Missing": 9,
   "Out of scope / parked": 47
  }
