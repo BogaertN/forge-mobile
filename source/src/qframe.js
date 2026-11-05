@@ -33,6 +33,7 @@
     /* 4.9.231: the parts a fact atom is built from (step 4): modifiers, determiner, number, a proper name, the of-complement */
     if (Array.isArray(n.adjs) && n.adjs.length) out.adjs = n.adjs.slice();
     if (n.det) out.det = n.det;
+    if (n.quant) out.quant = str(n.quant); /* 4.9.241: "no body" carries the negative quantifier (it negates its clause) */
     if (n.plural) out.plural = true;
     if (n.propn) out.propn = str(n.propn);
     if (n.of && typeof n.of === 'object') out.of = np(n.of);
@@ -59,6 +60,14 @@
     const text = s.replace(/[.!?]+$/, '').trim();
     const rec = { schema: CLAUSE, text, parsed: false, calls_llm: false };
     if (!text) return rec;
+    /* 4.9.241: a bare-plural generic ("Whales are mammals.") states a kind: it is read as "a whale is a mammal", by the same
+     * QF-CANON-GENERIC-PLURAL rule as the question "Are whales mammals?", so the remembered fact and the question meet */
+    const ws = words(text), ci = ws.findIndex(w => /^(are|were)$/i.test(w));
+    if (ci >= 1 && ci < ws.length - 1) {
+      const gp = genericPlural(forge, ws.slice(0, ci).concat(ws.slice(ci + 1)), ci);
+      if (gp) { const r = roles(gp.p.clause); delete r.material;
+        return Object.assign(rec, r, { parsed: true, parses: gp.p.parses, adjuncts: [], canonical: [{ rule: 'QF-CANON-GENERIC-PLURAL', surface: text, reading: gp.s }] }); }
+    }
     const p = parse(forge, text);
     if (!p || !p.clause) return rec;
     const r = roles(p.clause);
@@ -196,10 +205,11 @@
     return null;
   }
   const article = w => /^[aeiou]/i.test(w) ? 'an' : 'a';
-  function genericPlural(forge, body) { /* "whales living things" → "a whale is a living thing", every split tried, longest subject first */
+  function genericPlural(forge, body, at) { /* "whales living things" → "a whale is a living thing", every split tried, longest subject first (or the copula's own split, at) */
     const lb = body.map(w => w.toLowerCase());
     if (lb.some(w => has(w, 'DET') || has(w, 'POSS') || has(w, 'PRON') || /'s$/.test(w))) return null;
     for (let k = body.length - 1; k >= 1; k--) {
+      if (at && k !== at) continue;
       const L = lb.slice(0, k), R = lb.slice(k); const ls = singular(forge, L[L.length - 1]), rs = singular(forge, R[R.length - 1]);
       if (!ls || !rs) continue;
       const left = L.slice(0, -1).concat([ls]), right = R.slice(0, -1).concat([rs]);
@@ -254,6 +264,17 @@
         f.aux = a0; const body = rest.slice(1);
         const cands = filler ? declaratives(a0, body, filler) : (has(a0, 'COP') && body.length === 1 ? declaratives(a0, body, 'something') : declaratives(a0, body, null));
         for (const c of cands) { const p = parse(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
+        /* 4.9.241 QF-CANON-PRO-VERB: "do" is the pro-verb. "What can you do?" / "What do you do?" asks for an action of the
+         * subject: kriyā do, the karma is the gap (the verb phrase the answer supplies), the modal kept. */
+        if (!f.parsed && filler && body.length >= 2 && String(body[body.length - 1]).toLowerCase() === 'do') {
+          const so = subjectOnly(forge, body.slice(0, -1));
+          if (so && so.k === body.length - 1) {
+            const MODS = { can: 'able', could: 'possible', will: 'asserted', would: 'conditional', may: 'possible', might: 'possible', must: 'necessary', should: 'obligation' };
+            Object.assign(f, { kriya: 'do', tense: a0 === 'did' ? 'past' : 'present', polarity: 'pos', modality: MODS[a0] || 'asserted', kartr: np(so.p.clause.subj), pred: null,
+              karma: { text: filler, head: filler, owner: null, kernel: false, user: false, indef: true }, parsed: true, declarative: join(body.slice(0, -1)) + (MODS[a0] ? ' ' + a0 : '') + ' do ' + filler });
+            f.canonical = [{ rule: 'QF-CANON-PRO-VERB', surface_rule: 'QF-WH-AUX-SUBJ', surface_declarative: null }];
+          }
+        }
         if (!f.parsed) { const so = subjectOnly(forge, body); if (so) { f.kartr = np(so.p.clause.subj); f.partial = true; f.declarative = null; } }
         f.wh_role = adjunct || (has(a0, 'COP') ? (body.length ? 'pred' : 'kartr') : 'karma');
         if (!filler && has(a0, 'COP') && body.length === 1) f.wh_role = adjunct || 'pred';
@@ -298,7 +319,42 @@
     if (pf && pf.clause && pf.clause.subj) { f.kartr = np(pf.clause.subj); f.mood = 'fragment'; f.rule = 'QF-FRAGMENT-NP'; return f; }
     f.rule = 'QF-NOPARSE'; return f;
   }
-  function compile(text, forge) { try { return canonicalize(compileQ(text, forge), forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
+  /* 4.9.241 (Nic: natural conversation) the utterance's conversational acts, read with the speech-act lexicon
+   * (src/speech_acts.js, the copy of engine/rmc_engine_v1/speech_acts.json). Leading acts the lexicon answers (greet, thank,
+   * apologize, farewell) are recorded on the frame (f.acts): alone they are the turn (QF-SPEECH-ACT); before a question the
+   * rest is compiled as the question (QF-ACT-PREFIX, the frame keeps the whole text). An act answered by its frame
+   * (ask_wellbeing, ask_help) is compiled to the question its lexicon frame realizes (QF-ACT-FRAME): the kāraka frame
+   * {kriyā, kartṛ listener, gap} is put in words by rule (the wh-word of the gap, the modal of the modality, the listener as
+   * "you") and compiled like any question, so every form of the act has the same frame. No reply is chosen here. */
+  const SA = isNode ? require('./speech_acts.js') : root.KSpeechActs;
+  const MODAL = { able: 'can', possible: 'may', necessary: 'must' };
+  function frameQuestion(fr) {
+    if (!fr || !fr.wh || fr.kartr !== 'listener') return null;
+    if (fr.kriya === 'be' && fr.prakara === 'gap') return fr.wh + ' are you?';
+    if (fr.karma === 'gap') return fr.wh + ' ' + (MODAL[fr.modality] || 'do') + ' you ' + fr.kriya + '?';
+    return null;
+  }
+  function actFrame(text, forge) {
+    if (!SA || typeof SA.classify !== 'function') return null;
+    const c = SA.classify(text); if (!c.acts.length) return null;
+    const entry = a => SA.DATA.acts[a.act] || {};
+    const rec = a => ({ act: a.act, form: a.form, response: entry(a).response || null, answered_by: entry(a).answered_by, frame: entry(a).frame });
+    const prefix = []; for (const a of c.acts) { const e = entry(a); if (e.answered_by === 'act' && e.response) prefix.push(a); else break; }
+    if (prefix.length) {
+      const rest = String(text || '').slice(prefix[prefix.length - 1].end).replace(/^[\s,.!?;:]+/, '');
+      if (!rest.trim()) return { schema: SCHEMA, text: String(text || ''), speech_act: 'greeting', mood: 'speech_act', wh: null, wh_role: null, aux: null, parsed: false, declarative: null, parses: 0, rule: 'QF-SPEECH-ACT', acts: prefix.map(rec), act_match: c.match, calls_llm: false };
+      const g = compile(rest, forge);
+      return Object.assign({}, g, { text: String(text || ''), acts: prefix.map(rec), act_rest: rest, canonical: (g.canonical || []).concat([{ rule: 'QF-ACT-PREFIX', acts: prefix.map(a => a.act), rest }]) });
+    }
+    const a = c.acts[0], e = entry(a);
+    if (e.answered_by === 'frame' && c.acts.length === 1 && c.pure) {
+      const q = frameQuestion(e.frame); if (!q) return null;
+      const g = canonicalize(compileQ(q, forge), forge); if (!g.parsed) return null;
+      return Object.assign({}, g, { text: String(text || ''), acts: [rec(a)], canonical: (g.canonical || []).concat([{ rule: 'QF-ACT-FRAME', act: a.act, reading: q }]) });
+    }
+    return null;
+  }
+  function compile(text, forge) { try { return actFrame(text, forge) || canonicalize(compileQ(text, forge), forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
   const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, splitClauses, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);

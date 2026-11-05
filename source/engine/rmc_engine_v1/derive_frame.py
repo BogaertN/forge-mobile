@@ -35,6 +35,11 @@ OPERATION_PHASE = {"retrieve": 7}
 PHASE_STEP_DEG = 40.0  # nine phases on the circle
 # a first-person memory is the asker's only when it came from the asker's device (personal facts stay on the device)
 PERSONAL_SOURCES = frozenset({"phone_kb"})
+# 4.9.241 (plan 229 step 10): the kernel's facts about itself, stored as clauses (src/selfmodel.js FACTS, sent as memory.self)
+SELF_SOURCES = frozenset({"self_model"})
+RULE_PRO_VERB = "WM-PRO-VERB"
+RULE_CONVERSE = "polar_converse"
+NOT_NECESSARILY = "not necessarily"
 _FIRST_PERSON = re.compile(r"(?i)\b(i|me|my|mine|myself|our|ours|we|us)\b")
 _POSSESSIVE = re.compile(r"(?i)^\s*(my|our|([A-Z][A-Za-z'\-]*)'s)\s+(.+)$")
 _DETS = {"the", "a", "an", "some", "this", "that", "these", "those"}
@@ -68,6 +73,33 @@ def _head(np: dict[str, Any]) -> str:
 def _owner_user(np: dict[str, Any]) -> bool:
     owner = np.get("owner")
     return owner == "user" or bool(np.get("user")) or bool(re.match(r"(?i)\s*(my|i)\b", str(np.get("text") or "")))
+
+
+def negated(np: Any) -> bool:
+    """4.9.241: a noun phrase under the negative quantifier ("no body", "no emotions") negates its clause: "I have no
+    body" answers "Do you have a body?" with no, not yes (English: the quantifier carries the clause's polarity)."""
+    if not isinstance(np, dict):
+        return False
+    q = str(np.get("quant") or np.get("det") or "").lower()
+    return q == "no" or bool(re.match(r"(?i)\s*no\s+\w", str(np.get("text") or "")))
+
+
+def polarity_of(frame: dict[str, Any]) -> str:
+    """The clause's polarity with a negative quantifier on its object counted (4.9.241)."""
+    pol = str(frame.get("polarity") or "pos")
+    if negated(frame.get("karma")) or negated(frame.get("pred")):
+        pol = "neg" if pol == "pos" else "pos"
+    return pol
+
+
+def kind_inclusion(fs: Any, fp: Any) -> bool:
+    """4.9.241: a copula whose subject is a generic (an indefinite or a bare plural, not a particular) and whose predicate is
+    an indefinite kind ("a whale is a living thing") states that the first kind is included in the second. Its converse
+    ("a living thing is a whale") is neither stated nor denied by it: the honest answer is "not necessarily"."""
+    def generic(np: Any) -> bool:
+        return isinstance(np, dict) and not referring(np) and not np.get("propn") and bool(str(np.get("text") or "").strip()) \
+            and (str(np.get("det") or "").lower() in ("a", "an") or bool(np.get("plural")))
+    return generic(fs) and generic(fp)
 
 
 def is_gap(np: Any) -> bool:
@@ -245,6 +277,8 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         attr = attribute_of(qframe, fframe)
         if attr:
             return attr
+    if qk == "do" and str(qframe.get("wh_role") or "") == "karma" and fk not in ("be", "have", "do", "") and is_gap(qframe.get("karma")):
+        return pro_verb(qframe, fframe)
     if not qk or qk != fk:
         return None
     role = str(qframe.get("wh_role") or "")
@@ -259,11 +293,24 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
                 if np_unify(qs, a) and np_unify(qp, b):
                     yes = (fpol == (qframe.get("polarity") or "pos"))
                     return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": orient, "rule": "polar"}
+            # 4.9.241: the converse of a positive kind inclusion is answered "not necessarily" (it does not follow, and it
+            # is not denied); a negative fact, an identity or a membership of a particular gives no converse answer
+            if fpol == "pos" and (qframe.get("polarity") or "pos") == "pos" and kind_inclusion(fs, fp) and np_unify(qs, fp) and np_unify(qp, fs):
+                return {"roles": 2, "gap": None, "filler": NOT_NECESSARILY, "orientation": "kartr=pred", "rule": RULE_CONVERSE, "entails": False}
             return None
         if np_unify(qs, fs) and np_unify(qo, fo):
-            return {"roles": 2, "gap": None, "filler": "yes" if fpol == (qframe.get("polarity") or "pos") else "no", "orientation": "kartr,karma", "rule": "polar"}
+            # 4.9.241: "I have no body" is a negative answer to "Do you have a body?"
+            yes = polarity_of(fframe) == polarity_of(qframe)
+            return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": "kartr,karma", "rule": "polar"}
         return None
     if fpol != "pos":
+        return None
+    if role == "pred" and str(qframe.get("wh") or "") in ("who", "what") and isinstance(fp, dict) and str(fp.get("type") or "").startswith("adj"):
+        # 4.9.241: a who/what gap asks for a noun phrase (an identity or a kind); a state adjective does not fill it
+        return None
+    if role == "prakara" and not (isinstance(fp, dict) and str(fp.get("type") or "").startswith("adj")):
+        # 4.9.241: a "how" gap asks a manner or state (prakāra); a noun phrase is not one ("How are you?" is not answered
+        # by what the kernel is)
         return None
     if qk == "be":
         if is_gap(qp) and qp.get("kind") and isinstance(qs, dict) and not is_gap(qs):
@@ -291,6 +338,19 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         if np_unify(qs, fs) and isinstance(fo, dict):
             return {"roles": 1, "gap": "karma", "filler": fo.get("text"), "orientation": "kartr=kartr", "rule": "transitive"}
     return None
+
+
+def pro_verb(qframe: dict[str, Any], fframe: dict[str, Any]) -> dict[str, Any] | None:
+    """4.9.241: "do" is the English pro-verb: "what can you do?" asks for an action of its kartṛ, so any positive fact with
+    the same kartṛ and an action verb (not the copula, not possession) answers it, and the filler is that verb phrase. A
+    habitual fact ("I derive sentences") answers the ability question ("can"), since doing shows the ability."""
+    qs = qframe.get("kartr")
+    fs, fo = fframe.get("kartr"), fframe.get("karma")
+    if polarity_of(fframe) != "pos" or not isinstance(qs, dict) or is_gap(qs) or not np_unify(qs, fs) or not isinstance(fo, dict):
+        return None
+    verb = str(fframe.get("kriya") or "")
+    return {"roles": 1, "gap": "karma", "filler": verb + " " + str(fo.get("text") or ""), "orientation": "kartr=kartr",
+            "rule": RULE_PRO_VERB, "action": verb}
 
 
 def possessor(np: Any) -> str | None:

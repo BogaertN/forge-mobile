@@ -77,13 +77,12 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
             "max_steps": 0,
         }
     elif act in {"greeting", "request", "self", "capability"}:
-        from rmc_engine_v1.language_core_proto_chat import chat_fact_act
-        from rmc_engine_v1.resonance_recall import _concept_ids
-        from rmc_engine_v1.world_model_v1 import CHAT_FACTS
-        concepts = _concept_ids(question)
-        key = chat_fact_act(str(act or ""), concepts)
-        fact = next((row for row in CHAT_FACTS if row.get("act") == key), None)
-        text = str((fact or {}).get("text") or "")
+        # 4.9.241 (plan 229 step 10): no canned self sentence. A conversational act is answered by its expected
+        # response act from the speech-act lexicon (speech_acts.json), scored by structural Echo for speech acts.
+        # A self, capability or help question is not answered here: the world model answers it from the kernel's
+        # stored self-facts through frame, Derive, compile and Echo, or holds.
+        from rmc_engine_v1.language_core_proto_chat import act_response
+        text = act_response(question) if act == "greeting" else ""
         inferred = {
             "function": "model_inference_server",
             "cite": CITE,
@@ -91,18 +90,18 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
             "model_invoked": False,
             "grok_1_called": False,
             "sampling": False,
-            "halt": "self_fact" if text else "no_self_fact",
+            "halt": "speech_act_response" if text else ("no_response_act" if act == "greeting" else "self_question_to_world_model"),
             "hops": [{
                 "n": 1,
-                "memory_id": (fact or {}).get("id"),
+                "memory_id": None,
                 "text": text,
                 "grace": 1.0,
                 "phi": phi,
                 "eps": 0.0,
                 "mu": 1.0,
                 "trust": "trusted",
-                "premise": True,
-                "self_fact": True,
+                "premise": False,
+                "speech_act": "greeting",
                 "calls_llm": False,
             }] if text else [],
             "max_steps": 1,

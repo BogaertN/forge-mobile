@@ -26,7 +26,7 @@ from typing import Any
 from rmc_engine_v1.mobile_config import THRESHOLDS
 
 ROLES = ("kartr", "karma", "pred")
-GAP_ROLES = {"kartr", "karma", "pred", "polarity"}
+GAP_ROLES = {"kartr", "karma", "pred", "polarity", "prakara"}  # 4.9.241: a how-gap (state) too
 
 
 def _norm(text: Any) -> str:
@@ -78,7 +78,7 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
     # 4.9.240: for a copula claim each question role is checked at the position the match says it fills, not just
     # anywhere in the fact; and a swapped reading (question kartṛ = fact predicate) holds only for an identity between
     # two referring phrases. "Is a living thing a whale?" against "a whale is a living thing" fails both checks.
-    positional = fk == "be" and (rule in ("polar", "copula", "copula_specificational") or (m is None and qk == "be"))
+    positional = fk == "be" and (rule in ("polar", "copula", "copula_specificational", DF.RULE_CONVERSE) or (m is None and qk == "be"))
     swapped = orient == "kartr=pred"
     place = {"kartr": "pred" if swapped else "kartr", "pred": "kartr" if swapped else "pred"}
     for k in ROLES:
@@ -91,13 +91,26 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
             continue
         hit = bool(m) or any(DF.np_unify(qnp, f) for f in croles)
         checks.append({"check": "role:" + k, "ok": hit, "question": qnp.get("text")})
-    if positional and swapped:
+    if positional and swapped and rule == DF.RULE_CONVERSE:
+        # 4.9.241: the converse of a kind inclusion is faithful only as "not necessarily", never as yes
+        said = DF.NOT_NECESSARILY in _norm(reply)
+        ok = (m or {}).get("filler") == DF.NOT_NECESSARILY and DF.kind_inclusion(ff.get("kartr"), ff.get("pred")) and said
+        checks.append({"check": "orientation", "ok": ok, "hard": True, "reading": "converse of a kind inclusion: it does not follow, said as not necessarily"})
+    elif positional and swapped:
         ident = DF.identity(ff.get("kartr"), ff.get("pred"))
         checks.append({"check": "orientation", "ok": ident, "hard": True, "reading": "identity runs both ways" if ident else "kind or membership does not run backwards"})
     filler = (m or {}).get("filler")
+    if gap == "prakara":
+        # 4.9.241: a how-gap asks a state or manner; the clause must supply it as a predicate adjective
+        fp = ff.get("pred") if isinstance(ff.get("pred"), dict) else {}
+        checks.append({"check": "state", "ok": str(fp.get("type") or "").startswith("adj"), "hard": True, "pred_type": fp.get("type")})
     checks.append({"check": "gap:" + gap, "ok": bool(filler), "filler": filler, "kind": ((qframe.get("pred") or {}).get("kind") if isinstance(qframe.get("pred"), dict) else None)})
     args = [_norm(a) for a in atom.get("args") or []]
-    if gap == "polarity":
+    if rule == DF.RULE_PRO_VERB:
+        # 4.9.241: the pro-verb's filler is the fact's verb phrase: the spoken atom states that verb and its object
+        fo = ff.get("karma") if isinstance(ff.get("karma"), dict) else {}
+        stated = _norm(atom.get("predicate")) == _norm((m or {}).get("action")) and _norm(fo.get("text")) in args
+    elif gap == "polarity":
         stated = bool(m) and (atom.get("polarity") or "pos") == (ff.get("polarity") or "pos")
     else:
         stated = bool(filler) and (_norm(filler) in args or _norm(to_listener(str(filler))) in args)
@@ -119,5 +132,29 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
         "output_text": str(reply or "")[:400],
         "structure": {"checks": checks, "held": held, "made": len(checks), "rule": rule, "frame_source": (claim.get("frame_match") or {}).get("frame_source"),
                       "question_rule": qframe.get("rule"), "uses_token_overlap": False},
+        "calls_llm": False,
+    }
+
+
+def speech_act_score(question: str, reply: str) -> dict[str, Any]:
+    """4.9.241 (plan 229 step 10; Nic: natural conversation): structural Echo for speech acts. The reply is re-read with
+    the speech-act lexicon (speech_acts.classify, the same reader as the question) and must be (act) the expected response
+    act to each act of the question, in order, (reciprocal) the answer to that act, and (only_the_act) nothing else.
+    Each check is measured on the reply; nothing is set to pass. A greeting answered by a fact, or by another act, fails."""
+    from rmc_engine_v1.speech_acts import echo as _act_echo
+
+    e = _act_echo(question, reply)
+    checks = [{"check": k, "ok": bool(v)} for k, v in e["checks"].items()]
+    held = sum(1 for c in checks if c["ok"])
+    value = round(held / len(checks), 6)
+    return {
+        "score": value,
+        "min": THRESHOLDS["echo_min"],
+        "pass": value >= float(THRESHOLDS["echo_min"]),
+        "method": "structural_speech_act",
+        "compares": "reply_acts_to_expected_response_acts",
+        "output_text": str(reply or "")[:400],
+        "structure": {"checks": checks, "held": held, "made": len(checks), "question_acts": e["question_acts"],
+                      "expected": e["expected"], "reply_acts": e["reply_acts"], "uses_token_overlap": False},
         "calls_llm": False,
     }

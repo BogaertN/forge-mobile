@@ -1,0 +1,56 @@
+{
+ "schema": "forge.speech_acts/v1",
+ "about": "General English conversational acts (adjacency pairs). Each entry is a meaning: the act, the surface forms that perform it, the act that answers it, and its kāraka frame (speaker and listener are the participants). No reply line is stored: a reply is the expected response act, realized from that act's own forms. Mirrored in src/speech_acts.js (suite-checked).",
+ "participants": {"speaker": "the one who performs the act", "listener": "the one it is addressed to"},
+ "acts": {
+  "greet": {
+   "gloss": "open contact with the listener",
+   "forms": [{"form": "hello"}, {"form": "hi"}, {"form": "hey"}, {"form": "greetings"}, {"form": "good morning"}, {"form": "good afternoon"}, {"form": "good evening"}],
+   "response": "greet",
+   "answered_by": "act",
+   "frame": {"kriya": "greet", "kartr": "speaker", "karma": "listener"}
+  },
+  "farewell": {
+   "gloss": "close contact with the listener",
+   "forms": [{"form": "bye"}, {"form": "goodbye"}, {"form": "good bye"}, {"form": "bye bye"}, {"form": "farewell"}, {"form": "see you"}, {"form": "see you later"}, {"form": "good night"}],
+   "response": "farewell",
+   "answered_by": "act",
+   "frame": {"kriya": "part", "kartr": "speaker", "apadana": "listener"}
+  },
+  "thank": {
+   "gloss": "credit the listener for a prior act",
+   "forms": [{"form": "thanks"}, {"form": "thank you"}, {"form": "thanks a lot"}, {"form": "thank you very much"}, {"form": "many thanks"}],
+   "response": "acknowledge",
+   "answered_by": "act",
+   "frame": {"kriya": "thank", "kartr": "speaker", "karma": "listener", "hetu": "prior act of the listener"}
+  },
+  "apologize": {
+   "gloss": "take responsibility to the listener for a prior act",
+   "forms": [{"form": "sorry"}, {"form": "i'm sorry"}, {"form": "i am sorry"}, {"form": "i apologize"}, {"form": "my apologies"}],
+   "response": "acknowledge",
+   "answered_by": "act",
+   "frame": {"kriya": "apologize", "kartr": "speaker", "sampradana": "listener", "hetu": "prior act of the speaker"}
+  },
+  "ask_wellbeing": {
+   "gloss": "ask the state of the listener",
+   "forms": [{"form": "how are you"}, {"form": "how are you doing"}, {"form": "how is it going"}, {"form": "how's it going"}],
+   "response": "report_state",
+   "answered_by": "frame",
+   "frame": {"kriya": "be", "kartr": "listener", "prakara": "gap", "wh": "how"}
+  },
+  "ask_help": {
+   "gloss": "ask what the listener can do for the speaker",
+   "forms": [{"form": "help"}, {"form": "help me"}, {"form": "i need help"}, {"form": "can you help me"}, {"form": "can you help"}],
+   "response": "report_capability",
+   "answered_by": "frame",
+   "frame": {"kriya": "do", "kartr": "listener", "karma": "gap", "modality": "able", "wh": "what"}
+  },
+  "acknowledge": {
+   "gloss": "accept the listener's prior act; ends the pair",
+   "forms": [{"form": "you're welcome", "of": "thank"}, {"form": "you are welcome", "of": "thank"}, {"form": "that's all right", "of": "apologize"}, {"form": "that is all right", "of": "apologize"}, {"form": "no problem"}, {"form": "okay"}, {"form": "ok"}, {"form": "all right"}, {"form": "got it"}],
+   "response": null,
+   "answered_by": "none",
+   "frame": {"kriya": "acknowledge", "kartr": "speaker", "karma": "prior act of the listener"}
+  }
+ }
+}

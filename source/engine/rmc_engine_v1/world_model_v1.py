@@ -106,40 +106,9 @@ SELF_FACTS = [
     },
 ]
 
-# Chat replies are world-model sentences. They are not seeded into TurnWorld:
-# the fact budget is already full, and a greeting is not a premise for other questions.
-CHAT_FACTS = [
-    {
-        "id": "self:greeting",
-        "text": "Hello.",
-        "cite": "source/src/lexicon.js I.HELLO Doc5 §15",
-        "act": "greeting",
-    },
-    {
-        "id": "self:state",
-        "text": "Forge does not store a feeling. World Model owns world state and inference.",
-        "cite": "contract 1g2034-K §2; a self question is not a stored feeling",
-        "act": "self",
-    },
-    {
-        "id": "self:help",
-        "text": "Help asks what Forge can do. Forge answers from admitted facts and does not call a model.",
-        "cite": "source/src/lexicon.js A.HELP",
-        "act": "help",
-    },
-    {
-        "id": "self:capability",
-        "text": "Forge answers from admitted facts and does not call a model.",
-        "cite": "source/src/lexicon.js F.CAN Doc3 §18; contract 1g2034-K §2",
-        "act": "capability",
-    },
-    {
-        "id": "self:tell",
-        "text": "Tell needs a topic already in the turn, and this turn has none.",
-        "cite": "contract 1g2034-K §7; an anaphor with no antecedent is not a knowledge lookup",
-        "act": "tell",
-    },
-]
+# 4.9.241 (plan 229 step 10): there are no canned chat sentences. A question about the kernel is answered from its
+# self-facts (src/selfmodel.js FACTS, stored clauses sent as memory.self) through the same frame, Derive, compile and Echo
+# path as any fact; a greeting is answered by the reciprocal greeting the question itself carries (language core).
 
 # Contract §5: one range-restricted copula rule. Head variables occur in the body.
 COPULA_RULE = {
@@ -747,6 +716,24 @@ _PERSPECTIVE = {"i": "you", "me": "you", "my": "your", "mine": "yours", "myself"
                 "i'm": "you're", "we": "you", "us": "you", "our": "your", "ours": "yours", "ourselves": "yourselves"}
 
 
+_SECOND_PERSON_RE = re.compile(r"(?i)\b(you|your|yours|yourself)\b")
+_SPEAKER = {"your": "my", "yours": "mine", "yourself": "myself", "you're": "I'm"}
+
+
+def to_speaker(sentence: str) -> str:
+    """4.9.241: the kernel says a fact the asker states about it ("You are a computer program.") in its own person
+    ("I am a computer program."). "you" is I as a subject (sentence start, or before a verb group) and me elsewhere; the
+    copula agrees (are → am, were → was). Deixis, not content: no word other than the person forms changes."""
+    text = str(sentence or "")
+    text = re.sub(r"(?i)\byou are\b", "I am", text)
+    text = re.sub(r"(?i)\byou were\b", "I was", text)
+    text = re.sub(r"(?i)\b(your|yours|yourself|you're)\b", lambda m: _SPEAKER[m.group(0).lower()], text)
+    text = re.sub(r"(?i)^(\s*)you\b", lambda m: m.group(1) + "I", text)
+    text = re.sub(r"(?i)\b(and|but|or|that|because|if|when)\s+you\b", lambda m: m.group(1) + " I", text)
+    text = re.sub(r"(?i)\byou\b", "me", text)
+    return text[:1].upper() + text[1:] if text else text
+
+
 def to_listener(sentence: str) -> str:
     """Speak an asker's own first-person memory back to them in the second person (deixis, not content)."""
     def swap(m: re.Match) -> str:
@@ -1028,12 +1015,14 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     q_tokens = content_tokens(question)
     claims: list[dict[str, Any]] = []
     incomplete = False
-    if not q_tokens:
-        return _derive_report(world, question, "undetermined", "no content tokens in the question", claims, incomplete)
     if len(question) > LIMITS["MAX_INPUT_CHARS"]:
         return _derive_report(world, question, "incomplete", "MAX_INPUT_CHARS", claims, True)
+    # 4.9.241: a framed question is matched by its frame even when it has no content word ("Who are you?": kartṛ you,
+    # the gap the predicate); token coverage is not what decides it
     if isinstance(qframe, dict) and qframe.get("kriya") and (qframe.get("parsed") or qframe.get("partial")):
         return _derive_by_frame(world, question, phase_path or [], qframe, topical)
+    if not q_tokens:
+        return _derive_report(world, question, "undetermined", "no content tokens in the question", claims, incomplete)
 
     # Direct support. Contract acceptance C: a stored fact that answers the query.
     ranked = sorted(topical, key=lambda f: (-_role_lock(question, f["text"]), -_coverage(question, f["text"]), str(f.get("text") or ""), str(f["id"])))
@@ -1145,8 +1134,6 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         status = "undetermined"
     _attach_speech(claims, topical, world, phase_path or [])
     report = _derive_report(world, question, status, "closure" if not incomplete else "MAX_ROUNDS", claims, incomplete)
-    if not report.get("derived_text"):
-        report["derived_text"] = _chat_derived(question)
     return report
 
 
@@ -1339,12 +1326,21 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         else:
             parts = []
         parts.append(str(claim.get("text") or ""))
+        fm = claim.get("frame_match") or {}
+        if fm.get("rule") == DF.RULE_CONVERSE:
+            # 4.9.241: the polarity answer the frame gives ("not necessarily"), then the fact it rests on
+            parts.insert(0, _cap(str(fm.get("filler"))))
         personal = any(_FIRST_PERSON_RE.search(p) for p in parts) and all(
             str(p.get("source") or "") in DF.PERSONAL_SOURCES for p in claim.get("premises") or [] if _FIRST_PERSON_RE.search(str(p.get("text") or "")))
-        claim["spoken"] = " ".join(dict.fromkeys(_cap(to_listener(p) if personal else p) for p in parts if p.strip()))
-        claim["perspective"] = "listener" if personal else "as_stored"
+        # 4.9.241 (plan 229 step 10): a self-fact is stored as the asker would say it to the kernel ("You are a computer
+        # program."); the kernel speaks it in its own person ("I am a computer program."). Deixis, not content.
+        selfvoice = any(_SECOND_PERSON_RE.search(p) for p in parts) and bool(claim.get("premises")) and all(
+            str(p.get("source") or "") in DF.SELF_SOURCES for p in claim.get("premises") or [] if _SECOND_PERSON_RE.search(str(p.get("text") or "")))
+        voice = to_speaker if selfvoice else (to_listener if personal else None)
+        claim["spoken"] = " ".join(dict.fromkeys(_cap(voice(p) if voice else p) for p in parts if p.strip()))
+        claim["perspective"] = "speaker" if selfvoice else ("listener" if personal else "as_stored")
         # 4.9.237 (plan 229 step 8): each spoken sentence with the atom it states, for the outward compile (panini_wording)
-        claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, personal)
+        claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, voice)
     report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers)
     report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
@@ -1365,22 +1361,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         "unaligned_matches": [{"text": c.get("text"), "fact_phase": (c.get("alignment") or {}).get("fact_phase"),
                                "delta_deg": (c.get("alignment") or {}).get("delta_deg")} for c in matched if not (c.get("alignment") or {}).get("aligned")][:4],
     }
-    if not report.get("derived_text"):
-        report["derived_text"] = _chat_derived(question)
     return report
-
-
-def _chat_derived(question: str) -> str:
-    """The self-fact for a chat act, so the first pass and the fill pass record the same sentence."""
-    from rmc_engine_v1.language_core_proto_chat import chat_fact_act, handle_chat
-    from rmc_engine_v1.resonance_recall import _concept_ids
-    chat = handle_chat(question)
-    act = chat.get("speech_act")
-    key = chat_fact_act(str(act or ""), _concept_ids(question))
-    if not key:
-        return ""
-    fact = next((row for row in CHAT_FACTS if row.get("act") == key), None)
-    return str((fact or {}).get("text") or "")
 
 
 def _finish_claim(world, text, atom, premises, proof, checked, status, how, phase_path) -> dict[str, Any]:
@@ -1449,20 +1430,20 @@ def _derive_report(world, question, status, reason, claims, incomplete, answers=
     }
 
 
-def _listener_atom(atom: dict[str, Any] | None, personal: bool) -> dict[str, Any] | None:
+def _listener_atom(atom: dict[str, Any] | None, voice: Any) -> dict[str, Any] | None:
     if not isinstance(atom, dict):
         return None
     out = {"predicate": atom.get("predicate"), "args": [str(a) for a in atom.get("args") or []], "polarity": atom.get("polarity") or "pos"}
-    if personal:
-        # deixis on each argument; to_listener capitalises a sentence start, which an argument is not
+    if voice:
+        # deixis on each argument; the voice capitalises a sentence start, which an argument is not
         def arg(a: str) -> str:
-            t = to_listener(a)
+            t = voice(a)
             return t[:1].lower() + t[1:] if t != a or a[:1].islower() else t
         out["args"] = [arg(a) for a in out["args"]]
     return out
 
 
-def _spoken_atoms(world: dict[str, Any], claim: dict[str, Any], parts: list[str], personal: bool) -> list[dict[str, Any]]:
+def _spoken_atoms(world: dict[str, Any], claim: dict[str, Any], parts: list[str], voice: Any) -> list[dict[str, Any]]:
     """The spoken sentences in order, each with the atom it states: a recalled fact's own atom, or the derived conclusion's.
     A sentence whose atom is a bare 'stated' record (the parser did not read it) carries no atom; it is quoted, not compiled."""
     by_text = {}
@@ -1472,7 +1453,7 @@ def _spoken_atoms(world: dict[str, Any], claim: dict[str, Any], parts: list[str]
     out, seen = [], set()
     last = len(parts) - 1
     for i, part in enumerate(parts):
-        text = _cap(to_listener(part) if personal else part)
+        text = _cap(voice(part) if voice else part)
         if not part.strip() or text in seen:
             continue
         seen.add(text)
@@ -1481,7 +1462,7 @@ def _spoken_atoms(world: dict[str, Any], claim: dict[str, Any], parts: list[str]
         if isinstance(atom, dict) and atom.get("predicate") == "stated":
             atom = None
         # verbatim: the sentence is a recalled fact's own stored text (a direct answer, or a premise in its stored person)
-        out.append({"text": text, "atom": _listener_atom(atom, personal),
+        out.append({"text": text, "atom": _listener_atom(atom, voice),
                     "source_id": (fact or {}).get("id"), "verbatim": bool(fact) and _cap(part.strip()) == text,
                     "role": "conclusion" if i == last else "premise"})
     return out

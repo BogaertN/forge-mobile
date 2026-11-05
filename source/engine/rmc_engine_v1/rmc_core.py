@@ -91,7 +91,7 @@ FALLBACK_MAX = 3
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     rows: list[dict[str, Any]] = []
-    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("anchor", "anchors"), ("research_quarantine", "research")):
+    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("anchor", "anchors"), ("self_model", "self"), ("research_quarantine", "research")):
         for row in memory.get(key) or []:
             if isinstance(row, dict) and str(row.get("text") or row.get("content") or "").strip():
                 if row.get("unsourced") is True:
@@ -406,11 +406,31 @@ def _outward_plan(reply: str | None, world: dict[str, Any]) -> dict[str, Any] | 
             "compiler": "src/panini_wording.js outward"}
 
 
+def _outward_plan_acts(reply: str | None, world: dict[str, Any], acts: dict[str, Any] | None) -> dict[str, Any] | None:
+    """4.9.241: the outward plan when the reply opens with speech-act responses. Each response is sent as its act atom
+    (speech_act(response act, the act it answers), with the asker's form for a reciprocal act); the phone realizes it from
+    the speech-act lexicon (src/speech_acts.js) and re-reads it. The world model's sentences follow with their atoms."""
+    if not acts or not reply:
+        return _outward_plan(reply, world)
+    head = [{"text": r["text"], "atom": r["atom"], "source_id": "speech_acts.json#" + r["response_act"], "verbatim": False, "role": "speech_act"}
+            for r in acts.get("responses") or []]
+    spoken_head = " ".join(h["text"] for h in head)
+    rest = reply[len(spoken_head):].strip() if _norm_sentence(reply).startswith(_norm_sentence(spoken_head)) else None
+    if rest is None:
+        return None
+    tail = _outward_plan(rest, world) if rest else None
+    if rest and tail is None:
+        return None
+    quotes = [{"id": "speech_acts.json#" + r["response_act"], "text": r["form"], "source": "speech_act_lexicon"} for r in acts.get("responses") or []]
+    return {"schema": "forge.outward/v1", "measured_text": reply, "sentences": head + ((tail or {}).get("sentences") or []),
+            "quotes": quotes + ((tail or {}).get("quotes") or []), "compiler": "src/panini_wording.js outward + src/speech_acts.js"}
+
+
 def _norm_sentence(text: str) -> str:
     return " ".join(str(text or "").lower().split())
 
 
-def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict[str, Any]]) -> dict[str, Any]:
+def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict[str, Any]], acts: dict[str, Any] | None = None) -> dict[str, Any]:
     """Whether a spoken reply rests on a trusted anchor. A low-trust excerpt alone cannot."""
     from rmc_engine_v1.source_trust import trust_tier
     low_rows = [r for r in rows if trust_tier(r) == "low"]
@@ -421,16 +441,19 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
             points.append(link.get("points_at"))
     reply_n = _norm_sentence(reply)
     rests_on = None
-    if reply_n:
-        from rmc_engine_v1.world_model_v1 import CHAT_FACTS
-        if any(reply_n == _norm_sentence(f.get("text")) for f in CHAT_FACTS):
-            rests_on = "self-fact"
+    # 4.9.241: a reply that is only speech-act responses rests on the speech-act lexicon items it realizes
+    if reply_n and isinstance(acts, dict) and acts.get("pure") and reply_n == _norm_sentence(acts.get("spoken")):
+        rests_on = "speech_acts.json#" + "+".join(str(r.get("response_act")) for r in acts.get("responses") or [])
+    # 4.9.241 (plan 229 step 10): no reply is trusted for equalling a canned self sentence; a self-fact rests on its
+    # stored self row like any fact on its row (spoken in the kernel's person, to_speaker)
     if reply_n and rests_on is None:
         # 4.9.236: a personal memory is spoken to the listener ("my dog" → "your dog"); it still rests on that row
-        from rmc_engine_v1.world_model_v1 import to_listener
+        from rmc_engine_v1.world_model_v1 import to_listener, to_speaker
         for row in trusted_rows:
             raw = str(row.get("text") or row.get("content") or "")
             forms = {_norm_sentence(raw)} | ({_norm_sentence(to_listener(raw))} if row.get("source") == "phone_kb" else set())
+            if row.get("source") == "self_model":
+                forms.add(_norm_sentence(to_speaker(raw)))
             # 4.9.238: a reply that is one clause of a concessive or causal row (clause_split, the parts the world
             # model observed) rests on that row; before this only the whole sentence or a substring with its period did.
             from rmc_engine_v1.clause_split import split_clauses
@@ -511,13 +534,26 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         scored_kind = str(meaning_preview.get("candidate_kind") or "")
         # A conflict speaks neither side. The scored sentence is used only when
         # Derive did not refuse both.
-        if live and derive_status != "conflicted" and scored and ("memory" in scored_kind or meaning_preview.get("language_core")):
+        # 4.9.241: a scored memory sentence that is the stored form of the world model's survivor, when the survivor is
+        # spoken in another person (a self-fact in the kernel's person, a personal memory in the listener's), is not
+        # spoken as stored: the survivor's spoken form is that same fact, said in the right person
+        _surv = (world.get("derive") or {}).get("survivor") if isinstance(world.get("derive"), dict) else None
+        _restated = isinstance(_surv, dict) and _surv.get("perspective") in ("speaker", "listener") and _norm_sentence(scored) in {
+            _norm_sentence(p.get("text")) for p in (_surv.get("premises") or []) if isinstance(p, dict)} | {_norm_sentence(_surv.get("text"))}
+        if live and derive_status != "conflicted" and scored and not _restated and ("memory" in scored_kind or meaning_preview.get("language_core")):
             if echo_against_question(question, scored, rendered=True).get("pass"):
                 rendered = scored
-        if live and derive_status != "conflicted" and language_core.get("speech_act") in {"greeting", "request", "self", "capability"} and language_core.get("claim"):
-            rendered = str(language_core.get("claim"))
+        # 4.9.241 (Nic: natural conversation): a turn that is only conversational acts the speech-act lexicon answers is
+        # answered by their expected response acts (speech_acts.turn), measured against the lexicon items they realize
+        # (artifacts.speech_act_measure). A turn that opens with such acts and goes on ("Hi, who wrote Hamlet?") is
+        # answered on its rest by the world model; the act responses are put before that answer only when it is spoken.
+        act_measure = artifacts.get("speech_act_measure") if isinstance(artifacts.get("speech_act_measure"), dict) else None
+        greeting = bool(live and derive_status != "conflicted" and act_measure and act_measure.get("pure") and act_measure.get("spoken"))
+        if greeting:
+            rendered = str(act_measure.get("spoken"))
         if (
             live
+            and not greeting
             and derive_status != "conflicted"
             and language_core.get("admitted_candidate")
             and language_core.get("claim")
@@ -525,20 +561,15 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         ):
             rendered = str(language_core.get("claim"))
         echo = echo_against_question(question, rendered if live else _candidate_text(report), rendered=live)
-        # "How are you?" and "What can you do?" are function words. The token
-        # cut leaves no content word, so coverage was 0 no matter the reply.
-        # The meaning is the speech act. They are different acts. The 0.85
-        # line is unchanged.
-        if (
-            live
-            and language_core.get("speech_act") in {"greeting", "request", "self", "capability"}
-            and rendered
-            and not _tokens(question)
-        ):
-            echo = dict(echo)
-            echo["score"] = 1.0
-            echo["pass"] = True
-            echo["method"] = "speech_act_meaning"
+        # 4.9.241 (plan 229 step 10): no Echo is forced. The speech-act bypass (score 1.0 for any reply to a question
+        # with no content word) is gone. A greeting reply is scored by structural Echo for speech acts: the reply is
+        # re-read and must be the same act with the same concept and nothing else (structural_echo.speech_act_score).
+        # The Echo line to speak (0.85) and C_min (0.87) are unchanged.
+        if greeting and rendered == str(act_measure.get("spoken")):
+            from rmc_engine_v1.structural_echo import speech_act_score as _act_echo
+            acted = _act_echo(question, rendered)
+            acted["replaced"] = {"method": echo.get("method"), "score": echo.get("score"), "note": "token coverage; logged, not used"}
+            echo = acted
         # 4.9.238 (plan 229 step 9): when the reply is the world model's claim and the question compiled to a frame, Echo
         # scores the claim's kāraka structure against the question frame (structural_echo); token coverage is not a term.
         if live and rendered and derive_status != "conflicted" and _norm_sentence(rendered) == _norm_sentence(derived):
@@ -568,6 +599,32 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         if wm_measure and would_speak and _norm_sentence(would_speak) == _norm_sentence(wm_measure.get("spoken")):
             measured = _measured_from_world(wm_measure, orchestrator_measured)
             scored_by = "world_model"
+        act_prefix = None
+        if greeting and _norm_sentence(would_speak) == _norm_sentence(act_measure.get("spoken")):
+            measured = _measured_from_world(act_measure, orchestrator_measured)
+            scored_by = "speech_act_lexicon"
+        elif (live and act_measure and not act_measure.get("pure") and act_measure.get("spoken") and rendered
+              and scored_by == "world_model" and echo.get("pass")):
+            # the act responses go before the world model's answer; each part keeps its own Echo and the gate reads the
+            # weaker of the two measured readings (C min, ε max), as for a chain of hops
+            from rmc_engine_v1.structural_echo import speech_act_score as _act_echo
+            head = str(act_measure["spoken"])
+            act_echo = _act_echo(question, head)
+            act_read = _measured_from_world(act_measure, orchestrator_measured)
+            merged = dict(measured)
+            merged.update({
+                "coherence": round(min(_f(measured.get("coherence"), 0.0), _f(act_read.get("coherence"), 0.0)), 6),
+                "epsilon_s": round(max(_f(measured.get("epsilon_s"), 0.0), _f(act_read.get("epsilon_s"), 0.0)), 6),
+                "circuit_breaker": bool(measured.get("circuit_breaker") or act_read.get("circuit_breaker")),
+                "phase_ok": bool(measured.get("phase_ok") and act_read.get("phase_ok")),
+            })
+            merged["coherence_component"] = merged["coherence_top_level"] = merged["coherence"]
+            measured = merged
+            scored_by = "speech_act_lexicon+world_model"
+            act_prefix = head
+            echo = dict(echo, score=min(_f(echo.get("score"), 0.0), _f(act_echo.get("score"), 0.0)),
+                        **{"pass": bool(echo.get("pass") and act_echo.get("pass")), "parts": {"answer": dict(echo), "acts": act_echo}})
+            rendered = head + " " + rendered
         gate = admit_gate(
             measured, apply_to_ask=bool(live and echo.get("pass") and rendered),
             history=payload.get("drift_history"), stamps_ms=payload.get("phase_stamps_ms"),
@@ -590,7 +647,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         chain = [s.get("stage_id") for s in stages]
         spoken = bool(gate.get("applied_to_ask") and rendered)
         reply = rendered if spoken else None
-        trust_trace = _trust_trace(reply, rows, anchors)
+        trust_trace = _trust_trace(reply, rows, anchors, act_measure if greeting else None)
         if spoken and trust_trace.get("blocks_admit"):
             spoken = False
             reply = None
@@ -720,7 +777,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "module": "rmc_engine_v1.rmc_core",
             "product_reply": spoken,
             "reply": reply,
-            "outward": _outward_plan(reply, world),
+            "outward": _outward_plan_acts(reply, world, act_measure if (greeting or act_prefix) else None),
             "claim": str((artifacts.get("admitted_claim") or {}).get("text") or "")[:500],
             "held": bool(live and not spoken),
             "calls_llm": False,
@@ -833,7 +890,7 @@ def _rows_for(payload: dict[str, Any], candidate: str) -> list[tuple[str, int]]:
     hits = []
     if not want:
         return hits
-    for key in ("receipts", "phone", "hosted", "anchors"):
+    for key in ("receipts", "phone", "hosted", "anchors", "self"):
         for i, row in enumerate(memory.get(key) or []):
             if not isinstance(row, dict):
                 continue

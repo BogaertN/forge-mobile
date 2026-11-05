@@ -24,6 +24,8 @@ const FACTS = {
   experience: { subj: K, verb: V('have'), roles: { karma: NP('experience', { quant: 'no' }) } },
   device: { subj: K, verb: V('run'), adj: [{ prep: 'on', np: NP('device', { det: 'this' }), role: 'adhikarana' }] },
   person: { subj: K, verb: V('be', 'neg'), pred: { type: 'np', np: NP('person', { det: 'a' }) } },
+  /* 4.9.241: the program's name, as the app and its contract name it (Forge Mobile; engine SELF_FACTS: Forge) */
+  name: { subj: NP('name', { owner: 'kernel' }), verb: V('be'), pred: { type: 'np', np: { propn: 'Forge' } } },
 };
 /* predicates the self-model settles directly (true facts, by lexical class membership) */
 const SELF_ADJ = { conscious: 'neg', sentient: 'neg', alive: 'neg', aware: 'neg', living: 'neg', human: 'neg', mortal: 'neg', afraid: 'feeling', scared: 'feeling' };

@@ -120,9 +120,9 @@ T('the cold 60 is unchanged (21 of 60, 0 false admits, rows identical to 4.9.224
   expect(a.rows.map(k).join('|') === b.rows.map(k).join('|'), 'rows differ from 4.9.224');
 });
 T('version registry names 4.9.226', () => {
-  expect(read('VERSION').trim() === '4.9.240', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.241', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.240' && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.241' && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

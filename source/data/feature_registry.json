@@ -1,5 +1,5 @@
 {
- "version": "4.9.240",
+ "version": "4.9.241",
  "features": [
   {
    "id": "A-01",
@@ -4322,13 +4322,26 @@
     "CONFLICTS.md v4.9.240",
     "real Ask run /workspace/step240/asks.txt"
    ]
+  },
+  {
+   "id": "R4241-SELF-FACTS-FROM-CLAUSES",
+   "name": "Self-facts from clauses; no canned self line and no forced Echo; kind facts from bare plurals; 'not necessarily' for the converse of a kind; a speech-act lexicon for natural conversation (greet, farewell, thank, apologize, ask-wellbeing, ask-help, acknowledge)",
+   "source": "plan 229 step 10 (/workspace/forge_layer_chain_229.md), 2026-11-05 1:24 PM CST",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "CHAT_FACTS, _chat_derived, the language core's self-fact hop and its synthetic high-confidence measuring node, the _trust_trace string-equality trust and the speech-act Echo bypass (score 1.0, method speech_act_meaning) are removed. The kernel's facts about itself are the kāraka clauses of src/selfmodel.js FACTS (plus its name), realized as the asker says them ('You are a computer program.'), re-read by the clause parser and sent as memory.self (engine source self_model, tier self). A self question is answered from them through frame, Derive, outward compile and structural Echo, and spoken in the kernel's person (to_speaker deixis). New general rules: the pro-verb 'do' (what can you do = an action of the subject), a negative quantifier negates its clause ('I have no body' answers no), a framed question is matched by frame even with no content word. A greeting stays a speech act: the reciprocal greeting the question carries, scored by structural Echo for speech acts (act, concept, nothing else), measured C (no synthetic node). A bare-plural remembered clause reads as a kind (QF-CANON-GENERIC-PLURAL), and the converse of a positive kind inclusion is answered 'not necessarily' (rule polar_converse), never yes. Partial: a greeting has no stored support, so its measured C is below C_min and it is held; 'How are you?' and 'Help' have no self-fact that answers them and are held. 2:19 PM CST (Nic: natural conversation): engine/rmc_engine_v1/speech_acts.json (mirrored in src/speech_acts.js) stores conversational acts as meanings: forms, the expected response act and the kāraka frame. The question compiler classifies the act (QF-SPEECH-ACT, QF-ACT-PREFIX, QF-ACT-FRAME); a reply is the expected response act realized from that act's forms by the outward compile and re-read by the same lexicon (structural speech-act Echo); C is measured by the kernel against the lexicon item. How are you? is answered from a self-state clause built from the previous turn's measured C and drift; Help from the capability self-facts.",
+   "proof": [
+    "verify/r4241_suite.js",
+    "CONFLICTS.md v4.9.241",
+    "real Ask run /workspace/step241/asks.txt"
+   ]
   }
  ],
- "count": 393,
+ "count": 394,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 197,
+  "Partial": 198,
   "Missing": 9,
   "Out of scope / parked": 47
  }
