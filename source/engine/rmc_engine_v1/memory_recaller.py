@@ -555,6 +555,8 @@ def build_trace_spine(source_text: str, source_metadata: dict[str, Any] | None =
     from rmc_engine_v1.lexicon_resonance import apply_lexicon_phase
     phase_report = apply_lexicon_phase(phase_report, source_text)
     memory_report = recall_memory(source_text, source_metadata, root=root, limit=limit)
+    from rmc_engine_v1.resonance_recall import settle_subject_phase
+    phase_report = settle_subject_phase(phase_report, (memory_report.get("memory_state") or {}).get("active_memory_nodes"))
 
     if memory_report.get("status") != "OK":
         return {

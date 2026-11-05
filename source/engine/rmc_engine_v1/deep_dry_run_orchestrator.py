@@ -887,6 +887,9 @@ def run_deep_dry_run(
         stages.append(_stage_ok("structural_drift_engine", structural_drift))
         from rmc_engine_v1.lexicon_resonance import apply_lexicon_phase
         phase_report = apply_lexicon_phase(phase_report, source_text)
+        from rmc_engine_v1.resonance_recall import settle_subject_phase
+        _recall_nodes = (((trace_spine.get("memory_recall") or {}).get("memory_state") or {}).get("active_memory_nodes")) if isinstance(trace_spine, dict) else None
+        phase_report = settle_subject_phase(phase_report, _recall_nodes)
         artifacts["phase_report"] = phase_report
     except Exception as exc:
         if structural_drift:

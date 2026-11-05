@@ -129,7 +129,7 @@ T('the app never fetches the new hosts; no answer path reads the fetchers', () =
     expect(!/athena_sources_222|api\.worldbank\.org|geonames\.org|bipm\.org|physics\.nist\.gov|nssdc\.gsfc|spaceplace\.nasa/.test(t), f);
   }
   expect(!/athena_sources_222/.test(read('index.html')) && !/athena_sources_222/.test(read('sw.js')), 'shell');
-  expect(!fs.readdirSync(path.join(ROOT, '..', 'supabase', 'migrations')).some(f => /sense|athena|222/i.test(f) && !/_224\.sql$/.test(f)), 'no kb.anchors schema change before 4.9.224');
+  expect(!fs.readdirSync(path.join(ROOT, '..', 'supabase', 'migrations')).some(f => /sense|athena|222/i.test(f) && !/_22[4-9]\.sql$/.test(f)), 'no kb.anchors schema change before 4.9.224');
 });
 
 T('the cold 60 for 4.9.222 is recorded (not tuned) and identical to 4.9.221', () => {
@@ -138,9 +138,9 @@ T('the cold 60 for 4.9.222 is recorded (not tuned) and identical to 4.9.221', ()
   expect(JSON.stringify(c.rows) === JSON.stringify(p.rows), 'every row identical to 4.9.221');
 });
 T('version registry names 4.9.222', () => {
-  expect(read('VERSION').trim() === '4.9.226', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.227', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.226' && reg.features.some(f => f.id === 'R4222-ATHENA-TIER-A') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.227' && reg.features.some(f => f.id === 'R4222-ATHENA-TIER-A') && reg.count === reg.features.length, 'registry');
 });
 (async () => {
   const rows = []; let failed = 0;

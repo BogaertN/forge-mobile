@@ -350,6 +350,18 @@ def apply_lexicon_phase(report: dict[str, Any] | None, text: str) -> dict[str, A
     state = report.get("phase_state") if isinstance(report.get("phase_state"), dict) else {}
     state = dict(state)
     if not placed:
+        # 4.9.227 (Nic t142u): a definitional question also carries its subject's meaning phase (the phase Athena files a
+        # definition of that subject under). Its own phase and phase path are kept; the subject phase is recorded beside them and read only by recall.
+        try:
+            from rmc_engine_v1.relation_echo import asked as _asked_rel
+            from rmc_engine_v1.resonance_recall import subject_key, subject_phase
+            rel = _asked_rel(text or "")
+            if rel.get("relation") in {"definition", "identify"} and rel.get("subject"):
+                sp = subject_phase(list(rel.get("subject") or []))
+                if sp is not None:
+                    state["subject_phase"] = {"Phi": sp, "concept": subject_key(" ".join(rel["subject"])), "from": "subject meaning", "calls_llm": False}
+        except Exception:  # the subject phase is an addition; a failure leaves the parser phase as it was
+            pass
         report = dict(report)
         report["phase_state"] = state
         return report

@@ -187,6 +187,8 @@ def process_one(q: str, anchored: dict, table: dict, commit: bool) -> dict:
         "band": ((row["packet"] or {}).get("band") or {}).get("band"),
         "attribution": row["attribution"], "archived_from": row["archived_from"],
         "claim": res.get("claim"),
+        "concepts": row.get("concepts"), "concepts_from": (res.get("anchor") or {}).get("concepts_from"),
+        "sfe": (row.get("packet") or {}).get("sfe"),
     }
     writer = call_writer(row, commit=commit)
     out["writer"] = writer

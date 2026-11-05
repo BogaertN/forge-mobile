@@ -147,6 +147,10 @@ def resolve_subject(question: str, table: dict[str, Any] | None = None) -> dict[
         row = packet(out["concept"]) or {}
         if isinstance(row.get("Phi"), int):
             out.update(phi=int(row["Phi"]), phi_from="pinned concept " + out["concept"])
+    # 4.9.227 (Nic t142u): the retrieval key comes from the subject itself (its pinned concept, else the subject phrase read the
+    # way Ask reads a question), never from the concepts of the words inside a source sentence.
+    from rmc_engine_v1.resonance_recall import subject_key as _subject_key
+    out["key"] = out["concept"] or _subject_key(bare)
     if out["phi"] is None:
         placed = sentence_placement(bare)
         out.update(phi=placed.get("phi"), phi_from=("lexicon concept " + placed["concept"]) if placed.get("concept") else "letter resultant")
@@ -341,4 +345,5 @@ def annotate(question: str, documents: list[dict[str, Any]], subject: dict[str, 
         if not hits:  # off the pinned meaning's chain: a contradiction only when it is another meaning of the same word
             r["other_meaning"] = next((o for o in others if on_other_chain(r["category"], other_chains[o])), None)
     return {"subject_sense": sense, "subject_phi": subject.get("phi"), "phi_from": subject.get("phi_from"),
+            "subject_key": [subject["key"]] if subject.get("key") else [],
             "compatible": pairs, "schema": "FORGE-ATHENA-MEANING/v1"}

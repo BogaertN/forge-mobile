@@ -776,6 +776,10 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         failure = _remember_failure(question, now, "SEED-ECHO")
         return dict(base, rule="SEED-ECHO", gap=True, quarantined=True, trace=trace, backoff=failure)
     anchor = _anchor_from(question, chosen, loop, cluster)
+    keys = [str(k) for k in ((meaning or {}).get("subject_key") or []) if isinstance(k, str) and k]
+    if keys:  # 4.9.227 (Nic t142u): a definition of X is keyed by X, not by words inside the sentence
+        anchor["concepts"] = keys
+        anchor["concepts_from"] = "subject meaning"
     _clear_failure(question)
     return dict(
         base,

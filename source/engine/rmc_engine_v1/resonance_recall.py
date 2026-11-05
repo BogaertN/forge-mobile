@@ -252,6 +252,31 @@ def compound_id(words: list[str]) -> str:
     return "A." + "".join(ch for ch in "".join(words).upper() if ch.isalnum())
 
 
+_ARTICLES = {"the", "a", "an"}
+
+
+def subject_key(label: str) -> str | None:
+    """4.9.227 (Nic t142u): the retrieval key of a subject, read the same way question_concepts reads a question
+    (name words, compound id), so a fact about X is found by a question about X. "the speed of light" -> A.SPEEDOFLIGHT."""
+    words = [w.lower() for w in _name_words(label) if w != "|"]
+    while words and words[0] in _ARTICLES:
+        words = words[1:]
+    return compound_id(words) if words else None
+
+
+def subject_phase(subject_words: list[str]) -> int | None:
+    """4.9.227 (Nic t142u): the phase of a definitional question's subject, the same reading Athena files a definition under
+    (meaning_223.resolve_subject: the lexicon placement of the bare subject phrase)."""
+    words = [str(w) for w in (subject_words or []) if str(w).strip()]
+    while words and words[0].lower() in _ARTICLES:
+        words = words[1:]
+    if not words:
+        return None
+    from rmc_engine_v1.self_seed_202 import sentence_placement
+    phi = (sentence_placement(" ".join(words)) or {}).get("phi")
+    return int(phi) if isinstance(phi, int) and not isinstance(phi, bool) and 1 <= phi <= 9 else None
+
+
 def row_concepts(node: dict[str, Any], text: str | None = None) -> set[str]:
     """A row's packet concepts. An anchor's own curated concepts (its class) come first;
     words are read only outside proper-name compounds, and a compound adds its own id."""
@@ -560,6 +585,14 @@ def rank_memory(question, nodes, phase_report=None):
     # Band relation (same 1.0 / x3 0.3 / x9 0.1) is a ranking key after phase resonance; it never admits.
     from rmc_engine_v1.band_tuning import band_key as _band_key, relation as _band_relation, tune as _band_tune
     question_band = _question_phi(phase_report)
+    # 4.9.227 (Nic t142u): a definitional question about X also resonates in X's meaning phase (lexicon_resonance
+    # .apply_lexicon_phase records it as subject_phase), the phase Athena files a definition of X under. A row aligned with
+    # either phase is a candidate; the question's own phase is unchanged and stays the band used for tuning.
+    subject_phi = None
+    _st = (phase_report or {}).get("phase_state") if isinstance((phase_report or {}).get("phase_state"), dict) else (phase_report or {})
+    if isinstance(_st, dict) and isinstance(_st.get("subject_phase"), dict) and _phase_index(_st["subject_phase"].get("Phi")):
+        subject_phi = int(_st["subject_phase"]["Phi"])
+    phase_from = "question" if subject_phi in (None, question_band) else "question + subject meaning"
     tuning = _band_tune(question or "", question_band)
     question_phi = question_band
 
@@ -585,6 +618,10 @@ def rank_memory(question, nodes, phase_report=None):
         if text:
             node["content"] = text
         grace = _grace(packet, question_phi)
+        if not grace["aligned"] and subject_phi is not None and subject_phi != question_phi:
+            alt = _grace(packet, subject_phi)
+            if alt["aligned"]:
+                grace = dict(alt, via="subject meaning")
         if _quarantined(node):
             quarantined.append({
                 "memory_id": node.get("memory_id"),
@@ -740,6 +777,7 @@ def rank_memory(question, nodes, phase_report=None):
             "role": (info.get("hit") or {}).get("role"),
             "concepts": info.get("concepts") or [],
             "hop": hop,
+            "via": grace.get("via") or "question",
         }]
         active.append(out)
     active.sort(key=lambda n: (n.get("retrieval_weight") or 0, str(n.get("memory_id") or "")), reverse=True)
@@ -760,3 +798,54 @@ def rank_memory(question, nodes, phase_report=None):
         "quarantine": quarantined,
         "cite": CITE,
     }
+
+
+def settle_subject_phase(phase_report: dict[str, Any] | None, active_nodes: list[dict[str, Any]] | None) -> dict[str, Any] | None:
+    """4.9.227 (Nic t142u): when every fact recall chose is filed in the subject's meaning phase window, the question
+    is read in that phase too, the way a why-question is read in its keyword's phase. The candidate, its phase path,
+    and memory fit then meet the fact where it was filed. If any chosen fact
+    is filed elsewhere, nothing changes. Deterministic, no LLM."""
+    if not isinstance(phase_report, dict):
+        return phase_report
+    state = phase_report.get("phase_state") if isinstance(phase_report.get("phase_state"), dict) else None
+    if not state or not isinstance(state.get("subject_phase"), dict):
+        return phase_report
+    chosen = []
+    for node in active_nodes or []:
+        ev = (node.get("retrieval_evidence") or [{}])[0] if isinstance(node, dict) else {}
+        if ev.get("hop") or not float((node.get("retrieval_dimensions") or {}).get("phase_align") or 0.0) > 0.0:
+            continue
+        # The phase the fact is measured in (its phase tags, as the memory kernel reads them), else its packet phase.
+        from rmc_engine_v1.measurement_kernel import memory_phase_tags
+        tags_n = [_phase_index(x) for x in memory_phase_tags(node)]
+        tags_n = [x for x in tags_n if x] or [_phase_index(ev.get("phi"))]
+        chosen.append(tags_n)
+    try:
+        sphi = int(state["subject_phase"].get("Phi") or 0)
+    except (TypeError, ValueError):
+        return phase_report
+    qphi = _phase_index(state.get("phase_primary"))
+    # Every chosen fact is filed at one phase inside the subject's phase window (the window Athena's own gate used
+    # when she admitted it), and that phase differs from the question's own reading.
+    if sphi == qphi or any(qphi in tags_n for tags_n in chosen):
+        return phase_report
+    filed = {tags_n[-1] for tags_n in chosen}
+    if len(filed) != 1 or None in filed:
+        return phase_report
+    fphi = filed.pop()
+    if fphi == qphi or not phase_aligned(sphi, fphi):
+        return phase_report
+    from rmc_engine_v1.lexicon_resonance import phase_tag
+    tags = phase_tag(fphi)
+    if not tags:
+        return phase_report
+    state = dict(state)
+    state["parser_phase_primary"] = state.get("phase_primary")
+    state["parser_phase_path_hypothesis"] = list(state.get("phase_path_hypothesis") or [])
+    state["phase_primary"] = tags[-1]
+    state["phase_path_hypothesis"] = tags
+    state["phase_from"] = "subject meaning (recalled definition)"
+    state["subject_phase_filed"] = fphi
+    out = dict(phase_report)
+    out["phase_state"] = state
+    return out

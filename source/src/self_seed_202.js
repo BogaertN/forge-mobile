@@ -705,8 +705,11 @@
     const chosen = cluster[0];
     if (chosen.echo < ECHO_MIN) return fail('SEED-ECHO');
     delete BACKOFF[key];
+    const anchor = anchorFrom(question, chosen, loop, cluster);
+    const skeys = ((meaning && meaning.subject_key) || []).filter(k => typeof k === 'string' && k);
+    if (skeys.length) { anchor.concepts = skeys.map(String); anchor.concepts_from = 'subject meaning'; } // 4.9.227 (Nic t142u)
     return Object.assign({}, base, {
-      rule: 'SEED-CANDIDATE', gap: true, quarantined: false, anchor: anchorFrom(question, chosen, loop, cluster),
+      rule: 'SEED-CANDIDATE', gap: true, quarantined: false, anchor: anchor,
       trace: trace, hosts: hosts, tier: chosen.tier, echo: chosen.echo, claim: claim, route: 'anchor',
       corroborated: hosts.length >= 2
     });
