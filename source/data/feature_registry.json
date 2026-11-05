@@ -1,5 +1,5 @@
 {
- "version": "4.9.231",
+ "version": "4.9.232",
  "features": [
   {
    "id": "A-01",
@@ -4205,17 +4205,28 @@
    "source": "Nic plan 229 step 3 (pt258u, 2026-11-05) and the 9:27 steering: every clause and world fact carries meaning id, phase (Φ1-9), band and frequency",
    "wave": "—",
    "claim": "Partial",
-   "note": "4.9.231: src/qframe.js KQFrame.clause parses a statement with the kernel's grammar (forge.clause/v1); KRMCCore.run adds it to each memory row (receipts, phone, hosted, anchors, pools), keeps a stored clause and carries the row's meaning_id; app.js stores the clause with a remembered statement (local copy only; the hosted kb column is a prepared, unapplied migration). engine memory_clauses.py holds the turn's clauses (a clause parsed from other text is rejected); world_model_v1 Observe attaches the clause and place_row: meaning id, Phi, phase name, Codex band, Hz, 144/432/1296 group and phi_basis, from the resonance packet. Observe does not build atoms from clauses yet (step 4); Derive does not use them (step 5).",
+   "note": "4.9.231: src/qframe.js KQFrame.clause parses a statement with the kernel's grammar (forge.clause/v1); KRMCCore.run adds it to each memory row (receipts, phone, hosted, anchors, pools), keeps a stored clause and carries the row's meaning_id; app.js stores the clause with a remembered statement (local copy only; the phone re-parses hosted and anchor rows at every Ask, so no hosted column or migration is needed). engine memory_clauses.py holds the turn's clauses (a clause parsed from other text is rejected); world_model_v1 Observe attaches the clause and place_row: meaning id, Phi, phase name, Codex band, Hz, 144/432/1296 group and phi_basis, from the resonance packet. Observe does not build atoms from clauses yet (step 4); Derive does not use them (step 5).",
    "proof": [
     "verify/r4231_suite.js"
    ]
+  },
+  {
+   "id": "R4232-CLAUSE-FACTS",
+   "name": "World-model facts from clauses: Observe builds each atom from the phone's kāraka clause (regex only as fallback); every world fact carries meaning id, phase, Codex band, Hz and group",
+   "source": "Nic plan 229 step 4 (pt258u, 2026-11-05) and the 9:27 steering",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "4.9.232: world_model_v1.atom_from_clause: copula be → is(kartṛ, pred) with the clause polarity; a verb with a karma → lemma(kartṛ, karma); used only when the clause's roles cover every content word of the sentence (else clause_incomplete and the regex reading). Fact rows carry frame, atom_source (clause/regex/stated/self_fact/derive), place and top-level meaning_id, phase, phase_name, band, hz, group; derived rows sit at their subject premise with premise_phases. observe(regex_fallback=False) proves clauses alone carry a 2-hop copula chain. memory_clauses note world_model.observe_atoms counts the sources. Derive still ranks by coverage (step 5).",
+   "proof": [
+    "verify/r4232_suite.js"
+   ]
   }
  ],
- "count": 384,
+ "count": 385,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 188,
+  "Partial": 189,
   "Missing": 9,
   "Out of scope / parked": 47
  }

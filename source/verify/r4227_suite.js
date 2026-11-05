@@ -59,9 +59,9 @@ T('the maintenance path: supersede/retire are service-role only, audited, Athena
   expect(r.status === 2 && /ATHENA-COMMIT-LOCKED/.test(r.stdout), 'commit locked ' + r.status);
 });
 T('version registry names 4.9.227', () => {
-  expect(read('VERSION').trim() === '4.9.231', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.232', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.231' && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.232' && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {
