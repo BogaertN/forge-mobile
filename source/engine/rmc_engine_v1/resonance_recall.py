@@ -546,6 +546,19 @@ def _grace(packet, question_phi):
     }
 
 
+def _hop_weight(node, chosen, question_phi):
+    packet = node.get("packet") if isinstance(node.get("packet"), dict) else {}
+    anchor = chosen[0] if chosen else None
+    anchor_packet = (anchor or {}).get("packet") if isinstance((anchor or {}).get("packet"), dict) else {}
+    anchor_phi = _phase_value(anchor_packet.get("Phi")) if anchor_packet else None
+    own_phi = _phase_value(packet.get("Phi")) if packet else None
+    if anchor is not None and anchor_phi is not None and own_phi is not None:
+        anchor_grace = _grace(anchor_packet, question_phi)
+        anchor_weight = 1.0 if anchor_grace.get("aligned") else float(anchor_grace.get("grace") or 0.0)
+        return round(min(1.0, anchor_weight * float(_grace(packet, anchor_phi).get("grace") or 0.0)), 4)
+    return round(min(1.0, float(_grace(packet, question_phi).get("grace") or 0.0)), 4)
+
+
 def curate_quarantine(question, row, ancestors):
     """Athena holds a quarantined excerpt until an admitted ancestor phase-aligns.
 
@@ -745,7 +758,14 @@ def rank_memory(question, nodes, phase_report=None):
         info = detail.get(node.get("memory_id")) or {}
         grace = info.get("grace") or _grace(node.get("packet") or {}, question_phi)
         hop = node not in chosen
-        weight = 1.0 if not hop and grace.get("aligned") else (0.72 if hop else round(min(1.0, grace.get("grace") or 0.0), 4))
+        if hop:
+            # 4.9.235 (plan 229 step 7): a copula hop is weighed by measurement, not a fixed 0.72.
+            # It is reached through the anchor, so its weight is the anchor's weight times the hop's
+            # resonance with the anchor's phase (grace = rpm x cos^2 of the gap); a hop whose phase
+            # or the anchor's is unknown reads its own grace with the question.
+            weight = _hop_weight(node, chosen, question_phi)
+        else:
+            weight = 1.0 if grace.get("aligned") else round(min(1.0, grace.get("grace") or 0.0), 4)
         out = dict(node)
         # The scorer compares these text fields. Keep the knowledge sentence
         # and leave the receipt path on ancestry, not in the compared text.

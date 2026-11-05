@@ -1,5 +1,5 @@
 {
- "version": "4.9.234",
+ "version": "4.9.235",
  "features": [
   {
    "id": "A-01",
@@ -4244,13 +4244,26 @@
     "verify/r4234_suite.js",
     "CONFLICTS.md v4.9.234 live Ask run"
    ]
+  },
+  {
+   "id": "R4235-MEASURED-MANIFEST-AND-DRIFT",
+   "name": "Measured manifest values and per-sentence drift; meaning asked before the engine",
+   "source": "Nic plan 229 step 7 (2026-11-05 10:06 CST)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "D reads entropy relative to the recalled nodes and the sentence-form distance to the nearest node (the old no-information entropy and dict-shape delta made every language-core sentence D 0.331794, eps 0.110598); no nodes keeps the old terms. The live manifest carries the measured reading (world-model weakest hop, or the orchestrator's selected candidate). scoring_candidate reads the hop's phase, grace and eps; world-model premise weight is recall's or the resonance grace; copula hop weight is anchor weight x the hop's grace at the anchor phase (was 0.72). The meaning question is asked before the engine runs. Thresholds unchanged.",
+   "proof": [
+    "verify/r4235_suite.js",
+    "CONFLICTS.md v4.9.235",
+    "real Ask run /workspace/step7/local_4.9.235.json"
+   ]
   }
  ],
- "count": 387,
+ "count": 388,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 191,
+  "Partial": 192,
   "Missing": 9,
   "Out of scope / parked": 47
  }

@@ -213,6 +213,16 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
     log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (r.ok ? '' : ' blocked') + '" data-ask-state="' + (r.ok ? 'remembered' : 'held') + '" data-remember-rule="' + esc(r.rule) + '"><span class="kind deterministic_route">memory</span><div data-ask-body>' + esc(r.message) + '</div><div class="flags">explicit request · kept on this phone only · no LLM</div></div>');
     log.lastElementChild.scrollIntoView({ block: 'end' }); refreshChrome(); return r;
   }
+  /* 4.9.235 (plan 229 step 7): an unpicked many-meaning subject is ASKED before the engine runs (4.9.229 asked after the
+   * engine had already answered, so the card showed a spoken answer's turn ending in a question). The sense ask reads only
+   * the question and the sense data (KSenses.planAsk); the engine runs once the meaning is picked, under that meaning. */
+  if (!askCtx.sense && window.KSenses && KSenses.planAsk) {
+    try {
+      if (KSenses.ensure) { try { await KSenses.ensure(); } catch (e) { /* the sense data is optional */ } }
+      const pa = KSenses.planAsk(qtext, null, { sensed: askCtx.sensed, chain: askCtx.chain });
+      if (pa && pa.kind === 'sense') { pendingAsk = pa; stats.held++; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); refreshChrome(); return { ok: true, held: true, reply: null, product_reply: false, meaning_ask: true, asked_before_engine: true, calls_llm: false }; }
+    } catch (e) { /* the ask is optional; the engine runs below */ }
+  }
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
   let row;
   try {
@@ -236,17 +246,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(qtext, row); } catch (e) { /* the curators are optional */ } }
   /* 4.9.209 (Nic plan, Release A item 2): an admitted answer writes nothing. No session RAM, no receipt store, no Supabase.
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
-  /* 4.9.229 (Nic t147u): a subject with 2-4 WordNet meanings asked without a pick is ASKED, even when a stored fact would answer
-   * ("What is Mercury?" -> which Mercury: the god or the planet?). The stored fact is about one meaning; Forge does not pick it
-   * silently. The reply re-asks under the picked meaning (4.9.226 follow-up) and facts filed under another meaning are dropped
-   * (rmc_core.preselect_pools). Without the sense pack nothing changes. */
-  if (row && row.product_reply && row.reply && !askCtx.sense && window.KSenses && KSenses.planAsk) {
-    try {
-      if (KSenses.ensure) { try { await KSenses.ensure(); } catch (e) { /* the sense data is optional */ } }
-      const pa = KSenses.planAsk(qtext, row, {});
-      if (pa && pa.kind === 'sense') { pendingAsk = pa; stats.held++; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); renderRmc(qtext, row); refreshChrome(); return Object.assign({}, row, { meaning_ask: true, product_reply: false }); }
-    } catch (e) { /* the ask is optional; the answer below stands */ }
-  }
+  /* 4.9.229's after-the-engine sense ask moved above the engine run (4.9.235): the meaning is asked first, never after an answer. */
   const admitted = !!(row && row.product_reply && row.reply);
   if (admitted) lastAdmitted = row;
   const rememberBtn = admitted && row.memory_write && row.memory_write.proposed ? '<button type="button" class="small" data-ask-remember>Remember</button>' : '';
@@ -274,13 +274,14 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   /* 4.9.221 shadow sense trace (advisory, logged in memory only; never awaited, never read by any gate, changes no answer) */
   if (window.KSenses && KSenses.note) { try { KSenses.note(qtext); } catch (e) { /* the trace is optional */ } }
   /* 4.9.226: a held answer may ask which meaning is meant (an ambiguous unit, or one asked word with 2-4 WordNet meanings). A picked meaning
-   * that still holds says so plainly; nothing is guessed. (4.9.229: an admitted answer for an unpicked many-meaning subject asks above.) */
+   * that still holds says so plainly; nothing is guessed. (4.9.235: the meaning ask runs before the engine, above.) */
   if (!admitted && window.KSenses && KSenses.planAsk) {
     try {
       if (askCtx.sense) askCard('held-under-sense', 'Held under that meaning (' + esc(askCtx.sense.word) + ': ' + esc(askCtx.picked.label) + '): no vetted fact is stored for it yet. The question is queued for Athena.', 'meaning-held');
       try { if (KSenses.ensure) await KSenses.ensure(); } catch (e) { /* the sense data is optional */ }
       const pa = KSenses.planAsk(qtext, row, { sensed: askCtx.sensed, chain: askCtx.chain });
-      if (pa) { pendingAsk = pa; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); }
+      /* 4.9.235: only the unit ask needs the engine's reading (row.computed); the meaning ask ran before the engine. */
+      if (pa && pa.kind === 'unit') { pendingAsk = pa; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); }
     } catch (e) { /* the ask is optional; the held card above stands */ }
   }
   refreshChrome();

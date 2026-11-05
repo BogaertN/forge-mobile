@@ -208,7 +208,7 @@ def measure_spoken(
                 "bounded_novelty_score", "operator_legality", "conflict_penalty", "projection_gate_penalty", "coherence_score",
             )},
             "formula": parts.get("formula"),
-            "drift_terms": {k: measured.get(k) for k in ("entropy_norm", "structure_delta", "semantic_distance", "taxonomy_penalty")},
+            "drift_terms": dict({k: measured.get(k) for k in ("entropy_norm", "structure_delta", "semantic_distance", "taxonomy_penalty", "novelty_delta")}, D_terms=measured.get("D_terms")),
         })
     hops = [s for s in sentences if s["role"] == "hop"]
     conclusion = [s for s in sentences if s["role"] == "conclusion"]

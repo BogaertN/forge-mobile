@@ -102,7 +102,8 @@ T('multi-hop derive records provenance and drift on every hop', () => {
   expect(survivor.hops.every(h => Array.isArray(h.provenance) && h.provenance.length && h.drift && typeof h.drift.epsilon_s === 'number' && h.chi && h.chi.christping_initiated === false), JSON.stringify(survivor.hops));
   expect(row.world_model.derived_text.indexOf('Quartz is matter.') >= 0 || row.world_model.derived_text.indexOf('Quartz is a solid substance.') >= 0, row.world_model.derived_text);
   expect(row.world_model.derived_text.split('. ').length >= 2, row.world_model.derived_text);
-  expect(row.coherence < 0.87 && row.product_reply === false, 'C ' + row.coherence);
+  /* 4.9.235 (plan 229 step 7): this was held only because every sentence read the constant D 0.331794 (ε ~0.144). Measured against its own recalled row the stored sentence drifts ~0.03, so the unchanged gate (C_min 0.87, Echo 0.85) admits exactly the stored fact, or holds. */
+  expect(row.product_reply ? (row.coherence >= 0.87 && row.drift <= 0.35 && ['Quartz is a mineral.', 'A mineral is a solid substance.', 'A solid substance is matter.'].includes(row.reply)) : row.coherence < 0.87, 'C ' + row.coherence + ' ε ' + row.drift + ' ' + row.reply);
   expect(row.admit.thresholds.C_min === 0.87 && row.echo.min === 0.85, 'thresholds');
 });
 
@@ -137,7 +138,7 @@ print(json.dumps({"pending": pending["rule"], "pw": pending["written"], "pv": pe
 
 T('version registry names 4.9.186 and the switches stay off', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.234', ver);
+  expect(ver === '4.9.235', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.186/.test(conf) && /Gilligan/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -149,9 +150,9 @@ T('version registry names 4.9.186 and the switches stay off', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_186.md'), 'utf8');
   expect(/60/.test(live) && /cold/.test(live) && /pass/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.234' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.235' && ((tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.234' && reg.features.some(f => f.id === 'R4186-ANCHOR-HOP') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.235' && reg.features.some(f => f.id === 'R4186-ANCHOR-HOP') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === true && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
   const formula = fs.readFileSync(path.join(ROOT, 'engine', 'rmc_engine_v1', 'measurement_kernel.py'), 'utf8');
   expect(/0\.24\*memory_fit \+ 0\.20\*phase_validity/.test(formula), 'formula');
