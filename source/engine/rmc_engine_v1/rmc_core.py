@@ -411,9 +411,13 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
         if any(reply_n == _norm_sentence(f.get("text")) for f in CHAT_FACTS):
             rests_on = "self-fact"
     if reply_n and rests_on is None:
+        # 4.9.236: a personal memory is spoken to the listener ("my dog" → "your dog"); it still rests on that row
+        from rmc_engine_v1.world_model_v1 import to_listener
         for row in trusted_rows:
-            text = _norm_sentence(row.get("text") or row.get("content"))
-            if text and (text in reply_n or reply_n in text):
+            raw = str(row.get("text") or row.get("content") or "")
+            forms = {_norm_sentence(raw)} | ({_norm_sentence(to_listener(raw))} if row.get("source") == "phone_kb" else set())
+            forms.discard("")
+            if any(text in reply_n or reply_n in text for text in forms):
                 rests_on = row.get("id") or row.get("memory_id")
                 break
     blocks = bool(reply_n and low_rows and not rests_on)

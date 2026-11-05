@@ -247,6 +247,9 @@ def _verb_key(word: str) -> str:
     for suf in ("ing", "ed", "es", "s"):
         if word.endswith(suf) and len(word) - len(suf) >= 4:
             return word[: -len(suf)]
+    # 4.9.236: a short third-person -s verb ("owns", "runs") keys to its base like the long ones do
+    if len(word) == 4 and word.endswith("s") and word[-2] not in "aeiousy":
+        return word[:-1]
     return word
 
 

@@ -110,6 +110,12 @@ def echo_against_question(question: str, output_text: str, *, rendered: bool = F
         covered = {w for w in left if w in right or _stem_cover(w, right)}
         if slot and slot[0] in left and slot[0] not in covered and _fills_slot(slot[1], output_text):
             covered.add(slot[0])
+        # 4.9.236: agreement on the asked verb only. "Who owns Rex?" is covered by "You own Rex.": the verb agrees
+        # with its new subject (the same verb key relation_echo uses). No other word is folded.
+        from rmc_engine_v1.relation_echo import asked as _asked, _verb_key
+        verb = str((_asked(question) or {}).get("verb") or "")
+        if verb in left and verb not in covered and any(_verb_key(w) == _verb_key(verb) for w in right):
+            covered.add(verb)
         if not left:
             score = 0.0
         else:

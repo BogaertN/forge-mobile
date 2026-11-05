@@ -135,6 +135,17 @@
         f.wh_role = adjunct || (has(a0, 'COP') ? (body.length ? 'pred' : 'kartr') : 'karma');
         if (!filler && has(a0, 'COP') && body.length === 1) f.wh_role = adjunct || 'pred';
         f.rule = 'QF-WH-AUX-' + (f.parsed ? 'DECL' : f.partial ? 'SUBJ' : 'NOPARSE');
+      } else if (filler && (wh === 'what' || wh === 'which') && lrest.length >= 3 && has(lrest[1], 'COP') && !(G && G.CL && G.CL[lrest[0]])) {
+        /* 4.9.236: a wh-determiner copula question ("what N is X") asks X's N: X is kartṛ and the gap is a pred of kind N.
+         * The kind travels on the gap (pred.kind) so Derive only fills it with something shown to be an N. */
+        const kind = lrest[0]; f.aux = lrest[1]; const body = rest.slice(2);
+        const so = subjectOnly(forge, body);
+        if (so && so.k === body.length) {
+          f.kriya = 'be'; f.polarity = 'pos'; f.kartr = np(so.p.clause.subj); f.karma = null;
+          f.pred = { type: 'np', text: 'some ' + kind, head: kind, kind, owner: null, kernel: false, user: false, indef: true };
+          f.partial = true; f.declarative = join(body) + ' is some ' + kind;
+        }
+        f.wh_role = 'pred'; f.wh_det = kind; f.rule = 'QF-WH-DET-COP-' + (f.partial ? 'SUBJ' : 'NOPARSE');
       } else if (filler) { /* subject question: the wh-word is kartṛ ("who wrote Hamlet" → "someone wrote Hamlet") */
         const s = join([filler].concat(rest)); const p = parse(forge, s);
         if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = s; f.parses = p.parses; }

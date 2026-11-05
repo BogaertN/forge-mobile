@@ -73,9 +73,9 @@ T('Ask asks before answering an unpicked many-meaning subject; the reply picks t
 });
 
 T('version registry names 4.9.229', () => {
-  expect(read('VERSION').trim() === '4.9.235', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.236', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.235' && reg.features.some(f => f.id === 'R4229-ATHENA-RUNNER') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.236' && reg.features.some(f => f.id === 'R4229-ATHENA-RUNNER') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

@@ -154,6 +154,27 @@ COPULA_RULE = {
     "guard": "distinct $x $z",
 }
 
+# 4.9.236: one relational rule over a stored identity. "my dog is Rex" (a possessive copula) gives owns(I, Rex).
+# The checker replays it by reading the possessor off the premise (derive_frame.possessor); nothing is assumed.
+OWNER_RULE = {
+    "id": "WM-OWNER-OF",
+    "class": "relational",
+    "cite": "4.9.236 Nic: model the operation, not the question; a possessive identity names its owner",
+    "body": [{"predicate": "is", "args": ["$owned", "$n"], "polarity": "pos"}],
+    "head": {"predicate": "owns", "args": ["$o", "$n"], "polarity": "pos"},
+    "guard": "possessor($owned) = $o",
+}
+
+# 4.9.236: the relational-noun rule as a replayed step. "X is N" with N a proper name gives "X's name is N".
+NAME_RULE = {
+    "id": "WM-NAME-OF",
+    "class": "relational",
+    "cite": "4.9.233 WM-NAME-OF, replayed from 4.9.236",
+    "body": [{"predicate": "is", "args": ["$x", "$n"], "polarity": "pos"}],
+    "head": {"predicate": "is", "args": ["$x's name", "$n"], "polarity": "pos"},
+    "guard": "$n is a proper name",
+}
+
 _STOP = {
     "the", "and", "for", "with", "from", "that", "this", "what", "which", "when",
     "where", "who", "whom", "why", "how", "are", "was", "were", "you", "your",
@@ -311,7 +332,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE)],
+        "rules": [dict(COPULA_RULE), dict(OWNER_RULE), dict(NAME_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -604,6 +625,12 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                 return {"ok": False, "reason": "rule_missing", "cite": "contract 1g2034-K §4.3"}
             sub = step.get("substitution") if isinstance(step.get("substitution"), dict) else {}
             premise_ns = step.get("premises") or []
+            if rule["id"] in ("WM-OWNER-OF", "WM-NAME-OF"):
+                bad = (_replay_owner if rule["id"] == "WM-OWNER-OF" else _replay_name)(step, derived)
+                if bad:
+                    return {"ok": False, "reason": bad, "cite": OWNER_RULE["cite"]}
+                derived[n] = atom
+                continue
             if len(premise_ns) != len(rule.get("body") or []):
                 return {"ok": False, "reason": "premise_count", "cite": "contract 1g2034-K §5"}
             for pattern, pn in zip(rule["body"], premise_ns):
@@ -634,6 +661,80 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
     return {"ok": True, "reason": "replayed", "cite": "contract 1g2034-K §6 step 7", "steps": len(steps)}
 
 
+def _replay_owner(step: dict[str, Any], derived: dict[int, dict[str, Any]]) -> str | None:
+    """Replay WM-OWNER-OF: the premise is a positive copula, one side is possessive with possessor $o, the other is $n."""
+    from rmc_engine_v1 import derive_frame as DF
+    sub = step.get("substitution") if isinstance(step.get("substitution"), dict) else {}
+    ns = step.get("premises") or []
+    if len(ns) != 1 or not derived.get(int(ns[0])):
+        return "premise_missing"
+    prev = derived[int(ns[0])]
+    args = [str(a) for a in prev.get("args") or []]
+    if prev.get("predicate") != "is" or prev.get("polarity") != "pos" or len(args) != 2:
+        return "premise_mismatch"
+    owned, n = str(sub.get("$owned") or ""), str(sub.get("$n") or "")
+    if sorted([_norm(owned), _norm(n)]) != sorted(_norm(a) for a in args):
+        return "premise_mismatch"
+    if _norm(DF.possessor({"text": owned}) or "") != _norm(str(sub.get("$o") or "")) or not sub.get("$o"):
+        return "guard_possessor"
+    atom = step.get("atom") or {}
+    if atom.get("predicate") != "owns" or atom.get("polarity") != "pos" or \
+            [_norm(a) for a in atom.get("args") or []] != [_norm(str(sub["$o"])), _norm(n)]:
+        return "head_mismatch"
+    return None
+
+
+def _replay_name(step: dict[str, Any], derived: dict[int, dict[str, Any]]) -> str | None:
+    """Replay WM-NAME-OF: the premise is is($x, $n), $n is a proper name, the head is is("$x's name", $n)."""
+    sub = step.get("substitution") if isinstance(step.get("substitution"), dict) else {}
+    ns = step.get("premises") or []
+    if len(ns) != 1 or not derived.get(int(ns[0])):
+        return "premise_missing"
+    prev = derived[int(ns[0])]
+    x, n = str(sub.get("$x") or ""), str(sub.get("$n") or "")
+    if prev.get("predicate") != "is" or prev.get("polarity") != "pos" or [_norm(a) for a in prev.get("args") or []] != [_norm(x), _norm(n)]:
+        return "premise_mismatch"
+    if not re.match(r"^[A-Z][A-Za-z'\-]*(\s+[A-Z][A-Za-z'\-]*){0,2}$", n.strip()):
+        return "guard_proper_name"
+    atom = step.get("atom") or {}
+    if atom.get("predicate") != "is" or atom.get("polarity") != "pos" or \
+            [_norm(a) for a in atom.get("args") or []] != [_norm(x + "'s name"), _norm(n)]:
+        return "head_mismatch"
+    return None
+
+
+def _rule_words(rule: dict[str, Any]) -> list[str]:
+    """The words a relational rule's head adds: its predicate lemma and the non-variable words of its head arguments."""
+    head = rule.get("head") or {}
+    pred = str(head.get("predicate") or "")
+    text = " ".join([pred, pred[:-1] if pred.endswith("s") else pred] + [re.sub(r"\$\w+('s)?", " ", str(a)) for a in head.get("args") or []])
+    return sorted(content_tokens(text) - {"is"})
+
+
+def _licensed(world: dict[str, Any], claim: dict[str, Any], rule: dict[str, Any]) -> dict[str, Any]:
+    """Re-run the debate with the rule's own head words licensed (only when the checker replayed the rule)."""
+    claim["rule_licensed"] = _rule_words(rule)
+    claim["debate"] = run_debate(claim, content_tokens=content_tokens)
+    return claim
+
+
+_FIRST_PERSON_RE = re.compile(r"(?i)\b(i|me|my|mine|myself|our|ours|we|us)\b")
+_PERSPECTIVE = {"i": "you", "me": "you", "my": "your", "mine": "yours", "myself": "yourself", "am": "are",
+                "i'm": "you're", "we": "you", "us": "you", "our": "your", "ours": "yours", "ourselves": "yourselves"}
+
+
+def to_listener(sentence: str) -> str:
+    """Speak an asker's own first-person memory back to them in the second person (deixis, not content)."""
+    def swap(m: re.Match) -> str:
+        w = m.group(0)
+        out = _PERSPECTIVE.get(w.lower(), w)
+        cap = m.start() == 0 or (w[:1].isupper() and w.lower() != "i")
+        return out[:1].upper() + out[1:] if cap else out
+    text = re.sub(r"(?i)\b(i'm|i|me|my|mine|myself|am|we|us|our|ours|ourselves)\b", swap, str(sentence or ""))
+    text = re.sub(r"(?i)\byou owns\b", "you own", text)
+    return text[:1].upper() + text[1:] if text else text
+
+
 def _coverage(question: str, text: str) -> float:
     left = content_tokens(question)
     right = content_tokens(text)
@@ -659,6 +760,8 @@ def _render_atom(atom: dict[str, Any]) -> str:
         return f"{args[0]} is not {args[1]}."
     if predicate == "is" and len(args) == 2:
         return f"{args[0]} is {args[1]}."
+    if predicate == "owns" and len(args) == 2 and args[0].lower() in ("i", "you", "we", "they"):
+        return f"{args[0]} own {args[1]}."
     if predicate in ("owns", "verifies", "remains", "initiates") and len(args) == 2:
         return f"{args[0]} {predicate} {args[1]}."
     if args:
@@ -679,6 +782,13 @@ def _direct_proof(world: dict[str, Any], fact: dict[str, Any]) -> dict[str, Any]
     return _proof_shell(world, atom, [{
         "n": 1, "kind": "fact", "fact_id": fact["id"], "premises": [], "substitution": {}, "atom": atom,
     }])
+
+
+def _owner_proof(world: dict[str, Any], fact: dict[str, Any], sub: dict[str, str], conclusion: dict[str, Any]) -> dict[str, Any]:
+    return _proof_shell(world, conclusion, [
+        {"n": 1, "kind": "fact", "fact_id": fact["id"], "premises": [], "substitution": {}, "atom": fact["atom"]},
+        {"n": 2, "kind": "rule", "rule_id": "WM-OWNER-OF", "premises": [1], "substitution": sub, "atom": conclusion},
+    ])
 
 
 def _chain_proof(world: dict[str, Any], left: dict[str, Any], right: dict[str, Any], sub: dict[str, str], conclusion: dict[str, Any]) -> dict[str, Any]:
@@ -1030,8 +1140,8 @@ def _frame_key(c: dict[str, Any]) -> tuple:
     m = c.get("frame_match") or {}
     a = c.get("alignment") or {}
     return (
-        -int(bool(m)), -int(bool(a.get("aligned"))), -int(m.get("roles") or 0), -int(bool(m.get("complete"))),
-        -int(a.get("grace_key") or 0), -int(a.get("band_key") or 0), -float(a.get("coupling") or 0.0),
+        -int(bool(m)), -int(bool((c.get("gate") or {}).get("passes"))), -int(m.get("roles") or 0), -int(bool(m.get("complete"))),
+        -float((c.get("gate") or {}).get("G") or 0.0), -int(a.get("band_key") or 0), -float(a.get("coupling") or 0.0),
         len(c.get("provenance") or []), -float(c.get("coverage_tiebreak") or 0.0),
         float((c.get("drift") or {}).get("epsilon_s") or 0.0), str(c.get("text") or ""), str(c.get("proof_id") or ""),
     )
@@ -1062,12 +1172,45 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         m = DF.match(qframe, ff)
         if m:
             direct.append((fact, ff, src, m, DF.alignment(placed(fact), phase_path, question)))
-    direct.sort(key=lambda d: (-int(bool(d[4].get("aligned"))), -int(bool(d[2] == "clause")), -int(d[4].get("grace_key") or 0),
+    # 4.9.236: ranked by the operation-phase factor A (Φ_query of retrieval against each memory's own Φ), never vetoed by it
+    phi_q = DF.OPERATION_PHASE[DF.operation(qframe)]
+    direct.sort(key=lambda d: (-int(bool(d[2] == "clause")), -float(DF.phase_factor(placed(d[0]).get("Phi"), phi_q).get("A") or 0.0),
                                -int(d[4].get("band_key") or 0), -float(d[4].get("coupling") or 0.0), str(d[0].get("text") or ""), str(d[0]["id"])))
     for fact, ff, src, m, al in direct[:4]:
-        proof = _direct_proof(world, fact)
-        checked = check_proof(world, proof)
-        claim = _finish_claim(world, fact["text"], fact["atom"], [fact], proof, checked, "supported_only", "direct", phase_path)
+        if m.get("rule") == DF.RULE_NAME_OF and len((fact.get("atom") or {}).get("args") or []) == 2:
+            x, n = [str(a) for a in fact["atom"]["args"]]
+            sub = {"$x": x, "$n": n}
+            conclusion = _atom("is", [x + "'s name", n], "pos")
+            text = _render_atom(conclusion)
+            proof = _proof_shell(world, conclusion, [
+                {"n": 1, "kind": "fact", "fact_id": fact["id"], "premises": [], "substitution": {}, "atom": fact["atom"]},
+                {"n": 2, "kind": "rule", "rule_id": "WM-NAME-OF", "premises": [1], "substitution": sub, "atom": conclusion}])
+            checked = check_proof(world, proof)
+            claim = _finish_claim(world, text, conclusion, [fact], proof, checked, "supported_only", DF.RULE_NAME_OF, phase_path)
+            _licensed(world, claim, NAME_RULE)
+            measured = _drift_for(fact["text"], [fact], phase_path)
+            claim["hops"] = [_hop_row(fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, 1),
+                             _hop_row(text, [fact.get("id")], claim["drift"], 2)]
+        elif m.get("rule") == DF.RULE_OWNER_OF:
+            atom_args = [str(a) for a in (fact.get("atom") or {}).get("args") or []]
+            owned = next((a for a in atom_args if _norm(a) == _norm(m.get("owned") or "")), m.get("owned") or "")
+            n = next((a for a in atom_args if _norm(a) != _norm(owned)), "")
+            sub = {"$owned": owned, "$n": n, "$o": str(m.get("filler") or "")}
+            conclusion = _atom("owns", [sub["$o"], n], "pos")
+            text = _render_atom(conclusion)
+            proof = _owner_proof(world, fact, sub, conclusion)
+            checked = check_proof(world, proof)
+            claim = _finish_claim(world, text, conclusion, [fact], proof, checked, "supported_only", DF.RULE_OWNER_OF, phase_path)
+            _licensed(world, claim, OWNER_RULE)
+            measured = _drift_for(fact["text"], [fact], phase_path)
+            claim["hops"] = [_hop_row(fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, 1),
+                             _hop_row(text, [fact.get("id")], claim["drift"], 2)]
+        else:
+            proof = _direct_proof(world, fact)
+            checked = check_proof(world, proof)
+            claim = _finish_claim(world, fact["text"], fact["atom"], [fact], proof, checked, "supported_only", "direct", phase_path)
+        claim["_place"] = placed(fact)
+        claim["_premise_rows"] = [fact]
         claims.append(_frame_claim(claim, ff, src, m, al, question))
 
     # Copula chain: every conclusion is checked and debated; only a conclusion whose frame unifies with the question can
@@ -1116,6 +1259,8 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             place = _derived_place(chosen)
             m = DF.match(qframe, cframe)
             _frame_claim(claim, cframe, "chain", m, DF.alignment(place or placed({"text": text}), phase_path, question), question)
+            claim["_place"] = place or placed({"text": text})
+            claim["_premise_rows"] = list(premises)
             claim["intermediate"] = not bool(m)
             claims.append(claim)
             chain_claims += 1
@@ -1147,15 +1292,17 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
                 claim["status"] = "conflicted"
                 claim["debate"] = run_debate(claim, content_tokens=content_tokens)
 
+    # 4.9.236 gate G = f(ΔΦ, S, C): S (frame) and C (context) decide; ΔΦ weights. Nothing is written back to a memory.
+    for claim in claims:
+        claim["gate"] = DF.gate(qframe, claim.get("frame_match"), claim, claim.pop("_premise_rows", None) or [], claim.pop("_place", None))
     matched = [c for c in claims if c.get("frame_match")]
-    answers = [c for c in matched if (c.get("alignment") or {}).get("aligned") and c.get("status") != "conflicted"
-               and c.get("debate", {}).get("survived") is True]
+    answers = [c for c in matched if (c.get("gate") or {}).get("passes")]
     if answers:
-        status, reason = "supported_only", "frame match, phase-aligned"
+        status, reason = "supported_only", "frame match (S) and context (C) hold; ΔΦ weighted"
     elif any(c.get("status") == "conflicted" for c in matched):
         status, reason = "conflicted", "the matching facts conflict"
-    elif matched and not any((c.get("alignment") or {}).get("aligned") for c in matched):
-        status, reason = "undetermined", "frame matched but no match is phase-aligned with the question"
+    elif matched and any("possessor_scope" in ((c.get("gate") or {}).get("context_failed") or []) for c in matched):
+        status, reason = "undetermined", "frame matched but the memory is not the asker's (possessor scope)"
     elif matched:
         status, reason = "undetermined", "frame matched but no match survived the check and debate"
     else:
@@ -1163,14 +1310,23 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
     for claim in answers:
         if claim.get("how") == "WM-COPULA-CHAIN":
             parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
+        elif claim.get("how") in (DF.RULE_OWNER_OF, DF.RULE_NAME_OF):
+            parts = [str(h.get("text") or "") for h in claim.get("hops") or []][:1]
         else:
             parts = []
         parts.append(str(claim.get("text") or ""))
-        claim["spoken"] = " ".join(dict.fromkeys(_cap(p) for p in parts if p.strip()))
+        personal = any(_FIRST_PERSON_RE.search(p) for p in parts) and all(
+            str(p.get("source") or "") in DF.PERSONAL_SOURCES for p in claim.get("premises") or [] if _FIRST_PERSON_RE.search(str(p.get("text") or "")))
+        claim["spoken"] = " ".join(dict.fromkeys(_cap(to_listener(p) if personal else p) for p in parts if p.strip()))
+        claim["perspective"] = "listener" if personal else "as_stored"
     report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers)
-    report["match_mode"] = "frame_and_phase"
+    report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
-        "rule": "4.9.233 frame unification x phase/band alignment",
+        "rule": "4.9.236 G = f(ΔΦ, S, C): frame unification (S) x context coherence (C), ΔΦ to the operation phase weighted",
+        "operation": DF.operation(qframe),
+        "phi_query": DF.OPERATION_PHASE[DF.operation(qframe)],
+        "gates": [{"text": c.get("text"), **{k: (c.get("gate") or {}).get(k) for k in ("phi_identity", "delta_phi_deg", "A", "S", "C", "G", "passes", "context_failed")}}
+                  for c in matched][:6],
         "question_frame": {k: qframe.get(k) for k in ("wh", "wh_role", "kriya", "polarity", "rule")},
         "question_phases": DF.question_phases(phase_path),
         "facts_considered": considered,
@@ -1178,6 +1334,7 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
         "chain_claims": chain_claims,
         "frame_matched": len(matched),
         "aligned": sum(1 for c in matched if (c.get("alignment") or {}).get("aligned")),
+        "gated": sum(1 for c in matched if (c.get("gate") or {}).get("passes")),
         "answers": len(answers),
         "unaligned_matches": [{"text": c.get("text"), "fact_phase": (c.get("alignment") or {}).get("fact_phase"),
                                "delta_deg": (c.get("alignment") or {}).get("delta_deg")} for c in matched if not (c.get("alignment") or {}).get("aligned")][:4],
@@ -1284,6 +1441,8 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "spoken": claim.get("spoken") or claim.get("text"),
         "frame_match": claim.get("frame_match"),
         "alignment": claim.get("alignment"),
+        "gate": claim.get("gate"),
+        "perspective": claim.get("perspective"),
         "coverage_tiebreak": claim.get("coverage_tiebreak"),
         "intermediate": claim.get("intermediate"),
         "debate": {
@@ -1438,7 +1597,8 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         surv = derived.get("survivor") or {}
         _qf.note("world_model.derive", match_mode=derived.get("match_mode"), status=derived.get("status"), reason=derived.get("reason"),
                  trace=derived.get("frame_trace"), survivor=surv.get("text"), frame_match=surv.get("frame_match"),
-                 alignment={k: (surv.get("alignment") or {}).get(k) for k in ("aligned", "question_phi", "fact_phase", "delta_deg", "grace", "band_relation", "coupling")} if surv else None)
+                 alignment={k: (surv.get("alignment") or {}).get(k) for k in ("aligned", "question_phi", "fact_phase", "delta_deg", "grace", "band_relation", "coupling")} if surv else None,
+                 gate={k: (surv.get("gate") or {}).get(k) for k in ("operation", "phi_query", "phi_identity", "delta_phi_deg", "A", "S", "C", "G", "passes")} if surv else None)
     simulated = simulate(world, question)
     count = int(memory.get("active_memory_count") or memory.get("active") or len(source_rows) or 0)
     survivor = derived.get("survivor")

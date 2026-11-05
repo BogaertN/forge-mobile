@@ -98,6 +98,8 @@
       const rule = VALUE_SLOTS[slot];
       if (aw.some(function (w) { return rule.fill.indexOf(w) >= 0 || (rule.digits && /^[0-9]+$/.test(w)); })) covered[slot] = true;
     }
+    /* 4.9.236: agreement on the asked verb only, as echo_question.py ("who owns Rex" covered by "you own Rex") */
+    if (RE && RE.verbKey) { const verb = String((RE.asked(question, null) || {}).verb || ''); if (verb && left.indexOf(verb) >= 0 && !covered[verb] && Object.keys(right).some(function (w) { return RE.verbKey(w) === RE.verbKey(verb); })) covered[verb] = true; }
     let score = 0;
     if (left.length) score = Object.keys(covered).length / left.length;
     let relation = null;
