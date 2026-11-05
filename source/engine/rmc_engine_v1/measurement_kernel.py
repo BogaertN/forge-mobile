@@ -608,6 +608,9 @@ def memory_relation(candidate: dict[str, Any], nodes: list[dict[str, Any]], cand
         })
     max_sim = max(sims) if sims else 0.0
     avg_top = sum(sorted(sims, reverse=True)[:5]) / max(1, min(5, len(sims))) if sims else 0.0
+    # 4.9.235: the texts the claim is compared against, nearest first (the same top-5 avg_top reads).
+    ranked = sorted(range(len(sims)), key=lambda i: sims[i], reverse=True)[:5]
+    support_texts = [memory_node_text(nodes[i]) for i in ranked]
     # Memory fit uses semantic relation, phase-hit density, retrieval weights, and source confidence.
     retrieval_weights = [clamp(n.get("retrieval_weight"), 0.0, 1.0) for n in nodes[:24]]
     avg_retrieval = sum(retrieval_weights) / max(1, len(retrieval_weights)) if retrieval_weights else 0.0
@@ -631,6 +634,8 @@ def memory_relation(candidate: dict[str, Any], nodes: list[dict[str, Any]], cand
         "conflict_count": conflict_count,
         "conflict_penalty": round(clamp(conflict_count / max(1, min(len(nodes), 12))) * 0.20, 6),
         "memory_similarity_sample": sorted(node_summaries, key=lambda n: n.get("similarity", 0.0), reverse=True)[:8],
+        "support_texts": support_texts,
+        "nearest_memory_text": support_texts[0] if support_texts else "",
     }
 
 
@@ -670,6 +675,61 @@ def infer_task_type(candidate: dict[str, Any], trace_or_report: dict[str, Any] |
 def symbolic_epsilon(sigma_res: float, d_score: float, delta_phi: float, n: int = 3) -> float:
     n_safe = max(1, int(n or 3))
     return round(clamp((clamp(sigma_res) + clamp(d_score) + clamp(delta_phi)) / n_safe), 6)
+
+
+def relative_entropy(text: Any, support_texts: Iterable[Any]) -> dict[str, Any]:
+    """The claim's information that its memory nodes do not carry.
+
+    4.9.235 (plan 229 step 7): normalized_shannon_entropy of a short sentence is ~1.0 for every
+    sentence (each word appears once), so it measured length, not drift. Each token carries
+    -log2 p(token) bits of the claim's own distribution; the bits whose token appears in a
+    support node are carried by memory. The drift term is the claim's normalized entropy times
+    the uncarried share of its bits: 0 when the nodes say the same words, the plain entropy when
+    they share none.
+    """
+    tok = tokens(text)
+    h_norm = normalized_shannon_entropy(" ".join(tok))
+    if not tok:
+        return {"entropy_relative": 0.0, "entropy_norm": h_norm, "uncarried_share": 0.0}
+    carried_vocab: set[str] = set()
+    for support in support_texts or []:
+        carried_vocab.update(tokens(support))
+    counts = Counter(tok)
+    total = float(len(tok))
+    bits = {t: -math.log2(c / total) if c < total else 0.0 for t, c in counts.items()}
+    all_bits = sum(counts[t] * bits[t] for t in counts)
+    if all_bits <= 0:
+        share = 0.0 if all(t in carried_vocab for t in counts) else 1.0
+    else:
+        share = sum(counts[t] * bits[t] for t in counts if t not in carried_vocab) / all_bits
+    return {
+        "entropy_relative": round(clamp(h_norm * share), 6),
+        "entropy_norm": h_norm,
+        "uncarried_share": round(clamp(share), 6),
+    }
+
+
+_ARTICLE = {"an": "a"}
+
+
+def sentence_form(text: Any) -> list[str]:
+    """The sentence's function-word skeleton: stopwords kept, each run of content words is one slot."""
+    out: list[str] = []
+    for tok in tokens(text):
+        tok = _ARTICLE.get(tok, tok)
+        if tok in STOPWORDS:
+            out.append(tok)
+        elif not out or out[-1] != "_":
+            out.append("_")
+    return out
+
+
+def form_delta(text: Any, other: Any) -> float:
+    """Jaccard distance between two sentences' forms (their 1- to 3-grams of the skeleton)."""
+    a, b = sentence_form(text), sentence_form(other)
+    grams_a = {" ".join(a[i:i + n]) for n in (1, 2, 3) for i in range(0, max(0, len(a) - n + 1))}
+    grams_b = {" ".join(b[i:i + n]) for n in (1, 2, 3) for i in range(0, max(0, len(b) - n + 1))}
+    return jaccard_distance(grams_a, grams_b)
 
 
 def drift_severity_score(*, entropy_score: float, structure_delta_score: float, semantic_distance_score: float, phase_deviation: float, taxonomy_score: float) -> float:
@@ -713,12 +773,21 @@ def measure_candidate(candidate: dict[str, Any], trace_or_report: dict[str, Any]
         "allowed_to_continue_to_scoring": False,
     })
     s_delta = structure_delta(sig_candidate, sig_template)
+    # 4.9.235 (plan 229 step 7): with memory nodes, drift is read against them. Entropy is the
+    # claim's information its nodes do not carry, and structure is the claim's sentence form
+    # against the nearest node's form. Without nodes both keep the plain readings above (the
+    # candidate's entropy and its shape against the empty candidate template).
+    meaning_text = str(candidate.get("candidate") or "").strip() or input_text
+    rel = relative_entropy(meaning_text, mem.get("support_texts") or []) if nodes else None
+    entropy_term = rel["entropy_relative"] if rel is not None else entropy
+    form = form_delta(meaning_text, mem.get("nearest_memory_text") or "") if nodes else None
+    structure_term = form if form is not None else s_delta
     sigma = resonance_variance(vector)
     taxonomy = _drift_taxonomy_from_state(drift_s, candidate, p_metrics)
     tax = taxonomy_penalty(taxonomy)
     d_score = drift_severity_score(
-        entropy_score=entropy,
-        structure_delta_score=s_delta,
+        entropy_score=entropy_term,
+        structure_delta_score=structure_term,
         semantic_distance_score=mem.get("semantic_distance", 0.0),
         phase_deviation=p_metrics.get("max_delta_phi", 0.0),
         taxonomy_score=tax,
@@ -757,6 +826,17 @@ def measure_candidate(candidate: dict[str, Any], trace_or_report: dict[str, Any]
         "entropy_norm": entropy,
         "structure_signature": sig_candidate,
         "structure_delta": s_delta,
+        "D_terms": {
+            "entropy": entropy_term,
+            "entropy_basis": "relative_to_memory_nodes" if rel is not None else "candidate_entropy_no_nodes",
+            "uncarried_share": rel["uncarried_share"] if rel is not None else None,
+            "structure": structure_term,
+            "structure_basis": "sentence_form_vs_nearest_node" if form is not None else "candidate_shape_vs_template_no_nodes",
+            "semantic_distance": mem.get("semantic_distance", 0.0),
+            "phase_deviation": p_metrics.get("max_delta_phi", 0.0),
+            "taxonomy": tax,
+            "formula": "0.25*entropy + 0.20*structure + 0.20*semantic_distance + 0.20*phase_deviation + 0.15*taxonomy",
+        },
         "semantic_distance": mem.get("semantic_distance", 0.0),
         "memory_fit": mem.get("memory_fit", 0.0),
         "source_confidence": mem.get("source_confidence", 0.0),

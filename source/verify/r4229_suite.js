@@ -64,7 +64,8 @@ T('Ask asks before answering an unpicked many-meaning subject; the reply picks t
   expect(f.state === 'resolved' && f.run.sense.sense === '09374305-n' && f.run.sensed === 'Mercury', JSON.stringify(f));
   expect(S.planAsk('What is Mercury?', { product_reply: true }, { sensed: 'Mercury' }) === null, 'a picked meaning does not ask again');
   const app = read('src/app.js');
-  expect(/row && row\.product_reply && row\.reply && !askCtx\.sense && window\.KSenses && KSenses\.planAsk/.test(app) && /meaning_ask: true, product_reply: false/.test(app), 'app asks first');
+  // 4.9.235 (plan 229 step 7): the ask moved before the engine run; it still asks first, now before any answer exists.
+  expect(/if \(!askCtx\.sense && window\.KSenses && KSenses\.planAsk\)/.test(app) && /product_reply: false, meaning_ask: true, asked_before_engine: true/.test(app) && app.indexOf('asked_before_engine: true') < app.indexOf('row = await KRMCCore.run('), 'app asks first');
   expect(/meaning_id: row\.meaning_id \|\| null/.test(app), 'anchor rows keep meaning_id');
   const poolFn = app.slice(app.indexOf('async function askAnchorPool'), app.indexOf('window.KAskAnchors'));
   expect(/meaning_id: row\.meaning_id \|\| null/.test(poolFn), 'the cached kb.anchors pool rows carry meaning_id (the live god-pick bug)');
@@ -72,9 +73,9 @@ T('Ask asks before answering an unpicked many-meaning subject; the reply picks t
 });
 
 T('version registry names 4.9.229', () => {
-  expect(read('VERSION').trim() === '4.9.233', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.235', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.233' && reg.features.some(f => f.id === 'R4229-ATHENA-RUNNER') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.235' && reg.features.some(f => f.id === 'R4229-ATHENA-RUNNER') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

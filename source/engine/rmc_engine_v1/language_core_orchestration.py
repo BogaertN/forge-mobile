@@ -161,8 +161,13 @@ def orchestrate(question: str, nodes: list[dict[str, Any]] | None = None, phase_
     }
 
 
-def scoring_candidate(chain: dict[str, Any]) -> dict[str, Any] | None:
-    """A candidate whose meaning is the chain's claim. Boilerplate is not added."""
+def scoring_candidate(chain: dict[str, Any], hop: dict[str, Any] | None = None) -> dict[str, Any] | None:
+    """A candidate whose meaning is the chain's claim. Boilerplate is not added.
+
+    4.9.235 (plan 229 step 7): the phase, confidence and drift are the hop's own measured
+    readings (its resonance phase, its grace and its epsilon), not fixed numbers. Novelty is
+    left to the kernel: the caller records measure_candidate's novelty_delta.
+    """
     if not isinstance(chain, dict) or chain.get("debate", {}).get("survived") is not True:
         return None
     text = str(chain.get("claim") or "").strip()
@@ -172,6 +177,19 @@ def scoring_candidate(chain: dict[str, Any]) -> dict[str, Any] | None:
     # repeated sentence does not invent new phrases. The kind is the same
     # memory class the candidate generator already uses for an anchored fact.
     digest = hashlib.sha256(text.encode("utf-8")).hexdigest()[:18]
+    hop = hop if isinstance(hop, dict) else {}
+
+    def _num(value: Any) -> float | None:
+        try:
+            return round(float(value), 6) if value is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    try:
+        phi = int(hop.get("phi")) if hop.get("phi") is not None else None
+    except (TypeError, ValueError):
+        phi = None
+    phase = "Φ%d" % phi if phi and 1 <= phi <= 9 else "Φ1"
     return {
         "candidate_id": "lc-" + digest,
         "title": "",
@@ -180,12 +198,13 @@ def scoring_candidate(chain: dict[str, Any]) -> dict[str, Any] | None:
         "candidate_kind": "memory",
         "language_core": True,
         "meaning_state_not_sentence": True,
-        "phase_target": "Φ1",
-        "phase_path": ["Φ1"],
+        "phase_target": phase,
+        "phase_path": [phase],
+        "phase_basis": "hop.phi" if phi else "no hop phase (Φ1, the question's opening phase)",
         "allowed_to_continue_to_scoring": True,
-        "confidence": 0.9,
-        "novelty": 0.1,
-        "drift": 0.0,
+        "confidence": _num(hop.get("grace")) if _num(hop.get("grace")) is not None else 0.0,
+        "novelty": 0.0,
+        "drift": _num(hop.get("eps")) if _num(hop.get("eps")) is not None else 0.0,
         "required_limitations": ["candidate_only", "no_model"],
         "calls_llm": False,
         "model_invoked": False,

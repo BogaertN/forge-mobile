@@ -689,16 +689,41 @@ def _chain_proof(world: dict[str, Any], left: dict[str, Any], right: dict[str, A
     ])
 
 
+def _premise_weight(premise: dict[str, Any], phase_path: list[Any]) -> float:
+    """Recall's measured weight when the row carries one; else its resonance grace with the
+    question's opening phase (resonance_recall._grace: rpm x cos^2 of the phase gap); else 0."""
+    try:
+        if premise.get("retrieval_weight") is not None:
+            return round(max(0.0, min(1.0, float(premise.get("retrieval_weight")))), 6)
+    except (TypeError, ValueError):
+        pass
+    packet = premise.get("packet") if isinstance(premise.get("packet"), dict) else None
+    phi = None
+    for p in phase_path or []:
+        digits = "".join(ch for ch in str(p) if ch.isdigit())
+        if digits:
+            phi = int(digits)
+            break
+    if packet is None or phi is None:
+        return 0.0
+    try:
+        from rmc_engine_v1.resonance_recall import _grace
+        return round(max(0.0, min(1.0, float(_grace(packet, phi).get("grace") or 0.0))), 6)
+    except Exception:
+        return 0.0
+
+
 def _drift_for(text: str, premises: list[dict[str, Any]], phase_path: list[Any]) -> dict[str, Any]:
     """measurement_kernel epsilon, unmodified. mobile_config bands decide the disposition."""
     nodes = []
     for premise in premises:
+        # 4.9.235 (plan 229 step 7): the premise's own readings (recall weight or resonance grace; its row confidence), not fixed numbers.
         nodes.append({
             "memory_id": premise.get("id"),
             "content_summary": premise.get("text") or "",
             "content": premise.get("text") or "",
-            "confidence": "low" if premise.get("quarantined") else "medium_high",
-            "retrieval_weight": 0.8,
+            "confidence": "low" if premise.get("quarantined") else (premise.get("confidence") or "medium"),
+            "retrieval_weight": _premise_weight(premise, phase_path),
             "source": premise.get("source") or "world",
             "source_kind": "world_premise",
             "prior_drift_score": 0.45 if premise.get("quarantined") else 0.0,
@@ -1429,6 +1454,8 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         "input_memory_count": count,
         "output_memory_count": count,
         "derived_text": derived.get("derived_text") or "",
+        # 4.9.234 (plan 229 step 6): the RMC reading that ran before the world model, in series
+        "upstream": memory.get("upstream") if isinstance(memory.get("upstream"), dict) else None,
         "calls_llm": False,
         "writes_memory": False,
         "writes_durable_memory": False,

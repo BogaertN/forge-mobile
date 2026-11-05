@@ -533,21 +533,62 @@ def _admitted_claim(question: str, trace_spine: dict[str, Any]) -> dict[str, Any
     return best
 
 
-def _live_manifest(claim: str, phase_path: list[Any], epsilon: float, memory_id: str | None) -> dict[str, Any]:
+def _manifest_reading(coherence_report: dict[str, Any], wm_measure: dict[str, Any] | None, routing_epsilon: float) -> dict[str, Any]:
+    """4.9.235 (plan 229 step 7): the manifest's numbers are the measured reading of the answer.
+
+    When the world model speaks, its reading (weakest hop for C, memory fit and source confidence;
+    the largest epsilon and novelty over the spoken sentences). Otherwise the orchestrator's
+    selected candidate, as the kernel measured it. Nothing here is a fixed number.
+    """
+    selected = _as_dict(_as_dict(coherence_report).get("selected_scored_candidate_preview"))
+    parts = _as_dict(selected.get("score_components"))
+    drift = _as_dict(selected.get("measured_evolutionary_drift"))
+    pre = _number(drift.get("epsilon_s"), routing_epsilon)
+    if isinstance(wm_measure, dict) and wm_measure.get("sentences"):
+        sentences = [s for s in wm_measure.get("sentences") or [] if isinstance(s, dict)]
+        weakest = next((s for s in sentences if s.get("text") == wm_measure.get("weakest_hop")), sentences[0])
+        comp = _as_dict(weakest.get("components"))
+        terms = _as_dict(weakest.get("drift_terms"))
+        return {
+            "basis": "world_model_measure (weakest hop; epsilon and novelty: max over spoken sentences)",
+            "confidence": _number(wm_measure.get("C"), 0.0),
+            "novelty": max(_number(_as_dict(s.get("drift_terms")).get("novelty_delta"), 0.0) for s in sentences),
+            "pre_epsilon_s": pre,
+            "post_epsilon_s": _number(wm_measure.get("epsilon_s"), pre),
+            "semantic_distance": _number(terms.get("semantic_distance"), 0.0),
+            "memory_fit": _number(comp.get("memory_fit"), 0.0),
+            "source_confidence": _number(comp.get("source_confidence"), 0.0),
+        }
+    return {
+        "basis": "orchestrator selected candidate (measurement_kernel)",
+        "confidence": _number(parts.get("coherence_score"), _number(selected.get("coherence_score"), 0.0)),
+        "novelty": _number(drift.get("novelty_delta"), 0.0),
+        "pre_epsilon_s": pre,
+        "post_epsilon_s": pre,
+        "semantic_distance": _number(drift.get("semantic_distance"), 0.0),
+        "memory_fit": _number(parts.get("memory_fit"), _number(drift.get("memory_fit"), 0.0)),
+        "source_confidence": _number(parts.get("source_confidence"), _number(drift.get("source_confidence"), 0.0)),
+    }
+
+
+def _live_manifest(claim: str, phase_path: list[Any], epsilon: float, memory_id: str | None, reading: dict[str, Any] | None = None) -> dict[str, Any]:
+    reading = reading if isinstance(reading, dict) else {}
     mu = {
         "claim": claim[:1600],
         "phase_path": phase_path or ["Φ1"],
         "operator_path": ["memory_recall", "coherence_scorer", "containment_router"],
         "memory_links": [{"memory_id": memory_id or "recalled", "role": "admitted_evidence"}],
-        "confidence": 0.90,
-        "novelty": 0.20,
+        # 4.9.235: measured (see _manifest_reading); a key the reading lacks reads 0, not a made-up value.
+        "confidence": round(_number(reading.get("confidence"), 0.0), 6),
+        "novelty": round(_number(reading.get("novelty"), 0.0), 6),
         "drift_status": {
             "status": "bounded",
-            "post_epsilon_s": round(float(epsilon), 6),
-            "pre_epsilon_s": round(float(epsilon), 6),
-            "semantic_distance": 0.20,
-            "memory_fit": 0.80,
-            "source_confidence": 0.80,
+            "post_epsilon_s": round(_number(reading.get("post_epsilon_s"), float(epsilon)), 6),
+            "pre_epsilon_s": round(_number(reading.get("pre_epsilon_s"), float(epsilon)), 6),
+            "semantic_distance": round(_number(reading.get("semantic_distance"), 0.0), 6),
+            "memory_fit": round(_number(reading.get("memory_fit"), 0.0), 6),
+            "source_confidence": round(_number(reading.get("source_confidence"), 0.0), 6),
+            "measured_basis": reading.get("basis") or "none",
         },
         "projection_status": {"status": "not_projected"},
         "output_targets": [{"target": "text"}],
@@ -585,6 +626,7 @@ def _run_late_stages(
     epsilon: float,
     phase_path: list[Any],
     reasoning: dict[str, Any] | None = None,
+    reading: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Renderer, Echo, and memory writer. Sealed routes are executed as blocked, not skipped."""
     stages: list[dict[str, Any]] = []
@@ -612,7 +654,7 @@ def _run_late_stages(
     else:
         try:
             from rmc_engine_v1.output_renderer import render_output
-            manifest = _live_manifest(str(claim["text"]), phase_path, epsilon, claim.get("memory_id"))
+            manifest = _live_manifest(str(claim["text"]), phase_path, epsilon, claim.get("memory_id"), reading)
             render_report = _as_dict(render_output(manifest, audience_profile="operator", style_mode="standard", render_mode="text"))
             artifacts["output_renderer"] = render_report
             rendered = render_report.get("R_t") or _as_dict(render_report.get("render_packet")).get("R_t")
@@ -750,7 +792,7 @@ def _offer_language_core(question: str, trace_spine: dict[str, Any], phase_repor
         # for coverage to see. The act is the meaning. The 0.85 line stays.
         if not echo.get("pass") and not (hop.get("self_fact") and not _meaning_tokens(question)):
             continue
-        cand = scoring_candidate({"claim": text, "debate": debated})
+        cand = scoring_candidate({"claim": text, "debate": debated}, hop)
         if cand is None:
             continue
         measure_nodes = list(active or nodes)
@@ -767,6 +809,8 @@ def _offer_language_core(question: str, trace_spine: dict[str, Any], phase_repor
                 "ancestry": {"self_fact": hop.get("memory_id")},
             }]
         measured = measure_candidate(cand, candidate_report, memory_nodes=measure_nodes)
+        # 4.9.235: the candidate's novelty is the kernel's measured novelty_delta.
+        cand["novelty"] = _number(measured.get("novelty_delta"), 0.0)
         parts = coherence_components(cand, measured)
         eps = _number(measured.get("epsilon_s"), 1.0)
         score = _number(parts.get("coherence_score"), 0.0)
@@ -1054,22 +1098,42 @@ def run_deep_dry_run(
             "concepts": node.get("concepts") if isinstance(node.get("concepts"), list) else None,
             "sfe": node.get("sfe") if isinstance(node.get("sfe"), dict) else None,
         })
+    # 4.9.234 (plan 229 step 6): RMC runs into the world model in series. The RMC reading (C, epsilon, route)
+    # goes in as the world model's upstream; the sentence the world model speaks is measured and routed by the
+    # same kernel and router, and that reading is what the late stages and the Ask gate use.
+    from rmc_engine_v1.world_claim_measure import measure_spoken, upstream_reading
+    upstream = upstream_reading(coherence_report, routing_packet, route_result)
     reasoning = run_reasoning_seam(source_text, {
         "active": recalled,
         "active_memory_count": recalled,
         "phase_path": _as_list(routing_packet.get("phase_path")),
         "nodes": nodes,
+        "upstream": upstream,
     })
     artifacts["reasoning_seam"] = {k: v for k, v in reasoning.items() if k != "memory"}
+    late_route = route_result
+    try:
+        wm_measure = measure_spoken(
+            reasoning, observe_source, _as_list(routing_packet.get("phase_path")), upstream,
+            trace_spine=trace_spine, structural_drift=structural_drift, pf2_preview=pf2_preview, coherence_report=coherence_report,
+        )
+    except Exception as exc:
+        wm_measure = None
+        artifacts["world_model_measure_error"] = type(exc).__name__ + ": " + str(exc)[:240]
+    if wm_measure is not None:
+        artifacts["world_model_measure"] = {k: v for k, v in wm_measure.items() if k != "route_result"}
+        if isinstance(wm_measure.get("route_result"), dict) and wm_measure["route_result"]:
+            late_route = wm_measure["route_result"]
     if execute_late_stages:
         phase_path = _as_list(routing_packet.get("phase_path"))
         late_stages, late_artifacts = _run_late_stages(
             source_text,
-            route_result,
+            late_route,
             trace_spine,
             _number(routing_packet.get("epsilon_s"), 0.0),
             phase_path,
             reasoning,
+            _manifest_reading(coherence_report, wm_measure, _number(routing_packet.get("epsilon_s"), 0.0)),
         )
         stages.extend(late_stages)
         artifacts.update(late_artifacts)
