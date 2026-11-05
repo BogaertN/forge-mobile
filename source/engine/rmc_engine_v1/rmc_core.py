@@ -753,6 +753,48 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
         }
 
 
+def _answer_signals(result: dict[str, Any]) -> dict[str, Any]:
+    """4.9.239 (Nic 2026-11-05: "phase is a retrieval discriminator, not a substitute for semantic evidence"). Three
+    measurements kept apart on every answer, held or spoken, so each can be studied on its own:
+    semantic_support (does the memory support the answer: the premise and recall weights, which no longer carry ΔΦ),
+    structural_coherence (does the answer satisfy the asked frame: the structural Echo checks, or the frame match),
+    phase_compatibility (ΔΦ of each supporting memory to the retrieval operation, A = (1 + cos ΔΦ)/2; a tie-breaker,
+    never a veto, never in C). C is reported as measured, unchanged."""
+    res = result.get("resonance") if isinstance(result.get("resonance"), dict) else {}
+    wm = result.get("world_model_measure") if isinstance(result.get("world_model_measure"), dict) else {}
+    echo = result.get("echo") if isinstance(result.get("echo"), dict) else {}
+    derive = ((result.get("world_model") or {}).get("derive") or {}) if isinstance(result.get("world_model"), dict) else {}
+    premises = [p for p in (wm.get("premises") or []) if isinstance(p, dict)]
+    active = [a for a in (res.get("active") or res.get("active_signals") or []) if isinstance(a, dict)]
+    if premises:
+        support = [{"memory_id": p.get("memory_id"), "weight": p.get("retrieval_weight"), "basis": p.get("retrieval_weight_basis")} for p in premises]
+        phase = [dict(p.get("phase_compatibility") or {}, memory_id=p.get("memory_id")) for p in premises]
+        source = "world_model_measure.premises"
+    else:
+        support = [{"memory_id": a.get("memory_id"), "weight": a.get("retrieval_weight"), "basis": (a.get("signals") or {}).get("semantic_basis")} for a in active]
+        phase = [dict((a.get("signals") or {}).get("phase_compatibility") or {}, memory_id=a.get("memory_id")) for a in active]
+        source = "resonance.active"
+    weights = [float(x["weight"]) for x in support if isinstance(x.get("weight"), (int, float))]
+    As = [float(x["A"]) for x in phase if isinstance(x.get("A"), (int, float))]
+    st = echo.get("structure") if isinstance(echo.get("structure"), dict) else None
+    gate = (derive.get("survivor") or {}).get("gate") if isinstance(derive.get("survivor"), dict) else None
+    structural = {"method": echo.get("method"), "score": (round(st["held"] / st["made"], 6) if st and st.get("made") else None),
+                  "held": (st or {}).get("held"), "made": (st or {}).get("made"), "rule": (st or {}).get("rule"),
+                  "frame_match": bool((gate or {}).get("S")) if gate else None, "derive_status": derive.get("status")}
+    return {
+        "schema": "forge.answer_signals/v1",
+        "rule": "4.9.239 phase is a retrieval discriminator, not a substitute for semantic evidence; three measurements, none folded into another",
+        "semantic_support": {"min": min(weights) if weights else None, "rows": support[:12], "source": source},
+        "structural_coherence": structural,
+        "phase_compatibility": {"phi_query": res.get("question_phi") or 7, "min_A": min(As) if As else None, "max_delta_phi_deg": max((x.get("delta_phi_deg") or 0) for x in phase) if phase else None,
+                                "rows": phase[:12], "role": "tie_breaker", "veto": False, "in_C": False},
+        "C": result.get("coherence"),
+        "echo": echo.get("score"),
+        "spoken": bool(result.get("product_reply")),
+        "calls_llm": False,
+    }
+
+
 def _computed_public(computed: dict[str, Any] | None) -> dict[str, Any] | None:
     if not computed:
         return None
@@ -955,6 +997,7 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     if isinstance(result, dict):
         result["qframe"] = qf
         result["memory_clauses"] = mc
+        result["signals"] = _answer_signals(result)
         if isinstance(result.get("trace"), dict):
             result["trace"]["qframe"] = qf
             result["trace"]["memory_clauses"] = mc
