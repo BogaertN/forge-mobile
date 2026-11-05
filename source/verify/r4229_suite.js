@@ -45,7 +45,7 @@ T('the runner is recursive per the papers: writeback -> discover -> loop; Gate 7
 T('cause-and-effect spot: module, types, no-op hook wired into world_model simulate, bundled for the phone', () => {
   const ce = read('engine/rmc_engine_v1/cause_effect.py');
   expect(/FORGE-CAUSAL-RULE\/v1/.test(ce) && /class CausalRule\(TypedDict/.test(ce) && /SOURCE_CLASSES = \("sourced", "derived"/.test(ce), 'types');
-  expect(/RULES: tuple\[CausalRule, \.\.\.\] = \(\)/.test(ce) && /PREDICTION IS NEVER STORED AS A FACT/.test(ce), 'empty store + rule');
+  expect(/RULES: tuple\[CausalRule, \.\.\.\] = \(/.test(ce) && /WM-CAUSES-APPLY/.test(ce) && /WM-MAKES-APPLY/.test(ce) && /PREDICTION IS NEVER STORED AS A FACT/.test(ce), 'rules + never-store');
   expect(/_cause_effect_hook\(world, query\)/.test(read('engine/rmc_engine_v1/world_model_v1.py')), 'simulate hook');
   expect(/ATHENA-PREDICTION-NOT-A-FACT/.test(read('tools/athena_write_224.py')), 'writer refuses predictions');
   const b = JSON.parse(read('data/py/rmc_engine_bundle.json')).files;
@@ -73,9 +73,9 @@ T('Ask asks before answering an unpicked many-meaning subject; the reply picks t
 });
 
 T('version registry names 4.9.229', () => {
-  expect(read('VERSION').trim() === '4.9.242', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.243', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.242' && reg.features.some(f => f.id === 'R4229-ATHENA-RUNNER') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.243' && reg.features.some(f => f.id === 'R4229-ATHENA-RUNNER') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

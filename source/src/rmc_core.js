@@ -168,7 +168,7 @@ function run(payload, opts) {
   if (typeof require === 'function' && typeof fetch === 'undefined') return Promise.resolve(RMC.askSync(payload));
   return RMC.ask(payload, opts).then(compileOut(payload));
 }
-function runSync(payload) { return RMC && RMC.askSync ? RMC.askSync(payload) : { ok: false, foundations: true, product_reply: false, calls_llm: false, error: 'no_sync' }; }
+function runSync(payload) { payload = withFrame(payload); return RMC && RMC.askSync ? RMC.askSync(payload) : { ok: false, foundations: true, product_reply: false, calls_llm: false, error: 'no_sync' }; }
 const api = { run, runSync, withFrame, withClauses, outwardCompile, selfRows, stateRows, noteState };
 if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KRMCCore = api;
 })(typeof self !== 'undefined' ? self : this);

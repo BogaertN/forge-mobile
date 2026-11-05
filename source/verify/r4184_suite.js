@@ -27,7 +27,7 @@ T('copula chain carries provenance, drift, and chi, and does not lower C_min', (
   expect(survivor.drift && survivor.drift.disposition === 'clean' && survivor.drift.epsilon_s <= 0.35, JSON.stringify(survivor.drift && survivor.drift.disposition));
   expect(survivor.drift.epsilon_s > 0, 'drift was not measured');
   expect(survivor.chi && survivor.chi.christping_initiated === false && survivor.chi.status === 'CHI_T_NOT_REQUIRED', JSON.stringify(survivor.chi));
-  expect(seam.christping_initiated === false && seam.simulate && seam.simulate.status === 'deferred' && seam.simulate.writes_observed === false, JSON.stringify(seam.simulate));
+  expect(seam.christping_initiated === false && seam.simulate && seam.simulate.writes_observed === false && seam.simulate.store_as_fact === false, JSON.stringify(seam.simulate));
   expect(row.admit.thresholds.C_min === 0.87 && row.echo.min === 0.85, JSON.stringify(row.admit.thresholds));
   /* 4.9.235 (plan 229 step 7): this was held only because every sentence read the constant D 0.331794 (ε ~0.144). Measured against its own recalled row the stored sentence drifts ~0.03, so the unchanged gate (C_min 0.87, Echo 0.85) admits exactly the stored fact, or holds. */
   expect(row.product_reply ? (row.coherence >= 0.87 && row.drift <= 0.35 && row.echo.score >= 0.85 && ['Quartz is a mineral.', 'A mineral is a solid substance.', 'A solid substance is matter.'].includes(row.reply)) : (row.coherence < 0.87 || !row.echo.pass), 'C ' + row.coherence + ' ε ' + row.drift + ' ' + row.reply);
@@ -120,7 +120,7 @@ T('Ask shows the engine reply only', () => {
 
 T('version registry names 4.9.185', () => {
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.242', ver);
+  expect(ver === '4.9.243', ver);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8');
   expect(/v4\.9\.184/.test(conf) && /Observe/.test(conf) && /C_min stays 0\.87/.test(conf), 'CONFLICTS');
   const nb = fs.readFileSync(path.join(ROOT, '..', 'NEXT_BUILD.md'), 'utf8');
@@ -132,9 +132,9 @@ T('version registry names 4.9.185', () => {
   const live = fs.readFileSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_184.md'), 'utf8');
   expect(/60/.test(live) && /C_min/.test(live) && /0\.87/.test(live), 'LIVE');
   const tgt = JSON.parse(fs.readFileSync(path.join(ROOT, 'verify', 'targeted.json'), 'utf8'));
-  expect(tgt.release === '4.9.242' && ((tgt.suites[0] === 'r4242_suite.js' || tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
+  expect(tgt.release === '4.9.243' && ((tgt.suites[0] === 'r4243_suite.js' || tgt.suites[0] === 'r4242_suite.js' || tgt.suites[0] === 'r4201_suite.js' || tgt.suites[0] === 'r4200_suite.js' || tgt.suites[0] === 'r4199_suite.js' || tgt.suites[0] === 'r4198_suite.js' || tgt.suites[0] === 'r4197_suite.js' || tgt.suites[0] === 'r4196_suite.js' || tgt.suites[0] === 'r4195_suite.js' || tgt.suites[0] === 'r4194_suite.js') || tgt.suites[0] === 'r4193_suite.js' || tgt.suites[0] === 'r4191_suite.js' || tgt.suites[0] === 'r4190_suite.js' || tgt.suites[0] === 'r4189_suite.js' || tgt.suites[0] === 'r4188_suite.js' || tgt.suites[0] === 'r4187_suite.js' || tgt.suites[0] === 'r4186_suite.js' || tgt.suites[0] === 'r4185_suite.js' || tgt.suites[0] === 'r4184_suite.js'), JSON.stringify({ release: tgt.release, head: tgt.suites[0] }));
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
-  expect(reg.version === '4.9.242' && reg.features.some(f => f.id === 'R4184-WORLD-MODEL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
+  expect(reg.version === '4.9.243' && reg.features.some(f => f.id === 'R4184-WORLD-MODEL') && reg.count === reg.features.length, reg.version + ' ' + reg.count);
   expect(Next.SWITCHES.dream_idle === true && Next.SWITCHES.economy === false, JSON.stringify(Next.SWITCHES));
 });
 

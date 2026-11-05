@@ -1,3 +1,18 @@
+## v4.9.243 — Cause-and-effect frames and bounded Simulate (plan 229 step 12)
+
+**Conflict:** Simulate was a deferred stub (`status: deferred`); `cause_effect.RULES` was empty and `predict()` returned `not_implemented`. A what-happens-if question (Nic 229 audit: "A bottle is on the edge of a table. What happens if I push it?") could not derive an effect from general causal knowledge and was held even when the user had Remembered a range-restricted causal fact. There was no typed causal frame for "X causes Y", "if X then Y", or "V-ing … makes it fall", and no forward-chain that reported its steps.
+
+**Where:**
+- `engine/rmc_engine_v1/cause_effect.py`: parse causal clauses into `FORGE-CAUSAL-FRAME/v1`; three hand-written rule shells (`WM-CAUSES-APPLY`, `WM-IF-THEN-APPLY`, `WM-MAKES-APPLY`) using the same unifier style as COPULA_RULE; `forward_chain` / `predict` with bounded depth (MAX_SIM_DEPTH 4). Predictions are never facts.
+- `engine/rmc_engine_v1/world_model_v1.py`: Observe upgrades causal sentences into typed frames with provenance; Simulate replaces the stub; when Derive is empty a Simulate prediction becomes the derived claim (admit-gated; not auto-persisted).
+- `src/qframe.js`: `QF-WHAT-HAPPENS-IF` compiles "What happens if …?".
+- `engine/rmc_engine_v1/structural_echo.py`: effect-gap Echo for Simulate claims.
+- `engine/rmc_engine_v1/world_claim_measure.py`: measure a Simulate conclusion against its premises.
+
+**Resolution:** A Remembered general causal fact ("Pushing an object on the edge of a table makes it fall.") plus state ("A bottle is on the edge of a table.") yields "A bottle falls." under "What happens if I push it?" — by unification, not a bottle special case. With no causal fact, Simulate is undetermined and Ask holds. A two-step causes-chain (rain → wet ground → muddy shoes) reports depth ≥ 2. Laws kept: no auto-persist of spoken answers; phase is a tie-breaker only; C_min 0.87, Echo 0.85, drift 0.35/0.80 unchanged. No LLM.
+
+Proof: `verify/r4243_suite.js`; real Ask run in headless Chrome (`/workspace/step243/asks.txt`) — bottle push speaks "A bottle falls." from WM-MAKES-APPLY; counterfactual holds; rain→muddy-shoes depth ≥ 2; 43-ask TA 38 TR 5 FA 0 FR 0 SCORE:0. Gate: 744/744. SRI `sha384-GZV4/LrtGugYH+yu8FOG1wrdiHaU31SWgmoWfdja4zs4AAWAuZRBcTryOJu3RvWE`.
+
 ## v4.9.242 — Persistent world-model facts on the device; Derive chains across turns; gloss-classified kind membership (plan 229 step 11)
 
 **Conflict:** The world model starts empty every turn (`empty_world()` then `observe(recall)`). A fact the user Remembered on a prior turn was not available to Derive on the next turn, so a multi-hop personal answer ("Remember my dog is Rex", "Remember Rex is a beagle", later "What breed is my dog?") could not be produced from device state alone. "What breed is my dog?" was additionally undetermined even when the chain conclusion "my dog is a beagle" was in hand: `copula_kind` required the filler's head to equal the kind noun ("breed"), and WordNet's gloss of beagle ("a small short-legged smooth-coated breed of hound") was never consulted. A second Remember that contradicted a kept identity could overwrite the remembered sentence list without a held conflict.

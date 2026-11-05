@@ -216,14 +216,16 @@ def _():
 
 @check("cause-effect hook exists, is a no-op, and a prediction is never stored as a fact")
 def _():
+    # 4.9.243: the hook is live. With no causal frame in the world it stays undetermined (honest hold);
+    # a prediction is still never a fact. RULES holds the three hand-written shells.
     out = CE.predict("What happens if I push the bottle at the top?")
-    if out["status"] != "not_implemented" or out["prediction"] is not None or out["admit"] or out["store_as_fact"] or out["writes"]:
+    if out["status"] not in ("undetermined", "not_applicable") or out["prediction"] is not None or out["store_as_fact"] or out["writes"]:
         return "hook %r" % out
-    if CE.RULES != () or CE.may_store_as_fact(out) or not CE.may_store_as_fact({"text": "Gravity is a force."}):
+    if len(CE.RULES) != 3 or CE.may_store_as_fact({"schema": CE.HOOK_SCHEMA, "kind": "causal_prediction"}) or not CE.may_store_as_fact({"text": "Gravity is a force."}):
         return "store rule"
-    sim = WM.simulate({"root": "r"}, "push the bottle")
+    sim = WM.simulate({"root": "r", "facts": []}, "What happens if I push the bottle at the top?")
     ce = sim.get("cause_effect") or {}
-    if sim.get("status") != "deferred" or ce.get("status") != "not_implemented" or ce.get("prediction") is not None or ce.get("store_as_fact") is not False:
+    if sim.get("writes_observed") is not False or ce.get("prediction") is not None or ce.get("store_as_fact") is not False:
         return "simulate %r" % sim
     return None
 

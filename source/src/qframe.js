@@ -231,6 +231,27 @@
     if (/\d/.test(text) && /^[\d\s+\-*/^().=x×÷%,]+[?]?$/i.test(String(text).trim())) return Object.assign(f, { speech_act: 'compute', mood: 'expression', rule: 'QF-ARITH-EXPR' });
     /* interjection-only turn (closed class INTJ): the act is left to the engine's concept reading */
     if (lw.every(w => has(w.replace(/[,!.]/g, ''), 'INTJ') || has(w.replace(/[,!.]/g, ''), 'PLEASE'))) return Object.assign(f, { speech_act: 'interjection', mood: 'interjection', rule: 'QF-INTJ' });
+    /* 4.9.243 QF-WHAT-HAPPENS-IF: "What happens if C?" asks for the effect of intervention C.
+     * kriyā happen, the gap is the effect (pred), the if-clause is cond. Simulate fills the gap from causal frames. */
+    {
+      /* only the what-first form; "If C, what happens?" keeps QF-IF- so cond parses as a clause (R4230) */
+      const mHappen = String(text || '').trim().match(/^what\s+(?:will\s+)?happen(?:s)?\s+if\s+(.+?)\??$/i);
+      if (mHappen) {
+        const condTxt = mHappen[1].trim().replace(/[.?]+$/, '');
+        const cond = parse(forge, condTxt);
+        Object.assign(f, {
+          speech_act: 'what', mood: 'interrogative', wh: 'what', wh_role: 'pred',
+          kriya: 'happen', polarity: 'pos', tense: 'present',
+          kartr: { text: 'it', head: 'it', kernel: false, user: false },
+          pred: { type: 'np', text: 'something', head: 'something', indef: true, kind: 'effect' },
+          karma: null, parsed: true, partial: true, declarative: 'something happens if ' + condTxt,
+          conditional: true,
+          cond: cond ? Object.assign({ text: condTxt, parses: cond.parses }, roles(cond.clause)) : { text: condTxt, parsed: false },
+          rule: 'QF-WHAT-HAPPENS-IF',
+        });
+        return f;
+      }
+    }
     /* conditional: "if C, Q" → cond + main */
     if (has(lw[0], 'IF')) {
       let cut = lw.findIndex((w, i) => i > 1 && (/,$/.test(ws[i - 1]) || has(w, 'WH') || has(w, 'THEN')));
