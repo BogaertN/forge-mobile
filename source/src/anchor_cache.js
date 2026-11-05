@@ -33,13 +33,13 @@ function AnchorCache(o) {
   const report = (source, rule) => ({ ok: !!(rows && rows.length), source: rows && rows.length ? source : 'none', rule, count: rows ? rows.length : 0, digest: meta && meta.digest || null, fetched_at: meta && meta.fetched_at || null, checked_at: meta && meta.checked_at || null, schema: SCHEMA, calls_llm: false });
   async function refresh(force) {
     await load();
-    if (!force && meta && rows && now() - (meta.checked_at || 0) < maxAge) return report('cache', 'ANCHORS-CACHE-FRESH');
+    if (!force && meta && rows && meta.meaning_ids === true && now() - (meta.checked_at || 0) < maxAge) return report('cache', 'ANCHORS-CACHE-FRESH');
     const api = sb(); if (!api || !api.anchorsDigest || !api.anchorRows) return report('cache', 'ANCHORS-BACKEND-UNAVAILABLE');
     const d = await api.anchorsDigest(); if (!d || !d.ok) return report('cache', 'ANCHORS-OFFLINE');
-    if (meta && rows && meta.digest === d.digest && rows.length > 0) { meta = Object.assign({}, meta, { checked_at: now() }); try { await backend.put('meta', meta); } catch (e) { /* keep memory */ } return report('cache', 'ANCHORS-CACHE-CURRENT'); }
+    if (meta && rows && meta.digest === d.digest && meta.meaning_ids === true && rows.length > 0) { /* 4.9.229: a copy without meaning ids is fetched again */ meta = Object.assign({}, meta, { checked_at: now() }); try { await backend.put('meta', meta); } catch (e) { /* keep memory */ } return report('cache', 'ANCHORS-CACHE-CURRENT'); }
     const got = await api.anchorRows(); if (!got || !got.ok || got.rows.length !== d.count) return report('cache', 'ANCHORS-FETCH-INCOMPLETE');
     const fresh = got.rows.filter(keep); if (!fresh.length) return report('cache', 'ANCHORS-FETCH-EMPTY');
-    const m = { schema: SCHEMA, digest: d.digest, count: fresh.length, server_count: d.count, fetched_at: now(), checked_at: now(), source: 'supabase:kb.anchors' };
+    const m = { schema: SCHEMA, digest: d.digest, meaning_ids: true, count: fresh.length, server_count: d.count, fetched_at: now(), checked_at: now(), source: 'supabase:kb.anchors' };
     try { await backend.put('rows', fresh); await backend.put('meta', m); } catch (e) { /* storage full: still use this session's copy */ }
     rows = fresh; meta = m; index(); return report('supabase', 'ANCHORS-FETCHED');
   }

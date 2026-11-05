@@ -1,0 +1,8 @@
+{
+ "schema": "FORGE-ATHENA-FOLLOWONS/229",
+ "rule": "Follow-on attributes Athena may ask about a thing once its meaning is admitted, keyed by the WordNet (OEWN) sense of the KIND (a hypernym on the admitted subject's chain), never by a subject. A follow-on is only proposed when one of its answered_by sources is enabled in athena_sources_223.json; the answer still needs two independent publishers through the normal write path. Nothing here is an answer.",
+ "kinds": {
+  "09416900-n": {"label": "planet (astronomy)", "attrs": ["mass", "mean radius", "density", "surface gravity", "escape velocity"], "answered_by": ["nasa_nssdc"], "why": "nasa_nssdc planetary fact sheets answer 'what is the mass of X' for planets"},
+  "08185877-n": {"label": "country (politically organized body)", "attrs": ["capital"], "answered_by": ["cia_factbook", "worldbank"], "why": "Factbook (frozen last edition) and World Bank country API give the capital"}
+ }
+}

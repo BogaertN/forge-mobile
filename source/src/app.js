@@ -115,7 +115,8 @@ async function askMemory(question) {
     const pack = await askAnchors();
     memory.anchors = (pack.anchors || []).map(row => ({
       id: row.id, text: row.text, sfe: row.sfe, packet: row.packet, tier: 'anchor', state: 'anchor', trust: 'trusted',
-      provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision
+      provenance: row.provenance, contributor: row.contributor, license: row.license, source_url: row.source_url, revision: row.revision,
+      meaning_id: row.meaning_id || null
     }));
   } catch (e) { memory.anchors = []; }
   try {
@@ -232,6 +233,17 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(qtext, row); } catch (e) { /* the curators are optional */ } }
   /* 4.9.209 (Nic plan, Release A item 2): an admitted answer writes nothing. No session RAM, no receipt store, no Supabase.
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
+  /* 4.9.229 (Nic t147u): a subject with 2-4 WordNet meanings asked without a pick is ASKED, even when a stored fact would answer
+   * ("What is Mercury?" -> which Mercury: the god or the planet?). The stored fact is about one meaning; Forge does not pick it
+   * silently. The reply re-asks under the picked meaning (4.9.226 follow-up) and facts filed under another meaning are dropped
+   * (rmc_core.preselect_pools). Without the sense pack nothing changes. */
+  if (row && row.product_reply && row.reply && !askCtx.sense && window.KSenses && KSenses.planAsk) {
+    try {
+      if (KSenses.ensure) { try { await KSenses.ensure(); } catch (e) { /* the sense data is optional */ } }
+      const pa = KSenses.planAsk(qtext, row, {});
+      if (pa && pa.kind === 'sense') { pendingAsk = pa; stats.held++; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); renderRmc(qtext, row); refreshChrome(); return Object.assign({}, row, { meaning_ask: true, product_reply: false }); }
+    } catch (e) { /* the ask is optional; the answer below stands */ }
+  }
   const admitted = !!(row && row.product_reply && row.reply);
   if (admitted) lastAdmitted = row;
   const rememberBtn = admitted && row.memory_write && row.memory_write.proposed ? '<button type="button" class="small" data-ask-remember>Remember</button>' : '';
@@ -259,7 +271,7 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   /* 4.9.221 shadow sense trace (advisory, logged in memory only; never awaited, never read by any gate, changes no answer) */
   if (window.KSenses && KSenses.note) { try { KSenses.note(qtext); } catch (e) { /* the trace is optional */ } }
   /* 4.9.226: a held answer may ask which meaning is meant (an ambiguous unit, or one asked word with 2-4 WordNet meanings). A picked meaning
-   * that still holds says so plainly; nothing is guessed. Admitted answers never ask. */
+   * that still holds says so plainly; nothing is guessed. (4.9.229: an admitted answer for an unpicked many-meaning subject asks above.) */
   if (!admitted && window.KSenses && KSenses.planAsk) {
     try {
       if (askCtx.sense) askCard('held-under-sense', 'Held under that meaning (' + esc(askCtx.sense.word) + ': ' + esc(askCtx.picked.label) + '): no vetted fact is stored for it yet. The question is queued for Athena.', 'meaning-held');

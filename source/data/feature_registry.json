@@ -1,5 +1,5 @@
 {
- "version": "4.9.228",
+ "version": "4.9.229",
  "features": [
   {
    "id": "A-01",
@@ -4176,13 +4176,24 @@
    "claim": "Partial",
    "note": "4.9.228: self_seed_202 treats other_meaning / wrong OEWN sense id as off-sense (not contra); meaning_223 HYPERNYM_AGREE_DEPTH uses shortest-path hops so Saturn's planet genus counts while caffeine 'component' stays rejected. Dry-run only; no kb.anchors writes.",
    "proof": []
+  },
+  {
+   "id": "R4229-ATHENA-RUNNER",
+   "name": "Athena recursive self-improving gap-filler (dry-run default) + cause-and-effect spot",
+   "source": "Nic pt146u/t147u/t148u/t149u 2026-11-05: the continuous gap filler through Athena's own write path, recursive and self-improving per Nic's papers (RMC 08.6 writeback, PCMA Gate 7 / ghost loops); a spot in the code for cause and effect (not implemented yet)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "4.9.229: tools/athena_runner_229.py loops cycles: queued gaps (phone curation queue, Athena queue with meaning pins, held reports, cold held rows) + gaps discovered from memory -> athena_write_224.process_one (fetch -> meaning agreement -> evaluate -> RPC writer) -> writeback (written row = memory M_t+1, knowledge epoch +1; dry-run admissions provisional/hypothetical only) -> discover (genus pinned by the inherited WordNet sense, kind follow-on attributes keyed by sense ids in data/athena_followons_229.json, unanchored proper names) -> loop. Holds go warm and are resurrected only when new memory echoes them or sources change (Gate 7); identical repeat hold or resurrection_limit 5 -> ghost (kept); breaker after 3 consecutive failures; stops on empty / no_progress / breaker / cycle bound. Dry-run unless FORGE_ATHENA_COMMIT=1 and --commit; append-only JSONL log; separate process (never blocks Ask). engine/rmc_engine_v1/cause_effect.py: FORGE-CAUSAL-RULE/v1 types keyed by sense ids, sourced vs derived, predict() is a no-op, predictions never stored as facts (writer refuses them); world_model_v1.simulate carries the hook. Ask: an unpicked many-meaning subject asks before answering; after a pick, facts filed under another meaning_id are off-sense. Writer --pin=surface=sense for the picked meaning.",
+   "proof": [
+    "verify/r4229_suite.js"
+   ]
   }
  ],
- "count": 381,
+ "count": 382,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 185,
+  "Partial": 186,
   "Missing": 9,
   "Out of scope / parked": 47
  }

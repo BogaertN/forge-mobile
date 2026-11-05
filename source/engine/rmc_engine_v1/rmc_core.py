@@ -770,6 +770,7 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
     # 4.9.226: after "which meaning do you mean?" the phone sends the chosen sense. Its concept (when the sense has a
     # curated one) is asked for; the concepts of the meanings the user did NOT choose are dropped. No other change to recall.
     sense = payload.get("sense")
+    picked_sense = str(sense.get("sense") or "") if isinstance(sense, dict) else ""
     if isinstance(sense, dict):
         keep = str(sense.get("concept") or "")
         drop = {str(c) for c in (sense.get("exclude_concepts") or []) if c}
@@ -791,7 +792,14 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
         cap = int(POOL_CAPS.get(name, 12))
         rows = [r for r in (pool.get("rows") or []) if isinstance(r, dict) and str(r.get("text") or "").strip() and str(r.get("id") or "") not in seen_ids]
         hits = []
+        off_sense = []
         for row in rows:
+            # 4.9.229: after the user picked a meaning, a fact filed under a different meaning (its meaning_id) is off-sense for
+            # this question; it is not a candidate (the god is not answered with the planet). Rows without a meaning id are unchanged.
+            mid = row.get("meaning_id")
+            if picked_sense and isinstance(mid, str) and mid and mid != picked_sense:
+                off_sense.append(str(row.get("id") or ""))
+                continue
             if into == "anchors" and isinstance(row.get("concepts"), list) and row.get("concepts"):
                 # an anchor is matched by its own curated concepts (its class), not by stray words
                 rc = {str(c) for c in row["concepts"] if c}
@@ -806,8 +814,11 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
         kept = hits[:cap]
         seen_ids.update(h[1] for h in kept)
         memory[into] = list(memory.get(into) or []) + [h[2] for h in kept]
-        record.append({"name": name, "into": into, "pool": len(rows), "kept": [h[1] for h in kept],
-                       "concepts": {h[1]: h[3] for h in kept}, "cap": cap})
+        rec = {"name": name, "into": into, "pool": len(rows), "kept": [h[1] for h in kept],
+               "concepts": {h[1]: h[3] for h in kept}, "cap": cap}
+        if off_sense:
+            rec["off_sense"] = sorted(off_sense)
+        record.append(rec)
     out = dict(payload)
     out["memory"] = memory
     out["_preselect"] = {"rule": "ENGINE-POOL-PRESELECT", "method": "resonance_packet_concepts", "question_concepts": sorted(asked),

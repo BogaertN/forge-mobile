@@ -957,7 +957,16 @@ def simulate(world: dict[str, Any], query: str = "") -> dict[str, Any]:
         "hypothetical_result": None,
         "writes_observed": False,
         "calls_llm": False,
+        # 4.9.229 (Nic pt146u): the named home for cause and effect. A no-op today; a prediction is never a fact.
+        "cause_effect": _cause_effect_hook(world, query),
     }
+
+
+def _cause_effect_hook(world: dict[str, Any], query: str) -> dict[str, Any]:
+    from rmc_engine_v1 import cause_effect
+
+    out = cause_effect.predict(query, world)
+    return {"status": out["status"], "rule": out["rule"], "prediction": None, "admit": False, "store_as_fact": False}
 
 
 def _clean_node_text(raw: str) -> str:

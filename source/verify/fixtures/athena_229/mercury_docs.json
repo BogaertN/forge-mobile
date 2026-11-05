@@ -1,0 +1,92 @@
+{
+ "schema": "FORGE-ATHENA-FIXTURE/229",
+ "question": "What is Mercury?",
+ "recorded": "2026-11-05",
+ "note": "recorded Tier-A documents (A.fetch_all) for the runner test; no network in tests",
+ "documents": [
+  {
+   "url": "https://science.nasa.gov/mercury/facts/",
+   "text": "Mercury is the smallest planet in our solar system and nearest to the Sun.",
+   "role": "source",
+   "source_id": "nasa_science",
+   "publisher": "NASA",
+   "kind": "prose",
+   "verbatim": "Mercury is the smallest planet in our solar system and nearest to the Sun.",
+   "how": {
+    "define_rank": 2,
+    "index": 0
+   },
+   "fetched_at": "2026-11-05T11:16:42+00:00",
+   "sha256": "20d8b166cb8f9cf7358ee8a921fba107cc7065879d04423c5b2e8277ff71a8bf",
+   "raw_sha256": "047f20bf9ba024c08d10150843832878f648715247a5ce1589603c717c21c269"
+  },
+  {
+   "url": "https://spaceplace.nasa.gov/all-about-mercury/en/",
+   "text": "Mercury is the smallest planet in our solar system.",
+   "role": "source",
+   "source_id": "nasa_spaceplace",
+   "publisher": "NASA",
+   "kind": "prose",
+   "verbatim": "Mercury is the smallest planet in our solar system.",
+   "how": {
+    "define_rank": 2,
+    "index": 7
+   },
+   "fetched_at": "2026-11-05T11:16:43+00:00",
+   "sha256": "3296e29e5f43f7045f102e7b64ab2a959af51981b2d1a8f01e204d841ca49c2e",
+   "raw_sha256": "c655098fed7a01a065e50425369564859b58f50723ae5e8ed352ea8618208704"
+  },
+  {
+   "url": "https://id.nlm.nih.gov/mesh/D008628.html",
+   "text": "Mercury is a silver metallic element that exists as a liquid at room temperature.",
+   "role": "source",
+   "source_id": "nlm_mesh",
+   "publisher": "NLM",
+   "kind": "gloss",
+   "verbatim": "A silver metallic element that exists as a liquid at room temperature. It has the atomic symbol Hg (from hydrargyrum, liquid silver), atomic number 80, and atomic weight 200.59. Mercury is used in many industrial applications and its salts have been employed therapeutically as purgatives, antisyphilitics, disinfectants, and astringents. It can be absorbed through the skin and mucous membranes which leads to MERCURY POISONING. Because of its toxicity, the clinical use of mercury and mercurials is diminishing.",
+   "how": {
+    "descriptor": "D008628",
+    "descriptor_label": "Mercury",
+    "term": "T025687",
+    "render": "GLOSS-FIT"
+   },
+   "fetched_at": "2026-11-05T11:16:44+00:00",
+   "sha256": "d67e1f94c0892bf37f28730d111854829ecf9defb09df9ce7bafc2d4607efe7e",
+   "raw_sha256": "be1df0eae0b79e6d3683b0728cc55391e47d970444a669ff26a444fb0c5c3068"
+  },
+  {
+   "url": "https://pubchem.ncbi.nlm.nih.gov/element/80",
+   "text": "Mercury is a chemical element with symbol Hg and atomic number 80.",
+   "role": "source",
+   "source_id": "pubchem",
+   "publisher": "NLM",
+   "kind": "structured",
+   "verbatim": "{\"AtomicNumber\": \"80\", \"Symbol\": \"Hg\", \"Name\": \"Mercury\", \"GroupBlock\": \"Transition metal\", \"StandardState\": \"Liquid\"}",
+   "how": {
+    "record": "periodic table"
+   },
+   "fetched_at": "2026-11-05T11:16:45+00:00",
+   "sha256": "71a1b2af73b3d75ba2ed4e1fcb785820a45a687a891c47801f78e8b484ca9fc0",
+   "raw_sha256": "ff0f75976583b8a6493b18d0b42e83e1b68bd6e112b45d33578d98494ed5d321"
+  },
+  {
+   "url": "https://en-word.net/id/oewn-09374305-n",
+   "text": "Mercury is the smallest planet and the nearest to the sun.",
+   "role": "source",
+   "source_id": "oewn",
+   "publisher": "Open English WordNet",
+   "kind": "gloss",
+   "verbatim": "the smallest planet and the nearest to the sun",
+   "how": {
+    "sense": "pinned",
+    "synset": "09374305-n",
+    "ili": "i85769",
+    "qid": "Q308",
+    "render": "GLOSS-FIT"
+   },
+   "fetched_at": "2026-11-05T11:16:46+00:00",
+   "sha256": "5c2ba3eb9e54fe938838d6bb9cb45e332960cbdedab5f4f0e053dd361a0f981e",
+   "raw_sha256": "b6842549d32aae20beaf7ce365cc28869eeead81d42149a94fd66ce2df8c9d8e"
+  }
+ ]
+}

@@ -104,7 +104,7 @@ function Client(o) { o = o || {};
   async function anchorsDigest() { try { const r = await call('/rest/v1/rpc/kb_anchors_digest', { method: 'POST', headers: H(), body: '{}' });
       return r.ok && r.body && typeof r.body.digest === 'string' ? { ok: true, count: Number(r.body.count), digest: r.body.digest } : { ok: false, status: r.status }; } catch (e) { return { ok: false, offline: true }; } }
   async function anchorRows(o) { o = o || {}; const size = Math.min(1000, Math.max(50, o.pageSize || 1000)); const out = [];
-    const cols = 'id,text,state,trust,packet,concepts,provenance,contributor,license,source_url,revision';
+    const cols = 'id,text,state,trust,packet,concepts,provenance,contributor,license,source_url,revision,meaning_id'; /* 4.9.229: the meaning a fact is filed under */
     try { for (let off = 0; off < 50000; off += size) {
         const r = await call('/rest/v1/kb_anchors?select=' + cols + '&order=id.asc&limit=' + size + '&offset=' + off, { headers: H() });
         if (!r.ok || !Array.isArray(r.body)) return { ok: false, status: r.status, rows: [] };

@@ -10,6 +10,7 @@ role key is read from SUPABASE_SERVICE_ROLE_KEY in the environment and is never 
 usage:
   FORGE_OEWN_DIR=... python3 tools/athena_write_224.py --dry-run out.json --anchors=kb.json "What is gravity?" ...
   FORGE_ATHENA_COMMIT=1 python3 tools/athena_write_224.py --commit out.json ...   # refused unless both flags
+  --pin=mercury=09374305-n   pin a many-meaning subject to the meaning picked in the Ask follow-up (4.9.229)
 """
 from __future__ import annotations
 
@@ -138,6 +139,30 @@ def call_writer(row: dict, commit: bool) -> dict:
         return {"ok": False, "rule": "ATHENA-HTTP-%s" % e.code, "error": err, "written": False}
 
 
+def pin_meaning(table: dict, spec: str) -> dict:
+    """4.9.229: pin a subject to the meaning chosen in the Ask meaning follow-up ("Which Mercury? ... the planet").
+
+    spec is "surface=OEWN-sense-id", e.g. "mercury=09374305-n". The sense must be one of the WordNet noun meanings
+    of that surface (never an invented id); the pin is keyed the same way Ask keys the subject (resonance_recall.subject_key),
+    so the written row lands under the subject key with meaning_id = the chosen sense. Without a pin, a word with several
+    meanings still ASKs (resolve_subject state=ask) and nothing is written.
+    """
+    from rmc_engine_v1.resonance_recall import subject_key
+    surface, _, sense = (spec or "").partition("=")
+    surface = surface.strip()
+    sense = sense.strip()
+    if not surface or not sense:
+        return {"ok": False, "rule": "ATHENA-PIN-BAD-SPEC", "spec": spec}
+    forms = {surface, surface.lower(), surface[:1].upper() + surface[1:].lower()}
+    known = sorted({s for f in forms for s in M.noun_senses(f)})
+    if sense not in known:
+        return {"ok": False, "rule": "ATHENA-PIN-UNKNOWN-SENSE", "surface": surface, "sense": sense, "known": known}
+    cid = subject_key(surface)
+    concepts = table.setdefault("concepts", {})
+    concepts[cid] = {"surface": surface.lower(), "sense": sense, "pinned_by": "meaning follow-up (--pin)"}
+    return {"ok": True, "surface": surface.lower(), "sense": sense, "key": cid, "known": known}
+
+
 def process_one(q: str, anchored: dict, table: dict, commit: bool) -> dict:
     from rmc_engine_v1 import self_seed_202 as ss
     concepts = rr.question_concepts(q, set(anchored))
@@ -179,6 +204,11 @@ def process_one(q: str, anchored: dict, table: dict, commit: bool) -> dict:
     if not res.get("anchor"):
         out["writer"] = {"ok": False, "rule": "ATHENA-NO-ANCHOR", "written": False}
         return out
+    # 4.9.229 (Nic pt146u): a cause-and-effect prediction is never written as a fact, whatever path it came by.
+    from rmc_engine_v1 import cause_effect as CE
+    if not CE.may_store_as_fact(res.get("anchor")):
+        out["writer"] = {"ok": False, "rule": "ATHENA-PREDICTION-NOT-A-FACT", "written": False}
+        return out
     row = build_row(q, res, meaning, subject)
     out["row"] = {
         "anchor_id": row["anchor_id"], "text": row["text"], "source_url": row["source_url"],
@@ -203,6 +233,7 @@ def main() -> None:
     commit = False
     dry_run = True
     qs = []
+    pins: list[str] = []
     while args:
         a = args.pop(0)
         if a == "--commit":
@@ -213,6 +244,8 @@ def main() -> None:
             commit = False
         elif a.startswith("--anchors="):
             anchors_path = a.split("=", 1)[1]
+        elif a.startswith("--pin="):
+            pins.append(a.split("=", 1)[1])
         elif a.endswith(".json") and out_path is None and not a.startswith("-"):
             out_path = a
         else:
@@ -230,6 +263,13 @@ def main() -> None:
         sys.exit(2)
     anchored, n_rows = anchored_concepts(anchors_path)
     table = json.load(open(os.path.join(ROOT, "data", "concept_senses.json"), encoding="utf-8"))
+    pinned = []
+    for spec in pins:
+        res = pin_meaning(table, spec)
+        if not res.get("ok"):
+            print(json.dumps(res))
+            sys.exit(2)
+        pinned.append(res)
     results = [process_one(q, anchored, table, commit=commit) for q in qs]
     body = {
         "schema": "FORGE-ATHENA-WRITE/224",
@@ -237,6 +277,7 @@ def main() -> None:
         "dry_run": not commit,
         "writes": any(r.get("writes") for r in results),
         "anchors_rows": n_rows,
+        "pins": pinned,
         "results": results,
     }
     json.dump(body, open(out_path, "w"), indent=1, ensure_ascii=False)
