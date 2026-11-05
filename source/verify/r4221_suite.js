@@ -87,8 +87,8 @@ T('the sense pack is pinned by SHA-256 in the forge-ref bucket and checked befor
 });
 T('advisory only: Ask calls the trace after rendering, never awaits it, and no gate or recall reads it', () => {
   const app = read('src/app.js');
-  expect(/renderRmc\(text, row\);\n  \/\* 4\.9\.221[^\n]*\n  if \(window\.KSenses && KSenses\.note\) \{ try \{ KSenses\.note\(text\); \}/.test(app), 'after render, not awaited');
-  expect(!/await KSenses|row\.sense|sense_trace/.test(app), 'not on the row');
+  expect(/renderRmc\(q?text, row\);\n  \/\* 4\.9\.221[^\n]*\n  if \(window\.KSenses && KSenses\.note\) \{ try \{ KSenses\.note\(q?text\); \}/.test(app), 'after render, not awaited');
+  expect(!/await KSenses\.note|row\.sense|sense_trace/.test(app), 'not on the row');  /* 4.9.226: the trace stays advisory; the follow-up ask awaits KSenses.ensure() after the card is shown */
   for (const f of fs.readdirSync(path.join(ROOT, 'src'))) if (f.endsWith('.js') && f !== 'senses.js' && f !== 'app.js') expect(!/KSenses|concept_senses/.test(read('src/' + f)), 'src/' + f);
   for (const f of fs.readdirSync(path.join(ROOT, 'engine/rmc_engine_v1'))) if (f.endsWith('.py')) expect(!/concept_senses|sense_trace|forge-ref/.test(read('engine/rmc_engine_v1/' + f)), f);
   expect(/src\/senses\.js/.test(read('index.html')) && /'\.\/src\/senses\.js', '\.\/data\/concept_senses\.json'/.test(read('sw.js')) && /'data\/concept_senses\.json'/.test(read('tools/shipset.js')), 'shipped');
@@ -124,7 +124,7 @@ T('the cold 60 for 4.9.221 is recorded (not tuned) and identical to 4.9.220', ()
   expect(JSON.stringify(c.rows) === JSON.stringify(p.rows), 'every row identical to 4.9.220');
 });
 T('version registry names 4.9.221', () => {
-  expect(read('VERSION').trim() === '4.9.225', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.226', 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4221-') >= 0, 'registry');
 });
 (async () => {

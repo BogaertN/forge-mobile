@@ -175,8 +175,27 @@ async function rememberStatement(text) {
   return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, message: 'Remembered on this phone: ' + sentence };
 }
 const REMEMBER_LAST = /^\s*remember\s*(this|that|it|the answer|that answer)?\s*[.!]?\s*$/i;
+/* 4.9.226 (Nic pt141u): meaning follow-up. Forge asks which meaning; the next message picks one and the ORIGINAL question is asked again under it.
+ * The pending ask lives in this session only. With no ask pending, say() is unchanged. */
+let pendingAsk = null;
+function askCard(kind, bodyHtml, state) {
+  const log = $('#log');
+  log.insertAdjacentHTML('beforeend', '<div class="msg bot" data-ask-state="' + state + '" data-followup="' + kind + '"><span class="kind deterministic_route">meaning</span><div data-ask-body>' + bodyHtml + '</div><div class="flags">no LLM · deterministic · nothing stored</div></div>');
+  log.lastElementChild.scrollIntoView({ block: 'end' });
+}
 async function say(text) { if (lexState.core === 'loading') { queue.push(text); return; }
   const log = $('#log'); log.insertAdjacentHTML('beforeend', '<div class="msg user">' + esc(text) + '</div>');
+  let qtext = text; let askCtx = {};
+  if (pendingAsk && window.KSenses && KSenses.follow) {
+    const f = KSenses.follow(pendingAsk, text);
+    if (f.state === 'resolved') {
+      const picked = f.option;
+      askCard('picked', 'Taking ' + esc(pendingAsk.word) + ' as: ' + esc(picked.label) + '. Asking again: ' + esc(f.run.question), 'meaning-picked');
+      qtext = f.run.question; askCtx = { sense: f.run.sense || null, sensed: f.run.sensed || null, chain: f.run.chain || 0, picked: picked }; pendingAsk = null;
+    } else if (f.state === 'again') { pendingAsk = f.pending; askCard('again', esc(f.text), 'meaning-ask'); return null; }
+    else if (f.state === 'giveup') { const w = pendingAsk.word; pendingAsk = null; askCard('giveup', 'I could not tell which ' + esc(w) + ' you mean, so I am leaving that question. Ask it again and name the meaning (for example "the planet").', 'meaning-dropped'); return null; }
+    else { pendingAsk = null; }
+  }
   if (REMEMBER_LAST.test(text)) {
     const r = lastAdmitted ? await rememberAnswer(lastAdmitted, 'command') : { ok: false, rule: 'REMEMBER-NOTHING-ADMITTED' };
     const msg = r.ok ? 'Remembered on this phone: ' + esc(r.text) + ' · shared KB ' + esc(r.supabase && (r.supabase.ok ? r.supabase.rule : (r.supabase.rule + (r.supabase.pending ? ' (kept here, pending)' : ''))))
@@ -193,10 +212,10 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(true);
   let row;
   try {
-    const memory = await askMemory(text);
+    const memory = await askMemory(qtext);
     if (window.KPipeline && KPipeline.researchExcerpt) {
       try {
-        const hit = await KPipeline.researchExcerpt(text, { fetch: window.fetch ? window.fetch.bind(window) : null });
+        const hit = await KPipeline.researchExcerpt(qtext, { fetch: window.fetch ? window.fetch.bind(window) : null });
         if (hit && hit.excerpt) {
           const url = String(hit.url || '');
           memory.research.push({ id: 'web-' + memory.research.length, text: String(hit.excerpt).slice(0, 500), url: url || 'https://en.wikipedia.org/', source: 'wikipedia', trust: 'low', quarantined: true, premise: false });
@@ -204,13 +223,13 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
       } catch (e) { /* a missing fetch stays quarantined-empty; it is not an answer */ }
     }
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
-    else row = await KRMCCore.run({ question: text, live: true, dry_run: false, memory: memory });
+    else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
     /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo
      * documents are shown only on the Self-seed card (window.SELF_SEED_DEMO); Ask never treats a recording as research. */
   } finally { if (window.KCustody && KCustody.noteAsk) KCustody.noteAsk(false); }
   lastResult = row;
   /* 4.9.208: a held question becomes a curation gap for Athena (no write happens here) */
-  if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(text, row); } catch (e) { /* the curators are optional */ } }
+  if (window.KCurators && KCurators.noteHeld && row && !row.product_reply) { try { row.curation = KCurators.noteHeld(qtext, row); } catch (e) { /* the curators are optional */ } }
   /* 4.9.209 (Nic plan, Release A item 2): an admitted answer writes nothing. No session RAM, no receipt store, no Supabase.
    * The engine's proposal waits for "remember …" or the Remember tap (rememberAnswer). */
   const admitted = !!(row && row.product_reply && row.reply);
@@ -236,9 +255,19 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   log.insertAdjacentHTML('beforeend', '<div class="msg bot' + (admitted ? '' : ' blocked') + '" data-ask-state="' + (admitted ? 'admitted' : 'held') + '"><span class="kind ' + kd + '">' + kd + '</span><span class="tag">ε_s ' + esc(row && row.drift) + '</span><span class="tag">C ' + esc(row && row.coherence) + '</span><span class="tag">Echo ' + (echo.pass ? '✓' : '✗') + '</span>' + compTag + relTag + (admitted && row.memory_write && row.memory_write.write_gate && !row.memory_write.write_gate.ok ? '<span class="tag" data-write-gate>not storable: ' + esc((row.memory_write.write_gate.failed || []).join(', ')) + '</span>' : '') + '<div data-ask-body data-answer-source="' + (admitted ? 'rmc_engine_v1.output_renderer' : 'hold') + '">' + body + compNote + '</div>' + doc6Tag(row && row.gate) + '<div class="flags">no LLM · packs gated · money disabled · nothing stored unless you ask</div>' + rememberBtn + '</div>');
   if (rememberBtn) { const card = log.lastElementChild; const btn = card.querySelector('[data-ask-remember]'); btn.onclick = async () => { btn.disabled = true; const r = await rememberAnswer(row, 'tap'); btn.textContent = r.ok ? 'Remembered' + (r.supabase && r.supabase.ok ? ' · shared' : ' · on this phone') : 'Not remembered'; }; }
   log.lastElementChild.scrollIntoView({ block: 'end' });
-  renderRmc(text, row);
+  renderRmc(qtext, row);
   /* 4.9.221 shadow sense trace (advisory, logged in memory only; never awaited, never read by any gate, changes no answer) */
-  if (window.KSenses && KSenses.note) { try { KSenses.note(text); } catch (e) { /* the trace is optional */ } }
+  if (window.KSenses && KSenses.note) { try { KSenses.note(qtext); } catch (e) { /* the trace is optional */ } }
+  /* 4.9.226: a held answer may ask which meaning is meant (an ambiguous unit, or one asked word with 2-4 WordNet meanings). A picked meaning
+   * that still holds says so plainly; nothing is guessed. Admitted answers never ask. */
+  if (!admitted && window.KSenses && KSenses.planAsk) {
+    try {
+      if (askCtx.sense) askCard('held-under-sense', 'Held under that meaning (' + esc(askCtx.sense.word) + ': ' + esc(askCtx.picked.label) + '): no vetted fact is stored for it yet. The question is queued for Athena.', 'meaning-held');
+      try { if (KSenses.ensure) await KSenses.ensure(); } catch (e) { /* the sense data is optional */ }
+      const pa = KSenses.planAsk(qtext, row, { sensed: askCtx.sensed, chain: askCtx.chain });
+      if (pa) { pendingAsk = pa; askCard('ask', esc(KSenses.askText(pa, false)), 'meaning-ask'); }
+    } catch (e) { /* the ask is optional; the held card above stands */ }
+  }
   refreshChrome();
   return row; }
 function anchorSample(row) {

@@ -767,6 +767,15 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
     # concepts the pools actually carry. A row's concepts are its own curated packet
     # concepts plus words outside proper-name compounds (row_concepts).
     asked = question_concepts(question, known)
+    # 4.9.226: after "which meaning do you mean?" the phone sends the chosen sense. Its concept (when the sense has a
+    # curated one) is asked for; the concepts of the meanings the user did NOT choose are dropped. No other change to recall.
+    sense = payload.get("sense")
+    if isinstance(sense, dict):
+        keep = str(sense.get("concept") or "")
+        drop = {str(c) for c in (sense.get("exclude_concepts") or []) if c}
+        asked = {c for c in asked if c not in drop or c == keep}
+        if keep and keep in known:
+            asked = set(asked) | {keep}
     # 4.9.217: within a trust level, a row that defines the asked subject is kept before one that only mentions it
     # (relation_echo.define_rank, the same re-parse rank_memory and Echo use), so the cap never drops the definition.
     from rmc_engine_v1.relation_echo import asked as _asked_relation, define_rank as _define_rank

@@ -132,7 +132,7 @@ T('the app passes the device signer, and no client code calls the closed RPC', (
   const sb = fs.readFileSync(ROOT + '/src/sb_sync.js', 'utf8'); expect(!/rpc\/memory_writer_insert/.test(sb) && /functions\/v1\/memory-writer/.test(sb), 'sb_sync');
 });
 T('version, registry, CONFLICTS and the drift law', () => {
-  const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim(); expect(ver === '4.9.225', ver);
+  const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim(); expect(ver === '4.9.226', ver);
   const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'feature_registry.json'), 'utf8'));
   expect(reg.version === ver && reg.features.some(f => f.id === 'R4205-WRITER-LOCKDOWN') && reg.count === reg.features.length, reg.version);
   const conf = fs.readFileSync(path.join(ROOT, 'CONFLICTS.md'), 'utf8'); expect(/## v4\.9\.205/.test(conf) && /writer/i.test(conf), 'CONFLICTS');
