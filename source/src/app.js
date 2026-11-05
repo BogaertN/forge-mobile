@@ -73,7 +73,8 @@ async function askAnchorPool() {
     /* slim rows (the pool is every cached anchor); the full row stays in the cache and the curators' guard reads it by id */
     id: row.id, text: String(row.text).slice(0, 600), sfe: row.sfe || (row.packet && (row.packet.sfe || { Phi: row.packet.Phi, eps: row.packet.eps, mu: row.packet.mu })),
     concepts: Array.isArray(row.concepts) ? row.concepts : (row.concept ? [row.concept] : []), tier: 'anchor', state: 'anchor', trust: 'trusted',
-    contributor: row.contributor, source_url: row.source_url, pool: true
+    contributor: row.contributor, source_url: row.source_url, pool: true,
+    meaning_id: row.meaning_id || null /* 4.9.229: the meaning the fact is filed under, so a picked meaning drops the others */
   }));
 }
 /* 4.9.208: the curators look up with the same trusted anchors Ask uses (starter set + Supabase anchors by concept), nothing else */

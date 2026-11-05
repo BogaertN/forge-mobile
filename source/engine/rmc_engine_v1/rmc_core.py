@@ -782,6 +782,20 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
     from rmc_engine_v1.relation_echo import asked as _asked_relation, define_rank as _define_rank
     ask_rel = _asked_relation(question)
     reads_definition = ask_rel.get("relation") in {"definition", "identify"}
+    # 4.9.229 (Nic t151u): the same off-sense rule for rows already in memory (not only the pools): after a pick, a row filed
+    # under another meaning_id never reaches recall.
+    pre_off: list[str] = []
+    if picked_sense:
+        for key in ("anchors", "hosted", "phone"):
+            kept_rows = []
+            for r in memory.get(key) or []:
+                mid = r.get("meaning_id") if isinstance(r, dict) else None
+                if isinstance(mid, str) and mid and mid != picked_sense:
+                    pre_off.append(str(r.get("id") or ""))
+                    continue
+                kept_rows.append(r)
+            if key in memory:
+                memory[key] = kept_rows
     seen_ids = {str(r.get("id") or "") for key in ("anchors", "hosted", "phone") for r in (memory.get(key) or []) if isinstance(r, dict)}
     record = []
     for pool in pools:
@@ -823,6 +837,8 @@ def preselect_pools(payload: dict[str, Any]) -> dict[str, Any]:
     out["memory"] = memory
     out["_preselect"] = {"rule": "ENGINE-POOL-PRESELECT", "method": "resonance_packet_concepts", "question_concepts": sorted(asked),
                          "uses_token_overlap": False, "calls_llm": False, "pools": record}
+    if pre_off:
+        out["_preselect"]["off_sense_memory"] = sorted(pre_off)
     return out
 
 

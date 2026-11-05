@@ -281,7 +281,13 @@ def _():
     kept = lambda r: sorted(x["id"] for x in r["memory"].get("anchors") or [])
     ok = kept(god) == ["a-legacy"] and kept(planet) == ["a-legacy", "a-planet"] and kept(none) == ["a-legacy", "a-planet"] \
         and god["_preselect"]["pools"][0].get("off_sense") == ["a-planet"]
-    return None if ok else "god %r planet %r none %r" % (kept(god), kept(planet), kept(none))
+    if not ok:
+        return "god %r planet %r none %r" % (kept(god), kept(planet), kept(none))
+    # rows already in memory (not a pool) follow the same rule
+    base2 = {"question": "What is Mercury?", "memory": {"anchors": [dict(rows[0], id="m-planet")], "pools": [{"name": "anchors", "into": "anchors", "rows": rows[1:]}]}}
+    god2 = rmc_core.preselect_pools(dict(base2, sense={"word": "Mercury", "sense": "09585833-n", "concept": None, "exclude_concepts": []}))
+    ok2 = kept(god2) == ["a-legacy"] and god2["_preselect"].get("off_sense_memory") == ["m-planet"]
+    return None if ok2 else "memory rows under another meaning were kept: %r" % kept(god2)
 
 
 print(json.dumps(OUT, indent=1))

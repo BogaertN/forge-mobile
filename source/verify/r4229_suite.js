@@ -66,6 +66,8 @@ T('Ask asks before answering an unpicked many-meaning subject; the reply picks t
   const app = read('src/app.js');
   expect(/row && row\.product_reply && row\.reply && !askCtx\.sense && window\.KSenses && KSenses\.planAsk/.test(app) && /meaning_ask: true, product_reply: false/.test(app), 'app asks first');
   expect(/meaning_id: row\.meaning_id \|\| null/.test(app), 'anchor rows keep meaning_id');
+  const poolFn = app.slice(app.indexOf('async function askAnchorPool'), app.indexOf('window.KAskAnchors'));
+  expect(/meaning_id: row\.meaning_id \|\| null/.test(poolFn), 'the cached kb.anchors pool rows carry meaning_id (the live god-pick bug)');
   expect(/revision,meaning_id'/.test(read('src/sb_sync.js')) && /meaning_ids: true/.test(read('src/anchor_cache.js')), 'phone fetches meaning ids');
 });
 
