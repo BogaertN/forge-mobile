@@ -191,6 +191,8 @@ def _node_from_receipt(path: Path, root: Path, data: dict[str, Any]) -> dict[str
         "revision": data.get("revision"),
         "provenance": data.get("provenance") if isinstance(data.get("provenance"), dict) else None,
         "contributor": data.get("contributor"),
+        "clause": data.get("clause") if isinstance(data.get("clause"), dict) else None,
+        "meaning_id": data.get("meaning_id") if isinstance(data.get("meaning_id"), str) else None,
     }
 
 

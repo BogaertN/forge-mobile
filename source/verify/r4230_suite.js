@@ -41,6 +41,7 @@ T('every engine call for a question (Ask, the sense re-ask, the dry-run card) ge
   expect(read('sw.js').includes("'./src/qframe.js'"), 'sw precache');
 });
 
+const SA = x => x.uses.filter(u => u.consumer !== 'world_model.derive');
 T('the engine uses frame.speech_act when the frame parsed, keeps its own reading otherwise, and rejects a frame for another question', () => {
   const py = `
 import json
@@ -59,17 +60,17 @@ print(json.dumps(out))`;
   const r = cp.spawnSync('python3', ['-c', py], { cwd: ROOT, env: Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') }), encoding: 'utf8', maxBuffer: 1 << 26 });
   expect(r.status === 0, r.stderr.slice(-800));
   const o = JSON.parse(r.stdout.trim().split('\n').pop());
-  expect(o.used.valid && o.used.uses.length >= 1 && o.used.uses.every(u => u.source === 'qframe' && u.speech_act === 'who'), JSON.stringify(o.used));
-  expect(o.unparsed.valid && o.unparsed.uses.every(u => u.source === 'heuristic'), JSON.stringify(o.unparsed));
-  expect(!o.other.valid && o.other.uses.every(u => u.source === 'heuristic'), JSON.stringify(o.other));
+  expect(o.used.valid && /* 4.9.233: world_model.derive also notes its frame use; only speech-act consumers are checked here */ SA(o.used).length >= 1 && SA(o.used).every(u => u.source === 'qframe' && u.speech_act === 'who'), JSON.stringify(o.used));
+  expect(o.unparsed.valid && SA(o.unparsed).every(u => u.source === 'heuristic'), JSON.stringify(o.unparsed));
+  expect(!o.other.valid && SA(o.other).every(u => u.source === 'heuristic'), JSON.stringify(o.other));
   expect(!o.none.received && !o.none.valid, JSON.stringify(o.none));
   expect(!/\b(llm|openai|anthropic|transformers)\b/i.test(read('src/qframe.js') + read('engine/rmc_engine_v1/question_frame.py')), 'no model');
 });
 
 T('version registry names 4.9.230', () => {
-  expect(read('VERSION').trim() === '4.9.230', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.233', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.230' && reg.features.some(f => f.id === 'R4230-QFRAME') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.233' && reg.features.some(f => f.id === 'R4230-QFRAME') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

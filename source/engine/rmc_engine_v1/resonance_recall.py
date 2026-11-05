@@ -374,6 +374,9 @@ def place_packet(row: dict[str, Any], *, quarantined: bool, question: str | None
         "cite": CITE,
         "placed_by": "athena",
         "standing": "quarantine" if quarantined else "projectable",
+        # 4.9.231: where Phi came from, so a layer can tell a placed phase from the placement's default
+        "phi_basis": "row_sfe" if (not placed and given and _phase_value(given.get("Phi")) is not None) else (
+            "default_quarantine" if quarantined else "default_projectable"),
     }
     # 4.9.219 (DRIFT-SPEC/v1 D15): Athena assigns the band from the phase alone and tunes the row's symbolic Hz
     # inside it (band_tuning.tune). A stored band (backfill columns) is read, never trusted over the phase.

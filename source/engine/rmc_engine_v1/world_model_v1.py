@@ -199,6 +199,97 @@ def parse_sentence(text: str) -> dict[str, Any] | None:
     return {"text": sentence + ".", "atom": _atom("stated", [sentence], "pos"), "parsed": False}
 
 
+_CLAUSE_STOP = {"a", "an", "the", "is", "are", "was", "were", "be", "been", "not", "does", "do", "did", "to", "of"}
+
+
+def _clause_words(text: str) -> set[str]:
+    return {w for w in re.findall(r"[a-z0-9']+", str(text or "").lower()) if w not in _CLAUSE_STOP}
+
+
+def _np_frame(np: Any) -> dict[str, Any] | None:
+    if not isinstance(np, dict) or not str(np.get("text") or "").strip():
+        return None
+    out = {"text": str(np.get("text")), "head": np.get("head"), "propn": np.get("propn") or None,
+           "owner": np.get("owner") if isinstance(np.get("owner"), str) else _np_frame(np.get("owner")),
+           "of": _np_frame(np.get("of")), "plural": bool(np.get("plural")), "det": np.get("det")}
+    return {k: v for k, v in out.items() if v not in (None, False, "")}
+
+
+def role_frame(rec: dict[str, Any] | None) -> dict[str, Any] | None:
+    """4.9.233: the roles of a parsed clause that did not cover its sentence. Not an atom; Derive may match on the roles
+    it has (a "What is X?" kartṛ), and says the frame was partial."""
+    if not isinstance(rec, dict) or not rec.get("parsed"):
+        return None
+    kartr = _np_frame(rec.get("kartr"))
+    verb = str(rec.get("kriya") or "").strip().lower()
+    if not kartr or not verb:
+        return None
+    out = {"kriya": verb, "polarity": "neg" if str(rec.get("polarity") or "pos") == "neg" else "pos", "kartr": kartr, "complete": False}
+    pred = rec.get("pred") if isinstance(rec.get("pred"), dict) else None
+    if pred and str(pred.get("text") or "").strip():
+        out["pred"] = _np_frame(pred) if pred.get("type") == "np" else {"text": str(pred["text"]), "type": pred.get("type")}
+    if _np_frame(rec.get("karma")):
+        out["karma"] = _np_frame(rec.get("karma"))
+    return out
+
+
+def clause_record(clause: Any, sentence: str) -> dict[str, Any] | None:
+    """The clause record of one sentence: the row's clause, or the sentence of a multi-sentence row it was parsed from."""
+    from rmc_engine_v1.memory_clauses import norm, sentences
+    if not isinstance(clause, dict):
+        return None
+    for rec in sentences(clause):
+        if norm(rec.get("text")) == norm(sentence):
+            return rec
+    return None
+
+
+def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[str, Any] | None, str]:
+    """4.9.232 (plan 229 step 4): the fact's atom from the phone's clause, not a regex.
+
+    A copula clause (kriyā be) with a noun or adjective predicate is is(kartṛ, pred) with the clause's polarity; any other
+    verb with a karma is lemma(kartṛ, karma). The clause is used only when its roles cover every content word of the
+    sentence: a parse that dropped material ("made of hydrogen and oxygen" read as the adjective "made") is not a fact.
+    Returns (parsed, reason); parsed None means the caller falls back to the regex reading.
+    """
+    if not isinstance(rec, dict):
+        return None, "no_clause"
+    if not rec.get("parsed"):
+        return None, "clause_unparsed"
+    kartr = _np_frame(rec.get("kartr"))
+    if not kartr:
+        return None, "clause_no_kartr"
+    verb = str(rec.get("kriya") or "").strip().lower()
+    pol = "neg" if str(rec.get("polarity") or "pos") == "neg" else "pos"
+    pred = rec.get("pred") if isinstance(rec.get("pred"), dict) else None
+    karma = _np_frame(rec.get("karma"))
+    if verb == "be" and pred and str(pred.get("text") or "").strip():
+        predicate, obj = "is", str(pred["text"]).strip()
+    elif verb and verb != "be" and karma and pol == "pos":
+        predicate, obj = verb, karma["text"]
+    else:
+        return None, "clause_shape"
+    covered = _clause_words(kartr["text"] + " " + obj + " " + verb)
+    for adj in rec.get("adjuncts") or []:
+        if isinstance(adj, dict):
+            covered |= _clause_words(str(adj.get("prep") or "") + " " + str((adj.get("np") or {}).get("text") or ""))
+    missing = sorted(w for w in _clause_words(sentence) if w not in covered and not any(w.startswith(c[:4]) for c in covered if len(c) >= 4))
+    if missing and verb != "be" and len(missing) == 1:
+        # the surface form of the verb ("wrote" for kriyā write) sits between the kartṛ and the karma
+        gap = re.search(re.escape(kartr["text"].lower()) + r"\s+(?:\w+\s+)?([a-z']+)\s+" + re.escape(obj.lower()), str(sentence).lower())
+        if gap and gap.group(1) == missing[0]:
+            missing = []
+    if missing:
+        return None, "clause_incomplete:" + ",".join(missing[:4])
+    frame = {"kriya": verb, "polarity": pol, "kartr": kartr, "tense": rec.get("tense")}
+    if predicate == "is":
+        frame["pred"] = _np_frame(pred) if pred.get("type") == "np" else {"text": obj, "type": pred.get("type")}
+    else:
+        frame["karma"] = karma
+    clean = re.sub(r"\s+", " ", str(sentence or "").strip()).strip(" .")
+    return {"text": clean + ".", "atom": _atom(predicate, [kartr["text"], obj], pol), "parsed": True, "frame": frame}, "clause"
+
+
 def _sentences(text: str) -> list[str]:
     """Contract §6 step 1. Split on a period between sentences, not on decimals."""
     clean = str(text or "").strip()
@@ -245,7 +336,33 @@ def _fact_row(fid: str, parsed: dict[str, Any], *, source: str, provenance: list
         "self_fact": self_fact,
         "subject": subject or (atom["args"][0] if atom.get("args") else ""),
         "parsed": bool(parsed.get("parsed")),
+        # 4.9.232: the clause frame the atom came from (None for a regex reading) and the row's placement
+        "frame": parsed.get("frame"),
+        # 4.9.233: the roles of a clause that did not cover the sentence (Derive may match on them, marked partial)
+        "role_frame": parsed.get("role_frame"),
+        "atom_source": parsed.get("atom_source") or ("clause" if parsed.get("frame") else "regex"),
+        "place": parsed.get("place"),
+        **_place_fields(parsed.get("place")),
     }
+
+
+def _derived_place(premises: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """A conclusion sits where its subject premise sits; the premises' phases are kept so a misaligned hop is visible."""
+    placed = [p.get("place") for p in premises if isinstance(p.get("place"), dict)]
+    if not placed:
+        return None
+    out = dict(placed[0])
+    out["placed_by"] = "derive_premises"
+    out["premise_phases"] = [pl.get("phase") for pl in placed]
+    out["premise_meaning_ids"] = [pl.get("meaning_id") for pl in placed]
+    return out
+
+
+def _place_fields(place: Any) -> dict[str, Any]:
+    """The placement every world fact carries at top level: meaning id, phase, Codex band, Hz, group."""
+    pl = place if isinstance(place, dict) else {}
+    return {"meaning_id": pl.get("meaning_id"), "phase": pl.get("phase"), "phase_name": pl.get("phase_name"),
+            "band": pl.get("band"), "hz": pl.get("hz"), "group": pl.get("group")}
 
 
 def seed_self_facts(world: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
@@ -253,7 +370,8 @@ def seed_self_facts(world: dict[str, Any]) -> tuple[dict[str, Any], list[dict[st
     facts = []
     trace = []
     for row in SELF_FACTS:
-        parsed = {"text": row["text"], "atom": _atom(row["predicate"], list(row["args"]), "pos"), "parsed": True}
+        parsed = {"text": row["text"], "atom": _atom(row["predicate"], list(row["args"]), "pos"), "parsed": True,
+                  "atom_source": "self_fact", "place": place_row({}, row["text"], False)}
         facts.append(_fact_row(
             row["id"], parsed, source="self", provenance=[row["cite"]], quarantined=False,
             cite=row["cite"], self_fact=True, subject=row["subject"],
@@ -267,16 +385,21 @@ def seed_self_facts(world: dict[str, Any]) -> tuple[dict[str, Any], list[dict[st
     return nxt, trace
 
 
-def observe(world: dict[str, Any], events: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]]:
+def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallback: bool = True) -> tuple[dict[str, Any], dict[str, Any]]:
     """Spec §1.4 Observe. Spec §4.7 supersession. Contract §8 quarantine is not admission.
 
     Returns a new world. The parent root is kept. Nothing is written to disk.
+    4.9.232: a sentence's atom comes from its clause when the clause covers it; the regex reading is the fallback
+    (regex_fallback=False drops it, for the proof that clauses alone carry the facts). Every fact carries the
+    event's placement (meaning id, phase, band, Hz, group).
     """
     facts = [dict(f) for f in world.get("facts") or []]
     revisions: list[dict[str, Any]] = []
     admitted = 0
     quarantined = 0
     superseded = 0
+    sources = {"clause": 0, "regex": 0, "stated": 0, "skipped_no_clause": 0}
+    fallback_reasons: dict[str, int] = {}
     for event in events:
         if not isinstance(event, dict):
             continue
@@ -292,9 +415,22 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]]) -> tuple[dict[s
             if len(facts) >= LIMITS["MAX_FACTS"]:
                 revisions.append({"op": "limit", "reason": "MAX_FACTS", "cite": LIMITS["cite"]})
                 break
-            parsed = parse_sentence(sentence)
-            if not parsed:
-                continue
+            rec = clause_record(event.get("clause"), sentence)
+            parsed, why = atom_from_clause(sentence, rec)
+            if parsed is None:
+                reason = why.split(":")[0]
+                fallback_reasons[reason] = fallback_reasons.get(reason, 0) + 1
+                if not regex_fallback:
+                    sources["skipped_no_clause"] += 1
+                    continue
+                parsed = parse_sentence(sentence)
+                if not parsed:
+                    continue
+                parsed = dict(parsed, atom_source="regex" if parsed.get("parsed") else "stated", clause_reason=why, role_frame=role_frame(rec))
+            else:
+                parsed = dict(parsed, atom_source="clause")
+            sources[parsed["atom_source"]] += 1
+            parsed["place"] = event.get("place") if isinstance(event.get("place"), dict) else None
             norm_text = _norm(parsed["text"])
             if any(_norm(str(f.get("text") or "")) == norm_text and f.get("status") != "superseded" for f in facts):
                 revisions.append({"op": "idempotent", "reason": "already-banked", "source": eid})
@@ -356,6 +492,9 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]]) -> tuple[dict[s
         "admitted": admitted,
         "quarantined": quarantined,
         "superseded": superseded,
+        "atom_sources": sources,
+        "clause_fallback_reasons": fallback_reasons,
+        "regex_fallback": regex_fallback,
         "revisions": revisions[:80],
         "writes_durable_memory": False,
         "calls_llm": False,
@@ -718,8 +857,12 @@ def _attach_speech(claims: list[dict[str, Any]], topical: list[dict[str, Any]], 
         claim["spoken"] = " ".join(parts)
 
 
-def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = None) -> dict[str, Any]:
-    """Spec §1.4 Derive. Contract §5 four-valued result. Contract §6 steps 6–8."""
+def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = None, qframe: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Spec §1.4 Derive. Contract §5 four-valued result. Contract §6 steps 6–8.
+
+    4.9.233 (plan 229 step 5): with the phone's question frame, Derive matches by frame and phase/band alignment
+    (_derive_by_frame). Without a frame (an engine-only caller) the older word-coverage ranking runs and says so.
+    """
     facts = _active(world)
     # Self-facts answer a question about Forge. They are not topical premises for other questions.
     topical = [f for f in facts if not f.get("self_fact")]
@@ -730,6 +873,8 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         return _derive_report(world, question, "undetermined", "no content tokens in the question", claims, incomplete)
     if len(question) > LIMITS["MAX_INPUT_CHARS"]:
         return _derive_report(world, question, "incomplete", "MAX_INPUT_CHARS", claims, True)
+    if isinstance(qframe, dict) and qframe.get("kriya") and (qframe.get("parsed") or qframe.get("partial")):
+        return _derive_by_frame(world, question, phase_path or [], qframe, topical)
 
     # Direct support. Contract acceptance C: a stored fact that answers the query.
     ranked = sorted(topical, key=lambda f: (-_role_lock(question, f["text"]), -_coverage(question, f["text"]), str(f.get("text") or ""), str(f["id"])))
@@ -802,7 +947,7 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
             seen.add(key)
             fid = "hop-" + _digest(text)[:12]
             row = _fact_row(
-                fid, {"text": text, "atom": conclusion, "parsed": True},
+                fid, {"text": text, "atom": conclusion, "parsed": True, "atom_source": "derive", "place": _derived_place(chosen)},
                 source="derive", provenance=[p.get("id") for p in premises], quarantined=False,
                 cite="contract 1g2034-K §5 bounded multi-hop forward derivation",
             )
@@ -841,6 +986,177 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         status = "undetermined"
     _attach_speech(claims, topical, world, phase_path or [])
     report = _derive_report(world, question, status, "closure" if not incomplete else "MAX_ROUNDS", claims, incomplete)
+    if not report.get("derived_text"):
+        report["derived_text"] = _chat_derived(question)
+    return report
+
+
+def _frame_claim(claim: dict[str, Any], fact_frame: dict[str, Any] | None, source: str, matched: dict[str, Any] | None,
+                 aligned: dict[str, Any], question: str) -> dict[str, Any]:
+    claim["frame_match"] = dict(matched, frame_source=source, complete=bool((fact_frame or {}).get("complete", True))) if matched else None
+    claim["fact_frame"] = fact_frame
+    claim["alignment"] = aligned
+    # logged tie-break only; never the reason a fact answers
+    claim["coverage_tiebreak"] = round(float(_coverage(question, claim.get("text") or "")), 6)
+    return claim
+
+
+def _frame_key(c: dict[str, Any]) -> tuple:
+    m = c.get("frame_match") or {}
+    a = c.get("alignment") or {}
+    return (
+        -int(bool(m)), -int(bool(a.get("aligned"))), -int(m.get("roles") or 0), -int(bool(m.get("complete"))),
+        -int(a.get("grace_key") or 0), -int(a.get("band_key") or 0), -float(a.get("coupling") or 0.0),
+        len(c.get("provenance") or []), -float(c.get("coverage_tiebreak") or 0.0),
+        float((c.get("drift") or {}).get("epsilon_s") or 0.0), str(c.get("text") or ""), str(c.get("proof_id") or ""),
+    )
+
+
+def _cap(sentence: str) -> str:
+    t = str(sentence or "").strip()
+    t = t[:1].upper() + t[1:] if t else t
+    return t if not t or t[-1] in ".!?" else t + "."
+
+
+def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
+    """4.9.233: a fact answers only when its frame unifies with the question frame AND its placement is phase-aligned
+    with the question (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank the aligned matches;
+    word coverage is a logged tie-break. A copula-chain conclusion carries the frame built from its premises."""
+    from rmc_engine_v1 import derive_frame as DF
+
+    def placed(row: dict[str, Any]) -> dict[str, Any]:
+        return row.get("place") if isinstance(row.get("place"), dict) else place_row({}, str(row.get("text") or ""), bool(row.get("quarantined")))
+
+    claims: list[dict[str, Any]] = []
+    incomplete = False
+    considered = 0
+    direct = []
+    for fact in topical:
+        ff, src = DF.fact_frame(fact)
+        considered += 1
+        m = DF.match(qframe, ff)
+        if m:
+            direct.append((fact, ff, src, m, DF.alignment(placed(fact), phase_path, question)))
+    direct.sort(key=lambda d: (-int(bool(d[4].get("aligned"))), -int(bool(d[2] == "clause")), -int(d[4].get("grace_key") or 0),
+                               -int(d[4].get("band_key") or 0), -float(d[4].get("coupling") or 0.0), str(d[0].get("text") or ""), str(d[0]["id"])))
+    for fact, ff, src, m, al in direct[:4]:
+        proof = _direct_proof(world, fact)
+        checked = check_proof(world, proof)
+        claim = _finish_claim(world, fact["text"], fact["atom"], [fact], proof, checked, "supported_only", "direct", phase_path)
+        claims.append(_frame_claim(claim, ff, src, m, al, question))
+
+    # Copula chain: every conclusion is checked and debated; only a conclusion whose frame unifies with the question can
+    # answer. The others stay in the pool as hops (bounded).
+    pool = list(topical)
+    proof_facts = list(world.get("facts") or [])
+    seen: set[tuple[str, str, str]] = set()
+    for fact in pool:
+        atom = fact.get("atom") or {}
+        args = atom.get("args") or []
+        if atom.get("predicate") == "is" and len(args) >= 2:
+            seen.add((_norm(args[0]), _norm(args[1]), str(atom.get("polarity") or "pos")))
+    rounds, chain_claims = 0, 0
+    while rounds < LIMITS["MAX_ROUNDS"]:
+        rounds += 1
+        hops = _match_body(COPULA_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        added = 0
+        for sub, chosen in hops:
+            if chain_claims >= 24:
+                incomplete = True
+                break
+            conclusion = _atom("is", [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], "pos")
+            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), "pos")
+            if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                continue
+            text = _render_atom(conclusion)
+            proof_world = dict(world)
+            proof_world["facts"] = proof_facts
+            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion)
+            checked = check_proof(proof_world, proof)
+            premises = _original_premises(chosen)
+            claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", "WM-COPULA-CHAIN", phase_path)
+            hop_rows: list[dict[str, Any]] = []
+            for fact in chosen:
+                prior = fact.get("hop_trace") if isinstance(fact.get("hop_trace"), list) else None
+                if prior:
+                    hop_rows.extend(prior)
+                    continue
+                measured = _drift_for(fact["text"], [fact], phase_path)
+                hop_rows.append(_hop_row(fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, len(hop_rows) + 1))
+            hop_rows.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hop_rows) + 1))
+            for i, hop in enumerate(hop_rows, start=1):
+                hop["n"] = i
+            claim["hops"] = hop_rows
+            cframe = DF.chain_frame(chosen[0], chosen[1], conclusion)
+            place = _derived_place(chosen)
+            m = DF.match(qframe, cframe)
+            _frame_claim(claim, cframe, "chain", m, DF.alignment(place or placed({"text": text}), phase_path, question), question)
+            claim["intermediate"] = not bool(m)
+            claims.append(claim)
+            chain_claims += 1
+            if claim.get("debate", {}).get("survived") is not True:
+                continue
+            seen.add(key)
+            row = _fact_row(
+                "hop-" + _digest(text)[:12], {"text": text, "atom": conclusion, "parsed": True, "atom_source": "derive", "place": place, "frame": cframe},
+                source="derive", provenance=[p.get("id") for p in premises], quarantined=False,
+                cite="contract 1g2034-K §5 bounded multi-hop forward derivation",
+            )
+            row["source_facts"] = premises
+            row["hop_trace"] = hop_rows
+            pool.append(row)
+            proof_facts = proof_facts + [row]
+            added += 1
+        if added == 0:
+            break
+
+    for claim in claims:
+        atom = claim["atom"]
+        if atom.get("predicate") != "is":
+            continue
+        opposite = "neg" if atom.get("polarity") != "neg" else "pos"
+        for other in topical:
+            oatom = other.get("atom") or {}
+            if oatom.get("predicate") == "is" and oatom.get("polarity") == opposite and \
+                    [_norm(a) for a in atom.get("args") or []] == [_norm(a) for a in oatom.get("args") or []]:
+                claim["status"] = "conflicted"
+                claim["debate"] = run_debate(claim, content_tokens=content_tokens)
+
+    matched = [c for c in claims if c.get("frame_match")]
+    answers = [c for c in matched if (c.get("alignment") or {}).get("aligned") and c.get("status") != "conflicted"
+               and c.get("debate", {}).get("survived") is True]
+    if answers:
+        status, reason = "supported_only", "frame match, phase-aligned"
+    elif any(c.get("status") == "conflicted" for c in matched):
+        status, reason = "conflicted", "the matching facts conflict"
+    elif matched and not any((c.get("alignment") or {}).get("aligned") for c in matched):
+        status, reason = "undetermined", "frame matched but no match is phase-aligned with the question"
+    elif matched:
+        status, reason = "undetermined", "frame matched but no match survived the check and debate"
+    else:
+        status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
+    for claim in answers:
+        if claim.get("how") == "WM-COPULA-CHAIN":
+            parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
+        else:
+            parts = []
+        parts.append(str(claim.get("text") or ""))
+        claim["spoken"] = " ".join(dict.fromkeys(_cap(p) for p in parts if p.strip()))
+    report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers)
+    report["match_mode"] = "frame_and_phase"
+    report["frame_trace"] = {
+        "rule": "4.9.233 frame unification x phase/band alignment",
+        "question_frame": {k: qframe.get(k) for k in ("wh", "wh_role", "kriya", "polarity", "rule")},
+        "question_phases": DF.question_phases(phase_path),
+        "facts_considered": considered,
+        "direct_matches": len(direct),
+        "chain_claims": chain_claims,
+        "frame_matched": len(matched),
+        "aligned": sum(1 for c in matched if (c.get("alignment") or {}).get("aligned")),
+        "answers": len(answers),
+        "unaligned_matches": [{"text": c.get("text"), "fact_phase": (c.get("alignment") or {}).get("fact_phase"),
+                               "delta_deg": (c.get("alignment") or {}).get("delta_deg")} for c in matched if not (c.get("alignment") or {}).get("aligned")][:4],
+    }
     if not report.get("derived_text"):
         report["derived_text"] = _chat_derived(question)
     return report
@@ -890,9 +1206,14 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
     return claim
 
 
-def _derive_report(world, question, status, reason, claims, incomplete) -> dict[str, Any]:
-    survivors = [c for c in claims if c.get("debate", {}).get("survived")]
-    survivors.sort(key=lambda c: (
+def _derive_report(world, question, status, reason, claims, incomplete, answers=None) -> dict[str, Any]:
+    if answers is not None:
+        # 4.9.233: frame mode. Only frame-matched, phase-aligned survivors answer; matched claims are listed first.
+        survivors = sorted(answers, key=_frame_key)
+        claims = sorted(claims, key=_frame_key)
+    else:
+        survivors = [c for c in claims if c.get("debate", {}).get("survived")]
+    survivors.sort(key=_frame_key) if answers is not None else survivors.sort(key=lambda c: (
         -_role_lock(question, c.get("text") or ""),
         -_coverage(question, c.get("text") or ""),
         -len(c.get("provenance") or []),
@@ -936,6 +1257,10 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "chi": claim.get("chi"),
         "hops": claim.get("hops") or [],
         "spoken": claim.get("spoken") or claim.get("text"),
+        "frame_match": claim.get("frame_match"),
+        "alignment": claim.get("alignment"),
+        "coverage_tiebreak": claim.get("coverage_tiebreak"),
+        "intermediate": claim.get("intermediate"),
         "debate": {
             "survived": debate.get("survived"),
             "frame": (debate.get("frame") or {}).get("id"),
@@ -969,6 +1294,52 @@ def _cause_effect_hook(world: dict[str, Any], query: str) -> dict[str, Any]:
     return {"status": out["status"], "rule": out["rule"], "prediction": None, "admit": False, "store_as_fact": False}
 
 
+def place_row(node: dict[str, Any], text: str, quarantined: bool) -> dict[str, Any]:
+    """4.9.231: a recalled row's meaning id, phase, Codex band and symbolic Hz.
+
+    The phase and band are the row's resonance packet (resonance_recall.place_packet, band_tuning.tune) when recall
+    placed it; otherwise the same placement is run here. The group is the band's home marker on the 144 Hz ladder
+    (frequency_203_config.HOME): the 144/n markers, or the 432 or 1296 overtone. Nothing is invented: a row recall
+    did not place and that has no phase of its own gets the placement's own default and says so.
+    """
+    from rmc_engine_v1.drift_policy import BAND_TABLE
+    from rmc_engine_v1.frequency_203_config import HOME
+    from rmc_engine_v1.resonance_recall import place_packet
+
+    packet = node.get("packet") if isinstance(node.get("packet"), dict) else None
+    placed_by = "recall_packet"
+    if not packet:
+        packet = place_packet({"text": text, "sfe": node.get("sfe")}, quarantined=quarantined)
+        placed_by = "observe_place_packet"
+    band = packet.get("band") if isinstance(packet.get("band"), dict) else {}
+    try:
+        phase = int(float(packet.get("Phi")))
+    except (TypeError, ValueError):
+        phase = None
+    home = HOME.get(phase) if phase else None
+    meaning = node.get("meaning_id") if isinstance(node.get("meaning_id"), str) and node.get("meaning_id") else None
+    return {
+        "meaning_id": meaning or (packet.get("concept") if isinstance(packet.get("concept"), str) else None),
+        "meaning_source": "row" if meaning else ("lexicon_concept" if packet.get("concept") else None),
+        "Phi": packet.get("Phi"),
+        "phase": phase,
+        "phase_name": (BAND_TABLE.get(str(phase)) or BAND_TABLE.get(phase) or {}).get("phase_name") if phase else None,
+        "band": band.get("band"),
+        "band_low": band.get("low"),
+        "band_high": band.get("high"),
+        "hz": band.get("hz"),
+        "home_marker": home,
+        "group": None if home is None else (1296 if home == 1296 else 432 if home == 432 else 144),
+        "eps": packet.get("eps"),
+        "mu": packet.get("mu"),
+        "placed_by": placed_by,
+        # where the phase came from: the asked concept's lexicon packet, the row's own stored SFE, or the placement's
+        # default (Φ9 projectable, Φ5 quarantined) when neither gave one
+        "phi_basis": packet.get("phi_basis") or "unrecorded",
+        "calls_llm": False,
+    }
+
+
 def _clean_node_text(raw: str) -> str:
     text = str(raw or "")
     match = re.search(r"(?:^|\| )content: (.*?)(?: \| text:| \| filename:|$)", text)
@@ -988,6 +1359,8 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
     nodes = memory.get("nodes") if isinstance(memory.get("nodes"), list) else []
     rows = memory.get("rows") if isinstance(memory.get("rows"), list) else []
     source_rows = nodes or rows
+    from rmc_engine_v1 import memory_clauses
+    with_clause = 0
     for node in source_rows:
         if not isinstance(node, dict):
             continue
@@ -996,17 +1369,51 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
             continue
         prior = _f(node.get("prior_drift_score"), 0.0)
         low = str(node.get("confidence") or "") == "low" or prior >= 0.40 or node.get("quarantined") is True
+        nid = str(node.get("id") or node.get("memory_id") or node.get("receipt_id") or "")
+        # 4.9.231 (plan 229 step 3): the clause the phone parsed for this recalled row, when it sent one, placed in
+        # phase, band and frequency by the same resonance placement recall uses (Nic: every clause carries meaning id,
+        # phase, band and frequency).
+        place = place_row(node, text, low)
+        clause = node.get("clause") if isinstance(node.get("clause"), dict) else memory_clauses.lookup(nid, text)
+        if clause is not None and not memory_clauses.valid(clause, text):
+            clause = memory_clauses.lookup(None, text)
+        if clause is not None:
+            with_clause += 1
+            clause = memory_clauses.with_place(clause, place)
         events.append({
-            "id": str(node.get("id") or node.get("memory_id") or node.get("receipt_id") or ""),
+            "id": nid,
+            "clause": clause,
+            "place": place,
             "text": text,
             "source": node.get("source") or node.get("source_kind") or "recall",
             "confidence": node.get("confidence"),
             "prior_drift_score": prior,
             "quarantined": low,
         })
+    memory_clauses.note("world_model.observe_events", events=len(events), with_clause=with_clause,
+                        placed=sum(1 for e in events if (e.get("place") or {}).get("phase")),
+                        with_meaning=sum(1 for e in events if (e.get("place") or {}).get("meaning_id")),
+                        phi_basis={b: sum(1 for e in events if (e.get("place") or {}).get("phi_basis") == b) for b in ("lexicon_resonance", "row_sfe", "default_projectable", "default_quarantine", "unrecorded")},
+                        sample=[{"text": e["text"][:80], "clause": bool(e.get("clause")), **{k: (e.get("place") or {}).get(k) for k in ("meaning_id", "Phi", "phase_name", "band", "hz", "group", "phi_basis")}} for e in events[:6]])
     base, seed_trace = seed_self_facts(empty_world())
     world, observed = observe(base, events)
-    derived = derive(world, question, phase_path)
+    admitted_facts = [f for f in world.get("facts") or [] if not f.get("self_fact")]
+    memory_clauses.note("world_model.observe_atoms", atom_sources=observed.get("atom_sources"),
+                        clause_fallback_reasons=observed.get("clause_fallback_reasons"),
+                        facts=len(admitted_facts), with_frame=sum(1 for f in admitted_facts if f.get("frame")),
+                        with_phase=sum(1 for f in admitted_facts if f.get("phase")),
+                        with_meaning=sum(1 for f in admitted_facts if f.get("meaning_id")),
+                        sample=[{"text": f["text"][:80], "atom": f["atom"], "atom_source": f.get("atom_source"),
+                                 **{k: f.get(k) for k in ("meaning_id", "phase", "band", "hz", "group")}} for f in admitted_facts[:6]])
+    # 4.9.233: the phone's question frame (question_frame.current(), checked against this question) drives Derive
+    from rmc_engine_v1 import question_frame as _qf
+    qframe = _qf.current() if _qf.valid(_qf.current(), question) else None
+    derived = derive(world, question, phase_path, qframe)
+    if qframe is not None:
+        surv = derived.get("survivor") or {}
+        _qf.note("world_model.derive", match_mode=derived.get("match_mode"), status=derived.get("status"), reason=derived.get("reason"),
+                 trace=derived.get("frame_trace"), survivor=surv.get("text"), frame_match=surv.get("frame_match"),
+                 alignment={k: (surv.get("alignment") or {}).get(k) for k in ("aligned", "question_phi", "fact_phase", "delta_deg", "grace", "band_relation", "coupling")} if surv else None)
     simulated = simulate(world, question)
     count = int(memory.get("active_memory_count") or memory.get("active") or len(source_rows) or 0)
     survivor = derived.get("survivor")
@@ -1036,7 +1443,7 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
             "version": world.get("version"),
             "branch_id": world.get("branch_id"),
             "entities": (world.get("entities") or [])[:24],
-            "facts": [{"id": f["id"], "text": f["text"], "status": f["status"], "self_fact": bool(f.get("self_fact")), "provenance": f.get("provenance")} for f in world.get("facts") or [] if f.get("self_fact") or f.get("status") != "admitted" or (survivor and f["id"] in (survivor.get("provenance") or []))][:24],
+            "facts": [{"id": f["id"], "text": f["text"], "status": f["status"], "self_fact": bool(f.get("self_fact")), "provenance": f.get("provenance"), "atom_source": f.get("atom_source"), "frame": f.get("frame"), **_place_fields(f.get("place"))} for f in world.get("facts") or [] if f.get("self_fact") or f.get("status") != "admitted" or (survivor and f["id"] in (survivor.get("provenance") or []))][:24],
             "rules": [{"id": r["id"], "cite": r.get("cite")} for r in world.get("rules") or []],
             "query": {"text": question, "status": derived.get("status")},
         },
