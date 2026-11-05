@@ -1,5 +1,5 @@
 {
- "version": "4.9.229",
+ "version": "4.9.230",
  "features": [
   {
    "id": "A-01",
@@ -4187,13 +4187,24 @@
    "proof": [
     "verify/r4229_suite.js"
    ]
+  },
+  {
+   "id": "R4230-QFRAME",
+   "name": "Question compiled into a kāraka frame before the engine; the engine names the speech act from the frame",
+   "source": "Nic plan 229 step 1-2 (pt258u, 2026-11-05): compile the question into a kāraka frame and send it into the engine; have Python use the frame",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "4.9.230: src/qframe.js fills the wh-gap with its indefinite pro-form, restores declarative order (do-support re-inflects the verb) and parses with KGrammar through forge.derive; conditionals compile cond + main; imperatives take the addressee as kartṛ. app.js sends payload.frame; engine/rmc_engine_v1/question_frame.py holds it for the turn; handle_chat uses frame.speech_act when the frame parsed (heuristic kept as fallback and recorded); trace.qframe lists every layer that used it. Later steps (clauses, frame-match derive) consume the roles.",
+   "proof": [
+    "verify/r4230_suite.js"
+   ]
   }
  ],
- "count": 382,
+ "count": 383,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 186,
+  "Partial": 187,
   "Missing": 9,
   "Out of scope / parked": 47
  }

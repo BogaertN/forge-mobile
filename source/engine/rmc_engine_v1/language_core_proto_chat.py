@@ -98,6 +98,17 @@ def handle_chat(user_input: str, *, phase_report: dict[str, Any] | None = None) 
     roles = _frame_roles(user_input)
     asked = asked_filler(user_input)
     speech, head = _speech_act(user_input, roles)
+    # 4.9.230 (plan 229 step 2): the phone's kāraka frame names the act when it parsed. The reading
+    # above stays as the fallback and is kept in the packet so the two can be compared.
+    from rmc_engine_v1 import question_frame
+    heuristic = speech
+    framed = question_frame.speech_act(user_input)
+    source = "heuristic"
+    if framed is not None:
+        speech, source = framed, "qframe"
+        fwh = (question_frame.current() or {}).get("wh")
+        head = str(fwh) if fwh else head
+    question_frame.note("language_core_proto_chat.handle_chat", speech_act=speech, source=source, heuristic=heuristic)
     phi = _question_phi(phase_report)
     packet = place_packet({"sfe": {"Phi": phi, "eps": 0.0, "mu": 1.0}}, quarantined=False)
     return {
@@ -110,6 +121,8 @@ def handle_chat(user_input: str, *, phase_report: dict[str, Any] | None = None) 
         "prompt_built": False,
         "writes_memory": False,
         "speech_act": speech,
+        "speech_act_source": source,
+        "speech_act_heuristic": heuristic,
         "wh": head,
         "asked": asked,
         "frame": (roles or {}).get("frame"),

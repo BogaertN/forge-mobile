@@ -860,6 +860,26 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     """
     payload = dict(payload or {})
     payload.pop("_computed", None)  # only the engine sets this
+    # 4.9.230 (plan 229 step 2): the phone's kāraka frame is held for this turn so every layer that
+    # reads the question reads the same frame; the trace records which layers used it.
+    from rmc_engine_v1 import question_frame
+    q0 = str(payload.get("question") or payload.get("text") or "").strip()
+    frame0 = payload.get("frame")
+    tokens = question_frame.begin(frame0, q0)
+    try:
+        result = _run_turn(payload)
+        qf = question_frame.summary(frame0, q0)
+    finally:
+        question_frame.end(tokens)
+    if isinstance(result, dict):
+        result["qframe"] = qf
+        if isinstance(result.get("trace"), dict):
+            result["trace"]["qframe"] = qf
+    return result
+
+
+def _run_turn(payload: dict[str, Any]) -> dict[str, Any]:
+    payload.pop("frame", None)
     from rmc_engine_v1 import computed_math
     question = str(payload.get("question") or payload.get("text") or "").strip()
     understood = computed_math.understand(question) if question else None
