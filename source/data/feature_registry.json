@@ -1,5 +1,5 @@
 {
- "version": "4.9.227",
+ "version": "4.9.228",
  "features": [
   {
    "id": "A-01",
@@ -4167,13 +4167,22 @@
    "proof": [
     "verify/r4224_suite.js"
    ]
+  },
+  {
+   "id": "R4228-MEANING-AGREE",
+   "name": "Meaning agreement: off-sense is not disagreement; real-genus hop distance",
+   "source": "Nic pt144u/t145u 2026-11-05: different meanings of the same word are not disagreement; attached publishers corroborate a real genus without upper-ontology noise",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "4.9.228: self_seed_202 treats other_meaning / wrong OEWN sense id as off-sense (not contra); meaning_223 HYPERNYM_AGREE_DEPTH uses shortest-path hops so Saturn's planet genus counts while caffeine 'component' stays rejected. Dry-run only; no kb.anchors writes.",
+   "proof": []
   }
  ],
- "count": 380,
+ "count": 381,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 184,
+  "Partial": 185,
   "Missing": 9,
   "Out of scope / parked": 47
  }

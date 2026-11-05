@@ -431,7 +431,7 @@
     return clusters;
   }
 
-  // 4.9.223 agreement on meaning (mirror of _meaning_groups in self_seed_202.py).
+  // 4.9.223 agreement on meaning; 4.9.228 off-sense (mirror of _meaning_groups in self_seed_202.py).
   function meaningGroups(passing, meaning) {
     const sense = meaning ? meaning.subject_sense : null;
     const isDef = row => !!sense && String(row.claim || '').indexOf('identity|') === 0;
@@ -445,12 +445,13 @@
     const agree = [];
     const contra = [];
     const unplaced = [];
+    const offSense = [];
     defs.forEach(r => {
       const m = r.meaning || {};
       const cat = String(m.category || '');
-      if (m.sense && m.sense !== sense) contra.push(r);
+      // 4.9.228 (Nic pt144u): different meanings of the same word are not disagreement
+      if ((m.sense && m.sense !== sense) || m.other_meaning) offSense.push(r);
       else if (m.sense === sense || m.on_chain || m.under_chain || on.some(c => pairs[cat + '\u0000' + c])) agree.push(r);
-      else if (m.other_meaning) contra.push(r);
       else unplaced.push(r);
     });
     if (agree.length) {
@@ -458,7 +459,7 @@
       const ent = String(agree[0].claim).split('|')[1];
       groups['meaning|' + ent + '|' + String(sense) + '|' + cats] = agree;
     }
-    return { groups: groups, contra: contra, agree: agree, unplaced: unplaced };
+    return { groups: groups, contra: contra, agree: agree, unplaced: unplaced, off_sense: offSense };
   }
 
   function slotOfClaim(claim) { return String(claim).split('|')[0]; }
@@ -663,8 +664,9 @@
       trace.meaning = {
         subject_sense: meaning.subject_sense === undefined ? null : meaning.subject_sense,
         agree: Array.from(new Set(agreed.agree.map(row => row.host))).sort(),
-        contradict: agreed.contra.map(row => ({ host: row.host, category: (row.meaning || {}).category === undefined ? null : (row.meaning || {}).category })),
-        unplaced: agreed.unplaced.map(row => ({ host: row.host, category: (row.meaning || {}).category === undefined ? null : (row.meaning || {}).category }))
+        contradict: agreed.contra.map(row => ({ host: row.host, category: (row.meaning || {}).category })),
+        unplaced: agreed.unplaced.map(row => ({ host: row.host, category: (row.meaning || {}).category })),
+        off_sense: (agreed.off_sense || []).map(row => ({ host: row.host, category: (row.meaning || {}).category, other_meaning: (row.meaning || {}).other_meaning || null, sense: (row.meaning || {}).sense || null }))
       };
     }
     function fail(rule, extra) {

@@ -1,734 +1,744 @@
 {
-"salt": {
-"a": {
-"pronunciation": [
-{
-"value": "sɒlt",
-"variety": "GB"
-},
-{
-"value": "sɔːlt"
-}
-],
-"sense": [
-{
-"id": "salt%5:00:00:sharp:04",
-"synset": "00807416-s"
-}
-]
-},
-"n": {
-"pronunciation": [
-{
-"value": "sɒlt",
-"variety": "GB"
-},
-{
-"value": "sɔːlt"
-}
-],
-"sense": [
-{
-"derivation": [
-"salty%3:00:00::"
-],
-"id": "salt%1:27:00::",
-"synset": "15035270-n"
-},
-{
-"derivation": [
-"salty%3:00:00::",
-"salt%2:30:00::",
-"salt%2:39:00::"
-],
-"id": "salt%1:13:00::",
-"synset": "07829083-n"
-},
-{
-"derivation": [
-"salty%5:00:00:tasty:00",
-"salt%2:30:00::",
-"salt%2:39:00::"
-],
-"id": "salt%1:09:00::",
-"synset": "05725289-n"
-}
-]
-},
-"v": {
-"pronunciation": [
-{
-"value": "sɒlt",
-"variety": "GB"
-},
-{
-"value": "sɔːlt"
-}
-],
-"sense": [
-{
-"agent": [
-"salter%1:18:01::"
-],
-"derivation": [
-"salt%1:09:00::",
-"salt%1:13:00::",
-"salter%1:18:01::",
-"salting%1:04:00::"
-],
-"id": "salt%2:39:00::",
-"subcat": [
-"vtai"
-],
-"synset": "02200660-v",
-"uses": [
-"salt%1:13:00::"
-]
-},
-{
-"id": "salt%2:35:00::",
-"subcat": [
-"vtaa-pp",
-"vtai",
-"vtai-pp",
-"vtai-with",
-"vtii"
-],
-"synset": "01377785-v"
-},
-{
-"id": "salt%2:30:01::",
-"subcat": [
-"vtai"
-],
-"synset": "00561199-v"
-},
-{
-"agent": [
-"salter%1:18:01::"
-],
-"by_means_of": [
-"salt%1:13:00::"
-],
-"derivation": [
-"salt%1:09:00::",
-"salt%1:13:00::",
-"salter%1:18:01::"
-],
-"id": "salt%2:30:00::",
-"sent": [
-"The chefs salt the vegetables"
-],
-"subcat": [
-"vtai"
-],
-"synset": "00213779-v"
-}
-]
-}
-},
-"satellite": {
-"a": {
-"pronunciation": [
-{
-"value": "ˈsætəlaɪt",
-"variety": "GB"
-}
-],
-"sense": [
-{
-"id": "satellite%5:00:00:outer:00",
-"synset": "00953327-s"
-}
-]
-},
-"n": {
-"pronunciation": [
-{
-"value": "ˈsætəlaɪt",
-"variety": "GB"
-}
-],
-"sense": [
-{
-"derivation": [
-"satellite%2:32:00::"
-],
-"id": "satellite%1:06:00::",
-"synset": "04144527-n"
-},
-{
-"id": "satellite%1:18:00::",
-"synset": "10572067-n"
-},
-{
-"id": "satellite%1:17:00::",
-"synset": "09447148-n"
-}
-]
-},
-"v": {
-"pronunciation": [
-{
-"value": "ˈsætəlaɪt",
-"variety": "GB"
-}
-],
-"sense": [
-{
-"derivation": [
-"satellite%1:06:00::"
-],
-"id": "satellite%2:32:00::",
-"instrument": [
-"satellite%1:06:00::"
-],
-"sent": [
-"They satellite the information to them"
-],
-"subcat": [
-"vtai"
-],
-"synset": "00971169-v"
-}
-]
-}
-},
-"sodium chloride": {
-"n": {
-"sense": [
-{
-"id": "sodium_chloride%1:27:00::",
-"synset": "14696184-n"
-}
-]
-}
-},
-"solid": {
-"a": {
-"pronunciation": [
-{
-"value": "ˈsɑlɪd",
-"variety": "US"
-},
-{
-"value": "ˈsɒlɪd",
-"variety": "GB"
-}
-],
-"sense": [
-{
-"derivation": [
-"solidness%1:07:01::"
-],
-"id": "solid%5:00:00:good:01",
-"synset": "01128873-s"
-},
-{
-"antonym": [
-"liquid%3:00:00::",
-"gaseous%3:00:00::"
-],
-"derivation": [
-"solidness%1:26:00::"
-],
-"id": "solid%3:00:01::",
-"synset": "02267791-a"
-},
-{
-"antonym": [
-"hollow%3:00:00::"
-],
-"derivation": [
-"solidness%1:07:02::",
-"solidity%1:26:00::"
-],
-"id": "solid%3:00:02::",
-"synset": "02271436-a"
-},
-{
-"derivation": [
-"solidness%1:07:00::"
-],
-"id": "solid%5:00:00:homogeneous:00",
-"synset": "01203882-s"
-},
-{
-"id": "solid%5:00:00:unbroken:02",
-"synset": "00292047-s"
-},
-{
-"id": "solid%5:00:00:wholesome:00",
-"synset": "02569298-s"
-},
-{
-"derivation": [
-"solidness%1:07:00::"
-],
-"id": "solid%5:00:00:sound:01",
-"synset": "02283161-s"
-},
-{
-"derivation": [
-"solidness%1:07:02::",
-"solidity%1:07:02::"
-],
-"id": "solid%5:00:00:hard:01",
-"synset": "01155243-s"
-},
-{
-"derivation": [
-"solid%1:25:00::"
-],
-"id": "solid%5:00:00:cubic:00",
-"synset": "00661271-s"
-},
-{
-"id": "solid%5:00:00:opaque:00",
-"synset": "00436312-s"
-},
-{
-"derivation": [
-"solidness%1:07:01::"
-],
-"id": "solid%5:00:00:sound:00",
-"synset": "02281701-s"
-},
-{
-"derivation": [
-"solidness%1:07:01::"
-],
-"id": "solid%5:00:00:serious:00",
-"synset": "02127556-s"
-},
-{
-"derivation": [
-"solidness%1:07:01::"
-],
-"id": "solid%5:00:00:respectable:00",
-"synset": "02000793-s"
-},
-{
-"id": "solid%5:00:03:homogeneous:00",
-"synset": "01204034-s"
-},
-{
-"id": "solid%5:00:00:undiversified:00",
-"synset": "00787771-s"
-}
-]
-},
-"n": {
-"pronunciation": [
-{
-"value": "ˈsɑlɪd",
-"variety": "US"
-},
-{
-"value": "ˈsɒlɪd",
-"variety": "GB"
-}
-],
-"sense": [
-{
-"derivation": [
-"solidify%2:30:00::"
-],
-"id": "solid%1:27:04::",
-"synset": "15071467-n"
-},
-{
-"derivation": [
-"solidify%2:30:01::",
-"solidify%2:30:00::"
-],
-"id": "solid%1:26:00::",
-"synset": "14504356-n"
-},
-{
-"derivation": [
-"solidify%2:30:00::",
-"solid%5:00:00:cubic:00"
-],
-"id": "solid%1:25:00::",
-"synset": "13882990-n"
-}
-]
-}
-},
-"speed": {
-"n": {
-"sense": [
-{
-"derivation": [
-"speedy%5:00:00:fast:01",
-"speed%2:38:01::",
-"speed%2:38:00::",
-"speed%2:30:02::",
-"speed%2:38:03::",
-"speed%2:30:00::"
-],
-"id": "speed%1:28:00::",
-"synset": "15307914-n"
-},
-{
-"derivation": [
-"speedy%5:00:03:fast:01",
-"speed%2:38:00::",
-"speed%2:30:02::",
-"speed%2:38:01::",
-"speed%2:38:03::",
-"speed%2:30:00::"
-],
-"id": "speed%1:07:00::",
-"synset": "05065291-n"
-},
-{
-"derivation": [
-"speedy%5:00:00:fast:01",
-"speed%2:38:00::",
-"speed%2:30:02::",
-"speed%2:38:01::",
-"speed%2:30:00::"
-],
-"id": "speed%1:04:00::",
-"synset": "00330986-n"
-},
-{
-"id": "speed%1:24:00::",
-"synset": "13843620-n"
-},
-{
-"id": "speed%1:06:00::",
-"synset": "02707012-n"
-}
-]
-},
-"v": {
-"form": [
-"sped"
-],
-"sense": [
-{
-"also": [
-"speed_up%2:30:00::"
-],
-"derivation": [
-"speed%1:28:00::",
-"speed%1:07:00::",
-"speeding%1:04:00::"
-],
-"id": "speed%2:38:03::",
-"sent": [
-"They speed up the hill"
-],
-"subcat": [
-"via",
-"vii"
-],
-"synset": "02062918-v"
-},
-{
-"derivation": [
-"speed%1:04:00::",
-"speed%1:28:00::",
-"speed%1:07:00::"
-],
-"event": [
-"speed%1:04:00::"
-],
-"id": "speed%2:30:00::",
-"property": [
-"speed%1:28:00::",
-"speed%1:07:00::"
-],
-"sent": [
-"These cars won't speed"
-],
-"subcat": [
-"via",
-"vii",
-"vtai",
-"vtii"
-],
-"synset": "00439133-v"
-},
-{
-"also": [
-"speed_up%2:30:00::"
-],
-"derivation": [
-"speed%1:04:00::",
-"speed%1:28:00::",
-"speed%1:07:00::"
-],
-"event": [
-"speed%1:04:00::"
-],
-"id": "speed%2:38:00::",
-"property": [
-"speed%1:07:00::",
-"speed%1:28:00::"
-],
-"sent": [
-"These cars won't speed"
-],
-"subcat": [
-"via-pp",
-"vii-pp"
-],
-"synset": "02059573-v"
-},
-{
-"agent": [
-"speeder%1:18:00::"
-],
-"derivation": [
-"speed%1:04:00::",
-"speed%1:28:00::",
-"speed%1:07:00::",
-"speeder%1:18:00::",
-"speeding%1:04:00::"
-],
-"event": [
-"speed%1:04:00::"
-],
-"id": "speed%2:38:01::",
-"property": [
-"speed%1:28:00::",
-"speed%1:07:00::"
-],
-"sent": [
-"These cars won't speed"
-],
-"subcat": [
-"via-pp",
-"vii-pp"
-],
-"synset": "02059899-v"
-},
-{
-"derivation": [
-"speed%1:04:00::",
-"speed%1:28:00::",
-"speed%1:07:00::"
-],
-"event": [
-"speed%1:04:00::"
-],
-"id": "speed%2:30:02::",
-"property": [
-"speed%1:07:00::",
-"speed%1:28:00::"
-],
-"subcat": [
-"vtaa",
-"vtai",
-"vtia",
-"vtii"
-],
-"synset": "00440298-v"
-}
-]
-}
-},
-"speed of light": {
-"n": {
-"sense": [
-{
-"id": "speed_of_light%1:28:00::",
-"synset": "15309503-n"
-}
-]
-}
-},
-"structural": {
-"a": {
-"sense": [
-{
-"id": "structural%3:01:01::",
-"pertainym": [
-"structure%1:09:00::"
-],
-"synset": "02908587-a"
-},
-{
-"id": "structural%3:01:00::",
-"pertainym": [
-"structure%1:07:00::"
-],
-"synset": "02908410-a"
-},
-{
-"id": "structural%5:00:00:functional:00",
-"synset": "01094286-s"
-},
-{
-"id": "structural%5:00:00:constructive:00",
-"synset": "00588753-s"
-},
-{
-"id": "structural%3:01:03::",
-"synset": "02960848-a"
-},
-{
-"id": "structural%3:01:02::",
-"synset": "02960612-a"
-}
-]
-}
-},
-"substance": {
-"n": {
-"pronunciation": [
-{
-"value": "ˈsʌbstəns",
-"variety": "US"
-}
-],
-"sense": [
-{
-"derivation": [
-"substantial%3:00:00::"
-],
-"id": "substance%1:03:00::",
-"synset": "00019793-n"
-},
-{
-"id": "substance%1:09:01::",
-"synset": "05929717-n"
-},
-{
-"id": "substance%1:09:00::",
-"synset": "05928460-n"
-},
-{
-"id": "substance%1:27:00::",
-"synset": "14604577-n"
-},
-{
-"id": "substance%1:21:00::",
-"synset": "13374873-n"
-},
-{
-"id": "substance%1:10:00::",
-"synset": "06611268-n"
-},
-{
-"id": "substance%1:07:00::",
-"synset": "04941723-n"
-},
-{
-"id": "substance%1:03:01::",
-"synset": "00020270-n"
-}
-]
-}
-},
-"sun": {
-"n": {
-"sense": [
-{
-"id": "sun%1:17:02::",
-"synset": "09473312-n"
-},
-{
-"derivation": [
-"sun%2:39:00::",
-"sun%2:29:00::"
-],
-"id": "sun%1:19:00::",
-"synset": "11505767-n"
-},
-{
-"id": "sun%1:18:00::",
-"synset": "10694335-n"
-},
-{
-"id": "sun%1:17:01::",
-"synset": "09473603-n"
-}
-]
-},
-"v": {
-"form": [
-"sunned",
-"sunning"
-],
-"sense": [
-{
-"derivation": [
-"sun%1:19:00::"
-],
-"event": [
-"sun%1:19:00::"
-],
-"id": "sun%2:29:00::",
-"subcat": [
-"via",
-"via-pp",
-"vtaa"
-],
-"synset": "00103901-v"
-},
-{
-"derivation": [
-"sun%1:19:00::"
-],
-"event": [
-"sun%1:19:00::"
-],
-"id": "sun%2:39:00::",
-"subcat": [
-"vtai"
-],
-"synset": "02117029-v"
-}
-]
-}
-},
-"synthesis": {
-"n": {
-"form": [
-"syntheses"
-],
-"pronunciation": [
-{
-"value": "ˈsɪnθəsɪs"
-}
-],
-"sense": [
-{
-"derivation": [
-"synthetical%3:00:03::",
-"synthesise%2:31:00::"
-],
-"id": "synthesis%1:22:00::",
-"synset": "13586582-n"
-},
-{
-"antonym": [
-"analysis%1:09:00::"
-],
-"derivation": [
-"synthesist%1:18:00::",
-"synthetic%3:00:03::",
-"synthetical%3:00:03::",
-"synthesise%2:31:00::"
-],
-"id": "synthesis%1:09:00::",
-"synset": "05791945-n"
-},
-{
-"derivation": [
-"synthetic%3:00:01::",
-"synthetical%3:00:03::",
-"synthesise%2:31:00::"
-],
-"id": "synthesis%1:09:01::",
-"synset": "05782126-n"
-}
-]
-}
-}
+ "salt": {
+  "a": {
+   "pronunciation": [
+    {
+     "value": "sɒlt",
+     "variety": "GB"
+    },
+    {
+     "value": "sɔːlt"
+    }
+   ],
+   "sense": [
+    {
+     "id": "salt%5:00:00:sharp:04",
+     "synset": "00807416-s"
+    }
+   ]
+  },
+  "n": {
+   "pronunciation": [
+    {
+     "value": "sɒlt",
+     "variety": "GB"
+    },
+    {
+     "value": "sɔːlt"
+    }
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "salty%3:00:00::"
+     ],
+     "id": "salt%1:27:00::",
+     "synset": "15035270-n"
+    },
+    {
+     "derivation": [
+      "salty%3:00:00::",
+      "salt%2:30:00::",
+      "salt%2:39:00::"
+     ],
+     "id": "salt%1:13:00::",
+     "synset": "07829083-n"
+    },
+    {
+     "derivation": [
+      "salty%5:00:00:tasty:00",
+      "salt%2:30:00::",
+      "salt%2:39:00::"
+     ],
+     "id": "salt%1:09:00::",
+     "synset": "05725289-n"
+    }
+   ]
+  },
+  "v": {
+   "pronunciation": [
+    {
+     "value": "sɒlt",
+     "variety": "GB"
+    },
+    {
+     "value": "sɔːlt"
+    }
+   ],
+   "sense": [
+    {
+     "agent": [
+      "salter%1:18:01::"
+     ],
+     "derivation": [
+      "salt%1:09:00::",
+      "salt%1:13:00::",
+      "salter%1:18:01::",
+      "salting%1:04:00::"
+     ],
+     "id": "salt%2:39:00::",
+     "subcat": [
+      "vtai"
+     ],
+     "synset": "02200660-v",
+     "uses": [
+      "salt%1:13:00::"
+     ]
+    },
+    {
+     "id": "salt%2:35:00::",
+     "subcat": [
+      "vtaa-pp",
+      "vtai",
+      "vtai-pp",
+      "vtai-with",
+      "vtii"
+     ],
+     "synset": "01377785-v"
+    },
+    {
+     "id": "salt%2:30:01::",
+     "subcat": [
+      "vtai"
+     ],
+     "synset": "00561199-v"
+    },
+    {
+     "agent": [
+      "salter%1:18:01::"
+     ],
+     "by_means_of": [
+      "salt%1:13:00::"
+     ],
+     "derivation": [
+      "salt%1:09:00::",
+      "salt%1:13:00::",
+      "salter%1:18:01::"
+     ],
+     "id": "salt%2:30:00::",
+     "sent": [
+      "The chefs salt the vegetables"
+     ],
+     "subcat": [
+      "vtai"
+     ],
+     "synset": "00213779-v"
+    }
+   ]
+  }
+ },
+ "satellite": {
+  "a": {
+   "pronunciation": [
+    {
+     "value": "ˈsætəlaɪt",
+     "variety": "GB"
+    }
+   ],
+   "sense": [
+    {
+     "id": "satellite%5:00:00:outer:00",
+     "synset": "00953327-s"
+    }
+   ]
+  },
+  "n": {
+   "pronunciation": [
+    {
+     "value": "ˈsætəlaɪt",
+     "variety": "GB"
+    }
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "satellite%2:32:00::"
+     ],
+     "id": "satellite%1:06:00::",
+     "synset": "04144527-n"
+    },
+    {
+     "id": "satellite%1:18:00::",
+     "synset": "10572067-n"
+    },
+    {
+     "id": "satellite%1:17:00::",
+     "synset": "09447148-n"
+    }
+   ]
+  },
+  "v": {
+   "pronunciation": [
+    {
+     "value": "ˈsætəlaɪt",
+     "variety": "GB"
+    }
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "satellite%1:06:00::"
+     ],
+     "id": "satellite%2:32:00::",
+     "instrument": [
+      "satellite%1:06:00::"
+     ],
+     "sent": [
+      "They satellite the information to them"
+     ],
+     "subcat": [
+      "vtai"
+     ],
+     "synset": "00971169-v"
+    }
+   ]
+  }
+ },
+ "sodium chloride": {
+  "n": {
+   "sense": [
+    {
+     "id": "sodium_chloride%1:27:00::",
+     "synset": "14696184-n"
+    }
+   ]
+  }
+ },
+ "solid": {
+  "a": {
+   "pronunciation": [
+    {
+     "value": "ˈsɑlɪd",
+     "variety": "US"
+    },
+    {
+     "value": "ˈsɒlɪd",
+     "variety": "GB"
+    }
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "solidness%1:07:01::"
+     ],
+     "id": "solid%5:00:00:good:01",
+     "synset": "01128873-s"
+    },
+    {
+     "antonym": [
+      "liquid%3:00:00::",
+      "gaseous%3:00:00::"
+     ],
+     "derivation": [
+      "solidness%1:26:00::"
+     ],
+     "id": "solid%3:00:01::",
+     "synset": "02267791-a"
+    },
+    {
+     "antonym": [
+      "hollow%3:00:00::"
+     ],
+     "derivation": [
+      "solidness%1:07:02::",
+      "solidity%1:26:00::"
+     ],
+     "id": "solid%3:00:02::",
+     "synset": "02271436-a"
+    },
+    {
+     "derivation": [
+      "solidness%1:07:00::"
+     ],
+     "id": "solid%5:00:00:homogeneous:00",
+     "synset": "01203882-s"
+    },
+    {
+     "id": "solid%5:00:00:unbroken:02",
+     "synset": "00292047-s"
+    },
+    {
+     "id": "solid%5:00:00:wholesome:00",
+     "synset": "02569298-s"
+    },
+    {
+     "derivation": [
+      "solidness%1:07:00::"
+     ],
+     "id": "solid%5:00:00:sound:01",
+     "synset": "02283161-s"
+    },
+    {
+     "derivation": [
+      "solidness%1:07:02::",
+      "solidity%1:07:02::"
+     ],
+     "id": "solid%5:00:00:hard:01",
+     "synset": "01155243-s"
+    },
+    {
+     "derivation": [
+      "solid%1:25:00::"
+     ],
+     "id": "solid%5:00:00:cubic:00",
+     "synset": "00661271-s"
+    },
+    {
+     "id": "solid%5:00:00:opaque:00",
+     "synset": "00436312-s"
+    },
+    {
+     "derivation": [
+      "solidness%1:07:01::"
+     ],
+     "id": "solid%5:00:00:sound:00",
+     "synset": "02281701-s"
+    },
+    {
+     "derivation": [
+      "solidness%1:07:01::"
+     ],
+     "id": "solid%5:00:00:serious:00",
+     "synset": "02127556-s"
+    },
+    {
+     "derivation": [
+      "solidness%1:07:01::"
+     ],
+     "id": "solid%5:00:00:respectable:00",
+     "synset": "02000793-s"
+    },
+    {
+     "id": "solid%5:00:03:homogeneous:00",
+     "synset": "01204034-s"
+    },
+    {
+     "id": "solid%5:00:00:undiversified:00",
+     "synset": "00787771-s"
+    }
+   ]
+  },
+  "n": {
+   "pronunciation": [
+    {
+     "value": "ˈsɑlɪd",
+     "variety": "US"
+    },
+    {
+     "value": "ˈsɒlɪd",
+     "variety": "GB"
+    }
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "solidify%2:30:00::"
+     ],
+     "id": "solid%1:27:04::",
+     "synset": "15071467-n"
+    },
+    {
+     "derivation": [
+      "solidify%2:30:01::",
+      "solidify%2:30:00::"
+     ],
+     "id": "solid%1:26:00::",
+     "synset": "14504356-n"
+    },
+    {
+     "derivation": [
+      "solidify%2:30:00::",
+      "solid%5:00:00:cubic:00"
+     ],
+     "id": "solid%1:25:00::",
+     "synset": "13882990-n"
+    }
+   ]
+  }
+ },
+ "speed": {
+  "n": {
+   "sense": [
+    {
+     "derivation": [
+      "speedy%5:00:00:fast:01",
+      "speed%2:38:01::",
+      "speed%2:38:00::",
+      "speed%2:30:02::",
+      "speed%2:38:03::",
+      "speed%2:30:00::"
+     ],
+     "id": "speed%1:28:00::",
+     "synset": "15307914-n"
+    },
+    {
+     "derivation": [
+      "speedy%5:00:03:fast:01",
+      "speed%2:38:00::",
+      "speed%2:30:02::",
+      "speed%2:38:01::",
+      "speed%2:38:03::",
+      "speed%2:30:00::"
+     ],
+     "id": "speed%1:07:00::",
+     "synset": "05065291-n"
+    },
+    {
+     "derivation": [
+      "speedy%5:00:00:fast:01",
+      "speed%2:38:00::",
+      "speed%2:30:02::",
+      "speed%2:38:01::",
+      "speed%2:30:00::"
+     ],
+     "id": "speed%1:04:00::",
+     "synset": "00330986-n"
+    },
+    {
+     "id": "speed%1:24:00::",
+     "synset": "13843620-n"
+    },
+    {
+     "id": "speed%1:06:00::",
+     "synset": "02707012-n"
+    }
+   ]
+  },
+  "v": {
+   "form": [
+    "sped"
+   ],
+   "sense": [
+    {
+     "also": [
+      "speed_up%2:30:00::"
+     ],
+     "derivation": [
+      "speed%1:28:00::",
+      "speed%1:07:00::",
+      "speeding%1:04:00::"
+     ],
+     "id": "speed%2:38:03::",
+     "sent": [
+      "They speed up the hill"
+     ],
+     "subcat": [
+      "via",
+      "vii"
+     ],
+     "synset": "02062918-v"
+    },
+    {
+     "derivation": [
+      "speed%1:04:00::",
+      "speed%1:28:00::",
+      "speed%1:07:00::"
+     ],
+     "event": [
+      "speed%1:04:00::"
+     ],
+     "id": "speed%2:30:00::",
+     "property": [
+      "speed%1:28:00::",
+      "speed%1:07:00::"
+     ],
+     "sent": [
+      "These cars won't speed"
+     ],
+     "subcat": [
+      "via",
+      "vii",
+      "vtai",
+      "vtii"
+     ],
+     "synset": "00439133-v"
+    },
+    {
+     "also": [
+      "speed_up%2:30:00::"
+     ],
+     "derivation": [
+      "speed%1:04:00::",
+      "speed%1:28:00::",
+      "speed%1:07:00::"
+     ],
+     "event": [
+      "speed%1:04:00::"
+     ],
+     "id": "speed%2:38:00::",
+     "property": [
+      "speed%1:07:00::",
+      "speed%1:28:00::"
+     ],
+     "sent": [
+      "These cars won't speed"
+     ],
+     "subcat": [
+      "via-pp",
+      "vii-pp"
+     ],
+     "synset": "02059573-v"
+    },
+    {
+     "agent": [
+      "speeder%1:18:00::"
+     ],
+     "derivation": [
+      "speed%1:04:00::",
+      "speed%1:28:00::",
+      "speed%1:07:00::",
+      "speeder%1:18:00::",
+      "speeding%1:04:00::"
+     ],
+     "event": [
+      "speed%1:04:00::"
+     ],
+     "id": "speed%2:38:01::",
+     "property": [
+      "speed%1:28:00::",
+      "speed%1:07:00::"
+     ],
+     "sent": [
+      "These cars won't speed"
+     ],
+     "subcat": [
+      "via-pp",
+      "vii-pp"
+     ],
+     "synset": "02059899-v"
+    },
+    {
+     "derivation": [
+      "speed%1:04:00::",
+      "speed%1:28:00::",
+      "speed%1:07:00::"
+     ],
+     "event": [
+      "speed%1:04:00::"
+     ],
+     "id": "speed%2:30:02::",
+     "property": [
+      "speed%1:07:00::",
+      "speed%1:28:00::"
+     ],
+     "subcat": [
+      "vtaa",
+      "vtai",
+      "vtia",
+      "vtii"
+     ],
+     "synset": "00440298-v"
+    }
+   ]
+  }
+ },
+ "speed of light": {
+  "n": {
+   "sense": [
+    {
+     "id": "speed_of_light%1:28:00::",
+     "synset": "15309503-n"
+    }
+   ]
+  }
+ },
+ "structural": {
+  "a": {
+   "sense": [
+    {
+     "id": "structural%3:01:01::",
+     "pertainym": [
+      "structure%1:09:00::"
+     ],
+     "synset": "02908587-a"
+    },
+    {
+     "id": "structural%3:01:00::",
+     "pertainym": [
+      "structure%1:07:00::"
+     ],
+     "synset": "02908410-a"
+    },
+    {
+     "id": "structural%5:00:00:functional:00",
+     "synset": "01094286-s"
+    },
+    {
+     "id": "structural%5:00:00:constructive:00",
+     "synset": "00588753-s"
+    },
+    {
+     "id": "structural%3:01:03::",
+     "synset": "02960848-a"
+    },
+    {
+     "id": "structural%3:01:02::",
+     "synset": "02960612-a"
+    }
+   ]
+  }
+ },
+ "substance": {
+  "n": {
+   "pronunciation": [
+    {
+     "value": "ˈsʌbstəns",
+     "variety": "US"
+    }
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "substantial%3:00:00::"
+     ],
+     "id": "substance%1:03:00::",
+     "synset": "00019793-n"
+    },
+    {
+     "id": "substance%1:09:01::",
+     "synset": "05929717-n"
+    },
+    {
+     "id": "substance%1:09:00::",
+     "synset": "05928460-n"
+    },
+    {
+     "id": "substance%1:27:00::",
+     "synset": "14604577-n"
+    },
+    {
+     "id": "substance%1:21:00::",
+     "synset": "13374873-n"
+    },
+    {
+     "id": "substance%1:10:00::",
+     "synset": "06611268-n"
+    },
+    {
+     "id": "substance%1:07:00::",
+     "synset": "04941723-n"
+    },
+    {
+     "id": "substance%1:03:01::",
+     "synset": "00020270-n"
+    }
+   ]
+  }
+ },
+ "sun": {
+  "n": {
+   "sense": [
+    {
+     "id": "sun%1:17:02::",
+     "synset": "09473312-n"
+    },
+    {
+     "derivation": [
+      "sun%2:39:00::",
+      "sun%2:29:00::"
+     ],
+     "id": "sun%1:19:00::",
+     "synset": "11505767-n"
+    },
+    {
+     "id": "sun%1:18:00::",
+     "synset": "10694335-n"
+    },
+    {
+     "id": "sun%1:17:01::",
+     "synset": "09473603-n"
+    }
+   ]
+  },
+  "v": {
+   "form": [
+    "sunned",
+    "sunning"
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "sun%1:19:00::"
+     ],
+     "event": [
+      "sun%1:19:00::"
+     ],
+     "id": "sun%2:29:00::",
+     "subcat": [
+      "via",
+      "via-pp",
+      "vtaa"
+     ],
+     "synset": "00103901-v"
+    },
+    {
+     "derivation": [
+      "sun%1:19:00::"
+     ],
+     "event": [
+      "sun%1:19:00::"
+     ],
+     "id": "sun%2:39:00::",
+     "subcat": [
+      "vtai"
+     ],
+     "synset": "02117029-v"
+    }
+   ]
+  }
+ },
+ "synthesis": {
+  "n": {
+   "form": [
+    "syntheses"
+   ],
+   "pronunciation": [
+    {
+     "value": "ˈsɪnθəsɪs"
+    }
+   ],
+   "sense": [
+    {
+     "derivation": [
+      "synthetical%3:00:03::",
+      "synthesise%2:31:00::"
+     ],
+     "id": "synthesis%1:22:00::",
+     "synset": "13586582-n"
+    },
+    {
+     "antonym": [
+      "analysis%1:09:00::"
+     ],
+     "derivation": [
+      "synthesist%1:18:00::",
+      "synthetic%3:00:03::",
+      "synthetical%3:00:03::",
+      "synthesise%2:31:00::"
+     ],
+     "id": "synthesis%1:09:00::",
+     "synset": "05791945-n"
+    },
+    {
+     "derivation": [
+      "synthetic%3:00:01::",
+      "synthetical%3:00:03::",
+      "synthesise%2:31:00::"
+     ],
+     "id": "synthesis%1:09:01::",
+     "synset": "05782126-n"
+    }
+   ]
+  }
+ },
+ "Saturn": {
+  "n": {
+   "sense": [
+    {
+     "id": "saturn%1:18:00::",
+     "synset": "09447520-n"
+    }
+   ]
+  }
+ }
 }

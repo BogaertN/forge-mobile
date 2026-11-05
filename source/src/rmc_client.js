@@ -6,7 +6,7 @@
 (function (root) {
 'use strict';
 const HELD = 'The answer is held.';
-const BUNDLE = { url: 'data/py/rmc_engine_bundle.json', sri: 'sha384-ZdfwuM/MJjR/BNGanh3raG4MVWSkxXmhBHvF9W1RJT9ixpYqYTE4nIxw2xmRTlyN' };
+const BUNDLE = { url: 'data/py/rmc_engine_bundle.json', sri: 'sha384-AsBlCpZzMDm7Tb3ein9QDuNuT4TTyxPtLOcWAHY91EucltK/W1mdDUm6Lbd8ZIxa' };
 function held(extra) { return Object.assign({ ok: false, engine: 'rmc_engine_v1', reply: HELD, admitted: false, held: true, fallback: true, calls_llm: false, model_invoked: false }, extra || {}); }
 function askSync(payload) {
   if (typeof require !== 'function') return held({ error: 'browser_uses_worker' });

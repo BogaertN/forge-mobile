@@ -10,8 +10,9 @@ Agreement between publishers is on MEANING, not on spelling:
     ancestors (gravity -> force; Moon -> satellite);
   - two categories are COMPATIBLE when they share a sense (synonyms) or one is an ancestor of the other (a more
     specific category: "satellite" under "body");
-  - a category that is on the chain of ANOTHER meaning of the same word and not on the pinned one is a genuine
-    contradiction (Mercury the planet against mercury the element);
+  - a category that is on the chain of ANOTHER meaning of the same word and not on the pinned one is OFF-SENSE
+    for the pinned/resolved meaning (same spelling, different WordNet sense): irrelevant, not a veto
+    (4.9.228; Mercury the planet is not contradicted by mercury the element);
   - a category WordNet does not know (azane, methylxanthine) is UNPLACED: it neither agrees nor blocks.
 The layer only annotates documents; self_seed_202.evaluate (Python, JS, Pyodide) applies the rule to the annotations.
 Lesk-style gloss overlap is logged as an advisory only and never decides."""
@@ -24,10 +25,12 @@ from rmc_engine_v1 import athena_sources_222 as _src
 
 ANC_LIMIT = 40
 GENUS_DEPTH = 2  # a category more specific than the subject's genus (its first two hypernym levels) refines, never contradicts
-# 4.9.224 (Nic pt139u/t140u): a category agrees only when its matching sense is among the first HYPERNYM_AGREE_DEPTH
-# members of the subject's hypernym chain (the sense itself + 3 ancestors). WordNet's upper ontology
-# (entity, physical entity, abstraction, matter, relation, part/portion) sits deeper and is too general to
-# define a subject; caffeine's "component" matched at depth 8 and is the case that forced the cap.
+# 4.9.224 (Nic pt139u/t140u): a category agrees only within HYPERNYM_AGREE_DEPTH hops of the subject sense
+# (the sense itself + up to 3 ancestors). WordNet's upper ontology (entity, physical entity, abstraction,
+# matter, relation, part/portion) sits deeper and is too general to define a subject; caffeine's
+# "component" matched at hop 7/BFS-index 8 and is the case that forced the cap.
+# 4.9.228: the cap is shortest-path hop distance, not BFS list index — parallel instance_hypernym parents
+# (Saturn → Jovian / superior / outer) must not push the real genus (planet, hop 2) past the cap.
 HYPERNYM_AGREE_DEPTH = 4
 # Partitive heads that name no category of their own: "a type of star" -> star; "any of various gases" -> gas.
 PARTITIVE = {"kind", "type", "sort", "form", "class", "variety", "member", "one", "any", "some", "either", "each", "piece", "part"}
@@ -91,15 +94,23 @@ def _lemma_forms(word: str) -> list[str]:
 
 def ancestors(sid: str) -> list[str]:
     """Hypernym and instance-hypernym closure in a fixed breadth-first order (the sense itself first)."""
-    seen = [sid]
+    return list(ancestor_distances(sid))
+
+
+def ancestor_distances(sid: str) -> dict[str, int]:
+    """Each hypernym / instance-hypernym ancestor mapped to its shortest-path hop count (the sense itself is 0).
+    4.9.228: agreement depth uses hop distance so bushy instance_hypernym fan-outs do not inflate the cap."""
+    dist: dict[str, int] = {sid: 0}
+    order = [sid]
     i = 0
-    while i < len(seen) and len(seen) < 4000:
-        row = _syn(seen[i]) or {}
+    while i < len(order) and len(order) < 4000:
+        row = _syn(order[i]) or {}
         for nxt in (row.get("hypernym") or []) + (row.get("instance_hypernym") or []):
-            if nxt not in seen:
-                seen.append(nxt)
+            if nxt not in dist:
+                dist[nxt] = dist[order[i]] + 1
+                order.append(nxt)
         i += 1
-    return seen
+    return dist
 
 
 def _forms_of_label(label: str) -> list[str]:
@@ -258,10 +269,12 @@ def _head_senses(cat: str) -> list[str]:
 
 def chain_sense(cat: str, chain: list[str]) -> str | None:
     """The sense of the category that lies on the subject's chain (the nearest one), else None.
-    4.9.224: only the first HYPERNYM_AGREE_DEPTH members of the chain count as agreement."""
-    near = chain[:HYPERNYM_AGREE_DEPTH]
-    hits = [s for s in _cat_senses(cat) if s in near]
-    return min(hits, key=near.index) if hits else None
+    4.9.224/4.9.228: only ancestors within HYPERNYM_AGREE_DEPTH hops of the subject sense count as agreement."""
+    if not chain:
+        return None
+    dist = ancestor_distances(chain[0])
+    hits = [s for s in _cat_senses(cat) if s in dist and dist[s] < HYPERNYM_AGREE_DEPTH]
+    return min(hits, key=lambda s: dist[s]) if hits else None
 
 
 def on_chain(cat: str, chain: list[str]) -> bool:
@@ -275,14 +288,20 @@ def on_other_chain(cat: str, chain: list[str]) -> bool:
 def compatible(cat: str, sense: str) -> bool:
     """A category agrees with an on-chain category sense when they are synonyms (the category has that very sense) or one
     is the more specific of the other (a hypernym path either way). Anchored on the on-chain SENSE, so a category's
-    unrelated meanings cannot make it agree. 4.9.224: the path either way is capped at HYPERNYM_AGREE_DEPTH."""
+    unrelated meanings cannot make it agree. 4.9.224/4.9.228: the path either way is capped at HYPERNYM_AGREE_DEPTH hops."""
     if not cat or not sense:
         return False
     mine = _head_senses(cat)
     if sense in _cat_senses(cat):
         return True
-    up = set(ancestors(sense)[:HYPERNYM_AGREE_DEPTH])
-    return any(s in up or sense in ancestors(s)[:HYPERNYM_AGREE_DEPTH] for s in mine)
+    up = {s for s, d in ancestor_distances(sense).items() if d < HYPERNYM_AGREE_DEPTH}
+    for s in mine:
+        if s in up:
+            return True
+        d2 = ancestor_distances(s)
+        if sense in d2 and d2[sense] < HYPERNYM_AGREE_DEPTH:
+            return True
+    return False
 
 
 def _other_meanings(label: str, sense: str) -> list[str]:

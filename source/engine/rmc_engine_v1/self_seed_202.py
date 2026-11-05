@@ -566,11 +566,13 @@ def _claim_groups(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]
 
 
 def _meaning_groups(passing: list[dict[str, Any]], meaning: dict[str, Any] | None) -> dict[str, Any]:
-    """4.9.223 agreement. Definitions (identity claims about a subject with a resolved meaning) agree on MEANING: the
-    category is on the subject sense's hypernym chain, is more specific than the subject's genus (under_chain), or is a
-    synonym / more specific category of an on-chain one.
-    A row naming another sense, or whose category belongs to another meaning of the word, is a contradiction. A category
-    WordNet does not know is unplaced. Every other claim (values, names, years) still agrees on its exact slot value."""
+    """4.9.223 agreement; 4.9.228 off-sense rule. Definitions (identity claims about a subject with a resolved meaning)
+    agree on MEANING: the category is on the subject sense's hypernym chain, is more specific than the subject's genus
+    (under_chain), or is a synonym / more specific category of an on-chain one.
+    A row naming another WordNet sense of the same spelling, or whose category belongs to another meaning of the word,
+    is OFF-SENSE for the pinned/resolved meaning: irrelevant noise, not a veto (true disagreement stays incompatible
+    claims about the SAME meaning — e.g. conflicting value slots). A category WordNet does not know is unplaced.
+    Every other claim (values, names, years) still agrees on its exact slot value."""
     sense = (meaning or {}).get("subject_sense")
     defs = [r for r in passing if sense and str(r.get("claim") or "").startswith("identity|")]
     rest = [r for r in passing if not (sense and str(r.get("claim") or "").startswith("identity|"))]
@@ -580,22 +582,22 @@ def _meaning_groups(passing: list[dict[str, Any]], meaning: dict[str, Any] | Non
     agree: list[dict[str, Any]] = []
     contra: list[dict[str, Any]] = []
     unplaced: list[dict[str, Any]] = []
+    off_sense: list[dict[str, Any]] = []
     for r in defs:
         m = r.get("meaning") or {}
         cat = str(m.get("category") or "")
-        if m.get("sense") and m.get("sense") != sense:
-            contra.append(r)
+        # 4.9.228 (Nic pt144u): different meanings of the same word are not disagreement
+        if (m.get("sense") and m.get("sense") != sense) or m.get("other_meaning"):
+            off_sense.append(r)
         elif m.get("sense") == sense or m.get("on_chain") or m.get("under_chain") or any((cat, c) in pairs for c in on):
             agree.append(r)
-        elif m.get("other_meaning"):
-            contra.append(r)
         else:
             unplaced.append(r)
     if agree:
         cats = ",".join(sorted({str((r.get("meaning") or {}).get("category")) for r in agree if (r.get("meaning") or {}).get("category")}))  # 4.9.225: a missing category is not the word "None"
         ent = str(agree[0]["claim"]).split("|")[1]
         groups["meaning|" + ent + "|" + str(sense) + "|" + cats] = agree
-    return {"groups": groups, "contra": contra, "agree": agree, "unplaced": unplaced}
+    return {"groups": groups, "contra": contra, "agree": agree, "unplaced": unplaced, "off_sense": off_sense}
 
 
 def _slot_of_claim(claim: str) -> str:
@@ -730,6 +732,9 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "agree": sorted({row["host"] for row in agreed["agree"]}),
             "contradict": [{"host": row["host"], "category": (row.get("meaning") or {}).get("category")} for row in agreed["contra"]],
             "unplaced": [{"host": row["host"], "category": (row.get("meaning") or {}).get("category")} for row in agreed["unplaced"]],
+            "off_sense": [{"host": row["host"], "category": (row.get("meaning") or {}).get("category"),
+                           "other_meaning": (row.get("meaning") or {}).get("other_meaning"),
+                           "sense": (row.get("meaning") or {}).get("sense")} for row in agreed.get("off_sense") or []],
         }
     by_slot: dict[str, list[str]] = {}
     for claim in groups:

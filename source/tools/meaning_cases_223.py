@@ -50,11 +50,11 @@ def main():
     payloads.append(("moon: no meaning payload -> unchanged 4.9.222 decision", {"question": moon, "documents": [doc(NASA, s1), doc(MESH, s1)], "gap": True, "reset": True, "now": 1000}))
     payloads.append(("moon: a synonym category (heavenly body = celestial body) agrees", meaning_payload(moon, [doc(NASA, s1), doc(MESH, "The Moon is a heavenly body.")])))
     payloads.append(("moon: OEWN row carrying the subject sense agrees", meaning_payload(moon, [doc(NASA, s1), doc(OEWN, "The Moon is the natural satellite.", how={"synset": "09381255-n"}, source_id="oewn")])))
-    payloads.append(("moon: OEWN row carrying ANOTHER sense contradicts", meaning_payload(moon, [doc(NASA, s1), doc("https://en-word.net/id/oewn-09381447-n", "The Moon is a natural satellite.", source_id="oewn", how={"synset": "09381447-n"})])))
+    payloads.append(("moon: OEWN row carrying ANOTHER sense is off-sense (not a veto)", meaning_payload(moon, [doc(NASA, s1), doc("https://en-word.net/id/oewn-09381447-n", "The Moon is a natural satellite.", source_id="oewn", how={"synset": "09381447-n"})])))
     merc = "What is Mercury?"
     planet = {"label": "Mercury", "attr": None, "state": "pinned", "sense": "09374305-n", "phi": None}
     sp = ss.sentence_placement("Mercury is the smallest planet in our solar system.")["phi"]
-    payloads.append(("Mercury the planet: a 'metallic element' row is another meaning -> disagreement", meaning_payload(merc, [
+    payloads.append(("Mercury the planet: a 'metallic element' row is another meaning -> off-sense, not disagreement", meaning_payload(merc, [
         doc(NASA.replace("moon/facts", "mercury"), "Mercury is the smallest planet in our solar system."),
         doc(MESH, "Mercury is the smallest planet in our solar system."),
         doc(PUBCHEM, "Mercury is a metallic element that is liquid at room temperature.")], subject=planet, loop_phi=sp)))
