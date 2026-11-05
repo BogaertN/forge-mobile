@@ -546,6 +546,40 @@ def _grace(packet, question_phi):
     }
 
 
+def _operation_grace(packet, phi_query):
+    """4.9.238 (Nic, Memory Phase Invariance): a memory's resonance with the retrieval operation, not with the question text.
+
+    Φ_identity is the row's own packet phase and is never rewritten. ΔΦ = Φ_query − Φ_identity is computed here, per ask,
+    and is not stored. A = (1 + cos ΔΦ)/2 is the same factor derive_frame.phase_factor uses. ΔΦ never vetoes: "aligned"
+    (kept for the callers that read it) now means only that the row is contextually usable (a stated ε inside the
+    projectable band, a stated μ above 0); phase is the weight grace = rpm · A. A row with no phase reads A = 0.5, the
+    same neutral reading derive_frame.gate uses. Nothing here makes a match: a row still needs a frame-role lock or a
+    concept the question names (S) before rank_memory can choose it."""
+    phi = _phase_value(packet.get("Phi"))
+    eps = _as_measure(packet.get("eps"))
+    mu = _as_measure(packet.get("mu"))
+    delta = _circular_delta(phi_query, phi) if phi is not None else None
+    eps_ok = eps == "unspecified" or (isinstance(eps, (int, float)) and eps <= 0.35)
+    mu_ok = mu == "unspecified" or (isinstance(mu, (int, float)) and mu > 0)
+    usable = bool(eps_ok and mu_ok)
+    A = (1.0 + math.cos(delta)) / 2.0 if delta is not None else 0.5
+    weight = 1.0 if (eps == "unspecified" or mu == "unspecified") else mu * math.exp(-max(0.0, eps))
+    grace = weight * A if usable else 0.0
+    return {
+        "aligned": usable,
+        "delta": round(delta, 6) if delta is not None else None,
+        "delta_phi_deg": round(math.degrees(delta), 3) if delta is not None else None,
+        "A": round(A, 6),
+        "grace": round(grace, 6),
+        "rpm": round(weight, 6),
+        "phi": phi,
+        "phi_query": phi_query,
+        "operation": "retrieve",
+        "delta_stored": False,
+        "identity_rewritten": False,
+    }
+
+
 def _hop_weight(node, chosen, question_phi):
     packet = node.get("packet") if isinstance(node.get("packet"), dict) else {}
     anchor = chosen[0] if chosen else None
@@ -557,6 +591,21 @@ def _hop_weight(node, chosen, question_phi):
         anchor_weight = 1.0 if anchor_grace.get("aligned") else float(anchor_grace.get("grace") or 0.0)
         return round(min(1.0, anchor_weight * float(_grace(packet, anchor_phi).get("grace") or 0.0)), 4)
     return round(min(1.0, float(_grace(packet, question_phi).get("grace") or 0.0)), 4)
+
+
+def _hop_weight_op(node, chosen, question_phi):
+    """4.9.238: _hop_weight with the anchor read under the operation rule. A usable anchor weighs 1.0 (ΔΦ to the
+    retrieval phase never vetoes it); the hop still weighs its own grace with the anchor's phase (4.9.235). With a
+    phase unknown on either side the hop reads its operation grace (rpm · A): a weight, never a window."""
+    packet = node.get("packet") if isinstance(node.get("packet"), dict) else {}
+    anchor = chosen[0] if chosen else None
+    anchor_packet = (anchor or {}).get("packet") if isinstance((anchor or {}).get("packet"), dict) else {}
+    anchor_phi = _phase_value(anchor_packet.get("Phi")) if anchor_packet else None
+    own_phi = _phase_value(packet.get("Phi")) if packet else None
+    if anchor is not None and anchor_phi is not None and own_phi is not None:
+        anchor_weight = 1.0 if _operation_grace(anchor_packet, question_phi).get("aligned") else 0.0
+        return round(min(1.0, anchor_weight * float(_grace(packet, anchor_phi).get("grace") or 0.0)), 4)
+    return round(min(1.0, float(_operation_grace(packet, question_phi).get("grace") or 0.0)), 4)
 
 
 def curate_quarantine(question, row, ancestors):
@@ -600,20 +649,20 @@ def rank_memory(question, nodes, phase_report=None):
     # (band_tuning.tune: eps 0.02, cap 0.40, nudge 0.45). The pi/4 window and grace read the integer phase again.
     # Band relation (same 1.0 / x3 0.3 / x9 0.1) is a ranking key after phase resonance; it never admits.
     from rmc_engine_v1.band_tuning import band_key as _band_key, relation as _band_relation, tune as _band_tune
-    question_band = _question_phi(phase_report)
-    # 4.9.227 (Nic t142u): a definitional question about X also resonates in X's meaning phase (lexicon_resonance
-    # .apply_lexicon_phase records it as subject_phase), the phase Athena files a definition of X under. A row aligned with
-    # either phase is a candidate; the question's own phase is unchanged and stays the band used for tuning.
-    subject_phi = None
-    _st = (phase_report or {}).get("phase_state") if isinstance((phase_report or {}).get("phase_state"), dict) else (phase_report or {})
-    if isinstance(_st, dict) and isinstance(_st.get("subject_phase"), dict) and _phase_index(_st["subject_phase"].get("Phi")):
-        subject_phi = int(_st["subject_phase"]["Phi"])
-    phase_from = "question" if subject_phi in (None, question_band) else "question + subject meaning"
-    tuning = _band_tune(question or "", question_band)
-    question_phi = question_band
+    # 4.9.238 (Nic, Memory Phase Invariance with Contextual Phase Alignment): recall is the cognitive operation *retrieve*,
+    # Φ_query = Φ7 (derive_frame.OPERATION_PHASE, codex v2.5 Naming), whatever phase the question's text reads. Each row
+    # keeps its own Φ_identity; ΔΦ = Φ_query − Φ_identity is a weight A = (1 + cos ΔΦ)/2 (_operation_grace), never a
+    # veto, so a row the question names is no longer dropped for sitting outside a π/4 window around the text's phase.
+    # The text's reading stays in the record (question_text_phi) and still tunes its band; it no longer gates recall.
+    # This retires the 4.9.227 second window (the subject meaning's phase): there is no window left to widen.
+    from rmc_engine_v1.derive_frame import OPERATION_PHASE
+    question_text_phi = _question_phi(phase_report)
+    tuning = _band_tune(question or "", question_text_phi)
+    question_phi = OPERATION_PHASE["retrieve"]
+    question_band = question_phi
 
     def _band(node: dict[str, Any]) -> dict[str, Any]:
-        return _band_relation(question_band, ((node.get("packet") or {}).get("Phi")))
+        return _band_relation(question_phi, ((node.get("packet") or {}).get("Phi")))
     asked = asked_filler(question)
     known = set()
     for node in nodes or []:
@@ -633,11 +682,7 @@ def rank_memory(question, nodes, phase_report=None):
         node["sfe"] = packet["sfe"]
         if text:
             node["content"] = text
-        grace = _grace(packet, question_phi)
-        if not grace["aligned"] and subject_phi is not None and subject_phi != question_phi:
-            alt = _grace(packet, subject_phi)
-            if alt["aligned"]:
-                grace = dict(alt, via="subject meaning")
+        grace = _operation_grace(packet, question_phi)
         if _quarantined(node):
             quarantined.append({
                 "memory_id": node.get("memory_id"),
@@ -647,6 +692,7 @@ def rank_memory(question, nodes, phase_report=None):
             })
             continue
         if not grace["aligned"]:
+            # context, not phase: a stated ε outside the projectable band or a spent μ (drift law ε ≤ 0.35)
             continue
         admitted.append(node)
         hit = _role_hit(asked["filler"], text) if asked else None
@@ -685,14 +731,17 @@ def rank_memory(question, nodes, phase_report=None):
         return define_cache[key]
 
     best_role = max((_trusted(r[0]) for r in role_locks), default=-1)
-    best_concept = max((_trusted(r[0]) for r in concept_hits), default=-1)
+    # 4.9.238: only a concept hit on a subject the question names (an A.* anchor concept) can displace a role lock. A
+    # row that shares only the asked kind ("color") is not about the subject; while ΔΦ dropped such rows this never
+    # came up, and now that ΔΦ only weights, a trusted leaves sentence must not outrank the user's own "My car is red."
+    best_concept = max((_trusted(r[0]) for r in concept_hits if any(str(c).startswith("A.") for c in r[1])), default=-1)
     if role_locks and best_concept > best_role:
         role_locks = []
     if computed_locks:
         chosen = [sorted(computed_locks, key=lambda n: str(n.get("memory_id") or ""))[0]]
         how = "computation_receipt"
         rsoc = _rsoc(chosen)
-        detail = {chosen[0].get("memory_id"): {"grace": _grace(chosen[0].get("packet") or {}, question_phi), "concepts": ["computed"]}}
+        detail = {chosen[0].get("memory_id"): {"grace": _operation_grace(chosen[0].get("packet") or {}, question_phi), "concepts": ["computed"]}}
         hops = []
     elif role_locks:
         # Several frame locks stay open in the RSOC record. The scorer sees
@@ -717,7 +766,11 @@ def rank_memory(question, nodes, phase_report=None):
         def _concept_key(row):
             shared = row[1]
             specific = sum(1 for cid in shared if str(cid).startswith("A."))
-            return (_trusted(row[0]), _defines(row[0]), _resonance(row[2]), _band_key(_band(row[0])["weight"]), specific) + _anchor_key(row[0])
+            # 4.9.238: the named anchor concept (S, structure) ranks before resonance (A, phase weight). With Φ_query the
+            # retrieval phase for every row, A no longer says which row the question is about; ranking it first let a
+            # row nearer Φ7 that shares only a colour word outrank the anchors about the sky. Phase still orders rows
+            # that share as much structure; it never chooses the subject.
+            return (_trusted(row[0]), _defines(row[0]), specific, _resonance(row[2]), _band_key(_band(row[0])["weight"])) + _anchor_key(row[0])
         concept_hits.sort(key=_concept_key, reverse=True)
         chosen = [concept_hits[0][0]]
         how = "concept_lexicon"
@@ -756,16 +809,18 @@ def rank_memory(question, nodes, phase_report=None):
                 if bit and bit not in text:
                     text = (text + " " + bit).strip()
         info = detail.get(node.get("memory_id")) or {}
-        grace = info.get("grace") or _grace(node.get("packet") or {}, question_phi)
+        grace = info.get("grace") or _operation_grace(node.get("packet") or {}, question_phi)
         hop = node not in chosen
         if hop:
-            # 4.9.235 (plan 229 step 7): a copula hop is weighed by measurement, not a fixed 0.72.
-            # It is reached through the anchor, so its weight is the anchor's weight times the hop's
-            # resonance with the anchor's phase (grace = rpm x cos^2 of the gap); a hop whose phase
-            # or the anchor's is unknown reads its own grace with the question.
-            weight = _hop_weight(node, chosen, question_phi)
+            # 4.9.235 copula hop, unchanged in kind: reached through the anchor, weighed by its resonance with the
+            # anchor's own phase (memory to memory, no question phase in it).
+            weight = _hop_weight_op(node, chosen, question_phi)
         else:
-            weight = 1.0 if grace.get("aligned") else round(min(1.0, grace.get("grace") or 0.0), 4)
+            # 4.9.238 (derive_frame.gate, G = S · C · A): S (it locked a role or a named concept) and C (contextually
+            # usable) decide; A = (1 + cos ΔΦ)/2 to the retrieval operation only weights the ranking (_resonance in the
+            # sort keys above). So a usable anchor's support reads 1.0, as an aligned anchor did before; what changed is
+            # that ΔΦ no longer drops it. A neither raises nor lowers the measured support, so phase cannot make a match.
+            weight = 1.0 if grace.get("aligned") else 0.0
         out = dict(node)
         # The scorer compares these text fields. Keep the knowledge sentence
         # and leave the receipt path on ancestry, not in the compared text.
@@ -791,6 +846,10 @@ def rank_memory(question, nodes, phase_report=None):
             "type": "phase_align",
             "phi": grace.get("phi"),
             "question_phi": question_phi,
+            "question_text_phi": question_text_phi,
+            "operation": "retrieve",
+            "delta_phi_deg": grace.get("delta_phi_deg"),
+            "A": grace.get("A"),
             "question_band": question_band,
             "band": (node.get("packet") or {}).get("band"),
             "band_relation": _band(node),
@@ -800,7 +859,7 @@ def rank_memory(question, nodes, phase_report=None):
             "role": (info.get("hit") or {}).get("role"),
             "concepts": info.get("concepts") or [],
             "hop": hop,
-            "via": grace.get("via") or "question",
+            "via": "operation",
         }]
         active.append(out)
     active.sort(key=lambda n: (n.get("retrieval_weight") or 0, str(n.get("memory_id") or "")), reverse=True)
@@ -809,6 +868,8 @@ def rank_memory(question, nodes, phase_report=None):
         "uses_token_overlap": False,
         "calls_llm": False,
         "question_phi": question_phi,
+        "question_text_phi": question_text_phi,
+        "phase_rule": "4.9.238 Φ_query = Φ7 (retrieve); ΔΦ weights (A = (1 + cos ΔΦ)/2), never vetoes; ΔΦ not stored",
         "question_band": question_band,
         "question_tuning": tuning,
         "question_band_name": tuning["band"],

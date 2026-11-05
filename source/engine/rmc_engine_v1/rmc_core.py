@@ -431,6 +431,12 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
         for row in trusted_rows:
             raw = str(row.get("text") or row.get("content") or "")
             forms = {_norm_sentence(raw)} | ({_norm_sentence(to_listener(raw))} if row.get("source") == "phone_kb" else set())
+            # 4.9.238: a reply that is one clause of a concessive or causal row (clause_split, the parts the world
+            # model observed) rests on that row; before this only the whole sentence or a substring with its period did.
+            from rmc_engine_v1.clause_split import split_clauses
+            parts = split_clauses(raw.strip().rstrip("."))
+            if len(parts) > 1:
+                forms |= {_norm_sentence(p["text"] + ".") for p in parts}
             forms.discard("")
             if any(text in reply_n or reply_n in text for text in forms):
                 rests_on = row.get("id") or row.get("memory_id")
@@ -533,6 +539,16 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             echo["score"] = 1.0
             echo["pass"] = True
             echo["method"] = "speech_act_meaning"
+        # 4.9.238 (plan 229 step 9): when the reply is the world model's claim and the question compiled to a frame, Echo
+        # scores the claim's kāraka structure against the question frame (structural_echo); token coverage is not a term.
+        if live and rendered and derive_status != "conflicted" and _norm_sentence(rendered) == _norm_sentence(derived):
+            from rmc_engine_v1 import question_frame as _qf
+            from rmc_engine_v1.structural_echo import score as _structural_echo
+            _q = _qf.current() if _qf.valid(_qf.current(), question) else None
+            structural = _structural_echo(_q, (world.get("derive") or {}).get("survivor"), rendered) if _q else None
+            if structural is not None:
+                structural["replaced"] = {"method": echo.get("method"), "score": echo.get("score"), "note": "4.9.217 re-parse with token coverage; logged, not used"}
+                echo = structural
         if computed is not None and live and derive_status != "conflicted" and scored and ("memory" in scored_kind or meaning_preview.get("language_core")):
             # 4.9.216: for a math question the scored sentence is checked by the recomputing Echo below, not by
             # word coverage (a sentence like "15% of 80 is 12." has no content words for coverage to read).

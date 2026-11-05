@@ -31,7 +31,8 @@ T('the lookup ranks the anchor that defines the asked subject first: "What is DN
   const d = chk().dna;
   expect(d.product_reply && /^DNA, or deoxyribonucleic acid, is the hereditary material/.test(d.reply) && d.echo >= 0.85 && d.relation.asked === 'definition' && d.relation.realised === true && d.relation.define_rank === 2, JSON.stringify(d).slice(0, 500));
   const rr = read('engine/rmc_engine_v1/resonance_recall.py'), core = read('engine/rmc_engine_v1/rmc_core.py');
-  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)(, _band_key\(_band\(row\[0\]\)\[\"weight\"\]\))?\)/.test(rr) && /return \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\), (_band_key\(_band\(row\[0\]\)\[\"weight\"\]\), )?specific\)/.test(rr), 'rank_memory: trust, defines, grace');
+  /* 4.9.238: concept hits rank the named subject concept (specific) before grace; see CONFLICTS v4.9.238 */
+  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)(, _band_key\(_band\(row\[0\]\)\[\"weight\"\]\))?\)/.test(rr) && /return \(_trusted\(row\[0\]\), _defines\(row\[0\]\), specific, _resonance\(row\[2\]\), _band_key\(_band\(row\[0\]\)\[\"weight\"\]\)\)/.test(rr), 'rank_memory: trust, defines, grace');
   expect(/hits\.sort\(key=lambda h: \(-h\[0\]\[0\], -h\[0\]\[2\], -h\[0\]\[1\], h\[1\]\)\)/.test(core) && /_define_rank\(ask_rel/.test(core), 'preselect_pools: trust, defines, specific, id');
   expect(/"uses_token_overlap": False/.test(rr) && !/question_meaning|_tokens\(/.test(read('engine/rmc_engine_v1/relation_echo.py')), 'no token-overlap rank');
 });
@@ -86,7 +87,7 @@ T('DRIFT-SPEC/v1 D3 resolved: the Ask candidate ε stays /3 (canonical, nine-pha
   expect(/epsilon_s = round\(\(sigma_res \+ d_score \+ delta_phi\) \/ 3\.0, 4\)/.test(read('engine/rmc_engine_v1/drift_engine.py')), 'candidate /3 unchanged');
   const dp = read('engine/rmc_engine_v1/drift_policy.py'); expect(/WRITE-TRACE eps/.test(dp) && /stays \/3/.test(dp) && /nine-phase/.test(dp), 'drift_policy docstring');
   expect(/"DENOMINATOR": "max1_depth"/.test(read('engine/rmc_engine_v1/mobile_config.py')) && /write-trace normaliser only/.test(read('engine/rmc_engine_v1/mobile_config.py')), 'mobile_config note');
-  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.217'); const e = conf.slice(i, i + 6000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237: one more each): later entries sit above; the 4.9.217 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 13 && /\/3 is canonical/.test(e) && /nine-phase/.test(e), 'CONFLICTS entry at the top');
+  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.217'); const e = conf.slice(i, i + 6000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237, 4.9.238: one more each): later entries sit above; the 4.9.217 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 14 && /\/3 is canonical/.test(e) && /nine-phase/.test(e), 'CONFLICTS entry at the top');
 });
 T('the cold 60 for 4.9.217 is recorded (not tuned) with zero false admits', () => {
   const c = JSON.parse(read('data/cold_217_results.json'));

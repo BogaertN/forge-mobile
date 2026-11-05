@@ -65,10 +65,36 @@
     const adj = (p.clause.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null }));
     delete r.material; return Object.assign(rec, r, { parsed: true, parses: p.parses, adjuncts: adj });
   }
+  /* 4.9.238 (Nic): a concessive or causal sentence is two or three clauses, not one. "Even though X, Y because Z" is the
+   * concessive clause X, the main clause Y and its hetu (cause) Z; each is read by the same parser and kept with its link.
+   * Only the subordinators themselves split ("even though", "although", initial "though", "because" — never "because of",
+   * which is a prepositional cause, not a clause). A part shorter than two words is not split off. Mirrored exactly in
+   * engine/rmc_engine_v1/clause_split.py. Deterministic; no model. */
+  const SPLIT = [
+    { re: /^(?:even though|although|though)\s+(.+?),\s+(.+)$/i, links: ['concessive', null] },
+    { re: /^because\s+(?!of\b)(.+?),\s+(.+)$/i, links: ['hetu', null] },
+    { re: /^(.+?),?\s+(?:even though|although)\s+(.+)$/i, links: [null, 'concessive'] },
+    { re: /^(.+?),?\s+because\s+(?!of\b)(.+)$/i, links: [null, 'hetu'] },
+  ];
+  function splitClauses(s, link) {
+    const t = String(s || '').replace(/[.!?]+$/, '').trim(); const own = link || 'main';
+    for (const r of SPLIT) {
+      const m = t.match(r.re); if (!m) continue;
+      const a = m[1].trim(), b = m[2].trim(); if (a.split(/\s+/).length < 2 || b.split(/\s+/).length < 2) continue;
+      return splitClauses(a, r.links[0] || own).concat(splitClauses(b, r.links[1] || own));
+    }
+    return [{ text: t, link: own }];
+  }
+  function clauseSplit(s, forge) {
+    const parts = splitClauses(s);
+    if (parts.length < 2) return clauseOne(s, forge);
+    const clauses = parts.map(p => Object.assign(clauseOne(p.text, forge), { link: p.link }));
+    return { schema: CLAUSE, text: s.replace(/[.!?]+$/, '').trim(), parsed: false, split: 'subordinate', clauses, calls_llm: false };
+  }
   function clause(text, forge) {
     try {
       const ss = sentencesOf(text); if (!ss.length) return null;
-      const all = ss.slice(0, 8).map(s => clauseOne(s, forge));
+      const all = ss.slice(0, 8).map(s => clauseSplit(s, forge));
       return all.length === 1 ? all[0] : Object.assign({ schema: CLAUSE, text: String(text).trim(), parsed: all.every(c => c.parsed), calls_llm: false, sentences: all });
     } catch (e) { return { schema: CLAUSE, text: String(text || ''), parsed: false, error: String(e && e.message || e).slice(0, 200), calls_llm: false }; }
   }
@@ -173,6 +199,6 @@
     f.rule = 'QF-NOPARSE'; return f;
   }
   function compile(text, forge) { try { return compileQ(text, forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
-  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, FILLER, ADJUNCT };
+  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, splitClauses, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);

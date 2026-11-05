@@ -37,15 +37,19 @@ T('the 4.9.203 / 4.9.204 constants are unchanged and recorded as Nic-approved (d
   expect(/from rmc_engine_v1\.frequency_203_config import EPSILON, NUDGE_SPAN, OFFSET_CAP/.test(qt) && !/^\s*[A-Za-z_]+\s*=\s*0\.(02|40?|45)\b/m.test(qt), 'constants imported, not restated');
   expect(!/What is|Why is|capital|Moon|Burkina/.test(qt.replace(/"""[\s\S]*?"""/g, '')), 'no question list in the code');
   expect(/D14/.test(read('engine/rmc_engine_v1/drift_policy.py')) && /QUESTION_TUNING = \{/.test(read('engine/rmc_engine_v1/drift_policy.py')), 'drift_policy');
-  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.218'); const e = conf.slice(i, i + 5000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237: one more each): later entries sit above; the 4.9.218 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 12 && /ε 0\.02/.test(e) && /0\.40/.test(e) && /0\.45/.test(e) && /pt125u/.test(e), 'CONFLICTS entry at the top');
+  const conf = read('CONFLICTS.md'); const i = conf.indexOf('## v4.9.218'); const e = conf.slice(i, i + 5000); /* 4.9.219 (4.9.221, 4.9.222, 4.9.223, 4.9.230, 4.9.231, 4.9.232, 4.9.233, 4.9.234, 4.9.235, 4.9.236, 4.9.237, 4.9.238: one more each): later entries sit above; the 4.9.218 entry stays near the top */ expect(i >= 0 && (conf.slice(0, i).match(/^## v/gm) || []).length <= 13 && /ε 0\.02/.test(e) && /0\.40/.test(e) && /0\.45/.test(e) && /pt125u/.test(e), 'CONFLICTS entry at the top');
 });
 T('rank_memory reads the tuned phase: the station nearest the question wins on grace, and the π/4 window reads the continuous gap', () => {
   // 4.9.219 (DRIFT-SPEC/v1 D15, Nic 2026-11-04) retired the ± phase offset in rank_memory: the question reads its integer
   // phase again and tunes a symbolic Hz inside its named band. question_tuning.tune itself is kept and still tested above.
-  const r = chk().recall;
-  expect(r.question_band === 1 && r.question_phi === 1 && r.tuning.schema === 'FORGE-BAND-TUNING/v1' && r.tuning.phase === 1, JSON.stringify(r).slice(0, 300));
+  // 4.9.238 (Nic, Memory Phase Invariance): recall is the operation *retrieve*, Φ_query = Φ7, whatever the text reads. The text's
+  // phase (here Φ1) still tunes the band and is recorded as question_text_phi; it no longer opens a π/4 window. All three rows
+  // share the same structure, so ΔΦ to Φ7 orders them: t-centre (120°) before t-near (≈124°) and t-far (≈172°). None is dropped.
+  const r = chk().recall, ev = r.evidence['t-centre'];
+  expect(r.question_band === 7 && r.question_phi === 7 && r.tuning.schema === 'FORGE-BAND-TUNING/v1' && r.tuning.phase === 1, JSON.stringify(r).slice(0, 300));
+  expect(r.active[0] === 't-centre' && ev.question_text_phi === 1 && ev.operation === 'retrieve' && ev.delta_phi_deg === 120 && ev.A === 0.25 && ev.via === 'operation', JSON.stringify(ev).slice(0, 300));
   const rr = read('engine/rmc_engine_v1/resonance_recall.py');
-  expect(/question_band = _question_phi\(phase_report\)/.test(rr) && /tuning = _band_tune\(question or "", question_band\)/.test(rr) && /question_phi = question_band/.test(rr), 'superseded by band tuning');
+  expect(/question_text_phi = _question_phi\(phase_report\)/.test(rr) && /tuning = _band_tune\(question or "", question_text_phi\)/.test(rr) && /question_phi = OPERATION_PHASE\["retrieve"\]/.test(rr), 'operation phase; band tuning from the text');
   expect(/"question_tuning", "asked"/.test(read('engine/rmc_engine_v1/memory_recaller.py')) && /res\.question_tuning/.test(read('src/app.js')), 'recorded on the card');
 });
 T('what stays: Ask ε /3, decimal packet phase, definition-first rank, relation Echo; the math, remembered-fact and Dry-Run paths work', () => {

@@ -110,6 +110,69 @@ def _atom_np(text: str) -> dict[str, Any]:
     return out
 
 
+# 4.9.238 (Nic): "look" is a linking verb when an attribute is asked ("the sky looks blue" states the sky's colour as it
+# appears). It links its subject to a bare complement (no determiner, no owner, not a name), which the phone grammar reads
+# as its karma. Only an attribute question may read it as the copula; "What is the sky?" is not answered by how it looks.
+LINKING_VERBS = frozenset({"look"})
+
+
+def _value_rule(kind: Any) -> dict[str, Any] | None:
+    """The lexicon's value rule for an attribute noun (concept_lexicon.json values: "a colour word is a value of colour")."""
+    from rmc_engine_v1.echo_question import _lex
+    lex = _lex()
+    cid = (lex.get("surfaces") or {}).get(_sing(str(kind or "")))
+    rule = (lex.get("values") or {}).get(cid or "")
+    return rule if isinstance(rule, dict) else None
+
+
+def is_value_of(kind: Any, np: Any) -> bool:
+    """The filler is a value of the asked attribute by the lexicon (blue is a colour); never by the question's words."""
+    rule = _value_rule(kind)
+    if not rule or not isinstance(np, dict) or not str(np.get("text") or "").strip():
+        return False
+    from rmc_engine_v1.echo_question import _fills_slot
+    return bool(_fills_slot(rule, str(np.get("text"))))
+
+
+def _bare(np: Any) -> bool:
+    if not isinstance(np, dict) or not str(np.get("text") or "").strip():
+        return False
+    first = str(np["text"]).split()[0].lower()
+    return first not in _DETS and not np.get("owner") and not np.get("propn") and not np.get("det")
+
+
+def _complement(fframe: dict[str, Any]) -> dict[str, Any] | None:
+    """The subject complement of a copula or linking-verb fact: its predicate, or a linking verb's bare karma."""
+    fk = str(fframe.get("kriya") or "").lower()
+    if isinstance(fframe.get("pred"), dict) and str(fframe["pred"].get("text") or "").strip():
+        return fframe["pred"]
+    if fk in LINKING_VERBS and _bare(fframe.get("karma")):
+        return fframe["karma"]
+    return None
+
+
+def attribute_of(qframe: dict[str, Any], fframe: dict[str, Any]) -> dict[str, Any] | None:
+    """An attribute question over a copula or linking-verb fact. "What color is X?" (gap pred of kind K) and "What is the K
+    of X?" (kartṛ "the K of X", gap pred) are answered by a fact "X is/looks V" whose complement V is a value of K by the
+    lexicon. X must unify with the fact's kartṛ. A kind with no value rule (breed) is not an attribute here."""
+    if (fframe.get("polarity") or "pos") != "pos":
+        return None
+    qs, qp = qframe.get("kartr"), qframe.get("pred")
+    fs = fframe.get("kartr")
+    comp = _complement(fframe)
+    if not (is_gap(qp) and isinstance(qs, dict) and not is_gap(qs) and comp is not None):
+        return None
+    linking = str(fframe.get("kriya") or "").lower() in LINKING_VERBS
+    if qp.get("kind") and np_unify(qs, fs) and is_value_of(qp["kind"], comp):
+        return {"roles": 1, "gap": "pred", "filler": comp.get("text"), "orientation": "kartr=kartr", "rule": "attribute_kind",
+                "kind": str(qp["kind"]), "linking": linking}
+    of = qs.get("of") if isinstance(qs.get("of"), dict) else None
+    if of and _specific(qs) and np_unify(of, fs) and is_value_of(_head(qs), comp):
+        return {"roles": 1, "gap": "pred", "filler": comp.get("text"), "orientation": "of=kartr", "rule": "attribute_of",
+                "kind": _head(qs), "linking": linking}
+    return None
+
+
 def fact_frame(fact: dict[str, Any]) -> tuple[dict[str, Any] | None, str]:
     """The frame a fact is matched on, and where it came from."""
     if isinstance(fact.get("frame"), dict) and fact["frame"].get("kartr"):
@@ -143,6 +206,11 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
     fk = str(fframe.get("kriya") or "").lower()
     if qk in ("own", "have") and fk == "be":
         return owner_of(qframe, fframe)
+    if qk == "be" and str(qframe.get("wh_role") or "") == "pred" and (fk == "be" or fk in LINKING_VERBS):
+        # 4.9.238: an attribute question is answered by a value of the attribute (lexicon), through "be" or a linking verb
+        attr = attribute_of(qframe, fframe)
+        if attr:
+            return attr
     if not qk or qk != fk:
         return None
     role = str(qframe.get("wh_role") or "")
@@ -238,6 +306,27 @@ def phase_factor(phi_identity: Any, phi_query: int) -> dict[str, Any]:
     return {"phi_identity": pi, "delta_phi_deg": delta, "A": round((1.0 + math.cos(math.radians(delta))) / 2.0, 6)}
 
 
+def _first_person_roles(premise: dict[str, Any]) -> bool:
+    """4.9.238: a memory is the asker's own when one of its kāraka roles is first person (I, we, my dog, our house), read from
+    its frame (else its atom's arguments). An experiencer adjunct ("the sky looks blue to us") is not a role the memory
+    states about the asker, so a source sentence that says "to us" is not made personal by it."""
+    frame = premise.get("frame") if isinstance(premise.get("frame"), dict) else None
+    if frame is None and isinstance(premise.get("role_frame"), dict):
+        frame = premise["role_frame"]
+    if frame is not None:
+        for key in ("kartr", "karma", "pred"):
+            np = frame.get(key)
+            if isinstance(np, dict) and (_owner_user(np) or _FIRST_PERSON.search(str(np.get("text") or ""))):
+                return True
+            if isinstance(np, dict) and isinstance(np.get("owner"), dict) and _owner_user(np["owner"]):
+                return True
+        return False
+    args = ((premise.get("atom") or {}).get("args") or []) if isinstance(premise.get("atom"), dict) else []
+    if args and (premise.get("atom") or {}).get("predicate") != "stated":
+        return any(_FIRST_PERSON.search(str(a or "")) for a in args)
+    return bool(_FIRST_PERSON.search(str(premise.get("text") or "")))
+
+
 def context_coherence(qframe: dict[str, Any] | None, claim: dict[str, Any], premises: list[dict[str, Any]]) -> dict[str, Any]:
     """C: the match makes sense in this ask's context. Each check is named; C = 1 only when all hold."""
     checks: dict[str, bool] = {
@@ -249,7 +338,7 @@ def context_coherence(qframe: dict[str, Any] | None, claim: dict[str, Any], prem
     # possessor scope: a first-person memory speaks for the asker only when it lives on the asker's device
     asks_user = any(_owner_user(r) or (isinstance(r, dict) and isinstance(r.get("owner"), dict) and _owner_user(r["owner"]))
                     for r in ((qframe or {}).get("kartr"), (qframe or {}).get("karma"), (qframe or {}).get("pred")) if isinstance(r, dict))
-    first = [p for p in premises if _FIRST_PERSON.search(str(p.get("text") or ""))]
+    first = [p for p in premises if _first_person_roles(p)]
     checks["possessor_scope"] = all(str(p.get("source") or "") in PERSONAL_SOURCES for p in first)
     failed = [k for k, v in checks.items() if not v]
     return {"C": 0.0 if failed else 1.0, "checks": checks, "failed": failed}

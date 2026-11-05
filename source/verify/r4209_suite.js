@@ -44,9 +44,11 @@ T('fallback bounds: held when nothing is left, never on a hard stop, a conflict,
 T('every Ask lookup ranks by phase resonance: trust, then grace (phase alignment), then concepts; no token overlap', () => {
   const rr = read('engine/rmc_engine_v1/resonance_recall.py');
   expect(/def _trusted\(/.test(rr) && /def _resonance\(/.test(rr), 'keys');
+  /* 4.9.238 (Nic, Memory Phase Invariance): for a concept hit the named subject concept (specific, S) now ranks before grace
+   * (A, ΔΦ to the retrieval operation Φ7), since A no longer says which row the question is about; role locks are unchanged. */
   /* 4.9.217: whether the anchor defines the asked subject (_defines, relation_echo.define_rank) sits between trust and grace; grace still
    * ranks before concepts, length and id, and nothing else moved */
-  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)(, _band_key\(_band\(row\[0\]\)\[\"weight\"\]\))?\)/.test(rr) && /return \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\), (_band_key\(_band\(row\[0\]\)\[\"weight\"\]\), )?specific\)/.test(rr), 'grace ranks right after trust and the definition rank');
+  expect(/role_locks\.sort\(key=lambda row: \(_trusted\(row\[0\]\), _defines\(row\[0\]\), _resonance\(row\[2\]\)(, _band_key\(_band\(row\[0\]\)\[\"weight\"\]\))?\)/.test(rr) && /return \(_trusted\(row\[0\]\), _defines\(row\[0\]\), specific, _resonance\(row\[2\]\), _band_key\(_band\(row\[0\]\)\[\"weight\"\]\)\)/.test(rr), 'grace ranks right after trust and the definition rank');
   expect(/"uses_token_overlap": False/.test(rr), 'record');
   const mr = read('engine/rmc_engine_v1/memory_recaller.py');
   expect(!/def _score_node|legacy_overlap|semantic_overlap|def _tokens/.test(mr) && /resonance_report = rank_memory\(source_text, nodes, phase_report\)/.test(mr), 'the token-overlap recall branch is gone');
@@ -135,7 +137,7 @@ T('the cold 60 for 4.9.209 is recorded (not tuned): 22 admitted, 38 held, 0 fals
   expect(fs.existsSync(path.join(ROOT, '..', 'docs', 'LIVE_TEST_209.md')), 'report');
 });
 T('version registry names 4.9.209', () => {
-  expect(read('VERSION').trim() === '4.9.237', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.238', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
   expect(reg.features.some(f => f.id === 'R4209-ASK-FALLBACK-NO-AUTOWRITE'), 'registry');
 });
