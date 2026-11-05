@@ -138,9 +138,9 @@ T('the cold 60 for 4.9.222 is recorded (not tuned) and identical to 4.9.221', ()
   expect(JSON.stringify(c.rows) === JSON.stringify(p.rows), 'every row identical to 4.9.221');
 });
 T('version registry names 4.9.222', () => {
-  expect(read('VERSION').trim() === '4.9.230', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.231', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.230' && reg.features.some(f => f.id === 'R4222-ATHENA-TIER-A') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.231' && reg.features.some(f => f.id === 'R4222-ATHENA-TIER-A') && reg.count === reg.features.length, 'registry');
 });
 (async () => {
   const rows = []; let failed = 0;

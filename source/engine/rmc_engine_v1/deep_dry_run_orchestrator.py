@@ -1047,6 +1047,12 @@ def run_deep_dry_run(
             "tier": node.get("tier"),
             "trust": node.get("trust"),
             "quarantined": low or anchor_idle or low_trust or node.get("quarantined") is True,
+            # 4.9.231 (plan 229 step 3): the clause, the meaning id and the resonance packet (phase, band, Hz) reach Observe
+            "clause": node.get("clause") if isinstance(node.get("clause"), dict) else None,
+            "meaning_id": node.get("meaning_id"),
+            "packet": node.get("packet") if isinstance(node.get("packet"), dict) else None,
+            "concepts": node.get("concepts") if isinstance(node.get("concepts"), list) else None,
+            "sfe": node.get("sfe") if isinstance(node.get("sfe"), dict) else None,
         })
     reasoning = run_reasoning_seam(source_text, {
         "active": recalled,

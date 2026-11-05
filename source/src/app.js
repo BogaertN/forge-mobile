@@ -102,7 +102,7 @@ async function askMemory(question) {
       .concat(((phone && phone.facts) || []).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), tier: 'confirmed_shared' })));
     memory.pools.push({ name: 'confirmed_shared', into: 'hosted', rows: shared.filter(r => r.id && r.text) });
     /* everything the user asked to remember (newest 64) goes in; the engine's resonance ranking picks */
-    memory.phone = memory.phone.concat(rememberedRows().filter(r => r && r.text).slice(-64).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor })));
+    memory.phone = memory.phone.concat(rememberedRows().filter(r => r && r.text).slice(-64).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor, clause: row.clause })));
   } catch (e) { /* stores can be empty on first open */ }
   /* 4.9.209 (Release A item 3): curated shared facts (admitted kb.contributions), read-only, cached on the phone */
   if (window.KContribCache) {
@@ -147,7 +147,7 @@ async function rememberAnswer(row, how) {
   const body = JSON.parse(JSON.stringify(prop));
   body.provenance = Object.assign({}, body.provenance || {}, { requested_by: 'user', request: how === 'tap' ? 'remember_tap' : 'remember_command' });
   const kept = rememberedRows();
-  if (!kept.some(x => x && x.text === body.text)) { kept.push(Object.assign({}, body, { remembered_at: new Date().toISOString() })); try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* storage full */ } }
+  if (!kept.some(x => x && x.text === body.text)) { kept.push(Object.assign({}, body, { clause: window.KQFrame && KQFrame.clause ? KQFrame.clause(body.text, forge) : null, remembered_at: new Date().toISOString() })); try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* storage full */ } }
   window.FORGE_ADMITTED = window.FORGE_ADMITTED || [];
   if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
   let shared = { ok: false, pending: true, rule: 'KB-WRITER-UNAVAILABLE' };
@@ -172,7 +172,9 @@ async function rememberStatement(text) {
   const kept = rememberedRows();
   if (kept.some(x => x && String(x.text).toLowerCase() === sentence.toLowerCase())) return { ok: true, rule: 'REMEMBER-ALREADY-KEPT', text: sentence, message: 'Already remembered on this phone: ' + sentence };
   const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
-  kept.push({ id, text: sentence, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) }, remembered_at: new Date().toISOString() });
+  /* 4.9.231 (plan 229 step 3): the statement is kept as its kāraka clause beside its text (the kernel's own parser) */
+  const clause = window.KQFrame && KQFrame.clause ? KQFrame.clause(sentence, forge) : null;
+  kept.push({ id, text: sentence, clause, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) }, remembered_at: new Date().toISOString() });
   try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { return { ok: false, rule: 'REMEMBER-STORAGE-FULL', message: 'Phone storage is full; nothing was kept.' }; }
   return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, message: 'Remembered on this phone: ' + sentence };
 }

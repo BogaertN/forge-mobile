@@ -178,6 +178,9 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]], question: str | None
             "license": row.get("license"),
             "source_url": row.get("source_url") or row.get("url"),
             "revision": row.get("revision"),
+            # 4.9.231 (plan 229 step 3): the phone's clause and the row's meaning id ride with the receipt to the world model
+            "clause": row.get("clause") if isinstance(row.get("clause"), dict) else None,
+            "meaning_id": row.get("meaning_id") if isinstance(row.get("meaning_id"), str) else None,
         }
         (dest / f"m{i:04d}.json").write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
         count += 1
@@ -866,15 +869,22 @@ def run(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     q0 = str(payload.get("question") or payload.get("text") or "").strip()
     frame0 = payload.get("frame")
     tokens = question_frame.begin(frame0, q0)
+    # 4.9.231 (plan 229 step 3): the clauses the phone parsed for its memory rows are held for this turn too.
+    from rmc_engine_v1 import memory_clauses
+    mtok = memory_clauses.begin(payload)
     try:
         result = _run_turn(payload)
         qf = question_frame.summary(frame0, q0)
+        mc = memory_clauses.summary()
     finally:
+        memory_clauses.end(mtok)
         question_frame.end(tokens)
     if isinstance(result, dict):
         result["qframe"] = qf
+        result["memory_clauses"] = mc
         if isinstance(result.get("trace"), dict):
             result["trace"]["qframe"] = qf
+            result["trace"]["memory_clauses"] = mc
     return result
 
 

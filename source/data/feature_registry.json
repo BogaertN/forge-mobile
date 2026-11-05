@@ -1,5 +1,5 @@
 {
- "version": "4.9.230",
+ "version": "4.9.231",
  "features": [
   {
    "id": "A-01",
@@ -4198,13 +4198,24 @@
    "proof": [
     "verify/r4230_suite.js"
    ]
+  },
+  {
+   "id": "R4231-MEMORY-CLAUSES",
+   "name": "Memory as clauses: every memory row carries its kāraka clause; Observe meets each recalled row with its clause, meaning id, phase, Codex band and symbolic Hz",
+   "source": "Nic plan 229 step 3 (pt258u, 2026-11-05) and the 9:27 steering: every clause and world fact carries meaning id, phase (Φ1-9), band and frequency",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "4.9.231: src/qframe.js KQFrame.clause parses a statement with the kernel's grammar (forge.clause/v1); KRMCCore.run adds it to each memory row (receipts, phone, hosted, anchors, pools), keeps a stored clause and carries the row's meaning_id; app.js stores the clause with a remembered statement (local copy only; the hosted kb column is a prepared, unapplied migration). engine memory_clauses.py holds the turn's clauses (a clause parsed from other text is rejected); world_model_v1 Observe attaches the clause and place_row: meaning id, Phi, phase name, Codex band, Hz, 144/432/1296 group and phi_basis, from the resonance packet. Observe does not build atoms from clauses yet (step 4); Derive does not use them (step 5).",
+   "proof": [
+    "verify/r4231_suite.js"
+   ]
   }
  ],
- "count": 383,
+ "count": 384,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 187,
+  "Partial": 188,
   "Missing": 9,
   "Out of scope / parked": 47
  }

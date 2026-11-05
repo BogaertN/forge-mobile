@@ -29,7 +29,14 @@
   function np(n) {
     if (!n) return null;
     let text = null; try { text = G.npText(n, 'user'); } catch (e) {}
-    return { text, head: head(n), owner: n.owner || null, kernel: n.pron === 'kernel', user: n.pron === 'user', indef: !!n.indef };
+    const out = { text, head: head(n), owner: n.owner && typeof n.owner === 'object' ? np(n.owner) : (n.owner || null), kernel: n.pron === 'kernel', user: n.pron === 'user', indef: !!n.indef };
+    /* 4.9.231: the parts a fact atom is built from (step 4): modifiers, determiner, number, a proper name, the of-complement */
+    if (Array.isArray(n.adjs) && n.adjs.length) out.adjs = n.adjs.slice();
+    if (n.det) out.det = n.det;
+    if (n.plural) out.plural = true;
+    if (n.propn) out.propn = str(n.propn);
+    if (n.of && typeof n.of === 'object') out.of = np(n.of);
+    return out;
   }
   function roles(cl) {
     if (!cl) return {};
@@ -42,6 +49,34 @@
       pred: pr ? (pr.type === 'np' ? Object.assign({ type: 'np' }, np(pr.np)) : { type: pr.type || null, text: str(pr.words || pr.text || null) }) : null,
       adjuncts: (cl.adj || []).length, material,
     };
+  }
+  /* 4.9.231 (Nic plan 229, step 3): a remembered or recalled sentence as a kāraka clause. The same parser and the same role reading
+   * as the question frame; a sentence that does not parse is kept with parsed:false and its text (nothing is guessed). One record
+   * per sentence of the text, so a two-sentence memory gives two clauses. Deterministic; no model. */
+  const CLAUSE = 'forge.clause/v1';
+  const sentencesOf = t => String(t || '').replace(/\s+/g, ' ').trim().split(/(?<=[.!?])\s+(?=[A-Z0-9"'(])/).map(x => x.trim()).filter(Boolean);
+  function clauseOne(s, forge) {
+    const text = s.replace(/[.!?]+$/, '').trim();
+    const rec = { schema: CLAUSE, text, parsed: false, calls_llm: false };
+    if (!text) return rec;
+    const p = parse(forge, text);
+    if (!p || !p.clause) return rec;
+    const r = roles(p.clause);
+    const adj = (p.clause.adj || []).map(a => ({ prep: a.prep || null, role: a.role || null, np: a.np && typeof a.np === 'object' ? np(a.np) : null }));
+    delete r.material; return Object.assign(rec, r, { parsed: true, parses: p.parses, adjuncts: adj });
+  }
+  function clause(text, forge) {
+    try {
+      const ss = sentencesOf(text); if (!ss.length) return null;
+      const all = ss.slice(0, 8).map(s => clauseOne(s, forge));
+      return all.length === 1 ? all[0] : Object.assign({ schema: CLAUSE, text: String(text).trim(), parsed: all.every(c => c.parsed), calls_llm: false, sentences: all });
+    } catch (e) { return { schema: CLAUSE, text: String(text || ''), parsed: false, error: String(e && e.message || e).slice(0, 200), calls_llm: false }; }
+  }
+  /* a per-session cache: the same text always gives the same clause, so a pool is parsed once */
+  const CACHE = new Map();
+  function clauseCached(text, forge) {
+    const k = String(text || ''); if (CACHE.has(k)) return CACHE.get(k);
+    const c = clause(k, forge); if (CACHE.size > 20000) CACHE.clear(); CACHE.set(k, c); return c;
   }
   /* the subject NP alone, for a question whose full declarative will not parse: the longest prefix that parses as "NP is something" */
   function subjectOnly(forge, body) {
@@ -127,6 +162,6 @@
     f.rule = 'QF-NOPARSE'; return f;
   }
   function compile(text, forge) { try { return compileQ(text, forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
-  const api = { SCHEMA, compile, FILLER, ADJUNCT };
+  const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);

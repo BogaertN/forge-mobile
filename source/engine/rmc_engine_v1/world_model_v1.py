@@ -969,6 +969,52 @@ def _cause_effect_hook(world: dict[str, Any], query: str) -> dict[str, Any]:
     return {"status": out["status"], "rule": out["rule"], "prediction": None, "admit": False, "store_as_fact": False}
 
 
+def place_row(node: dict[str, Any], text: str, quarantined: bool) -> dict[str, Any]:
+    """4.9.231: a recalled row's meaning id, phase, Codex band and symbolic Hz.
+
+    The phase and band are the row's resonance packet (resonance_recall.place_packet, band_tuning.tune) when recall
+    placed it; otherwise the same placement is run here. The group is the band's home marker on the 144 Hz ladder
+    (frequency_203_config.HOME): the 144/n markers, or the 432 or 1296 overtone. Nothing is invented: a row recall
+    did not place and that has no phase of its own gets the placement's own default and says so.
+    """
+    from rmc_engine_v1.drift_policy import BAND_TABLE
+    from rmc_engine_v1.frequency_203_config import HOME
+    from rmc_engine_v1.resonance_recall import place_packet
+
+    packet = node.get("packet") if isinstance(node.get("packet"), dict) else None
+    placed_by = "recall_packet"
+    if not packet:
+        packet = place_packet({"text": text, "sfe": node.get("sfe")}, quarantined=quarantined)
+        placed_by = "observe_place_packet"
+    band = packet.get("band") if isinstance(packet.get("band"), dict) else {}
+    try:
+        phase = int(float(packet.get("Phi")))
+    except (TypeError, ValueError):
+        phase = None
+    home = HOME.get(phase) if phase else None
+    meaning = node.get("meaning_id") if isinstance(node.get("meaning_id"), str) and node.get("meaning_id") else None
+    return {
+        "meaning_id": meaning or (packet.get("concept") if isinstance(packet.get("concept"), str) else None),
+        "meaning_source": "row" if meaning else ("lexicon_concept" if packet.get("concept") else None),
+        "Phi": packet.get("Phi"),
+        "phase": phase,
+        "phase_name": (BAND_TABLE.get(str(phase)) or BAND_TABLE.get(phase) or {}).get("phase_name") if phase else None,
+        "band": band.get("band"),
+        "band_low": band.get("low"),
+        "band_high": band.get("high"),
+        "hz": band.get("hz"),
+        "home_marker": home,
+        "group": None if home is None else (1296 if home == 1296 else 432 if home == 432 else 144),
+        "eps": packet.get("eps"),
+        "mu": packet.get("mu"),
+        "placed_by": placed_by,
+        # where the phase came from: the asked concept's lexicon packet, the row's own stored SFE, or the placement's
+        # default (Φ9 projectable, Φ5 quarantined) when neither gave one
+        "phi_basis": packet.get("phi_basis") or "unrecorded",
+        "calls_llm": False,
+    }
+
+
 def _clean_node_text(raw: str) -> str:
     text = str(raw or "")
     match = re.search(r"(?:^|\| )content: (.*?)(?: \| text:| \| filename:|$)", text)
@@ -988,6 +1034,8 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
     nodes = memory.get("nodes") if isinstance(memory.get("nodes"), list) else []
     rows = memory.get("rows") if isinstance(memory.get("rows"), list) else []
     source_rows = nodes or rows
+    from rmc_engine_v1 import memory_clauses
+    with_clause = 0
     for node in source_rows:
         if not isinstance(node, dict):
             continue
@@ -996,14 +1044,32 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
             continue
         prior = _f(node.get("prior_drift_score"), 0.0)
         low = str(node.get("confidence") or "") == "low" or prior >= 0.40 or node.get("quarantined") is True
+        nid = str(node.get("id") or node.get("memory_id") or node.get("receipt_id") or "")
+        # 4.9.231 (plan 229 step 3): the clause the phone parsed for this recalled row, when it sent one, placed in
+        # phase, band and frequency by the same resonance placement recall uses (Nic: every clause carries meaning id,
+        # phase, band and frequency).
+        place = place_row(node, text, low)
+        clause = node.get("clause") if isinstance(node.get("clause"), dict) else memory_clauses.lookup(nid, text)
+        if clause is not None and not memory_clauses.valid(clause, text):
+            clause = memory_clauses.lookup(None, text)
+        if clause is not None:
+            with_clause += 1
+            clause = memory_clauses.with_place(clause, place)
         events.append({
-            "id": str(node.get("id") or node.get("memory_id") or node.get("receipt_id") or ""),
+            "id": nid,
+            "clause": clause,
+            "place": place,
             "text": text,
             "source": node.get("source") or node.get("source_kind") or "recall",
             "confidence": node.get("confidence"),
             "prior_drift_score": prior,
             "quarantined": low,
         })
+    memory_clauses.note("world_model.observe_events", events=len(events), with_clause=with_clause,
+                        placed=sum(1 for e in events if (e.get("place") or {}).get("phase")),
+                        with_meaning=sum(1 for e in events if (e.get("place") or {}).get("meaning_id")),
+                        phi_basis={b: sum(1 for e in events if (e.get("place") or {}).get("phi_basis") == b) for b in ("lexicon_resonance", "row_sfe", "default_projectable", "default_quarantine", "unrecorded")},
+                        sample=[{"text": e["text"][:80], "clause": bool(e.get("clause")), **{k: (e.get("place") or {}).get(k) for k in ("meaning_id", "Phi", "phase_name", "band", "hz", "group", "phi_basis")}} for e in events[:6]])
     base, seed_trace = seed_self_facts(empty_world())
     world, observed = observe(base, events)
     derived = derive(world, question, phase_path)
