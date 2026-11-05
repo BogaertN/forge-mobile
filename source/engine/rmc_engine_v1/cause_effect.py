@@ -581,6 +581,36 @@ def _effect_atom_and_frame(effect_text: str, subject: str | None) -> tuple[dict[
     return atom, frame
 
 
+def _solver_step(world: dict[str, Any] | None, intervention: dict[str, Any]) -> dict[str, Any] | None:
+    """4.9.244 (plan 229 step 12b): a Simulation Router receipt for exactly this intervention is a measured causal
+    fact: the solver stepped the compiled scene and the receipt states the outcome. It is used only when its
+    intervention key equals this question's (same scene); it is a premise for this turn, never stored as a fact."""
+    from rmc_engine_v1.sim_scene import intervention_key
+
+    key = intervention_key(intervention.get("raw") or "")
+    for fact in (world or {}).get("facts") or []:
+        if not isinstance(fact, dict) or fact.get("source") != "sim_receipt" or fact.get("quarantined"):
+            continue
+        sim = fact.get("sim") if isinstance(fact.get("sim"), dict) else {}
+        if not key or sim.get("intervention_key") != key or not sim.get("effect_text"):
+            continue
+        spoken = str(sim["effect_text"]).strip()
+        spoken = spoken if spoken.endswith(".") else spoken + "."
+        atom, eframe = _effect_atom_and_frame(spoken.rstrip("."), None)
+        step = {"n": 1, "rule_id": "WM-SOLVER-RECEIPT", "why": "solver receipt for this scene",
+                "cause": intervention.get("raw"), "effect": spoken, "spoken": spoken, "frame": fact.get("causal_frame"),
+                "premises": [fact.get("id")], "solver": sim.get("solver"), "engine": sim.get("engine"),
+                "receipt_id": sim.get("receipt_id"), "sha256": sim.get("sha256"), "measurements": sim.get("measurements")}
+        return {
+            "status": "supported_only", "reason": "solver_receipt", "chain": [step],
+            "prediction": {"text": spoken, "atom": atom, "fact_frame": eframe, "premises": [fact],
+                           "how": "WM-SOLVER-RECEIPT", "kind": "causal_prediction", "schema": HOOK_SCHEMA,
+                           "receipt": {k: sim.get(k) for k in ("receipt_id", "sha256", "solver", "engine", "measurements", "outcome")}},
+            "depth": 1, "rules_fired": ["WM-SOLVER-RECEIPT"], "intervention": intervention, "frames_considered": 1,
+        }
+    return None
+
+
 def forward_chain(
     world: dict[str, Any] | None,
     intervention: dict[str, Any],
@@ -588,6 +618,9 @@ def forward_chain(
     max_depth: int = MAX_SIM_DEPTH,
 ) -> dict[str, Any]:
     """Bounded Simulate: apply stored/admitted causal frames under the intervention; report the chain."""
+    solved = _solver_step(world, intervention)
+    if solved is not None:
+        return solved
     frames = _frames_from_world(world)
     states = _states_from_world(world)
     if not frames:

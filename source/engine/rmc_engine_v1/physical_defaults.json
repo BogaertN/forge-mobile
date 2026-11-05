@@ -1,0 +1,39 @@
+{
+ "schema": "FORGE-PHYSICAL-DEFAULTS/v1",
+ "note": "Typical sizes and friction coefficients used only when the question does not state them. Every scene receipt names which values were defaults. Not outcomes: outcomes come from the solver.",
+ "sources": {
+  "friction": "Engineering ToolBox, Friction and Friction Coefficients, https://www.engineeringtoolbox.com/friction-coefficients-d_778.html (mid-range of the listed static coefficients; table = plastic or glass on finished wood, ~0.2-0.3)",
+  "sizes": "typical consumer-object dimensions (500 mL PET bottle ~ 0.22 m x 0.065 m, ~0.5 kg filled; FIFA size-5 ball r 0.11 m, 0.43 kg); approximate, labelled default in every receipt",
+  "gravity": "CODATA standard gravity g = 9.80665 m/s^2"
+ },
+ "gravity": 9.80665,
+ "bodies": {
+  "bottle":   {"shape": "cylinder", "height": 0.22, "radius": 0.0325, "mass": 0.5},
+  "can":      {"shape": "cylinder", "height": 0.122, "radius": 0.033, "mass": 0.37},
+  "cylinder": {"shape": "cylinder", "height": 0.2, "radius": 0.05, "mass": 1.0},
+  "cup":      {"shape": "cylinder", "height": 0.1, "radius": 0.04, "mass": 0.3},
+  "glass":    {"shape": "cylinder", "height": 0.14, "radius": 0.035, "mass": 0.3},
+  "vase":     {"shape": "cylinder", "height": 0.3, "radius": 0.06, "mass": 1.2},
+  "block":    {"shape": "box", "height": 0.2, "width": 0.2, "mass": 1.0},
+  "box":      {"shape": "box", "height": 0.3, "width": 0.3, "mass": 2.0},
+  "brick":    {"shape": "box", "height": 0.065, "width": 0.215, "mass": 2.3},
+  "book":     {"shape": "box", "height": 0.03, "width": 0.2, "mass": 0.6},
+  "ball":     {"shape": "sphere", "radius": 0.11, "mass": 0.43},
+  "rock":     {"shape": "sphere", "radius": 0.05, "mass": 1.4}
+ },
+ "adjectives": {
+  "tall": {"height": 2.0}, "short": {"height": 0.5}, "flat": {"height": 0.4}, "low": {"height": 0.5},
+  "wide": {"width": 2.0}, "narrow": {"width": 0.5}, "thin": {"width": 0.5}, "thick": {"width": 1.6},
+  "heavy": {"mass": 3.0}, "light": {"mass": 0.3}
+ },
+ "surfaces": {
+  "table": 0.25, "wooden table": 0.25, "wood": 0.4, "floor": 0.4, "desk": 0.4,
+  "ice": 0.03, "an ice rink": 0.03, "glass": 0.2, "metal": 0.3, "steel": 0.3,
+  "rubber": 0.9, "a rubber mat": 0.9, "carpet": 0.6, "concrete": 0.7, "sandpaper": 1.0
+ },
+ "default_surface": "table",
+ "points": {
+  "top": 0.92, "upper": 0.8, "middle": 0.5, "center": 0.5, "centre": 0.5, "bottom": 0.08, "base": 0.08, "lower": 0.2
+ },
+ "push": {"margin": 1.25, "duration_s": 0.5, "note": "FORGE push convention: a steady horizontal force at the stated point, 1.25 x the smallest force that would start the body moving on the reference table either way (static friction mu_table m g, or tipping about the front edge m g w/2 / h), so the same push is applied on every surface, for 0.5 s; stated in every receipt. The solver decides which way it moves."}
+}

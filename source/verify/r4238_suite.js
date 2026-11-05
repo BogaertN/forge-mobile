@@ -131,9 +131,9 @@ print(json.dumps(dict({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarant
 });
 
 T('version registry names 4.9.238', () => {
-  expect(read('VERSION').trim() === '4.9.243', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.244', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.243' && reg.features.some(x => x.id === 'R4238-OPERATION-PHASE-RECALL-STRUCTURAL-ECHO') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.244' && reg.features.some(x => x.id === 'R4238-OPERATION-PHASE-RECALL-STRUCTURAL-ECHO') && reg.count === reg.features.length, 'registry');
   expect(read('CONFLICTS.md').includes('## v4.9.238') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').includes('## v4.9.238')).match(/^## v/gm) || []).length <= 4, 'CONFLICTS entry near the top (4.9.239–4.9.242 sit above)');
 });
 
