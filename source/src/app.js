@@ -88,6 +88,21 @@ window.KAskAnchors = async function (question) {
 };
 const REMEMBERED = 'forge.remembered.v1';
 function rememberedRows() { try { const v = JSON.parse(localStorage.getItem(REMEMBERED) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+/* 4.9.242: keep a clause fact in the device world_facts store (SPC decay, contradiction hold). Returns the upsert result. */
+function keepWorldFact(body, kind) {
+  try {
+    const WF = window.KWorldFacts; if (!WF || typeof WF.upsert !== 'function') return { ok: false, rule: 'WORLD-FACTS-MISSING' };
+    const clause = body.clause || (window.KQFrame && KQFrame.clause ? KQFrame.clause(body.text, forge) : null);
+    let atom = body.atom || null;
+    if (!atom && clause && clause.kriya && clause.kartr && (clause.pred || clause.karma)) {
+      const pred = (clause.pred && clause.pred.text) || (clause.karma && clause.karma.text) || '';
+      atom = { predicate: String(clause.kriya) === 'be' ? 'is' : String(clause.kriya), args: [String(clause.kartr.text || ''), String(pred)], polarity: clause.polarity || 'pos' };
+    }
+    return WF.upsert(Object.assign({}, body, { clause, atom, kind, source: 'phone_kb', trust: body.trust || 'trusted',
+      remembered_at: kind === 'remember' ? (body.remembered_at || new Date().toISOString()) : body.remembered_at,
+      admitted_at: kind === 'admitted' ? (body.admitted_at || new Date().toISOString()) : body.admitted_at }));
+  } catch (e) { return { ok: false, rule: 'WORLD-FACTS-ERROR', error: String(e && e.message || e) }; }
+}
 async function askMemory(question) {
   const memory = { receipts: [], phone: [], hosted: [], research: [], pools: [] };
   /* 4.9.207 (Nic decision (a)): the hand-written ask_183 test answers are deleted; Ask starts from the phone's own stores.
@@ -103,6 +118,17 @@ async function askMemory(question) {
     memory.pools.push({ name: 'confirmed_shared', into: 'hosted', rows: shared.filter(r => r.id && r.text) });
     /* everything the user asked to remember (newest 64) goes in; the engine's resonance ranking picks */
     memory.phone = memory.phone.concat(rememberedRows().filter(r => r && r.text).slice(-64).map(row => ({ id: row.id, text: String(row.text || '').slice(0, 400), sfe: row.sfe, provenance: row.provenance, contributor: row.contributor, clause: row.clause })));
+    /* 4.9.242 (plan 229 step 11): world_facts — admitted and Remember clause facts with native phase, trust and SPC decay.
+     * Derive seeds from them next turn. Personal; no hosted write. */
+    try {
+      const WF = window.KWorldFacts; if (WF && typeof WF.rows === 'function') {
+        const seen = new Set(memory.phone.map(r => String(r && r.text || '').toLowerCase()));
+        for (const row of WF.rows()) {
+          if (!row || !row.text || seen.has(String(row.text).toLowerCase())) continue;
+          seen.add(String(row.text).toLowerCase()); memory.phone.push(row);
+        }
+      }
+    } catch (e) {}
   } catch (e) { /* stores can be empty on first open */ }
   /* 4.9.209 (Release A item 3): curated shared facts (admitted kb.contributions), read-only, cached on the phone */
   if (window.KContribCache) {
@@ -147,7 +173,12 @@ async function rememberAnswer(row, how) {
   const body = JSON.parse(JSON.stringify(prop));
   body.provenance = Object.assign({}, body.provenance || {}, { requested_by: 'user', request: how === 'tap' ? 'remember_tap' : 'remember_command' });
   const kept = rememberedRows();
-  if (!kept.some(x => x && x.text === body.text)) { kept.push(Object.assign({}, body, { clause: window.KQFrame && KQFrame.clause ? KQFrame.clause(body.text, forge) : null, remembered_at: new Date().toISOString() })); try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* storage full */ } }
+  if (!kept.some(x => x && x.text === body.text)) {
+    const row = Object.assign({}, body, { clause: body.clause || (window.KQFrame && KQFrame.clause ? KQFrame.clause(body.text, forge) : null), remembered_at: new Date().toISOString() });
+    const wf = keepWorldFact(row, 'remember');
+    if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message, existing: wf.existing, gate: null };
+    kept.push(row); try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { /* storage full */ }
+  }
   window.FORGE_ADMITTED = window.FORGE_ADMITTED || [];
   if (!window.FORGE_ADMITTED.some(x => x && x.text === body.text)) window.FORGE_ADMITTED.push(body);
   let shared = { ok: false, pending: true, rule: 'KB-WRITER-UNAVAILABLE' };
@@ -174,9 +205,12 @@ async function rememberStatement(text) {
   const id = 'rem-' + (window.KSha && KSha.sha256 ? KSha.sha256(sentence.toLowerCase()).slice(0, 12) : String(kept.length + 1));
   /* 4.9.231 (plan 229 step 3): the statement is kept as its kāraka clause beside its text (the kernel's own parser) */
   const clause = window.KQFrame && KQFrame.clause ? KQFrame.clause(sentence, forge) : null;
-  kept.push({ id, text: sentence, clause, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) }, remembered_at: new Date().toISOString() });
+  const row = { id, text: sentence, clause, scope: 'phone', provenance: { requested_by: 'user', request: 'remember_command', kind: 'statement', said: String(text) }, remembered_at: new Date().toISOString() };
+  const wf = keepWorldFact(row, 'remember');
+  if (wf && wf.ok === false && /^WORLD-FACTS-CONFLICT/.test(wf.rule || '')) return { ok: false, rule: wf.rule, message: wf.message || 'Held: that contradicts a kept fact.', existing: wf.existing };
+  kept.push(row);
   try { localStorage.setItem(REMEMBERED, JSON.stringify(kept.slice(-200))); } catch (e) { return { ok: false, rule: 'REMEMBER-STORAGE-FULL', message: 'Phone storage is full; nothing was kept.' }; }
-  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, message: 'Remembered on this phone: ' + sentence };
+  return { ok: true, rule: 'REMEMBER-BY-USER-REQUEST', text: sentence, message: 'Remembered on this phone: ' + sentence, world_facts: wf && wf.rule };
 }
 const REMEMBER_LAST = /^\s*remember\s*(this|that|it|the answer|that answer)?\s*[.!]?\s*$/i;
 /* 4.9.226 (Nic pt141u): meaning follow-up. Forge asks which meaning; the next message picks one and the ORIGINAL question is asked again under it.
@@ -249,6 +283,12 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
   /* 4.9.229's after-the-engine sense ask moved above the engine run (4.9.235): the meaning is asked first, never after an answer. */
   const admitted = !!(row && row.product_reply && row.reply);
   if (admitted) lastAdmitted = row;
+  /* 4.9.242: world_facts is written only on explicit Remember (rememberStatement / rememberAnswer tap).
+   * A spoken engine answer is NOT auto-persisted — otherwise the short paraphrase becomes phone evidence on the
+   * next turn and can outrank the source anchor (Why is the sky blue? held after "The sky looks blue to us." was
+   * auto-kept) or feed itself back without deixis (Help speaking "You compute…"). Plan 229 step 11: commit on
+   * user tap at the write gate. A spoken answer must not become its own evidence. */
+
   const rememberBtn = admitted && row.memory_write && row.memory_write.proposed ? '<button type="button" class="small" data-ask-remember>Remember</button>' : '';
   const kd = admitted ? 'deterministic_route' : 'deterministic_hold';
   stats[admitted ? 'routed' : 'held']++;

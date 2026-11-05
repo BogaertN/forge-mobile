@@ -121,7 +121,7 @@ T('the migration is flagged, the proof is honest, and the capability sentence is
   const by = {};
   proof.related.pairs.forEach(row => { by[row.a + '/' + row.b] = row; });
   expect(by['sun/hot'].resonate === true && by['sun/warm'].resonate === true && by['sun/light'].resonate === false && by['sun/dog'].resonate === false, 'related');
-  /* 4.9.241 (plan 229 step 10): the canned chat sentences are gone. "How are you?" and "What can you do?" are no longer
+  /* 4.9.242 (plan 229 step 10): the canned chat sentences are gone. "How are you?" and "What can you do?" are no longer
    * answered by fixed strings; a self question is answered from the kernel's stored self-facts (verify/r4241_suite.js). */
   const chat = pyChat();
   expect(chat.gone === true, JSON.stringify(chat));
@@ -130,7 +130,7 @@ T('the migration is flagged, the proof is honest, and the capability sentence is
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   expect(/data-freq203/.test(html) && /src="src\/frequency_203.js"/.test(html) && /144 Hz/.test(html), 'card');
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.241', ver);
+  expect(ver === '4.9.242', ver);
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_203_pyodide.json'), 'utf8'));
   expect(pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false && pyodide.lexicon_scan_ms > 0, JSON.stringify(pyodide));
 });

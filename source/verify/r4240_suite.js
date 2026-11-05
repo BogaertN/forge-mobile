@@ -54,7 +54,7 @@ print(json.dumps([DF.match(q, c) for q, c in d["pairs"]]))`;
 T('a yes/no copula reads a fact backwards only for an identity', () => {
   const whale = clause('A whale is a living thing.'), dog = clause('My dog is Rex.');
   const r = py(MATCH, { pairs: [[Q.compile('Is a living thing a whale?', f), whale], [Q.compile('Is a whale a living thing?', f), whale], [Q.compile('Is Rex my dog?', f), dog], [Q.compile('Is my dog Rex?', f), dog]] });
-  /* 4.9.241: the converse of a kind inclusion is answered "not necessarily" from the frame (rule polar_converse), never yes */
+  /* 4.9.242: the converse of a kind inclusion is answered "not necessarily" from the frame (rule polar_converse), never yes */
   expect(r[0] && r[0].rule === 'polar_converse' && r[0].filler === 'not necessarily', 'converse of a kind inclusion: ' + JSON.stringify(r[0]));
   expect(r[1] && r[1].filler === 'yes' && r[1].orientation === 'kartr=kartr', JSON.stringify(r[1]));
   expect(r[2] && r[2].filler === 'yes' && r[2].orientation === 'kartr=pred', 'identity runs backwards: ' + JSON.stringify(r[2]));
@@ -79,7 +79,7 @@ for q, c, force in d["cases"]:
 DF.match = real
 print(json.dumps(out))`, { cases: [[Q.compile('Is a living thing a whale?', f), whale, true], [Q.compile('Is a living thing a whale?', f), whale, false], [Q.compile('Is Rex my dog?', f), dog, false]] });
   expect(!r[0].pass && r[0].fails.includes('orientation'), 'forced swap: ' + JSON.stringify(r[0]));
-  expect(!r[1].pass && r[1].fails.includes('orientation'), 'a converse stated without "not necessarily" fails (4.9.241): ' + JSON.stringify(r[1]));
+  expect(!r[1].pass && r[1].fails.includes('orientation'), 'a converse stated without "not necessarily" fails (4.9.242): ' + JSON.stringify(r[1]));
   expect(r[2].pass, 'identity swap passes: ' + JSON.stringify(r[2]));
 });
 
@@ -105,10 +105,10 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version registry names 4.9.240', () => {
-  expect(read('VERSION').trim() === '4.9.241', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.242', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.241' && reg.features.some(x => x.id === 'R4240-CANONICAL-FRAMES') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').indexOf('## v4.9.240') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').indexOf('## v4.9.240')).match(/^## v/gm) || []).length <= 1, 'CONFLICTS entry near the top (4.9.241 sits above)');
+  expect(reg.version === '4.9.242' && reg.features.some(x => x.id === 'R4240-CANONICAL-FRAMES') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').indexOf('## v4.9.240') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').indexOf('## v4.9.240')).match(/^## v/gm) || []).length <= 2, 'CONFLICTS entry near the top (4.9.241–4.9.242 sit above)');
 });
 
 (async () => {

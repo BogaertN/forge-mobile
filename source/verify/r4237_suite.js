@@ -106,7 +106,7 @@ T('wiring: the Ask path compiles after the engine, the card shows R_t with the s
   expect(/function outward\(text, atom\)/.test(pw) && /G\.clauseText\(c, 'kernel'\)/.test(pw) && /outward: \(t, a\) => outward\(t, a\)/.test(kj), 'compiler + kernel api');
   expect(/data-source-quote=/.test(app) && /data-outward=/.test(app) && /panini_wording\.outward/.test(app), 'card');
   const py = read('engine/rmc_engine_v1/rmc_core.py');
-  expect((/"outward": _outward_plan\(reply, world\)/.test(py) || (/"outward": _outward_plan_acts\(reply, world, /.test(py) && /return _outward_plan\(reply, world\)/.test(py))) /* 4.9.241: speech-act responses lead the plan */ && /"derived_atoms"/.test(read('engine/rmc_engine_v1/world_model_v1.py')), 'engine plan');
+  expect((/"outward": _outward_plan\(reply, world\)/.test(py) || (/"outward": _outward_plan_acts\(reply, world, /.test(py) && /return _outward_plan\(reply, world\)/.test(py))) /* 4.9.242: speech-act responses lead the plan */ && /"derived_atoms"/.test(read('engine/rmc_engine_v1/world_model_v1.py')), 'engine plan');
   const law = read('engine/rmc_engine_v1/mobile_config.py');
   expect(/"ADMIT_MAX": 0\.35,/.test(law) && /"HARD_MIN": 0\.80,/.test(law) && /"ECHO_MIN": 0\.85,/.test(law) && /"ECHO_MEMORY_MIN": 0\.97,/.test(law) && /"C_MIN": 0\.87,/.test(law), 'thresholds unchanged');
   for (const f of ['src/panini_wording.js', 'src/rmc_core.js', 'engine/rmc_engine_v1/world_model_v1.py', 'engine/rmc_engine_v1/rmc_core.py']) {
@@ -116,11 +116,11 @@ T('wiring: the Ask path compiles after the engine, the card shows R_t with the s
 });
 
 T('version registry names 4.9.237', () => {
-  expect(read('VERSION').trim() === '4.9.241', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.242', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.241' && reg.features.some(f => f.id === 'R4237-OUTWARD-COMPILE') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.242' && reg.features.some(f => f.id === 'R4237-OUTWARD-COMPILE') && reg.count === reg.features.length, 'registry');
   const conf = read('CONFLICTS.md');
-  expect(conf.indexOf('## v4.9.237') >= 0 && (conf.slice(0, conf.indexOf('## v4.9.237')).match(/^## v/gm) || []).length <= 4, 'CONFLICTS entry near the top (4.9.238 to 4.9.241 sit above)');
+  expect(conf.indexOf('## v4.9.237') >= 0 && (conf.slice(0, conf.indexOf('## v4.9.237')).match(/^## v/gm) || []).length <= 5, 'CONFLICTS entry near the top (4.9.238–4.9.242 sit above)');
 });
 
 (async () => {
