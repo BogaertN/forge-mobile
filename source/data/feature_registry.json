@@ -1,5 +1,5 @@
 {
- "version": "4.9.238",
+ "version": "4.9.239",
  "features": [
   {
    "id": "A-01",
@@ -4296,13 +4296,26 @@
     "CONFLICTS.md v4.9.238",
     "real Ask run /workspace/step238/asks.txt"
    ]
+  },
+  {
+   "id": "R4239-SEPARATE-SIGNALS",
+   "name": "Semantic support, structural coherence and phase compatibility are separate measurements; ΔΦ is a tie-breaker only",
+   "source": "Nic 2026-11-05 12:15 CST (pt262u: phase is a retrieval discriminator, not a substitute for semantic evidence)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "ΔΦ no longer enters any support weight: a copula hop weighs its anchor's usability times its own rpm (μ·e^−ε), no cos² of the phase gap; a world-model premise recall did not weigh reads 1.0 when the frame gate passed (derive.gate.S·C), else its rpm, never G = S·C·A or cos². Every recall candidate (resonance.candidate_signals, and signals on each active row) and every answer (result.signals, forge.answer_signals/v1) records semantic_support, structural_coherence and phase_compatibility {Φ_identity, Φ_query 7, ΔΦ, A, role tie_breaker, veto false, in_C false} apart. A still orders equally supported rows. Build A vs Build B (A lowers support) measured on real asks in headless Chrome: /workspace/step239/experiment.md. Partial: phase_validity (path legality, 5→8) and the δφ term of ε are phase laws and stay in C and drift; whether ΔΦ earns a stronger role is open.",
+   "proof": [
+    "verify/r4239_suite.js",
+    "CONFLICTS.md v4.9.239",
+    "real Ask run /workspace/step239/experiment.md"
+   ]
   }
  ],
- "count": 391,
+ "count": 392,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 195,
+  "Partial": 196,
   "Missing": 9,
   "Out of scope / parked": 47
  }

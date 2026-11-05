@@ -109,7 +109,7 @@ from rmc_engine_v1.world_model_v1 import to_listener
 print(json.dumps([to_listener(t) for t in ["My dog is Rex.", "I own Rex.", "my dog's name is Rex.", "A whale is a mammal."]]))`);
   expect(JSON.stringify(r) === JSON.stringify(['Your dog is Rex.', 'You own Rex.', "Your dog's name is Rex.", 'A whale is a mammal.']), JSON.stringify(r));
   const src = read('engine/rmc_engine_v1/world_claim_measure.py');
-  expect(/measured_as/.test(src) && /memory\.phase_identity/.test(src) && /derive\.gate\.G/.test(src), 'measured in the stored person and phase; weight G');
+  expect(/measured_as/.test(src) && /memory\.phase_identity/.test(src) && /derive\.gate\.S·C/.test(src), 'measured in the stored person and phase; weight S·C (4.9.239: ΔΦ is recorded apart, not folded into the weight)');
   expect(/phase_state=state, phase_path_hypothesis=list\(reading\["phase_path"\]\)/.test(src), 'routed on the memory phase path');
   const t = py(`
 import json
@@ -152,9 +152,9 @@ print(json.dumps(THRESHOLDS))`);
 });
 
 T('version registry names 4.9.236', () => {
-  expect(read('VERSION').trim() === '4.9.238', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.239', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.238' && reg.features.some(f => f.id === 'R4236-PHASE-INVARIANCE-GATE') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.239' && reg.features.some(f => f.id === 'R4236-PHASE-INVARIANCE-GATE') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

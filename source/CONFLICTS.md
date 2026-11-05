@@ -1,3 +1,39 @@
+## v4.9.239 — Semantic support, structural coherence and phase compatibility are separate measurements; ΔΦ is a tie-breaker (Nic, 12:15 CST)
+
+**Conflict:** 4.9.238 stopped ΔΦ from vetoing a recalled row, but phase still entered support in two places, and through them C. (1) A copula hop was weighed by cos² of its phase gap to the anchor (4.9.235). (2) A world-model premise that recall had not weighed was weighed by G = S·C·(1 + cos ΔΦ)/2 (4.9.236), or by cos² of the gap to the question phase (4.9.185). So a Φ9 memory spoke at C 0.874393 and the same answer from a Φ7 memory at 0.909596. Nic ruled (12:15 CST, as relayed): *"Phase is a retrieval discriminator, not a substitute for semantic evidence."* Semantic support, structural coherence and phase compatibility are separate measurements and must not be folded into C. ΔΦ and phase compatibility are recorded as their own signals on every candidate and every answer, with no veto, and ΔΦ stays a tie-breaker for equally supported candidates (Build A). The 120° separation is a property of the phase model; on its own it does not show that two memories are cognitively incompatible.
+**Where:** `engine/rmc_engine_v1/resonance_recall.py`:
+- `_hop_weight_op`: anchor usability × hop rpm, no cos².
+- `_phase_signal` (new).
+- `_candidate_signals` (new) → report `candidate_signals`.
+- `signals` on every active row; `phase_rule` text.
+
+`engine/rmc_engine_v1/world_claim_measure.py`, `_premise_node`:
+- An unweighed premise reads 1.0 when the frame gate passed (`derive.gate.S·C`), else its context rpm (`context.rpm`), never G or cos².
+- Each premise carries `phase_compatibility`.
+
+`engine/rmc_engine_v1/memory_recaller.py`: the public recall record carries `question_text_phi`, `phase_rule`, `candidate_signals` and `active_signals`.
+
+`engine/rmc_engine_v1/rmc_core.py`: `_answer_signals` → `result.signals` (forge.answer_signals/v1) on every answer, spoken or held.
+
+`verify/r4239_suite.js` (new). `verify/r4236_suite.js` follows the ruling (premise weight basis `derive.gate.S·C`). Version pins in the r41xx–r42xx suites; registry Partial 196.
+**Resolution:** Three measurements are kept apart and none is folded into another:
+- **semantic_support:** the recall and premise weights. They are now S·C and context only (μ·e^−ε, 0 when ε > 0.35 or μ ≤ 0).
+- **structural_coherence:** the structural Echo checks (kriyā, roles, gap, stated atom) and the frame match.
+- **phase_compatibility:** {Φ_identity, Φ_query 7, ΔΦ, A = (1 + cos ΔΦ)/2, and ΔΦ to the anchor for a hop}, with role `tie_breaker`, veto false, in_C false, delta_stored false.
+
+A still orders rows of equal structure in recall and matches of equal S·C in derivation (G), and nothing else. C is the measured kernel formula, unchanged. Two phase *laws* stay where they were, because they are laws rather than ΔΦ compatibility: phase_validity (path legality, 5→8 forbidden) inside C, and the δφ transition term of ε.
+
+Experiment through the real Ask path in headless Chrome (`/workspace/step239/experiment.md`), with 18 questions whose expectations were fixed before the runs:
+- **Build A (this release):** 9 true accepts, 4 true rejects, 1 false accept, 4 false rejects.
+- **Build B** (A multiplied into every support weight, throwaway branch only): 5 / 4 / 1 / 8. B holds all three sky-colour paraphrases and "Why is the sky blue?" at C 0.845696 / 0.844554. Their structural Echo is 1.0; only support (0.25 = A for the Φ4 NASA row) fell. B rejects nothing that A wrongly accepts.
+- **4.9.238:** the same 18 verdicts and replies as A. Five world-model answers move from C 0.874393 to 0.909596, because their premise weight no longer carries A 0.586824.
+
+The colour paraphrases and the cause question retrieve the same memory with the same phase signal (ΔΦ 120°, A 0.25). A tells them apart by frame and asked relation: main clause for the attribute, the whole causal sentence for the cause. Phase cannot tell them apart. The grass questions retrieve a different memory and are held; the sky answer is never accepted. In each paraphrase group all paraphrases retrieved the same memories; the four false rejections are question-frame misses ("author of", "the name of my dog", "whose", plural "whales") and are identical in every build.
+
+Thresholds unchanged (C_min 0.87, Echo 0.85 / 0.97, drift ≤ 0.35 / 0.80, 5→8 forbidden). The R4117 no-model guard is unchanged, no model is called, Wikipedia is not an anchor, and nothing is written to Athena or hosted Supabase.
+
+Open: one false acceptance, common to every build and independent of phase. "Is a living thing a whale?" is answered with "A whale is a living thing." The cause: `derive_frame.match` accepts the swapped polar-copula orientation (kartṛ = fact predicate), which is valid for identity but not for class inclusion with an indefinite predicate, and structural Echo trusts that match for its role checks. The question-frame gaps above are also open, and whether ΔΦ earns any stronger role is left to measurement.
+
 ## v4.9.238 — Recall reads the retrieval operation's phase; concessive/causal clauses; "look" links an attribute; structural Echo (Nic, Memory Phase Invariance; plan 229 step 9)
 
 **Conflict:** 4.9.236 moved frame derivation to the operation phase (Φ_query = Φ7), but the recall spine (`resonance_recall.rank_memory`) still kept only rows inside a π/4 window of the question text's phase (plus the 4.9.227 subject-meaning window) and dropped every other row. Nic's rule is that a memory keeps its native Φ_identity, Φ_query is the phase of the cognitive operation (Φ7 for retrieval), not the question text, ΔΦ is temporary and never stored, and G = f(ΔΦ, S, C): phase distance is one factor, never a hard veto, and alignment never makes a match. "What color is the sky?" reads Φ1 from its text, 120° from the NASA row's Φ4, so recall dropped it (4.9.237: C 0.49). That row is also one sentence holding three clauses ("Even though violet is scattered more than blue, the sky looks blue to us because our eyes are more sensitive to blue light."), so no copula fact "the sky looks blue" was ever observed, and "look" was not read as a linking verb. Plan step 9 asks that Echo score the meaning structure of the spoken clause against the question frame, not word overlap.

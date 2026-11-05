@@ -67,26 +67,26 @@ def _premise_node(premise: dict[str, Any], row: dict[str, Any] | None, alignment
     weight = row.get("retrieval_weight")
     weight_basis = "recall.retrieval_weight"
     if weight is None:
-        # A row resonance did not lock carries no recall weight. Its measured resonance with this
-        # question (grace = rpm x cos^2 of the phase gap, resonance_recall._grace) is the weight.
-        weight_basis = "resonance_recall._grace"
-        weight = None
+        # 4.9.239 (Nic: phase is a retrieval discriminator, not a substitute for semantic evidence). A row recall did
+        # not weigh is weighed by what supports it, never by its phase: a premise the frame gate passed (S and C hold)
+        # reads 1.0 (basis derive.gate.S·C); otherwise its own context, rpm = μ·e^−ε (resonance_recall._operation_grace,
+        # 0 when ε > 0.35 or μ ≤ 0). Before this the weight was cos² of the phase gap (4.9.185) or G = S·C·A (4.9.236),
+        # which folded ΔΦ into C. ΔΦ and A are recorded beside the weight as phase_compatibility.
         packet = row.get("packet") if isinstance(row.get("packet"), dict) else None
-        qphi = alignment.get("question_phi")
-        if packet is not None and qphi is not None:
-            try:
-                from rmc_engine_v1.resonance_recall import _grace
-                weight = _grace(packet, qphi).get("grace")
-            except Exception:
-                weight = None
-        if not weight and gate.get("passes") and gate.get("G") is not None:
-            # 4.9.236: outside the δ ≤ π/4 window grace is 0, which would make ΔΦ a veto again. A memory the
-            # gate passed weighs G = S·C·(1 + cos ΔΦ)/2, its measured alignment with the operation phase.
-            weight = gate.get("G")
-            weight_basis = "derive.gate.G"
-        if weight is None:
-            weight = alignment.get("grace")
-            weight_basis = "derive.alignment.grace"
+        if gate.get("passes"):
+            weight, weight_basis = 1.0, "derive.gate.S·C"
+        elif packet is not None:
+            from rmc_engine_v1.resonance_recall import _operation_grace
+            g = _operation_grace(packet, alignment.get("question_phi") or 7)
+            weight, weight_basis = (float(g.get("rpm") or 0.0) if g.get("aligned") else 0.0), "context.rpm"
+        else:
+            weight, weight_basis = 0.0, "none"
+    phase = None
+    try:
+        from rmc_engine_v1.resonance_recall import _phase_signal
+        phase = _phase_signal((row.get("packet") if isinstance(row.get("packet"), dict) else None) or {"Phi": (gate or {}).get("phi_identity")}, (gate or {}).get("phi_query") or alignment.get("question_phi") or 7)
+    except Exception:
+        phase = None
     return {
         "memory_id": row.get("memory_id") or premise.get("id"),
         "content": str(premise.get("text") or row.get("content") or "").strip(),
@@ -102,6 +102,7 @@ def _premise_node(premise: dict[str, Any], row: dict[str, Any] | None, alignment
         "confidence": "low" if premise.get("quarantined") else (row.get("confidence") or "medium"),
         "retrieval_weight": float(weight or 0.0),
         "retrieval_weight_basis": weight_basis,
+        "phase_compatibility": phase,
         "prior_drift_score": row.get("prior_drift_score") or 0.0,
         "phase_tags": list(row.get("phase_tags") or []),
         "packet": row.get("packet") if isinstance(row.get("packet"), dict) else None,
@@ -277,7 +278,7 @@ def measure_spoken(
         "weakest_components": weakest["components"],
         "conclusion": conclusion[0] if conclusion else None,
         "sentences": sentences,
-        "premises": [{k: n.get(k) for k in ("memory_id", "content", "confidence", "retrieval_weight", "retrieval_weight_basis", "phase_tags")} for n in nodes],
+        "premises": [{k: n.get(k) for k in ("memory_id", "content", "confidence", "retrieval_weight", "retrieval_weight_basis", "phase_tags", "phase_compatibility")} for n in nodes],
         "upstream": dict(upstream or {}),
         # The kernel's own formula string (measurement_kernel.coherence_components); the weights are unchanged.
         "formula": weakest.get("formula") or "measurement_kernel.coherence_components",

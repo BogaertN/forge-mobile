@@ -536,7 +536,10 @@ def recall_memory(source_text: str, source_metadata: dict[str, Any] | None = Non
             "active_memory_role_counts": role_counts,
             "active_phase_counts": phase_counts,
             "recall_method": "resonance",
-            "resonance": {k: resonance_report.get(k) for k in ("method", "uses_token_overlap", "calls_llm", "question_phi", "question_band", "question_band_name", "question_tuning", "asked", "how", "rsoc", "quarantine", "cite")} if resonance_report else None,
+            "resonance": dict({k: resonance_report.get(k) for k in ("method", "uses_token_overlap", "calls_llm", "question_phi", "question_band", "question_band_name", "question_tuning", "asked", "how", "rsoc", "quarantine", "cite",
+                                                       # 4.9.239: phase compatibility recorded apart, on every candidate and every active row
+                                                       "question_text_phi", "phase_rule", "candidate_signals")},
+                               active_signals=[{"memory_id": a.get("memory_id"), "retrieval_weight": a.get("retrieval_weight"), "signals": a.get("signals")} for a in (resonance_report.get("active") or []) if isinstance(a, dict)][:12]) if resonance_report else None,
             "admitted_for_observe": (resonance_report or {}).get("admitted_for_observe") if resonance_report else None,
         },
         "legacy_retrieval_request": retrieval_decision,

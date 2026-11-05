@@ -594,18 +594,48 @@ def _hop_weight(node, chosen, question_phi):
 
 
 def _hop_weight_op(node, chosen, question_phi):
-    """4.9.238: _hop_weight with the anchor read under the operation rule. A usable anchor weighs 1.0 (ΔΦ to the
-    retrieval phase never vetoes it); the hop still weighs its own grace with the anchor's phase (4.9.235). With a
-    phase unknown on either side the hop reads its operation grace (rpm · A): a weight, never a window."""
+    """4.9.239 (Nic: phase is a retrieval discriminator, not a substitute for semantic evidence): a copula hop is
+    reached through the anchor (S), so its support is the anchor's usability times its own measured context, rpm =
+    μ·e^−ε (1.0 when unstated; 0 when ε > 0.35 or μ ≤ 0). Its phase against the anchor (4.9.235 cos² of the gap) is
+    recorded beside it as a signal (_phase_signal), not multiplied in."""
     packet = node.get("packet") if isinstance(node.get("packet"), dict) else {}
     anchor = chosen[0] if chosen else None
     anchor_packet = (anchor or {}).get("packet") if isinstance((anchor or {}).get("packet"), dict) else {}
-    anchor_phi = _phase_value(anchor_packet.get("Phi")) if anchor_packet else None
-    own_phi = _phase_value(packet.get("Phi")) if packet else None
-    if anchor is not None and anchor_phi is not None and own_phi is not None:
-        anchor_weight = 1.0 if _operation_grace(anchor_packet, question_phi).get("aligned") else 0.0
-        return round(min(1.0, anchor_weight * float(_grace(packet, anchor_phi).get("grace") or 0.0)), 4)
-    return round(min(1.0, float(_operation_grace(packet, question_phi).get("grace") or 0.0)), 4)
+    anchor_weight = 1.0 if (anchor is None or _operation_grace(anchor_packet, question_phi).get("aligned")) else 0.0
+    own = _operation_grace(packet, question_phi)
+    return round(min(1.0, anchor_weight * (float(own.get("rpm") or 0.0) if own.get("aligned") else 0.0)), 4)
+
+
+def _phase_signal(packet, question_phi, anchor_packet=None):
+    """4.9.239: phase compatibility as its own signal (Nic: semantic support, structural coherence and phase
+    compatibility are separate measurements). ΔΦ to the retrieval operation and A = (1 + cos ΔΦ)/2, plus, for a hop,
+    ΔΦ to its anchor. Recorded on every candidate; used only as a tie-breaker; never a veto; never folded into C."""
+    g = _operation_grace(packet if isinstance(packet, dict) else {}, question_phi)
+    out = {"phi_identity": g.get("phi"), "phi_query": question_phi, "operation": "retrieve", "delta_phi_deg": g.get("delta_phi_deg"),
+           "A": g.get("A"), "role": "tie_breaker", "veto": False, "in_C": False, "delta_stored": False}
+    if isinstance(anchor_packet, dict) and anchor_packet is not packet:
+        ap = _phase_value(anchor_packet.get("Phi"))
+        if ap is not None and g.get("phi") is not None:
+            d = _circular_delta(ap, g.get("phi"))
+            out["to_anchor"] = {"phi_anchor": ap, "delta_phi_deg": round(math.degrees(d), 3), "A": round((1.0 + math.cos(d)) / 2.0, 6)}
+    return out
+
+
+def _candidate_signals(role_locks, concept_hits, computed_locks, chosen, question_phi, limit=24):
+    """4.9.239: every recall candidate (computed, frame-role and concept locks) with its semantic basis and its phase
+    signal, whether or not it was chosen, so phase compatibility can be measured on its own."""
+    rows = [(n, "computed", None, ["computed"]) for n in computed_locks] + [(r[0], "frame_role", r[1], r[3]) for r in role_locks] + [(r[0], "concept", None, r[1]) for r in concept_hits]
+    out, seen = [], set()
+    for node, basis, hit, concepts in rows:
+        if id(node) in seen:
+            continue
+        seen.add(id(node))
+        out.append({"memory_id": node.get("memory_id"), "chosen": any(node is c for c in chosen), "semantic_basis": basis,
+                    "role": (hit or {}).get("role") if isinstance(hit, dict) else None, "concepts": list(concepts or [])[:6],
+                    "trusted": _trusted(node), "phase_compatibility": _phase_signal(node.get("packet") or {}, question_phi)})
+        if len(out) >= limit:
+            break
+    return out
 
 
 def curate_quarantine(question, row, ancestors):
@@ -735,6 +765,7 @@ def rank_memory(question, nodes, phase_report=None):
     # row that shares only the asked kind ("color") is not about the subject; while ΔΦ dropped such rows this never
     # came up, and now that ΔΦ only weights, a trusted leaves sentence must not outrank the user's own "My car is red."
     best_concept = max((_trusted(r[0]) for r in concept_hits if any(str(c).startswith("A.") for c in r[1])), default=-1)
+    all_role_locks = list(role_locks)
     if role_locks and best_concept > best_role:
         role_locks = []
     if computed_locks:
@@ -842,6 +873,13 @@ def rank_memory(question, nodes, phase_report=None):
             "copula_hop": 1.0 if hop else 0.0,
             "defines": float(info.get("defines") or 0),
         }
+        _anchor_packet = (chosen[0].get("packet") if chosen and isinstance(chosen[0].get("packet"), dict) else None) if hop else None
+        out["signals"] = {
+            # 4.9.239: three separate measurements; only semantic_support is the retrieval weight the scorer reads
+            "semantic_support": round(weight, 4),
+            "semantic_basis": "frame_role" if info.get("hit") else ("concept" if info.get("concepts") else ("copula_hop" if hop else ("computed" if how == "computation_receipt" else "none"))),
+            "phase_compatibility": _phase_signal(node.get("packet") or {}, question_phi, _anchor_packet),
+        }
         out["retrieval_evidence"] = [{
             "type": "phase_align",
             "phi": grace.get("phi"),
@@ -869,7 +907,8 @@ def rank_memory(question, nodes, phase_report=None):
         "calls_llm": False,
         "question_phi": question_phi,
         "question_text_phi": question_text_phi,
-        "phase_rule": "4.9.238 Φ_query = Φ7 (retrieve); ΔΦ weights (A = (1 + cos ΔΦ)/2), never vetoes; ΔΦ not stored",
+        "phase_rule": "4.9.239 Φ_query = Φ7 (retrieve); ΔΦ (A = (1 + cos ΔΦ)/2) is recorded on every candidate and breaks ties among equally supported rows; it never vetoes, never lowers support, is not folded into C, and is not stored",
+        "candidate_signals": _candidate_signals(all_role_locks, concept_hits, computed_locks, chosen, question_phi),
         "question_band": question_band,
         "question_tuning": tuning,
         "question_band_name": tuning["band"],
