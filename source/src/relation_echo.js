@@ -87,7 +87,7 @@
     if (m) { let about = content(normNp(m[1])); if (about.length > 1) about = about.slice(0, -1); return { relation: 'manner', subject: about, head: about[0] || '', about, verb: '' }; }
     return out;
   }
-  function verbKey(word) { if (IRREG_VERB[word]) return IRREG_VERB[word]; for (const suf of ['ing', 'ed', 'es', 's']) if (word.endsWith(suf) && word.length - suf.length >= 4) return word.slice(0, -suf.length); return word; }
+  function verbKey(word) { if (IRREG_VERB[word]) return IRREG_VERB[word]; for (const suf of ['ing', 'ed', 'es', 's']) if (word.endsWith(suf) && word.length - suf.length >= 4) return word.slice(0, -suf.length); /* 4.9.236: a short -s verb ("owns") keys to its base, as relation_echo.py */ if (word.length === 4 && word.endsWith('s') && 'aeiousy'.indexOf(word.charAt(2)) < 0) return word.slice(0, -1); return word; }
   function about(ask, ws) { const a = (ask.about || []).filter(x => x !== '@owner'); return a.length > 0 && a.every(x => hasWord(x, ws)); }
   function defineRank(ask, text) {
     const rel = ask.relation; if (['definition', 'identify', 'attribute'].indexOf(rel) < 0) return { rank: 0, frame: null };
@@ -125,6 +125,6 @@
     out.about = ab;
     return out;
   }
-  const api = { asked, copular, clauses, defineRank, realises, words };
+  const api = { asked, copular, clauses, defineRank, realises, words, verbKey };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KRelationEcho = api;
 })(this);

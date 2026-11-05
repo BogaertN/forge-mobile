@@ -13,6 +13,13 @@ resonance grace rpm·cos²δ with δ ≤ π/4 (resonance_recall._grace), the ban
 (band_tuning.relation), and the 4.9.204 frequency attraction between the fact's Hz and the question's tuned Hz
 (frequency_204.attract_dh). A frame match that is not phase-aligned does not answer. Word coverage is only a logged
 tie-break. Nothing here calls a model.
+
+4.9.236 — Memory Phase Invariance with Contextual Phase Alignment (Nic). A memory keeps its native content phase
+Φ_identity; nothing here rewrites it. Φ_query is the phase of the cognitive operation (retrieval of a stored memory is
+Φ7, codex "Naming: identity, aligned declaration"), not of the question's text. ΔΦ = Φ_query − Φ_identity is computed
+per ask and never stored. A match answers by G = f(ΔΦ, S, C): S = the frame match (semantic), C = contextual coherence
+(replayed proof, debate, no conflict, no quarantine, possessor scope). ΔΦ is one factor, A = (1 + cos ΔΦ)/2, that ranks
+and weights; it never vetoes, and it can never create a match: G = 0 whenever S or C fails.
 """
 from __future__ import annotations
 
@@ -21,6 +28,15 @@ import re
 from typing import Any
 
 RULE_NAME_OF = "WM-NAME-OF"
+RULE_OWNER_OF = "WM-OWNER-OF"
+# 4.9.236: the phase of each cognitive operation Derive performs. Only one operation runs here: retrieval of stored
+# memory (direct facts, the premises a chain is built from, a relational rule over a stored fact). Nic: Φ7 for retrieval.
+OPERATION_PHASE = {"retrieve": 7}
+PHASE_STEP_DEG = 40.0  # nine phases on the circle
+# a first-person memory is the asker's only when it came from the asker's device (personal facts stay on the device)
+PERSONAL_SOURCES = frozenset({"phone_kb"})
+_FIRST_PERSON = re.compile(r"(?i)\b(i|me|my|mine|myself|our|ours|we|us)\b")
+_POSSESSIVE = re.compile(r"(?i)^\s*(my|our|([A-Z][A-Za-z'\-]*)'s)\s+(.+)$")
 _DETS = {"the", "a", "an", "some", "this", "that", "these", "those"}
 _STOP = {"of", "is", "are", "was", "were", "be", "and", "or", "to", "in", "on", "at", "for", "with", "by", "my", "your",
          "his", "her", "its", "their", "our", "'s", "s"}
@@ -125,6 +141,8 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         return None
     qk = str(qframe.get("kriya") or "").lower()
     fk = str(fframe.get("kriya") or "").lower()
+    if qk in ("own", "have") and fk == "be":
+        return owner_of(qframe, fframe)
     if not qk or qk != fk:
         return None
     role = str(qframe.get("wh_role") or "")
@@ -144,6 +162,11 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
     if fpol != "pos":
         return None
     if qk == "be":
+        if is_gap(qp) and qp.get("kind") and isinstance(qs, dict) and not is_gap(qs):
+            # "what N is X": the filler must itself be shown to be an N (its head is N); a name is not a breed
+            if np_unify(qs, fs) and isinstance(fp, dict) and _head(fp) == _sing(str(qp["kind"])):
+                return {"roles": 1, "gap": "pred", "filler": fp.get("text"), "orientation": "kartr=kartr", "rule": "copula_kind"}
+            return None
         if is_gap(qp) and isinstance(qs, dict) and not is_gap(qs):
             if np_unify(qs, fs) and isinstance(fp, dict):
                 return {"roles": 1, "gap": "pred", "filler": fp.get("text"), "orientation": "kartr=kartr", "rule": "copula"}
@@ -164,6 +187,88 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         if np_unify(qs, fs) and isinstance(fo, dict):
             return {"roles": 1, "gap": "karma", "filler": fo.get("text"), "orientation": "kartr=kartr", "rule": "transitive"}
     return None
+
+
+def possessor(np: Any) -> str | None:
+    """The owner a possessive noun phrase names: "my dog" → "I", "our dog" → "we", "Nic's dog" → "Nic"."""
+    if not isinstance(np, dict):
+        return None
+    owner = np.get("owner")
+    m = _POSSESSIVE.match(str(np.get("text") or ""))
+    if owner == "user" or (m and m.group(1).lower() == "my"):
+        return "I"
+    if m and m.group(1).lower() == "our":
+        return "we"
+    if isinstance(owner, dict) and str(owner.get("text") or "").strip():
+        return str(owner["text"]).strip()
+    if m and m.group(2):
+        return m.group(2)
+    return None
+
+
+def owner_of(qframe: dict[str, Any], fframe: dict[str, Any]) -> dict[str, Any] | None:
+    """WM-OWNER-OF: "who owns/has N?" over an identity copula with a possessive side ("my dog is Rex", "Rex is my dog")
+    names the possessor. The other side must unify with N; the possessor is the filler."""
+    qs, qo = qframe.get("kartr"), qframe.get("karma")
+    if not (is_gap(qs) and isinstance(qo, dict) and not is_gap(qo)) or (fframe.get("polarity") or "pos") != "pos":
+        return None
+    fs, fp = fframe.get("kartr"), fframe.get("pred")
+    for owned, other, orient in ((fs, fp, "karma=pred"), (fp, fs, "karma=kartr")):
+        who = possessor(owned)
+        if who and isinstance(other, dict) and np_unify(qo, other):
+            return {"roles": 1, "gap": "kartr", "filler": who, "orientation": orient, "rule": RULE_OWNER_OF,
+                    "owned": str(owned.get("text") or ""), "owned_head": _head(owned)}
+    return None
+
+
+def operation(qframe: dict[str, Any] | None) -> str:
+    """The cognitive operation Derive performs for a framed question: retrieval of stored memory."""
+    return "retrieve"
+
+
+def phase_factor(phi_identity: Any, phi_query: int) -> dict[str, Any]:
+    """ΔΦ between the operation's phase and a memory's native phase, and its weight A = (1 + cos ΔΦ)/2 (relational, never stored)."""
+    try:
+        pi = int(re.search(r"(\d+)", str(phi_identity)).group(1))
+    except Exception:
+        return {"phi_identity": None, "delta_phi_deg": None, "A": None}
+    steps = abs(pi - int(phi_query)) % 9
+    steps = min(steps, 9 - steps)
+    delta = steps * PHASE_STEP_DEG
+    return {"phi_identity": pi, "delta_phi_deg": delta, "A": round((1.0 + math.cos(math.radians(delta))) / 2.0, 6)}
+
+
+def context_coherence(qframe: dict[str, Any] | None, claim: dict[str, Any], premises: list[dict[str, Any]]) -> dict[str, Any]:
+    """C: the match makes sense in this ask's context. Each check is named; C = 1 only when all hold."""
+    checks: dict[str, bool] = {
+        "proof_replayed": claim.get("checker_ok") is True,
+        "debate_survived": (claim.get("debate") or {}).get("survived") is True,
+        "not_conflicted": claim.get("status") != "conflicted",
+        "not_quarantined": not any(bool(p.get("quarantined")) for p in premises),
+    }
+    # possessor scope: a first-person memory speaks for the asker only when it lives on the asker's device
+    asks_user = any(_owner_user(r) or (isinstance(r, dict) and isinstance(r.get("owner"), dict) and _owner_user(r["owner"]))
+                    for r in ((qframe or {}).get("kartr"), (qframe or {}).get("karma"), (qframe or {}).get("pred")) if isinstance(r, dict))
+    first = [p for p in premises if _FIRST_PERSON.search(str(p.get("text") or ""))]
+    checks["possessor_scope"] = all(str(p.get("source") or "") in PERSONAL_SOURCES for p in first)
+    failed = [k for k, v in checks.items() if not v]
+    return {"C": 0.0 if failed else 1.0, "checks": checks, "failed": failed}
+
+
+def gate(qframe: dict[str, Any] | None, matched: dict[str, Any] | None, claim: dict[str, Any], premises: list[dict[str, Any]],
+         place: dict[str, Any] | None) -> dict[str, Any]:
+    """G = S · C · A. S (frame match) and C (context) decide; A = (1 + cos ΔΦ)/2 only weights. Phase never creates a match."""
+    op = operation(qframe)
+    phi_q = OPERATION_PHASE[op]
+    pf = phase_factor((place or {}).get("Phi"), phi_q)
+    S = 1.0 if matched else 0.0
+    ctx = context_coherence(qframe, claim, premises)
+    A = pf["A"] if pf["A"] is not None else 0.5
+    G = round(S * ctx["C"] * A, 6)
+    return {"rule": "4.9.236 memory phase invariance with contextual phase alignment", "operation": op, "phi_query": phi_q,
+            "phi_identity": pf["phi_identity"], "delta_phi_deg": pf["delta_phi_deg"], "A": A, "A_basis": "measured" if pf["A"] is not None else "no_fact_phase",
+            "S": S, "C": ctx["C"], "context_checks": ctx["checks"], "context_failed": ctx["failed"], "G": G,
+            "passes": bool(S and ctx["C"]), "delta_stored": False, "identity_rewritten": False}
 
 
 def question_phases(phase_path: list[Any] | None) -> list[int]:

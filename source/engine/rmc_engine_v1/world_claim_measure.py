@@ -60,9 +60,10 @@ def upstream_reading(coherence_report: dict[str, Any], routing_packet: dict[str,
     }
 
 
-def _premise_node(premise: dict[str, Any], row: dict[str, Any] | None, alignment: dict[str, Any]) -> dict[str, Any]:
+def _premise_node(premise: dict[str, Any], row: dict[str, Any] | None, alignment: dict[str, Any], gate: dict[str, Any] | None = None) -> dict[str, Any]:
     """The recalled row as the kernel reads a memory node. Every number is the row's own reading."""
     row = row or {}
+    gate = gate or {}
     weight = row.get("retrieval_weight")
     weight_basis = "recall.retrieval_weight"
     if weight is None:
@@ -78,6 +79,11 @@ def _premise_node(premise: dict[str, Any], row: dict[str, Any] | None, alignment
                 weight = _grace(packet, qphi).get("grace")
             except Exception:
                 weight = None
+        if not weight and gate.get("passes") and gate.get("G") is not None:
+            # 4.9.236: outside the δ ≤ π/4 window grace is 0, which would make ΔΦ a veto again. A memory the
+            # gate passed weighs G = S·C·(1 + cos ΔΦ)/2, its measured alignment with the operation phase.
+            weight = gate.get("G")
+            weight_basis = "derive.gate.G"
         if weight is None:
             weight = alignment.get("grace")
             weight_basis = "derive.alignment.grace"
@@ -132,6 +138,11 @@ def _route(reading: dict[str, Any], trace_spine: dict[str, Any], structural_drif
         "measured_evolutionary_drift": {"epsilon_s": reading["epsilon_s"], "circuit_breaker": reading["circuit_breaker"]},
     }
     packet = _merge_routing_packet(selected, trace_spine, structural_drift, pf2_preview, coherence_report)
+    if reading.get("phase_path_basis") == "memory.phase_identity":
+        # 4.9.236: the router reads the phase path of what is spoken, the recalled memory in its own phase, not the
+        # question text's path from the trace spine (Φ_query is the operation's phase and enters only through G).
+        state = dict(packet.get("phase_state") or {}, phase_path_hypothesis=list(reading["phase_path"]))
+        packet = dict(packet, phase_state=state, phase_path_hypothesis=list(reading["phase_path"]))
     result = route_candidate(packet)
     return result if isinstance(result, dict) else {}
 
@@ -171,7 +182,11 @@ def measure_spoken(
     by_text: dict[str, list[dict[str, Any]]] = {}
     for r in by_id.values():
         by_text.setdefault(_norm(str(r.get("content_summary") or r.get("content") or "")), []).append(r)
-    alignment = survivor.get("alignment") if isinstance(survivor.get("alignment"), dict) else {}
+    alignment = dict(survivor.get("alignment")) if isinstance(survivor.get("alignment"), dict) else {}
+    gate = survivor.get("gate") if isinstance(survivor.get("gate"), dict) else {}
+    if gate.get("phi_query") is not None:
+        # 4.9.236: a premise's weight is its resonance with the operation's phase (Φ_query), not the question text's
+        alignment["question_phi"] = gate["phi_query"]
     nodes = []
     for premise in premises:
         # The same sentence can arrive as several rows (Observe merges them); the row recall measured wins.
@@ -179,19 +194,43 @@ def measure_spoken(
         rows += [r for r in by_text.get(_norm(str(premise.get("text") or "")), []) if r not in rows]
         weighed = [r for r in rows if r.get("retrieval_weight") is not None]
         row = max(weighed, key=lambda r: float(r.get("retrieval_weight") or 0.0)) if weighed else (rows[0] if rows else None)
-        nodes.append(_premise_node(premise, row, alignment))
+        nodes.append(_premise_node(premise, row, alignment, gate))
     premise_by_text = {_norm(n["content"]): n for n in nodes if n["content"]}
+    stored_form: dict[str, str] = {}
+    if survivor.get("perspective") == "listener":
+        # A personal memory is spoken back in the listener's person ("my dog" → "your dog"). That swap is deixis,
+        # not content: each sentence is measured in the person it is stored in, and the spoken form is recorded.
+        from rmc_engine_v1.world_model_v1 import to_listener
+        for stored in [n["content"] for n in nodes if n["content"]] + [str(survivor.get("text") or "")]:
+            if stored.strip():
+                stored_form[_norm(to_listener(stored))] = stored[:1].upper() + stored[1:]
+        premise_by_text.update({_norm(to_listener(n["content"])): n for n in nodes if n["content"]})
+    # 4.9.236 (Memory Phase Invariance): a recalled memory is measured in its own phase, Φ_identity (the phase
+    # tags its row was stored with), never in the phase of the question's text. ΔΦ to the operation's phase enters
+    # only as the premise weight G above. Without a gate (no frame derivation) the question path is kept as before.
+    measure_path = list(phase_path or [])
+    measure_path_basis = "question.phase_path"
+    if gate.get("passes"):
+        identity: list[Any] = []
+        for n in nodes:
+            for tag in n.get("phase_tags") or []:
+                if tag and tag not in identity:
+                    identity.append(tag)
+        if identity:
+            measure_path, measure_path_basis = identity, "memory.phase_identity"
     sentences = []
     for sentence in _sentences(spoken):
         own = premise_by_text.get(_norm(sentence))
+        measured_as = stored_form.get(_norm(sentence), sentence)
         if own is not None:
             role, kind, support = "hop", "memory", [own]
         else:
             role, kind, support = "conclusion", "derived_claim", nodes
-        m = _measure(sentence, kind, support, phase_path)
+        m = _measure(measured_as, kind, support, measure_path)
         measured, parts = m["measured"], m["parts"]
         sentences.append({
             "text": sentence,
+            "measured_as": measured_as,
             "role": role,
             "candidate_kind": kind,
             "support": [n["memory_id"] for n in support],
@@ -217,7 +256,7 @@ def measure_spoken(
     weakest = min(hops, key=lambda s: float(s["C"] or 0.0))
     eps = max(float(s["epsilon_s"] or 0.0) for s in sentences)
     breaker = any(s["circuit_breaker"] for s in sentences)
-    path = [p for p in (phase_path or []) if p] or ["Φ1"]
+    path = [p for p in (measure_path or []) if p] or ["Φ1"]
     reading = {
         "candidate_id": "wm-" + _digest(spoken)[:12],
         "spoken": spoken,
@@ -228,6 +267,8 @@ def measure_spoken(
         "sigma_res": max(float(s["sigma_res"] or 0.0) for s in sentences),
         "circuit_breaker": breaker,
         "phase_path": path,
+        "phase_path_basis": measure_path_basis,
+        "question_phase_path": [p for p in (phase_path or []) if p],
         "phase_ok": all(s["phase_ok"] for s in sentences),
         "checker_ok": bool(survivor.get("checker_ok")),
         "checker_reason": survivor.get("checker_reason"),

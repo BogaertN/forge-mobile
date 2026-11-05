@@ -65,9 +65,47 @@ function Wording(ctx) {
     const H = heldKeys(), hit = d.parses.filter(p => H.has(canon(G.material(p.node.clause)))); if (hit.length) return new Set(hit.map(p => canon(G.material(p.node.clause)))).size === 1 ? hit[0].node.clause : null;
     /* 4.9.87: an embedded clause is read as the main clause is (G-ECONOMY: fewest Merges, Late Closure, Minimal Attachment), so a that-clause has the reading its sentence would have */
     const ec = d.parses.every(p => p.node && p.node.clause && p.rules) ? economy(d.parses) : d.parses; return new Set(ec.map(p => canon(G.material(p.node.clause)))).size === 1 ? ec[0].node.clause : null; }
+  /* 4.9.237 OUTWARD COMPILE (Nic plan 229 step 8; R0 read forwards). The engine decides an atom; the wording is compiled here, not
+   * quoted. The engine's sentence is read as the kernel's own sentence (reparseClause, person swapped) into a kāraka clause; the
+   * clause must state the engine's atom (same kriyā, kartṛ and karma / predicate nominal); the clause is realized by grammar.js
+   * (clauseText, the kernel speaking) into R_t; R_t is re-read and must give the same material clause (the round trip is Echo by
+   * structure). Any failure returns ok:false with the step that failed; nothing is guessed and no model is used. */
+  const normArg = x => String(x == null ? '' : x).toLowerCase().replace(/[.!?]+$/, '').replace(/\s+/g, ' ').trim();
+  function atomOfClause(c) {
+    if (!c || c.coord || c.cond || !c.verb) return null;
+    const v = c.verb, subj = c.subj ? G.npText(c.subj, 'kernel') : null;
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'np') return { lemma: 'be', args: [subj, G.npText(c.pred.np, 'kernel')], polarity: v.pol };
+    const karma = c.roles && c.roles.karma && !c.roles.karma.clause ? G.npText(c.roles.karma, 'kernel') : null;
+    return karma ? { lemma: v.lemma, args: [subj, karma], polarity: v.pol } : null;
+  }
+  function predMatches(lemma, pred) {
+    const p = normArg(pred); if (!p || !lemma) return false;
+    if (p === lemma || (lemma === 'be' && (p === 'is' || p === 'are' || p === 'be'))) return true;
+    try { return ['pres3', 'past'].some(f => G.inflect(lemma, f) === p); } catch (e) { return false; }
+  }
+  function outward(text, atom) {
+    const src = String(text || '').trim().replace(/[.!?]+$/, '');
+    const rec = { schema: 'forge.outward/v1', text: String(text || ''), ok: false, step: null, R_t: null, calls_llm: false };
+    if (!src) return Object.assign(rec, { step: 'empty' });
+    let c = null; try { c = reparseClause(src, true); } catch (e) { c = null; }
+    if (!c) return Object.assign(rec, { step: 'parse' });
+    const a = atomOfClause(c);
+    if (atom) {
+      const args = (atom.args || []).map(normArg), pol = (atom.polarity || 'pos');
+      if (!a || !predMatches(a.lemma, atom.predicate) || a.polarity !== pol || args.length !== 2 || normArg(a.args[0]) !== args[0] || normArg(a.args[1]) !== args[1])
+        return Object.assign(rec, { step: 'atom', clause_atom: a });
+    }
+    let r = null; try { r = G.clauseText(c, 'kernel'); } catch (e) { r = null; }
+    if (!r) return Object.assign(rec, { step: 'realize' });
+    let c2 = null; try { c2 = reparseClause(r, true); } catch (e) { c2 = null; }
+    const k1 = canon(G.material(c)), k2 = c2 ? canon(G.material(c2)) : null;
+    if (k1 !== k2) return Object.assign(rec, { step: 'roundtrip', realized: r });
+    const R_t = r.charAt(0).toUpperCase() + r.slice(1) + '.';
+    return Object.assign(rec, { ok: true, step: 'compiled', R_t, clause_atom: a, material: k1, roundtrip: true });
+  }
   /* 4.9.214 C3: the per-turn derivation state (rsIn: the inward operator counts; heldNow: the held reading) is owned here; the turn loop resets it */
   function setHeld(v) { heldNow = v; } function resetTurnState() { rsIn = {}; heldNow = []; } const rsInNow = () => rsIn;
-  return { reparseClause, derive, content, swapToks, unknownToks, swap, setHeld, economy, animNP, reparseClause0, resetTurnState, rsInNow }; }
+  return { reparseClause, derive, content, swapToks, unknownToks, swap, setHeld, economy, animNP, reparseClause0, resetTurnState, rsInNow, outward, atomOfClause }; }
 const api = { Wording };
 if (isNode) module.exports = api; else root.KPaniniWording = api;
 })(this);

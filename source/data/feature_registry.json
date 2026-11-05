@@ -1,5 +1,5 @@
 {
- "version": "4.9.235",
+ "version": "4.9.237",
  "features": [
   {
    "id": "A-01",
@@ -4257,13 +4257,39 @@
     "CONFLICTS.md v4.9.235",
     "real Ask run /workspace/step7/local_4.9.235.json"
    ]
+  },
+  {
+   "id": "R4236-PHASE-INVARIANCE-GATE",
+   "name": "Memory Phase Invariance with Contextual Phase Alignment: G = f(ΔΦ, S, C)",
+   "source": "Nic 2026-11-05 10:39 CST (dog-name phase ruling)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "Frame derivation is the operation retrieve (Φ_query = Φ7), not the question text's phase. Each claim carries gate {Φ_identity, ΔΦ, A=(1+cos ΔΦ)/2, S, C, G=S·C·A}; ΔΦ is never stored and never vetoes; alignment never creates a match. C = proof replayed, debate survived, not conflicted/quarantined, first-person premises personal (phone_kb). Replayed rules WM-NAME-OF and WM-OWNER-OF; personal answers spoken to the listener and measured as stored, in the memory's own phase. Breed holds with no breed stored. Partial: only retrieval has a mapped phase; age has no frame; kind-by-chain (beagle is a breed) not resolved.",
+   "proof": [
+    "verify/r4236_suite.js",
+    "verify/r4233_suite.js",
+    "CONFLICTS.md v4.9.236"
+   ]
+  },
+  {
+   "id": "R4237-OUTWARD-COMPILE",
+   "name": "The output is written by panini_wording's outward compile (plan 229 step 8)",
+   "source": "Nic 2026-11-05 10:39 CST (plan 229 step 8)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "The engine sends each spoken sentence with the atom it states (world_model_v1 spoken_atoms → rmc_core result.outward). On the phone, src/rmc_core.js compiles each atom-bearing sentence with forge.outward (panini_wording: kernel clause → grammar.js clauseText → re-read, same material clause, same atom) and speaks the joined R_t; the stored premises ride along as cited quotes. A sentence without an atom (anchor text that does not parse) is a cited quote; a compile failure holds (OUTWARD-COMPILE-FAIL); a changed surface is Echo-measured again (OUTWARD-ECHO-FAIL). Partial: only world-model derived answers carry atoms; the realizer re-states the clause, it does not yet choose a different wording.",
+   "proof": [
+    "verify/r4237_suite.js",
+    "CONFLICTS.md v4.9.237",
+    "real Ask run /workspace/step237/asks.txt"
+   ]
   }
  ],
- "count": 388,
+ "count": 390,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 192,
+  "Partial": 194,
   "Missing": 9,
   "Out of scope / parked": 47
  }

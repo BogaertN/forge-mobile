@@ -391,6 +391,21 @@ def _measured_from_world(wm: dict[str, Any], base: dict[str, Any]) -> dict[str, 
     return out
 
 
+def _outward_plan(reply: str | None, world: dict[str, Any]) -> dict[str, Any] | None:
+    """4.9.237 (plan 229 step 8): the spoken sentences with their atoms, for the outward compile on the phone
+    (src/panini_wording.js outward: clause → R_t, then reparse R_t = clause). Only when the reply is the world model's
+    derived text; any other reply has no atoms and is quoted as it stands."""
+    atoms = world.get("derived_atoms") if isinstance(world, dict) else None
+    if not reply or not isinstance(atoms, list) or not atoms:
+        return None
+    if _norm_sentence(" ".join(str(a.get("text") or "") for a in atoms)) != _norm_sentence(reply):
+        return None
+    survivor = ((world.get("derive") or {}).get("survivor") or {}) if isinstance(world.get("derive"), dict) else {}
+    quotes = [{"id": p.get("id"), "text": p.get("text"), "source": p.get("source")} for p in survivor.get("premises") or [] if isinstance(p, dict) and p.get("text")]
+    return {"schema": "forge.outward/v1", "measured_text": reply, "sentences": atoms, "quotes": quotes[:6],
+            "compiler": "src/panini_wording.js outward"}
+
+
 def _norm_sentence(text: str) -> str:
     return " ".join(str(text or "").lower().split())
 
@@ -411,9 +426,13 @@ def _trust_trace(reply: str | None, rows: list[dict[str, Any]], links: list[dict
         if any(reply_n == _norm_sentence(f.get("text")) for f in CHAT_FACTS):
             rests_on = "self-fact"
     if reply_n and rests_on is None:
+        # 4.9.236: a personal memory is spoken to the listener ("my dog" → "your dog"); it still rests on that row
+        from rmc_engine_v1.world_model_v1 import to_listener
         for row in trusted_rows:
-            text = _norm_sentence(row.get("text") or row.get("content"))
-            if text and (text in reply_n or reply_n in text):
+            raw = str(row.get("text") or row.get("content") or "")
+            forms = {_norm_sentence(raw)} | ({_norm_sentence(to_listener(raw))} if row.get("source") == "phone_kb" else set())
+            forms.discard("")
+            if any(text in reply_n or reply_n in text for text in forms):
                 rests_on = row.get("id") or row.get("memory_id")
                 break
     blocks = bool(reply_n and low_rows and not rests_on)
@@ -685,6 +704,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "module": "rmc_engine_v1.rmc_core",
             "product_reply": spoken,
             "reply": reply,
+            "outward": _outward_plan(reply, world),
             "claim": str((artifacts.get("admitted_claim") or {}).get("text") or "")[:500],
             "held": bool(live and not spoken),
             "calls_llm": False,

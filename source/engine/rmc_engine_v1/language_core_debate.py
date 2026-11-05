@@ -177,7 +177,10 @@ def run_debate(claim: dict[str, Any], *, content_tokens) -> dict[str, Any]:
         if premise.get("quarantined") is True:
             quarantined = True
     conclusion_tokens = set(content_tokens(claim.get("text") or ""))
-    overclaim = sorted(conclusion_tokens - premise_tokens)
+    # 4.9.236: a replayed relational rule licenses only its own head words ("own" from WM-OWNER-OF, "name" from WM-NAME-OF)
+    # (the words of the rule's head template that are not variables, set by Derive as claim["rule_licensed"])
+    licensed: set[str] = set(claim.get("rule_licensed") or []) if claim.get("checker_ok") is True else set()
+    overclaim = sorted(conclusion_tokens - premise_tokens - licensed)
     conflicted = claim.get("status") == "conflicted"
     drift = claim.get("drift") if isinstance(claim.get("drift"), dict) else {}
     drift_disposition = str(drift.get("disposition") or "")
