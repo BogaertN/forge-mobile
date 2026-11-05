@@ -37,11 +37,23 @@ ECHO_MEMORY_MIN = 0.97
 SUPABASE_URL = os.environ.get("SUPABASE_URL") or "https://hqcvywujrygbnaowgwln.supabase.co"
 
 
+PUBLISHER_NAMES = {
+    "ebi.ac.uk": "ChEBI, EMBL-EBI",
+    "bipm.org": "BIPM (Bureau International des Poids et Mesures), SI Brochure",
+    "nist.gov": "NIST CODATA",
+    "nih.gov": "NCI Thesaurus (NCIt) via PubChem, NIH/NLM",
+    "en-word.net": "Open English WordNet",
+}
+
+
 def _attribution(license_: str, source_url: str, origin: str | None) -> str | None:
+    """CC BY needs a credit line that names the publisher and the source, not a bare URL (4.9.225)."""
     lic = (license_ or "").lower()
     if "cc by" in lic or lic.startswith("cc-by"):
-        who = origin or source_url
-        return "Credit: %s (%s)." % (who, license_)
+        host = source_url.split("/")[2].lower() if source_url.count("/") >= 2 else ""
+        host = host[4:] if host.startswith("www.") else host
+        name = PUBLISHER_NAMES.get(host) or PUBLISHER_NAMES.get(".".join(host.split(".")[-2:])) or origin or host
+        return "Credit: %s, %s (%s), licensed %s." % (name, source_url, host, license_)
     return None
 
 

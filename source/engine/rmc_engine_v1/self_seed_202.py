@@ -592,7 +592,7 @@ def _meaning_groups(passing: list[dict[str, Any]], meaning: dict[str, Any] | Non
         else:
             unplaced.append(r)
     if agree:
-        cats = ",".join(sorted({str((r.get("meaning") or {}).get("category")) for r in agree}))
+        cats = ",".join(sorted({str((r.get("meaning") or {}).get("category")) for r in agree if (r.get("meaning") or {}).get("category")}))  # 4.9.225: a missing category is not the word "None"
         ent = str(agree[0]["claim"]).split("|")[1]
         groups["meaning|" + ent + "|" + str(sense) + "|" + cats] = agree
     return {"groups": groups, "contra": contra, "agree": agree, "unplaced": unplaced}

@@ -454,7 +454,7 @@
       else unplaced.push(r);
     });
     if (agree.length) {
-      const cats = Array.from(new Set(agree.map(r => String((r.meaning || {}).category)))).sort().join(',');
+      const cats = Array.from(new Set(agree.filter(r => (r.meaning || {}).category).map(r => String((r.meaning || {}).category)))).sort().join(','); // 4.9.225: a missing category is not the word "None"
       const ent = String(agree[0].claim).split('|')[1];
       groups['meaning|' + ent + '|' + String(sense) + '|' + cats] = agree;
     }
