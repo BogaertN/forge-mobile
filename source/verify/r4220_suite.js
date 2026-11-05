@@ -81,7 +81,7 @@ T('the cold 60 for 4.9.220 is recorded (not tuned): zero false admits and no adm
   for (const r of c.rows) expect(!(old[r.question] && old[r.question].admitted && !r.admitted), 'lost admit: ' + r.question);
 });
 T('version registry names 4.9.220', () => {
-  expect(read('VERSION').trim() === '4.9.236', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.237', 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4220-') >= 0, 'registry');
 });
 (async () => {

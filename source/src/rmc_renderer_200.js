@@ -433,7 +433,7 @@
   const api = {
     CITE: CITE, STORAGE_KEY: STORAGE_KEY, PASS: PASS, FAIL: FAIL,
     render: render, script: script, stage: stage, monitorLines: monitorLines,
-    paintMonitor: paintMonitor, run: run
+    paintMonitor: paintMonitor, run: run, echoOf: echoOf
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.RmcRenderer200 = api;

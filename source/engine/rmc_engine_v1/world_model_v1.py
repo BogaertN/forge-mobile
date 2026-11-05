@@ -1319,6 +1319,8 @@ def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any]
             str(p.get("source") or "") in DF.PERSONAL_SOURCES for p in claim.get("premises") or [] if _FIRST_PERSON_RE.search(str(p.get("text") or "")))
         claim["spoken"] = " ".join(dict.fromkeys(_cap(to_listener(p) if personal else p) for p in parts if p.strip()))
         claim["perspective"] = "listener" if personal else "as_stored"
+        # 4.9.237 (plan 229 step 8): each spoken sentence with the atom it states, for the outward compile (panini_wording)
+        claim["spoken_atoms"] = _spoken_atoms(world, claim, parts, personal)
     report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers)
     report["match_mode"] = "frame_gate"
     report["frame_trace"] = {
@@ -1418,8 +1420,47 @@ def _derive_report(world, question, status, reason, claims, incomplete, answers=
         "claims": public_claims,
         "survivor": _public_claim(chosen) if chosen else None,
         "derived_text": (chosen or {}).get("spoken") or (chosen or {}).get("text") or "",
+        "derived_atoms": (chosen or {}).get("spoken_atoms") if chosen and (chosen.get("spoken") or chosen.get("text")) else None,
         "proofs": {((c.get("proof") or {}).get("proof_id") or "none"): {"steps": (c.get("proof") or {}).get("steps"), "ok": c.get("checker_ok")} for c in claims[:8]},
     }
+
+
+def _listener_atom(atom: dict[str, Any] | None, personal: bool) -> dict[str, Any] | None:
+    if not isinstance(atom, dict):
+        return None
+    out = {"predicate": atom.get("predicate"), "args": [str(a) for a in atom.get("args") or []], "polarity": atom.get("polarity") or "pos"}
+    if personal:
+        # deixis on each argument; to_listener capitalises a sentence start, which an argument is not
+        def arg(a: str) -> str:
+            t = to_listener(a)
+            return t[:1].lower() + t[1:] if t != a or a[:1].islower() else t
+        out["args"] = [arg(a) for a in out["args"]]
+    return out
+
+
+def _spoken_atoms(world: dict[str, Any], claim: dict[str, Any], parts: list[str], personal: bool) -> list[dict[str, Any]]:
+    """The spoken sentences in order, each with the atom it states: a recalled fact's own atom, or the derived conclusion's.
+    A sentence whose atom is a bare 'stated' record (the parser did not read it) carries no atom; it is quoted, not compiled."""
+    by_text = {}
+    for fact in world.get("facts") or []:
+        if isinstance(fact, dict) and fact.get("text") and isinstance(fact.get("atom"), dict):
+            by_text.setdefault(str(fact["text"]).strip(), fact)
+    out, seen = [], set()
+    last = len(parts) - 1
+    for i, part in enumerate(parts):
+        text = _cap(to_listener(part) if personal else part)
+        if not part.strip() or text in seen:
+            continue
+        seen.add(text)
+        fact = by_text.get(part.strip())
+        atom = claim.get("atom") if i == last else (fact or {}).get("atom")
+        if isinstance(atom, dict) and atom.get("predicate") == "stated":
+            atom = None
+        # verbatim: the sentence is a recalled fact's own stored text (a direct answer, or a premise in its stored person)
+        out.append({"text": text, "atom": _listener_atom(atom, personal),
+                    "source_id": (fact or {}).get("id"), "verbatim": bool(fact) and _cap(part.strip()) == text,
+                    "role": "conclusion" if i == last else "premise"})
+    return out
 
 
 def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -1439,6 +1480,7 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "chi": claim.get("chi"),
         "hops": claim.get("hops") or [],
         "spoken": claim.get("spoken") or claim.get("text"),
+        "spoken_atoms": claim.get("spoken_atoms"),
         "frame_match": claim.get("frame_match"),
         "alignment": claim.get("alignment"),
         "gate": claim.get("gate"),
@@ -1614,6 +1656,7 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         "input_memory_count": count,
         "output_memory_count": count,
         "derived_text": derived.get("derived_text") or "",
+        "derived_atoms": derived.get("derived_atoms"),
         # 4.9.234 (plan 229 step 6): the RMC reading that ran before the world model, in series
         "upstream": memory.get("upstream") if isinstance(memory.get("upstream"), dict) else None,
         "calls_llm": False,
