@@ -369,6 +369,28 @@ def _measured(report: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _measured_from_world(wm: dict[str, Any], base: dict[str, Any]) -> dict[str, Any]:
+    """The gate's reading of the world model's spoken chain (rmc_engine_v1.world_claim_measure)."""
+    out = dict(base)
+    path = wm.get("phase_path") or base.get("phase_path") or ["Φ1"]
+    weakest = wm.get("weakest_components") if isinstance(wm.get("weakest_components"), dict) else {}
+    out.update({
+        "route": wm.get("route") or base.get("route"),
+        "reasons": wm.get("route_reason_codes") or [],
+        "phase_path": path,
+        "phase_ok": bool(wm.get("phase_ok")) and _phase_ok(path if isinstance(path, list) else [path]),
+        "epsilon_s": round(_f(wm.get("epsilon_s"), 0.0), 6),
+        "sigma_res": round(_f(wm.get("sigma_res"), 0.0), 6),
+        "coherence": round(_f(wm.get("C"), 0.0), 6),
+        "coherence_component": round(_f(wm.get("C"), 0.0), 6),
+        "coherence_top_level": round(_f(wm.get("C"), 0.0), 6),
+        "circuit_breaker": bool(wm.get("circuit_breaker")),
+        "score_components": dict(weakest, formula=wm.get("formula")),
+        "scored_candidate": wm.get("candidate_id"),
+    })
+    return out
+
+
 def _norm_sentence(text: str) -> str:
     return " ".join(str(text or "").lower().split())
 
@@ -501,10 +523,23 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             # the sentence must state the asked quantity and its value. Unparsed or uncomputed math always fails.
             from rmc_engine_v1.computed_math import echo as computed_echo
             echo = computed_echo(question, rendered if live else _candidate_text(report), computed)
+        # 4.9.234 (plan 229 step 6): the gate scores the sentence that is spoken. When that is the world model's
+        # derived chain, its own kernel reading (world_claim_measure) is scored, not the orchestrator's other candidate.
+        orchestrator_measured = measured
+        wm_measure = artifacts.get("world_model_measure") if isinstance(artifacts.get("world_model_measure"), dict) else None
+        scored_by = "orchestrator"
+        # A dry run speaks nothing; the sentence it would speak is its candidate text, scored the same way.
+        would_speak = rendered if rendered else _candidate_text(report)
+        if wm_measure and would_speak and _norm_sentence(would_speak) == _norm_sentence(wm_measure.get("spoken")):
+            measured = _measured_from_world(wm_measure, orchestrator_measured)
+            scored_by = "world_model"
         gate = admit_gate(
             measured, apply_to_ask=bool(live and echo.get("pass") and rendered),
             history=payload.get("drift_history"), stamps_ms=payload.get("phase_stamps_ms"),
         )
+        gate["scored"] = scored_by
+        gate["scored_reading"] = {k: measured.get(k) for k in ("route", "coherence", "epsilon_s", "phase_ok", "circuit_breaker")}
+        gate["orchestrator_reading"] = {k: orchestrator_measured.get(k) for k in ("route", "coherence", "epsilon_s", "phase_ok", "circuit_breaker")}
         stages = [s for s in (report.get("stages") or []) if isinstance(s, dict)]
         stage_rows = _stage_rows(stages)
         late = []
@@ -610,8 +645,9 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
                 "input_memory_count", "output_memory_count", "calls_llm", "writes_memory",
                 "writes_durable_memory", "christping_initiated", "model_invoked",
                 "derived_text", "world_root", "parent_root", "world", "observe", "self_facts",
-                "derive", "debate", "proofs", "checker", "simulate", "limits", "effects", "cites",
+                "derive", "debate", "proofs", "checker", "simulate", "limits", "effects", "cites", "upstream",
             ) if k in world},
+            "world_model_measure": wm_measure,
             "admit": gate,
             "phase": {"primary": measured["phase_primary"], "path": measured["phase_path"], "ok": measured["phase_ok"],
                       "glyph": (shown or {}).get("packet", {}).get("glyph") if shown else "",
@@ -660,6 +696,7 @@ def _run_once(payload: dict[str, Any] | None = None) -> dict[str, Any]:
             "active_memory_count": measured["active_memory_count"],
             "memory_fed": fed,
             "world_model": trace["world_model"],
+            "world_model_measure": wm_measure,
             "admit": gate,
             "echo": echo,
             "resonance": resonance,

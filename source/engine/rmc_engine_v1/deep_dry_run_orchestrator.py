@@ -1054,18 +1054,37 @@ def run_deep_dry_run(
             "concepts": node.get("concepts") if isinstance(node.get("concepts"), list) else None,
             "sfe": node.get("sfe") if isinstance(node.get("sfe"), dict) else None,
         })
+    # 4.9.234 (plan 229 step 6): RMC runs into the world model in series. The RMC reading (C, epsilon, route)
+    # goes in as the world model's upstream; the sentence the world model speaks is measured and routed by the
+    # same kernel and router, and that reading is what the late stages and the Ask gate use.
+    from rmc_engine_v1.world_claim_measure import measure_spoken, upstream_reading
+    upstream = upstream_reading(coherence_report, routing_packet, route_result)
     reasoning = run_reasoning_seam(source_text, {
         "active": recalled,
         "active_memory_count": recalled,
         "phase_path": _as_list(routing_packet.get("phase_path")),
         "nodes": nodes,
+        "upstream": upstream,
     })
     artifacts["reasoning_seam"] = {k: v for k, v in reasoning.items() if k != "memory"}
+    late_route = route_result
+    try:
+        wm_measure = measure_spoken(
+            reasoning, observe_source, _as_list(routing_packet.get("phase_path")), upstream,
+            trace_spine=trace_spine, structural_drift=structural_drift, pf2_preview=pf2_preview, coherence_report=coherence_report,
+        )
+    except Exception as exc:
+        wm_measure = None
+        artifacts["world_model_measure_error"] = type(exc).__name__ + ": " + str(exc)[:240]
+    if wm_measure is not None:
+        artifacts["world_model_measure"] = {k: v for k, v in wm_measure.items() if k != "route_result"}
+        if isinstance(wm_measure.get("route_result"), dict) and wm_measure["route_result"]:
+            late_route = wm_measure["route_result"]
     if execute_late_stages:
         phase_path = _as_list(routing_packet.get("phase_path"))
         late_stages, late_artifacts = _run_late_stages(
             source_text,
-            route_result,
+            late_route,
             trace_spine,
             _number(routing_packet.get("epsilon_s"), 0.0),
             phase_path,

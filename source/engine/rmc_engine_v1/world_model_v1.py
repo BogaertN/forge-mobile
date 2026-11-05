@@ -1429,6 +1429,8 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
         "input_memory_count": count,
         "output_memory_count": count,
         "derived_text": derived.get("derived_text") or "",
+        # 4.9.234 (plan 229 step 6): the RMC reading that ran before the world model, in series
+        "upstream": memory.get("upstream") if isinstance(memory.get("upstream"), dict) else None,
         "calls_llm": False,
         "writes_memory": False,
         "writes_durable_memory": False,

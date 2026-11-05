@@ -71,9 +71,9 @@ T('the cold 60 for 4.9.224 is recorded (not tuned) and identical to 4.9.223', ()
 });
 
 T('version registry names 4.9.224', () => {
-  expect(read('VERSION').trim() === '4.9.233', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.234', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.233' && reg.features.some(f => f.id === 'R4224-ATHENA-WRITE') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.234' && reg.features.some(f => f.id === 'R4224-ATHENA-WRITE') && reg.count === reg.features.length, 'registry');
 });
 
 (async () => {

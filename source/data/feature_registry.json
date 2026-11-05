@@ -1,5 +1,5 @@
 {
- "version": "4.9.233",
+ "version": "4.9.234",
  "features": [
   {
    "id": "A-01",
@@ -4232,13 +4232,25 @@
     "verify/r4233_suite.js",
     "CONFLICTS.md v4.9.233 live Ask run (headless Chrome, local build)"
    ]
+  },
+  {
+   "id": "R4234-WORLD-MODEL-IN-SERIES",
+   "name": "RMC runs into the world model in series; the Ask gate scores the spoken chain",
+   "source": "Nic plan 229 step 6 (2026-11-05 10:06)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "The RMC reading (C, epsilon, route) is passed to the world model as upstream. The sentence the world model speaks is measured by measurement_kernel (measure_candidate + coherence_components, weights unchanged) against its own recalled premises, routed by route_candidate, and that reading feeds the late stages and the Ask gate. C is the minimum over spoken hops; epsilon the maximum over every spoken sentence. Thresholds unchanged.",
+   "proof": [
+    "verify/r4234_suite.js",
+    "CONFLICTS.md v4.9.234 live Ask run"
+   ]
   }
  ],
- "count": 386,
+ "count": 387,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 190,
+  "Partial": 191,
   "Missing": 9,
   "Out of scope / parked": 47
  }
