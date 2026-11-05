@@ -1,5 +1,5 @@
 {
-  "version": "4.9.243",
+  "version": "4.9.244",
   "features": [
     {
       "id": "A-01",
@@ -4361,13 +4361,24 @@
         "CONFLICTS.md v4.9.243",
         "/workspace/step243/asks.txt"
       ]
+    },
+    {
+      "id": "R4244-SIM-ROUTER",
+      "name": "Literal backend Simulation Router (MuJoCo rigid body + SymPy symbolic) feeding Simulate (plan 229 step 12b)",
+      "claim": "Partial",
+      "note": "4.9.244: engine sim_scene compiles a what-happens-if question into FORGE-SIM-SCENE/v1 (k\u0101raka slots; sourced defaults in physical_defaults.json). server/sim_router (pluggable solvers: mujoco_rigid, sympy_math) steps it and returns FORGE-SIM-RECEIPT/v1 (sha256). The phone posts the question to the router (same-origin /sim on the local runner, or a user-set https URL); the receipt enters Ask as memory.simulation and Simulate speaks it via WM-SOLVER-RECEIPT (checker replays sha256 + effect). No router \u2192 honest hold. Not hosted yet for GitHub Pages; receipts never stored; no model.",
+      "proof": [
+        "verify/r4244_suite.js",
+        "CONFLICTS.md v4.9.244",
+        "/workspace/step244/asks.txt"
+      ]
     }
   ],
-  "count": 396,
+  "count": 397,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 200,
+    "Partial": 201,
     "Missing": 9,
     "Out of scope / parked": 47
   }

@@ -103,6 +103,27 @@ function keepWorldFact(body, kind) {
       admitted_at: kind === 'admitted' ? (body.admitted_at || new Date().toISOString()) : body.admitted_at }));
   } catch (e) { return { ok: false, rule: 'WORLD-FACTS-ERROR', error: String(e && e.message || e) }; }
 }
+/* 4.9.244: the Simulation Router endpoint. Set by the user (localStorage forge.sim_router, an https URL), else the
+ * same-origin /sim mount when the app is served by the router itself (local runner). GitHub Pages has no router. */
+function simRouterBase() {
+  try { const u = String(localStorage.getItem('forge.sim_router') || '').trim(); if (/^https:\/\/[^\s]+$/.test(u) || /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?(\/|$)/.test(u)) return u.replace(/\/+$/, ''); } catch (e) { /* storage optional */ }
+  return /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? location.origin + '/sim' : null;
+}
+async function simulateViaRouter(question) {
+  if (!/^\s*what\s+(?:will\s+)?happens?\s+if\s+/i.test(String(question || ''))) return null;
+  const base = simRouterBase();
+  if (!base || !window.fetch) return { ok: false, status: 'no_router' };
+  const ac = window.AbortController ? new AbortController() : null;
+  const timer = ac ? setTimeout(() => ac.abort(), 12000) : null;
+  try {
+    const r = await fetch(base + '/v1/simulate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: String(question).slice(0, 400) }), signal: ac ? ac.signal : undefined, credentials: 'omit' });
+    const j = r.ok ? await r.json() : null;
+    window.__lastSim = j;
+    return j && j.schema === 'FORGE-SIM-RECEIPT/v1' ? j : { ok: false, status: 'bad_receipt' };
+  } catch (e) { return { ok: false, status: 'router_unreachable' }; }
+  finally { if (timer) clearTimeout(timer); }
+}
+
 async function askMemory(question) {
   const memory = { receipts: [], phone: [], hosted: [], research: [], pools: [] };
   /* 4.9.207 (Nic decision (a)): the hand-written ask_183 test answers are deleted; Ask starts from the phone's own stores.
@@ -270,6 +291,11 @@ async function say(text) { if (lexState.core === 'loading') { queue.push(text); 
         }
       } catch (e) { /* a missing fetch stays quarantined-empty; it is not an answer */ }
     }
+    /* 4.9.244 (plan 229 step 12b): a what-happens-if question goes to the backend Simulation Router (MuJoCo / SymPy).
+     * Its receipt is a measured causal premise for this turn only (memory.simulation; never stored). No router → no
+     * receipt → the engine holds or uses stored causal facts as before. */
+    const simReceipt = await simulateViaRouter(qtext);
+    if (simReceipt && simReceipt.ok && Array.isArray(simReceipt.rows)) memory.simulation = simReceipt.rows.slice(0, 4);
     if (!window.KRMCCore || !KRMCCore.run) row = { ok: false, held: true, reply: null, route: 'rmc_client_missing', drift: null, coherence: null, echo: { score: 0, pass: false }, admit: { disposition: 'held' }, stages: [], calls_llm: false };
     else row = await KRMCCore.run(Object.assign({ question: qtext, live: true, dry_run: false, memory: memory }, askCtx.sense ? { sense: askCtx.sense } : {}));
     /* 4.9.206: the old replay of recorded self-seed documents (the fixtures global) is removed from Ask. Recorded demo

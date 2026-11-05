@@ -147,7 +147,7 @@ NAME_RULE = {
 # 4.9.243 (plan 229 step 12): causal forward-chain rule shells. Content comes from stored/admitted causal frames
 # (cause_effect.parse_clause); Simulate unifies the intervention with those frames. Checker replays by re-running
 # the bounded forward-chain — not a bottle special case.
-CAUSAL_RULE_IDS = ("WM-CAUSES-APPLY", "WM-IF-THEN-APPLY", "WM-MAKES-APPLY", "WM-SIMULATE")
+CAUSAL_RULE_IDS = ("WM-CAUSES-APPLY", "WM-IF-THEN-APPLY", "WM-MAKES-APPLY", "WM-SIMULATE", "WM-SOLVER-RECEIPT")
 CAUSES_RULE = {
     "id": "WM-CAUSES-APPLY",
     "class": "causal_forward",
@@ -171,6 +171,16 @@ MAKES_RULE = {
     "body": [{"predicate": "makes", "args": ["$action", "$effect"], "polarity": "pos"}],
     "head": {"predicate": "holds", "args": ["$effect"], "polarity": "pos"},
     "guard": "intervention_unifies_action_and_state",
+}
+
+# 4.9.244 (plan 229 step 12b): a Simulation Router receipt for this exact intervention states the measured effect.
+SOLVER_RULE = {
+    "id": "WM-SOLVER-RECEIPT",
+    "class": "causal_forward",
+    "cite": "4.9.244 plan 229 step 12b; server/sim_router (MuJoCo / SymPy) receipt FORGE-SIM-RECEIPT/v1",
+    "body": [{"predicate": "makes", "args": ["$intervention", "$effect"], "polarity": "pos"}],
+    "head": {"predicate": "holds", "args": ["$effect"], "polarity": "pos"},
+    "guard": "receipt_sha256_and_intervention_key_match",
 }
 
 _STOP = {
@@ -348,7 +358,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE)],
+        "rules": [dict(COPULA_RULE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE), dict(SOLVER_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -496,6 +506,9 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
                 provenance=[eid], quarantined=is_q,
                 cite="contract 1g2034-K §8 tool output is evidence until admitted" if is_q else "contract 1g2034-K §4.2 admitted fact",
             )
+            # 4.9.244: a Simulation Router receipt row keeps its receipt (solver, measurements, sha256, intervention key)
+            if row["source"] == "sim_receipt" and isinstance(event.get("sim"), dict):
+                row["sim"] = dict(event["sim"])
             if is_q:
                 facts.append(row)
                 quarantined += 1
@@ -671,6 +684,12 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                     prev = derived.get(int(pn))
                     if not prev:
                         return {"ok": False, "reason": "causal_premise_missing", "cite": MAKES_RULE["cite"]}
+                if rule["id"] == "WM-SOLVER-RECEIPT":
+                    # the premise must be a receipt row carrying its sha256 (64 hex) and the measured effect
+                    fids = [s.get("fact_id") for s in steps if isinstance(s, dict) and s.get("kind") == "fact" and int(s.get("n") or 0) in [int(x) for x in premise_ns]]
+                    sims = [(facts.get(f) or {}).get("sim") for f in fids]
+                    if not sims or not all(isinstance(s, dict) and re.fullmatch(r"[0-9a-f]{64}", str(s.get("sha256") or "")) and s.get("effect_text") for s in sims):
+                        return {"ok": False, "reason": "solver_receipt_missing", "cite": SOLVER_RULE["cite"]}
                 if not atom.get("predicate") or not (atom.get("args") or atom.get("predicate")):
                     return {"ok": False, "reason": "causal_head_empty", "cite": MAKES_RULE["cite"]}
                 derived[n] = atom
@@ -1689,6 +1708,7 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
             "place": place,
             "text": text,
             "source": node.get("source") or node.get("source_kind") or "recall",
+            "sim": node.get("sim") if isinstance(node.get("sim"), dict) else None,
             "confidence": node.get("confidence"),
             "prior_drift_score": prior,
             "quarantined": low,

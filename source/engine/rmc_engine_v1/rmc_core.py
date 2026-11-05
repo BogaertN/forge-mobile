@@ -91,7 +91,7 @@ FALLBACK_MAX = 3
 def _rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
     memory = payload.get("memory") if isinstance(payload.get("memory"), dict) else {}
     rows: list[dict[str, Any]] = []
-    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("anchor", "anchors"), ("self_model", "self"), ("research_quarantine", "research")):
+    for source, key in (("rmc_receipt", "receipts"), ("phone_kb", "phone"), ("hosted_kb", "hosted"), ("anchor", "anchors"), ("self_model", "self"), ("sim_receipt", "simulation"), ("research_quarantine", "research")):
         for row in memory.get(key) or []:
             if isinstance(row, dict) and str(row.get("text") or row.get("content") or "").strip():
                 if row.get("unsourced") is True:
@@ -181,6 +181,8 @@ def _write_receipts(root: Path, rows: list[dict[str, Any]], question: str | None
             # 4.9.231 (plan 229 step 3): the phone's clause and the row's meaning id ride with the receipt to the world model
             "clause": row.get("clause") if isinstance(row.get("clause"), dict) else None,
             "meaning_id": row.get("meaning_id") if isinstance(row.get("meaning_id"), str) else None,
+            # 4.9.244: a Simulation Router receipt (solver, measurements, sha256, intervention key) rides to Simulate
+            "sim": row.get("sim") if row.get("source") == "sim_receipt" and isinstance(row.get("sim"), dict) else None,
         }
         (dest / f"m{i:04d}.json").write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
         count += 1

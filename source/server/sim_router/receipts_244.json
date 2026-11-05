@@ -1,0 +1,405 @@
+{
+ "schema": "FORGE-SIM-RECEIPT-FIXTURES/v1",
+ "note": "recorded 4.9.244 router receipts (MuJoCo 3.17.0 / SymPy 1.14.0) for the engine-side suite; CI has no MuJoCo wheel",
+ "receipts": {
+  "What happens if you push a bottle near the top?": {
+   "schema": "FORGE-SIM-RECEIPT/v1",
+   "question": "What happens if you push a bottle near the top?",
+   "calls_llm": false,
+   "router": "forge-sim-router/4.9.244",
+   "ok": true,
+   "status": "simulated",
+   "scene": {
+    "schema": "FORGE-SIM-SCENE/v1",
+    "ok": true,
+    "status": "compiled",
+    "question": "What happens if you push a bottle near the top?",
+    "intervention_raw": "you push a bottle near the top",
+    "intervention_key": "bottle near push top",
+    "action": "push",
+    "verb": "push",
+    "body": {
+     "noun": "bottle",
+     "adjectives": [],
+     "shape": "cylinder",
+     "height": 0.22,
+     "radius": 0.0325,
+     "mass": 0.5
+    },
+    "surface": {
+     "name": "table",
+     "mu": 0.25,
+     "mu_source": "default"
+    },
+    "gravity": 9.80665,
+    "defaulted": [
+     "shape",
+     "dimensions",
+     "mass"
+    ],
+    "sources": {
+     "friction": "Engineering ToolBox, Friction and Friction Coefficients, https://www.engineeringtoolbox.com/friction-coefficients-d_778.html (mid-range of the listed static coefficients; table = plastic or glass on finished wood, ~0.2-0.3)",
+     "sizes": "typical consumer-object dimensions (500 mL PET bottle ~ 0.22 m x 0.065 m, ~0.5 kg filled; FIFA size-5 ball r 0.11 m, 0.43 kg); approximate, labelled default in every receipt",
+     "gravity": "CODATA standard gravity g = 9.80665 m/s^2"
+    },
+    "calls_llm": false,
+    "karaka": {
+     "kriya": "push",
+     "karma": "bottle",
+     "adhikarana": "table"
+    },
+    "point": {
+     "name": "top",
+     "fraction": 0.92,
+     "source": "physical_defaults.points"
+    },
+    "push": {
+     "margin": 1.25,
+     "duration_s": 0.5,
+     "note": "FORGE push convention: a steady horizontal force at the stated point, 1.25 x the smallest force that would start the body moving on the reference table either way (static friction mu_table m g, or tipping about the front edge m g w/2 / h), so the same push is applied on every surface, for 0.5 s; stated in every receipt. The solver decides which way it moves."
+    },
+    "push_reference_mu": 0.25
+   },
+   "runs": [
+    {
+     "solver": "mujoco_rigid",
+     "engine": "mujoco 3.17.0",
+     "outcome": "topple",
+     "measurements": {
+      "sim_seconds": 2.0,
+      "timestep": 0.0005,
+      "final_tilt_deg": 90.0,
+      "max_tilt_deg": 90.18,
+      "horizontal_displacement_m": 0.2207,
+      "vertical_change_m": -0.0775,
+      "max_angular_speed_rad_s": 10.768,
+      "contacts_at_end": 2,
+      "push_force_N": 0.984,
+      "push_rule": "1.25 x min(mu_table m g, m g w/2 / h)",
+      "push_duration_s": 0.5,
+      "push_height_m": 0.2024
+     },
+     "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)"
+    },
+    {
+     "solver": "sympy_math",
+     "engine": "sympy 1.14.0",
+     "outcome": "topple",
+     "exact": {
+      "critical_push_height_m": "13/100",
+      "push_height_m": "253/1250"
+     },
+     "measurements": {
+      "critical_push_height_m": 0.13,
+      "push_height_m": 0.2024
+     },
+     "equations": [
+      "slip: F > \u03bc m g",
+      "tip: F h > m g w/2",
+      "tip before slip iff h > (w/2)/\u03bc"
+     ],
+     "role": "cross_check"
+    }
+   ],
+   "outcome": "topple",
+   "primary_solver": "mujoco_rigid",
+   "clause": "Pushing the bottle near the top makes it topple.",
+   "effect_text": "The bottle topples.",
+   "receipt_id": "sim-3bbd992304862ef2",
+   "sha256": "3bbd992304862ef2bdf5d1befdb99b4f644d07dd4435866118b9c2bfcf7d3968",
+   "rows": [
+    {
+     "id": "sim-3bbd992304862ef2",
+     "text": "Pushing the bottle near the top makes it topple.",
+     "source": "sim_receipt",
+     "trust": "solver_receipt",
+     "sim": {
+      "receipt_id": "sim-3bbd992304862ef2",
+      "sha256": "3bbd992304862ef2bdf5d1befdb99b4f644d07dd4435866118b9c2bfcf7d3968",
+      "intervention_key": "bottle near push top",
+      "effect_text": "The bottle topples.",
+      "outcome": "topple",
+      "solver": "mujoco_rigid",
+      "engine": "mujoco 3.17.0",
+      "measurements": {
+       "sim_seconds": 2.0,
+       "timestep": 0.0005,
+       "final_tilt_deg": 90.0,
+       "max_tilt_deg": 90.18,
+       "horizontal_displacement_m": 0.2207,
+       "vertical_change_m": -0.0775,
+       "max_angular_speed_rad_s": 10.768,
+       "contacts_at_end": 2,
+       "push_force_N": 0.984,
+       "push_rule": "1.25 x min(mu_table m g, m g w/2 / h)",
+       "push_duration_s": 0.5,
+       "push_height_m": 0.2024
+      },
+      "cross_check": [
+       {
+        "solver": "sympy_math",
+        "outcome": "topple",
+        "measurements": {
+         "critical_push_height_m": 0.13,
+         "push_height_m": 0.2024
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "elapsed_s": 0.072
+  },
+  "What happens if you push a bottle near the bottom?": {
+   "schema": "FORGE-SIM-RECEIPT/v1",
+   "question": "What happens if you push a bottle near the bottom?",
+   "calls_llm": false,
+   "router": "forge-sim-router/4.9.244",
+   "ok": true,
+   "status": "simulated",
+   "scene": {
+    "schema": "FORGE-SIM-SCENE/v1",
+    "ok": true,
+    "status": "compiled",
+    "question": "What happens if you push a bottle near the bottom?",
+    "intervention_raw": "you push a bottle near the bottom",
+    "intervention_key": "bottle bottom near push",
+    "action": "push",
+    "verb": "push",
+    "body": {
+     "noun": "bottle",
+     "adjectives": [],
+     "shape": "cylinder",
+     "height": 0.22,
+     "radius": 0.0325,
+     "mass": 0.5
+    },
+    "surface": {
+     "name": "table",
+     "mu": 0.25,
+     "mu_source": "default"
+    },
+    "gravity": 9.80665,
+    "defaulted": [
+     "shape",
+     "dimensions",
+     "mass"
+    ],
+    "sources": {
+     "friction": "Engineering ToolBox, Friction and Friction Coefficients, https://www.engineeringtoolbox.com/friction-coefficients-d_778.html (mid-range of the listed static coefficients; table = plastic or glass on finished wood, ~0.2-0.3)",
+     "sizes": "typical consumer-object dimensions (500 mL PET bottle ~ 0.22 m x 0.065 m, ~0.5 kg filled; FIFA size-5 ball r 0.11 m, 0.43 kg); approximate, labelled default in every receipt",
+     "gravity": "CODATA standard gravity g = 9.80665 m/s^2"
+    },
+    "calls_llm": false,
+    "karaka": {
+     "kriya": "push",
+     "karma": "bottle",
+     "adhikarana": "table"
+    },
+    "point": {
+     "name": "bottom",
+     "fraction": 0.08,
+     "source": "physical_defaults.points"
+    },
+    "push": {
+     "margin": 1.25,
+     "duration_s": 0.5,
+     "note": "FORGE push convention: a steady horizontal force at the stated point, 1.25 x the smallest force that would start the body moving on the reference table either way (static friction mu_table m g, or tipping about the front edge m g w/2 / h), so the same push is applied on every surface, for 0.5 s; stated in every receipt. The solver decides which way it moves."
+    },
+    "push_reference_mu": 0.25
+   },
+   "runs": [
+    {
+     "solver": "mujoco_rigid",
+     "engine": "mujoco 3.17.0",
+     "outcome": "slide",
+     "measurements": {
+      "sim_seconds": 2.0,
+      "timestep": 0.0005,
+      "final_tilt_deg": 0.0,
+      "max_tilt_deg": 0.4,
+      "horizontal_displacement_m": 0.0956,
+      "vertical_change_m": -0.0,
+      "max_angular_speed_rad_s": 0.575,
+      "contacts_at_end": 3,
+      "push_force_N": 1.532,
+      "push_rule": "1.25 x min(mu_table m g, m g w/2 / h)",
+      "push_duration_s": 0.5,
+      "push_height_m": 0.0176
+     },
+     "classifier": "topple if final tilt > 60 deg; else slide if horizontal displacement > 0.02 m; else stay (sphere: roll; drop: fall if it lost > half the drop height)"
+    },
+    {
+     "solver": "sympy_math",
+     "engine": "sympy 1.14.0",
+     "outcome": "slide",
+     "exact": {
+      "critical_push_height_m": "13/100",
+      "push_height_m": "11/625"
+     },
+     "measurements": {
+      "critical_push_height_m": 0.13,
+      "push_height_m": 0.0176
+     },
+     "equations": [
+      "slip: F > \u03bc m g",
+      "tip: F h > m g w/2",
+      "tip before slip iff h > (w/2)/\u03bc"
+     ],
+     "role": "cross_check"
+    }
+   ],
+   "outcome": "slide",
+   "primary_solver": "mujoco_rigid",
+   "clause": "Pushing the bottle near the bottom makes it slide.",
+   "effect_text": "The bottle slides.",
+   "receipt_id": "sim-30cf18a058ae86a9",
+   "sha256": "30cf18a058ae86a9a89049defb95d6ee24cd1d6f77d83fe2cc6428f1b9e9ddd9",
+   "rows": [
+    {
+     "id": "sim-30cf18a058ae86a9",
+     "text": "Pushing the bottle near the bottom makes it slide.",
+     "source": "sim_receipt",
+     "trust": "solver_receipt",
+     "sim": {
+      "receipt_id": "sim-30cf18a058ae86a9",
+      "sha256": "30cf18a058ae86a9a89049defb95d6ee24cd1d6f77d83fe2cc6428f1b9e9ddd9",
+      "intervention_key": "bottle bottom near push",
+      "effect_text": "The bottle slides.",
+      "outcome": "slide",
+      "solver": "mujoco_rigid",
+      "engine": "mujoco 3.17.0",
+      "measurements": {
+       "sim_seconds": 2.0,
+       "timestep": 0.0005,
+       "final_tilt_deg": 0.0,
+       "max_tilt_deg": 0.4,
+       "horizontal_displacement_m": 0.0956,
+       "vertical_change_m": -0.0,
+       "max_angular_speed_rad_s": 0.575,
+       "contacts_at_end": 3,
+       "push_force_N": 1.532,
+       "push_rule": "1.25 x min(mu_table m g, m g w/2 / h)",
+       "push_duration_s": 0.5,
+       "push_height_m": 0.0176
+      },
+      "cross_check": [
+       {
+        "solver": "sympy_math",
+        "outcome": "slide",
+        "measurements": {
+         "critical_push_height_m": 0.13,
+         "push_height_m": 0.0176
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "elapsed_s": 0.067
+  },
+  "What happens if you throw a ball at 30 degrees at 20 meters per second?": {
+   "schema": "FORGE-SIM-RECEIPT/v1",
+   "question": "What happens if you throw a ball at 30 degrees at 20 meters per second?",
+   "calls_llm": false,
+   "router": "forge-sim-router/4.9.244",
+   "ok": true,
+   "status": "simulated",
+   "scene": {
+    "schema": "FORGE-SIM-SCENE/v1",
+    "ok": true,
+    "status": "compiled",
+    "question": "What happens if you throw a ball at 30 degrees at 20 meters per second?",
+    "intervention_raw": "you throw a ball at 30 degrees at 20 meters per second",
+    "intervention_key": "20 30 at at ball degre meter per second throw",
+    "action": "throw",
+    "verb": "throw",
+    "body": {
+     "noun": "ball",
+     "adjectives": [],
+     "shape": "sphere",
+     "radius": 0.11,
+     "mass": 0.43
+    },
+    "surface": {
+     "name": "table",
+     "mu": 0.25,
+     "mu_source": "default"
+    },
+    "gravity": 9.80665,
+    "defaulted": [
+     "shape",
+     "dimensions",
+     "mass"
+    ],
+    "sources": {
+     "friction": "Engineering ToolBox, Friction and Friction Coefficients, https://www.engineeringtoolbox.com/friction-coefficients-d_778.html (mid-range of the listed static coefficients; table = plastic or glass on finished wood, ~0.2-0.3)",
+     "sizes": "typical consumer-object dimensions (500 mL PET bottle ~ 0.22 m x 0.065 m, ~0.5 kg filled; FIFA size-5 ball r 0.11 m, 0.43 kg); approximate, labelled default in every receipt",
+     "gravity": "CODATA standard gravity g = 9.80665 m/s^2"
+    },
+    "calls_llm": false,
+    "karaka": {
+     "kriya": "throw",
+     "karma": "ball",
+     "adhikarana": "table"
+    },
+    "launch": {
+     "angle_deg": 30.0,
+     "speed": 20.0
+    }
+   },
+   "runs": [
+    {
+     "solver": "sympy_math",
+     "engine": "sympy 1.14.0",
+     "outcome": "land",
+     "exact": {
+      "range_m": "4000000*sqrt(3)/196133",
+      "flight_time_s": "400000/196133",
+      "max_height_m": "1000000/196133"
+     },
+     "measurements": {
+      "range_m": 35.324,
+      "flight_time_s": 2.039,
+      "max_height_m": 5.099
+     },
+     "equations": [
+      "R = v^2 sin(2\u03b8)/g",
+      "t = 2 v sin \u03b8 / g",
+      "H = (v sin \u03b8)^2 / (2g)"
+     ]
+    }
+   ],
+   "outcome": "land",
+   "primary_solver": "sympy_math",
+   "clause": "Throwing the ball at 30 degrees at 20 meters per second makes it land.",
+   "effect_text": "The ball lands 35.324 meters away after 2.039 seconds.",
+   "receipt_id": "sim-ef5c967e66b0cbfc",
+   "sha256": "ef5c967e66b0cbfc9487db82e53d5362b81917e31b643e46def47f5d13b85caf",
+   "rows": [
+    {
+     "id": "sim-ef5c967e66b0cbfc",
+     "text": "Throwing the ball at 30 degrees at 20 meters per second makes it land.",
+     "source": "sim_receipt",
+     "trust": "solver_receipt",
+     "sim": {
+      "receipt_id": "sim-ef5c967e66b0cbfc",
+      "sha256": "ef5c967e66b0cbfc9487db82e53d5362b81917e31b643e46def47f5d13b85caf",
+      "intervention_key": "20 30 at at ball degre meter per second throw",
+      "effect_text": "The ball lands 35.324 meters away after 2.039 seconds.",
+      "outcome": "land",
+      "solver": "sympy_math",
+      "engine": "sympy 1.14.0",
+      "measurements": {
+       "range_m": 35.324,
+       "flight_time_s": 2.039,
+       "max_height_m": 5.099
+      },
+      "cross_check": []
+     }
+    }
+   ],
+   "elapsed_s": 0.118
+  }
+ }
+}

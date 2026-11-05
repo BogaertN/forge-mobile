@@ -193,6 +193,7 @@ def _node_from_receipt(path: Path, root: Path, data: dict[str, Any]) -> dict[str
         "contributor": data.get("contributor"),
         "clause": data.get("clause") if isinstance(data.get("clause"), dict) else None,
         "meaning_id": data.get("meaning_id") if isinstance(data.get("meaning_id"), str) else None,
+        "sim": data.get("sim") if isinstance(data.get("sim"), dict) else None,
     }
 
 
