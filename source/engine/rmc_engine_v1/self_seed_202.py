@@ -461,7 +461,13 @@ def _clear_failure(question: str) -> None:
     _BACKOFF.pop(question_key(question), None)
 
 
-def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> dict[str, Any]:
+def _candidates(question: str, documents: list[dict[str, Any]], loop: int, subject_phi: int | None = None) -> dict[str, Any]:
+    """4.9.224 (Nic pt139u): a definition sentence is filed under the subject's meaning phase (subject_phi), the same
+    way the question loop already is. Lexicon letter phase of the sentence body is kept only for non-definitions."""
+    defer_phase = (
+        isinstance(subject_phi, int) and not isinstance(subject_phi, bool)
+        and 1 <= subject_phi <= 9 and question_slot(question) == "identity"
+    )
     kept: list[dict[str, Any]] = []
     skipped: list[dict[str, Any]] = []
     pointers: list[str] = []
@@ -494,12 +500,15 @@ def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> di
                 continue
             placed = sentence_placement(sentence)
             phi = placed.get("phi")
-            if isinstance(phi, int) and luciferian_d_score(loop, phi) == 1.0:
-                skipped.append({"url": url, "rule": "FORBIDDEN-5-8", "phi": phi, "loop": loop})
-                continue
-            if not isinstance(phi, int) or not phase_aligned(loop, phi):
-                skipped.append({"url": url, "rule": "PHASE", "phi": phi, "loop": loop})
-                continue
+            phi_from = "lexicon"
+            if not defer_phase:
+                # legacy order (app path): lexicon phase first, then safety, then shape
+                if isinstance(phi, int) and luciferian_d_score(loop, phi) == 1.0:
+                    skipped.append({"url": url, "rule": "FORBIDDEN-5-8", "phi": phi, "loop": loop})
+                    continue
+                if not isinstance(phi, int) or not phase_aligned(loop, phi):
+                    skipped.append({"url": url, "rule": "PHASE", "phi": phi, "loop": loop})
+                    continue
             safe = safety_of(question, sentence)
             if not safe["ok"]:
                 skipped.append({"url": url, "rule": safe["rule"], "text": sentence[:180]})
@@ -508,6 +517,16 @@ def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> di
             if not fit or not fit.get("ok"):
                 skipped.append({"url": url, "rule": (fit or {}).get("rule") or "SHAPE", "text": sentence[:180]})
                 continue
+            if defer_phase:
+                # 4.9.224: a definition is filed under the subject's meaning phase (Nic pt139u)
+                if fit.get("slot") == "identity":
+                    phi, phi_from = subject_phi, "subject meaning"
+                if isinstance(phi, int) and luciferian_d_score(loop, phi) == 1.0:
+                    skipped.append({"url": url, "rule": "FORBIDDEN-5-8", "phi": phi, "loop": loop})
+                    continue
+                if not isinstance(phi, int) or not phase_aligned(loop, phi):
+                    skipped.append({"url": url, "rule": "PHASE", "phi": phi, "loop": loop})
+                    continue
             echo = echo_against_question(question, sentence, rendered=True)
             kept.append({
                 "text": sentence,
@@ -522,6 +541,7 @@ def _candidates(question: str, documents: list[dict[str, Any]], loop: int) -> di
                 "counts": src.get("agreement_counts") is not False,
                 "meaning": doc.get("meaning") if isinstance(doc.get("meaning"), dict) else None,
                 "phi": phi,
+                "phi_from": phi_from,
                 "concept": placed.get("concept"),
                 "grace": grace_of(loop, phi),
                 "delta": round(circular_delta(loop, phi), 6),
@@ -608,7 +628,8 @@ def _anchor_from(question: str, row: dict[str, Any], loop: int, support: list[di
         "echo": row["echo"],
         "wikipedia_anchor": False,
         "contributor": "self-seed:" + row["host"],
-        "ingestion_note": "Sentence kept by lexicon phase alignment inside pi/4. Not a hand-written seed.",
+        "ingestion_note": "Sentence kept by Athena meaning agreement (4.9.224). Not a hand-written seed.",
+        "schema": "FORGE-ATHENA-PROVENANCE/v1",
     }
     return {
         "id": "self-" + digest,
@@ -622,7 +643,7 @@ def _anchor_from(question: str, row: dict[str, Any], loop: int, support: list[di
             "sfe": sfe,
             "placed_by": "athena",
             "standing": "anchor",
-            "phi_basis": "lexicon packet phase-aligned with the question loop",
+            "phi_basis": ("subject meaning" if row.get("phi_from") == "subject meaning" else "lexicon packet phase-aligned with the question loop"),
             "concept": row["concept"],
             # 4.9.220 (DRIFT-SPEC/v1 D15): Athena stores the fact's band and decimal phase when she writes it.
             # sfe.Phi stays the integer lexicon placement the pi/4 gate used; placement.Phi is the decimal inside it.
@@ -691,7 +712,7 @@ def evaluate(payload: dict[str, Any] | None = None) -> dict[str, Any]:
     if blocked:
         return dict(base, rule="SEED-BACKOFF", gap=True, backoff=blocked, quarantined=True)
     documents = [row for row in (payload.get("documents") or []) if isinstance(row, dict)]
-    found = _candidates(question, documents, loop)
+    found = _candidates(question, documents, loop, subject_phi=sphi if (not explicit and question_slot(question) == "identity") else None)
     passing = [row for row in found["kept"] if row["echo_pass"] and row.get("claim")]
     agreed = _meaning_groups(passing, meaning)
     groups = agreed["groups"]

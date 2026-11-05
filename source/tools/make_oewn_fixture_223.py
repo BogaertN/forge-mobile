@@ -13,7 +13,8 @@ LEMMAS = ["Moon", "moon", "gravity", "ammonia", "oxygen", "helium", "insulin", "
           "natural satellite", "heavenly body", "force", "attraction", "element", "chemical element", "metallic element", "metal", "hormone", "compound",
           "inorganic compound", "binary compound", "hydride", "liquid", "clear", "colorless", "odorless", "tasteless", "unit", "structural",
           "functional", "pungent", "alkaline", "noble gas", "body", "celestial body", "fluid", "substance", "speed of light", "speed",
-          "Planck's constant", "constant", "quartz", "water", "basic", "natural", "only", "heavenly", "naturally", "minimally", "photosynthesis", "synthesis", "sun", "Earth", "earth"]
+          "Planck's constant", "constant", "quartz", "water", "basic", "natural", "only", "heavenly", "naturally", "minimally", "photosynthesis", "synthesis", "sun", "Earth", "earth",
+          "caffeine", "alkaloid", "organic compound", "component", "chemical", "material", "part", "temperature", "property", "degree", "carbon dioxide", "sodium chloride", "salt", "solid", "Mars", "mars"]
 OUT = os.path.join(ROOT, "verify", "fixtures", "athena_223", "oewn")
 
 

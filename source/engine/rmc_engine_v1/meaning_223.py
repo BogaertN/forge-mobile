@@ -24,6 +24,11 @@ from rmc_engine_v1 import athena_sources_222 as _src
 
 ANC_LIMIT = 40
 GENUS_DEPTH = 2  # a category more specific than the subject's genus (its first two hypernym levels) refines, never contradicts
+# 4.9.224 (Nic pt139u/t140u): a category agrees only when its matching sense is among the first HYPERNYM_AGREE_DEPTH
+# members of the subject's hypernym chain (the sense itself + 3 ancestors). WordNet's upper ontology
+# (entity, physical entity, abstraction, matter, relation, part/portion) sits deeper and is too general to
+# define a subject; caffeine's "component" matched at depth 8 and is the case that forced the cap.
+HYPERNYM_AGREE_DEPTH = 4
 # Partitive heads that name no category of their own: "a type of star" -> star; "any of various gases" -> gas.
 PARTITIVE = {"kind", "type", "sort", "form", "class", "variety", "member", "one", "any", "some", "either", "each", "piece", "part"}
 _NP_STOP = {"of", "that", "which", "who", "whom", "whose", "with", "in", "on", "at", "by", "for", "from", "to", "into", "as",
@@ -248,9 +253,11 @@ def _head_senses(cat: str) -> list[str]:
 
 
 def chain_sense(cat: str, chain: list[str]) -> str | None:
-    """The sense of the category that lies on the subject's chain (the nearest one), else None."""
-    hits = [s for s in _cat_senses(cat) if s in chain]
-    return min(hits, key=chain.index) if hits else None
+    """The sense of the category that lies on the subject's chain (the nearest one), else None.
+    4.9.224: only the first HYPERNYM_AGREE_DEPTH members of the chain count as agreement."""
+    near = chain[:HYPERNYM_AGREE_DEPTH]
+    hits = [s for s in _cat_senses(cat) if s in near]
+    return min(hits, key=near.index) if hits else None
 
 
 def on_chain(cat: str, chain: list[str]) -> bool:
@@ -264,14 +271,14 @@ def on_other_chain(cat: str, chain: list[str]) -> bool:
 def compatible(cat: str, sense: str) -> bool:
     """A category agrees with an on-chain category sense when they are synonyms (the category has that very sense) or one
     is the more specific of the other (a hypernym path either way). Anchored on the on-chain SENSE, so a category's
-    unrelated meanings cannot make it agree."""
+    unrelated meanings cannot make it agree. 4.9.224: the path either way is capped at HYPERNYM_AGREE_DEPTH."""
     if not cat or not sense:
         return False
     mine = _head_senses(cat)
     if sense in _cat_senses(cat):
         return True
-    up = set(ancestors(sense))
-    return any(s in up or sense in ancestors(s) for s in mine)
+    up = set(ancestors(sense)[:HYPERNYM_AGREE_DEPTH])
+    return any(s in up or sense in ancestors(s)[:HYPERNYM_AGREE_DEPTH] for s in mine)
 
 
 def _other_meanings(label: str, sense: str) -> list[str]:

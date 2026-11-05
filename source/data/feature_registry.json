@@ -1,5 +1,5 @@
 {
- "version": "4.9.223",
+ "version": "4.9.224",
  "features": [
   {
    "id": "A-01",
@@ -4156,13 +4156,24 @@
    "proof": [
     "verify/r4223_suite.js"
    ]
+  },
+  {
+   "id": "R4224-ATHENA-WRITE",
+   "name": "Athena write path (dry-run default): meaning/attribution columns on kb.anchors; public.kb_anchors exposes content_sha256, fetched_at, asking_question, meaning_id, meaning_trace, independent_hosts, attribution, archived_from; app.athena_anchor_insert (service_role only, p_commit=false validates Echo>=0.97 / two hosts / source / licence / hash and forces eps=0); definition phase from subject meaning on source sentences; hypernym agree depth cap 4 (rejects caffeine-style 'component'); OEWN counts; Factbook OK; IUPAC off; FORGE_ATHENA_COMMIT lock",
+   "source": "Nic 2026-11-04 (pt139u, t140u); engine/rmc_engine_v1/meaning_223.py, engine/rmc_engine_v1/self_seed_202.py, src/self_seed_202.js, tools/athena_write_224.py, tools/test_athena_224.py, supabase/migrations/20261104220000_athena_anchor_write_224.sql",
+   "wave": "W2",
+   "claim": "Partial",
+   "note": "Live writes OFF until Nic sets go-ahead. Cold 60 identical to 4.9.223. No kb.anchors rows written in this release.",
+   "proof": [
+    "verify/r4224_suite.js"
+   ]
   }
  ],
- "count": 379,
+ "count": 380,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 183,
+  "Partial": 184,
   "Missing": 9,
   "Out of scope / parked": 47
  }

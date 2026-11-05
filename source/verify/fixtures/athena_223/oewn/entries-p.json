@@ -9,6 +9,185 @@
 ]
 }
 },
+"part": {
+"n": {
+"pronunciation": [
+{
+"value": "pɑːt",
+"variety": "GB"
+},
+{
+"value": "pɑɹt",
+"variety": "US"
+},
+{
+"value": "pɐːt",
+"variety": "AU"
+}
+],
+"sense": [
+{
+"derivation": [
+"partial%5:00:00:incomplete:00"
+],
+"id": "part%1:24:00::",
+"synset": "13831419-n"
+},
+{
+"derivation": [
+"partial%5:00:00:incomplete:00"
+],
+"id": "part%1:06:00::",
+"synset": "03898588-n"
+},
+{
+"id": "part%1:17:00::",
+"synset": "09408804-n"
+},
+{
+"id": "part%1:09:02::",
+"synset": "05679818-n"
+},
+{
+"id": "part%1:15:00::",
+"synset": "08647614-n"
+},
+{
+"id": "part%1:04:01::",
+"synset": "00721817-n"
+},
+{
+"id": "part%1:09:01::",
+"synset": "05937794-n"
+},
+{
+"id": "part%1:21:00::",
+"synset": "13306199-n"
+},
+{
+"id": "part%1:09:00::",
+"synset": "05876035-n"
+},
+{
+"id": "part%1:08:01::",
+"synset": "05263841-n"
+},
+{
+"id": "part%1:10:00::",
+"synset": "07044205-n"
+},
+{
+"id": "part%1:04:03::",
+"synset": "00789119-n"
+},
+{
+"id": "part%1:06:01::",
+"synset": "03938737-n"
+}
+]
+},
+"r": {
+"pronunciation": [
+{
+"value": "pɑːt",
+"variety": "GB"
+},
+{
+"value": "pɑɹt",
+"variety": "US"
+},
+{
+"value": "pɐːt",
+"variety": "AU"
+}
+],
+"sense": [
+{
+"id": "part%4:02:00::",
+"synset": "00008102-r"
+}
+]
+},
+"v": {
+"pronunciation": [
+{
+"value": "pɑːt",
+"variety": "GB"
+},
+{
+"value": "pɑɹt",
+"variety": "US"
+},
+{
+"value": "pɐːt",
+"variety": "AU"
+}
+],
+"sense": [
+{
+"derivation": [
+"parting%1:04:00::"
+],
+"id": "part%2:38:02::",
+"subcat": [
+"via",
+"vii"
+],
+"synset": "02034003-v"
+},
+{
+"id": "part%2:41:00::",
+"subcat": [
+"via"
+],
+"synset": "02436167-v"
+},
+{
+"also": [
+"part_with%2:40:00::"
+],
+"derivation": [
+"parting%1:04:00::"
+],
+"id": "part%2:38:00::",
+"subcat": [
+"via",
+"via-pp",
+"vii"
+],
+"synset": "02018017-v"
+},
+{
+"derivation": [
+"partitive%5:00:00:disjunctive:00",
+"partitive%3:01:00::"
+],
+"id": "part%2:35:00::",
+"subcat": [
+"vii"
+],
+"synset": "01560556-v"
+},
+{
+"derivation": [
+"partitive%5:00:00:disjunctive:00"
+],
+"id": "part%2:35:01::",
+"sent": [
+"They part their hair"
+],
+"subcat": [
+"vtaa",
+"vtai",
+"vtai-from",
+"vtia",
+"vtii"
+],
+"synset": "01559703-v"
+}
+]
+}
+},
 "photosynthesis": {
 "n": {
 "pronunciation": [
@@ -58,6 +237,42 @@
 ],
 "id": "planet%1:17:01::",
 "synset": "09417539-n"
+}
+]
+}
+},
+"property": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈpɹɒ.pə.ti",
+"variety": "GB"
+},
+{
+"value": "ˈpɹɑ.pɚ.ti",
+"variety": "US"
+}
+],
+"sense": [
+{
+"id": "property%1:21:00::",
+"synset": "13265007-n"
+},
+{
+"id": "property%1:07:00::",
+"synset": "04923519-n"
+},
+{
+"id": "property%1:15:00::",
+"synset": "08530790-n"
+},
+{
+"id": "property%1:09:00::",
+"synset": "05857567-n"
+},
+{
+"id": "property%1:06:00::",
+"synset": "04018636-n"
 }
 ]
 }

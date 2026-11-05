@@ -1,4 +1,132 @@
 {
+"salt": {
+"a": {
+"pronunciation": [
+{
+"value": "sɒlt",
+"variety": "GB"
+},
+{
+"value": "sɔːlt"
+}
+],
+"sense": [
+{
+"id": "salt%5:00:00:sharp:04",
+"synset": "00807416-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "sɒlt",
+"variety": "GB"
+},
+{
+"value": "sɔːlt"
+}
+],
+"sense": [
+{
+"derivation": [
+"salty%3:00:00::"
+],
+"id": "salt%1:27:00::",
+"synset": "15035270-n"
+},
+{
+"derivation": [
+"salty%3:00:00::",
+"salt%2:30:00::",
+"salt%2:39:00::"
+],
+"id": "salt%1:13:00::",
+"synset": "07829083-n"
+},
+{
+"derivation": [
+"salty%5:00:00:tasty:00",
+"salt%2:30:00::",
+"salt%2:39:00::"
+],
+"id": "salt%1:09:00::",
+"synset": "05725289-n"
+}
+]
+},
+"v": {
+"pronunciation": [
+{
+"value": "sɒlt",
+"variety": "GB"
+},
+{
+"value": "sɔːlt"
+}
+],
+"sense": [
+{
+"agent": [
+"salter%1:18:01::"
+],
+"derivation": [
+"salt%1:09:00::",
+"salt%1:13:00::",
+"salter%1:18:01::",
+"salting%1:04:00::"
+],
+"id": "salt%2:39:00::",
+"subcat": [
+"vtai"
+],
+"synset": "02200660-v",
+"uses": [
+"salt%1:13:00::"
+]
+},
+{
+"id": "salt%2:35:00::",
+"subcat": [
+"vtaa-pp",
+"vtai",
+"vtai-pp",
+"vtai-with",
+"vtii"
+],
+"synset": "01377785-v"
+},
+{
+"id": "salt%2:30:01::",
+"subcat": [
+"vtai"
+],
+"synset": "00561199-v"
+},
+{
+"agent": [
+"salter%1:18:01::"
+],
+"by_means_of": [
+"salt%1:13:00::"
+],
+"derivation": [
+"salt%1:09:00::",
+"salt%1:13:00::",
+"salter%1:18:01::"
+],
+"id": "salt%2:30:00::",
+"sent": [
+"The chefs salt the vegetables"
+],
+"subcat": [
+"vtai"
+],
+"synset": "00213779-v"
+}
+]
+}
+},
 "satellite": {
 "a": {
 "pronunciation": [
@@ -62,6 +190,168 @@
 "vtai"
 ],
 "synset": "00971169-v"
+}
+]
+}
+},
+"sodium chloride": {
+"n": {
+"sense": [
+{
+"id": "sodium_chloride%1:27:00::",
+"synset": "14696184-n"
+}
+]
+}
+},
+"solid": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈsɑlɪd",
+"variety": "US"
+},
+{
+"value": "ˈsɒlɪd",
+"variety": "GB"
+}
+],
+"sense": [
+{
+"derivation": [
+"solidness%1:07:01::"
+],
+"id": "solid%5:00:00:good:01",
+"synset": "01128873-s"
+},
+{
+"antonym": [
+"liquid%3:00:00::",
+"gaseous%3:00:00::"
+],
+"derivation": [
+"solidness%1:26:00::"
+],
+"id": "solid%3:00:01::",
+"synset": "02267791-a"
+},
+{
+"antonym": [
+"hollow%3:00:00::"
+],
+"derivation": [
+"solidness%1:07:02::",
+"solidity%1:26:00::"
+],
+"id": "solid%3:00:02::",
+"synset": "02271436-a"
+},
+{
+"derivation": [
+"solidness%1:07:00::"
+],
+"id": "solid%5:00:00:homogeneous:00",
+"synset": "01203882-s"
+},
+{
+"id": "solid%5:00:00:unbroken:02",
+"synset": "00292047-s"
+},
+{
+"id": "solid%5:00:00:wholesome:00",
+"synset": "02569298-s"
+},
+{
+"derivation": [
+"solidness%1:07:00::"
+],
+"id": "solid%5:00:00:sound:01",
+"synset": "02283161-s"
+},
+{
+"derivation": [
+"solidness%1:07:02::",
+"solidity%1:07:02::"
+],
+"id": "solid%5:00:00:hard:01",
+"synset": "01155243-s"
+},
+{
+"derivation": [
+"solid%1:25:00::"
+],
+"id": "solid%5:00:00:cubic:00",
+"synset": "00661271-s"
+},
+{
+"id": "solid%5:00:00:opaque:00",
+"synset": "00436312-s"
+},
+{
+"derivation": [
+"solidness%1:07:01::"
+],
+"id": "solid%5:00:00:sound:00",
+"synset": "02281701-s"
+},
+{
+"derivation": [
+"solidness%1:07:01::"
+],
+"id": "solid%5:00:00:serious:00",
+"synset": "02127556-s"
+},
+{
+"derivation": [
+"solidness%1:07:01::"
+],
+"id": "solid%5:00:00:respectable:00",
+"synset": "02000793-s"
+},
+{
+"id": "solid%5:00:03:homogeneous:00",
+"synset": "01204034-s"
+},
+{
+"id": "solid%5:00:00:undiversified:00",
+"synset": "00787771-s"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈsɑlɪd",
+"variety": "US"
+},
+{
+"value": "ˈsɒlɪd",
+"variety": "GB"
+}
+],
+"sense": [
+{
+"derivation": [
+"solidify%2:30:00::"
+],
+"id": "solid%1:27:04::",
+"synset": "15071467-n"
+},
+{
+"derivation": [
+"solidify%2:30:01::",
+"solidify%2:30:00::"
+],
+"id": "solid%1:26:00::",
+"synset": "14504356-n"
+},
+{
+"derivation": [
+"solidify%2:30:00::",
+"solid%5:00:00:cubic:00"
+],
+"id": "solid%1:25:00::",
+"synset": "13882990-n"
 }
 ]
 }

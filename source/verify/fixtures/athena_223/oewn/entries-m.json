@@ -1,4 +1,31 @@
 {
+"Mars": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈmɑɹz",
+"variety": "US"
+},
+{
+"value": "ˈmɑːz",
+"variety": "GB"
+}
+],
+"sense": [
+{
+"derivation": [
+"martian%3:01:00::"
+],
+"id": "mars%1:17:00::",
+"synset": "09370342-n"
+},
+{
+"id": "mars%1:18:00::",
+"synset": "09578914-n"
+}
+]
+}
+},
 "Mercury": {
 "n": {
 "pronunciation": [
@@ -53,6 +80,95 @@
 {
 "id": "moon%1:18:00::",
 "synset": "11209044-n"
+}
+]
+}
+},
+"material": {
+"a": {
+"pronunciation": [
+{
+"value": "məˈtɪɹi.əl",
+"variety": "US"
+},
+{
+"value": "məˈtɪəɹɪəl",
+"variety": "GB"
+}
+],
+"sense": [
+{
+"id": "material%5:00:00:worldly:00",
+"synset": "02588172-s"
+},
+{
+"antonym": [
+"immaterial%3:00:01::"
+],
+"derivation": [
+"materiality%1:07:00::"
+],
+"id": "material%3:00:01::",
+"synset": "00629641-a"
+},
+{
+"antonym": [
+"immaterial%3:00:02::"
+],
+"derivation": [
+"materiality%1:24:00::"
+],
+"id": "material%3:00:02::",
+"synset": "01490990-a"
+},
+{
+"id": "material%5:00:00:physical:00",
+"synset": "01783738-s"
+},
+{
+"derivation": [
+"materiality%1:07:00::"
+],
+"id": "material%3:00:04::",
+"synset": "00632838-a"
+},
+{
+"id": "material%3:00:03::",
+"synset": "00628097-a"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "məˈtɪɹi.əl",
+"variety": "US"
+},
+{
+"value": "məˈtɪəɹɪəl",
+"variety": "GB"
+}
+],
+"sense": [
+{
+"id": "material%1:27:00::",
+"synset": "14604877-n"
+},
+{
+"id": "material%1:10:00::",
+"synset": "06648034-n"
+},
+{
+"id": "material%1:06:00::",
+"synset": "03314753-n"
+},
+{
+"id": "material%1:06:01::",
+"synset": "03735442-n"
+},
+{
+"id": "material%1:18:00::",
+"synset": "10320321-n"
 }
 ]
 }

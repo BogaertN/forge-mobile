@@ -489,7 +489,7 @@
       echo: row.echo,
       wikipedia_anchor: false,
       contributor: 'self-seed:' + row.host,
-      ingestion_note: 'Sentence kept by lexicon phase alignment inside pi/4. Not a hand-written seed.'
+      ingestion_note: 'Sentence kept by Athena meaning agreement (4.9.224). Not a hand-written seed.', schema: 'FORGE-ATHENA-PROVENANCE/v1'
     };
     return {
       id: 'self-' + digest,
@@ -503,7 +503,7 @@
         sfe: sfe,
         placed_by: 'athena',
         standing: 'anchor',
-        phi_basis: 'lexicon packet phase-aligned with the question loop',
+        phi_basis: row.phi_from === 'subject meaning' ? 'subject meaning' : 'lexicon packet phase-aligned with the question loop',
         concept: row.concept,
         // 4.9.220 (D15): band and decimal phase stored with the fact; sfe.Phi stays the integer the gate used.
         band: BandTuning().tune(row.text, sfe.Phi),
@@ -597,20 +597,26 @@
       }
       const digest = doc.sha256 || sha256(text);
       const fetched = String(doc.fetched_at || '');
+      const defPhi = (!explicit && typeof sphi === 'number' && Number.isInteger(sphi) && sphi >= 1 && sphi <= 9 && questionSlot(question) === 'identity') ? sphi : null;
       splitSentences(text).forEach(sentence => {
         if (captionText(sentence)) {
           skipped.push({ url: url, rule: 'CATALOG', text: sentence.slice(0, 180) });
           return;
         }
         const placed = placement(sentence);
-        const phi = placed.phi;
-        if (typeof phi === 'number' && dScore(loop, phi) === 1) {
-          skipped.push({ url: url, rule: 'FORBIDDEN-5-8', phi: phi, loop: loop });
-          return;
-        }
-        if (typeof phi !== 'number' || !phaseAligned(loop, phi)) {
-          skipped.push({ url: url, rule: 'PHASE', phi: phi, loop: loop });
-          return;
+        let phi = placed.phi;
+        let phiFrom = 'lexicon';
+        const deferPhase = defPhi !== null;
+        if (!deferPhase) {
+          // legacy order (app path): lexicon phase first, then safety, then shape
+          if (typeof phi === 'number' && dScore(loop, phi) === 1) {
+            skipped.push({ url: url, rule: 'FORBIDDEN-5-8', phi: phi, loop: loop });
+            return;
+          }
+          if (typeof phi !== 'number' || !phaseAligned(loop, phi)) {
+            skipped.push({ url: url, rule: 'PHASE', phi: phi, loop: loop });
+            return;
+          }
         }
         const safe = safetyOf(question, sentence);
         if (!safe.ok) {
@@ -622,6 +628,18 @@
           skipped.push({ url: url, rule: (fit && fit.rule) || 'SHAPE', text: sentence.slice(0, 180) });
           return;
         }
+        if (deferPhase) {
+          // 4.9.224 (Nic pt139u): a definition is filed under the subject's meaning phase
+          if (fit.slot === 'identity') { phi = defPhi; phiFrom = 'subject meaning'; }
+          if (typeof phi === 'number' && dScore(loop, phi) === 1) {
+            skipped.push({ url: url, rule: 'FORBIDDEN-5-8', phi: phi, loop: loop });
+            return;
+          }
+          if (typeof phi !== 'number' || !phaseAligned(loop, phi)) {
+            skipped.push({ url: url, rule: 'PHASE', phi: phi, loop: loop });
+            return;
+          }
+        }
         const echo = echoScore(question, sentence);
         kept.push({
           text: sentence, url: url, host: String(src.host), tier: Number(src.tier), trust: Number(src.trust),
@@ -629,7 +647,7 @@
           origin: doc.origin === undefined ? null : doc.origin, archived_from: doc.archived_from === undefined ? null : doc.archived_from,
           counts: src.agreement_counts !== false,
           meaning: doc.meaning && typeof doc.meaning === 'object' && !Array.isArray(doc.meaning) ? doc.meaning : null,
-          phi: phi, concept: placed.concept,
+          phi: phi, phi_from: phiFrom, concept: placed.concept,
           grace: round6(Math.cos(circularDelta(loop, phi)) ** 2), delta: round6(circularDelta(loop, phi)),
           echo: echo, echo_pass: echo >= ECHO_MIN, sha256: digest, fetched_at: fetched, safety: safe.rule,
           slot: fit.slot, claim: fit.claim, page_class: 'reference'

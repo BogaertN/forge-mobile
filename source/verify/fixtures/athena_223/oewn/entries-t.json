@@ -24,5 +24,24 @@
 }
 ]
 }
+},
+"temperature": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈtɛmp(ə)ɹətʃə(ɹ)"
+}
+],
+"sense": [
+{
+"id": "temperature%1:07:00::",
+"synset": "05018974-n"
+},
+{
+"id": "temperature%1:09:00::",
+"synset": "05733323-n"
+}
+]
+}
 }
 }

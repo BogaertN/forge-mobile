@@ -1,10 +1,86 @@
 {
+"caffeine": {
+"n": {
+"pronunciation": [
+{
+"value": "ˈkæfiːn"
+}
+],
+"sense": [
+{
+"id": "caffeine%1:27:00::",
+"synset": "14785301-n"
+}
+]
+}
+},
+"carbon dioxide": {
+"n": {
+"sense": [
+{
+"derivation": [
+"carbonate%2:30:00::"
+],
+"id": "carbon_dioxide%1:27:00::",
+"synset": "14821139-n"
+}
+]
+}
+},
 "celestial body": {
 "n": {
 "sense": [
 {
 "id": "celestial_body%1:17:00::",
 "synset": "09262646-n"
+}
+]
+}
+},
+"chemical": {
+"a": {
+"pronunciation": [
+{
+"value": "ˈkɛmɪkəl"
+}
+],
+"sense": [
+{
+"derivation": [
+"chemistry%1:09:00::"
+],
+"id": "chemical%3:01:00::",
+"pertainym": [
+"chemistry%1:09:00::"
+],
+"synset": "02703361-a"
+},
+{
+"derivation": [
+"chemical%1:27:00::",
+"chemistry%1:09:00::"
+],
+"id": "chemical%3:01:01::",
+"pertainym": [
+"chemical%1:27:00::"
+],
+"synset": "02703703-a"
+}
+]
+},
+"n": {
+"pronunciation": [
+{
+"value": "ˈkɛmɪkəl"
+}
+],
+"sense": [
+{
+"derivation": [
+"chemical%3:01:01::"
+],
+"id": "chemical%1:27:00::",
+"synset": "14831008-n"
 }
 ]
 }
@@ -488,6 +564,33 @@
 ],
 "id": "colorless%3:00:02::",
 "synset": "00405279-a"
+}
+]
+}
+},
+"component": {
+"n": {
+"pronunciation": [
+{
+"value": "kʌmˈpoʊnənt",
+"variety": "US"
+}
+],
+"sense": [
+{
+"derivation": [
+"compose%2:42:00::"
+],
+"id": "component%1:09:00::",
+"synset": "05877576-n"
+},
+{
+"id": "component%1:24:00::",
+"synset": "13831419-n"
+},
+{
+"id": "component%1:06:00::",
+"synset": "03085025-n"
 }
 ]
 }

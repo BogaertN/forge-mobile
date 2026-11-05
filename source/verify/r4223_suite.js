@@ -96,7 +96,7 @@ T('the app never reads the Athena modules or the new hosts; no kb.anchors schema
     expect(!/athena_sources_22[23]|meaning_223|raw\.githubusercontent\.com\/factbook|si-defining-constants|pug_view/.test(t), f);
   }
   expect(!/athena_sources_223|meaning_223/.test(read('index.html')) && !/athena_sources_223|meaning_223/.test(read('sw.js')), 'shell');
-  expect(!fs.readdirSync(path.join(ROOT, '..', 'supabase', 'migrations')).some(f => /sense|athena|meaning/i.test(f)), 'no migration');
+  expect(!fs.readdirSync(path.join(ROOT, '..', 'supabase', 'migrations')).some(f => /sense|athena|meaning/i.test(f) && !/_224\.sql$/.test(f)), 'no migration before 4.9.224');
 });
 
 T('the cold 60 for 4.9.223 is recorded (not tuned) and identical to 4.9.222: the phase change moved no answer', () => {
@@ -105,9 +105,9 @@ T('the cold 60 for 4.9.223 is recorded (not tuned) and identical to 4.9.222: the
   expect(JSON.stringify(c.rows) === JSON.stringify(p.rows), 'every row identical to 4.9.222');
 });
 T('version registry names 4.9.223', () => {
-  expect(read('VERSION').trim() === '4.9.223', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.224', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.223' && reg.features.some(f => f.id === 'R4223-ATHENA-MEANING') && reg.count === reg.features.length, 'registry');
+  expect(reg.version === '4.9.224' && reg.features.some(f => f.id === 'R4223-ATHENA-MEANING') && reg.count === reg.features.length, 'registry');
 });
 (async () => {
   const rows = []; let failed = 0;
