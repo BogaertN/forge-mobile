@@ -98,7 +98,9 @@ T('the write gate: Φ6 correction then Φ7 naming, Echo ≥ 0.97 plus negation/c
   const o = c.ocean.write_gate;
   expect(c.ocean.proposed === true && o.ok && o.drift_input.hist.join() === '5,6,7,8' && o.drift_input.prev === 8 && o.drift_input.act === 9 && o.drift_input.depth === 1 && o.drift.eps === 0.119133 && o.drift_status === 'stable' && /^premise:/.test(o.echo_source), JSON.stringify(o).slice(0, 400));
   expect(c.corrected.write_gate.drift_input.depth === 2 && c.corrected.write_gate.drift_status === 'corrected', 'one χ-correct pass is recorded in the depth');
-  expect(c.capital.proposed === true && c.capability.proposed === false && c.capability.rule === 'MEMORY-WRITE-GATE-ECHO-CLASSES', JSON.stringify([c.capability.rule]));
+  /* 4.9.241: the canned capability line ("... does not call a model") is gone; engine-only, with no frame and no self rows,
+   * "What can you do?" is held and proposes nothing. A lost negation is still refused by the classes (negation_lost below). */
+  expect(c.capital.proposed === true && c.capability.proposed !== true && c.capability.reply === null, JSON.stringify([c.capability.rule, c.capability.reply]));
   expect(c.negation_lost.failed.join() === 'echo_classes' && c.negation_lost.echo_classes.classes.negation.source === true && c.negation_lost.echo_classes.classes.negation.answer === false, 'a lost negation never becomes memory');
   expect(c.negation_kept.ok && c.source_sentence.ok && c.source_sentence.echo_source === 'premise:p1', 'a kept negation and the containing sentence');
   expect(c.unnamed.failed.indexOf('unnamed') >= 0 && c.low_echo.failed.join() === 'echo', 'no naming, no write; Echo 0.9 < 0.97');

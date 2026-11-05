@@ -121,25 +121,25 @@ T('the migration is flagged, the proof is honest, and the capability sentence is
   const by = {};
   proof.related.pairs.forEach(row => { by[row.a + '/' + row.b] = row; });
   expect(by['sun/hot'].resonate === true && by['sun/warm'].resonate === true && by['sun/light'].resonate === false && by['sun/dog'].resonate === false, 'related');
+  /* 4.9.241 (plan 229 step 10): the canned chat sentences are gone. "How are you?" and "What can you do?" are no longer
+   * answered by fixed strings; a self question is answered from the kernel's stored self-facts (verify/r4241_suite.js). */
   const chat = pyChat();
-  expect(chat.how === 'Forge does not store a feeling. World Model owns world state and inference.', chat.how);
-  expect(chat.can === 'Forge answers from admitted facts and does not call a model.', chat.can);
-  expect(chat.how !== chat.can, 'distinct sentences');
+  expect(chat.gone === true, JSON.stringify(chat));
   const ci = fs.readFileSync(path.join(ROOT, '..', '.github', 'workflows', 'test.yml'), 'utf8');
   expect((ci.match(/r4203_suite\.js/g) || []).length >= 3, 'suite x3');
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   expect(/data-freq203/.test(html) && /src="src\/frequency_203.js"/.test(html) && /144 Hz/.test(html), 'card');
   const ver = fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
-  expect(ver === '4.9.240', ver);
+  expect(ver === '4.9.241', ver);
   const pyodide = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'live_203_pyodide.json'), 'utf8'));
   expect(pyodide.matched === pyodide.cases && pyodide.max_abs_gap === 0 && pyodide.calls_llm === false && pyodide.lexicon_scan_ms > 0, JSON.stringify(pyodide));
 });
 
 function pyChat() {
   const r = cp.spawnSync('python3', ['-c', [
-    'from rmc_engine_v1.world_model_v1 import _chat_derived',
     'import json',
-    'print(json.dumps({"how": _chat_derived("How are you?"), "can": _chat_derived("What can you do?")}))'
+    'from rmc_engine_v1 import world_model_v1 as W',
+    'print(json.dumps({"gone": not hasattr(W, "_chat_derived") and not hasattr(W, "CHAT_FACTS")}))'
   ].join('\n')], {
     cwd: path.join(ROOT, 'engine'),
     env: Object.assign({}, process.env, { PYTHONPATH: path.join(ROOT, 'engine') }),

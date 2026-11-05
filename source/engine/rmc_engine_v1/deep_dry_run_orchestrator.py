@@ -788,26 +788,18 @@ def _offer_language_core(question: str, trace_spine: dict[str, Any], phase_repor
         if debated.get("survived") is not True:
             continue
         echo = echo_against_question(question, text, rendered=True)
-        # A self question made only of function words has no content token
-        # for coverage to see. The act is the meaning. The 0.85 line stays.
-        if not echo.get("pass") and not (hop.get("self_fact") and not _meaning_tokens(question)):
+        # 4.9.241 (plan 229 step 10): no Echo bypass. A language-core sentence is offered only when its own Echo passes:
+        # a greeting by structural Echo for speech acts, anything else by the question Echo.
+        if hop.get("speech_act") == "greeting":
+            from rmc_engine_v1.structural_echo import speech_act_score
+            echo = speech_act_score(question, text)
+        if not echo.get("pass"):
             continue
         cand = scoring_candidate({"claim": text, "debate": debated}, hop)
         if cand is None:
             continue
+        # 4.9.241: no synthetic high-confidence node for a self sentence; every offer is measured against the recalled nodes
         measure_nodes = list(active or nodes)
-        if hop.get("self_fact"):
-            # The self-fact is the world-model sentence for this act.
-            # Unrelated anchors are not its support, so they are not averaged in.
-            measure_nodes = [{
-                "content": text,
-                "content_summary": "",
-                "phase_tags": ["Φ1"],
-                "retrieval_weight": 1.0,
-                "confidence": "high",
-                "source": "",
-                "ancestry": {"self_fact": hop.get("memory_id")},
-            }]
         measured = measure_candidate(cand, candidate_report, memory_nodes=measure_nodes)
         # 4.9.235: the candidate's novelty is the kernel's measured novelty_delta.
         cand["novelty"] = _number(measured.get("novelty_delta"), 0.0)
@@ -1120,6 +1112,19 @@ def run_deep_dry_run(
     except Exception as exc:
         wm_measure = None
         artifacts["world_model_measure_error"] = type(exc).__name__ + ": " + str(exc)[:240]
+    # 4.9.241 (Nic: natural conversation): a turn that opens with an act the speech-act lexicon answers (greet, thank,
+    # apologize, farewell) has its responses measured by the same kernel against the lexicon items they realize.
+    try:
+        from rmc_engine_v1.speech_acts import measure_turn as _act_measure
+        act_measure = _act_measure(
+            source_text, _as_list(routing_packet.get("phase_path")),
+            trace_spine=trace_spine, structural_drift=structural_drift, pf2_preview=pf2_preview, coherence_report=coherence_report,
+        )
+    except Exception as exc:
+        act_measure = None
+        artifacts["speech_act_measure_error"] = type(exc).__name__ + ": " + str(exc)[:240]
+    if act_measure is not None:
+        artifacts["speech_act_measure"] = act_measure
     if wm_measure is not None:
         artifacts["world_model_measure"] = {k: v for k, v in wm_measure.items() if k != "route_result"}
         if isinstance(wm_measure.get("route_result"), dict) and wm_measure["route_result"]:

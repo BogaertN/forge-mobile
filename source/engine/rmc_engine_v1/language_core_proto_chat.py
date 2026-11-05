@@ -36,20 +36,14 @@ _FUNCTION = {"can": "F.CAN", "could": "F.CAN"}
 CHAT_ACTS = {"greeting", "request", "self", "capability"}
 
 
-def chat_fact_act(speech: str, concepts: set[str] | None = None) -> str:
-    """The world-model sentence for a chat act. Empty when the act is not one."""
-    concepts = concepts or set()
-    if speech == "greeting":
-        return "greeting"
-    if speech == "capability":
-        return "capability"
-    if speech == "request" and "A.TELL" in concepts:
-        return "tell"
-    if speech == "request":
-        return "help"
-    if speech == "self":
-        return "self"
-    return ""
+# 4.9.241 (Nic: natural conversation): a conversational act is answered by the expected response act of the
+# speech-act lexicon (speech_acts.json), realized from that act's forms; no reply line is stored here.
+def act_response(user_input: str) -> str:
+    """The response the speech-act lexicon gives a turn that is only acts it answers (greet, thank, apologize,
+    farewell); empty otherwise."""
+    from rmc_engine_v1.speech_acts import turn
+    t = turn(user_input)
+    return t["spoken"] if t["pure"] else ""
 
 
 def _speech_act(user_input: str, roles: dict[str, Any] | None) -> tuple[str, str]:
@@ -77,7 +71,8 @@ def _speech_act(user_input: str, roles: dict[str, Any] | None) -> tuple[str, str
     words = [w.strip(".,;:!?\"'()[]").lower() for w in str(user_input or "").split()]
     words = [w for w in words if w]
     has_function = any(w in _STOP or len(w) <= 2 for w in words)
-    if concepts & {"I.HELLO", "I.BYE", "I.THANKS"}:
+    from rmc_engine_v1.speech_acts import turn as _act_turn
+    if _act_turn(user_input)["pure"]:
         return "greeting", head
     if "A.HELP" in concepts or "A.TELL" in concepts:
         return "request", head

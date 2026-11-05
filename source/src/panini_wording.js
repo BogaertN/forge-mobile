@@ -75,6 +75,8 @@ function Wording(ctx) {
     if (!c || c.coord || c.cond || !c.verb) return null;
     const v = c.verb, subj = c.subj ? G.npText(c.subj, 'kernel') : null;
     if (v.lemma === 'be' && c.pred && c.pred.type === 'np') return { lemma: 'be', args: [subj, G.npText(c.pred.np, 'kernel')], polarity: v.pol };
+    /* 4.9.241: an adjective predicate states is(kartṛ, adjective) as the engine's atom does ("Your car is red." → is(your car, red)) */
+    if (v.lemma === 'be' && c.pred && c.pred.type === 'adj' && Array.isArray(c.pred.words) && c.pred.words.length) return { lemma: 'be', args: [subj, c.pred.words.join(' ')], polarity: v.pol };
     const karma = c.roles && c.roles.karma && !c.roles.karma.clause ? G.npText(c.roles.karma, 'kernel') : null;
     return karma ? { lemma: v.lemma, args: [subj, karma], polarity: v.pol } : null;
   }

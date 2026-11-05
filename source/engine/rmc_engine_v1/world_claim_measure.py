@@ -206,6 +206,14 @@ def measure_spoken(
             if stored.strip():
                 stored_form[_norm(to_listener(stored))] = stored[:1].upper() + stored[1:]
         premise_by_text.update({_norm(to_listener(n["content"])): n for n in nodes if n["content"]})
+    if survivor.get("perspective") == "speaker":
+        # 4.9.241: a self-fact is stored as the asker says it to the kernel and spoken in the kernel's person; each
+        # sentence is measured in the person it is stored in, as for a personal memory
+        from rmc_engine_v1.world_model_v1 import to_speaker
+        for stored in [n["content"] for n in nodes if n["content"]] + [str(survivor.get("text") or "")]:
+            if stored.strip():
+                stored_form[_norm(to_speaker(stored))] = stored[:1].upper() + stored[1:]
+        premise_by_text.update({_norm(to_speaker(n["content"])): n for n in nodes if n["content"]})
     # 4.9.236 (Memory Phase Invariance): a recalled memory is measured in its own phase, Φ_identity (the phase
     # tags its row was stored with), never in the phase of the question's text. ΔΦ to the operation's phase enters
     # only as the premise weight G above. Without a gate (no frame derivation) the question path is kept as before.

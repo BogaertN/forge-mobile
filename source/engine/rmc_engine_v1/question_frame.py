@@ -63,7 +63,7 @@ def note(consumer: str, **info: Any) -> None:
 def summary(frame: Any, question: str) -> dict[str, Any]:
     ok = valid(frame, question)
     f = frame if isinstance(frame, dict) else {}
-    keep = ("speech_act", "mood", "wh", "wh_role", "aux", "parsed", "rule", "declarative", "kriya",
+    keep = ("speech_act", "mood", "wh", "wh_role", "aux", "parsed", "rule", "declarative", "kriya", "acts", "act_rest", "canonical",
             "kartr", "karma", "pred", "cond", "conditional", "polar", "parses")
     return {
         "schema": SCHEMA,

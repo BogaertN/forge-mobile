@@ -97,10 +97,10 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
 });
 
 T('version registry names 4.9.239', () => {
-  expect(read('VERSION').trim() === '4.9.240', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.241', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.240' && reg.features.some(x => x.id === 'R4239-SEPARATE-SIGNALS') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').indexOf('## v4.9.239') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').indexOf('## v4.9.239')).match(/^## v/gm) || []).length <= 1, 'CONFLICTS entry near the top (4.9.240 sits above)');
+  expect(reg.version === '4.9.241' && reg.features.some(x => x.id === 'R4239-SEPARATE-SIGNALS') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').indexOf('## v4.9.239') >= 0 && (read('CONFLICTS.md').slice(0, read('CONFLICTS.md').indexOf('## v4.9.239')).match(/^## v/gm) || []).length <= 2, 'CONFLICTS entry near the top (4.9.240 and 4.9.241 sit above)');
 });
 
 (async () => {
