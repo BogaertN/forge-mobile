@@ -15,9 +15,12 @@ const PL = (head, o) => Object.assign({ head: [head], plural: true, surface: [o 
 /* the self-model: each fact is a clause with kartā = Forge */
 const FACTS = {
   identity: { subj: K, verb: V('be'), pred: { type: 'np', np: NP(['computer', 'program'], { det: 'a' }) } },
-  rsoc: { subj: K, verb: V('compute'), roles: { karma: PL('operator', { det: 'the', of: NP(['RSOC', 'calculus'], { det: 'the', surface: ['RSOC', 'calculus'] }) }) } },
-  rules: { subj: K, verb: V('derive'), roles: { karma: PL('sentence') }, adj: [{ prep: 'by', np: PL('rule', { adjs: ['fixed'] }), role: 'karana' }] },
-  memory: { subj: K, verb: V('know'), roles: { karma: PL('fact', { det: 'the' }) }, adj: [{ prep: 'in', np: NP('memory', { owner: 'kernel' }), role: 'adhikarana' }] },
+  /* TODO(4.9.242 / Nic): PLACEHOLDER capability self-facts. "What can you do?" and "Help" answer from these
+   * (rsoc / rules / memory) via the pro-verb path. Wording is not rewritten here — once the user's manual is written,
+   * source the real capability facts from that manual and drop this placeholder mark. Do not invent new copy now. */
+  rsoc: { subj: K, verb: V('compute'), roles: { karma: PL('operator', { det: 'the', of: NP(['RSOC', 'calculus'], { det: 'the', surface: ['RSOC', 'calculus'] }) }) } }, /* PLACEHOLDER: capability — await user manual */
+  rules: { subj: K, verb: V('derive'), roles: { karma: PL('sentence') }, adj: [{ prep: 'by', np: PL('rule', { adjs: ['fixed'] }), role: 'karana' }] }, /* PLACEHOLDER: capability — await user manual */
+  memory: { subj: K, verb: V('know'), roles: { karma: PL('fact', { det: 'the' }) }, adj: [{ prep: 'in', np: NP('memory', { owner: 'kernel' }), role: 'adhikarana' }] }, /* PLACEHOLDER: capability — await user manual */
   sensation: { subj: K, verb: V('have'), roles: { karma: NP('sensation', { quant: 'no' }) } },
   emotion: { subj: K, verb: V('have'), roles: { karma: PL('emotion', { quant: 'no' }) } },
   body: { subj: K, verb: V('have'), roles: { karma: NP('body', { quant: 'no' }) } },

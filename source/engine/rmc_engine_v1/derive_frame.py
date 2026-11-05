@@ -34,7 +34,7 @@ RULE_OWNER_OF = "WM-OWNER-OF"
 OPERATION_PHASE = {"retrieve": 7}
 PHASE_STEP_DEG = 40.0  # nine phases on the circle
 # a first-person memory is the asker's only when it came from the asker's device (personal facts stay on the device)
-PERSONAL_SOURCES = frozenset({"phone_kb"})
+PERSONAL_SOURCES = frozenset({"phone_kb", "world_facts"})
 # 4.9.241 (plan 229 step 10): the kernel's facts about itself, stored as clauses (src/selfmodel.js FACTS, sent as memory.self)
 SELF_SOURCES = frozenset({"self_model"})
 RULE_PRO_VERB = "WM-PRO-VERB"
@@ -200,6 +200,76 @@ def is_value_of(kind: Any, np: Any) -> bool:
     return bool(_fills_slot(rule, str(np.get("text"))))
 
 
+# 4.9.242 (plan 229 step 11): a filler is shown to be an N when its head is N, or when its WordNet gloss classifies
+# it as an N (e.g. beagle: "a small … breed of hound"). No closed value list; the genus noun in the gloss is the kind.
+_GLOSS_CACHE: dict[str, list[str]] | None = None
+
+
+def _noun_glosses(lemma: str) -> list[str]:
+    """Noun glosses of a lemma. Prefers the engine-packaged kind_member_glosses.json (ships in the Pyodide
+    bundle); falls back to the phone WordNet packs under data/ when present. No network, no model."""
+    global _GLOSS_CACHE
+    import json
+    from pathlib import Path
+    if _GLOSS_CACHE is None:
+        _GLOSS_CACHE = {}
+        here = Path(__file__).resolve().parent
+        packaged = here / "kind_member_glosses.json"
+        if packaged.is_file():
+            try:
+                doc = json.loads(packaged.read_text(encoding="utf-8"))
+                if isinstance(doc, dict):
+                    for lem, glosses in doc.items():
+                        if isinstance(glosses, list) and glosses:
+                            _GLOSS_CACHE[str(lem).lower()] = [str(g) for g in glosses if g]
+            except Exception:
+                pass
+        root = here.parents[1] / "data"  # source/data when running from source/engine
+        for name in ("lexicon.json", "lexicon-ext.json"):
+            path = root / name
+            if not path.is_file():
+                continue
+            try:
+                doc = json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            L = doc.get("L") if isinstance(doc, dict) else None
+            if not isinstance(L, dict):
+                continue
+            for lem, entry in L.items():
+                glosses: list[str] = []
+                for row in entry or []:
+                    if not isinstance(row, (list, tuple)) or not row or row[0] != "n":
+                        continue
+                    for sense in (row[1] or []):
+                        if isinstance(sense, (list, tuple)) and len(sense) >= 3 and sense[2]:
+                            glosses.append(str(sense[2]))
+                if glosses:
+                    _GLOSS_CACHE.setdefault(str(lem).lower(), [])
+                    for g in glosses:
+                        if g not in _GLOSS_CACHE[str(lem).lower()]:
+                            _GLOSS_CACHE[str(lem).lower()].append(g)
+    return list((_GLOSS_CACHE or {}).get(_sing(lemma), []) or [])
+
+
+def is_kind_member(kind: Any, np: Any) -> bool:
+    """True when the NP is shown to be an instance/member of kind N: its head is N, or a noun gloss classifies it as N."""
+    if not isinstance(np, dict) or not str(np.get("text") or "").strip():
+        return False
+    k = _sing(str(kind or ""))
+    head = _head(np)
+    if not k or not head:
+        return False
+    if head == k:
+        return True
+    # gloss classifies the referent as a K: "a … breed of hound", "any of several breeds …"
+    pat = re.compile(r"\b" + re.escape(k) + r"\b")
+    for g in _noun_glosses(head):
+        if pat.search(g.lower()):
+            return True
+    return False
+
+
 def _bare(np: Any) -> bool:
     if not isinstance(np, dict) or not str(np.get("text") or "").strip():
         return False
@@ -314,9 +384,11 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         return None
     if qk == "be":
         if is_gap(qp) and qp.get("kind") and isinstance(qs, dict) and not is_gap(qs):
-            # "what N is X": the filler must itself be shown to be an N (its head is N); a name is not a breed
-            if np_unify(qs, fs) and isinstance(fp, dict) and _head(fp) == _sing(str(qp["kind"])):
-                return {"roles": 1, "gap": "pred", "filler": fp.get("text"), "orientation": "kartr=kartr", "rule": "copula_kind"}
+            # "what N is X": the filler must itself be shown to be an N — head is N, or WordNet gloss classifies it as N
+            # (4.9.242: beagle's gloss "… breed of hound" shows beagle is a breed; a bare name is not)
+            if np_unify(qs, fs) and isinstance(fp, dict) and is_kind_member(qp["kind"], fp):
+                return {"roles": 1, "gap": "pred", "filler": fp.get("text"), "orientation": "kartr=kartr", "rule": "copula_kind",
+                        "kind": _sing(str(qp["kind"]))}
             return None
         if is_gap(qp) and isinstance(qs, dict) and not is_gap(qs):
             if np_unify(qs, fs) and isinstance(fp, dict):

@@ -11,6 +11,19 @@ sys.path.insert(0, str(ROOT / "engine"))
 sys.path.insert(0, str(ROOT))
 
 from tools.live_188 import SEED, anchor_pool, starter_rows  # noqa: E402
+# 4.9.242: r4215 expects "17 times 23" held as needs_libs — the phone has not loaded its pinned wheels yet.
+# A system sympy (if installed on the build host) must not make that dry-run admit; hide it for this check only.
+import builtins as _bi, sys as _sys
+_real_import = _bi.__import__
+def _import_no_math(name, globals=None, locals=None, fromlist=(), level=0):
+    if name == "sympy" or (isinstance(name, str) and name.startswith("sympy.")):
+        raise ImportError("forge-check-215: phone wheels not loaded")
+    if name == "pint" or (isinstance(name, str) and name.startswith("pint.")):
+        raise ImportError("forge-check-215: phone wheels not loaded")
+    return _real_import(name, globals, locals, fromlist, level)
+_bi.__import__ = _import_no_math
+for _m in [k for k in list(_sys.modules) if k == "sympy" or k.startswith("sympy.") or k == "pint" or k.startswith("pint.")]:
+    del _sys.modules[_m]
 from rmc_engine_v1.rmc_core import run  # noqa: E402
 
 POOL = anchor_pool()

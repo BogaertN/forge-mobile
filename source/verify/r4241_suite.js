@@ -4,7 +4,7 @@
  * of src/selfmodel.js, sent as memory.self and answered through frame, Derive, outward compile and structural Echo, spoken in
  * the kernel's person. A greeting stays a speech act, scored by structural Echo for speech acts and by its measured C.
  * Also: a bare-plural remembered clause is a kind, and the converse of a kind inclusion is "not necessarily". The proof is the
- * Ask run in headless Chrome (/workspace/step241, CONFLICTS.md v4.9.241). */
+ * Ask run in headless Chrome (/workspace/step241, CONFLICTS.md v4.9.242). */
 const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
@@ -136,7 +136,7 @@ T('a bare-plural kind sentence compiles outward through its canonical reading, a
   expect(car.reply === 'Your car is red.' && car.outward_compile.mode === 'compiled', 'an adjective predicate is an atom the reader states: ' + JSON.stringify([car.reply, car.route]));
 });
 
-/* 4.9.241 (Nic: natural conversation) the speech-act lexicon */
+/* 4.9.242 (Nic: natural conversation) the speech-act lexicon */
 const SA = require(ROOT + '/src/speech_acts.js');
 T('the speech-act lexicon stores meanings (act, forms, response act, kāraka frame), one copy on each side, no reply lines in code', () => {
   const J = JSON.parse(read('engine/rmc_engine_v1/speech_acts.json'));
@@ -220,11 +220,11 @@ print(json.dumps({k: T.get(k) for k in ("C_min", "echo_min", "drift_quarantine",
     expect(!/openai|anthropic|transformers|gpt-|claude/i.test(read(p)), p);
 });
 
-T('version registry names 4.9.241', () => {
-  expect(read('VERSION').trim() === '4.9.241', 'VERSION');
+T('version registry names 4.9.242', () => {
+  expect(read('VERSION').trim() === '4.9.242', 'VERSION');
   const reg = JSON.parse(read('data/feature_registry.json'));
-  expect(reg.version === '4.9.241' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
-  expect(read('CONFLICTS.md').indexOf('## v4.9.241') === 0, 'CONFLICTS entry at the top');
+  expect(reg.version === '4.9.242' && reg.features.some(x => x.id === 'R4241-SELF-FACTS-FROM-CLAUSES') && reg.count === reg.features.length, 'registry');
+  expect(read('CONFLICTS.md').indexOf('## v4.9.242') === 0, 'CONFLICTS entry at the top');
 });
 
 (async () => {
