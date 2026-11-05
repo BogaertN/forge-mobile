@@ -260,8 +260,21 @@ def measure_spoken(
         })
     hops = [s for s in sentences if s["role"] == "hop"]
     conclusion = [s for s in sentences if s["role"] == "conclusion"]
+    # 4.9.243: a Simulate effect reply speaks only the conclusion (no hop sentence in the reply). Measure that
+    # conclusion against its causal/state premises so C/ε come from the stored frames, not the orchestrator fallback.
     if not hops:
-        return None
+        how = str(survivor.get("how") or "")
+        if conclusion and nodes and (
+            survivor.get("kind") == "causal_prediction"
+            or how.startswith("WM-CAUSES")
+            or how.startswith("WM-IF-THEN")
+            or how.startswith("WM-MAKES")
+            or how == "WM-SIMULATE"
+            or str((survivor.get("frame_match") or {}).get("frame_source") or "") == "simulate"
+        ):
+            hops = conclusion
+        else:
+            return None
     weakest = min(hops, key=lambda s: float(s["C"] or 0.0))
     eps = max(float(s["epsilon_s"] or 0.0) for s in sentences)
     breaker = any(s["circuit_breaker"] for s in sentences)

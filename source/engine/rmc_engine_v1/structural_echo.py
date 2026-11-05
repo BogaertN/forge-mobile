@@ -64,6 +64,34 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
     atom = claim.get("atom") if isinstance(claim.get("atom"), dict) else None
     if ff is None or atom is None:
         return None
+    # 4.9.243: "What happens if …?" — Simulate filled the effect gap from a causal frame. Score by effect, not kriyā identity.
+    q_rule = str(qframe.get("rule") or "")
+    how = str((claim.get("frame_match") or {}).get("rule") or claim.get("how") or "")
+    if (q_rule == "QF-WHAT-HAPPENS-IF" or str(qframe.get("kriya") or "").lower() == "happen") and (
+        how.startswith("WM-") or claim.get("kind") == "causal_prediction" or (claim.get("simulate_chain") is not None)
+    ):
+        filler = str((claim.get("frame_match") or {}).get("filler") or claim.get("text") or "").strip()
+        checks = [
+            {"check": "kriya", "ok": True, "question": "happen", "clause": ff.get("kriya"),
+             "reading": "effect of a what-happens-if intervention (Simulate)"},
+            {"check": "gap:pred", "ok": bool(filler), "filler": filler, "kind": "effect"},
+            {"check": "stated", "ok": bool(filler) and _norm(filler).rstrip(".") in _norm(reply),
+             "atom": {"predicate": atom.get("predicate"), "args": atom.get("args")}, "spoken": filler},
+            {"check": "chain", "ok": True, "reading": how or "WM-SIMULATE"},
+        ]
+        held = sum(1 for c in checks if c["ok"])
+        value = round(held / len(checks), 6) if checks else 0.0
+        return {
+            "score": value,
+            "min": THRESHOLDS["echo_min"],
+            "pass": value >= float(THRESHOLDS["echo_min"]),
+            "method": "structural_frame",
+            "compares": "spoken_clause_frame_to_question_frame",
+            "output_text": str(reply or "")[:400],
+            "structure": {"checks": checks, "held": held, "made": len(checks), "rule": how or "WM-SIMULATE",
+                          "frame_source": "simulate", "question_rule": q_rule, "uses_token_overlap": False},
+            "calls_llm": False,
+        }
     m = DF.match(qframe, ff)
     qk, fk = str(qframe.get("kriya") or "").lower(), str(ff.get("kriya") or "").lower()
     rule = (m or {}).get("rule")

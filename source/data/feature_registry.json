@@ -1,5 +1,5 @@
 {
-  "version": "4.9.242",
+  "version": "4.9.243",
   "features": [
     {
       "id": "A-01",
@@ -4348,13 +4348,26 @@
         "CONFLICTS.md v4.9.242",
         "real Ask run /workspace/step242/asks.txt"
       ]
+    },
+    {
+      "id": "R4243-CAUSE-EFFECT-SIMULATE",
+      "name": "Cause-and-effect frames and bounded Simulate (plan 229 step 12)",
+      "source": "plan 229 step 12 (/workspace/forge_layer_chain_229.md), 2026-11-05",
+      "wave": "\u2014",
+      "claim": "Partial",
+      "note": "Causal clauses (X causes Y; if X then Y; V-ing NP makes it fall) store as FORGE-CAUSAL-FRAME/v1 with provenance. Three hand-written RULES (WM-CAUSES/IF-THEN/MAKES-APPLY). Simulate forward-chains with MAX_SIM_DEPTH 4 and reports the chain. Bottle push derives fall only from a stored general causal fact (no special case); counterfactual holds; two-step chain. Predictions never facts; no auto-persist; thresholds unchanged.",
+      "proof": [
+        "verify/r4243_suite.js",
+        "CONFLICTS.md v4.9.243",
+        "/workspace/step243/asks.txt"
+      ]
     }
   ],
-  "count": 395,
+  "count": 396,
   "claims": {
     "Implemented": 112,
     "Not feasible on phone": 28,
-    "Partial": 199,
+    "Partial": 200,
     "Missing": 9,
     "Out of scope / parked": 47
   }

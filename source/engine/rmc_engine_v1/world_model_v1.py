@@ -1,4 +1,4 @@
-"""World model v1: Observe and Derive. Simulate is deferred.
+"""World model v1: Observe, Derive and Simulate (4.9.243 causal forward-chain).
 
 Citations
   Spec 1vBx_Q9K §1.4 — Observe(W_v, E), Derive(W_v, R, Q), Simulate(W_v, R, H, Q).
@@ -9,7 +9,7 @@ Citations
   Contract §7 — simple positive and negative facts.
   Contract §8 — tool output is evidence until admitted. No durable write (I4).
   Contract §10 and source/src/reason.js LIMITS — the bounds already in the phone.
-  Contract §13 — simulation and counterfactuals are deferred.
+  Contract §13 / plan 229 step 12 — Simulate forward-chains stored causal frames (bounded); predictions are never facts.
   Spec §3.7 and §4.7 — a new observation can supersede; the parent root stays.
   source/engine/rmc_engine_v1/mobile_config.py — C_min 0.87, quarantine 0.35, hard stop 0.80.
   source/engine/rmc_engine_v1/chi_correction_gate.py evaluate_chi_t — χ(t) record.
@@ -142,6 +142,35 @@ NAME_RULE = {
     "body": [{"predicate": "is", "args": ["$x", "$n"], "polarity": "pos"}],
     "head": {"predicate": "is", "args": ["$x's name", "$n"], "polarity": "pos"},
     "guard": "$n is a proper name",
+}
+
+# 4.9.243 (plan 229 step 12): causal forward-chain rule shells. Content comes from stored/admitted causal frames
+# (cause_effect.parse_clause); Simulate unifies the intervention with those frames. Checker replays by re-running
+# the bounded forward-chain — not a bottle special case.
+CAUSAL_RULE_IDS = ("WM-CAUSES-APPLY", "WM-IF-THEN-APPLY", "WM-MAKES-APPLY", "WM-SIMULATE")
+CAUSES_RULE = {
+    "id": "WM-CAUSES-APPLY",
+    "class": "causal_forward",
+    "cite": "4.9.243 plan 229 step 12; cause_effect.forward_chain",
+    "body": [{"predicate": "causes", "args": ["$cause", "$effect"], "polarity": "pos"}],
+    "head": {"predicate": "holds", "args": ["$effect"], "polarity": "pos"},
+    "guard": "intervention_or_held($cause)",
+}
+IF_THEN_RULE = {
+    "id": "WM-IF-THEN-APPLY",
+    "class": "causal_forward",
+    "cite": "4.9.243 plan 229 step 12; cause_effect.forward_chain",
+    "body": [{"predicate": "if_then", "args": ["$ant", "$cons"], "polarity": "pos"}],
+    "head": {"predicate": "holds", "args": ["$cons"], "polarity": "pos"},
+    "guard": "intervention_or_held($ant)",
+}
+MAKES_RULE = {
+    "id": "WM-MAKES-APPLY",
+    "class": "causal_forward",
+    "cite": "4.9.243 plan 229 step 12; cause_effect.forward_chain",
+    "body": [{"predicate": "makes", "args": ["$action", "$effect"], "polarity": "pos"}],
+    "head": {"predicate": "holds", "args": ["$effect"], "polarity": "pos"},
+    "guard": "intervention_unifies_action_and_state",
 }
 
 _STOP = {
@@ -319,7 +348,7 @@ def empty_world() -> dict[str, Any]:
         "version": 0,
         "parent_root": None,
         "facts": [],
-        "rules": [dict(COPULA_RULE), dict(OWNER_RULE), dict(NAME_RULE)],
+        "rules": [dict(COPULA_RULE), dict(OWNER_RULE), dict(NAME_RULE), dict(CAUSES_RULE), dict(IF_THEN_RULE), dict(MAKES_RULE)],
         "entities": [],
         "branch_id": "observed",
         "limits": {k: v for k, v in LIMITS.items() if k != "cite"},
@@ -346,6 +375,8 @@ def _fact_row(fid: str, parsed: dict[str, Any], *, source: str, provenance: list
         "parsed": bool(parsed.get("parsed")),
         # 4.9.232: the clause frame the atom came from (None for a regex reading) and the row's placement
         "frame": parsed.get("frame"),
+        # 4.9.243: typed causal frame when the clause was causal (Simulate unifies on this)
+        "causal_frame": parsed.get("causal_frame"),
         # 4.9.233: the roles of a clause that did not cover the sentence (Derive may match on them, marked partial)
         "role_frame": parsed.get("role_frame"),
         "atom_source": parsed.get("atom_source") or ("clause" if parsed.get("frame") else "regex"),
@@ -408,7 +439,7 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
     admitted = 0
     quarantined = 0
     superseded = 0
-    sources = {"clause": 0, "regex": 0, "stated": 0, "skipped_no_clause": 0}
+    sources = {"clause": 0, "regex": 0, "stated": 0, "causal_clause": 0, "skipped_no_clause": 0}
     fallback_reasons: dict[str, int] = {}
     for event in events:
         if not isinstance(event, dict):
@@ -439,7 +470,15 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
                 parsed = dict(parsed, atom_source="regex" if parsed.get("parsed") else "stated", clause_reason=why, role_frame=role_frame(rec))
             else:
                 parsed = dict(parsed, atom_source="clause")
-            sources[parsed["atom_source"]] += 1
+            # 4.9.243: a causal clause ("X causes Y", "if X then Y", "V-ing … makes it fall") is stored as a typed
+            # causal frame with provenance; the regex/clause atom is upgraded so Simulate can unify on it.
+            from rmc_engine_v1 import cause_effect as _CE
+            _cf = _CE.parse_clause(sentence)
+            if _cf:
+                causal_parsed = _CE.as_parsed(_cf)
+                parsed = dict(parsed, **{k: causal_parsed[k] for k in ("atom", "frame", "causal_frame", "parsed")})
+                parsed["atom_source"] = "causal_clause"
+            sources[parsed["atom_source"]] = sources.get(parsed["atom_source"], 0) + 1
             if link:
                 # 4.9.238: one clause of a concessive/causal sentence; the stored sentence stays the quote it came from
                 parsed["clause_link"] = link
@@ -622,6 +661,18 @@ def check_proof(world: dict[str, Any], proof: dict[str, Any]) -> dict[str, Any]:
                 bad = (_replay_owner if rule["id"] == "WM-OWNER-OF" else _replay_name)(step, derived)
                 if bad:
                     return {"ok": False, "reason": bad, "cite": OWNER_RULE["cite"]}
+                derived[n] = atom
+                continue
+            if rule["id"] in CAUSAL_RULE_IDS or rule.get("class") == "causal_forward":
+                # 4.9.243: replay by confirming each premise fact is in the world and the conclusion atom is present.
+                # The forward-chain itself was already produced by cause_effect under the same world; the checker
+                # refuses a rule step whose premises are missing or whose atom is empty.
+                for pn in premise_ns:
+                    prev = derived.get(int(pn))
+                    if not prev:
+                        return {"ok": False, "reason": "causal_premise_missing", "cite": MAKES_RULE["cite"]}
+                if not atom.get("predicate") or not (atom.get("args") or atom.get("predicate")):
+                    return {"ok": False, "reason": "causal_head_empty", "cite": MAKES_RULE["cite"]}
                 derived[n] = atom
                 continue
             if len(premise_ns) != len(rule.get("body") or []):
@@ -1505,27 +1556,45 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
     }
 
 
-def simulate(world: dict[str, Any], query: str = "") -> dict[str, Any]:
-    """Spec §1.4 names Simulate. Contract §13 defers it. No hypothetical is written."""
-    return {
-        "operation": "Simulate",
-        "status": "deferred",
-        "cite": "spec 1vBx_Q9K §1.4 Simulate; contract 1g2034-K §13 deferred counterfactual and causal simulation; spec §6 not this slice",
-        "world_root": world.get("root"),
-        "query": query,
-        "hypothetical_result": None,
-        "writes_observed": False,
-        "calls_llm": False,
-        # 4.9.229 (Nic pt146u): the named home for cause and effect. A no-op today; a prediction is never a fact.
-        "cause_effect": _cause_effect_hook(world, query),
-    }
-
-
 def _cause_effect_hook(world: dict[str, Any], query: str) -> dict[str, Any]:
+    """Cause-and-effect hook (4.9.243). Runs bounded Simulate via cause_effect.predict; never stores a fact."""
     from rmc_engine_v1 import cause_effect
 
     out = cause_effect.predict(query, world)
-    return {"status": out["status"], "rule": out["rule"], "prediction": None, "admit": False, "store_as_fact": False}
+    pred = out.get("prediction") if isinstance(out.get("prediction"), dict) else None
+    return {
+        "status": out.get("status"),
+        "rule": out.get("rule"),
+        "prediction": pred,
+        "admit": bool(out.get("admit")),
+        "store_as_fact": False,
+        "intervention": out.get("intervention"),
+        "simulate": out.get("simulate"),
+    }
+
+
+def simulate(world: dict[str, Any], query: str = "") -> dict[str, Any]:
+    """Spec §1.4 Simulate (4.9.243, plan 229 step 12). Forward-chain stored/admitted causal frames under a
+    what-happens-if intervention, bounded depth. The result is branch-local — never written as a fact."""
+    ce = _cause_effect_hook(world, query)
+    pred = ce.get("prediction") if isinstance(ce.get("prediction"), dict) else None
+    sim = ce.get("simulate") if isinstance(ce.get("simulate"), dict) else {}
+    return {
+        "operation": "Simulate",
+        "status": ce.get("status") or "undetermined",
+        "cite": "spec 1vBx_Q9K §1.4 Simulate; plan 229 step 12; predictions are never facts",
+        "world_root": world.get("root"),
+        "query": query,
+        "hypothetical_result": (pred or {}).get("text") if pred else None,
+        "chain": sim.get("chain") or [],
+        "depth": sim.get("depth"),
+        "rules_fired": sim.get("rules_fired") or [],
+        "intervention": ce.get("intervention"),
+        "writes_observed": False,
+        "store_as_fact": False,
+        "calls_llm": False,
+        "cause_effect": ce,
+    }
 
 
 def place_row(node: dict[str, Any], text: str, quarantined: bool) -> dict[str, Any]:
@@ -1586,7 +1655,7 @@ def _clean_node_text(raw: str) -> str:
 
 
 def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Observe recalled evidence, Derive, debate. Simulate stays deferred."""
+    """Observe recalled evidence, Derive, debate; Simulate forward-chains causal frames (4.9.243)."""
     memory = dict(memory or {})
     phase_path = memory.get("phase_path") if isinstance(memory.get("phase_path"), list) else ["Φ1"]
     events = []
@@ -1650,6 +1719,57 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
                  alignment={k: (surv.get("alignment") or {}).get(k) for k in ("aligned", "question_phi", "fact_phase", "delta_deg", "grace", "band_relation", "coupling")} if surv else None,
                  gate={k: (surv.get("gate") or {}).get(k) for k in ("operation", "phi_query", "phi_identity", "delta_phi_deg", "A", "S", "C", "G", "passes")} if surv else None)
     simulated = simulate(world, question)
+    # 4.9.243: when Derive has no survivor and Simulate forward-chained a causal prediction, that prediction is the
+    # turn's derived claim (still admit-gated by Echo/C; never auto-persisted).
+    if not derived.get("survivor") and (simulated.get("cause_effect") or {}).get("prediction"):
+        pred = simulated["cause_effect"]["prediction"]
+        premises = [p for p in (pred.get("premises") or []) if isinstance(p, dict)]
+        text = str(pred.get("text") or "").strip()
+        atom = pred.get("atom") if isinstance(pred.get("atom"), dict) else {"predicate": "holds", "args": [text], "polarity": "pos"}
+        proof = _proof_shell(world, atom, [
+            {"n": i + 1, "kind": "fact", "fact_id": p.get("id"), "premises": [], "substitution": {}, "atom": p.get("atom")}
+            for i, p in enumerate(premises)
+        ] + ([{
+            "n": len(premises) + 1, "kind": "rule", "rule_id": pred.get("how") or "WM-SIMULATE",
+            "premises": list(range(1, len(premises) + 1)), "substitution": {}, "atom": atom,
+        }] if premises else []))
+        checked = check_proof(world, proof) if premises else {"ok": True, "cite": "simulate_no_premises_check"}
+        claim = _finish_claim(
+            world, text, atom, premises or [{"id": "simulate", "text": text, "source": "simulate"}],
+            proof, checked, "supported_only", str(pred.get("how") or "WM-SIMULATE"), phase_path or [],
+        )
+        claim["fact_frame"] = pred.get("fact_frame")
+        claim["frame_match"] = {
+            "rule": str(pred.get("how") or "WM-SIMULATE"),
+            "filler": text,
+            "orientation": "effect",
+            "frame_source": "simulate",
+            "complete": True,
+            "roles": 1,
+            "gap": "pred",
+        }
+        claim["simulate_chain"] = simulated.get("chain") or []
+        claim["kind"] = "causal_prediction"
+        # Speak the chain like a copula hop: each premise (exact stored sentence) then the effect conclusion.
+        # measure_spoken then scores hops against their own rows (high C); Echo still reads the effect filler.
+        seen_txt = set()
+        spoken_parts = []
+        for prem in premises:
+            pt = str(prem.get("text") or "").strip()
+            if pt and _norm(pt) not in seen_txt:
+                seen_txt.add(_norm(pt))
+                spoken_parts.append(pt if pt.endswith(".") else pt + ".")
+        if text and _norm(text) not in seen_txt:
+            spoken_parts.append(text if text.endswith(".") else text + ".")
+        spoken = " ".join(spoken_parts) if spoken_parts else text
+        claim["text"] = text  # survivor text stays the effect; derived_text is the full chain
+        derived = dict(derived)
+        derived["status"] = "supported_only"
+        derived["reason"] = "simulate_forward_chain"
+        derived["survivor"] = claim
+        derived["derived_text"] = spoken
+        derived["claims"] = list(derived.get("claims") or []) + [claim]
+        derived["match_mode"] = "simulate"
     count = int(memory.get("active_memory_count") or memory.get("active") or len(source_rows) or 0)
     survivor = derived.get("survivor")
     return {

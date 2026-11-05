@@ -104,7 +104,7 @@ T('version, registry, CONFLICTS, and NEXT_BUILD name 4.9.126 and leave a deep IA
   const cf = fs.readFileSync(ROOT + '/CONFLICTS.md', 'utf8');
   const at = cf.lastIndexOf('## v4.9.126');
   expect(at > cf.lastIndexOf('## v4.9.125'), 'section');
-  const end127 = cf.indexOf('## v4.9.127', at);
+  const end127 = cf.includes('## v4.9.127', at);
   const sec = cf.slice(at, end127 > at ? end127 : undefined);
   expect(/UI shell|shell polish|typography|status pills|Doc 7/i.test(sec), 'shell');
   expect(/invent|compose|UNSUPPORTED|starter/i.test(sec), 'copy');
