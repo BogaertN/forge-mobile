@@ -1,5 +1,5 @@
 {
- "version": "4.9.232",
+ "version": "4.9.233",
  "features": [
   {
    "id": "A-01",
@@ -4220,13 +4220,25 @@
    "proof": [
     "verify/r4232_suite.js"
    ]
+  },
+  {
+   "id": "R4233-DERIVE-FRAME-PHASE",
+   "name": "Derive by frame match AND phase/band alignment: a fact or chain conclusion answers only when its frame unifies with the phone's question frame and its placement is phase-aligned (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank aligned matches; coverage is a logged tie-break",
+   "source": "Nic plan 229 step 5 (pt258u, 2026-11-05) and the 9:27 steering",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "4.9.233: derive_frame.match unifies the question frame (kriyā, known roles, gap) with the fact's clause frame, the roles of a clause that did not cover its sentence (role_frame, marked partial) or an is() atom; copula 'What is X?' reads X as kartṛ, a definite X may also be the predicate (specificational); polar needs both roles; one relational-noun rule WM-NAME-OF. derive_frame.alignment uses resonance_recall._grace, band_tuning.relation/tune and frequency_204.attract_dh against each phase on the question's phase path. A copula-chain conclusion carries the frame built from its premises and speaks its own chain. No frame match, or no aligned match, is undetermined. Without a question frame the old coverage ranking still runs (engine-only callers). Partial: most remembered facts sit at the placement default Φ9 (no meaning id), so alignment against Φ1 questions is δ 40° and against Φ7 ('my dog's name') δ 80° (held); the Ask gate still measures the orchestrator's candidate, so a correct world-model claim can still be held on C.",
+   "proof": [
+    "verify/r4233_suite.js",
+    "CONFLICTS.md v4.9.233 live Ask run (headless Chrome, local build)"
+   ]
   }
  ],
- "count": 385,
+ "count": 386,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 189,
+  "Partial": 190,
   "Missing": 9,
   "Out of scope / parked": 47
  }

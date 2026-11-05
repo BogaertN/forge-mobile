@@ -215,6 +215,24 @@ def _np_frame(np: Any) -> dict[str, Any] | None:
     return {k: v for k, v in out.items() if v not in (None, False, "")}
 
 
+def role_frame(rec: dict[str, Any] | None) -> dict[str, Any] | None:
+    """4.9.233: the roles of a parsed clause that did not cover its sentence. Not an atom; Derive may match on the roles
+    it has (a "What is X?" kartṛ), and says the frame was partial."""
+    if not isinstance(rec, dict) or not rec.get("parsed"):
+        return None
+    kartr = _np_frame(rec.get("kartr"))
+    verb = str(rec.get("kriya") or "").strip().lower()
+    if not kartr or not verb:
+        return None
+    out = {"kriya": verb, "polarity": "neg" if str(rec.get("polarity") or "pos") == "neg" else "pos", "kartr": kartr, "complete": False}
+    pred = rec.get("pred") if isinstance(rec.get("pred"), dict) else None
+    if pred and str(pred.get("text") or "").strip():
+        out["pred"] = _np_frame(pred) if pred.get("type") == "np" else {"text": str(pred["text"]), "type": pred.get("type")}
+    if _np_frame(rec.get("karma")):
+        out["karma"] = _np_frame(rec.get("karma"))
+    return out
+
+
 def clause_record(clause: Any, sentence: str) -> dict[str, Any] | None:
     """The clause record of one sentence: the row's clause, or the sentence of a multi-sentence row it was parsed from."""
     from rmc_engine_v1.memory_clauses import norm, sentences
@@ -320,6 +338,8 @@ def _fact_row(fid: str, parsed: dict[str, Any], *, source: str, provenance: list
         "parsed": bool(parsed.get("parsed")),
         # 4.9.232: the clause frame the atom came from (None for a regex reading) and the row's placement
         "frame": parsed.get("frame"),
+        # 4.9.233: the roles of a clause that did not cover the sentence (Derive may match on them, marked partial)
+        "role_frame": parsed.get("role_frame"),
         "atom_source": parsed.get("atom_source") or ("clause" if parsed.get("frame") else "regex"),
         "place": parsed.get("place"),
         **_place_fields(parsed.get("place")),
@@ -395,7 +415,8 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
             if len(facts) >= LIMITS["MAX_FACTS"]:
                 revisions.append({"op": "limit", "reason": "MAX_FACTS", "cite": LIMITS["cite"]})
                 break
-            parsed, why = atom_from_clause(sentence, clause_record(event.get("clause"), sentence))
+            rec = clause_record(event.get("clause"), sentence)
+            parsed, why = atom_from_clause(sentence, rec)
             if parsed is None:
                 reason = why.split(":")[0]
                 fallback_reasons[reason] = fallback_reasons.get(reason, 0) + 1
@@ -405,7 +426,7 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
                 parsed = parse_sentence(sentence)
                 if not parsed:
                     continue
-                parsed = dict(parsed, atom_source="regex" if parsed.get("parsed") else "stated", clause_reason=why)
+                parsed = dict(parsed, atom_source="regex" if parsed.get("parsed") else "stated", clause_reason=why, role_frame=role_frame(rec))
             else:
                 parsed = dict(parsed, atom_source="clause")
             sources[parsed["atom_source"]] += 1
@@ -836,8 +857,12 @@ def _attach_speech(claims: list[dict[str, Any]], topical: list[dict[str, Any]], 
         claim["spoken"] = " ".join(parts)
 
 
-def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = None) -> dict[str, Any]:
-    """Spec §1.4 Derive. Contract §5 four-valued result. Contract §6 steps 6–8."""
+def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = None, qframe: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Spec §1.4 Derive. Contract §5 four-valued result. Contract §6 steps 6–8.
+
+    4.9.233 (plan 229 step 5): with the phone's question frame, Derive matches by frame and phase/band alignment
+    (_derive_by_frame). Without a frame (an engine-only caller) the older word-coverage ranking runs and says so.
+    """
     facts = _active(world)
     # Self-facts answer a question about Forge. They are not topical premises for other questions.
     topical = [f for f in facts if not f.get("self_fact")]
@@ -848,6 +873,8 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
         return _derive_report(world, question, "undetermined", "no content tokens in the question", claims, incomplete)
     if len(question) > LIMITS["MAX_INPUT_CHARS"]:
         return _derive_report(world, question, "incomplete", "MAX_INPUT_CHARS", claims, True)
+    if isinstance(qframe, dict) and qframe.get("kriya") and (qframe.get("parsed") or qframe.get("partial")):
+        return _derive_by_frame(world, question, phase_path or [], qframe, topical)
 
     # Direct support. Contract acceptance C: a stored fact that answers the query.
     ranked = sorted(topical, key=lambda f: (-_role_lock(question, f["text"]), -_coverage(question, f["text"]), str(f.get("text") or ""), str(f["id"])))
@@ -964,6 +991,177 @@ def derive(world: dict[str, Any], question: str, phase_path: list[Any] | None = 
     return report
 
 
+def _frame_claim(claim: dict[str, Any], fact_frame: dict[str, Any] | None, source: str, matched: dict[str, Any] | None,
+                 aligned: dict[str, Any], question: str) -> dict[str, Any]:
+    claim["frame_match"] = dict(matched, frame_source=source, complete=bool((fact_frame or {}).get("complete", True))) if matched else None
+    claim["fact_frame"] = fact_frame
+    claim["alignment"] = aligned
+    # logged tie-break only; never the reason a fact answers
+    claim["coverage_tiebreak"] = round(float(_coverage(question, claim.get("text") or "")), 6)
+    return claim
+
+
+def _frame_key(c: dict[str, Any]) -> tuple:
+    m = c.get("frame_match") or {}
+    a = c.get("alignment") or {}
+    return (
+        -int(bool(m)), -int(bool(a.get("aligned"))), -int(m.get("roles") or 0), -int(bool(m.get("complete"))),
+        -int(a.get("grace_key") or 0), -int(a.get("band_key") or 0), -float(a.get("coupling") or 0.0),
+        len(c.get("provenance") or []), -float(c.get("coverage_tiebreak") or 0.0),
+        float((c.get("drift") or {}).get("epsilon_s") or 0.0), str(c.get("text") or ""), str(c.get("proof_id") or ""),
+    )
+
+
+def _cap(sentence: str) -> str:
+    t = str(sentence or "").strip()
+    t = t[:1].upper() + t[1:] if t else t
+    return t if not t or t[-1] in ".!?" else t + "."
+
+
+def _derive_by_frame(world: dict[str, Any], question: str, phase_path: list[Any], qframe: dict[str, Any], topical: list[dict[str, Any]]) -> dict[str, Any]:
+    """4.9.233: a fact answers only when its frame unifies with the question frame AND its placement is phase-aligned
+    with the question (grace = rpm·cos²δ, δ ≤ π/4); band relation and the 4.9.204 attraction rank the aligned matches;
+    word coverage is a logged tie-break. A copula-chain conclusion carries the frame built from its premises."""
+    from rmc_engine_v1 import derive_frame as DF
+
+    def placed(row: dict[str, Any]) -> dict[str, Any]:
+        return row.get("place") if isinstance(row.get("place"), dict) else place_row({}, str(row.get("text") or ""), bool(row.get("quarantined")))
+
+    claims: list[dict[str, Any]] = []
+    incomplete = False
+    considered = 0
+    direct = []
+    for fact in topical:
+        ff, src = DF.fact_frame(fact)
+        considered += 1
+        m = DF.match(qframe, ff)
+        if m:
+            direct.append((fact, ff, src, m, DF.alignment(placed(fact), phase_path, question)))
+    direct.sort(key=lambda d: (-int(bool(d[4].get("aligned"))), -int(bool(d[2] == "clause")), -int(d[4].get("grace_key") or 0),
+                               -int(d[4].get("band_key") or 0), -float(d[4].get("coupling") or 0.0), str(d[0].get("text") or ""), str(d[0]["id"])))
+    for fact, ff, src, m, al in direct[:4]:
+        proof = _direct_proof(world, fact)
+        checked = check_proof(world, proof)
+        claim = _finish_claim(world, fact["text"], fact["atom"], [fact], proof, checked, "supported_only", "direct", phase_path)
+        claims.append(_frame_claim(claim, ff, src, m, al, question))
+
+    # Copula chain: every conclusion is checked and debated; only a conclusion whose frame unifies with the question can
+    # answer. The others stay in the pool as hops (bounded).
+    pool = list(topical)
+    proof_facts = list(world.get("facts") or [])
+    seen: set[tuple[str, str, str]] = set()
+    for fact in pool:
+        atom = fact.get("atom") or {}
+        args = atom.get("args") or []
+        if atom.get("predicate") == "is" and len(args) >= 2:
+            seen.add((_norm(args[0]), _norm(args[1]), str(atom.get("polarity") or "pos")))
+    rounds, chain_claims = 0, 0
+    while rounds < LIMITS["MAX_ROUNDS"]:
+        rounds += 1
+        hops = _match_body(COPULA_RULE["body"], [f for f in pool if not f.get("self_fact")])
+        added = 0
+        for sub, chosen in hops:
+            if chain_claims >= 24:
+                incomplete = True
+                break
+            conclusion = _atom("is", [chosen[0]["atom"]["args"][0], chosen[1]["atom"]["args"][1]], "pos")
+            key = (_norm(conclusion["args"][0]), _norm(conclusion["args"][1]), "pos")
+            if key in seen or _norm(sub.get("$x", "")) == _norm(sub.get("$z", "")):
+                continue
+            text = _render_atom(conclusion)
+            proof_world = dict(world)
+            proof_world["facts"] = proof_facts
+            proof = _chain_proof(proof_world, chosen[0], chosen[1], sub, conclusion)
+            checked = check_proof(proof_world, proof)
+            premises = _original_premises(chosen)
+            claim = _finish_claim(world, text, conclusion, premises, proof, checked, "supported_only", "WM-COPULA-CHAIN", phase_path)
+            hop_rows: list[dict[str, Any]] = []
+            for fact in chosen:
+                prior = fact.get("hop_trace") if isinstance(fact.get("hop_trace"), list) else None
+                if prior:
+                    hop_rows.extend(prior)
+                    continue
+                measured = _drift_for(fact["text"], [fact], phase_path)
+                hop_rows.append(_hop_row(fact["text"], list(fact.get("provenance") or [fact.get("id")]), measured, len(hop_rows) + 1))
+            hop_rows.append(_hop_row(text, [p.get("id") for p in premises], claim["drift"], len(hop_rows) + 1))
+            for i, hop in enumerate(hop_rows, start=1):
+                hop["n"] = i
+            claim["hops"] = hop_rows
+            cframe = DF.chain_frame(chosen[0], chosen[1], conclusion)
+            place = _derived_place(chosen)
+            m = DF.match(qframe, cframe)
+            _frame_claim(claim, cframe, "chain", m, DF.alignment(place or placed({"text": text}), phase_path, question), question)
+            claim["intermediate"] = not bool(m)
+            claims.append(claim)
+            chain_claims += 1
+            if claim.get("debate", {}).get("survived") is not True:
+                continue
+            seen.add(key)
+            row = _fact_row(
+                "hop-" + _digest(text)[:12], {"text": text, "atom": conclusion, "parsed": True, "atom_source": "derive", "place": place, "frame": cframe},
+                source="derive", provenance=[p.get("id") for p in premises], quarantined=False,
+                cite="contract 1g2034-K §5 bounded multi-hop forward derivation",
+            )
+            row["source_facts"] = premises
+            row["hop_trace"] = hop_rows
+            pool.append(row)
+            proof_facts = proof_facts + [row]
+            added += 1
+        if added == 0:
+            break
+
+    for claim in claims:
+        atom = claim["atom"]
+        if atom.get("predicate") != "is":
+            continue
+        opposite = "neg" if atom.get("polarity") != "neg" else "pos"
+        for other in topical:
+            oatom = other.get("atom") or {}
+            if oatom.get("predicate") == "is" and oatom.get("polarity") == opposite and \
+                    [_norm(a) for a in atom.get("args") or []] == [_norm(a) for a in oatom.get("args") or []]:
+                claim["status"] = "conflicted"
+                claim["debate"] = run_debate(claim, content_tokens=content_tokens)
+
+    matched = [c for c in claims if c.get("frame_match")]
+    answers = [c for c in matched if (c.get("alignment") or {}).get("aligned") and c.get("status") != "conflicted"
+               and c.get("debate", {}).get("survived") is True]
+    if answers:
+        status, reason = "supported_only", "frame match, phase-aligned"
+    elif any(c.get("status") == "conflicted" for c in matched):
+        status, reason = "conflicted", "the matching facts conflict"
+    elif matched and not any((c.get("alignment") or {}).get("aligned") for c in matched):
+        status, reason = "undetermined", "frame matched but no match is phase-aligned with the question"
+    elif matched:
+        status, reason = "undetermined", "frame matched but no match survived the check and debate"
+    else:
+        status, reason = ("incomplete", "MAX_ROUNDS") if incomplete else ("undetermined", "no fact frame unifies with the question frame")
+    for claim in answers:
+        if claim.get("how") == "WM-COPULA-CHAIN":
+            parts = [str(h.get("text") or "") for h in claim.get("hops") or [] if len(h.get("provenance") or []) == 1][:4]
+        else:
+            parts = []
+        parts.append(str(claim.get("text") or ""))
+        claim["spoken"] = " ".join(dict.fromkeys(_cap(p) for p in parts if p.strip()))
+    report = _derive_report(world, question, status, reason, claims, incomplete, answers=answers)
+    report["match_mode"] = "frame_and_phase"
+    report["frame_trace"] = {
+        "rule": "4.9.233 frame unification x phase/band alignment",
+        "question_frame": {k: qframe.get(k) for k in ("wh", "wh_role", "kriya", "polarity", "rule")},
+        "question_phases": DF.question_phases(phase_path),
+        "facts_considered": considered,
+        "direct_matches": len(direct),
+        "chain_claims": chain_claims,
+        "frame_matched": len(matched),
+        "aligned": sum(1 for c in matched if (c.get("alignment") or {}).get("aligned")),
+        "answers": len(answers),
+        "unaligned_matches": [{"text": c.get("text"), "fact_phase": (c.get("alignment") or {}).get("fact_phase"),
+                               "delta_deg": (c.get("alignment") or {}).get("delta_deg")} for c in matched if not (c.get("alignment") or {}).get("aligned")][:4],
+    }
+    if not report.get("derived_text"):
+        report["derived_text"] = _chat_derived(question)
+    return report
+
+
 def _chat_derived(question: str) -> str:
     """The self-fact for a chat act, so the first pass and the fill pass record the same sentence."""
     from rmc_engine_v1.language_core_proto_chat import chat_fact_act, handle_chat
@@ -1008,9 +1206,14 @@ def _finish_claim(world, text, atom, premises, proof, checked, status, how, phas
     return claim
 
 
-def _derive_report(world, question, status, reason, claims, incomplete) -> dict[str, Any]:
-    survivors = [c for c in claims if c.get("debate", {}).get("survived")]
-    survivors.sort(key=lambda c: (
+def _derive_report(world, question, status, reason, claims, incomplete, answers=None) -> dict[str, Any]:
+    if answers is not None:
+        # 4.9.233: frame mode. Only frame-matched, phase-aligned survivors answer; matched claims are listed first.
+        survivors = sorted(answers, key=_frame_key)
+        claims = sorted(claims, key=_frame_key)
+    else:
+        survivors = [c for c in claims if c.get("debate", {}).get("survived")]
+    survivors.sort(key=_frame_key) if answers is not None else survivors.sort(key=lambda c: (
         -_role_lock(question, c.get("text") or ""),
         -_coverage(question, c.get("text") or ""),
         -len(c.get("provenance") or []),
@@ -1054,6 +1257,10 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "chi": claim.get("chi"),
         "hops": claim.get("hops") or [],
         "spoken": claim.get("spoken") or claim.get("text"),
+        "frame_match": claim.get("frame_match"),
+        "alignment": claim.get("alignment"),
+        "coverage_tiebreak": claim.get("coverage_tiebreak"),
+        "intermediate": claim.get("intermediate"),
         "debate": {
             "survived": debate.get("survived"),
             "frame": (debate.get("frame") or {}).get("id"),
@@ -1198,7 +1405,15 @@ def run_world_model(question: str, memory: dict[str, Any] | None = None) -> dict
                         with_meaning=sum(1 for f in admitted_facts if f.get("meaning_id")),
                         sample=[{"text": f["text"][:80], "atom": f["atom"], "atom_source": f.get("atom_source"),
                                  **{k: f.get(k) for k in ("meaning_id", "phase", "band", "hz", "group")}} for f in admitted_facts[:6]])
-    derived = derive(world, question, phase_path)
+    # 4.9.233: the phone's question frame (question_frame.current(), checked against this question) drives Derive
+    from rmc_engine_v1 import question_frame as _qf
+    qframe = _qf.current() if _qf.valid(_qf.current(), question) else None
+    derived = derive(world, question, phase_path, qframe)
+    if qframe is not None:
+        surv = derived.get("survivor") or {}
+        _qf.note("world_model.derive", match_mode=derived.get("match_mode"), status=derived.get("status"), reason=derived.get("reason"),
+                 trace=derived.get("frame_trace"), survivor=surv.get("text"), frame_match=surv.get("frame_match"),
+                 alignment={k: (surv.get("alignment") or {}).get(k) for k in ("aligned", "question_phi", "fact_phase", "delta_deg", "grace", "band_relation", "coupling")} if surv else None)
     simulated = simulate(world, question)
     count = int(memory.get("active_memory_count") or memory.get("active") or len(source_rows) or 0)
     survivor = derived.get("survivor")
