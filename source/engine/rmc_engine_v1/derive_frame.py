@@ -80,7 +80,8 @@ def np_unify(q: Any, f: Any) -> bool:
         return False
     if _owner_user(q) != _owner_user(f):
         return False
-    qo, fo = q.get("owner"), f.get("owner")
+    # 4.9.240: the genitive of-phrase is the possessive ("the name of my dog" = "my dog's name"): one possessor slot
+    qo, fo = genitive(q), genitive(f)
     if isinstance(qo, dict) and not (isinstance(fo, dict) and np_unify(qo, fo)):
         return False
     if _head(q) != _head(f):
@@ -90,6 +91,39 @@ def np_unify(q: Any, f: Any) -> bool:
         if isinstance(f.get(sub), dict):
             fw |= _words(f[sub].get("text"))
     return qw <= fw
+
+
+def genitive(np: Any) -> dict[str, Any] | None:
+    """4.9.240: the possessor of a noun phrase, whether written as a possessive ("my dog's name": owner) or as a genitive
+    of-phrase ("the name of my dog": of). English grammar, not a list: both name the same possessor slot."""
+    if not isinstance(np, dict):
+        return None
+    if isinstance(np.get("owner"), dict):
+        return np["owner"]
+    if isinstance(np.get("of"), dict):
+        return np["of"]
+    return None
+
+
+_DEFINITE = frozenset({"the", "this", "that", "these", "those", "my", "your", "his", "her", "its", "our", "their"})
+
+
+def referring(np: Any) -> bool:
+    """4.9.240: a noun phrase that names one particular thing: a proper name, a possessive, a definite determiner, the
+    speaker or the kernel. An indefinite ("a whale"), a bare plural ("whales") or a bare mass noun names a kind or a
+    member of one, not a particular."""
+    if not isinstance(np, dict) or not str(np.get("text") or "").strip():
+        return False
+    if np.get("propn") or np.get("user") or np.get("kernel") or np.get("owner"):
+        return True
+    return str(np.get("det") or "").lower() in _DEFINITE
+
+
+def identity(a: Any, b: Any) -> bool:
+    """4.9.240: a copula between two referring phrases ("Rex is my dog") states identity, which runs both ways. A copula
+    whose predicate (or subject) names a kind or a member of one ("a whale is a living thing") states membership or
+    inclusion, which does not: "a living thing is a whale" does not follow."""
+    return referring(a) and referring(b)
 
 
 def _specific(np: dict[str, Any]) -> bool:
@@ -166,7 +200,7 @@ def attribute_of(qframe: dict[str, Any], fframe: dict[str, Any]) -> dict[str, An
     if qp.get("kind") and np_unify(qs, fs) and is_value_of(qp["kind"], comp):
         return {"roles": 1, "gap": "pred", "filler": comp.get("text"), "orientation": "kartr=kartr", "rule": "attribute_kind",
                 "kind": str(qp["kind"]), "linking": linking}
-    of = qs.get("of") if isinstance(qs.get("of"), dict) else None
+    of = genitive(qs)  # 4.9.240: "the colour of the sky" and "the sky's colour" name the same possessor
     if of and _specific(qs) and np_unify(of, fs) and is_value_of(_head(qs), comp):
         return {"roles": 1, "gap": "pred", "filler": comp.get("text"), "orientation": "of=kartr", "rule": "attribute_of",
                 "kind": _head(qs), "linking": linking}
@@ -220,6 +254,8 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
     if role == "polarity":
         if qk == "be":
             for a, b, orient in ((fs, fp, "kartr=kartr"), (fp, fs, "kartr=pred")):
+                if orient == "kartr=pred" and not identity(fs, fp):
+                    continue  # 4.9.240: only an identity runs backwards; kind and membership never do
                 if np_unify(qs, a) and np_unify(qp, b):
                     yes = (fpol == (qframe.get("polarity") or "pos"))
                     return {"roles": 2, "gap": None, "filler": "yes" if yes else "no", "orientation": orient, "rule": "polar"}
@@ -238,7 +274,7 @@ def match(qframe: dict[str, Any] | None, fframe: dict[str, Any] | None) -> dict[
         if is_gap(qp) and isinstance(qs, dict) and not is_gap(qs):
             if np_unify(qs, fs) and isinstance(fp, dict):
                 return {"roles": 1, "gap": "pred", "filler": fp.get("text"), "orientation": "kartr=kartr", "rule": "copula"}
-            if _specific(qs) and np_unify(qs, fp) and isinstance(fs, dict):
+            if _specific(qs) and np_unify(qs, fp) and isinstance(fs, dict) and identity(fs, fp):
                 return {"roles": 1, "gap": "pred", "filler": fs.get("text"), "orientation": "kartr=pred", "rule": "copula_specificational"}
             if _head(qs) == "name" and isinstance(qs.get("owner"), dict) and isinstance(fp, dict) and fp.get("propn") and np_unify(qs["owner"], fs):
                 return {"roles": 1, "gap": "pred", "filler": fp.get("text"), "orientation": "owner=kartr", "rule": RULE_NAME_OF}
@@ -283,6 +319,10 @@ def owner_of(qframe: dict[str, Any], fframe: dict[str, Any]) -> dict[str, Any] |
     fs, fp = fframe.get("kartr"), fframe.get("pred")
     for owned, other, orient in ((fs, fp, "karma=pred"), (fp, fs, "karma=kartr")):
         who = possessor(owned)
+        # 4.9.240: "whose N is X" carries N as the karma's kind: the possessed side must be an N ("my dog" for "whose dog")
+        kind = qo.get("kind") if isinstance(qo, dict) else None
+        if kind and _head(owned or {}) != _sing(str(kind)):
+            continue
         if who and isinstance(other, dict) and np_unify(qo, other):
             return {"roles": 1, "gap": "kartr", "filler": who, "orientation": orient, "rule": RULE_OWNER_OF,
                     "owned": str(owned.get("text") or ""), "owned_head": _head(owned)}

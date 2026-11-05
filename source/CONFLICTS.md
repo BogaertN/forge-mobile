@@ -1,3 +1,36 @@
+## v4.9.240 — A copula converse holds only for identity; four paraphrases compile to the frame of their originals (plan 229, 1:01 PM CST)
+
+**Conflict:** 4.9.239 left one false acceptance and four false rejects in the 18-question Ask set. (1) "Is a living thing a whale?" was answered yes from "a whale is a living thing": `derive_frame.match` tried the swapped polar orientation (question kartṛ = fact predicate) for every copula, which is valid for an identity ("Rex is my dog") but not for kind or membership, and structural Echo passed every role because it trusted the match (`hit = bool(m) or …`) instead of checking positions. (2) Four paraphrases did not compile to the frame of their plain question, so they were held: "Who is the author of Hamlet?" (a copula with an of-phrase, not write(?, Hamlet)), "What is the name of my dog?" (of instead of owner), "Whose dog is Rex?" (no parse at all), "Are whales living things?" (parsed "whales living are things").
+**Where:** `engine/rmc_engine_v1/derive_frame.py`:
+- `genitive` (new): a phrase's possessor, whether written as owner ("my dog's name") or as an of-phrase ("the name of my dog"). `np_unify` compares that one possessor slot; `attribute_of` reads it.
+- `referring` and `identity` (new): a proper name, a possessive, a definite determiner, the speaker or the kernel refers; an indefinite, a bare plural or a bare mass noun names a kind. A copula between two referring phrases is an identity.
+- `match` polar: the swapped orientation `kartr=pred` is tried only for an identity; `copula_specificational` likewise.
+- `owner_of`: a karma kind ("whose dog") must be the possessed head.
+
+`engine/rmc_engine_v1/structural_echo.py`, `score`: for a copula claim each question role is checked at the position the match says it fills (also when no match is given), and a swapped reading adds a hard `orientation` check that scores 0 unless it is an identity.
+
+`src/qframe.js`: canonical frames, read off the lexicon and recorded in `frame.canonical` with the surface rule and declarative kept:
+- **QF-CANON-AGENT-OF:** "the N of X", N an agent noun, is "someone Vs X". V comes from N's noun.person gloss ("writes (books…)", "a person who owns something") or its -er/-or suffix. "Is S the N of X?" is "S Vs X".
+- **QF-CANON-GENITIVE:** "the N of X", X referring, is "X's N".
+- **QF-CANON-WHOSE:** "whose N is X?" is "someone owns X", X of kind N, asked role kartṛ (whose is the genitive of who).
+- **QF-CANON-GENERIC-PLURAL:** "are Xs Ys?" with bare plurals is "is an X a Y?", the plural naming the kind.
+
+`verify/r4240_suite.js` (new). Version pins in the r41xx–r42xx suites; registry Partial 197; the 4.9.217/218/237/238/239 CONFLICTS-position checks allow this entry above them.
+**Resolution:** The converse is now refused in the matcher and caught independently by structural Echo. It is held (route correction_queue, C 0.486139, no fact frame unifies), never answered yes. "Is Rex my dog?" still answers from "My dog is Rex." because that is an identity. No question is special-cased: no question text, topic word or answer is named anywhere in the rules; each rule is English grammar applied through the kernel's own parser and lexicon.
+
+Ask run through the real Ask path in headless Chrome (`/workspace/step240/asks.txt`, engine bundle sha384-YRmbI/O7YsYOkP5bn1/zBucJMfJLHqfrvWanxOdfiiMtdAyBgxDIQrj6eSd6mbaj), expectations unchanged from 4.9.239:
+- **4.9.240:** 13 true accepts, 5 true rejects, 0 false accepts, 0 false rejects.
+- **4.9.239:** 9 / 4 / 1 / 4.
+- All five paraphrase groups now give the same disposition, the same reply and the same supporting memories.
+- The ten 4.9.238 asks give the same replies and dispositions as in 4.9.238 (sense prompt for "What is a whale?", quoted oxygen, breed and age held).
+
+Phase is untouched: ΔΦ and A are still recorded apart on every candidate and answer, break ties only, never veto and are not in C (Nic, 4.9.239). Thresholds unchanged (C_min 0.87, Echo 0.85 / 0.97, drift ≤ 0.35 / 0.80, 5→8 forbidden). The R4117 no-model guard is unchanged, no model is called, Wikipedia is not an anchor, and nothing is written to Athena or hosted Supabase.
+
+Open:
+- A remembered bare-plural clause ("Whales are mammals.") still parses its predicate as an adjective. The canonical rule is applied to questions, not yet to remembered clauses.
+- The agent-of reading takes its tense from the copula ("is the author of" → writes), not from the work; tense is not part of the match.
+- The converse is held, not answered "not necessarily".
+
 ## v4.9.239 — Semantic support, structural coherence and phase compatibility are separate measurements; ΔΦ is a tie-breaker (Nic, 12:15 CST)
 
 **Conflict:** 4.9.238 stopped ΔΦ from vetoing a recalled row, but phase still entered support in two places, and through them C. (1) A copula hop was weighed by cos² of its phase gap to the anchor (4.9.235). (2) A world-model premise that recall had not weighed was weighed by G = S·C·(1 + cos ΔΦ)/2 (4.9.236), or by cos² of the gap to the question phase (4.9.185). So a Φ9 memory spoke at C 0.874393 and the same answer from a Φ7 memory at 0.909596. Nic ruled (12:15 CST, as relayed): *"Phase is a retrieval discriminator, not a substitute for semantic evidence."* Semantic support, structural coherence and phase compatibility are separate measurements and must not be folded into C. ΔΦ and phase compatibility are recorded as their own signals on every candidate and every answer, with no veto, and ΔΦ stays a tie-breaker for equally supported candidates (Build A). The 120° separation is a property of the phase model; on its own it does not show that two memories are cognitively incompatible.

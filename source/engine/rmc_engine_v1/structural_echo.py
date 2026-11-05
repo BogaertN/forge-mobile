@@ -74,12 +74,26 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
                                                              else ("relational rule " + str(rule) if m else "different kriyā"))})
     gap = str(qframe.get("wh_role") or "")
     croles = _roles_of(ff)
+    orient = str((m or {}).get("orientation") or "")
+    # 4.9.240: for a copula claim each question role is checked at the position the match says it fills, not just
+    # anywhere in the fact; and a swapped reading (question kartṛ = fact predicate) holds only for an identity between
+    # two referring phrases. "Is a living thing a whale?" against "a whale is a living thing" fails both checks.
+    positional = fk == "be" and (rule in ("polar", "copula", "copula_specificational") or (m is None and qk == "be"))
+    swapped = orient == "kartr=pred"
+    place = {"kartr": "pred" if swapped else "kartr", "pred": "kartr" if swapped else "pred"}
     for k in ROLES:
         qnp = qframe.get(k)
         if not isinstance(qnp, dict) or DF.is_gap(qnp) or not str(qnp.get("text") or "").strip():
             continue
+        if positional and k in place:
+            hit = DF.np_unify(qnp, ff.get(place[k]))
+            checks.append({"check": "role:" + k, "ok": hit, "question": qnp.get("text"), "at": place[k]})
+            continue
         hit = bool(m) or any(DF.np_unify(qnp, f) for f in croles)
         checks.append({"check": "role:" + k, "ok": hit, "question": qnp.get("text")})
+    if positional and swapped:
+        ident = DF.identity(ff.get("kartr"), ff.get("pred"))
+        checks.append({"check": "orientation", "ok": ident, "hard": True, "reading": "identity runs both ways" if ident else "kind or membership does not run backwards"})
     filler = (m or {}).get("filler")
     checks.append({"check": "gap:" + gap, "ok": bool(filler), "filler": filler, "kind": ((qframe.get("pred") or {}).get("kind") if isinstance(qframe.get("pred"), dict) else None)})
     args = [_norm(a) for a in atom.get("args") or []]
@@ -94,6 +108,8 @@ def score(qframe: dict[str, Any], claim: dict[str, Any] | None, reply: str) -> d
                    "spoken": (conclusion or {}).get("text")})
     held = sum(1 for c in checks if c["ok"])
     value = round(held / len(checks), 6) if checks else 0.0
+    if any(c.get("hard") and not c["ok"] for c in checks):
+        value = 0.0  # 4.9.240: a converse read off a kind or membership is not the claim asked about, whatever else holds
     return {
         "score": value,
         "min": THRESHOLDS["echo_min"],

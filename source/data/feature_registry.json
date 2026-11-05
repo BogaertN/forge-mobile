@@ -1,5 +1,5 @@
 {
- "version": "4.9.239",
+ "version": "4.9.240",
  "features": [
   {
    "id": "A-01",
@@ -4309,13 +4309,26 @@
     "CONFLICTS.md v4.9.239",
     "real Ask run /workspace/step239/experiment.md"
    ]
+  },
+  {
+   "id": "R4240-CANONICAL-FRAMES",
+   "name": "A copula converse holds only for identity; paraphrases compile to the frame of the plain question by general grammar rules",
+   "source": "plan 229, 2026-11-05 1:01 PM CST (fix the converse false accept and four paraphrase parse misses)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "derive_frame: a yes/no copula reads a fact backwards (question kartṛ = fact predicate) only when both sides are referring phrases (proper name, possessive, definite determiner, speaker or kernel): an identity such as 'Rex is my dog'. A kind or membership ('a whale is a living thing') never runs backwards; copula_specificational obeys the same rule. Structural Echo checks each question role at the position the match says it fills and fails (score 0, a hard check) a swapped reading that is not an identity. qframe canonical rules, read off the lexicon, recorded in frame.canonical with the surface kept: QF-CANON-AGENT-OF (an agent noun's noun.person gloss or -er/-or suffix names its verb: 'the author of X' = 'someone writes X'), QF-CANON-GENITIVE ('the N of X' with X referring = 'X's N'; the engine's np_unify treats of and owner as one possessor slot), QF-CANON-WHOSE ('whose N is X' = 'someone owns X', X of kind N, checked by WM-OWNER-OF), QF-CANON-GENERIC-PLURAL ('are Xs Ys' with bare plurals = 'is an X a Y'). Partial: a remembered bare-plural clause ('Whales are mammals.') still parses its predicate as an adjective; tense of an agent-of reading follows the copula, not the work.",
+   "proof": [
+    "verify/r4240_suite.js",
+    "CONFLICTS.md v4.9.240",
+    "real Ask run /workspace/step240/asks.txt"
+   ]
   }
  ],
- "count": 392,
+ "count": 393,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 196,
+  "Partial": 197,
   "Missing": 9,
   "Out of scope / parked": 47
  }
