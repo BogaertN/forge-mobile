@@ -125,6 +125,89 @@
     }
     return out;
   }
+  /* 4.9.240 (plan 229): CANONICAL FRAMES. A paraphrase compiles to the same kāraka frame as the plain question, by general rules of
+   * English grammar read off the lexicon (no question lists, no topic words):
+   *   QF-CANON-AGENT-OF  "the N of X", N an agent noun of the verb V, is "the one who Vs X": "Who is the author of Hamlet?" =
+   *                      "Who wrote/writes Hamlet?". The agent verb comes from the lexicon: a noun.person sense whose gloss is the
+   *                      verb ("writes (books…)", "a person who owns something"), or the -er/-or agent suffix on a verb.
+   *   QF-CANON-GENITIVE  "the N of X", X a referring phrase, is the possessive "X's N" (one possessor slot).
+   *   QF-CANON-WHOSE     "whose N is X?" asks X's possessor: "someone owns X", X of kind N (whose is the genitive of who).
+   *   QF-CANON-GENERIC-PLURAL  "are Xs Ys?" with bare plurals is the generic "is an X a Y?" (the plural names the kind).
+   * The surface is kept: f.canonical lists the rules applied and f.surface_declarative the reading before them. Mirrored by the
+   * engine's np_unify (genitive = possessive) so facts written either way meet. Deterministic; no model. */
+  const DEFINITE = new Set(['the', 'this', 'that', 'these', 'those']);
+  const sensesOf = (forge, w, pos) => { try { const L = forge && forge.lexicon; const ss = L && typeof L.senses === 'function' ? (L.senses(w) || []) : []; return pos ? ss.filter(x => x && x.pos === pos) : ss; } catch (e) { return []; } };
+  const isVerb = (forge, v) => !!v && sensesOf(forge, v, 'v').length > 0;
+  const lastHead = n => { const h = n && n.head; return h ? String(h).split(/\s+/).pop().toLowerCase() : null; };
+  const referringNP = n => !!(n && typeof n === 'object' && !n.indef && (n.propn || n.user || n.kernel || n.owner || DEFINITE.has(String(n.det || '').toLowerCase())));
+  function base3(forge, w) { /* the base form of a third-person -s verb, if the lexicon has it */
+    w = String(w || '').toLowerCase(); if (!/s$/.test(w) || /^(is|was|has|does)$/.test(w)) return null;
+    for (const c of [w.replace(/ies$/, 'y'), w.replace(/es$/, ''), w.replace(/s$/, '')]) if (c && c !== w && isVerb(forge, c)) return c;
+    return null;
+  }
+  function agentVerb(forge, noun) {
+    const ps = sensesOf(forge, noun, 'n').filter(x => x.lexname === 'noun.person'); if (!ps.length) return null;
+    for (const x of ps) { const g = String(x.gloss || '').replace(/^\([^)]*\)\s*/, '').toLowerCase();
+      let m = g.match(/^(?:someone|somebody|one|a person|a \w+|an \w+)\s+who\s+(\w+)/); if (m) { const v = base3(forge, m[1]); if (v) return v; continue; }
+      m = g.match(/^(\w+)\b/); if (m) { const v = base3(forge, m[1]); if (v) return v; } }
+    const m = noun.match(/^(\w+?)(e?r|or)$/); /* agent suffix: writer → write, actor → act, runner → run */
+    if (m) for (const c of [noun.slice(0, -1), noun.slice(0, -2), noun.slice(0, -3)]) if (c.length > 1 && isVerb(forge, c)) return c;
+    return null;
+  }
+  const agentNP = (forge, n) => n && typeof n === 'object' && !n.indef && n.of && typeof n.of === 'object' && String(n.det || '').toLowerCase() === 'the' && !n.owner ? agentVerb(forge, lastHead(n)) : null;
+  function genitiveNP(n) { /* "the N of X" → "X's N" */
+    if (!n || typeof n !== 'object' || !n.of || typeof n.of !== 'object' || String(n.det || '').toLowerCase() !== 'the' || n.owner || n.propn || !referringNP(n.of)) return n;
+    const own = n.of; const out = { text: (own.text || '') + "'s " + [].concat(n.adjs || [], [n.head]).filter(Boolean).join(' '), head: n.head, owner: own, kernel: false, user: false, indef: false };
+    if (n.adjs) out.adjs = n.adjs.slice(); if (n.plural) out.plural = true; if (n.type) out.type = n.type;
+    return out;
+  }
+  const tenseOf = aux => /^(was|were|did)$/.test(String(aux || '')) ? 'past' : 'pres3';
+  function reparse(forge, f, s, rule) {
+    const p = parse(forge, s); if (!p || !p.clause) return false;
+    const was = { rule: f.rule, declarative: f.declarative };
+    for (const k of ['kriya', 'tense', 'polarity', 'modality', 'kartr', 'karma', 'karakas', 'pred', 'adjuncts', 'material']) delete f[k];
+    Object.assign(f, roles(p.clause)); f.parsed = true; f.partial = false; f.declarative = s; f.parses = p.parses;
+    f.canonical = (f.canonical || []).concat([{ rule, surface_rule: was.rule, surface_declarative: was.declarative || null }]);
+    return true;
+  }
+  function canonicalize(f, forge) {
+    if (!f || f.kriya !== 'be') return f;
+    /* agent-of: one side of the copula is "the N of X" with N an agent noun; the other side (a gap or a phrase) is its agent */
+    for (const [side, other] of [['kartr', 'pred'], ['pred', 'kartr']]) {
+      const A = f[side]; const V = agentNP(forge, A); if (!V) continue;
+      const B = f[other]; const gap = !B || B.indef; const agent = gap ? 'someone' : (B && B.text); if (!agent) continue;
+      let vf = V; try { vf = G.inflect(V, tenseOf(f.aux)) || V; } catch (e) {}
+      if (reparse(forge, f, agent + ' ' + vf + ' ' + A.of.text, 'QF-CANON-AGENT-OF')) {
+        if (f.wh_role === 'pred' || f.wh_role === 'kartr') f.wh_role = gap ? 'kartr' : f.wh_role;
+        if (f.wh && f.wh_role === 'kartr' && f.wh === 'who') f.speech_act = f.speech_act || 'who';
+        return f;
+      }
+    }
+    /* genitive: "the N of X" → "X's N" on every role */
+    let did = false;
+    for (const k of ['kartr', 'pred']) { const g = genitiveNP(f[k]); if (g !== f[k]) { f[k] = k === 'pred' ? Object.assign({ type: 'np' }, g) : g; did = true; } }
+    if (did) f.canonical = (f.canonical || []).concat([{ rule: 'QF-CANON-GENITIVE', surface_rule: f.rule, surface_declarative: f.declarative || null }]);
+    return f;
+  }
+  /* singular of a plural noun the lexicon knows ("whales" → whale, "things" → thing); null when it is not a plural noun */
+  function singular(forge, w) {
+    w = String(w || '').toLowerCase(); if (!/s$/.test(w) || /ss$/.test(w)) return null;
+    for (const c of [w.replace(/ies$/, 'y'), w.replace(/(ch|sh|x|s|z)es$/, '$1'), w.replace(/s$/, '')]) if (c && c !== w && sensesOf(forge, c, 'n').length) return c;
+    return null;
+  }
+  const article = w => /^[aeiou]/i.test(w) ? 'an' : 'a';
+  function genericPlural(forge, body) { /* "whales living things" → "a whale is a living thing", every split tried, longest subject first */
+    const lb = body.map(w => w.toLowerCase());
+    if (lb.some(w => has(w, 'DET') || has(w, 'POSS') || has(w, 'PRON') || /'s$/.test(w))) return null;
+    for (let k = body.length - 1; k >= 1; k--) {
+      const L = lb.slice(0, k), R = lb.slice(k); const ls = singular(forge, L[L.length - 1]), rs = singular(forge, R[R.length - 1]);
+      if (!ls || !rs) continue;
+      const left = L.slice(0, -1).concat([ls]), right = R.slice(0, -1).concat([rs]);
+      const s = article(left[0]) + ' ' + join(left) + ' is ' + article(right[0]) + ' ' + join(right);
+      const p = parse(forge, s); if (p && p.clause && p.clause.pred && p.clause.pred.type === 'np') return { s, p };
+    }
+    return null;
+  }
   function selfAct(r, wh, aux) {
     const k = r.kartr; if (!k || !k.kernel) return null;
     if (aux && has(aux, 'MOD')) return 'capability';
@@ -148,6 +231,20 @@
       }
     }
     const isQ = /\?\s*$/.test(text) || has(lw[0], 'WH') || ((has(lw[0], 'COP') || has(lw[0], 'AUX') || has(lw[0], 'MOD')) && ws.length > 1);
+    /* QF-CANON-WHOSE: "whose N COP X?" → "someone owns X", X of kind N; the asked role is the possessor (kartṛ) */
+    if (lw[0] === 'whose' && isQ) {
+      const ci = lw.findIndex((w, i) => i >= 2 && has(w, 'COP'));
+      if (ci >= 2 && ci < lw.length - 1) {
+        const kind = lw[ci - 1]; const body = ws.slice(ci + 1); let vf = 'owns'; try { vf = G.inflect('own', tenseOf(lw[ci])) || vf; } catch (e) {}
+        const s = 'someone ' + vf + ' ' + join(body); const p = parse(forge, s);
+        if (p && p.clause && p.clause.roles && p.clause.roles.karma) {
+          Object.assign(f, roles(p.clause), { wh: 'whose', mood: 'interrogative', aux: lw[ci], wh_role: 'kartr', parsed: true, declarative: s, parses: p.parses, rule: 'QF-WH-SUBJ-DECL', speech_act: 'who' });
+          f.karma = Object.assign({}, f.karma, { kind: singular(forge, kind) || kind }); f.wh_det = kind;
+          f.canonical = [{ rule: 'QF-CANON-WHOSE', surface_rule: 'QF-WH-ADJ-NOPARSE', surface_declarative: null }];
+          return f;
+        }
+      }
+    }
     if (has(lw[0], 'WH') && isQ) {
       const wh = lw[0]; f.wh = wh; f.mood = 'interrogative'; let rest = ws.slice(1); const lrest = lw.slice(1);
       if (wh === 'how' && /^(many|much)$/.test(lrest[0] || '')) { f.quantity = lrest[0]; rest = rest.slice(1); lrest.shift(); }
@@ -182,7 +279,10 @@
     }
     if (isQ && (has(lw[0], 'COP') || has(lw[0], 'AUX') || has(lw[0], 'MOD'))) { /* yes/no: polarity of the declarative */
       f.mood = 'interrogative'; f.aux = lw[0]; f.wh_role = 'polarity';
-      for (const c of declaratives(lw[0], ws.slice(1), null)) { const p = parse(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
+      const gp = /^(are|were)$/.test(lw[0]) ? genericPlural(forge, ws.slice(1)) : null;
+      if (gp) { Object.assign(f, roles(gp.p.clause)); f.parsed = true; f.declarative = gp.s; f.parses = gp.p.parses;
+        f.canonical = [{ rule: 'QF-CANON-GENERIC-PLURAL', surface_rule: 'QF-YN-DECL', surface_declarative: null }]; }
+      if (!gp) for (const c of declaratives(lw[0], ws.slice(1), null)) { const p = parse(forge, c.s); if (p && p.clause) { Object.assign(f, roles(p.clause)); f.parsed = true; f.declarative = c.s; f.parses = p.parses; break; } }
       f.speech_act = selfAct(f, null, f.aux) || 'stated'; f.polar = true; f.rule = 'QF-YN-' + (f.parsed ? 'DECL' : 'NOPARSE');
       return f;
     }
@@ -198,7 +298,7 @@
     if (pf && pf.clause && pf.clause.subj) { f.kartr = np(pf.clause.subj); f.mood = 'fragment'; f.rule = 'QF-FRAGMENT-NP'; return f; }
     f.rule = 'QF-NOPARSE'; return f;
   }
-  function compile(text, forge) { try { return compileQ(text, forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
+  function compile(text, forge) { try { return canonicalize(compileQ(text, forge), forge); } catch (e) { return { schema: SCHEMA, text: String(text || ''), speech_act: null, parsed: false, rule: 'QF-ERROR', error: String(e && e.message || e).slice(0, 200), calls_llm: false }; } }
   const api = { SCHEMA, CLAUSE, compile, clause, clauseCached, splitClauses, FILLER, ADJUNCT };
   if (isNode) module.exports = api; else root.KQFrame = api;
 })(typeof self !== 'undefined' ? self : this);
