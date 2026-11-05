@@ -72,9 +72,11 @@ def begin(payload: dict[str, Any]) -> Any:
         st = stats["by_store"].setdefault(store, 0)
         stats["by_store"][store] = st + 1
         for s in sentences(cl):
-            stats["parsed_sentences" if s.get("parsed") else "unparsed_sentences"] += 1
-            if s.get("parsed"):
-                by_text.setdefault(norm(s.get("text")), s)
+            # 4.9.238: a concessive/causal sentence is counted and indexed by its clauses
+            for c in ([x for x in s.get("clauses") if isinstance(x, dict)] if isinstance(s.get("clauses"), list) else [s]):
+                stats["parsed_sentences" if c.get("parsed") else "unparsed_sentences"] += 1
+                if c.get("parsed"):
+                    by_text.setdefault(norm(c.get("text")), c)
         if row.get("id"):
             by_id[str(row["id"])] = cl
         by_text.setdefault(norm(text), cl)

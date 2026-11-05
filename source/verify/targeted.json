@@ -1,10 +1,11 @@
 {
  "ruling": "Nic dropped the full release.sh gate on 2026-10-21 (4:49 PM): targeted suites for the touched files only",
- "release": "4.9.237",
+ "release": "4.9.238",
  "suites": [
   "r4201_suite.js",
   "r4236_suite.js",
   "r4237_suite.js",
+  "r4238_suite.js",
   "r4235_suite.js",
   "r4234_suite.js",
   "r4233_suite.js",

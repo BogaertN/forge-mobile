@@ -42,11 +42,14 @@ T('cross-band relations follow the 144/n markers: ×3 and ×9 pairs, everything 
 });
 T('rank_memory: same band outranks a harmonic band at equal grace; a harmonic-only row is never active', () => {
   const c = chk(), r = c.recall;
-  expect(r.active[0] === 'b-a' && r.question_phi === 9 && r.tuning.band === '144 Hz carrier' && r.tuning.schema === 'FORGE-BAND-TUNING/v1', JSON.stringify(r).slice(0, 400));
-  expect(r.evidence['b-a'].band_relation.relation === 'same' && r.packets['b-z'].phase === 8 && r.packets['b-a'].phase === 9, 'packets carry Athena bands');
-  expect(c.harmonic_only_active.length === 0 && c.harmonic_only_how === 'none', 'harmonic never admits');
+  // 4.9.238 (Nic, Memory Phase Invariance): Φ_query is the retrieval operation (Φ7), not the text's Φ9 (kept for band tuning).
+  // At equal structure ΔΦ to Φ7 orders the rows: b-z (Φ8.5, 60°, A 0.75) before b-a (Φ9.5, 100°). A row whose phase is far
+  // (b-h, Φ3) is no longer dropped: phase is a weight, never a veto, and the frame-role lock (S) is what admits it.
+  expect(r.active[0] === 'b-z' && r.question_phi === 7 && r.tuning.band === '144 Hz carrier' && r.tuning.schema === 'FORGE-BAND-TUNING/v1', JSON.stringify(r).slice(0, 400));
+  expect(r.evidence['b-z'].A === 0.75 && r.evidence['b-z'].question_text_phi === 9 && r.packets['b-z'].phase === 8 && r.packets['b-a'].phase === 9, 'packets carry Athena bands');
+  expect(c.harmonic_only_active.length === 1 && c.harmonic_only_how === 'frame_role', 'a far phase never vetoes');
   const rr = read('engine/rmc_engine_v1/resonance_recall.py');
-  expect(/_resonance\(row\[2\]\), _band_key\(_band\(row\[0\]\)\["weight"\]\)\)/.test(rr) && /question_phi = question_band/.test(rr) && !/question_tuning import/.test(rr), 'wired; the ± offset retired');
+  expect(/_resonance\(row\[2\]\), _band_key\(_band\(row\[0\]\)\["weight"\]\)\)/.test(rr) && /question_band = question_phi/.test(rr) && !/question_tuning import/.test(rr), 'wired; the ± offset retired');
   expect(/out\["band"\] = _band_tune\(clean_text\(row\)/.test(rr), 'Athena place_packet stores the band');
   expect(/question_tuning\.band/.test(read('src/app.js')) && /question_tuning\.label/.test(read('src/app.js')), 'card shows band and symbolic label');
 });
@@ -66,7 +69,7 @@ T('the cold 60 for 4.9.219 is recorded (not tuned): zero false admits and no adm
   expect(c.admitted >= p.admitted, 'admits');
 });
 T('version registry names 4.9.219', () => {
-  expect(read('VERSION').trim() === '4.9.237', 'VERSION');
+  expect(read('VERSION').trim() === '4.9.238', 'VERSION');
   expect(JSON.stringify(JSON.parse(read('data/feature_registry.json'))).indexOf('R4219-') >= 0, 'registry');
 });
 (async () => {

@@ -25,7 +25,8 @@ function clauseRow(row, QF, F, stat) {
   stat.rows++;
   if (row.clause && row.clause.schema === QF.CLAUSE) { stat.kept++; return row; }
   const c = QF.clauseCached(row.text, F); stat.parsed++;
-  if (!c || !(c.parsed || (c.sentences || []).some(x => x.parsed))) { stat.unparsed++; return row; }
+  const anyParsed = x => !!x && (x.parsed || (x.clauses || []).some(y => y && y.parsed)); /* 4.9.238: a split sentence counts by its clauses */
+  if (!c || !(anyParsed(c) || (c.sentences || []).some(anyParsed))) { stat.unparsed++; return row; }
   // the row's meaning id rides on its clause; phase, band and Hz are placed by the engine's resonance placement each turn
   return Object.assign({}, row, { clause: row.meaning_id ? Object.assign({}, c, { meaning_id: row.meaning_id }) : c });
 }

@@ -1,5 +1,5 @@
 {
- "version": "4.9.237",
+ "version": "4.9.238",
  "features": [
   {
    "id": "A-01",
@@ -4283,13 +4283,26 @@
     "CONFLICTS.md v4.9.237",
     "real Ask run /workspace/step237/asks.txt"
    ]
+  },
+  {
+   "id": "R4238-OPERATION-PHASE-RECALL-STRUCTURAL-ECHO",
+   "name": "Recall reads the retrieval operation's phase (ΔΦ weights, never vetoes); concessive/causal clause split; 'look' as a linking verb; structural Echo (plan 229 step 9)",
+   "source": "Nic 2026-11-05 (Memory Phase Invariance rule; plan 229 step 9)",
+   "wave": "—",
+   "claim": "Partial",
+   "note": "resonance_recall.rank_memory: Φ_query = Φ7 (retrieve) for every row; the question text's phase only tunes its band (question_text_phi). ΔΦ = Φ7 − Φ_identity gives A = (1+cos ΔΦ)/2, recorded per row and used only to order rows of equal structure; a row is dropped only for context (stated ε > 0.35 or μ ≤ 0). The 4.9.227 subject-phase window is retired. A named subject concept (A.*) ranks before A, and only such a concept hit displaces a role lock. Sentences joined by even though / although / because split into clauses (src/qframe.js and engine clause_split.py, same rules); each clause is observed on its own. 'look' reads as the copula for attribute questions ('What color is X?', 'What is the colour of X?'), value checked against the concept lexicon; first person read from frame roles. Structural Echo (structural_echo.py) compares the spoken clause frame to the question frame (kriyā, every known role, the gap filled, the atom stated); no token overlap. Partial: structural Echo covers world-model answers only; speech-act Echo still forced; only 'look' among linking verbs.",
+   "proof": [
+    "verify/r4238_suite.js",
+    "CONFLICTS.md v4.9.238",
+    "real Ask run /workspace/step238/asks.txt"
+   ]
   }
  ],
- "count": 390,
+ "count": 391,
  "claims": {
   "Implemented": 112,
   "Not feasible on phone": 28,
-  "Partial": 194,
+  "Partial": 195,
   "Missing": 9,
   "Out of scope / parked": 47
  }

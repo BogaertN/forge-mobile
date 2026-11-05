@@ -311,6 +311,24 @@ def atom_from_clause(sentence: str, rec: dict[str, Any] | None) -> tuple[dict[st
     return {"text": clean + ".", "atom": _atom(predicate, [kartr["text"], obj], pol), "parsed": True, "frame": frame}, "clause"
 
 
+def clause_units(clause: Any, sentence: str) -> list[tuple[str, dict[str, Any] | None, str | None]]:
+    """4.9.238: the clauses one sentence states. A concessive or causal sentence ("Even though X, Y because Z") is its
+    parts (clause_split, the mirror of the phone's splitter), each with the phone's own record of that part when it sent
+    one; any other sentence is itself. Returns (text, record, link); link None for an unsplit sentence."""
+    from rmc_engine_v1.clause_split import split_clauses
+    from rmc_engine_v1.memory_clauses import norm
+    rec = clause_record(clause, sentence)
+    parts = split_clauses(sentence)
+    if len(parts) < 2:
+        return [(sentence, rec, None)]
+    by_text = {norm(c.get("text")): c for c in ((rec or {}).get("clauses") or []) if isinstance(c, dict)}
+    out = []
+    for part in parts:
+        text = part["text"][:1].upper() + part["text"][1:]
+        out.append((text, by_text.get(norm(part["text"])), part["link"]))
+    return out
+
+
 def _sentences(text: str) -> list[str]:
     """Contract §6 step 1. Split on a period between sentences, not on decimals."""
     clean = str(text or "").strip()
@@ -362,6 +380,8 @@ def _fact_row(fid: str, parsed: dict[str, Any], *, source: str, provenance: list
         # 4.9.233: the roles of a clause that did not cover the sentence (Derive may match on them, marked partial)
         "role_frame": parsed.get("role_frame"),
         "atom_source": parsed.get("atom_source") or ("clause" if parsed.get("frame") else "regex"),
+        "clause_link": parsed.get("clause_link"),
+        "sentence": parsed.get("sentence"),
         "place": parsed.get("place"),
         **_place_fields(parsed.get("place")),
     }
@@ -432,11 +452,11 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
             continue
         is_q = bool(event.get("quarantined")) or str(event.get("confidence") or "") == "low" or _f(event.get("prior_drift_score"), 0.0) >= 0.40
         eid = str(event.get("id") or ("ev-" + _digest(raw)[:12]))
-        for sentence in _sentences(raw):
+        units = [u for sentence in _sentences(raw) for u in clause_units(event.get("clause"), sentence)]
+        for sentence, rec, link in units:
             if len(facts) >= LIMITS["MAX_FACTS"]:
                 revisions.append({"op": "limit", "reason": "MAX_FACTS", "cite": LIMITS["cite"]})
                 break
-            rec = clause_record(event.get("clause"), sentence)
             parsed, why = atom_from_clause(sentence, rec)
             if parsed is None:
                 reason = why.split(":")[0]
@@ -451,6 +471,10 @@ def observe(world: dict[str, Any], events: list[dict[str, Any]], *, regex_fallba
             else:
                 parsed = dict(parsed, atom_source="clause")
             sources[parsed["atom_source"]] += 1
+            if link:
+                # 4.9.238: one clause of a concessive/causal sentence; the stored sentence stays the quote it came from
+                parsed["clause_link"] = link
+                parsed["sentence"] = raw
             parsed["place"] = event.get("place") if isinstance(event.get("place"), dict) else None
             norm_text = _norm(parsed["text"])
             if any(_norm(str(f.get("text") or "")) == norm_text and f.get("status") != "superseded" for f in facts):
@@ -1481,6 +1505,9 @@ def _public_claim(claim: dict[str, Any] | None) -> dict[str, Any] | None:
         "hops": claim.get("hops") or [],
         "spoken": claim.get("spoken") or claim.get("text"),
         "spoken_atoms": claim.get("spoken_atoms"),
+        # 4.9.238: the claim's atom and the frame it was matched on, for Echo by structure (structural_echo)
+        "atom": claim.get("atom"),
+        "fact_frame": claim.get("fact_frame"),
         "frame_match": claim.get("frame_match"),
         "alignment": claim.get("alignment"),
         "gate": claim.get("gate"),
